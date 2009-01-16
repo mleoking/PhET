@@ -6,27 +6,28 @@ import java.awt.Dimension
 import javax.swing.{Box, JButton, JRadioButton, JLabel}
 
 class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
+  def createBox=Box.createRigidArea(new Dimension(10, 10))
   addControl(new JRadioButton("Show velocity vector"))
   addControl(new JRadioButton("Show acceleration vector"))
   addControl(new JRadioButton("Show both"))
   addControl(new JRadioButton("Hide vectors"))
-  addControl(Box.createRigidArea(new Dimension(50, 50)))
+  addControl(createBox)
 
   addControl(new JLabel("Choose Motion"))
   addControl(new JRadioButton("Manual"))
   addControl(new JRadioButton("Linear"))
   addControl(new JRadioButton("Circular"))
   addControl(new JRadioButton("Ellipse"))
-  addControl(Box.createRigidArea(new Dimension(50, 50)))
+  addControl(createBox)
 
   addControl(new JLabel("Trace"))
   addControl(new JRadioButton("Solid"))
   addControl(new JRadioButton("Dots"))
   addControl(new JRadioButton("Off"))
   addControl(new JButton("Clear Trace"))
-  addControl(Box.createRigidArea(new Dimension(50, 50)))
+  addControl(createBox)
 
   addControl(new RemoteControl)
-  addControl(Box.createRigidArea(new Dimension(50, 50)))
+  addControl(createBox)
   addControl(new ResetAllButton(this))
 }
