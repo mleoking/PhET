@@ -224,6 +224,26 @@
 
     <postInstallationActionList>
 
+        <!-- Set a variable that will contain time stamp information.  -->
+        <createTimeStamp>
+            <variable>installation_time_stamp</variable>
+            <format>%a %b %d, %H:%M:%S %Y</format>
+        </createTimeStamp>
+
+        <logMessage>
+            <text>
+
+installation_time_stamp value = ${installation_time_stamp}
+
+            </text>
+        </logMessage>
+        
+        <!-- Append time stamp property to installation information file.  -->
+        <addTextToFile>
+            <file>${installdir}/sims/.phet_installer</file>
+            <text>\n\ninstall.date=${installation_time_stamp}</text>
+        </addTextToFile>
+
         <!-- Set the variable that will be set to the JRE path if it is present.  -->
         <setInstallerVariable>
             <name>java_executable</name>
