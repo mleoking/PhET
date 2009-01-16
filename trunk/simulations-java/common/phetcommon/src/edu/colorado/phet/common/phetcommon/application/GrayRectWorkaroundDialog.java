@@ -7,12 +7,11 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sam
- * Date: Jan 15, 2009
- * Time: 3:20:23 PM
+ * Workaround for Unfuddle #89.
+ * Use this in situations where your dialog doesn't paint in a timely manner (or at all).
  */
 public class GrayRectWorkaroundDialog extends JDialog {
+    
     public GrayRectWorkaroundDialog() {
     }
 
