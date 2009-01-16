@@ -80,7 +80,7 @@ class TrackingHandler {
 		
 		str += "host_os = '" + escape(System.capabilities.os) + "' \n";
 		str += "host_flash = '" + escape(System.capabilities.version) + "' \n";
-		str += "host_language = '" + escape(System.capabilities.language) + "' \n";
+		str += "host_locale_language = '" + escape(System.capabilities.language) + "' \n";
 		str += "host_time_offset = '" + escape(String((new Date()).getTimezoneOffset())) + "' \n";
 		str += "host_flash_accessibility = '" + escape(String(System.capabilities.hasAccessibility)) + "' \n";
 		str += "host_flash_domain = '" + escape((new LocalConnection()).domain()) + "' \n";
