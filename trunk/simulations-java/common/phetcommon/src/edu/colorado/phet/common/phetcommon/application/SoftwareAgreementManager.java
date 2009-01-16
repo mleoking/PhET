@@ -60,7 +60,7 @@ public class SoftwareAgreementManager {
 
         private static final String TITLE = PhetCommonResources.getString( "Common.softwareAgreement.title" );
         private static final String ACCEPT_BUTTON = PhetCommonResources.getString( "Common.softwareAgreement.accept" );
-        private static final String CANCEL_BUTTON = PhetCommonResources.getString( "Common.softwareAgreement.cancel" );
+        private static final String DECLINE_BUTTON = PhetCommonResources.getString( "Common.softwareAgreement.decline" );
         
         private JButton acceptButton;
         
@@ -82,11 +82,10 @@ public class SoftwareAgreementManager {
             layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
             layout.addFilledComponent( buttonPanel, row++, column, GridBagConstraints.HORIZONTAL );
 
-            // close button in window dressing is identical to Cancel button
+            // close button in window dressing is identical to decline button
             addWindowListener( new WindowAdapter() {
-
                 public void windowClosing( WindowEvent e ) {
-                    cancel();
+                    decline();
                 }
             } );
             
@@ -116,17 +115,17 @@ public class SoftwareAgreementManager {
                 }
             } );
 
-            JButton cancelButton = new JButton( CANCEL_BUTTON );
-            cancelButton.addActionListener( new ActionListener() {
+            JButton declineButton = new JButton( DECLINE_BUTTON );
+            declineButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    cancel();
+                    decline();
                 }
             } );
             
             // layout
             JPanel panel = new JPanel( new FlowLayout() );
             panel.add( acceptButton );
-            panel.add( cancelButton );
+            panel.add( declineButton );
             return panel;
         }
 
@@ -141,7 +140,7 @@ public class SoftwareAgreementManager {
         /*
          * If the agreement is declined, exit, do not allow the software to run.
          */
-        private void cancel() {
+        private void decline() {
             PhetExit.exit();
         }
     }
