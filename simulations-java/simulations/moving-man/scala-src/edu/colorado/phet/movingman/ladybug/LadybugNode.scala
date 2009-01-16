@@ -14,45 +14,45 @@ import umd.cs.piccolo.nodes.{PPath, PImage}
 import LadybugUtil._
 
 class LadybugNode(ladybug: Ladybug, transform: ModelViewTransform2D) extends PNode {
-    val arrowSetNode = new ArrowSetNode(ladybug, transform)
-    val pimage = new PImage(MovingManResources.loadBufferedImage("ladybug/ladybug.png"))
-    val boundNode = new PPath
-    boundNode.setPaint(Color.blue)
-    boundNode.setPathToRectangle(-4, -4, 8, 8)
+  val arrowSetNode = new ArrowSetNode(ladybug, transform)
+  val pimage = new PImage(MovingManResources.loadBufferedImage("ladybug/ladybug.png"))
+  val boundNode = new PPath
+  boundNode.setPaint(Color.blue)
+  boundNode.setPathToRectangle(-4, -4, 8, 8)
 
-    ladybug.addListener(updateLadybug)
-    updateLadybug(ladybug)
+  ladybug.addListener(updateLadybug)
+  updateLadybug(ladybug)
 
   addChild(arrowSetNode)
-    addChild(pimage)
-    addChild(boundNode)
+  addChild(pimage)
+  addChild(boundNode)
 
-    transform.addTransformListener(new TransformListener() {
-        def transformChanged(mvt: ModelViewTransform2D) = {
-            updateLadybug(ladybug)
-        }
-    })
-
-    addInputEventListener(new CursorHandler)
-    addInputEventListener(new PBasicInputEventHandler() {
-        override def mouseDragged(event: PInputEvent) = {
-            val diff = transform.viewToModelDifferential(event.getDeltaRelativeTo(getParent).width, event.getDeltaRelativeTo(getParent).height)
-            ladybug.translate(diff)
-        }
-    })
-
-    def updateLadybug(ladybug: Ladybug): Unit = {
-
-        val modelPosition = ladybug.getPosition
-        val viewPosition = transform.modelToView(modelPosition)
-        pimage.setTransform(new AffineTransform)
-        val dx = new Vector2D(pimage.getImage.getWidth(null), pimage.getImage.getHeight(null))
-
-        pimage.translate(viewPosition.x - dx.x / 2, viewPosition.y - dx.y / 2)
-        pimage.rotateAboutPoint(ladybug.getAngle,
-            pimage.getFullBounds.getCenter2D.getX - (viewPosition.x - dx.x / 2),
-            pimage.getFullBounds.getCenter2D.getY - (viewPosition.y - dx.y / 2))
-
-        boundNode.setOffset(viewPosition)
+  transform.addTransformListener(new TransformListener() {
+    def transformChanged(mvt: ModelViewTransform2D) = {
+      updateLadybug(ladybug)
     }
+  })
+
+  addInputEventListener(new CursorHandler)
+  addInputEventListener(new PBasicInputEventHandler() {
+    override def mouseDragged(event: PInputEvent) = {
+      val diff = transform.viewToModelDifferential(event.getDeltaRelativeTo(getParent).width, event.getDeltaRelativeTo(getParent).height)
+      ladybug.translate(diff)
+    }
+  })
+
+  def updateLadybug(ladybug: Ladybug): Unit = {
+
+    val modelPosition = ladybug.getPosition
+    val viewPosition = transform.modelToView(modelPosition)
+    pimage.setTransform(new AffineTransform)
+    val dx = new Vector2D(pimage.getImage.getWidth(null), pimage.getImage.getHeight(null))
+
+    pimage.translate(viewPosition.x - dx.x / 2, viewPosition.y - dx.y / 2)
+    pimage.rotateAboutPoint(ladybug.getAngle,
+      pimage.getFullBounds.getCenter2D.getX - (viewPosition.x - dx.x / 2),
+      pimage.getFullBounds.getCenter2D.getY - (viewPosition.y - dx.y / 2))
+
+    boundNode.setOffset(viewPosition)
+  }
 }
