@@ -139,8 +139,13 @@ public class ProjectPanel extends JPanel {
 
     private void doTest() {
         getBuildScript().clean();
-        getBuildScript().build();
-        getBuildScript().runSim( getSelectedLocale(), getSelectedSimulation() );
+        boolean success = getBuildScript().build();
+        if ( success ) {
+            getBuildScript().runSim( getSelectedLocale(), getSelectedSimulation() );
+        }
+        else {
+            System.out.println( "Errors on build" );
+        }
     }
 
     private AuthenticationInfo getDevelopmentAuthentication( String serverType ) {
