@@ -8,24 +8,49 @@ import java.awt.event.{ActionEvent, ActionListener}
 import javax.swing.{Box, JButton, JRadioButton, JLabel}
 
 class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
+  val myModule = module;
   def createBox = Box.createRigidArea(new Dimension(10, 10))
 
   implicit def scalaSwingToAWT(component: Component) = component.peer
 
-  class MyRadioButton(text: String, selected: Boolean, actionListener: => Any) extends RadioButton(text) {
-    peer.setSelected(selected)
+  class MyRadioButton3(text: String, actionListener: => Unit, getter: => Boolean, observable: ObservableS) extends RadioButton(text) {
+    observable.addListener(update)
+    update()
     peer.addActionListener(new ActionListener() {
       def actionPerformed(ae: ActionEvent) = actionListener
-    })
+    });
+    def update() = peer.setSelected(getter)
   }
-  class VectorControlPanel(vectorVisibilityModel: VectorVisibilityModel) extends BoxPanel(Orientation.Vertical) {
-    contents += new MyRadioButton("Show velocity vector", vectorVisibilityModel.isVelocityVisible(), {
-      vectorVisibilityModel.setVelocityVectorVisible (true)
-      println("123")
-    })
-    contents += new MyRadioButton("Show acceleration vector", vectorVisibilityModel.isVelocityVisible(), println("hello"))
-    contents += new MyRadioButton("Show both", vectorVisibilityModel.isVelocityVisible(), println("hello"))
-    contents += new MyRadioButton("Hide vectors", vectorVisibilityModel.isVelocityVisible(), println("hello"))
+
+  class VectorControlPanel(m: VectorVisibilityModel) extends BoxPanel(Orientation.Vertical) {
+    contents += new MyRadioButton3("Show velocity vector", {
+      m.velocityVectorVisible = true
+      m.accelerationVectorVisible = false
+    }
+      , m.velocityVectorVisible && !m.accelerationVectorVisible,
+      m)
+
+    contents += new MyRadioButton3("Show acceleration vector", {
+      m.velocityVectorVisible = false
+      m.accelerationVectorVisible = true
+    }
+      , !m.velocityVectorVisible && m.accelerationVectorVisible,
+      m)
+
+    contents += new MyRadioButton3("Show both", {
+      m.velocityVectorVisible = true
+      m.accelerationVectorVisible = true
+    }
+      , m.velocityVectorVisible && m.accelerationVectorVisible,
+      m)
+
+    contents += new MyRadioButton3("Hide Vectors", {
+      m.velocityVectorVisible = false
+      m.accelerationVectorVisible = false
+    }
+      , !m.velocityVectorVisible && !m.accelerationVectorVisible,
+      m)
+
   }
   addControl(new VectorControlPanel(module.getVectorVisibilityModel))
 

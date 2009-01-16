@@ -12,7 +12,7 @@ class LadybugModule(clock: ScalaClock) extends Module("my module", clock) {
 
   canvas setBackground new Color(200, 255, 240)
   clock.addClockListener(model.update(_))
-  canvas.addNode(new LadybugNode(model.ladybug, canvas.transform))
+  canvas.addNode(new LadybugNode(model.ladybug, canvas.transform,vectorVisibilityModel))
   canvas.addNode(new LadybugSolidTraceNode(model, canvas.transform))
   canvas.addNode(new LadybugDotTraceNode(model, canvas.transform))
   setControlPanel(new LadybugControlPanel(this))

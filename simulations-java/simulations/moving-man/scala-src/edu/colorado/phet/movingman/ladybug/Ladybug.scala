@@ -2,6 +2,14 @@ package edu.colorado.phet.movingman.ladybug
 
 import scala.collection.mutable.ArrayBuffer
 
+class ObservableS {
+  private val listeners = new ArrayBuffer[() => Unit]
+
+  def notifyListeners(): Unit = listeners.foreach(_())
+
+  def addListener(listener: () => Unit) = listeners += listener
+}
+
 class Observable[T] {
   private val listeners = new ArrayBuffer[T => Unit]
 
