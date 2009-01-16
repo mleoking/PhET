@@ -602,15 +602,11 @@
                 print "Error trying to detect size: ".$simulation['sim_name'].", id = ".$simulation['sim_id'].", url = $sim_launch_url, encoding = $xml_encoding<br/>";
             }
         }
-        else if ($ext == 'swf') {
-            // Old style just linked to the SWF directly
-            $size = url_or_file_size($sim_launch_url);
-        }
         else if ($ext == 'html') {
-            // New style flash sim with i18n support, look for the SWF
+            // Flash sim, look for the SWF
             // TODO: push the filename generation into a function
-            $i18n_flash_link = SIMS_ROOT."{$simulation['sim_dirname']}/{$simulation['sim_flavorname']}.swf";
-            $size = url_or_file_size($i18n_flash_link);
+            $flash_link = SIMS_ROOT."{$simulation['sim_dirname']}/{$simulation['sim_flavorname']}.swf";
+            $size = url_or_file_size($flash_link);
         }
         else {
             // ERROR: Sim not specified
@@ -706,16 +702,16 @@
         $sim_type   = $simulation['sim_type'];
         $url = '';
 
-        if ($sim_type == SIM_TYPE_FLASH) {
-            $url = SIMS_ROOT."{$dirname}/{$flavorname}_{$locale}.html";
-        }
-        else if ($sim_type == SIM_TYPE_JAVA) {
+        if ($sim_type == SIM_TYPE_JAVA) {
             if (locale_is_default($locale)) {
                 $url = SIMS_ROOT."{$dirname}/{$flavorname}.jnlp";
             }
             else {
                 $url = SIMS_ROOT."{$dirname}/{$flavorname}_{$locale}.jnlp";
             }
+        }
+        else if ($sim_type == SIM_TYPE_FLASH) {
+            $url = SIMS_ROOT."{$dirname}/{$flavorname}_{$locale}.html";
         }
 
         if ($test_existance) {

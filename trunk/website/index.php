@@ -60,7 +60,6 @@ EOT;
 
 EOT;
 
-        // FIXME: Do not hardcode default dir
         $default_sim_category = sim_get_encoded_default_category();
 
             print <<<EOT
