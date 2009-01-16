@@ -34,11 +34,11 @@ EOT;
             foreach (sim_get_all_sims() as $simulation) {
                 $sim_name = format_string_for_html($simulation['sim_name']);
 
-                $sim_run_offline_link = sim_get_run_offline_link($simulation);
+                $sim_download_url = sim_get_download_url($simulation);
 
                 print <<<EOT
                     <li>
-                        <a href="$sim_run_offline_link">$sim_name</a>
+                        <a href="$sim_download_url">$sim_name</a>
                     </li>
 
 EOT;

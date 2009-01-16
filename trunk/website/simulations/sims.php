@@ -89,7 +89,7 @@ EOT;
             $this->on_click_html = '';
         }
 
-        $this->sim_run_offline_link = sim_get_run_offline_link($this->simulation);
+        $this->sim_download_url = sim_get_download_url($this->simulation);
 
         ob_start();
         $this->print_content();
@@ -207,30 +207,6 @@ EOT;
         // Set the new title, don't use a basename
         $this->set_title($new_title, '');
 
-        /*
-        // Gather sim_rating_html & sim_type_html information:
-        $sim_rating_html = $SIM_RATING_TO_IMAGE_HTML["$sim_rating"];
-        $sim_type_html   = $SIM_TYPE_TO_IMAGE_HTML[$sim_type];
-        $sim_launch_url  = sim_get_launch_url($simulation);
-        $sim_image_url   = sim_get_screenshot($simulation);
-        */
-        // Temp change while PhET team decides how to handle ratings; for now just
-        // include under construction & classroom tested:
-/*
-        if ($sim_rating != SIM_RATING_CHECK && $sim_rating != SIM_RATING_ALPHA) {
-            $sim_rating_html = "";
-        }
-
-        if ($sim_type == SIM_TYPE_FLASH) {
-            $gen_flash_page = "{$this->prefix}admin/gen-flash-page.php?flash=$sim_launch_url&amp;title=$sim_name";
-
-            $on_click_html = 'onclick="javascript:open_limited_window(\''.$gen_flash_page.'\',\'simwindow\'); return false;"';
-        }
-        else {
-            $on_click_html = '';
-        }
-*/
-
         $sim_java_upgrade_html = "";
         if ($this->sim_type == 0) {
             $sim_java_upgrade_html = $this->get_sim_java_upgrade_html();
@@ -277,7 +253,7 @@ EOT;
                         else {
                             $download_button_slot = <<<EOT
                                 <div class="rage_button_928365">
-                                    <a href="{$this->sim_run_offline_link}" title="Click here to download the simulation to your computer, to run when you do not have an Internet connection">Download</a>
+                                    <a href="{$this->sim_download_url}" title="Click here to download the simulation to your computer, to run when you do not have an Internet connection">Download</a>
                                 </div>
 
 EOT;
@@ -597,7 +573,7 @@ EOT;
             <table>
                 <thead>
                     <tr>
-                        <td colspan="2" style="text-align: center;"><strong>Language</strong></td>
+                        <td colspan="2" style="text-align: center;"><strong>Run localized</strong></td>
                         {$download_column_html}
                     </tr>
                 </thead>
@@ -605,55 +581,48 @@ EOT;
 
 EOT;
 
-            foreach ($translations as $language => $data) {
-                $language_code = $data["code"];
-                $launch_url = $data["online_url"];
-                $offline_url = $data["offline_url"];
-
-                $language_icon_url = sim_get_language_icon_url_from_language_name($language);
-
-                // Flash sims should run in a new window
-                $onclick = "";
-                if ($this->sim_type == SIM_TYPE_FLASH) {
-                    $onclick = 'onclick="javascript:open_limited_window(\''.$launch_url.'\',\'simwindow\'); return false;"';
-                }
-
-                // Download/Offline link is provided if it exists and this is not the installer-builder
-                $offline_download_html = "";
-                if (!$this->is_installer_builder_rip()) {
-                    if ($offline_url) {
-                        $offline_download_html = <<<EOT
-                    <td>
-                        <a href="{$offline_url}" title="Click here to download the {$language} version of {$formatted_sim_name}">Download {$language} version to run offline</a>
-                    </td>
-
-EOT;
-                    }
-                    else {
-                        $offline_download_html = <<<EOT
-                    <td>
-                        <em>Not available yet</em>
-                    </td>
-
-EOT;
-                    }
-                }
-
-                // Write the row information
-                print <<<EOT
-            <tr>
-                <td>
-                    <a href="{$launch_url}" {$onclick} title="Click here to launch the {$language} version of {$formatted_sim_name}"><img class="image-text" src="{$language_icon_url}" alt="{$language}"/></a>
-                </td>
-                <td>
-                    <a href="{$launch_url}" {$onclick} title="Click here to launch the {$language} version of {$formatted_sim_name}">{$language}</a>
-                </td>
-                {$offline_download_html}
-            </tr>
-
-EOT;
+        foreach ($translations as $locale) {
+            $locale_info = locale_get_full_info($locale);
+            if ($locale_info === false) {
+                // TODO: log error
+                continue;
             }
 
+            $launch_url = sim_get_launch_url($this->simulation, $locale);
+            $launch_link_open = "a href=\"{$launch_url}\" title=\"Click here to launch the {$locale_info['locale_name']} version of {$formatted_sim_name}\"";
+
+            // Flash sims should run in a new window
+            $onclick = "";
+            if ($this->sim_type == SIM_TYPE_FLASH) {
+                $onclick = 'onclick="javascript:open_limited_window(\''.$launch_url.'\',\'simwindow\'); return false;"';
+            }
+
+            // Download link is provided if it exists and this is not the installer-builder
+            $download_html = '';
+            if (!$this->is_installer_builder_rip()) {
+                $download_url = sim_get_download_url($sim, $locale, true);
+                if (empty($download_url)) {
+                    $download_html = "<td><em>Not available</em></td>";
+                }
+                else {
+                    $download_html = "<td><a href=\"{$download_url}\" title=\"Click here to download the {$locale_info['locale_name']} version of {$formatted_sim_name}\">Download</a></td>";
+                }
+            }
+
+            print <<<EOT
+<tr style="vertical-align: bottom;">
+  <td>
+    <{$launch_link_open} {$onclick}>{$locale_info['language_img']}</a>
+    <{$launch_link_open} {$onclick}>{$locale_info['country_img']}</a>
+  </td>
+  <td>
+    <{$launch_link_open} {$onclick}>{$locale_info['locale_name']}</a>
+  </td>
+  {$download_html}
+</tr>
+                                                     
+EOT;
+        }
             // Close the table
             print <<<EOT
                 </tbody>
