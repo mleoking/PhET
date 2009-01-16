@@ -1,10 +1,10 @@
 package edu.colorado.phet.balloons;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.HeadlessException;
 import java.io.IOException;
-import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
