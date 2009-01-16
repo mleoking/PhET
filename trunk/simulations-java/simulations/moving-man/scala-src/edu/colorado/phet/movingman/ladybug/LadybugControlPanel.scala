@@ -2,15 +2,16 @@ package edu.colorado.phet.movingman.ladybug
 
 import _root_.edu.colorado.phet.common.phetcommon.view.ControlPanel
 import _root_.edu.colorado.phet.common.phetcommon.view.ResetAllButton
+import _root_.scala.swing.{Button, Component}
 import java.awt.Dimension
 import javax.swing.{Box, JButton, JRadioButton, JLabel}
-
 class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
   def createBox = Box.createRigidArea(new Dimension(10, 10))
 
-  //  val button=new scala.swing.Button
-  //  val component:java.awt.Component=button
-  //  addControl(b)
+  implicit def scalaSwingToAWT(component: Component) = component.peer
+
+  val button = new Button("Test Button")
+  addControl(button)
   //  addControl(b)
 
   addControl(new JRadioButton("Show velocity vector"))

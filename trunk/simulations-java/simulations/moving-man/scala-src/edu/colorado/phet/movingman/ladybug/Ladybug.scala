@@ -10,7 +10,7 @@ class Observable[T] {
   def addListener(listener: T => Unit) = listeners += listener
 }
 
-class LadybugState(_position: Vector2D, _velocity: Vector2D, _acceleration: Vector2D, _angle: Double) {
+case class LadybugState(_position: Vector2D, _velocity: Vector2D, _acceleration: Vector2D, _angle: Double) {
   val position = _position
   val velocity = _velocity
   val acceleration = _acceleration

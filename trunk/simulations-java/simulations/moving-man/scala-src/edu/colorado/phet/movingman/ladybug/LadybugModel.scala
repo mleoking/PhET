@@ -2,10 +2,10 @@ package edu.colorado.phet.movingman.ladybug
 
 import scala.collection.mutable.ArrayBuffer
 
-class LadybugModel {
+class LadybugModel extends Observable[LadybugModel]{
   val ladybug = new Ladybug
-  case class DataPoint(time: Double, state: LadybugState)
-  private val history = new ArrayBuffer[DataPoint]
+  
+  val history = new ArrayBuffer[DataPoint]
   private var time: Double = 0;
 
   def update(dt: Double) = {
@@ -22,6 +22,7 @@ class LadybugModel {
       var accelEstimate = average(history.length - 15, history.length - 1, estimateAcceleration)
       ladybug.setAcceleration(accelEstimate)
     }
+    notifyListeners(this)
   }
 
   def estimateAngle(): Double = estimateVelocity(history.length - 1).getAngle
