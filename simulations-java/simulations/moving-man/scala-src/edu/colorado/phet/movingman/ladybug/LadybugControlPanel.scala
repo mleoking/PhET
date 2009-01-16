@@ -13,44 +13,34 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
 
   implicit def scalaSwingToAWT(component: Component) = component.peer
 
-  class MyRadioButton3(text: String, actionListener: => Unit, getter: => Boolean, observable: ObservableS) extends RadioButton(text) {
-    observable.addListener(update)
-    update()
-    peer.addActionListener(new ActionListener() {
-      def actionPerformed(ae: ActionEvent) = actionListener
-    });
-    def update() = peer.setSelected(getter)
-  }
-
   class VectorControlPanel(m: VectorVisibilityModel) extends BoxPanel(Orientation.Vertical) {
-    contents += new MyRadioButton3("Show velocity vector", {
+    contents += new MyRadioButton("Show velocity vector", {
       m.velocityVectorVisible = true
       m.accelerationVectorVisible = false
     }
       , m.velocityVectorVisible && !m.accelerationVectorVisible,
       m)
 
-    contents += new MyRadioButton3("Show acceleration vector", {
+    contents += new MyRadioButton("Show acceleration vector", {
       m.velocityVectorVisible = false
       m.accelerationVectorVisible = true
     }
       , !m.velocityVectorVisible && m.accelerationVectorVisible,
       m)
 
-    contents += new MyRadioButton3("Show both", {
+    contents += new MyRadioButton("Show both", {
       m.velocityVectorVisible = true
       m.accelerationVectorVisible = true
     }
       , m.velocityVectorVisible && m.accelerationVectorVisible,
       m)
 
-    contents += new MyRadioButton3("Hide Vectors", {
+    contents += new MyRadioButton("Hide Vectors", {
       m.velocityVectorVisible = false
       m.accelerationVectorVisible = false
     }
       , !m.velocityVectorVisible && !m.accelerationVectorVisible,
       m)
-
   }
   addControl(new VectorControlPanel(module.getVectorVisibilityModel))
 
@@ -61,11 +51,35 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
   addControl(new JRadioButton("Ellipse"))
   addControl(createBox)
 
-  addControl(new JLabel("Trace"))
-  addControl(new JRadioButton("Solid"))
-  addControl(new JRadioButton("Dots"))
-  addControl(new JRadioButton("Off"))
-  addControl(new JButton("Clear Trace"))
+  class TraceControlPanel(m: PathVisibilityModel) extends BoxPanel(Orientation.Vertical) {
+    contents += new Label("Trace")
+    contents += new MyRadioButton("Solid", {
+      m.lineVisible = true
+      m.dotsVisible = false
+    }
+      , m.lineVisible && !m.dotsVisible,
+      m)
+
+    contents += new MyRadioButton("Dots", {
+      m.lineVisible = false
+      m.dotsVisible = true
+    }
+      , !m.lineVisible && m.dotsVisible,
+      m)
+
+    contents += new MyRadioButton("Off", {
+      m.lineVisible= false
+      m.dotsVisible = false
+    }
+      , !m.lineVisible && !m.dotsVisible,
+      m)
+  }
+  addControl(new TraceControlPanel(module.getPathVisibilityModel))
+  //  addControl(new JLabel("Trace"))
+  //  addControl(new JRadioButton("Solid"))
+  //  addControl(new JRadioButton("Dots"))
+  //  addControl(new JRadioButton("Off"))
+  //  addControl(new JButton("Clear Trace"))
   addControl(createBox)
 
   addControl(new RemoteControl)
