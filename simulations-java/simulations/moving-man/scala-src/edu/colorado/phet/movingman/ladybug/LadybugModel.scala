@@ -4,43 +4,50 @@ import scala.collection.mutable.ArrayBuffer
 
 class LadybugModel {
   val ladybug = new Ladybug
-  private val history = new ArrayBuffer[(Double, LadybugState)]
+  case class DataPoint(time: Double, state: LadybugState)
+  private val history = new ArrayBuffer[DataPoint]
   private var time: Double = 0;
 
   def update(dt: Double) = {
     time += dt;
-    history += (time, ladybug.getState)
+    history += new DataPoint(time, ladybug.getState)
 
-    if (history.length > 5) {
-      if (estimateVelocity.magnitude > 1E-6)
+    if (history.length > 20) {
+      if (estimateVelocity(history.length - 1).magnitude > 1E-6)
         ladybug.setAngle(estimateAngle())
 
-      ladybug.setVelocity(estimateVelocity)
+      var velocityEstimate = average(history.length - 3, history.length - 1, estimateVelocity)
+      ladybug.setVelocity(velocityEstimate)
+
+      var accelEstimate = average(history.length - 15, history.length - 1, estimateAcceleration)
+      ladybug.setAcceleration(accelEstimate)
     }
   }
 
-  def estimateAngle(): Double = estimateVelocity.getAngle
+  def estimateAngle(): Double = estimateVelocity(history.length - 1).getAngle
 
-  def estimateVelocity(): Vector2D = {
-    val v1 = estimateVelocity(history.length - 1);
-    val v2 = estimateVelocity(history.length - 2);
-    val v3 = estimateVelocity(history.length - 3);
-    return (v1 + v2 + v3) / 3;
+  def getPosition(index: Int): Vector2D = {
+    history(index).state.position
   }
 
   def estimateVelocity(index: Int): Vector2D = {
-    val x2 = history(index)._2.position.x
-    val x1 = history(index - 1)._2.position.x
+    val dx = getPosition(index) - getPosition(index - 1)
+    val dt = history(index).time - history(index - 1).time
+    dx / dt
+  }
 
-    val y2 = history(index)._2.position.y
-    val y1 = history(index - 1)._2.position.y
+  def estimateAcceleration(index: Int): Vector2D = {
+    val dv = estimateVelocity(index) - estimateVelocity(index - 1)
+    val dt = history(index).time - history(index - 1).time
+    dv / dt
+  }
 
-    val t2 = history(index)._1
-    val t1 = history(index - 1)._1
-
-    val derX = (x2 - x1) / (t2 - t1)
-    val derY = (y2 - y1) / (t2 - t1)
-    new Vector2D(derX, derY)
+  def average(start: Int, end: Int, function: Int => Vector2D): Vector2D = {
+    var sum = new Vector2D
+    for (i <- start until end) {
+      sum = sum + function(i)
+    }
+    sum / (end - start)
   }
 
 }
