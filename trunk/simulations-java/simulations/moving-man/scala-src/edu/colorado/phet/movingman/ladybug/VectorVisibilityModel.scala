@@ -1,16 +1,24 @@
 package edu.colorado.phet.movingman.ladybug
 
-class VectorVisibilityModel {
+class VectorVisibilityModel extends ObservableS {
   var velVis = true
+  var accelVis = true
 
   def isVelocityVisible() = velVis
 
-//  def vGap_=(n: Int) { layoutManager.setVgap(n) }
+  def velocityVectorVisible: Boolean = velVis
 
-  def setVelocityVectorVisible(vis:Boolean)={
-    velVis = vis
+  def accelerationVectorVisible: Boolean = accelVis
+
+  def velocityVectorVisible_=(x: Boolean) = {
+    velVis = x
+    println(velVis)
+    notifyListeners
   }
-//    def velocityVectorVisible_= (vis: Boolean) = {
-//    velVis = vis
-//  }
+
+  def accelerationVectorVisible_=(x: Boolean) = {
+    accelVis = x
+    println(accelVis)
+    notifyListeners
+  }
 }
