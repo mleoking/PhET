@@ -1,0 +1,26 @@
+09/01/16 11:58:06 AM:
+	message_type=session
+	message_version=1
+	user_preference_file_creation_time=1232062074109
+	user_total_sessions=7
+	sim_type=flash
+	sim_project=pendulum-lab
+	sim_name=pendulum-lab
+	sim_major_version=1
+	sim_minor_version=00
+	sim_dev_version=01
+	sim_svn_revision=22386
+	sim_locale_language=en
+	sim_locale_country=none
+	sim_sessions_since=1
+	sim_sessions_ever=7
+	sim_usage_type=phet-website
+	sim_distribution_tag=none
+	sim_dev=true
+	host_os=Linux 2.6.20-17-generic
+	host_flash=LNX 9,0,124,0
+	host_language=en
+	host_time_offset=420
+	host_flash_accessibility=false
+	host_flash_domain=localhost
+

@@ -137,6 +137,8 @@ class TrackingHandler {
 		
 		// send it to the URL, will store result in reply
 		// TODO: Change this to the permanent location!!!
-		xml.sendAndLoad("http://phet.colorado.edu/jolson/deploy/tracking/tracker.php", reply);
+		//xml.sendAndLoad("http://phet.colorado.edu/jolson/deploy/tracking/tracker.php", reply);
+		// DEVELOPMENT: tracking to localhost
+		xml.sendAndLoad("http://localhost/tracking/tracker.php", reply);
 	}
 }
