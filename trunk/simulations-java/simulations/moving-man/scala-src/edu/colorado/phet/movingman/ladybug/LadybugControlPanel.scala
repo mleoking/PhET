@@ -7,12 +7,11 @@ import java.awt.Dimension
 import java.awt.event.{ActionEvent, ActionListener}
 import javax.swing.{Box, JButton, JRadioButton, JLabel}
 import LadybugMotionModel._
+import LadybugUtil._
 
 class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
   val myModule = module;
   def createBox = Box.createRigidArea(new Dimension(10, 10))
-
-  implicit def scalaSwingToAWT(component: Component) = component.peer
 
   class VectorControlPanel(m: VectorVisibilityModel) extends BoxPanel(Orientation.Vertical) {
     contents += new MyRadioButton("Show velocity vector", {
@@ -87,7 +86,7 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
   //  addControl(new JButton("Clear Trace"))
   addControl(createBox)
 
-  addControl(new RemoteControl)
+  addControl(new RemoteControl(module.model))
   addControl(createBox)
   addControl(new ResetAllButton(this))
 }
