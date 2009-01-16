@@ -100,7 +100,7 @@
       <sourceFolder url="file://$MODULE_DIR$/util/updater/src" isTestSource="false" />
     </content>
     <orderEntry type="library" name="scala-2.7.3.final" level="application" />
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="1.6" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
       <library>
