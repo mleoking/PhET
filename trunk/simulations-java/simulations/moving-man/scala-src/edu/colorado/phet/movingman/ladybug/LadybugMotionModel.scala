@@ -2,6 +2,7 @@ package edu.colorado.phet.movingman.ladybug
 
 import java.awt.geom.Rectangle2D
 import LadybugUtil._
+import java.lang.Math._
 
 abstract case class MotionType(name: String) {
   def update(dt: Double, model: LadybugModel)
@@ -17,7 +18,7 @@ object LadybugMotionModel {
       step
       val bounds = new Rectangle2D.Double(-10, -10, 20, 20)
       if (!bounds.contains(model.ladybug.getPosition)) {
-        model.ladybug.setAngle(model.ladybug.getAngle + java.lang.Math.PI)
+        model.ladybug.setAngle(model.ladybug.getAngle + PI+(random*0.8-0.4)*PI/2)
         step
         step
       }
