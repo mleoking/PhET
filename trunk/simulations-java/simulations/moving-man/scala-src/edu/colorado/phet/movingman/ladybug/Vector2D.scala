@@ -10,6 +10,8 @@ class Vector2D(_x: Double, _y: Double) {
 
   def +(that: Vector2D) = new Vector2D(that.x + x, that.y + y)
 
+  def -(that: Vector2D) = new Vector2D(x - that.x, y - that.y)
+
   def *(scale: Double) = new Vector2D(x * scale, y * scale)
 
   def /(scale: Double) = new Vector2D(x / scale, y / scale)
@@ -24,6 +26,6 @@ object TestVector2D {
     val a = new Vector2D(3, 2)
     val b = new Vector2D(5, 5)
     println(a)
-    println(a + b)
+    println(a - b)
   }
 }
