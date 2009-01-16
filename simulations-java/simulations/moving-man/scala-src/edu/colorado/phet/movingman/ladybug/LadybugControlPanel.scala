@@ -2,23 +2,32 @@ package edu.colorado.phet.movingman.ladybug
 
 import _root_.edu.colorado.phet.common.phetcommon.view.ControlPanel
 import _root_.edu.colorado.phet.common.phetcommon.view.ResetAllButton
-import _root_.scala.swing.{Button, Component}
+import _root_.scala.swing._
 import java.awt.Dimension
+import java.awt.event.{ActionEvent, ActionListener}
 import javax.swing.{Box, JButton, JRadioButton, JLabel}
+
 class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
   def createBox = Box.createRigidArea(new Dimension(10, 10))
 
   implicit def scalaSwingToAWT(component: Component) = component.peer
 
-  val button = new Button("Test Button")
-  addControl(button)
-  //  addControl(b)
-
-  addControl(new JRadioButton("Show velocity vector"))
-  addControl(new JRadioButton("Show acceleration vector"))
-  addControl(new JRadioButton("Show both"))
-  addControl(new JRadioButton("Hide vectors"))
-  addControl(createBox)
+  class MyRadioButton(text: String, selected: Boolean, actionListener: => Any) extends RadioButton(text) {
+    peer.setSelected(selected)
+    peer.addActionListener(new ActionListener() {
+      def actionPerformed(ae: ActionEvent) = actionListener
+    })
+  }
+  class VectorControlPanel(vectorVisibilityModel: VectorVisibilityModel) extends BoxPanel(Orientation.Vertical) {
+    contents += new MyRadioButton("Show velocity vector", vectorVisibilityModel.isVelocityVisible(), {
+      vectorVisibilityModel.setVelocityVectorVisible (true)
+      println("123")
+    })
+    contents += new MyRadioButton("Show acceleration vector", vectorVisibilityModel.isVelocityVisible(), println("hello"))
+    contents += new MyRadioButton("Show both", vectorVisibilityModel.isVelocityVisible(), println("hello"))
+    contents += new MyRadioButton("Hide vectors", vectorVisibilityModel.isVelocityVisible(), println("hello"))
+  }
+  addControl(new VectorControlPanel(module.getVectorVisibilityModel))
 
   addControl(new JLabel("Choose Motion"))
   addControl(new JRadioButton("Manual"))

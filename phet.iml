@@ -1118,7 +1118,9 @@
           <root url="jar://$MODULE_DIR$/simulations-java/contrib/scala/scala-swing.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/../../../../install/scala-2.7.3.final/src/scala-swing-src.jar!/" />
+        </SOURCES>
       </library>
     </orderEntry>
   </component>

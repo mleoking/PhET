@@ -7,6 +7,7 @@ import java.awt.Color
 class LadybugModule(clock: ScalaClock) extends Module("my module", clock) {
   val model = new LadybugModel
   val canvas = new LadybugCanvas
+  private val vectorVisibilityModel = new VectorVisibilityModel
   setSimulationPanel(canvas)
 
   canvas setBackground new Color(200, 255, 240)
@@ -17,4 +18,6 @@ class LadybugModule(clock: ScalaClock) extends Module("my module", clock) {
   setControlPanel(new LadybugControlPanel(this))
 
   setClockControlPanel(new LadybugClockControlPanel)
+
+  def getVectorVisibilityModel = vectorVisibilityModel
 }
