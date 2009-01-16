@@ -13,4 +13,6 @@ class LadybugModule(clock: ScalaClock) extends Module("my module", clock) {
   clock.addClockListener(model.update(_))
   canvas.addNode(new LadybugNode(model.ladybug, canvas.transform))
   setControlPanel(new LadybugControlPanel(this))
+
+  setClockControlPanel(new LadybugClockControlPanel)
 }
