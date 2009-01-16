@@ -12,14 +12,19 @@
     require_once("include/sys-utils.php");
     require_once("include/web-utils.php");
     require_once("include/log-utils.php");
+    require_once("include/locale-utils.php");
 
     // Get the simulation id
     $sim_id = $_REQUEST['sim_id'];
 
     // Get the language, if present
-    $language_code = "en";
-    if (isset($_REQUEST["lang"])) {
-        $language_code = $_REQUEST["lang"];
+    $locale = DEFAULT_LOCALE;
+    if (isset($_REQUEST["locale"]) && (locale_valid($_REQUEST["locale"]))) {
+        $locale = $_REQUEST["locale"];
+    }
+    else if (isset($_REQUEST["lang"]) && (locale_valid($_REQUEST["lang"]))) {
+        // Legacy, support the language argument
+        $locale = $_REQUEST["lang"];
     }
 
     // Get the simulation data
@@ -27,11 +32,11 @@
 
     // Log this info
     $datefmt = "y/m/d h:i:s A";
-    $log_string = join("\t", array(date($datefmt), time(), $simulation['sim_name'], $language_code, $_SERVER['REMOTE_ADDR']))."\n";
+    $log_string = join("\t", array(date($datefmt), time(), $simulation['sim_name'], $locale, $_SERVER['REMOTE_ADDR']))."\n";
     log_message('download-sim.log', $log_string);
 
     // Get the filename and content
-    $download_data = sim_get_run_offline($simulation, $language_code);
+    $download_data = sim_get_run_offline($simulation, $locale);
 
     if ($download_data) {
         $filename = $download_data[0];

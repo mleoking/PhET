@@ -18,7 +18,15 @@
     define('DEFAULT_LOCALE_SHORT_FORM', 'en');
     define('DEFAULT_LOCALE_LONG_FORM', 'en_US');
 
-    // Shortcut everything will use
+    // Shortcut everything will use.  Idea is that it is short
+    // and understandable and may be "upgraded" to the long
+    // form in the future.
+    // WARNING: if you change this to the long, check where it
+    // is used.  For example, the default locale for JNLP files
+    // is "sim-name.jnlp" (vs "sim-name_locale.jnlp" for all
+    // other locales), compared to the default locale for Flash
+    // sims: "sim-name-en.html".  Downloadadable localized jars
+    // are also affected.  Just check everything, yes?
     define('DEFAULT_LOCALE', DEFAULT_LOCALE_SHORT_FORM);
 
     //
@@ -40,6 +48,40 @@
     $language_map = locale_get_language_map();
     $country_map = locale_get_country_map();
 
+    /**
+     * Until everything supports the long for locale, remap the old combined
+     * language codes to the long form locale.  The old combined language
+     * code must still apper in the langages table.
+     *
+     * Validity checking is NOT performed.
+     *
+     * @param string $locale Old style language code, or short or long form locale
+     * @return string New long form locale if argument is old style combined langage code, or the locale that was passed
+     */
+    function locale_remap_combined_language_code($locale) {
+        // Slight hack:
+        // This function is used in the service of displaying stuff on the web page
+        // (as opposed to using it to find sim files).
+        // "Promote" the old combined language codes to a full long form locale
+        switch ($locale)  {
+            case 'bp':
+                return 'pt_BR';
+            case 'tc':
+                return 'zh_TW';
+        }
+        return $locale;
+    }
+
+    /**
+     * Determine if the locale is a valid short or long form locale.
+     *
+     * The code itself must be valid, and the language and coutry code
+     * must be supported (they must appear in their respective language
+     * or country table).
+     *
+     * @param string $locale Locale to test
+     * @return bool True if valid and supported, false otherwise
+     */
     function locale_is_default($locale) {
         return ((0 == strcmp($locale, DEFAULT_LOCALE_SHORT_FORM)) ||
                 (0 == strcmp($locale, DEFAULT_LOCALE_LONG_FORM)));
@@ -303,6 +345,10 @@
      * @exception PhetLocaleException if either if the codes are invalid
      */
     function locale_language_sort_code_by_name($a, $b) {
+        // This top part is temporary until there is support for long form locales everywhere
+        $a = locale_extract_language_code(locale_remap_combined_language_code($a));
+        $b = locale_extract_language_code(locale_remap_combined_language_code($b));
+
         return strcmp(locale_get_language_name($a), locale_get_language_name($b));
     }
 
@@ -311,12 +357,18 @@
      *
      * Note: This does NOT sort the codes into alphabetical order
      *
-     * @param string $a Two letter lowercase country code
-     * @param string $b Two letter lowercase country code
+     * @param string $a Two letter uppercase country code
+     * @param string $b Two letter uppercase country code
      * @return int Result of comparison: <0, 0, >0
      * @exception PhetLocaleException if either of the codes are invalid
      */
     function locale_country_sort_code_by_name($a, $b) {
+        // This top part is temporary until there is support for long form locales everywhere
+        $a2 = locale_remap_combined_language_code($a);
+        if ($a != $a2) $a = locale_extract_country_code($a);
+        $b2 = locale_remap_combined_language_code($b);
+        if ($b != $b2) $a = locale_extract_country_code($a);
+
         return strcmp(locale_get_country_name($a), locale_get_country_name($b));
     }
 
@@ -329,6 +381,8 @@
      * @exception PhetLocaleException if either of the codes are invalid
      */
     function locale_sort_code_by_name($a, $b) {
+        $a = locale_remap_combined_language_code($a);
+        $b = locale_remap_combined_language_code($b);
         // First do languages
         $lang_a = locale_extract_language_code($a);
         $lang_b = locale_extract_language_code($b);
@@ -364,7 +418,7 @@
      * @return string Relative path from SITE_ROOT to the language image file
      * @exception PhetLocaleException if the code is invalid
      */
-    function locale_get_language_icon($language_code) {
+    function locale_get_language_icon_url($language_code) {
         if (!locale_valid_language_code($language_code)) {
             $msg = "Cannot find path to langaugae icon, invalid language code '{$language_code}'";
             throw new PhetLocaleException($msg);
@@ -381,7 +435,7 @@
      * @return string Relative path from SITE_ROOT to the country image file
      * @exception PhetLocaleException if the code is invalid
      */
-    function locale_get_country_icon($country_code) {
+    function locale_get_country_icon_url($country_code) {
         if (!locale_valid_country_code($country_code)) {
             $msg = "Cannot find path to langaugae icon, invalid country code '{$country_code}'";
             throw new PhetLocaleException($msg);
@@ -390,4 +444,82 @@
         return SITE_ROOT."images/countries/{$country_code}.png";
     }
 
+    /**
+     * Get the full img tag for the language
+     *
+     * @param string $language_code Two letter lowercase country code
+     * @return string HTML to render the image
+     * @exception PhetLocaleException if the language code is invalid
+     */
+    function locale_get_language_img_html($language_code) {
+        $language_name = locale_get_language_name($language_code);
+        $language_icon = locale_get_language_icon_url($language_code);
+        return
+                "<img ".
+                    "class=\"language\" ".
+                    "src=\"{$language_icon}\" ".
+                    "alt=\"{$language_name}\" ".
+                    "title=\"{$language_name}\" ".
+                "/>";
+
+    }
+
+    /**
+     * Get the full img tag for the country
+     *
+     * @param string $country_code Two letter lowercase country code
+     * @return string HTML to render the image
+     * @exception PhetLocaleException if the country code is invalid
+     */
+    function locale_get_country_img_html($country_code) {
+        $country_name = locale_get_country_name($country_code);
+        $country_icon = locale_get_country_icon_url($country_code);
+        return
+                "<img ".
+                    "class=\"country\" ".
+                    "src=\"{$country_icon}\" ".
+                    "alt=\"{$country_name}\" ".
+                    "title=\"{$country_name}\" ".
+                "/>";
+
+    }
+
+    /**
+     * Convenience function, get just about all the info we want with a locale in one easy place
+     *
+     * @param string $locale Short or long form locale
+     * @return mixed False if locale is invalid, else an array of locale info
+     */
+    function locale_get_full_info($locale) {
+        if (!locale_valid($locale)) {
+            return false;
+        }
+
+        $locale = locale_remap_combined_language_code($locale);
+
+        $info = array();
+
+        $info['locale'] = $locale;
+        $info['locale_name'] = locale_get_locale_name($locale);
+
+        $info['language_code'] = locale_extract_language_code($locale);
+        $info['language_name'] = locale_get_language_name($info['language_code']);
+        $info['language_icon'] = locale_get_language_icon_url($info['language_code']);
+        $info['language_img'] = locale_get_language_img_html($info['language_code']);
+
+        if (locale_has_valid_country_code($locale)) {
+            $info['country_code'] = locale_extract_country_code($locale);
+            $info['country_name'] = locale_get_country_name($info['country_code']);
+            $info['country_icon'] = locale_get_country_icon_url($info['country_code']);
+            $info['country_img'] = locale_get_country_img_html($info['country_code']);
+        }
+        else {
+            $info['country_code'] = null;
+            $info['country_name'] = null;
+            $info['country_icon'] = null;
+            $info['country_img'] = null;
+        }
+
+        return $info;
+    }
 ?>

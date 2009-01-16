@@ -12,8 +12,8 @@
     require_once("include/web-utils.php");
     require_once("include/db-utils.php");
     require_once("include/cache-utils.php");
+    require_once("include/locale-utils.php");
 
-    // Where to find the sims
     if (!defined("SIMS_ROOT")) {
         define("SIMS_ROOT", PORTAL_ROOT.'sims/');
     }
@@ -29,211 +29,6 @@
             SIM_TYPE_JAVA   => 'java.png',
             SIM_TYPE_FLASH  => 'flash.png'
         );
-
-    // Java localization automatically (and silently) converts some newer ISO language codes to the
-    // older obsolete codes.  These lanugages are affected:
-    // Hebrew: he -> iw
-    // Yiddish: yi -> ji
-    // Indonesian id -> in
-    // We will us the right hand column (the old ones) until this gets resolved.
-    $LANGUAGE_CODE_TO_LANGUAGE_NAME = array(
-        "es" => "Spanish",
-        "aa" => "Afar",
-        "ab" => "Abkhazian",
-        "ae" => "Avestan",
-        "af" => "Afrikaans",
-        "ak" => "Akan",
-        "am" => "Amharic",
-        "an" => "Aragonese",
-        "ar" => "Arabic",
-        "as" => "Assamese",
-        "av" => "Avaric",
-        "ay" => "Aymara",
-        "az" => "Azerbaijani",
-        "ba" => "Bashkir",
-        "be" => "Belarusian",
-        "bg" => "Bulgarian",
-        "bh" => "Bihari",
-        "bi" => "Bislama",
-        "bm" => "Bambara",
-        "bn" => "Bengali",
-        "bo" => "Tibetan",
-        "br" => "Breton",
-        "bs" => "Bosnian",
-        // Temporary invalid language code to work around lack of locale support
-        // we should have "pt_BR" and "pt_PT" ("Portugese Brazil" and "Portugese Portugal" respectively)
-        "bp" => "Brazilian Portuguese",
-        "ca" => "Catalan",
-        "ce" => "Chechen",
-        "ch" => "Chamorro",
-        "co" => "Corsican",
-        "cr" => "Cree",
-        "cs" => "Czech",
-        "cu" => "Church",
-        "cv" => "Chuvash",
-        "cy" => "Welsh",
-        "da" => "Danish",
-        "de" => "German",
-        "dv" => "Divehi",
-        "dz" => "Dzongkha",
-        "ee" => "Ewe",
-        "el" => "Greek",
-        "en" => "English",
-        "eo" => "Esperanto",
-        "et" => "Estonian",
-        "eu" => "Basque",
-        "fa" => "Persian",
-        "ff" => "Fulah",
-        "fi" => "Finnish",
-        "fj" => "Fijian",
-        "fo" => "Faroese",
-        "fr" => "French",
-        "fy" => "Western Frisian",
-        "ga" => "Irish",
-        "gd" => "Scottish Gaelic",
-        "gl" => "Galician",
-        "gn" => "Guaraní",
-        "gu" => "Gujarati",
-        "gv" => "Manx",
-        "ha" => "Hausa",
-        // Hebrew: new is "he", old is "iw"
-        //"he" => "Hebrew",
-        "iw" => "Hebrew",
-        "hi" => "Hindi",
-        "ho" => "Hiri Motu",
-        "hr" => "Croatian",
-        "ht" => "Haitian",
-        "hu" => "Hungarian",
-        "hy" => "Armenian",
-        "hz" => "Herero",
-        "ia" => "Interlingua",
-        // Indonesian: new is "id", old is "in"
-        //"id" => "Indonesian",
-        "in" => "Indonesian",
-        "ie" => "Interlingue",
-        "ig" => "Igbo",
-        "ii" => "Sichuan Yi",
-        "ik" => "Inupiaq",
-        "io" => "Ido",
-        "is" => "Icelandic",
-        "it" => "Italian",
-        "iu" => "Inuktitut",
-        "ja" => "Japanese",
-        "jv" => "Javanese",
-        "ka" => "Georgian",
-        "kg" => "Kongo",
-        "ki" => "Kikuyu",
-        "kj" => "Kwanyama",
-        "kk" => "Kazakh",
-        "kl" => "Kalaallisut",
-        "km" => "Khmer",
-        "kn" => "Kannada",
-        "ko" => "Korean",
-        "kr" => "Kanuri",
-        "ks" => "Kashmiri",
-        "ku" => "Kurdish",
-        "kv" => "Komi",
-        "kw" => "Cornish",
-        "ky" => "Kirghiz",
-        "la" => "Latin",
-        "lb" => "Luxembourgish",
-        "lg" => "Ganda",
-        "li" => "Limburgish",
-        "ln" => "Lingala",
-        "lo" => "Lao",
-        "lt" => "Lithuanian",
-        "lu" => "Luba-Katanga",
-        "lv" => "Latvian",
-        "mg" => "Malagasy",
-        "mh" => "Marshallese",
-        "mi" => "Māori",
-        "mk" => "Macedonian",
-        "ml" => "Malayalam",
-        "mn" => "Mongolian",
-        "mo" => "Moldavian",
-        "mr" => "Marathi",
-        "ms" => "Malay",
-        "mt" => "Maltese",
-        "my" => "Burmese",
-        "na" => "Nauru",
-        "nb" => "Norwegian Bokmål",
-        "nd" => "North Ndebele",
-        "ne" => "Nepali",
-        "ng" => "Ndonga",
-        "nl" => "Dutch",
-        "nn" => "Norwegian Nynorsk",
-        "no" => "Norwegian",
-        "nr" => "South Ndebele",
-        "nv" => "Navajo",
-        "ny" => "Chichewa",
-        "oc" => "Occitan",
-        "oj" => "Ojibwa",
-        "om" => "Oromo",
-        "or" => "Oriya",
-        "os" => "Ossetian",
-        "pa" => "Panjabi",
-        "pi" => "Pāli",
-        "pl" => "Polish",
-        "ps" => "Pashto",
-        "pt" => "Portuguese",
-        "qu" => "Quechua",
-        "rm" => "Raeto-Romance",
-        "rn" => "Kirundi",
-        "ro" => "Romanian",
-        "ru" => "Russian",
-        "rw" => "Kinyarwanda",
-        "ry" => "Rusyn",
-        "sa" => "Sanskrit",
-        "sc" => "Sardinian",
-        "sd" => "Sindhi",
-        "se" => "Northern Sami",
-        "sg" => "Sango",
-        "sh" => "Serbo-Croatian",
-        "si" => "Sinhalese",
-        "sk" => "Slovak",
-        "sl" => "Slovenian",
-        "sm" => "Samoan",
-        "sn" => "Shona",
-        "so" => "Somali",
-        "sq" => "Albanian",
-        "sr" => "Serbian",
-        "ss" => "Swati",
-        "st" => "Sotho",
-        "su" => "Sundanese",
-        "sv" => "Swedish",
-        "sw" => "Swahili",
-        "ta" => "Tamil",
-        "te" => "Telugu",
-        "tg" => "Tajik",
-        "th" => "Thai",
-        "ti" => "Tigrinya",
-        "tk" => "Turkmen",
-        "tl" => "Tagalog",
-        "tn" => "Tswana",
-        "to" => "Tonga",
-        "tr" => "Turkish",
-        "ts" => "Tsonga",
-        "tt" => "Tatar",
-        "tw" => "Twi",
-        "ty" => "Tahitian",
-        "ug" => "Uighur",
-        "uk" => "Ukrainian",
-        "ur" => "Urdu",
-        "uz" => "Uzbek",
-        "ve" => "Venda",
-        "vi" => "Vietnamese",
-        "vo" => "Volapük",
-        "wa" => "Walloon",
-        "wo" => "Wolof",
-        "xh" => "Xhosa",
-        // Yiddish: new is "yi", old is "ji"
-        //"yi" => "Yiddish",
-        "ji" => "Yiddish",
-        "yo" => "Yoruba",
-        "za" => "Zhuang",
-        "zh" => "Chinese",
-        "zu" => "Zulu"
-    );
 
     // Beta has been removed but I'm keeping these here for reference
     define("SIM_RATING_NONE",           "0");
@@ -275,9 +70,6 @@
 
     define("SIM_THUMBNAILS_CACHE",      "thumbnails");
     define("SIM_TRANSLATIONS_CACHE", "translations");
-    define("SIM_OFFLINE_FLASH_CACHE", "offline-flash");
-    define("SIM_OFFILNE_FLASH_CACHE_HOURS", 876600);  // 100 years
-    define("SIM_CREATE_JAR_EXECUTABLE", "/usr/local/java/bin/jar");
 
     define("SIMS_PER_PAGE", 9);
 
@@ -292,84 +84,101 @@
         return $matches[3];
     }
 
-    function sim_get_language_icon_url_from_language_name($language_name) {
-        global $LANGUAGE_CODE_TO_LANGUAGE_NAME;
-
-        $language_code = null;
-
-        foreach ($LANGUAGE_CODE_TO_LANGUAGE_NAME as $code => $name) {
-            if (strtolower($name) == strtolower($language_name)) {
-                $language_code = $code;
-                break;
-            }
+    /** FIXME: comment **/
+    function sim_get_all_sim_translations() {
+        $sims = sim_get_all_sims();
+        if (!$sims) {
+            return array();
         }
-
-        if ($language_code == null) {
-            return false;
-        }
-
-        $icon_name = str_replace(' ', '_', strtolower($language_name)).'-'.strtolower($language_code).'.png';
-        $icon_location = SITE_ROOT."images/languages/$icon_name";
-
-        return $icon_location;
-    }
-
-    function sim_get_all_translated_language_names() {
-        $all_translations = cache_get(SIM_TRANSLATIONS_CACHE, 'all-translations.cache', 24);
-
-        if ($all_translations) {
-            return unserialize($all_translations);
-        }
-
-        $language_to_translations = array();
-
-        // Loop through all sims:
-        foreach (sim_get_all_sims() as $sim) {
-
-            $sim_name     = $sim['sim_name'];
-            $translations = sim_get_translations($sim);
-
-            // Get all translations of the current sim:
-            foreach ($translations as $language_name => $data) {
-                if (!isset($language_to_translations[$sim_name])) {
-                    $language_to_translations[$sim_name] = array();
-                }
-
-                $language_to_translations[$sim_name][$language_name] = $data["online_url"];
-            }
-        }
-
-
-        cache_put(SIM_TRANSLATIONS_CACHE, 'all-translations.cache', serialize($language_to_translations));
-
-        return $language_to_translations;
-    }
-
-    // Returns a map from translation name to JNLP file:
-    function sim_get_translations($simulation) {
-        global $LANGUAGE_CODE_TO_LANGUAGE_NAME;
-
-        $dirname     = $simulation['sim_dirname'];
-        $flavorname  = $simulation['sim_flavorname'];
 
         $translations = array();
-
-        foreach ($LANGUAGE_CODE_TO_LANGUAGE_NAME as $code => $language_name) {
-            if ($code == "en") {
-                // Skip the English traslations, they are the default
-                continue;
+        foreach ($sims as $sim_id => $sim) {
+            $base_glob = SIMS_ROOT."{$sim['sim_dirname']}/{$sim['sim_flavorname']}*.";
+            $base_regex = SIMS_ROOT."{$sim['sim_dirname']}/{$sim['sim_flavorname']}_([A-Za-z]{2})?(_([A-Za-z]{2}))?.";
+            if ($sim['sim_type'] == SIM_TYPE_JAVA) {
+                $ext = 'jnlp';
+            }
+            else {
+                $ext = 'html';
             }
 
-            $online_link = sim_get_launch_url($simulation, $code);
-            $offline_link = sim_get_run_offline_link($simulation, $code);
-            if ($online_link || $offline_link) {
-                $translations[$language_name] = array("code" => $code, "url" => $online_link, "online_url" => $online_link, "offline_url" => $offline_link);
-            }
+            $files = glob($base_glob.$ext);
+            foreach ($files as $file) {
+                $regs = array();
+                $result = ereg($base_regex.$ext, $file, $regs);
+                if ($result !== false) {
+                    $locale = "{$regs[1]}{$regs[2]}";
+                }
+                else {
+                    // Skip the default locale, it is not a translation
+                    continue;
+                }
 
-            flush();
+                if (!locale_valid($locale)) {
+                    // TODO: log an error
+                    continue;
+                }
+                else if (locale_is_default($locale)) {
+                    // Skip the default locale, it is not a translation
+                    continue;
+                }
+
+                if (!array_key_exists($locale, $translations)) {
+                    $translations[$locale] = array();
+                }
+
+                $translations[$locale][] = $sim_id;
+            }
         }
 
+        // Sort the codes so that the English locale names will come out
+        // in the right order
+        uksort($translations, 'locale_sort_code_by_name');
+
         return $translations;
+    }
+
+    /** FIXME: comment **/
+    function sim_get_translations($simulation) {
+        $sim = $simulation;
+        $translations = array();
+            $base_glob = SIMS_ROOT."{$sim['sim_dirname']}/{$sim['sim_flavorname']}*.";
+            $base_regex = SIMS_ROOT."{$sim['sim_dirname']}/{$sim['sim_flavorname']}_([A-Za-z]{2})?(_([A-Za-z]{2}))?.";
+            if ($sim['sim_type'] == SIM_TYPE_JAVA) {
+                $ext = 'jnlp';
+            }
+            else {
+                $ext = 'html';
+            }
+
+            $files = glob($base_glob.$ext);
+            foreach ($files as $file) {
+                //print "file: {$file}\n";
+                $regs = array();
+                $result = ereg($base_regex.$ext, $file, $regs);
+                if ($result !== false) {
+                    $locale = "{$regs[1]}{$regs[2]}";
+                }
+                else {
+                    // Skip the default locale, it is not a translation
+                    continue;
+                }
+
+                if (!locale_valid($locale)) {
+                    // Locale is not in the table, log error and skip
+                    // TODO: log an error
+                    continue;
+                }
+                else if (locale_is_default($locale)) {
+                    // Skip the default locale, it is not a translation
+                    continue;
+                }
+
+                $translations[] = $locale;
+            }
+
+            usort($translations, 'locale_sort_code_by_name');
+            return $translations;        
     }
 
     // Returns an array with the sim version, keys 
@@ -644,16 +453,13 @@
 
         $simulation_rows = db_get_all_rows('simulation');
 
+        usort($simulation_rows, 'sim_compare_by_sorting_name');
+
         foreach($simulation_rows as $simulation) {
             $sim_id = $simulation['sim_id'];
 
-            if (is_numeric($sim_id)) {
-                $simulations["sim_id_$sim_id"] = $simulation;
-            }
+            $simulations[$sim_id] = $simulation;
         }
-
-        // Sort by sorting name:
-        usort($simulations, 'sim_compare_by_sorting_name');
 
         return $simulations;
     }
@@ -843,216 +649,38 @@
         return $listings;
     }
 
-    function sim_flash_is_internationalized($simulation) {
-        $dirname     = $simulation['sim_dirname'];
-        $flavorname  = $simulation['sim_flavorname'];
-
-        if ($simulation["sim_type"] != SIM_TYPE_FLASH) {
-            return false;
-        }
-
-        $html_pattern = SIMS_ROOT."{$dirname}/{$flavorname}_*.html";
-        $xml_pattern = SIMS_ROOT."{$dirname}/{$flavorname}_*.html";
-
-        $files = glob($html_pattern);
-        return count($files) > 0;
-    }
-
     /**
      * Return the filename and offline content so a user can download for later.
      * 
      * @return arary(filename, conent), or false if not successful
      **/
-    function sim_get_run_offline($simulation, $language_code = false) {
+    function sim_get_run_offline($simulation, $requested_locale = DEFAULT_LOCALE) {
 
         $verbose = debug_is_on();
 
         $dirname     = $simulation['sim_dirname'];
         $flavorname  = $simulation['sim_flavorname'];
 
+        $locale = (locale_valid($requested_locale)) ? $requested_locale : DEFAULT_LOCALE;
+
         // If it is a Java sim, just send the jar
         if ($simulation['sim_type'] == SIM_TYPE_JAVA) {
-            if ((!$language_code) || ($language_code == 'en')) {
+            if (locale_is_default($locale)) {
                 $filename = SIMS_ROOT."{$dirname}/{$flavorname}.jar";
             }
             else {
-                $filename = SIMS_ROOT."{$dirname}/{$flavorname}_{$language_code}.jar";
+                $filename = SIMS_ROOT."{$dirname}/{$flavorname}_{$locale}.jar";
             }
-
-            if (!file_exists($filename)) {
-                return false;
-            }
-
-            return array($filename, file_get_contents($filename));
+        }
+        else if ($simulation['sim_type'] == SIM_TYPE_FLASH) {
+            $filename = SIMS_ROOT."{$dirname}/{$flavorname}_{$locale}.jar";
         }
 
-        // Determine if the SIM is the newstyle internationalized or the
-        // oldstyle .swf
-
-        if (!sim_flash_is_internationalized($simulation)) {
-            // Old style, just send the .swf along to the user
-            $filename = SIMS_ROOT."{$dirname}/{$flavorname}.swf";
-            return array($filename, file_get_contents($filename));
+        if (!file_exists($filename)) {
+            return false;
         }
 
-        //
-        // Internationalized sim, generate a jar file that will launch the localized swf
-
-        // Get the language
-        if (!$language_code) {
-            $lang = "en";
-        }
-        else {
-            $lang = $language_code;
-        }
-
-        // Setup our constants
-        $full_dirname = SIMS_ROOT."{$dirname}/";
-        $jar_template_dir = PORTAL_ROOT."phet-dist/flash-launcher/";
-        $output_jar_name = $flavorname."_".$lang.".jar";
-
-        // Check if this sim has been cached
-        $jar_cache_id = md5($dirname.$output_jar_name);
-        $jar_cache_resource = "${jar_cache_id}.jar.cache";
-        $cached_jar = cache_get(SIM_OFFLINE_FLASH_CACHE, $jar_cache_resource, SIM_OFFILNE_FLASH_CACHE_HOURS);
-        if ($cached_jar) {
-            return array($output_jar_name, $cached_jar);
-        }
-
-        //
-        // Prepares temporary files and directories
-
-        // Create a temporary directory
-        $temp_dir_name = create_temp_dir();
-        if (!$temp_dir_name) {
-            //print "ERROR: cannot create directory";
-            exit;
-        }
-
-        // Create the flash-launcher-args.txt file
-        $fp = fopen($temp_dir_name."flash-launcher-args.txt", "w");
-        if ($fp === false) {
-            if ($verbose) {
-                print "ERROR: cannot open file 'flash-launcher-args.txt'";
-            }
-            $result = rmdir($temp_dir_name);
-            assert($result === true);
-            exit;
-        }
-
-        // Write the ags to flash-launcher-args.txt file
-        // Fromat: sim_flavorname language_code [flags]
-        $result = fwrite($fp, "{$flavorname} {$lang}");
-        if ($result === false) {
-            if ($verbose) {
-                print "ERROR: cannot write to file 'flash-launcher-args.txt'";
-            }
-            $result = rmdir($temp_dir_name);
-            assert($result === true);
-            exit;
-        }
-
-        // Close flash-launcher-args.txt file...
-        $result = fclose($fp);
-        if ($fp === false) {
-            if ($verbose) {
-                print "ERROR: cannot close file 'flash-launcher-args.txt'";
-            }
-            $result = rmdir($temp_dir_name);
-            assert($result === true);
-            exit;
-        }
-
-        // Create temp jar file...
-        $temp_jar_name = tempnam(sys_get_temp_dir(), "phet_jar_");
-        if ($temp_jar_name === false) {
-            if ($verbose) {
-                print "ERROR: cannot create temp jar file";
-            }
-            $result = rmdir($temp_dir_name);
-            assert($result === true);
-            exit;
-        }
-
-        // Get all the languages, formatted for including on the jar command line
-        $jar_include_languages = array();
-        $jar_laungage_xmls = '';
-        foreach (glob("{$full_dirname}{$flavorname}-strings_*.xml") as $lanugage_xml) {
-            $jar_laungage_xmls .= "-C ".dirname($lanugage_xml)." ".basename($lanugage_xml)." ";
-        }
-
-        // jar args
-        //     -m specifies the manifest file
-        //     -C dir file  changes to the dir and puts file in the archive
-        $args = array("-C {$temp_dir_name} flash-launcher-args.txt",
-                      "-C {$jar_template_dir} flash-launcher-template.html",
-                      "-C {$full_dirname} {$flavorname}.properties",
-                      "-C {$full_dirname} {$flavorname}.swf",
-                      $jar_laungage_xmls,
-                      "-C {$jar_template_dir} edu");
-
-        // Construct the command
-        $command = SIM_CREATE_JAR_EXECUTABLE." cmf {$jar_template_dir}META-INF/MANIFEST.MF {$temp_jar_name} ".join(" ", $args);
-
-        // Run the command to create the jar file
-        $sys_ret = 0;
-        $result = system($command, $sys_ret);
-        if ($sys_ret != 0) {
-            if ($verbose) {
-                print "ERROR: fastjar command failed, exit code: {$sys_ret}<br />\n";
-                print "command: {$command}<br />\n";
-            }
-            $result = unlink($tmp_jar_name);
-            assert($result === true);
-            $result = unlink($temp_dir_name."flash-launcher-args.txt");
-            assert($result === true);
-            $result = rmdir($temp_dir_name);
-            assert($result === true);
-            exit;
-        }
-
-        // Get the contents of the jar file
-        $jar_content = file_get_contents($temp_jar_name);
-
-        //
-        // Cleanup
-
-        // Delete temp jar file
-        $result = unlink($temp_jar_name);
-        if ($result === false) {
-            if ($verbose) {
-                print "ERROR: cannot delete file 'flash-launcher-args.txt'";
-            }
-            $result = rmdir($temp_dir_name);
-            assert($result === true);
-            exit;
-        }
-
-        // Delete flash-launcher-args.txt file
-        $result = unlink($temp_dir_name."flash-launcher-args.txt");
-        if ($result === false) {
-            if ($verbose) {
-                print "ERROR: cannot delete file 'flash-launcher-args.txt'";
-            }
-            $result = rmdir($temp_dir_name);
-            assert($result === true);
-            exit;
-        }
-
-        // Delete temp directory
-        $result = rmdir($temp_dir_name);
-        if ($result === false) {
-            if ($verbose) {
-                print "ERROR: cannot delete file 'flash-launcher-args.txt'";
-            }
-            exit;
-        }
-
-        // Put the jar in cache
-        cache_put(SIM_OFFLINE_FLASH_CACHE, $jar_cache_resource, $jar_content);
-
-        // Return the content
-        return array($output_jar_name, $jar_content);
+        return array($filename, file_get_contents($filename));
     }
 
     function sim_is_in_category($sim_id, $cat_id) {
@@ -1067,44 +695,74 @@
         return false;
     }
 
-    function sim_get_launch_url($simulation, $language_code = "en") {
+    /** FIXME: docstring **/
+    function sim_get_launch_url($simulation, $locale = DEFAULT_LOCALE, $test_existance = false) {
+        if (!locale_valid($locale)) {
+            return '';
+        }
+
         $dirname    = $simulation['sim_dirname'];
         $flavorname = $simulation['sim_flavorname'];
         $sim_type   = $simulation['sim_type'];
+        $url = '';
 
         if ($sim_type == SIM_TYPE_FLASH) {
-            $oldstyle_link = SIMS_ROOT."{$dirname}/{$flavorname}.swf";
-            $flash_swf = SIMS_ROOT."{$dirname}/{$flavorname}.swf";
-            $flash_strings = SIMS_ROOT."{$dirname}/{$flavorname}-strings_{$language_code}.xml";
-            $flash_html = SIMS_ROOT."{$dirname}/{$flavorname}_{$language_code}.html";
-            if (file_exists($flash_swf) && file_exists($flash_strings) && file_exists($flash_html)) {
-                $link = $flash_html;
-            }
-            else if (($language_code == "en") && file_exists($oldstyle_link)) {
-                $link = $oldstyle_link;
-            }
-            else {
-                return false;
-                $link = "http://".PHET_DOMAIN_NAME."/sims/$dirname/$flavorname.swf";
-            }
+            $url = SIMS_ROOT."{$dirname}/{$flavorname}_{$locale}.html";
         }
-        else {
-            // Try local first
-            $oldstyle_link = SIMS_ROOT."{$dirname}/{$flavorname}.jnlp";
-            $newstyle_link = SIMS_ROOT."{$dirname}/{$flavorname}_{$language_code}.jnlp";
-            if (($language_code == "en") && (file_exists($oldstyle_link))) {
-                $link = $oldstyle_link;
-            }
-            else if (file_exists($newstyle_link)) {
-                $link = $newstyle_link;
+        else if ($sim_type == SIM_TYPE_JAVA) {
+            if (locale_is_default($locale)) {
+                $url = SIMS_ROOT."{$dirname}/{$flavorname}.jnlp";
             }
             else {
-                return false;
-                $link = "http://".PHET_DOMAIN_NAME."/sims/{$dirname}/{$flavorname}.jnlp";
+                $url = SIMS_ROOT."{$dirname}/{$flavorname}_{$locale}.jnlp";
             }
         }
 
-        return $link;
+        if ($test_existance) {
+            if (!file_exists($url)) {
+                return '';
+            }
+        }
+
+        return $url;
+    }
+
+    /** FIXME: docstring **/
+    /**
+     * Get the simulataion download link of the specified languagefile exists
+     * 
+     * @param array $simulation Simulation information
+     * @param string $locale OPTIONAL locale to use
+     * @param bool $test_existance OPTIONAL if true will check the existance of the downloadable file
+     * @return mixed Returns an empty string if $test_existance is true and the file does not exist, otherwise returns a string with the link that will allow downloading of the sim
+     */
+    function sim_get_download_url($simulation, $requested_locale = DEFAULT_LOCALE, $test_existance = false) {
+        $locale = (locale_valid($requested_locale)) ? $requested_locale : DEFAULT_LOCALE;
+
+        if ($test_existance) {
+            $dirname    = $simulation['sim_dirname'];
+            $flavorname = $simulation['sim_flavorname'];
+            $sim_type   = $simulation['sim_type'];
+            $file = '';
+            
+            if ($sim_type == SIM_TYPE_JAVA) {
+                if (locale_is_default($locale)) {
+                    $file = SIMS_ROOT."{$dirname}/{$flavorname}_all.jar";
+                }
+                else {
+                    $file = SIMS_ROOT."{$dirname}/{$flavorname}_{$locale}.jar";
+                }
+            }
+            else if ($sim_type == SIM_TYPE_FLASH) {
+                $file = SIMS_ROOT."{$dirname}/{$flavorname}_{$locale}.jar";
+            }
+            
+            if (!file_exists($file)) {
+                return '';
+            }
+        }
+
+        return SITE_ROOT."admin/get-run-offline.php?sim_id={$simulation['sim_id']}&amp;locale={$locale}";
     }
 
     function sim_get_screenshot($simulation) {
@@ -1131,60 +789,6 @@
         }
 
         return $link;
-    }
-
-    /**
-     * Get the simulataion offline link of the specified language exists.  If no language is specified, English is assumed
-     * 
-     * @param array $simulation Simulation information
-     * @param string $language_code OPTIONAL Language to use, default is English
-     * @return mixed If successful, the link to download the offline sim, otherwise false
-     */
-    function sim_get_run_offline_link($simulation, $language_code = false) {
-        $dirname    = $simulation['sim_dirname'];
-        $flavorname = $simulation['sim_flavorname'];
-        $sim_type   = $simulation['sim_type'];
-
-        if ($sim_type == SIM_TYPE_FLASH) {
-            // Flash sims always have a language code, even if it is English
-            $code = 'en';
-            if ($language_code) {
-                $code = $language_code;
-            }
-
-            $flash_swf = SIMS_ROOT."{$dirname}/{$flavorname}.swf";
-            $flash_strings = SIMS_ROOT."{$dirname}/{$flavorname}-strings_{$code}.xml";
-            $flash_html = SIMS_ROOT."{$dirname}/{$flavorname}_{$code}.html";
-            if (file_exists($flash_swf) && file_exists($flash_strings) && file_exists($flash_html)) {
-                // The Flash sims and language combination exists, return the link to retrieve it
-                return SITE_ROOT."admin/get-run-offline.php?sim_id={$simulation['sim_id']}&amp;lang={$code}";
-            }
-            else {
-                // The Flash sims and language combination does NOT exist
-                return false;
-            }
-        }
-        else {
-            // Try local first
-            if ($language_code) {
-                $jar_file = SIMS_ROOT."{$dirname}/{$flavorname}_{$language_code}.jar";
-            }
-            else {
-                $jar_file = SIMS_ROOT."{$dirname}/{$flavorname}.jar";
-            }
-
-            if (file_exists($jar_file)) {
-                if ($language_code) {
-                    return SITE_ROOT."admin/get-run-offline.php?sim_id={$simulation['sim_id']}&amp;lang={$language_code}";
-                }
-                else {
-                    return SITE_ROOT."admin/get-run-offline.php?sim_id={$simulation['sim_id']}";
-                }
-            }
-            else {
-                return false;
-            }
-        }
     }
 
     function sim_get_select_sims_by_category_statement($cat_id) {

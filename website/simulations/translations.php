@@ -17,10 +17,7 @@ class TranslationsPage extends SitePage {
             return $result;
         }
 
-        // Workaround for an IE6 bug rendering this page.
-        // See the css file and BasePage.php for more
-        // explaination.
-        $this->set_css_container_name("container-wide");
+        $this->set_css_container_name("container");
     }
 
     function render_content() {
@@ -30,76 +27,110 @@ class TranslationsPage extends SitePage {
         }
 
         print <<<EOT
+            <h2>Can't find a translation?</h2>
             <p>
                 <a href="{$this->prefix}contribute/translation-utility.php">Create a New Translation!</a>
             </p>
 
 EOT;
 
-        $sim_to_translations = sim_get_all_translated_language_names();
+        /*************************************************************/
+        // Translations header, links to sections that contain the localizd sims
+        /*************************************************************/
 
-        // TODO: make own function to reshuffle data
-        $sim_lang_map = array();
-        foreach ($sim_to_translations as $sim_name => $map) {
-            foreach ($map as $language_name => $language_launch_url) {
-                if (!array_key_exists($language_name, $sim_lang_map)) {
-                    $sim_lang_map[$language_name] = array();
+        print <<<EOT
+    <hr />
+
+            <h2>All Translations</h2>
+
+EOT;
+        
+        $sim_translations = sim_get_all_sim_translations();
+
+        print "<table>\n";
+        foreach ($sim_translations as $locale => $sim_list) {
+            $locale_info = locale_get_full_info($locale);
+            if ($locale_info === false) {
+                // TODO: log error
+                continue;
+            }
+
+            $link = "<a href=\"#{$locale}\">{$locale_info['locale_name']}</a>";
+            $sim_count = count($sim_list);
+            print <<<EOT
+                <tr>
+                    <td>{$link}</td>
+                    <td>
+                        <a href="#{$locale}">{$locale_info['language_img']}</a> 
+                        <a href="#{$locale}">{$locale_info['country_img']}</a>
+                    </td>
+                    <td>({$sim_count} translations)</td>
+                </tr>
+
+EOT;
+        }
+        print "</table>\n";
+
+        /*************************************************************/
+        // Translations content, sections that contain the localizd sims
+        /*************************************************************/
+        foreach ($sim_translations as $locale => $sim_list) {
+            $locale_info = locale_get_full_info($locale);
+            if ($locale_info === false) {
+                // TODO: log error
+                continue;
+            }
+
+            print <<<EOT
+            <hr />
+
+            <h3 id="{$locale}">{$locale_info['language_img']} {$locale_info['country_img']} - {$locale_info['locale_name']}</h3>
+            <table class="localized_sims">
+
+EOT;
+            $count = 0;
+            $last_sim = count($sim_list);
+            foreach ($sim_list as $sim_id) {
+                $sim = sim_get_sim_by_id($sim_id);
+                $formatted_sim_name = format_for_html($sim['sim_name']);
+                $sim_page = sim_get_url_to_sim_page($sim['sim_id']);
+                $launch_url = sim_get_launch_url($sim, $locale);
+                $launch_link_open = "a href=\"{$launch_url}\" title=\"Click here to launch the {$locale_info['locale_name']} version of {$formatted_sim_name}\"";
+
+                // Flash sims should run in a new window
+                $onclick = "";
+                if ($sim['sim_type'] == SIM_TYPE_FLASH) {
+                    $onclick = 'onclick="javascript:open_limited_window(\''.$launch_url.'\',\'simwindow\'); return false;"';
                 }
 
-                $sim_lang_map[$language_name][$sim_name] = $language_launch_url;
+                $count = $count + 1;
+                $last_row = "";
+                if ($count == $last_sim) {
+                    $last_row .= " last";
+                }
+                $row_class = ($count % 2) ? "class=\"odd{$last_row}\"" : "class=\"even{$last_row}\"";
+
+                $offline_html = '';
+                if (!$this->is_installer_builder_rip()) {
+                    $offline_url = sim_get_download_url($sim, $locale, true);
+                    if (empty($offline_url)) {
+                        $offline_html = "<td><em>Download not available</em></td>";
+                    }
+                    else {
+                        $offline_html = "<td><a href=\"{$offline_url}\" title=\"Click here to download the {$locale_info['locale_name']} version of {$formatted_sim_name}\">Download</a></td>";
+                    }
+                }
+
+                print <<<EOT
+                <tr {$row_class}>
+                  <td><{$launch_link_open} {$onclick}>{$formatted_sim_name}</a></td>
+                  <td><{$launch_link_open} {$onclick}>Run Now</a></td>
+                  {$offline_html}
+                </tr>
+
+EOT;
             }
-        }
-
-        function mycountcmp($a, $b) {
-            return count($a) < count($b);
-        }
-
-        // ON HOLD: Google uses a cached version of the webpage to translate, and it doesn't have all the translations we do
-        global $LANGUAGE_CODE_TO_LANGUAGE_NAME;
-        $reverse_lanugage_lookup = array_flip($LANGUAGE_CODE_TO_LANGUAGE_NAME);
-        function mk_google_translate_link($page, $to, $from = 'en') {
-            //mk_google_translate_link("/new/index.php", 'de');
-            // http://translate.google.com/translate?u=http%3A%2F%2Fphet.colorado.edu%2Fnew%2Findex.php&hl=en&ie=UTF8&sl=en&tl=de
-            $link = "http://translate.google.com/translate?u=";
-            $link .= urlencode("http://".PHET_DOMAIN_NAME.$page);
-            $link .= "&amp;hl=en";
-            $link .= "&amp;ie=UTF8";
-            $link .= "&amp;sl={$from}";
-            $link .= "&amp;tl={$to}";
-            return $link;
-            //var_dump($link);
-            //var_dump("http://translate.google.com/translate?u=http%3A%2F%2Fphet.colorado.edu%2Fnew%2Findex.php&amp;hl=en&amp;ie=UTF8&amp;sl=en&amp;tl=de");
-        }
-        function mk_google_translate_link2($page, $to, $from = 'en') {
-            // http://209.85.171.104/translate_c?hl=en&sl=en&tl=pt&u=http://phet.colorado.edu/simulations/translations.php#Portuguese
-            //$link = "http://translate.google.com/translate?";
-            $link = "http://209.85.171.104/translate_c?";
-            $link .= "hl=en";
-            $link .= "&amp;sl={$from}";
-            $link .= "&amp;tl={$to}";
-            $link .= "&amp;u=http://".PHET_DOMAIN_NAME.$page;// urlencode("http://".PHET_DOMAIN_NAME.$page);
-            return $link;
-        }
-
-        uasort($sim_lang_map, "mycountcmp");
-        print "<ul>\n";
-        foreach ($sim_lang_map as $language_name => $sim_info) {
-            //$google_translation_link = mk_google_translate_link2("/simulations/translations.php#{$language_name}", $reverse_lanugage_lookup[$language_name]);
-            //print "<li><a href=\"#{$language_name}\">{$language_name}</a> - (".count($sim_info)." translations) - <a href=\"{$google_translation_link}\">Translation in Google</a></li>\n";
-            print "<li><a href=\"#{$language_name}\">{$language_name}</a> - (".count($sim_info)." translations)</li>\n";
-        }
-        print "</ul>\n";
-
-        foreach ($sim_lang_map as $language_name => $sim_info) {
-            $language_icon_src = sim_get_language_icon_url_from_language_name($language_name);
-
-            print "<h1 id=\"{$language_name}\"><img src=\"{$language_icon_src}\" alt=\"\" title=\"{$language_name}\"/></h1>\n";
-            print "<ul>\n";
-            foreach ($sim_info as $sim_name => $sim_url) {
-                $formatted_sim_name = format_string_for_html($sim_name);
-                print "<li><a href=\"{$sim_url}\">$formatted_sim_name</a></li>\n";
-            }
-            print "</ul>\n";
+            print "</table>\n";
         }
 
         flush();

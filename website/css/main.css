@@ -1864,3 +1864,35 @@ div.contribution_guidelines li {
 div.workshop_uganda_photos table  tr td {
     text-align: center;
 }
+
+/* Translations stuffs */
+img.language {
+    vertical-align: middle;
+}
+
+img.country {
+    vertical-align: middle;
+}
+
+table.localized_sims {
+    border-collapse: collapse;
+    margin-left: 20px;
+}
+
+table.localized_sims tr.even {
+    background-color: #fefefe;
+    border-bottom: 1px #6699CC dotted;
+}
+table.localized_sims tr.odd {
+    border-bottom: 1px #6699CC dotted;
+}
+
+table.localized_sims tr.last {
+    border-bottom: none;
+}
+
+table.localized_sims td.odd {
+}
+
+table.localized_sims td.even {
+}
