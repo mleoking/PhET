@@ -23,9 +23,10 @@ class LadybugNode(ladybug: Ladybug, transform: ModelViewTransform2D) extends PNo
     ladybug.addListener(updateLadybug)
     updateLadybug(ladybug)
 
+  addChild(arrowSetNode)
     addChild(pimage)
     addChild(boundNode)
-    addChild(arrowSetNode)
+
     transform.addTransformListener(new TransformListener() {
         def transformChanged(mvt: ModelViewTransform2D) = {
             updateLadybug(ladybug)

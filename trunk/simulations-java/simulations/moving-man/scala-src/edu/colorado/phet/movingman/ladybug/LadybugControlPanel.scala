@@ -7,6 +7,12 @@ import javax.swing.{Box, JButton, JRadioButton, JLabel}
 
 class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
   def createBox=Box.createRigidArea(new Dimension(10, 10))
+
+//  val button=new scala.swing.Button
+//  val component:java.awt.Component=button
+//  addControl(b)
+//  addControl(b)
+
   addControl(new JRadioButton("Show velocity vector"))
   addControl(new JRadioButton("Show acceleration vector"))
   addControl(new JRadioButton("Show both"))
