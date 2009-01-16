@@ -1,7 +1,9 @@
 
 package edu.colorado.phet.common.phetcommon.application;
 
-import java.awt.*;
+import java.awt.FlowLayout;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -98,7 +100,7 @@ public class SoftwareAgreementManager {
         }
 
         private JComponent createMessagePanel( ITrackingInfo trackingInfo ) {
-            JComponent htmlPane = new MessagePane( trackingInfo );
+            JComponent htmlPane = new MessagePane( this, trackingInfo );
             JPanel panel = new JPanel();
             panel.setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
             panel.add( htmlPane );
@@ -156,7 +158,7 @@ public class SoftwareAgreementManager {
         private static final String LINK_SHOW_TRACKING_DETAILS = "showTrackingDetails";
         private static final String LINK_SHOW_SOFTWARE_AGREEMENT = "showSoftwareAgreements";
         
-        public MessagePane( final ITrackingInfo trackingInfo ) {
+        public MessagePane( final JDialog owner, final ITrackingInfo trackingInfo ) {
             super( "" );
             
             // insert our own hyperlink descriptions into the message, so translators can't mess them up
@@ -167,12 +169,11 @@ public class SoftwareAgreementManager {
             addHyperlinkListener( new HyperlinkListener() {
                 public void hyperlinkUpdate( HyperlinkEvent e ) {
                     if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED ) {
-                        Window owner = SwingUtilities.getWindowAncestor( MessagePane.this );
                         if ( e.getDescription().equals( LINK_SHOW_TRACKING_DETAILS ) ) {
                             showTrackingDetails( owner, trackingInfo );
                         }
                         else if ( e.getDescription().equals( LINK_SHOW_SOFTWARE_AGREEMENT ) ) {
-                            showSoftwareAgreement( owner,trackingInfo );
+                            showSoftwareAgreement( owner );
                         }
                         else {
                             System.err.println( "SoftwareAgreementManager.MessagePane.hyperlinkUpdate: unsupported hyperlink, description=" + e.getDescription() );
@@ -182,24 +183,12 @@ public class SoftwareAgreementManager {
             } );
         }
         
-        private static void showTrackingDetails( Window owner, ITrackingInfo trackingInfo ) {
-            if ( owner instanceof Frame ) {
-                new TrackingDetailsDialog( (Frame) owner, trackingInfo ).setVisible( true );
-            }
-            else if ( owner instanceof Dialog ) {
-                new TrackingDetailsDialog( (Dialog) owner, trackingInfo ).setVisible( true );
-            }
+        private static void showTrackingDetails( JDialog owner, ITrackingInfo trackingInfo ) {
+            new TrackingDetailsDialog( owner, trackingInfo ).setVisible( true );
         }
         
-        private static void showSoftwareAgreement( Window owner ,ITrackingInfo trackingInfo) {
-            //TODO: read agreements, display in a dialog with a scrollpane and Close button
-            if ( owner instanceof Frame ) {
-                new SoftwareAgreementDialog( (Frame) owner,trackingInfo ).setVisible( true );
-            }
-            else if ( owner instanceof Dialog ) {
-                new SoftwareAgreementDialog( (Dialog) owner,trackingInfo ).setVisible( true );
-            }
-
+        private static void showSoftwareAgreement( JDialog owner ) {
+            new SoftwareAgreementDialog( owner ).setVisible( true );
         }
     }
 
