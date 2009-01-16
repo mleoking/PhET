@@ -38,6 +38,8 @@ case class LadybugState(_position: Vector2D, _velocity: Vector2D, _acceleration:
   def setVelocity(v: Vector2D): LadybugState = new LadybugState(position, v, acceleration, angle)
 
   def setAcceleration(a: Vector2D): LadybugState = new LadybugState(position, velocity, a, angle)
+
+  def setPosition(x: Vector2D): LadybugState = new LadybugState(x, velocity, acceleration, angle)
 }
 
 class Ladybug extends Observable[Ladybug] {
@@ -67,6 +69,11 @@ class Ladybug extends Observable[Ladybug] {
     notifyListeners(this)
   }
 
+  def setPosition(position: Vector2D) = {
+    state = state.setPosition(position)
+    notifyListeners(this)
+  }
+
   def setVelocity(velocity: Vector2D) = {
     state = state.setVelocity(velocity)
     notifyListeners(this)
@@ -76,4 +83,6 @@ class Ladybug extends Observable[Ladybug] {
     state = state.setAngle(theta)
     notifyListeners(this)
   }
+
+
 }
