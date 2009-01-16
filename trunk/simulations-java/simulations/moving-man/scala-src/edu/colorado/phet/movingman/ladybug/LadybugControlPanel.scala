@@ -6,6 +6,7 @@ import _root_.scala.swing._
 import java.awt.Dimension
 import java.awt.event.{ActionEvent, ActionListener}
 import javax.swing.{Box, JButton, JRadioButton, JLabel}
+import LadybugMotionModel._
 
 class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
   val myModule = module;
@@ -44,11 +45,15 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
   }
   addControl(new VectorControlPanel(module.getVectorVisibilityModel))
 
-  addControl(new JLabel("Choose Motion"))
-  addControl(new JRadioButton("Manual"))
-  addControl(new JRadioButton("Linear"))
-  addControl(new JRadioButton("Circular"))
-  addControl(new JRadioButton("Ellipse"))
+  class MotionControlPanel(m: LadybugMotionModel) extends BoxPanel(Orientation.Vertical) {
+    contents += new Label("Choose Motion")
+
+    contents += new MyRadioButton("Manual", m.motion = MANUAL, m.motion == MANUAL, m)
+    contents += new MyRadioButton("Linear", m.motion = LINEAR, m.motion == LINEAR, m)
+    contents += new MyRadioButton("Circular", m.motion = CIRCULAR, m.motion == CIRCULAR, m)
+    contents += new MyRadioButton("Ellipse", m.motion = ELLIPSE, m.motion == ELLIPSE, m)
+  }
+  addControl(new MotionControlPanel(module.getLadybugMotionModel))
   addControl(createBox)
 
   class TraceControlPanel(m: PathVisibilityModel) extends BoxPanel(Orientation.Vertical) {
@@ -68,7 +73,7 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
       m)
 
     contents += new MyRadioButton("Off", {
-      m.lineVisible= false
+      m.lineVisible = false
       m.dotsVisible = false
     }
       , !m.lineVisible && !m.dotsVisible,
