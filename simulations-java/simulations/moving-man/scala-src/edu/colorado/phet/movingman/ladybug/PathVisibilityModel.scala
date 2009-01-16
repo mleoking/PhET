@@ -2,7 +2,7 @@ package edu.colorado.phet.movingman.ladybug
 
 class PathVisibilityModel extends ObservableS {
   private var _lineVisible = true
-  private var _dotsVisible = true
+  private var _dotsVisible = false
 
   def lineVisible: Boolean = _lineVisible
 
