@@ -2,7 +2,7 @@
 	include("db_util.php");
 	$link = setup_mysql();
 	
-	$num_entries = 100;
+	$num_entries = 4000000;
 	
 	
 	function genlocale() {
@@ -77,7 +77,9 @@
 	}
 	
 	for($i=0; $i<$num_entries; $i++) {
-		
+		if($i % 10000 == 0) {
+			echo "<p>" . $i . "</p>";
+		}
 		
 		if(rand(0, 99) < 30) {
 			// Flash
@@ -200,7 +202,7 @@
 			
 			$query .= ");";
 			
-			echo("<p>" . $query . "</p>");
+			//echo("<p>" . $query . "</p>");
 			
 			mysql_query($query);
 			echo mysql_error($link);
@@ -268,22 +270,234 @@
 			}
 			$query .= ");";
 			
+			//echo("<p>" . $query . "</p>");
+			
 			mysql_query($query);
 			echo mysql_error($link);
 			
 		} else {
 			// Java
 			
-			/*
-			$query1 = "INSERT INTO sessions (message_version, sim_type, sim_project, sim_name, sim_major_version, sim_minor_version, sim_dev_version, sim_svn_revision, sim_locale_language, sim_locale_country, sim_sessions_since, sim_sessions_ever, sim_usage_type, sim_distribution_tag, sim_dev, sim_scenario, host_locale_language, host_locale_country, host_simplified_os) VALUES (1, 0, 'balloons', 'balloons', 1, 7, 0, 26532, 'en', 'US', 1, 25, NULL, NULL, true, 'standalone-jar', 'en', 'US', 2);";
-			mysql_query($query1);
-			echo mysql_errno($link) . ": " . mysql_error($link). "\n";
+			
+			
+			$simNames = array("acid-base-solutions", "all-sims", "balloons", "battery-voltage", "bound-states", "circuit-construction-kit", "color-vision", "common-strings", "conductivity", "discharge-lamps", "eating-and-exercise", "efield", "electric-hockey", "energy-skate-park", "faraday", "forces-1d", "fourier", "glaciers", "greenhouse", "hydrogen-atom", "ideal-gas", "lasers", "maze-game", "microwaves", "motion-2d", "moving-man", "mri", "mvc-example", "nuclear-physics", "ohm-1d", "optical-quantum-control", "optical-tweezers", "phetgraphics-demo", "photoelectric", "ph-scale", "quantum-tunneling", "quantum-wave-interference", "radio-waves", "reactions-and-rates", "rotation", "rutherford-scattering", "self-driven-particle-model", "semiconductor", "signal-circuit", "sim-template", "soluble-salts", "sound", "states-of-matter", "test-project", "the-ramp", "travoltage", "wave-interference");
+			$revisions = array(22386, 26143, 26764, 27200, 27853);
+			$major_versions = array(1, 1, 1, 2, 3);
+			$minor_versions = array(0, 5, 9, 0, 4);
+			$num_versions = 5;
+			
+			$simLocale = genlocale();
+			if(rand(0, 99) < 5) {
+				$hostLocale = genlocale();
+			} else {
+				$hostLocale = $simLocale;
+			}
+			
+			$versionIndex = rand(0, $num_versions - 1);
+			
+			$simName = $simNames[rand(0, sizeof($simNames) - 1)];
+			if(rand(0, 99) < 20) {
+				$simName = "circuit-construction-kit";
+			}
+			if(rand(0, 99) < 10) {
+				$simName = "moving-man";
+			}
+			if(rand(0, 99) < 10) {
+				$simName = "faraday";
+			}
+			
+			$dev = false;
+			if(rand(0, 99) < 1) {
+				$dev = true;
+			}
+			
+			$usageType = 'book-cd';
+			if(rand(0, 99) < 30) {
+				$usageType = 'external-website';
+			}
+			if(rand(0, 99) < 30) {
+				$usageType = 'standalone-install';
+			}
+			if(rand(0, 99) < 60) {
+				$usageType = 'full-install';
+			}
+			$distributionTag = "none";
+			if($usageType == "book-cd") {
+				if(rand(0, 99) < 40) {
+					$distributionTag = "Wiley";
+				} else {
+					$distributionTag = "Pierce";
+				}
+			}
+			
+			$os = 1;
+			$r = rand(0, 99);
+			if($r >= 30 && $r < 60) {
+				$os = 2;
+			}
+			if($r >= 60 && $r < 70) {
+				$os = 3;
+			}
+			if($r >= 70 && $r < 75) {
+				$os = 4;
+			}
+			if($r >= 75 && $r < 90) {
+				$os = 5;
+			}
+			if($r >= 90 && $r < 94) {
+				$os = 6;
+			}
+			if($r >= 94 && $r < 100) {
+				$os = 0;
+			}
+			
+			$scenario = "standalone-jar";
+			if(rand(0, 99) < 30) {
+				$scenario = "installed-jar";
+			}
+			if(rand(0, 99) < 30) {
+				$scenario = "jnlp";
+			}
+			
+			$query = "INSERT INTO sessions (timestamp, message_version, sim_type, sim_project, sim_name, sim_major_version, sim_minor_version, sim_dev_version, sim_svn_revision, sim_locale_language, sim_locale_country, sim_sessions_since, sim_sessions_ever, sim_usage_type, sim_distribution_tag, sim_dev, sim_scenario, host_locale_language, host_locale_country, host_simplified_os) VALUES (";
+			
+			
+			$query .= date("YmdHis", time() - rand(0, 11231)*rand(0, 11231)) . ", "; // timestamp
+			$query .= "1" . ", "; // message_version
+			$query .= "0" . ", "; // sim_type
+			$query .= "'" . $simName . "'" . ", "; // sim_project
+			$query .= "'" . $simName . "'" . ", "; // sim_name
+			if($dev) {
+				$query .= (string)$major_versions[$versionIndex] . ", "; // sim_major_version
+				$query .= (string)($minor_versions[$versionIndex] + rand(0, 3)) . ", "; // sim_minor_version
+				$query .= (string)(rand(1, 30)) . ", "; // sim_dev_version
+				$query .= (string)($revisions[$versionIndex] + rand(0, 100)) . ", "; // sim_svn_revision
+			} else {
+				
+				$query .= $major_versions[$versionIndex] . ", "; // sim_major_version
+				$query .= $minor_versions[$versionIndex] . ", "; // sim_minor_version
+				$query .= "0, "; // sim_dev_version
+				$query .= $revisions[$versionIndex] . ", "; // sim_svn_revision
+			}
+			$query .= "'" . $simLocale[0] . "'" . ", "; // sim_locale_language
+			if($simLocale[1] == "none") {
+				$query .= "NULL, "; // sim_locale_country
+			} else {
+				$query .= "'".  $simLocale[1] . "'" . ", "; // sim_locale_country
+			}
+			$query .= (string)(1 + rand(0, 1)*rand(0, 1)*rand(0, 1)*rand(0, 1)*rand(0, 1)*rand(1, 15)) . ", "; // sim_sessions_since
+			$query .= (string)(1 + rand(0, 1) * rand(1, 15) + rand(0, 1) * rand(0, 1) * rand(0, 1) * rand(1, 300)) . ", "; // sim_sessions_ever
+			$query .= "'" . $usageType . "'" . ", "; // sim_usage_type
+			if($distributionTag == "none") {
+				$query .= "NULL, "; // sim_distribution_tag
+			} else {
+				$query .= "'" . $distributionTag . "'" . ", "; // sim_distribution_tag
+			}
+			if($dev) {
+				$query .= "true, "; // sim_dev
+			} else {
+				$query .= "false, "; // sim_dev
+			}
+			$query .= "'" . $scenario . "', "; // sim_scenario
+			$query .= "'" . $hostLocale[0] . "'" . ", "; // host_locale_language
+			if($hostLocale[1] == "none") {
+				$query .= "NULL, "; // host_locale_country
+			} else {
+				$query .= "'".  $hostLocale[1] . "'" . ", "; // host_locale_country
+			}
+			$query .= $os; // host_simplified_os
+			
+			$query .= ");";
+			
+			
+			//echo("<p>" . $query . "</p>");
+			mysql_query($query);
+			echo mysql_error($link);
+			
+			
+			
+			$arch = "x86";
+			if(rand(0, 99) < 10) {
+				$arch = "x86_64";
+			}
+			if(rand(0, 99) < 1) {
+				$arch = "SPARC";
+			}
+			
 			$session_id = mysql_insert_id();
-			$query2 = "INSERT INTO java_info (session_id, host_java_os_name, host_java_os_version, host_java_os_arch, host_java_vendor, host_java_version_major, host_java_version_minor, host_java_version_maintenance, host_java_webstart_version, host_java_timezone) VALUES ("
-				. $session_id . ", 'Windows Vista', '6.0', 'x86', 'Sun Microsystems Inc.', 1, 6, 0, NULL, 'America/Denver');";
-			mysql_query($query2);
-			echo mysql_errno($link) . ": " . mysql_error($link). "\n";
-			*/
+			$query = "INSERT INTO java_info (session_id, host_java_os_name, host_java_os_version, host_java_os_arch, host_java_vendor, host_java_version_major, host_java_version_minor, host_java_version_maintenance, host_java_webstart_version, host_java_timezone) VALUES ("
+				. $session_id . ", ";
+			switch($os) {
+				//(1 WIN_XP, 2 WIN_VISTA, 3 WIN_7, 4 WIN_OTHER, 5 MAC, 6 *NIX, 0 UNKNOWN)
+				case 1:
+					$query .= "'Windows XP'"; break;
+				case 2:
+					$query .= "'Windows Vista'"; break;
+				case 3:
+					$query .= "'Windows 7'"; break;
+				case 4:
+					$query .= "'Windows ME'"; break;
+				case 5:
+					$query .= "'Mac OS X'"; break;
+				case 6:
+					$query .= "'Linux 2.6'"; break;
+				case 0:
+					$query .= "'Unknown'"; break;
+			}
+			$query .= ", ";
+			
+			switch($os) {
+				//(1 WIN_XP, 2 WIN_VISTA, 3 WIN_7, 4 WIN_OTHER, 5 MAC, 6 *NIX, 0 UNKNOWN)
+				case 1:
+					$query .= "'5.0'"; break;
+				case 2:
+					$query .= "'6.0'"; break;
+				case 3:
+					$query .= "'7.0'"; break;
+				case 4:
+					$query .= "'4.5'"; break;
+				case 5:
+					if(rand(0, 99) < 30) {
+						$query .= "'10.9'"; break;
+					} else if(rand(0, 99) < 40) {
+						$query .= "'10.7'"; break;
+					} else {
+						$query .= "'10.4'"; break;
+					}
+				case 6:
+					if(rand(0, 99) < 30) {
+						$query .= "'2.6'"; break;
+					} else if(rand(0, 99) < 40) {
+						$query .= "'2.4'"; break;
+					}
+				case 0:
+					$query .= "'0'"; break;
+			}
+			$query .= ", ";
+			
+			$query .= "'" . $arch . "'" . ", "; // arch
+			
+			$query .= "'Sun Microsystems Inc.', "; // vendor
+			$query .= "1, "; // major
+			$query .= rand(4, 6) . ", "; // minor
+			$query .= rand(0,30) . ", "; // maint
+			
+			$query .= "NULL, "; // webstart version
+			
+			if(rand(0, 99) < 30) {
+				$query .= "'America/Denver'";
+			} else if(rand(0, 99) < 50) {
+				$query .= "'America/New York'";
+			} else {
+				$query .= "'America/Los Angeles'";
+			}
+			
+			$query .= ");";
+			
+			//echo("<p>" . $query . "</p>");
+			mysql_query($query);
+			echo mysql_error($link);
+			
 		}
 	}
 	
