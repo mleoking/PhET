@@ -13,11 +13,11 @@ import edu.colorado.phet.common.phetcommon.tracking.ITrackingInfo;
  * Date: Jan 15, 2009
  * Time: 3:30:04 PM
  */
-public class PrivacyAgreementDialog extends TrackingDetailsDialog{
-    public PrivacyAgreementDialog( Frame frame, ITrackingInfo info ) {
+public class SoftwareAgreementDialog extends TrackingDetailsDialog{
+    public SoftwareAgreementDialog( Frame frame, ITrackingInfo info ) {
         super(frame, info );
     }
-    public PrivacyAgreementDialog( Dialog dialog, ITrackingInfo info ) {
+    public SoftwareAgreementDialog( Dialog dialog, ITrackingInfo info ) {
         super(dialog, info );
     }
 

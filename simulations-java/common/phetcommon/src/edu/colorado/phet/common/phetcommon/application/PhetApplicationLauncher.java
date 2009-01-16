@@ -3,10 +3,8 @@ package edu.colorado.phet.common.phetcommon.application;
 import java.awt.Frame;
 import java.lang.reflect.InvocationTargetException;
 
-import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.tracking.SessionMessage;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
 import edu.colorado.phet.common.phetcommon.updates.UpdatesManager;
@@ -104,14 +102,13 @@ public class PhetApplicationLauncher {
                     config.getLookAndFeel().initLookAndFeel();
                     if ( applicationConstructor != null ) {
 
-
                         showSplashWindow( config.getName() );
                         PhetApplication app = applicationConstructor.getApplication( config );
                         app.startApplication();
                         disposeSplashWindow();
 
                         if ( config.isTrackingEnabled() ) {
-                            SoftwareAgreementManager.validate( config );
+                            SoftwareAgreementManager.validate( app.getPhetFrame(), config );
                         }
 
                         long applicationLaunchFinishedAt = System.currentTimeMillis();
