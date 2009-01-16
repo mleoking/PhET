@@ -8,15 +8,16 @@ import umd.cs.piccolo.PNode
 import LadybugUtil._
 
 class ArrowSetNode(ladybug: Ladybug, transform: ModelViewTransform2D) extends PNode {
-  def createNode(color:Color) = {
-    val velocityNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(200, 200), 20, 20, 10, 2, true)
+  def createNode(color: Color) = {
+    val velocityNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(200, 200), 90, 90, 60, 2, true)
     velocityNode setPaint color
-    velocityNode setStroke new BasicStroke(2)
+    velocityNode setStroke new BasicStroke(0.5f)
+    velocityNode setStrokePaint Color.gray
     velocityNode
   }
 
-  val velocityNode = createNode(Color.blue)
-  val accelNode = createNode(Color.yellow)
+  val velocityNode = createNode(LadybugColorSet.velocity)
+  val accelNode = createNode(LadybugColorSet.acceleration)
   addChild(velocityNode)
   addChild(accelNode)
 
@@ -29,6 +30,6 @@ class ArrowSetNode(ladybug: Ladybug, transform: ModelViewTransform2D) extends PN
     velocityNode.setTipAndTailLocations(viewPosition + viewVelocity * 10, viewPosition)
 
     val viewAccel = transform modelToViewDifferentialDouble a.getAcceleration
-    accelNode.setTipAndTailLocations(viewPosition + viewAccel * 30, viewPosition)
+    accelNode.setTipAndTailLocations(viewPosition + viewAccel * 50, viewPosition)
   }
 }
