@@ -7,7 +7,7 @@ import java.awt.{BasicStroke, Color}
 import umd.cs.piccolo.PNode
 import java.awt.geom.Path2D
 
-class LadybugPathNode(model: LadybugModel, transform: ModelViewTransform2D) extends PNode {
+class LadybugSolidTraceNode(model: LadybugModel, transform: ModelViewTransform2D) extends PNode {
   model.addListener(update)
 
   val path = new PhetPPath(new BasicStroke(4), Color.red)
