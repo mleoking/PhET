@@ -8,6 +8,11 @@ class Vector2D(_x: Double, _y: Double) {
 
   def this() = this (0, 0)
 
+  /**
+   * Returns a unit vector in the specified direction
+   */
+  def this(angle: Double) = this (Math.cos(angle), Math.sin(angle))
+
   def +(that: Vector2D) = new Vector2D(that.x + x, that.y + y)
 
   def -(that: Vector2D) = new Vector2D(x - that.x, y - that.y)

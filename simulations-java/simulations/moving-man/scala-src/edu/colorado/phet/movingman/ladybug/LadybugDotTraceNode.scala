@@ -7,6 +7,7 @@ import umd.cs.piccolo.nodes.PPath
 import umd.cs.piccolo.PNode
 import java.awt.{BasicStroke, Color}
 
+//todo factor out parent class to share with other path node
 class LadybugDotTraceNode(model: LadybugModel, transform: ModelViewTransform2D, shouldBeVisible: () => Boolean, observable: ObservableS) extends PNode {
   observable.addListener(() => setVisible(shouldBeVisible()))
   setVisible(shouldBeVisible())
@@ -26,8 +27,12 @@ class LadybugDotTraceNode(model: LadybugModel, transform: ModelViewTransform2D, 
     node.removeAllChildren
     val p = new GeneralPath
     implicit def historyToPoint(dataPoint: DataPoint) = new Point2D.Float(dataPoint.state.position.x.toFloat, dataPoint.state.position.y.toFloat)
+
+
     if (model.history.length > 0) {
-      for (h <- model.history) {
+      val start = (model.history.length - 100) max 0
+      val historyToShow = model.history.slice(start, model.history.length)
+      for (h <- historyToShow) {
         val pt: Point2D.Float = h
         val tx = transform.modelToView(pt)
         node.addChild(new DotNode(tx))
