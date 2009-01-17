@@ -66,7 +66,6 @@ class LadybugMotionModel extends ObservableS {
 
   def motion_=(x: MotionType) = {
     _motionType = x
-    println("motion type: " + _motionType)
     notifyListeners
   }
 
