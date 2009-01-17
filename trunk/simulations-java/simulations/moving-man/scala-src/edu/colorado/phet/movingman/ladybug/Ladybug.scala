@@ -84,5 +84,9 @@ class Ladybug extends Observable[Ladybug] {
     notifyListeners(this)
   }
 
+  def setState(_state: LadybugState) = {
+    state = _state
+    notifyListeners(this)
+  }
 
 }
