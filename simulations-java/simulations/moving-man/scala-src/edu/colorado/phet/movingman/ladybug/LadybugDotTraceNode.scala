@@ -7,21 +7,14 @@ import umd.cs.piccolo.nodes.PPath
 import umd.cs.piccolo.PNode
 import java.awt.{BasicStroke, Color}
 
-//todo factor out parent class to share with other path node
-class LadybugDotTraceNode(model: LadybugModel, transform: ModelViewTransform2D, shouldBeVisible: () => Boolean, observable: ObservableS) extends PNode {
-  setPickable(false)
-  setChildrenPickable(false)
-  observable.addListener(() => setVisible(shouldBeVisible()))
-  setVisible(shouldBeVisible())
-  model.addListener(update)
-
+class LadybugDotTraceNode(model: LadybugModel, transform: ModelViewTransform2D, shouldBeVisible: () => Boolean, observable: ObservableS) extends LadybugTraceNode(model, transform, shouldBeVisible, observable) {
   val node = new PNode()
   addChild(node)
 
   update(model)
 
   class DotNode(point: Point2D) extends PNode {
-    val path = new PhetPPath(new Ellipse2D.Double(point.getX - 5, point.getY - 5, 10, 10), Color.blue, new BasicStroke(0.5f), Color.darkGray)
+    val path = new PhetPPath(new Ellipse2D.Double(point.getX - 5, point.getY - 5, 10, 10), LadybugColorSet.position)
     addChild(path)
   }
 
@@ -39,11 +32,5 @@ class LadybugDotTraceNode(model: LadybugModel, transform: ModelViewTransform2D, 
         node.addChild(new DotNode(tx))
       }
     }
-  }
-
-  var clearPt = 0
-
-  def clearTrace = {
-    clearPt = model.history.length
   }
 }
