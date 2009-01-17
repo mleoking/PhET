@@ -7,13 +7,7 @@ import java.awt.{BasicStroke, Color}
 import umd.cs.piccolo.PNode
 import java.awt.geom.Path2D
 
-class LadybugSolidTraceNode(model: LadybugModel, transform: ModelViewTransform2D, shouldBeVisible: () => Boolean, observable: ObservableS) extends PNode {
-  setPickable(false)
-  setChildrenPickable(false)
-  observable.addListener(() => setVisible(shouldBeVisible()))
-  setVisible(shouldBeVisible())
-  model.addListener(update)
-
+class LadybugSolidTraceNode(model: LadybugModel, transform: ModelViewTransform2D, shouldBeVisible: () => Boolean, observable: ObservableS) extends LadybugTraceNode(model, transform, shouldBeVisible, observable) {
   val path = new PhetPPath(new BasicStroke(4), Color.red)
   addChild(path)
 
@@ -37,9 +31,4 @@ class LadybugSolidTraceNode(model: LadybugModel, transform: ModelViewTransform2D
     path.setPathTo(p)
   }
 
-  var clearPt = 0
-
-  def clearTrace = {
-    clearPt = model.history.length
-  }
 }
