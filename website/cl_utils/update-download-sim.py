@@ -24,8 +24,9 @@ def coerce_data(data):
 
 def get_sim_dir_access_info2():
     # Look for phprunner.sh in the same directory as this script
-    phprunner = os.asbpath(path.join(path.dirname(__file__), 'phprunner.sh'))
-    raw_sim_info = runCommand([phprunner, 'get_sim_info.php'], True)
+    phprunner = path.abspath(path.join(path.dirname(__file__), 'phprunner.sh'))
+    get_all_sim_info = path.abspath(path.join(path.dirname(__file__), 'get_all_sim_info.php'))
+    raw_sim_info = runCommand([phprunner, get_all_sim_info], True)
     raw_sim_info = ''.join(raw_sim_info)
 
     raw_sim_rows = raw_sim_info.split('\0\0\0')
