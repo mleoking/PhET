@@ -8,7 +8,8 @@ class LadybugModel extends Observable[LadybugModel] {
   val history = new ArrayBuffer[DataPoint]
 
   private val ladybugMotionModel = new LadybugMotionModel
-  def getLadybugMotionModel()=ladybugMotionModel
+
+  def getLadybugMotionModel() = ladybugMotionModel
 
   private var time: Double = 0;
   def getTime() = time
@@ -18,6 +19,8 @@ class LadybugModel extends Observable[LadybugModel] {
   def setUpdateModeVelocity = updateMode = velocityMode
 
   def setUpdateModeAcceleration = updateMode = accelerationMode
+
+  var playbackIndex = 0
 
   def positionMode(dt: Double) = {
     if (estimateVelocity(history.length - 1).magnitude > 1E-6)
@@ -46,14 +49,22 @@ class LadybugModel extends Observable[LadybugModel] {
 
   def update(dt: Double) = {
     if (!paused) {
-      time += dt;
-      ladybugMotionModel.update(dt, this)
-      history += new DataPoint(time, ladybug.getState)
+      if (isRecord()) {
+        time += dt;
+        ladybugMotionModel.update(dt, this)
+        history += new DataPoint(time, ladybug.getState)
 
-      if (history.length > 20) {
-        updateMode(dt)
+        if (history.length > 20) {
+          updateMode(dt)
+        }
+        notifyListeners(this)
+      } else if (isPlayback()) {
+        if (playbackIndex < history.length) {
+          ladybug.setState(history(playbackIndex).state)
+          time = history(playbackIndex).time
+          playbackIndex = playbackIndex + 1
+        }
       }
-      notifyListeners(this)
     }
   }
 
@@ -102,5 +113,11 @@ class LadybugModel extends Observable[LadybugModel] {
 
   def isPaused() = paused
 
-  def rewind = {}
+  def rewind = {
+    setPlaybackIndex(0)
+  }
+
+  def setPlaybackIndex(index: Int) = {
+    playbackIndex = index
+  }
 }
