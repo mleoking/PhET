@@ -23,7 +23,9 @@ def coerce_data(data):
         return data
 
 def get_sim_dir_access_info2():
-    raw_sim_info = runCommand('./phprunner.sh get_sim_info.php'.split(' '), True)
+    # Look for phprunner.sh in the same directory as this script
+    phprunner = os.asbpath(path.join(path.dirname(__file__), 'phprunner.sh'))
+    raw_sim_info = runCommand([phprunner, 'get_sim_info.php'], True)
     raw_sim_info = ''.join(raw_sim_info)
 
     raw_sim_rows = raw_sim_info.split('\0\0\0')
@@ -33,7 +35,7 @@ def get_sim_dir_access_info2():
         for field in raw_row.split('\0'):
             field_title_end = field.find(':')
             if field_title_end == -1:
-                raise RuntimeError('Bad data from get_sim_info.php:' + field)
+                raise RuntimeError('Bad data from get_all_sim_info.php:' + field)
             field_title = field[0:field_title_end]
             field_data = coerce_data(field[field_title_end + 1:])
             sim[field_title] = field_data
@@ -311,7 +313,7 @@ def DoMain():
                       action='store_true', default=False,
                       help='only do Flash sims')
     parser.add_option('-t', '--flash-template', dest='download_flash_template',
-                      default='/web/htdics/phet/phet-dist/flash-launcher',
+                      default='/web/htdocs/phet/phet-dist/flash-launcher',
                       help='alternative location of template for creating downloadable Flash JAR files (default: %defalut)')
     parser.add_option('', '--jar-cmd', dest='jar_cmd',
                       default='/web/chroot/phet/usr/local/java/bin/jar',
