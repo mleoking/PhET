@@ -39,5 +39,7 @@ object TestSetter {
       }
     })
     println("Total count: " + count);
+
+
   }
 }
