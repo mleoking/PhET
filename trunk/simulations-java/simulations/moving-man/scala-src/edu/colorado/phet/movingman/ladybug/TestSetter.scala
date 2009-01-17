@@ -4,7 +4,16 @@ import scala.io.Source
 import java.io.File
 
 object TestSetter {
+  def getXList() = {
+    println("Construction of new array")
+    0 until 100
+  }
+
   def main(args: Array[String]) = {
+
+    for (x <- getXList()) {
+      println("got x value in iterator: " + x)
+    }
 
     class Time {
       var h = 12

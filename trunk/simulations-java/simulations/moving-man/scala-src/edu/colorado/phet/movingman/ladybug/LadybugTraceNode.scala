@@ -21,4 +21,9 @@ abstract class LadybugTraceNode(model: LadybugModel, transform: ModelViewTransfo
   def clearTrace = {
     clearPt = model.history.length
   }
+
+  def getHistoryToShow() = {
+    val start = (model.history.length - 100) max 0 max clearPt
+    model.history.slice(start, model.history.length)
+  }
 }
