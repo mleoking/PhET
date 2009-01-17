@@ -1,8 +1,8 @@
 package edu.colorado.phet.movingman.ladybug
 
-import _root_.edu.colorado.phet.common.phetcommon.view.util.PhetFont
-import _root_.edu.colorado.phet.common.piccolophet.event.CursorHandler
-import _root_.edu.colorado.phet.common.piccolophet.nodes.PhetPPath
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont
+import edu.colorado.phet.common.piccolophet.event.CursorHandler
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import java.awt.geom.Ellipse2D
 import java.awt.{Rectangle, Dimension, BasicStroke, Color}
