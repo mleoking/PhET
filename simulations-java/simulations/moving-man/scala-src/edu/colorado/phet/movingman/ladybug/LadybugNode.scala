@@ -4,7 +4,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformLis
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.piccolophet.util.PImageFactory
 import edu.colorado.phet.common.piccolophet.event.CursorHandler
-import edu.colorado.phet.movingman.ladybug.Ladybug
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler
 import edu.umd.cs.piccolo.event.PInputEvent
 import edu.umd.cs.piccolo.PNode
