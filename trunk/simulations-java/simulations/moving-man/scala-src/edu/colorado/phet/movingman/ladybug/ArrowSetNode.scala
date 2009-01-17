@@ -44,10 +44,10 @@ class ArrowSetNode(ladybug: Ladybug, transform: ModelViewTransform2D, vectorVisi
   def update(a: Ladybug) {
     val viewPosition = transform modelToView a.getPosition
     val viewVelocity = transform modelToViewDifferentialDouble a.getVelocity
-    velocityNode.setTipAndTailLocations(viewPosition + viewVelocity * 20, viewPosition)
+    velocityNode.setTipAndTailLocations(viewPosition + viewVelocity * 20*0.03, viewPosition)
 
     val viewAccel = transform modelToViewDifferentialDouble a.getAcceleration
-    accelNode.setTipAndTailLocations(viewPosition + viewAccel * 75, viewPosition)
+    accelNode.setTipAndTailLocations(viewPosition + viewAccel * 75*0.03*0.03, viewPosition)
 
     accelNode.setVisible(vectorVisibilityModel.accelerationVectorVisible)
     velocityNode.setVisible(vectorVisibilityModel.velocityVectorVisible)

@@ -26,7 +26,7 @@ object Ladybug2DApplication {
   def main(args: Array[String]) = {
     println("started")
 
-    val clock = new ScalaClock(30, 1)
+    val clock = new ScalaClock(30, 30 / 1000.0)
     new PhetApplicationLauncher().launchSim(
       new PhetApplicationConfig(args, "moving-man", "ladybug-2d"),
       new ApplicationConstructor() {
