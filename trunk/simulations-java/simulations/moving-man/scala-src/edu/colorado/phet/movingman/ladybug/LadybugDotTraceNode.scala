@@ -9,6 +9,8 @@ import java.awt.{BasicStroke, Color}
 
 //todo factor out parent class to share with other path node
 class LadybugDotTraceNode(model: LadybugModel, transform: ModelViewTransform2D, shouldBeVisible: () => Boolean, observable: ObservableS) extends PNode {
+  setPickable(false)
+  setChildrenPickable(false)
   observable.addListener(() => setVisible(shouldBeVisible()))
   setVisible(shouldBeVisible())
   model.addListener(update)

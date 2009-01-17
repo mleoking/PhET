@@ -38,6 +38,8 @@ class ArrowSetNode(ladybug: Ladybug, transform: ModelViewTransform2D, vectorVisi
   ladybug addListener update
   update(ladybug)
   vectorVisibilityModel.addListener(() => update(ladybug))
+  setPickable(false)
+  setChildrenPickable(false)
 
   def update(a: Ladybug) {
     val viewPosition = transform modelToView a.getPosition

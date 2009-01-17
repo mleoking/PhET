@@ -8,6 +8,8 @@ import umd.cs.piccolo.PNode
 import java.awt.geom.Path2D
 
 class LadybugSolidTraceNode(model: LadybugModel, transform: ModelViewTransform2D, shouldBeVisible: () => Boolean, observable: ObservableS) extends PNode {
+  setPickable(false)
+  setChildrenPickable(false)
   observable.addListener(() => setVisible(shouldBeVisible()))
   setVisible(shouldBeVisible())
   model.addListener(update)
