@@ -22,7 +22,7 @@ class LadybugSolidTraceNode(model: LadybugModel, transform: ModelViewTransform2D
     implicit def historyToPoint(dataPoint: DataPoint) = new Point2D.Float(dataPoint.state.position.x.toFloat, dataPoint.state.position.y.toFloat)
     if (model.history.length > 0) {
 
-      val start = (model.history.length - 100) max 0
+      val start = (model.history.length - 100) max 0 max clearPt
       val t = transform.modelToView(model.history(start))
       p.moveTo(t.x, t.y)
       val historyToShow = model.history.slice(start, model.history.length)
@@ -33,5 +33,10 @@ class LadybugSolidTraceNode(model: LadybugModel, transform: ModelViewTransform2D
       }
     }
     path.setPathTo(p)
+  }
+
+  var clearPt=0
+  def clearTrace = {
+    clearPt=model.history.length
   }
 }

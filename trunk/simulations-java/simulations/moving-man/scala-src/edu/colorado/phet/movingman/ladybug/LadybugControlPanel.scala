@@ -4,6 +4,7 @@ import _root_.edu.colorado.phet.common.phetcommon.view.ControlPanel
 import _root_.edu.colorado.phet.common.phetcommon.view.ResetAllButton
 import _root_.edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import _root_.scala.swing._
+import _root_.scala.swing.event.ButtonClicked
 import java.awt.Dimension
 import java.awt.event.{ActionEvent, ActionListener}
 import javax.swing.{Box, JButton, JRadioButton, JLabel}
@@ -79,7 +80,10 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
       , !m.lineVisible && !m.dotsVisible,
       m)
   }
-  addControl(new TraceControlPanel(module.getPathVisibilityModel))
+  val f = new FlowPanel
+  f.contents += new TraceControlPanel(module.getPathVisibilityModel)
+  f.contents += new Button("Clear Trace") {reactions += {case ButtonClicked(_) => module.clearTrace}}
+  addControl(f)
   //  addControl(new JLabel("Trace"))
   //  addControl(new JRadioButton("Solid"))
   //  addControl(new JRadioButton("Dots"))
