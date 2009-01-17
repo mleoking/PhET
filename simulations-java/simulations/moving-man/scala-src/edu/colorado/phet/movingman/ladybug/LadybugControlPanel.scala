@@ -2,6 +2,7 @@ package edu.colorado.phet.movingman.ladybug
 
 import _root_.edu.colorado.phet.common.phetcommon.view.ControlPanel
 import _root_.edu.colorado.phet.common.phetcommon.view.ResetAllButton
+import _root_.edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import _root_.scala.swing._
 import java.awt.Dimension
 import java.awt.event.{ActionEvent, ActionListener}
@@ -45,7 +46,7 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
   addControl(new VectorControlPanel(module.getVectorVisibilityModel))
 
   class MotionControlPanel(m: LadybugMotionModel) extends BoxPanel(Orientation.Vertical) {
-    contents += new Label("Choose Motion")
+    contents += new Label("Choose Motion") {font = new PhetFont(14, true)}
 
     contents += new MyRadioButton("Manual", m.motion = MANUAL, m.motion == MANUAL, m)
     contents += new MyRadioButton("Linear", m.motion = LINEAR, m.motion == LINEAR, m)
@@ -56,7 +57,7 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
   addControl(createBox)
 
   class TraceControlPanel(m: PathVisibilityModel) extends BoxPanel(Orientation.Vertical) {
-    contents += new Label("Trace")
+    contents += new Label("Trace") {font = new PhetFont(14, true)}
     contents += new MyRadioButton("Solid", {
       m.lineVisible = true
       m.dotsVisible = false
