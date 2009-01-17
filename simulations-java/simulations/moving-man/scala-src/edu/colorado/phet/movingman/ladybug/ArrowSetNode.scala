@@ -1,7 +1,7 @@
 package edu.colorado.phet.movingman.ladybug
 
-import _root_.edu.colorado.phet.common.phetcommon.view.util.PhetFont
-import _root_.edu.colorado.phet.common.piccolophet.nodes.ArrowNode
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont
+import edu.colorado.phet.common.piccolophet.nodes.ArrowNode
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode
 import java.awt.geom.Point2D

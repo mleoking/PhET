@@ -1,7 +1,7 @@
 package edu.colorado.phet.movingman.ladybug
 
-import _root_.edu.colorado.phet.common.phetcommon.resources.PhetCommonResources
-import _root_.edu.colorado.phet.common.phetcommon.resources.PhetResources
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources
+import edu.colorado.phet.common.phetcommon.resources.PhetResources
 import javax.swing.{Icon, JButton, ImageIcon, JPanel}
 
 class LadybugClockControlPanel extends JPanel {

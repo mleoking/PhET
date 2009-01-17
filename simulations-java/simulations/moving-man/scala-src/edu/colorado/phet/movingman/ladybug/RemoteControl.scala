@@ -1,9 +1,9 @@
 package edu.colorado.phet.movingman.ladybug
 
-import _root_.edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import _root_.edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
-import _root_.edu.colorado.phet.common.piccolophet.nodes.ArrowNode
-import _root_.edu.colorado.phet.common.piccolophet.PhetPCanvas
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
+import edu.colorado.phet.common.piccolophet.nodes.ArrowNode
+import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import java.awt.event.{MouseEvent, MouseAdapter}
 import java.awt.geom.{Rectangle2D, Point2D, Dimension2D}
 import java.awt.{Rectangle, Dimension, Color}
@@ -13,7 +13,7 @@ import umd.cs.piccolo.PNode
 import umd.cs.piccolo.util.PDimension
 import LadybugUtil._
 
-class RemoteControl(model: LadybugModel,setMotionManual:()=>Unit) extends VerticalLayoutPanel with ObservableS {
+class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends VerticalLayoutPanel with ObservableS {
   def mode = _mode
 
   val CANVAS_WIDTH = 150

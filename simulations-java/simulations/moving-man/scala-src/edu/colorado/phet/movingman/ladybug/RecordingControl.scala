@@ -1,6 +1,6 @@
 package edu.colorado.phet.movingman.ladybug
 
-import _root_.edu.colorado.phet.common.piccolophet.PhetPCanvas
+import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import java.awt.Dimension
 import javax.swing.JPanel
 import umd.cs.piccolo.nodes.PText
