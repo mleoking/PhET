@@ -85,14 +85,9 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
   f.contents += new TraceControlPanel(module.getPathVisibilityModel)
   f.contents += new Button("Clear Trace") {reactions += {case ButtonClicked(_) => module.clearTrace}}
   addControl(f)
-  //  addControl(new JLabel("Trace"))
-  //  addControl(new JRadioButton("Solid"))
-  //  addControl(new JRadioButton("Dots"))
-  //  addControl(new JRadioButton("Off"))
-  //  addControl(new JButton("Clear Trace"))
   addControl(createBox)
 
-  val remoteControl = new RemoteControl(module.model, () => module.setMotionManual())
+  val remoteControl = new RemoteControl(module.model, () => {module.model.startRecording()})
   addControl(remoteControl)
   addControl(createBox)
   val resetAllButton = new ResetAllButton(new Resettable() {

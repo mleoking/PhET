@@ -109,6 +109,11 @@ class LadybugModel extends Observable[LadybugModel] {
 
   def isRecord() = record
 
+  def setRecord(rec: Boolean) = {
+    record = rec
+    notifyListeners(this)
+  }
+
   def setPlayback(speed: Double) = {
     playbackSpeed = speed
     record = false
@@ -130,6 +135,12 @@ class LadybugModel extends Observable[LadybugModel] {
     playbackIndexFloat = index
     setStateToPlaybackIndex()
     notifyListeners(this)
+  }
+
+  def startRecording() = {
+    getLadybugMotionModel.motion = LadybugMotionModel.MANUAL
+    setRecord(true)
+    setPaused(false)
   }
 
   def resetAll() = {

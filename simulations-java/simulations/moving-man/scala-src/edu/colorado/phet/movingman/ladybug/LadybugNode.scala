@@ -32,13 +32,14 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
   addInputEventListener(new CursorHandler)
   addInputEventListener(new PBasicInputEventHandler() {
     override def mouseDragged(event: PInputEvent) = {
-      model.getLadybugMotionModel.motion = LadybugMotionModel.MANUAL
+      model.startRecording()
+
       val diff = transform.viewToModelDifferential(event.getDeltaRelativeTo(getParent).width, event.getDeltaRelativeTo(getParent).height)
       ladybug.translate(diff)
     }
 
     override def mousePressed(event: PInputEvent) = {
-      model.getLadybugMotionModel.motion = LadybugMotionModel.MANUAL
+      model.startRecording()
     }
   })
 
