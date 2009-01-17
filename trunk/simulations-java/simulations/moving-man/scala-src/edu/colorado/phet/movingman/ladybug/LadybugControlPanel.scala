@@ -1,10 +1,10 @@
 package edu.colorado.phet.movingman.ladybug
 
-import _root_.edu.colorado.phet.common.phetcommon.view.ControlPanel
-import _root_.edu.colorado.phet.common.phetcommon.view.ResetAllButton
-import _root_.edu.colorado.phet.common.phetcommon.view.util.PhetFont
-import _root_.scala.swing._
-import _root_.scala.swing.event.ButtonClicked
+import edu.colorado.phet.common.phetcommon.view.ControlPanel
+import edu.colorado.phet.common.phetcommon.view.ResetAllButton
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont
+import scala.swing._
+import scala.swing.event.ButtonClicked
 import java.awt.Dimension
 import java.awt.event.{ActionEvent, ActionListener}
 import javax.swing.{Box, JButton, JRadioButton, JLabel}
@@ -91,7 +91,7 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
   //  addControl(new JButton("Clear Trace"))
   addControl(createBox)
 
-  addControl(new RemoteControl(module.model,()=>module.setMotionManual()))
+  addControl(new RemoteControl(module.model, () => module.setMotionManual()))
   addControl(createBox)
   addControl(new ResetAllButton(this))
 }

@@ -1,6 +1,6 @@
 package edu.colorado.phet.movingman.ladybug
 
-import _root_.scala.swing.RadioButton
+import scala.swing.RadioButton
 import java.awt.event.{ActionEvent, ActionListener}
 
 class MyRadioButton(text: String, actionListener: => Unit, getter: => Boolean, observable: ObservableS) extends RadioButton(text) {

@@ -1,7 +1,7 @@
 package edu.colorado.phet.movingman.ladybug
 
-import _root_.edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import _root_.edu.colorado.phet.common.piccolophet.nodes.PhetPPath
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import java.awt.geom.{Ellipse2D, GeneralPath, Point2D}
 import umd.cs.piccolo.nodes.PPath
 import umd.cs.piccolo.PNode

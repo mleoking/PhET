@@ -1,6 +1,6 @@
 package edu.colorado.phet.movingman.ladybug
 
-import _root_.scala.swing.Component
+import scala.swing.Component
 import java.awt.geom.Point2D
 
 object LadybugUtil {

@@ -1,6 +1,6 @@
 package edu.colorado.phet.movingman.ladybug
 
-import _root_.scala.io.Source
+import scala.io.Source
 import java.io.File
 
 object TestSetter {
@@ -23,10 +23,10 @@ object TestSetter {
     children.foreach((f: File) => {
       if (f.isFile) {
         val s: Source = Source.fromFile(f)
-        val c=s.getLines.toList.length
+        val c = s.getLines.toList.length
         println(f.getAbsolutePath + ": " + c)
         count = count + c
-//        print("running count="+count)
+        //        print("running count="+count)
       }
     })
     println("Total count: " + count);

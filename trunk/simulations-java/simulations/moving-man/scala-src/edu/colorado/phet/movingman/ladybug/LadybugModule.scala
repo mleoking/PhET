@@ -1,7 +1,7 @@
 package edu.colorado.phet.movingman.ladybug
 
-import _root_.edu.colorado.phet.common.phetcommon.application.Module
-import _root_.edu.colorado.phet.common.phetcommon.model.clock.IClock
+import edu.colorado.phet.common.phetcommon.application.Module
+import edu.colorado.phet.common.phetcommon.model.clock.IClock
 import java.awt.Color
 
 class LadybugModule(clock: ScalaClock) extends Module("my module", clock) {

@@ -1,7 +1,7 @@
 package edu.colorado.phet.movingman.ladybug
 
-import _root_.edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import _root_.edu.colorado.phet.common.piccolophet.nodes.PhetPPath
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import java.awt.geom.{GeneralPath, Point2D}
 import java.awt.{BasicStroke, Color}
 import umd.cs.piccolo.PNode
@@ -37,8 +37,9 @@ class LadybugSolidTraceNode(model: LadybugModel, transform: ModelViewTransform2D
     path.setPathTo(p)
   }
 
-  var clearPt=0
+  var clearPt = 0
+
   def clearTrace = {
-    clearPt=model.history.length
+    clearPt = model.history.length
   }
 }
