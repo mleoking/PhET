@@ -1,5 +1,6 @@
 package edu.colorado.phet.movingman.ladybug
 
+import _root_.edu.colorado.phet.common.phetcommon.model.Resettable
 import edu.colorado.phet.common.phetcommon.view.ControlPanel
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
@@ -13,7 +14,7 @@ import LadybugUtil._
 
 class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
   val myModule = module;
-  def createBox = Box.createRigidArea(new Dimension(10, 10))
+  def createBox = Box.createRigidArea(new Dimension(10, 4))
 
   class VectorControlPanel(m: VectorVisibilityModel) extends BoxPanel(Orientation.Vertical) {
     contents += new MyRadioButton("Show velocity vector", {
@@ -47,7 +48,7 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
   addControl(new VectorControlPanel(module.getVectorVisibilityModel))
 
   class MotionControlPanel(m: LadybugMotionModel) extends BoxPanel(Orientation.Vertical) {
-    contents += new Label("Choose Motion") {font = new PhetFont(14, true)}
+    contents += new Label("Choose Motion          ") {font = new PhetFont(14, true)}
 
     contents += new MyRadioButton("Manual", m.motion = MANUAL, m.motion == MANUAL, m)
     contents += new MyRadioButton("Linear", m.motion = LINEAR, m.motion == LINEAR, m)
@@ -91,7 +92,15 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
   //  addControl(new JButton("Clear Trace"))
   addControl(createBox)
 
-  addControl(new RemoteControl(module.model, () => module.setMotionManual()))
+  val remoteControl = new RemoteControl(module.model, () => module.setMotionManual())
+  addControl(remoteControl)
   addControl(createBox)
-  addControl(new ResetAllButton(this))
+  val resetAllButton = new ResetAllButton(new Resettable() {
+    def reset = {module.resetAll()}
+  }, this)
+  addControl(resetAllButton)
+
+  def resetAll() = {
+    remoteControl.resetAll()
+  }
 }

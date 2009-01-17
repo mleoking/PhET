@@ -20,7 +20,8 @@ class LadybugModule(clock: ScalaClock) extends Module("my module", clock) {
   canvas.addNode(solidTrace)
   val dotTrace = new LadybugDotTraceNode(model, canvas.transform, () => pathVisibilityModel.dotsVisible, pathVisibilityModel)
   canvas.addNode(dotTrace)
-  setControlPanel(new LadybugControlPanel(this))
+  val controlPanel = new LadybugControlPanel(this)
+  setControlPanel(controlPanel)
 
   setClockControlPanel(new LadybugClockControlPanel(this))
 
@@ -36,4 +37,11 @@ class LadybugModule(clock: ScalaClock) extends Module("my module", clock) {
   }
 
   def setMotionManual() = model.getLadybugMotionModel().motion = LadybugMotionModel.MANUAL //todo encapsulate
+
+  def resetAll() = {
+    model.resetAll()
+    vectorVisibilityModel.resetAll()
+    pathVisibilityModel.resetAll()
+    controlPanel.resetAll()
+  }
 }

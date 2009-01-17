@@ -72,4 +72,8 @@ class LadybugMotionModel extends ObservableS {
   def update(dt: Double, model: LadybugModel) = {
     _motionType.update(dt, model)
   }
+
+  def resetAll() {
+    motion = LadybugMotionModel.MANUAL
+  }
 }
