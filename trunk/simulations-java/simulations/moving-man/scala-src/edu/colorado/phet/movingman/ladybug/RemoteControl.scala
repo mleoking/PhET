@@ -104,10 +104,9 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
   add(new MyRadioButton("Acceleration", mode = accelerationMode, mode == accelerationMode, this))
   setFillNone
 
-  val button = new JButton("Go")
-  model.addListener((lm: LadybugModel) => {
-    updateButton
-  })
+  val button = new JButton()
+  model.addListener((lm: LadybugModel) => updateButton)
+
   def updateButton = {
     val value = if (model.isPaused) ("light3.png", "Go") else ("stop-20.png", "Stop")
     button.setIcon(new ImageIcon(MovingManResources.loadBufferedImage(value._1)))
@@ -116,7 +115,11 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
   updateButton
   button.addActionListener(new ActionListener() {
     def actionPerformed(e: ActionEvent) = {
-      model.setPaused(!model.isPaused)
+      if (model.isPaused) {
+        model.startRecording()
+      } else {
+        model.setPaused(!model.isPaused)
+      }
     }
   })
   add(button)
