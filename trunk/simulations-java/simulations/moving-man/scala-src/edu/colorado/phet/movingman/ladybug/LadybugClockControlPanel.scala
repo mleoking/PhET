@@ -7,7 +7,10 @@ import javax.swing.{Icon, JButton, ImageIcon, JPanel}
 class LadybugClockControlPanel(module: LadybugModule) extends JPanel {
   implicit def stringToIcon(string: String): Icon = new ImageIcon(PhetCommonResources.getImage("clock/" + string))
   add(new RecordingControl(module.model))
-  add(new MyButton("Playback", "Play24.gif", () => module.model.setPlayback(1.0)))
+  add(new MyButton("Playback", "Play24.gif", () => {
+    module.model.setPlayback(1.0)
+    module.model.setPaused(false)
+  }))
   add(new MyButton("Slow Playback", "StepForward24.gif", () => module.model.setPlayback(0.5)))
 
   val pauseButton = new MyButton("Pause", "Pause24.gif", () => module.model.setPaused(!module.model.isPaused()))

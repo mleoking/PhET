@@ -20,7 +20,9 @@ class LadybugModel extends Observable[LadybugModel] {
 
   def setUpdateModeAcceleration = updateMode = accelerationMode
 
-  var playbackIndex = 0
+  var playbackIndexFloat = 0.0 //floor this to get playbackIndex
+
+  def getPlaybackIndex(): Int = java.lang.Math.floor(playbackIndexFloat).toInt
 
   def positionMode(dt: Double) = {
     if (estimateVelocity(history.length - 1).magnitude > 1E-6)
@@ -47,6 +49,8 @@ class LadybugModel extends Observable[LadybugModel] {
 
   private var updateMode: (Double) => Unit = positionMode
 
+  def setStateToPlaybackIndex() = ladybug.setState(history(getPlaybackIndex()).state)
+
   def update(dt: Double) = {
     if (!paused) {
       if (isRecord()) {
@@ -59,10 +63,10 @@ class LadybugModel extends Observable[LadybugModel] {
         }
         notifyListeners(this)
       } else if (isPlayback()) {
-        if (playbackIndex < history.length) {
-          ladybug.setState(history(playbackIndex).state)
-          time = history(playbackIndex).time
-          playbackIndex = playbackIndex + 1
+        if (getPlaybackIndex() < history.length) {
+          setStateToPlaybackIndex()
+          time = history(getPlaybackIndex()).time
+          playbackIndexFloat = playbackIndexFloat + playbackSpeed
         }
       }
     }
@@ -96,12 +100,14 @@ class LadybugModel extends Observable[LadybugModel] {
 
   var record = true
   var paused = false
+  var playbackSpeed = 1.0
 
   def isPlayback() = !record
 
   def isRecord() = record
 
   def setPlayback(speed: Double) = {
+    playbackSpeed = speed
     record = false
     notifyListeners(this)
   }
@@ -114,10 +120,12 @@ class LadybugModel extends Observable[LadybugModel] {
   def isPaused() = paused
 
   def rewind = {
-    setPlaybackIndex(0)
+    setPlaybackIndexFloat(0.0)
   }
 
-  def setPlaybackIndex(index: Int) = {
-    playbackIndex = index
+  def setPlaybackIndexFloat(index: Double) = {
+    playbackIndexFloat = index
+    setStateToPlaybackIndex()
+    notifyListeners(this)
   }
 }
