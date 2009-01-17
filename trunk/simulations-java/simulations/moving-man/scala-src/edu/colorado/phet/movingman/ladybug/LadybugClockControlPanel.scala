@@ -11,7 +11,10 @@ class LadybugClockControlPanel(module: LadybugModule) extends JPanel {
     module.model.setPlayback(1.0)
     module.model.setPaused(false)
   }))
-  add(new MyButton("Slow Playback", "StepForward24.gif", () => module.model.setPlayback(0.5)))
+  add(new MyButton("Slow Playback", "StepForward24.gif", () => {
+    module.model.setPlayback(0.5)
+    module.model.setPaused(false)
+  }))
 
   val pauseButton = new MyButton("Pause", "Pause24.gif", () => module.model.setPaused(!module.model.isPaused()))
 

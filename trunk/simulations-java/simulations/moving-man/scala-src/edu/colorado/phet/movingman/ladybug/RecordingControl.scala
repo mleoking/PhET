@@ -1,6 +1,7 @@
 package edu.colorado.phet.movingman.ladybug
 
 import _root_.edu.colorado.phet.common.phetcommon.view.util.PhetFont
+import _root_.edu.colorado.phet.common.piccolophet.event.CursorHandler
 import _root_.edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import java.awt.geom.Ellipse2D
@@ -8,6 +9,7 @@ import java.awt.{Rectangle, Dimension, BasicStroke, Color}
 import java.text.DecimalFormat
 import javax.swing.JPanel
 import LadybugUtil._
+import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.nodes.{PPath, PText}
 import umd.cs.piccolo.PNode
 
@@ -51,20 +53,31 @@ class RecordingControl(model: LadybugModel) extends PhetPCanvas {
     val pathHeight = 10
     val ellipseWidth = 8
     val ellipseHeight = 12
+    val scale = 2.0
     val background = new PhetPPath(new Rectangle(0, pathOffsetY, _width, pathHeight), Color.lightGray)
     val shaded = new PhetPPath(Color.orange)
     val handle = new PhetPPath(Color.blue, new BasicStroke(1), Color.black)
     addChild(background)
     addChild(shaded)
     addChild(handle)
+
+    handle.addInputEventListener(new CursorHandler)
+    handle.addInputEventListener(new PBasicInputEventHandler() {
+      override def mouseDragged(event: PInputEvent) = {
+        model.setPaused(true)
+        val dx = event.getCanvasDelta.width
+        model.setPlaybackIndexFloat(((model.getPlaybackIndexFloat + dx * scale) max 0) min (model.history.length - 1))
+      }
+    })
+
     model.addListener((model: LadybugModel) => {
       updateSelf()
     })
     updateSelf
     def updateSelf() = {
-      shaded.setPathTo(new Rectangle(0, pathOffsetY, (model.history.length / 4.0).toInt, pathHeight))
+      shaded.setPathTo(new Rectangle(0, pathOffsetY, (model.history.length / scale).toInt, pathHeight))
       handle.setVisible(model.isPlayback)
-      handle.setPathTo(new Ellipse2D.Double((model.getPlaybackIndex / 4.0).toInt - ellipseWidth / 2, pathOffsetY, ellipseWidth, ellipseHeight))
+      handle.setPathTo(new Ellipse2D.Double(model.getPlaybackIndexFloat / scale - ellipseWidth / 2, pathOffsetY, ellipseWidth, ellipseHeight))
     }
   }
 }

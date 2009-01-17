@@ -24,6 +24,8 @@ class LadybugModel extends Observable[LadybugModel] {
 
   def getPlaybackIndex(): Int = java.lang.Math.floor(playbackIndexFloat).toInt
 
+  def getPlaybackIndexFloat(): Double = playbackIndexFloat
+
   def positionMode(dt: Double) = {
     if (estimateVelocity(history.length - 1).magnitude > 1E-6)
       ladybug.setAngle(estimateAngle())
