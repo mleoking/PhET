@@ -13,7 +13,7 @@ import umd.cs.piccolo.PNode
 import umd.cs.piccolo.util.PDimension
 import LadybugUtil._
 
-class RemoteControl(model: LadybugModel) extends VerticalLayoutPanel with ObservableS {
+class RemoteControl(model: LadybugModel,setMotionManual:()=>Unit) extends VerticalLayoutPanel with ObservableS {
   def mode = _mode
 
   val CANVAS_WIDTH = 150
@@ -59,12 +59,21 @@ class RemoteControl(model: LadybugModel) extends VerticalLayoutPanel with Observ
   }
   class RemoteControlCanvas extends PhetPCanvas(new PDimension(CANVAS_WIDTH, CANVAS_HEIGHT)) {
     addMouseListener(new MouseInputAdapter() {
-      override def mousePressed(e: MouseEvent) = _mode.setDestination(_mode.transform.viewToModel(e.getX, e.getY))
+      override def mousePressed(e: MouseEvent) = {
+        setMotionManual()
+        _mode.setDestination(_mode.transform.viewToModel(e.getX, e.getY))
+      }
 
-      override def mouseReleased(e: MouseEvent) = _mode.setDestination(new Vector2D(0, 0))
+      override def mouseReleased(e: MouseEvent) = {
+        setMotionManual()
+        _mode.setDestination(new Vector2D(0, 0))
+      }
     })
     addMouseMotionListener(new MouseInputAdapter() {
-      override def mouseDragged(e: MouseEvent) = _mode.setDestination(_mode.transform.viewToModel(e.getX, e.getY))
+      override def mouseDragged(e: MouseEvent) = {
+        setMotionManual()
+        _mode.setDestination(_mode.transform.viewToModel(e.getX, e.getY))
+      }
     })
   }
 

@@ -34,4 +34,6 @@ class LadybugModule(clock: ScalaClock) extends Module("my module", clock) {
     solidTrace.clearTrace
     dotTrace.clearTrace
   }
+
+  def setMotionManual() = ladybugMotionModel.motion = LadybugMotionModel.MANUAL
 }
