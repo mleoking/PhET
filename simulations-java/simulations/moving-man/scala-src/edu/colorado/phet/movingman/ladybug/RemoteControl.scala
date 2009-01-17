@@ -18,12 +18,12 @@ class RemoteControl(model: LadybugModel) extends VerticalLayoutPanel with Observ
 
   val CANVAS_WIDTH = 150
   val CANVAS_HEIGHT = 150
-  val arrowHeadWidth=30
-  val arrowHeadHeight=30
-  val arrowTailWidth=20
+  val arrowHeadWidth = 30
+  val arrowHeadHeight = 30
+  val arrowTailWidth = 20
   abstract class RemoteMode(color: Color, rangeWidth: Double) {
     val transform = new ModelViewTransform2D(new Rectangle2D.Double(-rangeWidth / 2, -rangeWidth / 2, rangeWidth, rangeWidth), new Rectangle(CANVAS_WIDTH, CANVAS_HEIGHT), false)
-    val arrowNode = new ArrowNode(transform.modelToView(new Point2D.Double(0, 0)), transform.modelToView(new Point2D.Double(0, 0)), arrowHeadWidth, arrowHeadHeight, arrowTailWidth, 2, true)
+    val arrowNode = new ArrowNode(transform.modelToView(new Point2D.Double(0, 0)), transform.modelToView(new Point2D.Double(0, 0)), arrowHeadWidth, arrowHeadHeight, arrowTailWidth, 0.5, true)
     arrowNode.setPaint(color)
     def setDestination(pt: Point2D) = {
       _mode.arrowNode.setTipAndTailLocations(_mode.transform.modelToView(pt), _mode.transform.modelToView(new Point2D.Double(0, 0)))
