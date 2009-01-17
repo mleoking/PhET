@@ -24,7 +24,7 @@ class LadybugSolidTraceNode(model: LadybugModel, transform: ModelViewTransform2D
       for (h <- historyToShow) { //todo: should skip first point from moveTo
         val pt: Point2D.Float = h
         val tx = transform.modelToView(pt)
-        p.lineTo(tx.getX, tx.getY)
+        p.lineTo(tx.getX.toFloat, tx.getY.toFloat)
       }
     }
     path.setPathTo(p)
