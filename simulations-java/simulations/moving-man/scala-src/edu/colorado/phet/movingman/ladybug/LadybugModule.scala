@@ -9,12 +9,12 @@ class LadybugModule(clock: ScalaClock) extends Module("my module", clock) {
   val canvas = new LadybugCanvas
   private val vectorVisibilityModel = new VectorVisibilityModel
   private val pathVisibilityModel = new PathVisibilityModel
-  private val ladybugMotionModel = new LadybugMotionModel
+
   setSimulationPanel(canvas)
 
   canvas setBackground new Color(200, 255, 240)
   clock.addClockListener(model.update(_))
-  clock.addClockListener(ladybugMotionModel.update(_, model))
+
   canvas.addNode(new LadybugNode(model.ladybug, canvas.transform, vectorVisibilityModel))
   val solidTrace = new LadybugSolidTraceNode(model, canvas.transform, () => pathVisibilityModel.lineVisible, pathVisibilityModel)
   canvas.addNode(solidTrace)
@@ -22,18 +22,18 @@ class LadybugModule(clock: ScalaClock) extends Module("my module", clock) {
   canvas.addNode(dotTrace)
   setControlPanel(new LadybugControlPanel(this))
 
-  setClockControlPanel(new LadybugClockControlPanel)
+  setClockControlPanel(new LadybugClockControlPanel(this))
 
   def getVectorVisibilityModel = vectorVisibilityModel
 
   def getPathVisibilityModel = pathVisibilityModel
 
-  def getLadybugMotionModel = ladybugMotionModel
+  def getLadybugMotionModel = model.getLadybugMotionModel()
 
   def clearTrace = {
     solidTrace.clearTrace
     dotTrace.clearTrace
   }
 
-  def setMotionManual() = ladybugMotionModel.motion = LadybugMotionModel.MANUAL
+  def setMotionManual() = model.getLadybugMotionModel().motion = LadybugMotionModel.MANUAL //todo encapsulate
 }

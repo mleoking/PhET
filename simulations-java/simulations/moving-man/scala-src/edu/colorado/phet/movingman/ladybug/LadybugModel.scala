@@ -5,9 +5,13 @@ import LadybugUtil._
 
 class LadybugModel extends Observable[LadybugModel] {
   val ladybug = new Ladybug
-
   val history = new ArrayBuffer[DataPoint]
+
+  private val ladybugMotionModel = new LadybugMotionModel
+  def getLadybugMotionModel()=ladybugMotionModel
+
   private var time: Double = 0;
+  def getTime() = time
 
   def setUpdateModePosition = updateMode = positionMode
 
@@ -41,13 +45,16 @@ class LadybugModel extends Observable[LadybugModel] {
   private var updateMode: (Double) => Unit = positionMode
 
   def update(dt: Double) = {
-    time += dt;
-    history += new DataPoint(time, ladybug.getState)
+    if (!paused) {
+      time += dt;
+      ladybugMotionModel.update(dt, this)
+      history += new DataPoint(time, ladybug.getState)
 
-    if (history.length > 20) {
-      updateMode(dt)
+      if (history.length > 20) {
+        updateMode(dt)
+      }
+      notifyListeners(this)
     }
-    notifyListeners(this)
   }
 
   def estimateAngle(): Double = estimateVelocity(history.length - 1).getAngle
@@ -76,4 +83,24 @@ class LadybugModel extends Observable[LadybugModel] {
     sum / (end - start)
   }
 
+  var record = true
+  var paused = false
+
+  def isPlayback() = !record
+
+  def isRecord() = record
+
+  def setPlayback(speed: Double) = {
+    record = false
+    notifyListeners(this)
+  }
+
+  def setPaused(p: Boolean) = {
+    paused = p
+    notifyListeners(this)
+  }
+
+  def isPaused() = paused
+
+  def rewind = {}
 }
