@@ -91,7 +91,7 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
   //  addControl(new JButton("Clear Trace"))
   addControl(createBox)
 
-  addControl(new RemoteControl(module.model))
+  addControl(new RemoteControl(module.model,()=>module.setMotionManual()))
   addControl(createBox)
   addControl(new ResetAllButton(this))
 }
