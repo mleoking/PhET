@@ -67,6 +67,7 @@ class LadybugModel extends Observable[LadybugModel] {
           setStateToPlaybackIndex()
           time = history(getPlaybackIndex()).time
           playbackIndexFloat = playbackIndexFloat + playbackSpeed
+          notifyListeners(this)
         }
       }
     }
