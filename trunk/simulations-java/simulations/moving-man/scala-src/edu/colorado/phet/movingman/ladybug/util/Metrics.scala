@@ -3,27 +3,8 @@ package edu.colorado.phet.movingman.ladybug
 import scala.io.Source
 import java.io.File
 
-object TestSetter {
-  def getXList() = {
-    println("Construction of new array")
-    0 until 100
-  }
-
+object Metrics {
   def main(args: Array[String]) = {
-
-    for (x <- getXList()) {
-      println("got x value in iterator: " + x)
-    }
-
-    class Time {
-      var h = 12
-
-      def hour: Int = h
-
-      def hour_=(x: Int) = {h = x}
-    }
-    val t = new Time
-    t.hour = 123
 
     val file = new File("C:/workingcopy/phet/svn/trunk/simulations-java/simulations/moving-man/scala-src/edu/colorado/phet/movingman/ladybug");
     val children = file.listFiles();
