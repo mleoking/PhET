@@ -13,19 +13,15 @@ import java.awt.geom.{AffineTransform, Point2D}
 import umd.cs.piccolo.nodes.{PPath, PImage}
 import LadybugUtil._
 
-class LadybugNode(ladybug: Ladybug, transform: ModelViewTransform2D, vectorVisibilityModel: VectorVisibilityModel) extends PNode {
+class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTransform2D, vectorVisibilityModel: VectorVisibilityModel) extends PNode {
   val arrowSetNode = new ArrowSetNode(ladybug, transform, vectorVisibilityModel)
   val pimage = new PImage(MovingManResources.loadBufferedImage("ladybug/ladybug.png"))
-  //  val boundNode = new PPath
-  //  boundNode.setPaint(Color.blue)
-  //  boundNode.setPathToRectangle(-4, -4, 8, 8)
 
   ladybug.addListener(updateLadybug)
   updateLadybug(ladybug)
 
   addChild(arrowSetNode)
   addChild(pimage)
-  //  addChild(boundNode)
 
   transform.addTransformListener(new TransformListener() {
     def transformChanged(mvt: ModelViewTransform2D) = {
@@ -36,8 +32,13 @@ class LadybugNode(ladybug: Ladybug, transform: ModelViewTransform2D, vectorVisib
   addInputEventListener(new CursorHandler)
   addInputEventListener(new PBasicInputEventHandler() {
     override def mouseDragged(event: PInputEvent) = {
+      model.getLadybugMotionModel.motion = LadybugMotionModel.MANUAL
       val diff = transform.viewToModelDifferential(event.getDeltaRelativeTo(getParent).width, event.getDeltaRelativeTo(getParent).height)
       ladybug.translate(diff)
+    }
+
+    override def mousePressed(event: PInputEvent) = {
+      model.getLadybugMotionModel.motion = LadybugMotionModel.MANUAL
     }
   })
 
@@ -53,6 +54,5 @@ class LadybugNode(ladybug: Ladybug, transform: ModelViewTransform2D, vectorVisib
       pimage.getFullBounds.getCenter2D.getX - (viewPosition.x - dx.x / 2),
       pimage.getFullBounds.getCenter2D.getY - (viewPosition.y - dx.y / 2))
 
-    //    boundNode.setOffset(viewPosition)
   }
 }
