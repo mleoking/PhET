@@ -131,4 +131,16 @@ class LadybugModel extends Observable[LadybugModel] {
     setStateToPlaybackIndex()
     notifyListeners(this)
   }
+
+  def resetAll() = {
+    record = true
+    paused = false
+    playbackSpeed = 1.0
+    history.clear
+    ladybugMotionModel.resetAll()
+    playbackIndexFloat = 0.0
+    time = 0
+    ladybug.resetAll()
+    notifyListeners(this)
+  }
 }

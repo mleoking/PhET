@@ -1,5 +1,6 @@
 package edu.colorado.phet.movingman.ladybug
 
+import _root_.edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode
@@ -7,8 +8,8 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import java.awt.event.{MouseEvent, MouseAdapter}
 import java.awt.geom.{Rectangle2D, Point2D, Dimension2D}
 import java.awt.{Rectangle, Dimension, Color}
+import javax.swing._
 import javax.swing.event.MouseInputAdapter
-import javax.swing.{JButton, JRadioButton, JPanel, JLabel}
 import umd.cs.piccolo.PNode
 import umd.cs.piccolo.util.PDimension
 import LadybugUtil._
@@ -21,6 +22,10 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
   val arrowHeadWidth = 30
   val arrowHeadHeight = 30
   val arrowTailWidth = 20
+
+  def resetAll() = {
+    mode = positionMode
+  }
   abstract class RemoteMode(color: Color, rangeWidth: Double) {
     val transform = new ModelViewTransform2D(new Rectangle2D.Double(-rangeWidth / 2, -rangeWidth / 2, rangeWidth, rangeWidth), new Rectangle(CANVAS_WIDTH, CANVAS_HEIGHT), false)
     val arrowNode = new ArrowNode(transform.modelToView(new Point2D.Double(0, 0)), transform.modelToView(new Point2D.Double(0, 0)), arrowHeadWidth, arrowHeadHeight, arrowTailWidth, 0.5, true)
@@ -76,8 +81,9 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
       }
     })
   }
-
-  add(new JLabel("Remote Control"))
+  val label = new JLabel("Remote Control")
+  label.setFont(new PhetFont(14, true))
+  add(label)
   val canvas = new RemoteControlCanvas
   canvas.setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT))
   add(canvas)
@@ -96,5 +102,6 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
   add(new MyRadioButton("Position", mode = positionMode, mode == positionMode, this))
   add(new MyRadioButton("Velocity", mode = velocityMode, mode == velocityMode, this))
   add(new MyRadioButton("Acceleration", mode = accelerationMode, mode == accelerationMode, this))
-  add(new JButton("Go"))
+  setFillNone
+  add(new JButton("Go", new ImageIcon(MovingManResources.loadBufferedImage("light3.png"))))
 }

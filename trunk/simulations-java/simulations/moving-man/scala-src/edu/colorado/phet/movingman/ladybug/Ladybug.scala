@@ -45,6 +45,11 @@ case class LadybugState(_position: Vector2D, _velocity: Vector2D, _acceleration:
 class Ladybug extends Observable[Ladybug] {
   var state = new LadybugState
 
+  def resetAll() = {
+    state = new LadybugState
+    notifyListeners(this)
+  }
+
   def translate(deltaPosition: Vector2D): Unit = translate(deltaPosition.x, deltaPosition.y)
 
   def translate(dx: Double, dy: Double) = {

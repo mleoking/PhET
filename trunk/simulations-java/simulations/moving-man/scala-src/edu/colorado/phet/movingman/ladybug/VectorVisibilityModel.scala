@@ -19,4 +19,9 @@ class VectorVisibilityModel extends ObservableS {
     accelVis = x
     notifyListeners
   }
+
+  def resetAll() = {
+    velocityVectorVisible = true
+    accelerationVectorVisible = true
+  }
 }

@@ -17,4 +17,9 @@ class PathVisibilityModel extends ObservableS {
     _dotsVisible = x
     notifyListeners
   }
+
+  def resetAll() = {
+    lineVisible = true
+    dotsVisible = false
+  }
 }
