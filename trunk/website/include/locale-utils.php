@@ -425,7 +425,8 @@
         }
 
         $language_name = locale_get_language_name($language_code);
-        return SITE_ROOT."images/languages/{$language_name}-{$language_code}.png";
+        $icon = strtolower("{$language_name}-{$language_code}.png");
+        return SITE_ROOT."images/languages/{$icon}";
     }
 
     /**
