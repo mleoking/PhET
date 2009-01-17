@@ -17,8 +17,9 @@ class RecordingControl(model: LadybugModel) extends PhetPCanvas {
   val text = new PText("0.00")
   text.setFont(new PhetFont(30))
   addScreenChild(text)
-  val _height = 100
+
   val _width = 250
+  val _height = 60
   setPreferredSize(new Dimension(_width, _height))
   implicit def timeToString(time: Double) = new DecimalFormat("0.00").format(time) + " sec"
   model.addListener((model: LadybugModel) => {
