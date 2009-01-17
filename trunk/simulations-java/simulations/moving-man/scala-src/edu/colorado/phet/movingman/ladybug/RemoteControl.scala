@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
-import java.awt.event.{MouseEvent, MouseAdapter}
+import java.awt.event.{MouseEvent, ActionEvent, MouseAdapter, ActionListener}
 import java.awt.geom.{Rectangle2D, Point2D, Dimension2D}
 import java.awt.{Rectangle, Dimension, Color}
 import javax.swing._
@@ -103,5 +103,22 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
   add(new MyRadioButton("Velocity", mode = velocityMode, mode == velocityMode, this))
   add(new MyRadioButton("Acceleration", mode = accelerationMode, mode == accelerationMode, this))
   setFillNone
-  add(new JButton("Go", new ImageIcon(MovingManResources.loadBufferedImage("light3.png"))))
+
+  val button = new JButton("Go")
+  model.addListener((lm: LadybugModel) => {
+    updateButton
+  })
+  def updateButton = {
+    val value = if (model.isPaused) ("light3.png", "Go") else ("stop-20.png", "Stop")
+    button.setIcon(new ImageIcon(MovingManResources.loadBufferedImage(value._1)))
+    button.setText(value._2)
+  }
+  updateButton
+  button.addActionListener(new ActionListener() {
+    def actionPerformed(e: ActionEvent) = {
+      model.setPaused(!model.isPaused)
+    }
+  })
+  add(button)
+
 }
