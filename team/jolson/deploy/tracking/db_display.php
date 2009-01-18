@@ -29,31 +29,31 @@
 		print "<br/>\n";
 	}
 	
-	display_table("users");
-	display_table("sim_projects");
-	display_table("sim_names");
-	display_table("usage_types");
-	display_table("distribution_tags");
-	display_table("scenarios");
-	display_table("simplified_os_names");
-	display_table("sessions");
-	display_table("flash_domains");
-	display_table("flash_os_names");
+	display_table("user");
+	display_table("sim_project");
+	display_table("sim_name");
+	display_table("usage_type");
+	display_table("distribution_tag");
+	display_table("scenario");
+	display_table("simplified_os");
+	display_table("session");
+	display_table("flash_domain");
+	display_table("flash_os");
 	display_table("flash_info");
-	display_table("java_os_names");
-	display_table("java_os_versions");
-	display_table("java_os_architectures");
-	display_table("java_vendors");
-	display_table("java_webstart_versions");
-	display_table("java_timezones");
+	display_table("java_os_name");
+	display_table("java_os_version");
+	display_table("java_os_arch");
+	display_table("java_vendor");
+	display_table("java_webstart_version");
+	display_table("java_timezone");
 	display_table("java_info");
 	
 ?>
 <h1>Joined Data</h1>
 <?php
-	display_table("simulations");
-	display_table("flash_simulations");
-	display_table("java_simulations");
+	display_table("simulation");
+	display_table("flash_simulation");
+	display_table("java_simulation");
 	
 	
 	mysql_close($link);
