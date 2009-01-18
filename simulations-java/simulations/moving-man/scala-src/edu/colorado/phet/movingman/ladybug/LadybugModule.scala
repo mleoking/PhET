@@ -1,5 +1,10 @@
 package edu.colorado.phet.movingman.ladybug
 
+import canvas.{LadybugNode, LadybugSolidTraceNode, LadybugDotTraceNode, LadybugCanvas}
+import model.{LadybugModel, ScalaClock}
+import model.LadybugMotionModel._
+
+import controlpanel.{LadybugClockControlPanel, PathVisibilityModel, VectorVisibilityModel, LadybugControlPanel}
 import edu.colorado.phet.common.phetcommon.application.Module
 import edu.colorado.phet.common.phetcommon.model.clock.IClock
 import java.awt.Color
@@ -36,7 +41,7 @@ class LadybugModule(clock: ScalaClock) extends Module("my module", clock) {
     dotTrace.clearTrace
   }
 
-  def setMotionManual() = model.getLadybugMotionModel().motion = LadybugMotionModel.MANUAL //todo encapsulate
+  def setMotionManual() = model.getLadybugMotionModel().motion = MANUAL //todo encapsulate
 
   def resetAll() = {
     model.resetAll()

@@ -1,5 +1,7 @@
-package edu.colorado.phet.movingman.ladybug
+package edu.colorado.phet.movingman.ladybug.canvas
 
+import controlpanel.VectorVisibilityModel
+import model.{Ladybug, Vector2D, LadybugModel}
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.piccolophet.util.PImageFactory
@@ -9,6 +11,7 @@ import edu.umd.cs.piccolo.event.PInputEvent
 import edu.umd.cs.piccolo.PNode
 import java.awt.Color
 import java.awt.geom.{AffineTransform, Point2D}
+
 import umd.cs.piccolo.nodes.{PPath, PImage}
 import LadybugUtil._
 

@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.ladybug
+package edu.colorado.phet.movingman.ladybug.model
 
 import java.awt.geom.Rectangle2D
 import LadybugUtil._

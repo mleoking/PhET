@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.ladybug
+package edu.colorado.phet.movingman.ladybug.controlpanel
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import edu.colorado.phet.common.piccolophet.event.CursorHandler
@@ -9,6 +9,7 @@ import java.awt.{Rectangle, Dimension, BasicStroke, Color}
 import java.text.DecimalFormat
 import javax.swing.JPanel
 import LadybugUtil._
+import model.LadybugModel
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.nodes.{PPath, PText}
 import umd.cs.piccolo.PNode

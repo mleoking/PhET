@@ -1,9 +1,11 @@
-package edu.colorado.phet.movingman.ladybug
+package edu.colorado.phet.movingman.ladybug.canvas
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import java.awt.geom.{GeneralPath, Point2D}
 import java.awt.{BasicStroke, Color}
+import model.{DataPoint, ObservableS, LadybugModel}
+
 import umd.cs.piccolo.PNode
 import java.awt.geom.Path2D
 

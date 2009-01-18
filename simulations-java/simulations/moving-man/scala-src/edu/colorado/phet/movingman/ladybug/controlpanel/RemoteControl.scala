@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.ladybug
+package edu.colorado.phet.movingman.ladybug.controlpanel
 
 import _root_.edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
@@ -10,6 +10,8 @@ import java.awt.geom.{Rectangle2D, Point2D, Dimension2D}
 import java.awt.{Rectangle, Dimension, Color}
 import javax.swing._
 import javax.swing.event.MouseInputAdapter
+import model.{ObservableS, Vector2D, LadybugModel}
+
 import umd.cs.piccolo.PNode
 import umd.cs.piccolo.util.PDimension
 import LadybugUtil._

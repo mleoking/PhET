@@ -15,6 +15,7 @@ import edu.umd.cs.piccolo.PNode
 import java.awt.Color
 import java.awt.Font
 import javax.swing.JLabel
+import model.ScalaClock
 
 object Ladybug2DApplication {
   class ScalaModelElement(element: Double => Unit) extends ClockAdapter {

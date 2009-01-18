@@ -1,5 +1,7 @@
 package edu.colorado.phet.movingman.ladybug
 
+import model.ObservableS
+
 class Property[T](getter: () => T, setter: (T) => Unit, observable: ObservableS) extends ObservableS { //todo: make it a trait
   def getValue(): T = getter()
 
