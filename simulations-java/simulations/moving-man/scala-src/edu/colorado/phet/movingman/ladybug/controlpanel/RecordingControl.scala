@@ -14,14 +14,14 @@ import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.nodes.{PPath, PText}
 import umd.cs.piccolo.PNode
 
-class RecordingControl(model: LadybugModel) extends PhetPCanvas {
+class RecordingControl(model: LadybugModel) extends PNode {
   val text = new PText("0.00")
   text.setFont(new PhetFont(30))
-  addScreenChild(text)
+  addChild(text)
 
   val _width = 250
   val _height = 60
-  setPreferredSize(new Dimension(_width, _height))
+//  setPreferredSize(new Dimension(_width, _height))
   implicit def timeToString(time: Double) = new DecimalFormat("0.00").format(time) + " sec"
   model.addListener((model: LadybugModel) => {
     updateReadouts
@@ -29,17 +29,17 @@ class RecordingControl(model: LadybugModel) extends PhetPCanvas {
 
   val playbackIndicator = new PText("* Playback")
   playbackIndicator.setFont(new PhetFont(16, true))
-  addScreenChild(playbackIndicator)
+  addChild(playbackIndicator)
 
   val recordIndicator = new PText("* Record")
   recordIndicator.setFont(new PhetFont(16, true))
-  addScreenChild(recordIndicator)
+  addChild(recordIndicator)
 
   playbackIndicator.setOffset(_width - playbackIndicator.getFullBounds.getWidth - 2, _height - playbackIndicator.getFullBounds.getHeight)
   recordIndicator.setOffset(playbackIndicator.getFullBounds.getX, playbackIndicator.getFullBounds.getY - recordIndicator.getFullBounds.getHeight)
 
   val timeline = new Timeline()
-  addScreenChild(timeline)
+  addChild(timeline)
 
   updateReadouts
   def updateReadouts = {
