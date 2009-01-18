@@ -57,7 +57,6 @@
 <?php
 	insert_flash_message(
 		1,
-		1,
 		"pendulum-lab",
 		"pendulum-lab",
 		1,
@@ -224,6 +223,36 @@
 		'Linux 2.6.20-17-generic'
 	);
 	*/
+	
+	insert_java_message(
+		1,
+		"balloons",
+		"balloons",
+		1,
+		7,
+		0,
+		26532,
+		'en',
+		'US',
+		1,
+		20,
+		'offline',
+		'general',
+		0,
+		'standalone-jar',
+		'en',
+		'US',
+		'Windows Vista',
+		'6.0',
+		'x86',
+		'Sun Microsystems Inc.',
+		1,
+		6,
+		0,
+		'none',
+		'America/Denver'
+	);
+	/*
 	insert_session(
 		1,
 		0,
@@ -245,7 +274,7 @@
 		'none',
 		'Win XP'
 	);
-	
+	*/
 ?>
 </body>
 </html>
