@@ -1,7 +1,3 @@
-<?php
-	include("db_util.php");
-	$link = setup_mysql();
-	$query = <<<TESTERS
 
 DROP TABLE users;
 CREATE TABLE users (
@@ -41,6 +37,12 @@ CREATE TABLE scenarios (
 	scenario VARCHAR(40)
 );
 
+DROP TABLE simplified_os_names;
+CREATE TABLE simplified_os_names (
+	simplified_os_id TINYINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	simplified_os_name VARCHAR(50)
+);
+
 DROP TABLE sessions;
 CREATE TABLE sessions (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -63,7 +65,7 @@ CREATE TABLE sessions (
 	sim_scenario MEDIUMINT UNSIGNED NOT NULL,
 	host_locale_language CHAR(2),
 	host_locale_country CHAR(2),
-	host_simplified_os TINYINT UNSIGNED,
+	host_simplified_os TINYINT UNSIGNED NOT NULL,
 	
 	INDEX(timestamp),
 	INDEX(sim_project, sim_name),
@@ -72,7 +74,8 @@ CREATE TABLE sessions (
 	FOREIGN KEY (sim_name) REFERENCES sim_names (sim_name_id) ON DELETE CASCADE,
 	FOREIGN KEY (sim_usage_type) REFERENCES usage_types (usage_id) ON DELETE CASCADE,
 	FOREIGN KEY (sim_distribution_tag) REFERENCES distribution_tags (distribution_id) ON DELETE CASCADE,
-	FOREIGN KEY (sim_scenario) REFERENCES scenarios (scenario_id) ON DELETE CASCADE
+	FOREIGN KEY (sim_scenario) REFERENCES scenarios (scenario_id) ON DELETE CASCADE,
+	FOREIGN KEY (host_simplified_os) REFERENCES simplified_os_names (simplified_os_id) ON DELETE CASCADE
 );
 
 DROP TABLE flash_domains;
@@ -163,21 +166,53 @@ CREATE TABLE java_info (
 	FOREIGN KEY (host_java_timezone) REFERENCES java_timezones (java_timezone_id) ON DELETE CASCADE
 );
 
-CREATE VIEW simulations AS (SELECT sessions.id, sessions.timestamp, sessions.message_version, sessions.sim_type, sim_projects.sim_project, sim_names.sim_name, sessions.sim_major_version, sessions.sim_minor_version, sessions.sim_dev_version, sessions.sim_svn_revision, sessions.sim_locale_language, sessions.sim_locale_country, sessions.sim_sessions_since, sessions.sim_sessions_ever, usage_types.usage_type, distribution_tags.distribution_tag, sessions.sim_dev, scenarios.scenario, sessions.host_locale_language, sessions.host_locale_country, sessions.host_simplified_os
-FROM sessions, sim_projects, sim_names, usage_types, distribution_tags, scenarios
+DROP VIEW simulations;
+CREATE VIEW simulations AS (SELECT sessions.id, sessions.timestamp, sessions.message_version, sessions.sim_type, sim_projects.sim_project, sim_names.sim_name, sessions.sim_major_version, sessions.sim_minor_version, sessions.sim_dev_version, sessions.sim_svn_revision, sessions.sim_locale_language, sessions.sim_locale_country, sessions.sim_sessions_since, sessions.sim_sessions_ever, usage_types.usage_type, distribution_tags.distribution_tag, sessions.sim_dev, scenarios.scenario, sessions.host_locale_language, sessions.host_locale_country, simplified_os_names.simplified_os_name
+FROM sessions, sim_projects, sim_names, usage_types, distribution_tags, simplified_os_names, scenarios
 WHERE (
 	sessions.sim_project = sim_projects.sim_project_id
 	AND sessions.sim_name = sim_names.sim_name_id
 	AND sessions.sim_usage_type = usage_types.usage_id
 	AND sessions.sim_distribution_tag = distribution_tags.distribution_id
 	AND sessions.sim_scenario = scenarios.scenario_id
+	AND sessions.host_simplified_os = simplified_os_names.simplified_os_id
+));
+
+DROP VIEW flash_simulations;
+CREATE VIEW flash_simulations AS (SELECT sessions.id, sessions.timestamp, sessions.message_version, sessions.sim_type, sim_projects.sim_project, sim_names.sim_name, sessions.sim_major_version, sessions.sim_minor_version, sessions.sim_dev_version, sessions.sim_svn_revision, sessions.sim_locale_language, sessions.sim_locale_country, sessions.sim_sessions_since, sessions.sim_sessions_ever, usage_types.usage_type, distribution_tags.distribution_tag, sessions.sim_dev, scenarios.scenario, sessions.host_locale_language, sessions.host_locale_country, simplified_os_names.simplified_os_name, flash_info.host_flash_version_type, flash_info.host_flash_version_major, flash_info.host_flash_version_minor, flash_info.host_flash_version_revision, flash_info.host_flash_version_build, flash_info.host_flash_time_offset, flash_info.host_flash_accessibility, flash_domains.flash_domain_name AS host_flash_domain, flash_os_names.flash_os_name AS host_flash_os
+FROM sessions, sim_projects, sim_names, usage_types, distribution_tags, simplified_os_names, scenarios, flash_info, flash_domains, flash_os_names
+WHERE (
+	sessions.sim_project = sim_projects.sim_project_id
+	AND sessions.sim_name = sim_names.sim_name_id
+	AND sessions.sim_usage_type = usage_types.usage_id
+	AND sessions.sim_distribution_tag = distribution_tags.distribution_id
+	AND sessions.sim_scenario = scenarios.scenario_id
+	AND sessions.host_simplified_os = simplified_os_names.simplified_os_id
+	AND sessions.id = flash_info.session_id
+	AND flash_info.host_flash_domain = flash_domains.flash_domain_id
+	AND flash_info.host_flash_os = flash_os_names.flash_os_id
+));
+
+DROP VIEW java_simulations;
+CREATE VIEW java_simulations AS (SELECT sessions.id, sessions.timestamp, sessions.message_version, sessions.sim_type, sim_projects.sim_project, sim_names.sim_name, sessions.sim_major_version, sessions.sim_minor_version, sessions.sim_dev_version, sessions.sim_svn_revision, sessions.sim_locale_language, sessions.sim_locale_country, sessions.sim_sessions_since, sessions.sim_sessions_ever, usage_types.usage_type, distribution_tags.distribution_tag, sessions.sim_dev, scenarios.scenario, sessions.host_locale_language, sessions.host_locale_country, simplified_os_names.simplified_os_name, java_os_names.java_os_name AS host_java_os_name, java_os_versions.java_os_version_name AS host_java_os_version, java_os_architectures.java_os_architecture_name AS host_java_os_arch, java_vendors.java_vendor_name AS host_java_vendor, java_info.host_java_version_major, java_info.host_java_version_minor, java_info.host_java_version_maintenance, java_webstart_versions.java_webstart_version_name AS host_java_webstart_version, java_timezones.java_timezone_name AS host_java_timezone
+FROM sessions, sim_projects, sim_names, usage_types, distribution_tags, simplified_os_names, scenarios, java_os_names, java_os_versions, java_os_architectures, java_vendors, java_webstart_versions, java_timezones, java_info
+WHERE (
+	sessions.sim_project = sim_projects.sim_project_id
+	AND sessions.sim_name = sim_names.sim_name_id
+	AND sessions.sim_usage_type = usage_types.usage_id
+	AND sessions.sim_distribution_tag = distribution_tags.distribution_id
+	AND sessions.sim_scenario = scenarios.scenario_id
+	AND sessions.host_simplified_os = simplified_os_names.simplified_os_id
+	AND sessions.id = java_info.session_id
+	AND java_info.host_java_os_name = java_os_names.java_os_name_id
+	AND java_info.host_java_os_version = java_os_versions.java_os_version_id
+	AND java_info.host_java_os_arch = java_os_architectures.java_os_architecture_id
+	AND java_info.host_java_vendor = java_vendors.java_vendor_id
+	AND java_info.host_java_webstart_version = java_webstart_versions.java_webstart_version_id
+	AND java_info.host_java_timezone = java_timezones.java_timezone_id
 ));
 
 
-TESTERS;
-	mysql_query($query);
-	echo mysql_errno($link) . ": " . mysql_error($link). "\n";
-?>
 
-Database reset?
+
 
