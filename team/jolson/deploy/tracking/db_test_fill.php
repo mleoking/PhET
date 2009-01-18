@@ -4,6 +4,7 @@
 	
 	$num_entries = 4000000;
 	
+	set_time_limit(4000000);
 	
 	function genlocale() {
 		$lang = "en";
@@ -361,6 +362,8 @@
 			
 			$query = "INSERT INTO sessions (timestamp, message_version, sim_type, sim_project, sim_name, sim_major_version, sim_minor_version, sim_dev_version, sim_svn_revision, sim_locale_language, sim_locale_country, sim_sessions_since, sim_sessions_ever, sim_usage_type, sim_distribution_tag, sim_dev, sim_scenario, host_locale_language, host_locale_country, host_simplified_os) VALUES (";
 			
+			$timestampoffset = rand(0, 11231)*rand(0, 11231);
+			$timestampratio = 1 - $timestampoffset / (11231*11231);
 			
 			$query .= date("YmdHis", time() - rand(0, 11231)*rand(0, 11231)) . ", "; // timestamp
 			$query .= "1" . ", "; // message_version
@@ -477,9 +480,19 @@
 			
 			$query .= "'" . $arch . "'" . ", "; // arch
 			
+			/*
+			$javaMinor = 4;
+			if(rand(0, 99) < 90 * $timestampratio) { $javaMinor = 6; }
+			if(rand(0, 99) < 90 * (2 * abs($timestampratio - 0.5))) { $javaMinor = 5; }
+			*/
+			
+			$javaMinor = 5;
+			if(rand(0, 99) < 5 + 90 * (1 - $timestampratio)) { $javaMinor = 4; }
+			if(rand(0, 99) < 90 * $timestampratio) { $javaMinor = 6; }
+			
 			$query .= "'Sun Microsystems Inc.', "; // vendor
 			$query .= "1, "; // major
-			$query .= rand(4, 6) . ", "; // minor
+			$query .= $javaMinor . ", "; // minor
 			$query .= rand(0,30) . ", "; // maint
 			
 			$query .= "NULL, "; // webstart version

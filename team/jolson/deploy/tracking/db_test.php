@@ -24,5 +24,31 @@
 	echo mysql_errno($link) . ": " . mysql_error($link). "\n";
 */
 
-echo date("YmdHis", time());
+//echo date("YmdHis", time());
+
 ?>
+<html>
+<head>
+<title>Test</title>
+</head>
+<body>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<div style="width: 40px; height: 100px; background-color: #000000; border: 1px solid black;">
+	<div style="width: 5px; height: 100px; background-color: #FFFFFF; float: left;"></div>
+	<div style="width: 5px; height: 95px; background-color: #FFFFFF; float: left;"></div>
+	<div style="width: 5px; height: 90px; background-color: #FFFFFF; float: left;"></div>
+	<div style="width: 5px; height: 85px; background-color: #FFFFFF; float: left;"></div>
+	<div style="width: 5px; height: 80px; background-color: #FFFFFF; float: left;"></div>
+	<div style="width: 5px; height: 75px; background-color: #FFFFFF; float: left;"></div>
+	<div style="width: 5px; height: 70px; background-color: #FFFFFF; float: left;"></div>
+	<div style="width: 5px; height: 65px; background-color: #FFFFFF; float: left;"></div>
+</div>
+</body>
+</html>
