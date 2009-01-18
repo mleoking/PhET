@@ -169,62 +169,62 @@ CREATE TABLE java_info (
 DROP VIEW simulation;
 CREATE VIEW simulation AS (
 	SELECT
-		sessions.id,
-		sessions.timestamp,
-		sessions.message_version,
-		sessions.sim_type,
+		session.id,
+		session.timestamp,
+		session.message_version,
+		session.sim_type,
 		sim_project.name AS sim_project,
 		sim_name.name AS sim_name,
-		sessions.sim_major_version,
-		sessions.sim_minor_version,
-		sessions.sim_dev_version,
-		sessions.sim_svn_revision,
-		sessions.sim_locale_language,
-		sessions.sim_locale_country,
-		sessions.sim_sessions_since,
-		sessions.sim_sessions_ever,
+		session.sim_major_version,
+		session.sim_minor_version,
+		session.sim_dev_version,
+		session.sim_svn_revision,
+		session.sim_locale_language,
+		session.sim_locale_country,
+		session.sim_sessions_since,
+		session.sim_sessions_ever,
 		usage_type.name AS sim_usage_type,
 		distribution_tag.name AS sim_distribution_tag,
-		sessions.sim_dev,
+		session.sim_dev,
 		scenario.name AS sim_scenario,
-		sessions.host_locale_language,
-		sessions.host_locale_country,
+		session.host_locale_language,
+		session.host_locale_country,
 		simplified_os.name AS host_simplified_os
 	FROM
-		sessions, sim_project, sim_name, usage_type, distribution_tag, simplified_os_name, scenario
+		session, sim_project, sim_name, usage_type, distribution_tag, simplified_os, scenario
 	WHERE (
-		sessions.sim_project = sim_project.id
-		AND sessions.sim_name = sim_name.id
-		AND sessions.sim_usage_type = usage_type.id
-		AND sessions.sim_distribution_tag = distribution_tag.id
-		AND sessions.sim_scenario = scenario.id
-		AND sessions.host_simplified_os = simplified_os.id
+		session.sim_project = sim_project.id
+		AND session.sim_name = sim_name.id
+		AND session.sim_usage_type = usage_type.id
+		AND session.sim_distribution_tag = distribution_tag.id
+		AND session.sim_scenario = scenario.id
+		AND session.host_simplified_os = simplified_os.id
 	)
 );
 
 DROP VIEW flash_simulation;
 CREATE VIEW flash_simulation AS (
 	SELECT
-		sessions.id,
-		sessions.timestamp,
-		sessions.message_version,
-		sessions.sim_type,
+		session.id,
+		session.timestamp,
+		session.message_version,
+		session.sim_type,
 		sim_project.name AS sim_project,
 		sim_name.name AS sim_name,
-		sessions.sim_major_version,
-		sessions.sim_minor_version,
-		sessions.sim_dev_version,
-		sessions.sim_svn_revision,
-		sessions.sim_locale_language,
-		sessions.sim_locale_country,
-		sessions.sim_sessions_since,
-		sessions.sim_sessions_ever,
+		session.sim_major_version,
+		session.sim_minor_version,
+		session.sim_dev_version,
+		session.sim_svn_revision,
+		session.sim_locale_language,
+		session.sim_locale_country,
+		session.sim_sessions_since,
+		session.sim_sessions_ever,
 		usage_type.name AS sim_usage_type,
 		distribution_tag.name AS sim_distribution_tag,
-		sessions.sim_dev,
+		session.sim_dev,
 		scenario.name AS sim_scenario,
-		sessions.host_locale_language,
-		sessions.host_locale_country,
+		session.host_locale_language,
+		session.host_locale_country,
 		simplified_os.name AS host_simplified_os,
 		flash_info.host_flash_version_type,
 		flash_info.host_flash_version_major,
@@ -236,16 +236,16 @@ CREATE VIEW flash_simulation AS (
 		flash_domain.name AS host_flash_domain,
 		flash_os.name AS host_flash_os
 	FROM
-		sessions, sim_project, sim_name, usage_type, distribution_tag, simplified_os_name, scenario,
+		session, sim_project, sim_name, usage_type, distribution_tag, simplified_os, scenario,
 		flash_info, flash_domain, flash_os
 	WHERE (
-		sessions.sim_project = sim_project.id
-		AND sessions.sim_name = sim_name.id
-		AND sessions.sim_usage_type = usage_type.id
-		AND sessions.sim_distribution_tag = distribution_tag.id
-		AND sessions.sim_scenario = scenario.id
-		AND sessions.host_simplified_os = simplified_os.id
-		AND sessions.id = flash_info.session_id
+		session.sim_project = sim_project.id
+		AND session.sim_name = sim_name.id
+		AND session.sim_usage_type = usage_type.id
+		AND session.sim_distribution_tag = distribution_tag.id
+		AND session.sim_scenario = scenario.id
+		AND session.host_simplified_os = simplified_os.id
+		AND session.id = flash_info.session_id
 		AND flash_info.host_flash_domain = flash_domain.id
 		AND flash_info.host_flash_os = flash_os.id
 	)
@@ -254,26 +254,26 @@ CREATE VIEW flash_simulation AS (
 DROP VIEW java_simulation;
 CREATE VIEW java_simulation AS (
 	SELECT
-		sessions.id,
-		sessions.timestamp,
-		sessions.message_version,
-		sessions.sim_type,
+		session.id,
+		session.timestamp,
+		session.message_version,
+		session.sim_type,
 		sim_project.name AS sim_project,
 		sim_name.name AS sim_name,
-		sessions.sim_major_version,
-		sessions.sim_minor_version,
-		sessions.sim_dev_version,
-		sessions.sim_svn_revision,
-		sessions.sim_locale_language,
-		sessions.sim_locale_country,
-		sessions.sim_sessions_since,
-		sessions.sim_sessions_ever,
+		session.sim_major_version,
+		session.sim_minor_version,
+		session.sim_dev_version,
+		session.sim_svn_revision,
+		session.sim_locale_language,
+		session.sim_locale_country,
+		session.sim_sessions_since,
+		session.sim_sessions_ever,
 		usage_type.name AS sim_usage_type,
 		distribution_tag.name AS sim_distribution_tag,
-		sessions.sim_dev,
+		session.sim_dev,
 		scenario.name AS sim_scenario,
-		sessions.host_locale_language,
-		sessions.host_locale_country,
+		session.host_locale_language,
+		session.host_locale_country,
 		simplified_os.name AS host_simplified_os,
 		java_os_name.name AS host_java_os_name,
 		java_os_version.name AS host_java_os_version,
@@ -285,16 +285,16 @@ CREATE VIEW java_simulation AS (
 		java_webstart_version.name AS host_java_webstart_version,
 		java_timezone.name AS host_java_timezone
 	FROM
-		sessions, sim_project, sim_name, usage_type, distribution_tag, simplified_os_name, scenario,
+		session, sim_project, sim_name, usage_type, distribution_tag, simplified_os, scenario,
 		java_info, java_os_name, java_os_version, java_os_arch, java_vendor, java_webstart_version, java_timezone
 	WHERE (
-		sessions.sim_project = sim_project.id
-		AND sessions.sim_name = sim_name.id
-		AND sessions.sim_usage_type = usage_type.id
-		AND sessions.sim_distribution_tag = distribution_tag.id
-		AND sessions.sim_scenario = scenario.id
-		AND sessions.host_simplified_os = simplified_os.id
-		AND sessions.id = java_info.session_id
+		session.sim_project = sim_project.id
+		AND session.sim_name = sim_name.id
+		AND session.sim_usage_type = usage_type.id
+		AND session.sim_distribution_tag = distribution_tag.id
+		AND session.sim_scenario = scenario.id
+		AND session.host_simplified_os = simplified_os.id
+		AND session.id = java_info.session_id
 		AND java_info.host_java_os_name = java_os_name.id
 		AND java_info.host_java_os_version = java_os_version.id
 		AND java_info.host_java_os_arch = java_os_arch.id
