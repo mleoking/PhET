@@ -1,5 +1,6 @@
 package edu.colorado.phet.movingman.ladybug
 
+import model.Vector2D
 import scala.swing.Component
 import java.awt.geom.Point2D
 

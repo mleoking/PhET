@@ -1,8 +1,9 @@
-package edu.colorado.phet.movingman.ladybug
+package edu.colorado.phet.movingman.ladybug.controlpanel
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources
 import edu.colorado.phet.common.phetcommon.resources.PhetResources
 import javax.swing.{Icon, JButton, ImageIcon, JPanel}
+import model.LadybugModel
 
 class LadybugClockControlPanel(module: LadybugModule) extends JPanel {
   implicit def stringToIcon(string: String): Icon = new ImageIcon(PhetCommonResources.getImage("clock/" + string))

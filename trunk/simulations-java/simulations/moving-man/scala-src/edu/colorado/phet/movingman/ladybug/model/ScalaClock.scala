@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.ladybug
+package edu.colorado.phet.movingman.ladybug.model
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock

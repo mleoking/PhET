@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.ladybug
+package edu.colorado.phet.movingman.ladybug.model
 
 import scala.collection.mutable.ArrayBuffer
 import LadybugUtil._

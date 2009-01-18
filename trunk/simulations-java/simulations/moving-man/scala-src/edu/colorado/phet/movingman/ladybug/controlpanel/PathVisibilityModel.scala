@@ -1,4 +1,6 @@
-package edu.colorado.phet.movingman.ladybug
+package edu.colorado.phet.movingman.ladybug.controlpanel
+
+import model.ObservableS
 
 class PathVisibilityModel extends ObservableS {
   private var _lineVisible = true

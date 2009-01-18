@@ -1,11 +1,14 @@
-package edu.colorado.phet.movingman.ladybug
+package edu.colorado.phet.movingman.ladybug.canvas
 
+import controlpanel.VectorVisibilityModel
+import model.{Ladybug, Vector2D}
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode
 import java.awt.geom.Point2D
 import java.awt.{BasicStroke, Color}
+
 import umd.cs.piccolo.nodes.PText
 import umd.cs.piccolo.PNode
 import LadybugUtil._

@@ -1,4 +1,6 @@
-package edu.colorado.phet.movingman.ladybug
+package edu.colorado.phet.movingman.ladybug.controlpanel
+
+import model.ObservableS
 
 class VectorVisibilityModel extends ObservableS {
   var velVis = true

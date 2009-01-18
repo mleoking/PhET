@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.ladybug
+package edu.colorado.phet.movingman.ladybug.model
 
 class Vector2D(_x: Double, _y: Double) {
   val x = _x

@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.ladybug
+package edu.colorado.phet.movingman.ladybug.controlpanel
 
 import java.awt.event.{ActionEvent, ActionListener}
 import javax.swing.{Icon, JButton}
