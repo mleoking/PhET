@@ -68,6 +68,11 @@
 		return $query;
 	}
 	
+	// insert/update data for the user table
+	function update_user(
+	) {
+	}
+	
 	// insert data into the session table
 	function insert_session(
 		$messageVersion,
@@ -165,10 +170,51 @@
 		return mysql_insert_id();
 	}
 	
+	// insert data into the java_info table
+	function insert_java_info(
+		$sessionID,
+		$hostJavaOSName,
+		$hostJavaOSVersion,
+		$hostJavaOSArch,
+		$hostJavaVendor,
+		$hostJavaVersionMajor,
+		$hostJavaVersionMinor,
+		$hostJavaVersionMaintenance,
+		$hostJavaWebstartVersion,
+		$hostJavaTimezone
+	) {
+		$hostJavaOSNameID = get_id_value("java_os_name", "id", "name", quo($hostJavaOSName));
+		$hostJavaOSVersionID = get_id_value("java_os_version", "id", "name", quo($hostJavaOSVersion));
+		$hostJavaOSArchID = get_id_value("java_os_arch", "id", "name", quo($hostJavaOSArch));
+		$hostJavaVendorID = get_id_value("java_vendor", "id", "name", quo($hostJavaVendor));
+		$hostJavaWebstartVersionID = get_id_value("java_webstart_version", "id", "name", quote_null_if_none($hostJavaWebstartVersion));
+		$hostJavaTimezoneID = get_id_value("java_timezone", "id", "name", quo($hostJavaTimezone));
+		
+		$values = array(
+			new Field('session_id', $sessionID),
+			new Field('host_java_os_name', $hostJavaOSNameID),
+			new Field('host_java_os_version', $hostJavaOSVersionID),
+			new Field('host_java_os_arch', $hostJavaOSArchID),
+			new Field('host_java_vendor', $hostJavaVendorID),
+			new Field('host_java_version_major', $hostJavaVersionMajor),
+			new Field('host_java_version_minor', $hostJavaVersionMinor),
+			new Field('host_java_version_maintenance', $hostJavaVersionMaintenance),
+			new Field('host_java_webstart_version', $hostJavaWebstartVersionID),
+			new Field('host_java_timezone', $hostJavaTimezoneID)
+		);
+		
+		$query = query_from_values("java_info", $values);
+		
+		mysql_query($query);
+		
+		echo $query;
+		
+		return mysql_insert_id();
+	}
+	
 	// insert an entire flash message
 	function insert_flash_message(
 		$messageVersion,
-		$simType,
 		$simProject,
 		$simName,
 		$simMajorVersion,
@@ -195,6 +241,8 @@
 		$hostFlashDomain,
 		$hostFlashOS
 	) {
+		$simType = 1;
+		
 		// calculate hostSimplifiedOS
 		$hostSimplifiedOS = "Unknown";
 		if($hostFlashVersionType == 'WIN') {
@@ -245,6 +293,90 @@
 			$hostFlashAccessibility,
 			$hostFlashDomain,
 			$hostFlashOS
+		);
+	}
+	
+	// insert an entire java message
+	function insert_java_message(
+		$messageVersion,
+		$simProject,
+		$simName,
+		$simMajorVersion,
+		$simMinorVersion,
+		$simDevVersion,
+		$simSvnRevision,
+		$simLocaleLanguage,
+		$simLocaleCountry,
+		$simSessionsSince,
+		$simSessionsEver,
+		$simUsageType,
+		$simDistributionTag,
+		$simDev,
+		$simScenario,
+		$hostLocaleLanguage,
+		$hostLocaleCountry,
+		$hostJavaOSName,
+		$hostJavaOSVersion,
+		$hostJavaOSArch,
+		$hostJavaVendor,
+		$hostJavaVersionMajor,
+		$hostJavaVersionMinor,
+		$hostJavaVersionMaintenance,
+		$hostJavaWebstartVersion,
+		$hostJavaTimezone
+	) {
+		$simType = 0;
+		
+		// calculate hostSimplifiedOS
+		$hostSimplifiedOS = "Unknown";
+		if(stripos($hostJavaOSName, 'Windows') !== false) {
+			$hostSimplifiedOS = "Windows - General";
+			if(stripos($hostJavaOSName, 'Vista') !== false) {
+				$hostSimplifiedOS = "Windows - Vista";
+			} else if(stripos($hostJavaOSName, 'XP') !== false) {
+				$hostSimplifiedOS = "Windows - XP";
+			}
+		} else if(stripos($hostJavaOSName, 'Mac') !== false) {
+			$hostSimplifiedOS = "Mac - General";
+		} else if(stripos($hostJavaOSName, 'Linux') !== false) {
+			$hostSimplifiedOS = "Linux - General";
+		} else if(stripos($hostJavaOSName, 'Unix') !== false) {
+			$hostSimplifiedOS = "Unix - General";
+		}
+		
+		// insert session
+		$sessionID = insert_session(
+			$messageVersion,
+			$simType,
+			$simProject,
+			$simName,
+			$simMajorVersion,
+			$simMinorVersion,
+			$simDevVersion,
+			$simSvnRevision,
+			$simLocaleLanguage,
+			$simLocaleCountry,
+			$simSessionsSince,
+			$simSessionsEver,
+			$simUsageType,
+			$simDistributionTag,
+			$simDev,
+			$simScenario,
+			$hostLocaleLanguage,
+			$hostLocaleCountry,
+			$hostSimplifiedOS
+		);
+		insert_java_info(
+			$sessionID,
+			$hostJavaOSName,
+			$hostJavaOSVersion,
+			$hostJavaOSArch,
+			$hostJavaVendor,
+			$hostJavaVersionMajor,
+			$hostJavaVersionMinor,
+			$hostJavaVersionMaintenance,
+			$hostJavaWebstartVersion,
+			$hostJavaTimezone
 		);
 	}
 ?>
