@@ -1,4 +1,6 @@
 <?php
+	include("db_util.php");
+	$link = setup_mysql();
 /*
 	include("db_util.php");
 	$link = setup_mysql();
@@ -26,6 +28,8 @@
 
 //echo date("YmdHis", time());
 
+
+
 ?>
 <html>
 <head>
@@ -50,5 +54,198 @@
 	<div style="width: 5px; height: 70px; background-color: #FFFFFF; float: left;"></div>
 	<div style="width: 5px; height: 65px; background-color: #FFFFFF; float: left;"></div>
 </div>
+<?php
+	insert_flash_message(
+		1,
+		1,
+		"pendulum-lab",
+		"pendulum-lab",
+		1,
+		0,
+		1,
+		27423,
+		'en',
+		'US',
+		1,
+		7,
+		'phet-website',
+		'none',
+		1,
+		'none',
+		'en',
+		'none',
+		'LNX',
+		9,
+		0,
+		124,
+		0,
+		420,
+		0,
+		'localhost',
+		'Linux 2.6.20-17-generic'
+	);
+	/*
+	
+	insert_session(
+		1,
+		1,
+		"pendulum-lab",
+		"pendulum-lab",
+		1,
+		0,
+		1,
+		27423,
+		'en',
+		'US',
+		1,
+		8,
+		'phet-website',
+		'none',
+		1,
+		'none',
+		'es',
+		'none',
+		'Win XP'
+	);
+	insert_flash_info(
+		2,
+		'WIN',
+		8,
+		0,
+		0,
+		0,
+		420,
+		0,
+		'www.phet-clone.com',
+		'Windows XP'
+	);
+	insert_session(
+		1,
+		1,
+		"geometric-optics",
+		"geometric-optics",
+		1,
+		0,
+		1,
+		27423,
+		'en',
+		'US',
+		1,
+		9,
+		'local-installation',
+		'none',
+		1,
+		'none',
+		'en',
+		'none',
+		'Win Vista'
+	);
+	insert_flash_info(
+		3,
+		'WIN',
+		9,
+		0,
+		6,
+		0,
+		480,
+		0,
+		'localhost',
+		'Windows Vista'
+	);
+	insert_session(
+		1,
+		1,
+		"geometric-optics",
+		"geometric-optics",
+		1,
+		0,
+		1,
+		27423,
+		'en',
+		'GB',
+		1,
+		10,
+		'cd-media',
+		'Wiley',
+		1,
+		'none',
+		'en',
+		'none',
+		'Win XP'
+	);
+	insert_flash_info(
+		4,
+		'WIN',
+		9,
+		0,
+		124,
+		0,
+		480,
+		0,
+		'localhost',
+		'Windows Vista'
+	);
+	
+	
+	
+	
+	
+	insert_session(
+		1,
+		1,
+		"pendulum-lab",
+		"pendulum-lab",
+		1,
+		0,
+		1,
+		27423,
+		'en',
+		'US',
+		1,
+		7,
+		'phet-website',
+		'none',
+		1,
+		'none',
+		'en',
+		'none',
+		'Linux'
+	);
+	insert_flash_info(
+		1,
+		'LNX',
+		9,
+		0,
+		124,
+		0,
+		420,
+		0,
+		'localhost',
+		'Linux 2.6.20-17-generic'
+	);
+	*/
+	insert_session(
+		1,
+		0,
+		"faraday",
+		"faraday",
+		2,
+		5,
+		0,
+		27498,
+		'en',
+		'none',
+		1,
+		11,
+		'general',
+		'none',
+		1,
+		'standalone-jar',
+		'en',
+		'none',
+		'Win XP'
+	);
+	
+?>
 </body>
 </html>

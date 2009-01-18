@@ -37,6 +37,7 @@
 	display_table("scenario");
 	display_table("simplified_os");
 	display_table("session");
+	display_table("flash_version_type");
 	display_table("flash_domain");
 	display_table("flash_os");
 	display_table("flash_info");

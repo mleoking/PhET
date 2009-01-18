@@ -78,6 +78,12 @@ CREATE TABLE session (
 	FOREIGN KEY (host_simplified_os) REFERENCES simplified_os (id) ON DELETE CASCADE
 );
 
+DROP TABLE flash_version_type;
+CREATE TABLE flash_version_type (
+	id MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(10)
+);
+
 DROP TABLE flash_domain;
 CREATE TABLE flash_domain (
 	id MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -93,7 +99,7 @@ CREATE TABLE flash_os (
 DROP TABLE flash_info;
 CREATE TABLE flash_info (
 	session_id INT NOT NULL PRIMARY KEY,
-	host_flash_version_type CHAR(5),
+	host_flash_version_type MEDIUMINT UNSIGNED NOT NULL,
 	host_flash_version_major TINYINT UNSIGNED,
 	host_flash_version_minor SMALLINT UNSIGNED,
 	host_flash_version_revision SMALLINT UNSIGNED,
@@ -104,6 +110,7 @@ CREATE TABLE flash_info (
 	host_flash_os INT UNSIGNED NOT NULL,
 	
 	FOREIGN KEY (session_id) REFERENCES sessions (id) ON DELETE CASCADE,
+	FOREIGN KEY (host_flash_version_type) REFERENCES flash_version_type (id) ON DELETE CASCADE,
 	FOREIGN KEY (host_flash_domain) REFERENCES flash_domain (id) ON DELETE CASCADE,
 	FOREIGN KEY (host_flash_os) REFERENCES flash_os (id) ON DELETE CASCADE
 );
@@ -172,7 +179,7 @@ CREATE VIEW simulation AS (
 		session.id,
 		session.timestamp,
 		session.message_version,
-		session.sim_type,
+		ELT(session.sim_type + 1, 'Java', 'Flash') AS sim_type,
 		sim_project.name AS sim_project,
 		sim_name.name AS sim_name,
 		session.sim_major_version,
@@ -208,7 +215,7 @@ CREATE VIEW flash_simulation AS (
 		session.id,
 		session.timestamp,
 		session.message_version,
-		session.sim_type,
+		ELT(session.sim_type + 1, 'Java', 'Flash') AS sim_type,
 		sim_project.name AS sim_project,
 		sim_name.name AS sim_name,
 		session.sim_major_version,
@@ -226,7 +233,7 @@ CREATE VIEW flash_simulation AS (
 		session.host_locale_language,
 		session.host_locale_country,
 		simplified_os.name AS host_simplified_os,
-		flash_info.host_flash_version_type,
+		flash_version_type.name AS host_flash_version_type,
 		flash_info.host_flash_version_major,
 		flash_info.host_flash_version_minor,
 		flash_info.host_flash_version_revision,
@@ -237,7 +244,7 @@ CREATE VIEW flash_simulation AS (
 		flash_os.name AS host_flash_os
 	FROM
 		session, sim_project, sim_name, usage_type, distribution_tag, simplified_os, scenario,
-		flash_info, flash_domain, flash_os
+		flash_info, flash_version_type, flash_domain, flash_os
 	WHERE (
 		session.sim_project = sim_project.id
 		AND session.sim_name = sim_name.id
@@ -246,6 +253,7 @@ CREATE VIEW flash_simulation AS (
 		AND session.sim_scenario = scenario.id
 		AND session.host_simplified_os = simplified_os.id
 		AND session.id = flash_info.session_id
+		AND flash_info.host_flash_version_type = flash_version_type.id
 		AND flash_info.host_flash_domain = flash_domain.id
 		AND flash_info.host_flash_os = flash_os.id
 	)
@@ -257,7 +265,7 @@ CREATE VIEW java_simulation AS (
 		session.id,
 		session.timestamp,
 		session.message_version,
-		session.sim_type,
+		ELT(session.sim_type + 1, 'Java', 'Flash') AS sim_type,
 		sim_project.name AS sim_project,
 		sim_name.name AS sim_name,
 		session.sim_major_version,

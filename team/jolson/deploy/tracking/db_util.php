@@ -13,12 +13,12 @@
 		$result = mysql_query($query);
 		$num_rows = mysql_num_rows($result);
 		if($num_rows == 0) {
-			$insert_query = "INSERT INTO $table_name ($table_field_vale) VALUES ($table_value)";
-			mysql_query($query);
+			$insert_query = "INSERT INTO $table_name ($table_field_value) VALUES ($table_value)";
+			mysql_query($insert_query);
 			return mysql_insert_id();
 		}
 		$row = mysql_fetch_row($result);
-		return $row[$table_field_id];
+		return $row[0];
 	}
 	
 	// surround a string with quotes
@@ -26,9 +26,226 @@
 		return "'" . $str . "'";
 	}
 	
+	class Field {
+		public $field = 'default_field';
+		public $value = 'default_value';
+		public function __construct($field, $value) {
+			$this->field = $field;
+			$this->value = $value;
+		}
+	}
+	
+	function quote_null_if_none($value) {
+		if($value == "none") {
+			return "''";
+		} else {
+			return quo($value);
+		}
+	}
+	
+	function query_from_values($table_name, $values) {
+		$query = "INSERT INTO $table_name (";
+		$first = true;
+		foreach($values as $f) {
+			if($first) {
+				$first = false;
+				$query .= $f->field;
+			} else {
+				$query .= ", " . $f->field;
+			}
+		}
+		$query .= ") VALUES (";
+		$first = true;
+		foreach($values as $f) {
+			if($first) {
+				$first = false;
+				$query .= $f->value;
+			} else {
+				$query .= ", " . $f->value;
+			}
+		}
+		$query .= ");";
+		return $query;
+	}
+	
 	// insert data into the session table
-	function insert_session($simType, $simProject, $simName, $simMajorVersion, $simMinorVersion, $simDevVersion, $simSvnRevision, $simLocaleLanguage, $simLocaleCountry, $simSessionsSince, $simSessionsEver, $simUsageType, $simDistributionTag, $simDev, $simScenario, $hostLocaleLanguage, $hostLocaleCountry, $hostSimplifiedOS) {
+	function insert_session(
+		$messageVersion,
+		$simType,
+		$simProject,
+		$simName,
+		$simMajorVersion,
+		$simMinorVersion,
+		$simDevVersion,
+		$simSvnRevision,
+		$simLocaleLanguage,
+		$simLocaleCountry,
+		$simSessionsSince,
+		$simSessionsEver,
+		$simUsageType,
+		$simDistributionTag,
+		$simDev,
+		$simScenario,
+		$hostLocaleLanguage,
+		$hostLocaleCountry,
+		$hostSimplifiedOS
+	) {
+		$simProjectID = get_id_value("sim_project", "id", "name", quo($simProject));
+		$simNameID = get_id_value("sim_name", "id", "name", quo($simName));
+		$simUsageTypeID = get_id_value("usage_type", "id", "name", quote_null_if_none($simUsageType));
+		$simDistributionTagID = get_id_value("distribution_tag", "id", "name", quote_null_if_none($simDistributionTag));
+		$simScenarioID = get_id_value("scenario", "id", "name", quote_null_if_none($simScenario));
+		$hostSimplifiedOSID = get_id_value("simplified_os", "id", "name", quo($hostSimplifiedOS));
 		
+		$values = array(
+			new Field('message_version', $messageVersion),
+			new Field('sim_type', $simType),
+			new Field('sim_project', $simProjectID),
+			new Field('sim_name', $simNameID),
+			new Field('sim_major_version', $simMajorVersion),
+			new Field('sim_minor_version', $simMinorVersion),
+			new Field('sim_dev_version', $simDevVersion),
+			new Field('sim_svn_revision', $simSvnRevision),
+			new Field('sim_locale_language', quo($simLocaleLanguage)),
+			new Field('sim_locale_country', quote_null_if_none($simLocaleCountry)),
+			new Field('sim_sessions_since', $simSessionsSince),
+			new Field('sim_sessions_ever', $simSessionsEver),
+			new Field('sim_usage_type', $simUsageTypeID),
+			new Field('sim_distribution_tag', $simDistributionTagID),
+			new Field('sim_dev', $simDev),
+			new Field('sim_scenario', $simScenarioID),
+			new Field('host_locale_language', quo($hostLocaleLanguage)),
+			new Field('host_locale_country', quote_null_if_none($hostLocaleCountry)),
+			new Field('host_simplified_os', $hostSimplifiedOSID),
+		);
+		
+		$query = query_from_values("session", $values);
+		
+		mysql_query($query);
+		
+		return mysql_insert_id();
+	}
+	
+	// insert data into the flash_info table
+	function insert_flash_info(
+		$sessionID,
+		$hostFlashVersionType,
+		$hostFlashVersionMajor,
+		$hostFlashVersionMinor,
+		$hostFlashVersionRevision,
+		$hostFlashVersionBuild,
+		$hostFlashTimeOffset,
+		$hostFlashAccessibility,
+		$hostFlashDomain,
+		$hostFlashOS
+	) {
+		$hostFlashVersionTypeID = get_id_value("flash_version_type", "id", "name", quo($hostFlashVersionType));
+		$hostFlashDomainID = get_id_value("flash_domain", "id", "name", quo($hostFlashDomain));
+		$hostFlashOSID = get_id_value("flash_os", "id", "name", quo($hostFlashOS));
+		
+		$values = array(
+			new Field('session_id', $sessionID),
+			new Field('host_flash_version_type', $hostFlashVersionTypeID),
+			new Field('host_flash_version_major', $hostFlashVersionMajor),
+			new Field('host_flash_version_minor', $hostFlashVersionMinor),
+			new Field('host_flash_version_revision', $hostFlashVersionRevision),
+			new Field('host_flash_version_build', $hostFlashVersionBuild),
+			new Field('host_flash_time_offset', $hostFlashTimeOffset),
+			new Field('host_flash_accessibility', $hostFlashAccessibility),
+			new Field('host_flash_domain', $hostFlashDomainID),
+			new Field('host_flash_os', $hostFlashOSID)
+		);
+		
+		$query = query_from_values("flash_info", $values);
+		
+		mysql_query($query);
+		
+		echo $query;
+		
+		return mysql_insert_id();
+	}
+	
+	// insert an entire flash message
+	function insert_flash_message(
+		$messageVersion,
+		$simType,
+		$simProject,
+		$simName,
+		$simMajorVersion,
+		$simMinorVersion,
+		$simDevVersion,
+		$simSvnRevision,
+		$simLocaleLanguage,
+		$simLocaleCountry,
+		$simSessionsSince,
+		$simSessionsEver,
+		$simUsageType,
+		$simDistributionTag,
+		$simDev,
+		$simScenario,
+		$hostLocaleLanguage,
+		$hostLocaleCountry,
+		$hostFlashVersionType,
+		$hostFlashVersionMajor,
+		$hostFlashVersionMinor,
+		$hostFlashVersionRevision,
+		$hostFlashVersionBuild,
+		$hostFlashTimeOffset,
+		$hostFlashAccessibility,
+		$hostFlashDomain,
+		$hostFlashOS
+	) {
+		// calculate hostSimplifiedOS
+		$hostSimplifiedOS = "Unknown";
+		if($hostFlashVersionType == 'WIN') {
+			$hostSimplifiedOS = "Windows - General";
+			if(stripos($hostFlashOS, 'Vista') !== false) {
+				$hostSimplifiedOS = "Windows - Vista";
+			} else if(stripos($hostFlashOS, 'XP') !== false) {
+				$hostSimplifiedOS = "Windows - XP";
+			}
+		} else if($hostFlashVersionType == 'MAC') {
+			$hostSimplifiedOS = "Mac - General";
+		} else if($hostFlashVersionType == 'LNX') {
+			$hostSimplifiedOS = "Linux - General";
+		} else if($hostFlashVersionType == 'UNIX') {
+			$hostSimplifiedOS = "Unix - General";
+		}
+		
+		// insert session
+		$sessionID = insert_session(
+			$messageVersion,
+			$simType,
+			$simProject,
+			$simName,
+			$simMajorVersion,
+			$simMinorVersion,
+			$simDevVersion,
+			$simSvnRevision,
+			$simLocaleLanguage,
+			$simLocaleCountry,
+			$simSessionsSince,
+			$simSessionsEver,
+			$simUsageType,
+			$simDistributionTag,
+			$simDev,
+			$simScenario,
+			$hostLocaleLanguage,
+			$hostLocaleCountry,
+			$hostSimplifiedOS
+		);
+		insert_flash_info(
+			$sessionID,
+			$hostFlashVersionType,
+			$hostFlashVersionMajor,
+			$hostFlashVersionMinor,
+			$hostFlashVersionRevision,
+			$hostFlashVersionBuild,
+			$hostFlashTimeOffset,
+			$hostFlashAccessibility,
+			$hostFlashDomain,
+			$hostFlashOS
+		);
 	}
 ?>
 
