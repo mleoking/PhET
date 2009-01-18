@@ -47,6 +47,8 @@ class RecordingControl(model: LadybugModel) extends PhetPCanvas {
 
     playbackIndicator.setTextPaint(if (model.isPlayback) Color.red else Color.lightGray)
     recordIndicator.setTextPaint(if (model.isRecord) Color.red else Color.lightGray)
+
+    timeline.setVisible(model.isPlayback)
   }
 
   class Timeline extends PNode {
