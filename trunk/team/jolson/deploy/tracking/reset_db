@@ -1,0 +1,1 @@
+mysql -u root phet_stats_test_1 -p -f < phet_stats_test_1.sql
