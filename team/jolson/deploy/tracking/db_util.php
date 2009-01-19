@@ -26,6 +26,7 @@
 		return "'" . $str . "'";
 	}
 	
+	// used for inserting into tables. stores the field name, and value to be inserted
 	class Field {
 		public $field = 'default_field';
 		public $value = 'default_value';
@@ -36,13 +37,14 @@
 	}
 	
 	function quote_null_if_none($value) {
-		if($value == "none") {
+		if($value == "none" || $value == "null" || $value == "undefined") {
 			return "''";
 		} else {
 			return quo($value);
 		}
 	}
 	
+	// turn a table name and array of Field objects into an insert statement
 	function query_from_values($table_name, $values) {
 		$query = "INSERT INTO $table_name (";
 		$first = true;
@@ -66,11 +68,6 @@
 		}
 		$query .= ");";
 		return $query;
-	}
-	
-	// insert/update data for the user table
-	function update_user(
-	) {
 	}
 	
 	// insert data into the session table
@@ -165,8 +162,6 @@
 		
 		mysql_query($query);
 		
-		echo $query;
-		
 		return mysql_insert_id();
 	}
 	
@@ -206,8 +201,6 @@
 		$query = query_from_values("java_info", $values);
 		
 		mysql_query($query);
-		
-		echo $query;
 		
 		return mysql_insert_id();
 	}
@@ -378,6 +371,33 @@
 			$hostJavaWebstartVersion,
 			$hostJavaTimezone
 		);
+	}
+	
+	// insert/update data for the user table
+	function update_user(
+		$userPreferencesFileCreationTime,
+		$userTotalSessions
+	) {
+		$query = "SELECT user_preferences_file_creation_time FROM user WHERE user_preferences_file_creation_time = " . $userPreferencesFileCreationTime . ";";
+		$result = mysql_query($query);
+		$num_rows = mysql_num_rows($result);
+		if($num_rows === 0) {
+			// first time this user is seen
+			$values = array(
+				new Field('user_preferences_file_creation_time', $userPreferencesFileCreationTime),
+				new Field('user_total_sessions', $userTotalSessions),
+				new Field('first_seen_month', quo(date("Y-m-01", time()))),
+				new Field('last_seen_month', quo(date("Y-m-01", time())))
+			);
+			$insert_query = query_from_values("user", $values);
+			mysql_query($insert_query);
+		} else {
+			// user already in table, update values
+			$update_query = "UPDATE user SET user_total_sessions = $userTotalSessions WHERE user_preferences_file_creation_time = $userPreferencesFileCreationTime";
+			mysql_query($update_query);
+			$update_query = "UPDATE user SET last_seen_month = " . quo(date("Y-m-01", time())) . " WHERE user_preferences_file_creation_time = $userPreferencesFileCreationTime";
+			mysql_query($update_query);
+		}
 	}
 ?>
 

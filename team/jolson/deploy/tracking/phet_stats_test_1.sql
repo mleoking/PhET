@@ -1,7 +1,7 @@
 
 DROP TABLE user;
 CREATE TABLE user (
-	user_preferences_file_creation_time INT UNSIGNED NOT NULL PRIMARY KEY,
+	user_preferences_file_creation_time BIGINT UNSIGNED NOT NULL PRIMARY KEY,
 	user_total_sessions INT UNSIGNED,
 	first_seen_month DATE,
 	last_seen_month DATE
