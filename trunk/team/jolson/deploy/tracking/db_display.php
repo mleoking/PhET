@@ -37,9 +37,8 @@
 	display_table("user");
 	display_table("sim_project");
 	display_table("sim_name");
-	display_table("usage_type");
+	display_table("deployment");
 	display_table("distribution_tag");
-	display_table("scenario");
 	display_table("simplified_os");
 	display_table("session");
 	display_table("flash_version_type");

@@ -190,38 +190,25 @@
 		$simSessionsEver = $simSessionsSince + rand(1, 10) * rand(1, 30) + rand(0, 10);
 		
 		
-		// usage type
-		$simUsageType = 'book-cd';
+		// deployment
+		$simDeployment = 'book-cd';
 		if(rand(0, 99) < 30) {
-			$simUsageType = 'external-website';
+			$simDeployment = 'external-website';
 		}
 		if(rand(0, 99) < 30) {
-			$simUsageType = 'standalone-install';
+			$simDeployment = 'standalone-install';
 		}
 		if(rand(0, 99) < 60) {
-			$simUsageType = 'full-install';
+			$simDeployment = 'full-install';
 		}
 		
 		// distribution tag
 		$simDistributionTag = "none";
-		if($simUsageType == "book-cd") {
+		if($simDeployment == "book-cd") {
 			if(rand(0, 99) < 40) {
 				$simDistributionTag = "Wiley";
 			} else {
 				$simDistributionTag = "Pierce";
-			}
-		}
-		
-		// scenario
-		if($simType == "flash") {
-			$simScenario = "none";
-		} else {
-			$simScenario = "standalone-jar";
-			if(rand(0, 99) < 30) {
-				$simScenario = "installed-jar";
-			}
-			if(rand(0, 99) < 30) {
-				$simScenario = "jnlp";
 			}
 		}
 		
@@ -279,7 +266,7 @@
 			
 			$hostFlashAccessibility = (rand(0, 99) < 1 ? 1 : 0);
 			
-			if($simUsageType == 'external-website') {
+			if($simDeployment == 'external-website') {
 				if(rand(0, 99) < 30) {
 					$hostFlashDomain = "www.clonephet.com";
 				} else if(rand(0, 99) < 60) {
@@ -305,10 +292,9 @@
 				$simLocaleCountry,
 				$simSessionsSince,
 				$simSessionsEver,
-				$simUsageType,
+				$simDeployment,
 				$simDistributionTag,
 				$simDev,
-				$simScenario,
 				$hostLocaleLanguage,
 				$hostLocaleCountry,
 				$hostFlashVersionType,
@@ -380,10 +366,9 @@
 				$simLocaleCountry,
 				$simSessionsSince,
 				$simSessionsEver,
-				$simUsageType,
+				$simDeployment,
 				$simDistributionTag,
 				$simDev,
-				$simScenario,
 				$hostLocaleLanguage,
 				$hostLocaleCountry,
 				$hostJavaOSName,

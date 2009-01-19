@@ -4,7 +4,7 @@
 	// TODO: change this password, it has been on subversion
 	function setup_mysql() {
 		$link = mysql_connect("localhost", "www-data", "d3#r3m0nt$") or die(mysql_error());
-		mysql_select_db("phet_stats_test_1") or die(mysql_error());
+		mysql_select_db("phet_stats_test_2") or die(mysql_error());
 		return $link;
 	}
 	
@@ -134,10 +134,9 @@
 		$simLocaleCountry,
 		$simSessionsSince,
 		$simSessionsEver,
-		$simUsageType,
+		$simDeployment,
 		$simDistributionTag,
 		$simDev,
-		$simScenario,
 		$hostLocaleLanguage,
 		$hostLocaleCountry,
 		$hostSimplifiedOS
@@ -145,9 +144,8 @@
 		// get IDs from normalized tables
 		$simProjectID = get_id_value("sim_project", "id", "name", quo($simProject));
 		$simNameID = get_id_value("sim_name", "id", "name", quo($simName));
-		$simUsageTypeID = get_id_value("usage_type", "id", "name", quote_null_if_none($simUsageType));
+		$simDeploymentID = get_id_value("deployment", "id", "name", quote_null_if_none($simDeployment));
 		$simDistributionTagID = get_id_value("distribution_tag", "id", "name", quote_null_if_none($simDistributionTag));
-		$simScenarioID = get_id_value("scenario", "id", "name", quote_null_if_none($simScenario));
 		$hostSimplifiedOSID = get_id_value("simplified_os", "id", "name", quo($hostSimplifiedOS));
 		
 		$values = array(
@@ -163,10 +161,9 @@
 			new Field('sim_locale_country', quote_null_if_none($simLocaleCountry)),
 			new Field('sim_sessions_since', $simSessionsSince),
 			new Field('sim_sessions_ever', $simSessionsEver),
-			new Field('sim_usage_type', $simUsageTypeID),
+			new Field('sim_deployment', $simDeploymentID),
 			new Field('sim_distribution_tag', $simDistributionTagID),
 			new Field('sim_dev', $simDev),
-			new Field('sim_scenario', $simScenarioID),
 			new Field('host_locale_language', quo($hostLocaleLanguage)),
 			new Field('host_locale_country', quote_null_if_none($hostLocaleCountry)),
 			new Field('host_simplified_os', $hostSimplifiedOSID),
@@ -280,10 +277,9 @@
 		$simLocaleCountry,
 		$simSessionsSince,
 		$simSessionsEver,
-		$simUsageType,
+		$simDeployment,
 		$simDistributionTag,
 		$simDev,
-		$simScenario,
 		$hostLocaleLanguage,
 		$hostLocaleCountry,
 		$hostFlashVersionType,
@@ -330,10 +326,9 @@
 			$simLocaleCountry,
 			$simSessionsSince,
 			$simSessionsEver,
-			$simUsageType,
+			$simDeployment,
 			$simDistributionTag,
 			$simDev,
-			$simScenario,
 			$hostLocaleLanguage,
 			$hostLocaleCountry,
 			$hostSimplifiedOS
@@ -369,10 +364,9 @@
 		$simLocaleCountry,
 		$simSessionsSince,
 		$simSessionsEver,
-		$simUsageType,
+		$simDeployment,
 		$simDistributionTag,
 		$simDev,
-		$simScenario,
 		$hostLocaleLanguage,
 		$hostLocaleCountry,
 		$hostJavaOSName,
@@ -419,10 +413,9 @@
 			$simLocaleCountry,
 			$simSessionsSince,
 			$simSessionsEver,
-			$simUsageType,
+			$simDeployment,
 			$simDistributionTag,
 			$simDev,
-			$simScenario,
 			$hostLocaleLanguage,
 			$hostLocaleCountry,
 			$hostSimplifiedOS
