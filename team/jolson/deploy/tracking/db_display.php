@@ -3,9 +3,14 @@
 <body>
 <h1>Raw Database Values</h1>
 <?php
+	
+	// script to display the raw values in the database
+	// not fun if you view this with 4 million entries or so (over 8 million tuples)
+	
 	include("db_util.php");
 	$link = setup_mysql();
 	
+	// used to extract fieldnames and display each table
 	function display_table($tablename) {
 		$result = mysql_query("SELECT * FROM $tablename") or die("SELECT ERROR");
 		$num_rows = mysql_num_rows($result);
@@ -50,7 +55,7 @@
 	display_table("java_info");
 	
 ?>
-<h1>Joined Data</h1>
+<h1>Joined Data (View Tables)</h1>
 <?php
 	display_table("simulation");
 	display_table("flash_simulation");
