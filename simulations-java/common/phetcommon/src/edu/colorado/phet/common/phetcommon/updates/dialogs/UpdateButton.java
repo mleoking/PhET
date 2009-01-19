@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.updates.SimUpdater;
-import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.util.DeploymentScenario;
 
 /**
  * The update button that appears in dialogs.
@@ -22,7 +22,7 @@ public class UpdateButton extends JButton {
         super( PhetCommonResources.getString( "Common.updates.updateNow" ) );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if ( PhetUtilities.isRunningFromWebsite() ) {
+                if ( DeploymentScenario.isWebsite() ) {
                     PhetServiceManager.showSimPage( project, sim );
                 }
                 else {

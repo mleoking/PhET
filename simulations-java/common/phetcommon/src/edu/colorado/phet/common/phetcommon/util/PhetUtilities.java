@@ -3,17 +3,14 @@
 package edu.colorado.phet.common.phetcommon.util;
 
 import java.util.ArrayList;
-import java.io.File;
-import java.security.AccessControlException;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 
 /**
  * PhetUtilities
@@ -65,7 +62,7 @@ public class PhetUtilities {
      * @return The active module
      */
     public static Module getActiveModule() {
-        return PhetApplication.instance().getActiveModule();
+        return PhetApplication.getInstance().getActiveModule();
     }
 
     /**
@@ -74,7 +71,7 @@ public class PhetUtilities {
      * @return The PhetFrame
      */
     public static PhetFrame getPhetFrame() {
-        return PhetApplication.instance().getPhetFrame();
+        return PhetApplication.getInstance().getPhetFrame();
     }
 
     /**
@@ -149,55 +146,6 @@ public class PhetUtilities {
         return rval;
     }
 
-    /**
-     * Was this sim run as part of a PhET installation, created using the PhET installer?
-     * If it was, then a file named .phet-installer will live in the JAR's parent directory.
-     * 
-     * @return true or false
-     */
-    public static boolean isRunningFromPhetInstallation() {
-        boolean isPhetInstallation = false;
-        if ( hasPermissionsToGetCodeSource() ) {
-            File codeSource = FileUtils.getCodeSource();
-            File parent = codeSource.getParentFile();
-            if ( parent != null ) {
-                File grandparent = parent.getParentFile();
-                if ( grandparent != null ) {
-                    File specialFile = new File( grandparent.getAbsolutePath() + System.getProperty( "file.separator" ) + "phet-installation.properties" );
-                    isPhetInstallation = specialFile.exists();
-                }
-            }
-        }
-        return isPhetInstallation;
-    }
-
-    private static boolean hasPermissionsToGetCodeSource() {
-        //TODO: bad style to write code that depends on exceptions, see AccessControlContext for a better solution 
-        try {
-            FileUtils.getCodeSource();
-            return true;
-        }
-        catch( AccessControlException ace ) {
-            return false;
-        }
-    }
-
-    /**
-     * Is this sim running from a stand-alone JAR file on the user's local machine?
-     * @return
-     */
-    public static boolean isRunningFromStandaloneJar() {
-        return !PhetServiceManager.isJavaWebStart() && !PhetUtilities.isRunningFromPhetInstallation();
-    }
-    
-    /**
-     * Is this sim running from a web site using Java Web Start?
-     * @return
-     */
-    public static boolean isRunningFromWebsite() {
-        return PhetServiceManager.isJavaWebStart() && !PhetUtilities.isRunningFromPhetInstallation(); // PhET installer uses Web Start!
-    }
-    
     public static String getJavaPath() {
         return System.getProperty( "java.home" ) + System.getProperty( "file.separator" ) + "bin" + System.getProperty( "file.separator" ) + "java";
     }
