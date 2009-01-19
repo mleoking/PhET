@@ -5,6 +5,7 @@ import java.util.Date;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.util.DeploymentScenario;
 import edu.colorado.phet.common.phetcommon.util.JavaVersion.JREVersion;
 
 /**
@@ -38,7 +39,7 @@ public class SessionMessage extends TrackingMessage {
                 new TrackingMessageField( "sim_distribution_id", config.getDistributionId() ),
                 new TrackingMessageField( "sim_locale_language", PhetResources.readLocale().getLanguage() ),
                 new TrackingMessageField( "sim_locale_country", PhetResources.readLocale().getCountry() ),
-                new TrackingMessageField( "sim_scenario", config.getRuntimeScenario() ),
+                new TrackingMessageField( "sim_deployment_scenario", DeploymentScenario.getName() ),
                 new TrackingMessageField( "sim_dev", config.isDev() + "" ),
                 
                 // Host data

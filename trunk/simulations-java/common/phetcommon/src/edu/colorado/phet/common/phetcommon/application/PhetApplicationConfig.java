@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.tracking.ITrackingInfo;
 import edu.colorado.phet.common.phetcommon.tracking.SessionMessage;
-import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.util.DeploymentScenario;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
@@ -165,29 +165,6 @@ public class PhetApplicationConfig implements ITrackingInfo, ISimInfo {
         return DEFAULT_DISTRIBUTION_ID;
     }
     
-    /**
-     * Returns the string representation of the scenario used to run the sim.
-     * @return
-     */
-    public String getRuntimeScenario() {
-        //TODO: #1087, which scenario was used to run the sim?
-        //TODO: using string literals here is bad, should be replaced
-        String scenario = "unknown";
-        if ( PhetUtilities.isRunningFromStandaloneJar() ) {
-            scenario = "standalone-jar";
-        }
-        else if ( PhetUtilities.isRunningFromPhetInstallation() ) {
-            scenario = "phet-installation";
-        }
-        else if ( PhetUtilities.isRunningFromWebsite() ) {
-            //TODO: how to differentiate between phet website and other website? see #1087
-            scenario = "phet-website";
-        }
-        //TODO: scenario = "other-website"
-        //TODO: scenario = "developer"
-        return scenario;
-    }
-
     //----------------------------------------------------------------------------
     // Standard properties
     //----------------------------------------------------------------------------
@@ -261,7 +238,7 @@ public class PhetApplicationConfig implements ITrackingInfo, ISimInfo {
      * @return
      */
     public boolean isUpdatesFeatureIncluded() {
-        return hasCommandLineArg( "-updates" ) && !PhetUtilities.isRunningFromWebsite();
+        return hasCommandLineArg( "-updates" ) && !DeploymentScenario.isWebsite();
     }
     
     /**
@@ -269,7 +246,7 @@ public class PhetApplicationConfig implements ITrackingInfo, ISimInfo {
      * @return
      */
     public boolean isTrackingFeatureIncluded() {
-        return hasCommandLineArg( "-tracking" ) && !PhetUtilities.isRunningFromWebsite();
+        return hasCommandLineArg( "-tracking" ) && !DeploymentScenario.isWebsite();
     }
 
     public boolean isUpdatesEnabled() {
