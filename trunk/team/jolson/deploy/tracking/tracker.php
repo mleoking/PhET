@@ -25,12 +25,9 @@
 		$file = fopen($filename, 'a');
 		$str = date('y/m/d h:i:s A') . ":\n";
 		
-		$flashFields = array("message_type", "message_version", "user_preference_file_creation_time", "user_total_sessions", "sim_type", "sim_project", "sim_name", "sim_major_version", "sim_minor_version", "sim_dev_version", "sim_svn_revision", "sim_locale_language", "sim_locale_country", "sim_sessions_since", "sim_sessions_ever", "sim_usage_type", "sim_distribution_tag", "sim_dev", "host_flash_os", "host_flash_version", "host_locale_language", "host_flash_time_offset", "host_flash_accessibility", "host_flash_domain");
-		if($xml["sim_type"] == "flash") {
-			// dump it into tracking-log.txt
-			foreach($flashFields as &$field) {
-				$str .= "\t" . $field . "=" . urldecode($xml[$field]) . "\n";
-			}
+		// for each attribute, print out its key and value
+		foreach($xml->attributes() as $key => $value) {
+			$str .= "\t" . $key . "=" . urldecode($value) . "\n";
 		}
 		
 		$str .= "\n";
