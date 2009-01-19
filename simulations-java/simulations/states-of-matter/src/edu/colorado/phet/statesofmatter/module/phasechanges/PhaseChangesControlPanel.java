@@ -121,7 +121,9 @@ public class PhaseChangesControlPanel extends ControlPanel {
             	updatePhaseDiagram();
             }
             public void resetOccurred(){
-            	updateControlVisibility();
+            	m_phaseDiagramVisible = true;
+            	m_interactionDiagramVisible = true;
+            	updateVisibilityStates();
             }
         });
         
@@ -245,7 +247,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
         addResetAllButton( phaseChangesModule );
         
         // Update the visibility of the controls based on current model state.
-        updateControlVisibility();
+        updateVisibilityStates();
     }
     
     //----------------------------------------------------------------------------
@@ -322,10 +324,6 @@ public class PhaseChangesControlPanel extends ControlPanel {
     	return Math.min(mappedPressure, 1);
     }
     
-    private void updateControlVisibility(){
-    	m_interactionStrengthControlPanel.setVisible(m_model.getMoleculeType() == StatesOfMatterConstants.USER_DEFINED_MOLECULE);
-    }
-    
     //----------------------------------------------------------------------------
     // Inner Classes
     //----------------------------------------------------------------------------
@@ -359,7 +357,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
                     m_model.setPhase( MultipleParticleModel.PHASE_SOLID);
                     m_interactionPotentialDiagram.setMolecular( true );
                     m_phaseDiagram.setDepictingWater( false );
-                    updateControlVisibility();
+                    updateVisibilityStates();
                 }
             } );
             m_neonRadioButton = new JRadioButton( StatesOfMatterStrings.NEON_SELECTION_LABEL );
@@ -370,7 +368,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
                     m_model.setPhase( MultipleParticleModel.PHASE_SOLID);
                     m_interactionPotentialDiagram.setMolecular( false );
                     m_phaseDiagram.setDepictingWater( false );
-                    updateControlVisibility();
+                    updateVisibilityStates();
                 }
             } );
             m_argonRadioButton = new JRadioButton( StatesOfMatterStrings.ARGON_SELECTION_LABEL );
@@ -381,7 +379,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
                     m_model.setPhase( MultipleParticleModel.PHASE_SOLID);
                     m_interactionPotentialDiagram.setMolecular( false );
                     m_phaseDiagram.setDepictingWater( false );
-                    updateControlVisibility();
+                    updateVisibilityStates();
                 }
             } );
             m_waterRadioButton = new JRadioButton( StatesOfMatterStrings.WATER_SELECTION_LABEL );
@@ -392,7 +390,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
                     m_model.setPhase( MultipleParticleModel.PHASE_SOLID);
                     m_interactionPotentialDiagram.setMolecular( true );
                     m_phaseDiagram.setDepictingWater( true );
-                    updateControlVisibility();
+                    updateVisibilityStates();
                 }
             } );
             m_configurableRadioButton = new JRadioButton( StatesOfMatterStrings.ADJUSTABLE_ATTRACTION_SELECTION_LABEL );
@@ -401,9 +399,9 @@ public class PhaseChangesControlPanel extends ControlPanel {
                 public void actionPerformed( ActionEvent e ) {
                     m_model.setMoleculeType( StatesOfMatterConstants.USER_DEFINED_MOLECULE );
                     m_model.setPhase( MultipleParticleModel.PHASE_SOLID);
-                    m_interactionPotentialDiagram.setMolecular( true );
+                    m_interactionPotentialDiagram.setMolecular( false );
                     m_phaseDiagram.setDepictingWater( false );
-                    updateControlVisibility();
+                    updateVisibilityStates();
                 }
             } );
             
@@ -561,17 +559,37 @@ public class PhaseChangesControlPanel extends ControlPanel {
     }
     
     /**
-     * Update the visibility of the various diagrams and buttons based on
-     * the internal state.
+     * Update the visibility of the various diagrams, buttons, and controls
+     * based on the internal state and the state of the model.
      */
     private void updateVisibilityStates(){
-        m_interactionDiagramPanel.setVisible( m_interactionDiagramVisible );
+
+    	m_interactionDiagramPanel.setVisible( m_interactionDiagramVisible );
         m_interactionDiagramCtrlButton.setVisible( !m_interactionDiagramVisible );
-        m_preInteractionButtonSpacer.setVisible(!m_interactionDiagramVisible);
-        m_postInteractionButtonSpacer.setVisible(!m_interactionDiagramVisible);
-        m_phaseDiagramPanel.setVisible( m_phaseDiagramVisible );
-        m_phaseDiagramCtrlButton.setVisible( !m_phaseDiagramVisible );
-        m_prePhaseButtonSpacer.setVisible(!m_phaseDiagramVisible);
-        m_postPhaseButtonSpacer.setVisible(!m_phaseDiagramVisible);
+        m_preInteractionButtonSpacer.setVisible( !m_interactionDiagramVisible );
+        m_postInteractionButtonSpacer.setVisible( !m_interactionDiagramVisible );
+        
+    	boolean userDefinedMoleculeSelected = 
+    		m_model.getMoleculeType() == StatesOfMatterConstants.USER_DEFINED_MOLECULE;
+    	
+    	m_interactionStrengthControlPanel.setVisible( userDefinedMoleculeSelected );
+    	
+    	if ( userDefinedMoleculeSelected ){
+        	// Don't show the phase diagram or the button that enables it if
+        	// the user has selected the adjustable atom.  This is done
+        	// because the adjustable atom is not a real thing, and it is to
+        	// difficult to figure out what to do with the phase diagram in
+        	// this case.
+    		m_phaseDiagramPanel.setVisible( false );
+    		m_phaseDiagramCtrlButton.setVisible( false );
+    		m_preInteractionButtonSpacer.setVisible( false );
+    		m_postInteractionButtonSpacer.setVisible( false );
+        }
+        else{
+            m_phaseDiagramPanel.setVisible( m_phaseDiagramVisible );
+            m_phaseDiagramCtrlButton.setVisible( !m_phaseDiagramVisible );
+            m_prePhaseButtonSpacer.setVisible( !m_phaseDiagramVisible );
+            m_postPhaseButtonSpacer.setVisible( !m_phaseDiagramVisible );
+        }
     }
 }
