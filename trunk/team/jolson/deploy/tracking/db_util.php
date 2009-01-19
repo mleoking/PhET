@@ -7,14 +7,27 @@
 		return $link;
 	}
 	
+	function phet_mysql_query($query) {
+echo "<p>" . $query . "</p>";
+		$result = mysql_query($query);
+		
+echo "<p>" . mysql_error() . "</p>";
+		//$result | die();
+		return $result;
+	}
+	
 	// get the id value corresponding to a unique value. if it doesn't exist, create a new row
 	function get_id_value($table_name, $table_field_id, $table_field_value, $table_value) {
-		$query = "SELECT $table_field_id FROM $table_name WHERE $table_field_value = $table_value";
-		$result = mysql_query($query);
+		if($table_value != "NULL") {
+			$query = "SELECT $table_field_id FROM $table_name WHERE $table_field_value = $table_value";
+		} else {
+			$query = "SELECT $table_field_id FROM $table_name WHERE $table_field_value IS NULL";
+		}
+		$result = phet_mysql_query($query);
 		$num_rows = mysql_num_rows($result);
 		if($num_rows == 0) {
 			$insert_query = "INSERT INTO $table_name ($table_field_value) VALUES ($table_value)";
-			mysql_query($insert_query);
+			phet_mysql_query($insert_query);
 			return mysql_insert_id();
 		}
 		$row = mysql_fetch_row($result);
@@ -38,7 +51,7 @@
 	
 	function quote_null_if_none($value) {
 		if($value == "none" || $value == "null" || $value == "undefined") {
-			return "''";
+			return "NULL";
 		} else {
 			return quo($value);
 		}
@@ -123,7 +136,7 @@
 		
 		$query = query_from_values("session", $values);
 		
-		mysql_query($query);
+		phet_mysql_query($query);
 		
 		return mysql_insert_id();
 	}
@@ -160,7 +173,7 @@
 		
 		$query = query_from_values("flash_info", $values);
 		
-		mysql_query($query);
+		phet_mysql_query($query);
 		
 		return mysql_insert_id();
 	}
@@ -200,7 +213,7 @@
 		
 		$query = query_from_values("java_info", $values);
 		
-		mysql_query($query);
+		phet_mysql_query($query);
 		
 		return mysql_insert_id();
 	}
@@ -287,6 +300,8 @@
 			$hostFlashDomain,
 			$hostFlashOS
 		);
+		
+		return $sessionID;
 	}
 	
 	// insert an entire java message
@@ -371,6 +386,8 @@
 			$hostJavaWebstartVersion,
 			$hostJavaTimezone
 		);
+		
+		return $sessionID;
 	}
 	
 	// insert/update data for the user table
@@ -379,7 +396,7 @@
 		$userTotalSessions
 	) {
 		$query = "SELECT user_preferences_file_creation_time FROM user WHERE user_preferences_file_creation_time = " . $userPreferencesFileCreationTime . ";";
-		$result = mysql_query($query);
+		$result = phet_mysql_query($query);
 		$num_rows = mysql_num_rows($result);
 		if($num_rows === 0) {
 			// first time this user is seen
@@ -390,13 +407,13 @@
 				new Field('last_seen_month', quo(date("Y-m-01", time())))
 			);
 			$insert_query = query_from_values("user", $values);
-			mysql_query($insert_query);
+			phet_mysql_query($insert_query);
 		} else {
 			// user already in table, update values
 			$update_query = "UPDATE user SET user_total_sessions = $userTotalSessions WHERE user_preferences_file_creation_time = $userPreferencesFileCreationTime";
-			mysql_query($update_query);
+			phet_mysql_query($update_query);
 			$update_query = "UPDATE user SET last_seen_month = " . quo(date("Y-m-01", time())) . " WHERE user_preferences_file_creation_time = $userPreferencesFileCreationTime";
-			mysql_query($update_query);
+			phet_mysql_query($update_query);
 		}
 	}
 ?>
