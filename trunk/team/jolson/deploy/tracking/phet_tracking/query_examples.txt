@@ -1,4 +1,6 @@
 
+966 MB
+
 GRANT ALL ON phet_stats_test_1.* TO "www-data"@localhost IDENTIFIED BY "d3#r3m0nt$";
 
 SELECT DISTINCT sim_name FROM sessions ORDER BY sim_name;

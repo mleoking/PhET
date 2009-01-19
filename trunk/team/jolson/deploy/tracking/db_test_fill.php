@@ -24,6 +24,7 @@
 	$minor_versions = array(0, 5, 9, 0, 4);
 	$num_versions = 5;
 	
+	$filepreftimes = array();
 	
 	
 	// generates a randomly sampled locale (ish)
@@ -244,6 +245,7 @@
 		
 		$timestampOffset = rand(0, 11231)*rand(0, 11231);
 		$timestampRatio = 1 - $timestampOffset / (11231*11231);
+		
 		
 		if($simType == "flash") {
 			

@@ -67,8 +67,8 @@ CREATE TABLE session (
 	host_locale_country CHAR(2),
 	host_simplified_os TINYINT UNSIGNED NOT NULL,
 	
-	INDEX(timestamp),
-	INDEX(sim_project, sim_name),
+#	INDEX(timestamp),
+#	INDEX(sim_project, sim_name),
 	
 	FOREIGN KEY (sim_project) REFERENCES sim_project (id) ON DELETE CASCADE,
 	FOREIGN KEY (sim_name) REFERENCES sim_name (id) ON DELETE CASCADE,
