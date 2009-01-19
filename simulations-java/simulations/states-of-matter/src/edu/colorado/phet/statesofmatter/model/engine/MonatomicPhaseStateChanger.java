@@ -132,7 +132,7 @@ public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
                     temperatureSqrt * rand.nextGaussian() );
         }
         
-        // Assign each atom to a position centered on its blob.
+        // Assign each atom to a position.
         
         int atomsPlaced = 0;
         
@@ -202,6 +202,7 @@ public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
                     temperatureSqrt * rand.nextGaussian() );
         }
         
+        /*
         // Redistribute the particles randomly around the container, but make
         // sure that they are not too close together or they end up with a
         // disproportionate amount of kinetic energy.
@@ -229,6 +230,50 @@ public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
                 else if (j == MAX_PLACEMENT_ATTEMPTS - 1){
                     // This is the last attempt, so use this position anyway.
                 	moleculeCenterOfMassPositions[i].setLocation( newPosX, newPosY );
+                }
+            }
+        }
+        */
+        int atomsPlaced = 0;
+        
+        Point2D centerPoint = new Point2D.Double(m_model.getNormalizedContainerWidth() / 2, 
+        		m_model.getNormalizedContainerHeight() / 4);
+        int currentLayer = 0;
+        int particlesOnCurrentLayer = 0;
+        int particlesThatWillFitOnCurrentLayer = 1;
+        
+        for (int j = 0; j < numberOfAtoms; j++){
+            
+            for (int k = 0; k < MAX_PLACEMENT_ATTEMPTS; k++){
+                
+                double distanceFromCenter = currentLayer * MIN_INITIAL_INTER_PARTICLE_DISTANCE;
+                double angle = ((double)particlesOnCurrentLayer / (double)particlesThatWillFitOnCurrentLayer * 2 * Math.PI) +
+                        ((double)particlesThatWillFitOnCurrentLayer / (4 * Math.PI));
+                double xPos = centerPoint.getX() + (distanceFromCenter * Math.cos( angle ));
+                double yPos = centerPoint.getY() + (distanceFromCenter * Math.sin( angle ));
+                particlesOnCurrentLayer++;  // Consider this spot used even if we don't actually put the
+                                            // particle there.
+                if (particlesOnCurrentLayer >= particlesThatWillFitOnCurrentLayer){
+                    
+                    // This layer is full - move to the next one.
+                    currentLayer++;
+                    particlesThatWillFitOnCurrentLayer = 
+                        (int)( currentLayer * 2 * Math.PI / MIN_INITIAL_INTER_PARTICLE_DISTANCE );
+                    particlesOnCurrentLayer = 0;
+                }
+
+                // Check if the position is too close to the wall.  Note
+                // that we don't check inter-particle distances here - we
+                // rely on the placement algorithm to make sure that we don't
+                // run into problems with this.
+                if ((xPos > MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE) &&
+                    (xPos < m_model.getNormalizedContainerWidth() - MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE) &&
+                    (yPos > MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE) &&
+                    (xPos < m_model.getNormalizedContainerHeight() - MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE)){
+                    
+                    // This is an acceptable position.
+                    moleculeCenterOfMassPositions[atomsPlaced++].setLocation( xPos, yPos );
+                    break;
                 }
             }
         }
