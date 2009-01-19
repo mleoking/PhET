@@ -29,7 +29,18 @@
 //echo date("YmdHis", time());
 
 
-
+	
+	
+	
+	function simple_graph($data, $height, $blockwidth, $forecolor, $backcolor) {
+		$str = "";
+		$str .= "<div style=\"width: " . (sizeof($data) * $blockwidth) . "px; height: " . $height . "px; background-color: #" . $forecolor . "; border: 1px solid black;\">";
+		foreach($data as $point) {
+			$str .= "<div style=\"width: " . $blockwidth . "px; height: " . ($height - $point) . "px; background-color: #" . $backcolor . "; float: left;\"></div>";
+		}
+		$str .= "</div>";
+		return $str;
+	}
 ?>
 <html>
 <head>
@@ -54,227 +65,44 @@
 	<div style="width: 5px; height: 70px; background-color: #FFFFFF; float: left;"></div>
 	<div style="width: 5px; height: 65px; background-color: #FFFFFF; float: left;"></div>
 </div>
+<br/>
+<div style="width: 40px; height: 100px; background-color: #000000; border: 1px solid black;">
+	<div style="width: 5px; height: 100px; background-color: #FFFFFF; float: left;"></div>
+	<div style="width: 5px; height: 95px; background-color: #FFFFFF; float: left;"></div>
+	<div style="width: 5px; height: 90px; background-color: #FFFFFF; float: left;"></div>
+	<div style="width: 5px; height: 85px; background-color: #FFFFFF; float: left;"></div>
+	<div style="width: 5px; height: 80px; background-color: #FFFFFF; float: left;"></div>
+	<div style="width: 5px; height: 75px; background-color: #FFFFFF; float: left;"></div>
+	<div style="width: 5px; height: 70px; background-color: #FFFFFF; float: left;"></div>
+	<div style="width: 5px; height: 65px; background-color: #FFFFFF; float: left;"></div>
+</div>
+<br/>
+<div style="width: 20px; height: 100px; background-color: #000000; border: 1px solid black;">
+	<div style="width: 5px; float: left;">
+		<div style="height: 35px; background-color: #FF0000;"></div>
+		<div style="height: 65px; background-color: #0000FF;"></div>
+	</div>
+	<div style="width: 5px; float: left;">
+		<div style="height: 40px; background-color: #FF0000;"></div>
+		<div style="height: 60px; background-color: #0000FF;"></div>
+	</div>
+	<div style="width: 5px; float: left;">
+		<div style="height: 45px; background-color: #FF0000;"></div>
+		<div style="height: 55px; background-color: #0000FF;"></div>
+	</div>
+	<div style="width: 5px; float: left;">
+		<div style="height: 50.5px; background-color: #FF0000;"></div>
+		<div style="height: 49.5px; background-color: #0000FF;"></div>
+	</div>
+</div>
+<br/>
 <?php
-	insert_flash_message(
-		1,
-		"pendulum-lab",
-		"pendulum-lab",
-		1,
-		0,
-		1,
-		27423,
-		'en',
-		'US',
-		1,
-		7,
-		'phet-website',
-		'none',
-		1,
-		'none',
-		'en',
-		'none',
-		'LNX',
-		9,
-		0,
-		124,
-		0,
-		420,
-		0,
-		'localhost',
-		'Linux 2.6.20-17-generic'
-	);
-	/*
-	
-	insert_session(
-		1,
-		1,
-		"pendulum-lab",
-		"pendulum-lab",
-		1,
-		0,
-		1,
-		27423,
-		'en',
-		'US',
-		1,
-		8,
-		'phet-website',
-		'none',
-		1,
-		'none',
-		'es',
-		'none',
-		'Win XP'
-	);
-	insert_flash_info(
-		2,
-		'WIN',
-		8,
-		0,
-		0,
-		0,
-		420,
-		0,
-		'www.phet-clone.com',
-		'Windows XP'
-	);
-	insert_session(
-		1,
-		1,
-		"geometric-optics",
-		"geometric-optics",
-		1,
-		0,
-		1,
-		27423,
-		'en',
-		'US',
-		1,
-		9,
-		'local-installation',
-		'none',
-		1,
-		'none',
-		'en',
-		'none',
-		'Win Vista'
-	);
-	insert_flash_info(
-		3,
-		'WIN',
-		9,
-		0,
-		6,
-		0,
-		480,
-		0,
-		'localhost',
-		'Windows Vista'
-	);
-	insert_session(
-		1,
-		1,
-		"geometric-optics",
-		"geometric-optics",
-		1,
-		0,
-		1,
-		27423,
-		'en',
-		'GB',
-		1,
-		10,
-		'cd-media',
-		'Wiley',
-		1,
-		'none',
-		'en',
-		'none',
-		'Win XP'
-	);
-	insert_flash_info(
-		4,
-		'WIN',
-		9,
-		0,
-		124,
-		0,
-		480,
-		0,
-		'localhost',
-		'Windows Vista'
-	);
-	
-	
-	
-	
-	
-	insert_session(
-		1,
-		1,
-		"pendulum-lab",
-		"pendulum-lab",
-		1,
-		0,
-		1,
-		27423,
-		'en',
-		'US',
-		1,
-		7,
-		'phet-website',
-		'none',
-		1,
-		'none',
-		'en',
-		'none',
-		'Linux'
-	);
-	insert_flash_info(
-		1,
-		'LNX',
-		9,
-		0,
-		124,
-		0,
-		420,
-		0,
-		'localhost',
-		'Linux 2.6.20-17-generic'
-	);
-	*/
-	
-	insert_java_message(
-		1,
-		"balloons",
-		"balloons",
-		1,
-		7,
-		0,
-		26532,
-		'en',
-		'US',
-		1,
-		20,
-		'offline',
-		'general',
-		0,
-		'standalone-jar',
-		'en',
-		'US',
-		'Windows Vista',
-		'6.0',
-		'x86',
-		'Sun Microsystems Inc.',
-		1,
-		6,
-		0,
-		'none',
-		'America/Denver'
-	);
-	/*
-	insert_session(
-		1,
-		0,
-		"faraday",
-		"faraday",
-		2,
-		5,
-		0,
-		27498,
-		'en',
-		'none',
-		1,
-		11,
-		'general',
-		'none',
-		1,
-		'standalone-jar',
-		'en',
-		'none',
-		'Win XP'
-	);
-	*/
+	function boo($x) {
+		return rand(0, 100);
+	}
+	$arr = array_fill(0, 100, 50);
+	$randarr = array_map(boo, $arr);
+	echo simple_graph($randarr, 100, 10, '000000', 'FFFFFF');
 ?>
 </body>
 </html>

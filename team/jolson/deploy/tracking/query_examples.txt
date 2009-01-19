@@ -1,2 +1,492 @@
 
-SELECT DISTINCT sim_name.name, COUNT(session.id) FROM session, sim_name WHERE session.sim_name = sim_name.id GROUP BY sim_name.name ORDER BY sim_name.name;
+850 MB with indices, 311 MB without indices
+
+SELECT DISTINCT sim_name, COUNT(id) FROM simulation GROUP BY sim_name ORDER BY sim_name;
++----------------------------+-----------+
+| sim_name                   | COUNT(id) |
++----------------------------+-----------+
+| acid-base-solutions        |     35096 | 
+| all-sims                   |     35201 | 
+| arithmetic                 |     38987 | 
+| balloons                   |     35333 | 
+| battery-voltage            |     34995 | 
+| blackbody-spectrum         |     39175 | 
+| bound-states               |     35305 | 
+| charges-and-fields         |     39120 | 
+| circuit-construction-kit   |    487392 | 
+| color-vision               |     35153 | 
+| common-strings             |     34853 | 
+| conductivity               |     34655 | 
+| curve-fitting              |     38944 | 
+| discharge-lamps            |     35125 | 
+| eating-and-exercise        |     35041 | 
+| efield                     |     35103 | 
+| electric-hockey            |     34860 | 
+| energy-skate-park          |     35088 | 
+| equation-grapher           |    144778 | 
+| estimation                 |     39237 | 
+| faraday                    |    314146 | 
+| faradays-law               |     39181 | 
+| forces-1d                  |     35012 | 
+| fourier                    |     34997 | 
+| friction                   |     39076 | 
+| geometric-optics           |     38831 | 
+| glaciers                   |     34914 | 
+| greenhouse                 |     34802 | 
+| hydrogen-atom              |     34825 | 
+| ideal-gas                  |     34739 | 
+| lasers                     |     35071 | 
+| lunar-lander               |     39133 | 
+| mass-spring-lab            |     39078 | 
+| maze-game                  |     34858 | 
+| microwaves                 |     35153 | 
+| motion-2d                  |     35004 | 
+| moving-man                 |    289175 | 
+| mri                        |     34630 | 
+| mvc-example                |     34834 | 
+| my-solar-system            |     38562 | 
+| nuclear-physics            |     34825 | 
+| ohm-1d                     |     35005 | 
+| ohms-law                   |     38819 | 
+| optical-quantum-control    |     34659 | 
+| optical-tweezers           |     34964 | 
+| pendulum-lab               |    158765 | 
+| ph-scale                   |     34736 | 
+| phetgraphics-demo          |     34930 | 
+| photoelectric              |     34711 | 
+| plinko-probability         |     38816 | 
+| projectile-motion          |    233050 | 
+| quantum-tunneling          |     34385 | 
+| quantum-wave-interference  |     34732 | 
+| radio-waves                |     34664 | 
+| reactions-and-rates        |     34475 | 
+| resistance-in-a-wire       |     38756 | 
+| rotation                   |     34732 | 
+| rutherford-scattering      |     34835 | 
+| self-driven-particle-model |     34684 | 
+| semiconductor              |     35073 | 
+| signal-circuit             |     34879 | 
+| sim-template               |     35339 | 
+| soluble-salts              |     34666 | 
+| sound                      |     34770 | 
+| states-of-matter           |     34673 | 
+| stern-gerlach              |     39064 | 
+| test-project               |     34891 | 
+| the-ramp                   |     35009 | 
+| travoltage                 |     34943 | 
+| vector-addition            |     39066 | 
+| wave-interference          |     34832 | 
+| wave-on-a-string           |     38790 | 
++----------------------------+-----------+
+72 rows in set (1 min 2.88 sec)
+
+
+
+
+
+SELECT DISTINCT DAYOFYEAR(timestamp), COUNT(id) FROM simulation WHERE YEAR(timestamp) = 2008 GROUP BY DAYOFYEAR(timestamp);
++----------------------+-----------+
+| DAYOFYEAR(timestamp) | COUNT(id) |
++----------------------+-----------+
+|                    1 |      3694 | 
+|                    2 |      3754 | 
+|                    3 |      3775 | 
+|                    4 |      3711 | 
+|                    5 |      3759 | 
+|                    6 |      3782 | 
+|                    7 |      3766 | 
+|                    8 |      3645 | 
+|                    9 |      3763 | 
+|                   10 |      3654 | 
+|                   11 |      3786 | 
+|                   12 |      3787 | 
+|                   13 |      3696 | 
+|                   14 |      3676 | 
+|                   15 |      3823 | 
+|                   16 |      3813 | 
+|                   17 |      3745 | 
+|                   18 |      3658 | 
+|                   19 |      3918 | 
+|                   20 |      3746 | 
+|                   21 |      3850 | 
+|                   22 |      3854 | 
+|                   23 |      3827 | 
+|                   24 |      3908 | 
+|                   25 |      3883 | 
+|                   26 |      3899 | 
+|                   27 |      3806 | 
+|                   28 |      3792 | 
+|                   29 |      3930 | 
+|                   30 |      3957 | 
+|                   31 |      3890 | 
+|                   32 |      3965 | 
+|                   33 |      3910 | 
+|                   34 |      3928 | 
+|                   35 |      3859 | 
+|                   36 |      3963 | 
+|                   37 |      3990 | 
+|                   38 |      4040 | 
+|                   39 |      3910 | 
+|                   40 |      4046 | 
+|                   41 |      4018 | 
+|                   42 |      4079 | 
+|                   43 |      4068 | 
+|                   44 |      4144 | 
+|                   45 |      4050 | 
+|                   46 |      4046 | 
+|                   47 |      4054 | 
+|                   48 |      3975 | 
+|                   49 |      4060 | 
+|                   50 |      4009 | 
+|                   51 |      4027 | 
+|                   52 |      4130 | 
+|                   53 |      4102 | 
+|                   54 |      4085 | 
+|                   55 |      4138 | 
+|                   56 |      4101 | 
+|                   57 |      4167 | 
+|                   58 |      4122 | 
+|                   59 |      4121 | 
+|                   60 |      4182 | 
+|                   61 |      4248 | 
+|                   62 |      4287 | 
+|                   63 |      4224 | 
+|                   64 |      4309 | 
+|                   65 |      4162 | 
+|                   66 |      4256 | 
+|                   67 |      4298 | 
+|                   68 |      4236 | 
+|                   69 |      3971 | 
+|                   70 |      4294 | 
+|                   71 |      4308 | 
+|                   72 |      4368 | 
+|                   73 |      4338 | 
+|                   74 |      4301 | 
+|                   75 |      4316 | 
+|                   76 |      4349 | 
+|                   77 |      4374 | 
+|                   78 |      4365 | 
+|                   79 |      4355 | 
+|                   80 |      4348 | 
+|                   81 |      4419 | 
+|                   82 |      4318 | 
+|                   83 |      4274 | 
+|                   84 |      4288 | 
+|                   85 |      4269 | 
+|                   86 |      4381 | 
+|                   87 |      4504 | 
+|                   88 |      4447 | 
+|                   89 |      4389 | 
+|                   90 |      4474 | 
+|                   91 |      4476 | 
+|                   92 |      4475 | 
+|                   93 |      4536 | 
+|                   94 |      4381 | 
+|                   95 |      4481 | 
+|                   96 |      4497 | 
+|                   97 |      4715 | 
+|                   98 |      4535 | 
+|                   99 |      4412 | 
+|                  100 |      4492 | 
+|                  101 |      4573 | 
+|                  102 |      4562 | 
+|                  103 |      4438 | 
+|                  104 |      4475 | 
+|                  105 |      4467 | 
+|                  106 |      4636 | 
+|                  107 |      4607 | 
+|                  108 |      4607 | 
+|                  109 |      4566 | 
+|                  110 |      4585 | 
+|                  111 |      4756 | 
+|                  112 |      4717 | 
+|                  113 |      4826 | 
+|                  114 |      4777 | 
+|                  115 |      4663 | 
+|                  116 |      4739 | 
+|                  117 |      4628 | 
+|                  118 |      4724 | 
+|                  119 |      4749 | 
+|                  120 |      4707 | 
+|                  121 |      4667 | 
+|                  122 |      4722 | 
+|                  123 |      4751 | 
+|                  124 |      4790 | 
+|                  125 |      4784 | 
+|                  126 |      4822 | 
+|                  127 |      4920 | 
+|                  128 |      4761 | 
+|                  129 |      4805 | 
+|                  130 |      4807 | 
+|                  131 |      4774 | 
+|                  132 |      4966 | 
+|                  133 |      5010 | 
+|                  134 |      4847 | 
+|                  135 |      4950 | 
+|                  136 |      4794 | 
+|                  137 |      5077 | 
+|                  138 |      4809 | 
+|                  139 |      4880 | 
+|                  140 |      4970 | 
+|                  141 |      4936 | 
+|                  142 |      4975 | 
+|                  143 |      5136 | 
+|                  144 |      4995 | 
+|                  145 |      4931 | 
+|                  146 |      5085 | 
+|                  147 |      5100 | 
+|                  148 |      4948 | 
+|                  149 |      5059 | 
+|                  150 |      5041 | 
+|                  151 |      4999 | 
+|                  152 |      5070 | 
+|                  153 |      5094 | 
+|                  154 |      5119 | 
+|                  155 |      5252 | 
+|                  156 |      5222 | 
+|                  157 |      5185 | 
+|                  158 |      5103 | 
+|                  159 |      5232 | 
+|                  160 |      5192 | 
+|                  161 |      5213 | 
+|                  162 |      5201 | 
+|                  163 |      5152 | 
+|                  164 |      5207 | 
+|                  165 |      5366 | 
+|                  166 |      5273 | 
+|                  167 |      5343 | 
+|                  168 |      5340 | 
+|                  169 |      5475 | 
+|                  170 |      5291 | 
+|                  171 |      5346 | 
+|                  172 |      5324 | 
+|                  173 |      5390 | 
+|                  174 |      5293 | 
+|                  175 |      5404 | 
+|                  176 |      5325 | 
+|                  177 |      5421 | 
+|                  178 |      5388 | 
+|                  179 |      5524 | 
+|                  180 |      5612 | 
+|                  181 |      5505 | 
+|                  182 |      5510 | 
+|                  183 |      5503 | 
+|                  184 |      5478 | 
+|                  185 |      5496 | 
+|                  186 |      5587 | 
+|                  187 |      5652 | 
+|                  188 |      5546 | 
+|                  189 |      5466 | 
+|                  190 |      5625 | 
+|                  191 |      5748 | 
+|                  192 |      5773 | 
+|                  193 |      5639 | 
+|                  194 |      5636 | 
+|                  195 |      5690 | 
+|                  196 |      5861 | 
+|                  197 |      5649 | 
+|                  198 |      5756 | 
+|                  199 |      5719 | 
+|                  200 |      5745 | 
+|                  201 |      5802 | 
+|                  202 |      5709 | 
+|                  203 |      5822 | 
+|                  204 |      5755 | 
+|                  205 |      5841 | 
+|                  206 |      5782 | 
+|                  207 |      5786 | 
+|                  208 |      5856 | 
+|                  209 |      5828 | 
+|                  210 |      5917 | 
+|                  211 |      5911 | 
+|                  212 |      5892 | 
+|                  213 |      5995 | 
+|                  214 |      5908 | 
+|                  215 |      5835 | 
+|                  216 |      5982 | 
+|                  217 |      6112 | 
+|                  218 |      6018 | 
+|                  219 |      6059 | 
+|                  220 |      6108 | 
+|                  221 |      6053 | 
+|                  222 |      6236 | 
+|                  223 |      6083 | 
+|                  224 |      6063 | 
+|                  225 |      5995 | 
+|                  226 |      6178 | 
+|                  227 |      6083 | 
+|                  228 |      6151 | 
+|                  229 |      6196 | 
+|                  230 |      6229 | 
+|                  231 |      6247 | 
+|                  232 |      6265 | 
+|                  233 |      6327 | 
+|                  234 |      6313 | 
+|                  235 |      6244 | 
+|                  236 |      6262 | 
+|                  237 |      6322 | 
+|                  238 |      6299 | 
+|                  239 |      6505 | 
+|                  240 |      6420 | 
+|                  241 |      6327 | 
+|                  242 |      6409 | 
+|                  243 |      6474 | 
+|                  244 |      6596 | 
+|                  245 |      6465 | 
+|                  246 |      6307 | 
+|                  247 |      6767 | 
+|                  248 |      6571 | 
+|                  249 |      6619 | 
+|                  250 |      6762 | 
+|                  251 |      6619 | 
+|                  252 |      6773 | 
+|                  253 |      6637 | 
+|                  254 |      6626 | 
+|                  255 |      6680 | 
+|                  256 |      6825 | 
+|                  257 |      6701 | 
+|                  258 |      6812 | 
+|                  259 |      6809 | 
+|                  260 |      6780 | 
+|                  261 |      6854 | 
+|                  262 |      6996 | 
+|                  263 |      6866 | 
+|                  264 |      6915 | 
+|                  265 |      7009 | 
+|                  266 |      6908 | 
+|                  267 |      6923 | 
+|                  268 |      7099 | 
+|                  269 |      7081 | 
+|                  270 |      7011 | 
+|                  271 |      6972 | 
+|                  272 |      7016 | 
+|                  273 |      7049 | 
+|                  274 |      7088 | 
+|                  275 |      7278 | 
+|                  276 |      7241 | 
+|                  277 |      7297 | 
+|                  278 |      7182 | 
+|                  279 |      7432 | 
+|                  280 |      7330 | 
+|                  281 |      7334 | 
+|                  282 |      7215 | 
+|                  283 |      7298 | 
+|                  284 |      7587 | 
+|                  285 |      7473 | 
+|                  286 |      7446 | 
+|                  287 |      7322 | 
+|                  288 |      7469 | 
+|                  289 |      7440 | 
+|                  290 |      7441 | 
+|                  291 |      7597 | 
+|                  292 |      7633 | 
+|                  293 |      7677 | 
+|                  294 |      7598 | 
+|                  295 |      7760 | 
+|                  296 |      7602 | 
+|                  297 |      7783 | 
+|                  298 |      7799 | 
+|                  299 |      7648 | 
+|                  300 |      8067 | 
+|                  301 |      7919 | 
+|                  302 |      7919 | 
+|                  303 |      7847 | 
+|                  304 |      8149 | 
+|                  305 |      8038 | 
+|                  306 |      8085 | 
+|                  307 |      8405 | 
+|                  308 |      8159 | 
+|                  309 |      8141 | 
+|                  310 |      8247 | 
+|                  311 |      8307 | 
+|                  312 |      8188 | 
+|                  313 |      8098 | 
+|                  314 |      8354 | 
+|                  315 |      8464 | 
+|                  316 |      8378 | 
+|                  317 |      8444 | 
+|                  318 |      8587 | 
+|                  319 |      8672 | 
+|                  320 |      8775 | 
+|                  321 |      8716 | 
+|                  322 |      8713 | 
+|                  323 |      8655 | 
+|                  324 |      8812 | 
+|                  325 |      8954 | 
+|                  326 |      8909 | 
+|                  327 |      8973 | 
+|                  328 |      9054 | 
+|                  329 |      9081 | 
+|                  330 |      8789 | 
+|                  331 |      9231 | 
+|                  332 |      9029 | 
+|                  333 |      9316 | 
+|                  334 |      9159 | 
+|                  335 |      9341 | 
+|                  336 |      9405 | 
+|                  337 |      9413 | 
+|                  338 |      9550 | 
+|                  339 |      9509 | 
+|                  340 |      9604 | 
+|                  341 |      9468 | 
+|                  342 |      9785 | 
+|                  343 |      9886 | 
+|                  344 |      9867 | 
+|                  345 |      9909 | 
+|                  346 |     10127 | 
+|                  347 |     10055 | 
+|                  348 |     10129 | 
+|                  349 |     10348 | 
+|                  350 |     10384 | 
+|                  351 |     10373 | 
+|                  352 |     10332 | 
+|                  353 |     10266 | 
+|                  354 |     10675 | 
+|                  355 |     10744 | 
+|                  356 |     10715 | 
+|                  357 |     10974 | 
+|                  358 |     11016 | 
+|                  359 |     11165 | 
+|                  360 |     11220 | 
+|                  361 |     11200 | 
+|                  362 |     11400 | 
+|                  363 |     11469 | 
+|                  364 |     11861 | 
+|                  365 |     11744 | 
+|                  366 |     12068 | 
++----------------------+-----------+
+366 rows in set (27.29 sec)
+
+
+
+
+
+
+
+SELECT alls.month, alls.all_versions, v4.ver4, v5.ver5, v6.ver6 FROM ( SELECT DISTINCT MONTH(java_simulation.timestamp) AS monthnumber, MONTHNAME(java_simulation.timestamp) AS month, COUNT(java_simulation.id) AS all_versions FROM java_simulation WHERE YEAR(java_simulation.timestamp) = 2007 GROUP BY MONTHNAME(java_simulation.timestamp) ORDER BY MONTH(java_simulation.timestamp) ) AS alls, ( SELECT DISTINCT MONTHNAME(java_simulation.timestamp) AS month, COUNT(java_simulation.id) AS ver4 FROM java_simulation WHERE ( YEAR(java_simulation.timestamp) = 2007 AND java_simulation.host_java_version_minor = 4 ) GROUP BY MONTHNAME(java_simulation.timestamp) ORDER BY MONTH(java_simulation.timestamp) ) AS v4, ( SELECT DISTINCT MONTHNAME(java_simulation.timestamp) AS month, COUNT(java_simulation.id) AS ver5 FROM java_simulation WHERE ( YEAR(java_simulation.timestamp) = 2007 AND java_simulation.host_java_version_minor = 5 ) GROUP BY MONTHNAME(java_simulation.timestamp) ORDER BY MONTH(java_simulation.timestamp) ) AS v5, ( SELECT DISTINCT MONTHNAME(java_simulation.timestamp) AS month, COUNT(java_simulation.id) AS ver6 FROM java_simulation WHERE ( YEAR(java_simulation.timestamp) = 2007 AND java_simulation.host_java_version_minor = 6 ) GROUP BY MONTHNAME(java_simulation.timestamp) ORDER BY MONTH(java_simulation.timestamp) ) AS v6 WHERE ( alls.month = v4.month AND v4.month = v5.month AND v5.month = v6.month ) ORDER BY alls.monthnumber;
++-----------+--------------+-------+-------+-------+
+| month     | all_versions | ver4  | ver5  | ver6  |
++-----------+--------------+-------+-------+-------+
+| January   |        39425 | 10971 | 10645 | 17809 | 
+| February  |        37789 |  9780 | 10196 | 17813 | 
+| March     |        44624 | 10587 | 12039 | 21998 | 
+| April     |        46067 | 10081 | 12380 | 23606 | 
+| May       |        50241 | 10211 | 13321 | 26709 | 
+| June      |        51568 |  9534 | 13458 | 28576 | 
+| July      |        57055 |  9725 | 14580 | 32750 | 
+| August    |        61188 |  9411 | 15423 | 36354 | 
+| September |        62070 |  8741 | 15444 | 37885 | 
+| October   |        68710 |  8837 | 16593 | 43280 | 
+| November  |        70615 |  7890 | 16873 | 45852 | 
+| December  |        77669 |  7890 | 18285 | 51494 | 
++-----------+--------------+-------+-------+-------+
+12 rows in set (1 min 36.17 sec)
+
+
+
+
+
+
+
+
+

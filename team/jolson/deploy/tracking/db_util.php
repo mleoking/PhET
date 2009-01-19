@@ -8,10 +8,10 @@
 	}
 	
 	function phet_mysql_query($query) {
-echo "<p>" . $query . "</p>";
+//echo "<p>" . $query . "</p>";
 		$result = mysql_query($query);
 		
-echo "<p>" . mysql_error() . "</p>";
+//echo "<p>" . mysql_error() . "</p>";
 		//$result | die();
 		return $result;
 	}
