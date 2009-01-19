@@ -12,6 +12,8 @@
 	// useful for debugging and error catching
 	function phet_mysql_query($query) {
 		//echo "<p>" . $query . "</p>";
+		
+		// actually execute the query
 		$result = mysql_query($query);
 		
 		//echo "<p>" . mysql_error() . "</p>";
@@ -20,21 +22,48 @@
 	}
 	
 	// get the id value corresponding to a unique value. if it doesn't exist, create a new row
+	//
+	// IMPORTANT: $table_field_id should be the AUTO_INCREMENT field for using this function
+	//
+	// example: get_id_value('flash_os', 'id', 'name', 'Mac OS X');
+	// this would check to see whether 'Mac OS X' existed in the flash_os table under name.
+	// if it exists, it returns the value of 'id' for that row
+	// if it does not exist, it is inserted, and the value of the auto_increment field (usually id) is returned
 	function get_id_value($table_name, $table_field_id, $table_field_value, $table_value) {
+		
+		// we cannot use "= NULL" since NULL != NULL, thus we need a separate check if our
+		// value is NULL
 		if($table_value != "NULL") {
+			// selects all rows which have that value (should be just 1, but will not error if there are more)
 			$query = "SELECT $table_field_id FROM $table_name WHERE $table_field_value = $table_value";
 		} else {
+			// selects all rows which have that value (should be just 1, but will not error if there are more)
 			$query = "SELECT $table_field_id FROM $table_name WHERE $table_field_value IS NULL";
 		}
+		
+		// execute the query
 		$result = phet_mysql_query($query);
+		
+		// the number of rows that match the SELECT statement above
+		// should be either 0 or 1, however this will work if more are selected
+		// if 0, our value is not in the table
 		$num_rows = mysql_num_rows($result);
+		
 		if($num_rows == 0) {
+			// our value is not in the table, so we need to insert it
 			$insert_query = "INSERT INTO $table_name ($table_field_value) VALUES ($table_value)";
 			phet_mysql_query($insert_query);
+			
+			// return the value of the auto_increment field (should be ID).
+			// this allows us to not execute another query
 			return mysql_insert_id();
+		} else {
+			// our value is in the table. fetch the first row (should be the only row)
+			$row = mysql_fetch_row($result);
+			
+			// return the ID
+			return $row[0];
 		}
-		$row = mysql_fetch_row($result);
-		return $row[0];
 	}
 	
 	// surround a string with quotes
@@ -61,7 +90,7 @@
 		}
 	}
 	
-	// turn a table name and array of Field objects into an insert statement
+	// turn a table name and array of Field objects into an insert statement into that table
 	function query_from_values($table_name, $values) {
 		$query = "INSERT INTO $table_name (";
 		$first = true;
@@ -267,6 +296,7 @@
 		$hostFlashDomain,
 		$hostFlashOS
 	) {
+		// this is a Flash sim
 		$simType = 1;
 		
 		// calculate hostSimplifiedOS
@@ -308,6 +338,8 @@
 			$hostLocaleCountry,
 			$hostSimplifiedOS
 		);
+		
+		// insert into flash_into with the session ID from above
 		insert_flash_info(
 			$sessionID,
 			$hostFlashVersionType,
@@ -353,6 +385,7 @@
 		$hostJavaWebstartVersion,
 		$hostJavaTimezone
 	) {
+		// this is a Java sim
 		$simType = 0;
 		
 		// calculate hostSimplifiedOS
@@ -394,6 +427,8 @@
 			$hostLocaleCountry,
 			$hostSimplifiedOS
 		);
+		
+		// insert into java_into with the session ID from above
 		insert_java_info(
 			$sessionID,
 			$hostJavaOSName,
@@ -418,7 +453,11 @@
 		// we need to find out whether an entry exists for this particular file creation time
 		$query = "SELECT user_preferences_file_creation_time FROM user WHERE user_preferences_file_creation_time = " . $userPreferencesFileCreationTime . ";";
 		$result = phet_mysql_query($query);
+		
+		// number of rows that match the above query. should be 1 if the user has been seen before,
+		// and 0 if they haven't been seen
 		$num_rows = mysql_num_rows($result);
+		
 		if($num_rows === 0) {
 			// first time this user is seen
 			

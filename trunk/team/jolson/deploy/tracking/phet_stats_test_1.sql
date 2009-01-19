@@ -7,8 +7,14 @@
 DROP TABLE user;
 CREATE TABLE user (
 	user_preferences_file_creation_time BIGINT UNSIGNED NOT NULL PRIMARY KEY,
+	
+	# number of total sim runs that have been recorded by the user
 	user_total_sessions INT UNSIGNED,
+	
+	# first seen year and month (recorded by the server)
 	first_seen_month DATE,
+	
+	# last seen year and month (recorded by the server)
 	last_seen_month DATE
 );
 
@@ -55,25 +61,56 @@ CREATE TABLE simplified_os (
 DROP TABLE session;
 CREATE TABLE session (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	
+	# timestamp of when the message arrived
 	timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	
+	# version of the message that was sent
 	message_version TINYINT UNSIGNED,
+	
+	# 0 = Java, 1 = Flash
 	sim_type BOOL,
+	
+	# project and name
 	sim_project MEDIUMINT UNSIGNED NOT NULL,
 	sim_name MEDIUMINT UNSIGNED NOT NULL,
+	
+	# version information
 	sim_major_version TINYINT UNSIGNED,
 	sim_minor_version TINYINT UNSIGNED,
 	sim_dev_version SMALLINT UNSIGNED,
 	sim_svn_revision MEDIUMINT UNSIGNED,
+	
+	# locale of the simulation run
 	sim_locale_language CHAR(2),
 	sim_locale_country CHAR(2),
+	
+	# number of sim runs for THIS SIM since the last tracking message was successfully received
+	# this should usually be 1, but can be much higher if the user ran sims without
+	# internet or sending information enabled
 	sim_sessions_since SMALLINT UNSIGNED,
+	
+	# number of sim runs for THIS SIM ever recorded for this user
 	sim_sessions_ever MEDIUMINT UNSIGNED,
+	
+	# how this sim was delivered to the user
 	sim_usage_type MEDIUMINT UNSIGNED NOT NULL,
+	
+	# a tag used for particular distribution media (for example, a particular book name if sims are on the CD)
 	sim_distribution_tag MEDIUMINT UNSIGNED NOT NULL,
+	
+	# whether the sim is a development version or not
 	sim_dev BOOL,
+	
+	# how this sim was delivered to the user
 	sim_scenario MEDIUMINT UNSIGNED NOT NULL,
+	
+	# default locale of the user's machine
 	host_locale_language CHAR(2),
 	host_locale_country CHAR(2),
+	
+	# simplified code that represents the general "flavor" of the user's operating system
+	# this is massaged from both Java and Flash's reported OS strings
 	host_simplified_os TINYINT UNSIGNED NOT NULL
 	
 	# indices (added some overhead, but might be useful later on. maybe ALTER TABLE?)
@@ -115,14 +152,26 @@ CREATE TABLE flash_os (
 DROP TABLE flash_info;
 CREATE TABLE flash_info (
 	session_id INT NOT NULL PRIMARY KEY,
+	
+	# player version type (WIN, MAC, LNX, etc)
 	host_flash_version_type MEDIUMINT UNSIGNED NOT NULL,
+	
+	# version information
 	host_flash_version_major TINYINT UNSIGNED,
 	host_flash_version_minor SMALLINT UNSIGNED,
 	host_flash_version_revision SMALLINT UNSIGNED,
 	host_flash_version_build SMALLINT UNSIGNED,
+	
+	# time offset in minutes to (from?) GMT
 	host_flash_time_offset SMALLINT,
+	
+	# whether Flash is being used with an accessible device
 	host_flash_accessibility BOOL,
+	
+	# where the sim was delivered from (either localhost, or an external website)
 	host_flash_domain MEDIUMINT UNSIGNED NOT NULL,
+	
+	# the detected Flash OS string
 	host_flash_os INT UNSIGNED NOT NULL
 	
 	# foreign keys (added SIGNIFICANT overhead in terms of disk space)
@@ -177,14 +226,24 @@ CREATE TABLE java_timezone (
 DROP TABLE java_info;
 CREATE TABLE java_info (
 	session_id INT NOT NULL PRIMARY KEY,
+	
+	# report Java OS information
 	host_java_os_name INT UNSIGNED NOT NULL,
 	host_java_os_version INT UNSIGNED NOT NULL,
 	host_java_os_arch INT UNSIGNED NOT NULL,
+	
+	# the vendor of the Java runtime?
 	host_java_vendor INT UNSIGNED NOT NULL,
+	
+	# java version information
 	host_java_version_major SMALLINT UNSIGNED,
 	host_java_version_minor SMALLINT UNSIGNED,
 	host_java_version_maintenance MEDIUMINT UNSIGNED,
+	
+	# java webstart version
 	host_java_webstart_version INT UNSIGNED NOT NULL,
+	
+	# user's timezone
 	host_java_timezone INT UNSIGNED NOT NULL
 	
 	# foreign keys (added SIGNIFICANT overhead in terms of disk space)
