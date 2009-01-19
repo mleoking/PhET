@@ -1,0 +1,6 @@
+rm raw-log.txt
+rm tracking-log.txt
+touch raw-log.txt
+touch tracking-log.txt
+chmod a+w raw-log.txt
+chmod a+w tracking-log.txt

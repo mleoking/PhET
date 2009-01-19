@@ -5,6 +5,14 @@ With foreign keys:
 Without foreign keys:
 390 MB with indices (78 MB of primary key indices) for 4 million messages
 
+
+sim_deployment replaces sim_scenario and sim_usage_type
+experiment with indices
+change pretty-printer to handle arbitrary fields
+set up stress-testing
+investigate locking write function in db-utils.php
+
+
 SELECT DISTINCT sim_name, COUNT(id) FROM simulation GROUP BY sim_name ORDER BY sim_name;
 +----------------------------+-----------+
 | sim_name                   | COUNT(id) |

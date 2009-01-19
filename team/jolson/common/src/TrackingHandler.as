@@ -71,7 +71,7 @@ class TrackingHandler {
 		
 		str += "sim_sessions_since = '" + escape(_level0.preferences.visitsSince()) + "' \n";
 		str += "sim_sessions_ever = '" + escape(_level0.preferences.visitsEver()) + "' \n";
-		str += "sim_usage_type = '" + escape(_level0.simUsageType) + "' \n";
+		str += "sim_deployment = '" + escape(_level0.simDeployment) + "' \n";
 		str += "sim_distribution_tag = '" + escape(_level0.simDistributionTag) + "' \n";
 		str += "sim_dev = '" + escape((_level0.dev > 0 ? "true" : "false")) + "' \n";
 		

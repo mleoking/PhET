@@ -3,9 +3,6 @@
  * Automatically handles inserting internationalization XML and other data
  *
  * author: Jonathan Olson
- * created: 11/8/2008
- * modified: 01/9/2009
- * 	fixed to include language and (optional) country codes, by their correct names
  */
 
 import java.io.*;
@@ -13,13 +10,15 @@ import java.net.*;
 import java.util.Scanner;
 
 public class FlashHTMLWriter {
-	public static void writeHTML(String simName, String language, String country, String usageType, String distributionTag, String xmlFile, String htmlFile, String propertiesFile, String commonXmlFile) throws FileNotFoundException, UnsupportedEncodingException {
+	public static void writeHTML(String simName, String language, String country, String deployment, String distributionTag, String xmlFile, String htmlFile, String propertiesFile, String commonXmlFile) throws FileNotFoundException, UnsupportedEncodingException {
 		/* Reads internationaliaztion data from an XML file, and generates the corresponding HTML file
 		 * that will pass the data into Flash through FlashVars parameters.
 		 *
 		 * simName: example: "pendulum-lab"
 		 * language: example: "en"
 		 * country: example "US" or default "none"
+		 * deployment: example "phet-website" ?
+		 * distributionTag: example "Wiley"
 		 * xmlFile: The file to read internationalization data from. Example: "pendulum-lab-strings_en.xml"
 		 * htmlFile: File to output the HTML into.
 		 * propertiesFile: example: "pendulum-lab.properties". Includes version information and background color
@@ -83,7 +82,7 @@ public class FlashHTMLWriter {
 		flashVars += "&dev=" + dev;
 		flashVars += "&revision=" + revision;
 		flashVars += "&simName=" + simName;
-		flashVars += "&simUsageType=" + usageType;
+		flashVars += "&simDeployment=" + deployment;
 		flashVars += "&simDistributionTag=" + distributionTag;
 		flashVars += "&bgColor=" + bgint;
 		
