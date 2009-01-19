@@ -163,7 +163,7 @@ public class PhetUtilities {
             if ( parent != null ) {
                 File grandparent = parent.getParentFile();
                 if ( grandparent != null ) {
-                    File specialFile = new File( grandparent.getAbsolutePath() + System.getProperty( "file.separator" ) + ".phet-installer" );
+                    File specialFile = new File( grandparent.getAbsolutePath() + System.getProperty( "file.separator" ) + "phet-installation.properties" );
                     isPhetInstallation = specialFile.exists();
                 }
             }
