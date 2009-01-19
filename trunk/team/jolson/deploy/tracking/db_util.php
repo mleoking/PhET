@@ -1,17 +1,20 @@
 
 <?php
 	// connect to the statistics database
+	// TODO: change this password, it has been on subversion
 	function setup_mysql() {
 		$link = mysql_connect("localhost", "www-data", "d3#r3m0nt$") or die(mysql_error());
 		mysql_select_db("phet_stats_test_1") or die(mysql_error());
 		return $link;
 	}
 	
+	// used for every mysql query that needs to be made
+	// useful for debugging and error catching
 	function phet_mysql_query($query) {
-//echo "<p>" . $query . "</p>";
+		//echo "<p>" . $query . "</p>";
 		$result = mysql_query($query);
 		
-//echo "<p>" . mysql_error() . "</p>";
+		//echo "<p>" . mysql_error() . "</p>";
 		//$result | die();
 		return $result;
 	}
@@ -49,6 +52,7 @@
 		}
 	}
 	
+	// return either a quoted string, or NULL if the value is one of the strings mapped to NULL
 	function quote_null_if_none($value) {
 		if($value == "none" || $value == "null" || $value == "undefined") {
 			return "NULL";
@@ -61,6 +65,8 @@
 	function query_from_values($table_name, $values) {
 		$query = "INSERT INTO $table_name (";
 		$first = true;
+		
+		// build field names
 		foreach($values as $f) {
 			if($first) {
 				$first = false;
@@ -71,6 +77,8 @@
 		}
 		$query .= ") VALUES (";
 		$first = true;
+		
+		// build values
 		foreach($values as $f) {
 			if($first) {
 				$first = false;
@@ -105,6 +113,7 @@
 		$hostLocaleCountry,
 		$hostSimplifiedOS
 	) {
+		// get IDs from normalized tables
 		$simProjectID = get_id_value("sim_project", "id", "name", quo($simProject));
 		$simNameID = get_id_value("sim_name", "id", "name", quo($simName));
 		$simUsageTypeID = get_id_value("usage_type", "id", "name", quote_null_if_none($simUsageType));
@@ -134,10 +143,13 @@
 			new Field('host_simplified_os', $hostSimplifiedOSID),
 		);
 		
+		// build query from values to be inserted
 		$query = query_from_values("session", $values);
 		
 		phet_mysql_query($query);
 		
+		// return the ID (value of the auto_increment field) of the row we inserted, so we can
+		// use it for other queries
 		return mysql_insert_id();
 	}
 	
@@ -154,6 +166,7 @@
 		$hostFlashDomain,
 		$hostFlashOS
 	) {
+		// get IDs from normalized tables
 		$hostFlashVersionTypeID = get_id_value("flash_version_type", "id", "name", quo($hostFlashVersionType));
 		$hostFlashDomainID = get_id_value("flash_domain", "id", "name", quo($hostFlashDomain));
 		$hostFlashOSID = get_id_value("flash_os", "id", "name", quo($hostFlashOS));
@@ -171,10 +184,13 @@
 			new Field('host_flash_os', $hostFlashOSID)
 		);
 		
+		// build query from values to be inserted
 		$query = query_from_values("flash_info", $values);
 		
 		phet_mysql_query($query);
 		
+		// return the ID (value of the auto_increment field) of the row we inserted, so we can
+		// use it for other queries
 		return mysql_insert_id();
 	}
 	
@@ -191,6 +207,7 @@
 		$hostJavaWebstartVersion,
 		$hostJavaTimezone
 	) {
+		// get IDs from normalized tables
 		$hostJavaOSNameID = get_id_value("java_os_name", "id", "name", quo($hostJavaOSName));
 		$hostJavaOSVersionID = get_id_value("java_os_version", "id", "name", quo($hostJavaOSVersion));
 		$hostJavaOSArchID = get_id_value("java_os_arch", "id", "name", quo($hostJavaOSArch));
@@ -211,10 +228,13 @@
 			new Field('host_java_timezone', $hostJavaTimezoneID)
 		);
 		
+		// build query from values to be inserted
 		$query = query_from_values("java_info", $values);
 		
 		phet_mysql_query($query);
 		
+		// return the ID (value of the auto_increment field) of the row we inserted, so we can
+		// use it for other queries
 		return mysql_insert_id();
 	}
 	
@@ -395,23 +415,30 @@
 		$userPreferencesFileCreationTime,
 		$userTotalSessions
 	) {
+		// we need to find out whether an entry exists for this particular file creation time
 		$query = "SELECT user_preferences_file_creation_time FROM user WHERE user_preferences_file_creation_time = " . $userPreferencesFileCreationTime . ";";
 		$result = phet_mysql_query($query);
 		$num_rows = mysql_num_rows($result);
 		if($num_rows === 0) {
 			// first time this user is seen
+			
+			// values to be inserted
 			$values = array(
 				new Field('user_preferences_file_creation_time', $userPreferencesFileCreationTime),
 				new Field('user_total_sessions', $userTotalSessions),
-				new Field('first_seen_month', quo(date("Y-m-01", time()))),
-				new Field('last_seen_month', quo(date("Y-m-01", time())))
+				new Field('first_seen_month', quo(date("Y-m-01", time()))), // current year and month
+				new Field('last_seen_month', quo(date("Y-m-01", time()))) // current year and month
 			);
 			$insert_query = query_from_values("user", $values);
 			phet_mysql_query($insert_query);
 		} else {
 			// user already in table, update values
+			
+			// update total sessions
 			$update_query = "UPDATE user SET user_total_sessions = $userTotalSessions WHERE user_preferences_file_creation_time = $userPreferencesFileCreationTime";
 			phet_mysql_query($update_query);
+			
+			// update last_seen_month with current year and month
 			$update_query = "UPDATE user SET last_seen_month = " . quo(date("Y-m-01", time())) . " WHERE user_preferences_file_creation_time = $userPreferencesFileCreationTime";
 			phet_mysql_query($update_query);
 		}

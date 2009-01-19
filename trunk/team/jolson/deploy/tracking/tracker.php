@@ -1,11 +1,17 @@
 
 <html><?php
+	
+	// receives XML tracking messages, and inserts them into the database
+	// can also record raw and parsed information for debugging purposes
+	// (DISABLE RAW LOGGING FOR PRODUCTION)
+	
 	include("db_util.php");
 	
+	// whether or not logging the messages is enabled. DO NOT ENABLE FOR LIVE VERSION
 	$raw_tracking = false;
 	
 	
-	
+	// load the xml from postdata
 	$xml = simplexml_load_string($HTTP_RAW_POST_DATA);
 	
 	
@@ -44,21 +50,18 @@
 		if($xml["message_version"] == "1") {
 			$link = setup_mysql();
 			
+			// create/update entry in user database
 			update_user(
 				sanitize($xml, "user_preference_file_creation_time"),
 				sanitize($xml, "user_total_sessions")
 			);
 			
+			// extract flash version information
 			$version_left = substr(urldecode($xml["host_flash_version"]), 0, stripos(urldecode($xml["host_flash_version"]), " "));
 			$version_right = substr(urldecode($xml["host_flash_version"]), stripos(urldecode($xml["host_flash_version"]), " ") + 1);
 			$version_numbers = explode(",", $version_right);
 			
-			$query_flash_info .= "'" . mysql_real_escape_string($version_left) . "'" . ", "; // host_flash_version_type
-			$query_flash_info .= mysql_real_escape_string($version_numbers[0]) . ", "; // host_flash_version_major
-			$query_flash_info .= mysql_real_escape_string($version_numbers[1]) . ", "; // host_flash_version_minor
-			$query_flash_info .= mysql_real_escape_string($version_numbers[2]) . ", "; // host_flash_version_revision
-			$query_flash_info .= mysql_real_escape_string($version_numbers[3]) . ", "; // host_flash_version_build
-			
+			// insert the flash message
 			insert_flash_message(
 				1, //$messageVersion,
 				sanitize($xml, "sim_project"), //$simProject,

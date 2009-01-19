@@ -1,4 +1,8 @@
 <?php
+	// script to fill the current statistics database with randomly sampled data
+	// useful for testing processor / disk space usage and feasibility, and for
+	// creating report tools
+	
 	include("db_util.php");
 	$link = setup_mysql();
 	
@@ -19,12 +23,11 @@
 	
 	$javaSimNames = array("acid-base-solutions", "all-sims", "balloons", "battery-voltage", "bound-states", "circuit-construction-kit", "color-vision", "common-strings", "conductivity", "discharge-lamps", "eating-and-exercise", "efield", "electric-hockey", "energy-skate-park", "faraday", "forces-1d", "fourier", "glaciers", "greenhouse", "hydrogen-atom", "ideal-gas", "lasers", "maze-game", "microwaves", "motion-2d", "moving-man", "mri", "mvc-example", "nuclear-physics", "ohm-1d", "optical-quantum-control", "optical-tweezers", "phetgraphics-demo", "photoelectric", "ph-scale", "quantum-tunneling", "quantum-wave-interference", "radio-waves", "reactions-and-rates", "rotation", "rutherford-scattering", "self-driven-particle-model", "semiconductor", "signal-circuit", "sim-template", "soluble-salts", "sound", "states-of-matter", "test-project", "the-ramp", "travoltage", "wave-interference");
 	
+	// version information is plucked out of these arrays with a common index
 	$revisions = array(22386, 26143, 26764, 27200, 27853);
 	$major_versions = array(1, 1, 1, 2, 3);
 	$minor_versions = array(0, 5, 9, 0, 4);
 	$num_versions = 5;
-	
-	$filepreftimes = array();
 	
 	
 	// generates a randomly sampled locale (ish)

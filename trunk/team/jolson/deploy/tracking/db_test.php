@@ -1,4 +1,7 @@
 <?php
+	
+	// used for database tests
+	
 	include("db_util.php");
 	$link = setup_mysql();
 /*

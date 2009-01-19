@@ -1,4 +1,9 @@
 
+# proposal database for simulation statistical information
+# currently takes up approximately 390 MB / 4 million messages
+
+# user table, stores information about unique users by
+# storing the user_preferences_file_creation_time
 DROP TABLE user;
 CREATE TABLE user (
 	user_preferences_file_creation_time BIGINT UNSIGNED NOT NULL PRIMARY KEY,
@@ -6,6 +11,9 @@ CREATE TABLE user (
 	first_seen_month DATE,
 	last_seen_month DATE
 );
+
+
+# normalized tables for use in the session table
 
 DROP TABLE sim_project;
 CREATE TABLE sim_project (
@@ -43,6 +51,7 @@ CREATE TABLE simplified_os (
 	name VARCHAR(50)
 );
 
+# session table. stores information relevant to both java and flash simulations
 DROP TABLE session;
 CREATE TABLE session (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -65,18 +74,23 @@ CREATE TABLE session (
 	sim_scenario MEDIUMINT UNSIGNED NOT NULL,
 	host_locale_language CHAR(2),
 	host_locale_country CHAR(2),
-	host_simplified_os TINYINT UNSIGNED NOT NULL,
+	host_simplified_os TINYINT UNSIGNED NOT NULL
 	
-#	INDEX(timestamp),
-#	INDEX(sim_project, sim_name),
+	# indices (added some overhead, but might be useful later on. maybe ALTER TABLE?)
+	#INDEX(timestamp),
+	#INDEX(sim_project, sim_name),
 	
-	FOREIGN KEY (sim_project) REFERENCES sim_project (id) ON DELETE CASCADE,
-	FOREIGN KEY (sim_name) REFERENCES sim_name (id) ON DELETE CASCADE,
-	FOREIGN KEY (sim_usage_type) REFERENCES usage_type (id) ON DELETE CASCADE,
-	FOREIGN KEY (sim_distribution_tag) REFERENCES distribution_tag (id) ON DELETE CASCADE,
-	FOREIGN KEY (sim_scenario) REFERENCES scenario (id) ON DELETE CASCADE,
-	FOREIGN KEY (host_simplified_os) REFERENCES simplified_os (id) ON DELETE CASCADE
+	# foreign keys (added SIGNIFICANT overhead in terms of disk space)
+	#FOREIGN KEY (sim_project) REFERENCES sim_project (id) ON DELETE CASCADE,
+	#FOREIGN KEY (sim_name) REFERENCES sim_name (id) ON DELETE CASCADE,
+	#FOREIGN KEY (sim_usage_type) REFERENCES usage_type (id) ON DELETE CASCADE,
+	#FOREIGN KEY (sim_distribution_tag) REFERENCES distribution_tag (id) ON DELETE CASCADE,
+	#FOREIGN KEY (sim_scenario) REFERENCES scenario (id) ON DELETE CASCADE,
+	#FOREIGN KEY (host_simplified_os) REFERENCES simplified_os (id) ON DELETE CASCADE
 );
+
+
+# tables normalized, for flash_info table
 
 DROP TABLE flash_version_type;
 CREATE TABLE flash_version_type (
@@ -96,6 +110,8 @@ CREATE TABLE flash_os (
 	name VARCHAR(50)
 );
 
+
+# stores information specific to flash simulations
 DROP TABLE flash_info;
 CREATE TABLE flash_info (
 	session_id INT NOT NULL PRIMARY KEY,
@@ -107,13 +123,17 @@ CREATE TABLE flash_info (
 	host_flash_time_offset SMALLINT,
 	host_flash_accessibility BOOL,
 	host_flash_domain MEDIUMINT UNSIGNED NOT NULL,
-	host_flash_os INT UNSIGNED NOT NULL,
+	host_flash_os INT UNSIGNED NOT NULL
 	
-	FOREIGN KEY (session_id) REFERENCES sessions (id) ON DELETE CASCADE,
-	FOREIGN KEY (host_flash_version_type) REFERENCES flash_version_type (id) ON DELETE CASCADE,
-	FOREIGN KEY (host_flash_domain) REFERENCES flash_domain (id) ON DELETE CASCADE,
-	FOREIGN KEY (host_flash_os) REFERENCES flash_os (id) ON DELETE CASCADE
+	# foreign keys (added SIGNIFICANT overhead in terms of disk space)
+	#FOREIGN KEY (session_id) REFERENCES sessions (id) ON DELETE CASCADE,
+	#FOREIGN KEY (host_flash_version_type) REFERENCES flash_version_type (id) ON DELETE CASCADE,
+	#FOREIGN KEY (host_flash_domain) REFERENCES flash_domain (id) ON DELETE CASCADE,
+	#FOREIGN KEY (host_flash_os) REFERENCES flash_os (id) ON DELETE CASCADE
 );
+
+
+# normalized tables for java_info
 
 DROP TABLE java_os_name;
 CREATE TABLE java_os_name (
@@ -151,6 +171,9 @@ CREATE TABLE java_timezone (
 	name VARCHAR(50)
 );
 
+
+# stores information specific to java simulations
+
 DROP TABLE java_info;
 CREATE TABLE java_info (
 	session_id INT NOT NULL PRIMARY KEY,
@@ -162,17 +185,23 @@ CREATE TABLE java_info (
 	host_java_version_minor SMALLINT UNSIGNED,
 	host_java_version_maintenance MEDIUMINT UNSIGNED,
 	host_java_webstart_version INT UNSIGNED NOT NULL,
-	host_java_timezone INT UNSIGNED NOT NULL,
+	host_java_timezone INT UNSIGNED NOT NULL
 	
-	FOREIGN KEY (session_id) REFERENCES session (id) ON DELETE CASCADE,
-	FOREIGN KEY (host_java_os_name) REFERENCES java_os_name (id) ON DELETE CASCADE,
-	FOREIGN KEY (host_java_os_version) REFERENCES java_os_version (id) ON DELETE CASCADE,
-	FOREIGN KEY (host_java_os_arch) REFERENCES java_os_arch (id) ON DELETE CASCADE,
-	FOREIGN KEY (host_java_vendor) REFERENCES java_vendor (id) ON DELETE CASCADE,
-	FOREIGN KEY (host_java_webstart_version) REFERENCES java_webstart_version (id) ON DELETE CASCADE,
-	FOREIGN KEY (host_java_timezone) REFERENCES java_timezone (id) ON DELETE CASCADE
+	# foreign keys (added SIGNIFICANT overhead in terms of disk space)
+	#FOREIGN KEY (session_id) REFERENCES session (id) ON DELETE CASCADE,
+	#FOREIGN KEY (host_java_os_name) REFERENCES java_os_name (id) ON DELETE CASCADE,
+	#FOREIGN KEY (host_java_os_version) REFERENCES java_os_version (id) ON DELETE CASCADE,
+	#FOREIGN KEY (host_java_os_arch) REFERENCES java_os_arch (id) ON DELETE CASCADE,
+	#FOREIGN KEY (host_java_vendor) REFERENCES java_vendor (id) ON DELETE CASCADE,
+	#FOREIGN KEY (host_java_webstart_version) REFERENCES java_webstart_version (id) ON DELETE CASCADE,
+	#FOREIGN KEY (host_java_timezone) REFERENCES java_timezone (id) ON DELETE CASCADE
 );
 
+
+
+# VIEW TABLES
+
+# recombines information about all simulations
 DROP VIEW simulation;
 CREATE VIEW simulation AS (
 	SELECT
@@ -209,6 +238,7 @@ CREATE VIEW simulation AS (
 	)
 );
 
+# recombines information about flash simulations. holds all the data for flash simulations that simulation does
 DROP VIEW flash_simulation;
 CREATE VIEW flash_simulation AS (
 	SELECT
@@ -259,6 +289,7 @@ CREATE VIEW flash_simulation AS (
 	)
 );
 
+# recombines information about java simulations. holds all the data for java simulations that simulation does
 DROP VIEW java_simulation;
 CREATE VIEW java_simulation AS (
 	SELECT
