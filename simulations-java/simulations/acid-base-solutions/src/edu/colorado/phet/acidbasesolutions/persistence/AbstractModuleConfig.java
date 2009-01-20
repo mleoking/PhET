@@ -18,10 +18,6 @@ public class AbstractModuleConfig implements IProguardKeepClass {
     // Module
     private boolean _active; // is the module active?
     
-    // Clock
-    private boolean _clockRunning;
-    private double _clockDt;
-    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -42,24 +38,5 @@ public class AbstractModuleConfig implements IProguardKeepClass {
     
     public void setActive( boolean active ) {
         _active = active;
-    }
-    
-    
-    public boolean isClockRunning() {
-        return _clockRunning;
-    }
-
-    
-    public void setClockRunning( boolean clockRunning ) {
-        _clockRunning = clockRunning;
-    }
-    
-    public double getClockDt() {
-        return _clockDt;
-    }
-
-    
-    public void setClockDt( double clockDt ) {
-        _clockDt = clockDt;
     }
 }

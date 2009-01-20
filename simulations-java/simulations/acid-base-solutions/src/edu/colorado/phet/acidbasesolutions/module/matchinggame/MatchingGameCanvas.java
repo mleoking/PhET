@@ -5,16 +5,14 @@ package edu.colorado.phet.acidbasesolutions.module.matchinggame;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
-import edu.colorado.phet.acidbasesolutions.defaults.SolutionsDefaults;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.umd.cs.piccolo.PNode;
+import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
 
 /**
  * MatchingGameCanvas is the canvas for MatchingGameModule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MatchingGameCanvas extends PhetPCanvas {
+public class MatchingGameCanvas extends ABSAbstractCanvas {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -23,25 +21,13 @@ public class MatchingGameCanvas extends PhetPCanvas {
     // Model
     private MatchingGameModel _model;
     
-    // View 
-    private PNode _rootNode;
-    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
     public MatchingGameCanvas( MatchingGameModel model ) {
-        super( SolutionsDefaults.VIEW_SIZE );
-        
+        super();
         _model = model;
-        
-        setBackground( ABSConstants.CANVAS_BACKGROUND );
-        
-        // Root of our scene graph
-        _rootNode = new PNode();
-        addWorldChild( _rootNode );
-        
-        //XXX other stuff
     }
     
     //----------------------------------------------------------------------------
@@ -64,7 +50,7 @@ public class MatchingGameCanvas extends PhetPCanvas {
             return;
         }
         else if ( ABSConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
-            System.out.println( "ExampleCanvas.updateLayout worldSize=" + worldSize );//XXX
+            System.out.println( getClass().getName() + ".updateLayout worldSize=" + worldSize );
         }
         
         //XXX lay out nodes

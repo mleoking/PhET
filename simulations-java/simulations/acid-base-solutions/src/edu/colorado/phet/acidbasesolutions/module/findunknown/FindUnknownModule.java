@@ -6,7 +6,6 @@ import java.awt.Frame;
 
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.AcidBaseSolutionsApplication;
-import edu.colorado.phet.acidbasesolutions.defaults.SolutionsDefaults;
 import edu.colorado.phet.acidbasesolutions.model.ABSClock;
 import edu.colorado.phet.acidbasesolutions.persistence.FindUnknownConfig;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
@@ -23,7 +22,7 @@ public class FindUnknownModule extends PiccoloModule {
     //----------------------------------------------------------------------------
     
     private static final String TITLE = ABSStrings.TITLE_FIND_THE_UNKNOWN_MODULE;
-    private static final ABSClock CLOCK = new ABSClock( SolutionsDefaults.CLOCK_FRAME_RATE, SolutionsDefaults.CLOCK_DT );
+    private static final ABSClock CLOCK = new ABSClock();
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -70,14 +69,7 @@ public class FindUnknownModule extends PiccoloModule {
      * Resets the module.
      */
     public void reset() {
-
-        // Clock
-        ABSClock clock = _model.getClock();
-        clock.resetSimulationTime();
-        clock.setDt( SolutionsDefaults.CLOCK_DT );
-        setClockRunningWhenActive( SolutionsDefaults.CLOCK_RUNNING );
-
-        //XXX other stuff
+        //XXX
     }
     
     //----------------------------------------------------------------------------
@@ -91,12 +83,7 @@ public class FindUnknownModule extends PiccoloModule {
         // Module
         config.setActive( isActive() );
 
-        // Clock
-        ABSClock clock = _model.getClock();
-        config.setClockDt( clock.getDt() );
-        config.setClockRunning( getClockRunningWhenActive() );
-
-        //XXX other stuff
+        //XXX call config setters
         
         return config;
     }
@@ -108,11 +95,6 @@ public class FindUnknownModule extends PiccoloModule {
             AcidBaseSolutionsApplication.getInstance().setActiveModule( this );
         }
 
-        // Clock
-        ABSClock clock = _model.getClock();
-        clock.setDt( config.getClockDt() );
-        setClockRunningWhenActive( config.isClockRunning() );
-
-        //XXX other stuff
+        //XXX call config getters
     }
 }

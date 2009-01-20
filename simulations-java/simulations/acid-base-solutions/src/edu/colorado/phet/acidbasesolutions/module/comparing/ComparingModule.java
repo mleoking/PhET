@@ -6,24 +6,23 @@ import java.awt.Frame;
 
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.AcidBaseSolutionsApplication;
-import edu.colorado.phet.acidbasesolutions.defaults.ComparingDefaults;
-import edu.colorado.phet.acidbasesolutions.defaults.SolutionsDefaults;
 import edu.colorado.phet.acidbasesolutions.model.ABSClock;
+import edu.colorado.phet.acidbasesolutions.module.ABSAbstractModule;
 import edu.colorado.phet.acidbasesolutions.persistence.ComparingConfig;
-import edu.colorado.phet.common.piccolophet.PiccoloModule;
 
 /**
  * ComparingModule is the "Comparing Solutions" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ComparingModule extends PiccoloModule {
+public class ComparingModule extends ABSAbstractModule {
     
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final ABSClock CLOCK = new ABSClock( SolutionsDefaults.CLOCK_FRAME_RATE, SolutionsDefaults.CLOCK_DT );
+    private static final String TITLE = ABSStrings.TITLE_COMPARING_MODULE;
+    private static final ABSClock CLOCK = new ABSClock();
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -37,7 +36,7 @@ public class ComparingModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public ComparingModule( Frame parentFrame ) {
-        super( ABSStrings.TITLE_COMPARING_MODULE, CLOCK );
+        super( TITLE, CLOCK );
 
         // Model
         _model = new ComparingModel( CLOCK );
@@ -69,14 +68,7 @@ public class ComparingModule extends PiccoloModule {
      * Resets the module.
      */
     public void reset() {
-
-        // Clock
-        ABSClock clock = _model.getClock();
-        clock.resetSimulationTime();
-        clock.setDt( ComparingDefaults.CLOCK_DT );
-        setClockRunningWhenActive( ComparingDefaults.CLOCK_RUNNING );
-
-        //XXX other stuff
+        //XXX
     }
     
     //----------------------------------------------------------------------------
@@ -90,12 +82,7 @@ public class ComparingModule extends PiccoloModule {
         // Module
         config.setActive( isActive() );
 
-        // Clock
-        ABSClock clock = _model.getClock();
-        config.setClockDt( clock.getDt() );
-        config.setClockRunning( getClockRunningWhenActive() );
-
-        //XXX other stuff
+        //XXX call config setters
         
         return config;
     }
@@ -107,11 +94,6 @@ public class ComparingModule extends PiccoloModule {
             AcidBaseSolutionsApplication.getInstance().setActiveModule( this );
         }
 
-        // Clock
-        ABSClock clock = _model.getClock();
-        clock.setDt( config.getClockDt() );
-        setClockRunningWhenActive( config.isClockRunning() );
-
-        //XXX other stuff
+        //XXX call config getters
     }
 }
