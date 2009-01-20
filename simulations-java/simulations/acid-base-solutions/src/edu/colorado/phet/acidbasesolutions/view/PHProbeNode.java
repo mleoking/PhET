@@ -24,7 +24,7 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 
-public class PHProbeNode2 extends PComposite {
+public class PHProbeNode extends PComposite {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -56,7 +56,7 @@ public class PHProbeNode2 extends PComposite {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public PHProbeNode2( double height, Solution solution ) {
+    public PHProbeNode( double height, Solution solution ) {
         super();
         setPickable( false );
         setChildrenPickable( false );
