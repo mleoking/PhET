@@ -1,4 +1,4 @@
-/* Copyright 2007-2008, University of Colorado */
+/* Copyright 2009, University of Colorado */
 
 package edu.colorado.phet.acidbasesolutions.module.solutions;
 
@@ -9,10 +9,9 @@ import edu.colorado.phet.acidbasesolutions.AcidBaseSolutionsApplication;
 import edu.colorado.phet.acidbasesolutions.defaults.SolutionsDefaults;
 import edu.colorado.phet.acidbasesolutions.model.ABSClock;
 import edu.colorado.phet.acidbasesolutions.model.ExampleModelElement;
-import edu.colorado.phet.acidbasesolutions.persistence.ExampleConfig;
+import edu.colorado.phet.acidbasesolutions.persistence.SolutionsConfig;
 import edu.colorado.phet.acidbasesolutions.view.ExampleNode;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 
 /**
  * SolutionsModule is the "Solutions" module.
@@ -20,6 +19,12 @@ import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockContr
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class SolutionsModule extends PiccoloModule {
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final ABSClock CLOCK = new ABSClock( SolutionsDefaults.CLOCK_FRAME_RATE, SolutionsDefaults.CLOCK_DT );
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -27,39 +32,28 @@ public class SolutionsModule extends PiccoloModule {
 
     private SolutionsModel _model;
     private SolutionsCanvas _canvas;
-    private SolutionsControlPanel _controlPanel;
-    private PiccoloClockControlPanel _clockControlPanel;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
     public SolutionsModule( Frame parentFrame ) {
-        super( ABSStrings.TITLE_SOLUTIONS_MODULE, new ABSClock( SolutionsDefaults.CLOCK_FRAME_RATE, SolutionsDefaults.CLOCK_DT ) );
+        super( ABSStrings.TITLE_SOLUTIONS_MODULE, CLOCK, false /* startsPaused */ );
+        setLogoPanelVisible( false );
 
         // Model
-        ABSClock clock = (ABSClock) getClock();
-        _model = new SolutionsModel( clock );
+        _model = new SolutionsModel( CLOCK );
 
         // Canvas
         _canvas = new SolutionsCanvas( _model );
         setSimulationPanel( _canvas );
 
-        // Control Panel
-        _controlPanel = new SolutionsControlPanel( this, parentFrame );
-        setControlPanel( _controlPanel );
+        // No control Panel
+        setControlPanel( null );
         
-        // Clock controls
-        _clockControlPanel = new PiccoloClockControlPanel( getClock() );
-        _clockControlPanel.setRestartButtonVisible( true );
-        _clockControlPanel.setTimeDisplayVisible( true );
-        _clockControlPanel.setUnits( ABSStrings.UNITS_TIME );
-        _clockControlPanel.setTimeColumns( SolutionsDefaults.CLOCK_TIME_COLUMNS );
-        setClockControlPanel( _clockControlPanel );
+        //  No clock controls
+        setClockControlPanel( null );
 
-        // Controller
-        SolutionsController controller = new SolutionsController( _model, _canvas, _controlPanel );
-        
         // Help
         if ( hasHelp() ) {
             //XXX add help items
@@ -100,9 +94,9 @@ public class SolutionsModule extends PiccoloModule {
     // Persistence
     //----------------------------------------------------------------------------
 
-    public ExampleConfig save() {
+    public SolutionsConfig save() {
 
-        ExampleConfig config = new ExampleConfig();
+        SolutionsConfig config = new SolutionsConfig();
 
         // Module
         config.setActive( isActive() );
@@ -112,22 +106,16 @@ public class SolutionsModule extends PiccoloModule {
         config.setClockDt( clock.getDt() );
         config.setClockRunning( getClockRunningWhenActive() );
 
-        // ExampleModelElement
-        ExampleModelElement exampleModelElement = _model.getExampleModelElement();
-        config.setExampleModelElementPosition( exampleModelElement.getPositionReference() );
-        config.setExampleModelElementOrientation( exampleModelElement.getOrientation() );
-
-        // Control panel settings that are specific to the view
-        //XXX
+        //XXX other stuff
         
         return config;
     }
 
-    public void load( ExampleConfig config ) {
+    public void load( SolutionsConfig config ) {
 
         // Module
         if ( config.isActive() ) {
-            AcidBaseSolutionsApplication.instance().setActiveModule( this );
+            AcidBaseSolutionsApplication.getInstance().setActiveModule( this );
         }
 
         // Clock
@@ -135,12 +123,6 @@ public class SolutionsModule extends PiccoloModule {
         clock.setDt( config.getClockDt() );
         setClockRunningWhenActive( config.isClockRunning() );
 
-        // ExampleModelElement
-        ExampleModelElement exampleModelElement = _model.getExampleModelElement();
-        exampleModelElement.setPosition( config.getExampleModelElementPosition() );
-        exampleModelElement.setOrientation( config.getExampleModelElementOrientation() );
-
-        // Control panel settings that are specific to the view
-        //XXX
+        //XXX other stuff
     }
 }

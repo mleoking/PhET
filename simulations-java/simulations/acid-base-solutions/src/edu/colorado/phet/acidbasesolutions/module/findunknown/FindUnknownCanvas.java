@@ -1,38 +1,36 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.acidbasesolutions.module.solutions;
+package edu.colorado.phet.acidbasesolutions.module.findunknown;
 
 import java.awt.geom.Dimension2D;
 
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.defaults.SolutionsDefaults;
-import edu.colorado.phet.acidbasesolutions.view.ExampleNode;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * SolutionsCanvas is the canvas for SolutionsModule.
+ * FindUnknownCanvas is the canvas for FindUnknownModule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SolutionsCanvas extends PhetPCanvas {
+public class FindUnknownCanvas extends PhetPCanvas {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
     // Model
-    private SolutionsModel _model;
+    private FindUnknownModel _model;
     
     // View 
     private PNode _rootNode;
-    private ExampleNode _exampleNode;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public SolutionsCanvas( SolutionsModel model ) {
+    public FindUnknownCanvas( FindUnknownModel model ) {
         super( SolutionsDefaults.VIEW_SIZE );
         
         _model = model;
@@ -43,17 +41,13 @@ public class SolutionsCanvas extends PhetPCanvas {
         _rootNode = new PNode();
         addWorldChild( _rootNode );
         
-        _exampleNode = new ExampleNode( _model.getExampleModelElement() );
-        _rootNode.addChild( _exampleNode );
+        //XXX other stuff
     }
     
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
     
-    public ExampleNode getExampleNode() {
-        return _exampleNode;
-    }
     
     //----------------------------------------------------------------------------
     // Canvas layout

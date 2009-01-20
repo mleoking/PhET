@@ -1,16 +1,16 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2009, University of Colorado */
 
 package edu.colorado.phet.acidbasesolutions.persistence;
 
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
 /**
- * TemplateConfig describes a configuration of this simulation.
+ * ABSConfig describes a configuration of this simulation.
  * It encapsulates all of the settings that the user can change.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SimTemplateConfig implements IProguardKeepClass {
+public class ABSConfig implements IProguardKeepClass {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -24,7 +24,10 @@ public class SimTemplateConfig implements IProguardKeepClass {
     private String _versionRevision;
     
     // Modules
-    private ExampleConfig _exampleConfig;
+    private SolutionsConfig _solutionsConfig;
+    private ComparingConfig _comparingConfig;
+    private MatchingGameConfig _matchGameConfig;
+    private FindUnknownConfig _findUnknownConfig;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -33,8 +36,11 @@ public class SimTemplateConfig implements IProguardKeepClass {
     /**
      * Zero-argument constructor for Java Bean compliance, required by XMLEncoder.
      */
-    public SimTemplateConfig() {
-        _exampleConfig = new ExampleConfig();
+    public ABSConfig() {
+        _solutionsConfig = new SolutionsConfig();
+        _comparingConfig = new ComparingConfig();
+        _matchGameConfig = new MatchingGameConfig();
+        _findUnknownConfig = new FindUnknownConfig();
     }
 
     //----------------------------------------------------------------------------
@@ -85,11 +91,35 @@ public class SimTemplateConfig implements IProguardKeepClass {
     // Accessors for module configurations
     //----------------------------------------------------------------------------
     
-    public void setExampleConfig( ExampleConfig exampleConfig ) {
-        _exampleConfig = exampleConfig;
+    public SolutionsConfig getSolutionsConfig() {
+        return _solutionsConfig;
     }
     
-    public ExampleConfig getExampleConfig() {
-        return _exampleConfig;
+    public void setSolutionsConfig( SolutionsConfig exampleConfig ) {
+        _solutionsConfig = exampleConfig;
+    }
+    
+    public ComparingConfig getComparingConfig() {
+        return _comparingConfig;
+    }
+
+    public void setComparingConfig( ComparingConfig config ) {
+        _comparingConfig = config;
+    }
+
+    public MatchingGameConfig getMatchGameConfig() {
+        return _matchGameConfig;
+    }
+
+    public void setMatchGameConfig( MatchingGameConfig gameConfig ) {
+        _matchGameConfig = gameConfig;
+    }
+
+    public FindUnknownConfig getFindUnknownConfig() {
+        return _findUnknownConfig;
+    }
+    
+    public void setFindUnknownConfig( FindUnknownConfig unknownConfig ) {
+        _findUnknownConfig = unknownConfig;
     }
 }

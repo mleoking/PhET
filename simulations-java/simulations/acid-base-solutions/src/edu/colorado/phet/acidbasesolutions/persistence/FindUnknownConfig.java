@@ -1,37 +1,35 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.acidbasesolutions.module.comparing;
+package edu.colorado.phet.acidbasesolutions.persistence;
 
-import edu.colorado.phet.acidbasesolutions.model.ABSClock;
 
 /**
- * ComparingModel is the model for ComparingModule.
+ * FindUnknownConfig is a Java Bean compliant configuration of FindUnknownModule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ComparingModel {
+public class FindUnknownConfig extends AbstractModuleConfig {
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final ABSClock _clock;
-
+    //XXX other stuff
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
-    public ComparingModel( ABSClock clock ) {
-        super();
-        
-        _clock = clock;
-    }
+
+    /**
+     * Zero-argument constructor for Java Bean compliance.
+     */
+    public FindUnknownConfig() {}
     
     //----------------------------------------------------------------------------
-    // Accessors
+    // Setters and getters
     //----------------------------------------------------------------------------
     
-    public ABSClock getClock() {
-        return _clock;
-    }
+    //----------------------------------------------------------------------------
+    // Convenience methods
+    //----------------------------------------------------------------------------
 }

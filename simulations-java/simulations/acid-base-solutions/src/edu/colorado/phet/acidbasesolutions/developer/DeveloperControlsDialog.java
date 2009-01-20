@@ -2,22 +2,18 @@
 
 package edu.colorado.phet.acidbasesolutions.developer;
 
-import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Insets;
 
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.acidbasesolutions.AcidBaseSolutionsApplication;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.acidbasesolutions.AcidBaseSolutionsApplication;
 
 /**
  * DeveloperControlsDialog is a dialog that contains "developer only" controls.
@@ -57,15 +53,7 @@ public class DeveloperControlsDialog extends JDialog {
 
     private JPanel createInputPanel() {
 
-        Frame parentFrame = PhetApplication.instance().getPhetFrame();
-
-        Color controlPanelBackground = _app.getControlPanelBackground();
-        final ColorControl controlPanelColorControl = new ColorControl( parentFrame, "control panel background color: ", controlPanelBackground );
-        controlPanelColorControl.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent event ) {
-                _app.setControlPanelBackground( controlPanelColorControl.getColor() );
-            }
-        } );
+        JLabel label = new JLabel( "developer controls go here" );
         
         //XXX add more controls here, and in layout below
 
@@ -77,7 +65,7 @@ public class DeveloperControlsDialog extends JDialog {
         panel.setLayout( layout );
         int row = 0;
         int column = 0;
-        layout.addComponent( controlPanelColorControl, row++, column );
+        layout.addComponent( label, row++, column );
 
         return panel;
     }
