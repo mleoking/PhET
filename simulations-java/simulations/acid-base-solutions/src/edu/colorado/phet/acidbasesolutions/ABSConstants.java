@@ -55,6 +55,22 @@ public class ABSConstants {
     // Color of the "play area"
     public static final Color CANVAS_BACKGROUND = new Color( 230, 230, 230 );
     
+    public static final Color H2O_COLOR = new Color( 193, 222, 227 );
+    public static final Color H3O_COLOR = new Color( 242, 102, 101 );
+    public static final Color OH_COLOR = new Color( 102, 132, 242 );
+    public static final Color HA_COLOR = new Color( 13, 176, 47 );
+    public static final Color A_COLOR = new Color( 235, 145, 5 );
+    public static final Color B_COLOR = new Color( 136, 40, 99 );
+    public static final Color BH_COLOR = new Color( 169, 155, 23 );
+    
+    // particle colors may be tweaked so that they stand out better
+    public static final Color H3O_PARTICLES_COLOR = H3O_COLOR;
+    public static final Color OH_PARTICLES_COLOR = OH_COLOR;
+    public static final Color HA_PARTICLES_COLOR = HA_COLOR;
+    public static final Color A_PARTICLES_COLOR = A_COLOR;
+    public static final Color B_PARTICLES_COLOR = B_COLOR;
+    public static final Color BH_PARTICLES_COLOR = BH_COLOR;
+    
     //----------------------------------------------------------------------------
     // Images
     //----------------------------------------------------------------------------

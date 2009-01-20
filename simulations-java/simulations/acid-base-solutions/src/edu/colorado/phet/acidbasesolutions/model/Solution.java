@@ -6,18 +6,28 @@ import java.util.Iterator;
 
 public class Solution {
     
+    private static final double AVOGADROS_NUMBER = 6.023E23;
+    private static final double H2O_CONCENTRATION = 55; // moles/L
+    private static final double VOLUME = 1; // L
+    
+    private PHValue _pH;
     private double _concentration; // mol/L
     private double _strength;
     private final ArrayList _listeners;
     
     public Solution() {
+        _pH = new PHValue( 0 );
         _concentration = 0;
         _strength = 0;
         _listeners = new ArrayList();
     }
     
+    public double getVolume() {
+        return VOLUME;
+    }
+    
     public PHValue getPH() {
-        return new PHValue( 0 );//XXX
+        return _pH;
     }
     
     public void setConcentration( double concentration ) {
@@ -29,6 +39,18 @@ public class Solution {
     
     public double getConcentration() {
         return _concentration;
+    }
+    
+    public double getConcentrationH2O() {
+        return H2O_CONCENTRATION;
+    }
+    
+    public double getConcentrationH3O() {
+        return Math.pow( 10, -_pH.getValue() );
+    }
+    
+    public double getConcentrationOH() {
+        return Math.pow( 10, -( 14 - _pH.getValue() ) );
     }
     
     public void setStrength( double strength ) {
@@ -56,4 +78,5 @@ public class Solution {
             ( (SolutionListener) i.next() ).stateChanged();
         }
     }
+    
 }

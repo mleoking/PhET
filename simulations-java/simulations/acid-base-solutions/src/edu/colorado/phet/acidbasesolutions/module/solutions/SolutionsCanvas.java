@@ -9,6 +9,7 @@ import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
 import edu.colorado.phet.acidbasesolutions.view.BeakerNode;
 import edu.colorado.phet.acidbasesolutions.view.ExampleNode;
 import edu.colorado.phet.acidbasesolutions.view.PHProbeNode;
+import edu.colorado.phet.acidbasesolutions.view.SolutionNode;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.umd.cs.piccolo.PNode;
 
@@ -30,6 +31,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
     private ExampleNode _exampleNode;//XXX
     private final BeakerNode _beakerNode;
     private final PHProbeNode _probeNode;
+    private final SolutionNode _solutionNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -44,10 +46,16 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         addNode( _exampleNode );
         
         _beakerNode = new BeakerNode( SolutionsDefaults.BEAKER_SIZE, 1 );
-        addNode( _beakerNode );
         
-        _probeNode = new PHProbeNode( SolutionsDefaults.PH_PROBE_HEIGHT, _model.getSolution() );
+        _probeNode = new PHProbeNode( _model.getSolution(), SolutionsDefaults.PH_PROBE_HEIGHT );
+
+        _solutionNode = new SolutionNode( _model.getSolution(), SolutionsDefaults.BEAKER_SIZE );
+        _solutionNode.setParticlesVisible( true );
+        
+        // rendering order
+        addNode( _solutionNode );
         addNode( _probeNode );
+        addNode( _beakerNode );
     }
     
     //----------------------------------------------------------------------------
@@ -86,6 +94,9 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         _probeNode.setOffset( 
                 _beakerNode.getFullBoundsReference().getCenterX() - _probeNode.getFullBoundsReference().getWidth() / 2, 
                 _beakerNode.getFullBoundsReference().getMaxY() - _probeNode.getFullBoundsReference().getHeight() );
+        
+        // liquid has same offset as beaker, so that it's inside the beaker
+        _solutionNode.setOffset( _beakerNode.getOffset() );
         
         PNode resetAllButton = getResetAllButton();
         xOffset = ( worldSize.getWidth() / 2 ) - ( resetAllButton.getFullBoundsReference().getWidth() / 2 );
