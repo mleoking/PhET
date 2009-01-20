@@ -65,7 +65,7 @@ public class PhetLookAndFeel {
             "ScrollBar", "Viewport"
     };
 
-    private ArrayList ignoreBackgroundList=new ArrayList( Arrays.asList( new String[]{"TextArea","TextField","TextPane","FormattedTextField"} ));
+    private ArrayList ignoreBackgroundList=new ArrayList( Arrays.asList( new String[]{"TextArea","TextField","TextPane","FormattedTextField","MenuBar"} ));
 
     //----------------------------------------------------------------------------
     // Instance data
