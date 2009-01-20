@@ -1,4 +1,3 @@
-
 <?php
 	// connect to the statistics database
 	// TODO: change this password, it has been on subversion
@@ -30,6 +29,7 @@
 	// if it exists, it returns the value of 'id' for that row
 	// if it does not exist, it is inserted, and the value of the auto_increment field (usually id) is returned
 	function get_id_value($table_name, $table_field_id, $table_field_value, $table_value) {
+		// POSSIBLE TODO: update with things similar to "INSERT INTO java_vendor (name) SELECT 'Not Sun' FROM java_vendor WHERE NOT EXISTS (SELECT id FROM java_vendor WHERE name = 'Not Sun');"
 		
 		// we cannot use "= NULL" since NULL != NULL, thus we need a separate check if our
 		// value is NULL
@@ -476,4 +476,3 @@
 		}
 	}
 ?>
-

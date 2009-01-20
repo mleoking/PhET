@@ -5,11 +5,33 @@ With foreign keys:
 Without foreign keys:
 390 MB with indices (78 MB of primary key indices) for 4 million messages
 
+
+Recently updated (approximations):
+Just primary keys: 381 MB total, 302 MB data, 79 MB indices
++ index on timestamp: 420 MB total, 302 MB data, 118 MB indices
+	(+ 39 MB for index on timestamp)
++ index on sim_name: 455 MB total, 302 MB data, 153 MB indices
+	(+ 35 MB for index on sim_name)
+	Here shows 2x speedup compared to just primary keys on queries using ALL data
+	Showed 18x speedup on data covering a month for different sim names
+	Showed no speedup on checking java versions over different months
+
 GRANT ALL ON phet_stats_test_2.* TO "www-data"@localhost IDENTIFIED BY "d3#r3m0nt$";
+
+
+
+
 
 experiment with indices
 set up stress-testing
 investigate locking write function in db-utils.php
+
+
+
+
+INSERT INTO java_vendor (name) SELECT 'Not Sun' FROM java_vendor WHERE NOT EXISTS (SELECT id FROM java_vendor WHERE name = 'Not Sun');
+
+
 
 
 SELECT DISTINCT sim_name, COUNT(id) FROM simulation GROUP BY sim_name ORDER BY sim_name;
@@ -90,6 +112,7 @@ SELECT DISTINCT sim_name, COUNT(id) FROM simulation GROUP BY sim_name ORDER BY s
 | wave-on-a-string           |     38922 | 
 +----------------------------+-----------+
 72 rows in set (42.47 sec)
+NOW 72 rows in set (20.44 sec)
 
 SELECT DISTINCT sim_name, COUNT(id) FROM simulation WHERE (timestamp > '2007-01-01' AND timestamp < '2008-01-01') GROUP BY sim_name ORDER BY sim_name;
 +----------------------------+-----------+
@@ -169,8 +192,90 @@ SELECT DISTINCT sim_name, COUNT(id) FROM simulation WHERE (timestamp > '2007-01-
 | wave-on-a-string           |     10118 | 
 +----------------------------+-----------+
 72 rows in set (22.06 sec)
+NOW 72 rows in set (14.95 sec)
 
 
+
+
+SELECT DISTINCT sim_name, COUNT(id) FROM simulation WHERE (timestamp > '2007-01-01' AND timestamp < '2007-02-01') GROUP BY sim_name ORDER BY sim_name;
++----------------------------+-----------+
+| sim_name                   | COUNT(id) |
++----------------------------+-----------+
+| acid-base-solutions        |       562 | 
+| all-sims                   |       597 | 
+| arithmetic                 |       649 | 
+| balloons                   |       528 | 
+| battery-voltage            |       556 | 
+| blackbody-spectrum         |       611 | 
+| bound-states               |       539 | 
+| charges-and-fields         |       639 | 
+| circuit-construction-kit   |      7306 | 
+| color-vision               |       557 | 
+| common-strings             |       501 | 
+| conductivity               |       545 | 
+| curve-fitting              |       607 | 
+| discharge-lamps            |       524 | 
+| eating-and-exercise        |       553 | 
+| efield                     |       549 | 
+| electric-hockey            |       506 | 
+| energy-skate-park          |       495 | 
+| equation-grapher           |      2147 | 
+| estimation                 |       550 | 
+| faraday                    |      4480 | 
+| faradays-law               |       521 | 
+| forces-1d                  |       479 | 
+| fourier                    |       478 | 
+| friction                   |       581 | 
+| geometric-optics           |       531 | 
+| glaciers                   |       480 | 
+| greenhouse                 |       493 | 
+| hydrogen-atom              |       471 | 
+| ideal-gas                  |       501 | 
+| lasers                     |       486 | 
+| lunar-lander               |       468 | 
+| mass-spring-lab            |       481 | 
+| maze-game                  |       504 | 
+| microwaves                 |       456 | 
+| motion-2d                  |       418 | 
+| moving-man                 |      3981 | 
+| mri                        |       424 | 
+| mvc-example                |       428 | 
+| my-solar-system            |       485 | 
+| nuclear-physics            |       452 | 
+| ohm-1d                     |       472 | 
+| ohms-law                   |       494 | 
+| optical-quantum-control    |       418 | 
+| optical-tweezers           |       465 | 
+| pendulum-lab               |      2371 | 
+| ph-scale                   |       438 | 
+| phetgraphics-demo          |       472 | 
+| photoelectric              |       455 | 
+| plinko-probability         |       565 | 
+| projectile-motion          |      3482 | 
+| quantum-tunneling          |       477 | 
+| quantum-wave-interference  |       523 | 
+| radio-waves                |       469 | 
+| reactions-and-rates        |       514 | 
+| resistance-in-a-wire       |       622 | 
+| rotation                   |       470 | 
+| rutherford-scattering      |       513 | 
+| self-driven-particle-model |       486 | 
+| semiconductor              |       506 | 
+| signal-circuit             |       540 | 
+| sim-template               |       508 | 
+| soluble-salts              |       602 | 
+| sound                      |       548 | 
+| states-of-matter           |       537 | 
+| stern-gerlach              |       622 | 
+| test-project               |       498 | 
+| the-ramp                   |       586 | 
+| travoltage                 |       551 | 
+| vector-addition            |       588 | 
+| wave-interference          |       553 | 
+| wave-on-a-string           |       641 | 
++----------------------------+-----------+
+72 rows in set (18.44 sec)
+NOW 72 rows in set (1.00 sec)
 
 
 
@@ -548,7 +653,7 @@ SELECT DISTINCT DAYOFYEAR(timestamp), COUNT(id) FROM simulation WHERE YEAR(times
 |                  366 |     11840 | 
 +----------------------+-----------+
 366 rows in set (27.34 sec)
-
+NOW 366 rows in set (18.20 sec)
 
 
 
@@ -574,7 +679,7 @@ SELECT alls.month, alls.all_versions, v4.ver4, v5.ver5, v6.ver6 FROM ( SELECT DI
 | December  |        77484 |  7730 | 18165 | 51589 | 
 +-----------+--------------+-------+-------+-------+
 12 rows in set (1 min 24.28 sec)
-
+NOW (basically the same)
 
 
 
