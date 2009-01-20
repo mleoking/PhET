@@ -14,9 +14,9 @@ import umd.cs.piccolo.PNode
 import LadybugUtil._
 
 class ArrowSetNode(ladybug: Ladybug, transform: ModelViewTransform2D, vectorVisibilityModel: VectorVisibilityModel) extends PNode {
-  val arrowWidth=90.0*0.25;
+  val arrowWidth = 90.0 * 0.25;
   class LabeledArrowNode(color: Color, name: String) extends PNode {
-    val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(200, 200), arrowWidth, arrowWidth, arrowWidth*2.0/3.0, 2, true)
+    val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(200, 200), arrowWidth, arrowWidth, arrowWidth * 2.0 / 3.0, 2, true)
     arrowNode setPaint color
     arrowNode setStroke new BasicStroke(0.5f)
     arrowNode setStrokePaint Color.gray
@@ -48,12 +48,12 @@ class ArrowSetNode(ladybug: Ladybug, transform: ModelViewTransform2D, vectorVisi
   def update(a: Ladybug) {
     val viewPosition = transform modelToView a.getPosition
     val viewVelocity = transform modelToViewDifferentialDouble a.getVelocity
-    val velTip = viewPosition + viewVelocity * 20 * 0.03
+    val velTip = viewPosition + viewVelocity * 0.6 * 0.55
     //    println(velTip)
     velocityNode.setTipAndTailLocations(velTip, viewPosition)
 
     val viewAccel = transform modelToViewDifferentialDouble a.getAcceleration
-    accelNode.setTipAndTailLocations(viewPosition + viewAccel * 75 * 0.03 * 0.03, viewPosition)
+    accelNode.setTipAndTailLocations(viewPosition + viewAccel * 0.0675 * 1.2, viewPosition)
 
     accelNode.setVisible(vectorVisibilityModel.accelerationVectorVisible)
     velocityNode.setVisible(vectorVisibilityModel.velocityVectorVisible)

@@ -6,6 +6,8 @@
 > Made ladybug arrow vectors 1/4 as wide
 > Removed clock from RecordingControl
 > Fixed trace to only show last 30 seconds
+> Increased play area acceleration vector length (by factor of 1.2)
+> Decreased play area velocity vector length (multiplied by 0.55)
 
 # 1.20.17 (27410) 01-17-2009
 # 1.20.16 (27408) 01-17-2009
