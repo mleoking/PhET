@@ -56,7 +56,7 @@ public class PHProbeNode extends PComposite {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public PHProbeNode( double height, Solution solution ) {
+    public PHProbeNode( Solution solution, double height ) {
         super();
         setPickable( false );
         setChildrenPickable( false );

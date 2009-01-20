@@ -25,4 +25,9 @@ public class ABSStrings {
     public static final String MESSAGE_NOT_A_CONFIG = ABSResources.getString( "message.notAConfigFile" );
     
     public static final String LABEL_PH = ABSResources.getString( "label.pH" );
+    
+    // equations that do not require localization
+    public static final String LABEL_H2O = "H<sub>2</sub>O";
+    public static final String LABEL_H3O = "H<sub>3</sub>O<sup>+</sup>";
+    public static final String LABEL_OH = "OH<sup>-</sup>";
 }
