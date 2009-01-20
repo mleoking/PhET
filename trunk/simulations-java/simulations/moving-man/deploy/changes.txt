@@ -5,6 +5,7 @@
 > Added a dot to the center of the Remote Control
 > Made ladybug arrow vectors 1/4 as wide
 > Removed clock from RecordingControl
+> Fixed trace to only show last 30 seconds
 
 # 1.20.17 (27410) 01-17-2009
 # 1.20.16 (27408) 01-17-2009
