@@ -170,6 +170,10 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
         return _tabbedModulePane;
     }
     
+    public SolutionsModule dev_getSolutionsModule() {
+        return _solutionsModule;
+    }
+    
     //----------------------------------------------------------------------------
     // Persistence
     //----------------------------------------------------------------------------
