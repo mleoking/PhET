@@ -5,41 +5,29 @@ package edu.colorado.phet.acidbasesolutions.module.comparing;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
-import edu.colorado.phet.acidbasesolutions.defaults.SolutionsDefaults;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.umd.cs.piccolo.PNode;
+import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
 
 /**
  * ComparingCanvas is the canvas for ComparingModule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ComparingCanvas extends PhetPCanvas {
+public class ComparingCanvas extends ABSAbstractCanvas {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
     // Model
-    private ComparingModel _model;
-    
-    // View 
-    private PNode _rootNode;
+    private final ComparingModel _model;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
     public ComparingCanvas( ComparingModel model ) {
-        super( SolutionsDefaults.VIEW_SIZE );
-        
+        super();
         _model = model;
-        
-        setBackground( ABSConstants.CANVAS_BACKGROUND );
-        
-        // Root of our scene graph
-        _rootNode = new PNode();
-        addWorldChild( _rootNode );
     }
     
     //----------------------------------------------------------------------------
@@ -62,7 +50,7 @@ public class ComparingCanvas extends PhetPCanvas {
             return;
         }
         else if ( ABSConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
-            System.out.println( "ExampleCanvas.updateLayout worldSize=" + worldSize );//XXX
+            System.out.println( getClass().getName() + ".updateLayout worldSize=" + worldSize );
         }
         
         //XXX lay out nodes

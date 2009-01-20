@@ -1,4 +1,4 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2009, University of Colorado */
 
 package edu.colorado.phet.acidbasesolutions.model;
 
@@ -13,11 +13,18 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
  */
 public class ABSClock extends ConstantDtClock {
 
+    public static final int DEFAULT_FRAME_RATE = 25; // fps, frames per second (wall time)
+    public static final double DEFAULT_DT = 1;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ABSClock( int framesPerSecond, double dt ) {
+    public ABSClock() {
+        this( DEFAULT_FRAME_RATE, DEFAULT_DT );
+    }
+    
+    protected ABSClock( int framesPerSecond, double dt ) {
         super( 1000 / framesPerSecond, dt );
     }
     

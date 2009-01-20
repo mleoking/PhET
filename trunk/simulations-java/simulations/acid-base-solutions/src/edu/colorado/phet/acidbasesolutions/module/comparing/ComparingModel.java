@@ -3,35 +3,20 @@
 package edu.colorado.phet.acidbasesolutions.module.comparing;
 
 import edu.colorado.phet.acidbasesolutions.model.ABSClock;
+import edu.colorado.phet.acidbasesolutions.module.ABSModel;
 
 /**
  * ComparingModel is the model for ComparingModule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ComparingModel {
+public class ComparingModel extends ABSModel {
     
-    //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-    
-    private final ABSClock _clock;
-
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
     public ComparingModel( ABSClock clock ) {
-        super();
-        
-        _clock = clock;
-    }
-    
-    //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
-    
-    public ABSClock getClock() {
-        return _clock;
+        super( clock );
     }
 }

@@ -4,12 +4,12 @@ package edu.colorado.phet.acidbasesolutions.defaults;
 
 
 /**
- * ComparingDefaults contains default settings for ComparingModule.
+ * MatchingGameDefault contains default settings for MatchingGameModule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ComparingDefaults {
+public class MatchingGameDefault {
 
     /* Not intended for instantiation */
-    private ComparingDefaults() {}
+    private MatchingGameDefault() {}
 }

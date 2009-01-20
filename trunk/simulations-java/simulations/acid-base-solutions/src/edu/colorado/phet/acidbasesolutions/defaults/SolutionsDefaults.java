@@ -1,12 +1,11 @@
-/* Copyright 2007-2008, University of Colorado */
+/* Copyright 2009, University of Colorado */
 
 package edu.colorado.phet.acidbasesolutions.defaults;
 
-import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
 /**
- * ExampleDefaults contains default settings for ExampleModule.
+ * SolutionsDefaults contains default settings for SolutionsModule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -14,15 +13,6 @@ public class SolutionsDefaults {
 
     /* Not intended for instantiation */
     private SolutionsDefaults() {}
-    
-    // Clock
-    public static final boolean CLOCK_RUNNING = GlobalDefaults.CLOCK_RUNNING;
-    public static final int CLOCK_FRAME_RATE = GlobalDefaults.CLOCK_FRAME_RATE;
-    public static final double CLOCK_DT = GlobalDefaults.CLOCK_DT;
-    public static final int CLOCK_TIME_COLUMNS = GlobalDefaults.CLOCK_TIME_COLUMNS;
-    
-    // Model-view transform
-    public static final Dimension VIEW_SIZE = new Dimension( 1500, 1500 );
     
     // ExampleModelElement
     public static final double EXAMPLE_MODEL_ELEMENT_WIDTH = 200; // meters

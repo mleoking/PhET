@@ -5,16 +5,14 @@ package edu.colorado.phet.acidbasesolutions.module.findunknown;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
-import edu.colorado.phet.acidbasesolutions.defaults.SolutionsDefaults;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.umd.cs.piccolo.PNode;
+import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
 
 /**
  * FindUnknownCanvas is the canvas for FindUnknownModule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class FindUnknownCanvas extends PhetPCanvas {
+public class FindUnknownCanvas extends ABSAbstractCanvas {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -23,25 +21,13 @@ public class FindUnknownCanvas extends PhetPCanvas {
     // Model
     private FindUnknownModel _model;
     
-    // View 
-    private PNode _rootNode;
-    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
     public FindUnknownCanvas( FindUnknownModel model ) {
-        super( SolutionsDefaults.VIEW_SIZE );
-        
+        super();
         _model = model;
-        
-        setBackground( ABSConstants.CANVAS_BACKGROUND );
-        
-        // Root of our scene graph
-        _rootNode = new PNode();
-        addWorldChild( _rootNode );
-        
-        //XXX other stuff
     }
     
     //----------------------------------------------------------------------------
@@ -64,7 +50,7 @@ public class FindUnknownCanvas extends PhetPCanvas {
             return;
         }
         else if ( ABSConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
-            System.out.println( "ExampleCanvas.updateLayout worldSize=" + worldSize );//XXX
+            System.out.println( getClass().getName() + ".updateLayout worldSize=" + worldSize );
         }
         
         //XXX lay out nodes

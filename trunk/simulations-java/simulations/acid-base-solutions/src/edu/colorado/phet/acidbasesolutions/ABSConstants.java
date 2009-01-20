@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.acidbasesolutions;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Stroke;
+import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
@@ -34,6 +31,9 @@ public class ABSConstants {
     
     public static final String PROJECT_NAME = "acid-base-solutions";
 
+    // Model-view transform
+    public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1500, 1500 );
+    
     //----------------------------------------------------------------------------
     // Fonts
     //----------------------------------------------------------------------------

@@ -9,22 +9,23 @@ import edu.colorado.phet.acidbasesolutions.AcidBaseSolutionsApplication;
 import edu.colorado.phet.acidbasesolutions.defaults.SolutionsDefaults;
 import edu.colorado.phet.acidbasesolutions.model.ABSClock;
 import edu.colorado.phet.acidbasesolutions.model.ExampleModelElement;
+import edu.colorado.phet.acidbasesolutions.module.ABSAbstractModule;
 import edu.colorado.phet.acidbasesolutions.persistence.SolutionsConfig;
 import edu.colorado.phet.acidbasesolutions.view.ExampleNode;
-import edu.colorado.phet.common.piccolophet.PiccoloModule;
 
 /**
  * SolutionsModule is the "Solutions" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SolutionsModule extends PiccoloModule {
+public class SolutionsModule extends ABSAbstractModule {
     
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final ABSClock CLOCK = new ABSClock( SolutionsDefaults.CLOCK_FRAME_RATE, SolutionsDefaults.CLOCK_DT );
+    private static final String TITLE = ABSStrings.TITLE_SOLUTIONS_MODULE;
+    private static final ABSClock CLOCK = new ABSClock();
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -38,7 +39,7 @@ public class SolutionsModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public SolutionsModule( Frame parentFrame ) {
-        super( ABSStrings.TITLE_SOLUTIONS_MODULE, CLOCK, false /* startsPaused */ );
+        super( TITLE, CLOCK );
         setLogoPanelVisible( false );
 
         // Model
@@ -72,12 +73,6 @@ public class SolutionsModule extends PiccoloModule {
      */
     public void reset() {
 
-        // Clock
-        ABSClock clock = _model.getClock();
-        clock.resetSimulationTime();
-        clock.setDt( SolutionsDefaults.CLOCK_DT );
-        setClockRunningWhenActive( SolutionsDefaults.CLOCK_RUNNING );
-
         // ExampleModelElement
         ExampleModelElement exampleModelElement = _model.getExampleModelElement();
         exampleModelElement.setPosition( SolutionsDefaults.EXAMPLE_MODEL_ELEMENT_POSITION );
@@ -88,6 +83,8 @@ public class SolutionsModule extends PiccoloModule {
         exampleNode.setSize( exampleModelElement.getWidth(), exampleModelElement.getHeight() );
         exampleNode.setPosition( exampleModelElement.getPosition() );
         exampleNode.setOrientation( exampleModelElement.getOrientation() );
+        
+        //XXX
     }
     
     //----------------------------------------------------------------------------
@@ -101,12 +98,7 @@ public class SolutionsModule extends PiccoloModule {
         // Module
         config.setActive( isActive() );
 
-        // Clock
-        ABSClock clock = _model.getClock();
-        config.setClockDt( clock.getDt() );
-        config.setClockRunning( getClockRunningWhenActive() );
-
-        //XXX other stuff
+        //XXX call config setters
         
         return config;
     }
@@ -118,11 +110,6 @@ public class SolutionsModule extends PiccoloModule {
             AcidBaseSolutionsApplication.getInstance().setActiveModule( this );
         }
 
-        // Clock
-        ABSClock clock = _model.getClock();
-        clock.setDt( config.getClockDt() );
-        setClockRunningWhenActive( config.isClockRunning() );
-
-        //XXX other stuff
+        //XXX call config getters
     }
 }
