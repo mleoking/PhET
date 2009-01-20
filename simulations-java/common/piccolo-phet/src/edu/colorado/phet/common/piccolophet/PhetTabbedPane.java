@@ -44,7 +44,7 @@ public class PhetTabbedPane extends JPanel {
 
     /* Default property values */
     public static final Font DEFAULT_TAB_FONT = new PhetFont( 16, true /* bold */ );
-    public static final Color DEFAULT_BACKGROUND_COLOR = new JPanel().getBackground();
+    public static final Color DEFAULT_BACKGROUND_COLOR = new Color( 240, 240, 240 );
     public static final Color DEFAULT_SELECTED_TAB_COLOR = new Color( 150, 150, 255 );
     public static final Color DEFAULT_UNSELECTED_TAB_COLOR = DEFAULT_SELECTED_TAB_COLOR.brighter();
     public static final Color DEFAULT_SELECTED_TEXT_COLOR = Color.BLACK;
@@ -63,13 +63,13 @@ public class PhetTabbedPane extends JPanel {
     public PhetTabbedPane() {
         super( new BorderLayout() );
         setBackground( DEFAULT_BACKGROUND_COLOR );
-        
+
         this.tabFont = DEFAULT_TAB_FONT;
         this.selectedTabColor = DEFAULT_SELECTED_TAB_COLOR;
         this.unselectedTabColor = DEFAULT_UNSELECTED_TAB_COLOR;
         this.selectedTextColor = DEFAULT_SELECTED_TEXT_COLOR;
         this.unselectedTextColor = DEFAULT_UNSELECTED_TEXT_COLOR;
-        
+
         tabPane = new TabPane( selectedTabColor, unselectedTabColor );
         add( tabPane, BorderLayout.NORTH );
         setComponent( component );
@@ -195,30 +195,30 @@ public class PhetTabbedPane extends JPanel {
     public Color getSelectedTabColor() {
         return selectedTabColor;
     }
-    
+
     public void setUnselectedTabColor( Color color ) {
         this.unselectedTabColor = color;
         tabPane.setUnselectedTabColor( color );
     }
-    
+
     public Color getUnselectedTabColor() {
         return unselectedTabColor;
     }
-    
+
     public void setSelectedTextColor( Color color ) {
         this.selectedTextColor = color;
         tabPane.setSelectedTextColor( color );
     }
-    
+
     public Color getSelectedTextColor() {
         return selectedTextColor;
     }
-    
+
     public void setUnselectedTextColor( Color color ) {
         this.unselectedTextColor = color;
         tabPane.setUnselectedTextColor( color );
     }
-    
+
     public Color getUnselectedTextColor() {
         return unselectedTextColor;
     }
@@ -244,8 +244,8 @@ public class PhetTabbedPane extends JPanel {
     }
 
     /**
-     * Creates an AbstractTabNode from the specified title and component.  
-     * This implementation creates an HTMLTabNode.  
+     * Creates an AbstractTabNode from the specified title and component.
+     * This implementation creates an HTMLTabNode.
      * Override if you want some other type of tab.
      *
      * @param title
@@ -392,7 +392,7 @@ public class PhetTabbedPane extends JPanel {
      * The AbstractTabNode is the graphic PNode for one tab.
      */
     private static abstract class AbstractTabNode extends PNode {
-        
+
         private String text;/*The text for the tab*/
         private JComponent component;/*The swing component associated with this tab.*/
         private PNode textNode;/*The PNode that draws the text*/
@@ -409,7 +409,7 @@ public class PhetTabbedPane extends JPanel {
         private static final Insets tabInsets = new Insets( 2, 15, 0, 15 );/* Insets for the text in the tab.*/
 
         public AbstractTabNode( String text, JComponent component, Color selectedTabColor, Color unselectedTabColor, Color selectedTextColor, Color unselectedTextColor, Font tabFont ) {
-            
+
             this.text = text;
             this.component = component;
             this.selectedTabColor = selectedTabColor;
@@ -426,7 +426,7 @@ public class PhetTabbedPane extends JPanel {
             addChild( textNode );
             addChild( outlineNode );
         }
-        
+
         protected Color getSelectedTextColor() {
             return selectedTextColor;
         }
@@ -552,22 +552,22 @@ public class PhetTabbedPane extends JPanel {
             this.selectedTabColor = color;
             updatePaint();
         }
-        
+
         public void setUnselectedTabColor( Color color ) {
             this.unselectedTabColor = color;
             updatePaint();
         }
-        
+
         public void setSelectedTextColor( Color color ) {
             this.selectedTextColor = color;
             updatePaint();
         }
-        
+
         public void setUnselectedTextColor( Color color ) {
             this.unselectedTextColor = color;
             updatePaint();
         }
-        
+
         public double getTextHeight() {
             return textNode.getFullBounds().getHeight();
         }
@@ -836,21 +836,21 @@ public class PhetTabbedPane extends JPanel {
             }
             tabBase.setTabColor( color );
         }
-        
+
         public void setUnselectedTabColor( Color color ) {
             for ( int i = 0; i < tabs.size(); i++ ) {
                 AbstractTabNode tabNode = (AbstractTabNode) tabs.get( i );
                 tabNode.setUnselectedTabColor( color );
             }
         }
-        
+
         public void setSelectedTextColor( Color color ) {
             for ( int i = 0; i < tabs.size(); i++ ) {
                 AbstractTabNode tabNode = (AbstractTabNode) tabs.get( i );
                 tabNode.setSelectedTextColor( color );
             }
         }
-        
+
         public void setUnselectedTextColor( Color color ) {
             for ( int i = 0; i < tabs.size(); i++ ) {
                 AbstractTabNode tabNode = (AbstractTabNode) tabs.get( i );
