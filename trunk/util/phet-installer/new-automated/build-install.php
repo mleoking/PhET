@@ -287,7 +287,7 @@
         $base_file_name = "phet-installation.properties";
         $marker_file_name = RIPPED_WEBSITE_TOP.PHET_SIMS_SUBDIR.$base_file_name;
         flushing_echo("Marker file name = $marker_file_name");
-	$contents = "# DO NOT DELETE THIS FILE. This file is used by the PhET tracking feature to\n# detect that these sims were installed using the PhET Installer.";
+	$contents = "# DO NOT DELETE THIS FILE.\n# This file identifies this installation of PhET.";
         file_put_contents_anywhere($marker_file_name, $contents);
     }
 
