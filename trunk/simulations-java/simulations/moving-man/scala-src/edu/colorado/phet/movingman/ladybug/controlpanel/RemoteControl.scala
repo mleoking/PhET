@@ -1,12 +1,13 @@
 package edu.colorado.phet.movingman.ladybug.controlpanel
 
 import _root_.edu.colorado.phet.common.phetcommon.view.util.PhetFont
+import _root_.edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import java.awt.event.{MouseEvent, ActionEvent, MouseAdapter, ActionListener}
-import java.awt.geom.{Rectangle2D, Point2D, Dimension2D}
+import java.awt.geom.{Rectangle2D, Ellipse2D, Point2D, Dimension2D}
 import java.awt.{Rectangle, Dimension, Color}
 import javax.swing._
 import javax.swing.event.MouseInputAdapter
@@ -69,9 +70,12 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
     _mode.dragging = false
     _mode = m
     _mode.dragging = false
+    canvas.modeChanged()
     notifyListeners
   }
   class RemoteControlCanvas extends PhetPCanvas(new PDimension(CANVAS_WIDTH, CANVAS_HEIGHT)) {
+    val centerDot = new PhetPPath(new Ellipse2D.Double(-2, -2, 4, 4), Color.black)
+
     addMouseListener(new MouseInputAdapter() {
       override def mousePressed(e: MouseEvent) = {
         _mode.dragging = true
@@ -92,6 +96,8 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
         _mode.setDestination(_mode.transform.viewToModel(e.getX, e.getY))
       }
     })
+    modeChanged
+    def modeChanged() = centerDot.setOffset(_mode.transform.modelToView(0, 0).getX, _mode.transform.modelToView(0, 0).getY)
   }
   val label = new JLabel("Remote Control")
   label.setFont(new PhetFont(14, true))
@@ -105,6 +111,7 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
   def updateNode = {
     node.removeAllChildren
     node.addChild(_mode.arrowNode)
+    node.addChild(canvas.centerDot)
   }
   updateNode
 
