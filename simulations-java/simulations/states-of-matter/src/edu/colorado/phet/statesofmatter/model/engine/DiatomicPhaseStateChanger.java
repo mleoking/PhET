@@ -24,8 +24,7 @@ public class DiatomicPhaseStateChanger extends AbstractPhaseStateChanger {
 	
 	// The following constants can be adjusted to make the the corresponding
 	// phase more or less dense.
-	private static final double LIQUID_SPACING_FACTOR = 0.7;
-	private static final double GAS_SPACING_FACTOR = 1.0;
+	private static final double BLOB_SPACING_FACTOR = 0.7;
 	
 	//----------------------------------------------------------------------------
     // Instance Data
@@ -49,22 +48,23 @@ public class DiatomicPhaseStateChanger extends AbstractPhaseStateChanger {
     //----------------------------------------------------------------------------
 	
 	public void setPhase(int phaseID) {
+		
 		switch (phaseID){
 		case PhaseStateChanger.PHASE_SOLID:
-			setPhaseSolid();
+			formMoleculesIntoCube( MultipleParticleModel.SOLID_TEMPERATURE );
 			break;
 		case PhaseStateChanger.PHASE_LIQUID:
-			setPhaseLiquid();
+			formMoleculesIntoBlob( MultipleParticleModel.LIQUID_TEMPERATURE );
 			break;
 		case PhaseStateChanger.PHASE_GAS:
-			setPhaseGas();
+			formMoleculesIntoBlob( MultipleParticleModel.GAS_TEMPERATURE );
 			break;
 		}
 
 		MoleculeForceAndMotionDataSet moleculeDataSet = m_model.getMoleculeDataSetRef();
 		
-        // Assume that we've done our job correctly and that all the atoms are
-        // in safe positions.
+        // Assume that we've done our job correctly and that all the molecules
+        // are in safe positions.
         m_model.getMoleculeDataSetRef().setNumberOfSafeMolecules( moleculeDataSet.getNumberOfMolecules() );
         
         // Sync up the atom positions with the molecule positions.
@@ -72,12 +72,15 @@ public class DiatomicPhaseStateChanger extends AbstractPhaseStateChanger {
 	}
 	
 	/**
-	 * Set the phase to the solid state.
+	 * Form the molecules into a cube shape near the bottom of the container
+	 * and set the temperature to the provided value.
+	 * 
+	 * @param temperature
 	 */
-	private void setPhaseSolid(){
+	private void formMoleculesIntoCube( double temperature ){
 
 		// Set the model temperature for this phase.
-        m_model.setTemperature( MultipleParticleModel.SOLID_TEMPERATURE );
+        m_model.setTemperature( temperature );
         
         // Get references to the various elements of the data set.
         MoleculeForceAndMotionDataSet moleculeDataSet = m_model.getMoleculeDataSetRef();
@@ -125,12 +128,15 @@ public class DiatomicPhaseStateChanger extends AbstractPhaseStateChanger {
 	}
 	
 	/**
-	 * Set the phase to the liquid state.
+	 * Form the molecules into a blob that sits toward the bottom of the
+	 * container and assign them the specified temperature.
+	 * 
+	 * @param temperature
 	 */
-	private void setPhaseLiquid(){
+	private void formMoleculesIntoBlob( double temperature ){
 
 		// Set the model temperature for this phase.
-		m_model.setTemperature( MultipleParticleModel.LIQUID_TEMPERATURE );
+		m_model.setTemperature( temperature );
 
         // Get references to the various elements of the data set.
         MoleculeForceAndMotionDataSet moleculeDataSet = m_model.getMoleculeDataSetRef();
@@ -169,7 +175,7 @@ public class DiatomicPhaseStateChanger extends AbstractPhaseStateChanger {
             
             for (int j = 0; j < MAX_PLACEMENT_ATTEMPTS; j++){
                 
-                double distanceFromCenter = currentLayer * MIN_INITIAL_DIAMETER_DISTANCE * LIQUID_SPACING_FACTOR;
+                double distanceFromCenter = currentLayer * MIN_INITIAL_DIAMETER_DISTANCE * BLOB_SPACING_FACTOR;
                 double angle = ((double)particlesOnCurrentLayer / (double)particlesThatWillFitOnCurrentLayer * 2 * Math.PI) +
                         ((double)particlesThatWillFitOnCurrentLayer / (4 * Math.PI));
                 double xPos = centerPoint.getX() + (distanceFromCenter * Math.cos( angle ));
@@ -181,7 +187,7 @@ public class DiatomicPhaseStateChanger extends AbstractPhaseStateChanger {
                     // This layer is full - move to the next one.
                     currentLayer++;
                     particlesThatWillFitOnCurrentLayer = 
-                        (int)( currentLayer * 2 * Math.PI / (MIN_INITIAL_DIAMETER_DISTANCE * LIQUID_SPACING_FACTOR) );
+                        (int)( currentLayer * 2 * Math.PI / (MIN_INITIAL_DIAMETER_DISTANCE * BLOB_SPACING_FACTOR) );
                     particlesOnCurrentLayer = 0;
                 }
 
@@ -199,78 +205,6 @@ public class DiatomicPhaseStateChanger extends AbstractPhaseStateChanger {
                     moleculeRotationAngles[moleculesPlaced] = angle + Math.PI / 2;
                     moleculesPlaced++;
                     break;
-                }
-            }
-        }
-	}
-	
-	/**
-	 * Set the phase to the gaseous state.
-	 */
-	private void setPhaseGas(){
-
-		// Set the model temperature for this phase.
-		m_model.setTemperature( MultipleParticleModel.GAS_TEMPERATURE );
-
-        // Get references to the various elements of the data set.
-        MoleculeForceAndMotionDataSet moleculeDataSet = m_model.getMoleculeDataSetRef();
-		Point2D [] moleculeCenterOfMassPositions = moleculeDataSet.getMoleculeCenterOfMassPositions();
-		Vector2D [] moleculeVelocities = moleculeDataSet.getMoleculeVelocities();
-		double [] moleculeRotationAngles = moleculeDataSet.getMoleculeRotationAngles();
-		double [] moleculeRotationRates = moleculeDataSet.getMoleculeRotationRates();
-		
-		// Create and initialize other variables needed to do the job.
-        Random rand = new Random();
-        double temperatureSqrt = Math.sqrt( m_model.getTemperatureSetPoint() );
-        int numberOfMolecules = moleculeDataSet.getNumberOfMolecules();
-
-        for (int i = 0; i < numberOfMolecules; i++){
-            // Temporarily position the molecules at (0,0).
-            moleculeCenterOfMassPositions[i].setLocation( 0, 0 );
-            
-            // Assign each molecule an initial velocity.
-            moleculeVelocities[i].setComponents( temperatureSqrt * rand.nextGaussian(), 
-                    temperatureSqrt * rand.nextGaussian() );
-            
-            // Assign each molecule an initial rotational position.
-            moleculeRotationAngles[i] = rand.nextDouble() * Math.PI * 2;
-
-            // Assign each molecule an initial rotation rate.
-            moleculeRotationRates[i] = rand.nextDouble() * temperatureSqrt * Math.PI * 2;
-        }
-        
-        // Redistribute the molecules randomly around the container, but make
-        // sure that they are not too close together or they end up with a
-        // disproportionate amount of kinetic energy.
-        double newPosX, newPosY;
-        double rangeX = m_model.getNormalizedContainerWidth() - (2 * MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE);
-        double rangeY = m_model.getNormalizedContainerHeight() - (2 * MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE);
-        for (int i = 0; i < numberOfMolecules; i++){
-            for (int j = 0; j < MAX_PLACEMENT_ATTEMPTS; j++){
-                // Pick a random position.
-                newPosX = MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE + (rand.nextDouble() * rangeX);
-                newPosY = MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE + (rand.nextDouble() * rangeY);
-                boolean positionAvailable = true;
-                // See if this position is available.
-                for (int k = 0; k < i; k++){
-                    if (moleculeCenterOfMassPositions[k].distance( newPosX, newPosY ) < 
-                        MIN_INITIAL_DIAMETER_DISTANCE * GAS_SPACING_FACTOR){
-                    	
-                        positionAvailable = false;
-                        break;
-                    }
-                }
-                if (positionAvailable){
-                    // We found an open position.
-                    moleculeCenterOfMassPositions[i].setLocation( newPosX, newPosY );
-                    break;
-                }
-                else if (j == MAX_PLACEMENT_ATTEMPTS - 1){
-                    // This is the last attempt, so use this position anyway.
-                    Point2D openPoint = findOpenMoleculeLocation();
-                    if (openPoint != null){
-                        moleculeCenterOfMassPositions[i].setLocation( openPoint );
-                    }
                 }
             }
         }
