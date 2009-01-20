@@ -1,3 +1,5 @@
+# 0.04.17 (27491) 01-20-2009
+Modified the behavior for transitioning to the gaseous state for oxygen and water, changed the control panel color.
 # 0.04.16 (27440) 01-19-2009
 Changed control panel color, made phase diagram invisible when adjustable atom selected, made phase transition to gas less random looking.
 # 0.04.15 (27260) 01-14-2009
