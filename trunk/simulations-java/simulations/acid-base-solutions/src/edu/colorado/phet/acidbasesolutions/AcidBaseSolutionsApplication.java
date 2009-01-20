@@ -79,6 +79,7 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
         TabbedPaneType tabbedPaneType = new TabbedPaneType(){
             public ITabbedModulePane createTabbedPane() {
                 _tabbedModulePane = new TabbedModulePanePiccolo();
+                _tabbedModulePane.setLogoVisible( false );
                 return _tabbedModulePane;
             }
         };
