@@ -7,8 +7,8 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.phscale.PHScaleStrings;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -97,7 +97,7 @@ public class BeakerNode extends PComposite {
                 
                 int labelIndex = ( i / MINOR_TICKS_PER_MAJOR_TICK ) - 1;
                 if ( labelIndex < MAJOR_TICK_LABELS.length ) {
-                    String label = MAJOR_TICK_LABELS[ labelIndex ] + PHScaleStrings.UNITS_LITERS;
+                    String label = MAJOR_TICK_LABELS[ labelIndex ] + ABSStrings.UNITS_LITERS;
                     PText textNode = new PText( label );
                     textNode.setFont( TICK_LABEL_FONT );
                     textNode.setTextPaint( TICK_COLOR );
