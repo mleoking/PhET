@@ -66,7 +66,6 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
             System.out.println( getClass().getName() + ".updateLayout worldSize=" + worldSize );
         }
         
-        //XXX lay out nodes
         double xOffset, yOffset = 0;
         
         PNode resetAllButton = getResetAllButton();
