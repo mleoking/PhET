@@ -7,10 +7,8 @@ import java.awt.Frame;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.AcidBaseSolutionsApplication;
 import edu.colorado.phet.acidbasesolutions.model.ABSClock;
-import edu.colorado.phet.acidbasesolutions.model.ExampleModelElement;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractModule;
 import edu.colorado.phet.acidbasesolutions.persistence.SolutionsConfig;
-import edu.colorado.phet.acidbasesolutions.view.ExampleNode;
 
 /**
  * SolutionsModule is the "Solutions" module.
@@ -71,18 +69,6 @@ public class SolutionsModule extends ABSAbstractModule {
      * Resets the module.
      */
     public void reset() {
-
-        // ExampleModelElement
-        ExampleModelElement exampleModelElement = _model.getExampleModelElement();
-        exampleModelElement.setPosition( SolutionsDefaults.EXAMPLE_MODEL_ELEMENT_POSITION );
-        exampleModelElement.setOrientation( SolutionsDefaults.EXAMPLE_MODEL_ELEMENT_ORIENTATION );
-        
-        // ExampleNode
-        ExampleNode exampleNode = _canvas.getExampleNode();
-        exampleNode.setSize( exampleModelElement.getWidth(), exampleModelElement.getHeight() );
-        exampleNode.setPosition( exampleModelElement.getPosition() );
-        exampleNode.setOrientation( exampleModelElement.getOrientation() );
-        
         System.out.println( getClass().getName() + ".reset" );//XXX
     }
     

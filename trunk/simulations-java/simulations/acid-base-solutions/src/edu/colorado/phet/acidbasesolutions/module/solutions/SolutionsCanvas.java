@@ -7,7 +7,6 @@ import java.awt.geom.Dimension2D;
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
 import edu.colorado.phet.acidbasesolutions.view.BeakerNode;
-import edu.colorado.phet.acidbasesolutions.view.ExampleNode;
 import edu.colorado.phet.acidbasesolutions.view.PHProbeNode;
 import edu.colorado.phet.acidbasesolutions.view.SolutionNode;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
@@ -28,7 +27,6 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
     private SolutionsModel _model;
     
     // View 
-    private ExampleNode _exampleNode;//XXX
     private final BeakerNode _beakerNode;
     private final PHProbeNode _probeNode;
     private final SolutionNode _solutionNode;
@@ -41,9 +39,6 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         super( resettable );
         
         _model = model;
-        
-        _exampleNode = new ExampleNode( _model.getExampleModelElement() );
-        addNode( _exampleNode );
         
         _beakerNode = new BeakerNode( SolutionsDefaults.BEAKER_SIZE, 1 );
         
@@ -62,9 +57,6 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
     // Accessors
     //----------------------------------------------------------------------------
     
-    public ExampleNode getExampleNode() {
-        return _exampleNode;
-    }
     
     //----------------------------------------------------------------------------
     // Canvas layout
