@@ -1,6 +1,6 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.acidbasesolutions.defaults;
+package edu.colorado.phet.acidbasesolutions.module.matchinggame;
 
 
 /**
