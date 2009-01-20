@@ -1,3 +1,5 @@
+/* Copyright 2009, University of Colorado */
+
 package edu.colorado.phet.acidbasesolutions.module;
 
 import edu.colorado.phet.acidbasesolutions.model.ABSClock;
