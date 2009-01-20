@@ -2,7 +2,7 @@
 The PhET
 project provides a suite of interactive educational simulations.
 <BR>
-Copyright &copy; 2004-2008 University of Colorado. Some rights reserved.
+Copyright &copy; 2004-2009 University of Colorado. Some rights reserved.
 <BR>
 <BR>
 PhET interactive simulations by <A HREF="http://phet.colorado.edu/">The

@@ -35,7 +35,7 @@ public class PhetAboutDialog extends JDialog {
     // Copyright notice, not translated so no one messes with it, and so that we can easily change the date.
     private static final String COPYRIGHT_HTML_FRAGMENT =
             "<b>Physics Education Technology project</b><br>" +
-            "Copyright &copy; 2004-2008 University of Colorado.<br>" +
+            "Copyright &copy; 2004-2009 University of Colorado.<br>" +
             "<a href=" + PhetCommonConstants.PHET_HOME_URL + "/about/licensing.php>Some rights reserved.</a><br>" +
             "Visit " + HTMLUtils.getPhetHomeHref();
     
