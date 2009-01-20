@@ -110,14 +110,14 @@ EOT;
                 }
                 $row_class = ($count % 2) ? "class=\"odd{$last_row}\"" : "class=\"even{$last_row}\"";
 
-                $offline_html = '';
+                $download_html = '';
                 if (!$this->is_installer_builder_rip()) {
-                    $offline_url = sim_get_download_url($sim, $locale, true);
-                    if (empty($offline_url)) {
-                        $offline_html = "<td><em>Download not available</em></td>";
+                    $download_url = sim_get_download_url($sim, $locale, true);
+                    if (empty($download_url)) {
+                        $download_html = "<td><em>Download not available</em></td>";
                     }
                     else {
-                        $offline_html = "<td><a href=\"{$offline_url}\" title=\"Click here to download the {$locale_info['locale_name']} version of {$formatted_sim_name}\">Download</a></td>";
+                        $download_html = "<td><a href=\"{$download_url}\" title=\"Click here to download the {$locale_info['locale_name']} version of {$formatted_sim_name}\">Download</a></td>";
                     }
                 }
 
@@ -125,7 +125,7 @@ EOT;
                 <tr {$row_class}>
                   <td><{$launch_link_open} {$onclick}>{$formatted_sim_name}</a></td>
                   <td><{$launch_link_open} {$onclick}>Run Now</a></td>
-                  {$offline_html}
+                  {$download_html}
                 </tr>
 
 EOT;

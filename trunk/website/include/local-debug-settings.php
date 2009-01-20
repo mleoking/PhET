@@ -50,8 +50,8 @@ function setup_local_debug_settings() {
     //    unset will default to GA_YES
     $GLOBALS["OVERRIDE_GOOGLE_ANALYTICS"] = "GA_NO";
 
-    // True will force offline behavior, how website will look when used in the installer
-    $GLOBALS["DEBUG_FORCE_OFFLINE_BEHAVIOR"] = false;
+    // True will force installer behavior, how website will look when used in the installer
+    $GLOBALS["DEBUG_FORCE_INSTALLER_BEHAVIOR"] = false;
 
     // True will turn OFF meta refresh (will have to explicitly click the link to take you to the next page)
     $GLOBALS["DEBUG_DISABLE_META_REFRESH"] = false;

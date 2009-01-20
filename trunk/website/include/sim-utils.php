@@ -646,51 +646,60 @@
     }
 
     /**
-     * Return the filename and offline content so a user can download for later.
-     * If requested locale is invalid, the default locale is automatically substituted.
-     * If the file cannot be found, the file in the default locale is substitutedh
+     * Return the filename and downloadable content.
+     * If $strict is true, the requested locale must exist.  If it doesn't return false.
+     * If $strict is false, if the requested locale does not exists the default is substituted.
      * 
      * @param array $simulation Array of simulation info as given by the database
      * @param string $requested_locae Locale desired
+     * @param bool $strict True if the file 
      * @return arary(filename, conent), or false if not successful
      **/
-    function sim_get_run_offline($simulation, $requested_locale = DEFAULT_LOCALE) {
+    function sim_get_download($simulation, $locale = DEFAULT_LOCALE, $strict = true) {
 
         $verbose = debug_is_on();
 
         $dirname     = $simulation['sim_dirname'];
         $flavorname  = $simulation['sim_flavorname'];
-
-        $locale = (locale_valid($requested_locale)) ? $requested_locale : DEFAULT_LOCALE;
-
-        // If it is a Java sim, just send the jar
+        
+        // Create 2 variables:
+        //    $default_file is the JAR filename for the default locale
+        //    $locale_file is the JAR filename for the requested locale
+        // The default will be used if strict is off and the locale file cannot be found
         if ($simulation['sim_type'] == SIM_TYPE_JAVA) {
-            $default_filename = SIMS_ROOT."{$dirname}/{$flavorname}_all.jar";
-
+            $default_file = SIMS_ROOT."{$dirname}/{$flavorname}.jar";
             if (locale_is_default($locale)) {
-                $filename = SIMS_ROOT."{$dirname}/{$flavorname}_all.jar";
+                $locale_file = $default_file;
             }
             else {
-                $filename = SIMS_ROOT."{$dirname}/{$flavorname}_{$locale}.jar";
+                $locale_file = SIMS_ROOT."{$dirname}/{$flavorname}_{$locale}.jar";
             }
         }
         else if ($simulation['sim_type'] == SIM_TYPE_FLASH) {
-            $filename = SIMS_ROOT."{$dirname}/{$flavorname}_{$locale}.jar";
-
-            $default_filename = SIMS_ROOT."{$dirname}/{$flavorname}_".DEFAULT_LOCALE.".jar";
+            $default_file = SIMS_ROOT."{$dirname}/{$flavorname}".DEFAULT_LOCALE.".jar";
+            $locale_file = SIMS_ROOT."{$dirname}/{$flavorname}_{$locale}.jar";
+        }
+        else {
+            return 0;
         }
 
-        // If the file does not exist, try returning the default
-        if (!file_exists($filename)) {
-            $filename = $default_filename;
+        // Check if the file exists
+        if (!file_exists($locale_file)) {
+            if ($strict) {
+                // Strict matching requested, return false
+                return false;
+            }
 
-            if (!file_exists($filename)) {
+            // Not strict matching, try to get the default
+            $locale_file = $default_file;
+            if (!file_exists($locale_file)) {
                 // Can't find the default JAR either
                 return false;
             }
         }
 
-        return array($filename, file_get_contents($filename));
+        // Return the filename and the contents of that file
+        return array($locale_file, file_get_contents($locale_file));
     }
 
     function sim_is_in_category($sim_id, $cat_id) {

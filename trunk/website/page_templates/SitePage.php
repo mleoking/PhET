@@ -122,7 +122,7 @@ class SitePage extends BasePage {
     }
 
     function is_installer_builder_rip() {
-        if ((isset($GLOBALS["DEBUG_FORCE_OFFLINE_BEHAVIOR"])) && $GLOBALS["DEBUG_FORCE_OFFLINE_BEHAVIOR"]) {
+        if ((isset($GLOBALS["DEBUG_FORCE_INSTALLER_BEHAVIOR"])) && $GLOBALS["DEBUG_FORCE_INSTALLER_BEHAVIOR"]) {
             return true;
         }
         else if ((isset($_COOKIE['PHET_INSTALLER_BUILDER_RIP']) && $_COOKIE['PHET_INSTALLER_BUILDER_RIP'])) {

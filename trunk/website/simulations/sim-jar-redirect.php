@@ -1,6 +1,6 @@
 <?php
 
-    // This file is called from sims.php to run a sim "offline" (download from Internet and run locally)
+    // This file is called from Java (& Flash?) sims as part of the update process
 
     // In each web accessable script SITE_ROOT must be defined FIRST
     if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
@@ -73,7 +73,7 @@
     }
 
     // Get the filename and content
-    $download_data = sim_get_run_offline($simulation, $locale);
+    $download_data = sim_get_download($simulation, $locale);
     if (!$download_data) {
         error("Error: Simulation jar or language not found.\n");
         exit;
