@@ -42,7 +42,7 @@ public class ComparingModule extends ABSAbstractModule {
         _model = new ComparingModel( CLOCK );
 
         // Canvas
-        _canvas = new ComparingCanvas( _model );
+        _canvas = new ComparingCanvas( _model, this );
         setSimulationPanel( _canvas );
 
         // No control Panel
@@ -68,7 +68,7 @@ public class ComparingModule extends ABSAbstractModule {
      * Resets the module.
      */
     public void reset() {
-        //XXX
+        System.out.println( getClass().getName() + ".reset" );//XXX
     }
     
     //----------------------------------------------------------------------------

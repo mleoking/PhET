@@ -79,8 +79,6 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
         TabbedPaneType tabbedPaneType = new TabbedPaneType(){
             public ITabbedModulePane createTabbedPane() {
                 _tabbedModulePane = new TabbedModulePanePiccolo();
-                _tabbedModulePane.setSelectedTabColor( ABSConstants.SELECTED_TAB_COLOR );
-                _tabbedModulePane.setUnselectedTabColor( ABSConstants.UNSELECTED_TAB_COLOR );
                 return _tabbedModulePane;
             }
         };

@@ -43,7 +43,7 @@ public class FindUnknownModule extends PiccoloModule {
         _model = new FindUnknownModel( CLOCK );
 
         // Canvas
-        _canvas = new FindUnknownCanvas( _model );
+        _canvas = new FindUnknownCanvas( _model, this );
         setSimulationPanel( _canvas );
 
         // No control Panel
@@ -69,7 +69,7 @@ public class FindUnknownModule extends PiccoloModule {
      * Resets the module.
      */
     public void reset() {
-        //XXX
+        System.out.println( getClass().getName() + ".reset" );//XXX
     }
     
     //----------------------------------------------------------------------------

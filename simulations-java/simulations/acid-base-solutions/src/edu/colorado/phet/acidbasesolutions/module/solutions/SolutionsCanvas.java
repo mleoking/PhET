@@ -7,6 +7,8 @@ import java.awt.geom.Dimension2D;
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
 import edu.colorado.phet.acidbasesolutions.view.ExampleNode;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * SolutionsCanvas is the canvas for SolutionsModule.
@@ -29,8 +31,8 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public SolutionsCanvas( SolutionsModel model ) {
-        super();
+    public SolutionsCanvas( SolutionsModel model, Resettable resettable ) {
+        super( resettable );
         
         _model = model;
         
@@ -61,9 +63,15 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
             return;
         }
         else if ( ABSConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
-            System.out.println( "ExampleCanvas.updateLayout worldSize=" + worldSize );//XXX
+            System.out.println( getClass().getName() + ".updateLayout worldSize=" + worldSize );
         }
         
         //XXX lay out nodes
+        double xOffset, yOffset = 0;
+        
+        PNode resetAllButton = getResetAllButton();
+        xOffset = ( worldSize.getWidth() / 2 ) - ( resetAllButton.getFullBoundsReference().getWidth() / 2 );
+        yOffset = worldSize.getHeight() - resetAllButton.getFullBounds().getHeight() - 20;
+        resetAllButton.setOffset( xOffset , yOffset );
     }
 }

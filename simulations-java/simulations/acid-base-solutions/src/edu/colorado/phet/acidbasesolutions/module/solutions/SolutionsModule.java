@@ -45,7 +45,7 @@ public class SolutionsModule extends ABSAbstractModule {
         _model = new SolutionsModel( CLOCK );
 
         // Canvas
-        _canvas = new SolutionsCanvas( _model );
+        _canvas = new SolutionsCanvas( _model, this );
         setSimulationPanel( _canvas );
 
         // No control Panel
@@ -83,7 +83,7 @@ public class SolutionsModule extends ABSAbstractModule {
         exampleNode.setPosition( exampleModelElement.getPosition() );
         exampleNode.setOrientation( exampleModelElement.getOrientation() );
         
-        //XXX
+        System.out.println( getClass().getName() + ".reset" );//XXX
     }
     
     //----------------------------------------------------------------------------
