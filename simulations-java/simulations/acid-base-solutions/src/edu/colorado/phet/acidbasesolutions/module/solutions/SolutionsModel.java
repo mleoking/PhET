@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.acidbasesolutions.module.solutions;
 
-import edu.colorado.phet.acidbasesolutions.defaults.SolutionsDefaults;
 import edu.colorado.phet.acidbasesolutions.model.ABSClock;
 import edu.colorado.phet.acidbasesolutions.model.ExampleModelElement;
 import edu.colorado.phet.acidbasesolutions.module.ABSModel;
