@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 
 /**
- * TemplateConstants is a collection of constants that configure global properties.
+ * A collection of constants that configure global properties.
  * If you change something here, it will change *everywhere* in this simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
