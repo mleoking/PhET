@@ -10,6 +10,7 @@ import umd.cs.piccolo.PNode
 import java.awt.geom.Path2D
 
 abstract class LadybugTraceNode(model: LadybugModel, transform: ModelViewTransform2D, shouldBeVisible: () => Boolean, observable: ObservableS) extends PNode {
+  var clearPt = 0
   setPickable(false)
   setChildrenPickable(false)
   observable.addListener(() => setVisible(shouldBeVisible()))
@@ -18,15 +19,10 @@ abstract class LadybugTraceNode(model: LadybugModel, transform: ModelViewTransfo
 
   def update(model: LadybugModel)
 
-  var clearPt = 0
-
   def clearTrace = {
-    clearPt = model.history.length
+    clearPt = model.getHistory.length
     update(model)
   }
 
-  def getHistoryToShow() = {
-    val start = (model.history.length - 100) max 0 max clearPt
-    model.history.slice(start, model.history.length)
-  }
+  def getHistoryToShow() = model.getHistory
 }
