@@ -8,6 +8,7 @@ import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
 import edu.colorado.phet.acidbasesolutions.view.BeakerNode;
 import edu.colorado.phet.acidbasesolutions.view.PHProbeNode;
+import edu.colorado.phet.acidbasesolutions.view.ParticlesNode;
 import edu.colorado.phet.acidbasesolutions.view.SolutionNode;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.umd.cs.piccolo.PNode;
@@ -57,6 +58,9 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
     // Accessors
     //----------------------------------------------------------------------------
     
+    public ParticlesNode dev_getParticlesNode() {
+        return _solutionNode.getParticlesNode();
+    }
     
     //----------------------------------------------------------------------------
     // Canvas layout

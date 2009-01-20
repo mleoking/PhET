@@ -12,9 +12,8 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JDialog;
 import javax.swing.JMenu;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.piccolophet.TabbedPanePropertiesDialog;
 import edu.colorado.phet.acidbasesolutions.AcidBaseSolutionsApplication;
+import edu.colorado.phet.common.piccolophet.TabbedPanePropertiesDialog;
 
 /**
  * DeveloperMenu is the "Developer" menu that appears in the menu bar.
@@ -24,25 +23,18 @@ import edu.colorado.phet.acidbasesolutions.AcidBaseSolutionsApplication;
  */
 public class DeveloperMenu extends JMenu {
 
-    private AcidBaseSolutionsApplication _app;
-    private JCheckBoxMenuItem _developerControlsItem;
-    private JCheckBoxMenuItem _tabPropertiesItem;
-    private JDialog _developerControlsDialog;
+    private final AcidBaseSolutionsApplication _app;
+    private final JCheckBoxMenuItem _tabPropertiesItem;
+    private final JCheckBoxMenuItem _particlesControlsMenuItem;
+    
     private JDialog _tabPropertiesDialog;
+    private JDialog _particleControlsDialog;
 
     public DeveloperMenu( AcidBaseSolutionsApplication app ) {
         super( "Developer" );
 
         _app = app;
 
-        _developerControlsItem = new JCheckBoxMenuItem( "Developer Controls..." );
-        add( _developerControlsItem );
-        _developerControlsItem.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                handleDeveloperControls();
-            }
-        });
-        
         _tabPropertiesItem = new JCheckBoxMenuItem( "Tabbed Pane properties..." );
         add( _tabPropertiesItem );
         _tabPropertiesItem.addActionListener( new ActionListener() {
@@ -50,37 +42,19 @@ public class DeveloperMenu extends JMenu {
                 handleTabProperties();
             }
         });
+        
+        _particlesControlsMenuItem = new JCheckBoxMenuItem( "Particle controls..." );
+        add( _particlesControlsMenuItem );
+        _particlesControlsMenuItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                handleParticleControls();
+            }
+        });
     }
 
-    private void handleDeveloperControls() {
-        if ( _developerControlsItem.isSelected() ) {
-            Frame owner = PhetApplication.instance().getPhetFrame();
-            _developerControlsDialog = new DeveloperControlsDialog( owner, _app );
-            _developerControlsDialog.setVisible( true );
-            _developerControlsDialog.addWindowListener( new WindowAdapter() {
-
-                public void windowClosed( WindowEvent e ) {
-                    cleanup();
-                }
-
-                public void windowClosing( WindowEvent e ) {
-                    cleanup();
-                }
-
-                private void cleanup() {
-                    _developerControlsItem.setSelected( false );
-                    _developerControlsDialog = null;
-                }
-            } );
-        }
-        else {
-            _developerControlsDialog.dispose();
-        }
-    }
-    
     private void handleTabProperties() {
         if ( _tabPropertiesItem.isSelected() ) {
-            Frame owner = PhetApplication.instance().getPhetFrame();
+            Frame owner = _app.getPhetFrame();
             _tabPropertiesDialog = new TabbedPanePropertiesDialog( owner, _app.getTabbedPane() );
             _tabPropertiesDialog.setVisible( true );
             _tabPropertiesDialog.addWindowListener( new WindowAdapter() {
@@ -101,6 +75,29 @@ public class DeveloperMenu extends JMenu {
         }
         else {
             _tabPropertiesDialog.dispose();
+        }
+    }
+    
+    private void handleParticleControls() {
+        if ( _particlesControlsMenuItem.isSelected() ) {
+            Frame owner = _app.getPhetFrame();
+            _particleControlsDialog = new ParticleControlsDialog( owner, _app );
+            _particleControlsDialog.setVisible( true );
+            _particleControlsDialog.addWindowListener( new WindowAdapter() {
+                public void windowClosed( WindowEvent e ) {
+                    cleanup();
+                }
+                public void windowClosing( WindowEvent e ) {
+                    cleanup();
+                }
+                private void cleanup() {
+                    _particlesControlsMenuItem.setSelected( false );
+                    _particleControlsDialog = null;
+                }
+            } );
+        }
+        else {
+            _particleControlsDialog.dispose();
         }
     }
 }
