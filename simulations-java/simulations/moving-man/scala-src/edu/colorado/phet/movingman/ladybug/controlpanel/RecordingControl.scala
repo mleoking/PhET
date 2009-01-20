@@ -16,10 +16,10 @@ import umd.cs.piccolo.PNode
 
 class RecordingControl(model: LadybugModel) extends PNode {
   val text = new PText("0.00")
-  text.setFont(new PhetFont(30))
+//  text.setFont(new PhetFont(30))
   addChild(text)
 
-  val _width = 250
+  val _width = 100
   val _height = 60
 //  setPreferredSize(new Dimension(_width, _height))
   implicit def timeToString(time: Double) = new DecimalFormat("0.00").format(time) + " sec"
@@ -70,7 +70,7 @@ class RecordingControl(model: LadybugModel) extends PNode {
       override def mouseDragged(event: PInputEvent) = {
         model.setPaused(true)
         val dx = event.getCanvasDelta.width
-        model.setPlaybackIndexFloat(((model.getPlaybackIndexFloat + dx * scale) max 0) min (model.history.length - 1))
+        model.setPlaybackIndexFloat(((model.getPlaybackIndexFloat + dx * scale) max 0) min (model.getHistory.length - 1))
       }
     })
 
@@ -79,7 +79,7 @@ class RecordingControl(model: LadybugModel) extends PNode {
     })
     updateSelf
     def updateSelf() = {
-      shaded.setPathTo(new Rectangle(0, pathOffsetY, (model.history.length / scale).toInt, pathHeight))
+      shaded.setPathTo(new Rectangle(0, pathOffsetY, (model.getHistory.length / scale).toInt, pathHeight))
       handle.setVisible(model.isPlayback)
       handle.setPathTo(new Ellipse2D.Double(model.getPlaybackIndexFloat / scale - ellipseWidth / 2, pathOffsetY, ellipseWidth, ellipseHeight))
     }

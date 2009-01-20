@@ -5,7 +5,7 @@ import LadybugUtil._
 
 class LadybugModel extends Observable[LadybugModel] {
   val ladybug = new Ladybug
-  val history = new ArrayBuffer[DataPoint]
+  private val history = new ArrayBuffer[DataPoint]
 
   private val ladybugMotionModel = new LadybugMotionModel
 
@@ -53,12 +53,20 @@ class LadybugModel extends Observable[LadybugModel] {
 
   def setStateToPlaybackIndex() = ladybug.setState(history(getPlaybackIndex()).state)
 
+  def getHistory() = history
+
+  def getTimeRange() = history(history.length - 1).time - history(0).time
+
   def update(dt: Double) = {
     if (!paused) {
       if (isRecord()) {
         time += dt;
         ladybugMotionModel.update(dt, this)
         history += new DataPoint(time, ladybug.getState)
+
+        while (getTimeRange > 5) { //todo: change to 30
+          history.remove(0)
+        }
 
         if (history.length > 20) {
           updateMode(dt)
