@@ -9,6 +9,7 @@ public class Solution {
     private static final double AVOGADROS_NUMBER = 6.023E23;
     private static final double H2O_CONCENTRATION = 55; // moles/L
     private static final double VOLUME = 1; // L
+    private static final double PH_H2O = 7;
     
     private PHValue _pH;
     private double _concentration; // mol/L
@@ -16,7 +17,7 @@ public class Solution {
     private final ArrayList _listeners;
     
     public Solution() {
-        _pH = new PHValue( 0 );
+        _pH = new PHValue( PH_H2O );//XXX
         _concentration = 0;
         _strength = 0;
         _listeners = new ArrayList();

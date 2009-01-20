@@ -1,4 +1,4 @@
-/* Copyright 2008-2009, University of Colorado */
+/* Copyright 2009, University of Colorado */
 
 package edu.colorado.phet.acidbasesolutions.view;
 
@@ -22,7 +22,7 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * ParticlesNode draws the particles that are shown for the ratio views.
+ * ParticlesNode draws the particles that are shown for the "H3O/OH" ratio views.
  * In pH range 6 to 8, the relationship between number of particles and pH is log.
  * Outside of this range, we can't possibly draw that many particles, so we 
  * fake it using a linear relationship.
@@ -114,7 +114,7 @@ public class ParticlesNode extends PComposite {
         _numberOfH3O = 0;
         _numberOfOH = 0;
         
-        update();
+        createParticles();
     }
     
     public void cleanup() {
@@ -257,8 +257,7 @@ public class ParticlesNode extends PComposite {
     
     /*
      * Creates a new set of particles only if the liquid's pH changes.
-     * If the volume changes, we'll simply expose more of the existing 
-     * particles by increasing the size of LiquidNode.
+     * If the volume changes, we'll simply expose more of the existing particles.
      */
     private void update() {
         if ( getVisible() ) {
