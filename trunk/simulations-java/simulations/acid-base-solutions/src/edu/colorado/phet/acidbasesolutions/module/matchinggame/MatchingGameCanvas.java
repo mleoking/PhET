@@ -6,6 +6,7 @@ import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 
 /**
  * MatchingGameCanvas is the canvas for MatchingGameModule.
@@ -25,8 +26,8 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public MatchingGameCanvas( MatchingGameModel model ) {
-        super();
+    public MatchingGameCanvas( MatchingGameModel model, Resettable resettable ) {
+        super( resettable );
         _model = model;
     }
     

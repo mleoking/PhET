@@ -6,6 +6,7 @@ import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 
 /**
  * FindUnknownCanvas is the canvas for FindUnknownModule.
@@ -25,8 +26,8 @@ public class FindUnknownCanvas extends ABSAbstractCanvas {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public FindUnknownCanvas( FindUnknownModel model ) {
-        super();
+    public FindUnknownCanvas( FindUnknownModel model, Resettable resettable ) {
+        super( resettable );
         _model = model;
     }
     

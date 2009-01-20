@@ -43,7 +43,7 @@ public class MatchingGameModule extends PiccoloModule {
         _model = new MatchingGameModel( CLOCK );
 
         // Canvas
-        _canvas = new MatchingGameCanvas( _model );
+        _canvas = new MatchingGameCanvas( _model, this );
         setSimulationPanel( _canvas );
 
         // No control Panel
@@ -69,7 +69,7 @@ public class MatchingGameModule extends PiccoloModule {
      * Resets the module.
      */
     public void reset() {
-        //XXX
+        System.out.println( getClass().getName() + ".reset" );//XXX
     }
     
     //----------------------------------------------------------------------------

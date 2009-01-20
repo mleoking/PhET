@@ -32,21 +32,14 @@ public class ABSConstants {
     public static final String PROJECT_NAME = "acid-base-solutions";
 
     // Model-view transform
-    public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1500, 1500 );
+    public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1024, 768 );
     
     //----------------------------------------------------------------------------
     // Fonts
     //----------------------------------------------------------------------------
 
-    // Default font properties
-    public static final int DEFAULT_FONT_STYLE = Font.PLAIN;
-    public static final int DEFAULT_FONT_SIZE = 16;
-    
-    public static final Font CONTROL_PANEL_TITLE_FONT = new PhetFont( Font.BOLD, 12 );
-    public static final Font CONTROL_PANEL_CONTROL_FONT = new PhetFont( Font.PLAIN, 12 );
-    
-    public static final Font PLAY_AREA_TITLE_FONT = new PhetFont( Font.BOLD, 16 );
-    public static final Font PLAY_AREA_CONTROL_FONT = new PhetFont( Font.PLAIN, 16 );
+    public static final int CONTROL_FONT_SIZE = 18;
+    public static final Font CONTROL_FONT = new PhetFont( Font.PLAIN, CONTROL_FONT_SIZE );
     
     //----------------------------------------------------------------------------
     // Strokes
@@ -61,16 +54,6 @@ public class ABSConstants {
     
     // Color of the "play area"
     public static final Color CANVAS_BACKGROUND = new Color( 230, 230, 230 );
-    
-    // Color of labels placed directly on the play area
-    public static final Color CANVAS_LABELS_COLOR = Color.BLACK;
-    
-    // Generic transparent color
-    public static final Color COLOR_TRANSPARENT = new Color( 0f, 0f, 0f, 0f );
-    
-    // Default color for module tabs
-    public static final Color SELECTED_TAB_COLOR = new Color( 153, 153, 255 ); // light blue
-    public static final Color UNSELECTED_TAB_COLOR = new Color( 98, 98, 249 ); // bright blue
     
     //----------------------------------------------------------------------------
     // Images

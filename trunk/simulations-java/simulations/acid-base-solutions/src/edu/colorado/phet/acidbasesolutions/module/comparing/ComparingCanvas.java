@@ -6,6 +6,7 @@ import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 
 /**
  * ComparingCanvas is the canvas for ComparingModule.
@@ -25,8 +26,8 @@ public class ComparingCanvas extends ABSAbstractCanvas {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ComparingCanvas( ComparingModel model ) {
-        super();
+    public ComparingCanvas( ComparingModel model, Resettable resettable ) {
+        super( resettable );
         _model = model;
     }
     
