@@ -14,7 +14,6 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.acidbasesolutions.ABSStrings;
 
 /**
  * ExampleSubPanel is an example of a control panel that implements a subset
@@ -25,6 +24,16 @@ import edu.colorado.phet.acidbasesolutions.ABSStrings;
  */
 public class ExampleSubPanel extends JPanel {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    //XXX in a real sim, these would be localized
+    private static final String LABEL_POSITION = "position";
+    private static final String LABEL_ORIENTATION = "orientation";
+    private static final String UNITS_POSITION = "m";
+    private static final String UNITS_ORIENTATION = "degrees";
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -43,7 +52,7 @@ public class ExampleSubPanel extends JPanel {
         _listeners = new ArrayList();
         
         // Title
-        JLabel titleLabel = new JLabel( ABSStrings.TITLE_SOLUTIONS_CONTROL_PANEL );
+        JLabel titleLabel = new JLabel( "My Control Panel" );
         
         // Position display
         _positionDisplay = new JLabel();
@@ -51,9 +60,9 @@ public class ExampleSubPanel extends JPanel {
         // Orientation control
         double min = 0;
         double max = 360;
-        String label = ABSStrings.LABEL_ORIENTATION;
+        String label = LABEL_ORIENTATION;
         String valuePattern = "##0";
-        String units = ABSStrings.UNITS_ORIENTATION;
+        String units = UNITS_ORIENTATION;
         _orientationControl = new LinearValueControl( min, max, label, valuePattern, units );
         _orientationControl.setTextFieldEditable( true );
         _orientationControl.setUpDownArrowDelta( 1 );
@@ -95,7 +104,7 @@ public class ExampleSubPanel extends JPanel {
     }
     
     public void setPosition( Point2D p ) {
-        String s = ABSStrings.LABEL_POSITION + " (" + (int) p.getX() + "," + (int) p.getY() + ")";
+        String s = LABEL_POSITION + " (" + (int) p.getX() + "," + (int) p.getY() + ") " + UNITS_POSITION;
         _positionDisplay.setText( s );
     }
     
