@@ -14,8 +14,9 @@ import umd.cs.piccolo.PNode
 import LadybugUtil._
 
 class ArrowSetNode(ladybug: Ladybug, transform: ModelViewTransform2D, vectorVisibilityModel: VectorVisibilityModel) extends PNode {
+  val arrowWidth=90.0*0.25;
   class LabeledArrowNode(color: Color, name: String) extends PNode {
-    val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(200, 200), 90, 90, 60, 2, true)
+    val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(200, 200), arrowWidth, arrowWidth, arrowWidth*2.0/3.0, 2, true)
     arrowNode setPaint color
     arrowNode setStroke new BasicStroke(0.5f)
     arrowNode setStrokePaint Color.gray
