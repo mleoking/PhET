@@ -14,6 +14,7 @@ import edu.umd.cs.piccolo.nodes.PText
 import edu.umd.cs.piccolo.PNode
 import java.awt.Color
 import java.awt.Font
+import java.util.Date
 import javax.swing.JLabel
 import model.ScalaClock
 
