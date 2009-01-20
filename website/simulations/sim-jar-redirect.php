@@ -35,7 +35,7 @@
             var_dump($message);
         }
         else {
-            send_file_to_browser('error.txt', $error, null, "attachment");
+            send_file_to_browser('error.txt', $message, null, "attachment");
         }
     }
 
