@@ -47,7 +47,7 @@
     log_message('download-sim.log', $log_string);
 
     // Get the filename and content
-    $download_data = sim_get_run_offline($simulation, $locale);
+    $download_data = sim_get_download($simulation, $locale, false);
 
     if ($download_data) {
         $filename = $download_data[0];
