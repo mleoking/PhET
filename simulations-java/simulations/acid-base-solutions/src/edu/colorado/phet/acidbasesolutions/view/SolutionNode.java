@@ -42,15 +42,15 @@ public class SolutionNode extends PComposite {
         setPickable( false );
         setChildrenPickable( false );
         
-        PClip liquidNode = new PClip(); // clip particles to liquid
-        liquidNode.setPathTo( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ) );
-        liquidNode.setStroke( null );
-        liquidNode.setPaint( COLOR );
-        addChild( liquidNode );
+        PClip solutionNode = new PClip(); // clip particles to liquid
+        solutionNode.setPathTo( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ) );
+        solutionNode.setStroke( null );
+        solutionNode.setPaint( COLOR );
+        addChild( solutionNode );
         
         PBounds containerBounds = new PBounds( 0, 0, size.getWidth(), size.getHeight() );
         _particlesNode = new ParticlesNode( solution, containerBounds );
-        liquidNode.addChild( _particlesNode ); // clip particles to liquid
+        solutionNode.addChild( _particlesNode ); // clip particles to liquid
     }
     
     public void cleanup() {
