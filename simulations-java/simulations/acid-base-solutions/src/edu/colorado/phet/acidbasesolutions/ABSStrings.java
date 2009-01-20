@@ -5,7 +5,7 @@ package edu.colorado.phet.acidbasesolutions;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 
 /**
- * Collection of localized strings used by this simulations.
+ * Collection of localized & unlocalized strings used by this simulations.
  * We load all strings statically so that we will be warned at startup time of any missing strings.
  * Otherwise we'd have to visit every part of the sim to test properly.
  *
@@ -25,6 +25,10 @@ public class ABSStrings {
     public static final String MESSAGE_NOT_A_CONFIG = ABSResources.getString( "message.notAConfigFile" );
     
     public static final String LABEL_PH = ABSResources.getString( "label.pH" );
+    
+    public static final String UNITS_LITERS = ABSResources.getString( "units.liters" );
+    public static final String UNITS_MOLES = ABSResources.getString( "units.moles" );
+    public static final String UNITS_MOLES_PER_LITER = ABSResources.getString( "units.molesPerLiter" );
     
     // equations that do not require localization
     public static final String LABEL_H2O = "H<sub>2</sub>O";
