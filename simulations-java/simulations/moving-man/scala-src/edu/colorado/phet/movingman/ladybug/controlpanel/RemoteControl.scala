@@ -24,9 +24,26 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
   val arrowHeadHeight = 30
   val arrowTailWidth = 20
 
-  def resetAll() = {
-    mode = positionMode
+  val positionMode = new RemoteMode(LadybugColorSet.position, 20, _.getPosition) {
+    def setLadybugState(pt: Point2D) = {
+      model.ladybug.setPosition(pt)
+      model.setUpdateModePosition
+    }
   }
+  val velocityMode = new RemoteMode(LadybugColorSet.velocity, 33, _.getVelocity) {
+    def setLadybugState(pt: Point2D) = {
+      model.ladybug.setVelocity(pt)
+      model.setUpdateModeVelocity
+    }
+  }
+  val accelerationMode = new RemoteMode(LadybugColorSet.acceleration, 11, _.getAcceleration) {
+    def setLadybugState(pt: Point2D) = {
+      model.ladybug.setAcceleration(pt)
+      model.setUpdateModeAcceleration
+    }
+  }
+  var _mode: RemoteMode = positionMode;
+
   abstract class RemoteMode(color: Color, rangeWidth: Double, getter: (Ladybug) => Vector2D) {
     val transform = new ModelViewTransform2D(new Rectangle2D.Double(-rangeWidth / 2, -rangeWidth / 2, rangeWidth, rangeWidth), new Rectangle(CANVAS_WIDTH, CANVAS_HEIGHT), false)
     val arrowNode = new ArrowNode(transform.modelToView(new Point2D.Double(0, 0)), transform.modelToView(new Point2D.Double(0, 0)), arrowHeadWidth, arrowHeadHeight, arrowTailWidth, 0.5, true)
@@ -44,29 +61,11 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
 
     def setLadybugState(pt: Point2D) //template method
   }
-  val positionMode = new RemoteMode(LadybugColorSet.position, 20, (lad: Ladybug) => lad.getPosition) {
-    def setLadybugState(pt: Point2D) = {
-      model.ladybug.setPosition(pt)
-      model.setUpdateModePosition
-    }
+  def resetAll() = {
+    mode = positionMode
   }
-  val velocityMode = new RemoteMode(LadybugColorSet.velocity, 33, (lad: Ladybug) => lad.getVelocity) {
-    def setLadybugState(pt: Point2D) = {
-      model.ladybug.setVelocity(pt)
-      model.setUpdateModeVelocity
-    }
-  }
-  val accelerationMode = new RemoteMode(LadybugColorSet.acceleration, 11, (lad: Ladybug) => lad.getAcceleration) {
-    def setLadybugState(pt: Point2D) = {
-      model.ladybug.setAcceleration(pt)
-      model.setUpdateModeAcceleration
-    }
-  }
-
-  var _mode: RemoteMode = positionMode;
 
   def mode_=(m: RemoteMode) = {
-
     _mode.dragging = false
     _mode = m
     _mode.dragging = false
