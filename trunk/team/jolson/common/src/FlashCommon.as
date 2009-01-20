@@ -45,6 +45,7 @@ class FlashCommon {
 			_level0.debug = function(str : String) : Void {
 				_root.debugs.text += str;
 				_root.debugs.scroll += 100;
+				_root.debugs.html = true;
 			}
 		} else {
 			_level0.debug = function(str : String) : Void {
