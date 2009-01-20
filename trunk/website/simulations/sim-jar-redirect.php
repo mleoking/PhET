@@ -12,33 +12,70 @@
     require_once("include/sys-utils.php");
     require_once("include/web-utils.php");
 
-    // Get the pertenant information
-    if ((isset($_GET['project']) && (!empty($_GET['project']))) &&
-        (isset($_GET['sim']) && (!empty($_GET['sim']))) &&
-        (isset($_GET['language']) && (!empty($_GET['language'])))) {
-        $dirname = $_GET['project'];
-        $flavorname = $_GET['sim'];
-        $language_code = $_GET['language'];
+    function query_string_extract($key) {
+        if (is_array($key)) {
+            foreach ($key as $k) {
+                if (isset($_GET[$k])) {
+                    return $_GET[$k];
+                }
+            }
+            return '';
+        }
+
+        if (isset($_GET[$key])) {
+            return $_GET[$key];
+        }
+        else {
+            return '';
+        }
     }
-    else {
-        $error = "Error: Missing required information in the query string.\n";
-        send_file_to_browser('error.txt', $error, null, "attachment");
+
+    function error($message) {
+        if (debug_is_on()) {
+            var_dump($message);
+        }
+        else {
+            send_file_to_browser('error.txt', $error, null, "attachment");
+        }
+    }
+
+    // Grab the required parameters
+    $required_params = array('project', 'sim', 'language');
+    $missing_params = array();
+    foreach ($required_params as $key) {
+        $$key = query_string_extract($key);
+        if (empty($$key)) {
+            $missing_params[] = $key;
+        }
+    }
+
+    // Send an error if there are missing parametrs
+    if (!empty($missing_params)) {
+        error("Error: Missing required information in the query string: '".
+              join("', '", $missing_params)."'.\n");
         exit;
     }
 
+    // Get the country, this is not required to be specified
+    $country = query_string_extract('country');
+
+    // Create a locale from the language and country
+    $locale = $language;
+    if (!empty($country)) {
+        $locale .= '_'.$country;
+    }
+
     // Get the database info for the requested sim
-    $simulation = sim_get_sim_by_dirname_flavorname($dirname, $flavorname);
+    $simulation = sim_get_sim_by_dirname_flavorname($project, $sim);
     if (!$simulation) {
-        $error = "Error: Simulation not found.\n";
-        send_file_to_browser('error.txt', $error, null, "attachment");
+        error("Error: Simulation not found.\n");
         exit;
     }
 
     // Get the filename and content
-    $download_data = sim_get_run_offline($simulation, $language_code);
+    $download_data = sim_get_run_offline($simulation, $locale);
     if (!$download_data) {
-        $error = "Error: Simulation jar or language not found.\n";
-        send_file_to_browser('error.txt', $error, null, "attachment");
+        error("Error: Simulation jar or language not found.\n");
         exit;
     }
 
