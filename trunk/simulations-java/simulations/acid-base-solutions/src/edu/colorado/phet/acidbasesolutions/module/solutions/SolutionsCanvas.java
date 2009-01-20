@@ -8,7 +8,7 @@ import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
 import edu.colorado.phet.acidbasesolutions.view.BeakerNode;
 import edu.colorado.phet.acidbasesolutions.view.ExampleNode;
-import edu.colorado.phet.acidbasesolutions.view.PHProbeNode;
+import edu.colorado.phet.acidbasesolutions.view.PHProbeNode2;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.umd.cs.piccolo.PNode;
 
@@ -29,7 +29,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
     // View 
     private ExampleNode _exampleNode;//XXX
     private final BeakerNode _beakerNode;
-    private final PHProbeNode _probeNode;
+    private final PHProbeNode2 _probeNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -46,7 +46,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         _beakerNode = new BeakerNode( SolutionsDefaults.BEAKER_SIZE, 1 );
         addNode( _beakerNode );
         
-        _probeNode = new PHProbeNode( SolutionsDefaults.PH_PROBE_HEIGHT, _model.getSolution() );
+        _probeNode = new PHProbeNode2( SolutionsDefaults.PH_PROBE_HEIGHT, _model.getSolution() );
         addNode( _probeNode );
     }
     
