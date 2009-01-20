@@ -1,49 +1,50 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.acidbasesolutions.module.comparing;
+package edu.colorado.phet.acidbasesolutions.module.matchinggame;
 
 import java.awt.Frame;
 
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.AcidBaseSolutionsApplication;
-import edu.colorado.phet.acidbasesolutions.defaults.ComparingDefaults;
 import edu.colorado.phet.acidbasesolutions.defaults.SolutionsDefaults;
 import edu.colorado.phet.acidbasesolutions.model.ABSClock;
-import edu.colorado.phet.acidbasesolutions.persistence.ComparingConfig;
+import edu.colorado.phet.acidbasesolutions.persistence.MatchingGameConfig;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 
 /**
- * ComparingModule is the "Comparing Solutions" module.
+ * MatchingGameModule is the "Matching Game" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ComparingModule extends PiccoloModule {
+public class MatchingGameModule extends PiccoloModule {
     
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
+    private static final String TITLE = ABSStrings.TITLE_MATCHING_GAME_MODULE;
     private static final ABSClock CLOCK = new ABSClock( SolutionsDefaults.CLOCK_FRAME_RATE, SolutionsDefaults.CLOCK_DT );
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
-    private ComparingModel _model;
-    private ComparingCanvas _canvas;
+    private MatchingGameModel _model;
+    private MatchingGameCanvas _canvas;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    public ComparingModule( Frame parentFrame ) {
-        super( ABSStrings.TITLE_COMPARING_MODULE, CLOCK );
+    public MatchingGameModule( Frame parentFrame ) {
+        super( TITLE, CLOCK, false /* startsPaused */ );
+        setLogoPanelVisible( false );
 
         // Model
-        _model = new ComparingModel( CLOCK );
+        _model = new MatchingGameModel( CLOCK );
 
         // Canvas
-        _canvas = new ComparingCanvas( _model );
+        _canvas = new MatchingGameCanvas( _model );
         setSimulationPanel( _canvas );
 
         // No control Panel
@@ -73,8 +74,8 @@ public class ComparingModule extends PiccoloModule {
         // Clock
         ABSClock clock = _model.getClock();
         clock.resetSimulationTime();
-        clock.setDt( ComparingDefaults.CLOCK_DT );
-        setClockRunningWhenActive( ComparingDefaults.CLOCK_RUNNING );
+        clock.setDt( SolutionsDefaults.CLOCK_DT );
+        setClockRunningWhenActive( SolutionsDefaults.CLOCK_RUNNING );
 
         //XXX other stuff
     }
@@ -83,9 +84,9 @@ public class ComparingModule extends PiccoloModule {
     // Persistence
     //----------------------------------------------------------------------------
 
-    public ComparingConfig save() {
+    public MatchingGameConfig save() {
 
-        ComparingConfig config = new ComparingConfig();
+        MatchingGameConfig config = new MatchingGameConfig();
 
         // Module
         config.setActive( isActive() );
@@ -100,7 +101,7 @@ public class ComparingModule extends PiccoloModule {
         return config;
     }
 
-    public void load( ComparingConfig config ) {
+    public void load( MatchingGameConfig config ) {
 
         // Module
         if ( config.isActive() ) {

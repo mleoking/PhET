@@ -1,49 +1,50 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.acidbasesolutions.module.comparing;
+package edu.colorado.phet.acidbasesolutions.module.findunknown;
 
 import java.awt.Frame;
 
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.AcidBaseSolutionsApplication;
-import edu.colorado.phet.acidbasesolutions.defaults.ComparingDefaults;
 import edu.colorado.phet.acidbasesolutions.defaults.SolutionsDefaults;
 import edu.colorado.phet.acidbasesolutions.model.ABSClock;
-import edu.colorado.phet.acidbasesolutions.persistence.ComparingConfig;
+import edu.colorado.phet.acidbasesolutions.persistence.FindUnknownConfig;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 
 /**
- * ComparingModule is the "Comparing Solutions" module.
+ * FindUnknownModule is the "Find The Unknown" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ComparingModule extends PiccoloModule {
+public class FindUnknownModule extends PiccoloModule {
     
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
+    private static final String TITLE = ABSStrings.TITLE_FIND_THE_UNKNOWN_MODULE;
     private static final ABSClock CLOCK = new ABSClock( SolutionsDefaults.CLOCK_FRAME_RATE, SolutionsDefaults.CLOCK_DT );
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
-    private ComparingModel _model;
-    private ComparingCanvas _canvas;
+    private FindUnknownModel _model;
+    private FindUnknownCanvas _canvas;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    public ComparingModule( Frame parentFrame ) {
-        super( ABSStrings.TITLE_COMPARING_MODULE, CLOCK );
+    public FindUnknownModule( Frame parentFrame ) {
+        super( TITLE, CLOCK, false /* startsPaused */ );
+        setLogoPanelVisible( false );
 
         // Model
-        _model = new ComparingModel( CLOCK );
+        _model = new FindUnknownModel( CLOCK );
 
         // Canvas
-        _canvas = new ComparingCanvas( _model );
+        _canvas = new FindUnknownCanvas( _model );
         setSimulationPanel( _canvas );
 
         // No control Panel
@@ -73,8 +74,8 @@ public class ComparingModule extends PiccoloModule {
         // Clock
         ABSClock clock = _model.getClock();
         clock.resetSimulationTime();
-        clock.setDt( ComparingDefaults.CLOCK_DT );
-        setClockRunningWhenActive( ComparingDefaults.CLOCK_RUNNING );
+        clock.setDt( SolutionsDefaults.CLOCK_DT );
+        setClockRunningWhenActive( SolutionsDefaults.CLOCK_RUNNING );
 
         //XXX other stuff
     }
@@ -83,9 +84,9 @@ public class ComparingModule extends PiccoloModule {
     // Persistence
     //----------------------------------------------------------------------------
 
-    public ComparingConfig save() {
+    public FindUnknownConfig save() {
 
-        ComparingConfig config = new ComparingConfig();
+        FindUnknownConfig config = new FindUnknownConfig();
 
         // Module
         config.setActive( isActive() );
@@ -100,7 +101,7 @@ public class ComparingModule extends PiccoloModule {
         return config;
     }
 
-    public void load( ComparingConfig config ) {
+    public void load( FindUnknownConfig config ) {
 
         // Module
         if ( config.isActive() ) {

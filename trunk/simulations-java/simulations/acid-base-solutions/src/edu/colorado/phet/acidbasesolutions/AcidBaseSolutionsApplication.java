@@ -1,4 +1,4 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2009, University of Colorado */
 
 package edu.colorado.phet.acidbasesolutions;
 
@@ -13,9 +13,10 @@ import javax.swing.JOptionPane;
 import edu.colorado.phet.acidbasesolutions.developer.DeveloperMenu;
 import edu.colorado.phet.acidbasesolutions.menu.OptionsMenu;
 import edu.colorado.phet.acidbasesolutions.module.comparing.ComparingModule;
+import edu.colorado.phet.acidbasesolutions.module.findunknown.FindUnknownModule;
+import edu.colorado.phet.acidbasesolutions.module.matchinggame.MatchingGameModule;
 import edu.colorado.phet.acidbasesolutions.module.solutions.SolutionsModule;
-import edu.colorado.phet.acidbasesolutions.persistence.ExampleConfig;
-import edu.colorado.phet.acidbasesolutions.persistence.SimTemplateConfig;
+import edu.colorado.phet.acidbasesolutions.persistence.*;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
@@ -40,6 +41,8 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
 
     private SolutionsModule _solutionsModule;
     private ComparingModule _comparingModule;
+    private MatchingGameModule _matchingGameModule;
+    private FindUnknownModule _findUnknownModule;
 
     // PersistanceManager is used to save/load simulation configurations.
     private XMLPersistenceManager _persistenceManager;
@@ -96,6 +99,12 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
         
         _comparingModule = new ComparingModule( parentFrame );
         addModule( _comparingModule );
+        
+        _matchingGameModule = new MatchingGameModule( parentFrame );
+        addModule( _matchingGameModule );
+        
+        _findUnknownModule = new FindUnknownModule( parentFrame );
+        addModule( _findUnknownModule );
     }
 
     /*
@@ -158,10 +167,6 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
         }
     }
 
-    public Color getControlPanelBackground() {
-        return getModule( 0 ).getControlPanel().getBackground();
-    }
-
     public PhetTabbedPane getTabbedPane() {
         return _tabbedModulePane;
     }
@@ -175,7 +180,7 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
      */
     private void save() {
         
-        SimTemplateConfig appConfig = new SimTemplateConfig();
+        ABSConfig appConfig = new ABSConfig();
         
         appConfig.setVersionString( getSimInfo().getVersion().toString() );
         appConfig.setVersionMajor( getSimInfo().getVersion().getMajor() );
@@ -183,8 +188,17 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
         appConfig.setVersionDev( getSimInfo().getVersion().getDev() );
         appConfig.setVersionRevision( getSimInfo().getVersion().getRevision() );
         
-        ExampleConfig exampleConfig = _solutionsModule.save();
-        appConfig.setExampleConfig( exampleConfig );
+        SolutionsConfig solutionsConfig = _solutionsModule.save();
+        appConfig.setSolutionsConfig( solutionsConfig );
+        
+        ComparingConfig comparingConfig = _comparingModule.save();
+        appConfig.setComparingConfig( comparingConfig );
+        
+        MatchingGameConfig matchingGameConfig = _matchingGameModule.save();
+        appConfig.setMatchGameConfig( matchingGameConfig );
+        
+        FindUnknownConfig findUnknownConfig = _findUnknownModule.save();
+        appConfig.setFindUnknownConfig( findUnknownConfig );
         
         _persistenceManager.save( appConfig );
     }
@@ -197,11 +211,13 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
         Object object = _persistenceManager.load();
         if ( object != null ) {
             
-            if ( object instanceof SimTemplateConfig ) {
-                SimTemplateConfig appConfig = (SimTemplateConfig) object;
+            if ( object instanceof ABSConfig ) {
+                ABSConfig appConfig = (ABSConfig) object;
                 
-                ExampleConfig exampleConfig = appConfig.getExampleConfig();
-                _solutionsModule.load( exampleConfig );
+                _solutionsModule.load( appConfig.getSolutionsConfig() );
+                _comparingModule.load( appConfig.getComparingConfig() );
+                _matchingGameModule.load( appConfig.getMatchGameConfig() );
+                _findUnknownModule.load( appConfig.getFindUnknownConfig() );
             }
             else {
                 String message = ABSResources.getString( "message.notAConfigFile" );

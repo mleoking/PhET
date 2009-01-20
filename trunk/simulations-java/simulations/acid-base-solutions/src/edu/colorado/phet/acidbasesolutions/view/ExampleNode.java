@@ -7,7 +7,13 @@ import java.awt.Color;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.acidbasesolutions.model.ExampleModelElement;
+import edu.colorado.phet.acidbasesolutions.model.ExampleModelElement.ExampleModelElementListener;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * ExampleNode is the visual representation of an ExampleModelElement.
@@ -16,16 +22,48 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ExampleNode extends PPath {
+
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------   
+    
+    private final ExampleModelElement _modelElement;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ExampleNode() {
+    public ExampleNode( ExampleModelElement modelElement ) {
         super();
+        
         setStroke( new BasicStroke( 1f ) );
         setStrokePaint( Color.BLACK );
         setPaint( Color.ORANGE );
+        
+        _modelElement = modelElement;
+        
+        // When the model element changes, update this node.
+        modelElement.addExampleModelElementListener( new ExampleModelElementListener() {
+
+            public void orientationChanged() {
+                setOrientation( _modelElement.getOrientation() );
+            }
+
+            public void positionChanged() {
+                setPosition( _modelElement.getPositionReference() );
+            }
+        });
+        
+        // When this node is dragged, update the model element.
+        addInputEventListener( new CursorHandler() );
+        addInputEventListener( new PBasicInputEventHandler() {
+            public void mouseDragged( PInputEvent event ) {
+                PDimension delta = event.getDeltaRelativeTo( getParent() );
+                Point2D p = _modelElement.getPosition();
+                Point2D pNew = new Point2D.Double( p.getX() + delta.getWidth(), p.getY() + delta.getHeight() );
+                _modelElement.setPosition( pNew );
+            }
+        } );
     }
     
     //----------------------------------------------------------------------------

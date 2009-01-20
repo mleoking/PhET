@@ -4,10 +4,9 @@ package edu.colorado.phet.acidbasesolutions.module.comparing;
 
 import java.awt.geom.Dimension2D;
 
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.defaults.SolutionsDefaults;
-import edu.colorado.phet.acidbasesolutions.view.ExampleNode;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -26,7 +25,6 @@ public class ComparingCanvas extends PhetPCanvas {
     
     // View 
     private PNode _rootNode;
-    private ExampleNode _exampleNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -42,20 +40,12 @@ public class ComparingCanvas extends PhetPCanvas {
         // Root of our scene graph
         _rootNode = new PNode();
         addWorldChild( _rootNode );
-        
-        _exampleNode = new ExampleNode();
-        _rootNode.addChild( _exampleNode );
     }
-    
-
     
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
     
-    public ExampleNode getExampleNode() {
-        return _exampleNode;
-    }
     
     //----------------------------------------------------------------------------
     // Canvas layout
