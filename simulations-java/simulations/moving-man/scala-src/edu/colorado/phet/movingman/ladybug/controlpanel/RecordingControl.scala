@@ -17,7 +17,7 @@ import umd.cs.piccolo.PNode
 class RecordingControl(model: LadybugModel) extends PNode {
   val text = new PText("0.00")
 //  text.setFont(new PhetFont(30))
-  addChild(text)
+//  addChild(text)
 
   val _width = 100
   val _height = 60
