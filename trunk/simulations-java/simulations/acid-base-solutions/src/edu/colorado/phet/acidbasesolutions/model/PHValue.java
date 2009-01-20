@@ -2,7 +2,8 @@
 
 package edu.colorado.phet.acidbasesolutions.model;
 
-import edu.colorado.phet.phscale.util.PrecisionDecimal;
+import edu.colorado.phet.acidbasesolutions.util.PrecisionDecimal;
+
 
 
 /**
