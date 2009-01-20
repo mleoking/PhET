@@ -1,3 +1,4 @@
-1/18/09 - framework for all modules and persistence
+1/20/09 - start fleshing out user interface of first module
+1/19/09 - framework for all modules and persistence
 1/12/09 - set up basic framework, based on sim-template
 1/12/09 - changes log file created

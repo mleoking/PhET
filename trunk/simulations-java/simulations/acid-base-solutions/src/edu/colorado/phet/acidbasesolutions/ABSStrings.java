@@ -23,4 +23,6 @@ public class ABSStrings {
     
     public static final String TITLE_ERROR = PhetCommonResources.getString( "Common.title.error" );
     public static final String MESSAGE_NOT_A_CONFIG = ABSResources.getString( "message.notAConfigFile" );
+    
+    public static final String LABEL_PH = ABSResources.getString( "label.pH" );
 }

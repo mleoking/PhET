@@ -6,7 +6,9 @@ import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
+import edu.colorado.phet.acidbasesolutions.view.BeakerNode;
 import edu.colorado.phet.acidbasesolutions.view.ExampleNode;
+import edu.colorado.phet.acidbasesolutions.view.PHProbeNode;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.umd.cs.piccolo.PNode;
 
@@ -25,7 +27,9 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
     private SolutionsModel _model;
     
     // View 
-    private ExampleNode _exampleNode;
+    private ExampleNode _exampleNode;//XXX
+    private final BeakerNode _beakerNode;
+    private final PHProbeNode _probeNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -38,6 +42,12 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         
         _exampleNode = new ExampleNode( _model.getExampleModelElement() );
         addNode( _exampleNode );
+        
+        _beakerNode = new BeakerNode( SolutionsDefaults.BEAKER_SIZE, 1 );
+        addNode( _beakerNode );
+        
+        _probeNode = new PHProbeNode( SolutionsDefaults.PH_PROBE_HEIGHT, _model.getSolution() );
+        addNode( _probeNode );
     }
     
     //----------------------------------------------------------------------------
@@ -67,6 +77,15 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         }
         
         double xOffset, yOffset = 0;
+        
+        xOffset = 100;
+        yOffset = 100;
+        _beakerNode.setOffset( xOffset, yOffset );
+        
+        // probe horizontally centered in beaker, tip of probe at bottom of beaker
+        _probeNode.setOffset( 
+                _beakerNode.getFullBoundsReference().getCenterX() - _probeNode.getFullBoundsReference().getWidth() / 2, 
+                _beakerNode.getFullBoundsReference().getMaxY() - _probeNode.getFullBoundsReference().getHeight() );
         
         PNode resetAllButton = getResetAllButton();
         xOffset = ( worldSize.getWidth() / 2 ) - ( resetAllButton.getFullBoundsReference().getWidth() / 2 );
