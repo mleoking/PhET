@@ -647,7 +647,11 @@
 
     /**
      * Return the filename and offline content so a user can download for later.
+     * If requested locale is invalid, the default locale is automatically substituted.
+     * If the file cannot be found, the file in the default locale is substitutedh
      * 
+     * @param array $simulation Array of simulation info as given by the database
+     * @param string $requested_locae Locale desired
      * @return arary(filename, conent), or false if not successful
      **/
     function sim_get_run_offline($simulation, $requested_locale = DEFAULT_LOCALE) {
@@ -661,8 +665,10 @@
 
         // If it is a Java sim, just send the jar
         if ($simulation['sim_type'] == SIM_TYPE_JAVA) {
+            $default_filename = SIMS_ROOT."{$dirname}/{$flavorname}_all.jar";
+
             if (locale_is_default($locale)) {
-                $filename = SIMS_ROOT."{$dirname}/{$flavorname}.jar";
+                $filename = SIMS_ROOT."{$dirname}/{$flavorname}_all.jar";
             }
             else {
                 $filename = SIMS_ROOT."{$dirname}/{$flavorname}_{$locale}.jar";
@@ -670,10 +676,18 @@
         }
         else if ($simulation['sim_type'] == SIM_TYPE_FLASH) {
             $filename = SIMS_ROOT."{$dirname}/{$flavorname}_{$locale}.jar";
+
+            $default_filename = SIMS_ROOT."{$dirname}/{$flavorname}_".DEFAULT_LOCALE.".jar";
         }
 
+        // If the file does not exist, try returning the default
         if (!file_exists($filename)) {
-            return false;
+            $filename = $default_filename;
+
+            if (!file_exists($filename)) {
+                // Can't find the default JAR either
+                return false;
+            }
         }
 
         return array($filename, file_get_contents($filename));
