@@ -2,9 +2,12 @@
 
 package edu.colorado.phet.acidbasesolutions;
 
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+
 /**
- * TemplateStrings is the collection of localized strings used by this simulations.
- * We load all strings as statics so that we will be warned at startup time of any missing strings.
+ * Collection of localized strings used by this simulations.
+ * We load all strings statically so that we will be warned at startup time of any missing strings.
+ * Otherwise we'd have to visit every part of the sim to test properly.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -13,18 +16,11 @@ public class ABSStrings {
     /* not intended for instantiation */
     private ABSStrings() {}
     
-    public static final String LABEL_POSITION = ABSResources.getString( "label.position");
-    public static final String LABEL_ORIENTATION = ABSResources.getString( "label.orientation");
-    
     public static final String TITLE_SOLUTIONS_MODULE = ABSResources.getString( "title.solutionsModule" );
     public static final String TITLE_COMPARING_MODULE = ABSResources.getString( "title.comparingModule" );
     public static final String TITLE_MATCHING_GAME_MODULE = ABSResources.getString( "title.matchingGameModule" );
     public static final String TITLE_FIND_THE_UNKNOWN_MODULE = ABSResources.getString( "title.findTheUnknownModule" );
-
-    public static final String TITLE_SOLUTIONS_CONTROL_PANEL = ABSResources.getString( "title.solutionsControlPanel");
     
-    public static final String UNITS_DISTANCE = ABSResources.getString( "units.distance");
-    public static final String UNITS_ORIENTATION = ABSResources.getString( "units.orientation");
-    public static final String UNITS_TIME = ABSResources.getString( "units.time" );
-
+    public static final String TITLE_ERROR = PhetCommonResources.getString( "Common.title.error" );
+    public static final String MESSAGE_NOT_A_CONFIG = ABSResources.getString( "message.notAConfigFile" );
 }

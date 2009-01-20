@@ -220,8 +220,8 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
                 _findUnknownModule.load( appConfig.getFindUnknownConfig() );
             }
             else {
-                String message = ABSResources.getString( "message.notAConfigFile" );
-                String title = ABSResources.getString( "title.error" );
+                String message = ABSStrings.MESSAGE_NOT_A_CONFIG;
+                String title = ABSStrings.TITLE_ERROR;
                 JOptionPane.showMessageDialog( getPhetFrame(), message, title, JOptionPane.ERROR_MESSAGE );
             }
         }
