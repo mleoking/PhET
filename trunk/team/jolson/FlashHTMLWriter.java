@@ -121,6 +121,9 @@ public class FlashHTMLWriter {
 			if(args.length > 1) {
 				simName = args[0];
 				language = args[1];
+			} else {
+				System.err.println("Need at least a sim name and language");
+				System.exit(1);
 			}
 			if(args.length > 2) {
 				country = args[2];
@@ -129,10 +132,24 @@ public class FlashHTMLWriter {
 			
 			// relative pathnames
 			String locale = language + (country.equals("none") ? "" : "_" + country);
+			
 			String xmlFile = "simulations/" + simName + "/data/localization/" + simName + "-strings_" + locale + ".xml";
+			
+			// if sim localization does not exist, use english as a default
+			if((new File(xmlFile)).exists() == false) {
+				xmlFile = "simulations/" + simName + "/data/localization/" + simName + "-strings_" + "en" + ".xml";
+				System.out.println("WARNING: could not find sim internationalization data for " + locale + ", defaulting to en");
+			}
+			
 			String htmlFile = "simulations/" + simName + "/deploy/" + simName + "_" + locale + ".html";
 			String propertiesFile = "simulations/" + simName + "/data/" + simName + ".properties";
+			
 			String commonXmlFile = "common/data/localization/common-strings_" + locale + ".xml";
+			// if common localization does not exist, use english as a default
+			if((new File(commonXmlFile)).exists() == false) {
+				commonXmlFile = "common/data/localization/common-strings_" + "en" + ".xml";
+				System.out.println("WARNING: could not find common internationalization data for " + locale + ", defaulting to en");
+			}
 			
 			writeHTML(simName, language, country, "phet-website", "none", xmlFile, htmlFile, propertiesFile, commonXmlFile);
 		} catch(FileNotFoundException e) {
