@@ -363,6 +363,13 @@ public abstract class BaseGreenhouseModule extends Module {
                 }
 
                 // Put up a dialog prompting the user to kick things off
+                
+                boolean doZoom = false;
+                /*
+                 * TODO: I have removed the presentation of the dialog about flying in and
+                 * the related animation in an attempt to fix but #1079.  This will need
+                 * more cleanup, including removal of all the threads and images if we keep
+                 * it this way.
                 String[] options = new String[]{
                         GreenhouseResources.getString( "BaseGreenhouseModule.FlyMeInText" ),
                         GreenhouseResources.getString( "BaseGreenhouseModule.BeamMeDownText" )};
@@ -380,6 +387,8 @@ public abstract class BaseGreenhouseModule extends Module {
 //                Point2D.Double sunRefPt = new Point2D.Double( sun.getLocation().getX(),
 //                                                              sun.getLocation().getY() - SUN_DIAM / 2 );
 //
+ * 
+ */
                 Point2D.Double zoomCenter = new Point2D.Double( currModelBounds.getMinX() + currModelBounds.getWidth() / 2,
                                                                 currModelBounds.getMinY() + currModelBounds.getHeight() / 2 );
                 double zoomFactor = .002;
