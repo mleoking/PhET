@@ -232,7 +232,8 @@
 
         <logMessage>
             <text>
-installation_time_stamp value = ${installation_time_stamp}</text>
+installation_time_stamp value = ${installation_time_stamp}
+</text>
         </logMessage>
         
         <!-- Append time stamp property to installation information file.  -->
