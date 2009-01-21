@@ -64,7 +64,7 @@ class LadybugModel extends Observable[LadybugModel] {
         ladybugMotionModel.update(dt, this)
         history += new DataPoint(time, ladybug.getState)
 
-        while (getTimeRange > 5) { //todo: change to 30
+        while (getTimeRange > LadybugDefaults.timelineLengthSeconds) {
           history.remove(0)
         }
 
