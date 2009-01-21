@@ -41,7 +41,7 @@ public class OTClockControlPanel extends PiccoloClockControlPanel {
     public OTClockControlPanel( ConstantDtClock clock ) {
         super( clock );
 
-        setRestartButtonVisible( true );
+        setRewindButtonVisible( true );
         
         // Use our own time display
         setTimeDisplayVisible( false );

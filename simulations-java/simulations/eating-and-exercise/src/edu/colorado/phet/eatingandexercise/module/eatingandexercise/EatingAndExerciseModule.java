@@ -130,11 +130,11 @@ public class EatingAndExerciseModule extends PiccoloModule {
                 super.setTimeDisplay( EatingAndExerciseUnits.secondsToYears( time ) );
             }
         };
-        _clockControlPanel.setRestartButtonVisible( true );
+        _clockControlPanel.setRewindButtonVisible( true );
         _clockControlPanel.setTimeDisplayVisible( true );
         _clockControlPanel.setUnits( EatingAndExerciseStrings.UNITS_TIME );
         _clockControlPanel.setTimeColumns( 10 );
-        _clockControlPanel.setRestartButtonVisible( false );
+        _clockControlPanel.setRewindButtonVisible( false );
         _clockControlPanel.setStepButtonTooltip( EatingAndExerciseResources.getString( "time.next-month" ) );
 //        _clockControlPanel.setStepButtonText( EatingAndExerciseResources.getString( "time.next-month" ) );
         _clockControlPanel.setTimeFormat( "0.0" );

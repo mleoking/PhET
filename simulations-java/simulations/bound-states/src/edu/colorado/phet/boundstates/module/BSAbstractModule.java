@@ -355,7 +355,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
 
             HelpBalloon restartHelp = new HelpBalloon( helpPane, BSResources.getString( "help.restart" ), HelpBalloon.BOTTOM_LEFT, 80 );
             helpPane.add(  restartHelp );
-            restartHelp.pointAt( _clockControls.getRestartComponent() );
+            restartHelp.pointAt( _clockControls.getRewindButton(), _clockControls.getButtonCanvas() );
 
             HelpBalloon clockSpeedHelp = new HelpBalloon( helpPane, BSResources.getString( "help.clockSpeed" ), HelpBalloon.BOTTOM_RIGHT, 80 );
             helpPane.add(  clockSpeedHelp );

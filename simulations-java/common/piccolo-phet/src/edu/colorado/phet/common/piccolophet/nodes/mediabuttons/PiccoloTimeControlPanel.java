@@ -3,14 +3,12 @@
 package edu.colorado.phet.common.piccolophet.nodes.mediabuttons;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.*;
 
@@ -21,8 +19,8 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.ToolTipHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.PCanvas;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
@@ -37,13 +35,15 @@ public class PiccoloTimeControlPanel extends JPanel{
     // Class Data
     //------------------------------------------------------------------------
     
-    public static final String PLAY_TOOLTIP = PhetCommonResources.getString( PhetCommonResources.STRING_CLOCK_PLAY );
-    public static final String PAUSE_TOOLTIP = PhetCommonResources.getString( PhetCommonResources.STRING_CLOCK_PAUSE );
-    public static final String STEP_TOOLTIP = PhetCommonResources.getString( PhetCommonResources.STRING_CLOCK_STEP );
-    public static final String RESTART_LABEL = PhetCommonResources.getString( PhetCommonResources.STRING_CLOCK_RESTART );
+    private static final String PLAY_TOOLTIP = PhetCommonResources.getString( PhetCommonResources.STRING_CLOCK_PLAY );
+    private static final String PAUSE_TOOLTIP = PhetCommonResources.getString( PhetCommonResources.STRING_CLOCK_PAUSE );
+    private static final String STEP_TOOLTIP = PhetCommonResources.getString( PhetCommonResources.STRING_CLOCK_STEP );
+    private static final String REWIND_TOOLTIP = PhetCommonResources.getString( PhetCommonResources.STRING_CLOCK_REWIND );
     
-    public static final NumberFormat DEFAULT_TIME_FORMAT = new DecimalFormat( "0" );
-    public static final int DEFAULT_TIME_COLUMNS = 8;
+    private static final double BUTTON_X_SPACING = 5;
+    
+    private static final NumberFormat DEFAULT_TIME_FORMAT = new DecimalFormat( "0" );
+    private static final int DEFAULT_TIME_COLUMNS = 8;
 
     //------------------------------------------------------------------------
     // Instance Data
@@ -52,18 +52,18 @@ public class PiccoloTimeControlPanel extends JPanel{
     private BackgroundNode backgroundNode;
     private final PlayPauseButton playPauseButton;
     private final StepButton stepButton;
-    private final JButton restartButton;
+    private final RewindButton rewindButton;
     private JTextField timeTextField;
     private JLabel unitsLabel;
     private JPanel userPanel;
 
-    private ToolTipHandler playPauseTooltipHandler;
+    private ToolTipHandler playPauseTooltipHandler, stepTooltipHandler, rewindTooltipHandler;
     private NumberFormat timeFormat;
     private double time;
     private boolean paused;
     private ArrayList listeners = new ArrayList();
-    private ToolTipHandler stepTooltipHandler;
-    private PhetPCanvas buttonPCanvas;
+    private PhetPCanvas buttonCanvas;
+    private final ArrayList buttonList;
 
     //------------------------------------------------------------------------
     // Constructors
@@ -87,11 +87,7 @@ public class PiccoloTimeControlPanel extends JPanel{
         stepButton = new StepButton( (int) ( playPauseButton.getButtonDimension().width * 0.8 ) );
         
         // Restart
-        //TODO this should be a piccolo button too
-        BufferedImage restartImage = PhetCommonResources.getImage( PhetCommonResources.IMAGE_RESTART );
-        ImageIcon restartIcon = new ImageIcon( restartImage );
-        restartButton = new JButton( RESTART_LABEL, restartIcon );
-        restartButton.setOpaque( false );//fix for Mac until #840 is addressed
+        rewindButton = new RewindButton( (int) ( playPauseButton.getButtonDimension().width * 0.8 ) );
 
         // Time display, time value & units
         timeTextField = new JTextField();
@@ -109,19 +105,18 @@ public class PiccoloTimeControlPanel extends JPanel{
         userPanel.setOpaque( false );
 
         // Layout piccolo buttons on a canvas
-        buttonPCanvas = new PhetPCanvas();
-        buttonPCanvas.setOpaque( false );
-        buttonPCanvas.setBorder( null );
-        buttonPCanvas.addScreenChild( playPauseButton );
-        buttonPCanvas.addScreenChild( stepButton );
-        stepButton.setOffset( playPauseButton.getFullBounds().getMaxX(), playPauseButton.getFullBounds().getCenterY() - stepButton.getFullBounds().getHeight() / 2 );
-        buttonPCanvas.setPreferredSize( new Dimension( (int) (  playPauseButton.getFullBounds().getWidth() * 1.92 ), (int) playPauseButton.getParent().getFullBounds().getHeight() ) );
-        
+        buttonList = new ArrayList();
+        buttonCanvas = new PhetPCanvas();
+        buttonCanvas.setOpaque( false );
+        buttonCanvas.setBorder( null );
+        addButton( rewindButton );
+        addButton( playPauseButton );
+        addButton( stepButton );
+                
         // Layout piccolo and Swing buttons in a panel
         JPanel buttonPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
         buttonPanel.setOpaque( false );
-        buttonPanel.add( restartButton );
-        buttonPanel.add( buttonPCanvas );
+        buttonPanel.add( buttonCanvas );
 
         // Layout of this canvas
         setLayout( new FlowLayout( FlowLayout.CENTER ) );
@@ -131,10 +126,12 @@ public class PiccoloTimeControlPanel extends JPanel{
         add( buttonPanel );
         
         // tool tips on piccolo buttons
-        stepTooltipHandler = new ToolTipHandler( STEP_TOOLTIP, buttonPCanvas );
+        stepTooltipHandler = new ToolTipHandler( STEP_TOOLTIP, buttonCanvas );
         stepButton.addInputEventListener( stepTooltipHandler );
-        playPauseTooltipHandler = new ToolTipHandler( PAUSE_TOOLTIP, buttonPCanvas );
+        playPauseTooltipHandler = new ToolTipHandler( PAUSE_TOOLTIP, buttonCanvas );
         playPauseButton.addInputEventListener( playPauseTooltipHandler );
+        rewindTooltipHandler = new ToolTipHandler( REWIND_TOOLTIP, buttonCanvas );
+        rewindButton.addInputEventListener( rewindTooltipHandler );
 
         // listeners
         playPauseButton.addListener( new PlayPauseButton.Listener() {
@@ -156,25 +153,25 @@ public class PiccoloTimeControlPanel extends JPanel{
             }
         } );
         
-        restartButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                notifyRestartPressed();
+        rewindButton.addListener( new RewindButton.Listener() {
+            public void buttonPressed() {
+                notifyRewindPressed();
             }
         } );
 
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                updateSize();
+                updateButtonLayout();
             }
         } );
         
         // for backward compatibility with existing sims
-        restartButton.setVisible( false );
+        rewindButton.setVisible( false );
         timeTextField.setVisible( false );
         unitsLabel.setVisible( false );
 
         updateButtons();
-        updateSize();
+        updateButtonLayout();
     }
 
     protected void paintComponent( Graphics g ) {
@@ -183,8 +180,39 @@ public class PiccoloTimeControlPanel extends JPanel{
     }
 
     public PCanvas getButtonCanvas(){
-        return buttonPCanvas;
+        return buttonCanvas;
     }
+    
+    private void addButton( PNode button ) {
+        buttonList.add( button );
+        buttonCanvas.addScreenChild( button );
+    }
+    
+    private void updateButtonLayout() {
+        
+        double maxHeight = 0;
+        Iterator i = buttonList.iterator();
+        while ( i.hasNext() ) {
+           PNode button = (PNode) i.next();
+           if ( button.getVisible() ) {
+               maxHeight = Math.max( maxHeight, button.getFullBoundsReference().getHeight() );
+           }
+        }
+        
+        double previousX = 0;
+        i = buttonList.iterator();
+        while ( i.hasNext() ) {
+           PNode button = (PNode) i.next();
+           if ( button.getVisible() ) {
+                button.setOffset( previousX, ( maxHeight - button.getFullBoundsReference().getHeight() ) / 2  );
+                previousX += button.getFullBoundsReference().getWidth() + BUTTON_X_SPACING;
+           }
+        }
+        
+        buttonCanvas.setPreferredSize( new Dimension( (int) previousX, (int) maxHeight ) );
+        backgroundNode.setSize( getWidth(), getHeight() );
+    }
+    
     //------------------------------------------------------------------------
     // Setters & getters
     //------------------------------------------------------------------------
@@ -199,13 +227,14 @@ public class PiccoloTimeControlPanel extends JPanel{
     }
     
     /**
-     * Sets the visibility of the Restart button.
+     * Sets the visibility of the Rewind button.
      * This button is invisible by default for backward compatibility with existing sims.
      *
      * @param visible true if the restart button should be visible
      */
-    public void setRestartButtonVisible( boolean visible ) {
-        restartButton.setVisible( visible );
+    public void setRewindButtonVisible( boolean visible ) {
+        rewindButton.setVisible( visible );
+        updateButtonLayout();
     }
 
     /**
@@ -245,12 +274,12 @@ public class PiccoloTimeControlPanel extends JPanel{
     }
 
     /**
-     * Gets the "Restart" component, used for attaching help items.
+     * Gets the "Rewind" button, used for attaching help items.
      *
      * @return
      */
-    public JComponent getRestartComponent() {
-        return restartButton;
+    public PNode getRewindButton() {
+        return rewindButton;
     }
 
     /**
@@ -323,6 +352,10 @@ public class PiccoloTimeControlPanel extends JPanel{
         stepTooltipHandler.setText( tooltip );
     }
     
+    public void setRewindButtonTooltip( String tooltip ) {
+        rewindTooltipHandler.setText( tooltip );
+    }
+    
     //------------------------------------------------------------------------
     // Adding components
     //------------------------------------------------------------------------
@@ -364,10 +397,6 @@ public class PiccoloTimeControlPanel extends JPanel{
         }
     }
 
-    private void updateSize() {
-        backgroundNode.setSize( getWidth(), getHeight() );
-    }
-    
     /*
      * Updates the state of the play/pause and step buttons to reflect whether the control is paused and/or enabled.
      */
@@ -376,7 +405,7 @@ public class PiccoloTimeControlPanel extends JPanel{
         playPauseButton.setEnabled( isEnabled() );
         playPauseTooltipHandler.setText( paused ? PLAY_TOOLTIP : PAUSE_TOOLTIP );
         stepButton.setEnabled( isEnabled() && paused );
-        restartButton.setEnabled( isEnabled() );
+        rewindButton.setEnabled( isEnabled() );
     }
 
     //------------------------------------------------------------------------
@@ -409,7 +438,7 @@ public class PiccoloTimeControlPanel extends JPanel{
         }
     }
 
-    private void notifyRestartPressed() {
+    private void notifyRewindPressed() {
         for ( int i = 0; i < listeners.size(); i++ ) {
             ( (TimeControlListener) listeners.get( i ) ).restartPressed();
         }
@@ -488,7 +517,7 @@ public class PiccoloTimeControlPanel extends JPanel{
         JFrame frame = new JFrame();
         PiccoloTimeControlPanel pane = new PiccoloTimeControlPanel();
         pane.setStepButtonTooltip( "step forward the simulation" );
-//        pane.setRestartButtonVisible( true );
+//        pane.setRewindButtonVisible( true );
         pane.addTimeControlListener( new TimeControlListener() {
             public void stepPressed() {
                 System.out.println( "stepPressed" );

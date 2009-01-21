@@ -282,7 +282,7 @@ public class QTModule extends QTAbstractModule implements Observer {
         // Clock Controls
         {
             _clockControls = new PiccoloClockControlPanel( getClock() );
-            _clockControls.setRestartButtonVisible( true );
+            _clockControls.setRewindButtonVisible( true );
             _clockControls.setTimeDisplayVisible( true );
             _clockControls.setTimeFormat( QTConstants.TIME_FORMAT_PATTERN );
             _clockControls.setTimeColumns( QTConstants.TIME_COLUMNS );
@@ -383,7 +383,7 @@ public class QTModule extends QTAbstractModule implements Observer {
         
         HelpBalloon restartHelp = new HelpBalloon( helpPane, QTResources.getString( "help.restart" ), HelpBalloon.BOTTOM_CENTER, 80 );
         helpPane.add(  restartHelp );
-        restartHelp.pointAt( _clockControls.getRestartComponent() );
+        restartHelp.pointAt( _clockControls.getRewindButton(), _clockControls.getButtonCanvas() );
         
         //----------------------------------------------------------------------------
         // Initialze the module state

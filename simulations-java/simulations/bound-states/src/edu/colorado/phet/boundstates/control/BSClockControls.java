@@ -51,7 +51,7 @@ public class BSClockControls extends PiccoloClockControlPanel {
         _clock.setDt( BSConstants.DEFAULT_CLOCK_STEP );
         
         // Restart button
-        setRestartButtonVisible( true  );
+        setRewindButtonVisible( true  );
 
         // Time display
         setUnits( BSResources.getString( "units.time" ) );
