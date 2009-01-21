@@ -112,7 +112,7 @@ class Timeline(model: LadybugModel) extends PNode {
   val handle = new PhetPPath(Color.blue, new BasicStroke(1), Color.black)
   addChild(background)
   addChild(shaded)
-  addChild(handle)c
+  addChild(handle)
 
   handle.addInputEventListener(new CursorHandler)
   handle.addInputEventListener(new PBasicInputEventHandler() {
