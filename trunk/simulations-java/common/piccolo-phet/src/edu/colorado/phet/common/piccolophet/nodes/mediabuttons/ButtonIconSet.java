@@ -73,4 +73,29 @@ public class ButtonIconSet {
 //        shape.lineToRelative( buttonWidth, 0 );
         return shape.getGeneralPath();
     }
+
+    public Shape createRewindIconShape() {
+        DoubleGeneralPath shape = new DoubleGeneralPath();
+        double width = buttonWidth;
+        double height = buttonHeight;
+
+        double buttonSpacing = dx / 5;
+        double buttonWidth = dx * 0.8;
+        shape.moveTo( width / 2 - buttonSpacing - buttonWidth / 1.5, height / 2 - dy );
+        shape.lineToRelative( 0, 2 * dy );
+        shape.lineToRelative( -buttonWidth * 0.8, 0 );
+        shape.lineToRelative( 0, -2 * dy );
+        shape.lineToRelative( buttonWidth * 0.8, 0 );
+
+        shape.moveTo( width / 2 + buttonSpacing + buttonWidth - buttonWidth / 1.5, height / 2 - dy );
+        shape.lineToRelative( 0, 2 * dy );
+        shape.lineToRelative( -buttonWidth * 1.5, -dy );
+        shape.lineToRelative( buttonWidth * 1.5, -dy );
+
+        shape.moveTo( width / 2 + buttonSpacing + buttonWidth - buttonWidth / 2 + buttonWidth + buttonSpacing * 1.43, height / 2 - dy );
+        shape.lineToRelative( 0, 2 * dy );
+        shape.lineToRelative( -buttonWidth * 1.5, -dy );
+        shape.lineToRelative( buttonWidth * 1.5, -dy );
+        return shape.getGeneralPath();
+    }
 }
