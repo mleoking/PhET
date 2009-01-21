@@ -161,19 +161,25 @@ class LadybugModel extends Observable[LadybugModel] {
   def isRecord() = record
 
   def setRecord(rec: Boolean) = {
-    record = rec
-    notifyListeners(this)
+    if (record != rec) {
+      record = rec
+      notifyListeners(this)
+    }
   }
 
   def setPlayback(speed: Double) = {
-    playbackSpeed = speed
-    record = false
-    notifyListeners(this)
+    if (speed != playbackSpeed) {
+      playbackSpeed = speed
+      notifyListeners(this)
+    }
+    setRecord(false)
   }
 
   def setPaused(p: Boolean) = {
-    paused = p
-    notifyListeners(this)
+    if (paused != p) {
+      paused = p
+      notifyListeners(this)
+    }
   }
 
   def isPaused() = paused

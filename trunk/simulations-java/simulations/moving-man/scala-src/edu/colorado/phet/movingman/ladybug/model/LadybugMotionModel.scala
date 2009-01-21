@@ -65,8 +65,10 @@ class LadybugMotionModel extends ObservableS {
   def motion: MotionType = _motionType
 
   def motion_=(x: MotionType) = {
-    _motionType = x
-    notifyListeners
+    if (_motionType != x) {
+      _motionType = x
+      notifyListeners
+    }
   }
 
   def update(dt: Double, model: LadybugModel) = {
