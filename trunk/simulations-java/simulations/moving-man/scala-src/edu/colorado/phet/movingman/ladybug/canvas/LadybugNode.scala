@@ -13,6 +13,7 @@ import java.awt.geom.{AffineTransform, Point2D}
 import umd.cs.piccolo.event.{PInputEventListener, PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.nodes.{PPath, PImage}
 import LadybugUtil._
+import util.ToggleListener
 
 class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTransform2D, vectorVisibilityModel: VectorVisibilityModel) extends PNode {
   var interactive = true
@@ -20,15 +21,6 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
     updateInteractive()
   })
   def updateInteractive() = {interactive = !model.isPlayback}
-
-  //decorator
-  class ToggleListener(listener: PInputEventListener) extends PInputEventListener {
-    def processEvent(aEvent: PInputEvent, t: Int) = {
-      if (interactive) {
-        listener.processEvent(aEvent, t)
-      }
-    }
-  }
 
   val arrowSetNode = new ArrowSetNode(ladybug, transform, vectorVisibilityModel)
   val pimage = new PImage(MovingManResources.loadBufferedImage("ladybug/ladybug.png"))
@@ -45,8 +37,7 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
     }
   })
 
-  //  val cursorHandler = new CursorHandler
-  addInputEventListener(new ToggleListener(new CursorHandler))
+  addInputEventListener(new ToggleListener(new CursorHandler,()=>interactive))
   val inputHandler = new PBasicInputEventHandler() {
     override def mouseDragged(event: PInputEvent) = {
       model.startRecording()
@@ -59,7 +50,7 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
       model.startRecording()
     }
   }
-  addInputEventListener(new ToggleListener(inputHandler))
+  addInputEventListener(new ToggleListener(inputHandler,()=>interactive))
   updateInteractive()
 
   def updateLadybug(ladybug: Ladybug): Unit = {
