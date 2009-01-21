@@ -58,10 +58,10 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
       })
     }
 
-    contents += new MyRadioButtonWithEnable("Manual", m.motion = MANUAL, m.motion == MANUAL, m, () => !module.model.isPlayback, module.model)
-    contents += new MyRadioButtonWithEnable("Linear", m.motion = LINEAR, m.motion == LINEAR, m, () => !module.model.isPlayback, module.model)
-    contents += new MyRadioButtonWithEnable("Circular", m.motion = CIRCULAR, m.motion == CIRCULAR, m, () => !module.model.isPlayback, module.model)
-    contents += new MyRadioButtonWithEnable("Ellipse", m.motion = ELLIPSE, m.motion == ELLIPSE, m, () => !module.model.isPlayback, module.model)
+    contents += new MyRadioButtonWithEnable("Manual", m.motion = MANUAL, m.motion == MANUAL, m, () => module.model.readyForInteraction, module.model)
+    contents += new MyRadioButtonWithEnable("Linear", m.motion = LINEAR, m.motion == LINEAR, m, () => module.model.readyForInteraction, module.model)
+    contents += new MyRadioButtonWithEnable("Circular", m.motion = CIRCULAR, m.motion == CIRCULAR, m, () => module.model.readyForInteraction, module.model)
+    contents += new MyRadioButtonWithEnable("Ellipse", m.motion = ELLIPSE, m.motion == ELLIPSE, m, () => module.model.readyForInteraction, module.model)
   }
   addControl(new MotionControlPanel(module.getLadybugMotionModel))
   addControl(createBox)
