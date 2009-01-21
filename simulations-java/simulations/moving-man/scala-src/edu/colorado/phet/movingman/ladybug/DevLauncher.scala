@@ -15,14 +15,24 @@ object DevLauncher {
     val dialog = new JFrame
     val contentPane = new VerticalLayoutPanel
     val checkBox: JCheckBox = new JCheckBox("Remote Control is an indicator too", LadybugDefaults.remoteIsIndicator)
-    checkBox.addActionListener(new ActionListener(){
+    checkBox.addActionListener(new ActionListener() {
       def actionPerformed(e: ActionEvent) = {
-        LadybugDefaults.remoteIsIndicator=checkBox.isSelected
+        LadybugDefaults.remoteIsIndicator = checkBox.isSelected
       }
     })
     contentPane.add(new JLabel("Ladybug 2D Options"))
     contentPane.setFillNone
     contentPane.add(checkBox)
+
+    val stickyCheckBox = new JCheckBox("Velocity and Acceleration are sticky", LadybugDefaults.vaSticky)
+    stickyCheckBox.addActionListener(new ActionListener() {
+      def actionPerformed(e: ActionEvent) = {
+        LadybugDefaults.vaSticky = stickyCheckBox.isSelected
+      }
+    })
+    contentPane.add(stickyCheckBox)
+
+
     val jButton: JButton = new JButton("Launch")
     jButton.addActionListener(new ActionListener() {
       def actionPerformed(e: ActionEvent) = {

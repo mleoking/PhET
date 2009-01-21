@@ -8,4 +8,5 @@ package edu.colorado.phet.movingman.ladybug
 
 object LadybugDefaults {
   var remoteIsIndicator = true
+  var vaSticky = true
 }
