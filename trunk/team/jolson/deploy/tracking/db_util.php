@@ -3,19 +3,19 @@
 	// TODO: change this password, it has been on subversion
 	function setup_mysql() {
 		$link = mysql_connect("localhost", "www-data", "d3#r3m0nt$") or die(mysql_error());
-		mysql_select_db("phet_stats_test_2") or die(mysql_error());
+		mysql_select_db("phet_stats_test_3") or die(mysql_error());
 		return $link;
 	}
 	
 	// used for every mysql query that needs to be made
 	// useful for debugging and error catching
 	function phet_mysql_query($query) {
-		//echo "<p>" . $query . "</p>";
+		echo "<p>" . $query . "</p>";
 		
 		// actually execute the query
 		$result = mysql_query($query);
 		
-		//echo "<p>" . mysql_error() . "</p>";
+		echo "<p>" . mysql_error() . "</p>";
 		//$result | die();
 		return $result;
 	}
@@ -211,7 +211,7 @@
 		);
 		
 		// build query from values to be inserted
-		$query = query_from_values("flash_info", $values);
+		$query = query_from_values("session_flash_info", $values);
 		
 		phet_mysql_query($query);
 		
@@ -255,7 +255,7 @@
 		);
 		
 		// build query from values to be inserted
-		$query = query_from_values("java_info", $values);
+		$query = query_from_values("session_java_info", $values);
 		
 		phet_mysql_query($query);
 		
@@ -293,7 +293,7 @@
 		$hostFlashOS
 	) {
 		// this is a Flash sim
-		$simType = 1;
+		$simType = quo("flash");
 		
 		// calculate hostSimplifiedOS
 		$hostSimplifiedOS = "Unknown";
@@ -380,7 +380,7 @@
 		$hostJavaTimezone
 	) {
 		// this is a Java sim
-		$simType = 0;
+		$simType = quo("java");
 		
 		// calculate hostSimplifiedOS
 		$hostSimplifiedOS = "Unknown";

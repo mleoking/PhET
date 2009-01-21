@@ -16,7 +16,7 @@ Just primary keys: 381 MB total, 302 MB data, 79 MB indices
 	Showed 18x speedup on data covering a month for different sim names
 	Showed no speedup on checking java versions over different months
 
-GRANT ALL ON phet_stats_test_2.* TO "www-data"@localhost IDENTIFIED BY "d3#r3m0nt$";
+GRANT ALL ON phet_stats_test_3.* TO "www-data"@localhost IDENTIFIED BY "d3#r3m0nt$";
 
 
 
