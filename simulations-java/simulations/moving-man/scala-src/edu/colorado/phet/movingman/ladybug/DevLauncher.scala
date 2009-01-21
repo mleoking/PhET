@@ -3,7 +3,8 @@ package edu.colorado.phet.movingman.ladybug
 import _root_.edu.colorado.phet.common.phetcommon.application.ApplicationConstructor
 import _root_.edu.colorado.phet.common.phetcommon.view.util.SwingUtils
 import _root_.edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
-import java.awt.event.{ActionEvent, ActionListener}
+import java.awt.event.{ActionListener, KeyAdapter, ActionEvent, KeyEvent}
+
 import javax.swing._
 import model.ScalaClock
 import _root_.edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher
@@ -31,6 +32,16 @@ object DevLauncher {
       }
     })
     contentPane.add(stickyCheckBox)
+
+    val timelineLengthTextField=new JTextField(""+LadybugDefaults.timelineLengthSeconds,20)
+    timelineLengthTextField.setBorder(BorderFactory.createTitledBorder("Timeline length (s)"))
+    timelineLengthTextField.addKeyListener(new KeyAdapter(){
+      override def keyReleased(e: KeyEvent) = {
+        LadybugDefaults.timelineLengthSeconds=Integer.parseInt(timelineLengthTextField.getText)
+      }
+    })
+
+    contentPane.add(timelineLengthTextField)
 
 
     val jButton: JButton = new JButton("Launch")
