@@ -76,7 +76,7 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
     notifyListeners
   }
 
-  def isInteractive() = {!model.isPlayback}
+  def isInteractive() = {model.readyForInteraction}
 
   class RemoteControlCanvas extends PhetPCanvas(new PDimension(CANVAS_WIDTH, CANVAS_HEIGHT)) {
     val centerDot = new PhetPPath(new Ellipse2D.Double(-2, -2, 4, 4), Color.black)

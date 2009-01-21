@@ -33,15 +33,31 @@ object DevLauncher {
     })
     contentPane.add(stickyCheckBox)
 
-    val timelineLengthTextField=new JTextField(""+LadybugDefaults.timelineLengthSeconds,20)
+    val timelineLengthTextField = new JTextField("" + LadybugDefaults.timelineLengthSeconds, 20)
     timelineLengthTextField.setBorder(BorderFactory.createTitledBorder("Timeline length (s)"))
-    timelineLengthTextField.addKeyListener(new KeyAdapter(){
+    timelineLengthTextField.addKeyListener(new KeyAdapter() {
       override def keyReleased(e: KeyEvent) = {
-        LadybugDefaults.timelineLengthSeconds=Integer.parseInt(timelineLengthTextField.getText)
+        LadybugDefaults.timelineLengthSeconds = Integer.parseInt(timelineLengthTextField.getText)
       }
     })
 
     contentPane.add(timelineLengthTextField)
+
+    val pauseEnd = new JCheckBox("Pause at end of playback", LadybugDefaults.pauseAtEndOfPlayback)
+    pauseEnd.addActionListener(new ActionListener() {
+      def actionPerformed(e: ActionEvent) = {
+        LadybugDefaults.pauseAtEndOfPlayback = pauseEnd.isSelected
+      }
+    })
+    contentPane.add(pauseEnd)
+
+    val recEnd = new JCheckBox("Record at end of playback", LadybugDefaults.recordAtEndOfPlayback)
+    recEnd.addActionListener(new ActionListener() {
+      def actionPerformed(e: ActionEvent) = {
+        LadybugDefaults.recordAtEndOfPlayback = recEnd.isSelected
+      }
+    })
+    contentPane.add(recEnd)
 
 
     val jButton: JButton = new JButton("Launch")

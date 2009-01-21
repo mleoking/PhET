@@ -20,7 +20,7 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
   model.addListener((m: LadybugModel) => {
     updateInteractive()
   })
-  def updateInteractive() = {interactive = !model.isPlayback}
+  def updateInteractive() = {interactive = model.readyForInteraction}
 
   val arrowSetNode = new ArrowSetNode(ladybug, transform, vectorVisibilityModel)
   val pimage = new PImage(MovingManResources.loadBufferedImage("ladybug/ladybug.png"))

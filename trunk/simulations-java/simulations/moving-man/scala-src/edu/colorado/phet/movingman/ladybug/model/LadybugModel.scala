@@ -15,9 +15,9 @@ class LadybugModel extends Observable[LadybugModel] {
   private var time: Double = 0;
   def getTime() = time
 
-  def getMaxRecordedTime() = if (history.length==0) 0.0 else history(history.length - 1).time
+  def getMaxRecordedTime() = if (history.length == 0) 0.0 else history(history.length - 1).time
 
-  def getMinRecordedTime() = if (history.length==0) 0.0 else history(0).time
+  def getMinRecordedTime() = if (history.length == 0) 0.0 else history(0).time
 
   def setPlaybackTime(t: Double) = {
     val f = new LinearFunction(getMinRecordedTime, getMaxRecordedTime, 0, history.length - 1)
@@ -36,8 +36,8 @@ class LadybugModel extends Observable[LadybugModel] {
 
   def getPlaybackIndexFloat(): Double = playbackIndexFloat
 
-  def getFloatTime():Double={
-    val f = new LinearFunction(0, history.length - 1,getMinRecordedTime, getMaxRecordedTime)
+  def getFloatTime(): Double = {
+    val f = new LinearFunction(0, history.length - 1, getMinRecordedTime, getMaxRecordedTime)
     f.evaluate(playbackIndexFloat)
   }
 
@@ -68,12 +68,12 @@ class LadybugModel extends Observable[LadybugModel] {
 
   def setStateToPlaybackIndex() = {
     ladybug.setState(history(getPlaybackIndex()).state)
-    time=history(getPlaybackIndex).time
+    time = history(getPlaybackIndex).time
   }
 
   def getHistory() = history
 
-  def getTimeRange():Double = {
+  def getTimeRange(): Double = {
     if (history.length == 0) {
       0
     } else {
@@ -102,6 +102,12 @@ class LadybugModel extends Observable[LadybugModel] {
     }
   }
 
+  def readyForInteraction(): Boolean = {
+    val recording = isRecord
+    val isDonePlayback = (getPlaybackIndex() >= history.length - 1) && isPaused
+    recording || isDonePlayback
+  }
+
   def stepPlayback() = {
     if (getPlaybackIndex() < history.length) {
       setStateToPlaybackIndex()
@@ -109,7 +115,13 @@ class LadybugModel extends Observable[LadybugModel] {
       playbackIndexFloat = playbackIndexFloat + playbackSpeed
       notifyListeners(this)
     } else {
-      setRecord(true)
+      if (LadybugDefaults.recordAtEndOfPlayback) {
+        setRecord(true)
+      }
+
+      if (LadybugDefaults.pauseAtEndOfPlayback) {
+        setPaused(true)
+      }
       //      setPaused(true)
     }
   }

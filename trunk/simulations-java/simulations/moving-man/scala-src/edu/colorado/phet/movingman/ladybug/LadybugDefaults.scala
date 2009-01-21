@@ -10,4 +10,6 @@ object LadybugDefaults {
   var remoteIsIndicator = true
   var vaSticky = true
   var timelineLengthSeconds:Double=30
+  var pauseAtEndOfPlayback=true
+  var recordAtEndOfPlayback=false
 }
