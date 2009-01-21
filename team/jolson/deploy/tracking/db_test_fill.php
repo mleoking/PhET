@@ -7,7 +7,7 @@
 	$link = setup_mysql();
 	
 	// number of simulated messages to be sent
-	$num_entries = 4000000;
+	$num_entries = 100;
 	
 	
 	// percentage of sims that are flash (100-x % are java)

@@ -44,14 +44,14 @@
 	display_table("flash_version_type");
 	display_table("flash_domain");
 	display_table("flash_os");
-	display_table("flash_info");
+	display_table("session_flash_info");
 	display_table("java_os_name");
 	display_table("java_os_version");
 	display_table("java_os_arch");
 	display_table("java_vendor");
 	display_table("java_webstart_version");
 	display_table("java_timezone");
-	display_table("java_info");
+	display_table("session_java_info");
 	
 ?>
 <h1>Joined Data (View Tables)</h1>
