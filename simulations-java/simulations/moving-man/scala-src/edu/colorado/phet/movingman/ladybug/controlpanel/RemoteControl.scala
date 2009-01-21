@@ -1,6 +1,8 @@
 package edu.colorado.phet.movingman.ladybug.controlpanel
 
 import _root_.edu.colorado.phet.common.phetcommon.view.util.PhetFont
+import _root_.edu.colorado.phet.common.piccolophet.event.CursorHandler
+import util.ToggleListener
 import _root_.edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
@@ -79,6 +81,7 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
   class RemoteControlCanvas extends PhetPCanvas(new PDimension(CANVAS_WIDTH, CANVAS_HEIGHT)) {
     val centerDot = new PhetPPath(new Ellipse2D.Double(-2, -2, 4, 4), Color.black)
 
+    addInputEventListener(new ToggleListener(new CursorHandler,isInteractive))
     addMouseListener(new MouseInputAdapter() {
       override def mousePressed(e: MouseEvent) = {
         if (isInteractive()) {
