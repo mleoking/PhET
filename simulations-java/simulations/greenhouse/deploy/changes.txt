@@ -1,3 +1,5 @@
+# 2.04.04 (27534) 01-21-2009
+> Removed the "Beam me down Scotty" functionality
 1-9-2009: #852, Greenhouse Gas Composition display is broken on Mac OS
 # 2.04.03 (26992) 01-05-2009
 publish dev version to test whether #415 is still an issue
