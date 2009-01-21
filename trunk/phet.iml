@@ -14,8 +14,6 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-flash/flash-launcher/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/build-tools/patches/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/build-tools/phet-build/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/build-tools/scalax/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/build-tools/scalax/tests" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/build-tools/securechannelfacade/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/build-reports/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/charts/src" isTestSource="false" />
