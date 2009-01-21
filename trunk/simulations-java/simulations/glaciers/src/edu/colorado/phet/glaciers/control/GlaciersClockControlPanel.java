@@ -61,7 +61,7 @@ public class GlaciersClockControlPanel extends PiccoloClockControlPanel {
         _clock.addConstantDtClockListener( _clockListener );
         
         // common clock controls
-        setRestartButtonVisible( false );
+        setRewindButtonVisible( false );
         setTimeDisplayVisible( true );
         setUnits( GlaciersStrings.UNITS_YEARS );
         setTimeFormat( GlaciersConstants.CLOCK_DISPLAY_FORMAT );

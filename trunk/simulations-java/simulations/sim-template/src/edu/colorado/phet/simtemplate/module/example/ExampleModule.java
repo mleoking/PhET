@@ -52,7 +52,7 @@ public class ExampleModule extends PiccoloModule {
         
         // Clock controls
         _clockControlPanel = new PiccoloClockControlPanel( getClock() );
-        _clockControlPanel.setRestartButtonVisible( true );
+        _clockControlPanel.setRewindButtonVisible( true );
         _clockControlPanel.setTimeDisplayVisible( true );
         _clockControlPanel.setUnits( SimTemplateStrings.UNITS_TIME );
         _clockControlPanel.setTimeColumns( ExampleDefaults.CLOCK_TIME_COLUMNS );
