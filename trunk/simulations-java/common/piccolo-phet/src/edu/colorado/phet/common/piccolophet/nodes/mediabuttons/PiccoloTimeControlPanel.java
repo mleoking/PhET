@@ -88,6 +88,7 @@ public class PiccoloTimeControlPanel extends JPanel{
         
         // Restart
         //TODO this should be a piccolo button too
+        //doing this again...
         BufferedImage restartImage = PhetCommonResources.getImage( PhetCommonResources.IMAGE_RESTART );
         ImageIcon restartIcon = new ImageIcon( restartImage );
         restartButton = new JButton( RESTART_LABEL, restartIcon );
