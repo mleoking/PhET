@@ -35,11 +35,14 @@ object LadybugMotionModel {
       if (distFromRing > speed + 1E-6) {
         val velocity = new Vector2D(model.ladybug.getPosition.getAngle) * speed * (if (dx < 0) -1 else 1)
         model.ladybug.translate(velocity)
+//        println("tx")
       } else {
         //move in a circle
         val angle = model.ladybug.getPosition.getAngle
         val r = model.ladybug.getPosition.magnitude
+//        println("r="+r)
         val newAngle = angle + PI / 64 * 1.3;
+//        println(model.getTime+"\t"+newAngle)
         model.ladybug.setPosition(new Vector2D(newAngle) * r)
       }
     }
