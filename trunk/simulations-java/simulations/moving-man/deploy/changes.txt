@@ -9,6 +9,8 @@
 > Increased play area acceleration vector length (by factor of 1.2)
 > Decreased play area velocity vector length (multiplied by 0.55)
 > Disabled motions during playback
+> (add developer control for investigation) Should be able to set a value to the Remote Control, and have it remain even after releasing mouse button.
+> (add dev control) Remote Control should act as an indicator as well as controller
 
 # 1.20.17 (27410) 01-17-2009
 # 1.20.16 (27408) 01-17-2009

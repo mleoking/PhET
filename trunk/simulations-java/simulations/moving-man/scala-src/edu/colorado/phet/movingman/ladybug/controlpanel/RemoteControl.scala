@@ -81,7 +81,7 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
   class RemoteControlCanvas extends PhetPCanvas(new PDimension(CANVAS_WIDTH, CANVAS_HEIGHT)) {
     val centerDot = new PhetPPath(new Ellipse2D.Double(-2, -2, 4, 4), Color.black)
 
-    addInputEventListener(new ToggleListener(new CursorHandler,isInteractive))
+    addInputEventListener(new ToggleListener(new CursorHandler, isInteractive))
     addMouseListener(new MouseInputAdapter() {
       override def mousePressed(e: MouseEvent) = {
         if (isInteractive()) {
@@ -95,7 +95,9 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
         if (isInteractive()) {
           _mode.dragging = false
           setMotionManual()
-          _mode.setDestination(new Vector2D(0, 0))
+          if ( !LadybugDefaults.vaSticky && (_mode == velocityMode || _mode == accelerationMode)) {
+            _mode.setDestination(new Vector2D(0, 0))
+          }
         }
       }
     })
