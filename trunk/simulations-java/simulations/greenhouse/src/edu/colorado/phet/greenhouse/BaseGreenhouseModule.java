@@ -152,7 +152,7 @@ public abstract class BaseGreenhouseModule extends Module {
         if ( !s_zoomed ) {
             s_zoomed = true;
             Zoomer zoomer = new Zoomer( initialModelBounds, finalModelBounds );
-            zoomer.start();
+            zoomer.run();
         }
         else {
             getApparatusPanel().removeGraphic( sunGraphic );
