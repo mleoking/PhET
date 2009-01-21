@@ -81,13 +81,13 @@ class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
   stepButton.setOffset(0, 12)
   add(stepButton)
 
-  val timeline = new Timeline(module.model)
+  val timeline = new Timeline(module.model, this)
   addScreenChild(timeline)
   module.model.addListener((m: LadybugModel) => {
     timeline.setVisible(m.isPlayback)
   })
 
-  setPreferredSize(new Dimension(500, 100))
+  setPreferredSize(new Dimension(600, 100))
   addComponentListener(new ComponentAdapter() {
     override def componentResized(e: ComponentEvent) = {myUpdateLayout()}
   })
@@ -101,25 +101,29 @@ class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
   }
 }
 
-class Timeline(model: LadybugModel) extends PNode {
+class Timeline(model: LadybugModel, canvas: PhetPCanvas) extends PNode {
   val pathOffsetY = 4
   val pathHeight = 10
   val ellipseWidth = 8
   val ellipseHeight = 12
-  val scale = 1.0
-  val background = new PhetPPath(new Rectangle(0, pathOffsetY, 500, pathHeight), Color.lightGray)
+  val insetX = 10
   val shaded = new PhetPPath(Color.orange)
   val handle = new PhetPPath(Color.blue, new BasicStroke(1), Color.black)
-  addChild(background)
+  var scale = 1.0
   addChild(shaded)
   addChild(handle)
+
+  canvas.addComponentListener(new ComponentAdapter() {
+    override def componentResized(e: ComponentEvent) = {updateSelf()}
+  })
 
   handle.addInputEventListener(new CursorHandler)
   handle.addInputEventListener(new PBasicInputEventHandler() {
     override def mouseDragged(event: PInputEvent) = {
       model.setPaused(true)
       val dx = event.getCanvasDelta.width
-      model.setPlaybackIndexFloat(((model.getPlaybackIndexFloat + dx * scale) max 0) min (model.getHistory.length - 1))
+      val t = model.getTime + dx / scale
+      model.setPlaybackTime(((model.getFloatTime + dx / scale) max model.getMinRecordedTime) min (model.getMaxRecordedTime))
     }
   })
 
@@ -128,8 +132,12 @@ class Timeline(model: LadybugModel) extends PNode {
   })
   updateSelf
   def updateSelf() = {
-    shaded.setPathTo(new Rectangle(0, pathOffsetY, (model.getHistory.length / scale).toInt, pathHeight))
+    scale = (canvas.getWidth - insetX * 2) / LadybugDefaults.timelineLengthSeconds
+
+    shaded.setPathTo(new Rectangle(insetX, pathOffsetY, (model.getTimeRange * scale).toInt, pathHeight))
     handle.setVisible(model.isPlayback)
-    handle.setPathTo(new Ellipse2D.Double(model.getPlaybackIndexFloat / scale - ellipseWidth / 2, pathOffsetY, ellipseWidth, ellipseHeight))
+    val elapsed = model.getTime - model.getMinRecordedTime
+    //    println("t="+model.getTime+", elapsed="+elapsed+", scale="+scale+", e*s="+elapsed*scale)
+    handle.setPathTo(new Ellipse2D.Double(elapsed * scale - ellipseWidth / 2 + insetX, pathOffsetY-1, ellipseWidth, ellipseHeight))
   }
 }

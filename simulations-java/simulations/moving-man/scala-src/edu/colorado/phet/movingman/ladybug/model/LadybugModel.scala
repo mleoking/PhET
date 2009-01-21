@@ -1,5 +1,6 @@
 package edu.colorado.phet.movingman.ladybug.model
 
+import _root_.edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
 import scala.collection.mutable.ArrayBuffer
 import LadybugUtil._
 
@@ -14,6 +15,15 @@ class LadybugModel extends Observable[LadybugModel] {
   private var time: Double = 0;
   def getTime() = time
 
+  def getMaxRecordedTime() = if (history.length==0) 0.0 else history(history.length - 1).time
+
+  def getMinRecordedTime() = if (history.length==0) 0.0 else history(0).time
+
+  def setPlaybackTime(t: Double) = {
+    val f = new LinearFunction(getMinRecordedTime, getMaxRecordedTime, 0, history.length - 1)
+    setPlaybackIndexFloat(f.evaluate(t))
+  }
+
   def setUpdateModePosition = updateMode = positionMode
 
   def setUpdateModeVelocity = updateMode = velocityMode
@@ -25,6 +35,11 @@ class LadybugModel extends Observable[LadybugModel] {
   def getPlaybackIndex(): Int = java.lang.Math.floor(playbackIndexFloat).toInt
 
   def getPlaybackIndexFloat(): Double = playbackIndexFloat
+
+  def getFloatTime():Double={
+    val f = new LinearFunction(0, history.length - 1,getMinRecordedTime, getMaxRecordedTime)
+    f.evaluate(playbackIndexFloat)
+  }
 
   def positionMode(dt: Double) = {
     if (estimateVelocity(history.length - 1).magnitude > 1E-6)
@@ -51,11 +66,20 @@ class LadybugModel extends Observable[LadybugModel] {
 
   private var updateMode: (Double) => Unit = positionMode
 
-  def setStateToPlaybackIndex() = ladybug.setState(history(getPlaybackIndex()).state)
+  def setStateToPlaybackIndex() = {
+    ladybug.setState(history(getPlaybackIndex()).state)
+    time=history(getPlaybackIndex).time
+  }
 
   def getHistory() = history
 
-  def getTimeRange() = history(history.length - 1).time - history(0).time
+  def getTimeRange():Double = {
+    if (history.length == 0) {
+      0
+    } else {
+      history(history.length - 1).time - history(0).time
+    }
+  }
 
   def update(dt: Double) = {
     if (!paused) {
@@ -86,7 +110,7 @@ class LadybugModel extends Observable[LadybugModel] {
       notifyListeners(this)
     } else {
       setRecord(true)
-//      setPaused(true)
+      //      setPaused(true)
     }
   }
 
