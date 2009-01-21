@@ -7,7 +7,7 @@
 	$link = setup_mysql();
 	
 	// number of simulated messages to be sent
-	$num_entries = 4000000;
+	$num_entries = 1000;
 	
 	
 	// percentage of sims that are flash (100-x % are java)
@@ -325,8 +325,10 @@
 				if($subOS == "Windows Vista") {
 					$hostJavaOSVersion = 6.0;
 				}
+			} else if($coreOS == "Mac") {
+				$hostJavaOSVersion = '10.' . (string)(rand(0, 9));
 			} else {
-				$hostJavaOSVersion = rand(1, 5) . rand(0, 9);
+				$hostJavaOSVersion = '2.' . (string)(rand(0, 2) + 4) . '.' . (string)(rand(11, 26));
 			}
 			
 			$hostJavaOSArch = "x86";
@@ -387,6 +389,32 @@
 			
 		}
 		
+	}
+	
+	// insert user visits
+	for($i = 0; $i < $num_entries; $i++) {
+		$firstOffset = rand(0, 11231)*rand(0, 11231);
+		$userPreferencesFileCreationTime = time() - $firstOffset;
+		$userTotalSessions = rand(0, 10) * rand(1, 10) * rand(0, 1) + rand(1, 30);
+		if(rand(0, 99) < 7) {
+			$userTotalSessions = 1;
+		}
+		$first_time = $userPreferencesFileCreationTime;
+		if($userTotalSessions == 1) {
+			$last_time = $first_time;
+		} else {
+			$last_time = time() - $firstOffset / (rand(1, 3) + rand(0, 1) * rand(5, 30));
+		}
+		$values = array(
+			new Field('user_preferences_file_creation_time', $userPreferencesFileCreationTime),
+			new Field('user_total_sessions', $userTotalSessions),
+			new Field('first_seen_month', quo(date("Y-m-01", $first_time))),
+			new Field('last_seen_month', quo(date("Y-m-01", $last_time)))
+		);
+		$insert_query = query_from_values("user", $values);
+		phet_mysql_query($insert_query);
+		
+		$i += $userTotalSessions - 1;
 	}
 	
 ?>
