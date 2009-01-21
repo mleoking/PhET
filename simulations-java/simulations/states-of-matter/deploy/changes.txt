@@ -1,3 +1,5 @@
+# 0.04.18 (27529) 01-21-2009
+> Modified the colors of the menu bar, the tab panel, and the selected tabs.
 # 0.04.17 (27491) 01-20-2009
 Modified the behavior for transitioning to the gaseous state for oxygen and water, changed the control panel color.
 # 0.04.16 (27440) 01-19-2009
