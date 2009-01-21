@@ -10,12 +10,12 @@
 	// used for every mysql query that needs to be made
 	// useful for debugging and error catching
 	function phet_mysql_query($query) {
-		echo "<p>" . $query . "</p>";
+		//echo "<p>" . $query . "</p>";
 		
 		// actually execute the query
 		$result = mysql_query($query);
 		
-		echo "<p>" . mysql_error() . "</p>";
+		//echo "<p>" . mysql_error() . "</p>";
 		//$result | die();
 		return $result;
 	}
