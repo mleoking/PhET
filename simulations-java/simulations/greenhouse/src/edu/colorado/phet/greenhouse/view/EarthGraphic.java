@@ -73,7 +73,7 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
         // Set up the gif of the Earth
         earthAnimation = new Animation( "earthGifs/earth", 30 );
         earthAnimator = new EarthAnimator();
-        earthAnimator.start();
+//        earthAnimator.start();
 
         this.gif = GreenhouseResources.getImage( "earth-a.gif" );
         double gifToModelScale = ( 2 * earth.getRadius() ) / this.gif.getWidth();

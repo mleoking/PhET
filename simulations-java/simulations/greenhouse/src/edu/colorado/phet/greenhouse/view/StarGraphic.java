@@ -31,9 +31,9 @@ public class StarGraphic extends DiskGraphic {
         this.star = star;
         this.modelBounds = modelBounds;
         sunbeamGenerator = new SunbeamGenerator( sunbeams, timeBetweenSunbeams );
-        sunbeamGenerator.start();
+//        sunbeamGenerator.start();
         sunbeamAnimator = new SunbeamAnimator( sunbeams );
-        sunbeamAnimator.start();
+//        sunbeamAnimator.start();
         Arrays.fill( dR, 1.3 );
     }
 
