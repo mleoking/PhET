@@ -19,7 +19,7 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
   model.addListener((m: LadybugModel) => {
     updateInteractive()
   })
-  def updateInteractive() = {interactive =! model.isPlayback}
+  def updateInteractive() = {interactive = !model.isPlayback}
 
   //decorator
   class ToggleListener(listener: PInputEventListener) extends PInputEventListener {

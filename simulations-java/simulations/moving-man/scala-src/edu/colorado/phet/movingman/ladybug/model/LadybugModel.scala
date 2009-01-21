@@ -84,6 +84,9 @@ class LadybugModel extends Observable[LadybugModel] {
       time = history(getPlaybackIndex()).time
       playbackIndexFloat = playbackIndexFloat + playbackSpeed
       notifyListeners(this)
+    } else {
+      setRecord(true)
+//      setPaused(true)
     }
   }
 
