@@ -2,6 +2,7 @@ package edu.colorado.phet.movingman.ladybug.controlpanel
 
 import _root_.edu.colorado.phet.common.piccolophet.event.CursorHandler
 import _root_.edu.colorado.phet.common.piccolophet.nodes.PhetPPath
+import java.awt.event.{ComponentAdapter, ComponentEvent}
 import java.awt.{Rectangle, Dimension, BasicStroke}
 import _root_.edu.colorado.phet.common.piccolophet.event.ToolTipHandler
 import _root_.edu.colorado.phet.common.piccolophet.nodes.mediabuttons.DefaultIconButton
@@ -33,7 +34,7 @@ class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
   def add(node: PNode) = {
     addScreenChild(node)
     val offsetX: Double = if (nodes.length == 0) 0 else {nodes(nodes.length - 1).getFullBounds.getMaxX + 5}
-    node.setOffset(offsetX, node.getOffset.getY+10)
+    node.setOffset(offsetX, node.getOffset.getY + 10)
     nodes += node
   }
 
@@ -73,7 +74,7 @@ class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
   stepButton.setEnabled(false)
   stepButton.addInputEventListener(new ToolTipHandler("Step", this))
   module.model.addListener((m: LadybugModel) => {
-    val isLastStep=module.model.getPlaybackIndex==module.model.getHistory.length
+    val isLastStep = module.model.getPlaybackIndex == module.model.getHistory.length
     stepButton.setEnabled(module.model.isPlayback && module.model.isPaused && !isLastStep)
   })
   stepButton.addListener(() => {module.model.stepPlayback()})
@@ -87,6 +88,17 @@ class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
   })
 
   setPreferredSize(new Dimension(500, 100))
+  addComponentListener(new ComponentAdapter() {
+    override def componentResized(e: ComponentEvent) = {myUpdateLayout()}
+  })
+
+  myUpdateLayout
+  def myUpdateLayout() = {
+    val buttonDX = 2
+    playPause.setOffset(getWidth / 2 - playPause.getFullBounds.getWidth / 2, playPause.getOffset.getY)
+    rewind.setOffset(playPause.getFullBounds.getX - rewind.getFullBounds.getWidth - buttonDX, rewind.getOffset.getY)
+    stepButton.setOffset(playPause.getFullBounds.getMaxX + buttonDX, stepButton.getOffset.getY)
+  }
 }
 
 class Timeline(model: LadybugModel) extends PNode {
@@ -100,7 +112,7 @@ class Timeline(model: LadybugModel) extends PNode {
   val handle = new PhetPPath(Color.blue, new BasicStroke(1), Color.black)
   addChild(background)
   addChild(shaded)
-  addChild(handle)
+  addChild(handle)c
 
   handle.addInputEventListener(new CursorHandler)
   handle.addInputEventListener(new PBasicInputEventHandler() {
