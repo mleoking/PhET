@@ -73,13 +73,17 @@ class LadybugModel extends Observable[LadybugModel] {
         }
         notifyListeners(this)
       } else if (isPlayback()) {
-        if (getPlaybackIndex() < history.length) {
-          setStateToPlaybackIndex()
-          time = history(getPlaybackIndex()).time
-          playbackIndexFloat = playbackIndexFloat + playbackSpeed
-          notifyListeners(this)
-        }
+        stepPlayback()
       }
+    }
+  }
+
+  def stepPlayback() = {
+    if (getPlaybackIndex() < history.length) {
+      setStateToPlaybackIndex()
+      time = history(getPlaybackIndex()).time
+      playbackIndexFloat = playbackIndexFloat + playbackSpeed
+      notifyListeners(this)
     }
   }
 
