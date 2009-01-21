@@ -1,11 +1,11 @@
 package edu.colorado.phet.movingman.ladybug.controlpanel
 
 import _root_.edu.colorado.phet.common.phetcommon.model.Resettable
-import _root_.edu.colorado.phet.movingman.ladybug.model.LadybugMotionModel
 import _root_.edu.colorado.phet.movingman.ladybug.model.LadybugMotionModel._
 import edu.colorado.phet.common.phetcommon.view.ControlPanel
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
+import model.{LadybugMotionModel, ObservableS, Observable, LadybugModel}
 import scala.swing._
 import scala.swing.event.ButtonClicked
 import java.awt.Dimension
@@ -51,10 +51,17 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
   class MotionControlPanel(m: LadybugMotionModel) extends BoxPanel(Orientation.Vertical) {
     contents += new Label("Choose Motion          ") {font = new PhetFont(14, true)}
 
-    contents += new MyRadioButton("Manual", m.motion = MANUAL, m.motion == MANUAL, m)
-    contents += new MyRadioButton("Linear", m.motion = LINEAR, m.motion == LINEAR, m)
-    contents += new MyRadioButton("Circular", m.motion = CIRCULAR, m.motion == CIRCULAR, m)
-    contents += new MyRadioButton("Ellipse", m.motion = ELLIPSE, m.motion == ELLIPSE, m)
+    class MyRadioButtonWithEnable(text: String, actionListener: => Unit, getter: => Boolean, observable: ObservableS, shouldBeEnabled: () => Boolean, enableObservable: Observable[LadybugModel]) extends MyRadioButton(text, actionListener, getter, observable) {
+      enableObservable.addListener((m: LadybugModel) => {
+        val beEnabled: Boolean = shouldBeEnabled()
+        peer.setEnabled(beEnabled)
+      })
+    }
+
+    contents += new MyRadioButtonWithEnable("Manual", m.motion = MANUAL, m.motion == MANUAL, m, () => !module.model.isPlayback, module.model)
+    contents += new MyRadioButtonWithEnable("Linear", m.motion = LINEAR, m.motion == LINEAR, m, () => !module.model.isPlayback, module.model)
+    contents += new MyRadioButtonWithEnable("Circular", m.motion = CIRCULAR, m.motion == CIRCULAR, m, () => !module.model.isPlayback, module.model)
+    contents += new MyRadioButtonWithEnable("Ellipse", m.motion = ELLIPSE, m.motion == ELLIPSE, m, () => !module.model.isPlayback, module.model)
   }
   addControl(new MotionControlPanel(module.getLadybugMotionModel))
   addControl(createBox)
