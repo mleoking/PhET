@@ -6,16 +6,30 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformLis
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.piccolophet.util.PImageFactory
 import edu.colorado.phet.common.piccolophet.event.CursorHandler
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler
-import edu.umd.cs.piccolo.event.PInputEvent
 import edu.umd.cs.piccolo.PNode
 import java.awt.Color
 import java.awt.geom.{AffineTransform, Point2D}
 
+import umd.cs.piccolo.event.{PInputEventListener, PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.nodes.{PPath, PImage}
 import LadybugUtil._
 
 class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTransform2D, vectorVisibilityModel: VectorVisibilityModel) extends PNode {
+  var interactive = true
+  model.addListener((m: LadybugModel) => {
+    updateInteractive()
+  })
+  def updateInteractive() = {interactive =! model.isPlayback}
+
+  //decorator
+  class ToggleListener(listener: PInputEventListener) extends PInputEventListener {
+    def processEvent(aEvent: PInputEvent, t: Int) = {
+      if (interactive) {
+        listener.processEvent(aEvent, t)
+      }
+    }
+  }
+
   val arrowSetNode = new ArrowSetNode(ladybug, transform, vectorVisibilityModel)
   val pimage = new PImage(MovingManResources.loadBufferedImage("ladybug/ladybug.png"))
 
@@ -31,8 +45,9 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
     }
   })
 
-  addInputEventListener(new CursorHandler)
-  addInputEventListener(new PBasicInputEventHandler() {
+  //  val cursorHandler = new CursorHandler
+  addInputEventListener(new ToggleListener(new CursorHandler))
+  val inputHandler = new PBasicInputEventHandler() {
     override def mouseDragged(event: PInputEvent) = {
       model.startRecording()
 
@@ -43,7 +58,9 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
     override def mousePressed(event: PInputEvent) = {
       model.startRecording()
     }
-  })
+  }
+  addInputEventListener(new ToggleListener(inputHandler))
+  updateInteractive()
 
   def updateLadybug(ladybug: Ladybug): Unit = {
 
