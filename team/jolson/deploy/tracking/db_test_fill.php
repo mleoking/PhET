@@ -38,7 +38,7 @@
 		} else if(rand(0, 99) < 5) {
 			$country = "GB";
 		} else if(rand(0, 99) == 0) {
-			$coutnry = "AU";
+			$country = "AU";
 		} else if(rand(0, 99) == 5) {
 			$country = "CA";
 		} else {

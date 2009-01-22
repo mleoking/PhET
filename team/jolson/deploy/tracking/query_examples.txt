@@ -1,659 +1,9 @@
 
-With foreign keys:
-850 MB with indices, 311 MB without indices
-
-Without foreign keys:
-390 MB with indices (78 MB of primary key indices) for 4 million messages
-
-
-Recently updated (approximations):
-Just primary keys: 381 MB total, 302 MB data, 79 MB indices
-+ index on timestamp: 420 MB total, 302 MB data, 118 MB indices
-	(+ 39 MB for index on timestamp)
-+ index on sim_name: 455 MB total, 302 MB data, 153 MB indices
-	(+ 35 MB for index on sim_name)
-	Here shows 2x speedup compared to just primary keys on queries using ALL data
-	Showed 18x speedup on data covering a month for different sim names
-	Showed no speedup on checking java versions over different months
-
 GRANT ALL ON phet_stats_test_3.* TO "www-data"@localhost IDENTIFIED BY "d3#r3m0nt$";
 
-
-
-
-
-experiment with indices
-set up stress-testing
-investigate locking write function in db-utils.php
-
-
-
-
-INSERT INTO java_vendor (name) SELECT 'Not Sun' FROM java_vendor WHERE NOT EXISTS (SELECT id FROM java_vendor WHERE name = 'Not Sun');
-
-
-
-
-SELECT DISTINCT sim_name, COUNT(id) FROM simulation GROUP BY sim_name ORDER BY sim_name;
-+----------------------------+-----------+
-| sim_name                   | COUNT(id) |
-+----------------------------+-----------+
-| acid-base-solutions        |     35318 | 
-| all-sims                   |     35116 | 
-| arithmetic                 |     39066 | 
-| balloons                   |     35159 | 
-| battery-voltage            |     35238 | 
-| blackbody-spectrum         |     39248 | 
-| bound-states               |     34992 | 
-| charges-and-fields         |     39189 | 
-| circuit-construction-kit   |    485922 | 
-| color-vision               |     34925 | 
-| common-strings             |     35004 | 
-| conductivity               |     34972 | 
-| curve-fitting              |     39357 | 
-| discharge-lamps            |     35259 | 
-| eating-and-exercise        |     34870 | 
-| efield                     |     34962 | 
-| electric-hockey            |     35005 | 
-| energy-skate-park          |     34856 | 
-| equation-grapher           |    145033 | 
-| estimation                 |     39026 | 
-| faraday                    |    314930 | 
-| faradays-law               |     39188 | 
-| forces-1d                  |     34952 | 
-| fourier                    |     35003 | 
-| friction                   |     38897 | 
-| geometric-optics           |     39066 | 
-| glaciers                   |     34577 | 
-| greenhouse                 |     34946 | 
-| hydrogen-atom              |     34739 | 
-| ideal-gas                  |     34992 | 
-| lasers                     |     34611 | 
-| lunar-lander               |     39105 | 
-| mass-spring-lab            |     39140 | 
-| maze-game                  |     35090 | 
-| microwaves                 |     35022 | 
-| motion-2d                  |     34710 | 
-| moving-man                 |    289227 | 
-| mri                        |     34670 | 
-| mvc-example                |     35067 | 
-| my-solar-system            |     38991 | 
-| nuclear-physics            |     34787 | 
-| ohm-1d                     |     34969 | 
-| ohms-law                   |     38583 | 
-| optical-quantum-control    |     34604 | 
-| optical-tweezers           |     34826 | 
-| pendulum-lab               |    158887 | 
-| ph-scale                   |     34554 | 
-| phetgraphics-demo          |     34958 | 
-| photoelectric              |     35055 | 
-| plinko-probability         |     38606 | 
-| projectile-motion          |    233397 | 
-| quantum-tunneling          |     34716 | 
-| quantum-wave-interference  |     34721 | 
-| radio-waves                |     35092 | 
-| reactions-and-rates        |     34750 | 
-| resistance-in-a-wire       |     39055 | 
-| rotation                   |     34475 | 
-| rutherford-scattering      |     34979 | 
-| self-driven-particle-model |     34975 | 
-| semiconductor              |     34648 | 
-| signal-circuit             |     34855 | 
-| sim-template               |     34765 | 
-| soluble-salts              |     34539 | 
-| sound                      |     34906 | 
-| states-of-matter           |     34803 | 
-| stern-gerlach              |     38914 | 
-| test-project               |     34888 | 
-| the-ramp                   |     35111 | 
-| travoltage                 |     34427 | 
-| vector-addition            |     38997 | 
-| wave-interference          |     34796 | 
-| wave-on-a-string           |     38922 | 
-+----------------------------+-----------+
-72 rows in set (42.47 sec)
-NOW 72 rows in set (20.44 sec)
-
-SELECT DISTINCT sim_name, COUNT(id) FROM simulation WHERE (timestamp > '2007-01-01' AND timestamp < '2008-01-01') GROUP BY sim_name ORDER BY sim_name;
-+----------------------------+-----------+
-| sim_name                   | COUNT(id) |
-+----------------------------+-----------+
-| acid-base-solutions        |      8748 | 
-| all-sims                   |      8471 | 
-| arithmetic                 |     10277 | 
-| balloons                   |      8679 | 
-| battery-voltage            |      8553 | 
-| blackbody-spectrum         |     10138 | 
-| bound-states               |      8644 | 
-| charges-and-fields         |      9786 | 
-| circuit-construction-kit   |    115596 | 
-| color-vision               |      8453 | 
-| common-strings             |      8457 | 
-| conductivity               |      8264 | 
-| curve-fitting              |      9721 | 
-| discharge-lamps            |      8422 | 
-| eating-and-exercise        |      8316 | 
-| efield                     |      8222 | 
-| electric-hockey            |      8211 | 
-| energy-skate-park          |      8138 | 
-| equation-grapher           |     35330 | 
-| estimation                 |      9211 | 
-| faraday                    |     75774 | 
-| faradays-law               |      8972 | 
-| forces-1d                  |      7995 | 
-| fourier                    |      8014 | 
-| friction                   |      8934 | 
-| geometric-optics           |      8893 | 
-| glaciers                   |      7872 | 
-| greenhouse                 |      7953 | 
-| hydrogen-atom              |      8079 | 
-| ideal-gas                  |      7859 | 
-| lasers                     |      7857 | 
-| lunar-lander               |      8983 | 
-| mass-spring-lab            |      9212 | 
-| maze-game                  |      7892 | 
-| microwaves                 |      7944 | 
-| motion-2d                  |      7876 | 
-| moving-man                 |     72665 | 
-| mri                        |      7787 | 
-| mvc-example                |      8040 | 
-| my-solar-system            |      9019 | 
-| nuclear-physics            |      7964 | 
-| ohm-1d                     |      8136 | 
-| ohms-law                   |      8985 | 
-| optical-quantum-control    |      8040 | 
-| optical-tweezers           |      8045 | 
-| pendulum-lab               |     38530 | 
-| ph-scale                   |      8025 | 
-| phetgraphics-demo          |      8185 | 
-| photoelectric              |      8263 | 
-| plinko-probability         |      9283 | 
-| projectile-motion          |     57598 | 
-| quantum-tunneling          |      7922 | 
-| quantum-wave-interference  |      8091 | 
-| radio-waves                |      8241 | 
-| reactions-and-rates        |      8017 | 
-| resistance-in-a-wire       |      9832 | 
-| rotation                   |      8139 | 
-| rutherford-scattering      |      8215 | 
-| self-driven-particle-model |      8284 | 
-| semiconductor              |      8207 | 
-| signal-circuit             |      8310 | 
-| sim-template               |      8235 | 
-| soluble-salts              |      8165 | 
-| sound                      |      8368 | 
-| states-of-matter           |      8384 | 
-| stern-gerlach              |      9751 | 
-| test-project               |      8406 | 
-| the-ramp                   |      8579 | 
-| travoltage                 |      8377 | 
-| vector-addition            |      9962 | 
-| wave-interference          |      8633 | 
-| wave-on-a-string           |     10118 | 
-+----------------------------+-----------+
-72 rows in set (22.06 sec)
-NOW 72 rows in set (14.95 sec)
-
-
-
-
-SELECT DISTINCT sim_name, COUNT(id) FROM simulation WHERE (timestamp > '2007-01-01' AND timestamp < '2007-02-01') GROUP BY sim_name ORDER BY sim_name;
-+----------------------------+-----------+
-| sim_name                   | COUNT(id) |
-+----------------------------+-----------+
-| acid-base-solutions        |       562 | 
-| all-sims                   |       597 | 
-| arithmetic                 |       649 | 
-| balloons                   |       528 | 
-| battery-voltage            |       556 | 
-| blackbody-spectrum         |       611 | 
-| bound-states               |       539 | 
-| charges-and-fields         |       639 | 
-| circuit-construction-kit   |      7306 | 
-| color-vision               |       557 | 
-| common-strings             |       501 | 
-| conductivity               |       545 | 
-| curve-fitting              |       607 | 
-| discharge-lamps            |       524 | 
-| eating-and-exercise        |       553 | 
-| efield                     |       549 | 
-| electric-hockey            |       506 | 
-| energy-skate-park          |       495 | 
-| equation-grapher           |      2147 | 
-| estimation                 |       550 | 
-| faraday                    |      4480 | 
-| faradays-law               |       521 | 
-| forces-1d                  |       479 | 
-| fourier                    |       478 | 
-| friction                   |       581 | 
-| geometric-optics           |       531 | 
-| glaciers                   |       480 | 
-| greenhouse                 |       493 | 
-| hydrogen-atom              |       471 | 
-| ideal-gas                  |       501 | 
-| lasers                     |       486 | 
-| lunar-lander               |       468 | 
-| mass-spring-lab            |       481 | 
-| maze-game                  |       504 | 
-| microwaves                 |       456 | 
-| motion-2d                  |       418 | 
-| moving-man                 |      3981 | 
-| mri                        |       424 | 
-| mvc-example                |       428 | 
-| my-solar-system            |       485 | 
-| nuclear-physics            |       452 | 
-| ohm-1d                     |       472 | 
-| ohms-law                   |       494 | 
-| optical-quantum-control    |       418 | 
-| optical-tweezers           |       465 | 
-| pendulum-lab               |      2371 | 
-| ph-scale                   |       438 | 
-| phetgraphics-demo          |       472 | 
-| photoelectric              |       455 | 
-| plinko-probability         |       565 | 
-| projectile-motion          |      3482 | 
-| quantum-tunneling          |       477 | 
-| quantum-wave-interference  |       523 | 
-| radio-waves                |       469 | 
-| reactions-and-rates        |       514 | 
-| resistance-in-a-wire       |       622 | 
-| rotation                   |       470 | 
-| rutherford-scattering      |       513 | 
-| self-driven-particle-model |       486 | 
-| semiconductor              |       506 | 
-| signal-circuit             |       540 | 
-| sim-template               |       508 | 
-| soluble-salts              |       602 | 
-| sound                      |       548 | 
-| states-of-matter           |       537 | 
-| stern-gerlach              |       622 | 
-| test-project               |       498 | 
-| the-ramp                   |       586 | 
-| travoltage                 |       551 | 
-| vector-addition            |       588 | 
-| wave-interference          |       553 | 
-| wave-on-a-string           |       641 | 
-+----------------------------+-----------+
-72 rows in set (18.44 sec)
-NOW 72 rows in set (1.00 sec)
-
-
-
-
-
-SELECT DISTINCT DAYOFYEAR(timestamp), COUNT(id) FROM simulation WHERE YEAR(timestamp) = 2008 GROUP BY DAYOFYEAR(timestamp);
-+----------------------+-----------+
-| DAYOFYEAR(timestamp) | COUNT(id) |
-+----------------------+-----------+
-|                    1 |      3708 | 
-|                    2 |      3731 | 
-|                    3 |      3732 | 
-|                    4 |      3802 | 
-|                    5 |      3692 | 
-|                    6 |      3695 | 
-|                    7 |      3672 | 
-|                    8 |      3781 | 
-|                    9 |      3693 | 
-|                   10 |      3720 | 
-|                   11 |      3824 | 
-|                   12 |      3830 | 
-|                   13 |      3759 | 
-|                   14 |      3774 | 
-|                   15 |      3797 | 
-|                   16 |      3840 | 
-|                   17 |      3807 | 
-|                   18 |      3797 | 
-|                   19 |      3845 | 
-|                   20 |      3899 | 
-|                   21 |      3878 | 
-|                   22 |      3903 | 
-|                   23 |      3886 | 
-|                   24 |      3850 | 
-|                   25 |      3789 | 
-|                   26 |      3971 | 
-|                   27 |      3851 | 
-|                   28 |      3834 | 
-|                   29 |      3882 | 
-|                   30 |      3837 | 
-|                   31 |      3926 | 
-|                   32 |      3946 | 
-|                   33 |      3891 | 
-|                   34 |      4081 | 
-|                   35 |      3884 | 
-|                   36 |      4011 | 
-|                   37 |      3967 | 
-|                   38 |      3951 | 
-|                   39 |      3989 | 
-|                   40 |      4014 | 
-|                   41 |      3905 | 
-|                   42 |      4034 | 
-|                   43 |      4157 | 
-|                   44 |      3983 | 
-|                   45 |      4163 | 
-|                   46 |      4048 | 
-|                   47 |      4130 | 
-|                   48 |      4037 | 
-|                   49 |      3916 | 
-|                   50 |      4040 | 
-|                   51 |      4082 | 
-|                   52 |      4106 | 
-|                   53 |      4046 | 
-|                   54 |      4108 | 
-|                   55 |      4080 | 
-|                   56 |      4162 | 
-|                   57 |      4058 | 
-|                   58 |      4186 | 
-|                   59 |      4147 | 
-|                   60 |      4100 | 
-|                   61 |      4177 | 
-|                   62 |      4273 | 
-|                   63 |      4132 | 
-|                   64 |      4228 | 
-|                   65 |      4174 | 
-|                   66 |      4202 | 
-|                   67 |      4230 | 
-|                   68 |      4218 | 
-|                   69 |      4049 | 
-|                   70 |      4308 | 
-|                   71 |      4220 | 
-|                   72 |      4308 | 
-|                   73 |      4345 | 
-|                   74 |      4260 | 
-|                   75 |      4331 | 
-|                   76 |      4282 | 
-|                   77 |      4349 | 
-|                   78 |      4293 | 
-|                   79 |      4321 | 
-|                   80 |      4303 | 
-|                   81 |      4250 | 
-|                   82 |      4371 | 
-|                   83 |      4462 | 
-|                   84 |      4334 | 
-|                   85 |      4368 | 
-|                   86 |      4565 | 
-|                   87 |      4572 | 
-|                   88 |      4414 | 
-|                   89 |      4489 | 
-|                   90 |      4428 | 
-|                   91 |      4433 | 
-|                   92 |      4447 | 
-|                   93 |      4531 | 
-|                   94 |      4357 | 
-|                   95 |      4517 | 
-|                   96 |      4561 | 
-|                   97 |      4456 | 
-|                   98 |      4558 | 
-|                   99 |      4582 | 
-|                  100 |      4374 | 
-|                  101 |      4545 | 
-|                  102 |      4650 | 
-|                  103 |      4565 | 
-|                  104 |      4421 | 
-|                  105 |      4512 | 
-|                  106 |      4620 | 
-|                  107 |      4642 | 
-|                  108 |      4686 | 
-|                  109 |      4639 | 
-|                  110 |      4574 | 
-|                  111 |      4663 | 
-|                  112 |      4677 | 
-|                  113 |      4595 | 
-|                  114 |      4618 | 
-|                  115 |      4667 | 
-|                  116 |      4886 | 
-|                  117 |      4618 | 
-|                  118 |      4754 | 
-|                  119 |      4700 | 
-|                  120 |      4570 | 
-|                  121 |      4694 | 
-|                  122 |      4723 | 
-|                  123 |      4940 | 
-|                  124 |      4805 | 
-|                  125 |      4726 | 
-|                  126 |      4810 | 
-|                  127 |      4762 | 
-|                  128 |      4756 | 
-|                  129 |      4931 | 
-|                  130 |      4793 | 
-|                  131 |      4820 | 
-|                  132 |      4937 | 
-|                  133 |      4826 | 
-|                  134 |      4858 | 
-|                  135 |      4918 | 
-|                  136 |      4917 | 
-|                  137 |      4966 | 
-|                  138 |      4906 | 
-|                  139 |      4953 | 
-|                  140 |      4830 | 
-|                  141 |      4857 | 
-|                  142 |      5003 | 
-|                  143 |      4943 | 
-|                  144 |      5083 | 
-|                  145 |      4933 | 
-|                  146 |      5027 | 
-|                  147 |      4904 | 
-|                  148 |      4970 | 
-|                  149 |      4970 | 
-|                  150 |      5079 | 
-|                  151 |      5193 | 
-|                  152 |      5019 | 
-|                  153 |      5089 | 
-|                  154 |      5215 | 
-|                  155 |      5150 | 
-|                  156 |      5178 | 
-|                  157 |      5219 | 
-|                  158 |      5384 | 
-|                  159 |      5255 | 
-|                  160 |      5186 | 
-|                  161 |      5334 | 
-|                  162 |      5140 | 
-|                  163 |      5361 | 
-|                  164 |      5267 | 
-|                  165 |      5227 | 
-|                  166 |      5337 | 
-|                  167 |      5113 | 
-|                  168 |      5382 | 
-|                  169 |      5386 | 
-|                  170 |      5322 | 
-|                  171 |      5314 | 
-|                  172 |      5417 | 
-|                  173 |      5373 | 
-|                  174 |      5380 | 
-|                  175 |      5434 | 
-|                  176 |      5434 | 
-|                  177 |      5415 | 
-|                  178 |      5467 | 
-|                  179 |      5391 | 
-|                  180 |      5404 | 
-|                  181 |      5354 | 
-|                  182 |      5540 | 
-|                  183 |      5456 | 
-|                  184 |      5483 | 
-|                  185 |      5478 | 
-|                  186 |      5562 | 
-|                  187 |      5541 | 
-|                  188 |      5617 | 
-|                  189 |      5642 | 
-|                  190 |      5597 | 
-|                  191 |      5582 | 
-|                  192 |      5543 | 
-|                  193 |      5692 | 
-|                  194 |      5651 | 
-|                  195 |      5837 | 
-|                  196 |      5662 | 
-|                  197 |      5761 | 
-|                  198 |      5795 | 
-|                  199 |      5732 | 
-|                  200 |      5705 | 
-|                  201 |      5836 | 
-|                  202 |      5749 | 
-|                  203 |      5944 | 
-|                  204 |      5856 | 
-|                  205 |      5896 | 
-|                  206 |      5928 | 
-|                  207 |      5780 | 
-|                  208 |      5895 | 
-|                  209 |      5928 | 
-|                  210 |      5746 | 
-|                  211 |      5858 | 
-|                  212 |      5942 | 
-|                  213 |      5928 | 
-|                  214 |      5913 | 
-|                  215 |      5889 | 
-|                  216 |      5865 | 
-|                  217 |      6035 | 
-|                  218 |      6046 | 
-|                  219 |      6062 | 
-|                  220 |      6100 | 
-|                  221 |      6114 | 
-|                  222 |      6121 | 
-|                  223 |      6298 | 
-|                  224 |      6128 | 
-|                  225 |      6051 | 
-|                  226 |      6088 | 
-|                  227 |      6250 | 
-|                  228 |      6168 | 
-|                  229 |      6199 | 
-|                  230 |      6269 | 
-|                  231 |      6271 | 
-|                  232 |      6253 | 
-|                  233 |      6283 | 
-|                  234 |      6400 | 
-|                  235 |      6274 | 
-|                  236 |      6448 | 
-|                  237 |      6443 | 
-|                  238 |      6346 | 
-|                  239 |      6583 | 
-|                  240 |      6299 | 
-|                  241 |      6365 | 
-|                  242 |      6411 | 
-|                  243 |      6438 | 
-|                  244 |      6505 | 
-|                  245 |      6584 | 
-|                  246 |      6376 | 
-|                  247 |      6567 | 
-|                  248 |      6560 | 
-|                  249 |      6614 | 
-|                  250 |      6473 | 
-|                  251 |      6704 | 
-|                  252 |      6703 | 
-|                  253 |      6634 | 
-|                  254 |      6721 | 
-|                  255 |      6702 | 
-|                  256 |      6754 | 
-|                  257 |      6864 | 
-|                  258 |      6617 | 
-|                  259 |      6880 | 
-|                  260 |      6791 | 
-|                  261 |      6834 | 
-|                  262 |      6779 | 
-|                  263 |      6929 | 
-|                  264 |      6884 | 
-|                  265 |      6766 | 
-|                  266 |      6983 | 
-|                  267 |      7003 | 
-|                  268 |      6937 | 
-|                  269 |      7041 | 
-|                  270 |      6889 | 
-|                  271 |      6973 | 
-|                  272 |      7216 | 
-|                  273 |      7157 | 
-|                  274 |      7281 | 
-|                  275 |      7115 | 
-|                  276 |      7259 | 
-|                  277 |      7368 | 
-|                  278 |      7304 | 
-|                  279 |      7345 | 
-|                  280 |      7379 | 
-|                  281 |      7387 | 
-|                  282 |      7278 | 
-|                  283 |      7440 | 
-|                  284 |      7480 | 
-|                  285 |      7509 | 
-|                  286 |      7525 | 
-|                  287 |      7481 | 
-|                  288 |      7454 | 
-|                  289 |      7563 | 
-|                  290 |      7580 | 
-|                  291 |      7428 | 
-|                  292 |      7795 | 
-|                  293 |      7416 | 
-|                  294 |      7697 | 
-|                  295 |      7695 | 
-|                  296 |      7818 | 
-|                  297 |      7701 | 
-|                  298 |      7793 | 
-|                  299 |      7910 | 
-|                  300 |      7914 | 
-|                  301 |      7897 | 
-|                  302 |      8020 | 
-|                  303 |      8048 | 
-|                  304 |      7920 | 
-|                  305 |      8048 | 
-|                  306 |      8030 | 
-|                  307 |      8554 | 
-|                  308 |      8267 | 
-|                  309 |      8133 | 
-|                  310 |      8271 | 
-|                  311 |      8250 | 
-|                  312 |      8224 | 
-|                  313 |      8305 | 
-|                  314 |      8187 | 
-|                  315 |      8375 | 
-|                  316 |      8535 | 
-|                  317 |      8489 | 
-|                  318 |      8371 | 
-|                  319 |      8374 | 
-|                  320 |      8527 | 
-|                  321 |      8673 | 
-|                  322 |      8659 | 
-|                  323 |      8720 | 
-|                  324 |      8711 | 
-|                  325 |      8881 | 
-|                  326 |      8880 | 
-|                  327 |      8971 | 
-|                  328 |      8973 | 
-|                  329 |      8990 | 
-|                  330 |      9109 | 
-|                  331 |      8997 | 
-|                  332 |      9149 | 
-|                  333 |      9312 | 
-|                  334 |      9344 | 
-|                  335 |      9302 | 
-|                  336 |      9524 | 
-|                  337 |      9387 | 
-|                  338 |      9614 | 
-|                  339 |      9675 | 
-|                  340 |      9518 | 
-|                  341 |      9692 | 
-|                  342 |      9877 | 
-|                  343 |      9684 | 
-|                  344 |      9949 | 
-|                  345 |      9889 | 
-|                  346 |     10164 | 
-|                  347 |     10179 | 
-|                  348 |     10130 | 
-|                  349 |     10277 | 
-|                  350 |     10337 | 
-|                  351 |     10283 | 
-|                  352 |     10299 | 
-|                  353 |     10695 | 
-|                  354 |     10571 | 
-|                  355 |     10424 | 
-|                  356 |     10641 | 
-|                  357 |     10838 | 
-|                  358 |     10907 | 
-|                  359 |     11161 | 
-|                  360 |     11193 | 
-|                  361 |     11237 | 
-|                  362 |     11385 | 
-|                  363 |     11629 | 
-|                  364 |     11825 | 
-|                  365 |     11808 | 
-|                  366 |     11840 | 
-+----------------------+-----------+
-366 rows in set (27.34 sec)
-NOW 366 rows in set (18.20 sec)
+Before modification: 386 MB total, 82 MB indices
+	db_test_report: 333 seconds
+	
 
 
 
@@ -661,25 +11,88 @@ NOW 366 rows in set (18.20 sec)
 
 
 
-SELECT alls.month, alls.all_versions, v4.ver4, v5.ver5, v6.ver6 FROM ( SELECT DISTINCT MONTH(java_simulation.timestamp) AS monthnumber, MONTHNAME(java_simulation.timestamp) AS month, COUNT(java_simulation.id) AS all_versions FROM java_simulation WHERE YEAR(java_simulation.timestamp) = 2007 GROUP BY MONTHNAME(java_simulation.timestamp) ORDER BY MONTH(java_simulation.timestamp) ) AS alls, ( SELECT DISTINCT MONTHNAME(java_simulation.timestamp) AS month, COUNT(java_simulation.id) AS ver4 FROM java_simulation WHERE ( YEAR(java_simulation.timestamp) = 2007 AND java_simulation.host_java_version_minor = 4 ) GROUP BY MONTHNAME(java_simulation.timestamp) ORDER BY MONTH(java_simulation.timestamp) ) AS v4, ( SELECT DISTINCT MONTHNAME(java_simulation.timestamp) AS month, COUNT(java_simulation.id) AS ver5 FROM java_simulation WHERE ( YEAR(java_simulation.timestamp) = 2007 AND java_simulation.host_java_version_minor = 5 ) GROUP BY MONTHNAME(java_simulation.timestamp) ORDER BY MONTH(java_simulation.timestamp) ) AS v5, ( SELECT DISTINCT MONTHNAME(java_simulation.timestamp) AS month, COUNT(java_simulation.id) AS ver6 FROM java_simulation WHERE ( YEAR(java_simulation.timestamp) = 2007 AND java_simulation.host_java_version_minor = 6 ) GROUP BY MONTHNAME(java_simulation.timestamp) ORDER BY MONTH(java_simulation.timestamp) ) AS v6 WHERE ( alls.month = v4.month AND v4.month = v5.month AND v5.month = v6.month ) ORDER BY alls.monthnumber;
-+-----------+--------------+-------+-------+-------+
-| month     | all_versions | ver4  | ver5  | ver6  |
-+-----------+--------------+-------+-------+-------+
-| January   |        39531 | 10998 | 10739 | 17794 | 
-| February  |        38065 |  9698 | 10244 | 18123 | 
-| March     |        44565 | 10667 | 11905 | 21993 | 
-| April     |        45604 | 10007 | 12212 | 23385 | 
-| May       |        50272 | 10102 | 13240 | 26930 | 
-| June      |        51764 |  9413 | 13572 | 28779 | 
-| July      |        57086 |  9562 | 14660 | 32864 | 
-| August    |        60236 |  9147 | 15322 | 35767 | 
-| September |        62382 |  8701 | 15608 | 38073 | 
-| October   |        68058 |  8521 | 16731 | 42806 | 
-| November  |        70965 |  7961 | 16788 | 46216 | 
-| December  |        77484 |  7730 | 18165 | 51589 | 
-+-----------+--------------+-------+-------+-------+
-12 rows in set (1 min 24.28 sec)
-NOW (basically the same)
+// get locales
+SELECT DISTINCT session.sim_locale_language, session.sim_locale_country FROM session, (SELECT id FROM sim_name WHERE name = 'pendulum-lab') AS x WHERE (session.sim_name = x.id);
+// better format
+SELECT IF(country IS NULL, language, CONCAT(language, '_', country)) FROM (SELECT DISTINCT session.sim_locale_language AS language, session.sim_locale_country AS country FROM session, (SELECT id FROM sim_name WHERE name = 'pendulum-lab') AS x WHERE (session.sim_name = x.id) ORDER BY session.sim_locale_language, sim_locale_country) as y;
+
+// run count for each locale
+SELECT DISTINCT session.sim_locale_language, session.sim_locale_country, COUNT(session.id) FROM session, (SELECT id FROM sim_name WHERE name = 'pendulum-lab') AS x WHERE (session.sim_name = x.id) GROUP BY session.sim_locale_language, sim_locale_country ORDER BY session.sim_locale_language, sim_locale_country;
+// better format
+SELECT IF(y.country IS NULL, y.language, CONCAT(y.language, '_', y.country)) AS locale, y.counts AS sim_runs FROM (SELECT DISTINCT session.sim_locale_language AS language, session.sim_locale_country AS country, COUNT(session.id) AS counts FROM session, (SELECT id FROM sim_name WHERE name = 'pendulum-lab') AS x WHERE (session.sim_name = x.id) GROUP BY session.sim_locale_language, sim_locale_country ORDER BY session.sim_locale_language, sim_locale_country) as y;
+
+
+
+
+
+
+
+SELECT IF(totals.country IS NULL, totals.language, CONCAT(totals.language, '_', totals.country)) AS locale, totals.val AS total, last_year.val AS last_year, last_month.val AS last_month, last_week.val AS last_week, last_day.val AS last_day
+FROM (SELECT DISTINCT session.sim_locale_language AS language, session.sim_locale_country AS country, COUNT(session.id) AS val FROM session, (SELECT id FROM sim_name WHERE name = 'pendulum-lab') AS x WHERE (session.sim_name = x.id) GROUP BY session.sim_locale_language, sim_locale_country ORDER BY session.sim_locale_language, sim_locale_country) as totals, (SELECT DISTINCT session.sim_locale_language AS language, session.sim_locale_country AS country, COUNT(session.id) AS val FROM session, (SELECT id FROM sim_name WHERE name = 'pendulum-lab') AS x WHERE (session.sim_name = x.id AND session.timestamp >= DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 1 YEAR)) GROUP BY session.sim_locale_language, sim_locale_country ORDER BY session.sim_locale_language, sim_locale_country) as last_year, (SELECT DISTINCT session.sim_locale_language AS language, session.sim_locale_country AS country, COUNT(session.id) AS val FROM session, (SELECT id FROM sim_name WHERE name = 'pendulum-lab') AS x WHERE (session.sim_name = x.id AND session.timestamp >= DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 1 MONTH)) GROUP BY session.sim_locale_language, sim_locale_country ORDER BY session.sim_locale_language, sim_locale_country) as last_month, (SELECT DISTINCT session.sim_locale_language AS language, session.sim_locale_country AS country, COUNT(session.id) AS val FROM session, (SELECT id FROM sim_name WHERE name = 'pendulum-lab') AS x WHERE (session.sim_name = x.id AND session.timestamp >= DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 1 WEEK)) GROUP BY session.sim_locale_language, sim_locale_country ORDER BY session.sim_locale_language, sim_locale_country) as last_week, (SELECT DISTINCT session.sim_locale_language AS language, session.sim_locale_country AS country, COUNT(session.id) AS val FROM session, (SELECT id FROM sim_name WHERE name = 'pendulum-lab') AS x WHERE (session.sim_name = x.id AND session.timestamp >= DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 1 DAY)) GROUP BY session.sim_locale_language, sim_locale_country ORDER BY session.sim_locale_language, sim_locale_country) as last_day WHERE (totals.language = last_year.language AND last_year.language = last_month.language AND last_month.language = last_week.language AND last_week.language = last_day.language AND ((totals.country = last_year.country AND last_year.country = last_month.country AND last_month.country = last_week.country AND last_week.country = last_day.country) OR (totals.country IS NULL AND last_year.country IS NULL AND last_month.country IS NULL AND last_week.country IS NULL AND last_day.country IS NULL)));
+
+
+
+
+SELECT CONCAT(totals.sim_major_version, '.', totals.sim_minor_version) AS version, totals.val AS total, last_year.val AS last_year, last_month.val AS last_month, last_week.val AS last_week, last_day.val AS last_day
+FROM (
+	SELECT DISTINCT session.sim_major_version AS sim_major_version, session.sim_minor_version AS sim_minor_version, COUNT(session.id) AS val
+	FROM session, (
+		SELECT id FROM sim_name WHERE name = 'pendulum-lab'
+	) AS x
+	WHERE (session.sim_name = x.id AND session.sim_dev = false)
+	GROUP BY session.sim_major_version, sim_minor_version
+) as totals,
+(
+	SELECT DISTINCT session.sim_major_version AS sim_major_version, session.sim_minor_version AS sim_minor_version, COUNT(session.id) AS val
+	FROM session, (
+		SELECT id FROM sim_name WHERE name = 'pendulum-lab'
+	) AS x
+	WHERE (session.sim_name = x.id AND session.timestamp >= DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 1 YEAR) AND session.sim_dev = false)
+	GROUP BY session.sim_major_version, sim_minor_version
+) as last_year,
+(
+	SELECT DISTINCT session.sim_major_version AS sim_major_version, session.sim_minor_version AS sim_minor_version, COUNT(session.id) AS val
+	FROM session, (
+		SELECT id FROM sim_name WHERE name = 'pendulum-lab'
+	) AS x
+	WHERE (session.sim_name = x.id AND session.timestamp >= DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 1 MONTH) AND session.sim_dev = false)
+	GROUP BY session.sim_major_version, sim_minor_version
+) as last_month,
+(
+	SELECT DISTINCT session.sim_major_version AS sim_major_version, session.sim_minor_version AS sim_minor_version, COUNT(session.id) AS val
+	FROM session, (
+		SELECT id FROM sim_name WHERE name = 'pendulum-lab'
+	) AS x
+	WHERE (session.sim_name = x.id AND session.timestamp >= DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 1 WEEK) AND session.sim_dev = false)
+	GROUP BY session.sim_major_version, sim_minor_version
+) as last_week,
+(
+	SELECT DISTINCT session.sim_major_version AS sim_major_version, session.sim_minor_version AS sim_minor_version, COUNT(session.id) AS val
+	FROM session, (
+		SELECT id FROM sim_name WHERE name = 'pendulum-lab'
+	) AS x
+	WHERE (session.sim_name = x.id AND session.timestamp >= DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 1 DAY) AND session.sim_dev = false)
+	GROUP BY session.sim_major_version, sim_minor_version
+) as last_day
+WHERE (
+	totals.sim_major_version = last_year.sim_major_version
+	AND last_year.sim_major_version = last_month.sim_major_version
+	AND last_month.sim_major_version = last_week.sim_major_version
+	AND last_week.sim_major_version = last_day.sim_major_version
+	AND totals.sim_minor_version = last_year.sim_minor_version
+	AND last_year.sim_minor_version = last_month.sim_minor_version
+	AND last_month.sim_minor_version = last_week.sim_minor_version
+	AND last_week.sim_minor_version = last_day.sim_minor_version
+)
+ORDER BY totals.sim_major_version, totals.sim_minor_version
+;
+
+
+
+
+
+SELECT CONCAT(totals.sim_major_version, '.', totals.sim_minor_version) AS version, totals.val AS total, last_year.val AS last_year, last_month.val AS last_month, last_week.val AS last_week, last_day.val AS last_day FROM ( SELECT DISTINCT session.sim_major_version AS sim_major_version, session.sim_minor_version AS sim_minor_version, COUNT(session.id) AS val FROM session, ( SELECT id FROM sim_name WHERE name = 'pendulum-lab' ) AS x WHERE (session.sim_name = x.id AND session.sim_dev = false) GROUP BY session.sim_major_version, sim_minor_version ) as totals, ( SELECT DISTINCT session.sim_major_version AS sim_major_version, session.sim_minor_version AS sim_minor_version, COUNT(session.id) AS val FROM session, ( SELECT id FROM sim_name WHERE name = 'pendulum-lab' ) AS x WHERE (session.sim_name = x.id AND session.timestamp >= DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 1 YEAR) AND session.sim_dev = false) GROUP BY session.sim_major_version, sim_minor_version ) as last_year, ( SELECT DISTINCT session.sim_major_version AS sim_major_version, session.sim_minor_version AS sim_minor_version, COUNT(session.id) AS val FROM session, ( SELECT id FROM sim_name WHERE name = 'pendulum-lab' ) AS x WHERE (session.sim_name = x.id AND session.timestamp >= DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 1 MONTH) AND session.sim_dev = false) GROUP BY session.sim_major_version, sim_minor_version ) as last_month, ( SELECT DISTINCT session.sim_major_version AS sim_major_version, session.sim_minor_version AS sim_minor_version, COUNT(session.id) AS val FROM session, ( SELECT id FROM sim_name WHERE name = 'pendulum-lab' ) AS x WHERE (session.sim_name = x.id AND session.timestamp >= DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 1 WEEK) AND session.sim_dev = false) GROUP BY session.sim_major_version, sim_minor_version ) as last_week, ( SELECT DISTINCT session.sim_major_version AS sim_major_version, session.sim_minor_version AS sim_minor_version, COUNT(session.id) AS val FROM session, ( SELECT id FROM sim_name WHERE name = 'pendulum-lab' ) AS x WHERE (session.sim_name = x.id AND session.timestamp >= DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 1 DAY) AND session.sim_dev = false) GROUP BY session.sim_major_version, sim_minor_version ) as last_day WHERE ( totals.sim_major_version = last_year.sim_major_version AND last_year.sim_major_version = last_month.sim_major_version AND last_month.sim_major_version = last_week.sim_major_version AND last_week.sim_major_version = last_day.sim_major_version AND totals.sim_minor_version = last_year.sim_minor_version AND last_year.sim_minor_version = last_month.sim_minor_version AND last_month.sim_minor_version = last_week.sim_minor_version AND last_week.sim_minor_version = last_day.sim_minor_version ) ORDER BY totals.sim_major_version, totals.sim_minor_version;
+
 
 
 
