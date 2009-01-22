@@ -79,10 +79,13 @@ public class BuildScript {
         versionIncrement.increment( project );
         int svnNumber = getSVNVersion();
         System.out.println( "Current SVN: " + svnNumber );
+        System.out.println( "Setting SVN Version" );
         setSVNVersion( svnNumber + 1 );
+        System.out.println( "Adding message to change file" );
         addMessagesToChangeFile( svnNumber + 1 );
 
         if ( !dryRun ) {
+            System.out.println( "Committing changes to version and change file." );
             commitProject();//commits both changes to version and change file
         }
 
@@ -98,8 +101,10 @@ public class BuildScript {
             }
         }
 
+        System.out.println( "Creating header." );
         createHeader( svnNumber );
 
+        System.out.println( "Copying version files to deploy dir." );
         copyVersionFilesToDeployDir();
 
         boolean ok = preDeployTask.invoke();
@@ -109,14 +114,17 @@ public class BuildScript {
         }
 
         String codebase = server.getURL( project );
+        System.out.println( "Building JNLP." );
         buildJNLP( codebase, server.isDevelopmentServer() );
 
         if ( !dryRun ) {
+            System.out.println( "Sending SSH." );
             sendSSH( server, authenticationInfo );
         }
 
         postDeployTask.invoke();
 
+        System.out.println( "Opening Browser." );
         openBrowser( server.getURL( project ) );
 
         System.out.println( "Finished deploy to: " + server.getHost() );
