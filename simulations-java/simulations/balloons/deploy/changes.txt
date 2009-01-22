@@ -1,3 +1,5 @@
+# 1.07.03 (27542) 01-22-2009
+Dano's messing it all up, but only on his dev machine (hopefully!)
 # 1.07.02 (27291) 01-14-2009
 test fixes for #1109 and #1110
 # 1.07.01 (27276) 01-14-2009
