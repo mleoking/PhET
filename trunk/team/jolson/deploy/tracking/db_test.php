@@ -4,7 +4,21 @@
 	
 	include("db_util.php");
 	$link = setup_mysql();
-
+	
+	
+	
+	$result = mysql_query("EXPLAIN SELECT SQL_NO_CACHE COUNT(*) FROM session WHERE sim_dev = false;");
+	print_r($result);
+	echo "<br/>";
+	$arr = mysql_fetch_array($result);
+	print_r($arr);
+	
+	echo "<br/>";
+	print_r($arr['0']);
+	
+	echo "<br/>";
+	print_r($arr['1']);
+	
 	
 	
 	
