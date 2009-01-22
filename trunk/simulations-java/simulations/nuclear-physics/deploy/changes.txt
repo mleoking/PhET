@@ -1,3 +1,5 @@
+# 3.04.23 (27545) 01-22-2009
+Removed non-function "Clear Chart" button from time diagram on first tab, made other improvements to chart.
 # 3.04.22 (27321) 01-15-2009
 # 3.04.21 (27319) 01-15-2009
 # 3.04.20 (27318) 01-15-2009
