@@ -6,8 +6,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -34,7 +32,6 @@ import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayCanvas;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayModel;
-import edu.colorado.phet.nuclearphysics.util.PhetButtonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -177,9 +174,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     // Flag for tracking if chart is cleared.
     boolean _chartCleared = false;
 
-    // Button for resetting this chart.
-    PhetButtonNode _resetButtonNode;
-    
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
@@ -385,19 +379,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _halfLifeLabel.setTextPaint( HALF_LIFE_TEXT_COLOR );
         _nonPickableChartNode.addChild( _halfLifeLabel );
         
-        // Add the button for resetting the chart.
-        _resetButtonNode = new PhetButtonNode( NuclearPhysicsStrings.DECAY_TIME_CLEAR_CHART );
-        _resetButtonNode.setPickable( true );
-        _pickableChartNode.addChild( _resetButtonNode );
-
-        // Register to receive button pushes.
-        _resetButtonNode.addActionListener( new ActionListener() {
-
-            public void actionPerformed( ActionEvent event ) {
-                handleResetChartButtonPressed();
-            }
-        } );
-        
         updateNucleusGraphLabels();
     }
 
@@ -511,10 +492,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
 
         // Update the numbers for the various nuclei.
         updateNucleiNumberText();
-        
-        // Position the reset button.
-        _resetButtonNode.setOffset( _usableAreaOriginX + 10, 
-        		_usableAreaOriginY + _usableHeight - _resetButtonNode.getFullBoundsReference().height - 5);
         
         // Rescale the nucleus nodes and set their positions.
         Set entries = _mapNucleiToNucleiData.entrySet();
@@ -687,10 +664,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         update();
     }
 
-    private void handleResetChartButtonPressed() {
-    	// TODO: JPB TBD
-    }
-    
 	private void setYAxisTickMarkLabelText(){
 		
 		String upperLabel, lowerLabel;
