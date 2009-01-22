@@ -167,12 +167,8 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     // Factor for converting milliseconds to pixels.
     double _msToPixelsFactor = 1; // Arbitrary init val, updated later.
 
-    // Clock that we listen to for moving the nuclei and performing resets.
-    // TODO: JPB TBD - Do we really listen to this for resets?  Update comment if not.
+    // Clock that we listen to for moving the nuclei.
     ConstantDtClock _clock;
-
-    // Flag for tracking if chart is cleared.
-    boolean _chartCleared = false;
 
     //------------------------------------------------------------------------
     // Constructor
@@ -193,10 +189,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
              */
             public void clockTicked( ClockEvent clockEvent ) {
                 handleClockTicked( clockEvent );
-            }
-
-            public void simulationTimeReset( ClockEvent clockEvent ) {
-                _chartCleared = false;
             }
         } );
         
@@ -469,7 +461,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         		yAxisUpperTickMark.getY() - ( 0.5 * yAxisUpperTickMarkLabel.getHeight() ) );
 
         // Position the labels for the axes.
-        _xAxisLabel.setOffset( _usableAreaOriginX + _usableWidth - (_xAxisLabel.getWidth() * 1.2), 
+        _xAxisLabel.setOffset( _graphOriginX - (_xAxisLabel.getFullBoundsReference().width / 2),
         		((PNode)_xAxisTickMarkLabels.get(0)).getFullBoundsReference().getMaxY() );
         double yAxisLabelCenter = yAxisUpperTickMark.getY() 
                 + ((yAxisLowerTickMark.getY() - yAxisUpperTickMark.getY()) / 2);
@@ -628,14 +620,29 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     	double halfLife = _model.getHalfLife();  // Get half life.
         _halfLifeMarkerLine.reset();
         _halfLifeMarkerLine.moveTo( (float) ( _graphOriginX + (TIME_ZERO_OFFSET + halfLife) * _msToPixelsFactor ),
-        		(float) _graphOriginY );
+        		(float)(_graphOriginY + ((_usableHeight - _graphOriginY) * 0.4)) );
         _halfLifeMarkerLine.lineTo( (float) ( _graphOriginX + (TIME_ZERO_OFFSET + halfLife) * _msToPixelsFactor ),
         		(float) ( _usableAreaOriginY + ( 0.1 * _usableHeight ) ) );
+        
+        // If the marker is overlapping with a tick mark label, redraw it so
+        // that it is completely above the axis.
+        for (int i = 0; i < _xAxisTickMarkLabels.size(); i++){
+        	PNode tickMark = (PNode)_xAxisTickMarkLabels.get(i);
+        	if (tickMark.getFullBoundsReference().intersects(_halfLifeMarkerLine.getFullBoundsReference())){
+        		// Redraw the line to be above the axis.
+                _halfLifeMarkerLine.reset();
+                _halfLifeMarkerLine.moveTo( (float) ( _graphOriginX + (TIME_ZERO_OFFSET + halfLife) * _msToPixelsFactor ),
+                		(float)_graphOriginY );
+                _halfLifeMarkerLine.lineTo( (float) ( _graphOriginX + (TIME_ZERO_OFFSET + halfLife) * _msToPixelsFactor ),
+                		(float) ( _usableAreaOriginY + ( 0.1 * _usableHeight ) ) );
+        		break;
+        	}
+        }
         
         // If it is a custom nucleus, position and show the handle.
         if (_model.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
         	_halfLifeHandleNode.setVisible(true);
-        	_halfLifeHandleNode.setOffset( _halfLifeMarkerLine.getX(), _halfLifeMarkerLine.getY() + _halfLifeMarkerLine.getHeight() / 2 );
+        	_halfLifeHandleNode.setOffset( _halfLifeMarkerLine.getX(), _halfLifeMarkerLine.getY() + (_graphOriginY - _halfLifeMarkerLine.getY()) / 2 );
         }
         else{
         	_halfLifeHandleNode.setVisible(false);
@@ -643,7 +650,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         
         // Position the textual label for the half life.
         _halfLifeLabel.setOffset( _halfLifeMarkerLine.getX() - (_halfLifeLabel.getFullBoundsReference().width / 2),
-        		((PNode)_xAxisTickMarkLabels.get(0)).getFullBoundsReference().getMaxY() );
+        		(float)(_graphOriginY + ((_usableHeight - _graphOriginY) * 0.5)) );
         if (_xAxisLabel.getFullBoundsReference().intersects(_halfLifeLabel.getFullBoundsReference())){
         	_xAxisLabel.setVisible(false);
         }
@@ -656,10 +663,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
      * Reset the chart.
      */
     public void reset() {
-
-        // Clear the flag that holds off updates after the chart is cleared.
-        _chartCleared = false;
-
         // Redraw the chart.
         update();
     }
