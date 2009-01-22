@@ -1,14 +1,28 @@
 
 GRANT ALL ON phet_stats_test_3.* TO "www-data"@localhost IDENTIFIED BY "d3#r3m0nt$";
 
+
+Index Tests:
+
++timestamp: 39 MB
++sim_dev: 31 MB
++sim_name, .name: 35 MB
+
 Before modification: 386 MB total, 82 MB indices
-	db_test_report: 333 seconds
-	
+	db_test_report: 330.41/ 328.17
+	pendulum-lab: 37.32 / 37.55
 
+(timestamp) : 425 MB total, 121 MB indices
+	db_test_report: 325.95 / 323.58
+	pendulum-lab: 29.80 / 28.99
 
+(timestamp) (sim_dev) : 456 MB total, 152 MB indices
+	db_test_report: 340.86
+	pendulum-lab: 30.76 / 29.45
 
-
-
+(timestamp) (sim_dev) (sim_name) (sim_name.name) : 491 MB total, 187 MB indices
+	db_test_report: 346.33
+	pendulum-lab: 19.46 / 19.67
 
 
 // get locales
