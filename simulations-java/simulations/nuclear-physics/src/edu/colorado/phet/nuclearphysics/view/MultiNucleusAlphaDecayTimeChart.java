@@ -651,6 +651,8 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         // Position the textual label for the half life.
         _halfLifeLabel.setOffset( _halfLifeMarkerLine.getX() - (_halfLifeLabel.getFullBoundsReference().width / 2),
         		(float)(_graphOriginY + ((_usableHeight - _graphOriginY) * 0.5)) );
+        
+        // Hide the x axis label if there is overlap with the half life label.
         if (_xAxisLabel.getFullBoundsReference().intersects(_halfLifeLabel.getFullBoundsReference())){
         	_xAxisLabel.setVisible(false);
         }
