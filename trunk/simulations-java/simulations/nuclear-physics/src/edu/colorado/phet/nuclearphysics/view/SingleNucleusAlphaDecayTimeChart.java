@@ -454,7 +454,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
         		yAxisUpperTickMark.getY() - ( 0.5 * yAxisUpperTickMarkLabel.getHeight() ) );
 
         // Position the labels for the axes.
-        _xAxisLabel.setOffset( _usableAreaOriginX + _usableWidth - (_xAxisLabel.getWidth() * 1.2), 
+        _xAxisLabel.setOffset( _graphOriginX - (_xAxisLabel.getFullBoundsReference().width / 2),
         		((PNode)_xAxisTickMarkLabels.get(0)).getFullBoundsReference().getMaxY() );
         double yAxisLabelCenter = yAxisUpperTickMark.getY() 
                 + ((yAxisLowerTickMark.getY() - yAxisUpperTickMark.getY()) / 2);
@@ -653,12 +653,16 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     		halfLifeMarkerXPos = _graphOriginX + (TIME_ZERO_OFFSET + halfLife) * _msToPixelsFactor;
     	}
         _halfLifeMarkerLine.reset();
-        _halfLifeMarkerLine.moveTo( (float)halfLifeMarkerXPos, (float)_graphOriginY );
-        _halfLifeMarkerLine.lineTo( (float)halfLifeMarkerXPos, (float) ( _usableAreaOriginY + ( 0.1 * _usableHeight ) ) );
+        _halfLifeMarkerLine.moveTo( (float)halfLifeMarkerXPos, 
+        		(float)(_graphOriginY + ((_usableHeight - _graphOriginY) * 0.4)) );
+        _halfLifeMarkerLine.lineTo( (float)halfLifeMarkerXPos, 
+        		(float) ( _usableAreaOriginY + ( 0.1 * _usableHeight ) ) );
         
         // Position the textual label for the half life.
         _halfLifeLabel.setOffset( _halfLifeMarkerLine.getX() - (_halfLifeLabel.getFullBoundsReference().width / 2),
-        		((PNode)_xAxisTickMarkLabels.get(0)).getFullBoundsReference().getMaxY() );
+        		(float)(_graphOriginY + ((_usableHeight - _graphOriginY) * 0.5)) );
+        
+        // Hide the x axis label if there is overlap with the half life label.
         if (_xAxisLabel.getFullBoundsReference().intersects(_halfLifeLabel.getFullBoundsReference())){
         	_xAxisLabel.setVisible(false);
         }
