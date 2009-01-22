@@ -1,3 +1,5 @@
+> Fixed: The check boxes are mismatched - F_applied box turns on friction graph, and F_friction box turns on applied graph. 
+
 # 1.18.12 (11-5-2008)
 Ported to use phet application launcher
 

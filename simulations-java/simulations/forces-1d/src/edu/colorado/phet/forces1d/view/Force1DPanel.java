@@ -184,7 +184,7 @@ public class Force1DPanel extends ApparatusPanel2 implements OffsetManager {
         final JCheckBox showFrictionForce = new JCheckBox( text, true );
         showFrictionForce.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                setShowForceSeries( 0, showFrictionForce.isSelected() );
+                setShowForceSeries( 1, showFrictionForce.isSelected() );
             }
         } );
         showFrictionForce.setFont( checkBoxFont );
@@ -192,7 +192,7 @@ public class Force1DPanel extends ApparatusPanel2 implements OffsetManager {
         final JCheckBox showAppliedForce = new JCheckBox( Force1DResources.get( "Force1DPanel.showAppliedHTML" ), true );
         showAppliedForce.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                setShowForceSeries( 1, showAppliedForce.isSelected() );
+                setShowForceSeries( 0, showAppliedForce.isSelected() );
             }
         } );
         showAppliedForce.setFont( checkBoxFont );
