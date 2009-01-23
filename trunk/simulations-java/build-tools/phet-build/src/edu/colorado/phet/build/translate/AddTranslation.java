@@ -83,7 +83,7 @@ public class AddTranslation {
             updateJAR( phetProject, language );
             System.out.println( "Finished updating project_all.jar" );
 
-                        //create a JNLP file for each simulation
+            //create a JNLP file for each simulation
             System.out.println( "Building JNLP" );
             PhetBuildJnlpTask.buildJNLPForSimAndLanguage( phetProject, language );
             checkMainClasses( phetProject, language );
