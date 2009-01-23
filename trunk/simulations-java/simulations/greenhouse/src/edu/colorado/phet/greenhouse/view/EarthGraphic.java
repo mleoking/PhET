@@ -50,7 +50,6 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
     private BufferedImage gif;
     private AffineTransform earthTx;
     private Animation earthAnimation;
-    private EarthAnimator earthAnimator;
     private BufferedImage currentBackdropImage;
     private BufferedImage backgroundToday = GreenhouseResources.getImage( "today-2.gif" );
     private BufferedImage background1750 = GreenhouseResources.getImage( "1750-2.gif" );
@@ -72,8 +71,6 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
 
         // Set up the gif of the Earth
         earthAnimation = new Animation( "earthGifs/earth", 30 );
-        earthAnimator = new EarthAnimator();
-//        earthAnimator.start();
 
         this.gif = GreenhouseResources.getImage( "earth-a.gif" );
         double gifToModelScale = ( 2 * earth.getRadius() ) / this.gif.getWidth();
@@ -117,7 +114,6 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
     }
 
     public void stopAnimation() {
-        earthAnimator.setStop();
         earthAnimation = null;
     }
 
@@ -266,32 +262,4 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
         return reflectivity;
     }
 
-    //
-    // Inner classes
-    //
-
-    /**
-     * Animates the frames in the earth graphic
-     */
-    private class EarthAnimator extends Thread {
-        private boolean stop;
-
-        void setStop() {
-            stop = true;
-        }
-
-        public void run() {
-            while ( !stop ) {
-                try {
-                    Thread.sleep( 1000 / 20 );
-                    if ( earthAnimation != null ) {
-                        earthAnimation.getNextFrame();
-                    }
-                }
-                catch( InterruptedException e ) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 }
