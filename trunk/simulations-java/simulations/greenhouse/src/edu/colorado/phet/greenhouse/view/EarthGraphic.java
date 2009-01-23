@@ -47,7 +47,6 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
     private boolean isIceAge;
     private BufferedImage gif;
     private AffineTransform earthTx;
-    private Animation earthAnimation;
     private BufferedImage currentBackdropImage;
     private BufferedImage backgroundToday = GreenhouseResources.getImage( "today-2.gif" );
     private BufferedImage background1750 = GreenhouseResources.getImage( "1750-2.gif" );
@@ -66,9 +65,6 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
         this.modelBounds = modelBounds;
         disk = new DiskGraphic( earth, earthBaseColor );
         apparatusPanel.addGraphic( disk, GreenhouseConfig.EARTH_BASE_LAYER );
-
-        // Set up the gif of the Earth
-        earthAnimation = new Animation( "earthGifs/earth", 30 );
 
         this.gif = GreenhouseResources.getImage( "earth-a.gif" );
         double gifToModelScale = ( 2 * earth.getRadius() ) / this.gif.getWidth();
@@ -111,10 +107,6 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
         } );
     }
 
-    public void stopAnimation() {
-        earthAnimation = null;
-    }
-
     public int getPixelColor( int x, int y ) {
         int result = 0;
         if ( backdropGraphic != null ) {
@@ -139,16 +131,6 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
         redsToAve[0] = red;
         redSum += red;
         red = Math.min( 2 * redSum / numRedsToAve, 255 );
-        if ( earthAnimation != null ) {
-            try {
-                g2.drawImage( earthAnimation.getCurrFrame(), earthTx, null );
-            }
-            catch( OutOfMemoryError outOfMemoryError ) {
-                System.out.println( "Caught OutOfMemoryError: " + outOfMemoryError );
-                outOfMemoryError.printStackTrace();
-                System.out.println( "Continuing..." );
-            }
-        }
         g2.setColor( Color.gray );
     }
 
