@@ -1,5 +1,0 @@
-###################################
-# License info for greenhouse
-# Automatically generated on Fri Aug 08 00:08:01 MDT 2008
-###################################
-
