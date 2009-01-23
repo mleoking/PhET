@@ -8,7 +8,7 @@ import java.util.Locale;
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.common.phetcommon.tracking.ITrackingInfo;
+import edu.colorado.phet.common.phetcommon.tracking.IStatistics;
 import edu.colorado.phet.common.phetcommon.tracking.SessionMessage;
 import edu.colorado.phet.common.phetcommon.util.DeploymentScenario;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
@@ -30,7 +30,7 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
  *
  * @author John De Goes / Chris Malley
  */
-public class PhetApplicationConfig implements ITrackingInfo, ISimInfo {
+public class PhetApplicationConfig implements IStatistics, ISimInfo {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -149,7 +149,7 @@ public class PhetApplicationConfig implements ITrackingInfo, ISimInfo {
     }
 
     public boolean isPreferencesEnabled() {
-        return isTrackingFeatureIncluded() || isUpdatesFeatureIncluded();
+        return isStatisticsFeatureIncluded() || isUpdatesFeatureIncluded();
     }
     
     /**
@@ -217,7 +217,7 @@ public class PhetApplicationConfig implements ITrackingInfo, ISimInfo {
         return getApplicationLaunchFinishedAt() - getSimStartTimeMillis();
     }
 
-    public String getHumanReadableTrackingInformation() {
+    public String getHumanReadableStatistics() {
         return new SessionMessage( this ).toHumanReadable();
     }
 
@@ -245,7 +245,7 @@ public class PhetApplicationConfig implements ITrackingInfo, ISimInfo {
      * Should the tracking feature be included at runtime?
      * @return
      */
-    public boolean isTrackingFeatureIncluded() {
+    public boolean isStatisticsFeatureIncluded() {
         return hasCommandLineArg( "-tracking" ) && !DeploymentScenario.isWebsite();
     }
 
@@ -253,8 +253,8 @@ public class PhetApplicationConfig implements ITrackingInfo, ISimInfo {
         return isUpdatesFeatureIncluded() && PhetPreferences.getInstance().isUpdatesEnabled();
     }
     
-    public boolean isTrackingEnabled() {
-        return isTrackingFeatureIncluded() && PhetPreferences.getInstance().isTrackingEnabled();
+    public boolean isStatisticsEnabled() {
+        return isStatisticsFeatureIncluded() && PhetPreferences.getInstance().isStatisticsEnabled();
     }
 
     public void setApplicationLaunchFinishedAt( long applicationLaunchFinishedAt ) {

@@ -15,7 +15,7 @@ import javax.swing.JTabbedPane;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.tracking.ITrackingInfo;
+import edu.colorado.phet.common.phetcommon.tracking.IStatistics;
 import edu.colorado.phet.common.phetcommon.updates.DefaultManualUpdateChecker;
 import edu.colorado.phet.common.phetcommon.updates.IManualUpdateChecker;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -35,7 +35,7 @@ public class PreferencesDialog extends JDialog {
     private final UpdatesPreferencesPanel updatesPreferencesPanel;
     private final PrivacyPreferencesPanel privacyPreferencesPanel;
 
-    public PreferencesDialog( Frame owner, ITrackingInfo trackingInfo, IManualUpdateChecker iCheckForUpdates, 
+    public PreferencesDialog( Frame owner, IStatistics statistics, IManualUpdateChecker iCheckForUpdates,
             PhetPreferences preferences, boolean showPrivacyUI, boolean showUpdatesUI, boolean isDev ) {
 
         super( owner, TITLE );
@@ -46,7 +46,7 @@ public class PreferencesDialog extends JDialog {
         JTabbedPane jTabbedPane = new JTabbedPane();
         userInputPanel.add( jTabbedPane );
         updatesPreferencesPanel = new UpdatesPreferencesPanel( iCheckForUpdates, preferences );
-        privacyPreferencesPanel = new PrivacyPreferencesPanel( trackingInfo, preferences, isDev );
+        privacyPreferencesPanel = new PrivacyPreferencesPanel( statistics, preferences, isDev );
         if ( showUpdatesUI ) {
             jTabbedPane.addTab( UPDATES_TAB, updatesPreferencesPanel );
         }

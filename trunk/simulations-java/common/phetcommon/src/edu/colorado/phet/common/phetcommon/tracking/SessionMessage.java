@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.JavaVersion.JREVersion;
  * @author Sam Reid
  * @author Chris Malley
  */
-public class SessionMessage extends TrackingMessage {
+public class SessionMessage extends StatisticsMessage {
     
     // Versioning the messages allows us to manage data after changing message content.
     // If the content of this message is changed, you'll need to increment the version number.
@@ -26,42 +26,42 @@ public class SessionMessage extends TrackingMessage {
         super( "session", MESSAGE_VERSION );
         initTimeZone();
         JREVersion jre = new JREVersion();
-        TrackingMessageField[] fields = new TrackingMessageField[]{
+        StatisticsMessageField[] fields = new StatisticsMessageField[]{
                 
                 // Sim data
-                new TrackingMessageField( "sim_project", config.getProjectName() ),
-                new TrackingMessageField( "sim_name", config.getFlavor() ),
-                new TrackingMessageField( "sim_sessions", config.getSessionCount() ),
-                new TrackingMessageField( "sim_major_version", config.getVersion().getMajor() ),
-                new TrackingMessageField( "sim_minor_version", config.getVersion().getMinor() ),
-                new TrackingMessageField( "sim_dev_version", config.getVersion().getDev() ),
-                new TrackingMessageField( "sim_svn_revision", config.getVersion().getRevision() ),
-                new TrackingMessageField( "sim_distribution_id", config.getDistributionId() ),
-                new TrackingMessageField( "sim_locale_language", PhetResources.readLocale().getLanguage() ),
-                new TrackingMessageField( "sim_locale_country", PhetResources.readLocale().getCountry() ),
-                new TrackingMessageField( "sim_deployment", DeploymentScenario.getName() ),
-                new TrackingMessageField( "sim_dev", config.isDev() + "" ),
+                new StatisticsMessageField( "sim_project", config.getProjectName() ),
+                new StatisticsMessageField( "sim_name", config.getFlavor() ),
+                new StatisticsMessageField( "sim_sessions", config.getSessionCount() ),
+                new StatisticsMessageField( "sim_major_version", config.getVersion().getMajor() ),
+                new StatisticsMessageField( "sim_minor_version", config.getVersion().getMinor() ),
+                new StatisticsMessageField( "sim_dev_version", config.getVersion().getDev() ),
+                new StatisticsMessageField( "sim_svn_revision", config.getVersion().getRevision() ),
+                new StatisticsMessageField( "sim_distribution_id", config.getDistributionId() ),
+                new StatisticsMessageField( "sim_locale_language", PhetResources.readLocale().getLanguage() ),
+                new StatisticsMessageField( "sim_locale_country", PhetResources.readLocale().getCountry() ),
+                new StatisticsMessageField( "sim_deployment", DeploymentScenario.getName() ),
+                new StatisticsMessageField( "sim_dev", config.isDev() + "" ),
                 
                 // Host data
-                new TrackingMessageField.SystemProperty( "host_os_name", "os.name" ),
-                new TrackingMessageField.SystemProperty( "host_os_version", "os.version" ),
-                new TrackingMessageField.SystemProperty( "host_os_arch", "os.arch" ),
-                new TrackingMessageField.SystemProperty( "host_java_vendor", "java.vendor" ),
-                new TrackingMessageField( "host_java_version_major", jre.getMajorNumber() ),
-                new TrackingMessageField( "host_java_version_minor", jre.getMinorNumber() ),
-                new TrackingMessageField( "host_java_version_maintenance", jre.getMaintenanceNumber() ),
-                new TrackingMessageField.SystemProperty( "host_java_webstart_version", "javawebstart.version" ),
-                new TrackingMessageField.SystemProperty( "host_locale_language", "user.language" ),
-                new TrackingMessageField.SystemProperty( "host_locale_country", "user.country" ),
-                new TrackingMessageField.SystemProperty( "host_timezone", "user.timezone" ),
+                new StatisticsMessageField.SystemProperty( "host_os_name", "os.name" ),
+                new StatisticsMessageField.SystemProperty( "host_os_version", "os.version" ),
+                new StatisticsMessageField.SystemProperty( "host_os_arch", "os.arch" ),
+                new StatisticsMessageField.SystemProperty( "host_java_vendor", "java.vendor" ),
+                new StatisticsMessageField( "host_java_version_major", jre.getMajorNumber() ),
+                new StatisticsMessageField( "host_java_version_minor", jre.getMinorNumber() ),
+                new StatisticsMessageField( "host_java_version_maintenance", jre.getMaintenanceNumber() ),
+                new StatisticsMessageField.SystemProperty( "host_java_webstart_version", "javawebstart.version" ),
+                new StatisticsMessageField.SystemProperty( "host_locale_language", "user.language" ),
+                new StatisticsMessageField.SystemProperty( "host_locale_country", "user.country" ),
+                new StatisticsMessageField.SystemProperty( "host_timezone", "user.timezone" ),
                 
                 // User data
-                new TrackingMessageField( "user_preference_file_creation_time", PhetPreferences.getInstance().getPreferencesFileCreationTime() ),
-                new TrackingMessageField( "user_total_sessions", config.getSessionCountTotal() ),
+                new StatisticsMessageField( "user_preference_file_creation_time", PhetPreferences.getInstance().getPreferencesFileCreationTime() ),
+                new StatisticsMessageField( "user_total_sessions", config.getSessionCountTotal() ),
                 
                 // Debug field for this that are split into multiple fields
-                new TrackingMessageField( "debug_sim_version", config.getVersion().formatMajorMinorDevRevision() ),
-                new TrackingMessageField( "debug_host_java_version", jre.getVersion() ),
+                new StatisticsMessageField( "debug_sim_version", config.getVersion().formatMajorMinorDevRevision() ),
+                new StatisticsMessageField( "debug_host_java_version", jre.getVersion() ),
         };
         super.addFields( fields );
     }

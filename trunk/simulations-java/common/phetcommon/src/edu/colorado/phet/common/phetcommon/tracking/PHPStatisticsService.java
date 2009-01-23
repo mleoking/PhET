@@ -11,20 +11,20 @@ import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PHPTrackingService implements ITrackingService {
+public class PHPStatisticsService implements IStatisticsService {
     
-    private static final String TRACKING_PATH = "tracking";
-    private static final String TRACKING_SCRIPT = "phet-tracking.php";
+    private static final String STATISTICS_PATH = "tracking";
+    private static final String STATISTICS_SCRIPT = "phet-tracking.php";
 
-    public PHPTrackingService() {}
-    
+    public PHPStatisticsService() {}
+
     /**
      * Delivers a tracking message to PhET.
      * @param message
      */
-    public void postMessage( TrackingMessage message ) throws IOException {
+    public void postMessage( StatisticsMessage message ) throws IOException {
         try {
-            new URL( getTrackingURL( message ) ).openStream().close();
+            new URL( getStatisticsURL( message ) ).openStream().close();
         }
         catch( MalformedURLException e ) {
             e.printStackTrace();
@@ -34,14 +34,14 @@ public class PHPTrackingService implements ITrackingService {
     /*
      * The URL points to a PHP script, with name/value pairs appended to the URL.
      */
-    private static String getTrackingURL( TrackingMessage message ) {
-        return PhetCommonConstants.PHET_HOME_URL + "/" + TRACKING_PATH + "/" + TRACKING_SCRIPT + "?" + toPHP( message );
+    private static String getStatisticsURL( StatisticsMessage message ) {
+        return PhetCommonConstants.PHET_HOME_URL + "/" + STATISTICS_PATH + "/" + STATISTICS_SCRIPT + "?" + toPHP( message );
     }
     
     /*
-     * Converts a tracking message to something that PHP can parse.
+     * Converts a statistics message to something that PHP can parse.
      */
-    private static String toPHP( TrackingMessage message ) {
+    private static String toPHP( StatisticsMessage message ) {
         String php = "";
         for ( int i = 0; i < message.getFieldCount(); i++ ) {
             if ( i > 0 ) {
@@ -53,9 +53,9 @@ public class PHPTrackingService implements ITrackingService {
     }
     
     /*
-     * Converts a tracking message field to something that PHP can parse.
+     * Converts a statistics message field to something that PHP can parse.
      */
-    private static String toPHP( TrackingMessageField field ) {
+    private static String toPHP( StatisticsMessageField field ) {
         return field.getName() + "=" + valueToPHP( field.getValue() );
     }
     

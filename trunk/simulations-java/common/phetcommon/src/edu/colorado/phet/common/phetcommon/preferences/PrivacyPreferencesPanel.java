@@ -14,7 +14,7 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.tracking.ITrackingInfo;
+import edu.colorado.phet.common.phetcommon.tracking.IStatistics;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.HTMLEditorPane;
@@ -30,15 +30,15 @@ public class PrivacyPreferencesPanel extends JPanel {
     private final JCheckBox trackingEnabledCheckBox;
     private final JCheckBox alwaysShowSoftwareAgreementCheckBox;
     
-    public PrivacyPreferencesPanel( ITrackingInfo trackingInfo, PhetPreferences preferences, boolean isDev ) {
+    public PrivacyPreferencesPanel( IStatistics statistics, PhetPreferences preferences, boolean isDev ) {
         
         this.preferences = preferences;
         
         // feature description
-        JComponent description = new DescriptionPane( trackingInfo );
+        JComponent description = new DescriptionPane( statistics );
         
         // enable check box
-        trackingEnabledCheckBox = new JCheckBox( TRACKING_ENABLED, preferences.isTrackingEnabled() );
+        trackingEnabledCheckBox = new JCheckBox( TRACKING_ENABLED, preferences.isStatisticsEnabled() );
         
         // developer control to always show the software agreement dialog, not localized
         alwaysShowSoftwareAgreementCheckBox = new JCheckBox( "Always show Software Agreement (dev)", preferences.isAlwaysShowSoftwareAgreement() );
@@ -60,7 +60,7 @@ public class PrivacyPreferencesPanel extends JPanel {
      * Saves the preference values in this panel.
      */
     public void save() {
-        preferences.setTrackingEnabled( trackingEnabledCheckBox.isSelected() );
+        preferences.setStatisticsEnabled( trackingEnabledCheckBox.isSelected() );
         preferences.setAlwaysShowSoftwareAgreement( alwaysShowSoftwareAgreementCheckBox.isSelected() );
     }
 
@@ -75,7 +75,7 @@ public class PrivacyPreferencesPanel extends JPanel {
         // identifiers for hyperlink actions
         private static final String LINK_SHOW_TRACKING_DETAILS = "showTrackingDetails";
 
-        public DescriptionPane( final ITrackingInfo trackingInfo ) {
+        public DescriptionPane( final IStatistics trackingInfo ) {
             super( "" );
             
             // insert our own hyperlink descriptions into the message, so translators can't mess them up
@@ -97,12 +97,12 @@ public class PrivacyPreferencesPanel extends JPanel {
             } );
         }
         
-        private static void showTrackingDetails( Window owner, ITrackingInfo trackingInfo ) {
+        private static void showTrackingDetails( Window owner, IStatistics statistics ) {
             if ( owner instanceof Frame ) {
-                new TrackingDetailsDialog( (Frame) owner, trackingInfo ).setVisible( true );
+                new StatisticsDetailsDialog( (Frame) owner, statistics ).setVisible( true );
             }
             else if ( owner instanceof Dialog ) {
-                new TrackingDetailsDialog( (Dialog) owner, trackingInfo ).setVisible( true );
+                new StatisticsDetailsDialog( (Dialog) owner, statistics ).setVisible( true );
             }
         }
     }

@@ -8,37 +8,37 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.GrayRectWorkaroundDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.tracking.ITrackingInfo;
+import edu.colorado.phet.common.phetcommon.tracking.IStatistics;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
  * Dialog that appears when you press the "Details" button in the Tracking preferences panel.
  */
-public class TrackingDetailsDialog extends GrayRectWorkaroundDialog {
+public class StatisticsDetailsDialog extends GrayRectWorkaroundDialog {
     
     private static final String TITLE = PhetCommonResources.getString( "Common.tracking.details.title" );
     private static final String DESCRIPTION = PhetCommonResources.getString( "Common.tracking.details.description" );
     private static final String CLOSE_BUTTON = PhetCommonResources.getString( "Common.choice.close" );
 
-    public TrackingDetailsDialog( Frame owner, ITrackingInfo trackingInfo ) {
+    public StatisticsDetailsDialog( Frame owner, IStatistics statistics ) {
         super( owner );
-        init( trackingInfo );
+        init( statistics );
     }
     
-    public TrackingDetailsDialog( Dialog owner, ITrackingInfo trackingInfo ) {
+    public StatisticsDetailsDialog( Dialog owner, IStatistics statistics ) {
         super( owner );
-        init( trackingInfo );
+        init( statistics );
     }
-    
-    private void init( ITrackingInfo trackingInfo ) {
+
+    private void init( IStatistics statistics ) {
         
         setTitle( TITLE );
         setModal( true );
         setResizable( false ); //TODO layout doesn't adjust properly when resized
 
         JComponent description = createDescription();
-        JComponent report = createReport( trackingInfo );
+        JComponent report = createReport( statistics );
         JComponent buttonPanel = createButtonPanel();
 
         JPanel panel = new JPanel();
@@ -61,10 +61,10 @@ public class TrackingDetailsDialog extends GrayRectWorkaroundDialog {
         return new JLabel( DESCRIPTION );
     }
     
-    protected JComponent createReport( ITrackingInfo trackingInfo ) {
+    protected JComponent createReport( IStatistics statistics ) {
         
         final JTextArea textArea = new JTextArea( "" );
-        final String text = trackingInfo.getHumanReadableTrackingInformation();
+        final String text = statistics.getHumanReadableStatistics();
         if ( text != null ) {
             textArea.setText( text );
         }

@@ -20,6 +20,7 @@ public class PhetPreferences {
 
     // if we don't have access permissions, this file will be null 
     private static File PREFERENCES_FILE;
+
     static {
         try {
             PREFERENCES_FILE = new PhetPreferencesFile();
@@ -42,7 +43,7 @@ public class PhetPreferences {
     // property keys
     public static final String KEY_PREFERENCES_FILE_CREATION_TIME = "preferences-file-creation-time.milliseconds";
     private static final String KEY_UPDATES_ENABLED = "all-sims.updates.enabled";
-    private static final String KEY_TRACKING_ENABLED = "all-sims.tracking.enabled";
+    private static final String KEY_STATISTICS_ENABLED = "all-sims.tracking.enabled";
     private static final String KEY_SOFTWARE_AGREEMENT_VERSION = "all-sims.software-agreement-version";
     
     // property key patterns
@@ -81,7 +82,7 @@ public class PhetPreferences {
     private void setDefaults() {
         setPreferencesFileCreationTimeNow();
         setUpdatesEnabled( true );
-        setTrackingEnabled( true );
+        setStatisticsEnabled( true );
         setAlwaysShowSoftwareAgreement( false );
     }
 
@@ -92,12 +93,12 @@ public class PhetPreferences {
         return instance;
     }
 
-    public void setTrackingEnabled( boolean b ) {
-        setBooleanProperty( KEY_TRACKING_ENABLED, b );
+    public void setStatisticsEnabled( boolean b ) {
+        setBooleanProperty( KEY_STATISTICS_ENABLED, b );
     }
 
-    public boolean isTrackingEnabled() {
-        return getBooleanProperty( KEY_TRACKING_ENABLED );
+    public boolean isStatisticsEnabled() {
+        return getBooleanProperty( KEY_STATISTICS_ENABLED );
     }
 
     public void setUpdatesEnabled( boolean b ) {
