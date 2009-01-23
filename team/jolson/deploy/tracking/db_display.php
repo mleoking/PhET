@@ -53,14 +53,6 @@
 	display_table("java_timezone");
 	display_table("session_java_info");
 	
-?>
-<h1>Joined Data (View Tables)</h1>
-<?php
-	display_table("simulation");
-	display_table("flash_simulation");
-	display_table("java_simulation");
-	
-	
 	mysql_close($link);
 	
 ?>

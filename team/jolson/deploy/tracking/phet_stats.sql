@@ -250,6 +250,7 @@ CREATE TABLE session_java_info (
 
 # VIEW TABLES
 
+/*
 # recombines information about all simulations
 DROP VIEW simulation;
 CREATE VIEW simulation AS (
@@ -383,7 +384,7 @@ CREATE VIEW java_simulation AS (
 		AND session_java_info.host_java_timezone = java_timezone.id
 	)
 );
-
+*/
 
 
 
