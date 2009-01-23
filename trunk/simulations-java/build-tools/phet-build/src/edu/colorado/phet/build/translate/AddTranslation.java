@@ -263,7 +263,7 @@ public class AddTranslation {
      * @throws JSchException
      */
     private void deployJAR( PhetProject phetProject, String jarBaseName, String user, String password ) throws JSchException, IOException {
-        final String filename = getRemoteDirectory( phetProject ) + jarBaseName + ".jar";
+        final String filename = getRemoteDirectory( phetProject ) + jarBaseName + "_all.jar";
         ScpTo.uploadFile( getJARTempFile( phetProject, jarBaseName ), user, "tigercat.colorado.edu", filename, password );
     }
 

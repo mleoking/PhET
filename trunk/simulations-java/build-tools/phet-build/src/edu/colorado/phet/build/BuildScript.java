@@ -284,15 +284,14 @@ public class BuildScript {
     public boolean build() {
         try {
             new PhetBuildCommand( project, new MyAntTaskRunner(), true, project.getDefaultDeployJar() ).execute();
-            FileUtils.copyTo( project.getDefaultDeployJar(), new File( project.getDeployDir(), "" + project.getName() + "_all.jar" ) );
-
             System.out.println( "**** Finished BuildScript.build" );
+            
             File[] f = project.getDeployDir().listFiles( new FileFilter() {
                 public boolean accept( File pathname ) {
                     return pathname.getName().toLowerCase().endsWith( ".jar" );
                 }
             } );
-            return f.length > 0;//success if there is at least one jar
+            return f.length ==1;//success if there is exactly one jar
         }
         catch( Exception e ) {
             e.printStackTrace();
