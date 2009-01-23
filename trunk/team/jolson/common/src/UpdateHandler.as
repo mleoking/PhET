@@ -83,6 +83,19 @@ class UpdateHandler {
 		// CHANGE ME
 		// needs to be changed to the path of the version script for each simulation
 		xml.load("http://phet.colorado.edu/jolson/deploy/sims/version.php?" + _level0.simName);
+		
+		var testXML : XML = new XML();
+		testXML.ignoreWhite = true;
+		testXML.onLoad = function(success : Boolean) {
+			if(success) {
+				_level0.debug("UpdateHandler: TEST: success of message\n");
+				_level0.debug(String(testXML) + "\n");
+			} else {
+				_level0.debug("UpdateHandler: TEST: failure of message\n");
+			}
+		}
+		
+		testXML.load("http://phet.colorado.edu/simulations/sim-version-info.php?project=" + _level0.simName + "&sim=" + _level0.simName);
 	}
 	
 	public function manualCheck() : Void {
