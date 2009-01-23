@@ -40,19 +40,19 @@ class ArrowSetNode(ladybug: Ladybug, transform: ModelViewTransform2D, vectorVisi
   addChild(accelNode)
 
   ladybug addListener update
-  update(ladybug)
-  vectorVisibilityModel.addListener(() => update(ladybug))
+  update()
+  vectorVisibilityModel.addListener(() => update())
   setPickable(false)
   setChildrenPickable(false)
 
-  def update(a: Ladybug) {
-    val viewPosition = transform modelToView a.getPosition
-    val viewVelocity = transform modelToViewDifferentialDouble a.getVelocity
+  def update() {
+    val viewPosition = transform modelToView ladybug.getPosition
+    val viewVelocity = transform modelToViewDifferentialDouble ladybug.getVelocity
     val velTip = viewPosition + viewVelocity * 0.6 * 0.55
     //    println(velTip)
     velocityNode.setTipAndTailLocations(velTip, viewPosition)
 
-    val viewAccel = transform modelToViewDifferentialDouble a.getAcceleration
+    val viewAccel = transform modelToViewDifferentialDouble ladybug.getAcceleration
     accelNode.setTipAndTailLocations(viewPosition + viewAccel * 0.0675 * 1.2, viewPosition)
 
     accelNode.setVisible(vectorVisibilityModel.accelerationVectorVisible)
