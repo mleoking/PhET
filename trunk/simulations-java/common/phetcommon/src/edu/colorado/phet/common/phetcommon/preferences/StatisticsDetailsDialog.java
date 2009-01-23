@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
- * Dialog that appears when you press the "Details" button in the Tracking preferences panel.
+ * Dialog that appears when you press the "Details" button in the Statistics preferences panel.
  */
 public class StatisticsDetailsDialog extends GrayRectWorkaroundDialog {
     

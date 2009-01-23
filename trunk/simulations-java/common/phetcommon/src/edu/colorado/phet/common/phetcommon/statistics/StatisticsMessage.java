@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * TrackingMessage is the base class for statistics messages sent by a simulation.
+ * StatisticsMessage is the base class for statistics messages sent by a simulation.
  * It populates fields common to all messages.
  * A message consists of fields, which are name/value pairs.
  * 

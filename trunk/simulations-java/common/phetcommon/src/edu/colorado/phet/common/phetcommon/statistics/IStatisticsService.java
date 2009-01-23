@@ -3,7 +3,7 @@ package edu.colorado.phet.common.phetcommon.statistics;
 import java.io.IOException;
 
 /**
- * ITrackingService is the interface implemented by all statistics services.
+ * IStatisticsService is the interface implemented by all statistics services.
  * A statistics service delivers a statistics message to PhET.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)

@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.util.DeploymentScenario;
 import edu.colorado.phet.common.phetcommon.util.JavaVersion.JREVersion;
 
 /**
- * Tracking message sent when the simulation starts, indicating the start of the session.
+ * Statistics message sent when the simulation starts, indicating the start of the session.
  * This message sends lots of general information about the simulation and the user's 
  * runtime environment.
  *
