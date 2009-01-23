@@ -75,7 +75,6 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
     /**
      * Constructor
      *
-     * @param module
      */
     public GreenhouseControlPanel( final GreenhouseModule module ) {
 

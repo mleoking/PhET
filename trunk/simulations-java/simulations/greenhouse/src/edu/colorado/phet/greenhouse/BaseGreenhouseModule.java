@@ -37,7 +37,6 @@ public abstract class BaseGreenhouseModule extends Module {
     // that shows up on the screen
     private int invisiblePhotonCnt = 10;
     private Earth earth;
-    private Rectangle2D.Double initialModelBounds;
     HashMap scatterToGraphicMap = new HashMap();
 
     private static final double EARTH_DIAM = Earth.radius * 2;
@@ -63,9 +62,9 @@ public abstract class BaseGreenhouseModule extends Module {
 
         // Set up the model and apparatus panel
         double modelHeight = EARTH_DIAM + SUN_DIAM + SUN_EARTH_DIST * 2;
-        initialModelBounds = new Rectangle2D.Double( -modelHeight * 4 / 3 / 2, -EARTH_DIAM * 20,
-                                                     modelHeight * 4 / 3,
-                                                     modelHeight );
+        Rectangle2D.Double initialModelBounds = new Rectangle2D.Double( -modelHeight * 4 / 3 / 2, -EARTH_DIAM * 20,
+                                                                        modelHeight * 4 / 3,
+                                                                        modelHeight );
         modelHeight = exposedEarth + Atmosphere.troposphereThickness;
         finalModelBounds = new Rectangle2D.Double( -modelHeight * 4 / 3 / 2, -exposedEarth,
                                                    modelHeight * 4 / 3,
@@ -157,7 +156,7 @@ public abstract class BaseGreenhouseModule extends Module {
 
             ( (TestApparatusPanel) getApparatusPanel() ).setModelBounds( finalModelBounds );
             thermometerEnabled( true );
-            ( (TestApparatusPanel) getApparatusPanel() ).setAffineTransformFactory( new FlipperAffineTransformFactory( finalModelBounds ) );
+            getApparatusPanel().setAffineTransformFactory( new FlipperAffineTransformFactory( finalModelBounds ) );
             sun.setProductionRate( GreenhouseConfig.defaultSunPhotonProductionRate );
         }
     }
@@ -191,7 +190,6 @@ public abstract class BaseGreenhouseModule extends Module {
             model.photonAbsorbed( photon );
         }
 
-        photons = model.getPhotons();
         model.getPhotons().clear();
         sun.setProductionRate( GreenhouseConfig.defaultSunPhotonProductionRate );
 
