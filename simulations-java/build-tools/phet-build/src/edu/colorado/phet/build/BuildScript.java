@@ -186,7 +186,7 @@ public class BuildScript {
 
 
     private void sendSSH( PhetServer server, AuthenticationInfo authenticationInfo ) {
-        SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword() );
+        SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername( server.getHost() ), authenticationInfo.getPassword( server.getHost() ) );
         String remotePathDir = server.getPath( project );
         try {
             sshConnection.connect();
@@ -211,7 +211,7 @@ public class BuildScript {
             else {
                 //server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword()
                 try {
-                    ScpTo.uploadFile( f[i], authenticationInfo.getUsername(), server.getHost(), remotePathDir + "/" + f[i].getName(), authenticationInfo.getPassword() );
+                    ScpTo.uploadFile( f[i], authenticationInfo.getUsername( server.getHost() ), server.getHost(), remotePathDir + "/" + f[i].getName(), authenticationInfo.getPassword( server.getHost() ) );
                 }
                 catch( JSchException e ) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -248,8 +248,8 @@ public class BuildScript {
     }
 
     private void commitProject() {
-        String svnusername = svnAuth.getUsername();
-        String svnpassword = svnAuth.getPassword();
+        String svnusername = svnAuth.getUsername( "svn" );
+        String svnpassword = svnAuth.getPassword( "svn" );
         String message = project.getName() + ": deployed version " + project.getVersionString();
         String path = project.getProjectDir().getAbsolutePath();
         String[] args = new String[]{"svn", "commit", "--username", svnusername, "--password", svnpassword, "--message", message, path};
@@ -447,7 +447,7 @@ public class BuildScript {
     }
 
     public static void generateSimulationAndLanguageJARFiles( PhetProject project, PhetServer server, AuthenticationInfo authenticationInfo ) {
-        SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword() );
+        SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername( server.getHost() ), authenticationInfo.getPassword( server.getHost() ) );
         try {
             sshConnection.connect();
             for ( int i = 0; i < project.getSimulationNames().length; i++ ) {
