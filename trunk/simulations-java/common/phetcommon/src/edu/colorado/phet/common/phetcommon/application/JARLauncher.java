@@ -54,8 +54,7 @@ public class JARLauncher extends JFrame implements IProguardKeepClass {
     /**
      * Constructor.
      *
-     * @param args command line arguments
-     * @param info
+     * @param info an array containing information about all simulations in this project
      */
     public JARLauncher( SimulationInfo[] info ) {
         super();
@@ -382,7 +381,7 @@ public class JARLauncher extends JFrame implements IProguardKeepClass {
                 }
             }
         }
-        return (String[]) flavors.toArray( new String[0] );
+        return (String[]) flavors.toArray( new String[flavors.size()] );
     }
 
     private static SimulationInfo[] getSimInfo( Properties prop, String[] commandlineArgs ) {
@@ -400,7 +399,7 @@ public class JARLauncher extends JFrame implements IProguardKeepClass {
                 return info1.getTitle().compareToIgnoreCase( info2.getTitle() );
             }
         } );
-        return (SimulationInfo[]) fx.toArray( new SimulationInfo[0] );
+        return (SimulationInfo[]) fx.toArray( new SimulationInfo[fx.size()] );
     }
 
     private static SimulationInfo getFlavor( Properties prop, String flavor, String[] commandlineArgs ) {
@@ -419,11 +418,9 @@ public class JARLauncher extends JFrame implements IProguardKeepClass {
             list.add( stringTokenizer.nextToken() );
         }
         // add the commandline args to the collection (do this last)
-        for ( int i = 0; i < commandlineArgs.length; i++ ) {
-            list.add( commandlineArgs[i] );
-        }
+        list.addAll( Arrays.asList( commandlineArgs ) );
         // return an array
-        return (String[]) list.toArray( new String[0] );
+        return (String[]) list.toArray( new String[list.size()] );
     }
 
     private static String getTitle( Properties prop, String flavor ) {
