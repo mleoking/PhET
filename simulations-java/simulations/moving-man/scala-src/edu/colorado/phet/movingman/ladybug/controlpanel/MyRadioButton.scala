@@ -11,6 +11,4 @@ class MyRadioButton(text: String, actionListener: => Unit, getter: => Boolean, a
     def actionPerformed(ae: ActionEvent) = actionListener
   });
   def update() = peer.setSelected(getter)
-
-  def this(text: String, actionListener: => Unit, getter: => Boolean, model: ObservableS) = this (text, actionListener, getter, model.addListener _)
 }

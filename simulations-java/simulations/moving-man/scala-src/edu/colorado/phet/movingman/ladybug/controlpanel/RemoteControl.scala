@@ -132,9 +132,9 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
   addListener(() => {
     updateNode
   })
-  add(new MyRadioButton("Position", mode = positionMode, mode == positionMode, this))
-  add(new MyRadioButton("Velocity", mode = velocityMode, mode == velocityMode, this))
-  add(new MyRadioButton("Acceleration", mode = accelerationMode, mode == accelerationMode, this))
+  add(new MyRadioButton("Position", mode = positionMode, mode == positionMode, this.addListener))
+  add(new MyRadioButton("Velocity", mode = velocityMode, mode == velocityMode, this.addListener))
+  add(new MyRadioButton("Acceleration", mode = accelerationMode, mode == accelerationMode, this.addListener))
   setFillNone
 
 }
