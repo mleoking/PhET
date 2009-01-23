@@ -52,10 +52,7 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
     contents += new Label("Choose Motion          ") {font = new PhetFont(14, true)}
 
     class MyRadioButtonWithEnable(text: String, actionListener: => Unit, getter: => Boolean, observable: ObservableS, shouldBeEnabled: () => Boolean, enableObservable: ObservableS) extends MyRadioButton(text, actionListener, getter, observable) {
-      enableObservable.addListener(() => {
-        val beEnabled: Boolean = shouldBeEnabled()
-        peer.setEnabled(beEnabled)
-      })
+      enableObservable.addListener(() => peer.setEnabled(shouldBeEnabled()))
     }
 
     contents += new MyRadioButtonWithEnable("Manual", m.motion = MANUAL, m.motion == MANUAL, m, () => module.model.readyForInteraction, module.model)
