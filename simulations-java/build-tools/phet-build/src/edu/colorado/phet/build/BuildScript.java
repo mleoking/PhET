@@ -286,7 +286,7 @@ public class BuildScript {
         try {
             new PhetBuildCommand( project, new MyAntTaskRunner(), true, project.getDefaultDeployJar() ).execute();
             System.out.println( "**** Finished BuildScript.build" );
-            
+
             File[] f = project.getDeployDir().listFiles( new FileFilter() {
                 public boolean accept( File pathname ) {
                     return pathname.getName().toLowerCase().endsWith( ".jar" );
@@ -439,19 +439,19 @@ public class BuildScript {
                     public boolean invoke() {
                         System.out.println( "Invoking server side scripts to generate simulation and language JAR files" );
                         if ( !dryRun ) {
-                            generateSimulationAndLanguageJARFiles(project, PhetServer.PRODUCTION, prodAuth );
+                            generateSimulationAndLanguageJARFiles( project, PhetServer.PRODUCTION, prodAuth );
                         }
                         return true;
                     }
                 } );
     }
 
-    public static void generateSimulationAndLanguageJARFiles( PhetProject project,PhetServer server, AuthenticationInfo authenticationInfo ) {
+    public static void generateSimulationAndLanguageJARFiles( PhetProject project, PhetServer server, AuthenticationInfo authenticationInfo ) {
         SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword() );
         try {
             sshConnection.connect();
             for ( int i = 0; i < project.getSimulationNames().length; i++ ) {
-                String command = "cd /web/htdocs/phet/cl_utils/ ; /web/htdocs/phet/cl_utils/update-localized-jars.php " + project.getName() + " " + project.getSimulationNames()[i];
+                String command = "/web/chroot/phet/usr/local/apache/htdocs/cl_utils/create-localized-jars.py " + project.getName() + " " + project.getSimulationNames()[i];
                 System.out.println( "Running command: " + command );
 
                 sshConnection.executeTask( new SshCommand( command ) );
