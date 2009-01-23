@@ -60,7 +60,8 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
                 }
                 Component component = e.getComponent();
                 Rectangle2D newBounds = component.getBounds();
-                double scale = newBounds.getWidth() / origBounds.getWidth();
+//                double scale = newBounds.getWidth() / origBounds.getWidth();
+                double scale = 1;
                 scaleTx = AffineTransform.getScaleInstance( scale, scale );
             }
         } );
