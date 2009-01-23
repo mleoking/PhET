@@ -48,10 +48,6 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class TestHelpBalloon extends PhetApplication {
 
-    private static final String VERSION = "0.00.01";
-    private static final String TITLE = "TestHelpBalloon";
-    private static final String DESCRIPTION = "test harness for HelpBalloon";
-
     // Clock parameters
     private static final int CLOCK_RATE = 25; // wall time: frames per second
     private static final double MODEL_RATE = 1; // model time: dt per clock tick
