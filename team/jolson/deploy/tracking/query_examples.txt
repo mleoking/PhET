@@ -24,6 +24,10 @@ Before modification: 386 MB total, 82 MB indices
 	db_test_report: 346.33
 	pendulum-lab: 19.46 / 19.67
 
+(( TONS OF INDICES )) : 1.4 GB total, 1.1 GB indices
+	db_test_report: 408.65
+	pendulum-lab: 35.43
+
 
 // get locales
 SELECT DISTINCT session.sim_locale_language, session.sim_locale_country FROM session, (SELECT id FROM sim_name WHERE name = 'pendulum-lab') AS x WHERE (session.sim_name = x.id);
