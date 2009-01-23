@@ -11,7 +11,8 @@ public class GreenhouseResources {
     private static final PhetResources RESOURCES = new PhetResources( GreenhouseConfig.PROJECT_NAME );
 
     /* not intended for instantiation */
-    private GreenhouseResources() {}
+    private GreenhouseResources() {
+    }
 
     public static final PhetResources getResourceLoader() {
         return RESOURCES;

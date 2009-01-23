@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.greenhouse.common.graphics;
 
-import java.awt.geom.AffineTransform;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 
 public interface AffineTransformFactory {
     AffineTransform getTx( Rectangle outputRectangle );

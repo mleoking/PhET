@@ -7,9 +7,9 @@
 package edu.colorado.phet.greenhouse.view;
 
 
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
-import java.awt.*;
 
 import edu.colorado.phet.greenhouse.common.graphics.AffineTransformFactory;
 
@@ -31,6 +31,7 @@ public class FlipperAffineTransformFactory implements AffineTransformFactory {
     /**
      * Returns an affine transform that will transform from model to
      * view coordinates, and invert the y axis.
+     *
      * @param viewBounds
      * @return
      */

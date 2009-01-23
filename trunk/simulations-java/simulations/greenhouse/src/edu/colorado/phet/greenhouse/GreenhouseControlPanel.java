@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.greenhouse;
 
 import java.awt.*;
@@ -471,7 +470,7 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
             TitledBorder titledBorder = BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), title );
             titledBorder.setTitleColor( panelForeground );
             setBorder( titledBorder );
-            
+
             // grid of labels and concentrations
             EasyGridBagLayout layout = new EasyGridBagLayout( this );
             layout.setFill( GridBagConstraints.HORIZONTAL );
@@ -511,9 +510,9 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
             int rowIdx = 0;
             try {
                 SwingUtils.addGridBagComponent( this, new JLabel( title ), 0, rowIdx++, 1, 1,
-                                                  GridBagConstraints.NONE, GridBagConstraints.CENTER );
+                                                GridBagConstraints.NONE, GridBagConstraints.CENTER );
                 SwingUtils.addGridBagComponent( this, slider, 0, rowIdx++, 1, 1,
-                                                  GridBagConstraints.NONE, GridBagConstraints.CENTER );
+                                                GridBagConstraints.NONE, GridBagConstraints.CENTER );
             }
             catch( AWTException e ) {
                 e.printStackTrace();
@@ -621,11 +620,11 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
             int rowIdx = 0;
             try {
                 SwingUtils.addGridBagComponent( this, new JLabel( title ), 0, rowIdx++, 1, 1,
-                                                  GridBagConstraints.NONE, GridBagConstraints.CENTER );
+                                                GridBagConstraints.NONE, GridBagConstraints.CENTER );
                 SwingUtils.addGridBagComponent( this, slider, 0, rowIdx++, 1, 1,
-                                                  GridBagConstraints.NONE, GridBagConstraints.CENTER );
+                                                GridBagConstraints.NONE, GridBagConstraints.CENTER );
                 SwingUtils.addGridBagComponent( this, modelValueTF, 0, rowIdx++, 1, 1,
-                                                  GridBagConstraints.NONE, GridBagConstraints.CENTER );
+                                                GridBagConstraints.NONE, GridBagConstraints.CENTER );
             }
             catch( AWTException e ) {
                 e.printStackTrace();  //To change body of catch statement use Options | File Templates.
@@ -655,7 +654,7 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
             updateTemperatureUnits();
         }
     }
-    
+
     private void updateTemperatureUnits() {
         if ( fahrenheitRB.isSelected() ) {
             GreenhouseConfig.TEMPERATURE_UNITS = GreenhouseConfig.FAHRENHEIT;

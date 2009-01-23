@@ -11,6 +11,7 @@ package edu.colorado.phet.greenhouse.util;
  * This class represents mathmatical vectors. It has package visibility,
  * and is intended to be subclassed to represent vectors of specific
  * dimensionalities.
+ *
  * @see edu.colorado.phet.greenhouse.util.Vector2D
  */
 public class PhysicalVector {
@@ -31,13 +32,13 @@ public class PhysicalVector {
 
     public boolean equals( Object obj ) {
         boolean result = true;
-        if( this.getClass() != obj.getClass() ) {
+        if ( this.getClass() != obj.getClass() ) {
             result = false;
         }
         else {
-            PhysicalVector that = (PhysicalVector)obj;
-            for( int i = 0; result == true && i < scalars.length; i++ ) {
-                if( this.scalars[i] != that.scalars[i] ) {
+            PhysicalVector that = (PhysicalVector) obj;
+            for ( int i = 0; result == true && i < scalars.length; i++ ) {
+                if ( this.scalars[i] != that.scalars[i] ) {
                     result = false;
                 }
             }
@@ -47,14 +48,14 @@ public class PhysicalVector {
 
     public float getMagnitudeSq() {
         float sum = 0;
-        for( int i = 0; i < scalars.length; i++ ) {
+        for ( int i = 0; i < scalars.length; i++ ) {
             sum += scalars[i] * scalars[i];
         }
         return sum;
     }
 
     public float getMagnitude() {
-        return (float)Math.sqrt( getMagnitudeSq() );
+        return (float) Math.sqrt( getMagnitudeSq() );
     }
 
     public float getLength() {
@@ -64,7 +65,7 @@ public class PhysicalVector {
     protected PhysicalVector add( PhysicalVector that, PhysicalVector result ) {
 
         // TODO check that vectors are the same length, or class
-        for( int i = 0; i < scalars.length; i++ ) {
+        for ( int i = 0; i < scalars.length; i++ ) {
             result.scalars[i] = this.scalars[i] + that.scalars[i];
         }
         return result;
@@ -76,7 +77,7 @@ public class PhysicalVector {
     }
 
     protected PhysicalVector multiply( float scale, PhysicalVector result ) {
-        for( int i = 0; i < scalars.length; i++ ) {
+        for ( int i = 0; i < scalars.length; i++ ) {
             result.scalars[i] = scalars[i] * scale;
         }
         return result;
@@ -87,24 +88,24 @@ public class PhysicalVector {
         // TODO check that vectors are the same length, or class
 
         float result = 0;
-        for( int i = 0; i < scalars.length; i++ ) {
+        for ( int i = 0; i < scalars.length; i++ ) {
             result += this.scalars[i] * that.scalars[i];
         }
         return result;
     }
 
     public float distance( PhysicalVector that ) {
-        return (float)Math.sqrt( distanceSquared( that ) );
+        return (float) Math.sqrt( distanceSquared( that ) );
     }
 
     public float distanceSquared( PhysicalVector that ) {
 
         // Check that operation can be done
-        if( this.scalars.length != that.scalars.length ) {
+        if ( this.scalars.length != that.scalars.length ) {
             throw new RuntimeException( "Vectors of different dimensionalities set to PhysicalVector.distanceSquared" );
         }
         float result = 0;
-        for( int i = 0; i < scalars.length; i++ ) {
+        for ( int i = 0; i < scalars.length; i++ ) {
             float diff = this.scalars[i] - that.scalars[i];
             result += diff * diff;
         }
@@ -115,7 +116,7 @@ public class PhysicalVector {
 
         // TODO check that vectors are the same length, or class
 
-        for( int i = 0; i < scalars.length; i++ ) {
+        for ( int i = 0; i < scalars.length; i++ ) {
             result.scalars[i] = this.scalars[i] - that.scalars[i];
         }
         return result;
