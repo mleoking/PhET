@@ -24,7 +24,7 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.HTMLEditorPane;
  */
 public class PrivacyPreferencesPanel extends JPanel {
 
-    private static final String STATISTICS_ENABLED = PhetCommonResources.getString( "Common.tracking.enabled" );
+    private static final String STATISTICS_ENABLED = PhetCommonResources.getString( "Common.statistics.enabled" );
     
     private final PhetPreferences preferences;
     private final JCheckBox statisticsEnabledCheckBox;
@@ -70,7 +70,7 @@ public class PrivacyPreferencesPanel extends JPanel {
      */
     private static class DescriptionPane extends HTMLEditorPane {
         
-        private static final String DESCRIPTION_PATTERN = PhetCommonResources.getString( "Common.tracking.description" );
+        private static final String DESCRIPTION_PATTERN = PhetCommonResources.getString( "Common.statistics.description" );
 
         // identifiers for hyperlink actions
         private static final String LINK_SHOW_STATISTICS_DETAILS = "showTrackingDetails";

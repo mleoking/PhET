@@ -17,8 +17,8 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  */
 public class StatisticsDetailsDialog extends GrayRectWorkaroundDialog {
     
-    private static final String TITLE = PhetCommonResources.getString( "Common.tracking.details.title" );
-    private static final String DESCRIPTION = PhetCommonResources.getString( "Common.tracking.details.description" );
+    private static final String TITLE = PhetCommonResources.getString( "Common.statistics.details.title" );
+    private static final String DESCRIPTION = PhetCommonResources.getString( "Common.statistics.details.description" );
     private static final String CLOSE_BUTTON = PhetCommonResources.getString( "Common.choice.close" );
 
     public StatisticsDetailsDialog( Frame owner, IStatistics statistics ) {

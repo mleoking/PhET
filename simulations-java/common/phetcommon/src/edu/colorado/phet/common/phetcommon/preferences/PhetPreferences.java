@@ -43,7 +43,7 @@ public class PhetPreferences {
     // property keys
     public static final String KEY_PREFERENCES_FILE_CREATION_TIME = "preferences-file-creation-time.milliseconds";
     private static final String KEY_UPDATES_ENABLED = "all-sims.updates.enabled";
-    private static final String KEY_STATISTICS_ENABLED = "all-sims.tracking.enabled";
+    private static final String KEY_STATISTICS_ENABLED = "all-sims.statistics.enabled";
     private static final String KEY_SOFTWARE_AGREEMENT_VERSION = "all-sims.software-agreement-version";
     
     // property key patterns
