@@ -10,14 +10,6 @@ trait ObservableS {
   def addListener(listener: () => Unit) = listeners += listener
 }
 
-class Observable[T] {
-  private val listeners = new ArrayBuffer[T => Unit]
-
-  def notifyListeners(obj: T): Unit = listeners.foreach(_(obj))
-
-  def addListener(listener: T => Unit) = listeners += listener
-}
-
 case class LadybugState(_position: Vector2D, _velocity: Vector2D, _acceleration: Vector2D, _angle: Double) {
   val position = _position
   val velocity = _velocity
