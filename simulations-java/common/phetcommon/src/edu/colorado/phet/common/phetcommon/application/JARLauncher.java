@@ -251,49 +251,6 @@ public class JARLauncher extends JFrame implements IProguardKeepClass {
         }
     }
 
-    public static void main( String args[] ) throws IOException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ClassNotFoundException {
-        //Read flavors:
-        Properties prop = new Properties();
-
-        String projectPropertiesFilename = "project.properties";
-        URL resource = Thread.currentThread().getContextClassLoader().getResource( projectPropertiesFilename );
-        if ( resource != null ) {//works running from a JAR file
-            prop.load( resource.openStream() );
-        }
-        else {//fallback plan in case not running in a JAR file
-            final File file = new File( projectPropertiesFilename );
-            System.out.println( "JARLauncher: attempting to load properties from " + file.getAbsolutePath() );
-            prop.load( new FileInputStream( file ) );
-        }
-
-        SimulationInfo[] info = getSimInfo( prop, args );
-        if ( info.length == 0 ) {
-            throw new RuntimeException( "No flavors found." );
-        }
-
-        setLocaleForOfflineJARsOLD();
-        setLocaleForOfflineJARs();
-
-        URL mainURL = Thread.currentThread().getContextClassLoader().getResource( "main-flavor.properties" );
-        if ( mainURL != null ) {
-            Properties flavorProperties = new Properties();
-            flavorProperties.load( mainURL.openStream() );
-            String mainFlavor = flavorProperties.getProperty( "main.flavor" );
-            System.out.println( "JARLauncher: launching " + mainFlavor );
-            launchFlavor( info, mainFlavor );
-        }
-
-        else if ( info.length == 1 ) {
-            System.out.println( "JARLauncher: found one flavor, launching " + info[0].getTitle() );
-            info[0].launch();
-        }
-        else {
-            JARLauncher launcher = new JARLauncher( info );
-            SwingUtils.centerWindowOnScreen( launcher );
-            launcher.setVisible( true );
-        }
-    }
-
     /**
      * @deprecated included for backward compatibility, should be deleted after all sims are redeployed
      */
@@ -435,6 +392,49 @@ public class JARLauncher extends JFrame implements IProguardKeepClass {
         }
         else {
             return prop.getProperty( "project.flavor." + flavor + ".title" );
+        }
+    }
+
+    public static void main( String args[] ) throws IOException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ClassNotFoundException {
+        //Read flavors:
+        Properties prop = new Properties();
+
+        String projectPropertiesFilename = "project.properties";
+        URL resource = Thread.currentThread().getContextClassLoader().getResource( projectPropertiesFilename );
+        if ( resource != null ) {//works running from a JAR file
+            prop.load( resource.openStream() );
+        }
+        else {//fallback plan in case not running in a JAR file
+            final File file = new File( projectPropertiesFilename );
+            System.out.println( "JARLauncher: attempting to load properties from " + file.getAbsolutePath() );
+            prop.load( new FileInputStream( file ) );
+        }
+
+        SimulationInfo[] info = getSimInfo( prop, args );
+        if ( info.length == 0 ) {
+            throw new RuntimeException( "No flavors found." );
+        }
+
+        setLocaleForOfflineJARsOLD();
+        setLocaleForOfflineJARs();
+
+        URL mainURL = Thread.currentThread().getContextClassLoader().getResource( "main-flavor.properties" );
+        if ( mainURL != null ) {
+            Properties flavorProperties = new Properties();
+            flavorProperties.load( mainURL.openStream() );
+            String mainFlavor = flavorProperties.getProperty( "main.flavor" );
+            System.out.println( "JARLauncher: launching " + mainFlavor );
+            launchFlavor( info, mainFlavor );
+        }
+
+        else if ( info.length == 1 ) {
+            System.out.println( "JARLauncher: found one flavor, launching " + info[0].getTitle() );
+            info[0].launch();
+        }
+        else {
+            JARLauncher launcher = new JARLauncher( info );
+            SwingUtils.centerWindowOnScreen( launcher );
+            launcher.setVisible( true );
         }
     }
 }
