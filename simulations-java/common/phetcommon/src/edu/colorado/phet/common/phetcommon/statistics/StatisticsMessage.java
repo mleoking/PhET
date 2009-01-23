@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.phetcommon.tracking;
+package edu.colorado.phet.common.phetcommon.statistics;
 
 import java.util.ArrayList;
 import java.util.Arrays;
