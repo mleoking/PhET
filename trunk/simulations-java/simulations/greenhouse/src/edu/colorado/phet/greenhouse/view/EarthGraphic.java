@@ -7,7 +7,9 @@
  */
 package edu.colorado.phet.greenhouse.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics2D;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
@@ -22,7 +24,6 @@ import java.util.Map;
 
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
-import edu.colorado.phet.greenhouse.common.graphics.Animation;
 import edu.colorado.phet.greenhouse.common.graphics.ApparatusPanel;
 import edu.colorado.phet.greenhouse.common.graphics.Graphic;
 import edu.colorado.phet.greenhouse.common.graphics.ImageGraphic;
