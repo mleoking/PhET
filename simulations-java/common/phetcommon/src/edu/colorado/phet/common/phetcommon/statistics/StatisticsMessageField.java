@@ -1,7 +1,7 @@
 package edu.colorado.phet.common.phetcommon.statistics;
 
 /**
- * TrackingMessageField is a field in a statistics message, consisting of a name/value pair.
+ * StatisticsMessageField is a field in a statistics message, consisting of a name/value pair.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

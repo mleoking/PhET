@@ -7,7 +7,7 @@ import java.net.URL;
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 
 /**
- * Tracking service that uses PHP to deliver a tracking message to PhET.
+ * Statistics service that uses PHP to deliver a statistics message to PhET.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -19,7 +19,7 @@ public class PHPStatisticsService implements IStatisticsService {
     public PHPStatisticsService() {}
 
     /**
-     * Delivers a tracking message to PhET.
+     * Delivers a statistics message to PhET.
      * @param message
      */
     public void postMessage( StatisticsMessage message ) throws IOException {

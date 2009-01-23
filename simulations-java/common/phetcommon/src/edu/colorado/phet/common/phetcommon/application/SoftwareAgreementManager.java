@@ -37,19 +37,19 @@ public class SoftwareAgreementManager {
     /**
      * Ensures that the user has accepted the agreements that pertain to this software.
      */
-    public static void validate( Frame owner, IStatistics trackingInfo ) {
+    public static void validate( Frame owner, IStatistics statistics ) {
         boolean alwaysAsk = PhetPreferences.getInstance().isAlwaysShowSoftwareAgreement();
         int acceptedVersion = PhetPreferences.getInstance().getSoftwareAgreementVersion();
         if ( alwaysAsk || acceptedVersion < SOFTWARE_AGREEMENT_VERSION ) {
-            negotiate( owner, trackingInfo );
+            negotiate( owner, statistics );
         }
     }
 
     /*
     * Negotiates the agreement with the user.
     */
-    private static void negotiate( Frame owner, IStatistics trackingInfo ) {
-        final AcceptanceDialog dialog = new AcceptanceDialog( owner, trackingInfo );
+    private static void negotiate( Frame owner, IStatistics statistics ) {
+        final AcceptanceDialog dialog = new AcceptanceDialog( owner, statistics );
         dialog.setVisible( true );
     }
 
@@ -64,13 +64,13 @@ public class SoftwareAgreementManager {
         
         private JButton acceptButton;
         
-        public AcceptanceDialog( Frame owner, IStatistics trackingInfo ) {
+        public AcceptanceDialog( Frame owner, IStatistics statistics ) {
             super( owner );
             setTitle( TITLE );
             setModal( true );
             setResizable( false );
 
-            JComponent message = createMessagePanel( trackingInfo );
+            JComponent message = createMessagePanel( statistics );
             JComponent buttonPanel = createButtonPanel();
 
             JPanel panel = new JPanel();
@@ -98,8 +98,8 @@ public class SoftwareAgreementManager {
             acceptButton.requestFocusInWindow();
         }
 
-        private JComponent createMessagePanel( IStatistics trackingInfo ) {
-            JComponent htmlPane = new MessagePane( this, trackingInfo );
+        private JComponent createMessagePanel( IStatistics statistics ) {
+            JComponent htmlPane = new MessagePane( this, statistics );
             JPanel panel = new JPanel();
             panel.setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
             panel.add( htmlPane );
@@ -154,21 +154,21 @@ public class SoftwareAgreementManager {
         private static final String MESSAGE_PATTERN = PhetCommonResources.getString( "Common.softwareAgreement.message" );
         
         // identifiers for hyperlink actions
-        private static final String LINK_SHOW_TRACKING_DETAILS = "showTrackingDetails";
+        private static final String LINK_SHOW_STATISTICS_DETAILS = "showTrackingDetails";
         private static final String LINK_SHOW_SOFTWARE_AGREEMENT = "showSoftwareAgreements";
-        
+
         public MessagePane( final JDialog owner, final IStatistics statistics ) {
             super( "" );
             
             // insert our own hyperlink descriptions into the message, so translators can't mess them up
-            Object[] args = { LINK_SHOW_TRACKING_DETAILS, LINK_SHOW_SOFTWARE_AGREEMENT };
+            Object[] args = {LINK_SHOW_STATISTICS_DETAILS, LINK_SHOW_SOFTWARE_AGREEMENT };
             String htmlFragment = MessageFormat.format( MESSAGE_PATTERN, args );
             setText( HTMLUtils.createStyledHTMLFromFragment( htmlFragment ) );
             
             addHyperlinkListener( new HyperlinkListener() {
                 public void hyperlinkUpdate( HyperlinkEvent e ) {
                     if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED ) {
-                        if ( e.getDescription().equals( LINK_SHOW_TRACKING_DETAILS ) ) {
+                        if ( e.getDescription().equals( LINK_SHOW_STATISTICS_DETAILS ) ) {
                             showStatisticsDetails( owner, statistics );
                         }
                         else if ( e.getDescription().equals( LINK_SHOW_SOFTWARE_AGREEMENT ) ) {
