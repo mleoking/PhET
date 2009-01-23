@@ -167,11 +167,15 @@ class LadybugModel extends ObservableS {
     }
   }
 
-  def setPlayback(speed: Double) = {
-    if (speed != playbackSpeed) {
-      playbackSpeed = speed
-      notifyListeners()
+    def setPlaybackSpeed(speed: Double) = {
+        if (speed != playbackSpeed) {
+            playbackSpeed = speed
+            notifyListeners()
+        }
     }
+
+  def setPlayback(speed: Double) = {
+    setPlaybackSpeed(speed)
     setRecord(false)
   }
 
