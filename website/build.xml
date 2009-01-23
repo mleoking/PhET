@@ -125,7 +125,7 @@ build-related libraries from the simulations-java project.
 
             <!-- Set the command line & cron directories so others can't read, and group & owner can read & write & execute -->
             <exec cmd="chmod 0770 ${deploy.live_server.staging}/cl_utils" />
-            <exec cmd="find ${deploy.live_server.staging}/cl_utils/ \( -iname \*.php -o -iname \*.py \) -print0 | xargs -0 chmod 0770" />
+            <exec cmd="find ${deploy.live_server.staging}/cl_utils/ \( -iname \*.php -o -iname \*.py -o -iname \*.sh \) -print0 | xargs -0 chmod 0770" />
             <exec cmd="chmod 0770 ${deploy.live_server.staging}/cron" />
             <exec cmd="find ${deploy.live_server.staging}/cron/ \( -iname \*.php -o -iname \*.py \) -print0 | xargs -0 chmod 0770" />
 
