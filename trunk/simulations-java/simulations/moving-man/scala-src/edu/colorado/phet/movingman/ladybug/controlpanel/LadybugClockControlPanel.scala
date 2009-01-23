@@ -15,12 +15,14 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources
 import edu.colorado.phet.common.phetcommon.resources.PhetResources
 import java.awt.geom.Ellipse2D
 
-import javax.swing.{Icon, JButton, ImageIcon, JPanel}
+import java.util.{Hashtable, Dictionary}
+import javax.swing._
 import model.LadybugModel
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.nodes.PText
 import umd.cs.piccolo.PNode
 import java.awt.Color
+import umd.cs.piccolox.pswing.PSwing
 
 class MyButtonNode(text: String, icon: Icon, action: () => Unit) extends PText(text) {
     addInputEventListener(new PBasicInputEventHandler() {
@@ -30,6 +32,7 @@ class MyButtonNode(text: String, icon: Icon, action: () => Unit) extends PText(t
 
 class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
     val nodes = new ArrayBuffer[PNode]
+    val prefSizeM = new Dimension(600, 100)
 
     def add(node: PNode) = {
         addScreenChild(node)
@@ -44,10 +47,13 @@ class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
         def buttonPressed = {f()}
     }
 
+    val playbackSpeedSlider = new PlaybackSpeedSlider(module.model)
+    playbackSpeedSlider.setOffset(0, prefSizeM.getHeight / 2 - playbackSpeedSlider.getFullBounds.getHeight / 2)
+    add(playbackSpeedSlider)
 
     val rewind = new RewindButton(50)
     rewind.addListener(() => {
-        module.model.setPlayback(1)
+        module.model.setRecord(false)
         module.model.setPlaybackIndexFloat(0.0)
         module.model.setPaused(true)
     })
@@ -88,7 +94,7 @@ class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
         timeline.setVisible(module.model.isPlayback)
     })
 
-    setPreferredSize(new Dimension(600, 100))
+    setPreferredSize(prefSizeM)
     addComponentListener(new ComponentAdapter() {
         override def componentResized(e: ComponentEvent) = {myUpdateLayout()}
     })
