@@ -26,14 +26,14 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
   val pimage = new PImage(MovingManResources.loadBufferedImage("ladybug/ladybug.png"))
 
   ladybug.addListener(updateLadybug)
-  updateLadybug(ladybug)
+  updateLadybug()
 
   addChild(arrowSetNode)
   addChild(pimage)
 
   transform.addTransformListener(new TransformListener() {
     def transformChanged(mvt: ModelViewTransform2D) = {
-      updateLadybug(ladybug)
+      updateLadybug()
     }
   })
 
@@ -53,7 +53,7 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
   addInputEventListener(new ToggleListener(inputHandler,()=>interactive))
   updateInteractive()
 
-  def updateLadybug(ladybug: Ladybug): Unit = {
+  def updateLadybug(): Unit = {
 
     val modelPosition = ladybug.getPosition
     val viewPosition = transform.modelToView(modelPosition)

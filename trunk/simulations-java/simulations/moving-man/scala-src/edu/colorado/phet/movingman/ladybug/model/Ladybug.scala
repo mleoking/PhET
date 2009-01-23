@@ -42,19 +42,19 @@ case class LadybugState(_position: Vector2D, _velocity: Vector2D, _acceleration:
   def setPosition(x: Vector2D): LadybugState = new LadybugState(x, velocity, acceleration, angle)
 }
 
-class Ladybug extends Observable[Ladybug] {
+class Ladybug extends ObservableS {
   var state = new LadybugState
 
   def resetAll() = {
     state = new LadybugState
-    notifyListeners(this)
+    notifyListeners
   }
 
   def translate(deltaPosition: Vector2D): Unit = translate(deltaPosition.x, deltaPosition.y)
 
   def translate(dx: Double, dy: Double) = {
     state = state.translate(dx, dy);
-    notifyListeners(this)
+    notifyListeners
   }
 
   def rotate(dtheta: Double) = setAngle(getAngle + dtheta)
@@ -71,27 +71,27 @@ class Ladybug extends Observable[Ladybug] {
 
   def setAcceleration(acceleration: Vector2D) = {
     state = state.setAcceleration(acceleration)
-    notifyListeners(this)
+    notifyListeners
   }
 
   def setPosition(position: Vector2D) = {
     state = state.setPosition(position)
-    notifyListeners(this)
+    notifyListeners
   }
 
   def setVelocity(velocity: Vector2D) = {
     state = state.setVelocity(velocity)
-    notifyListeners(this)
+    notifyListeners
   }
 
   def setAngle(theta: Double) = {
     state = state.setAngle(theta)
-    notifyListeners(this)
+    notifyListeners
   }
 
   def setState(_state: LadybugState) = {
     state = _state
-    notifyListeners(this)
+    notifyListeners
   }
 
 }
