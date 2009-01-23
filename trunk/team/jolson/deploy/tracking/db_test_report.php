@@ -214,9 +214,11 @@
 		display_query("SELECT COUNT(*) AS users_last_6_months FROM user WHERE last_seen_month >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH);");
 		display_query("SELECT COUNT(*) AS users_last_6_months FROM user WHERE DATEDIFF(CURRENT_DATE, last_seen_month) <= 6 * 31;");
 		
+		
+		/* REMOVED for now due to lack of permissions to create view tables
 		display_desc("number of sims run for each Java version by month in 2007");
 		display_query("SELECT SQL_NO_CACHE alls.month, alls.all_versions, v4.ver4, v5.ver5, v6.ver6 FROM ( SELECT DISTINCT MONTH(java_simulation.timestamp) AS monthnumber, MONTHNAME(java_simulation.timestamp) AS month, COUNT(java_simulation.id) AS all_versions FROM java_simulation WHERE YEAR(java_simulation.timestamp) = 2007 GROUP BY MONTHNAME(java_simulation.timestamp) ORDER BY MONTH(java_simulation.timestamp) ) AS alls, ( SELECT DISTINCT MONTHNAME(java_simulation.timestamp) AS month, COUNT(java_simulation.id) AS ver4 FROM java_simulation WHERE ( YEAR(java_simulation.timestamp) = 2007 AND java_simulation.host_java_version_minor = 4 ) GROUP BY MONTHNAME(java_simulation.timestamp) ORDER BY MONTH(java_simulation.timestamp) ) AS v4, ( SELECT DISTINCT MONTHNAME(java_simulation.timestamp) AS month, COUNT(java_simulation.id) AS ver5 FROM java_simulation WHERE ( YEAR(java_simulation.timestamp) = 2007 AND java_simulation.host_java_version_minor = 5 ) GROUP BY MONTHNAME(java_simulation.timestamp) ORDER BY MONTH(java_simulation.timestamp) ) AS v5, ( SELECT DISTINCT MONTHNAME(java_simulation.timestamp) AS month, COUNT(java_simulation.id) AS ver6 FROM java_simulation WHERE ( YEAR(java_simulation.timestamp) = 2007 AND java_simulation.host_java_version_minor = 6 ) GROUP BY MONTHNAME(java_simulation.timestamp) ORDER BY MONTH(java_simulation.timestamp) ) AS v6 WHERE ( alls.month = v4.month AND v4.month = v5.month AND v5.month = v6.month ) ORDER BY alls.monthnumber;");
-		
+		*/
 		
 	}
 	
