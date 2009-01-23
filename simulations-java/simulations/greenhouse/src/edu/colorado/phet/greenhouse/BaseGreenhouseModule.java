@@ -46,7 +46,6 @@ public abstract class BaseGreenhouseModule extends Module {
     private ApparatusPanel apparatusPanel;
     private GreenhouseModel model;
 
-    //
     private static boolean s_firstTime = true;
     private Rectangle2D.Double finalModelBounds;
     private AtmosphereGraphic atmosphereGraphic;
@@ -138,7 +137,7 @@ public abstract class BaseGreenhouseModule extends Module {
         // Set initial conditions
         thermometerEnabled( false );
 
-        // Kick off the zoom
+        // Initialize the views.
         if ( s_firstTime ) {
         	s_firstTime = false;
         	// Prevent a backdrop from appearing
