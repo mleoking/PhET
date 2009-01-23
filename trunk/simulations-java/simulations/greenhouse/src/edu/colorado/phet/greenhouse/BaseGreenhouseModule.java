@@ -6,18 +6,13 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import java.awt.Color;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.greenhouse.common.graphics.ApparatusPanel;
@@ -166,15 +161,15 @@ public abstract class BaseGreenhouseModule extends Module {
             sun.setProductionRate( GreenhouseConfig.defaultSunPhotonProductionRate );
         }
     }
-    
+
     public GreenhouseModel getGreenhouseModel() {
         return model;
     }
-    
+
     protected ApparatusPanel getApparatusPanel() {
         return apparatusPanel;
     }
-    
+
     public void updateGraphics( ClockEvent event ) {
         super.updateGraphics( event );
         apparatusPanel.update( null, null );// force a repaint
@@ -185,7 +180,7 @@ public abstract class BaseGreenhouseModule extends Module {
     }
 
     public void reset() {
-        
+
         earth.getPhotonSource().setProductionRate( 1E-2 );
         earth.reset();
         sun.setProductionRate( GreenhouseConfig.defaultSunPhotonProductionRate );
@@ -340,7 +335,7 @@ public abstract class BaseGreenhouseModule extends Module {
     /**
      * Handles zooming in from outer space to the earth
      */
-    private class Zoomer extends Thread {
+    private class Zoomer {
         private Rectangle2D.Double currModelBounds;
         private Rectangle2D.Double finalModelBounds;
 
@@ -353,89 +348,62 @@ public abstract class BaseGreenhouseModule extends Module {
 
         public void run() {
 
-            try {
-                // Prevent a backdrop from appearing
-                earthGraphic.setNoBackdrop();
+            // Prevent a backdrop from appearing
+            earthGraphic.setNoBackdrop();
 
-                // Sit here until things outside this thread are initialized
-                while ( PhetApplication.instance() == null ) {
-                    Thread.sleep( 200 );
-                }
+            // Put up a dialog prompting the user to kick things off
 
-                // Put up a dialog prompting the user to kick things off
-                
-                boolean doZoom = false;
-                /*
-                 * TODO: I have removed the presentation of the dialog about flying in and
-                 * the related animation in an attempt to fix but #1079.  This will need
-                 * more cleanup, including removal of all the threads and images if we keep
-                 * it this way.
-                String[] options = new String[]{
-                        GreenhouseResources.getString( "BaseGreenhouseModule.FlyMeInText" ),
-                        GreenhouseResources.getString( "BaseGreenhouseModule.BeamMeDownText" )};
-                JOptionPane jop = new JOptionPane( GreenhouseResources.getString( "BaseGreenhouseModule.QuestionText" ), JOptionPane.QUESTION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, options, options[0] );
-                JDialog zoomDialog = jop.createDialog( PhetApplication.instance().getPhetFrame(), "" );
-                Point p = PhetApplication.instance().getPhetFrame().getLocation();
-                zoomDialog.setLocation( p.x + 50, p.y + 50 );
-                zoomDialog.setVisible( true );
-                boolean doZoom = false;
+            boolean doZoom = false;
+            /*
+                            * TODO: I have removed the presentation of the dialog about flying in and
+                            * the related animation in an attempt to fix but #1079.  This will need
+                            * more cleanup, including removal of all the threads and images if we keep
+                            * it this way.
+                           String[] options = new String[]{
+                                   GreenhouseResources.getString( "BaseGreenhouseModule.FlyMeInText" ),
+                                   GreenhouseResources.getString( "BaseGreenhouseModule.BeamMeDownText" )};
+                           JOptionPane jop = new JOptionPane( GreenhouseResources.getString( "BaseGreenhouseModule.QuestionText" ), JOptionPane.QUESTION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, options, options[0] );
+                           JDialog zoomDialog = jop.createDialog( PhetApplication.instance().getPhetFrame(), "" );
+                           Point p = PhetApplication.instance().getPhetFrame().getLocation();
+                           zoomDialog.setLocation( p.x + 50, p.y + 50 );
+                           zoomDialog.setVisible( true );
+                           boolean doZoom = false;
 
-                Object val = jop.getValue();
-                if ( val instanceof String ) {
-                    doZoom = val.equals( options[0] );
-                }
-//                Point2D.Double sunRefPt = new Point2D.Double( sun.getLocation().getX(),
-//                                                              sun.getLocation().getY() - SUN_DIAM / 2 );
-//
- * 
- */
-                Point2D.Double zoomCenter = new Point2D.Double( currModelBounds.getMinX() + currModelBounds.getWidth() / 2,
-                                                                currModelBounds.getMinY() + currModelBounds.getHeight() / 2 );
-                double zoomFactor = .002;
-                double dh = currModelBounds.getHeight() * zoomFactor;
-                double dw = dh * currModelBounds.getWidth() / currModelBounds.getHeight();
-                double n = ( currModelBounds.getHeight() - finalModelBounds.getHeight() ) / dh;
-                double c0y = currModelBounds.getMinY() + currModelBounds.getHeight() / 2;
-                double cfy = finalModelBounds.getMinY() + finalModelBounds.getHeight() / 2;
-                double dcy = ( cfy - c0y ) / n;
+                           Object val = jop.getValue();
+                           if ( val instanceof String ) {
+                               doZoom = val.equals( options[0] );
+                           }
+           //                Point2D.Double sunRefPt = new Point2D.Double( sun.getLocation().getX(),
+           //                                                              sun.getLocation().getY() - SUN_DIAM / 2 );
+           //
+            *
+            */
+            Point2D.Double zoomCenter = new Point2D.Double( currModelBounds.getMinX() + currModelBounds.getWidth() / 2,
+                                                            currModelBounds.getMinY() + currModelBounds.getHeight() / 2 );
+            double zoomFactor = .002;
+            double dh = currModelBounds.getHeight() * zoomFactor;
+            double dw = dh * currModelBounds.getWidth() / currModelBounds.getHeight();
+            double n = ( currModelBounds.getHeight() - finalModelBounds.getHeight() ) / dh;
+            double c0y = currModelBounds.getMinY() + currModelBounds.getHeight() / 2;
+            double cfy = finalModelBounds.getMinY() + finalModelBounds.getHeight() / 2;
+            double dcy = ( cfy - c0y ) / n;
 
-                // If we're supposed to zoom, do it
-                for ( ; n > 0 && doZoom; n-- ) {
+            currModelBounds.setRect( finalModelBounds.getX(),
+                                     finalModelBounds.getY(),
+                                     finalModelBounds.getWidth(),
+                                     finalModelBounds.getHeight() );
+            ( (TestApparatusPanel) getApparatusPanel() ).setModelBounds( currModelBounds );
 
-                    Thread.sleep( 20 );
+            getApparatusPanel().removeGraphic( sunGraphic );
+            sunGraphic.stopAnimation();
+            earthGraphic.stopAnimation();
+            setToday();
+            atmosphereGraphic.setVisible( true );
+            ( (TestApparatusPanel) getApparatusPanel() ).setModelBounds( finalModelBounds );
+            thermometerEnabled( true );
 
-                    // Zoom in and shift the zoom center
-                    zoomCenter.setLocation( zoomCenter.getX(), zoomCenter.getY() + dcy );
-                    double w = Math.max( currModelBounds.getWidth() - dw, finalModelBounds.getWidth() );
-                    double h = Math.max( currModelBounds.getHeight() - dh, finalModelBounds.getHeight() );
-                    double newMinX = zoomCenter.getX() - w / 2;
-                    double newMaxX = zoomCenter.getX() + w / 2;
-                    double newMinY = zoomCenter.getY() - h / 2;
-                    double newMaxY = zoomCenter.getY() + h / 2;
+            GreenhouseApplication.paintContentImmediately();
 
-                    currModelBounds.setRect( newMinX, newMinY, newMaxX - newMinX, newMaxY - newMinY );
-                    ( (TestApparatusPanel) getApparatusPanel() ).setModelBounds( currModelBounds );
-                }
-
-                currModelBounds.setRect( finalModelBounds.getX(),
-                                         finalModelBounds.getY(),
-                                         finalModelBounds.getWidth(),
-                                         finalModelBounds.getHeight() );
-                ( (TestApparatusPanel) getApparatusPanel() ).setModelBounds( currModelBounds );
-
-                getApparatusPanel().removeGraphic( sunGraphic );
-                sunGraphic.stopAnimation();
-                earthGraphic.stopAnimation();
-                setToday();
-                atmosphereGraphic.setVisible( true );
-                ( (TestApparatusPanel) getApparatusPanel() ).setModelBounds( finalModelBounds );
-                thermometerEnabled( true );
-
-                GreenhouseApplication.paintContentImmediately();
-            }
-            catch( InterruptedException e ) {
-                e.printStackTrace();
-            }
 
             sun.setProductionRate( GreenhouseConfig.defaultSunPhotonProductionRate );
 
