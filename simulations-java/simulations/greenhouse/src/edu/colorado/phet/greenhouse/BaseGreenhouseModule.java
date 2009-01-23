@@ -353,41 +353,6 @@ public abstract class BaseGreenhouseModule extends Module {
 
             // Put up a dialog prompting the user to kick things off
 
-            boolean doZoom = false;
-            /*
-                            * TODO: I have removed the presentation of the dialog about flying in and
-                            * the related animation in an attempt to fix but #1079.  This will need
-                            * more cleanup, including removal of all the threads and images if we keep
-                            * it this way.
-                           String[] options = new String[]{
-                                   GreenhouseResources.getString( "BaseGreenhouseModule.FlyMeInText" ),
-                                   GreenhouseResources.getString( "BaseGreenhouseModule.BeamMeDownText" )};
-                           JOptionPane jop = new JOptionPane( GreenhouseResources.getString( "BaseGreenhouseModule.QuestionText" ), JOptionPane.QUESTION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, options, options[0] );
-                           JDialog zoomDialog = jop.createDialog( PhetApplication.instance().getPhetFrame(), "" );
-                           Point p = PhetApplication.instance().getPhetFrame().getLocation();
-                           zoomDialog.setLocation( p.x + 50, p.y + 50 );
-                           zoomDialog.setVisible( true );
-                           boolean doZoom = false;
-
-                           Object val = jop.getValue();
-                           if ( val instanceof String ) {
-                               doZoom = val.equals( options[0] );
-                           }
-           //                Point2D.Double sunRefPt = new Point2D.Double( sun.getLocation().getX(),
-           //                                                              sun.getLocation().getY() - SUN_DIAM / 2 );
-           //
-            *
-            */
-            Point2D.Double zoomCenter = new Point2D.Double( currModelBounds.getMinX() + currModelBounds.getWidth() / 2,
-                                                            currModelBounds.getMinY() + currModelBounds.getHeight() / 2 );
-            double zoomFactor = .002;
-            double dh = currModelBounds.getHeight() * zoomFactor;
-            double dw = dh * currModelBounds.getWidth() / currModelBounds.getHeight();
-            double n = ( currModelBounds.getHeight() - finalModelBounds.getHeight() ) / dh;
-            double c0y = currModelBounds.getMinY() + currModelBounds.getHeight() / 2;
-            double cfy = finalModelBounds.getMinY() + finalModelBounds.getHeight() / 2;
-            double dcy = ( cfy - c0y ) / n;
-
             currModelBounds.setRect( finalModelBounds.getX(),
                                      finalModelBounds.getY(),
                                      finalModelBounds.getWidth(),
