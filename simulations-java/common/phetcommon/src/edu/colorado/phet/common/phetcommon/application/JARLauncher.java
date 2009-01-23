@@ -37,7 +37,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  * @version $Revision$
  */
 public class JARLauncher extends JFrame implements IProguardKeepClass {
-    
+
     private static final String LOCALE_PROPERTIES_FILENAME = "locale.properties";
 
     //----------------------------------------------------------------------------
@@ -206,7 +206,7 @@ public class JARLauncher extends JFrame implements IProguardKeepClass {
     }
 
     static class SimulationInfo {
-        
+
         private final String flavor;
         private final String title;
         private final String mainClass;
@@ -233,7 +233,7 @@ public class JARLauncher extends JFrame implements IProguardKeepClass {
             Thread thread = new Thread( new Runnable() {
                 public void run() {
                     try {
-                        main.invoke( null, new Object[]{ args } );
+                        main.invoke( null, new Object[]{args} );
                     }
                     catch( IllegalAccessException e ) {
                         e.printStackTrace();
@@ -277,17 +277,17 @@ public class JARLauncher extends JFrame implements IProguardKeepClass {
             }
         }
     }
-    
+
     /*
-     * 
-     */
+    *
+    */
     private static void setLocaleForOfflineJARs() {
         URL optionsURL = Thread.currentThread().getContextClassLoader().getResource( LOCALE_PROPERTIES_FILENAME );
         if ( optionsURL != null ) {
             Properties optionsProperties = new Properties();
             try {
                 optionsProperties.load( optionsURL.openStream() );
-                
+
                 // language (required)
                 String language = optionsProperties.getProperty( "language" );
                 if ( language != null ) {
@@ -298,7 +298,7 @@ public class JARLauncher extends JFrame implements IProguardKeepClass {
                 else {
                     System.err.println( "JARLauncher: " + LOCALE_PROPERTIES_FILENAME + " is missing required property " + PhetResources.PROPERTY_JAVAWS_USER_LANGUAGE );
                 }
-                
+
                 // country (optional)
                 String country = optionsProperties.getProperty( "country" );
                 if ( country != null ) {
@@ -366,7 +366,7 @@ public class JARLauncher extends JFrame implements IProguardKeepClass {
         String[] args = combineArgs( argsString, commandlineArgs );
         return new SimulationInfo( flavor, title, mainClass, args );
     }
-    
+
     private static String[] combineArgs( String argsString, String[] commandlineArgs ) {
         // break up argsString into a collection of Strings
         StringTokenizer stringTokenizer = new StringTokenizer( argsString );
