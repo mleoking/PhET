@@ -1,11 +1,5 @@
 <?php
-	// connect to the statistics database
-	// TODO: change this password, it has been on subversion
-	function setup_mysql() {
-		$link = mysql_connect("localhost", "www-data", "d3#r3m0nt$") or die(mysql_error());
-		mysql_select_db("phet_stats_test_3") or die(mysql_error());
-		return $link;
-	}
+	include("db_login.php");
 	
 	// used for every mysql query that needs to be made
 	// useful for debugging and error catching
