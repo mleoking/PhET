@@ -6,37 +6,37 @@ import java.util.Vector;
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 
 /**
- * Manages the delivery of tracking messages.
+ * Manages the delivery of statistics messages.
  * 
  * @author Sam Reid
  */
-public class TrackingManager {
+public class StatisticsManager {
     
     private static final Object MONITOR = new Object();
     
     /* singleton */
-    public static TrackingManager instance;
+    public static StatisticsManager instance;
     
     private final ISimInfo simInfo;
     private final Vector messageQueue = new Vector();
-    private final TrackingThread trackingThread = new TrackingThread();
-    private final ITrackingService trackingService = new PHPTrackingService();
+    private final StatisticsThread statisticsThread = new StatisticsThread();
+    private final IStatisticsService statisticsService = new PHPStatisticsService();
 
     /* singleton */
-    private TrackingManager( ISimInfo simInfo ) {
+    private StatisticsManager( ISimInfo simInfo ) {
         this.simInfo = simInfo;
-        trackingThread.start();
+        statisticsThread.start();
     }
 
-    public static TrackingManager initInstance( ISimInfo simInfo ) {
+    public static StatisticsManager initInstance( ISimInfo simInfo ) {
         if ( instance != null ) {
-            throw new RuntimeException( "TrackingManager instance is already initialized" );
+            throw new RuntimeException( "StatisticsManager instance is already initialized" );
         }
-        instance = new TrackingManager( simInfo );
+        instance = new StatisticsManager( simInfo );
         return instance;
     }
 
-    public static TrackingManager getInstance() {
+    public static StatisticsManager getInstance() {
         return instance;
     }
     
@@ -44,7 +44,7 @@ public class TrackingManager {
      * Blocks until all queued messages have been sent, up to a maximum of maxWaitTime milliseconds.
      */
     public static void waitFor( long maxWaitTimeMillis ) {
-        if ( isTrackingEnabled() ) {
+        if ( isStatisticsEnabled() ) {
             instance._waitFor( maxWaitTimeMillis );
         }
     }
@@ -67,22 +67,22 @@ public class TrackingManager {
         }
     }
 
-    private void postMessageImpl( final TrackingMessage trackingMessage ) {
-        if ( isTrackingEnabled() ) {
-            messageQueue.add( trackingMessage );
+    private void postMessageImpl( final StatisticsMessage statisticsMessage ) {
+        if ( isStatisticsEnabled() ) {
+            messageQueue.add( statisticsMessage );
             synchronized( MONITOR ) {
                 MONITOR.notifyAll();
             }
         }
     }
 
-    private class TrackingThread extends Thread {
-        private TrackingThread() {
-            super( new TrackingRunnable() );
+    private class StatisticsThread extends Thread {
+        private StatisticsThread() {
+            super( new StatisticsRunnable() );
         }
     }
 
-    public class TrackingRunnable implements Runnable {
+    public class StatisticsRunnable implements Runnable {
         public void run() {
             while ( true ) {
                 postAllMessages();
@@ -101,8 +101,8 @@ public class TrackingManager {
     private void postAllMessages() {
         try {
             while ( messageQueue.size() > 0 ) {
-                TrackingMessage m = (TrackingMessage) messageQueue.get( 0 );
-                trackingService.postMessage( m );
+                StatisticsMessage m = (StatisticsMessage) messageQueue.get( 0 );
+                statisticsService.postMessage( m );
                 messageQueue.remove( m ); // remove message from queue after it has been sent, so that messageQueue won't be considered empty prematurely
             }
         }
@@ -111,15 +111,15 @@ public class TrackingManager {
         }
     }
     
-    public static boolean isTrackingEnabled() {
-        return instance != null && instance.simInfo.isTrackingEnabled();
+    public static boolean isStatisticsEnabled() {
+        return instance != null && instance.simInfo.isStatisticsEnabled();
     }
 
-    public static void postMessage( TrackingMessage trackingMessage ) {
-        // check for tracking enabled before message construction
+    public static void postMessage( StatisticsMessage statisticsMessage ) {
+        // check for statistics enabled before message construction
         // because construction may cause java.security.AccessControlException under web start.
-        if ( isTrackingEnabled() ) {
-            instance.postMessageImpl( trackingMessage );
+        if ( isStatisticsEnabled() ) {
+            instance.postMessageImpl( statisticsMessage );
         }
     }
 }

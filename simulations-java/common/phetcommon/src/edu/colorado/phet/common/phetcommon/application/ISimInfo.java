@@ -18,10 +18,10 @@ public interface ISimInfo {
     boolean isUpdatesFeatureIncluded();
     
     /**
-     * Should the tracking feature be included at runtime?
+     * Should the statistics feature be included at runtime?
      * @return
      */
-    boolean isTrackingFeatureIncluded();
+    boolean isStatisticsFeatureIncluded();
     
     /**
      * Is automatic checking for updates enabled?
@@ -31,11 +31,11 @@ public interface ISimInfo {
     boolean isUpdatesEnabled();
     
     /**
-     * Is tracking enabled?
+     * Is statistics enabled?
      * This is based on the users preferences and whether the feature is included at runtime.
      * @return
      */
-    boolean isTrackingEnabled();
+    boolean isStatisticsEnabled();
     
     /**
      * Should the user have access to the Preferences dialog?

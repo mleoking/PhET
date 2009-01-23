@@ -15,9 +15,9 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
-import edu.colorado.phet.common.phetcommon.preferences.TrackingDetailsDialog;
+import edu.colorado.phet.common.phetcommon.preferences.StatisticsDetailsDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.tracking.ITrackingInfo;
+import edu.colorado.phet.common.phetcommon.tracking.IStatistics;
 import edu.colorado.phet.common.phetcommon.view.PhetExit;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
@@ -37,7 +37,7 @@ public class SoftwareAgreementManager {
     /**
      * Ensures that the user has accepted the agreements that pertain to this software.
      */
-    public static void validate( Frame owner, ITrackingInfo trackingInfo ) {
+    public static void validate( Frame owner, IStatistics trackingInfo ) {
         boolean alwaysAsk = PhetPreferences.getInstance().isAlwaysShowSoftwareAgreement();
         int acceptedVersion = PhetPreferences.getInstance().getSoftwareAgreementVersion();
         if ( alwaysAsk || acceptedVersion < SOFTWARE_AGREEMENT_VERSION ) {
@@ -48,7 +48,7 @@ public class SoftwareAgreementManager {
     /*
     * Negotiates the agreement with the user.
     */
-    private static void negotiate( Frame owner, ITrackingInfo trackingInfo ) {
+    private static void negotiate( Frame owner, IStatistics trackingInfo ) {
         final AcceptanceDialog dialog = new AcceptanceDialog( owner, trackingInfo );
         dialog.setVisible( true );
     }
@@ -64,7 +64,7 @@ public class SoftwareAgreementManager {
         
         private JButton acceptButton;
         
-        public AcceptanceDialog( Frame owner, ITrackingInfo trackingInfo ) {
+        public AcceptanceDialog( Frame owner, IStatistics trackingInfo ) {
             super( owner );
             setTitle( TITLE );
             setModal( true );
@@ -98,7 +98,7 @@ public class SoftwareAgreementManager {
             acceptButton.requestFocusInWindow();
         }
 
-        private JComponent createMessagePanel( ITrackingInfo trackingInfo ) {
+        private JComponent createMessagePanel( IStatistics trackingInfo ) {
             JComponent htmlPane = new MessagePane( this, trackingInfo );
             JPanel panel = new JPanel();
             panel.setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
@@ -157,7 +157,7 @@ public class SoftwareAgreementManager {
         private static final String LINK_SHOW_TRACKING_DETAILS = "showTrackingDetails";
         private static final String LINK_SHOW_SOFTWARE_AGREEMENT = "showSoftwareAgreements";
         
-        public MessagePane( final JDialog owner, final ITrackingInfo trackingInfo ) {
+        public MessagePane( final JDialog owner, final IStatistics statistics ) {
             super( "" );
             
             // insert our own hyperlink descriptions into the message, so translators can't mess them up
@@ -169,7 +169,7 @@ public class SoftwareAgreementManager {
                 public void hyperlinkUpdate( HyperlinkEvent e ) {
                     if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED ) {
                         if ( e.getDescription().equals( LINK_SHOW_TRACKING_DETAILS ) ) {
-                            showTrackingDetails( owner, trackingInfo );
+                            showStatisticsDetails( owner, statistics );
                         }
                         else if ( e.getDescription().equals( LINK_SHOW_SOFTWARE_AGREEMENT ) ) {
                             showSoftwareAgreement( owner );
@@ -182,8 +182,8 @@ public class SoftwareAgreementManager {
             } );
         }
         
-        private static void showTrackingDetails( JDialog owner, ITrackingInfo trackingInfo ) {
-            new TrackingDetailsDialog( owner, trackingInfo ).setVisible( true );
+        private static void showStatisticsDetails( JDialog owner, IStatistics statistics ) {
+            new StatisticsDetailsDialog( owner, statistics ).setVisible( true );
         }
         
         private static void showSoftwareAgreement( JDialog owner ) {

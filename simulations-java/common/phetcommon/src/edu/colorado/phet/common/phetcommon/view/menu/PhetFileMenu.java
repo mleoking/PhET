@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.preferences.PreferencesDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.tracking.ITrackingInfo;
+import edu.colorado.phet.common.phetcommon.tracking.IStatistics;
 import edu.colorado.phet.common.phetcommon.updates.DefaultManualUpdateChecker;
 import edu.colorado.phet.common.phetcommon.view.PhetExit;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
@@ -24,12 +24,12 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
  */
 public class PhetFileMenu extends JMenu {
 
-    public PhetFileMenu( final PhetFrame phetFrame, final ISimInfo simInfo, final ITrackingInfo trackingInfo ) {
+    public PhetFileMenu( final PhetFrame phetFrame, final ISimInfo simInfo, final IStatistics statistics ) {
         super( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.Title" ) );
         setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.TitleMnemonic" ).charAt( 0 ) );
 
         if ( simInfo.isPreferencesEnabled() ) {
-            addPreferencesMenuItem( phetFrame, simInfo, trackingInfo );
+            addPreferencesMenuItem( phetFrame, simInfo, statistics );
             addSeparator();
         }
 
@@ -43,14 +43,14 @@ public class PhetFileMenu extends JMenu {
         this.add( exitMI );
     }
 
-    private void addPreferencesMenuItem( final PhetFrame phetFrame, final ISimInfo simInfo, final ITrackingInfo trackingInfo ) {
+    private void addPreferencesMenuItem( final PhetFrame phetFrame, final ISimInfo simInfo, final IStatistics statistics ) {
         JMenuItem preferencesMenuItem = new JMenuItem( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.Preferences" ) );
         preferencesMenuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                new PreferencesDialog( phetFrame, trackingInfo,
+                new PreferencesDialog( phetFrame, statistics,
                                        new DefaultManualUpdateChecker( phetFrame, simInfo ),
                                        PhetPreferences.getInstance(),
-                                       simInfo.isTrackingFeatureIncluded(),
+                                       simInfo.isStatisticsFeatureIncluded(),
                                        simInfo.isUpdatesFeatureIncluded(),
                                        simInfo.isDev() ).setVisible( true );
             }

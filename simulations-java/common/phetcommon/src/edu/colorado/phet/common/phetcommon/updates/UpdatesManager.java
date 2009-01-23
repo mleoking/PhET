@@ -6,7 +6,7 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.common.phetcommon.tracking.ITrackingInfo;
+import edu.colorado.phet.common.phetcommon.tracking.IStatistics;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.AutomaticUpdateDialog;
 
 /**
@@ -40,13 +40,13 @@ public class UpdatesManager {
         return instance;
     }
 
-    public void applicationStarted( Frame frame, ITrackingInfo trackingInfo ) {
+    public void applicationStarted( Frame frame, IStatistics statistics ) {
         if ( simInfo.isUpdatesEnabled() && updateTimer.isDurationExceeded() ) {
-            autoCheckForUpdates( frame, trackingInfo );
+            autoCheckForUpdates( frame, statistics );
         }
     }
 
-    private void autoCheckForUpdates( final Frame frame,  final ITrackingInfo trackingInfo ) {
+    private void autoCheckForUpdates( final Frame frame,  final IStatistics statistics) {
         final UpdateNotifier updateNotifier = new UpdateNotifier( simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getVersion() );
         updateNotifier.addListener( new UpdateNotifier.UpdateAdapter() {
 

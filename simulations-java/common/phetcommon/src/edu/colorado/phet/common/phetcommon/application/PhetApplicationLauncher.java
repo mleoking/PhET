@@ -6,7 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.tracking.SessionMessage;
-import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
+import edu.colorado.phet.common.phetcommon.tracking.StatisticsManager;
 import edu.colorado.phet.common.phetcommon.updates.UpdatesManager;
 
 /**
@@ -107,18 +107,18 @@ public class PhetApplicationLauncher {
                         app.startApplication();
                         disposeSplashWindow();
 
-                        if ( config.isTrackingEnabled() ) {
+                        if ( config.isStatisticsEnabled() ) {
                             SoftwareAgreementManager.validate( app.getPhetFrame(), config );
                         }
 
                         long applicationLaunchFinishedAt = System.currentTimeMillis();
                         config.setApplicationLaunchFinishedAt( applicationLaunchFinishedAt );
 
-                        TrackingManager.initInstance( config );
-                        if ( TrackingManager.isTrackingEnabled() ) {
-                            TrackingManager.postMessage( new SessionMessage( config ) );
+                        StatisticsManager.initInstance( config );
+                        if ( StatisticsManager.isStatisticsEnabled() ) {
+                            StatisticsManager.postMessage( new SessionMessage( config ) );
                         }
-                        UpdatesManager.initInstance( config ).applicationStarted( app.getPhetFrame(), app.getTrackingInfo() );//todo: due to threading, sometimes this event arrives at server first
+                        UpdatesManager.initInstance( config ).applicationStarted( app.getPhetFrame(), app.getStatistics() );//todo: due to threading, sometimes this event arrives at server first
                     }
                     else {
                         new RuntimeException( "No applicationconstructor specified" ).printStackTrace();

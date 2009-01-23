@@ -7,10 +7,9 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.dialogs.PhetAboutDialog;
-import edu.colorado.phet.common.phetcommon.tracking.ITrackingInfo;
+import edu.colorado.phet.common.phetcommon.tracking.IStatistics;
 import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
-import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.JTabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
@@ -371,7 +370,7 @@ public class PhetApplication
         this.tabbedPaneType = tabbedPaneType;
     }
 
-    public ITrackingInfo getTrackingInfo() {
+    public IStatistics getStatistics() {
         return phetApplicationConfig;
     }
 
