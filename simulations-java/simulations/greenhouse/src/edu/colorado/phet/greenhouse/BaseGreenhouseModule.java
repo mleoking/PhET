@@ -47,7 +47,7 @@ public abstract class BaseGreenhouseModule extends Module {
     private GreenhouseModel model;
 
     private static boolean s_firstTime = true;
-    private Rectangle2D.Double finalModelBounds;
+    private Rectangle2D.Double modelBounds;
     private AtmosphereGraphic atmosphereGraphic;
 
     protected BaseGreenhouseModule( String s ) {
@@ -60,19 +60,15 @@ public abstract class BaseGreenhouseModule extends Module {
 
         // Set up the model and apparatus panel
         double modelHeight = EARTH_DIAM + SUN_DIAM + SUN_EARTH_DIST * 2;
-        Rectangle2D.Double initialModelBounds = new Rectangle2D.Double( -modelHeight * 4 / 3 / 2, -EARTH_DIAM * 20,
-                                                                        modelHeight * 4 / 3,
-                                                                        modelHeight );
         modelHeight = exposedEarth + Atmosphere.troposphereThickness;
-        finalModelBounds = new Rectangle2D.Double( -modelHeight * 4 / 3 / 2, -exposedEarth,
+        modelBounds = new Rectangle2D.Double( -modelHeight * 4 / 3 / 2, -exposedEarth,
                                                    modelHeight * 4 / 3,
                                                    modelHeight );
 
-
-        model = new GreenhouseModel( finalModelBounds );
+        model = new GreenhouseModel( modelBounds );
         this.setModel( model );
 
-        apparatusPanel = new TestApparatusPanel( 4 / 3, new FlipperAffineTransformFactory( initialModelBounds ) );
+        apparatusPanel = new TestApparatusPanel( 4 / 3, new FlipperAffineTransformFactory( modelBounds ) );
         this.setSimulationPanel( apparatusPanel );
         apparatusPanel.setBackground( Color.black );
 
@@ -84,7 +80,7 @@ public abstract class BaseGreenhouseModule extends Module {
         earthPhotonEmitterListener = new PhotonEmitterListener();
 
         // Create the earth
-        double gamma = Math.atan( ( finalModelBounds.getWidth() / 2 ) / Earth.radius );
+        double gamma = Math.atan( ( modelBounds.getWidth() / 2 ) / Earth.radius );
         earth = new Earth( new Point2D.Double( 0, -Earth.radius + exposedEarth ), Math.PI / 2 - gamma, Math.PI / 2 + gamma );
         model.setEarth( earth );
         earth.getPhotonSource().setProductionRate( 1E-2 );
@@ -92,13 +88,13 @@ public abstract class BaseGreenhouseModule extends Module {
         earth.addPhotonAbsorberListener( new PhotonAbsorberListener() );
         earth.getPhotonSource().addListener( model );
         // EarthGraphic adds itself to the apparatus panel. Manages its own transform, too
-        earthGraphic = new EarthGraphic( getApparatusPanel(), earth, initialModelBounds );
+        earthGraphic = new EarthGraphic( getApparatusPanel(), earth, modelBounds );
         earth.setReflectivityAssessor( earthGraphic );
 
         // Create the atmosphere
         Atmosphere atmosphere = new Atmosphere( earth );
         model.setAtmosphere( atmosphere );
-        atmosphereGraphic = new AtmosphereGraphic( atmosphere, finalModelBounds, apparatusPanel );
+        atmosphereGraphic = new AtmosphereGraphic( atmosphere, modelBounds, apparatusPanel );
         atmosphere.addScatterEventListener( new ModuleScatterEventListener() );
         atmosphereGraphic.setVisible( false );
         drawingCanvas.addGraphic( atmosphereGraphic, Double.MAX_VALUE );
@@ -111,9 +107,9 @@ public abstract class BaseGreenhouseModule extends Module {
 
         // Create the sun
         sun = new Star( SUN_DIAM / 2, new Point2D.Double( 0, EARTH_DIAM + SUN_EARTH_DIST + SUN_DIAM / 2 ),
-                        new Rectangle2D.Double( finalModelBounds.getX(),
-                                                finalModelBounds.getY() + finalModelBounds.getHeight(),
-                                                finalModelBounds.getWidth() / 1,
+                        new Rectangle2D.Double( modelBounds.getX(),
+                                                modelBounds.getY() + modelBounds.getHeight(),
+                                                modelBounds.getWidth() / 1,
                                                 1 ) );
 
         sun.setProductionRate( 0 );
@@ -130,28 +126,23 @@ public abstract class BaseGreenhouseModule extends Module {
 
         // Put a thermometer on the earth
         Thermometer thermometer = new Thermometer( earth );
-        thermometer.setLocation( new Point2D.Double( finalModelBounds.getX() + 2, .5 ) );
+        thermometer.setLocation( new Point2D.Double( modelBounds.getX() + 2, .5 ) );
         model.addModelElement( thermometer );
         thermometerGraphic = new ThermometerGraphic( getApparatusPanel(), thermometer );
 
         // Set initial conditions
         thermometerEnabled( false );
 
-        // Initialize the views.
+        // Initialize the views
         if ( s_firstTime ) {
         	s_firstTime = false;
         	// Prevent a backdrop from appearing
             earthGraphic.setNoBackdrop();
   
             // Set up the model bounds.
-            initialModelBounds.setRect( finalModelBounds.getX(),
-                                        finalModelBounds.getY(),
-                                        finalModelBounds.getWidth(),
-                                        finalModelBounds.getHeight() );
-            ( (TestApparatusPanel) getApparatusPanel() ).setModelBounds( initialModelBounds );
+            ( (TestApparatusPanel) getApparatusPanel() ).setModelBounds( modelBounds );
   
             atmosphereGraphic.setVisible( true );
-            ( (TestApparatusPanel) getApparatusPanel() ).setModelBounds( finalModelBounds );
             thermometerEnabled( true );
   
             GreenhouseApplication.paintContentImmediately();
@@ -163,11 +154,11 @@ public abstract class BaseGreenhouseModule extends Module {
             setToday();
         }
         else {
-            atmosphereGraphic.setVisible( true );
 
-            ( (TestApparatusPanel) getApparatusPanel() ).setModelBounds( finalModelBounds );
+            ( (TestApparatusPanel) getApparatusPanel() ).setModelBounds( modelBounds );
+            atmosphereGraphic.setVisible( true );
             thermometerEnabled( true );
-            getApparatusPanel().setAffineTransformFactory( new FlipperAffineTransformFactory( finalModelBounds ) );
+            getApparatusPanel().setAffineTransformFactory( new FlipperAffineTransformFactory( modelBounds ) );
             sun.setProductionRate( GreenhouseConfig.defaultSunPhotonProductionRate );
         }
     }
@@ -218,7 +209,7 @@ public abstract class BaseGreenhouseModule extends Module {
     }
 
     protected Rectangle2D.Double getFinalModelBounds() {
-        return finalModelBounds;
+        return modelBounds;
     }
 
     public void thermometerEnabled( boolean enabled ) {
