@@ -106,6 +106,9 @@ build-related libraries from the simulations-java project.
                     <!-- Don't copy over the database access info -->
                     <exclude name="include/login-info.php" />
 
+                    <!-- Don't copy compiled Python files -->
+                    <exclude name="**/*.pyc" />
+
                     <!-- Don't copy the debug settings -->
                     <exclude name="include/local-debug-settings.php" />
 
@@ -170,6 +173,9 @@ build-related libraries from the simulations-java project.
 
                     <!-- Don't copy over the database access info -->
                     <exclude name="include/login-info.php" />
+
+                    <!-- Don't copy compiled Python files -->
+                    <exclude name="**/*.pyc" />
 
                     <!-- Don't copy the debug settings -->
                     <exclude name="include/local-debug-settings.php" />
