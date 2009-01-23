@@ -17,11 +17,11 @@ abstract class LadybugTraceNode(model: LadybugModel, transform: ModelViewTransfo
   setVisible(shouldBeVisible())
   model.addListener(update)
 
-  def update(model: LadybugModel)
+  def update()
 
   def clearTrace = {
     clearPt = model.getHistory.length
-    update(model)
+    update()
   }
 
   def getHistoryToShow() = model.getHistory

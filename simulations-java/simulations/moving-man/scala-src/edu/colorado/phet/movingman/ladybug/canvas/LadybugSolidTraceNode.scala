@@ -13,9 +13,9 @@ class LadybugSolidTraceNode(model: LadybugModel, transform: ModelViewTransform2D
   val path = new PhetPPath(new BasicStroke(4), LadybugColorSet.position)
   addChild(path)
 
-  update(model)
+  update()
 
-  def update(model: LadybugModel) = {
+  def update() = {
     val p = new GeneralPath
     implicit def historyToPoint(dataPoint: DataPoint) = new Point2D.Float(dataPoint.state.position.x.toFloat, dataPoint.state.position.y.toFloat)
 

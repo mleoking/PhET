@@ -17,7 +17,7 @@ import util.ToggleListener
 
 class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTransform2D, vectorVisibilityModel: VectorVisibilityModel) extends PNode {
   var interactive = true
-  model.addListener((m: LadybugModel) => {
+  model.addListener(() => {
     updateInteractive()
   })
   def updateInteractive() = {interactive = model.readyForInteraction}
