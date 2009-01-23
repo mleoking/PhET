@@ -21,7 +21,6 @@ public class StarGraphic extends DiskGraphic {
     private Rectangle2D.Double modelBounds;
     private static Paint paint = Color.YELLOW;
     private java.util.List sunbeams = Collections.synchronizedList( new LinkedList() );
-    private long timeBetweenSunbeams = 30;
 
     public StarGraphic( Star star, Rectangle2D.Double modelBounds ) {
         super( new Disk( star.getLocation(), star.getRadius() ), paint );
@@ -92,16 +91,6 @@ public class StarGraphic extends DiskGraphic {
 
         public Sunbeam( double theta ) {
             this.theta = theta;
-        }
-
-        synchronized private void computeLine( double t ) {
-            double advance = ( ( t - timeCreated ) / 100 ) * star.getRadius();
-            if ( t - timeCreated > 0 ) {
-                x0 = star.getLocation().getX() + ( advance ) * Math.cos( theta );
-                y0 = star.getLocation().getY() + ( advance ) * Math.sin( theta );
-                x1 = star.getLocation().getX() + ( star.getRadius() + advance ) * Math.cos( theta );
-                y1 = star.getLocation().getY() + ( star.getRadius() + advance ) * Math.sin( theta );
-            }
         }
 
         synchronized void paint( Graphics2D g2 ) {
