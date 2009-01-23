@@ -6,7 +6,7 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.common.phetcommon.tracking.IStatistics;
+import edu.colorado.phet.common.phetcommon.statistics.IStatistics;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.AutomaticUpdateDialog;
 
 /**

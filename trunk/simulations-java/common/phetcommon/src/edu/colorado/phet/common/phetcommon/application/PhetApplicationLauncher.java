@@ -5,8 +5,8 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.common.phetcommon.tracking.SessionMessage;
-import edu.colorado.phet.common.phetcommon.tracking.StatisticsManager;
+import edu.colorado.phet.common.phetcommon.statistics.SessionMessage;
+import edu.colorado.phet.common.phetcommon.statistics.StatisticsManager;
 import edu.colorado.phet.common.phetcommon.updates.UpdatesManager;
 
 /**

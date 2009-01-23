@@ -8,7 +8,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.GrayRectWorkaroundDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.tracking.IStatistics;
+import edu.colorado.phet.common.phetcommon.statistics.IStatistics;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
