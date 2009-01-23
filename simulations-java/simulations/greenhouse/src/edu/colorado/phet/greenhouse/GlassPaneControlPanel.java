@@ -108,7 +108,7 @@ public class GlassPaneControlPanel extends JPanel implements Resettable {
         // Options Panel
         JPanel optionsPanel = new JPanel( new GridBagLayout() );
         optionsPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(),
-                GreenhouseResources.getString( "GreenhouseControlPanel.Options" ) ) );
+                                                                  GreenhouseResources.getString( "GreenhouseControlPanel.Options" ) ) );
         GridBagConstraints optsGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1,
                                                              GridBagConstraints.WEST,
                                                              GridBagConstraints.NONE,

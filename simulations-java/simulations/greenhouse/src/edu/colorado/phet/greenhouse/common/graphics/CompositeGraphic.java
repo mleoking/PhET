@@ -9,30 +9,30 @@ package edu.colorado.phet.greenhouse.common.graphics;
 
 
 import java.awt.*;
-import java.awt.geom.Point2D;
-import java.awt.geom.AffineTransform;
 import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.util.*;
 import java.util.List;
 
 /**
  * This is a base class for panels that contain graphic representations
  * of elements in the PhysicalSystem.
- * <p>
+ * <p/>
  * The graphic objects to be displayed are maintained in "layers". Each layer can
  * contain any number of Graphic objects, and each layer has an integer "level"
  * associated with it. Layers are drawn in ascending order of their levels. The order
  * in which objects in a given level are drawn in undefined.
- * <p>
+ * <p/>
  * Levels less than 0 are reserved for items that are always to be displayed. This
  * could, for example, be used for a fixture or instrument that is always to appear as
  * part of the apparatus, such as a table or meter. When this class' removeAllModelElements() method is
  * executed these objects are not destroyed.
- * <p>
+ * <p/>
  * Levels 1 and higher are used for objects that can be created and destroyed as the
  * application runs. All objects in these layers are destroyed when the removeAllModelElements() method
  * is executed.
- * <p>
+ * <p/>
  * Instances of this class are Observers of the application's PhysicalSystem
  *
  * @see Graphic
@@ -64,23 +64,22 @@ public class CompositeGraphic implements InteractiveGraphic {
      */
     public void paint( Graphics2D g2 ) {
         AffineTransform orgTx = g2.getTransform();
-        for( int i = 0; i < inorder.size(); i++ ) {
-            Graphic graphic = (Graphic)inorder.get( i );
+        for ( int i = 0; i < inorder.size(); i++ ) {
+            Graphic graphic = (Graphic) inorder.get( i );
             graphic.paint( g2 );
         }
         g2.setTransform( orgTx );
     }
 
     /**
-     *
      * @param graphic
      * @param level
      */
     public void addGraphic( Graphic graphic, double level ) {
 
         Double levelKey = new Double( level );
-        Collection layer = (Collection)graphicLayers.get( levelKey );
-        if( layer == null ) {
+        Collection layer = (Collection) graphicLayers.get( levelKey );
+        if ( layer == null ) {
             layer = new ArrayList( 10 );
             graphicLayers.put( levelKey, layer );
         }
@@ -100,13 +99,13 @@ public class CompositeGraphic implements InteractiveGraphic {
      */
     public void removeGraphic( Graphic graphic ) {
         synchronized( graphicLayers ) {
-            for( Iterator layerIt = graphicLayers.values().iterator(); layerIt.hasNext(); ) {
-                Collection layer = (Collection)layerIt.next();
+            for ( Iterator layerIt = graphicLayers.values().iterator(); layerIt.hasNext(); ) {
+                Collection layer = (Collection) layerIt.next();
                 ArrayList removeList = new ArrayList();
-                for( Iterator graphicIt = layer.iterator();
-                     graphicIt.hasNext(); ) {
-                    Graphic testGraphic = (Graphic)graphicIt.next();
-                    if( testGraphic == graphic ) {
+                for ( Iterator graphicIt = layer.iterator();
+                      graphicIt.hasNext(); ) {
+                    Graphic testGraphic = (Graphic) graphicIt.next();
+                    if ( testGraphic == graphic ) {
                         removeList.add( testGraphic );
                     }
                 }
@@ -119,23 +118,24 @@ public class CompositeGraphic implements InteractiveGraphic {
     /**
      * Returns a list of the elements in all the layers, in order of their
      * painting order
+     *
      * @return
      */
     private List getElementsInOrder() {
         ArrayList elements = new ArrayList();
-            Collection layers = graphicLayers.values();
-            for( Iterator layerIt = layers.iterator(); layerIt.hasNext(); ) {
-                elements.addAll( (ArrayList)layerIt.next() );
-            }
+        Collection layers = graphicLayers.values();
+        for ( Iterator layerIt = layers.iterator(); layerIt.hasNext(); ) {
+            elements.addAll( (ArrayList) layerIt.next() );
+        }
         return elements;
     }
 
     //
     // New versions of mouse handlers
     public void mousePressed( MouseEvent event, Point2D.Double modelLoc ) {
-        if( selectedGraphic == null ) {
+        if ( selectedGraphic == null ) {
             selectedGraphic = determineMouseHandler( event, modelLoc );
-            if( selectedGraphic != null ) {
+            if ( selectedGraphic != null ) {
                 selectedGraphic.mousePressed( event, modelLoc );
             }
         }
@@ -145,15 +145,15 @@ public class CompositeGraphic implements InteractiveGraphic {
         InteractiveGraphic ig = null;
         synchronized( graphicLayers ) {
             List elements = this.getElementsInOrder();
-            for( int i = elements.size() - 1; i >= 0; i-- ) {
+            for ( int i = elements.size() - 1; i >= 0; i-- ) {
 
-                Graphic graphic = (Graphic)elements.get( i );
+                Graphic graphic = (Graphic) elements.get( i );
 
-                if( graphic instanceof InteractiveGraphic
-                        && ( (InteractiveGraphic)graphic ).canHandleMousePress( event, modelLoc ) ) {
-                    ig = (InteractiveGraphic)graphic;
-                    if( ig instanceof CompositeGraphic ) {
-                        ig = ( (CompositeGraphic)ig ).determineMouseHandler( event, modelLoc );
+                if ( graphic instanceof InteractiveGraphic
+                     && ( (InteractiveGraphic) graphic ).canHandleMousePress( event, modelLoc ) ) {
+                    ig = (InteractiveGraphic) graphic;
+                    if ( ig instanceof CompositeGraphic ) {
+                        ig = ( (CompositeGraphic) ig ).determineMouseHandler( event, modelLoc );
                     }
                     break;
                 }
@@ -163,13 +163,13 @@ public class CompositeGraphic implements InteractiveGraphic {
     }
 
     public void mouseDragged( MouseEvent event, Point2D.Double modelLoc ) {
-        if( selectedGraphic != null ) {
+        if ( selectedGraphic != null ) {
             selectedGraphic.mouseDragged( event, modelLoc );
         }
     }
 
     public void mouseReleased( MouseEvent event, Point2D.Double modelLoc ) {
-        if( selectedGraphic != null ) {
+        if ( selectedGraphic != null ) {
             selectedGraphic.mouseReleased( event, modelLoc );
         }
         selectedGraphic = null;
@@ -178,14 +178,14 @@ public class CompositeGraphic implements InteractiveGraphic {
     public void mouseEntered( MouseEvent event, Point2D.Double modelLoc ) {
         InteractiveGraphic newIG = determineMouseHandler( event, modelLoc );
         // If the mouse is still over an interactive graphic, tell him
-        if( newIG != null && newIG != mouseEnteredGraphic ) {
+        if ( newIG != null && newIG != mouseEnteredGraphic ) {
             mouseEnteredGraphic = newIG;
             mouseEnteredGraphic.mouseEntered( event, modelLoc );
         }
     }
 
     public void mouseExited( MouseEvent event, Point2D.Double modelLoc ) {
-        if( mouseEnteredGraphic != null ) {
+        if ( mouseEnteredGraphic != null ) {
             mouseEnteredGraphic.mouseExited( event, modelLoc );
             mouseEnteredGraphic = null;
         }
@@ -201,18 +201,18 @@ public class CompositeGraphic implements InteractiveGraphic {
         InteractiveGraphic newIG = determineMouseHandler( e, modelLoc );
 
         //Moving off of a graphic to no graphic.
-        if( mouseEnteredGraphic != null && newIG == null ) {
+        if ( mouseEnteredGraphic != null && newIG == null ) {
             mouseEnteredGraphic.mouseExited( e, modelLoc );
             mouseEnteredGraphic = null;
         }
         //Moving from one graphic to another.
-        else if( mouseEnteredGraphic != null && newIG != null && mouseEnteredGraphic != newIG ) {
+        else if ( mouseEnteredGraphic != null && newIG != null && mouseEnteredGraphic != newIG ) {
             mouseEnteredGraphic.mouseExited( e, modelLoc );
             mouseEnteredGraphic = newIG;
             mouseEnteredGraphic.mouseEntered( e, modelLoc );
         }
         //Moved to something from nothing.
-        else if( newIG != null && mouseEnteredGraphic == null ) {
+        else if ( newIG != null && mouseEnteredGraphic == null ) {
             mouseEnteredGraphic = newIG;
             mouseEnteredGraphic.mouseEntered( e, modelLoc );
         }

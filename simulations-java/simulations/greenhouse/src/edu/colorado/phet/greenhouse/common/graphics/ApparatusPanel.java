@@ -8,8 +8,6 @@
 package edu.colorado.phet.greenhouse.common.graphics;
 
 
-import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -20,24 +18,27 @@ import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
+
 /**
  * This is a base class for panels that contain graphic representations
  * of elements in the PhysicalSystem.
- * <p>
+ * <p/>
  * The graphic objects to be displayed are maintained in "layers". Each layer can
  * contain any number of Graphic objects, and each layer has an integer "level"
  * associated with it. Layers are drawn in ascending order of their levels. The order
  * in which objects in a given level are drawn in undefined.
- * <p>
+ * <p/>
  * Levels less than 0 are reserved for items that are always to be displayed. This
  * could, for example, be used for a fixture or instrument that is always to appear as
  * part of the apparatus, such as a table or meter. When this class' removeAllModelElements() method is
  * executed these objects are not destroyed.
- * <p>
+ * <p/>
  * Levels 1 and higher are used for objects that can be created and destroyed as the
  * application runs. All objects in these layers are destroyed when the removeAllModelElements() method
  * is executed.
- * <p>
+ * <p/>
  * Instances of this class are Observers of the application's PhysicalSystem
  *
  * @see edu.colorado.phet.greenhouse.common.graphics.Graphic
@@ -94,7 +95,6 @@ public class ApparatusPanel extends JPanel implements Observer {
     }
 
     /**
-     *
      * @param tx
      */
     public void setAffineTransformFactory( AffineTransformFactory tx ) {
@@ -110,16 +110,17 @@ public class ApparatusPanel extends JPanel implements Observer {
 
     /**
      * Draws all the Graphic objects in the ApparatusPanel
+     *
      * @param graphics
      */
     protected void paintComponent( Graphics graphics ) {
 
-        Graphics2D g2 = (Graphics2D)graphics;
+        Graphics2D g2 = (Graphics2D) graphics;
         super.paintComponent( g2 );
 
         AffineTransform orgATx = g2.getTransform();
-        if (affineTx!=null){
-        g2.setTransform( affineTx );
+        if ( affineTx != null ) {
+            g2.setTransform( affineTx );
         }
         compositeGraphic.paint( g2 );
         g2.setTransform( orgATx );
@@ -129,12 +130,11 @@ public class ApparatusPanel extends JPanel implements Observer {
         graphics.setColor( Color.black );
         g2.setStroke( borderStroke );
         g2.drawRect( 0, 0,
-                     (int)boundingRect.getWidth() - 2,
-                     (int)boundingRect.getHeight() - 2 );
+                     (int) boundingRect.getWidth() - 2,
+                     (int) boundingRect.getHeight() - 2 );
     }
 
     /**
-     *
      * @param graphic
      * @param level
      */

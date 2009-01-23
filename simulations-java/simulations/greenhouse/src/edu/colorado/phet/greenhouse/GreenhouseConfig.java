@@ -12,7 +12,7 @@ import java.awt.*;
 import edu.colorado.phet.greenhouse.common.graphics.ApparatusPanel;
 
 public class GreenhouseConfig {
-    
+
     public static final String PROJECT_NAME = "greenhouse";
 
     //

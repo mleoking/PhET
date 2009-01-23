@@ -6,12 +6,11 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import java.awt.Container;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 
-import javax.swing.JComponent;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
@@ -33,11 +32,11 @@ public class GreenhouseApplication extends PiccoloPhetApplication {
 
     public GreenhouseApplication( PhetApplicationConfig config ) {
         super( config );
-        
+
         // modules
         addModule( new GreenhouseModule() );
         addModule( new GlassPaneModule() );
-        
+
         paintContentImmediately();
         getPhetFrame().addWindowFocusListener( new WindowFocusListener() {
             public void windowGainedFocus( WindowEvent e ) {
@@ -56,14 +55,14 @@ public class GreenhouseApplication extends PiccoloPhetApplication {
             jComponent.paintImmediately( 0, 0, jComponent.getWidth(), jComponent.getHeight() );
         }
     }
-    
+
     private static class GreenhouseLookAndFeel extends PhetLookAndFeel {
         public GreenhouseLookAndFeel() {
             setBackgroundColor( GreenhouseConfig.PANEL_BACKGROUND_COLOR );
             setTitledBorderFont( new PhetFont( Font.PLAIN, 12 ) );
         }
     }
-    
+
     public static void main( String[] args ) {
         ApplicationConstructor appConstructor = new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {

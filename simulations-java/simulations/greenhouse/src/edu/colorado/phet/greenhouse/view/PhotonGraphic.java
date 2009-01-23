@@ -6,8 +6,7 @@
  */
 package edu.colorado.phet.greenhouse.view;
 
-import java.awt.Color;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.AffineTransformOp;
