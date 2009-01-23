@@ -75,7 +75,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     private static final Font   LARGE_LABEL_FONT = new PhetFont( Font.BOLD, 20 );
     private static final float  HALF_LIFE_LINE_STROKE_WIDTH = 2.0f;
     private static final Stroke HALF_LIFE_LINE_STROKE = new BasicStroke( HALF_LIFE_LINE_STROKE_WIDTH, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 3.0f, 3.0f }, 0 );
-    private static final Color  HALF_LIFE_LINE_COLOR = new Color (0x990000);
+    private static final Color  HALF_LIFE_LINE_COLOR = new Color (238, 0, 0);
     private static final Color  HALF_LIFE_TEXT_COLOR = HALF_LIFE_LINE_COLOR;
     private static final Font   HALF_LIFE_FONT = new PhetFont( Font.BOLD, 16 );
 
