@@ -580,8 +580,8 @@ public class PhetProject {
 
     }
 
-    public String getDeployedSimulationJarURL( String simulationName ) {
-        return WEBROOT + getName() + "/" + simulationName + "_all.jar";
+    public String getDeployedSimulationJarURL( ) {
+        return WEBROOT + getName() + "/" + getName() + "_all.jar";
     }
 
     public File getTranslationFile( Locale locale ) {

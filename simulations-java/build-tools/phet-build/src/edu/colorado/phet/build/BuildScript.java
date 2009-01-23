@@ -94,6 +94,7 @@ public class BuildScript {
         //would be nice to build before deploying new SVN number in case there are errors,
         //however, we need the correct version info in the JAR
         if ( !skipBuild ) {
+            System.out.println( "Starting build..." );
             boolean success = build();
             if ( !success ) {
                 System.out.println( "Stopping due to build failure, see console." );
@@ -438,14 +439,14 @@ public class BuildScript {
                     public boolean invoke() {
                         System.out.println( "Invoking server side scripts to generate simulation and language JAR files" );
                         if ( !dryRun ) {
-                            generateSimulationAndLanguageJARFiles( PhetServer.PRODUCTION, prodAuth );
+                            generateSimulationAndLanguageJARFiles(project, PhetServer.PRODUCTION, prodAuth );
                         }
                         return true;
                     }
                 } );
     }
 
-    private void generateSimulationAndLanguageJARFiles( PhetServer server, AuthenticationInfo authenticationInfo ) {
+    public static void generateSimulationAndLanguageJARFiles( PhetProject project,PhetServer server, AuthenticationInfo authenticationInfo ) {
         SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword() );
         try {
             sshConnection.connect();

@@ -6,9 +6,7 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-import edu.colorado.phet.build.PhetBuildJnlpTask;
-import edu.colorado.phet.build.PhetProject;
-import edu.colorado.phet.build.Simulation;
+import edu.colorado.phet.build.*;
 import edu.colorado.phet.build.util.FileUtils;
 
 import com.jcraft.jsch.JSchException;
@@ -54,14 +52,11 @@ public class AddTranslation {
         this.basedir = basedir;
     }
 
-    /**
+    /*
      * This method is performed phase-wise (i.e. download all, then update all, then deploy all)
      * instead of (download #1, then update #1 then deploy #1) in order to make it easy to disable a single phase
      * and to facilitate batch deploy.
      *
-     * @param simulation
-     * @param language
-     * @throws IOException
      */
     public AddTranslationReturnValue addTranslation( String simulation, String language, String user, String password ) {
 
@@ -80,57 +75,34 @@ public class AddTranslation {
 
             // Get simulations once, reuse in each iteration
             Simulation[] simulations = phetProject.getSimulations();
+            System.out.println( "Downloading <project>_all.jar" );
+            downloadJAR( phetProject );
+            System.out.println( "Finished downloading the jar" );
 
-            System.out.println( "Downloading all jars" );
-            //Download all simulation JAR files for this project
-            for ( int i = 0; i < simulations.length; i++ ) {
-                downloadJAR( phetProject, simulations[i].getName() );
-            }
-            downloadJAR( phetProject, phetProject.getName() );//also download the webstart JAR
-            System.out.println( "Finished downloading all jars" );
+            System.out.println( "Updating the jar." );
+            updateJAR( phetProject, language );
+            System.out.println( "Finished updating project_all.jar" );
 
-            System.out.println( "Updating all jars." );
-            //Update all simulation JAR files
-            for ( int i = 0; i < simulations.length; i++ ) {
-                updateJAR( phetProject, simulations[i].getName(), language );
-            }
-            updateJAR( phetProject, phetProject.getName(), language );//also update the webstart JAR
-            System.out.println( "Finished updating all jars" );
-
-            //create a JNLP file for each simulation
+                        //create a JNLP file for each simulation
             System.out.println( "Building JNLP" );
             PhetBuildJnlpTask.buildJNLPForSimAndLanguage( phetProject, language );
             checkMainClasses( phetProject, language );
             System.out.println( "Finished building JNLP" );
 
-
             if ( success && DEPLOY_ENABLED ) {//Can disable for local testing
                 System.out.println( "Starting deploy" );
                 //Deploy updated simulation JAR files
                 for ( int i = 0; i < simulations.length; i++ ) {
-                    deployJAR( phetProject, simulations[i].getName(), user, password );
+//                    deployJAR( phetProject, simulations[i].getName(), user, password );
                     deployJNLPFile( phetProject, simulations[i], language, user, password );
                 }
-                deployJAR( phetProject, phetProject.getName(), user, password );//also deploy the updated webstart JAR
+                deployJAR( phetProject, user, password );//also deploy the updated webstart JAR
+
+                //run server side scripts to generate simulation x locale jars
+                BuildScript.generateSimulationAndLanguageJARFiles( phetProject, PhetServer.PRODUCTION, new AuthenticationInfo( user, password ) );
 
                 //poke the website to make sure it regenerates pages with the new info
                 try {
-
-                    //Note from Dano on 5/18/2008
-                    //Line #118
-                    //the web file referenced should be "cache-clear.php?cache=all" instead of "cache-clear-all.php"
-
-                    /**
-                     * Quick question:
-                     //                    FileUtils.download( "http://phet.colorado.edu/new/admin/cache-clear.php?cache-all", new File( getTempProjectDir( phetProject ), "cache-clear-all.php" ) );
-
-                     todo: Does the 2nd "cache-clear-all.php" need to change?
-
-                     Dano's version:
-                     FileUtils.download( "http://phet.colorado.edu/new/admin/cache-clear.php?cache-all", new File( getTempProjectDir( phetProject ), "cache-clear.php?cache-all" ) );
-
-                     */
-
                     FileUtils.download( "http://phet.colorado.edu/admin/cache-clear.php?cache=all", new File( getTempProjectDir( phetProject ), "cache-clear-all.php" ) );
                     System.out.println( "Deployed: " + phetProject.getName() + " in language " + language + ", please test it to make sure it works correctly." );
                     System.out.println( "Finished deploy" );
@@ -192,22 +164,20 @@ public class AddTranslation {
 
     /**
      * Creates a backup of the file, then iterates over all subprojects (including the sim itself) to update the jar
-     *
-     * @param phetProject
      */
-    private void updateJAR( PhetProject phetProject, String jarBaseName, String language ) throws IOException {
+    private void updateJAR( PhetProject phetProject, String language ) throws IOException {
 
         //todo: may later want to add a build-simulation-by-svn-number to handle revert
 
         //create a backup copy of the JAR
-        FileUtils.copyTo( getJARTempFile( phetProject, jarBaseName ), getJARBackupFile( phetProject, jarBaseName ) );
+        FileUtils.copyTo( getJARTempFile( phetProject ), getJARBackupFile( phetProject ) );
 
-        //add localization files for each subproject, including the simulation project itself
+        //add localization files for each subproject (such as phetcommon), including the simulation project itself
         for ( int i = 0; i < phetProject.getAllDependencies().length; i++ ) {
 
             //check existence of localization file for dependency before calling updateJARForDependency
             if ( phetProject.getAllDependencies()[i].getLocalizationFile( language ).exists() ) {
-                updateJAR( phetProject, jarBaseName, language, phetProject.getAllDependencies()[i] );
+                updateJAR( phetProject, language, phetProject.getAllDependencies()[i] );
             }
             else {
                 System.out.println( "Simulation: " + phetProject.getName() + " depends on " + phetProject.getAllDependencies()[i].getName() + ", which does not contain a translation to: " + language );
@@ -215,21 +185,15 @@ public class AddTranslation {
         }
     }
 
-    /**
+    /*
      * integrates the specified sim translation file and all common translation files, if they exist.
      * This also tests for errors: it does not overwrite existing files, and it verifies afterwards that the
      * JAR just contains a single new file.
-     *
-     * @param sim
-     * @param jarBaseName
-     * @param language
-     * @param dependency
-     * @throws IOException
      */
-    private void updateJAR( PhetProject sim, String jarBaseName, String language, PhetProject dependency ) throws IOException {
+    private void updateJAR( PhetProject sim, String language, PhetProject dependency ) throws IOException {
         //Run the JAR update command
 
-        String command = "jar uf " + jarBaseName + ".jar" +
+        String command = "jar uf " + sim.getName() + "_all.jar" +
                          " -C " + getProjectDataDir( dependency ) + " " + getLocalizationFilePathInDataDirectory( dependency, language );
         System.out.println( "Running: " + command + ", in directory: " + getTempProjectDir( sim ) );
         Process p = Runtime.getRuntime().exec( command, new String[]{}, getTempProjectDir( sim ) );
@@ -255,16 +219,12 @@ public class AddTranslation {
         return new File( phetProject.getProjectDir(), "data" ).getAbsoluteFile();
     }
 
-    /**
+    /*
      * Uploads the new JAR file to tigercat.
-     *
-     * @param phetProject
-     * @throws IOException
-     * @throws JSchException
      */
-    private void deployJAR( PhetProject phetProject, String jarBaseName, String user, String password ) throws JSchException, IOException {
-        final String filename = getRemoteDirectory( phetProject ) + jarBaseName + "_all.jar";
-        ScpTo.uploadFile( getJARTempFile( phetProject, jarBaseName ), user, "tigercat.colorado.edu", filename, password );
+    private void deployJAR( PhetProject phetProject, String user, String password ) throws JSchException, IOException {
+        final String filename = getRemoteDirectory( phetProject ) + phetProject.getName() + "_all.jar";
+        ScpTo.uploadFile( getJARTempFile( phetProject ), user, "tigercat.colorado.edu", filename, password );
     }
 
     private void deployJNLPFile( PhetProject phetProject, Simulation simulation, String locale, String user, String password ) throws JSchException, IOException {
@@ -286,24 +246,20 @@ public class AddTranslation {
         return dir;
     }
 
-    private void downloadJAR( PhetProject phetProject, String jarBaseName ) throws FileNotFoundException {
-        String url = phetProject.getDeployedSimulationJarURL( jarBaseName );
-        final File fileName = getJARTempFile( phetProject, jarBaseName );
+    private void downloadJAR( PhetProject phetProject ) throws FileNotFoundException {
+        String url = phetProject.getDeployedSimulationJarURL();
+        final File fileName = getJARTempFile( phetProject );
         System.out.println( "Starting download to: " + fileName.getAbsolutePath() );
         FileUtils.download( url, fileName );
         System.out.println( "Finished download." );
     }
 
-    private File getJARBackupFile( PhetProject phetProject, String jarBaseName ) {
-        return getJARTempFile( phetProject, jarBaseName, "_backup.jar" );
+    private File getJARBackupFile( PhetProject phetProject ) {
+        return new File( getTempProjectDir( phetProject ), phetProject.getName() + "_all_backup.jar" );
     }
 
-    private File getJARTempFile( PhetProject phetProject, String jarBaseName ) {
-        return getJARTempFile( phetProject, jarBaseName, ".jar" );
-    }
-
-    private File getJARTempFile( PhetProject phetProject, String jarBaseName, String suffix ) {
-        return new File( getTempProjectDir( phetProject ), jarBaseName + suffix );
+    private File getJARTempFile( PhetProject phetProject ) {
+        return new File( getTempProjectDir( phetProject ), phetProject.getName() + "_all.jar" );
     }
 
     public static String prompt( String title ) {
