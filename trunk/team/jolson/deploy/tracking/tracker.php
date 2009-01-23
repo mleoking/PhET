@@ -8,7 +8,7 @@
 	include("db_util.php");
 	
 	// whether or not logging the messages is enabled. DO NOT ENABLE FOR LIVE VERSION
-	$raw_tracking = false;
+	$raw_tracking = true;
 	
 	
 	// load the xml from postdata
@@ -89,6 +89,46 @@
 			
 			
 		}
+	} else if($xml["sim_type"] == "java") {
+		
+		if($xml["message_version"] == "1") {
+			$link = setup_mysql();
+			
+			// create/update entry in user database
+			update_user(
+				sanitize($xml, "user_preference_file_creation_time"),
+				sanitize($xml, "user_total_sessions")
+			);
+			
+			insert_java_message(
+				1, //$messageVersion,
+				sanitize($xml, "sim_project"), //$simProject,
+				sanitize($xml, "sim_name"), //$simName,
+				sanitize($xml, "sim_major_version"), //$simMajorVersion,
+				sanitize($xml, "sim_minor_version"), //$simMinorVersion,
+				sanitize($xml, "sim_dev_version"), //$simDevVersion,
+				sanitize($xml, "sim_svn_revision"), //$simSvnRevision,
+				sanitize($xml, "sim_locale_language"), //$simLocaleLanguage,
+				sanitize($xml, "sim_locale_country"), //$simLocaleCountry,
+				sanitize($xml, "sim_sessions_since"), //$simSessionsSince,
+				sanitize($xml, "sim_sessions_ever"), //$simSessionsEver,
+				sanitize($xml, "sim_deployment"), //$simDeployment,
+				sanitize($xml, "sim_distribution_id"), //$simDistributionTag,
+				sanitize($xml, "sim_dev"), //$simDev,
+				sanitize($xml, "host_locale_language"), //$hostLocaleLanguage,
+				sanitize($xml, "host_locale_country"), //$hostLocaleCountry,
+				sanitize($xml, "host_os_name"), //$hostJavaOSName,
+				sanitize($xml, "host_os_version"), //$hostJavaOSVersion,
+				sanitize($xml, "host_os_arch"), //$hostJavaOSArch,
+				sanitize($xml, "host_java_vendor"), //$hostJavaVendor,
+				sanitize($xml, "host_java_version_major"), //$hostJavaVersionMajor,
+				sanitize($xml, "host_java_version_minor"), //$hostJavaVersionMinor,
+				sanitize($xml, "host_java_version_maintenance"), //$hostJavaVersionMaintenance,
+				sanitize($xml, "host_java_webstart_version"), //$hostJavaWebstartVersion,
+				sanitize($xml, "host_timezone") //$hostJavaTimezone
+			);
+		}
+		
 	}
 	
 	echo "<p>Received Successfully</p>";
