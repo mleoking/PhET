@@ -246,7 +246,7 @@ public class PhetApplicationConfig implements IStatistics, ISimInfo {
      * @return
      */
     public boolean isStatisticsFeatureIncluded() {
-        return hasCommandLineArg( "-tracking" ) && !DeploymentScenario.isWebsite();
+        return hasCommandLineArg( "-statistics" ) && !DeploymentScenario.isWebsite();
     }
 
     public boolean isUpdatesEnabled() {
