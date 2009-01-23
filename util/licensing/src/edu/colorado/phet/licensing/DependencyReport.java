@@ -115,8 +115,11 @@ public class DependencyReport {
         String[] simNames = PhetProject.getSimNames( baseDir );
 
         ArrayList simHTMLs = new ArrayList();
+        int count=0;
         for ( int i = 0; i < simNames.length; i++ ) {
-            simHTMLs.add( visitSim( simNames[i] ) );
+            DependencyReport.SimHTML info = visitSim( simNames[i] );
+            simHTMLs.add( info );
+            count+=info.getIssues().getIssueCount();
         }
 
         String content = "Sims with no known issues:<br>";
@@ -129,7 +132,7 @@ public class DependencyReport {
         }
         content += "<br><br>";
 
-        content += "Sims with known issues:<br>";
+        content += "Sims with known issues ("+count+" issues found):<br>";
         for ( int i = 0; i < simHTMLs.size(); i++ ) {
             SimHTML html = (SimHTML) simHTMLs.get( i );
             if ( !html.getIssues().isEmpty() ) {
