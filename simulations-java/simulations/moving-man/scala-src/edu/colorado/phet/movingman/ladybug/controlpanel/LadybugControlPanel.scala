@@ -5,7 +5,7 @@ import _root_.edu.colorado.phet.movingman.ladybug.model.LadybugMotionModel._
 import edu.colorado.phet.common.phetcommon.view.ControlPanel
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
-import model.{LadybugMotionModel, ObservableS, Observable, LadybugModel}
+import model.{LadybugMotionModel, ObservableS, LadybugModel}
 import scala.swing._
 import scala.swing.event.ButtonClicked
 import java.awt.Dimension

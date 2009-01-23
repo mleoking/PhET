@@ -4,7 +4,7 @@ import _root_.edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
 import scala.collection.mutable.ArrayBuffer
 import LadybugUtil._
 
-class LadybugModel extends ObservableS{
+class LadybugModel extends ObservableS {
   val ladybug = new Ladybug
   private val history = new ArrayBuffer[DataPoint]
 

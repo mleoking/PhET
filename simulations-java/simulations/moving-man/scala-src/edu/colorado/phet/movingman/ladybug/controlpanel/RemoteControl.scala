@@ -95,7 +95,7 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
         if (isInteractive()) {
           _mode.dragging = false
           setMotionManual()
-          if ( !LadybugDefaults.vaSticky && (_mode == velocityMode || _mode == accelerationMode)) {
+          if (!LadybugDefaults.vaSticky && (_mode == velocityMode || _mode == accelerationMode)) {
             _mode.setDestination(new Vector2D(0, 0))
           }
         }

@@ -37,7 +37,7 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
     }
   })
 
-  addInputEventListener(new ToggleListener(new CursorHandler,()=>interactive))
+  addInputEventListener(new ToggleListener(new CursorHandler, () => interactive))
   val inputHandler = new PBasicInputEventHandler() {
     override def mouseDragged(event: PInputEvent) = {
       model.startRecording()
@@ -50,7 +50,7 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
       model.startRecording()
     }
   }
-  addInputEventListener(new ToggleListener(inputHandler,()=>interactive))
+  addInputEventListener(new ToggleListener(inputHandler, () => interactive))
   updateInteractive()
 
   def updateLadybug(): Unit = {
