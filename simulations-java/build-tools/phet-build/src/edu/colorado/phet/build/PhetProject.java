@@ -45,11 +45,11 @@ public class PhetProject {
     }
 
     public File getDefaultDeployJar() {
-        return new File( getDeployDir(), getName() + ".jar" );
+        return new File( getDeployDir(), getName() + "_all.jar" );
     }
 
     public File getDefaultDeploySimulationJar( String simulation ) {
-        return new File( getDeployDir(), simulation + ".jar" );
+        return new File( getDeployDir(), simulation + "_all.jar" );
     }
 
     public File getProjectDir() {
@@ -317,7 +317,7 @@ public class PhetProject {
     }
 
     public File getJarFile() {
-        File file = new File( getAntOutputDir(), "jars/" + name + ".jar" );
+        File file = new File( getAntOutputDir(), "jars/" + name + "_all.jar" );
         file.getParentFile().mkdirs();
         return file;
     }
@@ -581,7 +581,7 @@ public class PhetProject {
     }
 
     public String getDeployedSimulationJarURL( String simulationName ) {
-        return WEBROOT + getName() + "/" + simulationName + ".jar";
+        return WEBROOT + getName() + "/" + simulationName + "_all.jar";
     }
 
     public File getTranslationFile( Locale locale ) {
