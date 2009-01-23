@@ -4,7 +4,7 @@ import _root_.edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
 import scala.collection.mutable.ArrayBuffer
 import LadybugUtil._
 
-class LadybugModel extends Observable[LadybugModel] {
+class LadybugModel extends ObservableS{
   val ladybug = new Ladybug
   private val history = new ArrayBuffer[DataPoint]
 
@@ -95,7 +95,7 @@ class LadybugModel extends Observable[LadybugModel] {
         if (history.length > 20) {
           updateMode(dt)
         }
-        notifyListeners(this)
+        notifyListeners()
       } else if (isPlayback()) {
         stepPlayback()
       }
@@ -113,7 +113,7 @@ class LadybugModel extends Observable[LadybugModel] {
       setStateToPlaybackIndex()
       time = history(getPlaybackIndex()).time
       playbackIndexFloat = playbackIndexFloat + playbackSpeed
-      notifyListeners(this)
+      notifyListeners()
     } else {
       if (LadybugDefaults.recordAtEndOfPlayback) {
         setRecord(true)
@@ -163,14 +163,14 @@ class LadybugModel extends Observable[LadybugModel] {
   def setRecord(rec: Boolean) = {
     if (record != rec) {
       record = rec
-      notifyListeners(this)
+      notifyListeners()
     }
   }
 
   def setPlayback(speed: Double) = {
     if (speed != playbackSpeed) {
       playbackSpeed = speed
-      notifyListeners(this)
+      notifyListeners()
     }
     setRecord(false)
   }
@@ -178,7 +178,7 @@ class LadybugModel extends Observable[LadybugModel] {
   def setPaused(p: Boolean) = {
     if (paused != p) {
       paused = p
-      notifyListeners(this)
+      notifyListeners()
     }
   }
 
@@ -191,7 +191,7 @@ class LadybugModel extends Observable[LadybugModel] {
   def setPlaybackIndexFloat(index: Double) = {
     playbackIndexFloat = index
     setStateToPlaybackIndex()
-    notifyListeners(this)
+    notifyListeners()
   }
 
   def startRecording() = {
@@ -209,6 +209,6 @@ class LadybugModel extends Observable[LadybugModel] {
     playbackIndexFloat = 0.0
     time = 0
     ladybug.resetAll()
-    notifyListeners(this)
+    notifyListeners()
   }
 }

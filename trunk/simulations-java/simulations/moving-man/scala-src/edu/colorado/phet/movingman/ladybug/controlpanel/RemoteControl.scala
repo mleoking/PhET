@@ -138,7 +138,7 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
   setFillNone
 
   val button = new JButton()
-  model.addListener((lm: LadybugModel) => updateButton)
+  model.addListener(() => updateButton)
 
   def updateButton = {
     val value = if (model.isPaused) ("light3.png", "Go") else ("stop-20.png", "Stop")

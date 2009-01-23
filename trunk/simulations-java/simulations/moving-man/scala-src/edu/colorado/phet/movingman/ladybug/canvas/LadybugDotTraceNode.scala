@@ -13,14 +13,14 @@ class LadybugDotTraceNode(model: LadybugModel, transform: ModelViewTransform2D, 
   val node = new PNode()
   addChild(node)
 
-  update(model)
+  update()
 
   class DotNode(point: Point2D) extends PNode {
     val path = new PhetPPath(new Ellipse2D.Double(point.getX - 5, point.getY - 5, 10, 10), LadybugColorSet.position)
     addChild(path)
   }
 
-  def update(model: LadybugModel) = {
+  def update() = {
     node.removeAllChildren
     val p = new GeneralPath
     implicit def historyToPoint(dataPoint: DataPoint) = new Point2D.Float(dataPoint.state.position.x.toFloat, dataPoint.state.position.y.toFloat)

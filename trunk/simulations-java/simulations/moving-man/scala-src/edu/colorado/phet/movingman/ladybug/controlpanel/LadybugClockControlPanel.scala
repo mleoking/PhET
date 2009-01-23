@@ -50,7 +50,7 @@ class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
     module.model.setPlaybackIndexFloat(0.0)
     module.model.setPaused(true)
   })
-  module.model.addListener((m: LadybugModel) => {
+  module.model.addListener(() => {
     val disabled = module.model.isPlayback && module.model.getPlaybackIndex == 0
     rewind.setEnabled(!disabled)
   })
@@ -64,7 +64,7 @@ class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
   })
   val playPauseTooltipHandler = new ToolTipHandler("Pause", this)
   playPause.addInputEventListener(playPauseTooltipHandler)
-  module.model.addListener((m: LadybugModel) => {
+  module.model.addListener(() => {
     playPause.setPlaying(!module.model.isPaused)
     playPauseTooltipHandler.setText(if (module.model.isPaused) "Play" else "Pause")
   })
@@ -73,7 +73,7 @@ class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
   val stepButton = new StepButton(50)
   stepButton.setEnabled(false)
   stepButton.addInputEventListener(new ToolTipHandler("Step", this))
-  module.model.addListener((m: LadybugModel) => {
+  module.model.addListener(() => {
     val isLastStep = module.model.getPlaybackIndex == module.model.getHistory.length
     stepButton.setEnabled(module.model.isPlayback && module.model.isPaused && !isLastStep)
   })
@@ -83,8 +83,8 @@ class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
 
   val timeline = new Timeline(module.model, this)
   addScreenChild(timeline)
-  module.model.addListener((m: LadybugModel) => {
-    timeline.setVisible(m.isPlayback)
+  module.model.addListener(() => {
+    timeline.setVisible(module.model.isPlayback)
   })
 
   setPreferredSize(new Dimension(600, 100))
@@ -127,7 +127,7 @@ class Timeline(model: LadybugModel, canvas: PhetPCanvas) extends PNode {
     }
   })
 
-  model.addListener((model: LadybugModel) => {
+  model.addListener(() => {
     updateSelf()
   })
   updateSelf
