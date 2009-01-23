@@ -5,7 +5,7 @@ import scala.collection.mutable.ArrayBuffer
 trait ObservableS {
   private val listeners = new ArrayBuffer[() => Unit]
 
-  def notifyListeners(): Unit = listeners.foreach(_())
+  def notifyListeners() = listeners.foreach(_())
 
   def addListener(listener: () => Unit) = listeners += listener
 }
