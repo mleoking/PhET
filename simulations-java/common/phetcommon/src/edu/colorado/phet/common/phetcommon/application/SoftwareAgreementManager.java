@@ -154,7 +154,7 @@ public class SoftwareAgreementManager {
         private static final String MESSAGE_PATTERN = PhetCommonResources.getString( "Common.softwareAgreement.message" );
         
         // identifiers for hyperlink actions
-        private static final String LINK_SHOW_STATISTICS_DETAILS = "showTrackingDetails";
+        private static final String LINK_SHOW_STATISTICS_DETAILS = "showStatisticsDetails";
         private static final String LINK_SHOW_SOFTWARE_AGREEMENT = "showSoftwareAgreements";
 
         public MessagePane( final JDialog owner, final IStatistics statistics ) {

@@ -13,8 +13,8 @@ import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
  */
 public class PHPStatisticsService implements IStatisticsService {
     
-    private static final String STATISTICS_PATH = "tracking";
-    private static final String STATISTICS_SCRIPT = "phet-tracking.php";
+    private static final String STATISTICS_PATH = "tracking";//todo; this should be XML acceptor
+    private static final String STATISTICS_SCRIPT = "phet-tracking.php";//todo; this should be XML acceptor
 
     public PHPStatisticsService() {}
 

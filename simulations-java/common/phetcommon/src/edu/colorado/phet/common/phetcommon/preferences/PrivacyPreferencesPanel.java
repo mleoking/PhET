@@ -73,7 +73,7 @@ public class PrivacyPreferencesPanel extends JPanel {
         private static final String DESCRIPTION_PATTERN = PhetCommonResources.getString( "Common.statistics.description" );
 
         // identifiers for hyperlink actions
-        private static final String LINK_SHOW_STATISTICS_DETAILS = "showTrackingDetails";
+        private static final String LINK_SHOW_STATISTICS_DETAILS = "showStatisticsDetails";
 
         public DescriptionPane( final IStatistics statistics ) {
             super( "" );
