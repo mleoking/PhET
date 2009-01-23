@@ -68,7 +68,7 @@ public class StatesOfMatterConstants {
     public static final Color CANVAS_LABELS_COLOR = Color.WHITE;
     
     // Color of labels placed directly on the play area
-    public static final Color CONTROL_PANEL_COLOR = new Color( 255, 255, 175 );
+    public static final Color CONTROL_PANEL_COLOR = new Color( 238, 238, 238 );
     
     // Generic transparent color
     public static final Color COLOR_TRANSPARENT = new Color( 0f, 0f, 0f, 0f );
