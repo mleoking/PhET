@@ -43,12 +43,11 @@ public abstract class BaseGreenhouseModule extends Module {
     private static final double SUN_DIAM = EARTH_DIAM * 5;
     private static final double SUN_EARTH_DIST = SUN_DIAM * 5;
     private Star sun;
-    private StarGraphic sunGraphic;
     private ApparatusPanel apparatusPanel;
     private GreenhouseModel model;
 
     //
-    private static boolean s_zoomed;
+    private static boolean s_firstTime = true;
     private Rectangle2D.Double finalModelBounds;
     private AtmosphereGraphic atmosphereGraphic;
 
@@ -123,9 +122,6 @@ public abstract class BaseGreenhouseModule extends Module {
         sun.addListener( sunPhotonEmitterListener );
         model.setSun( sun );
 
-        sunGraphic = new StarGraphic( sun, initialModelBounds );
-        apparatusPanel.addGraphic( sunGraphic, 10 );
-
         // Create a black hole to suck away any photons that are beyond the
         // model bounds
         BlackHole blackHole = new BlackHole( model );
@@ -143,15 +139,31 @@ public abstract class BaseGreenhouseModule extends Module {
         thermometerEnabled( false );
 
         // Kick off the zoom
-        if ( !s_zoomed ) {
-            s_zoomed = true;
-            Zoomer zoomer = new Zoomer( initialModelBounds, finalModelBounds );
-            zoomer.run();
+        if ( s_firstTime ) {
+        	s_firstTime = false;
+        	// Prevent a backdrop from appearing
+            earthGraphic.setNoBackdrop();
+  
+            // Set up the model bounds.
+            initialModelBounds.setRect( finalModelBounds.getX(),
+                                        finalModelBounds.getY(),
+                                        finalModelBounds.getWidth(),
+                                        finalModelBounds.getHeight() );
+            ( (TestApparatusPanel) getApparatusPanel() ).setModelBounds( initialModelBounds );
+  
+            atmosphereGraphic.setVisible( true );
+            ( (TestApparatusPanel) getApparatusPanel() ).setModelBounds( finalModelBounds );
+            thermometerEnabled( true );
+  
+            GreenhouseApplication.paintContentImmediately();
+  
+            sun.setProductionRate( GreenhouseConfig.defaultSunPhotonProductionRate );
+  
+            // Set the default view. Note that this is a real mess. It works in conjunction with code in
+            // GreenhouseControlPanel.AtmoshpereSelectionPane
+            setToday();
         }
         else {
-            getApparatusPanel().removeGraphic( sunGraphic );
-            sunGraphic.stopAnimation();
-            earthGraphic.stopAnimation();
             atmosphereGraphic.setVisible( true );
 
             ( (TestApparatusPanel) getApparatusPanel() ).setModelBounds( finalModelBounds );
@@ -327,52 +339,6 @@ public abstract class BaseGreenhouseModule extends Module {
                     scatterToGraphicMap.put( se, seg );
                 }
             }
-        }
-    }
-
-    /**
-     * Handles zooming in from outer space to the earth
-     */
-    private class Zoomer {
-        private Rectangle2D.Double currModelBounds;
-        private Rectangle2D.Double finalModelBounds;
-
-        Zoomer( Rectangle2D.Double currModelBounds,
-                Rectangle2D.Double finalModelBounds ) {
-            this.currModelBounds = currModelBounds;
-            this.finalModelBounds = finalModelBounds;
-            earthGraphic.setNoBackdrop();
-        }
-
-        public void run() {
-
-            // Prevent a backdrop from appearing
-            earthGraphic.setNoBackdrop();
-
-            // Put up a dialog prompting the user to kick things off
-
-            currModelBounds.setRect( finalModelBounds.getX(),
-                                     finalModelBounds.getY(),
-                                     finalModelBounds.getWidth(),
-                                     finalModelBounds.getHeight() );
-            ( (TestApparatusPanel) getApparatusPanel() ).setModelBounds( currModelBounds );
-
-            getApparatusPanel().removeGraphic( sunGraphic );
-            sunGraphic.stopAnimation();
-            earthGraphic.stopAnimation();
-            setToday();
-            atmosphereGraphic.setVisible( true );
-            ( (TestApparatusPanel) getApparatusPanel() ).setModelBounds( finalModelBounds );
-            thermometerEnabled( true );
-
-            GreenhouseApplication.paintContentImmediately();
-
-
-            sun.setProductionRate( GreenhouseConfig.defaultSunPhotonProductionRate );
-
-            // Set the default view. Note that this is a real mess. It works in conjunction with code in
-            // GreenhouseControlPanel.AtmoshpereSelectionPane
-            setToday();
         }
     }
 }
