@@ -12,21 +12,22 @@
     require_once("include/locale-codes-country.php");
     require_once("include/locale-codes-language.php");
 
-    //
-    // Defines of interest to outside functions
-    //
+    // These defines should NOT be used outside this file.  Use the
+    // DEFAULT_LOCALE below
     define('DEFAULT_LOCALE_SHORT_FORM', 'en');
     define('DEFAULT_LOCALE_LONG_FORM', 'en_US');
 
     // Shortcut everything will use.  Idea is that it is short
     // and understandable and may be "upgraded" to the long
     // form in the future.
-    // WARNING: if you change this to the long, check where it
-    // is used.  For example, the default locale for JNLP files
-    // is "sim-name.jnlp" (vs "sim-name_locale.jnlp" for all
-    // other locales), compared to the default locale for Flash
-    // sims: "sim-name-en.html".  Downloadadable localized jars
-    // are also affected.  Just check everything, yes?
+    //
+    // WARNING: if you change this to the long, check where it is
+    // used.  For example, the default locale for JNLP files is
+    // "sim-name.jnlp" (vs "sim-name_locale.jnlp" for all other
+    // locales), compared to the default locale for Flash sims:
+    // "sim-name-en.html".  Downloadadable localized jars are also
+    // affected.  Also update the default LOCALE command line script
+    // in cl_utils/pyphetutil/simutil.py.  Just check everything, yes?
     define('DEFAULT_LOCALE', DEFAULT_LOCALE_SHORT_FORM);
 
     //
@@ -346,10 +347,10 @@
      */
     function locale_language_sort_code_by_name($a, $b) {
         // This top part is temporary until there is support for long form locales everywhere
-        $a = locale_extract_language_code(locale_remap_combined_language_code($a));
-        $b = locale_extract_language_code(locale_remap_combined_language_code($b));
+        $a1 = locale_extract_language_code(locale_remap_combined_language_code($a));
+        $b1 = locale_extract_language_code(locale_remap_combined_language_code($b));
 
-        return strcmp(locale_get_language_name($a), locale_get_language_name($b));
+        return strcmp(locale_get_language_name($a1), locale_get_language_name($b1));
     }
 
     /**
@@ -381,11 +382,12 @@
      * @exception PhetLocaleException if either of the codes are invalid
      */
     function locale_sort_code_by_name($a, $b) {
-        $a = locale_remap_combined_language_code($a);
-        $b = locale_remap_combined_language_code($b);
+        $a1 = locale_remap_combined_language_code($a);
+        $b1 = locale_remap_combined_language_code($b);
+
         // First do languages
-        $lang_a = locale_extract_language_code($a);
-        $lang_b = locale_extract_language_code($b);
+        $lang_a = locale_extract_language_code($a1);
+        $lang_b = locale_extract_language_code($b1);
         $result = locale_language_sort_code_by_name($lang_a, $lang_b);
         if (0 !== $result) {
             return $result;
