@@ -1,13 +1,20 @@
 package edu.colorado.phet.acidbasesolutions.model.acids;
 
+import edu.colorado.phet.acidbasesolutions.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.ABSSymbols;
+
 
 public class HydrochloricAcid implements IStrongAcid {
 
-    public String getAcidName() {
-        return "<html>HCl</html>";
+    public String getName() {
+        return ABSStrings.HYDORCHLORIC_ACID;
+    }
+    
+    public String getAcidSymbol() {
+        return ABSSymbols.HCl;
     }
 
-    public String getConjugateBaseName() {
-        return "<html>Cl<sup>-<html>";
+    public String getConjugateBaseSymbol() {
+        return ABSSymbols.Cl;
     }
 }

@@ -1,14 +1,21 @@
 package edu.colorado.phet.acidbasesolutions.model.bases;
 
+import edu.colorado.phet.acidbasesolutions.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.ABSSymbols;
+
 
 public class Methylamine implements IWeakBase {
-
-    public String getBaseName() {
-        return "<html>CH<sub>3</sub>NH<sub>2</sub></html>";
+    
+    public String getName() {
+        return ABSStrings.METHYLAMINE;
     }
 
-    public String getConjugateAcidName() {
-        return "<html>CH<sub>3</sub>NH<sub>3</sub></html>";
+    public String getBaseSymbol() {
+        return ABSSymbols.CH3NH2;
+    }
+
+    public String getConjugateAcidSymbol() {
+        return ABSSymbols.CH3NH3;
     }
 
     public double getStrength() {

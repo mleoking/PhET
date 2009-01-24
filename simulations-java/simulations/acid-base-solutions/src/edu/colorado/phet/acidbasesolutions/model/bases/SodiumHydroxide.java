@@ -1,14 +1,20 @@
 package edu.colorado.phet.acidbasesolutions.model.bases;
 
+import edu.colorado.phet.acidbasesolutions.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.ABSSymbols;
+
 
 public class SodiumHydroxide implements IStrongBase {
-
-    public String getBaseName() {
-        return "<html>NaOH</html>";
+    
+    public String getName() {
+        return ABSStrings.SODIUM_HYDROXIDE;
     }
 
-    public String getConjugateAcidName() {
-        return "<html>Na<sup>+</sup></html>";
+    public String getBaseSymbol() {
+        return ABSSymbols.NaOH;
     }
 
+    public String getConjugateAcidSymbol() {
+        return ABSSymbols.Na;
+    }
 }

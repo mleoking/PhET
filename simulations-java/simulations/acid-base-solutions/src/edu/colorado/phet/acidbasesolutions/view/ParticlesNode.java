@@ -8,7 +8,7 @@ import java.awt.geom.Point2D;
 import java.util.Random;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
-import edu.colorado.phet.acidbasesolutions.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.AcidBaseSolutionsApplication;
 import edu.colorado.phet.acidbasesolutions.model.PHValue;
 import edu.colorado.phet.acidbasesolutions.model.Solution;
@@ -278,7 +278,7 @@ public class ParticlesNode extends PComposite {
     private void updateNumbersNode( int h3o, int oh ) {
         if ( _numbersNode != null ) {
             // eg: H3O/OH=500/5
-            _numbersNode.setHTML( "<html>" + ABSStrings.LABEL_H3O + "/" + ABSStrings.LABEL_OH + "= " + h3o + "/" + oh + "<html>" );
+            _numbersNode.setHTML( "<html>" + ABSSymbols.H3O + "/" + ABSSymbols.OH + "= " + h3o + "/" + oh + "<html>" );
         }
     }
     

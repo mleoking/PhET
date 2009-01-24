@@ -3,6 +3,8 @@ package edu.colorado.phet.acidbasesolutions.model.acids;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import edu.colorado.phet.acidbasesolutions.ABSStrings;
+
 
 public class CustomWeakAcid implements IWeakAcid {
     
@@ -14,11 +16,15 @@ public class CustomWeakAcid implements IWeakAcid {
         _listeners = new ArrayList();
     }
     
-    public String getAcidName() {
+    public String getName() {
+        return ABSStrings.CUSTOM_WEAK_ACID;
+    }
+    
+    public String getAcidSymbol() {
         return "HA";
     }
     
-    public String getConjugateBaseName() {
+    public String getConjugateBaseSymbol() {
         return "<html>A<sup>-</sup>";
     }
     

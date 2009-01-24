@@ -1,3 +1,5 @@
+1/23/09 - encapsulate all symbols in ABSSymbols
+1/23/09 - localize all acid and base names
 1/23/09 - add molecule counts and pH to model
 1/23/09 - model for base solutions
 1/23/09 - model for pure water, acids, bases, acid solutions
