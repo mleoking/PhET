@@ -35,8 +35,7 @@ class Preferences {
 		// should only be one copy of Preferences (singleton-like)
 		_level0.preferences = this;
 		
-		// load shared object
-		sharedObject = SharedObject.getLocal("phetPrefs", "/");
+		load();
 		
 		/////////////////////////////////////////
 		// TEMPORARY FOR DEVELOPMENT PURPOSES
@@ -97,11 +96,17 @@ class Preferences {
 		//reset();
 	}
 	
+	public function load() : Void {
+		// load shared object
+		sharedObject = SharedObject.getLocal("phetPrefs", "/");
+	}
+	
 	public function isPrivacyOK() : Boolean {
 		return CURRENT_PRIVACY_VERSION <= sharedObject.data.latestPrivacyAgreementVersion;
 	}
 	
 	public function agreeToPrivacy() : Void {
+		load();
 		sharedObject.data.latestPrivacyAgreementVersion = CURRENT_PRIVACY_VERSION;
 		save();
 	}
@@ -120,6 +125,7 @@ class Preferences {
 	
 	// allow other code to set the tracking and updates values
 	public function setTracking(updates : Boolean, tracking : Boolean) : Void {
+		load();
 		sharedObject.data.allowTracking = tracking;
 		sharedObject.data.checkForUpdates = updates;
 		debug("setting tracking to " + tracking.toString() + "\n");
