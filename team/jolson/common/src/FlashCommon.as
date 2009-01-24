@@ -128,4 +128,8 @@ class FlashCommon {
 		}
 		return str;
 	}
+	
+	public function fromPhetWebsite() : Boolean {
+		return ((new LocalConnection()).domain() == "phet.colorado.edu");
+	}
 }
