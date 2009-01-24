@@ -62,6 +62,8 @@ public interface ISimInfo {
      */
     Locale getLocale();
     
-    int getSessionCount();
-    int getSessionCountTotal();
+    int getTotalSessionCountForAllSims();
+    int getTotalSessionCountForThisSim();
+    int getSessionCountSinceLastTimeStatisticsWereSent();
+
 }
