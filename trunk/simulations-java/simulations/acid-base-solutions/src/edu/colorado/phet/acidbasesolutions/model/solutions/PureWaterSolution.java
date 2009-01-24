@@ -16,14 +16,14 @@ public class PureWaterSolution extends AbstractAqueousSolution {
     }
 
     public double getHydroniumConcentration() {
-        return 0; // TODO implement model
+        return 1E-7;
     }
 
     public double getHydroxideConcentration() {
-        return 0; // TODO implement model
+        return 1E-7;
     }
 
     public double getWaterConcentration() {
-        return 0; // TODO implement model
+        return _water.getConcentration();
     }
 }
