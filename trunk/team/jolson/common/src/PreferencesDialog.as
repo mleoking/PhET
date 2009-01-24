@@ -29,9 +29,11 @@ class PreferencesDialog {
 	public function PreferencesDialog() {
 		debug("PreferencesDialog initializing\n");
 		
-		
 		// make sure we can access this class from anywhere
 		_level0.preferencesDialog = this;
+		
+		// load the shared object so we can pull data from it
+		_level0.preferences.load();
 		
 		// initialize to false. this will be changed later if either should be true
 		this.updateState = false;
@@ -68,6 +70,7 @@ class PreferencesDialog {
 		// update check box
 		updatesCheck = new JCheckBox("Automatically check for updates");
 		updatesCheck.addEventListener(JCheckBox.ON_CLICKED, Delegate.create(this, updateToggle));
+		
 		if(updateState != _level0.preferences.checkForUpdates()) {
 			// if updates are allowed, fill in the check box
 			updatesCheck.click();
@@ -166,6 +169,9 @@ class PreferencesDialog {
 		
 		// attempt to focus the window for keboard accessibility. not working yet.
 		window.toFront();
+		
+		// release the preferences shared object
+		_level0.preferences.unload();
 	}
 	
 	// called when the window is re-shown. it sets the check boxes to the
@@ -173,12 +179,14 @@ class PreferencesDialog {
 	// the case when the user clicks "cancel" and the check-boxes remain different
 	// from the actual preferences
 	public function reCheck() : Void {
+		_level0.preferences.load();
 		if(updateState != _level0.preferences.checkForUpdates()) {
 			updatesCheck.click();
 		}
 		if(trackingState != _level0.preferences.allowTracking()) {
 			trackingCheck.click();
 		}
+		_level0.preferences.unload();
 	}
 	
 	// toggle potential update state
