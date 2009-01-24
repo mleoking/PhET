@@ -1,14 +1,22 @@
 package edu.colorado.phet.acidbasesolutions.model.acids;
 
+import edu.colorado.phet.acidbasesolutions.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.ABSSymbols;
+
 
 public class GenericStrongAcid implements IStrongAcid {
 
-    public String getAcidName() {
-        return "<html>HA</html>";
+    public GenericStrongAcid() {}
+    
+    public String getName() {
+        return ABSStrings.STRONG_ACID;
+    }
+    
+    public String getAcidSymbol() {
+        return ABSSymbols.HA;
     }
 
-    public String getConjugateBaseName() {
-        return "<html>A<sup>-</sup></html>";
+    public String getConjugateBaseSymbol() {
+        return ABSSymbols.A;
     }
-
 }

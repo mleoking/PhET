@@ -2,8 +2,10 @@ package edu.colorado.phet.acidbasesolutions.model.bases;
 
 
 public interface IBase {
-
-    public String getBaseName();
     
-    public String getConjugateAcidName();
+    public String getName();
+
+    public String getBaseSymbol();
+    
+    public String getConjugateAcidSymbol();
 }
