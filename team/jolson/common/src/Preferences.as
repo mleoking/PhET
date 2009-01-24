@@ -93,12 +93,19 @@ class Preferences {
 			_level0.common.postAgreement();
 		}
 		
-		//reset();
+		unload();
 	}
 	
 	public function load() : Void {
 		// load shared object
+		debug("Preferences: Loading shared object\n");
 		sharedObject = SharedObject.getLocal("phetPrefs", "/");
+	}
+	
+	public function unload() : Void {
+		// hopefully unload a shared object
+		debug("Preferences: Unloading shared object\n");
+		delete sharedObject;
 	}
 	
 	public function isPrivacyOK() : Boolean {
@@ -109,6 +116,7 @@ class Preferences {
 		load();
 		sharedObject.data.latestPrivacyAgreementVersion = CURRENT_PRIVACY_VERSION;
 		save();
+		unload();
 	}
 	
 	// allow other common code/simulation to check whether
@@ -120,7 +128,9 @@ class Preferences {
 	// allow other common code/simulation to check whether
 	// the user allows checking for updates
 	public function checkForUpdates() : Boolean {
+		load();
 		return sharedObject.data.checkForUpdates;
+		unload();
 	}
 	
 	// allow other code to set the tracking and updates values
@@ -131,6 +141,7 @@ class Preferences {
 		debug("setting tracking to " + tracking.toString() + "\n");
 		debug("setting updates to " + updates.toString() + "\n");
 		save();
+		unload();
 	}
 	
 	// resets (clears) any data stored on disk
@@ -143,7 +154,7 @@ class Preferences {
 	// saves the shared object (preferences data) to the
 	// user's hard drive.
 	public function save() : Void {
-		debug("preferences: saving\n");
+		debug("Preferences: Saving shared object\n");
 		sharedObject.flush();
 	}
 	
@@ -177,7 +188,9 @@ class Preferences {
 	
 	// resets the number of #'s since sent
 	public function resetSince() : Void {
+		load();
 		sharedObject.data[_level0.simName + "_visitsSince"] = 0;
+		unload();
 	}
 	
 	// how many times the current simulation has ever been run (according to preferences)

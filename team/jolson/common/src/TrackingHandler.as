@@ -41,12 +41,16 @@ class TrackingHandler {
 		//var str : String = "<tracking ";
 		var str : String = "";
 		
+		// make data available to be read
+		_level0.preferences.load();
+		
 		/////// message information
 		str += "message_type = 'session' \n";
 		str += "message_version = '1' \n";
 		
 		
 		/////// user data
+		
 		str += "user_preference_file_creation_time = '" + escape(String(_level0.preferences.getUserTime())) + "' \n";
 		str += "user_total_sessions = '" + escape(String(_level0.preferences.getUserTotalSessions())) + "' \n";
 		
@@ -85,6 +89,9 @@ class TrackingHandler {
 		str += "host_flash_accessibility = '" + escape(String(System.capabilities.hasAccessibility)) + "' \n";
 		str += "host_flash_domain = '" + escape((new LocalConnection()).domain()) + "' \n";
 		
+		// unload data from shared object
+		_level0.preferences.unload();
+		
 		//str += "></tracking>";
 		return str;
 	}
@@ -95,14 +102,18 @@ class TrackingHandler {
 	}
 	
 	public function sendSessionStart() : Void {
+		_level0.preferences.load();
 		if(!_level0.preferences.isPrivacyOK()) {
 			debug("TrackingHandler: cannot send session start message: have not accepted agreement yet\n");
+			_level0.preferences.unload();
 			return;
 		}
 		if(!_level0.preferences.allowTracking()) {
 			debug("TrackingHandler: cannot send session start message: tracking disabled\n");
+			_level0.preferences.unload();
 			return;
 		}
+		_level0.preferences.unload();
 		debug("TrackingHandler: sending session start message\n");
 		var str : String = "<tracking " + sessionStartMessage() + "></tracking>";
 		sendXML(new XML(str));
