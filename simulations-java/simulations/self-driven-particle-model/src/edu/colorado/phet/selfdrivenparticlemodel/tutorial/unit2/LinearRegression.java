@@ -1,14 +1,6 @@
-/* Copyright 2004, Sam Reid */
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit2;
 
 import java.awt.geom.Point2D;
-
-/**
- * User: Sam Reid
- * Date: Aug 26, 2005
- * Time: 3:21:39 AM
- * Copyright (c) Aug 26, 2005 by Sam Reid
- */
 
 public class LinearRegression {
     public static interface Input {
