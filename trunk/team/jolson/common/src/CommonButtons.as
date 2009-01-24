@@ -11,12 +11,18 @@ import org.aswing.border.*;
 
 class CommonButtons {
 	
+	// locations for the common buttons
+	public static var LOCATION_UPPER_LEFT : String = "upper-left";
+	public static var LOCATION_UPPER_RIGHT : String = "upper-right";
+	public static var LOCATION_LOWER_LEFT : String = "lower-left";
+	public static var LOCATION_LOWER_RIGHT : String = "lower-right";
+	
 	// shorthand for debugging function
 	public function debug(str : String) : Void {
 		_level0.debug(str);
 	}
 	
-	public function CommonButtons() {
+	public function CommonButtons(position : String) {
 		debug("CommonButtons initializing\n");
 		
 		// somehow this line allows us to create these windows/buttons from
@@ -48,7 +54,29 @@ class CommonButtons {
 		window.getContentPane().append(aboutButton);
 		window.getContentPane().append(preferencesButton);
 		
-		window.setBounds(0, 0, window.getContentPane().getPreferredSize().width, window.getContentPane().getPreferredSize().height);
+		// determine the window location
+		var windowX : Number = 0;
+		var windowY : Number = 0;
+		switch(position) {
+			case LOCATION_UPPER_LEFT:
+				windowX = 0;
+				windowY = 0;
+				break;
+			case LOCATION_UPPER_RIGHT:
+				windowX = Stage.width - window.getContentPane().getPreferredSize().width;
+				windowY = 0;
+				break;
+			case LOCATION_LOWER_LEFT:
+				windowX = 0;
+				windowY = Stage.height - window.getContentPane().getPreferredSize().height;
+				break;
+			case LOCATION_LOWER_RIGHT:
+				windowX = Stage.width - window.getContentPane().getPreferredSize().width;
+				windowY = Stage.height - window.getContentPane().getPreferredSize().height;
+				break;
+		}
+		
+		window.setBounds(windowX, windowY, window.getContentPane().getPreferredSize().width, window.getContentPane().getPreferredSize().height);
 		window.show();
 		
 		_level0.tabHandler.insertControl(_level0.aboutButton.trigger_mc, 0);

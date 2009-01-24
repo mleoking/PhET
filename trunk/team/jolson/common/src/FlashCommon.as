@@ -36,6 +36,8 @@ class FlashCommon {
 	/////////////////////////
 	public var commonButtons : CommonButtons;
 	
+	public var commonPosition : String;
+	
 	// handles keyboard accessibility (tab traversal)
 	public var tabHandler : TabHandler;
 	
@@ -60,7 +62,7 @@ class FlashCommon {
 	}
 	
 	// constructor
-	public function FlashCommon() {
+	public function FlashCommon(position : String) {
 		initDebug();
 		
 		// make it accessible from everywhere
@@ -83,6 +85,9 @@ class FlashCommon {
 		debug("." + _level0.versionMinor);
 		debug(" dev:" + _level0.dev);
 		debug(" rev:" + _level0.revision + "\n");
+		
+		// store the position of the common buttons for CommonButtons
+		commonPosition = position;
 		
 		// load internationalization strings for common code
 		commonStrings = new CommonStrings();
@@ -112,8 +117,8 @@ class FlashCommon {
 		// MOVED ABOVE trackingHandler = new TrackingHandler();
 		trackingHandler.sendSessionStart();
 		
-		// load buttons (defaults to the upper left)
-		commonButtons = new CommonButtons();
+		// load buttons with the position (defaults to upper left)
+		commonButtons = new CommonButtons(commonPosition);
 	}
 	
 	public function localeString() : String {
