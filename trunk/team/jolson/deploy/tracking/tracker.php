@@ -113,7 +113,7 @@
 				sanitize($xml, "sim_sessions_since"), //$simSessionsSince,
 				sanitize($xml, "sim_sessions_ever"), //$simSessionsEver,
 				sanitize($xml, "sim_deployment"), //$simDeployment,
-				sanitize($xml, "sim_distribution_id"), //$simDistributionTag,
+				sanitize($xml, "sim_distribution_tag"), //$simDistributionTag,
 				sanitize($xml, "sim_dev"), //$simDev,
 				sanitize($xml, "host_locale_language"), //$hostLocaleLanguage,
 				sanitize($xml, "host_locale_country"), //$hostLocaleCountry,
@@ -125,7 +125,7 @@
 				sanitize($xml, "host_java_version_minor"), //$hostJavaVersionMinor,
 				sanitize($xml, "host_java_version_maintenance"), //$hostJavaVersionMaintenance,
 				sanitize($xml, "host_java_webstart_version"), //$hostJavaWebstartVersion,
-				sanitize($xml, "host_timezone") //$hostJavaTimezone
+				sanitize($xml, "host_java_timezone") //$hostJavaTimezone
 			);
 		}
 		
