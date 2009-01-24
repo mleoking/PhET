@@ -99,13 +99,13 @@ class Preferences {
 	
 	public function load() : Void {
 		// load shared object
-		debug("Preferences: Loading shared object\n");
+		//debug("Preferences: Loading shared object\n");
 		sharedObject = SharedObject.getLocal("phetPrefs", "/");
 	}
 	
 	public function unload() : Void {
 		// hopefully unload a shared object
-		debug("Preferences: Unloading shared object\n");
+		//debug("Preferences: Unloading shared object\n");
 		delete sharedObject;
 	}
 	
