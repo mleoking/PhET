@@ -57,27 +57,11 @@ class PrivacyDialog {
 		
 		// construct the string of text to show
 		var str : String = "";
-		str += "In all PhET simulations, we collect a minimal amount of <a href=\"asfunction:_level0.privacyDialog.detailsClicked,\">information</a> ";
+		str += "In all PhET simulations, we collect a minimal amount of <a href=\"asfunction:_level0.privacyDialog.infoClicked,\">information</a> ";
 		str += "when the simulation starts. You can disable the sending of this ";
 		str += "information at any time via the Preferences button.\n\n";
 		str += "By clicking \"Agree and Continue\", you agree to PhET's licensing ";
-		str += "and privacy policies. (For details, <a>click here</a>).";
-		/*
-		str += "<b>Physics Education Technology project</b>\n";
-		str += _level0.comStrings.get("Copyright") + " \u00A9 2004-2008 University of Colorado\n";
-		str += _level0.comStrings.get("SomeRightsReserved") + ".\n";
-		str += _level0.comStrings.get("Visit") + " <a href='http://phet.colorado.edu'>http://phet.colorado.edu</a>\n\n";
-		
-		str += "<b><font size='16'>" + _level0.simName + "</font></b>\n";
-		str += _level0.comStrings.get("Version") + ": " + _level0.versionMajor + "." + _level0.versionMinor;
-		if(_level0.dev != "00") {
-			str += "." + _level0.dev;
-		}
-		str += " (" + _level0.revision + ")\n";
-		str += _level0.comStrings.get("FlashVersion") + ": " + System.capabilities.version + "\n";
-		str += _level0.comStrings.get("OSVersion") + ": " + System.capabilities.os + "\n";
-		*/
-		
+		str += "and privacy policies. (For details, <a href=\"asfunction:_level0.privacyDialog.detailsClicked,\">click here</a>).";
 		
 		// create CSS to make links blue
 		var css : TextField.StyleSheet = new TextField.StyleSheet();
@@ -155,13 +139,23 @@ class PrivacyDialog {
 		//getURL("javascript:window.opener=self; window.close()");
 	}
 	
-	public function detailsClicked() : Void {
+	public function infoClicked() : Void {
 		if(_level0.trackingDetailsWindow) {
 			debug("Showing dialog again\n");
 			_level0.trackingDetailsWindow.show();
 		} else {
 			debug("Creating Dialog\n");
 			_level0.trackingDetailsDialog = new TrackingDetailsDialog();
+		}
+	}
+	
+	public function detailsClicked() : Void {
+		if(_level0.agreementWindow) {
+			debug("Showing dialog again\n");
+			_level0.agreementWindow.show();
+		} else {
+			debug("Creating Dialog\n");
+			_level0.agreementDialog = new AgreementDialog();
 		}
 	}
 }
