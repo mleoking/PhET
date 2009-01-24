@@ -96,12 +96,12 @@ public class FlashHTMLWriter {
 		html += "</head>\n";
 		html += "<body bgcolor=\"" + bgcolor + "\">\n"; // we want to get the correct background color!
 		html += "<object classid=\"clsid:d27cdb6e-ae6d-11cf-96b8-444553540000\" codebase=\"http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0\" width=\"100%\" height=\"100%\" id=\"" + simName + "\" align=\"middle\">\n";
-		html += "<param name=\"allowScriptAccess\" value=\"sameDomain\" />\n";
+		html += "<param name=\"allowScriptAccess\" value=\"always\" />\n";
 		html += "<param name=\"movie\" value=\"" + swfName + "\" />\n";
 		html += "<param name=\"quality\" value=\"high\" />\n";
 		html += "<param name=\"bgcolor\" value=\"" + bgcolor + "\" />\n"; // we want to get the correct background color!
 		html += "<param name = \"FlashVars\"  value = \"" + flashVars + "\"/>\n";
-		html += "<embed id=\"x_" + simName + "\" src=\"" + swfName + "\" quality=\"high\" bgcolor=\"" + bgcolor + "\" width=\"100%\" height=\"100%\" name=\"" + simName + "\" align=\"middle\" allowScriptAccess=\"sameDomain\" FlashVars = \"" + flashVars + "\" ";
+		html += "<embed id=\"x_" + simName + "\" src=\"" + swfName + "\" quality=\"high\" bgcolor=\"" + bgcolor + "\" width=\"100%\" height=\"100%\" name=\"" + simName + "\" align=\"middle\" allowScriptAccess=\"always\" FlashVars = \"" + flashVars + "\" ";
 		html += "type=\"application/x-shockwave-flash\" pluginspage=\"http://www.macromedia.com/go/getflashplayer\" />\n";
 		html += "</object>";
 		html += "</body>";
