@@ -31,12 +31,13 @@ public class SessionMessage extends StatisticsMessage {
                 // Sim data
                 new StatisticsMessageField( "sim_project", config.getProjectName() ),
                 new StatisticsMessageField( "sim_name", config.getFlavor() ),
-                new StatisticsMessageField( "sim_sessions", config.getSessionCount() ),
+                new StatisticsMessageField( "sim_sessions_ever", config.getTotalSessionCountForThisSim() ),
+                new StatisticsMessageField( "sim_sessions_since", config.getSessionCountSinceLastTimeStatisticsWereSent() ),
                 new StatisticsMessageField( "sim_major_version", config.getVersion().getMajor() ),
                 new StatisticsMessageField( "sim_minor_version", config.getVersion().getMinor() ),
                 new StatisticsMessageField( "sim_dev_version", config.getVersion().getDev() ),
                 new StatisticsMessageField( "sim_svn_revision", config.getVersion().getRevision() ),
-                new StatisticsMessageField( "sim_distribution_id", config.getDistributionId() ),
+                new StatisticsMessageField( "sim_distribution_tag", config.getDistributionTag() ),
                 new StatisticsMessageField( "sim_locale_language", PhetResources.readLocale().getLanguage() ),
                 new StatisticsMessageField( "sim_locale_country", PhetResources.readLocale().getCountry() ),
                 new StatisticsMessageField( "sim_deployment", DeploymentScenario.getName() ),
@@ -53,11 +54,11 @@ public class SessionMessage extends StatisticsMessage {
                 new StatisticsMessageField.SystemProperty( "host_java_webstart_version", "javawebstart.version" ),
                 new StatisticsMessageField.SystemProperty( "host_locale_language", "user.language" ),
                 new StatisticsMessageField.SystemProperty( "host_locale_country", "user.country" ),
-                new StatisticsMessageField.SystemProperty( "host_timezone", "user.timezone" ),
+                new StatisticsMessageField.SystemProperty( "host_java_timezone", "user.timezone" ),
                 
                 // User data
                 new StatisticsMessageField( "user_preference_file_creation_time", PhetPreferences.getInstance().getPreferencesFileCreationTime() ),
-                new StatisticsMessageField( "user_total_sessions", config.getSessionCountTotal() ),
+                new StatisticsMessageField( "user_total_sessions", config.getTotalSessionCountForAllSims() ),
                 
                 // Debug field for this that are split into multiple fields
                 new StatisticsMessageField( "debug_sim_version", config.getVersion().formatMajorMinorDevRevision() ),

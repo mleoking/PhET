@@ -37,7 +37,7 @@ public class PhetApplicationConfig implements IStatistics, ISimInfo {
     //----------------------------------------------------------------------------
 
     public static final FrameSetup DEFAULT_FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
-    public static final String DEFAULT_DISTRIBUTION_ID = "general";
+    public static final String DEFAULT_DISTRIBUTION_TAG = "none";
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -132,8 +132,12 @@ public class PhetApplicationConfig implements IStatistics, ISimInfo {
      * 
      * @return int, possibly zero
      */
-    public int getSessionCount() {
+    public int getTotalSessionCountForThisSim() {
         return sessionCounter.getCount();
+    }
+    
+    public int getSessionCountSinceLastTimeStatisticsWereSent() {
+        return 0; //TODO implement this, see #1130
     }
     
     /**
@@ -144,7 +148,7 @@ public class PhetApplicationConfig implements IStatistics, ISimInfo {
      * 
      * @return int, possibly zero
      */
-    public int getSessionCountTotal() {
+    public int getTotalSessionCountForAllSims() {
         return sessionCounter.getTotal();
     }
 
@@ -160,9 +164,9 @@ public class PhetApplicationConfig implements IStatistics, ISimInfo {
      * @return
      */
     
-    public String getDistributionId() {
-        //TODO #1086, read the distribution id from an optional file stored in the JAR.
-        return DEFAULT_DISTRIBUTION_ID;
+    public String getDistributionTag() {
+        //TODO #1086, read the distribution tag from an optional file stored in the JAR.
+        return DEFAULT_DISTRIBUTION_TAG;
     }
     
     //----------------------------------------------------------------------------
