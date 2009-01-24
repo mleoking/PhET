@@ -1,8 +1,11 @@
 package edu.colorado.phet.movingman.ladybug.model
 
+import _root_.edu.colorado.phet.common.motion.model.TimeData
 import _root_.edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
 import scala.collection.mutable.ArrayBuffer
 import LadybugUtil._
+import edu.colorado.phet.common.motion._
+
 
 class LadybugModel extends ObservableS {
   val ladybug = new Ladybug
@@ -133,15 +136,25 @@ class LadybugModel extends ObservableS {
   }
 
   def estimateVelocity(index: Int): Vector2D = {
-    val dx = getPosition(index) - getPosition(index - 1)
-    val dt = history(index).time - history(index - 1).time
-    dx / dt
+      val h=history.slice(history.length-6,history.length)
+      val tx=for (item<-h)yield new TimeData(item.state.position.x,item.time)
+      val vx=MotionMath.estimateDerivative(tx.toArray)
+
+      val ty=for (item<-h)yield new TimeData(item.state.position.y,item.time)
+      val vy=MotionMath.estimateDerivative(ty.toArray)
+
+      new Vector2D(vx,vy)
   }
 
   def estimateAcceleration(index: Int): Vector2D = {
-    val dv = estimateVelocity(index) - estimateVelocity(index - 1)
-    val dt = history(index).time - history(index - 1).time
-    dv / dt
+      val h=history.slice(history.length-6,history.length)
+      val tx=for (item<-h)yield new TimeData(item.state.velocity.x,item.time)
+      val ax=MotionMath.estimateDerivative(tx.toArray)
+
+      val ty=for (item<-h)yield new TimeData(item.state.velocity.y,item.time)
+      val ay=MotionMath.estimateDerivative(ty.toArray)
+
+      new Vector2D(ax,ay)
   }
 
   def average(start: Int, end: Int, function: Int => Vector2D): Vector2D = {
