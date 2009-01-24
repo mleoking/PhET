@@ -8,11 +8,11 @@ public class PureWater {
 
     public PureWater() {}
     
-    public static double getConcentration() {
+    public double getConcentration() {
         return W;
     }
     
-    public static double getEquilibriumConstant() {
+    public double getEquilibriumConstant() {
         return Kw;
     }
 

@@ -1,6 +1,7 @@
 
 package edu.colorado.phet.acidbasesolutions.model.solutions;
 
+import edu.colorado.phet.acidbasesolutions.model.PureWater;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 
 
@@ -8,8 +9,18 @@ public abstract class AbstractAqueousSolution implements IAqueousSolution {
 
     private static final double AVOGADROS_NUMBER = 6.022E23;
     
+    private final PureWater _water;
+    
     protected static double getAvogadrosNumber() {
         return AVOGADROS_NUMBER;
+    }
+    
+    public AbstractAqueousSolution() {
+        _water = new PureWater();
+    }
+    
+    public PureWater getWater() {
+        return _water;
     }
     
     // pH = -log10([H3O+])
