@@ -7,7 +7,7 @@
 	$link = setup_mysql();
 	
 	// number of simulated messages to be sent
-	$num_entries = 10000;
+	$num_entries = 3000;
 	
 	
 	// percentage of sims that are flash (100-x % are java)
@@ -184,7 +184,7 @@
 		
 		// sim sessions
 		$simSessionsSince = 1;
-		if(rand(0, 99) < 95) {
+		if(rand(0, 99) < 3) {
 			$simSessionsSince += rand(1, 5);
 		}
 		$simSessionsEver = $simSessionsSince + rand(1, 10) * rand(1, 30) + rand(0, 10);
