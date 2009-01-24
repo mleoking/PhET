@@ -74,9 +74,6 @@ class FlashCommon {
 		// TODO: Possibly extend this to run from other domains?
 		System.security.allowDomain("phet.colorado.edu");
 		
-		// DEVELOPMENT: for use with tracking to localhost
-		System.security.allowDomain("localhost");
-		
 		debug("Debugging information:\n");
 		debug("FlashCommon initializing\n");
 		
