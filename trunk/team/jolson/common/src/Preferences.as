@@ -85,8 +85,9 @@ class Preferences {
 			debug("    pref: " + i + " = " + String(sharedObject.data[i]) + "\n");
 		}
 		
-		// if privacy is not up-to-snuff, present the user with a dialog
-		if(!isPrivacyOK()) {
+		// if privacy is not up-to-snuff (and user is running from a non-phet-website
+		// location), present the user with a dialog
+		if(!isPrivacyOK() && !_level0.common.fromPhetWebsite()) {
 			_level0.privacyDialog = new PrivacyDialog();
 		} else {
 			// do everything else once it has been verified
@@ -122,12 +123,20 @@ class Preferences {
 	// allow other common code/simulation to check whether
 	// the user allows tracking
 	public function allowTracking() : Boolean {
+		if(_level0.common.fromPhetWebsite()) {
+			debug("From PhET website: no tracking allowed\n");
+			return false;
+		}
 		return sharedObject.data.allowTracking;
 	}
 	
 	// allow other common code/simulation to check whether
 	// the user allows checking for updates
 	public function checkForUpdates() : Boolean {
+		if(_level0.common.fromPhetWebsite()) {
+			debug("From PhET website: no updates allowed (or needed)\n");
+			return false;
+		}
 		load();
 		return sharedObject.data.checkForUpdates;
 		unload();

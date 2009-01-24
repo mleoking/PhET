@@ -103,13 +103,13 @@ class TrackingHandler {
 	
 	public function sendSessionStart() : Void {
 		_level0.preferences.load();
-		if(!_level0.preferences.isPrivacyOK()) {
-			debug("TrackingHandler: cannot send session start message: have not accepted agreement yet\n");
+		if(!_level0.preferences.allowTracking()) {
+			debug("TrackingHandler: cannot send session start message: tracking disabled\n");
 			_level0.preferences.unload();
 			return;
 		}
-		if(!_level0.preferences.allowTracking()) {
-			debug("TrackingHandler: cannot send session start message: tracking disabled\n");
+		if(!_level0.preferences.isPrivacyOK()) {
+			debug("TrackingHandler: cannot send session start message: have not accepted agreement yet\n");
 			_level0.preferences.unload();
 			return;
 		}
