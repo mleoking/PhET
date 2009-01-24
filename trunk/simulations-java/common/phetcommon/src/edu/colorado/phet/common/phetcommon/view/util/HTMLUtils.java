@@ -213,7 +213,7 @@ public class HTMLUtils {
      * @param strings
      * @return
      */
-    public static String createHTMLString( String[] strings ) {
+    public static String toHTMLString( String[] strings ) {
         StringBuffer buffer = new StringBuffer();
         buffer.append( "<html>" );
         for ( int i = 0; i < strings.length; i++ ) {
@@ -227,19 +227,21 @@ public class HTMLUtils {
     }
     
     /**
-     * Fixes an HTML string that may be incorrect.
+     * Converts a string to an HTML string.
+     * If you have a plain-text string, this is a convenience method to add the \<html\> tag.
      * Sometimes we want to combine HTML strings, and we end up with too many \<html\> tags.
      * This method ensures that we only have \<html\> and \</html\> at the beginning and 
      * end of the string.
      * <p>
-     * For example, "\<html\>foo\</html\> \<html\>bar\</html\>" becomes "\<html\>foo bar\</html\>".
+     * Example: "hello world" becomes "\<html\>hello world\</html\>".
+     * <p>
+     * Example "\<html\>foo\</html\> \<html\>bar\</html\>" becomes "\<html\>foo bar\</html\>".
      * 
      * @param htmlString
      * @return
      */
-    public static String fixHTMLString( String string ) {
-        string = string.replaceAll( "<html>", "" );
-        string = string.replaceAll( "</html>", "" );
-        return "<html>" + string + "</html>";
+    public static String toHTMLString( String string ) {
+        String[] s = { string };
+        return toHTMLString( s );
     }
 }
