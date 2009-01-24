@@ -1,7 +1,5 @@
 package edu.colorado.phet.acidbasesolutions.model.solutions;
 
-import java.util.ArrayList;
-
 import edu.colorado.phet.acidbasesolutions.model.PureWater;
 import edu.colorado.phet.acidbasesolutions.model.acids.IStrongAcid;
 

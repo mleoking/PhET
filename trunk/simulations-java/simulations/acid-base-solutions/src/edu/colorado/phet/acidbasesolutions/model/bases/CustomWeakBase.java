@@ -37,11 +37,11 @@ public class CustomWeakBase implements IWeakBase {
         public void strengthChanged();
     }
     
-    public void addBaseListener( CustomWeakBaseListener listener ) {
+    public void addCustomWeakBaseListener( CustomWeakBaseListener listener ) {
         _listeners.add( listener );
     }
     
-    public void removeBaseListener( CustomWeakBaseListener listener ) {
+    public void removeCustomWeakBaseListener( CustomWeakBaseListener listener ) {
         _listeners.remove( listener );
     }
     

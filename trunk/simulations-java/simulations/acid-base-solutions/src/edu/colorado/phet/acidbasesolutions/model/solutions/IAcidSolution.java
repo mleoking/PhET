@@ -1,8 +1,12 @@
 
 package edu.colorado.phet.acidbasesolutions.model.solutions;
 
+import edu.colorado.phet.acidbasesolutions.model.acids.IAcid;
 
-public interface IAcidSolution {
+
+public interface IAcidSolution extends IAqueousSolution {
+    
+    public IAcid getAcid();
 
     // c
     public void setInitialAcidConcentration( double c );
@@ -15,13 +19,4 @@ public interface IAcidSolution {
 
     // [A-]
     public double getConjugateBaseConcentration();
-
-    // [H3O+]
-    public double getHydroniumConcentration();
-
-    // [OH-]
-    public double getHydroxideConcentration();
-
-    // [H2O]
-    public double getWaterConcentration();
 }
