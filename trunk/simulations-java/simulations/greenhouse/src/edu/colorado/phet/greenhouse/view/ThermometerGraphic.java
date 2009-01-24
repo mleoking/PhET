@@ -37,7 +37,7 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
     private NumberFormat formatter = new DecimalFormat( "0" );
     private Font temperatureFont = new Font( "sanserif", Font.BOLD, 14 );
     private BufferedImage thermometerBI;
-    private AffineTransform scaleTx;
+    private AffineTransform scaleTx = new AffineTransform();
 
 
     public ThermometerGraphic( Component component, Thermometer thermometer ) {
@@ -54,15 +54,18 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
             Rectangle2D origBounds;
 
             public void componentResized( ComponentEvent e ) {
-                if ( !init ) {
+            	Rectangle2D bounds = e.getComponent().getBounds();
+                if ( !init && bounds.getWidth() > 0 && bounds.getHeight() > 0) {
+                	// Use the first reasonable value as our original width,
+                	// which will be used to scale this graphic if and when
+                	// the panel is resized.
                     init = true;
                     origBounds = e.getComponent().getBounds();
                 }
-                Component component = e.getComponent();
-                Rectangle2D newBounds = component.getBounds();
-//                double scale = newBounds.getWidth() / origBounds.getWidth();
-                double scale = 1;
-                scaleTx = AffineTransform.getScaleInstance( scale, scale );
+                else if (init){
+                    double scale = bounds.getWidth() / origBounds.getWidth();
+                    scaleTx = AffineTransform.getScaleInstance( scale, scale );
+                }
             }
         } );
         update();
