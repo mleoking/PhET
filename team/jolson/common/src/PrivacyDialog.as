@@ -126,13 +126,15 @@ class PrivacyDialog {
 		_level0.privacyWindow.setVisible(false);
 		
 		// attempt to close the window
-		getURL("javascript:window.close()");
+		getURL("javascript:window.close();");
+		getURL("javascript:parent.window.close();");
 		
 		// if that doesn't work
 		getURL("about:blank", "_self");
 		
 		// and if that really doesn't work
 		getURL("http://phet.colorado.edu", "_self");
+		getURL("http://phet.colorado.edu");
 		
 		debug("WARNING: Could not close simulation, user clicked cancel on privacy dialog!\n");
 		
