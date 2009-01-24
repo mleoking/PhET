@@ -6,7 +6,7 @@ import java.util.Iterator;
 import edu.colorado.phet.acidbasesolutions.model.acids.IAcid;
 
 
-public abstract class AbstractAcidSolution implements IAcidSolution {
+public abstract class AbstractAcidSolution extends AbstractAqueousSolution implements IAcidSolution {
 
     private final IAcid _acid;
     private double _c; // initial acid concentration, named as in model
@@ -33,6 +33,16 @@ public abstract class AbstractAcidSolution implements IAcidSolution {
     // c
     public double getInitialAcidConcentration() {
         return _c;
+    }
+    
+    // count of acid molecules
+    public int getAcidMoleculeCount() {
+        return (int) ( getAvogadrosNumber() * getAcidConcentration() );
+    }
+
+    // count of conjugate base molecules
+    public int getConjugateBaseMoleculeCount() {
+        return (int) ( getAvogadrosNumber() * getConjugateBaseConcentration() );
     }
     
     public interface AcidSolutionListener {

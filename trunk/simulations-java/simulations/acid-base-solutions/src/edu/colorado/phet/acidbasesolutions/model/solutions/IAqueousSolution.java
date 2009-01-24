@@ -6,6 +6,9 @@ package edu.colorado.phet.acidbasesolutions.model.solutions;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public interface IAqueousSolution {
+    
+    // pH
+    public double getPH();
 
     // [H3O+]
     public double getHydroniumConcentration();
@@ -16,12 +19,12 @@ public interface IAqueousSolution {
     // [H2O]
     public double getWaterConcentration();
     
-//    // count of H3O+ molecules
-//    public int getHyrdroniumCount();
-//    
-//    // count of OH- molecules
-//    public int getHydroxideCount();
-//    
-//    // count of H2O molecules
-//    public int getWaterCount();
+    // count of H3O+ molecules
+    public int getHydroniumMoleculeCount();
+    
+    // count of OH- molecules
+    public int getHydroxideMoleculeCount();
+    
+    // count of H2O molecules
+    public int getWaterMoleculeCount();
 }

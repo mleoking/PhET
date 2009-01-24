@@ -1,25 +1,29 @@
 package edu.colorado.phet.acidbasesolutions.model.solutions;
 
+import edu.colorado.phet.acidbasesolutions.model.PureWater;
 
-public class PureWaterSolution implements IAqueousSolution {
+
+public class PureWaterSolution extends AbstractAqueousSolution {
+    
+    private static PureWater _water;
     
     public PureWaterSolution() {
-        
+        _water = new PureWater();
+    }
+    
+    public PureWater getWater() {
+        return _water;
     }
 
     public double getHydroniumConcentration() {
-        // TODO Auto-generated method stub
-        return 0;
+        return 0; // TODO implement model
     }
 
     public double getHydroxideConcentration() {
-        // TODO Auto-generated method stub
-        return 0;
+        return 0; // TODO implement model
     }
 
     public double getWaterConcentration() {
-        // TODO Auto-generated method stub
-        return 0;
+        return 0; // TODO implement model
     }
-
 }
