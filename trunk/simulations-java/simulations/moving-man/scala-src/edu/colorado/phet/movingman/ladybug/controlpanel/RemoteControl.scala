@@ -52,11 +52,16 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
     val arrowNode = new ArrowNode(transform.modelToView(new Point2D.Double(0, 0)), transform.modelToView(new Point2D.Double(0, 0)), arrowHeadWidth, arrowHeadHeight, arrowTailWidth, 0.5, true)
     arrowNode.setPaint(color)
     var dragging = false
-    model.ladybug.addListener(() => {
-      if (!dragging && (RemoteControl.this._mode eq this) && LadybugDefaults.remoteIsIndicator) {
-        _mode.arrowNode.setTipAndTailLocations(_mode.transform.modelToView(getter(model.ladybug)), _mode.transform.modelToView(new Point2D.Double(0, 0)))
+
+      def updateArrow = {
+          if (!dragging && (RemoteControl.this._mode eq this) && LadybugDefaults.remoteIsIndicator) {
+              _mode.arrowNode.setTipAndTailLocations(_mode.transform.modelToView(getter(model.ladybug)), _mode.transform.modelToView(new Point2D.Double(0, 0)))
+          }
       }
-    })
+      model.ladybug.addListener(() => {
+          updateArrow
+      })
+      updateArrow
     def setDestination(pt: Point2D) = {
       _mode.arrowNode.setTipAndTailLocations(_mode.transform.modelToView(pt), _mode.transform.modelToView(new Point2D.Double(0, 0)))
       setLadybugState(pt)

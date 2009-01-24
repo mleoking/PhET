@@ -16,7 +16,7 @@ case class LadybugState(_position: Vector2D, _velocity: Vector2D, _acceleration:
   val acceleration = _acceleration
   val angle = _angle
 
-  def this() = this (new Vector2D, new Vector2D, new Vector2D, 0)
+  def this() = this (new Vector2D(5,1), new Vector2D, new Vector2D, 0)
 
   def this(copy: LadybugState) = this (copy.position, copy.velocity, copy.acceleration, copy.angle)
 

@@ -2,6 +2,7 @@
 > Removed the "Stop/Go" button below the remote control
 > Added playback speed slider
 > Compute velocity and acceleration as averages over 6 data points with slope of linear fit (as in rotation sim)
+> Start the ladybug somewhere other than (0,0) so that the Remote Control position vector will be visible on startup
 
 # 1.20.18 (27515) 01-21-2009
 > Changed velocity color to green
