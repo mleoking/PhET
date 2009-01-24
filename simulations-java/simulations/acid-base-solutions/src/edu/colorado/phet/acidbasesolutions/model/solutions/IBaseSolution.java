@@ -19,6 +19,10 @@ public interface IBaseSolution extends IAqueousSolution {
     // [BH+]
     public double getConjugateAcidConcentration();
 
-
+    // count of base molecules
+    public int getBaseMoleculeCount();
+    
+    // count of conjugate acid molecules
+    public int getConjugateAcidMoleculeCount();
     
 }
