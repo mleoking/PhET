@@ -205,4 +205,41 @@ public class HTMLUtils {
             } );
         }
     }
+    
+    /**
+     * Combines an array of HTML strings, HTML fragments 
+     * and plain text strings into a single HTML string.
+     * 
+     * @param strings
+     * @return
+     */
+    public static String createHTMLString( String[] strings ) {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append( "<html>" );
+        for ( int i = 0; i < strings.length; i++ ) {
+            String string = strings[i];
+            string = string.replaceAll( "<html>", "" );
+            string = string.replaceAll( "</html>", "" );
+            buffer.append( string );
+        }
+        buffer.append( "</html>" );
+        return buffer.toString();
+    }
+    
+    /**
+     * Fixes an HTML string that may be incorrect.
+     * Sometimes we want to combine HTML strings, and we end up with too many \<html\> tags.
+     * This method ensures that we only have \<html\> and \</html\> at the beginning and 
+     * end of the string.
+     * <p>
+     * For example, "\<html\>foo\</html\> \<html\>bar\</html\>" becomes "\<html\>foo bar\</html\>".
+     * 
+     * @param htmlString
+     * @return
+     */
+    public static String fixHTMLString( String string ) {
+        string = string.replaceAll( "<html>", "" );
+        string = string.replaceAll( "</html>", "" );
+        return "<html>" + string + "</html>";
+    }
 }
