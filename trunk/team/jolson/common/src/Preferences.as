@@ -147,7 +147,7 @@ class Preferences {
 	// resets (clears) any data stored on disk
 	// (also resets the data in the local copy)
 	public function reset() : Void {
-		debug("preferences: resetting\n");
+		debug("Preferences: resetting\n");
 		sharedObject.clear();
 	}
 	
@@ -215,8 +215,10 @@ class Preferences {
 	public function onKeyDown() : Void {
 		if(Key.getCode() == 119) {
 			// F8 was pressed
-			debug("Resetting shared data\n");
+			debug("Preferences: Manually resetting shared data\n");
+			load();
 			reset();
+			unload();
 		}
 	}
 }
