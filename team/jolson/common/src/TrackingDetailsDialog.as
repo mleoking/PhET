@@ -45,7 +45,7 @@ class TrackingDetailsDialog {
 		str += "Please visit the PhET website for more information: <a href='http://phet.colorado.edu'>http://phet.colorado.edu</a>\n\n";
 		*/
 		str += "<font size=\"12\">"
-		str += _level0.trackingHandler.sessionStartMessage();
+		str += unescape(_level0.trackingHandler.sessionStartMessage());
 		str += "</font>"
 		/*
 		str += "The PhET project provides a suite of interactive educational simulations.\n";
