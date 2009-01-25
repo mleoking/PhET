@@ -21,6 +21,8 @@ class PreferencesDialog {
 	public var updatesCheck : JCheckBox;
 	public var trackingCheck : JCheckBox;
 	
+	var updatesButton : JButton;
+	
 	// shorthand for debugging function
 	public function debug(str : String) : Void {
 		_level0.debug(str);
@@ -80,7 +82,7 @@ class PreferencesDialog {
 		updatesPanel.append(new JSpacer(5, 5));
 		
 		// update now button
-		var updatesButton = new JButton("Check for updates now");
+		updatesButton = new JButton("Check for updates now");
 		updatesButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, updatesClicked));
 		CommonButtons.padButtonAdd(updatesButton, updatesPanel);
 		
