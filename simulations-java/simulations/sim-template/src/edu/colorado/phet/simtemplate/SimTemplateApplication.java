@@ -22,7 +22,6 @@ import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.simtemplate.developer.DeveloperMenu;
 import edu.colorado.phet.simtemplate.menu.OptionsMenu;
 import edu.colorado.phet.simtemplate.module.example.ExampleModule;
-import edu.colorado.phet.simtemplate.module.intensive.ProcessorIntensiveModule;
 import edu.colorado.phet.simtemplate.persistence.ExampleConfig;
 import edu.colorado.phet.simtemplate.persistence.SimTemplateConfig;
 
@@ -96,10 +95,6 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
         Module secondModule = new ExampleModule( parentFrame );
         secondModule.setName( "Another Example" );
         addModule( secondModule );
-        
-        Module thirdModule = new ExampleModule( parentFrame );
-        thirdModule.setName( "Yet Another Example" );
-        addModule( thirdModule );
     }
 
     protected ExampleModule getFirstModule(Frame parentFrame) {
