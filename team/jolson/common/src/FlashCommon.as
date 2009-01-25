@@ -43,9 +43,13 @@ class FlashCommon {
 	// handles keyboard accessibility (tab traversal)
 	public var tabHandler : TabHandler;
 	
+	// DEVELOPMENT
+	public var inspector : Inspector;
+	
 	// initializes debug function at _level0.debug()
 	public function initDebug() : Void {
 		if(debugging) {
+			_root.debugs._visible = false;
 			_level0.debug = function(str : String) : Void {
 				_root.debugs.text += str;
 				_root.debugs.scroll += 100;
@@ -69,6 +73,9 @@ class FlashCommon {
 		
 		// make it accessible from everywhere
 		_level0.common = this;
+		
+		// DEVELOPMENT: catch key events to this object
+		Key.addListener(this);
 		
 		// set the default background color
 		backgroundColor = ASColor.getASColor(230, 230, 230);
@@ -100,6 +107,8 @@ class FlashCommon {
 		// load preferences data
 		preferences = new Preferences();
 		
+		// DEVELOPMENT: load the inspector
+		inspector = new Inspector();
 		
 	}
 	
@@ -134,5 +143,12 @@ class FlashCommon {
 	// returns whether the sim was run from the phet website
 	public function fromPhetWebsite() : Boolean {
 		return ((new LocalConnection()).domain() == "phet.colorado.edu");
+	}
+	
+	// DEVELOPMENT
+	public function onKeyDown() {
+		if(Key.getCode() == Key.PGUP) {
+			_level0.debugs._visible = true;
+		}
 	}
 }
