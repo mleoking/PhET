@@ -1,3 +1,4 @@
+moved test code from sim-template to test-project
 # 0.07.02 (26770) 12-19-2008
 test build process 2nd time
 # 0.07.01 (26768) 12-19-2008
