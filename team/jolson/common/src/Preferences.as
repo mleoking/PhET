@@ -35,6 +35,7 @@ class Preferences {
 		// should only be one copy of Preferences (singleton-like)
 		_level0.preferences = this;
 		
+		// load the shared object into sharedObject
 		load();
 		
 		/////////////////////////////////////////
@@ -61,7 +62,6 @@ class Preferences {
 		// SharedObject.getLocal() reads preferences or creates the
 		// object.
 		if(!sharedObject.data.exists) {
-			// TODO: We must now prompt the user to accept the privacy conditions.
 			debug("Preferences do not exist! Creating, and filling with defaults.\n");
 			sharedObject.data.exists = true;
 			sharedObject.data.allowTracking = true;
@@ -94,25 +94,31 @@ class Preferences {
 			_level0.common.postAgreement();
 		}
 		
+		// unload the sharedObject from memory. this prevents an out-of-date version of
+		// the preferences data to be saved when the sim is closed.
 		unload();
 	}
 	
+	// load the preferences data into sharedObject
 	public function load() : Void {
-		// load shared object
 		//debug("Preferences: Loading shared object\n");
 		sharedObject = SharedObject.getLocal("phetPrefs", "/");
 	}
 	
+	// unload the preferences data from sharedObject. this prevents Flash from saving
+	// a possibly out-of-date version when the sim is closed
 	public function unload() : Void {
-		// hopefully unload a shared object
 		//debug("Preferences: Unloading shared object\n");
 		delete sharedObject;
 	}
 	
+	// returns whether the user has accepted the latest privacy agreement needed for this sim
+	// NOTE: make sure preferences are loaded before calling, and unloaded sometime soon after
 	public function isPrivacyOK() : Boolean {
 		return CURRENT_PRIVACY_VERSION <= sharedObject.data.latestPrivacyAgreementVersion;
 	}
 	
+	// saves the user's acceptance of the privacy agreement to preferences
 	public function agreeToPrivacy() : Void {
 		load();
 		sharedObject.data.latestPrivacyAgreementVersion = CURRENT_PRIVACY_VERSION;
@@ -120,26 +126,40 @@ class Preferences {
 		unload();
 	}
 	
-	// allow other common code/simulation to check whether
-	// the user allows tracking
-	public function allowTracking() : Boolean {
-		if(_level0.common.fromPhetWebsite()) {
-			debug("From PhET website: no tracking allowed\n");
-			return false;
-		}
+	// returns whether the user allows messages to be sent
+	// NOTE: make sure preferences are loaded before calling, and unloaded sometime soon after
+	public function userAllowsTracking() : Boolean {
 		return sharedObject.data.allowTracking;
 	}
 	
 	// allow other common code/simulation to check whether
-	// the user allows checking for updates
-	public function checkForUpdates() : Boolean {
+	// tracking messages can be sent
+	// NOTE: make sure preferences are loaded before calling, and unloaded sometime soon after
+	public function isTrackingAllowed() : Boolean {
+		if(_level0.common.fromPhetWebsite()) {
+			debug("From PhET website: no tracking allowed\n");
+			return false;
+		}
+		return userAllowsTracking();
+	}
+	
+	// returns whether the user allows checking for updates
+	// NOTE: make sure preferences are loaded before calling, and unloaded sometime soon after
+	public function userAllowsUpdates() : Boolean {
+		return sharedObject.data.checkForUpdates;
+	}
+	
+	// allow other common code/simulation to check whether
+	// checking for updates is allowed
+	public function areUpdatesAllowed() : Boolean {
 		if(_level0.common.fromPhetWebsite()) {
 			debug("From PhET website: no updates allowed (or needed)\n");
 			return false;
 		}
 		load();
-		return sharedObject.data.checkForUpdates;
+		var ret : Boolean = userAllowsUpdates();
 		unload();
+		return ret;
 	}
 	
 	// allow other code to set the tracking and updates values
@@ -155,6 +175,7 @@ class Preferences {
 	
 	// resets (clears) any data stored on disk
 	// (also resets the data in the local copy)
+	// NOTE: make sure preferences are loaded before calling, and unloaded sometime soon after
 	public function reset() : Void {
 		debug("Preferences: resetting\n");
 		sharedObject.clear();
@@ -162,6 +183,7 @@ class Preferences {
 	
 	// saves the shared object (preferences data) to the
 	// user's hard drive.
+	// NOTE: make sure preferences are loaded before calling, and unloaded sometime soon after
 	public function save() : Void {
 		debug("Preferences: Saving shared object\n");
 		sharedObject.flush();
@@ -169,8 +191,9 @@ class Preferences {
 	
 	// creates or increments a preferences attribute specifying
 	// how many times the current simulation has been run.
+	// NOTE: make sure preferences are loaded before calling, and unloaded sometime soon after
 	public function incrementVisit() : Void {
-		debug("preferences: Incrementing number of visits\n");
+		debug("Preferences: Incrementing number of visits\n");
 		
 		// increment total visits
 		sharedObject.data.userTotalSessions = sharedObject.data.userTotalSessions + 1;
@@ -203,18 +226,25 @@ class Preferences {
 	}
 	
 	// how many times the current simulation has ever been run (according to preferences)
+	// NOTE: make sure preferences are loaded before calling, and unloaded sometime soon after
 	public function visitsEver() : Number {
 		return sharedObject.data[_level0.simName + "_visitsEver"];
 	}
 	
 	// how many times the current simulation has been run since last message sent (according to preferences)
+	// NOTE: make sure preferences are loaded before calling, and unloaded sometime soon after
 	public function visitsSince() : Number {
 		return sharedObject.data[_level0.simName + "_visitsSince"];
 	}
 	
+	// returns when the preferences file was created
+	// NOTE: make sure preferences are loaded before calling, and unloaded sometime soon after
 	public function getUserTime() : Number {
 		return sharedObject.data.userPreferencesFileCreationTime;
 	}
+	
+	// returns how many total times the user has run any simulation
+	// NOTE: make sure preferences are loaded before calling, and unloaded sometime soon after
 	public function getUserTotalSessions() : Number {
 		return sharedObject.data.userTotalSessions;
 	}

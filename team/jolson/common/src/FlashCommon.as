@@ -13,8 +13,10 @@ import org.aswing.*;
 // should be instance of FlashCommon at _level0.common
 class FlashCommon {
 	
+	// the default background color for AsWing components (windows and text)
 	public var backgroundColor : ASColor;
 	
+	// whether to dump debugging messages into the text field
 	public var debugging : Boolean = true;
 	
 	// handles internationalization for common strings
@@ -118,14 +120,18 @@ class FlashCommon {
 		commonButtons = new CommonButtons(commonPosition);
 	}
 	
+	// return a string representing the sim's locale (NOT the user's default)
 	public function localeString() : String {
 		var str : String = _level0.languageCode;
+		
+		// if we have a country code, add _XX to the locale
 		if(_level0.countryCode != "none") {
 			str += "_" + _level0.countryCode;
 		}
 		return str;
 	}
 	
+	// returns whether the sim was run from the phet website
 	public function fromPhetWebsite() : Boolean {
 		return ((new LocalConnection()).domain() == "phet.colorado.edu");
 	}

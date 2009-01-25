@@ -38,7 +38,6 @@ class TrackingHandler {
 	// get the exact string sent to the server. this will be used to show
 	// users exactly what tracking data is sent.
 	public function sessionStartMessage() : String {
-		//var str : String = "<tracking ";
 		var str : String = "";
 		
 		// make data available to be read
@@ -50,7 +49,6 @@ class TrackingHandler {
 		
 		
 		/////// user data
-		
 		str += "user_preference_file_creation_time = '" + escape(String(_level0.preferences.getUserTime())) + "' \n";
 		str += "user_total_sessions = '" + escape(String(_level0.preferences.getUserTotalSessions())) + "' \n";
 		
@@ -92,18 +90,16 @@ class TrackingHandler {
 		// unload data from shared object
 		_level0.preferences.unload();
 		
-		//str += "></tracking>";
 		return str;
 	}
 	
-	// return a string timestamp
-	public function timestampString() : String {
-		return escape(String((new Date()).valueOf()));
-	}
-	
+	// attempts to send a session start message
 	public function sendSessionStart() : Void {
+		// load the user's preferences so we can see whether tracking is allowed and they
+		// have accepted the privacy agreement
 		_level0.preferences.load();
-		if(!_level0.preferences.allowTracking()) {
+		
+		if(!_level0.preferences.isTrackingAllowed()) {
 			debug("TrackingHandler: cannot send session start message: tracking disabled\n");
 			_level0.preferences.unload();
 			return;
@@ -113,8 +109,13 @@ class TrackingHandler {
 			_level0.preferences.unload();
 			return;
 		}
+		
+		// we no longer need preferences data, so we need to unload the data
 		_level0.preferences.unload();
+		
 		debug("TrackingHandler: sending session start message\n");
+		
+		// wrap the message in xml tags
 		var str : String = "<tracking " + sessionStartMessage() + "></tracking>";
 		sendXML(new XML(str));
 	}

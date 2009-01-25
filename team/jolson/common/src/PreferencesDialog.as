@@ -71,7 +71,7 @@ class PreferencesDialog {
 		updatesCheck = new JCheckBox("Automatically check for updates");
 		updatesCheck.addEventListener(JCheckBox.ON_CLICKED, Delegate.create(this, updateToggle));
 		
-		if(updateState != _level0.preferences.checkForUpdates()) {
+		if(updateState != _level0.preferences.userAllowsUpdates()) {
 			// if updates are allowed, fill in the check box
 			updatesCheck.click();
 		}
@@ -124,7 +124,7 @@ class PreferencesDialog {
 		// tracking check-box
 		trackingCheck = new JCheckBox("Allow sending of information to PhET");
 		trackingCheck.addEventListener(JCheckBox.ON_CLICKED, Delegate.create(this, trackingToggle));
-		if(trackingState != _level0.preferences.allowTracking()) {
+		if(trackingState != _level0.preferences.userAllowsTracking()) {
 			// if tracking is allowed, fill in the check box
 			trackingCheck.click();
 		}
@@ -180,10 +180,10 @@ class PreferencesDialog {
 	// from the actual preferences
 	public function reCheck() : Void {
 		_level0.preferences.load();
-		if(updateState != _level0.preferences.checkForUpdates()) {
+		if(updateState != _level0.preferences.userAllowsUpdates()) {
 			updatesCheck.click();
 		}
-		if(trackingState != _level0.preferences.allowTracking()) {
+		if(trackingState != _level0.preferences.userAllowsTracking()) {
 			trackingCheck.click();
 		}
 		_level0.preferences.unload();
