@@ -1,3 +1,4 @@
+moved test code to test-project, please used that project for testing
 # 0.15.00 (27566) 01-22-2009
 Testing deploy process.
 # 0.14.00 (27563) 01-22-2009
