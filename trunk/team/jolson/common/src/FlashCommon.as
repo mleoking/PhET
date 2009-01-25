@@ -148,7 +148,7 @@ class FlashCommon {
 	// DEVELOPMENT
 	public function onKeyDown() {
 		if(Key.getCode() == Key.PGUP) {
-			_level0.debugs._visible = true;
+			_level0.debugs._visible = !_level0.debugs._visible;
 		}
 	}
 }
