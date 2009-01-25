@@ -33,26 +33,30 @@ class UpdateHandler {
 		_level0.updateHandler = this;
 		
 		// make sure the user allows us to check for updates!
-		if(_level0.preferences.checkForUpdates()) {
+		if(_level0.preferences.areUpdatesAllowed()) {
 			checkUpdates();
 		} else {
-			debug("UpdateHandler: not checking for updates (preferences)\n");
+			debug("UpdateHandler: not checking for updates (Preferences.areUpdatesAllowed() = false)\n");
 		}
 	}
 	
 	public function checkUpdates() : Void {
 		// make sure we can access phet.colorado.edu and all files under that domain
+		// this is more of a sanity-check than anything else, this should be included
+		// under FlashCommon.as
 		System.security.allowDomain("phet.colorado.edu");
 		
 		// create XML that will be filled in with the response
 		var xml : XML = new XML();
 		
-		// make sure that whitespace isn't treated as nodes!
+		// make sure that whitespace isn't treated as nodes! (DO NOT REMOVE THIS)
 		xml.ignoreWhite = true;
 		
 		// function that is called when the XML is either loaded or fails somehow
 		xml.onLoad = function(success : Boolean) {
 			if(success) {
+				// XML was returned and successfully parsed (valid XML, but we need to still
+				// extract information from it
 				_level0.debug("UpdateHandler: successfully obtained version information\n");
 				
 				versionMajor = xml.firstChild.childNodes[0].attributes.value;
@@ -60,6 +64,7 @@ class UpdateHandler {
 				dev = xml.firstChild.childNodes[2].attributes.value;
 				revision = xml.firstChild.childNodes[3].attributes.value;
 				
+				// use _level0.debug since we cannot access the shorthand version from the callback
 				_level0.debug("    latest version: " + versionMajor);
 				_level0.debug("." + versionMinor);
 				_level0.debug(" dev:" + dev);
@@ -80,9 +85,10 @@ class UpdateHandler {
 		}
 		
 		/////////////////////////////////////////////
-		// CHANGE ME
-		// needs to be changed to the path of the version script for each simulation
+		// TODO needs to be changed to the path of the version script for each simulation
+		// most likely will be http://phet.colorado.edu/simulations/sim-version-info.php?project=BLAH&sim=BLAH
 		xml.load("http://phet.colorado.edu/jolson/deploy/sims/version.php?" + _level0.simName);
+		
 		
 		var testXML : XML = new XML();
 		testXML.ignoreWhite = true;
@@ -99,7 +105,6 @@ class UpdateHandler {
 	}
 	
 	public function manualCheck() : Void {
-		// TODO: add manual updates for this
 		debug("UpdateHandler: checking manually for updates");
 		manual = true;
 		checkUpdates();

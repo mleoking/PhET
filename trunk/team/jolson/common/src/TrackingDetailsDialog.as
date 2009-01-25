@@ -45,6 +45,8 @@ class TrackingDetailsDialog {
 		str += "Please visit the PhET website for more information: <a href='http://phet.colorado.edu'>http://phet.colorado.edu</a>\n\n";
 		*/
 		str += "<font size=\"12\">"
+		// insert what would be sent as the message. we need to unescape strings so they will be
+		// correctly viewable
 		str += unescape(_level0.trackingHandler.sessionStartMessage());
 		str += "</font>"
 		/*
