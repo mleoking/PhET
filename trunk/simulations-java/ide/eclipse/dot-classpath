@@ -123,6 +123,8 @@
 	<classpathentry kind="src" path="simulations/sound/data"/>
 	<classpathentry kind="src" path="simulations/states-of-matter/src"/>
 	<classpathentry kind="src" path="simulations/states-of-matter/data"/>
+	<classpathentry kind="src" path="simulations/test-project/src"/>
+	<classpathentry kind="src" path="simulations/test-project/data"/>
 	<classpathentry kind="src" path="simulations/the-ramp/src"/>
 	<classpathentry kind="src" path="simulations/the-ramp/data"/>
 	<classpathentry kind="src" path="simulations/travoltage/src"/>
