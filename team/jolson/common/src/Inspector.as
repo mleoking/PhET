@@ -72,21 +72,51 @@ class Inspector {
 			
 			str += "At: <font color=\"#00bb00\">_level0." + _level0.inspector.inputText.text + "</font>\n";
 			
-			if(ob != _level0) {
+			if(_level0.inspector.inputText.text != "") {
 				str += "<font color=\"#FF0000\"><a href=\"asfunction:_level0.upLevel,boo\">... (up one level)</a></font>\n";
 			}
 			
-			var mc_str : String = "", ob_str : String = "", str_str : String = "", bool_str : String = "", num_str : String = "", def_str : String = "";
+			
+			
+			str += "\n";
+			
+			var mc_str : String = "", btn_str : String = "", txt_str : String = "", ob_str : String = "", str_str : String = "", bool_str : String = "", num_str : String = "", def_str : String = "";
 			
 			for(var i : String in ob) {
 				var type : String = typeof(ob[i]);
+				if(type == "object") {
+					/*
+					if(ob[i].condenseWhite != undefined && ob[i].maxscroll != undefined) {
+						type = "textfield";
+					} else if(ob[i].useHandCursor != undefined && ob[i].scale9Grid != undefined) {
+						type = "button";
+					}
+					*/
+					if(TextField.prototype.isPrototypeOf(ob[i])) {
+						type = "textfield";
+					}
+					if(Button.prototype.isPrototypeOf(ob[i])) {
+						type = "button";
+					}
+					if(Array.prototype.isPrototypeOf(ob[i])) {
+						type = "array";
+					}
+				}
 				switch(type) {
 					case "movieclip":
-						//str += i + " : <font color=\"#aa00aa\">" + typeof(ob[i]) + "</font>\n";
-						mc_str += "<a href=\"asfunction:_level0.inspect," + i + "\">" + i + "</a> : <font color=\"#aa00aa\">" + typeof(ob[i]) + "</font> [" + _level0.inspector.countChildren(ob, i) + "]\n";
+						mc_str += "<a href=\"asfunction:_level0.inspect," + i + "\">" + i + " : <font color=\"#aa00aa\">" + typeof(ob[i]) + "</font></a> [" + _level0.inspector.countChildren(ob, i) + "]\n";
+						break;
+					case "button":
+						btn_str += "<a href=\"asfunction:_level0.inspect," + i + "\">" + i + " : <font color=\"#777700\">" + "button" + "</font></a> [" + _level0.inspector.countChildren(ob, i) + "]\n";
+						break;
+					case "textfield":
+						txt_str += "<a href=\"asfunction:_level0.inspect," + i + "\">" + i + " : <font color=\"#aa0000\">" + "textfield" + "</font></a> [" + _level0.inspector.countChildren(ob, i) + "]\n";
+						break;
+					case "array":
+						ob_str += "<a href=\"asfunction:_level0.inspect," + i + "\">" + i + " : <font color=\"#00aa66\">" + "array" + "</font></a> [" + _level0.inspector.countChildren(ob, i) + "]\n";
 						break;
 					case "object":
-						ob_str += "<a href=\"asfunction:_level0.inspect," + i + "\">" + i + "</a> : <font color=\"#0000aa\">" + typeof(ob[i]) + "</font> [" + _level0.inspector.countChildren(ob, i) + "]\n";
+						ob_str += "<a href=\"asfunction:_level0.inspect," + i + "\">" + i + " : <font color=\"#0000aa\">" + typeof(ob[i]) + "</font></a> [" + _level0.inspector.countChildren(ob, i) + "]\n";
 						break;
 					case "string":
 						str_str += i + " : " + typeof(ob[i]) + " = <font color=\"#006600\">\"" + _level0.inspector.fixString(ob[i]) + "\"</font>\n";
@@ -102,7 +132,7 @@ class Inspector {
 				}
 			}
 			
-			str += mc_str + ob_str + num_str + bool_str + str_str + def_str;
+			str += mc_str + btn_str + txt_str + ob_str + num_str + bool_str + str_str + def_str;
 			
 			str += "</font>";
 			//str += "----------\n\n";
