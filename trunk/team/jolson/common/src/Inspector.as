@@ -8,6 +8,7 @@
 class Inspector {
 	public var mc : MovieClip;
 	public var inputText : TextField;
+	public var hits : MovieClip;
 	
 	// shorthand for debugging function
 	public function debug(str : String) : Void {
@@ -18,7 +19,12 @@ class Inspector {
 		debug("Initializing Inspector\n");
 		mc = _level0.createEmptyMovieClip("inspector", _level0.getNextHighestDepth());
 		
+		// catch key events to this object
+		Key.addListener(this);
+		
 		_level0.inspector = this;
+		_level0.inspect = inspect;
+		_level0.upLevel = upLevel;
 		
 		mc._x = 150;
 		
@@ -30,9 +36,10 @@ class Inspector {
 		mc.lineTo(0, 50);
 		mc.endFill();
 		
+		mc._visible = false;
 		
 		
-		var hits : MovieClip = mc.createEmptyMovieClip("hits", 0);
+		hits = mc.createEmptyMovieClip("hits", 0);
 		hits.beginFill(0xFFFFFF);
 		hits.moveTo(0, 40);
 		hits.lineTo(200, 40);
@@ -62,9 +69,41 @@ class Inspector {
 			var str : String = ""
 			//str += "----------\n";
 			str += "<font size=\"6\">";
-			for(var i : String in ob) {
-				str += i + " : " + typeof(ob[i]) + "\n";
+			
+			str += "At: <font color=\"#00bb00\">_level0." + _level0.inspector.inputText.text + "</font>\n";
+			
+			if(ob != _level0) {
+				str += "<font color=\"#FF0000\"><a href=\"asfunction:_level0.upLevel,boo\">... (up one level)</a></font>\n";
 			}
+			
+			var mc_str : String = "", ob_str : String = "", str_str : String = "", bool_str : String = "", num_str : String = "", def_str : String = "";
+			
+			for(var i : String in ob) {
+				var type : String = typeof(ob[i]);
+				switch(type) {
+					case "movieclip":
+						//str += i + " : <font color=\"#aa00aa\">" + typeof(ob[i]) + "</font>\n";
+						mc_str += "<a href=\"asfunction:_level0.inspect," + i + "\">" + i + "</a> : <font color=\"#aa00aa\">" + typeof(ob[i]) + "</font> [" + _level0.inspector.countChildren(ob, i) + "]\n";
+						break;
+					case "object":
+						ob_str += "<a href=\"asfunction:_level0.inspect," + i + "\">" + i + "</a> : <font color=\"#0000aa\">" + typeof(ob[i]) + "</font> [" + _level0.inspector.countChildren(ob, i) + "]\n";
+						break;
+					case "string":
+						str_str += i + " : " + typeof(ob[i]) + " = <font color=\"#006600\">\"" + _level0.inspector.fixString(ob[i]) + "\"</font>\n";
+						break;
+					case "boolean":
+						bool_str += i + " : " + typeof(ob[i]) + " = " + String(ob[i]) + "\n";
+						break;
+					case "number":
+						num_str += i + " : " + typeof(ob[i]) + " = <font color=\"#004477\">" + String(ob[i]) + "</font>\n";
+						break;
+					default:
+						def_str += i + " : " + typeof(ob[i]) + "\n";
+				}
+			}
+			
+			str += mc_str + ob_str + num_str + bool_str + str_str + def_str;
+			
 			str += "</font>";
 			//str += "----------\n\n";
 			
@@ -76,6 +115,60 @@ class Inspector {
 		
 		inputText.type = "input";
 		inputText.border = true;
+	}
+	
+	public function onKeyDown() {
+		if(Key.getCode() == Key.PGDN) {
+			_level0.inspector.hits.onPress();
+		}
+	}
+	
+	public function fixString(str : String) {
+		var ret : String = "";
+		for(var i : Number = 0; i < str.length; i++) {
+			switch(str.charAt(i)) {
+				case "<":
+					ret += "&lt;";
+					break;
+				case ">":
+					ret += "&gt;";
+					break;
+				default:
+					ret += str.charAt(i);
+			}
+		}
+		return ret;
+	}
+	
+	public function countChildren(ob : Object, str : String) : String {
+		var count : Number = 0;
+		for(var i : String in ob[str]) {
+			count = count + 1;
+		}
+		return String(count);
+	}
+	
+	public function upLevel(toss : String) {
+		var s : String = _level0.inspector.inputText.text
+		var ar : Array = s.split(".");
+		var str : String = "";
+		for(var z = 0; z < ar.length - 1; z++) {
+			if(z > 0) {
+				str += ".";
+			}
+			str += ar[z];
+		}
+		_level0.inspector.inputText.text = str;
+		_level0.inspector.hits.onPress();
+	}
+	
+	public function inspect(str : String) {
+		if(_level0.inspector.inputText.text == "") {
+			_level0.inspector.inputText.text = str;
+		} else {
+			_level0.inspector.inputText.text += "." + str;
+		}
+		_level0.inspector.hits.onPress();
 	}
 }
 
