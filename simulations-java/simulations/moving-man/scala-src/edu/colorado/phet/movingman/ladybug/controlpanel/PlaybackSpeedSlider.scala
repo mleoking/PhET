@@ -13,14 +13,13 @@ import umd.cs.piccolox.pswing.PSwing
 
 class PlaybackSpeedSlider(model: LadybugModel) extends PNode {
   val slider = new JSlider
-  slider.setBackground(new Color(0,0,0,0))
+  slider.setBackground(new Color(0, 0, 0, 0))
   val transform = new LinearFunction(slider.getMinimum, slider.getMaximum, 0.5, 2.0)
 
   val dict = new Hashtable[Integer, JLabel]
 
-  implicit def stringToJLabel(text: String): JLabel = new JLabel(text)
-  dict.put(slider.getMinimum, "slow")
-  dict.put(slider.getMaximum, "fast")
+  dict.put(slider.getMinimum, new JLabel("slow"))
+  dict.put(slider.getMaximum, new JLabel("fast"))
 
   slider.setLabelTable(dict)
   slider.setPaintLabels(true)
