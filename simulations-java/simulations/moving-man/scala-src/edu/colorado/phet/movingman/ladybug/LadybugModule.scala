@@ -11,20 +11,15 @@ import java.awt.Color
 
 class LadybugModule(clock: ScalaClock) extends Module("my module", clock) {
   val model = new LadybugModel
-  val canvas = new LadybugCanvas
   private val vectorVisibilityModel = new VectorVisibilityModel
   private val pathVisibilityModel = new PathVisibilityModel
 
+  val canvas = new LadybugCanvas(model,vectorVisibilityModel,pathVisibilityModel)
+
   setSimulationPanel(canvas)
 
-  canvas setBackground new Color(200, 255, 240)
   clock.addClockListener(model.update(_))
 
-  canvas.addNode(new LadybugNode(model, model.ladybug, canvas.transform, vectorVisibilityModel))
-  val solidTrace = new LadybugSolidTraceNode(model, canvas.transform, () => pathVisibilityModel.lineVisible, pathVisibilityModel)
-  canvas.addNode(solidTrace)
-  val dotTrace = new LadybugDotTraceNode(model, canvas.transform, () => pathVisibilityModel.dotsVisible, pathVisibilityModel)
-  canvas.addNode(dotTrace)
   val controlPanel = new LadybugControlPanel(this)
   setControlPanel(controlPanel)
 
@@ -36,10 +31,7 @@ class LadybugModule(clock: ScalaClock) extends Module("my module", clock) {
 
   def getLadybugMotionModel = model.getLadybugMotionModel()
 
-  def clearTrace = {
-    solidTrace.clearTrace
-    dotTrace.clearTrace
-  }
+  def clearTrace() = canvas.clearTrace()
 
   def setMotionManual() = model.getLadybugMotionModel().motion = MANUAL //todo encapsulate
 
