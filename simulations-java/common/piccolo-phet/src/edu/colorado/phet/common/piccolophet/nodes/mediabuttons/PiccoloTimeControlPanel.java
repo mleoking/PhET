@@ -448,14 +448,14 @@ public class PiccoloTimeControlPanel extends JPanel{
     // Inner classes
     //------------------------------------------------------------------------
     
-    private static class BackgroundNode extends PNode {
+    public static class BackgroundNode extends PNode {
         
         private final PhetPPath backgroundNode = new PhetPPath( new JLabel().getBackground() );
         private final PhetPPath tabNode = new PhetPPath();
         private int width;
         private int height;
 
-        private BackgroundNode() {
+        public BackgroundNode() {
             addChild( backgroundNode );
             addChild( tabNode );
         }
