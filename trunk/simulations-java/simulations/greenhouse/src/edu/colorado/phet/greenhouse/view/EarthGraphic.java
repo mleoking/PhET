@@ -10,18 +10,13 @@ package edu.colorado.phet.greenhouse.view;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
@@ -54,7 +49,6 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
     private BufferedImage backgroundToday = GreenhouseResources.getImage( "today-2.gif" );
     private BufferedImage background1750 = GreenhouseResources.getImage( "1750-2.gif" );
     private BufferedImage backgroundIceAge = GreenhouseResources.getImage( "ice-age-2.gif" );
-    private Map scaledBackgroundImages = new HashMap();
     Point2D.Double pUtil = new Point2D.Double();
     private double desiredImageWidth = 100;  // Somewhat arbitrary initial value, will be recalculated during init.
 
@@ -79,12 +73,6 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
 //        System.out.println( "gifToModelScale=" + gifToModelScale );
         earthTx.translate( -this.gif.getWidth() / 2, 0 );
         apparatusPanel.addGraphic( this, GreenhouseConfig.EARTH_BASE_LAYER + 1 );
-
-        // Make two copies of all the background images. One for originals, and one for scaled
-        // versions when the frame is resized.
-        scaledBackgroundImages.put( backgroundToday, backgroundToday );
-        scaledBackgroundImages.put( background1750, background1750 );
-        scaledBackgroundImages.put( backgroundIceAge, backgroundIceAge );
 
         // If the apparatus panel is resized, resize the backdrop graphic
         apparatusPanel.addComponentListener( new ComponentAdapter() {
