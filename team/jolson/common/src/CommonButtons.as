@@ -35,7 +35,7 @@ class CommonButtons {
 		var window : JWindow = new JWindow(_level0);
 		
 		// creates the about button
-		var aboutButton : JButton = new JButton(_level0.comStrings.get("About", "About") + "...");
+		var aboutButton : JButton = new JButton(_level0.comStrings.get("About...", "About..."));
 		_level0.aboutButton = aboutButton;
 		aboutButton.setSize(aboutButton.getPreferredSize());
 		aboutButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, aboutButtonClicked));

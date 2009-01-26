@@ -22,7 +22,7 @@ class AboutDialog {
 		ASWingUtils.getRootMovieClip();
 		
 		// create a window
-		var window : JFrame = new JFrame(_level0, _level0.comStrings.get("About", "About") + " " + _level0.simName);
+		var window : JFrame = new JFrame(_level0, _level0.comStrings.get("AboutSim", "About {0}", [_level0.simName]));
 		
 		// make sure we can access it from anywhere
 		_level0.aboutWindow = window;
@@ -36,9 +36,9 @@ class AboutDialog {
 		// construct the string of text to show
 		var str : String = "";
 		str += "<b>" + _level0.comStrings.get("PhET", "PhET") + "</b>\n";
-		str += _level0.comStrings.get("Copyright", "Copyright") + " \u00A9 2004-2008 University of Colorado\n";
-		str += _level0.comStrings.get("SomeRightsReserved", "Some rights reserved") + ".\n";
-		str += _level0.comStrings.get("Visit", "Visit") + " <a href='http://phet.colorado.edu'>http://phet.colorado.edu</a>\n\n";
+		str += _level0.comStrings.get("CopyrightColorado", "Copyright {0} University of Colorado.", ["\u00A9 2004-2008"]) + "\n";
+		str += _level0.comStrings.get("SomeRightsReserved", "Some rights reserved.") + "\n";
+		str += _level0.comStrings.get("Visit", "Visit {0}.", ["<a href='http://phet.colorado.edu'>http://phet.colorado.edu</a>"]) + "\n\n";
 		
 		str += "<b><font size='16'>" + _level0.simName + "</font></b>\n";
 		str += _level0.comStrings.get("Version", "Version") + ": " + _level0.versionMajor + "." + _level0.versionMinor;

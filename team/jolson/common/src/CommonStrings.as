@@ -19,9 +19,10 @@ class CommonStrings {
 		xml = new XML();
 		xml.ignoreWhite = true;
 		xml.parseXML(_level0.commonStrings);
+		
 	}
 	
-	public function get(key : String, defaultString : String) : String {  
+	public function get(key : String, defaultString : String, formatArray : Array) : String {  
 		// basically copied from simstrings
 		var value : String = "keyNotFound"; //Dubson code
 		var nodes : Array = xml.firstChild.childNodes; // array of XMLNode
@@ -42,6 +43,30 @@ class CommonStrings {
 			debug("WARNING CommonStrings: cannot find common string for '" + key + "', using default instead.\n");
 		}
 		
-		return value;
+		return format(value, formatArray);
+	}
+	
+	public function format(pattern : String, args : Array) : String {
+		var ret : String = "";
+		var len : Number = pattern.length;
+		for(var i : Number = 0; i < len; i++) {
+			var char : String = pattern.charAt(i);
+			if(char == "\\" && i < len - 1 && (pattern.charAt(i+1) == "{" || pattern.charAt(i+1) == "}")) {
+				i++;
+				ret += pattern.charAt(i);
+			} else if(char == "{") {
+				var endIndex : Number = pattern.indexOf("}", i);
+				if(endIndex == -1) {
+					ret += pattern.charAt(i);
+				} else {
+					var num : Number = new Number(pattern.substring(i+1, endIndex));
+					ret += args[num];
+					i = endIndex;
+				}
+			} else {
+				ret += pattern.charAt(i);
+			}
+		}
+		return ret;
 	}
 }

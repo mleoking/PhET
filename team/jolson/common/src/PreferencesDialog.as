@@ -97,10 +97,10 @@ class PreferencesDialog {
 		// NOTE: Text area required, otherwise HTML text will not work.
 		var str : String = "";
 		
-		var defaultStr : String = "<a href='http://phet.colorado.edu'>PhET</a> is made freely available through grants which ";
+		var defaultStr : String = "<a href='{0}'>PhET</a> is made freely available through grants which ";
 		defaultStr += "require us to collect a minimal amount of anonymous information to help document the amount of use ";
 		defaultStr += "of PhET sims and to better serve our users' update needs.";
-		str += _level0.comStrings.get("PrivacyRequirement", defaultStr);
+		str += _level0.comStrings.get("PrivacyRequirement", defaultStr, ["http://phet.colorado.edu"]);
 
 		
 		// CSS so that the blue link will display properly
