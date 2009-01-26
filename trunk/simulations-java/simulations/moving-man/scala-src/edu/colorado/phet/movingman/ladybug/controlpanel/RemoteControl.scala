@@ -2,6 +2,7 @@ package edu.colorado.phet.movingman.ladybug.controlpanel
 
 import _root_.edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import _root_.edu.colorado.phet.common.piccolophet.event.CursorHandler
+import umd.cs.piccolo.event.{PInputEventListener, PBasicInputEventHandler, PInputEvent}
 import util.ToggleListener
 import _root_.edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
@@ -53,15 +54,15 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
     arrowNode.setPaint(color)
     var dragging = false
 
-      def updateArrow = {
-          if (!dragging && (RemoteControl.this._mode eq this) && LadybugDefaults.remoteIsIndicator) {
-              _mode.arrowNode.setTipAndTailLocations(_mode.transform.modelToView(getter(model.ladybug)), _mode.transform.modelToView(new Point2D.Double(0, 0)))
-          }
+    def updateArrow = {
+      if (!dragging && (RemoteControl.this._mode eq this) && LadybugDefaults.remoteIsIndicator) {
+        _mode.arrowNode.setTipAndTailLocations(_mode.transform.modelToView(getter(model.ladybug)), _mode.transform.modelToView(new Point2D.Double(0, 0)))
       }
-      model.ladybug.addListener(() => {
-          updateArrow
-      })
+    }
+    model.ladybug.addListener(() => {
       updateArrow
+    })
+    updateArrow
     def setDestination(pt: Point2D) = {
       _mode.arrowNode.setTipAndTailLocations(_mode.transform.modelToView(pt), _mode.transform.modelToView(new Point2D.Double(0, 0)))
       setLadybugState(pt)
@@ -84,19 +85,26 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
   def isInteractive() = {model.readyForInteraction}
 
   class RemoteControlCanvas extends PhetPCanvas(new PDimension(CANVAS_WIDTH, CANVAS_HEIGHT)) {
-    val centerDot = new PhetPPath(new Ellipse2D.Double(-2, -2, 4, 4), Color.black)
+    val w = 8.5
+    val centerDot = new PhetPPath(new Ellipse2D.Double(-w / 2, -w / 2, w, w), Color.black)
+    centerDot.addInputEventListener(new PBasicInputEventHandler() {
+      override def mousePressed(event: PInputEvent) = {
+        _mode.setDestination(new Vector2D(0, 0))
+      }
+    })
 
-    addInputEventListener(new ToggleListener(new CursorHandler, isInteractive))
-    addMouseListener(new MouseInputAdapter() {
-      override def mousePressed(e: MouseEvent) = {
+    val backgroundNode = new PhetPPath(new Rectangle(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT), Color.white)
+
+    backgroundNode.addInputEventListener(new PBasicInputEventHandler() {
+      override def mousePressed(event: PInputEvent) = {
         if (isInteractive()) {
           _mode.dragging = true
           setMotionManual()
-          _mode.setDestination(_mode.transform.viewToModel(e.getX, e.getY))
+          _mode.setDestination(_mode.transform.viewToModel(event.getCanvasPosition.getX, event.getCanvasPosition.getY))
         }
       }
 
-      override def mouseReleased(e: MouseEvent) = {
+      override def mouseReleased(event: PInputEvent) = {
         if (isInteractive()) {
           _mode.dragging = false
           setMotionManual()
@@ -104,17 +112,18 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
             _mode.setDestination(new Vector2D(0, 0))
           }
         }
+
       }
-    })
-    addMouseMotionListener(new MouseInputAdapter() {
-      override def mouseDragged(e: MouseEvent) = {
+
+      override def mouseDragged(event: PInputEvent) = {
         if (isInteractive()) {
           _mode.dragging = true
           setMotionManual()
-          _mode.setDestination(_mode.transform.viewToModel(e.getX, e.getY))
+          _mode.setDestination(_mode.transform.viewToModel(event.getCanvasPosition.getX, event.getCanvasPosition.getY))
         }
       }
     })
+    addInputEventListener(new ToggleListener(new CursorHandler, isInteractive))
     modeChanged
     def modeChanged() = centerDot.setOffset(_mode.transform.modelToView(0, 0).getX, _mode.transform.modelToView(0, 0).getY)
   }
@@ -129,6 +138,7 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
   canvas.addWorldChild(node)
   def updateNode = {
     node.removeAllChildren
+    node.addChild(canvas.backgroundNode)
     node.addChild(_mode.arrowNode)
     node.addChild(canvas.centerDot)
   }
