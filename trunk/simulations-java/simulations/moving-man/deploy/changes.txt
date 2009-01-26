@@ -5,6 +5,8 @@
 > Start the ladybug somewhere other than (0,0) so that the Remote Control position vector will be visible on startup
 > Added return ladybug button
 > Bigger circle in middle of remote control. Clicking anywhere on this circle sets vel or acc exactly to zero.
+> Sim starts paused; starts recording when bug is moved
+> Show acceleration and velocity even before 20 history points have been recorded
 
 # 1.20.18 (27515) 01-21-2009
 > Changed velocity color to green

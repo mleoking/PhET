@@ -20,7 +20,10 @@ class ReturnLadybugButton(model: LadybugModel, canvas: LadybugCanvas) extends Ph
   updateVisible()
   updateLocation()
   canvas.addComponentListener(new ComponentAdapter {
-    override def componentResized(e: ComponentEvent) = updateLocation
+    override def componentResized(e: ComponentEvent) = {
+      updateLocation
+      updateVisible
+    }
   })
 
   def updateLocation() = setOffset(canvas.getWidth / 2 - getFullBounds.getWidth / 2, canvas.getHeight / 2 - getFullBounds.getHeight / 2)

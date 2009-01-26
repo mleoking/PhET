@@ -10,12 +10,14 @@ import edu.colorado.phet.common.motion._
 class LadybugModel extends ObservableS {
   val ladybug = new Ladybug
   private val history = new ArrayBuffer[DataPoint]
-
   private val ladybugMotionModel = new LadybugMotionModel
+  private var time: Double = 0;
+  var record = true
+  var paused = true
+  var playbackSpeed = 1.0
 
   def getLadybugMotionModel() = ladybugMotionModel
 
-  private var time: Double = 0;
   def getTime() = time
 
   def getMaxRecordedTime() = if (history.length == 0) 0.0 else history(history.length - 1).time
@@ -95,10 +97,9 @@ class LadybugModel extends ObservableS {
           history.remove(0)
         }
 
-        if (history.length > 20) {
-          updateMode(dt)
-        }
+        updateMode(dt)
         notifyListeners()
+
       } else if (isPlayback()) {
         stepPlayback()
       }
@@ -136,25 +137,25 @@ class LadybugModel extends ObservableS {
   }
 
   def estimateVelocity(index: Int): Vector2D = {
-      val h=history.slice(history.length-6,history.length)
-      val tx=for (item<-h)yield new TimeData(item.state.position.x,item.time)
-      val vx=MotionMath.estimateDerivative(tx.toArray)
+    val h = history.slice(history.length - 6, history.length)
+    val tx = for (item <- h) yield new TimeData(item.state.position.x, item.time)
+    val vx = MotionMath.estimateDerivative(tx.toArray)
 
-      val ty=for (item<-h)yield new TimeData(item.state.position.y,item.time)
-      val vy=MotionMath.estimateDerivative(ty.toArray)
+    val ty = for (item <- h) yield new TimeData(item.state.position.y, item.time)
+    val vy = MotionMath.estimateDerivative(ty.toArray)
 
-      new Vector2D(vx,vy)
+    new Vector2D(vx, vy)
   }
 
   def estimateAcceleration(index: Int): Vector2D = {
-      val h=history.slice(history.length-6,history.length)
-      val tx=for (item<-h)yield new TimeData(item.state.velocity.x,item.time)
-      val ax=MotionMath.estimateDerivative(tx.toArray)
+    val h = history.slice(history.length - 6, history.length)
+    val tx = for (item <- h) yield new TimeData(item.state.velocity.x, item.time)
+    val ax = MotionMath.estimateDerivative(tx.toArray)
 
-      val ty=for (item<-h)yield new TimeData(item.state.velocity.y,item.time)
-      val ay=MotionMath.estimateDerivative(ty.toArray)
+    val ty = for (item <- h) yield new TimeData(item.state.velocity.y, item.time)
+    val ay = MotionMath.estimateDerivative(ty.toArray)
 
-      new Vector2D(ax,ay)
+    new Vector2D(ax, ay)
   }
 
   def average(start: Int, end: Int, function: Int => Vector2D): Vector2D = {
@@ -164,10 +165,6 @@ class LadybugModel extends ObservableS {
     }
     sum / (end - start)
   }
-
-  var record = true
-  var paused = false
-  var playbackSpeed = 1.0
 
   def isPlayback() = !record
 
@@ -180,12 +177,12 @@ class LadybugModel extends ObservableS {
     }
   }
 
-    def setPlaybackSpeed(speed: Double) = {
-        if (speed != playbackSpeed) {
-            playbackSpeed = speed
-            notifyListeners()
-        }
+  def setPlaybackSpeed(speed: Double) = {
+    if (speed != playbackSpeed) {
+      playbackSpeed = speed
+      notifyListeners()
     }
+  }
 
   def setPlayback(speed: Double) = {
     setPlaybackSpeed(speed)
@@ -219,7 +216,7 @@ class LadybugModel extends ObservableS {
 
   def resetAll() = {
     record = true
-    paused = false
+    paused = true
     playbackSpeed = 1.0
     history.clear
     ladybugMotionModel.resetAll()
