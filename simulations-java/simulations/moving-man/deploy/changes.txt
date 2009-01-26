@@ -1,3 +1,4 @@
+# 1.20.19 (27680) 01-26-2009
 > Changed default recording time from 30 to 15 seconds
 > Removed the "Stop/Go" button below the remote control
 > Added playback speed slider
