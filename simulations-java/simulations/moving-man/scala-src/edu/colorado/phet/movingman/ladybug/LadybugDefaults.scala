@@ -15,5 +15,5 @@ object LadybugDefaults {
   var pauseAtEndOfPlayback = true
   var recordAtEndOfPlayback = false
   val defaultLocation = new Vector2D(5, 1)
-  val ACCEL_VECTOR_SCALE = 2.454545
+  val ACCEL_VECTOR_SCALE = 0.2454545
 }
