@@ -8,6 +8,7 @@
 > Sim starts paused; starts recording when bug is moved
 > Show acceleration and velocity even before 20 history points have been recorded
 > The sim should be running on startup but not recording until the user moves the bug, uses the remote control or chooses a preset motion.
+> Renamed "clear trace" to "clear" and made it clear history instead of just the graphical trace.
 
 # 1.20.18 (27515) 01-21-2009
 > Changed velocity color to green

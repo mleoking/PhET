@@ -92,7 +92,7 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
   }
   val f = new FlowPanel
   f.contents += new TraceControlPanel(module.getPathVisibilityModel)
-  f.contents += new Button("Clear Trace") {reactions += {case ButtonClicked(_) => module.clearTrace}}
+  f.contents += new Button("Clear") {reactions += {case ButtonClicked(_) => module.model.clearHistory}}
   addControl(f)
   addControl(createBox)
 
