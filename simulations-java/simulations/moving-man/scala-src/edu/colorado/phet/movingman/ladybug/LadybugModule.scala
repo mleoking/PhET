@@ -14,7 +14,7 @@ class LadybugModule(clock: ScalaClock) extends Module("my module", clock) {
   private val vectorVisibilityModel = new VectorVisibilityModel
   private val pathVisibilityModel = new PathVisibilityModel
 
-  val canvas = new LadybugCanvas(model,vectorVisibilityModel,pathVisibilityModel)
+  val canvas = new LadybugCanvas(model, vectorVisibilityModel, pathVisibilityModel)
 
   setSimulationPanel(canvas)
 

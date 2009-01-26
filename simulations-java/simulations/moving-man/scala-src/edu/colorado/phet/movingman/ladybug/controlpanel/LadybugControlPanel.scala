@@ -51,18 +51,18 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
   class MotionControlPanel(m: LadybugMotionModel) extends BoxPanel(Orientation.Vertical) {
     contents += new Label("Choose Motion          ") {font = new PhetFont(14, true)}
 
-    class MyRadioButtonWithEnable(text: String, actionListener: => Unit, getter: => Boolean, addListener: (()=>Unit)=>Unit, shouldBeEnabled: () => Boolean, enableObservable: ObservableS) extends MyRadioButton(text, actionListener, getter, addListener) {
+    class MyRadioButtonWithEnable(text: String, actionListener: => Unit, getter: => Boolean, addListener: (() => Unit) => Unit, shouldBeEnabled: () => Boolean, enableObservable: ObservableS) extends MyRadioButton(text, actionListener, getter, addListener) {
       enableObservable.addListener(() => peer.setEnabled(shouldBeEnabled()))
     }
 
-    def rec={
+    def rec = {
       module.model.setPaused(false)
       module.model.setRecord(true)
     }
-    contents += new MyRadioButtonWithEnable("Manual", {m.motion = MANUAL;rec}, m.motion == MANUAL, m.addListener, () => module.model.readyForInteraction, module.model)
-    contents += new MyRadioButtonWithEnable("Linear", {m.motion = LINEAR;rec}, m.motion == LINEAR, m.addListener, () => module.model.readyForInteraction, module.model)
-    contents += new MyRadioButtonWithEnable("Circular", {m.motion = CIRCULAR;rec}, m.motion == CIRCULAR, m.addListener, () => module.model.readyForInteraction, module.model)
-    contents += new MyRadioButtonWithEnable("Ellipse", {m.motion = ELLIPSE;rec}, m.motion == ELLIPSE, m.addListener, () => module.model.readyForInteraction, module.model)
+    contents += new MyRadioButtonWithEnable("Manual", {m.motion = MANUAL; rec}, m.motion == MANUAL, m.addListener, () => module.model.readyForInteraction, module.model)
+    contents += new MyRadioButtonWithEnable("Linear", {m.motion = LINEAR; rec}, m.motion == LINEAR, m.addListener, () => module.model.readyForInteraction, module.model)
+    contents += new MyRadioButtonWithEnable("Circular", {m.motion = CIRCULAR; rec}, m.motion == CIRCULAR, m.addListener, () => module.model.readyForInteraction, module.model)
+    contents += new MyRadioButtonWithEnable("Ellipse", {m.motion = ELLIPSE; rec}, m.motion == ELLIPSE, m.addListener, () => module.model.readyForInteraction, module.model)
   }
   addControl(new MotionControlPanel(module.getLadybugMotionModel))
   addControl(createBox)
