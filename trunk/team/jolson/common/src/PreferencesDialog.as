@@ -45,7 +45,7 @@ class PreferencesDialog {
 		ASWingUtils.getRootMovieClip();
 		
 		// create a window
-		var window : JFrame = new JFrame(_level0, "PhET Preferences");
+		var window : JFrame = new JFrame(_level0, _level0.comStrings.get("PhETPreferences", "PhET Preferences"));
 		
 		// make the window accessible to the "Preferences" button.
 		// thus we don't have to reconstruct the window again, but just show it
@@ -66,11 +66,11 @@ class PreferencesDialog {
 		
 		// holds the update options
 		var updatesPanel = new JPanel(new SoftBoxLayout(SoftBoxLayout.Y_AXIS));
-		updatesPanel.setName("Updates");
-		updatesPanel.setBorder(new TitledBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)), "Updates"));
+		updatesPanel.setName(_level0.comStrings.get("Updates", "Updates"));
+		updatesPanel.setBorder(new TitledBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)), _level0.comStrings.get("Updates", "Updates")));
 		
 		// update check box
-		updatesCheck = new JCheckBox("Automatically check for updates");
+		updatesCheck = new JCheckBox(_level0.comStrings.get("CheckUpdates", "Automatically check for updates"));
 		updatesCheck.addEventListener(JCheckBox.ON_CLICKED, Delegate.create(this, updateToggle));
 		
 		if(updateState != _level0.preferences.userAllowsUpdates()) {
@@ -82,7 +82,7 @@ class PreferencesDialog {
 		updatesPanel.append(new JSpacer(5, 5));
 		
 		// update now button
-		updatesButton = new JButton("Check for updates now");
+		updatesButton = new JButton(_level0.comStrings.get("CheckUpdatesNow", "Check for updates now"));
 		updatesButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, updatesClicked));
 		CommonButtons.padButtonAdd(updatesButton, updatesPanel);
 		
@@ -90,15 +90,18 @@ class PreferencesDialog {
 		
 		// holds the tracking options
 		var trackingPanel = new JPanel(new SoftBoxLayout(SoftBoxLayout.Y_AXIS));
-		trackingPanel.setName("Privacy");
-		trackingPanel.setBorder(new TitledBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)), "Privacy"));
+		trackingPanel.setName(_level0.comStrings.get("Privacy", "Privacy"));
+		trackingPanel.setBorder(new TitledBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)), _level0.comStrings.get("Privacy", "Privacy")));
 		
 		// text area that displays the following string.
 		// NOTE: Text area required, otherwise HTML text will not work.
-		// OLD var str : String = "<a href='http://phet.colorado.edu'>PhET</a> is made possible by grants that require us to track anonymous usage statistics.";
-		var str : String = "<a href='http://phet.colorado.edu'>PhET</a> is made freely available through grants which ";
-		str += "require us to collect a minimal amount of anonymous information to help document the amount of use ";
-		str += "of PhET sims and to better serve our users' update needs";
+		var str : String = "";
+		
+		var defaultStr : String = "<a href='http://phet.colorado.edu'>PhET</a> is made freely available through grants which ";
+		defaultStr += "require us to collect a minimal amount of anonymous information to help document the amount of use ";
+		defaultStr += "of PhET sims and to better serve our users' update needs.";
+		str += _level0.comStrings.get("PrivacyRequirement", defaultStr);
+
 		
 		// CSS so that the blue link will display properly
 		var css : TextField.StyleSheet = new TextField.StyleSheet();
@@ -124,7 +127,7 @@ class PreferencesDialog {
 		trackingPanel.append(new JSpacer(5, 5));
 		
 		// tracking check-box
-		trackingCheck = new JCheckBox("Allow sending of information to PhET");
+		trackingCheck = new JCheckBox(_level0.comStrings.get("AllowMessages", "Allow sending of information to PhET"));
 		trackingCheck.addEventListener(JCheckBox.ON_CLICKED, Delegate.create(this, trackingToggle));
 		if(trackingState != _level0.preferences.userAllowsTracking()) {
 			// if tracking is allowed, fill in the check box
@@ -135,7 +138,7 @@ class PreferencesDialog {
 		trackingPanel.append(new JSpacer(5, 5));
 		
 		// button to show details about the tracking information
-		var detailsButton = new JButton("Details...");
+		var detailsButton = new JButton(_level0.comStrings.get("Details", "Details") + "...");
 		detailsButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, detailsClicked));
 		CommonButtons.padButtonAdd(detailsButton, trackingPanel);
 		
@@ -149,11 +152,11 @@ class PreferencesDialog {
 		// holds OK and Cancel buttons
 		var buttonPanel : JPanel = new JPanel(new BoxLayout());
 		
-		var okButton : JButton = new JButton("OK");
+		var okButton : JButton = new JButton(_level0.comStrings.get("OK", "OK"));
 		okButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, okClicked));
 		CommonButtons.padButtonAdd(okButton, buttonPanel);
 		
-		var cancelButton : JButton = new JButton("Cancel");
+		var cancelButton : JButton = new JButton(_level0.comStrings.get("Cancel", "Cancel"));
 		cancelButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, cancelClicked));
 		CommonButtons.padButtonAdd(cancelButton, buttonPanel);
 		
