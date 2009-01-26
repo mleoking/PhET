@@ -16,6 +16,7 @@
 > Fixed: In linear mode, bug bounces off the walls at the wrong angles. Should bounce off at the same angle of incidence. That is, if it hits at 30 deg from perpendicular, it should bounce off at 30 deg from perpendicular in the other direction.
 > Only record once bug is moved. So once out of playback mode, do not record until bug is grabbed. Regardless of how we handle the functionality of buttons.
 > Centered coordinate frame, and added dynamic model bounds
+> Fixed: Bug sometimes changes direction in the middle of the play area for no apparent reason. 
 
 # 1.20.18 (27515) 01-21-2009
 > Changed velocity color to green
