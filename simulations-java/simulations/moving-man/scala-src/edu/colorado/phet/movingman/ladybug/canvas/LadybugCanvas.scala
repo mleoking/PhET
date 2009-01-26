@@ -15,11 +15,14 @@ class LadybugCanvas(model: LadybugModel, vectorVisibilityModel: VectorVisibility
   addWorldChild(worldNode)
   setBackground(new Color(200, 255, 240))
 
-  addNode(new LadybugNode(model, model.ladybug, transform, vectorVisibilityModel))
+  val ladybugNode=new LadybugNode(model, model.ladybug, transform, vectorVisibilityModel)
+  addNode(ladybugNode)
   val solidTrace = new LadybugSolidTraceNode(model, transform, () => pathVisibilityModel.lineVisible, pathVisibilityModel)
   addNode(solidTrace)
   val dotTrace = new LadybugDotTraceNode(model, transform, () => pathVisibilityModel.dotsVisible, pathVisibilityModel)
   addNode(dotTrace)
+
+  addNode(new ReturnLadybugButton(model, this))
 
   def addNode(node: PNode) = worldNode.addChild(node)
 

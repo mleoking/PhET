@@ -37,6 +37,8 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
     }
   })
 
+  def getLadybugCenter()=pimage.getFullBounds.getCenter2D
+
   addInputEventListener(new ToggleListener(new CursorHandler, () => interactive))
   val inputHandler = new PBasicInputEventHandler() {
     override def mouseDragged(event: PInputEvent) = {
