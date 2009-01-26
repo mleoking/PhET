@@ -36,7 +36,6 @@ object LadybugMotionModel {
       var vy = model.ladybug.getVelocity.y
       var changed = false
       val bounds=model.getBounds()
-      println("bounds="+bounds)
       if (x > bounds.getMaxX && vx > 0) {
         vx = -abs(vx)
         x = bounds.getMaxX
