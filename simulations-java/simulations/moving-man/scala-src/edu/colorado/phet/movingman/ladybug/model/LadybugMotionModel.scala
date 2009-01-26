@@ -55,6 +55,7 @@ object LadybugMotionModel {
 
       model.ladybug.setPosition(new Vector2D(x, y))
       model.ladybug.setVelocity(new Vector2D(vx, vy))
+      model.ladybug.setAngle(model.ladybug.getVelocity.getAngle)
       model.ladybug.setAcceleration(model.average(model.getHistory.length - 15, model.getHistory.length - 1, model.estimateAcceleration))
     }
   }
@@ -82,6 +83,7 @@ object LadybugMotionModel {
         //        println(model.getTime+"\t"+newAngle)
         model.ladybug.setPosition(new Vector2D(newAngle) * r)
         model.ladybug.setVelocity(model.average(model.getHistory.length - 3, model.getHistory.length - 1, model.estimateVelocity))
+        model.ladybug.setAngle(model.ladybug.getVelocity.getAngle)
         model.ladybug.setAcceleration(model.average(model.getHistory.length - 15, model.getHistory.length - 1, model.estimateAcceleration))
       }
     }
@@ -98,7 +100,9 @@ object LadybugMotionModel {
       //      t = t + 0.08
       t = t + 2 * PI / 79
       model.ladybug.setPosition(new Vector2D(a * cos(t), b * sin(t)))
+
       model.ladybug.setVelocity(model.average(model.getHistory.length - 3, model.getHistory.length - 1, model.estimateVelocity))
+      model.ladybug.setAngle(model.ladybug.getVelocity.getAngle)
       model.ladybug.setAcceleration(model.average(model.getHistory.length - 15, model.getHistory.length - 1, model.estimateAcceleration))
     }
   }
