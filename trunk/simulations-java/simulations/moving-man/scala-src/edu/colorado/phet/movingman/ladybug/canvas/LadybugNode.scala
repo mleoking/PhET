@@ -24,7 +24,7 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
   def updateInteractive() = {interactive = model.readyForInteraction}
 
   val arrowSetNode = new ArrowSetNode(ladybug, transform, vectorVisibilityModel)
-  val pimage = new PImage(BufferedImageUtils.multiScale(MovingManResources.loadBufferedImage("ladybug/ladybug.png"),0.6))
+  val pimage = new PImage(BufferedImageUtils.multiScale(MovingManResources.loadBufferedImage("ladybug/ladybug.png"), 0.6))
 
   ladybug.addListener(updateLadybug)
   updateLadybug()
@@ -38,7 +38,7 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
     }
   })
 
-  def getLadybugCenter()=pimage.getFullBounds.getCenter2D
+  def getLadybugCenter() = pimage.getFullBounds.getCenter2D
 
   addInputEventListener(new ToggleListener(new CursorHandler, () => interactive))
   val inputHandler = new PBasicInputEventHandler() {

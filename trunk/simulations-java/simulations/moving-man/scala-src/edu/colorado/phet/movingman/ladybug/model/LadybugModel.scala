@@ -97,7 +97,7 @@ class LadybugModel extends ObservableS {
           history.remove(0)
         }
 
-        if (!ladybugMotionModel.isExclusive()){
+        if (!ladybugMotionModel.isExclusive()) {
           updateMode(dt)
         }
         notifyListeners()

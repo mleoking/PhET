@@ -14,7 +14,7 @@ import umd.cs.piccolox.pswing.PSwing
 
 class ReturnLadybugButton(model: LadybugModel, canvas: LadybugCanvas) extends PhetPNode {
   val b = new JButton("Return Ladybug")
-  b.addActionListener(()=>model.ladybug.setPosition(LadybugDefaults.defaultLocation))
+  b.addActionListener(() => model.ladybug.setPosition(LadybugDefaults.defaultLocation))
   addChild(new PSwing(b))
   model.addListener(updateVisible)
   updateVisible()

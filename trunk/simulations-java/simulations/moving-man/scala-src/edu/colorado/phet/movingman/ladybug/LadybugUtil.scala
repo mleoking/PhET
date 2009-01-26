@@ -12,7 +12,7 @@ object LadybugUtil {
 
   implicit def scalaSwingToAWT(component: Component) = component.peer
 
-  implicit def fnToActionListener(fn:()=>Unit)=new ActionListener(){
+  implicit def fnToActionListener(fn: () => Unit) = new ActionListener() {
     def actionPerformed(e: ActionEvent) = {fn()}
   }
 }
