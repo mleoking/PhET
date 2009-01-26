@@ -13,7 +13,8 @@
 > Fixed: - Vectors in remote are not sized to the same relative proportions as they are on the bug. For example, accel vector is very small on bug, very large in remote.
 > Set circular motion speed so that dots match up exactly in trace
 > Set elliptical motion speed so that dots match up exactly in trace
-> Fixed: In linear mode, bug bounces off the walls at the wrong angles. Should bounce off at the same angle of incidence. That is, if it hits at 30 deg from perpendicular, it should bounce off at 30 deg from perpendicular in the other direction. 
+> Fixed: In linear mode, bug bounces off the walls at the wrong angles. Should bounce off at the same angle of incidence. That is, if it hits at 30 deg from perpendicular, it should bounce off at 30 deg from perpendicular in the other direction.
+> Only record once bug is moved. So once out of playback mode, do not record until bug is grabbed. Regardless of how we handle the functionality of buttons.
 
 # 1.20.18 (27515) 01-21-2009
 > Changed velocity color to green
