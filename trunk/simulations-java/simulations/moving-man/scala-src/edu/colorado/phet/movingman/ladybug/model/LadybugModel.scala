@@ -225,4 +225,9 @@ class LadybugModel extends ObservableS {
     ladybug.resetAll()
     notifyListeners()
   }
+
+  def clearHistory() = {
+    history.clear()
+    notifyListeners()
+  }
 }
