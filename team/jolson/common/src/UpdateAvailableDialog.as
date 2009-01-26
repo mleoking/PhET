@@ -23,7 +23,7 @@ class UpdateAvailableDialog {
 		ASWingUtils.getRootMovieClip();
 		
 		// create a window
-		var window : JFrame = new JFrame(_level0, "Update available for " + _level0.simName);
+		var window : JFrame = new JFrame(_level0, "Update Available for " + _level0.simName);
 		
 		// make sure we can access it from anywhere
 		_level0.updateAvailableWindow = window;

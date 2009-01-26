@@ -23,7 +23,7 @@ class TrackingDetailsDialog {
 		ASWingUtils.getRootMovieClip();
 		
 		// create a window
-		var window : JFrame = new JFrame(_level0, "Privacy Details");
+		var window : JFrame = new JFrame(_level0, _level0.comStrings.get("PrivacyDetails", "Privacy Details"));
 		
 		// make it accessible from anywhere
 		_level0.trackingDetailsWindow = window;
@@ -36,28 +36,12 @@ class TrackingDetailsDialog {
 		
 		// get the string to display
 		var str : String = "";
-		str += "The information shown below will be sent to PhET when the simulation starts.\n\n";
-		/*
-		str += "<a href='http://phet.colorado.edu'>PhET</a> is made possible by grants that require us to track ";
-		str += "anonymous usage statistics. No personal or private data is sent; you can see the full report sent to ";
-		str += "PhET below:\n\n";
-		
-		str += "Please visit the PhET website for more information: <a href='http://phet.colorado.edu'>http://phet.colorado.edu</a>\n\n";
-		*/
+		str += _level0.comStrings.get("SentInformation", "The information shown below will be sent to PhET when the simulation starts.") + "\n\n";
 		str += "<font size=\"12\">"
 		// insert what would be sent as the message. we need to unescape strings so they will be
 		// correctly viewable
 		str += unescape(_level0.trackingHandler.sessionStartMessage());
 		str += "</font>"
-		/*
-		str += "The PhET project provides a suite of interactive educational simulations.\n";
-		str += "Copyright \u00A9 2004-2008 University of Colorado. Some rights reserved.\n\n";
-		str += "PhET interactive simulations by <a href='http://phet.colorado.edu/'>The PhET Team, University of Colorado</a> ";
-		str += "are licensed under a <a href='http://creativecommons.org/licenses/by-nc/3.0/us/'>Creative Commons Attribution-Noncommercial 3.0 United States License</a>.\n\n";
-		str += "The PhET source code is licensed under a <a href='http://creativecommons.org/licenses/GPL/2.0/'>Creative Commons GNU General Public License</a>.\n\n";
-		str += "For more information about licensing, <a href='http://phet.colorado.edu/about/licensing.php'>click here</a>. If you are interested ";
-		str += "in alternative license options, please contact PhET at <a href='mailto:phethelp@colorado.edu'>phethelp@colorado.edu</a>.\n";
-		*/
 		
 		// CSS will make links blue
 		var css : TextField.StyleSheet = new TextField.StyleSheet();
@@ -83,7 +67,7 @@ class TrackingDetailsDialog {
 		
 		// add the OK button
 		var panel : JPanel = new JPanel(new BoxLayout());
-		var okButton : JButton = new JButton("OK");
+		var okButton : JButton = new JButton(_level0.comStrings.get("OK", "OK"));
 		okButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, okClicked));
 		CommonButtons.padButtonAdd(okButton, panel);		
 		window.getContentPane().append(panel);

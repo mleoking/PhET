@@ -41,7 +41,7 @@ class PrivacyDialog {
 		backgroundMC.onRelease = function() { }
 		
 		// create a window
-		var window : JFrame = new JFrame(_level0, "Software & Privacy Agreements");
+		var window : JFrame = new JFrame(_level0, _level0.comStrings.get("SoftwarePrivacyAgreements", "Software & Privacy Agreements"));
 		
 		// we don't want this window closable
 		window.setClosable(false);
@@ -57,11 +57,15 @@ class PrivacyDialog {
 		
 		// construct the string of text to show
 		var str : String = "";
-		str += "In all PhET simulations, we collect a minimal amount of <a href=\"asfunction:_level0.privacyDialog.infoClicked,\">information</a> ";
-		str += "when the simulation starts. You can disable the sending of this ";
-		str += "information at any time via the Preferences button.\n\n";
-		str += "By clicking \"Agree and Continue\", you agree to PhET's licensing ";
-		str += "and privacy policies. (For details, <a href=\"asfunction:_level0.privacyDialog.detailsClicked,\">click here</a>).";
+		var defaultString : String = "";
+		defaultString += "In all PhET simulations, we collect a minimal amount of <a href=\"asfunction:_level0.privacyDialog.infoClicked,\">information</a> ";
+		defaultString += "when the simulation starts. You can disable the sending of this ";
+		defaultString += "information at any time via the Preferences button.";
+		str += _level0.comStrings.get("PrivacyMessage1", defaultString);
+		str += "\n\n";
+		defaultString = "By clicking \"Accept and Continue\", you agree to PhET's licensing ";
+		defaultString += "and privacy policies. (For details, <a href=\"asfunction:_level0.privacyDialog.detailsClicked,\">click here</a>).";
+		str += _level0.comStrings.get("PrivacyMessage2", defaultString);
 		
 		// create CSS to make links blue
 		var css : TextField.StyleSheet = new TextField.StyleSheet();
@@ -87,12 +91,12 @@ class PrivacyDialog {
 		var panel : JPanel = new JPanel(new BoxLayout());
 		
 		// button that will allow us to continue
-		var continueButton : JButton = new JButton("Accept and Continue");
+		var continueButton : JButton = new JButton(_level0.comStrings.get("AcceptContinue", "Accept and Continue"));
 		continueButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, continueClicked));
 		CommonButtons.padButtonAdd(continueButton, panel);
 		
 		// button will cancel acceptance, and do... something
-		var cancelButton : JButton = new JButton("Cancel");
+		var cancelButton : JButton = new JButton(_level0.comStrings.get("Cancel", "Cancel"));
 		cancelButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, cancelClicked));
 		CommonButtons.padButtonAdd(cancelButton, panel);
 		

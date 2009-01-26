@@ -22,7 +22,7 @@ class AboutDialog {
 		ASWingUtils.getRootMovieClip();
 		
 		// create a window
-		var window : JFrame = new JFrame(_level0, _level0.comStrings.get("About") + " " + _level0.simName);
+		var window : JFrame = new JFrame(_level0, _level0.comStrings.get("About", "About") + " " + _level0.simName);
 		
 		// make sure we can access it from anywhere
 		_level0.aboutWindow = window;
@@ -35,19 +35,19 @@ class AboutDialog {
 		
 		// construct the string of text to show
 		var str : String = "";
-		str += "<b>PhET</b>\n";
-		str += _level0.comStrings.get("Copyright") + " \u00A9 2004-2008 University of Colorado\n";
-		str += _level0.comStrings.get("SomeRightsReserved") + ".\n";
-		str += _level0.comStrings.get("Visit") + " <a href='http://phet.colorado.edu'>http://phet.colorado.edu</a>\n\n";
+		str += "<b>" + _level0.comStrings.get("PhET", "PhET") + "</b>\n";
+		str += _level0.comStrings.get("Copyright", "Copyright") + " \u00A9 2004-2008 University of Colorado\n";
+		str += _level0.comStrings.get("SomeRightsReserved", "Some rights reserved") + ".\n";
+		str += _level0.comStrings.get("Visit", "Visit") + " <a href='http://phet.colorado.edu'>http://phet.colorado.edu</a>\n\n";
 		
 		str += "<b><font size='16'>" + _level0.simName + "</font></b>\n";
-		str += _level0.comStrings.get("Version") + ": " + _level0.versionMajor + "." + _level0.versionMinor;
+		str += _level0.comStrings.get("Version", "Version") + ": " + _level0.versionMajor + "." + _level0.versionMinor;
 		if(_level0.dev != "00") {
 			str += "." + _level0.dev;
 		}
 		str += " (" + _level0.revision + ")\n";
-		str += _level0.comStrings.get("FlashVersion") + ": " + System.capabilities.version + "\n";
-		str += _level0.comStrings.get("OSVersion") + ": " + System.capabilities.os + "\n";
+		str += _level0.comStrings.get("FlashVersion", "Flash Version") + ": " + System.capabilities.version + "\n";
+		str += _level0.comStrings.get("OSVersion", "OS Version") + ": " + System.capabilities.os + "\n";
 		
 		// create CSS to make links blue
 		var css : TextField.StyleSheet = new TextField.StyleSheet();
@@ -71,12 +71,12 @@ class AboutDialog {
 		var panel : JPanel = new JPanel(new BoxLayout());
 		
 		// button that will open the license dialog
-		var licenseButton : JButton = new JButton(_level0.comStrings.get("License") + "...");
+		var licenseButton : JButton = new JButton(_level0.comStrings.get("License", "License") + "...");
 		licenseButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, licenseClicked));
 		CommonButtons.padButtonAdd(licenseButton, panel);
 		
 		// button will close the about dialog
-		var okButton : JButton = new JButton(_level0.comStrings.get("OK"));
+		var okButton : JButton = new JButton(_level0.comStrings.get("OK", "OK"));
 		okButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, okClicked));
 		CommonButtons.padButtonAdd(okButton, panel);
 		

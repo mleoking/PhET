@@ -23,7 +23,7 @@ class AgreementDialog {
 		ASWingUtils.getRootMovieClip();
 		
 		// create a window
-		var window : JFrame = new JFrame(_level0, "Privacy Agreement");
+		var window : JFrame = new JFrame(_level0, _level0.comStrings.get("PrivacyAgreement", "Privacy Agreement"));
 		
 		// make it accessible from anywhere
 		_level0.agreementWindow = window;

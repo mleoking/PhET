@@ -21,7 +21,7 @@ class CommonStrings {
 		xml.parseXML(_level0.commonStrings);
 	}
 	
-	public function get(key : String) : String {  
+	public function get(key : String, defaultString : String) : String {  
 		// basically copied from simstrings
 		var value : String = "keyNotFound"; //Dubson code
 		var nodes : Array = xml.firstChild.childNodes; // array of XMLNode
@@ -35,6 +35,13 @@ class CommonStrings {
 				}
 			}
 		}
+		
+		// revert to default if not found
+		if(value == "keyNotFound" && defaultString != undefined) {
+			value = defaultString;
+			debug("WARNING CommonStrings: cannot find common string for '" + key + "', using default instead.\n");
+		}
+		
 		return value;
 	}
 }

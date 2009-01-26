@@ -3,11 +3,11 @@
   <string key="About" value="Sobre" />
   <string key="Preferences" value="Preferencias" />
   <string key="Copyright" value="Derechos de Autor" />
-  <string key="SomeRightsReserved" value="Algunos Derechos Reservados" />
+  <string key="Some rights reserved" value="Algunos Derechos Reservados" />
   <string key="Visit" value="Visitar" />
   <string key="Version" value="Versión" />
-  <string key="FlashVersion" value="Flash Versión" />
-  <string key="OSVersion" value="OS Versión" />
+  <string key="Flash Version" value="Flash Versión" />
+  <string key="OS Version" value="OS Versión" />
   <string key="License" value="Licensia" />
   <string key="OK" value="OK" />
   <string key="Licensing" value="La Concesión de Licencias" />

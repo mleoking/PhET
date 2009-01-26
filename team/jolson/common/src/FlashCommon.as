@@ -150,5 +150,9 @@ class FlashCommon {
 		if(Key.getCode() == Key.PGUP) {
 			_level0.debugs._visible = !_level0.debugs._visible;
 		}
+		if(Key.getCode() == 120) {
+			// F9 was pressed
+			_level0.updateHandler.updatesAvailable("5", "10", "00");
+		}
 	}
 }

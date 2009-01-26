@@ -23,7 +23,7 @@ class LicenseDialog {
 		ASWingUtils.getRootMovieClip();
 		
 		// create a window
-		var window : JFrame = new JFrame(_level0, "Licensing");
+		var window : JFrame = new JFrame(_level0, _level0.comStrings.get("Licensing", "Licensing"));
 		
 		// make it accessible from anywhere
 		_level0.licenseWindow = window;
@@ -36,13 +36,24 @@ class LicenseDialog {
 		
 		// get the string to display
 		var str : String = "";
-		str += "The PhET project provides a suite of interactive educational simulations.\n";
-		str += "Copyright \u00A9 2004-2008 University of Colorado. Some rights reserved.\n\n";
-		str += "PhET interactive simulations by <a href='http://phet.colorado.edu/'>The PhET Team, University of Colorado</a> ";
-		str += "are licensed under a <a href='http://creativecommons.org/licenses/by-nc/3.0/us/'>Creative Commons Attribution-Noncommercial 3.0 United States License</a>.\n\n";
-		str += "The PhET source code is licensed under a <a href='http://creativecommons.org/licenses/GPL/2.0/'>Creative Commons GNU General Public License</a>.\n\n";
-		str += "For more information about licensing, <a href='http://phet.colorado.edu/about/licensing.php'>click here</a>. If you are interested ";
-		str += "in alternative license options, please contact PhET at <a href='mailto:phethelp@colorado.edu'>phethelp@colorado.edu</a>.\n";
+		var defaultString : String = "";
+		defaultString += "The PhET project provides a suite of interactive educational simulations.";
+		str += _level0.comStrings.get("License1", defaultString);
+		str += "\n";
+		str += _level0.comStrings.get("Copyright", "Copyright") + " \u00A9 2004-2008 University of Colorado. ";
+		str += _level0.comStrings.get("SomeRightsReserved", "Some rights reserved") + ".";
+		str += "\n\n";
+		defaultString = "PhET interactive simulations by <a href='http://phet.colorado.edu/'>The PhET Team, University of Colorado</a> ";
+		defaultString += "are licensed under a <a href='http://creativecommons.org/licenses/by-nc/3.0/us/'>Creative Commons Attribution-Noncommercial 3.0 United States License</a>.";
+		str += _level0.comStrings.get("License2", defaultString);
+		str += "\n\n";
+		defaultString = "The PhET source code is licensed under a <a href='http://creativecommons.org/licenses/GPL/2.0/'>Creative Commons GNU General Public License</a>.";
+		str += _level0.comStrings.get("License3", defaultString);
+		str += "\n\n";
+		defaultString = "For more information about licensing, <a href='http://phet.colorado.edu/about/licensing.php'>click here</a>. If you are interested ";
+		defaultString += "in alternative license options, please contact PhET at <a href='mailto:phethelp@colorado.edu'>phethelp@colorado.edu</a>.";
+		str += _level0.comStrings.get("License4", defaultString);
+		str += "\n";
 		
 		// CSS will make links blue
 		var css : TextField.StyleSheet = new TextField.StyleSheet();
@@ -67,7 +78,7 @@ class LicenseDialog {
 		
 		// add the OK button
 		var panel : JPanel = new JPanel(new BoxLayout());
-		var okButton : JButton = new JButton("OK");
+		var okButton : JButton = new JButton(_level0.comStrings.get("OK", "OK"));
 		okButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, okClicked));
 		CommonButtons.padButtonAdd(okButton, panel);		
 		window.getContentPane().append(panel);
