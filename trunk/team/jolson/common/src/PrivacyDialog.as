@@ -58,14 +58,14 @@ class PrivacyDialog {
 		// construct the string of text to show
 		var str : String = "";
 		var defaultString : String = "";
-		defaultString += "In all PhET simulations, we collect a minimal amount of <a href=\"asfunction:_level0.privacyDialog.infoClicked,\">information</a> ";
+		defaultString += "In all PhET simulations, we collect a minimal amount of <a href='{0}'>information</a> ";
 		defaultString += "when the simulation starts. You can disable the sending of this ";
 		defaultString += "information at any time via the Preferences button.";
-		str += _level0.comStrings.get("PrivacyMessage1", defaultString);
+		str += _level0.comStrings.get("PrivacyMessage1", defaultString, ["asfunction:_level0.privacyDialog.infoClicked,"]);
 		str += "\n\n";
 		defaultString = "By clicking \"Accept and Continue\", you agree to PhET's licensing ";
-		defaultString += "and privacy policies. (For details, <a href=\"asfunction:_level0.privacyDialog.detailsClicked,\">click here</a>).";
-		str += _level0.comStrings.get("PrivacyMessage2", defaultString);
+		defaultString += "and privacy policies. (For details, <a href='{0}'>click here</a>).";
+		str += _level0.comStrings.get("PrivacyMessage2", defaultString, ["asfunction:_level0.privacyDialog.detailsClicked,"]);
 		
 		// create CSS to make links blue
 		var css : TextField.StyleSheet = new TextField.StyleSheet();

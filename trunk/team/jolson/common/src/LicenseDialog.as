@@ -40,19 +40,19 @@ class LicenseDialog {
 		defaultString += "The PhET project provides a suite of interactive educational simulations.";
 		str += _level0.comStrings.get("License1", defaultString);
 		str += "\n";
-		str += _level0.comStrings.get("Copyright", "Copyright") + " \u00A9 2004-2008 University of Colorado. ";
-		str += _level0.comStrings.get("SomeRightsReserved", "Some rights reserved") + ".";
+		str += _level0.comStrings.get("CopyrightColorado", "Copyright {0} University of Colorado.", ["\u00A9 2004-2008"]) + " ";
+		str += _level0.comStrings.get("SomeRightsReserved", "Some rights reserved.");
 		str += "\n\n";
-		defaultString = "PhET interactive simulations by <a href='http://phet.colorado.edu/'>The PhET Team, University of Colorado</a> ";
-		defaultString += "are licensed under a <a href='http://creativecommons.org/licenses/by-nc/3.0/us/'>Creative Commons Attribution-Noncommercial 3.0 United States License</a>.";
-		str += _level0.comStrings.get("License2", defaultString);
+		defaultString = "PhET interactive simulations by <a href='{0}'>The PhET Team, University of Colorado</a> ";
+		defaultString += "are licensed under a <a href='{1}'>Creative Commons Attribution-Noncommercial 3.0 United States License</a>.";
+		str += _level0.comStrings.get("License2", defaultString, ["http://phet.colorado.edu/", "http://creativecommons.org/licenses/by-nc/3.0/us/"]);
 		str += "\n\n";
-		defaultString = "The PhET source code is licensed under a <a href='http://creativecommons.org/licenses/GPL/2.0/'>Creative Commons GNU General Public License</a>.";
-		str += _level0.comStrings.get("License3", defaultString);
+		defaultString = "The PhET source code is licensed under a <a href='{0}'>Creative Commons GNU General Public License</a>.";
+		str += _level0.comStrings.get("License3", defaultString, ["http://creativecommons.org/licenses/GPL/2.0/"]);
 		str += "\n\n";
-		defaultString = "For more information about licensing, <a href='http://phet.colorado.edu/about/licensing.php'>click here</a>. If you are interested ";
-		defaultString += "in alternative license options, please contact PhET at <a href='mailto:phethelp@colorado.edu'>phethelp@colorado.edu</a>.";
-		str += _level0.comStrings.get("License4", defaultString);
+		defaultString = "For more information about licensing, <a href='{0}'>click here</a>. If you are interested ";
+		defaultString += "in alternative license options, please contact PhET at <a href='{1}'>phethelp@colorado.edu</a>.";
+		str += _level0.comStrings.get("License4", defaultString, ["http://phet.colorado.edu/about/licensing.php", "mailto:phethelp@colorado.edu"]);
 		str += "\n";
 		
 		// CSS will make links blue
@@ -80,7 +80,7 @@ class LicenseDialog {
 		var panel : JPanel = new JPanel(new BoxLayout());
 		var okButton : JButton = new JButton(_level0.comStrings.get("OK", "OK"));
 		okButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, okClicked));
-		CommonButtons.padButtonAdd(okButton, panel);		
+		CommonButtons.padButtonAdd(okButton, panel);
 		window.getContentPane().append(panel);
 		
 		// scale the window to fit
