@@ -2,6 +2,7 @@ package edu.colorado.phet.movingman.ladybug.controlpanel
 
 import _root_.edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
 import _root_.edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl
+import java.awt.Color
 import java.util.Hashtable
 import javax.swing.event.{ChangeListener, ChangeEvent}
 import javax.swing.{JSlider, JLabel}
@@ -12,6 +13,7 @@ import umd.cs.piccolox.pswing.PSwing
 
 class PlaybackSpeedSlider(model: LadybugModel) extends PNode {
   val slider = new JSlider
+  slider.setBackground(new Color(0,0,0,0))
   val transform = new LinearFunction(slider.getMinimum, slider.getMaximum, 0.5, 2.0)
 
   val dict = new Hashtable[Integer, JLabel]
