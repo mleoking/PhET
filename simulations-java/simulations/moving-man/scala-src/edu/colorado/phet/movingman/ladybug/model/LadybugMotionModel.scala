@@ -77,16 +77,16 @@ object LadybugMotionModel {
         val angle = model.ladybug.getPosition.getAngle
         val r = model.ladybug.getPosition.magnitude
 
-//        val delta0 = PI / 64 * 1.3 * dt / 30.0 //desired approximate deltaTheta
+        //        val delta0 = PI / 64 * 1.3 * dt / 30.0 //desired approximate deltaTheta
         val delta0 = PI / 64 * 1.3 * dt * 30.0 //desired approximate deltaTheta
         val n = (PI * 2 / delta0).toInt //n deltaTheta=2 PI
         val newAngle = angle + 2 * PI / n
         model.ladybug.setPosition(new Vector2D(newAngle) * r)
-        val velocity = new Vector2D(newAngle + PI/2) * (newAngle - angle) / dt*r
+        val velocity = new Vector2D(newAngle + PI / 2) * (newAngle - angle) / dt * r
         model.ladybug.setVelocity(velocity)
         model.ladybug.setAngle(velocity.getAngle)
 
-        val accel=new Vector2D(newAngle+PI)*velocity.magnitude*velocity.magnitude/r
+        val accel = new Vector2D(newAngle + PI) * velocity.magnitude * velocity.magnitude / r
         model.ladybug.setAcceleration(accel)
       }
     }
@@ -100,13 +100,25 @@ object LadybugMotionModel {
       val pos = model.ladybug.getPosition
       val ladybugC = pos.x * pos.x / a * a + pos.y * pos.y / b * b
 
-      //      t = t + 0.08
-      t = t + 2 * PI / 79
-      model.ladybug.setPosition(new Vector2D(a * cos(t), b * sin(t)))
+      val n = 79 * dt / 0.03
+      t = t + 2 * PI / n.toInt
 
-      model.ladybug.setVelocity(model.average(model.getHistory.length - 3, model.getHistory.length - 1, model.estimateVelocity))
+      def getPosition(t: Double) = new Vector2D(a * cos(t), b * sin(t))
+      model.ladybug.setPosition(getPosition(t))
+
+      val nextPos = getPosition(t + dt)
+      val prevPos = getPosition(t - dt)
+
+      def getVelocity(t: Double) = {
+        val nextPos = getPosition(t + dt)
+        val prevPos = getPosition(t - dt)
+        (nextPos - prevPos) / dt
+      }
+
+      model.ladybug.setVelocity(getVelocity(t))
       model.ladybug.setAngle(model.ladybug.getVelocity.getAngle)
-      model.ladybug.setAcceleration(model.average(model.getHistory.length - 15, model.getHistory.length - 1, model.estimateAcceleration))
+
+      model.ladybug.setAcceleration((getVelocity(t+dt)-getVelocity(t-dt))/dt)
     }
   }
 }
