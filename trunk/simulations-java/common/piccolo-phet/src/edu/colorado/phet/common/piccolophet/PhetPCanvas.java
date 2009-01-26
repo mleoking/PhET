@@ -178,6 +178,10 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
         phetRootNode.setWorldTransform( worldTransformStrategy.getTransform() );
     }
 
+    protected TransformStrategy getWorldTransformStrategy() {
+        return worldTransformStrategy;
+    }
+
     /**
      * Sets the scale for world nodes.
      * @param scale
