@@ -19,6 +19,7 @@
 > Fixed: (0,0) should be the middle of the screen instead of the middle of the box that fits on the left portion of the screen
 > Fixed: Bug sometimes changes direction in the middle of the play area for no apparent reason.
 > Improved clock control panel layout
+> Fixed: Don't allow "Rewind" when there is no stored data.
 
 # 1.20.18 (27515) 01-21-2009
 > Changed velocity color to green
