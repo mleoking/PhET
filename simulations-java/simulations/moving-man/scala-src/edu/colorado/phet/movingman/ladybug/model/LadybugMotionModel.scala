@@ -59,7 +59,8 @@ object LadybugMotionModel {
       val pos = model.ladybug.getPosition
       val ladybugC = pos.x * pos.x / a * a + pos.y * pos.y / b * b
 
-      t = t + 0.08
+//      t = t + 0.08
+      t = t + 2*PI/79
       model.ladybug.setPosition(new Vector2D(a * cos(t), b * sin(t)))
     }
   }

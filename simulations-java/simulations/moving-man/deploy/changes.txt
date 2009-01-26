@@ -12,6 +12,7 @@
 > The Ladybug should be smaller - more similar to size of bugs in Rotation.
 > Fixed: - Vectors in remote are not sized to the same relative proportions as they are on the bug. For example, accel vector is very small on bug, very large in remote.
 > Set circular motion speed so that dots match up exactly in trace
+> Set elliptical motion speed so that dots match up exactly in trace
 
 # 1.20.18 (27515) 01-21-2009
 > Changed velocity color to green
