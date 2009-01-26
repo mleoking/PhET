@@ -17,7 +17,8 @@
 > Only record once bug is moved. So once out of playback mode, do not record until bug is grabbed. Regardless of how we handle the functionality of buttons.
 > Centered coordinate frame, and added dynamic model bounds
 > Fixed: (0,0) should be the middle of the screen instead of the middle of the box that fits on the left portion of the screen
-> Fixed: Bug sometimes changes direction in the middle of the play area for no apparent reason. 
+> Fixed: Bug sometimes changes direction in the middle of the play area for no apparent reason.
+> Improved clock control panel layout
 
 # 1.20.18 (27515) 01-21-2009
 > Changed velocity color to green
