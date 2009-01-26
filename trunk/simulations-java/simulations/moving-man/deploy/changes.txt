@@ -9,7 +9,8 @@
 > Show acceleration and velocity even before 20 history points have been recorded
 > The sim should be running on startup but not recording until the user moves the bug, uses the remote control or chooses a preset motion.
 > Renamed "clear trace" to "clear" and made it clear history instead of just the graphical trace.
-> The Ladybug should be smaller - more similar to size of bugs in Rotation. 
+> The Ladybug should be smaller - more similar to size of bugs in Rotation.
+> Fixed: - Vectors in remote are not sized to the same relative proportions as they are on the bug. For example, accel vector is very small on bug, very large in remote.  
 
 # 1.20.18 (27515) 01-21-2009
 > Changed velocity color to green

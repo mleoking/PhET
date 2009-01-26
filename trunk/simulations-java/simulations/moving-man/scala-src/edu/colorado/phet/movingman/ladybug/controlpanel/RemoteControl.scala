@@ -40,7 +40,7 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
       model.setUpdateModeVelocity
     }
   }
-  val accelerationMode = new RemoteMode(LadybugColorSet.acceleration, 11, _.getAcceleration) {
+  val accelerationMode = new RemoteMode(LadybugColorSet.acceleration, 33/LadybugDefaults.ACCEL_VECTOR_SCALE, _.getAcceleration) {
     def setLadybugState(pt: Point2D) = {
       model.ladybug.setAcceleration(pt)
       model.setUpdateModeAcceleration
