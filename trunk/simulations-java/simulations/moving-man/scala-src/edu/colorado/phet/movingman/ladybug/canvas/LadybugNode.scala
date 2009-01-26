@@ -1,5 +1,6 @@
 package edu.colorado.phet.movingman.ladybug.canvas
 
+import _root_.edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
 import controlpanel.VectorVisibilityModel
 import model.{Ladybug, Vector2D, LadybugModel}
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener
@@ -23,7 +24,7 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
   def updateInteractive() = {interactive = model.readyForInteraction}
 
   val arrowSetNode = new ArrowSetNode(ladybug, transform, vectorVisibilityModel)
-  val pimage = new PImage(MovingManResources.loadBufferedImage("ladybug/ladybug.png"))
+  val pimage = new PImage(BufferedImageUtils.multiScale(MovingManResources.loadBufferedImage("ladybug/ladybug.png"),0.6))
 
   ladybug.addListener(updateLadybug)
   updateLadybug()
