@@ -41,7 +41,10 @@ object LadybugMotionModel {
         val angle = model.ladybug.getPosition.getAngle
         val r = model.ladybug.getPosition.magnitude
         //        println("r="+r)
-        val newAngle = angle + PI / 64 * 1.3;
+
+        val delta0 = PI / 64 * 1.3//desired approximate deltaTheta
+        val n = (PI * 2 / delta0).toInt //n deltaTheta=2 PI
+        val newAngle = angle + 2 * PI / n
         //        println(model.getTime+"\t"+newAngle)
         model.ladybug.setPosition(new Vector2D(newAngle) * r)
       }
