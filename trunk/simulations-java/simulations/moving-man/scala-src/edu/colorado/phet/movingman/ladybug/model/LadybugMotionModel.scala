@@ -35,7 +35,7 @@ object LadybugMotionModel {
       var vx = model.ladybug.getVelocity.x
       var vy = model.ladybug.getVelocity.y
       var changed = false
-      val bounds=model.getBounds()
+      val bounds = model.getBounds()
       if (x > bounds.getMaxX && vx > 0) {
         vx = -abs(vx)
         x = bounds.getMaxX
@@ -45,7 +45,7 @@ object LadybugMotionModel {
         x = bounds.getMinX
       }
 
-      if (y > bounds.getMaxY&& vy > 0) {
+      if (y > bounds.getMaxY && vy > 0) {
         vy = -abs(vy)
         y = bounds.getMaxY
       }
@@ -76,16 +76,18 @@ object LadybugMotionModel {
         //move in a circle
         val angle = model.ladybug.getPosition.getAngle
         val r = model.ladybug.getPosition.magnitude
-        //        println("r="+r)
 
-        val delta0 = PI / 64 * 1.3 //desired approximate deltaTheta
+//        val delta0 = PI / 64 * 1.3 * dt / 30.0 //desired approximate deltaTheta
+        val delta0 = PI / 64 * 1.3 * dt * 30.0 //desired approximate deltaTheta
         val n = (PI * 2 / delta0).toInt //n deltaTheta=2 PI
         val newAngle = angle + 2 * PI / n
-        //        println(model.getTime+"\t"+newAngle)
         model.ladybug.setPosition(new Vector2D(newAngle) * r)
-        model.ladybug.setVelocity(model.average(model.getHistory.length - 3, model.getHistory.length - 1, model.estimateVelocity))
-        model.ladybug.setAngle(model.ladybug.getVelocity.getAngle)
-        model.ladybug.setAcceleration(model.average(model.getHistory.length - 15, model.getHistory.length - 1, model.estimateAcceleration))
+        val velocity = new Vector2D(newAngle + PI/2) * (newAngle - angle) / dt*r
+        model.ladybug.setVelocity(velocity)
+        model.ladybug.setAngle(velocity.getAngle)
+
+        val accel=new Vector2D(newAngle+PI)*velocity.magnitude*velocity.magnitude/r
+        model.ladybug.setAcceleration(accel)
       }
     }
   }
