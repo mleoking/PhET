@@ -6,22 +6,56 @@ import java.lang.Math._
 
 abstract case class MotionType(name: String) {
   def update(dt: Double, model: LadybugModel)
+
+  def init(model: LadybugModel) = {}
 }
 object LadybugMotionModel {
   val MANUAL = new MotionType("manual") {
     def update(dt: Double, model: LadybugModel) = {}
+
   }
   val LINEAR = new MotionType("linear") {
+    val speed = 0.3 * 30
+
+    override def init(model: LadybugModel) = {
+      model.ladybug.setVelocity(new Vector2D(model.ladybug.getAngle) * speed)
+    }
+
     def update(dt: Double, model: LadybugModel) = {
-      val speed = 0.3
-      def step = model.ladybug.translate(new Vector2D(model.ladybug.getAngle) * speed)
-      step
-      val bounds = new Rectangle2D.Double(-10, -10, 20, 20)
-      if (!bounds.contains(model.ladybug.getPosition)) {
-        model.ladybug.setAngle(model.ladybug.getAngle + PI + (random * 0.8 - 0.4) * PI / 2)
-        step
-        step
+      val angle = model.ladybug.getAngle
+
+
+      def step = {
+        model.ladybug.setVelocity(new Vector2D(model.ladybug.getVelocity.getAngle) * speed)
+        model.ladybug.translate(model.ladybug.getVelocity * dt)
       }
+      step
+      var x = model.ladybug.getPosition.x
+      var y = model.ladybug.getPosition.y
+      var vx = model.ladybug.getVelocity.x
+      var vy = model.ladybug.getVelocity.y
+      var changed = false
+      if (x > 10 && vx > 0) {
+        vx = -abs(vx)
+        x = 10
+      }
+      if (x < -10 && vx < 0) {
+        vx = abs(vx)
+        x = -10
+      }
+
+      if (y > 10 && vy > 0) {
+        vy = -abs(vy)
+        y = 10
+      }
+      if (y < -10 && vy < 0) {
+        vy = abs(vy)
+        y = -10
+      }
+
+      model.ladybug.setPosition(new Vector2D(x, y))
+      model.ladybug.setVelocity(new Vector2D(vx, vy))
+      model.ladybug.setAcceleration(model.average(model.getHistory.length - 15, model.getHistory.length - 1, model.estimateAcceleration))
     }
   }
   val CIRCULAR = new MotionType("circular") {
@@ -42,11 +76,13 @@ object LadybugMotionModel {
         val r = model.ladybug.getPosition.magnitude
         //        println("r="+r)
 
-        val delta0 = PI / 64 * 1.3//desired approximate deltaTheta
+        val delta0 = PI / 64 * 1.3 //desired approximate deltaTheta
         val n = (PI * 2 / delta0).toInt //n deltaTheta=2 PI
         val newAngle = angle + 2 * PI / n
         //        println(model.getTime+"\t"+newAngle)
         model.ladybug.setPosition(new Vector2D(newAngle) * r)
+        model.ladybug.setVelocity(model.average(model.getHistory.length - 3, model.getHistory.length - 1, model.estimateVelocity))
+        model.ladybug.setAcceleration(model.average(model.getHistory.length - 15, model.getHistory.length - 1, model.estimateAcceleration))
       }
     }
   }
@@ -59,14 +95,16 @@ object LadybugMotionModel {
       val pos = model.ladybug.getPosition
       val ladybugC = pos.x * pos.x / a * a + pos.y * pos.y / b * b
 
-//      t = t + 0.08
-      t = t + 2*PI/79
+      //      t = t + 0.08
+      t = t + 2 * PI / 79
       model.ladybug.setPosition(new Vector2D(a * cos(t), b * sin(t)))
+      model.ladybug.setVelocity(model.average(model.getHistory.length - 3, model.getHistory.length - 1, model.estimateVelocity))
+      model.ladybug.setAcceleration(model.average(model.getHistory.length - 15, model.getHistory.length - 1, model.estimateAcceleration))
     }
   }
 }
 
-class LadybugMotionModel extends ObservableS {
+class LadybugMotionModel(model: LadybugModel) extends ObservableS {
   private var _motionType = LadybugMotionModel.MANUAL
 
   def motion: MotionType = _motionType
@@ -74,9 +112,12 @@ class LadybugMotionModel extends ObservableS {
   def motion_=(x: MotionType) = {
     if (_motionType != x) {
       _motionType = x
+      _motionType.init(model)
       notifyListeners
     }
   }
+
+  def isExclusive() = _motionType != LadybugMotionModel.MANUAL
 
   def update(dt: Double, model: LadybugModel) = {
     _motionType.update(dt, model)
