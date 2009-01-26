@@ -35,22 +35,24 @@ object LadybugMotionModel {
       var vx = model.ladybug.getVelocity.x
       var vy = model.ladybug.getVelocity.y
       var changed = false
-      if (x > 10 && vx > 0) {
+      val bounds=model.getBounds()
+      println("bounds="+bounds)
+      if (x > bounds.getMaxX && vx > 0) {
         vx = -abs(vx)
-        x = 10
+        x = bounds.getMaxX
       }
-      if (x < -10 && vx < 0) {
+      if (x < bounds.getMinX && vx < 0) {
         vx = abs(vx)
-        x = -10
+        x = bounds.getMinX
       }
 
-      if (y > 10 && vy > 0) {
+      if (y > bounds.getMaxY&& vy > 0) {
         vy = -abs(vy)
-        y = 10
+        y = bounds.getMaxY
       }
-      if (y < -10 && vy < 0) {
+      if (y < bounds.getMinY && vy < 0) {
         vy = abs(vy)
-        y = -10
+        y = bounds.getMinY
       }
 
       model.ladybug.setPosition(new Vector2D(x, y))

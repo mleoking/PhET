@@ -2,6 +2,7 @@ package edu.colorado.phet.movingman.ladybug.model
 
 import _root_.edu.colorado.phet.common.motion.model.TimeData
 import _root_.edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
+import java.awt.geom.Rectangle2D
 import scala.collection.mutable.ArrayBuffer
 import LadybugUtil._
 import edu.colorado.phet.common.motion._
@@ -15,6 +16,15 @@ class LadybugModel extends ObservableS {
   var record = true
   var paused = true
   var playbackSpeed = 1.0
+  private var bounds=new Rectangle2D.Double(-10,-10,20,20)
+
+  def getBounds():Rectangle2D={
+    return new Rectangle2D.Double(bounds.getX,bounds.getY,bounds.getWidth,bounds.getHeight)//defensive copy
+  }
+
+  def setBounds(b:Rectangle2D)={
+    bounds.setRect(b.getX,b.getY,b.getWidth,b.getHeight)
+  }
 
   def getLadybugMotionModel() = ladybugMotionModel
 
