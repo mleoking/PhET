@@ -3,6 +3,7 @@ package edu.colorado.phet.movingman.ladybug.controlpanel
 import _root_.edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
 import _root_.edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl
 import java.awt.Color
+import java.awt.Cursor
 import java.util.Hashtable
 import javax.swing.event.{ChangeListener, ChangeEvent}
 import javax.swing.{JSlider, JLabel}
