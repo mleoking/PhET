@@ -10,7 +10,7 @@ import edu.colorado.phet.common.motion._
 class LadybugModel extends ObservableS {
   val ladybug = new Ladybug
   private val history = new ArrayBuffer[DataPoint]
-  private val ladybugMotionModel = new LadybugMotionModel
+  private val ladybugMotionModel = new LadybugMotionModel(this)
   private var time: Double = 0;
   var record = true
   var paused = true
@@ -97,7 +97,9 @@ class LadybugModel extends ObservableS {
           history.remove(0)
         }
 
-        updateMode(dt)
+        if (!ladybugMotionModel.isExclusive()){
+          updateMode(dt)
+        }
         notifyListeners()
 
       } else if (isPlayback()) {
