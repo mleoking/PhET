@@ -4,6 +4,7 @@
 > Compute velocity and acceleration as averages over 6 data points with slope of linear fit (as in rotation sim)
 > Start the ladybug somewhere other than (0,0) so that the Remote Control position vector will be visible on startup
 > Added return ladybug button
+> Bigger circle in middle of remote control. Clicking anywhere on this circle sets vel or acc exactly to zero.
 
 # 1.20.18 (27515) 01-21-2009
 > Changed velocity color to green
