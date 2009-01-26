@@ -10,6 +10,7 @@ package edu.colorado.phet.greenhouse.view;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
@@ -22,6 +23,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.common.graphics.ApparatusPanel;
@@ -43,7 +45,7 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
     private static int numRedsToAve = 20;
     int[] redsToAve = new int[numRedsToAve];
     private ImageGraphic backdropGraphic;
-    DiskGraphic disk;
+    private DiskGraphic disk;
     private Color earthBaseColor = new Color( 0, 180, 100 );
     private boolean isIceAge;
     private BufferedImage gif;
@@ -54,6 +56,7 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
     private BufferedImage backgroundIceAge = GreenhouseResources.getImage( "ice-age-2.gif" );
     private Map scaledBackgroundImages = new HashMap();
     Point2D.Double pUtil = new Point2D.Double();
+    private double desiredImageWidth = 100;  // Somewhat arbitrary initial value, will be recalculated during init.
 
     /**
      * @param apparatusPanel
@@ -88,21 +91,13 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
             public void componentResized( ComponentEvent e ) {
                 Component component = e.getComponent();
                 Rectangle2D newBounds = component.getBounds();
-                // Create a scaled version of each original backdrop image
-                for ( Iterator iterator = scaledBackgroundImages.keySet().iterator(); iterator.hasNext(); ) {
-                    BufferedImage origImage = (BufferedImage) iterator.next();
-                    double scale = newBounds.getWidth() / origImage.getWidth();
-                    if ( scale > 0 ) {
-                        AffineTransform atx = AffineTransform.getScaleInstance( scale, scale );
-                        AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
-                        BufferedImage scaledImg = atxOp.filter( origImage, null );
-                        scaledBackgroundImages.put( origImage, scaledImg );
+                if (newBounds.getWidth() > 0 && newBounds.getHeight() > 0){
+                	desiredImageWidth = newBounds.getWidth();
+                	
+                    // Set and scale the proper backdrop
+                    if ( currentBackdropImage != null ) {
+                        setBackDropImage( currentBackdropImage, new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
                     }
-                }
-
-                // Set the proper backdrop
-                if ( currentBackdropImage != null ) {
-                    setBackDropImage( currentBackdropImage, new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
                 }
             }
         } );
@@ -159,7 +154,7 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
     public void setToday() {
         isIceAge = false;
         setBackDropImage( backgroundToday, new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
-        disk.setPaint( new Color( 25, 174, 73, 0 ) );
+        disk.setPaint( new Color( 22, 174, 73, 0 ) );
     }
 
     public void set1750() {
@@ -215,8 +210,9 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
         if ( backdropGraphic != null ) {
             apparatusPanel.removeGraphic( backdropGraphic );
         }
-        BufferedImage scaledImage = (BufferedImage) scaledBackgroundImages.get( bImg );
-        backdropGraphic = new ImageGraphic( scaledImage, location );
+        backdropGraphic = new ImageGraphic( 
+        		BufferedImageUtils.rescaleXMaintainAspectRatio(currentBackdropImage, (int)desiredImageWidth), 
+        		location );
         apparatusPanel.addGraphic( backdropGraphic, GreenhouseConfig.EARTH_BACKDROP_LAYER );
     }
 
