@@ -241,7 +241,7 @@ installation_time_stamp value = ${installation_time_stamp}
             <file>${installdir}/sims/phet-installation.properties</file>
             <text>
 
-install.date=${installation_time_stamp}</text>
+install.date.epoch.seconds=${installation_time_stamp}</text>
         </addTextToFile>
 
         <!-- Set the variable that will be set to the JRE path if it is present.  -->
