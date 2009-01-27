@@ -1,3 +1,4 @@
+1-29-09: #895, clean up initial sizing of license dialog
 1-29-09: #995, delete deprecated jawaws.phet.locale, no need for this in redeployed sims
 1-23-09: add HTMLUtils methods for to support combining HTML strings
 1-21-09: #840, new rewind button in piccolo clock controls
