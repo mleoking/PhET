@@ -63,7 +63,7 @@ public class ImageGraphic implements Graphic, ImageObserver {
         }
         // Translate the transform so the bottom of the image is now at the model origin
         imageTx.translate( 0, -image.getHeight() );
-        // Move the image to it's location in model coordinates
+        // Move the image to its location in model coordinates
         imageTx.translate( location.getX() * orgTx.getScaleX(), //- image.getWidth() / 2,
                            location.getY() * orgTx.getScaleY() );
 
