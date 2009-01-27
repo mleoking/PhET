@@ -23,7 +23,7 @@ class UpdateAvailableDialog {
 		ASWingUtils.getRootMovieClip();
 		
 		// create a window
-		var window : JFrame = new JFrame(_level0, "Update Available for " + _level0.simName);
+		var window : JFrame = new JFrame(_level0, "New Version Available for " + _level0.simName);
 		
 		// make sure we can access it from anywhere
 		_level0.updateAvailableWindow = window;
@@ -40,12 +40,14 @@ class UpdateAvailableDialog {
 		str += _level0.versionMinor + "." + _level0.dev + ".\n";
 		str += "A newer version (" + versionMajor + "." + versionMinor + "." + dev + ") is available.\n";
 		
+		str += "\n<p align='center'>";
+		
+		// TODO: Change URL to the main simulation
 		str += "<a href='http://phet.colorado.edu/jolson/deploy/sims/" + _level0.simName + "/" + _level0.simName;
-		str += "_" + _level0.languageCode;
-		if(_level0.countryCode != "none") {
-			str += "_" + _level0.countryCode;
-		}
-		str += ".html'>Try the new version before you update.</a>";
+		str += "_" + _level0.common.localeString();
+		str += ".html'>Try the new version.</a>";
+		
+		str += "</p";
 		
 		// create CSS to make links blue
 		var css : TextField.StyleSheet = new TextField.StyleSheet();
@@ -54,12 +56,12 @@ class UpdateAvailableDialog {
 			"a:hover{color:#0000FF;text-decoration:underline;font-weight:bold;}" +
 			"a:active{color:#0000FF;font-weight:bold;}"); 
 		
-		var textArea = new JTextArea(str, 0, 40);
+		var textArea = new JTextArea(str, 0, 30);
 		textArea.setHtml(true);
 		textArea.setEditable(false);
 		textArea.setCSS(css);
 		textArea.setWordWrap(true);
-		textArea.setWidth(300);
+		textArea.setWidth(200);
 		textArea.setBackground(_level0.common.backgroundColor);
 		// add padding around the text
 		textArea.setBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)));
@@ -72,14 +74,18 @@ class UpdateAvailableDialog {
 		var panel : JPanel = new JPanel(new BoxLayout());
 		
 		// button that will open the license dialog
-		var updateNowButton : JButton = new JButton("Update Now!");
-		updateNowButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, updateNowClicked));
-		CommonButtons.padButtonAdd(updateNowButton, panel);
+		var askLaterButton : JButton = new JButton("Ask me later");
+		askLaterButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, askLaterClicked));
+		CommonButtons.padButtonAdd(askLaterButton, panel);
 		
 		// button will close the about dialog
-		var cancelButton : JButton = new JButton("Cancel");
-		cancelButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, cancelClicked));
-		CommonButtons.padButtonAdd(cancelButton, panel);
+		var skipButton : JButton = new JButton("Skip this update");
+		skipButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, skipClicked));
+		CommonButtons.padButtonAdd(skipButton, panel);
+		
+		// store new version information so they can be stored if the user decides to skip it
+		_level0.newMajor = parseInt(versionMajor);
+		_level0.newMinor = parseInt(versionMinor);
 		
 		window.getContentPane().append(panel);
 		
@@ -92,11 +98,18 @@ class UpdateAvailableDialog {
 		window.show();
 	}
 	
-	public function updateNowClicked(src : JButton) {
-		// TODO: direct user to something to download?
+	public function askLaterClicked(src : JButton) {
+		// always ask later on
+		_level0.preferences.setSkippedUpdate(0, 0);
+		
+		// hide this window
+		_level0.updateAvailableWindow.setVisible(false);
 	}
 	
-	public function cancelClicked(src : JButton) {
+	public function skipClicked(src : JButton) {
+		// skip this update in the future
+		_level0.preferences.setSkippedUpdate(_level0.newMajor, _level0.newMinor);
+		
 		// hide this window
 		_level0.updateAvailableWindow.setVisible(false);
 	}

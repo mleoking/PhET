@@ -59,6 +59,7 @@ class UpdateHandler {
 				// extract information from it
 				_level0.debug("UpdateHandler: successfully obtained version information\n");
 				
+				// extract version information from XML
 				versionMajor = xml.firstChild.childNodes[0].attributes.value;
 				versionMinor = xml.firstChild.childNodes[1].attributes.value;
 				dev = xml.firstChild.childNodes[2].attributes.value;
@@ -70,13 +71,23 @@ class UpdateHandler {
 				_level0.debug(" dev:" + dev);
 				_level0.debug(" rev:" + revision + "\n");
 				
-				// check major and minor version numbers for equality
+				var latestSkipped : Array = _level0.preferences.getLatestSkippedUpdate();
+				
 				if(versionMajor == _level0.versionMajor && versionMinor == _level0.versionMinor) {
+					// running the latest version
 					_level0.debug("UpdateHandler: running latest version\n");
+					
+					// if the user clicked "Check for Updates Now", inform the user that no
+					// update is available
 					if(_level0.updateHandler.manual) {
 						_level0.common.updateHandler.updatesNotAvailable();
 					}
-				} else if(versionMajor != undefined && versionMinor != undefined) {
+				} else if(versionMajor == undefined || versionMinor == undefined) {
+					_level0.debug("WARNING UpdateHandler: received undefined version information!\n");
+				} else if(!(_level0.updateHandler.manual) && (new Number(versionMajor) < latestSkipped[0] || (new Number(versionMajor) == latestSkipped[0] && new Number(versionMinor) <= latestSkipped[1]))) {
+					// user did not click "Check for Updates Now" AND the new version <= latest skipped version
+					_level0.debug("UpdateHandler: used selected to skip this update\n");
+				} else {
 					_level0.common.updateHandler.updatesAvailable(versionMajor, versionMinor, dev);
 				}
 			} else {

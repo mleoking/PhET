@@ -12,7 +12,7 @@ class Preferences {
 	// current preferences version
 	// this SHOULD NOT CHANGE after development, and is an
 	// aid for development purposes.
-	public static var CURRENT_PREF_VERSION : Number = 1.0;
+	public static var CURRENT_PREF_VERSION : Number = 1.1;
 	
 	// current privacy agreement version
 	// this should be changed when a new agreement would need to be
@@ -70,6 +70,7 @@ class Preferences {
 			sharedObject.data.userPreferencesFileCreationTime = (new Date()).valueOf();
 			sharedObject.data.userTotalSessions = 0;
 			sharedObject.data.latestPrivacyAgreementVersion = 0;
+			sharedObject.data.skippedUpdate = [0, 0]; // major and minor version number
 		} else {
 			debug("Found preferences\n");
 		}
@@ -160,6 +161,21 @@ class Preferences {
 		var ret : Boolean = userAllowsUpdates();
 		unload();
 		return ret;
+	}
+	
+	// returns latest skipped update version as [major, minor]
+	public function getLatestSkippedUpdate() : Array {
+		load();
+		return sharedObject.data.skippedUpdate;
+		unload();
+	}
+	
+	// set latest skipped update version
+	public function setSkippedUpdate(major : Number, minor : Number) : Void {
+		load();
+		sharedObject.data.skippedUpdate = [major, minor];
+		save();
+		unload();
 	}
 	
 	// allow other code to set the tracking and updates values
