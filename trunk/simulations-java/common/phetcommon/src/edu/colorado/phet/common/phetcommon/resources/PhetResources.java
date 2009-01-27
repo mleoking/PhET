@@ -132,12 +132,6 @@ public class PhetResources {
         Locale locale = Locale.getDefault();
         LOGGER.log( "PhetResources.readLocale: default locale=" + locale.toString() );
         
-        // deprecated, included for backward compatibility
-        Locale javawsPhetLocale = readJavawsPhetLocale();
-        if ( javawsPhetLocale != null ) {
-            locale = javawsPhetLocale;
-        }
-        
         String language = System.getProperty( PROPERTY_JAVAWS_USER_LANGUAGE );
         String country = System.getProperty( PROPERTY_JAVAWS_USER_COUNTRY ); // optional, may be null
         if ( language != null ) {
@@ -158,20 +152,6 @@ public class PhetResources {
         return locale;
     }
     
-    /**
-     * @deprecated included for backward compatibility, should be deleted after all sims are redeployed
-     */
-    private static Locale readJavawsPhetLocale() {
-        Locale locale = null;
-        final String propertyName = "javaws.phet.locale"; // constant is included here so it goes away when this deprecated method is deleted
-        String language = System.getProperty( propertyName );
-        if ( language != null ) {
-            LOGGER.log( "PhetResources.readLocale: overriding locale via " + propertyName + "=" + language );
-            locale = new Locale( language );
-        }
-        return locale;
-    }
-
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
