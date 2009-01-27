@@ -333,7 +333,8 @@ public class BuildScript {
             classpath.addFileset( set );
             java.setClasspath( classpath );
             if ( !locale.getLanguage().equals( "en" ) ) {
-                java.setJvmargs( "-Djavaws.phet.locale=" + locale );
+                java.setJvmargs( "-Djavaws.user.language=" + locale );
+                java.setJvmargs( "-Djavaws.phet.locale=" + locale ); //XXX #1057, backward compatibility, delete after IOM
             }
 
             java.setArgs( "-dev" ); // program arg to run in developer mode
