@@ -76,7 +76,7 @@ class UpdateHandler {
 					if(_level0.updateHandler.manual) {
 						_level0.common.updateHandler.updatesNotAvailable();
 					}
-				} else {
+				} else if(versionMajor != undefined && versionMinor != undefined) {
 					_level0.common.updateHandler.updatesAvailable(versionMajor, versionMinor, dev);
 				}
 			} else {
