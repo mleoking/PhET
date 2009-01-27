@@ -282,6 +282,8 @@ class LadybugModel extends ObservableS {
     playbackIndexFloat = 0.0
     time = 0
     ladybug.resetAll()
+
+    samplePath.clear
     notifyListeners()
   }
 
