@@ -10,43 +10,65 @@ import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 /**
  * PhET simulations can be deployed in several different ways.
  * This class determines how the sim that is running was deployed.
+ * <p>
+ * This implementation combines the singleton pattern and the Java 1.4 typesafe enum pattern.
  */
 public class DeploymentScenario {
     
-    private static final String NAME_PHET_INSTALLATION = "phet-installation";
-    private static final String NAME_STANDALONE_JAR = "standalone-jar";
-    private static final String NAME_WEBSITE = "website";
-    private static final String NAME_UNKNOWN = "unknown";
-    
-    /* not intended for instantiation */
-    private DeploymentScenario() {}
+    // enumeration
+    public static final DeploymentScenario PHET_INSTALLATION = new DeploymentScenario( "phet-installation" );
+    public static final DeploymentScenario STANDALONE_JAR = new DeploymentScenario( "standalone-jar" );
+    public static final DeploymentScenario PHET_WEBSITE = new DeploymentScenario( "phet-website" );
+    public static final DeploymentScenario OTHER_WEBSITE = new DeploymentScenario( "other-website" );
+    public static final DeploymentScenario UNKNOWN = new DeploymentScenario( "unknown" );
 
-    /**
-     * Gets the name of the deployment scenario.
-     * 
-     * @return
-     */
-    public static String getName() {
-        String name = NAME_UNKNOWN;
-        if ( isPhetInstallation() ) {
-            name = NAME_PHET_INSTALLATION;
-        }
-        else if ( isStandaloneJar() ) {
-            name = NAME_STANDALONE_JAR;
-        }
-        else if ( isWebsite() ) {
-            name = NAME_WEBSITE;
-        }
+    // singleton
+    private static DeploymentScenario instance = null;
+    
+    private final String name;
+    
+    /* singleton */
+    private DeploymentScenario( String name ) {
+        this.name = name;
+    }
+    
+    public String toString() {
         return name;
     }
     
     /**
+     * Gets the deployment scenario, a singleton.
+     * This is determined once, on demand, since it does not change.
+     * @return
+     */
+    public static DeploymentScenario getInstance() {
+        if ( instance == null ) {
+            instance = determineScenario();
+        }
+        return instance;
+    }
+    
+    private static DeploymentScenario determineScenario() {
+        DeploymentScenario scenario = DeploymentScenario.UNKNOWN;
+        if ( isPhetInstallation() ) {
+            scenario = DeploymentScenario.PHET_INSTALLATION;
+        }
+        else if ( isStandaloneJar() ) {
+            scenario = DeploymentScenario.STANDALONE_JAR;
+        }
+        else if ( isWebsite() ) {
+            scenario = DeploymentScenario.PHET_WEBSITE;
+        }
+        return scenario;
+    }
+    
+    /*
      * Was this sim run as part of a PhET installation, created using the PhET installer?
      * If it was, then a file named .phet-installer will live in the JAR's parent directory.
      * 
      * @return true or false
      */
-    public static boolean isPhetInstallation() {
+    private static boolean isPhetInstallation() {
         boolean isPhetInstallation = false;
         if ( isJarCodeSource() ) {
             File codeSource = FileUtils.getCodeSource();
@@ -62,23 +84,23 @@ public class DeploymentScenario {
         return isPhetInstallation;
     }
 
-    /**
+    /*
      * Is this sim running from a stand-alone JAR file on the user's local machine?
      * @return
      */
-    public static boolean isStandaloneJar() {
+    private static boolean isStandaloneJar() {
         return !PhetServiceManager.isJavaWebStart() && !isPhetInstallation() && isJarCodeSource();
     }
     
-    /**
+    /*
      * Is this sim running from a web site using Java Web Start?
      * @return
      */
-    public static boolean isWebsite() {
+    private static boolean isWebsite() {
         return PhetServiceManager.isJavaWebStart() && !isPhetInstallation(); // PhET installer uses Web Start!
     }
     
-    /**
+    /*
      * Is the code source a JAR file?
      * @return
      */
@@ -92,7 +114,7 @@ public class DeploymentScenario {
         }
     }
     
-    /**
+    /*
      * Is the file a JAR?
      * @param file
      * @return
