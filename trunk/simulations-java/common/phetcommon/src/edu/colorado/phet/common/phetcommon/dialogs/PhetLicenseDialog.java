@@ -4,6 +4,7 @@ package edu.colorado.phet.common.phetcommon.dialogs;
 
 import java.awt.BorderLayout;
 import java.awt.Dialog;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -27,6 +28,9 @@ public class PhetLicenseDialog extends JDialog {
     // Resource (file) that contains the PhET license, in plain text format.
     private static final String LICENSE_RESOURCE = "phet-license.txt";
     
+    // preferred size for the scrollpane, change this to affect initial dialog size
+    private static final Dimension SCROLLPANE_SIZE = new Dimension( 440, 300 );
+    
     private static final String TITLE = PhetCommonResources.getString( "Common.About.LicenseDialog.Title" );
     private static final String OK_BUTTON = PhetCommonResources.getString( "Common.About.OKButton" );
     
@@ -38,6 +42,7 @@ public class PhetLicenseDialog extends JDialog {
         String phetLicenseHTML = HTMLUtils.setFontInStyledHTML( phetLicenseString, new PhetFont() );
         InteractiveHTMLPane htmlPane = new InteractiveHTMLPane( phetLicenseHTML );
         JScrollPane scrollPane = new JScrollPane( htmlPane );
+        scrollPane.setPreferredSize( SCROLLPANE_SIZE );
 
         // OK button
         JPanel buttonPanel = new JPanel();
@@ -56,8 +61,8 @@ public class PhetLicenseDialog extends JDialog {
         panel.add( scrollPane, BorderLayout.CENTER );
         panel.add( buttonPanel, BorderLayout.SOUTH );
         setContentPane( panel );
-        setSize( 440,400 );//todo: this shouldn't be hard coded, but I had trouble getting Swing to do something reasonable
+//        setSize( 440,400 );//todo: this shouldn't be hard coded, but I had trouble getting Swing to do something reasonable
+        pack();
         SwingUtils.centerDialogInParent( this );
     }
-
 }
