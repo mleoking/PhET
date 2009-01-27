@@ -264,10 +264,6 @@ public abstract class BaseGreenhouseModule extends Module {
         earthGraphic.setToday();
     }
 
-    public void setTomorrow() {
-        earthGraphic.setTomorrow();
-    }
-
     public void setVenus() {
         earthGraphic.setVenus();
     }
