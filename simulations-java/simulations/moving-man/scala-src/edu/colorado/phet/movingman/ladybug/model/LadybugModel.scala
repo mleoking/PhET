@@ -2,7 +2,7 @@ package edu.colorado.phet.movingman.ladybug.model
 
 import _root_.edu.colorado.phet.common.motion.model.TimeData
 import _root_.edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
-import java.awt.geom.Rectangle2D
+import java.awt.geom.{Rectangle2D, Point2D}
 import scala.collection.mutable.ArrayBuffer
 import LadybugUtil._
 import edu.colorado.phet.common.motion._
@@ -11,19 +11,29 @@ import edu.colorado.phet.common.motion._
 class LadybugModel extends ObservableS {
   val ladybug = new Ladybug
   private val history = new ArrayBuffer[DataPoint]
+  val tickListeners = new ArrayBuffer[() => Unit]
   private val ladybugMotionModel = new LadybugMotionModel(this)
   private var time: Double = 0;
   var record = true
   var paused = true
   var playbackSpeed = 1.0
-  private var bounds=new Rectangle2D.Double(-10,-10,20,20)
+  private var bounds = new Rectangle2D.Double(-10, -10, 20, 20)
 
-  def getBounds():Rectangle2D={
-    return new Rectangle2D.Double(bounds.getX,bounds.getY,bounds.getWidth,bounds.getHeight)//defensive copy
+  case class Sample(time: Double, location: Vector2D)
+
+  private val samplePath = new ArrayBuffer[Sample]
+
+  def addSamplePoint(pt: Point2D) = {
+    samplePath += new Sample(time, pt)
+    //    println("samplecount=" + samplePath.length)
   }
 
-  def setBounds(b:Rectangle2D)={
-    bounds.setRect(b.getX,b.getY,b.getWidth,b.getHeight)
+  def getBounds(): Rectangle2D = {
+    return new Rectangle2D.Double(bounds.getX, bounds.getY, bounds.getWidth, bounds.getHeight) //defensive copy
+  }
+
+  def setBounds(b: Rectangle2D) = {
+    bounds.setRect(b.getX, b.getY, b.getWidth, b.getHeight)
   }
 
   def getLadybugMotionModel() = ladybugMotionModel
@@ -57,6 +67,92 @@ class LadybugModel extends ObservableS {
   }
 
   def positionMode(dt: Double) = {
+    if (estimateVelocity(history.length - 1).magnitude > 1E-6)
+      ladybug.setAngle(estimateAngle())
+
+    val delta = 10
+    val index = samplePath.length - delta / 2
+    if (samplePath.length > delta)
+      ladybug.setPosition(samplePath(index).location)
+
+    def estVel(index: Int,halfRange:Int) = {
+      val tx = for (item <- samplePath.slice(index - halfRange, index + halfRange)) yield new TimeData(item.location.getX, item.time)
+      val vx = MotionMath.estimateDerivative(tx.toArray)
+
+      val ty = for (item <- samplePath.slice(index - halfRange, index + halfRange)) yield new TimeData(item.location.getY, item.time)
+      val vy = MotionMath.estimateDerivative(ty.toArray)
+
+      new Vector2D(vx, vy)
+    }
+
+//    val tx = for (item <- samplePath.slice(index - delta / 2 - 1, index + delta / 2 - 1)) yield new TimeData(item.location.getX, item.time)
+//    val vx = MotionMath.estimateDerivative(tx.toArray)
+//
+//    val ty = for (item <- samplePath.slice(index - delta / 2 - 1, index + delta / 2 - 1)) yield new TimeData(item.location.getY, item.time)
+//    val vy = MotionMath.estimateDerivative(ty.toArray)
+
+    if (samplePath.length > 20) {
+
+
+      //      def stencil5(index: Int) = {
+      //        val prev2 = samplePath(index - 2).location
+      //        val prev1 = samplePath(index - 1).location
+      //        val cur = samplePath(index - 0).location
+      //        val next1 = samplePath(index + 1).location
+      //        val next2 = samplePath(index + 2).location
+      //        (next2 * (-1) + next1 * 16 + cur * (-30) + prev1 * 16 + prev2 * (-1)) / (12 * dt * dt) //five point stencil
+      //      }
+      //
+      //      def stencil3(index: Int) = {
+      //        val prev1 = samplePath(index - 1).location
+      //        val cur = samplePath(index - 0).location
+      //        val next1 = samplePath(index + 1).location
+      //        (next1 + cur * (-2) + prev1) / (dt * dt)
+      //      }
+      //
+      //      var sum = new Vector2D
+      //      var count = 0
+      //      for (del <- -3 to 3)
+      //        {
+      //          val a0 = stencil3(index + del)
+      //          sum = sum + a0
+      //          count = count + 1
+      //        }
+      //
+      //      val a = sum / count
+
+
+
+      //      MotionMath.getDerivative(MotionMath.smooth(motionBody.getRecentVelocityTimeSeries(Math.min(accelerationWindow, motionBody.getVelocitySampleCount())), 1));
+
+
+
+      //    println("tx="+tx.toArray.mkString("\t"))
+      //    val ax = MotionMath.getSecondDerivative(tx.toArray)
+      //    val ay = MotionMath.getSecondDerivative(ty.toArray)
+
+//      var sum = new Vector2D
+//      var count = 0
+
+      val ax1 = for (item <- -4 to 4) yield new TimeData(estVel(index+item,4).getX, samplePath(index+item).time)
+      val ay1 = for (item <- -4 to 4) yield new TimeData(estVel(index+item,4).getY, samplePath(index+item).time)
+
+      val ax = MotionMath.estimateDerivative(MotionMath.smooth(ax1.toArray,2))
+      val ay = MotionMath.estimateDerivative(MotionMath.smooth(ay1.toArray,2))
+//      for (del <- -3 to 3)
+//        {
+//          sum = sum + estVel(index + del)
+//          count = count + 1
+//        }
+//
+//      val a = sum / count
+
+      ladybug.setVelocity(estVel(index,delta/2))
+      ladybug.setAcceleration(new Vector2D(ax,ay))
+    }
+  }
+
+  def positionModeORIG(dt: Double) = {
     if (estimateVelocity(history.length - 1).magnitude > 1E-6)
       ladybug.setAngle(estimateAngle())
 
@@ -98,6 +194,7 @@ class LadybugModel extends ObservableS {
 
   def update(dt: Double) = {
     if (!paused) {
+      tickListeners.foreach(_())
       if (isRecord()) {
         time += dt;
         ladybugMotionModel.update(dt, this)
