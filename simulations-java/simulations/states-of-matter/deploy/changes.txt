@@ -1,3 +1,5 @@
+# 1.00.00 (27715) 01-27-2009
+Updated version number to 1.0, no functional changes.
 # 0.05.00 (27620) 01-23-2009
 > Set control panel color back to gray, made gas particles spread instantly around container again.
 # 0.04.18 (27529) 01-21-2009
