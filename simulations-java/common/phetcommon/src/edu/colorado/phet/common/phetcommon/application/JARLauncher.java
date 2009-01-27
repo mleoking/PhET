@@ -251,33 +251,6 @@ public class JARLauncher extends JFrame implements IProguardKeepClass {
         }
     }
 
-    /**
-     * @deprecated included for backward compatibility, should be deleted after all sims are redeployed
-     */
-    private static void setLocaleForOfflineJARsOLD() {
-        final String filename = "options.properties"; // constant is included here so it goes away when this deprecated method is deleted
-        final String propertyName = "javaws.phet.locale"; // constant is included here so it goes away when this deprecated method is deleted
-        URL optionsURL = Thread.currentThread().getContextClassLoader().getResource( filename );
-        if ( optionsURL != null ) {
-            Properties optionsProperties = new Properties();
-            try {
-                optionsProperties.load( optionsURL.openStream() );
-                String locale = optionsProperties.getProperty( "locale" );
-                if ( locale != null ) {
-                    locale = locale.trim();
-                    System.out.println( "JARLauncher: setting " + propertyName + "=" + locale );
-                    System.setProperty( propertyName, locale );
-                }
-                else {
-                    System.err.println( "JARLauncher: " + filename + " is missing required property " + propertyName );
-                }
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     /*
     *
     */
@@ -415,7 +388,6 @@ public class JARLauncher extends JFrame implements IProguardKeepClass {
             throw new RuntimeException( "No flavors found." );
         }
 
-        setLocaleForOfflineJARsOLD();
         setLocaleForOfflineJARs();
 
         URL mainURL = Thread.currentThread().getContextClassLoader().getResource( "main-flavor.properties" );

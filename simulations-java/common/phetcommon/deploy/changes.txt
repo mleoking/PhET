@@ -1,4 +1,5 @@
-1-23-08: add HTMLUtils methods for to support combining HTML strings
+1-29-09: #995, delete deprecated jawaws.phet.locale, no need for this in redeployed sims
+1-23-09: add HTMLUtils methods for to support combining HTML strings
 1-21-09: #840, new rewind button in piccolo clock controls
 1-18-09: update copyright date for 2009
 1-14-09: refactor code that accesses the sim-version-info service
