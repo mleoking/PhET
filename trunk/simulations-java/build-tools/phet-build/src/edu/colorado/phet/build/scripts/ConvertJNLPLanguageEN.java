@@ -46,8 +46,8 @@ public class ConvertJNLPLanguageEN {
                     String replacement = "    <resources>\n" +
                                          "\n" +
                                          "        <j2se version=\"1.4+\"/>\n" +
-                                         "        <property name=\"javaws.user.language\" value=\"en\" />\n" + 
-                                         "        <property name=\"javaws.phet.locale\" value=\"en\" />\n"; //XXX #1057, backward compatibility, delete after IOM
+                                         "        <property name=\"javaws.phet.locale\" value=\"en\" />\n" + //XXX #1057, backward compatibility, delete after IOM
+                                         "        <property name=\"javaws.user.language\" value=\"en\" />\n"; 
                     int index = text.indexOf( matchString );
                     if ( index <= 0 ) {
                         System.out.println( "Malformed JNLP" );
