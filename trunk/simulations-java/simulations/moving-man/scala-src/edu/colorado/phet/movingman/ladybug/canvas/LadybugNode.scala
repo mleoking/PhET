@@ -2,13 +2,14 @@ package edu.colorado.phet.movingman.ladybug.canvas
 
 import _root_.edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
 import controlpanel.VectorVisibilityModel
+import java.awt.image.BufferedImage
+import java.awt.{Point, Color, Cursor}
 import model.{Ladybug, Vector2D, LadybugModel}
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.piccolophet.util.PImageFactory
 import edu.colorado.phet.common.piccolophet.event.CursorHandler
 import edu.umd.cs.piccolo.PNode
-import java.awt.Color
 import java.awt.geom.{AffineTransform, Point2D}
 
 import umd.cs.piccolo.event.{PInputEventListener, PBasicInputEventHandler, PInputEvent}
@@ -42,7 +43,7 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
 
   addInputEventListener(new ToggleListener(new CursorHandler, () => interactive))
 
-  var loc:Point2D = null
+  var loc: Point2D = null
   model.tickListeners += (() => {
     if (loc != null)
       model.addSamplePoint(loc)
@@ -55,6 +56,10 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
       //      ladybug.translate(diff)
 
       loc = transform.viewToModel(event.getPositionRelativeTo(getParent))
+
+      if (LadybugDefaults.HIDE_MOUSE_DURING_DRAG) {
+        event.getComponent.pushCursor(java.awt.Toolkit.getDefaultToolkit().createCustomCursor(new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), "invisibleCursor"))
+      }
     }
 
     override def mousePressed(event: PInputEvent) = {
@@ -63,7 +68,7 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
     }
 
     override def mouseReleased(event: PInputEvent) = {
-//      loc = null
+      //      loc = null
     }
   }
   addInputEventListener(new ToggleListener(inputHandler, () => interactive))

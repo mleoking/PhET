@@ -16,4 +16,7 @@ object LadybugDefaults {
   var recordAtEndOfPlayback = false
   val defaultLocation = new Vector2D(5, 1)
   val ACCEL_VECTOR_SCALE = 0.2454545
+
+  var WINDOW_SIZE=7
+  var HIDE_MOUSE_DURING_DRAG=true
 }

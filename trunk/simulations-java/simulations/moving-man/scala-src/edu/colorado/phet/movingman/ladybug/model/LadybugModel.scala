@@ -76,7 +76,7 @@ class LadybugModel extends ObservableS {
     if (samplePath.length >= 1) {
       //      val windowSize = 11 min samplePath.length
       //      val windowSize = 7 min samplePath.length
-      val windowSize = 15 min samplePath.length
+      val windowSize = LadybugDefaults.WINDOW_SIZE min samplePath.length
       val index = (samplePath.length - (windowSize - 1) / 2 - 1)
       ladybug.setPosition(samplePath(index).location)
 
