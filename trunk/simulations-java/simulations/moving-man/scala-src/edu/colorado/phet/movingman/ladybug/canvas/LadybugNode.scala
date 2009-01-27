@@ -41,16 +41,29 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
   def getLadybugCenter() = pimage.getFullBounds.getCenter2D
 
   addInputEventListener(new ToggleListener(new CursorHandler, () => interactive))
+
+  var loc:Point2D = null
+  model.tickListeners += (() => {
+    if (loc != null)
+      model.addSamplePoint(loc)
+  })
   val inputHandler = new PBasicInputEventHandler() {
     override def mouseDragged(event: PInputEvent) = {
       model.startRecording()
 
-      val diff = transform.viewToModelDifferential(event.getDeltaRelativeTo(getParent).width, event.getDeltaRelativeTo(getParent).height)
-      ladybug.translate(diff)
+      //      val diff = transform.viewToModelDifferential(event.getDeltaRelativeTo(getParent).width, event.getDeltaRelativeTo(getParent).height)
+      //      ladybug.translate(diff)
+
+      loc = transform.viewToModel(event.getPositionRelativeTo(getParent))
     }
 
     override def mousePressed(event: PInputEvent) = {
       model.startRecording()
+      loc = transform.viewToModel(event.getPositionRelativeTo(getParent))
+    }
+
+    override def mouseReleased(event: PInputEvent) = {
+//      loc = null
     }
   }
   addInputEventListener(new ToggleListener(inputHandler, () => interactive))
