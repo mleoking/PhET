@@ -58,7 +58,14 @@ public class TestPhetInstallationProperties {
             System.out.print( "property: " + key + "=" + value );
 
             // conversion test
-            if ( ( (String) key ).equals( "install.date" ) ) {
+            if ( ( (String) key ).equals( "install.date.epoch.seconds" ) ) {
+                int seconds = Integer.valueOf( (String) value ).intValue();
+                Date date = new Date( seconds * 1000L ); // convert from sec to ms
+                System.out.print( " -> " + date.toString() );
+            }
+            
+            // conversion test
+            if ( ( (String) key ).equals( "installer.creation.date.epoch.seconds" ) ) {
                 int seconds = Integer.valueOf( (String) value ).intValue();
                 Date date = new Date( seconds * 1000L ); // convert from sec to ms
                 System.out.print( " -> " + date.toString() );
