@@ -6,15 +6,25 @@
  */
 package edu.colorado.phet.greenhouse;
 
+import java.awt.Component;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.greenhouse.common.graphics.ApparatusPanel;
 import edu.colorado.phet.greenhouse.common.graphics.Graphic;
 import edu.colorado.phet.greenhouse.common.graphics.ImageGraphic;
 import edu.colorado.phet.greenhouse.model.GlassPane;
+import edu.colorado.phet.greenhouse.model.GreenhouseModel;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorber;
 import edu.colorado.phet.greenhouse.model.PhotonEmitter;
 import edu.colorado.phet.greenhouse.view.GlassPaneGraphic;
@@ -40,7 +50,7 @@ public class GlassPaneModule extends BaseGreenhouseModule {
     public GlassPaneModule() {
         super( GreenhouseResources.getString( "ModuleTitle.GlassLayerModule" ) );
 
-        // Make the background graphic first. It will be needed by teh glass pane graphics
+        // Make the background graphic first. It will be needed by the glass pane graphics.
         backgroundGraphic = new ImageGraphic( "glass-pane-background.gif",
                                               new Point2D.Double(
                                                       getGreenhouseModel().getBounds().getX(),
@@ -61,24 +71,35 @@ public class GlassPaneModule extends BaseGreenhouseModule {
             glassPanes.add( glassPane );
         }
 
-        // If the apparatus panelis resized, resize the backdrop graphic
-//        getApparatusPanel().addComponentListener( new ComponentAdapter() {
-//            public void componentResized( ComponentEvent e ) {
-//                Component component = e.getComponent();
-//                Rectangle2D newBounds = component.getBounds();
-//                if( backgroundGraphic != null ) {
-//                    BufferedImage bi = new ImageLoader().loadBufferedImage( "greenhouse/images/glass-pane-background.gif" );
-//                    double scale = newBounds.getWidth() / bi.getWidth();
-//                    AffineTransform atx = AffineTransform.getScaleInstance( scale, scale );
-//                    AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
-//                    bi = atxOp.filter( bi, null );
-//                    Rectangle2D modelBounds = ( (GreenhouseModel)getModel() ).getBounds();
-//                    getApparatusPanel().removeGraphic( backgroundGraphic );
-//                    backgroundGraphic = new ImageGraphic( bi, new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
-//                    getApparatusPanel().addGraphic( backgroundGraphic, ApparatusPanel.LAYER_DEFAULT - 1 );
-//                }
-//            }
-//        } );
+        // If the apparatus panel is resized, resize the backdrop graphic
+        getApparatusPanel().addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                Component component = e.getComponent();
+                Rectangle2D newBounds = component.getBounds();
+                if (newBounds.getWidth() <= 0 || newBounds.getHeight() <= 0){
+                	// Don't do anything if the size is unreasonable.
+                	return;
+                }
+                if( backgroundGraphic != null ) {
+                    BufferedImage bi;
+					try {
+						bi = ImageLoader.loadBufferedImage( "greenhouse/images/glass-pane-background.gif" );
+					} catch (IOException e1) {
+						System.err.println("ERROR: Unable to reload glass pane background image.");
+						e1.printStackTrace();
+						return;
+					}
+                    double scale = newBounds.getWidth() / bi.getWidth();
+                    AffineTransform atx = AffineTransform.getScaleInstance( scale, scale );
+                    AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
+                    bi = atxOp.filter( bi, null );
+                    Rectangle2D modelBounds = ( (GreenhouseModel)getModel() ).getBounds();
+                    getApparatusPanel().removeGraphic( backgroundGraphic );
+                    backgroundGraphic = new ImageGraphic( bi, new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
+                    getApparatusPanel().addGraphic( backgroundGraphic, ApparatusPanel.LAYER_DEFAULT - 1.5 );
+                }
+            }
+        } );
 
         // Set up the controls
         setControlPanel( new GlassPaneControlPanel( this ) );
