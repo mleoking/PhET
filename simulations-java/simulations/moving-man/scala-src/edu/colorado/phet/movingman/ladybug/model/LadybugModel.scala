@@ -25,6 +25,9 @@ class LadybugModel extends ObservableS {
 
   def addSamplePoint(pt: Point2D) = {
     samplePath += new Sample(time, pt)
+    while (samplePath.length > 100) {
+      samplePath.remove(0)
+    }
     //    println("samplecount=" + samplePath.length)
   }
 
@@ -70,30 +73,32 @@ class LadybugModel extends ObservableS {
     if (estimateVelocity(history.length - 1).magnitude > 1E-6)
       ladybug.setAngle(estimateAngle())
 
-    val delta = 10
-    val index = samplePath.length - delta / 2
-    if (samplePath.length > delta)
+    if (samplePath.length >= 1) {
+      //      val windowSize = 11 min samplePath.length
+      //      val windowSize = 7 min samplePath.length
+      val windowSize = 15 min samplePath.length
+      val index = (samplePath.length - (windowSize - 1) / 2 - 1)
       ladybug.setPosition(samplePath(index).location)
 
-    def estVel(index: Int,halfRange:Int) = {
-      val tx = for (item <- samplePath.slice(index - halfRange, index + halfRange)) yield new TimeData(item.location.getX, item.time)
-      val vx = MotionMath.estimateDerivative(tx.toArray)
+      def estVel(index: Int, halfRange: Int) = {
+        val tx = for (item <- samplePath.slice(index - halfRange, index + halfRange)) yield new TimeData(item.location.getX, item.time)
+        val vx = MotionMath.estimateDerivative(tx.toArray)
 
-      val ty = for (item <- samplePath.slice(index - halfRange, index + halfRange)) yield new TimeData(item.location.getY, item.time)
-      val vy = MotionMath.estimateDerivative(ty.toArray)
+        val ty = for (item <- samplePath.slice(index - halfRange, index + halfRange)) yield new TimeData(item.location.getY, item.time)
+        val vy = MotionMath.estimateDerivative(ty.toArray)
 
-      new Vector2D(vx, vy)
-    }
+        new Vector2D(vx, vy)
+      }
 
-    if (samplePath.length > 20) {
-      val ax1 = for (item <- -4 to 4) yield new TimeData(estVel(index+item,4).getX, samplePath(index+item).time)
-      val ay1 = for (item <- -4 to 4) yield new TimeData(estVel(index+item,4).getY, samplePath(index+item).time)
+      val h = (windowSize - 1) / 2
+      val ax1 = for (item <- -h to h) yield new TimeData(estVel(index + item, h).getX, samplePath(index + item).time)
+      val ay1 = for (item <- -h to h) yield new TimeData(estVel(index + item, h).getY, samplePath(index + item).time)
 
-      val ax = MotionMath.estimateDerivative(MotionMath.smooth(ax1.toArray,2))
-      val ay = MotionMath.estimateDerivative(MotionMath.smooth(ay1.toArray,2))
+      val ax = MotionMath.estimateDerivative(MotionMath.smooth(ax1.toArray, 2))
+      val ay = MotionMath.estimateDerivative(MotionMath.smooth(ay1.toArray, 2))
 
-      ladybug.setVelocity(estVel(index,delta/2))
-      ladybug.setAcceleration(new Vector2D(ax,ay))
+      ladybug.setVelocity(estVel(index, (windowSize - 1) / 2))
+      ladybug.setAcceleration(new Vector2D(ax, ay))
     }
   }
 
