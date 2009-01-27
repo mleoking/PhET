@@ -34,7 +34,8 @@ import edu.colorado.phet.greenhouse.model.ReflectivityAssessor;
  */
 public class EarthGraphic implements Graphic, ReflectivityAssessor {
 
-    private ApparatusPanel apparatusPanel;
+    private static final double Y_OFFSET = -1.0;
+	private ApparatusPanel apparatusPanel;
     Earth earth;
     private Rectangle2D.Double modelBounds;
     private static int numRedsToAve = 20;
@@ -43,13 +44,11 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
     private DiskGraphic disk;
     private Color earthBaseColor = new Color( 0, 180, 100 );
     private boolean isIceAge;
-    private BufferedImage gif;
-    private AffineTransform earthTx;
     private BufferedImage currentBackdropImage;
     private BufferedImage backgroundToday = GreenhouseResources.getImage( "today-2.gif" );
     private BufferedImage background1750 = GreenhouseResources.getImage( "1750-2.gif" );
     private BufferedImage backgroundIceAge = GreenhouseResources.getImage( "ice-age-2.gif" );
-    Point2D.Double pUtil = new Point2D.Double();
+    private Point2D.Double pUtil = new Point2D.Double();
     private double desiredImageWidth = 100;  // Somewhat arbitrary initial value, will be recalculated during init.
 
     /**
@@ -64,14 +63,10 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
         disk = new DiskGraphic( earth, earthBaseColor );
         apparatusPanel.addGraphic( disk, GreenhouseConfig.EARTH_BASE_LAYER );
 
-        this.gif = GreenhouseResources.getImage( "earth-a.gif" );
-        double gifToModelScale = ( 2 * earth.getRadius() ) / this.gif.getWidth();
         Point2D.Double earthLoc = new Point2D.Double( earth.getLocation().getX(), earth.getLocation().getY() );
         earthLoc.setLocation( earthLoc.getX() - earth.getRadius() / 2,
                               earthLoc.getY() + earth.getRadius() / 2 );
-        this.earthTx = AffineTransform.getScaleInstance( gifToModelScale, -gifToModelScale );
 //        System.out.println( "gifToModelScale=" + gifToModelScale );
-        earthTx.translate( -this.gif.getWidth() / 2, 0 );
         apparatusPanel.addGraphic( this, GreenhouseConfig.EARTH_BASE_LAYER + 1 );
 
         // If the apparatus panel is resized, resize the backdrop graphic
@@ -84,7 +79,7 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
                 	
                     // Set and scale the proper backdrop
                     if ( currentBackdropImage != null ) {
-                        setBackDropImage( currentBackdropImage, new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
+                        setBackDropImage( currentBackdropImage, new Point2D.Double( -modelBounds.getWidth() / 2, Y_OFFSET ) );
                     }
                 }
             }
@@ -135,19 +130,19 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
 
     public void setVirginEarth() {
         isIceAge = false;
-        setBackDropImage( backgroundToday, new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
+        setBackDropImage( backgroundToday, new Point2D.Double( -modelBounds.getWidth() / 2, Y_OFFSET ) );
         disk.setPaint( new Color( 51, 160, 44, 0 ) );
     }
 
     public void setToday() {
         isIceAge = false;
-        setBackDropImage( backgroundToday, new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
+        setBackDropImage( backgroundToday, new Point2D.Double( -modelBounds.getWidth() / 2, Y_OFFSET ) );
         disk.setPaint( new Color( 22, 174, 73, 0 ) );
     }
 
     public void set1750() {
         isIceAge = false;
-        setBackDropImage( background1750, new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
+        setBackDropImage( background1750, new Point2D.Double( -modelBounds.getWidth() / 2, Y_OFFSET ) );
         disk.setPaint( new Color( 25, 174, 73, 0 ) );
     }
 
@@ -158,28 +153,12 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
     }
 
 
-    public void setTomorrow() {
-        isIceAge = false;
-        setBackDropImage( null, new Point2D.Double( 0, .5 ) );
-    }
-
 //    public static ArrayList snowPoints = new ArrayList();
 
     public void setIceAge() {
         isIceAge = true;
-        setBackDropImage( backgroundIceAge, new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
+        setBackDropImage( backgroundIceAge, new Point2D.Double( -modelBounds.getWidth() / 2, Y_OFFSET ) );
         disk.setPaint( new Color( 149, 134, 78 ) );
-
-//        for( int i = 0; i < backdropGraphic.getBufferedImage().getWidth(); i++ ) {
-//            for( int j = 0; j < backdropGraphic.getBufferedImage().getHeight(); j++ ) {
-//                int result = backdropGraphic.getBufferedImage().getRGB( i, j );
-//                if( result == 0xFFFFFFFF ) {
-//                    Point2D.Double p = new Point2D.Double( i, j);
-        earthTx.transform( pUtil, null );
-//                    snowPoints.add( earthTx.transform( p,null ));
-//                }
-//            }
-//        }
     }
 
     private void setBackDrop( BufferedImage backdropImage, Point2D.Double location ) {

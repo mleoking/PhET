@@ -6,7 +6,10 @@
  */
 package edu.colorado.phet.greenhouse.view;
 
-import java.awt.*;
+import java.awt.AlphaComposite;
+import java.awt.Component;
+import java.awt.Composite;
+import java.awt.Graphics2D;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
@@ -30,6 +33,8 @@ import edu.colorado.phet.greenhouse.model.Atmosphere;
  */
 public class AtmosphereGraphic extends CompositeGraphic implements Observer {
 
+	private double Y_OFFSET = -1.0;
+	
     private Atmosphere atmosphere;
     private float greenhouseAlpha;
     private double maxAlpha = 0.4;
@@ -41,8 +46,8 @@ public class AtmosphereGraphic extends CompositeGraphic implements Observer {
         this.atmosphere = atmosphere;
         atmosphere.addObserver( this );
         BufferedImage atmosphereBI = GreenhouseResources.getImage( "pollution.gif" );
-        atmosphereImageGraphic = new ImageGraphic( atmosphereBI, new Point2D.Double( -modelBounds.getWidth() / 2, 0 ) );
-//        atmosphereImageGraphic = new ImageGraphic( atmosphereBI, new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
+        atmosphereImageGraphic = 
+        	new ImageGraphic( atmosphereBI, new Point2D.Double( -modelBounds.getWidth() / 2, Y_OFFSET ) );
         addGraphic( atmosphereImageGraphic, 1 );
         update();
 
@@ -62,8 +67,8 @@ public class AtmosphereGraphic extends CompositeGraphic implements Observer {
                         try {
                             bi = atxOp.filter( bi, null );
                             removeGraphic( atmosphereImageGraphic );
-                            atmosphereImageGraphic = new ImageGraphic( bi, new Point2D.Double( -modelBounds.getWidth() / 2, 0 ) );
-//                    atmosphereImageGraphic = new ImageGraphic( bi, new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
+                            atmosphereImageGraphic = 
+                            	new ImageGraphic( bi, new Point2D.Double( -modelBounds.getWidth() / 2, Y_OFFSET ) );
                             addGraphic( atmosphereImageGraphic, 1 );
                         }
                         catch( ImagingOpException ioe ) {
