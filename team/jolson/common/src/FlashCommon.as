@@ -145,6 +145,16 @@ class FlashCommon {
 		return ((new LocalConnection()).domain() == "phet.colorado.edu");
 	}
 	
+	// returns whether the sim was run from a full installation
+	public function fromFullInstallation() : Boolean {
+		return (_level0.simDeployment == "full-installation");
+	}
+	
+	// returns whether the sim was run from a standalone jar
+	public function fromStandaloneJar() : Boolean {
+		return (_level0.simDeployment == "standalone-jar");
+	}
+	
 	// DEVELOPMENT
 	public function onKeyDown() {
 		if(Key.getCode() == Key.PGUP) {
