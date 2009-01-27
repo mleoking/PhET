@@ -40,7 +40,7 @@ public class SessionMessage extends StatisticsMessage {
                 new StatisticsMessageField( "sim_distribution_tag", config.getDistributionTag() ),
                 new StatisticsMessageField( "sim_locale_language", PhetResources.readLocale().getLanguage() ),
                 new StatisticsMessageField( "sim_locale_country", PhetResources.readLocale().getCountry() ),
-                new StatisticsMessageField( "sim_deployment", DeploymentScenario.getName() ),
+                new StatisticsMessageField( "sim_deployment", DeploymentScenario.getInstance().toString() ),
                 new StatisticsMessageField( "sim_dev", config.isDev() + "" ),
                 
                 // Host data
