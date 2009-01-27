@@ -67,6 +67,8 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
   addControl(new MotionControlPanel(module.getLadybugMotionModel))
   addControl(createBox)
 
+  addControl(new LadybugDeveloperControl(module))
+
   class TraceControlPanel(m: PathVisibilityModel) extends BoxPanel(Orientation.Vertical) {
     contents += new Label("Trace") {font = new PhetFont(14, true)}
     contents += new MyRadioButton("Solid", {
