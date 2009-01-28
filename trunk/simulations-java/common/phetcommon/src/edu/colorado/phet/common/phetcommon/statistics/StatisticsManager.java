@@ -20,7 +20,7 @@ public class StatisticsManager {
     private final ISimInfo simInfo;
     private final Vector messageQueue = new Vector();
     private final StatisticsThread statisticsThread = new StatisticsThread();
-    private final IStatisticsService statisticsService = new PHPStatisticsService();
+    private final IStatisticsService statisticsService = new XMLStatisticsService();
 
     /* singleton */
     private StatisticsManager( ISimInfo simInfo ) {

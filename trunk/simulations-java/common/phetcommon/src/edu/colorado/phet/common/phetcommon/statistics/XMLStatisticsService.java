@@ -20,7 +20,18 @@ public class XMLStatisticsService implements IStatisticsService {
     }
 
     private String getXML( StatisticsMessage message ) {
-        return "<tracking message_type=\"session\" message_version=\"1\" user_preference_file_creation_time=\"1232324743056\" user_total_sessions=\"65\" sim_type=\"flash\" sim_project=\"pendulum%2Dlab\" sim_name=\"pendulum%2Dlab\" sim_major_version=\"1\" sim_minor_version=\"00\" sim_dev_version=\"01\" sim_svn_revision=\"22386\" sim_locale_language=\"en\" sim_locale_country=\"none\" sim_sessions_since=\"1\" sim_sessions_ever=\"62\" sim_deployment=\"phet%2Dwebsite\" sim_distribution_tag=\"none\" sim_dev=\"true\" host_flash_os=\"Linux%202%2E6%2E20%2D17%2Dgeneric\" host_flash_version=\"LNX%209%2C0%2C124%2C0\" host_locale_language=\"en\" host_flash_time_offset=\"420\" host_flash_accessibility=\"false\" host_flash_domain=\"localhost\" />";
+        String xml="<tracking ";
+        for (int i=0;i<message.getFieldCount();i++){
+            xml+=message.getField( i ).getName()+"=\""+encode(message.getField( i ).getValue()+"\"")+" ";
+        }
+        xml+="/>";
+//        return "<tracking message_type=\"session\" message_version=\"1\" user_preference_file_creation_time=\"111122223333\" user_total_sessions=\"65\" sim_type=\"flash\" sim_project=\"pendulum%2Dlab\" sim_name=\"pendulum%2Dlab\" sim_major_version=\"1\" sim_minor_version=\"00\" sim_dev_version=\"01\" sim_svn_revision=\"22386\" sim_locale_language=\"en\" sim_locale_country=\"none\" sim_sessions_since=\"1\" sim_sessions_ever=\"62\" sim_deployment=\"phet%2Dwebsite\" sim_distribution_tag=\"none\" sim_dev=\"true\" host_flash_os=\"Linux%202%2E6%2E20%2D17%2Dgeneric\" host_flash_version=\"LNX%209%2C0%2C124%2C0\" host_locale_language=\"en\" host_flash_time_offset=\"420\" host_flash_accessibility=\"false\" host_flash_domain=\"localhost\" />";
+        return xml;
+    }
+
+    private String encode( String value ) {
+        //TODO: turn - into %2D as in flash?
+        return value;
     }
 
     /*
