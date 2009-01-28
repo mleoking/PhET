@@ -44,12 +44,12 @@ class LicensingPage extends SitePage {
           </table>
 
               <em> What does this mean? </em><br>
-              The source code for the simulations is available from <a href="http://sourceforge.net/">SourceForge</a>. Anyone can have access to the source code and make changes in it. The source code for any changes someone makes to the software must, in turn, be made publicly available by the party that makes the changes.  </p>
+              The source code for the simulations is available from <a href="https://phet.unfuddle.com/projects/9404/repositories/23262/browse/head/trunk">Unfuddle</a>. Anyone can have access to the source code and make changes in it. The source code for any changes someone makes to the software must, in turn, be made publicly available by the party that makes the changes.  </p>
         </blockquote>
 
             <h1>Source Code</h1>
 
-            <p>For information on accessing PhET source code, please see <a href="http://phet.colorado.edu/about/faq.php#q1">here</a>.</p>
+            <p>For information on accessing PhET source code, please see <a href="../about/faq.php#q1">here</a>.</p>
 
 EOT;
     }

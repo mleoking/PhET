@@ -1896,3 +1896,11 @@ table.localized_sims td.odd {
 
 table.localized_sims td.even {
 }
+
+p.code {
+    background-color: #ddddff;
+    margin-left: 3em;
+    margin-right: 3em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
