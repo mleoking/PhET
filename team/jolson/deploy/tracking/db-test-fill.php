@@ -7,7 +7,7 @@
 	$link = setup_mysql();
 	
 	// number of simulated messages to be sent
-	$num_entries = 100;
+	$num_entries = 10000;
 	
 	
 	// percentage of sims that are flash (100-x % are java)
@@ -206,7 +206,7 @@
 		$simDistributionTag = "none";
 		if($simDeployment == "book-cd") {
 			if(rand(0, 99) < 40) {
-				$simDistributionTag = "Wiley";
+				$simDistributionTag = "O'Reilly";
 			} else {
 				$simDistributionTag = "Pierce";
 			}
