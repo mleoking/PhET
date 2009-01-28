@@ -80,7 +80,7 @@ BOO;
 	
 	// return either a secure quoted string, or NULL if the value is one of the strings mapped to NULL
 	function quote_null_if_none($value) {
-		if($value == "none" || $value == "null" || $value == "undefined") {
+		if($value == "none" || $value == "null" || $value == "undefined" || $value === "" || $value === false || $value === NULL) {
 			return "NULL";
 		} else {
 			return quo($value);
