@@ -204,11 +204,6 @@
             $version[$tag] = '';
         }
 
-        // TEMP: Flash versioning is inaccurate, return blank version
-        if ($simulation['sim_type'] == SIM_TYPE_FLASH) {
-            return $version;
-        }
-
         $handle = @fopen($properties_filename, "r");
 
         if ($handle) {
