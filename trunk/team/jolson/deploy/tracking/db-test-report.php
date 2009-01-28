@@ -36,7 +36,7 @@
 		while($get_info = mysql_fetch_row($result)) {
 			print "<tr>\n";
 			foreach($get_info as $field) {
-				print "\t<td><font face=arial size=2/>$field</font></td>\n";
+				print "\t<td><font face=arial size=2/>{$field}</font></td>\n";
 			}
 			print "</tr>\n";
 		}
@@ -46,7 +46,7 @@
 	}
 	
 	function display_explain($query) {
-		$result = mysql_query("EXPLAIN " . $query) or die("EXPLAIN ERROR");
+		$result = mysql_query("EXPLAIN {$query}") or die("EXPLAIN ERROR");
 		$num_rows = mysql_num_rows($result);
 		print "<h6>explanation:</h6>\n";
 		print "<table border=1>\n";
@@ -59,7 +59,7 @@
 		while($get_info = mysql_fetch_row($result)) {
 			print "<tr>\n";
 			foreach($get_info as $field) {
-				print "\t<td><font face=arial size=2/>$field</font></td>\n";
+				print "\t<td><font face=arial size=2/>{$field}</font></td>\n";
 			}
 			print "</tr>\n";
 		}

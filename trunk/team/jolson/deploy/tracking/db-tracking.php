@@ -1,4 +1,8 @@
 <?php
+	
+	// code that is included for all tracking-database functionality
+	// handles insertion of messages
+	
 	include("db-tracking-login.php");
 	
 	// define sim_type to correspond with website code
