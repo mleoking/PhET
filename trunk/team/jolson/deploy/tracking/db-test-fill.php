@@ -7,7 +7,7 @@
 	$link = setup_mysql();
 	
 	// number of simulated messages to be sent
-	$num_entries = 3000;
+	$num_entries = 100;
 	
 	
 	// percentage of sims that are flash (100-x % are java)
@@ -196,10 +196,10 @@
 			$simDeployment = 'external-website';
 		}
 		if(rand(0, 99) < 30) {
-			$simDeployment = 'standalone-install';
+			$simDeployment = 'standalone-jar';
 		}
 		if(rand(0, 99) < 60) {
-			$simDeployment = 'full-install';
+			$simDeployment = 'full-installation';
 		}
 		
 		// distribution tag
@@ -281,31 +281,33 @@
 			$hostFlashOS = $subOS;
 			
 			$sessionID = insert_flash_message(
-				$messageVersion,
-				$simProject,
-				$simName,
-				$simMajorVersion,
-				$simMinorVersion,
-				$simDevVersion,
-				$simSvnRevision,
-				$simLocaleLanguage,
-				$simLocaleCountry,
-				$simSessionsSince,
-				$simSessionsEver,
-				$simDeployment,
-				$simDistributionTag,
-				$simDev,
-				$hostLocaleLanguage,
-				$hostLocaleCountry,
-				$hostFlashVersionType,
-				$hostFlashVersionMajor,
-				$hostFlashVersionMinor,
-				$hostFlashVersionRevision,
-				$hostFlashVersionBuild,
-				$hostFlashTimeOffset,
-				$hostFlashAccessibility,
-				$hostFlashDomain,
-				$hostFlashOS
+				array (
+					"message_version" => $messageVersion,
+					"sim_project" => $simProject,
+					"sim_name" => $simName,
+					"sim_major_version" => $simMajorVersion,
+					"sim_minor_version" => $simMinorVersion,
+					"sim_dev_version" => $simDevVersion,
+					"sim_svn_revision" => $simSvnRevision,
+					"sim_locale_language" => $simLocaleLanguage,
+					"sim_locale_country" => $simLocaleCountry,
+					"sim_sessions_since" => $simSessionsSince,
+					"sim_sessions_ever" => $simSessionsEver,
+					"sim_deployment" => $simDeployment,
+					"sim_distribution_tag" => $simDistributionTag,
+					"sim_dev" => $simDev,
+					"host_locale_language" => $hostLocaleLanguage,
+					"host_locale_country" => $hostLocaleCountry,
+					"host_flash_version_type" => $hostFlashVersionType,
+					"host_flash_version_major" => $hostFlashVersionMajor,
+					"host_flash_version_minor" => $hostFlashVersionMinor,
+					"host_flash_version_revision" => $hostFlashVersionRevision,
+					"host_flash_version_build" => $hostFlashVersionBuild,
+					"host_flash_time_offset" => $hostFlashTimeOffset,
+					"host_flash_accessibility" => $hostFlashAccessibility,
+					"host_flash_domain" => $hostFlashDomain,
+					"host_flash_os" => $hostFlashOS
+				)
 			);
 			
 			// fix timestamp
@@ -357,31 +359,33 @@
 			}
 			
 			$sessionID = insert_java_message(
-				$messageVersion,
-				$simProject,
-				$simName,
-				$simMajorVersion,
-				$simMinorVersion,
-				$simDevVersion,
-				$simSvnRevision,
-				$simLocaleLanguage,
-				$simLocaleCountry,
-				$simSessionsSince,
-				$simSessionsEver,
-				$simDeployment,
-				$simDistributionTag,
-				$simDev,
-				$hostLocaleLanguage,
-				$hostLocaleCountry,
-				$hostJavaOSName,
-				$hostJavaOSVersion,
-				$hostJavaOSArch,
-				$hostJavaVendor,
-				$hostJavaVersionMajor,
-				$hostJavaVersionMinor,
-				$hostJavaVersionMaintenance,
-				$hostJavaWebstartVersion,
-				$hostJavaTimezone
+				array (
+					"message_version" => $messageVersion,
+					"sim_project" => $simProject,
+					"sim_name" => $simName,
+					"sim_major_version" => $simMajorVersion,
+					"sim_minor_version" => $simMinorVersion,
+					"sim_dev_version" => $simDevVersion,
+					"sim_svn_revision" => $simSvnRevision,
+					"sim_locale_language" => $simLocaleLanguage,
+					"sim_locale_country" => $simLocaleCountry,
+					"sim_sessions_since" => $simSessionsSince,
+					"sim_sessions_ever" => $simSessionsEver,
+					"sim_deployment" => $simDeployment,
+					"sim_distribution_tag" => $simDistributionTag,
+					"sim_dev" => $simDev,
+					"host_locale_language" => $hostLocaleLanguage,
+					"host_locale_country" => $hostLocaleCountry,
+					"host_java_os_name" => $hostJavaOSName,
+					"host_java_os_version" => $hostJavaOSVersion,
+					"host_java_os_arch" => $hostJavaOSArch,
+					"host_java_vendor" => $hostJavaVendor,
+					"host_java_version_major" => $hostJavaVersionMajor,
+					"host_java_version_minor" => $hostJavaVersionMinor,
+					"host_java_version_maintenance" => $hostJavaVersionMaintenance,
+					"host_java_webstart_version" => $hostJavaWebstartVersion,
+					"host_java_timezone" => $hostJavaTimezone
+				)
 			);
 			
 			// fix timestamp
@@ -395,7 +399,7 @@
 	for($i = 0; $i < $num_entries; $i++) {
 		$firstOffset = rand(0, 11231)*rand(0, 11231);
 		$userPreferencesFileCreationTime = time() - $firstOffset;
-		$userTotalSessions = rand(0, 10) * rand(1, 10) * rand(0, 1) + rand(1, 30);
+		$userTotalSessions = rand(0, 10) * rand(1, 10) * rand(0, 1) * rand(0, 1) * rand(0, 1) + rand(1, 30);
 		if(rand(0, 99) < 7) {
 			$userTotalSessions = 1;
 		}
@@ -406,10 +410,10 @@
 			$last_time = time() - $firstOffset / (rand(1, 3) + rand(0, 1) * rand(5, 30));
 		}
 		$values = array(
-			new Field('user_preferences_file_creation_time', $userPreferencesFileCreationTime),
-			new Field('user_total_sessions', $userTotalSessions),
-			new Field('first_seen_month', quo(date("Y-m-01", $first_time))),
-			new Field('last_seen_month', quo(date("Y-m-01", $last_time)))
+			'user_preferences_file_creation_time' => $userPreferencesFileCreationTime,
+			'user_total_sessions' => $userTotalSessions,
+			'first_seen_month' => quo(date("Y-m-01", $first_time)),
+			'last_seen_month' => quo(date("Y-m-01", $last_time))
 		);
 		$insert_query = query_from_values("user", $values);
 		phet_mysql_query($insert_query);
