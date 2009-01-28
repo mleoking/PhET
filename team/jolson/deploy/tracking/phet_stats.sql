@@ -4,7 +4,7 @@
 
 # user table, stores information about unique users by
 # storing the user_preferences_file_creation_time
-DROP TABLE user;
+DROP TABLE IF EXISTS user;
 CREATE TABLE user (
 	user_preferences_file_creation_time BIGINT UNSIGNED NOT NULL PRIMARY KEY,
 	
@@ -21,38 +21,38 @@ CREATE TABLE user (
 
 # normalized tables for use in the session table
 
-DROP TABLE sim_project;
+DROP TABLE IF EXISTS sim_project;
 CREATE TABLE sim_project (
 	id MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	name CHAR(50)
 );
 
-DROP TABLE sim_name;
+DROP TABLE IF EXISTS sim_name;
 CREATE TABLE sim_name (
 	id MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	name CHAR(50)
 );
 
-DROP TABLE deployment;
+DROP TABLE IF EXISTS deployment;
 CREATE TABLE deployment (
 	id MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	name VARCHAR(40)
 );
 
-DROP TABLE distribution_tag;
+DROP TABLE IF EXISTS distribution_tag;
 CREATE TABLE distribution_tag (
 	id MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	name VARCHAR(40)
 );
 
-DROP TABLE simplified_os;
+DROP TABLE IF EXISTS simplified_os;
 CREATE TABLE simplified_os (
 	id TINYINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	name VARCHAR(50)
 );
 
 # session table. stores information relevant to both java and flash simulations
-DROP TABLE session;
+DROP TABLE IF EXISTS session;
 CREATE TABLE session (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	
@@ -119,19 +119,19 @@ CREATE TABLE session (
 
 # tables normalized, for session_flash_info table
 
-DROP TABLE flash_version_type;
+DROP TABLE IF EXISTS flash_version_type;
 CREATE TABLE flash_version_type (
 	id MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	name VARCHAR(10)
 );
 
-DROP TABLE flash_domain;
+DROP TABLE IF EXISTS flash_domain;
 CREATE TABLE flash_domain (
 	id MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	name VARCHAR(50)
 );
 
-DROP TABLE flash_os;
+DROP TABLE IF EXISTS flash_os;
 CREATE TABLE flash_os (
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	name VARCHAR(50)
@@ -139,7 +139,7 @@ CREATE TABLE flash_os (
 
 
 # stores information specific to flash simulations
-DROP TABLE session_flash_info;
+DROP TABLE IF EXISTS session_flash_info;
 CREATE TABLE session_flash_info (
 	session_id INT NOT NULL PRIMARY KEY,
 	
@@ -174,37 +174,37 @@ CREATE TABLE session_flash_info (
 
 # normalized tables for session_java_info
 
-DROP TABLE java_os_name;
+DROP TABLE IF EXISTS java_os_name;
 CREATE TABLE java_os_name (
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	name VARCHAR(50)
 );
 
-DROP TABLE java_os_version;
+DROP TABLE IF EXISTS java_os_version;
 CREATE TABLE java_os_version (
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	name VARCHAR(50)
 );
 
-DROP TABLE java_os_arch;
+DROP TABLE IF EXISTS java_os_arch;
 CREATE TABLE java_os_arch (
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	name VARCHAR(50)
 );
 
-DROP TABLE java_vendor;
+DROP TABLE IF EXISTS java_vendor;
 CREATE TABLE java_vendor (
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	name VARCHAR(50)
 );
 
-DROP TABLE java_webstart_version;
+DROP TABLE IF EXISTS java_webstart_version;
 CREATE TABLE java_webstart_version (
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	name VARCHAR(50)
 );
 
-DROP TABLE java_timezone;
+DROP TABLE IF EXISTS java_timezone;
 CREATE TABLE java_timezone (
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	name VARCHAR(50)
@@ -213,7 +213,7 @@ CREATE TABLE java_timezone (
 
 # stores information specific to java simulations
 
-DROP TABLE session_java_info;
+DROP TABLE IF EXISTS session_java_info;
 CREATE TABLE session_java_info (
 	session_id INT NOT NULL PRIMARY KEY,
 	
@@ -252,7 +252,7 @@ CREATE TABLE session_java_info (
 
 /*
 # recombines information about all simulations
-DROP VIEW simulation;
+DROP VIEW IF EXISTS simulation;
 CREATE VIEW simulation AS (
 	SELECT
 		session.id,
@@ -287,7 +287,7 @@ CREATE VIEW simulation AS (
 );
 
 # recombines information about flash simulations. holds all the data for flash simulations that simulation does
-DROP VIEW flash_simulation;
+DROP VIEW IF EXISTS flash_simulation;
 CREATE VIEW flash_simulation AS (
 	SELECT
 		session.id,
@@ -335,7 +335,7 @@ CREATE VIEW flash_simulation AS (
 );
 
 # recombines information about java simulations. holds all the data for java simulations that simulation does
-DROP VIEW java_simulation;
+DROP VIEW IF EXISTS java_simulation;
 CREATE VIEW java_simulation AS (
 	SELECT
 		session.id,
