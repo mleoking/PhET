@@ -1,8 +1,6 @@
 package edu.colorado.phet.updater;
 
 import java.io.*;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 /**
@@ -54,15 +52,7 @@ public class UpdaterUtils {
      */
     public static File getCodeSource() {
         URL url = UpdaterUtils.class.getProtectionDomain().getCodeSource().getLocation();
-        try {
-            URI uri = new URI( url.toString() );
-            return new File( uri.getPath() );
-        }
-        catch( URISyntaxException e ) {
-            System.out.println( e.getMessage() );
-            e.printStackTrace();
-            throw new RuntimeException( e );
-        }
+        return new File( url.getFile() );
     }
     
     // copied from phetcommon StringUtil
