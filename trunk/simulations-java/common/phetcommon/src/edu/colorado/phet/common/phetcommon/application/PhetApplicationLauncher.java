@@ -100,8 +100,6 @@ public class PhetApplicationLauncher {
             SwingUtilities.invokeAndWait( new Runnable() {
                 public void run() {
                     
-                    DeploymentScenario.getInstance();//XXX testing
-
                     config.getLookAndFeel().initLookAndFeel();
                     if ( applicationConstructor != null ) {
 
