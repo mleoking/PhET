@@ -78,6 +78,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     private static final Color  HALF_LIFE_LINE_COLOR = new Color (238, 0, 0);
     private static final Color  HALF_LIFE_TEXT_COLOR = HALF_LIFE_LINE_COLOR;
     private static final Font   HALF_LIFE_FONT = new PhetFont( Font.BOLD, 16 );
+    private static final double RESIZE_HANDLE_SIZE = 50;
 
     // Constants that control the location of the origin.
     private static final double X_ORIGIN_PROPORTION = 0.20;
@@ -336,7 +337,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _nonPickableChartNode.addChild( _halfLifeMarkerLine );
         
         // Create the handle that will allow the user to control the half life.
-        _halfLifeHandleNode = new ResizeArrowNode(25, 0, Color.GREEN, Color.YELLOW);
+        _halfLifeHandleNode = new ResizeArrowNode(RESIZE_HANDLE_SIZE, 0, Color.GREEN, Color.YELLOW);
         _pickableChartNode.addChild( _halfLifeHandleNode );
         _halfLifeHandleNode.addInputEventListener(new PBasicInputEventHandler(){
         	boolean halfLifeChanged;
