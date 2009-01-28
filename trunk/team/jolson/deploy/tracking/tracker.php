@@ -1,5 +1,4 @@
-
-<html><?php
+<?php
 	
 	// receives XML tracking messages, and inserts them into the database
 	// can also record raw and parsed information for debugging purposes
@@ -10,6 +9,9 @@
 	// whether or not logging the messages is enabled. DO NOT ENABLE FOR LIVE VERSION
 	$raw_tracking = true;
 	
+	
+	
+	print "<html>";
 	
 	// load the xml from postdata
 	$xml = simplexml_load_string($HTTP_RAW_POST_DATA);
@@ -133,5 +135,6 @@
 	
 	print "<p>Received Successfully</p>";
 	
+	print "</html>";
+	
 ?>
-</html>
