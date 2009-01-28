@@ -136,6 +136,7 @@ class UpdateHandler {
 		}
 	}
 	
+	// called if the user selected a manual check for updates and they are running the latest version
 	public function updatesNotAvailable() : Void {
 		debug("UpdateHandler: Updates Not Available (dialog)!\n");
 		
@@ -143,6 +144,19 @@ class UpdateHandler {
 		// only called if an update is manually checked for
 		_level0.preferencesDialog.updatesButton.setText("No Updates Available");
 		_level0.preferencesDialog.updatesButton.setEnabled(false);
+	}
+	
+	// get the URL of the simulation on the website
+	public function simWebsiteURL() : String {
+		var str : String = "http://phet.colorado.edu/simulations/sims.php?sim=";
+		for(var i : Number = 0; i < _level0.simName.length; i++) {
+			if(_level0.simName.charAt(i) == "-") {
+				str += "_";
+			} else {
+				str += _level0.simName.charAt(i);
+			}
+		}
+		return str;
 	}
 }
 
