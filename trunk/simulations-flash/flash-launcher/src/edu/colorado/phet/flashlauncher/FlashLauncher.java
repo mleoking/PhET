@@ -166,15 +166,7 @@ public class FlashLauncher {
      */
     private File getJARFile() {
         URL url = FlashLauncher.class.getProtectionDomain().getCodeSource().getLocation();
-        try {
-            URI uri = new URI( url.toString() );
-            return new File( uri.getPath() );
-        }
-        catch( URISyntaxException e ) {
-            println( e.getMessage() );
-            e.printStackTrace();
-            throw new RuntimeException( e );
-        }
+        return new File( url.getFile() );
     }
 
     public static void main( String[] args ) throws IOException {
