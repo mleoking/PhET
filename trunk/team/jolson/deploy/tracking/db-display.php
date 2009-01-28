@@ -8,9 +8,9 @@
 	
 	// used to extract fieldnames and display each table
 	function display_table($tablename) {
-		$result = mysql_query("SELECT * FROM $tablename") or die("SELECT ERROR");
+		$result = mysql_query("SELECT * FROM {$tablename}") or die("SELECT ERROR");
 		$num_rows = mysql_num_rows($result);
-		print "<h3>$tablename</h3>\n";
+		print "<h3>{$tablename}</h3>\n";
 		print "<table border=1>\n";
 		$fields_num = mysql_num_fields($result);
 		for($i=0; $i<$fields_num; $i++) {
@@ -21,7 +21,7 @@
 		while($get_info = mysql_fetch_row($result)) {
 			print "<tr>\n";
 			foreach($get_info as $field) {
-				print "\t<td><font face=arial size=2/>$field</font></td>\n";
+				print "\t<td><font face=arial size=2/>{$field}</font></td>\n";
 			}
 			print "</tr>\n";
 		}
