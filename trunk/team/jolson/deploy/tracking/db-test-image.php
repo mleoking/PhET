@@ -27,7 +27,7 @@
 	$DAYOFYEAR = 2;
 	$SUM = 3;
 	
-	echo mysql_error();
+	print mysql_error();
 	
 	$num_rows = mysql_num_rows($result);
 	
@@ -39,9 +39,9 @@
 		$row = mysql_fetch_row($result);
 		array_push($arr, $row);
 		
-		//echo "<p>";
+		//print "<p>";
 		//print_r($row);
-		//echo "</p>";
+		//print "</p>";
 		
 		if($row[$SUM] > $max_val) {
 			$max_val = $row[$SUM];
@@ -99,9 +99,9 @@
 	
 	for($i = 0; $i < $num_rows; $i++) {
 		$row = mysql_fetch_row($result);
-		//echo "<p>";
+		//print "<p>";
 		//print_r($row);
-		//echo "</p>";
+		//print "</p>";
 		imageline($im, $i, $height, $i, $height - $row[3] / 100, $black);
 	}
 	

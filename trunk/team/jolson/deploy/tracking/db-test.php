@@ -9,14 +9,14 @@
 	
 	$result = mysql_query("EXPLAIN SELECT SQL_NO_CACHE COUNT(*) FROM session WHERE sim_dev = false;");
 	print_r($result);
-	echo "<br/>";
+	print "<br/>";
 	$arr = mysql_fetch_array($result);
 	print_r($arr);
 	
-	echo "<br/>";
+	print "<br/>";
 	print_r($arr['0']);
 	
-	echo "<br/>";
+	print "<br/>";
 	print_r($arr['1']);
 	
 	
@@ -92,7 +92,7 @@
 	}
 	$arr = array_fill(0, 100, 50);
 	$randarr = array_map(boo, $arr);
-	echo simple_graph($randarr, 100, 10, '000000', 'FFFFFF');
+	print simple_graph($randarr, 100, 10, '000000', 'FFFFFF');
 ?>
 </body>
 </html>

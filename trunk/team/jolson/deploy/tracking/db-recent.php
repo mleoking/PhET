@@ -14,9 +14,9 @@
 		$fields_num = mysql_num_fields($result);
 		for($i=0; $i<$fields_num; $i++) {
 			$field = mysql_fetch_field($result);
-			echo "<td><font face=arial size=1>{$field->name}</font></td>";
+			print "<td><font face=arial size=1>{$field->name}</font></td>";
 		}
-		echo "</tr>\n";
+		print "</tr>\n";
 		while($get_info = mysql_fetch_row($result)) {
 			print "<tr>\n";
 			foreach($get_info as $field) {

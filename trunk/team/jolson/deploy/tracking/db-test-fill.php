@@ -106,7 +106,7 @@
 		// report progress
 		/*
 		if($i % 10000 == 0) {
-			echo "<p>" . $i . "</p>";
+			print "<p>" . $i . "</p>";
 		}
 		*/
 		
