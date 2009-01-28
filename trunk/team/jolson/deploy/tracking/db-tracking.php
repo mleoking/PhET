@@ -115,52 +115,33 @@
 	}
 	
 	// insert data into the session table
-	function insert_session(
-		$messageVersion,
-		$simType,
-		$simProject,
-		$simName,
-		$simMajorVersion,
-		$simMinorVersion,
-		$simDevVersion,
-		$simSvnRevision,
-		$simLocaleLanguage,
-		$simLocaleCountry,
-		$simSessionsSince,
-		$simSessionsEver,
-		$simDeployment,
-		$simDistributionTag,
-		$simDev,
-		$hostLocaleLanguage,
-		$hostLocaleCountry,
-		$hostSimplifiedOS
-	) {
+	function insert_session($data) {
 		// get IDs from normalized tables
-		$simProjectID = get_id_value("sim_project", "id", "name", quo($simProject));
-		$simNameID = get_id_value("sim_name", "id", "name", quo($simName));
-		$simDeploymentID = get_id_value("deployment", "id", "name", quote_null_if_none($simDeployment));
-		$simDistributionTagID = get_id_value("distribution_tag", "id", "name", quote_null_if_none($simDistributionTag));
-		$hostSimplifiedOSID = get_id_value("simplified_os", "id", "name", quo($hostSimplifiedOS));
+		$sim_project_ID = get_id_value("sim_project", "id", "name", quo($data['sim_project']));
+		$sim_name_ID = get_id_value("sim_name", "id", "name", quo($data['sim_name']));
+		$sim_deployment_ID = get_id_value("deployment", "id", "name", quote_null_if_none($data['sim_deployment']));
+		$sim_distribution_tag_ID = get_id_value("distribution_tag", "id", "name", quote_null_if_none($data['sim_distribution_tag']));
+		$host_simplified_os_ID = get_id_value("simplified_os", "id", "name", quo($data['host_simplified_os']));
 		
 		$values = array(
-			new Field('message_version', $messageVersion),
-			new Field('sim_type', $simType),
-			new Field('sim_project', $simProjectID),
-			new Field('sim_name', $simNameID),
-			new Field('sim_major_version', $simMajorVersion),
-			new Field('sim_minor_version', $simMinorVersion),
-			new Field('sim_dev_version', $simDevVersion),
-			new Field('sim_svn_revision', $simSvnRevision),
-			new Field('sim_locale_language', quo($simLocaleLanguage)),
-			new Field('sim_locale_country', quote_null_if_none($simLocaleCountry)),
-			new Field('sim_sessions_since', $simSessionsSince),
-			new Field('sim_sessions_ever', $simSessionsEver),
-			new Field('sim_deployment', $simDeploymentID),
-			new Field('sim_distribution_tag', $simDistributionTagID),
-			new Field('sim_dev', $simDev),
-			new Field('host_locale_language', quo($hostLocaleLanguage)),
-			new Field('host_locale_country', quote_null_if_none($hostLocaleCountry)),
-			new Field('host_simplified_os', $hostSimplifiedOSID),
+			new Field('message_version', $data['message_version']),
+			new Field('sim_type', $data['sim_type']),
+			new Field('sim_project', $sim_project_ID),
+			new Field('sim_name', $sim_name_ID),
+			new Field('sim_major_version', $data['sim_major_version']),
+			new Field('sim_minor_version', $data['sim_minor_version']),
+			new Field('sim_dev_version', $data['sim_dev_version']),
+			new Field('sim_svn_revision', $data['sim_svn_revision']),
+			new Field('sim_locale_language', quo($data['sim_locale_language'])),
+			new Field('sim_locale_country', quote_null_if_none($data['sim_locale_country'])),
+			new Field('sim_sessions_since', $data['sim_sessions_since']),
+			new Field('sim_sessions_ever', $data['sim_sessions_ever']),
+			new Field('sim_deployment', $sim_deployment_ID),
+			new Field('sim_distribution_tag', $sim_distribution_tag_ID),
+			new Field('sim_dev', $data['sim_dev']),
+			new Field('host_locale_language', quo($data['host_locale_language'])),
+			new Field('host_locale_country', quote_null_if_none($data['host_locale_country'])),
+			new Field('host_simplified_os', $host_simplified_os_ID),
 		);
 		
 		// build query from values to be inserted
@@ -174,34 +155,23 @@
 	}
 	
 	// insert data into the flash_info table
-	function insert_flash_info(
-		$sessionID,
-		$hostFlashVersionType,
-		$hostFlashVersionMajor,
-		$hostFlashVersionMinor,
-		$hostFlashVersionRevision,
-		$hostFlashVersionBuild,
-		$hostFlashTimeOffset,
-		$hostFlashAccessibility,
-		$hostFlashDomain,
-		$hostFlashOS
-	) {
+	function insert_flash_info($data) {
 		// get IDs from normalized tables
-		$hostFlashVersionTypeID = get_id_value("flash_version_type", "id", "name", quo($hostFlashVersionType));
-		$hostFlashDomainID = get_id_value("flash_domain", "id", "name", quo($hostFlashDomain));
-		$hostFlashOSID = get_id_value("flash_os", "id", "name", quo($hostFlashOS));
+		$host_flash_version_type_ID = get_id_value("flash_version_type", "id", "name", quo($data['host_flash_version_type']));
+		$host_flash_domain_ID = get_id_value("flash_domain", "id", "name", quo($data['host_flash_domain']));
+		$host_flash_os_ID = get_id_value("flash_os", "id", "name", quo($data['host_flash_os']));
 		
 		$values = array(
-			new Field('session_id', $sessionID),
-			new Field('host_flash_version_type', $hostFlashVersionTypeID),
-			new Field('host_flash_version_major', $hostFlashVersionMajor),
-			new Field('host_flash_version_minor', $hostFlashVersionMinor),
-			new Field('host_flash_version_revision', $hostFlashVersionRevision),
-			new Field('host_flash_version_build', $hostFlashVersionBuild),
-			new Field('host_flash_time_offset', $hostFlashTimeOffset),
-			new Field('host_flash_accessibility', $hostFlashAccessibility),
-			new Field('host_flash_domain', $hostFlashDomainID),
-			new Field('host_flash_os', $hostFlashOSID)
+			new Field('session_id', $data['session_id']),
+			new Field('host_flash_version_type', $host_flash_version_type_ID),
+			new Field('host_flash_version_major', $data['host_flash_version_major']),
+			new Field('host_flash_version_minor', $data['host_flash_version_minor']),
+			new Field('host_flash_version_revision', $data['host_flash_version_revision']),
+			new Field('host_flash_version_build', $data['host_flash_version_build']),
+			new Field('host_flash_time_offset', $data['host_flash_time_offset']),
+			new Field('host_flash_accessibility', $data['host_flash_accessibility']),
+			new Field('host_flash_domain', $host_flash_domain_ID),
+			new Field('host_flash_os', $host_flash_os_ID)
 		);
 		
 		// build query from values to be inserted
@@ -259,53 +229,32 @@
 	}
 	
 	// insert an entire flash message
-	function insert_flash_message(
-		$messageVersion,
-		$simProject,
-		$simName,
-		$simMajorVersion,
-		$simMinorVersion,
-		$simDevVersion,
-		$simSvnRevision,
-		$simLocaleLanguage,
-		$simLocaleCountry,
-		$simSessionsSince,
-		$simSessionsEver,
-		$simDeployment,
-		$simDistributionTag,
-		$simDev,
-		$hostLocaleLanguage,
-		$hostLocaleCountry,
-		$hostFlashVersionType,
-		$hostFlashVersionMajor,
-		$hostFlashVersionMinor,
-		$hostFlashVersionRevision,
-		$hostFlashVersionBuild,
-		$hostFlashTimeOffset,
-		$hostFlashAccessibility,
-		$hostFlashDomain,
-		$hostFlashOS
-	) {
+	function insert_flash_message($data) {
 		// this is a Flash sim
-		$simType = quo("flash");
+		$data['sim_type'] = quo("flash");
 		
 		// calculate hostSimplifiedOS
-		$hostSimplifiedOS = "Unknown";
-		if($hostFlashVersionType == 'WIN') {
-			$hostSimplifiedOS = "Windows - General";
-			if(stripos($hostFlashOS, 'Vista') !== false) {
-				$hostSimplifiedOS = "Windows - Vista";
-			} else if(stripos($hostFlashOS, 'XP') !== false) {
-				$hostSimplifiedOS = "Windows - XP";
+		$data['host_simplified_os'] = "Unknown";
+		$type = $data['host_flash_version_type'];
+		if($type == 'WIN') {
+			$data['host_simplified_os'] = "Windows - General";
+			$os = $data['host_flash_os'];
+			if(stripos($os, 'Vista') !== false) {
+				$data['host_simplified_os'] = "Windows - Vista";
+			} else if(stripos($os, 'XP') !== false) {
+				$data['host_simplified_os'] = "Windows - XP";
 			}
-		} else if($hostFlashVersionType == 'MAC') {
-			$hostSimplifiedOS = "Mac - General";
-		} else if($hostFlashVersionType == 'LNX') {
-			$hostSimplifiedOS = "Linux - General";
-		} else if($hostFlashVersionType == 'UNIX') {
-			$hostSimplifiedOS = "Unix - General";
+		} else if($type == 'MAC') {
+			$data['host_simplified_os'] = "Mac - General";
+		} else if($type == 'LNX') {
+			$data['host_simplified_os'] = "Linux - General";
+		} else if($type == 'UNIX') {
+			$data['host_simplified_os'] = "Unix - General";
 		}
 		
+		$sessionID = insert_session($data);
+		
+		/*
 		// insert session
 		$sessionID = insert_session(
 			$messageVersion,
@@ -327,6 +276,13 @@
 			$hostLocaleCountry,
 			$hostSimplifiedOS
 		);
+		*/
+		
+		$data['session_id'] = $sessionID;
+		
+		insert_flash_info($data);
+		
+		/*
 		
 		// insert into flash_into with the session ID from above
 		insert_flash_info(
@@ -341,6 +297,7 @@
 			$hostFlashDomain,
 			$hostFlashOS
 		);
+		*/
 		
 		return $sessionID;
 	}
