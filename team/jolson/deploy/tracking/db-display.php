@@ -1,7 +1,3 @@
-<html>
-<head><title>Tracking Data</title></head>
-<body>
-<h1>Raw Database Values</h1>
 <?php
 	
 	// script to display the raw values in the database
@@ -34,6 +30,13 @@
 		print "<br/>\n";
 	}
 	
+	print <<<EOT
+<html>
+<head><title>Tracking Data</title></head>
+<body>
+<h1>Raw Database Values</h1>
+EOT;
+	
 	display_table("user");
 	display_table("sim_project");
 	display_table("sim_name");
@@ -55,6 +58,5 @@
 	
 	mysql_close($link);
 	
+	print "</body></html>";
 ?>
-</body>
-</html>
