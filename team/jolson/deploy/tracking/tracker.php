@@ -97,38 +97,6 @@
 				)
 			);
 			
-			/*
-			// insert the flash message
-			insert_flash_message(
-				1, //$messageVersion,
-				sanitize($xml, "sim_project"), //$simProject,
-				sanitize($xml, "sim_name"), //$simName,
-				sanitize($xml, "sim_major_version"), //$simMajorVersion,
-				sanitize($xml, "sim_minor_version"), //$simMinorVersion,
-				sanitize($xml, "sim_dev_version"), //$simDevVersion,
-				sanitize($xml, "sim_svn_revision"), //$simSvnRevision,
-				sanitize($xml, "sim_locale_language"), //$simLocaleLanguage,
-				sanitize($xml, "sim_locale_country"), //$simLocaleCountry,
-				sanitize($xml, "sim_sessions_since"), //$simSessionsSince,
-				sanitize($xml, "sim_sessions_ever"), //$simSessionsEver,
-				sanitize($xml, "sim_deployment"), //$simDeployment,
-				sanitize($xml, "sim_distribution_tag"), //$simDistributionTag,
-				sanitize($xml, "sim_dev"), //$simDev,
-				sanitize($xml, "host_locale_language"), //$hostLocaleLanguage,
-				"none", //$hostLocaleCountry,
-				mysql_real_escape_string($version_left), //$hostFlashVersionType,
-				mysql_real_escape_string($version_numbers[0]), //$hostFlashVersionMajor,
-				mysql_real_escape_string($version_numbers[1]), //$hostFlashVersionMinor,
-				mysql_real_escape_string($version_numbers[2]), //$hostFlashVersionRevision,
-				mysql_real_escape_string($version_numbers[3]), //$hostFlashVersionBuild,
-				sanitize($xml, "host_flash_time_offset"), //$hostFlashTimeOffset,
-				sanitize($xml, "host_flash_accessibility"), //$hostFlashAccessibility,
-				sanitize($xml, "host_flash_domain"), //$hostFlashDomain,
-				sanitize($xml, "host_flash_os") //$hostFlashOS
-			);
-			*/
-			
-			
 		}
 	} else if($xml["sim_type"] == "java") {
 		
@@ -142,32 +110,35 @@
 			);
 			
 			insert_java_message(
-				1, //$messageVersion,
-				sanitize($xml, "sim_project"), //$simProject,
-				sanitize($xml, "sim_name"), //$simName,
-				sanitize($xml, "sim_major_version"), //$simMajorVersion,
-				sanitize($xml, "sim_minor_version"), //$simMinorVersion,
-				sanitize($xml, "sim_dev_version"), //$simDevVersion,
-				sanitize($xml, "sim_svn_revision"), //$simSvnRevision,
-				sanitize($xml, "sim_locale_language"), //$simLocaleLanguage,
-				sanitize($xml, "sim_locale_country"), //$simLocaleCountry,
-				sanitize($xml, "sim_sessions_since"), //$simSessionsSince,
-				sanitize($xml, "sim_sessions_ever"), //$simSessionsEver,
-				sanitize($xml, "sim_deployment"), //$simDeployment,
-				sanitize($xml, "sim_distribution_tag"), //$simDistributionTag,
-				sanitize($xml, "sim_dev"), //$simDev,
-				sanitize($xml, "host_locale_language"), //$hostLocaleLanguage,
-				sanitize($xml, "host_locale_country"), //$hostLocaleCountry,
-				sanitize($xml, "host_os_name"), //$hostJavaOSName,
-				sanitize($xml, "host_os_version"), //$hostJavaOSVersion,
-				sanitize($xml, "host_os_arch"), //$hostJavaOSArch,
-				sanitize($xml, "host_java_vendor"), //$hostJavaVendor,
-				sanitize($xml, "host_java_version_major"), //$hostJavaVersionMajor,
-				sanitize($xml, "host_java_version_minor"), //$hostJavaVersionMinor,
-				sanitize($xml, "host_java_version_maintenance"), //$hostJavaVersionMaintenance,
-				sanitize($xml, "host_java_webstart_version"), //$hostJavaWebstartVersion,
-				sanitize($xml, "host_java_timezone") //$hostJavaTimezone
+				array (
+					"message_version" => 1,
+					"sim_project" => urldecode($xml["sim_project"]),
+					"sim_name" => urldecode($xml["sim_name"]),
+					"sim_major_version" => urldecode($xml["sim_major_version"]),
+					"sim_minor_version" => urldecode($xml["sim_minor_version"]),
+					"sim_dev_version" => urldecode($xml["sim_dev_version"]),
+					"sim_svn_revision" => urldecode($xml["sim_svn_revision"]),
+					"sim_locale_language" => urldecode($xml["sim_locale_language"]),
+					"sim_locale_country" => urldecode($xml["sim_locale_country"]),
+					"sim_sessions_since" => urldecode($xml["sim_sessions_since"]),
+					"sim_sessions_ever" => urldecode($xml["sim_sessions_ever"]),
+					"sim_deployment" => urldecode($xml["sim_deployment"]),
+					"sim_distribution_tag" => urldecode($xml["sim_distribution_tag"]),
+					"sim_dev" => urldecode($xml["sim_dev"]),
+					"host_locale_language" => urldecode($xml["host_locale_language"]),
+					"host_locale_country" => urldecode($xml["host_locale_country"]),
+					"host_os_name" => urldecode($xml["host_os_name"]),
+					"host_os_version" => urldecode($xml["host_os_version"]),
+					"host_os_arch" => urldecode($xml["host_os_arch"]),
+					"host_java_vendor" => urldecode($xml["host_java_vendor"]),
+					"host_java_version_major" => urldecode($xml["host_java_version_major"]),
+					"host_java_version_minor" => urldecode($xml["host_java_version_minor"]),
+					"host_java_version_maintenance" => urldecode($xml["host_java_version_maintenance"]),
+					"host_java_webstart_version" => urldecode($xml["host_java_webstart_version"]),
+					"host_java_timezone" => urldecode($xml["host_java_timezone"])
+				)
 			);
+			
 		}
 		
 	}

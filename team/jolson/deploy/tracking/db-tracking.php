@@ -185,37 +185,26 @@
 	}
 	
 	// insert data into the java_info table
-	function insert_java_info(
-		$sessionID,
-		$hostJavaOSName,
-		$hostJavaOSVersion,
-		$hostJavaOSArch,
-		$hostJavaVendor,
-		$hostJavaVersionMajor,
-		$hostJavaVersionMinor,
-		$hostJavaVersionMaintenance,
-		$hostJavaWebstartVersion,
-		$hostJavaTimezone
-	) {
+	function insert_java_info($data) {
 		// get IDs from normalized tables
-		$hostJavaOSNameID = get_id_value("java_os_name", "id", "name", quo($hostJavaOSName));
-		$hostJavaOSVersionID = get_id_value("java_os_version", "id", "name", quo($hostJavaOSVersion));
-		$hostJavaOSArchID = get_id_value("java_os_arch", "id", "name", quo($hostJavaOSArch));
-		$hostJavaVendorID = get_id_value("java_vendor", "id", "name", quo($hostJavaVendor));
-		$hostJavaWebstartVersionID = get_id_value("java_webstart_version", "id", "name", quote_null_if_none($hostJavaWebstartVersion));
-		$hostJavaTimezoneID = get_id_value("java_timezone", "id", "name", quo($hostJavaTimezone));
+		$host_java_os_name_ID = get_id_value("java_os_name", "id", "name", quo($data['host_java_os_name']));
+		$host_java_os_version_ID = get_id_value("java_os_version", "id", "name", quo($data['host_java_os_version']));
+		$host_java_os_arch_ID = get_id_value("java_os_arch", "id", "name", quo($data['host_java_os_arch']));
+		$host_java_vendor_ID = get_id_value("java_vendor", "id", "name", quo($data['host_java_vendor']));
+		$host_java_webstart_version_ID = get_id_value("java_webstart_version", "id", "name", quote_null_if_none($data['host_java_webstart_version']));
+		$host_java_timezone_ID = get_id_value("java_timezone", "id", "name", quo($data['host_java_timezone']));
 		
 		$values = array(
-			new Field('session_id', $sessionID),
-			new Field('host_java_os_name', $hostJavaOSNameID),
-			new Field('host_java_os_version', $hostJavaOSVersionID),
-			new Field('host_java_os_arch', $hostJavaOSArchID),
-			new Field('host_java_vendor', $hostJavaVendorID),
-			new Field('host_java_version_major', $hostJavaVersionMajor),
-			new Field('host_java_version_minor', $hostJavaVersionMinor),
-			new Field('host_java_version_maintenance', $hostJavaVersionMaintenance),
-			new Field('host_java_webstart_version', $hostJavaWebstartVersionID),
-			new Field('host_java_timezone', $hostJavaTimezoneID)
+			new Field('session_id', $data["session_id"]),
+			new Field('host_java_os_name', $host_java_os_name_ID),
+			new Field('host_java_os_version', $host_java_os_version_ID),
+			new Field('host_java_os_arch', $host_java_os_arch_ID),
+			new Field('host_java_vendor', $host_java_vendor_ID),
+			new Field('host_java_version_major', $data['host_java_version_major']),
+			new Field('host_java_version_minor', $data['host_java_version_minor']),
+			new Field('host_java_version_maintenance', $data['host_java_version_maintenance']),
+			new Field('host_java_webstart_version', $host_java_webstart_version_ID),
+			new Field('host_java_timezone', $host_java_timezone_ID)
 		);
 		
 		// build query from values to be inserted
@@ -252,139 +241,45 @@
 			$data['host_simplified_os'] = "Unix - General";
 		}
 		
+		// store the ID of the inserted session
 		$sessionID = insert_session($data);
-		
-		/*
-		// insert session
-		$sessionID = insert_session(
-			$messageVersion,
-			$simType,
-			$simProject,
-			$simName,
-			$simMajorVersion,
-			$simMinorVersion,
-			$simDevVersion,
-			$simSvnRevision,
-			$simLocaleLanguage,
-			$simLocaleCountry,
-			$simSessionsSince,
-			$simSessionsEver,
-			$simDeployment,
-			$simDistributionTag,
-			$simDev,
-			$hostLocaleLanguage,
-			$hostLocaleCountry,
-			$hostSimplifiedOS
-		);
-		*/
 		
 		$data['session_id'] = $sessionID;
 		
 		insert_flash_info($data);
 		
-		/*
-		
-		// insert into flash_into with the session ID from above
-		insert_flash_info(
-			$sessionID,
-			$hostFlashVersionType,
-			$hostFlashVersionMajor,
-			$hostFlashVersionMinor,
-			$hostFlashVersionRevision,
-			$hostFlashVersionBuild,
-			$hostFlashTimeOffset,
-			$hostFlashAccessibility,
-			$hostFlashDomain,
-			$hostFlashOS
-		);
-		*/
-		
 		return $sessionID;
 	}
 	
 	// insert an entire java message
-	function insert_java_message(
-		$messageVersion,
-		$simProject,
-		$simName,
-		$simMajorVersion,
-		$simMinorVersion,
-		$simDevVersion,
-		$simSvnRevision,
-		$simLocaleLanguage,
-		$simLocaleCountry,
-		$simSessionsSince,
-		$simSessionsEver,
-		$simDeployment,
-		$simDistributionTag,
-		$simDev,
-		$hostLocaleLanguage,
-		$hostLocaleCountry,
-		$hostJavaOSName,
-		$hostJavaOSVersion,
-		$hostJavaOSArch,
-		$hostJavaVendor,
-		$hostJavaVersionMajor,
-		$hostJavaVersionMinor,
-		$hostJavaVersionMaintenance,
-		$hostJavaWebstartVersion,
-		$hostJavaTimezone
-	) {
+	function insert_java_message($data) {
 		// this is a Java sim
-		$simType = quo("java");
+		$data["sim_type"] = quo("java");
 		
 		// calculate hostSimplifiedOS
-		$hostSimplifiedOS = "Unknown";
-		if(stripos($hostJavaOSName, 'Windows') !== false) {
-			$hostSimplifiedOS = "Windows - General";
-			if(stripos($hostJavaOSName, 'Vista') !== false) {
-				$hostSimplifiedOS = "Windows - Vista";
-			} else if(stripos($hostJavaOSName, 'XP') !== false) {
-				$hostSimplifiedOS = "Windows - XP";
+		$data['host_simplified_os'] = "Unknown";
+		$osname = $data['host_java_os_name'];
+		if(stripos($osname, 'Windows') !== false) {
+			$data['host_simplified_os'] = "Windows - General";
+			if(stripos($osname, 'Vista') !== false) {
+				$data['host_simplified_os'] = "Windows - Vista";
+			} else if(stripos($osname, 'XP') !== false) {
+				$data['host_simplified_os'] = "Windows - XP";
 			}
-		} else if(stripos($hostJavaOSName, 'Mac') !== false) {
-			$hostSimplifiedOS = "Mac - General";
-		} else if(stripos($hostJavaOSName, 'Linux') !== false) {
-			$hostSimplifiedOS = "Linux - General";
-		} else if(stripos($hostJavaOSName, 'Unix') !== false) {
-			$hostSimplifiedOS = "Unix - General";
+		} else if(stripos($osname, 'Mac') !== false) {
+			$data['host_simplified_os'] = "Mac - General";
+		} else if(stripos($osname, 'Linux') !== false) {
+			$data['host_simplified_os'] = "Linux - General";
+		} else if(stripos($osname, 'Unix') !== false) {
+			$data['host_simplified_os'] = "Unix - General";
 		}
 		
-		// insert session
-		$sessionID = insert_session(
-			$messageVersion,
-			$simType,
-			$simProject,
-			$simName,
-			$simMajorVersion,
-			$simMinorVersion,
-			$simDevVersion,
-			$simSvnRevision,
-			$simLocaleLanguage,
-			$simLocaleCountry,
-			$simSessionsSince,
-			$simSessionsEver,
-			$simDeployment,
-			$simDistributionTag,
-			$simDev,
-			$hostLocaleLanguage,
-			$hostLocaleCountry,
-			$hostSimplifiedOS
-		);
+		// store the ID of the inserted session
+		$sessionID = insert_session($data);
 		
-		// insert into java_into with the session ID from above
-		insert_java_info(
-			$sessionID,
-			$hostJavaOSName,
-			$hostJavaOSVersion,
-			$hostJavaOSArch,
-			$hostJavaVendor,
-			$hostJavaVersionMajor,
-			$hostJavaVersionMinor,
-			$hostJavaVersionMaintenance,
-			$hostJavaWebstartVersion,
-			$hostJavaTimezone
-		);
+		$data['session_id'] = $sessionID;
+		
+		insert_java_info($data);
 		
 		return $sessionID;
 	}
