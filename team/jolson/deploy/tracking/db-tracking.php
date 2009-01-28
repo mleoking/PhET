@@ -5,6 +5,10 @@
 	define("SIM_TYPE_JAVA", "0");
 	define("SIM_TYPE_FLASH", "1");
 	
+	// TODO: uncomment for the live version:
+	//error_reporting(0);
+	//ini_set('display_errors', 0);
+	
 	// used for every mysql query that needs to be made
 	// useful for debugging and error catching
 	function phet_mysql_query($query) {
@@ -30,7 +34,6 @@
 	// if it exists, it returns the value of 'id' for that row
 	// if it does not exist, it is inserted, and the value of the auto_increment field (usually id) is returned
 	function get_id_value($table_name, $table_field_id, $table_field_value, $table_value) {
-		// POSSIBLE TODO: update with things similar to "INSERT INTO java_vendor (name) SELECT 'Not Sun' FROM java_vendor WHERE NOT EXISTS (SELECT id FROM java_vendor WHERE name = 'Not Sun');"
 		
 		if($table_value != "NULL") {
 			// if not null, do a conditional insert into the normalized table
