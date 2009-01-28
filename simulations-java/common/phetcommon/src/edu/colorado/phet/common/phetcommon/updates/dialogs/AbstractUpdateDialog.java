@@ -11,6 +11,7 @@ import java.util.Locale;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.application.GrayRectWorkaroundDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
@@ -20,7 +21,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 /**
  * Base class for update dialogs.
  */
-public abstract class AbstractUpdateDialog extends JDialog {
+public abstract class AbstractUpdateDialog extends GrayRectWorkaroundDialog {
     
     private static final String TRY_IT_LINK = PhetCommonResources.getString( "Common.updates.tryIt" );
     
