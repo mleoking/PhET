@@ -242,10 +242,7 @@ public class PhetApplicationConfig implements IStatistics, ISimInfo {
      * @return
      */
     public boolean isUpdatesFeatureIncluded() {
-        DeploymentScenario scenario = DeploymentScenario.getInstance();
-        return hasCommandLineArg( "-updates" ) && 
-               ( scenario != DeploymentScenario.PHET_WEBSITE ) &&
-               ( scenario != DeploymentScenario.OTHER_WEBSITE );
+        return hasCommandLineArg( "-updates" ) && DeploymentScenario.getInstance().isOffline();
     }
     
     /**
@@ -253,10 +250,7 @@ public class PhetApplicationConfig implements IStatistics, ISimInfo {
      * @return
      */
     public boolean isStatisticsFeatureIncluded() {
-        DeploymentScenario scenario = DeploymentScenario.getInstance();
-        return hasCommandLineArg( "-statistics" ) && 
-               ( scenario != DeploymentScenario.PHET_WEBSITE ) &&
-               ( scenario != DeploymentScenario.OTHER_WEBSITE );
+        return hasCommandLineArg( "-statistics" ) && DeploymentScenario.getInstance().isOffline();
     }
 
     public boolean isUpdatesEnabled() {

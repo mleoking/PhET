@@ -1,9 +1,10 @@
+/* Copyright 2009, University of Colorado */
+
 package edu.colorado.phet.common.phetcommon.util;
 
 import java.io.File;
-import java.io.IOException;
-import java.security.AccessControlException;
-import java.util.jar.JarFile;
+
+import javax.jnlp.UnavailableServiceException;
 
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 
@@ -16,20 +17,35 @@ import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 public class DeploymentScenario {
     
     // enumeration
-    public static final DeploymentScenario PHET_INSTALLATION = new DeploymentScenario( "phet-installation" );
-    public static final DeploymentScenario STANDALONE_JAR = new DeploymentScenario( "standalone-jar" );
-    public static final DeploymentScenario PHET_WEBSITE = new DeploymentScenario( "phet-website" );
-    public static final DeploymentScenario OTHER_WEBSITE = new DeploymentScenario( "other-website" );
-    public static final DeploymentScenario UNKNOWN = new DeploymentScenario( "unknown" );
+    public static final DeploymentScenario PHET_INSTALLATION = new DeploymentScenario( "phet-installation", false );
+    public static final DeploymentScenario STANDALONE_JAR = new DeploymentScenario( "standalone-jar", false );
+    public static final DeploymentScenario PHET_PRODUCTION_WEBSITE = new DeploymentScenario( "phet-production-website", true );
+    public static final DeploymentScenario PHET_DEVELOPMENT_WEBSITE = new DeploymentScenario( "phet-development-website", true );
+    public static final DeploymentScenario OTHER_WEBSITE = new DeploymentScenario( "other-website", true );
+    public static final DeploymentScenario DEVELOPER_IDE = new DeploymentScenario( "developer-ide", false );
+    
+    // prefix of codebase attribute in JNLP files
+    private static final String PHET_PRODUCTION_CODE_BASE_PREFIX = "http://phet.colorado.edu";
+    private static final String PHET_DEVELOPMENT_CODE_BASE_PREFIX = "http://www.colorado.edu/physics/phet/dev";
 
     // singleton
     private static DeploymentScenario instance = null;
     
     private final String name;
+    private final boolean online;
     
     /* singleton */
-    private DeploymentScenario( String name ) {
+    private DeploymentScenario( String name, boolean online ) {
         this.name = name;
+        this.online = online;
+    }
+    
+    public boolean isOnline() {
+        return online;
+    }
+    
+    public boolean isOffline() {
+        return !online;
     }
     
     public String toString() {
@@ -44,89 +60,74 @@ public class DeploymentScenario {
     public static DeploymentScenario getInstance() {
         if ( instance == null ) {
             instance = determineScenario();
+            System.out.println( "DeploymentScenario.instance=" + instance.toString() );//XXX
         }
         return instance;
     }
     
+    /*
+     * Determines which scenario was used to deploy the application that we're running.
+     */
     private static DeploymentScenario determineScenario() {
-        DeploymentScenario scenario = DeploymentScenario.UNKNOWN;
-        if ( isPhetInstallation() ) {
-            scenario = DeploymentScenario.PHET_INSTALLATION;
+        
+        DeploymentScenario scenario = null;
+
+        if ( PhetServiceManager.isJavaWebStart() ) {
+
+            if ( isPhetInstallation() ) {
+                scenario = DeploymentScenario.PHET_INSTALLATION;
+            }
+            else {
+                // web-started sims are differentiated base on the codebase attribute specified in the JNLP file
+                String codeBase = null;
+                try {
+                    codeBase = PhetServiceManager.getBasicService().getCodeBase().getPath();
+                }
+                catch ( UnavailableServiceException e ) {
+                    codeBase = "?";
+                    e.printStackTrace();
+                }
+
+                if ( codeBase.startsWith( PHET_PRODUCTION_CODE_BASE_PREFIX ) ) {
+                    scenario = DeploymentScenario.PHET_PRODUCTION_WEBSITE;
+                }
+                else if ( codeBase.startsWith( PHET_DEVELOPMENT_CODE_BASE_PREFIX ) ) {
+                    scenario = DeploymentScenario.PHET_DEVELOPMENT_WEBSITE;
+                }
+                else {
+                    scenario = DeploymentScenario.OTHER_WEBSITE;
+                }
+            }
         }
-        else if ( isStandaloneJar() ) {
+        else if ( FileUtils.isJarCodeSource() ) {
             scenario = DeploymentScenario.STANDALONE_JAR;
         }
-        else if ( isWebsite() ) {
-            scenario = DeploymentScenario.PHET_WEBSITE;
+        else {
+            scenario = DeploymentScenario.DEVELOPER_IDE;
         }
         return scenario;
     }
     
     /*
-     * Was this sim run as part of a PhET installation, created using the PhET installer?
-     * If it was, then a file named .phet-installer will live in the JAR's parent directory.
-     * 
-     * @return true or false
+     * Detect a PhET installation by looking for the phet-installation.properties file.
      */
-    private static boolean isPhetInstallation() {
-        boolean isPhetInstallation = false;
-        if ( isJarCodeSource() ) {
+    private static boolean isPhetInstallation( ) {
+        boolean exists = false;
+        if ( FileUtils.isJarCodeSource() ) {
             File codeSource = FileUtils.getCodeSource();
             File parent = codeSource.getParentFile();
             if ( parent != null ) {
                 File grandparent = parent.getParentFile();
                 if ( grandparent != null ) {
                     File specialFile = new File( grandparent.getAbsolutePath() + System.getProperty( "file.separator" ) + "phet-installation.properties" );
-                    isPhetInstallation = specialFile.exists();
+                    exists = specialFile.exists();
                 }
             }
         }
-        return isPhetInstallation;
-    }
-
-    /*
-     * Is this sim running from a stand-alone JAR file on the user's local machine?
-     * @return
-     */
-    private static boolean isStandaloneJar() {
-        return !PhetServiceManager.isJavaWebStart() && !isPhetInstallation() && isJarCodeSource();
+        return exists;
     }
     
-    /*
-     * Is this sim running from a web site using Java Web Start?
-     * @return
-     */
-    private static boolean isWebsite() {
-        return PhetServiceManager.isJavaWebStart() && !isPhetInstallation(); // PhET installer uses Web Start!
-    }
-    
-    /*
-     * Is the code source a JAR file?
-     * @return
-     */
-    private static boolean isJarCodeSource() {
-        //TODO: bad style to write code that depends on exceptions
-        try {
-            return isJar( FileUtils.getCodeSource() );
-        }
-        catch( AccessControlException ace ) {
-            return false;
-        }
-    }
-    
-    /*
-     * Is the file a JAR?
-     * @param file
-     * @return
-     */
-    private static boolean isJar( File file ) {
-        //TODO: bad style to write code that depends on exceptions
-        try {
-            new JarFile( file ); // throws IOException if not a jar file
-            return true;
-        }
-        catch ( IOException e ) {
-            return false;
-        }
+    public static void main( String[] args ) {
+        System.out.println( DeploymentScenario.getInstance() );
     }
 }
