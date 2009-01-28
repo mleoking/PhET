@@ -5,7 +5,7 @@
 	// can also record raw and parsed information for debugging purposes
 	// (DISABLE RAW LOGGING FOR PRODUCTION)
 	
-	include("db_util.php");
+	include("db-tracking.php");
 	
 	// whether or not logging the messages is enabled. DO NOT ENABLE FOR LIVE VERSION
 	$raw_tracking = true;
