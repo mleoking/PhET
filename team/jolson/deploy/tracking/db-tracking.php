@@ -1,10 +1,14 @@
 <?php
 	include("db-tracking-login.php");
 	
+	// define sim_type to correspond with website code
+	define("SIM_TYPE_JAVA", "0");
+	define("SIM_TYPE_FLASH", "1");
+	
 	// used for every mysql query that needs to be made
 	// useful for debugging and error catching
 	function phet_mysql_query($query) {
-		//print "<p>" . $query . "</p>";
+		print "<p>" . $query . "</p>";
 		
 		// actually execute the query
 		$result = mysql_query($query);
@@ -17,6 +21,9 @@
 	// get the id value corresponding to a unique value. if it doesn't exist, create a new row
 	//
 	// IMPORTANT: $table_field_id should be the AUTO_INCREMENT field for using this function
+	// IMPORTANT: mysql_real_escape_string should be called on $table_value beforehand, since
+	// strings should be quoted before they reach here (mysql_real_escape_string here would
+	// ruin those quotes)
 	//
 	// example: get_id_value('flash_os', 'id', 'name', 'Mac OS X');
 	// this would check to see whether 'Mac OS X' existed in the flash_os table under name.
@@ -29,10 +36,10 @@
 		// value is NULL
 		if($table_value != "NULL") {
 			// selects all rows which have that value (should be just 1, but will not error if there are more)
-			$query = "SELECT $table_field_id FROM $table_name WHERE $table_field_value = $table_value";
+			$query = "SELECT {$table_field_id} FROM {$table_name} WHERE {$table_field_value} = {$table_value}";
 		} else {
 			// selects all rows which have that value (should be just 1, but will not error if there are more)
-			$query = "SELECT $table_field_id FROM $table_name WHERE $table_field_value IS NULL";
+			$query = "SELECT {$table_field_id} FROM {$table_name} WHERE {$table_field_value} IS NULL";
 		}
 		
 		// execute the query
@@ -45,7 +52,7 @@
 		
 		if($num_rows == 0) {
 			// our value is not in the table, so we need to insert it
-			$insert_query = "INSERT INTO $table_name ($table_field_value) VALUES ($table_value)";
+			$insert_query = "INSERT INTO {$table_name} ({$table_field_value}) VALUES ({$table_value})";
 			phet_mysql_query($insert_query);
 			
 			// return the value of the auto_increment field (should be ID).
@@ -60,9 +67,9 @@
 		}
 	}
 	
-	// surround a string with quotes
+	// surround a string with quotes, and escape it
 	function quo($str) {
-		return "'" . $str . "'";
+		return "'" . mysql_real_escape_string($str) . "'";
 	}
 	
 	// return either a quoted string, or NULL if the value is one of the strings mapped to NULL
@@ -74,9 +81,11 @@
 		}
 	}
 	
-	// turn a table name and array of Field objects into an insert statement into that table
+	// turn a table name and associative array into an insert statement into that table
+	// IMPORTANT: everything in $values should be safe for mysql (use mysql_real_escape_string
+	// on things that came from external input)
 	function query_from_values($table_name, $values) {
-		$query = "INSERT INTO $table_name (";
+		$query = "INSERT INTO {$table_name} (";
 		$query .= join(', ', array_keys($values));
 		$query .= ") VALUES (";
 		$query .= join(', ', array_values($values));
@@ -94,21 +103,21 @@
 		$host_simplified_os_ID = get_id_value("simplified_os", "id", "name", quo($data['host_simplified_os']));
 		
 		$values = array(
-			'message_version' => $data['message_version'],
-			'sim_type' => $data['sim_type'],
+			'message_version' => mysql_real_escape_string($data['message_version']),
+			'sim_type' => mysql_real_escape_string($data['sim_type']),
 			'sim_project' => $sim_project_ID,
 			'sim_name' => $sim_name_ID,
-			'sim_major_version' => $data['sim_major_version'],
-			'sim_minor_version' => $data['sim_minor_version'],
-			'sim_dev_version' => $data['sim_dev_version'],
-			'sim_svn_revision' => $data['sim_svn_revision'],
+			'sim_major_version' => mysql_real_escape_string($data['sim_major_version']),
+			'sim_minor_version' => mysql_real_escape_string($data['sim_minor_version']),
+			'sim_dev_version' => mysql_real_escape_string($data['sim_dev_version']),
+			'sim_svn_revision' => mysql_real_escape_string($data['sim_svn_revision']),
 			'sim_locale_language' => quo($data['sim_locale_language']),
 			'sim_locale_country' => quote_null_if_none($data['sim_locale_country']),
-			'sim_sessions_since' => $data['sim_sessions_since'],
-			'sim_sessions_ever' => $data['sim_sessions_ever'],
+			'sim_sessions_since' => mysql_real_escape_string($data['sim_sessions_since']),
+			'sim_sessions_ever' => mysql_real_escape_string($data['sim_sessions_ever']),
 			'sim_deployment' => $sim_deployment_ID,
 			'sim_distribution_tag' => $sim_distribution_tag_ID,
-			'sim_dev' => $data['sim_dev'],
+			'sim_dev' => mysql_real_escape_string($data['sim_dev']),
 			'host_locale_language' => quo($data['host_locale_language']),
 			'host_locale_country' => quote_null_if_none($data['host_locale_country']),
 			'host_simplified_os' => $host_simplified_os_ID,
@@ -132,14 +141,14 @@
 		$host_flash_os_ID = get_id_value("flash_os", "id", "name", quo($data['host_flash_os']));
 		
 		$values = array(
-			'session_id' => $data['session_id'],
+			'session_id' => mysql_real_escape_string($data['session_id']),
 			'host_flash_version_type' => $host_flash_version_type_ID,
-			'host_flash_version_major' => $data['host_flash_version_major'],
-			'host_flash_version_minor' => $data['host_flash_version_minor'],
-			'host_flash_version_revision' => $data['host_flash_version_revision'],
-			'host_flash_version_build' => $data['host_flash_version_build'],
-			'host_flash_time_offset' => $data['host_flash_time_offset'],
-			'host_flash_accessibility' => $data['host_flash_accessibility'],
+			'host_flash_version_major' => mysql_real_escape_string($data['host_flash_version_major']),
+			'host_flash_version_minor' => mysql_real_escape_string($data['host_flash_version_minor']),
+			'host_flash_version_revision' => mysql_real_escape_string($data['host_flash_version_revision']),
+			'host_flash_version_build' => mysql_real_escape_string($data['host_flash_version_build']),
+			'host_flash_time_offset' => mysql_real_escape_string($data['host_flash_time_offset']),
+			'host_flash_accessibility' => mysql_real_escape_string($data['host_flash_accessibility']),
 			'host_flash_domain' => $host_flash_domain_ID,
 			'host_flash_os' => $host_flash_os_ID
 		);
@@ -165,14 +174,14 @@
 		$host_java_timezone_ID = get_id_value("java_timezone", "id", "name", quo($data['host_java_timezone']));
 		
 		$values = array(
-			'session_id' => $data["session_id"],
+			'session_id' => mysql_real_escape_string($data["session_id"]),
 			'host_java_os_name' => $host_java_os_name_ID,
 			'host_java_os_version' => $host_java_os_version_ID,
 			'host_java_os_arch' => $host_java_os_arch_ID,
 			'host_java_vendor' => $host_java_vendor_ID,
-			'host_java_version_major' => $data['host_java_version_major'],
-			'host_java_version_minor' => $data['host_java_version_minor'],
-			'host_java_version_maintenance' => $data['host_java_version_maintenance'],
+			'host_java_version_major' => mysql_real_escape_string($data['host_java_version_major']),
+			'host_java_version_minor' => mysql_real_escape_string($data['host_java_version_minor']),
+			'host_java_version_maintenance' => mysql_real_escape_string($data['host_java_version_maintenance']),
 			'host_java_webstart_version' => $host_java_webstart_version_ID,
 			'host_java_timezone' => $host_java_timezone_ID
 		);
@@ -190,7 +199,7 @@
 	// insert an entire flash message
 	function insert_flash_message($data) {
 		// this is a Flash sim
-		$data['sim_type'] = quo("flash");
+		$data['sim_type'] = SIM_TYPE_FLASH;
 		
 		// calculate hostSimplifiedOS
 		$data['host_simplified_os'] = "Unknown";
@@ -224,7 +233,7 @@
 	// insert an entire java message
 	function insert_java_message($data) {
 		// this is a Java sim
-		$data["sim_type"] = quo("java");
+		$data["sim_type"] = SIM_TYPE_JAVA;
 		
 		// calculate hostSimplifiedOS
 		$data['host_simplified_os'] = "Unknown";
@@ -259,8 +268,10 @@
 		$userPreferencesFileCreationTime,
 		$userTotalSessions
 	) {
+		$safe_time = mysql_real_escape_string($userPreferencesFileCreationTime);
+		$safe_sessions = mysql_real_escape_string($userTotalSessions);
 		// we need to find out whether an entry exists for this particular file creation time
-		$query = "SELECT user_preferences_file_creation_time FROM user WHERE user_preferences_file_creation_time = " . $userPreferencesFileCreationTime . ";";
+		$query = "SELECT user_preferences_file_creation_time FROM user WHERE user_preferences_file_creation_time = " . $safe_time . ";";
 		$result = phet_mysql_query($query);
 		
 		// number of rows that match the above query. should be 1 if the user has been seen before,
@@ -272,8 +283,8 @@
 			
 			// values to be inserted
 			$values = array(
-				'user_preferences_file_creation_time' => $userPreferencesFileCreationTime,
-				'user_total_sessions' => $userTotalSessions,
+				'user_preferences_file_creation_time' => $safe_time,
+				'user_total_sessions' => $safe_sessions,
 				'first_seen_month' => quo(date("Y-m-01", time())), // current year and month
 				'last_seen_month' => quo(date("Y-m-01", time())) // current year and month
 			);
@@ -283,11 +294,12 @@
 			// user already in table, update values
 			
 			// update total sessions
-			$update_query = "UPDATE user SET user_total_sessions = $userTotalSessions WHERE user_preferences_file_creation_time = $userPreferencesFileCreationTime";
+			$update_query = "UPDATE user SET user_total_sessions = {$safe_sessions} WHERE user_preferences_file_creation_time = {$safe_time}";
 			phet_mysql_query($update_query);
 			
 			// update last_seen_month with current year and month
-			$update_query = "UPDATE user SET last_seen_month = " . quo(date("Y-m-01", time())) . " WHERE user_preferences_file_creation_time = $userPreferencesFileCreationTime";
+			$last_seen_month = quo(date("Y-m-01", time()));
+			$update_query = "UPDATE user SET last_seen_month = {$last_seen_month} WHERE user_preferences_file_creation_time = {$safe_time}";
 			phet_mysql_query($update_query);
 		}
 	}
