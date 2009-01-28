@@ -10,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
 import java.awt.geom.QuadCurve2D;
 import java.util.ArrayList;
 
@@ -19,7 +18,9 @@ import javax.swing.Timer;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -65,6 +66,7 @@ public class BucketOfNucleiNode extends PNode {
     int _numVisibleNucleiInOuterLayers;
     PNode _nodeBeingDragged;
     ArrayList _shrinkAnimationTimers;
+	private int _nucleusType;
 	
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -81,6 +83,7 @@ public class BucketOfNucleiNode extends PNode {
 		_bucketWidth = width;
 		_ellipseVerticalSpan = height * 0.4; // Arbitrary sizing, can be changed to alter appearance.
 		_shrinkAnimationTimers = new ArrayList();
+		_nucleusType = NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM;
 		
 		// Create the gradient paints that will be used to paint the bucket.
 		GradientPaint outerPaint = new GradientPaint(0, (float)height/2, OUTER_COLOR_DARK, 
@@ -315,6 +318,11 @@ public class BucketOfNucleiNode extends PNode {
             _listeners.add( listener );
         }
     }
+    
+    public void setNucleusType( int nucleusType ){
+    	_nucleusType  = nucleusType;
+    	updateLabelText();
+    }
 
     //------------------------------------------------------------------------
     // Private Methods
@@ -380,11 +388,38 @@ public class BucketOfNucleiNode extends PNode {
 		}
 	}
 
+	/**
+	 * Update the textual label on the front of the bucket.
+	 */
 	private void updateLabelText(){
 		
-		// TODO: JPB TBD - Not at all done yet.  Needs to use string resources, handle different atoms.
-		_bucketLabel.setHTML("<html>Bucket o' <br>Polonium</html>");
+		// Set the text of the label.
+		switch (_nucleusType){
+		case NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM:
+			_bucketLabel.setHTML(NuclearPhysicsStrings.BUCKET_LABEL_POLONIUM);
+		    break;
+			
+		case NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM:
+			_bucketLabel.setHTML(NuclearPhysicsStrings.BUCKET_LABEL_ATOMS);
+		    break;
+		    
+		default:
+			System.err.println("Error: Unrecognized nucleus type when adding label to bucket.");
+		    _bucketLabel.setHTML("");
+		    break;
+		}
+		
+		// Do a substitution of "of" with "o'" just for the sheer coolness of
+		// it.  This was requested by Noah P.  Hopefully this won't mess up
+		// any of the translations, but if it turns out that it does it should
+		// be removed.
+		if (_bucketLabel.getHTML().indexOf("Bucket of") != 0){
+			_bucketLabel.setHTML(_bucketLabel.getHTML().replaceFirst("Bucket of", "Bucket o'"));
+		}
+
+		// Scale and position the label.
 		double desiredWidth = _bucketWidth * 0.5;
+		_bucketLabel.setScale(1);
 		_bucketLabel.setScale(desiredWidth / _bucketLabel.getFullBoundsReference().width);
 		_bucketLabel.setOffset((_bucketWidth / 2) - (_bucketLabel.getFullBounds().width / 2), _bucketHeight * 0.4);
 	}

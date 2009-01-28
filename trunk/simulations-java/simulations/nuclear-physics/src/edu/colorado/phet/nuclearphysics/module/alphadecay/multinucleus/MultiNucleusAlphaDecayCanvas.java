@@ -131,6 +131,10 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
             public void modelElementRemoved(Object modelElement){
             	handleModelElementRemoved(modelElement);
             };
+            
+            public void nucleusTypeChanged(){
+            	handleNucleusTypeChanged();
+            }
         });
         
         // Add the nodes that will be used to control what is drawn over whom.
@@ -359,6 +363,10 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     		_mapAlphaParticlesToNodes.remove( modelElement );
     	}
 	}
+    
+    private void handleNucleusTypeChanged(){
+    	_bucketNode.setNucleusType(_model.getNucleusType());
+    }
     
     /**
      * Reset all the nuclei back to their pre-decay state.
