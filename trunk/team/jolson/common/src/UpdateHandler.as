@@ -7,11 +7,14 @@
 // Author: Jonathan Olson
 
 class UpdateHandler {
+	// the latest version information detected from the server
 	public var versionMajor : String;
 	public var versionMinor : String;
 	public var dev : String;
 	public var revision : String;
 	
+	// whether the "Check for updates now" button was clicked
+	// (manual check for updates)
 	public var manual : Boolean;
 	
 	// shorthand debugging function
@@ -87,6 +90,8 @@ class UpdateHandler {
 				} else if(!(_level0.updateHandler.manual) && (new Number(versionMajor) < latestSkipped[0] || (new Number(versionMajor) == latestSkipped[0] && new Number(versionMinor) <= latestSkipped[1]))) {
 					// user did not click "Check for Updates Now" AND the new version <= latest skipped version
 					_level0.debug("UpdateHandler: used selected to skip this update\n");
+				} else if(!(_level0.updateHandler.manual) && _level0.preferences.askLaterElapsed() < 1000 * 60 * 60 * 24) {
+					_level0.debug("UpdateHandler: used selected ask later, time elapsed = " + String(_level0.preferences.askLaterElapsed()) + "\n");
 				} else {
 					_level0.common.updateHandler.updatesAvailable(versionMajor, versionMinor, dev);
 				}

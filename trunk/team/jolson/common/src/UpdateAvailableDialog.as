@@ -115,8 +115,11 @@ class UpdateAvailableDialog {
 	}
 	
 	public function askLaterClicked(src : JButton) {
-		// always ask later on
+		// always ask later on if time has elapsed
 		_level0.preferences.setSkippedUpdate(0, 0);
+		
+		// record the time the user clicked this
+		_level0.preferences.setAskLater();
 		
 		// hide this window
 		_level0.updateAvailableWindow.setVisible(false);
