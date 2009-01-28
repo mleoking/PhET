@@ -19,8 +19,16 @@ public class GrayRectWorkaroundDialog extends JDialog {
         super( frame );
     }
 
+    public GrayRectWorkaroundDialog( Frame frame, String title ) {
+        super( frame, title );
+    }
+
     public GrayRectWorkaroundDialog( Dialog owner ) {
         super( owner );
+    }
+
+    public GrayRectWorkaroundDialog( Dialog owner, String title ) {
+        super( owner, title );
     }
 
     public void setVisible( boolean b ) {
