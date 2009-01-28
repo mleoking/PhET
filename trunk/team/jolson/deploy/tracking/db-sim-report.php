@@ -9,17 +9,9 @@
 	}
 	
 	function display_query($query) {
-		$show_results = true;
-		
-		$start_time = microtime(true);
 		$result = mysql_query($query) or die("SELECT ERROR: " . mysql_error());
-		$end_time = microtime(true);
 		$num_rows = mysql_num_rows($result);
-		if($show_results) {
-			print "<table border=1>\n";
-		} else {
-			print "<table border=1 style='display: none;'>\n";
-		}
+		print "<table border=1>\n";
 		$fields_num = mysql_num_fields($result);
 		for($i=0; $i<$fields_num; $i++) {
 			$field = mysql_fetch_field($result);
@@ -73,7 +65,21 @@
 	display_query("SELECT deployment.name, SUM(session.sim_sessions_since) AS sessions FROM session, deployment WHERE (session.sim_deployment = deployment.id AND session.sim_dev = false AND session.sim_name = @sid) GROUP BY deployment.name ORDER BY COUNT(session.id) DESC;");
 	
 	display_desc("number of times each (non-null) distribution tag has been seen (non-dev)");
-	display_query("SELECT distribution_tag.name, SUM(session.sim_sessions_since) AS sessions FROM session, distribution_tag WHERE (distribution_tag.id = session.sim_distribution_tag AND distribution_tag.name IS NOT NULL AND session.sim_dev = false AND session.sim_name = @sid) GROUP BY distribution_tag.name ORDER BY COUNT(session.id) DESC;");
+	$query = <<<DIST
+SELECT
+	distribution_tag.name,
+	SUM(session.sim_sessions_since) AS sessions
+FROM session, distribution_tag
+WHERE (
+	distribution_tag.id = session.sim_distribution_tag
+	AND distribution_tag.name IS NOT NULL
+	AND session.sim_dev = false
+	AND session.sim_name = @sid
+)
+GROUP BY distribution_tag.name
+ORDER BY COUNT(session.id) DESC;
+DIST;
+	display_query($query);
 	
 	display_desc("number of times sim has been run, by language");
 	display_query("SELECT session.sim_locale_language, SUM(session.sim_sessions_since) FROM session WHERE (session.sim_name = @sid) GROUP BY session.sim_locale_language ORDER BY SUM(session.sim_sessions_since) DESC;");
@@ -113,6 +119,90 @@ WHERE (
 GROUP BY YEAR(timestamp), MONTH(timestamp), DAY(timestamp);
 RUN;
 	display_query($query);
+	
+	if($simType == "flash") {
+		display_desc("number of times each (non-null) Flash OS has been seen (non-dev)");
+		$query = <<<DIST
+SELECT
+	flash_os.name,
+	SUM(session.sim_sessions_since) AS sessions
+FROM session, session_flash_info, flash_os
+WHERE (
+	session.id = session_flash_info.session_id
+	AND flash_os.id = session_flash_info.host_flash_os
+	AND flash_os.name IS NOT NULL
+	AND session.sim_dev = false
+	AND session.sim_name = @sid
+)
+GROUP BY flash_os.name
+ORDER BY COUNT(session.id) DESC;
+DIST;
+		display_query($query);
+		
+		display_desc("number of times each (non-null) Flash domain has been seen (non-dev)");
+		$query = <<<DIST
+SELECT
+	flash_domain.name,
+	SUM(session.sim_sessions_since) AS sessions
+FROM session, session_flash_info, flash_domain
+WHERE (
+	session.id = session_flash_info.session_id
+	AND flash_domain.id = session_flash_info.host_flash_domain
+	AND flash_domain.name IS NOT NULL
+	AND session.sim_dev = false
+	AND session.sim_name = @sid
+)
+GROUP BY flash_domain.name
+ORDER BY COUNT(session.id) DESC;
+DIST;
+		display_query($query);
+		
+		display_desc("number of times each Flash major version has been seen (non-dev)");
+		$query = <<<DIST
+SELECT
+	session_flash_info.host_flash_version_major,
+	SUM(session.sim_sessions_since) AS sessions
+FROM session, session_flash_info
+WHERE (
+	session.id = session_flash_info.session_id
+	AND session.sim_dev = false
+	AND session.sim_name = @sid
+)
+GROUP BY session_flash_info.host_flash_version_major
+ORDER BY session_flash_info.host_flash_version_major;
+DIST;
+		display_query($query);
+		
+		display_desc("number of times each Flash version has been seen (non-dev)");
+		$query = <<<EOT
+SELECT
+	CONCAT(
+		flash_version_type.name,
+		' ',
+		session_flash_info.host_flash_version_major,
+		',',
+		session_flash_info.host_flash_version_minor,
+		',',
+		session_flash_info.host_flash_version_revision,
+		',',
+		session_flash_info.host_flash_version_build
+	) AS version,
+	SUM(session.sim_sessions_since) AS sessions
+FROM session, session_flash_info, flash_version_type
+WHERE (
+	session.id = session_flash_info.session_id
+	AND session.sim_name = @sid
+	AND session_flash_info.host_flash_version_type = flash_version_type.id
+)
+GROUP BY
+	session_flash_info.host_flash_version_major,
+	session_flash_info.host_flash_version_minor,
+	session_flash_info.host_flash_version_revision,
+	session_flash_info.host_flash_version_build
+ORDER BY sessions DESC;
+EOT;
+		display_query($query);
+	}
 	
 	$total_end_time = microtime(true);
 	
