@@ -62,8 +62,8 @@ CREATE TABLE session (
 	# version of the message that was sent
 	message_version TINYINT UNSIGNED,
 	
-	# Java or Flash
-	sim_type ENUM ('java', 'flash'),
+	# Java (0) or Flash (1)
+	sim_type ENUM('0', '1') NOT NULL default '0',
 	
 	# project and name
 	sim_project MEDIUMINT UNSIGNED NOT NULL,
