@@ -42,12 +42,28 @@ class UpdateAvailableDialog {
 		
 		str += "\n<p align='center'>";
 		
-		// TODO: Change URL to the main simulation
-		str += "<a href='http://phet.colorado.edu/jolson/deploy/sims/" + _level0.simName + "/" + _level0.simName;
+		str += "<a href='http://phet.colorado.edu/sims/" + _level0.simName + "/" + _level0.simName;
 		str += "_" + _level0.common.localeString();
 		str += ".html'>Try the new version.</a>";
 		
-		str += "</p";
+		str += "\n" + "or" + "\n";
+		
+		str += "<a href='" + _level0.updateHandler.simWebsiteURL() + "'>";
+		str += "View the latest simulation page.</a>";
+		
+		//str += "\n\n</p>";
+		str += "</p>";
+		
+		if(_level0.common.fromFullInstallation()) {
+			str += "\n\n";
+			str += "To update your installation, please visit the ";
+			str += "<a href='http://phet.colorado.edu/get_phet/full_install.php'>full installation page</a>";
+			str += " for more information.";
+			
+		}
+		
+		// TODO: visit the PhET site for more information ?
+		
 		
 		// create CSS to make links blue
 		var css : TextField.StyleSheet = new TextField.StyleSheet();

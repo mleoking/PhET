@@ -151,7 +151,7 @@ public class FlashHTMLWriter {
 				System.out.println("WARNING: could not find common internationalization data for " + locale + ", defaulting to en");
 			}
 			
-			writeHTML(simName, language, country, "phet-website", "none", xmlFile, htmlFile, propertiesFile, commonXmlFile);
+			writeHTML(simName, language, country, "standalone-jar", "none", xmlFile, htmlFile, propertiesFile, commonXmlFile);
 		} catch(FileNotFoundException e) {
 			System.out.println("File Not Found: " + e.toString());
 		} catch(UnsupportedEncodingException e) {
