@@ -3,6 +3,18 @@ package edu.colorado.phet.common.phetcommon.statistics;
 import java.io.*;
 import java.net.*;
 
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+
+import org.w3c.dom.*;
+
+import javax.xml.parsers.*;
+
+import javax.xml.transform.*;
+import javax.xml.transform.dom.*;
+import javax.xml.transform.stream.*;
+
 /**
  * Statistics service that uses PHP to deliver a statistics message to PhET.
  *
@@ -16,16 +28,56 @@ public class XMLStatisticsService implements IStatisticsService {
      * @param message
      */
     public void postMessage( StatisticsMessage message ) throws IOException {
-        postXML( getStatisticsURL(message ),getXML(message));
+        postXML( getStatisticsURL( message ), getXMLFromDomE( message ) );
+    }
+
+    private String getXMLFromDomE( StatisticsMessage message ) {
+        try {
+            return getXMLFromDom( message );
+        }
+        catch( Exception e ) {
+            e.printStackTrace();
+            return getXML( message );
+        }
+    }
+
+    private String getXMLFromDom( StatisticsMessage message ) throws ParserConfigurationException, TransformerException {
+
+        //see: http://www.genedavis.com/library/xml/java_dom_xml_creation.jsp
+        DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
+        Document doc = docBuilder.newDocument();
+
+        Element root = doc.createElement( "tracking" );
+        for (int i=0;i<message.getFieldCount();i++){
+            root.setAttribute( message.getField(i ).getName(),message.getField( i ).getValue() );
+        }
+        doc.appendChild( root );
+
+        TransformerFactory transfac = TransformerFactory.newInstance();
+        Transformer trans = transfac.newTransformer();
+        trans.setOutputProperty( OutputKeys.OMIT_XML_DECLARATION, "yes" );
+        trans.setOutputProperty( OutputKeys.INDENT, "yes" );
+
+        //create string from xml tree
+        StringWriter sw = new StringWriter();
+        StreamResult result = new StreamResult( sw );
+        DOMSource source = new DOMSource( doc );
+        trans.transform( source, result );
+        String xmlString = sw.toString();
+
+        //print xml
+        System.out.println( "Here's the xml:\n\n" + xmlString );
+        return xmlString;
     }
 
     private String getXML( StatisticsMessage message ) {
         //todo: use DOM to create the XML string
-        String xml="<tracking ";
-        for (int i=0;i<message.getFieldCount();i++){
-            xml+=message.getField( i ).getName()+"=\""+encode(message.getField( i ).getValue()+"\"")+" ";
+        String xml = "<tracking ";
+        for ( int i = 0; i < message.getFieldCount(); i++ ) {
+            xml += message.getField( i ).getName() + "=\"" + encode( message.getField( i ).getValue() + "\"" ) + " ";
         }
-        xml+="/>";
+        xml += "/>";
         return xml;
     }
 
