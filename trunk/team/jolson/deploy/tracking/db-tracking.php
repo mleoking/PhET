@@ -8,7 +8,7 @@
 	// used for every mysql query that needs to be made
 	// useful for debugging and error catching
 	function phet_mysql_query($query) {
-		print "<p>" . $query . "</p>";
+		//print "<p>" . $query . "</p>";
 		
 		// actually execute the query
 		$result = mysql_query($query);
@@ -32,39 +32,38 @@
 	function get_id_value($table_name, $table_field_id, $table_field_value, $table_value) {
 		// POSSIBLE TODO: update with things similar to "INSERT INTO java_vendor (name) SELECT 'Not Sun' FROM java_vendor WHERE NOT EXISTS (SELECT id FROM java_vendor WHERE name = 'Not Sun');"
 		
-		// we cannot use "= NULL" since NULL != NULL, thus we need a separate check if our
-		// value is NULL
 		if($table_value != "NULL") {
-			// selects all rows which have that value (should be just 1, but will not error if there are more)
-			$query = "SELECT {$table_field_id} FROM {$table_name} WHERE {$table_field_value} = {$table_value}";
-		} else {
-			// selects all rows which have that value (should be just 1, but will not error if there are more)
-			$query = "SELECT {$table_field_id} FROM {$table_name} WHERE {$table_field_value} IS NULL";
+			// if not null, do a conditional insert into the normalized table
+			// (null should already be in the table, and the insert will only take place if the value is not in the table)
+			$query = <<<BOO
+INSERT INTO {$table_name} ({$table_field_value})
+SELECT {$table_value}
+FROM {$table_name}
+WHERE NOT EXISTS (
+	SELECT {$table_field_id}
+	FROM {$table_name}
+	WHERE name = {$table_value}
+);
+BOO;
+			phet_mysql_query($query);
 		}
 		
-		// execute the query
+		// craft a select statement that will find the ID corresponding to the value
+		// TODO: possibly save a query by assuming ID for NULL is 1?  (should work now, but if things change...)
+		$query = "SELECT {$table_field_id} FROM {$table_name} WHERE {$table_field_value} " . ($table_value == "NULL" ? "IS NULL" : "= {$table_value}");
+		
 		$result = phet_mysql_query($query);
 		
-		// the number of rows that match the SELECT statement above
-		// should be either 0 or 1, however this will work if more are selected
-		// if 0, our value is not in the table
-		$num_rows = mysql_num_rows($result);
+		$row = mysql_fetch_row($result);
 		
-		if($num_rows == 0) {
-			// our value is not in the table, so we need to insert it
-			$insert_query = "INSERT INTO {$table_name} ({$table_field_value}) VALUES ({$table_value})";
-			phet_mysql_query($insert_query);
-			
-			// return the value of the auto_increment field (should be ID).
-			// this allows us to not execute another query
-			return mysql_insert_id();
-		} else {
-			// our value is in the table. fetch the first row (should be the only row)
-			$row = mysql_fetch_row($result);
-			
-			// return the ID
-			return $row[0];
+		$id = $row[0];
+		
+		if(empty($id)) {
+			// either 0 or something unknown. either way, an error occurred
+			die("Could not find correct ID");
 		}
+		
+		return $id;
 	}
 	
 	// surround a string with quotes, and escape it
@@ -72,7 +71,7 @@
 		return "'" . mysql_real_escape_string($str) . "'";
 	}
 	
-	// return either a quoted string, or NULL if the value is one of the strings mapped to NULL
+	// return either a secure quoted string, or NULL if the value is one of the strings mapped to NULL
 	function quote_null_if_none($value) {
 		if($value == "none" || $value == "null" || $value == "undefined") {
 			return "NULL";
@@ -264,12 +263,11 @@
 	}
 	
 	// insert/update data for the user table
-	function update_user(
-		$userPreferencesFileCreationTime,
-		$userTotalSessions
-	) {
+	function update_user($userPreferencesFileCreationTime, $userTotalSessions) {
+		// escaped versions
 		$safe_time = mysql_real_escape_string($userPreferencesFileCreationTime);
 		$safe_sessions = mysql_real_escape_string($userTotalSessions);
+		
 		// we need to find out whether an entry exists for this particular file creation time
 		$query = "SELECT user_preferences_file_creation_time FROM user WHERE user_preferences_file_creation_time = " . $safe_time . ";";
 		$result = phet_mysql_query($query);

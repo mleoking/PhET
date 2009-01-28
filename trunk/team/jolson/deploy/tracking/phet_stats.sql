@@ -248,6 +248,27 @@ CREATE TABLE session_java_info (
 
 
 
+# insert nulls into the normalized tables so that NOT EXISTS works correctly
+# and the conditional inserts will work
+INSERT INTO sim_project (name) VALUES (NULL);
+INSERT INTO sim_name (name) VALUES (NULL);
+INSERT INTO deployment (name) VALUES (NULL);
+INSERT INTO distribution_tag (name) VALUES (NULL);
+INSERT INTO simplified_os (name) VALUES (NULL);
+INSERT INTO flash_version_type (name) VALUES (NULL);
+INSERT INTO flash_domain (name) VALUES (NULL);
+INSERT INTO flash_os (name) VALUES (NULL);
+INSERT INTO java_os_name (name) VALUES (NULL);
+INSERT INTO java_os_version (name) VALUES (NULL);
+INSERT INTO java_os_arch (name) VALUES (NULL);
+INSERT INTO java_vendor (name) VALUES (NULL);
+INSERT INTO java_webstart_version (name) VALUES (NULL);
+INSERT INTO java_timezone (name) VALUES (NULL);
+
+
+
+
+
 # VIEW TABLES
 
 /*
