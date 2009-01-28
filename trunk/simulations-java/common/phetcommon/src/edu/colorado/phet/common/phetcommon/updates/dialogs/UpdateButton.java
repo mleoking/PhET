@@ -22,8 +22,7 @@ public class UpdateButton extends JButton {
         super( PhetCommonResources.getString( "Common.updates.updateNow" ) );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                DeploymentScenario scenario = DeploymentScenario.getInstance();
-                if ( ( scenario == DeploymentScenario.PHET_WEBSITE ) || ( scenario == DeploymentScenario.OTHER_WEBSITE ) ) {
+                if ( DeploymentScenario.getInstance().isOnline() ) {
                     PhetServiceManager.showSimPage( project, sim );
                 }
                 else {

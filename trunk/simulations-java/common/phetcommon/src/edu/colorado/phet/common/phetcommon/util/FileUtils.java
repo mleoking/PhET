@@ -1,9 +1,12 @@
 package edu.colorado.phet.common.phetcommon.util;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.security.AccessControlException;
+import java.util.jar.JarFile;
 
 /**
  * FileUtils is a collection of file utilities.
@@ -54,14 +57,37 @@ public class FileUtils {
      */
     public static File getCodeSource() {
         URL url = FileUtils.class.getProtectionDomain().getCodeSource().getLocation();
+        return new File( url.getFile() );
+    }
+    
+    /**
+     * Is the code source a JAR file?
+     * @return
+     */
+    public static boolean isJarCodeSource() {
+        //TODO: bad style to write code that depends on exceptions
         try {
-            URI uri = new URI( url.toString() );
-            return new File( uri.getPath() );
+            return isJar( FileUtils.getCodeSource() );
         }
-        catch( URISyntaxException e ) {
-            System.out.println( e.getMessage() );
-            e.printStackTrace();
-            throw new RuntimeException( e );
+        catch( AccessControlException ace ) {
+            return false;
+        }
+    }
+    
+    /**
+     * Is the file a JAR?
+     * @param file
+     * @return
+     */
+    public static boolean isJar( File file ) {
+        System.out.println( "FileUtils.isJar file=" + file.getAbsolutePath() );//XXX
+        //TODO: bad style to write code that depends on exceptions
+        try {
+            new JarFile( file ); // throws IOException if not a jar file
+            return true;
+        }
+        catch ( IOException e ) {
+            return false;
         }
     }
 }

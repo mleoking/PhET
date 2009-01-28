@@ -8,6 +8,7 @@ import javax.swing.SwingUtilities;
 import edu.colorado.phet.common.phetcommon.statistics.SessionMessage;
 import edu.colorado.phet.common.phetcommon.statistics.StatisticsManager;
 import edu.colorado.phet.common.phetcommon.updates.UpdatesManager;
+import edu.colorado.phet.common.phetcommon.util.DeploymentScenario;
 
 /**
  * This launcher solves the following problems:
@@ -98,6 +99,8 @@ public class PhetApplicationLauncher {
             //If/when these references have been changed/removed, we can change this to invokeLater()
             SwingUtilities.invokeAndWait( new Runnable() {
                 public void run() {
+                    
+                    DeploymentScenario.getInstance();//XXX testing
 
                     config.getLookAndFeel().initLookAndFeel();
                     if ( applicationConstructor != null ) {

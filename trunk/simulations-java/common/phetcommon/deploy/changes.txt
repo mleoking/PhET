@@ -1,3 +1,5 @@
+1-28-09: #1087, add detection of phet dev, phet prod, other website to deployment scenarios
+1-28-09: #1087, add additional FileUtils, fix getCodeSource
 1-27-09: #1087, use singleton and Java 1.4 typesafe enum patterns to reimplement deployment scenario
 1-27-09: #895, clean up initial sizing of license dialog
 1-27-09: #995, delete deprecated jawaws.phet.locale, no need for this in redeployed sims
