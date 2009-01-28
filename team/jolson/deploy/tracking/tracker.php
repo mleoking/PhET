@@ -56,10 +56,48 @@
 			);
 			
 			// extract flash version information
-			$version_left = substr(urldecode($xml["host_flash_version"]), 0, stripos(urldecode($xml["host_flash_version"]), " "));
-			$version_right = substr(urldecode($xml["host_flash_version"]), stripos(urldecode($xml["host_flash_version"]), " ") + 1);
+			$version_string = urldecode($xml["host_flash_version"]);
+			
+			// extract everything up until the first space
+			$version_left = substr($version_string, 0, stripos($version_string, " "));
+			
+			// extract everything after the first space
+			$version_right = substr($version_string, stripos($version_string, " ") + 1);
+			
+			// split everything into commas (that was after the first space)
 			$version_numbers = explode(",", $version_right);
 			
+			insert_flash_message(
+				array (
+					"message_version" => 1,
+					"sim_project" => urldecode($xml["sim_project"]),
+					"sim_name" => urldecode($xml["sim_name"]),
+					"sim_major_version" => urldecode($xml["sim_major_version"]),
+					"sim_minor_version" => urldecode($xml["sim_minor_version"]),
+					"sim_dev_version" => urldecode($xml["sim_dev_version"]),
+					"sim_svn_revision" => urldecode($xml["sim_svn_revision"]),
+					"sim_locale_language" => urldecode($xml["sim_locale_language"]),
+					"sim_locale_country" => urldecode($xml["sim_locale_country"]),
+					"sim_sessions_since" => urldecode($xml["sim_sessions_since"]),
+					"sim_sessions_ever" => urldecode($xml["sim_sessions_ever"]),
+					"sim_deployment" => urldecode($xml["sim_deployment"]),
+					"sim_distribution_tag" => urldecode($xml["sim_distribution_tag"]),
+					"sim_dev" => urldecode($xml["sim_dev"]),
+					"host_locale_language" => urldecode($xml["host_locale_language"]),
+					"host_locale_country" => "none",
+					"host_flash_version_type" => $version_left,
+					"host_flash_version_major" => $version_numbers[0],
+					"host_flash_version_minor" => $version_numbers[1],
+					"host_flash_version_revision" => $version_numbers[2],
+					"host_flash_version_build" => $version_numbers[3],
+					"host_flash_time_offset" => urldecode($xml["host_flash_time_offset"]),
+					"host_flash_accessibility" => urldecode($xml["host_flash_accessibility"]),
+					"host_flash_domain" => urldecode($xml["host_flash_domain"]),
+					"host_flash_os" => urldecode($xml["host_flash_os"])
+				)
+			);
+			
+			/*
 			// insert the flash message
 			insert_flash_message(
 				1, //$messageVersion,
@@ -88,6 +126,7 @@
 				sanitize($xml, "host_flash_domain"), //$hostFlashDomain,
 				sanitize($xml, "host_flash_os") //$hostFlashOS
 			);
+			*/
 			
 			
 		}
