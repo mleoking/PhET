@@ -1,3 +1,5 @@
+# 3.05.01 (27761) 01-28-2009
+> Fixed issue where the bucket label was not correct when the custom nucleus was selected.
 # 3.05.00 (27554) 01-22-2009
 Deployment to the production web site.
 # 3.04.23 (27545) 01-22-2009
