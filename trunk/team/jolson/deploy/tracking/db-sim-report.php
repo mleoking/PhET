@@ -46,6 +46,14 @@
 	
 	mysql_query("SELECT (@sid := sim_name.id) FROM sim_name WHERE sim_name.name = " . quo($simName) . ";");
 	
+	// TODO: get faster query for flash/java question?
+	$result = mysql_query("SELECT DISTINCT IF(sim_type = 0, 'java', 'flash') AS sim_type FROM session WHERE sim_name = @sid;");
+	$row = mysql_fetch_row($result);
+	$simType = $row[0];
+	
+	display_desc("java or flash?");
+	display_query("SELECT DISTINCT IF(sim_type = 0, 'java', 'flash') AS sim_type FROM session WHERE sim_name = @sid;");
+	
 	display_desc("total number of messages");
 	display_query("SELECT COUNT(*) AS total_messages FROM session WHERE (session.sim_name = @sid)");
 	
@@ -56,41 +64,55 @@
 	display_query("SELECT SUM(session.sim_sessions_since) AS total_sessions FROM session WHERE (session.sim_name = @sid AND session.sim_dev = false)");
 	
 	display_desc("number of times sim has been run by week");
-	display_query("SELECT YEARWEEK(timestamp), SUM(session.sim_sessions_since) FROM session WHERE (session.sim_name = @sid) GROUP BY YEARWEEK(timestamp);");
-	
-	
-	print "<h1>old style</h1>";
-	
-	display_desc("java or flash?");
-	display_query("SELECT SQL_NO_CACHE DISTINCT session.sim_type FROM session, (SELECT id FROM sim_name WHERE name = '" . $simName . "') AS x WHERE session.sim_name = x.id;");
+	display_query("SELECT YEARWEEK(timestamp) AS year_week, SUM(session.sim_sessions_since) AS sessions FROM session WHERE (session.sim_name = @sid) GROUP BY YEARWEEK(timestamp);");
 	
 	display_desc("number of times each simplified OS has been seen (non-dev)");
-	display_query("SELECT SQL_NO_CACHE simplified_os.name, SUM(session.sim_sessions_since) FROM session, simplified_os, (SELECT id FROM sim_name WHERE name = '" . $simName . "') AS x WHERE (session.host_simplified_os = simplified_os.id AND session.sim_dev = false AND session.sim_name = x.id) GROUP BY simplified_os.name ORDER BY COUNT(session.id) DESC;");
-	//display_query("SELECT SQL_NO_CACHE simplified_os.name, COUNT(session.id) FROM session, simplified_os, (SELECT id FROM sim_name WHERE name = '" . $simName . "') AS x WHERE (session.host_simplified_os = simplified_os.id AND session.sim_dev = false AND session.sim_name = x.id) GROUP BY simplified_os.name ORDER BY COUNT(session.id) DESC;");
+	display_query("SELECT simplified_os.name, SUM(session.sim_sessions_since) AS sessions FROM session, simplified_os WHERE (session.host_simplified_os = simplified_os.id AND session.sim_dev = false AND session.sim_name = @sid) GROUP BY simplified_os.name ORDER BY COUNT(session.id) DESC;");
 	
 	display_desc("number of times each deployment type has been seen (non-dev)");
-	display_query("SELECT SQL_NO_CACHE deployment.name, SUM(session.sim_sessions_since) FROM session, deployment, (SELECT id FROM sim_name WHERE name = '" . $simName . "')  AS x WHERE (session.sim_deployment = deployment.id AND session.sim_dev = false AND session.sim_name = x.id) GROUP BY deployment.name ORDER BY COUNT(session.id) DESC;");
-	//display_query("SELECT SQL_NO_CACHE deployment.name, COUNT(session.id) FROM session, deployment, (SELECT id FROM sim_name WHERE name = '" . $simName . "')  AS x WHERE (session.sim_deployment = deployment.id AND session.sim_dev = false AND session.sim_name = x.id) GROUP BY deployment.name ORDER BY COUNT(session.id) DESC;");
+	display_query("SELECT deployment.name, SUM(session.sim_sessions_since) AS sessions FROM session, deployment WHERE (session.sim_deployment = deployment.id AND session.sim_dev = false AND session.sim_name = @sid) GROUP BY deployment.name ORDER BY COUNT(session.id) DESC;");
 	
 	display_desc("number of times each (non-null) distribution tag has been seen (non-dev)");
-	display_query("SELECT SQL_NO_CACHE distribution_tag.name, SUM(session.sim_sessions_since) FROM session, distribution_tag, (SELECT id FROM sim_name WHERE name = '" . $simName . "') AS x WHERE (distribution_tag.id = session.sim_distribution_tag AND distribution_tag.name IS NOT NULL AND session.sim_dev = false AND session.sim_name = x.id) GROUP BY distribution_tag.name ORDER BY COUNT(session.id) DESC;");
-	//display_query("SELECT SQL_NO_CACHE distribution_tag.name, COUNT(session.id) FROM session, distribution_tag, (SELECT id FROM sim_name WHERE name = '" . $simName . "') AS x WHERE (distribution_tag.id = session.sim_distribution_tag AND distribution_tag.name IS NOT NULL AND session.sim_dev = false AND session.sim_name = x.id) GROUP BY distribution_tag.name ORDER BY COUNT(session.id) DESC;");
+	display_query("SELECT distribution_tag.name, SUM(session.sim_sessions_since) AS sessions FROM session, distribution_tag WHERE (distribution_tag.id = session.sim_distribution_tag AND distribution_tag.name IS NOT NULL AND session.sim_dev = false AND session.sim_name = @sid) GROUP BY distribution_tag.name ORDER BY COUNT(session.id) DESC;");
 	
-	display_desc("number of times sim have been run by week");
-	display_query("SELECT SQL_NO_CACHE YEARWEEK(timestamp), SUM(session.sim_sessions_since) FROM session, (SELECT id FROM sim_name WHERE name = '" . $simName . "') AS x WHERE (session.sim_name = x.id) GROUP BY YEARWEEK(timestamp);");
-	//display_query("SELECT SQL_NO_CACHE YEARWEEK(timestamp), COUNT(*) FROM session, (SELECT id FROM sim_name WHERE name = '" . $simName . "') AS x WHERE (session.sim_name = x.id) GROUP BY YEARWEEK(timestamp);");
-	
-	display_desc("number of times sim has been run, by language, since the start of 2009");
-	display_query("SELECT SQL_NO_CACHE session.sim_locale_language, SUM(session.sim_sessions_since) FROM session, (SELECT id FROM sim_name WHERE name = '" . $simName . "') AS x WHERE (session.sim_name = x.id AND session.timestamp > '2009-01-01') GROUP BY session.sim_locale_language ORDER BY session.sim_locale_language;");
-	//display_query("SELECT SQL_NO_CACHE session.sim_locale_language, COUNT(session.id) FROM session, (SELECT id FROM sim_name WHERE name = '" . $simName . "') AS x WHERE (session.sim_name = x.id AND session.timestamp > '2009-01-01') GROUP BY session.sim_locale_language ORDER BY session.sim_locale_language;");
-	
-	display_desc("number of times the sim has been run, by year month and day (within the last year) (non-dev)");
-	display_query("SELECT SQL_NO_CACHE DISTINCT YEAR(timestamp) AS year, MONTH(timestamp) AS month, DAY(timestamp) AS day, SUM(session.sim_sessions_since) AS sim_runs FROM session, (SELECT id FROM sim_name WHERE name = '" . $simName . "') AS x WHERE (timestamp > DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 1 YEAR) AND sim_dev = false) GROUP BY YEAR(timestamp), MONTH(timestamp), DAY(timestamp);");
-	//display_query("SELECT SQL_NO_CACHE DISTINCT YEAR(timestamp) AS year, MONTH(timestamp) AS month, DAY(timestamp) AS day, COUNT(session.id) AS sim_runs FROM session, (SELECT id FROM sim_name WHERE name = '" . $simName . "') AS x WHERE (timestamp > DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 1 YEAR) AND sim_dev = false) GROUP BY YEAR(timestamp), MONTH(timestamp), DAY(timestamp);");
+	display_desc("number of times sim has been run, by language");
+	display_query("SELECT session.sim_locale_language, SUM(session.sim_sessions_since) FROM session WHERE (session.sim_name = @sid) GROUP BY session.sim_locale_language ORDER BY SUM(session.sim_sessions_since) DESC;");
 	
 	display_desc("sim runs by locale");
-	display_query("SELECT SQL_NO_CACHE IF(y.country IS NULL, y.language, CONCAT(y.language, '_', y.country)) AS locale, y.counts AS sim_runs FROM (SELECT DISTINCT session.sim_locale_language AS language, session.sim_locale_country AS country, SUM(session.sim_sessions_since) AS counts FROM session, (SELECT id FROM sim_name WHERE name = '" . $simName . "') AS x WHERE (session.sim_name = x.id) GROUP BY session.sim_locale_language, sim_locale_country ORDER BY session.sim_locale_language, sim_locale_country) as y;");
-	//display_query("SELECT SQL_NO_CACHE IF(y.country IS NULL, y.language, CONCAT(y.language, '_', y.country)) AS locale, y.counts AS sim_runs FROM (SELECT DISTINCT session.sim_locale_language AS language, session.sim_locale_country AS country, COUNT(session.id) AS counts FROM session, (SELECT id FROM sim_name WHERE name = '" . $simName . "') AS x WHERE (session.sim_name = x.id) GROUP BY session.sim_locale_language, sim_locale_country ORDER BY session.sim_locale_language, sim_locale_country) as y;");
+	$query = <<<LOC
+SELECT
+	IF(y.country IS NULL, y.language, CONCAT(y.language, '_', y.country)) AS locale,
+	y.counts AS sim_runs
+FROM (
+	SELECT DISTINCT
+		session.sim_locale_language AS language,
+		session.sim_locale_country AS country,
+		SUM(session.sim_sessions_since) AS counts
+	FROM session
+	WHERE (session.sim_name = @sid)
+	GROUP BY session.sim_locale_language, sim_locale_country
+	ORDER BY session.sim_locale_language, sim_locale_country
+) as y
+ORDER BY sim_runs DESC;
+LOC;
+	display_query($query);
+	
+	display_desc("number of times the sim has been run, by year month and day (within the last year) (non-dev)");
+	$query = <<<RUN
+SELECT DISTINCT
+	YEAR(timestamp) AS year,
+	MONTH(timestamp) AS month,
+	DAY(timestamp) AS day,
+	SUM(session.sim_sessions_since) AS sim_runs
+FROM session
+WHERE (
+	timestamp > DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 1 YEAR)
+	AND sim_dev = false
+	AND sim_name = @sid
+)
+GROUP BY YEAR(timestamp), MONTH(timestamp), DAY(timestamp);
+RUN;
+	display_query($query);
 	
 	$total_end_time = microtime(true);
 	
