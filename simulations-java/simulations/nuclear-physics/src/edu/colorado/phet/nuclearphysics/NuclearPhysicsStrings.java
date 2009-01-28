@@ -118,4 +118,7 @@ public class NuclearPhysicsStrings {
     public static final String UNITS_YEARS= NuclearPhysicsResources.getString( "DecayTimeChart.Units.Years" );
     public static final String UNITS_YRS= NuclearPhysicsResources.getString( "DecayTimeChart.Units.Yrs" );
     
+    public static final String BUCKET_LABEL_POLONIUM= NuclearPhysicsResources.getString( "Bucket.Label.Polonium" );
+    public static final String BUCKET_LABEL_ATOMS= NuclearPhysicsResources.getString( "Bucket.Label.Atoms" );
+    
 }
