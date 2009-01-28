@@ -3,7 +3,7 @@
 	// useful for testing processor / disk space usage and feasibility, and for
 	// creating report tools
 	
-	include("db_util.php");
+	include("db-tracking.php");
 	$link = setup_mysql();
 	
 	// number of simulated messages to be sent

@@ -3,7 +3,7 @@
 <body>
 <h1>Recent messages:</h1>
 <?php
-	include("db_util.php");
+	include("db-tracking.php");
 	$link = setup_mysql();
 	
 	// used to extract fieldnames and display each table
