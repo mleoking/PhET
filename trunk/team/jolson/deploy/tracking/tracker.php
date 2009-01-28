@@ -51,21 +51,27 @@
 			
 			// create/update entry in user database
 			update_user(
-				sanitize($xml, "user_preference_file_creation_time"),
-				sanitize($xml, "user_total_sessions")
+				urldecode($xml["user_preference_file_creation_time"]),
+				urldecode($xml["user_total_sessions"])
 			);
 			
-			// extract flash version information
+			// extract flash version information (version is something like "LNX 9,0,124,0")
 			$version_string = urldecode($xml["host_flash_version"]);
 			
-			// extract everything up until the first space
-			$version_left = substr($version_string, 0, stripos($version_string, " "));
+			// find position of first space
+			$space_position = stripos($version_string, " ");
+			if($space_position === false || $space_position == 0) { die("Error: 451524"); }
 			
-			// extract everything after the first space
-			$version_right = substr($version_string, stripos($version_string, " ") + 1);
+			// extract everything up until the first space ("LNX")
+			$version_left = substr($version_string, 0, $space_position);
 			
-			// split everything into commas (that was after the first space)
+			// extract everything after the first space ("9,0,124,0")
+			$version_right = substr($version_string, $space_position + 1);
+			if(empty($version_right)) { die("Error: 725378"); }
+			
+			// split right side on commas (array("9", "0", "124", "0"))
 			$version_numbers = explode(",", $version_right);
+			if(count($version_numbers) != 4) { die("Error: 981403"); }
 			
 			insert_flash_message(
 				array (
