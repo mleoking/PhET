@@ -16,7 +16,7 @@
 		$result = mysql_query($query) or die("SELECT ERROR: " . mysql_error());
 		$end_time = microtime(true);
 		$num_rows = mysql_num_rows($result);
-		print "<h6>$query</h6>\n";
+		print "<h6>{$query}</h6>\n";
 		print "Running time: " . ($end_time - $start_time) . " seconds\n";
 		if($explain) {
 			display_explain($query);
@@ -36,7 +36,7 @@
 		while($get_info = mysql_fetch_row($result)) {
 			print "<tr>\n";
 			foreach($get_info as $field) {
-				print "\t<td><font face=arial size=2/>$field</font></td>\n";
+				print "\t<td><font face=arial size=2/>{$field}</font></td>\n";
 			}
 			print "</tr>\n";
 		}
@@ -59,7 +59,7 @@
 		while($get_info = mysql_fetch_row($result)) {
 			print "<tr>\n";
 			foreach($get_info as $field) {
-				print "\t<td><font face=arial size=2/>$field</font></td>\n";
+				print "\t<td><font face=arial size=2/>{$field}</font></td>\n";
 			}
 			print "</tr>\n";
 		}
