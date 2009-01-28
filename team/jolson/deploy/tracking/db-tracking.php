@@ -44,7 +44,7 @@
 			// (null should already be in the table, and the insert will only take place if the value is not in the table)
 			$query = <<<BOO
 INSERT INTO {$table_name} ({$table_field_value})
-SELECT {$table_value}
+SELECT DISTINCT {$table_value}
 FROM {$table_name}
 WHERE NOT EXISTS (
 	SELECT {$table_field_id}
