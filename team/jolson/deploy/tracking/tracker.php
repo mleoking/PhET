@@ -131,7 +131,7 @@
 		
 	}
 	
-	echo "<p>Received Successfully</p>";
+	print "<p>Received Successfully</p>";
 	
 ?>
 </html>
