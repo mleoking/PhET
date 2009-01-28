@@ -65,16 +65,6 @@
 		return "'" . $str . "'";
 	}
 	
-	// used for inserting into tables. stores the field name, and value to be inserted
-	class Field {
-		public $field = 'default_field';
-		public $value = 'default_value';
-		public function __construct($field, $value) {
-			$this->field = $field;
-			$this->value = $value;
-		}
-	}
-	
 	// return either a quoted string, or NULL if the value is one of the strings mapped to NULL
 	function quote_null_if_none($value) {
 		if($value == "none" || $value == "null" || $value == "undefined") {
@@ -87,29 +77,9 @@
 	// turn a table name and array of Field objects into an insert statement into that table
 	function query_from_values($table_name, $values) {
 		$query = "INSERT INTO $table_name (";
-		$first = true;
-		
-		// build field names
-		foreach($values as $f) {
-			if($first) {
-				$first = false;
-				$query .= $f->field;
-			} else {
-				$query .= ", " . $f->field;
-			}
-		}
+		$query .= join(', ', array_keys($values));
 		$query .= ") VALUES (";
-		$first = true;
-		
-		// build values
-		foreach($values as $f) {
-			if($first) {
-				$first = false;
-				$query .= $f->value;
-			} else {
-				$query .= ", " . $f->value;
-			}
-		}
+		$query .= join(', ', array_values($values));
 		$query .= ");";
 		return $query;
 	}
@@ -124,24 +94,24 @@
 		$host_simplified_os_ID = get_id_value("simplified_os", "id", "name", quo($data['host_simplified_os']));
 		
 		$values = array(
-			new Field('message_version', $data['message_version']),
-			new Field('sim_type', $data['sim_type']),
-			new Field('sim_project', $sim_project_ID),
-			new Field('sim_name', $sim_name_ID),
-			new Field('sim_major_version', $data['sim_major_version']),
-			new Field('sim_minor_version', $data['sim_minor_version']),
-			new Field('sim_dev_version', $data['sim_dev_version']),
-			new Field('sim_svn_revision', $data['sim_svn_revision']),
-			new Field('sim_locale_language', quo($data['sim_locale_language'])),
-			new Field('sim_locale_country', quote_null_if_none($data['sim_locale_country'])),
-			new Field('sim_sessions_since', $data['sim_sessions_since']),
-			new Field('sim_sessions_ever', $data['sim_sessions_ever']),
-			new Field('sim_deployment', $sim_deployment_ID),
-			new Field('sim_distribution_tag', $sim_distribution_tag_ID),
-			new Field('sim_dev', $data['sim_dev']),
-			new Field('host_locale_language', quo($data['host_locale_language'])),
-			new Field('host_locale_country', quote_null_if_none($data['host_locale_country'])),
-			new Field('host_simplified_os', $host_simplified_os_ID),
+			'message_version' => $data['message_version'],
+			'sim_type' => $data['sim_type'],
+			'sim_project' => $sim_project_ID,
+			'sim_name' => $sim_name_ID,
+			'sim_major_version' => $data['sim_major_version'],
+			'sim_minor_version' => $data['sim_minor_version'],
+			'sim_dev_version' => $data['sim_dev_version'],
+			'sim_svn_revision' => $data['sim_svn_revision'],
+			'sim_locale_language' => quo($data['sim_locale_language']),
+			'sim_locale_country' => quote_null_if_none($data['sim_locale_country']),
+			'sim_sessions_since' => $data['sim_sessions_since'],
+			'sim_sessions_ever' => $data['sim_sessions_ever'],
+			'sim_deployment' => $sim_deployment_ID,
+			'sim_distribution_tag' => $sim_distribution_tag_ID,
+			'sim_dev' => $data['sim_dev'],
+			'host_locale_language' => quo($data['host_locale_language']),
+			'host_locale_country' => quote_null_if_none($data['host_locale_country']),
+			'host_simplified_os' => $host_simplified_os_ID,
 		);
 		
 		// build query from values to be inserted
@@ -162,16 +132,16 @@
 		$host_flash_os_ID = get_id_value("flash_os", "id", "name", quo($data['host_flash_os']));
 		
 		$values = array(
-			new Field('session_id', $data['session_id']),
-			new Field('host_flash_version_type', $host_flash_version_type_ID),
-			new Field('host_flash_version_major', $data['host_flash_version_major']),
-			new Field('host_flash_version_minor', $data['host_flash_version_minor']),
-			new Field('host_flash_version_revision', $data['host_flash_version_revision']),
-			new Field('host_flash_version_build', $data['host_flash_version_build']),
-			new Field('host_flash_time_offset', $data['host_flash_time_offset']),
-			new Field('host_flash_accessibility', $data['host_flash_accessibility']),
-			new Field('host_flash_domain', $host_flash_domain_ID),
-			new Field('host_flash_os', $host_flash_os_ID)
+			'session_id' => $data['session_id'],
+			'host_flash_version_type' => $host_flash_version_type_ID,
+			'host_flash_version_major' => $data['host_flash_version_major'],
+			'host_flash_version_minor' => $data['host_flash_version_minor'],
+			'host_flash_version_revision' => $data['host_flash_version_revision'],
+			'host_flash_version_build' => $data['host_flash_version_build'],
+			'host_flash_time_offset' => $data['host_flash_time_offset'],
+			'host_flash_accessibility' => $data['host_flash_accessibility'],
+			'host_flash_domain' => $host_flash_domain_ID,
+			'host_flash_os' => $host_flash_os_ID
 		);
 		
 		// build query from values to be inserted
@@ -195,16 +165,16 @@
 		$host_java_timezone_ID = get_id_value("java_timezone", "id", "name", quo($data['host_java_timezone']));
 		
 		$values = array(
-			new Field('session_id', $data["session_id"]),
-			new Field('host_java_os_name', $host_java_os_name_ID),
-			new Field('host_java_os_version', $host_java_os_version_ID),
-			new Field('host_java_os_arch', $host_java_os_arch_ID),
-			new Field('host_java_vendor', $host_java_vendor_ID),
-			new Field('host_java_version_major', $data['host_java_version_major']),
-			new Field('host_java_version_minor', $data['host_java_version_minor']),
-			new Field('host_java_version_maintenance', $data['host_java_version_maintenance']),
-			new Field('host_java_webstart_version', $host_java_webstart_version_ID),
-			new Field('host_java_timezone', $host_java_timezone_ID)
+			'session_id' => $data["session_id"],
+			'host_java_os_name' => $host_java_os_name_ID,
+			'host_java_os_version' => $host_java_os_version_ID,
+			'host_java_os_arch' => $host_java_os_arch_ID,
+			'host_java_vendor' => $host_java_vendor_ID,
+			'host_java_version_major' => $data['host_java_version_major'],
+			'host_java_version_minor' => $data['host_java_version_minor'],
+			'host_java_version_maintenance' => $data['host_java_version_maintenance'],
+			'host_java_webstart_version' => $host_java_webstart_version_ID,
+			'host_java_timezone' => $host_java_timezone_ID
 		);
 		
 		// build query from values to be inserted
@@ -302,10 +272,10 @@
 			
 			// values to be inserted
 			$values = array(
-				new Field('user_preferences_file_creation_time', $userPreferencesFileCreationTime),
-				new Field('user_total_sessions', $userTotalSessions),
-				new Field('first_seen_month', quo(date("Y-m-01", time()))), // current year and month
-				new Field('last_seen_month', quo(date("Y-m-01", time()))) // current year and month
+				'user_preferences_file_creation_time' => $userPreferencesFileCreationTime,
+				'user_total_sessions' => $userTotalSessions,
+				'first_seen_month' => quo(date("Y-m-01", time())), // current year and month
+				'last_seen_month' => quo(date("Y-m-01", time())) // current year and month
 			);
 			$insert_query = query_from_values("user", $values);
 			phet_mysql_query($insert_query);
