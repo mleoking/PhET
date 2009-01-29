@@ -555,29 +555,20 @@ public class PhetProject {
     }
 
     public static PhetProject[] getAllProjects( File baseDir ) {
-
         List phetProjects = new ArrayList();
-
         String[] sims = getSimNames( baseDir );
-
         for ( int i = 0; i < sims.length; i++ ) {
             String sim = sims[i];
-
             File projectDir = PhetBuildUtils.resolveProject( baseDir, sim );
-
             try {
                 PhetProject phetProject = new PhetProject( projectDir, sim );
-
                 phetProjects.add( phetProject );
             }
             catch( IOException e ) {
                 throw new BuildException( e );
             }
         }
-
         return (PhetProject[]) phetProjects.toArray( new PhetProject[0] );
-
-
     }
 
     public String getDeployedSimulationJarURL( ) {
