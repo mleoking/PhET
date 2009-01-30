@@ -67,7 +67,7 @@ object LadybugMotionModel {
       val distFromRing = abs(distFromCenter - radius)
 
       val dx = radius - distFromCenter;
-      val speed = 0.3
+      val speed = 0.12
       if (distFromRing > speed + 1E-6) {
         val velocity = new Vector2D(model.ladybug.getPosition.getAngle) * speed * (if (dx < 0) -1 else 1)
         model.ladybug.translate(velocity)
@@ -100,7 +100,7 @@ object LadybugMotionModel {
       val pos = model.ladybug.getPosition
       val ladybugC = pos.x * pos.x / a * a + pos.y * pos.y / b * b
 
-      val n = 79 * dt / 0.03
+      val n = 79 * dt / 0.015
       t = t + 2 * PI / n.toInt
 
       def getPosition(t: Double) = new Vector2D(a * cos(t), b * sin(t))
