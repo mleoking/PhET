@@ -2,6 +2,8 @@ package edu.colorado.phet.movingman.ladybug.model
 
 import _root_.edu.colorado.phet.common.motion.model.TimeData
 import _root_.edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
+import _root_.edu.colorado.phet.movingman.util.Motion2DModel
+import energyskatepark.model.physics.CubicSpline
 import java.awt.geom.{Rectangle2D, Point2D}
 import scala.collection.mutable.ArrayBuffer
 import LadybugUtil._
@@ -69,128 +71,46 @@ class LadybugModel extends ObservableS {
     f.evaluate(playbackIndexFloat)
   }
 
-  def positionModeFollow(dt: Double) = {
-    if (estimateVelocity(history.length - 1).magnitude > 1E-6)
-      ladybug.setAngle(estimateAngle())
-
-    if (samplePath.length >= 1) {
-      //      val windowSize = 11 min samplePath.length
-      //      val windowSize = 7 min samplePath.length
-      val windowSize = LadybugDefaults.WINDOW_SIZE min samplePath.length
-      val index = (samplePath.length - (windowSize - 1) / 2 - 1)
-      ladybug.setPosition(samplePath(index).location)
-
-      def estVel(index: Int, halfRange: Int) = {
-        val tx = for (item <- samplePath.slice(index - halfRange, index + halfRange)) yield new TimeData(item.location.getX, item.time)
-        val vx = MotionMath.estimateDerivative(tx.toArray)
-
-        val ty = for (item <- samplePath.slice(index - halfRange, index + halfRange)) yield new TimeData(item.location.getY, item.time)
-        val vy = MotionMath.estimateDerivative(ty.toArray)
-
-        new Vector2D(vx, vy)
-      }
-
-      val h = (windowSize - 1) / 2
-      val ax1 = for (item <- -h to h) yield new TimeData(estVel(index + item, h).getX, samplePath(index + item).time)
-      val ay1 = for (item <- -h to h) yield new TimeData(estVel(index + item, h).getY, samplePath(index + item).time)
-
-      val ax = MotionMath.estimateDerivative(MotionMath.smooth(ax1.toArray, 2))
-      val ay = MotionMath.estimateDerivative(MotionMath.smooth(ay1.toArray, 2))
-
-      ladybug.setVelocity(estVel(index, (windowSize - 1) / 2))
-      ladybug.setAcceleration(new Vector2D(ax, ay))
-    }
-  }
-
-  //  def positionMode(dt: Double) = {
-  //    if (estimateVelocity(history.length - 1).magnitude > 1E-6)
-  //      ladybug.setAngle(estimateAngle())
-  //
-  //    if (samplePath.length >= 1) {
-  //      val scale=10
-  //      val v0=ladybug.getVelocity
-  //      val delta=(samplePath(samplePath.length-1).location-ladybug.getPosition)*scale
-  //      ladybug.setAcceleration(delta)
-  //      ladybug.setVelocity(ladybug.getVelocity+delta*dt)
-  //      ladybug.translate(ladybug.getVelocity * dt)
-  ////      var v1=ladybug.getVelocity
-  //
-  ////      var a=(v1-v0)/dt//todo: center this derivative, and smooth
-  ////      ladybug.setAcceleration((a+ladybug.getAcceleration)/2)
-  //
-  //    }
-  //  }
-  def positionModeV(dt: Double) = {
-    if (estimateVelocity(history.length - 1).magnitude > 1E-6)
-      ladybug.setAngle(estimateAngle())
-
-    if (samplePath.length >= 1) {
-      val scale = 10
-      var v0 = ladybug.getVelocity
-      ladybug.setVelocity((samplePath(samplePath.length - 1).location - ladybug.getPosition) * scale)
-      ladybug.translate(ladybug.getVelocity * dt)
-      var v1 = ladybug.getVelocity
-
-      var a = (v1 - v0) / dt //todo: center this derivative, and smooth
-      ladybug.setAcceleration((a + ladybug.getAcceleration) / 2)
-
-    }
-  }
-
-  def positionModeP2(dt: Double) = {
-    if (estimateVelocity(history.length - 1).magnitude > 1E-6)
-      ladybug.setAngle(estimateAngle())
-
-    if (samplePath.length > 10) {
-      //      val n=8
-      val scale = 10
-      var v0 = ladybug.getVelocity
-      ladybug.setVelocity((samplePath(samplePath.length - 1).location - ladybug.getPosition) * scale)
-      ladybug.translate(ladybug.getVelocity * dt)
-      var v1 = ladybug.getVelocity
-      var a = (v1 - v0) / dt //todo: center this derivative, and smooth
-
-      var sum = new Vector2D
-      var count = 0
-      for (i <- 0 to 10) {
-        sum = sum + history(history.length - 1 - i).state.acceleration
-        count = count + 1
-      }
-      sum = sum / count
-
-      ladybug.setAcceleration(a * 0.2 + sum * 0.8)
-
-    }
-  }
+  val mod = new Motion2DModel(10,5)
 
   def positionMode(dt: Double) = {
+    if (samplePath.length > 2) {
+      mod.addPointAndUpdate(samplePath(samplePath.length - 1).location.x, samplePath(samplePath.length - 1).location.y)
+      ladybug.setPosition(new Vector2D(mod.getAvgXMid, mod.getAvgYMid))
+      val scale=(1.0/dt)/10
+      ladybug.setVelocity(new Vector2D(mod.getXVel, mod.getYVel)*scale)
+      ladybug.setAcceleration(new Vector2D(mod.getXAcc, mod.getYAcc)*scale*scale)
+    }
+  }
+
+  def positionModeAX(dt: Double) = {
     if (estimateVelocity(history.length - 1).magnitude > 1E-6)
       ladybug.setAngle(estimateAngle())
 
     if (samplePath.length > 20) {
-//      println("sample path length=" + samplePath.length + ", history length=" + history.length)
       def instVel(i: Int) = {
         if (i < history.length) {
           history(i).state.velocity
         } else {
           val scale = 5
           val mousePos = samplePath(i - 8).location
-          val historyPos = history(i - 8).state.position
+          val historyPos = history(i - 4).state.position
           (mousePos - historyPos) * scale
         }
       }
 
-      var v0 = ladybug.getVelocity
-      ladybug.setVelocity(instVel(history.length))
+      val instVelVal = instVel(history.length + 4)
+      ladybug.setVelocity(if (instVelVal.magnitude < 1E-4) new Vector2D else instVelVal)
       ladybug.translate(ladybug.getVelocity * dt)
 
       def instAcc(i: Int) = {
         (instVel(i + 1) - instVel(i - 1)) / (2 * dt)
       }
 
+      //      println("done")
       var sum = new Vector2D
       var count = 0
-      for (i <- -5 to 5) {
+      for (i <- -3 to 3) {
         sum = sum + instAcc(history.length - i)
         count = count + 1
       }
