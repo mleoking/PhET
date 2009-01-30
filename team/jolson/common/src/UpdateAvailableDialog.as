@@ -23,7 +23,7 @@ class UpdateAvailableDialog {
 		ASWingUtils.getRootMovieClip();
 		
 		// create a window
-		var window : JFrame = new JFrame(_level0, "New Version Available for " + _level0.simName);
+		var window : JFrame = new JFrame(_level0, "Update Available");
 		
 		// make sure we can access it from anywhere
 		_level0.updateAvailableWindow = window;
@@ -36,31 +36,27 @@ class UpdateAvailableDialog {
 		
 		// construct the string of text to show
 		var str : String = "";
-		str += "Your current version of \"" + _level0.simName + "\" is " + _level0.versionMajor + ".";
+		str += "Your current version of <b>" + _level0.simName + "</b> is " + _level0.versionMajor + ".";
 		str += _level0.versionMinor + "." + _level0.dev + ".\n";
 		str += "A newer version (" + versionMajor + "." + versionMinor + "." + dev + ") is available.\n";
 		
 		str += "\n<p align='center'>";
 		
-		str += "<a href='http://phet.colorado.edu/sims/" + _level0.simName + "/" + _level0.simName;
-		str += "_" + _level0.common.localeString();
-		str += ".html'>Try the new version.</a>";
-		
-		str += "\n" + "or" + "\n";
-		
 		str += "<a href='" + _level0.updateHandler.simWebsiteURL() + "'>";
-		str += "View the latest simulation page.</a>";
+		str += "Go to the new version.</a>";
 		
-		//str += "\n\n</p>";
 		str += "</p>";
 		
 		if(_level0.common.fromFullInstallation()) {
-			str += "\n\n";
+			str += "\n";
 			str += "To update your installation, please visit the ";
 			str += "<a href='http://phet.colorado.edu/get_phet/full_install.php'>full installation page</a>";
 			str += " for more information.";
-			
+			str += "\n";
 		}
+		
+		str += "\n";
+		str += "Update options are available under <i>Preferences</i>.";
 		
 		// TODO: visit the PhET site for more information ?
 		
