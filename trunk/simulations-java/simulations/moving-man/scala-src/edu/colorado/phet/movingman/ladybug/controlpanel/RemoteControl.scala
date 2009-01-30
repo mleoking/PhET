@@ -47,6 +47,7 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
     }
   }
   var _mode: RemoteMode = positionMode;
+  _mode.updateArrow
 
   abstract class RemoteMode(color: Color, rangeWidth: Double, getter: (Ladybug) => Vector2D) {
     val transform = new ModelViewTransform2D(new Rectangle2D.Double(-rangeWidth / 2, -rangeWidth / 2, rangeWidth, rangeWidth), new Rectangle(CANVAS_WIDTH, CANVAS_HEIGHT), false)
@@ -55,7 +56,8 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
     var dragging = false
 
     def updateArrow = {
-      if (!dragging && (RemoteControl.this._mode eq this) && LadybugDefaults.remoteIsIndicator) {
+      val doUpdate=(!dragging && (RemoteControl.this._mode eq this) && LadybugDefaults.remoteIsIndicator)
+      if (doUpdate) {
         _mode.arrowNode.setTipAndTailLocations(_mode.transform.modelToView(getter(model.ladybug)), _mode.transform.modelToView(new Point2D.Double(0, 0)))
       }
     }
