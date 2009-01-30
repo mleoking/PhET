@@ -71,7 +71,7 @@ class LadybugModel extends ObservableS {
     f.evaluate(playbackIndexFloat)
   }
 
-  val mod = new Motion2DModel(10,5)
+  val mod = new Motion2DModel(10,5,LadybugDefaults.defaultLocation.x,LadybugDefaults.defaultLocation.y)
 
   def positionMode(dt: Double) = {
     if (samplePath.length > 2) {

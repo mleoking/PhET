@@ -7,9 +7,9 @@ public class Motion2DModel {
     private Motion2DValue x;
     private Motion2DValue y;
 
-    public Motion2DModel( int halfWindowSize, int numPtsAvg ) {
-        x = new Motion2DValue( 3 * numPtsAvg + 2 * halfWindowSize, halfWindowSize, numPtsAvg );
-        y = new Motion2DValue( 3 * numPtsAvg + 2 * halfWindowSize, halfWindowSize, numPtsAvg );
+    public Motion2DModel( int halfWindowSize, int numPtsAvg, double x0, double y0 ) {
+        x = new Motion2DValue( 3 * numPtsAvg + 2 * halfWindowSize, halfWindowSize, numPtsAvg, x0 );
+        y = new Motion2DValue( 3 * numPtsAvg + 2 * halfWindowSize, halfWindowSize, numPtsAvg, y0 );
     }
 
     //add new point to position arrays, update averagePosition arrays
@@ -56,13 +56,13 @@ public class Motion2DModel {
          * @param halfWindowSize averaging radius, #of pts averaged = (2*nA + 1)
          * @param numPtsAvg      Number of points averaged for vel, acc
          */
-        public Motion2DValue( int numPoints, int halfWindowSize, int numPtsAvg ) {
+        public Motion2DValue( int numPoints, int halfWindowSize, int numPtsAvg, double init ) {
             this.halfWindowSize = halfWindowSize;
             this.numPtsAvg = numPtsAvg;
             this.value = new double[numPoints];
             this.avg = new double[numPoints - 2 * halfWindowSize];
             for ( int i = 0; i < numPoints; i++ ) {
-                value[i] = 100;
+                value[i] = init;
             }
         }
 
