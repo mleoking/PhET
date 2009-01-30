@@ -34,4 +34,5 @@
   <string key="License2" value="PhET interactiveay imulationssay ybay &lt;a href='{0}'&gt;Ethay PhET Eamtay, University of Colorado&lt;/a&gt; areay icensedlay underay aay &lt;a href='{1}'&gt;Eativecray Ommonscay Attributionay-Oncommercialnay 3.0 Uniteday Atesstay Icenselay&lt;/a&gt;." />
   <string key="License3" value="Ethay PhET ourcesay odecay isay icensedlay underay aay &lt;a href='{0}'&gt;Eativecray Ommonscay NUGay Eneralgay Ublicpay Icenselay&lt;/a&gt;." />
   <string key="License4" value="Orfay oremay informationay aboutay icensinglay, &lt;a href='{0}'&gt;ickclay erehay&lt;/a&gt;. Ifay ouyay areay interesteday inay alternativeay icenselay optionsay, easeplay ontactcay PhET atay &lt;a href='{1}'&gt;phethelp@colorado.edu&lt;/a&gt;." />
+  <string key="License5Libraries" value="License statements for libraries used by this simulation:" />
 </SimStrings>
