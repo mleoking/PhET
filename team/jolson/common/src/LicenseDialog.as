@@ -71,7 +71,7 @@ class LicenseDialog {
 		textArea.setEditable(false);
 		textArea.setCSS(css);
 		textArea.setWordWrap(true);
-		textArea.setWidth(300);
+		textArea.setWidth(400);
 		textArea.setBackground(_level0.common.backgroundColor);
 		// add padding around the text
 		textArea.setBorder(new EmptyBorder(null, new Insets(5, 5, 0, 5)));
@@ -89,7 +89,7 @@ class LicenseDialog {
 		//externalLicenseArea.setBorder(new EmptyBorder(null, new Insets(0, 5, 5, 5)));
 		*/
 		var licenseScroll = new JScrollPane(textArea, JScrollPane.SCROLLBAR_AS_NEEDED, JScrollPane.SCROLLBAR_AS_NEEDED);
-		licenseScroll.setPreferredSize(300, 400);
+		licenseScroll.setPreferredSize(400, 400);
 		licenseScroll.setBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)));
 		window.getContentPane().append(licenseScroll);
 		
