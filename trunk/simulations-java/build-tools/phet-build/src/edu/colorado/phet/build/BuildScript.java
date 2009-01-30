@@ -193,6 +193,7 @@ public class BuildScript {
         try {
             sshConnection.connect();
 
+            //todo: how can we detect failure of this command, e.g. due to permissions errors?  See #1164
             sshConnection.executeTask( new SshCommand( "mkdir " + remotePathDir ) );//todo: would it be worthwhile to skip this task when possible?
         }
         catch( SshException e ) {
