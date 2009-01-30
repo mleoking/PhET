@@ -17,7 +17,7 @@ class LadybugDeveloperControl(module: LadybugModule) extends VerticalLayoutPanel
     }
   })
 
-//  add(v)
+  //  add(v)
 
   val checkBox = new JCheckBox("Hide Mouse During Drag", LadybugDefaults.HIDE_MOUSE_DURING_DRAG)
   checkBox.addActionListener(new ActionListener() {
