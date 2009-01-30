@@ -53,7 +53,11 @@ class LicenseDialog {
 		defaultString = "For more information about licensing, <a href='{0}'>click here</a>. If you are interested ";
 		defaultString += "in alternative license options, please contact PhET at <a href='{1}'>phethelp@colorado.edu</a>.";
 		str += _level0.comStrings.get("License4", defaultString, ["http://phet.colorado.edu/about/licensing.php", "mailto:phethelp@colorado.edu"]);
-		str += "\n";
+		str += "\n\n";
+		str += _level0.comStrings.get("License5Libraries", "License statements for libraries used by this simulation are listed below:");
+		str += "\n\n";
+		var aswingText = "For AsWing A2:\n2005-2006(c) AsWing.org.\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:\n\n1) Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.\n\n2) Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.\n\n3) Neither the name AsWing.org nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.\n\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\" AND ANY\nEXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF\nMERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL\nTHE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,\nSPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT\nOF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)\nHOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR\nTORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS\nSOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.";
+		str += aswingText;
 		
 		// CSS will make links blue
 		var css : TextField.StyleSheet = new TextField.StyleSheet();
@@ -70,9 +74,25 @@ class LicenseDialog {
 		textArea.setWidth(300);
 		textArea.setBackground(_level0.common.backgroundColor);
 		// add padding around the text
-		textArea.setBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)));
+		textArea.setBorder(new EmptyBorder(null, new Insets(5, 5, 0, 5)));
 		
 		window.getContentPane().append(textArea);
+		
+		/*
+		var externalLicenseArea = new JTextArea(aswingText, 0, 40);
+		externalLicenseArea.setHtml(true);
+		externalLicenseArea.setEditable(false);
+		externalLicenseArea.setCSS(css);
+		externalLicenseArea.setWordWrap(true);
+		externalLicenseArea.setWidth(300);
+		externalLicenseArea.setBackground(_level0.common.backgroundColor);
+		//externalLicenseArea.setBorder(new EmptyBorder(null, new Insets(0, 5, 5, 5)));
+		*/
+		var licenseScroll = new JScrollPane(textArea, JScrollPane.SCROLLBAR_AS_NEEDED, JScrollPane.SCROLLBAR_AS_NEEDED);
+		licenseScroll.setPreferredSize(300, 400);
+		licenseScroll.setBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)));
+		window.getContentPane().append(licenseScroll);
+		
 		
 		window.getContentPane().append(new JSpacer(5, 5));
 		
