@@ -27,9 +27,9 @@ class LadybugModel extends ObservableS {
 
   def addSamplePoint(pt: Point2D) = {
     samplePath += new Sample(time, pt)
-    //    while (samplePath.length> LadybugDefaults.timelineLengthSeconds+1) {
-    //      samplePath.remove(0)
-    //    }
+    while (samplePath.length > LadybugDefaults.timelineLengthSeconds + 1) {
+      samplePath.remove(0)
+    }
     //    println("samplecount=" + samplePath.length)
   }
 
@@ -71,15 +71,18 @@ class LadybugModel extends ObservableS {
     f.evaluate(playbackIndexFloat)
   }
 
-  val mod = new Motion2DModel(10,5,LadybugDefaults.defaultLocation.x,LadybugDefaults.defaultLocation.y)
+  val motion2DModel = new Motion2DModel(10, 5, LadybugDefaults.defaultLocation.x, LadybugDefaults.defaultLocation.y)
 
   def positionMode(dt: Double) = {
     if (samplePath.length > 2) {
-      mod.addPointAndUpdate(samplePath(samplePath.length - 1).location.x, samplePath(samplePath.length - 1).location.y)
-      ladybug.setPosition(new Vector2D(mod.getAvgXMid, mod.getAvgYMid))
-      val scale=(1.0/dt)/10
-      ladybug.setVelocity(new Vector2D(mod.getXVel, mod.getYVel)*scale)
-      ladybug.setAcceleration(new Vector2D(mod.getXAcc, mod.getYAcc)*scale*scale)
+      motion2DModel.addPointAndUpdate(samplePath(samplePath.length - 1).location.x, samplePath(samplePath.length - 1).location.y)
+      ladybug.setPosition(new Vector2D(motion2DModel.getAvgXMid, motion2DModel.getAvgYMid))
+      val scale = (1.0 / dt) / 5
+      ladybug.setVelocity(new Vector2D(motion2DModel.getXVel, motion2DModel.getYVel) * scale)
+      ladybug.setAcceleration(new Vector2D(motion2DModel.getXAcc, motion2DModel.getYAcc) * scale * scale)
+
+      if (estimateVelocity(history.length - 1).magnitude > 1E-6)
+        ladybug.setAngle(estimateAngle())
     }
   }
 
