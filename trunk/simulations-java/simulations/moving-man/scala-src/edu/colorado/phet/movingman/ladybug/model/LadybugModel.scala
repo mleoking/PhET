@@ -25,9 +25,9 @@ class LadybugModel extends ObservableS {
 
   def addSamplePoint(pt: Point2D) = {
     samplePath += new Sample(time, pt)
-    while (samplePath.length > 100) {
-      samplePath.remove(0)
-    }
+    //    while (samplePath.length> LadybugDefaults.timelineLengthSeconds+1) {
+    //      samplePath.remove(0)
+    //    }
     //    println("samplecount=" + samplePath.length)
   }
 
@@ -69,7 +69,7 @@ class LadybugModel extends ObservableS {
     f.evaluate(playbackIndexFloat)
   }
 
-  def positionMode(dt: Double) = {
+  def positionModeFollow(dt: Double) = {
     if (estimateVelocity(history.length - 1).magnitude > 1E-6)
       ladybug.setAngle(estimateAngle())
 
@@ -99,6 +99,103 @@ class LadybugModel extends ObservableS {
 
       ladybug.setVelocity(estVel(index, (windowSize - 1) / 2))
       ladybug.setAcceleration(new Vector2D(ax, ay))
+    }
+  }
+
+  //  def positionMode(dt: Double) = {
+  //    if (estimateVelocity(history.length - 1).magnitude > 1E-6)
+  //      ladybug.setAngle(estimateAngle())
+  //
+  //    if (samplePath.length >= 1) {
+  //      val scale=10
+  //      val v0=ladybug.getVelocity
+  //      val delta=(samplePath(samplePath.length-1).location-ladybug.getPosition)*scale
+  //      ladybug.setAcceleration(delta)
+  //      ladybug.setVelocity(ladybug.getVelocity+delta*dt)
+  //      ladybug.translate(ladybug.getVelocity * dt)
+  ////      var v1=ladybug.getVelocity
+  //
+  ////      var a=(v1-v0)/dt//todo: center this derivative, and smooth
+  ////      ladybug.setAcceleration((a+ladybug.getAcceleration)/2)
+  //
+  //    }
+  //  }
+  def positionModeV(dt: Double) = {
+    if (estimateVelocity(history.length - 1).magnitude > 1E-6)
+      ladybug.setAngle(estimateAngle())
+
+    if (samplePath.length >= 1) {
+      val scale = 10
+      var v0 = ladybug.getVelocity
+      ladybug.setVelocity((samplePath(samplePath.length - 1).location - ladybug.getPosition) * scale)
+      ladybug.translate(ladybug.getVelocity * dt)
+      var v1 = ladybug.getVelocity
+
+      var a = (v1 - v0) / dt //todo: center this derivative, and smooth
+      ladybug.setAcceleration((a + ladybug.getAcceleration) / 2)
+
+    }
+  }
+
+  def positionModeP2(dt: Double) = {
+    if (estimateVelocity(history.length - 1).magnitude > 1E-6)
+      ladybug.setAngle(estimateAngle())
+
+    if (samplePath.length > 10) {
+      //      val n=8
+      val scale = 10
+      var v0 = ladybug.getVelocity
+      ladybug.setVelocity((samplePath(samplePath.length - 1).location - ladybug.getPosition) * scale)
+      ladybug.translate(ladybug.getVelocity * dt)
+      var v1 = ladybug.getVelocity
+      var a = (v1 - v0) / dt //todo: center this derivative, and smooth
+
+      var sum = new Vector2D
+      var count = 0
+      for (i <- 0 to 10) {
+        sum = sum + history(history.length - 1 - i).state.acceleration
+        count = count + 1
+      }
+      sum = sum / count
+
+      ladybug.setAcceleration(a * 0.2 + sum * 0.8)
+
+    }
+  }
+
+  def positionMode(dt: Double) = {
+    if (estimateVelocity(history.length - 1).magnitude > 1E-6)
+      ladybug.setAngle(estimateAngle())
+
+    if (samplePath.length > 20) {
+//      println("sample path length=" + samplePath.length + ", history length=" + history.length)
+      def instVel(i: Int) = {
+        if (i < history.length) {
+          history(i).state.velocity
+        } else {
+          val scale = 5
+          val mousePos = samplePath(i - 8).location
+          val historyPos = history(i - 8).state.position
+          (mousePos - historyPos) * scale
+        }
+      }
+
+      var v0 = ladybug.getVelocity
+      ladybug.setVelocity(instVel(history.length))
+      ladybug.translate(ladybug.getVelocity * dt)
+
+      def instAcc(i: Int) = {
+        (instVel(i + 1) - instVel(i - 1)) / (2 * dt)
+      }
+
+      var sum = new Vector2D
+      var count = 0
+      for (i <- -5 to 5) {
+        sum = sum + instAcc(history.length - i)
+        count = count + 1
+      }
+      sum = sum / count
+      ladybug.setAcceleration(sum)
     }
   }
 
