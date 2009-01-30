@@ -39,14 +39,14 @@ class LicenseDialog {
 		var defaultString : String = "";
 		str += "<font size='17'>" + _level0.comStrings.get("PhetLicense", "PhET Licensing Information:") + "</font>\n";
 		defaultString += "The PhET project provides a suite of interactive educational simulations.";
-		str += _level0.comStrings.get("License1", defaultString);
+		str += _level0.comStrings.get("LicensePhetDesc", defaultString);
 		str += "\n";
 		str += _level0.comStrings.get("CopyrightColorado", "Copyright {0} University of Colorado.", ["\u00A9 2004-2008"]) + " ";
 		str += _level0.comStrings.get("SomeRightsReserved", "Some rights reserved.");
 		str += "\n\n";
 		defaultString = "PhET interactive simulations by <a href='{0}'>The PhET Team, University of Colorado</a> ";
 		defaultString += "are licensed under a <a href='{1}'>Creative Commons Attribution-Noncommercial 3.0 United States License</a>.";
-		str += _level0.comStrings.get("License2", defaultString, ["http://phet.colorado.edu/", "http://creativecommons.org/licenses/by-nc/3.0/us/"]);
+		str += _level0.comStrings.get("LicenseSims", defaultString, ["http://phet.colorado.edu/", "http://creativecommons.org/licenses/by-nc/3.0/us/"]);
 		str += "\n\n";
 		defaultString = "The PhET source code is licensed under a <a href='{0}'>Creative Commons GNU General Public License</a>.";
 		str += _level0.comStrings.get("License3", defaultString, ["http://creativecommons.org/licenses/GPL/2.0/"]);
