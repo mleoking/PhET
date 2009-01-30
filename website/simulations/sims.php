@@ -109,7 +109,7 @@ EOT;
                         <strong>PhET is upgrading to Java 1.5!</strong>
                     </p>
                     <p>
-                        Effective <strong>September 1st, 2008</strong>, to run the Java-based simulations you will need to upgrade to Java version 1.5 or higher.
+                        Effective <strong>May 1st, 2009</strong>, to run the Java-based simulations you will need to upgrade to Java version 1.5 or higher.
                         <a href="http://www.java.com/">Upgrade now!</a>
                     </p>
                     <p>
