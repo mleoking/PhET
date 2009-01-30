@@ -129,6 +129,8 @@ public class BuildScript {
         openBrowser( server.getURL( project ) );
 
         System.out.println( "Finished deploy to: " + server.getHost() );
+
+        server.deployFinished();
     }
 
     private void addMessagesToChangeFile( int svn ) {

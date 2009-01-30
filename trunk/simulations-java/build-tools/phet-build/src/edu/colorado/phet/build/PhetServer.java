@@ -1,5 +1,7 @@
 package edu.colorado.phet.build;
 
+import javax.swing.*;
+
 import edu.colorado.phet.build.PhetProject;
 
 public abstract class PhetServer {
@@ -42,6 +44,9 @@ public abstract class PhetServer {
         return developmentServer;
     }
 
+    public void deployFinished() {
+    }
+
     private static class PhetDevServer extends PhetServer {
         public PhetDevServer( String host, String path, String url ) {
             super( host, path, url, true );
@@ -68,5 +73,16 @@ public abstract class PhetServer {
         public String getPath( PhetProject project ) {
             return getPath() + "/sims/" + project.getName();
         }
+
+        public void deployFinished() {
+            super.deployFinished();
+            JOptionPane.showMessageDialog( null, "Reminder:\n" +
+                                                 "Document this release in trunk/website/about/changes.txt.\n" +
+                                                 "Copy to tigercat:/web/htdocs/phet/about/changes.txt.");
+        }
+    }
+
+    public static void main( String[] args ) {
+        PhetServer.PRODUCTION.deployFinished();
     }
 }
