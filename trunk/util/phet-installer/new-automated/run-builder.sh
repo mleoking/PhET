@@ -47,6 +47,9 @@ if [ "$?" -ne "0" ]; then
   exit 1
 fi
 
+echo "Removing previous web site copy" | tee --append installer-builder-log.txt
+/usr/local/php/bin/php build-install.php --remove-web-site-copy | tee --append installer-builder-log.txt
+
 echo "Building all installers" | tee --append installer-builder-log.txt
 
 /usr/local/php/bin/php build-install.php --full | tee --append installer-builder-log.txt
@@ -81,7 +84,6 @@ send_email_notification SUCCESS
 
 echo "Removing temporary files" | tee --append installer-builder-log.txt
 
-rm -rf ./temp/website/* | tee --append installer-builder-log.txt
 rm -rf ./temp/installer-output/* | tee --append installer-builder-log.txt
 rm -rf ./BitRock/output/* | tee --append installer-builder-log.txt
 
