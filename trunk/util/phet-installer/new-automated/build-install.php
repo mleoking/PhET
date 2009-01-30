@@ -22,6 +22,22 @@
     }
 
     //--------------------------------------------------------------------------
+    // Function to remove an existing copy of the web site, i.e. one that was
+    // previouly ripped.
+    //--------------------------------------------------------------------------
+    function builder_remove_website_copy() {
+        flushing_echo("Checking if a previously ripped copy of the web site exists...");
+        if (file_exists( RIPPED_WEBSITE_ROOT )){
+            flushing_echo("Removing existing copy of the web site from ".RIPPED_WEBSITE_ROOT);
+            $remove_cmd = "'/bin/ls -r ".RIPPED_WEBSITE_ROOT."'";
+            system('rm -rf '.RIPPED_WEBSITE_ROOT);
+        }
+        else{
+            flushing_echo("No existing copy of web site found...moving on.");
+        }
+    }
+
+    //--------------------------------------------------------------------------
     // This function is primarily used for testing, and rips a subset of the
     // web site instead of the whole thing.  To use it, swap out the call
     // to the full ripper function.  Just don't forget to swap it back.
@@ -270,7 +286,6 @@
         installer_build_installers("all");
 
         // Build CD-ROM distribution:
-        // Temporarily disable until PHP memory limit increased.
         installer_build_cd_rom_distribution();
 
         // Clean up autorun files:
@@ -280,14 +295,18 @@
     //--------------------------------------------------------------------------
     // Function for creating the marker file that will be used by the tracking
     // code to determine whether a simulation was run from full installation
-    // versus some other means (such as a single downloaded JAR file).  See
-    // unfuddle ticket #875 for more information.
+    // versus some other means (such as a single downloaded JAR file).  It also
+    // adds a property that defines when the installer was built.  See unfuddle
+    // ticket #875 for more information.
     //--------------------------------------------------------------------------
     function create_marker_file(){
         $base_file_name = "phet-installation.properties";
         $marker_file_name = RIPPED_WEBSITE_TOP.PHET_SIMS_SUBDIR.$base_file_name;
         flushing_echo("Marker file name = $marker_file_name");
-	$contents = "# DO NOT DELETE THIS FILE.\n# This file identifies this installation of PhET.";
+        $time = time();
+        flushing_echo("Creation Timestamp = $time");
+        $contents = "# DO NOT DELETE THIS FILE.\n# This file identifies this installation of PhET.";
+        $contents = $contents."\n\ninstaller.creation.date.epoch.seconds=".$time."\n";
         file_put_contents_anywhere($marker_file_name, $contents);
     }
 
@@ -296,6 +315,7 @@
     //--------------------------------------------------------------------------
     function print_help() {
         flushing_echo("Usage: build-install [--full]\n".
+                      "                     [--remove-website-copy]\n".
                       "                     [--rip-website]\n".
                       "                     [--download-sims]\n".
                       "                     [--download-installer-webpages]\n".
@@ -320,7 +340,8 @@
     }
 
     //--------------------------------------------------------------------------
-    // Entry point for this PHP file.
+    // Main routine - interprests command line options and executes the
+    // indicated requests.
     //--------------------------------------------------------------------------
     function main() {
         if (is_cmd_line_option_enabled("help")) {
@@ -328,6 +349,10 @@
         }
         else {
             if (file_lock("install-builder")) {
+
+                if (is_checked('remove-website-copy'))
+                    builder_remove_website_copy();
+
                 if (is_checked('rip-website'))
                     builder_rip_website();
 
@@ -342,17 +367,19 @@
 
                 if (is_checked('build-all'))
                     builder_build_all();
-
-                flushing_echo("All done!");
-            }
-            else {
+        }
+        else {
                 flushing_echo("The PhET AutoInstallBuilder appears to be completing a previous build. Refresh this page to ignore this warning and build anyway.");
-            }
+        }
 
-            file_unlock("install-builder");
+        file_unlock("install-builder");
+
         }
     }
 
+    //--------------------------------------------------------------------------
+    // Entry point for this PHP file.
+    //--------------------------------------------------------------------------
     main();
 
 ?>
