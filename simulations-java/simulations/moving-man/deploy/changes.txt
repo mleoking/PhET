@@ -1,3 +1,5 @@
+> Fixed: Remote control doesn't show correct initial position
+
 # 1.20.23 (27797) 01-30-2009
 > Changed to Motion2D model
 > Put black outlines on the vel and acc vectors to help them stand out
