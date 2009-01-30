@@ -25,6 +25,9 @@ class UpdateAvailableDialog {
 		// create a window
 		var window : JFrame = new JFrame(_level0, "Update Available");
 		
+		// the window shouldn't be resizable
+		window.setResizable(false);
+		
 		// make sure we can access it from anywhere
 		_level0.updateAvailableWindow = window;
 		

@@ -24,6 +24,9 @@ class AboutDialog {
 		// create a window
 		var window : JFrame = new JFrame(_level0, _level0.comStrings.get("AboutSim", "About {0}", [_level0.simName]));
 		
+		// the window shouldn't be resizable
+		window.setResizable(false);
+		
 		// make sure we can access it from anywhere
 		_level0.aboutWindow = window;
 		
