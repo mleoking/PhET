@@ -1904,3 +1904,15 @@ p.code {
     padding-left: 0.5em;
     padding-right: 0.5em;
 }
+
+img.centered {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+img.getflashbutton {
+    border: 0;
+    width: 160px;
+    height: 41px;
+}
