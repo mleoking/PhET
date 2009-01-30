@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class DownloadThread extends Thread {
-    
+
     //----------------------------------------------------------------------------
     // Data structures
     //----------------------------------------------------------------------------
@@ -311,7 +311,7 @@ public class DownloadThread extends Thread {
         listeners.add( listener );
     }
     
-    public void removeListeners( DownloadThreadListener listener ) {
+    public void removeListener( DownloadThreadListener listener ) {
         listeners.remove( listener );
     }
     

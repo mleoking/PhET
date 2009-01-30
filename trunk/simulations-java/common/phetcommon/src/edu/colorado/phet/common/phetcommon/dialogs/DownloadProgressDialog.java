@@ -118,7 +118,7 @@ public class DownloadProgressDialog extends JDialog {
     //----------------------------------------------------------------------------
     
     public void dispose() {
-        downloadThread.removeListeners( downloadThreadListener );
+        downloadThread.removeListener( downloadThreadListener );
         super.dispose();
     }
     
