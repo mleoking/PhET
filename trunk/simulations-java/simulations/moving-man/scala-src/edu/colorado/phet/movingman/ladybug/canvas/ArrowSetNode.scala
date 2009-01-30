@@ -18,8 +18,8 @@ class ArrowSetNode(ladybug: Ladybug, transform: ModelViewTransform2D, vectorVisi
   class LabeledArrowNode(color: Color, name: String) extends PNode {
     val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(200, 200), arrowWidth, arrowWidth, arrowWidth * 2.0 / 3.0, 2, true)
     arrowNode setPaint color
-    arrowNode setStroke new BasicStroke(0.5f)
-    arrowNode setStrokePaint Color.gray
+    arrowNode setStroke new BasicStroke(1)
+    arrowNode setStrokePaint Color.black
 
     val labelNode = new PText(name)
     labelNode.setFont(new PhetFont(24))

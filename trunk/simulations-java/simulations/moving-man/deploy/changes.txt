@@ -1,3 +1,6 @@
+> Changed to Motion2D model
+> Put black outlines on the vel and acc vectors to help them stand out
+
 # 1.20.22 (27694) 01-26-2009
 # 1.20.21 (27692) 01-26-2009
 > Added developer controls for motion behavior
