@@ -118,7 +118,7 @@ object LadybugMotionModel {
       model.ladybug.setVelocity(getVelocity(t))
       model.ladybug.setAngle(model.ladybug.getVelocity.getAngle)
 
-      model.ladybug.setAcceleration((getVelocity(t+dt)-getVelocity(t-dt))/dt)
+      model.ladybug.setAcceleration((getVelocity(t + dt) - getVelocity(t - dt)) / dt)
     }
   }
 }

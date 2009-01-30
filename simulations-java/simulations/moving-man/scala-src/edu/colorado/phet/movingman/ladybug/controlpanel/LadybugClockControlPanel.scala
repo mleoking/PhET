@@ -38,7 +38,7 @@ class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
   private val nodes = new ArrayBuffer[PNode]
   private val prefSizeM = new Dimension(800, 100)
   setBorder(null)
-    setBackground(new JPanel().getBackground)
+  setBackground(new JPanel().getBackground)
 
   def addControl(node: PNode) = {
     addScreenChild(node)
@@ -71,8 +71,8 @@ class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
     updateRewindEnabled
   })
   updateRewindEnabled
-  def updateRewindEnabled={
-    val disabled = (module.model.isPlayback && module.model.getPlaybackIndex == 0) || module.model.getHistory.length==0
+  def updateRewindEnabled = {
+    val disabled = (module.model.isPlayback && module.model.getPlaybackIndex == 0) || module.model.getHistory.length == 0
     rewind.setEnabled(!disabled)
   }
   rewind.addInputEventListener(new ToolTipHandler("Rewind", this))
@@ -137,12 +137,12 @@ class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
     stepButton.setOffset(playPause.getFullBounds.getMaxX + buttonDX, stepButton.getOffset.getY)
     playbackSpeedSlider.setOffset(rewind.getFullBounds.getX - playbackSpeedSlider.getFullBounds.getWidth, playbackSpeedSlider.getOffset.getY)
 
-    val halfWidth=playPause.getFullBounds.getCenterX-playbackSpeedSlider.getOffset.getX
+    val halfWidth = playPause.getFullBounds.getCenterX - playbackSpeedSlider.getOffset.getX
     val blist = for (n <- nodes) yield n.getFullBounds
     val b: PBounds = blist.foldLeft(blist(0))((a, b) => new PBounds(a.createUnion(b)))
     val expanded = RectangleUtils.expand(b, 0, 0)
-    backgroundNode.setSize((halfWidth*2).toInt, expanded.getHeight.toInt)
-    backgroundNode.setOffset(playPause.getFullBounds.getCenterX-halfWidth, expanded.getY)
+    backgroundNode.setSize((halfWidth * 2).toInt, expanded.getHeight.toInt)
+    backgroundNode.setOffset(playPause.getFullBounds.getCenterX - halfWidth, expanded.getY)
   }
 }
 
