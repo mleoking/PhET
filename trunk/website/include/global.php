@@ -73,7 +73,7 @@
 
     // CACHE_ROOT is used to tell where to put the cache directory.
     // I also like to keep this out of my website directories.
-    if (!defined("CACHE_ROOT")) define("CACHE_ROOT", SITE_ROOT);
+    if (!defined("CACHE_ROOT")) define("CACHE_ROOT", PORTAL_ROOT);
 
     // CACHE_DIRNAME is used for the name under which all cached
     // files will be placed.
