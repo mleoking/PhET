@@ -47,6 +47,9 @@ class PreferencesDialog {
 		// create a window
 		var window : JFrame = new JFrame(_level0, _level0.comStrings.get("PhETPreferences", "PhET Preferences"));
 		
+		// the window shouldn't be resizable
+		window.setResizable(false);
+		
 		// make the window accessible to the "Preferences" button.
 		// thus we don't have to reconstruct the window again, but just show it
 		_level0.preferencesWindow = window;
