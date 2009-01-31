@@ -1,6 +1,6 @@
 ﻿// FlashCommon.as
 //
-// coordinates all common flash code, including the updates and tracking
+// coordinates all common flash code, including the updates and statistics
 //
 // Author: Jonathan Olson
 
@@ -23,7 +23,7 @@ class FlashCommon {
 	public var commonStrings : CommonStrings;
 	
 	// handles preferences the user selects, such as
-	// enabling/disabling updates and tracking. also
+	// enabling/disabling updates and statistics messages. also
 	// stores how many times the particular sim has
 	// been run
 	public var preferences : Preferences;
@@ -32,8 +32,8 @@ class FlashCommon {
 	// if a newer version of the simulation is found
 	public var updateHandler : UpdateHandler;
 	
-	// handles sending tracking messages to the server
-	public var trackingHandler : TrackingHandler;
+	// handles sending statistics messages to the server
+	public var statistics : Statistics;
 	
 	/////////////////////////
 	public var commonButtons : CommonButtons;
@@ -107,8 +107,8 @@ class FlashCommon {
 		// initializes the TabHandler
 		tabHandler = new TabHandler();
 		
-		// load the tracking handler, but do not send the session-start message!!!
-		trackingHandler = new TrackingHandler();
+		// load the statistics handler, but do not send the session-start message!!!
+		statistics = new Statistics();
 		
 		// load preferences data
 		preferences = new Preferences();
@@ -126,10 +126,9 @@ class FlashCommon {
 		// must have preferences loaded first before loading updatehandler.
 		updateHandler = new UpdateHandler();
 		
-		// load tracking handler
-		// must have preferences loaded first before loading TrackingHandler.
-		// MOVED ABOVE trackingHandler = new TrackingHandler();
-		trackingHandler.sendSessionStart();
+		// load statistics handler
+		// must have preferences loaded first before loading Statistics.
+		statistics.sendSessionStart();
 		
 		// load buttons with the position (defaults to upper left)
 		commonButtons = new CommonButtons(commonPosition);

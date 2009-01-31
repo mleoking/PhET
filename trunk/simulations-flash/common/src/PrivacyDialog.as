@@ -146,12 +146,12 @@ class PrivacyDialog {
 	}
 	
 	public function infoClicked() : Void {
-		if(_level0.trackingDetailsWindow) {
+		if(_level0.statisticsDetailsWindow) {
 			debug("Showing dialog again\n");
-			_level0.trackingDetailsWindow.show();
+			_level0.statisticsDetailsWindow.show();
 		} else {
 			debug("Creating Dialog\n");
-			_level0.trackingDetailsDialog = new TrackingDetailsDialog();
+			_level0.statisticsDetailsDialog = new StatisticsDetailsDialog();
 		}
 	}
 	

@@ -1,18 +1,18 @@
-﻿// TrackingHandler.as
+﻿// Statistics.as
 //
-// Handles tracking messages sent directly to
+// Handles statistics messages sent directly to
 // the phet.colorado.edu server
 //
 // Author: Jonathan Olson
 
 import flash.external.ExternalInterface;
 
-class TrackingHandler {
+class Statistics {
 	
 	// stores whether a message send has failed. if it has, don't send more!
 	public var messageError : Boolean;
 	
-	// store the session id for all future tracking messages that need to be sent
+	// store the session id for all future statistics messages that need to be sent
 	public var sessionId : String;
 	
 	// shorthand for debugging function
@@ -21,22 +21,22 @@ class TrackingHandler {
 	}
 	
 	// constructor
-	public function TrackingHandler() {
-		debug("TrackingHandler initializing\n");
+	public function Statistics() {
+		debug("Statistics initializing\n");
 		
 		messageError = false;
 		
-		// make this object accessible from _level0.trackingHandler
-		// should only be one copy of TrackingHandler (singleton-like)
-		_level0.trackingHandler = this;
+		// make this object accessible from _level0.statistics
+		// should only be one copy of Statistics (singleton-like)
+		_level0.statistics = this;
 		
 		// send the session start message.
-		// if tracking is disabled, the message will not be sent
+		// if messages is disabled, the message will not be sent
 		// CURRENTLY CALLED FROM ELSEWHERE sendSessionStart();
 	}
 	
 	// get the exact string sent to the server. this will be used to show
-	// users exactly what tracking data is sent.
+	// users exactly what statistics data is sent.
 	public function sessionStartMessage() : String {
 		var str : String = "";
 		
@@ -95,17 +95,17 @@ class TrackingHandler {
 	
 	// attempts to send a session start message
 	public function sendSessionStart() : Void {
-		// load the user's preferences so we can see whether tracking is allowed and they
+		// load the user's preferences so we can see whether messages is allowed and they
 		// have accepted the privacy agreement
 		_level0.preferences.load();
 		
-		if(!_level0.preferences.isTrackingAllowed()) {
-			debug("TrackingHandler: cannot send session start message: tracking disabled\n");
+		if(!_level0.preferences.areStatisticsMessagesAllowed()) {
+			debug("Statistics: cannot send session start message: statistics messages disabled\n");
 			_level0.preferences.unload();
 			return;
 		}
 		if(!_level0.preferences.isPrivacyOK()) {
-			debug("TrackingHandler: cannot send session start message: have not accepted agreement yet\n");
+			debug("Statistics: cannot send session start message: have not accepted agreement yet\n");
 			_level0.preferences.unload();
 			return;
 		}
@@ -113,14 +113,14 @@ class TrackingHandler {
 		// we no longer need preferences data, so we need to unload the data
 		_level0.preferences.unload();
 		
-		debug("TrackingHandler: sending session start message\n");
+		debug("Statistics: sending session start message\n");
 		
 		// wrap the message in xml tags
-		var str : String = "<tracking " + sessionStartMessage() + "></tracking>";
+		var str : String = "<statistics " + sessionStartMessage() + "></statistics>";
 		sendXML(new XML(str));
 	}
 	
-	// this is used for all tracking messages to send the xml to the server
+	// this is used for all statistics messages to send the xml to the server
 	public function sendXML(xml : XML) : Void {
 		
 		// if a message has previously failed, don't send more. the
@@ -139,18 +139,18 @@ class TrackingHandler {
 		// callback function when we receive the reply (or when it is known to have failed)
 		reply.onLoad = function(success : Boolean) : Void {
 			if(success) {
-				_level0.debug("TrackingHandler: message received:\n");
+				_level0.debug("Statistics: message received:\n");
 				_level0.debug(reply.toString()+"\n");
 				_level0.preferences.resetSince();
 			} else {
-				_level0.debug("TrackingHandler: message error!\n");
+				_level0.debug("Statistics: message error!\n");
 			}
 		}
 		
 		// send it to the URL, will store result in reply
 		// TODO: Change this to the permanent location!!!
 		xml.sendAndLoad("http://phet.colorado.edu/jolson/deploy/tracking/tracker.php", reply);
-		// DEVELOPMENT: tracking to localhost
+		// DEVELOPMENT: send statistics message to localhost
 		//xml.sendAndLoad("http://localhost/tracking/tracker.php", reply);
 	}
 }
