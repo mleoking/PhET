@@ -31,7 +31,6 @@ public class SimVersionChecker {
      */
     public PhetVersion getVersion( String project, String simulation ) throws IOException {
         String xmlString = getXMLString( project, simulation );
-         System.out.println( "SimVersionChecker xmlString=" + xmlString );
         try {
             Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse( new ByteArrayInputStream( xmlString.getBytes() ) );
             String version = document.getDocumentElement().getAttribute( "version" );
