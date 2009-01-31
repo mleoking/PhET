@@ -68,7 +68,7 @@ class Inspector {
 			}
 			var str : String = ""
 			//str += "----------\n";
-			str += "<font size=\"6\">";
+			str += "<font size=\"8\" color=\"#000000\">";
 			
 			str += "At: <font color=\"#00bb00\">_level0." + _level0.inspector.inputText.text + "</font>\n";
 			
