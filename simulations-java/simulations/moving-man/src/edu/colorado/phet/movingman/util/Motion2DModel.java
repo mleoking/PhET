@@ -42,6 +42,11 @@ public class Motion2DModel {
         return y.getAvgMid();
     }
 
+    public void reset(double x0,double y0){
+        x.reset( x0 );
+        y.reset( y0 );
+    }
+
     private static class Motion2DValue {
         double avgBefore;
         double avgMid;
@@ -61,7 +66,11 @@ public class Motion2DModel {
             this.numPtsAvg = numPtsAvg;
             this.value = new double[numPoints];
             this.avg = new double[numPoints - 2 * halfWindowSize];
-            for ( int i = 0; i < numPoints; i++ ) {
+            reset( init );
+        }
+
+        private void reset( double init ) {
+            for ( int i = 0; i < value.length; i++ ) {
                 value[i] = init;
             }
         }

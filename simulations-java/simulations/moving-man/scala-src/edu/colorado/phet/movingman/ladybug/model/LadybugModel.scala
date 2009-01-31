@@ -79,58 +79,24 @@ class LadybugModel extends ObservableS {
       val scale = (1.0 / dt) / 5
       ladybug.setVelocity(new Vector2D(motion2DModel.getXVel, motion2DModel.getYVel) * scale)
       ladybug.setAcceleration(new Vector2D(motion2DModel.getXAcc, motion2DModel.getYAcc) * scale * scale)
-
-      if (estimateVelocity(history.length - 1).magnitude > 1E-6)
-        ladybug.setAngle(estimateAngle())
+    } else {
+      ladybug.setVelocity(new Vector2D)
+      ladybug.setAcceleration(new Vector2D)
     }
-  }
-
-  def positionModeAX(dt: Double) = {
     if (estimateVelocity(history.length - 1).magnitude > 1E-6)
       ladybug.setAngle(estimateAngle())
-
-    if (samplePath.length > 20) {
-      def instVel(i: Int) = {
-        if (i < history.length) {
-          history(i).state.velocity
-        } else {
-          val scale = 5
-          val mousePos = samplePath(i - 8).location
-          val historyPos = history(i - 4).state.position
-          (mousePos - historyPos) * scale
-        }
-      }
-
-      val instVelVal = instVel(history.length + 4)
-      ladybug.setVelocity(if (instVelVal.magnitude < 1E-4) new Vector2D else instVelVal)
-      ladybug.translate(ladybug.getVelocity * dt)
-
-      def instAcc(i: Int) = {
-        (instVel(i + 1) - instVel(i - 1)) / (2 * dt)
-      }
-
-      //      println("done")
-      var sum = new Vector2D
-      var count = 0
-      for (i <- -3 to 3) {
-        sum = sum + instAcc(history.length - i)
-        count = count + 1
-      }
-      sum = sum / count
-      ladybug.setAcceleration(sum)
-    }
   }
 
-  def positionModeORIG(dt: Double) = {
-    if (estimateVelocity(history.length - 1).magnitude > 1E-6)
-      ladybug.setAngle(estimateAngle())
-
-    var velocityEstimate = average(history.length - 3, history.length - 1, estimateVelocity)
-    ladybug.setVelocity(velocityEstimate)
-
-    var accelEstimate = average(history.length - 15, history.length - 1, estimateAcceleration)
-    ladybug.setAcceleration(accelEstimate)
-  }
+  //  def positionModeORIG(dt: Double) = {
+  //    if (estimateVelocity(history.length - 1).magnitude > 1E-6)
+  //      ladybug.setAngle(estimateAngle())
+  //
+  //    var velocityEstimate = average(history.length - 3, history.length - 1, estimateVelocity)
+  //    ladybug.setVelocity(velocityEstimate)
+  //
+  //    var accelEstimate = average(history.length - 15, history.length - 1, estimateAcceleration)
+  //    ladybug.setAcceleration(accelEstimate)
+  //  }
 
   def velocityMode(dt: Double) = {
     ladybug.translate(ladybug.getVelocity * dt)
@@ -182,6 +148,13 @@ class LadybugModel extends ObservableS {
         stepPlayback()
       }
     }
+  }
+
+  def initManual = {
+    println("init: " + ladybug.getPosition)
+    motion2DModel.reset(ladybug.getPosition.x, ladybug.getPosition.y)
+    samplePath.clear
+    println("cleared sample path: " + samplePath.length)
   }
 
   def readyForInteraction(): Boolean = {

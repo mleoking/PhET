@@ -13,6 +13,9 @@ object LadybugMotionModel {
   val MANUAL = new MotionType("manual") {
     def update(dt: Double, model: LadybugModel) = {}
 
+    override def init(model: LadybugModel) = {
+      model.initManual
+    }
   }
   val LINEAR = new MotionType("linear") {
     val speed = 0.3 * 30
