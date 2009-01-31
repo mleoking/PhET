@@ -9,7 +9,7 @@ import java.lang.Math._
 
 import umd.cs.piccolo.PNode
 
-class LadybugFadeTraceNode(model: LadybugModel, transform: ModelViewTransform2D, shouldBeVisible: () => Boolean, observable: ObservableS) extends LadybugTraceNode(model, transform, shouldBeVisible, observable) {
+class LadybugFadeTraceNode(model: LadybugModel, transform: ModelViewTransform2D, shouldBeVisible: () => Boolean, observable: ObservableS,maxFade:Double) extends LadybugTraceNode(model, transform, shouldBeVisible, observable) {
   update()
 
   def update() = {
@@ -28,7 +28,7 @@ class LadybugFadeTraceNode(model: LadybugModel, transform: ModelViewTransform2D,
         def clamp(a: Double, value: Double, c: Double) = (a max value) min c
 
         def toColor(dt: Double) = {
-          val c = clamp(0, dt / 3.0, 1).toFloat
+          val c = clamp(0, dt / 3.0, maxFade).toFloat
           val color = new Color(c, c, 1.toFloat, 1 - c)
           color
         }

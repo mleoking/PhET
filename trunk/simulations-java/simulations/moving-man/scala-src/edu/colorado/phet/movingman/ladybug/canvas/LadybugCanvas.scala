@@ -71,8 +71,10 @@ class LadybugCanvas(model: LadybugModel, vectorVisibilityModel: VectorVisibility
   addNode(solidTrace)
   val dotTrace = new LadybugDotTraceNode(model, transform, () => pathVisibilityModel.dotsVisible, pathVisibilityModel)
   addNode(dotTrace)
-  val fadeTrace=new LadybugFadeTraceNode(model, transform, () => pathVisibilityModel.fadeVisible, pathVisibilityModel)
+  val fadeTrace = new LadybugFadeTraceNode(model, transform, () => pathVisibilityModel.fadeFullVisible, pathVisibilityModel, 1)
   addNode(fadeTrace)
+  val fadeInvisibleTrace = new LadybugFadeTraceNode(model, transform, () => pathVisibilityModel.fadeVisible, pathVisibilityModel, 0.7)
+  addNode(fadeInvisibleTrace)
 
   addNode(new ReturnLadybugButton(model, this))
 
@@ -82,5 +84,6 @@ class LadybugCanvas(model: LadybugModel, vectorVisibilityModel: VectorVisibility
     solidTrace.clearTrace
     dotTrace.clearTrace
     fadeTrace.clearTrace
+    fadeInvisibleTrace.clearTrace
   }
 }

@@ -92,10 +92,17 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
       , m.fadeVisible,
       m.addListener)
 
+        contents += new MyRadioButton("Fade/Invisible", {
+      m.allOff()
+      m.fadeFullVisible = true
+    }
+      , m.fadeFullVisible,
+      m.addListener)
+
     contents += new MyRadioButton("Off", {
       m.allOff()
     }
-      , !m.lineVisible && !m.dotsVisible && !m.fadeVisible,
+      , !m.lineVisible && !m.dotsVisible && !m.fadeVisible && !m.fadeFullVisible,
       m.addListener)
   }
   val f = new FlowPanel

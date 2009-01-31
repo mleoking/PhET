@@ -3,7 +3,8 @@
 > Fixed: Return ladybug is broken
 > Added fade trace option, works during record and playback
 > Set fade path to default
-> Fixed remote control to use new position mode sampling 
+> Fixed remote control to use new position mode sampling
+> Added partial fade path
 
 # 1.20.23 (27797) 01-30-2009
 > Changed to Motion2D model
