@@ -1,6 +1,7 @@
 > Fixed: Remote control doesn't show correct initial position
 > Fixed: When switching to manual from a premade motion, don't jump to old last recorded position.
 > Fixed: Return ladybug is broken
+> Added fade trace option, works during record and playback
 
 # 1.20.23 (27797) 01-30-2009
 > Changed to Motion2D model

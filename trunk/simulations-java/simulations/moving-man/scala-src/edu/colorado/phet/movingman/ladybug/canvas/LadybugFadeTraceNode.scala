@@ -5,6 +5,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import java.awt.geom.{Line2D, Path2D, GeneralPath, Point2D}
 import java.awt.{BasicStroke, Color}
 import model.{DataPoint, ObservableS, LadybugModel}
+import java.lang.Math._
 
 import umd.cs.piccolo.PNode
 
@@ -21,8 +22,9 @@ class LadybugFadeTraceNode(model: LadybugModel, transform: ModelViewTransform2D,
       for (i <- 0 to (historyToShow.length - 2)) {
         val a = transform.modelToView(historyToShow(i))
         val b = transform.modelToView(historyToShow(i + 1))
+        val curTime=model.getTime
         val time = historyToShow(i).time
-        val dt = model.getHistory()(model.getHistory().length - 1).time - time
+        val dt = abs(curTime - time)
         def clamp(a: Double, value: Double, c: Double) = (a max value) min c
 
         def toColor(dt: Double) = {
