@@ -6,7 +6,12 @@
 # storing the user_preferences_file_creation_time
 DROP TABLE IF EXISTS user;
 CREATE TABLE user (
+	
+	# when the preferences file was created (usually at 1st sim run?)
 	user_preferences_file_creation_time BIGINT UNSIGNED NOT NULL PRIMARY KEY,
+	
+	# if from a full installation, when it was installed
+	user_install_timestamp BIGINT UNSIGNED,
 	
 	# number of total sim runs that have been recorded by the user
 	user_total_sessions INT UNSIGNED,

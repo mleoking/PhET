@@ -7,7 +7,7 @@
 	$link = setup_mysql();
 	
 	// number of simulated messages to be sent
-	$num_entries = 10000;
+	$num_entries = 1000;
 	
 	
 	// percentage of sims that are flash (100-x % are java)
@@ -399,6 +399,10 @@
 	for($i = 0; $i < $num_entries; $i++) {
 		$firstOffset = rand(0, 11231)*rand(0, 11231);
 		$userPreferencesFileCreationTime = time() - $firstOffset;
+		$userInstallTimestamp = $userPreferencesFileCreationTime - rand(0, 20000);
+		if(rand(0, 99) < 60) {
+			$userInstallTimestamp = "NULL";
+		}
 		$userTotalSessions = rand(0, 10) * rand(1, 10) * rand(0, 1) * rand(0, 1) * rand(0, 1) + rand(1, 30);
 		if(rand(0, 99) < 7) {
 			$userTotalSessions = 1;
@@ -411,6 +415,7 @@
 		}
 		$values = array(
 			'user_preferences_file_creation_time' => $userPreferencesFileCreationTime,
+			'user_install_timestamp' => $userInstallTimestamp,
 			'user_total_sessions' => $userTotalSessions,
 			'first_seen_month' => quo(date("Y-m-01", $first_time)),
 			'last_seen_month' => quo(date("Y-m-01", $last_time))

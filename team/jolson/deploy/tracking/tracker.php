@@ -52,6 +52,7 @@
 			// create/update entry in user database
 			update_user(
 				urldecode($xml["user_preference_file_creation_time"]),
+				urldecode($xml["user_install_timestamp"]),
 				urldecode($xml["user_total_sessions"])
 			);
 			
@@ -111,8 +112,9 @@
 			
 			// create/update entry in user database
 			update_user(
-				sanitize($xml, "user_preference_file_creation_time"),
-				sanitize($xml, "user_total_sessions")
+				urldecode($xml["user_preference_file_creation_time"]),
+				urldecode($xml["user_install_timestamp"]),
+				urldecode($xml["user_total_sessions"])
 			);
 			
 			insert_java_message(
