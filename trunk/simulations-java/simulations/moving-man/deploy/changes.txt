@@ -5,6 +5,7 @@
 > Set fade path to default
 > Fixed remote control to use new position mode sampling
 > Added partial fade path
+> Added faint blue background for timeline
 
 # 1.20.23 (27797) 01-30-2009
 > Changed to Motion2D model
