@@ -28,20 +28,20 @@ public class XMLStatisticsService implements IStatisticsService {
      * @param message
      */
     public void postMessage( StatisticsMessage message ) throws IOException {
-        postXML( getStatisticsURL( message ), getXMLFromDomE( message ) );
+        postXML( getStatisticsURL( message ), toXML( message ) );
     }
 
-    private String getXMLFromDomE( StatisticsMessage message ) {
+    private String toXML( StatisticsMessage message ) {
         try {
-            return getXMLFromDom( message );
+            return toXMLFromDom( message );
         }
         catch( Exception e ) {
             e.printStackTrace();
-            return getXML( message );
+            return toXMLFromStringConcatenation( message );
         }
     }
 
-    private String getXMLFromDom( StatisticsMessage message ) throws ParserConfigurationException, TransformerException {
+    private String toXMLFromDom( StatisticsMessage message ) throws ParserConfigurationException, TransformerException {
 
         //see: http://www.genedavis.com/library/xml/java_dom_xml_creation.jsp
         DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
@@ -71,8 +71,7 @@ public class XMLStatisticsService implements IStatisticsService {
         return xmlString;
     }
 
-    private String getXML( StatisticsMessage message ) {
-        //todo: use DOM to create the XML string
+    private String toXMLFromStringConcatenation( StatisticsMessage message ) {
         String xml = "<tracking ";
         for ( int i = 0; i < message.getFieldCount(); i++ ) {
             xml += message.getField( i ).getName() + "=\"" + encode( message.getField( i ).getValue() + "\"" ) + " ";
@@ -91,14 +90,6 @@ public class XMLStatisticsService implements IStatisticsService {
      */
     private String getStatisticsURL( StatisticsMessage message ) {
         return "http://phet.colorado.edu/jolson/deploy/tracking/tracker.php";
-    }
-
-    public static void main( String[] args ) throws IOException {
-
-        String URL_STRING = "http://phet.colorado.edu/jolson/deploy/tracking/tracker.php";
-        String XML_STRING = "<xml>hello stats1234</xml>";
-        postXML( URL_STRING, XML_STRING );
-
     }
 
     public static void postXML( String url, String xml ) throws IOException {
@@ -124,5 +115,12 @@ public class XMLStatisticsService implements IStatisticsService {
         }
         reader.close();
         System.out.println( "done." );
+    }
+
+
+    public static void main( String[] args ) throws IOException {
+        String URL_STRING = "http://phet.colorado.edu/jolson/deploy/tracking/tracker.php";
+        String XML_STRING = "<xml>hello stats1234</xml>";
+        postXML( URL_STRING, XML_STRING );
     }
 }
