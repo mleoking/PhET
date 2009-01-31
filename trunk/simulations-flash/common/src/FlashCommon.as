@@ -49,7 +49,13 @@ class FlashCommon {
 	// initializes debug function at _level0.debug()
 	public function initDebug() : Void {
 		if(debugging) {
+			var padding : Number = 50;
+			_root.createTextField("debugs", _root.getNextHighestDepth(), padding, padding, Stage.width - 2 * padding, Stage.height - 2 * padding);
 			_root.debugs._visible = false;
+			_root.debugs.background = true;
+			_root.debugs.wordWrap = true;
+			_root.debugs.multiline = true;
+			_root.debugs.border = true;
 			_level0.debug = function(str : String) : Void {
 				_root.debugs.text += str;
 				_root.debugs.scroll += 100;
