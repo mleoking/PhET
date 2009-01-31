@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SimStrings>
+  <string key="friction" value="fricción"/>
+  <string key="none" value="nada"/>
+  <string key="lots" value="mucho"/>
+  <string key="softness" value="suavidad de resorte 3"/>
+  <string key="soft" value="suave"/>
+  <string key="hard" value="duro"/>
+  <string key="showEnergyOf" value="Muesta la energía de"/>
+  <string key="noShow" value="No muestra"/>
+  <string key="realTime" value="tiempo normal"/>
+  <string key="quarterTime" value="1/4 tiempo"/>
+  <string key="16thTime" value="1/16 tiempo"/>
+  <string key="pause" value="pausa"/>
+  <string key="jupiter" value="Júpiter"/>
+  <string key="moon" value="Luna"/>
+  <string key="earth" value="Tierra"/>
+  <string key="planetX" value="Planeta X"/>
+  <string key="gEqZero" value="g = 0"/>
+  <string key="stopWatch" value="Reloj"/>
+  <string key="sound" value="Sonido"/>
+  <string key="showHelp" value="Muestra Ayuda"/>
+  <string key="hideHelp" value="Esconder Ayuda"/>
+  <string key="noHelp" value="No Ayuda"/>
+  <string key="dontBother" value="ni te molestes"/>
+  <string key="nothinOK" value="Nada, bueno?"/>
+  <string key="paused" value="Pausado"/>
+  <string key="totalE" value="E total"/>
+  <string key="energyOf" value="Energía de "/>
+  <string key="KE" value="KE"/>
+  <string key="PEgrav" value="PEgrav"/>
+  <string key="PEelas" value="PEelas"/>
+  <string key="thermal" value="Termal"/>
+  <string key="total" value="Total"/>
+  <string key="mass1Label" value="50 gram"/>
+  <string key="mass2Label" value="100 gram"/>
+  <string key="mass3Label" value="250 gram"/>
+  <string key="mass4Label" value=" "/>
+  <string key="mass5Label" value=" "/>
+  <string key="mass6Label" value=" "/>
+  <string key="mass7Label" value="100 gram"/>
+  <string key="help1" value="regla se puede arrastrar"/>
+  <string key="help2" value="línea de referencia se puede arrastrar"/>
+  <string key="help3" value="Arrastrar la masa al lado para quitarla del resorte"/>
+  <string key="help4" value="reloj se puede arrastrar"/>
+  <string key="resetTimer" value="reiniciar"/>
+  <string key="startTimer" value="empieza/pausa"/>
+  <string key="hangMe" value="¡Cuelgame!"/>
+  <string key="resetTimer" value="reiniciar"/>
+  <string key="startTimer" value="empieza/pausa"/>
+ 
+</SimStrings>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SimStrings>
+<string key="directionOnly" value="solo dirección"/>
+<string key="grid" value="rejilla"/>
+<string key="clearAll" value="Borrar Todo"/>
+<string key="distanceUnit" value="m"/>
+<string key="showNumbers" value="Mostrar números"/>
+<string key="voltageUnit" value="V"/>
+<string key="oneMeter" value="1 metro"/>
+<string key="showEField" value="Mostrar Campo E"/>
+<string key="oneNanoC" value="1 nC"/>
+<string key="showHiRes" value="Mostrar V alta resol."/>
+<string key="EFieldSensors" value="Sensores Campo E"/>
+<string key="eFieldUnit" value="V/m"/>
+<string key="clear" value="borrar"/>
+<string key="plot" value="dibujar"/>
+<string key="equipotential" value="equipotencial"/>
+<string key="angleUnit" value="grados"/>
+<string key="showLoRes" value="Mostrar V baja resol."/>
+<string key="moreSpeedLessRes" value="mas vdad./menos res."/>
+<string key="tapeMeasure" value="cinta métrica"/>
+<string key="voltage" value="voltaje"/>
+</SimStrings>

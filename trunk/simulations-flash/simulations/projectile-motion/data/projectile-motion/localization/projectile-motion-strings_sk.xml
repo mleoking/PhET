@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<SimStrings>
+<string key="dragLabel" value="koeficient odporu"/>
+<string key="userChoice" value="teleso"/>
+<string key="altitudeLabel" value="nadmorská výška"/>
+<string key="football" value="futbalová lopta"/>
+<string key="golfball" value="golfová loptička"/>
+<string key="collision" value="Kolízia !"/>
+<string key="adultHuman" value="dospelý človek"/>
+<string key="time" value="doba letu (s)"/>
+<string key="buick" value="auto"/>
+<string key="diameter" value="priemer telesa (m)"/>
+<string key="initSpeed" value="začiatočná rýchlosť (m/s)"/>
+<string key="bowlingball" value="bowlingová guľa"/>
+<string key="piano" value="piano"/>
+<string key="sound" value="Zvuk"/>
+<string key="range" value="vzdialenosť (m)"/>
+<string key="height" value="výška (m)"/>
+<string key="mass" value="hmotnosť (kg)"/>
+<string key="pumpkin" value="tekvica"/>
+<string key="score" value="Zásah !"/>
+<string key="angle" value="uhol (°)"/>
+<string key="baseball" value="bejzbalová lopta"/>
+<string key="airResistance" value="Odpor vzduchu"/>
+<string key="fire" value="Páľ"/>
+<string key="erase" value="Zmazať"/>
+<string key="tankshell" value="delostrelecký náboj"/>
+</SimStrings>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SimStrings>
+<string key="draggableScreen" value="pantalla arrastrable"/>
+<string key="draggableLens" value="lente arrastrable"/>
+<string key="screen" value="Pantalla"/>
+<string key="draggableRuler" value="regla arrastrable"/>
+<string key="showHelp" value="Mostrar Ayuda"/>
+<string key="moveMe" value="¡Mueveme!"/>
+<string key="showGuides" value="Mostrar Guías"/>
+<string key="diameter" value="diámetro (m)"/>
+<string key="ruler" value="Regla"/>
+<string key="focalPoint" value="punto focal"/>
+<string key="curvatureRadius" value="radio de curvatura (m)"/>
+<string key="changeObject" value="Cambiar objeto"/>
+<string key="principalRays" value="Rayos principales"/>
+<string key="marginalRays" value="Rayos de borde"/>
+<string key="virtualImage" value="Imagen Virtual"/>
+<string key="noRays" value="Sin rayos"/>
+<string key="secondSource" value="2º punto"/>
+<string key="hideHelp" value="Esconder ayuda"/>
+<string key="refractiveIndex" value="índice de refracción"/>
+<string key="manyRays" value="Muchos rayos"/>
+</SimStrings>
