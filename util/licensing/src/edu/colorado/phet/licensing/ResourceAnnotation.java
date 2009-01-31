@@ -68,44 +68,16 @@ public class ResourceAnnotation implements ResourceAnnotationElement {
     }
 
     public static ResourceAnnotation parseElement( String line ) {
-        ResourceAnnotation annotation = new ResourceAnnotation( parseNext( line ).trim() );
+        ResourceAnnotation annotation = new ResourceAnnotation( AnnotationParser.parseNext( line, keys ).trim() );
         String attributes = line.substring( annotation.name.length() ).trim();
 
-        annotation.source = getAttribute( "source", attributes );
-        annotation.author = getAttribute( "author", attributes );
-        annotation.license = getAttribute( "license", attributes );
-        annotation.notes = getAttribute( "notes", attributes );
-        annotation.same = getAttribute( "same", attributes );
-        annotation.licensefile = getAttribute( "licensefile", attributes );
+        annotation.source = AnnotationParser.getAttribute( "source", attributes, keys );
+        annotation.author = AnnotationParser.getAttribute( "author", attributes, keys );
+        annotation.license = AnnotationParser.getAttribute( "license", attributes, keys );
+        annotation.notes = AnnotationParser.getAttribute( "notes", attributes, keys );
+        annotation.same = AnnotationParser.getAttribute( "same", attributes, keys );
+        annotation.licensefile = AnnotationParser.getAttribute( "licensefile", attributes, keys );
         return annotation;
-    }
-
-    private static String getAttribute( String param, String attributes ) {
-//        attributes += " suffix=dummyvalue";//dummy key value pair to simplify parsing
-        String key = param + "=";
-        int index = attributes.indexOf( key );
-        if ( index < 0 ) {
-            return null;
-        }
-        else {
-            String remainder = attributes.substring( index + key.length() ).trim();
-            String substring = parseNext( remainder );
-            return substring.trim();
-        }
-    }
-
-    private static String parseNext( String remainder ) {
-        int next = Integer.MAX_VALUE;
-        for ( int i = 0; i < keys.length; i++ ) {
-            int nextIndex = remainder.indexOf( keys[i] + "=" );
-            if ( nextIndex >= 0 && nextIndex < next ) {
-                next = nextIndex;
-            }
-        }
-        if ( next == Integer.MAX_VALUE ) {//was the last key-value pair
-            next = remainder.length();
-        }
-        return remainder.substring( 0, next );
     }
 
     public String toText() {

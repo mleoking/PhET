@@ -3,9 +3,7 @@ package edu.colorado.phet.build;
 
 import scala.tools.ant.Scalac;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Properties;
 
 import org.apache.tools.ant.taskdefs.Jar;
@@ -141,11 +139,8 @@ public class PhetBuildCommand {
         //todo: support a main-class chooser & launcher
         attribute.setValue( JAR_LAUNCHER );
 
-        File propertiesFile = createProjectPropertiesFile();
-
-        FileSet simFileSet = new FileSet();
-        simFileSet.setFile( propertiesFile );
-        jar.addFileset( simFileSet );
+        jar.addFileset( toFileSet( createProjectPropertiesFile() ) );
+        jar.addFileset( toFileSet( createLicenseInfoFile() ) );
 
         manifest.addConfiguredAttribute( attribute );
         jar.addConfiguredManifest( manifest );
@@ -153,9 +148,35 @@ public class PhetBuildCommand {
         antTaskRunner.runTask( jar );
     }
 
+    private File createLicenseInfoFile() {
+        File file = new File( project.getAntOutputDir(), "license-info.txt" );
+        file.getParentFile().mkdirs();
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter( file ) );
+            bufferedWriter.write( "#This file identifies licenses of contibuted libraries\n" );
+            PhetProject[] dep = project.getAllDependencies();
+            for ( int i = 0; i < dep.length; i++ ) {
+                PhetProject phetProject = dep[i];
+                bufferedWriter.write(phetProject.getLicensingInfo().toString());
+            }
+            bufferedWriter.close();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+
+        return file;
+    }
+
+    private FileSet toFileSet( File file ) {
+        FileSet fileSet = new FileSet();
+        fileSet.setFile( file );
+        return fileSet;
+    }
+
     /*
-     * Creates a properties file that describes things about the project.
-     */
+    * Creates a properties file that describes things about the project.
+    */
     private File createProjectPropertiesFile() {
 
         // create the various properties

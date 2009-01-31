@@ -1,0 +1,2 @@
+richardson-propagator description=This PhET project uses code that was based on an applet written by John L. Richardson, Copyright 1996 Silicon Graphics.
+schmidt-lee license=GPL description=Code from the Schmidt-Lee implementation of the eigenstate solver (see EigenstateSolver), this code is GPL

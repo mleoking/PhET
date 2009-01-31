@@ -601,11 +601,21 @@ public class PhetProject {
     //todo: this should trace through dependencies to get license info too (not relevant with data as of 8-7-2008)
     public LicenseInfo[] getAllLicensingInfo() {
         ArrayList licenseInfo = new ArrayList();
-        File licenseFile = new File( getProjectDir(), "license-info.properties" );
+        File licenseFile = new File( getProjectDir(), "license-info.txt" );
         if ( licenseFile.exists() ) {
             licenseInfo.add( new LicenseInfo( licenseFile ) );
         }
         return (LicenseInfo[]) licenseInfo.toArray( new LicenseInfo[licenseInfo.size()] );
+    }
+
+    public LicenseInfo getLicensingInfo() {
+        File licenseFile = new File( getProjectDir(), "license-info.txt" );
+        if ( licenseFile.exists() ) {
+            return new LicenseInfo( licenseFile );
+        }
+        else {
+            return null;
+        }
     }
 
     //Returns media info for this project and all dependencies
