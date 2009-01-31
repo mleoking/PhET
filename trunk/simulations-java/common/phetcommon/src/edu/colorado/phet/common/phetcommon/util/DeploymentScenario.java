@@ -3,6 +3,7 @@
 package edu.colorado.phet.common.phetcommon.util;
 
 import java.io.File;
+import java.net.URL;
 
 import javax.jnlp.UnavailableServiceException;
 
@@ -24,9 +25,19 @@ public class DeploymentScenario {
     public static final DeploymentScenario OTHER_WEBSITE = new DeploymentScenario( "other-website", true );
     public static final DeploymentScenario DEVELOPER_IDE = new DeploymentScenario( "developer-ide", false );
     
-    // prefix of codebase attribute in JNLP files
-    private static final String PHET_PRODUCTION_CODE_BASE_PREFIX = "http://phet.colorado.edu";
-    private static final String PHET_DEVELOPMENT_CODE_BASE_PREFIX = "http://www.colorado.edu/physics/phet/dev";
+    /*
+     * There are fragments of the codebase attribute in JNLP files.
+     * Codebase is a URL, whose syntax is:
+     * <scheme>://<authority><path>?<query>#<fragment>
+     * 
+     * Example: 
+     * http://www.colorado.edu/physics/phet/dev/balloons/1.07.05
+     *
+     * We're using <authority> and the general part of <path> to identify the codebase
+     * for the PhET production and development websites.
+     */
+    private static final String PHET_PRODUCTION_CODEBASE_FRAGMENT = "phet.colorado.edu/sims";
+    private static final String PHET_DEVELOPMENT_CODEBASE_FRAGMENT = "www.colorado.edu/physics/phet/dev";
 
     // singleton
     private static DeploymentScenario instance = null;
@@ -60,7 +71,6 @@ public class DeploymentScenario {
     public static DeploymentScenario getInstance() {
         if ( instance == null ) {
             instance = determineScenario();
-            System.out.println( "DeploymentScenario.instance=" + instance.toString() );//XXX
         }
         return instance;
     }
@@ -79,19 +89,24 @@ public class DeploymentScenario {
             }
             else {
                 // web-started sims are differentiated base on the codebase attribute specified in the JNLP file
-                String codeBase = null;
+                String codebaseFragment = null;
                 try {
-                    codeBase = PhetServiceManager.getBasicService().getCodeBase().getPath();
+                    URL codebase = PhetServiceManager.getBasicService().getCodeBase();
+                    codebaseFragment = codebase.getAuthority() + codebase.getPath();
                 }
                 catch ( UnavailableServiceException e ) {
-                    codeBase = "?";
                     e.printStackTrace();
                 }
+                
+                // in case we still have null for any reason
+                if ( codebaseFragment == null ) {
+                    codebaseFragment = "?";
+                }
 
-                if ( codeBase.startsWith( PHET_PRODUCTION_CODE_BASE_PREFIX ) ) {
+                if ( codebaseFragment.startsWith( PHET_PRODUCTION_CODEBASE_FRAGMENT ) ) {
                     scenario = DeploymentScenario.PHET_PRODUCTION_WEBSITE;
                 }
-                else if ( codeBase.startsWith( PHET_DEVELOPMENT_CODE_BASE_PREFIX ) ) {
+                else if ( codebaseFragment.startsWith( PHET_DEVELOPMENT_CODEBASE_FRAGMENT ) ) {
                     scenario = DeploymentScenario.PHET_DEVELOPMENT_WEBSITE;
                 }
                 else {
