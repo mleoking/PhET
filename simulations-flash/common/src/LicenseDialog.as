@@ -90,7 +90,7 @@ class LicenseDialog {
 		*/
 		var licenseScroll = new JScrollPane(textArea, JScrollPane.SCROLLBAR_AS_NEEDED, JScrollPane.SCROLLBAR_AS_NEEDED);
 		licenseScroll.setPreferredSize(400, 400);
-		licenseScroll.setBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)));
+		licenseScroll.setBorder(new EmptyBorder(new LineBorder(null, ASColor.GRAY, 1, 0), new Insets(5, 5, 5, 5)));
 		window.getContentPane().append(licenseScroll);
 		
 		
