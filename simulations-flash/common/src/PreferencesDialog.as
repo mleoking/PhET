@@ -1,9 +1,9 @@
 ﻿// PreferencesDialog.as
 //
 // Shows a dialog which allows the user to change their
-// preferences that deal with updates and tracking
+// preferences that deal with updates and privacy.
 // they can also manually check updates, and access
-// details about the tracking
+// details about the privacy
 //
 // Author: Jonathan Olson
 
@@ -15,11 +15,11 @@ class PreferencesDialog {
 	
 	// keep track of what states would be if the user clicks OK
 	public var updateState : Boolean;
-	public var trackingState : Boolean;
+	public var statisticsState : Boolean;
 	
 	// need references to the checkboxes
 	public var updatesCheck : JCheckBox;
-	public var trackingCheck : JCheckBox;
+	public var statisticsCheck : JCheckBox;
 	
 	var updatesButton : JButton;
 	
@@ -39,7 +39,7 @@ class PreferencesDialog {
 		
 		// initialize to false. this will be changed later if either should be true
 		this.updateState = false;
-		this.trackingState = false;
+		this.statisticsState = false;
 		
 		// mysterious fix since "this" does not evaluate to a MovieClip or Component
 		ASWingUtils.getRootMovieClip();
@@ -63,7 +63,7 @@ class PreferencesDialog {
 		// SoftBoxLayout vertical, but allows different sized components
 		window.getContentPane().setLayout(new SoftBoxLayout(SoftBoxLayout.Y_AXIS));
 		
-		// panel that will hold the updates and tracking options (everything except OK/Cancel)
+		// panel that will hold the updates and privacy options (everything except OK/Cancel)
 		var bigPanel = new JPanel(new SoftBoxLayout(SoftBoxLayout.Y_AXIS));
 		bigPanel.setBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)));
 		
@@ -91,10 +91,10 @@ class PreferencesDialog {
 		
 		updatesPanel.append(new JSpacer(5, 5));
 		
-		// holds the tracking options
-		var trackingPanel = new JPanel(new SoftBoxLayout(SoftBoxLayout.Y_AXIS));
-		trackingPanel.setName(_level0.comStrings.get("Privacy", "Privacy"));
-		trackingPanel.setBorder(new TitledBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)), _level0.comStrings.get("Privacy", "Privacy")));
+		// holds the privacy options
+		var privacyPanel = new JPanel(new SoftBoxLayout(SoftBoxLayout.Y_AXIS));
+		privacyPanel.setName(_level0.comStrings.get("Privacy", "Privacy"));
+		privacyPanel.setBorder(new TitledBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)), _level0.comStrings.get("Privacy", "Privacy")));
 		
 		// text area that displays the following string.
 		// NOTE: Text area required, otherwise HTML text will not work.
@@ -125,30 +125,30 @@ class PreferencesDialog {
 		textFormat.setAlign(ASTextFormat.CENTER);
 		textArea.setTextFormat(textFormat);
 		
-		trackingPanel.append(textArea);
+		privacyPanel.append(textArea);
 		
-		trackingPanel.append(new JSpacer(5, 5));
+		privacyPanel.append(new JSpacer(5, 5));
 		
-		// tracking check-box
-		trackingCheck = new JCheckBox(_level0.comStrings.get("AllowMessages", "Allow sending of information to PhET"));
-		trackingCheck.addEventListener(JCheckBox.ON_CLICKED, Delegate.create(this, trackingToggle));
-		if(trackingState != _level0.preferences.userAllowsTracking()) {
-			// if tracking is allowed, fill in the check box
-			trackingCheck.click();
+		// statistics message check-box
+		statisticsCheck = new JCheckBox(_level0.comStrings.get("AllowMessages", "Allow sending of information to PhET"));
+		statisticsCheck.addEventListener(JCheckBox.ON_CLICKED, Delegate.create(this, statisticsToggle));
+		if(statisticsState != _level0.preferences.userAllowsStatistics()) {
+			// if statistics messages are	 allowed, fill in the check box
+			statisticsCheck.click();
 		}
-		trackingPanel.append(trackingCheck);
+		privacyPanel.append(statisticsCheck);
 		
-		trackingPanel.append(new JSpacer(5, 5));
+		privacyPanel.append(new JSpacer(5, 5));
 		
-		// button to show details about the tracking information
+		// button to show details about the privacy information
 		var detailsButton = new JButton(_level0.comStrings.get("Details", "Details") + "...");
 		detailsButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, detailsClicked));
-		CommonButtons.padButtonAdd(detailsButton, trackingPanel);
+		CommonButtons.padButtonAdd(detailsButton, privacyPanel);
 		
-		trackingPanel.append(new JSpacer(5, 5));
+		privacyPanel.append(new JSpacer(5, 5));
 		
 		bigPanel.append(updatesPanel);
-		bigPanel.append(trackingPanel);
+		bigPanel.append(privacyPanel);
 		
 		window.getContentPane().append(bigPanel);
 		
@@ -191,8 +191,8 @@ class PreferencesDialog {
 		if(updateState != _level0.preferences.userAllowsUpdates()) {
 			updatesCheck.click();
 		}
-		if(trackingState != _level0.preferences.userAllowsTracking()) {
-			trackingCheck.click();
+		if(statisticsState != _level0.preferences.userAllowsStatistics()) {
+			statisticsCheck.click();
 		}
 		_level0.preferences.unload();
 	}
@@ -203,10 +203,10 @@ class PreferencesDialog {
 		debug("updateState toggled to " + _level0.preferencesDialog.updateState.toString() + "\n");
 	}
 	
-	// toggle potential tracking state
-	public function trackingToggle(src : JCheckBox) : Void {
-		_level0.preferencesDialog.trackingState = !_level0.preferencesDialog.trackingState;
-		debug("trackingState toggled to " + _level0.preferencesDialog.trackingState.toString() + "\n");
+	// toggle potential statistics state
+	public function statisticsToggle(src : JCheckBox) : Void {
+		_level0.preferencesDialog.statisticsState = !_level0.preferencesDialog.statisticsState;
+		debug("statisticsState toggled to " + _level0.preferencesDialog.statisticsState.toString() + "\n");
 	}
 	
 	// manually check for updates
@@ -215,12 +215,12 @@ class PreferencesDialog {
 	}
 	
 	public function detailsClicked(src : JButton) : Void {
-		if(_level0.trackingDetailsWindow) {
+		if(_level0.statisticsDetailsWindow) {
 			debug("Showing dialog again\n");
-			_level0.trackingDetailsWindow.show();
+			_level0.statisticsDetailsWindow.show();
 		} else {
 			debug("Creating Dialog\n");
-			_level0.trackingDetailsDialog = new TrackingDetailsDialog();
+			_level0.statisticsDetailsDialog = new StatisticsDetailsDialog();
 		}
 	}
 	
@@ -230,8 +230,8 @@ class PreferencesDialog {
 	}
 	
 	public function okClicked(src : JButton) : Void {
-		// set the potential state (updates and tracking) to the preferences
-		_level0.preferences.setTracking(_level0.preferencesDialog.updateState, _level0.preferencesDialog.trackingState);
+		// set the potential state (updates and privacy) to the preferences
+		_level0.preferences.setPrivacy(_level0.preferencesDialog.updateState, _level0.preferencesDialog.statisticsState);
 		
 		// hide the window
 		_level0.preferencesWindow.setVisible(false);

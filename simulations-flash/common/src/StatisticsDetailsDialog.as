@@ -1,6 +1,6 @@
-﻿// TrackingDetailsDialog.as
+﻿// StatisticsDetailsDialog.as
 //
-// Shows the session-start tracking message, with other text
+// Shows the session-start statistics message, with other text
 //
 // Author: Jonathan Olson
 
@@ -8,15 +8,15 @@ import org.aswing.*;
 import org.aswing.util.*;
 import org.aswing.border.*;
 
-class TrackingDetailsDialog {
+class StatisticsDetailsDialog {
 	
 	// shorthand for debugging function
 	public function debug(str : String) : Void {
 		_level0.debug(str);
 	}
 	
-	public function TrackingDetailsDialog() {
-		debug("TrackingDetailsDialog initializing\n");
+	public function StatisticsDetailsDialog() {
+		debug("StatisticsDetailsDialog initializing\n");
 		
 		// somehow this line allows us to create these windows/buttons from
 		// code that isn't part of a MovieClip.
@@ -26,7 +26,7 @@ class TrackingDetailsDialog {
 		var window : JFrame = new JFrame(_level0, _level0.comStrings.get("PrivacyDetails", "Privacy Details"));
 		
 		// make it accessible from anywhere
-		_level0.trackingDetailsWindow = window;
+		_level0.statisticsDetailsWindow = window;
 		
 		// set the background color to default
 		window.setBackground(_level0.common.backgroundColor);
@@ -40,7 +40,7 @@ class TrackingDetailsDialog {
 		str += "<font size=\"12\">"
 		// insert what would be sent as the message. we need to unescape strings so they will be
 		// correctly viewable
-		str += unescape(_level0.trackingHandler.sessionStartMessage());
+		str += unescape(_level0.statistics.sessionStartMessage());
 		str += "</font>"
 		
 		// CSS will make links blue
@@ -83,6 +83,6 @@ class TrackingDetailsDialog {
 	
 	public function okClicked(src : JButton) {
 		// make the window invisible
-		_level0.trackingDetailsWindow.setVisible(false);
+		_level0.statisticsDetailsWindow.setVisible(false);
 	}
 }

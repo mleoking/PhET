@@ -12,7 +12,7 @@ class Preferences {
 	// current preferences version
 	// this SHOULD NOT CHANGE after development, and is an
 	// aid for development purposes.
-	public static var CURRENT_PREF_VERSION : Number = 1.2;
+	public static var CURRENT_PREF_VERSION : Number = 1.3;
 	
 	// current privacy agreement version
 	// this should be changed when a new agreement would need to be
@@ -77,7 +77,7 @@ class Preferences {
 		if(!sharedObject.data.exists) {
 			debug("Preferences do not exist! Creating, and filling with defaults.\n");
 			sharedObject.data.exists = true;
-			sharedObject.data.allowTracking = true;
+			sharedObject.data.allowStatistics = true;
 			sharedObject.data.checkForUpdates = true;
 			sharedObject.data.dataVersion = CURRENT_PREF_VERSION;
 			sharedObject.data.userPreferencesFileCreationTime = (new Date()).valueOf();
@@ -144,19 +144,19 @@ class Preferences {
 	
 	// returns whether the user allows messages to be sent
 	// NOTE: make sure preferences are loaded before calling, and unloaded sometime soon after
-	public function userAllowsTracking() : Boolean {
-		return sharedObject.data.allowTracking;
+	public function userAllowsStatistics() : Boolean {
+		return sharedObject.data.allowStatistics;
 	}
 	
 	// allow other common code/simulation to check whether
-	// tracking messages can be sent
+	// statistics messages can be sent
 	// NOTE: make sure preferences are loaded before calling, and unloaded sometime soon after
-	public function isTrackingAllowed() : Boolean {
+	public function areStatisticsMessagesAllowed() : Boolean {
 		if(_level0.common.fromPhetWebsite()) {
-			debug("From PhET website: no tracking allowed\n");
+			debug("From PhET website: no statistics allowed\n");
 			return false;
 		}
-		return userAllowsTracking();
+		return userAllowsStatistics();
 	}
 	
 	// returns whether the user allows checking for updates
@@ -201,13 +201,13 @@ class Preferences {
 		unload();
 	}
 	
-	// allow other code to set the tracking and updates values
-	public function setTracking(updates : Boolean, tracking : Boolean) : Void {
+	// allow other code to set the statistics and updates values
+	public function setPrivacy(checkForUpdates : Boolean, allowStatistics : Boolean) : Void {
 		load();
-		sharedObject.data.allowTracking = tracking;
-		sharedObject.data.checkForUpdates = updates;
-		debug("setting tracking to " + tracking.toString() + "\n");
-		debug("setting updates to " + updates.toString() + "\n");
+		sharedObject.data.allowStatistics = allowStatistics;
+		sharedObject.data.checkForUpdates = checkForUpdates;
+		debug("setting statistics to " + allowStatistics.toString() + "\n");
+		debug("setting updates to " + checkForUpdates.toString() + "\n");
 		save();
 		unload();
 	}
