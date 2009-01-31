@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<SimStrings>
+<string key="dragLabel" value="sürüklenme katsayısı"/>
+<string key="userChoice" value="Kullanıcı Seçimi"/>
+<string key="altitudeLabel" value="Yükseklik(m)"/>
+<string key="football" value="Futbol"/>
+<string key="golfball" value="Golf topu"/>
+<string key="collision" value="Çarpışma!"/>
+<string key="adultHuman" value="Yetişkin İnsan"/>
+<string key="time" value="zaman(s)"/>
+<string key="buick" value="Otomobil"/>
+<string key="diameter" value="Yarıçap(m)"/>
+<string key="initSpeed" value="ilk hız(m)"/>
+<string key="bowlingball" value="Bowlink Topu"/>
+<string key="piano" value="Piyano"/>
+<string key="sound" value="Ses"/>
+<string key="range" value="menzil(m)"/>
+<string key="height" value="yükseklik(m)"/>
+<string key="mass" value="Kütle(kg)"/>
+<string key="pumpkin" value="Balkabağı"/>
+<string key="score" value="Skor!"/>
+<string key="angle" value="Açı(derece)"/>
+<string key="baseball" value="Beyzbol"/>
+<string key="airResistance" value="Hava Sürtünmesi"/>
+<string key="fire" value="Ateş"/>
+<string key="erase" value="Sil"/>
+<string key="tankshell" value="Tank mermisi"/>
+</SimStrings>

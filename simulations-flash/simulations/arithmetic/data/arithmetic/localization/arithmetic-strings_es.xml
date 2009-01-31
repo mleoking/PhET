@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SimStrings>
+<string key="level" value="nivel"/>
+<string key="typeAnswer" value="Teclea respuesta,\npulsa tecla Enter"/>
+<string key="clickToSelect" value="Haz click para elegir\ncuadrado correcto"/>
+<string key="correct" value="¡Correcto!"/>
+<string key="end" value="Fin"/>
+<string key="isWrong" value="es erroneo."/>
+<string key="start" value="Comenzar"/>
+<string key="time" value="Tiempo(seg)"/>
+<string key="finalTime" value="Tiempo final:"/>
+<string key="multiply" value="Multiplicar"/>
+<string key="tryAgain" value="Intentar de nuevo."/>
+<string key="sound" value="Sonido"/>
+<string key="divide" value="Dividir"/>
+<string key="factor" value="Factor"/>
+<string key="minute" value="minuto"/>
+<string key="finalScore" value="Puntuacion final:"/>
+<string key="nbrRight" value="numeros correctos:"/>
+<string key="mustTypeNbr" value="Debe teclear\nun numero"/>
+<string key="score" value="Puntuacion:"/>
+<string key="scorePer" value="puntuacion"/>
+<string key="nbrWrong" value="numeros equivocados:"/>
+<string key="reset" value="Reiniciar"/>
+<string key="clock" value="reloj"/>
+<string key="title" value="Tareas Aritmeticas"/>
+</SimStrings>

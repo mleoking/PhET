@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# builds all of the html files for all locales
+
+for sim_name in arithmetic blackbody-spectrum charges-and-fields curve-fitting equation-grapher estimation faradays-law friction geometric-optics lunar-lander mass-spring-lab my-solar-system ohms-law pendulum-lab plinko-probability projectile-motion resistance-in-a-wire stern-gerlach vector-addition wave-on-a-string;
+do
+
+sim_old=old-simulations/${sim_name}
+
+sim_dir=simulations/${sim_name}
+
+sim_data=${sim_dir}/data
+sim_deploy=${sim_dir}/deploy
+sim_src=${sim_dir}/src
+
+sim_data_sub=${sim_data}/${sim_name}
+sim_images=${sim_data_sub}/images
+sim_localization=${sim_data_sub}/localization
+
+for file in ${sim_localization}/*;
+do
+	#echo $file
+	locale=`echo "${file}" | sed -e 's/[^_]*_\(.*\)\.xml/\1/'`
+	# TODO: make this handle true locale, currently it would run with en_US instead of "en US" as separate parameters
+	#echo $locale
+	echo Building ${sim_name} ${locale}
+	java FlashHTMLWriter ${sim_name} ${locale}
+done;
+
+for file in ${sim_deploy}/*.html;
+do
+	svn add -q $file
+done;
+
+
+done

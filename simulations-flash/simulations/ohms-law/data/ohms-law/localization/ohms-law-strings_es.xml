@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SimStrings>
+<string key="currentEq" value="corriente ="/>
+<string key="resistance" value="resistencia"/>
+<string key="sound" value="sonido"/>
+<string key="voltage" value="voltaje"/>
+</SimStrings>
