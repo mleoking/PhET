@@ -13,6 +13,7 @@ class LadybugModel extends ObservableS {
   val ladybug = new Ladybug
   private val history = new ArrayBuffer[DataPoint]
   val tickListeners = new ArrayBuffer[() => Unit]
+  val motion2DModelResetListeners= new ArrayBuffer[() => Unit]
   private val ladybugMotionModel = new LadybugMotionModel(this)
   private var time: Double = 0;
   var record = true
@@ -152,7 +153,7 @@ class LadybugModel extends ObservableS {
 
   def initManual = {
     println("init: " + ladybug.getPosition)
-    motion2DModel.reset(ladybug.getPosition.x, ladybug.getPosition.y)
+    resetMotion2DModel
     samplePath.clear
     println("cleared sample path: " + samplePath.length)
   }
@@ -282,5 +283,17 @@ class LadybugModel extends ObservableS {
   def clearHistory() = {
     history.clear()
     notifyListeners()
+  }
+
+  def resetMotion2DModel={
+    motion2DModel.reset(ladybug.getPosition.x,ladybug.getPosition.y)
+    motion2DModelResetListeners.foreach(_())
+  }
+
+  def returnLadybug={
+    ladybug.setPosition(LadybugDefaults.defaultLocation)
+    samplePath.clear
+    resetMotion2DModel
+    notifyListeners
   }
 }
