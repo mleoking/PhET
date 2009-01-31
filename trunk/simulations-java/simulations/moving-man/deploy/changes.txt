@@ -1,4 +1,5 @@
 > Fixed: Remote control doesn't show correct initial position
+> Fixed: When switching to manual from a premade motion, don't jump to old last recorded position.
 
 # 1.20.23 (27797) 01-30-2009
 > Changed to Motion2D model

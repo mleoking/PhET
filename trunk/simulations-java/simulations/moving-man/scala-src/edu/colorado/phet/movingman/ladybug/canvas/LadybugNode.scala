@@ -68,7 +68,11 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
     }
 
     override def mouseReleased(event: PInputEvent) = {
-      //      loc = null
+      loc = null
+    }
+
+    override def mouseExited(event: PInputEvent) = {
+      loc=null
     }
   }
   addInputEventListener(new ToggleListener(inputHandler, () => interactive))
