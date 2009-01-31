@@ -3,9 +3,9 @@ package edu.colorado.phet.movingman.ladybug.controlpanel
 import model.ObservableS
 
 class PathVisibilityModel extends ObservableS {
-  private var _lineVisible = true
+  private var _lineVisible = false
   private var _dotsVisible = false
-  private var _fadeVisible = false
+  private var _fadeVisible = true
 
   def lineVisible: Boolean = _lineVisible
 
@@ -35,8 +35,8 @@ class PathVisibilityModel extends ObservableS {
   }
 
   def resetAll() = {
-    lineVisible = true
+    lineVisible = false
     dotsVisible = false
-    fadeVisible = false
+    fadeVisible = true
   }
 }
