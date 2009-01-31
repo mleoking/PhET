@@ -1,31 +1,37 @@
 package edu.colorado.phet.build.util;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
+import java.io.*;
 
 /**
  * Created by: Sam
  * Aug 5, 2008 at 10:47:00 AM
  */
 public class LicenseInfo {
-    private String name;
-    private String description;
+    private File file;
 
-    public LicenseInfo( File propertiesFile ) {
-        Properties prop = new Properties();
+    public LicenseInfo( File licenseInfoTXTFile ) {
+        this.file = licenseInfoTXTFile;
+    }
+
+    public String toString() {
+        String out = "";
         try {
-            prop.load( new FileInputStream( propertiesFile ) );
-            this.name = prop.getProperty( "name" );
-            this.description = prop.getProperty( "description" );
+            BufferedReader bufferedReader = new BufferedReader( new FileReader( file ) );
+            String line = bufferedReader.readLine();
+            while ( line != null ) {
+                out += line;
+                line = bufferedReader.readLine();
+                if ( line != null ) {
+                    out += "\n<br>";//br is for use in HTML reporting utility
+                }
+            }
+        }
+        catch( FileNotFoundException e ) {
+            e.printStackTrace();
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
-    }
-
-    public String toString() {
-        return name + ": " + description;
+        return out;
     }
 }

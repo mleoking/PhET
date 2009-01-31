@@ -1,0 +1,1 @@
+schmidt-lee license=GPL description=This PhET project contains a modified version of two files Copyright (C) 1998 Kevin E. Schmidt and Michael A. Lee, under the GPL license.

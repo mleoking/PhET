@@ -1,0 +1,1 @@
+wireframe-3d-jdk-1.4.2-examples copyright=Copyright 2003 Sun Microsystems, Inc. description=3D Wireframe code from JDK 1.4.2 examples, Copyright 2003 Sun Microsystems, Inc.; redistribution with or without modification provided that terms enumerated in the copyright are met

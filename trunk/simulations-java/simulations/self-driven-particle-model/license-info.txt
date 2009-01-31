@@ -1,0 +1,1 @@
+linear-regression description=http://www.cs.princeton.edu/introcs/97data/LinearRegression.java.html
