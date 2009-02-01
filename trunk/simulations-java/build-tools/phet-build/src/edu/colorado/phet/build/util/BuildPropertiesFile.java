@@ -32,14 +32,8 @@ public class BuildPropertiesFile extends PropertiesFile {
         return getProperty( "project.depends.lib" );
     }
     
-    /**
-     * return "" instead of null if no data directory specified
-     *
-     * @return
-     */
     public String getData() {
-        String s = getProperty( "project.depends.data" );
-        return s == null ? "" : s;
+        return getProperty( "project.depends.data" );
     }
     
     public String[] getKeepMains() {
@@ -103,6 +97,7 @@ public class BuildPropertiesFile extends PropertiesFile {
         return getProperty( "project.description" );
     }
     
+    //TODO: this should be moved to some general utility class
     private String[] split( String str, String delimiters ) {
         ArrayList out = new ArrayList();
         StringTokenizer stringTokenizer = new StringTokenizer( str, delimiters );
