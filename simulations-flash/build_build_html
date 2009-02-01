@@ -1,4 +1,0 @@
-javac -sourcepath build-tools/flash-build/src -d build-tools/flash-build/build build-tools/flash-build/src/edu/colorado/phet/flashbuild/util/FlashHTML.java
-javac -sourcepath build-tools/flash-build/src -d build-tools/flash-build/build build-tools/flash-build/src/edu/colorado/phet/flashbuild/GenerateHTML.java
-cp build-tools/flash-build/data/* build-tools/flash-build/build/
-jar cfm flash-build.jar build-tools/flash-build/manifest -C build-tools/flash-build/build .
