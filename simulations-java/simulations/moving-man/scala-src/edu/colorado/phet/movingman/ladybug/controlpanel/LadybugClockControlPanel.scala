@@ -185,7 +185,6 @@ class Timeline(model: LadybugModel, canvas: PhetPCanvas) extends PNode {
     background.setPathTo(new Rectangle(insetX, pathOffsetY, (LadybugDefaults.timelineLengthSeconds*scale).toInt, pathHeight))
     handle.setVisible(model.isPlayback)
     val elapsed = model.getTime - model.getMinRecordedTime
-    //    println("t="+model.getTime+", elapsed="+elapsed+", scale="+scale+", e*s="+elapsed*scale)
     handle.setPathTo(new Ellipse2D.Double(elapsed * scale - ellipseWidth / 2 + insetX, pathOffsetY - 1, ellipseWidth, ellipseHeight))
   }
 }

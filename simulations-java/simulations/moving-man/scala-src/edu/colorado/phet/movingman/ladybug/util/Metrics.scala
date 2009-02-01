@@ -16,7 +16,6 @@ object Metrics {
         val c = s.getLines.toList.length
         println(f.getAbsolutePath + ": " + c)
         count = count + c
-        //        print("running count="+count)
       }
     })
     println("Total count: " + count);
