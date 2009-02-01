@@ -11,7 +11,7 @@ public class LibraryLicensesButton extends JButton {
         super( "Additional Licenses..." );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                new AdditionalLicenseDialog( owner ).setVisible( true );
+                new DynamicCreditsDialog( owner ).setVisible( true );
             }
         } );
     }

@@ -100,7 +100,6 @@
       <sourceFolder url="file://$MODULE_DIR$/util/updater/src" isTestSource="false" />
     </content>
     <orderEntry type="library" name="scala-2.7.3.final" level="application" />
-    <orderEntry type="library" name="scala-2.7.3.final" level="application" />
     <orderEntry type="jdk" jdkName="1.6" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
@@ -1127,25 +1126,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../../Users/Owner/Desktop/commons-httpclient-3.1/commons-httpclient-3.1/commons-httpclient-3.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../../Users/Owner/Desktop/commons-logging-1.1.1-bin/commons-logging-1.1.1/commons-logging-1.1.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../../Users/Owner/Desktop/commons-codec-1.3/commons-codec-1.3/commons-codec-1.3.jar!/" />
+          <root url="file://$MODULE_DIR$/simulations-java/temp/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

@@ -242,5 +242,6 @@ public class PhetAboutDialog extends JDialog {
      */
     protected void showCredits() {
         new CreditsDialog( this, creditsString ).setVisible( true );
+//        new DynamicCreditsDialog( this).setVisible( true );
     }
 }
