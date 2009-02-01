@@ -14,11 +14,12 @@ import javax.swing.*;
 
 import edu.colorado.phet.flashlauncher.util.BareBonesBrowserLaunch;
 import edu.colorado.phet.flashlauncher.util.FileUtils;
+import edu.colorado.phet.flashbuild.util.FlashHTML;
 
 /**
  * FlashLauncher is the mechanism for launching Flash simulations.
  * It is bundled into a JAR file as the mainclass.
- * An args file in the JAR identifies the simulation name and language code,
+ * An args file in the JAR identifies the simulation properties
  * which are used to fill in an HTML template.
  * The JAR file is unzipped to a temporary directory.
  * A web browser is launched, and pointed at the HTML.
@@ -28,11 +29,13 @@ import edu.colorado.phet.flashlauncher.util.FileUtils;
 public class FlashLauncher {
 
     private static final String ARGS_FILENAME = "flash-launcher-args.txt";
-    private static final String HTML_TEMPLATE = "flash-launcher-template.html";
-    private static final String VERSION_FORMAT = "{0}.{1}.{2} ({3})";
 
-    private String sim;
+    private String simName;
     private String language;
+    private String country;
+    private String deployment;
+    private String distributionTag;
+    private String installTimestamp;
     private static JTextArea jTextArea;
 
     public FlashLauncher() throws IOException {
@@ -43,8 +46,12 @@ public class FlashLauncher {
         String line = bu.readLine();
         StringTokenizer stringTokenizer = new StringTokenizer( line, " " );
         println( "line = " + line );
-        this.sim = stringTokenizer.nextToken();
+        this.simName = stringTokenizer.nextToken();
         this.language = stringTokenizer.nextToken();
+        this.country = stringTokenizer.nextToken();
+        this.deployment = stringTokenizer.nextToken();
+        this.distributionTag = stringTokenizer.nextToken();
+        this.installTimestamp = stringTokenizer.nextToken();
 
         // if the developer flag is specified in args file, open a window to show debug output
         if ( stringTokenizer.hasMoreTokens() && stringTokenizer.nextToken().equals( "-dev" ) ) {
@@ -73,7 +80,7 @@ public class FlashLauncher {
      */
     private void start() throws IOException {
         println( "FlashLauncher.start" );
-        String unzipDirName = System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" ) + "phet-" + sim;
+        String unzipDirName = System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" ) + "phet-" + simName;
         println( "unzipping to directory = " + unzipDirName );
         File unzipDir = new File( unzipDirName );
 
@@ -85,21 +92,46 @@ public class FlashLauncher {
         println( "Finished unzip" );
 
         // read the properties file
-        Properties properties = readProperties( sim );
+        Properties properties = readProperties( simName );
 
-        // read the version properties
-        String version = readVersion( properties );
+        // pull the version information from the properties file
+        String versionMajor, versionMinor, versionDev, versionRevision;
+        versionMajor = properties.getProperty( "version.major" );
+        versionMinor = properties.getProperty( "version.minor" );
+        versionDev = properties.getProperty( "version.dev" );
+        versionRevision = properties.getProperty( "version.revision" );
 
         // read the background color property
         String bgcolor = readBackgroundColor( properties );
 
+        // get the locale string
+        String locale = FlashHTML.localeString(language, country);
+
+        // files where the simulation and common internationalization XML should be.
+        // if they don't exist, replace with defaults
+        File simXMLFile = new File(unzipDir, simName + "-strings_" + locale + ".xml");
+        if(!simXMLFile.exists()) {
+            simXMLFile = new File(unzipDir, simName + "-strings_en.xml");
+            println("WARNING: could not find sim strings for " + locale + ", using default en.");
+        }
+        File commonXMLFile = new File(unzipDir, "common-strings_" + locale + ".xml");
+        if(!commonXMLFile.exists()) {
+            commonXMLFile = new File(unzipDir, "common-strings_en.xml");
+            println("WARNING: could not find common strings for " + locale + ", using default en.");
+        }
+
+        // encoded XML for sim and common strings
+        String simEncodedXML = FlashHTML.encodeXML(FlashHTML.rawFile(simXMLFile));
+        String commonEncodedXML = FlashHTML.encodeXML(FlashHTML.rawFile(commonXMLFile));
+
         // dynamically generate an HTML file
-        String html = generateHTML( sim, language, version, bgcolor );
-        File htmlFile = new File( unzipDir, sim + "_" + language + ".html" );
+        String html = FlashHTML.generateHTML( simName, language, country, deployment, distributionTag, installTimestamp,
+                versionMajor, versionMinor, versionDev, versionRevision, bgcolor, simEncodedXML, commonEncodedXML, "8");
+        File htmlFile = new File( unzipDir, simName + "_" + language + ".html" );
         FileOutputStream outputStream = new FileOutputStream( htmlFile );
         outputStream.write( html.getBytes() );
         outputStream.close();
-
+        
         // open the browser, point it at the HTML file
         println( "Starting openurl" );
         BareBonesBrowserLaunch.openURL( "file://" + htmlFile.getAbsolutePath() );
@@ -118,47 +150,12 @@ public class FlashLauncher {
         return properties;
     }
 
-    private static String readVersion( Properties properties ) {
-        // read the version properties
-        String major = properties.getProperty( "version.major" );
-        String minor = properties.getProperty( "version.minor" );
-        String dev = properties.getProperty( "version.dev" );
-        String revision = properties.getProperty( "version.revision" );
-
-        // format the version string
-        Object[] args = {major, minor, dev, revision};
-
-        return MessageFormat.format( VERSION_FORMAT, args );
-    }
-
     private static String readBackgroundColor( Properties properties ) {
         String bgcolor = properties.getProperty( "bgcolor" );
         if ( bgcolor == null ) {
             bgcolor = "#ffffff"; // white
         }
         return bgcolor;
-    }
-
-    /*
-     * Reads the HTML template and fills in the blanks for sim, language and version.
-     */
-    private static String generateHTML( String sim, String language, String version, String bgcolor ) throws IOException {
-        String s = "";
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( HTML_TEMPLATE );
-        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( inputStream ) );
-        String line = bufferedReader.readLine();
-        while ( line != null ) {
-            s += line;
-            line = bufferedReader.readLine();
-            if ( line != null ) {
-                s += System.getProperty( "line.separator" );
-            }
-        }
-        s = s.replaceAll( "@SIM@", sim );
-        s = s.replaceAll( "@LANGUAGE@", language );
-        s = s.replaceAll( "@VERSION@", version );
-        s = s.replaceAll( "@BGCOLOR@", bgcolor );
-        return s;
     }
 
     /*

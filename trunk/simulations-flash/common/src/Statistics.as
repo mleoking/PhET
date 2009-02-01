@@ -152,6 +152,6 @@ class Statistics {
 		// TODO: Change this to the permanent location!!!
 		//xml.sendAndLoad("http://phet.colorado.edu/jolson/deploy/tracking/tracker.php", reply);
 		// DEVELOPMENT: send statistics message to localhost
-		xml.sendAndLoad("http://localhost/tracking/tracker.php", reply);
+		xml.sendAndLoad("http://localhost/statistics/submit_message.php", reply);
 	}
 }

@@ -114,14 +114,23 @@ public class FlashHTML {
 
     public static String localeString( String language, String country ) {
         String ret = language;
-        if(country != NONE) {
+        if(!country.equals(NONE)) {
             ret += "_" + country;
         }
         return ret;
     }
 
     public static String rawFile( String filename ) throws FileNotFoundException {
+        /*
         File inFile = new File(filename);
+		Scanner scan = new Scanner(inFile);
+		scan.useDelimiter("\\Z");
+		return scan.next();
+		*/
+        return rawFile(new File(filename));
+    }
+
+    public static String rawFile( File inFile ) throws FileNotFoundException {
 		Scanner scan = new Scanner(inFile);
 		scan.useDelimiter("\\Z");
 		return scan.next();

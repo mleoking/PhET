@@ -1,0 +1,129 @@
+<!--
+    Test Flash build file for development
+-->
+<project name="PhET Flash Development" default="create-test-jar" basedir=".">
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties" >
+        <classpath>
+            <pathelement location="/home/jon/phet/svn/trunk/simulations-java/build-tools/ant-contrib/ant-contrib.jar"/>
+        </classpath>
+    </taskdef>
+
+    <property name="flashprops" value="flash-test.properties" />
+    <property name="nl" value="${line.separator}" />
+
+
+    <!-- read local properties file -->
+	<property file="${flashprops}"/>
+
+    <!-- if not overread from within the properties file, use these default values -->
+    <property name="simName" value="pendulum-lab" />
+    <property name="language" value="en" />
+    <property name="country" value="none" />
+    <property name="deployment" value="standalone-jar" />
+    <property name="distributionTag" value="none" />
+    <property name="installTimestamp" value="none" />
+
+    <property name="rootDir" value="."/>
+    <property name="build" location="${rootDir}/build"/>
+    <property name="jar-inputs" location="${build}/jar-inputs"/>
+
+    <!-- source directories of needed classes -->
+    <property name="flash-launcher-src" location="${rootDir}/flash-launcher/src"/>
+    <property name="flash-build-src" location="${rootDir}/build-tools/flash-build/src"/>
+
+
+    <!-- set the locale string -->
+    <if>
+        <equals arg1="${country}" arg2="none" />
+        <then>
+            <property name="locale" value="${language}" />
+        </then>
+        <else>
+            <property name="locale" value="${language}_${country}" />
+        </else>
+    </if>
+
+    <!--
+        targets to modify the flash properties file. next build will use the particular
+        sim, locale, and any other properties included
+    -->
+    <target name="pendulum-lab_en">
+        <echo file="${flashprops}" message="simName=pendulum-lab${nl}language=en${nl}country=none${nl}" />
+    </target>
+
+    <target name="pendulum-lab_es">
+        <echo file="${flashprops}" message="simName=pendulum-lab${nl}language=es${nl}country=none${nl}" />
+    </target>
+
+    <target name="pendulum-lab_pg_US">
+        <echo file="${flashprops}" message="simName=pendulum-lab${nl}language=pg${nl}country=US${nl}" />
+    </target>
+
+    <!-- build a test jar -->
+    <target name="create-test-jar" depends="clean-build">
+        <mkdir dir="${build}"/>
+    	<mkdir dir="${jar-inputs}"/>
+
+        <!-- build launch and generation code -->
+        <javac srcdir="${flash-launcher-src}" destdir="${jar-inputs}" sourcepath="${flash-build-src}" />
+        <javac srcdir="${flash-build-src}" destdir="${jar-inputs}" />
+
+        <!-- copy swf file -->
+        <copy file="${rootDir}/simulations/${simName}/deploy/${simName}.swf" todir="${jar-inputs}"/>
+
+        <!-- copy sim xml files -->
+        <copy todir="${jar-inputs}">
+            <fileset dir="${rootDir}/simulations/${simName}/data/${simName}/localization/" includes="${simName}-strings_*"/>
+        </copy>
+
+        <!-- copy common xml files -->
+        <copy todir="${jar-inputs}">
+            <fileset dir="${rootDir}/common/data/localization/" includes="common-strings_*"/>
+        </copy>
+
+        <!--copy the html template -->
+        <copy file="${rootDir}/build-tools/flash-build/data/flash-template.html" todir="${jar-inputs}"/>
+
+        <!-- create args file -->
+        <echo file="${jar-inputs}/flash-launcher-args.txt" message="${simName} ${language} ${country} ${deployment} ${distributionTag} ${installTimestamp}"/>
+
+        <!-- copy properties file -->
+        <copy file="${rootDir}/simulations/${simName}/data/${simName}/${simName}.properties" todir="${jar-inputs}"/>
+
+        <!-- create jar -->
+        <jar jarfile="${build}/${simName}_${locale}.jar" basedir="${jar-inputs}">
+            <manifest>
+                <attribute name="Main-Class" value="edu.colorado.phet.flashlauncher.FlashLauncher"/>
+            </manifest>
+        </jar>
+
+        <!-- delete the files that were added to the jar -->
+    	<!-- not for now: <delete dir="${jar-inputs}"/> -->
+        
+    </target>
+
+    <!-- build and execute a test jar. should open inside the browser -->
+    <target name="execute-test-jar" depends="create-test-jar">
+        <java jar="${build}/${simName}_${locale}.jar" fork="true" /> 
+    </target>
+
+
+
+
+
+    
+	<!-- cleans the build directory -->
+	<target name="clean-build">
+		<!-- all files and subdirectories of jar-inputs, but not jar-inputs itself -->
+        <available file="${jar-inputs}" property="jar-inputs-exists" />
+        <if>
+            <equals arg1="${jar-inputs-exist}" arg2="true" />
+            <then>
+                <delete includeemptydirs="true">
+                    <fileset dir="${jar-inputs}" includes="**/*"/>
+                </delete>
+            </then>
+        </if>
+	</target>
+</project>
+
