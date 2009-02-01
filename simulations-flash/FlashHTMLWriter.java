@@ -10,7 +10,7 @@ import java.net.*;
 import java.util.Scanner;
 
 public class FlashHTMLWriter {
-	public static void writeHTML(String simName, String language, String country, String deployment, String distributionTag, String xmlFile, String htmlFile, String propertiesFile, String commonXmlFile) throws FileNotFoundException, UnsupportedEncodingException {
+	public static void writeHTML(String simName, String language, String country, String deployment, String distributionTag, String installTimestamp, String xmlFile, String htmlFile, String propertiesFile, String commonXmlFile) throws FileNotFoundException, UnsupportedEncodingException {
 		/* Reads internationaliaztion data from an XML file, and generates the corresponding HTML file
 		 * that will pass the data into Flash through FlashVars parameters.
 		 *
@@ -84,6 +84,7 @@ public class FlashHTMLWriter {
 		flashVars += "&simName=" + simName;
 		flashVars += "&simDeployment=" + deployment;
 		flashVars += "&simDistributionTag=" + distributionTag;
+		flashVars += "&installTimestamp=" + installTimestamp;
 		flashVars += "&bgColor=" + bgint;
 		
 		// prepare string of HTML file:
@@ -118,6 +119,10 @@ public class FlashHTMLWriter {
 			String simName = "pendulum-lab";
 			String language = "sk";
 			String country = "none";
+			String deployment = "standalone-jar";
+			String distributionTag = "none";
+			String installTimestamp = "none";
+			
 			if(args.length > 1) {
 				simName = args[0];
 				language = args[1];
@@ -151,7 +156,7 @@ public class FlashHTMLWriter {
 				System.out.println("WARNING: could not find common internationalization data for " + locale + ", defaulting to en");
 			}
 			
-			writeHTML(simName, language, country, "standalone-jar", "none", xmlFile, htmlFile, propertiesFile, commonXmlFile);
+			writeHTML(simName, language, country, deployment, distributionTag, installTimestamp, xmlFile, htmlFile, propertiesFile, commonXmlFile);
 		} catch(FileNotFoundException e) {
 			System.out.println("File Not Found: " + e.toString());
 		} catch(UnsupportedEncodingException e) {

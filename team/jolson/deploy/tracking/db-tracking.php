@@ -16,12 +16,12 @@
 	// used for every mysql query that needs to be made
 	// useful for debugging and error catching
 	function phet_mysql_query($query) {
-		//print "<p>" . $query . "</p>";
+		print "<p>" . $query . "</p>";
 		
 		// actually execute the query
 		$result = mysql_query($query);
 		
-		//print "<p>" . mysql_error() . "</p>";
+		print "<p>" . mysql_error() . "</p>";
 		//$result | die();
 		return $result;
 	}
@@ -275,14 +275,15 @@ BOO;
 		$safe_time = mysql_real_escape_string($userPreferencesFileCreationTime);
 		$safe_install_timestamp = mysql_real_escape_string($userInstallTimestamp);
 		$safe_sessions = mysql_real_escape_string($userTotalSessions);
-		
+print "<p>{$safe_install_timestamp}</p>";
 		// we need to find out whether an entry exists for this particular file creation time AND install timestamp
 		if(empty($safe_install_timestamp) || $safe_install_timestamp == "null" || $safe_install_timestamp == "none") {
 			// not from an installation, set timestamp value to NULL
 			$safe_install_timestamp = "NULL";
-			
+print "<p>NULL</p>";
 			$query = "SELECT user_preferences_file_creation_time, user_install_timestamp FROM user WHERE (user_preferences_file_creation_time = {$safe_time} AND user_install_timestamp IS NULL);";
 		} else {
+print "<p>NOT NULL</p>";
 			$query = "SELECT user_preferences_file_creation_time, user_install_timestamp FROM user WHERE (user_preferences_file_creation_time = {$safe_time} AND user_install_timestamp = {$safe_install_timestamp});";
 		}
 		$result = phet_mysql_query($query);
@@ -293,7 +294,7 @@ BOO;
 		
 		if($num_rows === 0) {
 			// first time this user is seen
-			
+print "<p>FIRST TIME SEEN</p>";
 			// values to be inserted
 			$values = array(
 				'user_preferences_file_creation_time' => $safe_time,
@@ -305,6 +306,7 @@ BOO;
 			$insert_query = query_from_values("user", $values);
 			phet_mysql_query($insert_query);
 		} else {
+print "<p>SEEN BEFORE</p>";
 			// user already in table, update values
 			
 			// test whether install timestamp is the same (either NULL or with a value)
@@ -316,7 +318,7 @@ BOO;
 			
 			// update last_seen_month with current year and month
 			$last_seen_month = quo(date("Y-m-01", time()));
-			$update_query = "UPDATE user SET last_seen_month = {$last_seen_month} (WHERE user_preferences_file_creation_time = {$safe_time} AND {$timestamp_test})";
+			$update_query = "UPDATE user SET last_seen_month = {$last_seen_month} WHERE (user_preferences_file_creation_time = {$safe_time} AND {$timestamp_test})";
 			phet_mysql_query($update_query);
 		}
 	}

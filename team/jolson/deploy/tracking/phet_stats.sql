@@ -6,9 +6,10 @@
 # storing the user_preferences_file_creation_time
 DROP TABLE IF EXISTS user;
 CREATE TABLE user (
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	
 	# when the preferences file was created (usually at 1st sim run?)
-	user_preferences_file_creation_time BIGINT UNSIGNED NOT NULL PRIMARY KEY,
+	user_preferences_file_creation_time BIGINT UNSIGNED NOT NULL,
 	
 	# if from a full installation, when it was installed
 	user_install_timestamp BIGINT UNSIGNED,
@@ -21,6 +22,7 @@ CREATE TABLE user (
 	
 	# last seen year and month (recorded by the server)
 	last_seen_month DATE
+	
 );
 
 
