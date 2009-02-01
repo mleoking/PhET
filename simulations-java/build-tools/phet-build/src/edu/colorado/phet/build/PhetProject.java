@@ -5,10 +5,7 @@ import java.util.*;
 
 import org.apache.tools.ant.BuildException;
 
-import edu.colorado.phet.build.util.DataResource;
-import edu.colorado.phet.build.util.LicenseInfo;
-import edu.colorado.phet.build.util.PhetBuildUtils;
-import edu.colorado.phet.build.util.ProjectPropertiesFile;
+import edu.colorado.phet.build.util.*;
 
 /**
  * Author: Sam Reid
@@ -20,8 +17,8 @@ public class PhetProject {
 
     private final String name;
     private final File projectDir;
-    private final Properties buildProperties;
     private final ProjectPropertiesFile projectPropertiesFile;
+    private final BuildPropertiesFile buildPropertiesFile;
 
     public PhetProject( File projectRoot ) throws IOException {
         this( projectRoot.getParentFile(), projectRoot.getName() );
@@ -31,10 +28,7 @@ public class PhetProject {
         this.name = name;
         this.projectDir = new File( parentDir, name );
         this.projectPropertiesFile = new ProjectPropertiesFile( this );
-        
-        File propertyFile = PhetBuildUtils.getBuildPropertiesFile( projectDir, name );
-        this.buildProperties = new Properties();
-        this.buildProperties.load( new BufferedInputStream( new FileInputStream( propertyFile ) ) );
+        this.buildPropertiesFile = new BuildPropertiesFile( this );
     }
 
     public File getDeployDir() {
@@ -76,19 +70,19 @@ public class PhetProject {
     }
 
     public String toString() {
-        return "project=" + name + ", root=" + projectDir.getAbsolutePath() + ", properties=" + buildProperties;
+        return "project=" + name + ", root=" + projectDir.getAbsolutePath() + ", buildProperties=" + buildPropertiesFile.toString();
     }
 
-    public String getSource() {
-        return buildProperties.getProperty( "project.depends.source" );
+    private String getSource() {
+        return buildPropertiesFile.getSource();
     }
 
-    public String getScalaSource() {
-        return buildProperties.getProperty( "project.depends.scala.source" );
+    private String getScalaSource() {
+        return buildPropertiesFile.getScalaSource();
     }
 
-    public String getLib() {
-        return buildProperties.getProperty( "project.depends.lib" );
+    private String getLib() {
+        return buildPropertiesFile.getLib();
     }
 
     /**
@@ -97,16 +91,12 @@ public class PhetProject {
      * @return
      */
     public String getData() {
-        String s = buildProperties.getProperty( "project.depends.data" );
+        String s = buildPropertiesFile.getData();
         return s == null ? "" : s;
     }
 
     public String[] getKeepMains() {
-        String v = buildProperties.getProperty( "project.keepmains" );
-        if ( v == null ) {
-            v = "";
-        }
-        return split( v, ": " );
+        return buildPropertiesFile.getKeepMains();
     }
 
     private File[] getDataDirectories() {
@@ -194,15 +184,6 @@ public class PhetProject {
             return false;
         }
         return new File( file, file.getName() + "-build.properties" ).exists();
-    }
-
-    private String[] split( String str, String delimiters ) {
-        ArrayList out = new ArrayList();
-        StringTokenizer stringTokenizer = new StringTokenizer( str, delimiters );
-        while ( stringTokenizer.hasMoreTokens() ) {
-            out.add( stringTokenizer.nextToken() );
-        }
-        return (String[]) out.toArray( new String[0] );
     }
 
     private File[] expandPath( String lib ) {
@@ -329,14 +310,14 @@ public class PhetProject {
         return destDir;
     }
 
-    public String getMainClass() {
-        return buildProperties.getProperty( "project.mainclass" );
+    private String getMainClassDefault() {
+        return buildPropertiesFile.getMainClassDefault();
     }
 
     public String[] getAllMainClasses() {
         HashSet mainClasses = new HashSet();
-        if ( getMainClass() != null ) {
-            mainClasses.add( getMainClass() );
+        if ( getMainClassDefault() != null ) {
+            mainClasses.add( getMainClassDefault() );
         }
 
         mainClasses.addAll( Arrays.asList( getKeepMains() ) );
@@ -352,7 +333,7 @@ public class PhetProject {
      */
     public String[] getSimulationNames() {
         ArrayList simulationNames = new ArrayList();
-        Enumeration e = buildProperties.propertyNames();
+        Enumeration e = buildPropertiesFile.getPropertyNames();
         while ( e.hasMoreElements() ) {
             String s = (String) e.nextElement();
             String prefix = "project.flavor.";
@@ -410,16 +391,15 @@ public class PhetProject {
      * @return
      */
     public Simulation getSimulation( String simulationName, String locale ) {
-        String mainclass = buildProperties.getProperty( "project.flavor." + simulationName + ".mainclass" );
+        String mainclass = buildPropertiesFile.getMainClass( simulationName );
         if ( mainclass == null ) {
-            mainclass = buildProperties.getProperty( "project.mainclass" );
+            mainclass = buildPropertiesFile.getMainClassDefault();
         }
         if ( mainclass == null ) {
             throw new RuntimeException( "Mainclass was null for project=" + name + ", simulation=" + simulationName );
         }
-        String argsString = buildProperties.getProperty( "project.flavor." + simulationName + ".args" );
-        String[] args = PhetBuildUtils.toStringArray( argsString == null ? "" : argsString, " " );
-        String screenshotPathname = buildProperties.getProperty( "project.flavor." + simulationName + ".screenshot" );
+        String[] args = buildPropertiesFile.getArgs( simulationName );
+        String screenshotPathname = buildPropertiesFile.getScreenshot( simulationName );
         File screenshot = new File( screenshotPathname == null ? "screenshot.gif" : screenshotPathname );
 
         //If we reuse PhetResources class, we should move Proguard usage out, so GPL doesn't virus over
@@ -455,8 +435,8 @@ public class PhetProject {
             }
             else {
                 System.out.println( "PhetProject.getSimulation: localization file doesn't exist: " + localizationFile.getAbsolutePath() );
-                title = buildProperties.getProperty( "project.name" );
-                description = buildProperties.getProperty( "project.description" );
+                title = buildPropertiesFile.getTitleDefault();
+                description = buildPropertiesFile.getDescriptionDefault();
                 if ( title == null ) {
                     System.out.println( "PhetProject.getSimulation: project.name not found, using: " + name );
                     title = name;
