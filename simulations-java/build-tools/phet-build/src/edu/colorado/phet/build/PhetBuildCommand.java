@@ -156,8 +156,7 @@ public class PhetBuildCommand {
             bufferedWriter.write( "#This file identifies licenses of contibuted libraries\n" );
             PhetProject[] dep = project.getAllDependencies();
             for ( int i = 0; i < dep.length; i++ ) {
-                PhetProject phetProject = dep[i];
-                bufferedWriter.write( phetProject.getLicensingInfo().toString() );
+                bufferedWriter.write( dep[i].getLicensingInfo().toString() );
             }
             bufferedWriter.close();
         }
