@@ -53,11 +53,11 @@ public abstract class PhetServer {
         }
 
         public String getURL( PhetProject project ) {
-            return getURL() + "/" + project.getName() + "/" + project.getVersionString();
+            return getURL() + "/" + project.getName() + "/" + project.getDevDirectoryBasename();
         }
 
         public String getPath( PhetProject project ) {
-            return getPath() + "/" + project.getName() + "/" + project.getVersionString();
+            return getPath() + "/" + project.getName() + "/" + project.getDevDirectoryBasename();
         }
     }
 

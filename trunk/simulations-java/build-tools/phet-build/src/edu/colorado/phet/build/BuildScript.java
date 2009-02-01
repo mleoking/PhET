@@ -3,8 +3,6 @@ package edu.colorado.phet.build;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.StringTokenizer;
@@ -144,7 +142,7 @@ public class BuildScript {
     }
 
     private String getFullVersionStr( int svn ) {
-        return project.getVersionString() + " (" + svn + ") " + new SimpleDateFormat( "MM-dd-yyyy" ).format( new Date() );
+        return project.getFullVersionString();
     }
 
     private void prependChange( String message ) {
@@ -258,7 +256,7 @@ public class BuildScript {
     private void commitProject() {
         String svnusername = svnAuth.getUsername( "svn" );
         String svnpassword = svnAuth.getPassword( "svn" );
-        String message = project.getName() + ": deployed version " + project.getVersionString();
+        String message = project.getName() + ": deployed version " + project.getFullVersionString();
         String path = project.getProjectDir().getAbsolutePath();
         String[] args = new String[]{"svn", "commit", "--username", svnusername, "--password", svnpassword, "--message", message, path};
         //TODO: verify that SVN repository revision number now matches what we wrote to the project properties file

@@ -1,8 +1,6 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.build;
 
-import scala.tools.ant.Scalac;
-
 import java.io.*;
 import java.util.Properties;
 
@@ -13,8 +11,10 @@ import org.apache.tools.ant.taskdefs.ManifestException;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
+import scala.tools.ant.Scalac;
 import edu.colorado.phet.build.proguard.PhetProguardConfigBuilder;
 import edu.colorado.phet.build.proguard.ProguardCommand;
+import edu.colorado.phet.build.util.LicenseInfo;
 import edu.colorado.phet.build.util.PhetBuildUtils;
 
 /**
@@ -157,7 +157,10 @@ public class PhetBuildCommand {
             PhetProject[] dep = project.getAllDependencies();
             for ( int i = 0; i < dep.length; i++ ) {
                 PhetProject phetProject = dep[i];
-                bufferedWriter.write(phetProject.getLicensingInfo().toString());
+                LicenseInfo licenseInfo = phetProject.getLicensingInfo();
+                if ( licenseInfo != null ) {
+                    bufferedWriter.write( licenseInfo.toString() );
+                }
             }
             bufferedWriter.close();
         }

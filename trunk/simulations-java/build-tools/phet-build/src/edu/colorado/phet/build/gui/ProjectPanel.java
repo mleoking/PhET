@@ -26,7 +26,7 @@ public class ProjectPanel extends JPanel {
     };
 
     private void updateTitleLabel() {
-        titleLabel.setText( project.getName() + " (" + project.getVersionString() + ")" );
+        titleLabel.setText( project.getName() + " : " + project.getFullVersionString() );
     }
 
     private LocalProperties localProperties;

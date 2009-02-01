@@ -1,7 +1,6 @@
 package edu.colorado.phet.build;
 
 import java.io.*;
-import java.text.DecimalFormat;
 import java.util.*;
 
 import org.apache.tools.ant.BuildException;
@@ -505,27 +504,25 @@ public class PhetProject {
         String suffix = locale.equals( "en" ) || locale.equals( "" ) ? "" : "_" + locale;
         return new File( getLocalizationDir(), getName() + "-strings" + suffix + ".properties" );
     }
-
-    //Can't reuse the property loading code from phetcommon since the build process currently is GPL only.
-    //Sure you can, it just means that phetcommon will be GPL when compiled with build-tools
-    public String getVersionString() {
-        return getMajorVersion() + "." + format( getMinorVersion() ) + "." + format( getDevVersion() );
+    
+    public String getDevDirectoryBasename() {
+        return projectPropertiesFile.getMajorVersionString() + "." + projectPropertiesFile.getMinorVersionString() + "." + projectPropertiesFile.getDevVersionString();
     }
 
-    private String format( int version ) {
-        return new DecimalFormat( "00" ).format( version );
+    public String getFullVersionString() {
+        return projectPropertiesFile.getFullVersionString();
     }
 
     public int getMajorVersion() {
-        return getVersionProperty( "major" );
+        return projectPropertiesFile.getMajorVersion();
     }
 
     public int getMinorVersion() {
-        return getVersionProperty( "minor" );
+        return projectPropertiesFile.getMinorVersion();
     }
 
     public int getDevVersion() {
-        return getVersionProperty( "dev" );
+        return projectPropertiesFile.getDevVersion();
     }
 
     public int getVersionProperty( String property ) {
