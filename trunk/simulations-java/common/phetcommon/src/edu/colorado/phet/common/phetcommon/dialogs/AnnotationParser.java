@@ -1,8 +1,8 @@
-package edu.colorado.phet.build.util;
+package edu.colorado.phet.common.phetcommon.dialogs;
 
-import java.util.HashMap;
 import java.util.StringTokenizer;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 //todo: remove duplicate copy in licensing, build-tools and phet-common
 public class AnnotationParser {
@@ -92,4 +92,5 @@ public class AnnotationParser {
         System.out.println( "a = " + a );
     }
 }
+
 
