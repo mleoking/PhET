@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 
 import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.FileSet;
@@ -18,11 +18,11 @@ import org.rev6.scf.SshCommand;
 import org.rev6.scf.SshConnection;
 import org.rev6.scf.SshException;
 
+import com.jcraft.jsch.JSchException;
+
 import edu.colorado.phet.build.translate.ScpTo;
 import edu.colorado.phet.build.util.FileUtils;
 import edu.colorado.phet.build.util.ProcessOutputReader;
-
-import com.jcraft.jsch.JSchException;
 
 public class BuildScript {
     private PhetProject project;
@@ -81,6 +81,7 @@ public class BuildScript {
         System.out.println( "Current SVN: " + svnNumber );
         System.out.println( "Setting SVN Version" );
         setSVNVersion( svnNumber + 1 );
+        setVersionTimestamp();
         System.out.println( "Adding message to change file" );
         addMessagesToChangeFile( svnNumber + 1 );
 
@@ -228,9 +229,13 @@ public class BuildScript {
     }
 
     private void setSVNVersion( int svnVersion ) {
-        project.setVersionField( "revision", svnVersion );
+        project.setSVNVersion( svnVersion );
     }
 
+    private void setVersionTimestamp() {
+        project.setVersionTimestamp( (int)System.currentTimeMillis() / 1000 ); // convert from ms to sec
+    }
+    
     public int getSVNVersion() {
         File readmeFile = new File( baseDir, "README.txt" );
         if ( !readmeFile.exists() ) {
