@@ -7,6 +7,9 @@ import java.util.Properties;
 /**
  * PropertiesFile is the abstraction of a properties file.
  * Setting a value stores the value in the file immediately.
+ * <p>
+ * This class is implemented using composition instead of inheritance
+ * because it's not appropriate to expose the entire File interface.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -38,6 +41,14 @@ public class PropertiesFile {
             }
         }
         return properties;
+    }
+    
+    /**
+     * Does this properties file exist?
+     * @return
+     */
+    public boolean exists() {
+        return propertiesFile.exists();
     }
     
     /**
