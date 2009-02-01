@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.swing.*;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 
 import edu.colorado.phet.common.phetcommon.resources.DefaultResourceLoader;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
@@ -13,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
-public class AdditionalLicenseDialog extends JDialog {
+public class DynamicCreditsDialog extends JDialog {
     // Resource (file) that contains the PhET license, in plain text format.
     private static final String LICENSE_INFO_RESOURCE = "contrib-licenses/license-info.txt";
 
@@ -22,8 +24,9 @@ public class AdditionalLicenseDialog extends JDialog {
 
     private static final String TITLE = "Additional Licenses";//todo: il8
     private static final String OK_BUTTON = PhetCommonResources.getString( "Common.About.OKButton" );
+    private DialogLicenseDataSet dialogLicenseData;
 
-    public AdditionalLicenseDialog( Dialog owner ) {
+    public DynamicCreditsDialog( Dialog owner ) {
         this( owner, readDataFromResources() );
     }
 
@@ -38,15 +41,38 @@ public class AdditionalLicenseDialog extends JDialog {
         return new DialogLicenseDataSet( phetLicenseString );
     }
 
-    public AdditionalLicenseDialog( Dialog owner, DialogLicenseDataSet dialogLicenseData ) {
+    public DynamicCreditsDialog( Dialog owner, DialogLicenseDataSet dialogLicenseData ) {
         super( owner, TITLE, true /* modal */ );
 
         init( dialogLicenseData );
+        this.dialogLicenseData = dialogLicenseData;
+    }
+
+    /**
+     * An HTML editor pane that opens a web browser for hyperlinks.
+     */
+    public class InteractiveHTMLPane extends HTMLUtils.HTMLEditorPane {
+        public InteractiveHTMLPane( String html ) {
+            super( html );
+            addHyperlinkListener( new HyperlinkListener() {
+                public void hyperlinkUpdate( HyperlinkEvent e ) {
+                    if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED ) {
+                        displayLicenseForID( e.getURL().getHost() );
+                    }
+                }
+            } );
+        }
+
+    }
+
+    private void displayLicenseForID( String id ) {
+        String licenseText = dialogLicenseData.getLicenseText( id );
+        JOptionPane.showMessageDialog( this, licenseText );
     }
 
     public void init( DialogLicenseDataSet dialogLicenseData ) {
         String phetLicenseHTML = HTMLUtils.setFontInStyledHTML( dialogLicenseData.getText(), new PhetFont() );
-        HTMLUtils.InteractiveHTMLPane htmlPane = new HTMLUtils.InteractiveHTMLPane( phetLicenseHTML );
+        InteractiveHTMLPane htmlPane = new InteractiveHTMLPane( phetLicenseHTML );
         JScrollPane scrollPane = new JScrollPane( htmlPane );
         scrollPane.setPreferredSize( SCROLLPANE_SIZE );
 
@@ -76,15 +102,20 @@ public class AdditionalLicenseDialog extends JDialog {
 
         public DialogLicenseDataSet( String text ) {
             this.text = text;
-
         }
 
         public String getText() {
             AnnotationParser.Annotation[] a = AnnotationParser.getAnnotations( text );
             String text = "";
             for ( int i = 0; i < a.length; i++ ) {
-                String o = a[i].get( "license" );
-                text += a[i].getId() + ": " + o + "<br><br>";
+                String id = a[i].getId();
+                String name=a[i].get( "name" );
+                String description=a[i].get( "description" );
+                String copyright=a[i].get( "copyright" );
+                String website=a[i].get( "website" );
+                text += name + ", " + description+"<br>";
+                text+="&copy;&nbsp;"+copyright+" - "+website+"<br>";
+                text+="<a href=\"http://" + id + "\">" + a[i].get( "license" ) + "<a><br><br>";
             }
             return text;
         }
@@ -92,13 +123,30 @@ public class AdditionalLicenseDialog extends JDialog {
         public int getCount() {
             return AnnotationParser.getAnnotations( text ).length;
         }
+
+        public String getLicenseText( String id ) {
+            try {
+                AnnotationParser.Annotation[] all = AnnotationParser.getAnnotations( text );
+                AnnotationParser.Annotation a=null;
+                for ( int i = 0; i < all.length; i++ ) {
+                    AnnotationParser.Annotation annotation = all[i];
+                    if (annotation.getId().equals( id )){
+                        a=annotation;
+                    }
+                }
+                String t = new DefaultResourceLoader().getResourceAsString( "contrib-licenses/"+id+"-"+a.get("licensefile" ));
+                return t;
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+            return "test license text for " + id;
+        }
     }
 
     public static void main( String[] args ) {
-        AdditionalLicenseDialog dialog = new AdditionalLicenseDialog( new JDialog(), new DialogLicenseDataSet( "#This file identifies licenses of contibuted libraries\n" +
-                                                                                                               "jfreechart license=LGPL licensefile=licence-LGPL.txt notes=lib/ contains several JARs not used by phet, jcommon.jar and jfreechart.jar have license as indicated\n" +
-                                                                                                               "piccolo2d license=Piccolo2D License licensefile=license-piccolo.txt\n" +
-                                                                                                               "schmidt-lee license=GPL description=This PhET project contains a modified version of two files Copyright (C) 1998 Kevin E. Schmidt and Michael A. Lee, under the GPL license." ) );
+        //copy license info
+        DynamicCreditsDialog dialog = new DynamicCreditsDialog( new JDialog() );
         SwingUtils.centerWindowOnScreen( dialog );
         dialog.setVisible( true );
     }
