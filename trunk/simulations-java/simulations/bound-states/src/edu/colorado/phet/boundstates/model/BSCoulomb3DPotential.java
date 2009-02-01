@@ -113,7 +113,7 @@ public class BSCoulomb3DPotential extends BSCoulomb1DPotential {
     }
     
     /*
-     * Calculates the eignestates for the potential using an analytic solver.
+     * Calculates the eigenstates for the potential using an analytic solver.
      */
     protected BSEigenstate[] calculateEigenstates() {
         if ( getNumberOfWells() != 1 ) {

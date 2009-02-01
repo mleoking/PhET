@@ -32,7 +32,7 @@ UC4: set superposition coefficients
 2. do UC0
 
 UC5: a change is made to the potential or particle:
-1. calculate eignestates and wavefunctions
+1. calculate eigenstates and wavefunctions
 2. do UC1 with lowest eigenstate as the selection
 
 -------------
