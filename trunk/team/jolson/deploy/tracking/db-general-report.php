@@ -84,7 +84,7 @@
 	display_query("SELECT java_timezone.name, SUM(session.sim_sessions_since) from session, session_java_info, java_timezone WHERE (session.id = session_java_info.session_id AND session_java_info.host_java_timezone = java_timezone.id AND session.sim_dev = false) GROUP BY java_timezone.name ORDER BY COUNT(session.id) DESC;");
 	
 	
-	
+	/*
 	display_desc("total unique users");
 	display_query("SELECT COUNT(*) AS total_unique_users FROM user;");
 	
@@ -100,6 +100,7 @@
 	display_desc("approximate number of unique users who have visited within the last 6 months");
 	display_query("SELECT COUNT(*) AS users_last_6_months FROM user WHERE last_seen_month >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH);");
 	display_query("SELECT COUNT(*) AS users_last_6_months FROM user WHERE DATEDIFF(CURRENT_DATE, last_seen_month) <= 6 * 31;");
+	*/
 	
 	$total_end_time = microtime(true);
 	

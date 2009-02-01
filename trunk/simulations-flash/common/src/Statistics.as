@@ -50,6 +50,7 @@ class Statistics {
 		
 		/////// user data
 		str += "user_preference_file_creation_time = '" + escape(String(_level0.preferences.getUserTime())) + "' \n";
+		str += "user_install_timestamp = '" + escape(String(_level0.installTimestamp)) + "' \n";
 		str += "user_total_sessions = '" + escape(String(_level0.preferences.getUserTotalSessions())) + "' \n";
 		
 		
@@ -149,8 +150,8 @@ class Statistics {
 		
 		// send it to the URL, will store result in reply
 		// TODO: Change this to the permanent location!!!
-		xml.sendAndLoad("http://phet.colorado.edu/jolson/deploy/tracking/tracker.php", reply);
+		//xml.sendAndLoad("http://phet.colorado.edu/jolson/deploy/tracking/tracker.php", reply);
 		// DEVELOPMENT: send statistics message to localhost
-		//xml.sendAndLoad("http://localhost/tracking/tracker.php", reply);
+		xml.sendAndLoad("http://localhost/tracking/tracker.php", reply);
 	}
 }
