@@ -30,7 +30,6 @@ class LadybugModel extends ObservableS {
     while (samplePath.length > LadybugDefaults.timelineLengthSeconds + 1) {
       samplePath.remove(0)
     }
-    //    println("samplecount=" + samplePath.length)
   }
 
   def getBounds(): Rectangle2D = {
@@ -178,7 +177,6 @@ class LadybugModel extends ObservableS {
       if (LadybugDefaults.pauseAtEndOfPlayback) {
         setPaused(true)
       }
-      //      setPaused(true)
     }
   }
 

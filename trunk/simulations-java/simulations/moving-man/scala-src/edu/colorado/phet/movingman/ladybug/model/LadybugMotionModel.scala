@@ -74,13 +74,11 @@ object LadybugMotionModel {
       if (distFromRing > speed + 1E-6) {
         val velocity = new Vector2D(model.ladybug.getPosition.getAngle) * speed * (if (dx < 0) -1 else 1)
         model.ladybug.translate(velocity)
-        //        println("tx")
       } else {
         //move in a circle
         val angle = model.ladybug.getPosition.getAngle
         val r = model.ladybug.getPosition.magnitude
 
-        //        val delta0 = PI / 64 * 1.3 * dt / 30.0 //desired approximate deltaTheta
         val delta0 = PI / 64 * 1.3 * dt * 30.0 //desired approximate deltaTheta
         val n = (PI * 2 / delta0).toInt //n deltaTheta=2 PI
         val newAngle = angle + 2 * PI / n
