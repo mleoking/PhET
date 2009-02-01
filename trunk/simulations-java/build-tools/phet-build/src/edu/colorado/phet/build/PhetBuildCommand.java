@@ -157,10 +157,7 @@ public class PhetBuildCommand {
             PhetProject[] dep = project.getAllDependencies();
             for ( int i = 0; i < dep.length; i++ ) {
                 PhetProject phetProject = dep[i];
-                LicenseInfo licenseInfo = phetProject.getLicensingInfo();
-                if ( licenseInfo != null ) {
-                    bufferedWriter.write( licenseInfo.toString() );
-                }
+                bufferedWriter.write( phetProject.getLicensingInfo().toString() );
             }
             bufferedWriter.close();
         }
