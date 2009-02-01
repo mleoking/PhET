@@ -23,7 +23,7 @@ import javax.swing.JPanel;
  * TotalEnergyTest demonstrates how to represent total energy when a wave packet's center 
  * is in a well.  About the top of the well, we want to show a gradient band that represents
  * a probability distribution of energies.  Below the top of the well, we want to show 
- * discrete eignestate energies, whose colors indicate probability.
+ * discrete eigenstate energies, whose colors indicate probability.
  * <p>
  * We pull this off by drawing drawing the entire gradient band, and then creating
  * a mask that shows the full graident above the top of the well, and horizontal lines 

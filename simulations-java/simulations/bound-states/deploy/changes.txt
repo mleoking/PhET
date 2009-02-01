@@ -520,7 +520,7 @@
 (3/30/06) - **** SourceForge CVS server down ****
 (3/29/06) - add Schmidt-Lee to each potential type
 (3/29/06) - make BSEigenstatesNode handle case of 0 eigenstates
-(3/28/06) - experiment with Schmidt-Lee algorithm for eignestates and time-independent Schrodinger solution
+(3/28/06) - experiment with Schmidt-Lee algorithm for eigenstates and time-independent Schrodinger solution
 (3/27/06) - replace StandardXYItemRenderer with FastPathRenderer
 (3/27/06) - added color scheme support
 (3/10/06) - change depth to be a positive quantity, always >= 0
@@ -549,7 +549,7 @@
 (3/7/06) - black chart backgrounds, yellow eigenstate hilites
 (3/7/06) - phetcommon: finish overhaul StopwatchPanel, integrate into phetcommon
 (3/6/06) - phetcommon: overhaul StopwatchPanel
-(3/6/06) - highlighting and selection of eignestate lines (ala Falstad)
+(3/6/06) - highlighting and selection of eigenstate lines (ala Falstad)
 (3/6/06) - hilight closest eigenstate as mouse moves in Energy chart
 (3/6/06) - show/hide dialogs when switching modules
 (3/6/06) - normalize superposition coefficients
@@ -558,7 +558,7 @@
 (3/6/06) - add phetcommon's StopwatchPanel
 (3/6/06) - phetcommon: fix bugs in ClockControlPanel and StopwatchPanel
 (3/6/06) - replace custom clock controls with standard clock controls
-(3/6/06) - add eignestate selection control to control panel
+(3/6/06) - add eigenstate selection control to control panel
 (3/6/06) - have one control panel used by all modules (BSSharedControlPanel)
 (3/3/06) - add all control panel accessor methods
 (3/3/06) - create icons for well combo box

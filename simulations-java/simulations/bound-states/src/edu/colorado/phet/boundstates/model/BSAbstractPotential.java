@@ -358,7 +358,7 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
     public abstract double getEnergyAt( double position );
     
     /**
-     * Calculates the eignestates for the potential.
+     * Calculates the eigenstates for the potential.
      * They are sorted in order from lowest to highest eigenstate subscript
      * (and therefore energy value).
      * 
