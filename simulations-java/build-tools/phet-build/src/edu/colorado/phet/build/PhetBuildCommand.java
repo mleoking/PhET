@@ -1,6 +1,8 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.build;
 
+import scala.tools.ant.Scalac;
+
 import java.io.*;
 import java.util.Properties;
 
@@ -11,9 +13,9 @@ import org.apache.tools.ant.taskdefs.ManifestException;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
-import scala.tools.ant.Scalac;
 import edu.colorado.phet.build.proguard.PhetProguardConfigBuilder;
 import edu.colorado.phet.build.proguard.ProguardCommand;
+import edu.colorado.phet.build.util.FileUtils;
 import edu.colorado.phet.build.util.LicenseInfo;
 import edu.colorado.phet.build.util.PhetBuildUtils;
 
@@ -139,8 +141,8 @@ public class PhetBuildCommand {
         //todo: support a main-class chooser & launcher
         attribute.setValue( JAR_LAUNCHER );
 
-        jar.addFileset( toFileSet( createProjectPropertiesFile() ) );
-        jar.addFileset( toFileSet( createLicenseInfoFile() ) );
+        jar.addFileset( toFileSetFile( createProjectPropertiesFile() ) );
+        addLicenseInfoDir( project.getClassesDirectory() );
 
         manifest.addConfiguredAttribute( attribute );
         jar.addConfiguredManifest( manifest );
@@ -148,26 +150,37 @@ public class PhetBuildCommand {
         antTaskRunner.runTask( jar );
     }
 
-    private File createLicenseInfoFile() {
-        File file = new File( project.getAntOutputDir(), "license-info.txt" );
-        file.getParentFile().mkdirs();
+    private void addLicenseInfoDir( File parent ) {
+        File contribLicensesDir = new File( parent, "contrib-licenses" );
+        File file = new File( contribLicensesDir, "license-info.txt" );
+        System.out.println( "file.getAbsolute = " + file.getAbsolutePath() );
+        contribLicensesDir.mkdirs();
         try {
+            LicenseInfo[] licenseInfo = project.getAllLicenseInfo();
+
+            //add top-level file
             BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter( file ) );
             bufferedWriter.write( "#This file identifies licenses of contibuted libraries\n" );
-            PhetProject[] dep = project.getAllDependencies();
-            for ( int i = 0; i < dep.length; i++ ) {
-                bufferedWriter.write( dep[i].getLicensingInfo().toString() );
+            for ( int i = 0; i < licenseInfo.length; i++ ) {
+                bufferedWriter.write( licenseInfo[i].toString() + "\n" );
             }
             bufferedWriter.close();
+
+            //copy licenses
+            for ( int i = 0; i < licenseInfo.length; i++ ) {
+                LicenseInfo info = licenseInfo[i];
+                File licenseFile = info.getLicenseFile();
+                if ( licenseFile != null && licenseFile.exists() ) {
+                    FileUtils.copyTo( licenseFile, new File( contribLicensesDir, "" + info.getID() + "-" + licenseFile.getName() ) );
+                }
+            }
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
-
-        return file;
     }
 
-    private FileSet toFileSet( File file ) {
+    private FileSet toFileSetFile( File file ) {
         FileSet fileSet = new FileSet();
         fileSet.setFile( file );
         return fileSet;

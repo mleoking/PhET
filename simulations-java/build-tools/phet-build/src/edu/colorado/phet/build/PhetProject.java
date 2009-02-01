@@ -484,7 +484,7 @@ public class PhetProject {
         String suffix = locale.equals( "en" ) || locale.equals( "" ) ? "" : "_" + locale;
         return new File( getLocalizationDir(), getName() + "-strings" + suffix + ".properties" );
     }
-    
+
     public String getDevDirectoryBasename() {
         return projectPropertiesFile.getMajorVersionString() + "." + projectPropertiesFile.getMinorVersionString() + "." + projectPropertiesFile.getDevVersionString();
     }
@@ -571,23 +571,23 @@ public class PhetProject {
         String name = getName();//remove hyphens
         return name.replaceAll( "-", "" );
     }
-    
+
     public void setMajorVersion( int value ) {
         projectPropertiesFile.setMajorVersion( value );
     }
-    
+
     public void setMinorVersion( int value ) {
         projectPropertiesFile.setMinorVersion( value );
     }
-    
+
     public void setDevVersion( int value ) {
         projectPropertiesFile.setDevVersion( value );
     }
-    
+
     public void setSVNVersion( int value ) {
         projectPropertiesFile.setSVNVersion( value );
     }
-    
+
     public void setVersionTimestamp( int value ) {
         projectPropertiesFile.setVersionTimestamp( value );
     }
@@ -598,17 +598,22 @@ public class PhetProject {
      * ***********
      */
     //todo: this should trace through dependencies to get license info too (not relevant with data as of 8-7-2008)
-    public LicenseInfo[] getAllLicensingInfo() {
-        ArrayList licenseInfo = new ArrayList();
-        File licenseFile = new File( getProjectDir(), "license-info.txt" );
-        if ( licenseFile.exists() ) {
-            licenseInfo.add( new LicenseInfo( licenseFile ) );
+    public LicenseInfo[] getAllLicenseInfo() {
+        PhetProject[] p = getAllDependencies();
+        ArrayList infos = new ArrayList();
+        for ( int i = 0; i < p.length; i++ ) {
+            infos.addAll( Arrays.asList( p[i].getLicenseInfo() ) );
         }
-        return (LicenseInfo[]) licenseInfo.toArray( new LicenseInfo[licenseInfo.size()] );
+        return (LicenseInfo[]) infos.toArray( new LicenseInfo[infos.size()] );
     }
 
-    public LicenseInfo getLicensingInfo() {
-        return new LicenseInfo( new File( getProjectDir(), "license-info.txt" ) );
+    /**
+     * Returns the LicenseInfo for this sim only, not for dependencies
+     *
+     * @return
+     */
+    public LicenseInfo[] getLicenseInfo() {
+        return LicenseInfo.getAll( new File( getProjectDir(), "license-info.txt" ) );
     }
 
     //Returns media info for this project and all dependencies

@@ -91,7 +91,7 @@ public class SimInfo {
         PhetProject phetProject = new PhetProject( new File( trunk, "simulations-java/simulations/" + simName ) );
 
         return new SimInfo( phetProject, phetProject.getDependencies(), phetProject.getAllJarFiles(), phetProject.getSourceRoots(),
-                            phetProject.getAllLicensingInfo(),
+                            phetProject.getAllLicenseInfo(),
                             new DataProcessor().visitDirectory( phetProject, phetProject.getDataDirectory() ) );
     }
 

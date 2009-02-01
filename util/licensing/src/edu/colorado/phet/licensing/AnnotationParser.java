@@ -1,5 +1,6 @@
 package edu.colorado.phet.licensing;
 
+//todo: remove duplicate copy in licensing, build-tools and phet-common
 public class AnnotationParser {
     public static String getAttribute( String param, String attributes, String[] keys ) {
 //        attributes += " suffix=dummyvalue";//dummy key value pair to simplify parsing
