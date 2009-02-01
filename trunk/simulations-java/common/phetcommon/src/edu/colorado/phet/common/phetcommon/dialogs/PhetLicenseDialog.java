@@ -53,6 +53,7 @@ public class PhetLicenseDialog extends JDialog {
                 dispose();
             }
         } );
+        //buttonPanel.add( new LibraryLicensesButton(this ) );
         buttonPanel.add( okButton );
 
         // layout
