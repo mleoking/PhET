@@ -24,12 +24,10 @@ public class AdditionalLicenseDialog extends JDialog {
     private static final String OK_BUTTON = PhetCommonResources.getString( "Common.About.OKButton" );
 
     public AdditionalLicenseDialog( Dialog owner ) {
-        this( owner, readLicenseFile() );
+        this( owner, readDataFromResources() );
     }
 
-    private static String readLicenseFile() {
-        // license in a scroll pane
-//        String phetLicenseString = "<html>Additional licenses go here</html>";
+    private static DialogLicenseDataSet readDataFromResources() {
         String phetLicenseString = "";
         try {
             phetLicenseString = new DefaultResourceLoader().getResourceAsString( LICENSE_INFO_RESOURCE );
@@ -37,17 +35,17 @@ public class AdditionalLicenseDialog extends JDialog {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        return phetLicenseString;
+        return new DialogLicenseDataSet( phetLicenseString );
     }
 
-    public AdditionalLicenseDialog( Dialog owner, String text ) {
+    public AdditionalLicenseDialog( Dialog owner, DialogLicenseDataSet dialogLicenseData ) {
         super( owner, TITLE, true /* modal */ );
 
-        init( text );
+        init( dialogLicenseData );
     }
 
-    public void init( String text ) {
-        String phetLicenseHTML = HTMLUtils.setFontInStyledHTML( text, new PhetFont() );
+    public void init( DialogLicenseDataSet dialogLicenseData ) {
+        String phetLicenseHTML = HTMLUtils.setFontInStyledHTML( dialogLicenseData.getText(), new PhetFont() );
         HTMLUtils.InteractiveHTMLPane htmlPane = new HTMLUtils.InteractiveHTMLPane( phetLicenseHTML );
         JScrollPane scrollPane = new JScrollPane( htmlPane );
         scrollPane.setPreferredSize( SCROLLPANE_SIZE );
@@ -73,11 +71,34 @@ public class AdditionalLicenseDialog extends JDialog {
         SwingUtils.centerDialogInParent( this );
     }
 
+    private static class DialogLicenseDataSet {
+        private String text;
+
+        public DialogLicenseDataSet( String text ) {
+            this.text = text;
+
+        }
+
+        public String getText() {
+            AnnotationParser.Annotation[] a = AnnotationParser.getAnnotations( text );
+            String text = "";
+            for ( int i = 0; i < a.length; i++ ) {
+                String o = a[i].get( "license" );
+                text += a[i].getId() + ": " + o + "<br><br>";
+            }
+            return text;
+        }
+
+        public int getCount() {
+            return AnnotationParser.getAnnotations( text ).length;
+        }
+    }
+
     public static void main( String[] args ) {
-        AdditionalLicenseDialog dialog = new AdditionalLicenseDialog( new JDialog(),"#This file identifies licenses of contibuted libraries\n" +
-                                                                                    "jfreechart license=LGPL licensefile=licence-LGPL.txt notes=lib/ contains several JARs not used by phet, jcommon.jar and jfreechart.jar have license as indicated\n" +
-                                                                                    "piccolo2d license=Piccolo2D License licensefile=license-piccolo.txt\n" +
-                                                                                    "schmidt-lee license=GPL description=This PhET project contains a modified version of two files Copyright (C) 1998 Kevin E. Schmidt and Michael A. Lee, under the GPL license." );
+        AdditionalLicenseDialog dialog = new AdditionalLicenseDialog( new JDialog(), new DialogLicenseDataSet( "#This file identifies licenses of contibuted libraries\n" +
+                                                                                                               "jfreechart license=LGPL licensefile=licence-LGPL.txt notes=lib/ contains several JARs not used by phet, jcommon.jar and jfreechart.jar have license as indicated\n" +
+                                                                                                               "piccolo2d license=Piccolo2D License licensefile=license-piccolo.txt\n" +
+                                                                                                               "schmidt-lee license=GPL description=This PhET project contains a modified version of two files Copyright (C) 1998 Kevin E. Schmidt and Michael A. Lee, under the GPL license." ) );
         SwingUtils.centerWindowOnScreen( dialog );
         dialog.setVisible( true );
     }
