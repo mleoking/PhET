@@ -8,6 +8,8 @@ trait ObservableS {
   def notifyListeners() = listeners.foreach(_())
 
   def addListener(listener: () => Unit) = listeners += listener
+
+  def removeListener(listener: () => Unit) = listeners -= listener
 }
 
 case class LadybugState(_position: Vector2D, _velocity: Vector2D, _acceleration: Vector2D, _angle: Double) {

@@ -19,23 +19,13 @@ import javax.swing.JLabel
 import model.ScalaClock
 
 object Ladybug2DApplication {
-  class ScalaModelElement(element: Double => Unit) extends ClockAdapter {
-    override def simulationTimeChanged(clockEvent: ClockEvent) = {
-      element(clockEvent.getSimulationTimeChange)
-    }
-  }
-
   def main(args: Array[String]) = {
-    println("started")
-
-    val clock = new ScalaClock(30, 30 / 1000.0)
     new PhetApplicationLauncher().launchSim(
       new PhetApplicationConfig(args, "moving-man", "ladybug-2d"),
       new ApplicationConstructor() {
-        override def getApplication(a: PhetApplicationConfig): PhetApplication = new PhetApplication(a) {
-          addModule(new LadybugModule(clock))
+        override def getApplication(config: PhetApplicationConfig) = new PhetApplication(config) {
+          addModule(new LadybugModule(new ScalaClock(30, 30 / 1000.0)))
         }
       })
-    println("finished")
   }
 }
