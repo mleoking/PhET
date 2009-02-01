@@ -36,6 +36,7 @@ public class FlashLauncher {
     private String deployment;
     private String distributionTag;
     private String installTimestamp;
+    private String installerCreationTimestamp;
     private static JTextArea jTextArea;
 
     public FlashLauncher() throws IOException {
@@ -52,6 +53,7 @@ public class FlashLauncher {
         this.deployment = stringTokenizer.nextToken();
         this.distributionTag = stringTokenizer.nextToken();
         this.installTimestamp = stringTokenizer.nextToken();
+        this.installerCreationTimestamp = stringTokenizer.nextToken();
 
         // if the developer flag is specified in args file, open a window to show debug output
         if ( stringTokenizer.hasMoreTokens() && stringTokenizer.nextToken().equals( "-dev" ) ) {
@@ -126,12 +128,13 @@ public class FlashLauncher {
 
         // dynamically generate an HTML file
         String html = FlashHTML.generateHTML( simName, language, country, deployment, distributionTag, installTimestamp,
-                versionMajor, versionMinor, versionDev, versionRevision, bgcolor, simEncodedXML, commonEncodedXML, "8");
+                installerCreationTimestamp, versionMajor, versionMinor, versionDev, versionRevision, bgcolor,
+                simEncodedXML, commonEncodedXML, "8");
         File htmlFile = new File( unzipDir, simName + "_" + language + ".html" );
         FileOutputStream outputStream = new FileOutputStream( htmlFile );
         outputStream.write( html.getBytes() );
         outputStream.close();
-        
+
         // open the browser, point it at the HTML file
         println( "Starting openurl" );
         BareBonesBrowserLaunch.openURL( "file://" + htmlFile.getAbsolutePath() );

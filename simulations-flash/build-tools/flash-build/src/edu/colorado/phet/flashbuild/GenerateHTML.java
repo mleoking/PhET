@@ -24,6 +24,7 @@ public class GenerateHTML {
         String deployment = "standalone-jar";
         String distributionTag = "none";
         String installTimestamp = "none";
+        String installerCreationTimestamp = "none";
 
         // TODO: rewrite to accept named / flag options
 
@@ -38,6 +39,9 @@ public class GenerateHTML {
         }
         if(args.length > 5) {
             installTimestamp = args[5];
+        }
+        if(args.length > 6) {
+            installerCreationTimestamp = args[6];
         }
 
         String locale = FlashHTML.localeString( language, country );
@@ -62,7 +66,7 @@ public class GenerateHTML {
         String htmlFile = "simulations/" + simName + "/deploy/" + simName + "_" + locale + ".html";
 		String propertiesFile = simData + simName + ".properties";
 
-        FlashHTML.writeHTML( simName, language, country, deployment, distributionTag, installTimestamp, simXMLFile,
-                htmlFile, propertiesFile, commonXMLFile );
+        FlashHTML.writeHTML( simName, language, country, deployment, distributionTag, installTimestamp, installerCreationTimestamp,
+                simXMLFile, htmlFile, propertiesFile, commonXMLFile );
     }
 }
