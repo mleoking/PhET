@@ -37,8 +37,7 @@ class Ladybug extends ObservableS {
   def translate(deltaPosition: Vector2D): Unit = translate(deltaPosition.x, deltaPosition.y)
 
   def translate(dx: Double, dy: Double) = {
-    state = state.translate(dx, dy);
-    notifyListeners
+    setPosition(getPosition+new Vector2D(dx,dy))
   }
 
   def rotate(dtheta: Double) = setAngle(getAngle + dtheta)
@@ -59,6 +58,7 @@ class Ladybug extends ObservableS {
   }
 
   def setPosition(position: Vector2D) = {
+//    println("position="+position)
     state = state.setPosition(position)
     notifyListeners
   }
