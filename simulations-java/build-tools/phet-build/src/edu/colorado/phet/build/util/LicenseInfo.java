@@ -14,6 +14,9 @@ public class LicenseInfo {
     }
 
     public String toString() {
+        if ( !file.exists() ) {
+            return "";
+        }
         String out = "";
         try {
             BufferedReader bufferedReader = new BufferedReader( new FileReader( file ) );

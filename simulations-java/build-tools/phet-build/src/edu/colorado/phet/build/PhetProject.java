@@ -608,13 +608,7 @@ public class PhetProject {
     }
 
     public LicenseInfo getLicensingInfo() {
-        File licenseFile = new File( getProjectDir(), "license-info.txt" );
-        if ( licenseFile.exists() ) {
-            return new LicenseInfo( licenseFile );
-        }
-        else {
-            return null;
-        }
+        return new LicenseInfo( new File( getProjectDir(), "license-info.txt" ) );
     }
 
     //Returns media info for this project and all dependencies
