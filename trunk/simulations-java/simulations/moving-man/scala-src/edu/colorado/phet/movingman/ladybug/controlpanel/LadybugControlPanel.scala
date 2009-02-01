@@ -12,6 +12,7 @@ import java.awt.Dimension
 import java.awt.event.{ActionEvent, ActionListener}
 import javax.swing.{Box, JButton, JRadioButton, JLabel}
 import LadybugUtil._
+import swing.MyRadioButton
 
 class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
   val myModule = module;

@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.ladybug.controlpanel
+package edu.colorado.phet.movingman.ladybug.swing
 
 import model.ObservableS
 import scala.swing.RadioButton
