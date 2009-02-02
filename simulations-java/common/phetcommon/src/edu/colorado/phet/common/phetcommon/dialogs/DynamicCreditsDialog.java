@@ -4,6 +4,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
@@ -22,56 +25,32 @@ public class DynamicCreditsDialog extends JDialog {
     // preferred size for the scrollpane, change this to affect initial dialog size
     private static final Dimension SCROLLPANE_SIZE = new Dimension( 440, 300 );
 
-    private static final String TITLE = "Additional Licenses";//todo: il8
+    private static final String TITLE = PhetCommonResources.getString( "Common.About.CreditsDialog.Title" );
     private static final String OK_BUTTON = PhetCommonResources.getString( "Common.About.OKButton" );
-    private DialogLicenseDataSet dialogLicenseData;
+    private String projectName;
+    private String phetLicenseString;
 
-    public DynamicCreditsDialog( Dialog owner ) {
-        this( owner, readDataFromResources() );
-    }
-
-    private static DialogLicenseDataSet readDataFromResources() {
-        String phetLicenseString = "";
+    public DynamicCreditsDialog( Dialog owner, String projectName ) {
+        super( owner, TITLE, true );
+        this.projectName = projectName;
         try {
             phetLicenseString = new DefaultResourceLoader().getResourceAsString( LICENSE_INFO_RESOURCE );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
-        return new DialogLicenseDataSet( phetLicenseString );
-    }
+        String html = "<html>\n" +
+                      "<b>PhET development team:</b><br>\n" +
+                      "<br>\n" +
+                      getCreditsSnippet() +
+                      "<br>\n" +
+                      "<br>\n" +
+                      "<b>This program uses the following third-party software:</b><br>\n" +
+                      "<br>\n" +
+                      getLicenseSnippet() +
+                      "</html>";
 
-    public DynamicCreditsDialog( Dialog owner, DialogLicenseDataSet dialogLicenseData ) {
-        super( owner, TITLE, true /* modal */ );
-
-        init( dialogLicenseData );
-        this.dialogLicenseData = dialogLicenseData;
-    }
-
-    /**
-     * An HTML editor pane that opens a web browser for hyperlinks.
-     */
-    public class InteractiveHTMLPane extends HTMLUtils.HTMLEditorPane {
-        public InteractiveHTMLPane( String html ) {
-            super( html );
-            addHyperlinkListener( new HyperlinkListener() {
-                public void hyperlinkUpdate( HyperlinkEvent e ) {
-                    if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED ) {
-                        displayLicenseForID( e.getURL().getHost() );
-                    }
-                }
-            } );
-        }
-
-    }
-
-    private void displayLicenseForID( String id ) {
-        String licenseText = dialogLicenseData.getLicenseText( id );
-        JOptionPane.showMessageDialog( this, licenseText );
-    }
-
-    public void init( DialogLicenseDataSet dialogLicenseData ) {
-        String phetLicenseHTML = HTMLUtils.setFontInStyledHTML( dialogLicenseData.getText(), new PhetFont() );
+        String phetLicenseHTML = HTMLUtils.setFontInStyledHTML( html, new PhetFont() );
         InteractiveHTMLPane htmlPane = new InteractiveHTMLPane( phetLicenseHTML );
         JScrollPane scrollPane = new JScrollPane( htmlPane );
         scrollPane.setPreferredSize( SCROLLPANE_SIZE );
@@ -95,58 +74,96 @@ public class DynamicCreditsDialog extends JDialog {
         setContentPane( panel );
         pack();
         SwingUtils.centerDialogInParent( this );
+        htmlPane.setCaretPosition( 0 );
     }
 
-    private static class DialogLicenseDataSet {
-        private String text;
-
-        public DialogLicenseDataSet( String text ) {
-            this.text = text;
-        }
-
-        public String getText() {
-            AnnotationParser.Annotation[] a = AnnotationParser.getAnnotations( text );
-            String text = "";
-            for ( int i = 0; i < a.length; i++ ) {
-                String id = a[i].getId();
-                String name=a[i].get( "name" );
-                String description=a[i].get( "description" );
-                String copyright=a[i].get( "copyright" );
-                String website=a[i].get( "website" );
-                text += name + ", " + description+"<br>";
-                text+="&copy;&nbsp;"+copyright+" - "+website+"<br>";
-                text+="<a href=\"http://" + id + "\">" + a[i].get( "license" ) + "<a><br><br>";
-            }
-            return text;
-        }
-
-        public int getCount() {
-            return AnnotationParser.getAnnotations( text ).length;
-        }
-
-        public String getLicenseText( String id ) {
-            try {
-                AnnotationParser.Annotation[] all = AnnotationParser.getAnnotations( text );
-                AnnotationParser.Annotation a=null;
-                for ( int i = 0; i < all.length; i++ ) {
-                    AnnotationParser.Annotation annotation = all[i];
-                    if (annotation.getId().equals( id )){
-                        a=annotation;
+    /**
+     * An HTML editor pane that opens a web browser for hyperlinks.
+     */
+    public class InteractiveHTMLPane extends HTMLUtils.HTMLEditorPane {
+        public InteractiveHTMLPane( String html ) {
+            super( html );
+            addHyperlinkListener( new HyperlinkListener() {
+                public void hyperlinkUpdate( HyperlinkEvent e ) {
+                    if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED ) {
+                        displayLicenseForID( e.getURL().getHost() );
                     }
                 }
-                String t = new DefaultResourceLoader().getResourceAsString( "contrib-licenses/"+id+"-"+a.get("licensefile" ));
-                return t;
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
-            return "test license text for " + id;
+            } );
         }
+
+    }
+
+    private void displayLicenseForID( String id ) {
+        String licenseText = getLicenseText( id );
+        if (!licenseText.trim().startsWith( "<html" )){
+            licenseText="<html>"+licenseText+"</html>";
+            licenseText=licenseText.replaceAll( "\\n","<br>" );
+        }
+
+        ContribLicenseDialog c=new ContribLicenseDialog( this, "License for "+id,licenseText );
+        c.setVisible( true );
+//        JOptionPane.showMessageDialog( this, licenseText );
+    }
+
+    private String getLicenseSnippet() {
+        AnnotationParser.Annotation[] a = AnnotationParser.getAnnotations( phetLicenseString );
+        String text = "";
+        for ( int i = 0; i < a.length; i++ ) {
+            String id = a[i].getId();
+            String name = a[i].get( "name" );
+            String description = a[i].get( "description" );
+            String copyright = a[i].get( "copyright" );
+            String website = a[i].get( "website" );
+            text += name + ", " + description + "<br>";
+            text += "&copy;&nbsp;" + copyright + " - " + website + "<br>";
+            text += "<a href=\"http://" + id + "\">" + a[i].get( "license" ) + "<a><br><br>";
+        }
+        return text;
+
+    }
+
+    private String getCreditsSnippet() {
+        String res = "";
+        try {
+            res = new DefaultResourceLoader().getResourceAsString( projectName + "/credits.txt" );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        AnnotationParser.Annotation t = AnnotationParser.parse( res );
+        HashMap map = t.getMap();
+        Set keys = map.keySet();
+        String credits = "";
+        for ( Iterator iterator = keys.iterator(); iterator.hasNext(); ) {
+            String key = (String) iterator.next();
+            String value = (String) map.get( key );
+            credits += key + ": " + value + "<br>";
+        }
+        return credits;
+    }
+
+    public String getLicenseText( String id ) {
+        try {
+            AnnotationParser.Annotation[] all = AnnotationParser.getAnnotations( phetLicenseString );
+            AnnotationParser.Annotation a = null;
+            for ( int i = 0; i < all.length; i++ ) {
+                AnnotationParser.Annotation annotation = all[i];
+                if ( annotation.getId().equals( id ) ) {
+                    a = annotation;
+                }
+            }
+            return new DefaultResourceLoader().getResourceAsString( "contrib-licenses/" + id + "-" + a.get( "licensefile" ) );
+        }
+        catch( Exception e ) {
+            e.printStackTrace();
+        }
+        return "test license text for " + id;
     }
 
     public static void main( String[] args ) {
         //copy license info
-        DynamicCreditsDialog dialog = new DynamicCreditsDialog( new JDialog() );
+        DynamicCreditsDialog dialog = new DynamicCreditsDialog( new JDialog(), "bound-states" );
         SwingUtils.centerWindowOnScreen( dialog );
         dialog.setVisible( true );
     }
