@@ -12,6 +12,9 @@ class PrivacyDialog {
 	
 	public var backgroundMC : MovieClip;
 	
+	public var textArea : JTextArea;
+	public var canceled : Boolean;
+	
 	// shorthand for debugging function
 	public function debug(str : String) : Void {
 		_level0.debug(str);
@@ -25,6 +28,8 @@ class PrivacyDialog {
 		
 		// mysterious fix since "this" does not refer to a MovieClip or Component
 		ASWingUtils.getRootMovieClip();
+		
+		canceled = false;
 		
 		// create the background
 		backgroundMC = _root.createEmptyMovieClip("backgroundMC", _root.getNextHighestDepth());
@@ -66,6 +71,7 @@ class PrivacyDialog {
 		defaultString = "By clicking \"Accept and Continue\", you agree to PhET's licensing ";
 		defaultString += "and privacy policies. (For details, <a href='{0}'>click here</a>).";
 		str += _level0.comStrings.get("PrivacyMessage2", defaultString, ["asfunction:_level0.privacyDialog.detailsClicked,"]);
+		str += "\n";
 		
 		// create CSS to make links blue
 		var css : TextField.StyleSheet = new TextField.StyleSheet();
@@ -74,7 +80,7 @@ class PrivacyDialog {
 			"a:hover{color:#0000FF;text-decoration:underline;font-weight:bold;}" +
 			"a:active{color:#0000FF;font-weight:bold;}"); 
 		
-		var textArea = new JTextArea(str, 0, 30);
+		textArea = new JTextArea(str, 0, 30);
 		textArea.setHtml(true);
 		textArea.setEditable(false);
 		textArea.setCSS(css);
@@ -85,7 +91,7 @@ class PrivacyDialog {
 		
 		window.getContentPane().append(textArea);
 		
-		window.getContentPane().append(new JSpacer(5, 5));
+		//window.getContentPane().append(new JSpacer(5, 5));
 		
 		// panel to lay the buttons in
 		var panel : JPanel = new JPanel(new BoxLayout());
@@ -126,23 +132,12 @@ class PrivacyDialog {
 	}
 	
 	public function cancelClicked(src : JButton) {
-		// hide this window
-		_level0.privacyWindow.setVisible(false);
-		
-		// attempt to close the window
-		getURL("javascript:window.close();");
-		getURL("javascript:parent.window.close();");
-		
-		// if that doesn't work
-		getURL("about:blank", "_self");
-		
-		// and if that really doesn't work
-		getURL("http://phet.colorado.edu", "_self");
-		getURL("http://phet.colorado.edu");
-		
-		debug("WARNING: Could not close simulation, user clicked cancel on privacy dialog!\n");
-		
-		//getURL("javascript:window.opener=self; window.close()");
+		if(!canceled) {
+			canceled = true;
+			var addStr = "\n<p><font color='#FF0000'>You must click \"Accept and Continue\" to run this simulation.</font></p>";
+			textArea.setText(textArea.getText() + addStr);
+			_level0.privacyWindow.setHeight(_level0.privacyWindow.getContentPane().getPreferredSize().height + 50);
+		}
 	}
 	
 	public function infoClicked() : Void {
