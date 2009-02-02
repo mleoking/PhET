@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
@@ -43,13 +44,15 @@ public class PhetAboutDialog extends JDialog {
     private static final String TITLE = PhetCommonResources.getString( "Common.HelpMenu.AboutTitle" );
     private static final String LOGO_TOOLTIP = PhetCommonResources.getString( "Common.About.WebLink" );
     private static final String SIM_VERSION = PhetCommonResources.getString( "Common.About.Version" );
+    private static final String BUILD_DATE = PhetCommonResources.getString( "Common.About.BuildDate" );
+    private static final String DISTRIBUTION = PhetCommonResources.getString( "Common.About.Distribution" );
     private static final String JAVA_VERSION = PhetCommonResources.getString( "Common.About.JavaVersion" );
     private static final String OS_VERSION = PhetCommonResources.getString( "Common.About.OSVersion" );
     private static final String LICENSE_BUTTON = PhetCommonResources.getString( "Common.About.LicenseButton" );
     private static final String CREDITS_BUTTON = PhetCommonResources.getString( "Common.About.CreditsButton" );
     private static final String OK_BUTTON = PhetCommonResources.getString( "Common.About.OKButton" );
 
-    private String titleString, descriptionString, versionString, creditsString;
+    private String titleString, descriptionString, versionString, buildDate, distributionTag, creditsString;
     private ISimInfo config;
 
     private static final boolean USE_DYNAMIC_CREDITS_DIALOG = true;
@@ -81,7 +84,9 @@ public class PhetAboutDialog extends JDialog {
             new Exception( "null description string, continuing" ).printStackTrace();
             descriptionString = "";
         }
-        versionString = config.getVersion().formatMajorMinorDevRevision();
+        versionString = config.getVersion().formatForAboutDialog();
+        buildDate = config.getVersion().formatTimestamp();
+        distributionTag = config.getDistributionTag();
         creditsString = config.getCredits();
 
         setTitle( TITLE + " " + titleString );
@@ -160,6 +165,15 @@ public class PhetAboutDialog extends JDialog {
 
         // Simulation version
         JLabel versionLabel = new JLabel( SIM_VERSION + " " + versionString );
+        
+        // Build date
+        JLabel buildDateLabel = new JLabel( BUILD_DATE + " " + buildDate );
+        
+        // Distribution tag (optional)
+        JLabel distributionTagLabel = null;
+        if ( distributionTag != null && distributionTag.length() > 0 ) {
+            distributionTagLabel = new JLabel( DISTRIBUTION + " " + distributionTag );
+        }
 
         // Java runtime version
         String javaVersionString = JAVA_VERSION + " " + System.getProperty( "java.version" );
@@ -178,7 +192,14 @@ public class PhetAboutDialog extends JDialog {
         infoPanel.add( Box.createVerticalStrut( ySpacing ) );
         infoPanel.add( descriptionTextArea );
         infoPanel.add( Box.createVerticalStrut( ySpacing ) );
+        infoPanel.add( new JSeparator());
+        infoPanel.add( Box.createVerticalStrut( ySpacing ) );
         infoPanel.add( versionLabel );
+        infoPanel.add( buildDateLabel );
+        if ( distributionTagLabel != null ) {
+            infoPanel.add( distributionTagLabel );
+        }
+        infoPanel.add( Box.createVerticalStrut( ySpacing ) );
         infoPanel.add( javaVersionLabel );
         infoPanel.add( osVersionLabel );
         infoPanel.add( Box.createVerticalStrut( ySpacing ) );

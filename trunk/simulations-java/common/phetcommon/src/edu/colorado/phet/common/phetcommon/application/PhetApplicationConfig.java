@@ -37,7 +37,6 @@ public class PhetApplicationConfig implements IStatistics, ISimInfo {
     //----------------------------------------------------------------------------
 
     public static final FrameSetup DEFAULT_FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
-    public static final String DEFAULT_DISTRIBUTION_TAG = "none";
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -135,8 +134,7 @@ public class PhetApplicationConfig implements IStatistics, ISimInfo {
      */
     
     public String getDistributionTag() {
-        //TODO #1086, read the distribution tag from an optional file stored in the JAR.
-        return DEFAULT_DISTRIBUTION_TAG;
+        return resourceLoader.getDistributionTag();
     }
     
     //----------------------------------------------------------------------------
@@ -182,7 +180,7 @@ public class PhetApplicationConfig implements IStatistics, ISimInfo {
     public PhetVersion getVersion() {
         return resourceLoader.getVersion();
     }
-
+    
     public long getApplicationLaunchFinishedAt() {
         return applicationLaunchFinishedAt;
     }

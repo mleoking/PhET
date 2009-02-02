@@ -3,6 +3,8 @@
 package edu.colorado.phet.common.phetcommon.resources;
 
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * PhetVersionInfo encapsulates a simulation's version information.
@@ -14,15 +16,18 @@ public class PhetVersion {
     // title bar format for development releases, major.minor.dev
     private static final String FORMAT_MAJOR_MINOR_DEV = "{0}.{1}.{2}";
     // About dialog format, major.minor.dev (revision)
-    private static final String FORMAT_MAJOR_MINOR_DEV_REVISION = "{0}.{1}.{2} ({3})";
+    private static final String FORMAT_ABOUT = "{0}.{1}.{2} ({3})";
+    // Timestamp format
+    private static final SimpleDateFormat FORMAT_TIMESTAMP = new SimpleDateFormat( "MM-dd-yyyy" );
 
-    private final String major, minor, dev, revision;
+    private final String major, minor, dev, revision, timestamp;
 
-    public PhetVersion( String major, String minor, String dev, String revision ) {
+    public PhetVersion( String major, String minor, String dev, String revision, String timestamp ) {
         this.major = cleanup( major );
         this.minor = cleanup( minor );
         this.dev = cleanup( dev );
         this.revision = cleanup( revision );
+        this.timestamp = cleanup( timestamp );
     }
 
     public String getMajor() {
@@ -75,10 +80,29 @@ public class PhetVersion {
     public String formatForTitleBar() {
         return isDevVersion() ? formatMajorMinorDev() : formatMajorMinor();
     }
-
-    public String formatMajorMinorDevRevision() {
-        Object[] args = {major, minor, dev, revision};
-        return MessageFormat.format( FORMAT_MAJOR_MINOR_DEV_REVISION, args );
+    
+    public String formatForAboutDialog() {
+        Object[] args = { major, minor, dev, revision, formatTimestamp() };
+        return MessageFormat.format( FORMAT_ABOUT, args );
+    }
+    
+    public String formatTimestamp() {
+        String s = "?";
+        if ( timestamp != null && timestamp.length() > 0 ) {
+            int seconds = 0;
+            try {
+                seconds = Integer.valueOf( timestamp ).intValue();
+            }
+            catch ( NumberFormatException e ) {
+                System.err.println( "PhetVersion.getVersionTimestampString: timestamp is invalid, ignoring: " + timestamp );
+                seconds = 0;
+            }
+            if ( seconds > 0 ) {
+                Date date = new Date( seconds * 1000L ); // seconds to milliseconds 
+                s = FORMAT_TIMESTAMP.format( date );
+            }
+        }
+        return s;
     }
     
     public String formatMajorMinorDev() {
@@ -92,7 +116,7 @@ public class PhetVersion {
     }
 
     public String toString() {
-        return formatMajorMinorDevRevision();
+        return formatForAboutDialog();
     }
 
     public boolean equals( Object o ) {
