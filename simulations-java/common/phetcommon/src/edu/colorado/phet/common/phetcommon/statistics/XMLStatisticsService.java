@@ -21,6 +21,8 @@ import javax.xml.transform.stream.*;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class XMLStatisticsService implements IStatisticsService {
+    
+    private static final boolean ENABLE_DEBUG_OUTPUT = true;
 
     /**
      * Delivers a statistics message to PhET.
@@ -67,7 +69,9 @@ public class XMLStatisticsService implements IStatisticsService {
         String xmlString = sw.toString();
 
         //print xml
-        System.out.println( "Here's the xml:\n\n" + xmlString );
+        if ( ENABLE_DEBUG_OUTPUT ) {
+            System.out.println( getClass().getName() + ": xmlString=\n" + xmlString );
+        }
         return xmlString;
     }
 
@@ -101,20 +105,24 @@ public class XMLStatisticsService implements IStatisticsService {
         connection.setDoOutput( true );
 
         // post
-        System.out.println( "posting to " + url + " ..." );
+        if ( ENABLE_DEBUG_OUTPUT ) {
+        System.out.println( XMLStatisticsService.class.getName() + ": posting to " + url + " ..." );
+        }
         OutputStreamWriter outStream = new OutputStreamWriter( connection.getOutputStream(), "UTF-8" );
         outStream.write( xml );
         outStream.close();
 
         // Get the response
-        BufferedReader reader = new BufferedReader( new InputStreamReader( connection.getInputStream() ) );
-        System.out.println( "reading response ..." );
-        String line;
-        while ( ( line = reader.readLine() ) != null ) {
-            System.out.println( line );
+        if ( ENABLE_DEBUG_OUTPUT ) {
+            BufferedReader reader = new BufferedReader( new InputStreamReader( connection.getInputStream() ) );
+            System.out.println( XMLStatisticsService.class.getName() + ": reading response ..." );
+            String line;
+            while ( ( line = reader.readLine() ) != null ) {
+                System.out.println( line );
+            }
+            reader.close();
+            System.out.println( "done." );
         }
-        reader.close();
-        System.out.println( "done." );
     }
 
 
