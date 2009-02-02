@@ -132,6 +132,7 @@ public class DynamicCreditsDialog extends JDialog {
             res = new DefaultResourceLoader().getResourceAsString( projectName + "/credits.txt" );
         }
         catch( IOException e ) {
+            System.out.println( "Sim was missing credits information, all sims should have credits eventually." );
             e.printStackTrace();
         }
         if ( res.trim().length() == 0 ) {
