@@ -95,7 +95,7 @@ public class DynamicCreditsDialog extends JDialog {
     private void displayLicenseForID( String id ) {
         String licenseText = getLicenseText( id );
         if ( !licenseText.trim().startsWith( "<html" ) ) {
-            licenseText = "<html>" + licenseText + "</html>";
+            licenseText=HTMLUtils.createStyledHTMLFromFragment( licenseText );
             licenseText = licenseText.replaceAll( "\\n", "<br>" );
         }
 

@@ -32,8 +32,7 @@ public class ContribLicenseDialog extends JDialog {
         super( owner, title, true /* modal */ );
 
         // license in a scroll pane
-        String phetLicenseHTML = HTMLUtils.setFontInStyledHTML( text, new PhetFont() );
-        InteractiveHTMLPane htmlPane = new InteractiveHTMLPane( phetLicenseHTML );
+        InteractiveHTMLPane htmlPane = new InteractiveHTMLPane( text );
         JScrollPane scrollPane = new JScrollPane( htmlPane );
         scrollPane.setPreferredSize( SCROLLPANE_SIZE );
 
