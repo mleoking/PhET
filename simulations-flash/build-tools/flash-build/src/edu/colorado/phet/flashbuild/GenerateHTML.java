@@ -12,10 +12,10 @@ import java.io.File;
  * To change this template use File | Settings | File Templates.
  */
 public class GenerateHTML {
-    public static void main(String args[]) {
-        if(args.length <= 1) {
-            System.err.println("Need at least a sim name and language");
-			System.exit(1);
+    public static void main( String args[] ) {
+        if( args.length <= 1 ) {
+            System.err.println( "Need at least a sim name and language" );
+			System.exit( 1 );
         }
 
         String simName = args[0];
@@ -28,20 +28,20 @@ public class GenerateHTML {
 
         // TODO: rewrite to accept named / flag options
 
-        if(args.length > 2) {
-            country = args[2];
+        if( args.length > 2 ) {
+            country = args[ 2 ];
         }
-        if(args.length > 3) {
-            deployment = args[3];
+        if( args.length > 3 ) {
+            deployment = args[ 3 ];
         }
-        if(args.length > 4) {
-            distributionTag = args[4];
+        if( args.length > 4 ) {
+            distributionTag = args[ 4 ];
         }
-        if(args.length > 5) {
-            installTimestamp = args[5];
+        if( args.length > 5 ) {
+            installTimestamp = args[ 5 ];
         }
-        if(args.length > 6) {
-            installerCreationTimestamp = args[6];
+        if( args.length > 6 ) {
+            installerCreationTimestamp = args[ 6 ];
         }
 
         String locale = FlashHTML.localeString( language, country );
@@ -52,21 +52,21 @@ public class GenerateHTML {
         String commonLocalization = "common/data/localization/";
 
         String simXMLFile = simLocalization + simName + "-strings_" + locale + ".xml";
-        if((new File(simXMLFile)).exists() == false) {
+        if ( ( new File( simXMLFile ) ).exists() == false ) {
             simXMLFile = simLocalization + simName + "-strings_" + "en" + ".xml";
-            System.out.println("WARNING: could not find sim internationalization data for " + locale + ", defaulting to en");
+            System.out.println( "WARNING: could not find sim internationalization data for " + locale + ", defaulting to en" );
         }
 
         String commonXMLFile = commonLocalization + "common-strings_" + locale + ".xml";
-        if((new File(commonXMLFile)).exists() == false) {
+        if( ( new File( commonXMLFile ) ).exists() == false) {
             commonXMLFile = commonLocalization + "common-strings_" + "en" + ".xml";
-            System.out.println("WARNING: could not find common internationalization data for " + locale + ", defaulting to en");
+            System.out.println( "WARNING: could not find common internationalization data for " + locale + ", defaulting to en" );
         }
 
         String htmlFile = "simulations/" + simName + "/deploy/" + simName + "_" + locale + ".html";
 		String propertiesFile = simData + simName + ".properties";
 
-        FlashHTML.writeHTML( simName, language, country, deployment, distributionTag, installTimestamp, installerCreationTimestamp,
-                simXMLFile, htmlFile, propertiesFile, commonXMLFile );
+        FlashHTML.writeHTML( simName, language, country, deployment, distributionTag, installTimestamp,
+                installerCreationTimestamp, simXMLFile, htmlFile, propertiesFile, commonXMLFile );
     }
 }
