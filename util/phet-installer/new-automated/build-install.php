@@ -320,6 +320,7 @@
                       "                     [--download-sims]\n".
                       "                     [--download-installer-webpages]\n".
                       "                     [--perform-macro-substitutions]\n".
+                      "                     [--create-marker-file]\n".
                       "                     [--build-all]\n".
                       "                     [--help]\n");
 
@@ -358,6 +359,9 @@
 
                 if (is_checked('download-sims'))
                     builder_download_sims();
+
+                if (is_checked('create-marker-file'))
+                    create_marker_file();
 
                 if (is_checked('download-installer-webpages'))
                     builder_download_installer_webpages();
