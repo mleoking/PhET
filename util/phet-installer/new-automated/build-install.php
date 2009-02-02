@@ -224,33 +224,6 @@
     }
 
     //--------------------------------------------------------------------------
-    // Here we download all the '-installer' versions of webpages, which are
-    // not linked into the website and therefore not ripped.
-    //--------------------------------------------------------------------------
-    function builder_download_installer_webpages() {
-        flushing_echo("SKIPPING: Not downloading installer versions of webpages...");
-	return;
-
-        flushing_echo("Downloading installer versions of webpages...");
-
-        // Loop through all ripped webpages:
-        foreach (file_list_in_directory(RIPPED_WEBSITE_TOP, WEBSITE_PAGES_PATTERN) as $local_name) {
-            // Form the URL: [PhET Website]/[Webpage Name]-installer.htm
-            $extension = file_get_extension($local_name);
-
-            $local_installer_name = file_remove_extension($local_name)."-installer.$extension";
-
-            $url = str_replace(RIPPED_WEBSITE_TOP, PHET_ROOT_URL, $local_installer_name);
-
-            // If the file exists, get it and put it locally (replacing the online
-            // version of the same name):
-            if (($contents = file_get_contents($url)) !== false) {
-                file_put_contents_anywhere($local_name, $contents);
-            }
-        }
-    }
-
-    //--------------------------------------------------------------------------
     // This function performs a macro substitution in all HTML files. For
     // example, $DATE$ is replaced by the current date.
     //--------------------------------------------------------------------------
@@ -344,7 +317,6 @@
                       "                     [--remove-website-copy]\n".
                       "                     [--rip-website]\n".
                       "                     [--download-sims]\n".
-                      "                     [--download-installer-webpages]\n".
                       "                     [--perform-macro-substitutions]\n".
                       "                     [--create-marker-file]\n".
                       "                     [--build-all]\n".
@@ -388,9 +360,6 @@
 
                 if (is_checked('download-sims'))
                     builder_download_sims();
-
-                if (is_checked('download-installer-webpages'))
-                    builder_download_installer_webpages();
 
                 if (is_checked('perform-macro-substitutions'))
                     builder_perform_macro_substitutions();
