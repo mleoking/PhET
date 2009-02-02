@@ -3,7 +3,9 @@ package edu.colorado.phet.build;
 
 import scala.tools.ant.Scalac;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Properties;
 
 import org.apache.tools.ant.taskdefs.Jar;
@@ -15,8 +17,6 @@ import org.apache.tools.ant.types.Path;
 
 import edu.colorado.phet.build.proguard.PhetProguardConfigBuilder;
 import edu.colorado.phet.build.proguard.ProguardCommand;
-import edu.colorado.phet.build.util.FileUtils;
-import edu.colorado.phet.build.util.LicenseInfo;
 import edu.colorado.phet.build.util.PhetBuildUtils;
 
 /**
@@ -50,6 +50,7 @@ public class PhetBuildCommand {
     public void execute() throws Exception {
         clean();
         compile();
+        project.copyLicenseInfo();
         jar();
         proguard();
     }
@@ -142,42 +143,11 @@ public class PhetBuildCommand {
         attribute.setValue( JAR_LAUNCHER );
 
         jar.addFileset( toFileSetFile( createProjectPropertiesFile() ) );
-        addLicenseInfoDir( project.getClassesDirectory() );
 
         manifest.addConfiguredAttribute( attribute );
         jar.addConfiguredManifest( manifest );
 
         antTaskRunner.runTask( jar );
-    }
-
-    private void addLicenseInfoDir( File parent ) {
-        File contribLicensesDir = new File( parent, "contrib-licenses" );
-        File file = new File( contribLicensesDir, "license-info.txt" );
-        System.out.println( "file.getAbsolute = " + file.getAbsolutePath() );
-        contribLicensesDir.mkdirs();
-        try {
-            LicenseInfo[] licenseInfo = project.getAllLicenseInfo();
-
-            //add top-level file
-            BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter( file ) );
-            bufferedWriter.write( "#This file identifies licenses of contibuted libraries\n" );
-            for ( int i = 0; i < licenseInfo.length; i++ ) {
-                bufferedWriter.write( licenseInfo[i].toString() + "\n" );
-            }
-            bufferedWriter.close();
-
-            //copy licenses
-            for ( int i = 0; i < licenseInfo.length; i++ ) {
-                LicenseInfo info = licenseInfo[i];
-                File licenseFile = info.getLicenseFile();
-                if ( licenseFile != null && licenseFile.exists() ) {
-                    FileUtils.copyTo( licenseFile, new File( contribLicensesDir, "" + info.getID() + "-" + licenseFile.getName() ) );
-                }
-            }
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
     }
 
     private FileSet toFileSetFile( File file ) {

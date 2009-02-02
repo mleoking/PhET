@@ -19,9 +19,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 public class DynamicCreditsDialog extends JDialog {
-    // Resource (file) that contains the PhET license, in plain text format.
-    private static final String LICENSE_INFO_RESOURCE = "contrib-licenses/license-info.txt";
-
     // preferred size for the scrollpane, change this to affect initial dialog size
     private static final Dimension SCROLLPANE_SIZE = new Dimension( 440, 300 );
 
@@ -34,7 +31,7 @@ public class DynamicCreditsDialog extends JDialog {
         super( owner, TITLE, true );
         this.projectName = projectName;
         try {
-            phetLicenseString = new DefaultResourceLoader().getResourceAsString( LICENSE_INFO_RESOURCE );
+            phetLicenseString = new DefaultResourceLoader().getResourceAsString( projectName+"/contrib-licenses/license-info.txt" );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -132,7 +129,7 @@ public class DynamicCreditsDialog extends JDialog {
             e.printStackTrace();
         }
         if (res.trim().length()==0){
-            res="phet-credits team=The PhET Design and Development Team at the University of Colorado at Boulder";
+            res="phet-credits team=PhET Interactive Simulations at the University of Colorado at Boulder";
         }
         AnnotationParser.Annotation t = AnnotationParser.parse( res );
         HashMap map = t.getMap();
@@ -156,7 +153,7 @@ public class DynamicCreditsDialog extends JDialog {
                     a = annotation;
                 }
             }
-            return new DefaultResourceLoader().getResourceAsString( "contrib-licenses/" + id + "-" + a.get( "licensefile" ) );
+            return new DefaultResourceLoader().getResourceAsString( projectName+"/contrib-licenses/" + id + "-" + a.get( "licensefile" ) );
         }
         catch( Exception e ) {
             e.printStackTrace();
