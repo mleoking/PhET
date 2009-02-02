@@ -63,7 +63,7 @@ public class AddTranslation {
         boolean success = true;
 
         try {
-            PhetProject phetProject = new PhetProject( new File( basedir, "simulations" ), simulation );
+            PhetProject phetProject = new PhetJavaProject( new File( basedir, "simulations" ), simulation );
 
             //Clear the temp directory for this simulation
             FileUtils.delete( getTempProjectDir( phetProject ), true );

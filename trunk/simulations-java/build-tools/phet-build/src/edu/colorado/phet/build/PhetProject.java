@@ -3,18 +3,13 @@ package edu.colorado.phet.build;
 import java.io.*;
 import java.util.*;
 
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.types.Path;
-import org.apache.tools.ant.types.FileSet;
-import org.apache.tools.ant.taskdefs.Java;
-
 import edu.colorado.phet.build.util.*;
 
 /**
  * Author: Sam Reid
  * Apr 14, 2007, 2:40:56 PM
  */
-public class PhetProject {
+public abstract class PhetProject {
 
     private static final String WEBROOT = "http://phet.colorado.edu/sims/";
 
@@ -32,6 +27,10 @@ public class PhetProject {
         this.projectDir = new File( parentDir, name );
         this.projectPropertiesFile = new ProjectPropertiesFile( this );
         this.buildPropertiesFile = new BuildPropertiesFile( this );
+    }
+
+    public BuildPropertiesFile getBuildPropertiesFileObject() {
+        return buildPropertiesFile;
     }
 
     public File getDeployDir() {
@@ -172,7 +171,7 @@ public class PhetProject {
             File file = path[i];
             if ( file.exists() && isProject( file ) ) {
                 try {
-                    projects.add( new PhetProject( file ) );
+                    projects.add( new PhetJavaProject( file ) );
                 }
                 catch( IOException e ) {
                     e.printStackTrace();
@@ -386,81 +385,11 @@ public class PhetProject {
         return getSimulation( simulationName, "en" );
     }
 
-    /**
-     * Load the simulation for associated with this project for the specified name and locale.
-     * todo: better error handling for missing attributes (for projects that don't support simulations yet)
-     *
-     * @param simulationName
-     * @return
-     */
-    public Simulation getSimulation( String simulationName, String locale ) {
-        String mainclass = buildPropertiesFile.getMainClass( simulationName );
-        if ( mainclass == null ) {
-            mainclass = buildPropertiesFile.getMainClassDefault();
-        }
-        if ( mainclass == null ) {
-            throw new RuntimeException( "Mainclass was null for project=" + name + ", simulation=" + simulationName );
-        }
-        String[] args = buildPropertiesFile.getArgs( simulationName );
-        String screenshotPathname = buildPropertiesFile.getScreenshot( simulationName );
-        File screenshot = new File( screenshotPathname == null ? "screenshot.gif" : screenshotPathname );
-
-        //If we reuse PhetResources class, we should move Proguard usage out, so GPL doesn't virus over
-        Properties localizedProperties = new Properties();
-        try {
-            File localizationFile = getLocalizationFile( locale );
-            String title = null;
-            String description = null;
-            if ( localizationFile.exists() ) {
-                localizedProperties.load( new FileInputStream( localizationFile ) );//todo: handle locale (graceful support for missing strings in locale)
-                String titleKey = simulationName + ".name";
-                title = localizedProperties.getProperty( titleKey );
-                if ( title == null ) {
-                    Properties englishProperties = new Properties();
-                    englishProperties.load( new FileInputStream( getLocalizationFile( "en" ) ) );
-                    title = englishProperties.getProperty( titleKey );
-                    System.out.println( "PhetProject.getSimulation: missing title for simulation: key=" + titleKey + ", locale=" + locale + ", using English" );
-                    if ( title == null ) {
-                        title = simulationName;
-                    }
-                }
-                String descriptionKey = simulationName + ".description";
-                description = localizedProperties.getProperty( descriptionKey );
-                if ( description == null ) {
-                    Properties englishProperties = new Properties();
-                    englishProperties.load( new FileInputStream( getLocalizationFile( "en" ) ) );
-                    description = englishProperties.getProperty( descriptionKey );
-                    System.out.println( "PhetProject.getSimulation: missing description for simulation: key=" + descriptionKey + ", locale=" + locale + ", using English" );
-                    if ( description == null ) {
-                        description = descriptionKey;
-                    }
-                }
-            }
-            else {
-                System.out.println( "PhetProject.getSimulation: localization file doesn't exist: " + localizationFile.getAbsolutePath() );
-                title = buildPropertiesFile.getTitleDefault();
-                description = buildPropertiesFile.getDescriptionDefault();
-                if ( title == null ) {
-                    System.out.println( "PhetProject.getSimulation: project.name not found, using: " + name );
-                    title = name;
-                }
-                if ( description == null ) {
-                    System.out.println( "PhetProject.getSimulation: project.description not found, using empty string" );
-                    description = "";
-                }
-            }
-
-            return new Simulation( simulationName, title, description, mainclass, args, screenshot );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-            throw new RuntimeException( e );
-        }
-    }
+    public abstract Simulation getSimulation( String simulationName, String locale );
 
     /*
-     * Returns an array of the 2-character locale codes supported by this application.
-     */
+    * Returns an array of the 2-character locale codes supported by this application.
+    */
     public Locale[] getLocales() {
         File localeDir = getLocalizationDir();
         File[] children = localeDir.listFiles();
@@ -537,19 +466,9 @@ public class PhetProject {
 
     public static PhetProject[] getAllProjects( File baseDir ) {
         List phetProjects = new ArrayList();
-        String[] sims = getSimNames( baseDir );
-        for ( int i = 0; i < sims.length; i++ ) {
-            String sim = sims[i];
-            File projectDir = PhetBuildUtils.resolveProject( baseDir, sim );
-            try {
-                PhetProject phetProject = new PhetProject( projectDir, sim );
-                phetProjects.add( phetProject );
-            }
-            catch( IOException e ) {
-                throw new BuildException( e );
-            }
-        }
-        phetProjects.addAll( Arrays.asList( PhetFlashProject.getFlashProjects( baseDir ) ));
+
+        phetProjects.addAll( Arrays.asList( PhetJavaProject.getJavaProjects( baseDir ) ) );
+        phetProjects.addAll( Arrays.asList( PhetFlashProject.getFlashProjects( baseDir ) ) );
         return (PhetProject[]) phetProjects.toArray( new PhetProject[phetProjects.size()] );
     }
 
@@ -796,86 +715,6 @@ public class PhetProject {
         return new File( getDataDirectory(), "contrib-licenses" );
     }
 
-    public boolean build() throws Exception {
-        new PhetBuildCommand( this, new MyAntTaskRunner(), true, this.getDefaultDeployJar() ).execute();
-        File[] f = getDeployDir().listFiles( new FileFilter() {
-                public boolean accept( File pathname ) {
-                    return pathname.getName().toLowerCase().endsWith( ".jar" );
-                }
-            } );
-            return f.length ==1;//success if there is exactly one jar
-    }
-
-    public String getListDisplayName() {
-        return getName();
-    }
-
-    public void runSim( Locale locale, String simulationName ) {
-        Java java = new Java();
-
-            java.setClassname( getSimulation( simulationName ).getMainclass() );
-            java.setFork( true );
-            String args = "";
-            String[] a = getSimulation( simulationName ).getArgs();
-            for ( int i = 0; i < a.length; i++ ) {
-                String s = a[i];
-                args += s + " ";
-            }
-            java.setArgs( args );
-
-            org.apache.tools.ant.Project project = new org.apache.tools.ant.Project();
-            project.init();
-
-            Path classpath = new Path( project );
-            FileSet set = new FileSet();
-            set.setFile( getDefaultDeployJar() );
-            classpath.addFileset( set );
-            java.setClasspath( classpath );
-            if ( !locale.getLanguage().equals( "en" ) ) {
-                java.setJvmargs( "-Djavaws.user.language=" + locale );
-                java.setJvmargs( "-Djavaws.phet.locale=" + locale ); //XXX #1057, backward compatibility, delete after IOM
-            }
-
-            java.setArgs( "-dev" ); // program arg to run in developer mode
-
-            new MyAntTaskRunner().runTask( java );
-    }
-
-    public void buildLaunchFiles(String URL,boolean dev) {
-        System.out.println( "Building JNLP." );
-        buildJNLP( URL, dev );
-    }
-
-
-    public void buildJNLP( String codebase, boolean dev ) {
-        String[] simulationNames = getSimulationNames();
-        Locale[] locales = getLocales();
-        for ( int i = 0; i < locales.length; i++ ) {
-            Locale locale = locales[i];
-
-            for ( int j = 0; j < simulationNames.length; j++ ) {
-                String simulationName = simulationNames[j];
-                buildJNLP( locale, simulationName, codebase, dev );
-            }
-        }
-    }
-
-    public void buildJNLP( Locale locale, String simulationName, String codebase, boolean dev ) {
-        System.out.println( "Building JNLP for locale=" + locale.getLanguage() + ", simulation=" + simulationName );
-        PhetBuildJnlpTask j = new PhetBuildJnlpTask();
-        j.setDev( dev );
-        j.setDeployUrl( codebase );
-        j.setProject( getName() );
-        j.setLocale( locale.getLanguage() );
-        j.setSimulation( simulationName );
-        org.apache.tools.ant.Project project = new org.apache.tools.ant.Project();
-        project.setBaseDir( getAntBaseDir() );//todo: is this correct?
-        project.init();
-        j.setProject( project );
-        j.execute();
-        System.out.println( "Finished Building JNLP" );
-    }
-
     public static interface Listener {
         public void changesTextChanged();
     }
@@ -893,4 +732,12 @@ public class PhetProject {
     public void removeListener( Listener listener ) {
         listeners.remove( listener );
     }
+
+    public abstract boolean build() throws Exception;
+
+    public abstract String getListDisplayName();
+
+    public abstract void runSim( Locale locale, String simulationName );
+
+    public abstract void buildLaunchFiles( String URL, boolean dev );
 }
