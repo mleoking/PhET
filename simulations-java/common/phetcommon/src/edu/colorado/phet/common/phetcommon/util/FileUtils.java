@@ -78,7 +78,6 @@ public class FileUtils {
      * @return
      */
     public static boolean isJar( File file ) {
-        System.out.println( "FileUtils.isJar file=" + file.getAbsolutePath() );//XXX
         //TODO: bad style to write code that depends on exceptions
         try {
             new JarFile( file ); // throws IOException if not a jar file
