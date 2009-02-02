@@ -1,2 +1,4 @@
+# 1.00.02 (27907) 01-11-1970
+Test flash deploy 2nd time
 # 1.00.01 (27904) 01-11-1970
 Testing flash deploy process
