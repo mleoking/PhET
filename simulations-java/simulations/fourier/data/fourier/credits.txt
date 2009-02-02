@@ -1,0 +1,1 @@
+phet-credits lead-designer=Sam McKagan programmer=Chris Malley design-team=Wendy Adams, Mike Dubson, Kathy Perkins, Carl Weiman
