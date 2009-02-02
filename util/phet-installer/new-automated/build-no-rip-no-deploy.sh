@@ -27,12 +27,21 @@ else
    exit 1
 fi
 
-echo "Updating the marker file..."
+echo "Creating the marker file..."
 
 /usr/local/php/bin/php build-install.php --create-marker-file
 
 if [ "$?" -ne "0" ]; then
   echo "Error creating marker file, aborting."
+  exit 1
+fi
+
+echo "Inserting the creation time stamps..."
+
+/usr/local/php/bin/php build-install.php --insert-installer-creation-time
+
+if [ "$?" -ne "0" ]; then
+  echo "Error inserting creation time, aborting."
   exit 1
 fi
 
