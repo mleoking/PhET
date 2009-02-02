@@ -604,7 +604,16 @@ public class PhetProject {
             infos.addAll( Arrays.asList( p[i].getLicenseInfo() ) );
         }
 
-        //todo: also need to get license info for data/ directories and jar/ files, such as cck: nanoxml
+        //also need to get license info for data/ directories and jar/ files, such as cck: nanoxml
+        File[] j = getAllJarFiles();
+        for ( int i = 0; i < j.length; i++ ) {
+            File file = j[i];
+            File licenseFile = new File( file.getParentFile(), "license-info.txt" );
+            if ( licenseFile.exists() ) {
+                infos.addAll( Arrays.asList( LicenseInfo.getAll( licenseFile ) ) );
+            }
+        }
+
         return (LicenseInfo[]) infos.toArray( new LicenseInfo[infos.size()] );
     }
 
