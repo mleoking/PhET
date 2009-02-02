@@ -52,6 +52,8 @@ public class PhetAboutDialog extends JDialog {
     private String titleString, descriptionString, versionString, creditsString;
     private ISimInfo config;
 
+    private static final boolean USE_DYNAMIC_CREDITS_DIALOG = false;
+
     /**
      * Constructs the dialog.
      *
@@ -224,7 +226,7 @@ public class PhetAboutDialog extends JDialog {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout( new FlowLayout() );
         buttonPanel.add( licenseButton );
-        if ( creditsString != null ) {
+        if ( creditsString != null ||USE_DYNAMIC_CREDITS_DIALOG ) {
             buttonPanel.add( creditsButton );
         }
         buttonPanel.add( okButton );
@@ -243,7 +245,11 @@ public class PhetAboutDialog extends JDialog {
      * Displays credits in a message dialog.
      */
     protected void showCredits() {
-        new CreditsDialog( this, creditsString ).setVisible( true );
-//        new DynamicCreditsDialog( this,config.getProjectName() ).setVisible( true );
+        if ( USE_DYNAMIC_CREDITS_DIALOG ) {
+            new DynamicCreditsDialog( this, config.getProjectName() ).setVisible( true );
+        }
+        else {
+            new CreditsDialog( this, creditsString ).setVisible( true );
+        }
     }
 }
