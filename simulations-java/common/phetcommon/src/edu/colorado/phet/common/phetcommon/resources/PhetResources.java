@@ -50,6 +50,8 @@ public class PhetResources {
     public static final String PROPERTY_VERSION_MINOR = "version.minor";
     public static final String PROPERTY_VERSION_DEV = "version.dev";
     public static final String PROPERTY_VERSION_REVISION = "version.revision";
+    public static final String PROPERTY_VERSION_TIMESTAMP = "version.timestamp";
+    public static final String PROPERTY_DISTRIBUTION_TAG = "distribution.tag";
     public static final String PROPERTY_CREDITS = "about.credits";
 
     private static final String AUDIO_DIR = "audio";
@@ -330,10 +332,14 @@ public class PhetResources {
             String major = getProjectProperty( PROPERTY_VERSION_MAJOR ),
                     minor = getProjectProperty( PROPERTY_VERSION_MINOR ),
                     dev = getProjectProperty( PROPERTY_VERSION_DEV ),
-                    rev = getProjectProperty( PROPERTY_VERSION_REVISION );
-            version = new PhetVersion( major, minor, dev, rev );
+                    rev = getProjectProperty( PROPERTY_VERSION_REVISION ),
+                    timestamp = getProjectProperty( PROPERTY_VERSION_TIMESTAMP );
+            version = new PhetVersion( major, minor, dev, rev, timestamp );
         }
         return version;
     }
 
+    public String getDistributionTag() {
+        return getProjectProperty( PROPERTY_DISTRIBUTION_TAG );
+    }
 }

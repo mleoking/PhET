@@ -61,4 +61,6 @@ public interface ISimInfo {
      * @return
      */
     Locale getLocale();
+    
+    public String getDistributionTag();
 }

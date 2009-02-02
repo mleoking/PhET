@@ -35,8 +35,9 @@ public class SimVersionChecker {
             Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse( new ByteArrayInputStream( xmlString.getBytes() ) );
             String version = document.getDocumentElement().getAttribute( "version" );
             String revision = document.getDocumentElement().getAttribute( "revision" );
+            String timestamp = document.getDocumentElement().getAttribute( "timestamp" );
             StringTokenizer t = new StringTokenizer( version, "." );
-            return new PhetVersion( t.nextToken(), t.nextToken(), t.nextToken(), revision );
+            return new PhetVersion( t.nextToken(), t.nextToken(), t.nextToken(), revision, timestamp );
         }
         catch ( Exception e ) {
             //bundle this exception as IOException to use same error handling on the client side

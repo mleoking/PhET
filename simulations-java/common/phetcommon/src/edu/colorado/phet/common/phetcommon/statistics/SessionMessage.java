@@ -62,7 +62,7 @@ public class SessionMessage extends StatisticsMessage {
                 new StatisticsMessageField( "user_total_sessions", SessionCounter.getInstance().getTotal() ),
                 
                 // Debug field for this that are split into multiple fields
-                new StatisticsMessageField( "debug_sim_version", config.getVersion().formatMajorMinorDevRevision() ),
+                new StatisticsMessageField( "debug_sim_version", config.getVersion().formatForAboutDialog() ),
                 new StatisticsMessageField( "debug_host_java_version", jre.getVersion() ),
         };
         super.addFields( fields );
