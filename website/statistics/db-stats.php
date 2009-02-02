@@ -2,7 +2,8 @@
 	
 	// code that is included for all statistics-database functionality
 	// handles insertion of messages
-	
+
+	// include information needed to log into the database
 	include("db-stats-login.php");
 	
 	// define sim_type to correspond with website code

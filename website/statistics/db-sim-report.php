@@ -2,10 +2,16 @@
     // displays a report for a particular sim, with flash and java-specific queries.
     // usage: db-sim-report.php?pendulum-lab
 
+    // require authentication to display
     include("db-auth.php");
+
+    // necessary functions for interaction with the database
 	include("db-stats.php");
+
+	// connect to the database
 	$link = setup_mysql();
-	
+
+	// limit script time to at most 20 minutes
 	set_time_limit(60 * 20);
 	
 	$query_counter = 0;
