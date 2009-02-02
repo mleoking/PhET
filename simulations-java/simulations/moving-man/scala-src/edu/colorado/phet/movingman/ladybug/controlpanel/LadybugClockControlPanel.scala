@@ -153,7 +153,7 @@ class Timeline(model: LadybugModel, canvas: PhetPCanvas) extends PNode {
   val ellipseHeight = 8
   val insetX = 10
   val shaded = new PhetPPath(new Color(157, 215, 228))
-  val background = new PhetPPath(new Color(200,220,255))
+  val background = new PhetPPath(new Color(200, 220, 255))
   val handle = new PhetPPath(Color.blue, new BasicStroke(1), Color.darkGray)
   var scale = 1.0
   addChild(background)
@@ -182,7 +182,7 @@ class Timeline(model: LadybugModel, canvas: PhetPCanvas) extends PNode {
     scale = (canvas.getWidth - insetX * 2) / LadybugDefaults.timelineLengthSeconds
 
     shaded.setPathTo(new Rectangle(insetX, pathOffsetY, (model.getTimeRange * scale).toInt, pathHeight))
-    background.setPathTo(new Rectangle(insetX, pathOffsetY, (LadybugDefaults.timelineLengthSeconds*scale).toInt, pathHeight))
+    background.setPathTo(new Rectangle(insetX, pathOffsetY, (LadybugDefaults.timelineLengthSeconds * scale).toInt, pathHeight))
     handle.setVisible(model.isPlayback)
     val elapsed = model.getTime - model.getMinRecordedTime
     handle.setPathTo(new Ellipse2D.Double(elapsed * scale - ellipseWidth / 2 + insetX, pathOffsetY - 1, ellipseWidth, ellipseHeight))

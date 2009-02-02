@@ -9,7 +9,7 @@ import java.lang.Math._
 
 import umd.cs.piccolo.PNode
 
-class LadybugFadeTraceNode(model: LadybugModel, transform: ModelViewTransform2D, shouldBeVisible: () => Boolean, observable: ObservableS,maxFade:Double) extends LadybugTraceNode(model, transform, shouldBeVisible, observable) {
+class LadybugFadeTraceNode(model: LadybugModel, transform: ModelViewTransform2D, shouldBeVisible: () => Boolean, observable: ObservableS, maxFade: Double) extends LadybugTraceNode(model, transform, shouldBeVisible, observable) {
   update()
 
   def update() = {
@@ -22,7 +22,7 @@ class LadybugFadeTraceNode(model: LadybugModel, transform: ModelViewTransform2D,
       for (i <- 0 to (historyToShow.length - 2)) {
         val a = transform.modelToView(historyToShow(i))
         val b = transform.modelToView(historyToShow(i + 1))
-        val curTime=model.getTime
+        val curTime = model.getTime
         val time = historyToShow(i).time
         val dt = abs(curTime - time)
         def clamp(a: Double, value: Double, c: Double) = (a max value) min c
@@ -35,7 +35,7 @@ class LadybugFadeTraceNode(model: LadybugModel, transform: ModelViewTransform2D,
 
         val color = toColor(dt)
         if (color.getTransparency != 0)
-          addChild(new PhetPPath(new Line2D.Double(a, b), new BasicStroke(6,BasicStroke.CAP_BUTT,BasicStroke.JOIN_MITER,1.0f), color))
+          addChild(new PhetPPath(new Line2D.Double(a, b), new BasicStroke(6, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f), color))
       }
     }
   }
