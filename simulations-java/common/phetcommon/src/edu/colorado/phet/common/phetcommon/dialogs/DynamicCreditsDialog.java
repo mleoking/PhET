@@ -15,7 +15,6 @@ import javax.swing.event.HyperlinkListener;
 import edu.colorado.phet.common.phetcommon.resources.DefaultResourceLoader;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 public class DynamicCreditsDialog extends JDialog {
@@ -31,23 +30,21 @@ public class DynamicCreditsDialog extends JDialog {
         super( owner, TITLE, true );
         this.projectName = projectName;
         try {
-            phetLicenseString = new DefaultResourceLoader().getResourceAsString( projectName+"/contrib-licenses/license-info.txt" );
+            phetLicenseString = new DefaultResourceLoader().getResourceAsString( projectName + "/contrib-licenses/license-info.txt" );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
-        String html = "<html>\n" +
-                      "<b>PhET development team:</b><br>\n" +
+        String html = "<b>PhET development team:</b><br>\n" +
                       "<br>\n" +
                       getCreditsSnippet() +
                       "<br>\n" +
                       "<br>\n" +
                       "<b>This program uses the following third-party software:</b><br>\n" +
                       "<br>\n" +
-                      getLicenseSnippet() +
-                      "</html>";
+                      getLicenseSnippet();
 
-        String phetLicenseHTML = HTMLUtils.setFontInStyledHTML( html, new PhetFont() );
+        String phetLicenseHTML = HTMLUtils.createStyledHTMLFromFragment( html );
         InteractiveHTMLPane htmlPane = new InteractiveHTMLPane( phetLicenseHTML );
         JScrollPane scrollPane = new JScrollPane( htmlPane );
         scrollPane.setPreferredSize( SCROLLPANE_SIZE );
@@ -93,12 +90,12 @@ public class DynamicCreditsDialog extends JDialog {
 
     private void displayLicenseForID( String id ) {
         String licenseText = getLicenseText( id );
-        if (!licenseText.trim().startsWith( "<html" )){
-            licenseText="<html>"+licenseText+"</html>";
-            licenseText=licenseText.replaceAll( "\\n","<br>" );
+        if ( !licenseText.trim().startsWith( "<html" ) ) {
+            licenseText = "<html>" + licenseText + "</html>";
+            licenseText = licenseText.replaceAll( "\\n", "<br>" );
         }
 
-        ContribLicenseDialog c=new ContribLicenseDialog( this, "License for "+id,licenseText );
+        ContribLicenseDialog c = new ContribLicenseDialog( this, "License for " + id, licenseText );
         c.setVisible( true );
 //        JOptionPane.showMessageDialog( this, licenseText );
     }
@@ -128,8 +125,8 @@ public class DynamicCreditsDialog extends JDialog {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        if (res.trim().length()==0){
-            res="phet-credits team=PhET Interactive Simulations at the University of Colorado at Boulder";
+        if ( res.trim().length() == 0 ) {
+            res = "phet-credits team=PhET Interactive Simulations at the University of Colorado at Boulder";
         }
         AnnotationParser.Annotation t = AnnotationParser.parse( res );
         HashMap map = t.getMap();
@@ -138,13 +135,13 @@ public class DynamicCreditsDialog extends JDialog {
         for ( Iterator iterator = keys.iterator(); iterator.hasNext(); ) {
             String key = (String) iterator.next();
             String value = (String) map.get( key );
-            credits += translate(key) + ": " + value + "<br>";
+            credits += translate( key ) + ": " + value + "<br>";
         }
         return credits;
     }
 
     private String translate( String key ) {
-        return PhetCommonResources.getString( "Common.About.CreditsDialog."+key );
+        return PhetCommonResources.getString( "Common.About.CreditsDialog." + key );
     }
 
     public String getLicenseText( String id ) {
@@ -157,7 +154,7 @@ public class DynamicCreditsDialog extends JDialog {
                     a = annotation;
                 }
             }
-            return new DefaultResourceLoader().getResourceAsString( projectName+"/contrib-licenses/" + id + "-" + a.get( "licensefile" ) );
+            return new DefaultResourceLoader().getResourceAsString( projectName + "/contrib-licenses/" + id + "-" + a.get( "licensefile" ) );
         }
         catch( Exception e ) {
             e.printStackTrace();
