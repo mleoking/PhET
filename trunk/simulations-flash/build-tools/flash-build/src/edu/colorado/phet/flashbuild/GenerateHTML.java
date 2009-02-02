@@ -1,5 +1,15 @@
 package edu.colorado.phet.flashbuild;
 
+/*
+ A script to be build into a JAR that builds the HTML
+ for a single simulation and locale.
+
+ usage:
+
+ java -jar flash-build.jar <simName> <language> [<country> [<deployment> [<distributionTag> [<installTimestamp> [<installerCreationTimestamp>]]]]]
+
+*/
+
 import edu.colorado.phet.flashbuild.util.FlashHTML;
 
 import java.io.File;

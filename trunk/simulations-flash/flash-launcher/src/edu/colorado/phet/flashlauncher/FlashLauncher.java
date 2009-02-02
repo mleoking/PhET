@@ -25,6 +25,9 @@ import edu.colorado.phet.flashbuild.util.FlashHTML;
  * A web browser is launched, and pointed at the HTML.
  *
  * @author Sam Reid
+ *
+ * Modified by Jonathan Olson to support the new HTML generation for Flash simulations
+ *
  */
 public class FlashLauncher {
 

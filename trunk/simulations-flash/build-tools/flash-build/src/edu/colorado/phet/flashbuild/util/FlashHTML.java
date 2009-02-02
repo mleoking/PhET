@@ -1,5 +1,7 @@
 package edu.colorado.phet.flashbuild.util;
 
+// Functions to generate and write Flash HTML files
+
 import java.io.*;
 import java.util.Scanner;
 import java.net.URLEncoder;
@@ -86,6 +88,7 @@ public class FlashHTML {
         // get the integer value from the hex of bgcolor
         String bgcolorint = String.valueOf( Integer.parseInt( bgcolor.substring( 1 ), 16 ) );
 
+        // TODO: a more elegant way?
         String flashVars = "languageCode=@@language@@&countryCode=@@country@@&internationalization=@@encodedSimXML@@" +
                 "&commonStrings=@@encodedCommonXML@@&versionMajor=@@versionMajor@@&versionMinor=@@versionMinor@@&" +
                 "dev=@@versionDev@@&revision=@@versionRevision@@&simName=@@simName@@&simDeployment=@@deployment@@&" +
