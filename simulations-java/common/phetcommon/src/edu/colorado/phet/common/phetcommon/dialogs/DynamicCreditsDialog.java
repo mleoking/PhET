@@ -36,8 +36,10 @@ public class DynamicCreditsDialog extends JDialog {
             phetLicenseString = new DefaultResourceLoader().getResourceAsString( projectName + "/contrib-licenses/license-info.txt" );
         }
         catch( IOException e ) {
-            e.printStackTrace();
             System.out.println( "Perhaps you need to generate license information for this simulation." );
+            e.printStackTrace();
+
+            //shouldn't happen for sims generated with the build process; license info is copied automatically.
         }
         String html = "<b>" + PhetCommonResources.getString( "Common.About.CreditsDialog.PhetDevelopmentTeam" ) + "</b><br>\n" +
                       "<br>\n" +
