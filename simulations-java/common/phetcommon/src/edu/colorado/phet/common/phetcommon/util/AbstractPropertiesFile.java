@@ -1,6 +1,7 @@
 package edu.colorado.phet.common.phetcommon.util;
 
 import java.io.*;
+import java.security.AccessControlException;
 import java.util.Enumeration;
 import java.util.Properties;
 
@@ -16,7 +17,7 @@ import java.util.Properties;
  */
 public class AbstractPropertiesFile {
     
-    private final File propertiesFile;
+    private final File file;
     private final Properties properties;
     private String header;
 
@@ -25,15 +26,15 @@ public class AbstractPropertiesFile {
     }
     
     public AbstractPropertiesFile( File file ) {
-        this.propertiesFile = file;
-        this.properties = loadProperties( file );
+        this.file = file;
         this.header = null;
+        this.properties = load( file );
     }
 
     /*
      * Loads the properties from the file, if it exists.
      */
-    private static Properties loadProperties( File file ) {
+    private static Properties load( File file ) {
         Properties properties = new Properties();
         if ( file.exists() ) {
             try {
@@ -42,8 +43,26 @@ public class AbstractPropertiesFile {
             catch ( IOException e ) {
                 e.printStackTrace();
             }
+            catch ( AccessControlException e ) {
+                System.err.println( AbstractPropertiesFile.class.getName() + " access denied to file " + file.getAbsolutePath() );
+            }
         }
         return properties;
+    }
+    
+    /*
+     * Store the properties to the file.
+     */
+    private void store() {
+        try {
+            properties.store( new FileOutputStream( file ), header );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        catch ( AccessControlException e ) {
+            System.err.println( getClass().getName() + " access denied to file " + file.getAbsolutePath() );
+        }
     }
     
     /**
@@ -60,7 +79,7 @@ public class AbstractPropertiesFile {
      * @return
      */
     public boolean exists() {
-        return propertiesFile.exists();
+        return file.exists();
     }
     
     /**
@@ -69,18 +88,6 @@ public class AbstractPropertiesFile {
      */
     public Enumeration getPropertyNames() {
         return properties.propertyNames();
-    }
-    
-    /*
-     * Store the properties to the file.
-     */
-    private void store() {
-        try {
-            properties.store( new FileOutputStream( propertiesFile ), header );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
     }
     
     /*
@@ -98,7 +105,7 @@ public class AbstractPropertiesFile {
     }
     
     protected void setProperty( String key, int value ) {
-        properties.setProperty( key, String.valueOf( value ) );
+        setProperty( key, String.valueOf( value ) );
     }
     
     /*
@@ -115,26 +122,24 @@ public class AbstractPropertiesFile {
     
     /*
      * Gets a property as an integer value.
-     * If the property value can't be converted to an integer, -1 is returned.
+     * If the property value can't be converted to an integer, defaultValue is returned.
      * <p>
      * This method is protected because subclasses should not expose key values,
      * they should have set/get methods for each property.
      * 
      * @param key
+     * @param defaultValue
      * @return int value
      */
-    protected int getPropertyInt( String key ) {
-        int i = -1;
+    protected int getPropertyInt( String key, int defaultValue ) {
+        int i = defaultValue;
         String s = getProperty( key );
-        if ( s == null ) {
-            System.err.println( "PropertiesFile.getPropertyInt: " + key + " is missing from file " + propertiesFile.getAbsolutePath() );
-        }
-        else {
+        if ( s != null ) {
             try {
                 i = Integer.parseInt( s );
             }
             catch ( NumberFormatException e ) {
-                System.err.println( "PropertiesFile.getPropertyInt: " + key + " is not an integer in file " + propertiesFile.getAbsolutePath() );
+                System.err.println( "PropertiesFile.getPropertyInt: " + key + " is not an integer in file " + file.getAbsolutePath() );
             }
         }
         return i;

@@ -35,7 +35,7 @@ public class ProjectPropertiesFile extends AbstractPropertiesFile {
     }
     
     public int getMajorVersion() {
-        return getPropertyInt( KEY_VERSION_MAJOR );
+        return getPropertyInt( KEY_VERSION_MAJOR, -1 );
     }
     
     public String getMajorVersionString() {
@@ -47,7 +47,7 @@ public class ProjectPropertiesFile extends AbstractPropertiesFile {
     }
     
     public int getMinorVersion() {
-        return getPropertyInt( KEY_VERSION_MINOR );
+        return getPropertyInt( KEY_VERSION_MINOR, -1 );
     }
     
     public String getMinorVersionString() {
@@ -59,7 +59,7 @@ public class ProjectPropertiesFile extends AbstractPropertiesFile {
     }
     
     public int getDevVersion() {
-        return getPropertyInt( KEY_VERSION_DEV );
+        return getPropertyInt( KEY_VERSION_DEV, -1 );
     }
     
     public String getDevVersionString() {
@@ -71,7 +71,7 @@ public class ProjectPropertiesFile extends AbstractPropertiesFile {
     }
     
     public int getSVNVersion() {
-        return getPropertyInt( KEY_VERSION_REVISION );
+        return getPropertyInt( KEY_VERSION_REVISION, -1 );
     }
     
     public void setVersionTimestamp( int value ) {
@@ -79,12 +79,12 @@ public class ProjectPropertiesFile extends AbstractPropertiesFile {
     }
     
     public int getVersionTimestamp() {
-        return getPropertyInt( KEY_VERSION_TIMESTAMP );
+        return getPropertyInt( KEY_VERSION_TIMESTAMP, -1 );
     }
     
     public String getVersionTimestampString() {
         String s = "?";
-        int seconds = getPropertyInt( KEY_VERSION_TIMESTAMP ); // seconds
+        int seconds = getPropertyInt( KEY_VERSION_TIMESTAMP, -1 ); // seconds
         if ( seconds > 0 ) {
             Date date = new Date( seconds * 1000L ); // seconds to milliseconds 
             s = FORMAT_VERSION_TIMESTAMP.format( date );
