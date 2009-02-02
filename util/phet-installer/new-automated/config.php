@@ -4,6 +4,7 @@
 
     // *****************************************************************************
     // Global Configuration
+
     define("OS_WINDOWS", "WINNT");
     define("OS_WIN32",   "WIN32");
     define("OS_AIX",     "AIX");
@@ -70,6 +71,7 @@
 
     // *****************************************************************************
     // BitRock Configuration
+
     define("BITROCK_PLATFORM_EXEC_SUFFIX_OSX",         ".app");
     define("BITROCK_PLATFORM_EXEC_SUFFIX_WINDOWS",     ".exe");
     define("BITROCK_PLATFORM_EXEC_SUFFIX_LINUX",     ".bin");
@@ -118,4 +120,9 @@
         BITROCK_PLATFORM_OSX      => BITROCK_DIST_SRC_Darwin
     );
 
+    // *****************************************************************************
+    // Installation Configuration
+
+    define("DEPLOYMENT_TAG", "WEB_SITE");
+    define("MARKER_FILE_NAME", "phet-installation.properties");
 ?>
