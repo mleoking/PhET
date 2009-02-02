@@ -36,10 +36,11 @@ public class DynamicCreditsDialog extends JDialog {
             phetLicenseString = new DefaultResourceLoader().getResourceAsString( projectName + "/contrib-licenses/license-info.txt" );
         }
         catch( IOException e ) {
-            System.out.println( "Perhaps you need to generate license information for this simulation." );
-            e.printStackTrace();
-
             //shouldn't happen for sims generated with the build process; license info is copied automatically.
+            System.out.println( "No license info found; Perhaps you need to generate license information for this simulation, using PhetBuildGUI->Misc->Generate License Info" );
+//            e.printStackTrace();
+
+
         }
         String html = "<b>" + PhetCommonResources.getString( "Common.About.CreditsDialog.PhetDevelopmentTeam" ) + "</b><br>\n" +
                       "<br>\n" +
@@ -103,7 +104,6 @@ public class DynamicCreditsDialog extends JDialog {
 
         ContribLicenseDialog c = new ContribLicenseDialog( this, "License for " + id, licenseText );
         c.setVisible( true );
-//        JOptionPane.showMessageDialog( this, licenseText );
     }
 
     private String getLicenseSnippet() {
@@ -133,7 +133,7 @@ public class DynamicCreditsDialog extends JDialog {
         }
         catch( IOException e ) {
             System.out.println( "Sim was missing credits information, all sims should have credits eventually." );
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         if ( res.trim().length() == 0 ) {
             //all simulations should specify credits eventually
