@@ -50,7 +50,7 @@ public class AnnotationParser {
         HashMap map = new HashMap();
         String id = st.nextToken();
         for ( int index = line.indexOf( '=' ); index >= 0; index = line.indexOf( '=', index + 1 ) ) {
-            System.out.println( "Found '=' at: " + index );
+//            System.out.println( "Found '=' at: " + index );
             String key = getKey( line, index );
             String value = getValue( line, index );
             map.put( key, value );
@@ -72,7 +72,7 @@ public class AnnotationParser {
             }
         }
         String val = line.substring( index + 1, end );
-        System.out.println( "val = " + val );
+//        System.out.println( "val = " + val );
         return val.trim();
     }
 
@@ -80,7 +80,7 @@ public class AnnotationParser {
         for ( int i = index; i >= 0; i-- ) {
             if ( line.charAt( i ) == ' ' ) {
                 String key = line.substring( i, index );
-                System.out.println( "key = " + key );
+//                System.out.println( "key = " + key );
                 return key.trim();
             }
         }
