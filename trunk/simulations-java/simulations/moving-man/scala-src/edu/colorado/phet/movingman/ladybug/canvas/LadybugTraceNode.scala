@@ -13,9 +13,18 @@ abstract class LadybugTraceNode(model: LadybugModel, transform: ModelViewTransfo
   var clearPt = 0
   setPickable(false)
   setChildrenPickable(false)
-  observable.addListener(() => setVisible(shouldBeVisible()))
+  observable.addListener(() => {
+    setVisible(shouldBeVisible())
+    doUpdate()
+  })
   setVisible(shouldBeVisible())
-  model.addListener(update)
+  model.addListener(doUpdate)
+
+  def doUpdate() = {
+    if (shouldBeVisible()) {
+      update
+    }
+  }
 
   def update()
 

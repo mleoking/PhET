@@ -1,3 +1,5 @@
+> Major performance improvements
+
 # 1.20.24 (27822) 01-31-2009
 > Fixed: Remote control doesn't show correct initial position
 > Fixed: When switching to manual from a premade motion, don't jump to old last recorded position.
