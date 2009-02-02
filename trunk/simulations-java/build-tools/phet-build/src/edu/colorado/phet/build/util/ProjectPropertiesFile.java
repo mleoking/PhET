@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import edu.colorado.phet.build.PhetProject;
+import edu.colorado.phet.common.phetcommon.util.PropertiesFile;
 
 /**
  * Abstraction of the project properties files (eg, faraday.properties).

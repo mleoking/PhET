@@ -5,6 +5,7 @@ import java.util.Enumeration;
 import java.util.StringTokenizer;
 
 import edu.colorado.phet.build.PhetProject;
+import edu.colorado.phet.common.phetcommon.util.PropertiesFile;
 
 /**
  * Abstraction of the project build properties files (eg, faraday-build.properties).
