@@ -734,7 +734,7 @@ public class PhetProject {
     }
 
     public void copyLicenseInfo() {
-        File contribLicensesDir = new File( getDataDirectory(), "contrib-licenses" );
+        File contribLicensesDir = getContribLicenseDir();
         File file = new File( contribLicensesDir, "license-info.txt" );
         System.out.println( "file.getAbsolute = " + file.getAbsolutePath() );
         contribLicensesDir.mkdirs();
@@ -787,6 +787,10 @@ public class PhetProject {
             e.printStackTrace();
         }
         return new String[0];
+    }
+
+    public File getContribLicenseDir() {
+        return new File( getDataDirectory(), "contrib-licenses" );
     }
 
     public static interface Listener {
