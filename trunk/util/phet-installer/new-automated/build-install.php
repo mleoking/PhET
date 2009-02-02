@@ -295,19 +295,45 @@
     //--------------------------------------------------------------------------
     // Function for creating the marker file that will be used by the tracking
     // code to determine whether a simulation was run from full installation
-    // versus some other means (such as a single downloaded JAR file).  It also
-    // adds a property that defines when the installer was built.  See unfuddle
-    // ticket #875 for more information.
+    // versus some other means (such as a single downloaded JAR file).  See
+    // unfuddle ticket #875 for more information.
     //--------------------------------------------------------------------------
     function create_marker_file(){
-        $base_file_name = "phet-installation.properties";
-        $marker_file_name = RIPPED_WEBSITE_TOP.PHET_SIMS_SUBDIR.$base_file_name;
+        $marker_file_name = RIPPED_WEBSITE_TOP.PHET_SIMS_SUBDIR.MARKER_FILE_NAME;
         flushing_echo("Marker file name = $marker_file_name");
+        $contents = "# DO NOT DELETE THIS FILE.\n# This file identifies this installation of PhET.\n\n";
+        file_put_contents_anywhere($marker_file_name, $contents);
+    }
+
+    //--------------------------------------------------------------------------
+    // Insert the creation time of the installer into the marker file and into
+    // the HTML files that launch the Flash simulations.  The marker file and
+    // flash simulations must be modified at the same time so that the time
+    // stamp will be the same for both.
+    //--------------------------------------------------------------------------
+    function insert_installer_creation_time(){
+
+        // Get the value of the time stamp.
         $time = time();
         flushing_echo("Creation Timestamp = $time");
-        $contents = "# DO NOT DELETE THIS FILE.\n# This file identifies this installation of PhET.";
-        $contents = $contents."\n\ninstaller.creation.date.epoch.seconds=".$time."\n";
-        file_put_contents_anywhere($marker_file_name, $contents);
+ 
+        // Add the time stamp to the marker file, used by the Java sims.
+        $marker_file_name = RIPPED_WEBSITE_TOP.PHET_SIMS_SUBDIR.MARKER_FILE_NAME;
+        if (!($fp = fopen($marker_file_name, 'a'))) {
+            flushing_echo('Error: Cannot open marker file, time stamp not added.');
+        }
+        else{
+            fwrite($fp, "installer.creation.date.epoch.seconds=".$time."\n");
+            flushing_echo('Successfully added timestamp marker to '.MARKER_FILE_NAME);
+        }
+
+        // Add the timestamp to each of the HTML files used to launch Flash sims.
+        $files = glob(RIPPED_WEBSITE_TOP.PHET_SIMS_SUBDIR."*/*.html");
+        $sedCmd = 'sed -i -e s/@@INSTALLER_CREATION_TIMESTAMP@@/'.$time.'/ ';
+        foreach ($files as $file){
+            exec($sedCmd.$file);
+        }
+        flushing_echo("Added time stamp to ".sizeof($files)." HTML files.");
     }
 
     //--------------------------------------------------------------------------
@@ -351,6 +377,9 @@
         else {
             if (file_lock("install-builder")) {
 
+                // Note that the order of operations below is important in the
+                // case where all operations are performed.
+
                 if (is_checked('remove-website-copy'))
                     builder_remove_website_copy();
 
@@ -360,14 +389,17 @@
                 if (is_checked('download-sims'))
                     builder_download_sims();
 
-                if (is_checked('create-marker-file'))
-                    create_marker_file();
-
                 if (is_checked('download-installer-webpages'))
                     builder_download_installer_webpages();
 
                 if (is_checked('perform-macro-substitutions'))
                     builder_perform_macro_substitutions();
+
+                if (is_checked('create-marker-file'))
+                    create_marker_file();
+
+                if (is_checked('insert-installer-creation-time'))
+                    insert_installer_creation_time();
 
                 if (is_checked('build-all'))
                     builder_build_all();
