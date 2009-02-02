@@ -31,7 +31,7 @@ public class LicenseInfo {
             BufferedReader bufferedReader = new BufferedReader( new FileReader( file ) );
             String line = bufferedReader.readLine();
             while ( line != null ) {
-                if ( !line.trim().isEmpty() && !line.startsWith( "#" ) ) {
+                if ( line.trim().length()>0 && !line.startsWith( "#" ) ) {
                     infos.add( parseLine( file, line ) );
                 }
                 line = bufferedReader.readLine();
