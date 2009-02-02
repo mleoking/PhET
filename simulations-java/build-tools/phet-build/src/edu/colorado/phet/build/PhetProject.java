@@ -597,13 +597,14 @@ public class PhetProject {
      * Licensing Information
      * ***********
      */
-    //todo: this should trace through dependencies to get license info too (not relevant with data as of 8-7-2008)
     public LicenseInfo[] getAllLicenseInfo() {
         PhetProject[] p = getAllDependencies();
         ArrayList infos = new ArrayList();
         for ( int i = 0; i < p.length; i++ ) {
             infos.addAll( Arrays.asList( p[i].getLicenseInfo() ) );
         }
+
+        //todo: also need to get license info for data/ directories and jar/ files, such as cck: nanoxml
         return (LicenseInfo[]) infos.toArray( new LicenseInfo[infos.size()] );
     }
 
