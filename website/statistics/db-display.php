@@ -2,7 +2,8 @@
 	
 	// script to display the raw values in the database
 	// not fun if you view this with 4 million entries or so (over 8 million tuples)
-	
+
+	include("db-auth.php");
 	include("db-stats.php");
 	$link = setup_mysql();
 	

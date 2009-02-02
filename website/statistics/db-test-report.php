@@ -1,4 +1,5 @@
 <?php
+    include("db-auth.php");
 	include("db-stats.php");
 	$link = setup_mysql();
 	
