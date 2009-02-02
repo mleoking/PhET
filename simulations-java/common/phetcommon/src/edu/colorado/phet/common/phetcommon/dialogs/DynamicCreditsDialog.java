@@ -131,6 +131,9 @@ public class DynamicCreditsDialog extends JDialog {
         catch( IOException e ) {
             e.printStackTrace();
         }
+        if (res.trim().length()==0){
+            res="phet-credits team=The PhET Design and Development Team at the University of Colorado at Boulder";
+        }
         AnnotationParser.Annotation t = AnnotationParser.parse( res );
         HashMap map = t.getMap();
         Set keys = map.keySet();
