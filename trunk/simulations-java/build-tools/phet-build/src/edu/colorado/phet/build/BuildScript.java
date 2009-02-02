@@ -1,26 +1,22 @@
 package edu.colorado.phet.build;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
-import org.apache.tools.ant.taskdefs.Java;
-import org.apache.tools.ant.types.FileSet;
-import org.apache.tools.ant.types.Path;
 import org.rev6.scf.SshCommand;
 import org.rev6.scf.SshConnection;
 import org.rev6.scf.SshException;
 
-import com.jcraft.jsch.JSchException;
-
 import edu.colorado.phet.build.translate.ScpTo;
 import edu.colorado.phet.build.util.FileUtils;
 import edu.colorado.phet.build.util.ProcessOutputReader;
+
+import com.jcraft.jsch.JSchException;
 
 public class BuildScript {
     private PhetProject project;
@@ -113,9 +109,7 @@ public class BuildScript {
             return;
         }
 
-        String codebase = server.getURL( project );
-        System.out.println( "Building JNLP." );
-        buildJNLP( codebase, server.isDevelopmentServer() );
+        project.buildLaunchFiles( server.getURL( project ), server.isDevelopmentServer() );
 
         if ( !dryRun ) {
             System.out.println( "Sending SSH." );
@@ -172,20 +166,6 @@ public class BuildScript {
         }
     }
 
-    public void buildJNLP( String codebase, boolean dev ) {
-        String[] simulationNames = project.getSimulationNames();
-        Locale[] locales = project.getLocales();
-        for ( int i = 0; i < locales.length; i++ ) {
-            Locale locale = locales[i];
-
-            for ( int j = 0; j < simulationNames.length; j++ ) {
-                String simulationName = simulationNames[j];
-                buildJNLP( locale, simulationName, codebase, dev );
-            }
-        }
-    }
-
-
     private void sendSSH( PhetServer server, AuthenticationInfo authenticationInfo ) {
         SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername( server.getHost() ), authenticationInfo.getPassword( server.getHost() ) );
         String remotePathDir = server.getPath( project );
@@ -193,6 +173,8 @@ public class BuildScript {
             sshConnection.connect();
 
             //todo: how can we detect failure of this command, e.g. due to permissions errors?  See #1164
+//            sshConnection.executeTask( new SshCommand( "mkdir " + getParentDir( getParentDir( remotePathDir ) ) ) );//todo: would it be worthwhile to skip this task when possible?
+            sshConnection.executeTask( new SshCommand( "mkdir " + getParentDir( remotePathDir ) ) );//todo: would it be worthwhile to skip this task when possible?
             sshConnection.executeTask( new SshCommand( "mkdir " + remotePathDir ) );//todo: would it be worthwhile to skip this task when possible?
         }
         catch( SshException e ) {
@@ -226,14 +208,22 @@ public class BuildScript {
         }
     }
 
+    private String getParentDir( String remotePathDir ) {
+        if ( remotePathDir.endsWith( "/" ) ) {
+            remotePathDir = remotePathDir.substring( 0, remotePathDir.length() - 1 );
+        }
+        int x = remotePathDir.lastIndexOf( '/' );
+        return remotePathDir.substring( 0, x );
+    }
+
     private void setSVNVersion( int svnVersion ) {
         project.setSVNVersion( svnVersion );
     }
 
     private void setVersionTimestamp() {
-        project.setVersionTimestamp( (int)System.currentTimeMillis() / 1000 ); // convert from ms to sec
+        project.setVersionTimestamp( (int) System.currentTimeMillis() / 1000 ); // convert from ms to sec
     }
-    
+
     public int getSVNVersion() {
         File readmeFile = new File( baseDir, "README.txt" );
         if ( !readmeFile.exists() ) {
@@ -272,33 +262,11 @@ public class BuildScript {
         }
     }
 
-    public void buildJNLP( Locale locale, String simulationName, String codebase, boolean dev ) {
-        System.out.println( "Building JNLP for locale=" + locale.getLanguage() + ", simulation=" + simulationName );
-        PhetBuildJnlpTask j = new PhetBuildJnlpTask();
-        j.setDev( dev );
-        j.setDeployUrl( codebase );
-        j.setProject( project.getName() );
-        j.setLocale( locale.getLanguage() );
-        j.setSimulation( simulationName );
-        org.apache.tools.ant.Project project = new org.apache.tools.ant.Project();
-        project.setBaseDir( baseDir );
-        project.init();
-        j.setProject( project );
-        j.execute();
-        System.out.println( "Finished Building JNLP" );
-    }
-
     public boolean build() {
         try {
-            project.build();
+            boolean success = project.build();
             System.out.println( "**** Finished BuildScript.build" );
-
-            File[] f = project.getDeployDir().listFiles( new FileFilter() {
-                public boolean accept( File pathname ) {
-                    return pathname.getName().toLowerCase().endsWith( ".jar" );
-                }
-            } );
-            return f.length ==1;//success if there is exactly one jar
+            return success;
         }
         catch( Exception e ) {
             e.printStackTrace();
@@ -313,40 +281,7 @@ public class BuildScript {
             simulationName = (String) prompt( "Choose simulation: ", project.getSimulationNames() );
         }
 
-        runSim( locale, simulationName );
-    }
-
-    public void runSim( Locale locale, String simulationName ) {
-        Java java = new Java();
-
-        if ( project != null ) {
-            java.setClassname( project.getSimulation( simulationName ).getMainclass() );
-            java.setFork( true );
-            String args = "";
-            String[] a = project.getSimulation( simulationName ).getArgs();
-            for ( int i = 0; i < a.length; i++ ) {
-                String s = a[i];
-                args += s + " ";
-            }
-            java.setArgs( args );
-
-            org.apache.tools.ant.Project project = new org.apache.tools.ant.Project();
-            project.init();
-
-            Path classpath = new Path( project );
-            FileSet set = new FileSet();
-            set.setFile( this.project.getDefaultDeployJar() );
-            classpath.addFileset( set );
-            java.setClasspath( classpath );
-            if ( !locale.getLanguage().equals( "en" ) ) {
-                java.setJvmargs( "-Djavaws.user.language=" + locale );
-                java.setJvmargs( "-Djavaws.phet.locale=" + locale ); //XXX #1057, backward compatibility, delete after IOM
-            }
-
-            java.setArgs( "-dev" ); // program arg to run in developer mode
-
-            new MyAntTaskRunner().runTask( java );
-        }
+        project.runSim( locale, simulationName );
     }
 
     private Object prompt( String msg, Object[] locales ) {
@@ -433,8 +368,9 @@ public class BuildScript {
                 new Task() {
                     public boolean invoke() {
                         //generate JNLP files for dev
-                        String codebase = PhetServer.DEVELOPMENT.getURL( project );
-                        buildJNLP( codebase, PhetServer.DEVELOPMENT.isDevelopmentServer() );
+                        project.buildLaunchFiles( PhetServer.DEVELOPMENT.getURL( project ), PhetServer.DEVELOPMENT.isDevelopmentServer() );
+//                        String codebase = PhetServer.DEVELOPMENT.getURL( project );
+//                        buildJNLP( codebase, PhetServer.DEVELOPMENT.isDevelopmentServer() );
 
                         if ( !dryRun ) {
                             sendSSH( PhetServer.DEVELOPMENT, devAuth );

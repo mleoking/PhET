@@ -141,7 +141,7 @@ public class ProjectPanel extends JPanel {
         getBuildScript().clean();
         boolean success = getBuildScript().build();
         if ( success ) {
-            getBuildScript().runSim( getSelectedLocale(), getSelectedSimulation() );
+            project.runSim( getSelectedLocale(), getSelectedSimulation() );
         }
         else {
             System.out.println( "Errors on build" );

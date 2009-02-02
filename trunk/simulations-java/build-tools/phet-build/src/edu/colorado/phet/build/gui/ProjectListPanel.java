@@ -75,12 +75,12 @@ public class ProjectListPanel extends JPanel {
             }
         } );
 
-        JButton buildJNLP = new JButton( "Build Local JNLP" );
-        buildJNLP.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                getBuildScript().buildJNLP( "file:///" + getSelectedProject().getDefaultDeployJar().getParentFile().getAbsolutePath(), true );
-            }
-        } );
+//        JButton buildJNLP = new JButton( "Build Local JNLP" );
+//        buildJNLP.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                getBuildScript().buildJNLP( "file:///" + getSelectedProject().getDefaultDeployJar().getParentFile().getAbsolutePath(), true );
+//            }
+//        } );
 
         runButton = new JButton( "Run" );
         runButton.addActionListener( new ActionListener() {
@@ -142,7 +142,7 @@ public class ProjectListPanel extends JPanel {
         commandPanel.add( cleanButton );
         commandPanel.add( buildButton );
         commandPanel.add( runButton );
-        commandPanel.add( buildJNLP );
+//        commandPanel.add( buildJNLP );
         commandPanel.add( svnStatus );
         commandPanel.add( getSVN );
         commandPanel.add( addMessage );
@@ -157,7 +157,7 @@ public class ProjectListPanel extends JPanel {
 
     private ProjectListElement[] getProjectListElements() {
         PhetProject[] a = PhetProject.getAllProjects( baseDir );
-        return toListElements( a);
+        return toListElements( a );
     }
 
     private void saveNewProjectSelection() {
@@ -238,7 +238,7 @@ public class ProjectListPanel extends JPanel {
         }
 
         public String toString() {
-            return p.getName();
+            return p.getListDisplayName();
         }
 
         public PhetProject getProject() {
