@@ -5,24 +5,25 @@ import java.util.Enumeration;
 import java.util.Properties;
 
 /**
- * PropertiesFile is the abstraction of a properties file.
- * Setting a value stores the value in the file immediately.
+ * Base class for all properties file interfaces.
+ * Setting a property value stores it in the file immediately.
  * <p>
  * This class is implemented using composition instead of inheritance
  * because it's not appropriate to expose the entire File interface.
+ * The interface should be limited to getting and setting properties.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PropertiesFile {
+public class AbstractPropertiesFile {
     
     private final File propertiesFile;
     private final Properties properties;
 
-    public PropertiesFile( String filename ) {
+    public AbstractPropertiesFile( String filename ) {
         this( new File( filename ) );
     }
     
-    public PropertiesFile( File file ) {
+    public AbstractPropertiesFile( File file ) {
         this.propertiesFile = file;
         this.properties = loadProperties( file );
     }
@@ -59,10 +60,16 @@ public class PropertiesFile {
         return properties.propertyNames();
     }
     
-    /**
+    /*
      * Setting a property stores it immediately.
+     * <p>
+     * This method is protected because subclasses should not expose key values,
+     * they should have set/get methods for each property.
+     * 
+     * @param key 
+     * @param value
      */
-    public void setProperty( String key, String value ) {
+    protected void setProperty( String key, String value ) {
         properties.setProperty( key, value );
         try {
             properties.store( new FileOutputStream( propertiesFile ), null );
@@ -72,22 +79,29 @@ public class PropertiesFile {
         }
     }
     
-    /**
+    /*
      * Gets a property value as a String.
+     * <p>
+     * This method is protected because subclasses should not expose key values,
+     * they should have set/get methods for each property.
      * @param key
      * @return String value
      */
-    public String getProperty( String key ) {
+    protected String getProperty( String key ) {
         return properties.getProperty( key );
     }
     
-    /**
+    /*
      * Gets a property as an integer value.
      * If the property value can't be converted to an integer, -1 is returned.
+     * <p>
+     * This method is protected because subclasses should not expose key values,
+     * they should have set/get methods for each property.
+     * 
      * @param key
      * @return int value
      */
-    public int getPropertyInt( String key ) {
+    protected int getPropertyInt( String key ) {
         int i = -1;
         String s = getProperty( key );
         if ( s == null ) {

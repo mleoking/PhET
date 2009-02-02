@@ -6,14 +6,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import edu.colorado.phet.build.PhetProject;
-import edu.colorado.phet.common.phetcommon.util.PropertiesFile;
+import edu.colorado.phet.common.phetcommon.util.AbstractPropertiesFile;
 
 /**
  * Abstraction of the project properties files (eg, faraday.properties).
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ProjectPropertiesFile extends PropertiesFile {
+public class ProjectPropertiesFile extends AbstractPropertiesFile {
     
     private static final String KEY_VERSION_MAJOR = "version.major";
     private static final String KEY_VERSION_MINOR = "version.minor";
