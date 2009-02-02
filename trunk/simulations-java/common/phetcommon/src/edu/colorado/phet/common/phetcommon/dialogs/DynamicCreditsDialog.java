@@ -26,9 +26,11 @@ public class DynamicCreditsDialog extends JDialog {
 
     private static final String TITLE = PhetCommonResources.getString( "Common.About.CreditsDialog.Title" );
     private static final String OK_BUTTON = PhetCommonResources.getString( "Common.About.OKButton" );
+    private static final String PHET_DEV_TEAM = PhetCommonResources.getString( "Common.About.CreditsDialog.PhetDevelopmentTeam" );
+    private static final String THIRD_PARTY_USAGE = PhetCommonResources.getString( "Common.About.CreditsDialog.UsesThirdPartySoftware" );
     private String projectName;
     private String phetLicenseString;
-
+    
     public DynamicCreditsDialog( Dialog owner, String projectName ) {
         super( owner, TITLE, true );
         this.projectName = projectName;
@@ -42,12 +44,12 @@ public class DynamicCreditsDialog extends JDialog {
 
 
         }
-        String html = "<b>" + PhetCommonResources.getString( "Common.About.CreditsDialog.PhetDevelopmentTeam" ) + "</b><br>\n" +
+        String html = "<b>" + PHET_DEV_TEAM + "</b><br>\n" +
                       "<br>\n" +
                       getCreditsSnippet() +
                       "<br>\n" +
                       "<br>\n" +
-                      "<b>" + PhetCommonResources.getString( "Common.About.CreditsDialog.UsesThirdPartySoftware" ) + "</b><br>\n" +
+                      "<b>" + THIRD_PARTY_USAGE + "</b><br>\n" +
                       "<br>\n" +
                       getLicenseSnippet();
 
