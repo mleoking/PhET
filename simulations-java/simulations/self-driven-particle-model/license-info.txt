@@ -1,1 +1,1 @@
-linear-regression description=http://www.cs.princeton.edu/introcs/97data/LinearRegression.java.html
+linear-regression name=Linear Regression description=Linear regression copyright=2004, Robert Sedgewick and Kevin Wayne website=http://www.cs.princeton.edu/introcs/97data/LinearRegression.java.html
