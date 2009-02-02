@@ -7,7 +7,7 @@ import java.io.File;
 import edu.colorado.phet.common.phetcommon.util.AbstractPropertiesFile;
 
 /**
- * Counts the number of times that a simulation has been run.
+ * Counts simulation sessions, the number of times a simulation is run.
  * Session counts are persistent, residing in .phet/session-counts.properties in the user's home directory.
  * This information is used by the statistics feature.
  *
@@ -28,6 +28,12 @@ public class SessionCounter {
         file = new SessionCountsFile();
     }
     
+    /**
+     * Initializes the singleton, making it specific to 1 simulation.
+     * @param project
+     * @param simulation
+     * @return
+     */
     public static SessionCounter initInstance( String project, String simulation ) {
         if ( instance != null ) {
             throw new RuntimeException( "SessionCounter is already initialized" );
@@ -88,10 +94,11 @@ public class SessionCounter {
     }
     
     /**
-     * Session counts are stored in a file in the persistence directory.
+     * This is the interface to the sessions-counts.properties file.
      */
     private static class SessionCountsFile extends AbstractPropertiesFile {
         
+        private static final String FILE_BASENAME = "session-counts.properties";
         private static final String FILE_HEADER = "DO NOT EDIT! - counts how many times simulations have been run";
         
         private static final String SUFFIX_COUNT = ".count";
@@ -109,13 +116,12 @@ public class SessionCounter {
         }
         
         public SessionCountsFile() {
-            super( new File( new PhetPersistenceDir(), "session-counts.properties" ) );
+            super( new File( new PhetPersistenceDir(), FILE_BASENAME ) );
             setHeader( FILE_HEADER );
         }
         
         /**
-         * Sets the count that is the total number of times 
-         * that a specified sim has ever been run.
+         * Total number of sessions ever for the specified sim.
          * @param project
          * @param simulation
          * @param count
@@ -125,8 +131,7 @@ public class SessionCounter {
         }
         
         /**
-         * Gets the count that is the total number of times 
-         * that a specified sim has ever been run.
+         * Total number of sessions ever for the specified sim.
          * @param project
          * @param simulation
          * @param count
@@ -136,9 +141,8 @@ public class SessionCounter {
         }
         
         /**
-         * Sets the count that is the number of times that a specified 
-         * sim has been run since it was last able to send statistics.
-         * This value includes the current invocation of the sim.
+         * Number of times the specified sim has been run since the last time
+         * it was able to successfully send statistics.
          * @param project
          * @param simulation
          * @param count
@@ -148,9 +152,8 @@ public class SessionCounter {
         }
         
         /**
-         * Gets the count that is the number of times that a specified 
-         * sim has been run since it was last able to send statistics.
-         * This value includes the current invocation of the sim.
+         * Number of times the specified sim has been run since the last time
+         * it was able to successfully send statistics.
          * @param project
          * @param simulation
          * @param count
@@ -160,8 +163,7 @@ public class SessionCounter {
         }
         
         /**
-         * Sets the count that is the number of times that all 
-         * sims have ever been run.
+         * Total number of sessions ever for all sims.
          * @param total
          */
         public void setTotal( int total ) {
@@ -169,8 +171,7 @@ public class SessionCounter {
         }
         
         /**
-         * Gets the count that is the number of times that all 
-         * sims have ever been run.
+         * Total number of sessions ever for all sims.
          */
         public int getTotal() {
             return getPropertyInt( KEY_TOTAL_COUNT, 0 );
