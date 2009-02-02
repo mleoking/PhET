@@ -48,7 +48,7 @@ public class XMLStatisticsService implements IStatisticsService {
         DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
         Document doc = docBuilder.newDocument();
 
-        Element root = doc.createElement( "tracking" );
+        Element root = doc.createElement( "statistics" );
         for (int i=0;i<message.getFieldCount();i++){
             root.setAttribute( message.getField(i ).getName(),message.getField( i ).getValue() );
         }
@@ -72,7 +72,7 @@ public class XMLStatisticsService implements IStatisticsService {
     }
 
     private String toXMLFromStringConcatenation( StatisticsMessage message ) {
-        String xml = "<tracking ";
+        String xml = "<statistics ";
         for ( int i = 0; i < message.getFieldCount(); i++ ) {
             xml += message.getField( i ).getName() + "=\"" + encode( message.getField( i ).getValue() + "\"" ) + " ";
         }
@@ -89,7 +89,7 @@ public class XMLStatisticsService implements IStatisticsService {
      * The URL points to a PHP script, with name/value pairs appended to the URL.
      */
     private String getStatisticsURL( StatisticsMessage message ) {
-        return "http://phet.colorado.edu/jolson/deploy/tracking/tracker.php";
+        return "http://phet.colorado.edu/statistics/submit_message.php";
     }
 
     public static void postXML( String url, String xml ) throws IOException {
@@ -119,7 +119,7 @@ public class XMLStatisticsService implements IStatisticsService {
 
 
     public static void main( String[] args ) throws IOException {
-        String URL_STRING = "http://phet.colorado.edu/jolson/deploy/tracking/tracker.php";
+        String URL_STRING = "http://phet.colorado.edu/statistics/submit_message.php";
         String XML_STRING = "<xml>hello stats1234</xml>";
         postXML( URL_STRING, XML_STRING );
     }
