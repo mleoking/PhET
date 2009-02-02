@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--test-project-strings_nl.xml created Sat Nov 15 15:03:12 GMT+01:00 2008 using: my-solar-system 1.00.00 (22386), translation-utility 1.08.00 (25822)-->
+<!--test-flash-project-strings_nl.xml created Sat Nov 15 15:03:12 GMT+01:00 2008 using: my-solar-system 1.00.00 (22386), translation-utility 1.08.00 (25822)-->
 <SimStrings>
 <string key="slingshot" value="zwieper"/>
 <string key="binaryStarPlanet" value="dubbelster, planeet"/>
