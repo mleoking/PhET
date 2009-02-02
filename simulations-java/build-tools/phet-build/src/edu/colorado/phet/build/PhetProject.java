@@ -4,6 +4,9 @@ import java.io.*;
 import java.util.*;
 
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.types.Path;
+import org.apache.tools.ant.types.FileSet;
+import org.apache.tools.ant.taskdefs.Java;
 
 import edu.colorado.phet.build.util.*;
 
@@ -546,7 +549,7 @@ public class PhetProject {
                 throw new BuildException( e );
             }
         }
-//        phetProjects.addAll( Arrays.asList( PhetFlashProject.getFlashProjects( baseDir ) ));
+        phetProjects.addAll( Arrays.asList( PhetFlashProject.getFlashProjects( baseDir ) ));
         return (PhetProject[]) phetProjects.toArray( new PhetProject[phetProjects.size()] );
     }
 
@@ -793,8 +796,84 @@ public class PhetProject {
         return new File( getDataDirectory(), "contrib-licenses" );
     }
 
-    public void build() throws Exception {
+    public boolean build() throws Exception {
         new PhetBuildCommand( this, new MyAntTaskRunner(), true, this.getDefaultDeployJar() ).execute();
+        File[] f = getDeployDir().listFiles( new FileFilter() {
+                public boolean accept( File pathname ) {
+                    return pathname.getName().toLowerCase().endsWith( ".jar" );
+                }
+            } );
+            return f.length ==1;//success if there is exactly one jar
+    }
+
+    public String getListDisplayName() {
+        return getName();
+    }
+
+    public void runSim( Locale locale, String simulationName ) {
+        Java java = new Java();
+
+            java.setClassname( getSimulation( simulationName ).getMainclass() );
+            java.setFork( true );
+            String args = "";
+            String[] a = getSimulation( simulationName ).getArgs();
+            for ( int i = 0; i < a.length; i++ ) {
+                String s = a[i];
+                args += s + " ";
+            }
+            java.setArgs( args );
+
+            org.apache.tools.ant.Project project = new org.apache.tools.ant.Project();
+            project.init();
+
+            Path classpath = new Path( project );
+            FileSet set = new FileSet();
+            set.setFile( getDefaultDeployJar() );
+            classpath.addFileset( set );
+            java.setClasspath( classpath );
+            if ( !locale.getLanguage().equals( "en" ) ) {
+                java.setJvmargs( "-Djavaws.user.language=" + locale );
+                java.setJvmargs( "-Djavaws.phet.locale=" + locale ); //XXX #1057, backward compatibility, delete after IOM
+            }
+
+            java.setArgs( "-dev" ); // program arg to run in developer mode
+
+            new MyAntTaskRunner().runTask( java );
+    }
+
+    public void buildLaunchFiles(String URL,boolean dev) {
+        System.out.println( "Building JNLP." );
+        buildJNLP( URL, dev );
+    }
+
+
+    public void buildJNLP( String codebase, boolean dev ) {
+        String[] simulationNames = getSimulationNames();
+        Locale[] locales = getLocales();
+        for ( int i = 0; i < locales.length; i++ ) {
+            Locale locale = locales[i];
+
+            for ( int j = 0; j < simulationNames.length; j++ ) {
+                String simulationName = simulationNames[j];
+                buildJNLP( locale, simulationName, codebase, dev );
+            }
+        }
+    }
+
+    public void buildJNLP( Locale locale, String simulationName, String codebase, boolean dev ) {
+        System.out.println( "Building JNLP for locale=" + locale.getLanguage() + ", simulation=" + simulationName );
+        PhetBuildJnlpTask j = new PhetBuildJnlpTask();
+        j.setDev( dev );
+        j.setDeployUrl( codebase );
+        j.setProject( getName() );
+        j.setLocale( locale.getLanguage() );
+        j.setSimulation( simulationName );
+        org.apache.tools.ant.Project project = new org.apache.tools.ant.Project();
+        project.setBaseDir( getAntBaseDir() );//todo: is this correct?
+        project.init();
+        j.setProject( project );
+        j.execute();
+        System.out.println( "Finished Building JNLP" );
     }
 
     public static interface Listener {
