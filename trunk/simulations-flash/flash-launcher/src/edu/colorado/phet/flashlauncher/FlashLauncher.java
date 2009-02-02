@@ -107,29 +107,29 @@ public class FlashLauncher {
         String bgcolor = readBackgroundColor( properties );
 
         // get the locale string
-        String locale = FlashHTML.localeString(language, country);
+        String locale = FlashHTML.localeString( language, country );
 
         // files where the simulation and common internationalization XML should be.
         // if they don't exist, replace with defaults
-        File simXMLFile = new File(unzipDir, simName + "-strings_" + locale + ".xml");
-        if(!simXMLFile.exists()) {
-            simXMLFile = new File(unzipDir, simName + "-strings_en.xml");
-            println("WARNING: could not find sim strings for " + locale + ", using default en.");
+        File simXMLFile = new File( unzipDir, simName + "-strings_" + locale + ".xml" );
+        if ( !simXMLFile.exists() ) {
+            simXMLFile = new File( unzipDir, simName + "-strings_en.xml" );
+            println( "WARNING: could not find sim strings for " + locale + ", using default en." );
         }
-        File commonXMLFile = new File(unzipDir, "common-strings_" + locale + ".xml");
-        if(!commonXMLFile.exists()) {
-            commonXMLFile = new File(unzipDir, "common-strings_en.xml");
-            println("WARNING: could not find common strings for " + locale + ", using default en.");
+        File commonXMLFile = new File( unzipDir, "common-strings_" + locale + ".xml" );
+        if ( !commonXMLFile.exists() ) {
+            commonXMLFile = new File( unzipDir, "common-strings_en.xml" );
+            println( "WARNING: could not find common strings for " + locale + ", using default en." );
         }
 
         // encoded XML for sim and common strings
-        String simEncodedXML = FlashHTML.encodeXML(FlashHTML.rawFile(simXMLFile));
-        String commonEncodedXML = FlashHTML.encodeXML(FlashHTML.rawFile(commonXMLFile));
+        String simEncodedXML = FlashHTML.encodeXMLFile( simXMLFile );
+        String commonEncodedXML = FlashHTML.encodeXMLFile( commonXMLFile );
 
         // dynamically generate an HTML file
         String html = FlashHTML.generateHTML( simName, language, country, deployment, distributionTag, installTimestamp,
                 installerCreationTimestamp, versionMajor, versionMinor, versionDev, versionRevision, bgcolor,
-                simEncodedXML, commonEncodedXML, "8");
+                simEncodedXML, commonEncodedXML, "8" );
         File htmlFile = new File( unzipDir, simName + "_" + language + ".html" );
         FileOutputStream outputStream = new FileOutputStream( htmlFile );
         outputStream.write( html.getBytes() );
