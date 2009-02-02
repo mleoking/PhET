@@ -1,8 +1,6 @@
 package edu.colorado.phet.common.phetcommon.dialogs;
 
-import java.awt.BorderLayout;
-import java.awt.Dialog;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -11,6 +9,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
+import java.text.MessageFormat;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
@@ -39,12 +38,12 @@ public class DynamicCreditsDialog extends JDialog {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        String html = "<b>PhET development team:</b><br>\n" +
+        String html = "<b>" + PhetCommonResources.getString( "Common.About.CreditsDialog.PhetDevelopmentTeam" ) + "</b><br>\n" +
                       "<br>\n" +
                       getCreditsSnippet() +
                       "<br>\n" +
                       "<br>\n" +
-                      "<b>This program uses the following third-party software:</b><br>\n" +
+                      "<b>" + PhetCommonResources.getString( "Common.About.CreditsDialog.UsesThirdPartySoftware" ) + "</b><br>\n" +
                       "<br>\n" +
                       getLicenseSnippet();
 
@@ -95,7 +94,7 @@ public class DynamicCreditsDialog extends JDialog {
     private void displayLicenseForID( String id ) {
         String licenseText = getLicenseText( id );
         if ( !licenseText.trim().startsWith( "<html" ) ) {
-            licenseText=HTMLUtils.createStyledHTMLFromFragment( licenseText );
+            licenseText = HTMLUtils.createStyledHTMLFromFragment( licenseText );
             licenseText = licenseText.replaceAll( "\\n", "<br>" );
         }
 
@@ -139,13 +138,15 @@ public class DynamicCreditsDialog extends JDialog {
         for ( Iterator iterator = keys.iterator(); iterator.hasNext(); ) {
             String key = (String) iterator.next();
             String value = (String) map.get( key );
-            credits += translate( key ) + ": " + value + "<br>";
+            credits += translate( key, value ) + "<br>";
         }
         return credits;
     }
 
-    private String translate( String key ) {
-        return PhetCommonResources.getString( "Common.About.CreditsDialog." + key );
+    private String translate( String key, String value ) {
+        String pattern = PhetCommonResources.getString( "Common.About.CreditsDialog." + key );
+        MessageFormat m=new MessageFormat( pattern);
+        return m.format( new Object[]{value});
     }
 
     public String getLicenseText( String id ) {
@@ -171,10 +172,10 @@ public class DynamicCreditsDialog extends JDialog {
         DynamicCreditsDialog dialog = new DynamicCreditsDialog( new JDialog(), "bound-states" );
         SwingUtils.centerWindowOnScreen( dialog );
         dialog.addWindowListener( new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
+            public void windowClosing( WindowEvent e ) {
                 System.exit( 0 );
             }
-        });
+        } );
         dialog.setVisible( true );
     }
 }
