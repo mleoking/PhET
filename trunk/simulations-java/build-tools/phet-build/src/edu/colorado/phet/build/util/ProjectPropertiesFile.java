@@ -67,7 +67,7 @@ public class ProjectPropertiesFile extends AbstractPropertiesFile {
     }
     
     public void setSVNVersion( int value ) {
-        setProperty( KEY_VERSION_REVISION, String.valueOf( value ) );
+        setProperty( KEY_VERSION_REVISION, value );
     }
     
     public int getSVNVersion() {
@@ -75,7 +75,7 @@ public class ProjectPropertiesFile extends AbstractPropertiesFile {
     }
     
     public void setVersionTimestamp( int value ) {
-        setProperty( KEY_VERSION_TIMESTAMP, String.valueOf( value ) );
+        setProperty( KEY_VERSION_TIMESTAMP, value );
     }
     
     public int getVersionTimestamp() {

@@ -18,6 +18,7 @@ public class AbstractPropertiesFile {
     
     private final File propertiesFile;
     private final Properties properties;
+    private String header;
 
     public AbstractPropertiesFile( String filename ) {
         this( new File( filename ) );
@@ -26,6 +27,7 @@ public class AbstractPropertiesFile {
     public AbstractPropertiesFile( File file ) {
         this.propertiesFile = file;
         this.properties = loadProperties( file );
+        this.header = null;
     }
 
     /*
@@ -45,6 +47,15 @@ public class AbstractPropertiesFile {
     }
     
     /**
+     * Sets the header in the properties file.
+     * @param header
+     */
+    public void setHeader( String header ) {
+        this.header = header;
+        store();
+    }
+    
+    /**
      * Does this properties file exist?
      * @return
      */
@@ -61,6 +72,18 @@ public class AbstractPropertiesFile {
     }
     
     /*
+     * Store the properties to the file.
+     */
+    private void store() {
+        try {
+            properties.store( new FileOutputStream( propertiesFile ), header );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+    }
+    
+    /*
      * Setting a property stores it immediately.
      * <p>
      * This method is protected because subclasses should not expose key values,
@@ -71,12 +94,11 @@ public class AbstractPropertiesFile {
      */
     protected void setProperty( String key, String value ) {
         properties.setProperty( key, value );
-        try {
-            properties.store( new FileOutputStream( propertiesFile ), null );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        store();
+    }
+    
+    protected void setProperty( String key, int value ) {
+        properties.setProperty( key, String.valueOf( value ) );
     }
     
     /*
