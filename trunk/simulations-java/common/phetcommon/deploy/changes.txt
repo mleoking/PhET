@@ -1,3 +1,4 @@
+2-2-09: #1130, rewrite SessionsCounter, add sim_sessions_since support
 1-28-09: #1087, add detection of phet dev, phet prod, other website to deployment scenarios
 1-28-09: #1087, add additional FileUtils, fix getCodeSource
 1-27-09: #1087, use singleton and Java 1.4 typesafe enum patterns to reimplement deployment scenario

@@ -8,7 +8,6 @@ import javax.swing.SwingUtilities;
 import edu.colorado.phet.common.phetcommon.statistics.SessionMessage;
 import edu.colorado.phet.common.phetcommon.statistics.StatisticsManager;
 import edu.colorado.phet.common.phetcommon.updates.UpdatesManager;
-import edu.colorado.phet.common.phetcommon.util.DeploymentScenario;
 
 /**
  * This launcher solves the following problems:
@@ -102,7 +101,7 @@ public class PhetApplicationLauncher {
                     
                     config.getLookAndFeel().initLookAndFeel();
                     if ( applicationConstructor != null ) {
-
+                        
                         showSplashWindow( config.getName() );
                         PhetApplication app = applicationConstructor.getApplication( config );
                         app.startApplication();
@@ -115,9 +114,12 @@ public class PhetApplicationLauncher {
                         long applicationLaunchFinishedAt = System.currentTimeMillis();
                         config.setApplicationLaunchFinishedAt( applicationLaunchFinishedAt );
 
+                        SessionCounter.initInstance( config.getProjectName(), config.getFlavor() );
+                        SessionCounter.getInstance().incrementCounts();
                         StatisticsManager.initInstance( config );
                         if ( StatisticsManager.isStatisticsEnabled() ) {
                             StatisticsManager.postMessage( new SessionMessage( config ) );
+                            SessionCounter.getInstance().resetCountSince();
                         }
                         UpdatesManager.initInstance( config ).applicationStarted( app.getPhetFrame(), app.getStatistics() );//todo: due to threading, sometimes this event arrives at server first
                     }
