@@ -290,7 +290,7 @@ public class BuildScript {
 
     public boolean build() {
         try {
-            new PhetBuildCommand( project, new MyAntTaskRunner(), true, project.getDefaultDeployJar() ).execute();
+            project.build();
             System.out.println( "**** Finished BuildScript.build" );
 
             File[] f = project.getDeployDir().listFiles( new FileFilter() {

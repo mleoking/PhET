@@ -22,7 +22,8 @@ public class PhetFlashProject extends PhetProject{
         super( parentDir, name );
     }
     public static PhetProject[]getFlashProjects(File baseDir){
-        File flashSimDir=new File(baseDir.getParentFile(),"team/jolson/simulations");
+//        File flashSimDir=new File(baseDir.getParentFile(),"team/jolson/simulations");
+        File flashSimDir=new File(baseDir.getParentFile(),"simulations-flash/simulations");
         File[]files=flashSimDir.listFiles( new FileFilter() {
             public boolean accept( File pathname ) {
                 return pathname.isDirectory()&&!pathname.getName().startsWith( "." );
@@ -39,5 +40,10 @@ public class PhetFlashProject extends PhetProject{
             }
         }
         return (PhetFlashProject[]) projects.toArray( new PhetFlashProject[0] );
+    }
+
+    public void build() throws Exception {
+//        super.build();
+        System.out.println( "Flash build not implemented yet" );
     }
 }

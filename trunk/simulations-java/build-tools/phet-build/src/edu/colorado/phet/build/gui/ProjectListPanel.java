@@ -157,11 +157,7 @@ public class ProjectListPanel extends JPanel {
 
     private ProjectListElement[] getProjectListElements() {
         PhetProject[] a = PhetProject.getAllProjects( baseDir );
-        PhetProjectAdapter[] b = PhetProjectAdapter.convertToMyPhetProjecets( a, baseDir );
-        for ( int i = 0; i < a.length; i++ ) {
-            b[i].setAntBaseDir( baseDir );
-        }
-        return toListElements( b );
+        return toListElements( a);
     }
 
     private void saveNewProjectSelection() {
