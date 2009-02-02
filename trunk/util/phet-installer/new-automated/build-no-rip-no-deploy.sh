@@ -27,6 +27,16 @@ else
    exit 1
 fi
 
+echo "Updating the marker file..."
+
+/usr/local/php/bin/php build-install.php --create-marker-file
+
+if [ "$?" -ne "0" ]; then
+  echo "Error creating marker file, aborting."
+  exit 1
+fi
+
+
 echo "Building all installers..."
 
 /usr/local/php/bin/php build-install.php --build-all
