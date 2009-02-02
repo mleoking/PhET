@@ -528,7 +528,6 @@ public class PhetProject {
         return (String[]) sims.toArray( new String[0] );
     }
 
-
     private static boolean isSimulation( File simulation ) {
         return simulation.isDirectory() && !simulation.getName().equalsIgnoreCase( "all-sims" ) && !simulation.getName().equalsIgnoreCase( ".svn" ) && new File( simulation, simulation.getName() + "-build.properties" ).exists();
     }
@@ -547,7 +546,8 @@ public class PhetProject {
                 throw new BuildException( e );
             }
         }
-        return (PhetProject[]) phetProjects.toArray( new PhetProject[0] );
+//        phetProjects.addAll( Arrays.asList( PhetFlashProject.getFlashProjects( baseDir ) ));
+        return (PhetProject[]) phetProjects.toArray( new PhetProject[phetProjects.size()] );
     }
 
     public String getDeployedSimulationJarURL() {
@@ -791,6 +791,10 @@ public class PhetProject {
 
     public File getContribLicenseDir() {
         return new File( getDataDirectory(), "contrib-licenses" );
+    }
+
+    public void build() throws Exception {
+        new PhetBuildCommand( this, new MyAntTaskRunner(), true, this.getDefaultDeployJar() ).execute();
     }
 
     public static interface Listener {
