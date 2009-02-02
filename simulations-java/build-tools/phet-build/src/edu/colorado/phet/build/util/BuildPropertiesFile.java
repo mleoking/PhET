@@ -5,14 +5,14 @@ import java.util.Enumeration;
 import java.util.StringTokenizer;
 
 import edu.colorado.phet.build.PhetProject;
-import edu.colorado.phet.common.phetcommon.util.PropertiesFile;
+import edu.colorado.phet.common.phetcommon.util.AbstractPropertiesFile;
 
 /**
  * Abstraction of the project build properties files (eg, faraday-build.properties).
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BuildPropertiesFile extends PropertiesFile {
+public class BuildPropertiesFile extends AbstractPropertiesFile {
 
     private final PhetProject project;
 
