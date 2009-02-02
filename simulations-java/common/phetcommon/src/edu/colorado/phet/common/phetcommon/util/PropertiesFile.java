@@ -1,4 +1,4 @@
-package edu.colorado.phet.build.util;
+package edu.colorado.phet.common.phetcommon.util;
 
 import java.io.*;
 import java.util.Enumeration;

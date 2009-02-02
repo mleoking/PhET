@@ -43,20 +43,30 @@
 
     <!-- structure of the PhET codebase.-->
     <property name="dir.build-tools" value="${basedir}/build-tools"/>
+	<property name="dir.common" value="${basedir}/common"/>
+	<property name="dir.contrib" value="${basedir}/contrib"/>
 
     <!-- structure of the codebase for PhET's custom Ant task -->
     <property name="ant-output" location="ant_output"/>
     <property name="phetbuild-classes-dir" location="${ant-output}/phetbuild/classes"/>
+	
+	<!-- src dependencies -->
+    <property name="phetbuild-src" location="${dir.build-tools}/phet-build/src"/>
+	<property name="phetcommon-src" location="${dir.common}/phetcommon/src"/>
+		
+	<!-- jar dependencies -->
     <property name="proguard.jar" location="${dir.build-tools}/proguard/lib/proguard.jar"/>
+    <property name="apache.commons.lang.jar" location="${dir.build-tools}/commons-lang/commons-lang.jar"/>
     <property name="jsch.jar" location="${dir.build-tools}/jsch/jsch.jar"/>
     <property name="scala-compiler.jar" location="${dir.build-tools}/scala/scala-compiler.jar"/>
     <property name="scala-library.jar" location="${dir.build-tools}/scala/scala-library.jar"/>
-    <property name="apache.commons.lang.jar" location="${dir.build-tools}/commons-lang/commons-lang.jar"/>
-    <property name="phetbuild-src" location="${dir.build-tools}/phet-build/src"/>
+	<property name="junit.jar" location="${dir.contrib}/junit/junit.jar"/>
+	<property name="jnlp.jar" location="${dir.contrib}/javaws/jnlp.jar"/>
 
     <!-- PhET task implementations -->
-    <property name="phetbuild-classpath" value="${phetbuild-classes-dir};${proguard.jar};${apache.commons.lang.jar};${jsch.jar};${scala-compiler.jar};${scala-library.jar}"/>
     <property name="phet-build-gui-classname" value="edu.colorado.phet.build.gui.PhetBuildGUITask"/>
+	<property name="phetbuild-classpath-jars" value="${proguard.jar}:${apache.commons.lang.jar}:${jsch.jar}:${scala-compiler.jar}:${scala-library.jar}:${junit.jar}:${jnlp.jar}"/>
+    <property name="phetbuild-classpath" value="${phetbuild-classes-dir}:${phetbuild-classpath-jars}"/>
 
     <!-- =================================================================== -->
     <!-- Internal targets, do NOT call directly                              -->
@@ -71,9 +81,9 @@
     <target name="_compile-phet-build">
         <mkdir dir="${phetbuild-classes-dir}"/>
 
-        <javac srcdir="${phetbuild-src}:${dir.build-tools}/securechannelfacade/src/main/java"
+        <javac srcdir="${phetbuild-src}:${phetcommon-src}:${dir.build-tools}/securechannelfacade/src/main/java"
                destdir="${phetbuild-classes-dir}"
-               classpath="${proguard.jar}:${apache.commons.lang.jar}:${jsch.jar}:${scala-compiler.jar}:${scala-library.jar}" debug="true"
+               classpath="${phetbuild-classpath-jars}" debug="true"
                source="1.4"
                debuglevel="lines,source">
             <src path="${phetbuild-src}"/>
