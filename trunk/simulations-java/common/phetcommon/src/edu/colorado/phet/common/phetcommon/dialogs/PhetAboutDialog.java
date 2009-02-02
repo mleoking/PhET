@@ -50,6 +50,7 @@ public class PhetAboutDialog extends JDialog {
     private static final String OK_BUTTON = PhetCommonResources.getString( "Common.About.OKButton" );
 
     private String titleString, descriptionString, versionString, creditsString;
+    private ISimInfo config;
 
     /**
      * Constructs the dialog.
@@ -70,6 +71,7 @@ public class PhetAboutDialog extends JDialog {
     protected PhetAboutDialog( Frame owner, ISimInfo config ) {
         super( owner );
         setResizable( false );
+        this.config=config;
 
         titleString = config.getName();
         descriptionString = config.getDescription();
@@ -242,6 +244,6 @@ public class PhetAboutDialog extends JDialog {
      */
     protected void showCredits() {
         new CreditsDialog( this, creditsString ).setVisible( true );
-//        new DynamicCreditsDialog( this).setVisible( true );
+//        new DynamicCreditsDialog( this,config.getProjectName() ).setVisible( true );
     }
 }
