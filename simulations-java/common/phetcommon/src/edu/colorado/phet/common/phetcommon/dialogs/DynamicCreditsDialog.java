@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 public class DynamicCreditsDialog extends JDialog {
     // preferred size for the scrollpane, change this to affect initial dialog size
-    private static final Dimension SCROLLPANE_SIZE = new Dimension( 440, 300 );
+    private static final Dimension SCROLLPANE_SIZE = new Dimension( 525, 300 );
 
     private static final String TITLE = PhetCommonResources.getString( "Common.About.CreditsDialog.Title" );
     private static final String OK_BUTTON = PhetCommonResources.getString( "Common.About.OKButton" );
