@@ -423,6 +423,6 @@
 	}
 	
 	function report_table($desc, $args) {
-		return "{$desc} [<a href='query-table?{$args}'>table</a>] [<a href='query-csv?{$args}'>csv</a>]<br />";
+		return "{$desc} [<a href='query-table.php?{$args}'>table</a>] [<a href='query-csv.php?{$args}'>csv</a>]<br />";
 	}
 ?>
