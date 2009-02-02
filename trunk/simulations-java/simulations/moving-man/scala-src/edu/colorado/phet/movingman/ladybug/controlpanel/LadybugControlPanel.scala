@@ -93,7 +93,7 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
       , m.fadeVisible,
       m.addListener)
 
-        contents += new MyRadioButton("Fade/Invisible", {
+    contents += new MyRadioButton("Fade/Invisible", {
       m.allOff()
       m.fadeFullVisible = true
     }

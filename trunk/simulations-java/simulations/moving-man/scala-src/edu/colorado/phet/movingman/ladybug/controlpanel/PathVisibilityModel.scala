@@ -13,6 +13,7 @@ class PathVisibilityModel extends ObservableS {
   def dotsVisible: Boolean = _dotsVisible
 
   def fadeVisible: Boolean = _fadeVisible
+
   def fadeFullVisible: Boolean = _fadeFullVisible
 
   def lineVisible_=(x: Boolean) = {
@@ -24,7 +25,7 @@ class PathVisibilityModel extends ObservableS {
     lineVisible = false
     dotsVisible = false
     fadeVisible = false
-    fadeFullVisible= false
+    fadeFullVisible = false
   }
 
   def dotsVisible_=(x: Boolean) = {
@@ -36,7 +37,8 @@ class PathVisibilityModel extends ObservableS {
     _fadeVisible = x
     notifyListeners
   }
-    def fadeFullVisible_=(x: Boolean) = {
+
+  def fadeFullVisible_=(x: Boolean) = {
     _fadeFullVisible = x
     notifyListeners
   }
@@ -45,6 +47,6 @@ class PathVisibilityModel extends ObservableS {
     lineVisible = false
     dotsVisible = false
     fadeVisible = true
-    fadeFullVisible=false
+    fadeFullVisible = false
   }
 }

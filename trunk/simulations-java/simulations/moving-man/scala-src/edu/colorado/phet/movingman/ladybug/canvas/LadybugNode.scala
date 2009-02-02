@@ -49,11 +49,11 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
       model.addSamplePoint(loc)
   })
 
-  model.motion2DModelResetListeners+=(()=>{
+  model.motion2DModelResetListeners += (() => {
     println("motion reset")
-    loc=null
+    loc = null
   })
-  
+
   val inputHandler = new PBasicInputEventHandler() {
     override def mouseDragged(event: PInputEvent) = {
       model.startRecording()
@@ -78,7 +78,7 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
     }
 
     override def mouseExited(event: PInputEvent) = {
-      loc=null
+      loc = null
     }
   }
   addInputEventListener(new ToggleListener(inputHandler, () => interactive))

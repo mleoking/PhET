@@ -57,7 +57,7 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
     var dragging = false
 
     def updateArrow = {
-      val doUpdate=(!dragging && (RemoteControl.this._mode eq this) && LadybugDefaults.remoteIsIndicator)
+      val doUpdate = (!dragging && (RemoteControl.this._mode eq this) && LadybugDefaults.remoteIsIndicator)
       if (doUpdate) {
         _mode.arrowNode.setTipAndTailLocations(_mode.transform.modelToView(getter(model.ladybug)), _mode.transform.modelToView(new Point2D.Double(0, 0)))
       }
