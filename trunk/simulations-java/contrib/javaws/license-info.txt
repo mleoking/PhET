@@ -1,1 +1,1 @@
-javaws license=Sun Binary Code License (later bundled into Java 1.5...?) notes=What is MPL-1.1.html in this directory for? licensefile=license.txt 
+javaws license=Sun Binary Code License (later bundled into Java 1.5...?) notes=What is MPL-1.1.html in this directory for? licensefile=license.txt name=JNLP API description=Java Web Start API copyright=Sun Microsystems website=http://java.sun.com/javase/technologies/desktop/javawebstart/download-jnlp.html 
