@@ -31,6 +31,15 @@ if [ "$?" -ne "0" ]; then
   exit 1
 fi
 
+echo "Removing old web site..."
+
+/usr/local/php/bin/php build-install.php --remove-website-copy
+
+if [ "$?" -ne "0" ]; then
+  echo "Error removing old web site."
+  exit 1
+fi
+
 echo "Ripping the web site..."
 
 /usr/local/php/bin/php build-install.php --rip-website
@@ -51,10 +60,28 @@ fi
 
 echo "Performing macro substitutions..."
 
-/usr/local/php/bin/php build-install.php --perform-macro-substitutions"
+/usr/local/php/bin/php build-install.php --perform-macro-substitutions
 
 if [ "$?" -ne "0" ]; then
   echo "Error performing macro substitutions"
+  exit 1
+fi
+
+echo "Creating marker file..."
+
+/usr/local/php/bin/php build-install.php --create-maker-file
+
+if [ "$?" -ne "0" ]; then
+  echo "Error creating marker file"
+  exit 1
+fi
+
+echo "Inserting creation time stamps..."
+
+/usr/local/php/bin/php build-install.php --insert-installer-creation-time
+
+if [ "$?" -ne "0" ]; then
+  echo "Error inserting creation timestamps."
   exit 1
 fi
 
