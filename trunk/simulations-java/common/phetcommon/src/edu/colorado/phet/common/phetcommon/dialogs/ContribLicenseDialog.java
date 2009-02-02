@@ -2,14 +2,14 @@
 
 package edu.colorado.phet.common.phetcommon.dialogs;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dialog;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.resources.DefaultResourceLoader;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -55,7 +55,6 @@ public class ContribLicenseDialog extends JDialog {
         panel.add( scrollPane, BorderLayout.CENTER );
         panel.add( buttonPanel, BorderLayout.SOUTH );
         setContentPane( panel );
-//        setSize( 440,400 );//todo: this shouldn't be hard coded, but I had trouble getting Swing to do something reasonable
         pack();
         SwingUtils.centerDialogInParent( this );
         htmlPane.setCaretPosition( 0 );
