@@ -47,7 +47,6 @@ public class PhetApplicationConfig implements IStatistics, ISimInfo {
     private final String[] commandLineArgs;
     private final String flavor;
     private final PhetResources resourceLoader;
-    private final SessionCounter sessionCounter;
 
     // mutable
     private FrameSetup frameSetup;
@@ -81,7 +80,6 @@ public class PhetApplicationConfig implements IStatistics, ISimInfo {
         this.resourceLoader = new PhetResources( project );
         this.frameSetup = DEFAULT_FRAME_SETUP;
         this.phetLookAndFeel = new PhetLookAndFeel();
-        this.sessionCounter = SessionCounter.initInstance( project, flavor );
     }
 
     //----------------------------------------------------------------------------
@@ -122,34 +120,6 @@ public class PhetApplicationConfig implements IStatistics, ISimInfo {
 
     public String getProjectName() {
         return resourceLoader.getProjectName();
-    }
-    
-    /**
-     * Gets the number of times that the simulation has been run,
-     * including the current invocation.
-     * This will be zero if the sim is running in an environment 
-     * where access to the local file system is denied.
-     * 
-     * @return int, possibly zero
-     */
-    public int getTotalSessionCountForThisSim() {
-        return sessionCounter.getCount();
-    }
-    
-    public int getSessionCountSinceLastTimeStatisticsWereSent() {
-        return 0; //TODO implement this, see #1130
-    }
-    
-    /**
-     * Gets the total number of times that all simulations have been run,
-     * including the current invocation.
-     * This will be zero if the sim is running in an environment 
-     * where access to the local file system is denied.
-     * 
-     * @return int, possibly zero
-     */
-    public int getTotalSessionCountForAllSims() {
-        return sessionCounter.getTotal();
     }
 
     public boolean isPreferencesEnabled() {

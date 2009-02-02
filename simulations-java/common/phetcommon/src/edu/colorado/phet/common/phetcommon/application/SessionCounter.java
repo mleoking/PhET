@@ -1,23 +1,15 @@
-/* Copyright 2008, University of Colorado */
+/* Copyright 2008-2009, University of Colorado */
 
 package edu.colorado.phet.common.phetcommon.application;
 
-import java.io.*;
-import java.security.AccessControlException;
-import java.util.Iterator;
-import java.util.Properties;
-import java.util.Set;
+import java.io.File;
+
+import edu.colorado.phet.common.phetcommon.util.AbstractPropertiesFile;
 
 /**
  * Counts the number of times that a simulation has been run.
  * Session counts are persistent, residing in .phet/session-counts.properties in the user's home directory.
- * <p>
- * The format of entries is this file is project.flavor=integer, for example:
- * 
- * <code>
- * faraday.faraday=5
- * faraday.magnet-and-compass=2
- * </code>
+ * This information is used by the statistics feature.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -26,166 +18,162 @@ public class SessionCounter {
     /* singleton */
     private static SessionCounter instance;
     
-    private final int count; // number of sessions for the specified sim
-    private final int total; // number of sessions for all sims
+    private final String project, simulation;
+    private final SessionCountsFile file;
     
     /* singleton */
-    private SessionCounter( String project, String flavor ) {
-        count = incrementCount( project, flavor );
-        total = countAllSims();
+    private SessionCounter( String project, String simulation ) {
+        this.project = project;
+        this.simulation = simulation;
+        file = new SessionCountsFile();
     }
     
-    /**
-     * Initializes and returns the singleton instance.
-     * 
-     * @param project
-     * @param flavor
-     * @return
-     */
-    public static SessionCounter initInstance( String project, String flavor ) {
+    public static SessionCounter initInstance( String project, String simulation ) {
         if ( instance != null ) {
             throw new RuntimeException( "SessionCounter is already initialized" );
         }
         else {
-            instance = new SessionCounter( project, flavor );
+            instance = new SessionCounter( project, simulation );
         }
         return instance;
     }
     
-    /**
-     * Gets the singleton instance.
-     * 
-     * @return
-     */
     public static SessionCounter getInstance() {
         return instance;
     }
     
     /**
-     * Gets the number of times that a session has been started for this sim.
-     * Zero if the runtime environment doesn't allow us to count.
+     * Increments the counts for this sim, and the running total.
+     */
+    public void incrementCounts() {
+        file.setCount( project, simulation, file.getCount( project, simulation ) + 1 );
+        file.setCountSince( project, simulation, file.getCountSince( project, simulation ) + 1 );
+        file.setTotal( getTotal() + 1 );
+    }
+    
+    /**
+     * Resets the counts related to when the sim was last able to send statistics.
+     * This should be called after successfully sending a "session" message to PhET.
+     */
+    public void resetCountSince() {
+        file.setCountSince( project, simulation, 0 );
+    }
+    
+    /**
+     * Gets the number of sessions ever for this sim.
      * 
      * @return
      */
     public int getCount() {
-        return count;
+        return file.getCount( project, simulation );
     }
    
     /**
-     * Gets the total number of times that all sims have been started.
-     * Zero if the runtime environment doesn't allow us to count.
+     * Gets the total number of sessions ever for all sims.
      * 
      * @return
      */
     public int getTotal() {
-        return total;
+        return file.getTotal();
     }
     
-    /*
-     * Increments the session count for the specified sim.
-     * Reads the existing count, increments by 1, and writes the count.
+    /**
+     * Gets the number of times that the sim has been started 
+     * since the last time that it sent statistics.
      * 
-     * @param project
-     * @param flavor
-     * @return the updated count, zero if the count could not be read/written
+     * @return
      */
-    private static int incrementCount( String project, String flavor ) {
-        int newCount = 0;
-        try {
-            String key = getSessionCountKey( project, flavor );
-            
-            SessionCountsFile file = new SessionCountsFile();
-
-            // read the previous count
-            Properties p = file.readCounts();
-            String s = p.getProperty( key );
-            int previousCount = 0;
-            if ( s != null ) {
-                try {
-                    previousCount = Integer.valueOf( s ).intValue();
-                }
-                catch ( NumberFormatException e ) {
-                    e.printStackTrace();
-                }
-            }
-
-            // increment
-            newCount = previousCount + 1;
-
-            // write the new count
-            p.setProperty( key, String.valueOf( newCount ) );
-            file.writeCounts( p );
-        }
-        catch ( AccessControlException accessControlException ) {
-            System.out.println( "SessionCounter.incrementCount: access to local filesystem denied" );
-            newCount = 0;
-        }
-        catch ( IOException e ) {
-            e.printStackTrace();
-            newCount = 0;
-        }
-        return newCount;
-    }
-    
-    private static int countAllSims() {
-        int total = 0;
-        try {
-            SessionCountsFile file = new SessionCountsFile();
-            Properties p = file.readCounts();
-            Set keySet = p.keySet();
-            Iterator i = keySet.iterator();
-            while ( i.hasNext() ) {
-                String value = p.getProperty( (String)i.next() );
-                try {
-                    Integer count = new Integer( value );
-                    total += count.intValue();
-                }
-                catch ( NumberFormatException e ) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        catch ( AccessControlException accessControlException ) {
-            System.out.println( "SessionCounter.countAllSims: access to local filesystem denied" );
-            total = 0;
-        }
-        catch ( IOException e ) {
-            e.printStackTrace();
-            total = 0;
-        }
-        return total;
-    }
-    
-    private static String getSessionCountKey( String project, String flavor ) {
-        return project + "." + flavor;
+    public int getCountSince() {
+        return file.getCountSince( project, simulation );
     }
     
     /**
      * Session counts are stored in a file in the persistence directory.
      */
-    private static class SessionCountsFile extends File {
+    private static class SessionCountsFile extends AbstractPropertiesFile {
         
-        private static final String SESSION_COUNTS_HEADER = "DO NOT EDIT! - counts how many times simulations have been run";
-
+        private static final String FILE_HEADER = "DO NOT EDIT! - counts how many times simulations have been run";
+        
+        private static final String SUFFIX_COUNT = ".count";
+        private static final String SUFFIX_SINCE = ".since";
+        private static final String KEY_TOTAL_COUNT = "total" + SUFFIX_COUNT;
+        
+        // eg, faraday.magnet-and-compass.count
+        private static String getCountKey( String project, String simulation ) {
+            return project + "." + simulation + SUFFIX_COUNT;
+        }
+        
+        // eg, faraday.magnet-and-compass.since
+        private static String getSinceKey( String project, String simulation ) {
+            return project + "." + simulation + SUFFIX_SINCE;
+        }
+        
+        public SessionCountsFile() {
+            super( new File( new PhetPersistenceDir(), "session-counts.properties" ) );
+            setHeader( FILE_HEADER );
+        }
+        
         /**
-         * @throws AccessControlException 
+         * Sets the count that is the total number of times 
+         * that a specified sim has ever been run.
+         * @param project
+         * @param simulation
+         * @param count
          */
-        public SessionCountsFile() throws AccessControlException {
-            super( new PhetPersistenceDir(), "session-counts.properties" );
-        }
-
-        public Properties readCounts() throws IOException {
-            Properties p = new Properties();
-            if ( exists() ) {
-                p.load( new FileInputStream( this ) );
-            }
-            return p;
+        public void setCount( String project, String simulation, int count ) {
+            setProperty( getCountKey( project, simulation ), count );
         }
         
-        public void writeCounts( Properties p ) throws IOException {
-            getParentFile().mkdirs();
-            OutputStream outStream = new FileOutputStream( this );
-            p.store( outStream, SESSION_COUNTS_HEADER );
+        /**
+         * Gets the count that is the total number of times 
+         * that a specified sim has ever been run.
+         * @param project
+         * @param simulation
+         * @param count
+         */
+        public int getCount( String project, String simulation ) {
+            return getPropertyInt( getCountKey( project, simulation ), 0 );
+        }
+        
+        /**
+         * Sets the count that is the number of times that a specified 
+         * sim has been run since it was last able to send statistics.
+         * This value includes the current invocation of the sim.
+         * @param project
+         * @param simulation
+         * @param count
+         */
+        public void setCountSince( String project, String simulation, int count ) {
+            setProperty( getSinceKey( project, simulation ), count );
+        }
+        
+        /**
+         * Gets the count that is the number of times that a specified 
+         * sim has been run since it was last able to send statistics.
+         * This value includes the current invocation of the sim.
+         * @param project
+         * @param simulation
+         * @param count
+         */
+        public int getCountSince( String project, String simulation ) {
+            return getPropertyInt( getSinceKey( project, simulation ), 0 );
+        }
+        
+        /**
+         * Sets the count that is the number of times that all 
+         * sims have ever been run.
+         * @param total
+         */
+        public void setTotal( int total ) {
+            setProperty( KEY_TOTAL_COUNT, total );
+        }
+        
+        /**
+         * Gets the count that is the number of times that all 
+         * sims have ever been run.
+         */
+        public int getTotal() {
+            return getPropertyInt( KEY_TOTAL_COUNT, 0 );
         }
     }
 }

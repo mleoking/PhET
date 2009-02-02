@@ -3,6 +3,7 @@ package edu.colorado.phet.common.phetcommon.statistics;
 import java.util.Date;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.SessionCounter;
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.util.DeploymentScenario;
@@ -31,8 +32,8 @@ public class SessionMessage extends StatisticsMessage {
                 // Sim data
                 new StatisticsMessageField( "sim_project", config.getProjectName() ),
                 new StatisticsMessageField( "sim_name", config.getFlavor() ),
-                new StatisticsMessageField( "sim_sessions_ever", config.getTotalSessionCountForThisSim() ),
-                new StatisticsMessageField( "sim_sessions_since", config.getSessionCountSinceLastTimeStatisticsWereSent() ),
+                new StatisticsMessageField( "sim_sessions_ever", SessionCounter.getInstance().getCount() ),
+                new StatisticsMessageField( "sim_sessions_since", SessionCounter.getInstance().getCountSince() ),
                 new StatisticsMessageField( "sim_major_version", config.getVersion().getMajor() ),
                 new StatisticsMessageField( "sim_minor_version", config.getVersion().getMinor() ),
                 new StatisticsMessageField( "sim_dev_version", config.getVersion().getDev() ),
@@ -58,7 +59,7 @@ public class SessionMessage extends StatisticsMessage {
                 
                 // User data
                 new StatisticsMessageField( "user_preference_file_creation_time", PhetPreferences.getInstance().getPreferencesFileCreationTime() ),
-                new StatisticsMessageField( "user_total_sessions", config.getTotalSessionCountForAllSims() ),
+                new StatisticsMessageField( "user_total_sessions", SessionCounter.getInstance().getTotal() ),
                 
                 // Debug field for this that are split into multiple fields
                 new StatisticsMessageField( "debug_sim_version", config.getVersion().formatMajorMinorDevRevision() ),
