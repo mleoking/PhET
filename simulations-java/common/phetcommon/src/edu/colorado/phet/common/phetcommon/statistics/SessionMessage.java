@@ -32,7 +32,7 @@ public class SessionMessage extends StatisticsMessage {
                 // Sim data
                 new StatisticsMessageField( "sim_project", config.getProjectName() ),
                 new StatisticsMessageField( "sim_name", config.getFlavor() ),
-                new StatisticsMessageField( "sim_sessions_ever", SessionCounter.getInstance().getCount() ),
+                new StatisticsMessageField( "sim_total_sessions", SessionCounter.getInstance().getCount() ),
                 new StatisticsMessageField( "sim_sessions_since", SessionCounter.getInstance().getCountSince() ),
                 new StatisticsMessageField( "sim_major_version", config.getVersion().getMajor() ),
                 new StatisticsMessageField( "sim_minor_version", config.getVersion().getMinor() ),
