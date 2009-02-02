@@ -1,8 +1,12 @@
 package edu.colorado.phet.common.phetcommon.dialogs;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dialog;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -166,6 +170,11 @@ public class DynamicCreditsDialog extends JDialog {
         //copy license info
         DynamicCreditsDialog dialog = new DynamicCreditsDialog( new JDialog(), "bound-states" );
         SwingUtils.centerWindowOnScreen( dialog );
+        dialog.addWindowListener( new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                System.exit( 0 );
+            }
+        });
         dialog.setVisible( true );
     }
 }
