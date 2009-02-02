@@ -6,7 +6,8 @@
 	
 	include("db-stats.php");
 	
-	// whether or not logging the messages is enabled. DO NOT ENABLE FOR LIVE VERSION
+	// whether or not logging the messages is enabled.
+	// TODO: DO NOT ENABLE FOR LIVE VERSION
 	$raw_logging = true;
 	
 	
@@ -38,15 +39,11 @@
 		fclose($file);
 	}
 	
-	
-	// extracts information from the XML, decodes it, and sanitizes it to prevent injection
-	function sanitize($xml, $str) {
-		return mysql_real_escape_string(urldecode($xml[$str]));
-	}
-	
 	if($xml["sim_type"] == "flash") {
+	    // message from a flash simulation
 		
 		if($xml["message_version"] == "1") {
+		    // connect to mysql
 			$link = setup_mysql();
 			
 			// create/update entry in user database
@@ -108,6 +105,7 @@
 	} else if($xml["sim_type"] == "java") {
 		
 		if($xml["message_version"] == "1") {
+		    // connect to mysql
 			$link = setup_mysql();
 			
 			// create/update entry in user database

@@ -1,10 +1,20 @@
 <?php
+
+    // displays a general statistics report
+
+    // require authentication to display
     include("db-auth.php");
+
+	// necessary functions for database interaction
 	include("db-stats.php");
+
+	// connect to the database
 	$link = setup_mysql();
-	
+
+	// allow the script to run for AT MOST 20 minutes
 	set_time_limit(60 * 20);
-	
+
+	// displays a header for the query
 	function display_desc($desc) {
 		print "\n<h4>{$desc}</h4>\n";
 	}
