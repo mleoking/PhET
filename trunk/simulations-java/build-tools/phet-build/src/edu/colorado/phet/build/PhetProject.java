@@ -724,6 +724,36 @@ public class PhetProject {
         return new File( getDeployDir(), "HEADER" );
     }
 
+    public void copyLicenseInfo() {
+        File contribLicensesDir = new File( getDataDirectory(), "contrib-licenses" );
+        File file = new File( contribLicensesDir, "license-info.txt" );
+        System.out.println( "file.getAbsolute = " + file.getAbsolutePath() );
+        contribLicensesDir.mkdirs();
+        try {
+            LicenseInfo[] licenseInfo = getAllLicenseInfo();
+
+            //add top-level file
+            BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter( file ) );
+            bufferedWriter.write( "#This file identifies licenses of contibuted libraries\n" );
+            for ( int i = 0; i < licenseInfo.length; i++ ) {
+                bufferedWriter.write( licenseInfo[i].toString() + "\n" );
+            }
+            bufferedWriter.close();
+
+            //copy licenses
+            for ( int i = 0; i < licenseInfo.length; i++ ) {
+                LicenseInfo info = licenseInfo[i];
+                File licenseFile = info.getLicenseFile();
+                if ( licenseFile != null && licenseFile.exists() ) {
+                    FileUtils.copyTo( licenseFile, new File( contribLicensesDir, "" + info.getID() + "-" + licenseFile.getName() ) );
+                }
+            }
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+    }
+
     public static interface Listener {
         public void changesTextChanged();
     }
