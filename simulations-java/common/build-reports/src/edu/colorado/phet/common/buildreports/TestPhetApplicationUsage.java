@@ -9,6 +9,7 @@ import java.lang.reflect.Method;
 
 import edu.colorado.phet.build.PhetProject;
 import edu.colorado.phet.build.Simulation;
+import edu.colorado.phet.build.PhetJavaProject;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 
 /**
@@ -20,7 +21,7 @@ public class TestPhetApplicationUsage {
         final String project = args[0];
         final String sim = args[1];
 
-        final PhetProject phetProject = new PhetProject( new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2\\simulations-java\\simulations" ), project );
+        final PhetProject phetProject = new PhetJavaProject( new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2\\simulations-java\\simulations" ), project );
         final Simulation flavor = phetProject.getSimulation( sim );
 
         Class c = Class.forName( flavor.getMainclass() );

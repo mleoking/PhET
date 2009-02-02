@@ -21,7 +21,7 @@ public class PhetDisplayStatsTask {
             String simName = simNames[i];
             try {
                 File projectParentDir = PhetBuildUtils.resolveProject( baseDir, simName );
-                PhetProject phetProject = new PhetProject( projectParentDir, simName );
+                PhetProject phetProject = new PhetJavaProject( projectParentDir, simName );
                 System.out.println( phetProject.getName() + " : " + phetProject.getFullVersionString() + " : " + Arrays.asList( phetProject.getSimulationNames() ) + " locales: " + Arrays.asList( phetProject.getLocales() ) + " non-clash-data=" + isNonClashData( phetProject ) + ", user-readable-names=" + Arrays.asList( getUserReadableSimulationNames( phetProject ) ) );
                 numStandardized += isNonClashData( phetProject ) ? 1 : 0;
                 simCount += phetProject.getSimulationNames().length;

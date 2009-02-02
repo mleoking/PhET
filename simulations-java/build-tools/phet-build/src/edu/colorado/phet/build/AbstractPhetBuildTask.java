@@ -17,7 +17,7 @@ public abstract class AbstractPhetBuildTask extends AbstractPhetTask {
         try {
             File projectDir = PhetBuildUtils.resolveProject( getProject().getBaseDir(), projectName );
 
-            PhetProject phetProject = new PhetProject( projectDir, projectName );
+            PhetProject phetProject = new PhetJavaProject( projectDir, projectName );
 
             executeImpl( phetProject );
         }

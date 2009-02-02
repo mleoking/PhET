@@ -54,7 +54,7 @@ public class PhetFlashProject extends PhetProject {
     }
 
     public String getListDisplayName() {
-        return "Flash: " + super.getListDisplayName();
+        return "Flash: " + getName();
     }
 
     public void runSim( Locale locale, String simulationName ) {
