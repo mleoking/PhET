@@ -6,10 +6,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
-import java.text.MessageFormat;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
@@ -37,6 +37,7 @@ public class DynamicCreditsDialog extends JDialog {
         }
         catch( IOException e ) {
             e.printStackTrace();
+            System.out.println( "Perhaps you need to generate license information for this simulation." );
         }
         String html = "<b>" + PhetCommonResources.getString( "Common.About.CreditsDialog.PhetDevelopmentTeam" ) + "</b><br>\n" +
                       "<br>\n" +
@@ -104,6 +105,9 @@ public class DynamicCreditsDialog extends JDialog {
     }
 
     private String getLicenseSnippet() {
+        if ( phetLicenseString == null ) {
+            return "No license information found.";
+        }
         AnnotationParser.Annotation[] a = AnnotationParser.getAnnotations( phetLicenseString );
         String text = "";
         for ( int i = 0; i < a.length; i++ ) {
@@ -129,7 +133,8 @@ public class DynamicCreditsDialog extends JDialog {
             e.printStackTrace();
         }
         if ( res.trim().length() == 0 ) {
-            res = "phet-credits team=PhET Interactive Simulations at the University of Colorado at Boulder";
+            //all simulations should specify credits eventually
+            return "PhET Interactive Simulations at the University of Colorado at Boulder";
         }
         AnnotationParser.Annotation t = AnnotationParser.parse( res );
         HashMap map = t.getMap();
@@ -145,8 +150,8 @@ public class DynamicCreditsDialog extends JDialog {
 
     private String translate( String key, String value ) {
         String pattern = PhetCommonResources.getString( "Common.About.CreditsDialog." + key );
-        MessageFormat m=new MessageFormat( pattern);
-        return m.format( new Object[]{value});
+        MessageFormat m = new MessageFormat( pattern );
+        return m.format( new Object[]{value} );
     }
 
     public String getLicenseText( String id ) {
