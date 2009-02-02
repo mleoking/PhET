@@ -3,6 +3,7 @@
 	// useful for testing processor / disk space usage and feasibility, and for
 	// creating report tools
 	
+	include("db-auth.php");
 	include("db-stats.php");
 	$link = setup_mysql();
 	

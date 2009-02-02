@@ -1,4 +1,8 @@
 <?php
+    // displays a report for a particular sim, with flash and java-specific queries.
+    // usage: db-sim-report.php?pendulum-lab
+
+    include("db-auth.php");
 	include("db-stats.php");
 	$link = setup_mysql();
 	

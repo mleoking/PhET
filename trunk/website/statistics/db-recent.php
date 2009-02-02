@@ -1,6 +1,7 @@
 <?php
 	// display the 10 most recent entries in general messages, flash messages, and java messages
-	
+
+	include("db-auth.php");
 	include("db-stats.php");
 	$link = setup_mysql();
 	
