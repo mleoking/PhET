@@ -52,7 +52,7 @@ public class PhetAboutDialog extends JDialog {
     private String titleString, descriptionString, versionString, creditsString;
     private ISimInfo config;
 
-    private static final boolean USE_DYNAMIC_CREDITS_DIALOG = true;
+    private static final boolean USE_DYNAMIC_CREDITS_DIALOG = false;
 
     /**
      * Constructs the dialog.

@@ -34,19 +34,6 @@ public class PhetBuildGUI {
         } );
         translationMenu.add( deployItem );
 
-        JMenu misc=new JMenu( "Misc");
-        JMenuItem menuItem1 = new JMenuItem( "Generate License Info" );
-        misc.add( menuItem1 );
-        menuItem1.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                PhetProject[]projects=PhetProject.getAllProjects( baseDir );
-                for ( int i = 0; i < projects.length; i++ ) {
-                    PhetProject project = projects[i];
-                    project.copyLicenseInfo();
-                }
-            }
-        } );
-
         JMenu c = new JMenu( "File" );
         JMenuItem menuItem = new JMenuItem( "Exit" );
         menuItem.addActionListener( new ActionListener() {
@@ -57,7 +44,7 @@ public class PhetBuildGUI {
         c.add( menuItem );
         menuBar.add( c );
         menuBar.add( translationMenu );
-        menuBar.add( misc );
+        menuBar.add( new MiscMenu(baseDir) );
         frame.setJMenuBar( menuBar );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 

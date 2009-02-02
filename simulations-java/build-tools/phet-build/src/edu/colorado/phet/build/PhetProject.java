@@ -550,7 +550,7 @@ public class PhetProject {
         return (PhetProject[]) phetProjects.toArray( new PhetProject[0] );
     }
 
-    public String getDeployedSimulationJarURL( ) {
+    public String getDeployedSimulationJarURL() {
         return WEBROOT + getName() + "/" + getName() + "_all.jar";
     }
 
@@ -752,6 +752,32 @@ public class PhetProject {
         catch( IOException e ) {
             e.printStackTrace();
         }
+    }
+
+    public String[] getCreditsKeys() {
+        ArrayList strings = new ArrayList();
+        try {
+            File creditsFile = new File( getDataDirectory(), "credits.txt" );
+            if ( !creditsFile.exists() ) {
+                System.out.println( getName() + " missing credits.txt" );
+            }
+            else {
+                String text = FileUtils.loadFileAsString( creditsFile );
+                AnnotationParser.Annotation[] a = AnnotationParser.getAnnotations( text );
+                for ( int i = 0; i < a.length; i++ ) {
+                    AnnotationParser.Annotation annotation = a[i];
+                    strings.addAll( annotation.getMap().keySet() );
+                }
+                return (String[]) strings.toArray( new String[strings.size()] );
+            }
+        }
+        catch( FileNotFoundException e ) {
+            e.printStackTrace();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        return new String[0];
     }
 
     public static interface Listener {

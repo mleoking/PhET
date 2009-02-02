@@ -138,9 +138,13 @@ public class DynamicCreditsDialog extends JDialog {
         for ( Iterator iterator = keys.iterator(); iterator.hasNext(); ) {
             String key = (String) iterator.next();
             String value = (String) map.get( key );
-            credits += key + ": " + value + "<br>";
+            credits += translate(key) + ": " + value + "<br>";
         }
         return credits;
+    }
+
+    private String translate( String key ) {
+        return PhetCommonResources.getString( "Common.About.CreditsDialog."+key );
     }
 
     public String getLicenseText( String id ) {
