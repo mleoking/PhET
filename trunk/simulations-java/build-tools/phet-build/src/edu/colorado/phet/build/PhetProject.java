@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.*;
 
 import edu.colorado.phet.build.util.*;
+import edu.colorado.phet.build.scripts.SetSVNIgnoreToDeployDirectories;
 import edu.colorado.phet.common.phetcommon.util.AnnotationParser;
 
 /**
@@ -682,6 +683,14 @@ public abstract class PhetProject {
         catch( IOException e ) {
             e.printStackTrace();
         }
+
+        //todo: still testing this
+//        try {
+//            SetSVNIgnoreToDeployDirectories.setIgnorePatternsOnDir( contribLicensesDir.getParentFile(), new String[]{contribLicensesDir.getName()} );
+//        }
+//        catch( IOException e ) {
+//            e.printStackTrace();
+//        }
     }
 
     public String[] getCreditsKeys() {
