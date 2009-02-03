@@ -1,3 +1,5 @@
+# 1.07.06 (28014) Feb 03 2009
+test sending of sim_version_timestamp
 # 1.07.05 (27754) 01-28-2009
 test #1087 (deployment scenarios)
 # 1.07.04 (27549) 01-22-2009
