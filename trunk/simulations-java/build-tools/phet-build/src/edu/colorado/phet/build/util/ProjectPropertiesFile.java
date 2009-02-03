@@ -74,7 +74,7 @@ public class ProjectPropertiesFile extends AbstractPropertiesFile {
         return getPropertyInt( KEY_VERSION_REVISION, -1 );
     }
     
-    public void setVersionTimestamp( int value ) {
+    public void setVersionTimestamp( long value ) {
         setProperty( KEY_VERSION_TIMESTAMP, value );
     }
     

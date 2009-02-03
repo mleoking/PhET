@@ -108,6 +108,10 @@ public class AbstractPropertiesFile {
         setProperty( key, String.valueOf( value ) );
     }
     
+    protected void setProperty( String key, long value ) {
+        setProperty( key, String.valueOf( value ) );
+    }
+    
     /*
      * Gets a property value as a String.
      * <p>
@@ -132,17 +136,42 @@ public class AbstractPropertiesFile {
      * @return int value
      */
     protected int getPropertyInt( String key, int defaultValue ) {
-        int i = defaultValue;
+        int value = defaultValue;
         String s = getProperty( key );
         if ( s != null ) {
             try {
-                i = Integer.parseInt( s );
+                value = Integer.parseInt( s );
             }
             catch ( NumberFormatException e ) {
                 System.err.println( "PropertiesFile.getPropertyInt: " + key + " is not an integer in file " + file.getAbsolutePath() );
             }
         }
-        return i;
+        return value;
+    }
+    
+    /*
+     * Gets a property as an integer value.
+     * If the property value can't be converted to an integer, defaultValue is returned.
+     * <p>
+     * This method is protected because subclasses should not expose key values,
+     * they should have set/get methods for each property.
+     * 
+     * @param key
+     * @param defaultValue
+     * @return int value
+     */
+    protected long getPropertyLong( String key, long defaultValue ) {
+        long value = defaultValue;
+        String s = getProperty( key );
+        if ( s != null ) {
+            try {
+                value = Long.parseLong( s );
+            }
+            catch ( NumberFormatException e ) {
+                System.err.println( "PropertiesFile.getPropertyInt: " + key + " is not a long in file " + file.getAbsolutePath() );
+            }
+        }
+        return value;
     }
     
     public String toString() {
