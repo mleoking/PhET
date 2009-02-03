@@ -1,3 +1,5 @@
+# 0.11.00 (27952) 02-02-2009
+Mostly worked, slight tweak to JAR generator
 # 0.10.00 (27950) 02-02-2009
 Testing my changes to the deploy script and the automated JAR generation script
 # 0.08.01 (27948) 02-02-2009
