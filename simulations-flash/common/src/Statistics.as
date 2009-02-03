@@ -50,7 +50,7 @@ class Statistics {
 		
 		/////// user data
 		str += "user_preference_file_creation_time = '" + escape(String(_level0.preferences.getUserTime())) + "' \n";
-		str += "user_installation_timestamp = '" + escape(String(_level0.installationTimestamp)) + "' \n";
+		str += "user_installation_timestamp = '" + placeholderEscape(String(_level0.installationTimestamp)) + "' \n";
 		str += "user_total_sessions = '" + escape(String(_level0.preferences.getUserTotalSessions())) + "' \n";
 		
 		
@@ -74,8 +74,8 @@ class Statistics {
 		
 		str += "sim_sessions_since = '" + escape(_level0.preferences.visitsSince()) + "' \n";
 		str += "sim_total_sessions = '" + escape(_level0.preferences.visitsEver()) + "' \n";
-		str += "sim_deployment = '" + escape(_level0.simDeployment) + "' \n";
-		str += "sim_distribution_tag = '" + escape(_level0.simDistributionTag) + "' \n";
+		str += "sim_deployment = '" + placeholderEscape(_level0.simDeployment, "phet-website") + "' \n";
+		str += "sim_distribution_tag = '" + placeholderEscape(_level0.simDistributionTag) + "' \n";
 		str += "sim_dev = '" + escape((_level0.dev > 0 ? "true" : "false")) + "' \n";
 		
 		
@@ -153,5 +153,18 @@ class Statistics {
 		xml.sendAndLoad("http://phet.colorado.edu/statistics/submit_message.php", reply);
 		// DEVELOPMENT: send statistics message to localhost
 		//xml.sendAndLoad("http://localhost/statistics/submit_message.php", reply);
+	}
+	
+	// escape, but return defaultStr for placeholder strings
+	public function placeholderEscape(str : String, defaultStr : String) : String {
+		if(defaultStr == undefined) {
+			defaultStr = "none";
+		}
+		if(str.substr(0, 2) == "@@" && str.substr(-2, 2) == "@@") {
+			// field is a placeholder string, return defaultStr
+			return defaultStr;
+		} else {
+			return escape(str);
+		}
 	}
 }

@@ -68,7 +68,7 @@ public class FlashHTML {
         return true;
     }
     
-    public static String generateHTML( String simName, String language, String country,String deployment,
+    public static String generateHTML( String simName, String language, String country, String deployment,
                                        String distributionTag, String installationTimestamp, String installerCreationTimestamp,
                                        String versionMajor, String versionMinor, String versionDev, String versionRevision,
                                        String bgcolor, String encodedSimXML, String encodedCommonXML,
