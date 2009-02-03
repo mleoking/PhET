@@ -61,10 +61,10 @@ public class PhetVersion {
     public int getRevisionAsInt() {
         return getAsInt( getRevision() );
     }
-    
+
     /*
-     * A development version has a non-zero dev number.
-     */
+    * A development version has a non-zero dev number.
+    */
     private boolean isDevVersion() {
         return getDevAsInt() != 0;
     }
@@ -80,23 +80,16 @@ public class PhetVersion {
     public String formatForTitleBar() {
         return isDevVersion() ? formatMajorMinorDev() : formatMajorMinor();
     }
-    
+
     public String formatForAboutDialog() {
-        Object[] args = { major, minor, dev, revision, formatTimestamp() };
+        Object[] args = {major, minor, dev, revision, formatTimestamp()};
         return MessageFormat.format( FORMAT_ABOUT, args );
     }
-    
+
     public String formatTimestamp() {
         String s = "?";
         if ( timestamp != null && timestamp.length() > 0 ) {
-            int seconds = 0;
-            try {
-                seconds = Integer.valueOf( timestamp ).intValue();
-            }
-            catch ( NumberFormatException e ) {
-                System.err.println( "PhetVersion.getVersionTimestampString: timestamp is invalid, ignoring: " + timestamp );
-                seconds = 0;
-            }
+            int seconds = getTimestampSeconds();
             if ( seconds > 0 ) {
                 Date date = new Date( seconds * 1000L ); // seconds to milliseconds 
                 s = FORMAT_TIMESTAMP.format( date );
@@ -104,12 +97,12 @@ public class PhetVersion {
         }
         return s;
     }
-    
+
     public String formatMajorMinorDev() {
         Object[] args = {major, minor, dev};
         return MessageFormat.format( FORMAT_MAJOR_MINOR_DEV, args );
     }
-    
+
     public String formatMajorMinor() {
         Object[] args = {major, minor};
         return MessageFormat.format( FORMAT_MAJOR_MINOR, args );
@@ -165,5 +158,17 @@ public class PhetVersion {
     public boolean isGreaterThan( PhetVersion version ) {
         //todo: should this use major/minor/dev to determine ordering?
         return getRevisionAsInt() > version.getRevisionAsInt();
+    }
+
+    public int getTimestampSeconds() {
+        int seconds = 0;
+        try {
+            seconds = Integer.valueOf( timestamp ).intValue();
+        }
+        catch( NumberFormatException e ) {
+            System.err.println( "PhetVersion.getVersionTimestampString: timestamp is invalid, ignoring: " + timestamp );
+            seconds = 0;
+        }
+        return seconds;
     }
 }
