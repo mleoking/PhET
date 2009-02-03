@@ -18,7 +18,7 @@ object LadybugMotionModel {
     }
   }
   val LINEAR = new MotionType("linear") {
-    val speed = 0.3 * 30
+    val speed = 0.3 * 15
 
     override def init(model: LadybugModel) = {
       model.ladybug.setVelocity(new Vector2D(model.ladybug.getAngle) * speed)
@@ -27,16 +27,19 @@ object LadybugMotionModel {
     def update(dt: Double, model: LadybugModel) = {
       val angle = model.ladybug.getAngle
 
+      val lastSample=if (model.samplePath.length>0)model.samplePath(model.samplePath.length-1).location else model.ladybug.getPosition
+      val proposedPoint=new Vector2D(model.ladybug.getVelocity.getAngle) * speed+lastSample
 
-      def step = {
-        model.ladybug.setVelocity(new Vector2D(model.ladybug.getVelocity.getAngle) * speed)
-        model.ladybug.translate(model.ladybug.getVelocity * dt)
-      }
-      step
-      var x = model.ladybug.getPosition.x
-      var y = model.ladybug.getPosition.y
-      var vx = model.ladybug.getVelocity.x
-      var vy = model.ladybug.getVelocity.y
+
+//      def step():Vector2D = {
+//        model.ladybug.setVelocity(new Vector2D(model.ladybug.getVelocity.getAngle) * speed)
+//        model.ladybug.translate(model.ladybug.getVelocity * dt)
+//      }
+//      step
+      var x = proposedPoint.x
+      var y = proposedPoint.y
+      var vx = proposedPoint.x
+      var vy = proposedPoint.y
       var changed = false
       val bounds = model.getBounds()
       if (x > bounds.getMaxX && vx > 0) {
@@ -57,10 +60,14 @@ object LadybugMotionModel {
         y = bounds.getMinY
       }
 
-      model.ladybug.setPosition(new Vector2D(x, y))
-      model.ladybug.setVelocity(new Vector2D(vx, vy))
-      model.ladybug.setAngle(model.ladybug.getVelocity.getAngle)
-      model.ladybug.setAcceleration(model.average(model.getHistory.length - 15, model.getHistory.length - 1, model.estimateAcceleration))
+//      model.addSamplePoint(model.ladybug.getPosition+new Vector2D(vx,vy)*dt)
+      model.setSamplePoint(new Vector2D(x,y))
+      model.positionMode(dt)
+
+//      model.ladybug.setPosition(new Vector2D(x, y))
+//      model.ladybug.setVelocity(new Vector2D(vx, vy))
+//      model.ladybug.setAngle(model.ladybug.getVelocity.getAngle)
+//      model.ladybug.setAcceleration(model.average(model.getHistory.length - 15, model.getHistory.length - 1, model.estimateAcceleration))
     }
   }
   val CIRCULAR = new MotionType("circular") {
@@ -73,7 +80,9 @@ object LadybugMotionModel {
       val speed = 0.12
       if (distFromRing > speed + 1E-6) {
         val velocity = new Vector2D(model.ladybug.getPosition.getAngle) * speed * (if (dx < 0) -1 else 1)
-        model.ladybug.translate(velocity)
+//        model.ladybug.translate(velocity)
+        model.setSamplePoint(model.ladybug.getPosition+velocity/dt)
+        model.positionMode(dt)
       } else {
         //move in a circle
         val angle = model.ladybug.getPosition.getAngle

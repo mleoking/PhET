@@ -46,7 +46,7 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
   var loc: Point2D = null
   model.tickListeners += (() => {
     if (loc != null)
-      model.addSamplePoint(loc)
+      model.setSamplePoint(loc)
   })
 
   model.motion2DModelResetListeners += (() => {

@@ -31,7 +31,7 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
 
   val positionMode = new RemoteMode(LadybugColorSet.position, 20, _.getPosition) {
     def setLadybugState(pt: Point2D) = {
-      model.addSamplePoint(pt)
+      model.setSamplePoint(pt)
       model.setUpdateModePosition
     }
   }

@@ -22,14 +22,11 @@ class LadybugModel extends ObservableS {
   private var bounds = new Rectangle2D.Double(-10, -10, 20, 20)
 
   case class Sample(time: Double, location: Vector2D)
+  val samplePath = new ArrayBuffer[Sample]
+  var samplePoint = new Vector2D //current sample point
 
-  private val samplePath = new ArrayBuffer[Sample]
-
-  def addSamplePoint(pt: Point2D) = {
-    samplePath += new Sample(time, pt)
-    while (samplePath.length > LadybugDefaults.timelineLengthSeconds + 1) {
-      samplePath.remove(0)
-    }
+  def setSamplePoint(pt: Point2D) = {
+    this.samplePoint = pt
   }
 
   def getBounds(): Rectangle2D = {
@@ -133,10 +130,13 @@ class LadybugModel extends ObservableS {
       if (isRecord()) {
         time += dt;
         ladybugMotionModel.update(dt, this)
+
         history += new DataPoint(time, ladybug.getState)
+        samplePath += new Sample(time, samplePoint)
 
         while (getTimeRange > LadybugDefaults.timelineLengthSeconds) {
           history.remove(0)
+          samplePath.remove(0)
         }
 
         if (!ladybugMotionModel.isExclusive()) {
@@ -269,17 +269,20 @@ class LadybugModel extends ObservableS {
     paused = true
     playbackSpeed = 1.0
     history.clear
+    samplePath.clear
+
     ladybugMotionModel.resetAll()
     playbackIndexFloat = 0.0
     time = 0
     ladybug.resetAll()
 
-    samplePath.clear
+
     notifyListeners()
   }
 
   def clearHistory() = {
     history.clear()
+    samplePath.clear()
     notifyListeners()
   }
 
