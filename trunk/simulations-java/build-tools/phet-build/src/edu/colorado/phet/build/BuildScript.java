@@ -172,10 +172,11 @@ public class BuildScript {
         try {
             sshConnection.connect();
 
+            // -m sets the permissions of the created directory
             //todo: how can we detect failure of this command, e.g. due to permissions errors?  See #1164
 //            sshConnection.executeTask( new SshCommand( "mkdir " + getParentDir( getParentDir( remotePathDir ) ) ) );//todo: would it be worthwhile to skip this task when possible?
-            sshConnection.executeTask( new SshCommand( "mkdir " + getParentDir( remotePathDir ) ) );//todo: would it be worthwhile to skip this task when possible?
-            sshConnection.executeTask( new SshCommand( "mkdir " + remotePathDir ) );//todo: would it be worthwhile to skip this task when possible?
+            sshConnection.executeTask( new SshCommand( "mkdir -m 775 " + getParentDir( remotePathDir ) ) );//todo: would it be worthwhile to skip this task when possible?
+            sshConnection.executeTask( new SshCommand( "mkdir -m 775 " + remotePathDir ) );//todo: would it be worthwhile to skip this task when possible?
         }
         catch( SshException e ) {
             e.printStackTrace();
@@ -223,7 +224,7 @@ public class BuildScript {
     private void setVersionTimestamp() {
         project.setVersionTimestamp( (int)( System.currentTimeMillis() / 1000 ) ); // convert from ms to sec
     }
-
+    
     public int getSVNVersion() {
         File readmeFile = new File( baseDir, "README.txt" );
         if ( !readmeFile.exists() ) {
