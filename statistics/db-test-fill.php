@@ -416,7 +416,7 @@
 		}
 		$values = array(
 			'user_preferences_file_creation_time' => $userPreferencesFileCreationTime,
-			'user_install_timestamp' => $userInstallTimestamp,
+			'user_installation_timestamp' => $userInstallTimestamp,
 			'user_total_sessions' => $userTotalSessions,
 			'first_seen_month' => quo(date("Y-m-01", $first_time)),
 			'last_seen_month' => quo(date("Y-m-01", $last_time))
