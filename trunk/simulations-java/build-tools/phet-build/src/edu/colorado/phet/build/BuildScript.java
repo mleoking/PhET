@@ -186,6 +186,12 @@ public class BuildScript {
             sshConnection.executeTask( new SshCommand( "mkdir -m 775 " + remotePathDir ) );//todo: would it be worthwhile to skip this task when possible?
         }
         catch( SshException e ) {
+            if (e.toString().toLowerCase().indexOf("auth fail") != -1) {
+                // TODO: check if authentication fails, don't try logging in again
+                // on tigercat, 3 (9?) unsuccessful login attepts will lock you out
+                System.out.println( "Authentication on '" + server.getHost() + "' has failed, is your username and password correct?  Exiting..." );
+                System.exit( 0 );
+            }
             e.printStackTrace();
         }
         finally {
