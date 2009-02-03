@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.phetcommon.dialogs;
+package edu.colorado.phet.common.phetcommon.util;
 
 import java.util.StringTokenizer;
 import java.util.ArrayList;
