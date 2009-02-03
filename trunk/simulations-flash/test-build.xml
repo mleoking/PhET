@@ -21,7 +21,7 @@
     <property name="country" value="none" />
     <property name="deployment" value="standalone-jar" />
     <property name="distributionTag" value="none" />
-    <property name="installTimestamp" value="none" />
+    <property name="installationTimestamp" value="none" />
     <property name="installerCreationTimestamp" value="none" />
 
     <property name="rootDir" value="."/>
@@ -86,7 +86,7 @@
         <copy file="${rootDir}/build-tools/flash-build/data/flash-template.html" todir="${jar-inputs}"/>
 
         <!-- create args file -->
-        <echo file="${jar-inputs}/flash-launcher-args.txt" message="${simName} ${language} ${country} ${deployment} ${distributionTag} ${installTimestamp} ${installerCreationTimestamp}"/>
+        <echo file="${jar-inputs}/flash-launcher-args.txt" message="${simName} ${language} ${country} ${deployment} ${distributionTag} ${installationTimestamp} ${installerCreationTimestamp}"/>
 
         <!-- copy properties file -->
         <copy file="${rootDir}/simulations/${simName}/data/${simName}/${simName}.properties" todir="${jar-inputs}"/>

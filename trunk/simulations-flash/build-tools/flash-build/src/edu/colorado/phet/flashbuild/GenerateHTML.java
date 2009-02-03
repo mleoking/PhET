@@ -6,7 +6,7 @@ package edu.colorado.phet.flashbuild;
 
  usage:
 
- java -jar flash-build.jar <simName> <language> [<country> [<deployment> [<distributionTag> [<installTimestamp> [<installerCreationTimestamp>]]]]]
+ java -jar flash-build.jar <simName> <language> [<country> [<deployment> [<distributionTag> [<installationTimestamp> [<installerCreationTimestamp>]]]]]
 
 */
 
@@ -33,7 +33,7 @@ public class GenerateHTML {
         String country = "none";
         String deployment = "standalone-jar";
         String distributionTag = "none";
-        String installTimestamp = "none";
+        String installationTimestamp = "none";
         String installerCreationTimestamp = "none";
 
         // TODO: rewrite to accept named / flag options
@@ -48,7 +48,7 @@ public class GenerateHTML {
             distributionTag = args[ 4 ];
         }
         if( args.length > 5 ) {
-            installTimestamp = args[ 5 ];
+            installationTimestamp = args[ 5 ];
         }
         if( args.length > 6 ) {
             installerCreationTimestamp = args[ 6 ];
@@ -76,7 +76,7 @@ public class GenerateHTML {
         String htmlFile = "simulations/" + simName + "/deploy/" + simName + "_" + locale + ".html";
 		String propertiesFile = simData + simName + ".properties";
 
-        FlashHTML.writeHTML( simName, language, country, deployment, distributionTag, installTimestamp,
+        FlashHTML.writeHTML( simName, language, country, deployment, distributionTag, installationTimestamp,
                 installerCreationTimestamp, simXMLFile, htmlFile, propertiesFile, commonXMLFile );
     }
 }
