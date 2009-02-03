@@ -97,7 +97,7 @@ public class ScpTo {
             channel.disconnect();
             session.disconnect();
 
-            System.out.println( "Finished scp." );
+            System.out.println( "Finished scp (from, to):" + localFile + " " + remoteFilePath );
         }
         finally {
             if ( fis != null ) {
