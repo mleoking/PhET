@@ -74,7 +74,16 @@ class Statistics {
 		
 		str += "sim_sessions_since = '" + escape(_level0.preferences.visitsSince()) + "' \n";
 		str += "sim_total_sessions = '" + escape(_level0.preferences.visitsEver()) + "' \n";
-		str += "sim_deployment = '" + placeholderEscape(_level0.simDeployment, "phet-website") + "' \n";
+		
+		var deployment : String = "";
+		if(!_level0.common.fromPhetWebsite() && !isPlaceholder(_level0.installationTimestamp)) {
+			// if not running from a website, AND installation timestamp is included, it must be a full installation!
+			// thus we override
+			deployment = "full-installation";
+		} else {
+			deployment = _level0.simDeployment;
+		}
+		str += "sim_deployment = '" + escape(deployment) + "' \n";
 		str += "sim_distribution_tag = '" + placeholderEscape(_level0.simDistributionTag) + "' \n";
 		str += "sim_dev = '" + escape((_level0.dev > 0 ? "true" : "false")) + "' \n";
 		
@@ -155,12 +164,17 @@ class Statistics {
 		//xml.sendAndLoad("http://localhost/statistics/submit_message.php", reply);
 	}
 	
+	// return whether a string is a placeholder
+	public function isPlaceholder(str : String) : Boolean {
+		return (str.substr(0, 2) == "@@" && str.substr(-2, 2) == "@@");
+	}
+	
 	// escape, but return defaultStr for placeholder strings
 	public function placeholderEscape(str : String, defaultStr : String) : String {
 		if(defaultStr == undefined) {
 			defaultStr = "none";
 		}
-		if(str.substr(0, 2) == "@@" && str.substr(-2, 2) == "@@") {
+		if(isPlaceholder(str)) {
 			// field is a placeholder string, return defaultStr
 			return defaultStr;
 		} else {

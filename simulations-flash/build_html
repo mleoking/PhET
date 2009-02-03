@@ -36,7 +36,7 @@ do
 		echo Building ${sim_name} ${split_locale}
 		
 		# build the HTML
-		java -jar flash-build.jar ${sim_name} ${split_locale}
+		java -jar flash-build.jar ${sim_name} ${split_locale} phet-website
 	done;
 	
 	# add what might be new to subversion

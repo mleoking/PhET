@@ -31,7 +31,7 @@ public class GenerateHTML {
         String simName = args[0];
         String language = args[1];
         String country = "none";
-        String deployment = "@@DEPLOYMENT@@";
+        String deployment = "phet-website";
         String distributionTag = "@@DISTRIBUTION_TAG@@";
         String installationTimestamp = "@@INSTALLATION_TIMESTAMP@@";
         String installerCreationTimestamp = "@@INSTALLER_CREATION_TIMESTAMP@@";
