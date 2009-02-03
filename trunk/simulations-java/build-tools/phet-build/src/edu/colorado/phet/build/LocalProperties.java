@@ -24,4 +24,20 @@ public class LocalProperties {
     public String getProperty( String s ) {
         return localProperties.getProperty( s );
     }
+
+    public boolean getBoolProperty( String s, boolean defaultValue ) {
+        String s2 = localProperties.getProperty( s );
+        if ( s2 == null ) {
+            return defaultValue;
+        }
+        else if ( s2.toLowerCase().equals( "true" ) ) {
+            return true;
+        }
+        else if ( s2.toLowerCase().equals( "false" ) ) {
+            return false;
+        }
+        else {
+            return defaultValue;
+        }
+    }
 }
