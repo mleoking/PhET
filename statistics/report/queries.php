@@ -70,27 +70,19 @@
 		
 		$query_name = $arr['query'];
 		
-		
-		$sim_type = $arr['sim_type'];
-		$sim_project = $arr['sim_project'];
-		$sim_name = $arr['sim_name'];
-		$sim_deployment = $arr['sim_deployment'];
-		$sim_distribution_tag = $arr['sim_distribution_tag'];
-		$host_simplified_os = $arr['host_simplified_os'];
-		
-		if($sim_type !== null) {
-			if($sim_type == "flash") {
+		if($arr['sim_type'] !== null) {
+			if($arr['sim_type'] == "flash") {
 				array_push($session_where, "session.sim_type != 0");
-			} else if($sim_type == "java") {
+			} else if($arr['sim_type'] == "java") {
 				array_push($session_where, "session.sim_type = 0");
 			}
 		}
-		if($sim_project !== null) {
-			array_push($query, "SELECT (@pid := sim_project.id) FROM sim_project WHERE sim_project.name = '{$sim_project}'; ");
+		if($arr['sim_project'] !== null) {
+			array_push($query, "SELECT (@pid := sim_project.id) FROM sim_project WHERE sim_project.name = '{$arr['sim_project']}'; ");
 			array_push($session_where, "session.sim_project = @pid");
 		}
-		if($sim_name !== null) {
-			array_push($query, "SELECT (@sid := sim_name.id) FROM sim_name WHERE sim_name.name = '{$sim_name}'; ");
+		if($arr['sim_name'] !== null) {
+			array_push($query, "SELECT (@sid := sim_name.id) FROM sim_name WHERE sim_name.name = '{$arr['sim_name']}'; ");
 			array_push($session_where, "session.sim_name = @sid");
 		}
 
@@ -133,16 +125,16 @@
             }
 		}
 
-		if($sim_deployment !== null) {
-			array_push($query, "SELECT (@deploy := deployment.id) FROM deployment WHERE deployment.name = '{$sim_deployment}'; ");
+		if($arr['sim_deployment'] !== null) {
+			array_push($query, "SELECT (@deploy := deployment.id) FROM deployment WHERE deployment.name = '{$arr['sim_deployment']}'; ");
 			array_push($session_where, "session.sim_deployment = @deploy");
 		}
-		if($sim_distribution_tag !== null) {
-			array_push($query, "SELECT (@dist_tag := distribution_tag.id) FROM distribution_tag WHERE distribution_tag.name = '{$sim_distribution_tag}'; ");
+		if($arr['sim_distribution_tag'] !== null) {
+			array_push($query, "SELECT (@dist_tag := distribution_tag.id) FROM distribution_tag WHERE distribution_tag.name = '{$arr['sim_distribution_tag']}'; ");
 			array_push($session_where, "session.sim_distribution_tag = @dist_tag");
 		}
-		if($host_simplified_os !== null) {
-			array_push($query, "SELECT (@os := simplified_os.id) FROM simplified_os WHERE simplified_os.name = '{$host_simplified_os}'; ");
+		if($arr['host_simplified_os'] !== null) {
+			array_push($query, "SELECT (@os := simplified_os.id) FROM simplified_os WHERE simplified_os.name = '{$arr['host_simplified_os']}'; ");
 			array_push($session_where, "session.host_simplified_os = @os");
 		}
 		
@@ -364,7 +356,7 @@
 				array_push($query, "SELECT {$pre_select}SUM(session.sim_sessions_since) as session_count FROM session{$tables}{$session_where}{$group_by}{$order_by}; ");
 				break;
 			case "sim_type":
-				if($sim_name) {
+				if($arr['sim_name']) {
 					array_push($query, "SELECT DISTINCT IF(sim_type = 0, 'java', 'flash') AS sim_type FROM session WHERE sim_name = @sid; ");
 				} else { die("cannot have sim_type query without sim_name"); }
 				break;
