@@ -41,7 +41,7 @@
 
 
     // Get the version info
-    $version = sim_get_version($simulation);
+    $version = sim_get_version($simulation, false);
     $version_string = '';
     if ((!empty($version['major'])) && (!empty($version['minor'])) && (!empty($version['dev']))) {
         $version_string = "{$version['major']}.{$version['minor']}.{$version['dev']}";
