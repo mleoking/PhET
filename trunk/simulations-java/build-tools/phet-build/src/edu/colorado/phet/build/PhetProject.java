@@ -11,8 +11,6 @@ import edu.colorado.phet.build.util.*;
  */
 public abstract class PhetProject {
 
-    private static final String WEBROOT = "http://phet.colorado.edu/sims/";
-
     private final String name;
     private final File projectDir;
     private final ProjectPropertiesFile projectPropertiesFile;
@@ -473,7 +471,7 @@ public abstract class PhetProject {
     }
 
     public String getDeployedSimulationJarURL() {
-        return WEBROOT + getName() + "/" + getName() + "_all.jar";
+        return PhetServer.PRODUCTION.getWebDeployURL( this ) + "/" + getName() + "_all.jar";
     }
 
     public File getTranslationFile( Locale locale ) {

@@ -116,7 +116,7 @@ public class BuildScript {
             return;
         }
 
-        project.buildLaunchFiles( server.getURL( project ), server.isDevelopmentServer() );
+        project.buildLaunchFiles( server.getCodebase( project ), server.isDevelopmentServer() );
 
         if ( !dryRun ) {
             System.out.println( "Sending SSH." );
@@ -126,7 +126,7 @@ public class BuildScript {
         postDeployTask.invoke();
 
         System.out.println( "Opening Browser." );
-        openBrowser( server.getURL( project ) );
+        openBrowser( server.getCodebase( project ) );
 
         System.out.println( "Finished deploy to: " + server.getHost() );
 
@@ -175,7 +175,7 @@ public class BuildScript {
 
     private void sendSSH( PhetServer server, AuthenticationInfo authenticationInfo ) {
         SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername( server.getHost() ), authenticationInfo.getPassword( server.getHost() ) );
-        String remotePathDir = server.getPath( project );
+        String remotePathDir = server.getServerDeployPath( project );
         try {
             sshConnection.connect();
 
@@ -376,14 +376,14 @@ public class BuildScript {
                 new Task() {
                     public boolean invoke() {
                         //generate JNLP files for dev
-                        project.buildLaunchFiles( PhetServer.DEVELOPMENT.getURL( project ), PhetServer.DEVELOPMENT.isDevelopmentServer() );
+                        project.buildLaunchFiles( PhetServer.DEVELOPMENT.getCodebase( project ), PhetServer.DEVELOPMENT.isDevelopmentServer() );
 //                        String codebase = PhetServer.DEVELOPMENT.getURL( project );
 //                        buildJNLP( codebase, PhetServer.DEVELOPMENT.isDevelopmentServer() );
 
                         if ( !dryRun ) {
                             sendSSH( PhetServer.DEVELOPMENT, devAuth );
                         }
-                        openBrowser( PhetServer.DEVELOPMENT.getURL( project ) );
+                        openBrowser( PhetServer.DEVELOPMENT.getCodebase( project ) );
                         return true;
                     }
                 }, PhetServer.PRODUCTION, prodAuth, new VersionIncrement.UpdateProd(), new Task() {
@@ -402,10 +402,12 @@ public class BuildScript {
         try {
             sshConnection.connect();
             for ( int i = 0; i < project.getSimulationNames().length; i++ ) {
-                String command = "/web/chroot/phet/usr/local/apache/htdocs/cl_utils/create-localized-jars.py " + project.getName() + " " + project.getSimulationNames()[i];
-                System.out.println( "Running command: " + command );
-
-                sshConnection.executeTask( new SshCommand( command ) );
+                String command = server.getLocalizationCommand();
+                if ( command != null ) {
+                    String fullCommand = command + " " + project.getName() + " " + project.getSimulationNames()[i];
+                    System.out.println( "Running command: " + fullCommand );
+                    sshConnection.executeTask( new SshCommand( fullCommand ) );
+                }
             }
         }
         catch( SshException e ) {
