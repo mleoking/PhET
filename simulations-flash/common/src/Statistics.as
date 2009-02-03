@@ -66,6 +66,7 @@ class Statistics {
 		str += "sim_minor_version = '" + escape(_level0.versionMinor) + "' \n";
 		str += "sim_dev_version = '" + escape(_level0.dev) + "' \n";
 		str += "sim_svn_revision = '" + escape(_level0.revision) + "' \n";
+		str += "sim_version_timestamp = '" + escape(_level0.versionTimestamp) + "' \n";
 		//str += "sim_version = '" + escape(_level0.versionMajor + "." + _level0.versionMinor + "." + _level0.dev) + " (" + escape(_level0.revision) + ")' \n";
 		
 		str += "sim_locale_language = '" + escape(_level0.languageCode) + "' \n";
