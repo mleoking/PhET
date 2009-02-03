@@ -89,7 +89,7 @@ public class PhetVersion {
     public String formatTimestamp() {
         String s = "?";
         if ( timestamp != null && timestamp.length() > 0 ) {
-            int seconds = getTimestampSeconds();
+            long seconds = getTimestampSeconds();
             if ( seconds > 0 ) {
                 Date date = new Date( seconds * 1000L ); // seconds to milliseconds 
                 s = FORMAT_TIMESTAMP.format( date );
@@ -160,10 +160,10 @@ public class PhetVersion {
         return getRevisionAsInt() > version.getRevisionAsInt();
     }
 
-    public int getTimestampSeconds() {
-        int seconds = 0;
+    public long getTimestampSeconds() {
+        long seconds = 0;
         try {
-            seconds = Integer.valueOf( timestamp ).intValue();
+            seconds = Long.parseLong( timestamp );
         }
         catch( NumberFormatException e ) {
             System.err.println( "PhetVersion.getVersionTimestampString: timestamp is invalid, ignoring: " + timestamp );

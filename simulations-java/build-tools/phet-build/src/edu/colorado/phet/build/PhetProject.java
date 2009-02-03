@@ -509,7 +509,7 @@ public abstract class PhetProject {
         projectPropertiesFile.setSVNVersion( value );
     }
 
-    public void setVersionTimestamp( int value ) {
+    public void setVersionTimestamp( long value ) {
         projectPropertiesFile.setVersionTimestamp( value );
     }
 

@@ -229,7 +229,7 @@ public class BuildScript {
     }
 
     private void setVersionTimestamp() {
-        project.setVersionTimestamp( (int)( System.currentTimeMillis() / 1000 ) ); // convert from ms to sec
+        project.setVersionTimestamp( System.currentTimeMillis() / 1000 ); // convert from ms to sec
     }
     
     public int getSVNVersion() {
