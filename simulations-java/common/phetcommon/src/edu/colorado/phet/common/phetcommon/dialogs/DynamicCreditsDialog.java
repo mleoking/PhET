@@ -40,7 +40,7 @@ public class DynamicCreditsDialog extends JDialog {
         }
         catch( IOException e ) {
             //shouldn't happen for sims generated with the build process; license info is copied automatically.
-            System.out.println( "No license info found; Perhaps you need to generate license information for this simulation, using PhetBuildGUI->Misc->Generate License Info" );
+            System.err.println( getClass().getName() + ": No license info found; Perhaps you need to generate license information for this simulation, using PhetBuildGUI->Misc->Generate License Info" );
 //            e.printStackTrace();
 
 
@@ -111,7 +111,7 @@ public class DynamicCreditsDialog extends JDialog {
 
     private String getLicenseSnippet() {
         if ( phetLicenseString == null ) {
-            return "No license information found.";
+            return "No license info found.";
         }
         AnnotationParser.Annotation[] a = AnnotationParser.getAnnotations( phetLicenseString );
         String text = "";
@@ -135,12 +135,12 @@ public class DynamicCreditsDialog extends JDialog {
             res = new DefaultResourceLoader().getResourceAsString( projectName + "/credits.txt" );
         }
         catch( IOException e ) {
-            System.out.println( "Sim was missing credits information, all sims should have credits eventually." );
+            System.err.println( getClass().getName() + "Sim was missing credits information, all sims should have credits eventually." );
 //            e.printStackTrace();
         }
         if ( res.trim().length() == 0 ) {
             //all simulations should specify credits eventually
-            return "PhET Interactive Simulations at the University of Colorado at Boulder";
+            return "No credits found.";
         }
         AnnotationParser.Annotation t = AnnotationParser.parse( res );
         HashMap map = t.getMap();
@@ -184,6 +184,9 @@ public class DynamicCreditsDialog extends JDialog {
         SwingUtils.centerWindowOnScreen( dialog );
         dialog.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
+                System.exit( 0 );
+            }
+            public void windowClosed( WindowEvent e ) {
                 System.exit( 0 );
             }
         } );
