@@ -38,6 +38,8 @@ public class SessionMessage extends StatisticsMessage {
                 new StatisticsMessageField( "sim_minor_version", config.getVersion().getMinor() ),
                 new StatisticsMessageField( "sim_dev_version", config.getVersion().getDev() ),
                 new StatisticsMessageField( "sim_svn_revision", config.getVersion().getRevision() ),
+                //todo: in discussion about best format to use for timestamp
+//                new StatisticsMessageField( "sim_timestamp", config.getVersion().formatTimestamp() ),
                 new StatisticsMessageField( "sim_distribution_tag", config.getDistributionTag() ),
                 new StatisticsMessageField( "sim_locale_language", PhetResources.readLocale().getLanguage() ),
                 new StatisticsMessageField( "sim_locale_country", PhetResources.readLocale().getCountry() ),
