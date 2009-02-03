@@ -1,6 +1,8 @@
 <?php
+    // script to be used indirectly. given a few paramters (compatible with $_GET for query-string
+    // variables), it crafts an efficient corresponding set of queries to yield the result.
 	
-	
+	// combine an array into a list for a WHERE clause
 	function where_array($arr) {
 		if(sizeof($arr) == 0) {
 			return "";
@@ -10,21 +12,25 @@
 		}
 		return " WHERE (" . join(" AND ", $arr) . ")";
 	}
-	
+
+	// combine an array into a list of additional tables to use for joining
 	function tables_array($arr) {
 		if(sizeof($arr) == 0) {
 			return "";
 		}
 		return ", " . join(", ", $arr);
 	}
-	
+
+	// combine an array of groups into a list for the GROUP BY clause
 	function group_array($arr) {
 		if(sizeof($arr) == 0) {
 			return "";
 		}
 		return " GROUP BY " . join(", ", $arr);
 	}
-	
+
+	// parse format for numeric-field comparisons, including equality
+	// returns the phrase to append to test for the desired condition
 	function plain_cmp($val) {
 		if($val == "null") {
 			return " IS NULL";
@@ -46,17 +52,19 @@
 		}
 		return " = {$val}";
 	}
-	
+
+	// direct string equality with the ability to test for NULL
 	function string_equal($val) {
 		if($val == "null") {
 			return " IS NULL";
 		}
-		if($val == "not_null") {
-			return " IS NOT NULL";
-		}
 		return " = '{$val}'";
 	}
-	
+
+	// build a query list based on the variables of the associative array $arr.
+	//
+	// for many scripts, the queries should be obtained with report_query($_GET)
+	// otherwise, it can be used as report_query(array("query" => "session_count"))
 	function report_query($arr) {
 		$query = array();
 		$session_where = array();
@@ -64,12 +72,18 @@
 		$group_by = array();
 		$pre_select = "";
 		$order_by = "";
-		
+
+		// signifies whether we are including session_flash_info / session_java_info into the joins
 		$flash_info = false;
 		$java_info = false;
-		
+
+		// identifies the type of query being performed
 		$query_name = $arr['query'];
-		
+
+
+		//////////
+		// Restriction of values included. Goes into the WHERE clause
+
 		if($arr['sim_type'] !== null) {
 			if($arr['sim_type'] == "flash") {
 				array_push($session_where, "session.sim_type != 0");
@@ -153,9 +167,9 @@
             }
 		}
 		
-		// TODO: add in java field equalities
-		
-		
+		//////////
+		// Grouping of values, for the GROUP BY clause
+
 		$group = $arr['group'];
 		
 		if($group) {
@@ -321,7 +335,10 @@
 					}
 			}
 		}
-		
+
+		//////////
+		// Order and maximum # of rows returned
+
 		$order = $arr['order'];
 		
 		if($order) {
@@ -337,7 +354,7 @@
 			$order_by .= " LIMIT {$limit}";
 		}
 		
-		
+		// if we are including one of these tables, add the join condition and table
 		if($flash_info) {
 			array_push($session_where, "session.id = session_flash_info.session_id");
 			array_push($tables, "session_flash_info");
@@ -346,11 +363,13 @@
 			array_push($session_where, "session.id = session_java_info.session_id");
 			array_push($tables, "session_java_info");
 		}
-		
+
+		// build the strings for clauses
 		$session_where = where_array($session_where);
 		$tables = tables_array($tables);
 		$group_by = group_array($group_by);
-		
+
+		// change things depending on the query type desired
 		switch($query_name) {
 			case "message_count":
 				array_push($query, "SELECT {$pre_select}COUNT(*) as message_count FROM session{$tables}{$session_where}{$group_by}{$order_by}; ");
@@ -367,7 +386,8 @@
 		
 		return $query;
 	}
-	
+
+	// returns the mysql result handle for the associative array $arr
 	function report_result($arr) {
 		$queries = report_query($arr);
 		$result = null;
@@ -376,13 +396,16 @@
 		}
 		return $result;
 	}
-	
+
+	// if the query is expected to return a single value in a single row/column, extract and return it
 	function report_single_value($arr) {
 		$result = report_result($arr);
 		$row = mysql_fetch_row($result);
 		return $row[0];
 	}
-	
+
+	// return a printable string which contains a description of the query, and links to the
+	// table and CSV results for the query
 	function report_table($desc, $args) {
 		return "{$desc} [<a href='query-table.php?{$args}'>table</a>] [<a href='query-csv.php?{$args}'>csv</a>]<br />";
 	}
