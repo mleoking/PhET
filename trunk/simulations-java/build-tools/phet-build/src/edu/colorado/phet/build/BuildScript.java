@@ -23,15 +23,22 @@ public class BuildScript {
     private AuthenticationInfo svnAuth;
     private String browser;
     private File baseDir;
+    private LocalProperties localProperties;
     private static final boolean dryRun = false;
     private static final boolean skipBuild = false;
-    private static final boolean skipSVNStatus = false;
+    private static boolean skipSVNStatus = false;
+    private static boolean skipSVNCommit = false;
 
     public BuildScript( File baseDir, PhetProject project, AuthenticationInfo svnAuth, String browser ) {
         this.baseDir = baseDir;
         this.project = project;
         this.svnAuth = svnAuth;
         this.browser = browser;
+
+        // Overrides specified in build-local.properties
+        this.localProperties = new LocalProperties( baseDir );
+        skipSVNStatus = this.localProperties.getBoolProperty( "svn.skip-status", false );
+        skipSVNCommit = this.localProperties.getBoolProperty( "svn.skip-commit", false );
     }
 
     public void clean() {
@@ -79,7 +86,7 @@ public class BuildScript {
         System.out.println( "Adding message to change file" );
         addMessagesToChangeFile( svnNumber + 1 );
 
-        if ( !dryRun ) {
+        if ( !dryRun && !skipSVNCommit ) {
             System.out.println( "Committing changes to version and change file." );
             commitProject();//commits both changes to version and change file
         }
