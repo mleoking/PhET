@@ -15,11 +15,13 @@ import edu.colorado.phet.common.phetcommon.util.AbstractPropertiesFile;
  */
 public class ProjectPropertiesFile extends AbstractPropertiesFile {
     
+    // keys for all properties in this file
     private static final String KEY_VERSION_MAJOR = "version.major";
     private static final String KEY_VERSION_MINOR = "version.minor";
     private static final String KEY_VERSION_DEV = "version.dev";
     private static final String KEY_VERSION_REVISION = "version.revision";
     private static final String KEY_VERSION_TIMESTAMP = "version.timestamp";
+    private static final String KEY_DISTRIBUTION_TAG = "distribution.tag";
     
     private static final DecimalFormat FORMAT_VERSION_MAJOR = new DecimalFormat( "0" );
     private static final DecimalFormat FORMAT_VERSION_MINOR = new DecimalFormat( "00" );
@@ -94,5 +96,13 @@ public class ProjectPropertiesFile extends AbstractPropertiesFile {
     
     public String getFullVersionString() {
         return getMajorVersionString() + "." + getMinorVersionString() + "." + getDevVersionString() + " (" + getSVNVersion() + ") " + getVersionTimestampString();
+    }
+    
+    public void setDistributionTag( String value ) {
+        setProperty( KEY_DISTRIBUTION_TAG, value );
+    }
+    
+    public String getDistributionTag() {
+        return getProperty( KEY_DISTRIBUTION_TAG );
     }
 }
