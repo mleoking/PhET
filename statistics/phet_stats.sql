@@ -92,7 +92,7 @@ CREATE TABLE session (
 	sim_sessions_since SMALLINT UNSIGNED,
 	
 	# number of sim runs for THIS SIM ever recorded for this user
-	sim_sessions_ever MEDIUMINT UNSIGNED,
+	sim_total_sessions MEDIUMINT UNSIGNED,
 	
 	# how this sim was delivered to the user
 	sim_deployment MEDIUMINT UNSIGNED NOT NULL,
@@ -296,7 +296,7 @@ CREATE VIEW simulation AS (
 		session.sim_locale_language,
 		session.sim_locale_country,
 		session.sim_sessions_since,
-		session.sim_sessions_ever,
+		session.sim_total_sessions,
 		deployment.name AS sim_deployment,
 		distribution_tag.name AS sim_distribution_tag,
 		session.sim_dev,
@@ -330,7 +330,7 @@ CREATE VIEW flash_simulation AS (
 		session.sim_locale_language,
 		session.sim_locale_country,
 		session.sim_sessions_since,
-		session.sim_sessions_ever,
+		session.sim_total_sessions,
 		deployment.name AS sim_deployment,
 		distribution_tag.name AS sim_distribution_tag,
 		session.sim_dev,
@@ -378,7 +378,7 @@ CREATE VIEW java_simulation AS (
 		session.sim_locale_language,
 		session.sim_locale_country,
 		session.sim_sessions_since,
-		session.sim_sessions_ever,
+		session.sim_total_sessions,
 		deployment.name AS sim_deployment,
 		distribution_tag.name AS sim_distribution_tag,
 		session.sim_dev,

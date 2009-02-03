@@ -82,7 +82,7 @@
 		$sim_locale_language = $arr['sim_locale_language'];
 		$sim_locale_country = $arr['sim_locale_country'];
 		$sim_sessions_since = $arr['sim_sessions_since'];
-		$sim_sessions_ever = $arr['sim_sessions_ever'];
+		$sim_total_sessions = $arr['sim_total_sessions'];
 		$sim_deployment = $arr['sim_deployment'];
 		$sim_distribution_tag = $arr['sim_distribution_tag'];
 		$host_locale_language = $arr['host_locale_language'];
@@ -128,8 +128,8 @@
 		if($sim_sessions_since !== null) {
 			array_push($session_where, "session.sim_sessions_since" . string_equal($sim_sessions_since));
 		}
-		if($sim_sessions_ever !== null) {
-			array_push($session_where, "session.sim_sessions_ever" . string_equal($sim_sessions_ever));
+		if($sim_total_sessions !== null) {
+			array_push($session_where, "session.sim_total_sessions" . string_equal($sim_total_sessions));
 		}
 		if($sim_deployment !== null) {
 			array_push($query, "SELECT (@deploy := deployment.id) FROM deployment WHERE deployment.name = '{$sim_deployment}'; ");
