@@ -18,7 +18,7 @@ object LadybugMotionModel {
     }
   }
   val LINEAR = new MotionType("linear") {
-    val speed = 0.3 * 15
+    val speed = 0.3 * 30
 
     override def init(model: LadybugModel) = {
       model.ladybug.setVelocity(new Vector2D(model.ladybug.getAngle) * speed)
@@ -28,18 +28,18 @@ object LadybugMotionModel {
       val angle = model.ladybug.getAngle
 
       val lastSample=if (model.samplePath.length>0)model.samplePath(model.samplePath.length-1).location else model.ladybug.getPosition
-      val proposedPoint=new Vector2D(model.ladybug.getVelocity.getAngle) * speed+lastSample
+//      val proposedPoint=new Vector2D(model.ladybug.getVelocity.getAngle) * speed+lastSample
 
 
-//      def step():Vector2D = {
-//        model.ladybug.setVelocity(new Vector2D(model.ladybug.getVelocity.getAngle) * speed)
-//        model.ladybug.translate(model.ladybug.getVelocity * dt)
-//      }
-//      step
-      var x = proposedPoint.x
-      var y = proposedPoint.y
-      var vx = proposedPoint.x
-      var vy = proposedPoint.y
+      def step() = {
+        model.ladybug.setVelocity(new Vector2D(model.ladybug.getVelocity.getAngle) * speed)
+        model.ladybug.translate(model.ladybug.getVelocity * dt)
+      }
+      step
+      var x = model.ladybug.getPosition.x
+      var y = model.ladybug.getPosition.y
+      var vx = model.ladybug.getVelocity.x
+      var vy = model.ladybug.getVelocity.y
       var changed = false
       val bounds = model.getBounds()
       if (x > bounds.getMaxX && vx > 0) {
@@ -61,13 +61,15 @@ object LadybugMotionModel {
       }
 
 //      model.addSamplePoint(model.ladybug.getPosition+new Vector2D(vx,vy)*dt)
-      model.setSamplePoint(new Vector2D(x,y))
-      model.positionMode(dt)
+//      model.setSamplePoint(new Vector2D(x,y))
+//      model.ladybug.setVelocity(new Vector2D(vx,vy))
+//      model.positionMode(dt)
+//      model.ladybug.setVelocity(new Vector2D(vx,vy))
 
-//      model.ladybug.setPosition(new Vector2D(x, y))
-//      model.ladybug.setVelocity(new Vector2D(vx, vy))
-//      model.ladybug.setAngle(model.ladybug.getVelocity.getAngle)
-//      model.ladybug.setAcceleration(model.average(model.getHistory.length - 15, model.getHistory.length - 1, model.estimateAcceleration))
+      model.ladybug.setPosition(new Vector2D(x, y))
+      model.ladybug.setVelocity(new Vector2D(vx, vy))
+      model.ladybug.setAngle(model.ladybug.getVelocity.getAngle)
+      model.ladybug.setAcceleration(model.average(model.getHistory.length - 15, model.getHistory.length - 1, model.estimateAcceleration))
     }
   }
   val CIRCULAR = new MotionType("circular") {
