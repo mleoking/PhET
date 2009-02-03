@@ -34,7 +34,7 @@ public class PhetFlashProject extends PhetProject {
             }
         } );
         ArrayList projects = new ArrayList();
-        for ( int i = 0; i < files.length; i++ ) {
+        for ( int i = 0; ( files != null ) && ( i < files.length ); i++ ) {
             File file = files[i];
             try {
                 projects.add( new PhetFlashProject( file ) );
