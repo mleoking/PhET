@@ -156,8 +156,7 @@ public class DynamicCreditsDialog extends JDialog {
 
     private String translate( String key, String value ) {
         String pattern = PhetCommonResources.getString( "Common.About.CreditsDialog." + key );
-        MessageFormat m = new MessageFormat( pattern );
-        return m.format( new Object[]{value} );
+        return pattern+": "+value;
     }
 
     public String getLicenseText( String id ) {
