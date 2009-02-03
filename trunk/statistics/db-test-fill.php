@@ -188,7 +188,7 @@
 		if(rand(0, 99) < 3) {
 			$simSessionsSince += rand(1, 5);
 		}
-		$simSessionsEver = $simSessionsSince + rand(1, 10) * rand(1, 30) + rand(0, 10);
+		$simTotalSessions = $simSessionsSince + rand(1, 10) * rand(1, 30) + rand(0, 10);
 		
 		
 		// deployment
@@ -293,7 +293,7 @@
 					"sim_locale_language" => $simLocaleLanguage,
 					"sim_locale_country" => $simLocaleCountry,
 					"sim_sessions_since" => $simSessionsSince,
-					"sim_sessions_ever" => $simSessionsEver,
+					"sim_total_sessions" => $simTotalSessions,
 					"sim_deployment" => $simDeployment,
 					"sim_distribution_tag" => $simDistributionTag,
 					"sim_dev" => $simDev,
@@ -371,7 +371,7 @@
 					"sim_locale_language" => $simLocaleLanguage,
 					"sim_locale_country" => $simLocaleCountry,
 					"sim_sessions_since" => $simSessionsSince,
-					"sim_sessions_ever" => $simSessionsEver,
+					"sim_total_sessions" => $simTotalSessions,
 					"sim_deployment" => $simDeployment,
 					"sim_distribution_tag" => $simDistributionTag,
 					"sim_dev" => $simDev,

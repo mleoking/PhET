@@ -121,7 +121,7 @@ BOO;
 			'sim_locale_language' => quo($data['sim_locale_language']),
 			'sim_locale_country' => quote_null_if_none($data['sim_locale_country']),
 			'sim_sessions_since' => mysql_real_escape_string($data['sim_sessions_since']),
-			'sim_sessions_ever' => mysql_real_escape_string($data['sim_sessions_ever']),
+			'sim_total_sessions' => mysql_real_escape_string($data['sim_total_sessions']),
 			'sim_deployment' => $sim_deployment_ID,
 			'sim_distribution_tag' => $sim_distribution_tag_ID,
 			'sim_dev' => mysql_real_escape_string($data['sim_dev']),
