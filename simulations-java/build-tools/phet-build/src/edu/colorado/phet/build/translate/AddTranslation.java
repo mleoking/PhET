@@ -103,7 +103,10 @@ public class AddTranslation {
 
                 //poke the website to make sure it regenerates pages with the new info
                 try {
-                    FileUtils.download( "http://phet.colorado.edu/admin/cache-clear.php?cache=all", new File( getTempProjectDir( phetProject ), "cache-clear-all.php" ) );
+                    if ( ( PhetServer.PRODUCTION.getCacheClearUrl() != null ) && ( PhetServer.PRODUCTION.getCacheClearFile() != null ) ) {
+                        System.out.println( "Clearing website cache" );
+                        FileUtils.download( PhetServer.PRODUCTION.getCacheClearUrl(), new File( getTempProjectDir( phetProject ), PhetServer.PRODUCTION.getCacheClearFile() ) );
+                    }
                     System.out.println( "Deployed: " + phetProject.getName() + " in language " + language + ", please test it to make sure it works correctly." );
                     System.out.println( "Finished deploy" );
                 }
@@ -147,7 +150,7 @@ public class AddTranslation {
                 String JNLP = FileUtils.loadFileAsString( newJNLPFile, "utf-16" );
                 JNLP = FileUtils.replaceAll( JNLP, repositoryMainClass, desiredMainClass );
                 FileUtils.writeString( newJNLPFile, JNLP, "utf-16" );
-                System.out.println( "Wrote new JNLP file with tigercat main-class: " + desiredMainClass + " instead of repository main class: " + repositoryMainClass + ": " + newJNLPFile.getAbsolutePath() );
+                System.out.println( "Wrote new JNLP file with " + PhetServer.PRODUCTION.getHost() + " main-class: " + desiredMainClass + " instead of repository main class: " + repositoryMainClass + ": " + newJNLPFile.getAbsolutePath() );
             }
             //make sure main class is correct
         }
@@ -220,16 +223,16 @@ public class AddTranslation {
     }
 
     /*
-     * Uploads the new JAR file to tigercat.
+     * Uploads the new JAR file to the production server.
      */
     private void deployJAR( PhetProject phetProject, String user, String password ) throws JSchException, IOException {
         final String filename = getRemoteDirectory( phetProject ) + phetProject.getName() + "_all.jar";
-        ScpTo.uploadFile( getJARTempFile( phetProject ), user, "tigercat.colorado.edu", filename, password );
+        ScpTo.uploadFile( getJARTempFile( phetProject ), user, PhetServer.PRODUCTION.getHost(), filename, password );
     }
 
     private void deployJNLPFile( PhetProject phetProject, Simulation simulation, String locale, String user, String password ) throws JSchException, IOException {
         String filename = getRemoteDirectory( phetProject ) + simulation.getName() + "_" + locale + ".jnlp";
-        ScpTo.uploadFile( getJNLPFile( phetProject, simulation, locale ), user, "tigercat.colorado.edu", filename, password );
+        ScpTo.uploadFile( getJNLPFile( phetProject, simulation, locale ), user, PhetServer.PRODUCTION.getHost(), filename, password );
     }
 
     private File getJNLPFile( PhetProject phetProject, Simulation simulation, String locale ) {
@@ -237,7 +240,7 @@ public class AddTranslation {
     }
 
     private String getRemoteDirectory( PhetProject phetProject ) {
-        return "/web/htdocs/phet/sims/" + phetProject.getName() + "/";
+        return PhetServer.PRODUCTION.getServerDeployPath( phetProject ) + "/";
     }
 
     private File getTempProjectDir( PhetProject phetProject ) {
