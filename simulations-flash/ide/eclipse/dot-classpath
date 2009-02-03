@@ -5,4 +5,5 @@
 	<classpathentry kind="src" path="flash-launcher/src"/>
 	<classpathentry kind="src" path="flash-launcher/data"/>
 	<classpathentry kind="output" path="bin"/>
+        <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 </classpath>
