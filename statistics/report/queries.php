@@ -168,6 +168,14 @@
 					$pre_select .= "CONCAT(session.sim_major_version, '.', session.sim_minor_version, '.', session.sim_dev_version, ' (', session.sim_svn_revision, ')') AS version, ";
 					array_push($group_by, "version");
 					break;
+				case "sim_locale":
+				    $pre_select .= "IF(session.sim_locale_country IS NULL, session.sim_locale_language, CONCAT(session.sim_locale_language, '_', session.sim_locale_country)) as sim_locale, ";
+				    array_push($group_by, "sim_locale");
+				    break;
+				case "host_locale":
+				    $pre_select .= "IF(session.host_locale_country IS NULL, session.host_locale_language, CONCAT(session.host_locale_language, '_', session.host_locale_country)) as host_locale, ";
+				    array_push($group_by, "host_locale");
+				    break;
 				case "os":
 					$pre_select .= "simplified_os.name as os, ";
 					array_push($session_where, "session.host_simplified_os = simplified_os.id");
@@ -364,7 +372,7 @@
 		$queries = report_query($arr);
 		$result = null;
 		foreach($queries as $query) {
-			$result = phet_mysql_query($query);
+			$result = mysql_query($query) or die(mysql_error());
 		}
 		return $result;
 	}
