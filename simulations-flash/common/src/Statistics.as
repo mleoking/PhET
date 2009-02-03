@@ -76,7 +76,7 @@ class Statistics {
 		str += "sim_total_sessions = '" + escape(_level0.preferences.visitsEver()) + "' \n";
 		
 		var deployment : String = "";
-		if(!_level0.common.fromPhetWebsite() && !isPlaceholder(_level0.installationTimestamp) && _level0.installationTimestamp != "none") {
+		if(!_level0.common.fromPhetWebsite() && !_level0.common.isPlaceholder(_level0.installationTimestamp) && _level0.installationTimestamp != "none") {
 			// if not running from a website, AND installation timestamp is included, it must be a full installation!
 			// thus we override
 			deployment = "full-installation";
@@ -164,17 +164,12 @@ class Statistics {
 		//xml.sendAndLoad("http://localhost/statistics/submit_message.php", reply);
 	}
 	
-	// return whether a string is a placeholder
-	public function isPlaceholder(str : String) : Boolean {
-		return (str.substr(0, 2) == "@@" && str.substr(-2, 2) == "@@");
-	}
-	
 	// escape, but return defaultStr for placeholder strings
 	public function placeholderEscape(str : String, defaultStr : String) : String {
 		if(defaultStr == undefined) {
 			defaultStr = "none";
 		}
-		if(isPlaceholder(str)) {
+		if(_level0.common.isPlaceholder(str)) {
 			// field is a placeholder string, return defaultStr
 			return defaultStr;
 		} else {

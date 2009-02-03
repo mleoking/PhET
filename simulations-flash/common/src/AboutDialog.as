@@ -50,8 +50,8 @@ class AboutDialog {
 		}
 		str += " (" + _level0.revision + ")\n";
 		str += _level0.comStrings.get("BuildDate", "Build Date") + ": " + dateString(new Date(int(_level0.versionTimestamp) * 1000)) + "\n";
-		if(_level0.distributionTag) {
-			str += _level0.comStrings.get("Distribution", "Distribution") + ": " + _level0.distributionTag + "\n";
+		if(_level0.simDistributionTag && _level0.simDistributionTag != "none" && !_level0.common.isPlaceholder(_level0.simDistributionTag)) {
+			str += _level0.comStrings.get("Distribution", "Distribution") + ": " + _level0.simDistributionTag + "\n";
 		}
 		str += "\n";
 		str += _level0.comStrings.get("FlashVersion", "Flash Version") + ": " + System.capabilities.version + "\n";
