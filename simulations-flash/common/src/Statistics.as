@@ -50,7 +50,7 @@ class Statistics {
 		
 		/////// user data
 		str += "user_preference_file_creation_time = '" + escape(String(_level0.preferences.getUserTime())) + "' \n";
-		str += "user_install_timestamp = '" + escape(String(_level0.installTimestamp)) + "' \n";
+		str += "user_installation_timestamp = '" + escape(String(_level0.installationTimestamp)) + "' \n";
 		str += "user_total_sessions = '" + escape(String(_level0.preferences.getUserTotalSessions())) + "' \n";
 		
 		
