@@ -684,13 +684,13 @@ public abstract class PhetProject {
             e.printStackTrace();
         }
 
-        //todo: still testing this
-//        try {
-//            SetSVNIgnoreToDeployDirectories.setIgnorePatternsOnDir( contribLicensesDir.getParentFile(), new String[]{contribLicensesDir.getName()} );
-//        }
-//        catch( IOException e ) {
-//            e.printStackTrace();
-//        }
+        try {
+            SetSVNIgnoreToDeployDirectories.setIgnorePatternsOnDir( contribLicensesDir.getParentFile(), new String[]{contribLicensesDir.getName()} );
+            //todo: redirect system.out and system.err
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
     }
 
     public String[] getCreditsKeys() {
