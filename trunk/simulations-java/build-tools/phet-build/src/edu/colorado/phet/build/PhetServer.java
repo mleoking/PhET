@@ -154,7 +154,7 @@ public abstract class PhetServer {
         }
 
         public String getServerDeployPath( PhetProject project ) {
-            System.out.println("getServerDeployPath():" + getServerDeployPath() + "/sims/" + project.getName());
+            System.out.println("getServerDeployPath():" + getServerDeployPath() + "/" + project.getName());
             return getServerDeployPath() + "/" + project.getName();
         }
 
