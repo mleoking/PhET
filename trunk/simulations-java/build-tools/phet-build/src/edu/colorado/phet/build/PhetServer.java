@@ -39,11 +39,10 @@ public abstract class PhetServer {
                 "phet.colorado.edu",  // Web host
                 "/web/chroot/phet/usr/local/apache/htdocs/sims", // Deploy path on server
                 "/sims", // Deploy path on web host
-                "http://192.168.42.102/dev/phet/admin/cache-clear.php?cache=all", // Cache clear full URL
+                "http://phet.colorado.edu/admin/cache-clear.php?cache=all", // Cache clear full URL
                 "cache-clear.php", // Cache clear file
                 "/web/chroot/phet/usr/local/apache/htdocs/cl_utils/create-localized-jars.py --verbose " // Localization generation command
             );
-
     /* Dano's test machine
     public static PhetServer DEVELOPMENT = 
         new PhetDevServer( 
@@ -66,7 +65,7 @@ public abstract class PhetServer {
                 "/var/www/dev/phet/cl_utils/create-localized-jars.py --verbose --sim-root=/var/www/dev/phet/sims --jar-cmd=/usr/lib/jvm/java-6-sun-1.6.0.03/bin/jar" // Localization generation command
             );
     */
-
+    
     private String serverHost;
     private String webHost;
     private String serverDeployPath;
