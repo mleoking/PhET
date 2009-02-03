@@ -76,7 +76,7 @@ class Statistics {
 		str += "sim_total_sessions = '" + escape(_level0.preferences.visitsEver()) + "' \n";
 		
 		var deployment : String = "";
-		if(!_level0.common.fromPhetWebsite() && !isPlaceholder(_level0.installationTimestamp)) {
+		if(!_level0.common.fromPhetWebsite() && !isPlaceholder(_level0.installationTimestamp) && _level0.installationTimestamp != "none") {
 			// if not running from a website, AND installation timestamp is included, it must be a full installation!
 			// thus we override
 			deployment = "full-installation";
