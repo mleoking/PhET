@@ -21,7 +21,7 @@ import javax.xml.transform.stream.*;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class XMLStatisticsService implements IStatisticsService {
-    
+
     private static final boolean ENABLE_DEBUG_OUTPUT = true;
 
     /**
@@ -106,22 +106,27 @@ public class XMLStatisticsService implements IStatisticsService {
 
         // post
         if ( ENABLE_DEBUG_OUTPUT ) {
-        System.out.println( XMLStatisticsService.class.getName() + ": posting to " + url + " ..." );
+            System.out.println( XMLStatisticsService.class.getName() + ": posting to " + url + " ..." );
         }
-        OutputStreamWriter outStream = new OutputStreamWriter( connection.getOutputStream(), "UTF-8" );
-        outStream.write( xml );
-        outStream.close();
+        try {
+            OutputStreamWriter outStream = new OutputStreamWriter( connection.getOutputStream(), "UTF-8" );
+            outStream.write( xml );
+            outStream.close();
 
-        // Get the response
-        if ( ENABLE_DEBUG_OUTPUT ) {
-            BufferedReader reader = new BufferedReader( new InputStreamReader( connection.getInputStream() ) );
-            System.out.println( XMLStatisticsService.class.getName() + ": reading response ..." );
-            String line;
-            while ( ( line = reader.readLine() ) != null ) {
-                System.out.println( line );
+            // Get the response
+            if ( ENABLE_DEBUG_OUTPUT ) {
+                BufferedReader reader = new BufferedReader( new InputStreamReader( connection.getInputStream() ) );
+                System.out.println( XMLStatisticsService.class.getName() + ": reading response ..." );
+                String line;
+                while ( ( line = reader.readLine() ) != null ) {
+                    System.out.println( line );
+                }
+                reader.close();
+                System.out.println( "done." );
             }
-            reader.close();
-            System.out.println( "done." );
+        }
+        catch( UnknownHostException uhe ) {
+            System.err.println( "Could not sumbit message, perhaps network is unavailable: " + uhe.toString() );
         }
     }
 
