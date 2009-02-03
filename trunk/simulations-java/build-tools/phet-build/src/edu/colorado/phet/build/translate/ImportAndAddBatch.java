@@ -4,19 +4,23 @@ import java.io.File;
 
 import javax.swing.*;
 
+import edu.colorado.phet.build.AuthenticationInfo;
+import edu.colorado.phet.build.LocalProperties;
 import edu.colorado.phet.build.translate.AddTranslation.AddTranslationReturnValue;
 
 /**
- * This is the main entry point for importing translations into subversion and deploying them to tigercat.
+ * This is the main entry point for importing translations into subversion and deploying them to the production server.
  *
  * @author Sam Reid
  * @author Chris Malley
  */
 public class ImportAndAddBatch {
     private File baseDir;
+    private LocalProperties localProperties;
 
     public ImportAndAddBatch( File baseDir ) {
         this.baseDir = baseDir;
+        this.localProperties = new LocalProperties( baseDir );
     }
 
     public static void main( String[] args ) throws Exception {
@@ -25,6 +29,14 @@ public class ImportAndAddBatch {
             System.exit( 1 );
         }
         startImportAndAddBatch( args[0] );
+    }
+
+    private String getLocalProperty( String s ) {
+        return localProperties.getProperty( s );
+    }
+
+    private AuthenticationInfo getDevelopmentAuthentication( String serverType ) {
+        return new AuthenticationInfo( getLocalProperty( "deploy." + serverType + ".username" ), getLocalProperty( "deploy." + serverType + ".password" ) );
     }
 
     public static void startImportAndAddBatch( String simulationsJava ) throws Exception {
@@ -48,9 +60,8 @@ public class ImportAndAddBatch {
                                        "the PHET production server." );
 
         // deploy the translations to the PhET productions server
-        String username = AddTranslation.prompt( "Production Server username:" );
-        String password = AddTranslation.prompt( "Production Server password:" );
-        AddTranslationBatch addTranslationBatch = new AddTranslationBatch( baseDir, new File( dir ), username, password );
+        AuthenticationInfo auth = getDevelopmentAuthentication( "prod" );
+        AddTranslationBatch addTranslationBatch = new AddTranslationBatch( baseDir, new File( dir ), auth.getUsername( "production server" ), auth.getPassword( "production server" ) );
         AddTranslationReturnValue[] returnValues = addTranslationBatch.runBatch();
         System.out.println( "Finished deploying" );
 
