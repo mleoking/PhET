@@ -4,6 +4,7 @@ from optparse import OptionParser
 import os
 
 from pyphetutils.siminfo import get_sim_info
+from pyphetutils import siteutils
 from pyphetutils.simutils import *
 
 # These defaults are for running on tigercat
@@ -16,6 +17,9 @@ DEFAULT_JAVA_ONLY = False
 
 def main():
     """Run from the command line"""
+
+    # Set the umask so it will be correctly permissioned
+    os.umask(0002)
 
     usage = "usage: %prog [options] project_name sim_name"
     description = """Create the jar files, multi-purpose to be honed later. TODO: add text about keywords "ALL" """
@@ -225,6 +229,7 @@ def main():
 if __name__ == '__main__':
     try:
         retval = main()
+        siteutils.clear_cache()
     except RuntimeError, r:
         print
         print 'ERROR:', r

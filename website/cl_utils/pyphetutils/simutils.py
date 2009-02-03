@@ -5,8 +5,9 @@ import os.path as path
 import re
 import shutil
 import tempfile
+import stat
 
-from runcommand import *
+from commands import *
 
 # Define types of sims, these should match those in include/sim-utils.php
 SIM_TYPE_JAVA = 0
@@ -34,9 +35,9 @@ def detect_sim_type(project, simulation, sim_root):
     # Compile regex to extract the info
     try:
         jar_file = '%s_all.jar' % (project,)
-        jnlp_file = '%s.jnlp' % (simulation,)
+        #jnlp_file = '%s.jnlp' % (simulation,)
         os.stat(path.join(project_dir, jar_file))
-        os.stat(path.join(project_dir, jnlp_file))
+        #os.stat(path.join(project_dir, jnlp_file))
         return SIM_TYPE_JAVA
     except OSError:
         pass
@@ -70,7 +71,7 @@ def update_jar_text_file(jar_file, updates, jar_cmd):
     # Append the text
     for text_file, text in updates.items():
         open(text_file, 'a').write(text)
-    
+
     # Update the JAR
     command = '%s uf %s -C . %s' % (jar_cmd, jar_file, ' '.join(updates.keys()))
     run(command.split(' '))
@@ -113,7 +114,7 @@ def process_java_sim(project, simulation, sim_root,
     # The 'jar' command extracts to the current directory, so create a
     # temporary directory and work from there
     temp_dir = tempfile.mkdtemp(prefix='phet_')
-    cwd = os.getcwd()
+    oldcwd = os.getcwd()
     os.chdir(temp_dir)
 
     # Source JAR file to modify
@@ -121,9 +122,21 @@ def process_java_sim(project, simulation, sim_root,
     source_jar_path = path.join(project_dir, source_jar)
     try:
         os.stat(source_jar_path)
+        open(source_jar_path)
     except OSError, e:
-        os.chdir(cwd)
+        # Source jar does not exist, return to previous working directory
+        os.chdir(oldcwd)
+        os.rmdir(temp_dir)
         raise RuntimeError('Cannot find source JAR file "%s"' % (source_jar,))
+    except IOError, e:
+        os.chdir(oldcwd)
+        os.rmdir(temp_dir)
+        if e.errno == 13:
+            raise RuntimeError('ERROR: insufficient permission to read "%s"' % \
+                                   (source_jar_path,))
+
+        # Don't know what happened, propogate the error
+        raise
 
     # Loop through all the locales
     locales = get_java_locales(project, simulation, sim_abs_dir)
@@ -137,27 +150,44 @@ def process_java_sim(project, simulation, sim_root,
             jar_file = '%s_%s.jar' % (simulation, locale)
 
         # Copy the source JAR file to this directory
-        shutil.copy(source_jar_path, jar_file)
+        shutil.copyfile(source_jar_path, jar_file)
 
         updates = {}
         updates['options.properties'] = 'locale=%s\n' % (language,)
+        updates['main-flavor.properties'] = 'main.flavor=%s\n' % (simulation,)
         updates['flavor.properties'] = 'flavor=%s\n' % (simulation,)
         text = 'language=%s\n' % (language,)
         if country is not None:
             text = text + 'country=%s\n' % (country,)
         updates['locale.properties'] = text
 
+        updates['args.properties'] = updates['flavor.properties'] + \
+            updates['locale.properties']
+
         try:
             update_jar_text_file(jar_file, updates, jar_cmd)
         except Exception, e:
-            os.chdir(cwd)
+            os.chdir(oldcwd)
+            os.rmdir(temp_dir)
             raise
 
+        # Explicitly set the permissions of the jar 0664
+        os.chmod(jar_file,
+                 stat.S_IRUSR | stat.S_IWUSR | 
+                 stat.S_IRGRP | stat.S_IWGRP | 
+                 stat.S_IROTH)
+
         # JAR file is ready, move it to where it belongs
-        shutil.move(jar_file, path.join(project_dir, jar_file))
+        dest = path.join(project_dir, jar_file)
+        try:
+            super_move(jar_file, dest, verbose)
+        except OSError:
+            print 'ERROR: cannot overwrite original file "%s", skipping' % \
+                (jar_file,)
+            os.remove(jar_file)
 
     # Restore the original working directory
-    os.chdir(cwd)
+    os.chdir(oldcwd)
 
     # Cleanup
     os.rmdir(temp_dir)
@@ -171,6 +201,7 @@ def process_java_sim(project, simulation, sim_root,
 
 def process_flash_jar(project, simulation, locale, sim_root,
                       template_location, jar_cmd):
+    # Get an absolute path to the project
     project_dir = path.abspath(path.join(sim_root, project))
 
     # Create temp directory
@@ -178,21 +209,19 @@ def process_flash_jar(project, simulation, locale, sim_root,
 
     # Add extra files needed
     tt = path.join(tdir, 'flash-launcher-args.txt')
-    outf = open(tt, 'w')
-    outf.write('%s %s' % (simulation, locale))
-    outf.close()
+    open(tt, 'w').write('%s %s' % (simulation, locale))
 
     # Make JAR
-    ntmp = tempfile.NamedTemporaryFile(prefix='phet_jar_')
-    jar_name = ntmp.name
+    jar_name = '%s_%s.jar' % (simulation, locale)
 
     # Grab all the files from the project directory for this sim
     files = os.listdir(project_dir)
 
-    # Get all the JAR files
+    # Get all the localized string files
     string_files = [file for file in files \
                         if -1 != file.find('%s-strings' % (simulation,))]
 
+    # Prepare the arguments for the jar command
     args = ['-C %s flash-launcher-args.txt' % (tdir,), 
             '-C %s flash-launcher-template.html' % (template_location,),
             '-C %s %s.properties' % (project_dir, simulation),
@@ -207,12 +236,14 @@ def process_flash_jar(project, simulation, locale, sim_root,
     command = '%s cmf %s %s %s' % (jar_cmd, manifest, jar_name, ' '.join(args))
     run(command.split(' '))
 
-    # Copy JAR into place
+    # Move JAR into place
     locale_jar = path.join(project_dir, '%s_%s.jar' % (simulation, locale))
-    open(locale_jar, 'w').write(open(jar_name, 'r').read())
-
-    # Delete temp files
-    ntmp.close()
+    try:
+        super_move(jar_name, locale_jar)
+    except OSError:
+        print 'ERROR: cannot overwrite original file "%s"' % (locale_jar,)
+        os.remove(jar_name)
+        raise
 
     # Delete temp directory
     os.remove(tt)
@@ -233,7 +264,7 @@ def get_flash_locales(project, simulation, sim_root):
     return locales
 
 def process_flash_sim(project, simulation, sim_root, template_location,
-                    verbose, jar_cmd):
+                      verbose, jar_cmd):
     locales = get_flash_locales(project, simulation, sim_root)
 
     # If the triple exist (HTML, XML, SWF) exists, create the jar
