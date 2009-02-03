@@ -103,7 +103,7 @@ public class ProjectListPanel extends JPanel {
             }
         } );
 
-        final JButton deployProd = new JButton( "Deploy Prod" );
+        final JButton deployProd = new JButton( "Deploy Dev & Prod" );
         deployProd.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 int option = JOptionPane.showConfirmDialog( deployProd, "Are you sure you are ready to deploy " + getSelectedProject().getName() + " to " + PhetServer.PRODUCTION.getHost() + "?" );

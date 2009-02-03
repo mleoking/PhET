@@ -76,7 +76,7 @@ public class ProjectPanel extends JPanel {
             }
         } );
         controlPanel.add( deployDevButton );
-        deployProdButton = new JButton( "Deploy Prod" );
+        deployProdButton = new JButton( "Deploy Dev & Prod" );
         deployProdButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 doProd();
