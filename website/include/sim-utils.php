@@ -191,7 +191,7 @@
     //     'minor' => value
     //     'dev' => value
     //     'revision' => value
-    function sim_get_version($simulation) {
+    function sim_get_version($simulation, $ignore_flash = true) {
         $dirname     = $simulation['sim_dirname'];
 
         $properties_filename = SIMS_ROOT."{$dirname}/{$dirname}.properties";
@@ -202,6 +202,11 @@
         $version = array();
         foreach ($revision_tags as $tag) {
             $version[$tag] = '';
+        }
+
+        // TEMP: Flash versioning is inaccurate, return blank version
+        if ($ignore_flash && ($simulation['sim_type'] == SIM_TYPE_FLASH)) {
+            return $version;
         }
 
         $handle = @fopen($properties_filename, "r");
