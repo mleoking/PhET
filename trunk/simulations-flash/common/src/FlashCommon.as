@@ -160,6 +160,11 @@ class FlashCommon {
 		return (_level0.simDeployment == "standalone-jar");
 	}
 	
+	// return whether a string is a placeholder
+	public function isPlaceholder(str : String) : Boolean {
+		return (str.substr(0, 2) == "@@" && str.substr(-2, 2) == "@@");
+	}
+	
 	// DEVELOPMENT
 	public function onKeyDown() {
 		if(Key.getCode() == Key.PGUP) {
