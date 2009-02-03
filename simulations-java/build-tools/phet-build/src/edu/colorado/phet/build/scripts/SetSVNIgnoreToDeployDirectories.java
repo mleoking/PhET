@@ -16,7 +16,7 @@ import edu.colorado.phet.build.PhetProject;
  * This is done via the svn:ignore property, and that property is set using the "svn propset" command.
  * See "svn help propset" for details.
  */
-public class AddSVNIgnoreToDeployDirectories {
+public class SetSVNIgnoreToDeployDirectories {
 
     public static void main( String[] args ) throws IOException {
 
