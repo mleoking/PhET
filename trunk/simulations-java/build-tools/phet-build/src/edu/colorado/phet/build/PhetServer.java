@@ -25,7 +25,7 @@ public abstract class PhetServer {
     public static PhetServer DEVELOPMENT = 
         new PhetDevServer( 
                 "spot.colorado.edu", // Server host
-                "spot.colorado.edu",  // Web host
+                "www.colorado.edu",  // Web host
                 "/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet/dev", // Deploy path on server
                 "/physics/phet/dev", // Deploy path on web host
                 null, // Cache clear full URL
