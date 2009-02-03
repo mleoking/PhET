@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--charges-and-fields-strings_el.xml created Thu Jan 29 03:28:19 EET 2009 using: charges-and-fields 1.00.00 (22386), translation-utility 1.09.00 (26682)-->
+<!--charges-and-fields-strings_el.xml created Thu Jan 29 23:17:33 EET 2009 using: charges-and-fields 1.00.00 (22386), translation-utility 1.09.00 (26682)-->
 <SimStrings>
 <string key="directionOnly" value="κατεύθυνση μόνο"/>
 <string key="grid" value="πλέγμα"/>
@@ -11,10 +11,10 @@
 <string key="showEField" value="Εμφ Ηλ.πεδίου"/>
 <string key="oneNanoC" value="1 nC"/>
 <string key="showHiRes" value="υψηλή αναλ. V"/>
-<string key="EFieldSensors" value="?????. ??????"/>
+<string key="EFieldSensors" value="Sensors"/>
 <string key="eFieldUnit" value="V/m"/>
 <string key="clear" value="σβήσε"/>
-<string key="plot" value="σχεδίασε"/>
+<string key="plot" value="γράψε"/>
 <string key="equipotential" value="ισοδυναμικό"/>
 <string key="angleUnit" value="μοίρες"/>
 <string key="showLoRes" value="χαμηλή αναλ. V"/>
