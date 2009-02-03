@@ -12,7 +12,7 @@ CREATE TABLE user (
 	user_preferences_file_creation_time BIGINT UNSIGNED NOT NULL,
 	
 	# if from a full installation, when it was installed
-	user_install_timestamp BIGINT UNSIGNED,
+	user_installation_timestamp BIGINT UNSIGNED,
 	
 	# number of total sim runs that have been recorded by the user
 	user_total_sessions INT UNSIGNED,

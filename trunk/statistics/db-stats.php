@@ -280,9 +280,9 @@ BOO;
 		if(empty($safe_install_timestamp) || $safe_install_timestamp == "null" || $safe_install_timestamp == "none") {
 			// not from an installation, set timestamp value to NULL
 			$safe_install_timestamp = "NULL";
-			$query = "SELECT user_preferences_file_creation_time, user_install_timestamp FROM user WHERE (user_preferences_file_creation_time = {$safe_time} AND user_install_timestamp IS NULL);";
+			$query = "SELECT user_preferences_file_creation_time, user_installation_timestamp FROM user WHERE (user_preferences_file_creation_time = {$safe_time} AND user_installation_timestamp IS NULL);";
 		} else {
-			$query = "SELECT user_preferences_file_creation_time, user_install_timestamp FROM user WHERE (user_preferences_file_creation_time = {$safe_time} AND user_install_timestamp = {$safe_install_timestamp});";
+			$query = "SELECT user_preferences_file_creation_time, user_installation_timestamp FROM user WHERE (user_preferences_file_creation_time = {$safe_time} AND user_installation_timestamp = {$safe_install_timestamp});";
 		}
 		$result = phet_mysql_query($query);
 		
@@ -295,7 +295,7 @@ BOO;
 			// values to be inserted
 			$values = array(
 				'user_preferences_file_creation_time' => $safe_time,
-				'user_install_timestamp' => $safe_install_timestamp,
+				'user_installation_timestamp' => $safe_install_timestamp,
 				'user_total_sessions' => $safe_sessions,
 				'first_seen_month' => quo(date("Y-m-01", time())), // current year and month
 				'last_seen_month' => quo(date("Y-m-01", time())) // current year and month
@@ -306,7 +306,7 @@ BOO;
 			// user already in table, update values
 			
 			// test whether install timestamp is the same (either NULL or with a value)
-			$timestamp_test = "user_install_timestamp " . ($safe_install_timestamp == "NULL" ? "IS NULL" : "= {$safe_install_timestamp}");
+			$timestamp_test = "user_installation_timestamp " . ($safe_install_timestamp == "NULL" ? "IS NULL" : "= {$safe_install_timestamp}");
 			
 			// update total sessions
 			$update_query = "UPDATE user SET user_total_sessions = {$safe_sessions} WHERE (user_preferences_file_creation_time = {$safe_time} AND {$timestamp_test})";

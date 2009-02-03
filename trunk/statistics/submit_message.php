@@ -49,7 +49,7 @@
 			// create/update entry in user database
 			update_user(
 				urldecode($xml["user_preference_file_creation_time"]),
-				urldecode($xml["user_install_timestamp"]),
+				urldecode($xml["user_installation_timestamp"]),
 				urldecode($xml["user_total_sessions"])
 			);
 			
@@ -111,7 +111,7 @@
 			// create/update entry in user database
 			update_user(
 				urldecode($xml["user_preference_file_creation_time"]),
-				urldecode($xml["user_install_timestamp"]),
+				urldecode($xml["user_installation_timestamp"]),
 				urldecode($xml["user_total_sessions"])
 			);
 			
