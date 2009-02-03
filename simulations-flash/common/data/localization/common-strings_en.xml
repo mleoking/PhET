@@ -8,6 +8,7 @@
   <string key="SomeRightsReserved" value="Some rights reserved." />
   <string key="Visit" value="Visit {0}." />
   <string key="Version" value="Version" />
+  <string key="BuildDate" value="Build Date" />
   <string key="FlashVersion" value="Flash Version" />
   <string key="OSVersion" value="OS" />
   <string key="License" value="License" />
@@ -36,4 +37,5 @@
   <string key="License3" value="The PhET source code is licensed under a &lt;a href='{0}'&gt;Creative Commons GNU General Public License&lt;/a&gt;." />
   <string key="License4" value="For more information about licensing, &lt;a href='{0}'&gt;click here&lt;/a&gt;. If you are interested in alternative license options, please contact PhET at &lt;a href='{1}'&gt;phethelp@colorado.edu&lt;/a&gt;." />
   <string key="License5Libraries" value="Used Library Licensing Information:" />
+
 </SimStrings>

@@ -49,6 +49,7 @@ class AboutDialog {
 			str += "." + _level0.dev;
 		}
 		str += " (" + _level0.revision + ")\n";
+		str += _level0.comStrings.get("BuildDate", "Build Date") + ": " + dateString(new Date(int(_level0.versionTimestamp) * 1000)) + "\n";
 		str += _level0.comStrings.get("FlashVersion", "Flash Version") + ": " + System.capabilities.version + "\n";
 		str += _level0.comStrings.get("OSVersion", "OS Version") + ": " + System.capabilities.os + "\n";
 		
@@ -109,5 +110,11 @@ class AboutDialog {
 	public function okClicked(src : JButton) {
 		// hide this window
 		_level0.aboutWindow.setVisible(false);
+	}
+	
+	public function dateString(date : Date) : String {
+		var year : String = new String(date.getYear() + 1900);
+		var month : String = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][date.getMonth()];
+		return month + " " + String(date.getDate()) + " " + year;
 	}
 }
