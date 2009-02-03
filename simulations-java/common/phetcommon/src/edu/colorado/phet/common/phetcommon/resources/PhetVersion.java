@@ -18,7 +18,7 @@ public class PhetVersion {
     // About dialog format, major.minor.dev (revision)
     private static final String FORMAT_ABOUT = "{0}.{1}.{2} ({3})";
     // Timestamp format
-    private static final SimpleDateFormat FORMAT_TIMESTAMP = new SimpleDateFormat( "MM-dd-yyyy" );
+    private static final SimpleDateFormat FORMAT_TIMESTAMP = new SimpleDateFormat( "MMM dd yyyy" ); // eg, Feb 02 2009
 
     private final String major, minor, dev, revision, timestamp;
 

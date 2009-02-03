@@ -26,7 +26,7 @@ public class ProjectPropertiesFile extends AbstractPropertiesFile {
     private static final DecimalFormat FORMAT_VERSION_MAJOR = new DecimalFormat( "0" );
     private static final DecimalFormat FORMAT_VERSION_MINOR = new DecimalFormat( "00" );
     private static final DecimalFormat FORMAT_VERSION_DEV = new DecimalFormat( "00" );
-    private static final SimpleDateFormat FORMAT_VERSION_TIMESTAMP = new SimpleDateFormat( "MM-dd-yyyy" );
+    private static final SimpleDateFormat FORMAT_VERSION_TIMESTAMP = new SimpleDateFormat( "MMM dd yyyy" ); // eg, Feb 02 2009
     
     public ProjectPropertiesFile( PhetProject project ) {
         super( new File( project.getDataDirectory(), project.getName() + ".properties" ) );
