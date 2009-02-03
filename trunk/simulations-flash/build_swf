@@ -1,0 +1,1 @@
+env WINEPREFIX="/home/carrie/.wine" wine "C:\Program Files\Macromedia\Flash 8\Flash.exe" build.jsfl
