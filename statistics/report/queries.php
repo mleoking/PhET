@@ -79,6 +79,7 @@
 		$sim_minor_version = $arr['sim_minor_version'];
 		$sim_dev_version = $arr['sim_dev_version'];
 		$sim_svn_revision = $arr['sim_svn_revision'];
+		$sim_version_timestamp = $arr['sim_version_timestamp'];
 		$sim_locale_language = $arr['sim_locale_language'];
 		$sim_locale_country = $arr['sim_locale_country'];
 		$sim_sessions_since = $arr['sim_sessions_since'];
@@ -118,6 +119,9 @@
 		}
 		if($sim_svn_revision !== null) {
 			array_push($session_where, "session.sim_svn_revision" . plain_cmp($sim_svn_revision));
+		}
+		if($sim_version_timestamp !== null) {
+			array_push($session_where, "session.sim_version_timestamp" . plain_cmp($sim_version_timestamp));
 		}
 		if($sim_locale_language !== null) {
 			array_push($session_where, "session.sim_locale_language" . string_equal($sim_locale_language));

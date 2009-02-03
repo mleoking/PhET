@@ -237,6 +237,7 @@
 		$timestampOffset = rand(0, 11231)*rand(0, 11231);
 		$timestampRatio = 1 - $timestampOffset / (11231*11231);
 		
+		$simVersionTimestamp = time() - 2 * $timestampOffset;
 		
 		if($simType == "flash") {
 			
@@ -290,6 +291,7 @@
 					"sim_minor_version" => $simMinorVersion,
 					"sim_dev_version" => $simDevVersion,
 					"sim_svn_revision" => $simSvnRevision,
+					"sim_version_timestamp" => $simVersionTimestamp,
 					"sim_locale_language" => $simLocaleLanguage,
 					"sim_locale_country" => $simLocaleCountry,
 					"sim_sessions_since" => $simSessionsSince,
@@ -368,6 +370,7 @@
 					"sim_minor_version" => $simMinorVersion,
 					"sim_dev_version" => $simDevVersion,
 					"sim_svn_revision" => $simSvnRevision,
+					"sim_version_timestamp" => $simVersionTimestamp,
 					"sim_locale_language" => $simLocaleLanguage,
 					"sim_locale_country" => $simLocaleCountry,
 					"sim_sessions_since" => $simSessionsSince,
