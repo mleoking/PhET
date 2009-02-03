@@ -2,7 +2,7 @@
 
 import os
 import os.path as path
-from runcommand import run
+from commands import run
 
 PHP_RUNNER = 'phprunner.sh'
 GET_ALL_SIM_INFO = 'get_all_sim_info.php'
@@ -22,7 +22,7 @@ def coerce_data(data):
 
 def get_sim_info():
     """Run 'phprunner.sh get_sim_info.php' which will dump all
-    info about simulations from the database to stdout.  Parse
+    info about simulations from the database to a pipe.  Parse
     this into lists that Python can use"""
 
     # Look for phprunner.sh in the same directory as this script
