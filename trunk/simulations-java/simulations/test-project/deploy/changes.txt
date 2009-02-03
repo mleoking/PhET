@@ -1,3 +1,5 @@
+# 0.12.00 (27956) 02-02-2009
+Tidying up, testing
 # 0.11.00 (27952) 02-02-2009
 Mostly worked, slight tweak to JAR generator
 # 0.10.00 (27950) 02-02-2009
