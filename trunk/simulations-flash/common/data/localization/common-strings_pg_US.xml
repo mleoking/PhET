@@ -8,6 +8,7 @@
   <string key="SomeRightsReserved" value="Omesay ightsray eservedray." />
   <string key="Visit" value="Isitvay {0}." />
   <string key="Version" value="Ersionvay" />
+  <string key="BuildDate" value="Uildbay Ateday" />
   <string key="FlashVersion" value="Ashflay Ersionvay" />
   <string key="OSVersion" value="OSay Ersionvay" />
   <string key="License" value="Icenselay" />
@@ -36,6 +37,5 @@
   <string key="License3" value="Ethay PhET ourcesay odecay isay icensedlay underay aay &lt;a href='{0}'&gt;Eativecray Ommonscay NUGay Eneralgay Ublicpay Icenselay&lt;/a&gt;." />
   <string key="License4" value="Orfay oremay informationay aboutay icensinglay, &lt;a href='{0}'&gt;ickclay erehay&lt;/a&gt;. Ifay ouyay areay interesteday inay alternativeay icenselay optionsay, easeplay ontactcay PhET atay &lt;a href='{1}'&gt;phethelp@colorado.edu&lt;/a&gt;." />
   <string key="License5Libraries" value="Useday Ibrarylay Icensinglay Informationay:" />
-  
   
 </SimStrings>
