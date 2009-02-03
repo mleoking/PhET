@@ -77,15 +77,39 @@
 				array_push($session_where, "session.sim_type = 0");
 			}
 		}
-		if($arr['sim_project'] !== null) {
-			array_push($query, "SELECT (@pid := sim_project.id) FROM sim_project WHERE sim_project.name = '{$arr['sim_project']}'; ");
-			array_push($session_where, "session.sim_project = @pid");
-		}
-		if($arr['sim_name'] !== null) {
-			array_push($query, "SELECT (@sid := sim_name.id) FROM sim_name WHERE sim_name.name = '{$arr['sim_name']}'; ");
-			array_push($session_where, "session.sim_name = @sid");
+
+        // testing for equality for strings normalized in separate tables
+		$strnorm_wheres = array(
+	        "sim_project" => array("session", "sim_project"),
+	        "sim_name" => array("session", "sim_name"),
+	        "sim_deployment" => array("session", "deployment"),
+	        "sim_distribution_tag" => array("session", "distribution_tag"),
+	        "host_simplified_os" => array("session", "simplified_os"),
+
+	        "host_flash_version_type" => array("session_flash_info", "flash_version_type"),
+	        "host_flash_domain" => array("session_flash_info", "flash_domain"),
+	        "host_flash_os" => array("session_flash_info", "flash_os"),
+
+	        "host_java_os_name" => array("session_java_info", "java_os_name"),
+	        "host_java_os_version" => array("session_java_info", "java_os_version"),
+	        "host_java_os_arch" => array("session_java_info", "java_os_arch"),
+	        "host_java_vendor" => array("session_java_info", "java_vendor"),
+	        "host_java_webstart_version" => array("session_java_info", "java_webstart_version"),
+	        "host_java_timezone" => array("session_java_info", "java_timezone")
+		);
+		foreach($strnorm_wheres as $field_name => $table_names) {
+		    if($arr[$field_name] !== null) {
+		        if($table_names[0] == "session_flash_info") {
+		            $flash_info = true;
+                } else if($table_names[0] == "session_java_info") {
+                    $java_info = true;
+                }
+		        array_push($query, "SELECT (@sub_{$field_name} := {$table_names[1]}.id) FROM {$table_names[1]} WHERE {$table_names[1]}.name = '{$arr[$field_name]}'; ");
+			    array_push($session_where, "{$table_names[0]}.{$field_name} = @sub_{$field_name}");
+            }
 		}
 
+        // testing for numbers/boolean with comparisons
 		$plain_wheres = array(
 		    "sim_dev" => "session",
 		    "sim_major_version" => "session",
@@ -98,7 +122,10 @@
 		    "host_flash_version_revision" => "session_flash_info",
 		    "host_flash_version_build" => "session_flash_info",
 		    "host_flash_time_offset" => "session_flash_info",
-		    "host_flash_accessibility" => "session_flash_info"
+		    "host_flash_accessibility" => "session_flash_info",
+		    "host_java_version_major" => "session_java_info",
+		    "host_java_version_minor" => "session_java_info",
+		    "host_java_version_maintenance" => "session_java_info"
 		);
 		foreach($plain_wheres as $field_name => $table_name) {
 		    if($arr[$field_name] !== null) {
@@ -111,6 +138,7 @@
             }
 		}
 
+        // testing for non-normalized strings
 		$string_wheres = array(
 		    "sim_locale_language" => "session",
 		    "sim_locale_country" => "session",
@@ -123,39 +151,6 @@
 		    if($arr[$field_name] !== null) {
 		        array_push($session_where, "{$table_name}.{$field_name}" . string_equal($arr[$field_name]));
             }
-		}
-
-		if($arr['sim_deployment'] !== null) {
-			array_push($query, "SELECT (@deploy := deployment.id) FROM deployment WHERE deployment.name = '{$arr['sim_deployment']}'; ");
-			array_push($session_where, "session.sim_deployment = @deploy");
-		}
-		if($arr['sim_distribution_tag'] !== null) {
-			array_push($query, "SELECT (@dist_tag := distribution_tag.id) FROM distribution_tag WHERE distribution_tag.name = '{$arr['sim_distribution_tag']}'; ");
-			array_push($session_where, "session.sim_distribution_tag = @dist_tag");
-		}
-		if($arr['host_simplified_os'] !== null) {
-			array_push($query, "SELECT (@os := simplified_os.id) FROM simplified_os WHERE simplified_os.name = '{$arr['host_simplified_os']}'; ");
-			array_push($session_where, "session.host_simplified_os = @os");
-		}
-		
-		$host_flash_version_type = $arr['host_flash_version_type'];
-		$host_flash_domain = $arr['host_flash_domain'];
-		$host_flash_os = $arr['host_flash_os'];
-		
-		if($host_flash_version_type !== null) {
-			$flash_info = true;
-			array_push($query, "SELECT (@fl_ver_type := flash_version_type.id) FROM flash_version_type WHERE flash_version_type.name = '{$host_flash_version_type}'; ");
-			array_push($session_where, "session_flash_info.host_flash_version_type = @fl_ver_type");
-		}
-		if($host_flash_domain !== null) {
-			$flash_info = true;
-			array_push($query, "SELECT (@fl_domain := flash_domain.id) FROM flash_domain WHERE flash_domain.name = '{$host_flash_domain}'; ");
-			array_push($session_where, "session_flash_info.host_flash_domain = @fl_domain");
-		}
-		if($host_flash_os !== null) {
-			$flash_info = true;
-			array_push($query, "SELECT (@fl_os := flash_os.id) FROM flash_os WHERE flash_os.name = '{$host_flash_os}'; ");
-			array_push($session_where, "session_flash_info.host_flash_os = @fl_os");
 		}
 		
 		// TODO: add in java field equalities
