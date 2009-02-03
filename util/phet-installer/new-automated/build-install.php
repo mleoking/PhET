@@ -306,7 +306,7 @@
         foreach ($files as $file){
             exec($sedCmd.$file);
         }
-        flushing_echo("Added time stamp to ".sizeof($files)." HTML files.");
+        flushing_echo("Processed ".sizeof($files)." HTML files for possible timestamp insertion.");
     }
 
     //--------------------------------------------------------------------------
