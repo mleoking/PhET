@@ -81,6 +81,7 @@ CREATE TABLE session (
 	sim_minor_version TINYINT UNSIGNED,
 	sim_dev_version SMALLINT UNSIGNED,
 	sim_svn_revision MEDIUMINT UNSIGNED,
+	sim_version_timestamp BIGINT UNSIGNED,
 	
 	# locale of the simulation run
 	sim_locale_language CHAR(2),

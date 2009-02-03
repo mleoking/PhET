@@ -118,6 +118,7 @@ BOO;
 			'sim_minor_version' => mysql_real_escape_string($data['sim_minor_version']),
 			'sim_dev_version' => mysql_real_escape_string($data['sim_dev_version']),
 			'sim_svn_revision' => mysql_real_escape_string($data['sim_svn_revision']),
+			'sim_version_timestamp' => mysql_real_escape_string($data['sim_version_timestamp']),
 			'sim_locale_language' => quo($data['sim_locale_language']),
 			'sim_locale_country' => quote_null_if_none($data['sim_locale_country']),
 			'sim_sessions_since' => mysql_real_escape_string($data['sim_sessions_since']),
