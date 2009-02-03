@@ -19,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.resources.DefaultResourceLoader;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.util.AnnotationParser;
 
 public class DynamicCreditsDialog extends JDialog {
     // preferred size for the scrollpane, change this to affect initial dialog size

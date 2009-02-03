@@ -1,5 +1,7 @@
 package edu.colorado.phet.licensing;
 
+import edu.colorado.phet.build.util.LicenseInfo;
+
 public class Author extends AbstractRule {
     Author( String pattern ) {
         super( pattern );
@@ -7,5 +9,9 @@ public class Author extends AbstractRule {
 
     public boolean matches( ResourceAnnotation entry ) {
         return entry.getAuthor() != null && entry.getAuthor().toLowerCase().startsWith( getPattern().toLowerCase( ));
+    }
+
+    public boolean matches( LicenseInfo resource ) {
+        return false;
     }
 }

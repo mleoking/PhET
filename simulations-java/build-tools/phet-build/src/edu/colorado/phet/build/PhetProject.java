@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.*;
 
 import edu.colorado.phet.build.util.*;
+import edu.colorado.phet.common.phetcommon.util.AnnotationParser;
 
 /**
  * Author: Sam Reid

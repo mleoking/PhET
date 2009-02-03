@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import edu.colorado.phet.build.PhetProject;
 import edu.colorado.phet.build.PhetJavaProject;
+import edu.colorado.phet.build.PhetProject;
 import edu.colorado.phet.build.util.LicenseInfo;
 
 /**
@@ -47,7 +47,7 @@ public class SimInfo {
 
     public SimInfo getIssues() {
         //todo: generalize
-        return new SimInfo( project, new PhetProject[0], new File[0], new File[0], licenseInfo, getIssues( resources ) );
+        return new SimInfo( project, new PhetProject[0], new File[0], new File[0], getIssues( licenseInfo ), getIssues( resources ) );
     }
 
     public String toString() {
@@ -123,10 +123,24 @@ public class SimInfo {
             }
             return false;
         }
+
+        public boolean matches( LicenseInfo resource ) {
+            for ( int i = 0; i < rule.length; i++ ) {
+                AbstractRule abstractRule = rule[i];
+                if ( abstractRule.matches( resource ) ) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 
     public static boolean getDefaultHideEntryRule( ResourceAnnotation entry ) {
-        return new PhetRuleSet().matches(entry);
+        return new PhetRuleSet().matches( entry );
+    }
+
+    private boolean hideEntry( LicenseInfo resource ) {
+        return new PhetRuleSet().matches( resource );
     }
 
     public static AnnotatedFile[] getIssues( AnnotatedFile[] resources ) {
@@ -138,6 +152,17 @@ public class SimInfo {
             }
         }
         return (AnnotatedFile[]) list.toArray( new AnnotatedFile[list.size()] );
+    }
+
+    private LicenseInfo[] getIssues( LicenseInfo[] licenseInfo ) {
+        ArrayList list = new ArrayList();
+        for ( int i = 0; i < licenseInfo.length; i++ ) {
+            LicenseInfo resource = licenseInfo[i];
+            if ( !hideEntry( resource ) ) {
+                list.add( resource );
+            }
+        }
+        return (LicenseInfo[]) list.toArray( new LicenseInfo[list.size()] );
     }
 
     public String getHTMLBody() {

@@ -1,5 +1,7 @@
 package edu.colorado.phet.licensing;
 
+import edu.colorado.phet.build.util.LicenseInfo;
+
 public abstract class AbstractRule {
     private String pattern;
 
@@ -12,4 +14,6 @@ public abstract class AbstractRule {
     protected String getPattern() {
         return pattern;
     }
+
+    public abstract boolean matches( LicenseInfo resource );
 }

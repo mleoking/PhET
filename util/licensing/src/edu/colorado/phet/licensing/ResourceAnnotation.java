@@ -1,5 +1,7 @@
 package edu.colorado.phet.licensing;
 
+import edu.colorado.phet.common.phetcommon.util.AnnotationParser;
+
 /**
  * Created by: Sam
  * Aug 7, 2008 at 9:40:29 PM
@@ -68,16 +70,25 @@ public class ResourceAnnotation implements ResourceAnnotationElement {
     }
 
     public static ResourceAnnotation parseElement( String line ) {
-        ResourceAnnotation annotation = new ResourceAnnotation( AnnotationParser.parseNext( line, keys ).trim() );
-        String attributes = line.substring( annotation.name.length() ).trim();
+        try{
+        AnnotationParser.Annotation a = AnnotationParser.parse( line.trim() );
 
-        annotation.source = AnnotationParser.getAttribute( "source", attributes, keys );
-        annotation.author = AnnotationParser.getAttribute( "author", attributes, keys );
-        annotation.license = AnnotationParser.getAttribute( "license", attributes, keys );
-        annotation.notes = AnnotationParser.getAttribute( "notes", attributes, keys );
-        annotation.same = AnnotationParser.getAttribute( "same", attributes, keys );
-        annotation.licensefile = AnnotationParser.getAttribute( "licensefile", attributes, keys );
+        ResourceAnnotation annotation = new ResourceAnnotation( a.getId() );
+
+        annotation.source = a.get( "source" );
+        annotation.author = a.get( "author" );
+        annotation.license = a.get( "license" );
+        annotation.notes = a.get( "notes" );
+        annotation.same = a.get( "same" );
+        annotation.licensefile = a.get( "licensefile" );
         return annotation;
+        }catch(Exception e){
+            System.out.println( "Error on line="+line );
+            e.printStackTrace(  );
+            AnnotationParser.Annotation a = AnnotationParser.parse( line.trim() );
+            throw new RuntimeException( e);
+        }
+
     }
 
     public String toText() {

@@ -3,6 +3,8 @@ package edu.colorado.phet.build.util;
 import java.io.*;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.util.AnnotationParser;
+
 /**
  * Created by: Sam
  * Aug 5, 2008 at 10:47:00 AM
@@ -31,7 +33,7 @@ public class LicenseInfo {
             BufferedReader bufferedReader = new BufferedReader( new FileReader( file ) );
             String line = bufferedReader.readLine();
             while ( line != null ) {
-                if ( line.trim().length()>0 && !line.startsWith( "#" ) ) {
+                if ( line.trim().length() > 0 && !line.startsWith( "#" ) ) {
                     infos.add( parseLine( file, line ) );
                 }
                 line = bufferedReader.readLine();
@@ -53,6 +55,10 @@ public class LicenseInfo {
 
     public String getID() {
         return AnnotationParser.parse( line ).getId();
+    }
+
+    public String getLicenseName() {
+        return AnnotationParser.parse( line ).get( "license" );
     }
 
     public File getLicenseFile() {
