@@ -74,20 +74,8 @@
 		$sim_type = $arr['sim_type'];
 		$sim_project = $arr['sim_project'];
 		$sim_name = $arr['sim_name'];
-		$sim_dev = $arr['sim_dev'];
-		$sim_major_version = $arr['sim_major_version'];
-		$sim_minor_version = $arr['sim_minor_version'];
-		$sim_dev_version = $arr['sim_dev_version'];
-		$sim_svn_revision = $arr['sim_svn_revision'];
-		$sim_version_timestamp = $arr['sim_version_timestamp'];
-		$sim_locale_language = $arr['sim_locale_language'];
-		$sim_locale_country = $arr['sim_locale_country'];
-		$sim_sessions_since = $arr['sim_sessions_since'];
-		$sim_total_sessions = $arr['sim_total_sessions'];
 		$sim_deployment = $arr['sim_deployment'];
 		$sim_distribution_tag = $arr['sim_distribution_tag'];
-		$host_locale_language = $arr['host_locale_language'];
-		$host_locale_country = $arr['host_locale_country'];
 		$host_simplified_os = $arr['host_simplified_os'];
 		
 		if($sim_type !== null) {
@@ -105,36 +93,46 @@
 			array_push($query, "SELECT (@sid := sim_name.id) FROM sim_name WHERE sim_name.name = '{$sim_name}'; ");
 			array_push($session_where, "session.sim_name = @sid");
 		}
-		if($sim_dev !== null) {
-			array_push($session_where, "session.sim_dev" . plain_cmp($sim_dev));
+
+		$plain_wheres = array(
+		    "sim_dev" => "session",
+		    "sim_major_version" => "session",
+		    "sim_minor_version" => "session",
+		    "sim_dev_version" => "session",
+		    "sim_svn_revision" => "session",
+		    "sim_version_timestamp" => "session",
+		    "host_flash_version_major" => "session_flash_info",
+		    "host_flash_version_minor" => "session_flash_info",
+		    "host_flash_version_revision" => "session_flash_info",
+		    "host_flash_version_build" => "session_flash_info",
+		    "host_flash_time_offset" => "session_flash_info",
+		    "host_flash_accessibility" => "session_flash_info"
+		);
+		foreach($plain_wheres as $field_name => $table_name) {
+		    if($arr[$field_name] !== null) {
+		        if($table_name == "session_flash_info") {
+		            $flash_info = true;
+                } else if($table_name == "session_java_info") {
+                    $java_info = true;
+                }
+		        array_push($session_where, "{$table_name}.{$field_name}" . plain_cmp($arr[$field_name]));
+            }
 		}
-		if($sim_major_version !== null) {
-			array_push($session_where, "session.sim_major_version" . plain_cmp($sim_major_version));
+
+		$string_wheres = array(
+		    "sim_locale_language" => "session",
+		    "sim_locale_country" => "session",
+		    "sim_sessions_since" => "session",
+		    "sim_total_sessions" => "session",
+		    "host_locale_language" => "session",
+		    "host_locale_country" => "session"
+		);
+		foreach($string_wheres as $field_name => $table_name) {
+		    if($arr[$field_name] !== null) {
+		        array_push($session_where, "{$table_name}.{$field_name}" . string_equal($arr[$field_name]));
+            }
 		}
-		if($sim_minor_version !== null) {
-			array_push($session_where, "session.sim_minor_version" . plain_cmp($sim_minor_version));
-		}
-		if($sim_dev_version !== null) {
-			array_push($session_where, "session.sim_dev_version" . plain_cmp($sim_dev_version));
-		}
-		if($sim_svn_revision !== null) {
-			array_push($session_where, "session.sim_svn_revision" . plain_cmp($sim_svn_revision));
-		}
-		if($sim_version_timestamp !== null) {
-			array_push($session_where, "session.sim_version_timestamp" . plain_cmp($sim_version_timestamp));
-		}
-		if($sim_locale_language !== null) {
-			array_push($session_where, "session.sim_locale_language" . string_equal($sim_locale_language));
-		}
-		if($sim_locale_country !== null) {
-			array_push($session_where, "session.sim_locale_country" . string_equal($sim_locale_country));
-		}
-		if($sim_sessions_since !== null) {
-			array_push($session_where, "session.sim_sessions_since" . string_equal($sim_sessions_since));
-		}
-		if($sim_total_sessions !== null) {
-			array_push($session_where, "session.sim_total_sessions" . string_equal($sim_total_sessions));
-		}
+
 		if($sim_deployment !== null) {
 			array_push($query, "SELECT (@deploy := deployment.id) FROM deployment WHERE deployment.name = '{$sim_deployment}'; ");
 			array_push($session_where, "session.sim_deployment = @deploy");
@@ -143,24 +141,12 @@
 			array_push($query, "SELECT (@dist_tag := distribution_tag.id) FROM distribution_tag WHERE distribution_tag.name = '{$sim_distribution_tag}'; ");
 			array_push($session_where, "session.sim_distribution_tag = @dist_tag");
 		}
-		if($host_locale_language !== null) {
-			array_push($session_where, "session.host_locale_language" . string_equal($host_locale_language));
-		}
-		if($host_locale_country !== null) {
-			array_push($session_where, "session.host_locale_country" . string_equal($host_locale_country));
-		}
 		if($host_simplified_os !== null) {
 			array_push($query, "SELECT (@os := simplified_os.id) FROM simplified_os WHERE simplified_os.name = '{$host_simplified_os}'; ");
 			array_push($session_where, "session.host_simplified_os = @os");
 		}
 		
 		$host_flash_version_type = $arr['host_flash_version_type'];
-		$host_flash_version_major = $arr['host_flash_version_major'];
-		$host_flash_version_minor = $arr['host_flash_version_minor'];
-		$host_flash_version_revision = $arr['host_flash_version_revision'];
-		$host_flash_version_build = $arr['host_flash_version_build'];
-		$host_flash_time_offset = $arr['host_flash_time_offset'];
-		$host_flash_accessibility = $arr['host_flash_accessibility'];
 		$host_flash_domain = $arr['host_flash_domain'];
 		$host_flash_os = $arr['host_flash_os'];
 		
@@ -168,30 +154,6 @@
 			$flash_info = true;
 			array_push($query, "SELECT (@fl_ver_type := flash_version_type.id) FROM flash_version_type WHERE flash_version_type.name = '{$host_flash_version_type}'; ");
 			array_push($session_where, "session_flash_info.host_flash_version_type = @fl_ver_type");
-		}
-		if($host_flash_version_major !== null) {
-			$flash_info = true;
-			array_push($session_where, "session_flash_info.host_flash_version_major" . plain_cmp($host_flash_version_major));
-		}
-		if($host_flash_version_minor !== null) {
-			$flash_info = true;
-			array_push($session_where, "session_flash_info.host_flash_version_minor" . plain_cmp($host_flash_version_minor));
-		}
-		if($host_flash_version_revision !== null) {
-			$flash_info = true;
-			array_push($session_where, "session_flash_info.host_flash_version_revision" . plain_cmp($host_flash_version_revision));
-		}
-		if($host_flash_version_build !== null) {
-			$flash_info = true;
-			array_push($session_where, "session_flash_info.host_flash_version_build" . plain_cmp($host_flash_version_build));
-		}
-		if($host_flash_time_offset !== null) {
-			$flash_info = true;
-			array_push($session_where, "session_flash_info.host_flash_time_offset" . plain_cmp($host_flash_time_offset));
-		}
-		if($host_flash_accessibility !== null) {
-			$flash_info = true;
-			array_push($session_where, "session_flash_info.host_flash_accessibility" . plain_cmp($host_flash_accessibility));
 		}
 		if($host_flash_domain !== null) {
 			$flash_info = true;
