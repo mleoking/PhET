@@ -26,9 +26,11 @@ public class FlashHTML {
             String versionMinor = null;
             String versionDev = null;
             String versionRevision = null;
+            String versionTimestamp = null;
             String bgcolor = null;
 
             // parse the .properties file, store results in variables above
+            // TODO: use Properties instead
             File propFile = new File( propertiesFile );
             Scanner propScanner = new Scanner( propFile );
             propScanner.useDelimiter( "[\n=]" );
@@ -43,6 +45,8 @@ public class FlashHTML {
                     versionDev = value;
                 } else if ( field.equals( "version.revision" ) ) {
                     versionRevision = value;
+                } else if ( field.equals( "version.timestamp" ) ) {
+                    versionTimestamp = value;
                 } else if ( field.equals( "bgcolor" ) ) {
                     bgcolor = value;
                 }
@@ -53,8 +57,8 @@ public class FlashHTML {
             String encodedCommonXML = encodeXML( rawFile( commonXMLFile ) );
 
             String html = generateHTML( simName, language, country, deployment, distributionTag, installationTimestamp,
-                    installerCreationTimestamp, versionMajor, versionMinor, versionDev, versionRevision, bgcolor,
-                    encodedSimXML, encodedCommonXML, "8" );
+                    installerCreationTimestamp, versionMajor, versionMinor, versionDev, versionRevision, versionTimestamp,
+                    bgcolor, encodedSimXML, encodedCommonXML, "8" );
 
             // write to file
             FileOutputStream fileOut = new FileOutputStream( htmlFile );
@@ -71,7 +75,7 @@ public class FlashHTML {
     public static String generateHTML( String simName, String language, String country, String deployment,
                                        String distributionTag, String installationTimestamp, String installerCreationTimestamp,
                                        String versionMajor, String versionMinor, String versionDev, String versionRevision,
-                                       String bgcolor, String encodedSimXML, String encodedCommonXML,
+                                       String versionTimestamp, String bgcolor, String encodedSimXML, String encodedCommonXML,
                                        String minimumFlashMajorVersion ) throws IOException {
         String s = "";
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( HTML_TEMPLATE );
@@ -93,7 +97,8 @@ public class FlashHTML {
                 "&commonStrings=@@encodedCommonXML@@&versionMajor=@@versionMajor@@&versionMinor=@@versionMinor@@&" +
                 "dev=@@versionDev@@&revision=@@versionRevision@@&simName=@@simName@@&simDeployment=@@deployment@@&" +
                 "simDistributionTag=@@distributionTag@@&installationTimestamp=@@installationTimestamp@@&" +
-                "installerCreationTimestamp=@@installerCreationTimestamp@@&bgColor=@@bgcolorint@@";
+                "installerCreationTimestamp=@@installerCreationTimestamp@@&versionTimestamp=@@versionTimestamp@@&" +
+                "bgColor=@@bgcolorint@@";
 
         s = s.replaceAll( "@@flashVars@@", flashVars );
 
@@ -108,6 +113,7 @@ public class FlashHTML {
         s = s.replaceAll( "@@versionMinor@@", versionMinor );
         s = s.replaceAll( "@@versionDev@@", versionDev );
         s = s.replaceAll( "@@versionRevision@@", versionRevision );
+        s = s.replaceAll( "@@versionTimestamp@@", versionTimestamp );
         s = s.replaceAll( "@@bgcolor@@", bgcolor );
         s = s.replaceAll( "@@encodedSimXML@@", encodedSimXML );
         s = s.replaceAll( "@@encodedCommonXML@@", encodedCommonXML );

@@ -100,11 +100,12 @@ public class FlashLauncher {
         Properties properties = readProperties( simName );
 
         // pull the version information from the properties file
-        String versionMajor, versionMinor, versionDev, versionRevision;
+        String versionMajor, versionMinor, versionDev, versionRevision, versionTimestamp;
         versionMajor = properties.getProperty( "version.major" );
         versionMinor = properties.getProperty( "version.minor" );
         versionDev = properties.getProperty( "version.dev" );
         versionRevision = properties.getProperty( "version.revision" );
+        versionTimestamp = properties.getProperty( "version.timestamp" );
 
         // read the background color property
         String bgcolor = readBackgroundColor( properties );
@@ -131,7 +132,7 @@ public class FlashLauncher {
 
         // dynamically generate an HTML file
         String html = FlashHTML.generateHTML( simName, language, country, deployment, distributionTag, installationTimestamp,
-                installerCreationTimestamp, versionMajor, versionMinor, versionDev, versionRevision, bgcolor,
+                installerCreationTimestamp, versionMajor, versionMinor, versionDev, versionRevision, versionTimestamp, bgcolor,
                 simEncodedXML, commonEncodedXML, "8" );
         File htmlFile = new File( unzipDir, simName + "_" + language + ".html" );
         FileOutputStream outputStream = new FileOutputStream( htmlFile );
