@@ -1,3 +1,5 @@
+# 0.10.00 (27950) 02-02-2009
+Testing my changes to the deploy script and the automated JAR generation script
 # 0.08.01 (27948) 02-02-2009
 test fix for version timestamp in build process
 # 0.08.00 (27924) 01-11-1970
