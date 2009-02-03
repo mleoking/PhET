@@ -32,29 +32,32 @@ public class SetSVNIgnoreToDeployDirectories {
             System.out.println( baseDir.getAbsolutePath() + " does not exist or is not a directory" );
         }
 
-        // Create a temporary file 
+        PhetProject[] projects = PhetProject.getAllProjects( baseDir );
+        for ( int k = 0; k < projects.length; k++ ) {
+            File dir = projects[k].getDeployDir();
+            String[] ignorePatterns = new String[]{"*.jar", "*.jnlp", "*.properties", "HEADER"};
+            setIgnorePatternsOnDir( dir, ignorePatterns );
+        }
+    }
+
+    public static void setIgnorePatternsOnDir( File dir, String[] ignorePatterns ) throws IOException {
+        // Write the svn:ignore property value to the temporary file
+        // Create a temporary file
         File propFile = File.createTempFile( "deploy-svn-ignore.", ".tmp" );
         propFile.deleteOnExit();
-
-        // Write the svn:ignore property value to the temporary file
         BufferedWriter out = new BufferedWriter( new FileWriter( propFile ) );
-        out.write( "*.jar" ); // ignore all JAR files
-        out.newLine();
-        out.write( "*.jnlp" ); // ignore all JNLP files
-        out.newLine();
-        out.write( "*.properties" ); // ignore properties
-        out.newLine();
-        out.write( "HEADER" ); // ignore headers
-        out.newLine();
+
+        for ( int i = 0; i < ignorePatterns.length; i++ ) {
+            out.write( ignorePatterns[i] );
+            out.newLine();
+        }
         out.close();
 
         // For each project directory, set the svn:ignore property for its deploy directory
         String propFilename = propFile.getAbsolutePath();
-        PhetProject[] projects = PhetProject.getAllProjects( baseDir );
-        for ( int i = 0; i < projects.length; i++ ) {
-            String svnCommand = "svn propset svn:ignore --file " + propFilename + " " + projects[i].getDeployDir().getAbsolutePath();
-            System.out.println( svnCommand );
-            Runtime.getRuntime().exec( svnCommand );
-        }
+
+        String svnCommand = "svn propset svn:ignore --file " + propFilename + " " + dir.getAbsolutePath();
+        System.out.println( svnCommand );
+        Runtime.getRuntime().exec( svnCommand );
     }
 }
