@@ -40,9 +40,9 @@ do
 	done;
 	
 	# add what might be new to subversion
-	for file in ${sim_deploy}/*.html;
-	do
-		svn add -q $file
-	done;
+	#for file in ${sim_deploy}/*.html;
+	#do
+	#	svn add -q $file
+	#done;
 	
 done;
