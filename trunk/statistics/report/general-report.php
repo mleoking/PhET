@@ -20,12 +20,33 @@ INTRO;
 	print "Total sessions: {$total_sessions_nd} ({$total_sessions})<br />";
 	print "Total messages: {$total_messages_nd} ({$total_messages})<br />";
 	
-	print report_table("Total sessions, by flash / java", "query=session_count&sim_dev=false&group=sim_type");
-	print report_table("Total sessions, by simulation", "query=session_count&sim_dev=false&group=sim_name&order=sim_name");
-	print report_table("Total sessions, by week", "query=session_count&sim_dev=false&group=week&order=week");
-	print report_table("Total sessions, by os", "query=session_count&sim_dev=false&group=os&order=desc:session_count");
-	print report_table("Total sessions, by deployment", "query=session_count&sim_dev=false&group=sim_deployment&order=desc:session_count");
-	print report_table("Total sessions, by distribution tag", "query=session_count&sim_dev=false&group=sim_distribution_tag&order=desc:session_count");
+	print report_table("Total sessions, by flash / java",
+	    "query=session_count&sim_dev=false&group=sim_type");
+
+	print report_table("Total sessions, by simulation",
+	    "query=session_count&sim_dev=false&group=sim_name&order=sim_name");
+
+	print report_table("Total sessions, by week",
+	    "query=session_count&sim_dev=false&group=week&order=week");
+
+	print report_table("Total sessions, by os",
+	    "query=session_count&sim_dev=false&group=os&order=desc:session_count");
+
+	print report_table("Total sessions, by deployment",
+	    "query=session_count&sim_dev=false&group=sim_deployment&order=desc:session_count");
+
+	print report_table("Total sessions, by distribution tag",
+	    "query=session_count&sim_dev=false&group=sim_distribution_tag&order=desc:session_count");
+
+	print report_table("Total sessions, by language",
+	    "query=session_count&group=sim_locale_language&order=desc:session_count");
+
+	print report_table("Total sessions, by sim locale",
+	    "query=session_count&group=sim_locale&order=desc:session_count");
+
+	print report_table("Total sessions, by host locale",
+	    "query=session_count&group=host_locale&order=desc:session_count");
+	    
 	print "</p>";
 	
 	
