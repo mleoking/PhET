@@ -148,13 +148,21 @@ class TroubleshootingPage extends SitePage {
 
             <p>PhET simulations work best at a screen resolution of 1024 x 768 pixels. (Some of them are written so that they cannot be resized.) At lower resolution (e.g. 800 x 600), all the controls may not fit on your screen. At higher resolution (e.g. 1280 x 1024), you may not be able to make the simulation fill the whole screen, or if you do, it may slow down performance. To change your screen resolution, follow the directions below:</p>
 
-                <p><strong>Windows</strong></p>
+                <p><strong>Windows Vista</strong></p>
 
                 <ol>
-                    <li>From Start menu, click on “Control Panel.” </li>
-                    <li>Double click on “Display” icon. </li>
-                    <li>Select the “Settings” tab. </li>
-                    <li>Use the “Screen resolution” slider to select a resolution and click “OK.” </li>
+                    <li>From Start menu, click on "Control Panel."</li>
+                    <li>Press "Adjust screen resolution" under "Appearance and Personalization."</li>
+                    <li>Use the "Screen resolution" slider to select a resolution and click "OK."</li>
+                </ol>
+
+                <p><strong>Windows 98SE/2000/XP</strong></p>
+
+                <ol>
+                    <li>From Start menu, click on "Control Panel." </li>
+                    <li>Double click on "Display" icon. </li>
+                    <li>Select the "Settings" tab. </li>
+                    <li>Use the "Screen resolution" slider to select a resolution and click "OK." </li>
                 </ol>
 
                 <p><strong>Macintosh</strong></p>
