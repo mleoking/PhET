@@ -19,5 +19,5 @@ object LadybugDefaults {
 
   var WINDOW_SIZE = 7
   var HIDE_MOUSE_DURING_DRAG = true
-  var POSITIVE_Y_IS_UP=true
+  var POSITIVE_Y_IS_UP = true
 }
