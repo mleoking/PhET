@@ -25,7 +25,7 @@ class Internationalizer{
 		//trace("noRaysLabel: "+_level0.rayChooser.noRays_ch.label);
 		this.setComponentLabel(_level0.rayChooser.noRays_ch, "noRays");
 		this.setComponentLabel(_level0.rayChooser.marginalRays_ch, "marginalRays");
-		this.setComponentLabel(_level0.rayChooser.principalRays_ch, "principalRays");
+		this.setComponentLabel(_level0.rayChooser.PrincipalRays_ch, "principalRays");
 		this.setComponentLabel(_level0.rayChooser.manyRays_ch, "manyRays");
 		this.setComponentLabel(_level0.rayChooser.secondSource_ch, "secondSource");
 		
