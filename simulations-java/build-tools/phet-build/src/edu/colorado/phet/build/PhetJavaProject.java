@@ -19,10 +19,13 @@ import edu.colorado.phet.build.util.PhetBuildUtils;
 public class PhetJavaProject extends PhetProject {
     public PhetJavaProject( File projectRoot ) throws IOException {
         super( projectRoot );
-    }
+    }                   
 
     public PhetJavaProject( File parentDir, String name ) throws IOException {
         super( parentDir, name );
+    }
+    public Locale[] getLocales() {
+        return getLocalesImpl( ".properties" );
     }
 
     public static PhetProject[] getJavaProjects( File baseDir ) {

@@ -3,8 +3,8 @@ package edu.colorado.phet.build;
 import java.io.*;
 import java.util.*;
 
-import edu.colorado.phet.build.util.*;
 import edu.colorado.phet.build.scripts.SetSVNIgnoreToDeployDirectories;
+import edu.colorado.phet.build.util.*;
 import edu.colorado.phet.common.phetcommon.util.AnnotationParser;
 
 /**
@@ -390,7 +390,9 @@ public abstract class PhetProject {
     /*
     * Returns an array of the 2-character locale codes supported by this application.
     */
-    public Locale[] getLocales() {
+    public abstract Locale[] getLocales();
+
+    protected Locale[] getLocalesImpl( String suffix ) {
         File localeDir = getLocalizationDir();
         File[] children = localeDir.listFiles();
         ArrayList locales = new ArrayList();
@@ -398,13 +400,15 @@ public abstract class PhetProject {
             File child = children[i];
             String filename = child.getName();
             String prefix = getName() + "-strings_";
-            String suffix = ".properties";
+//            String suffix = ".properties";
             if ( child.isFile() && filename.startsWith( prefix ) && filename.endsWith( suffix ) ) {
                 String languageCode = filename.substring( prefix.length(), filename.length() - suffix.length() );
                 locales.add( new Locale( languageCode ) );
             }
         }
-        locales.add( new Locale( "en" ) );
+        if ( !locales.contains( new Locale( "en" ) ) ) {
+            locales.add( new Locale( "en" ) );
+        }
         return (Locale[]) locales.toArray( new Locale[0] );
     }
 

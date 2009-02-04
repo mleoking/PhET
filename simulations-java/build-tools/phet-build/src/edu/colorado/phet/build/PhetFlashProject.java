@@ -106,6 +106,10 @@ public class PhetFlashProject extends PhetProject {
         return new Simulation( simulationName, "title", "description", "mainclass", new String[0], new File( "screenshot.gif" ) );
     }
 
+    public Locale[] getLocales() {
+        return getLocalesImpl( ".xml" );
+    }
+
     public void buildLaunchFiles( String URL, boolean dev ) {
 //        super.buildLaunchFiles( URL, dev );
         System.out.println( "What to do for building Flash launch files?  Are these HTML?" );
