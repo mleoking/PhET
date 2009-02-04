@@ -12,8 +12,10 @@
 	$raw_logging_verbose = true;
 	
 	
-	$success = true;
-	$fail_reason = "";
+	function fail_me($str) {
+		print "<p>Failure: {$str}</p></html>";
+		exit;
+	}
 	
 	print "<html>";
 	
@@ -54,7 +56,46 @@
 		fclose($file);
 	}
 	
+	// determine whether a string should be represented as NULL
+	// inside the statistics database
+	function is_int_field_null($value) {
+		if(
+			$value === null
+			|| $value === false
+			|| $value === ""
+			|| $value === "null"
+			|| $value === "undefined"
+			|| $value === "none"
+		) {
+			return true;
+		}
+		return false;
+	}
 	
+	function int_decode($field) {
+		global $xml;
+		
+		// turn %20 => ' ', etc.
+		$decoded = urldecode($xml[$field]);
+		
+		// if it represents a null value, return NULL
+		if(is_int_field_null($decoded)) {
+			if($field == "sim_version_timestamp") {
+				// TODO: try to coerce, or just ignore this?
+				fail_me("sim_version_timestamp cannot be null");
+			}
+			return "NULL";
+		}
+		
+		if(ctype_digit($decoded)) {
+			// is a numeric string, this is OK
+			return $decoded;
+		} else {
+			fail_me("value for {$field} is non-null and non-numeric");
+		}
+	}
+	
+	// TODO: bool_decode?
 	
 	if($xml["sim_type"] == "flash") {
 	    // message from a flash simulation
@@ -93,15 +134,15 @@
 					"message_version" => 1,
 					"sim_project" => urldecode($xml["sim_project"]),
 					"sim_name" => urldecode($xml["sim_name"]),
-					"sim_major_version" => urldecode($xml["sim_major_version"]),
-					"sim_minor_version" => urldecode($xml["sim_minor_version"]),
-					"sim_dev_version" => urldecode($xml["sim_dev_version"]),
-					"sim_svn_revision" => urldecode($xml["sim_svn_revision"]),
-					"sim_version_timestamp" => urldecode($xml["sim_version_timestamp"]),
+					"sim_major_version" => int_decode("sim_major_version"),
+					"sim_minor_version" => int_decode("sim_minor_version"),
+					"sim_dev_version" => int_decode("sim_dev_version"),
+					"sim_svn_revision" => int_decode("sim_svn_revision"),
+					"sim_version_timestamp" => int_decode("sim_version_timestamp"),
 					"sim_locale_language" => urldecode($xml["sim_locale_language"]),
 					"sim_locale_country" => urldecode($xml["sim_locale_country"]),
-					"sim_sessions_since" => urldecode($xml["sim_sessions_since"]),
-					"sim_total_sessions" => urldecode($xml["sim_total_sessions"]),
+					"sim_sessions_since" => int_decode("sim_sessions_since"),
+					"sim_total_sessions" => int_decode("sim_total_sessions"),
 					"sim_deployment" => urldecode($xml["sim_deployment"]),
 					"sim_distribution_tag" => urldecode($xml["sim_distribution_tag"]),
 					"sim_dev" => urldecode($xml["sim_dev"]),
@@ -143,15 +184,15 @@
 					"message_version" => 1,
 					"sim_project" => urldecode($xml["sim_project"]),
 					"sim_name" => urldecode($xml["sim_name"]),
-					"sim_major_version" => urldecode($xml["sim_major_version"]),
-					"sim_minor_version" => urldecode($xml["sim_minor_version"]),
-					"sim_dev_version" => urldecode($xml["sim_dev_version"]),
-					"sim_svn_revision" => urldecode($xml["sim_svn_revision"]),
-					"sim_version_timestamp" => urldecode($xml["sim_version_timestamp"]),
+					"sim_major_version" => int_decode("sim_major_version"),
+					"sim_minor_version" => int_decode("sim_minor_version"),
+					"sim_dev_version" => int_decode("sim_dev_version"),
+					"sim_svn_revision" => int_decode("sim_svn_revision"),
+					"sim_version_timestamp" => int_decode("sim_version_timestamp"),
 					"sim_locale_language" => urldecode($xml["sim_locale_language"]),
 					"sim_locale_country" => urldecode($xml["sim_locale_country"]),
-					"sim_sessions_since" => urldecode($xml["sim_sessions_since"]),
-					"sim_total_sessions" => urldecode($xml["sim_total_sessions"]),
+					"sim_sessions_since" => int_decode("sim_sessions_since"),
+					"sim_total_sessions" => int_decode("sim_total_sessions"),
 					"sim_deployment" => urldecode($xml["sim_deployment"]),
 					"sim_distribution_tag" => urldecode($xml["sim_distribution_tag"]),
 					"sim_dev" => urldecode($xml["sim_dev"]),
@@ -161,9 +202,9 @@
 					"host_java_os_version" => urldecode($xml["host_os_version"]),
 					"host_java_os_arch" => urldecode($xml["host_os_arch"]),
 					"host_java_vendor" => urldecode($xml["host_java_vendor"]),
-					"host_java_version_major" => urldecode($xml["host_java_version_major"]),
-					"host_java_version_minor" => urldecode($xml["host_java_version_minor"]),
-					"host_java_version_maintenance" => urldecode($xml["host_java_version_maintenance"]),
+					"host_java_version_major" => int_decode("host_java_version_major"),
+					"host_java_version_minor" => int_decode("host_java_version_minor"),
+					"host_java_version_maintenance" => int_decode("host_java_version_maintenance"),
 					"host_java_webstart_version" => urldecode($xml["host_java_webstart_version"]),
 					"host_java_timezone" => urldecode($xml["host_java_timezone"])
 				)
@@ -178,11 +219,7 @@
 		
 	}
 	
-	if($success) {
-		print "<p>Received Successfully</p>";
-	} else {
-		print "<p>Failure: {$fail_reason}</p>";
-	}
+	print "<p>Received Successfully</p>";
 	
 	print "</html>";
 	
