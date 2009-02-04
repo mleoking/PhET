@@ -49,9 +49,9 @@ class Statistics {
 		
 		
 		/////// user data
-		str += "user_preference_file_creation_time = '" + escape(String(_level0.preferences.getUserTime())) + "' \n";
-		str += "user_installation_timestamp = '" + placeholderEscape(String(_level0.installationTimestamp)) + "' \n";
-		str += "user_total_sessions = '" + escape(String(_level0.preferences.getUserTotalSessions())) + "' \n";
+		str += "user_preference_file_creation_time = '" + messageEscape(String(_level0.preferences.getUserTime())) + "' \n";
+		str += "user_installation_timestamp = '" + messageEscape(String(_level0.installationTimestamp)) + "' \n";
+		str += "user_total_sessions = '" + messageEscape(String(_level0.preferences.getUserTotalSessions())) + "' \n";
 		
 		
 		
@@ -59,22 +59,28 @@ class Statistics {
 		str += "sim_type = 'flash' \n";
 		
 		// currently, project is the same as sim for Flash simulations
-		str += "sim_project = '" + escape(_level0.simName) + "' \n";
-		str += "sim_name = '" + escape(_level0.simName) + "' \n";
+		str += "sim_project = '" + messageEscape(_level0.simName) + "' \n";
+		str += "sim_name = '" + messageEscape(_level0.simName) + "' \n";
 		
-		str += "sim_major_version = '" + escape(_level0.versionMajor) + "' \n";
-		str += "sim_minor_version = '" + escape(_level0.versionMinor) + "' \n";
-		str += "sim_dev_version = '" + escape(_level0.dev) + "' \n";
-		str += "sim_svn_revision = '" + escape(_level0.revision) + "' \n";
-		str += "sim_version_timestamp = '" + escape(_level0.versionTimestamp) + "' \n";
-		//str += "sim_version = '" + escape(_level0.versionMajor + "." + _level0.versionMinor + "." + _level0.dev) + " (" + escape(_level0.revision) + ")' \n";
+		str += "sim_major_version = '" + messageEscape(_level0.versionMajor) + "' \n";
+		str += "sim_minor_version = '" + messageEscape(_level0.versionMinor) + "' \n";
+		str += "sim_dev_version = '" + messageEscape(_level0.dev) + "' \n";
+		str += "sim_svn_revision = '" + messageEscape(_level0.revision) + "' \n";
+		str += "sim_version_timestamp = '" + messageEscape(_level0.versionTimestamp) + "' \n";
+		//str += "sim_version = '" + messageEscape(_level0.versionMajor + "." + _level0.versionMinor + "." + _level0.dev) + " (" + escape(_level0.revision) + ")' \n";
 		
-		str += "sim_locale_language = '" + escape(_level0.languageCode) + "' \n";
-		str += "sim_locale_country = '" + escape(_level0.countryCode) + "' \n";
-		//str += "sim_locale = '" + escape(_level0.common.localeString()) + "' \n";
+		str += "sim_locale_language = '" + messageEscape(_level0.languageCode) + "' \n";
 		
-		str += "sim_sessions_since = '" + escape(_level0.preferences.visitsSince()) + "' \n";
-		str += "sim_total_sessions = '" + escape(_level0.preferences.visitsEver()) + "' \n";
+		var countryCodeForm : String = "";
+		if(_level0.countryCode == "none" ) {
+			countryCodeForm = "null";
+		} else {
+			countryCodeForm = _level0.countryCode;
+		}
+		str += "sim_locale_country = '" + messageEscape(countryCodeForm) + "' \n";
+		
+		str += "sim_sessions_since = '" + messageEscape(_level0.preferences.visitsSince()) + "' \n";
+		str += "sim_total_sessions = '" + messageEscape(_level0.preferences.visitsEver()) + "' \n";
 		
 		var deployment : String = "";
 		if(!_level0.common.fromPhetWebsite() && !_level0.common.isPlaceholder(_level0.installationTimestamp) && _level0.installationTimestamp != "none") {
@@ -84,19 +90,19 @@ class Statistics {
 		} else {
 			deployment = _level0.simDeployment;
 		}
-		str += "sim_deployment = '" + escape(deployment) + "' \n";
-		str += "sim_distribution_tag = '" + placeholderEscape(_level0.simDistributionTag) + "' \n";
-		str += "sim_dev = '" + escape((_level0.dev > 0 ? "true" : "false")) + "' \n";
+		str += "sim_deployment = '" + messageEscape(deployment) + "' \n";
+		str += "sim_distribution_tag = '" + messageEscape(_level0.simDistributionTag) + "' \n";
+		str += "sim_dev = '" + messageEscape((_level0.dev > 0 ? "true" : "false")) + "' \n";
 		
 		
 		/////// host data
 		
-		str += "host_flash_os = '" + escape(System.capabilities.os) + "' \n";
-		str += "host_flash_version = '" + escape(System.capabilities.version) + "' \n";
-		str += "host_locale_language = '" + escape(System.capabilities.language) + "' \n";
-		str += "host_flash_time_offset = '" + escape(String((new Date()).getTimezoneOffset())) + "' \n";
-		str += "host_flash_accessibility = '" + escape(String(System.capabilities.hasAccessibility)) + "' \n";
-		str += "host_flash_domain = '" + escape((new LocalConnection()).domain()) + "' \n";
+		str += "host_flash_os = '" + messageEscape(System.capabilities.os) + "' \n";
+		str += "host_flash_version = '" + messageEscape(System.capabilities.version) + "' \n";
+		str += "host_locale_language = '" + messageEscape(System.capabilities.language) + "' \n";
+		str += "host_flash_time_offset = '" + messageEscape(String((new Date()).getTimezoneOffset())) + "' \n";
+		str += "host_flash_accessibility = '" + messageEscape(String(System.capabilities.hasAccessibility)) + "' \n";
+		str += "host_flash_domain = '" + messageEscape((new LocalConnection()).domain()) + "' \n";
 		
 		// unload data from shared object
 		_level0.preferences.unload();
@@ -165,16 +171,11 @@ class Statistics {
 		//xml.sendAndLoad("http://localhost/statistics/submit_message.php", reply);
 	}
 	
-	// escape, but return defaultStr for placeholder strings
-	public function placeholderEscape(str : String, defaultStr : String) : String {
-		if(defaultStr == undefined) {
-			defaultStr = "none";
+	// sanitize information to be send to phet statistics: escape or turn into 'null' 
+	public function messageEscape(str : String) : String {
+		if(str == null || str == undefined || _level0.common.isPlaceholder(str)) {
+			return "null";
 		}
-		if(_level0.common.isPlaceholder(str)) {
-			// field is a placeholder string, return defaultStr
-			return defaultStr;
-		} else {
-			return escape(str);
-		}
+		return escape(str);
 	}
 }
