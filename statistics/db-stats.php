@@ -299,6 +299,8 @@ BOO;
 	
 	// insert/update data for the user table
 	function update_user($userPreferencesFileCreationTime, $userInstallTimestamp, $userTotalSessions) {
+		// TODO: add success return value, use mysql_affected_rows, and mysql_errno to detect any errors
+		
 		// escaped versions
 		$safe_time = mysql_real_escape_string($userPreferencesFileCreationTime);
 		$safe_install_timestamp = mysql_real_escape_string($userInstallTimestamp);
