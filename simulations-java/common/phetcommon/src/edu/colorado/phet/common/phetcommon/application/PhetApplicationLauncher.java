@@ -110,19 +110,15 @@ public class PhetApplicationLauncher {
                         app.startApplication();
                         disposeSplashWindow();
 
-                        // Software & Privacy Agreement
-                        if ( config.isStatisticsEnabled() ) {
-                            SoftwareAgreementManager.validate( app.getPhetFrame(), config );
-                        }
-
                         // session counts
                         SessionCounter.initInstance( config.getProjectName(), config.getFlavor() );
                         SessionCounter.getInstance().incrementCounts();
-                        
+
                         // statistics
                         StatisticsManager.initInstance( config );
                         if ( StatisticsManager.isStatisticsEnabled() ) {
                             final SessionMessage sessionMessage = SessionMessage.initInstance( config );
+                            SoftwareAgreementManager.validate( app.getPhetFrame(), config );
                             StatisticsManager.getInstance().addListener( new StatisticsManagerListener() {
                                 public void postResults( boolean success, StatisticsMessage m ) {
                                     if ( success && m == sessionMessage ) {
