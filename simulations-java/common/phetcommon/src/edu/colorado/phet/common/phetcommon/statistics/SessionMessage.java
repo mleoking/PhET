@@ -13,6 +13,9 @@ import edu.colorado.phet.common.phetcommon.util.JavaVersion.JREVersion;
  * Statistics message sent when the simulation starts, indicating the start of the session.
  * This message sends lots of general information about the simulation and the user's 
  * runtime environment.
+ * <p>
+ * This is a singleton, because we should never have more than instance of this 
+ * message per session.
  *
  * @author Sam Reid
  * @author Chris Malley
@@ -23,10 +26,29 @@ public class SessionMessage extends StatisticsMessage {
     // If the content of this message is changed, you'll need to increment the version number.
     public static final String MESSAGE_VERSION = "1";
     
-    public SessionMessage( PhetApplicationConfig config ) {
+    private static SessionMessage instance;
+    
+    public static SessionMessage initInstance( PhetApplicationConfig config ) {
+        if ( instance != null ) {
+            throw new RuntimeException( "initInstance was called more than once" );
+        }
+        else {
+            instance = new SessionMessage( config );
+        }
+        return instance;
+    }
+    
+    public static SessionMessage getInstance() {
+        return instance;
+    }
+    
+    /* singleton */
+    private SessionMessage( PhetApplicationConfig config ) {
         super( "session", MESSAGE_VERSION );
+        
         initTimeZone();
         JREVersion jre = new JREVersion();
+        
         StatisticsMessageField[] fields = new StatisticsMessageField[]{
                 
                 // Sim data
