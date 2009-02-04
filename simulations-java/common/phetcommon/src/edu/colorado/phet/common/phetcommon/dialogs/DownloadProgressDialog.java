@@ -1,4 +1,4 @@
-/* Copyright 2008, University of Colorado */
+/* Copyright 2008-2009, University of Colorado */
 
 package edu.colorado.phet.common.phetcommon.dialogs;
 
@@ -126,10 +126,15 @@ public class DownloadProgressDialog extends JDialog {
     // DownloaderListener implementation
     //----------------------------------------------------------------------------
     
+    /*
+     * These callbacks are made from the download thread, and they perform Swing operations.
+     * So all of the Swing operations must be wrapped in SwingUtilities.invokeLater to 
+     * ensure that they are performed in the Swing thread.
+     */
     private class ThisDownloadThreadListener implements DownloadThreadListener {
         
         public void succeeded() {
-            dispose();
+            disposeProgressDialog();
         }
         
         public void failed() {
@@ -137,28 +142,47 @@ public class DownloadProgressDialog extends JDialog {
         }
         
         public void canceled() {
-            dispose();
+            disposeProgressDialog();
         }
         
         public void requestAdded( String requestName, String sourceURL, File destinationFile ) {
             // don't care about request additions
         }
         
-        public void progress( String requestName, String sourceURL, File destinationFile, double percentOfSource, double percentOfTotal ) {
-            statusLabel.setText( requestName );
-            progressBar.setValue( (int) ( percentOfTotal * ( progressBar.getMaximum() - progressBar.getMinimum() ) ) );
+        public void progress( final String requestName, String sourceURL, File destinationFile, double percentOfSource, final double percentOfTotal ) {
+            SwingUtilities.invokeLater( new Runnable() {
+                public void run() {
+                    // update the progress display
+                    statusLabel.setText( requestName );
+                    progressBar.setValue( (int) ( percentOfTotal * ( progressBar.getMaximum() - progressBar.getMinimum() ) ) );
+                }
+            } );
         }
 
         public void completed( String requestName, String sourceURL, File destinationFile ) {
             // do nothing
         }
 
-        public void error( String requestName, String sourceURL, File destinationFile, String message, Exception e ) {
-            String title = PhetCommonResources.getString( "Common.title.error" );
-            String htmlMessage = HTMLUtils.createStyledHTMLFromFragment( message );
-            ErrorDialog dialog = new ErrorDialog( DownloadProgressDialog.this, title, htmlMessage, e );
-            dialog.setVisible( true );
-            dispose();
+        public void error( String requestName, String sourceURL, File destinationFile, final String message, final Exception e ) {
+            SwingUtilities.invokeLater( new Runnable() {
+                public void run() {
+                    // display the error
+                    String title = PhetCommonResources.getString( "Common.title.error" );
+                    String htmlMessage = HTMLUtils.createStyledHTMLFromFragment( message );
+                    ErrorDialog dialog = new ErrorDialog( DownloadProgressDialog.this, title, htmlMessage, e );
+                    dialog.setVisible( true );
+                }
+            } );
+            disposeProgressDialog();
+        }
+        
+        // disposes of the progress dialog
+        private void disposeProgressDialog() {
+            SwingUtilities.invokeLater( new Runnable() {
+                public void run() {
+                    dispose();
+                }
+            } );
         }
     }
     
