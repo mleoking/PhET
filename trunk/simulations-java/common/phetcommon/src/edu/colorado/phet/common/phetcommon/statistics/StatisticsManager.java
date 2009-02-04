@@ -131,15 +131,16 @@ public class StatisticsManager {
         public void postResults( boolean success, StatisticsMessage m );
     }
     
-    public void addListener( StatisticsManagerListener listener ) {
+    public synchronized void addListener( StatisticsManagerListener listener ) {
         listeners.add( listener );
     }
     
-    public void removeListener( StatisticsManagerListener listener ) {
+    public synchronized void removeListener( StatisticsManagerListener listener ) {
         listeners.remove( listener );
     }
     
-    private void notifyListeners( boolean success, StatisticsMessage m ) {
+    // called from another thread, StatisticsThread
+    private synchronized void notifyListeners( boolean success, StatisticsMessage m ) {
         ArrayList listenersCopy = new ArrayList( listeners ); // iterate on a copy to avoid ConcurrentModificationException
         Iterator i = listenersCopy.iterator();
         while ( i.hasNext() ) {
