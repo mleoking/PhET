@@ -122,7 +122,7 @@ public class PhetApplicationLauncher {
                         // statistics
                         StatisticsManager.initInstance( config );
                         if ( StatisticsManager.isStatisticsEnabled() ) {
-                            final SessionMessage sessionMessage = new SessionMessage( config );
+                            final SessionMessage sessionMessage = SessionMessage.initInstance( config );
                             StatisticsManager.getInstance().addListener( new StatisticsManagerListener() {
                                 public void postResults( boolean success, StatisticsMessage m ) {
                                     if ( success && m == sessionMessage ) {

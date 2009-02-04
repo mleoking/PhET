@@ -179,7 +179,7 @@ public class PhetApplicationConfig implements IStatistics, ISimInfo {
     }
     
     public String getHumanReadableStatistics() {
-        return new SessionMessage( this ).toHumanReadable();
+        return SessionMessage.getInstance().toHumanReadable();
     }
 
     public boolean isDev() {
