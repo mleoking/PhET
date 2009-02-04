@@ -1,5 +1,5 @@
 //Since we have been unable to find a way to pass args to Flash JSFL
- //We use this template, and replace dummy args @TRUNK@ and @SIMS@
+ //We use this template, and replace dummy args TRUNK and SIMS with @ around them
 
 // jsfl script to publish all of the sims listed below
 // (publishing creates the SWF files, and could be configured to do more)
