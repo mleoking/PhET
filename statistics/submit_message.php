@@ -9,8 +9,11 @@
 	// whether or not logging the messages is enabled.
 	// TODO: DO NOT ENABLE FOR LIVE VERSION
 	$raw_logging = true;
+	$raw_logging_verbose = true;
 	
 	
+	$success = true;
+	$fail_reason = "";
 	
 	print "<html>";
 	
@@ -31,6 +34,18 @@
 		// for each attribute, print out its key and value
 		foreach($xml->attributes() as $key => $value) {
 			$str .= "\t" . $key . "=" . urldecode($value) . "\n";
+			
+			// for message debugging
+			if($raw_logging_verbose) {
+				$str .= "\t\traw = \"{$value}\"\n";
+				if(urldecode($value) === null) { $str .= "\t\tnull\n"; }
+				if(urldecode($value) === false) { $str .= "\t\tfalse\n"; }
+				$decoded = urldecode($value);
+				$is_empty = empty($decoded);
+				if($is_empty) {
+					$str .= "\t\tempty\n";
+				}
+			}
 		}
 		
 		$str .= "\n";
@@ -38,6 +53,8 @@
 		fwrite($file, $str);
 		fclose($file);
 	}
+	
+	
 	
 	if($xml["sim_type"] == "flash") {
 	    // message from a flash simulation
@@ -71,7 +88,7 @@
 			$version_numbers = explode(",", $version_right);
 			if(count($version_numbers) != 4) { die("Error: 981403"); }
 			
-			insert_flash_message(
+			$sessionID = insert_flash_message(
 				array (
 					"message_version" => 1,
 					"sim_project" => urldecode($xml["sim_project"]),
@@ -102,6 +119,11 @@
 				)
 			);
 			
+			if(empty($sessionID)) {
+				$success = false;
+				$fail_reason = "message error";
+			}
+			
 		}
 	} else if($xml["sim_type"] == "java") {
 		
@@ -116,7 +138,7 @@
 				urldecode($xml["user_total_sessions"])
 			);
 			
-			insert_java_message(
+			$sessionID = insert_java_message(
 				array (
 					"message_version" => 1,
 					"sim_project" => urldecode($xml["sim_project"]),
@@ -147,11 +169,20 @@
 				)
 			);
 			
+			if(empty($sessionID)) {
+				$success = false;
+				$fail_reason = "message error";
+			}
+			
 		}
 		
 	}
 	
-	print "<p>Received Successfully</p>";
+	if($success) {
+		print "<p>Received Successfully</p>";
+	} else {
+		print "<p>Failure: {$fail_reason}</p>";
+	}
 	
 	print "</html>";
 	
