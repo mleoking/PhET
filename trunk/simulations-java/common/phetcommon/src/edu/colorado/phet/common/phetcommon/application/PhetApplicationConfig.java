@@ -181,14 +181,6 @@ public class PhetApplicationConfig implements IStatistics, ISimInfo {
         return resourceLoader.getVersion();
     }
     
-    public long getApplicationLaunchFinishedAt() {
-        return applicationLaunchFinishedAt;
-    }
-
-    public long getElapsedStartupTime() {
-        return getApplicationLaunchFinishedAt() - getSimStartTimeMillis();
-    }
-
     public String getHumanReadableStatistics() {
         return new SessionMessage( this ).toHumanReadable();
     }
@@ -228,9 +220,4 @@ public class PhetApplicationConfig implements IStatistics, ISimInfo {
     public boolean isStatisticsEnabled() {
         return isStatisticsFeatureIncluded() && PhetPreferences.getInstance().isStatisticsEnabled();
     }
-
-    public void setApplicationLaunchFinishedAt( long applicationLaunchFinishedAt ) {
-        this.applicationLaunchFinishedAt = applicationLaunchFinishedAt;
-    }
-
 }
