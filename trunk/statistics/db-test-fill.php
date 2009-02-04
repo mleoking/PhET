@@ -192,20 +192,17 @@
 		
 		
 		// deployment
-		$simDeployment = 'book-cd';
-		if(rand(0, 99) < 30) {
-			$simDeployment = 'external-website';
+		$simDeployment = 'phet-installation';
+		if(rand(0, 99) < 10) {
+			$simDeployment = 'other-website';
 		}
 		if(rand(0, 99) < 30) {
 			$simDeployment = 'standalone-jar';
 		}
-		if(rand(0, 99) < 60) {
-			$simDeployment = 'full-installation';
-		}
 		
 		// distribution tag
 		$simDistributionTag = "none";
-		if($simDeployment == "book-cd") {
+		if($simDeployment == "phet-installation") {
 			if(rand(0, 99) < 40) {
 				$simDistributionTag = "O'Reilly";
 			} else {
