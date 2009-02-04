@@ -10,6 +10,8 @@ import edu.colorado.phet.common.phetcommon.util.AbstractPropertiesFile;
  * Counts simulation sessions, the number of times a simulation is run.
  * Session counts are persistent, residing in .phet/session-counts.properties in the user's home directory.
  * This information is used by the statistics feature.
+ * <p>
+ * This class must be thread safe, because it may be called from different threads.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -34,7 +36,7 @@ public class SessionCounter {
      * @param simulation
      * @return
      */
-    public static SessionCounter initInstance( String project, String simulation ) {
+    public synchronized static SessionCounter initInstance( String project, String simulation ) {
         if ( instance != null ) {
             throw new RuntimeException( "SessionCounter is already initialized" );
         }
@@ -44,14 +46,14 @@ public class SessionCounter {
         return instance;
     }
     
-    public static SessionCounter getInstance() {
+    public synchronized static SessionCounter getInstance() {
         return instance;
     }
     
     /**
      * Increments the counts for this sim, and the running total.
      */
-    public void incrementCounts() {
+    public synchronized void incrementCounts() {
         file.setCount( project, simulation, file.getCount( project, simulation ) + 1 );
         file.setCountSince( project, simulation, file.getCountSince( project, simulation ) + 1 );
         file.setTotal( getTotal() + 1 );
@@ -61,7 +63,7 @@ public class SessionCounter {
      * Resets the counts related to when the sim was last able to send statistics.
      * This should be called after successfully sending a "session" message to PhET.
      */
-    public void resetCountSince() {
+    public synchronized void resetCountSince() {
         file.setCountSince( project, simulation, 0 );
     }
     
@@ -70,7 +72,7 @@ public class SessionCounter {
      * 
      * @return
      */
-    public int getCount() {
+    public synchronized int getCount() {
         return file.getCount( project, simulation );
     }
    
@@ -79,7 +81,7 @@ public class SessionCounter {
      * 
      * @return
      */
-    public int getTotal() {
+    public synchronized int getTotal() {
         return file.getTotal();
     }
     
@@ -89,7 +91,7 @@ public class SessionCounter {
      * 
      * @return
      */
-    public int getCountSince() {
+    public synchronized int getCountSince() {
         return file.getCountSince( project, simulation );
     }
     
