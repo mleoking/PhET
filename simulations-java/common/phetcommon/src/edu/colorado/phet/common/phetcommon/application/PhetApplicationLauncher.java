@@ -127,7 +127,7 @@ public class PhetApplicationLauncher {
                         if ( StatisticsManager.isStatisticsEnabled() ) {
                             final SessionMessage sessionMessage = new SessionMessage( config );
                             StatisticsManager.getInstance().addListener( new StatisticsManagerListener() {
-                                public void postResults( StatisticsMessage m, boolean success ) {
+                                public void postResults( boolean success, StatisticsMessage m ) {
                                     if ( success && m == sessionMessage ) {
                                         // if the session message is successfully sent, reset this session count
                                         SessionCounter.getInstance().resetCountSince();
