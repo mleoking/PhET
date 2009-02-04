@@ -2,11 +2,13 @@ package edu.colorado.phet.build;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Properties;
 
-import javax.swing.*;
+import edu.colorado.phet.build.flash.FlashBuildCommand;
 
 /**
  * Created by IntelliJ IDEA.
@@ -49,7 +51,17 @@ public class PhetFlashProject extends PhetProject {
     public boolean build() throws Exception {
 //        super.build();
         System.out.println( "Building flash sim." );
-        JOptionPane.showMessageDialog( null, "Build the Flash Sim SWF file now (Shift-F12 builds without launching), then press OK when you are finished" );
+//        JOptionPane.showMessageDialog( null, "Build the Flash Sim SWF file now (Shift-F12 builds without launching), then press OK when you are finished" );
+        File configFile = new File( getProjectDir().getParentFile().getParentFile(), "config.properties" );
+        Properties properties = new Properties();
+        properties.load( new FileInputStream( configFile ) );
+        String exe = properties.getProperty( "flash.exe", "C:\\Program Files\\Macromedia\\Flash 8\\Flash.exe" );
+        FlashBuildCommand.build( exe,
+                                 getName(),
+                                 getProjectDir().getParentFile()//simulations
+                                         .getParentFile()//simulations-flash
+                                         .getParentFile()//trunk
+        );
         return true;
     }
 

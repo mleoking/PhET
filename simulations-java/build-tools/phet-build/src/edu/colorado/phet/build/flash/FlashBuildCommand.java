@@ -2,9 +2,6 @@ package edu.colorado.phet.build.flash;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import edu.colorado.phet.build.util.FileUtils;
 
@@ -15,6 +12,10 @@ import edu.colorado.phet.build.util.FileUtils;
  * Time: 10:17:40 AM
  */
 public class FlashBuildCommand {
+    public static void build( String cmdArray, String sim, File trunk ) throws IOException {
+        build( cmdArray, new String[]{sim}, trunk );
+    }
+
     public static void build( String cmdArray, String[] sims, File trunk ) throws IOException {
         String trunkPipe = trunk.getAbsolutePath().replace( ':', '|' );
         trunkPipe = trunkPipe.replace( '\\', '/' );
@@ -26,10 +27,6 @@ public class FlashBuildCommand {
         File outputFile = new File( trunk, "simulations-flash\\build-output-temp\\build.jsfl" );
         FileUtils.writeString( outputFile, out );
 
-//        List a = Arrays.asList( cmdArray );
-//        ArrayList b = new ArrayList( a );
-
-//        b.add( outputFile.getAbsolutePath() );
         Runtime.getRuntime().exec( cmdArray + " " + outputFile.getAbsolutePath() );
     }
 
@@ -43,12 +40,10 @@ public class FlashBuildCommand {
             }
         }
         return s;
-
     }
 
     public static void main( String[] args ) throws IOException {
-        File flashEXE = new File( "C:\\Program Files\\Macromedia\\Flash 8\\Flash.exe" );
-        FlashBuildCommand.build( flashEXE.getAbsolutePath(),
+        FlashBuildCommand.build( "C:\\Program Files\\Macromedia\\Flash 8\\Flash.exe",
                                  new String[]{"pendulum-lab", "test-flash-project"},
                                  new File( "C:\\reid\\phet\\svn\\trunk" ) );
     }
