@@ -95,7 +95,7 @@
     define("JAVA_MIN_VERSION_OSX_FULL", "Apple Java ".JAVA_MIN_VERSION_OSX);
     define("JAVA_MIN_VERSION_LIN_FULL", "Sun Java ".JAVA_MIN_VERSION_LIN);
     define("FLASH_MIN_VERSION", "8");
-    define("FLASH_MIN_VERSION_FULL", "Macrmedia Flash 8");
+    define("FLASH_MIN_VERSION_FULL", "Macromedia Flash 8");
 
     // When a simulation is created, an empty simulation is added
     // to the database (yes, before the data has been populated, and
