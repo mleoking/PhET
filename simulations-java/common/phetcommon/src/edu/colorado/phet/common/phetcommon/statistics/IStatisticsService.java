@@ -13,6 +13,7 @@ public interface IStatisticsService {
     /**
      * Delivers a statistics message to PhET.
      * @param message
+     * @return true if the message was successfully posted
      */
-    public void postMessage( StatisticsMessage message ) throws IOException;
+    public boolean postMessage( StatisticsMessage message ) throws IOException;
 }

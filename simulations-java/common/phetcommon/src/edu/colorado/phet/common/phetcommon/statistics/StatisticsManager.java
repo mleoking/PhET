@@ -1,6 +1,8 @@
 package edu.colorado.phet.common.phetcommon.statistics;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Vector;
 
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
@@ -21,6 +23,7 @@ public class StatisticsManager {
     private final Vector messageQueue = new Vector();
     private final StatisticsThread statisticsThread = new StatisticsThread();
     private final IStatisticsService statisticsService = new XMLStatisticsService();
+    private final ArrayList listeners = new ArrayList();
 
     /* singleton */
     private StatisticsManager( ISimInfo simInfo ) {
@@ -102,8 +105,9 @@ public class StatisticsManager {
         try {
             while ( messageQueue.size() > 0 ) {
                 StatisticsMessage m = (StatisticsMessage) messageQueue.get( 0 );
-                statisticsService.postMessage( m );
-                messageQueue.remove( m ); // remove message from queue after it has been sent, so that messageQueue won't be considered empty prematurely
+                boolean success = statisticsService.postMessage( m );
+                messageQueue.remove( m ); // remove message from queue after post, so that messageQueue won't be considered empty prematurely
+                notifyListeners( m, success );
             }
         }
         catch( IOException e ) {
@@ -120,6 +124,25 @@ public class StatisticsManager {
         // because construction may cause java.security.AccessControlException under web start.
         if ( isStatisticsEnabled() ) {
             instance.postMessageImpl( statisticsMessage );
+        }
+    }
+    
+    public interface StatisticsManagerListener {
+        public void postResults( StatisticsMessage m, boolean success );
+    }
+    
+    public void addListener( StatisticsManagerListener listener ) {
+        listeners.add( listener );
+    }
+    
+    public void removeListener( StatisticsManagerListener listener ) {
+        listeners.remove( listener );
+    }
+    
+    private void notifyListeners( StatisticsMessage m, boolean success ) {
+        Iterator i = listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (StatisticsManagerListener) i.next() ).postResults( m, success );
         }
     }
 }

@@ -28,9 +28,10 @@ public class XMLStatisticsService implements IStatisticsService {
      * Delivers a statistics message to PhET.
      *
      * @param message
+     * @return true if the message was successfully posted
      */
-    public void postMessage( StatisticsMessage message ) throws IOException {
-        postXML( getStatisticsURL( message ), toXML( message ) );
+    public boolean postMessage( StatisticsMessage message ) throws IOException {
+        return postXML( getStatisticsURL( message ), toXML( message ) );
     }
 
     private String toXML( StatisticsMessage message ) {
@@ -96,7 +97,10 @@ public class XMLStatisticsService implements IStatisticsService {
         return "http://phet.colorado.edu/statistics/submit_message.php";
     }
 
-    public static void postXML( String url, String xml ) throws IOException {
+    private static boolean postXML( String url, String xml ) throws IOException {
+        
+        boolean success = false;
+        
         // open connection
         URL urlObject = new URL( url );
         HttpURLConnection connection = (HttpURLConnection) urlObject.openConnection();
@@ -122,12 +126,14 @@ public class XMLStatisticsService implements IStatisticsService {
                     System.out.println( line );
                 }
                 reader.close();
+                success = true;
                 System.out.println( "done." );
             }
         }
         catch( UnknownHostException uhe ) {
-            System.err.println( "Could not sumbit message, perhaps network is unavailable: " + uhe.toString() );
+            System.err.println( XMLStatisticsService.class.getName() + ": Could not sumbit message, perhaps network is unavailable: " + uhe.toString() );
         }
+        return success;
     }
 
 

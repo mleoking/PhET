@@ -7,6 +7,8 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.statistics.SessionMessage;
 import edu.colorado.phet.common.phetcommon.statistics.StatisticsManager;
+import edu.colorado.phet.common.phetcommon.statistics.StatisticsMessage;
+import edu.colorado.phet.common.phetcommon.statistics.StatisticsManager.StatisticsManagerListener;
 import edu.colorado.phet.common.phetcommon.updates.UpdatesManager;
 
 /**
@@ -102,11 +104,13 @@ public class PhetApplicationLauncher {
                     config.getLookAndFeel().initLookAndFeel();
                     if ( applicationConstructor != null ) {
                         
+                        // sim initialization
                         showSplashWindow( config.getName() );
                         PhetApplication app = applicationConstructor.getApplication( config );
                         app.startApplication();
                         disposeSplashWindow();
 
+                        // Software & Privacy Agreement
                         if ( config.isStatisticsEnabled() ) {
                             SoftwareAgreementManager.validate( app.getPhetFrame(), config );
                         }
@@ -114,13 +118,26 @@ public class PhetApplicationLauncher {
                         long applicationLaunchFinishedAt = System.currentTimeMillis();
                         config.setApplicationLaunchFinishedAt( applicationLaunchFinishedAt );
 
+                        // session counts
                         SessionCounter.initInstance( config.getProjectName(), config.getFlavor() );
                         SessionCounter.getInstance().incrementCounts();
+                        
+                        // statistics
                         StatisticsManager.initInstance( config );
                         if ( StatisticsManager.isStatisticsEnabled() ) {
-                            StatisticsManager.postMessage( new SessionMessage( config ) );
-                            SessionCounter.getInstance().resetCountSince();
+                            final SessionMessage sessionMessage = new SessionMessage( config );
+                            StatisticsManager.getInstance().addListener( new StatisticsManagerListener() {
+                                public void postResults( StatisticsMessage m, boolean success ) {
+                                    if ( success && m == sessionMessage ) {
+                                        // if the session message is successfully sent, reset this session count
+                                        SessionCounter.getInstance().resetCountSince();
+                                    }
+                                }
+                            } );
+                            StatisticsManager.postMessage( sessionMessage );
                         }
+                        
+                        // updates
                         UpdatesManager.initInstance( config ).applicationStarted( app.getPhetFrame(), app.getStatistics() );//todo: due to threading, sometimes this event arrives at server first
                     }
                     else {
