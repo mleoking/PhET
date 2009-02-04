@@ -42,6 +42,8 @@
 
     // Get the version info
     $version = sim_get_version($simulation, false);
+
+    // Combine major, minor, and dev version info
     $version_string = '';
     if ((!empty($version['major'])) && (!empty($version['minor'])) && (!empty($version['dev']))) {
         $version_string = "{$version['major']}.{$version['minor']}.{$version['dev']}";
@@ -50,7 +52,13 @@
     // Create the XML
     $xml = <<<EOT
 <?xml version="1.0"?>
-<sim-version-info project="{$dirname}" sim="{$flavorname}" version="{$version_string}" revision="{$version['revision']}"/>
+<sim-version-info 
+    project="{$dirname}"
+    sim="{$flavorname}"
+    version="{$version_string}"
+    revision="{$version['revision']}"
+    timestamp="{$version['timestamp']}"
+    installer_timestamp="{$version['installer_timestamp']}" />
 
 EOT;
 

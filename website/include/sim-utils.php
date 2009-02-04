@@ -13,6 +13,7 @@
     require_once("include/db-utils.php");
     require_once("include/cache-utils.php");
     require_once("include/locale-utils.php");
+    require_once("include/installer-utils.php");
 
     if (!defined("SIMS_ROOT")) {
         define("SIMS_ROOT", PORTAL_ROOT.'sims/');
@@ -199,22 +200,31 @@
     //
     // TEMP: Flash versioning is inaccurate, return blank version
     //
-    // Array form: 
-    //     'major' => value
-    //     'minor' => value
-    //     'dev' => value
-    //     'revision' => value
+    // Example array form: 
+    //     'major' => '1'
+    //     'minor' => '07'
+    //     'dev' => '00'
+    //     'revision' => '2615700'
+    //     'timestamp' => '98340'
+    //     'installer_timestamp' => '98343'
     function sim_get_version($simulation, $ignore_flash = true) {
         $dirname     = $simulation['sim_dirname'];
 
         $properties_filename = sim_get_root()."{$dirname}/{$dirname}.properties";
 
-        $revision_tags = array('major', 'minor', 'dev', 'revision');
+        $revision_tags = array(
+            'major', 'minor', 'dev', 'revision',
+            'timestamp', 'installer_timestamp');
         $regex = 'version\.('.join('|', $revision_tags).') *= *([^ \n\r\t]+)';
 
         $version = array();
         foreach ($revision_tags as $tag) {
             $version[$tag] = '';
+        }
+
+        $installer_timestamp = installer_get_latest_timestamp();
+        if ($installer_timestamp && !empty($installer_timestamp)) {
+            $version['installer_timestamp'] = installer_get_latest_timestamp();
         }
 
         // TEMP: Flash versioning is inaccurate, return blank version
