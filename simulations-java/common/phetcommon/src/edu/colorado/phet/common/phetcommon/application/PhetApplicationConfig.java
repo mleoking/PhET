@@ -87,7 +87,11 @@ public class PhetApplicationConfig implements IStatistics, ISimInfo {
     }
 
     public boolean hasCommandLineArg( String arg ) {
-        return Arrays.asList( commandLineArgs ).contains( arg );
+        boolean b = false;
+        if ( commandLineArgs != null ) {
+            b = Arrays.asList( commandLineArgs ).contains( arg );
+        }
+        return b;
     }
     
     public void setFrameSetup( FrameSetup frameSetup ) {
@@ -183,7 +187,7 @@ public class PhetApplicationConfig implements IStatistics, ISimInfo {
     }
 
     public boolean isDev() {
-        return Arrays.asList( commandLineArgs ).contains( PhetApplication.DEVELOPER_CONTROLS_COMMAND_LINE_ARG );
+        return hasCommandLineArg( PhetApplication.DEVELOPER_CONTROLS_COMMAND_LINE_ARG );
     }
 
     public Locale getLocale() {
