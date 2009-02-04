@@ -27,6 +27,5 @@ object Ladybug2DApplication {
           addModule(new LadybugModule(new ScalaClock(30, 30 / 1000.0)))
         }
       })
-    println(System.currentTimeMillis)
   }
 }

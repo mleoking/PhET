@@ -69,13 +69,20 @@ class LadybugModel extends ObservableS {
 
   val motion2DModel = new Motion2DModel(10, 5, LadybugDefaults.defaultLocation.x, LadybugDefaults.defaultLocation.y)
 
+//  println("t\tx\tvx\tax")
   def positionMode(dt: Double) = {
     if (samplePath.length > 2) {
       motion2DModel.addPointAndUpdate(samplePath(samplePath.length - 1).location.x, samplePath(samplePath.length - 1).location.y)
       ladybug.setPosition(new Vector2D(motion2DModel.getAvgXMid, motion2DModel.getAvgYMid))
-      val scale = (1.0 / dt) / 5
-      ladybug.setVelocity(new Vector2D(motion2DModel.getXVel, motion2DModel.getYVel) * scale)
-      ladybug.setAcceleration(new Vector2D(motion2DModel.getXAcc, motion2DModel.getYAcc) * scale * scale)
+      //added fudge factors for getting the scale right with current settings of motion2d model
+      //used spreadsheet to make sure model v and a are approximately correct.
+      val vscale = (1.0 / dt) / 10
+      val ascale = vscale * vscale * 3.835
+      ladybug.setVelocity(new Vector2D(motion2DModel.getXVel, motion2DModel.getYVel) * vscale)
+      ladybug.setAcceleration(new Vector2D(motion2DModel.getXAcc, motion2DModel.getYAcc) * ascale)
+
+      def debug = {println(time + "\t" + ladybug.getPosition.x + "\t" + ladybug.getVelocity.x + "\t" + ladybug.getAcceleration.x)}
+//      debug
     } else {
       ladybug.setVelocity(new Vector2D)
       ladybug.setAcceleration(new Vector2D)
