@@ -115,9 +115,6 @@ public class PhetApplicationLauncher {
                             SoftwareAgreementManager.validate( app.getPhetFrame(), config );
                         }
 
-                        long applicationLaunchFinishedAt = System.currentTimeMillis();
-                        config.setApplicationLaunchFinishedAt( applicationLaunchFinishedAt );
-
                         // session counts
                         SessionCounter.initInstance( config.getProjectName(), config.getFlavor() );
                         SessionCounter.getInstance().incrementCounts();
