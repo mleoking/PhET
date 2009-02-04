@@ -51,8 +51,6 @@ public class PhetApplicationConfig implements IStatistics, ISimInfo {
     private FrameSetup frameSetup;
     private PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel(); // the look and feel to be initialized in launchSim
 
-    private final long simStartTimeMillis = System.currentTimeMillis();//System time is recorded on startup to facilitate sending of multiple messages from the same sim run
-
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -186,10 +184,6 @@ public class PhetApplicationConfig implements IStatistics, ISimInfo {
 
     public boolean isDev() {
         return Arrays.asList( commandLineArgs ).contains( PhetApplication.DEVELOPER_CONTROLS_COMMAND_LINE_ARG );
-    }
-
-    public long getSimStartTimeMillis() {
-        return simStartTimeMillis;
     }
 
     public Locale getLocale() {

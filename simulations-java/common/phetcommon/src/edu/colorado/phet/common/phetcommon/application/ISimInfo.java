@@ -54,8 +54,6 @@ public interface ISimInfo {
      */
     boolean isDev();
     
-    long getSimStartTimeMillis();
-    
     /**
      * Gets the locale that we're using to decide which string translations to load.
      * @return
