@@ -296,6 +296,8 @@ class LadybugModel extends ObservableS {
     notifyListeners()
   }
 
+  def clearSampleHistory()=samplePath.clear
+
   def resetMotion2DModel = {
     motion2DModel.reset(ladybug.getPosition.x, ladybug.getPosition.y)
     motion2DModelResetListeners.foreach(_())

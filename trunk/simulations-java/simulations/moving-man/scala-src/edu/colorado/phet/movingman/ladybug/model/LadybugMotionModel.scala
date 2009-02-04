@@ -66,10 +66,12 @@ object LadybugMotionModel {
       //      model.positionMode(dt)
       //      model.ladybug.setVelocity(new Vector2D(vx,vy))
 
+
       model.ladybug.setPosition(new Vector2D(x, y))
       model.ladybug.setVelocity(new Vector2D(vx, vy))
       model.ladybug.setAngle(model.ladybug.getVelocity.getAngle)
       model.ladybug.setAcceleration(model.average(model.getHistory.length - 15, model.getHistory.length - 1, model.estimateAcceleration))
+      model.setSamplePoint(model.ladybug.getPosition)
     }
   }
   val CIRCULAR = new MotionType("circular") {
@@ -100,7 +102,15 @@ object LadybugMotionModel {
 
         val accel = new Vector2D(newAngle + PI) * velocity.magnitude * velocity.magnitude / r
         model.ladybug.setAcceleration(accel)
+        model.setSamplePoint(model.ladybug.getPosition)
       }
+
+
+    }
+
+    override def init(model: LadybugModel) = {
+      model.clearSampleHistory
+      model.resetMotion2DModel
     }
   }
   val ELLIPSE = new MotionType("ellipse") {

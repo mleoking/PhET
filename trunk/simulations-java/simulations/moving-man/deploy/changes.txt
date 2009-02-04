@@ -1,6 +1,8 @@
 > Added fudge factors to improve velocity and acceleration scales
 > Inverted Y Axis so that positive Y is up
 > Major performance improvements
+> Should show acceleration and velocity while moving to circle.
+> Should have smooth transition between linear and circular motion modes.
 
 # 1.20.24 (27822) 01-31-2009
 > Fixed: Remote control doesn't show correct initial position
