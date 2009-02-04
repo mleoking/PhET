@@ -150,6 +150,9 @@ class Statistics {
 		// allocate space for the reply message
 		var reply : XML = new XML();
 		
+		// TODO: remove (DEVELOPMENT)
+		_level0.statisticsReply = reply;
+		
 		// to traverse the XML, we don't want whitespace notes in it
 		reply.ignoreWhite = true;
 		
@@ -158,7 +161,32 @@ class Statistics {
 			if(success) {
 				_level0.debug("Statistics: message received:\n");
 				_level0.debug(reply.toString()+"\n");
-				_level0.preferences.resetSince();
+				
+				// not necessarily a success, we need to check for a server-side success
+				var statisticsResult : XMLNode = reply.childNodes[0].childNodes[0];
+				var messages : Array = statisticsResult.childNodes;
+				
+				// whether the message was successful
+				var full_success : Boolean = false;
+				
+				for(var idx in messages) {
+					var mess : XMLNode = messages[idx];
+					if(mess.nodeName == "success") {
+						var val : XMLNode = mess.childNodes[0];
+						if(val.nodeValue == "true") {
+							full_success = true;
+						}
+					}
+				}
+				
+				if(full_success) {
+					// statistics message successful
+					_level0.debug("Statistics: Message Handshake Successful\n");
+					_level0.preferences.resetSince();
+				} else {
+					// server could not record statistics message
+					_level0.debug("WARNING: Statistics: Message Handshake Failure\n");
+				}
 			} else {
 				_level0.debug("Statistics: message error!\n");
 			}
