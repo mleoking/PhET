@@ -248,7 +248,7 @@ EOT;
             "about/index.php",
             "About PhET",
             array(
-                'about/faq.php'         => 'FAQ',
+                'about/source-code.php'         => 'Source Code',
                 'about/news.php'        => 'News',
                 'about/contact.php'     => 'Contact',
                 'about/who-we-are.php'  => 'Who We Are',
