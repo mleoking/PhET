@@ -38,7 +38,7 @@ class CenteredBoxStrategy(modelWidth: Double, modelHeight: Double, canvas: JComp
 class LadybugCanvas(model: LadybugModel, vectorVisibilityModel: VectorVisibilityModel, pathVisibilityModel: PathVisibilityModel)
         extends PhetPCanvas(new Dimension(1024, 768)) {
   setWorldTransformStrategy(new CenteredBoxStrategy(768, 768, this));
-  val transform: ModelViewTransform2D = new ModelViewTransform2D(new Rectangle2D.Double(-10, -10, 20, 20), new Rectangle(0, 0, 768, 768), false)
+  val transform: ModelViewTransform2D = new ModelViewTransform2D(new Rectangle2D.Double(-10, -10, 20, 20), new Rectangle(0, 0, 768, 768), LadybugDefaults.POSITIVE_Y_IS_UP)
   val constructed = true
   updateWorldScale
 
