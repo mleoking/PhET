@@ -209,7 +209,10 @@
 				fail_me("flash insertion error");
 			}
 			
+		} else {
+			fail_me("message_version was not accepted");
 		}
+		
 	} else if($xml["sim_type"] == "java") {
 		
 		if($xml["message_version"] == "1") {
@@ -258,8 +261,12 @@
 				fail_me("java insertion error");
 			}
 			
+		} else {
+			fail_me("message_version was not accepted");
 		}
 		
+	} else {
+		fail_me("sim_type was not java or flash");
 	}
 	
 	print "<success>true</success>";
