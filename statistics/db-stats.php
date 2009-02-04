@@ -17,12 +17,16 @@
 	// used for every mysql query that needs to be made
 	// useful for debugging and error catching
 	function phet_mysql_query($query) {
-		//print "<p>" . $query . "</p>";
+		print "<debug-message>" . $query . "</debug-message>";
 		
 		// actually execute the query
 		$result = mysql_query($query);
 		
-		//print "<p>" . mysql_error() . "</p>";
+		if(mysql_errno()) {
+			print "<warning-message>" . mysql_error() . "</warning-message>";
+		} else {
+			print "<debug-message>affected: " . mysql_affected_rows() . "</debug-message>";
+		}
 		//$result | die();
 		return $result;
 	}
@@ -74,17 +78,13 @@ BOO;
 		return $id;
 	}
 	
-	// surround a string with quotes, and escape it
+	// surround a string with quotes, and escape it (unless it is null)
 	function quo($str) {
-		return "'" . mysql_real_escape_string($str) . "'";
-	}
-	
-	// return either a secure quoted string, or NULL if the value is one of the strings mapped to NULL
-	function quote_null_if_none($value) {
-		if($value == "none" || $value == "null" || $value == "undefined" || $value === "" || $value === false || $value === NULL) {
+		if($str === "NULL") {
+			// do not quote NULL
 			return "NULL";
 		} else {
-			return quo($value);
+			return "'" . mysql_real_escape_string($str) . "'";
 		}
 	}
 	
@@ -105,8 +105,8 @@ BOO;
 		// get IDs from normalized tables
 		$sim_project_ID = get_id_value("sim_project", "id", "name", quo($data['sim_project']));
 		$sim_name_ID = get_id_value("sim_name", "id", "name", quo($data['sim_name']));
-		$sim_deployment_ID = get_id_value("deployment", "id", "name", quote_null_if_none($data['sim_deployment']));
-		$sim_distribution_tag_ID = get_id_value("distribution_tag", "id", "name", quote_null_if_none($data['sim_distribution_tag']));
+		$sim_deployment_ID = get_id_value("deployment", "id", "name", quo($data['sim_deployment']));
+		$sim_distribution_tag_ID = get_id_value("distribution_tag", "id", "name", quo($data['sim_distribution_tag']));
 		$host_simplified_os_ID = get_id_value("simplified_os", "id", "name", quo($data['host_simplified_os']));
 		
 		$values = array(
@@ -120,14 +120,14 @@ BOO;
 			'sim_svn_revision' => mysql_real_escape_string($data['sim_svn_revision']),
 			'sim_version_timestamp' => 'FROM_UNIXTIME(' . mysql_real_escape_string($data['sim_version_timestamp']) . ')',
 			'sim_locale_language' => quo($data['sim_locale_language']),
-			'sim_locale_country' => quote_null_if_none($data['sim_locale_country']),
+			'sim_locale_country' => quo($data['sim_locale_country']),
 			'sim_sessions_since' => mysql_real_escape_string($data['sim_sessions_since']),
 			'sim_total_sessions' => mysql_real_escape_string($data['sim_total_sessions']),
 			'sim_deployment' => $sim_deployment_ID,
 			'sim_distribution_tag' => $sim_distribution_tag_ID,
 			'sim_dev' => mysql_real_escape_string($data['sim_dev']),
 			'host_locale_language' => quo($data['host_locale_language']),
-			'host_locale_country' => quote_null_if_none($data['host_locale_country']),
+			'host_locale_country' => quo($data['host_locale_country']),
 			'host_simplified_os' => $host_simplified_os_ID,
 		);
 		
@@ -166,9 +166,8 @@ BOO;
 		
 		phet_mysql_query($query);
 		
-		// return the ID (value of the auto_increment field) of the row we inserted, so we can
-		// use it for other queries
-		return mysql_insert_id();
+		// return how many rows were affected. should be 1, otherwise an error occurred
+		return mysql_affected_rows();
 	}
 	
 	// insert data into the java_info table
@@ -178,7 +177,7 @@ BOO;
 		$host_java_os_version_ID = get_id_value("java_os_version", "id", "name", quo($data['host_java_os_version']));
 		$host_java_os_arch_ID = get_id_value("java_os_arch", "id", "name", quo($data['host_java_os_arch']));
 		$host_java_vendor_ID = get_id_value("java_vendor", "id", "name", quo($data['host_java_vendor']));
-		$host_java_webstart_version_ID = get_id_value("java_webstart_version", "id", "name", quote_null_if_none($data['host_java_webstart_version']));
+		$host_java_webstart_version_ID = get_id_value("java_webstart_version", "id", "name", quo($data['host_java_webstart_version']));
 		$host_java_timezone_ID = get_id_value("java_timezone", "id", "name", quo($data['host_java_timezone']));
 		
 		$values = array(
@@ -199,9 +198,8 @@ BOO;
 		
 		phet_mysql_query($query);
 		
-		// return the ID (value of the auto_increment field) of the row we inserted, so we can
-		// use it for other queries
-		return mysql_insert_id();
+		// return how many rows were affected. should be 1, otherwise an error occurred
+		return mysql_affected_rows();
 	}
 	
 	// insert an entire flash message
@@ -242,13 +240,13 @@ BOO;
 		
 		$data['session_id'] = $sessionID;
 		
-		// returned ID should be equal to $sessionID
-		$secondSessionID = insert_flash_info($data);
+		// returned rows should be 1
+		$rowsAffected = insert_flash_info($data);
 		
 		// TODO: remove session entry if flash insertion fails???
 		
-		// will be empty (0 or false) if failure was encountered
-		return $secondSessionID;
+		// will be 0 if failure was encountered
+		return $rowsAffected;
 	}
 	
 	// insert an entire java message
@@ -288,13 +286,13 @@ BOO;
 		
 		$data['session_id'] = $sessionID;
 		
-		// returned ID should be equal to $sessionID
-		$secondSessionID = insert_java_info($data);
+		// returned rows should be 1
+		$rowsAffected = insert_java_info($data);
 		
 		// TODO: remove session entry if java insertion fails???
 		
-		// will be empty (0 or false) if failure was encountered
-		return $secondSessionID;
+		// will be 0 if failure was encountered
+		return $rowsAffected;
 	}
 	
 	// insert/update data for the user table
