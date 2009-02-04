@@ -92,7 +92,7 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
     val dx = new Vector2D(pimage.getImage.getWidth(null), pimage.getImage.getHeight(null))
 
     pimage.translate(viewPosition.x - dx.x / 2, viewPosition.y - dx.y / 2)
-    pimage.rotateAboutPoint(ladybug.getAngle,
+    pimage.rotateAboutPoint(ladybug.getAngleInvertY,
       pimage.getFullBounds.getCenter2D.getX - (viewPosition.x - dx.x / 2),
       pimage.getFullBounds.getCenter2D.getY - (viewPosition.y - dx.y / 2))
 

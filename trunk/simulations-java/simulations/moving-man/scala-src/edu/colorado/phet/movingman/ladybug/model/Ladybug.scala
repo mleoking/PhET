@@ -46,6 +46,13 @@ class Ladybug extends ObservableS {
 
   def getAngle: Double = state.angle
 
+  def getAngleInvertY: Double = {
+    val curAng = new Vector2D(state.angle)
+    new Vector2D(curAng.x, -curAng.y).getAngle
+  }
+
+  def getAngleInFrame = if (LadybugDefaults.POSITIVE_Y_IS_UP) getAngleInvertY else getAngle
+
   def getState = state
 
   def getVelocity = state.velocity
