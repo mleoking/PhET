@@ -111,6 +111,10 @@
 			return "NULL";
 		}
 		
+		if($decoded === "null") {
+			return "NULL";
+		}
+		
 		return $decoded;
 	}
 	
