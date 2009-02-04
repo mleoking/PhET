@@ -49,7 +49,7 @@ class LicensingPage extends SitePage {
 
             <h1>Source Code</h1>
 
-            <p>For information on accessing PhET source code, please see <a href="../about/faq.php#q1">here</a>.</p>
+            <p>For information on accessing PhET source code, please see <a href="../about/source-code.php">here</a>.</p>
 
 EOT;
     }
