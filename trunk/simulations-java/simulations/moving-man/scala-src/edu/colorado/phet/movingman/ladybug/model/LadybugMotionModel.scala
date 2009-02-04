@@ -27,8 +27,8 @@ object LadybugMotionModel {
     def update(dt: Double, model: LadybugModel) = {
       val angle = model.ladybug.getAngle
 
-      val lastSample=if (model.samplePath.length>0)model.samplePath(model.samplePath.length-1).location else model.ladybug.getPosition
-//      val proposedPoint=new Vector2D(model.ladybug.getVelocity.getAngle) * speed+lastSample
+      val lastSample = if (model.samplePath.length > 0) model.samplePath(model.samplePath.length - 1).location else model.ladybug.getPosition
+      //      val proposedPoint=new Vector2D(model.ladybug.getVelocity.getAngle) * speed+lastSample
 
 
       def step() = {
@@ -60,11 +60,11 @@ object LadybugMotionModel {
         y = bounds.getMinY
       }
 
-//      model.addSamplePoint(model.ladybug.getPosition+new Vector2D(vx,vy)*dt)
-//      model.setSamplePoint(new Vector2D(x,y))
-//      model.ladybug.setVelocity(new Vector2D(vx,vy))
-//      model.positionMode(dt)
-//      model.ladybug.setVelocity(new Vector2D(vx,vy))
+      //      model.addSamplePoint(model.ladybug.getPosition+new Vector2D(vx,vy)*dt)
+      //      model.setSamplePoint(new Vector2D(x,y))
+      //      model.ladybug.setVelocity(new Vector2D(vx,vy))
+      //      model.positionMode(dt)
+      //      model.ladybug.setVelocity(new Vector2D(vx,vy))
 
       model.ladybug.setPosition(new Vector2D(x, y))
       model.ladybug.setVelocity(new Vector2D(vx, vy))
@@ -82,8 +82,8 @@ object LadybugMotionModel {
       val speed = 0.12
       if (distFromRing > speed + 1E-6) {
         val velocity = new Vector2D(model.ladybug.getPosition.getAngle) * speed * (if (dx < 0) -1 else 1)
-//        model.ladybug.translate(velocity)
-        model.setSamplePoint(model.ladybug.getPosition+velocity/dt)
+        //        model.ladybug.translate(velocity)
+        model.setSamplePoint(model.ladybug.getPosition + velocity / dt)
         model.positionMode(dt)
       } else {
         //move in a circle
