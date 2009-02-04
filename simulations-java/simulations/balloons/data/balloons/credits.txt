@@ -1,1 +1,1 @@
-phet-credits lead-design=Sam Reid software-development=Sam Reid design-team=Wendy Adams
+phet-credits lead-design=Sam Reid software-development=Sam Reid interviews=Wendy Adams
