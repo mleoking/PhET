@@ -18,6 +18,19 @@
         define("SIMS_ROOT", PORTAL_ROOT.'sims/');
     }
 
+    // Do not access this variable directly
+    $g_SIM_ROOT = SIMS_ROOT;
+    function sim_get_root() {
+        global $g_SIM_ROOT;
+        return $g_SIM_ROOT;
+    }
+
+    function sim_set_root($new_root) {
+        global $g_SIM_ROOT;
+        $g_SIM_ROOT = ($new_root && !empty($new_root)) ? $new_root : SIMS_ROOT;
+    }
+
+
     define("SIM_THUMBNAIL_WIDTH", 130);
     define("SIM_THUMBNAIL_HEIGHT", 97);
 
@@ -93,8 +106,8 @@
 
         $translations = array();
         foreach ($sims as $sim_id => $sim) {
-            $base_glob = SIMS_ROOT."{$sim['sim_dirname']}/{$sim['sim_flavorname']}*.";
-            $base_regex = SIMS_ROOT."{$sim['sim_dirname']}/{$sim['sim_flavorname']}_([A-Za-z]{2})?(_([A-Za-z]{2}))?.";
+            $base_glob = sim_get_root()."{$sim['sim_dirname']}/{$sim['sim_flavorname']}*.";
+            $base_regex = sim_get_root()."{$sim['sim_dirname']}/{$sim['sim_flavorname']}_([A-Za-z]{2})?(_([A-Za-z]{2}))?.";
             if ($sim['sim_type'] == SIM_TYPE_JAVA) {
                 $ext = 'jnlp';
             }
@@ -142,8 +155,8 @@
     function sim_get_translations($simulation) {
         $sim = $simulation;
         $translations = array();
-            $base_glob = SIMS_ROOT."{$sim['sim_dirname']}/{$sim['sim_flavorname']}*.";
-            $base_regex = SIMS_ROOT."{$sim['sim_dirname']}/{$sim['sim_flavorname']}_([A-Za-z]{2})?(_([A-Za-z]{2}))?.";
+            $base_glob = sim_get_root()."{$sim['sim_dirname']}/{$sim['sim_flavorname']}*.";
+            $base_regex = sim_get_root()."{$sim['sim_dirname']}/{$sim['sim_flavorname']}_([A-Za-z]{2})?(_([A-Za-z]{2}))?.";
             if ($sim['sim_type'] == SIM_TYPE_JAVA) {
                 $ext = 'jnlp';
             }
@@ -194,7 +207,7 @@
     function sim_get_version($simulation, $ignore_flash = true) {
         $dirname     = $simulation['sim_dirname'];
 
-        $properties_filename = SIMS_ROOT."{$dirname}/{$dirname}.properties";
+        $properties_filename = sim_get_root()."{$dirname}/{$dirname}.properties";
 
         $revision_tags = array('major', 'minor', 'dev', 'revision');
         $regex = 'version\.('.join('|', $revision_tags).') *= *([^ \n\r\t]+)';
@@ -605,7 +618,7 @@
         else if ($ext == 'html') {
             // Flash sim, look for the SWF
             // TODO: push the filename generation into a function
-            $flash_link = SIMS_ROOT."{$simulation['sim_dirname']}/{$simulation['sim_flavorname']}.swf";
+            $flash_link = sim_get_root()."{$simulation['sim_dirname']}/{$simulation['sim_flavorname']}.swf";
             $size = url_or_file_size($flash_link);
         }
         else {
@@ -667,17 +680,17 @@
         //    $locale_file is the JAR filename for the requested locale
         // The default will be used if strict is off and the locale file cannot be found
         if ($simulation['sim_type'] == SIM_TYPE_JAVA) {
-            $default_file = SIMS_ROOT."{$dirname}/{$flavorname}.jar";
+            $default_file = sim_get_root()."{$dirname}/{$flavorname}.jar";
             if (locale_is_default($locale)) {
                 $locale_file = $default_file;
             }
             else {
-                $locale_file = SIMS_ROOT."{$dirname}/{$flavorname}_{$locale}.jar";
+                $locale_file = sim_get_root()."{$dirname}/{$flavorname}_{$locale}.jar";
             }
         }
         else if ($simulation['sim_type'] == SIM_TYPE_FLASH) {
-            $default_file = SIMS_ROOT."{$dirname}/{$flavorname}".DEFAULT_LOCALE.".jar";
-            $locale_file = SIMS_ROOT."{$dirname}/{$flavorname}_{$locale}.jar";
+            $default_file = sim_get_root()."{$dirname}/{$flavorname}".DEFAULT_LOCALE.".jar";
+            $locale_file = sim_get_root()."{$dirname}/{$flavorname}_{$locale}.jar";
         }
         else {
             return 0;
@@ -727,14 +740,14 @@
 
         if ($sim_type == SIM_TYPE_JAVA) {
             if (locale_is_default($locale)) {
-                $url = SIMS_ROOT."{$dirname}/{$flavorname}.jnlp";
+                $url = sim_get_root()."{$dirname}/{$flavorname}.jnlp";
             }
             else {
-                $url = SIMS_ROOT."{$dirname}/{$flavorname}_{$locale}.jnlp";
+                $url = sim_get_root()."{$dirname}/{$flavorname}_{$locale}.jnlp";
             }
         }
         else if ($sim_type == SIM_TYPE_FLASH) {
-            $url = SIMS_ROOT."{$dirname}/{$flavorname}_{$locale}.html";
+            $url = sim_get_root()."{$dirname}/{$flavorname}_{$locale}.html";
         }
 
         if ($test_existance) {
@@ -766,14 +779,14 @@
             
             if ($sim_type == SIM_TYPE_JAVA) {
                 if (locale_is_default($locale)) {
-                    $file = SIMS_ROOT."{$dirname}/{$flavorname}_all.jar";
+                    $file = sim_get_root()."{$dirname}/{$flavorname}_all.jar";
                 }
                 else {
-                    $file = SIMS_ROOT."{$dirname}/{$flavorname}_{$locale}.jar";
+                    $file = sim_get_root()."{$dirname}/{$flavorname}_{$locale}.jar";
                 }
             }
             else if ($sim_type == SIM_TYPE_FLASH) {
-                $file = SIMS_ROOT."{$dirname}/{$flavorname}_{$locale}.jar";
+                $file = sim_get_root()."{$dirname}/{$flavorname}_{$locale}.jar";
             }
             
             if (!file_exists($file)) {
@@ -789,7 +802,7 @@
         $flavorname = $simulation['sim_flavorname'];
 
         // Try local first
-        $link = SIMS_ROOT."{$dirname}/{$flavorname}-screenshot.png";
+        $link = sim_get_root()."{$dirname}/{$flavorname}-screenshot.png";
         if (!file_exists($link)) {
             $link = "http://".PHET_DOMAIN_NAME."/sims/{$dirname}/{$flavorname}-screenshot.png";
         }
@@ -802,7 +815,7 @@
         $flavorname = $simulation['sim_flavorname'];
 
         // Try local first
-        $link = SIMS_ROOT."{$dirname}/{$flavorname}-animated-screenshot.gif";
+        $link = sim_get_root()."{$dirname}/{$flavorname}-animated-screenshot.gif";
         if (!file_exists($link)) {
             $link = "http://".PHET_DOMAIN_NAME."/sims/{$dirname}/{$flavorname}-animated-screenshot.gif";
         }
