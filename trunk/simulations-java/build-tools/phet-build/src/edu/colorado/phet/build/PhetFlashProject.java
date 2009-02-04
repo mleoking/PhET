@@ -52,10 +52,9 @@ public class PhetFlashProject extends PhetProject {
 //        super.build();
         System.out.println( "Building flash sim." );
 //        JOptionPane.showMessageDialog( null, "Build the Flash Sim SWF file now (Shift-F12 builds without launching), then press OK when you are finished" );
-        File configFile = new File( getProjectDir().getParentFile().getParentFile(), "config.properties" );
-        Properties properties = new Properties();
-        properties.load( new FileInputStream( configFile ) );
-        String exe = properties.getProperty( "flash.exe", "C:\\Program Files\\Macromedia\\Flash 8\\Flash.exe" );
+        String def = "C:\\Program Files\\Macromedia\\Flash 8\\Flash.exe";
+        String property = "flash.exe";
+        String exe = getConfigValue( property, def );
         FlashBuildCommand.build( exe,
                                  getName(),
                                  getProjectDir().getParentFile()//simulations
@@ -65,12 +64,42 @@ public class PhetFlashProject extends PhetProject {
         return true;
     }
 
+    private String getConfigValue( String property, String def ) {
+        File configFile = new File( getProjectDir().getParentFile().getParentFile(), "config.properties" );
+        Properties properties = new Properties();
+        try {
+            properties.load( new FileInputStream( configFile ) );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            return def;
+        }
+
+
+        String exe = properties.getProperty( property, def );
+        return exe;
+    }
+
     public String getListDisplayName() {
         return "Flash: " + getName();
     }
 
     public void runSim( Locale locale, String simulationName ) {
         System.out.println( "Running the flash sim: " + simulationName );
+        String exe = getConfigValue( "browser.exe", "C:\\Users\\Sam\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe" );
+        try {
+            String command = exe + " " + getSWFFile().getAbsolutePath();
+            System.out.println( "command = " + command );
+            Process p=Runtime.getRuntime().exec( command );
+
+        }
+        catch( IOException e ) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+    }
+
+    private File getSWFFile() {
+        return new File( getProjectDir(), "deploy/" + getName() + ".swf" );
     }
 
     public Simulation getSimulation( String simulationName, String locale ) {

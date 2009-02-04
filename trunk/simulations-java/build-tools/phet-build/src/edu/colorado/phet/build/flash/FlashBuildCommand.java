@@ -27,7 +27,13 @@ public class FlashBuildCommand {
         File outputFile = new File( trunk, "simulations-flash\\build-output-temp\\build.jsfl" );
         FileUtils.writeString( outputFile, out );
 
-        Runtime.getRuntime().exec( cmdArray + " " + outputFile.getAbsolutePath() );
+        Process p=Runtime.getRuntime().exec( cmdArray + " " + outputFile.getAbsolutePath() );
+        try {
+            p.waitFor();
+        }
+        catch( InterruptedException e ) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
     }
 
     private static String toSimsString( String[] sims ) {
