@@ -80,7 +80,7 @@ class Statistics {
 		if(!_level0.common.fromPhetWebsite() && !_level0.common.isPlaceholder(_level0.installationTimestamp) && _level0.installationTimestamp != "none") {
 			// if not running from a website, AND installation timestamp is included, it must be a full installation!
 			// thus we override
-			deployment = "full-installation";
+			deployment = "phet-installation";
 		} else {
 			deployment = _level0.simDeployment;
 		}

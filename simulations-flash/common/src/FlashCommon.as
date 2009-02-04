@@ -152,7 +152,7 @@ class FlashCommon {
 	
 	// returns whether the sim was run from a full installation
 	public function fromFullInstallation() : Boolean {
-		return (_level0.simDeployment == "full-installation");
+		return (_level0.simDeployment == "phet-installation");
 	}
 	
 	// returns whether the sim was run from a standalone jar
