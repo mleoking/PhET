@@ -107,7 +107,7 @@ public class StatisticsManager {
                 StatisticsMessage m = (StatisticsMessage) messageQueue.get( 0 );
                 boolean success = statisticsService.postMessage( m );
                 messageQueue.remove( m ); // remove message from queue after post, so that messageQueue won't be considered empty prematurely
-                notifyListeners( m, success );
+                notifyListeners( success, m );
             }
         }
         catch( IOException e ) {
@@ -128,7 +128,7 @@ public class StatisticsManager {
     }
     
     public interface StatisticsManagerListener {
-        public void postResults( StatisticsMessage m, boolean success );
+        public void postResults( boolean success, StatisticsMessage m );
     }
     
     public void addListener( StatisticsManagerListener listener ) {
@@ -139,10 +139,10 @@ public class StatisticsManager {
         listeners.remove( listener );
     }
     
-    private void notifyListeners( StatisticsMessage m, boolean success ) {
+    private void notifyListeners( boolean success, StatisticsMessage m ) {
         Iterator i = listeners.iterator();
         while ( i.hasNext() ) {
-            ( (StatisticsManagerListener) i.next() ).postResults( m, success );
+            ( (StatisticsManagerListener) i.next() ).postResults( success, m );
         }
     }
 }
