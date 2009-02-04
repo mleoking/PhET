@@ -231,11 +231,24 @@ BOO;
 		// store the ID of the inserted session
 		$sessionID = insert_session($data);
 		
+		if(empty($sessionID)) {
+			// either 0 or false, either way the insertion failed
+			
+			// we did not succeed, so inform the caller
+			// don't even try to insert a flash message,
+			// the PK is non-null and would fail anyways
+			return 0;
+		}
+		
 		$data['session_id'] = $sessionID;
 		
-		insert_flash_info($data);
+		// returned ID should be equal to $sessionID
+		$secondSessionID = insert_flash_info($data);
 		
-		return $sessionID;
+		// TODO: remove session entry if flash insertion fails???
+		
+		// will be empty (0 or false) if failure was encountered
+		return $secondSessionID;
 	}
 	
 	// insert an entire java message
@@ -264,11 +277,24 @@ BOO;
 		// store the ID of the inserted session
 		$sessionID = insert_session($data);
 		
+		if(empty($sessionID)) {
+			// either 0 or false, either way the insertion failed
+			
+			// we did not succeed, so inform the caller
+			// don't even try to insert a flash message,
+			// the PK is non-null and would fail anyways
+			return 0;
+		}
+		
 		$data['session_id'] = $sessionID;
 		
-		insert_java_info($data);
+		// returned ID should be equal to $sessionID
+		$secondSessionID = insert_java_info($data);
 		
-		return $sessionID;
+		// TODO: remove session entry if java insertion fails???
+		
+		// will be empty (0 or false) if failure was encountered
+		return $secondSessionID;
 	}
 	
 	// insert/update data for the user table
