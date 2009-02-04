@@ -7,12 +7,14 @@ package edu.colorado.phet.common.phetcommon.statistics;
  */
 public class StatisticsMessageField {
     
+    private static final String NULL_STRING = "null"; // server requires this explicit representation of null
+    
     private final String name;
     private final String value;
 
     public StatisticsMessageField( String name, String value ) {
         this.name = name;
-        this.value = value;
+        this.value = ( value == null ? NULL_STRING : value );
     }
     
     public StatisticsMessageField( String name, int value ) {
