@@ -8,7 +8,12 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Properties;
 
+import edu.colorado.phet.build.util.FileUtils;
 import edu.colorado.phet.build.flash.FlashBuildCommand;
+import edu.colorado.phet.flashbuild.GenerateHTML;
+import edu.colorado.phet.flashbuild.util.FlashHTML;
+import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
 /**
  * Created by IntelliJ IDEA.
@@ -61,7 +66,49 @@ public class PhetFlashProject extends PhetProject {
                                          .getParentFile()//simulations-flash
                                          .getParentFile()//trunk
         );
+        buildHTMLs();
         return true;
+    }
+
+    private void buildHTMLs() {
+        Locale[] locales = getLocales();
+        for ( int i = 0; i < locales.length; i++ ) {
+            Locale locale = locales[i];
+            PhetVersion version=super.getVersion();
+            try {
+//                String bgColor=new PhetResources( getName()).getProjectProperty( "bgcolor" );
+                String bgColor="#000000";
+                String html = FlashHTML.generateHTML( getName(), locale.getLanguage(), locale.getCountry(),
+                                                      "phet-production-website", GenerateHTML.distribution_tag_dummy,
+                                                      GenerateHTML.installation_timestamp_dummy,
+                                                      GenerateHTML.installer_creation_timestamp_dummy,
+                                                      version.getMajor(), version.getMinor(), version.getDev(), version.getRevision(),
+                                                      version.formatTimestamp(), bgColor, 
+                                                      FlashHTML.encodeXMLFile( getTranslationFile( locale ) ),
+                                                      FlashHTML.encodeXMLFile( getCommonTranslationFile( locale ) ), "8",
+                                                      getFlashHTMLTemplate().getAbsolutePath() );
+                FileUtils.writeString( new File( getDeployDir(), getName() + "_" + locale.toString() + ".html" ), html );//todo: use country code as well
+            }
+            catch( IOException e ) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+        }
+
+    }
+
+    private File getFlashHTMLTemplate() {
+        return new File( getProjectDir().getParentFile().getParentFile(), "build-tools/flash-build/data/flash-template.html" );
+    }
+
+    private File getCommonTranslationFile( Locale locale ) {
+        String lang = "_" + locale.getLanguage();
+        File file = new File( getProjectDir().getParentFile().getParentFile(), "common/data" + File.separator + "localization" + File.separator + "common-strings" + lang + ".xml" );
+        if ( file.exists() ) {
+            return file;
+        }
+        else {
+            return getCommonTranslationFile( new Locale( "en" ) );//this code will throw stack overflow exception if this fails too
+        }
     }
 
     private String getConfigValue( String property, String def ) {
@@ -88,14 +135,18 @@ public class PhetFlashProject extends PhetProject {
         System.out.println( "Running the flash sim: " + simulationName );
         String exe = getConfigValue( "browser.exe", "C:\\Users\\Sam\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe" );
         try {
-            String command = exe + " " + getSWFFile().getAbsolutePath();
+//            String command = exe + " " + getSWFFile().getAbsolutePath();
+            String command = exe + " " + getHTMLFile( locale ).getAbsolutePath();
             System.out.println( "command = " + command );
-            Process p=Runtime.getRuntime().exec( command );
+            Process p = Runtime.getRuntime().exec( command );
 
         }
         catch( IOException e ) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
+    }
+    private File getHTMLFile(Locale locale){
+        return new File( getProjectDir(), "deploy/" + getName() + "_"+locale+".html" );
     }
 
     private File getSWFFile() {
@@ -108,6 +159,11 @@ public class PhetFlashProject extends PhetProject {
 
     public Locale[] getLocales() {
         return getLocalesImpl( ".xml" );
+    }
+
+    public File getTranslationFile( Locale locale ) {
+        String lang = "_" + locale.getLanguage();
+        return new File( getProjectDir(), "data" + File.separator + getName() + File.separator + "localization" + File.separator + getName() + "-strings" + lang + ".xml" );
     }
 
     public void buildLaunchFiles( String URL, boolean dev ) {

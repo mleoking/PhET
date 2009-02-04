@@ -19,11 +19,12 @@ import edu.colorado.phet.build.util.PhetBuildUtils;
 public class PhetJavaProject extends PhetProject {
     public PhetJavaProject( File projectRoot ) throws IOException {
         super( projectRoot );
-    }                   
+    }
 
     public PhetJavaProject( File parentDir, String name ) throws IOException {
         super( parentDir, name );
     }
+
     public Locale[] getLocales() {
         return getLocalesImpl( ".properties" );
     }
@@ -53,6 +54,11 @@ public class PhetJavaProject extends PhetProject {
             }
         } );
         return f.length == 1;//success if there is exactly one jar
+    }
+
+    public File getTranslationFile( Locale locale ) {
+        String lang = locale.getLanguage().equals( "en" ) ? "" : "_" + locale.getLanguage();
+        return new File( getProjectDir(), "data" + File.separator + getName() + File.separator + "localization" + File.separator + getName() + "-strings" + lang + ".properties" );
     }
 
     public String getListDisplayName() {
