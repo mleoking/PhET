@@ -49,7 +49,7 @@ public class PhetFlashProject extends PhetProject {
     public boolean build() throws Exception {
 //        super.build();
         System.out.println( "Building flash sim." );
-        JOptionPane.showMessageDialog( null, "Build the Flash Sim SWF file now, then press OK when you are finished" );
+        JOptionPane.showMessageDialog( null, "Build the Flash Sim SWF file now (Shift-F12 builds without launching), then press OK when you are finished" );
         return true;
     }
 
