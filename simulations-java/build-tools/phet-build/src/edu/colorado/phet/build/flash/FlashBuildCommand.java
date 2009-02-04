@@ -15,7 +15,7 @@ import edu.colorado.phet.build.util.FileUtils;
  * Time: 10:17:40 AM
  */
 public class FlashBuildCommand {
-    public static void build( String[] cmdArray, String[] sims, File trunk ) throws IOException {
+    public static void build( String cmdArray, String[] sims, File trunk ) throws IOException {
         String trunkPipe = trunk.getAbsolutePath().replace( ':', '|' );
         trunkPipe = trunkPipe.replace( '\\', '/' );
         String template = FileUtils.loadFileAsString( new File( trunk, "simulations-flash\\build-template.jsfl" ) );
@@ -26,11 +26,11 @@ public class FlashBuildCommand {
         File outputFile = new File( trunk, "simulations-flash\\build-output-temp\\build.jsfl" );
         FileUtils.writeString( outputFile, out );
 
-        List a = Arrays.asList( cmdArray );
-        ArrayList b = new ArrayList( a );
+//        List a = Arrays.asList( cmdArray );
+//        ArrayList b = new ArrayList( a );
 
-        b.add( outputFile.getAbsolutePath() );
-        Runtime.getRuntime().exec( (String[]) b.toArray( new String[0] ) );
+//        b.add( outputFile.getAbsolutePath() );
+        Runtime.getRuntime().exec( cmdArray + " " + outputFile.getAbsolutePath() );
     }
 
     private static String toSimsString( String[] sims ) {
@@ -48,7 +48,7 @@ public class FlashBuildCommand {
 
     public static void main( String[] args ) throws IOException {
         File flashEXE = new File( "C:\\Program Files\\Macromedia\\Flash 8\\Flash.exe" );
-        FlashBuildCommand.build( new String[]{flashEXE.getAbsolutePath()},
+        FlashBuildCommand.build( flashEXE.getAbsolutePath(),
                                  new String[]{"pendulum-lab", "test-flash-project"},
                                  new File( "C:\\reid\\phet\\svn\\trunk" ) );
     }
