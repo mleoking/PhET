@@ -140,7 +140,8 @@ public class StatisticsManager {
     }
     
     private void notifyListeners( boolean success, StatisticsMessage m ) {
-        Iterator i = listeners.iterator();
+        ArrayList listenersCopy = new ArrayList( listeners ); // iterate on a copy to avoid ConcurrentModificationException
+        Iterator i = listenersCopy.iterator();
         while ( i.hasNext() ) {
             ( (StatisticsManagerListener) i.next() ).postResults( success, m );
         }
