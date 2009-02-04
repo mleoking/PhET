@@ -22,6 +22,10 @@ import java.io.File;
  * To change this template use File | Settings | File Templates.
  */
 public class GenerateHTML {
+    public static String distribution_tag_dummy = "@@DISTRIBUTION_TAG@@";
+    public static String installation_timestamp_dummy = "@@INSTALLATION_TIMESTAMP@@";
+    public static String installer_creation_timestamp_dummy = "@@INSTALLER_CREATION_TIMESTAMP@@";
+
     public static void main( String args[] ) {
         if( args.length <= 1 ) {
             System.err.println( "Need at least a sim name and language" );
@@ -32,9 +36,6 @@ public class GenerateHTML {
         String language = args[1];
         String country = "none";
         String deployment = "phet-website";
-        String distributionTag = "@@DISTRIBUTION_TAG@@";
-        String installationTimestamp = "@@INSTALLATION_TIMESTAMP@@";
-        String installerCreationTimestamp = "@@INSTALLER_CREATION_TIMESTAMP@@";
 
         // TODO: rewrite to accept named / flag options
 
@@ -45,13 +46,13 @@ public class GenerateHTML {
             deployment = args[ 3 ];
         }
         if( args.length > 4 ) {
-            distributionTag = args[ 4 ];
+            distribution_tag_dummy = args[ 4 ];
         }
         if( args.length > 5 ) {
-            installationTimestamp = args[ 5 ];
+            installation_timestamp_dummy = args[ 5 ];
         }
         if( args.length > 6 ) {
-            installerCreationTimestamp = args[ 6 ];
+            installer_creation_timestamp_dummy = args[ 6 ];
         }
 
         String locale = FlashHTML.localeString( language, country );
@@ -76,7 +77,7 @@ public class GenerateHTML {
         String htmlFile = "simulations/" + simName + "/deploy/" + simName + "_" + locale + ".html";
 		String propertiesFile = simData + simName + ".properties";
 
-        FlashHTML.writeHTML( simName, language, country, deployment, distributionTag, installationTimestamp,
-                installerCreationTimestamp, simXMLFile, htmlFile, propertiesFile, commonXMLFile );
+        FlashHTML.writeHTML( simName, language, country, deployment, distribution_tag_dummy, installation_timestamp_dummy,
+                             installer_creation_timestamp_dummy, simXMLFile, htmlFile, propertiesFile, commonXMLFile ,"flash-template.html");
     }
 }

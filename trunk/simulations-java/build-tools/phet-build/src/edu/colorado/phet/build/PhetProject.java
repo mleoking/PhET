@@ -5,6 +5,9 @@ import java.util.*;
 
 import edu.colorado.phet.build.scripts.SetSVNIgnoreToDeployDirectories;
 import edu.colorado.phet.build.util.*;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
+import edu.colorado.phet.common.phetcommon.resources.PhetProperties;
 import edu.colorado.phet.common.phetcommon.util.AnnotationParser;
 
 /**
@@ -480,10 +483,7 @@ public abstract class PhetProject {
         return PhetServer.PRODUCTION.getWebDeployURL( this ) + "/" + getName() + "_all.jar";
     }
 
-    public File getTranslationFile( Locale locale ) {
-        String lang = locale.getLanguage().equals( "en" ) ? "" : "_" + locale.getLanguage();
-        return new File( projectDir, "data" + File.separator + getName() + File.separator + "localization" + File.separator + getName() + "-strings" + lang + ".properties" );
-    }
+    public abstract File getTranslationFile( Locale locale );
 
     public File getBuildPropertiesFile() {
         return new File( getProjectDir(), getName() + "-build.properties" );
@@ -725,6 +725,16 @@ public abstract class PhetProject {
 
     public File getContribLicenseDir() {
         return new File( getDataDirectory(), "contrib-licenses" );
+    }
+
+    public PhetVersion getVersion() {
+        PhetProperties phetProperties=new PhetProperties( );
+//        phetProperties.load( new FileInputStream(new File(getDataDirectory())) );
+        return new PhetResources( getName() ) {
+//            public String getProjectProperty( String key ) {
+////                return projectProperties.getProperty( key );
+//            }
+        }.getVersion();
     }
 
     public static interface Listener {

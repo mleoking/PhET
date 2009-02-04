@@ -133,7 +133,7 @@ public class FlashLauncher {
         // dynamically generate an HTML file
         String html = FlashHTML.generateHTML( simName, language, country, deployment, distributionTag, installationTimestamp,
                 installerCreationTimestamp, versionMajor, versionMinor, versionDev, versionRevision, versionTimestamp, bgcolor,
-                simEncodedXML, commonEncodedXML, "8" );
+                simEncodedXML, commonEncodedXML, "8","flash-template.html" );
         File htmlFile = new File( unzipDir, simName + "_" + language + ".html" );
         FileOutputStream outputStream = new FileOutputStream( htmlFile );
         outputStream.write( html.getBytes() );

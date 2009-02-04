@@ -14,13 +14,13 @@ import java.net.URLEncoder;
  * To change this template use File | Settings | File Templates.
  */
 public class FlashHTML {
-    private static final String HTML_TEMPLATE = "flash-template.html";
+//    private static final String HTML_TEMPLATE = "flash-template.html";
     private static final String NONE = "none";
 
     // returns true on success
     public static boolean writeHTML( String simName, String language, String country, String deployment,
                                   String distributionTag, String installationTimestamp, String installerCreationTimestamp,
-                                  String simXMLFile, String htmlFile, String propertiesFile, String commonXMLFile ) {
+                                  String simXMLFile, String htmlFile, String propertiesFile, String commonXMLFile,String HTML_TEMPLATE ) {
         try {
             String versionMajor = null;
             String versionMinor = null;
@@ -58,7 +58,7 @@ public class FlashHTML {
 
             String html = generateHTML( simName, language, country, deployment, distributionTag, installationTimestamp,
                     installerCreationTimestamp, versionMajor, versionMinor, versionDev, versionRevision, versionTimestamp,
-                    bgcolor, encodedSimXML, encodedCommonXML, "8" );
+                    bgcolor, encodedSimXML, encodedCommonXML, "8",HTML_TEMPLATE );
 
             // write to file
             FileOutputStream fileOut = new FileOutputStream( htmlFile );
@@ -76,10 +76,17 @@ public class FlashHTML {
                                        String distributionTag, String installationTimestamp, String installerCreationTimestamp,
                                        String versionMajor, String versionMinor, String versionDev, String versionRevision,
                                        String versionTimestamp, String bgcolor, String encodedSimXML, String encodedCommonXML,
-                                       String minimumFlashMajorVersion ) throws IOException {
+                                       String minimumFlashMajorVersion,String HTML_TEMPLATE ) throws IOException {
         String s = "";
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( HTML_TEMPLATE );
-        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( inputStream ) );
+        BufferedReader bufferedReader = null;
+        //todo: pass in this content instead of having this switch
+        if ( inputStream == null ) {
+            bufferedReader=new BufferedReader( new FileReader( HTML_TEMPLATE ));
+        }
+        else {
+            bufferedReader = new BufferedReader( new InputStreamReader( inputStream ) );
+        }
         String line = bufferedReader.readLine();
         while ( line != null ) {
             s += line;
