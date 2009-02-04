@@ -1,19 +1,25 @@
 package edu.colorado.phet.common.phetcommon.statistics;
 
 import java.io.*;
-import java.net.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.UnknownHostException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
-import org.w3c.dom.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
-import javax.xml.parsers.*;
-
-import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
-import javax.xml.transform.stream.*;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.SessionCounter;
 
 /**
  * Statistics service that uses PHP to deliver a statistics message to PhET.
@@ -110,7 +116,7 @@ public class XMLStatisticsService implements IStatisticsService {
 
         // post
         if ( ENABLE_DEBUG_OUTPUT ) {
-            System.out.println( XMLStatisticsService.class.getName() + ": posting to " + url + " ..." );
+            System.out.println( XMLStatisticsService.class.getName() + ": posting to url=" + url + " xml=" + xml );
         }
         try {
             OutputStreamWriter outStream = new OutputStreamWriter( connection.getOutputStream(), "UTF-8" );
@@ -138,8 +144,16 @@ public class XMLStatisticsService implements IStatisticsService {
 
 
     public static void main( String[] args ) throws IOException {
+        
+        // send a bogus message
         String URL_STRING = "http://phet.colorado.edu/statistics/submit_message.php";
-        String XML_STRING = "<xml>hello stats1234</xml>";
+        String XML_STRING = "<xml>hello stats 1234</xml>";
         postXML( URL_STRING, XML_STRING );
+        
+        // send a valid session message
+        PhetApplicationConfig config = new PhetApplicationConfig( null, "balloons");
+        SessionCounter.initInstance( config.getProjectName(), config.getFlavor() );
+        SessionMessage.initInstance( config );
+        new XMLStatisticsService().postMessage( SessionMessage.getInstance() );
     }
 }
