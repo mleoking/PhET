@@ -9,7 +9,7 @@
 	// whether or not logging the messages is enabled.
 	// TODO: DO NOT ENABLE FOR LIVE VERSION
 	$raw_logging = true;
-	$raw_logging_verbose = true;
+	$raw_logging_verbose = false;
 	
 	
 	function fail_me($str) {
