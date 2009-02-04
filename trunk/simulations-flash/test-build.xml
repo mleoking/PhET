@@ -5,6 +5,7 @@
     <taskdef resource="net/sf/antcontrib/antcontrib.properties" >
         <classpath>
             <pathelement location="/home/jon/phet/svn/trunk/simulations-java/build-tools/ant-contrib/ant-contrib.jar"/>
+            <pathelement location="/home/carrie/jon/phet/svn/trunk/simulations-java/build-tools/ant-contrib/ant-contrib.jar"/>
         </classpath>
     </taskdef>
 
