@@ -145,6 +145,7 @@
 	
 	<!-- utilities -->
 	<classpathentry kind="src" path="util/licensing/src"/>
+	<classpathentry kind="src" path="util/phet-installer/src"/>
 	<classpathentry kind="src" path="util/translation-utility/src"/>
 	<classpathentry kind="src" path="util/translation-utility/data"/>
 	<classpathentry kind="src" path="util/updater/src"/>
@@ -170,7 +171,20 @@
 	<classpathentry excluding="edu/umd/cs/piccolo/swtexamples/" kind="src" path="simulations-java/contrib/piccolo2d/examples/src/main/java"/>
 	<classpathentry kind="lib" path="simulations-java/contrib/piccolo-sax/piccolo-sax.jar"/>
 	
-	<!-- build process libs -->
+	<!-- Unfuddle notifier -->
+	<!-- this was implemented in Java 5 code, omit from classpath until we move to Java 5
+    <classpathentry kind="src" path="util/unfuddle/src"/>
+	<classpathentry kind="src" path="util/unfuddle/data"/>
+	<classpathentry kind="lib" path="util/unfuddle/contrib/ant/ant.jar"/>
+	<classpathentry kind="lib" path="util/unfuddle/contrib/jaf/activation.jar"/>
+	<classpathentry kind="lib" path="util/unfuddle/contrib/javamail/dsn.jar"/>
+	<classpathentry kind="lib" path="util/unfuddle/contrib/javamail/imap.jar"/>
+	<classpathentry kind="lib" path="util/unfuddle/contrib/javamail/mailapi.jar"/>
+	<classpathentry kind="lib" path="util/unfuddle/contrib/javamail/pop3.jar"/>
+	<classpathentry kind="lib" path="util/unfuddle/contrib/javamail/smtp.jar"/>
+	-->
+	
+	<!-- dependencies for build process -->
 	<classpathentry kind="lib" path="simulations-java/build-tools/apache-ant/lib/ant.jar"/>
 	<classpathentry kind="lib" path="simulations-java/build-tools/apache-ant/lib/ant-antlr.jar"/>
 	<classpathentry kind="lib" path="simulations-java/build-tools/apache-ant/lib/ant-apache-bcel.jar"/>
