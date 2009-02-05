@@ -175,5 +175,6 @@
 	<classpathentry kind="lib" path="build-tools/apache-ant/lib/ant-weblogic.jar"/>
 	<classpathentry kind="lib" path="build-tools/apache-ant/lib/xercesImpl.jar"/>
 	<classpathentry kind="lib" path="build-tools/apache-ant/lib/xml-apis.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/simulations-flash"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
