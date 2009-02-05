@@ -11,7 +11,7 @@ import javax.swing.*;
 import edu.colorado.phet.build.*;
 
 public class ProjectPanel extends JPanel {
-    private File basedir;
+    private File trunk;
     private PhetProject project;
     private JLabel titleLabel;
     private JTextArea changesTextArea;
@@ -32,10 +32,10 @@ public class ProjectPanel extends JPanel {
     private LocalProperties localProperties;
     private JButton deployProdButton;
 
-    public ProjectPanel( final File basedir, final PhetProject project ) {
-        this.basedir = basedir;
+    public ProjectPanel( final File trunk, final PhetProject project ) {
+        this.trunk = trunk;
         this.project = project;
-        this.localProperties = new LocalProperties( basedir );
+        this.localProperties = new LocalProperties( new File( trunk,"build-tools/build-local.properties") );
         titleLabel = new JLabel( project.getName() );
 
 
@@ -91,7 +91,7 @@ public class ProjectPanel extends JPanel {
         JButton showStats = new JButton( "Stats" );
         showStats.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                PhetDisplayStatsTask.showStats( basedir );
+                PhetDisplayStatsTask.showStats( trunk );
             }
         } );
         controlPanel.add( Box.createRigidArea( new Dimension( 50, 10 ) ) );
@@ -153,7 +153,7 @@ public class ProjectPanel extends JPanel {
     }
 
     private BuildScript getBuildScript() {
-        return new BuildScript( basedir, project, new AuthenticationInfo( getLocalProperty( "svn.username" ), getLocalProperty( "svn.password" ) ), getLocalProperty( "browser" ) );
+        return new BuildScript( trunk, project, new AuthenticationInfo( getLocalProperty( "svn.username" ), getLocalProperty( "svn.password" ) ), getLocalProperty( "browser" ) );
     }
 
     private String getLocalProperty( String s ) {

@@ -22,21 +22,21 @@ public class BuildScript {
     private PhetProject project;
     private AuthenticationInfo svnAuth;
     private String browser;
-    private File baseDir;
+    private File trunk;
     private LocalProperties localProperties;
     private static final boolean dryRun = false;
     private static final boolean skipBuild = false;
     private static boolean skipSVNStatus = false;
     private static boolean skipSVNCommit = false;
 
-    public BuildScript( File baseDir, PhetProject project, AuthenticationInfo svnAuth, String browser ) {
-        this.baseDir = baseDir;
+    public BuildScript( File trunk, PhetProject project, AuthenticationInfo svnAuth, String browser ) {
+        this.trunk = trunk;
         this.project = project;
         this.svnAuth = svnAuth;
         this.browser = browser;
 
         // Overrides specified in build-local.properties
-        this.localProperties = new LocalProperties( baseDir );
+        this.localProperties = new LocalProperties( new File( trunk, "build-tools/build-local.properties" ) );
         skipSVNStatus = this.localProperties.getBoolProperty( "svn.skip-status", false );
         skipSVNCommit = this.localProperties.getBoolProperty( "svn.skip-commit", false );
     }
@@ -186,7 +186,7 @@ public class BuildScript {
             sshConnection.executeTask( new SshCommand( "mkdir -m 775 " + remotePathDir ) );//todo: would it be worthwhile to skip this task when possible?
         }
         catch( SshException e ) {
-            if (e.toString().toLowerCase().indexOf("auth fail") != -1) {
+            if ( e.toString().toLowerCase().indexOf( "auth fail" ) != -1 ) {
                 // TODO: check if authentication fails, don't try logging in again
                 // on tigercat, 3 (9?) unsuccessful login attepts will lock you out
                 System.out.println( "Authentication on '" + server.getHost() + "' has failed, is your username and password correct?  Exiting..." );
@@ -212,10 +212,10 @@ public class BuildScript {
                     ScpTo.uploadFile( f[i], authenticationInfo.getUsername( server.getHost() ), server.getHost(), remotePathDir + "/" + f[i].getName(), authenticationInfo.getPassword( server.getHost() ) );
                 }
                 catch( JSchException e ) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    e.printStackTrace();
                 }
                 catch( IOException e ) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    e.printStackTrace();
                 }
 //                    sshConnection.executeTask( new ScpUpload( new ScpFile( f[i],  ) ) );
             }
@@ -237,9 +237,9 @@ public class BuildScript {
     private void setVersionTimestamp() {
         project.setVersionTimestamp( System.currentTimeMillis() / 1000 ); // convert from ms to sec
     }
-    
+
     public int getSVNVersion() {
-        File readmeFile = new File( baseDir, "README.txt" );
+        File readmeFile = new File( trunk, "README.txt" );
         if ( !readmeFile.exists() ) {
             throw new RuntimeException( "Readme file doesn't exist, need to get version info some other way" );
         }
@@ -321,7 +321,7 @@ public class BuildScript {
 
     public void createHeader( int svn ) {
         try {
-            FileUtils.filter( new File( baseDir, "build-tools/phet-build/templates/header-template.html" ), project.getDeployHeaderFile(), createHeaderFilterMap( svn ), "UTF-8" );
+            FileUtils.filter( new File( trunk, "build-tools/templates/header-template.html" ), project.getDeployHeaderFile(), createHeaderFilterMap( svn ), "UTF-8" );
         }
         catch( IOException e ) {
             e.printStackTrace();

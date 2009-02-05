@@ -8,8 +8,7 @@ import java.util.Properties;
 public class LocalProperties {
     private Properties localProperties;
 
-    public LocalProperties( File baseDir ) {
-        File localPropertiesFile = new File( baseDir, "build-local.properties" );
+    public LocalProperties( File localPropertiesFile ) {
         localProperties = new Properties();
         if ( localPropertiesFile.exists() ) {
             try {

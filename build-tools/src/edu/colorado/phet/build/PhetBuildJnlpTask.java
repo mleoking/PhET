@@ -14,7 +14,7 @@ import edu.colorado.phet.build.util.FileUtils;
 
 //todo: see other todos below
 public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
-    private static final File JNLP_TEMPLATE = new File( "build-tools/phet-build/templates/webstart-template.jnlp" );
+
 
     private volatile String simulationName;
     private volatile String deployUrl;
@@ -32,6 +32,8 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
 
             echo( "Deploy url is null -- using " + deployUrl );
         }
+
+        final File JNLP_TEMPLATE = new File( phetProject.getProjectDir().getParentFile().getParentFile().getParentFile(),"build-tools/templates/webstart-template.jnlp" );
         FileUtils.filter( JNLP_TEMPLATE, getDestFile( phetProject ), createJNLPFilterMap( simulation, phetProject ), "UTF-16" );
     }
 

@@ -46,7 +46,7 @@ public class PhetFlashProject extends PhetProject {
                 projects.add( new PhetFlashProject( file ) );
             }
             catch( IOException e ) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                e.printStackTrace();
             }
         }
         return (PhetFlashProject[]) projects.toArray( new PhetFlashProject[0] );
@@ -90,7 +90,7 @@ public class PhetFlashProject extends PhetProject {
                 FileUtils.writeString( new File( getDeployDir(), getName() + "_" + locale.toString() + ".html" ), html );//todo: use country code as well
             }
             catch( IOException e ) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                e.printStackTrace();
             }
         }
 
@@ -118,7 +118,7 @@ public class PhetFlashProject extends PhetProject {
             properties.load( new FileInputStream( configFile ) );
         }
         catch( IOException e ) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
             return def;
         }
 
@@ -142,7 +142,7 @@ public class PhetFlashProject extends PhetProject {
 
         }
         catch( IOException e ) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();  
         }
     }
 
