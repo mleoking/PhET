@@ -53,9 +53,6 @@ class UpdateAvailableDialog {
 		var str : String = "";
 		str += "Your current version of <b>" + common.getSimName() + "</b> is " + common.getVersionString() + ".\n";
 		str += "A newer version (" + common.zeroPadVersion(versionMajor, versionMinor, versionDev) + ") is available.\n";
-		//str += "Your current version of <b>" + _level0.simName + "</b> is " + _level0.versionMajor + ".";
-		//str += _level0.versionMinor + "." + _level0.versionDev + ".\n";
-		//str += "A newer version (" + versionMajor + "." + versionMinor + "." + versionDev + ") is available.\n";
 		
 		str += "\n<p align='center'>";
 		
@@ -91,7 +88,7 @@ class UpdateAvailableDialog {
 		textArea.setCSS(css);
 		textArea.setWordWrap(true);
 		textArea.setWidth(200);
-		textArea.setBackground(_level0.common.backgroundColor);
+		textArea.setBackground(common.backgroundColor);
 		// add padding around the text
 		textArea.setBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)));
 		
