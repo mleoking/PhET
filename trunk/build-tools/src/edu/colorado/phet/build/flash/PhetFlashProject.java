@@ -1,4 +1,4 @@
-package edu.colorado.phet.build;
+package edu.colorado.phet.build.flash;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -9,10 +9,12 @@ import java.util.Locale;
 import java.util.Properties;
 
 import edu.colorado.phet.build.flash.FlashBuildCommand;
+import edu.colorado.phet.build.flash.FlashHTML;
+import edu.colorado.phet.build.flash.GenerateHTML;
 import edu.colorado.phet.build.util.FileUtils;
+import edu.colorado.phet.build.PhetProject;
+import edu.colorado.phet.build.Simulation;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.flashbuild.GenerateHTML;
-import edu.colorado.phet.flashbuild.util.FlashHTML;
 
 /**
  * Created by IntelliJ IDEA.

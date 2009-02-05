@@ -5,6 +5,7 @@ import java.util.*;
 
 import edu.colorado.phet.build.scripts.SetSVNIgnoreToDeployDirectories;
 import edu.colorado.phet.build.util.*;
+import edu.colorado.phet.build.flash.PhetFlashProject;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.resources.PhetProperties;
