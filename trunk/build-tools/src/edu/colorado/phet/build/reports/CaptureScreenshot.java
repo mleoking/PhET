@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.buildreports;
+package edu.colorado.phet.build.reports;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
