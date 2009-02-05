@@ -67,23 +67,23 @@ class LadybugCanvas(model: LadybugModel, vectorVisibilityModel: VectorVisibility
 
   val ladybugNode = new LadybugNode(model, model.ladybug, transform, vectorVisibilityModel)
   addNode(ladybugNode)
-  val solidTrace = new LadybugSolidTraceNode(model, transform, () => pathVisibilityModel.lineVisible, pathVisibilityModel)
-  addNode(solidTrace)
-  val dotTrace = new LadybugDotTraceNode(model, transform, () => pathVisibilityModel.dotsVisible, pathVisibilityModel)
+//  val solidTrace = new LadybugSolidTraceNode(model, transform, () => pathVisibilityModel.lineVisible, pathVisibilityModel)
+//  addNode(solidTrace)
+  val dotTrace = new LadybugDotTraceNode(model, transform, () => pathVisibilityModel.dotsVisible, pathVisibilityModel,0.7)
   addNode(dotTrace)
-  val fadeTrace = new LadybugFadeTraceNode(model, transform, () => pathVisibilityModel.fadeFullVisible, pathVisibilityModel, 1)
+  val fadeTrace = new LadybugFadeTraceNode(model, transform, () => pathVisibilityModel.fadeVisible, pathVisibilityModel, 0.7)
   addNode(fadeTrace)
-  val fadeInvisibleTrace = new LadybugFadeTraceNode(model, transform, () => pathVisibilityModel.fadeVisible, pathVisibilityModel, 0.7)
-  addNode(fadeInvisibleTrace)
+//  val fadeInvisibleTrace = new LadybugFadeTraceNode(model, transform, () => pathVisibilityModel.fadeVisible, pathVisibilityModel, 0.7)
+//  addNode(fadeInvisibleTrace)
 
   addNode(new ReturnLadybugButton(model, this))
 
   def addNode(node: PNode) = worldNode.addChild(node)
 
   def clearTrace() = {
-    solidTrace.clearTrace
+//    solidTrace.clearTrace
     dotTrace.clearTrace
     fadeTrace.clearTrace
-    fadeInvisibleTrace.clearTrace
+//    fadeInvisibleTrace.clearTrace
   }
 }

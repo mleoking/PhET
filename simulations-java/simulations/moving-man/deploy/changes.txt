@@ -1,3 +1,6 @@
+> Added fade feature on dot trace
+> Removed invisible and solid line traces
+
 # 1.20.25 (28043) Feb 03 2009
 > Added fudge factors to improve velocity and acceleration scales
 > Inverted Y Axis so that positive Y is up

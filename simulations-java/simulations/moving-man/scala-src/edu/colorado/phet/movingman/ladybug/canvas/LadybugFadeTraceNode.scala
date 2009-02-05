@@ -25,15 +25,8 @@ class LadybugFadeTraceNode(model: LadybugModel, transform: ModelViewTransform2D,
         val curTime = model.getTime
         val time = historyToShow(i).time
         val dt = abs(curTime - time)
-        def clamp(a: Double, value: Double, c: Double) = (a max value) min c
 
-        def toColor(dt: Double) = {
-          val c = clamp(0, dt / 3.0, maxFade).toFloat
-          val color = new Color(c, c, 1.toFloat, 1 - c)
-          color
-        }
-
-        val color = toColor(dt)
+        val color = toColor(dt,maxFade)
         if (color.getTransparency != 0)
           addChild(new PhetPPath(new Line2D.Double(a, b), new BasicStroke(6, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f), color))
       }
