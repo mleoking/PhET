@@ -11,13 +11,25 @@ import org.aswing.border.*;
 
 class UpdateAvailableDialog {
 	
+	public var newMajorVersion : Number;
+	public var newMinorVersion : Number;
+	
+	public var common : FlashCommon;
+	
 	// shorthand for debugging function
 	public function debug(str : String) : Void {
 		_level0.debug(str);
 	}
 	
-	public function UpdateAvailableDialog(versionMajor : String, versionMinor : String, dev : String) {
+	public function UpdateAvailableDialog(versionMajor : Number, versionMinor : Number, versionDev : Number) {
 		debug("UpdateAvailableDialog initializing\n");
+		
+		// shortcut to FlashCommon, but now with type-checking!
+		common = _level0.common;
+		
+		// store new version information so they can be stored if the user decides to skip it
+		newMajorVersion = versionMajor;
+		newMinorVersion = versionMinor;
 		
 		// mysterious fix since "this" does not refer to a MovieClip or Component
 		ASWingUtils.getRootMovieClip();
@@ -32,25 +44,27 @@ class UpdateAvailableDialog {
 		_level0.updateAvailableWindow = window;
 		
 		// set the background to default
-		window.setBackground(_level0.common.backgroundColor);
+		window.setBackground(common.backgroundColor);
 		
 		// layout things vertically
 		window.getContentPane().setLayout(new SoftBoxLayout(SoftBoxLayout.Y_AXIS));
 		
 		// construct the string of text to show
 		var str : String = "";
-		str += "Your current version of <b>" + _level0.simName + "</b> is " + _level0.versionMajor + ".";
-		str += _level0.versionMinor + "." + _level0.versionDev + ".\n";
-		str += "A newer version (" + versionMajor + "." + versionMinor + "." + dev + ") is available.\n";
+		str += "Your current version of <b>" + common.getSimName() + "</b> is " + common.getVersionString() + ".\n";
+		str += "A newer version (" + common.zeroPadVersion(versionMajor, versionMinor, versionDev) + ") is available.\n";
+		//str += "Your current version of <b>" + _level0.simName + "</b> is " + _level0.versionMajor + ".";
+		//str += _level0.versionMinor + "." + _level0.versionDev + ".\n";
+		//str += "A newer version (" + versionMajor + "." + versionMinor + "." + versionDev + ") is available.\n";
 		
 		str += "\n<p align='center'>";
 		
-		str += "<a href='" + _level0.updateHandler.simWebsiteURL() + "'>";
+		str += "<a href='" + common.simWebsiteURL() + "'>";
 		str += "Go to the new version.</a>";
 		
 		str += "</p>";
 		
-		if(_level0.common.fromFullInstallation()) {
+		if(common.fromFullInstallation()) {
 			str += "\n";
 			str += "To update your installation, please visit the ";
 			str += "<a href='http://phet.colorado.edu/get_phet/full_install.php'>full installation page</a>";
@@ -98,10 +112,6 @@ class UpdateAvailableDialog {
 		skipButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, skipClicked));
 		CommonButtons.padButtonAdd(skipButton, panel);
 		
-		// store new version information so they can be stored if the user decides to skip it
-		_level0.newMajor = parseInt(versionMajor);
-		_level0.newMinor = parseInt(versionMinor);
-		
 		window.getContentPane().append(panel);
 		
 		// fit the window to its contents
@@ -126,7 +136,7 @@ class UpdateAvailableDialog {
 	
 	public function skipClicked(src : JButton) {
 		// skip this update in the future
-		_level0.preferences.setSkippedUpdate(_level0.newMajor, _level0.newMinor);
+		_level0.preferences.setSkippedUpdate(newMajorVersion, newMinorVersion);
 		
 		// hide this window
 		_level0.updateAvailableWindow.setVisible(false);
