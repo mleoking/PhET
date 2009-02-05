@@ -110,6 +110,8 @@ public class FlashLauncher {
         // read the background color property
         String bgcolor = readBackgroundColor( properties );
 
+        String simDev = "true"; // TODO: allow construction of dev and non-dev JARs
+
         // get the locale string
         String locale = FlashHTML.localeString( language, country );
 
@@ -132,7 +134,7 @@ public class FlashLauncher {
 
         // dynamically generate an HTML file
         String html = FlashHTML.generateHTML( simName, language, country, deployment, distributionTag, installationTimestamp,
-                installerCreationTimestamp, versionMajor, versionMinor, versionDev, versionRevision, versionTimestamp, bgcolor,
+                installerCreationTimestamp, versionMajor, versionMinor, versionDev, versionRevision, versionTimestamp, simDev, bgcolor,
                 simEncodedXML, commonEncodedXML, "8","flash-template.html" );
         File htmlFile = new File( unzipDir, simName + "_" + language + ".html" );
         FileOutputStream outputStream = new FileOutputStream( htmlFile );
