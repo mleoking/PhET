@@ -71,7 +71,7 @@ class Statistics {
 		str += "sim_locale_language = '" + messageEscape(_level0.languageCode) + "' \n";
 		
 		var countryCodeForm : String = "";
-		if(_level0.countryCode == "none" ) {
+		if(_level0.countryCode == FlashCommon.NULLVAL) {
 			countryCodeForm = "null";
 		} else {
 			countryCodeForm = _level0.countryCode;
@@ -82,7 +82,11 @@ class Statistics {
 		str += "sim_total_sessions = '" + messageEscape(_level0.preferences.visitsEver()) + "' \n";
 		
 		var deployment : String = "";
-		if(!_level0.common.fromPhetWebsite() && !_level0.common.isPlaceholder(_level0.installationTimestamp) && _level0.installationTimestamp != "none") {
+		if(
+		   !_level0.common.fromPhetWebsite()
+		   && !_level0.common.isPlaceholder(_level0.installationTimestamp)
+		   && _level0.installationTimestamp != FlashCommon.NULLVAL
+		) {
 			// if not running from a website, AND installation timestamp is included, it must be a full installation!
 			// thus we override
 			deployment = "phet-installation";
