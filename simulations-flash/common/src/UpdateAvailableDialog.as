@@ -40,7 +40,7 @@ class UpdateAvailableDialog {
 		// construct the string of text to show
 		var str : String = "";
 		str += "Your current version of <b>" + _level0.simName + "</b> is " + _level0.versionMajor + ".";
-		str += _level0.versionMinor + "." + _level0.dev + ".\n";
+		str += _level0.versionMinor + "." + _level0.versionDev + ".\n";
 		str += "A newer version (" + versionMajor + "." + versionMinor + "." + dev + ") is available.\n";
 		
 		str += "\n<p align='center'>";

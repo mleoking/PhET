@@ -95,8 +95,8 @@ class FlashCommon {
 		// display version of this simulation
 		debug("Running " + _level0.simName + " " + _level0.versionMajor);
 		debug("." + _level0.versionMinor);
-		debug(" dev:" + _level0.dev);
-		debug(" rev:" + _level0.revision + "\n");
+		debug(" dev:" + _level0.versionDev);
+		debug(" rev:" + _level0.versionRevision + "\n");
 		
 		// store the position of the common buttons for CommonButtons
 		commonPosition = position;

@@ -102,7 +102,7 @@ public class FlashHTML {
         // TODO: a more elegant way?
         String flashVars = "languageCode=@@language@@&countryCode=@@country@@&internationalization=@@encodedSimXML@@" +
                 "&commonStrings=@@encodedCommonXML@@&versionMajor=@@versionMajor@@&versionMinor=@@versionMinor@@&" +
-                "dev=@@versionDev@@&revision=@@versionRevision@@&simName=@@simName@@&simDeployment=@@deployment@@&" +
+                "versionDev=@@versionDev@@&versionRevision=@@versionRevision@@&simName=@@simName@@&simDeployment=@@deployment@@&" +
                 "simDistributionTag=@@distributionTag@@&installationTimestamp=@@installationTimestamp@@&" +
                 "installerCreationTimestamp=@@installerCreationTimestamp@@&versionTimestamp=@@versionTimestamp@@&" +
                 "bgColor=@@bgcolorint@@";
