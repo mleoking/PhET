@@ -19,7 +19,7 @@ public class FlashHTML {
 
     // returns true on success
     public static boolean writeHTML( String simName, String language, String country, String deployment,
-                                  String distributionTag, String installationTimestamp, String installerCreationTimestamp,
+                                  String distributionTag, String simDev, String installationTimestamp, String installerCreationTimestamp,
                                   String simXMLFile, String htmlFile, String propertiesFile, String commonXMLFile,String HTML_TEMPLATE ) {
         try {
             String versionMajor = null;
@@ -58,7 +58,7 @@ public class FlashHTML {
 
             String html = generateHTML( simName, language, country, deployment, distributionTag, installationTimestamp,
                     installerCreationTimestamp, versionMajor, versionMinor, versionDev, versionRevision, versionTimestamp,
-                    bgcolor, encodedSimXML, encodedCommonXML, "8",HTML_TEMPLATE );
+                    simDev, bgcolor, encodedSimXML, encodedCommonXML, "8",HTML_TEMPLATE );
 
             // write to file
             FileOutputStream fileOut = new FileOutputStream( htmlFile );
@@ -75,8 +75,8 @@ public class FlashHTML {
     public static String generateHTML( String simName, String language, String country, String deployment,
                                        String distributionTag, String installationTimestamp, String installerCreationTimestamp,
                                        String versionMajor, String versionMinor, String versionDev, String versionRevision,
-                                       String versionTimestamp, String bgcolor, String encodedSimXML, String encodedCommonXML,
-                                       String minimumFlashMajorVersion,String HTML_TEMPLATE ) throws IOException {
+                                       String versionTimestamp, String simDev, String bgcolor, String encodedSimXML, String encodedCommonXML,
+                                       String minimumFlashMajorVersion, String HTML_TEMPLATE ) throws IOException {
         String s = "";
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( HTML_TEMPLATE );
         BufferedReader bufferedReader = null;
@@ -103,7 +103,7 @@ public class FlashHTML {
         String flashVars = "languageCode=@@language@@&countryCode=@@country@@&internationalization=@@encodedSimXML@@" +
                 "&commonStrings=@@encodedCommonXML@@&versionMajor=@@versionMajor@@&versionMinor=@@versionMinor@@&" +
                 "versionDev=@@versionDev@@&versionRevision=@@versionRevision@@&simName=@@simName@@&simDeployment=@@deployment@@&" +
-                "simDistributionTag=@@distributionTag@@&installationTimestamp=@@installationTimestamp@@&" +
+                "simDev=@@simDev@@&simDistributionTag=@@distributionTag@@&installationTimestamp=@@installationTimestamp@@&" +
                 "installerCreationTimestamp=@@installerCreationTimestamp@@&versionTimestamp=@@versionTimestamp@@&" +
                 "bgColor=@@bgcolorint@@";
 
@@ -113,6 +113,7 @@ public class FlashHTML {
         s = s.replaceAll( "@@language@@", language );
         s = s.replaceAll( "@@country@@", country );
         s = s.replaceAll( "@@deployment@@", deployment );
+        s = s.replaceAll( "@@simDev@@", simDev );
         s = s.replaceAll( "@@distributionTag@@", distributionTag );
         s = s.replaceAll( "@@installationTimestamp@@", installationTimestamp );
         s = s.replaceAll( "@@installerCreationTimestamp@@", installerCreationTimestamp );

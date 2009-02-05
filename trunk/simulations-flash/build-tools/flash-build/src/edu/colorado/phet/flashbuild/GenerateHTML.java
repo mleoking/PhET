@@ -36,6 +36,7 @@ public class GenerateHTML {
         String language = args[1];
         String country = "none";
         String deployment = "phet-website";
+        String simDev = "true";
 
         // TODO: rewrite to accept named / flag options
 
@@ -77,7 +78,7 @@ public class GenerateHTML {
         String htmlFile = "simulations/" + simName + "/deploy/" + simName + "_" + locale + ".html";
 		String propertiesFile = simData + simName + ".properties";
 
-        FlashHTML.writeHTML( simName, language, country, deployment, distribution_tag_dummy, installation_timestamp_dummy,
+        FlashHTML.writeHTML( simName, language, country, deployment, distribution_tag_dummy, simDev, installation_timestamp_dummy,
                              installer_creation_timestamp_dummy, simXMLFile, htmlFile, propertiesFile, commonXMLFile ,"flash-template.html");
     }
 }
