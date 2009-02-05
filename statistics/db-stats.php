@@ -23,6 +23,7 @@
 		$result = mysql_query($query);
 		
 		if(mysql_errno()) {
+			// TODO: remove after development is over, could expose some inner workings of DB? Ask Dano
 			print "<warning-message>" . htmlentities(mysql_error()) . "</warning-message>";
 		} else {
 			//print "<debug-message>affected: " . htmlentities(mysql_affected_rows()) . "</debug-message>";
@@ -202,6 +203,7 @@ BOO;
 	}
 	
 	// insert an entire flash message
+	// returns the session ID of the inserted session (or 0 for failure)
 	function insert_flash_message($data) {
 		// this is a Flash sim
 		$data['sim_type'] = SIM_TYPE_FLASH;
@@ -242,13 +244,21 @@ BOO;
 		// returned rows should be 1
 		$rowsAffected = insert_flash_info($data);
 		
-		// TODO: remove session entry if flash insertion fails???
+		// remove session entry if flash insertion fails
+		if($rowsAffected < 1) {
+			phet_mysql_query("DELETE FROM session WHERE id = {$sessionID}");
+		}
 		
-		// will be 0 if failure was encountered
-		return $rowsAffected;
+		// if we failed, return 0, otherwise return the session ID
+		if($rowsAffected < 1) {
+			return 0;
+		} else {
+			return $sessionID;
+		}
 	}
 	
 	// insert an entire java message
+	// returns the session ID of the inserted session (or 0 for failure)
 	function insert_java_message($data) {
 		// this is a Java sim
 		$data["sim_type"] = SIM_TYPE_JAVA;
@@ -288,10 +298,17 @@ BOO;
 		// returned rows should be 1
 		$rowsAffected = insert_java_info($data);
 		
-		// TODO: remove session entry if java insertion fails???
+		// remove session entry if java insertion fails
+		if($rowsAffected < 1) {
+			phet_mysql_query("DELETE FROM session WHERE id = {$sessionID}");
+		}
 		
-		// will be 0 if failure was encountered
-		return $rowsAffected;
+		// if we failed, return 0, otherwise return the session ID
+		if($rowsAffected < 1) {
+			return 0;
+		} else {
+			return $sessionID;
+		}
 	}
 	
 	// insert/update data for the user table
