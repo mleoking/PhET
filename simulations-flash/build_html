@@ -23,6 +23,9 @@ do
 	sim_data_sub=${sim_data}/${sim_name}
 	sim_images=${sim_data_sub}/images
 	sim_localization=${sim_data_sub}/localization
+
+    # copy the needed get_flash.jpg into the deploy directory
+	cp build-tools/flash-build/data/get_flash.jpg ${sim_deploy}/
 	
 	# for every XML file in the localization directory
 	for file in ${sim_localization}/*.xml;
