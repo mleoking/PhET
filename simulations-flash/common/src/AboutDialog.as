@@ -10,6 +10,8 @@ import org.aswing.border.*;
 
 class AboutDialog {
 	
+	public var common : FlashCommon;
+	
 	// shorthand for debugging function
 	public function debug(str : String) : Void {
 		_level0.debug(str);
@@ -18,11 +20,14 @@ class AboutDialog {
 	public function AboutDialog() {
 		debug("AboutDialog initializing\n");
 		
+		// shortcut to FlashCommon, but now with type-checking!
+		common = _level0.common;
+		
 		// mysterious fix since "this" does not refer to a MovieClip or Component
 		ASWingUtils.getRootMovieClip();
 		
 		// create a window
-		var window : JFrame = new JFrame(_level0, _level0.comStrings.get("AboutSim", "About {0}", [_level0.simName]));
+		var window : JFrame = new JFrame(_level0, common.strings.get("AboutSim", "About {0}", [common.getSimName()]));
 		
 		// the window shouldn't be resizable
 		window.setResizable(false);
@@ -31,29 +36,27 @@ class AboutDialog {
 		_level0.aboutWindow = window;
 		
 		// set the background to default
-		window.setBackground(_level0.common.backgroundColor);
+		window.setBackground(common.backgroundColor);
 		
 		// layout things vertically
 		window.getContentPane().setLayout(new SoftBoxLayout(SoftBoxLayout.Y_AXIS));
 		
 		// construct the string of text to show
 		var str : String = "";
-		str += "<b>" + _level0.comStrings.get("PhET", "PhET") + "</b>\n";
-		str += _level0.comStrings.get("CopyrightColorado", "Copyright {0} University of Colorado.", ["\u00A9 2004-2008"]) + "\n";
-		str += _level0.comStrings.get("SomeRightsReserved", "Some rights reserved.") + "\n";
-		str += _level0.comStrings.get("Visit", "Visit {0}.", ["<a href='http://phet.colorado.edu'>http://phet.colorado.edu</a>"]) + "\n\n";
+		str += "<b>" + common.strings.get("PhET", "PhET") + "</b>\n";
+		str += common.strings.get("CopyrightColorado", "Copyright {0} University of Colorado.", ["\u00A9 2004-2008"]) + "\n";
+		str += common.strings.get("SomeRightsReserved", "Some rights reserved.") + "\n";
+		str += common.strings.get("Visit", "Visit {0}.", ["<a href='http://phet.colorado.edu'>http://phet.colorado.edu</a>"]) + "\n\n";
 		
-		str += "<b><font size='16'>" + _level0.simName + "</font></b>\n";
-		str += _level0.comStrings.get("Version", "Version") + ": " + _level0.versionMajor + "." + _level0.versionMinor;
-		str += "." + _level0.versionDev;
-		str += " (" + _level0.versionRevision + ")\n";
-		str += _level0.comStrings.get("BuildDate", "Build Date") + ": " + dateString(new Date(int(_level0.versionTimestamp) * 1000)) + "\n";
-		if(_level0.simDistributionTag && _level0.simDistributionTag != FlashCommon.NULLVAL && !_level0.common.isPlaceholder(_level0.simDistributionTag)) {
-			str += _level0.comStrings.get("Distribution", "Distribution") + ": " + _level0.simDistributionTag + "\n";
+		str += "<b><font size='16'>" + common.getSimName() + "</font></b>\n";
+		str += common.strings.get("Version", "Version") + ": " + common.getFullVersionString() + "\n";
+		str += common.strings.get("BuildDate", "Build Date") + ": " + dateString(new Date(int(common.getVersionTimestamp()) * 1000)) + "\n";
+		if(common.getDistributionTag() != null) {
+			str += common.strings.get("Distribution", "Distribution") + ": " + common.getDistributionTag() + "\n";
 		}
 		str += "\n";
-		str += _level0.comStrings.get("FlashVersion", "Flash Version") + ": " + System.capabilities.version + "\n";
-		str += _level0.comStrings.get("OSVersion", "OS Version") + ": " + System.capabilities.os + "\n";
+		str += common.strings.get("FlashVersion", "Flash Version") + ": " + System.capabilities.version + "\n";
+		str += common.strings.get("OSVersion", "OS Version") + ": " + System.capabilities.os + "\n";
 		
 		// create CSS to make links blue
 		var css : TextField.StyleSheet = new TextField.StyleSheet();
@@ -67,7 +70,7 @@ class AboutDialog {
 		textArea.setEditable(false);
 		textArea.setCSS(css);
 		textArea.setBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)));
-		textArea.setBackground(_level0.common.backgroundColor);
+		textArea.setBackground(common.backgroundColor);
 		
 		window.getContentPane().append(textArea);
 		
@@ -77,12 +80,12 @@ class AboutDialog {
 		var panel : JPanel = new JPanel(new BoxLayout());
 		
 		// button that will open the license dialog
-		var licenseButton : JButton = new JButton(_level0.comStrings.get("License", "License") + "...");
+		var licenseButton : JButton = new JButton(common.strings.get("License", "License") + "...");
 		licenseButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, licenseClicked));
 		CommonButtons.padButtonAdd(licenseButton, panel);
 		
 		// button will close the about dialog
-		var okButton : JButton = new JButton(_level0.comStrings.get("OK", "OK"));
+		var okButton : JButton = new JButton(common.strings.get("OK", "OK"));
 		okButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, okClicked));
 		CommonButtons.padButtonAdd(okButton, panel);
 		
