@@ -13,6 +13,8 @@ import org.aswing.*;
 // should be instance of FlashCommon at _level0.common
 class FlashCommon {
 	
+	public static var NULLVAL : String = "null";
+	
 	// the default background color for AsWing components (windows and text)
 	public var backgroundColor : ASColor;
 	
@@ -139,7 +141,7 @@ class FlashCommon {
 		var str : String = _level0.languageCode;
 		
 		// if we have a country code, add _XX to the locale
-		if(_level0.countryCode != "none") {
+		if(_level0.countryCode != NULLVAL) {
 			str += "_" + _level0.countryCode;
 		}
 		return str;

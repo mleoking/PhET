@@ -16,7 +16,7 @@ import java.net.URLEncoder;
  */
 public class FlashHTML {
 //    private static final String HTML_TEMPLATE = "flash-template.html";
-    private static final String NONE = "none";
+    private static final String NULL = "null";
 
     // returns true on success
     public static boolean writeHTML( String simName, String language, String country, String deployment,
@@ -145,7 +145,7 @@ public class FlashHTML {
 
     public static String localeString( String language, String country ) {
         String ret = language;
-        if ( !country.equals(NONE) ) {
+        if ( !country.equals(NULL) ) {
             ret += "_" + country;
         }
         return ret;

@@ -44,6 +44,12 @@ public class FlashLauncher {
 
     public FlashLauncher() throws IOException {
 
+        // TODO: pull this constant string from somewhere else? should be constant for standalone-jars (all FlashLauncher)
+        this.deployment = "standalone-jar";
+        this.installationTimestamp = "null";
+        this.installerCreationTimestamp = "null";
+        this.distributionTag = "null";
+
         // read sim and language from args file (JAR resource)
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( ARGS_FILENAME );
         BufferedReader bu = new BufferedReader( new InputStreamReader( inputStream ) );
@@ -53,10 +59,6 @@ public class FlashLauncher {
         this.simName = stringTokenizer.nextToken();
         this.language = stringTokenizer.nextToken();
         this.country = stringTokenizer.nextToken();
-        this.deployment = stringTokenizer.nextToken();
-        this.distributionTag = stringTokenizer.nextToken();
-        this.installationTimestamp = stringTokenizer.nextToken();
-        this.installerCreationTimestamp = stringTokenizer.nextToken();
 
         // if the developer flag is specified in args file, open a window to show debug output
         if ( stringTokenizer.hasMoreTokens() && stringTokenizer.nextToken().equals( "-dev" ) ) {
@@ -106,6 +108,10 @@ public class FlashLauncher {
         versionDev = properties.getProperty( "version.dev" );
         versionRevision = properties.getProperty( "version.revision" );
         versionTimestamp = properties.getProperty( "version.timestamp" );
+
+        if(properties.getProperty( "distribution.tag" ) != null) {
+            distributionTag = properties.getProperty( "distribution.tag" );
+        }
 
         // read the background color property
         String bgcolor = readBackgroundColor( properties );
