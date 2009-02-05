@@ -117,6 +117,6 @@ class AboutDialog {
 	public function dateString(date : Date) : String {
 		var year : String = new String(date.getYear() + 1900);
 		var month : String = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][date.getMonth()];
-		return month + " " + String(date.getDate()) + " " + year;
+		return month + " " + String(date.getDate()) + ", " + year;
 	}
 }
