@@ -66,8 +66,8 @@ public abstract class PhetProject {
         }
     }
 
-    public File getAntBaseDir() {
-        return new File( "." );
+    public File getSimulationsJava() {
+        return getProjectDir().getParentFile().getParentFile();
     }
 
     public String getName() {
@@ -206,11 +206,11 @@ public abstract class PhetProject {
     }
 
     private File searchPath( String token ) {
-        File commonProject = new File( getAntBaseDir(), "common/" + token );
+        File commonProject = new File( getSimulationsJava(), "common/" + token );
         if ( commonProject.exists() && isProject( commonProject ) ) {
             return commonProject;
         }
-        File contribPath = new File( getAntBaseDir(), "contrib/" + token );
+        File contribPath = new File( getSimulationsJava(), "contrib/" + token );
         if ( contribPath.exists() ) {
             return contribPath;
         }
@@ -218,15 +218,15 @@ public abstract class PhetProject {
         if ( path.exists() ) {
             return path;
         }
-        File commonPathNonProject = new File( getAntBaseDir(), "common/" + token );
+        File commonPathNonProject = new File( getSimulationsJava(), "common/" + token );
         if ( commonPathNonProject.exists() ) {
             return commonPathNonProject;
         }
-        File simProject = new File( getAntBaseDir(), "simulations/" + token );
+        File simProject = new File( getSimulationsJava(), "simulations/" + token );
         if ( simProject.exists() && isProject( simProject ) ) {
             return simProject;
         }
-        throw new RuntimeException( "No path found for token=" + token + ", antBaseDir=" + getAntBaseDir().getAbsolutePath() + ", in project=" + this );
+        throw new RuntimeException( "No path found for token=" + token + ", antBaseDir=" + getSimulationsJava().getAbsolutePath() + ", in project=" + this );
     }
 
 
@@ -310,7 +310,7 @@ public abstract class PhetProject {
     }
 
     public File getAntOutputDir() {
-        File destDir = new File( getAntBaseDir(), "ant_output/projects/" + name );
+        File destDir = new File( getSimulationsJava(), "ant_output/projects/" + name );
         destDir.mkdirs();
         return destDir;
     }

@@ -199,7 +199,7 @@ public class PhetJavaProject extends PhetProject {
         j.setLocale( locale.getLanguage() );
         j.setSimulation( simulationName );
         org.apache.tools.ant.Project project = new org.apache.tools.ant.Project();
-        project.setBaseDir( getAntBaseDir() );//todo: is this correct?
+        project.setBaseDir( getSimulationsJava() );//todo: is this correct?
         project.init();
         j.setProject( project );
         j.execute();
