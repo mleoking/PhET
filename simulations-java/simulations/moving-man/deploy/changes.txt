@@ -1,3 +1,6 @@
+> Blue timeline color matches the trace color
+> Timeline blue line thinner so that it looks more like "inside" the timeline
+
 # 1.20.26 (28105) Feb 5, 2009
 > Added fade feature on dot trace
 > Removed invisible and solid line traces
