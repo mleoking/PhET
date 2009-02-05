@@ -7,7 +7,7 @@ var prefix = "file:///C|/svn/trunk/simulations-flash/simulations/";
 // sim names to publish
 var sims = ["arithmetic", "blackbody-spectrum", "charges-and-fields", "curve-fitting", "equation-grapher",
     "estimation", "faradays-law", "friction", "geometric-optics", "mass-spring-lab", "my-solar-system",
-    "ohms-law", "pendulum-lab", "plinko-probability", "projectile-motion", "stern-gerlach",
+    "ohms-law", "pendulum-lab", "plinko-probability", "projectile-motion", "stern-gerlach", "test-flash-project",
     "vector-addition", "wave-on-a-string"];
 
 for(var i = 0; i < sims.length; i++) {

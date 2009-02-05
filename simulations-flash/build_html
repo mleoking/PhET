@@ -11,7 +11,7 @@ cp build-tools/flash-build/data/* build-tools/flash-build/build/
 jar cfm flash-build.jar build-tools/flash-build/manifest -C build-tools/flash-build/build .
 
 # for each sim, build each locale
-for sim_name in arithmetic blackbody-spectrum charges-and-fields curve-fitting equation-grapher estimation faradays-law friction geometric-optics lunar-lander mass-spring-lab my-solar-system ohms-law pendulum-lab plinko-probability projectile-motion resistance-in-a-wire stern-gerlach vector-addition wave-on-a-string;
+for sim_name in arithmetic blackbody-spectrum charges-and-fields curve-fitting equation-grapher estimation faradays-law friction geometric-optics lunar-lander mass-spring-lab my-solar-system ohms-law pendulum-lab plinko-probability projectile-motion resistance-in-a-wire stern-gerlach test-flash-project vector-addition wave-on-a-string;
 do
 	
 	# sim directories (left for reference, used in restructuring)
