@@ -17,17 +17,16 @@
 	// used for every mysql query that needs to be made
 	// useful for debugging and error catching
 	function phet_mysql_query($query) {
-		//print "<debug-message>" . $query . "</debug-message>";
+		//print "<debug-message>" . htmlentities($query) . "</debug-message>";
 		
 		// actually execute the query
 		$result = mysql_query($query);
 		
 		if(mysql_errno()) {
-			print "<warning-message>" . mysql_error() . "</warning-message>";
+			print "<warning-message>" . htmlentities(mysql_error()) . "</warning-message>";
 		} else {
-			//print "<debug-message>affected: " . mysql_affected_rows() . "</debug-message>";
+			//print "<debug-message>affected: " . htmlentities(mysql_affected_rows()) . "</debug-message>";
 		}
-		//$result | die();
 		return $result;
 	}
 	
