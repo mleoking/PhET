@@ -32,6 +32,8 @@ class TabHandler {
 	public static var HIGHLIGHT_GLOBAL : String = "global"; // highlighting is done on a movieclip in _root
 	public static var HIGHLIGHT_LOCAL : String = "local"; // highlighting is done on a child movieclip (moves with the object)
 	
+	public var common : FlashCommon;
+	
 	// shorthand for debugging function
 	public function debug(str : String) : Void {
 		_level0.debug(str);
@@ -41,8 +43,12 @@ class TabHandler {
 	public function TabHandler() {
 		debug("Initializing TabHandler\n");
 		
+		// shortcut to FlashCommon, but now with type-checking!
+		common = _level0.common;
+		
 		// make this accessible by _level0.tabHandler
 		_level0.tabHandler = this;
+		common.tabHandler = this;
 		
 		// disable default keyboard accessibility
 		_root.tabIndex = 1;

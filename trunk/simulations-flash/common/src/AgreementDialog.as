@@ -10,6 +10,8 @@ import org.aswing.border.*;
 
 class AgreementDialog {
 	
+	public var common : FlashCommon;
+	
 	// shorthand for debugging function
 	public function debug(str : String) : Void {
 		_level0.debug(str);
@@ -18,18 +20,21 @@ class AgreementDialog {
 	public function AgreementDialog() {
 		debug("AgreementDialog initializing\n");
 		
+		// shortcut to FlashCommon, but now with type-checking!
+		common = _level0.common;
+		
 		// somehow this line allows us to create these windows/buttons from
 		// code that isn't part of a MovieClip.
 		ASWingUtils.getRootMovieClip();
 		
 		// create a window
-		var window : JFrame = new JFrame(_level0, _level0.comStrings.get("PrivacyAgreement", "Privacy Agreement"));
+		var window : JFrame = new JFrame(_level0, common.strings.get("PrivacyAgreement", "Privacy Agreement"));
 		
 		// make it accessible from anywhere
 		_level0.agreementWindow = window;
 		
 		// set the background color to default
-		window.setBackground(_level0.common.backgroundColor);
+		window.setBackground(common.backgroundColor);
 		
 		// layout the window vertically
 		window.getContentPane().setLayout(new SoftBoxLayout(SoftBoxLayout.Y_AXIS));
@@ -51,7 +56,7 @@ class AgreementDialog {
 		textArea.setCSS(css);
 		textArea.setWordWrap(true);
 		textArea.setWidth(300);
-		textArea.setBackground(_level0.common.backgroundColor);
+		textArea.setBackground(common.backgroundColor);
 		
 		// add padding around the text
 		textArea.setBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)));

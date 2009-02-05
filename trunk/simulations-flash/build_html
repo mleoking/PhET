@@ -41,6 +41,9 @@ do
 		# build the HTML
 		java -jar flash-build.jar ${sim_name} ${split_locale} phet-website
 	done;
+
+	echo Building ${sim_name} pg US
+	java -jar flash-build.jar ${sim_name} pg US phet-website
 	
 	# add what might be new to subversion
 	#for file in ${sim_deploy}/*.html;

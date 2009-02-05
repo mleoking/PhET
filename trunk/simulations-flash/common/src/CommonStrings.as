@@ -24,7 +24,6 @@ class CommonStrings {
 		common = _level0.common;
 		
 		// install as _level0.comString
-		_level0.comStrings = this;
 		common.strings = this;
 		
 		// parse the XML from flashvars, store in 'xml'

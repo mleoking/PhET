@@ -104,7 +104,7 @@ class Statistics {
 	public function sendSessionStart() : Void {
 		// load the user's preferences so we can see whether messages is allowed and they
 		// have accepted the privacy agreement
-		_level0.preferences.load();
+		common.preferences.load();
 		
 		if(!common.preferences.areStatisticsMessagesAllowed()) {
 			debug("Statistics: cannot send session start message: statistics messages disabled\n");
