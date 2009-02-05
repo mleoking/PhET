@@ -41,8 +41,9 @@
     <!-- Private properties, do NOT change or override these                 -->
     <!-- =================================================================== -->
 
+    <property  name="trunk" value="${basedir}/.."/>
     <!-- structure of the PhET codebase.-->
-    <property name="dir.build-tools" value="${basedir}/build-tools"/>
+    <property name="dir.build-tools" value="${basedir}"/>
 	<property name="dir.common" value="${basedir}/common"/>
 	<property name="dir.contrib" value="${basedir}/contrib"/>
 
