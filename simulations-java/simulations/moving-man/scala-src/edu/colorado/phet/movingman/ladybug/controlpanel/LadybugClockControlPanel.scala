@@ -1,11 +1,13 @@
 package edu.colorado.phet.movingman.ladybug.controlpanel
 
+import _root_.edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
+import _root_.edu.colorado.phet.common.phetcommon.view.util.ImageLoader._
 import _root_.edu.colorado.phet.common.phetcommon.view.util.RectangleUtils
 import _root_.edu.colorado.phet.common.piccolophet.event.CursorHandler
 import _root_.edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloTimeControlPanel.BackgroundNode
 import _root_.edu.colorado.phet.common.piccolophet.nodes.PhetPPath
+import java.awt._
 import java.awt.event.{ComponentAdapter, ComponentEvent}
-import java.awt.{Rectangle, Dimension, BasicStroke}
 import _root_.edu.colorado.phet.common.piccolophet.event.ToolTipHandler
 import _root_.edu.colorado.phet.common.piccolophet.nodes.mediabuttons.DefaultIconButton
 import _root_.edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PlayPauseButton
@@ -21,9 +23,8 @@ import java.util.{Hashtable, Dictionary}
 import javax.swing._
 import model.LadybugModel
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
-import umd.cs.piccolo.nodes.PText
+import umd.cs.piccolo.nodes.{PImage, PText}
 import umd.cs.piccolo.PNode
-import java.awt.Color
 import umd.cs.piccolo.util.PBounds
 import umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloTimeControlPanel.BackgroundNode
@@ -154,7 +155,10 @@ class Timeline(model: LadybugModel, canvas: PhetPCanvas) extends PNode {
   val insetX = 10
   val shaded = new PhetPPath(new Color(157, 215, 228))
   val background = new PhetPPath(new Color(200, 220, 255))
-  val handle = new PhetPPath(Color.blue, new BasicStroke(1), Color.darkGray)
+  //  val handle = new PhetPPath(Color.blue, new BasicStroke(1), Color.darkGray)
+  val img = loadBufferedImage("piccolo-phet/images/button-template.png")
+  val scaledImage = BufferedImageUtils.getScaledInstance(img, 20, 10, RenderingHints.VALUE_INTERPOLATION_BILINEAR, true)
+  val handle = new PImage(scaledImage)
   var scale = 1.0
   addChild(background)
   addChild(shaded)
@@ -185,6 +189,7 @@ class Timeline(model: LadybugModel, canvas: PhetPCanvas) extends PNode {
     background.setPathTo(new Rectangle(insetX, pathOffsetY, (LadybugDefaults.timelineLengthSeconds * scale).toInt, pathHeight))
     handle.setVisible(model.isPlayback)
     val elapsed = model.getTime - model.getMinRecordedTime
-    handle.setPathTo(new Ellipse2D.Double(elapsed * scale - ellipseWidth / 2 + insetX, pathOffsetY - 1, ellipseWidth, ellipseHeight))
+    //    handle.setPathTo(new Ellipse2D.Double(elapsed * scale - ellipseWidth / 2 + insetX, pathOffsetY - 1, ellipseWidth, ellipseHeight))
+    handle.setOffset(elapsed * scale - handle.getFullBounds.getWidth / 2 + insetX, pathOffsetY - 2)
   }
 }
