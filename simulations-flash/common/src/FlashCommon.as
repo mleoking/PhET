@@ -167,7 +167,8 @@ class FlashCommon {
 	
 	// DEVELOPMENT
 	public function onKeyDown() {
-		if(Key.getCode() == Key.PGUP) {
+		if(Key.getCode() == Key.PGUP || Key.getCode() == 121) {
+			// page up OR F10
 			_level0.debugs._visible = !_level0.debugs._visible;
 		}
 		if(Key.getCode() == 120) {

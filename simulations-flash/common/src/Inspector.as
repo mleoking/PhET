@@ -148,7 +148,8 @@ class Inspector {
 	}
 	
 	public function onKeyDown() {
-		if(Key.getCode() == Key.PGDN) {
+		if(Key.getCode() == Key.PGDN || Key.getCode() == 122) {
+			// page down or F11
 			_level0.inspector.hits.onPress();
 		}
 	}

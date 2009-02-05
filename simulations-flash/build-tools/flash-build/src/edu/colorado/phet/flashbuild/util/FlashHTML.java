@@ -4,6 +4,7 @@ package edu.colorado.phet.flashbuild.util;
 
 import java.io.*;
 import java.util.Scanner;
+import java.util.Properties;
 import java.net.URLEncoder;
 
 /**
@@ -30,6 +31,7 @@ public class FlashHTML {
             String bgcolor = null;
 
             // parse the .properties file, store results in variables above
+            /*
             // TODO: use Properties instead
             File propFile = new File( propertiesFile );
             Scanner propScanner = new Scanner( propFile );
@@ -52,6 +54,15 @@ public class FlashHTML {
                 }
             }
             propScanner.close();
+            */
+            Properties props = new Properties();
+            props.load(new FileInputStream(new File(propertiesFile)));
+            versionMajor = props.getProperty("version.major");
+            versionMinor = props.getProperty("version.minor");
+            versionDev = props.getProperty("version.dev");
+            versionRevision = props.getProperty("version.revision");
+            versionTimestamp = props.getProperty("version.timestamp");
+            bgcolor = props.getProperty("bgcolor");
 
             String encodedSimXML = encodeXML( rawFile( simXMLFile ) );
             String encodedCommonXML = encodeXML( rawFile( commonXMLFile ) );
@@ -157,4 +168,5 @@ public class FlashHTML {
     public static String encodeXMLFile( File file ) throws UnsupportedEncodingException, FileNotFoundException {
         return encodeXML( rawFile( file ) );
     }
+
 }
