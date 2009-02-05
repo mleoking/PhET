@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
-import edu.colorado.phet.build.PhetProject;
+import edu.colorado.phet.buildtools.PhetProject;
 
 /**
  * Created by: Sam

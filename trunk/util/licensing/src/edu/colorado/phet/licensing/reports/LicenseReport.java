@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import edu.colorado.phet.build.PhetProject;
+import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.licensing.AnnotatedFile;
 import edu.colorado.phet.licensing.Config;
 import edu.colorado.phet.licensing.SimInfo;
