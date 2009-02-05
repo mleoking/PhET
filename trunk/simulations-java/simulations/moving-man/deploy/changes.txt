@@ -1,3 +1,4 @@
+# 1.20.26 (28105) Feb 5, 2009
 > Added fade feature on dot trace
 > Removed invisible and solid line traces
 > Improve thumb handle on timeline
