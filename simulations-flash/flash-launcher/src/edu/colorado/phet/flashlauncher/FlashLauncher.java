@@ -3,18 +3,17 @@
 package edu.colorado.phet.flashlauncher;
 
 import java.io.*;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.text.MessageFormat;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
+import edu.colorado.phet.build.flash.FlashHTML;
 import edu.colorado.phet.flashlauncher.util.BareBonesBrowserLaunch;
 import edu.colorado.phet.flashlauncher.util.FileUtils;
-import edu.colorado.phet.flashbuild.util.FlashHTML;
 
 /**
  * FlashLauncher is the mechanism for launching Flash simulations.
