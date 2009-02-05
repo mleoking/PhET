@@ -95,10 +95,7 @@ class FlashCommon {
 		debug("FlashCommon initializing\n");
 		
 		// display version of this simulation
-		debug("Running " + _level0.simName + " " + _level0.versionMajor);
-		debug("." + _level0.versionMinor);
-		debug(" dev:" + _level0.versionDev);
-		debug(" rev:" + _level0.versionRevision + "\n");
+		debug("Running " + getSimName() + " " + getFullVersionString() + "\n");
 		
 		// store the position of the common buttons for CommonButtons
 		commonPosition = position;
@@ -171,7 +168,7 @@ class FlashCommon {
 		return (str.substr(0, 2) == "@@" && str.substr(-2, 2) == "@@");
 	}
 	
-	// DEVELOPMENT
+	// TODO: remove after DEVELOPMENT??? or make harder to access debugging areas
 	public function onKeyDown() {
 		if(Key.getCode() == Key.PGUP || Key.getCode() == 121) {
 			// page up OR F10
@@ -183,7 +180,65 @@ class FlashCommon {
 		}
 	}
 	
-	public function zeroPadVersion(versionMajor : Number) : String {
-		
+	// returns the version string with minor and dev fields padded with a zero if necessary
+	public function zeroPadVersion(versionMajor : Number, versionMinor : Number, versionDev : Number) : String {
+		var ret : String = "";
+		ret += String(versionMajor) + ".";
+		ret += (versionMinor > 9 ? String(versionMinor) : "0" + String(versionMinor)) + ".";
+		ret += (versionDev > 9 ? String(versionDev) : "0" + String(versionDev));
+		return ret;
+	}
+	
+	public function getVersionString() : String {
+		return zeroPadVersion(getVersionMajor(), getVersionMinor(), getVersionDev());
+	}
+	
+	public function getFullVersionString() : String {
+		return getVersionString() + " (" + String(getVersionRevision()) + ")";
+	}
+	
+	// get the URL of the simulation on the website
+	public function simWebsiteURL() : String {
+		var str : String = "http://phet.colorado.edu/simulations/sims.php?sim=";
+		for(var i : Number = 0; i < _level0.simName.length; i++) {
+			if(_level0.simName.charAt(i) == "-") {
+				str += "_";
+			} else {
+				str += _level0.simName.charAt(i);
+			}
+		}
+		return str;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// get functions for information passed through FlashVars
+	
+	
+	public function getSimProject() : String {
+		return _level0.simName;
+	}
+	public function getSimName() : String {
+		return _level0.simName;
+	}
+	
+	
+	public function getVersionMajor() : Number {
+		return parseInt(_level0.versionMajor);
+	}
+	public function getVersionMinor() : Number {
+		return parseInt(_level0.versionMinor);
+	}
+	public function getVersionDev() : Number {
+		return parseInt(_level0.versionDev);
+	}
+	public function getVersionRevision() : Number {
+		return parseInt(_level0.versionRevision);
 	}
 }

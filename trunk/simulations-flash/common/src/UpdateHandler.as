@@ -20,6 +20,8 @@ class UpdateHandler {
 	// (manual check for updates)
 	public var manual : Boolean;
 	
+	public var common : FlashCommon;
+	
 	// shorthand debugging function
 	public function debug(str : String) : Void {
 		_level0.debug(str);
@@ -28,6 +30,9 @@ class UpdateHandler {
 	// constructor
 	public function UpdateHandler() {
 		debug("UpdateHandler initializing\n");
+		
+		// shortcut to FlashCommon, but now with type-checking!
+		common = _level0.common;
 		
 		// set to true if the user is manually checking for updates
 		// in this case, we should give them a response if they are
@@ -61,90 +66,55 @@ class UpdateHandler {
 		// function that is called when the XML is either loaded or fails somehow
 		xml.onLoad = function(success : Boolean) {
 			if(success) {
-				/*
-				// XML was returned and successfully parsed (valid XML, but we need to still
-				// extract information from it
-				_level0.debug("UpdateHandler: successfully obtained version information\n");
+				_level0.debug("UpdateHandler: reply successfully received\n");
+				_level0.debug(String(xml) + "\n");
 				
-				// extract version information from XML
-				versionMajor = xml.firstChild.childNodes[0].attributes.value;
-				versionMinor = xml.firstChild.childNodes[1].attributes.value;
-				versionDev = xml.firstChild.childNodes[2].attributes.value;
-				versionRevision = xml.firstChild.childNodes[3].attributes.value;
+				var hand : UpdateHandler = _level0.updateHandler;
 				
-				// use _level0.debug since we cannot access the shorthand version from the callback
-				_level0.debug("    latest version: " + versionMajor);
-				_level0.debug("." + versionMinor);
-				_level0.debug(" dev:" + versionDev);
-				_level0.debug(" rev:" + versionRevision + "\n");
+				var simVersionInfo : XMLNode = xml.childNodes[0];
+				var attributes : Object = simVersionInfo.attributes;
+				
+				hand.versionRevision = parseInt(attributes['revision']);
+				hand.simTimestamp = parseInt(attributes['timestamp']);
+				hand.installerTimestamp = parseInt(attributes['installer_timestamp']);
+				hand.parseVersionInfo(attributes['version']);
+				
+				hand.debug("   latest: " + hand.common.zeroPadVersion(hand.versionMajor, hand.versionMinor, hand.versionDev) + " (" + String(hand.versionRevision) + ")\n");
 				
 				var latestSkipped : Array = _level0.preferences.getLatestSkippedUpdate();
 				
-				if(versionMajor == _level0.versionMajor && versionMinor == _level0.versionMinor) {
+				if(hand.versionRevision == _level0.common.getVersionRevision()) {
 					// running the latest version
 					_level0.debug("UpdateHandler: running latest version\n");
 					
 					// if the user clicked "Check for Updates Now", inform the user that no
 					// update is available
-					if(_level0.updateHandler.manual) {
-						_level0.common.updateHandler.updatesNotAvailable();
+					if(hand.manual) {
+						hand.updatesNotAvailable();
 					}
-				} else if(versionMajor == undefined || versionMinor == undefined) {
+				} else if(hand.versionRevision < _level0.common.getVersionRevision()) {
+					_level0.debug("WARNING UpdateHandler: running a more recent version than on the production website.\n");
+				} else if(hand.versionMajor == undefined || hand.versionMinor == undefined) {
 					_level0.debug("WARNING UpdateHandler: received undefined version information!\n");
-				} else if(!(_level0.updateHandler.manual) && (new Number(versionMajor) < latestSkipped[0] || (new Number(versionMajor) == latestSkipped[0] && new Number(versionMinor) <= latestSkipped[1]))) {
+				} else if(!(hand.manual) && (hand.versionMajor < latestSkipped[0] || (hand.versionMajor == latestSkipped[0] && hand.versionMinor <= latestSkipped[1]))) {
 					// user did not click "Check for Updates Now" AND the new version <= latest skipped version
 					_level0.debug("UpdateHandler: used selected to skip this update\n");
-				} else if(!(_level0.updateHandler.manual) && _level0.preferences.askLaterElapsed() < 1000 * 60 * 60 * 24) {
+				} else if(!(hand.manual) && _level0.preferences.askLaterElapsed() < 1000 * 60 * 60 * 24) {
 					_level0.debug("UpdateHandler: used selected ask later, time elapsed = " + String(_level0.preferences.askLaterElapsed()) + "\n");
 				} else {
-					_level0.common.updateHandler.updatesAvailable(versionMajor, versionMinor, versionDev);
+					hand.updatesAvailable(hand.versionMajor, hand.versionMinor, hand.versionDev);
 				}
-				*/
+				
 			} else {
-				_level0.debug("UpdateHandler: network failure, cannot read version information\n");
+				_level0.debug("WARNING: UpdateHandler: Failure to obtain latest version information\n");
 			}
 		}
 		
 		/////////////////////////////////////////////
 		// TODO needs to be changed to the path of the version script for each simulation
 		// most likely will be http://phet.colorado.edu/simulations/sim-version-info.php?project=BLAH&sim=BLAH
-		xml.load("http://phet.colorado.edu/jolson/deploy/sims/version.php?" + _level0.simName);
-		
-		
-		var testXML : XML = new XML();
-		testXML.ignoreWhite = true;
-		testXML.onLoad = function(success : Boolean) {
-			if(success) {
-				_level0.debug("UpdateHandler: TEST: success of message\n");
-				_level0.debug(String(testXML) + "\n");
-				
-				var simVersionInfo : XMLNode = testXML.childNodes[0];
-				var attributes : Array = simVersionInfo.attributes;
-				
-				versionRevision = attributes['revision'];
-				simTimestamp = parseInt(attributes['timestamp']);
-				installerTimestamp = parseInt(attributes['installer_timestamp']);
-				
-				var version : String = attributes['version'];
-				var splits : Array = version.split('.');
-				if(splits.length != 3) {
-					_level0.debug("WARNING: UpdateHandler: latest version information invalid\n");
-				} else {
-					versionMajor = parseInt(splits[0]);
-					versionMinor = parseInt(splits[1]);
-					versionDev = parseInt(splits[2]);
-				}
-			} else {
-				_level0.debug("UpdateHandler: TEST: failure of message\n");
-			}
-		}
-		
-		// TODO: remove for development
-		_level0.testXML = testXML;
-		
-		// TODO: replace with actual sim-version-info
-		testXML.load("http://phet.colorado.edu/jolson/deploy/sims/fake-sim-version-info.php?project=" + _level0.simName + "&sim=" + _level0.simName);
-		//testXML.load("http://phet.colorado.edu/simulations/sim-version-info.php?project=" + _level0.simName + "&sim=" + _level0.simName);
+		xml.load("http://phet.colorado.edu/jolson/deploy/sims/fake-sim-version-info.php?project=" + common.getSimProject() + "&sim=" + common.getSimName());
+		//xml.load("http://phet.colorado.edu/simulations/sim-version-info.php?project=" + _level0.simName + "&sim=" + _level0.simName);
 	}
 	
 	public function manualCheck() : Void {
@@ -178,18 +148,19 @@ class UpdateHandler {
 		
 	}
 	
-	// get the URL of the simulation on the website
-	public function simWebsiteURL() : String {
-		var str : String = "http://phet.colorado.edu/simulations/sims.php?sim=";
-		for(var i : Number = 0; i < _level0.simName.length; i++) {
-			if(_level0.simName.charAt(i) == "-") {
-				str += "_";
-			} else {
-				str += _level0.simName.charAt(i);
-			}
+	public function parseVersionInfo(version : String) : Void {
+		var splits : Array = version.split('.');
+		if(splits.length != 3) {
+			_level0.debug("WARNING: UpdateHandler: latest version information invalid\n");
+		} else {
+			versionMajor = parseInt(splits[0]);
+			versionMinor = parseInt(splits[1]);
+			versionDev = parseInt(splits[2]);
 		}
-		return str;
 	}
+	
+	
+	
 	
 }
 
