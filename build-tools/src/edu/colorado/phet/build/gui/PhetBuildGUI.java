@@ -7,7 +7,6 @@ import java.io.File;
 import javax.swing.*;
 
 import edu.colorado.phet.build.translate.ImportAndAddBatch;
-import edu.colorado.phet.build.PhetProject;
 
 /**
  * Provides a front-end user interface for building and deploying phet's java simulations.
@@ -16,7 +15,7 @@ import edu.colorado.phet.build.PhetProject;
 public class PhetBuildGUI {
     private JFrame frame = new JFrame();
 
-    public PhetBuildGUI( final File baseDir ) {
+    public PhetBuildGUI( final File trunk ) {
 
         this.frame = new JFrame( "PhET Build" );
         JMenuBar menuBar = new JMenuBar();
@@ -25,7 +24,7 @@ public class PhetBuildGUI {
         deployItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
-                    ImportAndAddBatch.startImportAndAddBatch( baseDir.getAbsolutePath() );
+                    ImportAndAddBatch.startImportAndAddBatch( new File( trunk, "simulations-java" ).getAbsolutePath() );
                 }
                 catch( Exception e1 ) {
                     e1.printStackTrace();
@@ -44,11 +43,11 @@ public class PhetBuildGUI {
         c.add( menuItem );
         menuBar.add( c );
         menuBar.add( translationMenu );
-        menuBar.add( new MiscMenu(baseDir) );
+        menuBar.add( new MiscMenu( trunk ) );
         frame.setJMenuBar( menuBar );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        PhetBuildGUIPanel panel = new PhetBuildGUIPanel( baseDir );
+        PhetBuildGUIPanel panel = new PhetBuildGUIPanel( trunk );
         frame.setContentPane( panel );
 
         frame.setSize( 1200, 400 );
@@ -60,7 +59,7 @@ public class PhetBuildGUI {
 
     public static void main( String[] args ) {
         if ( args.length == 0 ) {
-            System.out.println( "Usage: args[0]=basedir.  The basedir is your machine-specific absolute path to simulations-java.  Enclose in quotes if the path contains whitespace.  You may also need to set the current working directory to be the basedir for the launch (not sure)." );
+            System.out.println( "Usage: args[0]=basedir.  The basedir is your machine-specific absolute path to trunk.  Enclose in quotes if the path contains whitespace.  You may also need to set the current working directory to be the basedir for the launch (not sure)." );
         }
         else {
             File basedir = new File( args[0] );

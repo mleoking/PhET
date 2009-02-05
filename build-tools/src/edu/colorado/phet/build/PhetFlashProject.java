@@ -8,12 +8,11 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Properties;
 
-import edu.colorado.phet.build.util.FileUtils;
 import edu.colorado.phet.build.flash.FlashBuildCommand;
+import edu.colorado.phet.build.util.FileUtils;
+import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.flashbuild.GenerateHTML;
 import edu.colorado.phet.flashbuild.util.FlashHTML;
-import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,9 +31,9 @@ public class PhetFlashProject extends PhetProject {
         super( parentDir, name );
     }
 
-    public static PhetProject[] getFlashProjects( File baseDir ) {
+    public static PhetProject[] getFlashProjects( File trunk ) {
 //        File flashSimDir=new File(baseDir.getParentFile(),"team/jolson/simulations");
-        File flashSimDir = new File( baseDir.getParentFile(), "simulations-flash/simulations" );
+        File flashSimDir = new File( trunk, "simulations-flash/simulations" );
         File[] files = flashSimDir.listFiles( new FileFilter() {
             public boolean accept( File pathname ) {
                 return pathname.isDirectory() && !pathname.getName().startsWith( "." );
@@ -74,17 +73,17 @@ public class PhetFlashProject extends PhetProject {
         Locale[] locales = getLocales();
         for ( int i = 0; i < locales.length; i++ ) {
             Locale locale = locales[i];
-            PhetVersion version=super.getVersion();
+            PhetVersion version = super.getVersion();
             try {
 //                String bgColor=new PhetResources( getName()).getProjectProperty( "bgcolor" );
-                String bgColor="#000000";
+                String bgColor = "#000000";
                 String simDev = "true"; // TODO: handle what will be sent as the sim_dev field for statistics
                 String html = FlashHTML.generateHTML( getName(), locale.getLanguage(), locale.getCountry(),
                                                       "phet-production-website", GenerateHTML.distribution_tag_dummy,
                                                       GenerateHTML.installation_timestamp_dummy,
                                                       GenerateHTML.installer_creation_timestamp_dummy,
                                                       version.getMajor(), version.getMinor(), version.getDev(), version.getRevision(),
-                                                      version.formatTimestamp(), simDev, bgColor, 
+                                                      version.formatTimestamp(), simDev, bgColor,
                                                       FlashHTML.encodeXMLFile( getTranslationFile( locale ) ),
                                                       FlashHTML.encodeXMLFile( getCommonTranslationFile( locale ) ), "8",
                                                       getFlashHTMLTemplate().getAbsolutePath() );
@@ -146,8 +145,9 @@ public class PhetFlashProject extends PhetProject {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
-    private File getHTMLFile(Locale locale){
-        return new File( getProjectDir(), "deploy/" + getName() + "_"+locale+".html" );
+
+    private File getHTMLFile( Locale locale ) {
+        return new File( getProjectDir(), "deploy/" + getName() + "_" + locale + ".html" );
     }
 
     private File getSWFFile() {
