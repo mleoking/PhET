@@ -9,6 +9,8 @@ class CommonStrings {
 	// where the XML object lives (it is parsed from FlashVars)
 	public var xml : XML;
 	
+	public var common : FlashCommon;
+	
 	// shorthand to call _level0.debug()
 	public function debug(str : String) : Void {
 		_level0.debug(str);
@@ -18,13 +20,17 @@ class CommonStrings {
 	public function CommonStrings() {
 		debug("CommonStrings initializing\n");
 		
+		// shortcut to FlashCommon, but now with type-checking!
+		common = _level0.common;
+		
 		// install as _level0.comString
 		_level0.comStrings = this;
+		common.strings = this;
 		
 		// parse the XML from flashvars, store in 'xml'
 		xml = new XML();
 		xml.ignoreWhite = true;
-		xml.parseXML(_level0.commonStrings);
+		xml.parseXML(common.getCommonXML());
 	}
 	
 	// attempts to get the internationalized string corresponding to the 'key'.

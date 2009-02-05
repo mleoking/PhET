@@ -29,6 +29,8 @@ class Preferences {
 	public var FIELD_VISITS_SINCE : String;
 	public var FIELD_VISITS_EVER : String;
 	
+	public var common : FlashCommon;
+	
 	// shorthand for debugging function
 	public function debug(str : String) : Void {
 		_level0.debug(str);
@@ -38,18 +40,22 @@ class Preferences {
 	public function Preferences() {
 		debug("Preferences initializing\n");
 		
+		// shortcut to FlashCommon, but now with type-checking!
+		common = _level0.common;
+		
 		// make this object accessible from _level0.preferences
 		// should only be one copy of Preferences (singleton-like)
 		_level0.preferences = this;
+		common.preferences = this;
 		
 		// load the shared object into sharedObject
 		load();
 		
 		// set "constant" strings
-		FIELD_SKIPPED_UPDATE = _level0.simName + "_skippedUpdate";
-		FIELD_ASK_LATER = _level0.simName + "_askLater";
-		FIELD_VISITS_SINCE = _level0.simName + "_visitsSince";
-		FIELD_VISITS_EVER = _level0.simName + "_visitsEver";
+		FIELD_SKIPPED_UPDATE = common.getSimName() + "_skippedUpdate";
+		FIELD_ASK_LATER = common.getSimName() + "_askLater";
+		FIELD_VISITS_SINCE = common.getSimName() + "_visitsSince";
+		FIELD_VISITS_EVER = common.getSimName() + "_visitsEver";
 		
 		/////////////////////////////////////////
 		// TEMPORARY FOR DEVELOPMENT PURPOSES
@@ -103,11 +109,11 @@ class Preferences {
 		
 		// if privacy is not up-to-snuff (and user is running from a non-phet-website
 		// location), present the user with a dialog
-		if(!isPrivacyOK() && !_level0.common.fromPhetWebsite()) {
+		if(!isPrivacyOK() && !common.fromPhetWebsite()) {
 			_level0.privacyDialog = new PrivacyDialog();
 		} else {
 			// do everything else once it has been verified
-			_level0.common.postAgreement();
+			common.postAgreement();
 		}
 		
 		// unload the sharedObject from memory. this prevents an out-of-date version of
@@ -152,7 +158,7 @@ class Preferences {
 	// statistics messages can be sent
 	// NOTE: make sure preferences are loaded before calling, and unloaded sometime soon after
 	public function areStatisticsMessagesAllowed() : Boolean {
-		if(_level0.common.fromPhetWebsite()) {
+		if(common.fromPhetWebsite()) {
 			debug("From PhET website: no statistics allowed\n");
 			return false;
 		}
@@ -168,7 +174,7 @@ class Preferences {
 	// allow other common code/simulation to check whether
 	// checking for updates is allowed
 	public function areUpdatesAllowed() : Boolean {
-		if(_level0.common.fromPhetWebsite()) {
+		if(common.fromPhetWebsite()) {
 			debug("From PhET website: no updates allowed (or needed)\n");
 			return false;
 		}

@@ -23,6 +23,8 @@ class PreferencesDialog {
 	
 	var updatesButton : JButton;
 	
+	var common : FlashCommon;
+	
 	// shorthand for debugging function
 	public function debug(str : String) : Void {
 		_level0.debug(str);
@@ -31,11 +33,14 @@ class PreferencesDialog {
 	public function PreferencesDialog() {
 		debug("PreferencesDialog initializing\n");
 		
+		// shortcut to FlashCommon, but now with type-checking!
+		common = _level0.common;
+		
 		// make sure we can access this class from anywhere
 		_level0.preferencesDialog = this;
 		
 		// load the shared object so we can pull data from it
-		_level0.preferences.load();
+		common.preferences.load();
 		
 		// initialize to false. this will be changed later if either should be true
 		this.updateState = false;
@@ -73,7 +78,7 @@ class PreferencesDialog {
 		updatesPanel.setBorder(new TitledBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)), _level0.comStrings.get("Updates", "Updates")));
 		
 		// update check box
-		updatesCheck = new JCheckBox(_level0.comStrings.get("CheckUpdates", "Automatically check for updates"));
+		updatesCheck = new JCheckBox(common.strings.get("CheckUpdates", "Automatically check for updates"));
 		updatesCheck.addEventListener(JCheckBox.ON_CLICKED, Delegate.create(this, updateToggle));
 		
 		if(updateState != _level0.preferences.userAllowsUpdates()) {
@@ -85,7 +90,7 @@ class PreferencesDialog {
 		updatesPanel.append(new JSpacer(5, 5));
 		
 		// update now button
-		updatesButton = new JButton(_level0.comStrings.get("CheckUpdatesNow", "Check for updates now"));
+		updatesButton = new JButton(common.strings.get("CheckUpdatesNow", "Check for updates now"));
 		updatesButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, updatesClicked));
 		CommonButtons.padButtonAdd(updatesButton, updatesPanel);
 		
@@ -119,7 +124,7 @@ class PreferencesDialog {
 		textArea.setWordWrap(true);
 		textArea.setWidth(50);
 		//textArea.setBackground(null); // give it the background color of its parent instead of the default
-		textArea.setBackground(_level0.common.backgroundColor);
+		textArea.setBackground(common.backgroundColor);
 		
 		var textFormat : ASTextFormat = ASTextFormat.getDefaultASTextFormat();
 		textFormat.setAlign(ASTextFormat.CENTER);
@@ -130,7 +135,7 @@ class PreferencesDialog {
 		privacyPanel.append(new JSpacer(5, 5));
 		
 		// statistics message check-box
-		statisticsCheck = new JCheckBox(_level0.comStrings.get("AllowMessages", "Allow sending of information to PhET"));
+		statisticsCheck = new JCheckBox(common.strings.get("AllowMessages", "Allow sending of information to PhET"));
 		statisticsCheck.addEventListener(JCheckBox.ON_CLICKED, Delegate.create(this, statisticsToggle));
 		if(statisticsState != _level0.preferences.userAllowsStatistics()) {
 			// if statistics messages are	 allowed, fill in the check box
@@ -141,7 +146,7 @@ class PreferencesDialog {
 		privacyPanel.append(new JSpacer(5, 5));
 		
 		// button to show details about the privacy information
-		var detailsButton = new JButton(_level0.comStrings.get("Details", "Details") + "...");
+		var detailsButton = new JButton(common.strings.get("Details", "Details") + "...");
 		detailsButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, detailsClicked));
 		CommonButtons.padButtonAdd(detailsButton, privacyPanel);
 		
@@ -155,11 +160,11 @@ class PreferencesDialog {
 		// holds OK and Cancel buttons
 		var buttonPanel : JPanel = new JPanel(new BoxLayout());
 		
-		var okButton : JButton = new JButton(_level0.comStrings.get("OK", "OK"));
+		var okButton : JButton = new JButton(common.strings.get("OK", "OK"));
 		okButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, okClicked));
 		CommonButtons.padButtonAdd(okButton, buttonPanel);
 		
-		var cancelButton : JButton = new JButton(_level0.comStrings.get("Cancel", "Cancel"));
+		var cancelButton : JButton = new JButton(common.strings.get("Cancel", "Cancel"));
 		cancelButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, cancelClicked));
 		CommonButtons.padButtonAdd(cancelButton, buttonPanel);
 		
@@ -194,7 +199,7 @@ class PreferencesDialog {
 		if(statisticsState != _level0.preferences.userAllowsStatistics()) {
 			statisticsCheck.click();
 		}
-		_level0.preferences.unload();
+		common.preferences.unload();
 	}
 	
 	// toggle potential update state
@@ -211,7 +216,7 @@ class PreferencesDialog {
 	
 	// manually check for updates
 	public function updatesClicked(src : JButton) : Void {
-		_level0.updateHandler.manualCheck();
+		common.updateHandler.manualCheck();
 	}
 	
 	public function detailsClicked(src : JButton) : Void {
@@ -231,7 +236,7 @@ class PreferencesDialog {
 	
 	public function okClicked(src : JButton) : Void {
 		// set the potential state (updates and privacy) to the preferences
-		_level0.preferences.setPrivacy(_level0.preferencesDialog.updateState, _level0.preferencesDialog.statisticsState);
+		common.preferences.setPrivacy(_level0.preferencesDialog.updateState, _level0.preferencesDialog.statisticsState);
 		
 		// hide the window
 		_level0.preferencesWindow.setVisible(false);

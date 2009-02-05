@@ -22,7 +22,7 @@ class FlashCommon {
 	public var debugging : Boolean = true;
 	
 	// handles internationalization for common strings
-	public var commonStrings : CommonStrings;
+	public var strings : CommonStrings;
 	
 	// handles preferences the user selects, such as
 	// enabling/disabling updates and statistics messages. also
@@ -101,7 +101,7 @@ class FlashCommon {
 		commonPosition = position;
 		
 		// load internationalization strings for common code
-		commonStrings = new CommonStrings();
+		strings = new CommonStrings();
 		
 		// initializes the TabHandler
 		tabHandler = new TabHandler();
@@ -131,17 +131,6 @@ class FlashCommon {
 		
 		// load buttons with the position (defaults to upper left)
 		commonButtons = new CommonButtons(commonPosition);
-	}
-	
-	// return a string representing the sim's locale (NOT the user's default)
-	public function localeString() : String {
-		var str : String = _level0.languageCode;
-		
-		// if we have a country code, add _XX to the locale
-		if(_level0.countryCode != NULLVAL) {
-			str += "_" + _level0.countryCode;
-		}
-		return str;
 	}
 	
 	// returns whether the sim was run from the phet website
@@ -210,7 +199,15 @@ class FlashCommon {
 		return str;
 	}
 	
-	
+	public function getLocale() : String {
+		var str : String = getLanguage();
+		
+		// if we have a country code, add _XX to the locale
+		if(getCountry() != NULLVAL) {
+			str += "_" + getCountry();
+		}
+		return str;
+	}
 	
 	
 	
@@ -227,8 +224,12 @@ class FlashCommon {
 	public function getSimName() : String {
 		return _level0.simName;
 	}
-	
-	
+	public function getLanguage() : String {
+		return _level0.languageCode;
+	}
+	public function getCountry() : String {
+		return _level0.countryCode;
+	}
 	public function getVersionMajor() : Number {
 		return parseInt(_level0.versionMajor);
 	}
@@ -240,5 +241,54 @@ class FlashCommon {
 	}
 	public function getVersionRevision() : Number {
 		return parseInt(_level0.versionRevision);
+	}
+	public function getSimXML() : String {
+		return _level0.internationalization;
+	}
+	public function getCommonXML() : String {
+		return _level0.commonStrings;
+	}
+	public function getDeployment() : String {
+		if(_level0.common.fromFullInstallation()) {
+			return "phet-installation";
+		} else {
+			return _level0.simDeployment;
+		}
+	}
+	public function getDev() : Boolean {
+		if(_level0.simDev == "false" || _level0.simDev == "0") {
+			return false;
+		}
+		return true;
+	}
+	public function getDistributionTag() : String {
+		if(isPlaceholder(_level0.simDistributionTag)) {
+			return null;
+		}
+		return _level0.simDistributionTag;
+	}
+	public function getInstallationTimestamp() : Number {
+		if(_level0.installationTimestamp == NULLVAL || isPlaceholder(_level0.installationTimestamp)) {
+			return null;
+		} else {
+			return parseInt(_level0.installationTimestamp);
+		}
+	}
+	public function getInstallerCreationTimestamp() : Number {
+		if(_level0.installerCreationTimestamp == NULLVAL || isPlaceholder(_level0.installerCreationTimestamp)) {
+			return null;
+		} else {
+			return parseInt(_level0.installerCreationTimestamp);
+		}
+	}
+	public function getVersionTimestamp() : Number {
+		if(_level0.versionTimestamp == NULLVAL) {
+			return null;
+		} else {
+			return parseInt(_level0.versionTimestamp);
+		}
+	}
+	public function getBGColor() : Number {
+		return parseInt(_level0.bgcolor);
 	}
 }
