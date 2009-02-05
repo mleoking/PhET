@@ -10,6 +10,8 @@
     require_once("include/db-utils.php");
     require_once("include/web-utils.php");
 
+    // TODO: naming scheme in this file is inconsistent with other parts of website code
+
     function is_contribution_nominated_by($contribution_id, $contributor_id) {
         $row = db_get_row_by_condition(
             'contribution_nomination',
