@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 
-import edu.colorado.phet.build.PhetProject;
+import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.licensing.util.FileUtils;
 
 /**

@@ -1,6 +1,6 @@
 package edu.colorado.phet.licensing;
 
-import edu.colorado.phet.build.util.LicenseInfo;
+import edu.colorado.phet.buildtools.util.LicenseInfo;
 
 public abstract class AbstractRule {
     private String pattern;

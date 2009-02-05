@@ -66,7 +66,7 @@
 	<property name="jnlp.jar" location="${dir.contrib}/javaws/jnlp.jar"/>
 
     <!-- PhET task implementations -->
-    <property name="phet-build-gui-classname" value="edu.colorado.phet.build.gui.PhetBuildGUITask"/>
+    <property name="phet-build-gui-classname" value="edu.colorado.phet.buildtools.gui.PhetBuildGUITask"/>
 	<property name="phetbuild-classpath-jars" value="${proguard.jar}:${apache.commons.lang.jar}:${jsch.jar}:${scala-compiler.jar}:${scala-library.jar}:${junit.jar}:${jnlp.jar}"/>
     <property name="phetbuild-classpath" value="${phetbuild-classes-dir}:${phetbuild-classpath-jars}"/>
 
