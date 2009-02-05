@@ -218,7 +218,8 @@ def main():
                 print '**'
                 print '**',
                 print '\n** '.join(r.message.split('\n'))
-                print '** SKIPPING this sim'
+                print '** SKIPPING this simulation ' \
+                    '(no further processing on this sim)'
                 print '***************************'
 
     except KeyboardInterrupt:
