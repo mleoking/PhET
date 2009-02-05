@@ -10,7 +10,6 @@ package edu.colorado.phet.build.flash;
 
 */
 
-import edu.colorado.phet.flashbuild.util.FlashHTML;
 
 import java.io.File;
 
