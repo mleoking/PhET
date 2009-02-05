@@ -64,10 +64,9 @@ class Statistics {
 		
 		str += "sim_major_version = '" + messageEscape(_level0.versionMajor) + "' \n";
 		str += "sim_minor_version = '" + messageEscape(_level0.versionMinor) + "' \n";
-		str += "sim_dev_version = '" + messageEscape(_level0.dev) + "' \n";
-		str += "sim_svn_revision = '" + messageEscape(_level0.revision) + "' \n";
+		str += "sim_dev_version = '" + messageEscape(_level0.versionDev) + "' \n";
+		str += "sim_svn_revision = '" + messageEscape(_level0.versionRevision) + "' \n";
 		str += "sim_version_timestamp = '" + messageEscape(_level0.versionTimestamp) + "' \n";
-		//str += "sim_version = '" + messageEscape(_level0.versionMajor + "." + _level0.versionMinor + "." + _level0.dev) + " (" + escape(_level0.revision) + ")' \n";
 		
 		str += "sim_locale_language = '" + messageEscape(_level0.languageCode) + "' \n";
 		
@@ -92,7 +91,7 @@ class Statistics {
 		}
 		str += "sim_deployment = '" + messageEscape(deployment) + "' \n";
 		str += "sim_distribution_tag = '" + messageEscape(_level0.simDistributionTag) + "' \n";
-		str += "sim_dev = '" + messageEscape((_level0.dev > 0 ? "true" : "false")) + "' \n";
+		str += "sim_dev = '" + messageEscape((_level0.versionDev > 0 ? "true" : "false")) + "' \n";
 		
 		
 		/////// host data
