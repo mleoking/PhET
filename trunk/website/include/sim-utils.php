@@ -98,7 +98,11 @@
         return $matches[3];
     }
 
-    /** FIXME: comment **/
+    /**
+     * Return all translations of all sims
+     * 
+     * @return arary with format 'locale' => array(sim_id1, sim_id2, ...)
+     **/
     function sim_get_all_sim_translations() {
         $sims = sim_get_all_sims();
         if (!$sims) {
@@ -107,36 +111,8 @@
 
         $translations = array();
         foreach ($sims as $sim_id => $sim) {
-            $base_glob = sim_get_root()."{$sim['sim_dirname']}/{$sim['sim_flavorname']}*.";
-            $base_regex = sim_get_root()."{$sim['sim_dirname']}/{$sim['sim_flavorname']}_([A-Za-z]{2})?(_([A-Za-z]{2}))?.";
-            if ($sim['sim_type'] == SIM_TYPE_JAVA) {
-                $ext = 'jnlp';
-            }
-            else {
-                $ext = 'html';
-            }
-
-            $files = glob($base_glob.$ext);
-            foreach ($files as $file) {
-                $regs = array();
-                $result = ereg($base_regex.$ext, $file, $regs);
-                if ($result !== false) {
-                    $locale = "{$regs[1]}{$regs[2]}";
-                }
-                else {
-                    // Skip the default locale, it is not a translation
-                    continue;
-                }
-
-                if (!locale_valid($locale)) {
-                    // TODO: log an error
-                    continue;
-                }
-                else if (locale_is_default($locale)) {
-                    // Skip the default locale, it is not a translation
-                    continue;
-                }
-
+            $sim_trans = sim_get_translations($sim);
+            foreach ($sim_trans as $locale) {
                 if (!array_key_exists($locale, $translations)) {
                     $translations[$locale] = array();
                 }
@@ -152,47 +128,78 @@
         return $translations;
     }
 
-    /** FIXME: comment **/
+    /*
+     * Get all the translation for the given sim
+     * 
+     * @param simulation array Simulation to get translations from
+     * @return mixed array of locales (if any), false if sim type not valid
+     */
     function sim_get_translations($simulation) {
         $sim = $simulation;
+
         $translations = array();
-            $base_glob = sim_get_root()."{$sim['sim_dirname']}/{$sim['sim_flavorname']}*.";
-            $base_regex = sim_get_root()."{$sim['sim_dirname']}/{$sim['sim_flavorname']}_([A-Za-z]{2})?(_([A-Za-z]{2}))?.";
-            if ($sim['sim_type'] == SIM_TYPE_JAVA) {
-                $ext = 'jnlp';
+        if ($sim['sim_type'] == SIM_TYPE_JAVA) {
+            $base = sim_get_root()."{$sim['sim_dirname']}/{$sim['sim_flavorname']}";
+            $base_glob = $base."*.jnlp";
+            $base_regex = $base."(_)([A-Za-z]{2})?(_([A-Za-z]{2}))?.jnlp";
+        }
+        else if ($sim['sim_type'] == SIM_TYPE_FLASH) {
+            $base = sim_get_root()."{$sim['sim_dirname']}/{$sim['sim_flavorname']}";
+            $base_glob = $base."*.*ml";
+            $base_regex = $base."(-strings)?_([A-Za-z]{2})?(_([A-Za-z]{2}))?.(html|xml)";
+        }
+        else {
+            return false;
+        }
+
+        $files = glob($base_glob);
+        foreach ($files as $file) {
+            // print "file: {$file}\n";
+            $regs = array();
+            $result = ereg($base_regex, $file, $regs);
+            if ($result !== false) {
+                $locale = "{$regs[2]}{$regs[3]}";
             }
             else {
-                $ext = 'html';
+                // Skip the default locale, it is not a translation
+                continue;
             }
-
-            $files = glob($base_glob.$ext);
-            foreach ($files as $file) {
-                //print "file: {$file}\n";
-                $regs = array();
-                $result = ereg($base_regex.$ext, $file, $regs);
-                if ($result !== false) {
-                    $locale = "{$regs[1]}{$regs[2]}";
-                }
-                else {
-                    // Skip the default locale, it is not a translation
-                    continue;
-                }
-
-                if (!locale_valid($locale)) {
-                    // Locale is not in the table, log error and skip
-                    // TODO: log an error
-                    continue;
-                }
-                else if (locale_is_default($locale)) {
-                    // Skip the default locale, it is not a translation
-                    continue;
-                }
-
-                $translations[] = $locale;
+            
+            if (!locale_valid($locale)) {
+                // Locale is not in the table, log error and skip
+                // TODO: log an error
+                continue;
             }
+            else if (locale_is_default($locale)) {
+                // Skip the default locale, it is not a translation
+                continue;
+            }
+            
+            if (!isset($translations[$locale])) {
+                $translations[$locale] = 1;
+            }
+            else {
+                $translations[$locale] += 1;
+            }
+        }
 
-            usort($translations, 'locale_sort_code_by_name');
-            return $translations;        
+        $end = array();
+        foreach ($translations as $key => $value) {
+            if ($sim['sim_type'] == SIM_TYPE_JAVA) {
+                if ($value > 0) {
+                    $end[] = $key;
+                }
+            }
+            else if ($sim['sim_type'] == SIM_TYPE_FLASH) {
+                if ($value > 1) {
+                    $end[] = $key;
+                }
+            }
+        }
+
+        $translations = $end;
+        usort($translations, 'locale_sort_code_by_name');
+        return $translations;        
     }
 
     // Returns an array with the sim version, keys 
