@@ -29,7 +29,7 @@ public class AdjustableHalfLifeNucleus extends AbstractAlphaDecayNucleus {
     private static final Random RAND = new Random();
     
     // Random number generator used for calculating decay time based on half life.
-    private static final double DEFAULT_HALF_LIFE = 516;  // In milliseconds.
+    private static final double DEFAULT_HALF_LIFE = 900;  // In milliseconds.
 
     //------------------------------------------------------------------------
     // Instance Data
