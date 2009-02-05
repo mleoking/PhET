@@ -42,10 +42,10 @@ class UpdateHandler {
 		// make this object accessible from _level0.updateHandler
 		// should only be one copy of UpdateHandler (singleton-like)
 		_level0.updateHandler = this;
-		_level0.common.updateHandler = this;
+		common.updateHandler = this;
 		
 		// make sure the user allows us to check for updates!
-		if(_level0.preferences.areUpdatesAllowed()) {
+		if(common.preferences.areUpdatesAllowed()) {
 			checkUpdates();
 		} else {
 			debug("UpdateHandler: not checking for updates (Preferences.areUpdatesAllowed() = false)\n");

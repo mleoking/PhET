@@ -15,6 +15,8 @@ class PrivacyDialog {
 	public var textArea : JTextArea;
 	public var canceled : Boolean;
 	
+	public var common : FlashCommon;
+	
 	// shorthand for debugging function
 	public function debug(str : String) : Void {
 		_level0.debug(str);
@@ -22,6 +24,9 @@ class PrivacyDialog {
 	
 	public function PrivacyDialog() {
 		debug("PrivacyDialog initializing\n");
+		
+		// shortcut to FlashCommon, but now with type-checking!
+		common = _level0.common;
 		
 		// make this accessible by the asfunction callback in the text
 		_level0.privacyDialog = this;
@@ -46,7 +51,7 @@ class PrivacyDialog {
 		backgroundMC.onRelease = function() { }
 		
 		// create a window
-		var window : JFrame = new JFrame(_level0, _level0.comStrings.get("SoftwarePrivacyAgreements", "Software & Privacy Agreements"));
+		var window : JFrame = new JFrame(_level0, common.strings.get("SoftwarePrivacyAgreements", "Software & Privacy Agreements"));
 		
 		// we don't want this window closable
 		window.setClosable(false);
@@ -55,7 +60,7 @@ class PrivacyDialog {
 		_level0.privacyWindow = window;
 		
 		// set the background to default
-		window.setBackground(_level0.common.backgroundColor);
+		window.setBackground(common.backgroundColor);
 		
 		// layout things vertically
 		window.getContentPane().setLayout(new SoftBoxLayout(SoftBoxLayout.Y_AXIS));
@@ -66,11 +71,11 @@ class PrivacyDialog {
 		defaultString += "In all PhET simulations, we collect a minimal amount of <a href='{0}'>information</a> ";
 		defaultString += "when the simulation starts. You can disable the sending of this ";
 		defaultString += "information at any time via the Preferences button.";
-		str += _level0.comStrings.get("PrivacyMessage1", defaultString, ["asfunction:_level0.privacyDialog.infoClicked,"]);
+		str += common.strings.get("PrivacyMessage1", defaultString, ["asfunction:_level0.privacyDialog.infoClicked,"]);
 		str += "\n\n";
 		defaultString = "By clicking \"Accept and Continue\", you agree to PhET's licensing ";
 		defaultString += "and privacy policies. (For details, <a href='{0}'>click here</a>).";
-		str += _level0.comStrings.get("PrivacyMessage2", defaultString, ["asfunction:_level0.privacyDialog.detailsClicked,"]);
+		str += common.strings.get("PrivacyMessage2", defaultString, ["asfunction:_level0.privacyDialog.detailsClicked,"]);
 		str += "\n";
 		
 		// create CSS to make links blue
@@ -87,7 +92,7 @@ class PrivacyDialog {
 		textArea.setWordWrap(true);
 		textArea.setWidth(300);
 		textArea.setBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)));
-		textArea.setBackground(_level0.common.backgroundColor);
+		textArea.setBackground(common.backgroundColor);
 		
 		window.getContentPane().append(textArea);
 		
@@ -97,12 +102,12 @@ class PrivacyDialog {
 		var panel : JPanel = new JPanel(new BoxLayout());
 		
 		// button that will allow us to continue
-		var continueButton : JButton = new JButton(_level0.comStrings.get("AcceptContinue", "Accept and Continue"));
+		var continueButton : JButton = new JButton(common.strings.get("AcceptContinue", "Accept and Continue"));
 		continueButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, continueClicked));
 		CommonButtons.padButtonAdd(continueButton, panel);
 		
 		// button will cancel acceptance, and do... something
-		var cancelButton : JButton = new JButton(_level0.comStrings.get("Cancel", "Cancel"));
+		var cancelButton : JButton = new JButton(common.strings.get("Cancel", "Cancel"));
 		cancelButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, cancelClicked));
 		CommonButtons.padButtonAdd(cancelButton, panel);
 		
@@ -119,7 +124,7 @@ class PrivacyDialog {
 	
 	public function continueClicked(src : JButton) {
 		// set policy as accepted
-		_level0.preferences.agreeToPrivacy();
+		common.preferences.agreeToPrivacy();
 		
 		// hide this window
 		_level0.privacyWindow.setVisible(false);
@@ -128,7 +133,7 @@ class PrivacyDialog {
 		backgroundMC.removeMovieClip();
 		
 		// continue with common code initialization
-		_level0.common.postAgreement();
+		common.postAgreement();
 	}
 	
 	public function cancelClicked(src : JButton) {

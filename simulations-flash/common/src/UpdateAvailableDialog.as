@@ -122,10 +122,10 @@ class UpdateAvailableDialog {
 	
 	public function askLaterClicked(src : JButton) {
 		// always ask later on if time has elapsed
-		_level0.preferences.setSkippedUpdate(0, 0);
+		common.preferences.setSkippedUpdate(0, 0);
 		
 		// record the time the user clicked this
-		_level0.preferences.setAskLater();
+		common.preferences.setAskLater();
 		
 		// hide this window
 		_level0.updateAvailableWindow.setVisible(false);
@@ -133,7 +133,7 @@ class UpdateAvailableDialog {
 	
 	public function skipClicked(src : JButton) {
 		// skip this update in the future
-		_level0.preferences.setSkippedUpdate(newMajorVersion, newMinorVersion);
+		common.preferences.setSkippedUpdate(newMajorVersion, newMinorVersion);
 		
 		// hide this window
 		_level0.updateAvailableWindow.setVisible(false);

@@ -50,7 +50,7 @@ class PreferencesDialog {
 		ASWingUtils.getRootMovieClip();
 		
 		// create a window
-		var window : JFrame = new JFrame(_level0, _level0.comStrings.get("PhETPreferences", "PhET Preferences"));
+		var window : JFrame = new JFrame(_level0, common.strings.get("PhETPreferences", "PhET Preferences"));
 		
 		// the window shouldn't be resizable
 		window.setResizable(false);
@@ -74,14 +74,14 @@ class PreferencesDialog {
 		
 		// holds the update options
 		var updatesPanel = new JPanel(new SoftBoxLayout(SoftBoxLayout.Y_AXIS));
-		updatesPanel.setName(_level0.comStrings.get("Updates", "Updates"));
-		updatesPanel.setBorder(new TitledBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)), _level0.comStrings.get("Updates", "Updates")));
+		updatesPanel.setName(common.strings.get("Updates", "Updates"));
+		updatesPanel.setBorder(new TitledBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)), common.strings.get("Updates", "Updates")));
 		
 		// update check box
 		updatesCheck = new JCheckBox(common.strings.get("CheckUpdates", "Automatically check for updates"));
 		updatesCheck.addEventListener(JCheckBox.ON_CLICKED, Delegate.create(this, updateToggle));
 		
-		if(updateState != _level0.preferences.userAllowsUpdates()) {
+		if(updateState != common.preferences.userAllowsUpdates()) {
 			// if updates are allowed, fill in the check box
 			updatesCheck.click();
 		}
@@ -98,8 +98,8 @@ class PreferencesDialog {
 		
 		// holds the privacy options
 		var privacyPanel = new JPanel(new SoftBoxLayout(SoftBoxLayout.Y_AXIS));
-		privacyPanel.setName(_level0.comStrings.get("Privacy", "Privacy"));
-		privacyPanel.setBorder(new TitledBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)), _level0.comStrings.get("Privacy", "Privacy")));
+		privacyPanel.setName(common.strings.get("Privacy", "Privacy"));
+		privacyPanel.setBorder(new TitledBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)), common.strings.get("Privacy", "Privacy")));
 		
 		// text area that displays the following string.
 		// NOTE: Text area required, otherwise HTML text will not work.
@@ -108,7 +108,7 @@ class PreferencesDialog {
 		var defaultStr : String = "<a href='{0}'>PhET</a> is made freely available through grants which ";
 		defaultStr += "require us to collect a minimal amount of anonymous information to help document the amount of use ";
 		defaultStr += "of PhET sims and to better serve our users' update needs.";
-		str += _level0.comStrings.get("PrivacyRequirement", defaultStr, ["http://phet.colorado.edu"]);
+		str += common.strings.get("PrivacyRequirement", defaultStr, ["http://phet.colorado.edu"]);
 
 		
 		// CSS so that the blue link will display properly

@@ -10,6 +10,8 @@ import org.aswing.border.*;
 
 class StatisticsDetailsDialog {
 	
+	public var common : FlashCommon;
+	
 	// shorthand for debugging function
 	public function debug(str : String) : Void {
 		_level0.debug(str);
@@ -18,29 +20,32 @@ class StatisticsDetailsDialog {
 	public function StatisticsDetailsDialog() {
 		debug("StatisticsDetailsDialog initializing\n");
 		
+		// shortcut to FlashCommon, but now with type-checking!
+		common = _level0.common;
+		
 		// somehow this line allows us to create these windows/buttons from
 		// code that isn't part of a MovieClip.
 		ASWingUtils.getRootMovieClip();
 		
 		// create a window
-		var window : JFrame = new JFrame(_level0, _level0.comStrings.get("PrivacyDetails", "Privacy Details"));
+		var window : JFrame = new JFrame(_level0, common.strings.get("PrivacyDetails", "Privacy Details"));
 		
 		// make it accessible from anywhere
 		_level0.statisticsDetailsWindow = window;
 		
 		// set the background color to default
-		window.setBackground(_level0.common.backgroundColor);
+		window.setBackground(common.backgroundColor);
 		
 		// layout the window vertically
 		window.getContentPane().setLayout(new SoftBoxLayout(SoftBoxLayout.Y_AXIS));
 		
 		// get the string to display
 		var str : String = "";
-		str += _level0.comStrings.get("SentInformation", "The information shown below will be sent to PhET when the simulation starts.") + "\n\n";
+		str += common.strings.get("SentInformation", "The information shown below will be sent to PhET when the simulation starts.") + "\n\n";
 		str += "<font size=\"12\">"
 		// insert what would be sent as the message. we need to unescape strings so they will be
 		// correctly viewable
-		str += unescape(_level0.statistics.sessionStartMessage());
+		str += unescape(common.statistics.sessionStartMessage());
 		str += "</font>"
 		
 		// CSS will make links blue
@@ -56,7 +61,7 @@ class StatisticsDetailsDialog {
 		textArea.setCSS(css);
 		textArea.setWordWrap(true);
 		textArea.setWidth(300);
-		textArea.setBackground(_level0.common.backgroundColor);
+		textArea.setBackground(common.backgroundColor);
 		
 		// add padding around the text
 		textArea.setBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)));
@@ -67,7 +72,7 @@ class StatisticsDetailsDialog {
 		
 		// add the OK button
 		var panel : JPanel = new JPanel(new BoxLayout());
-		var okButton : JButton = new JButton(_level0.comStrings.get("OK", "OK"));
+		var okButton : JButton = new JButton(common.strings.get("OK", "OK"));
 		okButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, okClicked));
 		CommonButtons.padButtonAdd(okButton, panel);		
 		window.getContentPane().append(panel);

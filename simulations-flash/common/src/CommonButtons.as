@@ -17,6 +17,8 @@ class CommonButtons {
 	public static var LOCATION_LOWER_LEFT : String = "lower-left";
 	public static var LOCATION_LOWER_RIGHT : String = "lower-right";
 	
+	public var common : FlashCommon;
+	
 	// shorthand for debugging function
 	public function debug(str : String) : Void {
 		_level0.debug(str);
@@ -24,6 +26,9 @@ class CommonButtons {
 	
 	public function CommonButtons(position : String) {
 		debug("CommonButtons initializing\n");
+		
+		// shortcut to FlashCommon, but now with type-checking!
+		common = _level0.common;
 		
 		// somehow this line allows us to create these windows/buttons from
 		// code that isn't part of a MovieClip.
@@ -35,13 +40,13 @@ class CommonButtons {
 		var window : JWindow = new JWindow(_level0);
 		
 		// creates the about button
-		var aboutButton : JButton = new JButton(_level0.comStrings.get("About...", "About..."));
+		var aboutButton : JButton = new JButton(common.strings.get("About...", "About..."));
 		_level0.aboutButton = aboutButton;
 		aboutButton.setSize(aboutButton.getPreferredSize());
 		aboutButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, aboutButtonClicked));
 		
 		// creates the preferences button
-		var preferencesButton : JButton = new JButton(_level0.comStrings.get("Preferences", "Preferences"));
+		var preferencesButton : JButton = new JButton(common.strings.get("Preferences", "Preferences"));
 		_level0.preferencesButton = preferencesButton;
 		preferencesButton.setSize(preferencesButton.getPreferredSize());
 		preferencesButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, preferencesButtonClicked));
@@ -79,10 +84,10 @@ class CommonButtons {
 		window.setBounds(windowX, windowY, window.getContentPane().getPreferredSize().width, window.getContentPane().getPreferredSize().height);
 		window.show();
 		
-		_level0.tabHandler.insertControl(_level0.aboutButton.trigger_mc, 0);
-		_level0.tabHandler.registerButton(_level0.aboutButton.trigger_mc);
-		_level0.tabHandler.insertControl(_level0.preferencesButton.trigger_mc, 1);
-		_level0.tabHandler.registerButton(_level0.preferencesButton.trigger_mc);
+		common.tabHandler.insertControl(_level0.aboutButton.trigger_mc, 0);
+		common.tabHandler.registerButton(_level0.aboutButton.trigger_mc);
+		common.tabHandler.insertControl(_level0.preferencesButton.trigger_mc, 1);
+		common.tabHandler.registerButton(_level0.preferencesButton.trigger_mc);
 		
 	}
 	
