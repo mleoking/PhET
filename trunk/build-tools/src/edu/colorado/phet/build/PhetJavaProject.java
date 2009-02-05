@@ -29,12 +29,13 @@ public class PhetJavaProject extends PhetProject {
         return getLocalesImpl( ".properties" );
     }
 
-    public static PhetProject[] getJavaProjects( File baseDir ) {
+    public static PhetProject[] getJavaProjects( File trunk ) {
+        File simulationsJava = new File( trunk, "simulations-java" );
         ArrayList phetProjects = new ArrayList();
-        String[] sims = getSimNames( baseDir );
+        String[] sims = getSimNames( simulationsJava );
         for ( int i = 0; i < sims.length; i++ ) {
             String sim = sims[i];
-            File projectDir = PhetBuildUtils.resolveProject( baseDir, sim );
+            File projectDir = PhetBuildUtils.resolveProject( simulationsJava, sim );
             try {
                 PhetProject phetProject = new PhetJavaProject( projectDir, sim );
                 phetProjects.add( phetProject );

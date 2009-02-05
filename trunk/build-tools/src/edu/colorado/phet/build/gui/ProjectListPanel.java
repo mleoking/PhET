@@ -17,15 +17,15 @@ import javax.swing.event.ListSelectionListener;
 import edu.colorado.phet.build.*;
 
 public class ProjectListPanel extends JPanel {
-    private File baseDir;
+    private File trunk;
     private JList projectList;
     private JButton runButton;
     private LocalProperties localProperties;
 
-    public ProjectListPanel( File baseDir ) {
+    public ProjectListPanel( File trunk ) {
         setMaximumSize( new Dimension( 200, 10000 ) );
-        this.baseDir = baseDir;
-        this.localProperties = new LocalProperties( baseDir );
+        this.trunk = trunk;
+        this.localProperties = new LocalProperties( trunk );
 
         ProjectListElement[] p = getProjectListElements();
         projectList = new JList( p );
@@ -156,7 +156,7 @@ public class ProjectListPanel extends JPanel {
     }
 
     private ProjectListElement[] getProjectListElements() {
-        PhetProject[] a = PhetProject.getAllProjects( baseDir );
+        PhetProject[] a = PhetProject.getAllProjects( trunk );
         return toListElements( a );
     }
 
@@ -202,12 +202,12 @@ public class ProjectListPanel extends JPanel {
     }
 
     private File getPhetBuildGUIPropertyFile() {
-        File file = new File( baseDir, ".phet-build-gui.properties" );
+        File file = new File( trunk, ".phet-build-gui.properties" );
         return file;
     }
 
     private BuildScript getBuildScript() {
-        return new BuildScript( baseDir, getSelectedProject(), new AuthenticationInfo( getLocalProperty( "svn.username" ), getLocalProperty( "svn.password" ) ), getLocalProperty( "browser" ) );
+        return new BuildScript( trunk, getSelectedProject(), new AuthenticationInfo( getLocalProperty( "svn.username" ), getLocalProperty( "svn.password" ) ), getLocalProperty( "browser" ) );
     }
 
     private AuthenticationInfo getDevelopmentAuthentication( String serverType ) {

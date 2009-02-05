@@ -9,10 +9,10 @@ public class PhetBuildGUIPanel extends JPanel {
     private ProjectPanel simPanel;
     private ProjectListPanel projectPanel;
 
-    public PhetBuildGUIPanel( File baseDir ) {
+    public PhetBuildGUIPanel( File trunk ) {
         setLayout( new BorderLayout() );
-        projectPanel = new ProjectListPanel( baseDir );
-        simPanel = new ProjectPanel( baseDir, projectPanel.getSelectedProject() );
+        projectPanel = new ProjectListPanel( trunk );
+        simPanel = new ProjectPanel( trunk, projectPanel.getSelectedProject() );
 
         add( Boxer.horizontalBox( projectPanel, simPanel ), BorderLayout.CENTER );
 

@@ -471,11 +471,11 @@ public abstract class PhetProject {
         return simulation.isDirectory() && !simulation.getName().equalsIgnoreCase( "all-sims" ) && !simulation.getName().equalsIgnoreCase( ".svn" ) && new File( simulation, simulation.getName() + "-build.properties" ).exists();
     }
 
-    public static PhetProject[] getAllProjects( File baseDir ) {
+    public static PhetProject[] getAllProjects( File trunk ) {
         List phetProjects = new ArrayList();
 
-        phetProjects.addAll( Arrays.asList( PhetJavaProject.getJavaProjects( baseDir ) ) );
-        phetProjects.addAll( Arrays.asList( PhetFlashProject.getFlashProjects( baseDir ) ) );
+        phetProjects.addAll( Arrays.asList( PhetJavaProject.getJavaProjects( trunk ) ) );
+        phetProjects.addAll( Arrays.asList( PhetFlashProject.getFlashProjects( trunk ) ) );
         return (PhetProject[]) phetProjects.toArray( new PhetProject[phetProjects.size()] );
     }
 
