@@ -2,6 +2,7 @@
 > Removed invisible and solid line traces
 > Improve thumb handle on timeline
 > Improve graphics for timeline track
+> Timeline doesn't disappear during record
 
 # 1.20.25 (28043) Feb 03 2009
 > Added fudge factors to improve velocity and acceleration scales
