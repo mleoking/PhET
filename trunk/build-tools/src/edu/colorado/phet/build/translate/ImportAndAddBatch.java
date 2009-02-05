@@ -15,12 +15,12 @@ import edu.colorado.phet.build.translate.AddTranslation.AddTranslationReturnValu
  * @author Chris Malley
  */
 public class ImportAndAddBatch {
-    private File baseDir;
+    private File simulationsJava;
     private LocalProperties localProperties;
 
-    public ImportAndAddBatch( File baseDir ) {
-        this.baseDir = baseDir;
-        this.localProperties = new LocalProperties( baseDir );
+    public ImportAndAddBatch( File trunk ) {
+        this.simulationsJava = new File( trunk, "simulations-java" );
+        this.localProperties = new LocalProperties( new File( trunk, "build-tools/build-local.properties" ) );
     }
 
     public static void main( String[] args ) throws Exception {
@@ -28,7 +28,7 @@ public class ImportAndAddBatch {
             System.out.println( "usage: ImportAndAddBatch path-to-simulations-java-in-your-workspace" );
             System.exit( 1 );
         }
-        startImportAndAddBatch( args[0] );
+        startImportAndAddBatch( new File( args[0] ) );
     }
 
     private String getLocalProperty( String s ) {
@@ -39,19 +39,19 @@ public class ImportAndAddBatch {
         return new AuthenticationInfo( getLocalProperty( "deploy." + serverType + ".username" ), getLocalProperty( "deploy." + serverType + ".password" ) );
     }
 
-    public static void startImportAndAddBatch( String simulationsJava ) throws Exception {
+    public static void startImportAndAddBatch( File trunk ) throws Exception {
         JOptionPane.showMessageDialog( null,
                                        "<html>Put the localization files that you wish to deploy in a directory.<br>" +
                                        "When you have finished this step, press OK to continue.<br>" +
                                        "You will be prompted for the directory name.</html>" );
         String dirname = AddTranslation.prompt( "Enter the name of the directory where your localization files are:" );
-        new ImportAndAddBatch( new File( simulationsJava ) ).importAndAddBatch( dirname );
+        new ImportAndAddBatch( trunk ).importAndAddBatch( dirname );
     }
 
     private void importAndAddBatch( String dir ) throws Exception {
 
         // import the translations into the IDE workspace
-        new ImportTranslations( baseDir ).importTranslations( new File( dir ) );
+        new ImportTranslations( simulationsJava ).importTranslations( new File( dir ) );
         JOptionPane.showMessageDialog( null,
                                        "<html>Localization files have been imported into your IDE workspace.<br>" +
                                        "Please refresh your workspace, examine the files,<br>" +
@@ -61,7 +61,7 @@ public class ImportAndAddBatch {
 
         // deploy the translations to the PhET productions server
         AuthenticationInfo auth = getDevelopmentAuthentication( "prod" );
-        AddTranslationBatch addTranslationBatch = new AddTranslationBatch( baseDir, new File( dir ), auth.getUsername( "production server" ), auth.getPassword( "production server" ) );
+        AddTranslationBatch addTranslationBatch = new AddTranslationBatch( simulationsJava, new File( dir ), auth.getUsername( "production server" ), auth.getPassword( "production server" ) );
         AddTranslationReturnValue[] returnValues = addTranslationBatch.runBatch();
         System.out.println( "Finished deploying" );
 

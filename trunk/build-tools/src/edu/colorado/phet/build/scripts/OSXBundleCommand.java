@@ -28,7 +28,7 @@ Format of a Mac OS X Application Bundle
 
  */
 public class OSXBundleCommand {
-    private static final String PATH_TO_INFO_PLIST_TEMPLATE = "/build-tools/phet-build/templates/mac-java-app-template.plist";
+    private static final String PATH_TO_INFO_PLIST_TEMPLATE = "/build-tools/templates/mac-java-app-template.plist";
     private static final String APPLE_CREATOR_CODE = "APPL????";
 
     private final File baseDir;

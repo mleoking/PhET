@@ -24,7 +24,7 @@ public class PhetBuildGUI {
         deployItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
-                    ImportAndAddBatch.startImportAndAddBatch( new File( trunk, "simulations-java" ).getAbsolutePath() );
+                    ImportAndAddBatch.startImportAndAddBatch( trunk );
                 }
                 catch( Exception e1 ) {
                     e1.printStackTrace();
