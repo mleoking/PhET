@@ -224,26 +224,6 @@
     }
 
     //--------------------------------------------------------------------------
-    // This function performs a macro substitution in all HTML files. For
-    // example, $DATE$ is replaced by the current date.
-    //--------------------------------------------------------------------------
-    function builder_perform_macro_substitutions() {
-        flushing_echo("Performing macro substitutions...");
-
-        $macro_map = array();
-
-        $macro_map["DATE"] = date("n/j/Y");
-
-        foreach ($macro_map as $key => $value) {
-            flushing_echo("\$$key\$ = $value");
-        }
-
-        foreach (file_list_in_directory(RIPPED_WEBSITE_TOP, WEBSITE_PAGES_PATTERN) as $filename) {
-            file_replace_macros_in_file($filename, $macro_map);
-        }
-    }
-
-    //--------------------------------------------------------------------------
     // Function for building installers for all of the supported platforms.
     //--------------------------------------------------------------------------
     function builder_build_all() {
@@ -317,7 +297,6 @@
                       "                     [--remove-website-copy]\n".
                       "                     [--rip-website]\n".
                       "                     [--download-sims]\n".
-                      "                     [--perform-macro-substitutions]\n".
                       "                     [--create-marker-file]\n".
                       "                     [--build-all]\n".
                       "                     [--help]\n");
@@ -360,9 +339,6 @@
 
                 if (is_checked('download-sims'))
                     builder_download_sims();
-
-                if (is_checked('perform-macro-substitutions'))
-                    builder_perform_macro_substitutions();
 
                 if (is_checked('create-marker-file'))
                     create_marker_file();
