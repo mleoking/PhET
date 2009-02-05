@@ -36,18 +36,13 @@ class AdminControlPanelPage extends SitePage {
             <ul>
                 <li><a href="manage-contributors.php">Manage Contributors</a></li>
                 <li><a href="manage-comments.php">Manage Comments</a></li>
+                <li><a href="view-gold-star-nominations.php">View Gold Star Nominations</a></li>
             </ul>
 
             <h3>Database</h3>
             <ul>
-                <li><a href="db-check-integrity.php">Check database integrity</a></li>
-
+                <li><a href="db-check-integrity.php">Check database integrity (processor intensive, only use if you need it)</a></li>
                 <li><a href="manage-db.php">Manage Database</a></li>
-            </ul>
-
-            <h3>Misc</h3>
-            <ul>
-                <li><a href="view-statistics.php">View Statistics</a></li>
             </ul>
 
             <h3>Web page caching</h3>

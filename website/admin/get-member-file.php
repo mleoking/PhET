@@ -38,6 +38,7 @@ class DownloadPage extends SitePage {
         $this->file     = urldecode($_REQUEST['file']);
         $download = isset($_REQUEST['download']) && $_REQUEST['download'] == '1';
 
+        // TODO: This looks suspicious, but I'm in the middle of something else
         if (!$this->authentication_level == AUTHLEVEL_USER) {
             $this->set_title("Download File");
             return;
@@ -47,16 +48,6 @@ class DownloadPage extends SitePage {
 
         if ($download) {
             if ($this->file == PORTAL_ROOT.'phet-dist/installers/'.basename($this->file) && file_exists($this->file)) {
-                $contributor_id = $this->user["contributor_id"];
-
-                // Keep track of download statistics:
-                db_insert_row(
-                    'download_statistics',
-                    array(
-                        'download_statistics_file' => $this->file,
-                        'contributor_id'           => $contributor_id
-                    )
-                );
 
                 //$this->render = false;
                 //$this->meta_redirect($this->file, 2);
