@@ -78,12 +78,13 @@ public class PhetFlashProject extends PhetProject {
             try {
 //                String bgColor=new PhetResources( getName()).getProjectProperty( "bgcolor" );
                 String bgColor="#000000";
+                String simDev = "true"; // TODO: handle what will be sent as the sim_dev field for statistics
                 String html = FlashHTML.generateHTML( getName(), locale.getLanguage(), locale.getCountry(),
                                                       "phet-production-website", GenerateHTML.distribution_tag_dummy,
                                                       GenerateHTML.installation_timestamp_dummy,
                                                       GenerateHTML.installer_creation_timestamp_dummy,
                                                       version.getMajor(), version.getMinor(), version.getDev(), version.getRevision(),
-                                                      version.formatTimestamp(), bgColor, 
+                                                      version.formatTimestamp(), simDev, bgColor, 
                                                       FlashHTML.encodeXMLFile( getTranslationFile( locale ) ),
                                                       FlashHTML.encodeXMLFile( getCommonTranslationFile( locale ) ), "8",
                                                       getFlashHTMLTemplate().getAbsolutePath() );

@@ -91,7 +91,7 @@ class Statistics {
 		}
 		str += "sim_deployment = '" + messageEscape(deployment) + "' \n";
 		str += "sim_distribution_tag = '" + messageEscape(_level0.simDistributionTag) + "' \n";
-		str += "sim_dev = '" + messageEscape((_level0.versionDev > 0 ? "true" : "false")) + "' \n";
+		str += "sim_dev = '" + messageEscape(_level0.simDev) + "' \n";
 		
 		
 		/////// host data
