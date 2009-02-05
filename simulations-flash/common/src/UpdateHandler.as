@@ -8,10 +8,13 @@
 
 class UpdateHandler {
 	// the latest version information detected from the server
-	public var versionMajor : String;
-	public var versionMinor : String;
-	public var dev : String;
-	public var revision : String;
+	// TODO: rename these to match _level0 fields
+	public var versionMajor : Number;
+	public var versionMinor : Number;
+	public var versionDev : Number;
+	public var versionRevision : Number;
+	public var simTimestamp : Number;
+	public var installerTimestamp : Number;
 	
 	// whether the "Check for updates now" button was clicked
 	// (manual check for updates)
@@ -58,6 +61,7 @@ class UpdateHandler {
 		// function that is called when the XML is either loaded or fails somehow
 		xml.onLoad = function(success : Boolean) {
 			if(success) {
+				/*
 				// XML was returned and successfully parsed (valid XML, but we need to still
 				// extract information from it
 				_level0.debug("UpdateHandler: successfully obtained version information\n");
@@ -65,14 +69,14 @@ class UpdateHandler {
 				// extract version information from XML
 				versionMajor = xml.firstChild.childNodes[0].attributes.value;
 				versionMinor = xml.firstChild.childNodes[1].attributes.value;
-				dev = xml.firstChild.childNodes[2].attributes.value;
-				revision = xml.firstChild.childNodes[3].attributes.value;
+				versionDev = xml.firstChild.childNodes[2].attributes.value;
+				versionRevision = xml.firstChild.childNodes[3].attributes.value;
 				
 				// use _level0.debug since we cannot access the shorthand version from the callback
 				_level0.debug("    latest version: " + versionMajor);
 				_level0.debug("." + versionMinor);
-				_level0.debug(" dev:" + dev);
-				_level0.debug(" rev:" + revision + "\n");
+				_level0.debug(" dev:" + versionDev);
+				_level0.debug(" rev:" + versionRevision + "\n");
 				
 				var latestSkipped : Array = _level0.preferences.getLatestSkippedUpdate();
 				
@@ -93,8 +97,9 @@ class UpdateHandler {
 				} else if(!(_level0.updateHandler.manual) && _level0.preferences.askLaterElapsed() < 1000 * 60 * 60 * 24) {
 					_level0.debug("UpdateHandler: used selected ask later, time elapsed = " + String(_level0.preferences.askLaterElapsed()) + "\n");
 				} else {
-					_level0.common.updateHandler.updatesAvailable(versionMajor, versionMinor, dev);
+					_level0.common.updateHandler.updatesAvailable(versionMajor, versionMinor, versionDev);
 				}
+				*/
 			} else {
 				_level0.debug("UpdateHandler: network failure, cannot read version information\n");
 			}
@@ -112,12 +117,34 @@ class UpdateHandler {
 			if(success) {
 				_level0.debug("UpdateHandler: TEST: success of message\n");
 				_level0.debug(String(testXML) + "\n");
+				
+				var simVersionInfo : XMLNode = testXML.childNodes[0];
+				var attributes : Array = simVersionInfo.attributes;
+				
+				versionRevision = attributes['revision'];
+				simTimestamp = parseInt(attributes['timestamp']);
+				installerTimestamp = parseInt(attributes['installer_timestamp']);
+				
+				var version : String = attributes['version'];
+				var splits : Array = version.split('.');
+				if(splits.length != 3) {
+					_level0.debug("WARNING: UpdateHandler: latest version information invalid\n");
+				} else {
+					versionMajor = parseInt(splits[0]);
+					versionMinor = parseInt(splits[1]);
+					versionDev = parseInt(splits[2]);
+				}
 			} else {
 				_level0.debug("UpdateHandler: TEST: failure of message\n");
 			}
 		}
 		
-		testXML.load("http://phet.colorado.edu/simulations/sim-version-info.php?project=" + _level0.simName + "&sim=" + _level0.simName);
+		// TODO: remove for development
+		_level0.testXML = testXML;
+		
+		// TODO: replace with actual sim-version-info
+		testXML.load("http://phet.colorado.edu/jolson/deploy/sims/fake-sim-version-info.php?project=" + _level0.simName + "&sim=" + _level0.simName);
+		//testXML.load("http://phet.colorado.edu/simulations/sim-version-info.php?project=" + _level0.simName + "&sim=" + _level0.simName);
 	}
 	
 	public function manualCheck() : Void {
@@ -127,7 +154,7 @@ class UpdateHandler {
 	}
 	
 	// called if a newer version is available online
-	public function updatesAvailable(versionMajor : String, versionMinor : String, dev : String) : Void {
+	public function updatesAvailable(versionMajor : Number, versionMinor : Number, versionDev : Number) : Void {
 		debug("UpdateHandler: Updates Available (dialog)!\n");
 		
 		if(_level0.updateAvailableWindow) {
@@ -137,7 +164,7 @@ class UpdateHandler {
 		} else {
 			// update window doesn't exist, we must create it
 			debug("Creating Dialog\n");
-			_level0.updateAvailableDialog = new UpdateAvailableDialog(versionMajor, versionMinor, dev);
+			_level0.updateAvailableDialog = new UpdateAvailableDialog(versionMajor, versionMinor, versionDev);
 		}
 	}
 	
@@ -163,5 +190,6 @@ class UpdateHandler {
 		}
 		return str;
 	}
+	
 }
 

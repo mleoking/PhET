@@ -182,4 +182,8 @@ class FlashCommon {
 			_level0.updateHandler.updatesAvailable("5", "10", "00");
 		}
 	}
+	
+	public function zeroPadVersion(versionMajor : Number) : String {
+		
+	}
 }
