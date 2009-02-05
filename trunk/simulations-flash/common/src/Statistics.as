@@ -69,26 +69,13 @@ class Statistics {
 		str += "sim_version_timestamp = '" + messageEscape(_level0.versionTimestamp) + "' \n";
 		
 		str += "sim_locale_language = '" + messageEscape(_level0.languageCode) + "' \n";
-		
-		var countryCodeForm : String = "";
-		if(_level0.countryCode == FlashCommon.NULLVAL) {
-			countryCodeForm = "null";
-		} else {
-			countryCodeForm = _level0.countryCode;
-		}
-		str += "sim_locale_country = '" + messageEscape(countryCodeForm) + "' \n";
+		str += "sim_locale_country = '" + messageEscape(_level0.countryCode) + "' \n";
 		
 		str += "sim_sessions_since = '" + messageEscape(_level0.preferences.visitsSince()) + "' \n";
 		str += "sim_total_sessions = '" + messageEscape(_level0.preferences.visitsEver()) + "' \n";
 		
 		var deployment : String = "";
-		if(
-		   !_level0.common.fromPhetWebsite()
-		   && !_level0.common.isPlaceholder(_level0.installationTimestamp)
-		   && _level0.installationTimestamp != FlashCommon.NULLVAL
-		) {
-			// if not running from a website, AND installation timestamp is included, it must be a full installation!
-			// thus we override
+		if(_level0.common.fromFullInstallation()) {
 			deployment = "phet-installation";
 		} else {
 			deployment = _level0.simDeployment;

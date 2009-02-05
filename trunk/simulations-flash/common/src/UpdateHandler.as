@@ -145,10 +145,10 @@ class UpdateHandler {
 	public function updatesNotAvailable() : Void {
 		debug("UpdateHandler: Updates Not Available (dialog)!\n");
 		
-		// TODO: fill in with desired behavior.
 		// only called if an update is manually checked for
 		_level0.preferencesDialog.updatesButton.setText("No Updates Available");
 		_level0.preferencesDialog.updatesButton.setEnabled(false);
+		
 	}
 	
 	// get the URL of the simulation on the website
