@@ -49,6 +49,8 @@
     $language_map = locale_get_language_map();
     $country_map = locale_get_country_map();
 
+    $fake_language_to_locale = array('bp' => 'pt_BR', 'tc' => 'zh_TW');
+
     /**
      * Until everything supports the long for locale, remap the old combined
      * language codes to the long form locale.  The old combined language
@@ -64,13 +66,13 @@
         // This function is used in the service of displaying stuff on the web page
         // (as opposed to using it to find sim files).
         // "Promote" the old combined language codes to a full long form locale
-        switch ($locale)  {
-            case 'bp':
-                return 'pt_BR';
-            case 'tc':
-                return 'zh_TW';
+        global $fake_language_to_locale;
+        if (array_key_exists($locale, $fake_language_to_locale)) {
+            return $fake_language_to_locale[$locale];
         }
-        return $locale;
+        else {
+            return $locale;
+        }
     }
 
     /**
