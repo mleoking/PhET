@@ -165,7 +165,7 @@
 			
 			// find position of first space
 			$space_position = stripos($version_string, " ");
-			if($space_position === false || $space_position == 0) { die("Error: 451524"); }
+			if($space_position === false || $space_position == 0) { fail_me("Bad Flash version information"); }
 			
 			// extract everything up until the first space ("LNX")
 			$version_left = substr($version_string, 0, $space_position);
