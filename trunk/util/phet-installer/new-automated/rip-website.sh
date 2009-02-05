@@ -58,15 +58,6 @@ if [ "$?" -ne "0" ]; then
   exit 1
 fi
 
-echo "Performing macro substitutions..."
-
-/usr/local/php/bin/php build-install.php --perform-macro-substitutions
-
-if [ "$?" -ne "0" ]; then
-  echo "Error performing macro substitutions"
-  exit 1
-fi
-
 echo "Creating marker file..."
 
 /usr/local/php/bin/php build-install.php --create-maker-file
