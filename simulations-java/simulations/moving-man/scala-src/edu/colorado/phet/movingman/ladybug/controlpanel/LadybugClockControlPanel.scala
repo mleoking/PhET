@@ -104,9 +104,7 @@ class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
 
   val timeline = new Timeline(module.model, this)
   addScreenChild(timeline)
-  module.model.addListener(() => {
-    timeline.setVisible(module.model.isPlayback)
-  })
+//  module.model.addListener(() => timeline.setVisible(module.model.isPlayback))
 
   setPreferredSize(prefSizeM)
   def updateSize = {
@@ -153,19 +151,20 @@ class Timeline(model: LadybugModel, canvas: PhetPCanvas) extends PNode {
   val ellipseHeight = 8
   val insetX = 10
   val shaded = new PhetPPath(new Color(157, 215, 228))
-  val backgroundColor=new Color(190, 195, 195)
+  val backgroundColor = new Color(190, 195, 195)
 
-  def darker(c:Color,del:Int)={
-     new Color(c.getRed-del,c.getGreen-del,c.getBlue-del)
+  def darker(c: Color, del: Int) = {
+    new Color(c.getRed - del, c.getGreen - del, c.getBlue - del)
   }
+
   val background = new PhetPPath(backgroundColor) {
-    val topShade = new PhetPPath(new BasicStroke(2), darker(backgroundColor,55))
+    val topShade = new PhetPPath(new BasicStroke(2), darker(backgroundColor, 55))
     addChild(topShade)
-    val bottomShade = new PhetPPath(new BasicStroke(1), darker(backgroundColor,20))
+    val bottomShade = new PhetPPath(new BasicStroke(1), darker(backgroundColor, 20))
     addChild(bottomShade)
-    val leftShade = new PhetPPath(new BasicStroke(2), darker(backgroundColor,50))
+    val leftShade = new PhetPPath(new BasicStroke(2), darker(backgroundColor, 50))
     addChild(leftShade)
-    val rightShade = new PhetPPath(new BasicStroke(1), darker(backgroundColor,20))
+    val rightShade = new PhetPPath(new BasicStroke(1), darker(backgroundColor, 20))
     addChild(rightShade)
     override def setPathTo(aShape: Shape) = {
       super.setPathTo(aShape)
