@@ -262,7 +262,7 @@ class FlashCommon {
 		return true;
 	}
 	public function getDistributionTag() : String {
-		if(isPlaceholder(_level0.simDistributionTag)) {
+		if(isPlaceholder(_level0.simDistributionTag) || _level0.simDistributionTag == NULLVAL) {
 			return null;
 		}
 		return _level0.simDistributionTag;
