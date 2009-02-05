@@ -72,13 +72,18 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
 
   class TraceControlPanel(m: PathVisibilityModel) extends BoxPanel(Orientation.Vertical) {
     contents += new Label("Trace") {font = new PhetFont(14, true)}
-    contents += new MyRadioButton("Solid", {
+    //    contents += new MyRadioButton("Solid", {
+    //      m.allOff()
+    //      m.lineVisible = true
+    //    }
+    //      , m.lineVisible,
+    //      m.addListener)
+    contents += new MyRadioButton("Line", {
       m.allOff()
-      m.lineVisible = true
+      m.fadeVisible = true
     }
-      , m.lineVisible,
+      , m.fadeVisible,
       m.addListener)
-
     contents += new MyRadioButton("Dots", {
       m.allOff()
       m.dotsVisible = true
@@ -86,19 +91,14 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
       , m.dotsVisible,
       m.addListener)
 
-    contents += new MyRadioButton("Fade", {
-      m.allOff()
-      m.fadeVisible = true
-    }
-      , m.fadeVisible,
-      m.addListener)
 
-    contents += new MyRadioButton("Fade/Invisible", {
-      m.allOff()
-      m.fadeFullVisible = true
-    }
-      , m.fadeFullVisible,
-      m.addListener)
+
+    //    contents += new MyRadioButton("Fade/Invisible", {
+    //      m.allOff()
+    //      m.fadeFullVisible = true
+    //    }
+    //      , m.fadeFullVisible,
+    //      m.addListener)
 
     contents += new MyRadioButton("Off", {
       m.allOff()
