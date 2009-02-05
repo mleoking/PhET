@@ -17,8 +17,7 @@ import _root_.edu.colorado.phet.common.piccolophet.PhetPCanvas
 import _root_.scala.collection.mutable.ArrayBuffer
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources
 import edu.colorado.phet.common.phetcommon.resources.PhetResources
-import java.awt.geom.Ellipse2D
-
+import java.awt.geom.{Line2D, Ellipse2D}
 import java.util.{Hashtable, Dictionary}
 import javax.swing._
 import model.LadybugModel
@@ -154,7 +153,29 @@ class Timeline(model: LadybugModel, canvas: PhetPCanvas) extends PNode {
   val ellipseHeight = 8
   val insetX = 10
   val shaded = new PhetPPath(new Color(157, 215, 228))
-  val background = new PhetPPath(new Color(200, 220, 255))
+  val backgroundColor=new Color(190, 195, 195)
+
+  def darker(c:Color,del:Int)={
+     new Color(c.getRed-del,c.getGreen-del,c.getBlue-del)
+  }
+  val background = new PhetPPath(backgroundColor) {
+    val topShade = new PhetPPath(new BasicStroke(2), darker(backgroundColor,55))
+    addChild(topShade)
+    val bottomShade = new PhetPPath(new BasicStroke(1), darker(backgroundColor,20))
+    addChild(bottomShade)
+    val leftShade = new PhetPPath(new BasicStroke(2), darker(backgroundColor,50))
+    addChild(leftShade)
+    val rightShade = new PhetPPath(new BasicStroke(1), darker(backgroundColor,20))
+    addChild(rightShade)
+    override def setPathTo(aShape: Shape) = {
+      super.setPathTo(aShape)
+      val b = aShape.getBounds2D
+      topShade.setPathTo(new Line2D.Double(b.getX, b.getY, b.getMaxX, b.getY))
+      bottomShade.setPathTo(new Line2D.Double(b.getX, b.getMaxY, b.getMaxX, b.getMaxY))
+      leftShade.setPathTo(new Line2D.Double(b.getX, b.getY, b.getX, b.getMaxY))
+      rightShade.setPathTo(new Line2D.Double(b.getMaxX, b.getY, b.getMaxX, b.getMaxY))
+    }
+  }
   //  val handle = new PhetPPath(Color.blue, new BasicStroke(1), Color.darkGray)
   val img = loadBufferedImage("piccolo-phet/images/button-template.png")
   val scaledImage = BufferedImageUtils.getScaledInstance(img, 20, 10, RenderingHints.VALUE_INTERPOLATION_BILINEAR, true)
