@@ -13,7 +13,7 @@ import edu.colorado.phet.build.PhetProject;
  */
 public class PhetProguardConfigBuilder {
     private final ProguardConfigBuilder builder = new ProguardConfigBuilder();
-    private String PROGUARD_TEMPLATE = "build-tools/phet-build/templates/proguard-template.pro";
+    private String PROGUARD_TEMPLATE = "build-tools/templates/proguard-template.pro";
 
     public void reset() {
         builder.reset();
@@ -25,7 +25,7 @@ public class PhetProguardConfigBuilder {
 
     public void setPhetProject( PhetProject project ) {
         builder.setName( project.getName() );
-        builder.setProguardTemplate( new File( project.getAntBaseDir(), PROGUARD_TEMPLATE ) );
+        builder.setProguardTemplate( new File( project.getSimulationsJava().getParentFile(), PROGUARD_TEMPLATE ) );
         builder.setInputJars( prepend( project.getAllJarFiles(), project.getJarFile() ) );
         builder.setProguardOutputFile( new File( project.getAntOutputDir(), project.getName() + ".pro" ) );
         builder.setMainClasses( getAllMainClasses( project ) );

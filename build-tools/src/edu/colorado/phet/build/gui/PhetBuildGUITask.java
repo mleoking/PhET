@@ -8,7 +8,7 @@ public class PhetBuildGUITask extends Task {
 
     public void execute() throws BuildException {
         super.execute();
-        new PhetBuildGUI( getProject().getBaseDir() ).start();
+        new PhetBuildGUI( getProject().getBaseDir().getParentFile() ).start();
         System.out.println( "started phet build gui" );
         //avoid closing ant until we've finished with this application
         synchronized( blocker ) {
