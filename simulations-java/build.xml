@@ -81,7 +81,7 @@
     <target name="_compile-phet-build">
         <mkdir dir="${phetbuild-classes-dir}"/>
 
-        <javac srcdir="${phetbuild-src}:${phetcommon-src}:${dir.build-tools}/securechannelfacade/src/main/java"
+        <javac srcdir="${phetbuild-src}:${phetcommon-src}:${dir.build-tools}/securechannelfacade/src/main/java:${basedir}/../simulations-flash/build-tools/flash-build/src"
                destdir="${phetbuild-classes-dir}"
                classpath="${phetbuild-classpath-jars}" debug="true"
                source="1.4"
