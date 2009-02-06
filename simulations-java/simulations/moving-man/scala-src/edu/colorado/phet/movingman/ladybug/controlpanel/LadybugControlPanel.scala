@@ -5,6 +5,7 @@ import _root_.edu.colorado.phet.movingman.ladybug.model.LadybugMotionModel._
 import edu.colorado.phet.common.phetcommon.view.ControlPanel
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
+import javax.swing.border.TitledBorder
 import model.{LadybugMotionModel, ObservableS, LadybugModel}
 import scala.swing._
 import scala.swing.event.ButtonClicked
@@ -47,6 +48,7 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
       , !m.velocityVectorVisible && !m.accelerationVectorVisible,
       m.addListener)
   }
+    addControl(new Label("Vectors     ") {font = new PhetFont(14, true)})
   addControl(new VectorControlPanel(module.getVectorVisibilityModel))
 
   class MotionControlPanel(m: LadybugMotionModel) extends BoxPanel(Orientation.Vertical) {
