@@ -8,10 +8,10 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
-public class Ohm1DApplication extends PhetApplication {
+public class BatteryResistorCircuitApplication extends PhetApplication {
     private Ohm1DModule module;
 
-    public Ohm1DApplication( PhetApplicationConfig config ) {
+    public BatteryResistorCircuitApplication( PhetApplicationConfig config ) {
         super( config );
         module = new Ohm1DModule( config );
         addModule( module );
@@ -49,7 +49,7 @@ public class Ohm1DApplication extends PhetApplication {
         Ohm1DApplicationConfig dApplicationConfig = new Ohm1DApplicationConfig( args );
         new PhetApplicationLauncher().launchSim( dApplicationConfig, new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
-                return new Ohm1DApplication( config );
+                return new BatteryResistorCircuitApplication( config );
             }
         } );
     }
