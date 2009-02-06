@@ -1,5 +1,6 @@
 > Increased size of return ladybug button
 > Click-Drag from the center dot in Remote Control creates a vector
+> Fixed: Manually moving the ladybug out of the frame, then clicking on return ladybug causes her to run offscreen again; her motion and position should be cleared on reset.
 
 # 1.20.28 (28207) Feb 6, 2009
 > Fixed: Remote control arrow node captures mouse input
