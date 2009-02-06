@@ -43,17 +43,18 @@ public class MiscMenu extends JMenu {
         } );
         add( showAllLicenseKeys );
 
-        JMenuItem buildAndDeployAll = new JMenuItem( "Build and Deploy all-dev" );
-        buildAndDeployAll.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                LocalProperties localProperties = new LocalProperties( new File( trunk, "build-tools/build-local.properties" ) );
-                PhetProject[] projects = PhetProject.getAllProjects( trunk );
-                for ( int i = 0; i < projects.length; i++ ) {
-                    BuildScript buildScript = new BuildScript( trunk, projects[i], new AuthenticationInfo( localProperties.getProperty( "svn.username" ), localProperties.getProperty( "svn.password" ) ), localProperties.getProperty( "browser" ) );
-                    buildScript.deployDev( new AuthenticationInfo( localProperties.getProperty( "deploy." + "dev" + ".username" ), localProperties.getProperty( "deploy." + "dev" + ".password" ) ) );
-                }
-            }
-        } );
-        add( buildAndDeployAll );
+        //we probably shouldn't use this, since it will modify all version numbers
+//        JMenuItem buildAndDeployAll = new JMenuItem( "Build and Deploy all-dev" );
+//        buildAndDeployAll.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                LocalProperties localProperties = new LocalProperties( new File( trunk, "build-tools/build-local.properties" ) );
+//                PhetProject[] projects = PhetProject.getAllProjects( trunk );
+//                for ( int i = 0; i < projects.length; i++ ) {
+//                    BuildScript buildScript = new BuildScript( trunk, projects[i], new AuthenticationInfo( localProperties.getProperty( "svn.username" ), localProperties.getProperty( "svn.password" ) ), localProperties.getProperty( "browser" ) );
+//                    buildScript.deployDev( new AuthenticationInfo( localProperties.getProperty( "deploy." + "dev" + ".username" ), localProperties.getProperty( "deploy." + "dev" + ".password" ) ) );
+//                }
+//            }
+//        } );
+//        add( buildAndDeployAll );
     }
 }
