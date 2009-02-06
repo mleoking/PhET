@@ -7,7 +7,11 @@ trait ObservableS {
 
   def notifyListeners() = listeners.foreach(_())
 
-  def addListener(listener: () => Unit) = listeners += listener
+  def addListener(listener: () => Unit):Unit = listeners += listener
+    
+  def addListenerByName(listener:  => Unit):Unit = {
+      addListener( ()=>{listener})
+  }
 
   def removeListener(listener: () => Unit) = listeners -= listener
 }

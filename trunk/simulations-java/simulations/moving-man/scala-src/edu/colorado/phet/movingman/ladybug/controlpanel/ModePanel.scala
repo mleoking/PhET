@@ -9,27 +9,32 @@ import java.awt.Color._
 
 class ModePanel(model: LadybugModel) extends JPanel {
     setLayout(new BoxLayout(this, Y_AXIS))
-    def color(b: Boolean) = if (b) red else black
 
-    val recordingButton = addNewControl{new MyRadioButton("Recording", model.setRecord(true), {model.isRecord}, model.addListener)}
-    val playbackButton = addNewControl{new MyRadioButton("Playback", model.setRecord(false), {model.isPlayback}, model.addListener)}
+    val recordingButton = addComponent{new MyRadioButton("Recording", model.setRecord(true), {model.isRecord}, model.addListener)}
+    val playbackButton = addComponent{new MyRadioButton("Playback", model.setRecord(false), {model.isPlayback}, model.addListener)}
 
-    def addAndInvoke(addListener: (() => Unit) => Unit)(updateFunction: () => Unit) = {
-        addListener(updateFunction)
-        updateFunction
-    }
-
-    addAndInvoke(model.addListener){
-        () => {
-            recordingButton.peer.setForeground(color(recordingButton.peer.isSelected && !model.isPaused))
-            playbackButton.peer.setForeground(color(playbackButton.peer.isSelected && !model.isPaused))
-        }
+    addListener(model.addListenerByName){
+        def color(b: Boolean) = if (b) red else black
+        recordingButton.peer.setForeground(color(recordingButton.peer.isSelected && !model.isPaused))
+        playbackButton.peer.setForeground(color(playbackButton.peer.isSelected && !model.isPaused))
     }
 
     //a control structure that (1) creates a swing component and (2) automatically adds it
-    def addNewControl(m: => MyRadioButton): MyRadioButton = {
+    //a suitable replacement for something like
+    //val button=createButton
+    //add(button)
+    def addComponent(m: => MyRadioButton): MyRadioButton = {
         val component = m
         add(component.peer)
         component
+    }
+
+    //adds a listener to some model, and also invokes the update implementation
+    //a suitable replacement for something like:
+    //model.addListener(update)
+    //update
+    def addListener(addListener: (=> Unit) => Unit)(updateFunction: => Unit) = {
+        addListener(updateFunction)
+        updateFunction
     }
 }
