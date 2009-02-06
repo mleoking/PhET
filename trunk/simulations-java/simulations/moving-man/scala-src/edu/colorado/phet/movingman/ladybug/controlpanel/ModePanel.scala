@@ -10,7 +10,7 @@ import java.awt.Color._
 class ModePanel(model: LadybugModel) extends JPanel {
     setLayout(new BoxLayout(this, Y_AXIS))
 
-    val recordingButton = addComponent{new MyRadioButton("Recording", model.setRecord(true), model.isRecord, model.addListener)}
+    val recordingButton = addComponent{new MyRadioButton("Record", model.setRecord(true), model.isRecord, model.addListener)}
     val playbackButton = addComponent{new MyRadioButton("Playback", {model.setRecord(false); model.setPlaybackIndexFloat(0.0)}, model.isPlayback, model.addListener)}
 
     addListener(model.addListenerByName){

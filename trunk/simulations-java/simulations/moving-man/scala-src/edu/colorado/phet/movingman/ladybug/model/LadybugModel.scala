@@ -27,6 +27,8 @@ class LadybugModel extends ObservableS {
     val samplePath = new ArrayBuffer[Sample]
     var samplePoint = new Vector2D //current sample point
 
+    var isFrictionless=false
+
     def setSamplePoint(pt: Point2D) = {
         this.samplePoint = pt
     }
@@ -333,6 +335,7 @@ class LadybugModel extends ObservableS {
         playbackIndexFloat = 0.0
         time = 0
         ladybug.resetAll()
+        isFrictionless=false
         resetMotion2DModel
 
         notifyListeners()
