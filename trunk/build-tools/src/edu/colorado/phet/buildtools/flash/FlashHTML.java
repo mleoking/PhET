@@ -3,9 +3,10 @@ package edu.colorado.phet.buildtools.flash;
 // Functions to generate and write Flash HTML files
 
 import java.io.*;
-import java.util.Scanner;
-import java.util.Properties;
 import java.net.URLEncoder;
+import java.util.Properties;
+
+import edu.colorado.phet.buildtools.util.FileUtils;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,13 +16,13 @@ import java.net.URLEncoder;
  * To change this template use File | Settings | File Templates.
  */
 public class FlashHTML {
-//    private static final String HTML_TEMPLATE = "flash-template.html";
+    //    private static final String HTML_TEMPLATE = "flash-template.html";
     private static final String NULL = "null";
 
     // returns true on success
     public static boolean writeHTML( String simName, String language, String country, String deployment,
-                                  String distributionTag, String simDev, String installationTimestamp, String installerCreationTimestamp,
-                                  String simXMLFile, String htmlFile, String propertiesFile, String commonXMLFile,String HTML_TEMPLATE ) {
+                                     String distributionTag, String simDev, String installationTimestamp, String installerCreationTimestamp,
+                                     String simXMLFile, String htmlFile, String propertiesFile, String commonXMLFile, String HTML_TEMPLATE ) {
         try {
             String versionMajor = null;
             String versionMinor = null;
@@ -56,27 +57,28 @@ public class FlashHTML {
             propScanner.close();
             */
             Properties props = new Properties();
-            props.load(new FileInputStream(new File(propertiesFile)));
-            versionMajor = props.getProperty("version.major");
-            versionMinor = props.getProperty("version.minor");
-            versionDev = props.getProperty("version.dev");
-            versionRevision = props.getProperty("version.revision");
-            versionTimestamp = props.getProperty("version.timestamp");
-            bgcolor = props.getProperty("bgcolor");
+            props.load( new FileInputStream( new File( propertiesFile ) ) );
+            versionMajor = props.getProperty( "version.major" );
+            versionMinor = props.getProperty( "version.minor" );
+            versionDev = props.getProperty( "version.dev" );
+            versionRevision = props.getProperty( "version.revision" );
+            versionTimestamp = props.getProperty( "version.timestamp" );
+            bgcolor = props.getProperty( "bgcolor" );
 
             String encodedSimXML = encodeXML( rawFile( simXMLFile ) );
             String encodedCommonXML = encodeXML( rawFile( commonXMLFile ) );
 
             String html = generateHTML( simName, language, country, deployment, distributionTag, installationTimestamp,
-                    installerCreationTimestamp, versionMajor, versionMinor, versionDev, versionRevision, versionTimestamp,
-                    simDev, bgcolor, encodedSimXML, encodedCommonXML, "8",HTML_TEMPLATE );
+                                        installerCreationTimestamp, versionMajor, versionMinor, versionDev, versionRevision, versionTimestamp,
+                                        simDev, bgcolor, encodedSimXML, encodedCommonXML, "8", HTML_TEMPLATE );
 
             // write to file
             FileOutputStream fileOut = new FileOutputStream( htmlFile );
             PrintStream printOut = new PrintStream( fileOut );
             printOut.println( html );
             printOut.close();
-        } catch ( IOException e ) {
+        }
+        catch( IOException e ) {
             System.out.println( "FlashHTML.writeHTML failed with:\n" + e.toString() );
             return false;
         }
@@ -93,7 +95,7 @@ public class FlashHTML {
         BufferedReader bufferedReader = null;
         //todo: pass in this content instead of having this switch
         if ( inputStream == null ) {
-            bufferedReader=new BufferedReader( new FileReader( HTML_TEMPLATE ));
+            bufferedReader = new BufferedReader( new FileReader( HTML_TEMPLATE ) );
         }
         else {
             bufferedReader = new BufferedReader( new InputStreamReader( inputStream ) );
@@ -112,11 +114,11 @@ public class FlashHTML {
 
         // TODO: a more elegant way?
         String flashVars = "languageCode=@@language@@&countryCode=@@country@@&internationalization=@@encodedSimXML@@" +
-                "&commonStrings=@@encodedCommonXML@@&versionMajor=@@versionMajor@@&versionMinor=@@versionMinor@@&" +
-                "versionDev=@@versionDev@@&versionRevision=@@versionRevision@@&simName=@@simName@@&simDeployment=@@deployment@@&" +
-                "simDev=@@simDev@@&simDistributionTag=@@distributionTag@@&installationTimestamp=@@installationTimestamp@@&" +
-                "installerCreationTimestamp=@@installerCreationTimestamp@@&versionTimestamp=@@versionTimestamp@@&" +
-                "bgColor=@@bgcolorint@@";
+                           "&commonStrings=@@encodedCommonXML@@&versionMajor=@@versionMajor@@&versionMinor=@@versionMinor@@&" +
+                           "versionDev=@@versionDev@@&versionRevision=@@versionRevision@@&simName=@@simName@@&simDeployment=@@deployment@@&" +
+                           "simDev=@@simDev@@&simDistributionTag=@@distributionTag@@&installationTimestamp=@@installationTimestamp@@&" +
+                           "installerCreationTimestamp=@@installerCreationTimestamp@@&versionTimestamp=@@versionTimestamp@@&" +
+                           "bgColor=@@bgcolorint@@";
 
         s = s.replaceAll( "@@flashVars@@", flashVars );
 
@@ -145,27 +147,37 @@ public class FlashHTML {
 
     public static String localeString( String language, String country ) {
         String ret = language;
-        if ( !country.equals(NULL) ) {
+        if ( !country.equals( NULL ) ) {
             ret += "_" + country;
         }
         return ret;
     }
 
-    private static String rawFile( String filename ) throws FileNotFoundException {
+    private static String rawFile( String filename ) throws IOException {
         return rawFile( new File( filename ) );
     }
 
-    private static String rawFile( File inFile ) throws FileNotFoundException {
-		Scanner scan = new Scanner( inFile );
-		scan.useDelimiter( "\\Z" );
-		return scan.next();
+    private static String rawFile( File inFile ) throws IOException {
+        return FileUtils.loadFileAsString( inFile );
+//        BufferedReader bufferedReader=new BufferedReader( new FileReader( inFile ));
+//        try {
+//            String s=bufferedReader.readLine();
+//        }
+//        catch( IOException e ) {
+//            e.printStackTrace();
+//        }
+//        StringTokenizer st=new StringTokenizer( );
+////		Scanner scan = new Scanner( inFile );
+////		scan.useDelimiter( "\\Z" );
+////		return scan.next();
+//        return "scanner not supported in java 1.4";
     }
 
     private static String encodeXML( String rawXML ) throws UnsupportedEncodingException {
         return URLEncoder.encode( rawXML, "UTF-8" );
     }
 
-    public static String encodeXMLFile( File file ) throws UnsupportedEncodingException, FileNotFoundException {
+    public static String encodeXMLFile( File file ) throws IOException, FileNotFoundException {
         return encodeXML( rawFile( file ) );
     }
 
