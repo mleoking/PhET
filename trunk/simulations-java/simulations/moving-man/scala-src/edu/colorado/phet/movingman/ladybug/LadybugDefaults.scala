@@ -13,6 +13,7 @@ object LadybugDefaults {
     var remoteIsIndicator = true
     var vaSticky = true
     var timelineLengthSeconds: Double = 15
+//    var timelineLengthSeconds: Double = 1//debugging
     var pauseAtEndOfPlayback = true
     var recordAtEndOfPlayback = false
     val defaultLocation = new Vector2D(5, 1)

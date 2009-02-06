@@ -180,7 +180,7 @@ class LadybugModel extends ObservableS {
 
                 while (getTimeRange > LadybugDefaults.timelineLengthSeconds) {
                     history.remove(0)
-                    if (samplePath.length > 0)
+                    while (samplePath.length > history.length)
                         samplePath.remove(0)
                 }
 
