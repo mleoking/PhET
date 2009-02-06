@@ -13,25 +13,25 @@ import edu.colorado.phet.movingman.ladybug.LadybugUtil._
 import umd.cs.piccolox.pswing.PSwing
 
 class ReturnLadybugButton(model: LadybugModel, canvas: LadybugCanvas) extends PhetPNode {
-  val b = new JButton("Return Ladybug")
-  b.addActionListener(() => model.returnLadybug)
-  addChild(new PSwing(b))
-  model.addListener(updateVisible)
-  updateVisible()
-  updateLocation()
-  canvas.addComponentListener(new ComponentAdapter {
-    override def componentResized(e: ComponentEvent) = {
-      updateLocation
-      updateVisible
+    val b = new JButton("Return Ladybug")
+    b.addActionListener(() => model.returnLadybug)
+    addChild(new PSwing(b))
+    model.addListener(updateVisible)
+    updateVisible()
+    updateLocation()
+    canvas.addComponentListener(new ComponentAdapter {
+        override def componentResized(e: ComponentEvent) = {
+            updateLocation
+            updateVisible
+        }
+    })
+
+    def updateLocation() = setOffset(canvas.getWidth / 2 - getFullBounds.getWidth / 2, canvas.getHeight / 2 - getFullBounds.getHeight / 2)
+
+    def updateVisible() = setVisible(shouldBeVisible())
+
+    def shouldBeVisible() = {
+        val globalPosition = canvas.ladybugNode.localToGlobal(canvas.ladybugNode.getLadybugCenter)
+        !(new Rectangle(0, 0, canvas.getWidth, canvas.getHeight).contains(globalPosition))
     }
-  })
-
-  def updateLocation() = setOffset(canvas.getWidth / 2 - getFullBounds.getWidth / 2, canvas.getHeight / 2 - getFullBounds.getHeight / 2)
-
-  def updateVisible() = setVisible(shouldBeVisible())
-
-  def shouldBeVisible() = {
-    val globalPosition = canvas.ladybugNode.localToGlobal(canvas.ladybugNode.getLadybugCenter)
-    !(new Rectangle(0, 0, canvas.getWidth, canvas.getHeight).contains(globalPosition))
-  }
 }

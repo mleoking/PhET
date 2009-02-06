@@ -16,106 +16,106 @@ import LadybugUtil._
 import swing.MyRadioButton
 
 class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
-  val myModule = module;
-  def createBox = Box.createRigidArea(new Dimension(10, 4))
+    val myModule = module;
+    def createBox = Box.createRigidArea(new Dimension(10, 4))
 
-  class VectorControlPanel(m: VectorVisibilityModel) extends BoxPanel(Orientation.Vertical) {
-    contents += new MyRadioButton("Show velocity vector", {
-      m.velocityVectorVisible = true
-      m.accelerationVectorVisible = false
-    }
-      , m.velocityVectorVisible && !m.accelerationVectorVisible,
-      m.addListener)
+    class VectorControlPanel(m: VectorVisibilityModel) extends BoxPanel(Orientation.Vertical) {
+        contents += new MyRadioButton("Show velocity vector", {
+            m.velocityVectorVisible = true
+            m.accelerationVectorVisible = false
+        }
+            , m.velocityVectorVisible && !m.accelerationVectorVisible,
+            m.addListener)
 
-    contents += new MyRadioButton("Show acceleration vector", {
-      m.velocityVectorVisible = false
-      m.accelerationVectorVisible = true
-    }
-      , !m.velocityVectorVisible && m.accelerationVectorVisible,
-      m.addListener)
+        contents += new MyRadioButton("Show acceleration vector", {
+            m.velocityVectorVisible = false
+            m.accelerationVectorVisible = true
+        }
+            , !m.velocityVectorVisible && m.accelerationVectorVisible,
+            m.addListener)
 
-    contents += new MyRadioButton("Show both", {
-      m.velocityVectorVisible = true
-      m.accelerationVectorVisible = true
-    }
-      , m.velocityVectorVisible && m.accelerationVectorVisible,
-      m.addListener)
+        contents += new MyRadioButton("Show both", {
+            m.velocityVectorVisible = true
+            m.accelerationVectorVisible = true
+        }
+            , m.velocityVectorVisible && m.accelerationVectorVisible,
+            m.addListener)
 
-    contents += new MyRadioButton("Hide Vectors", {
-      m.velocityVectorVisible = false
-      m.accelerationVectorVisible = false
+        contents += new MyRadioButton("Hide Vectors", {
+            m.velocityVectorVisible = false
+            m.accelerationVectorVisible = false
+        }
+            , !m.velocityVectorVisible && !m.accelerationVectorVisible,
+            m.addListener)
     }
-      , !m.velocityVectorVisible && !m.accelerationVectorVisible,
-      m.addListener)
-  }
     addControl(new Label("Vectors     ") {font = new PhetFont(14, true)})
-  addControl(new VectorControlPanel(module.getVectorVisibilityModel))
+    addControl(new VectorControlPanel(module.getVectorVisibilityModel))
 
-  class MotionControlPanel(m: LadybugMotionModel) extends BoxPanel(Orientation.Vertical) {
-    contents += new Label("Choose Motion          ") {font = new PhetFont(14, true)}
+    class MotionControlPanel(m: LadybugMotionModel) extends BoxPanel(Orientation.Vertical) {
+        contents += new Label("Choose Motion          ") {font = new PhetFont(14, true)}
 
-    class MyRadioButtonWithEnable(text: String, actionListener: => Unit, getter: => Boolean, addListener: (() => Unit) => Unit, shouldBeEnabled: () => Boolean, enableObservable: ObservableS) extends MyRadioButton(text, actionListener, getter, addListener) {
-      enableObservable.addListener(() => peer.setEnabled(shouldBeEnabled()))
+        class MyRadioButtonWithEnable(text: String, actionListener: => Unit, getter: => Boolean, addListener: (() => Unit) => Unit, shouldBeEnabled: () => Boolean, enableObservable: ObservableS) extends MyRadioButton(text, actionListener, getter, addListener) {
+            enableObservable.addListener(() => peer.setEnabled(shouldBeEnabled()))
+        }
+
+        def rec = {
+            module.model.setPaused(false)
+            module.model.setRecord(true)
+        }
+        contents += new MyRadioButtonWithEnable("Manual", {m.motion = MANUAL; rec}, m.motion == MANUAL, m.addListener, () => module.model.readyForInteraction, module.model)
+        contents += new MyRadioButtonWithEnable("Linear", {m.motion = LINEAR; rec}, m.motion == LINEAR, m.addListener, () => module.model.readyForInteraction, module.model)
+        contents += new MyRadioButtonWithEnable("Circular", {m.motion = CIRCULAR; rec}, m.motion == CIRCULAR, m.addListener, () => module.model.readyForInteraction, module.model)
+        contents += new MyRadioButtonWithEnable("Ellipse", {m.motion = ELLIPSE; rec}, m.motion == ELLIPSE, m.addListener, () => module.model.readyForInteraction, module.model)
     }
+    addControl(new MotionControlPanel(module.getLadybugMotionModel))
+    addControl(createBox)
 
-    def rec = {
-      module.model.setPaused(false)
-      module.model.setRecord(true)
+    addControl(new LadybugDeveloperControl(module))
+
+    class TraceControlPanel(m: PathVisibilityModel) extends BoxPanel(Orientation.Vertical) {
+        contents += new Label("Trace") {font = new PhetFont(14, true)}
+        contents += new MyRadioButton("Line", {
+            m.allOff()
+            m.fadeVisible = true
+        }
+            , m.fadeVisible,
+            m.addListener)
+        contents += new MyRadioButton("Dots", {
+            m.allOff()
+            m.dotsVisible = true
+        }
+            , m.dotsVisible,
+            m.addListener)
+
+
+        contents += new MyRadioButton("Off", {
+            m.allOff()
+        }
+            , !m.lineVisible && !m.dotsVisible && !m.fadeVisible && !m.fadeFullVisible,
+            m.addListener)
     }
-    contents += new MyRadioButtonWithEnable("Manual", {m.motion = MANUAL; rec}, m.motion == MANUAL, m.addListener, () => module.model.readyForInteraction, module.model)
-    contents += new MyRadioButtonWithEnable("Linear", {m.motion = LINEAR; rec}, m.motion == LINEAR, m.addListener, () => module.model.readyForInteraction, module.model)
-    contents += new MyRadioButtonWithEnable("Circular", {m.motion = CIRCULAR; rec}, m.motion == CIRCULAR, m.addListener, () => module.model.readyForInteraction, module.model)
-    contents += new MyRadioButtonWithEnable("Ellipse", {m.motion = ELLIPSE; rec}, m.motion == ELLIPSE, m.addListener, () => module.model.readyForInteraction, module.model)
-  }
-  addControl(new MotionControlPanel(module.getLadybugMotionModel))
-  addControl(createBox)
+    val f = new FlowPanel
+    f.contents += new TraceControlPanel(module.getPathVisibilityModel)
+    //  f.contents += new Button("Clear") {
+    //      reactions += {
+    //          case ButtonClicked(_) => {
+    //              module.model.clearHistory
+    //              module.model.setPaused(true)
+    //          }
+    //      }
+    //  }
+    addControl(f)
+    addControl(createBox)
 
-  addControl(new LadybugDeveloperControl(module))
+    val remoteControl = new RemoteControl(module.model, () => {module.model.startRecording()})
+    addControl(remoteControl)
+    addControl(createBox)
+    val resetAllButton = new ResetAllButton(new Resettable() {
+        def reset = {module.resetAll()}
+    }, this)
+    addControl(resetAllButton)
 
-  class TraceControlPanel(m: PathVisibilityModel) extends BoxPanel(Orientation.Vertical) {
-    contents += new Label("Trace") {font = new PhetFont(14, true)}
-    contents += new MyRadioButton("Line", {
-      m.allOff()
-      m.fadeVisible = true
+    def resetAll() = {
+        remoteControl.resetAll()
     }
-      , m.fadeVisible,
-      m.addListener)
-    contents += new MyRadioButton("Dots", {
-      m.allOff()
-      m.dotsVisible = true
-    }
-      , m.dotsVisible,
-      m.addListener)
-
-
-    contents += new MyRadioButton("Off", {
-      m.allOff()
-    }
-      , !m.lineVisible && !m.dotsVisible && !m.fadeVisible && !m.fadeFullVisible,
-      m.addListener)
-  }
-  val f = new FlowPanel
-  f.contents += new TraceControlPanel(module.getPathVisibilityModel)
-//  f.contents += new Button("Clear") {
-//      reactions += {
-//          case ButtonClicked(_) => {
-//              module.model.clearHistory
-//              module.model.setPaused(true)
-//          }
-//      }
-//  }
-  addControl(f)
-  addControl(createBox)
-
-  val remoteControl = new RemoteControl(module.model, () => {module.model.startRecording()})
-  addControl(remoteControl)
-  addControl(createBox)
-  val resetAllButton = new ResetAllButton(new Resettable() {
-    def reset = {module.resetAll()}
-  }, this)
-  addControl(resetAllButton)
-
-  def resetAll() = {
-    remoteControl.resetAll()
-  }
 }

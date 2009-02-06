@@ -7,18 +7,18 @@ import javax.swing.event.{ChangeListener, ChangeEvent}
 import javax.swing.JCheckBox
 
 class LadybugDeveloperControl(module: LadybugModule) extends VerticalLayoutPanel {
-  setFillNone
+    setFillNone
 
-  val v = new LinearValueControl(1, 31, LadybugDefaults.WINDOW_SIZE, "V,A window/manual", "0", "samples")
-  v.addChangeListener(new ChangeListener() {
-    def stateChanged(e: ChangeEvent) = {
-      LadybugDefaults.WINDOW_SIZE = v.getValue.toInt
-    }
-  })
+    val v = new LinearValueControl(1, 31, LadybugDefaults.WINDOW_SIZE, "V,A window/manual", "0", "samples")
+    v.addChangeListener(new ChangeListener() {
+        def stateChanged(e: ChangeEvent) = {
+            LadybugDefaults.WINDOW_SIZE = v.getValue.toInt
+        }
+    })
 
-  val checkBox = new JCheckBox("Hide Mouse During Drag", LadybugDefaults.HIDE_MOUSE_DURING_DRAG)
-  checkBox.addActionListener(new ActionListener() {
-    def actionPerformed(e: ActionEvent) = LadybugDefaults.HIDE_MOUSE_DURING_DRAG = checkBox.isSelected
-  })
-//  add(checkBox)
+    val checkBox = new JCheckBox("Hide Mouse During Drag", LadybugDefaults.HIDE_MOUSE_DURING_DRAG)
+    checkBox.addActionListener(new ActionListener() {
+        def actionPerformed(e: ActionEvent) = LadybugDefaults.HIDE_MOUSE_DURING_DRAG = checkBox.isSelected
+    })
+    //  add(checkBox)
 }
