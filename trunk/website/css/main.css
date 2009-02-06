@@ -353,7 +353,7 @@ div.form_content {
 
 /* For table-based forms */
 table.form {
-    width: 100%;
+        width: 100%;
 }
 
 /*table.form tr td {
@@ -626,7 +626,19 @@ div.horizontal_center {
 #content {
     background: url("../images/content_BG.gif") right bottom no-repeat;
     width: 578px;
-    margin: 0 0 100px 240px;
+
+    /* Bottom margin needs to match the size of the font in the
+    "#footer p {}" entry.
+
+    This resolves a bug where the page would load too far down with
+    a big white gap while loading, which would then snap back into
+    place when the loading was complete.
+
+    This consequence of this change is that the there is less white
+    space between the bottom element in the content (the grep gradient)
+    and the bottom of the HTML page as rendered by the browser.
+    */
+    margin: 0 0 14px 240px;
     padding: 0 0 0 0;
 }
 
