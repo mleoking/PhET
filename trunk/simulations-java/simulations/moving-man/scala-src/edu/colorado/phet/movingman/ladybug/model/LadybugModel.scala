@@ -358,6 +358,7 @@ class LadybugModel extends ObservableS {
         ladybug.setPosition(LadybugDefaults.defaultLocation)
         ladybug.setVelocity(new Vector2D)
         samplePath.clear
+        setSamplePoint(ladybug.getPosition)
         resetMotion2DModel
         notifyListeners
     }
