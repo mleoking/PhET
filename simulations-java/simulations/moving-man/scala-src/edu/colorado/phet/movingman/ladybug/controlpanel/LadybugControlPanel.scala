@@ -74,12 +74,6 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
 
   class TraceControlPanel(m: PathVisibilityModel) extends BoxPanel(Orientation.Vertical) {
     contents += new Label("Trace") {font = new PhetFont(14, true)}
-    //    contents += new MyRadioButton("Solid", {
-    //      m.allOff()
-    //      m.lineVisible = true
-    //    }
-    //      , m.lineVisible,
-    //      m.addListener)
     contents += new MyRadioButton("Line", {
       m.allOff()
       m.fadeVisible = true
@@ -94,14 +88,6 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
       m.addListener)
 
 
-
-    //    contents += new MyRadioButton("Fade/Invisible", {
-    //      m.allOff()
-    //      m.fadeFullVisible = true
-    //    }
-    //      , m.fadeFullVisible,
-    //      m.addListener)
-
     contents += new MyRadioButton("Off", {
       m.allOff()
     }
@@ -110,14 +96,14 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
   }
   val f = new FlowPanel
   f.contents += new TraceControlPanel(module.getPathVisibilityModel)
-  f.contents += new Button("Clear") {
-      reactions += {
-          case ButtonClicked(_) => {
-              module.model.clearHistory
-              module.model.setPaused(true)
-          }
-      }
-  }
+//  f.contents += new Button("Clear") {
+//      reactions += {
+//          case ButtonClicked(_) => {
+//              module.model.clearHistory
+//              module.model.setPaused(true)
+//          }
+//      }
+//  }
   addControl(f)
   addControl(createBox)
 
