@@ -3,6 +3,7 @@
 package edu.colorado.phet.common.phetcommon.application;
 
 import java.io.File;
+import java.security.AccessControlException;
 
 import edu.colorado.phet.common.phetcommon.util.AbstractPropertiesFile;
 
@@ -24,14 +25,16 @@ public class SessionCounter {
     private final SessionCountsFile file;
     
     /* singleton */
-    private SessionCounter( String project, String simulation ) {
+    private SessionCounter( String project, String simulation ) throws AccessControlException {
         this.project = project;
         this.simulation = simulation;
-        file = new SessionCountsFile();
+        this.file = new SessionCountsFile();
     }
     
     /**
      * Initializes the singleton, making it specific to 1 simulation.
+     * If we don't security permissions, initialization results in a null instance.
+     * 
      * @param project
      * @param simulation
      * @return
@@ -41,11 +44,22 @@ public class SessionCounter {
             throw new RuntimeException( "SessionCounter is already initialized" );
         }
         else {
-            instance = new SessionCounter( project, simulation );
+            try {
+                instance = new SessionCounter( project, simulation );
+            }
+            catch ( AccessControlException e ) {
+                instance = null;
+                System.out.println( "SessionCounter: cannot create instance, no permissions" );
+            }
         }
         return instance;
     }
     
+    /**
+     * Return the singleton instance.
+     * This will be null if we don't have access to the local file system.
+     * @return
+     */
     public synchronized static SessionCounter getInstance() {
         return instance;
     }
@@ -117,7 +131,7 @@ public class SessionCounter {
             return project + "." + simulation + SUFFIX_SINCE;
         }
         
-        public SessionCountsFile() {
+        public SessionCountsFile() throws AccessControlException {
             super( new File( new PhetPersistenceDir(), FILE_BASENAME ) );
             setHeader( FILE_HEADER );
         }
