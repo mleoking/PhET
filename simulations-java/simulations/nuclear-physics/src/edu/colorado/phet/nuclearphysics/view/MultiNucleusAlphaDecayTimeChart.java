@@ -5,6 +5,7 @@ package edu.colorado.phet.nuclearphysics.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Rectangle;
 import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -23,8 +24,10 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
+import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResizeArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
+import edu.colorado.phet.common.piccolophet.nodes.PieChartNode.PieValue;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AbstractAlphaDecayNucleus;
@@ -32,6 +35,7 @@ import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayCanvas;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayModel;
+import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -81,7 +85,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     private static final double RESIZE_HANDLE_SIZE = 35;
 
     // Constants that control the location of the origin.
-    private static final double X_ORIGIN_PROPORTION = 0.20;
+    private static final double X_ORIGIN_PROPORTION = 0.27;
     private static final double Y_ORIGIN_PROPORTION = 0.65;
 
     // Tweakable values that can be used to adjust where the nuclei appear on
@@ -146,7 +150,8 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     private PText _numUndecayedNucleiText;
     private ShadowPText _numDecayedNucleiLabel;
     private PText _numDecayedNucleiText;
-    private PText _dummyText;
+    private PText _dummyNumberText;
+    private PieChartNode _pieChart;
 
     // Parent node that will be non-pickable and will contain all of the
     // non-interactive portions of the chart.
@@ -302,6 +307,13 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _yAxisLabel2.rotate( 1.5 * Math.PI );
         _nonPickableChartNode.addChild( _yAxisLabel2 );
         
+        // Add the pie chart.
+        PieChartNode.PieValue[] values = new PieValue[]{
+                new PieChartNode.PieValue( 25, NuclearPhysicsConstants.POLONIUM_LABEL_COLOR ),
+                new PieChartNode.PieValue( 15, NuclearPhysicsConstants.LEAD_LABEL_COLOR )};
+        _pieChart = new PieChartNode(values, new Rectangle(20, 20));  // Arbitrary initial size, resized later.
+        _nonPickableChartNode.addChild( _pieChart );
+        
         // Add the text for labeling the pre- and post-decay quantities of the
         // nuclei.
         _numUndecayedNucleiLabel = new ShadowPText();
@@ -320,8 +332,8 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         
         // Create a dummy text value for consistent positioning of the real
         // numerical values.
-        _dummyText = new PText("000");
-        _dummyText.setFont(LARGE_LABEL_FONT);
+        _dummyNumberText = new PText("000");
+        _dummyNumberText.setFont(LARGE_LABEL_FONT);
 
         // Create the line that will illustrate where the half life is.
         _halfLifeMarkerLine = new PPath();
@@ -393,7 +405,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
 
         // Update the multiplier used for converting from pixels to
         // milliseconds.  Use the multiplier to tweak the span of the x axis.
-        _msToPixelsFactor = 0.75 * _usableWidth / TIME_SPAN;
+        _msToPixelsFactor = ((_usableWidth - _graphOriginX) * 0.98) / TIME_SPAN;
         
         // Update the radius value used to position nucleus nodes so that they
         // are centered at the desired location.
@@ -465,14 +477,30 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _yAxisLabel1.setOffset( _yAxisLabel2.getOffset().getX() - ( 1.1 * _yAxisLabel2.getFont().getSize() ),
         		yAxisLabelCenter + (_yAxisLabel1.getFullBounds().height / 2) );
         
+        // Position the pie chart.
+        int pieChartDiameter = (int)Math.round(Math.min(_usableWidth * 0.15, _usableHeight * 0.3));
+        _pieChart.setArea( new Rectangle(pieChartDiameter, pieChartDiameter) );
+        PBounds pieChartBounds = _pieChart.getFullBoundsReference();
+        _pieChart.setOffset(
+        		_yAxisLabel1.getFullBoundsReference().getX() - _pieChart.getFullBoundsReference().getWidth(),
+        		yAxisLabelCenter - _pieChart.getFullBoundsReference().height / 2 );
+        
+        // Position the dummy text so that it can be used as a reference for
+        // positioning the real text.
+        pieChartBounds = _pieChart.getFullBoundsReference(); // Refresh the reference.
+        double numberTextWidth = _dummyNumberText.getFullBoundsReference().width;
+        double numberTextHeight = _dummyNumberText.getFullBoundsReference().height;
+        _dummyNumberText.setOffset(pieChartBounds.getX() - numberTextWidth * 1.1, 
+        		preDecayPosY - (numberTextHeight / 2));
+
         // Update and position the labels for the quantities of the various nuclei.
         updateNucleusGraphLabels();
         _numUndecayedNucleiLabel.setOffset( 
-        		_yAxisLabel1.getFullBoundsReference().x - _dummyText.getFullBoundsReference().width * 1.1 - _numUndecayedNucleiLabel.getFullBoundsReference().width,
-        		preDecayPosY - (_dummyText.getFullBoundsReference().height * 0.5));
+        		_dummyNumberText.getFullBoundsReference().x - _numUndecayedNucleiLabel.getFullBoundsReference().width * 1.1,
+        		preDecayPosY - (numberTextHeight / 2));
         _numDecayedNucleiLabel.setOffset(
-        		_yAxisLabel1.getFullBoundsReference().x - _dummyText.getFullBoundsReference().width * 1.1 - _numDecayedNucleiLabel.getFullBoundsReference().width,
-        		postDecayPosY - (_dummyText.getFullBoundsReference().height * 0.5));
+        		_dummyNumberText.getFullBoundsReference().x - _numDecayedNucleiLabel.getFullBoundsReference().width * 1.1,
+        		postDecayPosY - (numberTextHeight / 2));
 
         // Position the half life marker.
         positionHalfLifeMarker();
@@ -557,16 +585,15 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     	// Update the positions so that they remain centered in their area.
 		double preDecayPosY = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION );
         double postDecayPosY = _usableAreaOriginY + ( _usableHeight * POST_DECAY_TIME_LINE_POS_FRACTION );
-        double labelHeight = _dummyText.getFullBoundsReference().height;
-        double numberTextWidth = _dummyText.getFullBoundsReference().width;
-        double labelMiddleX = _yAxisLabel1.getFullBoundsReference().x - (numberTextWidth * 0.6);
-        PBounds undecayedTextBounds = _numUndecayedNucleiText.getFullBoundsReference();
-        PBounds decayedTextBounds = _numDecayedNucleiText.getFullBoundsReference();
-        
-        _numUndecayedNucleiText.setOffset(labelMiddleX - undecayedTextBounds.width / 2, 
-        		preDecayPosY - (labelHeight * 0.5));
-        _numDecayedNucleiText.setOffset(labelMiddleX - decayedTextBounds.width / 2,
-        		postDecayPosY - (labelHeight * 0.5));
+        double numberTextHeight = _dummyNumberText.getFullBoundsReference().height;
+
+        // This needs to be here, rather than in the update function, so that
+        // the text can be right justified.
+        double rightSideXPos = _dummyNumberText.getFullBoundsReference().getMaxX();
+        _numUndecayedNucleiText.setOffset( rightSideXPos -_numDecayedNucleiText.getFullBoundsReference().width, 
+        		preDecayPosY - (numberTextHeight / 2));
+        _numDecayedNucleiText.setOffset( rightSideXPos -_numDecayedNucleiText.getFullBoundsReference().width, 
+        		postDecayPosY - (numberTextHeight / 2));
     }
     
 	private void handleModelElementAdded(Object modelElement) {
