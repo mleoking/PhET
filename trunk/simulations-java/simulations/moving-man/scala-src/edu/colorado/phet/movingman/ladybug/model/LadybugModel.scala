@@ -285,7 +285,7 @@ class LadybugModel extends ObservableS {
         playbackIndexFloat = 0.0
         time = 0
         ladybug.resetAll()
-
+        resetMotion2DModel
 
         notifyListeners()
     }
