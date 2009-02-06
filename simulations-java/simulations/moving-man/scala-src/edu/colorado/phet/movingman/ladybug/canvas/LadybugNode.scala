@@ -50,7 +50,7 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
             if (loc != null)
                 model.setSamplePoint(loc)
         } else {
-            if (LadybugDefaults.isLadybugThrowable)
+            if (model.isFrictionless)
             model.setUpdateModeVelocity
         }
     })

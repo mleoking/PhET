@@ -74,7 +74,7 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
     addControl(new MotionControlPanel(module.getLadybugMotionModel))
     addControl(createBox)
 
-    addControl(new LadybugDeveloperControl(module))
+
 
     class TraceControlPanel(m: PathVisibilityModel) extends BoxPanel(Orientation.Vertical) {
         contents += new Label("Trace") {font = new PhetFont(14, true)}
@@ -103,12 +103,17 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
     addControl(new TraceControlPanel(module.getPathVisibilityModel))
     addControl(createBox)
 
+
+    addControl(new LadybugDeveloperControl(module))
+    
     val remoteControl = new RemoteControl(module.model, () => {module.model.startRecording()})
     addControl(remoteControl)
     addControl(createBox)
     val resetAllButton = new ResetAllButton(new Resettable() {
         def reset = {module.resetAll()}
     }, this)
+
+    getContentPanel.setAnchor(CENTER)
     addControl(resetAllButton)
 
     def resetAll() = {

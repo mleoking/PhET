@@ -9,7 +9,6 @@ package edu.colorado.phet.movingman.ladybug
 import model.Vector2D
 
 object LadybugDefaults {
-    var isLadybugThrowable = false
     var remoteIsIndicator = true
     var vaSticky = true
     var timelineLengthSeconds: Double = 15
@@ -22,4 +21,5 @@ object LadybugDefaults {
     var WINDOW_SIZE = 7
     var HIDE_MOUSE_DURING_DRAG = true
     var POSITIVE_Y_IS_UP = true
+
 }
