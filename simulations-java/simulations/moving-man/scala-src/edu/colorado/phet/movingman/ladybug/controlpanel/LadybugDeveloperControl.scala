@@ -20,5 +20,5 @@ class LadybugDeveloperControl(module: LadybugModule) extends VerticalLayoutPanel
   checkBox.addActionListener(new ActionListener() {
     def actionPerformed(e: ActionEvent) = LadybugDefaults.HIDE_MOUSE_DURING_DRAG = checkBox.isSelected
   })
-  add(checkBox)
+//  add(checkBox)
 }
