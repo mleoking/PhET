@@ -17,8 +17,10 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPane;
 
 /**
- * Dialog that displays the PhET license.
+ * This dialog shows license information for a particular license (such as GPL) for
+ * a contributed project.
  *
+ * @author Sam Reid
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ContribLicenseDialog extends JDialog {
