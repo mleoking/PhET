@@ -1,3 +1,5 @@
+> Increased size of return ladybug button
+
 # 1.20.28 (28207) Feb 6, 2009
 > Fixed: Remote control arrow node captures mouse input
 > Fixed: Switching to manual mode doesn't work after timeline is full.
