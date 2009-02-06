@@ -242,11 +242,11 @@ class LadybugModel extends ObservableS {
         }
     }
 
-    def clearHistoryRemainder={
-        val earlyEnough=history.filter(_.time<time)
+    def clearHistoryRemainder = {
+        val earlyEnough = history.filter(_.time < time)
         history.clear
         history.appendAll(earlyEnough)
-        clearSampleHistory() 
+        clearSampleHistory()
         resetMotion2DModel
     }
 
