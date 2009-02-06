@@ -1,0 +1,11 @@
+package edu.colorado.phet.batteryresistorcircuit;
+
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+
+public class Ohm1DStrings {
+    public static PhetResources RESOURCES = new PhetResources( "ohm-1d" );
+
+    public static String get( String s ) {
+        return RESOURCES.getLocalizedString( s );
+    }
+}
