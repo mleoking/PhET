@@ -14,6 +14,7 @@
 > Rewind button is always grayed out in record mode
 > If you switch to record mode (from playback) it erases the remainder of the timeline after thumb position and starts recording from where the thumb was.
 > Decreased sensitivity of remote control
+> Added throwable checkbox to the control panel; allows "frictionless" manual mode
 
 # 1.20.26 (28105) Feb 5, 2009
 > Added fade feature on dot trace

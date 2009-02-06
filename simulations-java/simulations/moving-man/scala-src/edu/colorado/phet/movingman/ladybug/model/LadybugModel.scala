@@ -19,7 +19,9 @@ class LadybugModel extends ObservableS {
     var record = true
     var paused = true
     var playbackSpeed = 1.0
+
     private var bounds = new Rectangle2D.Double(-10, -10, 20, 20)
+    private var updateMode:UpdateMode = PositionMode
 
     case class Sample(time: Double, location: Vector2D)
     val samplePath = new ArrayBuffer[Sample]
@@ -50,11 +52,41 @@ class LadybugModel extends ObservableS {
         setPlaybackIndexFloat(f.evaluate(t))
     }
 
-    def setUpdateModePosition = updateMode = positionMode
+    abstract class UpdateMode{
+        def update(dt:Double):Unit
+    }
+    object PositionMode extends UpdateMode{
+        def update(dt: Double) = {
+            positionMode(dt)
+        }
+    }
+    object VelocityMode extends UpdateMode{
+        def update(dt: Double) = {
+            velocityMode(dt)
+        }
+    }
+    object AccelerationMode extends UpdateMode{
+        def update(dt: Double) = {
+            accelerationMode(dt)
+        }
+    }
+    def setUpdateModePosition = {
+        if (updateMode != PositionMode) {
+            updateMode = PositionMode
+            clearSampleHistory
+            resetMotion2DModel
+        }
+    }
 
-    def setUpdateModeVelocity = updateMode = velocityMode
+    def setUpdateModeVelocity = {
+        if (updateMode != VelocityMode) {
+            updateMode = VelocityMode
+        }
+    }
 
-    def setUpdateModeAcceleration = updateMode = accelerationMode
+    def setUpdateModeAcceleration = {
+        updateMode = AccelerationMode
+    }
 
     var playbackIndexFloat = 0.0 //floor this to get playbackIndex
 
@@ -106,6 +138,9 @@ class LadybugModel extends ObservableS {
     //  }
 
     def velocityMode(dt: Double) = {
+        //        samplePath+=samplePoint
+        if (samplePath.length > 0)
+            motion2DModel.addPointAndUpdate(samplePath(samplePath.length - 1).location.x, samplePath(samplePath.length - 1).location.y)
         ladybug.translate(ladybug.getVelocity * dt)
 
         var accelEstimate = average(history.length - 15, history.length - 1, estimateAcceleration)
@@ -117,7 +152,7 @@ class LadybugModel extends ObservableS {
         ladybug.setVelocity(ladybug.getVelocity + ladybug.getAcceleration * dt)
     }
 
-    private var updateMode: (Double) => Unit = positionMode
+
 
     def setStateToPlaybackIndex() = {
         ladybug.setState(history(getPlaybackIndex()).state)
@@ -150,7 +185,7 @@ class LadybugModel extends ObservableS {
                 }
 
                 if (!ladybugMotionModel.isExclusive()) {
-                    updateMode(dt)
+                    updateMode.update(dt)
                 }
                 notifyListeners()
 
@@ -318,6 +353,7 @@ class LadybugModel extends ObservableS {
 
     def returnLadybug = {
         ladybug.setPosition(LadybugDefaults.defaultLocation)
+        ladybug.setVelocity(new Vector2D)
         samplePath.clear
         resetMotion2DModel
         notifyListeners

@@ -45,8 +45,14 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
 
     var loc: Point2D = null
     model.tickListeners += (() => {
-        if (loc != null)
-            model.setSamplePoint(loc)
+        if (loc != null) {
+            model.setUpdateModePosition
+            if (loc != null)
+                model.setSamplePoint(loc)
+        } else {
+            if (LadybugDefaults.isLadybugThrowable)
+            model.setUpdateModeVelocity
+        }
     })
 
     model.motion2DModelResetListeners += (() => {
