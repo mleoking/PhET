@@ -20,6 +20,19 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.phetcommon.util.AnnotationParser;
 
+/**
+ * The Credits Dialog reads credits annotations for a single sim from <project>/data/<project>/credits.txt using the
+ * AnnotationParser and displays it in the Phet About Dialog.  Here's an example content of a credits.txt file:
+ *
+ * phet-credits software-development=Chris Malley and Ron LeMaster design-team=Kathy Perkins, Carl Wieman, Wendy Adams, Danielle Harlow
+ *
+ * The keys in this file are "software-development" "design-team" "lead-design" and "interviews"; these are used as suffixes
+ * on the keys in the phetcommon-strings.properties file to identify translatable strings such as:
+ * Common.About.CreditsDialog.software-development=Software Development
+ *
+ * @author Sam Reid
+ * @author Chris Malley
+ */
 public class CreditsDialog extends JDialog {
     // preferred size for the scrollpane, change this to affect initial dialog size
     private static final Dimension SCROLLPANE_SIZE = new Dimension( 525, 300 );
