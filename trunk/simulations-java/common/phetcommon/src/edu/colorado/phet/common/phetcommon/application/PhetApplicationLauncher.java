@@ -111,8 +111,10 @@ public class PhetApplicationLauncher {
                         disposeSplashWindow();
 
                         // session counts
-                        SessionCounter.initInstance( config.getProjectName(), config.getFlavor() );
-                        SessionCounter.getInstance().incrementCounts();
+                        SessionCounter sessionCounter = SessionCounter.initInstance( config.getProjectName(), config.getFlavor() );
+                        if ( sessionCounter != null ) {
+                            sessionCounter.incrementCounts();
+                        }
 
                         // statistics
                         StatisticsManager.initInstance( config );
