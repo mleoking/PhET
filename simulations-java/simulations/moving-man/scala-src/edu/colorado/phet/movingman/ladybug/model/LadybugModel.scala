@@ -21,7 +21,7 @@ class LadybugModel extends ObservableS {
     var playbackSpeed = 1.0
 
     private var bounds = new Rectangle2D.Double(-10, -10, 20, 20)
-    private var updateMode:UpdateMode = PositionMode
+    private var updateMode: UpdateMode = PositionMode
 
     case class Sample(time: Double, location: Vector2D)
     val samplePath = new ArrayBuffer[Sample]
@@ -52,20 +52,20 @@ class LadybugModel extends ObservableS {
         setPlaybackIndexFloat(f.evaluate(t))
     }
 
-    abstract class UpdateMode{
-        def update(dt:Double):Unit
+    abstract class UpdateMode {
+        def update(dt: Double): Unit
     }
-    object PositionMode extends UpdateMode{
+    object PositionMode extends UpdateMode {
         def update(dt: Double) = {
             positionMode(dt)
         }
     }
-    object VelocityMode extends UpdateMode{
+    object VelocityMode extends UpdateMode {
         def update(dt: Double) = {
             velocityMode(dt)
         }
     }
-    object AccelerationMode extends UpdateMode{
+    object AccelerationMode extends UpdateMode {
         def update(dt: Double) = {
             accelerationMode(dt)
         }
@@ -153,7 +153,6 @@ class LadybugModel extends ObservableS {
     }
 
 
-
     def setStateToPlaybackIndex() = {
         ladybug.setState(history(getPlaybackIndex()).state)
         time = history(getPlaybackIndex).time
@@ -181,7 +180,8 @@ class LadybugModel extends ObservableS {
 
                 while (getTimeRange > LadybugDefaults.timelineLengthSeconds) {
                     history.remove(0)
-                    samplePath.remove(0)
+                    if (samplePath.length > 0)
+                        samplePath.remove(0)
                 }
 
                 if (!ladybugMotionModel.isExclusive()) {
