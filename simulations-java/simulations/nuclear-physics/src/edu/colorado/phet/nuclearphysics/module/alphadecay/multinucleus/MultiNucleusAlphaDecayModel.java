@@ -34,7 +34,7 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
     // Class data
     //------------------------------------------------------------------------
 	
-	private static final int MAX_NUCLEI = 99;  // Maximum number of nuclei that model will simulate.
+	public static final int MAX_NUCLEI = 99;  // Maximum number of nuclei that model will simulate.
 	private static final int DEFAULT_NUCLEUS_TYPE = NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM;
 	private static final double MAX_JITTER_LENGTH = 1; // In femtometers.
 	private static final int CLOCKS_PER_JITTER = 2; // Number of clock ticks for a single jitter movement.
