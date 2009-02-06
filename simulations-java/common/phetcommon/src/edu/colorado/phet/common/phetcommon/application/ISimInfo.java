@@ -9,7 +9,6 @@ public interface ISimInfo {
     String getName();
     String getDescription();
     PhetVersion getVersion();
-    String getCredits();
     
     /**
      * Should the updates feature be included at runtime?
