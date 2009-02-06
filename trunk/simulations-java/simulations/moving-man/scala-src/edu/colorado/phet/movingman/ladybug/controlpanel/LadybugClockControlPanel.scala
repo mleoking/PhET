@@ -59,7 +59,7 @@ class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
     addScreenChild(backgroundNode)
 
     val modePanel = new ModePanel(module.model)
-    addControl(new PSwing(modePanel))
+
 
     val clearButton = new JButton("Clear")
 
@@ -67,12 +67,12 @@ class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
         module.model.clearHistory
         module.model.setPaused(true)
     })
-    addControl(new PSwing(clearButton))
+
 
     val playbackSpeedSlider = new PlaybackSpeedSlider(module.model)
     playbackSpeedSlider.setOffset(0, prefSizeM.getHeight / 2 - playbackSpeedSlider.getFullBounds.getHeight / 2)
     playbackSpeedSlider.addInputEventListener(new CursorHandler)
-    addControl(playbackSpeedSlider)
+
 
     val rewind = new RewindButton(50)
     rewind.addListener(() => {
@@ -90,6 +90,13 @@ class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
     }
     rewind.addInputEventListener(new ToolTipHandler("Rewind", this))
     rewind.setOffset(0, 12)
+
+
+    val clearButtonNode=new PSwing(clearButton)
+    val modePanelNode=new PSwing(modePanel)
+
+    addControl(clearButtonNode)
+    addControl(modePanelNode)
     addControl(rewind)
 
     val playPause = new PlayPauseButton(75)
@@ -114,6 +121,8 @@ class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
     stepButton.addListener(() => {module.model.stepPlayback()})
     stepButton.setOffset(0, 12)
     addControl(stepButton)
+    addControl(playbackSpeedSlider)
+
 
     val timeline = new Timeline(module.model, this)
     addScreenChild(timeline)
@@ -146,9 +155,12 @@ class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
         playPause.setOffset(getPreferredSize.width / 2 - playPause.getFullBounds.getWidth / 2, playPause.getOffset.getY)
         rewind.setOffset(playPause.getFullBounds.getX - rewind.getFullBounds.getWidth - buttonDX, rewind.getOffset.getY)
         stepButton.setOffset(playPause.getFullBounds.getMaxX + buttonDX, stepButton.getOffset.getY)
-        playbackSpeedSlider.setOffset(rewind.getFullBounds.getX - playbackSpeedSlider.getFullBounds.getWidth, playbackSpeedSlider.getOffset.getY)
+        playbackSpeedSlider.setOffset(stepButton.getFullBounds.getMaxX , playbackSpeedSlider.getOffset.getY)
 
-        val halfWidth = playPause.getFullBounds.getCenterX - playbackSpeedSlider.getOffset.getX
+        modePanelNode.setOffset(rewind.getFullBounds.getX-modePanelNode.getFullBounds.width,playPause.getFullBounds.getCenterY-modePanelNode.getFullBounds.getHeight/2)
+        clearButtonNode.setOffset(modePanelNode.getFullBounds.getX-clearButtonNode.getFullBounds.width,playPause.getFullBounds.getCenterY-clearButtonNode.getFullBounds.getHeight/2)
+
+        val halfWidth = playPause.getFullBounds.getCenterX - playbackSpeedSlider.getFullBounds.getMaxX
         val blist = for (n <- nodes) yield n.getFullBounds
         val b: PBounds = blist.foldLeft(blist(0))((a, b) => new PBounds(a.createUnion(b)))
         val expanded = RectangleUtils.expand(b, 0, 0)

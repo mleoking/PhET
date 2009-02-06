@@ -1,6 +1,8 @@
 package edu.colorado.phet.movingman.ladybug.controlpanel
 
+import _root_.edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import _root_.scala.swing.{Component, Panel}
+import java.awt.Color
 import javax.swing.BoxLayout._
 import javax.swing.{BoxLayout, JPanel, JComponent}
 import model.LadybugModel
@@ -9,9 +11,21 @@ import java.awt.Color._
 
 class ModePanel(model: LadybugModel) extends JPanel {
     setLayout(new BoxLayout(this, Y_AXIS))
+    setBackground(new Color(0, 0, 0, 0))
 
-    val recordingButton = addComponent{new MyRadioButton("Record", model.setRecord(true), model.isRecord, model.addListener)}
-    val playbackButton = addComponent{new MyRadioButton("Playback", {model.setRecord(false); model.setPlaybackIndexFloat(0.0)}, model.isPlayback, model.addListener)}
+    val recordingButton = addComponent{
+        new MyRadioButton("Record", model.setRecord(true), model.isRecord, model.addListener){
+            font=new PhetFont(15,true)
+
+        }
+    }
+    recordingButton.peer.setBackground(new Color(0, 0, 0, 0))
+    val playbackButton = addComponent{
+        new MyRadioButton("Playback", {model.setRecord(false); model.setPlaybackIndexFloat(0.0)}, model.isPlayback, model.addListener) {
+            font = new PhetFont(15, true)
+        }
+    }
+    playbackButton.peer.setBackground(new Color(0, 0, 0, 0))
 
     addListener(model.addListenerByName){
         def color(b: Boolean) = if (b) red else black
