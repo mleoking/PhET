@@ -1,3 +1,5 @@
+> Fixed: Remote control arrow node captures mouse input
+
 # 1.20.27 (28186) Feb 5, 2009
 > Rewind works when in playback mode.
 > If you select "Playback" radio button it rewinds and puts you in playback mode.

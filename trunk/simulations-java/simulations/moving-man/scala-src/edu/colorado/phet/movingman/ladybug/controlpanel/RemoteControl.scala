@@ -54,6 +54,8 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
     abstract class RemoteMode(color: Color, rangeWidth: Double, getter: (Ladybug) => Vector2D) {
         val transform = new ModelViewTransform2D(new Rectangle2D.Double(-rangeWidth / 2, -rangeWidth / 2, rangeWidth, rangeWidth), new Rectangle(CANVAS_WIDTH, CANVAS_HEIGHT), LadybugDefaults.POSITIVE_Y_IS_UP)
         val arrowNode = new ArrowNode(transform.modelToView(new Point2D.Double(0, 0)), transform.modelToView(new Point2D.Double(0, 0)), arrowHeadWidth, arrowHeadHeight, arrowTailWidth, 0.5, true)
+        arrowNode.setPickable(false)
+        arrowNode.setChildrenPickable(false)
         arrowNode.setPaint(color)
         var dragging = false
 
