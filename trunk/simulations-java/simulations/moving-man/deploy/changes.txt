@@ -1,3 +1,4 @@
+# 1.20.27 (28186) Feb 5, 2009
 > Rewind works when in playback mode.
 > If you select "Playback" radio button it rewinds and puts you in playback mode.
 > Fixed: If you move the bug and then hit "reset all", when you move the bug again it goes to its start position, but jumps
