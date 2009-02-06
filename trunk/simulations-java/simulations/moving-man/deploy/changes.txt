@@ -1,3 +1,4 @@
+> Rewind works when in playback mode.
 > If you select "Playback" radio button it rewinds and puts you in playback mode.
 > Fixed: If you move the bug and then hit "reset all", when you move the bug again it goes to its start position, but jumps
 > Put the remote and the controls for remote on a raised section of control panel, so that it is clear that these controls go with remote, and to separate it (somewhat) from other controls.
