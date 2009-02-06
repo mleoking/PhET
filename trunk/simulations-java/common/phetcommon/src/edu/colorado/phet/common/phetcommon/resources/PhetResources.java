@@ -52,7 +52,6 @@ public class PhetResources {
     public static final String PROPERTY_VERSION_REVISION = "version.revision";
     public static final String PROPERTY_VERSION_TIMESTAMP = "version.timestamp";
     public static final String PROPERTY_DISTRIBUTION_TAG = "distribution.tag";
-    public static final String PROPERTY_CREDITS = "about.credits";
 
     private static final String AUDIO_DIR = "audio";
     private static final String IMAGES_DIR = "images";
@@ -314,13 +313,6 @@ public class PhetResources {
      */
     public String getDescription( String flavor ) {
         return localizedProperties.getProperty( flavor + "." + PROPERTY_DESCRIPTION );
-    }
-    
-    /**
-     * Gets the localized credits for the sim (optional property).
-     */
-    public String getCredits() {
-        return localizedProperties.getProperty( PROPERTY_CREDITS );
     }
     
     /**

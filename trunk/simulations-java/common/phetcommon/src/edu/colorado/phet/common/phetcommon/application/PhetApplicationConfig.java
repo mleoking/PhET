@@ -165,15 +165,6 @@ public class PhetApplicationConfig implements IStatistics, ISimInfo {
     }
 
     /**
-     * Gets the simulation credits.
-     *
-     * @return credits, possibly null
-     */
-    public String getCredits() {
-        return resourceLoader.getCredits();
-    }
-
-    /**
      * Retrieves the object that encapsulates the project's version information.
      *
      * @return PhetProjectVersion

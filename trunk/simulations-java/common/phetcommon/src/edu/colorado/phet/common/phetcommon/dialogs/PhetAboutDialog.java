@@ -51,7 +51,7 @@ public class PhetAboutDialog extends JDialog {
     private static final String CREDITS_BUTTON = PhetCommonResources.getString( "Common.About.CreditsButton" );
     private static final String OK_BUTTON = PhetCommonResources.getString( "Common.About.OKButton" );
 
-    private String titleString, descriptionString, versionString, buildDate, distributionTag, creditsString;
+    private String titleString, descriptionString, versionString, buildDate, distributionTag;
     private ISimInfo config;
 
     /**
@@ -84,7 +84,6 @@ public class PhetAboutDialog extends JDialog {
         versionString = config.getVersion().formatForAboutDialog();
         buildDate = config.getVersion().formatTimestamp();
         distributionTag = config.getDistributionTag();
-        creditsString = config.getCredits();
 
         setTitle( TITLE + " " + titleString );
 
