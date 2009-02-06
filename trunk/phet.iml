@@ -66,7 +66,7 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/mri/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/mvc-example/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/nuclear-physics/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/ohm-1d/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/battery-resistor-circuit/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/optical-quantum-control/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/optical-tweezers/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/ph-scale/src" isTestSource="false" />
@@ -437,7 +437,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/simulations-java/simulations/ohm-1d/data" />
+          <root url="file://$MODULE_DIR$/simulations-java/simulations/battery-resistor-circuit/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
