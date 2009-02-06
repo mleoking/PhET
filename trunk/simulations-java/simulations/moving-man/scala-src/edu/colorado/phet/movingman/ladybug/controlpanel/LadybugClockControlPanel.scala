@@ -7,7 +7,6 @@ import _root_.edu.colorado.phet.common.piccolophet.event.CursorHandler
 import _root_.edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloTimeControlPanel.BackgroundNode
 import _root_.edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import java.awt._
-import java.awt.event.{ComponentAdapter, ComponentEvent}
 import _root_.edu.colorado.phet.common.piccolophet.event.ToolTipHandler
 import _root_.edu.colorado.phet.common.piccolophet.nodes.mediabuttons.DefaultIconButton
 import _root_.edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PlayPauseButton
@@ -17,6 +16,8 @@ import _root_.edu.colorado.phet.common.piccolophet.PhetPCanvas
 import _root_.scala.collection.mutable.ArrayBuffer
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources
 import edu.colorado.phet.common.phetcommon.resources.PhetResources
+import java.awt.event.{ActionEvent, ComponentAdapter, ComponentEvent, ActionListener}
+
 import java.awt.geom.{Line2D, Ellipse2D}
 import java.util.{Hashtable, Dictionary}
 import javax.swing._
@@ -27,6 +28,7 @@ import umd.cs.piccolo.PNode
 import umd.cs.piccolo.util.PBounds
 import umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloTimeControlPanel.BackgroundNode
+import edu.colorado.phet.movingman.ladybug.LadybugUtil._
 
 class MyButtonNode(text: String, icon: Icon, action: () => Unit) extends PText(text) {
   addInputEventListener(new PBasicInputEventHandler() {
@@ -58,6 +60,15 @@ class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
 
     val modePanel=new ModePanel(module.model)
     addControl(new PSwing(modePanel))
+
+    val clearButton=new JButton("Clear")
+    
+    clearButton.addActionListener(()=>{
+        println("pressed a")
+        module.model.clearHistory
+        module.model.setPaused(true)
+    })
+    addControl(new PSwing(clearButton))
 
   val playbackSpeedSlider = new PlaybackSpeedSlider(module.model)
   playbackSpeedSlider.setOffset(0, prefSizeM.getHeight / 2 - playbackSpeedSlider.getFullBounds.getHeight / 2)
