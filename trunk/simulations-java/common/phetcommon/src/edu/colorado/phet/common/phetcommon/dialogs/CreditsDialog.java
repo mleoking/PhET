@@ -8,7 +8,7 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Set;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
@@ -143,7 +143,7 @@ public class CreditsDialog extends JDialog {
         }
         AnnotationParser.Annotation t = AnnotationParser.parse( res );
         HashMap map = t.getMap();
-        Set keys = map.keySet();
+        ArrayList keys = t.getKeyOrdering();
         String credits = "";
         for ( Iterator iterator = keys.iterator(); iterator.hasNext(); ) {
             String key = (String) iterator.next();
