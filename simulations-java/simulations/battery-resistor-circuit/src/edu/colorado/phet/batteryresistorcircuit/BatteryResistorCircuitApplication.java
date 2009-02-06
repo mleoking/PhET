@@ -19,7 +19,7 @@ public class BatteryResistorCircuitApplication extends PhetApplication {
 
     public static class Ohm1DApplicationConfig extends PhetApplicationConfig {
         public Ohm1DApplicationConfig( String[] commandLineArgs ) {
-            super( commandLineArgs, "ohm-1d" );
+            super( commandLineArgs, "battery-resistor-circuit" );
             super.setLookAndFeel( new PhetLookAndFeel() );
             setFrameSetup( new FrameSetup.CenteredWithSize( Ohm1DSimulationPanel.BASE_FRAME_WIDTH, 660 ) );
         }
