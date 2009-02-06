@@ -1,18 +1,19 @@
 package edu.colorado.phet.common.phetcommon.util;
 
-import java.util.StringTokenizer;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
+import java.util.StringTokenizer;
 
 //todo: remove duplicate copy in licensing, build-tools and phet-common
 public class AnnotationParser {
-    public static Annotation[] getAnnotations(String text) {
-        StringTokenizer st=new StringTokenizer( text,"\n");
-        ArrayList annotations=new ArrayList( );
-        while(st.hasMoreTokens() ){
-            String tok=st.nextToken(  ).trim();
-            if (!tok.startsWith( "#" )){
-                annotations.add(parse( tok ));
+    public static Annotation[] getAnnotations( String text ) {
+        StringTokenizer st = new StringTokenizer( text, "\n" );
+        ArrayList annotations = new ArrayList();
+        while ( st.hasMoreTokens() ) {
+            String tok = st.nextToken().trim();
+            if ( !tok.startsWith( "#" ) ) {
+                annotations.add( parse( tok ) );
             }
         }
         return (Annotation[]) annotations.toArray( new Annotation[annotations.size()] );
@@ -21,10 +22,12 @@ public class AnnotationParser {
     public static class Annotation {
         private String id;
         private HashMap map;
+        private ArrayList keyOrdering;
 
-        public Annotation( String id, HashMap map ) {
+        public Annotation( String id, HashMap map, ArrayList keyOrdering ) {
             this.id = id;
             this.map = map;
+            this.keyOrdering = keyOrdering;
         }
 
         public String getId() {
@@ -42,6 +45,10 @@ public class AnnotationParser {
         public String get( String s ) {
             return (String) map.get( s );
         }
+
+        public ArrayList getKeyOrdering() {
+            return keyOrdering;
+        }
     }
 
     public static Annotation parse( String line ) {
@@ -49,13 +56,15 @@ public class AnnotationParser {
         StringTokenizer st = new StringTokenizer( line, " " );
         HashMap map = new HashMap();
         String id = st.nextToken();
+        ArrayList keyOrdering = new ArrayList();
         for ( int index = line.indexOf( '=' ); index >= 0; index = line.indexOf( '=', index + 1 ) ) {
 //            System.out.println( "Found '=' at: " + index );
             String key = getKey( line, index );
             String value = getValue( line, index );
             map.put( key, value );
+            keyOrdering.add( key );
         }
-        return new Annotation( id, map );
+        return new Annotation( id, map, keyOrdering );
     }
 
     private static String getValue( String line, int index ) {
