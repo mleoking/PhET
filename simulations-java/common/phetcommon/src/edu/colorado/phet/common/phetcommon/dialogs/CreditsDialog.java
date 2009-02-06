@@ -171,6 +171,14 @@ public class CreditsDialog extends JDialog {
         return pattern+": "+value;
     }
 
+    /**
+     * Reads the license file from <project>/data/<project>/contib-licenses/<license>
+     * where <license> is something like lgpl.txt or junit-cpl-v10.html.
+     *
+     * These files are placed in the contrib-licenses directory by the phet build process, see the Misc menu in the PhETBuildGUI
+     * @param id
+     * @return
+     */
     public String getLicenseText( String id ) {
         try {
             AnnotationParser.Annotation[] all = AnnotationParser.getAnnotations( phetLicenseString );
