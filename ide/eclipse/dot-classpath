@@ -4,9 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 	
-	<!-- ?? -->
-	<classpathentry kind="src" path="simulations-java/common/build-reports/src"/>
-	
 	<!-- common code, Flash sims -->
 	<classpathentry kind="src" path="simulations-flash/flash-launcher/src"/>
 	<classpathentry kind="src" path="simulations-flash/flash-launcher/data"/>
