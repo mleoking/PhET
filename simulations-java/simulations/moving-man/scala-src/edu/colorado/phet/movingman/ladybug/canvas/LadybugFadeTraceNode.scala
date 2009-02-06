@@ -2,7 +2,7 @@ package edu.colorado.phet.movingman.ladybug.canvas
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
-import java.awt.geom.{Line2D, Path2D, GeneralPath, Point2D}
+import java.awt.geom.{Line2D, GeneralPath, Point2D}
 import java.awt.{BasicStroke, Color}
 import model.{DataPoint, ObservableS, LadybugModel}
 import java.lang.Math._

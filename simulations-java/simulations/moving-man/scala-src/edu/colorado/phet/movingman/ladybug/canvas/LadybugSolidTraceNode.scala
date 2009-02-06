@@ -7,7 +7,6 @@ import java.awt.{BasicStroke, Color}
 import model.{DataPoint, ObservableS, LadybugModel}
 
 import umd.cs.piccolo.PNode
-import java.awt.geom.Path2D
 
 class LadybugSolidTraceNode(model: LadybugModel, transform: ModelViewTransform2D, shouldBeVisible: () => Boolean, observable: ObservableS) extends LadybugTraceNode(model, transform, shouldBeVisible, observable) {
     val path = new PhetPPath(new BasicStroke(4), LadybugColorSet.position)

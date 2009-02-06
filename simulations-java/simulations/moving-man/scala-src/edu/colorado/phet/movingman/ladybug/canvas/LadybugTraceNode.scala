@@ -7,7 +7,6 @@ import java.awt.{BasicStroke, Color}
 import model.{ObservableS, LadybugModel}
 
 import umd.cs.piccolo.PNode
-import java.awt.geom.Path2D
 
 abstract class LadybugTraceNode(model: LadybugModel, transform: ModelViewTransform2D, shouldBeVisible: () => Boolean, observable: ObservableS) extends PNode {
     var clearPt = 0
