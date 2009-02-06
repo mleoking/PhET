@@ -84,7 +84,7 @@ public class NuclearPhysicsConstants {
     public static final Color SELECTED_TAB_COLOR = Color.ORANGE;
     
     // Color for the label used for the Polonium nucleus.
-    public static final Color POLONIUM_LABEL_COLOR = new Color(0, 255, 100);
+    public static final Color POLONIUM_LABEL_COLOR = Color.YELLOW;
     
     // Color for label used for the Lead nucleus.
     public static final Color LEAD_LABEL_COLOR = Color.BLACK;
