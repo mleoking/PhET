@@ -35,7 +35,6 @@ import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayCanvas;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayModel;
-import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -76,7 +75,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     private static final Font   TICK_MARK_LABEL_FONT = new PhetFont( Font.PLAIN, 12 );
     private static final Color  TICK_MARK_COLOR = AXES_LINE_COLOR;
     private static final Font   SMALL_LABEL_FONT = new PhetFont( Font.PLAIN, 14 );
-    private static final Font   LARGE_LABEL_FONT = new PhetFont( Font.BOLD, 20 );
+    private static final Font   LARGE_LABEL_FONT = new PhetFont( Font.BOLD, 18 );
     private static final float  HALF_LIFE_LINE_STROKE_WIDTH = 2.0f;
     private static final Stroke HALF_LIFE_LINE_STROKE = new BasicStroke( HALF_LIFE_LINE_STROKE_WIDTH, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 3.0f, 3.0f }, 0 );
     private static final Color  HALF_LIFE_LINE_COLOR = new Color (238, 0, 0);
@@ -85,7 +84,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     private static final double RESIZE_HANDLE_SIZE = 35;
 
     // Constants that control the location of the origin.
-    private static final double X_ORIGIN_PROPORTION = 0.27;
+    private static final double X_ORIGIN_PROPORTION = 0.25;
     private static final double Y_ORIGIN_PROPORTION = 0.65;
 
     // Tweakable values that can be used to adjust where the nuclei appear on
@@ -152,6 +151,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     private PText _numDecayedNucleiText;
     private PText _dummyNumberText;
     private PieChartNode _pieChart;
+    private PieChartNode.PieValue[] _pieChartValues;
 
     // Parent node that will be non-pickable and will contain all of the
     // non-interactive portions of the chart.
@@ -208,6 +208,25 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
             };
             
             public void nucleusTypeChanged(){
+        		switch (_model.getNucleusType()){
+        		case NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM:
+        			_pieChartValues[0].setColor(NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR);
+        			_pieChartValues[1].setColor(NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR);
+        			break;
+        			
+        		case NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM:
+        			_pieChartValues[0].setColor(NuclearPhysicsConstants.POLONIUM_LABEL_COLOR);
+        			_pieChartValues[1].setColor(NuclearPhysicsConstants.LEAD_LABEL_COLOR);
+        			break;
+        			
+        		default:
+        			// If these ever show up, someone will notice (and
+        			// presumably fix the problem).
+        			_pieChartValues[0].setColor(Color.PINK);
+         			_pieChartValues[1].setColor(Color.ORANGE);
+        			break;
+        		}
+
             	update();
             };
             
@@ -308,10 +327,10 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _nonPickableChartNode.addChild( _yAxisLabel2 );
         
         // Add the pie chart.
-        PieChartNode.PieValue[] values = new PieValue[]{
-                new PieChartNode.PieValue( 25, NuclearPhysicsConstants.POLONIUM_LABEL_COLOR ),
-                new PieChartNode.PieValue( 15, NuclearPhysicsConstants.LEAD_LABEL_COLOR )};
-        _pieChart = new PieChartNode(values, new Rectangle(20, 20));  // Arbitrary initial size, resized later.
+        _pieChartValues = new PieValue[]{
+                new PieChartNode.PieValue( MultiNucleusAlphaDecayModel.MAX_NUCLEI, NuclearPhysicsConstants.POLONIUM_LABEL_COLOR ),
+                new PieChartNode.PieValue( 0, NuclearPhysicsConstants.LEAD_LABEL_COLOR )};
+        _pieChart = new PieChartNode(_pieChartValues, new Rectangle(20, 20));  // Arbitrary initial size, resized later.
         _nonPickableChartNode.addChild( _pieChart );
         
         // Add the text for labeling the pre- and post-decay quantities of the
@@ -332,7 +351,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         
         // Create a dummy text value for consistent positioning of the real
         // numerical values.
-        _dummyNumberText = new PText("000");
+        _dummyNumberText = new PText("00");
         _dummyNumberText.setFont(LARGE_LABEL_FONT);
 
         // Create the line that will illustrate where the half life is.
@@ -478,7 +497,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         		yAxisLabelCenter + (_yAxisLabel1.getFullBounds().height / 2) );
         
         // Position the pie chart.
-        int pieChartDiameter = (int)Math.round(Math.min(_usableWidth * 0.15, _usableHeight * 0.3));
+        int pieChartDiameter = (int)Math.round(Math.min(_usableWidth * 0.10, _usableHeight * 0.4));
         _pieChart.setArea( new Rectangle(pieChartDiameter, pieChartDiameter) );
         PBounds pieChartBounds = _pieChart.getFullBoundsReference();
         _pieChart.setOffset(
@@ -490,7 +509,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         pieChartBounds = _pieChart.getFullBoundsReference(); // Refresh the reference.
         double numberTextWidth = _dummyNumberText.getFullBoundsReference().width;
         double numberTextHeight = _dummyNumberText.getFullBoundsReference().height;
-        _dummyNumberText.setOffset(pieChartBounds.getX() - numberTextWidth * 1.1, 
+        _dummyNumberText.setOffset(pieChartBounds.getX() - numberTextWidth * 1.2, 
         		preDecayPosY - (numberTextHeight / 2));
 
         // Update and position the labels for the quantities of the various nuclei.
@@ -507,6 +526,9 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
 
         // Update the numbers for the various nuclei.
         updateNucleiNumberText();
+        
+        // Update the pie chart proportions.
+        updatePieChartProportions();
         
         // Rescale the nucleus nodes and set their positions.
         Set entries = _mapNucleiToNucleiData.entrySet();
@@ -590,10 +612,30 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         // This needs to be here, rather than in the update function, so that
         // the text can be right justified.
         double rightSideXPos = _dummyNumberText.getFullBoundsReference().getMaxX();
-        _numUndecayedNucleiText.setOffset( rightSideXPos -_numDecayedNucleiText.getFullBoundsReference().width, 
+        _numUndecayedNucleiText.setOffset( rightSideXPos -_numUndecayedNucleiText.getFullBoundsReference().width, 
         		preDecayPosY - (numberTextHeight / 2));
         _numDecayedNucleiText.setOffset( rightSideXPos -_numDecayedNucleiText.getFullBoundsReference().width, 
         		postDecayPosY - (numberTextHeight / 2));
+    }
+    
+    /**
+     * Update the proportions represented by the pie chart based on the
+     * relative numbers of the two nucleus types.
+     */
+    private void updatePieChartProportions(){
+    	
+    	if (_preDecayCount == 0 && _postDecayCount == 0){
+    		// If nothing is currently in the active state, set the chart up
+    		// so that it looks like the pre-decay color.
+        	_pieChartValues[0].setValue(1);
+        	_pieChartValues[1].setValue(0);
+    		
+    	}
+    	else{
+        	_pieChartValues[0].setValue(_preDecayCount);
+        	_pieChartValues[1].setValue(_postDecayCount);
+    	}
+    	_pieChart.setPieValues(_pieChartValues);
     }
     
 	private void handleModelElementAdded(Object modelElement) {
@@ -791,6 +833,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         	    	_internalState = STATE_PRE_DECAY;
         	    	_preDecayCount++;
         	    	updateNucleiNumberText();
+        	    	updatePieChartProportions();
         			
         	    	if (_nucleusNode == null){
             			// Create a node for this nucleus.
@@ -823,6 +866,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     				_preDecayCount--;
     				_postDecayCount++;
         	    	updateNucleiNumberText();
+        	    	updatePieChartProportions();
 
     				// Calculate the final position where this nucleus should end
         			// up based how many other nuclei have already decayed at
@@ -844,6 +888,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         	    	_internalState = STATE_INACTIVE;
         	    	_preDecayCount--;
         	    	updateNucleiNumberText();
+        	    	updatePieChartProportions();
         	    	removeNodeFromChart();
     			}
     			
@@ -865,12 +910,14 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     				_postDecayCount--;
     				_preDecayCount++;
         	    	updateNucleiNumberText();
+        	    	updatePieChartProportions();
     			}
     			else if (!_nucleus.isDecayActive() && !_nucleus.hasDecayed()){
     				// The nucleus has been deactivated.
         	    	_internalState = STATE_INACTIVE;
         	    	_postDecayCount--;
         	    	updateNucleiNumberText();
+        	    	updatePieChartProportions();
         	    	removeNodeFromChart();
     			}
     			else if (_fallCount > 0){
