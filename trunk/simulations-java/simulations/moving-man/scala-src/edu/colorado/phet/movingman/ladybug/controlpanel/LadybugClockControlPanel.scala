@@ -63,8 +63,7 @@ class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
 
     val clearButton=new JButton("Clear")
     
-    clearButton.addActionListener(()=>{
-        println("pressed a")
+    clearButton.addActionListener(()=>{//todo : couldn't figure out how to remove ()=> with by name using implicits
         module.model.clearHistory
         module.model.setPaused(true)
     })
