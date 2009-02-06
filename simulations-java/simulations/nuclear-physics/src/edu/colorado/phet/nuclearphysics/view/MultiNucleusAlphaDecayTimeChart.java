@@ -146,7 +146,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     private PText _numUndecayedNucleiText;
     private ShadowPText _numDecayedNucleiLabel;
     private PText _numDecayedNucleiText;
-    private PNode _arrowNode;
     private PText _dummyText;
 
     // Parent node that will be non-pickable and will contain all of the
@@ -323,11 +322,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         // numerical values.
         _dummyText = new PText("000");
         _dummyText.setFont(LARGE_LABEL_FONT);
-
-        // Add the little arrow that signifies decay from one nucleus type to another.
-        _arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(0, 8), 5, 10, 3 );
-        _arrowNode.setPaint( Color.BLACK );
-        _nonPickableChartNode.addChild(_arrowNode);
 
         // Create the line that will illustrate where the half life is.
         _halfLifeMarkerLine = new PPath();
@@ -573,13 +567,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         		preDecayPosY - (labelHeight * 0.5));
         _numDecayedNucleiText.setOffset(labelMiddleX - decayedTextBounds.width / 2,
         		postDecayPosY - (labelHeight * 0.5));
-
-        _arrowNode.setOffset( 
-        		_numUndecayedNucleiText.getFullBoundsReference().x + _numUndecayedNucleiText.getFullBoundsReference().width / 2,
-        		decayedTextBounds.y - ((decayedTextBounds.y - undecayedTextBounds.getMaxY()) / 2));
-        _arrowNode.setOffset( 
-        		_numUndecayedNucleiText.getFullBoundsReference().x + _numUndecayedNucleiText.getFullBoundsReference().width / 2,
-        		undecayedTextBounds.getMaxY());
     }
     
 	private void handleModelElementAdded(Object modelElement) {
