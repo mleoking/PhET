@@ -1,3 +1,5 @@
+> Trace label and controls moved left to align with other controls in control panel.
+> Removed clear button by trace
 > Added clear button by recording controls
 > Blue timeline color matches the trace color
 > Timeline blue line thinner so that it looks more like "inside" the timeline

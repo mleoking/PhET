@@ -14,12 +14,14 @@ import java.awt.event.{ActionEvent, ActionListener}
 import javax.swing.{Box, JButton, JRadioButton, JLabel}
 import LadybugUtil._
 import swing.MyRadioButton
+import java.awt.GridBagConstraints._
 
 class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
     val myModule = module;
     def createBox = Box.createRigidArea(new Dimension(10, 4))
 
     class VectorControlPanel(m: VectorVisibilityModel) extends BoxPanel(Orientation.Vertical) {
+        contents += new Label("Vectors") {font = new PhetFont(14, true)}
         contents += new MyRadioButton("Show velocity vector", {
             m.velocityVectorVisible = true
             m.accelerationVectorVisible = false
@@ -48,11 +50,13 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
             , !m.velocityVectorVisible && !m.accelerationVectorVisible,
             m.addListener)
     }
-    addControl(new Label("Vectors     ") {font = new PhetFont(14, true)})
+    getContentPanel.setAnchor(WEST)
+    getContentPanel.setFillNone
+
     addControl(new VectorControlPanel(module.getVectorVisibilityModel))
 
     class MotionControlPanel(m: LadybugMotionModel) extends BoxPanel(Orientation.Vertical) {
-        contents += new Label("Choose Motion          ") {font = new PhetFont(14, true)}
+        contents += new Label("Choose Motion") {font = new PhetFont(14, true)}
 
         class MyRadioButtonWithEnable(text: String, actionListener: => Unit, getter: => Boolean, addListener: (() => Unit) => Unit, shouldBeEnabled: () => Boolean, enableObservable: ObservableS) extends MyRadioButton(text, actionListener, getter, addListener) {
             enableObservable.addListener(() => peer.setEnabled(shouldBeEnabled()))
@@ -94,17 +98,9 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
             , !m.lineVisible && !m.dotsVisible && !m.fadeVisible && !m.fadeFullVisible,
             m.addListener)
     }
-    val f = new FlowPanel
-    f.contents += new TraceControlPanel(module.getPathVisibilityModel)
-    //  f.contents += new Button("Clear") {
-    //      reactions += {
-    //          case ButtonClicked(_) => {
-    //              module.model.clearHistory
-    //              module.model.setPaused(true)
-    //          }
-    //      }
-    //  }
-    addControl(f)
+
+
+    addControl(new TraceControlPanel(module.getPathVisibilityModel))
     addControl(createBox)
 
     val remoteControl = new RemoteControl(module.model, () => {module.model.startRecording()})
