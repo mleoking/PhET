@@ -34,6 +34,8 @@
 	<classpathentry kind="src" path="simulations-java/simulations/acid-base-solutions/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/balloons/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/balloons/data"/>
+	<classpathentry kind="src" path="simulations-java/simulations/battery-resistor-circuit/src"/>
+	<classpathentry kind="src" path="simulations-java/simulations/battery-resistor-circuit/data"/>
     <classpathentry kind="src" path="simulations-java/simulations/battery-voltage/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/battery-voltage/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/bound-states/src"/>
@@ -86,8 +88,6 @@
 	<classpathentry kind="src" path="simulations-java/simulations/mvc-example/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/nuclear-physics/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/nuclear-physics/data"/>
-	<classpathentry kind="src" path="simulations-java/simulations/ohm-1d/src"/>
-	<classpathentry kind="src" path="simulations-java/simulations/ohm-1d/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/optical-quantum-control/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/optical-quantum-control/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/optical-tweezers/src"/>
