@@ -56,6 +56,9 @@ class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
   val backgroundNode = new BackgroundNode
   addScreenChild(backgroundNode)
 
+    val modePanel=new ModePanel(module.model)
+    addControl(new PSwing(modePanel))
+
   val playbackSpeedSlider = new PlaybackSpeedSlider(module.model)
   playbackSpeedSlider.setOffset(0, prefSizeM.getHeight / 2 - playbackSpeedSlider.getFullBounds.getHeight / 2)
   playbackSpeedSlider.addInputEventListener(new CursorHandler)
