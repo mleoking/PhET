@@ -1,3 +1,5 @@
+# 3.05.02 (28226) 02-06-2009
+> Added a pie chart to depict proportion of decayed nuclei, changed half life marker position for custom nucleus, changed label colors.
 # 3.05.01 (27761) 01-28-2009
 > Fixed issue where the bucket label was not correct when the custom nucleus was selected.
 # 3.05.00 (27554) 01-22-2009
