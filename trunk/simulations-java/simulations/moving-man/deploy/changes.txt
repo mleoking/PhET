@@ -1,3 +1,4 @@
+> Put the remote and the controls for remote on a raised section of control panel, so that it is clear that these controls go with remote, and to separate it (somewhat) from other controls.
 > Trace label and controls moved left to align with other controls in control panel.
 > Removed clear button by trace
 > Added clear button by recording controls
