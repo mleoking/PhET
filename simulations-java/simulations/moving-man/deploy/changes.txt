@@ -3,6 +3,7 @@
 > When you hit "clear" button for trace, recording should not begin until you move the bug (like start up state). Bug will stay in last position, and clear the trace and recording, but not begin recording until bug is moved.
 > Removed checkbox for "Hide mouse during drag"
 > Added the label "Vectors" above the controls for showing/hiding vectors.
+> Added radio buttons in the play controls box for "Recording" and "Playback" modes. These will double as indicators of the current mode.
 
 # 1.20.26 (28105) Feb 5, 2009
 > Added fade feature on dot trace
