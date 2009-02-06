@@ -14,12 +14,17 @@ class ModePanel(model: LadybugModel) extends JPanel {
     val recordingButton = addNewControl{new MyRadioButton("Recording", model.setRecord(true), {model.isRecord}, model.addListener)}
     val playbackButton = addNewControl{new MyRadioButton("Playback", model.setRecord(false), {model.isPlayback}, model.addListener)}
 
-    model.addListener(() => updateColors)
-    def updateColors = {
-        recordingButton.peer.setForeground(color(recordingButton.peer.isSelected && !model.isPaused))
-        playbackButton.peer.setForeground(color(playbackButton.peer.isSelected && !model.isPaused))
+    def addAndInvoke(addListener: (() => Unit) => Unit)(updateFunction: () => Unit) = {
+        addListener(updateFunction)
+        updateFunction
     }
-    updateColors
+
+    addAndInvoke(model.addListener){
+        () => {
+            recordingButton.peer.setForeground(color(recordingButton.peer.isSelected && !model.isPaused))
+            playbackButton.peer.setForeground(color(playbackButton.peer.isSelected && !model.isPaused))
+        }
+    }
 
     //a control structure that (1) creates a swing component and (2) automatically adds it
     def addNewControl(m: => MyRadioButton): MyRadioButton = {
