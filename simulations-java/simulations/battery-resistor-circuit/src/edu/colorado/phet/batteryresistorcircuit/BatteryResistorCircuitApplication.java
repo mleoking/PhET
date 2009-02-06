@@ -9,24 +9,24 @@ import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
 public class BatteryResistorCircuitApplication extends PhetApplication {
-    private Ohm1DModule module;
+    private BatteryResistorCircuitModule module;
 
     public BatteryResistorCircuitApplication( PhetApplicationConfig config ) {
         super( config );
-        module = new Ohm1DModule( config );
+        module = new BatteryResistorCircuitModule( config );
         addModule( module );
     }
 
-    public static class Ohm1DApplicationConfig extends PhetApplicationConfig {
-        public Ohm1DApplicationConfig( String[] commandLineArgs ) {
+    public static class BatteryResistorCircuitApplicationConfig extends PhetApplicationConfig {
+        public BatteryResistorCircuitApplicationConfig( String[] commandLineArgs ) {
             super( commandLineArgs, "battery-resistor-circuit" );
             super.setLookAndFeel( new PhetLookAndFeel() );
             setFrameSetup( new FrameSetup.CenteredWithSize( Ohm1DSimulationPanel.BASE_FRAME_WIDTH, 660 ) );
         }
     }
 
-    private class Ohm1DModule extends Module {
-        public Ohm1DModule( PhetApplicationConfig config ) {
+    private class BatteryResistorCircuitModule extends Module {
+        public BatteryResistorCircuitModule( PhetApplicationConfig config ) {
             super( config.getName(), new ConstantDtClock( 30, 1 ) );
             Ohm1DSimulationPanel simulationPanel = new Ohm1DSimulationPanel( getClock() );
             try {
@@ -46,7 +46,7 @@ public class BatteryResistorCircuitApplication extends PhetApplication {
 
     public static void main( String[] args ) {
 
-        Ohm1DApplicationConfig dApplicationConfig = new Ohm1DApplicationConfig( args );
+        BatteryResistorCircuitApplicationConfig dApplicationConfig = new BatteryResistorCircuitApplicationConfig( args );
         new PhetApplicationLauncher().launchSim( dApplicationConfig, new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 return new BatteryResistorCircuitApplication( config );
