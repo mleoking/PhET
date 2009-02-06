@@ -2,6 +2,7 @@ package edu.colorado.phet.movingman.ladybug.controlpanel
 
 import _root_.edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import _root_.edu.colorado.phet.common.piccolophet.event.CursorHandler
+import javax.swing.border.BevelBorder
 import swing.MyRadioButton
 import umd.cs.piccolo.event.{PInputEventListener, PBasicInputEventHandler, PInputEvent}
 import util.ToggleListener
@@ -23,12 +24,12 @@ import LadybugUtil._
 class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends VerticalLayoutPanel with ObservableS {
     def mode = _mode
 
-    val CANVAS_WIDTH = 150
-    val CANVAS_HEIGHT = 150
+    val CANVAS_WIDTH = 155
+    val CANVAS_HEIGHT = 155
     val arrowHeadWidth = 30
     val arrowHeadHeight = 30
     val arrowTailWidth = 20
-
+    setBorder(new BevelBorder(BevelBorder.RAISED))
     val positionMode = new RemoteMode(LadybugColorSet.position, 20, _.getPosition) {
         def setLadybugState(pt: Point2D) = {
             model.setSamplePoint(pt)
