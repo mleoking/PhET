@@ -16,7 +16,6 @@ import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
@@ -259,6 +258,6 @@ public class PhetAboutDialog extends JDialog {
     }
 
     protected void showCredits() {
-        new DynamicCreditsDialog( this, config.getProjectName() ).setVisible( true );
+        new CreditsDialog( this, config.getProjectName() ).setVisible( true );
     }
 }

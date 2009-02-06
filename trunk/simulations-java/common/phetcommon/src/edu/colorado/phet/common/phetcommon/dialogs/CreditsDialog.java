@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
-import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
@@ -21,7 +20,7 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.phetcommon.util.AnnotationParser;
 
-public class DynamicCreditsDialog extends JDialog {
+public class CreditsDialog extends JDialog {
     // preferred size for the scrollpane, change this to affect initial dialog size
     private static final Dimension SCROLLPANE_SIZE = new Dimension( 525, 300 );
 
@@ -32,7 +31,7 @@ public class DynamicCreditsDialog extends JDialog {
     private String projectName;
     private String phetLicenseString;
     
-    public DynamicCreditsDialog( Dialog owner, String projectName ) {
+    public CreditsDialog( Dialog owner, String projectName ) {
         super( owner, TITLE, true );
         this.projectName = projectName;
         try {
@@ -179,7 +178,7 @@ public class DynamicCreditsDialog extends JDialog {
 
     public static void main( String[] args ) {
         //copy license info
-        DynamicCreditsDialog dialog = new DynamicCreditsDialog( new JDialog(), "bound-states" );
+        CreditsDialog dialog = new CreditsDialog( new JDialog(), "bound-states" );
         SwingUtils.centerWindowOnScreen( dialog );
         dialog.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
