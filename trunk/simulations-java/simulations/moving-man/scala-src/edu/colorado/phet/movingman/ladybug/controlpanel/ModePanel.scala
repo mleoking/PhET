@@ -1,6 +1,6 @@
 package edu.colorado.phet.movingman.ladybug.controlpanel
 
-import _root_.scala.swing.Panel
+import _root_.scala.swing.{Component, Panel}
 import javax.swing.BoxLayout._
 import javax.swing.{BoxLayout, JPanel, JComponent}
 import model.LadybugModel
@@ -10,8 +10,8 @@ import java.awt.Color._
 class ModePanel(model: LadybugModel) extends JPanel {
     setLayout(new BoxLayout(this, Y_AXIS))
 
-    val recordingButton = addComponent{new MyRadioButton("Recording", model.setRecord(true), {model.isRecord}, model.addListener)}
-    val playbackButton = addComponent{new MyRadioButton("Playback", model.setRecord(false), {model.isPlayback}, model.addListener)}
+    val recordingButton = addComponent{new MyRadioButton("Recording", model.setRecord(true), model.isRecord, model.addListener)}
+    val playbackButton = addComponent{new MyRadioButton("Playback", model.setRecord(false), model.isPlayback, model.addListener)}
 
     addListener(model.addListenerByName){
         def color(b: Boolean) = if (b) red else black
@@ -23,7 +23,7 @@ class ModePanel(model: LadybugModel) extends JPanel {
     //a suitable replacement for something like
     //val button=createButton
     //add(button)
-    def addComponent(m: => MyRadioButton): MyRadioButton = {
+    def addComponent[T <: Component](m: => T): T = {
         val component = m
         add(component.peer)
         component
