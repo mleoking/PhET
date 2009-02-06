@@ -233,8 +233,21 @@ class LadybugModel extends ObservableS {
     def setRecord(rec: Boolean) = {
         if (record != rec) {
             record = rec
+
+            if (record) {
+                clearHistoryRemainder
+            }
+
             notifyListeners()
         }
+    }
+
+    def clearHistoryRemainder={
+        val earlyEnough=history.filter(_.time<time)
+        history.clear
+        history.appendAll(earlyEnough)
+        clearSampleHistory() 
+        resetMotion2DModel
     }
 
     def setPlaybackSpeed(speed: Double) = {

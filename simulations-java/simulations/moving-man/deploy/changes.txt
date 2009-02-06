@@ -12,6 +12,7 @@
 > Added the label "Vectors" above the controls for showing/hiding vectors.
 > Added radio buttons in the play controls box for "Recording" and "Playback" modes. These will double as indicators of the current mode.
 > Rewind button is always grayed out in record mode
+> If you switch to record mode (from playback) it erases the remainder of the timeline after thumb position and starts recording from where the thumb was.
 
 # 1.20.26 (28105) Feb 5, 2009
 > Added fade feature on dot trace
