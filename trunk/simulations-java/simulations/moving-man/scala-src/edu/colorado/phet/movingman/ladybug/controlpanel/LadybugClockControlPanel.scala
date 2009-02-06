@@ -85,8 +85,8 @@ class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
     })
     updateRewindEnabled
     def updateRewindEnabled = {
-        val disabled = (module.model.isPlayback && module.model.getPlaybackIndex == 0) || module.model.getHistory.length == 0
-        rewind.setEnabled(!disabled)
+        val enabled=module.model.isPlayback&&module.model.getHistory.length>0
+        rewind.setEnabled(enabled)
     }
     rewind.addInputEventListener(new ToolTipHandler("Rewind", this))
     rewind.setOffset(0, 12)
