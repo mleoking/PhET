@@ -41,6 +41,9 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
 
     addInputEventListener(new ToggleListener(new CursorHandler, () => interactive))
 
+
+    //todo: remove this outer iterator, should be event driven from drags and presses
+    //this will fix the collision with the remote control
     var loc: Point2D = null
     model.tickListeners += (() => {
         model.setPenDown(loc != null)
