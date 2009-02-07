@@ -22,9 +22,7 @@ class LadybugFadeTraceNode(model: LadybugModel, transform: ModelViewTransform2D,
             for (i <- 0 to (historyToShow.length - 2)) {
                 val a = transform.modelToView(historyToShow(i))
                 val b = transform.modelToView(historyToShow(i + 1))
-                val curTime = model.getTime
-                val time = historyToShow(i).time
-                val dt = abs(curTime - time)
+                val dt = abs(model.getTime - historyToShow(i).time)
 
                 val color = toColor(dt, maxFade)
                 if (color.getTransparency != 0)

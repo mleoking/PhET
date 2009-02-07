@@ -31,9 +31,7 @@ class LadybugDotTraceNode(model: LadybugModel, transform: ModelViewTransform2D, 
             for (h <- getHistoryToShow()) {
                 val pt: Point2D.Float = h
                 val tx = transform.modelToView(pt)
-                val time = h.time
-                val curTime = model.getTime
-                val dt = abs(curTime - time)
+                val dt = abs(model.getTime - h.time)
                 node.addChild(new DotNode(tx, dt))
             }
         }
