@@ -16,9 +16,9 @@ require_once("include/web-utils.php");
 require_once("page_templates/SitePage.php");
 
 class DownloadPage extends SitePage {
-    function __construct($nav_selected_page, $referrer, $page_title = "Download File") {
+    function __construct($nav_selected_page, $page_title = "Download File") {
         $this->render = true;
-        parent::__construct($page_title, $nav_selected_page, $referrer, AUTHLEVEL_NONE, false);
+        parent::__construct($page_title, $nav_selected_page, null, AUTHLEVEL_NONE, false);
     }
 
     function update() {
@@ -120,7 +120,7 @@ EOT;
 
 }
 
-$download_page = new DownloadPage(NAV_NOT_SPECIFIED, null);
+$download_page = new DownloadPage(NAV_NOT_SPECIFIED);
 $download_page->update();
 $download_page->render();
 

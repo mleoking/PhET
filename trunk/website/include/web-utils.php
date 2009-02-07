@@ -525,8 +525,6 @@ EO_DISPLAY_SLIDESHOW_2;
     }
 
     function convert_comma_list_into_linked_keyword_list($list, $print_commas = false) {
-        global $referrer;
-
         $xml = '<span class="keywordlist">';
 
         $comma_xml = '';
@@ -547,7 +545,7 @@ EO_DISPLAY_SLIDESHOW_2;
                 $xml .= $comma_xml;
             }
 
-            $xml .= '<a href="'.SITE_ROOT.'simulations/search.php?search_for='.urlencode($keyword).'&amp;referrer='.$referrer.'">'.$keyword.'</a>';
+            $xml .= '<a href="'.SITE_ROOT.'simulations/search.php?search_for='.urlencode($keyword).'">'.$keyword.'</a>';
         }
 
         $xml .= '</span>';

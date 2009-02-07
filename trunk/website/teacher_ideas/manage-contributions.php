@@ -83,7 +83,7 @@ EOT;
 
 }
 
-$page = new ManageContributionsPage("Manage Contributions", NAV_TEACHER_IDEAS, get_referrer(), AUTHLEVEL_USER, false);
+$page = new ManageContributionsPage("Manage Contributions", NAV_TEACHER_IDEAS, null, AUTHLEVEL_USER, false);
 $page->update();
 $page->render();
 

@@ -7,6 +7,7 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
 require_once("page_templates/SitePage.php");
+require_once("teacher_ideas/referrer.php");
 
 class ContributePage extends SitePage {
 
@@ -23,7 +24,7 @@ class ContributePage extends SitePage {
 
         ob_start();
         // This needs to be here for now, because the setup makes calls to add things to the header
-        contribution_print_full_edit_form(-1, "{$this->prefix}teacher_ideas/edit-contribution.php", "{$this->prefix}teacher_ideas/edit-contribution.php", 'Submit', $this);
+        contribution_print_full_edit_form(-1, "{$this->prefix}teacher_ideas/edit-contribution.php", $this->referrer, 'Submit', $this);
         $this->add_content(ob_get_clean());
         return true;
     }
@@ -38,7 +39,7 @@ class ContributePage extends SitePage {
 
 }
 
-$page = new ContributePage("Submit an Activity", NAV_TEACHER_IDEAS, get_referrer(), AUTHLEVEL_USER, false);
+$page = new ContributePage("Submit an Activity", NAV_TEACHER_IDEAS, get_referrer(SITE_ROOT.'teacher_ideas/manage-contributions.php'), AUTHLEVEL_USER, false);
 $page->update();
 $page->render();
 

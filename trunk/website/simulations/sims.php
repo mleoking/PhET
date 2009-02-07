@@ -395,7 +395,7 @@ EOT;
         $Levels = array( 'all' );
 
         $result = browse_print_content_only($Simulations, $Types, $Levels, 
-            $sort_by, $order, $next_order, false, get_referrer());
+            $sort_by, $order, $next_order, false);
         if (!$result) {
             print "<p>There are no contributions for this simulation.</p>";
         }

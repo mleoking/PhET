@@ -123,7 +123,7 @@
         return $encoded;
     }
 
-    function browse_get_sorting_link($Simulations, $Types, $Levels, $sort_by, $order, $next_order, $link_sort_by, $desc, $referrer) {
+    function browse_get_sorting_link($Simulations, $Types, $Levels, $sort_by, $order, $next_order, $link_sort_by, $desc) {
         $arrow_xml = '';
 
         if ($sort_by == $link_sort_by) {
@@ -152,7 +152,6 @@
         $php_self = remove_script_param_from_url("Levels[]",        $php_self);
         $php_self = remove_script_param_from_url("order",           $php_self);
         $php_self = remove_script_param_from_url("sort_by",         $php_self);
-        $php_self = remove_script_param_from_url("referrer",        $php_self);
 
         // Decide whether to postfix URI with a question mark or an ampersand, depending
         // on whether or parameters are already being passed to the script.
@@ -162,7 +161,7 @@
             $prefix = '&amp;';
         }
 
-        $script = "${php_self}${prefix}order=${link_order}&amp;sort_by={$link_sort_by}{$filter_options}&amp;referrer={$referrer}";
+        $script = "${php_self}${prefix}order=${link_order}&amp;sort_by={$link_sort_by}{$filter_options}";
 
         // Cleanup excess question marks:
         $script = preg_replace('/\?+/', '?', $script);
@@ -175,7 +174,7 @@ EOT;
     }
 
     function browse_print_content_only($Simulations, $Types, $Levels,
-                                        $sort_by, $order, $next_order, $print_simulations = true, $referrer = '') {
+                                        $sort_by, $order, $next_order, $print_simulations = true) {
         // Create an id that uniquely identifies the browse parameters:
         $browse_id = md5(implode('', $Simulations).implode('', $Types).implode('', $Levels).$sort_by.$order );
 
@@ -191,19 +190,19 @@ EOT;
 
         $contributions = browse_get_contributions($Simulations, $Types, $Levels, $sort_by, $order);
 
-        $title  = browse_get_sorting_link($Simulations, $Types, $Levels, $sort_by, $order, $next_order, 'contribution_title',        'Title', $referrer);
-        $author = browse_get_sorting_link($Simulations, $Types, $Levels, $sort_by, $order, $next_order, 'contribution_authors',      'Author', $referrer);
-        $level  = browse_get_sorting_link($Simulations, $Types, $Levels, $sort_by, $order, $next_order, 'contribution_level_desc',   'Level', $referrer);
-        $type   = browse_get_sorting_link($Simulations, $Types, $Levels, $sort_by, $order, $next_order, 'contribution_type_desc',    'Type', $referrer);
+        $title  = browse_get_sorting_link($Simulations, $Types, $Levels, $sort_by, $order, $next_order, 'contribution_title',        'Title');
+        $author = browse_get_sorting_link($Simulations, $Types, $Levels, $sort_by, $order, $next_order, 'contribution_authors',      'Author');
+        $level  = browse_get_sorting_link($Simulations, $Types, $Levels, $sort_by, $order, $next_order, 'contribution_level_desc',   'Level');
+        $type   = browse_get_sorting_link($Simulations, $Types, $Levels, $sort_by, $order, $next_order, 'contribution_type_desc',    'Type');
 
         if ($print_simulations) {
-            $sims = browse_get_sorting_link($Simulations, $Types, $Levels, $sort_by, $order, $next_order, 'sim_name', 'Simulations', $referrer);
+            $sims = browse_get_sorting_link($Simulations, $Types, $Levels, $sort_by, $order, $next_order, 'sim_name', 'Simulations');
         }
         else {
             $sims = '';
         }
 
-        $date = browse_get_sorting_link($Simulations, $Types, $Levels, $sort_by, $order, $next_order, 'contribution_date_updated', 'Updated', $referrer);
+        $date = browse_get_sorting_link($Simulations, $Types, $Levels, $sort_by, $order, $next_order, 'contribution_date_updated', 'Updated');
 
         //$contributions = consolidate_identical_adjacent_titles($contributions);
 
@@ -306,7 +305,7 @@ EOT;
         else {
             // Sorting by something with only 1 association, like the contribution title
             foreach($contributions as $contribution) {
-                $html_table_rows .= /*orig_*/contribution_get_contribution_summary_as_html($contribution, $print_simulations, true);
+                $html_table_rows .= contribution_get_contribution_summary_as_html($contribution, $print_simulations, true);
             }
         }
 

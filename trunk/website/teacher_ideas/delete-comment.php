@@ -7,6 +7,7 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
 require_once("page_templates/SitePage.php");
+require_once("teacher_ideas/referrer.php");
 
 class DeleteCommentPage extends SitePage {
 
@@ -46,7 +47,8 @@ class DeleteCommentPage extends SitePage {
             contribution_delete_comment($comment_id);
             $this->deleted = true;
             cache_clear_teacher_ideas();
-            $this->meta_refresh($this->referrer, 3);
+            $this->return_to = (!empty($_REQUEST['return_to'])) ? $_REQUEST['return_to'] : SITE_ROOT.'teacher_ideas/browse.php';
+            $this->meta_refresh($this->return_to, 3);
         }
         else {
             $this->comment = comment_get_comment_by_id($comment_id);
@@ -64,7 +66,7 @@ class DeleteCommentPage extends SitePage {
             print <<<EOT
             <h2>Success</h2>
             <p>The comment has been deleted.</p>
-            <p>You will be redirected <a href="{$this->referrer}">here</a> in 3 seconds.</p>
+            <p>You will be redirected <a href="{$this->return_to}">here</a> in 3 seconds.</p>
 
 EOT;
             return true;
@@ -76,13 +78,14 @@ EOT;
 
             print <<<EOT
             <h2>Please Confirm</h2>
-            <form method="post" action="delete-comment.php?referrer={$this->referrer}">
+            <form method="post" action="delete-comment.php">
                 <p>Do you <em>really</em> want to delete this comment?</p>
                 <p>
                     Comment by <em>{$comment_contributor}</em>:<br />
                     {$comment_text}
                 </p>
                 <p>
+                    <input type="hidden" name="return_to" value="{$this->referrer}" />
                     <input type="hidden" name="comment_id" value="{$this->comment["contribution_comment_id"]}" />
                     <input type="submit" name="submit_delete_comment" value="Delete Comment" />
                 </p>

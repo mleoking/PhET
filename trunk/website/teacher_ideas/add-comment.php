@@ -7,6 +7,7 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
 require_once("page_templates/SitePage.php");
+require_once("teacher_ideas/referrer.php");
 
 class AddCommentPage extends SitePage {
 
@@ -56,7 +57,7 @@ EOT;
 
 }
 
-$page = new AddCommentPage("Add Comment", NAV_TEACHER_IDEAS, get_referrer(), AUTHLEVEL_USER, false);
+$page = new AddCommentPage("Add Comment", NAV_TEACHER_IDEAS, get_referrer(contribution_url_to_view_from_uri()), AUTHLEVEL_USER, false);
 $page->update();
 $page->render();
 

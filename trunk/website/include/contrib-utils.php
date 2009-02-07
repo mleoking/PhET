@@ -17,6 +17,21 @@
     define("BROWSE_CACHE",                 'browse-pages');
     define('DEFAULT_CONTRIBUTOR_DESC',  'I am a teacher who uses PhET in my classes');
 
+    function contribution_url_to_view_from_uri() {
+        $url = '';
+        if (!empty($_SERVER['REQUEST_URI'])) {
+            $uri = $_SERVER['REQUEST_URI'];
+            $regex = "/\?.*(contribution_id=[0-9]+)/";
+            $matches = array();
+            $match = preg_match($regex, $uri, $matches);
+            if ($match) {
+                $url = SITE_ROOT.'teacher_ideas/view-contribution.php?'.$matches[1];
+            }
+        }
+
+        return $url;
+    }
+
     function contribution_search_for_contributions($search_for) {
         return db_search_for(
             'contribution',
@@ -388,7 +403,7 @@ EOT;
         return $errors;
     }
 
-    function print_login_and_new_account_form($login_form_action, $new_account_form_action, $referrer, $intro_text = "", $hidden_inputs = "") {
+    function print_login_and_new_account_form($login_form_action, $new_account_form_action, $intro_text = "", $hidden_inputs = "") {
         $error = "";
         if (auth_auth_error()) {
             $error = '<p class="error_text">'.auth_get_error()."</p>";
@@ -407,13 +422,13 @@ EOT;
                     <td>
 
 EOT;
-        print_login_form_panel($login_form_action, $referrer, $hidden_inputs);
+        print_login_form_panel($login_form_action, $hidden_inputs);
         print <<<EOT
                     </td>
                     <td>
 
 EOT;
-        print_new_account_form_panel($new_account_form_action, $referrer, $hidden_inputs);
+        print_new_account_form_panel($new_account_form_action, $hidden_inputs);
         print <<<EOT
                     </td>
                 </tr>
@@ -430,7 +445,7 @@ EOT;
 EOT;
     }
 
-    function print_login_form_panel($form_action, $referrer, $hidden_inputs = "") {
+    function print_login_form_panel($form_action, $hidden_inputs = "") {
         $site_root = SITE_ROOT;
 
         if (isset($GLOBALS['contributor_email'])) {
@@ -469,7 +484,6 @@ EOT;
 
                             <tr>
                                 <td colspan="2">
-                                    <input type="hidden" name="referrer" value="{$referrer}" class="always-enabled" />
                                     {$hidden_inputs}
                                     <input type="submit" name="submit" value="Login" class="always-enabled auto-width" />
                                 </td>
@@ -489,7 +503,7 @@ EOT;
 EOT;
     }
 
-    function print_new_account_form_panel($form_action, $referrer, $hidden_inputs = "") {
+    function print_new_account_form_panel($form_action, $hidden_inputs = "") {
         if (isset($GLOBALS['contributor_email'])) {
             // This should never be the case anymore
             $contributor_email         = format_string_for_html($GLOBALS['contributor_email']);
@@ -560,7 +574,6 @@ EOT;
                         <tr>
                             <td colspan="2">
                                 <input type="hidden" name="create_new_account" value="1" class="always-enabled" />
-                                <input type="hidden" name="referrer" value="{$referrer}" class="always-enabled" />
                                 <input type="submit" name="submit" value="New Account" class="always-enabled auto-width"/>
                             </td>
                         </tr>
@@ -577,7 +590,7 @@ EOT;
      * @param $contribution_id int contribution number to operate on 
      * @param $prefix string relative directory pointing to the web root
      */
-    function print_contribution_admin_control_panel($contribution_id, $prefix) {
+    function print_contribution_admin_control_panel($contribution_id, $prefix, $return_to) {
         // Determine if this is displayed on a "view" or "edit" page
         $view_panel = strpos($_SERVER["PHP_SELF"], "view-");
         if (is_bool($view_panel) && !$view_panel) {
@@ -590,18 +603,15 @@ EOT;
         // Get contribution info
         $contribution = contribution_get_contribution_by_id($contribution_id);
 
-        // Build a refernce back to this page
-        $refer_here = "referrer={$prefix}teacher_ideas/edit-contribution.php?contribution_id={$contribution_id}";
-
         // Build user options here
         $options = array();
 
         // Give the switch to view/edit option
         if ($view_panel) {
-            $options[] = "<a href=\"{$prefix}teacher_ideas/view-contribution.php?contribution_id={$contribution_id}&amp;{$refer_here}\">View Contribution</a>";
+            $options[] = "<a href=\"{$prefix}teacher_ideas/view-contribution.php?contribution_id={$contribution_id}\">View Contribution</a>";
         }
         else {
-            $options[] = "<a href=\"{$prefix}teacher_ideas/edit-contribution.php?contribution_id={$contribution_id}&amp;{$refer_here}\">Edit Contribution</a>";
+            $options[] = "<a href=\"{$prefix}teacher_ideas/edit-contribution.php?contribution_id={$contribution_id}\">Edit Contribution</a>";
         }
 
         // Get status and options based on approved status
@@ -609,15 +619,15 @@ EOT;
         $status_html = "Status: ";
         if ($contribution["contribution_approved"]) {
             $status_html .= "<span class=\"approved\">approved</span>";
-            $options[] = "<a href=\"{$prefix}teacher_ideas/unapprove-contribution.php?contribution_id={$contribution_id}&amp;{$refer_here}\">Unapprove</a>";
+            $options[] = "<a href=\"{$prefix}teacher_ideas/unapprove-contribution.php?contribution_id={$contribution_id}\">Unapprove</a>";
         }
         else {
             $status_html .= "<span class=\"unapproved\">unapproved</span>";
-            $options[] .= "<a href=\"{$prefix}teacher_ideas/approve-contribution.php?contribution_id={$contribution_id}&amp;{$refer_here}\">Approve</a>";
+            $options[] .= "<a href=\"{$prefix}teacher_ideas/approve-contribution.php?contribution_id={$contribution_id}\">Approve</a>";
         }
 
         // Option to delete the entry
-        $options[] .= "<a href=\"{$prefix}teacher_ideas/delete-contribution.php?contribution_id={$contribution_id}&amp;referrer={$prefix}teacher_ideas/manage-contributions.php\" onclick=\"return confirm('Are you sure you want to delete this contribution?');\">Delete</a>";
+        $options[] .= "<a href=\"{$prefix}teacher_ideas/delete-contribution.php?contribution_id={$contribution_id}&amp;return_to={$return_to}\" onclick=\"return confirm('Are you sure you want to delete this contribution?');\">Delete</a>";
 
         // "Render" the options
         $options_html = "<li>".join("</li><li>", $options)."</li>";
@@ -682,7 +692,7 @@ EOT;
         return $files_to_keep;
     }
 
-    function contribution_print_full_edit_form($contribution_id, $script, $referrer, $button_name = 'Update', $page = null) {
+    function contribution_print_full_edit_form($contribution_id, $script, $return_to, $button_name = 'Update', $page = null) {
         $contributor_authenticated = $page->authenticate_user_is_authorized();
 
         $contributor = $page->authenticate_get_user();
@@ -1171,7 +1181,7 @@ EOT;
                             <td colspan="2">
                                 <noscript><p style="text-align: right;">JavaScript is OFF, you cannot submit data</p></noscript>
                                 <input name="submit" class="button" type="submit" value="$button_name" />
-                                <input type="hidden" name="referrer"        value="$referrer" />
+                                <input type="hidden" name="return_to"        value="$return_to" />
                                 <input type="hidden" name="contribution_id" value="$contribution_id" />
                                 <input type="hidden" name="action"          value="update" />
                             </td>
@@ -1183,7 +1193,7 @@ EOT;
 EOT;
     }
 
-    function contribution_print_summary($contribution, $contributor_id, $contributor_is_team_member, $referrer = '') {
+    function contribution_print_summary($contribution, $contributor_id, $contributor_is_team_member, $return_to) {
         $contribution_id       = $contribution['contribution_id'];
         $contribution_title    = format_string_for_html($contribution['contribution_title']);
         $contribution_authors  = format_string_for_html($contribution['contribution_authors']);
@@ -1197,7 +1207,7 @@ EOT;
 
         $path_prefix = SITE_ROOT."teacher_ideas/";
 
-        $query_string = "?contribution_id=$contribution_id&amp;referrer=$referrer";
+        $query_string = "?contribution_id=$contribution_id";
 
         $edit    = '';
         $delete  = '';
@@ -1205,7 +1215,7 @@ EOT;
 
         if ($contributor_id !== null && ($contributor_id == $contribution['contributor_id'] || $contributor_is_team_member)) {
             $edit   .= "<a href=\"${path_prefix}edit-contribution.php$query_string\">edit</a>";
-            $delete .= ", <a href=\"${path_prefix}delete-contribution.php$query_string\">delete</a>";
+            $delete .= ", <a href=\"${path_prefix}delete-contribution.php$query_string&amp;return_to={$return_to}\">delete</a>";
 
             if ($contributor_is_team_member) {
                 if ($contribution_approved) {
@@ -1313,8 +1323,6 @@ EOT;
      * @return string HTML table row
      */
     function contribution_get_contribution_summary_as_html($all_contribution_info, $print_sims = true) {
-        global $referrer;
-
         $contribution = $all_contribution_info["contribution"];
 
         $html = '';
@@ -1402,109 +1410,7 @@ EOT;
 
         $prefix = SITE_ROOT;
         $title_html = <<<EOT
-                <a href="{$prefix}teacher_ideas/view-contribution.php?contribution_id=$contribution_id&amp;referrer=$referrer">$contribution_title</a>
-
-EOT;
-
-        if ($contribution_from_phet == 1) {
-        $title_html = "${title_html} ".FROM_PHET_IMAGE_HTML;
-        }
-
-        $title_html .= $gold_star_html;
-
-        $html .= "<tr><td>$title_html</td><td>$author_html</td><td>$level_list</td><td>$type_list</td>";
-
-        if ($print_sims) {
-            $html .= "<td>$sim_list</td>";
-        }
-
-        $html .= "<td>$contribution_date_updated</td></tr>";
-
-        return $html;
-    }
-
-    /**
-     * Generate a HTML table row with info about the contribution
-     *
-     * @param array $contribution Information about a contribution
-     * @param boolean $print_sims TRUE means print the "Simulations" column
-     * @return string HTML table row
-     */
-    function orig_contribution_get_contribution_summary_as_html($contribution, $print_sims = true) {
-        // TODO: rename this function, since getting everything in HTML at this point is undesirable
-        global $referrer;
-
-        $html = '';
-        $sim_name = format_string_for_html($contribution["sim_name"]);
-        $contribution_authors = format_string_for_html($contribution["contribution_authors"]);
-        $contribution_date_updated = format_string_for_html($contribution["contribution_date_updated"]);
-        $contribution_title = format_string_for_html($contribution["contribution_title"]);
-        $contribution_id = format_string_for_html($contribution["contribution_id"]);
-        $contribution_from_phet = format_string_for_html($contribution["contribution_from_phet"]);
-
-        $gold_star_html = contribution_get_gold_star_html_for_contribution($contribution, 10);
-
-        $sim_list = "None";
-
-        // TODO: It appears that this is expecting a CSV style list of simulation names
-        // that go with the contribution, but in fact they are on different lines.
-        // In fact, some of the sims have commas (,) in their names, so this breaks them
-        // up inappropriately:."Circuit Construction Kit, Virtual Lab Version (DC Only)"
-        if (isset($sim_name) && trim($sim_name) != '') {
-            $sim_list = '';
-
-            $is_first = true;
-
-            foreach(explode(',', $sim_name) as $sim) {
-                $sim = trim($sim);
-
-                $cur_sim_link = sim_get_link_to_sim_page_by_name($sim);
-
-                if ($is_first) {
-                    $is_first = false;
-                }
-                else {
-                    $sim_list .= '<br/>';
-                }
-
-                $sim_list .= $cur_sim_link;
-            }
-        }
-
-        $level_list = contribution_generate_association_abbr(
-            $contribution, 'contribution_level'
-        );
-
-        $type_list = contribution_generate_association_abbr(
-            $contribution, 'contribution_type'
-        );
-
-        $contribution_authors = explode(',', $contribution_authors);
-
-        $contribution_author = $contribution_authors[0];
-
-        $parsed_name = parse_name($contribution_author);
-
-        $contribution_author  = $parsed_name['full_name'];
-        $author_first_initial = $parsed_name['first_initial'];
-        $author_last_name     = $parsed_name['last_name'];
-
-        $time = strtotime($contribution_date_updated);
-
-        $contribution_date_updated = date('n/y', $time);
-
-        if ($author_first_initial == '') {
-            $author_abbr = "$author_last_name";
-        }
-        else {
-            $author_abbr = "$author_first_initial. $author_last_name";
-        }
-
-        $author_html = "<abbr title=\"$contribution_author\">$author_abbr</abbr>";
-
-        $prefix = SITE_ROOT;
-        $title_html = <<<EOT
-                <a href="{$prefix}teacher_ideas/view-contribution.php?contribution_id=$contribution_id&amp;referrer=$referrer">$contribution_title</a>
+                <a href="{$prefix}teacher_ideas/view-contribution.php?contribution_id=$contribution_id">$contribution_title</a>
 
 EOT;
 

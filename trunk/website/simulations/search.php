@@ -8,6 +8,7 @@ require_once(dirname(dirname(__FILE__))."/include/global.php");
 
 require_once("page_templates/SitePage.php");
 require_once("include/research-utils.php");
+require_once("teacher_ideas/referrer.php");
 
 class SearchPage extends SitePage {
 
@@ -86,7 +87,7 @@ EOT;
                 $contribution_id = $contrib['contribution_id'];
                 $contribution_title = format_string_for_html($contrib['contribution_title']);
                 print <<<EOT
-                    <li><a href="{$this->prefix}teacher_ideas/view-contribution.php?contribution_id=$contribution_id&amp;referrer={$html_referrer}">$contribution_title</a></li>
+                    <li><a href="{$this->prefix}teacher_ideas/view-contribution.php?contribution_id=$contribution_id">$contribution_title</a></li>
 
 EOT;
             }

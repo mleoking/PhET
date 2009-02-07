@@ -7,6 +7,7 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
 require_once("page_templates/SitePage.php");
+require_once("teacher_ideas/referrer.php");
 
 class UnapproveContributionPage extends SitePage {
 
@@ -27,7 +28,7 @@ class UnapproveContributionPage extends SitePage {
         contribution_set_approved($contribution_id, false);
         cache_clear_teacher_ideas();
         cache_clear_simulations();
-        $this->meta_refresh($this->referrer, 2);
+        $this->meta_refresh($this->referrer, 3);
     }
 
     function render_content() {
@@ -45,7 +46,7 @@ EOT;
 
 }
 
-$page = new UnapproveContributionPage("Unapprove Contribtuion", NAV_TEACHER_IDEAS, get_referrer(SITE_ROOT."teacher_ideas/manage-contributions.php"), AUTHLEVEL_TEAM);
+$page = new UnapproveContributionPage("Unapprove Contribtuion", NAV_TEACHER_IDEAS, get_referrer(contribution_url_to_view_from_uri()), AUTHLEVEL_TEAM);
 $page->update();
 $page->render();
 

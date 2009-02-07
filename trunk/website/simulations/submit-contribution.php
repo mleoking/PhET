@@ -112,11 +112,13 @@ class SimSubmitContributionPage extends SitePage {
         $row_data = array("contribution_id" => $contribution_id, "sessionid" => session_id());
         db_insert_row("temporary_partial_contribution_track", $row_data);
 
-        $sims_page    = "\"$sim_url\"";
-        $this->edit_contrib = "{$this->prefix}teacher_ideas/edit-contribution.php?contribution_id=$contribution_id&amp;sim_id=$sim_id&amp;referrer=$sims_page";
+        $sims_page    = "$sim_url";
+        var_dump($sims_page);
+        $this->edit_contrib = "{$this->prefix}teacher_ideas/edit-contribution.php?contribution_id=$contribution_id&amp;sim_id=$sim_id&amp;return_to={$sims_page}";
+        var_dump($this->edit_contrib);
 
         // Immediately redirect to contribution editing page:
-        $this->meta_refresh("{$this->edit_contrib}", 0);
+        $this->meta_refresh($this->edit_contrib, 10);
     }
 
     function render_content() {

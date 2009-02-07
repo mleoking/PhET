@@ -173,7 +173,7 @@ EOT;
 
 }
 
-$page = new ForgotPasswordPage("Forgot Password", NAV_GET_PHET, get_referrer(), AUTHLEVEL_NONE, false);
+$page = new ForgotPasswordPage("Forgot Password", NAV_GET_PHET, null, AUTHLEVEL_NONE, false);
 $page->update();
 $page->render();
 

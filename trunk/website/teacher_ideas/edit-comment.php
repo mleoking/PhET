@@ -7,6 +7,7 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
 require_once("page_templates/SitePage.php");
+require_once("teacher_ideas/referrer.php");
 
 class EditCommentPage extends SitePage {
 
@@ -51,7 +52,15 @@ class EditCommentPage extends SitePage {
             contribution_update_comment($comment_id, $_REQUEST["new_comment_text"]);
             $this->updated = true;
             cache_clear_teacher_ideas();
-            $this->meta_refresh($this->referrer, 3);
+
+            if (!empty($_REQUEST['return_to'])) {
+                $return_to = $_REQUEST['return_to'];
+            }
+            else {
+                $return_to = SITE_ROOT.'teacher_ideas/browse.php';
+            }
+
+            $this->meta_refresh($return_to, 3);
         }
         else {
             $this->comment = comment_get_comment_by_id($comment_id);
@@ -82,11 +91,12 @@ EOT;
             print <<<EOT
             <p>Original comment by <em>{$comment_contributor}</em></p>
 
-            <form method="post" action="edit-comment.php?referrer={$this->referrer}">
+            <form method="post" action="edit-comment.php">
                 <p>
                     <textarea name="new_comment_text" cols="40" rows="5">{$comment_text}</textarea>
                 </p>
                 <p>
+                    <input type="hidden" name="return_to" value="{$this->referrer}" />
                     <input type="hidden" name="comment_id" value="{$this->comment["contribution_comment_id"]}" />
                     <input type="submit" name="submit_edit_comment" value="Change Comment" />
                 </p>
