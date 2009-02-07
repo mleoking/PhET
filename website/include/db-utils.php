@@ -7,6 +7,7 @@
     require_once(dirname(dirname(__FILE__))."/include/global.php");
 
     require_once("include/web-utils.php");
+    require_once("include/db.php");
 
     /**
      * String slashes from an array or string, includes array keys
