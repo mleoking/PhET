@@ -19,9 +19,7 @@ import util.ToggleListener
 
 class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTransform2D, vectorVisibilityModel: VectorVisibilityModel) extends PNode {
     var interactive = true
-    model.addListener(() => {
-        updateInteractive()
-    })
+    model.addListener(() =>  updateInteractive())
     def updateInteractive() = {interactive = model.readyForInteraction}
 
     val arrowSetNode = new ArrowSetNode(ladybug, transform, vectorVisibilityModel)
@@ -49,15 +47,6 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
         if (loc != null) {
             model.setSamplePoint(loc)
         }
-
-        //        if (loc != null) {
-        //            model.setUpdateModePosition
-        //            if (loc != null)
-        //                model.setSamplePoint(loc)
-        //        } else {
-        //            if (model.isFrictionless)
-        //            model.setUpdateModeVelocity
-        //        }
     })
 
     model.motion2DModelResetListeners += (() => {
@@ -68,9 +57,6 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
     val inputHandler = new PBasicInputEventHandler() {
         override def mouseDragged(event: PInputEvent) = {
             model.startRecording()
-
-            //      val diff = transform.viewToModelDifferential(event.getDeltaRelativeTo(getParent).width, event.getDeltaRelativeTo(getParent).height)
-            //      ladybug.translate(diff)
 
             loc = transform.viewToModel(event.getPositionRelativeTo(getParent))
 
