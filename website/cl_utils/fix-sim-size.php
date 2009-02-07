@@ -1,4 +1,4 @@
-#!/usr/local/php/bin/php
+#!/web/chroot/phet/usr/local/php/bin/php
 <?php
 
 // Set the current directory to the script directory
