@@ -7,6 +7,7 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
 require_once("page_templates/SitePage.php");
+require_once("teacher_ideas/referrer.php");
 
 class ViewContributionPage extends SitePage {
 
@@ -99,9 +100,8 @@ class ViewContributionPage extends SitePage {
                 $comments_html .= '</em>&quot; - '.format_string_for_html($comment['contributor_name']);
                 if (($this->user["contributor_id"] == $comment["contributor_id"]) ||
                     ($this->user["contributor_is_team_member"])) {
-                    $ref = "referrer={$this->prefix}teacher_ideas/view-contribution.php?contribution_id={$contribution["contribution_id"]}";
-                    $comments_html .= " (<a href=\"edit-comment.php?comment_id=".$comment["contribution_comment_id"]."&amp;{$ref}\">edit</a>,";
-                    $comments_html .= " <a href=\"delete-comment.php?comment_id=".$comment["contribution_comment_id"]."&amp;{$ref}\">delete</a>)";
+                    $comments_html .= " (<a href=\"edit-comment.php?comment_id=".$comment["contribution_comment_id"]."\">edit</a>,";
+                    $comments_html .= " <a href=\"delete-comment.php?comment_id=".$comment["contribution_comment_id"]."\">delete</a>)";
                 }
                 $comments_html .= '</p>';
             }
@@ -122,7 +122,7 @@ EOT;
         }
 
         if ($this->authenticate_get_level() >= AUTHLEVEL_TEAM) {
-            print_contribution_admin_control_panel($contribution_id, $this->prefix);
+            print_contribution_admin_control_panel($contribution_id, $this->prefix, $this->referrer);
         }
 
         print <<<EOT
@@ -244,6 +244,8 @@ EOT;
             $contributor_name = $GLOBALS['contributor_name'];
         }
 
+        $html_referrer = format_for_html($this->referrer);
+
         print <<<EOT
             </div>
 
@@ -261,7 +263,6 @@ EOT;
                 <form method="get" action="{$this->prefix}teacher_ideas/nominate-contribution.php">
                     <div>
                         <input type="hidden" name="contribution_id" value="$contribution_id" />
-                        <input type="hidden" name="referrer"        value="{$php_self}?contribution_id={$contribution_id}&amp;referrer={$this->referrer}" />
                     </div>
 
                     <table class="form">
@@ -290,7 +291,6 @@ EOT;
             <form method="get" action="add-comment.php" onsubmit="javascript:return false;">
                     <p>
                         <input type="hidden" name="contribution_id" value="{$contribution_id}" />
-                        <input type="hidden" name="referrer"        value="{$php_self}?contribution_id={$contribution_id}&amp;referrer={$this->referrer}" />
                     </p>
 
 
@@ -327,7 +327,7 @@ EOT;
 
         </div>
 
-        <p><a href="{$this->referrer}">back</a></p>
+        <p><a href="{$html_referrer}">back</a></p>
 
 EOT;
     }

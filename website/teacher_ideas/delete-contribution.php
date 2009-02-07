@@ -7,6 +7,7 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
 require_once("page_templates/SitePage.php");
+require_once("teacher_ideas/referrer.php");
 
 class DeleteContributionPage extends SitePage {
 
@@ -18,7 +19,11 @@ class DeleteContributionPage extends SitePage {
 
         $contributor_id = $this->user["contributor_id"];
 
-        $this->meta_refresh($this->referrer, 2);
+        $return_to = SITE_ROOT."teacher_ideas/manage-contributions.php";
+        if (!empty($_REQUEST['return_to'])) {
+            $return_to = $_REQUEST['return_to'];
+        }
+        $this->meta_refresh($return_to, 3);
         $this->delete_success = false;
         if (isset($_REQUEST['contribution_id'])) {
             $contribution_id = $_REQUEST['contribution_id'];
@@ -54,7 +59,7 @@ EOT;
 
 }
 
-$page = new DeleteContributionPage("Delete Contribution", NAV_TEACHER_IDEAS, get_referrer(SITE_ROOT."teacher_ideas/manage-contributions.php"), AUTHLEVEL_USER, false);
+$page = new DeleteContributionPage("Delete Contribution", NAV_TEACHER_IDEAS, null, AUTHLEVEL_USER, false);
 $page->update();
 $page->render();
 

@@ -22,7 +22,7 @@ class LoginAndRedirectPage extends SitePage {
             return $result;
         }
 
-        print_login_and_new_account_form($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_URI'], $this->referrer);
+        print_login_and_new_account_form($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_URI']);
     }
 
 }
@@ -34,7 +34,7 @@ else {
     $redirect_url = SITE_ROOT."index.php";
 }
 
-$page = new LoginAndRedirectPage("Login", NAV_NOT_SPECIFIED, $redirect_url, AUTHLEVEL_NONE, false);
+$page = new LoginAndRedirectPage("Login", NAV_NOT_SPECIFIED, null, AUTHLEVEL_NONE, false);
 $page->update();
 $page->render();
 

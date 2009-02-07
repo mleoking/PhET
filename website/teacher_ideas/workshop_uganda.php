@@ -148,7 +148,7 @@ EOT;
     }
 }
 
-$page = new UgandaWorkshopPage("PhET Workshops in Soroti, Uganda (Jan 29 - Feb 1, 2008)", NAV_TEACHER_IDEAS, get_referrer());
+$page = new UgandaWorkshopPage("PhET Workshops in Soroti, Uganda (Jan 29 - Feb 1, 2008)", NAV_TEACHER_IDEAS, null);
 $page->update();
 $page->render();
 

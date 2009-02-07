@@ -39,7 +39,7 @@ EOT;
 
 }
 
-$page = new TeacherIdeasMainPage("Teacher Ideas & Activities", NAV_TEACHER_IDEAS, get_referrer());
+$page = new TeacherIdeasMainPage("Teacher Ideas & Activities", NAV_TEACHER_IDEAS, null);
 $page->update();
 $page->render();
 

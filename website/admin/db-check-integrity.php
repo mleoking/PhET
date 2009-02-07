@@ -407,7 +407,7 @@ EOT;
                     case "contribution_id":
                     case "contribution_title":
                         $string .= format_string_for_html(": $data");
-                        $string = "<a href=\"{$this->prefix}teacher_ideas/edit-contribution.php?contribution_id={$data_row["contribution_id"]}&amp;referrer={$this->prefix}admin/db-check-integrity.php\">$string</a>";
+                        $string = "<a href=\"{$this->prefix}teacher_ideas/edit-contribution.php?contribution_id={$data_row["contribution_id"]}\">$string</a>";
                         break;
                 }
 

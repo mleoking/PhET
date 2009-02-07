@@ -6,9 +6,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-// TODO: why is this here?
-require_once("teacher_ideas/referrer.php");
-
 define("WEBSITE_BASE_TITLE", "PhET :: Physics Education Technology at CU Boulder");
 
 class BasePage {
@@ -98,7 +95,7 @@ class BasePage {
 
         // Keep track of the referring page
         $this->referrer = null;
-        if (!is_null($referrer) && (0 != strcmp("", $referrer))) {
+        if (!is_null($referrer) && (!empty($referrer))) {
             $this->referrer = $referrer;
         }
 
@@ -408,7 +405,7 @@ EOT;
 
         print <<<EOT
   <body id="top">
-    <div id="skipNav">
+  <div id="skipNav">
         <a href="#content" accesskey="0">Skip to Main Content</a>
     </div>
 
@@ -428,7 +425,6 @@ EOT;
                                 <span>Search</span>
                                 <input type="text" size="15" name="search_for" title="Enter the text to search for" class="always-enabled" />
                                 <input type="submit" value="Go" title="Click here to search the PhET website" class="always-enabled" />
-                                {$referrer}
                             </fieldset>
                         </form>
                     </div>

@@ -17,7 +17,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("teacher_ideas/referrer.php");
 require_once("teacher_ideas/browse-utils.php");
 require_once("page_templates/SitePage.php");
 
@@ -139,7 +138,6 @@ class BrowseContributionsPage extends SitePage {
                 <div>
                     <input type="hidden" id="browse_order" name="order"    value="{$this->order}"     />
                     <input type="hidden" id="browse_sort_by" name="sort_by"  value="{$this->sort_by}"   />
-                    <input type="hidden" name="referrer" value="{$this->referrer}"  />
                 </div>
 
                 <table>
@@ -190,7 +188,7 @@ EOT;
 
         $result =
         browse_print_content_only($this->Simulations, $this->Types, $this->Levels,
-                                    $this->sort_by, $this->order, $this->next_order, true, $this->referrer);
+                                    $this->sort_by, $this->order, $this->next_order, true);
         if (!$result) {
             print "<p>There are no contributions meeting the specified criteria.</p>";
         }
@@ -285,7 +283,7 @@ EOT;
             $GLOBALS['g_content_only'] = true;
             $result =
                 browse_print_content_only($this->Simulations, $this->Types, $this->Levels,
-                                          $this->sort_by, $this->order, $this->next_order, true, $this->referrer);
+                                          $this->sort_by, $this->order, $this->next_order, true);
             if (!$result) {
                 print "<p>There are no contributions meeting the specified criteria.</p>";
             }
@@ -307,17 +305,7 @@ EOT;
 
 }
 
-// Do some processing on the referrer first
-$referrer = get_referrer();
-
-// Strip off anything after the query string '?'
-// because ajax requests to filter the list get confused with sorting.
-$mark = strpos($referrer, "?");
-if ($mark !== false) {
-    $referrer = substr($referrer, 0, $mark);
-}
-
-$page = new BrowseContributionsPage("Browse Contributions", NAV_TEACHER_IDEAS, $referrer, AUTHLEVEL_NONE, false);
+$page = new BrowseContributionsPage("Browse Contributions", NAV_TEACHER_IDEAS, null, AUTHLEVEL_NONE, false);
 $page->add_javascript_file("js/browse.js");
 $page->update();
 $page->render();

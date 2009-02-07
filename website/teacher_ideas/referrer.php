@@ -15,35 +15,37 @@
 
     require_once("include/web-utils.php");
 
-    /**
-     * Return the referrer:
-     *   1st if specified by REQUEST
-     *   2nd if specified by parameter
-     *   3rd will be the REQUEST_URI
-     *
-     * @param $referrer_if_no_request string[optional] referrer to use if REQUEST isn't specified
-     * @return unknown
-     */
-    function get_referrer($referrer_if_no_request = null) {
-        assert(!isset($GLOBALS['referrer']));
-
-        if (isset($_REQUEST['referrer'])) {
-            $referrer = $_REQUEST['referrer'];
-            //$GLOBALS['referrer'] = $_REQUEST['referrer'];
-        }
-        else if (!is_null($referrer_if_no_request)) {
-            $referrer = $referrer_if_no_request;
-        }
-        else {
-            $referrer = $_SERVER['REQUEST_URI'];
-            //$GLOBALS['referrer'] = $_SERVER['REQUEST_URI'];
+    function get_referrer($default = '') {
+        $headers = apache_request_headers();
+        if ((empty($_SERVER['HTTP_REFERER'])) || empty($_SERVER['HTTP_HOST'])) {
+            // Cannot find the 2 variables we need to make this work
+            return $default;
         }
 
-        // TODO: check if this is only for browse.php and find a better solution
-        $referrer = remove_script_param_from_url('content_only', $referrer);
-        //$GLOBALS['referrer'] = format_for_html(remove_script_param_from_url('content_only', $GLOBALS['referrer']));
+        $host = $_SERVER['HTTP_HOST'];
+        $referer = $_SERVER['HTTP_REFERER'];
 
-        return $referrer;
+        $url_regex = "@(?:http://)([^/]+)(.*)@i";
+
+        $matches = array();
+        $result = preg_match($url_regex, $referer, $matches);
+        if (!$result) {
+            // The search either had an error or didn't match
+            return $default;
+        }
+
+        if ($host != $matches[1]) {
+            // The referer host does is not this machine
+            return $default;
+        }
+
+        if (empty($matches[2])) {
+            // There is no path specified
+            return $default;
+        }
+
+        // The referer host is this machine, return the referer path
+        return $matches[2];
     }
 
 ?>

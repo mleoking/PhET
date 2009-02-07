@@ -10,8 +10,8 @@ if (!defined("INCLUDE_PATH_SET")) define("INCLUDE_PATH_SET", "true");
 require_once("page_templates/SitePage.php");
 
 class MainPage extends SitePage {
-    function __construct($title, $nav, $referrer) {
-        parent::__construct($title, $nav, $referrer);
+    function __construct($title, $nav) {
+        parent::__construct($title, $nav, null);
     }
 
     function open_xhtml_body() {
@@ -198,7 +198,7 @@ EOT;
 
 }
 
-$page = new MainPage("PhET: Free online physics, chemistry, biology, earth science and math simulations", NAV_NOT_SPECIFIED, null);
+$page = new MainPage("PhET: Free online physics, chemistry, biology, earth science and math simulations", NAV_NOT_SPECIFIED);
 $page->set_prefix(SITE_ROOT);
 $page->add_stylesheet("css/home.css");
 $page->update();

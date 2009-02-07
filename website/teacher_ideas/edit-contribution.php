@@ -6,9 +6,8 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("teacher_ideas/referrer.php");
-
 require_once("page_templates/SitePage.php");
+require_once("teacher_ideas/referrer.php");
 
 class EditContributionPage extends SitePage {
 
@@ -139,12 +138,14 @@ EOT;
     }
 
     function print_success() {
+        $return_to = (!empty($_REQUEST['return_to'])) ? $_REQUEST['return_to'] : SITE_ROOT.'teacher_ideas/browse.php';
+
         print <<<EOT
             <h2>Update Success</h2>
 
             <p><strong>Thank you! The contribution has been successfully updated.</strong></p>
 
-            <p><a href="{$this->referrer}">continue</a></p>
+            <p><a href="{$return_to}">continue</a></p>
 
 EOT;
     }
@@ -191,26 +192,27 @@ EOT;
                     $success = $this->handle_action($_REQUEST['action']);
 
                     if (!empty($this->file_error)) {
-                        $this->referrer = "{$this->prefix}teacher_ideas/manage-contributions.php";
                         $this->print_file_erors();
                     }
                     else if ($success) {
-                        $this->referrer = "{$this->prefix}teacher_ideas/manage-contributions.php";
-                        $this->meta_refresh("{$this->prefix}teacher_ideas/manage-contributions.php", 3);
+                        $return_to = (!empty($_REQUEST['return_to'])) ? $_REQUEST['return_to'] : SITE_ROOT.'teacher_ideas/browse.php';
+                        $this->meta_refresh($return_to, 3);
                         $this->print_success();
                     }
                     else {
                         if ($this->authenticate_get_level() >= AUTHLEVEL_TEAM) {
-                            print_contribution_admin_control_panel($contribution_id, $this->prefix);
+                            print_contribution_admin_control_panel($contribution_id, $this->prefix, $this->referrer);
                         }
-                        contribution_print_full_edit_form($contribution_id, "{$this->prefix}teacher_ideas/edit-contribution.php", $this->referrer, "Update", $this);
+                        $return_to = (!empty($_REQUEST['return_to'])) ? $_REQUEST['return_to'] : $this->referrer;
+                        contribution_print_full_edit_form($contribution_id, "{$this->prefix}teacher_ideas/edit-contribution.php", $return_to, "Update", $this);
                     }
                 }
                 else {
                     if ($this->authenticate_get_level() >= AUTHLEVEL_TEAM) {
-                        print_contribution_admin_control_panel($contribution_id, $this->prefix);
+                        print_contribution_admin_control_panel($contribution_id, $this->prefix, $this->referrer);
                     }
-                    contribution_print_full_edit_form($contribution_id, "{$this->prefix}teacher_ideas/edit-contribution.php", $this->referrer, "Update", $this);
+                    $return_to = (!empty($_REQUEST['return_to'])) ? $_REQUEST['return_to'] : $this->referrer;
+                    contribution_print_full_edit_form($contribution_id, "{$this->prefix}teacher_ideas/edit-contribution.php", $return_to, "Update", $this);
                 }
             }
             else {
@@ -242,7 +244,7 @@ EOT;
 
 }
 
-$page = new EditContributionPage("Edit an Activity", NAV_TEACHER_IDEAS, get_referrer(SITE_ROOT."teacher_ideas/edit-contribution.php"), AUTHLEVEL_USER, false);
+$page = new EditContributionPage("Edit an Activity", NAV_TEACHER_IDEAS, get_referrer(SITE_ROOT.'teacher_ideas/manage-contributions.php'), AUTHLEVEL_USER, false);
 $page->update();
 $page->render();
 
