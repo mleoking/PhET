@@ -211,7 +211,7 @@ There is a very good page talking about his problem with IE6:
 /******** =header ********/
 #header {
     background: url("../images/header_BG.gif") left top repeat-x;
-    /*background-color:#2345a1;*/
+    background-color:#112c72;
     height: 127px;
     margin: 0;
     padding: 0;
