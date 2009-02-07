@@ -92,8 +92,8 @@ class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
     rewind.setOffset(0, 12)
 
 
-    val clearButtonNode=new PSwing(clearButton)
-    val modePanelNode=new PSwing(modePanel)
+    val clearButtonNode = new PSwing(clearButton)
+    val modePanelNode = new PSwing(modePanel)
 
     addControl(clearButtonNode)
     addControl(modePanelNode)
@@ -155,10 +155,10 @@ class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
         playPause.setOffset(getPreferredSize.width / 2 - playPause.getFullBounds.getWidth / 2, playPause.getOffset.getY)
         rewind.setOffset(playPause.getFullBounds.getX - rewind.getFullBounds.getWidth - buttonDX, rewind.getOffset.getY)
         stepButton.setOffset(playPause.getFullBounds.getMaxX + buttonDX, stepButton.getOffset.getY)
-        playbackSpeedSlider.setOffset(stepButton.getFullBounds.getMaxX , playbackSpeedSlider.getOffset.getY)
+        playbackSpeedSlider.setOffset(stepButton.getFullBounds.getMaxX, playbackSpeedSlider.getOffset.getY)
 
-        modePanelNode.setOffset(rewind.getFullBounds.getX-modePanelNode.getFullBounds.width,playPause.getFullBounds.getCenterY-modePanelNode.getFullBounds.getHeight/2)
-        clearButtonNode.setOffset(modePanelNode.getFullBounds.getX-clearButtonNode.getFullBounds.width,playPause.getFullBounds.getCenterY-clearButtonNode.getFullBounds.getHeight/2)
+        modePanelNode.setOffset(rewind.getFullBounds.getX - modePanelNode.getFullBounds.width, playPause.getFullBounds.getCenterY - modePanelNode.getFullBounds.getHeight / 2)
+        clearButtonNode.setOffset(modePanelNode.getFullBounds.getX - clearButtonNode.getFullBounds.width, playPause.getFullBounds.getCenterY - clearButtonNode.getFullBounds.getHeight / 2)
 
         val halfWidth = playPause.getFullBounds.getCenterX - playbackSpeedSlider.getFullBounds.getMaxX
         val blist = for (n <- nodes) yield n.getFullBounds

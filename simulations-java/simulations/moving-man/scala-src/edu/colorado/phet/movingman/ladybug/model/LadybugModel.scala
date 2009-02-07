@@ -27,7 +27,7 @@ class LadybugModel extends ObservableS {
     val samplePath = new ArrayBuffer[Sample]
     var samplePoint = new Vector2D //current sample point
 
-    var isFrictionless=false
+    var isFrictionless = false
 
     def setSamplePoint(pt: Point2D) = {
         this.samplePoint = pt
@@ -187,7 +187,12 @@ class LadybugModel extends ObservableS {
                 }
 
                 if (!ladybugMotionModel.isExclusive()) {
-                    updateMode.update(dt)
+                    if (penDown) {
+                        PositionMode.update(dt)
+                    }
+                    else {
+                        updateMode.update(dt)
+                    }
                 }
                 notifyListeners()
 
@@ -335,7 +340,7 @@ class LadybugModel extends ObservableS {
         playbackIndexFloat = 0.0
         time = 0
         ladybug.resetAll()
-        isFrictionless=false
+        isFrictionless = false
         resetMotion2DModel
 
         notifyListeners()
@@ -360,6 +365,13 @@ class LadybugModel extends ObservableS {
         samplePath.clear
         setSamplePoint(ladybug.getPosition)
         resetMotion2DModel
+        notifyListeners
+    }
+
+    var penDown = false
+
+    def setPenDown(p: Boolean) = {
+        penDown = p
         notifyListeners
     }
 }

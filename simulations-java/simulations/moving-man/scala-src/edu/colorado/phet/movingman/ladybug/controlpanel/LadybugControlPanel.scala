@@ -105,7 +105,7 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
 
 
     addControl(new LadybugDeveloperControl(module))
-    
+
     val remoteControl = new RemoteControl(module.model, () => {module.model.startRecording()})
     addControl(remoteControl)
     addControl(createBox)
