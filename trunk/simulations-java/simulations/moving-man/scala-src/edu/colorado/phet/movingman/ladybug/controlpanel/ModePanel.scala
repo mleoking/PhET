@@ -14,8 +14,8 @@ class ModePanel(model: LadybugModel) extends JPanel {
     setBackground(new Color(0, 0, 0, 0))
 
     val recordingButton = addComponent{
-        new MyRadioButton("Record", model.setRecord(true), model.isRecord, model.addListener){
-            font=new PhetFont(15,true)
+        new MyRadioButton("Record", model.setRecord(true), model.isRecord, model.addListener) {
+            font = new PhetFont(15, true)
 
         }
     }
