@@ -27,7 +27,17 @@ class LadybugModel extends ObservableS {
     val samplePath = new ArrayBuffer[Sample]
     var samplePoint = new Vector2D //current sample point
 
-    var isFrictionless = false
+    private var frictionless = false
+
+    def isFrictionless=frictionless
+
+    def setFrictionless(f:Boolean)={
+        frictionless=f
+        clearSampleHistory
+        resetMotion2DModel
+        samplePoint=ladybug.getPosition
+        notifyListeners
+    }
 
     def setSamplePoint(pt: Point2D) = {
         this.samplePoint = pt
@@ -105,27 +115,38 @@ class LadybugModel extends ObservableS {
 
     //  println("t\tx\tvx\tax")
     def positionMode(dt: Double) = {
-        if (samplePath.length > 2) {
-            motion2DModel.addPointAndUpdate(samplePath(samplePath.length - 1).location.x, samplePath(samplePath.length - 1).location.y)
-            ladybug.setPosition(new Vector2D(motion2DModel.getAvgXMid, motion2DModel.getAvgYMid))
-            //added fudge factors for getting the scale right with current settings of motion2d model
-            //used spreadsheet to make sure model v and a are approximately correct.
-            val vscale = (1.0 / dt) / 10
-            val ascale = vscale * vscale * 3.835
-            ladybug.setVelocity(new Vector2D(motion2DModel.getXVel, motion2DModel.getYVel) * vscale)
-            ladybug.setAcceleration(new Vector2D(motion2DModel.getXAcc, motion2DModel.getYAcc) * ascale)
-
-            //      def debug = {println(time + "\t" + ladybug.getPosition.x + "\t" + ladybug.getVelocity.x + "\t" + ladybug.getAcceleration.x)}
-            //      debug
-            //      0+1
-            //      println("y="+ladybug.getPosition.y)
-
-        } else {
-            ladybug.setVelocity(new Vector2D)
-            ladybug.setAcceleration(new Vector2D)
+        println("pendown="+penDown)
+        if (frictionless && !penDown) {
+            velocityMode(dt)
+            if (samplePath.length > 2) {
+                samplePoint=ladybug.getPosition
+                samplePath += new Sample(time, samplePoint)
+                motion2DModel.addPointAndUpdate(samplePath(samplePath.length - 1).location.x, samplePath(samplePath.length - 1).location.y)
+            }
         }
-        if (estimateVelocity(history.length - 1).magnitude > 1E-6)
-            ladybug.setAngle(estimateAngle())
+        else {
+            if (samplePath.length > 2) {
+                motion2DModel.addPointAndUpdate(samplePath(samplePath.length - 1).location.x, samplePath(samplePath.length - 1).location.y)
+                ladybug.setPosition(new Vector2D(motion2DModel.getAvgXMid, motion2DModel.getAvgYMid))
+                //added fudge factors for getting the scale right with current settings of motion2d model
+                //used spreadsheet to make sure model v and a are approximately correct.
+                val vscale = (1.0 / dt) / 10
+                val ascale = vscale * vscale * 3.835
+                ladybug.setVelocity(new Vector2D(motion2DModel.getXVel, motion2DModel.getYVel) * vscale)
+                ladybug.setAcceleration(new Vector2D(motion2DModel.getXAcc, motion2DModel.getYAcc) * ascale)
+
+                //      def debug = {println(time + "\t" + ladybug.getPosition.x + "\t" + ladybug.getVelocity.x + "\t" + ladybug.getAcceleration.x)}
+                //      debug
+                //      0+1
+                //      println("y="+ladybug.getPosition.y)
+
+            } else {
+                ladybug.setVelocity(new Vector2D)
+                ladybug.setAcceleration(new Vector2D)
+            }
+            if (estimateVelocity(history.length - 1).magnitude > 1E-6)
+                ladybug.setAngle(estimateAngle())
+        }
     }
 
     //  def positionModeORIG(dt: Double) = {
@@ -340,7 +361,7 @@ class LadybugModel extends ObservableS {
         playbackIndexFloat = 0.0
         time = 0
         ladybug.resetAll()
-        isFrictionless = false
+        frictionless = false
         resetMotion2DModel
 
         notifyListeners()

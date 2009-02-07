@@ -25,7 +25,7 @@ class LadybugDeveloperControl(module: LadybugModule) extends VerticalLayoutPanel
 
     val throwBox = new JCheckBox("Frictionless", module.model.isFrictionless)
     throwBox.addActionListener(new ActionListener() {
-        def actionPerformed(e: ActionEvent) = module.model.isFrictionless = throwBox.isSelected
+        def actionPerformed(e: ActionEvent) = module.model.setFrictionless(throwBox.isSelected)
     })
     module.model.addListenerByName(throwBox.setSelected(module.model.isFrictionless))
     add(throwBox)
