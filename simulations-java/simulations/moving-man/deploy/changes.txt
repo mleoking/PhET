@@ -1,3 +1,4 @@
+> Ladybug comes to rest when turning friction on
 > Increased size of return ladybug button
 > Click-Drag from the center dot in Remote Control creates a vector
 > Fixed: Manually moving the ladybug out of the frame, then clicking on return ladybug causes her to run offscreen again; her motion and position should be cleared on reset.
