@@ -20,10 +20,10 @@
         $url = SITE_ROOT.'teacher_ideas/user-edit-profile.php';
     }
 
-    // Just in case redirection doesn't work...
-    force_redirect($url, 0);
-
-    // ...but ideally, we'll do a header redirect
+    // Do a header redirect
     force_header_redirect($url);
+
+    // ...and do a meta refresh just in case
+    force_redirect($url, 0);
 
 ?>
