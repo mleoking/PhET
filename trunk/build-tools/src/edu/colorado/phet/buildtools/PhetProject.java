@@ -3,12 +3,12 @@ package edu.colorado.phet.buildtools;
 import java.io.*;
 import java.util.*;
 
+import edu.colorado.phet.buildtools.flash.PhetFlashProject;
 import edu.colorado.phet.buildtools.scripts.SetSVNIgnoreToDeployDirectories;
 import edu.colorado.phet.buildtools.util.*;
-import edu.colorado.phet.buildtools.flash.PhetFlashProject;
+import edu.colorado.phet.common.phetcommon.resources.PhetProperties;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.common.phetcommon.resources.PhetProperties;
 import edu.colorado.phet.common.phetcommon.util.AnnotationParser;
 
 /**
@@ -728,14 +728,34 @@ public abstract class PhetProject {
         return new File( getDataDirectory(), "contrib-licenses" );
     }
 
+
+    public PhetProperties getProjectProperties() {
+        PhetProperties phetProperties = new PhetProperties();
+        try {
+            phetProperties.load( new FileInputStream( getProjectPropertiesFile() ) );
+            return phetProperties;
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    //Todo: remove code duplication with PhetResources
+    //separate implementation is used, since PhetResources relies on JAR resource loader, which is incompatible with build process
     public PhetVersion getVersion() {
-        PhetProperties phetProperties=new PhetProperties( );
-//        phetProperties.load( new FileInputStream(new File(getDataDirectory())) );
-        return new PhetResources( getName() ) {
-//            public String getProjectProperty( String key ) {
-////                return projectProperties.getProperty( key );
-//            }
-        }.getVersion();
+        PhetProperties phetProperties = getProjectProperties();
+        String major = phetProperties.getProperty( PhetResources.PROPERTY_VERSION_MAJOR ),
+                minor = phetProperties.getProperty( PhetResources.PROPERTY_VERSION_MINOR ),
+                dev = phetProperties.getProperty( PhetResources.PROPERTY_VERSION_DEV ),
+                rev = phetProperties.getProperty( PhetResources.PROPERTY_VERSION_REVISION ),
+                timestamp = phetProperties.getProperty( PhetResources.PROPERTY_VERSION_TIMESTAMP );
+        return new PhetVersion( major, minor, dev, rev, timestamp );
+    }
+
+    //this one includes the version, and background color for flash
+    private File getProjectPropertiesFile() {
+        return new File( getDataDirectory(), getName() + ".properties" );
     }
 
     public static interface Listener {

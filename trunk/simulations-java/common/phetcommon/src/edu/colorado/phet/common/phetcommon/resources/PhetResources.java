@@ -318,6 +318,7 @@ public class PhetResources {
     /**
      * Gets the object that encapsulates the project's version information.
      * Involves using a number of required project properties.
+     * TODO: remove duplicate implementation in PhetProject
      */
     public PhetVersion getVersion() {
         if ( version == null ) {
