@@ -76,7 +76,7 @@ BOO;
 		
 		if(empty($id)) {
 			// either 0 or something unknown. either way, an error occurred
-			die("Could not find correct ID");
+			print "<warning-message>Could not find correct ID</warning-message>";
 		}
 		
 		return $id;
