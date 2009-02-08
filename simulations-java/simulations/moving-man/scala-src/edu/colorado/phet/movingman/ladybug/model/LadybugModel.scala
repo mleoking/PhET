@@ -32,6 +32,9 @@ class LadybugModel extends Observable {
     val tickListeners = new ArrayBuffer[() => Unit]
     val motion2DModelResetListeners = new ArrayBuffer[() => Unit]
 
+    val motion2DModel = new Motion2DModel(10, 5, LadybugDefaults.defaultLocation.x, LadybugDefaults.defaultLocation.y)
+    var playbackIndexFloat = 0.0 //floor this to get playbackIndex
+
     def isFrictionless = frictionless
 
     def setFrictionless(f: Boolean) = {
@@ -103,8 +106,6 @@ class LadybugModel extends Observable {
         updateMode = AccelerationMode
     }
 
-    var playbackIndexFloat = 0.0 //floor this to get playbackIndex
-
     def getPlaybackIndex(): Int = java.lang.Math.floor(playbackIndexFloat).toInt
 
     def getPlaybackIndexFloat(): Double = playbackIndexFloat
@@ -114,7 +115,7 @@ class LadybugModel extends Observable {
         f.evaluate(playbackIndexFloat)
     }
 
-    val motion2DModel = new Motion2DModel(10, 5, LadybugDefaults.defaultLocation.x, LadybugDefaults.defaultLocation.y)
+    private def getLastSamplePoint = samplePath(samplePath.length - 1)
 
     //  println("t\tx\tvx\tax")
     def positionMode(dt: Double) = {
@@ -124,12 +125,12 @@ class LadybugModel extends Observable {
             if (samplePath.length > 2) {
                 samplePoint = ladybug.getPosition
                 samplePath += new Sample(time, samplePoint)
-                motion2DModel.addPointAndUpdate(samplePath(samplePath.length - 1).location.x, samplePath(samplePath.length - 1).location.y)
+                motion2DModel.addPointAndUpdate(getLastSamplePoint.location.x, getLastSamplePoint.location.y)
             }
         }
         else {
             if (samplePath.length > 2) {
-                motion2DModel.addPointAndUpdate(samplePath(samplePath.length - 1).location.x, samplePath(samplePath.length - 1).location.y)
+                motion2DModel.addPointAndUpdate(getLastSamplePoint.location.x, getLastSamplePoint.location.y)
                 ladybug.setPosition(new Vector2D(motion2DModel.getAvgXMid, motion2DModel.getAvgYMid))
                 //added fudge factors for getting the scale right with current settings of motion2d model
                 //used spreadsheet to make sure model v and a are approximately correct.
@@ -154,7 +155,7 @@ class LadybugModel extends Observable {
 
     def velocityMode(dt: Double) = {
         if (samplePath.length > 0)
-            motion2DModel.addPointAndUpdate(samplePath(samplePath.length - 1).location.x, samplePath(samplePath.length - 1).location.y)
+            motion2DModel.addPointAndUpdate(getLastSamplePoint.location.x, getLastSamplePoint.location.y)
         ladybug.translate(ladybug.getVelocity * dt)
 
         var accelEstimate = average(history.length - 15, history.length - 1, estimateAcceleration)
