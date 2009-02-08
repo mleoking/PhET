@@ -136,6 +136,9 @@ public class PhetFlashProject extends PhetProject {
     public void runSim( Locale locale, String simulationName ) {
         System.out.println( "Running the flash sim: " + simulationName );
         String exe = getConfigValue( "browser.exe", "C:\\Users\\Sam\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe" );
+        // Start (temporary) hack
+        if(System.getProperty("os.name").equals("Linux")) { exe = "/usr/local/firefox/firefox"; }
+        // End
         try {
 //            String command = exe + " " + getSWFFile().getAbsolutePath();
             String command = exe + " " + getHTMLFile( locale ).getAbsolutePath();

@@ -19,15 +19,35 @@ public class FlashBuildCommand {
     public static void build( String cmdArray, String[] sims, File trunk ) throws IOException {
         String trunkPipe = trunk.getAbsolutePath().replace( ':', '|' );
         trunkPipe = trunkPipe.replace( '\\', '/' );
-        String template = FileUtils.loadFileAsString( new File( trunk, "simulations-flash\\build-template.jsfl" ) );
+        String template = FileUtils.loadFileAsString( new File( trunk, "simulations-flash" + File.separator + "build-template.jsfl" ) );
         String out = template;
+
+        // Start (temporary) hack
+        if(System.getProperty("os.name").equals("Linux")) { trunkPipe = "C|/svn/trunk"; }
+        // End
+
         out = FileUtils.replaceAll( out, "@TRUNK@", trunkPipe );
         out = FileUtils.replaceAll( out, "@SIMS@", toSimsString( sims ) );
         System.out.println( "out = " + out );
-        File outputFile = new File( trunk, "simulations-flash\\build-output-temp\\build.jsfl" );
+
+        String outputSuffix = "simulations-flash" + File.separator + "build-output-temp" + File.separator + "build.jsfl";
+        File outputFile = new File( trunk, outputSuffix );
         FileUtils.writeString( outputFile, out );
 
-        Process p=Runtime.getRuntime().exec( cmdArray + " " + outputFile.getAbsolutePath() );
+
+        Process p;
+        // Start (temporary) hack
+        if(System.getProperty("os.name").equals("Linux")) {
+            p = Runtime.getRuntime().exec(new String[]{
+                    "wine",
+                    "C:\\Program Files\\Macromedia\\Flash 8\\Flash.exe", // possibly replace this with cmdArray
+                    "C:\\svn\\trunk\\" + outputSuffix.replace('/', '\\')
+            });
+        } else {
+            p=Runtime.getRuntime().exec( cmdArray + " " + outputFile.getAbsolutePath() );
+        }
+        // End
+
         try {
             p.waitFor();
         }
