@@ -369,4 +369,11 @@ BOO;
 			phet_mysql_query($update_query);
 		}
 	}
+	
+	// record an error
+	function message_error($info) {
+		$safe_post_data = mysql_real_escape_string($HTTP_RAW_POST_DATA);
+		$safe_info = mysql_real_escape_string($info);
+		mysql_query("INSERT INTO message_errors (raw_post_data, error_info) VALUES ('{$safe_post_data}', '{$safe_info}');";
+	}
 ?>

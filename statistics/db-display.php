@@ -71,6 +71,7 @@ EOT;
 	display_table("java_webstart_version");
 	display_table("java_timezone");
 	display_table("session_java_info");
+	display_table("message_errors");
 	
 	mysql_close($link);
 	
