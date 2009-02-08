@@ -14,6 +14,7 @@
 	
 	function fail_me($str) {
 		print "<error-message>{$str}</error-message><success>false</success></statistics-result></xml>";
+		message_error($str);
 		exit;
 	}
 	
