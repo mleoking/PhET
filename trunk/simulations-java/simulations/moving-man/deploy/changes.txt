@@ -1,3 +1,4 @@
+> Bugfixes for remote control
 > Ladybug comes to rest when turning friction on
 > Increased size of return ladybug button
 > Click-Drag from the center dot in Remote Control creates a vector
