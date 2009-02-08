@@ -26,7 +26,7 @@ case class LadybugState(_position: Vector2D, _velocity: Vector2D, _acceleration:
     def setPosition(x: Vector2D): LadybugState = new LadybugState(x, velocity, acceleration, angle)
 }
 
-class Ladybug extends ObservableS {
+class Ladybug extends Observable {
     var state = new LadybugState
 
     def resetAll() = {

@@ -3,14 +3,14 @@ package edu.colorado.phet.movingman.ladybug.canvas
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import java.awt.geom.{Ellipse2D, GeneralPath, Point2D}
-import model.{DataPoint, ObservableS, LadybugModel}
+import model.{DataPoint, Observable, LadybugModel}
 
 import umd.cs.piccolo.nodes.PPath
 import umd.cs.piccolo.PNode
 import java.awt.{BasicStroke, Color}
 import java.lang.Math._
 
-class LadybugDotTraceNode(model: LadybugModel, transform: ModelViewTransform2D, shouldBeVisible: () => Boolean, observable: ObservableS, maxFade: Double) extends LadybugTraceNode(model, transform, shouldBeVisible, observable) {
+class LadybugDotTraceNode(model: LadybugModel, transform: ModelViewTransform2D, shouldBeVisible: () => Boolean, observable: Observable, maxFade: Double) extends LadybugTraceNode(model, transform, shouldBeVisible, observable) {
     val node = new PNode()
     addChild(node)
 

@@ -145,7 +145,7 @@ object LadybugMotionModel {
     }
 }
 
-class LadybugMotionModel(model: LadybugModel) extends ObservableS {
+class LadybugMotionModel(model: LadybugModel) extends Observable {
     private var _motionType = LadybugMotionModel.MANUAL
 
     def motion: MotionType = _motionType

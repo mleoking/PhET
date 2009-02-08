@@ -4,11 +4,11 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import java.awt.geom.{GeneralPath, Point2D}
 import java.awt.{BasicStroke, Color}
-import model.{ObservableS, LadybugModel}
+import model.{Observable, LadybugModel}
 
 import umd.cs.piccolo.PNode
 
-abstract class LadybugTraceNode(model: LadybugModel, transform: ModelViewTransform2D, shouldBeVisible: () => Boolean, observable: ObservableS) extends PNode {
+abstract class LadybugTraceNode(model: LadybugModel, transform: ModelViewTransform2D, shouldBeVisible: () => Boolean, observable: Observable) extends PNode {
     var clearPt = 0
     setPickable(false)
     setChildrenPickable(false)
