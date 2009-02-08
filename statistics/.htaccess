@@ -1,0 +1,2 @@
+Redirect permanent /statistics/raw-log.txt /statistics/raw-log.php
+Redirect permanent /statistics/parsed-log.txt /statistics/parsed-log.php
