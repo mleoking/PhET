@@ -19,7 +19,7 @@ import util.ToggleListener
 
 class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTransform2D, vectorVisibilityModel: VectorVisibilityModel) extends PNode {
     var interactive = true
-    model.addListener(() =>  updateInteractive())
+    model.addListener(() => updateInteractive())
     def updateInteractive() = {interactive = model.readyForInteraction}
 
     val arrowSetNode = new ArrowSetNode(ladybug, transform, vectorVisibilityModel)
@@ -41,27 +41,15 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
 
     addInputEventListener(new ToggleListener(new CursorHandler, () => interactive))
 
-
-    //todo: remove this outer iterator, should be event driven from drags and presses
-    //this will fix the collision with the remote control
-    var loc: Point2D = null
-    model.tickListeners += (() => {
-        model.setPenDown(loc != null)
-        if (loc != null) {
-            model.setSamplePoint(loc)
-        }
-    })
-
-    model.motion2DModelResetListeners += (() => {
-        println("motion reset")
-        loc = null
-    })
+    private def recordPoint(event: PInputEvent) = {
+        model.startRecording()
+        model.setPenDown(true)
+        model.setSamplePoint(transform.viewToModel(event.getPositionRelativeTo(getParent)))
+    }
 
     val inputHandler = new PBasicInputEventHandler() {
         override def mouseDragged(event: PInputEvent) = {
-            model.startRecording()
-
-            loc = transform.viewToModel(event.getPositionRelativeTo(getParent))
+            recordPoint(event)
 
             if (LadybugDefaults.HIDE_MOUSE_DURING_DRAG) {
                 event.getComponent.pushCursor(java.awt.Toolkit.getDefaultToolkit().createCustomCursor(new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), "invisibleCursor"))
@@ -69,16 +57,15 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
         }
 
         override def mousePressed(event: PInputEvent) = {
-            model.startRecording()
-            loc = transform.viewToModel(event.getPositionRelativeTo(getParent))
+            recordPoint(event)
         }
 
         override def mouseReleased(event: PInputEvent) = {
-            loc = null
+            model.setPenDown(false)
         }
 
         override def mouseExited(event: PInputEvent) = {
-            loc = null
+            model.setPenDown(false)
         }
     }
     addInputEventListener(new ToggleListener(inputHandler, () => interactive))
