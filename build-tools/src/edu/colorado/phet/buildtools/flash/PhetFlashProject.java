@@ -8,12 +8,9 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Properties;
 
-import edu.colorado.phet.buildtools.flash.FlashBuildCommand;
-import edu.colorado.phet.buildtools.flash.FlashHTML;
-import edu.colorado.phet.buildtools.flash.GenerateHTML;
-import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.Simulation;
+import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 
 /**
@@ -78,9 +75,13 @@ public class PhetFlashProject extends PhetProject {
             PhetVersion version = super.getVersion();
             try {
 //                String bgColor=new PhetResources( getName()).getProjectProperty( "bgcolor" );
-                String bgColor = "#000000";
+                String bgColor = getProjectProperties().getProperty( "bgcolor" );
                 String simDev = "true"; // TODO: handle what will be sent as the sim_dev field for statistics
-                String html = FlashHTML.generateHTML( getName(), locale.getLanguage(), locale.getCountry(),
+                String countryCode = locale.getCountry();
+                if (countryCode==null || countryCode.trim().length()==0){
+                    countryCode="null";
+                }
+                String html = FlashHTML.generateHTML( getName(), locale.getLanguage(), countryCode,
                                                       "phet-production-website", GenerateHTML.distribution_tag_dummy,
                                                       GenerateHTML.installation_timestamp_dummy,
                                                       GenerateHTML.installer_creation_timestamp_dummy,
@@ -147,7 +148,7 @@ public class PhetFlashProject extends PhetProject {
 
         }
         catch( IOException e ) {
-            e.printStackTrace();  
+            e.printStackTrace();
         }
     }
 
