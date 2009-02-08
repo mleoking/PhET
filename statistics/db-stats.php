@@ -317,6 +317,7 @@ BOO;
 	}
 	
 	// insert/update data for the user table
+	// should return an error string if there was an error, otherwise will return ""
 	function update_user($userPreferencesFileCreationTime, $userInstallTimestamp, $userTotalSessions) {
 		// TODO: add success return value, use mysql_affected_rows, and mysql_errno to detect any errors
 		
@@ -334,6 +335,10 @@ BOO;
 		}
 		$result = phet_mysql_query($query);
 		
+		if(mysql_errno()) {
+			return "update_user SELECT failed";
+		}
+		
 		// number of rows that match the above query. should be 1 if the user has been seen before,
 		// and 0 if they haven't been seen
 		$num_rows = mysql_num_rows($result);
@@ -350,6 +355,10 @@ BOO;
 			);
 			$insert_query = query_from_values("user", $values);
 			phet_mysql_query($insert_query);
+			
+			if(mysql_errno()) {
+				return "update_user INSERT failed";
+			}
 		} else {
 			// user already in table, update values
 			
@@ -360,11 +369,21 @@ BOO;
 			$update_query = "UPDATE user SET user_total_sessions = {$safe_sessions} WHERE (user_preferences_file_creation_time = {$safe_time} AND {$timestamp_test})";
 			phet_mysql_query($update_query);
 			
+			if(mysql_errno()) {
+				return "update_user UPDATE 1 failed";
+			}
+			
 			// update last_seen_month with current year and month
 			$last_seen_month = quo(date("Y-m-01", time()));
 			$update_query = "UPDATE user SET last_seen_month = {$last_seen_month} WHERE (user_preferences_file_creation_time = {$safe_time} AND {$timestamp_test})";
 			phet_mysql_query($update_query);
+			
+			if(mysql_errno()) {
+				return "update_user UPDATE 2 failed";
+			}
 		}
+		
+		return "";
 	}
 	
 	// record an error

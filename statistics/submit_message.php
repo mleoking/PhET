@@ -157,13 +157,6 @@
 		    // connect to mysql
 			$link = setup_mysql();
 			
-			// create/update entry in user database
-			update_user(
-				urldecode($xml["user_preference_file_creation_time"]),
-				urldecode($xml["user_installation_timestamp"]),
-				urldecode($xml["user_total_sessions"])
-			);
-			
 			// extract flash version information (version is something like "LNX 9,0,124,0")
 			$version_string = urldecode($xml["host_flash_version"]);
 			
@@ -217,6 +210,17 @@
 				fail_me("flash insertion error");
 			}
 			
+			// create/update entry in user database
+			$userMessage = update_user(
+				int_decode("user_preference_file_creation_time"),
+				int_decode("user_installation_timestamp"),
+				int_decode("user_total_sessions")
+			);
+			
+			if(!empty($userMessage)) {
+				fail_me($userMessage);
+			}
+			
 		} else {
 			fail_me("message_version was not accepted");
 		}
@@ -226,13 +230,6 @@
 		if($xml["message_version"] == "1") {
 		    // connect to mysql
 			$link = setup_mysql();
-			
-			// create/update entry in user database
-			update_user(
-				urldecode($xml["user_preference_file_creation_time"]),
-				urldecode($xml["user_installation_timestamp"]),
-				urldecode($xml["user_total_sessions"])
-			);
 			
 			$sessionID = insert_java_message(
 				array (
@@ -267,6 +264,17 @@
 			
 			if(empty($sessionID)) {
 				fail_me("java insertion error");
+			}
+			
+			// create/update entry in user database
+			$userMessage = update_user(
+				int_decode("user_preference_file_creation_time"),
+				int_decode("user_installation_timestamp"),
+				int_decode("user_total_sessions")
+			);
+			
+			if(!empty($userMessage)) {
+				fail_me($userMessage);
 			}
 			
 		} else {
