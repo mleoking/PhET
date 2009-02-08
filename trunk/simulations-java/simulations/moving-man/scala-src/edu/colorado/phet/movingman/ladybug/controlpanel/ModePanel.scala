@@ -1,7 +1,7 @@
 package edu.colorado.phet.movingman.ladybug.controlpanel
 
-import _root_.edu.colorado.phet.common.phetcommon.view.util.PhetFont
-import _root_.scala.swing.{Component, Panel}
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont
+import scala.swing.{Component, Panel}
 import java.awt.Color
 import javax.swing.BoxLayout._
 import javax.swing.{BoxLayout, JPanel, JComponent}

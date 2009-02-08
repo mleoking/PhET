@@ -1,6 +1,6 @@
 package edu.colorado.phet.movingman.ladybug
 
-import _root_.scala.io.Source
+import scala.io.Source
 import java.io.{File, BufferedWriter, FileOutputStream, FileWriter}
 
 object PrintSource {

@@ -1,7 +1,7 @@
 package edu.colorado.phet.movingman.ladybug.controlpanel
 
-import _root_.edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
-import _root_.edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl
+import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl
 import java.awt.Color
 import java.awt.Cursor
 import java.util.Hashtable

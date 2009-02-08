@@ -1,8 +1,8 @@
 package edu.colorado.phet.movingman.ladybug.canvas
 
-import _root_.edu.colorado.phet.common.phetcommon.view.util.PhetFont
-import _root_.edu.colorado.phet.common.piccolophet.PhetPNode
-import _root_.scala.swing.Button
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont
+import edu.colorado.phet.common.piccolophet.PhetPNode
+import scala.swing.Button
 import java.awt.event.{ActionEvent, ComponentAdapter, ComponentEvent, ActionListener}
 import java.awt.geom.Point2D
 import java.awt.{Rectangle, Graphics2D, Graphics}

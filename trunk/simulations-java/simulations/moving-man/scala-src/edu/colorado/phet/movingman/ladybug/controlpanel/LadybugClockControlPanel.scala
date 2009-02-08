@@ -1,19 +1,19 @@
 package edu.colorado.phet.movingman.ladybug.controlpanel
 
-import _root_.edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
-import _root_.edu.colorado.phet.common.phetcommon.view.util.ImageLoader._
-import _root_.edu.colorado.phet.common.phetcommon.view.util.RectangleUtils
-import _root_.edu.colorado.phet.common.piccolophet.event.CursorHandler
-import _root_.edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloTimeControlPanel.BackgroundNode
-import _root_.edu.colorado.phet.common.piccolophet.nodes.PhetPPath
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader._
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils
+import edu.colorado.phet.common.piccolophet.event.CursorHandler
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloTimeControlPanel.BackgroundNode
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import java.awt._
-import _root_.edu.colorado.phet.common.piccolophet.event.ToolTipHandler
-import _root_.edu.colorado.phet.common.piccolophet.nodes.mediabuttons.DefaultIconButton
-import _root_.edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PlayPauseButton
-import _root_.edu.colorado.phet.common.piccolophet.nodes.mediabuttons.RewindButton
-import _root_.edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepButton
-import _root_.edu.colorado.phet.common.piccolophet.PhetPCanvas
-import _root_.scala.collection.mutable.ArrayBuffer
+import edu.colorado.phet.common.piccolophet.event.ToolTipHandler
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.DefaultIconButton
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PlayPauseButton
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.RewindButton
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepButton
+import edu.colorado.phet.common.piccolophet.PhetPCanvas
+import scala.collection.mutable.ArrayBuffer
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources
 import edu.colorado.phet.common.phetcommon.resources.PhetResources
 import java.awt.event.{ActionEvent, ComponentAdapter, ComponentEvent, ActionListener}

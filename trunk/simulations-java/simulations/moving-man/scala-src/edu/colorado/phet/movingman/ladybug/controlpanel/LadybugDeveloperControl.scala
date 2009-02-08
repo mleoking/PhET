@@ -1,7 +1,7 @@
 package edu.colorado.phet.movingman.ladybug.controlpanel
 
-import _root_.edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl
-import _root_.edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
 import java.awt.event.{ActionEvent, ActionListener}
 import javax.swing.event.{ChangeListener, ChangeEvent}
 import javax.swing.JCheckBox
