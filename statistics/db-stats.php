@@ -5,14 +5,11 @@
 
 	// include information needed to log into the database
 	include("db-stats-login.php");
+	include("db-revision.php");
 	
 	// define sim_type to correspond with website code
 	define("SIM_TYPE_JAVA", "0");
 	define("SIM_TYPE_FLASH", "1");
-	
-	// define the version of server-side code
-	// TODO: include?
-	$serverVersion = "28244";
 	
 	// TODO: uncomment for the live version:
 	//error_reporting(0);
