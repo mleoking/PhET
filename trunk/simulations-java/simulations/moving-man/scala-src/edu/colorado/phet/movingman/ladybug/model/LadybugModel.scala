@@ -12,8 +12,7 @@ import edu.colorado.phet.common.motion._
 class LadybugModel extends ObservableS {
     val ladybug = new Ladybug
     private val history = new ArrayBuffer[DataPoint]
-    val tickListeners = new ArrayBuffer[() => Unit]
-    val motion2DModelResetListeners = new ArrayBuffer[() => Unit]
+
     private val ladybugMotionModel = new LadybugMotionModel(this)
     private var time: Double = 0;
     var record = true
@@ -26,16 +25,20 @@ class LadybugModel extends ObservableS {
     case class Sample(time: Double, location: Vector2D)
     val samplePath = new ArrayBuffer[Sample]
     var samplePoint = new Vector2D //current sample point
+    var penDown = false
 
     private var frictionless = false
 
-    def isFrictionless=frictionless
+    val tickListeners = new ArrayBuffer[() => Unit]
+    val motion2DModelResetListeners = new ArrayBuffer[() => Unit]
 
-    def setFrictionless(f:Boolean)={
-        frictionless=f
+    def isFrictionless = frictionless
+
+    def setFrictionless(f: Boolean) = {
+        frictionless = f
         clearSampleHistory
         resetMotion2DModel
-        samplePoint=ladybug.getPosition
+        samplePoint = ladybug.getPosition
         notifyListeners
     }
 
@@ -115,11 +118,11 @@ class LadybugModel extends ObservableS {
 
     //  println("t\tx\tvx\tax")
     def positionMode(dt: Double) = {
-        println("pendown="+penDown)
+        println("pendown=" + penDown)
         if (frictionless && !penDown) {
             velocityMode(dt)
             if (samplePath.length > 2) {
-                samplePoint=ladybug.getPosition
+                samplePoint = ladybug.getPosition
                 samplePath += new Sample(time, samplePoint)
                 motion2DModel.addPointAndUpdate(samplePath(samplePath.length - 1).location.x, samplePath(samplePath.length - 1).location.y)
             }
@@ -149,19 +152,7 @@ class LadybugModel extends ObservableS {
         }
     }
 
-    //  def positionModeORIG(dt: Double) = {
-    //    if (estimateVelocity(history.length - 1).magnitude > 1E-6)
-    //      ladybug.setAngle(estimateAngle())
-    //
-    //    var velocityEstimate = average(history.length - 3, history.length - 1, estimateVelocity)
-    //    ladybug.setVelocity(velocityEstimate)
-    //
-    //    var accelEstimate = average(history.length - 15, history.length - 1, estimateAcceleration)
-    //    ladybug.setAcceleration(accelEstimate)
-    //  }
-
     def velocityMode(dt: Double) = {
-        //        samplePath+=samplePoint
         if (samplePath.length > 0)
             motion2DModel.addPointAndUpdate(samplePath(samplePath.length - 1).location.x, samplePath(samplePath.length - 1).location.y)
         ladybug.translate(ladybug.getVelocity * dt)
@@ -174,7 +165,6 @@ class LadybugModel extends ObservableS {
         ladybug.translate(ladybug.getVelocity * dt)
         ladybug.setVelocity(ladybug.getVelocity + ladybug.getAcceleration * dt)
     }
-
 
     def setStateToPlaybackIndex() = {
         ladybug.setState(history(getPlaybackIndex()).state)
@@ -296,7 +286,6 @@ class LadybugModel extends ObservableS {
     def setRecord(rec: Boolean) = {
         if (record != rec) {
             record = rec
-
             if (record) {
                 clearHistoryRemainder
             }
@@ -388,8 +377,6 @@ class LadybugModel extends ObservableS {
         resetMotion2DModel
         notifyListeners
     }
-
-    var penDown = false
 
     def setPenDown(p: Boolean) = {
         penDown = p
