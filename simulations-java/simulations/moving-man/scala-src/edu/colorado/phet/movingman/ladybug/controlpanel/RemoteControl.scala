@@ -35,6 +35,11 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
             model.setSamplePoint(pt)
             model.setUpdateModePosition
         }
+
+        override def dragging_=(d: Boolean) = {
+            super.dragging_=(d)
+            model.setPenDown(d)
+        }
     }
     val velocityMode = new RemoteMode(LadybugColorSet.velocity, 14, _.getVelocity) {
         def setLadybugState(pt: Point2D) = {
@@ -51,13 +56,17 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
     var _mode: RemoteMode = positionMode;
     _mode.updateArrow
 
-    abstract class RemoteMode(color: Color, rangeWidth: Double, getter: (Ladybug) => Vector2D) {
+    abstract class RemoteMode(color: Color, rangeWidth: Double, getter: Ladybug => Vector2D) {
         val transform = new ModelViewTransform2D(new Rectangle2D.Double(-rangeWidth / 2, -rangeWidth / 2, rangeWidth, rangeWidth), new Rectangle(CANVAS_WIDTH, CANVAS_HEIGHT), LadybugDefaults.POSITIVE_Y_IS_UP)
         val arrowNode = new ArrowNode(transform.modelToView(new Point2D.Double(0, 0)), transform.modelToView(new Point2D.Double(0, 0)), arrowHeadWidth, arrowHeadHeight, arrowTailWidth, 0.5, true)
         arrowNode.setPickable(false)
         arrowNode.setChildrenPickable(false)
         arrowNode.setPaint(color)
-        var dragging = false
+        private var _dragging = false
+        def dragging_=(d:Boolean)={
+            _dragging=d
+        }
+        def dragging=_dragging
 
         def updateArrow = {
             val doUpdate = (!dragging && (RemoteControl.this._mode eq this) && LadybugDefaults.remoteIsIndicator)
@@ -118,7 +127,7 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
             override def mousePressed(event: PInputEvent) = {
                 if (isInteractive()) {
                     _mode.dragging = true
-                    model.setPenDown(true)
+//                    model.setPenDown(true)
                     setMotionManual()
                     _mode.setDestination(_mode.transform.viewToModel(event.getCanvasPosition.getX, event.getCanvasPosition.getY))
                 }
@@ -131,7 +140,7 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
                     if (!LadybugDefaults.vaSticky && (_mode == velocityMode || _mode == accelerationMode)) {
                         _mode.setDestination(new Vector2D(0, 0))
                     }
-                    model.setPenDown(false)
+//                    model.setPenDown(false)
                 }
 
             }
