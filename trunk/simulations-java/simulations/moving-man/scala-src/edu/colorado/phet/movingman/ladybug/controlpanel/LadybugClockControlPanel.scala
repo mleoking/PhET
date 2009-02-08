@@ -30,19 +30,19 @@ import umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloTimeControlPanel.BackgroundNode
 import edu.colorado.phet.movingman.ladybug.LadybugUtil._
 
-class MyButtonNode(text: String, icon: Icon, action: () => Unit) extends PText(text) {
-    addInputEventListener(new PBasicInputEventHandler() {
-        override def mousePressed(event: PInputEvent) = {action()}
-    })
-}
-
 class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
+    private class MyButtonNode(text: String, icon: Icon, action: () => Unit) extends PText(text) {
+        addInputEventListener(new PBasicInputEventHandler() {
+            override def mousePressed(event: PInputEvent) = {action()}
+        })
+    }
+
     private val nodes = new ArrayBuffer[PNode]
     private val prefSizeM = new Dimension(800, 100)
     setBorder(null)
     setBackground(new JPanel().getBackground)
 
-    def addControl(node: PNode) = {
+    protected def addControl(node: PNode) = {
         addScreenChild(node)
         val offsetX: Double = if (nodes.length == 0) 0 else {nodes(nodes.length - 1).getFullBounds.getMaxX + 5}
         node.setOffset(offsetX, node.getOffset.getY + 10)
@@ -55,7 +55,7 @@ class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
         def buttonPressed = {f()}
     }
 
-    val backgroundNode = new BackgroundNode
+    val backgroundNode = new BackgroundNode;
     addScreenChild(backgroundNode)
 
     val modePanel = new ModePanel(module.model)
@@ -80,9 +80,7 @@ class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
         module.model.setPlaybackIndexFloat(0.0)
         module.model.setPaused(true)
     })
-    module.model.addListener(() => {
-        updateRewindEnabled
-    })
+    module.model.addListenerByName(updateRewindEnabled)
     updateRewindEnabled
     def updateRewindEnabled = {
         val enabled = module.model.isPlayback && module.model.getHistory.length > 0
@@ -95,9 +93,6 @@ class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
     val clearButtonNode = new PSwing(clearButton)
     val modePanelNode = new PSwing(modePanel)
 
-    addControl(clearButtonNode)
-    addControl(modePanelNode)
-    addControl(rewind)
 
     val playPause = new PlayPauseButton(75)
     playPause.addListener(new PlayPauseButton.Listener() {
@@ -109,7 +104,8 @@ class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
         playPause.setPlaying(!module.model.isPaused)
         playPauseTooltipHandler.setText(if (module.model.isPaused) "Play" else "Pause")
     })
-    addControl(playPause)
+
+
 
     val stepButton = new StepButton(50)
     stepButton.setEnabled(false)
@@ -120,6 +116,12 @@ class LadybugClockControlPanel(module: LadybugModule) extends PhetPCanvas {
     })
     stepButton.addListener(() => {module.model.stepPlayback()})
     stepButton.setOffset(0, 12)
+
+
+    addControl(clearButtonNode)
+    addControl(modePanelNode)
+    addControl(rewind)
+    addControl(playPause)
     addControl(stepButton)
     addControl(playbackSpeedSlider)
 
@@ -223,9 +225,7 @@ class Timeline(model: LadybugModel, canvas: PhetPCanvas) extends PNode {
         }
     })
 
-    model.addListener(() => {
-        updateSelf()
-    })
+    model.addListenerByName(updateSelf())
     updateSelf
     def updateSelf() = {
         scale = (canvas.getWidth - insetX * 2) / LadybugDefaults.timelineLengthSeconds
