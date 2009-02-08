@@ -371,9 +371,18 @@ BOO;
 	}
 	
 	// record an error
-	function message_error($info) {
-		$safe_post_data = mysql_real_escape_string($HTTP_RAW_POST_DATA);
-		$safe_info = mysql_real_escape_string($info);
-		mysql_query("INSERT INTO message_errors (raw_post_data, error_info) VALUES ('{$safe_post_data}', '{$safe_info}');";
+	function message_error($raw_post_data, $info) {
+		global $serverVersion;
+		
+		$values = array(
+			'timestamp' => 'NOW()',
+			'server_version' => $serverVersion,
+			'raw_post_data' => quo($raw_post_data),
+			'mysql_error' => quo(mysql_error()),
+			'error_info' => quo($info)
+		);
+		
+		$query = query_from_values("message_errors", $values);
+		mysql_query($query);
 	}
 ?>

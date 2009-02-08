@@ -11,10 +11,14 @@
 	$raw_logging = true;
 	$raw_logging_verbose = false;
 	
+	// load the xml from postdata
+	$raw_post_data = $HTTP_RAW_POST_DATA;
+	$xml = simplexml_load_string($raw_post_data);
 	
 	function fail_me($str) {
+		global $raw_post_data;
 		print "<error-message>{$str}</error-message><success>false</success></statistics-result></xml>";
-		message_error($str);
+		message_error($raw_post_data, $str);
 		exit;
 	}
 	
@@ -24,8 +28,7 @@
 	
 	print "<xml><statistics-result>";
 	
-	// load the xml from postdata
-	$xml = simplexml_load_string($HTTP_RAW_POST_DATA);
+	
 	
 	
 	// if we want to track the raw messages that are coming through, this will be used

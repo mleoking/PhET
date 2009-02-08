@@ -265,8 +265,11 @@ DROP TABLE IF EXISTS message_errors;
 CREATE TABLE message_errors (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	
+	timestamp DATETIME,
+	server_version MEDIUMINT UNSIGNED,
 	raw_post_data VARCHAR(2000),
-	error_info VARCHAR(300)
+	mysql_error VARCHAR(2000),
+	error_info VARCHAR(2000)
 );
 
 
