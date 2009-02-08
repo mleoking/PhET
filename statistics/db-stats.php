@@ -10,6 +10,10 @@
 	define("SIM_TYPE_JAVA", "0");
 	define("SIM_TYPE_FLASH", "1");
 	
+	// define the version of server-side code
+	// TODO: include?
+	$serverVersion = "28244";
+	
 	// TODO: uncomment for the live version:
 	//error_reporting(0);
 	//ini_set('display_errors', 0);
@@ -102,6 +106,8 @@ BOO;
 	
 	// insert data into the session table
 	function insert_session($data) {
+		global $serverVersion;
+		
 		// get IDs from normalized tables
 		$sim_project_ID = get_id_value("sim_project", "id", "name", quo($data['sim_project']));
 		$sim_name_ID = get_id_value("sim_name", "id", "name", quo($data['sim_name']));
@@ -112,6 +118,7 @@ BOO;
 		$values = array(
 			'timestamp' => 'NOW()',
 			'message_version' => mysql_real_escape_string($data['message_version']),
+			'server_version' => $serverVersion,
 			'sim_type' => mysql_real_escape_string($data['sim_type']),
 			'sim_project' => $sim_project_ID,
 			'sim_name' => $sim_name_ID,
