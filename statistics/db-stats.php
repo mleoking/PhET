@@ -110,6 +110,7 @@ BOO;
 		$host_simplified_os_ID = get_id_value("simplified_os", "id", "name", quo($data['host_simplified_os']));
 		
 		$values = array(
+			'timestamp' => 'NOW()',
 			'message_version' => mysql_real_escape_string($data['message_version']),
 			'sim_type' => mysql_real_escape_string($data['sim_type']),
 			'sim_project' => $sim_project_ID,
