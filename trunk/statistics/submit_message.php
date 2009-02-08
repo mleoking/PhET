@@ -67,10 +67,12 @@
 	function int_decode($field) {
 		global $xml;
 		
-		// turn %20 => ' ', etc.
-		$decoded = urldecode($xml[$field]);
+		$raw = $xml[$field];
 		
-		if($decoded === null) {
+		// turn %20 => ' ', etc.
+		$decoded = urldecode($raw);
+		
+		if($raw === null) {
 			warn_me("field {$field} was not specified, replacing with null");
 			if($field == "sim_version_timestamp") {
 				return "0";
@@ -107,10 +109,12 @@
 	function string_decode($field) {
 		global $xml;
 		
-		// turn %20 => ' ', etc.
-		$decoded = urldecode($xml[$field]);
+		$raw = $xml[$field];
 		
-		if($decoded === null) {
+		// turn %20 => ' ', etc.
+		$decoded = urldecode($raw);
+		
+		if($raw === null) {
 			warn_me("field {$field} was not specified, replacing with null");
 			return "NULL";
 		}
