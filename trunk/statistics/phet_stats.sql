@@ -70,6 +70,9 @@ CREATE TABLE session (
 	# version of the message that was sent
 	message_version TINYINT UNSIGNED,
 	
+	# version of the server-side code that recorded this message
+	server_version MEDIUMINT UNSIGNED,
+	
 	# Java (0) or Flash (1)
 	sim_type ENUM('0', '1') NOT NULL default '0',
 	
