@@ -1,10 +1,20 @@
 #!/bin/bash
 
+# usage:
+# ./deploy user@tigercat revisionnumber
+# IE ./deploy olsonjb@tigercat 28250
+#
+# NOTE: need deploy_files and deploy_files/report to exist
+
+# where we will put the files
 server="${1}.colorado.edu:htdocs/statistics/"
+
+# the files that need to be copied
 files="db-display.php db-errors.php db-recent.php db-stats.php db-test-fill.php parsed-log.php raw-log.php phet_stats.sql submit_message.php report/general-report.php report/queries.php report/query-csv.php report/query-demo.php report/query-table.php"
 
 for file in $files;
 do
+	# for each file, copy it into the deploy_files directory
 	cp ${file} deploy_files/${file}
 done;
 
