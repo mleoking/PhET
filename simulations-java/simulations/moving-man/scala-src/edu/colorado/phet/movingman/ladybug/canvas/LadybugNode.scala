@@ -1,6 +1,6 @@
 package edu.colorado.phet.movingman.ladybug.canvas
 
-import _root_.edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
 import controlpanel.VectorVisibilityModel
 import java.awt.image.BufferedImage
 import java.awt.{Point, Color, Cursor}

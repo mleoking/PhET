@@ -1,7 +1,7 @@
 package edu.colorado.phet.movingman.ladybug.controlpanel
 
-import _root_.edu.colorado.phet.common.phetcommon.model.Resettable
-import _root_.edu.colorado.phet.movingman.ladybug.model.LadybugMotionModel._
+import edu.colorado.phet.common.phetcommon.model.Resettable
+import edu.colorado.phet.movingman.ladybug.model.LadybugMotionModel._
 import edu.colorado.phet.common.phetcommon.view.ControlPanel
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont

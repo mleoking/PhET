@@ -1,6 +1,6 @@
 package edu.colorado.phet.movingman.ladybug.model
 
-import _root_.scala.collection.mutable.ArrayBuffer
+import scala.collection.mutable.ArrayBuffer
 
 trait Observable {
     private val listeners = new ArrayBuffer[() => Unit]

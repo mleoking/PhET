@@ -1,8 +1,8 @@
 package edu.colorado.phet.movingman.ladybug.model
 
-import _root_.edu.colorado.phet.common.motion.model.TimeData
-import _root_.edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
-import _root_.edu.colorado.phet.movingman.util.Motion2DModel
+import edu.colorado.phet.common.motion.model.TimeData
+import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
+import edu.colorado.phet.movingman.util.Motion2DModel
 import java.awt.geom.{Rectangle2D, Point2D}
 import scala.collection.mutable.ArrayBuffer
 import LadybugUtil._

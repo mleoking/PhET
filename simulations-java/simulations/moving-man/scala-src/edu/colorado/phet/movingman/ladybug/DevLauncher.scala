@@ -1,15 +1,15 @@
 package edu.colorado.phet.movingman.ladybug
 
-import _root_.edu.colorado.phet.common.phetcommon.application.ApplicationConstructor
-import _root_.edu.colorado.phet.common.phetcommon.view.util.SwingUtils
-import _root_.edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
 import java.awt.event.{ActionListener, KeyAdapter, ActionEvent, KeyEvent}
 
 import javax.swing._
 import model.ScalaClock
-import _root_.edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher
-import _root_.edu.colorado.phet.common.phetcommon.application.PhetApplication
-import _root_.edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher
+import edu.colorado.phet.common.phetcommon.application.PhetApplication
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig
 
 object DevLauncher {
     def main(args: Array[String]) = {

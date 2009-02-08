@@ -1,12 +1,12 @@
 package edu.colorado.phet.movingman.ladybug.controlpanel
 
-import _root_.edu.colorado.phet.common.phetcommon.view.util.PhetFont
-import _root_.edu.colorado.phet.common.piccolophet.event.CursorHandler
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont
+import edu.colorado.phet.common.piccolophet.event.CursorHandler
 import javax.swing.border.BevelBorder
 import swing.MyRadioButton
 import umd.cs.piccolo.event.{PInputEventListener, PBasicInputEventHandler, PInputEvent}
 import util.ToggleListener
-import _root_.edu.colorado.phet.common.piccolophet.nodes.PhetPPath
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode
