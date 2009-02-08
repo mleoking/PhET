@@ -326,7 +326,7 @@ BOO;
 		$safe_install_timestamp = mysql_real_escape_string($userInstallTimestamp);
 		$safe_sessions = mysql_real_escape_string($userTotalSessions);
 		// we need to find out whether an entry exists for this particular file creation time AND install timestamp
-		if(empty($safe_install_timestamp) || $safe_install_timestamp == "null" || $safe_install_timestamp == "none") {
+		if(empty($safe_install_timestamp) || $safe_install_timestamp == "NULL" || $safe_install_timestamp == "none") {
 			// not from an installation, set timestamp value to NULL
 			$safe_install_timestamp = "NULL";
 			$query = "SELECT user_preferences_file_creation_time, user_installation_timestamp FROM user WHERE (user_preferences_file_creation_time = {$safe_time} AND user_installation_timestamp IS NULL);";
@@ -335,13 +335,13 @@ BOO;
 		}
 		$result = phet_mysql_query($query);
 		
-		if(mysql_errno()) {
-			return "update_user SELECT failed";
-		}
-		
 		// number of rows that match the above query. should be 1 if the user has been seen before,
 		// and 0 if they haven't been seen
 		$num_rows = mysql_num_rows($result);
+		
+		if(mysql_errno()) {
+			return "update_user SELECT failed";
+		}
 		
 		if($num_rows === 0) {
 			// first time this user is seen
