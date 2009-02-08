@@ -4,12 +4,12 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import java.awt.geom.{Line2D, GeneralPath, Point2D}
 import java.awt.{BasicStroke, Color}
-import model.{DataPoint, ObservableS, LadybugModel}
+import model.{DataPoint, Observable, LadybugModel}
 import java.lang.Math._
 
 import umd.cs.piccolo.PNode
 
-class LadybugFadeTraceNode(model: LadybugModel, transform: ModelViewTransform2D, shouldBeVisible: () => Boolean, observable: ObservableS, maxFade: Double) extends LadybugTraceNode(model, transform, shouldBeVisible, observable) {
+class LadybugFadeTraceNode(model: LadybugModel, transform: ModelViewTransform2D, shouldBeVisible: () => Boolean, observable: Observable, maxFade: Double) extends LadybugTraceNode(model, transform, shouldBeVisible, observable) {
     update()
 
     def update() = {

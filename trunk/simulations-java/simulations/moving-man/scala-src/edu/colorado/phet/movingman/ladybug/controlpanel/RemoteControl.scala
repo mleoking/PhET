@@ -16,12 +16,12 @@ import java.awt.geom.{Rectangle2D, Ellipse2D, Point2D, Dimension2D}
 import java.awt.{Rectangle, Dimension, Color}
 import javax.swing._
 import javax.swing.event.MouseInputAdapter
-import model.{ObservableS, Ladybug, Vector2D, LadybugModel}
+import model.{Observable, Ladybug, Vector2D, LadybugModel}
 import umd.cs.piccolo.PNode
 import umd.cs.piccolo.util.PDimension
 import LadybugUtil._
 
-class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends VerticalLayoutPanel with ObservableS {
+class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends VerticalLayoutPanel with Observable {
     def mode = _mode
 
     val CANVAS_WIDTH = 155

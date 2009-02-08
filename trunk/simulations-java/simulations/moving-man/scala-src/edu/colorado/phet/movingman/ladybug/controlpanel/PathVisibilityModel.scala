@@ -1,8 +1,8 @@
 package edu.colorado.phet.movingman.ladybug.controlpanel
 
-import model.ObservableS
+import model.Observable
 
-class PathVisibilityModel extends ObservableS {
+class PathVisibilityModel extends Observable {
     private var _lineVisible = false
     private var _dotsVisible = false
     private var _fadeVisible = true

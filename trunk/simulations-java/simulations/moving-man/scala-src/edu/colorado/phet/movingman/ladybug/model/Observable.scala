@@ -2,7 +2,7 @@ package edu.colorado.phet.movingman.ladybug.model
 
 import _root_.scala.collection.mutable.ArrayBuffer
 
-trait ObservableS {
+trait Observable {
     private val listeners = new ArrayBuffer[() => Unit]
 
     def notifyListeners() = listeners.foreach(_())

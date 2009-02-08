@@ -6,7 +6,7 @@ import edu.colorado.phet.common.phetcommon.view.ControlPanel
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import javax.swing.border.TitledBorder
-import model.{LadybugMotionModel, ObservableS, LadybugModel}
+import model.{LadybugMotionModel, Observable, LadybugModel}
 import scala.swing._
 import scala.swing.event.ButtonClicked
 import java.awt.Dimension
@@ -58,7 +58,7 @@ class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
     class MotionControlPanel(m: LadybugMotionModel) extends BoxPanel(Orientation.Vertical) {
         contents += new Label("Choose Motion") {font = new PhetFont(14, true)}
 
-        class MyRadioButtonWithEnable(text: String, actionListener: => Unit, getter: => Boolean, addListener: (() => Unit) => Unit, shouldBeEnabled: () => Boolean, enableObservable: ObservableS) extends MyRadioButton(text, actionListener, getter, addListener) {
+        class MyRadioButtonWithEnable(text: String, actionListener: => Unit, getter: => Boolean, addListener: (() => Unit) => Unit, shouldBeEnabled: () => Boolean, enableObservable: Observable) extends MyRadioButton(text, actionListener, getter, addListener) {
             enableObservable.addListener(() => peer.setEnabled(shouldBeEnabled()))
         }
 

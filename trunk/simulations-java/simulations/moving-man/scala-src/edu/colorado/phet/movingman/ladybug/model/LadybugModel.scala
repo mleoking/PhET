@@ -9,7 +9,7 @@ import LadybugUtil._
 import edu.colorado.phet.common.motion._
 
 
-class LadybugModel extends ObservableS {
+class LadybugModel extends Observable {
     val ladybug = new Ladybug
     private val history = new ArrayBuffer[DataPoint]
 
