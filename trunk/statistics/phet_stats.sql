@@ -64,7 +64,8 @@ CREATE TABLE session (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	
 	# timestamp of when the message arrived
-	timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	#timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	timestamp DATETIME,
 	
 	# version of the message that was sent
 	message_version TINYINT UNSIGNED,
@@ -81,7 +82,7 @@ CREATE TABLE session (
 	sim_minor_version TINYINT UNSIGNED,
 	sim_dev_version SMALLINT UNSIGNED,
 	sim_svn_revision MEDIUMINT UNSIGNED,
-	sim_version_timestamp TIMESTAMP,
+	sim_version_timestamp DATETIME,
 	
 	# locale of the simulation run
 	sim_locale_language CHAR(2),
