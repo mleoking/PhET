@@ -1,0 +1,13 @@
+#!/bin/bash
+
+server="${1}.colorado.edu:htdocs/statistics/"
+files="db-display.php db-errors.php db-recent.php db-stats.php db-test-fill.php parsed-log.php raw-log.php phet_stats.sql submit_message.php report/general-report.php report/queries.php report/query-csv.php report/query-demo.php report/query-table.php"
+
+for file in $files;
+do
+	cp ${file} deploy_files/${file}
+done;
+
+echo "<?php \$serverVersion = \"${2}\"; ?>" > deploy_files/db-revision.php
+
+scp -r deploy_files/* ${server}
