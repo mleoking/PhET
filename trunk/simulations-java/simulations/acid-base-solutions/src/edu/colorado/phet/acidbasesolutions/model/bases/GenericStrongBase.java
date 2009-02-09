@@ -16,7 +16,7 @@ public class GenericStrongBase implements IStrongBase {
         return ABSSymbols.MOH;
     }
 
-    public String getConjugateAcidSymbol() {
+    public String getCationSymbol() {
         return ABSSymbols.M;
     }
 
