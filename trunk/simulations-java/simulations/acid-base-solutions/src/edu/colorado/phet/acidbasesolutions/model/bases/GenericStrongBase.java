@@ -12,7 +12,7 @@ public class GenericStrongBase implements IStrongBase {
         return ABSStrings.STRONG_BASE;
     }
     
-    public String getBaseSymbol() {
+    public String getSymbol() {
         return ABSSymbols.MOH;
     }
 

@@ -21,7 +21,7 @@ public class CustomWeakBase implements IWeakBase {
         return ABSStrings.CUSTOM_WEAK_BASE;
     }
     
-    public String getBaseSymbol() {
+    public String getSymbol() {
         return ABSSymbols.B;
     }
     

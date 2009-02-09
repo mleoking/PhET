@@ -20,7 +20,7 @@ public class CustomWeakAcid implements IWeakAcid {
         return ABSStrings.CUSTOM_WEAK_ACID;
     }
     
-    public String getAcidSymbol() {
+    public String getSymbol() {
         return "HA";
     }
     

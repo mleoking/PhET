@@ -10,7 +10,7 @@ public class HydrochloricAcid implements IStrongAcid {
         return ABSStrings.HYDORCHLORIC_ACID;
     }
     
-    public String getAcidSymbol() {
+    public String getSymbol() {
         return ABSSymbols.HCl;
     }
 

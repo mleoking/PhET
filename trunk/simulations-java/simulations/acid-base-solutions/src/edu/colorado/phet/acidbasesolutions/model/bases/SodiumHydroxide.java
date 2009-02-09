@@ -10,7 +10,7 @@ public class SodiumHydroxide implements IStrongBase {
         return ABSStrings.SODIUM_HYDROXIDE;
     }
 
-    public String getBaseSymbol() {
+    public String getSymbol() {
         return ABSSymbols.NaOH;
     }
 

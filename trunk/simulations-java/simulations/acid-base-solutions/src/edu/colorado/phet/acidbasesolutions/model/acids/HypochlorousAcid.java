@@ -10,7 +10,7 @@ public class HypochlorousAcid implements IWeakAcid {
         return ABSStrings.HYPOCHLOROUS_ACID;
     }
 
-    public String getAcidSymbol() {
+    public String getSymbol() {
         return ABSSymbols.HClO;
     }
 
