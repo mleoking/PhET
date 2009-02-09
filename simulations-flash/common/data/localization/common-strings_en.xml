@@ -37,5 +37,8 @@
   <string key="License3" value="The PhET source code is licensed under a &lt;a href='{0}'&gt;Creative Commons GNU General Public License&lt;/a&gt;." />
   <string key="License4" value="For more information about licensing, &lt;a href='{0}'&gt;click here&lt;/a&gt;. If you are interested in alternative license options, please contact PhET at &lt;a href='{1}'&gt;phethelp@colorado.edu&lt;/a&gt;." />
   <string key="License5Libraries" value="Used Library Licensing Information:" />
-
+  <string key="NewVersionAvailable" value="New Version Available" />
+  <string key="CurrentVersionIs" value="Your current version of {0} is {1}." />
+  <string key="NewerVersionIs" value="A newer version {0} is available." />
+  <string key="GoNewVersion" value="Go to the new version." />
 </SimStrings>

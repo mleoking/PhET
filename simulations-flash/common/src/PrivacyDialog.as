@@ -76,7 +76,7 @@ class PrivacyDialog {
 		defaultString = "By clicking \"Accept and Continue\", you agree to PhET's licensing ";
 		defaultString += "and privacy policies. (For details, <a href='{0}'>click here</a>).";
 		str += common.strings.get("PrivacyMessage2", defaultString, ["asfunction:_level0.privacyDialog.detailsClicked,"]);
-		str += "\n";
+		//str += "\n";
 		
 		// create CSS to make links blue
 		var css : TextField.StyleSheet = new TextField.StyleSheet();
@@ -91,7 +91,7 @@ class PrivacyDialog {
 		textArea.setCSS(css);
 		textArea.setWordWrap(true);
 		textArea.setWidth(300);
-		textArea.setBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)));
+		textArea.setBorder(new EmptyBorder(null, new Insets(5, 5, 0, 5)));
 		textArea.setBackground(common.backgroundColor);
 		
 		window.getContentPane().append(textArea);
@@ -139,7 +139,7 @@ class PrivacyDialog {
 	public function cancelClicked(src : JButton) {
 		if(!canceled) {
 			canceled = true;
-			var addStr = "\n<p><font color='#FF0000'>You must click \"Accept and Continue\" to run this simulation.</font></p>";
+			var addStr = "\n\n<font color='#FF0000'>You must click \"Accept and Continue\" to run this simulation.</font>";
 			textArea.setText(textArea.getText() + addStr);
 			_level0.privacyWindow.setHeight(_level0.privacyWindow.getContentPane().getPreferredSize().height + 50);
 		}
