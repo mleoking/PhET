@@ -73,7 +73,7 @@ public class SimVersionChecker {
 
     public static void main( String[] args ) throws IOException {
         System.out.println( "SimVersionChecker.main" );
-        PhetVersion phetVersionInfo = new SimVersionChecker().getVersion( "balloons", "balloons" );
-        System.out.println( "phetVersionInfo = " + phetVersionInfo );
+        System.out.println( "xml=" + getXMLString( "balloons", "balloons" ) );
+        System.out.println( "phetVersion=" + new SimVersionChecker().getVersion( "balloons", "balloons" ) );
     }
 }
