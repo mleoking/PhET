@@ -23,18 +23,12 @@
 
     $new_timestamp = $argv[1];
 
+    // Make sure it is a decimal number with no fancy stuff
     $match = preg_match('/^[0-9]+$/', $new_timestamp);
     if ($match <= 0) {
         print_usage();
         print "ERROR: value must be an int (all digits)\n";
         exit(2);
-    }
-
-    $result = installer_check_timestamp($new_timestamp);
-    if (!$result) {
-        $db_newest_timestamp = installer_get_latest_timestamp();
-        print "ERROR: specified value '{$new_timestamp}' older than newest in database '{$db_newest_timestamp}'\n";
-        exit(3);
     }
 
     $result = installer_add_new_timestamp($new_timestamp);

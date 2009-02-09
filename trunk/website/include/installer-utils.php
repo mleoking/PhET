@@ -13,6 +13,10 @@
         define('INSTALLER_TABLE_NAME', 'installer_info');
     }
 
+    if (!defined('INSTALLER_MAX_ROWS')) {
+        define('INSTALLER_MAX_ROWS', 10);
+    }
+
     function installer_check_timestamp($new_timestamp) {
         // Get the database connection, start it if if this is the first call
         global $connection;
@@ -34,13 +38,43 @@
     }
 
     function installer_add_new_timestamp($new_timestamp) {
-        $result = db_insert_row(INSTALLER_TABLE_NAME,
-                                array('installer_info_timestamp' => $new_timestamp));
-        if ($result > 0) {
-            return true;
+        // Get the database connection, start it if if this is the first call
+        global $connection;
+        if (!isset($connection)) {
+            connect_to_db();
         }
 
-        return false;
+        // Escape the timestamp
+        $safe_timestamp = mysql_real_escape_string("$new_timestamp", $connection);
+
+        $result = db_insert_row(INSTALLER_TABLE_NAME,
+                                array('installer_info_timestamp' => $safe_timestamp));
+        if (!($result > 0)) {
+            return false;
+        }
+
+        $id = $result;
+
+        // Remove the old rows
+        $rows = db_get_all_rows(INSTALLER_TABLE_NAME);
+        if (count($rows) > INSTALLER_MAX_ROWS) {
+            // Get the last id to save
+            $last_row_to_save = $rows[count($rows) - INSTALLER_MAX_ROWS];
+            $last_id = $last_row_to_save['installer_info_id'];
+
+            // Delete anything older than that id
+            $sql = 'DELETE FROM `'.INSTALLER_TABLE_NAME.'` WHERE `installer_info_id`<'.$last_id;
+            $result = db_exec_query($sql);
+
+            // We want the table sorted, this statement will do that (among other things)
+            $sql = 'OPTIMIZE TABLE `'.INSTALLER_TABLE_NAME.'`';
+            db_exec_query($sql);
+
+            return $result;
+        }
+
+        // Table is smaller than the max number of rows
+        return true;
     }
 
 
