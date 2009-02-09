@@ -12,7 +12,7 @@ public class GenericStrongAcid implements IStrongAcid {
         return ABSStrings.STRONG_ACID;
     }
     
-    public String getAcidSymbol() {
+    public String getSymbol() {
         return ABSSymbols.HA;
     }
 

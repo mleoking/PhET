@@ -10,7 +10,7 @@ public class Methylamine implements IWeakBase {
         return ABSStrings.METHYLAMINE;
     }
 
-    public String getBaseSymbol() {
+    public String getSymbol() {
         return ABSSymbols.CH3NH2;
     }
 

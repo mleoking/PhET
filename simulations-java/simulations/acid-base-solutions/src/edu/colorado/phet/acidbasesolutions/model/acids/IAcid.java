@@ -1,11 +1,9 @@
 package edu.colorado.phet.acidbasesolutions.model.acids;
 
+import edu.colorado.phet.acidbasesolutions.model.IMolecule;
 
-public interface IAcid {
-    
-    public String getName();
 
-    public String getAcidSymbol();
+public interface IAcid extends IMolecule {
     
     public String getConjugateBaseSymbol();
 }
