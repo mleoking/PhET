@@ -2,6 +2,7 @@
 
 import os
 import os.path as path
+import re
 from commands import run
 
 PHP_RUNNER = 'phprunner.sh'
@@ -41,6 +42,11 @@ def get_sim_info():
     # Get the sim info
     raw_sim_info = run([phprunner, get_all_sim_info])
     raw_sim_info = ''.join(raw_sim_info)
+
+    # First check to see if there was an error
+    error_match = re.search('(Database error:.*)', raw_sim_info, re.I)
+    if error_match:
+        raise RuntimeError(error_match.group(1))
 
     # Proess the sim info.  Records are separated by \0\0\0
     # Fields are separated by \0
