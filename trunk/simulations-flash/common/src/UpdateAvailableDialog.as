@@ -61,20 +61,29 @@ class UpdateAvailableDialog {
 		
 		str += "</p>";
 		
+		var notUpdateStr = common.strings.get("NotUpdateSim","This will not update your simulation.");
+		
 		if(common.fromFullInstallation()) {
 			// sim should be contained in the newest installation, otherwise we would not reach here
-			str += "<p align='center'><font size='10'>This will not update your simulation.</font></p>";
+			str += "<p align='center'><font size='10'>" + notUpdateStr + "</font></p>";
 			str += "\n";
-			str += "To download a new installation containing the latest simulation, please visit the ";
-			str += "<a href='http://phet.colorado.edu/get_phet/full_install.php'>full installation page</a>";
-			str += " for more information.";
+			
+			var defaultStr = "To download a new installation containing the latest simulation, ";
+			defaultStr += "please visit the <a href='{0}'>PhET installation page</a> for more information.";
+			
+			str += common.strings.get("PhETInstallation", defaultStr, ["http://phet.colorado.edu/get_phet/full_install.php"]);
+			
+			//str += "To download a new installation containing the latest simulation, please visit the ";
+			//str += "<a href='http://phet.colorado.edu/get_phet/full_install.php'>full installation page</a>";
+			//str += " for more information.";
 			str += "\n";
 		} else {
-			str += "<p align='center'><font size='10'>This will not update your simulation.</font></p>";
+			str += "<p align='center'><font size='10'>" + notUpdateStr + "</font></p>";
 		}
 		
 		str += "\n";
-		str += "Update options are available under <i>Preferences</i>.";
+		str += common.strings.get("UpdateOptionsAvailable", "Update options are available under <i>Preferences</i>.");
+		//str += "Update options are available under <i>Preferences</i>.";
 		
 		// TODO: visit the PhET site for more information ?
 		
@@ -104,12 +113,12 @@ class UpdateAvailableDialog {
 		var panel : JPanel = new JPanel(new BoxLayout());
 		
 		// button that will open the license dialog
-		var askLaterButton : JButton = new JButton("Ask me later");
+		var askLaterButton : JButton = new JButton(common.strings.get("AskLater", "Ask me later"));
 		askLaterButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, askLaterClicked));
 		CommonButtons.padButtonAdd(askLaterButton, panel);
 		
 		// button will close the about dialog
-		var skipButton : JButton = new JButton("Skip this update");
+		var skipButton : JButton = new JButton(common.strings.get("PrivacySkip", "Skip this update"));
 		skipButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, skipClicked));
 		CommonButtons.padButtonAdd(skipButton, panel);
 		

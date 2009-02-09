@@ -41,4 +41,11 @@
   <string key="CurrentVersionIs" value="Your current version of {0} is {1}." />
   <string key="NewerVersionIs" value="A newer version {0} is available." />
   <string key="GoNewVersion" value="Go to the new version." />
+  <string key="NotUpdateSim" value="This will not update your simulation." />
+  <string key="PhETInstallation" value="To download a new installation containing the latest simulation, please visit the &lt;a href='{0}'&gt;PhET installation page&lt;/a&gt; for more information." />
+  <string key="UpdateOptionsAvailable" value="Update options are available under &lt;i&gt;Preferences&lt;/i&gt;." />
+  <string key="AskLater" value="Ask me later" />
+  <string key="PrivacySkip" value="Skip this update" />
+  <string key="MustAccept" value="You must click &quot;Accept and Continue&quot; to run this simulation." />
+  <string key="NoUpdatesAvailable" value="No Updates Available" />
 </SimStrings>
