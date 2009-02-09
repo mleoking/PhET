@@ -60,9 +60,12 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
 	private static final double Y_AXIS_ZERO_OFFSET = 55; // Sets origin of y-axis relative to bottom of chart.
 	
 	// Constants for setting the initial positions of the energy lines/curves.
-	private static final double INITIAL_TOTAL_ENERGY = 8;
-	private static final double INITIAL_MINIUMIM_POTENTIAL_ENERGY = 1; // Defines low point of the potential energy curve.
-	private static final double INITIAL_PEAK_POTENTIAL_ENERGY = 14;    // Defines peak of the potential energy curve.
+	private static final double POLONIUM_INITIAL_TOTAL_ENERGY = 8;
+	private static final double POLONIUM_INITIAL_MINIUMIM_POTENTIAL_ENERGY = 1; // Defines low point of the potential energy curve.
+	private static final double POLONIUM_INITIAL_PEAK_POTENTIAL_ENERGY = 14; // Defines peak of the potential energy curve.
+	private static final double CUSTOM_INITIAL_TOTAL_ENERGY = 16;
+	private static final double CUSTOM_INITIAL_MINIUMIM_POTENTIAL_ENERGY = 1; // Defines low point of the potential energy curve.
+	private static final double CUSTOM_INITIAL_PEAK_POTENTIAL_ENERGY = 22; // Defines peak of the potential energy curve.
 	private static final double PRE_DECAY_ENERGY_WELL_BOTTOM = -37;
 	
 	// TODO: Decide which of these constants go here and which go elsewhere.
@@ -171,9 +174,9 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
         _canvas = canvas;
         
         // Do local initialization.
-        _totalEnergy = INITIAL_TOTAL_ENERGY;
-        _potentialEnergyMinimum = INITIAL_MINIUMIM_POTENTIAL_ENERGY;
-        _potentialEnergyPeak = INITIAL_PEAK_POTENTIAL_ENERGY;
+        _totalEnergy = POLONIUM_INITIAL_TOTAL_ENERGY;
+        _potentialEnergyMinimum = POLONIUM_INITIAL_MINIUMIM_POTENTIAL_ENERGY;
+        _potentialEnergyPeak = POLONIUM_INITIAL_PEAK_POTENTIAL_ENERGY;
         _energyWellBottom = PRE_DECAY_ENERGY_WELL_BOTTOM;
         
         // Register for significant events from the model.
@@ -181,16 +184,16 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
         	public void nucleusTypeChanged(){
         		if (_model.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
         			_interactivityEnabled = true;
-        	        _totalEnergy = INITIAL_TOTAL_ENERGY;
-        	        _potentialEnergyMinimum = INITIAL_MINIUMIM_POTENTIAL_ENERGY;
-        	        _potentialEnergyPeak = INITIAL_PEAK_POTENTIAL_ENERGY;
+        	        _totalEnergy = CUSTOM_INITIAL_TOTAL_ENERGY;
+        	        _potentialEnergyMinimum = CUSTOM_INITIAL_MINIUMIM_POTENTIAL_ENERGY;
+        	        _potentialEnergyPeak = CUSTOM_INITIAL_PEAK_POTENTIAL_ENERGY;
         	        updateCustomNucleusHalfLife();
         		}
         		else{
         			_interactivityEnabled = false;
-        			_potentialEnergyPeak = INITIAL_PEAK_POTENTIAL_ENERGY;
-        			_potentialEnergyMinimum = INITIAL_MINIUMIM_POTENTIAL_ENERGY;
-        			_totalEnergy = INITIAL_TOTAL_ENERGY;
+        			_totalEnergy = POLONIUM_INITIAL_TOTAL_ENERGY;
+        			_potentialEnergyMinimum = POLONIUM_INITIAL_MINIUMIM_POTENTIAL_ENERGY;
+        			_potentialEnergyPeak = POLONIUM_INITIAL_PEAK_POTENTIAL_ENERGY;
         		}
         		update();
         	}
@@ -316,7 +319,7 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
                 draggedNode.localToParent(d);
                 double newEnergyValue = _potentialEnergyPeak 
                 	+ (d.height * _potentialEnergyPeakHandle.getScale() * NUM_Y_AXIS_UNITS / _usableHeight);
-                if ((newEnergyValue >= INITIAL_MINIUMIM_POTENTIAL_ENERGY) && 
+                if ((newEnergyValue >= POLONIUM_INITIAL_MINIUMIM_POTENTIAL_ENERGY) && 
                 	(convertEnergyToPixels(newEnergyValue) > (_usableAreaOriginY + BORDER_STROKE_WIDTH))){
                 	_potentialEnergyPeak = newEnergyValue;
                 	updateEnergyLines();
@@ -697,9 +700,9 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
     	
     	// Reset the decay flag and anything else that needs is.
     	_decayOccurred = false;
-        _totalEnergy = INITIAL_TOTAL_ENERGY;
-        _potentialEnergyMinimum = INITIAL_MINIUMIM_POTENTIAL_ENERGY;
-        _potentialEnergyPeak = INITIAL_PEAK_POTENTIAL_ENERGY;
+        _totalEnergy = POLONIUM_INITIAL_TOTAL_ENERGY;
+        _potentialEnergyMinimum = POLONIUM_INITIAL_MINIUMIM_POTENTIAL_ENERGY;
+        _potentialEnergyPeak = POLONIUM_INITIAL_PEAK_POTENTIAL_ENERGY;
         _energyWellBottom = PRE_DECAY_ENERGY_WELL_BOTTOM;
         
         // If the graph is ready, update it with the new information.
