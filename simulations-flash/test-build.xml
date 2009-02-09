@@ -4,8 +4,8 @@
 <project name="PhET Flash Development" default="create-test-jar" basedir=".">
     <taskdef resource="net/sf/antcontrib/antcontrib.properties" >
         <classpath>
-            <pathelement location="/home/jon/phet/svn/trunk/simulations-java/build-tools/ant-contrib/ant-contrib.jar"/>
-            <pathelement location="/home/carrie/jon/phet/svn/trunk/simulations-java/build-tools/ant-contrib/ant-contrib.jar"/>
+            <pathelement location="/home/jon/phet/svn/trunk/build-tools/contrib/ant-contrib/ant-contrib.jar"/>
+            <pathelement location="/home/carrie/jon/phet/svn/trunk/build-tools/contrib/ant-contrib/ant-contrib.jar"/>
         </classpath>
     </taskdef>
 
@@ -31,7 +31,7 @@
 
     <!-- source directories of needed classes -->
     <property name="flash-launcher-src" location="${rootDir}/flash-launcher/src"/>
-    <property name="flash-build-src" location="${rootDir}/build-tools/flash-build/src"/>
+    <property name="flash-build-src" location="${rootDir}/../build-tools/src"/>
 
 
     <!-- set the locale string -->
@@ -67,8 +67,17 @@
     	<mkdir dir="${jar-inputs}"/>
 
         <!-- build launch and generation code -->
-        <javac srcdir="${flash-launcher-src}" destdir="${jar-inputs}" sourcepath="${flash-build-src}" />
-        <javac srcdir="${flash-build-src}" destdir="${jar-inputs}" />
+        <!-- OLD
+        <javac source="1.4" target="1.4" srcdir="${flash-launcher-src}:${flash-build-src}/edu/colorado/phet/buildtools/flash" destdir="${jar-inputs}" sourcepath="${flash-launcher-src}:${flash-build-src}" />
+        -->
+
+        <javac source="1.4" target="1.4" destdir="${jar-inputs}">
+            <src path="${flash-launcher-src}" />
+            <src path="${flash-build-src}" />
+            <exclude name="edu/colorado/phet/**" />
+            <include name="edu/colorado/phet/buildtools/flash/**" />
+            <include name="edu/colorado/phet/flashlauncher/**" />
+        </javac>
 
         <!-- copy swf file -->
         <copy file="${rootDir}/simulations/${simName}/deploy/${simName}.swf" todir="${jar-inputs}"/>
