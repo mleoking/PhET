@@ -147,7 +147,7 @@ class UpdateHandler {
 		debug("UpdateHandler: Updates Not Available (dialog)!\n");
 		
 		// only called if an update is manually checked for
-		_level0.preferencesDialog.updatesButton.setText("No Updates Available");
+		_level0.preferencesDialog.updatesButton.setText(common.strings.get("NoUpdatesAvailable", "No Updates Available"));
 		_level0.preferencesDialog.updatesButton.setEnabled(false);
 		
 	}

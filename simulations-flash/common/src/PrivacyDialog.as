@@ -139,7 +139,8 @@ class PrivacyDialog {
 	public function cancelClicked(src : JButton) {
 		if(!canceled) {
 			canceled = true;
-			var addStr = "\n\n<font color='#FF0000'>You must click \"Accept and Continue\" to run this simulation.</font>";
+			var defaultStr = "You must click \"Accept and Continue\" to run this simulation.";
+			var addStr = "\n\n<font color='#FF0000'>" + common.strings.get("MustAccept", defaultStr) + "</font>";
 			textArea.setText(textArea.getText() + addStr);
 			_level0.privacyWindow.setHeight(_level0.privacyWindow.getContentPane().getPreferredSize().height + 50);
 		}
