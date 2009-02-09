@@ -1,8 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="output" path="bin"/>
+	<!-- build process -->
+	<classpathentry kind="src" path="build-tools/src"/>
+	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant.jar"/>
+	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-antlr.jar"/>
+	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-apache-bcel.jar"/>
+	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-apache-bsf.jar"/>
+	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-apache-log4j.jar"/>
+	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-apache-oro.jar"/>
+	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-apache-regexp.jar"/>
+	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-apache-resolver.jar"/>
+	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-commons-logging.jar"/>
+	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-commons-net.jar"/>
+	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-jai.jar"/>
+	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-javamail.jar"/>
+	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-jdepend.jar"/>
+	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-jmf.jar"/>
+	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-jsch.jar"/>
+	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-junit.jar"/>
+	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-launcher.jar"/>
+	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-netrexx.jar"/>
+	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-nodeps.jar"/>
+	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-starteam.jar"/>
+	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-stylebook.jar"/>
+	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-swing.jar"/>
+	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-testutil.jar"/>
+	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-trax.jar"/>
+	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-weblogic.jar"/>
+	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/xercesImpl.jar"/>
+	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/xml-apis.jar"/>
+	<classpathentry kind="lib" path="build-tools/contrib/commons-lang/commons-lang.jar"/>
+    <classpathentry kind="lib" path="build-tools/contrib/jsch/jsch.jar"/>
+    <classpathentry kind="lib" path="build-tools/contrib/proguard/lib/proguard.jar" sourcepath="build-tools/proguard/proguard-src.zip"/>
+    <classpathentry kind="src" path="build-tools/contrib/securechannelfacade/src/main/java"/>
+    <classpathentry kind="lib" path="build-tools/contrib/scala/scala-compiler.jar"/>
+	<classpathentry kind="lib" path="build-tools/contrib/scala/scala-library.jar"/>
 	
 	<!-- common code, Flash sims -->
 	<classpathentry kind="src" path="simulations-flash/flash-launcher/src"/>
@@ -28,6 +61,27 @@
 	<classpathentry kind="src" path="simulations-java/common/quantum/data"/>
 	<classpathentry kind="src" path="simulations-java/common/timeseries/src"/>
 	<classpathentry kind="src" path="simulations-java/common/timeseries/data"/>
+	
+    <!-- third-party dependencies for Java simulations -->
+	<classpathentry excluding="Changes.html|CodeMap.html|License.txt|Manifest.console|Manifest.interp|README.txt" kind="src" path="simulations-java/contrib/beanshell/src"/>
+	<classpathentry kind="src" path="simulations-java/contrib/beanshell/asm/src"/>
+	<classpathentry kind="lib" path="simulations-java/contrib/beanshell/lib/servlet.jar"/>
+	<classpathentry kind="lib" path="simulations-java/contrib/commons-collections/commons-collections.jar"/>
+	<classpathentry kind="lib" path="simulations-java/contrib/jfreechart/lib/jcommon.jar"/>
+	<classpathentry kind="lib" path="simulations-java/contrib/jfreechart/lib/servlet.jar"/>
+	<classpathentry kind="lib" path="simulations-java/contrib/jfreechart/lib/jfreechart.jar" sourcepath="simulations-java/contrib/jfreechart/jfreechart-src.zip"/>
+	<classpathentry kind="src" path="simulations-java/contrib/jade/src"/>
+	<classpathentry kind="src" path="simulations-java/contrib/Jama/src"/>
+	<classpathentry kind="lib" path="simulations-java/contrib/jdom/jdom.jar"/>
+	<classpathentry kind="lib" path="simulations-java/contrib/javaws/jnlp.jar"/>
+	<classpathentry kind="lib" path="simulations-java/contrib/JSci/classes/jsci-core.jar"/>
+	<classpathentry kind="lib" path="simulations-java/contrib/junit/junit.jar"/>
+	<classpathentry kind="lib" path="simulations-java/contrib/nanoxml/nanoxml.jar"/>
+    <classpathentry kind="src" path="simulations-java/contrib/piccolo2d/core/src/main/java"/>
+	<classpathentry kind="src" path="simulations-java/contrib/piccolo2d/core/src/test/java"/>
+	<classpathentry excluding="edu/umd/cs/piccolox/swt/" kind="src" path="simulations-java/contrib/piccolo2d/extras/src/main/java"/>
+	<classpathentry excluding="edu/umd/cs/piccolo/swtexamples/" kind="src" path="simulations-java/contrib/piccolo2d/examples/src/main/java"/>
+	<classpathentry kind="lib" path="simulations-java/contrib/piccolo-sax/piccolo-sax.jar"/>
 	
 	<!-- Java simulations -->
 	<classpathentry kind="src" path="simulations-java/simulations/acid-base-solutions/src"/>
@@ -140,27 +194,6 @@
 	<classpathentry kind="src" path="util/translation-utility/data"/>
 	<classpathentry kind="src" path="util/updater/src"/>
 	
-	<!-- third-party dependencies for Java simulations -->
-	<classpathentry excluding="Changes.html|CodeMap.html|License.txt|Manifest.console|Manifest.interp|README.txt" kind="src" path="simulations-java/contrib/beanshell/src"/>
-	<classpathentry kind="src" path="simulations-java/contrib/beanshell/asm/src"/>
-	<classpathentry kind="lib" path="simulations-java/contrib/beanshell/lib/servlet.jar"/>
-	<classpathentry kind="lib" path="simulations-java/contrib/commons-collections/commons-collections.jar"/>
-	<classpathentry kind="lib" path="simulations-java/contrib/jfreechart/lib/jcommon.jar"/>
-	<classpathentry kind="lib" path="simulations-java/contrib/jfreechart/lib/servlet.jar"/>
-	<classpathentry kind="lib" path="simulations-java/contrib/jfreechart/lib/jfreechart.jar" sourcepath="simulations-java/contrib/jfreechart/jfreechart-src.zip"/>
-	<classpathentry kind="src" path="simulations-java/contrib/jade/src"/>
-	<classpathentry kind="src" path="simulations-java/contrib/Jama/src"/>
-	<classpathentry kind="lib" path="simulations-java/contrib/jdom/jdom.jar"/>
-	<classpathentry kind="lib" path="simulations-java/contrib/javaws/jnlp.jar"/>
-	<classpathentry kind="lib" path="simulations-java/contrib/JSci/classes/jsci-core.jar"/>
-	<classpathentry kind="lib" path="simulations-java/contrib/junit/junit.jar"/>
-	<classpathentry kind="lib" path="simulations-java/contrib/nanoxml/nanoxml.jar"/>
-    <classpathentry kind="src" path="simulations-java/contrib/piccolo2d/core/src/main/java"/>
-	<classpathentry kind="src" path="simulations-java/contrib/piccolo2d/core/src/test/java"/>
-	<classpathentry excluding="edu/umd/cs/piccolox/swt/" kind="src" path="simulations-java/contrib/piccolo2d/extras/src/main/java"/>
-	<classpathentry excluding="edu/umd/cs/piccolo/swtexamples/" kind="src" path="simulations-java/contrib/piccolo2d/examples/src/main/java"/>
-	<classpathentry kind="lib" path="simulations-java/contrib/piccolo-sax/piccolo-sax.jar"/>
-	
 	<!-- Unfuddle notifier -->
 	<!-- this was implemented in Java 5 code, omit from classpath until we move to Java 5
     <classpathentry kind="src" path="util/unfuddle/src"/>
@@ -174,40 +207,7 @@
 	<classpathentry kind="lib" path="util/unfuddle/contrib/javamail/smtp.jar"/>
 	-->
 	
-    <!-- build process -->
-	<classpathentry kind="src" path="build-tools/src"/>
-	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant.jar"/>
-	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-antlr.jar"/>
-	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-apache-bcel.jar"/>
-	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-apache-bsf.jar"/>
-	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-apache-log4j.jar"/>
-	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-apache-oro.jar"/>
-	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-apache-regexp.jar"/>
-	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-apache-resolver.jar"/>
-	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-commons-logging.jar"/>
-	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-commons-net.jar"/>
-	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-jai.jar"/>
-	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-javamail.jar"/>
-	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-jdepend.jar"/>
-	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-jmf.jar"/>
-	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-jsch.jar"/>
-	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-junit.jar"/>
-	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-launcher.jar"/>
-	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-netrexx.jar"/>
-	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-nodeps.jar"/>
-	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-starteam.jar"/>
-	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-stylebook.jar"/>
-	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-swing.jar"/>
-	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-testutil.jar"/>
-	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-trax.jar"/>
-	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/ant-weblogic.jar"/>
-	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/xercesImpl.jar"/>
-	<classpathentry kind="lib" path="build-tools/contrib/apache-ant/lib/xml-apis.jar"/>
-	<classpathentry kind="lib" path="build-tools/contrib/commons-lang/commons-lang.jar"/>
-    <classpathentry kind="lib" path="build-tools/contrib/jsch/jsch.jar"/>
-    <classpathentry kind="lib" path="build-tools/contrib/proguard/lib/proguard.jar" sourcepath="build-tools/proguard/proguard-src.zip"/>
-    <classpathentry kind="src" path="build-tools/contrib/securechannelfacade/src/main/java"/>
-    <classpathentry kind="lib" path="build-tools/contrib/scala/scala-compiler.jar"/>
-	<classpathentry kind="lib" path="build-tools/contrib/scala/scala-library.jar"/>
+    <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="bin"/>
 	
 </classpath>
