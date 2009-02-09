@@ -197,7 +197,7 @@
 					"sim_distribution_tag" => string_decode("sim_distribution_tag"),
 					"sim_dev" => bool_decode("sim_dev"),
 					"host_locale_language" => string_decode("host_locale_language"),
-					"host_locale_country" => string_decode("null"),
+					"host_locale_country" => "NULL",
 					"host_flash_version_type" => $version_left,
 					"host_flash_version_major" => int_verify($version_numbers[0], "host_flash_version_major"),
 					"host_flash_version_minor" => int_verify($version_numbers[1], "host_flash_version_minor"),
