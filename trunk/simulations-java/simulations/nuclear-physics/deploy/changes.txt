@@ -1,3 +1,5 @@
+# 3.05.03 (28282) 02-09-2009
+Made the energy lines on the 2nd tab move when switching between nuclei in order to be more noticeable.
 # 3.05.02 (28226) 02-06-2009
 > Added a pie chart to depict proportion of decayed nuclei, changed half life marker position for custom nucleus, changed label colors.
 # 3.05.01 (27761) 01-28-2009
