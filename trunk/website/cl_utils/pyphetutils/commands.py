@@ -45,9 +45,6 @@ def super_move(src, dest, verbose=False):
     exception go.
     """
 
-    if verbose:
-        print 'Moving:', src, dest
-
     try:
         shutil.move(src, dest)
     except OSError, e:
