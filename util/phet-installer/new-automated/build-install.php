@@ -3,7 +3,9 @@
     //============================================================================
     // This file contains PHP functions for a number of the steps that are
     // necessary for creating the insaller, such as ripping the web site, creating
-    // the marker file, etc.
+    // the marker file, etc.  It is through the functions in this file that the
+    // building of the installers is controlled, either from a web interface or
+    // from shell scripts.
     //============================================================================
 
 

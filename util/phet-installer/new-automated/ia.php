@@ -1,5 +1,10 @@
 <?php
 
+    //========================================================================
+    // This file contains contains the low-level functions for creating and
+    // bundling the installers.
+    //========================================================================
+
     require_once("file-util.php");
     require_once("global.php");
     require_once("config.php");
