@@ -6,6 +6,7 @@ import java.io.*;
 import java.util.Properties;
 import java.util.jar.*;
 
+import edu.colorado.phet.common.phetcommon.application.JARLauncher;
 import edu.colorado.phet.translationutility.TUConstants;
 import edu.colorado.phet.translationutility.TUResources;
 import edu.colorado.phet.translationutility.util.Command;
@@ -30,7 +31,7 @@ public class JavaSimulation extends AbstractSimulation {
     private static final String REGEX_LOCALIZATION_FILES = ".*-strings.*\\.properties";
     
     // project properties file and properties
-    private static final String PROJECT_PROPERTIES_FILENAME = "project.properties";
+    private static final String JAR_LAUNCHER_PROPERTIES_FILENAME = JARLauncher.getPropertiesFileName();
     private static final String PROJECT_NAME_PROPERTY = "project.name";
     
     //----------------------------------------------------------------------------
@@ -126,8 +127,8 @@ public class JavaSimulation extends AbstractSimulation {
         
         String projectName = null;
         
-        // For newer sims, the project name is identified in project.properties
-        Properties projectProperties = readPropertiesFromJar( jarFileName, PROJECT_PROPERTIES_FILENAME );
+        // For newer sims, the project name is identified in the properties file read by JARLauncher
+        Properties projectProperties = readPropertiesFromJar( jarFileName, JAR_LAUNCHER_PROPERTIES_FILENAME );
         if ( projectProperties != null ) {
             projectName = projectProperties.getProperty( PROJECT_NAME_PROPERTY );
         }
