@@ -1,5 +1,16 @@
 <?php
 
+    //============================================================================
+    // This file contains PHP functions for a number of the steps that are
+    // necessary for creating the insaller, such as ripping the web site, creating
+    // the marker file, etc.
+    //============================================================================
+
+
+    //--------------------------------------------------------------------------
+    // Inclusions of other PHP files.
+    //--------------------------------------------------------------------------
+
     require_once("autorun.php");
     require_once("config.php");
     require_once("global.php");
