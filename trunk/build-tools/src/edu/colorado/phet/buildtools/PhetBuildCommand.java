@@ -18,6 +18,7 @@ import org.apache.tools.ant.types.Path;
 import edu.colorado.phet.buildtools.proguard.PhetProguardConfigBuilder;
 import edu.colorado.phet.buildtools.proguard.ProguardCommand;
 import edu.colorado.phet.buildtools.util.PhetBuildUtils;
+import edu.colorado.phet.common.phetcommon.application.JARLauncher;
 
 /**
  * This command builds a PhET project, together with any dependencies.
@@ -28,16 +29,16 @@ public class PhetBuildCommand {
     private final boolean shrink;
     private final File outputJar;
 
+    private static String JAVA_SOURCE_VERSION = "1.4";//used for sims, not for bootstrap
+    
     //select whether you want to use the java version checker for launching JAR files
     private static boolean useJavaVersionChecker = false;
-    private static String JAVA_SOURCE_VERSION = "1.4";//used for sims, not for bootstrap
-
-    public static final String JAR_LAUNCHER = useJavaVersionChecker ?
-                                              "edu.colorado.phet.javaversionchecker.JavaVersionChecker" :
-                                              "edu.colorado.phet.common.phetcommon.application.JARLauncher";
+    
+    public static final String JAVA_VERSION_CHECKER_CLASS_NAME = "edu.colorado.phet.javaversionchecker.JavaVersionChecker";
+    public static final String JAR_LAUNCHER_CLASS_NAME = "edu.colorado.phet.common.phetcommon.application.JARLauncher";
 
     public static String getMainLauncherClassName() {
-        return JAR_LAUNCHER;
+        return ( useJavaVersionChecker ? JAVA_VERSION_CHECKER_CLASS_NAME : JAR_LAUNCHER_CLASS_NAME );
     }
 
     public PhetBuildCommand( PhetProject project, AntTaskRunner taskRunner, boolean shrink, File outputJar ) {
@@ -140,9 +141,9 @@ public class PhetBuildCommand {
 
         attribute.setName( "Main-Class" );
         //todo: support a main-class chooser & launcher
-        attribute.setValue( JAR_LAUNCHER );
+        attribute.setValue( getMainLauncherClassName() );
 
-        jar.addFileset( toFileSetFile( createProjectPropertiesFile() ) );
+        jar.addFileset( toFileSetFile( createJARLauncherPropertiesFile() ) );
 
         manifest.addConfiguredAttribute( attribute );
         jar.addConfiguredManifest( manifest );
@@ -157,9 +158,9 @@ public class PhetBuildCommand {
     }
 
     /*
-    * Creates a properties file that describes things about the project.
+    * Creates a properties file that tells JARLauncher what to run.
     */
-    private File createProjectPropertiesFile() {
+    private File createJARLauncherPropertiesFile() {
 
         // create the various properties
         Properties properties = new Properties();
@@ -177,7 +178,7 @@ public class PhetBuildCommand {
         }
 
         // write the properties to a file
-        File file = new File( project.getAntOutputDir(), "project.properties" );
+        File file = new File( project.getAntOutputDir(), JARLauncher.getPropertiesFileName() );
         file.getParentFile().mkdirs();
         try {
             properties.store( new FileOutputStream( file ), null );
