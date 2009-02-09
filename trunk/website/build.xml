@@ -1,7 +1,7 @@
 <!--
 
 This build file is specific to the PhET website. However, it borrows some 
-build-related libraries from the build-utils project.
+build-related libraries from the simulations-java project.
 
 -->
 <project name="PhET Website Utility Script" default="deploy to live server" basedir=".">
@@ -10,7 +10,7 @@ build-related libraries from the build-utils project.
 
     <!-- Deployment properties -->
     <property name="deploy.live_server.name" value="tigercat.colorado.edu" />
-    <property name="deploy.test_server.name" value="192.168.42.105" />
+    <property name="deploy.test_server.name" value="192.168.42.102" />
 
     <!-- Properties for deploy output-->
     <property name="deploy.live_server.staging" value="/tmp/phet_website_deploy_staging" />
@@ -26,13 +26,13 @@ build-related libraries from the build-utils project.
     This file 'build.xml' is NOT deployed, so this info won't be propogated
     -->
     <!-- Uncommend this to hardcode your username and password
-    <property name="deploy.username" value="" />
-    <property name="deploy.password" value="" />
     -->
+    <property name="deploy.username" value="dmckagan" />
+    <property name="deploy.password" value="hi" />
 
 
     <!-- Build tools -->
-    <property name="dir.build-tools" value="${basedir}/../build-tools/contrib/" />
+    <property name="dir.build-tools" value="${basedir}/../build-tools/contrib" />
 
     <!-- Support jars -->
     <property name="jar.ant-contrib" value="${dir.build-tools}ant-contrib/ant-contrib.jar" />
