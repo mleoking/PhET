@@ -66,7 +66,12 @@ class StatisticsDetailsDialog {
 		// add padding around the text
 		textArea.setBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)));
 		
-		window.getContentPane().append(textArea);
+		//window.getContentPane().append(textArea);
+		
+		var detailsScroll = new JScrollPane(textArea, JScrollPane.SCROLLBAR_AS_NEEDED, JScrollPane.SCROLLBAR_AS_NEEDED);
+		detailsScroll.setPreferredSize(400, 300);
+		detailsScroll.setBorder(new EmptyBorder(new LineBorder(null, ASColor.GRAY, 1, 0), new Insets(5, 5, 5, 5)));
+		window.getContentPane().append(detailsScroll);
 		
 		window.getContentPane().append(new JSpacer(5, 5));
 		
