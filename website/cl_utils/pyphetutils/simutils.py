@@ -224,6 +224,7 @@ def process_flash_jar(project, simulation, locale, sim_root,
     # Prepare the arguments for the jar command
     args = ['-C %s flash-launcher-args.txt' % (tdir,), 
             '-C %s %s.properties' % (project_dir, simulation),
+            '-C %s flash-launcher-template.html' % (template_location,),
             '-C %s %s.swf' % (project_dir, simulation),
             '-C %s edu' % (template_location,)
             ]
