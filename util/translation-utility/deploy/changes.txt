@@ -1,3 +1,4 @@
+2/9/09 - #1198, change format what is written to flash-launcher-args.txt, for testing translations
 1/6/09 - #1081, update user-visible language names to match PhET website
 # 1.09.00 (26682)
 > add PhET-assigned language code for Chinese-Taiwan
