@@ -81,10 +81,10 @@ class LicenseDialog {
 		// add padding around the text
 		textArea.setBorder(new EmptyBorder(null, new Insets(5, 5, 0, 5)));
 		
-		window.getContentPane().append(textArea);
+		//window.getContentPane().append(textArea);
 		
 		var licenseScroll = new JScrollPane(textArea, JScrollPane.SCROLLBAR_AS_NEEDED, JScrollPane.SCROLLBAR_AS_NEEDED);
-		licenseScroll.setPreferredSize(400, 400);
+		licenseScroll.setPreferredSize(400, 300);
 		licenseScroll.setBorder(new EmptyBorder(new LineBorder(null, ASColor.GRAY, 1, 0), new Insets(5, 5, 5, 5)));
 		window.getContentPane().append(licenseScroll);
 		
