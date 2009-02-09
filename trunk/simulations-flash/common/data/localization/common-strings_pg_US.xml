@@ -37,5 +37,8 @@
   <string key="License3" value="Ethay PhET ourcesay odecay isay icensedlay underay aay &lt;a href='{0}'&gt;Eativecray Ommonscay NUGay Eneralgay Ublicpay Icenselay&lt;/a&gt;." />
   <string key="License4" value="Orfay oremay informationay aboutay icensinglay, &lt;a href='{0}'&gt;ickclay erehay&lt;/a&gt;. Ifay ouyay areay interesteday inay alternativeay icenselay optionsay, easeplay ontactcay PhET atay &lt;a href='{1}'&gt;phethelp@colorado.edu&lt;/a&gt;." />
   <string key="License5Libraries" value="Useday Ibrarylay Icensinglay Informationay:" />
-  
+  <string key="NewVersionAvailable" value="Ewnay Ersionvay Availableay" />
+  <string key="CurrentVersionIs" value="Ouryay urrentcay ersionvay ofay {0} isay {1}." />
+  <string key="NewerVersionIs" value="Aay ewernay ersionvay {0} isay availableay." />
+  <string key="GoNewVersion" value="Ogay otay ethay ewnay ersionvay." />
 </SimStrings>

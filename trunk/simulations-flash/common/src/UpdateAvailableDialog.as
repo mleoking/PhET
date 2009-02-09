@@ -35,7 +35,7 @@ class UpdateAvailableDialog {
 		ASWingUtils.getRootMovieClip();
 		
 		// create a window
-		var window : JFrame = new JFrame(_level0, "Update Available");
+		var window : JFrame = new JFrame(_level0, common.strings.get("NewVersionAvailable", "New Version Available"));
 		
 		// the window shouldn't be resizable
 		window.setResizable(false);
@@ -51,22 +51,26 @@ class UpdateAvailableDialog {
 		
 		// construct the string of text to show
 		var str : String = "";
-		str += "Your current version of <b>" + common.getSimName() + "</b> is " + common.getVersionString() + ".\n";
-		str += "A newer version (" + common.zeroPadVersion(versionMajor, versionMinor, versionDev) + ") is available.\n";
+		str += common.strings.get("CurrentVersionIs", "Your current version of {0} is {1}.", ["<b>" + common.getSimName() + "</b>", common.getVersionString()]) + "\n";
+		str += common.strings.get("NewerVersionIs", "A newer version {0} is available.", ["(" + common.zeroPadVersion(versionMajor, versionMinor, versionDev) + ")"]) + "\n";
+		//str += "A newer version (" + common.zeroPadVersion(versionMajor, versionMinor, versionDev) + ") is available.\n";
 		
 		str += "\n<p align='center'>";
 		
-		str += "<a href='" + common.simWebsiteURL() + "'>";
-		str += "Go to the new version.</a>";
+		str += "<a href='" + common.simWebsiteURL() + "'>" + common.strings.get("GoNewVersion", "Go to the new version.") + "</a>";
 		
 		str += "</p>";
 		
 		if(common.fromFullInstallation()) {
+			// sim should be contained in the newest installation, otherwise we would not reach here
+			str += "<p align='center'><font size='10'>This will not update your simulation.</font></p>";
 			str += "\n";
-			str += "To update your installation, please visit the ";
+			str += "To download a new installation containing the latest simulation, please visit the ";
 			str += "<a href='http://phet.colorado.edu/get_phet/full_install.php'>full installation page</a>";
 			str += " for more information.";
 			str += "\n";
+		} else {
+			str += "<p align='center'><font size='10'>This will not update your simulation.</font></p>";
 		}
 		
 		str += "\n";

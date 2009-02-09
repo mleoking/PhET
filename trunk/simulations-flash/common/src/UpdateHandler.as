@@ -102,6 +102,9 @@ class UpdateHandler {
 					_level0.debug("UpdateHandler: used selected to skip this update\n");
 				} else if(!(hand.manual) && _level0.preferences.askLaterElapsed() < 1000 * 60 * 60 * 24) {
 					_level0.debug("UpdateHandler: used selected ask later, time elapsed = " + String(_level0.preferences.askLaterElapsed()) + "\n");
+				} else if(hand.common.fromFullInstallation() && hand.simTimestamp + 1800 > hand.installerTimestamp) {
+					// installer was deployed before (or just around) the time the sim was deployed
+					_level0.debug("UpdateHandler: installer might not contain the most recent sim\n");
 				} else {
 					hand.updatesAvailable(hand.versionMajor, hand.versionMinor, hand.versionDev);
 				}
@@ -114,8 +117,8 @@ class UpdateHandler {
 		/////////////////////////////////////////////
 		// TODO needs to be changed to the path of the version script for each simulation
 		// most likely will be http://phet.colorado.edu/simulations/sim-version-info.php?project=BLAH&sim=BLAH
-		xml.load("http://phet.colorado.edu/jolson/deploy/sims/fake-sim-version-info.php?project=" + common.getSimProject() + "&sim=" + common.getSimName());
-		//xml.load("http://phet.colorado.edu/simulations/sim-version-info.php?project=" + _level0.simName + "&sim=" + _level0.simName);
+		//xml.load("http://phet.colorado.edu/jolson/deploy/sims/fake-sim-version-info.php?project=" + common.getSimProject() + "&sim=" + common.getSimName());
+		xml.load("http://localhost/jolson/deploy/sims/fake-sim-version-info.php?project=" + _level0.simName + "&sim=" + _level0.simName);
 	}
 	
 	public function manualCheck() : Void {
