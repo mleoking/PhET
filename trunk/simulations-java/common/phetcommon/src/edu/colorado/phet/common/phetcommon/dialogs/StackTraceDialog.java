@@ -25,7 +25,7 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPa
  */
 public class StackTraceDialog extends JDialog {
     
-    private static final String OK_BUTTON = PhetCommonResources.getString( "Common.choice.ok" );
+    private static final String CLOSE_BUTTON = PhetCommonResources.getString( "Common.choice.close" );
     
     public StackTraceDialog( JDialog owner, String title, String htmlMessage, Exception e ) {
         super( owner, title );
@@ -49,15 +49,15 @@ public class StackTraceDialog extends JDialog {
         textArea.setEditable( false );
         JScrollPane scrollPane = new JScrollPane( textArea );
         
-        JButton okButton = new JButton( OK_BUTTON );
-        okButton.addActionListener( new ActionListener() {
+        JButton closeButton = new JButton( CLOSE_BUTTON );
+        closeButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 dispose();
             }
         } );
         
         JPanel buttonPanel = new JPanel();
-        buttonPanel.add( okButton );
+        buttonPanel.add( closeButton );
         
         JPanel panel = new JPanel( new BorderLayout() );
         panel.setBorder( BorderFactory.createEmptyBorder( 10, 10, 0, 10 ) );
