@@ -6,6 +6,4 @@ public interface IBase {
     public String getName();
 
     public String getBaseSymbol();
-    
-    public String getConjugateAcidSymbol();
 }
