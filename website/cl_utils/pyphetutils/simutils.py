@@ -161,7 +161,7 @@ def process_java_sim(project, simulation, sim_root,
             text = text + 'country=%s\n' % (country,)
         updates['locale.properties'] = text
 
-        updates['args.properties'] = updates['flavor.properties'] + \
+        updates['jar-launcher.properties'] = updates['flavor.properties'] + \
             updates['locale.properties']
 
         try:
