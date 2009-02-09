@@ -5,7 +5,7 @@ package edu.colorado.phet.acidbasesolutions.model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-
+//TODO: this should be deleted, it has been replaced but its still wired into view
 public class Solution {
     
     private static final double AVOGADROS_NUMBER = 6.023E23;
