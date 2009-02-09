@@ -27,7 +27,7 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPa
  */
 public class ErrorDialog extends JDialog {
 
-    private static final String OK_BUTTON = PhetCommonResources.getString( "Common.choice.ok" );
+    private static final String CLOSE_BUTTON = PhetCommonResources.getString( "Common.choice.close" );
     private static final String DETAILS_BUTTON = PhetCommonResources.getString( "Common.ErrorDialog.detailsButton" );
     private static final String DETAILS_TITLE = PhetCommonResources.getString( "Common.ErrorDialog.detailsTitle" );
     private static final String CONTACT_PHET = PhetCommonResources.getString( "Common.ErrorDialog.contactPhet" );
@@ -62,14 +62,14 @@ public class ErrorDialog extends JDialog {
         JPanel buttonPanel = new JPanel();
         
         // closes the dialog
-        JButton okButton = new JButton( OK_BUTTON );
-        okButton.addActionListener( new ActionListener() {
+        JButton closeButton = new JButton( CLOSE_BUTTON );
+        closeButton.addActionListener( new ActionListener() {
 
             public void actionPerformed( ActionEvent e ) {
                 dispose();
             }
         } );
-        buttonPanel.add( okButton );
+        buttonPanel.add( closeButton );
 
         // Details button
         if ( exception != null ) {
