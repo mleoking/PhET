@@ -34,6 +34,7 @@
     <uninstallerName></uninstallerName>
     <validatorProgram></validatorProgram>
     <vendor>PhET</vendor>
+    <enableRollback>0</enableRollback>
     <componentList>
         <component>
             <name>default</name>
