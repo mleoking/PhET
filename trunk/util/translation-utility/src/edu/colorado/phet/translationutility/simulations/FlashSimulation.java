@@ -1,4 +1,4 @@
-/* Copyright 2008, University of Colorado */
+/* Copyright 2008-2009, University of Colorado */
 
 package edu.colorado.phet.translationutility.simulations;
 
@@ -283,10 +283,10 @@ public class FlashSimulation extends AbstractSimulation {
             DocumentAdapter.writeProperties( properties, "" /* no header needed for testing */, testOutputStream );
             testOutputStream.closeEntry();
             
-            // add args.txt file used by FlashLauncher
+            // add args file used by FlashLauncher
             jarEntry = new JarEntry( ARGS_FILENAME );
             testOutputStream.putNextEntry( jarEntry );
-            String args = projectName + " " + languageCode;
+            String args = createArgsString( projectName, languageCode, null /*TODO: country */);
             testOutputStream.write( args.getBytes() );
             testOutputStream.closeEntry();
             
@@ -300,5 +300,21 @@ public class FlashSimulation extends AbstractSimulation {
         catch ( DocumentIOException e ) {
             throw new SimulationException( e );
         }
+    }
+    
+    /*
+     * Creates the contents of the args file.
+     * Format: projectName language country
+     * If country doesn't have a value, use "null".
+     */
+    private static String createArgsString( String projectName, String language, String country ) {
+        String s = projectName + " " + language;
+        if ( country == null || country.length() == 0 ) {
+            s += "null";
+        }
+        else {
+            s += country;
+        }
+        return s;
     }
 }
