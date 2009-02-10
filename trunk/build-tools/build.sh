@@ -15,7 +15,7 @@
 #----------------------------------------------------------------------------------------------
 
 ROOT_DIR=`dirname $0`
-export ANT_HOME=${ROOT_DIR}/build-tools/apache-ant
+export ANT_HOME=${ROOT_DIR}/contrib/apache-ant
 export ANT_OPTS=-Xmx640m
 PATH=${ANT_HOME}/bin:${PATH}
 
