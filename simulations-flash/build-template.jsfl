@@ -31,4 +31,4 @@ for(var i = 0; i < sims.length; i++) {
 }
 
 // close the Flash IDE that we opened
-fl.quit();
+//fl.quit();
