@@ -6,7 +6,7 @@ import java.io.*;
 import java.net.URLEncoder;
 import java.util.Properties;
 
-import edu.colorado.phet.buildtools.util.FileUtils;
+//import edu.colorado.phet.buildtools.util.FileUtils;
 
 /**
  * Created by IntelliJ IDEA.
@@ -158,7 +158,32 @@ public class FlashHTML {
     }
 
     private static String rawFile( File inFile ) throws IOException {
-        return FileUtils.loadFileAsString( inFile );
+        // BAD BAD BAD! FileUtils depends on TranslationDiscrepancy which depends on most of buildtools, which depends on phetcommon
+        // using this would require all of buildtools, phetcommon, and many external libraries to be included in each JAR
+        // TODO: maybe in the future we can remove this, however I need a fix right now.
+        //return FileUtils.loadFileAsString( inFile );
+
+
+        // TODO: duplicating FileUtils.loadFileAsString, needs to be fixed
+        InputStream inStream = new FileInputStream( inFile );
+
+        ByteArrayOutputStream outStream;
+
+        try {
+            outStream = new ByteArrayOutputStream();
+
+            int c;
+            while ( ( c = inStream.read() ) >= 0 ) {
+                outStream.write( c );
+            }
+            outStream.flush();
+        }
+        finally {
+            inStream.close();
+        }
+
+        return new String( outStream.toByteArray(), "utf-8" );
+
 //        BufferedReader bufferedReader=new BufferedReader( new FileReader( inFile ));
 //        try {
 //            String s=bufferedReader.readLine();
