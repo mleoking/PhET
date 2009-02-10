@@ -80,6 +80,15 @@ if [ "$?" -ne "0" ]; then
   exit 1
 fi
 
+echo "Putting creation timestamp into database..."
+
+./insert-timestamp-into-db.sh
+
+if [ "$?" -ne "0" ]; then
+  echo "Error putting creation timestamp into database, aborting."
+  exit 1
+fi
+
 send_email_notification SUCCESS
 
 echo "Removing temporary files" | tee --append installer-builder-log.txt
