@@ -1,7 +1,8 @@
 package edu.colorado.phet.acidbasesolutions.model.solutions;
 
 /**
- * IAqueousSolution is a solution in which the solvent is water.
+ * A solution is formed when a solvent dissolves some substance.
+ * In an aqueous solution, water is the solvent.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
