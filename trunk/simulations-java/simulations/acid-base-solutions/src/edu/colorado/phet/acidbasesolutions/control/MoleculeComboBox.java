@@ -51,6 +51,9 @@ public class MoleculeComboBox extends JComboBox {
         
         // pure water
         addItem( new PureWater() );
+        
+        // default state
+        setSelectedIndex( 0 );
     }
     
     /*

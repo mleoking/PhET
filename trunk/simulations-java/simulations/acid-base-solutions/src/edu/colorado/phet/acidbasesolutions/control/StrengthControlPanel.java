@@ -13,11 +13,34 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 public class StrengthControlPanel extends JPanel {
     
+    public static class StrengthControlPanelState {
+        
+        public static final StrengthControlPanelState SPECIFIC_STRONG = new StrengthControlPanelState( "specific strong" );
+        public static final StrengthControlPanelState SPECIFIC_WEAK = new StrengthControlPanelState( "specific weak" );
+        public static final StrengthControlPanelState CUSTOM_WEAK = new StrengthControlPanelState( "custom weak" );
+        
+        private final String _name;
+
+        private StrengthControlPanelState( String name ) {
+            _name = name;
+        }
+
+        public String getName() {
+            return _name;
+        }
+        
+        public String toString() {
+            return getName();
+        }
+    }
+    
     private static final String TITLE = ABSStrings.TITLE_STRENGTH;
     
     private final JRadioButton _strongRadioButton, _weakRadioButton;
     private final JLabel _strongStrengthLabel;
     private final WeakStrengthControl _weakStrengthControl;
+    
+    private StrengthControlPanelState _state;
     
     public StrengthControlPanel() {
         super();
@@ -44,7 +67,6 @@ public class StrengthControlPanel extends JPanel {
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add( _strongRadioButton );
         buttonGroup.add( _weakRadioButton );
-        _strongRadioButton.setSelected( true );
         
         // strong value label
         _strongStrengthLabel = new JLabel( "large" );
@@ -63,12 +85,49 @@ public class StrengthControlPanel extends JPanel {
         layout.addComponent( _weakRadioButton, row, column++ );
         layout.addComponent( _weakStrengthControl, row++, column );
         
+        // default state
+        _strongRadioButton.setSelected( true );
+        _state = StrengthControlPanelState.CUSTOM_WEAK;
         update();
+    }
+    
+    public void setState( StrengthControlPanelState state ) {
+        if ( state != _state ) {
+            _state = state;
+            update();
+        }
+    }
+    
+    public StrengthControlPanelState getState() {
+        return _state;
+    }
+    
+    public void setWeakStrength( double strength ) {
+        _weakStrengthControl.setValue( strength );
+    }
+    
+    public double getWeakStrength() {
+        return _weakStrengthControl.getValue();
     }
 
     private void update() {
-        _strongStrengthLabel.setEnabled( _strongRadioButton.isSelected() );
-        _weakStrengthControl.setEnabled( _weakRadioButton.isSelected() );
+        if ( _state == StrengthControlPanelState.CUSTOM_WEAK ) {
+            _strongRadioButton.setEnabled( false );
+            _strongStrengthLabel.setEnabled( false );
+            _weakRadioButton.setEnabled( true );
+            _weakStrengthControl.setEnabled( true );
+        }
+        else {
+            final boolean strong = ( _state == StrengthControlPanelState.SPECIFIC_STRONG );
+            // radio buttons indicate weak/strong type
+            _strongRadioButton.setEnabled( strong );
+            _strongRadioButton.setSelected( strong );
+            _weakRadioButton.setEnabled( !strong );
+            _weakRadioButton.setSelected( !strong );
+            // controls are disabled
+            _strongStrengthLabel.setEnabled( strong );
+            _weakStrengthControl.setEnabled( false );
+        }
     }
     
     // test
