@@ -71,11 +71,10 @@
         <javac source="1.4" target="1.4" srcdir="${flash-launcher-src}:${flash-build-src}/edu/colorado/phet/buildtools/flash" destdir="${jar-inputs}" sourcepath="${flash-launcher-src}:${flash-build-src}" />
         -->
 
-        <javac source="1.4" target="1.4" destdir="${jar-inputs}" debug="true" debuglevel="lines,source">
+        <javac source="1.4" target="1.4" destdir="${jar-inputs}" debug="true" debuglevel="lines,source" sourcepath="">
             <src path="${flash-launcher-src}" />
             <src path="${flash-build-src}" />
-            <exclude name="edu/colorado/phet/**" />
-            <include name="edu/colorado/phet/buildtools/flash/**" />
+            <include name="edu/colorado/phet/buildtools/flash/FlashHTML.java" />
             <include name="edu/colorado/phet/flashlauncher/**" />
         </javac>
 
