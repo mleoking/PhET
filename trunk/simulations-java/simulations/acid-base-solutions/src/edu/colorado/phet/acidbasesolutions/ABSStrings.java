@@ -21,13 +21,14 @@ public class ABSStrings {
     public static final String TITLE_MATCHING_GAME_MODULE = ABSResources.getString( "title.matchingGameModule" );
     public static final String TITLE_FIND_THE_UNKNOWN_MODULE = ABSResources.getString( "title.findTheUnknownModule" );
     public static final String TITLE_ERROR = PhetCommonResources.getString( "Common.title.error" );
+    public static final String TITLE_STRENGTH = ABSResources.getString( "title.strength" );
+    public static final String TITLE_SOLUTION = ABSResources.getString( "title.solution" );
     
     public static final String MESSAGE_NOT_A_CONFIG = ABSResources.getString( "message.notAConfigFile" );
     
     // labels
     public static final String LABEL_CONCENTRATION = ABSResources.getString( "label.concentration" );
     public static final String LABEL_PH = ABSResources.getString( "label.pH" );
-    public static final String LABEL_STRENGTH = ABSResources.getString( "label.strength" );
     
     // units
     public static final String UNITS_LITERS = ABSResources.getString( "units.liters" );
