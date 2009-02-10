@@ -21,8 +21,9 @@ public class FlashHTML {
 
     // returns true on success
     public static boolean writeHTML( String simName, String language, String country, String deployment,
-                                     String distributionTag, String simDev, String installationTimestamp, String installerCreationTimestamp,
-                                     String simXMLFile, String htmlFile, String propertiesFile, String commonXMLFile, String HTML_TEMPLATE ) {
+                                     String distributionTag, String simDev, String installationTimestamp,
+                                     String installerCreationTimestamp, String simXMLFile, String htmlFile,
+                                     String propertiesFile, String commonXMLFile, String HTML_TEMPLATE ) {
         try {
             String versionMajor = null;
             String versionMinor = null;
@@ -32,30 +33,6 @@ public class FlashHTML {
             String bgcolor = null;
 
             // parse the .properties file, store results in variables above
-            /*
-            // TODO: use Properties instead
-            File propFile = new File( propertiesFile );
-            Scanner propScanner = new Scanner( propFile );
-            propScanner.useDelimiter( "[\n=]" );
-            while ( propScanner.hasNext() ) {
-                String field = propScanner.next();
-                String value = propScanner.next().trim();
-                if ( field.equals("version.major" ) ) {
-                    versionMajor = value;
-                } else if ( field.equals( "version.minor" ) ) {
-                    versionMinor = value;
-                } else if ( field.equals( "version.dev" ) ) {
-                    versionDev = value;
-                } else if ( field.equals( "version.revision" ) ) {
-                    versionRevision = value;
-                } else if ( field.equals( "version.timestamp" ) ) {
-                    versionTimestamp = value;
-                } else if ( field.equals( "bgcolor" ) ) {
-                    bgcolor = value;
-                }
-            }
-            propScanner.close();
-            */
             Properties props = new Properties();
             props.load( new FileInputStream( new File( propertiesFile ) ) );
             versionMajor = props.getProperty( "version.major" );
@@ -69,8 +46,9 @@ public class FlashHTML {
             String encodedCommonXML = encodeXML( rawFile( commonXMLFile ) );
 
             String html = generateHTML( simName, language, country, deployment, distributionTag, installationTimestamp,
-                                        installerCreationTimestamp, versionMajor, versionMinor, versionDev, versionRevision, versionTimestamp,
-                                        simDev, bgcolor, encodedSimXML, encodedCommonXML, "8", HTML_TEMPLATE );
+                                        installerCreationTimestamp, versionMajor, versionMinor, versionDev,
+                                        versionRevision, versionTimestamp, simDev, bgcolor, encodedSimXML,
+                                        encodedCommonXML, "8", HTML_TEMPLATE );
 
             // write to file
             FileOutputStream fileOut = new FileOutputStream( htmlFile );
@@ -88,8 +66,9 @@ public class FlashHTML {
     public static String generateHTML( String simName, String language, String country, String deployment,
                                        String distributionTag, String installationTimestamp, String installerCreationTimestamp,
                                        String versionMajor, String versionMinor, String versionDev, String versionRevision,
-                                       String versionTimestamp, String simDev, String bgcolor, String encodedSimXML, String encodedCommonXML,
-                                       String minimumFlashMajorVersion, String HTML_TEMPLATE ) throws IOException {
+                                       String versionTimestamp, String simDev, String bgcolor, String encodedSimXML,
+                                       String encodedCommonXML, String minimumFlashMajorVersion, String HTML_TEMPLATE
+                                    ) throws IOException {
         String s = "";
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( HTML_TEMPLATE );
         BufferedReader bufferedReader = null;
@@ -183,19 +162,6 @@ public class FlashHTML {
         }
 
         return new String( outStream.toByteArray(), "utf-8" );
-
-//        BufferedReader bufferedReader=new BufferedReader( new FileReader( inFile ));
-//        try {
-//            String s=bufferedReader.readLine();
-//        }
-//        catch( IOException e ) {
-//            e.printStackTrace();
-//        }
-//        StringTokenizer st=new StringTokenizer( );
-////		Scanner scan = new Scanner( inFile );
-////		scan.useDelimiter( "\\Z" );
-////		return scan.next();
-//        return "scanner not supported in java 1.4";
     }
 
     private static String encodeXML( String rawXML ) throws UnsupportedEncodingException {
