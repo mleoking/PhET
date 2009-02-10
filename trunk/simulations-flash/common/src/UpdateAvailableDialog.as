@@ -51,8 +51,8 @@ class UpdateAvailableDialog {
 		
 		// construct the string of text to show
 		var str : String = "";
-		str += common.strings.get("CurrentVersionIs", "Your current version of {0} is {1}.", ["<b>" + common.getSimName() + "</b>", common.getVersionString()]) + "\n";
-		str += common.strings.get("NewerVersionIs", "A newer version {0} is available.", ["(" + common.zeroPadVersion(versionMajor, versionMinor, versionDev) + ")"]) + "\n";
+		str += common.strings.get("CurrentVersionIs", "Your current version of {0} is {1}.", ["<b>" + common.getSimName() + "</b>", common.getShortVersionString()]) + "\n";
+		str += common.strings.get("NewerVersionIs", "A newer version {0} is available.", ["(" + common.zeroPadVersion(versionMajor, versionMinor) + ")"]) + "\n";
 		//str += "A newer version (" + common.zeroPadVersion(versionMajor, versionMinor, versionDev) + ") is available.\n";
 		
 		str += "\n<p align='center'>";

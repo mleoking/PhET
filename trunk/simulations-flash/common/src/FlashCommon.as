@@ -173,15 +173,24 @@ class FlashCommon {
 	public function zeroPadVersion(versionMajor : Number, versionMinor : Number, versionDev : Number) : String {
 		var ret : String = "";
 		ret += String(versionMajor) + ".";
-		ret += (versionMinor > 9 ? String(versionMinor) : "0" + String(versionMinor)) + ".";
-		ret += (versionDev > 9 ? String(versionDev) : "0" + String(versionDev));
+		ret += (versionMinor > 9 ? String(versionMinor) : "0" + String(versionMinor));
+		if(versionDev != null && versionDev != undefined) {
+			ret += "." + (versionDev > 9 ? String(versionDev) : "0" + String(versionDev));
+		}
 		return ret;
 	}
 	
+	// version like "1.00"
+	public function getShortVersionString() : String {
+		return zeroPadVersion(getVersionMajor(), getVersionMinor());
+	}
+	
+	// version like "1.00.00"
 	public function getVersionString() : String {
 		return zeroPadVersion(getVersionMajor(), getVersionMinor(), getVersionDev());
 	}
 	
+	// version like "1.00.00 (20000)"
 	public function getFullVersionString() : String {
 		return getVersionString() + " (" + String(getVersionRevision()) + ")";
 	}
