@@ -71,7 +71,7 @@ CREATE TABLE session (
 	message_version TINYINT UNSIGNED,
 	
 	# version of the server-side code that recorded this message
-	server_version MEDIUMINT UNSIGNED,
+	server_svn_revision MEDIUMINT UNSIGNED,
 	
 	# Java (0) or Flash (1)
 	sim_type ENUM('0', '1') NOT NULL default '0',
@@ -266,7 +266,7 @@ CREATE TABLE message_errors (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	
 	timestamp DATETIME,
-	server_version MEDIUMINT UNSIGNED,
+	server_svn_revision MEDIUMINT UNSIGNED,
 	raw_post_data VARCHAR(2000),
 	mysql_error VARCHAR(2000),
 	error_info VARCHAR(2000)

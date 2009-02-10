@@ -115,7 +115,7 @@ BOO;
 		$values = array(
 			'timestamp' => 'NOW()',
 			'message_version' => mysql_real_escape_string($data['message_version']),
-			'server_version' => $serverVersion,
+			'server_svn_revision' => $serverVersion,
 			'sim_type' => mysql_real_escape_string($data['sim_type']),
 			'sim_project' => $sim_project_ID,
 			'sim_name' => $sim_name_ID,
@@ -392,7 +392,7 @@ BOO;
 		
 		$values = array(
 			'timestamp' => 'NOW()',
-			'server_version' => $serverVersion,
+			'server_svn_revision' => $serverVersion,
 			'raw_post_data' => quo($raw_post_data),
 			'mysql_error' => quo(mysql_error()),
 			'error_info' => quo($info)
