@@ -300,6 +300,16 @@
             exec($sedCmd.$file);
         }
         flushing_echo("Processed ".sizeof($files)." HTML files for possible timestamp insertion.");
+
+        // Write the timestamp to a temporary file so that we can use it later
+        // if needed (such as for putting the creation timestamp into the DB).
+        if (!($fp = fopen(CREATION_TIMESTAMP_FILE_NAME, 'w'))) {
+            flushing_echo('Error: Unable to open temporary timestamp file.');
+        }
+        else{
+            fwrite($fp, $time);
+            flushing_echo('Successfully created timestamp file '.CREATION_TIMESTAMP_FILE_NAME);
+        }
     }
 
     //--------------------------------------------------------------------------
