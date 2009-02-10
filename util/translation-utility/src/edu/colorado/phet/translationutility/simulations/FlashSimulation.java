@@ -310,10 +310,10 @@ public class FlashSimulation extends AbstractSimulation {
     private static String createArgsString( String projectName, String language, String country ) {
         String s = projectName + " " + language;
         if ( country == null || country.length() == 0 ) {
-            s += "null";
+            s += " " + "null";
         }
         else {
-            s += country;
+            s += " " + country;
         }
         return s;
     }
