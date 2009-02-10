@@ -1,3 +1,4 @@
+2/10/09 - start to flesh out solution controls (molecule combo box, concentration, strength)
 2/9/09 - change strong base interface, there is no concept of conjugate for strong bases
 1/23/09 - encapsulate all symbols in ABSSymbols
 1/23/09 - localize all acid and base names

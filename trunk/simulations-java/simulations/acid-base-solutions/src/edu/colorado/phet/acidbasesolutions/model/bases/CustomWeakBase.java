@@ -3,6 +3,7 @@ package edu.colorado.phet.acidbasesolutions.model.bases;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 
@@ -11,6 +12,10 @@ public class CustomWeakBase implements IWeakBase {
     
     public double _strength;
     public final ArrayList _listeners;
+    
+    public CustomWeakBase() {
+        this( ABSConstants.DEFAULT_WEAK_STRENGTH );
+    }
     
     public CustomWeakBase( double strength ) {
         _strength = strength;

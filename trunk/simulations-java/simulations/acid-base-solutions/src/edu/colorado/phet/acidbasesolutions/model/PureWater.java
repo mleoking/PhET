@@ -11,7 +11,7 @@ import edu.colorado.phet.acidbasesolutions.ABSSymbols;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PureWater {
+public class PureWater implements IMolecule {
     
     private static final double W = 55.6; // concentration, mol/L
     private static final double Kw = 1E-14; // equilibrium constant

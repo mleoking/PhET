@@ -3,6 +3,7 @@ package edu.colorado.phet.acidbasesolutions.model.acids;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 
 
@@ -10,6 +11,10 @@ public class CustomWeakAcid implements IWeakAcid {
     
     public double _strength;
     public final ArrayList _listeners;
+    
+    public CustomWeakAcid() {
+        this( ABSConstants.DEFAULT_WEAK_STRENGTH );
+    }
     
     public CustomWeakAcid( double strength ) {
         _strength = strength;
