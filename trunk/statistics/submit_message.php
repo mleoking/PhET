@@ -81,10 +81,10 @@
 			return "NULL";
 		}
 		
-		if($decoded === "null") {
+		if($decoded === "null" || $decoded === "NaN") {
 			if($field == "sim_version_timestamp") {
 				return "0";
-				warn_me("sim_version_timestamp cannot be null, replacing with '0'");
+				warn_me("sim_version_timestamp cannot be {$decoded}, replacing with '0'");
 			}
 			return "NULL";
 		}
