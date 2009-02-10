@@ -143,7 +143,7 @@ class FlashCommon {
 		return (
 			!fromPhetWebsite()
 			&& !isPlaceholder(_level0.installationTimestamp)
-			&& _level0.installationTimestamp != FlashCommon.NULLVAL
+			&& null_replace(_level0.installationTimestamp) != FlashCommon.NULLVAL
 		);
 	}
 	
@@ -218,7 +218,13 @@ class FlashCommon {
 		return str;
 	}
 	
-	
+	public function null_replace(val : String) : String {
+		// TODO: possibly integrate checking for a placeholder
+		if(val === undefined || val === null) {
+			return NULLVAL;
+		}
+		return val;
+	}
 	
 	
 	
@@ -237,7 +243,7 @@ class FlashCommon {
 		return _level0.languageCode;
 	}
 	public function getCountry() : String {
-		return _level0.countryCode;
+		return null_replace(_level0.countryCode);
 	}
 	public function getVersionMajor() : Number {
 		return parseInt(_level0.versionMajor);
@@ -271,27 +277,27 @@ class FlashCommon {
 		return true;
 	}
 	public function getDistributionTag() : String {
-		if(isPlaceholder(_level0.simDistributionTag) || _level0.simDistributionTag == NULLVAL) {
+		if(isPlaceholder(_level0.simDistributionTag) || null_replace(_level0.simDistributionTag) == NULLVAL) {
 			return null;
 		}
 		return _level0.simDistributionTag;
 	}
 	public function getInstallationTimestamp() : Number {
-		if(_level0.installationTimestamp == NULLVAL || isPlaceholder(_level0.installationTimestamp)) {
+		if(null_replace(_level0.installationTimestamp) == NULLVAL || isPlaceholder(_level0.installationTimestamp)) {
 			return null;
 		} else {
 			return parseInt(_level0.installationTimestamp);
 		}
 	}
 	public function getInstallerCreationTimestamp() : Number {
-		if(_level0.installerCreationTimestamp == NULLVAL || isPlaceholder(_level0.installerCreationTimestamp)) {
+		if(null_replace(_level0.installerCreationTimestamp) == NULLVAL || isPlaceholder(_level0.installerCreationTimestamp)) {
 			return null;
 		} else {
 			return parseInt(_level0.installerCreationTimestamp);
 		}
 	}
 	public function getVersionTimestamp() : Number {
-		if(_level0.versionTimestamp == NULLVAL) {
+		if(null_replace(_level0.versionTimestamp) == NULLVAL) {
 			return null;
 		} else {
 			return parseInt(_level0.versionTimestamp);
