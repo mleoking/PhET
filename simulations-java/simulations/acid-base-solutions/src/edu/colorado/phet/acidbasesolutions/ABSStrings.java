@@ -24,7 +24,10 @@ public class ABSStrings {
     
     public static final String MESSAGE_NOT_A_CONFIG = ABSResources.getString( "message.notAConfigFile" );
     
+    // labels
+    public static final String LABEL_CONCENTRATION = ABSResources.getString( "label.concentration" );
     public static final String LABEL_PH = ABSResources.getString( "label.pH" );
+    public static final String LABEL_STRENGTH = ABSResources.getString( "label.strength" );
     
     // units
     public static final String UNITS_LITERS = ABSResources.getString( "units.liters" );

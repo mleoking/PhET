@@ -87,8 +87,10 @@ public class ABSConstants {
     
     public static final double MIN_CONCENTRATION = 1E-3;
     public static final double MAX_CONCENTRATION = 1;
+    public static final double DEFAULT_CONCENTRATION = 1E-1;
     
     public static final double MIN_WEAK_STRENGTH = 1E-12;
     public static final double MAX_WEAK_STRENGTH = 1E2;
+    public static final double DEFAULT_WEAK_STRENGTH = 1E-5;
     
 }
