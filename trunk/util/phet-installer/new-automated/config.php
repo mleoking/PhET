@@ -125,4 +125,5 @@
 
     define("DEPLOYMENT_TAG", "WEB_SITE");
     define("MARKER_FILE_NAME", "phet-installation.properties");
+    define("CREATION_TIMESTAMP_FILE_NAME", "installer-creation-timestamp.txt");
 ?>
