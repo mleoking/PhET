@@ -15,9 +15,6 @@ WEB_SITE_LOCATION="./temp/website"
 # Main body of this script.
 #==============================================================================
 
-# Make sure we're in the proper directory
-cd /web/htdocs/phet/installer-builder/
-
 echo "Checking for existing copy of web site..."
 
 if [ -d $WEB_SITE_LOCATION ]; then
@@ -44,7 +41,6 @@ if [ "$?" -ne "0" ]; then
   echo "Error inserting creation time, aborting."
   exit 1
 fi
-
 
 echo "Building all installers..."
 
