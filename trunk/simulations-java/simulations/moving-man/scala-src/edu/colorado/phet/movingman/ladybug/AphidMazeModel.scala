@@ -1,9 +1,11 @@
 package edu.colorado.phet.movingman.ladybug
 
-import model.{Maze, LadybugModel}
+import _root_.scala.collection.mutable.ArrayBuffer
+import model.{BarrierSet, LadybugModel}
 
 class AphidMazeModel extends LadybugModel {
-  val maze = new Maze
+  val maze = new BarrierSet
+  val aphids = new ArrayBuffer[Aphid]
 
   override def positionMode(dt: Double) = {
     super.positionMode(dt)

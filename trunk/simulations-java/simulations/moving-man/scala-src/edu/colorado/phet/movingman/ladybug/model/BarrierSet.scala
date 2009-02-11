@@ -4,7 +4,7 @@ import _root_.scala.collection.mutable.ArrayBuffer
 import java.awt.geom.Rectangle2D
 import edu.colorado.phet.movingman.ladybug.LadybugUtil._
 
-class Maze {
+class BarrierSet {
   val rectangles = new ArrayBuffer[Rectangle2D]
 
   rectangles += new Rectangle2D.Double(-10, -9, 20, 1)
