@@ -12,22 +12,24 @@ import edu.colorado.phet.buildtools.util.FileUtils;
  * Time: 10:17:40 AM
  */
 public class FlashBuildCommand {
-    public static void build( String cmdArray, String sim, File trunk ) throws IOException {
-        build( cmdArray, new String[]{sim}, trunk );
+    public static void build( String cmd, String sim, File trunk, boolean useWine ) throws IOException {
+        build( cmd, new String[]{sim}, trunk, useWine );
     }
 
-    public static void build( String cmdArray, String[] sims, File trunk ) throws IOException {
-        String trunkPipe = trunk.getAbsolutePath().replace( ':', '|' );
-        trunkPipe = trunkPipe.replace( '\\', '/' );
+    public static void build( String cmd, String[] sims, File trunk, boolean useWine ) throws IOException {
         String template = FileUtils.loadFileAsString( new File( trunk, "simulations-flash" + File.separator + "build-template.jsfl" ) );
         String out = template;
 
-        // Start (temporary) hack
-        if(System.getProperty("os.name").equals("Linux")) { trunkPipe = "C|/svn/trunk"; }
-        // End
+        String trunkPipe;
+        if(useWine) {
+            trunkPipe = "C|/svn/trunk";
+        } else {
+            trunkPipe = trunk.getAbsolutePath().replace( ':', '|' ).replace( '\\', '/' );
+        }
 
         out = FileUtils.replaceAll( out, "@TRUNK@", trunkPipe );
         out = FileUtils.replaceAll( out, "@SIMS@", toSimsString( sims ) );
+        out = FileUtils.replaceAll( out, "@CLOSEFLASH@", "false" );
         System.out.println( "out = " + out );
 
         String outputSuffix = "simulations-flash" + File.separator + "build-output-temp" + File.separator + "build.jsfl";
@@ -36,17 +38,15 @@ public class FlashBuildCommand {
 
 
         Process p;
-        // Start (temporary) hack
-        if(System.getProperty("os.name").equals("Linux")) {
+        if(useWine) {
             p = Runtime.getRuntime().exec(new String[]{
                     "wine",
                     "C:\\Program Files\\Macromedia\\Flash 8\\Flash.exe", // possibly replace this with cmdArray
                     "C:\\svn\\trunk\\" + outputSuffix.replace('/', '\\')
             });
         } else {
-            p=Runtime.getRuntime().exec( cmdArray + " " + outputFile.getAbsolutePath() );
+            p = Runtime.getRuntime().exec( cmd + " " + outputFile.getAbsolutePath() );
         }
-        // End
 
         try {
             p.waitFor();
@@ -71,6 +71,6 @@ public class FlashBuildCommand {
     public static void main( String[] args ) throws IOException {
         FlashBuildCommand.build( "C:\\Program Files\\Macromedia\\Flash 8\\Flash.exe",
                                  new String[]{"pendulum-lab", "test-flash-project"},
-                                 new File( "C:\\reid\\phet\\svn\\trunk" ) );
+                                 new File( "C:\\reid\\phet\\svn\\trunk" ), false );
     }
 }
