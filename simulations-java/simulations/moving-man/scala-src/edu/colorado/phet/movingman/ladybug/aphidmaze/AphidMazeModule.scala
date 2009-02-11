@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.ladybug
+package edu.colorado.phet.movingman.ladybug.aphidmaze
 
 import canvas.LadybugCanvas
 import model.{LadybugModel, ScalaClock}

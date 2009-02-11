@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.ladybug
+package edu.colorado.phet.movingman.ladybug.aphidmaze
 
 import _root_.edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import canvas.{LadybugCanvas, MazeNode}

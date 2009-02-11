@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.ladybug
+package edu.colorado.phet.movingman.ladybug.aphidmaze
 
 import _root_.scala.collection.mutable.ArrayBuffer
 import model.{BarrierSet, LadybugModel}

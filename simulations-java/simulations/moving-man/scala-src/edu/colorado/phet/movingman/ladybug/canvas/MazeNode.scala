@@ -2,6 +2,7 @@ package edu.colorado.phet.movingman.ladybug.canvas
 
 import _root_.edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import _root_.edu.colorado.phet.common.piccolophet.nodes.PhetPPath
+import aphidmaze.AphidMazeModel
 import java.awt.geom.{AffineTransform, Rectangle2D, Point2D}
 import umd.cs.piccolo.PNode
 import _root_.edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
