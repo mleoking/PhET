@@ -226,6 +226,9 @@ BOO;
 			}
 		} else if($type == 'MAC') {
 			$data['host_simplified_os'] = "Mac - General";
+			if(stripos($data['host_flash_os'], ' 10') !== false || stripos($data['host_flash_os'], 'OS X') !== false) {
+				$data['host_simplified_os'] = "Mac - OS X";
+			}
 		} else if($type == 'LNX') {
 			$data['host_simplified_os'] = "Linux - General";
 		} else if($type == 'UNIX') {
@@ -280,6 +283,9 @@ BOO;
 			}
 		} else if(stripos($osname, 'Mac') !== false) {
 			$data['host_simplified_os'] = "Mac - General";
+			if(stripos($data['host_java_os_version'], '10') === 0 || stripos($data['host_java_os_name'], 'OS X') !== false) {
+				$data['host_simplified_os'] = "Mac - OS X";
+			}
 		} else if(stripos($osname, 'Linux') !== false) {
 			$data['host_simplified_os'] = "Linux - General";
 		} else if(stripos($osname, 'Unix') !== false) {
