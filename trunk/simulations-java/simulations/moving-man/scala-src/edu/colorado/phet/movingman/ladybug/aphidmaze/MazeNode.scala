@@ -1,13 +1,13 @@
 package edu.colorado.phet.movingman.ladybug.canvas.aphidmaze
 
-import _root_.edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import _root_.edu.colorado.phet.common.piccolophet.nodes.PhetPPath
-import _root_.edu.colorado.phet.movingman.ladybug.aphidmaze.{AphidMazeModel}
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
+import edu.colorado.phet.movingman.ladybug.aphidmaze.{AphidMazeModel}
 import java.awt.geom.{AffineTransform, Rectangle2D, Point2D}
 import umd.cs.piccolo.PNode
-import _root_.edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
-import _root_.edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener
-import _root_.edu.colorado.phet.common.piccolophet.event.CursorHandler
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener
+import edu.colorado.phet.common.piccolophet.event.CursorHandler
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
 import controlpanel.VectorVisibilityModel
 import java.awt.image.BufferedImage

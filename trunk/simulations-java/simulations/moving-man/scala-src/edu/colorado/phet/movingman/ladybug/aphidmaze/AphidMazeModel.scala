@@ -1,6 +1,6 @@
 package edu.colorado.phet.movingman.ladybug.aphidmaze
 
-import _root_.scala.collection.mutable.ArrayBuffer
+import scala.collection.mutable.ArrayBuffer
 import model.LadybugModel
 import model.aphidmaze.BarrierSet
 
