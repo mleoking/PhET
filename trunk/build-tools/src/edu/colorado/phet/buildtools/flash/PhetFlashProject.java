@@ -4,16 +4,14 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Properties;
+import java.util.*;
+
+import javax.swing.*;
 
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-
-import javax.swing.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -65,12 +63,12 @@ public class PhetFlashProject extends PhetProject {
 
         // TODO: if deploying to dev / production, don't allow the user to skip the build
         // we don't want inaccurate SWFs deployed
-        
+
         // if the user has decided not to auto-build the SWF, don't do anything else
-        if( !Boolean.parseBoolean(getConfigValue( "autobuild-swf", "true" ) ) ) {
+        if ( !Boolean.parseBoolean( getConfigValue( "autobuild-swf", "true" ) ) ) {
             return;
         }
-        
+
         String def = "C:\\Program Files\\Macromedia\\Flash 8\\Flash.exe";
         String property = "flash.exe";
         String exe = getConfigValue( property, def );
@@ -78,8 +76,8 @@ public class PhetFlashProject extends PhetProject {
         boolean useWine = Boolean.parseBoolean( getConfigValue( "wine", "false" ) );
 
         File trunk = getProjectDir().getParentFile() // simulations
-                       .getParentFile() // simulations-flash
-                       .getParentFile(); // trunk
+                .getParentFile() // simulations-flash
+                .getParentFile(); // trunk
         FlashBuildCommand.build( exe, getName(), trunk, useWine );
         JOptionPane.showMessageDialog( null, "Building the Flash SWF, press OK when finished." );
     }
@@ -95,8 +93,8 @@ public class PhetFlashProject extends PhetProject {
                 String countryCode = locale.getCountry();
 
                 // TODO: get FlashHTML to handle this part
-                if (countryCode==null || countryCode.trim().length()==0){
-                    countryCode="null";
+                if ( countryCode == null || countryCode.trim().length() == 0 ) {
+                    countryCode = "null";
                 }
 
                 // TODO: use country code as well
@@ -112,7 +110,7 @@ public class PhetFlashProject extends PhetProject {
                                                       FlashHTML.encodeXMLFile( getTranslationFile( locale ) ),
                                                       FlashHTML.encodeXMLFile( getCommonTranslationFile( locale ) ), "8",
                                                       getFlashHTMLTemplate().getAbsolutePath() );
-                
+
                 FileUtils.writeString( HTMLFile, html );
             }
             catch( IOException e ) {
@@ -121,18 +119,19 @@ public class PhetFlashProject extends PhetProject {
         }
 
         // copy over other extra files needed by the main HTML file
-        
+
         File[] extras = {
-            new File( getProjectDir().getParentFile().getParentFile(), "build-tools/flash-build/data/get_flash.jpg" )
+                new File( getProjectDir().getParentFile().getParentFile(), "build-tools/flash-build/data/get_flash.jpg" )
         };
 
-        for( int i = 0; i < extras.length; i++ ) {
+        for ( int i = 0; i < extras.length; i++ ) {
             File source = extras[i];
             File destination = new File( getDeployDir(), source.getName() );
 
             try {
-                FileUtils.copyTo(source, destination);
-            } catch( IOException e ) {
+                FileUtils.copyTo( source, destination );
+            }
+            catch( IOException e ) {
                 e.printStackTrace();
             }
         }
@@ -157,12 +156,13 @@ public class PhetFlashProject extends PhetProject {
 
     private File getFlashBuildConfigFile() {
         File configFile = new File( getProjectDir().getParentFile().getParentFile(), "flash-build.properties" );
-        if( !configFile.exists() ) {
+        if ( !configFile.exists() ) {
             String defaultFlashProperties = "build-tools" + File.separator + "flash-build" + File.separator + "default-flash-build.properties";
             File defaultConfigFile = new File( getProjectDir().getParentFile().getParentFile(), defaultFlashProperties );
             try {
                 FileUtils.copyTo( defaultConfigFile, configFile );
-            } catch( IOException e ) {
+            }
+            catch( IOException e ) {
                 e.printStackTrace();
             }
         }
@@ -178,7 +178,7 @@ public class PhetFlashProject extends PhetProject {
             e.printStackTrace();
             return defaultValue;
         }
-        
+
         return properties.getProperty( property, defaultValue );
     }
 
