@@ -13,6 +13,8 @@ import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 
+import javax.swing.*;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Sam
@@ -52,20 +54,34 @@ public class PhetFlashProject extends PhetProject {
     }
 
     public boolean build() throws Exception {
-//        super.build();
+        //super.build();
         System.out.println( "Building flash sim." );
-//        JOptionPane.showMessageDialog( null, "Build the Flash Sim SWF file now (Shift-F12 builds without launching), then press OK when you are finished" );
+        buildSWF();
+        buildHTMLs();
+        return true;
+    }
+
+    private void buildSWF() throws Exception {
+
+        // TODO: if deploying to dev / production, don't allow the user to skip the build
+        // we don't want inaccurate SWFs deployed
+        
+        // if the user has decided not to auto-build the SWF, don't do anything else
+        if( !Boolean.parseBoolean(getConfigValue( "autobuild-swf", "true" ) ) ) {
+            return;
+        }
+        
         String def = "C:\\Program Files\\Macromedia\\Flash 8\\Flash.exe";
         String property = "flash.exe";
         String exe = getConfigValue( property, def );
-        FlashBuildCommand.build( exe,
-                                 getName(),
-                                 getProjectDir().getParentFile()//simulations
-                                         .getParentFile()//simulations-flash
-                                         .getParentFile()//trunk
-        );
-        buildHTMLs();
-        return true;
+
+        boolean useWine = Boolean.parseBoolean( getConfigValue( "wine", "false" ) );
+
+        File trunk = getProjectDir().getParentFile() // simulations
+                       .getParentFile() // simulations-flash
+                       .getParentFile(); // trunk
+        FlashBuildCommand.build( exe, getName(), trunk, useWine );
+        JOptionPane.showMessageDialog( null, "Building the Flash SWF, press OK when finished." );
     }
 
     private void buildHTMLs() {
@@ -74,25 +90,49 @@ public class PhetFlashProject extends PhetProject {
             Locale locale = locales[i];
             PhetVersion version = super.getVersion();
             try {
-//                String bgColor=new PhetResources( getName()).getProjectProperty( "bgcolor" );
                 String bgColor = getProjectProperties().getProperty( "bgcolor" );
                 String simDev = "true"; // TODO: handle what will be sent as the sim_dev field for statistics
                 String countryCode = locale.getCountry();
+
+                // TODO: get FlashHTML to handle this part
                 if (countryCode==null || countryCode.trim().length()==0){
                     countryCode="null";
                 }
+
+                // TODO: use country code as well
+                File HTMLFile = new File( getDeployDir(), getName() + "_" + locale.toString() + ".html" );
+
+                // TODO: why is version.formatTimestamp() returning bad things?
                 String html = FlashHTML.generateHTML( getName(), locale.getLanguage(), countryCode,
                                                       "phet-production-website", GenerateHTML.distribution_tag_dummy,
                                                       GenerateHTML.installation_timestamp_dummy,
                                                       GenerateHTML.installer_creation_timestamp_dummy,
-                                                      version.getMajor(), version.getMinor(), version.getDev(), version.getRevision(),
-                                                      version.formatTimestamp(), simDev, bgColor,
+                                                      version.getMajor(), version.getMinor(), version.getDev(),
+                                                      version.getRevision(), version.formatTimestamp(), simDev, bgColor,
                                                       FlashHTML.encodeXMLFile( getTranslationFile( locale ) ),
                                                       FlashHTML.encodeXMLFile( getCommonTranslationFile( locale ) ), "8",
                                                       getFlashHTMLTemplate().getAbsolutePath() );
-                FileUtils.writeString( new File( getDeployDir(), getName() + "_" + locale.toString() + ".html" ), html );//todo: use country code as well
+                
+                FileUtils.writeString( HTMLFile, html );
             }
             catch( IOException e ) {
+                e.printStackTrace();
+            }
+        }
+
+        // copy over other extra files needed by the main HTML file
+        
+        File[] extras = {
+            new File( getProjectDir().getParentFile().getParentFile(), "build-tools/flash-build/data/get_flash.jpg" )
+        };
+
+        for( int i = 0; i < extras.length; i++ ) {
+            File source = extras[i];
+            File destination = new File( getDeployDir(), source.getName() );
+
+            try {
+                FileUtils.copyTo(source, destination);
+            } catch( IOException e ) {
                 e.printStackTrace();
             }
         }
@@ -110,24 +150,36 @@ public class PhetFlashProject extends PhetProject {
             return file;
         }
         else {
+            // TODO: compare locale to new Locale( "en" ), if equal return file, and IOException will be thrown later
             return getCommonTranslationFile( new Locale( "en" ) );//this code will throw stack overflow exception if this fails too
         }
     }
 
-    private String getConfigValue( String property, String def ) {
-        File configFile = new File( getProjectDir().getParentFile().getParentFile(), "config.properties" );
+    private File getFlashBuildConfigFile() {
+        File configFile = new File( getProjectDir().getParentFile().getParentFile(), "flash-build.properties" );
+        if( !configFile.exists() ) {
+            String defaultFlashProperties = "build-tools" + File.separator + "flash-build" + File.separator + "default-flash-build.properties";
+            File defaultConfigFile = new File( getProjectDir().getParentFile().getParentFile(), defaultFlashProperties );
+            try {
+                FileUtils.copyTo( defaultConfigFile, configFile );
+            } catch( IOException e ) {
+                e.printStackTrace();
+            }
+        }
+        return configFile;
+    }
+
+    private String getConfigValue( String property, String defaultValue ) {
         Properties properties = new Properties();
         try {
-            properties.load( new FileInputStream( configFile ) );
+            properties.load( new FileInputStream( getFlashBuildConfigFile() ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
-            return def;
+            return defaultValue;
         }
-
-
-        String exe = properties.getProperty( property, def );
-        return exe;
+        
+        return properties.getProperty( property, defaultValue );
     }
 
     public String getListDisplayName() {
@@ -137,11 +189,7 @@ public class PhetFlashProject extends PhetProject {
     public void runSim( Locale locale, String simulationName ) {
         System.out.println( "Running the flash sim: " + simulationName );
         String exe = getConfigValue( "browser.exe", "C:\\Users\\Sam\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe" );
-        // Start (temporary) hack
-        if(System.getProperty("os.name").equals("Linux")) { exe = "/usr/local/firefox/firefox"; }
-        // End
         try {
-//            String command = exe + " " + getSWFFile().getAbsolutePath();
             String command = exe + " " + getHTMLFile( locale ).getAbsolutePath();
             System.out.println( "command = " + command );
             Process p = Runtime.getRuntime().exec( command );
