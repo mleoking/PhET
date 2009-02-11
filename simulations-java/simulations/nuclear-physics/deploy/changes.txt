@@ -1,3 +1,5 @@
+# 3.05.04 (28367) Feb 11, 2009
+> Changed tunneling diameter for alpha particles so that it won't look like they were flying away when they're not.
 # 3.05.03 (28282) 02-09-2009
 Made the energy lines on the 2nd tab move when switching between nuclei in order to be more noticeable.
 # 3.05.02 (28226) 02-06-2009
