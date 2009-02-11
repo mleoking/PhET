@@ -1,5 +1,6 @@
 package edu.colorado.phet.movingman.ladybug
 
+import aphidmaze.AphidMazeModule
 import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor
 import edu.colorado.phet.common.phetcommon.application.Module
 import edu.colorado.phet.common.phetcommon.application.PhetApplication
