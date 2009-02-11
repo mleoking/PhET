@@ -29,6 +29,8 @@ public class PhetBuildCommand {
     private final boolean shrink;
     private final File outputJar;
 
+    private static String JAR_LAUNCHER_PROPERTIES_FILE_HEADER = "created by " + PhetBuildCommand.class.getName();
+    
     private static String JAVA_SOURCE_VERSION = "1.4";//used for sims, not for bootstrap
     
     //select whether you want to use the java version checker for launching JAR files
@@ -181,7 +183,7 @@ public class PhetBuildCommand {
         File file = new File( project.getAntOutputDir(), JARLauncher.getPropertiesFileName() );
         file.getParentFile().mkdirs();
         try {
-            properties.store( new FileOutputStream( file ), null );
+            properties.store( new FileOutputStream( file ), JAR_LAUNCHER_PROPERTIES_FILE_HEADER );
         }
         catch( IOException e ) {
             e.printStackTrace();
