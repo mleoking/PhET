@@ -1,11 +1,11 @@
 package edu.colorado.phet.movingman.ladybug.aphidmaze
 
 import _root_.scala.collection.mutable.{HashSet, ArrayBuffer}
-
+case class Wall(x: Int, y: Int, dx: Int, dy: Int)
 class MazeGenerator {
   //see http://home.att.net/~srschmitt/script_maze_generator.html#the%20source%20code
 
-  case class Wall(x: Int, y: Int, dx: Int, dy: Int)
+
   case class Location(x: Int, y: int)
   val walls = new ArrayBuffer[Wall]
   val allLocations = new HashSet[Location]
@@ -20,9 +20,9 @@ class MazeGenerator {
   val current = Location(0, 0)
   val visited = new HashSet[Location]
 
-  while (visited != allLocations) {
-    visit()
-  }
+//  while (visited != allLocations) {
+//    visit()
+//  }
 
   def visit() = {
     val neighbors = getAdjacent(current)
