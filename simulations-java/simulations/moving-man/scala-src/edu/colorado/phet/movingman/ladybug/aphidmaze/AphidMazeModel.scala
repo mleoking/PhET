@@ -1,7 +1,8 @@
 package edu.colorado.phet.movingman.ladybug.aphidmaze
 
 import _root_.scala.collection.mutable.ArrayBuffer
-import model.{BarrierSet, LadybugModel}
+import model.LadybugModel
+import model.aphidmaze.BarrierSet
 
 class AphidMazeModel extends LadybugModel {
   val maze = new BarrierSet
