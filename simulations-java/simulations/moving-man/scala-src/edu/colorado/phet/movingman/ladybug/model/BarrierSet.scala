@@ -8,10 +8,10 @@ import edu.colorado.phet.movingman.ladybug.LadybugUtil._
 class BarrierSet {
   val rectangles = new ArrayBuffer[Rectangle2D]
 
-  rectangles += new Rectangle2D.Double(-10, -9, 20, 1)
-  rectangles += new Rectangle2D.Double(-10, 9, 20, 1)
-  rectangles += new Rectangle2D.Double(-9, -10, 1, 20)
-  rectangles += new Rectangle2D.Double(9, -10, 1, 20)
+//  rectangles += new Rectangle2D.Double(-10, -9, 20, 1)
+//  rectangles += new Rectangle2D.Double(-10, 9, 20, 1)
+//  rectangles += new Rectangle2D.Double(-9, -10, 1, 20)
+//  rectangles += new Rectangle2D.Double(9, -10, 1, 20)
 
   def update(ladybug: Ladybug) = {}
 
