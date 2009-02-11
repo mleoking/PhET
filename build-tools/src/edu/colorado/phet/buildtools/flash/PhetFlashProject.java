@@ -65,7 +65,7 @@ public class PhetFlashProject extends PhetProject {
         // we don't want inaccurate SWFs deployed
 
         // if the user has decided not to auto-build the SWF, don't do anything else
-        if ( !Boolean.parseBoolean( getConfigValue( "autobuild-swf", "true" ) ) ) {
+        if ( getConfigValue( "autobuild-swf", "true" ).equals("false") ) {
             return;
         }
 
@@ -73,7 +73,7 @@ public class PhetFlashProject extends PhetProject {
         String property = "flash.exe";
         String exe = getConfigValue( property, def );
 
-        boolean useWine = Boolean.parseBoolean( getConfigValue( "wine", "false" ) );
+        boolean useWine =  getConfigValue( "wine", "false"  ).equals("true");
 
         File trunk = getProjectDir().getParentFile() // simulations
                 .getParentFile() // simulations-flash
