@@ -1,3 +1,5 @@
+> Fixed: open sim > click frictionless > click circular. Bug will not move.
+
 # 1.20.29 (28260) Feb 8, 2009
 > Bugfixes for remote control
 > Ladybug comes to rest when turning friction on
