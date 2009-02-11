@@ -12,6 +12,8 @@ var prefix = "file:///@TRUNK@/simulations-flash/simulations/";
 // sim names to publish
 var sims = [@SIMS@];
 
+var closeFlash = @CLOSEFLASH@;
+
 //"arithmetic", "blackbody-spectrum", "charges-and-fields", "curve-fitting", "equation-grapher",
     //"estimation", "faradays-law", "friction", "geometric-optics", "mass-spring-lab", "my-solar-system",
     //"ohms-law", "pendulum-lab", "plinko-probability", "projectile-motion", "stern-gerlach",
@@ -31,4 +33,6 @@ for(var i = 0; i < sims.length; i++) {
 }
 
 // close the Flash IDE that we opened
-//fl.quit();
+if(closeFlash) {
+    fl.quit();
+}
