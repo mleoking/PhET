@@ -13,26 +13,26 @@ import umd.cs.piccolo.PNode
 import umd.cs.piccolox.pswing.PSwing
 
 class PlaybackSpeedSlider(model: LadybugModel) extends PNode {
-    val slider = new JSlider
-    slider.setBackground(new Color(0, 0, 0, 0))
-    val transform = new LinearFunction(slider.getMinimum, slider.getMaximum, 0.5, 2.0)
+  val slider = new JSlider
+  slider.setBackground(new Color(0, 0, 0, 0))
+  val transform = new LinearFunction(slider.getMinimum, slider.getMaximum, 0.5, 2.0)
 
-    val dict = new Hashtable[Integer, JLabel]
+  val dict = new Hashtable[Integer, JLabel]
 
-    dict.put(slider.getMinimum, new JLabel("slow"))
-    dict.put(slider.getMaximum, new JLabel("fast"))
+  dict.put(slider.getMinimum, new JLabel("slow"))
+  dict.put(slider.getMaximum, new JLabel("fast"))
 
-    slider.setLabelTable(dict)
-    slider.setPaintLabels(true)
-    val playbackSpeedSlider = new PSwing(slider)
-    addChild(playbackSpeedSlider)
-    slider.addChangeListener(new ChangeListener() {
-        def stateChanged(e: ChangeEvent) = {
-            model.setPlayback(transform.evaluate(slider.getValue))
-        }
-    })
+  slider.setLabelTable(dict)
+  slider.setPaintLabels(true)
+  val playbackSpeedSlider = new PSwing(slider)
+  addChild(playbackSpeedSlider)
+  slider.addChangeListener(new ChangeListener() {
+    def stateChanged(e: ChangeEvent) = {
+      model.setPlayback(transform.evaluate(slider.getValue))
+    }
+  })
 
-    def updatePlaybackSliderVisible = playbackSpeedSlider.setVisible(model.isPlayback)
-    model.addListener(() => {updatePlaybackSliderVisible})
-    updatePlaybackSliderVisible
+  def updatePlaybackSliderVisible = playbackSpeedSlider.setVisible(model.isPlayback)
+  model.addListener(() => {updatePlaybackSliderVisible})
+  updatePlaybackSliderVisible
 }

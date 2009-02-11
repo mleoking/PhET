@@ -7,18 +7,18 @@
 package edu.colorado.phet.movingman.ladybug.util
 
 object TestBlock {
-    def main(args: Array[String]) = {
+  def main(args: Array[String]) = {
 
-        val block = defineAndInvoke{
-            println("evaluated block")
-        }
-
-        block()
-        block()
+    val block = defineAndInvoke{
+      println("evaluated block")
     }
 
-    def defineAndInvoke(block: => Unit): () => Unit = {
-        block
-        block _
-    }
+    block()
+    block()
+  }
+
+  def defineAndInvoke(block: => Unit): () => Unit = {
+    block
+    block _
+  }
 }

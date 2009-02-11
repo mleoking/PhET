@@ -10,35 +10,35 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock
 import java.awt.Color
 
 class LadybugModule(clock: ScalaClock) extends Module("my module", clock) {
-    val model = new LadybugModel
-    private val vectorVisibilityModel = new VectorVisibilityModel
-    private val pathVisibilityModel = new PathVisibilityModel
+  val model = new LadybugModel
+  private val vectorVisibilityModel = new VectorVisibilityModel
+  private val pathVisibilityModel = new PathVisibilityModel
 
-    val canvas = new LadybugCanvas(model, vectorVisibilityModel, pathVisibilityModel)
+  val canvas = new LadybugCanvas(model, vectorVisibilityModel, pathVisibilityModel)
 
-    setSimulationPanel(canvas)
+  setSimulationPanel(canvas)
 
-    clock.addClockListener(model.update(_))
+  clock.addClockListener(model.update(_))
 
-    val controlPanel = new LadybugControlPanel(this)
-    setControlPanel(controlPanel)
+  val controlPanel = new LadybugControlPanel(this)
+  setControlPanel(controlPanel)
 
-    setClockControlPanel(new LadybugClockControlPanel(this))
+  setClockControlPanel(new LadybugClockControlPanel(this))
 
-    def getVectorVisibilityModel = vectorVisibilityModel
+  def getVectorVisibilityModel = vectorVisibilityModel
 
-    def getPathVisibilityModel = pathVisibilityModel
+  def getPathVisibilityModel = pathVisibilityModel
 
-    def getLadybugMotionModel = model.getLadybugMotionModel()
+  def getLadybugMotionModel = model.getLadybugMotionModel()
 
-    def clearTrace() = canvas.clearTrace()
+  def clearTrace() = canvas.clearTrace()
 
-    def setMotionManual() = model.getLadybugMotionModel().motion = MANUAL //todo encapsulate
+  def setMotionManual() = model.getLadybugMotionModel().motion = MANUAL //todo encapsulate
 
-    def resetAll() = {
-        model.resetAll()
-        vectorVisibilityModel.resetAll()
-        pathVisibilityModel.resetAll()
-        controlPanel.resetAll()
-    }
+  def resetAll() = {
+    model.resetAll()
+    vectorVisibilityModel.resetAll()
+    pathVisibilityModel.resetAll()
+    controlPanel.resetAll()
+  }
 }
