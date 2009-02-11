@@ -1,7 +1,8 @@
 package edu.colorado.phet.movingman.ladybug.aphidmaze
 
 import _root_.edu.colorado.phet.common.piccolophet.nodes.PhetPPath
-import canvas.{LadybugCanvas, MazeNode}
+import canvas.aphidmaze.MazeNode
+import canvas.LadybugCanvas
 import java.awt.Color
 import java.awt.geom.Rectangle2D
 import model.LadybugModel
