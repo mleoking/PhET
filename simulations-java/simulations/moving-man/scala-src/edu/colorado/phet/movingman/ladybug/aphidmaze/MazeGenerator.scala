@@ -1,6 +1,6 @@
 package edu.colorado.phet.movingman.ladybug.aphidmaze
 
-import _root_.scala.collection.mutable.{HashSet, ArrayBuffer}
+import scala.collection.mutable.{HashSet, ArrayBuffer}
 
 case class Wall(x: Int, y: Int, dx: Int, dy: Int)
 class MazeGenerator {
