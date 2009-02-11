@@ -71,7 +71,7 @@ class LadybugCanvas(model: LadybugModel, vectorVisibilityModel: VectorVisibility
   addNode(dotTrace)
   val fadeTrace = new LadybugFadeTraceNode(model, transform, () => pathVisibilityModel.fadeVisible, pathVisibilityModel, 0.7)
   addNode(fadeTrace)
-  addNode(new ReturnLadybugButton(model, this))
+  addNode(new ReturnLadybugButton(model, this))   //todo: perhaps this should be a screen child
 
   def addNode(node: PNode) = worldNode.addChild(node)
 
