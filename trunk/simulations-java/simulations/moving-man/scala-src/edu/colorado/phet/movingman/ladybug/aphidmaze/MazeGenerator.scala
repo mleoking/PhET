@@ -39,6 +39,12 @@ class MazeGenerator {
       if (i == maxX) {
         walls += Wall(i + 1, j, 0, 1)
       }
+      if (j== -maxY){
+        walls += Wall(i , j, 1, 0)
+      }
+      if (j==maxY){
+        walls += Wall(i , j+1, 1, 0)
+      }
     }
   }
 

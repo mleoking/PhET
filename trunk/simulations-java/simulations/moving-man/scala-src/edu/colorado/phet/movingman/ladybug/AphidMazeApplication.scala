@@ -21,6 +21,7 @@ import model.ScalaClock
 //aphid maze is a tab in ladybug 2d, just an application during development to facilitate deployment and testing
 object AphidMazeApplication {
   def main(args: Array[String]) = {
+    LadybugDefaults.LADYBUG_SCALE=0.17
     new PhetApplicationLauncher().launchSim(
       new PhetApplicationConfig(args, "moving-man", "ladybug-2d"),
       new ApplicationConstructor() {
