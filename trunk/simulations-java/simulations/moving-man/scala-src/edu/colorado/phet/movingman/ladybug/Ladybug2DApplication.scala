@@ -25,7 +25,7 @@ object Ladybug2DApplication {
       new PhetApplicationConfig(args, "moving-man", "ladybug-2d"),
       new ApplicationConstructor() {
         override def getApplication(config: PhetApplicationConfig) = new PhetApplication(config) {
-          addModule(new LadybugModule(new ScalaClock(30, 30 / 1000.0), () => new LadybugModel, (m: LadybugModule) => new LadybugCanvas(m.model, m.getVectorVisibilityModel, m.getPathVisibilityModel)))
+          addModule(new LadybugModule[LadybugModel](new ScalaClock(30, 30 / 1000.0), () => new LadybugModel, (m: LadybugModule[LadybugModel]) => new LadybugCanvas(m.model, m.getVectorVisibilityModel, m.getPathVisibilityModel)))
         }
       })
   }

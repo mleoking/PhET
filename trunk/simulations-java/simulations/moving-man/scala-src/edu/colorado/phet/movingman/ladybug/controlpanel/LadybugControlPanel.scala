@@ -16,7 +16,7 @@ import LadybugUtil._
 import swing.MyRadioButton
 import java.awt.GridBagConstraints._
 
-class LadybugControlPanel(module: LadybugModule) extends ControlPanel(module) {
+class LadybugControlPanel[M<:LadybugModel](module: LadybugModule[M]) extends ControlPanel(module) {
   val myModule = module;
   def createBox = Box.createRigidArea(new Dimension(10, 4))
 

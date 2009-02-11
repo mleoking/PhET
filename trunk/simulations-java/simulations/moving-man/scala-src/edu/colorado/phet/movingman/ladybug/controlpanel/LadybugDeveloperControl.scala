@@ -5,8 +5,9 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
 import java.awt.event.{ActionEvent, ActionListener}
 import javax.swing.event.{ChangeListener, ChangeEvent}
 import javax.swing.JCheckBox
+import model.LadybugModel
 
-class LadybugDeveloperControl(module: LadybugModule) extends VerticalLayoutPanel {
+class LadybugDeveloperControl[M<:LadybugModel](module: LadybugModule[M]) extends VerticalLayoutPanel {
   setFillNone
 
   val v = new LinearValueControl(1, 31, LadybugDefaults.WINDOW_SIZE, "V,A window/manual", "0", "samples")

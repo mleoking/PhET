@@ -72,7 +72,7 @@ object DevLauncher {
               new PhetApplicationConfig(args, "moving-man", "ladybug-2d"),
               new ApplicationConstructor() {
                 override def getApplication(a: PhetApplicationConfig): PhetApplication = new PhetApplication(a) {
-                  addModule(new LadybugModule(clock, () => new LadybugModel, (m: LadybugModule) => new LadybugCanvas(m.model, m.getVectorVisibilityModel, m.getPathVisibilityModel)))
+                  addModule(new LadybugModule[LadybugModel](clock, () => new LadybugModel, (m: LadybugModule[LadybugModel]) => new LadybugCanvas(m.model, m.getVectorVisibilityModel, m.getPathVisibilityModel)))
                 }
               })
           }
