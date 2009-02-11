@@ -67,11 +67,13 @@ public class AbstractPropertiesFile {
     
     /**
      * Sets the header in the properties file.
+     * The header is not written until the next time that store is called.
+     * This ensures that we don't needlessly touch a properties file until 
+     * some property is actually modified.
      * @param header
      */
     public void setHeader( String header ) {
         this.header = header;
-        store();
     }
     
     /**

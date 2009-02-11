@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.AnnotationParser;
  * Apr 14, 2007, 2:40:56 PM
  */
 public abstract class PhetProject {
-
+    
     private final String name;
     private final File projectDir;
     private final ProjectPropertiesFile projectPropertiesFile;
