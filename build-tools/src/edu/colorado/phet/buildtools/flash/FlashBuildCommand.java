@@ -48,12 +48,12 @@ public class FlashBuildCommand {
             p = Runtime.getRuntime().exec( cmd + " " + outputFile.getAbsolutePath() );
         }
 
-        try {
-            p.waitFor();
-        }
-        catch( InterruptedException e ) {
-            e.printStackTrace();  
-        }
+//        try {
+//            p.waitFor();
+//        }
+//        catch( InterruptedException e ) {
+//            e.printStackTrace();
+//        }
     }
 
     private static String toSimsString( String[] sims ) {
