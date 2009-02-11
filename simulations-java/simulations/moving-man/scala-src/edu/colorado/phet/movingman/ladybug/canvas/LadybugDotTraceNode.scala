@@ -11,29 +11,29 @@ import java.awt.{BasicStroke, Color}
 import java.lang.Math._
 
 class LadybugDotTraceNode(model: LadybugModel, transform: ModelViewTransform2D, shouldBeVisible: () => Boolean, observable: Observable, maxFade: Double) extends LadybugTraceNode(model, transform, shouldBeVisible, observable) {
-    val node = new PNode()
-    addChild(node)
+  val node = new PNode()
+  addChild(node)
 
-    update()
+  update()
 
-    class DotNode(point: Point2D, dt: Double) extends PNode {
-        val color = toColor(dt, maxFade)
-        val path = new PhetPPath(new Ellipse2D.Double(point.getX - 5, point.getY - 5, 10, 10), color)
-        addChild(path)
+  class DotNode(point: Point2D, dt: Double) extends PNode {
+    val color = toColor(dt, maxFade)
+    val path = new PhetPPath(new Ellipse2D.Double(point.getX - 5, point.getY - 5, 10, 10), color)
+    addChild(path)
+  }
+
+  def update() = {
+    node.removeAllChildren
+    val p = new GeneralPath
+    implicit def historyToPoint(dataPoint: DataPoint) = new Point2D.Float(dataPoint.state.position.x.toFloat, dataPoint.state.position.y.toFloat)
+
+    if (model.getHistory.length > 0) {
+      for (h <- getHistoryToShow()) {
+        val pt: Point2D.Float = h
+        val tx = transform.modelToView(pt)
+        val dt = abs(model.getTime - h.time)
+        node.addChild(new DotNode(tx, dt))
+      }
     }
-
-    def update() = {
-        node.removeAllChildren
-        val p = new GeneralPath
-        implicit def historyToPoint(dataPoint: DataPoint) = new Point2D.Float(dataPoint.state.position.x.toFloat, dataPoint.state.position.y.toFloat)
-
-        if (model.getHistory.length > 0) {
-            for (h <- getHistoryToShow()) {
-                val pt: Point2D.Float = h
-                val tx = transform.modelToView(pt)
-                val dt = abs(model.getTime - h.time)
-                node.addChild(new DotNode(tx, dt))
-            }
-        }
-    }
+  }
 }

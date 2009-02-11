@@ -18,70 +18,70 @@ import LadybugUtil._
 import util.ToggleListener
 
 class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTransform2D, vectorVisibilityModel: VectorVisibilityModel) extends PNode {
-    var interactive = true
-    model.addListener(() => updateInteractive())
-    def updateInteractive() = {interactive = model.readyForInteraction}
+  var interactive = true
+  model.addListener(() => updateInteractive())
+  def updateInteractive() = {interactive = model.readyForInteraction}
 
-    val arrowSetNode = new ArrowSetNode(ladybug, transform, vectorVisibilityModel)
-    val pimage = new PImage(BufferedImageUtils.multiScale(MovingManResources.loadBufferedImage("ladybug/ladybug.png"), 0.6))
+  val arrowSetNode = new ArrowSetNode(ladybug, transform, vectorVisibilityModel)
+  val pimage = new PImage(BufferedImageUtils.multiScale(MovingManResources.loadBufferedImage("ladybug/ladybug.png"), 0.6))
 
-    ladybug.addListener(updateLadybug)
-    updateLadybug()
+  ladybug.addListener(updateLadybug)
+  updateLadybug()
 
-    addChild(arrowSetNode)
-    addChild(pimage)
+  addChild(arrowSetNode)
+  addChild(pimage)
 
-    transform.addTransformListener(new TransformListener() {
-        def transformChanged(mvt: ModelViewTransform2D) = {
-            updateLadybug()
-        }
-    })
+  transform.addTransformListener(new TransformListener() {
+    def transformChanged(mvt: ModelViewTransform2D) = {
+      updateLadybug()
+    }
+  })
 
-    def getLadybugCenter() = pimage.getFullBounds.getCenter2D
+  def getLadybugCenter() = pimage.getFullBounds.getCenter2D
 
-    addInputEventListener(new ToggleListener(new CursorHandler, () => interactive))
+  addInputEventListener(new ToggleListener(new CursorHandler, () => interactive))
 
-    private def recordPoint(event: PInputEvent) = {
-        model.startRecording()
-        model.setPenDown(true)
-        model.setSamplePoint(transform.viewToModel(event.getPositionRelativeTo(getParent)))
+  private def recordPoint(event: PInputEvent) = {
+    model.startRecording()
+    model.setPenDown(true)
+    model.setSamplePoint(transform.viewToModel(event.getPositionRelativeTo(getParent)))
+  }
+
+  val inputHandler = new PBasicInputEventHandler() {
+    override def mouseDragged(event: PInputEvent) = {
+      recordPoint(event)
+
+      if (LadybugDefaults.HIDE_MOUSE_DURING_DRAG) {
+        event.getComponent.pushCursor(java.awt.Toolkit.getDefaultToolkit().createCustomCursor(new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), "invisibleCursor"))
+      }
     }
 
-    val inputHandler = new PBasicInputEventHandler() {
-        override def mouseDragged(event: PInputEvent) = {
-            recordPoint(event)
-
-            if (LadybugDefaults.HIDE_MOUSE_DURING_DRAG) {
-                event.getComponent.pushCursor(java.awt.Toolkit.getDefaultToolkit().createCustomCursor(new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), "invisibleCursor"))
-            }
-        }
-
-        override def mousePressed(event: PInputEvent) = {
-            recordPoint(event)
-        }
-
-        override def mouseReleased(event: PInputEvent) = {
-            model.setPenDown(false)
-        }
-
-        override def mouseExited(event: PInputEvent) = {
-            model.setPenDown(false)
-        }
+    override def mousePressed(event: PInputEvent) = {
+      recordPoint(event)
     }
-    addInputEventListener(new ToggleListener(inputHandler, () => interactive))
-    updateInteractive()
 
-    def updateLadybug(): Unit = {
-
-        val modelPosition = ladybug.getPosition
-        val viewPosition = transform.modelToView(modelPosition)
-        pimage.setTransform(new AffineTransform)
-        val dx = new Vector2D(pimage.getImage.getWidth(null), pimage.getImage.getHeight(null))
-
-        pimage.translate(viewPosition.x - dx.x / 2, viewPosition.y - dx.y / 2)
-        pimage.rotateAboutPoint(ladybug.getAngleInvertY,
-            pimage.getFullBounds.getCenter2D.getX - (viewPosition.x - dx.x / 2),
-            pimage.getFullBounds.getCenter2D.getY - (viewPosition.y - dx.y / 2))
-
+    override def mouseReleased(event: PInputEvent) = {
+      model.setPenDown(false)
     }
+
+    override def mouseExited(event: PInputEvent) = {
+      model.setPenDown(false)
+    }
+  }
+  addInputEventListener(new ToggleListener(inputHandler, () => interactive))
+  updateInteractive()
+
+  def updateLadybug(): Unit = {
+
+    val modelPosition = ladybug.getPosition
+    val viewPosition = transform.modelToView(modelPosition)
+    pimage.setTransform(new AffineTransform)
+    val dx = new Vector2D(pimage.getImage.getWidth(null), pimage.getImage.getHeight(null))
+
+    pimage.translate(viewPosition.x - dx.x / 2, viewPosition.y - dx.y / 2)
+    pimage.rotateAboutPoint(ladybug.getAngleInvertY,
+      pimage.getFullBounds.getCenter2D.getX - (viewPosition.x - dx.x / 2),
+      pimage.getFullBounds.getCenter2D.getY - (viewPosition.y - dx.y / 2))
+
+  }
 }
