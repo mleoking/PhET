@@ -1,5 +1,6 @@
 package edu.colorado.phet.movingman.ladybug
 
+import canvas.LadybugCanvas
 import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor
 import edu.colorado.phet.common.phetcommon.application.Module
 import edu.colorado.phet.common.phetcommon.application.PhetApplication
@@ -16,7 +17,7 @@ import java.awt.Color
 import java.awt.Font
 import java.util.Date
 import javax.swing.JLabel
-import model.ScalaClock
+import model.{LadybugModel, ScalaClock}
 
 object Ladybug2DApplication {
   def main(args: Array[String]) = {
@@ -24,7 +25,7 @@ object Ladybug2DApplication {
       new PhetApplicationConfig(args, "moving-man", "ladybug-2d"),
       new ApplicationConstructor() {
         override def getApplication(config: PhetApplicationConfig) = new PhetApplication(config) {
-          addModule(new LadybugModule(new ScalaClock(30, 30 / 1000.0)))
+          addModule(new LadybugModule(new ScalaClock(30, 30 / 1000.0), () => new LadybugModel, (m: LadybugModule) => new LadybugCanvas(m.model, m.getVectorVisibilityModel, m.getPathVisibilityModel)))
         }
       })
   }

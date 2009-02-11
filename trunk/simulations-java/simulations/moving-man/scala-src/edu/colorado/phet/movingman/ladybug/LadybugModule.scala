@@ -9,12 +9,12 @@ import edu.colorado.phet.common.phetcommon.application.Module
 import edu.colorado.phet.common.phetcommon.model.clock.IClock
 import java.awt.Color
 
-class LadybugModule(clock: ScalaClock) extends Module("my module", clock) {
-  val model = new LadybugModel
+class LadybugModule(clock: ScalaClock, newModel: () => LadybugModel, newCanvas: LadybugModule => LadybugCanvas) extends Module("my module", clock) {
+  final val model = newModel()
   private val vectorVisibilityModel = new VectorVisibilityModel
   private val pathVisibilityModel = new PathVisibilityModel
 
-  val canvas = new LadybugCanvas(model, vectorVisibilityModel, pathVisibilityModel)
+  val canvas = newCanvas(this)
 
   setSimulationPanel(canvas)
 
