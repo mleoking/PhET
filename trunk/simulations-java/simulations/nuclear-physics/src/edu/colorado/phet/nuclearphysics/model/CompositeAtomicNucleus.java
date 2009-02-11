@@ -191,10 +191,14 @@ public abstract class CompositeAtomicNucleus extends AtomicNucleus {
                     agitationIncrement = 5;
                 }
                     
+                // Limit the tunneling distance, because otherwise it can
+                // look like alpha particles are leaving the nucleus when
+                // they aren't.
+                double tunnelingRegion = Math.min(_tunnelingRegionRadius, getDiameter() * 1.5);
                 for (int i = _agitationCount; i < _constituents.size(); i+=agitationIncrement)
                 {
                     AtomicNucleusConstituent constituent = (AtomicNucleusConstituent)_constituents.get( i );
-                    constituent.tunnel( _position, 0, getDiameter()/2, _tunnelingRegionRadius );
+                    constituent.tunnel( _position, 0, getDiameter()/2, tunnelingRegion );
                 }
                 _agitationCount = (_agitationCount + 1) % agitationIncrement;
             }
