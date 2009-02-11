@@ -41,4 +41,6 @@ class LadybugModule(clock: ScalaClock) extends Module("my module", clock) {
     pathVisibilityModel.resetAll()
     controlPanel.resetAll()
   }
+
+  def setLadybugDraggable(draggable: Boolean) = canvas.setLadybugDraggable(draggable)
 }

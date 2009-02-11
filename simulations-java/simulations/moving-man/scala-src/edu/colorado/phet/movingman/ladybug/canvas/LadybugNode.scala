@@ -18,7 +18,8 @@ import LadybugUtil._
 import util.ToggleListener
 
 class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTransform2D, vectorVisibilityModel: VectorVisibilityModel) extends PNode {
-  var interactive = true
+  var interactive = true //todo: do we need both draggable and interactive?
+  var draggable = true
   model.addListener(() => updateInteractive())
   def updateInteractive() = {interactive = model.readyForInteraction}
 
@@ -39,7 +40,7 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
 
   def getLadybugCenter() = pimage.getFullBounds.getCenter2D
 
-  addInputEventListener(new ToggleListener(new CursorHandler, () => interactive))
+  addInputEventListener(new ToggleListener(new CursorHandler, () => draggable && interactive))
 
   private def recordPoint(event: PInputEvent) = {
     model.startRecording()
@@ -51,7 +52,7 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
     override def mouseDragged(event: PInputEvent) = {
       recordPoint(event)
 
-      if (LadybugDefaults.HIDE_MOUSE_DURING_DRAG) {
+      if (LadybugDefaults.HIDE_MOUSE_DURING_DRAG && draggable) {
         event.getComponent.pushCursor(java.awt.Toolkit.getDefaultToolkit().createCustomCursor(new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), "invisibleCursor"))
       }
     }
@@ -68,7 +69,7 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
       model.setPenDown(false)
     }
   }
-  addInputEventListener(new ToggleListener(inputHandler, () => interactive))
+  addInputEventListener(new ToggleListener(inputHandler, () => draggable && interactive))
   updateInteractive()
 
   def updateLadybug(): Unit = {
@@ -84,4 +85,6 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
       pimage.getFullBounds.getCenter2D.getY - (viewPosition.y - dx.y / 2))
 
   }
+
+  def setDraggable(d: Boolean) = this.draggable = d;
 }
