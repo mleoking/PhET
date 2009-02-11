@@ -17,7 +17,7 @@ public class FlashBuildCommand {
     }
 
     public static void build( String cmd, String[] sims, File trunk, boolean useWine ) throws IOException {
-        String template = FileUtils.loadFileAsString( new File( trunk, "simulations-flash" + File.separator + "build-template.jsfl" ) );
+        String template = FileUtils.loadFileAsString( new File( trunk, "simulations-flash/build-tools/flash-build/data/build-template.jsfl") );
         String out = template;
 
         String trunkPipe;
