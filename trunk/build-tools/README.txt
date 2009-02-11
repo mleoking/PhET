@@ -7,8 +7,8 @@ deploy.dev.password
 deploy.prod.username
 deploy.prod.password
 svn.username
-svn.password=
-browser=
+svn.password
+browser
 
 Sam Reid
 PhET
