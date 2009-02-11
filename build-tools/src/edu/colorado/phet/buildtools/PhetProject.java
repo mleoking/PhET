@@ -400,7 +400,7 @@ public abstract class PhetProject {
         File localeDir = getLocalizationDir();
         File[] children = localeDir.listFiles();
         ArrayList locales = new ArrayList();
-        for ( int i = 0; i < children.length; i++ ) {
+        for ( int i = 0; children !=null && i < children.length ; i++ ) {
             File child = children[i];
             String filename = child.getName();
             String prefix = getName() + "-strings_";
@@ -477,6 +477,12 @@ public abstract class PhetProject {
 
         phetProjects.addAll( sort( Arrays.asList( PhetJavaProject.getJavaProjects( trunk ) ) ) );
         phetProjects.addAll( sort( Arrays.asList( PhetFlashProject.getFlashProjects( trunk ) ) ) );
+        try {
+            phetProjects.add( new PhetFlashLauncherProject(trunk) );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
         return (PhetProject[]) phetProjects.toArray( new PhetProject[phetProjects.size()] );
     }
 
@@ -767,6 +773,11 @@ public abstract class PhetProject {
     //this one includes the version, and background color for flash
     private File getProjectPropertiesFile() {
         return new File( getDataDirectory(), getName() + ".properties" );
+    }
+
+        //assumes a java simulation
+    public File getTrunk() {
+        return new File(getProjectDir(),"../../..");
     }
 
     public static interface Listener {

@@ -11,7 +11,6 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import edu.colorado.phet.buildtools.flash.FlashHTML;
 import edu.colorado.phet.flashlauncher.util.BareBonesBrowserLaunch;
 import edu.colorado.phet.flashlauncher.util.FileUtils;
 
@@ -181,7 +180,9 @@ public class FlashLauncher {
     }
 
     public static void main( String[] args ) throws IOException {
+        System.out.println( "FlashLauncher.main started" );
 //        JOptionPane.showMessageDialog( null, System.getProperty( "java.class.path" ) );
         new FlashLauncher().start();
+        System.out.println( "FlashLauncher.main finished" );
     }
 }
