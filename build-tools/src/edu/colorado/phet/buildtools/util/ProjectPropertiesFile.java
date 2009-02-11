@@ -15,6 +15,8 @@ import edu.colorado.phet.common.phetcommon.util.AbstractPropertiesFile;
  */
 public class ProjectPropertiesFile extends AbstractPropertiesFile {
     
+    private static final String FILE_HEADER = "created by " + ProjectPropertiesFile.class.getName();
+    
     // keys for all properties in this file
     private static final String KEY_VERSION_MAJOR = "version.major";
     private static final String KEY_VERSION_MINOR = "version.minor";
@@ -30,6 +32,7 @@ public class ProjectPropertiesFile extends AbstractPropertiesFile {
     
     public ProjectPropertiesFile( PhetProject project ) {
         super( new File( project.getDataDirectory(), project.getName() + ".properties" ) );
+        setHeader( FILE_HEADER );
     }
     
     public void setMajorVersion( int value ) {
