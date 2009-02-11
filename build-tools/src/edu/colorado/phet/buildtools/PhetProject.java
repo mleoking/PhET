@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.AnnotationParser;
  * Apr 14, 2007, 2:40:56 PM
  */
 public abstract class PhetProject {
-    
+
     private final String name;
     private final File projectDir;
     private final ProjectPropertiesFile projectPropertiesFile;
@@ -475,9 +475,20 @@ public abstract class PhetProject {
     public static PhetProject[] getAllProjects( File trunk ) {
         List phetProjects = new ArrayList();
 
-        phetProjects.addAll( Arrays.asList( PhetJavaProject.getJavaProjects( trunk ) ) );
-        phetProjects.addAll( Arrays.asList( PhetFlashProject.getFlashProjects( trunk ) ) );
+        phetProjects.addAll( sort( Arrays.asList( PhetJavaProject.getJavaProjects( trunk ) ) ) );
+        phetProjects.addAll( sort( Arrays.asList( PhetFlashProject.getFlashProjects( trunk ) ) ) );
         return (PhetProject[]) phetProjects.toArray( new PhetProject[phetProjects.size()] );
+    }
+
+    private static Collection sort( List projectList ) {
+        Collections.sort( projectList, new Comparator() {
+            public int compare( Object o1, Object o2 ) {
+                PhetProject a = (PhetProject) o1;
+                PhetProject b = (PhetProject) o2;
+                return a.getName().compareTo( b.getName() );
+            }
+        } );
+        return new ArrayList( projectList );
     }
 
     public String getDeployedSimulationJarURL() {
