@@ -79,4 +79,6 @@ class LadybugCanvas(model: LadybugModel, vectorVisibilityModel: VectorVisibility
     dotTrace.clearTrace
     fadeTrace.clearTrace
   }
+
+  def setLadybugDraggable(draggable: Boolean) = ladybugNode.setDraggable(draggable)
 }
