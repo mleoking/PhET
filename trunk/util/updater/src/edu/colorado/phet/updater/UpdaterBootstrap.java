@@ -3,7 +3,9 @@ package edu.colorado.phet.updater;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Properties;
 
 import javax.swing.*;
@@ -190,10 +192,11 @@ public class UpdaterBootstrap {
         catch( IOException e ) {
             e.printStackTrace();
         }
-//        return new PhetResources( "updater" ).getVersion().toString();
         //return a plain text version; don't bring in phetcommon because it will increas the jar size from 7kb to 200kb
+        //See #972
 
-        //todo: improve formatting of version
-        return properties.toString();
+        return properties.getProperty( "version.major" ) + "." + properties.getProperty( "version.minor" ) + "." +
+               properties.getProperty( "version.dev" ) + " (" + properties.getProperty( "version.revision" ) + ") " +
+               new SimpleDateFormat( "MMM d, yyyy" ).format( new Date( Integer.parseInt( properties.getProperty( "version.timestamp" ) ) * 1000L ) );
     }
 }
