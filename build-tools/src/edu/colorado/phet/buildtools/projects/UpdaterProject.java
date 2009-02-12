@@ -26,4 +26,8 @@ public class UpdaterProject extends PhetJavaProject {
     public File getDefaultDeployJar() {
         return new File( getDeployDir(), "phet-updater.jar" );
     }
+
+    public String getProdServerDeployPath() {
+        return "/web/htdocs/phet/phet-dist/updater";
+    }
 }
