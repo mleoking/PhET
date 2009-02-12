@@ -483,6 +483,12 @@ public abstract class PhetProject {
                     return getProjectDir().getParentFile()//util
                     .getParentFile();// trunk
                 }
+
+                public void buildLaunchFiles( String URL, boolean dev ) {
+//                    super.buildLaunchFiles( URL, dev );
+                    System.out.println( "No launch files (JNLP) for updater." );
+                }
+
             } );
         }
         catch( IOException e ) {
