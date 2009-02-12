@@ -16,6 +16,7 @@ import edu.colorado.phet.buildtools.PhetFlashLauncherProject;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.buildtools.util.FileUtils;
+import edu.colorado.phet.buildtools.util.SVNDependencyProject;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.flashlauncher.FlashLauncher;
 import edu.colorado.phet.flashlauncher.FlashHTML;
@@ -349,5 +350,20 @@ public class PhetFlashProject extends PhetProject {
     public void buildLaunchFiles( String URL, boolean dev ) {
 //        super.buildLaunchFiles( URL, dev );
         System.out.println( "What to do for building Flash launch files?  Are these HTML?" );
+    }
+
+    public PhetProject[] getDependencies() {
+        File commonRoot = new File( getProjectDir().getParentFile().getParentFile(), "common" );
+
+        PhetProject commonProject;
+        
+        try {
+            commonProject = new FlashCommonProject( commonRoot );
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new PhetProject[]{};
+        }
+
+        return new PhetProject[]{ commonProject };
     }
 }
