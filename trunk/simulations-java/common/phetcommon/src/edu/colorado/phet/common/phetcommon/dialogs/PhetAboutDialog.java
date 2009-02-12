@@ -15,6 +15,7 @@ import javax.swing.event.MouseInputAdapter;
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.SoftwareAgreementDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
@@ -47,7 +48,7 @@ public class PhetAboutDialog extends JDialog {
     private static final String DISTRIBUTION = PhetCommonResources.getString( "Common.About.Distribution" );
     private static final String JAVA_VERSION = PhetCommonResources.getString( "Common.About.JavaVersion" );
     private static final String OS_VERSION = PhetCommonResources.getString( "Common.About.OSVersion" );
-    private static final String LICENSE_BUTTON = PhetCommonResources.getString( "Common.About.LicenseButton" );
+    private static final String AGREEMENT_BUTTON = PhetCommonResources.getString( "Common.About.SoftwareAgreementButton" );
     private static final String CREDITS_BUTTON = PhetCommonResources.getString( "Common.About.CreditsButton" );
     private static final String OK_BUTTON = PhetCommonResources.getString( "Common.About.OKButton" );
 
@@ -209,12 +210,12 @@ public class PhetAboutDialog extends JDialog {
     */
     private JPanel createButtonPanel() {
 
-        // License
-        JButton licenseButton = new JButton( LICENSE_BUTTON );
-        licenseButton.addActionListener( new ActionListener() {
+        // Software Use Agreement
+        JButton agreementButton = new JButton( AGREEMENT_BUTTON );
+        agreementButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
-                    showLicense();
+                    showAgreement();
                 }
                 catch ( IOException ioe ) {
                     ioe.printStackTrace();
@@ -242,7 +243,7 @@ public class PhetAboutDialog extends JDialog {
         // layout
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout( new FlowLayout() );
-        buttonPanel.add( licenseButton );
+        buttonPanel.add( agreementButton );
         buttonPanel.add( creditsButton );
         buttonPanel.add( okButton );
 
@@ -250,10 +251,10 @@ public class PhetAboutDialog extends JDialog {
     }
 
     /*
-     * Displays license information in a message dialog.
+     * Displays the Software Use Agreement in a dialog.
      */
-    protected void showLicense() throws IOException {
-        new PhetLicenseDialog( this ).setVisible( true );
+    protected void showAgreement() throws IOException {
+        new SoftwareAgreementDialog( this ).setVisible( true );
     }
 
     protected void showCredits() {
