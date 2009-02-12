@@ -7,6 +7,8 @@ import java.util.Arrays;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+
 /**
  * Replaces and restarts specified JAR, see SimUpdater.
  */
@@ -155,14 +157,19 @@ public class UpdaterBootstrap {
     }
 
     /*
-    * This main is invoked by the Updater in UpdateButton or equivalent.
-    * Arguments must be as in this example:
-    * java -jar updater.jar C:/temp/alpha-decay0123.jar C:/user/phet/alpha-decay.jar
-    */
+     * This main is invoked by the Updater in UpdateButton or equivalent.
+     * Arguments must be as in this example:
+     * java -jar updater.jar C:/temp/alpha-decay0123.jar C:/user/phet/alpha-decay.jar
+     */
     public static void main( String[] args ) {
+
+        if ( Arrays.asList( args ).contains( "-version" ) ) {
+            System.out.println( "PhET Updater: " + UpdaterBootstrap.class.getName() + ", version: " + getVersion() );
+        }
 
         String src = args[0];
         String dst = args[1];
+        println( "Started updater version: " + getVersion() );
         println( "starting updater, src=" + src + ", target=" + dst );
         try {
             new UpdaterBootstrap( new File( src ), new File( dst ) ).replaceAndLaunch();
@@ -172,5 +179,9 @@ public class UpdaterBootstrap {
             println( UpdaterUtils.stackTraceToString( e ) );
             System.exit( 1 ); // indicate abnormal exit
         }
+    }
+
+    private static String getVersion() {
+        return new PhetResources( "updater" ).getVersion().toString();
     }
 }

@@ -68,7 +68,7 @@ public abstract class PhetProject {
     }
 
     public File getSimulationsJava() {
-        return getProjectDir().getParentFile().getParentFile();
+        return new File(getTrunk(),"simulations-java" );
     }
 
     public String getName() {
@@ -769,16 +769,8 @@ public abstract class PhetProject {
         }
     }
 
-    //Todo: remove code duplication with PhetResources
-    //separate implementation is used, since PhetResources relies on JAR resource loader, which is incompatible with build process
     public PhetVersion getVersion() {
-        PhetProperties phetProperties = getProjectProperties();
-        String major = phetProperties.getProperty( PhetResources.PROPERTY_VERSION_MAJOR ),
-                minor = phetProperties.getProperty( PhetResources.PROPERTY_VERSION_MINOR ),
-                dev = phetProperties.getProperty( PhetResources.PROPERTY_VERSION_DEV ),
-                rev = phetProperties.getProperty( PhetResources.PROPERTY_VERSION_REVISION ),
-                timestamp = phetProperties.getProperty( PhetResources.PROPERTY_VERSION_TIMESTAMP );
-        return new PhetVersion( major, minor, dev, rev, timestamp );
+        return PhetResources.getVersion( getProjectProperties() );
     }
 
     //this one includes the version, and background color for flash
