@@ -478,24 +478,10 @@ public abstract class PhetProject {
         phetProjects.addAll( sort( Arrays.asList( PhetJavaProject.getJavaProjects( trunk ) ) ) );
         phetProjects.addAll( sort( Arrays.asList( PhetFlashProject.getFlashProjects( trunk ) ) ) );
         try {
-            phetProjects.add( new PhetJavaProject( new File( trunk, "util/updater" ) ){
-                public File getTrunk() {
-                    return getProjectDir().getParentFile()//util
-                    .getParentFile();// trunk
-                }
-
-                public void buildLaunchFiles( String URL, boolean dev ) {
-//                    super.buildLaunchFiles( URL, dev );
-                    System.out.println( "No launch files (JNLP) for updater." );
-                }
-
-                public String getAlternateMainClass() {
-                    return "edu.colorado.phet.updater.UpdaterBootstrap";
-                }
-            } );
+            phetProjects.add(new UpdaterProject( new File( trunk, "util/updater" ) ));
         }
         catch( IOException e ) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
         return (PhetProject[]) phetProjects.toArray( new PhetProject[phetProjects.size()] );
     }
