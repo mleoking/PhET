@@ -2,11 +2,13 @@
 //All strings must default to english
 class Internationalizer{
 	private var simStrings:SimStrings;
-	//private var mainView:Object;
+	private var axesView:Object;
+	private var countryCode:String;		//may not be needed
 	
-	function Internationalizer(simStrings:SimStrings){
+	function Internationalizer(simStrings:SimStrings, axesView:Object, countryCode:String){
 		this.simStrings = simStrings;
-		//this.mainView = mainView;
+		this.axesView = axesView;
+		this.countryCode = countryCode;
 		//trace("simStrings.getBaseName(): "+this.simStrings.getLocale());
 		this.initialize();
 	}//end of constructor
@@ -22,92 +24,75 @@ class Internationalizer{
 	
 	function initialize(){
 		//myLabel.text = simStrings.get( "myLabel" );
-		//trace("internationalizer.initialize() called");
-		//this.setString(_root.label1_txt, "friction", "center");
+		//this.setComponentLabel(_level0.rayChooser.noRays_ch, "noRays");
+		//this.setString(_root.diameterSlider.label_txt, "diameter", "center");
+		this.setString(_root.controlPanel_mc.startButton_mc.label_txt, "start", "center");
+		this.setString(_root.controlPanel_mc.stopButton_mc.label_txt, "stop", "center");
 		
-		//this.setComponentLabel(_root.gui_mc.none_rb, "none");
-				
+		this.setString(_level0.controlPanel_mc.dropBallRadioGroup.label1_txt, "oneBall", "left");
+		this.setString(_level0.controlPanel_mc.dropBallRadioGroup.label2_txt, "continuous", "left");
+		
+		this.setString(_level0.controlPanel_mc.showBallRadioGroup.label1_txt, "show", "left");
+		this.setString(_level0.controlPanel_mc.showBallRadioGroup.label2_txt, "ball", "left");
+		this.setString(_level0.controlPanel_mc.showBallRadioGroup.label3_txt, "path", "left");
+		this.setString(_level0.controlPanel_mc.showBallRadioGroup.label4_txt, "none", "left");
+		
+		this.setString(_root.controlPanel_mc.resetButton_mc.label_txt, "reset", "center");
+		
+		this.setString(_root.controlPanel_mc.rowSlider.label_txt, "rows", "center");
+		this.setString(_root.controlPanel_mc.pSlider.label_txt, "p", "center");
+		
+		this.setString(_level0.controlPanel_mc.showHistRadioGroup.label1_txt, "histogramDisplay", "left");
+		this.setString(_level0.controlPanel_mc.showHistRadioGroup.label2_txt, "fraction", "left");
+		this.setString(_level0.controlPanel_mc.showHistRadioGroup.label3_txt, "number", "left");
+		this.setString(_level0.controlPanel_mc.showHistRadioGroup.label4_txt, "autoScale", "left");
+		
+		this.setString(_level0.controlPanel_mc.sound_cb.label_txt, "sound", "left");
+		
+		this.setString(_level0.readOutPanel_mc.label1_txt, "NEquals", "right");
+		this.coverStaticString(_level0.readOutPanel_mc.label2_txt, "xAvgEquals", "right");
+		this.setString(_level0.readOutPanel_mc.label3_txt, "sEquals", "right");
+		this.coverStaticString(_level0.readOutPanel_mc.label4_txt, "sMeanEquals", "right");
+		
+		this.axesView.fraction_str = this.simStrings.get("fraction");
+		this.axesView.number_str = this.simStrings.get("number");
+		//_level0.GUIPanel_mc.startButton_mc.theLabel = this.simStrings.get("start");
+		//_level0.GUIPanel_mc.startButton_mc.gotoAndPlay(1);
+		
+		if(countryCode == "en" || countryCode == undefined){
+			//embed fonts so they can be greyed out
+			var myFormat = new TextFormat();
+			myFormat.font = "Arial";
+			//_root.panel_mc.length2Slider.label_txt.embedFonts = true;
+			//_root.panel_mc.length2Slider.label_txt.setTextFormat(myFormat);
+			
+			//set rotated, embedded text 
+			//_root.energyGraph1_mc.yAxis_txt.text = this.simStrings.get("energyOf")+this.view1.pendulum.labelNbr;
+			
+		}else{
+			//erase english
+			//_root.energyGraph1_mc.yAxis_txt.text = "";
+			
+			//fill in non-english
+			//this.stackString(_root.energyGraph1_mc.stackedText1_txt, "energyOf" );
+			//_root.energyGraph1_mc.stackedText1_txt.text += this.view1.pendulum.labelNbr;
+			
+			
+			//this.stackString(_root.energyGraph2_mc.stackedText1_txt, "energyOf" );
+			
+		}
+		
 		//_root.gui_mc.clearAllButton_mc.buttonLabel = this.simStrings.get("clearAll");
 		//_root.gui_mc.clearAllButton_mc.gotoAndPlay(2);
 		//_root.gui_mc.clearAllButton_mc.gotoAndStop(1);
+
 		
-		//this.setComponentLabel(_root.airResistance_ch, "airResistance");
-		//this.setListComponentLabel(_root.dropList, 0, "userChoice");
-		this.setListComponentLabel(_root.controlPanel_mc.myComboBox, 0, "selectPreset");
-		this.setListComponentLabel(_root.controlPanel_mc.myComboBox, 1, "sunAndPlanet");
-		this.setListComponentLabel(_root.controlPanel_mc.myComboBox, 2, "sunPlanetMoon");
-		this.setListComponentLabel(_root.controlPanel_mc.myComboBox, 3, "sunPlanetComet");
-		this.setListComponentLabel(_root.controlPanel_mc.myComboBox, 4, "binaryStarPlanet");
-		this.setListComponentLabel(_root.controlPanel_mc.myComboBox, 5, "trojanAsteroids");
-		this.setListComponentLabel(_root.controlPanel_mc.myComboBox, 6, "fourStarBallet");
-		this.setListComponentLabel(_root.controlPanel_mc.myComboBox, 7, "slingshot");
-		this.setListComponentLabel(_root.controlPanel_mc.myComboBox, 8, "doubleSlingshot");
-		this.setListComponentLabel(_root.controlPanel_mc.myComboBox, 9, "hyperbolics");
-		this.setListComponentLabel(_root.controlPanel_mc.myComboBox, 10, "ellipses");
-		this.setListComponentLabel(_root.controlPanel_mc.myComboBox, 11, "doubleDouble");
-		
-		_level0.controlPanel_mc.startButton_mc.buttonLabel = this.simStrings.get("start");
-		_root.controlPanel_mc.startButton_mc.gotoAndPlay(2);
-		_root.controlPanel_mc.startButton_mc.gotoAndStop(1);
-		_level0.controlPanel_mc.stopButton_mc.buttonLabel = this.simStrings.get("stop");
-		_root.controlPanel_mc.stopButton_mc.gotoAndPlay(2);
-		_root.controlPanel_mc.stopButton_mc.gotoAndStop(1);
-		_level0.controlPanel_mc.resetButton_mc.buttonLabel = this.simStrings.get("reset");
-		_root.controlPanel_mc.resetButton_mc.gotoAndPlay(2);
-		_root.controlPanel_mc.resetButton_mc.gotoAndStop(1);
-		
-		setString(_root.controlPanel_mc.trackCM_cb.label_txt, "systemCentered", "left");
-		setString(_root.controlPanel_mc.showTraces_cb.label_txt, "showTraces", "left");
-		setString(_root.controlPanel_mc.showGrid_cb.label_txt, "showGrid", "left");
-		setString(_root.controlPanel_mc.tapeMeasure_cb.label_txt, "tapeMeasure", "left");
-		
-		setString(_root.controlPanel_mc.slider_mc.leftLabel_txt, "accurate", "left");
-		setString(_root.controlPanel_mc.slider_mc.rightLabel_txt, "fast", "right");
-		
-		_level0.controlPanel_mc.helpButton_mc.buttonLabel = this.simStrings.get("help");
-		_root.controlPanel_mc.helpButton_mc.gotoAndPlay(2);
-		_root.controlPanel_mc.helpButton_mc.gotoAndStop(1);
-		
-		setString(_root.labelHolder_mc["Initial Settings:"], "initialSettings", "center");
-		setString(_root.labelHolder_mc["position"], "position", "right");
-		setString(_root.labelHolder_mc["velocity"], "velocity", "right");
-		setString(_root.labelHolder_mc["mass"], "mass", "right");
-		setString(_root.labelHolder_mc["x"], "xPos", "center");
-		setString(_root.labelHolder_mc["y"], "yPos", "center");
-		setString(_root.labelHolder_mc["x "], "xVel", "center");
-		setString(_root.labelHolder_mc["y "], "yVel", "center");
-		setString(_root.radioGroup_mc.label_txt, "numberOfBodies", "right");
-		setString(_root.labelHolder_mc["body 1"], "body1", "right");
-		setString(_root.labelHolder_mc["body 2"], "body2", "right");
-		setString(_root.labelHolder_mc["body 3"], "body3", "right");
-		setString(_root.labelHolder_mc["body 4"], "body4", "right");
-		setString(_root.timeHolder_mc["timeEquals"], "timeEquals","right");
-		
-		_level0.infoPage_mc.backButton_mc.buttonLabel = this.simStrings.get("back");
-		_level0.infoPage_mc.backButton_mc.gotoAndPlay(2);
-		_level0.infoPage_mc.backButton_mc.gotoAndStop(1);
-		
-		setString(_root.trajectoryHolder_mc.specWindow_mc.massEquals_txt, "massEquals", "right");
-		setString(_root.trajectoryHolder_mc.specWindow_mc.xEquals_txt, "xEquals", "right");
-		setString(_root.trajectoryHolder_mc.specWindow_mc.yEquals_txt, "yEquals", "right");
-		setString(_root.trajectoryHolder_mc.specWindow_mc.vXEquals_txt, "vXEquals", "right");
-		setString(_root.trajectoryHolder_mc.specWindow_mc.vYEquals_txt, "vYEquals", "right");
-		
-		setString(_root.infoPage_mc.help0_txt, "help0", "left");
-		setString(_root.infoPage_mc.help1_txt, "help1", "left");
-		setString(_root.infoPage_mc.help2_txt, "help2", "left");
-		setString(_root.infoPage_mc.help3_txt, "help3", "left");
-		setString(_root.infoPage_mc.help4_txt, "help4", "left");
-		setString(_root.infoPage_mc.help5_txt, "help5", "left");
-		setString(_root.infoPage_mc.help6_txt, "help6", "left");
-		coverStaticString(_root.infoPage_mc.help7_txt, "help7", "left");
-		setString(_root.infoPage_mc.help8_txt, "help8", "left");
-		setString(_root.infoPage_mc.help9_txt, "help9", "left");
 	}//end of initialize
 	
 	
 	
 	function setString(field:TextField, key:String, alignment:String){
+		//trace("key: "+key);
 		var stringValue:String = this.simStrings.get( key );
 		var currentTextFormat:TextFormat = field.getTextFormat();
 		if(stringValue == "keyNotFound"  || stringValue == ""){
@@ -172,7 +157,7 @@ class Internationalizer{
 				//set background to cover original string
 				field.background = true;
 				//field.border = true;	//field._parent.backgrdColorState = true;
-				field.backgroundColor = 0xFFFF66;	//field._parent.backgrdColor = 0xFFFF66
+				field.backgroundColor = 0xFFCC66;	//field._parent.backgrdColor = 0xFFFF66
 				//var frameNbr:Number = field._parent._currentframe;
 				//field._parent["textString" + frameNbr] = stringValue;
 				field.text = stringValue;
@@ -195,7 +180,7 @@ class Internationalizer{
 		//Check that string fits inside button and reduce font size if necessary
 		
 		if(mTextField.textWidth + 2 >= mTextField._width) {
-			trace("name: "+mTextField._name + "  text resized ");
+			trace("parent: "+mTextField._parent+"   name: "+mTextField._name + "  text resized ");
 			var ratio = 1.15*mTextField.textWidth/mTextField._width;  //fudge factor of 1.15 to cover BOLDed text
 			var initialHeight = mTextField._height;
 			trace(mTextField.text + " too long by factor of " + ratio + "   Initial height is " + mTextField._height+ "   Initial y is "+mTextField._y);
@@ -209,5 +194,32 @@ class Internationalizer{
 			//trace(mTextField.text+" has field._width " + mTextField._width);
 		}
 	}
+	
+	function stackString(field:TextField, key:String){
+		//trace("key: "+key);
+		var stringValue:String = this.simStrings.get( key );
+		var currentTextFormat:TextFormat = field.getTextFormat();
+		if(stringValue == "keyNotFound"  || stringValue == ""){
+		   //Do nothing.  String will default to English
+		}else{
+			if(field.html){
+				field.htmlText = stringValue;
+			}else{
+				//search for "newline" 
+				var chars_arr:Array = stringValue.split("");
+				if(chars_arr.length > 1){
+					var newStringValue:String = "";
+					for (var i:Number = 0; i < chars_arr.length; i++){
+						newStringValue += chars_arr[i]+newline;
+					}
+					stringValue = newStringValue;
+				}
+				field.text = stringValue;
+			}
+			//field.setTextFormat(currentTextFormat);
+			//this.resizeText(field, alignment);
+			//trace("key: "+key+"   stringValue:"+stringValue);
+		}
+	}//end of stackString()
 						
 }//end of class
