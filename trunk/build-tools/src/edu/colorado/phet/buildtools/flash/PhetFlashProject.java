@@ -63,6 +63,8 @@ public class PhetFlashProject extends PhetProject {
 
         boolean success;
 
+        cleanDeploy();
+
         success = buildSWF();
 
         if( !success ) { return false; }
@@ -72,6 +74,34 @@ public class PhetFlashProject extends PhetProject {
 
         //todo: check for success
         return true;
+    }
+
+    private void cleanSWF() {
+        File swf = getSWFFile();
+        if( swf.exists() ) {
+            System.out.println( "Cleaning " + swf.getName() );
+            swf.delete();
+        }
+    }
+
+    private void cleanHTML() {
+        Locale[] locales = getLocales();
+
+        for( int i = 0; i < locales.length; i++ ) {
+            File html = getHTMLFile( locales[i] );
+
+            if( html.exists() ) {
+                System.out.println( "Cleaning " + html.getName() );
+                html.delete();
+            }
+        }
+    }
+
+    private void cleanDeploy() {
+        if( forceRebuildSWF() ) {
+            cleanSWF();
+        }
+        cleanHTML();
     }
 
     private void buildOfflineJARs() {
@@ -150,13 +180,15 @@ public class PhetFlashProject extends PhetProject {
         return new File( getAntOutputDir(), "jardata" );
     }
 
+    private boolean forceRebuildSWF() {
+        // TODO: check whether testing. (override for deploy dev / deploy dev & production)
+        return getConfigValue( "autobuild-swf", "true" ).equals( "true" );
+    }
+
     private boolean buildSWF() throws Exception {
 
-        // TODO: if deploying to dev / production, don't allow the user to skip the build
-        // we don't want inaccurate SWFs deployed
-
         // if the user has decided not to auto-build the SWF, don't do anything else
-        if ( getConfigValue( "autobuild-swf", "true" ).equals( "false" ) ) {
+        if ( !forceRebuildSWF() ) {
             return true;
         }
 
