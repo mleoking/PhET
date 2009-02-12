@@ -117,7 +117,7 @@ public class CreditsDialog extends JDialog {
             licenseText = licenseText.replaceAll( "\\n", "<br>" );
         }
 
-        ContribLicenseDialog c = new ContribLicenseDialog( this, "License for " + id, licenseText );
+        ContribLicenseDialog c = new ContribLicenseDialog( this, "License Details", licenseText );
         c.setVisible( true );
     }
 
