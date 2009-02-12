@@ -1,3 +1,5 @@
+# 0.25.00 (28395) Feb 12, 2009
+Testing JARLauncher
 # 0.24.01 (28213) Feb 6, 2009
 Improved tab colors
 # 0.24.00 (28140) Feb 5, 2009
