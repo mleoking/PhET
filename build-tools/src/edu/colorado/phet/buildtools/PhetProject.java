@@ -49,6 +49,7 @@ public abstract class PhetProject {
         return new File( getDeployDir(), getName() + "_all.jar" );
     }
 
+    //todo: can the following method be removed?  It looks suspicious.
     public File getDefaultDeploySimulationJar( String simulation ) {
         return new File( getDeployDir(), simulation + "_all.jar" );
     }
