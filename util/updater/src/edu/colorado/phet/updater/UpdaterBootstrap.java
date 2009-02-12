@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Arrays;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 /**
  * Replaces and restarts specified JAR, see SimUpdater.
@@ -14,33 +14,33 @@ public class UpdaterBootstrap {
 
     // do not enabled debug output for public releases, the log file will grow indefinitely!
     private static final boolean DEBUG_OUTPUT_ENABLED = true;
-    
+
     // retry for copy from src to dst
     private static final int NUMBER_OF_RETRIES = 100;
     private static final int TIME_BETWEEN_RETRIES = 100; // ms
-    
+
     //TODO: localize
-    private static final String COPY_FAILED_MESSAGE = 
-        "<html>" +
-        "Failed to update your simulation.<br>" +
-        "<br>" +
-        "Could not copy {0} <br>" + 
-        "to {1}.<br>" + 
-        "Check your file permissions and try again.<br>" +
-        "<br>" +
-        "If this problem persists, contact phethelp@colorado.edu.<br>" +
-        "</html>";
-    
+    private static final String COPY_FAILED_MESSAGE =
+            "<html>" +
+            "Failed to update your simulation.<br>" +
+            "<br>" +
+            "Could not copy {0} <br>" +
+            "to {1}.<br>" +
+            "Check your file permissions and try again.<br>" +
+            "<br>" +
+            "If this problem persists, contact phethelp@colorado.edu.<br>" +
+            "</html>";
+
     //TODO: localize
-    private static final String LAUNCH_ERROR_MESSAGE = 
-        "<html>" +
-        "Your simulation was updated, but it could not be restarted.<br>" +
-        "Restart the simulation by running <br>" + 
-        "{0}.<br>" +
-        "<br>" +
-        "If this problem persists, contact phethelp@colorado.edu.<br>" +
-        "</html>";
-    
+    private static final String LAUNCH_ERROR_MESSAGE =
+            "<html>" +
+            "Your simulation was updated, but it could not be restarted.<br>" +
+            "Restart the simulation by running <br>" +
+            "{0}.<br>" +
+            "<br>" +
+            "If this problem persists, contact phethelp@colorado.edu.<br>" +
+            "</html>";
+
     private final File src;
     private final File dst;
 
@@ -50,11 +50,11 @@ public class UpdaterBootstrap {
     }
 
     private void replaceAndLaunch() throws IOException {
-        
+
         try {
             copy();
         }
-        catch ( IOException e ) {
+        catch( IOException e ) {
             showErrorDialog( getCopyErrorMessage() );
             throw e;
         }
@@ -62,11 +62,11 @@ public class UpdaterBootstrap {
         try {
             launch();
         }
-        catch ( IOException e ) {
+        catch( IOException e ) {
             showErrorDialog( getLaunchErrorMessage() );
             throw e;
         }
-        
+
         // if we get to here, the sim has been updated and restarted,
         // and there's no need to bother the user with problems encountered during cleanup.
         cleanup();
@@ -115,14 +115,14 @@ public class UpdaterBootstrap {
         // It's not worth reading output from the above process because we really can't do anything with it.
         println( "launch finished" );
     }
-    
+
     private void cleanup() throws IOException {
-        
+
         println( "cleaning up" );
-        
+
         // delete the downloaded sim JAR file
         src.deleteOnExit();
-        
+
         // delete the bootstrap JAR
         File thisJar = UpdaterUtils.getCodeSource();
         if ( UpdaterUtils.hasSuffix( thisJar, "jar" ) ) { // When running in IDEs (Eclipse, IDEA,...) we aren't running a JAR.
@@ -141,24 +141,24 @@ public class UpdaterBootstrap {
     }
 
     private String getCopyErrorMessage() {
-        Object[] args = { src.getAbsoluteFile(), dst.getAbsoluteFile() };
+        Object[] args = {src.getAbsoluteFile(), dst.getAbsoluteFile()};
         return MessageFormat.format( COPY_FAILED_MESSAGE, args );
     }
-    
+
     private String getLaunchErrorMessage() {
-        Object[] args = { src.getAbsoluteFile() };
+        Object[] args = {src.getAbsoluteFile()};
         return MessageFormat.format( LAUNCH_ERROR_MESSAGE, args );
     }
-    
+
     private static void showErrorDialog( String message ) {
         JOptionPane.showMessageDialog( null, message, "Error", JOptionPane.ERROR_MESSAGE );
     }
-    
+
     /*
-     * This main is invoked by the Updater in UpdateButton or equivalent.
-     * Arguments must be as in this example:
-     * java -jar updater.jar C:/temp/alpha-decay0123.jar C:/user/phet/alpha-decay.jar
-     */
+    * This main is invoked by the Updater in UpdateButton or equivalent.
+    * Arguments must be as in this example:
+    * java -jar updater.jar C:/temp/alpha-decay0123.jar C:/user/phet/alpha-decay.jar
+    */
     public static void main( String[] args ) {
 
         String src = args[0];
