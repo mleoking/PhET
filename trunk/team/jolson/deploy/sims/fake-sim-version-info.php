@@ -18,7 +18,7 @@
 project="{$sim_name}"
 sim="{$sim_name}"
 version="1.00.00"
-revision="22386"
+revision="29000"
 timestamp="{$fake_sim_timestamp}"
 installer_timestamp="{$fake_installer_timestamp}" />
 VI;
