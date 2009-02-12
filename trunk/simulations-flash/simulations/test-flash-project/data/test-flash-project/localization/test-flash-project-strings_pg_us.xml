@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<SimStrings>
+  <string key="start" value="Artstay" />
+  <string key="stop" value="Opstay" />
+  <string key="oneBall" value="1 allbay" />
+  <string key="continuous" value="ontinuouscay" />
+  <string key="show" value="Owshay:" />
+  <string key="ball" value="allbay" />
+  <string key="path" value="athpay" />
+  <string key="none" value="onenay" />
+  <string key="reset" value="Esetray" />
+  <string key="rows" value="owsray" />
+  <string key="p" value="p" /> 
+  <string key="histogramDisplay" value="Istogramhay \nisplayday:" />
+  <string key="fraction" value="actionfray" />
+  <string key="number" value="umbernay" />
+  <string key="autoScale" value="autoay-alescay" />
+  <string key="sound" value="Oundsay" />
+  <string key="help" value="Elphay" />
+  <string key="NEquals" value="N =" /> 
+  <string key="xAvgEquals" value="" /> 
+  <string key="sEquals" value="s =" /> 
+  <string key="sMeanEquals" value="" /> 
+
+  
+</SimStrings>
