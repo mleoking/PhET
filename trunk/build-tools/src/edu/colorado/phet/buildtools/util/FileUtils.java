@@ -318,4 +318,8 @@ public class FileUtils {
             System.out.println( "Copied to: " + dest.getAbsolutePath() );
         }
     }
+
+    public static void copyToDir( File src, File dstDir ) throws IOException {
+        copyTo( src,new File( dstDir,src.getName() ) );
+    }
 }
