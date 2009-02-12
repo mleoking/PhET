@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Properties;
 
-import javax.swing.*;
-
 import org.apache.tools.ant.taskdefs.Jar;
 import org.apache.tools.ant.taskdefs.Manifest;
 
@@ -62,7 +60,13 @@ public class PhetFlashProject extends PhetProject {
 
     public boolean build() throws Exception {
         System.out.println( "Building flash sim." );
-        buildSWF();
+
+        boolean success;
+
+        success = buildSWF();
+
+        if( !success ) { return false; }
+
         buildHTMLs();
         buildOfflineJARs();
 
@@ -146,14 +150,14 @@ public class PhetFlashProject extends PhetProject {
         return new File( getAntOutputDir(), "jardata" );
     }
 
-    private void buildSWF() throws Exception {
+    private boolean buildSWF() throws Exception {
 
         // TODO: if deploying to dev / production, don't allow the user to skip the build
         // we don't want inaccurate SWFs deployed
 
         // if the user has decided not to auto-build the SWF, don't do anything else
         if ( getConfigValue( "autobuild-swf", "true" ).equals( "false" ) ) {
-            return;
+            return true;
         }
 
         String def = "C:\\Program Files\\Macromedia\\Flash 8\\Flash.exe";
@@ -165,8 +169,10 @@ public class PhetFlashProject extends PhetProject {
         File trunk = getProjectDir().getParentFile() // simulations
                 .getParentFile() // simulations-flash
                 .getParentFile(); // trunk
-        FlashBuildCommand.build( exe, getName(), trunk, useWine );
-        JOptionPane.showMessageDialog( null, "Building the Flash SWF, press OK when finished." );
+
+        boolean success = FlashBuildCommand.build( exe, getName(), trunk, useWine );
+
+        return success;
     }
 
     private void buildHTMLs() {

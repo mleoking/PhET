@@ -5,6 +5,8 @@ import java.io.IOException;
 
 import edu.colorado.phet.buildtools.util.FileUtils;
 
+import javax.swing.*;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Sam
@@ -12,8 +14,29 @@ import edu.colorado.phet.buildtools.util.FileUtils;
  * Time: 10:17:40 AM
  */
 public class FlashBuildCommand {
-    public static void build( String cmd, String sim, File trunk, boolean useWine ) throws IOException {
+    // returns boolean success
+    public static boolean build( String cmd, String sim, File trunk, boolean useWine ) throws IOException {
         build( cmd, new String[]{sim}, trunk, useWine );
+
+        JOptionPane.showMessageDialog( null, "Building the Flash SWF, press OK when finished." );
+
+        File outputFile = new File( trunk, "simulations-flash/build-output-temp/output-" +  sim + ".txt" );
+
+        if(outputFile.exists()) {
+            System.out.println( "Found output file." );
+
+            String outputString = FileUtils.loadFileAsString( outputFile );
+
+            if( outputString.indexOf( "Error") == -1 ) {
+                System.out.println( "Successful build of SWF" );
+            } else {
+                System.out.println( "Failed to build the SWF" );
+                return false;
+            }
+        } else {
+            System.out.println( "Could not find output file." );
+        }
+        return true;
     }
 
     public static void build( String cmd, String[] sims, File trunk, boolean useWine ) throws IOException {
