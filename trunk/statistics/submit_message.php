@@ -157,7 +157,7 @@
 	if($xml["sim_type"] == "flash") {
 	    // message from a flash simulation
 		
-		if($xml["message_version"] == "1") {
+		if($xml["message_version"] == "0") {
 		    // connect to mysql
 			$link = setup_mysql();
 			
@@ -231,7 +231,7 @@
 		
 	} else if($xml["sim_type"] == "java") {
 		
-		if($xml["message_version"] == "1") {
+		if($xml["message_version"] == "0") {
 		    // connect to mysql
 			$link = setup_mysql();
 			
