@@ -4,13 +4,25 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-import edu.colorado.phet.buildtools.PhetProject;
-import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.buildtools.util.PhetBuildUtils;
 
 public class PhetDisplayStatsTask {
-    public static void showStats( File baseDir ) {
-        showStats( PhetProject.getSimNames( baseDir ), baseDir );
+    public static void showStats( File trunk ) {
+        displayProjectAndSimTree( trunk );
+
+        showStats( PhetProject.getSimNames( trunk ), trunk );
+    }
+
+    private static void displayProjectAndSimTree( File trunk ) {
+        String string = "";
+        PhetProject[] projects = PhetProject.getAllProjects( trunk );
+        for ( int i = 0; i < projects.length; i++ ) {
+            PhetProject project = projects[i];
+            for ( int k = 0; k < project.getSimulations().length; k++ ) {
+                string += ( project.getName() + "\t" + project.getSimulations()[k].getName() ) + "\n";
+            }
+        }
+        System.out.println( "string = \n" + string );
     }
 
     public static void showStats( String[] simNames, File baseDir ) {
