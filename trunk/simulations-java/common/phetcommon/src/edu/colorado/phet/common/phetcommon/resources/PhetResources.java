@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
+import java.util.Properties;
 
 import edu.colorado.phet.common.phetcommon.util.logging.ILogger;
 import edu.colorado.phet.common.phetcommon.util.logging.NullLogger;
@@ -322,14 +323,18 @@ public class PhetResources {
      */
     public PhetVersion getVersion() {
         if ( version == null ) {
-            String major = getProjectProperty( PROPERTY_VERSION_MAJOR ),
-                    minor = getProjectProperty( PROPERTY_VERSION_MINOR ),
-                    dev = getProjectProperty( PROPERTY_VERSION_DEV ),
-                    rev = getProjectProperty( PROPERTY_VERSION_REVISION ),
-                    timestamp = getProjectProperty( PROPERTY_VERSION_TIMESTAMP );
-            version = new PhetVersion( major, minor, dev, rev, timestamp );
+            version= getVersion( projectProperties );
         }
         return version;
+    }
+
+    public static PhetVersion getVersion( Properties properties ) {
+        String major = properties.getProperty( PROPERTY_VERSION_MAJOR ),
+                minor = properties.getProperty( PROPERTY_VERSION_MINOR ),
+                dev = properties.getProperty( PROPERTY_VERSION_DEV ),
+                rev = properties.getProperty( PROPERTY_VERSION_REVISION ),
+                timestamp = properties.getProperty( PROPERTY_VERSION_TIMESTAMP );
+        return new PhetVersion( major, minor, dev, rev, timestamp );
     }
 
     public String getDistributionTag() {
