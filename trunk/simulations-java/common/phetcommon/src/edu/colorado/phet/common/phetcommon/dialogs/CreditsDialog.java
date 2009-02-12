@@ -6,9 +6,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
@@ -16,16 +16,16 @@ import javax.swing.event.HyperlinkListener;
 
 import edu.colorado.phet.common.phetcommon.resources.DefaultResourceLoader;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.util.AnnotationParser;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.common.phetcommon.util.AnnotationParser;
 
 /**
  * The Credits Dialog reads credits annotations for a single sim from <project>/data/<project>/credits.txt using the
  * AnnotationParser and displays it in the Phet About Dialog.  Here's an example content of a credits.txt file:
- *
+ * <p/>
  * phet-credits software-development=Chris Malley and Ron LeMaster design-team=Kathy Perkins, Carl Wieman, Wendy Adams, Danielle Harlow
- *
+ * <p/>
  * The keys in this file are "software-development" "design-team" "lead-design" and "interviews"; these are used as suffixes
  * on the keys in the phetcommon-strings.properties file to identify translatable strings such as:
  * Common.About.CreditsDialog.software-development=Software Development
@@ -43,7 +43,7 @@ public class CreditsDialog extends JDialog {
     private static final String THIRD_PARTY_USAGE = PhetCommonResources.getString( "Common.About.CreditsDialog.UsesThirdPartySoftware" );
     private String projectName;
     private String phetLicenseString;
-    
+
     public CreditsDialog( Dialog owner, String projectName ) {
         super( owner, TITLE, true );
         this.projectName = projectName;
@@ -135,7 +135,13 @@ public class CreditsDialog extends JDialog {
             String website = a[i].get( "website" );
             text += name + ", " + description + "<br>";
             text += "&copy;&nbsp;" + copyright + " - " + website + "<br>";
-            text += "<a href=\"http://" + id + "\">" + a[i].get( "license" ) + "<a><br><br>";
+            if ( a[i].get( "license" ) != null ) {
+                text += "<a href=\"http://" + id + "\">" + a[i].get( "license" ) + "<a>";
+            }
+            else {
+                text += "license not found";
+            }
+            text+="<br><br>";
         }
         return text;
 
@@ -168,14 +174,15 @@ public class CreditsDialog extends JDialog {
 
     private String translate( String key, String value ) {
         String pattern = PhetCommonResources.getString( "Common.About.CreditsDialog." + key );
-        return pattern+": "+value;
+        return pattern + ": " + value;
     }
 
     /**
      * Reads the license file from <project>/data/<project>/contib-licenses/<license>
      * where <license> is something like lgpl.txt or junit-cpl-v10.html.
-     *
+     * <p/>
      * These files are placed in the contrib-licenses directory by the phet build process, see the Misc menu in the PhETBuildGUI
+     *
      * @param id
      * @return
      */
@@ -187,7 +194,7 @@ public class CreditsDialog extends JDialog {
         catch( Exception e ) {
             e.printStackTrace();
         }
-        return "test license text for " + id;
+        return "license not found";
     }
 
     private AnnotationParser.Annotation getAnnotation( String id ) {
@@ -210,6 +217,7 @@ public class CreditsDialog extends JDialog {
             public void windowClosing( WindowEvent e ) {
                 System.exit( 0 );
             }
+
             public void windowClosed( WindowEvent e ) {
                 System.exit( 0 );
             }
