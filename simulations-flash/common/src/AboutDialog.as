@@ -79,10 +79,10 @@ class AboutDialog {
 		// panel to lay the buttons in
 		var panel : JPanel = new JPanel(new BoxLayout());
 		
-		// button that will open the license dialog
-		var licenseButton : JButton = new JButton(common.strings.get("License", "License") + "...");
-		licenseButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, licenseClicked));
-		CommonButtons.padButtonAdd(licenseButton, panel);
+		// button that will open the agreements dialog
+		var agreementButton : JButton = new JButton(common.strings.get("SoftwareAgreement", "Software Agreement") + "...");
+		agreementButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, agreementClicked));
+		CommonButtons.padButtonAdd(agreementButton, panel);
 		
 		// button will close the about dialog
 		var okButton : JButton = new JButton(common.strings.get("OK", "OK"));
@@ -100,15 +100,15 @@ class AboutDialog {
 		window.show();
 	}
 	
-	public function licenseClicked(src : JButton) {
-		if(_level0.licenseWindow) {
-			// license window exists, just show it
+	public function agreementClicked(src : JButton) {
+		if(_level0.agreementWindow) {
+			// agreement window exists, just show it
 			debug("Showing dialog again\n");
-			_level0.licenseWindow.show();
+			_level0.agreementWindow.show();
 		} else {
-			// license window doesn't exist, we must create it
+			// agreement window doesn't exist, we must create it
 			debug("Creating Dialog\n");
-			_level0.licenseDialog = new LicenseDialog();
+			_level0.agreementDialog = new AgreementDialog();
 		}
 	}
 	

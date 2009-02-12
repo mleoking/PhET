@@ -116,17 +116,14 @@ class UpdateAvailableDialog {
 		// panel to lay the buttons in
 		var panel : JPanel = new JPanel(new BoxLayout());
 		
-		// button that will open the license dialog
 		var askLaterButton : JButton = new JButton(common.strings.get("AskLater", "Ask me later"));
 		askLaterButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, askLaterClicked));
 		CommonButtons.padButtonAdd(askLaterButton, panel);
 		
-		// button will close the about dialog
 		var skipButton : JButton = new JButton(common.strings.get("PrivacySkip", "Skip this update"));
 		skipButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, skipClicked));
 		CommonButtons.padButtonAdd(skipButton, panel);
 		
-		// button will close the about dialog
 		var tryButton : JButton = new JButton(common.strings.get("TryNow", "Try it now"));
 		tryButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, tryClicked));
 		tryButton.setForeground(ASColor.BLUE);
