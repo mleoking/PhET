@@ -3,8 +3,9 @@
 class Util{
 	public static var STAGEH:Number = Stage.height;
 	public static var STAGEW:Number = Stage.width;
-	public static var ORIGINSCREENX:Number = 0.5*Stage.width;
-	public static var ORIGINSCREENY:Number = 0.4*Stage.height;
+	public static var ORIGINX:Number = 0.45*Stage.width;
+	public static var ORIGINY:Number = 0.10*Stage.height;
+	public static var BOTTOMY:Number = 0.90*Stage.height;
 	public static var DEPTH:Number = 0;
 	
 	//colors for the bodies: 0xRRGGBB 
@@ -61,5 +62,18 @@ class Util{
 		DEPTH += 1;
 		return DEPTH;
 	}
+	
+	//binomial coefficient
+	public static function BC(N:Number, m:Number):Number{
+		var result1:Number = 1;
+		var result2:Number = 1;
+		for(var i:Number = N; i > (N-m); i--){
+			result1 *= i;
+		}
+		for(var j:Number = m; j >= 1; j--){
+			result2 *= j;
+		}	
+		return result1/result2;
+	}//end of BC()
 	
 }//end of class Util

@@ -1,55 +1,26 @@
 <?xml version="1.0" ?>
 <SimStrings>
-  <string key="selectPreset" value="Select Preset" />
-  <string key="sunAndPlanet" value="Sun and planet" />
-  <string key="sunPlanetMoon" value="Sun, planet, moon" />
-  <string key="sunPlanetComet" value="Sun, planet, comet" />
-  <string key="binaryStarPlanet" value="Binary star, planet" />
-  <string key="trojanAsteroids" value="Trojan asteroids" />
-  <string key="fourStarBallet" value="Four star ballet" />
-  <string key="slingshot" value="Slingshot" />
-  <string key="doubleSlingshot" value="Double slingshot" />
-  <string key="hyperbolics" value="Hyperbolics" />
-  <string key="ellipses" value="Ellipses" />
-  <string key="doubleDouble" value="Double double" />
   <string key="start" value="Start" />
-  <string key="stop" value="Stop" />
-  <string key="reset" value="Reset" />
-  <string key="systemCentered" value="System centered" />
-  <string key="showTraces" value="Show Traces" />
-  <string key="showGrid" value="Show Grid" />
-  <string key="tapeMeasure" value="Tape Measure" />
-  <string key="accurate" value="accurate" />
-  <string key="fast" value="fast" />
-  <string key="help" value="Help" />
-  <string key="initialSettings" value="Initial Settings:" />
-  <string key="position" value="Position" />
-  <string key="velocity" value="velocity" />
-  <string key="mass" value="mass" />
-  <string key="xPos" value="x" />
-  <string key="yPos" value="y" />
-  <string key="xVel" value="x " />
-  <string key="yVel" value="y " />
-  <string key="body1" value="body 1" />
-  <string key="body2" value="body 2" />
-  <string key="body3" value="body 3" />
-  <string key="body4" value="body 4" />
-  <string key="numberOfBodies" value="number\n of bodies" />
-  <string key="timeEquals" value="time =" />
-  <string key="massEquals" value="mass =" />
-  <string key="xEquals" value="x =" />
-  <string key="yEquals" value="y =" />
-  <string key="vXEquals" value="v x =" />
-  <string key="vYEquals" value="v y =" />
-  <string key="back" value="back" />
-  <string key="help0" value="My Solar System orbit simulator" />
-  <string key="help1" value="Make your own solar system by dragging bodies and the V symbol (V for velocity) \nor by typing into the Initial Settings table." />
-  <string key="help2" value="Distances, masses, and times are in arbitrary units.  Invent your own! " />
-  <string key="help3" value="Keep masses less than a few thousand or risk strange results." />
-  <string key="help4" value="For current position and velocity, press Stop and mouse over the body." />
-  <string key="help5" value="When System Centered is checked,  the system's center-of-mass motion is removed." />
-  <string key="help6" value="This simulation uses a fixed-timestep velocity-Verlet algorithm to integrate trajectories:" />
-  <string key="help7" value="" />
-  <string key="help8" value="Unlike Runge-Kutta, the Verlet algorithm conserves energy in oscillatory systems,  producing stable orbits. As with any fixed-timestep algorithm, Verlet produces unphysical results when bodies get too close and the resulting accelerations are too large. To prevent this, bodies that get too close are fused in a momentum-conserving collision. " />
-  <string key="help9" value="Copyright Project PhET and the Univerisity of Colorado at Boulder." />
+  <string key="stop" value="Stop" /> 
+  <string key="oneBall" value="1 ball" /> 
+  <string key="continuous" value="continuous" /> 
+  <string key="show" value="Show:" /> 
+  <string key="ball" value="ball" /> 
+  <string key="path" value="path" /> 
+  <string key="none" value="none" /> 
+  <string key="reset" value="Reset" /> 
+  <string key="rows" value="rows" /> 
+  <string key="p" value="p" /> 
+  <string key="histogramDisplay" value="Histogram \ndisplay:" /> 
+  <string key="fraction" value="fraction" /> 
+  <string key="number" value="number" /> 
+  <string key="autoScale" value="auto-scale" /> 
+  <string key="sound" value="Sound" /> 
+  <string key="help" value="Help" /> 
+  <string key="NEquals" value="N =" /> 
+  <string key="xAvgEquals" value="" /> 
+  <string key="sEquals" value="s =" /> 
+  <string key="sMeanEquals" value="" /> 
+
+  
 </SimStrings>
