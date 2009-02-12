@@ -49,4 +49,6 @@
   <string key="MustAccept" value="You must click &quot;Accept and Continue&quot; to run this simulation." />
   <string key="NoUpdatesAvailable" value="No Updates Available" />
   <string key="TryNow" value="Try it now" />
+  <string key="SoftwareAgreement" value="Software Agreement" />
+  <string key="PhetSoftwareAgreement" value="PhET Software Agreement" />
 </SimStrings>
