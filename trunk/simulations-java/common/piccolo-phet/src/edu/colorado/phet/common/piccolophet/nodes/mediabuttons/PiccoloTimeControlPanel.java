@@ -64,6 +64,7 @@ public class PiccoloTimeControlPanel extends JPanel{
     private ArrayList listeners = new ArrayList();
     private PhetPCanvas buttonCanvas;
     private final ArrayList buttonList;
+	private JPanel timeDisplayPanel;
 
     //------------------------------------------------------------------------
     // Constructors
@@ -95,7 +96,7 @@ public class PiccoloTimeControlPanel extends JPanel{
         timeTextField.setEditable( false );
         timeTextField.setHorizontalAlignment( JTextField.RIGHT );
         unitsLabel = new JLabel();
-        JPanel timeDisplayPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
+        timeDisplayPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
         timeDisplayPanel.add( timeTextField );
         timeDisplayPanel.add( unitsLabel );
         SwingUtils.setOpaqueDeep( timeDisplayPanel, false );
@@ -120,7 +121,6 @@ public class PiccoloTimeControlPanel extends JPanel{
 
         // Layout of this canvas
         setLayout( new FlowLayout( FlowLayout.CENTER ) );
-        //TODO: the next two lines make the shape of the panel asymmetric, even if the time display panel and userpanel are invisible
         add( timeDisplayPanel );
         add( userPanel );
         add( buttonPanel );
@@ -167,8 +167,8 @@ public class PiccoloTimeControlPanel extends JPanel{
         
         // for backward compatibility with existing sims
         rewindButton.setVisible( false );
-        timeTextField.setVisible( false );
-        unitsLabel.setVisible( false );
+        timeDisplayPanel.setVisible( false );
+        userPanel.setVisible( false );
 
         updateButtons();
         updateButtonLayout();
@@ -244,8 +244,7 @@ public class PiccoloTimeControlPanel extends JPanel{
      * @param visible true if the time display should be visible
      */
     public void setTimeDisplayVisible( boolean visible ) {
-        timeTextField.setVisible( visible );
-        unitsLabel.setVisible( visible );
+    	timeDisplayPanel.setVisible( visible );
         if ( visible ) {
             updateTimeDisplay();
         }
@@ -381,6 +380,7 @@ public class PiccoloTimeControlPanel extends JPanel{
     public void addBetweenTimeDisplayAndButtons( JComponent component ) {
         SwingUtils.setOpaqueDeep( component, false );
         userPanel.add( component );
+        userPanel.setVisible( true );
     }
 
     //------------------------------------------------------------------------
