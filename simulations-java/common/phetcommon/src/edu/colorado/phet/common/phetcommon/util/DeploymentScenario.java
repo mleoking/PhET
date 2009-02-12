@@ -36,8 +36,8 @@ public class DeploymentScenario {
      * We're using <authority> and the general part of <path> to identify the codebase
      * for the PhET production and development websites.
      */
-    private static final String PHET_PRODUCTION_CODEBASE_FRAGMENT = "phet.colorado.edu/sims";
-    private static final String PHET_DEVELOPMENT_CODEBASE_FRAGMENT = "www.colorado.edu/physics/phet/dev";
+    private static final String PHET_PRODUCTION_CODEBASE_PREFIX = "phet.colorado.edu"; // prefix!
+    private static final String PHET_DEVELOPMENT_CODEBASE_SUBSTRING = "colorado.edu"; // substring!
 
     // singleton
     private static DeploymentScenario instance = null;
@@ -103,10 +103,14 @@ public class DeploymentScenario {
                     codebaseFragment = "?";
                 }
 
-                if ( codebaseFragment.startsWith( PHET_PRODUCTION_CODEBASE_FRAGMENT ) ) {
+                if ( codebaseFragment.startsWith( PHET_PRODUCTION_CODEBASE_PREFIX ) ) {
                     scenario = DeploymentScenario.PHET_PRODUCTION_WEBSITE;
                 }
-                else if ( codebaseFragment.startsWith( PHET_DEVELOPMENT_CODEBASE_FRAGMENT ) ) {
+                else if ( codebaseFragment.contains( PHET_DEVELOPMENT_CODEBASE_SUBSTRING ) ) {
+                    /* 
+                     * Do this after checking the production server scenario, 
+                     * because deployment codebase substring may be contained in production codebase prefix.
+                     */
                     scenario = DeploymentScenario.PHET_DEVELOPMENT_WEBSITE;
                 }
                 else {
