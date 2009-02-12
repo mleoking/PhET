@@ -1,3 +1,5 @@
+# 0.03.00 (28381) Feb 11, 2009
+Testing PBG Deploy Dev & Prod with JARs
 # 0.02.01 (28380) Feb 11, 2009
 Testing PBG with JARs?
 # 0.02.00 (28362) Feb 11, 2009
