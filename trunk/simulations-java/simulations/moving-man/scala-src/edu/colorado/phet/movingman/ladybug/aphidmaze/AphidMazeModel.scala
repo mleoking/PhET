@@ -13,5 +13,7 @@ class AphidMazeModel extends LadybugModel {
 
     if (maze.containsPoint(ladybug.getPosition))
       println("collision")
+
+    maze.update(ladybug)
   }
 }

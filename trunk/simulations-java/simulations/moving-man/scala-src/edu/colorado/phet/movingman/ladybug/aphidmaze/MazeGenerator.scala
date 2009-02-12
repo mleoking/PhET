@@ -2,7 +2,7 @@ package edu.colorado.phet.movingman.ladybug.aphidmaze
 
 import scala.collection.mutable.{HashSet, ArrayBuffer}
 
-case class Wall(x: Int, y: Int, dx: Int, dy: Int)
+case class Wall(x: Double, y: Double, dx: Double, dy: Double)
 class MazeGenerator {
   //see http://home.att.net/~srschmitt/script_maze_generator.html#the%20source%20code
 
