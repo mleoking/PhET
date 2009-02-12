@@ -55,22 +55,26 @@ class UpdateAvailableDialog {
 		str += common.strings.get("NewerVersionIs", "A newer version {0} is available.", ["(" + common.zeroPadVersion(versionMajor, versionMinor) + ")"]) + "\n";
 		//str += "A newer version (" + common.zeroPadVersion(versionMajor, versionMinor, versionDev) + ") is available.\n";
 		
+		/*
 		str += "\n<p align='center'>";
 		
 		str += "<a href='" + common.simWebsiteURL() + "'>" + common.strings.get("GoNewVersion", "Go to the new version.") + "</a>";
 		
 		str += "</p>";
+		*/
 		
-		var notUpdateStr = common.strings.get("NotUpdateSim","This will not update your simulation.");
+		var notUpdateStr = "<p align='center'><font color='#880000'>" + common.strings.get("NotUpdateSim","This simulation cannot be updated automatically.") + "</font></p>";
+		
+		str += "\n";
 		
 		if(common.fromFullInstallation()) {
 			// sim should be contained in the newest installation, otherwise we would not reach here
-			str += "<p align='center'><font size='10'>" + notUpdateStr + "</font></p>";
+			str += notUpdateStr;
 			str += "\n";
 			
 			var defaultStr = "To download a new installation containing the latest simulation, ";
 			defaultStr += "please visit the <a href='{0}'>PhET installation page</a> for more information.";
-			
+				
 			str += common.strings.get("PhETInstallation", defaultStr, ["http://phet.colorado.edu/get_phet/full_install.php"]);
 			
 			//str += "To download a new installation containing the latest simulation, please visit the ";
@@ -78,7 +82,7 @@ class UpdateAvailableDialog {
 			//str += " for more information.";
 			str += "\n";
 		} else {
-			str += "<p align='center'><font size='10'>" + notUpdateStr + "</font></p>";
+			str += notUpdateStr;
 		}
 		
 		str += "\n";
@@ -122,6 +126,14 @@ class UpdateAvailableDialog {
 		skipButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, skipClicked));
 		CommonButtons.padButtonAdd(skipButton, panel);
 		
+		// button will close the about dialog
+		var tryButton : JButton = new JButton(common.strings.get("TryNow", "Try it now"));
+		tryButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, tryClicked));
+		tryButton.setForeground(ASColor.BLUE);
+		tryButton.setFont(new ASFont(ASFont.DEFAULT_NAME, ASFont.DEFAULT_SIZE + 2, true, false, false));
+		tryButton.setUseHandCursor(true);
+		CommonButtons.padButtonAdd(tryButton, panel);
+		
 		window.getContentPane().append(panel);
 		
 		// fit the window to its contents
@@ -150,5 +162,9 @@ class UpdateAvailableDialog {
 		
 		// hide this window
 		_level0.updateAvailableWindow.setVisible(false);
+	}
+	
+	public function tryClicked(src : JButton) {
+		getURL(common.simWebsiteURL());
 	}
 }

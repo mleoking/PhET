@@ -41,11 +41,12 @@
   <string key="CurrentVersionIs" value="Ouryay urrentcay ersionvay ofay {0} isay {1}." />
   <string key="NewerVersionIs" value="Aay ewernay ersionvay {0} isay availableay." />
   <string key="GoNewVersion" value="Ogay otay ethay ewnay ersionvay." />
-  <string key="NotUpdateSim" value="Isthay illway otnay updateay ouryay imulationsay." />
+  <string key="NotUpdateSim" value="Isthay imulationsay annotcay ebay updateday automaticallyay." />
   <string key="PhETInstallation" value="Otay ownloadday aay ewnay installationay ontainingcay ethay atestlay imulationsay, easeplay isitvay ethay &lt;a href='{0}'&gt;PhET installationay agepay&lt;/a&gt; orfay oremay informationay." />
   <string key="UpdateOptionsAvailable" value="Updateay optionsay areay availableay underay &lt;i&gt;Eferencespray&lt;/i&gt;." />
   <string key="AskLater" value="Askay emay aterlay" />
   <string key="PrivacySkip" value="Ipskay isthay ersionvay" />
   <string key="MustAccept" value="Ouyay ustmay ickclay &quot;Acceptay anday Ontinuecay&quot; otay unray isthay imulationsay." />
   <string key="NoUpdatesAvailable" value="Onay Updatesay Availableay" />
+  <string key="TryNow" value="Ytray itay ownay" />
 </SimStrings>
