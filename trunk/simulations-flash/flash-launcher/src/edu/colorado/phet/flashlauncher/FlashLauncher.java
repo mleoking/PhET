@@ -7,9 +7,7 @@ import java.net.URL;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.*;
 
 import edu.colorado.phet.flashlauncher.util.BareBonesBrowserLaunch;
 import edu.colorado.phet.flashlauncher.util.FileUtils;
@@ -23,9 +21,8 @@ import edu.colorado.phet.flashlauncher.util.FileUtils;
  * A web browser is launched, and pointed at the HTML.
  *
  * @author Sam Reid
- *
- * Modified by Jonathan Olson to support the new HTML generation for Flash simulations
- *
+ *         <p/>
+ *         Modified by Jonathan Olson to support the new HTML generation for Flash simulations
  */
 public class FlashLauncher {
 
@@ -53,10 +50,15 @@ public class FlashLauncher {
         BufferedReader bu = new BufferedReader( new InputStreamReader( inputStream ) );
         String line = bu.readLine();
         StringTokenizer stringTokenizer = new StringTokenizer( line, " " );
-        println( "line = " + line );
+        println( "FlashLauncher obtained line from "+ARGS_FILENAME+": " + line );
         this.simName = stringTokenizer.nextToken();
         this.language = stringTokenizer.nextToken();
-        this.country = stringTokenizer.nextToken();
+        if ( stringTokenizer.hasMoreTokens() ) {
+            this.country = stringTokenizer.nextToken();
+        }
+        else {
+            this.country = "null";//todo: better support for null country code
+        }
 
         // if the developer flag is specified in args file, open a window to show debug output
         if ( stringTokenizer.hasMoreTokens() && stringTokenizer.nextToken().equals( "-dev" ) ) {
