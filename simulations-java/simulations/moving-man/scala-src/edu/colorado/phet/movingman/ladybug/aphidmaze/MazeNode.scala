@@ -3,7 +3,8 @@ package edu.colorado.phet.movingman.ladybug.canvas.aphidmaze
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import edu.colorado.phet.movingman.ladybug.aphidmaze.{AphidMazeModel}
-import java.awt.geom.{AffineTransform, Rectangle2D, Point2D}
+import java.awt.geom.{AffineTransform, Line2D, Rectangle2D, Point2D}
+import java.awt.{BasicStroke, Point, Color, Cursor}
 import umd.cs.piccolo.PNode
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener
@@ -11,7 +12,6 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
 import controlpanel.VectorVisibilityModel
 import java.awt.image.BufferedImage
-import java.awt.{Point, Color, Cursor}
 import model.{Ladybug, Vector2D, LadybugModel}
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
@@ -37,9 +37,9 @@ class MazeNode(model: AphidMazeModel, transform: ModelViewTransform2D) extends P
 
     removeAllChildren()
 
-    model.maze.rectangles.foreach((a: Rectangle2D) => {
+    model.maze.lines.foreach((a: Line2D.Double) => {
       val viewShape = transform.getAffineTransform.createTransformedShape(a)
-      val path = new PhetPPath(viewShape, Color.blue)
+      val path = new PhetPPath(viewShape, new BasicStroke(2),Color.blue)
       addChild(path)
     })
 
