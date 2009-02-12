@@ -13,6 +13,8 @@ package edu.colorado.phet.buildtools.flash;
 
 import java.io.File;
 
+import edu.colorado.phet.flashlauncher.FlashHTML;
+
 /**
  * Created by IntelliJ IDEA.
  * User: jon

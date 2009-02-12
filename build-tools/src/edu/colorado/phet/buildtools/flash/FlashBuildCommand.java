@@ -45,7 +45,7 @@ public class FlashBuildCommand {
                     "C:\\svn\\trunk\\" + outputSuffix.replace('/', '\\')
             });
         } else {
-            p = Runtime.getRuntime().exec( cmd + " " + outputFile.getAbsolutePath() );
+            p = Runtime.getRuntime().exec( new String[]{cmd ,outputFile.getAbsolutePath()} );
         }
 
 //        try {

@@ -54,6 +54,7 @@
 	<!-- src dependencies -->
     <property name="phetbuild-src" location="${dir.build-tools}/src"/>
 	<property name="phetcommon-src" location="${dir.common}/phetcommon/src"/>
+	<property name="flash-launcher-src" location="${trunk}/simulations-flash/flash-launcher/src"/>
     <property name="scf-src" value="${dir.build-tools}/contrib/securechannelfacade/src/main/java"/>
 		
 	<!-- jar dependencies -->
@@ -83,7 +84,7 @@
     <target name="_compile-phet-build">
         <mkdir dir="${phetbuild-classes-dir}"/>
 
-        <javac srcdir="${phetbuild-src}:${phetcommon-src}:${scf-src}"
+        <javac srcdir="${phetbuild-src}:${phetcommon-src}:${scf-src}:${flash-launcher-src}"
                destdir="${phetbuild-classes-dir}"
                classpath="${phetbuild-classpath-jars}" debug="true"
                source="1.4"

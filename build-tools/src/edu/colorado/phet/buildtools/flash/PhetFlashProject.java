@@ -4,14 +4,23 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Locale;
+import java.util.Properties;
 
 import javax.swing.*;
 
+import org.apache.tools.ant.taskdefs.Jar;
+import org.apache.tools.ant.taskdefs.Manifest;
+
+import edu.colorado.phet.buildtools.MyAntTaskRunner;
+import edu.colorado.phet.buildtools.PhetFlashLauncherProject;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
+import edu.colorado.phet.flashlauncher.FlashLauncher;
+import edu.colorado.phet.flashlauncher.FlashHTML;
 
 /**
  * Created by IntelliJ IDEA.
@@ -52,11 +61,89 @@ public class PhetFlashProject extends PhetProject {
     }
 
     public boolean build() throws Exception {
-        //super.build();
         System.out.println( "Building flash sim." );
         buildSWF();
         buildHTMLs();
+        buildOfflineJARs();
+
+        //todo: check for success
         return true;
+    }
+
+    private void buildOfflineJARs() {
+        Locale[] locales = getLocales();
+        for ( int i = 0; i < locales.length; i++ ) {
+            buildOfflineJAR( locales[i] );
+        }
+    }
+
+    private void buildOfflineJAR( Locale locale ) {
+        System.out.println( "Working in " + getOfflineJARContentsDir().getAbsolutePath() );
+
+        FileUtils.delete( getOfflineJARContentsDir(), true );
+        getOfflineJARContentsDir().mkdirs();
+        try {
+            //copy class files for FlashLauncher
+            PhetFlashLauncherProject launcherProject = new PhetFlashLauncherProject( getTrunk() );
+            launcherProject.build();
+            FileUtils.unzip( launcherProject.getDefaultDeployJar(), getOfflineJARContentsDir() );
+
+            //copy SWF File
+            FileUtils.copyToDir( getSWFFile(), getOfflineJARContentsDir() );
+
+            //copy sim XML localization Files
+            copyLocalizationFiles( new File( getDataDirectory(), "localization" ) );
+
+            //copy common XML localization Files
+            copyLocalizationFiles( getCommonLocalizationDir() );
+
+            //copy HTML template
+            FileUtils.copyToDir( new File( getTrunk(), "simulations-flash/build-tools/flash-build/data/flash-template.html" ), getOfflineJARContentsDir() );
+
+            //create args file
+            FileUtils.writeString( new File( getOfflineJARContentsDir(), "flash-launcher-args.txt" ), getName() + " " + locale.getLanguage() + " " + locale.getCountry() );
+
+            //copy properties file
+            FileUtils.copyToDir( new File( getDataDirectory(), getName() + ".properties" ), getOfflineJARContentsDir() );
+
+            Jar jar = new Jar();
+            jar.setBasedir( getOfflineJARContentsDir() );
+            jar.setDestFile( new File( getDeployDir(), getName() + "_" + locale + ".jar" ) );
+            Manifest manifest = new Manifest();
+
+            Manifest.Attribute attribute = new Manifest.Attribute();
+            attribute.setName( "Main-Class" );
+            attribute.setValue( FlashLauncher.class.getName() );
+
+//            jar.addFileset( toFileSetFile( createJARLauncherPropertiesFile() ) );
+
+            manifest.addConfiguredAttribute( attribute );
+            jar.addConfiguredManifest( manifest );
+
+            new MyAntTaskRunner().runTask( jar );
+        }
+        catch( Exception e ) {
+            e.printStackTrace();
+        }
+    }
+
+    private File getCommonLocalizationDir() {
+        return new File( getTrunk(), "simulations-flash/common/data/localization" );
+    }
+
+    private void copyLocalizationFiles( File localizationDir ) throws IOException {
+        File[] localizationFiles = localizationDir.listFiles( new FileFilter() {
+            public boolean accept( File pathname ) {
+                return pathname.getName().indexOf( "-strings_" ) >= 0;
+            }
+        } );
+        for ( int i = 0; i < localizationFiles.length; i++ ) {
+            FileUtils.copyToDir( localizationFiles[i], getOfflineJARContentsDir() );
+        }
+    }
+
+    private File getOfflineJARContentsDir() {
+        return new File( getAntOutputDir(), "jardata" );
     }
 
     private void buildSWF() throws Exception {
@@ -65,7 +152,7 @@ public class PhetFlashProject extends PhetProject {
         // we don't want inaccurate SWFs deployed
 
         // if the user has decided not to auto-build the SWF, don't do anything else
-        if ( getConfigValue( "autobuild-swf", "true" ).equals("false") ) {
+        if ( getConfigValue( "autobuild-swf", "true" ).equals( "false" ) ) {
             return;
         }
 
@@ -73,7 +160,7 @@ public class PhetFlashProject extends PhetProject {
         String property = "flash.exe";
         String exe = getConfigValue( property, def );
 
-        boolean useWine =  getConfigValue( "wine", "false"  ).equals("true");
+        boolean useWine = getConfigValue( "wine", "false" ).equals( "true" );
 
         File trunk = getProjectDir().getParentFile() // simulations
                 .getParentFile() // simulations-flash
