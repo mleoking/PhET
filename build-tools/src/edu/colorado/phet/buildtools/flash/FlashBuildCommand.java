@@ -14,29 +14,54 @@ import javax.swing.*;
  * Time: 10:17:40 AM
  */
 public class FlashBuildCommand {
-    // returns boolean success
-    public static boolean build( String cmd, String sim, File trunk, boolean useWine ) throws IOException {
-        build( cmd, new String[]{sim}, trunk, useWine );
 
-        JOptionPane.showMessageDialog( null, "Building the Flash SWF, press OK when finished." );
+    // returns boolean success of whether the sim was built without errors
+    public static boolean build( String cmd, String sim, File trunk, boolean useWine ) throws IOException {
+
+        boolean success = false;
 
         File outputFile = new File( trunk, "simulations-flash/build-output-temp/output-" +  sim + ".txt" );
 
-        if(outputFile.exists()) {
-            System.out.println( "Found output file." );
+        // if the output file exists, remove it so we can correctly detect whether the build is completed
+        if( outputFile.exists() ) {
+            outputFile.delete();
+        }
 
+        // run the JSFL
+        build( cmd, new String[]{sim}, trunk, useWine );
+
+
+        JOptionPane.showMessageDialog( null, "Building the Flash SWF, press OK when finished." );
+
+        if( outputFile.exists() ) {
+            // found an output file, thus the build (either success or failure) has completed
+
+            // outputString should contain any error reports
             String outputString = FileUtils.loadFileAsString( outputFile );
 
             if( outputString.indexOf( "Error") == -1 ) {
                 System.out.println( "Successful build of SWF" );
+                
+                success = true;
             } else {
                 System.out.println( "Failed to build the SWF" );
-                return false;
+                
+                String messageString = "The following errors were encountered in the build: \n\n";
+                messageString += outputString.substring( 3 );
+                JOptionPane.showMessageDialog( null, messageString );
+                
+                success = false;
             }
+
+            // delete the output file for future builds
+            outputFile.delete();
         } else {
-            System.out.println( "Could not find output file." );
+            System.out.println( "Could not find output file. Was the SWF build not completed?" );
+            
+            success = false;
         }
-        return true;
+
+        return success;
     }
 
     public static void build( String cmd, String[] sims, File trunk, boolean useWine ) throws IOException {
