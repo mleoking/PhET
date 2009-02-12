@@ -1,3 +1,5 @@
+# null.null.00 (28398) Feb 12, 2009
+Testing build under PBG
 11-20-08: #985, handle and report errors to the user
 11-20-08: rename FileUtils to UpdaterUtils, since it's now a collection of random utils
 11-14-08: fix build.xml, the clean target was deleting this change log
