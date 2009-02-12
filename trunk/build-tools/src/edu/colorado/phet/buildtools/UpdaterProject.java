@@ -20,4 +20,8 @@ public class UpdaterProject extends PhetJavaProject {
     public String getAlternateMainClass() {
         return "edu.colorado.phet.updater.UpdaterBootstrap";
     }
+
+    public File getDefaultDeployJar() {
+        return new File( getDeployDir(), "phet-updater.jar" );
+    }
 }
