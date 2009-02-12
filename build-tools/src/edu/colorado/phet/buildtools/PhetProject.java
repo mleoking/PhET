@@ -478,7 +478,12 @@ public abstract class PhetProject {
         phetProjects.addAll( sort( Arrays.asList( PhetJavaProject.getJavaProjects( trunk ) ) ) );
         phetProjects.addAll( sort( Arrays.asList( PhetFlashProject.getFlashProjects( trunk ) ) ) );
         try {
-            phetProjects.add( new PhetFlashLauncherProject(trunk) );
+            phetProjects.add( new PhetJavaProject( new File( trunk, "util/updater" ) ){
+                public File getTrunk() {
+                    return getProjectDir().getParentFile()//util
+                    .getParentFile();// trunk
+                }
+            } );
         }
         catch( IOException e ) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
