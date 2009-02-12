@@ -39,7 +39,10 @@ public class PhetBuildCommand {
     public static final String JAVA_VERSION_CHECKER_CLASS_NAME = "edu.colorado.phet.javaversionchecker.JavaVersionChecker";
     public static final String JAR_LAUNCHER_CLASS_NAME = JARLauncher.class.getName();
 
-    public static String getMainLauncherClassName() {
+    public static String getMainLauncherClassName( PhetProject project ) {
+        if ( project.getAlternateMainClass()!=null ){
+            return project.getAlternateMainClass();
+        }
         return ( useJavaVersionChecker ? JAVA_VERSION_CHECKER_CLASS_NAME : JAR_LAUNCHER_CLASS_NAME );
     }
 
@@ -143,7 +146,7 @@ public class PhetBuildCommand {
 
         attribute.setName( "Main-Class" );
         //todo: support a main-class chooser & launcher
-        attribute.setValue( getMainLauncherClassName() );
+        attribute.setValue( getMainLauncherClassName(project) );
 
         jar.addFileset( toFileSetFile( createJARLauncherPropertiesFile() ) );
 
