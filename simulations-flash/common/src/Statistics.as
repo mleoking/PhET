@@ -51,7 +51,7 @@ class Statistics {
 		
 		/////// message information
 		str += "message_type = 'session' \n";
-		str += "message_version = '1' \n";
+		str += "message_version = '0' \n";
 		
 		
 		/////// user data
