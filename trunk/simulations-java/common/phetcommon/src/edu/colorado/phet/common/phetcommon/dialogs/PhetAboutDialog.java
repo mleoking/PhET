@@ -48,9 +48,9 @@ public class PhetAboutDialog extends JDialog {
     private static final String DISTRIBUTION = PhetCommonResources.getString( "Common.About.Distribution" );
     private static final String JAVA_VERSION = PhetCommonResources.getString( "Common.About.JavaVersion" );
     private static final String OS_VERSION = PhetCommonResources.getString( "Common.About.OSVersion" );
-    private static final String AGREEMENT_BUTTON = PhetCommonResources.getString( "Common.About.SoftwareAgreementButton" );
+    private static final String AGREEMENT_BUTTON = PhetCommonResources.getString( "Common.About.AgreementButton" );
     private static final String CREDITS_BUTTON = PhetCommonResources.getString( "Common.About.CreditsButton" );
-    private static final String OK_BUTTON = PhetCommonResources.getString( "Common.About.OKButton" );
+    private static final String CLOSE_BUTTON = PhetCommonResources.getString( "Common.choice.close" );
 
     private String titleString, descriptionString, versionString, buildDate, distributionTag;
     private ISimInfo config;
@@ -231,10 +231,10 @@ public class PhetAboutDialog extends JDialog {
             }
         } );
 
-        // OK
-        JButton okButton = new JButton( OK_BUTTON );
-        getRootPane().setDefaultButton( okButton );
-        okButton.addActionListener( new ActionListener() {
+        // Close
+        JButton closeButton = new JButton( CLOSE_BUTTON );
+        getRootPane().setDefaultButton( closeButton );
+        closeButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 dispose();
             }
@@ -245,7 +245,7 @@ public class PhetAboutDialog extends JDialog {
         buttonPanel.setLayout( new FlowLayout() );
         buttonPanel.add( agreementButton );
         buttonPanel.add( creditsButton );
-        buttonPanel.add( okButton );
+        buttonPanel.add( closeButton );
 
         return buttonPanel;
     }
