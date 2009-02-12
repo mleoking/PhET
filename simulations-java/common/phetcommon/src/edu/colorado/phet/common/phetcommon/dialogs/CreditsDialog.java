@@ -181,20 +181,25 @@ public class CreditsDialog extends JDialog {
      */
     public String getLicenseText( String id ) {
         try {
-            AnnotationParser.Annotation[] all = AnnotationParser.getAnnotations( phetLicenseString );
-            AnnotationParser.Annotation a = null;
-            for ( int i = 0; i < all.length; i++ ) {
-                AnnotationParser.Annotation annotation = all[i];
-                if ( annotation.getId().equals( id ) ) {
-                    a = annotation;
-                }
-            }
+            AnnotationParser.Annotation a = getAnnotation( id );
             return new DefaultResourceLoader().getResourceAsString( projectName + "/contrib-licenses/" + id + "-" + a.get( "licensefile" ) );
         }
         catch( Exception e ) {
             e.printStackTrace();
         }
         return "test license text for " + id;
+    }
+
+    private AnnotationParser.Annotation getAnnotation( String id ) {
+        AnnotationParser.Annotation[] all = AnnotationParser.getAnnotations( phetLicenseString );
+        AnnotationParser.Annotation a = null;
+        for ( int i = 0; i < all.length; i++ ) {
+            AnnotationParser.Annotation annotation = all[i];
+            if ( annotation.getId().equals( id ) ) {
+                a = annotation;
+            }
+        }
+        return a;
     }
 
     public static void main( String[] args ) {
