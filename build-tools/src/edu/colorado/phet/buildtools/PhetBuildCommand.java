@@ -37,7 +37,7 @@ public class PhetBuildCommand {
     private static boolean useJavaVersionChecker = false;
     
     public static final String JAVA_VERSION_CHECKER_CLASS_NAME = "edu.colorado.phet.javaversionchecker.JavaVersionChecker";
-    public static final String JAR_LAUNCHER_CLASS_NAME = "edu.colorado.phet.common.phetcommon.application.JARLauncher";
+    public static final String JAR_LAUNCHER_CLASS_NAME = JARLauncher.class.getName();
 
     public static String getMainLauncherClassName() {
         return ( useJavaVersionChecker ? JAVA_VERSION_CHECKER_CLASS_NAME : JAR_LAUNCHER_CLASS_NAME );
