@@ -1,7 +1,9 @@
-package edu.colorado.phet.buildtools;
+package edu.colorado.phet.buildtools.projects;
 
 import java.io.File;
 import java.io.IOException;
+
+import edu.colorado.phet.buildtools.PhetJavaProject;
 
 public class UpdaterProject extends PhetJavaProject {
     public UpdaterProject( File file ) throws IOException {
