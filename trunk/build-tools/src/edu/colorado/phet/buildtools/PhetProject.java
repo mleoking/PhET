@@ -459,7 +459,7 @@ public abstract class PhetProject {
     public static String[] getSimNames( File basedir ) {
         File[] simulations = new File( basedir, "simulations" ).listFiles();
         ArrayList sims = new ArrayList();
-        for ( int i = 0; i < simulations.length; i++ ) {
+        for ( int i = 0; simulations!=null && i < simulations.length; i++ ) {
             File simulation = simulations[i];
             if ( isSimulation( simulation ) ) {
                 sims.add( simulation.getName() );
