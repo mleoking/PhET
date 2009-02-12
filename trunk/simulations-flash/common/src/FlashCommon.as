@@ -138,6 +138,12 @@ class FlashCommon {
 		return ((new LocalConnection()).domain() == "phet.colorado.edu");
 	}
 	
+	// returns whether the sim was run from a development site
+	public function fromDevWebsite() : Boolean {
+		String host = (new LocalConnection()).domain();
+		return (host == "www.colorado.edu");
+	}
+	
 	// returns whether the sim was run from a full installation
 	public function fromFullInstallation() : Boolean {
 		return (
@@ -264,8 +270,10 @@ class FlashCommon {
 		return _level0.commonStrings;
 	}
 	public function getDeployment() : String {
-		if(_level0.common.fromFullInstallation()) {
+		if(fromFullInstallation()) {
 			return "phet-installation";
+		} else if (fromDevWebsite()) {
+			return "phet-development-website";
 		} else {
 			return _level0.simDeployment;
 		}
