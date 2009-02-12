@@ -135,12 +135,12 @@ class FlashCommon {
 	
 	// returns whether the sim was run from the phet website
 	public function fromPhetWebsite() : Boolean {
-		return (new LocalConnection()).domain() == "phet.colorado.edu");
+		return (new LocalConnection()).domain() == "phet.colorado.edu";
 	}
 	
 	// returns whether the sim was run from a development site
 	public function fromDevWebsite() : Boolean {
-		String host = (new LocalConnection()).domain();
+		var host : String = (new LocalConnection()).domain();
 		return (host == "www.colorado.edu");
 	}
 	
