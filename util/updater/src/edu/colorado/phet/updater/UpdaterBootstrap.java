@@ -4,10 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.Properties;
 
 import javax.swing.*;
-
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
 /**
  * Replaces and restarts specified JAR, see SimUpdater.
@@ -166,22 +165,35 @@ public class UpdaterBootstrap {
         if ( Arrays.asList( args ).contains( "-version" ) ) {
             System.out.println( "PhET Updater: " + UpdaterBootstrap.class.getName() + ", version: " + getVersion() );
         }
+        else {
 
-        String src = args[0];
-        String dst = args[1];
-        println( "Started updater version: " + getVersion() );
-        println( "starting updater, src=" + src + ", target=" + dst );
-        try {
-            new UpdaterBootstrap( new File( src ), new File( dst ) ).replaceAndLaunch();
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-            println( UpdaterUtils.stackTraceToString( e ) );
-            System.exit( 1 ); // indicate abnormal exit
+            String src = args[0];
+            String dst = args[1];
+            println( "Started updater version: " + getVersion() );
+            println( "starting updater, src=" + src + ", target=" + dst );
+            try {
+                new UpdaterBootstrap( new File( src ), new File( dst ) ).replaceAndLaunch();
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+                println( UpdaterUtils.stackTraceToString( e ) );
+                System.exit( 1 ); // indicate abnormal exit
+            }
         }
     }
 
     private static String getVersion() {
-        return new PhetResources( "updater" ).getVersion().toString();
+        Properties properties = new Properties();
+        try {
+            properties.load( Thread.currentThread().getContextClassLoader().getResourceAsStream( "updater/updater.properties" ) );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+//        return new PhetResources( "updater" ).getVersion().toString();
+        //return a plain text version; don't bring in phetcommon because it will increas the jar size from 7kb to 200kb
+
+        //todo: improve formatting of version
+        return properties.toString();
     }
 }

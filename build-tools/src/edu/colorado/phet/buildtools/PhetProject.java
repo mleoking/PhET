@@ -489,6 +489,9 @@ public abstract class PhetProject {
                     System.out.println( "No launch files (JNLP) for updater." );
                 }
 
+                public String getAlternateMainClass() {
+                    return "edu.colorado.phet.updater.UpdaterBootstrap";
+                }
             } );
         }
         catch( IOException e ) {
@@ -781,6 +784,12 @@ public abstract class PhetProject {
         //assumes a java simulation
     public File getTrunk() {
         return new File(getProjectDir(),"../../..");
+    }
+
+    //returns main class to use other than JARLauncher
+    //primarily for use in non-simulation projects such as util/updater
+    public String getAlternateMainClass() {
+        return null;
     }
 
     public static interface Listener {
