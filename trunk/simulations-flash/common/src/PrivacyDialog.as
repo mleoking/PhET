@@ -1,4 +1,4 @@
-﻿// PrivacyDialog.as
+// PrivacyDialog.as
 //
 // Handles creating and displaying the privacy dialog
 //
@@ -106,11 +106,6 @@ class PrivacyDialog {
 		continueButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, continueClicked));
 		CommonButtons.padButtonAdd(continueButton, panel);
 		
-		// button will cancel acceptance, and do... something
-		var cancelButton : JButton = new JButton(common.strings.get("Cancel", "Cancel"));
-		cancelButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, cancelClicked));
-		CommonButtons.padButtonAdd(cancelButton, panel);
-		
 		window.getContentPane().append(panel);
 		
 		// fit the window to its contents
@@ -134,16 +129,6 @@ class PrivacyDialog {
 		
 		// continue with common code initialization
 		common.postAgreement();
-	}
-	
-	public function cancelClicked(src : JButton) {
-		if(!canceled) {
-			canceled = true;
-			var defaultStr = "You must click \"Accept and Continue\" to run this simulation.";
-			var addStr = "\n\n<font color='#FF0000'>" + common.strings.get("MustAccept", defaultStr) + "</font>";
-			textArea.setText(textArea.getText() + addStr);
-			_level0.privacyWindow.setHeight(_level0.privacyWindow.getContentPane().getPreferredSize().height + 50);
-		}
 	}
 	
 	public function infoClicked() : Void {
