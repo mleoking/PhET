@@ -153,8 +153,16 @@ public abstract class PhetServer {
         }
 
         public String getServerDeployPath( PhetProject project ) {
-            System.out.println("getServerDeployPath():" + getServerDeployPath() + "/" + project.getName());
-            return getServerDeployPath() + "/" + project.getName();
+            if ( project.getProdServerDeployPath() != null ) {
+                String path = project.getProdServerDeployPath();
+                System.out.println( "getServerDeployPath()<override>:" + path);
+                return path;
+            }
+            else {
+                String path = getServerDeployPath() + "/" + project.getName();
+                System.out.println( "getServerDeployPath():" + path);
+                return path;
+            }
         }
 
         public String getWebDeployURL( PhetProject project ) {

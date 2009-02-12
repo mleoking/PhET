@@ -774,9 +774,20 @@ public abstract class PhetProject {
         return new File(getProjectDir(),"../../..");
     }
 
-    //returns main class to use other than JARLauncher
-    //primarily for use in non-simulation projects such as util/updater
+    /**
+     *  returns main class to use other than JARLauncher
+     * primarily for use in non-simulation projects such as util/updater
+     * @return
+     */
     public String getAlternateMainClass() {
+        return null;
+    }
+
+    /**
+     * This allows overriding of the default simulation deploy path, see PhET Server's usage.
+     * @return an optional server path for deploying the contents of the deploy directory, or null if the simulation default should be used
+     */
+    public String getProdServerDeployPath() {
         return null;
     }
 
