@@ -172,7 +172,7 @@ class Statistics {
 				if(full_success) {
 					// statistics message successful
 					_level0.debug("Statistics: Message Handshake Successful\n");
-					common.preferences.resetSince();
+					_level0.common.preferences.resetSince();
 				} else {
 					// server could not record statistics message
 					_level0.debug("WARNING: Statistics: Message Handshake Failure\n");
