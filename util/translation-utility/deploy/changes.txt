@@ -1,3 +1,4 @@
+2/13/09 - #249, integrate into PhetBuildGUI, delete old build files
 # 1.09.01 (28509) Feb 13, 2009
 testing addition of translation-utility to PBG
 2/9/09 - #1198, change format what is written to flash-launcher-args.txt, for testing translations
