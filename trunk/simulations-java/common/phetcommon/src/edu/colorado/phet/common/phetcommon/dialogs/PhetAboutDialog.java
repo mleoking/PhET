@@ -90,7 +90,7 @@ public class PhetAboutDialog extends JDialog {
 
         JPanel logoPanel = createLogoPanel();
         JPanel infoPanel = createInfoPanel();
-        JPanel buttonPanel = createButtonPanel();
+        JPanel buttonPanel = createButtonPanel( config.isStatisticsFeatureIncluded() );
 
         VerticalLayoutPanel contentPanel = new VerticalLayoutPanel();
         contentPanel.setFillHorizontal();
@@ -208,7 +208,7 @@ public class PhetAboutDialog extends JDialog {
     * Create the panel that contains the buttons.
     * The Credits button is added only if a credits file exists.
     */
-    private JPanel createButtonPanel() {
+    private JPanel createButtonPanel( boolean isStatisticsFeatureIncluded ) {
 
         // Software Use Agreement
         JButton agreementButton = new JButton( AGREEMENT_BUTTON );
@@ -243,7 +243,9 @@ public class PhetAboutDialog extends JDialog {
         // layout
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout( new FlowLayout() );
-        buttonPanel.add( agreementButton );
+        if ( isStatisticsFeatureIncluded ) {
+            buttonPanel.add( agreementButton );
+        }
         buttonPanel.add( creditsButton );
         buttonPanel.add( closeButton );
 
