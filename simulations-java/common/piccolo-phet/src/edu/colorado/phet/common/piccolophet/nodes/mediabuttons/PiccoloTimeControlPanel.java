@@ -15,6 +15,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.TimeControlListener;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.ToolTipHandler;
@@ -513,12 +514,10 @@ public class PiccoloTimeControlPanel extends JPanel{
         }
     }
     
+    // test
     public static void main( String[] args ) {
-        JFrame frame = new JFrame();
-        PiccoloTimeControlPanel pane = new PiccoloTimeControlPanel();
-        pane.setStepButtonTooltip( "step forward the simulation" );
-//        pane.setRewindButtonVisible( true );
-        pane.addTimeControlListener( new TimeControlListener() {
+        
+        TimeControlListener listener = new TimeControlListener() {
             public void stepPressed() {
                 System.out.println( "stepPressed" );
             }
@@ -534,8 +533,45 @@ public class PiccoloTimeControlPanel extends JPanel{
             public void restartPressed() {
                 System.out.println( "restartPressed" );
             }
-        } );
-        frame.setContentPane( pane );
+        };
+        
+        
+        PiccoloTimeControlPanel controls1 = new PiccoloTimeControlPanel();
+        controls1.setStepButtonTooltip( "tooltip test" );
+        controls1.addTimeControlListener( listener );
+        
+        PiccoloTimeControlPanel controls2 = new PiccoloTimeControlPanel();
+        controls2.setRewindButtonVisible( true );
+        controls2.addTimeControlListener( listener );
+        
+        PiccoloTimeControlPanel controls3 = new PiccoloTimeControlPanel();
+        controls3.addBetweenTimeDisplayAndButtons( new JLabel("test") );
+        controls3.addTimeControlListener( listener );
+        
+        PiccoloTimeControlPanel controls4 = new PiccoloTimeControlPanel();
+        controls4.setTimeDisplayVisible( true );
+        controls4.addTimeControlListener( listener );
+        
+        PiccoloTimeControlPanel controls5 = new PiccoloTimeControlPanel();
+        controls5.setStepButtonTooltip( "tooltip test" );
+        controls5.setRewindButtonVisible( true );
+        controls5.setTimeDisplayVisible( true );
+        controls5.addBetweenTimeDisplayAndButtons( new JLabel("test") );
+        controls5.addTimeControlListener( listener );
+        
+        JPanel panel = new JPanel();
+        EasyGridBagLayout layout = new EasyGridBagLayout( panel );
+        panel.setLayout( layout );
+        int row = 0;
+        int column = 0;
+        layout.addComponent( controls1, row++, column );
+        layout.addComponent( controls2, row++, column );
+        layout.addComponent( controls3, row++, column );
+        layout.addComponent( controls4, row++, column );
+        layout.addComponent( controls5, row++, column );
+        
+        JFrame frame = new JFrame();
+        frame.setContentPane( panel );
         frame.pack();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         SwingUtils.centerWindowOnScreen( frame );
