@@ -109,10 +109,22 @@
 				Group by:
 				<select name="group">
 					<option value="none">none</option>
-					<option value="week">week</option>
-					<option value="month">month</option>
-					<option value="version">version</option>
-					<option value="sim_locale">locale</option>
+					<optgroup label="All sims">
+						<option value="week">Week</option>
+						<option value="month">Month</option>
+						<option value="version">Sim Version</option>
+						<option value="sim_locale">Sim Locale</option>
+						<option value="host_locale">Host Locale</option>
+						<option value="os">OS</option>
+						<option value="sim_type">Java / Flash</option>
+						<option value="sim_project">Project</option>
+						<option value="sim_name">Name</option>
+						<option value="project_name">Project, Name</option>
+					</optgroup>
+					<optgroup label="Java sims">
+					</optgroup>
+					<optgroup label="Flash sims">
+					</optgroup>
 				</select>
 			</p>
 			<p>
