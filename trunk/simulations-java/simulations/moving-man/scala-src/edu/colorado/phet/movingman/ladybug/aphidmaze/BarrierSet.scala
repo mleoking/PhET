@@ -1,10 +1,12 @@
 package edu.colorado.phet.movingman.ladybug.model.aphidmaze
 
+import _root_.edu.colorado.phet.common.phetcommon.math.MathUtil
 import edu.colorado.phet.movingman.ladybug.aphidmaze.MazeGenerator
 import edu.colorado.phet.movingman.ladybug.aphidmaze.Wall
 import java.awt.geom.{Line2D, Rectangle2D}
 import scala.collection.mutable.ArrayBuffer
 import edu.colorado.phet.movingman.ladybug.LadybugUtil._
+import java.lang.Math._
 
 class BarrierSet extends Observable {
   val rectangles = new ArrayBuffer[Rectangle2D]
@@ -18,7 +20,16 @@ class BarrierSet extends Observable {
     //    })
   }
 
-  def containsPoint(pt: Vector2D): Boolean = {
+  def crossedBarrier(start: Vector2D, end: Vector2D): Boolean = {
+    lines.foldLeft(false)((value: Boolean, cur: Line2D.Double) => crossed(cur, start, end) || value)
+  }
+
+  def crossed(line: Line2D.Double, start: Vector2D, end: Vector2D) = {
+    val intersection = MathUtil.getLineSegmentsIntersection(line, new Line2D.Double(start, end))
+    !intersection.getX.isNaN
+  }
+
+  def containsPoint(pt: Vector2D) = {
     rectangles.foldLeft(false)((value: Boolean, cur: Rectangle2D) => cur.contains(pt) || value)
   }
   setDim(5)
@@ -32,7 +43,7 @@ class BarrierSet extends Observable {
       for (w <- mg.walls) {
         lines += toLine(w)
       }
-      _dim=dim
+      _dim = dim
       notifyListeners
     }
   }
