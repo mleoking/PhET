@@ -7,6 +7,8 @@ import java.io.IOException;
 import javax.swing.*;
 
 import edu.colorado.phet.buildtools.*;
+import edu.colorado.phet.buildtools.projects.JavaProject;
+import edu.colorado.phet.buildtools.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.util.FileUtils;
 
 import com.jcraft.jsch.JSchException;
@@ -63,7 +65,7 @@ public class AddTranslation {
         boolean success = true;
 
         try {
-            PhetProject phetProject = new PhetJavaProject( new File( basedir, "simulations" ), simulation );
+            PhetProject phetProject = new JavaSimulationProject( new File( basedir, "simulations" ), simulation );
 
             //Clear the temp directory for this simulation
             FileUtils.delete( getTempProjectDir( phetProject ), true );

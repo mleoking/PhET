@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import edu.colorado.phet.buildtools.PhetProject;
-import edu.colorado.phet.buildtools.PhetJavaProject;
+import edu.colorado.phet.buildtools.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.util.FileUtils;
 
 /**
@@ -51,7 +51,7 @@ public class ImportTranslations {
         }
         else {
             try {
-                PhetProject phetProject = new PhetJavaProject( new File( basedir + "/simulations", simname ) );
+                PhetProject phetProject = new JavaSimulationProject( new File( basedir + "/simulations", simname ) );
                 System.out.println( "phetProject = " + phetProject );
                 File localizationDir = phetProject.getLocalizationDir();
                 final File dst = new File( localizationDir, file.getName() );

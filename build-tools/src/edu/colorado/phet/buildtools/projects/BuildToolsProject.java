@@ -3,12 +3,12 @@ package edu.colorado.phet.buildtools.projects;
 import java.io.File;
 import java.io.IOException;
 
-import edu.colorado.phet.buildtools.PhetJavaProject;
+import edu.colorado.phet.buildtools.projects.JavaProject;
 
 /**
  * This project is used so the build-tools project can build and deploy itself.
  */
-public class BuildToolsProject extends PhetJavaProject {
+public class BuildToolsProject extends JavaProject {
     public BuildToolsProject( File file ) throws IOException {
         super( file );
     }
@@ -23,6 +23,10 @@ public class BuildToolsProject extends PhetJavaProject {
 
     public String getAlternateMainClass() {
         return "edu.colorado.phet.buildtools.gui.PhetBuildGUI";
+    }
+
+    public String getProdServerDeployPath() {
+        return null;
     }
 
     public File getDefaultDeployJar() {

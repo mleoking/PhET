@@ -1,4 +1,4 @@
-package edu.colorado.phet.buildtools;
+package edu.colorado.phet.buildtools.projects;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -15,13 +15,14 @@ import org.apache.tools.ant.types.Path;
 
 import edu.colorado.phet.buildtools.util.BuildPropertiesFile;
 import edu.colorado.phet.buildtools.util.PhetBuildUtils;
+import edu.colorado.phet.buildtools.*;
 
-public class PhetJavaProject extends PhetProject {
-    public PhetJavaProject( File projectRoot ) throws IOException {
+public abstract class JavaProject extends PhetProject {
+    public JavaProject( File projectRoot ) throws IOException {
         super( projectRoot );
     }
 
-    public PhetJavaProject( File parentDir, String name ) throws IOException {
+    public JavaProject( File parentDir, String name ) throws IOException {
         super( parentDir, name );
     }
 
@@ -29,7 +30,7 @@ public class PhetJavaProject extends PhetProject {
         return getLocalesImpl( ".properties" );
     }
 
-    public static PhetProject[] getJavaProjects( File trunk ) {
+    public static PhetProject[] getJavaSimulations( File trunk ) {
         File simulationsJava = new File( trunk, "simulations-java" );
         ArrayList phetProjects = new ArrayList();
         String[] sims = getSimNames( simulationsJava );
@@ -37,7 +38,7 @@ public class PhetJavaProject extends PhetProject {
             String sim = sims[i];
             File projectDir = PhetBuildUtils.resolveProject( simulationsJava, sim );
             try {
-                PhetProject phetProject = new PhetJavaProject( projectDir, sim );
+                PhetProject phetProject = new JavaSimulationProject( projectDir, sim );
                 phetProjects.add( phetProject );
             }
             catch( IOException e ) {
@@ -169,13 +170,6 @@ public class PhetJavaProject extends PhetProject {
             throw new RuntimeException( e );
         }
     }
-
-
-    public void buildLaunchFiles( String URL, boolean dev ) {
-        System.out.println( "Building JNLP." );
-        buildJNLP( URL, dev );
-    }
-
 
     public void buildJNLP( String codebase, boolean dev ) {
         String[] simulationNames = getSimulationNames();

@@ -7,6 +7,8 @@ import edu.colorado.phet.buildtools.flash.PhetFlashProject;
 import edu.colorado.phet.buildtools.scripts.SetSVNIgnoreToDeployDirectories;
 import edu.colorado.phet.buildtools.util.*;
 import edu.colorado.phet.buildtools.projects.BuildToolsProject;
+import edu.colorado.phet.buildtools.projects.JavaProject;
+import edu.colorado.phet.buildtools.projects.JavaSimulationProject;
 import edu.colorado.phet.common.phetcommon.resources.PhetProperties;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
@@ -177,7 +179,7 @@ public abstract class PhetProject {
             File file = path[i];
             if ( file.exists() && isProject( file ) ) {
                 try {
-                    projects.add( new PhetJavaProject( file ) );
+                    projects.add( new JavaSimulationProject( file ) );
                 }
                 catch( IOException e ) {
                     e.printStackTrace();
@@ -488,7 +490,7 @@ public abstract class PhetProject {
     public static PhetProject[] getAllProjects( File trunk ) {
         List phetProjects = new ArrayList();
 
-        phetProjects.addAll( sort( Arrays.asList( PhetJavaProject.getJavaProjects( trunk ) ) ) );
+        phetProjects.addAll( sort( Arrays.asList( JavaProject.getJavaSimulations( trunk ) ) ) );
         phetProjects.addAll( sort( Arrays.asList( PhetFlashProject.getFlashProjects( trunk ) ) ) );
         try {
             //Add supplemental projects
@@ -783,27 +785,20 @@ public abstract class PhetProject {
         return new File( getDataDirectory(), getName() + ".properties" );
     }
 
-        //assumes a java simulation
-    public File getTrunk() {
-        return new File(getProjectDir(),"../../..");
-    }
+    public abstract File getTrunk();
 
     /**
      *  returns main class to use other than JARLauncher
      * primarily for use in non-simulation projects such as util/updater
      * @return
      */
-    public String getAlternateMainClass() {
-        return null;
-    }
+    public abstract String getAlternateMainClass();
 
     /**
      * This allows overriding of the default simulation deploy path, see PhET Server's usage.
      * @return an optional server path for deploying the contents of the deploy directory, or null if the simulation default should be used
      */
-    public String getProdServerDeployPath() {
-        return null;
-    }
+    public abstract String getProdServerDeployPath();
 
     public static interface Listener {
         public void changesTextChanged();
@@ -830,4 +825,8 @@ public abstract class PhetProject {
     public abstract void runSim( Locale locale, String simulationName );
 
     public abstract void buildLaunchFiles( String URL, boolean dev );
+
+    public static void main( String[] args ) {
+        System.out.println( System.getenv(  ) );
+    }
 }

@@ -12,11 +12,10 @@ import org.apache.tools.ant.taskdefs.Jar;
 import org.apache.tools.ant.taskdefs.Manifest;
 
 import edu.colorado.phet.buildtools.MyAntTaskRunner;
-import edu.colorado.phet.buildtools.PhetFlashLauncherProject;
+import edu.colorado.phet.buildtools.projects.PhetFlashLauncherProject;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.buildtools.util.FileUtils;
-import edu.colorado.phet.buildtools.util.SVNDependencyProject;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.flashlauncher.FlashLauncher;
 import edu.colorado.phet.flashlauncher.FlashHTML;
@@ -345,6 +344,18 @@ public class PhetFlashProject extends PhetProject {
     public File getTranslationFile( Locale locale ) {
         String lang = "_" + locale.getLanguage();
         return new File( getProjectDir(), "data" + File.separator + getName() + File.separator + "localization" + File.separator + getName() + "-strings" + lang + ".xml" );
+    }
+
+    public File getTrunk() {
+        return new File( getProjectDir(), "../../.." );
+    }
+
+    public String getAlternateMainClass() {
+        return null;//use JARLauncher
+    }
+
+    public String getProdServerDeployPath() {
+        return null;//deploy to sims
     }
 
     public void buildLaunchFiles( String URL, boolean dev ) {

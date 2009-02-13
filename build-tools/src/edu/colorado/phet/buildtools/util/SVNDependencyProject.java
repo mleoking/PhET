@@ -32,6 +32,18 @@ public class SVNDependencyProject extends PhetProject {
         return null;
     }
 
+    public File getTrunk() {
+        return null;
+    }
+
+    public String getAlternateMainClass() {
+        return null;
+    }
+
+    public String getProdServerDeployPath() {
+        return null;
+    }
+
     public boolean build() throws Exception {
         return true;
     }

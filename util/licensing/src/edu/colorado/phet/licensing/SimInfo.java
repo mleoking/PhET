@@ -4,7 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import edu.colorado.phet.buildtools.PhetJavaProject;
+import edu.colorado.phet.buildtools.projects.JavaProject;
+import edu.colorado.phet.buildtools.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.util.LicenseInfo;
 
@@ -89,7 +90,7 @@ public class SimInfo {
     }
 
     public static SimInfo getSimInfo( File trunk, String simName ) throws IOException {
-        PhetProject phetProject = new PhetJavaProject( new File( trunk, "simulations-java/simulations/" + simName ) );
+        PhetProject phetProject = new JavaSimulationProject( new File( trunk, "simulations-java/simulations/" + simName ) );
 
         return new SimInfo( phetProject, phetProject.getDependencies(), phetProject.getAllJarFiles(), phetProject.getSourceRoots(),
                             phetProject.getAllLicenseInfo(),
