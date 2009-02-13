@@ -1,4 +1,4 @@
-2-13-2009: Alpha Decay - Added a pie chart that depicts proportion of decayed nuclei to time chart, made several other minor changes.
+2-13-2009: Alpha Decay - Added a pie chart that depicts proportion of decayed nuclei, made several other minor changes.
 1-27-2009: States of Matter - Added a molecule with adjustable interaction strength, improved the charts.
 1-23-2009: Alpha Decay - Significatly redesigned to be more engaging and interactive.
 1-23-2009: Nuclear Fission - Added the ability to reset the chain reaction, improved reset of the reactor, modified the ray gun to have no text on it.
