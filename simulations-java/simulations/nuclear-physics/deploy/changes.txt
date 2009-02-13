@@ -1,3 +1,5 @@
+# 3.06.00 (28488) Feb 13, 2009
+> Fixed an issue where the alpha particles would sometimes appear to be leaving the nucleus when in fact they weren't
 # 3.05.04 (28367) Feb 11, 2009
 > Changed tunneling diameter for alpha particles so that it won't look like they were flying away when they're not.
 # 3.05.03 (28282) 02-09-2009
