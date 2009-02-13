@@ -106,7 +106,7 @@ public class DeploymentScenario {
                 if ( codebaseFragment.startsWith( PHET_PRODUCTION_CODEBASE_PREFIX ) ) {
                     scenario = DeploymentScenario.PHET_PRODUCTION_WEBSITE;
                 }
-                else if ( codebaseFragment.contains( PHET_DEVELOPMENT_CODEBASE_SUBSTRING ) ) {
+                else if ( codebaseFragment.indexOf( PHET_DEVELOPMENT_CODEBASE_SUBSTRING ) >= 0 ) {
                     /* 
                      * Do this after checking the production server scenario, 
                      * because deployment codebase substring may be contained in production codebase prefix.
