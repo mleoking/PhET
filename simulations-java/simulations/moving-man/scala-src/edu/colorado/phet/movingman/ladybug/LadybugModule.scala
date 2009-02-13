@@ -1,23 +1,27 @@
 package edu.colorado.phet.movingman.ladybug
 
 import canvas.{LadybugNode, LadybugSolidTraceNode, LadybugDotTraceNode, LadybugCanvas}
+import controlpanel._
 import model.{LadybugModel, ScalaClock}
 import model.LadybugMotionModel._
 
-import controlpanel.{LadybugClockControlPanel, PathVisibilityModel, VectorVisibilityModel, LadybugControlPanel}
 import edu.colorado.phet.common.phetcommon.application.Module
 import edu.colorado.phet.common.phetcommon.model.clock.IClock
 import java.awt.Color
+import umd.cs.piccolo.PNode
 
 class LadybugModule[ModelType <: LadybugModel](clock: ScalaClock,
                                               newModel: () => ModelType,
                                               newCanvas: LadybugModule[ModelType] => LadybugCanvas,
-                                              newControlPanel: LadybugModule[ModelType] => LadybugControlPanel[ModelType])
+                                              newControlPanel: LadybugModule[ModelType] => LadybugControlPanel[ModelType],
+                                              createRightControl:(LadybugModule[ModelType])=>PNode)
         extends Module("my module", clock) {
   def this(clock: ScalaClock) = this (clock,
     () => (new LadybugModel).asInstanceOf[ModelType],
     (m: LadybugModule[ModelType]) => new LadybugCanvas(m.model, m.getVectorVisibilityModel, m.getPathVisibilityModel),
-    (m: LadybugModule[ModelType]) => new LadybugControlPanel[ModelType](m))
+    (m: LadybugModule[ModelType]) => new LadybugControlPanel[ModelType](m),
+    (m: LadybugModule[ModelType]) => new PlaybackSpeedSlider(m.model)
+    )
 
   final val model = newModel()
   private val vectorVisibilityModel = new VectorVisibilityModel
@@ -32,7 +36,7 @@ class LadybugModule[ModelType <: LadybugModel](clock: ScalaClock,
   val controlPanel = newControlPanel(this)
   setControlPanel(controlPanel)
 
-  setClockControlPanel(new LadybugClockControlPanel(this))
+  setClockControlPanel(new LadybugClockControlPanel(this, () => {createRightControl(this)}))
 
   def getVectorVisibilityModel = vectorVisibilityModel
 

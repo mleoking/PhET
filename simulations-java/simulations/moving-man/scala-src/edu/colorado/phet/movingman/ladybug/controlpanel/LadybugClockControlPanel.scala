@@ -30,7 +30,7 @@ import umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloTimeControlPanel.BackgroundNode
 import edu.colorado.phet.movingman.ladybug.LadybugUtil._
 
-class LadybugClockControlPanel[M <: LadybugModel](module: LadybugModule[M]) extends PhetPCanvas {
+class LadybugClockControlPanel[M <: LadybugModel](module: LadybugModule[M],createRightControl:()=>PNode) extends PhetPCanvas {
   private class MyButtonNode(text: String, icon: Icon, action: () => Unit) extends PText(text) {
     addInputEventListener(new PBasicInputEventHandler() {
       override def mousePressed(event: PInputEvent) = {action()}
@@ -69,10 +69,8 @@ class LadybugClockControlPanel[M <: LadybugModel](module: LadybugModule[M]) exte
   })
 
 
-  val playbackSpeedSlider = new PlaybackSpeedSlider(module.model)
-  playbackSpeedSlider.setOffset(0, prefSizeM.getHeight / 2 - playbackSpeedSlider.getFullBounds.getHeight / 2)
-  playbackSpeedSlider.addInputEventListener(new CursorHandler)
-
+  val rightmostControl = createRightControl()
+  rightmostControl.setOffset(0, prefSizeM.getHeight / 2 - rightmostControl.getFullBounds.getHeight / 2)
 
   val rewind = new RewindButton(50)
   rewind.addListener(() => {
@@ -123,7 +121,7 @@ class LadybugClockControlPanel[M <: LadybugModel](module: LadybugModule[M]) exte
   addControl(rewind)
   addControl(playPause)
   addControl(stepButton)
-  addControl(playbackSpeedSlider)
+  addControl(rightmostControl)
 
 
   val timeline = new Timeline(module.model, this)
@@ -157,84 +155,16 @@ class LadybugClockControlPanel[M <: LadybugModel](module: LadybugModule[M]) exte
     playPause.setOffset(getPreferredSize.width / 2 - playPause.getFullBounds.getWidth / 2, playPause.getOffset.getY)
     rewind.setOffset(playPause.getFullBounds.getX - rewind.getFullBounds.getWidth - buttonDX, rewind.getOffset.getY)
     stepButton.setOffset(playPause.getFullBounds.getMaxX + buttonDX, stepButton.getOffset.getY)
-    playbackSpeedSlider.setOffset(stepButton.getFullBounds.getMaxX, playbackSpeedSlider.getOffset.getY)
+    rightmostControl.setOffset(stepButton.getFullBounds.getMaxX, rightmostControl.getOffset.getY)
 
     modePanelNode.setOffset(rewind.getFullBounds.getX - modePanelNode.getFullBounds.width, playPause.getFullBounds.getCenterY - modePanelNode.getFullBounds.getHeight / 2)
     clearButtonNode.setOffset(modePanelNode.getFullBounds.getX - clearButtonNode.getFullBounds.width, playPause.getFullBounds.getCenterY - clearButtonNode.getFullBounds.getHeight / 2)
 
-    val halfWidth = playPause.getFullBounds.getCenterX - playbackSpeedSlider.getFullBounds.getMaxX
+    val halfWidth = playPause.getFullBounds.getCenterX - rightmostControl.getFullBounds.getMaxX
     val blist = for (n <- nodes) yield n.getFullBounds
     val b: PBounds = blist.foldLeft(blist(0))((a, b) => new PBounds(a.createUnion(b)))
     val expanded = RectangleUtils.expand(b, 0, 0)
     backgroundNode.setSize((halfWidth * 2).toInt, expanded.getHeight.toInt)
     backgroundNode.setOffset(playPause.getFullBounds.getCenterX - halfWidth, expanded.getY)
-  }
-}
-
-class Timeline(model: LadybugModel, canvas: PhetPCanvas) extends PNode {
-  val pathOffsetY = 4
-  val pathHeight = 6
-  val ellipseWidth = 10
-  val ellipseHeight = 8
-  val insetX = 10
-  val shaded = new PhetPPath(LadybugColorSet.position)
-  val backgroundColor = new Color(190, 195, 195)
-
-  def darker(c: Color, del: Int) = {
-    new Color(c.getRed - del, c.getGreen - del, c.getBlue - del)
-  }
-
-  val background = new PhetPPath(backgroundColor) {
-    val topShade = new PhetPPath(new BasicStroke(2), darker(backgroundColor, 55))
-    addChild(topShade)
-    val bottomShade = new PhetPPath(new BasicStroke(1), darker(backgroundColor, 20))
-    addChild(bottomShade)
-    val leftShade = new PhetPPath(new BasicStroke(2), darker(backgroundColor, 50))
-    addChild(leftShade)
-    val rightShade = new PhetPPath(new BasicStroke(1), darker(backgroundColor, 20))
-    addChild(rightShade)
-    override def setPathTo(aShape: Shape) = {
-      super.setPathTo(aShape)
-      val b = aShape.getBounds2D
-      topShade.setPathTo(new Line2D.Double(b.getX, b.getY, b.getMaxX, b.getY))
-      bottomShade.setPathTo(new Line2D.Double(b.getX, b.getMaxY, b.getMaxX, b.getMaxY))
-      leftShade.setPathTo(new Line2D.Double(b.getX, b.getY, b.getX, b.getMaxY))
-      rightShade.setPathTo(new Line2D.Double(b.getMaxX, b.getY, b.getMaxX, b.getMaxY))
-    }
-  }
-  //  val handle = new PhetPPath(Color.blue, new BasicStroke(1), Color.darkGray)
-  val img = loadBufferedImage("piccolo-phet/images/button-template.png")
-  val scaledImage = BufferedImageUtils.getScaledInstance(img, 20, 10, RenderingHints.VALUE_INTERPOLATION_BILINEAR, true)
-  val handle = new PImage(scaledImage)
-  var scale = 1.0
-  addChild(background)
-  addChild(shaded)
-  addChild(handle)
-
-  canvas.addComponentListener(new ComponentAdapter() {
-    override def componentResized(e: ComponentEvent) = {updateSelf()}
-  })
-
-  handle.addInputEventListener(new CursorHandler)
-  handle.addInputEventListener(new PBasicInputEventHandler() {
-    override def mouseDragged(event: PInputEvent) = {
-      model.setPaused(true)
-      val dx = event.getCanvasDelta.width
-      val t = model.getTime + dx / scale
-      model.setPlaybackTime(((model.getFloatTime + dx / scale) max model.getMinRecordedTime) min (model.getMaxRecordedTime))
-    }
-  })
-
-  model.addListenerByName(updateSelf())
-  updateSelf
-  def updateSelf() = {
-    scale = (canvas.getWidth - insetX * 2) / LadybugDefaults.timelineLengthSeconds
-
-    shaded.setPathTo(new Rectangle(insetX, pathOffsetY + 1, (model.getTimeRange * scale).toInt, pathHeight - 1))
-    background.setPathTo(new Rectangle(insetX, pathOffsetY, (LadybugDefaults.timelineLengthSeconds * scale).toInt, pathHeight))
-    handle.setVisible(model.isPlayback)
-    val elapsed = model.getTime - model.getMinRecordedTime
-    //    handle.setPathTo(new Ellipse2D.Double(elapsed * scale - ellipseWidth / 2 + insetX, pathOffsetY - 1, ellipseWidth, ellipseHeight))
-    handle.setOffset(elapsed * scale - handle.getFullBounds.getWidth / 2 + insetX, pathOffsetY - 2)
   }
 }
