@@ -6,6 +6,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 
 import edu.colorado.phet.buildtools.PhetProject;
 
@@ -56,8 +57,9 @@ public class SetSVNIgnoreToDeployDirectories {
         // For each project directory, set the svn:ignore property for its deploy directory
         String propFilename = propFile.getAbsolutePath();
 
-        String svnCommand = "svn propset svn:ignore --file " + propFilename + " " + dir.getAbsolutePath();
-        System.out.println( svnCommand );
+        //use a command array for non-windows platforms
+        String[]svnCommand=new String[]{"svn","propset","svn:ignore","--file",propFilename,dir.getAbsolutePath()};
+        System.out.println( Arrays.asList(svnCommand ));
         Runtime.getRuntime().exec( svnCommand );
     }
 }
