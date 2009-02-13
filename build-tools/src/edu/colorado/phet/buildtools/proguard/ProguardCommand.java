@@ -4,8 +4,10 @@ package edu.colorado.phet.buildtools.proguard;
 import proguard.ant.ProGuardTask;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import edu.colorado.phet.buildtools.AntTaskRunner;
 import edu.colorado.phet.buildtools.util.FileUtils;
@@ -62,8 +64,17 @@ public class ProguardCommand {
             bufferedWriter.write( "# Proguard configuration file for " + config.getName() + "." + newline );
             bufferedWriter.write( "# Automatically generated" + newline );
 
+            ArrayList done = new ArrayList();
             for ( int i = 0; i < config.getInputJars().length; i++ ) {
-                bufferedWriter.write( "-injars '" + config.getInputJars()[i].getAbsolutePath() + "'" + newline );
+                File file = config.getInputJars()[i].getCanonicalFile();
+                if ( !done.contains( file ) ) {
+                    bufferedWriter.write( "-injars '" + file.getAbsolutePath() + "'" + newline );
+                    System.out.println( "i=" + i + ", config.getInputJars()[i].getAbsolutePath() = " + file );
+                    done.add( file );
+                }
+                else {
+                    System.out.println( "Already contained JAR, not writing duplicate: " + file );
+                }
             }
 
             bufferedWriter.write( "-outjars '" + config.getOutputJar().getAbsolutePath() + "'" + newline );
