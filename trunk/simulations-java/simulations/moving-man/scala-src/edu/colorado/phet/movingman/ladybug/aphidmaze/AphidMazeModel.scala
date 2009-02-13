@@ -1,8 +1,9 @@
 package edu.colorado.phet.movingman.ladybug.aphidmaze
 
+import model.{Vector2D, LadybugModel}
 import scala.collection.mutable.ArrayBuffer
-import model.LadybugModel
 import model.aphidmaze.BarrierSet
+import LadybugUtil._
 
 class AphidMazeModel extends LadybugModel {
   val maze = new BarrierSet
@@ -15,8 +16,14 @@ class AphidMazeModel extends LadybugModel {
     super.update(dt)
     val newPosition = ladybug.getPosition
 
-    if (maze.crossedBarrier(prevPosition, newPosition))
-      println("crossed barrier")
+    if (maze.crossedBarrier(prevPosition, newPosition)) {
+      println("hit barrier")
+      ladybug.setPosition(prevPosition)
+      ladybug.setVelocity(new Vector2D)
+      ladybug.setAcceleration(new Vector2D)
+      resetMotion2DModel
+      setSamplePoint(prevPosition)
+    }
 
     maze.update(ladybug)
   }
