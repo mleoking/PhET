@@ -7,8 +7,8 @@
 	$_GET['query'] = "empty";
 	
 	
-	print "<select name='sim_project'>";
-	print "<option value='any'>any</option>";
+	print "<select name='sim_project' onchange='javascript:specify_name()'>";
+	print "<option value='all'>all</option>";
 	print "<optgroup label='Java'>";
 	
 	$arr = array(
