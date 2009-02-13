@@ -22,6 +22,6 @@ object LadybugDefaults {
   var HIDE_MOUSE_DURING_DRAG = true
   var POSITIVE_Y_IS_UP = true
 
-  var LADYBUG_SCALE=0.6
+  var LADYBUG_SCALE = 0.6
 
 }

@@ -39,7 +39,7 @@ class MazeNode(model: AphidMazeModel, transform: ModelViewTransform2D) extends P
 
     model.maze.lines.foreach((a: Line2D.Double) => {
       val viewShape = transform.getAffineTransform.createTransformedShape(a)
-      val path = new PhetPPath(viewShape, new BasicStroke(2),Color.blue)
+      val path = new PhetPPath(viewShape, new BasicStroke(2), Color.blue)
       addChild(path)
     })
 

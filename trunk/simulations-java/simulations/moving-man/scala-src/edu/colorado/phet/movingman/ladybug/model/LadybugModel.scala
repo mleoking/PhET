@@ -119,7 +119,7 @@ class LadybugModel extends Observable {
 
   //  println("t\tx\tvx\tax")
   def positionMode(dt: Double) = {
-//    println("pendown=" + penDown)
+    //    println("pendown=" + penDown)
     if (frictionless && !penDown) {
       velocityMode(dt)
       if (samplePath.length > 2) {

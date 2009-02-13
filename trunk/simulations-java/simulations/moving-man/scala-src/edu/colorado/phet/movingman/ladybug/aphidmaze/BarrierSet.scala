@@ -16,10 +16,10 @@ class BarrierSet {
   //  rectangles += new Rectangle2D.Double(9, -10, 1, 20)
 
   def update(ladybug: Ladybug) = {
-//    lines.foreach((line:Line2D.Double)=>{
-//      line.x1 =line.x1+Math.random*0.01
-//      line.y1 =line.y1+Math.random*0.01
-//    })
+    //    lines.foreach((line:Line2D.Double)=>{
+    //      line.x1 =line.x1+Math.random*0.01
+    //      line.y1 =line.y1+Math.random*0.01
+    //    })
   }
 
   def containsPoint(pt: Vector2D): Boolean = {
@@ -37,8 +37,8 @@ class BarrierSet {
     new Rectangle2D.Double(w.x, w.y, w.dx + 0.1, w.dy + 0.1)
   }
 
-  def toLine(w: Wall): Line2D.Double= {
-    new Line2D.Double(w.x, w.y, w.x+w.dx, w.y+w.dy)
+  def toLine(w: Wall): Line2D.Double = {
+    new Line2D.Double(w.x, w.y, w.x + w.dx, w.y + w.dy)
   }
 
 }

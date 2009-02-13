@@ -30,7 +30,7 @@ import umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloTimeControlPanel.BackgroundNode
 import edu.colorado.phet.movingman.ladybug.LadybugUtil._
 
-class LadybugClockControlPanel[M<:LadybugModel](module: LadybugModule[M]) extends PhetPCanvas {
+class LadybugClockControlPanel[M <: LadybugModel](module: LadybugModule[M]) extends PhetPCanvas {
   private class MyButtonNode(text: String, icon: Icon, action: () => Unit) extends PText(text) {
     addInputEventListener(new PBasicInputEventHandler() {
       override def mousePressed(event: PInputEvent) = {action()}
