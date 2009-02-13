@@ -5,9 +5,8 @@ import scala.collection.mutable.{HashSet, ArrayBuffer}
 
 case class Wall(x: Double, y: Double, dx: Double, dy: Double)
 class MazeGenerator {
-  //see http://home.att.net/~srschmitt/script_maze_generator.html#the%20source%20code
-  //see also http://www.mazeworks.com/mazegen/mazetut/index.htm
-  //see also wikipedia
+  //see http://www.mazeworks.com/mazegen/mazetut/index.htm
+  //see http://en.wikipedia.org/wiki/Maze_generation_algorithm
 
   case class Location(x: Double, y: Double) {
     def distance(other: Location) = {
@@ -44,7 +43,6 @@ class MazeGenerator {
 
   while (visited != locations) {
     val unvisitedNeighbors = getAdjacent(current) -- visited
-    //todo: only keep those with all walls intact for a perfect maze
 
     if (unvisitedNeighbors.size > 0) {
       val chosenCell = unvisitedNeighbors.toSeq(random.nextInt(unvisitedNeighbors.size))
@@ -57,21 +55,15 @@ class MazeGenerator {
     }
   }
 
-  for (i <- getXPoints) {
-    for (j <- getYPoints) {
-      if (i == getXPoints(0)) {
-        walls += Wall(i, j, 0, 1)
-      }
-      if (i == getXPoints(getXPoints.length - 1)) {
-        walls += Wall(i + 1, j, 0, 1)
-      }
-      if (j == getYPoints(0)) {
-        walls += Wall(i, j, 1, 0)
-      }
-      if (j == getYPoints(getYPoints.length - 1)) {
-        walls += Wall(i, j + 1, 1, 0)
-      }
-    }
+  for (i <- getXPoints; j <- getYPoints) {
+    if (i == getXPoints(0))
+      walls += Wall(i, j, 0, 1)
+    if (i == getXPoints(getXPoints.length - 1))
+      walls += Wall(i + 1, j, 0, 1)
+    if (j == getYPoints(0))
+      walls += Wall(i, j, 1, 0)
+    if (j == getYPoints(getYPoints.length - 1))
+      walls += Wall(i, j + 1, 1, 0)
   }
 
   def getWallBetween(a: Location, b: Location): Wall = {
@@ -82,8 +74,7 @@ class MazeGenerator {
     } else if (a.y == b.y) {
       new Wall(Math.max(a.x, b.x), a.y, 0, dy)
     } else {
-      println("not sure why those were adjacent")
-      //      throw RuntimeExcetion("not sure why those were adjacent")
+      println("points should have been adjacent")
       new Wall(Math.min(a.x, b.x), a.y, Math.min(a.x, b.x) + dx, a.y)
     }
   }
@@ -95,7 +86,6 @@ class MazeGenerator {
     set ++ iterable
     set
   }
-
 }
 
 object Test {
