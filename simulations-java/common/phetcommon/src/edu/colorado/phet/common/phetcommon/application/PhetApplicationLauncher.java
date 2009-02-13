@@ -110,17 +110,23 @@ public class PhetApplicationLauncher {
                         app.startApplication();
                         disposeSplashWindow();
 
-                        // session counts
-                        SessionCounter sessionCounter = SessionCounter.initInstance( config.getProjectName(), config.getFlavor() );
-                        if ( sessionCounter != null ) {
-                            sessionCounter.incrementCounts();
-                        }
-
                         // statistics
                         StatisticsManager.initInstance( config );
                         if ( StatisticsManager.isStatisticsEnabled() ) {
+                            
+                            // increment session counts
+                            SessionCounter sessionCounter = SessionCounter.initInstance( config.getProjectName(), config.getFlavor() );
+                            if ( sessionCounter != null ) {
+                                sessionCounter.incrementCounts();
+                            }
+                            
+                            // create the session message
                             final SessionMessage sessionMessage = SessionMessage.initInstance( config );
+                            
+                            // Software Use Agreement
                             SoftwareAgreementManager.validate( app.getPhetFrame(), config );
+                            
+                            // send session message
                             StatisticsManager.getInstance().addListener( new StatisticsManagerListener() {
                                 public void postResults( boolean success, StatisticsMessage m ) {
                                     if ( success && m == sessionMessage ) {
