@@ -8,7 +8,7 @@
 	$link = setup_mysql();
 	
 	// number of simulated messages to be sent
-	$num_entries = 1000;
+	$num_entries = 100000;
 	
 	
 	// percentage of sims that are flash (100-x % are java)
@@ -99,6 +99,9 @@
 		if(rand(0, 99) < 1) {
 			$lang = "de";
 			$country = "DE";
+		}
+		if($country == "none") {
+			$country = "NULL";
 		}
 		return array($lang, $country);
 	}
