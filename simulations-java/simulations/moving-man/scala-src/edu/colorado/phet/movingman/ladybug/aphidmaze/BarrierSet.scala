@@ -6,14 +6,10 @@ import java.awt.geom.{Line2D, Rectangle2D}
 import scala.collection.mutable.ArrayBuffer
 import edu.colorado.phet.movingman.ladybug.LadybugUtil._
 
-class BarrierSet {
+class BarrierSet extends Observable {
   val rectangles = new ArrayBuffer[Rectangle2D]
   val lines = new ArrayBuffer[Line2D.Double]
-
-  //  rectangles += new Rectangle2D.Double(-10, -9, 20, 1)
-  //  rectangles += new Rectangle2D.Double(-10, 9, 20, 1)
-  //  rectangles += new Rectangle2D.Double(-9, -10, 1, 20)
-  //  rectangles += new Rectangle2D.Double(9, -10, 1, 20)
+  var _dim = 0
 
   def update(ladybug: Ladybug) = {
     //    lines.foreach((line:Line2D.Double)=>{
@@ -25,12 +21,20 @@ class BarrierSet {
   def containsPoint(pt: Vector2D): Boolean = {
     rectangles.foldLeft(false)((value: Boolean, cur: Rectangle2D) => cur.contains(pt) || value)
   }
+  setDim(5)
 
-  val mg = new MazeGenerator
+  def setDim(dim: Int) = {
+    if (dim != _dim) {
+      lines.clear()
 
-  for (w <- mg.walls) {
-    //    rectangles+=toRectangle(w)
-    lines += toLine(w)
+      val mg = new MazeGenerator(dim)
+
+      for (w <- mg.walls) {
+        lines += toLine(w)
+      }
+      _dim=dim
+      notifyListeners
+    }
   }
 
   def toRectangle(w: Wall): Rectangle2D = {

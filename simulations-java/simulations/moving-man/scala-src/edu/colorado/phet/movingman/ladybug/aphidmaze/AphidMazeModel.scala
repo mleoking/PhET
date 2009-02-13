@@ -16,4 +16,8 @@ class AphidMazeModel extends LadybugModel {
 
     maze.update(ladybug)
   }
+
+  def setMazeDim(dim:Int)={
+    maze.setDim(dim)
+  }
 }

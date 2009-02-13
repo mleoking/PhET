@@ -71,7 +71,8 @@ class LadybugControlPanel[M <: LadybugModel](module: LadybugModule[M]) extends C
     contents += new MyRadioButtonWithEnable("Circular", {m.motion = CIRCULAR; rec}, m.motion == CIRCULAR, m.addListener, () => module.model.readyForInteraction, module.model)
     contents += new MyRadioButtonWithEnable("Ellipse", {m.motion = ELLIPSE; rec}, m.motion == ELLIPSE, m.addListener, () => module.model.readyForInteraction, module.model)
   }
-  addControl(new MotionControlPanel(module.getLadybugMotionModel))
+  val motionControlPanel = new MotionControlPanel(module.getLadybugMotionModel)
+  addControl(motionControlPanel)
   addControl(createBox)
 
 
