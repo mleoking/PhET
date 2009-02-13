@@ -178,6 +178,10 @@
 					$pre_select .= "YEARWEEK(session.timestamp) as week, ";
 					array_push($group_by, "week");
 					break;
+				case "month":
+					$pre_select .= "CONCAT(YEAR(session.timestamp), '-', IF(LENGTH(MONTH(session.timestamp)) = 1, CONCAT('0', MONTH(session.timestamp)), MONTH(session.timestamp) )) as month, MONTHNAME(session.timestamp) as monthname, ";
+					array_push($group_by, "month");
+					break;
 				case "version":
 					$pre_select .= "CONCAT(session.sim_major_version, '.', session.sim_minor_version, '.', session.sim_dev_version, ' (', session.sim_svn_revision, ')') AS version, ";
 					array_push($group_by, "version");
@@ -371,6 +375,9 @@
 
 		// change things depending on the query type desired
 		switch($query_name) {
+			case "empty":
+				array_push($query, "SELECT {$pre_select}NULL FROM session{$tables}{$session_where}{$group_by}{$order_by}; ");
+				break;
 			case "message_count":
 				array_push($query, "SELECT {$pre_select}COUNT(*) as message_count FROM session{$tables}{$session_where}{$group_by}{$order_by}; ");
 				break;
@@ -409,4 +416,39 @@
 	function report_table($desc, $args) {
 		return "{$desc} [<a href='query-table.php?{$args}'>table</a>] [<a href='query-csv.php?{$args}'>csv</a>]<br />";
 	}
+	
+	// used to extract fieldnames and display each table
+	function display_result($result) {
+		$num_rows = mysql_num_rows($result);
+		print "<table border=1>\n";
+		print "<tr>\n";
+		$fields_num = mysql_num_fields($result);
+		for($i=0; $i<$fields_num; $i++) {
+			$field = mysql_fetch_field($result);
+			print "<td><font face=arial size=1>{$field->name}</font></td>";
+		}
+		print "</tr>\n";
+		while($get_info = mysql_fetch_row($result)) {
+			print "<tr>\n";
+			foreach($get_info as $field) {
+				print "\t<td><font face=arial size=2/>{$field}</font></td>\n";
+			}
+			print "</tr>\n";
+		}
+		print "</table>\n";
+		
+		print "<br/>\n";
+	}
+	
+	function display_options($result) {
+		$num_rows = mysql_num_rows($result);
+		while($get_info = mysql_fetch_row($result)) {
+			foreach($get_info as $field) {
+				if($field !== null) {
+					print "<option value='{$field}'>{$field}</option>";
+				}
+			}
+		}
+	}
+	
 ?>
