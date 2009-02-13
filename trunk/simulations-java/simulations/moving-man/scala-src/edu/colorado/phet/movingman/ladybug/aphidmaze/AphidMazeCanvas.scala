@@ -15,4 +15,6 @@ class AphidMazeCanvas(model: AphidMazeModel, vectorVisibilityModel: VectorVisibi
   //  addNode(new PhetPPath(new Rectangle2D.Double(0, 0, 100, 100), Color.black))
 
   addNode(0, new MazeNode(model, transform))
+
+  addNode(new AphidSetNode(model,transform))
 }
