@@ -1,5 +1,6 @@
 package edu.colorado.phet.movingman.ladybug.aphidmaze
 
+import _root_.scala.runtime.RichInt
 import scala.collection.mutable.{HashSet, ArrayBuffer}
 
 case class Wall(x: Double, y: Double, dx: Double, dy: Double)
@@ -39,11 +40,11 @@ class MazeGenerator {
       if (i == maxX) {
         walls += Wall(i + 1, j, 0, 1)
       }
-      if (j== -maxY){
-        walls += Wall(i , j, 1, 0)
+      if (j == -maxY) {
+        walls += Wall(i, j, 1, 0)
       }
-      if (j==maxY){
-        walls += Wall(i , j+1, 1, 0)
+      if (j == maxY) {
+        walls += Wall(i, j + 1, 1, 0)
       }
     }
   }

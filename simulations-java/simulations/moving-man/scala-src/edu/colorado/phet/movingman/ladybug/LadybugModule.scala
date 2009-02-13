@@ -44,7 +44,7 @@ import java.awt.Color
 //
 //  def setLadybugDraggable(draggable: Boolean) = canvas.setLadybugDraggable(draggable)
 //}
-class LadybugModule[ModelType<:LadybugModel](clock: ScalaClock, newModel: () => ModelType, newCanvas: LadybugModule[ModelType] => LadybugCanvas) extends Module("my module", clock) {
+class LadybugModule[ModelType <: LadybugModel](clock: ScalaClock, newModel: () => ModelType, newCanvas: LadybugModule[ModelType] => LadybugCanvas) extends Module("my module", clock) {
   final val model = newModel()
   private val vectorVisibilityModel = new VectorVisibilityModel
   private val pathVisibilityModel = new PathVisibilityModel

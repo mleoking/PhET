@@ -7,7 +7,7 @@
 package edu.colorado.phet.movingman.ladybug.test
 
 
-class MyQueue[T](p:String) extends MovingManApplication(null){
+class MyQueue[T](p: String) extends MovingManApplication(null) {
 }
 object TestSubtypes {
   def main(args: Array[String]) {
