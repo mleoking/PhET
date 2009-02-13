@@ -6,7 +6,7 @@ import java.util.*;
 import edu.colorado.phet.buildtools.flash.PhetFlashProject;
 import edu.colorado.phet.buildtools.scripts.SetSVNIgnoreToDeployDirectories;
 import edu.colorado.phet.buildtools.util.*;
-import edu.colorado.phet.buildtools.projects.UpdaterProject;
+import edu.colorado.phet.buildtools.projects.BuildToolsProject;
 import edu.colorado.phet.common.phetcommon.resources.PhetProperties;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
@@ -229,6 +229,17 @@ public abstract class PhetProject {
         if ( simProject.exists() && isProject( simProject ) ) {
             return simProject;
         }
+
+        //Search based on relative location to trunk, if nothing has matched yet.
+        //todo: make sure there is no ambiguity if one path matches several of these patterns
+        System.out.println( "Relative path not found, searching from trunk..." );
+
+        File trunkPath=new File( getTrunk(),token );
+        if (trunkPath.exists()){
+            System.out.println( "Found item based on path from trunk: "+trunkPath.getAbsolutePath() );
+            return trunkPath;
+        }
+
         throw new RuntimeException( "No path found for token=" + token + ", antBaseDir=" + getSimulationsJava().getAbsolutePath() + ", in project=" + this );
     }
 
@@ -480,7 +491,10 @@ public abstract class PhetProject {
         phetProjects.addAll( sort( Arrays.asList( PhetJavaProject.getJavaProjects( trunk ) ) ) );
         phetProjects.addAll( sort( Arrays.asList( PhetFlashProject.getFlashProjects( trunk ) ) ) );
         try {
-            phetProjects.add(new UpdaterProject( new File( trunk, "util/updater" ) ));
+            //Add supplemental projects
+            //todo: move these to a separate area
+            phetProjects.add(new BuildToolsProject( new File( trunk, "util/updater" ) ));
+            phetProjects.add(new BuildToolsProject( new File( trunk, "build-tools" ) ));
         }
         catch( IOException e ) {
             e.printStackTrace();
