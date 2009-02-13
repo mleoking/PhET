@@ -160,7 +160,7 @@ EOT;
         $sim_dirname = $this->simulation["sim_dirname"];
         $sim_flavorname = $this->simulation["sim_flavorname"];
         $sim_rating = $this->simulation["sim_rating"];
-        $sim_no_mac = $this->simulation["sim_no_mac"];
+        //$sim_no_mac = $this->simulation["sim_no_mac"];
         $sim_crutch = $this->simulation["sim_crutch"];
         $sim_type = $this->simulation["sim_type"];
         $sim_size = $this->simulation["sim_size"];
