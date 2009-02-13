@@ -15,4 +15,11 @@ object LadybugUtil {
   implicit def fnToActionListener(fn: () => Unit) = new ActionListener() {
     def actionPerformed(e: ActionEvent) = {fn()}
   }
+
+  /**See docs in usage*/
+  def defineInvokeAndPass(m: (=> Unit) => Unit)(block: => Unit): () => Unit = {
+    block
+    m(block)
+    block _
+  }
 }
