@@ -49,13 +49,17 @@ public abstract class JavaProject extends PhetProject {
     }
 
     public boolean build() throws Exception {
-        new PhetBuildCommand( this, new MyAntTaskRunner(), true, this.getDefaultDeployJar() ).execute();
+        new PhetBuildCommand( this, new MyAntTaskRunner(), isShrink(), this.getDefaultDeployJar() ).execute();
         File[] f = getDeployDir().listFiles( new FileFilter() {
             public boolean accept( File pathname ) {
                 return pathname.getName().toLowerCase().endsWith( ".jar" );
             }
         } );
         return f.length == 1;//success if there is exactly one jar
+    }
+
+    public boolean isShrink() {
+        return true;
     }
 
     public File getTranslationFile( Locale locale ) {

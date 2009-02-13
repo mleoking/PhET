@@ -3,8 +3,6 @@ package edu.colorado.phet.buildtools.projects;
 import java.io.File;
 import java.io.IOException;
 
-import edu.colorado.phet.buildtools.projects.JavaProject;
-
 /**
  * This project is used so the build-tools project can build and deploy itself.
  */
@@ -33,6 +31,10 @@ public class BuildToolsProject extends JavaProject {
         return new File( getDeployDir(), "phet-build-gui.jar" );
     }
 
+    //an apache BuildException is getting thrown away 
+    public boolean isShrink() {
+        return true;
+    }
     //todo: add deploy location
 //    public String getProdServerDeployPath() {
 //        return "/web/htdocs/phet/phet-dist/updater";
