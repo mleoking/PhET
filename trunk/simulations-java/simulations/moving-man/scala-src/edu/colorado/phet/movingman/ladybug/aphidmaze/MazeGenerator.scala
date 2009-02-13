@@ -17,8 +17,8 @@ class MazeGenerator {
   val walls = new HashSet[Wall]
   val locations = new HashSet[Location]
 
-  val maxX = 5;
-  val maxY = 5;
+  val maxX = 8;
+  val maxY = 8;
 
   val random = new Random
 
@@ -57,25 +57,35 @@ class MazeGenerator {
     }
   }
 
-//  for (i <- getXPoints) {
-//    for (j <- getYPoints) {
-//      if (i == getXPoints(0)) {
-//        walls += Wall(i, j, 0, 1)
-//      }
-//      if (i == getXPoints(getXPoints.length - 1)) {
-//        walls += Wall(i + 1, j, 0, 1)
-//      }
-//      if (j == getYPoints(0)) {
-//        walls += Wall(i, j, 1, 0)
-//      }
-//      if (j == getYPoints(getYPoints.length - 1)) {
-//        walls += Wall(i, j + 1, 1, 0)
-//      }
-//    }
-//  }
+  for (i <- getXPoints) {
+    for (j <- getYPoints) {
+      if (i == getXPoints(0)) {
+        walls += Wall(i, j, 0, 1)
+      }
+      if (i == getXPoints(getXPoints.length - 1)) {
+        walls += Wall(i + 1, j, 0, 1)
+      }
+      if (j == getYPoints(0)) {
+        walls += Wall(i, j, 1, 0)
+      }
+      if (j == getYPoints(getYPoints.length - 1)) {
+        walls += Wall(i, j + 1, 1, 0)
+      }
+    }
+  }
 
   def getWallBetween(a: Location, b: Location): Wall = {
-    new Wall(Math.min(a.x, b.x), Math.min(a.y, b.y), Math.abs(a.x - b.x), Math.abs(a.y - b.y))
+    val dx = Math.abs(getXPoints(0) - getXPoints(1))
+    val dy = Math.abs(getYPoints(0) - getYPoints(1))
+    if (a.x == b.x) {
+      new Wall(a.x, Math.max(a.y, b.y), dx, 0)
+    } else if (a.y == b.y) {
+      new Wall(Math.max(a.x, b.x), a.y, 0, dy)
+    } else {
+      println("not sure why those were adjacent")
+      //      throw RuntimeExcetion("not sure why those were adjacent")
+      new Wall(Math.min(a.x, b.x), a.y, Math.min(a.x, b.x) + dx, a.y)
+    }
   }
 
   def getAdjacent(location: Location): HashSet[Location] = {
