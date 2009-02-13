@@ -29,8 +29,6 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.HTMLEditorPane;
  */
 public class SoftwareAgreementManager {
 
-    private static final int SOFTWARE_AGREEMENT_VERSION = 1;
-    
     /* not intended for instantiation */
     private SoftwareAgreementManager() {}
 
@@ -40,7 +38,8 @@ public class SoftwareAgreementManager {
     public static void validate( Frame owner, IStatistics statistics ) {
         boolean alwaysAsk = PhetPreferences.getInstance().isAlwaysShowSoftwareAgreement();
         int acceptedVersion = PhetPreferences.getInstance().getSoftwareAgreementVersion();
-        if ( alwaysAsk || acceptedVersion < SOFTWARE_AGREEMENT_VERSION ) {
+        int currentVersion = SoftwareAgreement.getInstance().getVersion();
+        if ( alwaysAsk || acceptedVersion < currentVersion ) {
             negotiate( owner, statistics );
         }
     }
@@ -133,7 +132,8 @@ public class SoftwareAgreementManager {
          * If the agreement is accepted, write the agreement version number to the preferences file.
          */
         private void accept() {
-            PhetPreferences.getInstance().setSoftwareAgreementVersion( SOFTWARE_AGREEMENT_VERSION );
+            int version = SoftwareAgreement.getInstance().getVersion();
+            PhetPreferences.getInstance().setSoftwareAgreementVersion( version );
             dispose();
         }
 

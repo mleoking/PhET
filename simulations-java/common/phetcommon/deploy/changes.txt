@@ -1,3 +1,4 @@
+2-13-09: #1232, abstraction of software agreement version and content
 2-13-09: #877, session counts feature only enabled when statistics are enabled
 2-12-08: #1231, change About>OK to About>Close
 2-12-08: #1225, make Software Use Agreement available from About dialog
