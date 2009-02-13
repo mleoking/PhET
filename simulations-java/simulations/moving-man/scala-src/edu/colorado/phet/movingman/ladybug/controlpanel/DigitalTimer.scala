@@ -9,7 +9,7 @@ import umd.cs.piccolo.nodes.{PPath, PText}
 import umd.cs.piccolo.PNode
 import LadybugUtil._
 
-class DigitalTimer(m: LadybugModel) extends PNode {
+class DigitalTimer(model: LadybugModel) extends PNode {
   val text = new PText("123.27 sec")
   text.setFont(new PhetFont(42))
 
@@ -27,8 +27,8 @@ class DigitalTimer(m: LadybugModel) extends PNode {
   text.setText(new DecimalFormat("0.00").format(m.getTime)+" sec")
    */
 
-  val update = defineInvokeAndPass(m.addListenerByName){
-    text.setText(new DecimalFormat("0.00").format(m.getTime) + " sec")
+  val update = defineInvokeAndPass(model.addListenerByName){
+    text.setText(new DecimalFormat("0.00").format(model.getTime) + " sec")
   }
 
 }
