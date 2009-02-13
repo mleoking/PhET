@@ -8,6 +8,13 @@
 	
 	$result = report_result($_GET);
 	
+	
+	print "<select name='{$_GET['select_name']}'>";
+	
+	if(!$_GET['hide_all']) {
+		print "<option value='all'>all</option>";
+	}
+	
 	$num_rows = mysql_num_rows($result);
 	while($get_info = mysql_fetch_row($result)) {
 		foreach($get_info as $field) {
@@ -17,5 +24,5 @@
 		}
 	}
 	
-	flush();
+	print "</select>";
 ?>

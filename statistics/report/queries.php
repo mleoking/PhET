@@ -200,6 +200,10 @@
 					array_push($tables, "simplified_os");
 					array_push($group_by, "host_simplified_os");
 					break;
+				case "sim_dev":
+					$pre_select .= "IF(session.sim_dev, 'true', 'false') AS sim_dev, ";
+					array_push($group_by, "sim_dev");
+					break;
 				case "sim_type":
 					$pre_select .= "IF(session.sim_type = 0, 'java', 'flash') AS sim_type, ";
 					array_push($group_by, "sim_type");

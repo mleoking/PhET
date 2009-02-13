@@ -1,0 +1,26 @@
+
+#query_type {
+	padding-bottom: 10px;
+}
+
+#debug {
+	font-size: 8px;
+	padding-bottom: 10px;
+}
+
+.constraint {
+	/*line-height: 200%;*/
+	padding: 5px;
+	
+	/*float: left;*/
+}
+
+#content {
+	max-width: 900px;
+	font-size: 12px;
+}
+
+#formcontrols {
+	clear: left;
+}
+
