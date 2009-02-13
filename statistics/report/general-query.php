@@ -28,6 +28,7 @@
 							<option value="message_count">Message Counts</option>
 						</optgroup>
 						<optgroup label="Other">
+							<option value="recent_messages">Recent Messages</option>
 						</optgroup>
 					</select>
 				</div>
