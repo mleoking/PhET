@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.HTMLEditorPane;
 
 /**
- * Displays the full text of PhET's Software & Privacy Agreement.
+ * Displays the full text of PhET's Software Use Agreement.
  */
 public class SoftwareAgreementDialog extends GrayRectWorkaroundDialog {
 
@@ -60,7 +60,7 @@ public class SoftwareAgreementDialog extends GrayRectWorkaroundDialog {
 
   protected JComponent createAgreementPanel() {
         
-        String html = HTMLUtils.createStyledHTMLFromFragment( getAgreementHTML() );
+        String html = HTMLUtils.createStyledHTMLFromFragment( SoftwareAgreement.getInstance().getContent() );
         HTMLEditorPane htmlEditorPane = new HTMLEditorPane( html );
         htmlEditorPane.setBackground( Color.WHITE );
         
@@ -83,51 +83,5 @@ public class SoftwareAgreementDialog extends GrayRectWorkaroundDialog {
         });
         panel.add( closeButton );
         return panel;
-    }
-    
-    private String getAgreementHTML() {
-        /*
-         * TODO:
-         * We're not sure where this text lives yet.
-         * If it needs to be localized, then it will live in phetcommon strings file.
-         * If not, then perhaps we'll put it in a text file.
-         * We do know that the format will be HTML.
-         * For now, it's a literal so that translators don't have to see this mess in the strings file.
-         */
-        return "<html>" +
-        "<b>PhET Software Agreement</b><br> " +
-        "<br>" +
-        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
-        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
-        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
-        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
-        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
-        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
-        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
-        "<br>" +
-        "<br>" +
-        "<b>Disclaimers</b><br>" +
-        "<br>" +
-        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
-        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
-        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
-        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
-        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
-        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
-        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
-        "<br>" +
-        "<br>" +
-        "<b>PhET Privacy Agreement</b><br>" +
-        "<br>" +
-        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
-        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
-        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
-        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
-        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
-        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
-        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
-        "<br>" +
-        "etc..." +
-        "</html>";
     }
 }
