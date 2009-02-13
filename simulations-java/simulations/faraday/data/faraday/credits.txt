@@ -1,1 +1,1 @@
-phet-credits software-development=Chris Malley design-team=Wendy Adams, Mike Dubson, Kathy Perkins, Carl Weiman
+phet-credits software-development=Chris Malley design-team=Wendy Adams, Mike Dubson, Kathy Perkins, Carl Weiman interviews=Danielle Harlow, Archie Paulson
