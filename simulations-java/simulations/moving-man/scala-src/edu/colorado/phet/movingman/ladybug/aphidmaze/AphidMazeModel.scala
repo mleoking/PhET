@@ -10,11 +10,13 @@ class AphidMazeModel extends LadybugModel {
   aphids += new Aphid(0, 0)
   aphids += new Aphid(4, 3)
 
-  override def positionMode(dt: Double) = {
-    super.positionMode(dt)
+  override def update(dt: Double) = {
+    val prevPosition = ladybug.getPosition
+    super.update(dt)
+    val newPosition = ladybug.getPosition
 
-    if (maze.containsPoint(ladybug.getPosition))
-      println("collision")
+    if (maze.crossedBarrier(prevPosition, newPosition))
+      println("crossed barrier")
 
     maze.update(ladybug)
   }
