@@ -14,7 +14,7 @@ public class PrintEnv {
         Iterator i = keySet.iterator();
         while ( i.hasNext() ) {
             String key = (String) i.next();
-            System.out.println( "key=" + key + " value=" + System.getenv( key ) );
+            System.out.println( key + "=" + System.getenv( key ) );
         }
     }
 }
