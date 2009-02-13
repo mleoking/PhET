@@ -7,61 +7,84 @@ case class Wall(x: Double, y: Double, dx: Double, dy: Double)
 class MazeGenerator {
   //see http://home.att.net/~srschmitt/script_maze_generator.html#the%20source%20code
 
-  case class Location(x: Int, y: int) {
+  case class Location(x: Double, y: Double) {
     def distance(other: Location) = {
       Math.abs(x - other.x) + Math.abs(y - other.y)
     }
   }
   val walls = new ArrayBuffer[Wall]
   val allLocations = new HashSet[Location]
-  val maxX = 8;
-  val maxY = 8;
-  for (i <- -maxX to maxX) {
-    for (j <- -maxY to maxY) {
+
+  val maxX = 10;
+  val maxY = 10;
+
+  val random = new Random
+
+  def getXPoints = -maxX to maxX
+  //  def getXPoints = (-100 to 100 by 25).map(_/100d)
+  def getYPoints = -maxY to maxY
+
+  for (i <- getXPoints) {
+    for (j <- getYPoints) {
       walls += Wall(i, j, 1, 0)
       walls += Wall(i, j, 0, 1)
       allLocations += Location(i, j)
     }
   }
 
-  val path = new ArrayBuffer[Location]
-  var current = Location(0, 0)
+  val stack = new ArrayBuffer[Location]
+  var current = Location(getXPoints(0), getYPoints(0))
   val visited = new HashSet[Location]
 
-  while (visited != allLocations) {
-    visit()
-  }
 
-  for (i <- -maxX to maxX) {
-    for (j <- -maxY to maxY) {
-      if (i == -maxX) {
+
+  //  while (visited != allLocations) {
+  visit()
+  //  }
+
+  //  val partOfMaze=new ArrayBuffer[Location]
+
+
+  for (i <- getXPoints) {
+    for (j <- getYPoints) {
+      if (i == getXPoints(0)) {
         walls += Wall(i, j, 0, 1)
       }
-      if (i == maxX) {
+      if (i == getXPoints(getXPoints.length - 1)) {
         walls += Wall(i + 1, j, 0, 1)
       }
-      if (j == -maxY) {
+      if (j == getYPoints(0)) {
         walls += Wall(i, j, 1, 0)
       }
-      if (j == maxY) {
+      if (j == getYPoints(getYPoints.length - 1)) {
         walls += Wall(i, j + 1, 1, 0)
       }
     }
   }
 
-  def visit() = {
-    val neighbors = getAdjacent(current)
-    val remaining = neighbors -- visited
 
-    if (remaining.size > 0) {
-      //todo: pick at random
-      val nextLoc = remaining.toSeq(0)
-      walls -= getWallBetween(current, nextLoc)
-      current = nextLoc
-      path += current
-      visited += current
+
+  def visit(): Unit = {
+    visited += current
+    //    println("visiting current=" + current)
+    //    path += current
+    val unvisitedNeighbors = getAdjacent(current) -- visited
+    //    println("neighbors=" + neighbors + ", remaining=" + remaining)
+
+    if (unvisitedNeighbors.size > 0) {
+      val chosenCell = unvisitedNeighbors.toSeq(random.nextInt(unvisitedNeighbors.size))
+      stack += current
+      //      val contains=walls.contains(getWallBetween(current, nextLoc))
+      //      println("contains="+contains)
+      walls -= getWallBetween(current, chosenCell) //todo: needs to be improved for floating point
+      current = chosenCell
+      //      stack += current
+      //      visited += current
+      visit()
     } else {
-      backtrack()
+      //backtrack
+      stack.remove(stack.length - 1)
+      current = stack(stack.length - 1)
     }
   }
 
@@ -69,19 +92,14 @@ class MazeGenerator {
     new Wall(Math.min(a.x, b.x), Math.min(a.y, b.y), Math.abs(a.x - b.x), Math.abs(a.y - b.y))
   }
 
-  def backtrack() = {
-    path.remove(path.length - 1)
-    current = path(path.length - 1)
-  }
-
   def getAdjacent(location: Location): HashSet[Location] = {
-    val iterable = allLocations.filter(_.distance(location) <= 1.01)
+    val dx = Math.abs(getXPoints(0) - getXPoints(1))
+    val iterable = allLocations.filter(_.distance(location) <= dx * 1.01)
     val set = new HashSet[Location]
     set ++ iterable
     set
   }
 
-  val adjacent = getAdjacent(current)
 }
 
 object Test {
