@@ -4,11 +4,9 @@ import java.io.*;
 import java.util.*;
 
 import edu.colorado.phet.buildtools.flash.PhetFlashProject;
+import edu.colorado.phet.buildtools.projects.*;
 import edu.colorado.phet.buildtools.scripts.SetSVNIgnoreToDeployDirectories;
 import edu.colorado.phet.buildtools.util.*;
-import edu.colorado.phet.buildtools.projects.BuildToolsProject;
-import edu.colorado.phet.buildtools.projects.JavaProject;
-import edu.colorado.phet.buildtools.projects.JavaSimulationProject;
 import edu.colorado.phet.common.phetcommon.resources.PhetProperties;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
@@ -495,7 +493,8 @@ public abstract class PhetProject {
         try {
             //Add supplemental projects
             //todo: move these to a separate area
-            phetProjects.add(new BuildToolsProject( new File( trunk, "util/updater" ) ));
+            phetProjects.add(new TranslationUtilityProject( new File( trunk, "util/translation-utility" ) ));
+            phetProjects.add(new UpdaterProject( new File( trunk, "util/updater" ) ));
             phetProjects.add(new BuildToolsProject( new File( trunk, "build-tools" ) ));
         }
         catch( IOException e ) {
