@@ -1,1 +1,1 @@
-phet-credits software-development=Chris Malley, Ron LeMaster design-team=Kathy Perkins, Carl Wieman, Wendy Adams, Danielle Harlow
+phet-credits software-development=Chris Malley, Ron LeMaster design-team=Kathy Perkins, Carl Wieman, Wendy Adams, Danielle Harlow interviews=Wendy Adams, Danielle Harlow
