@@ -271,8 +271,10 @@ class Preferences {
 	
 	// resets the number of #'s since sent
 	public function resetSince() : Void {
+		_level0.debug("Preferences: resetting visits since\n");
 		load();
 		sharedObject.data[FIELD_VISITS_SINCE] = 0;
+		save();
 		unload();
 	}
 	
