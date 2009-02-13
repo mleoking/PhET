@@ -1,5 +1,6 @@
 package edu.colorado.phet.movingman.ladybug.controlpanel
 
+import _root_.edu.colorado.phet.common.piccolophet.event.CursorHandler
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl
 import java.awt.Color
@@ -13,6 +14,7 @@ import umd.cs.piccolo.PNode
 import umd.cs.piccolox.pswing.PSwing
 
 class PlaybackSpeedSlider(model: LadybugModel) extends PNode {
+  addInputEventListener(new CursorHandler)
   val slider = new JSlider
   slider.setBackground(new Color(0, 0, 0, 0))
   val transform = new LinearFunction(slider.getMinimum, slider.getMaximum, 0.5, 2.0)
