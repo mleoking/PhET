@@ -15,7 +15,7 @@ object LadybugDefaults {
   //    var timelineLengthSeconds: Double = 1//debugging
   var pauseAtEndOfPlayback = true
   var recordAtEndOfPlayback = false
-  val defaultLocation = new Vector2D(5, 1)
+  val defaultLocation = new Vector2D(5.5, 1.5)
   val ACCEL_VECTOR_SCALE = 0.2454545
 
   var WINDOW_SIZE = 7
