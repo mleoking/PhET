@@ -4,7 +4,7 @@ import _root_.scala.runtime.RichInt
 import scala.collection.mutable.{HashSet, ArrayBuffer}
 
 case class Wall(x: Double, y: Double, dx: Double, dy: Double)
-class MazeGenerator {
+class MazeGenerator(dim: Int) {
   //see http://www.mazeworks.com/mazegen/mazetut/index.htm
   //see http://en.wikipedia.org/wiki/Maze_generation_algorithm
 
@@ -16,8 +16,8 @@ class MazeGenerator {
   val walls = new HashSet[Wall]
   val locations = new HashSet[Location]
 
-  val maxX = 8;
-  val maxY = 8;
+  val maxX = dim;
+  val maxY = dim;
 
   val random = new Random
 
@@ -90,6 +90,6 @@ class MazeGenerator {
 
 object Test {
   def main(args: Array[String]) {
-    new MazeGenerator
+    new MazeGenerator(5)
   }
 }

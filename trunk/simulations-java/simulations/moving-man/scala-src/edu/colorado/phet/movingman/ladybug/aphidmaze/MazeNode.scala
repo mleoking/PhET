@@ -32,6 +32,7 @@ class MazeNode(model: AphidMazeModel, transform: ModelViewTransform2D) extends P
       updateGraphics()
     }
   })
+  model.maze.addListenerByName(updateGraphics)
 
   def updateGraphics(): Unit = {
 
