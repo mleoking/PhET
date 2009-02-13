@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.*;
 
 import edu.colorado.phet.buildtools.util.PhetBuildUtils;
+import edu.colorado.phet.buildtools.projects.JavaProject;
+import edu.colorado.phet.buildtools.projects.JavaSimulationProject;
 
 public class PhetDisplayStatsTask {
     public static void showStats( File trunk ) {
@@ -33,7 +35,7 @@ public class PhetDisplayStatsTask {
             String simName = simNames[i];
             try {
                 File projectParentDir = PhetBuildUtils.resolveProject( baseDir, simName );
-                PhetProject phetProject = new PhetJavaProject( projectParentDir, simName );
+                PhetProject phetProject = new JavaSimulationProject( projectParentDir, simName );
                 System.out.println( phetProject.getName() + " : " + phetProject.getFullVersionString() + " : " + Arrays.asList( phetProject.getSimulationNames() ) + " locales: " + Arrays.asList( phetProject.getLocales() ) + " non-clash-data=" + isNonClashData( phetProject ) + ", user-readable-names=" + Arrays.asList( getUserReadableSimulationNames( phetProject ) ) );
                 numStandardized += isNonClashData( phetProject ) ? 1 : 0;
                 simCount += phetProject.getSimulationNames().length;

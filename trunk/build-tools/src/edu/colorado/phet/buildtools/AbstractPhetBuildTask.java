@@ -6,6 +6,8 @@ import java.io.File;
 import org.apache.tools.ant.BuildException;
 
 import edu.colorado.phet.buildtools.util.PhetBuildUtils;
+import edu.colorado.phet.buildtools.projects.JavaProject;
+import edu.colorado.phet.buildtools.projects.JavaSimulationProject;
 
 public abstract class AbstractPhetBuildTask extends AbstractPhetTask {
     private volatile String projectName;
@@ -17,7 +19,7 @@ public abstract class AbstractPhetBuildTask extends AbstractPhetTask {
         try {
             File projectDir = PhetBuildUtils.resolveProject( getProject().getBaseDir(), projectName );
 
-            PhetProject phetProject = new PhetJavaProject( projectDir, projectName );
+            PhetProject phetProject = new JavaSimulationProject( projectDir, projectName );
 
             executeImpl( phetProject );
         }
