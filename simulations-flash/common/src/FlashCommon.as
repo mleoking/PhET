@@ -52,7 +52,7 @@ class FlashCommon {
 	public function initDebug() : Void {
 		if(debugging) {
 			var padding : Number = 50;
-			_root.createTextField("debugs", _root.getNextHighestDepth(), padding, padding, Stage.width - 2 * padding, Stage.height - 2 * padding);
+			_root.createTextField("debugs", 104384, padding, padding, Stage.width - 2 * padding, Stage.height - 2 * padding);
 			_root.debugs._visible = false;
 			_root.debugs.background = true;
 			_root.debugs.wordWrap = true;
