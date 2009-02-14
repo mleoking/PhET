@@ -106,13 +106,16 @@ public class PhetFlashProject extends PhetProject {
     }
 
     private void cleanDeploy() {
-        if( forceRebuildSWF() ) {
+        if( shouldRebuildSWF() ) {
             cleanSWF();
         }
         cleanHTML();
     }
 
     private void buildOfflineJARs() {
+        if( !shouldRebuildJARs() ) {
+            return;
+        }
         Locale[] locales = getLocales();
         for ( int i = 0; i < locales.length; i++ ) {
             buildOfflineJAR( locales[i] );
@@ -188,15 +191,20 @@ public class PhetFlashProject extends PhetProject {
         return new File( getAntOutputDir(), "jardata" );
     }
 
-    private boolean forceRebuildSWF() {
+    private boolean shouldRebuildSWF() {
         // TODO: check whether testing. (override for deploy dev / deploy dev & production)
         return getConfigValue( "autobuild-swf", "true" ).equals( "true" );
+    }
+
+    private boolean shouldRebuildJARs() {
+        // TODO: check whether testing. (override for deploy dev / deploy dev & production)
+        return getConfigValue( "autobuild-jars", "true" ).equals( "true" );
     }
 
     private boolean buildSWF() throws Exception {
 
         // if the user has decided not to auto-build the SWF, don't do anything else
-        if ( !forceRebuildSWF() ) {
+        if ( !shouldRebuildSWF() ) {
             return true;
         }
 
