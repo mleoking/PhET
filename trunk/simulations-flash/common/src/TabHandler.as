@@ -53,6 +53,7 @@ class TabHandler {
 		// disable default keyboard accessibility
 		_root.tabIndex = 1;
 		_root.tabEnabled = false;
+		MovieClip.prototype.tabEnabled = false;
 		
 		// catch key events to this object
 		Key.addListener(this);
