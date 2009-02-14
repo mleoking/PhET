@@ -14,7 +14,17 @@
 				alert("boobo");
 			}
 		</script>
-		<script language="javascript" src="general-query.js" />
+		<script language="javascript" src="general-query.js">
+		</script>
+		<script type="text/javascript" src="calendarDateInput.js">
+		/***********************************************
+		* Jason's Date Input Calendar- By Jason Moon http://calendar.moonscript.com/dateinput.cfm
+		* Script featured on and available at http://www.dynamicdrive.com
+		* Keep this notice intact for use.
+		***********************************************/
+		</script>
+		<script type="text/javascript" src="CalendarPopup.js">
+		</script>
 		<link rel="stylesheet" type="text/css" href="general-query.css" />
 	</head>
 	<body>
@@ -33,6 +43,18 @@
 					</select>
 				</div>
 				<div id="query_options">
+				</div>
+				<div id="timestampholder" class='constraint'>
+					<span class="field">Timestamp:&nbsp;</span>
+					<select name="timestamptype" id="timestamptype" onchange='javascript:changeTimestampType()'>
+						<option value='all'>All</option>
+						<option value='after'>After</option>
+						<option value='before'>Before</option>
+						<option value='between'>Between</option>
+					</select>
+					<script>DateInput('timestampA', true, 'YYYY-MM-DD', '2009-01-01')</script>
+					<span id='timestampand'>and</span>
+					<script>DateInput('timestampB', true, 'YYYY-MM-DD', '2010-01-01')</script>
 				</div>
 				<div id="formcontrols">
 					<button name="show_table" id="show_table" type="button">show below</button>
