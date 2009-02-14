@@ -31,12 +31,4 @@ public class BuildToolsProject extends JavaProject {
         return new File( getDeployDir(), "phet-build-gui.jar" );
     }
 
-    //an apache BuildException is getting thrown away 
-    public boolean isShrink() {
-        return true;
-    }
-    //todo: add deploy location
-//    public String getProdServerDeployPath() {
-//        return "/web/htdocs/phet/phet-dist/updater";
-//    }
 }
