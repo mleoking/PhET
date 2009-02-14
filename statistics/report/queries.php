@@ -167,6 +167,27 @@
             }
 		}
 		
+		// for timestamp
+		if($arr['timestamptype']) {
+			switch($arr['timestamptype']) {
+				case 'before':
+					array_push($session_where, "session.timestamp < '{$arr['timestampA']}'");
+					break;
+				case 'after':
+					array_push($session_where, "session.timestamp >= '{$arr['timestampA']}'");
+					break;
+				case 'between':
+					$tA = "'" . $arr['timestampA'] . "'";
+					$tB = "'" . $arr['timestampB'] . "'";
+					$sT = "session.timestamp";
+					$tstr = "IF({$tA} > {$tB}, {$sT} < {$tA} AND {$sT} >= {$tB}, {$sT} < {$tB} AND {$sT} >= {$tA})";
+					array_push($session_where, $tstr);
+					//array_push($session_where, "session.timestamp < '{$arr['timestampA']}'");
+					//array_push($session_where, "session.timestamp >= '{$arr['timestampB']}'");
+					break;
+			}
+		}
+		
 		//////////
 		// Grouping of values, for the GROUP BY clause
 
@@ -174,6 +195,10 @@
 		
 		if($group) {
 			switch($group) {
+				case "day":
+					$pre_select .= "DATE_FORMAT(session.timestamp, '%Y-%m-%d') as day, ";
+					array_push($group_by, "day");
+					break;
 				case "week":
 					$pre_select .= "YEARWEEK(session.timestamp) as week, ";
 					array_push($group_by, "week");

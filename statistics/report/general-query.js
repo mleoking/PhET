@@ -45,17 +45,19 @@ function setValue(str, val) {
 }
 
 
-
-
-function constraintString(desc, field, url) {
+function constraintGeneralString(desc, field, href) {
 	var str = "";
 	str += "<div class='constraint'>";
 	str += "<span class='field'>" + desc + ": </span>";
 	str += "<span id='" + field + "'>";
-	str += "(<a href=\"javascript:ahah('" + url + "', '" + field + "')\">specify</a>)";
+	str += "(<a href=\"" + href + "\">specify</a>)";
 	str += "</span>";
 	str += "</div>";
 	return str;
+}
+
+function constraintString(desc, field, url) {
+	return constraintGeneralString(desc, field, "javascript:ahah('" + url + "', '" + field + "')");
 }
 
 function commonConstraintString(desc, field) {
@@ -81,6 +83,7 @@ function setupSimCounts() {
 	
 	str += constraintString("Project", "sim_project", "select-projects.php");
 	str += "<div id='name_holder'></div>";
+	
 	str += commonConstraintString("Dev", "sim_dev");
 	str += commonConstraintString("Type", "sim_type");
 	str += commonConstraintString("Deployment", "sim_deployment");
@@ -90,7 +93,7 @@ function setupSimCounts() {
 	str += "<div class='constraint'><span class='field'>Group by: </span><select name='group' id='group' onchange='javascript:build_order()'>";
 	str += "<option value='none'>none</option>";
 	str += "<optgroup label='All'>";
-		//str += "<option value='month'>month</option>";
+		str += "<option value='day'>Day</option>";
 		str += "<option value='week'>Week</option>";
 		str += "<option value='month'>Month</option>";
 		str += "<option value='version'>Sim Version</option>";
@@ -105,13 +108,13 @@ function setupSimCounts() {
 		str += "<option value='sim_distribution_tag'>Distribution Tag</option>";
 	str += "</optgroup>";
 	str += "<optgroup label='Java'>";
-		str += "<option value='host_java_os'>OS (full)</option>";
-		str += "<option value='host_java_os_name'>OS (name)</option>";
-		str += "<option value='host_java_timezone'>Timezone</option>";
+		str += "<option value='host_java_os'>Java OS (full)</option>";
+		str += "<option value='host_java_os_name'>Java OS (name)</option>";
+		str += "<option value='host_java_timezone'>Java Timezone</option>";
 	str += "</optgroup>";
 	str += "<optgroup label='Flash'>";
-		str += "<option value='host_flash_domain'>Domain</option>";
-		str += "<option value='host_flash_os'>OS</option>";
+		str += "<option value='host_flash_domain'>Flash Domain</option>";
+		str += "<option value='host_flash_os'>Flash OS</option>";
 		str += "<option value='host_flash_version_major'>Flash Player Version (major)</option>";
 		str += "<option value='host_flash_version'>Flash Player Version (full)</option>";
 	str += "</optgroup>";
@@ -127,7 +130,47 @@ function setupSimCounts() {
 	opts.innerHTML = str;
 	
 	build_order();
+	
+	setupTimestamp();
 }
+
+function setupTimestamp() {
+	fid("timestampholder").style.display = "block";
+	
+	changeTimestampType();
+}
+
+function unsetTimestamp() {
+	fid("timestampholder").style.display = "none";
+}
+
+function changeTimestampType() {
+	switch(getValue('timestamptype')) {
+		case "all":
+			fid("x_timestampA").style.display = "none";
+			fid("timestampand").style.display = "none";
+			fid("x_timestampB").style.display = "none";
+			break;
+		case "after":
+		case "before":
+			fid("x_timestampA").style.display = "inline";
+			fid("timestampand").style.display = "none";
+			fid("x_timestampB").style.display = "none";
+			break;
+		case "between":
+			fid("x_timestampA").style.display = "inline";
+			fid("timestampand").style.display = "inline";
+			fid("x_timestampB").style.display = "inline";
+			break;
+	}
+}
+
+/*
+		<form>
+			<script>DateInput('orderdate', true, 'YYYY-MM-DD')</script>
+			<input type="button" onClick="alert(this.form.orderdate.value)" value="Show date value passed">
+		</form>
+*/
 
 function setupRecentMessages() {
 	var str = "";
@@ -146,6 +189,8 @@ function setupRecentMessages() {
 	str += "</div>";
 	
 	fid("query_options").innerHTML = str;
+	
+	unsetTimestamp();
 }
 
 function build_order() {
@@ -214,6 +259,13 @@ function query_string() {
 			str += "desc:";
 		}
 		str += getValue("ordercolumn");
+		
+		if(getValue('timestamptype') != "all") {
+			str += "&timestamptype=" + getValue("timestamptype");
+			str += "&timestampA=" + getValue("timestampA");
+			str += "&timestampB=" + getValue("timestampB");
+		}
+		
 	} else if(getValue("query") == "recent_messages") {
 		str += "&recent_sim_type=" + getValue('recent_sim_type');
 		str += "&count=" + getValue('count');
@@ -225,7 +277,7 @@ function query_string() {
 
 function show_table() {
 	fid("debug").innerHTML = query_string();
-	loadHTML("query-table.php?" + query_string());
+	loadHTML("query-demo.php?" + query_string());
 }
 
 function show_csv() {
