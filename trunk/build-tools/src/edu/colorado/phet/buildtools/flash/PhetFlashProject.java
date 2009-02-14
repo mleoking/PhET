@@ -248,9 +248,9 @@ public class PhetFlashProject extends PhetProject {
 
                 // TODO: why is version.formatTimestamp() returning bad things?
                 String html = FlashHTML.generateHTML( getName(), locale.getLanguage(), countryCode,
-                                                      "phet-production-website", GenerateHTML.distribution_tag_dummy,
-                                                      GenerateHTML.installation_timestamp_dummy,
-                                                      GenerateHTML.installer_creation_timestamp_dummy,
+                                                      "phet-production-website", FlashHTML.distribution_tag_dummy,
+                                                      FlashHTML.installation_timestamp_dummy,
+                                                      FlashHTML.installer_creation_timestamp_dummy,
                                                       version.getMajor(), version.getMinor(), version.getDev(),
                                                       version.getRevision(), versionTimestamp, simDev, bgColor,
                                                       FlashHTML.encodeXMLFile( getTranslationFile( locale ) ),
