@@ -261,8 +261,8 @@ CREATE TABLE session_java_info (
 
 # stores text related to debugging statistics errors, including the raw message
 
-DROP TABLE IF EXISTS message_errors;
-CREATE TABLE message_errors (
+DROP TABLE IF EXISTS message_error;
+CREATE TABLE message_error (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	
 	timestamp DATETIME,
