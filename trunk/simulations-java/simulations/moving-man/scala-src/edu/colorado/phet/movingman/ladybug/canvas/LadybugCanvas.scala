@@ -14,12 +14,16 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas.TransformStrategy
 import edu.colorado.phet.common.piccolophet.PhetPCanvas.ViewportStrategy
 import umd.cs.piccolo.util.PDimension
 
-class LadybugCanvas(model: LadybugModel, vectorVisibilityModel: VectorVisibilityModel, pathVisibilityModel: PathVisibilityModel)
+class LadybugCanvas(model: LadybugModel,
+                   vectorVisibilityModel: VectorVisibilityModel,
+                   pathVisibilityModel: PathVisibilityModel,
+                   modelWidth:Double,
+                   modelHeight:Double)
         extends PhetPCanvas(new Dimension(1024, 768)) {
   setWorldTransformStrategy(new CenteredBoxStrategy(768, 768, this))
 //  val transform: ModelViewTransform2D = new ModelViewTransform2D(new Rectangle2D.Double(-10, -10, 20, 20), new Rectangle(0, 0, 768, 768), LadybugDefaults.POSITIVE_Y_IS_UP)
-  val modelWidth=20
-  val modelHeight=modelWidth
+//  val modelWidth=20
+//  val modelHeight=modelWidth
   val transform: ModelViewTransform2D = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth/2, -modelHeight/2, modelWidth, modelHeight), new Rectangle(0, 0, 768, 768), LadybugDefaults.POSITIVE_Y_IS_UP)
   val constructed = true
   updateWorldScale
