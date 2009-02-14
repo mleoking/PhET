@@ -1,9 +1,6 @@
 package edu.colorado.phet.buildtools.flash;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Properties;
@@ -145,6 +142,9 @@ public class PhetFlashProject extends PhetProject {
             //copy HTML template
             FileUtils.copyToDir( new File( getTrunk(), "simulations-flash/build-tools/flash-build/data/flash-template.html" ), getOfflineJARContentsDir() );
 
+            // copy agreement text
+            FileUtils.copyToDir( getAgreementFile(), getOfflineJARContentsDir() );
+
             //create args file
             FileUtils.writeString( new File( getOfflineJARContentsDir(), "flash-launcher-args.txt" ), getName() + " " + locale.getLanguage() + " " + locale.getCountry() );
 
@@ -241,6 +241,13 @@ public class PhetFlashProject extends PhetProject {
                     countryCode = "null";
                 }
 
+                Properties agreementProperties = getAgreementProperties();
+
+                String agreementVersion = agreementProperties.getProperty( "version" );
+                String agreementContent = agreementProperties.getProperty( "content" );
+
+                String encodedAgreement = FlashHTML.encodeXML(agreementContent);
+
                 // TODO: use country code as well
                 File HTMLFile = new File( getDeployDir(), getName() + "_" + locale.toString() + ".html" );
 
@@ -255,7 +262,8 @@ public class PhetFlashProject extends PhetProject {
                                                       version.getRevision(), versionTimestamp, simDev, bgColor,
                                                       FlashHTML.encodeXMLFile( getTranslationFile( locale ) ),
                                                       FlashHTML.encodeXMLFile( getCommonTranslationFile( locale ) ), "8",
-                                                      getFlashHTMLTemplate().getAbsolutePath() );
+                                                      getFlashHTMLTemplate().getAbsolutePath(),
+                                                      agreementVersion, agreementContent);
 
                 FileUtils.writeString( HTMLFile, html );
             }
@@ -282,6 +290,27 @@ public class PhetFlashProject extends PhetProject {
             }
         }
 
+    }
+
+    private File getAgreementFile() {
+        return new File(getTrunkAbsolute(), "simulations-common/data/software-agreement.properties");
+    }
+
+    private Properties getAgreementProperties() {
+        FileInputStream inStream = null;
+        try {
+            inStream = new FileInputStream( getAgreementFile() );
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Properties properties = new Properties();
+        try {
+            properties.load( inStream );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        return properties;
     }
 
     private File getFlashHTMLTemplate() {

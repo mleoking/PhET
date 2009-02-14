@@ -24,6 +24,7 @@ public class FlashHTML {
     public static String installer_creation_timestamp_dummy = "@@INSTALLER_CREATION_TIMESTAMP@@";
 
     // returns true on success
+    /* TODO: unused, so commented out for now. delete later if desired
     public static boolean writeHTML( String simName, String language, String country, String deployment,
                                      String distributionTag, String simDev, String installationTimestamp,
                                      String installerCreationTimestamp, String simXMLFile, String htmlFile,
@@ -66,12 +67,14 @@ public class FlashHTML {
         }
         return true;
     }
+    */
 
     public static String generateHTML( String simName, String language, String country, String deployment,
                                        String distributionTag, String installationTimestamp, String installerCreationTimestamp,
                                        String versionMajor, String versionMinor, String versionDev, String versionRevision,
                                        String versionTimestamp, String simDev, String bgcolor, String encodedSimXML,
-                                       String encodedCommonXML, String minimumFlashMajorVersion, String HTML_TEMPLATE
+                                       String encodedCommonXML, String minimumFlashMajorVersion, String HTML_TEMPLATE,
+                                       String agreementVersion, String encodedAgreementHTML
                                     ) throws IOException {
         String s = "";
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( HTML_TEMPLATE );
@@ -101,7 +104,7 @@ public class FlashHTML {
                            "versionDev=@@versionDev@@&versionRevision=@@versionRevision@@&simName=@@simName@@&simDeployment=@@deployment@@&" +
                            "simDev=@@simDev@@&simDistributionTag=@@distributionTag@@&installationTimestamp=@@installationTimestamp@@&" +
                            "installerCreationTimestamp=@@installerCreationTimestamp@@&versionTimestamp=@@versionTimestamp@@&" +
-                           "bgColor=@@bgcolorint@@";
+                           "bgColor=@@bgcolorint@@&agreementVersion=@@agreementVersion@@&agreementText=@@agreementText@@";
 
         s = s.replaceAll( "@@flashVars@@", flashVars );
 
@@ -124,6 +127,8 @@ public class FlashHTML {
         s = s.replaceAll( "@@minimumFlashMajorVersion@@", minimumFlashMajorVersion );
         s = s.replaceAll( "@@bgcolorint@@", bgcolorint );
         s = s.replaceAll( "@@locale@@", localeString( language, country ) );
+        s = s.replaceAll( "@@agreementVersion@@", agreementVersion );
+        s = s.replaceAll( "@@agreementText@@", encodedAgreementHTML );
 
         return s;
     }
@@ -168,7 +173,7 @@ public class FlashHTML {
         return new String( outStream.toByteArray(), "utf-8" );
     }
 
-    private static String encodeXML( String rawXML ) throws UnsupportedEncodingException {
+    public static String encodeXML( String rawXML ) throws UnsupportedEncodingException {
         return URLEncoder.encode( rawXML, "UTF-8" );
     }
 

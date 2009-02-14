@@ -138,10 +138,17 @@ public class FlashLauncher {
         String simEncodedXML = FlashHTML.encodeXMLFile( simXMLFile );
         String commonEncodedXML = FlashHTML.encodeXMLFile( commonXMLFile );
 
+        Properties agreementProperties = readProperties( "software-agreement" );
+
+        String agreementVersion = agreementProperties.getProperty( "version" );
+        String agreementContent = agreementProperties.getProperty( "content" );
+
+        String encodedAgreement = FlashHTML.encodeXML(agreementContent);
+
         // dynamically generate an HTML file
         String html = FlashHTML.generateHTML( simName, language, country, deployment, distributionTag, installationTimestamp,
                 installerCreationTimestamp, versionMajor, versionMinor, versionDev, versionRevision, versionTimestamp, simDev, bgcolor,
-                simEncodedXML, commonEncodedXML, "8","flash-template.html" );
+                simEncodedXML, commonEncodedXML, "8","flash-template.html", agreementVersion, agreementContent );
         File htmlFile = new File( unzipDir, simName + "_" + language + ".html" );
         FileOutputStream outputStream = new FileOutputStream( htmlFile );
         outputStream.write( html.getBytes() );
