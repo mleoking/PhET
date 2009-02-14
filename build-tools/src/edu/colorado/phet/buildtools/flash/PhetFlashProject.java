@@ -225,6 +225,9 @@ public class PhetFlashProject extends PhetProject {
                 String simDev = "true"; // TODO: handle what will be sent as the sim_dev field for statistics
                 String countryCode = locale.getCountry();
 
+                // TODO: maybe version.formatTimestamp() will work sometime in the future?
+                String versionTimestamp = getProjectProperties().getProperty( "version.timestamp" );
+
                 // TODO: get FlashHTML to handle this part
                 if ( countryCode == null || countryCode.trim().length() == 0 ) {
                     countryCode = "null";
@@ -241,7 +244,7 @@ public class PhetFlashProject extends PhetProject {
                                                       GenerateHTML.installation_timestamp_dummy,
                                                       GenerateHTML.installer_creation_timestamp_dummy,
                                                       version.getMajor(), version.getMinor(), version.getDev(),
-                                                      version.getRevision(), version.formatTimestamp(), simDev, bgColor,
+                                                      version.getRevision(), versionTimestamp, simDev, bgColor,
                                                       FlashHTML.encodeXMLFile( getTranslationFile( locale ) ),
                                                       FlashHTML.encodeXMLFile( getCommonTranslationFile( locale ) ), "8",
                                                       getFlashHTMLTemplate().getAbsolutePath() );
