@@ -314,4 +314,10 @@ class FlashCommon {
 	public function getBGColor() : Number {
 		return parseInt(_level0.bgcolor);
 	}
+	public function getAgreementVersion() : Number {
+		return parseInt(_level0.agreementVersion);
+	}
+	public function getAgreementText() : String {
+		return _level0.agreementText;
+	}
 }

@@ -263,7 +263,7 @@ public class PhetFlashProject extends PhetProject {
                                                       FlashHTML.encodeXMLFile( getTranslationFile( locale ) ),
                                                       FlashHTML.encodeXMLFile( getCommonTranslationFile( locale ) ), "8",
                                                       getFlashHTMLTemplate().getAbsolutePath(),
-                                                      agreementVersion, agreementContent);
+                                                      agreementVersion, encodedAgreement);
 
                 FileUtils.writeString( HTMLFile, html );
             }
