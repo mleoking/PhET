@@ -65,11 +65,13 @@ public class PhetFlashProject extends PhetProject {
 
         cleanDeploy();
 
+        buildHTMLs();
+
         success = buildSWF();
 
         if( !success ) { return false; }
 
-        buildHTMLs();
+
         buildOfflineJARs();
 
         //todo: check for success
@@ -224,6 +226,8 @@ public class PhetFlashProject extends PhetProject {
 
                 // TODO: use country code as well
                 File HTMLFile = new File( getDeployDir(), getName() + "_" + locale.toString() + ".html" );
+
+                System.out.println( "Generating " + HTMLFile.getName() );
 
                 // TODO: why is version.formatTimestamp() returning bad things?
                 String html = FlashHTML.generateHTML( getName(), locale.getLanguage(), countryCode,
