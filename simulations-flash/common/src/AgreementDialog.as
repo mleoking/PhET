@@ -43,7 +43,7 @@ class AgreementDialog {
 		var str : String = "";
 		var defaultString : String = "";
 		str += "<font size='17'>" + common.strings.get("PhetSoftwareAgreement", "PhET Software Agreement") + "</font>\n";
-		str += "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+		str += common.getAgreementText();
 		str += "\n\n"
 		
 		str += "<font size='17'>" + common.strings.get("PhetLicense", "PhET Licensing Information:") + "</font>\n";
