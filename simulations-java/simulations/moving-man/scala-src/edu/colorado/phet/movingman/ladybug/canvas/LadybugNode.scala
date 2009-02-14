@@ -17,28 +17,19 @@ import umd.cs.piccolo.nodes.{PPath, PImage}
 import LadybugUtil._
 import util.ToggleListener
 
-class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTransform2D, vectorVisibilityModel: VectorVisibilityModel) extends PNode {
+class LadybugNode(model: LadybugModel,
+                 ladybug: Ladybug,
+                 transform: ModelViewTransform2D,
+                 vectorVisibilityModel: VectorVisibilityModel)
+        extends BugNode(ladybug, transform, MovingManResources.loadBufferedImage("ladybug/ladybug.png")) {
   var interactive = true //todo: do we need both draggable and interactive?
   var draggable = true
   model.addListener(() => updateInteractive())
   def updateInteractive() = {interactive = model.readyForInteraction}
 
   val arrowSetNode = new ArrowSetNode(ladybug, transform, vectorVisibilityModel)
-  //  val pimage = new PImage(BufferedImageUtils.multiScale(MovingManResources.loadBufferedImage("ladybug/ladybug.png"), 0.6))
-  val bufferedImage=MovingManResources.loadBufferedImage("ladybug/ladybug.png")
-  val pimage = new PImage(bufferedImage)
 
-  ladybug.addListener(updateLadybug)
-  updateLadybug()
-
-  addChild(arrowSetNode)
-  addChild(pimage)
-
-  transform.addTransformListener(new TransformListener() {
-    def transformChanged(mvt: ModelViewTransform2D) = {
-      updateLadybug()
-    }
-  })
+  addChild(0, arrowSetNode) //todo: insert before pimage in super class
 
   def getLadybugCenter() = pimage.getFullBounds.getCenter2D
 
@@ -73,23 +64,6 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
   }
   addInputEventListener(new ToggleListener(inputHandler, () => draggable && interactive))
   updateInteractive()
-
-  def updateLadybug(): Unit = {
-
-    val modelPosition = ladybug.getPosition
-    val viewPosition = transform.modelToView(modelPosition)
-    pimage.setTransform(new AffineTransform)
-    val dx = new Vector2D(pimage.getImage.getWidth(null), pimage.getImage.getHeight(null))
-
-    val scale=transform.modelToViewDifferentialXDouble(ladybug.getRadius)/bufferedImage.getWidth
-
-    pimage.translate(viewPosition.x - dx.x / 2*scale, viewPosition.y - dx.y / 2*scale)
-    pimage.scale(scale)
-    pimage.rotateAboutPoint(ladybug.getAngleInvertY,
-      pimage.getFullBounds.getCenter2D.getX - (viewPosition.x - dx.x / 2),
-      pimage.getFullBounds.getCenter2D.getY - (viewPosition.y - dx.y / 2))
-
-  }
 
   def setDraggable(d: Boolean) = this.draggable = d;
 }

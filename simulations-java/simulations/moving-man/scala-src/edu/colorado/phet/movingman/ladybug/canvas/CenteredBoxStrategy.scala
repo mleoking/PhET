@@ -5,7 +5,7 @@ import javax.swing.JComponent
 import _root_.edu.colorado.phet.common.piccolophet.PhetPCanvas.TransformStrategy
 import java.awt.geom.{AffineTransform, Rectangle2D}
 
-class CenteredBoxStrategy(modelWidth: Double, modelHeight: Double, canvas: JComponent) extends TransformStrategy {
+class CenteredBoxStrategy456(modelWidth: Double, modelHeight: Double, canvas: JComponent) extends TransformStrategy {
   def getTransform(): AffineTransform = {
     if (canvas.getWidth > 0 && canvas.getHeight > 0) {
       val sx = canvas.getWidth / modelWidth
