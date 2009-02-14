@@ -1,1 +1,1 @@
-phet-credits lead-design=Sam McKagan software-development=Chris Malley design-team=Wendy Adams, Mike Dubson, Noah Finkelstein, Danielle Harlow, Kathy Perkins, Noah Podolefsky, Carl Weiman
+phet-credits lead-design=Sam McKagan software-development=Chris Malley design-team=Wendy Adams, Mike Dubson, Noah Finkelstein, Danielle Harlow, Kathy Perkins, Noah Podolefsky, Carl Weiman interviews=Sam McKagan
