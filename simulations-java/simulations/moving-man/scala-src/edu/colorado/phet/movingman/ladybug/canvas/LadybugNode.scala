@@ -25,7 +25,8 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
 
   val arrowSetNode = new ArrowSetNode(ladybug, transform, vectorVisibilityModel)
   //  val pimage = new PImage(BufferedImageUtils.multiScale(MovingManResources.loadBufferedImage("ladybug/ladybug.png"), 0.6))
-  val pimage = new PImage(BufferedImageUtils.multiScale(MovingManResources.loadBufferedImage("ladybug/ladybug.png"), LadybugDefaults.LADYBUG_SCALE))
+  val bufferedImage=MovingManResources.loadBufferedImage("ladybug/ladybug.png")
+  val pimage = new PImage(bufferedImage)
 
   ladybug.addListener(updateLadybug)
   updateLadybug()
@@ -80,7 +81,10 @@ class LadybugNode(model: LadybugModel, ladybug: Ladybug, transform: ModelViewTra
     pimage.setTransform(new AffineTransform)
     val dx = new Vector2D(pimage.getImage.getWidth(null), pimage.getImage.getHeight(null))
 
-    pimage.translate(viewPosition.x - dx.x / 2, viewPosition.y - dx.y / 2)
+    val scale=transform.modelToViewDifferentialXDouble(ladybug.getRadius)/bufferedImage.getWidth
+
+    pimage.translate(viewPosition.x - dx.x / 2*scale, viewPosition.y - dx.y / 2*scale)
+    pimage.scale(scale)
     pimage.rotateAboutPoint(ladybug.getAngleInvertY,
       pimage.getFullBounds.getCenter2D.getX - (viewPosition.x - dx.x / 2),
       pimage.getFullBounds.getCenter2D.getY - (viewPosition.y - dx.y / 2))
