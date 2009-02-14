@@ -67,6 +67,8 @@ public class PhetFlashProject extends PhetProject {
 
         buildHTMLs();
 
+        copyProperties();
+
         success = buildSWF();
 
         if( !success ) { return false; }
@@ -76,6 +78,10 @@ public class PhetFlashProject extends PhetProject {
 
         //todo: check for success
         return true;
+    }
+
+    private void copyProperties() throws IOException {
+        FileUtils.copyToDir( new File( getDataDirectory(), getName() + ".properties" ), getDeployDir() );
     }
 
     private void cleanSWF() {
