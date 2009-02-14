@@ -194,8 +194,15 @@ class TabHandler {
 				// MADE DEFAULT FOR ALL
 				break;
 			case HIGHLIGHT_GLOBAL:
+				// sanity check
+				if(lastHighlight._parent !== undefined) {
+					_level0.debug("WARNING: TabHandler addFocus encountered already existing lastHighlight\n");
+					lastHighlight.removeMovieClip();
+					_level0.debug("!!!\n");
+				}
+				
 				// global, so we create a movieclip on _root, storing it in 'lastHighlight'
-				lastHighlight = _root.createEmptyMovieClip("lastHighlight", _root.getNextHighestDepth() + 29545);
+				lastHighlight = _root.createEmptyMovieClip("lastHighlight", 29545000);
 				
 				if(typeof(entry.control) == "movieclip") {
 					// if it is a movieclip, we can get the exact bounding box from the root perspective.
