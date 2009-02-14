@@ -784,7 +784,25 @@ public abstract class PhetProject {
         return new File( getDataDirectory(), getName() + ".properties" );
     }
 
-    public abstract File getTrunk();
+    /**
+     * Returns the canonical file for the location of trunk.
+     * @return
+     */
+    public final File getTrunk(){
+        try {
+            return getTrunkAbsolute().getCanonicalFile();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+            return getTrunkAbsolute();
+        }
+    }
+
+    /**
+     * Provides a path to trunk that may or may not contain /..
+     * @return
+     */
+    protected abstract File getTrunkAbsolute();
 
     /**
      *  returns main class to use other than JARLauncher

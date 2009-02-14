@@ -14,7 +14,7 @@ public class PhetFlashLauncherProject extends JavaProject {
         super( new File( trunk, "simulations-flash/flash-launcher" ) );
     }
 
-    public File getTrunk() {
+    public File getTrunkAbsolute() {
         return new File( getProjectDir(), "../../" );
     }
 

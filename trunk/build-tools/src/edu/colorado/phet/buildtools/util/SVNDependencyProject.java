@@ -32,7 +32,7 @@ public class SVNDependencyProject extends PhetProject {
         return null;
     }
 
-    public File getTrunk() {
+    public File getTrunkAbsolute() {
         return null;
     }
 

@@ -74,7 +74,13 @@ public class PhetBuildCommand {
 
     private void compileScala() {
         Scalac scalac = new Scalac();
-        String s = new File( project.getProjectDir(), "../../build-tools/scala/scala-library.jar" ).getAbsolutePath();
+        String s = null;
+        try {
+            s = new File( project.getProjectDir(), "../../build-tools/scala/scala-library.jar" ).getCanonicalPath();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
         System.out.println( "s = " + s );
         scalac.setClasspath( new Path( antTaskRunner.getProject(), toString( project.getAllJarFiles() ) + " : " + project.getClassesDirectory().getAbsolutePath() + " : " + s ) );
         scalac.setSrcdir( new Path( antTaskRunner.getProject(), toString( project.getAllScalaSourceRoots() ) ) );
@@ -210,7 +216,12 @@ public class PhetBuildCommand {
         String string = "";
         for ( int i = 0; i < files.length; i++ ) {
             File file = files[i];
-            string += file.getAbsolutePath();
+            try {
+                string += file.getCanonicalPath();
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
             if ( i < files.length - 1 ) {
                 string += " : ";
             }

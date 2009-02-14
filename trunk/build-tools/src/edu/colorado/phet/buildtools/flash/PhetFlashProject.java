@@ -356,7 +356,7 @@ public class PhetFlashProject extends PhetProject {
         return new File( getProjectDir(), "data" + File.separator + getName() + File.separator + "localization" + File.separator + getName() + "-strings" + lang + ".xml" );
     }
 
-    public File getTrunk() {
+    public File getTrunkAbsolute() {
         return new File( getProjectDir(), "../../.." );
     }
 
