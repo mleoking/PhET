@@ -193,6 +193,11 @@ function setupRecentMessages() {
 	unsetTimestamp();
 }
 
+function setupErrors() {
+	fid("query_options").innerHTML = "";
+	unsetTimestamp();
+}
+
 function build_order() {
 	var str = "";
 	str += "<span class='field'>Order by: </span><select name='ordercolumn' id='ordercolumn'>";
@@ -234,6 +239,8 @@ function query_change() {
 			setupMessageCounts(); break;
 		case "recent_messages":
 			setupRecentMessages(); break;
+		case "errors":
+			setupErrors(); break;
 	}
 }
 
