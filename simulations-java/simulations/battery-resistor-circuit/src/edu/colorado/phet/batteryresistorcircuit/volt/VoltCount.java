@@ -1,7 +1,7 @@
 package edu.colorado.phet.batteryresistorcircuit.volt;
 
 
-import edu.colorado.phet.batteryresistorcircuit.Ohm1DStrings;
+import edu.colorado.phet.batteryresistorcircuit.BatteryResistorCircuitStrings;
 import edu.colorado.phet.batteryresistorcircuit.common.paint.TextPainter;
 import edu.colorado.phet.batteryresistorcircuit.common.phys2d.Law;
 import edu.colorado.phet.batteryresistorcircuit.common.phys2d.System2D;
@@ -23,11 +23,11 @@ public class VoltCount implements Law {
         int left = batt.countLeft();
         int right = batt.countRight();
         int total = right - left;
-        String text = right + " " + Ohm1DStrings.get( "VoltCount.Electrons" );
-        String textRight = "- " + left + " " + Ohm1DStrings.get( "VoltCount.Electrons" );
+        String text = right + " " + BatteryResistorCircuitStrings.get( "VoltCount.Electrons" );
+        String textRight = "- " + left + " " + BatteryResistorCircuitStrings.get( "VoltCount.Electrons" );
         rightTp.setText( textRight );
         tp.setText( text );
-        String tp2 = "= " + total + " " + Ohm1DStrings.get( "VoltCount.Volts" );
+        String tp2 = "= " + total + " " + BatteryResistorCircuitStrings.get( "VoltCount.Volts" );
         tot.setText( tp2 );
     }
 }
