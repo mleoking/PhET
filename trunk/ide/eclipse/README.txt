@@ -8,7 +8,7 @@ to this directory, so that other developers can take advantage of your work.
 
 Follow these steps:
 
-(1) copy dot-classpath to simulations-java/.classpath
+(1) copy dot-classpath.xml to simulations-java/.classpath
 This sets the Java classpath, and associates source code with JAR files.
 
 (2) copy org.eclipse.jdt.core.prefs to simulations-java/.settings/org.eclipse.jdt.core.prefs
