@@ -63,7 +63,7 @@ class TabHandler {
 		currentIndex = -1;
 		
 		// create dummy text field
-		dummyText = _root.createTextField("dummyTxt", _root.getNextHighestDepth(), 0, 0, 0, 0);
+		dummyText = _root.createTextField("dummyTxt", 9092, 0, 0, 0, 0);
 		dummyText._visible = false;
 		dummyText.type = "input";
 		dummyText.tabIndex = 3524534;
@@ -194,7 +194,7 @@ class TabHandler {
 				break;
 			case HIGHLIGHT_GLOBAL:
 				// global, so we create a movieclip on _root, storing it in 'lastHighlight'
-				lastHighlight = _root.createEmptyMovieClip("lastHighlight", _root.getNextHighestDepth());
+				lastHighlight = _root.createEmptyMovieClip("lastHighlight", _root.getNextHighestDepth() + 29545);
 				
 				if(typeof(entry.control) == "movieclip") {
 					// if it is a movieclip, we can get the exact bounding box from the root perspective.
