@@ -12,6 +12,9 @@ import java.util.List;
 public class CheckTestCoverage {
 
     public static void main( String[] args ) throws IOException {
+
+        //todo: use google docs api to auto-download latest version of spreadsheet
+        //http://code.google.com/apis/documents/docs/2.0/developers_guide_java.html
         CSVReader reader = new CSVReader( new FileReader( new File( "C:\\Users\\Owner\\Desktop\\iom.csv" ) ) );
         List myEntries = reader.readAll();
         System.out.println( "myEntries = " + myEntries );
