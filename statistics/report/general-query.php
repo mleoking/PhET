@@ -39,6 +39,7 @@
 						</optgroup>
 						<optgroup label="Other">
 							<option value="recent_messages">Recent Messages</option>
+							<option value="errors">Message Errors</option>
 						</optgroup>
 					</select>
 				</div>
