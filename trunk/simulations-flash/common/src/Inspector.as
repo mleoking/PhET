@@ -17,7 +17,7 @@ class Inspector {
 	
 	public function Inspector() {
 		debug("Initializing Inspector\n");
-		mc = _level0.createEmptyMovieClip("inspector", _level0.getNextHighestDepth());
+		mc = _level0.createEmptyMovieClip("inspector", 105849);
 		
 		// catch key events to this object
 		Key.addListener(this);
