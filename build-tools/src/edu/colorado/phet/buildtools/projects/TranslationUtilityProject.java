@@ -10,7 +10,7 @@ public class TranslationUtilityProject extends JavaProject {
         super( file );
     }
 
-    public File getTrunk() {
+    public File getTrunkAbsolute() {
         // directory structure is trunk/util/translation-utility
         return getProjectDir().getParentFile().getParentFile();
     }

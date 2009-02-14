@@ -11,7 +11,7 @@ public class BuildToolsProject extends JavaProject {
         super( file );
     }
 
-    public File getTrunk() {
+    public File getTrunkAbsolute() {
         return getProjectDir().getParentFile();
     }
 

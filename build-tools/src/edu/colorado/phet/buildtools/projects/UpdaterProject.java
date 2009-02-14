@@ -10,7 +10,7 @@ public class UpdaterProject extends JavaProject {
         super( file );
     }
 
-    public File getTrunk() {
+    public File getTrunkAbsolute() {
         return getProjectDir().getParentFile()//util
                 .getParentFile();// trunk
     }

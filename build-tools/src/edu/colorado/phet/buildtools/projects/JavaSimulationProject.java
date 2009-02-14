@@ -12,7 +12,7 @@ public class JavaSimulationProject extends JavaProject {
         super( parentDir, name );
     }
 
-    public File getTrunk() {
+    public File getTrunkAbsolute() {
         return new File( getProjectDir(), "../../.." );
     }
 
