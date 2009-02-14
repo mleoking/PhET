@@ -37,6 +37,9 @@
     <classpathentry kind="lib" path="build-tools/contrib/scala/scala-compiler.jar"/>
 	<classpathentry kind="lib" path="build-tools/contrib/scala/scala-library.jar"/>
 	
+	<!-- commond code, all sims -->
+	<classpathentry kind="src" path="simulations-common/data"/>
+	
 	<!-- common code, Flash sims -->
 	<classpathentry kind="src" path="simulations-flash/flash-launcher/src"/>
 	<classpathentry kind="src" path="simulations-flash/flash-launcher/data"/>
