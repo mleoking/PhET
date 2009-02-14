@@ -29,6 +29,8 @@ case class LadybugState(_position: Vector2D, _velocity: Vector2D, _acceleration:
 class Ladybug extends Observable {
   var state = new LadybugState
 
+  val getRadius=2
+
   def resetAll() = {
     state = new LadybugState
     notifyListeners
