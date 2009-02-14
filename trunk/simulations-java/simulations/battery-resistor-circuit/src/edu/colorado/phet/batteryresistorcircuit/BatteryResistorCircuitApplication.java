@@ -21,14 +21,14 @@ public class BatteryResistorCircuitApplication extends PhetApplication {
         public BatteryResistorCircuitApplicationConfig( String[] commandLineArgs ) {
             super( commandLineArgs, "battery-resistor-circuit" );
             super.setLookAndFeel( new PhetLookAndFeel() );
-            setFrameSetup( new FrameSetup.CenteredWithSize( Ohm1DSimulationPanel.BASE_FRAME_WIDTH, 660 ) );
+            setFrameSetup( new FrameSetup.CenteredWithSize( BatteryResistorCircuitSimulationPanel.BASE_FRAME_WIDTH, 660 ) );
         }
     }
 
     private class BatteryResistorCircuitModule extends Module {
         public BatteryResistorCircuitModule( PhetApplicationConfig config ) {
             super( config.getName(), new ConstantDtClock( 30, 1 ) );
-            Ohm1DSimulationPanel simulationPanel = new Ohm1DSimulationPanel( getClock() );
+            BatteryResistorCircuitSimulationPanel simulationPanel = new BatteryResistorCircuitSimulationPanel( getClock() );
             try {
                 simulationPanel.startApplication();
             }

@@ -4,7 +4,7 @@ package edu.colorado.phet.batteryresistorcircuit.volt;
 import java.awt.*;
 import java.text.DecimalFormat;
 
-import edu.colorado.phet.batteryresistorcircuit.Ohm1DStrings;
+import edu.colorado.phet.batteryresistorcircuit.BatteryResistorCircuitStrings;
 import edu.colorado.phet.batteryresistorcircuit.common.paint.Painter;
 import edu.colorado.phet.batteryresistorcircuit.common.paint.TextPainter;
 import edu.colorado.phet.batteryresistorcircuit.gui.VoltageListener;
@@ -46,6 +46,6 @@ public class VoltageOnBattery implements Painter, VoltageListener {
         }
         val = Math.abs( val );
         String str = nf.format( val );
-        tp.setText( str + " " + Ohm1DStrings.get( "VoltageOnBattery.VoltsAbbreviation" ) );
+        tp.setText( str + " " + BatteryResistorCircuitStrings.get( "VoltageOnBattery.VoltsAbbreviation" ) );
     }
 }

@@ -48,11 +48,11 @@ import edu.colorado.phet.batteryresistorcircuit.regions.PatchRegion;
 import edu.colorado.phet.batteryresistorcircuit.regions.SimplePatch;
 import edu.colorado.phet.batteryresistorcircuit.volt.*;
 
-public class Ohm1DSimulationPanel extends JPanel {
+public class BatteryResistorCircuitSimulationPanel extends JPanel {
     public static int BASE_FRAME_WIDTH = 1028;
     private IClock clock;
 
-    public Ohm1DSimulationPanel( IClock clock ) {
+    public BatteryResistorCircuitSimulationPanel( IClock clock ) {
         this.clock = clock;
     }
 
@@ -118,14 +118,14 @@ public class Ohm1DSimulationPanel extends JPanel {
         double vMax = 10;
         //double vMax = 30;
         int yOffsetForSpct = 400;
-        Spectrum cm = new Spectrum( Ohm1DResources.loadBufferedImage( "spectra/spect3.jpg" ), 100 );
+        Spectrum cm = new Spectrum( BatteryResistorCircuitResources.loadBufferedImage( "spectra/spect3.jpg" ), 100 );
         Filament filament = new Filament( goldStroke, scatterPatch, vMax * .6, 1, cm );
 
-        BufferedImage xar = Ohm1DResources.loadBufferedImage( "icons/Play24.GIF" );
+        BufferedImage xar = BatteryResistorCircuitResources.loadBufferedImage( "icons/Play24.GIF" );
 //        AlphaFixer2 alphaFixerForIcons = new AlphaFixer2( new int[]{192, 192, 192, 255} );
 //        xar = alphaFixerForIcons.patchAlpha( xar );
 
-        BlackbodyScale bs = new BlackbodyScale( Ohm1DResources.loadBufferedImage( "spectra/fullSpectrum.jpg" ), 350, 10 + yOffsetForSpct,
+        BlackbodyScale bs = new BlackbodyScale( BatteryResistorCircuitResources.loadBufferedImage( "spectra/fullSpectrum.jpg" ), 350, 10 + yOffsetForSpct,
                                                 xar );
         cm.addPowerListener( bs );
         cp.addPainter( bs );
@@ -134,8 +134,8 @@ public class Ohm1DSimulationPanel extends JPanel {
         float xcold = 360;
         float ycold = yhot;
         Font heatFont = new PhetFont( 19 );
-        cp.addPainter( new TextPainter( Ohm1DStrings.get( "Ohm1dModule.Hot" ), xhot, yhot, heatFont, Color.black ) );
-        cp.addPainter( new TextPainter( Ohm1DStrings.get( "Ohm1dModule.Cold" ), xcold, ycold, heatFont, Color.white ) );
+        cp.addPainter( new TextPainter( BatteryResistorCircuitStrings.get( "Ohm1dModule.Hot" ), xhot, yhot, heatFont, Color.black ) );
+        cp.addPainter( new TextPainter( BatteryResistorCircuitStrings.get( "Ohm1dModule.Cold" ), xcold, ycold, heatFont, Color.white ) );
         cp.addPainter( filament );
 
         WireSystem ws = new WireSystem();
@@ -163,7 +163,7 @@ public class Ohm1DSimulationPanel extends JPanel {
         int CORE_LEVEL_BOTTOM = 1;
         ShowPainters showCores = new ShowPainters( cp, new int[]{CORE_LEVEL, CORE_LEVEL_BOTTOM} );
 
-        BufferedImage greeny = Ohm1DResources.loadBufferedImage( "ron/particle-green-med.png" );
+        BufferedImage greeny = BatteryResistorCircuitResources.loadBufferedImage( "ron/particle-green-med.png" );
 //        greeny = new MakeMETransp().patchAlpha( greeny );
         ParticlePainter dp = new edu.colorado.phet.batteryresistorcircuit.common.paint.particle.ImagePainter( greeny );
         Resistance resistance = new Resistance( CORE_START, CORE_END, numCores, wp, amplitude, freq, decay, dp, CORE_LEVEL, CORE_LEVEL_BOTTOM, cp, showCores, sys );
@@ -209,11 +209,11 @@ public class Ohm1DSimulationPanel extends JPanel {
         prop.addPropagator( new DualJunction( wp, wp2 ) );
         prop.addPropagator( new DualJunction( wp2, wp ) );
 
-        BufferedImage ronImage = Ohm1DResources.loadBufferedImage( "ron/particle-blue-sml.gif" );
+        BufferedImage ronImage = BatteryResistorCircuitResources.loadBufferedImage( "ron/particle-blue-sml.gif" );
         //ronImage=new AlphaFixer2(new int[]{252,254,252,255}).patchAlpha(ronImage);
         ParticlePainter painter = new edu.colorado.phet.batteryresistorcircuit.common.paint.particle.ImagePainter( ronImage );
 
-        BufferedImage batteryImage = Ohm1DResources.loadBufferedImage( "ron/AA-battery-555.png" );
+        BufferedImage batteryImage = BatteryResistorCircuitResources.loadBufferedImage( "ron/AA-battery-555.png" );
         batteryImage = BufferedImageUtils.flipX( batteryImage );
         int battImageX = (int) bottomLeftWirePoint.getX() + 59;
         int battImageY = (int) bottomLeftWirePoint.getY() - batteryImage.getHeight() / 2 + 3;
@@ -238,7 +238,7 @@ public class Ohm1DSimulationPanel extends JPanel {
         double maxCurrent = vmax * 4;//numParticles*1.2;
         //BufferedImage gaugeImage = Ohm1DResources.loadBufferedImage("components/gauges/vdo_samp_srr.JPG");
 //        AlphaFixer2 alphaFixer = new AlphaFixer2( new int[]{252, 254, 252, 255} );
-        BufferedImage gaugeImage = Ohm1DResources.loadBufferedImage( "components/gauges/vdo_samp_srr_edit3.gif" );
+        BufferedImage gaugeImage = BatteryResistorCircuitResources.loadBufferedImage( "components/gauges/vdo_samp_srr_edit3.gif" );
 //        gaugeImage = alphaFixer.patchAlpha( gaugeImage );
 
         int needleX = gaugeImage.getWidth() / 2;
@@ -254,11 +254,11 @@ public class Ohm1DSimulationPanel extends JPanel {
         AverageCurrent current = new AverageCurrent( gauge, 100, currentRegion );
 
         GaugeScaling gus = new GaugeScaling();
-        gus.add( new Scaling( gauge, Ohm1DStrings.get( "Ohm1dModule.Low" ), -maxCurrent / 4, maxCurrent / 4 ), false );
-        Scaling medium = new Scaling( gauge, Ohm1DStrings.get( "Ohm1dModule.Medium" ), -maxCurrent / 2, maxCurrent / 2 );
+        gus.add( new Scaling( gauge, BatteryResistorCircuitStrings.get( "Ohm1dModule.Low" ), -maxCurrent / 4, maxCurrent / 4 ), false );
+        Scaling medium = new Scaling( gauge, BatteryResistorCircuitStrings.get( "Ohm1dModule.Medium" ), -maxCurrent / 2, maxCurrent / 2 );
         gus.add( medium, true );
-        gus.add( new Scaling( gauge, Ohm1DStrings.get( "Ohm1dModule.High" ), -maxCurrent, maxCurrent ), false );
-        gus.setBorder( BorderFactory.createTitledBorder( Ohm1DStrings.get( "Ohm1dModule.AmmeterScaleBorder" ) ) );
+        gus.add( new Scaling( gauge, BatteryResistorCircuitStrings.get( "Ohm1dModule.High" ), -maxCurrent, maxCurrent ), false );
+        gus.setBorder( BorderFactory.createTitledBorder( BatteryResistorCircuitStrings.get( "Ohm1dModule.AmmeterScaleBorder" ) ) );
         medium.actionPerformed( null );
         int ELECTRON_LEVEL = 3;
         ShowPainters showElectrons = new ShowPainters( cp, new int[]{ELECTRON_LEVEL, ELECTRON_LEVEL - 1} );
@@ -309,24 +309,24 @@ public class Ohm1DSimulationPanel extends JPanel {
         mainPanel.setLayout( new BorderLayout() );
         mainPanel.add( pp, BorderLayout.CENTER );
 
-        JFrame control = new JFrame( Ohm1DStrings.get( "Ohm1dModule.ControlsTitle" ) );
+        JFrame control = new JFrame( BatteryResistorCircuitStrings.get( "Ohm1dModule.ControlsTitle" ) );
         control.setLocation( BASE_FRAME_WIDTH, 0 );
         JPanel conPan = new JPanel();
-        conPan.setBorder( BorderFactory.createTitledBorder( Ohm1DStrings.get( "Ohm1dModule.ControlPanelBorder" ) ) );
+        conPan.setBorder( BorderFactory.createTitledBorder( BatteryResistorCircuitStrings.get( "Ohm1dModule.ControlPanelBorder" ) ) );
         GridBagLayout gridLayout = new GridBagLayout();
         conPan.setLayout( gridLayout );
 
         JPanel butPan = new JPanel();
         butPan.setLayout( new BoxLayout( butPan, BoxLayout.Y_AXIS ) );
 
-        JCheckBox showCoreBox = new JCheckBox( Ohm1DStrings.get( "Ohm1dModule.ShowCoresCheckbox" ), true );
+        JCheckBox showCoreBox = new JCheckBox( BatteryResistorCircuitStrings.get( "Ohm1dModule.ShowCoresCheckbox" ), true );
         showCoreBox.addActionListener( new ShowPainterListener( showCoreBox, showCores ) );
         butPan.add( showCoreBox );
 
-        JCheckBox showElectronBox = new JCheckBox( Ohm1DStrings.get( "Ohm1dModule.ShowElectronsCheckbox" ), true );
+        JCheckBox showElectronBox = new JCheckBox( BatteryResistorCircuitStrings.get( "Ohm1dModule.ShowElectronsCheckbox" ), true );
         showElectronBox.addActionListener( new ShowPainterListener( showElectronBox, showElectrons ) );
 
-        JCheckBox showVoltDesc = new JCheckBox( Ohm1DStrings.get( "Ohm1dModule.ShowVoltageCalcCheckbox" ), false );
+        JCheckBox showVoltDesc = new JCheckBox( BatteryResistorCircuitStrings.get( "Ohm1dModule.ShowVoltageCalcCheckbox" ), false );
         int VP_LEVEL = 100;
         CompositePainter vp = new CompositePainter();
         ShowPainters showVoltPaint = new ShowPainters( cp, VP_LEVEL );
@@ -335,7 +335,7 @@ public class Ohm1DSimulationPanel extends JPanel {
         showVoltDesc.addActionListener( new ShowPainterListener( showVoltDesc, showVoltPaint ) );
         //conPan.add(showVoltDesc);
         butPan.add( showVoltDesc );
-        JCheckBox showInsideBattery = new JCheckBox( Ohm1DStrings.get( "Ohm1dModule.ShowInsideBatteryCheckbox" ), false );
+        JCheckBox showInsideBattery = new JCheckBox( BatteryResistorCircuitStrings.get( "Ohm1dModule.ShowInsideBatteryCheckbox" ), false );
         ShowInsideBattery sib = new ShowInsideBattery( showInsideBattery, bp );
         showInsideBattery.addActionListener( sib );
 
@@ -347,10 +347,10 @@ public class Ohm1DSimulationPanel extends JPanel {
         NumberFormat nf = new DecimalFormat();
         nf.setMaximumFractionDigits( 2 );
         nf.setMinimumFractionDigits( 2 );
-        Image tinyBatteryImage = Ohm1DResources.loadBufferedImage( "ron/AA-battery-100.gif" );
+        Image tinyBatteryImage = BatteryResistorCircuitResources.loadBufferedImage( "ron/AA-battery-100.gif" );
         VoltageSlider voltageSlider = new VoltageSlider( new Transform( 0, 100, minAcc, accWidth ),
-                                                         Ohm1DStrings.get( "Ohm1dModule.VoltageSliderName" ), tinyBatteryImage, accDefault,
-                                                         nf, Ohm1DStrings.get( "Ohm1dModule.VoltageSliderUnits" ) );
+                                                         BatteryResistorCircuitStrings.get( "Ohm1dModule.VoltageSliderName" ), tinyBatteryImage, accDefault,
+                                                         nf, BatteryResistorCircuitStrings.get( "Ohm1dModule.VoltageSliderUnits" ) );
         voltageSlider.addVoltageListener( battery );
         voltageSlider.addVoltageListener( bdc );
         voltageSlider.addVoltageListener( current );
@@ -360,9 +360,9 @@ public class Ohm1DSimulationPanel extends JPanel {
         voltageSlider.addVoltageListener( fp );
         voltageSlider.addVoltageListener( rs );
 
-        Image coreThumbnail = Ohm1DResources.loadBufferedImage( "ron/CoreCountImage.gif" );
-        CoreCountSlider is = new CoreCountSlider( 3, maxResistance, 6, Ohm1DStrings.get( "Ohm1dModule.CoreCountSliderName" ),
-                                                  coreThumbnail, Ohm1DStrings.get( "Ohm1dModule.CoreCountSliderUnits" ) );
+        Image coreThumbnail = BatteryResistorCircuitResources.loadBufferedImage( "ron/CoreCountImage.gif" );
+        CoreCountSlider is = new CoreCountSlider( 3, maxResistance, 6, BatteryResistorCircuitStrings.get( "Ohm1dModule.CoreCountSliderName" ),
+                                                  coreThumbnail, BatteryResistorCircuitStrings.get( "Ohm1dModule.CoreCountSliderUnits" ) );
         is.addIntListener( resistance );
         is.addIntListener( current );
         is.addIntListener( filament );
@@ -370,12 +370,12 @@ public class Ohm1DSimulationPanel extends JPanel {
         is.fireChange();
 
         JPanel mediaControlPanel = new JPanel();
-        BufferedImage playImage = Ohm1DResources.loadBufferedImage( "icons/Play16.gif" );
-        BufferedImage pauseImage = Ohm1DResources.loadBufferedImage( "icons/Pause16.gif" );
+        BufferedImage playImage = BatteryResistorCircuitResources.loadBufferedImage( "icons/Play16.gif" );
+        BufferedImage pauseImage = BatteryResistorCircuitResources.loadBufferedImage( "icons/Pause16.gif" );
         ImageIcon playIcon = new ImageIcon( playImage );
         ImageIcon pauseIcon = new ImageIcon( pauseImage );
-        JButton playButton = new JButton( Ohm1DStrings.get( "Ohm1dModule.PlayButton" ), playIcon );
-        JButton pauseButton = new JButton( Ohm1DStrings.get( "Ohm1dModule.PauseButton" ), pauseIcon );
+        JButton playButton = new JButton( BatteryResistorCircuitStrings.get( "Ohm1dModule.PlayButton" ), playIcon );
+        JButton pauseButton = new JButton( BatteryResistorCircuitStrings.get( "Ohm1dModule.PauseButton" ), pauseIcon );
         mediaControlPanel.add( playButton );
         mediaControlPanel.add( pauseButton );
         playButton.setEnabled( false );
@@ -423,9 +423,9 @@ public class Ohm1DSimulationPanel extends JPanel {
         int subTextX = 150;
         int subTextY = 170;
         int fontDX = 20;
-        TextPainter rightTP = new TextPainter( "3 " + Ohm1DStrings.get( "VoltCount.Electrons" ), subTextX, subTextY, font, textColor );
-        TextPainter leftTP = new TextPainter( "-5 " + Ohm1DStrings.get( "VoltCount.Electrons" ), subTextX, subTextY + fontDX, font, textColor );
-        TextPainter tot = new TextPainter( "= -2 " + Ohm1DStrings.get( "VoltCount.Volts" ), subTextX, subTextY + fontDX * 2, font, textColor );
+        TextPainter rightTP = new TextPainter( "3 " + BatteryResistorCircuitStrings.get( "VoltCount.Electrons" ), subTextX, subTextY, font, textColor );
+        TextPainter leftTP = new TextPainter( "-5 " + BatteryResistorCircuitStrings.get( "VoltCount.Electrons" ), subTextX, subTextY + fontDX, font, textColor );
+        TextPainter tot = new TextPainter( "= -2 " + BatteryResistorCircuitStrings.get( "VoltCount.Volts" ), subTextX, subTextY + fontDX * 2, font, textColor );
         VoltCount vc = new VoltCount( rightTP, battery, tot, leftTP );
         vc.iterate( 0, null );
         sys.addLaw( vc );
@@ -451,8 +451,8 @@ public class Ohm1DSimulationPanel extends JPanel {
         vp.addPainter( vpa2 );
 
 
-        BufferedImage leftAngel = Ohm1DResources.loadBufferedImage( "pushers/PushLeft.gif" );
-        BufferedImage rightAngel = Ohm1DResources.loadBufferedImage( "pushers/PushRight.gif" );
+        BufferedImage leftAngel = BatteryResistorCircuitResources.loadBufferedImage( "pushers/PushLeft.gif" );
+        BufferedImage rightAngel = BatteryResistorCircuitResources.loadBufferedImage( "pushers/PushRight.gif" );
 
         Point angeldx = new Point( -leftAngel.getWidth() / 2 - 20, -leftAngel.getHeight() / 2 + 4 );
         Point angeldx2 = new Point( -leftAngel.getWidth() / 2 + 18, -leftAngel.getHeight() / 2 + 4 );
@@ -460,7 +460,7 @@ public class Ohm1DSimulationPanel extends JPanel {
         AngelPaint angelPaint = new AngelPaint( angelRegion, leftAngel, rightAngel, ws, wp2, angeldx, angeldx2, showInsideBattery );
         cp.addPainter( angelPaint, 2 );
 
-        BufferedImage turnstileImage = Ohm1DResources.loadBufferedImage( "wheels/Pinwheel2.gif" );
+        BufferedImage turnstileImage = BatteryResistorCircuitResources.loadBufferedImage( "wheels/Pinwheel2.gif" );
         Point turnstileCenter = new Point( 5, 140 );// turnstileImage.getWidth()/2+5);
         double turnstileSpeedScale = .02;
         Turnstile turnstile = new Turnstile( turnstileCenter, turnstileImage, turnstileSpeedScale );
@@ -468,7 +468,7 @@ public class Ohm1DSimulationPanel extends JPanel {
         sys.addLaw( turnstile );
         current.addCurrentListener( turnstile );
 
-        BufferedImage ammeterWireImage = Ohm1DResources.loadBufferedImage( "components/cable-srr3.gif" );
+        BufferedImage ammeterWireImage = BatteryResistorCircuitResources.loadBufferedImage( "components/cable-srr3.gif" );
 //        ammeterWireImage = alphaFixer.patchAlpha( ammeterWireImage );
         BufferedImagePainter ammeterWirePainter = new BufferedImagePainter( ammeterWireImage, turnstileCenter.x + turnstileImage.getWidth() / 2 - ammeterWireImage.getWidth() / 2, turnstileCenter.y + turnstileImage.getHeight() / 2 );
         cp.addPainter( ammeterWirePainter, -1 );
@@ -478,7 +478,7 @@ public class Ohm1DSimulationPanel extends JPanel {
         Point positiveLocation = new Point( battImageX + 30, battImageY + 45 );
         Point negativeLocation = new Point( battImageX + batteryImage.getWidth() - 170, positiveLocation.y );
         VoltageOnBattery voltagePainter = new VoltageOnBattery( positiveLocation, negativeLocation, sylfFont,
-                                                                Ohm1DStrings.get( "VoltageOnBattery.DefaultText" ) );
+                                                                BatteryResistorCircuitStrings.get( "VoltageOnBattery.DefaultText" ) );
         voltageSlider.addVoltageListener( voltagePainter );
         cp.addPainter( voltagePainter, 100 );
 
