@@ -1,1 +1,1 @@
-phet-credits software-development=John Blanco, Ron LeMaster design-team=Wendy Adams, Sam McKagan, Kathy Perkins, Noah Podolefsy, Carl Wieman
+phet-credits software-development=John Blanco, Ron LeMaster design-team=Wendy Adams, Sam McKagan, Kathy Perkins, Noah Podolefsy, Carl Wieman interviews=Wendy Adams, Danielle Harlow, Noah Podolefsky
