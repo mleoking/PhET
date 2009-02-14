@@ -6,6 +6,9 @@
 	
 	include("db-stats.php");
 	
+	// connect to statistics database
+	$link = setup_mysql();
+	
 	// whether or not logging the messages is enabled.
 	// TODO: DO NOT ENABLE FOR LIVE VERSION
 	$raw_logging = true;
@@ -158,8 +161,6 @@
 	    // message from a flash simulation
 		
 		if($xml["message_version"] == "0") {
-		    // connect to mysql
-			$link = setup_mysql();
 			
 			// extract flash version information (version is something like "LNX 9,0,124,0")
 			$version_string = urldecode($xml["host_flash_version"]);
@@ -232,8 +233,6 @@
 	} else if($xml["sim_type"] == "java") {
 		
 		if($xml["message_version"] == "0") {
-		    // connect to mysql
-			$link = setup_mysql();
 			
 			$sessionID = insert_java_message(
 				array (
