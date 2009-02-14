@@ -1,1 +1,1 @@
-phet-credits software-development=Ron LeMaster design-team=Wendy Adams, Kathy Perkins, Carl Wieman
+phet-credits software-development=Ron LeMaster design-team=Wendy Adams, Kathy Perkins, Carl Wieman interviews=Wendy Adams
