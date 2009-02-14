@@ -1,13 +1,9 @@
 package edu.colorado.phet.testing;
 
-import au.com.bytecode.opencsv.CSVReader;
-
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class CheckTestCoverage {
 
@@ -15,26 +11,29 @@ public class CheckTestCoverage {
 
         //todo: use google docs api to auto-download latest version of spreadsheet
         //http://code.google.com/apis/documents/docs/2.0/developers_guide_java.html
-        CSVReader reader = new CSVReader( new FileReader( new File( "C:\\Users\\Owner\\Desktop\\iom.csv" ) ) );
-        List myEntries = reader.readAll();
-        System.out.println( "myEntries = " + myEntries );
-        ArrayList entries = new ArrayList();
-        for ( int i = 1; i < myEntries.size(); i++ ) {
-            String[] strings = (String[]) myEntries.get( i );
-            System.out.println( Arrays.asList( strings ) );
 
-            Entry entry = new Entry( (String[]) myEntries.get( 0 ), (String[]) myEntries.get( i ) );
-            entries.add( entry );
-        }
+        //for now, just download manually
 
-        for ( int i = 0; i < entries.size(); i++ ) {
-            Entry entry = (Entry) entries.get( i );
-            System.out.println( "entry[" + i + "]=" + entry );
-        }
-
-
-        Spreadsheet spreadsheet = new Spreadsheet( (Entry[]) entries.toArray( new Entry[entries.size()] ) );
+        Spreadsheet spreadsheet = Spreadsheet.load( new File( "C:\\Users\\Owner\\Desktop\\iom.csv" ) );
         String[] keys = spreadsheet.listValues( "Test ID" );
-        System.out.println( "Arrays.asList(keys = " + Arrays.asList( keys ) );
+        System.out.println( "Declared Tests = " + Arrays.asList( keys ) );
+
+        showData( "Test Results", "PASSED", spreadsheet );
+        showData( "Test Results", "FAILED", spreadsheet );
+        showData( "Test Results", "", spreadsheet );
+
+    }
+
+    private static void showData( String key, String value, Spreadsheet spreadsheet ) {
+        Entry[] matches = spreadsheet.getMatches( key, value );
+        System.out.println( value + " [" + matches.length + "]: " + Arrays.asList( getValues( matches, "Test ID" ) ) );
+    }
+
+    private static String[] getValues( Entry[] matches, String key ) {
+        ArrayList list = new ArrayList();
+        for ( int i = 0; i < matches.length; i++ ) {
+            list.add( matches[i].getValue( key ) );
+        }
+        return (String[]) list.toArray( new String[list.size()] );
     }
 }
