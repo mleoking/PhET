@@ -1,6 +1,8 @@
-package edu.colorado.phet.movingman.ladybug.aphidmaze
+package edu.colorado.phet.movingman.ladybug.canvas
 
 import _root_.edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import _root_.edu.colorado.phet.movingman.ladybug.aphidmaze.Aphid
+import model.{Bug, Vector2D}
 import umd.cs.piccolo.nodes.PImage
 import _root_.edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
 import _root_.edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener
@@ -8,11 +10,11 @@ import _root_.edu.colorado.phet.common.piccolophet.event.CursorHandler
 import util.ToggleListener
 import java.awt.geom.AffineTransform
 import umd.cs.piccolo.event.PInputEvent
-import model.Vector2D
 import umd.cs.piccolo.PNode
 import LadybugUtil._
 
-class AphidNode(aphid: Aphid, transform:ModelViewTransform2D) extends PNode {
+
+class BugNode(aphid: Bug, transform: ModelViewTransform2D) extends PNode {
   val pimage = new PImage(BufferedImageUtils.multiScale(MovingManResources.loadBufferedImage("ladybug/valessiobrito_Bug_Buddy_Vec.png"), LadybugDefaults.LADYBUG_SCALE))
 
   aphid.addListener(updateAphid)
