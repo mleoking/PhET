@@ -24,7 +24,7 @@ public class SessionMessage extends StatisticsMessage {
     
     // Versioning the messages allows us to manage data after changing message content.
     // If the content of this message is changed, you'll need to increment the version number.
-    public static final String MESSAGE_VERSION = "1";
+    public static final String MESSAGE_VERSION = "0";
     
     private static SessionMessage instance;
     
