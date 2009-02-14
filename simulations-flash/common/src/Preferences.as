@@ -14,11 +14,6 @@ class Preferences {
 	// aid for development purposes.
 	public static var CURRENT_PREF_VERSION : Number = 1.3;
 	
-	// current privacy agreement version
-	// this should be changed when a new agreement would need to be
-	// accepted by people who have accepted an old agreement
-	public static var CURRENT_PRIVACY_VERSION : Number = 1.0;
-	
 	// reference to the shared object used to store preferences
 	public var sharedObject : SharedObject;
 	
@@ -137,13 +132,13 @@ class Preferences {
 	// returns whether the user has accepted the latest privacy agreement needed for this sim
 	// NOTE: make sure preferences are loaded before calling, and unloaded sometime soon after
 	public function isPrivacyOK() : Boolean {
-		return CURRENT_PRIVACY_VERSION <= sharedObject.data.latestPrivacyAgreementVersion;
+		return common.getAgreementVersion() <= sharedObject.data.latestPrivacyAgreementVersion;
 	}
 	
 	// saves the user's acceptance of the privacy agreement to preferences
 	public function agreeToPrivacy() : Void {
 		load();
-		sharedObject.data.latestPrivacyAgreementVersion = CURRENT_PRIVACY_VERSION;
+		sharedObject.data.latestPrivacyAgreementVersion = common.getAgreementVersion();
 		save();
 		unload();
 	}
