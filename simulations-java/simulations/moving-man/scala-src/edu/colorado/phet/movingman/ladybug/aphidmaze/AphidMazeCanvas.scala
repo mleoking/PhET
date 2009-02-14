@@ -9,12 +9,8 @@ import model.LadybugModel
 import controlpanel.{PathVisibilityModel, VectorVisibilityModel}
 
 class AphidMazeCanvas(model: AphidMazeModel, vectorVisibilityModel: VectorVisibilityModel, pathVisibilityModel: PathVisibilityModel)
-        extends LadybugCanvas(model: LadybugModel, vectorVisibilityModel: VectorVisibilityModel, pathVisibilityModel: PathVisibilityModel) {
-  //  addScreenChild(new PhetPPath(new Rectangle2D.Double(0, 0, 100, 100), Color.black))
-  //
-  //  addNode(new PhetPPath(new Rectangle2D.Double(0, 0, 100, 100), Color.black))
-
+        extends LadybugCanvas(model: LadybugModel, vectorVisibilityModel: VectorVisibilityModel, pathVisibilityModel: PathVisibilityModel, 45, 45) {
   addNode(0, new MazeNode(model, transform))
 
-  addNode(new AphidSetNode(model,transform))
+  addNode(new AphidSetNode(model, transform))
 }
