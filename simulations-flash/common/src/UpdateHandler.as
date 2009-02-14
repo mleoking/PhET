@@ -118,7 +118,8 @@ class UpdateHandler {
 		// TODO needs to be changed to the path of the version script for each simulation
 		// most likely will be http://phet.colorado.edu/simulations/sim-version-info.php?project=BLAH&sim=BLAH
 		//xml.load("http://phet.colorado.edu/jolson/deploy/sims/fake-sim-version-info.php?project=" + common.getSimProject() + "&sim=" + common.getSimName());
-		xml.load("http://localhost/jolson/deploy/sims/fake-sim-version-info.php?project=" + _level0.simName + "&sim=" + _level0.simName);
+		//xml.load("http://localhost/jolson/deploy/sims/fake-sim-version-info.php?project=" + _level0.simName + "&sim=" + _level0.simName);
+		xml.load("http://phet.colorado.edu/simulations/sim-version-info.php?project=" + _level0.simName + "&sim=" + _level0.simName);
 	}
 	
 	public function manualCheck() : Void {
