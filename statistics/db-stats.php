@@ -404,7 +404,7 @@ BOO;
 			'error_info' => quo($info)
 		);
 		
-		$query = query_from_values("message_errors", $values);
+		$query = query_from_values("message_error", $values);
 		mysql_query($query);
 	}
 ?>

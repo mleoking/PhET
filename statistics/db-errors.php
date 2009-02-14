@@ -52,7 +52,7 @@
 <body>
 EOT;
 	
-	display_table("message_errors");
+	display_table("message_error");
 	
 	mysql_close($link);
 	

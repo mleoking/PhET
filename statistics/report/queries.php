@@ -408,7 +408,7 @@
 				array_push($query, "SELECT {$pre_select}NULL FROM session{$tables}{$session_where}{$group_by}{$order_by}; ");
 				break;
 			case "errors":
-				array_push($query, "SELECT * FROM message_errors ORDER BY id DESC");
+				array_push($query, "SELECT * FROM message_error ORDER BY id DESC");
 				break;
 			case "message_count":
 				array_push($query, "SELECT {$pre_select}COUNT(*) as message_count FROM session{$tables}{$session_where}{$group_by}{$order_by}; ");
