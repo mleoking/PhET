@@ -93,6 +93,8 @@
       <sourceFolder url="file://$MODULE_DIR$/team/reids/admin/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/team/reids/tracking/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/licensing/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/util/testing/contrib/opencsv/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/util/testing/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/translation-strings-diff" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/translation-utility/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/updater/src" isTestSource="false" />
