@@ -132,10 +132,20 @@ function DetectFlashVer(reqMajorVer, reqMinorVer, reqRevision)
 <script language="JavaScript" type="text/javascript">
 <!--
 var hasRightVersion = DetectFlashVer(requiredMajorVersion, requiredMinorVersion, requiredRevision);
-if(!hasRightVersion) {
+
+function hide_sim() {
 	document.getElementById("@@simName@@").style.display = "none";
 	document.getElementById("body").style.backgroundColor = "#FFFFFF";
 	document.getElementById("body").style.textAlign = "center";
+}
+
+function reshow_sim() {
+	document.getElementById("@@simName@@").style.display = "block";
+	document.getElementById("body").style.backgroundColor = "@@bgcolor@@";
+}
+
+if(!hasRightVersion) {
+	hide_sim();
 	document.write('<h2>At least Flash Player @@minimumFlashMajorVersion@@ required to run this simulation.</h2>');
 	if(detectedMajorVersion == 0) {
 		document.write('<h4>No Flash Player was detected</h4>');
@@ -145,7 +155,7 @@ if(!hasRightVersion) {
 		document.write(' detected</h4>');
 	}
 
-	document.write('<div style="text-align: center; text-decoration: none;"><a href="http://www.adobe.com/go/getflashplayer" target="_blank" border="0"><img src="get_flash.jpg" style="border: none;" /></a></div>');
+	document.write('<div style="text-align: center; text-decoration: none;"><a href="http://www.adobe.com/go/getflashplayer" target="_blank" border="0"><img src="get_flash.jpg" style="border: none;" /></a><div style="padding-top: 20px;"><a href="javascript:reshow_sim()">Attempt to view the simulation anyways</a></div></div>');
   }
 // -->
 </script>
