@@ -19,6 +19,10 @@ public class FlashHTML {
     //    private static final String HTML_TEMPLATE = "flash-template.html";
     private static final String NULL = "null";
 
+    public static String distribution_tag_dummy = "@@DISTRIBUTION_TAG@@";
+    public static String installation_timestamp_dummy = "@@INSTALLATION_TIMESTAMP@@";
+    public static String installer_creation_timestamp_dummy = "@@INSTALLER_CREATION_TIMESTAMP@@";
+
     // returns true on success
     public static boolean writeHTML( String simName, String language, String country, String deployment,
                                      String distributionTag, String simDev, String installationTimestamp,
