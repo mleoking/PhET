@@ -67,6 +67,11 @@
 		fclose($file);
 	}
 	
+	// error checking for an integer field
+	//
+	// all digits => okay
+	// null | "null" | NaN => NULL
+	// anything else causes failure
 	function int_decode($field) {
 		global $xml;
 		
@@ -100,6 +105,7 @@
 		}
 	}
 	
+	// brief error checking, used for Flash fields. Does not pull out of $xml, no null checks
 	function int_verify($value, $name) {
 		if(ctype_digit($value)) {
 			// string is numeric
@@ -109,6 +115,10 @@
 		}
 	}
 	
+	// error checking for a string field
+	//
+	// null | "null" => NULL
+	// anything else is returned as is
 	function string_decode($field) {
 		global $xml;
 		
@@ -129,6 +139,11 @@
 		return $decoded;
 	}
 	
+	// error checking for a boolean field
+	//
+	// null | "null" => NULL
+	// "1" | "0" | "true" | "false" => true | false
+	// everything else will raise an error
 	function bool_decode($field) {
 		global $xml;
 		
