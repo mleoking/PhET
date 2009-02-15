@@ -16,6 +16,7 @@ import org.apache.tools.ant.types.Path;
 import edu.colorado.phet.buildtools.MyAntTaskRunner;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.Simulation;
+import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.util.BuildPropertiesFile;
 import edu.colorado.phet.buildtools.util.PhetBuildUtils;
 
