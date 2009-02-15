@@ -8,7 +8,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.buildtools.*;
 import edu.colorado.phet.buildtools.java.JavaSimulationProject;
-import edu.colorado.phet.buildtools.java.PhetBuildJnlpTask;
+import edu.colorado.phet.buildtools.java.BuildJNLPTask;
 import edu.colorado.phet.buildtools.util.FileUtils;
 
 import com.jcraft.jsch.JSchException;
@@ -87,7 +87,7 @@ public class AddTranslation {
 
             //create a JNLP file for each simulation
             System.out.println( "Building JNLP" );
-            PhetBuildJnlpTask.buildJNLPForSimAndLanguage( phetProject, language );
+            BuildJNLPTask.buildJNLPForSimAndLanguage( phetProject, language );
             checkMainClasses( phetProject, language );
             System.out.println( "Finished building JNLP" );
 

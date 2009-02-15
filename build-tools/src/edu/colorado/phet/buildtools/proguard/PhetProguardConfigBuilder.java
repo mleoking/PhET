@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import edu.colorado.phet.buildtools.PhetProject;
-import edu.colorado.phet.buildtools.java.PhetBuildCommand;
+import edu.colorado.phet.buildtools.java.JavaBuildCommand;
 
 /**
  * Builds a Proguard config for a Phet project.
@@ -33,7 +33,7 @@ public class PhetProguardConfigBuilder {
 
     private String[] getAllMainClasses( PhetProject project ) {
         ArrayList list = new ArrayList( Arrays.asList( project.getAllMainClasses() ) );
-        list.add( PhetBuildCommand.getMainLauncherClassName( project ) );
+        list.add( JavaBuildCommand.getMainLauncherClassName( project ) );
         return (String[]) list.toArray( new String[0] );
     }
 

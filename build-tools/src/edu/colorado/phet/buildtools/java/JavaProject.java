@@ -51,7 +51,7 @@ public abstract class JavaProject extends PhetProject {
     }
 
     public boolean build() throws Exception {
-        new PhetBuildCommand( this, new MyAntTaskRunner(), isShrink(), this.getDefaultDeployJar() ).execute();
+        new JavaBuildCommand( this, new MyAntTaskRunner(), isShrink(), this.getDefaultDeployJar() ).execute();
         File[] f = getDeployDir().listFiles( new FileFilter() {
             public boolean accept( File pathname ) {
                 return pathname.getName().toLowerCase().endsWith( ".jar" );
@@ -192,7 +192,7 @@ public abstract class JavaProject extends PhetProject {
 
     public void buildJNLP( Locale locale, String simulationName, String codebase, boolean dev ) {
         System.out.println( "Building JNLP for locale=" + locale.getLanguage() + ", simulation=" + simulationName );
-        PhetBuildJnlpTask j = new PhetBuildJnlpTask();
+        BuildJNLPTask j = new BuildJNLPTask();
         j.setDev( dev );
         j.setDeployUrl( codebase );
         j.setProject( getName() );
