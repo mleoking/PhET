@@ -1,3 +1,5 @@
+# 0.25.02 (28573) Feb 15, 2009
+Testing statistics and updates
 # 0.25.01 (28493) Feb 13, 2009
 Testing deploy process
 # 0.25.00 (28395) Feb 12, 2009
