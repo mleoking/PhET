@@ -187,7 +187,7 @@ public class UpdaterBootstrap {
     private static String getVersion() {
         Properties properties = new Properties();
         try {
-            properties.load( Thread.currentThread().getContextClassLoader().getResourceAsStream( "updater/phet-updater.properties" ) );
+            properties.load( Thread.currentThread().getContextClassLoader().getResourceAsStream( "phet-updater/phet-updater.properties" ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
