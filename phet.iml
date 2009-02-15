@@ -97,7 +97,7 @@
       <sourceFolder url="file://$MODULE_DIR$/util/testing/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/translation-strings-diff" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/translation-utility/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/util/updater/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/util/phet-updater/src" isTestSource="false" />
     </content>
     <orderEntry type="library" name="scala-2.7.3.final" level="application" />
     <orderEntry type="jdk" jdkName="1.6" jdkType="JavaSDK" />
