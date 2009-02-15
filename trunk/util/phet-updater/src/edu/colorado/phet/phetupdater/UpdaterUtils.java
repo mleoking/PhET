@@ -1,4 +1,4 @@
-package edu.colorado.phet.updater;
+package edu.colorado.phet.phetupdater;
 
 import java.io.*;
 import java.net.URL;
