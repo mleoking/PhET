@@ -11,7 +11,7 @@ import org.apache.tools.ant.taskdefs.Manifest;
 import edu.colorado.phet.buildtools.MyAntTaskRunner;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.Simulation;
-import edu.colorado.phet.buildtools.java.PhetFlashLauncherProject;
+import edu.colorado.phet.buildtools.java.projects.PhetFlashLauncherProject;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.flashlauncher.FlashHTML;

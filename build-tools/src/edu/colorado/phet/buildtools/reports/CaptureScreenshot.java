@@ -13,7 +13,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.Simulation;
-import edu.colorado.phet.buildtools.java.JavaSimulationProject;
+import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.common.phetcommon.resources.DummyConstantStringTester;
 
 /**

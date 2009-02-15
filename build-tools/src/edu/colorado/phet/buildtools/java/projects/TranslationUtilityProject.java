@@ -1,7 +1,9 @@
-package edu.colorado.phet.buildtools.java;
+package edu.colorado.phet.buildtools.java.projects;
 
 import java.io.File;
 import java.io.IOException;
+
+import edu.colorado.phet.buildtools.java.JavaProject;
 
 public class TranslationUtilityProject extends JavaProject {
     public TranslationUtilityProject( File file ) throws IOException {

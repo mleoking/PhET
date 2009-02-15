@@ -7,7 +7,7 @@ import java.io.IOException;
 import javax.swing.*;
 
 import edu.colorado.phet.buildtools.*;
-import edu.colorado.phet.buildtools.java.JavaSimulationProject;
+import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.java.BuildJNLPTask;
 import edu.colorado.phet.buildtools.util.FileUtils;
 
