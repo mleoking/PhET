@@ -27,13 +27,13 @@ import edu.colorado.phet.common.phetcommon.application.JARLauncher;
 /**
  * This command builds a PhET project, together with any dependencies.
  */
-public class PhetBuildCommand {
+public class JavaBuildCommand {
     private final PhetProject project;
     private final AntTaskRunner antTaskRunner;
     private final boolean shrink;
     private final File outputJar;
 
-    private static String JAR_LAUNCHER_PROPERTIES_FILE_HEADER = "created by " + PhetBuildCommand.class.getName();
+    private static String JAR_LAUNCHER_PROPERTIES_FILE_HEADER = "created by " + JavaBuildCommand.class.getName();
 
     private static String JAVA_SOURCE_VERSION = "1.4";//used for sims, not for bootstrap
 
@@ -50,7 +50,7 @@ public class PhetBuildCommand {
         return ( useJavaVersionChecker ? JAVA_VERSION_CHECKER_CLASS_NAME : JAR_LAUNCHER_CLASS_NAME );
     }
 
-    public PhetBuildCommand( PhetProject project, AntTaskRunner taskRunner, boolean shrink, File outputJar ) {
+    public JavaBuildCommand( PhetProject project, AntTaskRunner taskRunner, boolean shrink, File outputJar ) {
         this.project = project;
         this.antTaskRunner = taskRunner;
         this.shrink = shrink;

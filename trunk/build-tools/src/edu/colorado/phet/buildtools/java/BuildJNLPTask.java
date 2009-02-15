@@ -17,7 +17,7 @@ import edu.colorado.phet.buildtools.util.FileUtils;
 //todo: test support for deploying with online url
 
 //todo: see other todos below
-public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
+public class BuildJNLPTask extends AbstractPhetBuildTask {
 
 
     private volatile String simulationName;
@@ -123,7 +123,7 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
 
     public static void buildJNLPForSimAndLanguage( PhetProject project, String language ) throws Exception {
         for ( int i = 0; i < project.getSimulationNames().length; i++ ) {
-            PhetBuildJnlpTask phetBuildJnlpTask = new PhetBuildJnlpTask();
+            BuildJNLPTask phetBuildJnlpTask = new BuildJNLPTask();
             phetBuildJnlpTask.setSimulation( project.getSimulationNames()[i] );
             phetBuildJnlpTask.setDeployUrl( PhetServer.PRODUCTION.getWebDeployURL( project ) );
             phetBuildJnlpTask.setLocale( language );
