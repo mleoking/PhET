@@ -4,8 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import edu.colorado.phet.buildtools.projects.JavaProject;
-import edu.colorado.phet.buildtools.projects.JavaSimulationProject;
+import edu.colorado.phet.buildtools.java.JavaSimulationProject;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.util.LicenseInfo;
 

@@ -5,8 +5,7 @@ import java.io.IOException;
 import java.util.*;
 
 import edu.colorado.phet.buildtools.util.PhetBuildUtils;
-import edu.colorado.phet.buildtools.projects.JavaProject;
-import edu.colorado.phet.buildtools.projects.JavaSimulationProject;
+import edu.colorado.phet.buildtools.java.JavaSimulationProject;
 
 public class PhetDisplayStatsTask {
     public static void showStats( File trunk ) {

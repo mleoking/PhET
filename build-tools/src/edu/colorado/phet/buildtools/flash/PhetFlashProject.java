@@ -9,7 +9,7 @@ import org.apache.tools.ant.taskdefs.Jar;
 import org.apache.tools.ant.taskdefs.Manifest;
 
 import edu.colorado.phet.buildtools.MyAntTaskRunner;
-import edu.colorado.phet.buildtools.projects.PhetFlashLauncherProject;
+import edu.colorado.phet.buildtools.java.PhetFlashLauncherProject;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.buildtools.util.FileUtils;
