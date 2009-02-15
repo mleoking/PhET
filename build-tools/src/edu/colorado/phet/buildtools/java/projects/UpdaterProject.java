@@ -20,7 +20,7 @@ public class UpdaterProject extends JavaProject {
     }
 
     public String getAlternateMainClass() {
-        return "edu.colorado.phet.updater.UpdaterBootstrap";
+        return "edu.colorado.phet.phetupdater.UpdaterBootstrap";
     }
 
     public File getDefaultDeployJar() {
