@@ -1,4 +1,4 @@
-package edu.colorado.phet.buildtools.projects;
+package edu.colorado.phet.buildtools.java;
 
 import java.io.File;
 import java.io.IOException;

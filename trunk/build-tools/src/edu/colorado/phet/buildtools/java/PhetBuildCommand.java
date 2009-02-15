@@ -1,5 +1,5 @@
 /* Copyright 2007, University of Colorado */
-package edu.colorado.phet.buildtools;
+package edu.colorado.phet.buildtools.java;
 
 import scala.tools.ant.Scalac;
 
@@ -18,6 +18,10 @@ import org.apache.tools.ant.types.Path;
 import edu.colorado.phet.buildtools.proguard.PhetProguardConfigBuilder;
 import edu.colorado.phet.buildtools.proguard.ProguardCommand;
 import edu.colorado.phet.buildtools.util.PhetBuildUtils;
+import edu.colorado.phet.buildtools.PhetProject;
+import edu.colorado.phet.buildtools.AntTaskRunner;
+import edu.colorado.phet.buildtools.PhetCleanCommand;
+import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.common.phetcommon.application.JARLauncher;
 
 /**

@@ -1,5 +1,5 @@
 /* Copyright 2007, University of Colorado */
-package edu.colorado.phet.buildtools;
+package edu.colorado.phet.buildtools.java;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -9,6 +9,10 @@ import java.util.HashMap;
 import org.apache.commons.lang.StringEscapeUtils;
 
 import edu.colorado.phet.buildtools.util.FileUtils;
+import edu.colorado.phet.buildtools.AbstractPhetBuildTask;
+import edu.colorado.phet.buildtools.PhetProject;
+import edu.colorado.phet.buildtools.Simulation;
+import edu.colorado.phet.buildtools.PhetServer;
 //todo: needs better error handling for loading simulations
 //todo: test support for deploying with online url
 
