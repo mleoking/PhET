@@ -33,6 +33,8 @@ class AgreementDialog {
 		// make it accessible from anywhere
 		_level0.agreementWindow = window;
 		
+		window.setResizable(false);
+		
 		// set the background color to default
 		window.setBackground(common.backgroundColor);
 		

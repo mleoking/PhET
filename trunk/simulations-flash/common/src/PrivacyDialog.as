@@ -1,4 +1,4 @@
-// PrivacyDialog.as
+﻿// PrivacyDialog.as
 //
 // Handles creating and displaying the privacy dialog
 //
@@ -55,6 +55,8 @@ class PrivacyDialog {
 		
 		// we don't want this window closable
 		window.setClosable(false);
+		
+		window.setResizable(false);
 		
 		// make sure we can access it from anywhere
 		_level0.privacyWindow = window;
