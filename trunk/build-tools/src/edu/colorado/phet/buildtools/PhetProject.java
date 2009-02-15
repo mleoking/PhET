@@ -70,7 +70,7 @@ public abstract class PhetProject {
     }
 
     public File getSimulationsJava() {
-        return new File(getTrunk(),"simulations-java" );
+        return new File( getTrunk(), "simulations-java" );
     }
 
     public String getName() {
@@ -234,9 +234,9 @@ public abstract class PhetProject {
         //todo: make sure there is no ambiguity if one path matches several of these patterns
         System.out.println( "Relative path not found, searching from trunk..." );
 
-        File trunkPath=new File( getTrunk(),token );
-        if (trunkPath.exists()){
-            System.out.println( "Found item based on path from trunk: "+trunkPath.getAbsolutePath() );
+        File trunkPath = new File( getTrunk(), token );
+        if ( trunkPath.exists() ) {
+            System.out.println( "Found item based on path from trunk: " + trunkPath.getAbsolutePath() );
             return trunkPath;
         }
 
@@ -413,7 +413,7 @@ public abstract class PhetProject {
         File localeDir = getLocalizationDir();
         File[] children = localeDir.listFiles();
         ArrayList locales = new ArrayList();
-        for ( int i = 0; children !=null && i < children.length ; i++ ) {
+        for ( int i = 0; children != null && i < children.length; i++ ) {
             File child = children[i];
             String filename = child.getName();
             String prefix = getName() + "-strings_";
@@ -472,7 +472,7 @@ public abstract class PhetProject {
     public static String[] getSimNames( File basedir ) {
         File[] simulations = new File( basedir, "simulations" ).listFiles();
         ArrayList sims = new ArrayList();
-        for ( int i = 0; simulations!=null && i < simulations.length; i++ ) {
+        for ( int i = 0; simulations != null && i < simulations.length; i++ ) {
             File simulation = simulations[i];
             if ( isSimulation( simulation ) ) {
                 sims.add( simulation.getName() );
@@ -493,9 +493,9 @@ public abstract class PhetProject {
         try {
             //Add supplemental projects
             //todo: move these to a separate area
-            phetProjects.add(new TranslationUtilityProject( new File( trunk, "util/translation-utility" ) ));
-            phetProjects.add(new UpdaterProject( new File( trunk, "util/updater" ) ));
-            phetProjects.add(new BuildToolsProject( new File( trunk, "build-tools" ) ));
+            phetProjects.add( new TranslationUtilityProject( new File( trunk, "util/translation-utility" ) ) );
+            phetProjects.add( new UpdaterProject( new File( trunk, "util/updater" ) ) );
+            phetProjects.add( new BuildToolsProject( new File( trunk, "build-tools" ) ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -786,9 +786,10 @@ public abstract class PhetProject {
 
     /**
      * Returns the canonical file for the location of trunk.
+     *
      * @return
      */
-    public final File getTrunk(){
+    public final File getTrunk() {
         try {
             return getTrunkAbsolute().getCanonicalFile();
         }
@@ -800,19 +801,22 @@ public abstract class PhetProject {
 
     /**
      * Provides a path to trunk that may or may not contain /..
+     *
      * @return
      */
     protected abstract File getTrunkAbsolute();
 
     /**
-     *  returns main class to use other than JARLauncher
+     * returns main class to use other than JARLauncher
      * primarily for use in non-simulation projects such as util/updater
+     *
      * @return
      */
     public abstract String getAlternateMainClass();
 
     /**
      * This allows overriding of the default simulation deploy path, see PhET Server's usage.
+     *
      * @return an optional server path for deploying the contents of the deploy directory, or null if the simulation default should be used
      */
     public abstract String getProdServerDeployPath();

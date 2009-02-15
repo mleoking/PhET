@@ -13,9 +13,11 @@ import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
+import edu.colorado.phet.buildtools.MyAntTaskRunner;
+import edu.colorado.phet.buildtools.PhetProject;
+import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.buildtools.util.BuildPropertiesFile;
 import edu.colorado.phet.buildtools.util.PhetBuildUtils;
-import edu.colorado.phet.buildtools.*;
 
 public abstract class JavaProject extends PhetProject {
     public JavaProject( File projectRoot ) throws IOException {

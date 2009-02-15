@@ -3,8 +3,6 @@ package edu.colorado.phet.buildtools.java;
 import java.io.File;
 import java.io.IOException;
 
-import edu.colorado.phet.buildtools.java.JavaProject;
-
 /**
  * Used for building the .class files that will be used in PhetFlashProject.
  * This project is not intended to be used or deployed by itself.

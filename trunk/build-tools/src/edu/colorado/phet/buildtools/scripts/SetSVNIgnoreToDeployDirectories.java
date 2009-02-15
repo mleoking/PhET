@@ -58,8 +58,8 @@ public class SetSVNIgnoreToDeployDirectories {
         String propFilename = propFile.getAbsolutePath();
 
         //use a command array for non-windows platforms
-        String[]svnCommand=new String[]{"svn","propset","svn:ignore","--file",propFilename,dir.getAbsolutePath()};
-        System.out.println( Arrays.asList(svnCommand ));
+        String[] svnCommand = new String[]{"svn", "propset", "svn:ignore", "--file", propFilename, dir.getAbsolutePath()};
+        System.out.println( Arrays.asList( svnCommand ) );
         Runtime.getRuntime().exec( svnCommand );
     }
 }

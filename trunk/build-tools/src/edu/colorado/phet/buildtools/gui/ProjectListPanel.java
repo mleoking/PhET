@@ -25,7 +25,7 @@ public class ProjectListPanel extends JPanel {
     public ProjectListPanel( File trunk ) {
         setMaximumSize( new Dimension( 200, 10000 ) );
         this.trunk = trunk;
-        this.localProperties = new LocalProperties( new File( trunk,"build-tools/build-local.properties") );
+        this.localProperties = new LocalProperties( new File( trunk, "build-tools/build-local.properties" ) );
 
         ProjectListElement[] p = getProjectListElements();
         projectList = new JList( p );

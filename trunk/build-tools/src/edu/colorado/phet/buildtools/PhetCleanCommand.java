@@ -36,7 +36,7 @@ public class PhetCleanCommand {
             System.out.println( "Delete " + jar + " = " + deleted );
         }
 
-        Delete d=new Delete();
+        Delete d = new Delete();
         d.setDir( project.getContribLicenseDir() );
         antTaskRunner.runTask( d );
     }

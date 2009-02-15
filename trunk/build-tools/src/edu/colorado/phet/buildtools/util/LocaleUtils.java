@@ -4,17 +4,19 @@ import java.util.Locale;
 
 
 public class LocaleUtils {
-    
+
     /* not intended for instantiation */
-    private LocaleUtils() {}
+    private LocaleUtils() {
+    }
 
     /**
      * Gets the suffix for a localization string file.
+     *
      * @param locale
      * @return
      */
     public static String getStringsSuffix( Locale locale ) {
-        assert( locale != null );
+        assert ( locale != null );
         String suffix = null;
         String language = locale.getLanguage();
         String country = locale.getCountry();
@@ -22,9 +24,9 @@ public class LocaleUtils {
             suffix = "";
         }
         else if ( language.equals( "en" ) && country.equals( "" ) ) {
-           suffix = "";
+            suffix = "";
         }
-        else { 
+        else {
             // tempting to use locale.toString here, but don't do it.
             if ( country.equals( "" ) ) {
                 suffix = "_" + language;
@@ -35,18 +37,20 @@ public class LocaleUtils {
         }
         return suffix;
     }
-    
+
     /**
      * Gets the suffix for a JNLP file.
+     *
      * @param locale
      * @return
      */
     public static String getJNLPSuffix( Locale locale ) {
         return getStringsSuffix( locale );
     }
-    
+
     /**
      * Converts a file suffix to a Locale.
+     *
      * @param suffix
      * @return
      */
@@ -60,7 +64,7 @@ public class LocaleUtils {
                 if ( countryIndexSeparator != -1 ) {
                     language = suffix.substring( languageIndexSeparator + 1 );
                 }
-                else { 
+                else {
                     language = suffix.substring( languageIndexSeparator + 1, countryIndexSeparator );
                     country = suffix.substring( countryIndexSeparator + 1 );
                 }
@@ -68,16 +72,16 @@ public class LocaleUtils {
         }
         return new Locale( language, country );
     }
-    
+
     // tests
     public static void main( String[] args ) {
-        
+
         // getJNLPSuffix
         System.out.println( "\"" + getJNLPSuffix( new Locale( "" ) ) + "\"" );
         System.out.println( "\"" + getJNLPSuffix( new Locale( "en" ) ) + "\"" );
         System.out.println( "\"" + getJNLPSuffix( new Locale( "zh" ) ) + "\"" );
         System.out.println( "\"" + getJNLPSuffix( new Locale( "zh", "CN" ) ) + "\"" );
-        
+
         // suffixToLocale
         System.out.println( "\"" + suffixToLocale( null ) + "\"" );
         System.out.println( "\"" + suffixToLocale( "" ) + "\"" );

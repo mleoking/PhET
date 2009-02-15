@@ -8,9 +8,6 @@ import java.util.HashSet;
 
 import javax.swing.*;
 
-import edu.colorado.phet.buildtools.AuthenticationInfo;
-import edu.colorado.phet.buildtools.BuildScript;
-import edu.colorado.phet.buildtools.LocalProperties;
 import edu.colorado.phet.buildtools.PhetProject;
 
 public class MiscMenu extends JMenu {

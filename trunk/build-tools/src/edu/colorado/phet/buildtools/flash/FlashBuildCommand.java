@@ -3,9 +3,9 @@ package edu.colorado.phet.buildtools.flash;
 import java.io.File;
 import java.io.IOException;
 
-import edu.colorado.phet.buildtools.util.FileUtils;
-
 import javax.swing.*;
+
+import edu.colorado.phet.buildtools.util.FileUtils;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,10 +20,10 @@ public class FlashBuildCommand {
 
         boolean success = false;
 
-        File outputFile = new File( trunk, "simulations-flash/build-output-temp/output-" +  sim + ".txt" );
+        File outputFile = new File( trunk, "simulations-flash/build-output-temp/output-" + sim + ".txt" );
 
         // if the output file exists, remove it so we can correctly detect whether the build is completed
-        if( outputFile.exists() ) {
+        if ( outputFile.exists() ) {
             outputFile.delete();
         }
 
@@ -33,31 +33,33 @@ public class FlashBuildCommand {
 
         JOptionPane.showMessageDialog( null, "Building the Flash SWF, press OK when finished." );
 
-        if( outputFile.exists() ) {
+        if ( outputFile.exists() ) {
             // found an output file, thus the build (either success or failure) has completed
 
             // outputString should contain any error reports
             String outputString = FileUtils.loadFileAsString( outputFile );
 
-            if( outputString.indexOf( "Error") == -1 ) {
+            if ( outputString.indexOf( "Error" ) == -1 ) {
                 System.out.println( "Successful build of SWF" );
-                
+
                 success = true;
-            } else {
+            }
+            else {
                 System.out.println( "Failed to build the SWF" );
-                
+
                 String messageString = "The following errors were encountered in the build: \n\n";
                 messageString += outputString.substring( 3 );
                 JOptionPane.showMessageDialog( null, messageString );
-                
+
                 success = false;
             }
 
             // delete the output file for future builds
             outputFile.delete();
-        } else {
+        }
+        else {
             System.out.println( "Could not find output file. Was the SWF build not completed?" );
-            
+
             success = false;
         }
 
@@ -65,13 +67,14 @@ public class FlashBuildCommand {
     }
 
     public static void build( String cmd, String[] sims, File trunk, boolean useWine ) throws IOException {
-        String template = FileUtils.loadFileAsString( new File( trunk, "simulations-flash/build-tools/flash-build/data/build-template.jsfl") );
+        String template = FileUtils.loadFileAsString( new File( trunk, "simulations-flash/build-tools/flash-build/data/build-template.jsfl" ) );
         String out = template;
 
         String trunkPipe;
-        if(useWine) {
+        if ( useWine ) {
             trunkPipe = "C|/svn/trunk";
-        } else {
+        }
+        else {
             trunkPipe = trunk.getAbsolutePath().replace( ':', '|' ).replace( '\\', '/' );
         }
 
@@ -86,14 +89,15 @@ public class FlashBuildCommand {
 
 
         Process p;
-        if(useWine) {
-            p = Runtime.getRuntime().exec(new String[]{
+        if ( useWine ) {
+            p = Runtime.getRuntime().exec( new String[]{
                     "wine",
                     "C:\\Program Files\\Macromedia\\Flash 8\\Flash.exe", // possibly replace this with cmdArray
-                    "C:\\svn\\trunk\\" + outputSuffix.replace('/', '\\')
-            });
-        } else {
-            p = Runtime.getRuntime().exec( new String[]{cmd ,outputFile.getAbsolutePath()} );
+                    "C:\\svn\\trunk\\" + outputSuffix.replace( '/', '\\' )
+            } );
+        }
+        else {
+            p = Runtime.getRuntime().exec( new String[]{cmd, outputFile.getAbsolutePath()} );
         }
 
 //        try {

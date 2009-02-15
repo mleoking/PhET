@@ -79,7 +79,7 @@ public class CaptureScreenshot {
                 }
                 Frame[] allFrames = Frame.getFrames();
                 if ( allFrames.length == 0 ) {
-                    new Exception( "No frames found for " + project+":"+sim ).printStackTrace();
+                    new Exception( "No frames found for " + project + ":" + sim ).printStackTrace();
                 }
                 Robot robot;
                 try {

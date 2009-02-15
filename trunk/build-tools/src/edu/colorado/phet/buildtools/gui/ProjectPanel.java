@@ -35,7 +35,7 @@ public class ProjectPanel extends JPanel {
     public ProjectPanel( final File trunk, final PhetProject project ) {
         this.trunk = trunk;
         this.project = project;
-        this.localProperties = new LocalProperties( new File( trunk,"build-tools/build-local.properties") );
+        this.localProperties = new LocalProperties( new File( trunk, "build-tools/build-local.properties" ) );
         titleLabel = new JLabel( project.getName() );
 
 

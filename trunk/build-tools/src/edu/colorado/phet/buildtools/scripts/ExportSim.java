@@ -3,8 +3,8 @@ package edu.colorado.phet.buildtools.scripts;
 import java.io.File;
 import java.io.IOException;
 
-import edu.colorado.phet.buildtools.java.JavaSimulationProject;
 import edu.colorado.phet.buildtools.PhetProject;
+import edu.colorado.phet.buildtools.java.JavaSimulationProject;
 import edu.colorado.phet.buildtools.util.FileUtils;
 
 /**

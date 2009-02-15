@@ -15,13 +15,13 @@ import org.apache.tools.ant.taskdefs.ManifestException;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
+import edu.colorado.phet.buildtools.AntTaskRunner;
+import edu.colorado.phet.buildtools.PhetCleanCommand;
+import edu.colorado.phet.buildtools.PhetProject;
+import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.buildtools.proguard.PhetProguardConfigBuilder;
 import edu.colorado.phet.buildtools.proguard.ProguardCommand;
 import edu.colorado.phet.buildtools.util.PhetBuildUtils;
-import edu.colorado.phet.buildtools.PhetProject;
-import edu.colorado.phet.buildtools.AntTaskRunner;
-import edu.colorado.phet.buildtools.PhetCleanCommand;
-import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.common.phetcommon.application.JARLauncher;
 
 /**
@@ -34,17 +34,17 @@ public class PhetBuildCommand {
     private final File outputJar;
 
     private static String JAR_LAUNCHER_PROPERTIES_FILE_HEADER = "created by " + PhetBuildCommand.class.getName();
-    
+
     private static String JAVA_SOURCE_VERSION = "1.4";//used for sims, not for bootstrap
-    
+
     //select whether you want to use the java version checker for launching JAR files
     private static boolean useJavaVersionChecker = false;
-    
+
     public static final String JAVA_VERSION_CHECKER_CLASS_NAME = "edu.colorado.phet.javaversionchecker.JavaVersionChecker";
     public static final String JAR_LAUNCHER_CLASS_NAME = JARLauncher.class.getName();
 
     public static String getMainLauncherClassName( PhetProject project ) {
-        if ( project.getAlternateMainClass()!=null ){
+        if ( project.getAlternateMainClass() != null ) {
             return project.getAlternateMainClass();
         }
         return ( useJavaVersionChecker ? JAVA_VERSION_CHECKER_CLASS_NAME : JAR_LAUNCHER_CLASS_NAME );
@@ -156,7 +156,7 @@ public class PhetBuildCommand {
 
         attribute.setName( "Main-Class" );
         //todo: support a main-class chooser & launcher
-        attribute.setValue( getMainLauncherClassName(project) );
+        attribute.setValue( getMainLauncherClassName( project ) );
 
         jar.addFileset( toFileSetFile( createJARLauncherPropertiesFile() ) );
 

@@ -20,23 +20,23 @@ public class BuildPropertiesFile extends AbstractPropertiesFile {
         super( PhetBuildUtils.getBuildPropertiesFile( project.getProjectDir(), project.getName() ) );
         this.project = project;
     }
-    
+
     public String getSource() {
         return getProperty( "project.depends.source" );
     }
-    
+
     public String getScalaSource() {
         return getProperty( "project.depends.scala.source" );
     }
-    
+
     public String getLib() {
         return getProperty( "project.depends.lib" );
     }
-    
+
     public String getData() {
         return getProperty( "project.depends.data" );
     }
-    
+
     public String[] getKeepMains() {
         String v = getProperty( "project.keepmains" );
         if ( v == null ) {
@@ -44,7 +44,7 @@ public class BuildPropertiesFile extends AbstractPropertiesFile {
         }
         return split( v, ": " );
     }
-    
+
     /**
      * Returns the key values [simulation], not the titles for all simulations declared in this project.
      * If no simulations are declared, the project name is returned as the sole simulation.
@@ -72,32 +72,32 @@ public class BuildPropertiesFile extends AbstractPropertiesFile {
 
         return (String[]) simulationNames.toArray( new String[0] );
     }
-    
+
     public String getMainClass( String simulationName ) {
         return getProperty( "project.flavor." + simulationName + ".mainclass" );
     }
-    
+
     public String getMainClassDefault() {
         return getProperty( "project.mainclass" );
     }
-    
+
     public String[] getArgs( String simulationName ) {
         String argsString = getProperty( "project.flavor." + simulationName + ".args" );
         return PhetBuildUtils.toStringArray( argsString == null ? "" : argsString, " " );
     }
-    
+
     public String getScreenshot( String simulationName ) {
         return getProperty( "project.flavor." + simulationName + ".screenshot" );
     }
-    
+
     public String getTitleDefault() {
         return getProperty( "project.name" );
     }
-    
+
     public String getDescriptionDefault() {
         return getProperty( "project.description" );
     }
-    
+
     //TODO: this should be moved to some general utility class
     private String[] split( String str, String delimiters ) {
         ArrayList out = new ArrayList();

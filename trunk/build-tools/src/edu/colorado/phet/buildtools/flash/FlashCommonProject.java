@@ -1,9 +1,9 @@
 package edu.colorado.phet.buildtools.flash;
 
-import edu.colorado.phet.buildtools.util.SVNDependencyProject;
-
 import java.io.File;
 import java.io.IOException;
+
+import edu.colorado.phet.buildtools.util.SVNDependencyProject;
 
 /**
  * Created by IntelliJ IDEA.
