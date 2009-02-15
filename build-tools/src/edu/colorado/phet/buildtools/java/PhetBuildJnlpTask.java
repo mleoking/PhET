@@ -8,11 +8,11 @@ import java.util.HashMap;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
-import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.AbstractPhetBuildTask;
 import edu.colorado.phet.buildtools.PhetProject;
-import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.buildtools.PhetServer;
+import edu.colorado.phet.buildtools.Simulation;
+import edu.colorado.phet.buildtools.util.FileUtils;
 //todo: needs better error handling for loading simulations
 //todo: test support for deploying with online url
 
@@ -37,7 +37,7 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
             echo( "Deploy url is null -- using " + deployUrl );
         }
 
-        final File JNLP_TEMPLATE = new File( phetProject.getProjectDir().getParentFile().getParentFile().getParentFile(),"build-tools/templates/webstart-template.jnlp" );
+        final File JNLP_TEMPLATE = new File( phetProject.getProjectDir().getParentFile().getParentFile().getParentFile(), "build-tools/templates/webstart-template.jnlp" );
         FileUtils.filter( JNLP_TEMPLATE, getDestFile( phetProject ), createJNLPFilterMap( simulation, phetProject ), "UTF-16" );
     }
 
@@ -93,7 +93,7 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
         properties += "<property name=\"javaws.user.language\" value=\"" + ( locale == null ? "en" : locale ) + "\" />";
         return properties;
     }
-    
+
     private String toJNLPArgs( String[] args ) {
         String string = "";
         for ( int i = 0; i < args.length; i++ ) {

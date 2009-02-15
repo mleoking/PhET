@@ -1,7 +1,5 @@
 package edu.colorado.phet.buildtools;
 
-import edu.colorado.phet.buildtools.PhetProject;
-
 public interface VersionIncrement {
 
     void increment( PhetProject project );

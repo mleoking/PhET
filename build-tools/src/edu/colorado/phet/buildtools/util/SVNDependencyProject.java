@@ -1,11 +1,11 @@
 package edu.colorado.phet.buildtools.util;
 
-import edu.colorado.phet.buildtools.PhetProject;
-import edu.colorado.phet.buildtools.Simulation;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
+
+import edu.colorado.phet.buildtools.PhetProject;
+import edu.colorado.phet.buildtools.Simulation;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,7 +20,7 @@ public class SVNDependencyProject extends PhetProject {
         super( projectRoot );
     }
 
-    public Simulation getSimulation(String simulationName, String locale) {
+    public Simulation getSimulation( String simulationName, String locale ) {
         return null;
     }
 
@@ -28,7 +28,7 @@ public class SVNDependencyProject extends PhetProject {
         return new Locale[0];
     }
 
-    public File getTranslationFile(Locale locale) {
+    public File getTranslationFile( Locale locale ) {
         return null;
     }
 
@@ -52,11 +52,11 @@ public class SVNDependencyProject extends PhetProject {
         return null;
     }
 
-    public void runSim(Locale locale, String simulationName) {
+    public void runSim( Locale locale, String simulationName ) {
 
     }
 
-    public void buildLaunchFiles(String URL, boolean dev) {
+    public void buildLaunchFiles( String URL, boolean dev ) {
 
     }
 }

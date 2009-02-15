@@ -5,8 +5,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import edu.colorado.phet.buildtools.java.PhetBuildCommand;
 import edu.colorado.phet.buildtools.PhetProject;
+import edu.colorado.phet.buildtools.java.PhetBuildCommand;
 
 /**
  * Builds a Proguard config for a Phet project.

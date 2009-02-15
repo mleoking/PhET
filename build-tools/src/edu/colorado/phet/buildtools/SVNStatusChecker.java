@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.util.ProcessOutputReader;
 
 public class SVNStatusChecker {

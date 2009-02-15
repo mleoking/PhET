@@ -3,8 +3,6 @@ package edu.colorado.phet.buildtools.java;
 import java.io.File;
 import java.io.IOException;
 
-import edu.colorado.phet.buildtools.java.JavaProject;
-
 public class UpdaterProject extends JavaProject {
     public UpdaterProject( File file ) throws IOException {
         super( file );

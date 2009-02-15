@@ -47,7 +47,7 @@ public class CheckTranslations {
     }
 
     private TranslationDiscrepancy checkJAR( PhetProject phetProject, String simulationName ) throws IOException {
-        String webLocation = phetProject.getDeployedSimulationJarURL( );
+        String webLocation = phetProject.getDeployedSimulationJarURL();
         final File fileName = new File( LOCAL_ROOT_DIR, simulationName + "_all.jar" );
         try {
             FileUtils.download( webLocation, fileName );

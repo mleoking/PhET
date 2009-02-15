@@ -9,13 +9,13 @@ import org.apache.tools.ant.taskdefs.Jar;
 import org.apache.tools.ant.taskdefs.Manifest;
 
 import edu.colorado.phet.buildtools.MyAntTaskRunner;
-import edu.colorado.phet.buildtools.java.PhetFlashLauncherProject;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.Simulation;
+import edu.colorado.phet.buildtools.java.PhetFlashLauncherProject;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.flashlauncher.FlashLauncher;
 import edu.colorado.phet.flashlauncher.FlashHTML;
+import edu.colorado.phet.flashlauncher.FlashLauncher;
 
 /**
  * Created by IntelliJ IDEA.
@@ -68,7 +68,7 @@ public class PhetFlashProject extends PhetProject {
 
         success = buildSWF();
 
-        if( !success ) { return false; }
+        if ( !success ) { return false; }
 
 
         buildOfflineJARs();
@@ -83,7 +83,7 @@ public class PhetFlashProject extends PhetProject {
 
     private void cleanSWF() {
         File swf = getSWFFile();
-        if( swf.exists() ) {
+        if ( swf.exists() ) {
             System.out.println( "Cleaning " + swf.getName() );
             swf.delete();
         }
@@ -92,10 +92,10 @@ public class PhetFlashProject extends PhetProject {
     private void cleanHTML() {
         Locale[] locales = getLocales();
 
-        for( int i = 0; i < locales.length; i++ ) {
+        for ( int i = 0; i < locales.length; i++ ) {
             File html = getHTMLFile( locales[i] );
 
-            if( html.exists() ) {
+            if ( html.exists() ) {
                 System.out.println( "Cleaning " + html.getName() );
                 html.delete();
             }
@@ -103,14 +103,14 @@ public class PhetFlashProject extends PhetProject {
     }
 
     private void cleanDeploy() {
-        if( shouldRebuildSWF() ) {
+        if ( shouldRebuildSWF() ) {
             cleanSWF();
         }
         cleanHTML();
     }
 
     private void buildOfflineJARs() {
-        if( !shouldRebuildJARs() ) {
+        if ( !shouldRebuildJARs() ) {
             return;
         }
         Locale[] locales = getLocales();
@@ -246,7 +246,7 @@ public class PhetFlashProject extends PhetProject {
                 String agreementVersion = agreementProperties.getProperty( "version" );
                 String agreementContent = agreementProperties.getProperty( "content" );
 
-                String encodedAgreement = FlashHTML.encodeXML(agreementContent);
+                String encodedAgreement = FlashHTML.encodeXML( agreementContent );
 
                 // TODO: use country code as well
                 File HTMLFile = new File( getDeployDir(), getName() + "_" + locale.toString() + ".html" );
@@ -263,7 +263,7 @@ public class PhetFlashProject extends PhetProject {
                                                       FlashHTML.encodeXMLFile( getTranslationFile( locale ) ),
                                                       FlashHTML.encodeXMLFile( getCommonTranslationFile( locale ) ), "8",
                                                       getFlashHTMLTemplate().getAbsolutePath(),
-                                                      agreementVersion, encodedAgreement);
+                                                      agreementVersion, encodedAgreement );
 
                 FileUtils.writeString( HTMLFile, html );
             }
@@ -293,14 +293,15 @@ public class PhetFlashProject extends PhetProject {
     }
 
     private File getAgreementFile() {
-        return new File(getTrunkAbsolute(), "simulations-common/data/software-agreement.properties");
+        return new File( getTrunkAbsolute(), "simulations-common/data/software-agreement.properties" );
     }
 
     private Properties getAgreementProperties() {
         FileInputStream inStream = null;
         try {
             inStream = new FileInputStream( getAgreementFile() );
-        } catch (FileNotFoundException e) {
+        }
+        catch( FileNotFoundException e ) {
             e.printStackTrace();
         }
         Properties properties = new Properties();
@@ -417,14 +418,15 @@ public class PhetFlashProject extends PhetProject {
         File commonRoot = new File( getProjectDir().getParentFile().getParentFile(), "common" );
 
         PhetProject commonProject;
-        
+
         try {
             commonProject = new FlashCommonProject( commonRoot );
-        } catch (IOException e) {
+        }
+        catch( IOException e ) {
             e.printStackTrace();
             return new PhetProject[]{};
         }
 
-        return new PhetProject[]{ commonProject };
+        return new PhetProject[]{commonProject};
     }
 }

@@ -129,7 +129,7 @@ public class TranslationDiscrepancy {
     }
 
     private File downloadJAR() throws IOException {
-        String deployUrl = phetProject.getDeployedSimulationJarURL( );
+        String deployUrl = phetProject.getDeployedSimulationJarURL();
 
         File jarFile = new File( CheckTranslations.TRANSLATIONS_TEMP_DIR, simulation + ".jar" );
 

@@ -5,15 +5,15 @@ import java.io.File;
 
 import org.apache.tools.ant.BuildException;
 
-import edu.colorado.phet.buildtools.util.PhetBuildUtils;
 import edu.colorado.phet.buildtools.java.JavaSimulationProject;
+import edu.colorado.phet.buildtools.util.PhetBuildUtils;
 
 public abstract class AbstractPhetBuildTask extends AbstractPhetTask {
     private volatile String projectName;
 
     // The method executing the task
     public final void execute() throws BuildException {
-        echo( "Executing " + getClass().getName()+" for "+projectName + "..." );
+        echo( "Executing " + getClass().getName() + " for " + projectName + "..." );
 
         try {
             File projectDir = PhetBuildUtils.resolveProject( getProject().getBaseDir(), projectName );
