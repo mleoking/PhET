@@ -20,12 +20,14 @@ public class UpdatesManager {
     private final ISimInfo simInfo;
     private final IVersionSkipper versionSkipper;
     private final IUpdateTimer updateTimer;
-
+    private boolean applicationStartedCalled;
+    
     /* singleton */
     private UpdatesManager( ISimInfo simInfo ) {
         this.simInfo = simInfo;
         versionSkipper = new DefaultVersionSkipper( simInfo.getProjectName(), simInfo.getFlavor() );
         updateTimer = new DefaultUpdateTimer( simInfo.getProjectName(), simInfo.getFlavor() );
+        applicationStartedCalled = false;
     }
     
     public static UpdatesManager initInstance( ISimInfo simInfo ) {
@@ -41,6 +43,11 @@ public class UpdatesManager {
     }
 
     public void applicationStarted( Frame frame, IStatistics statistics ) {
+        // this method should only be called once
+        if ( applicationStartedCalled ) {
+            throw new IllegalStateException( "attempted to call applicationStarted more than once" );
+        }
+        applicationStartedCalled = true;
         if ( simInfo.isUpdatesEnabled() && updateTimer.isDurationExceeded() ) {
             autoCheckForUpdates( frame, statistics );
         }

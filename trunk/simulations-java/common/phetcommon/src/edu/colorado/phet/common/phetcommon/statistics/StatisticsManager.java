@@ -1,11 +1,14 @@
 package edu.colorado.phet.common.phetcommon.statistics;
 
+import java.awt.Frame;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
 
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
+import edu.colorado.phet.common.phetcommon.application.SessionCounter;
+import edu.colorado.phet.common.phetcommon.application.SoftwareAgreementManager;
 
 /**
  * Manages the delivery of statistics messages.
@@ -24,6 +27,7 @@ public class StatisticsManager {
     private final StatisticsThread statisticsThread = new StatisticsThread();
     private final IStatisticsService statisticsService = new XMLStatisticsService();
     private final ArrayList listeners = new ArrayList();
+    private boolean applicationStartedCalled = false;
 
     /* singleton */
     private StatisticsManager( ISimInfo simInfo ) {
@@ -124,6 +128,41 @@ public class StatisticsManager {
         // because construction may cause java.security.AccessControlException under web start.
         if ( isStatisticsEnabled() ) {
             instance.postMessageImpl( statisticsMessage );
+        }
+    }
+    
+    public void applicationStarted( Frame parentFrame, IStatistics statistics ) {
+        
+        // this method should only be called once
+        if ( applicationStartedCalled ) {
+            throw new IllegalStateException( "attempted to call applicationStarted more than once" );
+        }
+        applicationStartedCalled = true;
+        
+        if ( isStatisticsEnabled() ) {
+            
+            // increment session counts
+            SessionCounter sessionCounter = SessionCounter.initInstance( simInfo.getProjectName(), simInfo.getFlavor() );
+            if ( sessionCounter != null ) {
+                sessionCounter.incrementCounts();
+            }
+            
+            // create the session message
+            final SessionMessage sessionMessage = SessionMessage.initInstance( simInfo );
+            
+            // Software Use Agreement
+            SoftwareAgreementManager.validate( parentFrame, statistics );
+            
+            // send session message
+            addListener( new StatisticsManagerListener() {
+                public void postResults( boolean success, StatisticsMessage m ) {
+                    if ( success && m == sessionMessage ) {
+                        // if the session message is successfully sent, reset this session count
+                        SessionCounter.getInstance().resetCountSince();
+                    }
+                }
+            } );
+            postMessage( sessionMessage );
         }
     }
     
