@@ -38,8 +38,10 @@
 							<option value="message_count">Message Counts</option>
 						</optgroup>
 						<optgroup label="Other">
+							<option value="users">User Information</option>
 							<option value="recent_messages">Recent Messages</option>
 							<option value="errors">Message Errors</option>
+							<!-- <option value="raw_tables">Raw Tables (DO NOT CLICK IF TABLES ARE LARGE)</option> -->
 						</optgroup>
 					</select>
 				</div>
