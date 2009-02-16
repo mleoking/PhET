@@ -50,7 +50,11 @@ public class JavaSimulation extends AbstractSimulation {
         String propertiesFileName = getPropertiesResourceName( getProjectName(), languageCode );
         writePropertiesToJarCopy( getJarFileName(), TEST_JAR, getManifest(), propertiesFileName, properties );
         try {
-            String[] cmdArray = { "java", "-jar", "-Duser.language=" + languageCode, TEST_JAR };
+            String[] cmdArray = { "java", "-jar", 
+                    "-Duser.language=" + languageCode, /* TODO: delete after IOM, #1143 */
+                    "-Djavaws.phet.locale=" + languageCode, /* TODO: delete after IOM, #1143 */
+                    "-Djavaws.language=" + languageCode, /* TODO: delete after IOM, #1143 */
+                    TEST_JAR };
             Command.run( cmdArray, false /* waitForCompletion */ );
         }
         catch ( CommandException e ) {
@@ -126,13 +130,21 @@ public class JavaSimulation extends AbstractSimulation {
     private String getActualProjectName( String jarFileName ) throws SimulationException {
         
         String projectName = null;
-        
-        // For newer sims, the project name is identified in the properties file read by JARLauncher
-        Properties projectProperties = readPropertiesFromJar( jarFileName, JAR_LAUNCHER_PROPERTIES_FILENAME );
+        Properties projectProperties = null;
+
+        //TODO: delete this block after IOM, #1222
+        projectProperties = readPropertiesFromJar( jarFileName, "project.properties" );
+        if ( projectProperties != null ) {
+            projectName = projectProperties.getProperty( PROJECT_NAME_PROPERTY );
+        }
+
+        // The project name is identified in the properties file read by JARLauncher
+        projectProperties = readPropertiesFromJar( jarFileName, JAR_LAUNCHER_PROPERTIES_FILENAME );
         if ( projectProperties != null ) {
             projectName = projectProperties.getProperty( PROJECT_NAME_PROPERTY );
         }
         
+        //TODO: delete this block after IOM, #1223
         // For older sims (or if PROJECT_NAME_PROPERTY is missing), discover the project name
         if ( projectName == null ) {
             projectName = discoverProjectName( jarFileName );
