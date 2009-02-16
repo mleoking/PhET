@@ -5,10 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.common.phetcommon.statistics.SessionMessage;
 import edu.colorado.phet.common.phetcommon.statistics.StatisticsManager;
-import edu.colorado.phet.common.phetcommon.statistics.StatisticsMessage;
-import edu.colorado.phet.common.phetcommon.statistics.StatisticsManager.StatisticsManagerListener;
 import edu.colorado.phet.common.phetcommon.updates.UpdatesManager;
 
 /**
@@ -111,35 +108,10 @@ public class PhetApplicationLauncher {
                         disposeSplashWindow();
 
                         // statistics
-                        StatisticsManager.initInstance( config );
-                        if ( StatisticsManager.isStatisticsEnabled() ) {
-                            
-                            // increment session counts
-                            SessionCounter sessionCounter = SessionCounter.initInstance( config.getProjectName(), config.getFlavor() );
-                            if ( sessionCounter != null ) {
-                                sessionCounter.incrementCounts();
-                            }
-                            
-                            // create the session message
-                            final SessionMessage sessionMessage = SessionMessage.initInstance( config );
-                            
-                            // Software Use Agreement
-                            SoftwareAgreementManager.validate( app.getPhetFrame(), config );
-                            
-                            // send session message
-                            StatisticsManager.getInstance().addListener( new StatisticsManagerListener() {
-                                public void postResults( boolean success, StatisticsMessage m ) {
-                                    if ( success && m == sessionMessage ) {
-                                        // if the session message is successfully sent, reset this session count
-                                        SessionCounter.getInstance().resetCountSince();
-                                    }
-                                }
-                            } );
-                            StatisticsManager.postMessage( sessionMessage );
-                        }
+                        StatisticsManager.initInstance( config ).applicationStarted( app.getPhetFrame(), app.getStatistics() );
                         
                         // updates
-                        UpdatesManager.initInstance( config ).applicationStarted( app.getPhetFrame(), app.getStatistics() );//todo: due to threading, sometimes this event arrives at server first
+                        UpdatesManager.initInstance( config ).applicationStarted( app.getPhetFrame(), app.getStatistics() );//TODO: due to threading, sometimes this event arrives at server first
                     }
                     else {
                         new RuntimeException( "No applicationconstructor specified" ).printStackTrace();

@@ -2,7 +2,7 @@ package edu.colorado.phet.common.phetcommon.statistics;
 
 import java.util.Date;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.application.SessionCounter;
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
@@ -28,12 +28,12 @@ public class SessionMessage extends StatisticsMessage {
     
     private static SessionMessage instance;
     
-    public static SessionMessage initInstance( PhetApplicationConfig config ) {
+    public static SessionMessage initInstance( ISimInfo simInfo ) {
         if ( instance != null ) {
             throw new RuntimeException( "initInstance was called more than once" );
         }
         else {
-            instance = new SessionMessage( config );
+            instance = new SessionMessage( simInfo );
         }
         return instance;
     }
@@ -43,7 +43,7 @@ public class SessionMessage extends StatisticsMessage {
     }
     
     /* singleton */
-    private SessionMessage( PhetApplicationConfig config ) {
+    private SessionMessage( ISimInfo simInfo ) {
         super( "session", MESSAGE_VERSION );
         
         initTimeZone();
@@ -52,20 +52,20 @@ public class SessionMessage extends StatisticsMessage {
         StatisticsMessageField[] fields = new StatisticsMessageField[]{
                 
                 // Sim data
-                new StatisticsMessageField( "sim_project", config.getProjectName() ),
-                new StatisticsMessageField( "sim_name", config.getFlavor() ),
+                new StatisticsMessageField( "sim_project", simInfo.getProjectName() ),
+                new StatisticsMessageField( "sim_name", simInfo.getFlavor() ),
                 new StatisticsMessageField( "sim_total_sessions", SessionCounter.getInstance().getCount() ),
                 new StatisticsMessageField( "sim_sessions_since", SessionCounter.getInstance().getCountSince() ),
-                new StatisticsMessageField( "sim_major_version", config.getVersion().getMajor() ),
-                new StatisticsMessageField( "sim_minor_version", config.getVersion().getMinor() ),
-                new StatisticsMessageField( "sim_dev_version", config.getVersion().getDev() ),
-                new StatisticsMessageField( "sim_svn_revision", config.getVersion().getRevision() ),
-                new StatisticsMessageField( "sim_version_timestamp", config.getVersion().getTimestampSeconds() ),
-                new StatisticsMessageField( "sim_distribution_tag", config.getDistributionTag() ),
+                new StatisticsMessageField( "sim_major_version", simInfo.getVersion().getMajor() ),
+                new StatisticsMessageField( "sim_minor_version", simInfo.getVersion().getMinor() ),
+                new StatisticsMessageField( "sim_dev_version", simInfo.getVersion().getDev() ),
+                new StatisticsMessageField( "sim_svn_revision", simInfo.getVersion().getRevision() ),
+                new StatisticsMessageField( "sim_version_timestamp", simInfo.getVersion().getTimestampSeconds() ),
+                new StatisticsMessageField( "sim_distribution_tag", simInfo.getDistributionTag() ),
                 new StatisticsMessageField( "sim_locale_language", PhetResources.readLocale().getLanguage() ),
                 new StatisticsMessageField( "sim_locale_country", PhetResources.readLocale().getCountry() ),
                 new StatisticsMessageField( "sim_deployment", DeploymentScenario.getInstance().toString() ),
-                new StatisticsMessageField( "sim_dev", config.isDev() + "" ),
+                new StatisticsMessageField( "sim_dev", simInfo.isDev() + "" ),
                 
                 // Host data
                 new StatisticsMessageField.SystemProperty( "host_os_name", "os.name" ),
@@ -85,7 +85,7 @@ public class SessionMessage extends StatisticsMessage {
                 new StatisticsMessageField( "user_total_sessions", SessionCounter.getInstance().getTotal() ),
                 
                 // Debug field for this that are split into multiple fields
-                new StatisticsMessageField( "debug_sim_version", config.getVersion().formatForAboutDialog() ),
+                new StatisticsMessageField( "debug_sim_version", simInfo.getVersion().formatForAboutDialog() ),
                 new StatisticsMessageField( "debug_host_java_version", jre.getVersion() ),
         };
         super.addFields( fields );
