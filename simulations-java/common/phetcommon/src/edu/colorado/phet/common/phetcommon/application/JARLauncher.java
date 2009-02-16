@@ -73,7 +73,7 @@ public class JARLauncher implements IProguardKeepClass {
         setLocaleForOfflineJARs( properties );
 
         // Launch a sim
-        String mainFlavor = properties.getProperty( "main.flavor" );
+        String mainFlavor = properties.getProperty( "flavor" );
         if ( mainFlavor != null ) {
             // properties file specifies which sim to launch
             SimulationInfo sim = getFlavor( sims, mainFlavor );
