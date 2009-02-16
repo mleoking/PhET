@@ -15,10 +15,6 @@ for more information.
 
 DESCRIPTION OF DIRECTORIES
 
-build*.xml, build.bat, build.sh :
-    Ant buildfiles and scripts. 
-    See documentation at the top of build.xml for common build targets.
-
 build-tools :
     Code for building Flash simulations (HTML generation, etc.)
     
@@ -30,10 +26,6 @@ common :
 
 contrib :
     Third party libraries that are used in Flash simulations
-
-ide:
-    Files that are useful for configuring various IDEs (Integrated Development Environments),
-    such as Eclipse and IntelliJ IDEA.
 
 simulations:
     Source code and related resources for the Flash-based simulations.
