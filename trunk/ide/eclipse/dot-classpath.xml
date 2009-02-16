@@ -193,9 +193,9 @@
 	<!-- utilities -->
 	<classpathentry kind="src" path="util/licensing/src"/>
 	<classpathentry kind="src" path="util/phet-installer/src"/>
+    <classpathentry kind="src" path="util/phet-updater/src"/>
 	<classpathentry kind="src" path="util/translation-utility/src"/>
 	<classpathentry kind="src" path="util/translation-utility/data"/>
-	<classpathentry kind="src" path="util/updater/src"/>
 	
 	<!-- Unfuddle notifier -->
 	<!-- this was implemented in Java 5 code, omit from classpath until we move to Java 5
