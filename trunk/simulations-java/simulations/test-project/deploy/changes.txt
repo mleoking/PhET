@@ -1,3 +1,5 @@
+# 0.25.05 (28592) Feb 15, 2009
+Dano's 3rd attempt to deploy to spot to test the JAR generation tool
 # 0.25.04 (28591) Feb 15, 2009
 Dano's 2nd attempt to deploy to spot to test the JAR generation tool
 # 0.25.03 (28589) Feb 15, 2009
