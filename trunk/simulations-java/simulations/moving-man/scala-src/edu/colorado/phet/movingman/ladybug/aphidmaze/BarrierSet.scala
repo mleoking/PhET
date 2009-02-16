@@ -1,6 +1,7 @@
 package edu.colorado.phet.movingman.ladybug.model.aphidmaze
 
 import _root_.edu.colorado.phet.common.phetcommon.math.MathUtil
+import _root_.edu.colorado.phet.common.phetcommon.view.util.RectangleUtils
 import edu.colorado.phet.movingman.ladybug.aphidmaze.MazeGenerator
 import edu.colorado.phet.movingman.ladybug.aphidmaze.Wall
 import java.awt.geom.{Line2D, Rectangle2D}
@@ -11,7 +12,18 @@ import java.lang.Math._
 class BarrierSet extends Observable {
   val rectangles = new ArrayBuffer[Rectangle2D]
   val lines = new ArrayBuffer[Line2D.Double]
-  var _dim = 0
+  private var _dim = 0
+
+  def getDim = _dim
+
+  def getBounds = {
+    val lineBounds = for (line <- lines) yield line.getBounds2D
+    val bounds = RectangleUtils.union(lineBounds.toArray)
+    if (bounds != null)
+      bounds
+    else
+      new Rectangle2D.Double(0, 0, 1, 1)
+  }
 
   def update(ladybug: Ladybug) = {
     //    lines.foreach((line:Line2D.Double)=>{
@@ -32,7 +44,7 @@ class BarrierSet extends Observable {
   def containsPoint(pt: Vector2D) = {
     rectangles.foldLeft(false)((value: Boolean, cur: Rectangle2D) => cur.contains(pt) || value)
   }
-  setDim(5)
+  setDim(10)
 
   def setDim(dim: Int) = {
     if (dim != _dim) {
