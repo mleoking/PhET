@@ -189,19 +189,28 @@ function setupRecentMessages() {
 	str += "</div>";
 	
 	fid("query_options").innerHTML = str;
-	
-	unsetTimestamp();
 }
 
 function setupErrors() {
 	fid("query_options").innerHTML = "";
-	unsetTimestamp();
+}
+
+function setupUsers() {
+	var str = "";
+	
+	str += "<div class='constraint'>";
+	str += "Sub query: <select name='query_type' id='query_type'>";
+	str += "<option value='unique_prefs'>Number of unique preferences files</option>";
+	str += "<option value='unique_installations'>Number of unique installations</option>";
+	str += "</select>";
+	str += "</div>";
+	
+	fid("query_options").innerHTML = str;
 }
 
 function build_order() {
 	var str = "";
 	str += "<span class='field'>Order by: </span><select name='ordercolumn' id='ordercolumn'>";
-	//str += "<option value='none'>none</option>";
 	str += "<option value='" + getValue("query") + "'>" + getValue("query") + "</option>";
 	if(getValue("group") !== null && getValue("group") != "none") {
 		str += "<option value='" + getValue("group") + "'>" + getValue("group") + "</option>";
@@ -232,11 +241,15 @@ function query_change() {
 	fid("results").innerHTML = "";
 	fid("debug").innerHTML = "";
 	
+	unsetTimestamp();
+	
 	switch(getValue('query')) {
 		case "session_count":
 			setupSessionCounts(); break;
 		case "message_count":
 			setupMessageCounts(); break;
+		case "users":
+			setupUsers(); break;
 		case "recent_messages":
 			setupRecentMessages(); break;
 		case "errors":
@@ -276,6 +289,8 @@ function query_string() {
 	} else if(getValue("query") == "recent_messages") {
 		str += "&recent_sim_type=" + getValue('recent_sim_type');
 		str += "&count=" + getValue('count');
+	} else if(getValue("query") == "users") {
+		str += "&query_type=" + getValue("query_type");
 	}
 	
 	return str;
@@ -283,6 +298,12 @@ function query_string() {
 
 
 function show_table() {
+	if(getValue("query") == "raw_tables") {
+		loadHTML("../db-display.php");
+		return;
+	}
+	
+	
 	fid("debug").innerHTML = query_string();
 	loadHTML("query-demo.php?" + query_string());
 }

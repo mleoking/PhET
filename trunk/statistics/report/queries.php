@@ -558,6 +558,12 @@ JAV;
 				}
 				array_push($query, $querytext);
 				break;
+			case "users":
+				if($arr['query_type'] == 'unique_prefs') {
+					array_push($query, "SELECT COUNT(DISTINCT user_preferences_file_creation_time) FROM user");
+				} else if($arr['query_type'] == 'unique_installations') {
+					array_push($query, "SELECT COUNT(DISTINCT user_installation_timestamp) FROM user WHERE user_installation_timestamp IS NOT NULL");
+				}
 		}
 		
 		return $query;
