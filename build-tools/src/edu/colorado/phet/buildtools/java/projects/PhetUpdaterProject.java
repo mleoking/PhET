@@ -5,18 +5,17 @@ import java.io.IOException;
 
 import edu.colorado.phet.buildtools.java.JavaProject;
 
-public class UpdaterProject extends JavaProject {
-    public UpdaterProject( File file ) throws IOException {
+/**
+ * builds the updater bootstrap utility (phet-updater.jar)
+ */
+public class PhetUpdaterProject extends JavaProject {
+    public PhetUpdaterProject( File file ) throws IOException {
         super( file );
     }
 
     public File getTrunkAbsolute() {
         return getProjectDir().getParentFile()//util
                 .getParentFile();// trunk
-    }
-
-    public void buildLaunchFiles( String URL, boolean dev ) {
-        System.out.println( "No launch files (JNLP) for updater." );
     }
 
     public String getAlternateMainClass() {

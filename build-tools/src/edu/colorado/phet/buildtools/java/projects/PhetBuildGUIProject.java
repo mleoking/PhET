@@ -6,19 +6,15 @@ import java.io.IOException;
 import edu.colorado.phet.buildtools.java.JavaProject;
 
 /**
- * This project is used so the build-tools project can build and deploy itself.
+ * builds the PhET Build GUI (phet-build-gui.jar)
  */
-public class BuildToolsProject extends JavaProject {
-    public BuildToolsProject( File file ) throws IOException {
+public class PhetBuildGUIProject extends JavaProject {
+    public PhetBuildGUIProject( File file ) throws IOException {
         super( file );
     }
 
     public File getTrunkAbsolute() {
         return getProjectDir().getParentFile();
-    }
-
-    public void buildLaunchFiles( String URL, boolean dev ) {
-        System.out.println( "No launch files (JNLP) for updater." );
     }
 
     public String getAlternateMainClass() {

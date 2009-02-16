@@ -6,11 +6,11 @@ import java.io.IOException;
 import edu.colorado.phet.buildtools.java.JavaProject;
 
 /**
- * Used for building the .class files that will be used in PhetFlashProject.
+ * Used for building the flash-launcher .class files that will be used in PhetFlashProject.
  * This project is not intended to be used or deployed by itself.
  */
-public class PhetFlashLauncherProject extends JavaProject {
-    public PhetFlashLauncherProject( File trunk ) throws IOException {
+public class FlashLauncherProject extends JavaProject {
+    public FlashLauncherProject( File trunk ) throws IOException {
         super( new File( trunk, "simulations-flash/flash-launcher" ) );
     }
 
@@ -24,8 +24,5 @@ public class PhetFlashLauncherProject extends JavaProject {
 
     public String getProdServerDeployPath() {
         return null;
-    }
-
-    public void buildLaunchFiles( String URL, boolean dev ) {
     }
 }

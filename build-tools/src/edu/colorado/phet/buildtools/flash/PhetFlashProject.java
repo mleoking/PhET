@@ -11,7 +11,7 @@ import org.apache.tools.ant.taskdefs.Manifest;
 import edu.colorado.phet.buildtools.MyAntTaskRunner;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.Simulation;
-import edu.colorado.phet.buildtools.java.projects.PhetFlashLauncherProject;
+import edu.colorado.phet.buildtools.java.projects.FlashLauncherProject;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.flashlauncher.FlashHTML;
@@ -126,7 +126,7 @@ public class PhetFlashProject extends PhetProject {
         getOfflineJARContentsDir().mkdirs();
         try {
             //copy class files for FlashLauncher
-            PhetFlashLauncherProject launcherProject = new PhetFlashLauncherProject( getTrunk() );
+            FlashLauncherProject launcherProject = new FlashLauncherProject( getTrunk() );
             launcherProject.build();
             FileUtils.unzip( launcherProject.getDefaultDeployJar(), getOfflineJARContentsDir() );
 

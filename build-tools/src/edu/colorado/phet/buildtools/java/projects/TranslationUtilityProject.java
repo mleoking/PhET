@@ -5,18 +5,16 @@ import java.io.IOException;
 
 import edu.colorado.phet.buildtools.java.JavaProject;
 
+/**
+ *  build the Translation Utility (translation-utility.jar)
+ */
 public class TranslationUtilityProject extends JavaProject {
     public TranslationUtilityProject( File file ) throws IOException {
         super( file );
     }
 
     public File getTrunkAbsolute() {
-        // directory structure is trunk/util/translation-utility
-        return getProjectDir().getParentFile().getParentFile();
-    }
-
-    public void buildLaunchFiles( String URL, boolean dev ) {
-        System.out.println( "No launch files (JNLP) for " + getClass().getName() );
+        return getProjectDir().getParentFile().getParentFile(); // ../../trunk/
     }
 
     public String getAlternateMainClass() {

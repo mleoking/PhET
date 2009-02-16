@@ -5,10 +5,10 @@ import java.util.*;
 
 import edu.colorado.phet.buildtools.flash.PhetFlashProject;
 import edu.colorado.phet.buildtools.java.JavaProject;
-import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
+import edu.colorado.phet.buildtools.java.projects.PhetBuildGUIProject;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.java.projects.TranslationUtilityProject;
-import edu.colorado.phet.buildtools.java.projects.UpdaterProject;
+import edu.colorado.phet.buildtools.java.projects.PhetUpdaterProject;
 import edu.colorado.phet.buildtools.scripts.SetSVNIgnoreToDeployDirectories;
 import edu.colorado.phet.buildtools.util.*;
 import edu.colorado.phet.common.phetcommon.resources.PhetProperties;
@@ -498,8 +498,8 @@ public abstract class PhetProject {
             //Add supplemental projects
             //todo: move these to a separate area
             phetProjects.add( new TranslationUtilityProject( new File( trunk, "util/translation-utility" ) ) );
-            phetProjects.add( new UpdaterProject( new File( trunk, "util/phet-updater" ) ) );
-            phetProjects.add( new BuildToolsProject( new File( trunk, "build-tools" ) ) );
+            phetProjects.add( new PhetUpdaterProject( new File( trunk, "util/phet-updater" ) ) );
+            phetProjects.add( new PhetBuildGUIProject( new File( trunk, "build-tools" ) ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -849,6 +849,8 @@ public abstract class PhetProject {
 
     public abstract void runSim( Locale locale, String simulationName );
 
-    public abstract void buildLaunchFiles( String URL, boolean dev );
+    public void buildLaunchFiles( String URL, boolean dev ) {
+        System.out.println( "No launch files (JNLP) for " + getClass().getName() );
+    }
 
 }
