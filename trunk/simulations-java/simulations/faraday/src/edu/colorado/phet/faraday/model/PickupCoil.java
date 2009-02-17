@@ -225,6 +225,12 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
         return _transitionSmoothingScale;
     }
     
+    /**
+     * Scales the induced emf.
+     * This is useful for scaling the visible behavior of devices that measure emf
+     * (eg, voltmeter, lightbulb).
+     * @param scale
+     */
     public void setEmfScale( double scale ) {
         if ( scale <= 0 ) {
             throw new IllegalArgumentException( "scale must be > 0: " + scale );
