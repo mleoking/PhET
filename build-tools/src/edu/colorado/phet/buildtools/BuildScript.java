@@ -334,7 +334,7 @@ public class BuildScript {
         map.put( "project-name", project.getName() );
         map.put( "version", getFullVersionStr( svn ) );
         map.put( "sim-list", getSimListHTML( project ) );
-        map.put( "jnlp-filename", project.getSimulationNames()[0] + "_en.jnlp" );
+        map.put( "jnlp-filename", project.getSimulationNames()[0] + "_en.jnlp" );//TODO: is this still used?
         map.put( "new-summary", getNewSummary() );
         return map;
     }
@@ -343,7 +343,7 @@ public class BuildScript {
         //<li><a href="@jnlp-filename@">Launch @sim-name@</a></li>
         String s = "";
         for ( int i = 0; i < project.getSimulationNames().length; i++ ) {
-            String jnlpFilename = project.getSimulationNames()[i] + ".jnlp";
+            String jnlpFilename = project.getSimulationNames()[i] + "_en.jnlp";
             String simname = project.getSimulations()[i].getTitle();
             s += "<li><a href=\"" + jnlpFilename + "\">Launch " + simname + "</a></li>";
             if ( i < project.getSimulationNames().length - 1 ) {
