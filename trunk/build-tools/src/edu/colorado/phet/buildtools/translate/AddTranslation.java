@@ -101,7 +101,7 @@ public class AddTranslation {
                 deployJAR( phetProject, user, password );//also deploy the updated webstart JAR
 
                 //run server side scripts to generate simulation x locale jars
-                BuildScript.generateSimulationAndLanguageJARFiles( phetProject, PhetServer.PRODUCTION, new AuthenticationInfo( user, password ) );
+                BuildScript.generateSimulationAndLanguageJARFilesPython( phetProject, PhetServer.PRODUCTION, new AuthenticationInfo( user, password ) );
 
                 //poke the website to make sure it regenerates pages with the new info
                 try {
