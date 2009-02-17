@@ -50,11 +50,11 @@ public class JavaSimulation extends AbstractSimulation {
         String propertiesFileName = getPropertiesResourceName( getProjectName(), languageCode );
         writePropertiesToJarCopy( getJarFileName(), TEST_JAR, getManifest(), propertiesFileName, properties );
         try {
-            String[] cmdArray = { "java", "-jar", 
-                    "-Duser.language=" + languageCode, /* TODO: delete after IOM, #1246 */
+            String[] cmdArray = { "java", 
+                    "-Djavaws.user.language=" + languageCode, /* TODO: delete after IOM, #1246 */
                     "-Djavaws.phet.locale=" + languageCode, /* TODO: delete after IOM, #1246 */
-                    "-Djavaws.language=" + languageCode, /* TODO: delete after IOM, #1246 */
-                    TEST_JAR };
+                    "-Duser.language=" + languageCode, /* TODO: delete after IOM, #1246 */
+                    "-jar", TEST_JAR };
             Command.run( cmdArray, false /* waitForCompletion */ );
         }
         catch ( CommandException e ) {
