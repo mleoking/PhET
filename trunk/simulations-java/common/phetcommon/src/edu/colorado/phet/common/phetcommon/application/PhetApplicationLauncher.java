@@ -111,7 +111,7 @@ public class PhetApplicationLauncher {
                         StatisticsManager.initInstance( config ).applicationStarted( app.getPhetFrame(), app.getStatistics() );
                         
                         // updates
-                        UpdatesManager.initInstance( config ).applicationStarted( app.getPhetFrame(), app.getStatistics() );//TODO: due to threading, sometimes this event arrives at server first
+                        UpdatesManager.initInstance( config ).applicationStarted( app.getPhetFrame(), app.getStatistics() );
                     }
                     else {
                         new RuntimeException( "No applicationconstructor specified" ).printStackTrace();
