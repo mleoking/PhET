@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.application.JARLauncher;
  * Takes a <project>_all.jar and generates offline jars for Java sims.
  *
  * If you make changes to this file, make sure you re-deploy build-tools to dev/ or prod/
+ * @author Sam Reid
  */
 public class OfflineJARGenerator {
     private String JAR_LAUNCHER_FILENAME = "jar-launcher.properties";
