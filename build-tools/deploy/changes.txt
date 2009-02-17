@@ -1,3 +1,5 @@
+# null.null.00 (28613) Feb 16, 2009
+Testing build-tools on spot
 1-31-09: #1171, BuildPropertiesFile abstraction of build properties file
 1-31-08: #1145, ProjectPropertiesFile abstraction of project properties file
 1-30-09: #1145, add version timestamp to project properties file
