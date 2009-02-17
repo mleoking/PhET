@@ -334,7 +334,7 @@ public class BuildScript {
         map.put( "project-name", project.getName() );
         map.put( "version", getFullVersionStr( svn ) );
         map.put( "sim-list", getSimListHTML( project ) );
-        map.put( "jnlp-filename", project.getSimulationNames()[0] + ".jnlp" );
+        map.put( "jnlp-filename", project.getSimulationNames()[0] + "_en.jnlp" );
         map.put( "new-summary", getNewSummary() );
         return map;
     }
