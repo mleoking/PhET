@@ -42,8 +42,7 @@ public class BuildJNLPTask extends AbstractPhetBuildTask {
     }
 
     private String getJNLPFileName() {
-        String localeSuffix = locale.equals( "en" ) ? "" : "_" + locale;
-        return "" + simulationName + localeSuffix + ".jnlp";
+        return "" + simulationName + "_"+locale+ ".jnlp";
     }
 
     private File getDestFile( PhetProject phetProject ) {
