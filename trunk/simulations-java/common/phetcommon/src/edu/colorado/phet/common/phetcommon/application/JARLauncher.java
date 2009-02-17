@@ -387,7 +387,7 @@ public class JARLauncher implements IProguardKeepClass {
      * Gets the title for one sim.
      */
     private static String getTitle( Properties prop, String flavor ) {
-        //todo: this assumes that sims and project names contain - as delimiter instead of _
+        //TODO: this assumes that sims and project names contain - as delimiter instead of _
         //the convention by PhetBuildAllSimJarTask is to create project_sim style names
         if ( new StringTokenizer( flavor, "_" ).countTokens() == 2 ) {
             StringTokenizer st = new StringTokenizer( flavor, "_" );

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-//todo: remove duplicate copy in licensing, build-tools and phet-common
+//TODO: remove duplicate copy in licensing, build-tools and phet-common
 public class AnnotationParser {
     public static Annotation[] getAnnotations( String text ) {
         StringTokenizer st = new StringTokenizer( text, "\n" );

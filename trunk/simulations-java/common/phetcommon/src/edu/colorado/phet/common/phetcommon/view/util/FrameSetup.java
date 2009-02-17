@@ -55,7 +55,7 @@ public interface FrameSetup {
             this.height = height;
         }
 
-        // todo: add test to see that the requested dimensions aren't bigger than the screen
+        // TODO: add test to see that the requested dimensions aren't bigger than the screen
         public void initialize( JFrame frame ) {
             Toolkit tk = Toolkit.getDefaultToolkit();
             Dimension d = tk.getScreenSize();
@@ -116,7 +116,7 @@ public interface FrameSetup {
          *
          * @param frame the frame to initialize.
          */
-        // todo: add test to see that the requested dimensions aren't bigger than the screen
+        // TODO: add test to see that the requested dimensions aren't bigger than the screen
         public void initialize( JFrame frame ) {
             Toolkit tk = Toolkit.getDefaultToolkit();
             Dimension d = tk.getScreenSize();

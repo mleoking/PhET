@@ -156,7 +156,7 @@ public class PhetVersion {
     }
 
     public boolean isGreaterThan( PhetVersion version ) {
-        //todo: should this use major/minor/dev to determine ordering?
+        //TODO: should this use major/minor/dev to determine ordering?
         return getRevisionAsInt() > version.getRevisionAsInt();
     }
 
