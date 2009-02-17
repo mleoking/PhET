@@ -38,7 +38,7 @@ public class CreditsDialog extends JDialog {
     private static final Dimension SCROLLPANE_SIZE = new Dimension( 525, 300 );
 
     private static final String TITLE = PhetCommonResources.getString( "Common.About.CreditsDialog.Title" );
-    private static final String OK_BUTTON = PhetCommonResources.getString( "Common.About.OKButton" );
+    private static final String CLOSE_BUTTON = PhetCommonResources.getString( "Common.choice.close" );
     private static final String PHET_DEV_TEAM = PhetCommonResources.getString( "Common.About.CreditsDialog.PhetDevelopmentTeam" );
     private static final String THIRD_PARTY_USAGE = PhetCommonResources.getString( "Common.About.CreditsDialog.UsesThirdPartySoftware" );
     private String projectName;
@@ -71,16 +71,16 @@ public class CreditsDialog extends JDialog {
         JScrollPane scrollPane = new JScrollPane( htmlPane );
         scrollPane.setPreferredSize( SCROLLPANE_SIZE );
 
-        // OK button
+        // Close button
         JPanel buttonPanel = new JPanel();
-        JButton okButton = new JButton( OK_BUTTON );
-        okButton.addActionListener( new ActionListener() {
+        JButton closeButton = new JButton( CLOSE_BUTTON );
+        closeButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setVisible( false );
                 dispose();
             }
         } );
-        buttonPanel.add( okButton );
+        buttonPanel.add( closeButton );
 
         // layout
         JPanel panel = new JPanel( new BorderLayout() );
