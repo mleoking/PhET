@@ -66,6 +66,7 @@ public class PickupCoilModule extends FaradayModule {
     private static final double LIGHT_RAYS_SCALE = 4.0;
     private static final double VOLTMETER_SCALE = 4.0;
     private static final double ELECTRON_SPEED_SCALE = 20.0;
+    private static final double PICKUP_COIL_EMF_SCALE = 3.0;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -130,6 +131,7 @@ public class PickupCoilModule extends FaradayModule {
         _pickupCoilModel.setDirection( PICKUP_COIL_DIRECTION );
         _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION );
         _pickupCoilModel.setTransitionSmoothingScale( PICKUP_COIL_TRANSITION_SMOOTHING_SCALE );
+        _pickupCoilModel.setEmfScale( PICKUP_COIL_EMF_SCALE );
         final double ySpacing = _barMagnetModel.getHeight() / 10;
         _pickupCoilModel.setSamplePointsStrategy( new VariableNumberOfSamplePointsStrategy( ySpacing ) );
         model.addModelElement( _pickupCoilModel );
@@ -226,7 +228,7 @@ public class PickupCoilModule extends FaradayModule {
             controlPanel.addControlFullWidth( _pickupCoilPanel );
             
             // Scaling calibration
-            if ( PhetApplication.instance().isDeveloperControlsEnabled() ) {
+            if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
                 controlPanel.addVerticalSpace( FaradayControlPanel.DEFAULT_VERTICAL_SPACE );
                 
                 DeveloperControlsPanel developerControlsPanel = new DeveloperControlsPanel( 

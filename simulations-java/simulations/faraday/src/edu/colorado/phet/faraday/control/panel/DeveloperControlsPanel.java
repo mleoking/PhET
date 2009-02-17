@@ -106,6 +106,7 @@ public class DeveloperControlsPanel extends FaradayPanel {
             layout.addComponent(  displayFluxCheckBox, row++, 0 );
         }
         
+        // Pickup coil EMF scale
         if ( pickupCoilModel != null ) {
             double min = FaradayConstants.EMF_SCALE_MIN;
             double max = FaradayConstants.EMF_SCALE_MAX;

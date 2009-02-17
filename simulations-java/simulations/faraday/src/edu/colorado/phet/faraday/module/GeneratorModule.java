@@ -66,6 +66,7 @@ public class GeneratorModule extends FaradayModule {
     private static final double LIGHTBULB_SCALE = 2.5;
     private static final double VOLTMETER_SCALE = 3.3;
     private static final double ELECTRON_SPEED_SCALE = 2.5;
+    private static final double PICKUP_COIL_EMF_SCALE = 2.5;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -131,6 +132,7 @@ public class GeneratorModule extends FaradayModule {
         _pickupCoilModel.setDirection( PICKUP_COIL_DIRECTION );
         _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
         _pickupCoilModel.setTransitionSmoothingScale( PICKUP_COIL_TRANSITION_SMOOTHING_SCALE );
+        _pickupCoilModel.setEmfScale( PICKUP_COIL_EMF_SCALE );
         model.addModelElement( _pickupCoilModel );
        
         // Lightbulb
@@ -217,7 +219,7 @@ public class GeneratorModule extends FaradayModule {
             controlPanel.addControlFullWidth( _pickupCoilPanel );
             
             // Scaling calibration
-            if ( PhetApplication.instance().isDeveloperControlsEnabled() ) {
+            if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
                 controlPanel.addVerticalSpace( FaradayControlPanel.DEFAULT_VERTICAL_SPACE );
                 
                 DeveloperControlsPanel developerControlsPanel = new DeveloperControlsPanel( 
