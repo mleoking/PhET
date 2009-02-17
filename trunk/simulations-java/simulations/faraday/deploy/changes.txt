@@ -1,3 +1,5 @@
+# 2.01.04 (28640) Feb 17, 2009
+dev version for 3rd-party testing of #721
 2/17/09 - #721, calibrate emf scale using Kathy's values
 12/21/08 - #1014, use new resistor image created by Noah P.
 # 2.01.03 (26579) 12/04/08
