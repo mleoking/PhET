@@ -12,6 +12,7 @@ import org.rev6.scf.SshCommand;
 import org.rev6.scf.SshConnection;
 import org.rev6.scf.SshException;
 
+import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
 import edu.colorado.phet.buildtools.translate.ScpTo;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.ProcessOutputReader;
@@ -372,8 +373,13 @@ public class BuildScript {
         return output + "</ul>";
     }
 
-    public void deployDev( AuthenticationInfo devAuth ) {
-        deploy( PhetServer.DEVELOPMENT, devAuth, new VersionIncrement.UpdateDev() );
+    public void deployDev( final AuthenticationInfo devAuth ) {
+        deploy( new NullTask(), PhetServer.DEVELOPMENT, devAuth, new VersionIncrement.UpdateDev(), new Task() {
+            public boolean invoke() {
+                generateSimulationAndLanguageJARFilesJava( project, PhetServer.DEVELOPMENT, devAuth );
+                return true;
+            }
+        } );
     }
 
     public void deployProd( final AuthenticationInfo devAuth, final AuthenticationInfo prodAuth ) {
@@ -417,6 +423,32 @@ public class BuildScript {
             }
         }
         catch( SshException e ) {
+            e.printStackTrace();
+        }
+        finally {
+            sshConnection.disconnect();
+        }
+    }
+
+    private void generateSimulationAndLanguageJARFilesJava( PhetProject project, PhetServer server, AuthenticationInfo authenticationInfo ) {
+        SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername( server.getHost() ), authenticationInfo.getPassword( server.getHost() ) );
+        try {
+            sshConnection.connect();
+            for ( int i = 0; i < project.getSimulationNames().length; i++ ) {
+                String buildScriptDir = server.getServerDeployPath( new BuildToolsProject( new File( project.getTrunk(), "build-tools" ) ) );
+                String projectDir = server.getServerDeployPath( project );
+
+                //todo: get 'java' and 'jar' commands from PhetServer
+                String command = "java -classpath " + buildScriptDir + "/build-tools_all.jar " + OfflineJARGenerator.class.getName() + " " + projectDir + "/" + project.getDefaultDeployJar().getName() + " jar";
+
+                System.out.println( "Running command: \n" + command );
+                sshConnection.executeTask( new SshCommand( command ) );
+            }
+        }
+        catch( SshException e ) {
+            e.printStackTrace();
+        }
+        catch( IOException e ) {
             e.printStackTrace();
         }
         finally {
