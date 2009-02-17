@@ -48,12 +48,12 @@ public class JavaSimulation extends AbstractSimulation {
     
     public void testStrings( Properties properties, String languageCode ) throws SimulationException {
         String propertiesFileName = getPropertiesResourceName( getProjectName(), languageCode );
-        writePropertiesToJarCopy( getJarFileName(), TEST_JAR, getManifest(), propertiesFileName, properties );
+        createTestJar( getJarFileName(), TEST_JAR, getManifest(), propertiesFileName, properties, languageCode );
         try {
             String[] cmdArray = { "java", 
-                    "-Djavaws.user.language=" + languageCode, /* TODO: delete after IOM, #1246 */
-                    "-Djavaws.phet.locale=" + languageCode, /* TODO: delete after IOM, #1246 */
-                    "-Duser.language=" + languageCode, /* TODO: delete after IOM, #1246 */
+                    "-Djavaws.user.language=" + languageCode, /* TODO: #1249, delete after IOM */
+                    "-Djavaws.phet.locale=" + languageCode, /* TODO: #1249, delete after IOM */
+                    "-Duser.language=" + languageCode, /* TODO: #1249, delete after IOM */
                     "-jar", TEST_JAR };
             Command.run( cmdArray, false /* waitForCompletion */ );
         }
@@ -132,7 +132,7 @@ public class JavaSimulation extends AbstractSimulation {
         String projectName = null;
         Properties projectProperties = null;
 
-        //TODO: delete this block after IOM, #1222
+        //TODO: #1249, delete after IOM
         projectProperties = readPropertiesFromJar( jarFileName, "project.properties" );
         if ( projectProperties != null ) {
             projectName = projectProperties.getProperty( PROJECT_NAME_PROPERTY );
@@ -144,9 +144,9 @@ public class JavaSimulation extends AbstractSimulation {
             projectName = projectProperties.getProperty( PROJECT_NAME_PROPERTY );
         }
         
-        //TODO: delete this block after IOM, #1223
-        // For older sims (or if PROJECT_NAME_PROPERTY is missing), discover the project name
+        //TODO: #1249, delete after IOM
         if ( projectName == null ) {
+            // For older sims (or if PROJECT_NAME_PROPERTY is missing), discover the project name
             projectName = discoverProjectName( jarFileName );
         }
         
@@ -267,8 +267,11 @@ public class JavaSimulation extends AbstractSimulation {
     }
     
     /*
-     * Copies a JAR file and adds (or replaces) a properties file.
-     * The properties file contains localized strings.
+     * Creates a test JAR by doing the following:
+     * 1. copies the original JAR file
+     * 2. adds or replaces a properties file containing localized strings
+     * 3. adds or replaces a properties file used by JARLauncher to set the locale
+     * 
      * The original JAR file is not modified.
      * 
      * @param originalJarFileName
@@ -276,15 +279,29 @@ public class JavaSimulation extends AbstractSimulation {
      * @param manifest
      * @param propertiesFileName
      * @param properties
+     * @param languageCode
      */
-    private static void writePropertiesToJarCopy( 
+    private static void createTestJar( 
             String originalJarFileName, String newJarFileName, Manifest manifest, 
-            String propertiesFileName, Properties properties ) throws SimulationException {
+            String propertiesFileName, Properties properties, String languageCode ) throws SimulationException {
         
         if ( originalJarFileName.equals( newJarFileName  ) ) {
             throw new IllegalArgumentException( "originalJarFileName and newJarFileName must be different" );
         }
         
+        // read the JARLaucher properties file from the original JAR
+        String jarLauncherPropertiesFileName = JARLauncher.getPropertiesFileName();
+        Properties jarLauncherProperties = null;
+        try {
+            jarLauncherProperties = readPropertiesFromJar( originalJarFileName, jarLauncherPropertiesFileName );
+        }
+        catch ( SimulationException e ) {  //TODO: #1249, delete after IOM, all JARs must contain jar-launcher.properties
+            jarLauncherProperties = new Properties();
+            System.err.println( "WARNING: old-style simulation does not contain " + jarLauncherPropertiesFileName );
+        }
+        jarLauncherProperties.setProperty( "language", languageCode );
+        
+        // open the original JAR file
         File jarFile = new File( originalJarFileName );
         InputStream inputStream = null;
         try {
@@ -295,6 +312,7 @@ public class JavaSimulation extends AbstractSimulation {
             throw new SimulationException( "jar file not found: " + originalJarFileName, e );
         }
         
+        // create the test JAR file
         File testFile = new File( newJarFileName );
         testFile.deleteOnExit(); // temporary file, delete when the VM exits
         try {
@@ -308,7 +326,11 @@ public class JavaSimulation extends AbstractSimulation {
             // copy all entries from input to output, skipping the properties file & manifest
             JarEntry jarEntry = jarInputStream.getNextJarEntry();
             while ( jarEntry != null ) {
-                if ( !jarEntry.getName().equals( propertiesFileName ) && !jarEntry.getName().equals( JarFile.MANIFEST_NAME ) ) {
+                
+                if ( !jarEntry.getName().equals( propertiesFileName ) && 
+                     !jarEntry.getName().equals( JarFile.MANIFEST_NAME ) &&
+                     !jarEntry.getName().equals( jarLauncherPropertiesFileName ) ) {
+                    
                     testOutputStream.putNextEntry( jarEntry );
                     byte[] buf = new byte[1024];
                     int len;
@@ -323,10 +345,34 @@ public class JavaSimulation extends AbstractSimulation {
             // add properties file to output
             jarEntry = new JarEntry( propertiesFileName );
             testOutputStream.putNextEntry( jarEntry );
-            String header = propertiesFileName;
-            properties.store( testOutputStream, header );
+            properties.store( testOutputStream, "created by " + JavaSimulation.class.getName() );
             testOutputStream.closeEntry();
             
+            // add JARLauncher properties to output
+            jarEntry = new JarEntry( jarLauncherPropertiesFileName );
+            testOutputStream.putNextEntry( jarEntry );
+            jarLauncherProperties.store( testOutputStream, "created by " + JavaSimulation.class.getName() );
+            testOutputStream.closeEntry();
+            
+            //TODO: #1249, delete after IOM
+            {
+                // backward compatibility for locale.properties
+                Properties localeProperties = new Properties();
+                localeProperties.setProperty( "language", languageCode );
+                jarEntry = new JarEntry( "locale.properties" );
+                testOutputStream.putNextEntry( jarEntry );
+                localeProperties.store( testOutputStream, "created by " + JavaSimulation.class.getName() );
+                testOutputStream.closeEntry();
+                
+                // backward compatibility for options.properties
+                Properties optionsProperties = new Properties();
+                optionsProperties.setProperty( "locale", languageCode );
+                jarEntry = new JarEntry( "options.properties" );
+                testOutputStream.putNextEntry( jarEntry );
+                optionsProperties.store( testOutputStream, "created by " + JavaSimulation.class.getName() );
+                testOutputStream.closeEntry();
+            }
+
             // close the streams
             jarInputStream.close();
             testOutputStream.close();
