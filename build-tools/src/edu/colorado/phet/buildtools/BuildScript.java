@@ -396,14 +396,14 @@ public class BuildScript {
                     public boolean invoke() {
                         System.out.println( "Invoking server side scripts to generate simulation and language JAR files" );
                         if ( !dryRun ) {
-                            generateSimulationAndLanguageJARFiles( project, PhetServer.PRODUCTION, prodAuth );
+                            generateSimulationAndLanguageJARFilesPython( project, PhetServer.PRODUCTION, prodAuth );
                         }
                         return true;
                     }
                 } );
     }
 
-    public static void generateSimulationAndLanguageJARFiles( PhetProject project, PhetServer server, AuthenticationInfo authenticationInfo ) {
+    public static void generateSimulationAndLanguageJARFilesPython( PhetProject project, PhetServer server, AuthenticationInfo authenticationInfo ) {
         SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername( server.getHost() ), authenticationInfo.getPassword( server.getHost() ) );
         try {
             sshConnection.connect();
