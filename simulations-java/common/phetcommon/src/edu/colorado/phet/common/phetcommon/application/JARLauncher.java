@@ -423,19 +423,22 @@ public class JARLauncher implements IProguardKeepClass {
      * If these properties are found, set System properties that will be read by the sim.
      */
     private static void setLocaleForOfflineJARs( Properties properties ) {
-        // language (required)
         String language = properties.getProperty( LANGUAGE_KEY );
         if ( language != null ) {
             language = language.trim();
-            System.out.println( "JARLauncher: setting " + PhetResources.PROPERTY_JAVAWS_USER_LANGUAGE + "=" + language );
-            System.setProperty( PhetResources.PROPERTY_JAVAWS_USER_LANGUAGE, language );
+            if ( !language.equals( "" ) ) {
+                System.out.println( "JARLauncher: setting " + PhetResources.PROPERTY_JAVAWS_USER_LANGUAGE + "=" + language );
+                System.setProperty( PhetResources.PROPERTY_JAVAWS_USER_LANGUAGE, language );
 
-            // country (optional), ignored if language is not specified
-            String country = properties.getProperty( COUNTRY_KEY );
-            if ( country != null ) {
-                country = country.trim();
-                System.out.println( "JARLauncher: setting " + PhetResources.PROPERTY_JAVAWS_USER_COUNTRY + "=" + country );
-                System.setProperty( PhetResources.PROPERTY_JAVAWS_USER_COUNTRY, country );
+                // country (optional), ignored if language is not specified
+                String country = properties.getProperty( COUNTRY_KEY );
+                if ( country != null ) {
+                    country = country.trim();
+                    if ( !country.equals( "" ) ) {
+                        System.out.println( "JARLauncher: setting " + PhetResources.PROPERTY_JAVAWS_USER_COUNTRY + "=" + country );
+                        System.setProperty( PhetResources.PROPERTY_JAVAWS_USER_COUNTRY, country );
+                    }
+                }
             }
         }
     }
