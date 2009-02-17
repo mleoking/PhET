@@ -28,7 +28,7 @@ public class ContribLicenseDialog extends JDialog {
     // preferred size for the scrollpane, change this to affect initial dialog size
     private static final Dimension SCROLLPANE_SIZE = new Dimension( 440, 300 );
 
-    private static final String OK_BUTTON = PhetCommonResources.getString( "Common.About.OKButton" );
+    private static final String CLOSE_BUTTON = PhetCommonResources.getString( "Common.choice.close" );
 
     public ContribLicenseDialog( Dialog owner,String title ,String text)  {
         super( owner, title, true /* modal */ );
@@ -38,17 +38,17 @@ public class ContribLicenseDialog extends JDialog {
         JScrollPane scrollPane = new JScrollPane( htmlPane );
         scrollPane.setPreferredSize( SCROLLPANE_SIZE );
 
-        // OK button
+        // Close button
         JPanel buttonPanel = new JPanel();
-        JButton okButton = new JButton( OK_BUTTON );
-        okButton.addActionListener( new ActionListener() {
+        JButton closeButton = new JButton( CLOSE_BUTTON );
+        closeButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setVisible( false );
                 dispose();
             }
         } );
         //buttonPanel.add( new LibraryLicensesButton(this ) );
-        buttonPanel.add( okButton );
+        buttonPanel.add( closeButton );
 
         // layout
         JPanel panel = new JPanel( new BorderLayout() );
