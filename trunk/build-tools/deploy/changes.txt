@@ -1,3 +1,5 @@
+# 00.00.06 (28658) Feb 17, 2009
+Add _en suffix for English jars
 # 00.00.05 (28645) Feb 17, 2009
 Omit country key if not specified
 # 00.00.04 (28636) Feb 17, 2009
