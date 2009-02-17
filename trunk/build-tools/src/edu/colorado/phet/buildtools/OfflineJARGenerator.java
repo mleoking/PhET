@@ -53,8 +53,7 @@ public class OfflineJARGenerator {
     }
 
     private void generateOfflineJAR( File jar, String flavor, String locale, String pathToJARUtility ) throws IOException, InterruptedException {
-        String localeStr = locale.equals( "en" ) ? "" : "_" + locale;
-        File dst = new File( jar.getParentFile(), flavor + localeStr + ".jar" );
+        File dst = new File( jar.getParentFile(), flavor + "_" + locale + ".jar" );
         System.out.println( "Writing to: " + dst.getAbsolutePath() );
         FileUtils.copyTo( jar, dst );
 
@@ -90,7 +89,7 @@ public class OfflineJARGenerator {
         JarFile jarFile = new JarFile( jar );
         Enumeration entries = jarFile.entries();
         HashSet locales = new HashSet();
-        locales.add( "en" );
+        locales.add( "en" );//TODO: this can be removed if/when we add _en suffixes original phet localization files
         Pattern p = Pattern.compile( ".*" + getProjectName( jar ) + ".*strings.*" );//TODO: will dash character cause problems here?
         while ( entries.hasMoreElements() ) {
             ZipEntry zipEntry = (ZipEntry) entries.nextElement();
