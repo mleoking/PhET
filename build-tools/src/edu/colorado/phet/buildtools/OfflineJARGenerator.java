@@ -50,7 +50,7 @@ public class OfflineJARGenerator {
         FileUtils.copyTo( jar, dst );
 
         Properties properties = getJarLauncherProperties( jar );
-        properties.put( "main.flavor", flavor );
+        properties.put( "flavor", flavor );
         properties.put( "language", new Locale( locale ).getLanguage() );
         properties.put( "country", new Locale( locale ).getCountry() );//todo: omit key for unspecified country?
 
