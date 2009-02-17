@@ -38,6 +38,11 @@ public class OfflineJARGenerator {
         }
     }
 
+    public String getProjectName(File jar){
+        StringTokenizer stringTokenizer=new StringTokenizer( jar.getName(),"_. ");//todo: remove assumption that filename and project name match; could be moved to a main argument
+        return stringTokenizer.nextToken();
+    }
+
     private void generateOfflineJAR( File jar, String flavor, String locale, String pathToJARUtility ) throws IOException, InterruptedException {
         String localeStr = locale.equals( "en" ) ? "" : "_" + locale;
         File dst = new File( jar.getParentFile(), flavor + localeStr + ".jar" );
@@ -59,7 +64,8 @@ public class OfflineJARGenerator {
         p.waitFor();
         boolean deleted = getTempPropertiesFile( jar ).delete();
         if ( !deleted ) {
-            System.out.println( "Could not delete: " + getTempPropertiesFile( jar ) );
+            getTempPropertiesFile( jar ).deleteOnExit();
+            System.out.println( "Could not delete: " + getTempPropertiesFile( jar ) +", attempting deleteOnExit");
         }
     }
 
@@ -72,7 +78,7 @@ public class OfflineJARGenerator {
         Enumeration entries = jarFile.entries();
         HashSet locales = new HashSet();
         locales.add( "en" );
-        Pattern p = Pattern.compile( ".*strings.*" );
+        Pattern p = Pattern.compile( ".*"+getProjectName( jar )+".*strings.*" );//todo: will dash character cause problems here?
         while ( entries.hasMoreElements() ) {
             ZipEntry zipEntry = (ZipEntry) entries.nextElement();
             String name = zipEntry.getName();
