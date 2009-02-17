@@ -3,6 +3,7 @@
 package edu.colorado.phet.translationutility.simulations;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Properties;
 import java.util.jar.*;
 
@@ -296,8 +297,11 @@ public class JavaSimulation extends AbstractSimulation {
             jarLauncherProperties = readPropertiesFromJar( originalJarFileName, jarLauncherPropertiesFileName );
         }
         catch ( SimulationException e ) {  //TODO: #1249, delete after IOM, all JARs must contain jar-launcher.properties
-            jarLauncherProperties = new Properties();
             System.err.println( "WARNING: old-style simulation does not contain " + jarLauncherPropertiesFileName );
+        }
+        //TODO: #1249, delete this block after IOM
+        if ( jarLauncherProperties == null ) {
+            jarLauncherProperties = new Properties();
         }
         jarLauncherProperties.setProperty( "language", languageCode );
         
@@ -311,6 +315,14 @@ public class JavaSimulation extends AbstractSimulation {
             e.printStackTrace();
             throw new SimulationException( "jar file not found: " + originalJarFileName, e );
         }
+        
+        // files to skip while copying the JAR
+        String[] skipFileNames = {
+                JarFile.MANIFEST_NAME,
+                propertiesFileName,
+                jarLauncherPropertiesFileName,
+                "locale.properties", "options.properties" /*TODO: #1249, delete after IOM */
+        };
         
         // create the test JAR file
         File testFile = new File( newJarFileName );
@@ -327,9 +339,7 @@ public class JavaSimulation extends AbstractSimulation {
             JarEntry jarEntry = jarInputStream.getNextJarEntry();
             while ( jarEntry != null ) {
                 
-                if ( !jarEntry.getName().equals( propertiesFileName ) && 
-                     !jarEntry.getName().equals( JarFile.MANIFEST_NAME ) &&
-                     !jarEntry.getName().equals( jarLauncherPropertiesFileName ) ) {
+                if ( !contains( skipFileNames, jarEntry.getName() ) ) {
                     
                     testOutputStream.putNextEntry( jarEntry );
                     byte[] buf = new byte[1024];
@@ -382,5 +392,19 @@ public class JavaSimulation extends AbstractSimulation {
             e.printStackTrace();
             throw new SimulationException( "cannot add localized strings to jar file: " + newJarFileName, e );
         }
+    }
+    
+    /*
+     * Is a specified string in an array of strings?
+     */
+    private static boolean contains( String[] array, String s ) {
+        boolean found = false;
+        for ( int i = 0; i < array.length; i++ ) {
+            if ( array[i].equals( s ) ) {
+                found = true;
+                break;
+            }
+        }
+        return found;
     }
 }
