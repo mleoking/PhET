@@ -54,7 +54,7 @@ public abstract class PhetProject {
         return new File( getDeployDir(), getName() + "_all.jar" );
     }
 
-    //todo: can the following method be removed?  It looks suspicious.
+    //TODO: can the following method be removed?  It looks suspicious.
     public File getDefaultDeploySimulationJar( String simulation ) {
         return new File( getDeployDir(), simulation + "_all.jar" );
     }
@@ -235,7 +235,7 @@ public abstract class PhetProject {
         }
 
         //Search based on relative location to trunk, if nothing has matched yet.
-        //todo: make sure there is no ambiguity if one path matches several of these patterns
+        //TODO: make sure there is no ambiguity if one path matches several of these patterns
         System.out.println( "Relative path not found, searching from trunk..." );
 
         File trunkPath = new File( getTrunk(), token );
@@ -381,7 +381,7 @@ public abstract class PhetProject {
      *
      * @return
      */
-    public Simulation[] getSimulations() {//todo: separate locale-specific from locale dependent?
+    public Simulation[] getSimulations() {//TODO: separate locale-specific from locale dependent?
         String[] simulationNames = getSimulationNames();
         Simulation[] simulations = new Simulation[simulationNames.length];
         for ( int i = 0; i < simulationNames.length; i++ ) {
@@ -392,7 +392,7 @@ public abstract class PhetProject {
 
     private String[] getAllSimulationMainClasses() {
         ArrayList mainClasses = new ArrayList();
-        Simulation[] simulations = getSimulations();//see todo: in getSimulations(String)
+        Simulation[] simulations = getSimulations();//see TODO: in getSimulations(String)
         for ( int i = 0; i < simulations.length; i++ ) {
             Simulation simulation = simulations[i];
             if ( !mainClasses.contains( simulation.getMainclass() ) ) {
@@ -496,7 +496,7 @@ public abstract class PhetProject {
         phetProjects.addAll( sort( Arrays.asList( PhetFlashProject.getFlashProjects( trunk ) ) ) );
         try {
             //Add supplemental projects
-            //todo: move these to a separate area
+            //TODO: move these to a separate area
             phetProjects.add( new TranslationUtilityProject( new File( trunk, "util/translation-utility" ) ) );
             phetProjects.add( new PhetUpdaterProject( new File( trunk, "util/phet-updater" ) ) );
             phetProjects.add( new BuildToolsProject( new File( trunk, "build-tools" ) ) );
@@ -729,7 +729,7 @@ public abstract class PhetProject {
 
         try {
             SetSVNIgnoreToDeployDirectories.setIgnorePatternsOnDir( contribLicensesDir.getParentFile(), new String[]{contribLicensesDir.getName()} );
-            //todo: redirect system.out and system.err
+            //TODO: redirect system.out and system.err
         }
         catch( IOException e ) {
             e.printStackTrace();

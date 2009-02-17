@@ -25,7 +25,7 @@ public class BuildToolsProject extends JavaProject {
         return null;
     }
 
-    //todo: should be written to bin/ or other useful location
+    //TODO: should be written to bin/ or other useful location
     public String getDevDirectoryBasename() {
         return "current-version";
     }

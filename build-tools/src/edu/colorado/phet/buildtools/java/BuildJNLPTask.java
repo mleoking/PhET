@@ -13,10 +13,10 @@ import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.PhetServer;
 import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.buildtools.util.FileUtils;
-//todo: needs better error handling for loading simulations
-//todo: test support for deploying with online url
+//TODO: needs better error handling for loading simulations
+//TODO: test support for deploying with online url
 
-//todo: see other todos below
+//TODO: see other TODOs below
 public class BuildJNLPTask extends AbstractPhetBuildTask {
 
 
@@ -56,7 +56,7 @@ public class BuildJNLPTask extends AbstractPhetBuildTask {
         map.put( "JNLP.NAME", getJNLPFileName() );
         map.put( "PROJECT.DESCRIPTION", StringEscapeUtils.escapeHtml( simulation.getDescription() ) );
         map.put( "PROJECT.JAR", phetProject.getJarFile().getName() );
-        map.put( "PROJECT.SCREENSHOT", "http://phet.colorado.edu/Design/Assets/images/Phet-Kavli-logo.jpg" );//todo: map this to correct sim-specific (possibly online) URL
+        map.put( "PROJECT.SCREENSHOT", "http://phet.colorado.edu/Design/Assets/images/Phet-Kavli-logo.jpg" );//TODO: map this to correct sim-specific (possibly online) URL
         map.put( "PROJECT.MAINCLASS", simulation.getMainclass() );
         map.put( "PROJECT.ARGS", toJNLPArgs( getArgs( simulation ) ) );
         map.put( "PROJECT.PROPERTIES", getJNLPProperties() );
@@ -71,9 +71,9 @@ public class BuildJNLPTask extends AbstractPhetBuildTask {
         //optionally add a -dev parameter if this simulation is deployed to dev directory 
         String property = getOwningTarget() != null ? getOwningTarget().getProject().getProperty( "deploy.to.dev" ) : null;
 
-        //todo: rewrite/remove this if clause
+        //TODO: rewrite/remove this if clause
         if ( property != null && property.equalsIgnoreCase( "true" ) ) {
-            //todo: should use the constant for this arg from phetcommon
+            //TODO: should use the constant for this arg from phetcommon
             args.add( "-dev" );
         }
 
@@ -86,7 +86,7 @@ public class BuildJNLPTask extends AbstractPhetBuildTask {
         return (String[]) args.toArray( new String[0] );
     }
 
-    private String getJNLPProperties() {//todo: locale support
+    private String getJNLPProperties() {//TODO: locale support
         String properties = "";
         //explicitly request English for the default JNLP file
         properties += "<property name=\"javaws.phet.locale\" value=\"" + ( locale == null ? "en" : locale ) + "\" />\n"; //XXX #1057, backward compatibility, delete after IOM
@@ -111,7 +111,7 @@ public class BuildJNLPTask extends AbstractPhetBuildTask {
      *
      * @param locale
      */
-    public void setLocale( String locale ) {//todo: not supported yet
+    public void setLocale( String locale ) {//TODO: not supported yet
         this.locale = locale;
     }
 

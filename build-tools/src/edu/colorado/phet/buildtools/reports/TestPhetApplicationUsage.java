@@ -31,7 +31,7 @@ public class TestPhetApplicationUsage {
         new Thread( new Runnable() {
             public void run() {
                 try {
-                    Thread.sleep( 5000 );//todo: sleep until the main frame is available
+                    Thread.sleep( 5000 );//TODO: sleep until the main frame is available
                     PhetApplication app = PhetApplication.instance();
                     System.out.println( "count = " + app );
                     log( "project=" + phetProject.getName() + ", sim=" + flavor.getName() + ", phetAppCount=" + app + "\n" );

@@ -152,7 +152,7 @@ public abstract class PhetServer {
             return "http://" + getWebHost() + getWebDeployPath() + "/" + project.getName();
         }
 
-        //todo: refactor getting server side path, should be specified in PhetProject
+        //TODO: refactor getting server side path, should be specified in PhetProject
         public String getServerDeployPath( PhetProject project ) {
             if ( project.getProdServerDeployPath() != null ) {
                 String path = project.getProdServerDeployPath();

@@ -92,7 +92,7 @@ public class BuildScript {
             commitProject();//commits both changes to version and change file
         }
 
-        //todo: check that new version number is correct
+        //TODO: check that new version number is correct
 
         //would be nice to build before deploying new SVN number in case there are errors,
         //however, we need the correct version info in the JAR
@@ -181,10 +181,10 @@ public class BuildScript {
             sshConnection.connect();
 
             // -m sets the permissions of the created directory
-            //todo: how can we detect failure of this command, e.g. due to permissions errors?  See #1164
-//            sshConnection.executeTask( new SshCommand( "mkdir " + getParentDir( getParentDir( remotePathDir ) ) ) );//todo: would it be worthwhile to skip this task when possible?
-            sshConnection.executeTask( new SshCommand( "mkdir -m 775 " + getParentDir( remotePathDir ) ) );//todo: would it be worthwhile to skip this task when possible?
-            sshConnection.executeTask( new SshCommand( "mkdir -m 775 " + remotePathDir ) );//todo: would it be worthwhile to skip this task when possible?
+            //TODO: how can we detect failure of this command, e.g. due to permissions errors?  See #1164
+//            sshConnection.executeTask( new SshCommand( "mkdir " + getParentDir( getParentDir( remotePathDir ) ) ) );//TODO: would it be worthwhile to skip this task when possible?
+            sshConnection.executeTask( new SshCommand( "mkdir -m 775 " + getParentDir( remotePathDir ) ) );//TODO: would it be worthwhile to skip this task when possible?
+            sshConnection.executeTask( new SshCommand( "mkdir -m 775 " + remotePathDir ) );//TODO: would it be worthwhile to skip this task when possible?
         }
         catch( SshException e ) {
             if ( e.toString().toLowerCase().indexOf( "auth fail" ) != -1 ) {
@@ -202,7 +202,7 @@ public class BuildScript {
         //for some reason, the securechannelfacade fails with a "server didn't expect this file" error
         //the failure is on tigercat, but scf works properly on spot
         //but our code works on both; therefore there is probably a problem with the handshaking in securechannelfacade
-        File[] f = project.getDeployDir().listFiles(); //todo: should handle recursive for future use (if we ever want to support nested directories)
+        File[] f = project.getDeployDir().listFiles(); //TODO: should handle recursive for future use (if we ever want to support nested directories)
         for ( int i = 0; i < f.length; i++ ) {
             if ( f[i].getName().startsWith( "." ) ) {
                 //ignore
@@ -437,7 +437,7 @@ public class BuildScript {
             String buildScriptDir = server.getServerDeployPath( new BuildToolsProject( new File( project.getTrunk(), "build-tools" ) ) );
             String projectDir = server.getServerDeployPath( project );
 
-            //todo: get 'java' and 'jar' commands from PhetServer
+            //TODO: get 'java' and 'jar' commands from PhetServer
             String command = "java -classpath " + buildScriptDir + "/build-tools_all.jar " + OfflineJARGenerator.class.getName() + " " + projectDir + "/" + project.getDefaultDeployJar().getName() + " jar";
 
             System.out.println( "Running command: \n" + command );
