@@ -51,8 +51,8 @@ class AboutDialog {
 		str += "<b><font size='16'>" + common.getSimName() + "</font></b>\n";
 		str += common.strings.get("Version", "Version") + ": " + common.getFullVersionString() + "\n";
 		str += common.strings.get("BuildDate", "Build Date") + ": " + dateString(new Date(int(common.getVersionTimestamp()) * 1000)) + "\n";
-		if(common.getDistributionTag() != null) {
-			str += common.strings.get("Distribution", "Distribution") + ": " + common.getDistributionTag() + "\n";
+		if(common.getDistributionTag() != null || common.getSimName() == "flash-common-strings") {
+			str += common.strings.get("Distribution", "Distribution") + ": " + String(common.getDistributionTag()) + "\n";
 		}
 		str += "\n";
 		str += common.strings.get("FlashVersion", "Flash Version") + ": " + System.capabilities.version + "\n";
