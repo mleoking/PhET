@@ -136,6 +136,11 @@ public class PhetFlashProject extends PhetProject {
             //copy sim XML localization Files
             copyLocalizationFiles( new File( getDataDirectory(), "localization" ) );
 
+            // copy common XML to en for flash-common-strings
+            if( getName().equals( "flash-common-strings" ) ) {
+                FileUtils.copyTo( new File( getCommonLocalizationDir(), "common-strings_en.xml" ), new File( getOfflineJARContentsDir(), "flash-common-strings-strings_en.xml" ) );
+            }
+
             //copy common XML localization Files
             copyLocalizationFiles( getCommonLocalizationDir() );
 
