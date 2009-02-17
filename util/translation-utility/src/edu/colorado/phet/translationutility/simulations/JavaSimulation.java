@@ -3,7 +3,6 @@
 package edu.colorado.phet.translationutility.simulations;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Properties;
 import java.util.jar.*;
 
