@@ -5,7 +5,7 @@ import java.util.*;
 
 import edu.colorado.phet.buildtools.flash.PhetFlashProject;
 import edu.colorado.phet.buildtools.java.JavaProject;
-import edu.colorado.phet.buildtools.java.projects.PhetBuildGUIProject;
+import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.java.projects.TranslationUtilityProject;
 import edu.colorado.phet.buildtools.java.projects.PhetUpdaterProject;
@@ -499,7 +499,7 @@ public abstract class PhetProject {
             //todo: move these to a separate area
             phetProjects.add( new TranslationUtilityProject( new File( trunk, "util/translation-utility" ) ) );
             phetProjects.add( new PhetUpdaterProject( new File( trunk, "util/phet-updater" ) ) );
-            phetProjects.add( new PhetBuildGUIProject( new File( trunk, "build-tools" ) ) );
+            phetProjects.add( new BuildToolsProject( new File( trunk, "build-tools" ) ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -813,6 +813,7 @@ public abstract class PhetProject {
     /**
      * returns main class to use other than JARLauncher
      * primarily for use in non-simulation projects such as util/updater
+     * Should return null if JARLauncher should be used
      *
      * @return
      */

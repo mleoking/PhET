@@ -6,10 +6,10 @@ import java.io.IOException;
 import edu.colorado.phet.buildtools.java.JavaProject;
 
 /**
- * builds the PhET Build GUI (phet-build-gui.jar)
+ * Builds the build-tools project itself
  */
-public class PhetBuildGUIProject extends JavaProject {
-    public PhetBuildGUIProject( File file ) throws IOException {
+public class BuildToolsProject extends JavaProject {
+    public BuildToolsProject( File file ) throws IOException {
         super( file );
     }
 
@@ -18,15 +18,11 @@ public class PhetBuildGUIProject extends JavaProject {
     }
 
     public String getAlternateMainClass() {
-        return "edu.colorado.phet.buildtools.gui.PhetBuildGUI";
+        return null;
     }
 
     public String getProdServerDeployPath() {
         return null;
-    }
-
-    public File getDefaultDeployJar() {
-        return new File( getDeployDir(), "phet-build-gui.jar" );
     }
 
 }
