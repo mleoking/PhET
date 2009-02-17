@@ -43,7 +43,7 @@ public class SwingUtils {
      * @param menuBar
      * @param index
      * @return The same JMenuBar, for cascading.
-     *         todo See if the same thing can be done with Container.add( component, index )
+     *         TODO See if the same thing can be done with Container.add( component, index )
      */
     public static JMenuBar addMenuAt( JMenu newMenu, JMenuBar menuBar, int index ) {
 

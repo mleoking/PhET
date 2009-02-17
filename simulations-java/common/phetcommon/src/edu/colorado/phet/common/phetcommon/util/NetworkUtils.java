@@ -5,7 +5,7 @@ import java.net.URL;
 
 public class NetworkUtils {
 
-    //todo consolidate with many copies in other phet subprojects such as build process, util/updater
+    //TODO consolidate with many copies in other phet subprojects such as build process, util/updater
     public static void download( String urlAddress, File file ) throws FileNotFoundException {
         file.getParentFile().mkdirs();
         try {

@@ -82,7 +82,7 @@ public class ColorChooserFactory {
             for ( int i = 0; i < newPanels.length; i++ ) {
                 newPanels[i] = findPanel( jcc, panelOrder[i] );
             }
-            jcc.setChooserPanels( newPanels );//todo Error handling for missing panels?
+            jcc.setChooserPanels( newPanels );//TODO Error handling for missing panels?
         }
 
         jcc.getSelectionModel().addChangeListener( new ChangeListener() {
