@@ -53,21 +53,12 @@ class UpdateAvailableDialog {
 		var str : String = "";
 		str += common.strings.get("CurrentVersionIs", "Your current version of {0} is {1}.", ["<b>" + common.getSimName() + "</b>", common.getShortVersionString()]) + "\n";
 		str += common.strings.get("NewerVersionIs", "A newer version {0} is available.", ["(" + common.zeroPadVersion(versionMajor, versionMinor) + ")"]) + "\n";
-		//str += "A newer version (" + common.zeroPadVersion(versionMajor, versionMinor, versionDev) + ") is available.\n";
-		
-		/*
-		str += "\n<p align='center'>";
-		
-		str += "<a href='" + common.simWebsiteURL() + "'>" + common.strings.get("GoNewVersion", "Go to the new version.") + "</a>";
-		
-		str += "</p>";
-		*/
 		
 		var notUpdateStr = "<p align='center'><font color='#880000'>" + common.strings.get("NotUpdateSim","This simulation cannot be updated automatically.") + "</font></p>";
 		
 		str += "\n";
 		
-		if(common.fromFullInstallation()) {
+		if(common.fromFullInstallation() || common.getSimName() == "flash-common-strings") {
 			// sim should be contained in the newest installation, otherwise we would not reach here
 			str += notUpdateStr;
 			str += "\n";
@@ -77,9 +68,6 @@ class UpdateAvailableDialog {
 				
 			str += common.strings.get("PhETInstallation", defaultStr, ["http://phet.colorado.edu/get_phet/full_install.php"]);
 			
-			//str += "To download a new installation containing the latest simulation, please visit the ";
-			//str += "<a href='http://phet.colorado.edu/get_phet/full_install.php'>full installation page</a>";
-			//str += " for more information.";
 			str += "\n";
 		} else {
 			str += notUpdateStr;
@@ -87,7 +75,6 @@ class UpdateAvailableDialog {
 		
 		str += "\n";
 		str += common.strings.get("UpdateOptionsAvailable", "Update options are available under <i>Preferences</i>.");
-		//str += "Update options are available under <i>Preferences</i>.";
 		
 		// TODO: visit the PhET site for more information ?
 		

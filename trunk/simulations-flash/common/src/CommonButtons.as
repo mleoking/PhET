@@ -39,6 +39,8 @@ class CommonButtons {
 		// create the window to hold the buttons
 		var window : JWindow = new JWindow(_level0);
 		
+		_level0.commonWindow = window;
+		
 		// creates the about button
 		var aboutButton : JButton = new JButton(common.strings.get("About...", "About..."));
 		_level0.aboutButton = aboutButton;
