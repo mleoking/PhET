@@ -1,3 +1,5 @@
+# 1.10.00 (28666) Feb 17, 2009
+new production version with backward compatibility for all sims
 2/16/09 - #1249, tag all backward-compatibility code
 2/16/09 - #1221, write jar-launcher.properties to specify language
 2/16/09 - #1246, add backward compatibility for all historical methods of setting locale
