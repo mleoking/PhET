@@ -41,7 +41,10 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 public class JARLauncher implements IProguardKeepClass {
 
     private static final String JAR_LAUNCHER_PROPERTIES_FILE_NAME = "jar-launcher.properties";
-    
+    public static final String FLAVOR_KEY = "flavor";
+    public static final String LANGUAGE_KEY = "language";
+    public static final String COUNTRY_KEY = "country";
+
     /**
      * Gets the properties file name (used by the build process).
      */
@@ -73,7 +76,7 @@ public class JARLauncher implements IProguardKeepClass {
         setLocaleForOfflineJARs( properties );
 
         // Launch a sim
-        String mainFlavor = properties.getProperty( "flavor" );
+        String mainFlavor = properties.getProperty( FLAVOR_KEY );
         if ( mainFlavor != null ) {
             // properties file specifies which sim to launch
             SimulationInfo sim = getFlavor( sims, mainFlavor );
@@ -421,14 +424,14 @@ public class JARLauncher implements IProguardKeepClass {
      */
     private static void setLocaleForOfflineJARs( Properties properties ) {
         // language (required)
-        String language = properties.getProperty( "language" );
+        String language = properties.getProperty( LANGUAGE_KEY );
         if ( language != null ) {
             language = language.trim();
             System.out.println( "JARLauncher: setting " + PhetResources.PROPERTY_JAVAWS_USER_LANGUAGE + "=" + language );
             System.setProperty( PhetResources.PROPERTY_JAVAWS_USER_LANGUAGE, language );
 
             // country (optional), ignored if language is not specified
-            String country = properties.getProperty( "country" );
+            String country = properties.getProperty( COUNTRY_KEY );
             if ( country != null ) {
                 country = country.trim();
                 System.out.println( "JARLauncher: setting " + PhetResources.PROPERTY_JAVAWS_USER_COUNTRY + "=" + country );
