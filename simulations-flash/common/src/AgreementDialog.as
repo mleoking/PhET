@@ -103,7 +103,7 @@ class AgreementDialog {
 		
 		// add the OK button
 		var panel : JPanel = new JPanel(new BoxLayout());
-		var okButton : JButton = new JButton(common.strings.get("OK", "OK"));
+		var okButton : JButton = new JButton(common.strings.get("Close", "Close"));
 		okButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, okClicked));
 		CommonButtons.padButtonAdd(okButton, panel);
 		window.getContentPane().append(panel);
