@@ -1,4 +1,6 @@
-2/16/09 - #1246, add partical backward compatibility for setting locale
+2/16/09 - #1249, tag all backward-compatibility code
+2/16/09 - #1221, write jar-launcher.properties to specify language
+2/16/09 - #1246, add backward compatibility for all historical methods of setting locale
 2/16/09 - #1222, add backward compatibility for project.properties
 2/13/09 - #249, integrate into PhetBuildGUI, delete old build files
 # 1.09.01 (28509) Feb 13, 2009
