@@ -434,16 +434,14 @@ public class BuildScript {
         SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername( server.getHost() ), authenticationInfo.getPassword( server.getHost() ) );
         try {
             sshConnection.connect();
-            for ( int i = 0; i < project.getSimulationNames().length; i++ ) {
-                String buildScriptDir = server.getServerDeployPath( new BuildToolsProject( new File( project.getTrunk(), "build-tools" ) ) );
-                String projectDir = server.getServerDeployPath( project );
+            String buildScriptDir = server.getServerDeployPath( new BuildToolsProject( new File( project.getTrunk(), "build-tools" ) ) );
+            String projectDir = server.getServerDeployPath( project );
 
-                //todo: get 'java' and 'jar' commands from PhetServer
-                String command = "java -classpath " + buildScriptDir + "/build-tools_all.jar " + OfflineJARGenerator.class.getName() + " " + projectDir + "/" + project.getDefaultDeployJar().getName() + " jar";
+            //todo: get 'java' and 'jar' commands from PhetServer
+            String command = "java -classpath " + buildScriptDir + "/build-tools_all.jar " + OfflineJARGenerator.class.getName() + " " + projectDir + "/" + project.getDefaultDeployJar().getName() + " jar";
 
-                System.out.println( "Running command: \n" + command );
-                sshConnection.executeTask( new SshCommand( command ) );
-            }
+            System.out.println( "Running command: \n" + command );
+            sshConnection.executeTask( new SshCommand( command ) );
         }
         catch( SshException e ) {
             e.printStackTrace();
