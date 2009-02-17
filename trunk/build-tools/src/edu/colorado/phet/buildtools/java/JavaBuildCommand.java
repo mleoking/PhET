@@ -155,7 +155,7 @@ public class JavaBuildCommand {
         //for now, let's just use JarLauncher for all usages.
 
         attribute.setName( "Main-Class" );
-        //todo: support a main-class chooser & launcher
+        //TODO: support a main-class chooser & launcher
         attribute.setValue( getMainLauncherClassName( project ) );
 
         jar.addFileset( toFileSetFile( createJARLauncherPropertiesFile() ) );

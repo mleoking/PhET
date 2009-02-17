@@ -172,7 +172,7 @@ public class AddTranslation {
      */
     private void updateJAR( PhetProject phetProject, String language ) throws IOException {
 
-        //todo: may later want to add a build-simulation-by-svn-number to handle revert
+        //TODO: may later want to add a build-simulation-by-svn-number to handle revert
 
         //create a backup copy of the JAR
         FileUtils.copyTo( getJARTempFile( phetProject ), getJARBackupFile( phetProject ) );

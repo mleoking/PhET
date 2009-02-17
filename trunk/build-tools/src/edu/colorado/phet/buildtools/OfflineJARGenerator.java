@@ -48,7 +48,7 @@ public class OfflineJARGenerator {
     }
 
     public String getProjectName( File jar ) {
-        StringTokenizer stringTokenizer = new StringTokenizer( jar.getName(), "_. " );//todo: remove assumption that filename and project name match; could be moved to a main argument
+        StringTokenizer stringTokenizer = new StringTokenizer( jar.getName(), "_. " );//TODO: remove assumption that filename and project name match; could be moved to a main argument
         return stringTokenizer.nextToken();
     }
 
@@ -73,7 +73,7 @@ public class OfflineJARGenerator {
         String command = pathToJARUtility + " uf " + dst.getAbsolutePath() + " -C " + newPropertiesFile.getParentFile().getAbsolutePath() + " " + newPropertiesFile.getName();
         System.out.println( "Running command: " + command );
         Process p = Runtime.getRuntime().exec( command );
-        //todo: redirect output to console
+        //TODO: redirect output to console
         p.waitFor();
         boolean deleted = getTempPropertiesFile( jar ).delete();
         if ( !deleted ) {
@@ -91,7 +91,7 @@ public class OfflineJARGenerator {
         Enumeration entries = jarFile.entries();
         HashSet locales = new HashSet();
         locales.add( "en" );
-        Pattern p = Pattern.compile( ".*" + getProjectName( jar ) + ".*strings.*" );//todo: will dash character cause problems here?
+        Pattern p = Pattern.compile( ".*" + getProjectName( jar ) + ".*strings.*" );//TODO: will dash character cause problems here?
         while ( entries.hasMoreElements() ) {
             ZipEntry zipEntry = (ZipEntry) entries.nextElement();
             String name = zipEntry.getName();

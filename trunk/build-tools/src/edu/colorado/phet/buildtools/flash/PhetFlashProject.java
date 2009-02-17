@@ -73,7 +73,7 @@ public class PhetFlashProject extends PhetProject {
 
         buildOfflineJARs();
 
-        //todo: check for success
+        //TODO: check for success
         return true;
     }
 

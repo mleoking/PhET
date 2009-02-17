@@ -107,7 +107,7 @@ public abstract class JavaProject extends PhetProject {
 
     /**
      * Load the simulation for associated with this project for the specified name and locale.
-     * todo: better error handling for missing attributes (for projects that don't support simulations yet)
+     * TODO: better error handling for missing attributes (for projects that don't support simulations yet)
      *
      * @param simulationName
      * @return
@@ -132,7 +132,7 @@ public abstract class JavaProject extends PhetProject {
             String title = null;
             String description = null;
             if ( localizationFile.exists() ) {
-                localizedProperties.load( new FileInputStream( localizationFile ) );//todo: handle locale (graceful support for missing strings in locale)
+                localizedProperties.load( new FileInputStream( localizationFile ) );//TODO: handle locale (graceful support for missing strings in locale)
                 String titleKey = simulationName + ".name";
                 title = localizedProperties.getProperty( titleKey );
                 if ( title == null ) {
@@ -200,7 +200,7 @@ public abstract class JavaProject extends PhetProject {
         j.setLocale( locale.getLanguage() );
         j.setSimulation( simulationName );
         org.apache.tools.ant.Project project = new org.apache.tools.ant.Project();
-        project.setBaseDir( getSimulationsJava() );//todo: is this correct?
+        project.setBaseDir( getSimulationsJava() );//TODO: is this correct?
         project.init();
         j.setProject( project );
         j.execute();

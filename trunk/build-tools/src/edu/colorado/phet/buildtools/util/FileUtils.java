@@ -138,7 +138,7 @@ public class FileUtils {
     }
 
     public static void copy( InputStream source, OutputStream dest, boolean buffered ) throws IOException {
-        //todo: buffering is disabled until file truncation issue is resolved
+        //TODO: buffering is disabled until file truncation issue is resolved
         buffered = false;
         if ( buffered ) {
             source = new BufferedInputStream( source );
