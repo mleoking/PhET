@@ -39,7 +39,6 @@ public class OfflineJARGenerator {
                 generateOfflineJAR( jar, flavors[j], locales[i], pathToJARUtility );
             }
         }
-        FileUtils.delete( getTempPropertiesFile( jar ), true );
     }
 
     private void generateOfflineJAR( File jar, String flavor, String locale, String pathToJARUtility ) throws IOException, InterruptedException {
@@ -61,6 +60,10 @@ public class OfflineJARGenerator {
         Process p = Runtime.getRuntime().exec( command );
         //todo: redirect output to console
         p.waitFor();
+        boolean deleted = getTempPropertiesFile( jar ).delete();
+        if ( !deleted ) {
+            System.out.println( "Could not delete: " + getTempPropertiesFile( jar ) );
+        }
     }
 
     private File getTempPropertiesFile( File jar ) {
