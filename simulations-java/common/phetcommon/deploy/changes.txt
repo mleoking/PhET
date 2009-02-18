@@ -1,3 +1,4 @@
+2-17-09: delete IStatistics, pass SessionMessage instance instead of odd reference to PhetApplicationConfig
 2-17-09: #1238, add dialog for recommending PhET installer update (not wired up)
 2-17-09: #1238, add "Check for PhET installer update" button to Update preferences panel
 2-17-09: #1236, rename many update dialog classes to indicate that they pertain to "sims" versus "installer"
