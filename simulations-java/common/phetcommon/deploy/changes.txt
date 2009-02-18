@@ -1,3 +1,7 @@
+2-17-09: #1238, add dialog for recommending PhET installer update (not wired up)
+2-17-09: #1238, add "Check for PhET installer update" button to Update preferences panel
+2-17-09: #1236, rename many update dialog classes to indicate that they pertain to "sims" versus "installer"
+2-17-09: #1257, fix help menu, wrong critieria for deciding whether to add "Check for updates" menu item
 2-17-09: replace "jar-launcher.properties" with constant throughout 
 2-17-09: replace "javaws.user.language" and "javaws.user.country" with constants throughout 
 2-16-09: #1247, move statistics startup stuff to StatisticsManager.applicationStarted

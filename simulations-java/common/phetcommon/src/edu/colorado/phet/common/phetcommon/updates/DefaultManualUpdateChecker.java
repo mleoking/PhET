@@ -8,7 +8,7 @@ import javax.swing.JDialog;
 
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.common.phetcommon.updates.dialogs.ManualUpdateDialog;
+import edu.colorado.phet.common.phetcommon.updates.dialogs.ManualSimUpdateDialog;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.NoUpdateDialog;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateErrorDialog;
 
@@ -45,7 +45,7 @@ public class DefaultManualUpdateChecker implements IManualUpdateChecker {
         UpdateNotifier.UpdateListener listener = new UpdateNotifier.UpdateAdapter() {
 
             public void updateAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {
-                JDialog dialog = new ManualUpdateDialog( frame, projectName, sim, humanReadableSimName, currentVersion, remoteVersion, locale);
+                JDialog dialog = new ManualSimUpdateDialog( frame, projectName, sim, humanReadableSimName, currentVersion, remoteVersion, locale);
                 dialog.setVisible( true );
             }
 

@@ -85,8 +85,8 @@ public class HelpMenu extends JMenu implements ModuleObserver {
         //----------------------------------------------------------------------
         // Separator
         addSeparator();
-        if ( phetApplication.getSimInfo().isUpdatesEnabled() ) {
-            add( new CheckForUpdatesMenuItem() );
+        if ( phetApplication.getSimInfo().isUpdatesFeatureIncluded() ) {
+            add( new CheckForSimUpdateMenuItem() );
         }
 
         //----------------------------------------------------------------------
@@ -131,10 +131,9 @@ public class HelpMenu extends JMenu implements ModuleObserver {
         //noop
     }
 
-    private class CheckForUpdatesMenuItem extends JMenuItem {
-        private CheckForUpdatesMenuItem() {
-            super( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.CheckForUpdates" ) );
-            setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.CheckForUpdates" ).charAt( 0 ) );
+    private class CheckForSimUpdateMenuItem extends JMenuItem {
+        private CheckForSimUpdateMenuItem() {
+            super( PhetCommonResources.getInstance().getLocalizedString( "Common.updates.checkForSimUpdate" ) );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     iManuallyCheckForUpdates.checkForUpdates();

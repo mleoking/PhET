@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.updates.IManualUpdateChecker;
+import edu.colorado.phet.common.phetcommon.util.DeploymentScenario;
 
 /**
  * Panel for displaying preferences for the updates feature.
@@ -20,7 +21,8 @@ import edu.colorado.phet.common.phetcommon.updates.IManualUpdateChecker;
 public class UpdatesPreferencesPanel extends JPanel {
     
     private static final String UPDATES_ENABLED = PhetCommonResources.getString( "Common.updates.automaticallyCheck" );
-    private static final String CHECK_FOR_UPDATES = PhetCommonResources.getString( "Common.HelpMenu.CheckForUpdates" );
+    private static final String CHECK_FOR_SIM_UPDATES = PhetCommonResources.getString( "Common.updates.checkForSimUpdate" );
+    private static final String CHECK_FOR_INSTALLER_UPDATE = PhetCommonResources.getString( "Common.updates.checkForInstallerUpdate" );
     
     private final PhetPreferences preferences;
     private final JCheckBox updatesEnabledCheckBox;
@@ -32,11 +34,19 @@ public class UpdatesPreferencesPanel extends JPanel {
         // enable
         updatesEnabledCheckBox = new JCheckBox( UPDATES_ENABLED, preferences.isUpdatesEnabled() );
         
-        // check
-        JButton checkForUpdatesButton = new JButton( CHECK_FOR_UPDATES );
-        checkForUpdatesButton.addActionListener( new ActionListener() {
+        // check for sim update
+        JButton checkForSimUpdateButton = new JButton( CHECK_FOR_SIM_UPDATES );
+        checkForSimUpdateButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 iCheckForUpdates.checkForUpdates();
+            }
+        } );
+        
+        // check for installer update
+        JButton checkForInstallerUpdateButton = new JButton( CHECK_FOR_INSTALLER_UPDATE );
+        checkForInstallerUpdateButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                //TODO
             }
         } );
         
@@ -49,7 +59,10 @@ public class UpdatesPreferencesPanel extends JPanel {
         add( Box.createRigidArea( new Dimension( 50, 20 ) ), constraints );
         add( updatesEnabledCheckBox, constraints );
         add( Box.createRigidArea( new Dimension( 50, 10 ) ), constraints );
-        add( checkForUpdatesButton, constraints );
+        add( checkForSimUpdateButton, constraints );
+        if ( DeploymentScenario.getInstance() == DeploymentScenario.PHET_INSTALLATION ) {
+            add( checkForInstallerUpdateButton, constraints );
+        }
     }
     
     /**
