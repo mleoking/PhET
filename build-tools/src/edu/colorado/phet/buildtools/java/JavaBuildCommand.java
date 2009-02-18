@@ -193,7 +193,7 @@ public class JavaBuildCommand {
         }
 
         // write the properties to a file
-        File file = new File( project.getAntOutputDir(), JARLauncher.getPropertiesFileName() );
+        File file = new File( project.getAntOutputDir(), JARLauncher.PROPERTIES_FILE_NAME );
         file.getParentFile().mkdirs();
         try {
             properties.store( new FileOutputStream( file ), JAR_LAUNCHER_PROPERTIES_FILE_HEADER );

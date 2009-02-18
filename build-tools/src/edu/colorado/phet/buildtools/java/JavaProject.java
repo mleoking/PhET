@@ -19,6 +19,7 @@ import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.util.BuildPropertiesFile;
 import edu.colorado.phet.buildtools.util.PhetBuildUtils;
+import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 
 public abstract class JavaProject extends PhetProject {
     public JavaProject( File projectRoot ) throws IOException {
@@ -95,9 +96,11 @@ public abstract class JavaProject extends PhetProject {
         set.setFile( getDefaultDeployJar() );
         classpath.addFileset( set );
         java.setClasspath( classpath );
-        if ( !locale.getLanguage().equals( "en" ) ) {
-            java.setJvmargs( "-Djavaws.user.language=" + locale );
-            java.setJvmargs( "-Djavaws.phet.locale=" + locale ); //XXX #1057, backward compatibility, delete after IOM
+        
+        String language = locale.getLanguage();
+        if ( !language.equals( "en" ) ) {
+            java.setJvmargs( "-D" + PhetCommonConstants.PROPERTY_PHET_LANGUAGE + "=" + language );
+            java.setJvmargs( "-Djavaws.phet.locale=" + language ); //XXX #1057, backward compatibility, delete after IOM
         }
 
         java.setArgs( "-dev" ); // program arg to run in developer mode

@@ -5,6 +5,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 
 import edu.colorado.phet.buildtools.util.FileUtils;
+import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 
 /**
  * Created by: Sam
@@ -47,7 +48,7 @@ public class ConvertJNLPLanguageEN {
                                          "\n" +
                                          "        <j2se version=\"1.4+\"/>\n" +
                                          "        <property name=\"javaws.phet.locale\" value=\"en\" />\n" + //XXX #1057, backward compatibility, delete after IOM
-                                         "        <property name=\"javaws.user.language\" value=\"en\" />\n";
+                                         "        <property name=\"" + PhetCommonConstants.PROPERTY_PHET_LANGUAGE + "\" value=\"en\" />\n";
                     int index = text.indexOf( matchString );
                     if ( index <= 0 ) {
                         System.out.println( "Malformed JNLP" );

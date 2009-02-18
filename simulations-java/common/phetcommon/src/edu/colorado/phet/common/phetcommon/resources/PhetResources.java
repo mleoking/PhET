@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.util.Locale;
 import java.util.Properties;
 
+import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.util.logging.ILogger;
 import edu.colorado.phet.common.phetcommon.util.logging.NullLogger;
 import edu.colorado.phet.common.phetcommon.view.util.PhetAudioClip;
@@ -59,12 +60,6 @@ public class PhetResources {
     private static final String LOCALIZATION_DIR = "localization";
     private static final String LOCALIZATION_FILE_SUFFIX = "-strings";
     
-    // Properties used to set the locale via JNLP files.
-    // For an untrusted application, system properties set in the JNLP file will 
-    // only be set by Java Web Start if property name begins with "jnlp." or "javaws.".
-    public static final String PROPERTY_JAVAWS_USER_LANGUAGE = "javaws.user.language";
-    public static final String PROPERTY_JAVAWS_USER_COUNTRY = "javaws.user.country";
-
     private static final char PATH_SEPARATOR = '/';
 
     private static final String PROPERTIES_SUFFIX = ".properties";
@@ -134,15 +129,15 @@ public class PhetResources {
         Locale locale = Locale.getDefault();
         LOGGER.log( "PhetResources.readLocale: default locale=" + locale.toString() );
         
-        String language = System.getProperty( PROPERTY_JAVAWS_USER_LANGUAGE );
-        String country = System.getProperty( PROPERTY_JAVAWS_USER_COUNTRY ); // optional, may be null
+        String language = System.getProperty( PhetCommonConstants.PROPERTY_PHET_LANGUAGE );
+        String country = System.getProperty( PhetCommonConstants.PROPERTY_PHET_COUNTRY ); // optional, may be null
         if ( language != null ) {
             if ( country != null ) {
-                LOGGER.log( "PhetResources.readLocale: overriding locale via " + PROPERTY_JAVAWS_USER_LANGUAGE + "=" + language + " " + PROPERTY_JAVAWS_USER_COUNTRY + "=" + country );
+                LOGGER.log( "PhetResources.readLocale: overriding locale via " + PhetCommonConstants.PROPERTY_PHET_LANGUAGE + "=" + language + " " + PhetCommonConstants.PROPERTY_PHET_COUNTRY + "=" + country );
                 locale = new Locale( language, country );
             }
             else {
-                LOGGER.log( "PhetResources.readLocale: overriding locale via " + PROPERTY_JAVAWS_USER_LANGUAGE + "=" + language );
+                LOGGER.log( "PhetResources.readLocale: overriding locale via " + PhetCommonConstants.PROPERTY_PHET_LANGUAGE + "=" + language );
                 locale = new Locale( language );
             }
         }

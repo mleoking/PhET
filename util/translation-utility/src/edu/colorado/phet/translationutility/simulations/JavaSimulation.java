@@ -6,6 +6,7 @@ import java.io.*;
 import java.util.Properties;
 import java.util.jar.*;
 
+import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.application.JARLauncher;
 import edu.colorado.phet.translationutility.TUConstants;
 import edu.colorado.phet.translationutility.TUResources;
@@ -31,8 +32,7 @@ public class JavaSimulation extends AbstractSimulation {
     private static final String REGEX_LOCALIZATION_FILES = ".*-strings.*\\.properties";
     
     // project properties file and properties
-    private static final String JAR_LAUNCHER_PROPERTIES_FILENAME = JARLauncher.getPropertiesFileName();
-    private static final String PROJECT_NAME_PROPERTY = "project.name";
+    private static final String PROJECT_NAME_PROPERTY = "project.name"; //TODO: #1249, delete after IOM
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -51,7 +51,7 @@ public class JavaSimulation extends AbstractSimulation {
         createTestJar( getJarFileName(), TEST_JAR, getManifest(), propertiesFileName, properties, languageCode );
         try {
             String[] cmdArray = { "java", 
-                    "-Djavaws.user.language=" + languageCode, /* TODO: #1249, delete after IOM */
+                    "-D" + PhetCommonConstants.PROPERTY_PHET_LANGUAGE + "=" + languageCode, /* TODO: #1249, delete after IOM */
                     "-Djavaws.phet.locale=" + languageCode, /* TODO: #1249, delete after IOM */
                     "-Duser.language=" + languageCode, /* TODO: #1249, delete after IOM */
                     "-jar", TEST_JAR };
@@ -139,7 +139,7 @@ public class JavaSimulation extends AbstractSimulation {
         }
 
         // The project name is identified in the properties file read by JARLauncher
-        projectProperties = readPropertiesFromJar( jarFileName, JAR_LAUNCHER_PROPERTIES_FILENAME );
+        projectProperties = readPropertiesFromJar( jarFileName, JARLauncher.PROPERTIES_FILE_NAME );
         if ( projectProperties != null ) {
             projectName = projectProperties.getProperty( PROJECT_NAME_PROPERTY );
         }
@@ -290,13 +290,12 @@ public class JavaSimulation extends AbstractSimulation {
         }
         
         // read the JARLaucher properties file from the original JAR
-        String jarLauncherPropertiesFileName = JARLauncher.getPropertiesFileName();
         Properties jarLauncherProperties = null;
         try {
-            jarLauncherProperties = readPropertiesFromJar( originalJarFileName, jarLauncherPropertiesFileName );
+            jarLauncherProperties = readPropertiesFromJar( originalJarFileName, JARLauncher.PROPERTIES_FILE_NAME );
         }
         catch ( SimulationException e ) {  //TODO: #1249, delete after IOM, all JARs must contain jar-launcher.properties
-            System.err.println( "WARNING: old-style simulation does not contain " + jarLauncherPropertiesFileName );
+            System.err.println( "WARNING: old-style simulation does not contain " + JARLauncher.PROPERTIES_FILE_NAME );
         }
         //TODO: #1249, delete this block after IOM
         if ( jarLauncherProperties == null ) {
@@ -319,7 +318,7 @@ public class JavaSimulation extends AbstractSimulation {
         String[] skipFileNames = {
                 JarFile.MANIFEST_NAME,
                 propertiesFileName,
-                jarLauncherPropertiesFileName,
+                JARLauncher.PROPERTIES_FILE_NAME,
                 "locale.properties", "options.properties" /*TODO: #1249, delete after IOM */
         };
         
@@ -358,7 +357,7 @@ public class JavaSimulation extends AbstractSimulation {
             testOutputStream.closeEntry();
             
             // add JARLauncher properties to output
-            jarEntry = new JarEntry( jarLauncherPropertiesFileName );
+            jarEntry = new JarEntry( JARLauncher.PROPERTIES_FILE_NAME );
             testOutputStream.putNextEntry( jarEntry );
             jarLauncherProperties.store( testOutputStream, "created by " + JavaSimulation.class.getName() );
             testOutputStream.closeEntry();
