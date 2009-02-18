@@ -9,7 +9,7 @@ import javax.swing.JDialog;
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.ManualSimUpdateDialog;
-import edu.colorado.phet.common.phetcommon.updates.dialogs.NoUpdateDialog;
+import edu.colorado.phet.common.phetcommon.updates.dialogs.NoSimUpdateDialog;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateErrorDialog;
 
 /**
@@ -50,7 +50,7 @@ public class DefaultManualUpdateChecker implements IManualUpdateChecker {
             }
 
             public void noUpdateAvailable( PhetVersion currentVersion ) {
-                JDialog dialog = new NoUpdateDialog( frame, currentVersion.formatForTitleBar(), humanReadableSimName );
+                JDialog dialog = new NoSimUpdateDialog( frame, currentVersion.formatForTitleBar(), humanReadableSimName );
                 dialog.setVisible( true );
             }
 

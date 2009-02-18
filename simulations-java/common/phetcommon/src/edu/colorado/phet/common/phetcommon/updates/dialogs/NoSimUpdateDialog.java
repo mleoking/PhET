@@ -20,12 +20,12 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPa
  * Dialog uses to inform the user that no update is available.
  * This is used in situations where the user has manually requested an update check.
  */
-public class NoUpdateDialog extends JDialog {
+public class NoSimUpdateDialog extends JDialog {
     
     private static final String TITLE = PhetCommonResources.getString( "Common.updates.updateToDate");
     private static final String OK_BUTTON = PhetCommonResources.getString( "Common.choice.ok" );
     
-    public NoUpdateDialog( Frame owner, String currentVersion, String simName ) {
+    public NoSimUpdateDialog( Frame owner, String currentVersion, String simName ) {
         super( owner, TITLE );
         setModal( true );
         setResizable( false );
@@ -75,7 +75,7 @@ public class NoUpdateDialog extends JDialog {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         SwingUtils.centerWindowOnScreen( frame );
         frame.setVisible( true );
-        JDialog dialog = new NoUpdateDialog( frame, "1.01", "Glaciers" );
+        JDialog dialog = new NoSimUpdateDialog( frame, "1.01", "Glaciers" );
         dialog.addWindowListener( new WindowAdapter() {
             public void windowClosed( WindowEvent e ) {
                 System.exit( 0 );
