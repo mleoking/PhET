@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.phetcommon.statistics.SessionMessage;
 import edu.colorado.phet.common.phetcommon.statistics.StatisticsManager;
 import edu.colorado.phet.common.phetcommon.updates.UpdatesManager;
 
@@ -108,10 +109,10 @@ public class PhetApplicationLauncher {
                         disposeSplashWindow();
 
                         // statistics
-                        StatisticsManager.initInstance( config ).applicationStarted( app.getPhetFrame(), app.getStatistics() );
+                        StatisticsManager.initInstance( config ).applicationStarted( app.getPhetFrame() );
                         
                         // updates
-                        UpdatesManager.initInstance( config ).applicationStarted( app.getPhetFrame(), app.getStatistics() );
+                        UpdatesManager.initInstance( config ).applicationStarted( app.getPhetFrame(), SessionMessage.getInstance() );
                     }
                     else {
                         new RuntimeException( "No applicationconstructor specified" ).printStackTrace();

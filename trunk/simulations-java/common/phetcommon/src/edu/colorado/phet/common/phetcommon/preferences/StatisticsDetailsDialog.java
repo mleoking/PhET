@@ -8,7 +8,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.statistics.IStatistics;
+import edu.colorado.phet.common.phetcommon.statistics.SessionMessage;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
@@ -21,24 +21,24 @@ public class StatisticsDetailsDialog extends PaintImmediateDialog {
     private static final String DESCRIPTION = PhetCommonResources.getString( "Common.statistics.details.description" );
     private static final String CLOSE_BUTTON = PhetCommonResources.getString( "Common.choice.close" );
 
-    public StatisticsDetailsDialog( Frame owner, IStatistics statistics ) {
+    public StatisticsDetailsDialog( Frame owner, SessionMessage sessionMessage ) {
         super( owner );
-        init( statistics );
+        init( sessionMessage );
     }
     
-    public StatisticsDetailsDialog( Dialog owner, IStatistics statistics ) {
+    public StatisticsDetailsDialog( Dialog owner, SessionMessage sessionMessage ) {
         super( owner );
-        init( statistics );
+        init( sessionMessage );
     }
 
-    private void init( IStatistics statistics ) {
+    private void init( SessionMessage sessionMessage ) {
         
         setTitle( TITLE );
         setModal( true );
         setResizable( false ); //TODO layout doesn't adjust properly when resized
 
         JComponent description = createDescription();
-        JComponent report = createReport( statistics );
+        JComponent report = createReport( sessionMessage );
         JComponent buttonPanel = createButtonPanel();
 
         JPanel panel = new JPanel();
@@ -61,10 +61,10 @@ public class StatisticsDetailsDialog extends PaintImmediateDialog {
         return new JLabel( DESCRIPTION );
     }
     
-    protected JComponent createReport( IStatistics statistics ) {
+    protected JComponent createReport( SessionMessage sessionMessage ) {
         
         final JTextArea textArea = new JTextArea( "" );
-        final String text = statistics.getHumanReadableStatistics();
+        final String text = sessionMessage.toHumanReadable();
         if ( text != null ) {
             textArea.setText( text );
         }

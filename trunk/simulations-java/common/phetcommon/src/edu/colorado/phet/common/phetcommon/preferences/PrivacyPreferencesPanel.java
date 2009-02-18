@@ -14,7 +14,7 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.statistics.IStatistics;
+import edu.colorado.phet.common.phetcommon.statistics.SessionMessage;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.HTMLEditorPane;
@@ -30,12 +30,12 @@ public class PrivacyPreferencesPanel extends JPanel {
     private final JCheckBox statisticsEnabledCheckBox;
     private final JCheckBox alwaysShowSoftwareAgreementCheckBox;
 
-    public PrivacyPreferencesPanel( IStatistics statistics, PhetPreferences preferences, boolean isDev ) {
+    public PrivacyPreferencesPanel( SessionMessage sessionMessage, PhetPreferences preferences, boolean isDev ) {
         
         this.preferences = preferences;
         
         // feature description
-        JComponent description = new DescriptionPane( statistics );
+        JComponent description = new DescriptionPane( sessionMessage );
         
         // enable check box
         statisticsEnabledCheckBox = new JCheckBox( STATISTICS_ENABLED, preferences.isStatisticsEnabled() );
@@ -75,7 +75,7 @@ public class PrivacyPreferencesPanel extends JPanel {
         // identifiers for hyperlink actions
         private static final String LINK_SHOW_STATISTICS_DETAILS = "showStatisticsDetails";
 
-        public DescriptionPane( final IStatistics statistics ) {
+        public DescriptionPane( final SessionMessage sessionMessage ) {
             super( "" );
             
             // insert our own hyperlink descriptions into the message, so translators can't mess them up
@@ -87,7 +87,7 @@ public class PrivacyPreferencesPanel extends JPanel {
                 public void hyperlinkUpdate( HyperlinkEvent e ) {
                     if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED ) {
                         if ( e.getDescription().equals( LINK_SHOW_STATISTICS_DETAILS ) ) {
-                            showStatisticsDetails( SwingUtilities.getWindowAncestor( DescriptionPane.this ), statistics );
+                            showStatisticsDetails( SwingUtilities.getWindowAncestor( DescriptionPane.this ), sessionMessage );
                         }
                         else {
                             System.err.println( "PrivacyPreferencesPanel.DescriptionPane.hyperlinkUpdate: unsupported hyperlink, description=" + e.getDescription() );
@@ -97,12 +97,12 @@ public class PrivacyPreferencesPanel extends JPanel {
             } );
         }
         
-        private static void showStatisticsDetails( Window owner, IStatistics statistics ) {
+        private static void showStatisticsDetails( Window owner, SessionMessage sessionMessage ) {
             if ( owner instanceof Frame ) {
-                new StatisticsDetailsDialog( (Frame) owner, statistics ).setVisible( true );
+                new StatisticsDetailsDialog( (Frame) owner, sessionMessage ).setVisible( true );
             }
             else if ( owner instanceof Dialog ) {
-                new StatisticsDetailsDialog( (Dialog) owner, statistics ).setVisible( true );
+                new StatisticsDetailsDialog( (Dialog) owner, sessionMessage ).setVisible( true );
             }
         }
     }
