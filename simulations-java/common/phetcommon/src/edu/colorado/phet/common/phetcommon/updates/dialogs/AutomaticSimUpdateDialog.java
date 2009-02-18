@@ -36,7 +36,7 @@ public class AutomaticSimUpdateDialog extends AbstractSimUpdateDialog {
     protected JPanel createButtonPanel( final String project, final String sim, final String simName, final PhetVersion currentVersion, final PhetVersion newVersion, Locale locale ) {
         
         // does the update
-        JButton updateButton = new UpdateButton( project, sim, locale, simName, newVersion );
+        JButton updateButton = new SimUpdateButton( project, sim, locale, simName, newVersion );
         updateButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 dispose();
