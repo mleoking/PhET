@@ -19,13 +19,13 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
- * Base class for update dialogs.
+ * Base class for sim update dialogs.
  */
-public abstract class AbstractUpdateDialog extends PaintImmediateDialog {
+public abstract class AbstractSimUpdateDialog extends PaintImmediateDialog {
     
     private static final String TRY_IT_LINK = PhetCommonResources.getString( "Common.updates.tryIt" );
     
-    protected AbstractUpdateDialog( Frame owner, String title, final String project, final String sim, final String simName, final PhetVersion currentVersion, final PhetVersion newVersion, Locale locale) {
+    protected AbstractSimUpdateDialog( Frame owner, String title, final String project, final String sim, final String simName, final PhetVersion currentVersion, final PhetVersion newVersion, Locale locale) {
         super( owner, title );
         setResizable( false );
         setModal( true );

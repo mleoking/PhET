@@ -14,9 +14,9 @@ import edu.colorado.phet.common.phetcommon.updates.IUpdateTimer;
 import edu.colorado.phet.common.phetcommon.updates.IVersionSkipper;
 
 /**
- * The dialog that used to automatically notify the user that an update is available.
+ * The dialog that used to automatically notify the user that a sim update is available.
  */
-public class AutomaticUpdateDialog extends AbstractUpdateDialog {
+public class AutomaticSimUpdateDialog extends AbstractSimUpdateDialog {
 
     private static final String TITLE = PhetCommonResources.getString( "Common.updates.updateAvailable" );
     private static final String ASK_ME_LATER_BUTTON = PhetCommonResources.getString( "Common.updates.askMeLater" );
@@ -26,7 +26,7 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
     private final IUpdateTimer updateTimer;
     private final IVersionSkipper versionSkipper;
     
-    public AutomaticUpdateDialog( Frame owner, ISimInfo simInfo, PhetVersion newVersion, IUpdateTimer updateTimer, IVersionSkipper versionSkipper ) {
+    public AutomaticSimUpdateDialog( Frame owner, ISimInfo simInfo, PhetVersion newVersion, IUpdateTimer updateTimer, IVersionSkipper versionSkipper ) {
         super( owner, TITLE, simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getName(), simInfo.getVersion(), newVersion, simInfo.getLocale() );
         
         this.updateTimer = updateTimer;

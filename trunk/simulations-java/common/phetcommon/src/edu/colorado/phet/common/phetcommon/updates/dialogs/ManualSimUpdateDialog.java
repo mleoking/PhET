@@ -13,17 +13,17 @@ import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 
 /**
  * 
- * The dialog that used to notify the user that an update is available,
+ * The dialog that used to notify the user that a sim update is available,
  * when the user has manually requested an update check.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ManualUpdateDialog extends AbstractUpdateDialog {
+public class ManualSimUpdateDialog extends AbstractSimUpdateDialog {
     
     private static final String TITLE = PhetCommonResources.getString( "Common.updates.updateAvailable" );
     private static final String CANCEL_BUTTON = PhetCommonResources.getString( "Common.choice.cancel" );
     
-    public ManualUpdateDialog( Frame owner, final String project, final String sim, final String simName, final PhetVersion currentVersion, final PhetVersion newVersion, Locale locale ) {
+    public ManualSimUpdateDialog( Frame owner, final String project, final String sim, final String simName, final PhetVersion currentVersion, final PhetVersion newVersion, Locale locale ) {
         super( owner, TITLE, project, sim, simName,currentVersion, newVersion, locale );
     }
     
