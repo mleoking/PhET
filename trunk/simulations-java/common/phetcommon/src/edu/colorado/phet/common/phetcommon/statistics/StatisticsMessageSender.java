@@ -22,21 +22,20 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.SessionCounter;
 
 /**
- * Statistics service that uses PHP to deliver a statistics message to PhET.
- *
- * @author Chris Malley (cmalley@pixelzoom.com)
+ * Sends a statistics message to PhET.
+ * This implementation posts an XML document to a PHP script.
  */
-public class XMLStatisticsService {
+public class StatisticsMessageSender {
 
     private static final boolean ENABLE_DEBUG_OUTPUT = true;
 
     /**
-     * Delivers a statistics message to PhET.
+     * Sends a statistics message to PhET.
      *
      * @param message
-     * @return true if the message was successfully posted
+     * @return true if the message was successfully sent
      */
-    public boolean postMessage( StatisticsMessage message ) throws IOException {
+    public boolean sendMessage( StatisticsMessage message ) throws IOException {
         return postXML( getStatisticsURL( message ), toXML( message ) );
     }
 
@@ -116,7 +115,7 @@ public class XMLStatisticsService {
 
         // post
         if ( ENABLE_DEBUG_OUTPUT ) {
-            System.out.println( XMLStatisticsService.class.getName() + ": posting to url=" + url + " xml=" + xml );
+            System.out.println( StatisticsMessageSender.class.getName() + ": posting to url=" + url + " xml=" + xml );
         }
         try {
             OutputStreamWriter outStream = new OutputStreamWriter( connection.getOutputStream(), "UTF-8" );
@@ -126,7 +125,7 @@ public class XMLStatisticsService {
             // Get the response
             if ( ENABLE_DEBUG_OUTPUT ) {
                 BufferedReader reader = new BufferedReader( new InputStreamReader( connection.getInputStream() ) );
-                System.out.println( XMLStatisticsService.class.getName() + ": reading response ..." );
+                System.out.println( StatisticsMessageSender.class.getName() + ": reading response ..." );
                 String line;
                 while ( ( line = reader.readLine() ) != null ) {
                     System.out.println( line );
@@ -137,7 +136,7 @@ public class XMLStatisticsService {
             }
         }
         catch( UnknownHostException uhe ) {
-            System.err.println( XMLStatisticsService.class.getName() + ": Could not sumbit message, perhaps network is unavailable: " + uhe.toString() );
+            System.err.println( StatisticsMessageSender.class.getName() + ": Could not sumbit message, perhaps network is unavailable: " + uhe.toString() );
         }
         return success;
     }
@@ -154,6 +153,6 @@ public class XMLStatisticsService {
         PhetApplicationConfig config = new PhetApplicationConfig( null, "balloons");
         SessionCounter.initInstance( config.getProjectName(), config.getFlavor() );
         SessionMessage.initInstance( config );
-        new XMLStatisticsService().postMessage( SessionMessage.getInstance() );
+        new StatisticsMessageSender().sendMessage( SessionMessage.getInstance() );
     }
 }
