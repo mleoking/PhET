@@ -26,7 +26,6 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 public class AutomaticInstallerUpdateDialog extends PaintImmediateDialog {
     
     private static final String TITLE = PhetCommonResources.getString( "Common.updates.updateAvailable" );
-    private static final String YES_BUTTON = PhetCommonResources.getString( "Common.updates.installer.yes" );
     private static final String ASK_ME_LATER_BUTTON = PhetCommonResources.getString( "Common.updates.askMeLater" );
     private static final String MORE_BUTTON = PhetCommonResources.getString( "Common.updates.installer.more" );
     private static final String MESSAGE_PATTERN = PhetCommonResources.getString( "Common.updates.installer.message" );
