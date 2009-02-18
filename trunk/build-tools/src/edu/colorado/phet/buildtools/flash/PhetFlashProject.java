@@ -336,7 +336,8 @@ public class PhetFlashProject extends PhetProject {
     }
 
     private File getFlashBuildConfigFile() {
-        File configFile = new File( getProjectDir().getParentFile().getParentFile(), "flash-build.properties" );
+        File configFile=new File( getTrunk(), "build-tools/build-local.properties");
+//        File configFile = new File( getProjectDir().getParentFile().getParentFile(), "flash-build.properties" );
         if ( !configFile.exists() ) {
             String defaultFlashProperties = "build-tools" + File.separator + "flash-build" + File.separator + "default-flash-build.properties";
             File defaultConfigFile = new File( getProjectDir().getParentFile().getParentFile(), defaultFlashProperties );
