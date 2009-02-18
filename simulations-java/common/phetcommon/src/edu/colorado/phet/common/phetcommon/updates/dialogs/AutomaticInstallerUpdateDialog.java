@@ -71,6 +71,12 @@ public class AutomaticInstallerUpdateDialog extends PaintImmediateDialog {
         
         // Yes! button
         JButton updateButton = new InstallerUpdateButton();
+        updateButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                // InstallerUpdateButton handles opening the web browser
+                dispose();
+            }
+        });
         
         // Ask Me Later button
         JButton askMeLater = new JButton( ASK_ME_LATER_BUTTON );
