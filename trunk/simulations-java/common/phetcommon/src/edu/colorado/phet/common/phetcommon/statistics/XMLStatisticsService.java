@@ -26,7 +26,7 @@ import edu.colorado.phet.common.phetcommon.application.SessionCounter;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class XMLStatisticsService implements IStatisticsService {
+public class XMLStatisticsService {
 
     private static final boolean ENABLE_DEBUG_OUTPUT = true;
 
