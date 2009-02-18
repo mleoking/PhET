@@ -25,7 +25,7 @@ public class StatisticsManager {
     private final ISimInfo simInfo;
     private final Vector messageQueue = new Vector();
     private final StatisticsThread statisticsThread = new StatisticsThread();
-    private final XMLStatisticsService statisticsService = new XMLStatisticsService();
+    private final StatisticsMessageSender statisticsService = new StatisticsMessageSender();
     private final ArrayList listeners = new ArrayList();
     private boolean applicationStartedCalled = false;
 
@@ -74,7 +74,7 @@ public class StatisticsManager {
         }
     }
 
-    private void postMessageImpl( final StatisticsMessage statisticsMessage ) {
+    private void sendMessageImpl( final StatisticsMessage statisticsMessage ) {
         if ( isStatisticsEnabled() ) {
             messageQueue.add( statisticsMessage );
             synchronized( MONITOR ) {
@@ -92,7 +92,7 @@ public class StatisticsManager {
     public class StatisticsRunnable implements Runnable {
         public void run() {
             while ( true ) {
-                postAllMessages();
+                sendAllMessages();
                 synchronized( MONITOR ) {
                     try {
                         MONITOR.wait();
@@ -105,11 +105,11 @@ public class StatisticsManager {
         }
     }
 
-    private void postAllMessages() {
+    private void sendAllMessages() {
         try {
             while ( messageQueue.size() > 0 ) {
                 StatisticsMessage m = (StatisticsMessage) messageQueue.get( 0 );
-                boolean success = statisticsService.postMessage( m );
+                boolean success = statisticsService.sendMessage( m );
                 messageQueue.remove( m ); // remove message from queue after post, so that messageQueue won't be considered empty prematurely
                 notifyListeners( success, m );
             }
@@ -123,11 +123,11 @@ public class StatisticsManager {
         return instance != null && instance.simInfo.isStatisticsEnabled();
     }
 
-    public static void postMessage( StatisticsMessage statisticsMessage ) {
+    public static void sendMessage( StatisticsMessage statisticsMessage ) {
         // check for statistics enabled before message construction
         // because construction may cause java.security.AccessControlException under web start.
         if ( isStatisticsEnabled() ) {
-            instance.postMessageImpl( statisticsMessage );
+            instance.sendMessageImpl( statisticsMessage );
         }
     }
     
@@ -155,19 +155,19 @@ public class StatisticsManager {
             
             // send session message
             addListener( new StatisticsManagerListener() {
-                public void postResults( boolean success, StatisticsMessage m ) {
+                public void receiveResponse( boolean success, StatisticsMessage m ) {
                     if ( success && m == sessionMessage ) {
                         // if the session message is successfully sent, reset this session count
                         SessionCounter.getInstance().resetCountSince();
                     }
                 }
             } );
-            postMessage( sessionMessage );
+            sendMessage( sessionMessage );
         }
     }
     
     public interface StatisticsManagerListener {
-        public void postResults( boolean success, StatisticsMessage m );
+        public void receiveResponse( boolean success, StatisticsMessage m );
     }
     
     public synchronized void addListener( StatisticsManagerListener listener ) {
@@ -183,7 +183,7 @@ public class StatisticsManager {
         ArrayList listenersCopy = new ArrayList( listeners ); // iterate on a copy to avoid ConcurrentModificationException
         Iterator i = listenersCopy.iterator();
         while ( i.hasNext() ) {
-            ( (StatisticsManagerListener) i.next() ).postResults( success, m );
+            ( (StatisticsManagerListener) i.next() ).receiveResponse( success, m );
         }
     }
 }

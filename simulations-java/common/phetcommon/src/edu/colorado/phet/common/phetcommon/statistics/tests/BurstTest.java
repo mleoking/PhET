@@ -5,7 +5,7 @@ import java.io.IOException;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.SessionCounter;
 import edu.colorado.phet.common.phetcommon.statistics.SessionMessage;
-import edu.colorado.phet.common.phetcommon.statistics.XMLStatisticsService;
+import edu.colorado.phet.common.phetcommon.statistics.StatisticsMessageSender;
 
 /**
  * Sends many messages to the server to test its capabilitiy for handling many messages at once.
@@ -46,7 +46,7 @@ public class BurstTest {
         private void sendMessage() {
             SessionMessage sessionMessage = SessionMessage.getInstance();
             try {
-                new XMLStatisticsService().postMessage( sessionMessage );
+                new StatisticsMessageSender().sendMessage( sessionMessage );
             }
             catch( IOException e ) {
                 e.printStackTrace();
