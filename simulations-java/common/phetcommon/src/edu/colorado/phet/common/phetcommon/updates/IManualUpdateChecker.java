@@ -6,7 +6,12 @@ package edu.colorado.phet.common.phetcommon.updates;
 public interface IManualUpdateChecker {
     
     /**
-     * Checks for updates and handles any user interaction that is involved.
+     * Checks for sim updates and handles any user interaction that is involved.
      */
-    void checkForUpdates();
+    public void checkForSimUpdates();
+    
+    /**
+     * Checks for installer updates and handles any user interaction that is involved.
+     */
+    public void checkForInstallerUpdates();
 }

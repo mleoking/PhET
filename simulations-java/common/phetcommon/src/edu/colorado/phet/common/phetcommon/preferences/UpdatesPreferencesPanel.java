@@ -27,7 +27,7 @@ public class UpdatesPreferencesPanel extends JPanel {
     private final PhetPreferences preferences;
     private final JCheckBox updatesEnabledCheckBox;
     
-    public UpdatesPreferencesPanel( final IManualUpdateChecker iCheckForUpdates, PhetPreferences preferences ) {
+    public UpdatesPreferencesPanel( final IManualUpdateChecker updateChecker, PhetPreferences preferences ) {
 
         this.preferences = preferences;
         
@@ -38,7 +38,7 @@ public class UpdatesPreferencesPanel extends JPanel {
         JButton checkForSimUpdateButton = new JButton( CHECK_FOR_SIM_UPDATES );
         checkForSimUpdateButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                iCheckForUpdates.checkForUpdates();
+                updateChecker.checkForSimUpdates();
             }
         } );
         
@@ -46,7 +46,7 @@ public class UpdatesPreferencesPanel extends JPanel {
         JButton checkForInstallerUpdateButton = new JButton( CHECK_FOR_INSTALLER_UPDATE );
         checkForInstallerUpdateButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                //TODO
+                updateChecker.checkForInstallerUpdates();
             }
         } );
         

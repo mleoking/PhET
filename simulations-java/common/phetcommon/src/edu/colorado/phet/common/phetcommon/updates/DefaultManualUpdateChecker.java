@@ -40,7 +40,7 @@ public class DefaultManualUpdateChecker implements IManualUpdateChecker {
         this.locale = locale;
     }
 
-    public void checkForUpdates() {
+    public void checkForSimUpdates() {
         UpdateNotifier updateNotifier = new UpdateNotifier( projectName, sim, currentVersion );
         UpdateNotifier.UpdateListener listener = new UpdateNotifier.UpdateAdapter() {
 
@@ -62,5 +62,9 @@ public class DefaultManualUpdateChecker implements IManualUpdateChecker {
         updateNotifier.addListener( listener );
         updateNotifier.checkForUpdates();
         updateNotifier.removeListener( listener );
+    }
+    
+    public void checkForInstallerUpdates() {
+        //TODO implement
     }
 }

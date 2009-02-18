@@ -32,12 +32,12 @@ import edu.colorado.phet.common.phetcommon.updates.IManualUpdateChecker;
  * @version $Revision:14677 $
  */
 public class HelpMenu extends JMenu implements ModuleObserver {
-    private JMenuItem onscreenHelp;
-    private IManualUpdateChecker iManuallyCheckForUpdates;
+    private final JMenuItem onscreenHelp;
+    private final IManualUpdateChecker updateChecker;
 
-    public HelpMenu( final PhetApplication phetApplication, IManualUpdateChecker iManuallyCheckForUpdates ) {
+    public HelpMenu( final PhetApplication phetApplication, IManualUpdateChecker updateChecker ) {
         super( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.Title" ) );
-        this.iManuallyCheckForUpdates = iManuallyCheckForUpdates;
+        this.updateChecker = updateChecker;
         this.setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.TitleMnemonic" ).charAt( 0 ) );
         phetApplication.addModuleObserver( this );
 
@@ -63,7 +63,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
                     phetApplication.getActiveModule().showMegaHelp();
                 }
                 else {
-                    JOptionPane.showMessageDialog( PhetApplication.instance().getPhetFrame(),
+                    JOptionPane.showMessageDialog( PhetApplication.getInstance().getPhetFrame(),
                                                    "No MegaHelp available for this module." );
                 }
             }
@@ -136,7 +136,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
             super( PhetCommonResources.getInstance().getLocalizedString( "Common.updates.checkForSimUpdate" ) );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    iManuallyCheckForUpdates.checkForUpdates();
+                    updateChecker.checkForSimUpdates();
                 }
             } );
         }
