@@ -14,6 +14,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
+import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -104,7 +105,7 @@ public class AutomaticInstallerUpdateDialog extends PaintImmediateDialog {
     }
     
     private void handleAskMeLater() {
-        //XXX write current time to preferences file: installer.updates.ask-me-later-pressed.milliseconds
+        PhetPreferences.getInstance().setInstallerAskMeLater( System.currentTimeMillis() );
     }
     
     private void handleMoreButton() {

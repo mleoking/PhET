@@ -16,11 +16,11 @@ public class DefaultUpdateTimer implements IUpdateTimer {
     }
     
     public void setStartTime( long time ) {
-        PhetPreferences.getInstance().setAskMeLater( project, sim, time );
+        PhetPreferences.getInstance().setSimAskMeLater( project, sim, time );
     }
 
     public long getStartTime() {
-        return PhetPreferences.getInstance().getAskMeLater( project, sim );
+        return PhetPreferences.getInstance().getSimAskMeLater( project, sim );
     }
 
     public void setDuration( long duration ) {
@@ -32,7 +32,7 @@ public class DefaultUpdateTimer implements IUpdateTimer {
     }
     
     public boolean isDurationExceeded() {
-        long askMeLaterPressed = PhetPreferences.getInstance().getAskMeLater( project, sim );
+        long askMeLaterPressed = PhetPreferences.getInstance().getSimAskMeLater( project, sim );
         long currentTime = System.currentTimeMillis();
         long elapsedTime = currentTime - askMeLaterPressed;
 //        System.out.println( "elapsedTime/1000.0 = " + elapsedTime / 1000.0+" sec" );

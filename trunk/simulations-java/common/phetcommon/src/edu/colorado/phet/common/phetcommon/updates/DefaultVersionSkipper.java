@@ -16,11 +16,11 @@ public class DefaultVersionSkipper implements IVersionSkipper {
     }
     
     public void setSkippedVersion( int skipVersion ) {
-        PhetPreferences.getInstance().setSkipUpdate( project, sim, skipVersion );
+        PhetPreferences.getInstance().setSimSkipUpdate( project, sim, skipVersion );
     }
     
     public int getSkippedVersion() {
-        return PhetPreferences.getInstance().getSkipUpdate( project, sim );
+        return PhetPreferences.getInstance().getSimSkipUpdate( project, sim );
     }
     
     public boolean isSkipped( int version ) {

@@ -45,10 +45,11 @@ public class PhetPreferences {
     private static final String KEY_UPDATES_ENABLED = "all-sims.updates.enabled";
     private static final String KEY_STATISTICS_ENABLED = "all-sims.statistics.enabled";
     private static final String KEY_SOFTWARE_AGREEMENT_VERSION = "all-sims.software-agreement-version";
+    private static final String KEY_INSTALLER_ASK_ME_LATER = "installer.updates.ask-me-later-pressed.milliseconds";
     
     // property key patterns
-    private static final String PATTERN_KEY_ASK_ME_LATER = "{0}.{1}.updates.ask-me-later-pressed.milliseconds";
-    private static final String PATTERN_KEY_SKIP_UPDATE = "{0}.{1}.updates.skip.version"; // project.sim.updates.skip-version
+    private static final String PATTERN_KEY_SIM_ASK_ME_LATER = "{0}.{1}.updates.ask-me-later-pressed.milliseconds";
+    private static final String PATTERN_KEY_SIM_SKIP_UPDATE = "{0}.{1}.updates.skip.version"; // project.sim.updates.skip-version
     
     // developer only
     private static final String DEV_KEY_ALWAYS_SHOW_SOFTWARE_AGREEMENT = "dev.always-show-software-agreement";
@@ -60,16 +61,8 @@ public class PhetPreferences {
 
     /* singleton */
     private PhetPreferences() {
-        if ( PREFERENCES_FILE == null ) {
-            //can't read or write properties due to access control exception
-            setDefaults();
-        }
-        else {
-            if ( !PREFERENCES_FILE.exists() ) {
-                PREFERENCES_FILE.getParentFile().mkdirs();
-                setDefaults();
-                storePreferences();
-            }
+        if ( PREFERENCES_FILE != null ) {
+            initPreferencesFile();
             try {
                 properties.load( new FileInputStream( PREFERENCES_FILE ) );
             }
@@ -79,11 +72,17 @@ public class PhetPreferences {
         }
     }
 
-    private void setDefaults() {
-        setPreferencesFileCreationTimeNow();
-        setUpdatesEnabled( true );
-        setStatisticsEnabled( true );
-        setAlwaysShowSoftwareAgreement( false );
+    /*
+     * Initializes the preferences file by creating it and setting default values.
+     */
+    private void initPreferencesFile() {
+        if ( !PREFERENCES_FILE.exists() ) {
+            PREFERENCES_FILE.getParentFile().mkdirs();
+            setPreferencesFileCreationTimeNow();
+            setUpdatesEnabled( true );
+            setStatisticsEnabled( true );
+            setAlwaysShowSoftwareAgreement( false );
+        }
     }
 
     public static PhetPreferences getInstance() {
@@ -110,67 +109,59 @@ public class PhetPreferences {
     }
 
     /**
-     * Sets the time in milliseconds since Epoch at which the user requested to be asked later.
+     * Sets the time in milliseconds since Epoch at which the user pressed "Ask Me Later".
      * This is specific to a simulation.
      */
-    public void setAskMeLater( String project, String sim, long time ) {
-        setStringProperty( getAskMeLaterKey( project, sim ), String.valueOf( time ) );
+    public void setSimAskMeLater( String project, String sim, long time ) {
+        setStringProperty( getSimAskMeLaterKey( project, sim ), String.valueOf( time ) );
     }
 
     /**
-     * Gets the time in milliseconds since Epoch at which the user requested to be asked later.
+     * Gets the time in milliseconds since Epoch at which the user pressed "Ask Me Later".
      * This is specific to a simulation.
      */
-    public long getAskMeLater( String project, String sim ) {
-        long timestamp = 0;
-        try {
-            String s = getStringProperty( getAskMeLaterKey( project, sim ) );
-            if ( s != null ) {
-                timestamp = Long.parseLong( s );
-            }
-        }
-        catch( NumberFormatException e ) {
-            e.printStackTrace();
-        }
-        return timestamp;
+    public long getSimAskMeLater( String project, String sim ) {
+        return getLongProperty( getSimAskMeLaterKey( project, sim ), 0 );
     }
 
-    private static String getAskMeLaterKey( String project, String sim ) {
+    private static String getSimAskMeLaterKey( String project, String sim ) {
         Object[] args = {project, sim};
-        return MessageFormat.format( PATTERN_KEY_ASK_ME_LATER, args );
+        return MessageFormat.format( PATTERN_KEY_SIM_ASK_ME_LATER, args );
     }
 
     /**
      * Sets the most recent version that the user asked to skip.
      * This is specific to a simulation.
      */
-    public void setSkipUpdate( String project, String sim, int skipRevision ) {
-        setStringProperty( getSkipUpdateKey( project, sim ), String.valueOf( skipRevision ) );
+    public void setSimSkipUpdate( String project, String sim, int skipRevision ) {
+        setStringProperty( getSimSkipUpdateKey( project, sim ), String.valueOf( skipRevision ) );
     }
 
     /**
-     * Gets the most recent version that the user asked to skip.
+     * Gets the most recent revision number that the user asked to skip.
      * This is specific to a simulation.
      */
-    public int getSkipUpdate( String project, String sim ) {
-        int version = 0;
-        try {
-            String s = getStringProperty( getSkipUpdateKey( project, sim ) );
-            if ( s != null ) {
-                version = Integer.parseInt( s );
-            }
-        }
-        catch( NumberFormatException e ) {
-            e.printStackTrace();
-        }
-        return version;
+    public int getSimSkipUpdate( String project, String sim ) {
+        return getIntProperty( getSimSkipUpdateKey( project, sim ), 0 );
     }
 
-    private static String getSkipUpdateKey( String project, String sim ) {
+    private static String getSimSkipUpdateKey( String project, String sim ) {
         Object[] args = {project, sim};
-        return MessageFormat.format( PATTERN_KEY_SKIP_UPDATE, args );
+        return MessageFormat.format( PATTERN_KEY_SIM_SKIP_UPDATE, args );
     }
 
+    /**
+     * Sets the time in milliseconds since Epoch at which the user pressed "Ask Me Later".
+     * This is specific to the installer.
+     */
+    public void setInstallerAskMeLater( long time ) {
+        setStringProperty( KEY_INSTALLER_ASK_ME_LATER, String.valueOf( time ) );
+    }
+    
+    public long getInstallerAskMeLater() {
+        return getLongProperty( KEY_INSTALLER_ASK_ME_LATER, 0 );
+    }
+    
     public void setSoftwareAgreementVersion( int version ) {
         setIntProperty( KEY_SOFTWARE_AGREEMENT_VERSION, version );
     }
@@ -192,6 +183,13 @@ public class PhetPreferences {
         setLongProperty( KEY_PREFERENCES_FILE_CREATION_TIME, now );
         return now;
     }
+
+    /**
+     * Gets the time in milliseconds since Epoch that the preferences file was created.
+     */
+    public long getPreferencesFileCreationTime() {
+        return getLongProperty( KEY_PREFERENCES_FILE_CREATION_TIME, 0 );
+    }
     
     public boolean isAlwaysShowSoftwareAgreement() {
         return getBooleanProperty( DEV_KEY_ALWAYS_SHOW_SOFTWARE_AGREEMENT );
@@ -199,20 +197,6 @@ public class PhetPreferences {
     
     public void setAlwaysShowSoftwareAgreement( boolean b ) {
         setBooleanProperty( DEV_KEY_ALWAYS_SHOW_SOFTWARE_AGREEMENT, b );
-    }
-
-    /**
-     * Gets the time in milliseconds since Epoch that the preferences file was created.
-     * We use this as an ad hoc means of anonymously identifying unique users.
-     * If the file doesn't exist, it is created as a side effect.
-     */
-    public long getPreferencesFileCreationTime() {
-        final long defaultValue = -1;
-        long value = getLongProperty( KEY_PREFERENCES_FILE_CREATION_TIME, defaultValue );
-        if ( value == defaultValue ) {
-            value = setPreferencesFileCreationTimeNow();
-        }
-        return value;
     }
     
     /*
