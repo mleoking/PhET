@@ -18,7 +18,7 @@ public class UpdatesManager {
     private static UpdatesManager instance;
     
     private final ISimInfo simInfo;
-    private final IVersionSkipper versionSkipper;
+    private final IVersionSkipper simVersionSkipper;
     private final IAskMeLaterStrategy simAskMeLaterStrategy;
     private final IAskMeLaterStrategy installerAskMeLaterStrategy;
     private boolean applicationStartedCalled;
@@ -26,7 +26,7 @@ public class UpdatesManager {
     /* singleton */
     private UpdatesManager( ISimInfo simInfo ) {
         this.simInfo = simInfo;
-        versionSkipper = new DefaultVersionSkipper( simInfo.getProjectName(), simInfo.getFlavor() );
+        simVersionSkipper = new SimVersionSkipper( simInfo.getProjectName(), simInfo.getFlavor() );
         simAskMeLaterStrategy = new SimAskMeLaterStrategy( simInfo.getProjectName(), simInfo.getFlavor() );
         installerAskMeLaterStrategy = new InstallerAskMeLaterStrategy();
         applicationStartedCalled = false;
@@ -60,11 +60,11 @@ public class UpdatesManager {
         updateNotifier.addListener( new UpdateNotifier.UpdateAdapter() {
 
             public void updateAvailable( PhetVersion currentVersion, final PhetVersion remoteVersion ) {
-                if ( !versionSkipper.isSkipped( remoteVersion.getRevisionAsInt() ) ) {
+                if ( !simVersionSkipper.isSkipped( remoteVersion.getRevisionAsInt() ) ) {
                     //show UI in swing thread after new thread has found a new version
                     SwingUtilities.invokeLater( new Runnable() {
                         public void run() {
-                            new AutomaticSimUpdateDialog( frame, simInfo, remoteVersion, simAskMeLaterStrategy, versionSkipper ).setVisible( true );
+                            new AutomaticSimUpdateDialog( frame, simInfo, remoteVersion, simAskMeLaterStrategy, simVersionSkipper ).setVisible( true );
                         }
                     } );
                 }
