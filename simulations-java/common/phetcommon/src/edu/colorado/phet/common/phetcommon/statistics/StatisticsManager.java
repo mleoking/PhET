@@ -131,7 +131,7 @@ public class StatisticsManager {
         }
     }
     
-    public void applicationStarted( Frame parentFrame, IStatistics statistics ) {
+    public void applicationStarted( Frame parentFrame ) {
         
         // this method should only be called once
         if ( applicationStartedCalled ) {
@@ -151,7 +151,7 @@ public class StatisticsManager {
             final SessionMessage sessionMessage = SessionMessage.initInstance( simInfo );
             
             // Software Use Agreement
-            SoftwareAgreementManager.validate( parentFrame, statistics );
+            SoftwareAgreementManager.validate( parentFrame, sessionMessage );
             
             // send session message
             addListener( new StatisticsManagerListener() {

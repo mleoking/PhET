@@ -17,7 +17,7 @@ import javax.swing.event.HyperlinkListener;
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.preferences.StatisticsDetailsDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.statistics.IStatistics;
+import edu.colorado.phet.common.phetcommon.statistics.SessionMessage;
 import edu.colorado.phet.common.phetcommon.view.PhetExit;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
@@ -35,20 +35,20 @@ public class SoftwareAgreementManager {
     /**
      * Ensures that the user has accepted the agreements that pertain to this software.
      */
-    public static void validate( Frame owner, IStatistics statistics ) {
+    public static void validate( Frame owner, SessionMessage sessionMessage ) {
         boolean alwaysAsk = PhetPreferences.getInstance().isAlwaysShowSoftwareAgreement();
         int acceptedVersion = PhetPreferences.getInstance().getSoftwareAgreementVersion();
         int currentVersion = SoftwareAgreement.getInstance().getVersion();
         if ( alwaysAsk || acceptedVersion < currentVersion ) {
-            negotiate( owner, statistics );
+            negotiate( owner, sessionMessage );
         }
     }
 
     /*
     * Negotiates the agreement with the user.
     */
-    private static void negotiate( Frame owner, IStatistics statistics ) {
-        final AcceptanceDialog dialog = new AcceptanceDialog( owner, statistics );
+    private static void negotiate( Frame owner, SessionMessage sessionMessage ) {
+        final AcceptanceDialog dialog = new AcceptanceDialog( owner, sessionMessage );
         dialog.setVisible( true );
     }
 
@@ -63,13 +63,13 @@ public class SoftwareAgreementManager {
         
         private JButton acceptButton;
         
-        public AcceptanceDialog( Frame owner, IStatistics statistics ) {
+        public AcceptanceDialog( Frame owner, SessionMessage sessionMessage ) {
             super( owner );
             setTitle( TITLE );
             setModal( true );
             setResizable( false );
 
-            JComponent message = createMessagePanel( statistics );
+            JComponent message = createMessagePanel( sessionMessage );
             JComponent buttonPanel = createButtonPanel();
 
             JPanel panel = new JPanel();
@@ -97,8 +97,8 @@ public class SoftwareAgreementManager {
             acceptButton.requestFocusInWindow();
         }
 
-        private JComponent createMessagePanel( IStatistics statistics ) {
-            JComponent htmlPane = new MessagePane( this, statistics );
+        private JComponent createMessagePanel( SessionMessage sessionMessage ) {
+            JComponent htmlPane = new MessagePane( this, sessionMessage );
             JPanel panel = new JPanel();
             panel.setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
             panel.add( htmlPane );
@@ -157,7 +157,7 @@ public class SoftwareAgreementManager {
         private static final String LINK_SHOW_STATISTICS_DETAILS = "showStatisticsDetails";
         private static final String LINK_SHOW_SOFTWARE_AGREEMENT = "showSoftwareAgreements";
 
-        public MessagePane( final JDialog owner, final IStatistics statistics ) {
+        public MessagePane( final JDialog owner, final SessionMessage sessionMessage ) {
             super( "" );
             
             // insert our own hyperlink descriptions into the message, so translators can't mess them up
@@ -169,7 +169,7 @@ public class SoftwareAgreementManager {
                 public void hyperlinkUpdate( HyperlinkEvent e ) {
                     if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED ) {
                         if ( e.getDescription().equals( LINK_SHOW_STATISTICS_DETAILS ) ) {
-                            showStatisticsDetails( owner, statistics );
+                            showStatisticsDetails( owner, sessionMessage );
                         }
                         else if ( e.getDescription().equals( LINK_SHOW_SOFTWARE_AGREEMENT ) ) {
                             showSoftwareAgreement( owner );
@@ -182,8 +182,8 @@ public class SoftwareAgreementManager {
             } );
         }
         
-        private static void showStatisticsDetails( JDialog owner, IStatistics statistics ) {
-            new StatisticsDetailsDialog( owner, statistics ).setVisible( true );
+        private static void showStatisticsDetails( JDialog owner, SessionMessage sessionMessage ) {
+            new StatisticsDetailsDialog( owner, sessionMessage ).setVisible( true );
         }
         
         private static void showSoftwareAgreement( JDialog owner ) {
@@ -192,8 +192,7 @@ public class SoftwareAgreementManager {
     }
 
     public static void main( String[] args ) {
-        PhetApplicationConfig config = new PhetApplicationConfig( args, "balloons" );
-        new AcceptanceDialog( null, config ).setVisible( true );
+        new AcceptanceDialog( null, SessionMessage.getInstance() ).setVisible( true );
         System.out.println( "continuing" );
     }
 }

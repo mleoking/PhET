@@ -8,8 +8,6 @@ import java.util.Locale;
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.common.phetcommon.statistics.IStatistics;
-import edu.colorado.phet.common.phetcommon.statistics.SessionMessage;
 import edu.colorado.phet.common.phetcommon.util.DeploymentScenario;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
@@ -30,7 +28,7 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
  *
  * @author John De Goes / Chris Malley
  */
-public class PhetApplicationConfig implements IStatistics, ISimInfo {
+public class PhetApplicationConfig implements ISimInfo {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -173,10 +171,6 @@ public class PhetApplicationConfig implements IStatistics, ISimInfo {
         return resourceLoader.getVersion();
     }
     
-    public String getHumanReadableStatistics() {
-        return SessionMessage.getInstance().toHumanReadable();
-    }
-
     public boolean isDev() {
         return hasCommandLineArg( PhetApplication.DEVELOPER_CONTROLS_COMMAND_LINE_ARG );
     }
