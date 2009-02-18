@@ -2,17 +2,13 @@ package edu.colorado.phet.common.phetcommon.updates;
 
 
 /**
- * IVersionSkipper is the interface for skipping a version of a sim.
- * If you skip a version, automatic update notification will not occur
- * until another version becomes available. 
+ * IVersionSkipper is the interface for skipping a version of something.
  */
 public interface IVersionSkipper {
     
     /**
-     * Indicates that a specified version of a sim should be skipped.
+     * Indicates that a specified version should be skipped.
      * No further automatic updates will be provided for this version.
-     * @param projectName
-     * @param flavor
      * @param skipVersion
      */
     public void setSkippedVersion( int skipVersion );
