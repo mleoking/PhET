@@ -55,7 +55,7 @@ public class SoftwareAgreementManager {
     /*
      * Dialog that provides options to accept or decline.
      */
-    private static class AcceptanceDialog extends GrayRectWorkaroundDialog {
+    private static class AcceptanceDialog extends PaintImmediateDialog {
 
         private static final String TITLE = PhetCommonResources.getString( "Common.softwareAgreement.title" );
         private static final String ACCEPT_BUTTON = PhetCommonResources.getString( "Common.softwareAgreement.accept" );

@@ -7,27 +7,28 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 
 /**
- * Workaround for Unfuddle #89.
+ * This dialog attempts to paint itself immediately using a Timer.
  * Use this in situations where your dialog doesn't paint in a timely manner (or at all).
+ * Workaround for Unfuddle #89.
  */
-public class GrayRectWorkaroundDialog extends JDialog {
+public class PaintImmediateDialog extends JDialog {
     
-    public GrayRectWorkaroundDialog() {
+    public PaintImmediateDialog() {
     }
 
-    public GrayRectWorkaroundDialog( Frame frame ) {
+    public PaintImmediateDialog( Frame frame ) {
         super( frame );
     }
 
-    public GrayRectWorkaroundDialog( Frame frame, String title ) {
+    public PaintImmediateDialog( Frame frame, String title ) {
         super( frame, title );
     }
 
-    public GrayRectWorkaroundDialog( Dialog owner ) {
+    public PaintImmediateDialog( Dialog owner ) {
         super( owner );
     }
 
-    public GrayRectWorkaroundDialog( Dialog owner, String title ) {
+    public PaintImmediateDialog( Dialog owner, String title ) {
         super( owner, title );
     }
 
