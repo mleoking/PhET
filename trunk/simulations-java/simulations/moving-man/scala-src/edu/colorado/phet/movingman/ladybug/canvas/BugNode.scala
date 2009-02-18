@@ -1,8 +1,10 @@
 package edu.colorado.phet.movingman.ladybug.canvas
 
 import _root_.edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import _root_.edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import _root_.edu.colorado.phet.movingman.ladybug.aphidmaze.Aphid
 import java.awt.image.BufferedImage
+import java.awt.{BasicStroke, Color}
 import model.{Bug, Vector2D}
 import umd.cs.piccolo.nodes.PImage
 import _root_.edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
@@ -17,11 +19,14 @@ import LadybugUtil._
 
 class BugNode(bug: Bug, transform: ModelViewTransform2D,bufferedImage:BufferedImage) extends PNode {
   val pimage = new PImage(BufferedImageUtils.multiScale(bufferedImage, LadybugDefaults.LADYBUG_SCALE))
+  val boundsPPath=new PhetPPath(new BasicStroke(0.1f),Color.blue)
+
 
   bug.addListener(updateBug)
   updateBug()
 
   addChild(pimage)
+  addChild(boundsPPath)
 
   transform.addTransformListener(new TransformListener() {
     def transformChanged(mvt: ModelViewTransform2D) = {
@@ -36,7 +41,8 @@ class BugNode(bug: Bug, transform: ModelViewTransform2D,bufferedImage:BufferedIm
     pimage.setTransform(new AffineTransform)
     val dx = new Vector2D(pimage.getImage.getWidth(null), pimage.getImage.getHeight(null))
 
-    val scale=transform.modelToViewDifferentialXDouble(bug.getRadius)/bufferedImage.getWidth
+    //todo: why is scale factor 4 here?
+    val scale=transform.modelToViewDifferentialXDouble(bug.getRadius*4)/bufferedImage.getWidth
 
     pimage.translate(viewPosition.x - dx.x / 2*scale, viewPosition.y - dx.y / 2*scale)
     pimage.scale(scale)
@@ -44,6 +50,7 @@ class BugNode(bug: Bug, transform: ModelViewTransform2D,bufferedImage:BufferedIm
       pimage.getFullBounds.getCenter2D.getX - (viewPosition.x - dx.x / 2),
       pimage.getFullBounds.getCenter2D.getY - (viewPosition.y - dx.y / 2))
 
+    boundsPPath.setPathTo(transform.getAffineTransform.createTransformedShape(bug.getBounds))
   }
 
 }

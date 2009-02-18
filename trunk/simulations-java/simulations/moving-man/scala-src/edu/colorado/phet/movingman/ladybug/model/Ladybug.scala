@@ -1,6 +1,8 @@
 package edu.colorado.phet.movingman.ladybug.model
 
+import java.awt.geom.Ellipse2D
 import scala.collection.mutable.ArrayBuffer
+import edu.colorado.phet.movingman.ladybug.LadybugUtil._
 
 case class LadybugState(_position: Vector2D, _velocity: Vector2D, _acceleration: Vector2D, _angle: Double) {
   val position = _position
@@ -29,7 +31,15 @@ case class LadybugState(_position: Vector2D, _velocity: Vector2D, _acceleration:
 class Ladybug extends Bug with Observable {
   var state = new LadybugState
 
-  val getRadius=2.0
+  val getRadius = 1.0
+
+  def getEllipse(): Ellipse2D.Double = {
+    val ellipse = new Ellipse2D.Double
+    ellipse.setFrameFromCenter(getPosition, getPosition + new Vector2D(getRadius, getRadius))
+    ellipse
+  }
+
+  def getBounds = getEllipse.getBounds2D
 
   def resetAll() = {
     state = new LadybugState
@@ -65,6 +75,8 @@ class Ladybug extends Bug with Observable {
     state = state.setAcceleration(acceleration)
     notifyListeners
   }
+
+  def setPosition(x: Double, y: Double): Unit = setPosition(new Vector2D(x, y))
 
   def setPosition(position: Vector2D) = {
     //    println("position="+position)
