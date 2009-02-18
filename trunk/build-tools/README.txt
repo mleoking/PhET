@@ -10,6 +10,12 @@ svn.username
 svn.password
 browser
 
+#Flash
+wine (boolean)
+flash.exe
+browser.exe  (TODO: consolidate with browser above or rename to flash-browser)
+autobuild-swf (boolean)
+
 Sam Reid
 PhET
 2009
