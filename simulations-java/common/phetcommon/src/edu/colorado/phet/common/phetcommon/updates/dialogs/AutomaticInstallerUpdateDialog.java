@@ -71,13 +71,7 @@ public class AutomaticInstallerUpdateDialog extends PaintImmediateDialog {
     private JPanel createButtonPanel() {
         
         // Yes! button
-        JButton yesButton = new JButton( YES_BUTTON );
-        yesButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                handleGetIt();
-                dispose();
-            }
-        } );
+        JButton updateButton = new InstallerUpdateButton();
         
         // Ask Me Later button
         JButton askMeLater = new JButton( ASK_ME_LATER_BUTTON );
@@ -97,15 +91,11 @@ public class AutomaticInstallerUpdateDialog extends PaintImmediateDialog {
         } );
         
         JPanel buttonPanel = new JPanel();
-        buttonPanel.add( yesButton );
+        buttonPanel.add( updateButton );
         buttonPanel.add( askMeLater );
         buttonPanel.add( moreButton );
         
         return buttonPanel;
-    }
-    
-    private void handleGetIt() {
-        //XXX open web browser to http://phet.colorado.edu/get_phet/full_install.php
     }
     
     private void handleAskMeLater() {

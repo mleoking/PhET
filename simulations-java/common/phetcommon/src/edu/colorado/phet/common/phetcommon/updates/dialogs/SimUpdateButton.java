@@ -13,8 +13,8 @@ import edu.colorado.phet.common.phetcommon.updates.SimUpdater;
 import edu.colorado.phet.common.phetcommon.util.DeploymentScenario;
 
 /**
- * The update button that appears in dialogs.
- * Pressing this button requests an update.
+ * The update button that appears in sim update dialogs.
+ * Pressing this button requests a sim update.
  * What happens depends on the runtime situation of the simulation.
  */
 public class SimUpdateButton extends JButton {
