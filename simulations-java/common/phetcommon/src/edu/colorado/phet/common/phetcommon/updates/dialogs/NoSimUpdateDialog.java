@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPane;
 
 /**
- * Dialog uses to inform the user that no update is available.
+ * Dialog uses to inform the user that no sim update is available.
  * This is used in situations where the user has manually requested an update check.
  */
 public class NoSimUpdateDialog extends JDialog {
