@@ -25,7 +25,7 @@ public class StatisticsManager {
     private final ISimInfo simInfo;
     private final Vector messageQueue = new Vector();
     private final StatisticsThread statisticsThread = new StatisticsThread();
-    private final IStatisticsService statisticsService = new XMLStatisticsService();
+    private final XMLStatisticsService statisticsService = new XMLStatisticsService();
     private final ArrayList listeners = new ArrayList();
     private boolean applicationStartedCalled = false;
 
