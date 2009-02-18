@@ -1,9 +1,9 @@
 package edu.colorado.phet.common.phetcommon.updates;
 
 /**
- * IUpdateTimer is the interface for requesting that updates be ignored until some later time.
+ * Interface implemented by all strategies for handling "Ask Me Later" update actions.
  */
-public interface IUpdateTimer {
+public interface IAskMeLaterStrategy {
     
     /**
      * Sets the time at which the user requested to defer update checks.
@@ -30,7 +30,7 @@ public interface IUpdateTimer {
     public long getDuration();
     
     /**
-     * Determines if we've exceeed the duration, and it's OK to check for updates. 
+     * Determines if we've exceeded the duration, and it's OK to check for updates. 
      * @return
      */
     public boolean isDurationExceeded();

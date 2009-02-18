@@ -2,14 +2,17 @@ package edu.colorado.phet.common.phetcommon.updates;
 
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 
-public class DefaultUpdateTimer implements IUpdateTimer {
+/**
+ * "Ask Me Later" strategy for simulation updates.
+ */
+public class SimAskMeLaterStrategy implements IAskMeLaterStrategy {
     
     private static final long DEFAULT_DURATION = 1000 * 60 * 60 * 24; // ms, 1 day
     
     private final String project, sim;
     private long duration;
 
-    public DefaultUpdateTimer( String project, String sim ) {
+    public SimAskMeLaterStrategy( String project, String sim ) {
         this.project = project;
         this.sim = sim;
         duration = DEFAULT_DURATION;
@@ -32,11 +35,11 @@ public class DefaultUpdateTimer implements IUpdateTimer {
     }
     
     public boolean isDurationExceeded() {
-        long askMeLaterPressed = PhetPreferences.getInstance().getSimAskMeLater( project, sim );
+        long askMeLaterPressed = getStartTime();
         long currentTime = System.currentTimeMillis();
         long elapsedTime = currentTime - askMeLaterPressed;
 //        System.out.println( "elapsedTime/1000.0 = " + elapsedTime / 1000.0+" sec" );
-        return elapsedTime > duration || askMeLaterPressed == 0;
+        return elapsedTime > getDuration() || askMeLaterPressed == 0;
     }
    
 }

@@ -10,7 +10,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.common.phetcommon.updates.IUpdateTimer;
+import edu.colorado.phet.common.phetcommon.updates.IAskMeLaterStrategy;
 import edu.colorado.phet.common.phetcommon.updates.IVersionSkipper;
 
 /**
@@ -23,10 +23,10 @@ public class AutomaticSimUpdateDialog extends AbstractSimUpdateDialog {
     private static final String SKIP_UPDATE_BUTTON = PhetCommonResources.getString( "Common.updates.skipThisUpdate" );
     private static final String PREFEENCES_MESSAGE = PhetCommonResources.getString( "Common.updates.seePreferences" );
 
-    private final IUpdateTimer updateTimer;
+    private final IAskMeLaterStrategy updateTimer;
     private final IVersionSkipper versionSkipper;
     
-    public AutomaticSimUpdateDialog( Frame owner, ISimInfo simInfo, PhetVersion newVersion, IUpdateTimer updateTimer, IVersionSkipper versionSkipper ) {
+    public AutomaticSimUpdateDialog( Frame owner, ISimInfo simInfo, PhetVersion newVersion, IAskMeLaterStrategy updateTimer, IVersionSkipper versionSkipper ) {
         super( owner, TITLE, simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getName(), simInfo.getVersion(), newVersion, simInfo.getLocale() );
         
         this.updateTimer = updateTimer;

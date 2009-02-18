@@ -19,14 +19,16 @@ public class UpdatesManager {
     
     private final ISimInfo simInfo;
     private final IVersionSkipper versionSkipper;
-    private final IUpdateTimer updateTimer;
+    private final IAskMeLaterStrategy simAskMeLaterStrategy;
+    private final IAskMeLaterStrategy installerAskMeLaterStrategy;
     private boolean applicationStartedCalled;
     
     /* singleton */
     private UpdatesManager( ISimInfo simInfo ) {
         this.simInfo = simInfo;
         versionSkipper = new DefaultVersionSkipper( simInfo.getProjectName(), simInfo.getFlavor() );
-        updateTimer = new DefaultUpdateTimer( simInfo.getProjectName(), simInfo.getFlavor() );
+        simAskMeLaterStrategy = new SimAskMeLaterStrategy( simInfo.getProjectName(), simInfo.getFlavor() );
+        installerAskMeLaterStrategy = new InstallerAskMeLaterStrategy();
         applicationStartedCalled = false;
     }
     
@@ -48,7 +50,7 @@ public class UpdatesManager {
             throw new IllegalStateException( "attempted to call applicationStarted more than once" );
         }
         applicationStartedCalled = true;
-        if ( simInfo.isUpdatesEnabled() && updateTimer.isDurationExceeded() ) {
+        if ( simInfo.isUpdatesEnabled() && simAskMeLaterStrategy.isDurationExceeded() ) {
             autoCheckForUpdates( frame, sessionMessage );
         }
     }
@@ -62,7 +64,7 @@ public class UpdatesManager {
                     //show UI in swing thread after new thread has found a new version
                     SwingUtilities.invokeLater( new Runnable() {
                         public void run() {
-                            new AutomaticSimUpdateDialog( frame, simInfo, remoteVersion, updateTimer, versionSkipper ).setVisible( true );
+                            new AutomaticSimUpdateDialog( frame, simInfo, remoteVersion, simAskMeLaterStrategy, versionSkipper ).setVisible( true );
                         }
                     } );
                 }

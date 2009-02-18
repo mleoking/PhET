@@ -14,8 +14,9 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
-import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.updates.IAskMeLaterStrategy;
+import edu.colorado.phet.common.phetcommon.updates.InstallerAskMeLaterStrategy;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
@@ -32,10 +33,14 @@ public class AutomaticInstallerUpdateDialog extends PaintImmediateDialog {
     private static final String MESSAGE_PATTERN = PhetCommonResources.getString( "Common.updates.installer.message" );
     private static final String MORE_MESSAGE = PhetCommonResources.getString( "Common.updates.installer.moreMessage" );
     
-    public AutomaticInstallerUpdateDialog( Frame owner ) {
+    private final IAskMeLaterStrategy askMeLaterStrategy;
+    
+    public AutomaticInstallerUpdateDialog( Frame owner, IAskMeLaterStrategy askMeLaterStrategy ) {
         super( owner, TITLE );
         setModal( true );
         setResizable( false );
+        
+        this.askMeLaterStrategy = askMeLaterStrategy;
         
         // subpanels
         JPanel messagePanel = createMessagePanel();
@@ -105,7 +110,7 @@ public class AutomaticInstallerUpdateDialog extends PaintImmediateDialog {
     }
     
     private void handleAskMeLater() {
-        PhetPreferences.getInstance().setInstallerAskMeLater( System.currentTimeMillis() );
+        askMeLaterStrategy.setStartTime( System.currentTimeMillis() );
     }
     
     private void handleMoreButton() {
@@ -116,7 +121,7 @@ public class AutomaticInstallerUpdateDialog extends PaintImmediateDialog {
      * Test, this edits the real preferences file!
      */
      public static void main( String[] args ) {
-         AutomaticInstallerUpdateDialog dialog = new AutomaticInstallerUpdateDialog( null );
+         AutomaticInstallerUpdateDialog dialog = new AutomaticInstallerUpdateDialog( null, new InstallerAskMeLaterStrategy() );
          dialog.addWindowListener( new WindowAdapter() {
              public void windowClosing( WindowEvent e ) {
                  System.exit( 0 );
