@@ -17,8 +17,8 @@ import edu.colorado.phet.common.phetcommon.util.DeploymentScenario;
  * Pressing this button requests an update.
  * What happens depends on the runtime situation of the simulation.
  */
-public class UpdateButton extends JButton {
-    public UpdateButton( final String project, final String sim, final Locale locale, final String simName, final PhetVersion newVersion ) {
+public class SimUpdateButton extends JButton {
+    public SimUpdateButton( final String project, final String sim, final Locale locale, final String simName, final PhetVersion newVersion ) {
         super( PhetCommonResources.getString( "Common.updates.updateNow" ) );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
