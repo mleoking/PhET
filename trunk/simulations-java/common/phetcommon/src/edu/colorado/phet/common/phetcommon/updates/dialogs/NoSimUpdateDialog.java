@@ -70,17 +70,16 @@ public class NoSimUpdateDialog extends JDialog {
     }
     
     public static void main( String[] args ) {
-        // dialog must have an owner if you want cursor to change over hyperlinks
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        SwingUtils.centerWindowOnScreen( frame );
-        frame.setVisible( true );
-        JDialog dialog = new NoSimUpdateDialog( frame, "1.01", "Glaciers" );
+        JDialog dialog = new NoSimUpdateDialog( null, "1.01", "Glaciers" );
         dialog.addWindowListener( new WindowAdapter() {
+            public void windowClosing( WindowEvent e ) {
+                System.exit( 0 );
+            }
             public void windowClosed( WindowEvent e ) {
                 System.exit( 0 );
             }
         } );
+        SwingUtils.centerWindowOnScreen( dialog );
         dialog.setVisible( true );
     }
 
