@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.application.GrayRectWorkaroundDialog;
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.statistics.IStatistics;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 /**
  * Dialog that appears when you press the "Details" button in the Statistics preferences panel.
  */
-public class StatisticsDetailsDialog extends GrayRectWorkaroundDialog {
+public class StatisticsDetailsDialog extends PaintImmediateDialog {
     
     private static final String TITLE = PhetCommonResources.getString( "Common.statistics.details.title" );
     private static final String DESCRIPTION = PhetCommonResources.getString( "Common.statistics.details.description" );

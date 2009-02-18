@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.HTMLEditorPane;
 /**
  * Displays the full text of PhET's Software Use Agreement.
  */
-public class SoftwareAgreementDialog extends GrayRectWorkaroundDialog {
+public class SoftwareAgreementDialog extends PaintImmediateDialog {
 
     private static final String TITLE = PhetCommonResources.getString( "Common.softwareAgreement.title" );
     private static final String CLOSE_BUTTON = PhetCommonResources.getString( "Common.choice.close" );
