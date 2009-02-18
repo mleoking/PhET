@@ -13,8 +13,7 @@ import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.PhetServer;
 import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.buildtools.util.FileUtils;
-//TODO: needs better error handling for loading simulations
-//TODO: test support for deploying with online url
+import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 
 //TODO: see other TODOs below
 public class BuildJNLPTask extends AbstractPhetBuildTask {
@@ -89,7 +88,7 @@ public class BuildJNLPTask extends AbstractPhetBuildTask {
         String properties = "";
         //explicitly request English for the default JNLP file
         properties += "<property name=\"javaws.phet.locale\" value=\"" + ( locale == null ? "en" : locale ) + "\" />\n"; //XXX #1057, backward compatibility, delete after IOM
-        properties += "<property name=\"javaws.user.language\" value=\"" + ( locale == null ? "en" : locale ) + "\" />";
+        properties += "<property name=\"" + PhetCommonConstants.PROPERTY_PHET_LANGUAGE + "\" value=\"" + ( locale == null ? "en" : locale ) + "\" />";
         return properties;
     }
 

@@ -17,6 +17,7 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.dialogs.ErrorDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
@@ -40,7 +41,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  */
 public class JARLauncher implements IProguardKeepClass {
 
-    private static final String JAR_LAUNCHER_PROPERTIES_FILE_NAME = "jar-launcher.properties";
+    public static final String PROPERTIES_FILE_NAME = "jar-launcher.properties";
     public static final String FLAVOR_KEY = "flavor";
     public static final String LANGUAGE_KEY = "language";
     public static final String COUNTRY_KEY = "country";
@@ -49,7 +50,7 @@ public class JARLauncher implements IProguardKeepClass {
      * Gets the properties file name (used by the build process).
      */
     public static String getPropertiesFileName() {
-        return JAR_LAUNCHER_PROPERTIES_FILE_NAME;
+        return PROPERTIES_FILE_NAME;
     }
     
     //TODO: localization
@@ -64,7 +65,7 @@ public class JARLauncher implements IProguardKeepClass {
     public JARLauncher( String[] args ) throws IOException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         
         // Read properties 
-        Properties properties = readProperties( JAR_LAUNCHER_PROPERTIES_FILE_NAME );
+        Properties properties = readProperties( PROPERTIES_FILE_NAME );
 
         // Determine which sims are in this JAR
         SimulationInfo[] sims = getSimulations( properties, args );
@@ -427,16 +428,16 @@ public class JARLauncher implements IProguardKeepClass {
         if ( language != null ) {
             language = language.trim();
             if ( !language.equals( "" ) ) {
-                System.out.println( "JARLauncher: setting " + PhetResources.PROPERTY_JAVAWS_USER_LANGUAGE + "=" + language );
-                System.setProperty( PhetResources.PROPERTY_JAVAWS_USER_LANGUAGE, language );
+                System.out.println( "JARLauncher: setting " + PhetCommonConstants.PROPERTY_PHET_LANGUAGE + "=" + language );
+                System.setProperty( PhetCommonConstants.PROPERTY_PHET_LANGUAGE, language );
 
                 // country (optional), ignored if language is not specified
                 String country = properties.getProperty( COUNTRY_KEY );
                 if ( country != null ) {
                     country = country.trim();
                     if ( !country.equals( "" ) ) {
-                        System.out.println( "JARLauncher: setting " + PhetResources.PROPERTY_JAVAWS_USER_COUNTRY + "=" + country );
-                        System.setProperty( PhetResources.PROPERTY_JAVAWS_USER_COUNTRY, country );
+                        System.out.println( "JARLauncher: setting " + PhetCommonConstants.PROPERTY_PHET_COUNTRY + "=" + country );
+                        System.setProperty( PhetCommonConstants.PROPERTY_PHET_COUNTRY, country );
                     }
                 }
             }
