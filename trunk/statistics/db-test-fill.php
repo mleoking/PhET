@@ -183,7 +183,7 @@
 		$hostLocaleLanguage = $hostLocale[0];
 		$hostLocaleCountry = $hostLocale[1];
 		if($simType == "flash") {
-			$hostLocaleCountry = "none";
+			$hostLocaleCountry = "null";
 		}
 		
 		// sim sessions
