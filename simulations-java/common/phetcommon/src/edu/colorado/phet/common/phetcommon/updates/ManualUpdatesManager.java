@@ -1,15 +1,16 @@
 package edu.colorado.phet.common.phetcommon.updates;
 
 import java.awt.Frame;
-import java.io.IOException;
 
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.common.phetcommon.updates.dialogs.SimManualUpdateDialog;
-import edu.colorado.phet.common.phetcommon.updates.dialogs.SimNoUpdateDialog;
+import edu.colorado.phet.common.phetcommon.application.PhetInfoQuery;
+import edu.colorado.phet.common.phetcommon.application.PhetInfoQuery.PhetInfoQueryResult;
+import edu.colorado.phet.common.phetcommon.updates.dialogs.InstallerManualUpdateDialog;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateErrorDialog;
 
 /**
@@ -43,30 +44,50 @@ public class ManualUpdatesManager {
     }
 
     public void checkForSimUpdates() {
-        SimUpdateNotifier updateNotifier = new SimUpdateNotifier( simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getVersion() );
-        SimUpdateNotifier.UpdateListener listener = new SimUpdateNotifier.UpdateAdapter() {
-
-            public void updateAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {
-                JDialog dialog = new SimManualUpdateDialog( frame, simInfo, remoteVersion );
-                dialog.setVisible( true );
+        
+        final long currentPhetInstallationTimestamp = 0; //TODO get this from phet-installation.properties
+        final PhetInfoQuery query = new PhetInfoQuery( simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getVersion(), currentPhetInstallationTimestamp );
+        query.addListener( new PhetInfoQuery.Listener() {
+            public void queryDone( final PhetInfoQueryResult result ) {
+                SwingUtilities.invokeLater( new Runnable() {
+                    public void run() {
+                        if ( result.isInstallerUpdateRecommended() ) {
+                            new InstallerManualUpdateDialog( frame ).setVisible( true );
+                        }
+                    }
+                } );
             }
-
-            public void noUpdateAvailable( PhetVersion currentVersion ) {
-                JDialog dialog = new SimNoUpdateDialog( frame, currentVersion.formatForTitleBar(), simInfo.getName() );
-                dialog.setVisible( true );
-            }
-
-            public void exceptionInUpdateCheck( final IOException e ) {
+            
+            public void exception( Exception e ) {
                 JDialog dialog = new UpdateErrorDialog( frame, e );
                 dialog.setVisible( true );
             }
-        };
-        updateNotifier.addListener( listener );
-        updateNotifier.checkForUpdates();
-        updateNotifier.removeListener( listener );
+        });
+        query.start();
     }
     
     public void checkForInstallerUpdates() {
-        //TODO implement
+        final long currentPhetInstallationTimestamp = 0; //TODO get this from phet-installation.properties
+        final PhetInfoQuery query = new PhetInfoQuery( simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getVersion(), currentPhetInstallationTimestamp );
+        query.addListener( new PhetInfoQuery.Listener() {
+            public void queryDone( final PhetInfoQueryResult result ) {
+                SwingUtilities.invokeLater( new Runnable() {
+                    public void run() {
+                        if ( result.isInstallerUpdateRecommended() ) {
+                            new InstallerManualUpdateDialog( frame ).setVisible( true );
+                        }
+                        else {
+                            JOptionPane.showMessageDialog( frame, "No update for you." );//TODO make a real dialog
+                        }
+                    }
+                } );
+            }
+            
+            public void exception( Exception e ) {
+                JDialog dialog = new UpdateErrorDialog( frame, e );
+                dialog.setVisible( true );
+            }
+        });
+        query.start();
     }
 }

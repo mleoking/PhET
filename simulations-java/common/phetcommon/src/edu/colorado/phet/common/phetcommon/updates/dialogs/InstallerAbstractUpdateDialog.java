@@ -67,7 +67,7 @@ public abstract class InstallerAbstractUpdateDialog extends PaintImmediateDialog
     
     private JPanel createMessagePanel() {
         
-        Object[] args = { "Oct 3, 2008", "Feb 14, 2008" }; //TODO: get actual dates
+        Object[] args = { "Oct 3, 2008", "Feb 14, 2009" }; //TODO: get actual dates
         String s = MessageFormat.format( MESSAGE_PATTERN, args );
         JLabel messageLabel = new JLabel( s );
         
