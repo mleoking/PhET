@@ -1,7 +1,6 @@
 package edu.colorado.phet.common.phetcommon.updates.dialogs;
 
 import java.awt.Frame;
-import java.util.Locale;
 
 import javax.swing.JPanel;
 
