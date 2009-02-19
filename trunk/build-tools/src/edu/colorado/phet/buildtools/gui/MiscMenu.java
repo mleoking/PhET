@@ -89,6 +89,12 @@ public class MiscMenu extends JMenu {
                         buildScript.deployDev( new AuthenticationInfo( localProperties.getProperty( "deploy." + "dev" + ".username" ), localProperties.getProperty( "deploy." + "dev" + ".password" ) ) );
                     }
                 }
+                try {
+                    bufferedWriter.close();
+                }
+                catch( IOException e1 ) {
+                    e1.printStackTrace();
+                }
             }
         } );
         add( buildAndDeployAll );
