@@ -62,6 +62,7 @@ class DeleteSimPage extends SitePage {
             while ($row = mysql_fetch_assoc($sql_result)) {
                 $sim_name = $row['sim_name'];
 
+                // FIXME: $sim_name should be HTML formatted
                 print "<p><b>Are you sure you want to delete the simulation \"$sim_name\"?</b></p>";
 
                 print "<p><a href=delete-sim.php?sim_id=$sim_id&delete=1>Yes</a> | <a href=list-sims.php>NO</a></p>";

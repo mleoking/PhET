@@ -614,7 +614,7 @@ EOT;
 
         $this->render_title();
 
-        // FIXME: this should refactored, merely replacing with $this->meta_refresh_location may break things
+        // TODO: this should refactored, merely replacing with $this->meta_refresh_location may break things
         if (is_null($this->redirect_location)) {
             $this->render_content();
         }

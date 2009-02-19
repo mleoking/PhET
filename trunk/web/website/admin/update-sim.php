@@ -122,6 +122,7 @@ class UpdateSimulationPage extends SitePage {
             return $result;
         }
 
+        // FIXME: $this->sim_name needs to be HTML formatted
         $encoded_sim_name = web_encode_string($this->sim_name);
         print <<<EOT
             <h2>Update Successful</h2>

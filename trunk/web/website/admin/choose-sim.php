@@ -33,6 +33,7 @@ class ChooseSimPage extends SitePage {
 
 EOT;
 
+        // FIXME: use the db-utils.php rather than using mysql directly
         $select_simulations_st = "SELECT * FROM `simulation` ORDER BY `sim_name` ASC ";
         $simulation_table      = mysql_query($select_simulations_st, $connection);
 

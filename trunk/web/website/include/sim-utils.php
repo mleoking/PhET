@@ -284,12 +284,6 @@
         return $cats;
     }
 
-    function sim_get_sim_encoding_by_sim_id($sim_id) {
-        $sim = sim_get_sim_by_id($sim_id);
-
-        return web_encode_string($sim['sim_name']);
-    }
-
     function sim_get_sim_by_sim_encoding($sim_encoding) {
         $map = sim_get_name_to_sim_map();
 
@@ -316,6 +310,7 @@
             }
         }
 
+        // TODO: extract this into its own algorithm
         $best_dist = 9999999;
         $best_sim  = false;
 
@@ -354,18 +349,6 @@
         $sim_name = $sim['sim_name'];
 
         return sim_get_url_to_sim_page_by_sim_name($sim_name);
-    }
-
-    function sim_get_link_to_sim_page($sim_id, $desc = null) {
-        $url = sim_get_url_to_sim_page($sim_id);
-
-        if ($desc == null) {
-            $sim = sim_get_sim_by_id($sim_id);
-
-            $desc = $sim['sim_name'];
-        }
-
-        return "<a href=\"$url\">$desc</a>";
     }
 
     function sim_get_link_to_sim_page_by_name($sim_name) {
@@ -438,17 +421,6 @@
         $cat_encoding = web_encode_string($cat_name);
 
         return sim_get_category_link_by_cat_encoding($cat_encoding, $desc, $extra_param, $class);
-    }
-
-    function sim_get_sim_by_name($sim_name) {
-        $sim = db_get_row_by_id('simulation', 'sim_name', "$sim_name", false);
-
-        if ($sim === false) {
-            // Could not find sim by name; try html decoding name:
-            $sim = db_get_row_by_id('simulation', 'sim_name', html_entity_decode($sim_name), false);
-        }
-
-        return $sim;
     }
 
     function sim_get_sim_by_id($sim_id) {
@@ -629,6 +601,7 @@
                 }
             }
             else {
+                // FIXME: these strings should be formatted
                 print "Error trying to detect size: ".$simulation['sim_name'].", id = ".$simulation['sim_id'].", url = $sim_launch_url, encoding = $xml_encoding<br/>";
             }
         }
@@ -744,7 +717,7 @@
         return false;
     }
 
-    /** FIXME: docstring **/
+    /** TODO: docstring **/
     function sim_get_launch_url($simulation, $locale = DEFAULT_LOCALE, $test_existance = false) {
         if (!locale_valid($locale)) {
             return '';
@@ -776,7 +749,6 @@
         return $url;
     }
 
-    /** FIXME: docstring **/
     /**
      * Get the simulataion download link of the specified languagefile exists
      * 

@@ -11,7 +11,7 @@ require_once("teacher_ideas/referrer.php");
 
 class DeleteCommentPage extends SitePage {
 
-    // FIXME: this is duplicated in edit-comment.php, refactor
+    // TODO: refactor: this is duplicated in edit-comment.php
     function user_can_edit_comment($comment) {
         if ($this->user["contributor_is_team_member"]) {
             // PhET Team members can edit anything
