@@ -53,7 +53,7 @@ public class MiscMenu extends JMenu {
                 PhetProject[] projects = PhetProject.getAllProjects( trunk );
                 BufferedWriter bufferedWriter = null;
                 try {
-                    bufferedWriter = new BufferedWriter( new FileWriter( new File( trunk, "build-tools/report.txt" ) ) ){
+                    bufferedWriter = new BufferedWriter( new FileWriter( new File( trunk, "build-tools/deploy-report.txt" ) ) ){
                         public void write( String str ) throws IOException {
                             super.write( str );
                             flush();
