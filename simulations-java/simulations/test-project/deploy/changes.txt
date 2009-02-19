@@ -1,3 +1,5 @@
+# 0.25.16 (28700) Feb 18, 2009
+Testing deploy batch
 # 0.25.15 (28672) Feb 18, 2009
 check jnlp files after replacing literals with constants in Java code
 # 0.25.14 (28664) Feb 17, 2009
