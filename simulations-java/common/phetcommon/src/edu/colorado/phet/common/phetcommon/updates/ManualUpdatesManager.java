@@ -9,8 +9,8 @@ import javax.swing.JDialog;
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.common.phetcommon.updates.dialogs.ManualSimUpdateDialog;
-import edu.colorado.phet.common.phetcommon.updates.dialogs.NoSimUpdateDialog;
+import edu.colorado.phet.common.phetcommon.updates.dialogs.SimManualUpdateDialog;
+import edu.colorado.phet.common.phetcommon.updates.dialogs.SimNoUpdateDialog;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateErrorDialog;
 
 /**
@@ -23,21 +23,12 @@ public class ManualUpdatesManager {
     
     private static ManualUpdatesManager instance;
     
-    private String projectName;
-    private String sim;
-    private PhetVersion currentVersion;
-    private String humanReadableSimName;
-    private Locale locale;
+    private final ISimInfo simInfo;
     private Frame frame;
     
     private ManualUpdatesManager( PhetApplication app ) {
         this.frame = app.getPhetFrame();
-        ISimInfo simInfo = app.getSimInfo();
-        this.projectName = simInfo.getProjectName();
-        this.sim = simInfo.getFlavor();
-        this.currentVersion = simInfo.getVersion();
-        this.humanReadableSimName = simInfo.getName();
-        this.locale = simInfo.getLocale();
+        this.simInfo = app.getSimInfo();
     }
     
     public static ManualUpdatesManager initInstance( PhetApplication app ) {
@@ -53,16 +44,16 @@ public class ManualUpdatesManager {
     }
 
     public void checkForSimUpdates() {
-        UpdateNotifier updateNotifier = new UpdateNotifier( projectName, sim, currentVersion );
+        UpdateNotifier updateNotifier = new UpdateNotifier( simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getVersion() );
         UpdateNotifier.UpdateListener listener = new UpdateNotifier.UpdateAdapter() {
 
             public void updateAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {
-                JDialog dialog = new ManualSimUpdateDialog( frame, projectName, sim, humanReadableSimName, currentVersion, remoteVersion, locale);
+                JDialog dialog = new SimManualUpdateDialog( frame, simInfo, remoteVersion );
                 dialog.setVisible( true );
             }
 
             public void noUpdateAvailable( PhetVersion currentVersion ) {
-                JDialog dialog = new NoSimUpdateDialog( frame, currentVersion.formatForTitleBar(), humanReadableSimName );
+                JDialog dialog = new SimNoUpdateDialog( frame, currentVersion.formatForTitleBar(), simInfo.getName() );
                 dialog.setVisible( true );
             }
 

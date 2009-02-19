@@ -4,12 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.jar.JarFile;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
+import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.dialogs.DownloadProgressDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
@@ -50,27 +50,26 @@ public class SimUpdater {
      * The updater bootstrap and new sim JAR are downloaded.
      * Then the bootstrap handles replacing the running JAR with the new JAR.
      * 
-     * @param project
-     * @param sim
-     * @param languageCode
+     * @param simInfo
+     * @param newVersion
      */
-    public void updateSim( String project, String sim, Locale locale, String simName, PhetVersion newVersion ) {
+    public void updateSim( ISimInfo simInfo, PhetVersion newVersion ) {
         
         if ( !tmpDir.canWrite() ) {
             handleErrorWritePermissions( tmpDir );
         }
         else {
             try {
-                File simJAR = getSimJAR( sim );
+                File simJAR = getSimJAR( simInfo.getFlavor() );
                 if ( !simJAR.canWrite() ) {
                     handleErrorWritePermissions( simJAR );
                 }
                 else {
-                    String simJarURL = HTMLUtils.getSimJarURL( project, sim, "&", locale );
+                    String simJarURL = HTMLUtils.getSimJarURL( simInfo.getProjectName(), simInfo.getFlavor(), "&", simInfo.getLocale() );
                     println( "requesting update via URL=" + simJarURL );
                     File tempSimJAR = getTempSimJAR( simJAR );
                     File tempUpdaterJAR = getTempUpdaterJAR();
-                    boolean success = downloadFiles( UPDATER_ADDRESS, tempUpdaterJAR, simJarURL, tempSimJAR, simName, newVersion );
+                    boolean success = downloadFiles( UPDATER_ADDRESS, tempUpdaterJAR, simJarURL, tempSimJAR, simInfo.getName(), newVersion );
                     if ( success ) {
                         
                         // validate the downloaded JAR files
