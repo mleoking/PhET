@@ -1,3 +1,5 @@
+# 2.04.05 (28788) Feb 19, 2009
+Batch deploy for alpha Simulation Tests, svn 28773
 10-13-2008: disable some ancillary and test code that is using obsolete PhetApplication constructors
 10-13-2008: [811] use PhetApplicationConfig
 8-20-2007: energy-skate-park: converted to use IProguardKeep
