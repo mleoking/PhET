@@ -9,9 +9,9 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.border.EmptyBorder;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.HTMLEditorPane;
@@ -38,20 +38,15 @@ public class SoftwareAgreementDialog extends PaintImmediateDialog {
         
         setTitle( TITLE );
         setModal( true );
-        setResizable( false ); //TODO layout doesn't adjust properly when resized
+        setResizable( true );
         
         JComponent agreementPanel = createAgreementPanel();
         JComponent buttonPanel = createButtonPanel();
 
-        JPanel panel = new JPanel();
-
-        EasyGridBagLayout layout = new EasyGridBagLayout( panel );
-        layout.setInsets( new Insets( 5, 5, 5, 5 ) ); // top, left, bottom, right
-        panel.setLayout( layout );
-        int row = 0;
-        int column = 0;
-        layout.addComponent( agreementPanel, row++, column );
-        layout.addFilledComponent( buttonPanel, row++, column, GridBagConstraints.HORIZONTAL );
+        JPanel panel = new JPanel( new BorderLayout() );
+        panel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
+        panel.add( agreementPanel, BorderLayout.CENTER );
+        panel.add( buttonPanel, BorderLayout.SOUTH );
 
         setContentPane( panel );
         pack();
