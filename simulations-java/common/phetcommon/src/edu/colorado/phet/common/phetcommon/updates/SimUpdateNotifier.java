@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 
 /**
- * Notifies clients about updates.
+ * Notifies clients about sim updates.
  */
-public class UpdateNotifier {
+public class SimUpdateNotifier {
     
     private final String project;
     private String simulation;
@@ -16,7 +16,7 @@ public class UpdateNotifier {
     private final SimVersionChecker versionChecker = new SimVersionChecker();
     private final ArrayList listeners = new ArrayList();
 
-    public UpdateNotifier( String project, String simulation,PhetVersion currentVersion ) {
+    public SimUpdateNotifier( String project, String simulation,PhetVersion currentVersion ) {
         this.project = project;
         this.simulation = simulation;
         this.currentVersion = currentVersion;
