@@ -1,2 +1,4 @@
+# 1.01.02 (28776) Feb 19, 2009
+Batch deploy for alpha Simulation Tests, svn 28773
 # 1.01.01 (28486) Feb 13, 2009
 Renamed from ohm-1d to battery-resistor-circuit
