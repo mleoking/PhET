@@ -7,8 +7,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Date;
+import java.util.HashSet;
 
 import javax.swing.*;
 
@@ -16,6 +16,7 @@ import edu.colorado.phet.buildtools.AuthenticationInfo;
 import edu.colorado.phet.buildtools.BuildScript;
 import edu.colorado.phet.buildtools.LocalProperties;
 import edu.colorado.phet.buildtools.PhetProject;
+import edu.colorado.phet.buildtools.util.FileUtils;
 
 public class MiscMenu extends JMenu {
     public MiscMenu( final File trunk ) {
@@ -56,6 +57,8 @@ public class MiscMenu extends JMenu {
                 BufferedWriter bufferedWriter = null;
                 try {
                     File file = new File( trunk, "build-tools/deploy-report.txt" );
+                    boolean deleted=file.delete();
+                    System.out.println( "Delete "+file.getAbsolutePath()+" = "+deleted );
                     file.createNewFile();
                     bufferedWriter = new BufferedWriter( new FileWriter( file ) ) {
                         public void write( String str ) throws IOException {
@@ -64,7 +67,7 @@ public class MiscMenu extends JMenu {
                             System.out.println( str );
                         }
                     };
-                    bufferedWriter.write( "#Started batch deploy on "+new Date() );
+                    bufferedWriter.write( "#Started batch deploy on " + new Date() );
                 }
                 catch( IOException e1 ) {
                     e1.printStackTrace();
