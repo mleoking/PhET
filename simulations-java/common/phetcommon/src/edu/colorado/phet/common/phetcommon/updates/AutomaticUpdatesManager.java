@@ -36,7 +36,7 @@ public class AutomaticUpdatesManager {
     
     public static AutomaticUpdatesManager initInstance( PhetApplication app ) {
         if ( instance != null ) {
-            throw new RuntimeException( "UpdatesManager instance is already initialized" );
+            throw new RuntimeException( "instance is already initialized" );
         }
         instance = new AutomaticUpdatesManager( app );
         return instance;

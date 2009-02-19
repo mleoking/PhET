@@ -1,13 +1,5 @@
-/* Copyright 2003-2004, University of Colorado */
+/* Copyright 2003-2009, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author:samreid $
- * Revision : $Revision:14677 $
- * Date modified : $Date:2007-04-17 03:40:29 -0500 (Tue, 17 Apr 2007) $
- */
 package edu.colorado.phet.common.phetcommon.view;
 
 import java.awt.Container;
@@ -21,7 +13,6 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.updates.DefaultManualUpdateChecker;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.common.phetcommon.view.menu.PhetFileMenu;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -67,7 +58,7 @@ public class PhetFrame extends JFrame {
         } );
 
         JMenuBar menuBar = new JMenuBar();
-        this.helpMenu = new HelpMenu( application, new DefaultManualUpdateChecker( this, application.getSimInfo() ) );
+        this.helpMenu = new HelpMenu( application );
         defaultFileMenu = new PhetFileMenu( this, application.getSimInfo() );
         menuBar.add( defaultFileMenu );
         menuBar.add( helpMenu );
