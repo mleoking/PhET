@@ -18,8 +18,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.SessionCounter;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.statistics.SessionMessage;
-import edu.colorado.phet.common.phetcommon.updates.DefaultManualUpdateChecker;
-import edu.colorado.phet.common.phetcommon.updates.IManualUpdateChecker;
+import edu.colorado.phet.common.phetcommon.updates.ManualUpdatesManager;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
@@ -37,7 +36,7 @@ public class PreferencesDialog extends JDialog {
     private final UpdatesPreferencesPanel updatesPreferencesPanel;
     private final PrivacyPreferencesPanel privacyPreferencesPanel;
 
-    public PreferencesDialog( Frame owner, SessionMessage sessionMessage, IManualUpdateChecker updateChecker,
+    public PreferencesDialog( Frame owner, SessionMessage sessionMessage,
             PhetPreferences preferences, boolean showPrivacyUI, boolean showUpdatesUI, boolean isDev ) {
 
         super( owner, TITLE );
@@ -47,8 +46,8 @@ public class PreferencesDialog extends JDialog {
         JPanel userInputPanel = new JPanel();
         JTabbedPane jTabbedPane = new JTabbedPane();
         userInputPanel.add( jTabbedPane );
-        updatesPreferencesPanel = new UpdatesPreferencesPanel( updateChecker, preferences );
-        privacyPreferencesPanel = new PrivacyPreferencesPanel( sessionMessage, preferences, isDev );
+        updatesPreferencesPanel = new UpdatesPreferencesPanel( preferences );
+        privacyPreferencesPanel = new PrivacyPreferencesPanel( preferences, sessionMessage, isDev );
         if ( showUpdatesUI ) {
             jTabbedPane.addTab( UPDATES_TAB, updatesPreferencesPanel );
         }
@@ -103,7 +102,7 @@ public class PreferencesDialog extends JDialog {
         ISimInfo simInfo = new PhetApplicationConfig( args, "balloons" );
         SessionCounter.initInstance( "balloons", "balloons" );
         SessionMessage sessionMessage = SessionMessage.initInstance( simInfo );
-        PreferencesDialog preferencesDialog = new PreferencesDialog( null, sessionMessage, new DefaultManualUpdateChecker( null, simInfo ), PhetPreferences.getInstance(), true, true, true );
+        PreferencesDialog preferencesDialog = new PreferencesDialog( null, sessionMessage, PhetPreferences.getInstance(), true, true, true );
         preferencesDialog.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
                 System.exit( 0 );

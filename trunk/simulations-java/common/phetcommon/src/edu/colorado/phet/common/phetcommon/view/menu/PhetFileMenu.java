@@ -13,7 +13,6 @@ import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.preferences.PreferencesDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.statistics.SessionMessage;
-import edu.colorado.phet.common.phetcommon.updates.DefaultManualUpdateChecker;
 import edu.colorado.phet.common.phetcommon.view.PhetExit;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 
@@ -49,7 +48,6 @@ public class PhetFileMenu extends JMenu {
             public void actionPerformed( ActionEvent e ) {
                 new PreferencesDialog( phetFrame,
                                        SessionMessage.getInstance(),
-                                       new DefaultManualUpdateChecker( phetFrame, simInfo ),
                                        PhetPreferences.getInstance(),
                                        simInfo.isStatisticsFeatureIncluded(),
                                        simInfo.isUpdatesFeatureIncluded(),

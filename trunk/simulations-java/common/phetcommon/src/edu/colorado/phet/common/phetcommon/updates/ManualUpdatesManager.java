@@ -7,6 +7,7 @@ import java.util.Locale;
 import javax.swing.JDialog;
 
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.ManualSimUpdateDialog;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.NoSimUpdateDialog;
@@ -18,26 +19,37 @@ import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateErrorDialog;
  * If an update is found, an dialog is displayed that allows the user to perform the update.
  * If no update is found, a dialog notifies the user.
  */
-public class DefaultManualUpdateChecker implements IManualUpdateChecker {
+public class ManualUpdatesManager {
     
+    private static ManualUpdatesManager instance;
+    
+    private String projectName;
     private String sim;
     private PhetVersion currentVersion;
     private String humanReadableSimName;
     private Locale locale;
     private Frame frame;
-    private String projectName;
     
-    public DefaultManualUpdateChecker( Frame frame, ISimInfo simInfo ) {
-        this( frame, simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getVersion(), simInfo.getName(), simInfo.getLocale() );
+    private ManualUpdatesManager( PhetApplication app ) {
+        this.frame = app.getPhetFrame();
+        ISimInfo simInfo = app.getSimInfo();
+        this.projectName = simInfo.getProjectName();
+        this.sim = simInfo.getFlavor();
+        this.currentVersion = simInfo.getVersion();
+        this.humanReadableSimName = simInfo.getName();
+        this.locale = simInfo.getLocale();
     }
-
-    public DefaultManualUpdateChecker( Frame frame, String projectName, String sim, PhetVersion currentVersion, String humanReadableSimName, Locale locale ) {
-        this.frame = frame;
-        this.projectName = projectName;
-        this.sim = sim;
-        this.currentVersion = currentVersion;
-        this.humanReadableSimName = humanReadableSimName;
-        this.locale = locale;
+    
+    public static ManualUpdatesManager initInstance( PhetApplication app ) {
+        if ( instance != null ) {
+            throw new RuntimeException( "instance is already initialized" );
+        }
+        instance = new ManualUpdatesManager( app );
+        return instance;
+    }
+    
+    public static ManualUpdatesManager getInstance() {
+        return instance;
     }
 
     public void checkForSimUpdates() {

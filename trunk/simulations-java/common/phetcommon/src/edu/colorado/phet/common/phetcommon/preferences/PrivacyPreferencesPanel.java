@@ -30,7 +30,7 @@ public class PrivacyPreferencesPanel extends JPanel {
     private final JCheckBox statisticsEnabledCheckBox;
     private final JCheckBox alwaysShowSoftwareAgreementCheckBox;
 
-    public PrivacyPreferencesPanel( SessionMessage sessionMessage, PhetPreferences preferences, boolean isDev ) {
+    public PrivacyPreferencesPanel( PhetPreferences preferences, SessionMessage sessionMessage, boolean isDev ) {
         
         this.preferences = preferences;
         

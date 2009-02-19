@@ -12,7 +12,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.updates.IManualUpdateChecker;
+import edu.colorado.phet.common.phetcommon.updates.ManualUpdatesManager;
 import edu.colorado.phet.common.phetcommon.util.DeploymentScenario;
 
 /**
@@ -27,7 +27,7 @@ public class UpdatesPreferencesPanel extends JPanel {
     private final PhetPreferences preferences;
     private final JCheckBox updatesEnabledCheckBox;
     
-    public UpdatesPreferencesPanel( final IManualUpdateChecker updateChecker, PhetPreferences preferences ) {
+    public UpdatesPreferencesPanel( PhetPreferences preferences ) {
 
         this.preferences = preferences;
         
@@ -38,7 +38,7 @@ public class UpdatesPreferencesPanel extends JPanel {
         JButton checkForSimUpdateButton = new JButton( CHECK_FOR_SIM_UPDATES );
         checkForSimUpdateButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                updateChecker.checkForSimUpdates();
+                ManualUpdatesManager.getInstance().checkForSimUpdates();
             }
         } );
         
@@ -46,7 +46,7 @@ public class UpdatesPreferencesPanel extends JPanel {
         JButton checkForInstallerUpdateButton = new JButton( CHECK_FOR_INSTALLER_UPDATE );
         checkForInstallerUpdateButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                updateChecker.checkForInstallerUpdates();
+                ManualUpdatesManager.getInstance().checkForInstallerUpdates();
             }
         } );
         
