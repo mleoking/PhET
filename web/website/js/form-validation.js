@@ -255,35 +255,35 @@ function validate_and_setup_validation_triggers() {
                     validate_form_element(this, this.pattern);
 
                     return true;
-                }
+                };
 
                 // Validate on change (for autofill & such):
                 this.onchange = function() {
                     validate_form_element(this, this.pattern);
 
                     return true;
-                }
+                };
 
                 // Validate on blur (for Firefox autofill):
                 this.onblur = function() {
                     validate_form_element(this, this.pattern);
 
                     return true;
-                }
+                };
 
                 // Validate on click (for Firefox autofill):
                 this.onclick = function() {
                     validate_form_element(this, this.pattern);
 
                     return true;
-                }
+                };
 
                 // IE6 workaround (it doesn't fire onchange for autofill):
                 this.onpropertychange = function() {
                     validate_form_element(this, this.pattern);
 
                     return true;
-                }
+                };
             }
         }
     );
@@ -303,7 +303,7 @@ function setup_submit_form_validation() {
 
                     return insert_submit_stamp(this);
                     //orig: return validate_entire_form(this.form);
-                }
+                };
             }
         }
     );
