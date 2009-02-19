@@ -332,6 +332,16 @@
 					array_push($group_by, "host_java_os_version");
 					array_push($group_by, "host_java_os_arch");
 					break;
+				case "host_java_version_full":
+					$java_info = true;
+					$pre_select .= "CONCAT(session_java_info.host_java_version_major, '.', session_java_info.host_java_version_minor, '.', session_java_info.host_java_version_maintenance) as host_java_version_full, ";
+					array_push($group_by, "host_java_version_full");
+					break;
+				case "host_java_version_major_minor":
+					$java_info = true;
+					$pre_select .= "CONCAT(session_java_info.host_java_version_major, '.', session_java_info.host_java_version_minor) as host_java_version_major_minor, ";
+					array_push($group_by, "host_java_version_major_minor");
+					break;
 				case "host_java_vendor":
 					$java_info = true;
 					$pre_select .= "java_vendor.name as host_java_vendor, ";

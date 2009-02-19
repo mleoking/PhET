@@ -92,7 +92,7 @@ function setupSimCounts() {
 	
 	str += "<div class='constraint'><span class='field'>Group by: </span><select name='group' id='group' onchange='javascript:build_order()'>";
 	str += "<option value='none'>none</option>";
-	str += "<optgroup label='All'>";
+	str += "<optgroup label='All sims'>";
 		str += "<option value='day'>Day</option>";
 		str += "<option value='week'>Week</option>";
 		str += "<option value='month'>Month</option>";
@@ -107,12 +107,14 @@ function setupSimCounts() {
 		str += "<option value='sim_deployment'>Deployment</option>";
 		str += "<option value='sim_distribution_tag'>Distribution Tag</option>";
 	str += "</optgroup>";
-	str += "<optgroup label='Java'>";
+	str += "<optgroup label='Java sims only'>";
+		str += "<option value='host_java_version_full'>Java Version (full)</option>";
+		str += "<option value='host_java_version_major_minor'>Java Version (major.minor)</option>";
 		str += "<option value='host_java_os'>Java OS (full)</option>";
 		str += "<option value='host_java_os_name'>Java OS (name)</option>";
 		str += "<option value='host_java_timezone'>Java Timezone</option>";
 	str += "</optgroup>";
-	str += "<optgroup label='Flash'>";
+	str += "<optgroup label='Flash sims only'>";
 		str += "<option value='host_flash_domain'>Flash Domain</option>";
 		str += "<option value='host_flash_os'>Flash OS</option>";
 		str += "<option value='host_flash_version_major'>Flash Player Version (major)</option>";
@@ -304,8 +306,9 @@ function show_table() {
 	}
 	
 	
-	fid("debug").innerHTML = query_string();
-	loadHTML("query-demo.php?" + query_string());
+	//fid("debug").innerHTML = query_string();
+	//loadHTML("query-demo.php?" + query_string());
+	loadHTML("query-table.php?" + query_string());
 }
 
 function show_csv() {
