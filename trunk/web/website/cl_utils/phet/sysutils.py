@@ -1,8 +1,11 @@
 #!/usr/bin/python
 
 import os
+import os.path as path
 import re
 import shutil
+
+from properties import Properties
 
 def run(command, verbose=False):
     """Generic command runner supporting Python2.3 (like on tigercat)
@@ -72,3 +75,33 @@ def super_move(src, dest, verbose=False):
 
         # Try again
         shutil.move(src, dest)
+
+def update_jar_properties_file(jar_file, updates, jar_cmd):
+    """Extracts the properties from jar_file (if it exists), adds or
+    modifies the properties, then updates jar_file with the updates.
+    Parameter 'updates' should be a dictionary:
+        {'filename.properties' : {'key' : 'value1', etc}
+
+    Note: all this happens in the current directory"""
+
+    # Extract the file
+    command = '%s xf %s %s' % (jar_cmd, jar_file, ' '.join(updates.keys()))
+    run(command.split(' '))
+
+    # Update the properties
+    for file, properties in updates.items():
+        p = Properties()
+        if path.exists(file):
+            p.load(open(file, 'r'))
+        for key, value in properties.items():
+            p.setProperty(key, value)
+        p.store(open(file, 'w'))
+
+    # Update the JAR
+    command = '%s uf %s -C . %s' % (jar_cmd, jar_file, ' '.join(updates.keys()))
+    run(command.split(' '))
+
+    # Get rid of the evidence
+    for text_file in updates.keys():
+        os.remove(text_file)
+
