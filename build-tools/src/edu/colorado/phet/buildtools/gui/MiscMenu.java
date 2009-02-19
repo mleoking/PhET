@@ -80,6 +80,7 @@ public class MiscMenu extends JMenu {
                                     for ( int k = 0; k < project.getSimulationNames().length; k++ ) {
                                         bufferedWriter1.write( "\t" + project.getSimulation( project.getSimulationNames()[k] ).getTitle() + "\n" );
                                     }
+                                    bufferedWriter1.write( "\n" );
                                 }
                                 catch( IOException e1 ) {
                                     e1.printStackTrace();
