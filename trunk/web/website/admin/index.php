@@ -39,6 +39,11 @@ class AdminControlPanelPage extends SitePage {
                 <li><a href="view-gold-star-nominations.php">View Gold Star Nominations</a></li>
             </ul>
 
+            <h3>Update / Tracking</h3>
+            <ul>
+                <li><a href="update-settings.php">Settings for Updates</a></li>
+            </ul>
+
             <h3>Database</h3>
             <ul>
                 <li><a href="db-check-integrity.php">Check database integrity (processor intensive, only use if you need it)</a></li>

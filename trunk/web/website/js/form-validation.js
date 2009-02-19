@@ -148,7 +148,8 @@ function validate_entire_form(specified_form) {
     );
 
     if (num_invalid_fields > 0) {
-        alert("Please fill in all required information before proceeding.");
+        alert("Please fill in all required information and correct\n" +
+	      "all errors (marked in red) before proceeding.");
 
         return false;
     }
@@ -170,6 +171,8 @@ function setup_input_validation_patterns() {
     organization_pattern = /^\S{1,}.*$/;
     password_pattern = /\S+/;
     keywords_pattern = /\S{3,}.*/;
+    int_pattern = /^[0-9]+$/;
+    date_pattern = /^[0-9]{4}-[0-1]?[0-9]-[0-3]?[0-9]$/;
 
     // Go through all the document forms
     for (var i = 0; i < document.forms.length; ++i) {
@@ -214,6 +217,18 @@ function setup_input_validation_patterns() {
                     case "contribution_keywords":
                         ++hits;
                         element.pattern = keywords_pattern;
+                        break;
+			
+                    case "sim_ask_later_duration":
+                    case "install_ask_later_duration":
+                    case "install_recommend_update_age":
+                        ++hits;
+                        element.pattern = int_pattern;
+                        break;
+
+                    case "install_recommend_update_date":
+                        ++hits;
+                        element.pattern = date_pattern;
                         break;
 
                     default:

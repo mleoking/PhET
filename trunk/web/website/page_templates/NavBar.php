@@ -278,6 +278,7 @@ EOT;
                     'admin/manage-contributors.php'             => 'Manage Contributors',
                     'admin/manage-comments.php'                 => 'Manage Comments',
                     'admin/view-gold-star-nominations.php'      => 'View Gold Star Nominations',
+                    'admin/update-settings.php'                 => 'Settings for Updates',
                     'admin/manage-db.php'                       => 'Manage Database',
                     'admin/cache-clear.php?cache=sims'          => 'Clear the simulation cache',
                     'admin/cache-clear.php?cache=teacher_ideas' => 'Clear the activities cache',
