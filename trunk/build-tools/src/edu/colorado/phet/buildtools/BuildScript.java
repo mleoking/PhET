@@ -86,7 +86,10 @@ public class BuildScript {
                         AuthenticationInfo authenticationInfo, VersionIncrement versionIncrement, Task postDeployTask ) {
         clean();
 
-        if ( !skipSVNStatus && !isSVNInSync() ) {
+        if (skipSVNStatus){
+            System.out.println( "Skipping SVN status" );
+        }
+        else if (!isSVNInSync() ) {
             notifyError( project, "SVN is out of sync; halting" );
 
             return;
