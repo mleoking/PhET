@@ -192,7 +192,15 @@ public class SoftwareAgreementManager {
     }
 
     public static void main( String[] args ) {
-        new AcceptanceDialog( null, SessionMessage.getInstance() ).setVisible( true );
-        System.out.println( "continuing" );
+        JDialog dialog = new AcceptanceDialog( null, SessionMessage.getInstance() );
+        dialog.addWindowListener( new WindowAdapter() {
+            public void windowClosing( WindowEvent e ) {
+                System.exit( 0 );
+            }
+            public void windowClosed( WindowEvent e ) {
+                System.exit( 0 );
+            }
+        } );
+        dialog.setVisible( true );
     }
 }
