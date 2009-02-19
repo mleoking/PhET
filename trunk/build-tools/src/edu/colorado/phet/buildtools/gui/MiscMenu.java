@@ -62,12 +62,12 @@ public class MiscMenu extends JMenu {
                     file.createNewFile();
                     bufferedWriter = new BufferedWriter( new FileWriter( file ) ) {
                         public void write( String str ) throws IOException {
-                            super.write( str );
+                            super.write( str +"\n");
                             flush();
                             System.out.println( str );
                         }
                     };
-                    bufferedWriter.write( "#Started batch deploy on " + new Date() );
+                    bufferedWriter.write( "#Started batch deploy on " + new Date()+"\n" );
                 }
                 catch( IOException e1 ) {
                     e1.printStackTrace();
@@ -82,11 +82,11 @@ public class MiscMenu extends JMenu {
                             public void deployFinished( BuildScript buildScript, PhetProject project, String codebase ) {
 //                                System.out.println( ">>>Deploy finished, project=" + project.getName() + ", codebase=" + codebase );
                                 try {
-                                    bufferedWriter1.write( project.getName() + ": " + codebase + "\n" );
+                                    bufferedWriter1.write( project.getName() + ": " + codebase  );
                                     for ( int k = 0; k < project.getSimulationNames().length; k++ ) {
-                                        bufferedWriter1.write( "\t" + project.getSimulation( project.getSimulationNames()[k] ).getTitle() + "\n" );
+                                        bufferedWriter1.write( "\t" + project.getSimulation( project.getSimulationNames()[k] ).getTitle() );
                                     }
-                                    bufferedWriter1.write( "\n" );
+                                    bufferedWriter1.write( "" );
                                 }
                                 catch( IOException e1 ) {
                                     e1.printStackTrace();
@@ -95,7 +95,7 @@ public class MiscMenu extends JMenu {
 
                             public void deployErrorOccurred( BuildScript buildScript, PhetProject project, String error ) {
                                 try {
-                                    bufferedWriter1.write( "ERROR: "+project.getName()+", errror="+error +"\n\n");
+                                    bufferedWriter1.write( "ERROR: "+project.getName()+", errror="+error +"\n");
                                 }
                                 catch( IOException e1 ) {
                                     e1.printStackTrace();
