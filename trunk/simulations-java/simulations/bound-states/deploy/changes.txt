@@ -1,3 +1,5 @@
+# 1.04.02 (28778) Feb 19, 2009
+Batch deploy for alpha Simulation Tests, svn 28773
 # 1.04.01 (26387)
 11/20/08 - #988, dialogs should remember where they were last positioned
 11/20/08 - #988, dialogs not centered in parent when opened for the first time
