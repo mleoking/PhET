@@ -40,7 +40,7 @@ public class PhetInfoQuery {
         }
         
         public boolean isInstallerUpdateRecommended() {
-            return true;
+            return false; //TODO fix this
         }
 
         public long getInstallerTimestamp() {
