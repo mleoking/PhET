@@ -5,57 +5,60 @@ import java.awt.Frame;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.common.phetcommon.statistics.SessionMessage;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.AutomaticSimUpdateDialog;
 
 /**
  * Handles automatic checking for updates when the simulation starts. 
  */
-public class UpdatesManager {
+public class AutomaticUpdatesManager {
 
     /* singleton */
-    private static UpdatesManager instance;
+    private static AutomaticUpdatesManager instance;
     
     private final ISimInfo simInfo;
+    private final Frame parentFrame;
     private final IVersionSkipper simVersionSkipper;
     private final IAskMeLaterStrategy simAskMeLaterStrategy;
     private final IAskMeLaterStrategy installerAskMeLaterStrategy;
-    private boolean applicationStartedCalled;
+    private boolean started;
     
     /* singleton */
-    private UpdatesManager( ISimInfo simInfo ) {
-        this.simInfo = simInfo;
+    private AutomaticUpdatesManager( PhetApplication app ) {
+        simInfo = app.getSimInfo();
+        parentFrame = app.getPhetFrame();
         simVersionSkipper = new SimVersionSkipper( simInfo.getProjectName(), simInfo.getFlavor() );
         simAskMeLaterStrategy = new SimAskMeLaterStrategy( simInfo.getProjectName(), simInfo.getFlavor() );
         installerAskMeLaterStrategy = new InstallerAskMeLaterStrategy();
-        applicationStartedCalled = false;
+        started = false;
     }
     
-    public static UpdatesManager initInstance( ISimInfo simInfo ) {
+    public static AutomaticUpdatesManager initInstance( PhetApplication app ) {
         if ( instance != null ) {
             throw new RuntimeException( "UpdatesManager instance is already initialized" );
         }
-        instance = new UpdatesManager( simInfo );
+        instance = new AutomaticUpdatesManager( app );
         return instance;
     }
     
-    public static UpdatesManager getInstance() {
+    public static AutomaticUpdatesManager getInstance() {
         return instance;
     }
 
-    public void applicationStarted( Frame frame, SessionMessage sessionMessage ) {
+    public void start() {
         // this method should only be called once
-        if ( applicationStartedCalled ) {
-            throw new IllegalStateException( "attempted to call applicationStarted more than once" );
+        if ( started ) {
+            throw new IllegalStateException( "attempted to call start more than once" );
         }
-        applicationStartedCalled = true;
+        started = true;
         if ( simInfo.isUpdatesEnabled() && simAskMeLaterStrategy.isDurationExceeded() ) {
-            autoCheckForUpdates( frame, sessionMessage );
+            runUpdateCheckThread();
         }
     }
 
-    private void autoCheckForUpdates( final Frame frame,  final SessionMessage sessionMessage ) {
+    private void runUpdateCheckThread() {
+        
         final UpdateNotifier updateNotifier = new UpdateNotifier( simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getVersion() );
         updateNotifier.addListener( new UpdateNotifier.UpdateAdapter() {
 
@@ -64,7 +67,7 @@ public class UpdatesManager {
                     //show UI in swing thread after new thread has found a new version
                     SwingUtilities.invokeLater( new Runnable() {
                         public void run() {
-                            new AutomaticSimUpdateDialog( frame, simInfo, remoteVersion, simAskMeLaterStrategy, simVersionSkipper ).setVisible( true );
+                            new AutomaticSimUpdateDialog( parentFrame, simInfo, remoteVersion, simAskMeLaterStrategy, simVersionSkipper ).setVisible( true );
                         }
                     } );
                 }

@@ -7,7 +7,7 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.statistics.SessionMessage;
 import edu.colorado.phet.common.phetcommon.statistics.StatisticsManager;
-import edu.colorado.phet.common.phetcommon.updates.UpdatesManager;
+import edu.colorado.phet.common.phetcommon.updates.AutomaticUpdatesManager;
 
 /**
  * This launcher solves the following problems:
@@ -112,7 +112,7 @@ public class PhetApplicationLauncher {
                         StatisticsManager.initInstance( config ).applicationStarted( app.getPhetFrame() );
                         
                         // updates
-                        UpdatesManager.initInstance( config ).applicationStarted( app.getPhetFrame(), SessionMessage.getInstance() );
+                        AutomaticUpdatesManager.initInstance( app ).start();
                     }
                     else {
                         new RuntimeException( "No applicationconstructor specified" ).printStackTrace();
