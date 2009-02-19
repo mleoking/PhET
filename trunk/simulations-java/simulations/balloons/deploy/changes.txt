@@ -1,3 +1,5 @@
+# 1.07.07 (28775) Feb 19, 2009
+Batch deploy for alpha Simulation Tests, svn 28773
 # 1.07.06 (28014) Feb 03 2009
 test sending of sim_version_timestamp
 # 1.07.05 (27754) 01-28-2009
