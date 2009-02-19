@@ -32,7 +32,7 @@ class CheckContributionItegrityPage extends SitePage {
         $result = array();
         $any_invalid = false;
 
-        // FIXME: debugging
+        // TODO: debugging measure, either remove or make more clear
         $dodo = false;
         if ($row["contribution_id"] == 445) {
             $dodo = true;

@@ -1680,7 +1680,7 @@ EOT;
 
         $table_name = $matches[1];
 
-        // FIXME: no escaping of $text, or $table_name
+        // TODO: no escaping of $text, or $table_name
         $result = db_exec_query("SELECT * FROM `$table_name` WHERE `${table_name}_desc`='$text' AND `contribution_id`='$contribution_id' ");
 
         if ($first_row = mysql_fetch_assoc($result)) {
@@ -1793,7 +1793,7 @@ EOT;
     }
 
     /**
-     * Automatically inserts a row to associate the sim_id with the contribution.  FIXME: if this creates duplicates
+     * Automatically inserts a row to associate the sim_id with the contribution.
      *
      * @param int $contribution_id id of the contribution
      * @param int $sim_id id of the simulation
@@ -2399,7 +2399,7 @@ EOT;
     /**
      * Determines if the given email address is a contributor in the database
      *
-     * @param string $username FIXME: this is an email address of the contributor to find
+     * @param string $username this is an email address of the contributor to find
      * @return bool true if found, false otherwise
      */
     function contributor_is_contributor($username) {
@@ -2465,7 +2465,7 @@ EOT;
     /**
      * Returns true if the email address is a team member
      *
-     * @param string $username FIXME: this is an email address of the contributor to find
+     * @param string $username this is an email address of the contributor to find
      * @return bool true if email is a team member, false otherwise
      */
     function contributor_is_admin_username($username) {
@@ -2483,7 +2483,7 @@ EOT;
     /**
      * For the given email address, return the id of the contributor
      *
-     * @param string $username FIXME: this is an email address of the contributor to find
+     * @param string $username this is an email address of the contributor to find
      * @return id if email found in database, else false
      */
     function contributor_get_id_from_contributor_username($username) {
@@ -2518,7 +2518,7 @@ EOT;
     /**
      * Return the id of the contributor who matches the given email and password
      *
-     * @param string $username FIXME: this is an email address of the contributor to find
+     * @param string $username this is an email address of the contributor to find
      * @param string $password password associated with the email (will convert to lower case)
      * @return id if match, false otherwise
      */
@@ -2538,7 +2538,7 @@ EOT;
     /**
      * Return the id of the contributor who matches the given email and password. 
      *
-     * @param string $username FIXME: this is an email address of the contributor to find
+     * @param string $username this is an email address of the contributor to find
      * @param string $password password associated with the email (will convert to lower case)
      * @return id if match, false otherwise
      */
@@ -2558,7 +2558,7 @@ EOT;
     /**
      * Determines if the name and password are associated in the database
      *
-     * @param string $username FIXME: this is an email address of the contributor to find
+     * @param string $username this is an email address of the contributor to find
      * @param string $password_hash password to match the email address
      * @return bool true if a match is found, false otherwise
      */
@@ -2569,7 +2569,7 @@ EOT;
     /**
      * Determine if the email address and password are for an administrator.
      *
-     * @param string $username FIXME: this is an email address of the contributor to find
+     * @param string $username this is an email address of the contributor to find
      * @param string $password_hash password to match the email address
      * @return bool true if they match and are an administrator, false otherwise
      */
@@ -2673,9 +2673,10 @@ EOT;
     }
 
     /**
+     * TODO: Remove this function, it is not used anywhere
      * Finds contributor data give the email address
      *
-     * @param string $contributor_username email address of the contributor  FIXME: security risk: partial matches on email address
+     * @param string $contributor_username email address of the contributor
      * @return false if not found, contributor info otherwise
      */
     function contributor_get_contributor_by_username_fuzzy($contributor_username) {

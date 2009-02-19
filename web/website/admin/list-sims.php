@@ -1,4 +1,4 @@
-<?
+<?php
 
 // In each web accessable script SITE_ROOT must be defined FIRST
 if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
@@ -32,6 +32,7 @@ class SimulationListingPage extends SitePage {
             print "</td></tr>";
 
             foreach($simulation as $key => $value) {
+                // FIXME: change this to == and a continue
                 if ($key != 'sim_name') {
                     $formatted_key = format_string_for_html($key);
                     $formatted_value = format_string_for_html($value);
