@@ -8,6 +8,9 @@ import java.util.HashSet;
 
 import javax.swing.*;
 
+import edu.colorado.phet.buildtools.AuthenticationInfo;
+import edu.colorado.phet.buildtools.BuildScript;
+import edu.colorado.phet.buildtools.LocalProperties;
 import edu.colorado.phet.buildtools.PhetProject;
 
 public class MiscMenu extends JMenu {
@@ -40,18 +43,24 @@ public class MiscMenu extends JMenu {
         } );
         add( showAllLicenseKeys );
 
-        //we probably shouldn't use this, since it will modify all version numbers
-//        JMenuItem buildAndDeployAll = new JMenuItem( "Build and Deploy all-dev" );
-//        buildAndDeployAll.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                LocalProperties localProperties = new LocalProperties( new File( trunk, "build-tools/build-local.properties" ) );
-//                PhetProject[] projects = PhetProject.getAllProjects( trunk );
-//                for ( int i = 0; i < projects.length; i++ ) {
-//                    BuildScript buildScript = new BuildScript( trunk, projects[i], new AuthenticationInfo( localProperties.getProperty( "svn.username" ), localProperties.getProperty( "svn.password" ) ), localProperties.getProperty( "browser" ) );
-//                    buildScript.deployDev( new AuthenticationInfo( localProperties.getProperty( "deploy." + "dev" + ".username" ), localProperties.getProperty( "deploy." + "dev" + ".password" ) ) );
-//                }
-//            }
-//        } );
-//        add( buildAndDeployAll );
+        JMenuItem buildAndDeployAll = new JMenuItem( "Build and Deploy all-dev" );
+        buildAndDeployAll.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                LocalProperties localProperties = new LocalProperties( new File( trunk, "build-tools/build-local.properties" ) );
+                PhetProject[] projects = PhetProject.getAllProjects( trunk );
+                for ( int i = 0; i < projects.length; i++ ) {
+                    if ( projects[i].getName().startsWith( "test" ) ) {
+                        BuildScript buildScript = new BuildScript( trunk, projects[i], new AuthenticationInfo( localProperties.getProperty( "svn.username" ), localProperties.getProperty( "svn.password" ) ), localProperties.getProperty( "browser" ) );
+                        buildScript.addListener( new BuildScript.Listener() {
+                            public void deployFinished( BuildScript buildScript, PhetProject project, String codebase ) {
+                                System.out.println( ">>>Deploy finished, project=" + project.getName() + ", codebase=" + codebase );
+                            }
+                        } );
+                        buildScript.deployDev( new AuthenticationInfo( localProperties.getProperty( "deploy." + "dev" + ".username" ), localProperties.getProperty( "deploy." + "dev" + ".password" ) ) );
+                    }
+                }
+            }
+        } );
+        add( buildAndDeployAll );
     }
 }

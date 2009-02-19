@@ -5,12 +5,14 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.StringTokenizer;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
 import org.rev6.scf.SshCommand;
 import org.rev6.scf.SshConnection;
 import org.rev6.scf.SshException;
+import org.apache.tools.ant.types.CommandlineJava;
 
 import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
 import edu.colorado.phet.buildtools.translate.ScpTo;
@@ -29,6 +31,15 @@ public class BuildScript {
     private static final boolean skipBuild = false;
     private static boolean skipSVNStatus = false;
     private static boolean skipSVNCommit = false;
+    private ArrayList listeners=new ArrayList( );
+
+    public void addListener( Listener listener ) {
+        listeners.add(listener);
+    }
+
+    public static interface Listener{
+        void deployFinished( BuildScript buildScript, PhetProject project, String codebase );
+    }
 
     public BuildScript( File trunk, PhetProject project, AuthenticationInfo svnAuth, String browser ) {
         this.trunk = trunk;
@@ -132,6 +143,11 @@ public class BuildScript {
         System.out.println( "Finished deploy to: " + server.getHost() );
 
         server.deployFinished();
+
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
+            listener.deployFinished(this,project,server.getCodebase( project ));
+        }
     }
 
     private void addMessagesToChangeFile( int svn ) {
