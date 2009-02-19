@@ -210,4 +210,7 @@ public abstract class JavaProject extends PhetProject {
         System.out.println( "Finished Building JNLP" );
     }
 
+    public String getLaunchFileSuffix() {
+        return "jnlp";
+    }
 }

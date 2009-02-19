@@ -827,6 +827,9 @@ public abstract class PhetProject {
      */
     public abstract String getProdServerDeployPath();
 
+    /*JNLP for web start, HTML for Flash*/
+    public abstract String getLaunchFileSuffix();
+
     public static interface Listener {
         public void changesTextChanged();
     }

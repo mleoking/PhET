@@ -366,7 +366,7 @@ public class BuildScript {
         //<li><a href="@jnlp-filename@">Launch @sim-name@</a></li>
         String s = "";
         for ( int i = 0; i < project.getSimulationNames().length; i++ ) {
-            String jnlpFilename = project.getSimulationNames()[i] + "_en.jnlp";
+            String jnlpFilename = project.getSimulationNames()[i] + "_en."+project.getLaunchFileSuffix();
             String simname = project.getSimulations()[i].getTitle();
             s += "<li><a href=\"" + jnlpFilename + "\">Launch " + simname + "</a></li>";
             if ( i < project.getSimulationNames().length - 1 ) {
