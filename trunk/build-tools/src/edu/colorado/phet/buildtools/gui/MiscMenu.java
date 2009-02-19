@@ -74,6 +74,7 @@ public class MiscMenu extends JMenu {
                 }
                 for ( int i = 0; i < projects.length; i++ ) {
                     if ( projects[i].getName().startsWith( "test" ) ) {
+//                    if ( true ) {
                         BuildScript buildScript = new BuildScript( trunk, projects[i], new AuthenticationInfo( localProperties.getProperty( "svn.username" ), localProperties.getProperty( "svn.password" ) ), localProperties.getProperty( "browser" ) );
                         buildScript.setBatchMessage( message );
                         final BufferedWriter bufferedWriter1 = bufferedWriter;
@@ -94,7 +95,7 @@ public class MiscMenu extends JMenu {
 
                             public void deployErrorOccurred( BuildScript buildScript, PhetProject project, String error ) {
                                 try {
-                                    bufferedWriter1.write( "ERROR: "+project.getName()+", errror="+error );
+                                    bufferedWriter1.write( "ERROR: "+project.getName()+", errror="+error +"\n\n");
                                 }
                                 catch( IOException e1 ) {
                                     e1.printStackTrace();
