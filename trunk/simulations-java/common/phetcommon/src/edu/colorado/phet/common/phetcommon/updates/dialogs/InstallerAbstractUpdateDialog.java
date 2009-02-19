@@ -6,8 +6,6 @@ import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.text.MessageFormat;
 
 import javax.swing.*;
@@ -15,33 +13,39 @@ import javax.swing.border.EmptyBorder;
 
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.updates.IAskMeLaterStrategy;
-import edu.colorado.phet.common.phetcommon.updates.InstallerAskMeLaterStrategy;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
- * Notifies the user about a recommended update to the PhET Installer.
+ * Base class for installer update dialogs.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class AutomaticInstallerUpdateDialog extends PaintImmediateDialog {
+public abstract class InstallerAbstractUpdateDialog extends PaintImmediateDialog {
+    
+    private static final String INSTALLER_URL = "http://phet.colorado.edu/get_phet/full_install.php";
     
     private static final String TITLE = PhetCommonResources.getString( "Common.updates.updateAvailable" );
+    private static final String UPDATE_BUTTON = PhetCommonResources.getString( "Common.updates.installer.yes" );
     private static final String ASK_ME_LATER_BUTTON = PhetCommonResources.getString( "Common.updates.askMeLater" );
     private static final String MORE_BUTTON = PhetCommonResources.getString( "Common.updates.installer.more" );
+    private static final String NO_BUTTON = PhetCommonResources.getString( "Common.choice.no" );
     private static final String MESSAGE_PATTERN = PhetCommonResources.getString( "Common.updates.installer.message" );
     private static final String MORE_MESSAGE = PhetCommonResources.getString( "Common.updates.installer.moreMessage" );
     
-    private final IAskMeLaterStrategy askMeLaterStrategy;
-    
-    public AutomaticInstallerUpdateDialog( Frame owner, IAskMeLaterStrategy askMeLaterStrategy ) {
+    public InstallerAbstractUpdateDialog( Frame owner ) {
         super( owner, TITLE );
         setModal( true );
         setResizable( false );
-        
-        this.askMeLaterStrategy = askMeLaterStrategy;
-        
+    }
+    
+    /*
+     * Subclass must call this at the end of their constructor,
+     * so that the GUI is initialized *after* member data is initialized. 
+     */
+    protected void initGUI() {
         // subpanels
         JPanel messagePanel = createMessagePanel();
         JPanel buttonPanel = createButtonPanel();
@@ -73,65 +77,51 @@ public class AutomaticInstallerUpdateDialog extends PaintImmediateDialog {
         return panel;
     }
     
-    private JPanel createButtonPanel() {
-        
-        // Yes! button
-        JButton updateButton = new InstallerUpdateButton();
-        updateButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                // InstallerUpdateButton handles opening the web browser
-                dispose();
-            }
-        });
-        
-        // Ask Me Later button
-        JButton askMeLater = new JButton( ASK_ME_LATER_BUTTON );
-        askMeLater.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                handleAskMeLater();
-                dispose();
-            }
-        } );
-        
-        // More button
-        JButton moreButton = new JButton( MORE_BUTTON );
-        moreButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                handleMoreButton();
-            }
-        } );
-        
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.add( updateButton );
-        buttonPanel.add( askMeLater );
-        buttonPanel.add( moreButton );
-        
-        return buttonPanel;
+    protected abstract JPanel createButtonPanel();
+    
+    protected static class UpdateButton extends JButton {
+        public UpdateButton( final JDialog dialog ) {
+            super( UPDATE_BUTTON );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    PhetServiceManager.showWebPage( INSTALLER_URL );
+                    dialog.dispose();
+                }
+            } );
+        }
     }
     
-    private void handleAskMeLater() {
-        askMeLaterStrategy.setStartTime( System.currentTimeMillis() );
+    protected static class AskMeLaterButton extends JButton {
+        public AskMeLaterButton( final JDialog dialog, final IAskMeLaterStrategy askMeLaterStrategy ) {
+            super( ASK_ME_LATER_BUTTON );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    askMeLaterStrategy.setStartTime( System.currentTimeMillis() );
+                    dialog.dispose();
+                }
+            } );
+        }
     }
     
-    private void handleMoreButton() {
-        JOptionPane.showMessageDialog( this, MORE_MESSAGE , TITLE, JOptionPane.PLAIN_MESSAGE );
+    protected static class NoButton extends JButton {
+        public NoButton( final JDialog dialog ) {
+            super( NO_BUTTON );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    dialog.dispose();
+                }
+            } );
+        }
     }
     
-    /*
-     * Test, this edits the real preferences file!
-     */
-     public static void main( String[] args ) {
-         AutomaticInstallerUpdateDialog dialog = new AutomaticInstallerUpdateDialog( null, new InstallerAskMeLaterStrategy() );
-         dialog.addWindowListener( new WindowAdapter() {
-             public void windowClosing( WindowEvent e ) {
-                 System.exit( 0 );
-             }
-             public void windowClosed( WindowEvent e ) {
-                 System.exit( 0 );
-             }
-         } );
-         SwingUtils.centerWindowOnScreen( dialog );
-         dialog.setVisible( true );
-     }
-
+    protected static class MoreButton extends JButton {
+        public MoreButton( final JDialog dialog ) {
+            super( MORE_BUTTON );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    JOptionPane.showMessageDialog( dialog, MORE_MESSAGE , TITLE, JOptionPane.PLAIN_MESSAGE );
+                }
+            } );
+        }
+    }
 }

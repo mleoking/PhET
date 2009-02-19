@@ -7,7 +7,7 @@ import javax.swing.SwingUtilities;
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.common.phetcommon.updates.dialogs.AutomaticSimUpdateDialog;
+import edu.colorado.phet.common.phetcommon.updates.dialogs.SimAutomaticUpdateDialog;
 
 /**
  * Handles automatic checking for updates when the simulation starts. 
@@ -67,7 +67,7 @@ public class AutomaticUpdatesManager {
                     //show UI in swing thread after new thread has found a new version
                     SwingUtilities.invokeLater( new Runnable() {
                         public void run() {
-                            new AutomaticSimUpdateDialog( parentFrame, simInfo, remoteVersion, simAskMeLaterStrategy, simVersionSkipper ).setVisible( true );
+                            new SimAutomaticUpdateDialog( parentFrame, simInfo, remoteVersion, simAskMeLaterStrategy, simVersionSkipper ).setVisible( true );
                         }
                     } );
                 }
