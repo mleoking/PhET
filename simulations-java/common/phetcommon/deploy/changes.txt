@@ -1,3 +1,4 @@
+2-17-09: #1256, make the statistics details dialog resizable
 2-17-09: #1255, make software agreement dialog resizeable
 2-17-09: move all phetcommon URLs to PhetCommonConstants
 2-17-09: delete IStatistics, pass SessionMessage instance instead of odd reference to PhetApplicationConfig
