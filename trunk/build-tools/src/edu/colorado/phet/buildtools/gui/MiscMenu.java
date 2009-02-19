@@ -93,6 +93,12 @@ public class MiscMenu extends JMenu {
                             }
 
                             public void deployErrorOccurred( BuildScript buildScript, PhetProject project, String error ) {
+                                try {
+                                    bufferedWriter1.write( "ERROR: "+project.getName()+", errror="+error );
+                                }
+                                catch( IOException e1 ) {
+                                    e1.printStackTrace();
+                                }
                             }
                         } );
                         buildScript.deployDev( new AuthenticationInfo( localProperties.getProperty( "deploy." + "dev" + ".username" ), localProperties.getProperty( "deploy." + "dev" + ".password" ) ) );
