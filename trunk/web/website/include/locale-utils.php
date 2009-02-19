@@ -45,11 +45,6 @@
     define('RE_LANGUAGE', 1);
     define('RE_COUNTRY', 3);
 
-    $language_map = locale_get_language_map();
-    $country_map = locale_get_country_map();
-
-    $fake_language_to_locale = array('bp' => 'pt_BR', 'tc' => 'zh_TW');
-
     /**
      * Until everything supports the long for locale, remap the old combined
      * language codes to the long form locale.  The old combined language
@@ -65,7 +60,7 @@
         // This function is used in the service of displaying stuff on the web page
         // (as opposed to using it to find sim files).
         // "Promote" the old combined language codes to a full long form locale
-        global $fake_language_to_locale;
+        $fake_language_to_locale = array('bp' => 'pt_BR', 'tc' => 'zh_TW');
         if (array_key_exists($locale, $fake_language_to_locale)) {
             return $fake_language_to_locale[$locale];
         }
@@ -96,7 +91,7 @@
      * @return bool True if it is valid, false otherwise
      */
     function locale_valid_language_code($language_code) {
-        global $language_map;
+        $language_map = locale_get_language_map();
         if (gettype($language_code) != 'string') {
             return false;
         }
@@ -111,7 +106,7 @@
      * @return bool True if it is valid, false otherwise
      */
     function locale_valid_country_code($country_code) {
-        global $country_map;
+        $country_map = locale_get_country_map();
         if (gettype($country_code) != 'string') {
             return false;
         }
@@ -283,7 +278,7 @@
      * @exception PhetLocaleException if the language code is not valid
      */
      function locale_get_language_name($language_code) {
-        global $language_map;
+        $language_map = locale_get_language_map();
 
         if (!locale_valid_language_code($language_code)) {
             $msg = "Invalid langage code '{$language_code}'";
@@ -301,7 +296,7 @@
      * @exception PhetLocaleException if the language code is not valid
      */
     function locale_get_country_name($country_code) {
-        global $country_map;
+        $country_map = locale_get_country_map();;
 
         if (!locale_valid_country_code($country_code)) {
             $msg = "Invalid country code '{$country_code}'";
