@@ -59,9 +59,8 @@ public class AutomaticUpdatesManager {
 
     private void runUpdateCheckThread() {
         
-        final UpdateNotifier updateNotifier = new UpdateNotifier( simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getVersion() );
-        updateNotifier.addListener( new UpdateNotifier.UpdateAdapter() {
-
+        final SimUpdateNotifier simUpdateNotifier = new SimUpdateNotifier( simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getVersion() );
+        simUpdateNotifier.addListener( new SimUpdateNotifier.UpdateAdapter() {
             public void updateAvailable( PhetVersion currentVersion, final PhetVersion remoteVersion ) {
                 if ( !simVersionSkipper.isSkipped( remoteVersion.getRevisionAsInt() ) ) {
                     //show UI in swing thread after new thread has found a new version
@@ -77,7 +76,7 @@ public class AutomaticUpdatesManager {
         //do check in new thread
         Thread t = new Thread( new Runnable() {
             public void run() {
-                updateNotifier.checkForUpdates();
+                simUpdateNotifier.checkForUpdates();
             }
         } );
         t.start();

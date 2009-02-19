@@ -43,8 +43,8 @@ public class ManualUpdatesManager {
     }
 
     public void checkForSimUpdates() {
-        UpdateNotifier updateNotifier = new UpdateNotifier( simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getVersion() );
-        UpdateNotifier.UpdateListener listener = new UpdateNotifier.UpdateAdapter() {
+        SimUpdateNotifier updateNotifier = new SimUpdateNotifier( simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getVersion() );
+        SimUpdateNotifier.UpdateListener listener = new SimUpdateNotifier.UpdateAdapter() {
 
             public void updateAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {
                 JDialog dialog = new SimManualUpdateDialog( frame, simInfo, remoteVersion );
