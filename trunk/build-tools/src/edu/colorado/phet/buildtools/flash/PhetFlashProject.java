@@ -370,7 +370,7 @@ public class PhetFlashProject extends PhetProject {
 
     public void runSim( Locale locale, String simulationName ) {
         System.out.println( "Running the flash sim: " + simulationName );
-        String exe = getConfigValue( "browser.exe", "C:\\Users\\Sam\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe" );
+        String exe = getConfigValue( "browser-flash", "C:\\Users\\Sam\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe" );
         try {
             String command = exe + " " + getHTMLFile( locale ).getAbsolutePath();
             System.out.println( "command = " + command );
