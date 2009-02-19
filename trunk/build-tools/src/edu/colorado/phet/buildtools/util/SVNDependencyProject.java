@@ -44,6 +44,10 @@ public class SVNDependencyProject extends PhetProject {
         return null;
     }
 
+    public String getLaunchFileSuffix() {
+        return "";//no launch file
+    }
+
     public boolean build() throws Exception {
         return true;
     }
