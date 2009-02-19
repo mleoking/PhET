@@ -39,6 +39,8 @@ public class BuildScript {
 
     public static interface Listener {
         void deployFinished( BuildScript buildScript, PhetProject project, String codebase );
+
+        void deployErrorOccurred( BuildScript buildScript, PhetProject project, String error );
     }
 
     public BuildScript( File trunk, PhetProject project, AuthenticationInfo svnAuth, String browser ) {
@@ -85,7 +87,8 @@ public class BuildScript {
         clean();
 
         if ( !skipSVNStatus && !isSVNInSync() ) {
-            System.out.println( "SVN is out of sync; halting" );
+            notifyError( project, "SVN is out of sync; halting" );
+
             return;
         }
 
@@ -111,8 +114,8 @@ public class BuildScript {
             System.out.println( "Starting build..." );
             boolean success = build();
             if ( !success ) {
-                System.out.println( "Stopping due to build failure, see console." );
-                System.exit( 0 );
+                notifyError( project,  "Stopping due to build failure, see console." );
+                return;
             }
         }
 
@@ -124,7 +127,7 @@ public class BuildScript {
 
         boolean ok = preDeployTask.invoke();
         if ( !ok ) {
-            System.out.println( "Pre deploy task failed" );
+            notifyError( project, "Pre deploy task failed");
             return;
         }
 
@@ -150,9 +153,17 @@ public class BuildScript {
         }
     }
 
+    private void notifyError( PhetProject project, String error ) {
+        System.out.println( "error: "+error );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
+            listener.deployErrorOccurred( this, project, error );
+        }
+    }
+
     //This message disables the dialog for change log messages, using the batch message instead
-    public void setBatchMessage(String batchMessage){
-        this.batchMessage=batchMessage;
+    public void setBatchMessage( String batchMessage ) {
+        this.batchMessage = batchMessage;
     }
 
     private void addMessagesToChangeFile( int svn ) {
@@ -366,7 +377,7 @@ public class BuildScript {
         //<li><a href="@jnlp-filename@">Launch @sim-name@</a></li>
         String s = "";
         for ( int i = 0; i < project.getSimulationNames().length; i++ ) {
-            String jnlpFilename = project.getSimulationNames()[i] + "_en."+project.getLaunchFileSuffix();
+            String jnlpFilename = project.getSimulationNames()[i] + "_en." + project.getLaunchFileSuffix();
             String simname = project.getSimulations()[i].getTitle();
             s += "<li><a href=\"" + jnlpFilename + "\">Launch " + simname + "</a></li>";
             if ( i < project.getSimulationNames().length - 1 ) {
