@@ -53,12 +53,12 @@ HTTP.newRequest = function() {
     // so throw an exception now and for all future calls.
     HTTP._factory = function() {
         throw new Error("XMLHttpRequest not supported");
-    }
+    };
     HTTP._factory(); // Throw an error
 
     // Bypass the return value warning, even though we can't get here
     return undefined;
-}
+};
 
 /**
  * Use XMLHttpRequest to fetch the contents of the specified URL using
@@ -72,7 +72,7 @@ HTTP.getText = function(url, callback) {
     request.onreadystatechange = function() {
         if (request.readyState == 4 && request.status == 200)
             callback(request.responseText);
-    }
+    };
     request.open("GET", url);
     request.send(null);
 };
@@ -89,7 +89,7 @@ HTTP.getXML = function(url, callback) {
     request.onreadystatechange = function() {
         if (request.readyState == 4 && request.status == 200)
             callback(request.responseXML);
-    }
+    };
     request.open("GET", url);
     request.send(null);
 };
@@ -114,7 +114,7 @@ HTTP.getHeaders = function(url, callback, errorHandler) {
                 else callback(null);
             }
         }
-    }
+    };
     request.open("HEAD", url);
     request.send(null);
 };
