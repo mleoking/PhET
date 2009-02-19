@@ -1,3 +1,5 @@
+# 1.20.30 (28721) Feb 18, 2009
+Improvements for Aphid Maze
 > Fixed: open sim > click frictionless > click circular. Bug will not move.
 
 # 1.20.29 (28260) Feb 8, 2009
