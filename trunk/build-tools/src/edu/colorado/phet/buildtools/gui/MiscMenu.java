@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Date;
 
 import javax.swing.*;
 
@@ -63,6 +64,7 @@ public class MiscMenu extends JMenu {
                             System.out.println( str );
                         }
                     };
+                    bufferedWriter.write( "#Started batch deploy on "+new Date() );
                 }
                 catch( IOException e1 ) {
                     e1.printStackTrace();
