@@ -1,3 +1,5 @@
+# 1.00.01 (28785) Feb 19, 2009
+Batch deploy for alpha Simulation Tests, svn 28773
 New in 0.00.85
 >When dragging an item to the bar chart, it will move to a random position on the plate (or exercise log)
 >Converted control panel background to green
