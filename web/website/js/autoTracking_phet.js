@@ -96,6 +96,9 @@ function useLinker (evnt) {
 
         return false;
     }
+
+    // Remove warnings in the console
+    return undefined;
 }
 
 // trackDocuments:  calls _trackPageview before downloading a file

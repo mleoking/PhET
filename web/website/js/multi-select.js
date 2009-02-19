@@ -14,10 +14,16 @@ function ms_get_first_td(node) {
     var parentNode = ms_get_parent_table_row(node);
 
     for (var i = 0; i < parentNode.childNodes.length; i++) {
+        if (parentNode.childNodes[i].tagName == undefined) {
+            continue;
+        }
+
         if (parentNode.childNodes[i].tagName == 'TD') {
             return parentNode.childNodes[i];
         }
     }
+
+    return undefined;
 }
 
 function ms_mark_as_valid(node) {
@@ -104,6 +110,7 @@ function ms_add_li(basename, list_id, text, name, invalidate_on_empty) {
     Parent.appendChild(NewLI);
 
     ms_add_li.child_id_index++;
+    return true;
 }
 
 function ms_on_change(basename, list_id, dropdown, invalidate_on_empty) {

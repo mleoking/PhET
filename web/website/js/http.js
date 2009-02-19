@@ -55,6 +55,9 @@ HTTP.newRequest = function() {
         throw new Error("XMLHttpRequest not supported");
     }
     HTTP._factory(); // Throw an error
+
+    // Bypass the return value warning, even though we can't get here
+    return undefined;
 }
 
 /**
