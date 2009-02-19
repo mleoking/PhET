@@ -1,2 +1,4 @@
+# 1.01.02 (28777) Feb 19, 2009
+Batch deploy for alpha Simulation Tests, svn 28773
 10-9-2008: convert to new PhetApplicationConfig constructor
 10-9-2008: create change log file
