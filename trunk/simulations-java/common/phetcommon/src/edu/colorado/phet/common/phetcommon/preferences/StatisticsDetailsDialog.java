@@ -1,21 +1,26 @@
 package edu.colorado.phet.common.phetcommon.preferences;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dialog;
+import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.statistics.SessionMessage;
-import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
  * Dialog that appears when you press the "Details" button in the Statistics preferences panel.
  */
 public class StatisticsDetailsDialog extends PaintImmediateDialog {
+    
+    private static final int PREFERRED_WIDTH = 400;
     
     private static final String TITLE = PhetCommonResources.getString( "Common.statistics.details.title" );
     private static final String DESCRIPTION = PhetCommonResources.getString( "Common.statistics.details.description" );
@@ -35,23 +40,19 @@ public class StatisticsDetailsDialog extends PaintImmediateDialog {
         
         setTitle( TITLE );
         setModal( true );
-        setResizable( false ); //TODO layout doesn't adjust properly when resized
+        setResizable( true );
 
         JComponent description = createDescription();
         JComponent report = createReport( sessionMessage );
         JComponent buttonPanel = createButtonPanel();
 
-        JPanel panel = new JPanel();
+        JPanel panel = new JPanel( new BorderLayout() );
+        panel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
+        panel.add( description, BorderLayout.NORTH );
+        panel.add( report, BorderLayout.CENTER );
+        panel.add( buttonPanel, BorderLayout.SOUTH );
 
-        EasyGridBagLayout layout = new EasyGridBagLayout( panel );
-        layout.setInsets( new Insets( 5, 5, 5, 5 ) ); // top, left, bottom, right
-        panel.setLayout( layout );
-        int row = 0;
-        int column = 0;
-        layout.addComponent( description, row++, column );
-        layout.addComponent( report, row++, column );
-        layout.addFilledComponent( buttonPanel, row++, column, GridBagConstraints.HORIZONTAL );
-
+        panel.setPreferredSize( new Dimension( PREFERRED_WIDTH, panel.getPreferredSize().height ) );
         setContentPane( panel );
         pack();
         SwingUtils.centerDialogInParent( this );
