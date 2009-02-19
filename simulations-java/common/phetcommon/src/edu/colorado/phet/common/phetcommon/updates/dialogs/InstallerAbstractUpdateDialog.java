@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
@@ -24,8 +25,6 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public abstract class InstallerAbstractUpdateDialog extends PaintImmediateDialog {
-    
-    private static final String INSTALLER_URL = "http://phet.colorado.edu/get_phet/full_install.php";
     
     private static final String TITLE = PhetCommonResources.getString( "Common.updates.updateAvailable" );
     private static final String UPDATE_BUTTON = PhetCommonResources.getString( "Common.updates.installer.yes" );
@@ -84,7 +83,7 @@ public abstract class InstallerAbstractUpdateDialog extends PaintImmediateDialog
             super( UPDATE_BUTTON );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    PhetServiceManager.showWebPage( INSTALLER_URL );
+                    PhetServiceManager.showWebPage( PhetCommonConstants.PHET_INSTALLER_URL );
                     dialog.dispose();
                 }
             } );
