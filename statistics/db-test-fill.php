@@ -183,7 +183,7 @@
 		$hostLocaleLanguage = $hostLocale[0];
 		$hostLocaleCountry = $hostLocale[1];
 		if($simType == "flash") {
-			$hostLocaleCountry = "null";
+			$hostLocaleCountry = "NULL";
 		}
 		
 		// sim sessions
@@ -204,7 +204,7 @@
 		}
 		
 		// distribution tag
-		$simDistributionTag = "null";
+		$simDistributionTag = "NULL";
 		if($simDeployment == "phet-installation") {
 			if(rand(0, 99) < 40) {
 				$simDistributionTag = "O'Reilly";
@@ -351,7 +351,7 @@
 			
 			$hostJavaVersionMaintenance = rand(0, 1) * rand(0, 2) * rand(1, 3);
 			
-			$hostJavaWebstartVersion = "null";
+			$hostJavaWebstartVersion = "NULL";
 			
 			if(rand(0, 99) < 30) {
 				$hostJavaTimezone = "America/Denver";
