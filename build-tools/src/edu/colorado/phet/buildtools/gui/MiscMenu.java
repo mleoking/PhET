@@ -49,15 +49,18 @@ public class MiscMenu extends JMenu {
         JMenuItem buildAndDeployAll = new JMenuItem( "Build and Deploy all-dev" );
         buildAndDeployAll.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                String message = JOptionPane.showInputDialog( "Deploying all sims to dev/.  \nEnter a message to add to the change log for all sims\n(or Cancel or Enter a blank line to omit batch message)" );
                 LocalProperties localProperties = new LocalProperties( new File( trunk, "build-tools/build-local.properties" ) );
                 PhetProject[] projects = PhetProject.getAllProjects( trunk );
                 BufferedWriter bufferedWriter = null;
                 try {
-                    bufferedWriter = new BufferedWriter( new FileWriter( new File( trunk, "build-tools/deploy-report.txt" ) ) ){
+                    File file = new File( trunk, "build-tools/deploy-report.txt" );
+                    file.createNewFile();
+                    bufferedWriter = new BufferedWriter( new FileWriter( file ) ) {
                         public void write( String str ) throws IOException {
                             super.write( str );
                             flush();
-                            System.out.println(str);
+                            System.out.println( str );
                         }
                     };
                 }
@@ -67,6 +70,7 @@ public class MiscMenu extends JMenu {
                 for ( int i = 0; i < projects.length; i++ ) {
                     if ( projects[i].getName().startsWith( "test" ) ) {
                         BuildScript buildScript = new BuildScript( trunk, projects[i], new AuthenticationInfo( localProperties.getProperty( "svn.username" ), localProperties.getProperty( "svn.password" ) ), localProperties.getProperty( "browser" ) );
+                        buildScript.setBatchMessage( message );
                         final BufferedWriter bufferedWriter1 = bufferedWriter;
                         buildScript.addListener( new BuildScript.Listener() {
                             public void deployFinished( BuildScript buildScript, PhetProject project, String codebase ) {

@@ -2,17 +2,16 @@ package edu.colorado.phet.buildtools;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.StringTokenizer;
-import java.util.ArrayList;
 
 import javax.swing.*;
 
 import org.rev6.scf.SshCommand;
 import org.rev6.scf.SshConnection;
 import org.rev6.scf.SshException;
-import org.apache.tools.ant.types.CommandlineJava;
 
 import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
 import edu.colorado.phet.buildtools.translate.ScpTo;
@@ -31,13 +30,14 @@ public class BuildScript {
     private static final boolean skipBuild = false;
     private static boolean skipSVNStatus = false;
     private static boolean skipSVNCommit = false;
-    private ArrayList listeners=new ArrayList( );
+    private ArrayList listeners = new ArrayList();
+    private String batchMessage;
 
     public void addListener( Listener listener ) {
-        listeners.add(listener);
+        listeners.add( listener );
     }
 
-    public static interface Listener{
+    public static interface Listener {
         void deployFinished( BuildScript buildScript, PhetProject project, String codebase );
     }
 
@@ -146,12 +146,20 @@ public class BuildScript {
 
         for ( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener) listeners.get( i );
-            listener.deployFinished(this,project,server.getCodebase( project ));
+            listener.deployFinished( this, project, server.getCodebase( project ) );
         }
     }
 
+    //This message disables the dialog for change log messages, using the batch message instead
+    public void setBatchMessage(String batchMessage){
+        this.batchMessage=batchMessage;
+    }
+
     private void addMessagesToChangeFile( int svn ) {
-        String message = JOptionPane.showInputDialog( "Enter a message to add to the change log\n(or Cancel or Enter a blank line if change log is up to date)" );
+        String message = batchMessage;
+        if ( message == null ) {
+            message = JOptionPane.showInputDialog( "Enter a message to add to the change log\n(or Cancel or Enter a blank line if change log is up to date)" );
+        }
         if ( message != null && message.trim().length() > 0 ) {
             prependChange( message );
         }
