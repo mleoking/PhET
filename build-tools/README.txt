@@ -12,7 +12,7 @@ browser
 
 #Flash
 wine (boolean)
-flash.exe
+flash
 browser.exe  (TODO: consolidate with browser above or rename to flash-browser)
 autobuild-swf (boolean)
 

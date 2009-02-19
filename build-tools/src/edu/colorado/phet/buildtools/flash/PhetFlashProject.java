@@ -214,7 +214,7 @@ public class PhetFlashProject extends PhetProject {
         }
 
         String def = "C:\\Program Files\\Macromedia\\Flash 8\\Flash.exe";
-        String property = "flash.exe";
+        String property = "flash";
         String exe = getConfigValue( property, def );
 
         boolean useWine = getConfigValue( "wine", "false" ).equals( "true" );
