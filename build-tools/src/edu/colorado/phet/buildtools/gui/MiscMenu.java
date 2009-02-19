@@ -73,8 +73,8 @@ public class MiscMenu extends JMenu {
                     e1.printStackTrace();
                 }
                 for ( int i = 0; i < projects.length; i++ ) {
-                    if ( projects[i].getName().startsWith( "test" ) ) {
-//                    if ( true ) {
+//                    if ( projects[i].getName().startsWith( "test" ) ) {
+                    if ( true ) {
                         BuildScript buildScript = new BuildScript( trunk, projects[i], new AuthenticationInfo( localProperties.getProperty( "svn.username" ), localProperties.getProperty( "svn.password" ) ), localProperties.getProperty( "browser" ) );
                         buildScript.setBatchMessage( message );
                         final BufferedWriter bufferedWriter1 = bufferedWriter;
