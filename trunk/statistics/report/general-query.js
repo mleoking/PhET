@@ -61,7 +61,7 @@ function constraintString(desc, field, url) {
 }
 
 function commonConstraintString(desc, field) {
-	return constraintString(desc, field, "query-combo-box.php?select_name=" + field + "&group=" + field);
+	return constraintString(desc, field, "query-combo-box.php?select_name=" + field + "&group=" + field + "&order=" + field);
 }
 
 // called when project is changed
