@@ -204,7 +204,7 @@
 		}
 		
 		// distribution tag
-		$simDistributionTag = "none";
+		$simDistributionTag = "null";
 		if($simDeployment == "phet-installation") {
 			if(rand(0, 99) < 40) {
 				$simDistributionTag = "O'Reilly";
@@ -351,7 +351,7 @@
 			
 			$hostJavaVersionMaintenance = rand(0, 1) * rand(0, 2) * rand(1, 3);
 			
-			$hostJavaWebstartVersion = "none";
+			$hostJavaWebstartVersion = "null";
 			
 			if(rand(0, 99) < 30) {
 				$hostJavaTimezone = "America/Denver";
