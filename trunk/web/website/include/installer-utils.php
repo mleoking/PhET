@@ -80,11 +80,11 @@
 
     function installer_get_latest_timestamp() {
         $extra = "ORDER BY `installer_info_id` DESC LIMIT 1";
-        $row = db_get_row_by_condition(INSTALLER_TABLE_NAME, array(), false, false, $extra);
+        $row = db_get_row_by_condition(INSTALLER_TABLE_NAME, array(), false, $extra);
         if (!$row || !isset($row['installer_info_timestamp'])) {
             return false;
         }
-        
+
         return $row['installer_info_timestamp'];
     }
 
