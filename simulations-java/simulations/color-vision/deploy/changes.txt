@@ -1,3 +1,5 @@
+# 1.01.02 (28781) Feb 19, 2009
+Batch deploy for alpha Simulation Tests, svn 28773
 # 1.01.01 (25780)
 11/3/08 - publish version that uses phetcommon trunk (work done on 5/15/08)
 10/8/08 - use PhetApplicationConfig.launchSim
