@@ -18,6 +18,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.SessionCounter;
 
@@ -36,7 +37,7 @@ public class StatisticsMessageSender {
      * @return true if the message was successfully sent
      */
     public boolean sendMessage( StatisticsMessage message ) throws IOException {
-        return postXML( getStatisticsURL( message ), toXML( message ) );
+        return postXML( PhetCommonConstants.STATISTICS_SERVICE_URL, toXML( message ) );
     }
 
     private String toXML( StatisticsMessage message ) {
@@ -95,13 +96,6 @@ public class StatisticsMessageSender {
         return value;
     }
 
-    /*
-     * The URL points to a PHP script, with name/value pairs appended to the URL.
-     */
-    private String getStatisticsURL( StatisticsMessage message ) {
-        return "http://phet.colorado.edu/statistics/submit_message.php";
-    }
-
     private static boolean postXML( String url, String xml ) throws IOException {
         
         boolean success = false;
@@ -145,7 +139,7 @@ public class StatisticsMessageSender {
     public static void main( String[] args ) throws IOException {
         
         // send a bogus message
-        String URL_STRING = "http://phet.colorado.edu/statistics/submit_message.php";
+        String URL_STRING = PhetCommonConstants.STATISTICS_SERVICE_URL;
         String XML_STRING = "<xml>hello stats 1234</xml>";
         postXML( URL_STRING, XML_STRING );
         

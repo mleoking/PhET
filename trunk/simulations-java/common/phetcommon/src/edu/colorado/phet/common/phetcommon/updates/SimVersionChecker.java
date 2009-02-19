@@ -68,7 +68,7 @@ public class SimVersionChecker {
      * This service provides the info in XML form, see Unfuddle #969 and #1063.
      */
     private static URL getServiceURL( String project, String sim ) throws MalformedURLException {
-        return new URL( PhetCommonConstants.PHET_HOME_URL + "/simulations/sim-version-info.php?project=" + project + "&sim=" + sim );
+        return new URL( PhetCommonConstants.SIM_VERSION_INFO_URL + "?project=" + project + "&sim=" + sim );
     }
 
     public static void main( String[] args ) throws IOException {

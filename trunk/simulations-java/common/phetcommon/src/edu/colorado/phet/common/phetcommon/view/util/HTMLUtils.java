@@ -90,7 +90,7 @@ public class HTMLUtils {
      * @return
      */
     public static String getSimURL( String project, String sim,String ampersand ) {
-        return PhetCommonConstants.PHET_HOME_URL + "/simulations/sim-redirect.php?project=" + project + ampersand+"sim=" + sim;
+        return PhetCommonConstants.SIM_REDIRECT_URL + "?project=" + project + ampersand + "sim=" + sim;
     }
 
 
@@ -104,7 +104,7 @@ public class HTMLUtils {
      * @return
      */
     public static String getSimJarURL( String project, String sim, String ampersand, Locale locale ) {
-        String url = PhetCommonConstants.PHET_HOME_URL + "/simulations/sim-jar-redirect.php?project=" + project + ampersand + "sim=" + sim + ampersand + "language=" + locale.getLanguage();
+        String url = PhetCommonConstants.SIM_JAR_REDIRECT_URL + "?project=" + project + ampersand + "sim=" + sim + ampersand + "language=" + locale.getLanguage();
         if ( locale.getCountry().equals( "" ) ) {
             // add optional country code
             url += ampersand + "country=" + locale.getCountry();

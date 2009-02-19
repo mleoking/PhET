@@ -4,8 +4,20 @@ package edu.colorado.phet.common.phetcommon;
 public class PhetCommonConstants {
 
     public static final String PHET_NAME = "PhET";  // user-visible name, does not require translation
+    
     public static final String PHET_HOME_URL = "http://phet.colorado.edu";
     public static final String PHET_EMAIL = "phethelp@colorado.edu";
+    
+    // web pages
+    public static final String PHET_INSTALLER_URL = PHET_HOME_URL + "/get_phet/full_install.php";
+    public static final String PHET_SIMS_URL = PHET_HOME_URL + "/sims/";
+    public static final String PHET_LICENSE_URL = PHET_HOME_URL + "/about/licensing.php";
+    
+    // services
+    public static final String SIM_REDIRECT_URL = PHET_HOME_URL + "/simulations/sim-redirect.php";
+    public static final String SIM_JAR_REDIRECT_URL = PHET_HOME_URL + "/simulations/sim-jar-redirect.php";
+    public static final String STATISTICS_SERVICE_URL = PHET_HOME_URL + "/statistics/submit_message.php";
+    public static final String SIM_VERSION_INFO_URL = PHET_HOME_URL + "/simulations/sim-version-info.php";
     
     // Properties used to set the locale.
     // Since these need to be usable via JNLP, they begin with "javaws".
