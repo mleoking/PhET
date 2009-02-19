@@ -27,7 +27,9 @@
     // This should be included, first thing
     require_once('update-include-path.php');
     @include_once("local-debug-settings.php");
-    require_once("PhetException.php");
+
+    // This will set up the classes to autoload
+    require_once("class-loader.php");
 
     function debug_is_on() {
         if (isset($GLOBALS["DEBUG"]) && $GLOBALS["DEBUG"]) {

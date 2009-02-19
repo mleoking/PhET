@@ -8,7 +8,6 @@
     // See global.php for an explaination of the next line
     require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-    require_once("include/PhetException.php");
     require_once("include/locale-codes-country.php");
     require_once("include/locale-codes-language.php");
 
