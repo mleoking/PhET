@@ -2,7 +2,6 @@ package edu.colorado.phet.common.phetcommon.updates;
 
 import java.awt.Frame;
 import java.io.IOException;
-import java.util.Locale;
 
 import javax.swing.JDialog;
 
