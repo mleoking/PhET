@@ -7,8 +7,8 @@ import edu.colorado.phet.buildtools.flash.PhetFlashProject;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
-import edu.colorado.phet.buildtools.java.projects.TranslationUtilityProject;
 import edu.colorado.phet.buildtools.java.projects.PhetUpdaterProject;
+import edu.colorado.phet.buildtools.java.projects.TranslationUtilityProject;
 import edu.colorado.phet.buildtools.scripts.SetSVNIgnoreToDeployDirectories;
 import edu.colorado.phet.buildtools.util.*;
 import edu.colorado.phet.common.phetcommon.resources.PhetProperties;
@@ -489,11 +489,18 @@ public abstract class PhetProject {
         return simulation.isDirectory() && !simulation.getName().equalsIgnoreCase( "all-sims" ) && !simulation.getName().equalsIgnoreCase( ".svn" ) && new File( simulation, simulation.getName() + "-build.properties" ).exists();
     }
 
-    public static PhetProject[] getAllProjects( File trunk ) {
+    public static PhetProject[] getAllSimulations( File trunk ) {
         List phetProjects = new ArrayList();
 
         phetProjects.addAll( sort( Arrays.asList( JavaProject.getJavaSimulations( trunk ) ) ) );
         phetProjects.addAll( sort( Arrays.asList( PhetFlashProject.getFlashProjects( trunk ) ) ) );
+        return (PhetProject[]) phetProjects.toArray( new PhetProject[phetProjects.size()] );
+    }
+
+    public static PhetProject[] getAllProjects( File trunk ) {
+        List phetProjects = new ArrayList();
+
+        phetProjects.addAll( Arrays.asList( getAllSimulations( trunk ) ) );
         try {
             //Add supplemental projects
             //TODO: move these to a separate area
@@ -823,7 +830,7 @@ public abstract class PhetProject {
      * This allows overriding of the default simulation deploy path, see PhET Server's usage.
      *
      * @return an optional server path for deploying the contents of the deploy directory, or null if the simulation default should be used
-     * //TODO: should implement this method completely in PhetProject instead of in PhetServer
+     *         //TODO: should implement this method completely in PhetProject instead of in PhetServer
      */
     public abstract String getProdServerDeployPath();
 
