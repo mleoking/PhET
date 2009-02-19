@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.InstallerAutomaticUpdateDialog;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.SimAutomaticUpdateDialog;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateErrorDialog;
+import edu.colorado.phet.common.phetcommon.util.DeploymentScenario;
 
 /**
  * Handles automatic checking for updates when the simulation starts. 
@@ -71,7 +72,7 @@ public class AutomaticUpdatesManager {
             public void queryDone( final PhetInfoQueryResult result ) {
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
-                        if ( result.isInstallerUpdateRecommended() ) {
+                        if ( DeploymentScenario.getInstance() == DeploymentScenario.PHET_INSTALLATION && result.isInstallerUpdateRecommended() ) {
                             new InstallerAutomaticUpdateDialog( parentFrame, new InstallerAskMeLaterStrategy() ).setVisible( true );
                         }
                         PhetVersion remoteVersion = result.getSimVersion();
