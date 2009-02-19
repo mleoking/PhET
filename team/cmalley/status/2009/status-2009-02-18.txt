@@ -1,0 +1,76 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: February 11-18, 2008 (Wed-Wed)
+
+ACCOMPLISHMENTS:
+
+  common code:
+  - IOM planning meetings and conference calls
+  - IOM feature design discussions with Sam, Dano, JO
+  - IOM test plan review and discussions with JB, Sam
+  - #1225, access to Software Agreement via About dialog
+  - #1226,1127, third-party license issues
+  - #877, change session counts behavior
+  - #843, verify fix to clock controls, augment test harness
+  - #1232, encapsulate software agreement
+  - #1235, verify change to IOM command line flags
+  - #1236,1237,1238,1239, check for PhET installer update
+  - major refactors of updates features for #1236
+  - #1140, software agreement file
+  - #1120, fix for reading flavor from jar-launcher.properties
+  - #1248, missing field in session message
+  - #1247, consolidate statistics stuff in StatisticsManager
+  - JARLauncher handling of empty strings for locale
+  - #1255,1256 make dialogs resizeable
+  
+  build process:
+  - debug Phet Guild GUI with Sam
+  - workaround for svn path problem
+  - #972, work with Sam on phet-updater
+  - #1209, progress on cleanup of Flash build-tools
+  - refactor project class names
+  - report jar generation bug to Sam
+  
+  translation utility:
+  - #249, integrate into main build process
+  - #1222,1246,1221,1249, backward compatibility for setting locale
+  - test with all sims on tigercat
+  - publish 1.10.00
+  - publish latest Java common strings
+  
+  faraday:
+  - #721, calibrated
+  - published 2.01.04 for review
+  
+  acid-base-solutions:
+  - design meeting
+  
+  misc:
+  - status meeting
+  - PhET survey
+  - #1234, finish name change of battery-resistor-circuit
+  - #1243, debug battery-resistor-circuit on Mac, still broken
+  
+  
+WAITING FOR: (ordered by decreasing priority)
+
+  - translation requirements for Software & Privacy Agreement, #1140 (Kathy)
+  
+WHAT'S NEXT:
+ 
+  - finish "phet installer update" feature for IOM 
+  - IOM testing
+  - acid-base-solutions implementation
+  - finish remaining glaciers work (see Unfuddle)
+  - investigate 3D libraries
+  
+ISSUES:
+
+  - Flash IDE for Mac?
+  
+DATES UNAVAILABLE:
+
+  March 13-16
+  
+--
