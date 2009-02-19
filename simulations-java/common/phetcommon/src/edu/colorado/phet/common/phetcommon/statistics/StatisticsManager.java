@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.SessionCounter;
 import edu.colorado.phet.common.phetcommon.application.SoftwareAgreementManager;
 
@@ -23,6 +24,7 @@ public class StatisticsManager {
     public static StatisticsManager instance;
     
     private final ISimInfo simInfo;
+    private final Frame parentFrame;
     private final Vector messageQueue = new Vector();
     private final StatisticsThread statisticsThread = new StatisticsThread();
     private final StatisticsMessageSender statisticsService = new StatisticsMessageSender();
@@ -30,16 +32,17 @@ public class StatisticsManager {
     private boolean applicationStartedCalled = false;
 
     /* singleton */
-    private StatisticsManager( ISimInfo simInfo ) {
-        this.simInfo = simInfo;
+    private StatisticsManager( PhetApplication app ) {
+        simInfo = app.getSimInfo();
+        parentFrame = app.getPhetFrame();
         statisticsThread.start();
     }
 
-    public static StatisticsManager initInstance( ISimInfo simInfo ) {
+    public static StatisticsManager initInstance( PhetApplication app ) {
         if ( instance != null ) {
             throw new RuntimeException( "StatisticsManager instance is already initialized" );
         }
-        instance = new StatisticsManager( simInfo );
+        instance = new StatisticsManager( app );
         return instance;
     }
 
@@ -131,7 +134,7 @@ public class StatisticsManager {
         }
     }
     
-    public void applicationStarted( Frame parentFrame ) {
+    public void start() {
         
         // this method should only be called once
         if ( applicationStartedCalled ) {

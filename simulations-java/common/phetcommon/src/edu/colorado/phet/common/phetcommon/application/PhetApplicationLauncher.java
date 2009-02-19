@@ -109,7 +109,7 @@ public class PhetApplicationLauncher {
                         disposeSplashWindow();
 
                         // statistics
-                        StatisticsManager.initInstance( config ).applicationStarted( app.getPhetFrame() );
+                        StatisticsManager.initInstance( app ).start();
                         
                         // updates
                         AutomaticUpdatesManager.initInstance( app ).start();
