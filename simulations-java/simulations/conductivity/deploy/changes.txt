@@ -1,3 +1,5 @@
+# 1.02.02 (28783) Feb 19, 2009
+Batch deploy for alpha Simulation Tests, svn 28773
 # 1.02.01 (25795)
 11-4-2008: see #817, battery spinner is not visible on Mac
 10-9-2008: use new PhetApplicationConfig constructor
