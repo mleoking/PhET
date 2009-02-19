@@ -53,7 +53,7 @@ public class MiscMenu extends JMenu {
             public void actionPerformed( ActionEvent e ) {
                 String message = JOptionPane.showInputDialog( "Deploying all sims to dev/.  \nEnter a message to add to the change log for all sims\n(or Cancel or Enter a blank line to omit batch message)" );
                 LocalProperties localProperties = new LocalProperties( new File( trunk, "build-tools/build-local.properties" ) );
-                PhetProject[] projects = PhetProject.getAllProjects( trunk );
+                PhetProject[] projects = PhetProject.getAllSimulations( trunk );
                 BufferedWriter bufferedWriter = null;
                 try {
                     File file = new File( trunk, "build-tools/deploy-report.txt" );
