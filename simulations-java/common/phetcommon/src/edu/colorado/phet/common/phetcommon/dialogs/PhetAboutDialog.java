@@ -243,9 +243,7 @@ public class PhetAboutDialog extends JDialog {
         // layout
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout( new FlowLayout() );
-        if ( isStatisticsFeatureIncluded ) {
-            buttonPanel.add( agreementButton );
-        }
+        buttonPanel.add( agreementButton );
         buttonPanel.add( creditsButton );
         buttonPanel.add( closeButton );
 
