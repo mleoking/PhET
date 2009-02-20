@@ -70,7 +70,7 @@
      */
     function cache_get_script_root_dir() {
         // Explode the directories to the root directory where the cache will be
-        $p = explode(DIRECTORY_SEPARATOR, CACHE_ROOT);
+        $p = explode(DIRECTORY_SEPARATOR, SITE_ROOT);
 
         // Explode the path (path only) of the running script
         $d = explode(DIRECTORY_SEPARATOR, dirname($_SERVER["PHP_SELF"]));
