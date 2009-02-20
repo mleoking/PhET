@@ -1,3 +1,7 @@
+2-19-09: #1236, add abstraction of phet installer version (PhetInstallerVersion)
+2-19-09: #1236, get/set/test ask-me-later durations for sim and installer updates
+2-19-09: #1236, "no update available" dialog hierarchy for sims and installer
+2-19-09: #1236, rename PhetInfoQuery to VersionInfoQuery since (for now) it only deals with version info
 2-19-09: #1236, replace notifiers with PhetInfoQuery
 2-18-09: #1256, make the statistics details dialog resizable
 2-18-09: #1255, make software agreement dialog resizeable
