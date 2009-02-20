@@ -60,7 +60,7 @@ public class UpdatesPreferencesPanel extends JPanel {
         add( updatesEnabledCheckBox, constraints );
         add( Box.createRigidArea( new Dimension( 50, 10 ) ), constraints );
         add( checkForSimUpdateButton, constraints );
-        if ( true || DeploymentScenario.getInstance() == DeploymentScenario.PHET_INSTALLATION ) {
+        if ( DeploymentScenario.getInstance() == DeploymentScenario.PHET_INSTALLATION ) {
             add( checkForInstallerUpdateButton, constraints );
         }
     }

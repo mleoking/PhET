@@ -2,17 +2,16 @@ package edu.colorado.phet.common.phetcommon.updates;
 
 import java.awt.Frame;
 
-import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.application.PhetInfoQuery;
-import edu.colorado.phet.common.phetcommon.application.PhetInfoQuery.PhetInfoQueryResult;
+import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery;
+import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery.VersionInfoQueryResponse;
+import edu.colorado.phet.common.phetcommon.resources.PhetInstallerVersion;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.InstallerAutomaticUpdateDialog;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.SimAutomaticUpdateDialog;
-import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateErrorDialog;
 import edu.colorado.phet.common.phetcommon.util.DeploymentScenario;
 
 /**
@@ -65,32 +64,41 @@ public class AutomaticUpdatesManager {
 
     private void runUpdateCheckThread() {
         
-        final long currentPhetInstallationTimestamp = 0; //TODO get this from phet-installation.properties
-        final PhetInfoQuery query = new PhetInfoQuery( simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getVersion(), currentPhetInstallationTimestamp );
+        final PhetInstallerVersion currentInstallerVersion = new PhetInstallerVersion( 0 ); //TODO get this from phet-installation.properties
+        final VersionInfoQuery query = new VersionInfoQuery( simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getVersion(), currentInstallerVersion );
         
-        query.addListener( new PhetInfoQuery.Listener() {
-            public void queryDone( final PhetInfoQueryResult result ) {
+        query.addListener( new VersionInfoQuery.VersionInfoQueryListener() {
+            
+            public void done( final VersionInfoQueryResponse result ) {
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
-                        if ( DeploymentScenario.getInstance() == DeploymentScenario.PHET_INSTALLATION && result.isInstallerUpdateRecommended() ) {
-                            new InstallerAutomaticUpdateDialog( parentFrame, new InstallerAskMeLaterStrategy() ).setVisible( true );
+                        
+                        // installer update
+                        installerAskMeLaterStrategy.setDuration( result.getInstallerAskMeLaterDuration() );
+                        if ( DeploymentScenario.getInstance() == DeploymentScenario.PHET_INSTALLATION && result.isInstallerUpdateRecommended() && installerAskMeLaterStrategy.isDurationExceeded() ) {
+                            new InstallerAutomaticUpdateDialog( parentFrame, installerAskMeLaterStrategy ).setVisible( true );
                         }
+                        
+                        // sim update
+                        simAskMeLaterStrategy.setDuration( result.getSimAskMeLaterDuration() );
                         PhetVersion remoteVersion = result.getSimVersion();
-                        if ( result.isSimUpdateRecommended() && !simVersionSkipper.isSkipped( remoteVersion.getRevisionAsInt() ) ) {
+                        if ( result.isSimUpdateRecommended() && !simVersionSkipper.isSkipped( remoteVersion.getRevisionAsInt() ) && simAskMeLaterStrategy.isDurationExceeded() ) {
                             new SimAutomaticUpdateDialog( parentFrame, simInfo, remoteVersion, simAskMeLaterStrategy, simVersionSkipper ).setVisible( true );
                         }
                     }
                 } );
             }
+            
             public void exception( Exception e ) {
-                e.printStackTrace();//TODO
+                //TODO handle differently?
+                e.printStackTrace();
             }
         });
         
-        // do checks in new thread
+        // send query in separate thread
         Thread t = new Thread( new Runnable() {
             public void run() {
-                query.start();
+                query.send();
             }
         } );
         t.start();
