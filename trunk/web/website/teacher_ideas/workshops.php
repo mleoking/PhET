@@ -16,11 +16,9 @@ class WorkshopsPage extends SitePage {
             return $result;
         }
 
-        $portal_root = PORTAL_ROOT;
-
         $phet_domain_name = PHET_DOMAIN_NAME;
 
-        $workshop_materials_location = PORTAL_ROOT."phet-dist/workshops/";
+        $workshop_materials_location = PHET_DIST_ROOT."workshops/";
 
         print <<<EOT
 

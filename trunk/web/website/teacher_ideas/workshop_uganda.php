@@ -17,8 +17,10 @@ class UgandaWorkshopPage extends SitePage {
             return $result;
         }
 
-        $workshop_materials_location = PORTAL_ROOT."phet-dist/workshops/";
-        $uganda_materials_location = PORTAL_ROOT."phet-dist/workshops/Uganda/";
+        $installer_url = SITE_ROOT.'get_phet/full_install.php';
+
+        $workshop_materials_location = PHET_DIST_ROOT."workshops/";
+        $uganda_materials_location = PHET_DIST_ROOT."workshops/Uganda/";
 
         print <<<EOT
 
@@ -43,7 +45,7 @@ Workshop materials:
 
 <h1>Guide to Running PhET Workshops in Developing Countries</h1>
 <p>
-We encourage others to download our workshop materials and installers and run workshops to help teachers learn about PhET.  Here are some tips for running workshops in developing countries, based on what I learned from the first PhET workshop in Uganda. <strong>- Sam McKagan</strong>
+We encourage others to download our <a href="{$workshop_materials_location}PhETWorkshopHandouts.zip">workshop materials</a> and <a href="{$installer_url}">installers</a> and run workshops to help teachers learn about PhET.  Here are some tips for running workshops in developing countries, based on what I learned from the first PhET workshop in Uganda. <strong>- Sam McKagan</strong>
 </p>
 
 <ul>

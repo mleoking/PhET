@@ -17,9 +17,9 @@ class UgandaPhotosPage extends SitePage {
             return $result;
         }
 
-        $workshop_materials_location = PORTAL_ROOT."phet-dist/workshops/";
-        $uganda_photos_location = PORTAL_ROOT."phet-dist/workshops/Uganda/photos/";
-        $uganda_photos_thumbnail_location = PORTAL_ROOT."phet-dist/workshops/Uganda/thumbnails/";
+        $workshop_materials_location = PHET_DIST_ROOT."workshops/";
+        $uganda_photos_location = PHET_DIST_ROOT."workshops/Uganda/photos/";
+        $uganda_photos_thumbnail_location = PHET_DIST_ROOT."workshops/Uganda/thumbnails/";
 
         print <<<EOT
 <div class="workshop_uganda_photos">

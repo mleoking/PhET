@@ -44,12 +44,12 @@ class ResearchPage extends SitePage {
             return $result;
         }
 
-        $portal_root = PORTAL_ROOT;
+        $phet_dist_root = PHET_DIST_ROOT;
 
         print <<<EOT
             <p>We direct our research at assessing the effectiveness of our interactive simulations in a variety of educational environments, particularly physics courses, and as stand-alone, informal educational tools.</p>
 
-            <p>In addition, we are focusing our efforts to better understand how students learn from the simulations, and what implications this may have for designing effective in-class activities, homework and labs.  Please see our <a href="{$portal_root}phet-dist/publications/PhET Look and Feel.pdf">PhET Look and Feel</a> guide.</p>
+            <p>In addition, we are focusing our efforts to better understand how students learn from the simulations, and what implications this may have for designing effective in-class activities, homework and labs.  Please see our <a href="{$phet_dist_root}publications/PhET Look and Feel.pdf">PhET Look and Feel</a> guide.</p>
 
             <h2>Our immediate interests are:</h2><br />
 

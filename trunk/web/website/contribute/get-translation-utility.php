@@ -8,7 +8,7 @@
 
     require_once("include/sys-utils.php");
 
-    $filename = PORTAL_ROOT.'phet-dist/translation-utility/translation-utility.jar';
+    $filename = PHET_DIST_ROOT.'translation-utility/translation-utility.jar';
     send_file_to_browser($filename, null, 'application/java-archive', 'attachment');
 
 ?>
