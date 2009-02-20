@@ -1,3 +1,5 @@
+# 3.09.00 (28878) Feb 20, 2009
+Fixed a problem where exceptions occurred when run from JNLP.
 # 3.08.00 (28874) Feb 20, 2009
 Removed the software agreement button from the "About" dialog.
 # 3.07.00 (28778) Feb 19, 2009
