@@ -1,3 +1,5 @@
+# 1.03.01 (28816) Feb 19, 2009
+Batch deploy for alpha Simulation Tests, svn 28773
 10-16-2007: Battery spinner value resets properly when given an out-of-range value
 10-16-2007: fixed: Semiconductor should have -4 to +4 range of battery voltage-, and put up a dialog for out-of-range entries
 10-5-2007: set battery spinner to update model as values are typed
