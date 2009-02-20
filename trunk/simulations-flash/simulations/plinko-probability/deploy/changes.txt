@@ -1,2 +1,4 @@
+# 1.00.02 (28854) Feb 19, 2009
+Batch deploy for alpha Simulation Tests, svn 28835
 # 1.00.01 (28338) Feb 10, 2009
 Testing deplov dev (JO)
