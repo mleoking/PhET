@@ -1,3 +1,5 @@
+# 2.00.01 (28792) Feb 19, 2009
+Batch deploy for alpha Simulation Tests, svn 28773
 # 2.00.00 (27161) 01-12-2009
 # 1.00.12 (26751)
 12/18/08 - #998, autoscale y-axis of the "Glacier Length vs Time" graph, set min autoscale range to 0-3km
