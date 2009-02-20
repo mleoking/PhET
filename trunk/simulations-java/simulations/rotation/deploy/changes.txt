@@ -1,3 +1,5 @@
+# 1.06.01 (28813) Feb 19, 2009
+Batch deploy for alpha Simulation Tests, svn 28773
 # 1.06.00 (26753) 12-19-2008
 Fixed bug that disk state graphics not updating in sync with the model.
 #1.05.04 (12-5-2008)
