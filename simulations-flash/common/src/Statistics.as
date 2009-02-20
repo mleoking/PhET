@@ -54,13 +54,6 @@ class Statistics {
 		str += "message_version = '0' \n";
 		
 		
-		/////// user data
-		str += "user_preference_file_creation_time = '" + messageEscape(common.preferences.getUserTime()) + "' \n";
-		str += "user_installation_timestamp = '" + messageEscape(common.getInstallationTimestamp()) + "' \n";
-		str += "user_total_sessions = '" + messageEscape(common.preferences.getUserTotalSessions()) + "' \n";
-		
-		
-		
 		/////// simulation data
 		str += "sim_type = 'flash' \n";
 		
@@ -93,6 +86,12 @@ class Statistics {
 		str += "host_flash_time_offset = '" + messageEscape(String((new Date()).getTimezoneOffset())) + "' \n";
 		str += "host_flash_accessibility = '" + messageEscape(String(System.capabilities.hasAccessibility)) + "' \n";
 		str += "host_flash_domain = '" + messageEscape((new LocalConnection()).domain()) + "' \n";
+		
+		
+		/////// user data
+		str += "user_preference_file_creation_time = '" + messageEscape(common.preferences.getUserTime()) + "' \n";
+		str += "user_installation_timestamp = '" + messageEscape(common.getInstallationTimestamp()) + "' \n";
+		str += "user_total_sessions = '" + messageEscape(common.preferences.getUserTotalSessions()) + "' \n";
 		
 		// unload data from shared object
 		common.preferences.unload();
