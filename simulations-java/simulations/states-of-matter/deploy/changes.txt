@@ -1,3 +1,5 @@
+# 1.02.00 (28877) Feb 20, 2009
+Fixed a problem where the sim would throw an exception when running from web start.
 # 1.01.00 (28875) Feb 20, 2009
 Fixed a problem where the download JAR was asking for the sim to run.  Also removed temporary software agreement.
 # 1.00.01 (28821) Feb 19, 2009
