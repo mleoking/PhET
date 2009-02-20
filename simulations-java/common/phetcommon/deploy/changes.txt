@@ -1,3 +1,4 @@
+2-19-09: #1236, -Ddeployment.scenario=ABC to force the deployment scenario to value ABC
 2-19-09: #1236, add abstraction of phet installer version (PhetInstallerVersion)
 2-19-09: #1236, get/set/test ask-me-later durations for sim and installer updates
 2-19-09: #1236, "no update available" dialog hierarchy for sims and installer
