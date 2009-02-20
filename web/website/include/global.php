@@ -74,12 +74,20 @@
 
     // CACHE_ROOT is used to tell where to put the cache directory.
     // I also like to keep this out of my website directories.
+    // TODO: make this point to the root directory of the cache,
+    // not the directory in which the webcache file will be made
     if (!defined("CACHE_ROOT")) define("CACHE_ROOT", PORTAL_ROOT);
 
     // CACHE_DIRNAME is used for the name under which all cached
     // files will be placed.
     if (!defined("CACHE_DIRNAME")) define("CACHE_DIRNAME", "webcache");
 
+    // SIMS_ROOT is where to look for the simulation files
+    if (!defined("SIMS_ROOT")) define("SIMS_ROOT", PORTAL_ROOT.'sims/');
+
+    // PHET_DIST_ROOT is the root of the phet-dist directory
+    if (!defined("PHET_DIST_ROOT")) define("PHET_DIST_ROOT", PORTAL_ROOT.'phet-dist/');
+    
     // Convenience defines for PhET related contact
     define("PHET_DOMAIN_NAME", "phet.colorado.edu");
     define("PHET_HELP_EMAIL", "phethelp@colorado.edu");

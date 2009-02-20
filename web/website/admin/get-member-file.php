@@ -47,7 +47,7 @@ class DownloadPage extends SitePage {
         $this->set_title("Downloading File");
 
         if ($download) {
-            if ($this->file == PORTAL_ROOT.'phet-dist/installers/'.basename($this->file) && file_exists($this->file)) {
+            if ($this->file == PHET_DIST_ROOT.'installers/'.basename($this->file) && file_exists($this->file)) {
 
                 //$this->render = false;
                 //$this->meta_redirect($this->file, 2);

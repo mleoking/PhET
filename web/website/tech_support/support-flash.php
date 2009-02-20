@@ -16,7 +16,6 @@ class FlashSupportPage extends SitePage {
             return $result;
         }
 
-        $portal_root = PORTAL_ROOT;
         $phet_help_email = PHET_HELP_EMAIL;
 
         $flash_version = FLASH_MIN_VERSION_FULL;

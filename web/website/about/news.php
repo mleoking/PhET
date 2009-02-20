@@ -20,7 +20,7 @@ class NewsPage extends SitePage {
         $changes_file = htmlentities($changes_file);
         $changes_html = preg_replace('/ *\n+ */', '<br/>', $changes_file);
 
-        $newsletters_dir = PORTAL_ROOT."phet-dist/newsletters/";
+        $newsletters_dir = PHET_DIST_ROOT."newsletters/";
 
         print <<<EOT
             <h2>Newsletter Archive</h2>

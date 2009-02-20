@@ -15,10 +15,6 @@
     require_once("include/locale-utils.php");
     require_once("include/installer-utils.php");
 
-    if (!defined("SIMS_ROOT")) {
-        define("SIMS_ROOT", PORTAL_ROOT.'sims/');
-    }
-
     // Do not access this variable directly
     $g_SIM_ROOT = SIMS_ROOT;
     function sim_get_root() {
