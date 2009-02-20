@@ -14,6 +14,7 @@ import edu.colorado.phet.buildtools.util.FileUtils;
  * Time: 10:17:40 AM
  */
 public class FlashBuildCommand {
+    private static boolean useTimeout = false;
 
     // returns boolean success of whether the sim was built without errors
     public static boolean build( String cmd, String sim, File trunk, boolean useWine ) throws IOException {
@@ -30,8 +31,17 @@ public class FlashBuildCommand {
         // run the JSFL
         build( cmd, new String[]{sim}, trunk, useWine );
 
-
-        JOptionPane.showMessageDialog( null, "Building the Flash SWF, press OK when finished." );
+        if ( useTimeout ) {
+            try {
+                Thread.sleep( 30 * 1000 );
+            }
+            catch( InterruptedException e ) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog( null, "Building the Flash SWF, press OK when finished." );
+        }
 
         if ( outputFile.exists() ) {
             // found an output file, thus the build (either success or failure) has completed
