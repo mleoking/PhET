@@ -1,3 +1,5 @@
+# 3.02.01 (28791) Feb 19, 2009
+Batch deploy for alpha Simulation Tests, svn 28773
 10/8/08 - use PhetApplicationConfig.launchSim
 10/8/08 - moved list of rejected features to Unfuddle 795
 9/5/08 - remove use of DialogUtils, use JOptionPane directly
