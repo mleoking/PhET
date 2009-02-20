@@ -492,8 +492,8 @@ public abstract class PhetProject {
     public static PhetProject[] getAllSimulations( File trunk ) {
         List phetProjects = new ArrayList();
 
-        phetProjects.addAll( sort( Arrays.asList( JavaProject.getJavaSimulations( trunk ) ) ) );
-        phetProjects.addAll( sort( Arrays.asList( PhetFlashProject.getFlashProjects( trunk ) ) ) );
+        phetProjects.addAll(  Arrays.asList( JavaProject.getJavaSimulations( trunk ) ) );
+        phetProjects.addAll( Arrays.asList( PhetFlashProject.getFlashProjects( trunk ) ) );
         return (PhetProject[]) phetProjects.toArray( new PhetProject[phetProjects.size()] );
     }
 
@@ -514,7 +514,7 @@ public abstract class PhetProject {
         return (PhetProject[]) phetProjects.toArray( new PhetProject[phetProjects.size()] );
     }
 
-    private static Collection sort( List projectList ) {
+    public static Collection sort( List projectList ) {
         Collections.sort( projectList, new Comparator() {
             public int compare( Object o1, Object o2 ) {
                 PhetProject a = (PhetProject) o1;

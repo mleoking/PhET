@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Properties;
+import java.util.Collection;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Java;
@@ -36,20 +37,22 @@ public abstract class JavaProject extends PhetProject {
 
     public static PhetProject[] getJavaSimulations( File trunk ) {
         File simulationsJava = new File( trunk, "simulations-java" );
-        ArrayList phetProjects = new ArrayList();
+        Collection projects = new ArrayList();
         String[] sims = getSimNames( simulationsJava );
         for ( int i = 0; i < sims.length; i++ ) {
             String sim = sims[i];
             File projectDir = PhetBuildUtils.resolveProject( simulationsJava, sim );
             try {
                 PhetProject phetProject = new JavaSimulationProject( projectDir, sim );
-                phetProjects.add( phetProject );
+                projects.add( phetProject );
             }
             catch( IOException e ) {
                 throw new BuildException( e );
             }
         }
-        return (PhetProject[]) phetProjects.toArray( new PhetProject[phetProjects.size()] );
+
+        projects=PhetProject.sort( new ArrayList(projects) );
+        return (PhetProject[]) projects.toArray( new PhetProject[projects.size()] );
     }
 
     public boolean build() throws Exception {
