@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Properties;
+import java.util.Collection;
 
 import org.apache.tools.ant.taskdefs.Jar;
 import org.apache.tools.ant.taskdefs.Manifest;
@@ -42,7 +43,7 @@ public class PhetFlashProject extends PhetProject {
                 return pathname.isDirectory() && !pathname.getName().startsWith( "." );
             }
         } );
-        ArrayList projects = new ArrayList();
+        Collection projects = new ArrayList();
         for ( int i = 0; ( files != null ) && ( i < files.length ); i++ ) {
             File file = files[i];
             try {
@@ -52,7 +53,8 @@ public class PhetFlashProject extends PhetProject {
                 e.printStackTrace();
             }
         }
-        return (PhetFlashProject[]) projects.toArray( new PhetFlashProject[0] );
+        projects=PhetProject.sort( new ArrayList(projects) );
+        return (PhetFlashProject[]) projects.toArray( new PhetFlashProject[projects.size()] );
     }
 
     public boolean build() throws Exception {
