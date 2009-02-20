@@ -90,8 +90,10 @@ public class DeploymentScenario {
 
         DeploymentScenario scenario = null;
 
+        String name;
+        
         // specify scenario via system property, for development only
-        String name = System.getProperty( "deployment.scenario" );
+        name = System.getProperty( "javaws.deployment.scenario" );
         if ( name != null ) {
             scenario = getByName( name );
             if ( scenario == null ) {
