@@ -41,25 +41,25 @@ class CommonButtons {
 		
 		_level0.commonWindow = window;
 		
+		// flow layout will be left-to-right. it is possible to either reverse the direction,
+		// or if vertical layout is desired use SoftBoxLayout(SoftBoxLayout.Y_AXIS) instead
+		window.getContentPane().setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+		
 		// creates the about button
 		var aboutButton : JButton = new JButton(common.strings.get("About...", "About..."));
 		_level0.aboutButton = aboutButton;
 		aboutButton.setSize(aboutButton.getPreferredSize());
 		aboutButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, aboutButtonClicked));
-		
-		// creates the preferences button
-		var preferencesButton : JButton = new JButton(common.strings.get("Preferences", "Preferences"));
-		_level0.preferencesButton = preferencesButton;
-		preferencesButton.setSize(preferencesButton.getPreferredSize());
-		preferencesButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, preferencesButtonClicked));
-		
-		// flow layout will be left-to-right. it is possible to either reverse the direction,
-		// or if vertical layout is desired use SoftBoxLayout(SoftBoxLayout.Y_AXIS) instead
-		window.getContentPane().setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-		
-		// append the buttons
 		window.getContentPane().append(aboutButton);
-		window.getContentPane().append(preferencesButton);
+		
+		if(!common.fromPhetWebsite()) {
+			// creates the preferences button
+			var preferencesButton : JButton = new JButton(common.strings.get("Preferences", "Preferences"));
+			_level0.preferencesButton = preferencesButton;
+			preferencesButton.setSize(preferencesButton.getPreferredSize());
+			preferencesButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, preferencesButtonClicked));
+			window.getContentPane().append(preferencesButton);
+		}
 		
 		// determine the window location
 		var windowX : Number = 0;
