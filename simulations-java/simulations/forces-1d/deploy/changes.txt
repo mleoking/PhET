@@ -1,3 +1,5 @@
+# 1.18.14 (28790) Feb 19, 2009
+Batch deploy for alpha Simulation Tests, svn 28773
 # 1.18.13 (27547) 01-22-2009
 > Fixed: The check boxes are mismatched - F_applied box turns on friction graph, and F_friction box turns on applied graph. 
 
