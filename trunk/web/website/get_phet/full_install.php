@@ -7,6 +7,7 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
 require_once("page_templates/SitePage.php");
+require_once("include/installer-utils.php");
 
 class FullInstallPage extends SitePage {
 
@@ -20,24 +21,28 @@ class FullInstallPage extends SitePage {
         // Get the distribution files and their size
 
         // Windows
-        $win_file = PORTAL_ROOT.'phet-dist/installers/PhET-windows-installer.exe';
+        $win_file = installer_get_win_filename();
         $win_url = urlencode($win_file);
-        $win_size = (file_exists($win_file)) ? (int) (filesize($win_file) / (1024 * 1024)) : "&lt;unknown&gt;";
+        $win_size = installer_get_win_filesize();
+        if ($win_size == 0) $win_size = "&lt;unknown&gt;";
 
         // Mac
-        $mac_file = PORTAL_ROOT.'phet-dist/installers/PhET-osx-installer.zip';
+        $mac_file = installer_get_mac_filename();
         $mac_url = urlencode($mac_file);
-        $mac_size = (file_exists(($mac_file))) ? (int) (filesize($mac_file) / (1024 * 1024)) : "&lt;unknown&gt;";
+        $mac_size = installer_get_mac_filesize();
+        if ($mac_size == 0) $mac_size = "&lt;unknown&gt;";
 
         // Linux
-        $lin_file = PORTAL_ROOT.'phet-dist/installers/PhET-linux-installer.bin';
+        $lin_file = installer_get_linux_filename();
         $lin_url = urlencode($lin_file);
-        $lin_size = (file_exists($lin_file)) ? (int) (filesize($lin_file) / (1024 * 1024)) : "&lt;unknown&gt;";
+        $lin_size = installer_get_linux_filesize();
+        if ($lin_size == 0) $lin_size = "&lt;unknown&gt;";
 
         // CD-ROM
-        $cd_file = PORTAL_ROOT.'phet-dist/installers/PhET-CD-ROM.zip';
+        $cd_file = installer_get_cdrom_filename();
         $cd_url = urlencode($cd_file);
-        $cd_size = (file_exists($cd_file)) ? (int) (filesize($cd_file) / (1024 * 1024)) : "&lt;unknown&gt;";
+        $cd_size = installer_get_cdrom_filesize();
+        if ($cd_size == 0) $cd_size = "&lt;unknown&gt;";
 
         $java_min_version_generic = JAVA_MIN_VERSION_GENERIC;
         $flash_min_version = FLASH_MIN_VERSION;

@@ -28,6 +28,17 @@ class TroubleshootingPage extends SitePage {
         $java_min_version_lin_full = JAVA_MIN_VERSION_LIN_FULL;
         $flash_min_version_full = FLASH_MIN_VERSION_FULL;
 
+        // Get the sizes of the installers
+        $win_size = installer_get_win_filesize();
+        if ($win_size == 0) $win_size = 60;  // old hardcoded default
+
+        $mac_size = installer_get_mac_filesize();
+        if ($mac_size == 0) $mac_size = 40;  // old hardcoded default
+
+        $lin_size = installer_get_linux_filesize();
+        if ($lin_size == 0) $lin_size = 40;  // old hardcoded default
+
+
         print <<<EOT
             <p>This page will help you solve some of the problems people commonly have running our programs. If you can't solve your problem here, please notify us by email at the following address: <a href="mailto:{$phet_help_email}?Subject=Help"><span class="red">{$phet_help_email}</span></a>.</p>
 
@@ -83,7 +94,7 @@ class TroubleshootingPage extends SitePage {
             Intel Pentium processor<br />
             Microsoft Windows 98SE/2000/XP/Vista<br />
             256MB RAM minimum<br />
-            Approximately 60MB available disk space (for full installation)<br />
+            Approximately {$win_size} MB available disk space (for full installation)<br />
             1024x768 screen resolution or better<br />
             {$java_min_version_win_full} or later<br />
             {$flash_min_version_full} or later<br />
@@ -93,7 +104,7 @@ class TroubleshootingPage extends SitePage {
             G3, G4, G5 or Intel processor<br />
             OS {$os_min_version_osx} or later<br />
             256MB RAM minimum<br />
-            Approximately 40 MB available disk space (for full installation)<br />
+            Approximately {$mac_size} MB available disk space (for full installation)<br />
             1024x768 screen resolution or better<br />
             {$java_min_version_osx_full} or later<br />
             {$flash_min_version_full} or later<br />
@@ -104,7 +115,7 @@ class TroubleshootingPage extends SitePage {
             <p><strong>Linux Systems</strong><br />
             Intel Pentium processor<br />
             256MB RAM minimum<br />
-            Approximately 40 MB disk space (for full installation)<br />
+            Approximately {$lin_size} MB disk space (for full installation)<br />
             1024x768 screen resolution or better<br />
             {$java_min_version_lin_full} or later<br />
             {$flash_min_version_full} or later<br />
