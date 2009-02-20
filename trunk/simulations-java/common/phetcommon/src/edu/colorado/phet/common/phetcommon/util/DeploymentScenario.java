@@ -25,6 +25,10 @@ public class DeploymentScenario {
     public static final DeploymentScenario OTHER_WEBSITE = new DeploymentScenario( "other-website", true );
     public static final DeploymentScenario DEVELOPER_IDE = new DeploymentScenario( "developer-ide", false );
     
+    private static final DeploymentScenario[] ALL_SCENARIOS = {
+        PHET_INSTALLATION, STANDALONE_JAR, PHET_PRODUCTION_WEBSITE, PHET_DEVELOPMENT_WEBSITE, OTHER_WEBSITE, DEVELOPER_IDE
+    };
+    
     /*
      * There are fragments of the codebase attribute in JNLP files.
      * Codebase is a URL, whose syntax is:
@@ -59,6 +63,10 @@ public class DeploymentScenario {
         return !online;
     }
     
+    public String getName() {
+        return name;
+    }
+    
     public String toString() {
         return name;
     }
@@ -79,51 +87,63 @@ public class DeploymentScenario {
      * Determines which scenario was used to deploy the application that we're running.
      */
     private static DeploymentScenario determineScenario() {
-        
+
         DeploymentScenario scenario = null;
 
-        if ( PhetServiceManager.isJavaWebStart() ) {
-
-            if ( isPhetInstallation() ) {
-                scenario = DeploymentScenario.PHET_INSTALLATION;
+        // specify scenario via system property, for development only
+        String name = System.getProperty( "deployment.scenario" );
+        if ( name != null ) {
+            scenario = getByName( name );
+            if ( scenario == null ) {
+                System.err.println( "DeploymentScenario: ignoring bad value: " + name );
             }
-            else {
-                // web-started sims are differentiated base on the codebase attribute specified in the JNLP file
-                String codebaseFragment = null;
-                try {
-                    URL codebase = PhetServiceManager.getBasicService().getCodeBase();
-                    codebaseFragment = codebase.getAuthority() + codebase.getPath();
-                }
-                catch ( UnavailableServiceException e ) {
-                    e.printStackTrace();
-                }
-                
-                // in case we still have null for any reason
-                if ( codebaseFragment == null ) {
-                    codebaseFragment = "?";
-                }
+        }
 
-                if ( codebaseFragment.startsWith( PHET_PRODUCTION_CODEBASE_PREFIX ) ) {
-                    scenario = DeploymentScenario.PHET_PRODUCTION_WEBSITE;
-                }
-                else if ( codebaseFragment.indexOf( PHET_DEVELOPMENT_CODEBASE_SUBSTRING ) >= 0 ) {
-                    /* 
-                     * Do this after checking the production server scenario, 
-                     * because deployment codebase substring may be contained in production codebase prefix.
-                     */
-                    scenario = DeploymentScenario.PHET_DEVELOPMENT_WEBSITE;
+        if ( scenario == null ) {
+            if ( PhetServiceManager.isJavaWebStart() ) {
+
+                if ( isPhetInstallation() ) {
+                    scenario = DeploymentScenario.PHET_INSTALLATION;
                 }
                 else {
-                    scenario = DeploymentScenario.OTHER_WEBSITE;
+                    // web-started sims are differentiated base on the codebase attribute specified in the JNLP file
+                    String codebaseFragment = null;
+                    try {
+                        URL codebase = PhetServiceManager.getBasicService().getCodeBase();
+                        codebaseFragment = codebase.getAuthority() + codebase.getPath();
+                    }
+                    catch ( UnavailableServiceException e ) {
+                        e.printStackTrace();
+                    }
+
+                    // in case we still have null for any reason
+                    if ( codebaseFragment == null ) {
+                        codebaseFragment = "?";
+                    }
+
+                    if ( codebaseFragment.startsWith( PHET_PRODUCTION_CODEBASE_PREFIX ) ) {
+                        scenario = DeploymentScenario.PHET_PRODUCTION_WEBSITE;
+                    }
+                    else if ( codebaseFragment.indexOf( PHET_DEVELOPMENT_CODEBASE_SUBSTRING ) >= 0 ) {
+                        /* 
+                         * Do this after checking the production server scenario, 
+                         * because deployment codebase substring may be contained in production codebase prefix.
+                         */
+                        scenario = DeploymentScenario.PHET_DEVELOPMENT_WEBSITE;
+                    }
+                    else {
+                        scenario = DeploymentScenario.OTHER_WEBSITE;
+                    }
                 }
             }
+            else if ( FileUtils.isJarCodeSource() ) {
+                scenario = DeploymentScenario.STANDALONE_JAR;
+            }
+            else {
+                scenario = DeploymentScenario.DEVELOPER_IDE;
+            }
         }
-        else if ( FileUtils.isJarCodeSource() ) {
-            scenario = DeploymentScenario.STANDALONE_JAR;
-        }
-        else {
-            scenario = DeploymentScenario.DEVELOPER_IDE;
-        }
+
         return scenario;
     }
     
@@ -144,6 +164,20 @@ public class DeploymentScenario {
             }
         }
         return exists;
+    }
+    
+    /*
+     * Gets a scenario by name.
+     */
+    private static DeploymentScenario getByName( String name ) {
+        DeploymentScenario d = null;
+        for ( int i = 0; i < ALL_SCENARIOS.length; i++ ) {
+            if ( ALL_SCENARIOS[i].getName().equals( name ) ) {
+                d = ALL_SCENARIOS[i];
+                break;
+            }
+        }
+        return d;
     }
     
     public static void main( String[] args ) {
