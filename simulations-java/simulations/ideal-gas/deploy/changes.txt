@@ -1,3 +1,5 @@
+# 3.08.07 (28795) Feb 19, 2009
+Batch deploy for alpha Simulation Tests, svn 28773
 1-9-2009: #821, improper sharing of clocks between modules
 10-8-2008: convert to new PhetApplicationConfig framework
 
