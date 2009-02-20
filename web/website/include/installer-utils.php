@@ -88,4 +88,68 @@
         return $row['installer_info_timestamp'];
     }
 
+    function installer_get_win_filename() {
+        $file = PHET_DIST_ROOT.'installers/PhET-Installer_Windows.exe';
+        if (file_exists($file)) {
+        	return $file;
+        }
+
+        // See ticket #1263
+        // LEGACY SUPPORT: remove this code when John B has finish updating the installer names.
+        return PHET_DIST_ROOT.'installers/PhET-windows-installer.exe';
+    }
+
+    function installer_get_mac_filename() {
+        $file = PHET_DIST_ROOT.'installers/PhET-Installer_OSX.zip';
+        if (file_exists($file)) {
+        	return $file;
+        }
+
+        // See ticket #1263
+        // LEGACY SUPPORT: remove this code when John B has finish updating the installer names.
+        return PHET_DIST_ROOT.'installers/PhET-osx-installer.zip';
+    }
+	
+    function installer_get_linux_filename() {
+        $file = PHET_DIST_ROOT.'installers/PhET-Installer_Linux.bin';
+        if (file_exists($file)) {
+        	return $file;
+        }
+
+        // See ticket #1263
+        // LEGACY SUPPORT: remove this code when John B has finish updating the installer names.
+        return PHET_DIST_ROOT.'installers/PhET-linux-installer.bin';
+    }
+
+    function installer_get_cdrom_filename() {
+        $file = PHET_DIST_ROOT.'installers/PhET-Installer_CDROM.zip';
+        if (file_exists($file)) {
+        	return $file;
+        }
+
+        // See ticket #1263
+        // LEGACY SUPPORT: remove this code when John B has finish updating the installer names.
+        return PHET_DIST_ROOT.'installers/PhET-CD-ROM.zip';
+    }
+
+    function installer_get_win_filesize() {
+        $file = installer_get_win_filename();
+        return (file_exists($file)) ? (int) (filesize($file) / (1024 * 1024)) : 0;
+    }
+
+    function installer_get_mac_filesize() {
+        $file = installer_get_mac_filename();
+        return (file_exists($file)) ? (int) (filesize($file) / (1024 * 1024)) : 0;
+    }
+	
+    function installer_get_linux_filesize() {
+        $file = installer_get_linux_filename();
+        return (file_exists($file)) ? (int) (filesize($file) / (1024 * 1024)) : 0;
+    }
+
+    function installer_get_cdrom_filesize() {
+        $file = installer_get_cdrom_filename();
+        return (file_exists($file)) ? (int) (filesize($file) / (1024 * 1024)) : 0;
+    }
+
 ?>
