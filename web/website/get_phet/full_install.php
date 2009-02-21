@@ -48,7 +48,7 @@ class FullInstallPage extends SitePage {
         $flash_min_version = FLASH_MIN_VERSION;
         print <<<EOT
             <p>
-                The full PhET installation package installs a copy of the PhET website onto your computer. Once installed, you do not need to be connected to the Internet
+                The full PhET Offline Website Installer package installs a copy of the PhET website onto your computer. Once installed, you do not need to be connected to the Internet
                 to view or run any of the simulations (as long as you have <a href="http://www.java.com/">Java</a>, <a href="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=shockwaveFlash">Flash</a>, and a web browser such as <a href="http://www.mozilla.com/en-US/">Firefox</a> or <a href="http://www.microsoft.com/windows/products/winfamily/ie/default.mspx">Internet Explorer</a>).
             </p>
 
@@ -57,7 +57,7 @@ class FullInstallPage extends SitePage {
             </p>
 
             <p>
-                These installers of the PhET Simulations are updated daily. We suggest uninstalling your earlier versions of PhET before installing.
+                These installers of the PhET simulations are updated frequently. We suggest uninstalling your earlier versions before installing a new one.
             </p>
 
             <ul>
@@ -101,7 +101,7 @@ EOT;
 
 }
 
-$page = new FullInstallPage("Full Install", NAV_GET_PHET, null);
+$page = new FullInstallPage("PhET Offline Website Installer - Full Install", NAV_GET_PHET, null);
 $page->update();
 $page->render();
 

@@ -16,6 +16,10 @@ class TroubleshootingPage extends SitePage {
             return $result;
         }
 
+        $installer_url = SITE_ROOT.'get_phet/full_install.php';
+        $installer_name = 'PhET Offline Website Installer';
+        $installer_anchor = '<a href="'.SITE_ROOT.'get_phet/full_install.php">'.$installer_name.'</a>';
+
         $no_mac = SIM_NO_MAC_IMAGE_HTML;
 
         $phet_help_email = PHET_HELP_EMAIL;
@@ -73,7 +77,7 @@ class TroubleshootingPage extends SitePage {
 
                     <li class="faq"><a href="#q10">I would like to translate PhET Simulations into another Language. Can this be easily done?</a></li>
 
-                    <li class="faq"><a href="#q11">I have downloaded and installed the off-line version of the PhET simulations, and I get a warning on every page. Why?</a></li>
+                    <li class="faq"><a href="#q11">I have downloaded and installed the {$installer_name}, and I get a warning on every page. Why?</a></li>
 
                     <li class="faq"><a href="{$this->prefix}about/licensing.php">What are Licensing requirements?</a></li>
                 </ul>
@@ -94,7 +98,7 @@ class TroubleshootingPage extends SitePage {
             Intel Pentium processor<br />
             Microsoft Windows 98SE/2000/XP/Vista<br />
             256MB RAM minimum<br />
-            Approximately {$win_size} MB available disk space (for full installation)<br />
+            Approximately {$win_size} MB available disk space (for full <a href="{$installer_url}">installation</a>)<br />
             1024x768 screen resolution or better<br />
             {$java_min_version_win_full} or later<br />
             {$flash_min_version_full} or later<br />
@@ -104,18 +108,16 @@ class TroubleshootingPage extends SitePage {
             G3, G4, G5 or Intel processor<br />
             OS {$os_min_version_osx} or later<br />
             256MB RAM minimum<br />
-            Approximately {$mac_size} MB available disk space (for full installation)<br />
+            Approximately {$mac_size} MB available disk space (for full <a href="{$installer_url}">installation</a>)<br />
             1024x768 screen resolution or better<br />
             {$java_min_version_osx_full} or later<br />
             {$flash_min_version_full} or later<br />
             Safari 2 or later, Firefox 2 or later</p>
 
-            <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
-
             <p><strong>Linux Systems</strong><br />
             Intel Pentium processor<br />
             256MB RAM minimum<br />
-            Approximately {$lin_size} MB disk space (for full installation)<br />
+            Approximately {$lin_size} MB disk space (for full <a href="{$installer_url}">installation</a>)<br />
             1024x768 screen resolution or better<br />
             {$java_min_version_lin_full} or later<br />
             {$flash_min_version_full} or later<br />
@@ -123,7 +125,7 @@ class TroubleshootingPage extends SitePage {
 
             <p><strong>Support Software</strong></p>
 
-            <p>Some of our simulations use Java, and some use Flash. Both of these are available as free downloads, and our downloadable installer includes Java for those who need it.</p>
+            <p>Some of our simulations use Java, and some use Flash. Both of these are available as free downloads, and our downloadable {$installer_anchor} includes Java for those who need it.</p>
 
             <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
@@ -228,13 +230,14 @@ class TroubleshootingPage extends SitePage {
 
             <p>The PhET simulations have been written so that they are easily translated to languages other than English. Please <a href="{$this->prefix}contribute/index.php">click here</a> for more information.</p>
 
-            <h3 id="q11" >I have downloaded and installed the off-line version of the PhET simulations, and I get a warning on every page. Why?</h3>
+            <h3 id="q11" >I have downloaded and installed the {$installer_anchor}, and I get a warning on every page. Why?</h3>
 
-	    <p>The PhET installer creates a local copy of the current version of the PhET website on your computer.  When you access this locally installed copy, your computer will use your default browser, which for many people is Internet Explorer.  If the security settings are set to their default values, you may get an error that says <em>"To help protect your security, Internet Explorer has restricted this webpage from running scripts or ActiveX controls that could access your computer.  Click here for options..."</em> (or something similar).  This is a security feature of Internet Explorer version 6 and later, and is meant to warn users about running active content locally.  The PhET simulations present no danger to your computer, and running them locally is no different than running them from the web site.</p>
+	    <p>The {$installer_anchor} creates a local copy of the current version of the PhET website on your computer.  When you access this locally installed copy, your computer will use your default browser, which for many people is Internet Explorer.  If the security settings are set to their default values, you may get an error that says <em>"To help protect your security, Internet Explorer has restricted this webpage from running scripts or ActiveX controls that could access your computer.  Click here for options..."</em> (or something similar).  This is a security feature of Internet Explorer version 6 and later, and is meant to warn users about running active content locally.  The PhET simulations present no danger to your computer, and running them locally is no different than running them from the web site.</p>
 
 	    <p>If you wish to disable this warning, you can do so by adjusting your browser's security settings.  For IE versions 6 and 7, the way to do this is to go into Tools->Internet Options->Advanced, find the "Security" heading, and check "Allow active content to run in files on My Computer".  Note that you will need to restart Internet Explorer to get this change to take effect.  You should only do this if feel confident that there is no other off-line content that you may run on your computer that could be malicious.</p>
 
             <p>Alternatively, you could use a different browser (such as Firefox) that does not have this issue.</p>
+            <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 <br />
 <br />
 <br />
