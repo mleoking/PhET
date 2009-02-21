@@ -235,6 +235,10 @@
             return $version;
         }
 
+        if (!file_exists($properties_filename)) {
+            return $version;
+        }
+
         $handle = @fopen($properties_filename, "r");
 
         if ($handle) {
