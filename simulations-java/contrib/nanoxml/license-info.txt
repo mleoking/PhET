@@ -1,1 +1,0 @@
-nanoxml license=zlib/libpng license licensefile=license.txt name=NanoXML description=a small XML parser for Java copyright=2000-2008 Marc De Scheemaecker, All Rights Reserved. website=http://devkix.com/nanoxml.php

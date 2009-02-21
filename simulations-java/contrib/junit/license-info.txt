@@ -1,1 +1,0 @@
-junit license=common public license 1.0 licensefile=cpl-v10.html name=JUnit description=A test-driven development library copyright=Object Mentor website=http://www.junit.org/

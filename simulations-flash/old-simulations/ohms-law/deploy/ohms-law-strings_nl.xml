@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--ohms-law-strings_nl.xml created Fri Nov 14 19:33:56 GMT+01:00 2008 using: ohms-law 1.00.00 (22498), translation-utility 1.08.00 (25822)-->
-<SimStrings>
-<string key="currentEq" value="stroom I ="/>
-<string key="resistance" value="weerstand R"/>
-<string key="sound" value="geluid"/>
-<string key="voltage" value="spanning U"/>
-</SimStrings>

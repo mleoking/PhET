@@ -1,6 +1,0 @@
-###################################
-# License info for moving-man
-# Automatically generated on Fri Aug 08 00:08:02 MDT 2008
-###################################
-
-smash0.wav source=http://bruitages.free.fr/hommes/cris/cri3.wav

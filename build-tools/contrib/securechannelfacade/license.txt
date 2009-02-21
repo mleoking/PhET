@@ -1,1 +1,0 @@
-apache license 2.0

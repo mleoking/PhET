@@ -1,3 +1,0 @@
-Redirect permanent /statistics/raw-log.txt /statistics/raw-log.php
-Redirect permanent /statistics/parsed-log.txt /statistics/parsed-log.php
-Redirect permanent /statistics/phet_stats.sql /statistics/404.php

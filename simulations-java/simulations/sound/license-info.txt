@@ -1,2 +1,0 @@
-jass name=JASS description=JASS (Java Audio Synthesis System) is a unit generator based audio synthesis programming environment written in pure Java website=http://www.cs.ubc.ca/~kvdoel/jass/ copyright=Kees van den Doel 
-javasound description=???

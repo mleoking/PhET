@@ -1,1 +1,0 @@
-schmidt-lee name=Solver for Schrodinger wave function and eigenstates license=GPL description=This PhET project contains a modified version of two files copyright=1998 Kevin E. Schmidt and Michael A. Lee website=http://fermi.la.asu.edu/Schroedinger/index.html licensefile=gpl.txt

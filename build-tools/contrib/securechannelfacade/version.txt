@@ -1,2 +1,0 @@
-checked out from svn 11-18-2008, calls itself v6 in package structure
-see http://code.google.com/p/securechannelfacade/

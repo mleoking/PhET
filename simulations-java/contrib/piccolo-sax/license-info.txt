@@ -1,1 +1,0 @@
-piccolo-sax license=Apache 2.0 licensefile=LICENSE.txt name=Piccolo XML Parser description=a small, extremely fast XML parser for Java copyright=Yuval Oren website=http://piccolo.sourceforge.net/

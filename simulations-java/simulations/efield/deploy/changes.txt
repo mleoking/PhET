@@ -1,7 +1,0 @@
-# 1.01.07 (28786) Feb 19, 2009
-Batch deploy for alpha Simulation Tests, svn 28773
-#1.01.01 (11-11-2008)
-Testing deploy process
-
-10-9-2008: convert to new PhetApplicationConfig usage
-10-9-2008: create change log file

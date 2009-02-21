@@ -1,3 +1,0 @@
-# 1.00.02 (28844) Feb 19, 2009
-Batch deploy for alpha Simulation Tests, svn 28835
-# 1.00.01 (28413) Feb 12, 2009

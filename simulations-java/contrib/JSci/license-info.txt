@@ -1,1 +1,0 @@
-jsci license=LGPL licensefile=LICENSE website=http://jsci.sourceforge.net/ name=JSci description=A science API for Java copyright=JSci

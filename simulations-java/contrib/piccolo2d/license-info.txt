@@ -1,1 +1,0 @@
-piccolo2d license=Piccolo2D License licensefile=license-piccolo.txt name=Piccolo2D description=a structured 2D graphics framework copyright=University of Maryland website=http://www.piccolo.com
