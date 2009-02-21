@@ -134,6 +134,8 @@ public class FlashLauncher {
             println( "WARNING: could not find common strings for " + locale + ", using default en." );
         }
 
+        String creditsString = FlashHTML.rawFile( new File( unzipDir, "credits.txt" ) );
+
         // encoded XML for sim and common strings
         String simEncodedXML = FlashHTML.encodeXMLFile( simXMLFile );
         String commonEncodedXML = FlashHTML.encodeXMLFile( commonXMLFile );
@@ -148,7 +150,7 @@ public class FlashLauncher {
         // dynamically generate an HTML file
         String html = FlashHTML.generateHTML( simName, language, country, deployment, distributionTag, installationTimestamp,
                 installerCreationTimestamp, versionMajor, versionMinor, versionDev, versionRevision, versionTimestamp, simDev, bgcolor,
-                simEncodedXML, commonEncodedXML, "8","flash-template.html", agreementVersion, encodedAgreement );
+                simEncodedXML, commonEncodedXML, "8","flash-template.html", agreementVersion, encodedAgreement, creditsString );
         File htmlFile = new File( unzipDir, simName + "_" + language + ".html" );
         FileOutputStream outputStream = new FileOutputStream( htmlFile );
         outputStream.write( html.getBytes() );
