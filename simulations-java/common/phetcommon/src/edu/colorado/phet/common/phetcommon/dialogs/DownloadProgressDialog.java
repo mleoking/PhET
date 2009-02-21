@@ -15,6 +15,7 @@ import java.util.Locale;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.DownloadThread;
 import edu.colorado.phet.common.phetcommon.util.DownloadThread.DebugDownloadThreadListener;
@@ -30,7 +31,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DownloadProgressDialog extends JDialog {
+public class DownloadProgressDialog extends PaintImmediateDialog {
     
     //----------------------------------------------------------------------------
     // Class data

@@ -9,23 +9,22 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.SessionCounter;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.statistics.SessionMessage;
-import edu.colorado.phet.common.phetcommon.updates.ManualUpdatesManager;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
  * Preferences dialog.
  */
-public class PreferencesDialog extends JDialog {
+public class PreferencesDialog extends PaintImmediateDialog {
 
     private static final String TITLE = PhetCommonResources.getString( "Common.preferences.title" );
     private static final String UPDATES_TAB = PhetCommonResources.getString( "Common.preferences.updates" );

@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -23,7 +24,7 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPa
  * @author Sam Reid
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ContribLicenseDialog extends JDialog {
+public class ContribLicenseDialog extends PaintImmediateDialog {
 
     // preferred size for the scrollpane, change this to affect initial dialog size
     private static final Dimension SCROLLPANE_SIZE = new Dimension( 440, 300 );
@@ -31,7 +32,8 @@ public class ContribLicenseDialog extends JDialog {
     private static final String CLOSE_BUTTON = PhetCommonResources.getString( "Common.choice.close" );
 
     public ContribLicenseDialog( Dialog owner,String title ,String text)  {
-        super( owner, title, true /* modal */ );
+        super( owner, title );
+        setModal( true );
 
         // license in a scroll pane
         InteractiveHTMLPane htmlPane = new InteractiveHTMLPane( text );
