@@ -1,5 +1,6 @@
 package edu.colorado.phet.common.phetcommon.updates;
 
+import java.awt.Frame;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -7,11 +8,11 @@ import java.util.Arrays;
 import java.util.jar.JarFile;
 
 import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.dialogs.DownloadProgressDialog;
+import edu.colorado.phet.common.phetcommon.dialogs.ErrorDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateErrorDialog;
@@ -187,8 +188,11 @@ public class SimUpdater {
     }
     
     private static void handleErrorWritePermissions( File file ) {
+        String title = PhetCommonResources.getString( "Common.title.error");
         Object[] args = { file.getAbsolutePath() };
         String message = MessageFormat.format( PhetCommonResources.getString( "Common.updates.errorWritePermissions" ), args );
-        JOptionPane.showMessageDialog( null, message );
+        String html = HTMLUtils.createStyledHTMLFromFragment( message );
+        JDialog d = new ErrorDialog( (Frame)null, title, html );
+        d.setVisible( true );
     }
 }
