@@ -57,7 +57,6 @@ public class JARLauncher implements IProguardKeepClass {
     private static final String INSTRUCTIONS = "<html>This program contains {0} simulations.<br>Select the simulation that you wish to start:<br></html>";
     private static final String START_BUTTON = "Start";
     private static final String CANCEL_BUTTON = "Cancel";
-    private static final String ERROR_TITLE = "Error";
     private static final String ERROR_FAILED_TO_LAUNCH = "Failed to launch JAR.";
     private static final String ERROR_NO_SIMS = "No simulations found in this JAR.";
     private static final String ERROR_SIM_NOT_FOUND = "Simulation {0} not found in this JAR.";
@@ -448,7 +447,7 @@ public class JARLauncher implements IProguardKeepClass {
      * Displays an exception using the standard PhET error dialog.
      */
     private static void showException( Frame parent, Exception e ) {
-        JDialog dialog = new ErrorDialog( parent, ERROR_TITLE, ERROR_FAILED_TO_LAUNCH, e );
+        JDialog dialog = new ErrorDialog( parent, ERROR_FAILED_TO_LAUNCH, e );
         SwingUtils.centerWindowOnScreen( dialog );
         dialog.setVisible( true );
     }

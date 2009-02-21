@@ -168,9 +168,7 @@ public class DownloadProgressDialog extends PaintImmediateDialog {
             SwingUtilities.invokeLater( new Runnable() {
                 public void run() {
                     // display the error
-                    String title = PhetCommonResources.getString( "Common.title.error" );
-                    String htmlMessage = HTMLUtils.createStyledHTMLFromFragment( message );
-                    ErrorDialog dialog = new ErrorDialog( DownloadProgressDialog.this, title, htmlMessage, e );
+                    ErrorDialog dialog = new ErrorDialog( DownloadProgressDialog.this, message, e );
                     dialog.setVisible( true );
                 }
             } );

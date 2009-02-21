@@ -28,34 +28,36 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPa
  */
 public class ErrorDialog extends PaintImmediateDialog {
 
+    private static final String TITLE = PhetCommonResources.getString( "Common.title.error" );
     private static final String CLOSE_BUTTON = PhetCommonResources.getString( "Common.choice.close" );
     private static final String DETAILS_BUTTON = PhetCommonResources.getString( "Common.ErrorDialog.detailsButton" );
     private static final String DETAILS_TITLE = PhetCommonResources.getString( "Common.ErrorDialog.detailsTitle" );
     private static final String CONTACT_PHET = PhetCommonResources.getString( "Common.ErrorDialog.contactPhet" );
     
-    public ErrorDialog( Frame owner, String title, String htmlMessage ) {
-        this( owner, title, htmlMessage, null /* exception */ );
+    public ErrorDialog( Frame owner, String message ) {
+        this( owner, message, null /* exception */ );
     }
     
-    public ErrorDialog( Frame owner, String title, String htmlMessage, final Exception exception ) {
-        super( owner, title );
-        init( htmlMessage, exception );
+    public ErrorDialog( Frame owner, String message, final Exception exception ) {
+        super( owner, TITLE );
+        init( message, exception );
     }
     
-    public ErrorDialog( JDialog owner, String title, String htmlMessage ) {
-        this( owner, title, htmlMessage, null /* exception */ );
+    public ErrorDialog( JDialog owner, String message ) {
+        this( owner, message, null /* exception */ );
     }
     
-    public ErrorDialog( JDialog owner, String title, String htmlMessage, final Exception exception ) {
-        super( owner, title );
-        init( htmlMessage, exception );
+    public ErrorDialog( JDialog owner, String message, final Exception exception ) {
+        super( owner, TITLE );
+        init( message, exception );
     }
     
-    private void init( String htmlMessage, final Exception exception ) {
+    private void init( String message, final Exception exception ) {
         setResizable( false );
         setModal( true );
-
-        JComponent htmlPane = new InteractiveHTMLPane( htmlMessage );
+        
+        String htmlString = HTMLUtils.createStyledHTMLFromFragment( message );
+        JComponent htmlPane = new InteractiveHTMLPane( htmlString );
         JPanel messagePanel = new JPanel();
         messagePanel.setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
         messagePanel.add( htmlPane );
@@ -116,8 +118,8 @@ public class ErrorDialog extends PaintImmediateDialog {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         SwingUtils.centerWindowOnScreen( frame );
         frame.setVisible( true );
-        String htmlMessage = HTMLUtils.createStyledHTMLFromFragment( "Something very bad just happened." );
-        JDialog dialog = new ErrorDialog( frame, "Run For Your Life!", htmlMessage, new IOException() );
+        String htmlMessage = "<html>Something very bad<br>just happened.</html>";
+        JDialog dialog = new ErrorDialog( frame, htmlMessage, new IOException() );
         dialog.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
                 System.exit( 0 );
