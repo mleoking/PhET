@@ -188,11 +188,9 @@ public class SimUpdater {
     }
     
     private static void handleErrorWritePermissions( File file ) {
-        String title = PhetCommonResources.getString( "Common.title.error");
         Object[] args = { file.getAbsolutePath() };
         String message = MessageFormat.format( PhetCommonResources.getString( "Common.updates.errorWritePermissions" ), args );
-        String html = HTMLUtils.createStyledHTMLFromFragment( message );
-        JDialog d = new ErrorDialog( (Frame)null, title, html );
+        JDialog d = new ErrorDialog( (Frame)null, message );
         d.setVisible( true );
     }
 }

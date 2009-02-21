@@ -23,18 +23,17 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  */
 public class UpdateErrorDialog extends ErrorDialog {
     
-    private static final String TITLE = PhetCommonResources.getString( "Common.updates.error.title" );
     private static final String ERROR_MESSAGE = PhetCommonResources.getString( "Common.updates.errorMessage" );
 
     public UpdateErrorDialog( Frame owner, final Exception exception ) {
-        super( owner, TITLE, getErrorMessageHTML(), exception );
+        super( owner, getErrorMessage(), exception );
         SwingUtils.centerDialogInParent( this );
     }
     
-    protected static String getErrorMessageHTML() {
+    protected static String getErrorMessage() {
         Object[] args = { HTMLUtils.getPhetHomeHref() };
-        String htmlFragment = MessageFormat.format( ERROR_MESSAGE, args );
-        return HTMLUtils.createStyledHTMLFromFragment( htmlFragment );
+        String message = MessageFormat.format( ERROR_MESSAGE, args );
+        return message;
     }
     
     // test
