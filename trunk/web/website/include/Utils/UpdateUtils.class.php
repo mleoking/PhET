@@ -1,7 +1,8 @@
 <?php
 
     // Utils to update settings
-
+  /*
+   // Don't need these
     // In each web accessable script SITE_ROOT must be defined FIRST
     if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
     
@@ -9,8 +10,7 @@
     require_once(dirname(dirname(dirname(__FILE__)))."/include/global.php");
 
     require_once("include/db-utils.php");
-    require_once('include/utils/Validate.class.php');
-
+  */
     class UpdateUtils {
         private static $instance;
 
@@ -22,10 +22,11 @@
             'install_recommend_update_age' => 'int',
             'install_recommend_update_date' => 'date'
             );
+
         private function __construct() {
         }
 
-        static public function inst() {
+        public static function inst() {
             if (!isset(self::$instance)) {
                 $class = __CLASS__;
                 self::$instance = new $class;
