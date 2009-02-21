@@ -14,6 +14,7 @@ import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.SoftwareAgreementDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
@@ -31,7 +32,7 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPa
  * @author Sam Reid
  * @author Chris Malley
  */
-public class PhetAboutDialog extends JDialog {
+public class PhetAboutDialog extends PaintImmediateDialog {
 
     // Copyright notice, not translated so no one messes with it, and so that we can easily change the date.
     private static final String COPYRIGHT_HTML_FRAGMENT =

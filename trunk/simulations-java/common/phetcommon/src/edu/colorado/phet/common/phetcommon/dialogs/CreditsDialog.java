@@ -14,6 +14,7 @@ import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.resources.DefaultResourceLoader;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.AnnotationParser;
@@ -33,7 +34,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  * @author Sam Reid
  * @author Chris Malley
  */
-public class CreditsDialog extends JDialog {
+public class CreditsDialog extends PaintImmediateDialog {
     // preferred size for the scrollpane, change this to affect initial dialog size
     private static final Dimension SCROLLPANE_SIZE = new Dimension( 525, 300 );
 
@@ -45,7 +46,8 @@ public class CreditsDialog extends JDialog {
     private String phetLicenseString;
 
     public CreditsDialog( Dialog owner, String projectName ) {
-        super( owner, TITLE, true );
+        super( owner, TITLE );
+        setModal( true );
         this.projectName = projectName;
         try {
             phetLicenseString = new DefaultResourceLoader().getResourceAsString( projectName + "/contrib-licenses/license-info.txt" );

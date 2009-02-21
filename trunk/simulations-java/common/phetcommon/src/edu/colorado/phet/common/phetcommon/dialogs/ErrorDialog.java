@@ -13,6 +13,7 @@ import java.text.MessageFormat;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
@@ -25,7 +26,7 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPa
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ErrorDialog extends JDialog {
+public class ErrorDialog extends PaintImmediateDialog {
 
     private static final String CLOSE_BUTTON = PhetCommonResources.getString( "Common.choice.close" );
     private static final String DETAILS_BUTTON = PhetCommonResources.getString( "Common.ErrorDialog.detailsButton" );
