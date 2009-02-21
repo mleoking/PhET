@@ -17,7 +17,7 @@ public class PhetCommonConstants {
     public static final String SIM_REDIRECT_URL = PHET_HOME_URL + "/simulations/sim-redirect.php";
     public static final String SIM_JAR_REDIRECT_URL = PHET_HOME_URL + "/simulations/sim-jar-redirect.php";
     public static final String STATISTICS_SERVICE_URL = PHET_HOME_URL + "/statistics/submit_message.php";
-    public static final String SIM_VERSION_INFO_URL = PHET_HOME_URL + "/simulations/sim-version-info.php";
+    public static final String PHET_INFO_URL = PHET_HOME_URL + "/services/phet-info.php";
     
     // Properties used to set the locale.
     // Since these need to be usable via JNLP, they begin with "javaws".
