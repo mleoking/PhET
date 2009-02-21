@@ -1,0 +1,153 @@
+<!--
+
+This build file is specific to the PhET website. However, it borrows some 
+build-related libraries from the build-utils project.
+
+-->
+<project name="PhET Website Utility Script" default="Deploy to live server" basedir=".">
+    <!-- Website properties -->
+    <property name="dir.website" value="${basedir}" />
+
+    <!-- *** IF YOU DEPLOY ON A MAC WITH ECLIPSE:
+    Library antform doesn't work so you must hardcode your username and password.
+    Only do this on your local machine, don't check it in.
+    This file 'build.xml' is NOT deployed, so this info won't be propogated
+    -->
+
+    <!-- Uncommend this to hardcode your username and password -->
+    <!--
+    <property name="deploy.username" value="" />
+    <property name="deploy.password" value="" />
+    -->
+
+    <!-- Build tools -->
+    <property name="dir.build-tools" value="${basedir}/../build-tools/contrib/" />
+
+    <!-- Support jars -->
+    <property name="jar.ant-contrib" value="${dir.build-tools}ant-contrib/ant-contrib.jar" />
+    <property name="jar.antform" value="${dir.build-tools}antform/lib/antform.jar" />
+    <property name="jar.maverick" value="${dir.build-tools}maverick/lib/maverick-ant.jar" />
+
+    <!-- Ant-Contrib tasks definition -->
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+        <classpath>
+            <pathelement location="${jar.ant-contrib}" />
+        </classpath>
+    </taskdef>
+
+    <!-- AntForm task definition -->
+    <taskdef name="antform" classname="com.sardak.antform.AntForm" classpath="${jar.antform}" />
+
+    <!-- Maverick task definition -->
+    <taskdef name="maverick-ssh" classname="com.sshtools.ant.Ssh" classpath="${jar.maverick}" />
+
+    <target name="_read-username-and-password">
+        <if>
+            <not>
+                <and>
+                    <isset property="deploy.username" />
+                    <isset property="deploy.password" />
+                </and>
+            </not>
+            <then>
+                <echo message="Gathering username and password from user" />
+
+                <!-- If the username and password are not set, get them now: -->
+                <antform title="Deployment Host Login" width="550" height="300">
+                    <label>Please enter your username and password that you use to login to the deployment host machine.
+                    </label>
+
+                    <textProperty label="Username:" property="deploy.username" required="true" focus="true" />
+                    <textProperty label="Password:" property="deploy.password" required="true" password="true" />
+                </antform>
+            </then>
+        </if>
+    </target>
+
+    <target name="_deploy-to-server" description="This task deploys where it is told." depends="_read-username-and-password">
+        <maverick-ssh host="${deploy.host}" username="${deploy.username}" password="${deploy.password}" version="2">
+            <!-- Make the remote directory: -->
+            <sftp action="mkdir" remotedir="${deploy.staging}" verbose="true" />
+
+            <!-- Put all files to the remote directory: -->
+            <sftp action="put" remotedir="${deploy.staging}" verbose="true" umask="002">
+                <fileset dir="${dir.website}">
+                    <!-- Don't copy Eclipse files -->
+                    <exclude name=".cache/**" />
+                    <exclude name=".metadata/**" />
+                    <exclude name=".project" />
+                    <exclude name=".pydevproject" />
+                    <exclude name=".settings/**" />
+
+                    <!-- Don't copy Mac specific files -->
+                    <exclude name=".DS_Store" />
+
+                    <!-- Don't copy SVN directories -->
+                    <exclude name=".svn" />
+
+                    <!-- Don't copy anything cached -->
+                    <exclude name="webcache/**" />
+                    <exclude name="**/cached-*/*" />
+
+                    <!-- Don't copy over the logs -->
+                    <exclude name="logs/*" />
+
+                    <!-- Don't copy over the database access info -->
+                    <exclude name="include/login-info.php" />
+
+                    <!-- Don't copy compiled Python files -->
+                    <exclude name="**/*.pyc" />
+
+                    <!-- Don't copy the debug settings -->
+                    <exclude name="include/local-debug-settings.php" />
+
+                    <!-- Don't copy this file -->
+                    <exclude name="build.xml" />
+                </fileset>
+            </sftp>
+
+            <!-- Set all directories so everyone can read & execute, and group & owner can also write: -->
+            <exec cmd="find ${deploy.staging} -type d -print0 | xargs -0 chmod 0775" />
+
+            <!-- Set all files so everyone can read, and group & owner can also write: -->
+            <exec cmd="find ${deploy.staging} -type f -print0 | xargs -0 chmod 0664" />
+
+            <!-- Set the command line & cron directories so others can't read, and group & owner can read & write & execute -->
+            <exec cmd="chmod 0770 ${deploy.staging}/cl_utils" />
+            <exec cmd="find ${deploy.staging}/cl_utils/ \( -iname \*.php -o -iname \*.py -o -iname \*.sh \) -print0 | xargs -0 chmod 0770" />
+            <exec cmd="chmod 0770 ${deploy.staging}/cron" />
+            <exec cmd="find ${deploy.staging}/cron/ \( -iname \*.php -o -iname \*.py -o -iname \*.sh \) -print0 | xargs -0 chmod 0770" />
+
+            <!-- Set the include directory so others can't read & can execute, and group & owner can read & write & execute -->
+            <exec cmd="chmod 0771 ${deploy.staging}/include" />
+
+            <!-- Copy the files from the staging area to the directories -->
+            <exec cmd="cp --recursive --preserve=mode ${deploy.staging}/* ${deploy.path}/" />
+
+            <!-- Clear the cache -->
+            <exec cmd="wget --no-verbose --no-cache --output-document=/dev/null '${deploy.url}admin/cache-clear.php?cache=all'" />
+
+            <!-- Finally, remove the staging area -->
+            <exec cmd="rm --recursive ${deploy.staging}" />
+        </maverick-ssh>
+    </target>
+
+    <target name="Deploy to live server" description="Deploy the website to the live production server." >
+        <antcall target="_deploy-to-server">
+            <param name="deploy.host" value="tigercat.colorado.edu" />
+            <param name="deploy.staging" value="/tmp/phet_website_deploy_staging" />
+            <param name="deploy.path" value="/web/chroot/phet/usr/local/apache/htdocs" />
+            <param name="deploy.url" value="http://phet.colorado.edu/" />
+        </antcall>
+    </target>
+
+    <target name="Deploy to test server" description="Deploy the website to a test non-production server." >
+        <antcall target="_deploy-to-server">
+            <param name="deploy.host" value="192.168.42.102" />
+            <param name="deploy.staging" value="/tmp/phet_website_deploy_staging" />
+            <param name="deploy.path" value="/var/www/dev/phet" />
+            <param name="deploy.url" value="http://${deploy.test_server.host}/dev/phet/" />
+        </antcall>
+    </target>
+</project>
+
