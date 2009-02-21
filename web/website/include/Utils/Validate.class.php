@@ -6,7 +6,7 @@ class Validate {
     private function __construct() {
     }
 
-    static public function inst() {
+    public static function inst() {
         if (!isset(self::$instance)) {
             $class = __CLASS__;
             self::$instance = new $class;
