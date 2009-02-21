@@ -2,9 +2,14 @@ package edu.colorado.phet.flashlauncher;
 
 // Functions to generate and write Flash HTML files
 
+import edu.colorado.phet.flashlauncher.util.AnnotationParser;
+
 import java.io.*;
 import java.net.URLEncoder;
 import java.util.Properties;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 //import edu.colorado.phet.buildtools.util.FileUtils;
 
@@ -74,7 +79,7 @@ public class FlashHTML {
                                        String versionMajor, String versionMinor, String versionDev, String versionRevision,
                                        String versionTimestamp, String simDev, String bgcolor, String encodedSimXML,
                                        String encodedCommonXML, String minimumFlashMajorVersion, String HTML_TEMPLATE,
-                                       String agreementVersion, String encodedAgreementHTML
+                                       String agreementVersion, String encodedAgreementHTML, String creditsString
                                     ) throws IOException {
         String s = "";
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( HTML_TEMPLATE );
@@ -104,7 +109,8 @@ public class FlashHTML {
                            "versionDev=@@versionDev@@&versionRevision=@@versionRevision@@&simName=@@simName@@&simDeployment=@@deployment@@&" +
                            "simDev=@@simDev@@&simDistributionTag=@@distributionTag@@&installationTimestamp=@@installationTimestamp@@&" +
                            "installerCreationTimestamp=@@installerCreationTimestamp@@&versionTimestamp=@@versionTimestamp@@&" +
-                           "bgColor=@@bgcolorint@@&agreementVersion=@@agreementVersion@@&agreementText=@@agreementText@@";
+                           "bgColor=@@bgcolorint@@&agreementVersion=@@agreementVersion@@&agreementText=@@agreementText@@&" +
+                           "creditsText=@@creditsText@@";
 
         s = s.replaceAll( "@@flashVars@@", flashVars );
 
@@ -129,6 +135,7 @@ public class FlashHTML {
         s = s.replaceAll( "@@locale@@", localeString( language, country ) );
         s = s.replaceAll( "@@agreementVersion@@", agreementVersion );
         s = s.replaceAll( "@@agreementText@@", encodedAgreementHTML );
+        s = s.replaceAll( "@@creditsText@@", parseCredits( creditsString ) );
 
         return s;
     }
@@ -145,7 +152,7 @@ public class FlashHTML {
         return rawFile( new File( filename ) );
     }
 
-    private static String rawFile( File inFile ) throws IOException {
+    public static String rawFile( File inFile ) throws IOException {
         // BAD BAD BAD! FileUtils depends on TranslationDiscrepancy which depends on most of buildtools, which depends on phetcommon
         // using this would require all of buildtools, phetcommon, and many external libraries to be included in each JAR
         // TODO: maybe in the future we can remove this, however I need a fix right now.
@@ -179,6 +186,23 @@ public class FlashHTML {
 
     public static String encodeXMLFile( File file ) throws IOException, FileNotFoundException {
         return encodeXML( rawFile( file ) );
+    }
+
+    private static String parseCredits( String creditsString ) throws UnsupportedEncodingException {
+        if ( creditsString.trim().length() == 0 ) {
+            //all simulations should specify credits eventually
+            return "No credits found.";
+        }
+        AnnotationParser.Annotation t = AnnotationParser.parse( creditsString );
+        HashMap map = t.getMap();
+        ArrayList keys = t.getKeyOrdering();
+        String credits = "";
+        for ( Iterator iterator = keys.iterator(); iterator.hasNext(); ) {
+            String key = (String) iterator.next();
+            String value = (String) map.get( key );
+            credits += key + ": " + value + "<br>";
+        }
+        return encodeXML(credits);
     }
 
 }

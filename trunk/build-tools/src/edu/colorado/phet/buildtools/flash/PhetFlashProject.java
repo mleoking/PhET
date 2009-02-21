@@ -152,6 +152,9 @@ public class PhetFlashProject extends PhetProject {
             // copy agreement text
             FileUtils.copyToDir( getAgreementFile(), getOfflineJARContentsDir() );
 
+            // copy credits file
+            FileUtils.copyToDir( getCreditsFile(), getOfflineJARContentsDir() );
+
             //create args file
             FileUtils.writeString( new File( getOfflineJARContentsDir(), "flash-launcher-args.txt" ), getName() + " " + locale.getLanguage() + " " + locale.getCountry() );
 
@@ -177,6 +180,10 @@ public class PhetFlashProject extends PhetProject {
         catch( Exception e ) {
             e.printStackTrace();
         }
+    }
+
+    private File getCreditsFile() {
+        return new File( getDataDirectory(), "credits.txt" );
     }
 
     private File getCommonLocalizationDir() {
@@ -253,12 +260,15 @@ public class PhetFlashProject extends PhetProject {
                 String agreementVersion = agreementProperties.getProperty( "version" );
                 String agreementContent = agreementProperties.getProperty( "content" );
 
+                String creditsString = FileUtils.loadFileAsString( getCreditsFile() );
+
                 String encodedAgreement = FlashHTML.encodeXML( agreementContent );
 
                 // TODO: use country code as well
                 File HTMLFile = new File( getDeployDir(), getName() + "_" + locale.toString() + ".html" );
 
                 System.out.println( "Generating " + HTMLFile.getName() );
+
 
                 // TODO: why is version.formatTimestamp() returning bad things?
                 String html = FlashHTML.generateHTML( getName(), locale.getLanguage(), countryCode,
@@ -270,7 +280,7 @@ public class PhetFlashProject extends PhetProject {
                                                       FlashHTML.encodeXMLFile( getTranslationFile( locale ) ),
                                                       FlashHTML.encodeXMLFile( getCommonTranslationFile( locale ) ), "8",
                                                       getFlashHTMLTemplate().getAbsolutePath(),
-                                                      agreementVersion, encodedAgreement );
+                                                      agreementVersion, encodedAgreement, creditsString );
 
                 FileUtils.writeString( HTMLFile, html );
             }
