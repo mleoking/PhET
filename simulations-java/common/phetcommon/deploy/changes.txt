@@ -1,3 +1,4 @@
+2-21-09: #1276, create PlainMessageDialog for replacing JOptionPanes that don't repaint
 2-21-09: #1276, fix a bunch of dialogs by subclassing PaintImmediateDialog
 2-19-09: #1236, -Ddeployment.scenario=ABC to force the deployment scenario to value ABC
 2-19-09: #1236, add abstraction of phet installer version (PhetInstallerVersion)
