@@ -198,8 +198,10 @@ class PhetInfo {
         }
         $version_tag->addAttribute('project', $project);
         $version_tag->addAttribute('sim', $sim);
-        $version_tag->addAttribute('version', $version_string);
-        $version_tag->addAttribute('revision', $version['revision']);
+        $version_tag->addAttribute('version_major', $version['major']);
+        $version_tag->addAttribute('version_minor', $version['minor']);
+        $version_tag->addAttribute('version_dev', $version['dev']);
+        $version_tag->addAttribute('version_revision', $version['revision']);
         $version_tag->addAttribute('timestamp_seconds', $version['timestamp']);
 
         // Add the "ask me later" timeframe
@@ -232,7 +234,7 @@ class PhetInfo {
             print nl2br(htmlentities($response_xml->asXML()));
         }
         else {
-            send_file_to_browser('sim-startup-response.xml', $response_xml->asXML(), null, "attachment");
+            send_file_to_browser('phet-info-response.xml', $response_xml->asXML(), null, "attachment");
         }
     }
 }
