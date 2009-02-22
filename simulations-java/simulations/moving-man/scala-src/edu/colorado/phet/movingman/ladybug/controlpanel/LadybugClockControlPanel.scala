@@ -81,7 +81,7 @@ class LadybugClockControlPanel[M <: LadybugModel](module: LadybugModule[M],creat
   module.model.addListenerByName(updateRewindEnabled)
   updateRewindEnabled
   def updateRewindEnabled = {
-    val enabled = module.model.isPlayback && module.model.getHistory.length > 0
+    val enabled = module.model.isPlayback && module.model.getHistory.length > 0 && module.model.getTime != module.model.getMinRecordedTime
     rewind.setEnabled(enabled)
   }
   rewind.addInputEventListener(new ToolTipHandler("Rewind", this))
