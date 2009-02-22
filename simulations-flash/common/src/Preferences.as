@@ -12,7 +12,9 @@ class Preferences {
 	// current preferences version
 	// this SHOULD NOT CHANGE after development, and is an
 	// aid for development purposes.
-	public static var CURRENT_PREF_VERSION : Number = 1.3;
+	public static var CURRENT_PREF_VERSION : Number = 1.35;
+	
+	public static var FIELD_INSTALLATION_ASK_LATER : String = "installationAskLater";
 	
 	// reference to the shared object used to store preferences
 	public var sharedObject : SharedObject;
@@ -81,6 +83,7 @@ class Preferences {
 			sharedObject.data.allowStatistics = true;
 			sharedObject.data.checkForUpdates = true;
 			sharedObject.data.dataVersion = CURRENT_PREF_VERSION;
+			sharedObject.data[FIELD_INSTALLATION_ASK_LATER] = 0;
 			sharedObject.data.userPreferencesFileCreationTime = (new Date()).valueOf();
 			sharedObject.data.userTotalSessions = 0;
 			sharedObject.data.latestPrivacyAgreementVersion = 0;
@@ -195,9 +198,18 @@ class Preferences {
 	}
 	
 	// set ask me later time
-	public function setAskLater() : Void {
+	public function setAskLater(days : Number) : Void {
 		load();
-		sharedObject.data[FIELD_ASK_LATER] = (new Date()).valueOf();
+		// TODO: debug ask later date?
+		sharedObject.data[FIELD_ASK_LATER] = (new Date()).valueOf() + days * 24 * 60 * 60;
+		save();
+		unload();
+	}
+	
+	public function setInstallationAskLater(days : Number) : Void {
+		load();
+		// TODO: debug ask later date?
+		sharedObject.data[FIELD_INSTALLATION_ASK_LATER] = (new Date()).valueOf() + days * 24 * 60 * 60;
 		save();
 		unload();
 	}
@@ -301,6 +313,13 @@ class Preferences {
 	public function askLaterElapsed() : Number {
 		load();
 		var time : Number = sharedObject.data[FIELD_ASK_LATER];
+		unload();
+		return (new Date()).valueOf() - time;
+	}
+	
+	public function installationAskLaterElapsed() : Number {
+		load();
+		var time : Number = sharedObject.data[FIELD_INSTALLATION_ASK_LATER];
 		unload();
 		return (new Date()).valueOf() - time;
 	}

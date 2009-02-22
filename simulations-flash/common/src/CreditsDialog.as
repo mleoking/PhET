@@ -1,6 +1,6 @@
 ﻿// CreditsDialog.as
 //
-// Shows license information in a window
+// Shows credits information in a window
 //
 // Author: Jonathan Olson
 

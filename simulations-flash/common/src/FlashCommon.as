@@ -171,7 +171,11 @@ class FlashCommon {
 		}
 		if(Key.getCode() == 120) {
 			// F9 was pressed
-			updateHandler.updatesAvailable(5, 10, 0);
+			updateHandler.simUpdatesAvailable(5, 10, 0, 0);
+		}
+		if(Key.getCode() == 36) {
+			// Home was pressed
+			updateHandler.installationUpdatesAvailable(1234567890, 0, 0);
 		}
 	}
 	

@@ -1,4 +1,4 @@
-﻿// UpdateAvailableDialog.as
+﻿// UpdateSimDialog.as
 //
 // Shown when a more recent version of the simulation is
 // detected to exist
@@ -9,10 +9,11 @@ import org.aswing.*;
 import org.aswing.util.*;
 import org.aswing.border.*;
 
-class UpdateAvailableDialog {
+class UpdateSimDialog {
 	
 	public var newMajorVersion : Number;
 	public var newMinorVersion : Number;
+	public var newSimAskLaterDays : Number;
 	
 	public var common : FlashCommon;
 	
@@ -21,8 +22,8 @@ class UpdateAvailableDialog {
 		_level0.debug(str);
 	}
 	
-	public function UpdateAvailableDialog(versionMajor : Number, versionMinor : Number, versionDev : Number) {
-		debug("UpdateAvailableDialog initializing\n");
+	public function UpdateSimDialog(versionMajor : Number, versionMinor : Number, versionDev : Number, simAskLaterDays : Number) {
+		debug("UpdateSimDialog initializing\n");
 		
 		// shortcut to FlashCommon, but now with type-checking!
 		common = _level0.common;
@@ -30,6 +31,7 @@ class UpdateAvailableDialog {
 		// store new version information so they can be stored if the user decides to skip it
 		newMajorVersion = versionMajor;
 		newMinorVersion = versionMinor;
+		newSimAskLaterDays = simAskLaterDays;
 		
 		// mysterious fix since "this" does not refer to a MovieClip or Component
 		ASWingUtils.getRootMovieClip();
@@ -41,7 +43,7 @@ class UpdateAvailableDialog {
 		window.setResizable(false);
 		
 		// make sure we can access it from anywhere
-		_level0.updateAvailableWindow = window;
+		_level0.updateSimWindow = window;
 		
 		// set the background to default
 		window.setBackground(common.backgroundColor);
@@ -101,7 +103,7 @@ class UpdateAvailableDialog {
 		window.getContentPane().append(new JSpacer(5, 5));
 		
 		// panel to lay the buttons in
-		var panel : JPanel = new JPanel(new BoxLayout());
+		var panel : JPanel = new JPanel(new FlowLayout());
 		
 		var askLaterButton : JButton = new JButton(common.strings.get("AskLater", "Ask me later"));
 		askLaterButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, askLaterClicked));
@@ -118,7 +120,10 @@ class UpdateAvailableDialog {
 		tryButton.setUseHandCursor(true);
 		CommonButtons.padButtonAdd(tryButton, panel);
 		
-		window.getContentPane().append(panel);
+		//window.getContentPane().append(panel);
+		var centerPanel : JPanel = new JPanel(new CenterLayout()); //SoftBoxLayout.X_AXIS, 0, SoftBoxLayout.CENTER
+		centerPanel.append(panel);
+		window.getContentPane().append(centerPanel);
 		
 		// fit the window to its contents
 		window.setHeight(window.getContentPane().getPreferredSize().height + 50);
@@ -134,10 +139,10 @@ class UpdateAvailableDialog {
 		common.preferences.setSkippedUpdate(0, 0);
 		
 		// record the time the user clicked this
-		common.preferences.setAskLater();
+		common.preferences.setAskLater(newSimAskLaterDays);
 		
 		// hide this window
-		_level0.updateAvailableWindow.setVisible(false);
+		_level0.updateSimWindow.setVisible(false);
 	}
 	
 	public function skipClicked(src : JButton) {
@@ -145,7 +150,7 @@ class UpdateAvailableDialog {
 		common.preferences.setSkippedUpdate(newMajorVersion, newMinorVersion);
 		
 		// hide this window
-		_level0.updateAvailableWindow.setVisible(false);
+		_level0.updateSimWindow.setVisible(false);
 	}
 	
 	public function tryClicked(src : JButton) {
