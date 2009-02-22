@@ -183,6 +183,7 @@ public class PhetFlashProject extends PhetProject {
         catch( Exception e ) {
             e.printStackTrace();
         }
+
     }
 
     private File getCreditsFile() {
