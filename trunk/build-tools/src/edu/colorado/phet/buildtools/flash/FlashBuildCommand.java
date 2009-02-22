@@ -73,6 +73,8 @@ public class FlashBuildCommand {
             success = false;
         }
 
+        FileUtils.delete( new File( trunk, "simulations-flash/build-output-temp" ), true );
+
         return success;
     }
 
@@ -110,12 +112,6 @@ public class FlashBuildCommand {
             p = Runtime.getRuntime().exec( new String[]{cmd, outputFile.getAbsolutePath()} );
         }
 
-//        try {
-//            p.waitFor();
-//        }
-//        catch( InterruptedException e ) {
-//            e.printStackTrace();
-//        }
     }
 
     private static String toSimsString( String[] sims ) {
