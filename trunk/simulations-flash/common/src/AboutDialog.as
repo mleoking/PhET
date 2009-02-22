@@ -77,19 +77,27 @@ class AboutDialog {
 		window.getContentPane().append(new JSpacer(5, 5));
 		
 		// panel to lay the buttons in
-		var panel : JPanel = new JPanel(new BoxLayout());
+		var panel : JPanel = new JPanel(new FlowLayout());
 		
 		// button that will open the agreements dialog
 		var agreementButton : JButton = new JButton(common.strings.get("SoftwareAgreement", "Software Agreement") + "...");
 		agreementButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, agreementClicked));
 		CommonButtons.padButtonAdd(agreementButton, panel);
 		
+		// button that will open the credits dialog
+		var creditsButton : JButton = new JButton(common.strings.get("Credits", "Credits") + "...");
+		creditsButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, creditsClicked));
+		CommonButtons.padButtonAdd(creditsButton, panel);
+		
 		// button will close the about dialog
 		var okButton : JButton = new JButton(common.strings.get("OK", "OK"));
 		okButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, okClicked));
 		CommonButtons.padButtonAdd(okButton, panel);
 		
-		window.getContentPane().append(panel);
+		//window.getContentPane().append(panel);
+		var centerPanel : JPanel = new JPanel(new CenterLayout()); //SoftBoxLayout.X_AXIS, 0, SoftBoxLayout.CENTER
+		centerPanel.append(panel);
+		window.getContentPane().append(centerPanel);
 		
 		// fit the window to its contents
 		window.setHeight(window.getContentPane().getPreferredSize().height + 50);
@@ -115,6 +123,18 @@ class AboutDialog {
 	public function okClicked(src : JButton) {
 		// hide this window
 		_level0.aboutWindow.setVisible(false);
+	}
+	
+	public function creditsClicked(src : JButton) {
+		if(_level0.creditsWindow) {
+			// credits window exists, just show it
+			debug("Showing dialog again\n");
+			_level0.creditsWindow.show();
+		} else {
+			// credits window doesn't exist, we must create it
+			debug("Creating Dialog\n");
+			_level0.creditsDialog = new CreditsDialog();
+		}
 	}
 	
 	public function dateString(date : Date) : String {

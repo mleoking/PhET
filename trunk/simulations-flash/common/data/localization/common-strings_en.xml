@@ -52,4 +52,6 @@
   <string key="TryNow" value="Try it now" />
   <string key="SoftwareAgreement" value="Software Agreement" />
   <string key="PhetSoftwareAgreement" value="PhET Software Agreement" />
+  <string key="PhetDevelopmentTeam" value="PhET Development Team" />
+  <string key="Credits" value="Credits" />
 </SimStrings>
