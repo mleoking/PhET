@@ -17,7 +17,7 @@ class PlaybackSpeedSlider(model: LadybugModel) extends PNode {
   addInputEventListener(new CursorHandler)
   val slider = new JSlider
   slider.setBackground(new Color(0, 0, 0, 0))
-  val transform = new LinearFunction(slider.getMinimum, slider.getMaximum, 0.5, 2.0)
+  val transform = new LinearFunction(slider.getMinimum, slider.getMaximum, 0.25, 2.0)
 
   val dict = new Hashtable[Integer, JLabel]
 
