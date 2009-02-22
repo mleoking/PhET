@@ -174,7 +174,8 @@ class LadybugModel extends Observable {
   }
 
   def setStateToPlaybackIndex() = {
-    ladybug.setState(history(getPlaybackIndex()).state)
+    //todo bounds check for history index
+    ladybug.setState(history(getPlaybackIndex).state)
     time = history(getPlaybackIndex).time
   }
 
@@ -295,6 +296,8 @@ class LadybugModel extends Observable {
       record = rec
       if (record) {
         clearHistoryRemainder
+        ladybug.setVelocity(new Vector2D)
+        ladybug.setAcceleration(new Vector2D)
       }
 
       notifyListeners()
