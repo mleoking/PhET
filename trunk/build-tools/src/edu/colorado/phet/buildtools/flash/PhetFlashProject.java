@@ -147,7 +147,10 @@ public class PhetFlashProject extends PhetProject {
             copyLocalizationFiles( getCommonLocalizationDir() );
 
             //copy HTML template
-            FileUtils.copyToDir( new File( getTrunk(), "simulations-flash/build-tools/flash-build/data/flash-template.html" ), getOfflineJARContentsDir() );
+            FileUtils.copyToDir( new File( getTrunk(), "build-tools/data/flash/flash-template.html" ), getOfflineJARContentsDir() );
+
+            // copy HTML extras like get_flash.jpg
+            copyExtrasTo( getOfflineJARContentsDir() );
 
             // copy agreement text
             FileUtils.copyToDir( getAgreementFile(), getOfflineJARContentsDir() );
@@ -290,14 +293,22 @@ public class PhetFlashProject extends PhetProject {
         }
 
         // copy over other extra files needed by the main HTML file
+        copyExtrasTo( getDeployDir() );
 
-        File[] extras = {
-                new File( getProjectDir().getParentFile().getParentFile(), "build-tools/flash-build/data/get_flash.jpg" )
+    }
+
+    private File[] getExtras() {
+        return new File[]{
+                new File(getTrunkAbsolute(), "build-tools/data/flash/get_flash.jpg")
         };
+    }
+
+    private void copyExtrasTo( File destinationDir ) {
+        File[] extras = getExtras();
 
         for ( int i = 0; i < extras.length; i++ ) {
             File source = extras[i];
-            File destination = new File( getDeployDir(), source.getName() );
+            File destination = new File( destinationDir, source.getName() );
 
             try {
                 FileUtils.copyTo( source, destination );
@@ -306,7 +317,6 @@ public class PhetFlashProject extends PhetProject {
                 e.printStackTrace();
             }
         }
-
     }
 
     private File getAgreementFile() {
@@ -332,7 +342,7 @@ public class PhetFlashProject extends PhetProject {
     }
 
     private File getFlashHTMLTemplate() {
-        return new File( getProjectDir().getParentFile().getParentFile(), "build-tools/flash-build/data/flash-template.html" );
+        return new File( getTrunkAbsolute(), "build-tools/data/flash/flash-template.html" );
     }
 
     private File getCommonTranslationFile( Locale locale ) {
