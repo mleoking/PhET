@@ -21,7 +21,8 @@ class PreferencesDialog {
 	public var updatesCheck : JCheckBox;
 	public var statisticsCheck : JCheckBox;
 	
-	var updatesButton : JButton;
+	var updatesSimButton : JButton;
+	var updatesInstallationButton : JButton;
 	
 	var common : FlashCommon;
 	
@@ -89,10 +90,19 @@ class PreferencesDialog {
 		
 		updatesPanel.append(new JSpacer(5, 5));
 		
-		// update now button
-		updatesButton = new JButton(common.strings.get("CheckUpdatesNow", "Check for updates now"));
-		updatesButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, updatesClicked));
-		CommonButtons.padButtonAdd(updatesButton, updatesPanel);
+		// update sim button
+		updatesSimButton = new JButton(common.strings.get("CheckSimUpdates", "Check for simulation update..."));
+		updatesSimButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, updatesSimClicked));
+		CommonButtons.padButtonAdd(updatesSimButton, updatesPanel);
+		
+		if(common.fromFullInstallation()) {
+			updatesPanel.append(new JSpacer(5, 5));
+			
+			// update installation button
+			updatesInstallationButton = new JButton(common.strings.get("CheckInstallationUpdates", "Check for PhET Offline Website Installer update..."));
+			updatesInstallationButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, updatesInstallationClicked));
+			CommonButtons.padButtonAdd(updatesInstallationButton, updatesPanel);
+		}
 		
 		updatesPanel.append(new JSpacer(5, 5));
 		
@@ -214,9 +224,14 @@ class PreferencesDialog {
 		debug("statisticsState toggled to " + _level0.preferencesDialog.statisticsState.toString() + "\n");
 	}
 	
-	// manually check for updates
-	public function updatesClicked(src : JButton) : Void {
-		common.updateHandler.manualCheck();
+	// manually check for sim updates
+	public function updatesSimClicked(src : JButton) : Void {
+		common.updateHandler.manualCheckSim();
+	}
+	
+	// manually check for installation updates
+	public function updatesInstallationClicked(src : JButton) : Void {
+		common.updateHandler.manualCheckInstallation();
 	}
 	
 	public function detailsClicked(src : JButton) : Void {
