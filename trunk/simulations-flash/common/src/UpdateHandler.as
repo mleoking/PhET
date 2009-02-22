@@ -263,6 +263,7 @@ class UpdateHandler {
 	}
 	
 	public function handleResponse() : Void {
+		debug("UpdateHandler: handleResponse()\n");
 		if(receivedInstallationResponse && common.fromFullInstallation()) {
 			receivedInstallationResponse = false;
 			

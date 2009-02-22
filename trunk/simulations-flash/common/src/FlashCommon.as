@@ -332,4 +332,19 @@ class FlashCommon {
 													strings.get("Interviews", "Interviews")
 													]);
 	}
+	
+	
+	public static function dateString(date : Date) : String {
+		var year : String = new String(date.getYear() + 1900);
+		var month : String = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][date.getMonth()];
+		return month + " " + String(date.getDate()) + ", " + year;
+	}
+	
+	public static function dateOfSeconds(seconds : Number) : Date {
+		return new Date(seconds * 1000);
+	}
+	
+	public static function dateOfMilliseconds(milliseconds : Number) : Date {
+		return new Date(milliseconds);
+	}
 }

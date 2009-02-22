@@ -50,7 +50,7 @@ class AboutDialog {
 		
 		str += "<b><font size='16'>" + common.getSimName() + "</font></b>\n";
 		str += common.strings.get("Version", "Version") + ": " + common.getFullVersionString() + "\n";
-		str += common.strings.get("BuildDate", "Build Date") + ": " + dateString(new Date(int(common.getVersionTimestamp()) * 1000)) + "\n";
+		str += common.strings.get("BuildDate", "Build Date") + ": " + FlashCommon.dateString(FlashCommon.dateOfSeconds(common.getVersionTimestamp())) + "\n";
 		if(common.getDistributionTag() != null || common.getSimName() == "flash-common-strings") {
 			str += common.strings.get("Distribution", "Distribution") + ": " + String(common.getDistributionTag()) + "\n";
 		}
@@ -137,9 +137,4 @@ class AboutDialog {
 		}
 	}
 	
-	public function dateString(date : Date) : String {
-		var year : String = new String(date.getYear() + 1900);
-		var month : String = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][date.getMonth()];
-		return month + " " + String(date.getDate()) + ", " + year;
-	}
 }

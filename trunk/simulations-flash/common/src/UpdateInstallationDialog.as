@@ -55,10 +55,16 @@ class UpdateInstallationDialog {
 		// construct the string of text to show
 		var str : String = "";
 		
-		str += "Your PhET Offline Website Installation is dated #####.\n";
-		str += "A newer version is available, dated $$$$$.\n";
+		str += common.strings.get("InstallationDated", "Your PhET Offline Website Installation is dated {0}.", [FlashCommon.dateString(FlashCommon.dateOfSeconds(common.getInstallerCreationTimestamp()))]) + "\n";
+		//str += "Your PhET Offline Website Installation is dated #####.\n";
+		
+		str += common.strings.get("InstallationNewer", "A newer version is available, dated {0}.", [FlashCommon.dateString(FlashCommon.dateOfSeconds(newInstallerTimestamp))]) + "\n";
+		//str += "A newer version is available, dated $$$$$.\n";
+		
 		str += "\n";
-		str += "Would you like to get the latest PhET Offline Website Installer?";
+		
+		str += common.strings.get("InstallerAsk", "Would you like to get the latest PhET Offline Website Installer?");
+		//str += "Would you like to get the latest PhET Offline Website Installer?";
 		
 		
 		// create CSS to make links blue
@@ -68,12 +74,12 @@ class UpdateInstallationDialog {
 			"a:hover{color:#0000FF;text-decoration:underline;font-weight:bold;}" +
 			"a:active{color:#0000FF;font-weight:bold;}"); 
 		
-		var textArea = new JTextArea(str, 0, 30);
+		var textArea = new JTextArea(str, 0, 0);
 		textArea.setHtml(true);
 		textArea.setEditable(false);
 		textArea.setCSS(css);
 		textArea.setWordWrap(true);
-		textArea.setWidth(200);
+		textArea.setWidth(300);
 		textArea.setBackground(common.backgroundColor);
 		// add padding around the text
 		textArea.setBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)));
