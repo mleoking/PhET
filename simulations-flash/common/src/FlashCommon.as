@@ -320,4 +320,7 @@ class FlashCommon {
 	public function getAgreementText() : String {
 		return _level0.agreementText;
 	}
+	public function getCreditsText() : String {
+		return _level0.creditsText;
+	}
 }
