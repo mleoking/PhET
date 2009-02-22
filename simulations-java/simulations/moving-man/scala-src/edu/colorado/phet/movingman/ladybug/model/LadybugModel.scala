@@ -185,9 +185,11 @@ class LadybugModel extends Observable {
   }
 
   def setStateToPlaybackIndex() = {
-    //todo bounds check for history index
-    ladybug.setState(history(getPlaybackIndex).state)
-    time = history(getPlaybackIndex).time
+    val playbackIndex = getPlaybackIndex
+    if (playbackIndex >= 0 && playbackIndex < history.length) {
+      ladybug.setState(history(getPlaybackIndex).state)
+      time = history(getPlaybackIndex).time
+    }
   }
 
   def getHistory() = history

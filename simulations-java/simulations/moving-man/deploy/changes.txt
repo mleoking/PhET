@@ -4,6 +4,7 @@
 > Fixed: Switching from playback mode to record should clear the vectors on the bug
 > Fixed: Clear button should put the sim in record mode if it was in playback mode
 > Reduced speed of all preset motions by 30%
+> Fixed: Exception when switching back and forth between record and playback
 
 # 1.20.33 (28801) Feb 19, 2009
 Batch deploy for alpha Simulation Tests, svn 28773
