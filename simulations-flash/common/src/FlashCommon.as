@@ -321,6 +321,11 @@ class FlashCommon {
 		return _level0.agreementText;
 	}
 	public function getCreditsText() : String {
-		return _level0.creditsText;
+		return strings.format(_level0.creditsText, [
+													strings.get("SoftwareDevelopment", "Software Development"),
+													strings.get("DesignTeam", "Design Team"),
+													strings.get("LeadDesign", "Lead Design"),
+													strings.get("Interviews", "Interviews")
+													]);
 	}
 }

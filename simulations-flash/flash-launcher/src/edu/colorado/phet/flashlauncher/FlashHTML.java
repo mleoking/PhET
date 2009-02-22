@@ -193,6 +193,14 @@ public class FlashHTML {
             //all simulations should specify credits eventually
             return "No credits found.";
         }
+
+        // The keys in this file are "software-development" "design-team" "lead-design" and "interviews"; these are used as suffixes
+        // replace these so we can translate them in Flash
+        creditsString = creditsString.replaceAll( "software-development", "{0}" );
+        creditsString = creditsString.replaceAll( "design-team", "{1}" );
+        creditsString = creditsString.replaceAll( "lead-design", "{2}" );
+        creditsString = creditsString.replaceAll( "interviews", "{3}" );
+
         AnnotationParser.Annotation t = AnnotationParser.parse( creditsString );
         HashMap map = t.getMap();
         ArrayList keys = t.getKeyOrdering();
