@@ -1,6 +1,7 @@
 > Fixed: when you drive the bug with the remote using velocity or acceleration, the bug does not face the direction of velocity (always faces the same direction)
 > Fixed: Rewind button should be disabled when the timeline knob is at t=0
 > Fixed: Slowest mode should be slower (maybe 1/2 this speed)
+> Fixed: Switching from playback mode to record should clear the vectors on the bug
 
 # 1.20.33 (28801) Feb 19, 2009
 Batch deploy for alpha Simulation Tests, svn 28773
