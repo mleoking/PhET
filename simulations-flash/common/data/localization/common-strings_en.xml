@@ -20,7 +20,8 @@
   <string key="PhETPreferences" value="PhET Preferences" />
   <string key="Updates" value="Updates" />
   <string key="CheckUpdates" value="Automatically check for updates" />
-  <string key="CheckUpdatesNow" value="Check for updates now" />
+  <string key="CheckSimUpdates" value="Check for simulation update..." />
+  <string key="CheckInstallationUpdates" value="Check for PhET Offline Website Installer update..." />
   <string key="Privacy" value="Privacy" />
   <string key="PrivacyRequirement" value="&lt;a href='{0}'&gt;PhET&lt;/a&gt; is made freely available through grants which require us to collect a minimal amount of anonymous information to help document the amount of use of PhET sims and to better serve our users' update needs." />
   <string key="AllowMessages" value="Allow sending of information to PhET" />
@@ -58,4 +59,9 @@
   <string key="DesignTeam" value="Design Team" />
   <string key="LeadDesign" value="Lead Design" />
   <string key="Interviews" value="Interviews" />
+  <string key="Yes!" value="Yes!" />
+  <string key="TellMore" value="Tell me more..." />
+  <string key="InstallationDated" value="Your PhET Offline Website Installation is dated {0}." />
+  <string key="InstallationNewer" value="A newer version is available, dated {0}." />
+  <string key="InstallerAsk" value="Would you like to get the latest PhET Offline Website Installer?" />
 </SimStrings>

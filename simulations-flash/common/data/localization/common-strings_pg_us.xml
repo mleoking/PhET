@@ -20,7 +20,8 @@
   <string key="PhETPreferences" value="PhET Eferencespray" />
   <string key="Updates" value="Updatesay" />
   <string key="CheckUpdates" value="Automaticallyay eckchay orfay updatesay" />
-  <string key="CheckUpdatesNow" value="Eckchay orfay updatesay ownay" />
+  <string key="CheckSimUpdates" value="Eckchay orfay imulationsay updateay..." />
+  <string key="CheckInstallationUpdates" value="Eckchay orfay PhET Offlineay Ebsiteway Installeray updateay..." />
   <string key="Privacy" value="Ivacypray" />
   <string key="PrivacyRequirement" value="&lt;a href='{0}'&gt;PhET&lt;/a&gt; isay ademay eelyfray availableay oughthray antsgray ichwhay equireray usay otay ollectcay aay inimalmay amountay ofay anonymousay informationay otay elphay ocumentday ethay amountay ofay useay ofay PhET imssay anday otay etterbay ervesay ouray users'ay updateay eedsnay." />
   <string key="AllowMessages" value="Alloway endingsay ofay informationay otay PhET" />
@@ -58,4 +59,9 @@
   <string key="DesignTeam" value="Esignday Eamtay" />
   <string key="LeadDesign" value="Eadlay Esignday" />
   <string key="Interviews" value="Interviewsay" />
+  <string key="Yes!" value="Esyay!" />
+  <string key="TellMore" value="Elltay emay oremay..." />
+  <string key="InstallationDated" value="Ouryay PhET Offlineay Ebsitesay Installationay isay atedday {0}." />
+  <string key="InstallationNewer" value="Aay ewernay ersionvay isay availableay, ateday {0}." />
+  <string key="InstallerAsk" value="Ouldway ouyay ikelay otay etgay ethay atestlay PhET Offlineay Ebsiteway Installeray?" />
 </SimStrings>
