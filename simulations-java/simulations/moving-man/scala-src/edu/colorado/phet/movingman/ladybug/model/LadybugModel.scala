@@ -38,11 +38,22 @@ class LadybugModel extends Observable {
   def isFrictionless = frictionless
 
   def setFrictionless(f: Boolean) = {
-    frictionless = f
-    clearSampleHistory
-    resetMotion2DModel
-    samplePoint = ladybug.getPosition
-    notifyListeners
+    if (frictionless != f) {
+      frictionless = f
+      if (!frictionless) {
+        //todo: make bug come to a smooth stop
+        //todo: maybe easiest way is to refactor friction implementation to be more physical and less architectural
+        clearSampleHistory
+        resetMotion2DModel
+        samplePoint = ladybug.getPosition
+      }
+      else {
+        clearSampleHistory
+        resetMotion2DModel
+        samplePoint = ladybug.getPosition
+      }
+      notifyListeners
+    }
   }
 
   def setSamplePoint(pt: Point2D) = {
