@@ -30,7 +30,7 @@ import umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloTimeControlPanel.BackgroundNode
 import edu.colorado.phet.movingman.ladybug.LadybugUtil._
 
-class LadybugClockControlPanel[M <: LadybugModel](module: LadybugModule[M],createRightControl:()=>PNode) extends PhetPCanvas {
+class LadybugClockControlPanel[M <: LadybugModel](module: LadybugModule[M], createRightControl: () => PNode) extends PhetPCanvas {
   private class MyButtonNode(text: String, icon: Icon, action: () => Unit) extends PText(text) {
     addInputEventListener(new PBasicInputEventHandler() {
       override def mousePressed(event: PInputEvent) = {action()}
@@ -66,6 +66,7 @@ class LadybugClockControlPanel[M <: LadybugModel](module: LadybugModule[M],creat
   clearButton.addActionListener(() => { //todo : couldn't figure out how to remove ()=> with by name using implicits
     module.model.clearHistory
     module.model.setPaused(true)
+    module.model.setRecord(true)
   })
 
 
