@@ -54,4 +54,8 @@
   <string key="PhetSoftwareAgreement" value="PhET Software Agreement" />
   <string key="PhetDevelopmentTeam" value="PhET Development Team" />
   <string key="Credits" value="Credits" />
+  <string key="SoftwareDevelopment" value="Software Development" />
+  <string key="DesignTeam" value="Design Team" />
+  <string key="LeadDesign" value="Lead Design" />
+  <string key="Interviews" value="Interviews" />
 </SimStrings>
