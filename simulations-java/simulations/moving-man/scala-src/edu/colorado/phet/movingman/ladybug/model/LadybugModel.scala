@@ -148,9 +148,13 @@ class LadybugModel extends Observable {
         ladybug.setVelocity(new Vector2D)
         ladybug.setAcceleration(new Vector2D)
       }
-      if (estimateVelocity(history.length - 1).magnitude > 1E-6)
-        ladybug.setAngle(estimateAngle())
+      pointInDirectionOfMotion()
     }
+  }
+
+  def pointInDirectionOfMotion() = {
+    if (estimateVelocity(history.length - 1).magnitude > 1E-6)
+      ladybug.setAngle(estimateAngle())
   }
 
   def velocityMode(dt: Double) = {
@@ -160,11 +164,13 @@ class LadybugModel extends Observable {
 
     var accelEstimate = average(history.length - 15, history.length - 1, estimateAcceleration)
     ladybug.setAcceleration(accelEstimate)
+    pointInDirectionOfMotion()
   }
 
   def accelerationMode(dt: Double) = {
     ladybug.translate(ladybug.getVelocity * dt)
     ladybug.setVelocity(ladybug.getVelocity + ladybug.getAcceleration * dt)
+    pointInDirectionOfMotion()
   }
 
   def setStateToPlaybackIndex() = {
