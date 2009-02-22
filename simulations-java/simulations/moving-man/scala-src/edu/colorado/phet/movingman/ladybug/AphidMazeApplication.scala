@@ -22,12 +22,6 @@ import model.ScalaClock
 //aphid maze is a tab in ladybug 2d, just an application during development to facilitate deployment and testing
 object AphidMazeApplication {
   def main(args: Array[String]) = {
-    new PhetApplicationLauncher().launchSim(
-      new PhetApplicationConfig(args, "moving-man", "ladybug-2d"),
-      new ApplicationConstructor() {
-        override def getApplication(config: PhetApplicationConfig) = new PhetApplication(config) {
-          addModule(new AphidMazeModule(new ScalaClock(30, 30 / 1000.0)))
-        }
-      })
+    ScalaApplication.main(args, "moving-man", "ladybug-2d", new AphidMazeModule(new ScalaClock(30, 30 / 1000.0)))
   }
 }
