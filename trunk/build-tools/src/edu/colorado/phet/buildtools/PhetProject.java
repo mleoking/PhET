@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetProperties;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.util.AnnotationParser;
+import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
 /**
  * Author: Sam Reid

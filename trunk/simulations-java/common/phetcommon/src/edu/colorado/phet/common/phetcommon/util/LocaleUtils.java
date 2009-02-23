@@ -1,4 +1,4 @@
-package edu.colorado.phet.buildtools.util;
+package edu.colorado.phet.common.phetcommon.util;
 
 import java.util.Locale;
 import java.util.StringTokenizer;
