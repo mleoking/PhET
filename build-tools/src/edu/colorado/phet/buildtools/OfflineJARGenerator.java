@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 
 import edu.colorado.phet.buildtools.util.FileUtils;
-import edu.colorado.phet.buildtools.util.LocaleUtils;
+import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.application.JARLauncher;
 
 /**
