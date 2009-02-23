@@ -22,6 +22,7 @@ class LadybugModel extends Observable {
   val motion2DModel = new Motion2DModel(10, 5, LadybugDefaults.defaultLocation.x, LadybugDefaults.defaultLocation.y)
   private val modelHistory = new ArrayBuffer[DataPoint] //recent history used to compute velocities, etc.
 
+  //State related to recording; consider moving to a trait
   private val recordHistory = new ArrayBuffer[DataPoint]
   private var record = true
   private var playbackSpeed = 1.0
@@ -387,12 +388,12 @@ class LadybugModel extends Observable {
 
   def clearSampleHistory() = penPath.clear
 
-  def resetMotion2DModel = {
+  def resetMotion2DModel() = {
     motion2DModel.reset(ladybug.getPosition.x, ladybug.getPosition.y)
     resetListeners.foreach(_())
   }
 
-  def returnLadybug = {
+  def returnLadybug() = {
     ladybug.setPosition(LadybugDefaults.defaultLocation)
     ladybug.setVelocity(new Vector2D)
     penPath.clear
