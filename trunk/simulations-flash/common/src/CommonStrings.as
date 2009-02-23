@@ -18,7 +18,7 @@ class CommonStrings {
 	
 	// constructor
 	public function CommonStrings() {
-		debug("CommonStrings initializing\n");
+		//debug("CommonStrings initializing\n");
 		
 		// shortcut to FlashCommon, but now with type-checking!
 		common = _level0.common;

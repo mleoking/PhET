@@ -8,11 +8,11 @@ sim="charges-and-fields"
 version_major="1"
 version_minor="07"
 version_dev="00"
-version_revision="2615700"
+version_revision="28840"
 version_timestamp="1231567890"
 ask_me_later_duration_days="1" />
 
-<phet_installer_update_response recommend_update="true" timestamp_seconds="1234167890" ask_me_later_duration_days="30" />
+<phet_installer_update_response recommend_update="false" timestamp_seconds="1234167890" ask_me_later_duration_days="30" />
 BOO;
 	
 	print "</sim_startup_query_response>";

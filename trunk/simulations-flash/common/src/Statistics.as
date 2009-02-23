@@ -24,7 +24,7 @@ class Statistics {
 	
 	// constructor
 	public function Statistics() {
-		debug("Statistics initializing\n");
+		//debug("Statistics initializing\n");
 		
 		messageError = false;
 		

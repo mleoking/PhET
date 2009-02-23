@@ -22,7 +22,7 @@ class UpdateInstallationDialog {
 	}
 	
 	public function UpdateInstallationDialog(installerTimestamp : Number, installerAskLaterDays : Number) {
-		debug("UpdateInstallationDialog initializing\n");
+		//debug("UpdateInstallationDialog initializing\n");
 		
 		// shortcut to FlashCommon, but now with type-checking!
 		common = _level0.common;

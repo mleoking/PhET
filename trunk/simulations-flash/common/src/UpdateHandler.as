@@ -6,6 +6,10 @@
 //
 // Author: Jonathan Olson
 
+import org.aswing.*;
+import org.aswing.util.*;
+import org.aswing.border.*;
+
 class UpdateHandler {
 	// the latest version information detected from the server
 	// TODO: rename these to match _level0 fields
@@ -36,7 +40,7 @@ class UpdateHandler {
 	
 	// constructor
 	public function UpdateHandler() {
-		debug("UpdateHandler initializing\n");
+		//debug("UpdateHandler initializing\n");
 		
 		// shortcut to FlashCommon, but now with type-checking!
 		common = _level0.common;
@@ -186,7 +190,7 @@ class UpdateHandler {
 	}
 	
 	public function handleResponse() : Void {
-		debug("UpdateHandler: handleResponse()\n");
+		//debug("UpdateHandler: handleResponse()\n");
 		
 		var installShown = false;
 		
@@ -204,6 +208,7 @@ class UpdateHandler {
 				if(manual) {
 					_level0.preferencesDialog.updatesInstallationButton.setText(common.strings.get("NoUpdatesAvailable", "No Updates Available"));
 					_level0.preferencesDialog.updatesInstallationButton.setEnabled(false);
+					_level0.preferencesDialog.updatesInstallationButton.setForeground(ASColor.RED);
 				}
 				
 				// run this again to handle whether sim response was received
@@ -225,6 +230,7 @@ class UpdateHandler {
 				if(manual) {
 					_level0.preferencesDialog.updatesSimButton.setText(common.strings.get("NoUpdatesAvailable", "No Updates Available"));
 					_level0.preferencesDialog.updatesSimButton.setEnabled(false);
+					_level0.preferencesDialog.updatesSimButton.setForeground(ASColor.RED);
 				}
 			} else if(versionRevision < common.getVersionRevision()) {
 				_level0.debug("WARNING UpdateHandler: running a more recent version than on the production website.\n");

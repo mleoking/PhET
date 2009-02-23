@@ -41,7 +41,7 @@ class TabHandler {
 	
 	// constructor
 	public function TabHandler() {
-		debug("Initializing TabHandler\n");
+		//debug("Initializing TabHandler\n");
 		
 		// shortcut to FlashCommon, but now with type-checking!
 		common = _level0.common;
