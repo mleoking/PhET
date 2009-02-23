@@ -141,6 +141,7 @@ public class SoftwareAgreementManager {
          * If the agreement is declined, exit, do not allow the software to run.
          */
         private void decline() {
+            SessionCounter.getInstance().decrementCounts(); // see #1254
             PhetExit.exit();
         }
     }
