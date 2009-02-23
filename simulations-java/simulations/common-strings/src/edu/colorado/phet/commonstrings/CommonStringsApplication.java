@@ -21,7 +21,7 @@ public class CommonStringsApplication {
 
     public static void main( String[] args ) {
         String message = "<html>PhET common strings" + " : " + "version " + VERSION_ID + "<br><br>" + 
-              "This JAR file contains common strings used by all PhET simulations." + "<br>" +
+              "This JAR file contains common strings used by all PhET Java simulations." + "<br>" +
               "You can use this JAR file to translate common strings with Translation Utility." + "<br>" +
               "But testing those translations is not currently supported." + "</html>";
         String title = "";
