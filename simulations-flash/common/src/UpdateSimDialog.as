@@ -78,8 +78,6 @@ class UpdateSimDialog {
 		str += "\n";
 		str += common.strings.get("UpdateOptionsAvailable", "Update options are available under <i>Preferences</i>.");
 		
-		// TODO: visit the PhET site for more information ?
-		
 		
 		// create CSS to make links blue
 		var css : TextField.StyleSheet = new TextField.StyleSheet();
@@ -139,7 +137,7 @@ class UpdateSimDialog {
 		common.preferences.setSkippedUpdate(0, 0);
 		
 		// record the time the user clicked this
-		common.preferences.setAskLater(newSimAskLaterDays);
+		common.preferences.setSimAskLater(newSimAskLaterDays);
 		
 		// hide this window
 		_level0.updateSimWindow.setVisible(false);

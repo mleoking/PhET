@@ -64,4 +64,6 @@
   <string key="InstallationDated" value="Ouryay PhET Offlineay Ebsitesay Installationay isay atedday {0}." />
   <string key="InstallationNewer" value="Aay ewernay ersionvay isay availableay, ateday {0}." />
   <string key="InstallerAsk" value="Ouldway ouyay ikelay otay etgay ethay atestlay PhET Offlineay Ebsiteway Installeray?" />
+  <string key="InstallerInfo1" value="Eepingkay ouryay PhET Offlineay Ebsiteway Installationway upay-otay-ateday ensuresay atthay ouyay avehay accessay otay ethay ewestnay PhET imulationssay anday upplementalsay aterialsmay." />
+  <string key="InstallerInfo2" value="Ifay ouyay oosechay otay etgay ethay ewestnay ersionvay, aay ebway owserbray illway openay otay ethay PhET ebsiteway, erewhay ouyay ancay ownloadday ethay PhET Offlineay Ebsiteway Installeray." />
 </SimStrings>

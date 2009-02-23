@@ -56,9 +56,6 @@ class UpdateHandler {
 		
 		// make sure the user allows us to check for updates!
 		if(common.preferences.areUpdatesAllowed()) {
-			// OLD
-			//checkUpdates();
-			
 			// check for both sim and installation
 			sendStartupQuery(startupQueryString(true, true));
 		} else {
@@ -66,80 +63,6 @@ class UpdateHandler {
 		}
 		
 	}
-	
-	/*
-	public function checkUpdates() : Void {
-		// make sure we can access phet.colorado.edu and all files under that domain
-		// this is more of a sanity-check than anything else, this should be included
-		// under FlashCommon.as
-		System.security.allowDomain("phet.colorado.edu");
-		
-		// create XML that will be filled in with the response
-		var xml : XML = new XML();
-		
-		// make sure that whitespace isn't treated as nodes! (DO NOT REMOVE THIS)
-		xml.ignoreWhite = true;
-		
-		// function that is called when the XML is either loaded or fails somehow
-		xml.onLoad = function(success : Boolean) {
-			if(success) {
-				_level0.debug("UpdateHandler: reply successfully received\n");
-				_level0.debug(String(xml) + "\n");
-				
-				var hand : UpdateHandler = _level0.updateHandler;
-				
-				var simVersionInfo : XMLNode = xml.childNodes[0];
-				var attributes : Object = simVersionInfo.attributes;
-				
-				hand.versionRevision = parseInt(attributes['revision']);
-				hand.simTimestamp = parseInt(attributes['timestamp']);
-				hand.installerTimestamp = parseInt(attributes['installer_timestamp']);
-				hand.parseVersionInfo(attributes['version']);
-				
-				hand.debug("   latest: " + hand.common.zeroPadVersion(hand.versionMajor, hand.versionMinor, hand.versionDev) + " (" + String(hand.versionRevision) + ")\n");
-				
-				var latestSkipped : Array = _level0.preferences.getLatestSkippedUpdate();
-				
-				if(hand.versionRevision == _level0.common.getVersionRevision()) {
-					// running the latest version
-					_level0.debug("UpdateHandler: running latest version\n");
-					
-					// if the user clicked "Check for Updates Now", inform the user that no
-					// update is available
-					if(hand.manual) {
-						hand.updatesNotAvailable();
-					}
-				} else if(hand.versionRevision < _level0.common.getVersionRevision()) {
-					_level0.debug("WARNING UpdateHandler: running a more recent version than on the production website.\n");
-				} else if(hand.versionMajor == undefined || hand.versionMinor == undefined) {
-					_level0.debug("WARNING UpdateHandler: received undefined version information!\n");
-				} else if(!(hand.manual) && (hand.versionMajor < latestSkipped[0] || (hand.versionMajor == latestSkipped[0] && hand.versionMinor <= latestSkipped[1]))) {
-					// user did not click "Check for Updates Now" AND the new version <= latest skipped version
-					_level0.debug("UpdateHandler: used selected to skip this update\n");
-				} else if(!(hand.manual) && _level0.preferences.askLaterElapsed() < 1000 * 60 * 60 * 24) {
-					_level0.debug("UpdateHandler: used selected ask later, time elapsed = " + String(_level0.preferences.askLaterElapsed()) + "\n");
-				} else if(hand.common.fromFullInstallation() && hand.simTimestamp + 1800 > hand.installerTimestamp) {
-					// installer was deployed before (or just around) the time the sim was deployed
-					_level0.debug("UpdateHandler: installer might not contain the most recent sim\n");
-				} else {
-					hand.simUpdatesAvailable(hand.versionMajor, hand.versionMinor, hand.versionDev);
-				}
-				
-			} else {
-				_level0.debug("WARNING: UpdateHandler: Failure to obtain latest version information\n");
-			}
-		}
-		
-		/////////////////////////////////////////////
-		// TODO needs to be changed to the path of the version script for each simulation
-		// most likely will be http://phet.colorado.edu/simulations/sim-version-info.php?project=BLAH&sim=BLAH
-		//xml.load("http://phet.colorado.edu/jolson/deploy/sims/fake-sim-version-info.php?project=" + common.getSimProject() + "&sim=" + common.getSimName());
-		//xml.load("http://localhost/jolson/deploy/sims/fake-sim-version-info.php?project=" + _level0.simName + "&sim=" + _level0.simName);
-		xml.load("http://phet.colorado.edu/simulations/sim-version-info.php?project=" + _level0.simName + "&sim=" + _level0.simName);
-	}
-	*/
-	
-	
 	
 	public function startupQueryString(checkSim : Boolean, checkInstallation : Boolean) : String {
 		// if user isn't querying anything, return undefined
@@ -264,6 +187,9 @@ class UpdateHandler {
 	
 	public function handleResponse() : Void {
 		debug("UpdateHandler: handleResponse()\n");
+		
+		var installShown = false;
+		
 		if(receivedInstallationResponse && common.fromFullInstallation()) {
 			receivedInstallationResponse = false;
 			
@@ -271,6 +197,7 @@ class UpdateHandler {
 				if(!manual && common.preferences.installationAskLaterElapsed() < 0) {
 					_level0.debug("UpdateHandler: used selected ask later, installation time elapsed = " + String(common.preferences.installationAskLaterElapsed()) + "\n");
 				} else {
+					installShown = true;
 					installationUpdatesAvailable(installerTimestamp, installerAskLaterDays);
 				}
 			} else {
@@ -282,7 +209,9 @@ class UpdateHandler {
 				// run this again to handle whether sim response was received
 				handleResponse();
 			}
-		} else if(receivedSimResponse) {
+		}
+		
+		if(receivedSimResponse && !installShown) {
 			receivedSimResponse = false;
 			
 			var latestSkipped : Array = common.preferences.getLatestSkippedUpdate();
@@ -304,8 +233,8 @@ class UpdateHandler {
 			} else if(!manual && (versionMajor < latestSkipped[0] || (versionMajor == latestSkipped[0] && versionMinor <= latestSkipped[1]))) {
 				// user did not click "Check for Updates Now" AND the new version <= latest skipped version
 				_level0.debug("UpdateHandler: used selected to skip this update\n");
-			} else if(!manual && common.preferences.askLaterElapsed() < 0) {
-				_level0.debug("UpdateHandler: used selected ask later, sim time elapsed = " + String(common.preferences.askLaterElapsed()) + "\n");
+			} else if(!manual && common.preferences.simAskLaterElapsed() < 0) {
+				_level0.debug("UpdateHandler: used selected ask later, sim time elapsed = " + String(common.preferences.simAskLaterElapsed()) + "\n");
 			} else if(common.fromFullInstallation() && simTimestamp + 1800 > installerTimestamp) {
 				// TODO: what happens if installerTimestamp is not set? muahaha!
 				// installer was deployed before (or just around) the time the sim was deployed
@@ -316,55 +245,6 @@ class UpdateHandler {
 			
 		}
 		
-		/*
-		
-		// only called if an update is manually checked for
-		_level0.preferencesDialog.updatesSimButton.setText(common.strings.get("NoUpdatesAvailable", "No Updates Available"));
-		_level0.preferencesDialog.updatesSimButton.setEnabled(false);
-				manual
-								hand.receivedSimResponse = true;
-						
-						hand.versionMajor = parseInt(atts["version_major"]);
-						hand.versionMinor = parseInt(atts["version_minor"]);
-						hand.versionDev = parseInt(atts["version_dev"]);
-						hand.versionRevision = parseInt(atts["version_revision"]);
-						hand.simTimestamp = parseInt(atts["version_timestamp"]);
-						hand.simAskLaterDays = parseInt(atts["ask_me_later_duration_days"]);
-						
-
-						hand.receivedInstallationResponse = true;
-						
-						hand.installerRecommend = (atts["recommend_update"] == "true");
-						hand.installerTimestamp = parseInt(atts["timestamp_seconds"]);
-						hand.installerAskLaterDays = parseInt(atts["ask_me_later_duration_days"]);
-						
-				var latestSkipped : Array = _level0.preferences.getLatestSkippedUpdate();
-				
-				if(hand.versionRevision == _level0.common.getVersionRevision()) {
-					// running the latest version
-					_level0.debug("UpdateHandler: running latest version\n");
-					
-					// if the user clicked "Check for Updates Now", inform the user that no
-					// update is available
-					if(hand.manual) {
-						hand.updatesNotAvailable();
-					}
-				} else if(hand.versionRevision < _level0.common.getVersionRevision()) {
-					_level0.debug("WARNING UpdateHandler: running a more recent version than on the production website.\n");
-				} else if(hand.versionMajor == undefined || hand.versionMinor == undefined) {
-					_level0.debug("WARNING UpdateHandler: received undefined version information!\n");
-				} else if(!(hand.manual) && (hand.versionMajor < latestSkipped[0] || (hand.versionMajor == latestSkipped[0] && hand.versionMinor <= latestSkipped[1]))) {
-					// user did not click "Check for Updates Now" AND the new version <= latest skipped version
-					_level0.debug("UpdateHandler: used selected to skip this update\n");
-				} else if(!(hand.manual) && _level0.preferences.askLaterElapsed() < 1000 * 60 * 60 * 24) {
-					_level0.debug("UpdateHandler: used selected ask later, time elapsed = " + String(_level0.preferences.askLaterElapsed()) + "\n");
-				} else if(hand.common.fromFullInstallation() && hand.simTimestamp + 1800 > hand.installerTimestamp) {
-					// installer was deployed before (or just around) the time the sim was deployed
-					_level0.debug("UpdateHandler: installer might not contain the most recent sim\n");
-				} else {
-					hand.simUpdatesAvailable(hand.versionMajor, hand.versionMinor, hand.versionDev);
-				}
-		*/
 		
 	}
 	
