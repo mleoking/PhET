@@ -26,9 +26,11 @@ class LadybugModel extends Observable {
   private var playbackSpeed = 1.0
   var playbackIndexFloat = 0.0 //floor this to get playbackIndex
 
-  case class Sample(time: Double, location: Vector2D)
-  val samplePath = new ArrayBuffer[Sample]
-  private var samplePoint = new Vector2D //current sample point
+  //samples inputted from the user that will be used to determine the path of the object
+  //imagine as a pen on the canvas that leads the ladybug
+  case class PenSample(time: Double, location: Vector2D)
+  val penPath = new ArrayBuffer[PenSample]
+  private var penPoint = new Vector2D //current sample point
   private var penDown = false
 
   def isFrictionless = frictionless
@@ -41,19 +43,19 @@ class LadybugModel extends Observable {
         //todo: maybe easiest way is to refactor friction implementation to be more physical and less architectural
         clearSampleHistory
         resetMotion2DModel
-        samplePoint = ladybug.getPosition
+        penPoint = ladybug.getPosition
       }
       else {
         clearSampleHistory
         resetMotion2DModel
-        samplePoint = ladybug.getPosition
+        penPoint = ladybug.getPosition
       }
       notifyListeners
     }
   }
 
   def setSamplePoint(pt: Point2D) = {
-    this.samplePoint = pt
+    this.penPoint = pt
   }
 
   def getBounds(): Rectangle2D = {
@@ -109,21 +111,21 @@ class LadybugModel extends Observable {
     f.evaluate(playbackIndexFloat)
   }
 
-  private def getLastSamplePoint = samplePath(samplePath.length - 1)
+  private def getLastSamplePoint = penPath(penPath.length - 1)
 
   //  println("t\tx\tvx\tax")
   def positionMode(dt: Double) = {
     //    println("pendown=" + penDown)
     if (frictionless && !penDown) {
       velocityMode(dt)
-      if (samplePath.length > 2) {
-        samplePoint = ladybug.getPosition
-        samplePath += new Sample(time, samplePoint)
+      if (penPath.length > 2) {
+        penPoint = ladybug.getPosition
+        penPath += new PenSample(time, penPoint)
         motion2DModel.addPointAndUpdate(getLastSamplePoint.location.x, getLastSamplePoint.location.y)
       }
     }
     else {
-      if (samplePath.length > 2) {
+      if (penPath.length > 2) {
         motion2DModel.addPointAndUpdate(getLastSamplePoint.location.x, getLastSamplePoint.location.y)
         ladybug.setPosition(new Vector2D(motion2DModel.getAvgXMid, motion2DModel.getAvgYMid))
         //added fudge factors for getting the scale right with current settings of motion2d model
@@ -152,7 +154,7 @@ class LadybugModel extends Observable {
   }
 
   def velocityMode(dt: Double) = {
-    if (samplePath.length > 0)
+    if (penPath.length > 0)
       motion2DModel.addPointAndUpdate(getLastSamplePoint.location.x, getLastSamplePoint.location.y)
     ladybug.translate(ladybug.getVelocity * dt)
 
@@ -193,12 +195,12 @@ class LadybugModel extends Observable {
         ladybugMotionModel.update(dt, this)
 
         history += new DataPoint(time, ladybug.getState)
-        samplePath += new Sample(time, samplePoint)
+        penPath += new PenSample(time, penPoint)
 
         while (getTimeRange > LadybugDefaults.timelineLengthSeconds) {
           history.remove(0)
-          while (samplePath.length > history.length)
-            samplePath.remove(0)
+          while (penPath.length > history.length)
+            penPath.remove(0)
         }
 
         if (!ladybugMotionModel.isExclusive()) {
@@ -220,8 +222,8 @@ class LadybugModel extends Observable {
   def initManual = {
     println("init: " + ladybug.getPosition)
     resetMotion2DModel
-    samplePath.clear
-    println("cleared sample path: " + samplePath.length)
+    penPath.clear
+    println("cleared sample path: " + penPath.length)
   }
 
   def readyForInteraction(): Boolean = {
@@ -350,7 +352,7 @@ class LadybugModel extends Observable {
     paused = true
     playbackSpeed = 1.0
     history.clear
-    samplePath.clear
+    penPath.clear
 
     ladybugMotionModel.resetAll()
     playbackIndexFloat = 0.0
@@ -364,11 +366,11 @@ class LadybugModel extends Observable {
 
   def clearHistory() = {
     history.clear()
-    samplePath.clear()
+    penPath.clear()
     notifyListeners()
   }
 
-  def clearSampleHistory() = samplePath.clear
+  def clearSampleHistory() = penPath.clear
 
   def resetMotion2DModel = {
     motion2DModel.reset(ladybug.getPosition.x, ladybug.getPosition.y)
@@ -378,7 +380,7 @@ class LadybugModel extends Observable {
   def returnLadybug = {
     ladybug.setPosition(LadybugDefaults.defaultLocation)
     ladybug.setVelocity(new Vector2D)
-    samplePath.clear
+    penPath.clear
     setSamplePoint(ladybug.getPosition)
     resetMotion2DModel
     notifyListeners

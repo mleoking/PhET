@@ -27,7 +27,7 @@ object LadybugMotionModel {
     def update(dt: Double, model: LadybugModel) = {
       val angle = model.ladybug.getAngle
 
-      val lastSample = if (model.samplePath.length > 0) model.samplePath(model.samplePath.length - 1).location else model.ladybug.getPosition
+      val lastSample = if (model.penPath.length > 0) model.penPath(model.penPath.length - 1).location else model.ladybug.getPosition
       //      val proposedPoint=new Vector2D(model.ladybug.getVelocity.getAngle) * speed+lastSample
 
 
