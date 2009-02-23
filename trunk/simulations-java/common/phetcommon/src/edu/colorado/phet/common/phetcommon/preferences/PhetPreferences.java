@@ -19,7 +19,15 @@ import edu.colorado.phet.common.phetcommon.application.PhetPersistenceDir;
 public class PhetPreferences {
 
     // if we don't have access permissions, this file will be null 
-    private static File PREFERENCES_FILE;
+    private static PhetPreferencesFile PREFERENCES_FILE;
+
+    public static void clear() {
+        PREFERENCES_FILE.clear();
+    }
+
+    public static File getPreferencesFile(){
+        return PREFERENCES_FILE;
+    }
 
     static {
         try {
@@ -37,6 +45,17 @@ public class PhetPreferences {
     private static class PhetPreferencesFile extends File {
         public PhetPreferencesFile() throws AccessControlException {
             super( new PhetPersistenceDir(), "preferences.properties" );
+        }
+
+        public void clear() {
+            boolean deleted=delete();
+            if (!deleted){
+                deleteOnExit();
+                System.out.println( "delete failed, will try again on exit" );
+            }else{
+                System.out.println( "preferences file deleted, you should probably exit now" );
+                PREFERENCES_FILE=null;//prevent making changes that will get saved
+            }
         }
     }
 
