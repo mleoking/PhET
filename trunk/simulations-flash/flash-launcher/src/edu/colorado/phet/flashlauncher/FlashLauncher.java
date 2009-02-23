@@ -86,19 +86,8 @@ public class FlashLauncher {
      * Launches the simulation in a web browser.
      */
     private void start() throws IOException {
-        println( "FlashLauncher.start" );
-        String unzipDirName = System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" ) + "phet-" + simName;
-        println( "unzipping to directory = " + unzipDirName );
-        File unzipDir = new File( unzipDirName );
 
-        // unzip the JAR into temp directory
-        File jarfile = getJARFile();
-        println( "jarfile = " + jarfile );
-        println( "Starting unzip jarfile=" + jarfile + ", unzipDir=" + unzipDir );
-        FileUtils.unzip( jarfile, unzipDir );
-        println( "Finished unzip" );
-
-        // read the properties file
+         // read the properties file
         Properties properties = readProperties( simName );
 
         // pull the version information from the properties file
@@ -112,6 +101,30 @@ public class FlashLauncher {
         if(properties.getProperty( "distribution.tag" ) != null) {
             distributionTag = properties.getProperty( "distribution.tag" );
         }
+
+        if( simName.equals( "flash-common-strings" ) ) {
+            String displayString = "";
+            displayString += "PhET Flash common strings : version ";
+            displayString += versionMajor + "." + versionMinor + "." + versionDev + " (" + versionRevision + ")";
+            displayString += "\n\n";
+            displayString += "This JAR file contains common strings used by all PhET flash simulations. " +
+                    "You can use this JAR file to translate common strings with Translation Utility. " +
+                    "But testing those translations is not currently supported.";
+            JOptionPane.showMessageDialog( null, displayString );
+            return;
+        }
+
+        println( "FlashLauncher.start" );
+        String unzipDirName = System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" ) + "phet-" + simName;
+        println( "unzipping to directory = " + unzipDirName );
+        File unzipDir = new File( unzipDirName );
+
+        // unzip the JAR into temp directory
+        File jarfile = getJARFile();
+        println( "jarfile = " + jarfile );
+        println( "Starting unzip jarfile=" + jarfile + ", unzipDir=" + unzipDir );
+        FileUtils.unzip( jarfile, unzipDir );
+        println( "Finished unzip" );
 
         // read the background color property
         String bgcolor = readBackgroundColor( properties );
