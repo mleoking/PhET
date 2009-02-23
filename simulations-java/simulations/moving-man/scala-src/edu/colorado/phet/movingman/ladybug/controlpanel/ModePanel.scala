@@ -16,7 +16,6 @@ class ModePanel(model: LadybugModel) extends JPanel {
   val recordingButton = addComponent{
     new MyRadioButton("Record", model.setRecord(true), model.isRecord, model.addListener) {
       font = new PhetFont(15, true)
-
     }
   }
   recordingButton.peer.setBackground(new Color(0, 0, 0, 0))
@@ -29,7 +28,7 @@ class ModePanel(model: LadybugModel) extends JPanel {
 
   addListener(model.addListenerByName){
     def color(b: Boolean) = if (b) red else black
-    recordingButton.peer.setForeground(color(recordingButton.peer.isSelected && !model.isPaused))
+    recordingButton.peer.setForeground(color(recordingButton.peer.isSelected && !model.isPaused && !model.isRecordingFull))
     playbackButton.peer.setForeground(color(playbackButton.peer.isSelected && !model.isPaused))
   }
 
