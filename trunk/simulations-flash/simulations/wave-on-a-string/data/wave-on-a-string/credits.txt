@@ -1,1 +1,1 @@
-Phet-credits lead-design=Michael Dubson software-development=Michael Dubson interviews=Wendy Adams, Danielle Harlow
+phet-credits lead-design=Michael Dubson software-development=Michael Dubson interviews=Wendy Adams, Danielle Harlow
