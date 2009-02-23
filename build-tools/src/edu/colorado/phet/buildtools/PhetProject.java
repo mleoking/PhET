@@ -424,7 +424,7 @@ public abstract class PhetProject {
             String prefix = getName() + "-strings_";
             if ( child.isFile() && filename.startsWith( prefix ) && filename.endsWith( suffix ) ) {
                 String localeString = filename.substring( prefix.length(), filename.length() - suffix.length() );
-                Locale locale = LocaleUtils.toLocale( localeString );
+                Locale locale = LocaleUtils.stringToLocale( localeString );
                 locales.add( locale );
             }
         }

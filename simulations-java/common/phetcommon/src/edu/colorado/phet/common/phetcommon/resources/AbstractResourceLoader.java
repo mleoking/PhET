@@ -9,6 +9,8 @@ import java.net.URL;
 import java.util.Locale;
 import java.util.Properties;
 
+import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+
 /**
  * AbstractResourceLoader provides a default implementation for
  * portions of IResourceLoader that are not PhET specific.
@@ -76,17 +78,7 @@ abstract class AbstractResourceLoader implements IResourceLoader {
     }
 
     private String getLocalizedPropertiesResourceName( String resourceName, Locale locale ) {
-        String basename = stripPropertiesSuffix( resourceName );
-        String localizedName = null;
-        if ( locale.getCountry().equals( "" ) ) {
-            // eg, faraday-strings_zh.properties
-            localizedName = basename + "_" + locale.getLanguage() + PROPERTIES_SUFFIX;
-        }
-        else {
-            // eg, faraday-strings_zh_CN.properties
-            localizedName = basename + "_" + locale.getLanguage() + "_" + locale.getCountry() + PROPERTIES_SUFFIX;
-        }
-        return localizedName;
+        return stripPropertiesSuffix( resourceName ) + LocaleUtils.getTranslationFileSuffix( locale ) + PROPERTIES_SUFFIX;
     }
     
     private String getFallbackPropertiesResourceName( String resourceName ) {
