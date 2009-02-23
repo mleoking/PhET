@@ -81,24 +81,11 @@ class LadybugModel extends Observable {
     setPlaybackIndexFloat(f.evaluate(t))
   }
 
-  abstract class UpdateMode {
-    def update(dt: Double): Unit
-  }
-  object PositionMode extends UpdateMode {
-    def update(dt: Double) = {
-      positionMode(dt)
-    }
-  }
-  object VelocityMode extends UpdateMode {
-    def update(dt: Double) = {
-      velocityMode(dt)
-    }
-  }
-  object AccelerationMode extends UpdateMode {
-    def update(dt: Double) = {
-      accelerationMode(dt)
-    }
-  }
+  abstract class UpdateMode {def update(dt: Double): Unit}
+  object PositionMode extends UpdateMode {def update(dt: Double) = positionMode(dt)}
+  object VelocityMode extends UpdateMode {def update(dt: Double) = velocityMode(dt)}
+  object AccelerationMode extends UpdateMode {def update(dt: Double) = accelerationMode(dt)}
+
   def setUpdateModePosition = {
     if (updateMode != PositionMode) {
       updateMode = PositionMode
