@@ -118,7 +118,7 @@ public abstract class JavaProject extends PhetProject {
      * @param simulationName
      * @return
      */
-    public Simulation getSimulation( String simulationName, String locale ) {
+    public Simulation getSimulation( String simulationName, Locale locale ) {
         BuildPropertiesFile buildPropertiesFile = super.getBuildPropertiesFileObject();
         String mainclass = buildPropertiesFile.getMainClass( simulationName );
         if ( mainclass == null ) {
@@ -143,7 +143,7 @@ public abstract class JavaProject extends PhetProject {
                 title = localizedProperties.getProperty( titleKey );
                 if ( title == null ) {
                     Properties englishProperties = new Properties();
-                    englishProperties.load( new FileInputStream( getLocalizationFile( "en" ) ) );
+                    englishProperties.load( new FileInputStream( getLocalizationFile( new Locale("en") ) ) );
                     title = englishProperties.getProperty( titleKey );
                     System.out.println( "PhetProject.getSimulation: missing title for simulation: key=" + titleKey + ", locale=" + locale + ", using English" );
                     if ( title == null ) {
@@ -154,7 +154,7 @@ public abstract class JavaProject extends PhetProject {
                 description = localizedProperties.getProperty( descriptionKey );
                 if ( description == null ) {
                     Properties englishProperties = new Properties();
-                    englishProperties.load( new FileInputStream( getLocalizationFile( "en" ) ) );
+                    englishProperties.load( new FileInputStream( getLocalizationFile(new Locale( "en" )) ) );
                     description = englishProperties.getProperty( descriptionKey );
                     System.out.println( "PhetProject.getSimulation: missing description for simulation: key=" + descriptionKey + ", locale=" + locale + ", using English" );
                     if ( description == null ) {
@@ -198,12 +198,12 @@ public abstract class JavaProject extends PhetProject {
     }
 
     public void buildJNLP( Locale locale, String simulationName, String codebase, boolean dev ) {
-        System.out.println( "Building JNLP for locale=" + locale.getLanguage() + ", simulation=" + simulationName );
+        System.out.println( "Building JNLP for locale=" + locale + ", simulation=" + simulationName );
         BuildJNLPTask j = new BuildJNLPTask();
         j.setDev( dev );
         j.setDeployUrl( codebase );
         j.setProject( getName() );
-        j.setLocale( locale.getLanguage() );
+        j.setLocale( locale);
         j.setSimulation( simulationName );
         org.apache.tools.ant.Project project = new org.apache.tools.ant.Project();
         project.setBaseDir( getSimulationsJava() );//TODO: is this correct?

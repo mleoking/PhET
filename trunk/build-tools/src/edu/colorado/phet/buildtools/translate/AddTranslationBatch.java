@@ -3,6 +3,7 @@ package edu.colorado.phet.buildtools.translate;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import edu.colorado.phet.buildtools.translate.AddTranslation.AddTranslationReturnValue;
 
@@ -42,10 +43,10 @@ public class AddTranslationBatch {
             String name = translationFile.getName();
             String simWithSuffix = name.substring( 0, name.indexOf( "_" ) );
             String sim = simWithSuffix.substring( 0, simWithSuffix.lastIndexOf( "-" ) );
-            String lang = name.substring( name.indexOf( "_" ) + 1, name.indexOf( "." ) );
+            String localeStr = name.substring( name.indexOf( "_" ) + 1, name.indexOf( "." ) );
             AddTranslation addTranslation = new AddTranslation( basedir );
-            System.out.println( "addtranslation, sim=" + sim + ", lang=" + lang + ", user=" + user );
-            AddTranslationReturnValue returnValue = addTranslation.addTranslation( sim, lang, user, password );
+            System.out.println( "addtranslation, sim=" + sim + ", localeStr=" + localeStr + ", user=" + user );
+            AddTranslationReturnValue returnValue = addTranslation.addTranslation( sim, new Locale(localeStr), user, password );
             returnValues.add( returnValue );
         }
         return (AddTranslationReturnValue[]) returnValues.toArray( new AddTranslationReturnValue[returnValues.size()] );

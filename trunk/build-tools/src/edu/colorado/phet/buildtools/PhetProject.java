@@ -403,10 +403,10 @@ public abstract class PhetProject {
     }
 
     public Simulation getSimulation( String simulationName ) {
-        return getSimulation( simulationName, "en" );
+        return getSimulation( simulationName, new Locale( "en" ) );
     }
 
-    public abstract Simulation getSimulation( String simulationName, String locale );
+    public abstract Simulation getSimulation( String simulationName, Locale locale );
 
     /*
     * Returns an array of the 2-character locale codes supported by this application.
@@ -421,24 +421,36 @@ public abstract class PhetProject {
             File child = children[i];
             String filename = child.getName();
             String prefix = getName() + "-strings_";
-//            String suffix = ".properties";
             if ( child.isFile() && filename.startsWith( prefix ) && filename.endsWith( suffix ) ) {
-                String languageCode = filename.substring( prefix.length(), filename.length() - suffix.length() );
-                locales.add( new Locale( languageCode ) );
+                String localeString = filename.substring( prefix.length(), filename.length() - suffix.length() );
+                Locale locale = toLocale( localeString );
+                locales.add( locale );
             }
         }
         if ( !locales.contains( new Locale( "en" ) ) ) {
             locales.add( new Locale( "en" ) );
         }
-        return (Locale[]) locales.toArray( new Locale[0] );
+        return (Locale[]) locales.toArray( new Locale[locales.size()] );
+    }
+
+    //returns a Locale given a string like en_CA or ja
+    public static Locale toLocale( String localeString ) {
+        StringTokenizer stringTokenizer = new StringTokenizer( localeString, "_" );
+        if ( stringTokenizer.countTokens() == 1 ) {
+            return new Locale( stringTokenizer.nextToken() );
+        }else if (stringTokenizer.countTokens()==2){
+            return new Locale( stringTokenizer.nextToken(  ),stringTokenizer.nextToken(  ));
+        }else{
+            throw new RuntimeException( "Locale string should have language OR language_COUNTRY");
+        }
     }
 
     public File getLocalizationDir() {
         return new File( getProjectDir(), "data/" + getName() + "/localization" );
     }
 
-    public File getLocalizationFile( String locale ) {
-        String suffix = locale.equals( "en" ) || locale.equals( "" ) ? "" : "_" + locale;
+    public File getLocalizationFile( Locale locale ) {
+        String suffix = locale.equals( new Locale( "en" ) ) ? "" : "_" + locale;
         return new File( getLocalizationDir(), getName() + "-strings" + suffix + ".properties" );
     }
 
@@ -492,7 +504,7 @@ public abstract class PhetProject {
     public static PhetProject[] getAllSimulations( File trunk ) {
         List phetProjects = new ArrayList();
 
-        phetProjects.addAll(  Arrays.asList( JavaProject.getJavaSimulations( trunk ) ) );
+        phetProjects.addAll( Arrays.asList( JavaProject.getJavaSimulations( trunk ) ) );
         phetProjects.addAll( Arrays.asList( PhetFlashProject.getFlashProjects( trunk ) ) );
         return (PhetProject[]) phetProjects.toArray( new PhetProject[phetProjects.size()] );
     }

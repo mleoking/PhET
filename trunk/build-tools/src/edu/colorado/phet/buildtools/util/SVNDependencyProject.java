@@ -20,7 +20,7 @@ public class SVNDependencyProject extends PhetProject {
         super( projectRoot );
     }
 
-    public Simulation getSimulation( String simulationName, String locale ) {
+    public Simulation getSimulation( String simulationName, Locale locale ) {
         return null;
     }
 
