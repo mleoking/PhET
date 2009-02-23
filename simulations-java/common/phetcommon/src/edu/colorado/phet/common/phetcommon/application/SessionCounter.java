@@ -74,6 +74,16 @@ public class SessionCounter {
     }
     
     /**
+     * Decrements the counts for this sim, and the running total.
+     * This is intended for use when the user declines the Software Agreement.  See #1254.
+     */
+    public synchronized void decrementCounts() {
+        file.setCount( project, simulation, Math.max( 0, file.getCount( project, simulation ) - 1 ) );
+        file.setCountSince( project, simulation, Math.max( 0, file.getCountSince( project, simulation ) - 1 ) );
+        file.setTotal( Math.max( 0, getTotal() - 1 ) );
+    }
+    
+    /**
      * Resets the counts related to when the sim was last able to send statistics.
      * This should be called after successfully sending a "session" message to PhET.
      */
