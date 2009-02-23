@@ -11,29 +11,25 @@ import edu.colorado.phet.common.motion._
 
 class LadybugModel extends Observable {
   val ladybug = new Ladybug
-  private val history = new ArrayBuffer[DataPoint]
-
   private val ladybugMotionModel = new LadybugMotionModel(this)
   private var time: Double = 0;
-  var record = true
-  var paused = true
-  var playbackSpeed = 1.0
-
+  private var paused = true
   private var bounds = new Rectangle2D.Double(-10, -10, 20, 20)
   private var updateMode: UpdateMode = PositionMode
+  val tickListeners = new ArrayBuffer[() => Unit]
+  val resetListeners = new ArrayBuffer[() => Unit]
+  private var frictionless = false
+  val motion2DModel = new Motion2DModel(10, 5, LadybugDefaults.defaultLocation.x, LadybugDefaults.defaultLocation.y)
+
+  private val history = new ArrayBuffer[DataPoint]
+  private var record = true
+  private var playbackSpeed = 1.0
+  var playbackIndexFloat = 0.0 //floor this to get playbackIndex
 
   case class Sample(time: Double, location: Vector2D)
   val samplePath = new ArrayBuffer[Sample]
-  var samplePoint = new Vector2D //current sample point
-  var penDown = false
-
-  private var frictionless = false
-
-  val tickListeners = new ArrayBuffer[() => Unit]
-  val resetListeners = new ArrayBuffer[() => Unit]
-
-  val motion2DModel = new Motion2DModel(10, 5, LadybugDefaults.defaultLocation.x, LadybugDefaults.defaultLocation.y)
-  var playbackIndexFloat = 0.0 //floor this to get playbackIndex
+  private var samplePoint = new Vector2D //current sample point
+  private var penDown = false
 
   def isFrictionless = frictionless
 
