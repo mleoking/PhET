@@ -104,7 +104,7 @@ class Inspector {
 				}
 				switch(type) {
 					case "movieclip":
-						mc_str += "<a href=\"asfunction:_level0.inspect," + i + "\">" + i + " : <font color=\"#aa00aa\">" + typeof(ob[i]) + "</font></a> [" + _level0.inspector.countChildren(ob, i) + "]\n";
+						mc_str += "<a href=\"asfunction:_level0.inspect," + i + "\">" + i + " : <font color=\"#aa00aa\">" + typeof(ob[i]) + "</font></a> [" + _level0.inspector.countChildren(ob, i) + "] " + String(ob[i]) + "\n";
 						break;
 					case "button":
 						btn_str += "<a href=\"asfunction:_level0.inspect," + i + "\">" + i + " : <font color=\"#777700\">" + "button" + "</font></a> [" + _level0.inspector.countChildren(ob, i) + "]\n";
