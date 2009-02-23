@@ -20,8 +20,9 @@ class LadybugModel extends Observable {
   val resetListeners = new ArrayBuffer[() => Unit]
   private var frictionless = false
   val motion2DModel = new Motion2DModel(10, 5, LadybugDefaults.defaultLocation.x, LadybugDefaults.defaultLocation.y)
+  private val modelHistory = new ArrayBuffer[DataPoint] //recent history used to compute velocities, etc.
 
-  private val history = new ArrayBuffer[DataPoint]
+  private val recordHistory = new ArrayBuffer[DataPoint]
   private var record = true
   private var playbackSpeed = 1.0
   var playbackIndexFloat = 0.0 //floor this to get playbackIndex
@@ -70,12 +71,12 @@ class LadybugModel extends Observable {
 
   def getTime() = time
 
-  def getMaxRecordedTime() = if (history.length == 0) 0.0 else history(history.length - 1).time
+  def getMaxRecordedTime() = if (recordHistory.length == 0) 0.0 else recordHistory(recordHistory.length - 1).time
 
-  def getMinRecordedTime() = if (history.length == 0) 0.0 else history(0).time
+  def getMinRecordedTime() = if (recordHistory.length == 0) 0.0 else recordHistory(0).time
 
   def setPlaybackTime(t: Double) = {
-    val f = new LinearFunction(getMinRecordedTime, getMaxRecordedTime, 0, history.length - 1)
+    val f = new LinearFunction(getMinRecordedTime, getMaxRecordedTime, 0, recordHistory.length - 1)
     setPlaybackIndexFloat(f.evaluate(t))
   }
 
@@ -107,7 +108,7 @@ class LadybugModel extends Observable {
   def getPlaybackIndexFloat(): Double = playbackIndexFloat
 
   def getFloatTime(): Double = {
-    val f = new LinearFunction(0, history.length - 1, getMinRecordedTime, getMaxRecordedTime)
+    val f = new LinearFunction(0, recordHistory.length - 1, getMinRecordedTime, getMaxRecordedTime)
     f.evaluate(playbackIndexFloat)
   }
 
@@ -149,7 +150,7 @@ class LadybugModel extends Observable {
   }
 
   def pointInDirectionOfMotion() = {
-    if (estimateVelocity(history.length - 1).magnitude > 1E-6)
+    if (estimateVelocity(modelHistory.length - 1).magnitude > 1E-6)
       ladybug.setAngle(estimateAngle())
   }
 
@@ -158,7 +159,7 @@ class LadybugModel extends Observable {
       motion2DModel.addPointAndUpdate(getLastSamplePoint.location.x, getLastSamplePoint.location.y)
     ladybug.translate(ladybug.getVelocity * dt)
 
-    var accelEstimate = average(history.length - 15, history.length - 1, estimateAcceleration)
+    var accelEstimate = average(modelHistory.length - 15, modelHistory.length - 1, estimateAcceleration)
     ladybug.setAcceleration(accelEstimate)
     pointInDirectionOfMotion()
   }
@@ -171,19 +172,19 @@ class LadybugModel extends Observable {
 
   def setStateToPlaybackIndex() = {
     val playbackIndex = getPlaybackIndex
-    if (playbackIndex >= 0 && playbackIndex < history.length) {
-      ladybug.setState(history(getPlaybackIndex).state)
-      time = history(getPlaybackIndex).time
+    if (playbackIndex >= 0 && playbackIndex < recordHistory.length) {
+      ladybug.setState(recordHistory(getPlaybackIndex).state)
+      time = recordHistory(getPlaybackIndex).time
     }
   }
 
-  def getHistory() = history
+  def getHistory() = recordHistory
 
   def getTimeRange(): Double = {
-    if (history.length == 0) {
+    if (recordHistory.length == 0) {
       0
     } else {
-      history(history.length - 1).time - history(0).time
+      recordHistory(recordHistory.length - 1).time - recordHistory(0).time
     }
   }
 
@@ -194,13 +195,19 @@ class LadybugModel extends Observable {
         time += dt;
         ladybugMotionModel.update(dt, this)
 
-        history += new DataPoint(time, ladybug.getState)
+        modelHistory += new DataPoint(time, ladybug.getState)
+        recordHistory += new DataPoint(time, ladybug.getState)
         penPath += new PenSample(time, penPoint)
 
+        while (modelHistory.length > 100) {
+          modelHistory.remove(0)
+        }
+        while (penPath.length > 100) {
+          penPath.remove(0)
+        }
+
         while (getTimeRange > LadybugDefaults.timelineLengthSeconds) {
-          history.remove(0)
-          while (penPath.length > history.length)
-            penPath.remove(0)
+          recordHistory.remove(recordHistory.length-1)
         }
 
         if (!ladybugMotionModel.isExclusive()) {
@@ -228,14 +235,14 @@ class LadybugModel extends Observable {
 
   def readyForInteraction(): Boolean = {
     val recording = isRecord
-    val isDonePlayback = (getPlaybackIndex() >= history.length - 1) && isPaused
+    val isDonePlayback = (getPlaybackIndex() >= recordHistory.length - 1) && isPaused
     recording || isDonePlayback
   }
 
   def stepPlayback() = {
-    if (getPlaybackIndex() < history.length) {
+    if (getPlaybackIndex() < recordHistory.length) {
       setStateToPlaybackIndex()
-      time = history(getPlaybackIndex()).time
+      time = recordHistory(getPlaybackIndex()).time
       playbackIndexFloat = playbackIndexFloat + playbackSpeed
       notifyListeners()
     } else {
@@ -249,14 +256,14 @@ class LadybugModel extends Observable {
     }
   }
 
-  def estimateAngle(): Double = estimateVelocity(history.length - 1).getAngle
+  def estimateAngle(): Double = estimateVelocity(modelHistory.length - 1).getAngle
 
   def getPosition(index: Int): Vector2D = {
-    history(index).state.position
+    modelHistory(index).state.position
   }
 
   def estimateVelocity(index: Int): Vector2D = {
-    val h = history.slice(history.length - 6, history.length)
+    val h = modelHistory.slice(modelHistory.length - 6, modelHistory.length)
     val tx = for (item <- h) yield new TimeData(item.state.position.x, item.time)
     val vx = MotionMath.estimateDerivative(tx.toArray)
 
@@ -267,7 +274,7 @@ class LadybugModel extends Observable {
   }
 
   def estimateAcceleration(index: Int): Vector2D = {
-    val h = history.slice(history.length - 6, history.length)
+    val h = modelHistory.slice(modelHistory.length - 6, modelHistory.length)
     val tx = for (item <- h) yield new TimeData(item.state.velocity.x, item.time)
     val ax = MotionMath.estimateDerivative(tx.toArray)
 
@@ -303,9 +310,14 @@ class LadybugModel extends Observable {
   }
 
   def clearHistoryRemainder = {
-    val earlyEnough = history.filter(_.time < time)
-    history.clear
-    history.appendAll(earlyEnough)
+    val earlyEnough = modelHistory.filter(_.time < time)
+    modelHistory.clear
+    modelHistory.appendAll(earlyEnough)
+
+    val earlyEnoughRecordData=recordHistory.filter(_.time < time)
+    recordHistory.clear
+    recordHistory.appendAll(earlyEnoughRecordData)
+
     clearSampleHistory()
     resetMotion2DModel
   }
@@ -351,7 +363,8 @@ class LadybugModel extends Observable {
     record = true
     paused = true
     playbackSpeed = 1.0
-    history.clear
+    modelHistory.clear()
+    recordHistory.clear()
     penPath.clear
 
     ladybugMotionModel.resetAll()
@@ -365,7 +378,8 @@ class LadybugModel extends Observable {
   }
 
   def clearHistory() = {
-    history.clear()
+    modelHistory.clear()
+    recordHistory.clear()
     penPath.clear()
     notifyListeners()
   }
