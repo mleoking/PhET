@@ -1,4 +1,3 @@
-# 1.20.34 (28932) Feb 22, 2009
 > Fixed: when you drive the bug with the remote using velocity or acceleration, the bug does not face the direction of velocity (always faces the same direction)
 > Fixed: Rewind button should be disabled when the timeline knob is at t=0
 > Fixed: Slowest mode should be slower (maybe 1/2 this speed)
