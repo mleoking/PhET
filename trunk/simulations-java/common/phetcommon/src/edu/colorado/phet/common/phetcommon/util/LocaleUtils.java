@@ -12,10 +12,12 @@ public class LocaleUtils {
 
     /**
      * Returns strings like "_ja" or "_en_CA" or "" for English.
+     *
      * @param locale
      * @return
      */
     public static String getTranslationFileSuffix( Locale locale ) {
+        assert locale != null;
         if ( locale.equals( new Locale( "en" ) ) ) {
             return "";
         }
