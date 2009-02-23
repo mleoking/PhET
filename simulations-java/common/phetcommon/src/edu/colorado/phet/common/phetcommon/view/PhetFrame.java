@@ -92,7 +92,7 @@ public class PhetFrame extends JFrame {
                 System.out.println( "Preferences=" + PhetPreferences.getInstance().toString() );
                 System.out.println( "Resetting preferences file." );
                 PhetPreferences.clear();
-                JOptionPane.showMessageDialog( PhetFrame.this, "Preferences file cleared, press OK to exit.\nFile is " + path );
+                JOptionPane.showMessageDialog( PhetFrame.this, "Preferences file cleared, press OK to exit.\nFile is " + path+"\nDelete session counts manually, in the same directory." );
                 System.exit( 0 );
             }
         } );
