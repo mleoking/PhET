@@ -30,7 +30,7 @@ class LadybugModel extends Observable {
   private var frictionless = false
 
   val tickListeners = new ArrayBuffer[() => Unit]
-  val motion2DModelResetListeners = new ArrayBuffer[() => Unit]
+  val resetListeners = new ArrayBuffer[() => Unit]
 
   val motion2DModel = new Motion2DModel(10, 5, LadybugDefaults.defaultLocation.x, LadybugDefaults.defaultLocation.y)
   var playbackIndexFloat = 0.0 //floor this to get playbackIndex
@@ -376,7 +376,7 @@ class LadybugModel extends Observable {
 
   def resetMotion2DModel = {
     motion2DModel.reset(ladybug.getPosition.x, ladybug.getPosition.y)
-    motion2DModelResetListeners.foreach(_())
+    resetListeners.foreach(_())
   }
 
   def returnLadybug = {
