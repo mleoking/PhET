@@ -32,7 +32,7 @@ class PreferencesDialog {
 	}
 	
 	public function PreferencesDialog() {
-		debug("PreferencesDialog initializing\n");
+		//debug("PreferencesDialog initializing\n");
 		
 		// shortcut to FlashCommon, but now with type-checking!
 		common = _level0.common;

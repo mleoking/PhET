@@ -18,7 +18,7 @@ class UpdateInstallationDetailsDialog {
 	}
 	
 	public function UpdateInstallationDetailsDialog() {
-		debug("UpdateInstallationDetailsDialog initializing\n");
+		//debug("UpdateInstallationDetailsDialog initializing\n");
 		
 		// shortcut to FlashCommon, but now with type-checking!
 		common = _level0.common;

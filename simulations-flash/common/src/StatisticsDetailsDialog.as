@@ -18,7 +18,7 @@ class StatisticsDetailsDialog {
 	}
 	
 	public function StatisticsDetailsDialog() {
-		debug("StatisticsDetailsDialog initializing\n");
+		//debug("StatisticsDetailsDialog initializing\n");
 		
 		// shortcut to FlashCommon, but now with type-checking!
 		common = _level0.common;

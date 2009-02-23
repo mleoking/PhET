@@ -29,12 +29,7 @@
   <string key="PrivacyMessage1" value="In all PhET simulations, we collect a minimal amount of &lt;a href='{0}'&gt;information&lt;/a&gt; when the simulation starts. You can disable the sending of this information at any time via the Preferences button." />
   <string key="PrivacyMessage2" value="By clicking &quot;Accept and Continue&quot;, you agree to PhET's licensing and privacy policies. (For details, &lt;a href='{0}'&gt;click here&lt;/a&gt;)." />
   <string key="AcceptContinue" value="Accept and Continue" />
-  <string key="PhetLicense" value="PhET Licensing Information:" />
-  <string key="LicensePhetDesc" value="The PhET project provides a suite of interactive educational simulations." />
-  <string key="LicenseSims" value="PhET interactive simulations by &lt;a href='{0}'&gt;The PhET Team, University of Colorado&lt;/a&gt; are licensed under a &lt;a href='{1}'&gt;Creative Commons Attribution-Noncommercial 3.0 United States License&lt;/a&gt;." />
-  <string key="License3" value="The PhET source code is licensed under a &lt;a href='{0}'&gt;Creative Commons GNU General Public License&lt;/a&gt;." />
-  <string key="License4" value="For more information about licensing, &lt;a href='{0}'&gt;click here&lt;/a&gt;. If you are interested in alternative license options, please contact PhET at &lt;a href='{1}'&gt;phethelp@colorado.edu&lt;/a&gt;." />
-  <string key="License5Libraries" value="Used Library Licensing Information:" />
+  <string key="LicenseLibraries" value="Used Library Licensing Information:" />
   <string key="NewVersionAvailable" value="New Version Available" />
   <string key="CurrentVersionIs" value="Your current version of {0} is {1}." />
   <string key="NewerVersionIs" value="A newer version {0} is available." />

@@ -23,7 +23,7 @@ class PrivacyDialog {
 	}
 	
 	public function PrivacyDialog() {
-		debug("PrivacyDialog initializing\n");
+		//debug("PrivacyDialog initializing\n");
 		
 		// shortcut to FlashCommon, but now with type-checking!
 		common = _level0.common;

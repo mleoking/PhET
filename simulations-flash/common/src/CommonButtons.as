@@ -25,7 +25,7 @@ class CommonButtons {
 	}
 	
 	public function CommonButtons(position : String) {
-		debug("CommonButtons initializing\n");
+		//debug("CommonButtons initializing\n");
 		
 		// shortcut to FlashCommon, but now with type-checking!
 		common = _level0.common;

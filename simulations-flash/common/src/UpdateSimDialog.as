@@ -23,7 +23,7 @@ class UpdateSimDialog {
 	}
 	
 	public function UpdateSimDialog(versionMajor : Number, versionMinor : Number, versionDev : Number, simAskLaterDays : Number) {
-		debug("UpdateSimDialog initializing\n");
+		//debug("UpdateSimDialog initializing\n");
 		
 		// shortcut to FlashCommon, but now with type-checking!
 		common = _level0.common;
