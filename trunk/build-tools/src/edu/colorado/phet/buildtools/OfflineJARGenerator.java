@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 
 import edu.colorado.phet.buildtools.util.FileUtils;
+import edu.colorado.phet.buildtools.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.application.JARLauncher;
 
 /**
@@ -98,7 +99,7 @@ public class OfflineJARGenerator {
                 int index = name.indexOf( "_" );//TODO: assumes no _ in simulation name
                 if ( index >= 0 ) {
                     String localeStr = name.substring( index + 1, name.indexOf( ".properties" ) );
-                    locales.add( PhetProject.toLocale(localeStr ));
+                    locales.add( LocaleUtils.toLocale(localeStr ));
                 }
             }
         }
