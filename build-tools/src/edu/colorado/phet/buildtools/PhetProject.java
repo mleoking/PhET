@@ -423,7 +423,7 @@ public abstract class PhetProject {
             String prefix = getName() + "-strings_";
             if ( child.isFile() && filename.startsWith( prefix ) && filename.endsWith( suffix ) ) {
                 String localeString = filename.substring( prefix.length(), filename.length() - suffix.length() );
-                Locale locale = toLocale( localeString );
+                Locale locale = LocaleUtils.toLocale( localeString );
                 locales.add( locale );
             }
         }
@@ -431,18 +431,6 @@ public abstract class PhetProject {
             locales.add( new Locale( "en" ) );
         }
         return (Locale[]) locales.toArray( new Locale[locales.size()] );
-    }
-
-    //returns a Locale given a string like en_CA or ja
-    public static Locale toLocale( String localeString ) {
-        StringTokenizer stringTokenizer = new StringTokenizer( localeString, "_" );
-        if ( stringTokenizer.countTokens() == 1 ) {
-            return new Locale( stringTokenizer.nextToken() );
-        }else if (stringTokenizer.countTokens()==2){
-            return new Locale( stringTokenizer.nextToken(  ),stringTokenizer.nextToken(  ));
-        }else{
-            throw new RuntimeException( "Locale string should have language OR language_COUNTRY");
-        }
     }
 
     public File getLocalizationDir() {

@@ -1,6 +1,7 @@
 package edu.colorado.phet.buildtools.util;
 
 import java.util.Locale;
+import java.util.StringTokenizer;
 
 
 public class LocaleUtils {
@@ -48,13 +49,29 @@ public class LocaleUtils {
         return getStringsSuffix( locale );
     }
 
+
+    //returns a Locale given a string like en_CA or ja
+    //TODO: throw exception when localeString has incorrect form, such as ____en____CA__
+    public static Locale toLocale( String localeString ) {
+        StringTokenizer stringTokenizer = new StringTokenizer( localeString, "_" );
+        if ( stringTokenizer.countTokens() == 1 ) {
+            return new Locale( stringTokenizer.nextToken() );
+        }
+        else if ( stringTokenizer.countTokens() == 2 ) {
+            return new Locale( stringTokenizer.nextToken(), stringTokenizer.nextToken() );
+        }
+        else {
+            throw new RuntimeException( "Locale string should have language OR language_COUNTRY" );
+        }
+    }
+
     /**
      * Converts a file suffix to a Locale.
      *
      * @param suffix
      * @return
      */
-    public static Locale suffixToLocale( String suffix ) {
+    private static Locale suffixToLocale( String suffix ) {
         String language = "";
         String country = "";
         if ( suffix != null ) {
