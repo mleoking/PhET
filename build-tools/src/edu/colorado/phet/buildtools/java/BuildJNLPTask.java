@@ -5,6 +5,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Locale;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
@@ -21,7 +22,7 @@ public class BuildJNLPTask extends AbstractPhetBuildTask {
 
     private volatile String simulationName;
     private volatile String deployUrl;
-    private volatile String locale = "en";
+    private volatile Locale locale = new Locale( "en" );
     private boolean dev = true;
 
     protected void executeImpl( PhetProject phetProject ) throws Exception {
@@ -41,7 +42,7 @@ public class BuildJNLPTask extends AbstractPhetBuildTask {
     }
 
     private String getJNLPFileName() {
-        return "" + simulationName + "_"+locale+ ".jnlp";
+        return "" + simulationName + "_" + locale + ".jnlp";
     }
 
     private File getDestFile( PhetProject phetProject ) {
@@ -81,14 +82,20 @@ public class BuildJNLPTask extends AbstractPhetBuildTask {
                 args.add( "-dev" );
             }
         }
-        return (String[]) args.toArray( new String[0] );
+        return (String[]) args.toArray( new String[args.size()] );
     }
 
     private String getJNLPProperties() {//TODO: locale support
         String properties = "";
         //explicitly request English for the default JNLP file
-        properties += "<property name=\"javaws.phet.locale\" value=\"" + ( locale == null ? "en" : locale ) + "\" />\n"; //XXX #1057, backward compatibility, delete after IOM
-        properties += "<property name=\"" + PhetCommonConstants.PROPERTY_PHET_LANGUAGE + "\" value=\"" + ( locale == null ? "en" : locale ) + "\" />";
+
+        //XXX #1057, backward compatibility, delete after IOM
+        properties += "<property name=\"javaws.phet.locale\" value=\"" + locale.getLanguage() + "\" />\n";
+
+        properties += "<property name=\"" + PhetCommonConstants.PROPERTY_PHET_LANGUAGE + "\" value=\"" + locale.getLanguage() + "\" />";
+        if ( locale.getCountry() != null && locale.getCountry().trim().length() > 0 ) {
+            properties += "<property name=\"" + PhetCommonConstants.PROPERTY_PHET_COUNTRY + "\" value=\"" + locale.getCountry() + "\" />";
+        }
         return properties;
     }
 
@@ -109,7 +116,8 @@ public class BuildJNLPTask extends AbstractPhetBuildTask {
      *
      * @param locale
      */
-    public void setLocale( String locale ) {//TODO: not supported yet
+    public void setLocale( Locale locale ) {
+        assert locale != null;
         this.locale = locale;
     }
 
@@ -119,12 +127,12 @@ public class BuildJNLPTask extends AbstractPhetBuildTask {
         echo( "Setting deploy URL to " + deployUrl );
     }
 
-    public static void buildJNLPForSimAndLanguage( PhetProject project, String language ) throws Exception {
+    public static void buildJNLPForSimAndLocale( PhetProject project, Locale locale ) throws Exception {
         for ( int i = 0; i < project.getSimulationNames().length; i++ ) {
             BuildJNLPTask phetBuildJnlpTask = new BuildJNLPTask();
             phetBuildJnlpTask.setSimulation( project.getSimulationNames()[i] );
             phetBuildJnlpTask.setDeployUrl( PhetServer.PRODUCTION.getWebDeployURL( project ) );
-            phetBuildJnlpTask.setLocale( language );
+            phetBuildJnlpTask.setLocale( locale );
             phetBuildJnlpTask.executeImpl( project );
         }
     }

@@ -413,7 +413,7 @@ public class PhetFlashProject extends PhetProject {
         return new File( getProjectDir(), "deploy/" + getName() + ".swf" );
     }
 
-    public Simulation getSimulation( String simulationName, String locale ) {
+    public Simulation getSimulation( String simulationName, Locale locale ) {
         return new Simulation( simulationName, getName(), "description", "mainclass", new String[0], new File( "screenshot.gif" ) );
     }
 
@@ -462,4 +462,5 @@ public class PhetFlashProject extends PhetProject {
 
         return new PhetProject[]{commonProject};
     }
+
 }

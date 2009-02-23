@@ -37,7 +37,7 @@ public class OfflineJARGenerator {
         String[] flavors = getFlavors( jar );
         System.out.println( "Found flavors: " + Arrays.asList( flavors ) );
 
-        String[] locales = getLocales( jar );
+        Locale[] locales = getLocales( jar );
         System.out.println( "Found locales: " + Arrays.asList( locales ) );
 
         for ( int i = 0; i < locales.length; i++ ) {
@@ -52,15 +52,15 @@ public class OfflineJARGenerator {
         return stringTokenizer.nextToken();
     }
 
-    private void generateOfflineJAR( File jar, String flavor, String locale, String pathToJARUtility ) throws IOException, InterruptedException {
+    private void generateOfflineJAR( File jar, String flavor, Locale locale, String pathToJARUtility ) throws IOException, InterruptedException {
         File dst = new File( jar.getParentFile(), flavor + "_" + locale + ".jar" );
         System.out.println( "Writing to: " + dst.getAbsolutePath() );
         FileUtils.copyTo( jar, dst );
 
         Properties properties = getJarLauncherProperties( jar );
         properties.put( JARLauncher.FLAVOR_KEY, flavor );
-        properties.put( JARLauncher.LANGUAGE_KEY, new Locale( locale ).getLanguage() );
-        String countryCode = new Locale( locale ).getCountry();
+        properties.put( JARLauncher.LANGUAGE_KEY, locale.getLanguage() );
+        String countryCode = locale.getCountry();
         //omit key for unspecified country
         if ( countryCode != null && countryCode.trim().length() > 0 ) {
             properties.put( JARLauncher.COUNTRY_KEY, countryCode );
@@ -85,24 +85,24 @@ public class OfflineJARGenerator {
         return new File( jar.getParentFile(), JAR_LAUNCHER_FILENAME );
     }
 
-    private String[] getLocales( File jar ) throws IOException {
+    private Locale[] getLocales( File jar ) throws IOException {
         JarFile jarFile = new JarFile( jar );
         Enumeration entries = jarFile.entries();
         HashSet locales = new HashSet();
-        locales.add( "en" );//TODO: this can be removed if/when we add _en suffixes original phet localization files
+        locales.add( new Locale("en") );//TODO: this can be removed if/when we add _en suffixes original phet localization files
         Pattern p = Pattern.compile( ".*" + getProjectName( jar ) + ".*strings.*" );//TODO: will dash character cause problems here?
         while ( entries.hasMoreElements() ) {
             ZipEntry zipEntry = (ZipEntry) entries.nextElement();
             String name = zipEntry.getName();
             if ( p.matcher( name ).matches() ) {
-                int index = name.lastIndexOf( "_" );
+                int index = name.indexOf( "_" );//TODO: assumes no _ in simulation name
                 if ( index >= 0 ) {
-                    String s = name.substring( index + 1, name.indexOf( ".properties" ) );
-                    locales.add( s );
+                    String localeStr = name.substring( index + 1, name.indexOf( ".properties" ) );
+                    locales.add( PhetProject.toLocale(localeStr ));
                 }
             }
         }
-        return (String[]) locales.toArray( new String[0] );
+        return (Locale[]) locales.toArray( new Locale[locales.size()] );
     }
 
     private String[] getFlavors( File jar ) throws IOException {
