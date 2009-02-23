@@ -5,6 +5,8 @@
 > Fixed: Clear button should put the sim in record mode if it was in playback mode
 > Reduced speed of all preset motions by 30%
 > Fixed: Exception when switching back and forth between record and playback
+> Fixed: Recording should stop when timeline is full. "Record" label should go from red to black when it stops recording. You can still move the bug, but it does not record any more. (In order to record more, you need to hit clear.)
+> Fixed: the trace should stop when it stops recording, since the trace and timeline are coupled
 
 # 1.20.33 (28801) Feb 19, 2009
 Batch deploy for alpha Simulation Tests, svn 28773

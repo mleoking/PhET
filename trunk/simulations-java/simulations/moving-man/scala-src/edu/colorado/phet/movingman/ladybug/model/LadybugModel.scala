@@ -21,6 +21,7 @@ class LadybugModel extends Observable {
   private var frictionless = false
   val motion2DModel = new Motion2DModel(10, 5, LadybugDefaults.defaultLocation.x, LadybugDefaults.defaultLocation.y)
   private val modelHistory = new ArrayBuffer[DataPoint] //recent history used to compute velocities, etc.
+  var dt=0.0
 
   //State related to recording; consider moving to a trait
   private val recordHistory = new ArrayBuffer[DataPoint]
@@ -191,6 +192,7 @@ class LadybugModel extends Observable {
   }
 
   def update(dt: Double) = {
+    this.dt=dt
     if (!paused) {
       tickListeners.foreach(_())
       if (isRecord()) {
@@ -208,8 +210,8 @@ class LadybugModel extends Observable {
           penPath.remove(0)
         }
 
-        while (getRecordedTimeRange > LadybugDefaults.timelineLengthSeconds) {
-          recordHistory.remove(recordHistory.length-1)
+        while (recordHistory.length > getMaxRecordPoints) {
+          recordHistory.remove(recordHistory.length - 1)
         }
 
         if (!ladybugMotionModel.isExclusive()) {
@@ -226,6 +228,10 @@ class LadybugModel extends Observable {
         stepPlayback()
       }
     }
+  }
+
+  def getMaxRecordPoints = {
+    (LadybugDefaults.timelineLengthSeconds / dt).toInt
   }
 
   def initManual = {
@@ -316,7 +322,7 @@ class LadybugModel extends Observable {
     modelHistory.clear
     modelHistory.appendAll(earlyEnough)
 
-    val earlyEnoughRecordData=recordHistory.filter(_.time < time)
+    val earlyEnoughRecordData = recordHistory.filter(_.time < time)
     recordHistory.clear
     recordHistory.appendAll(earlyEnoughRecordData)
 
@@ -344,6 +350,10 @@ class LadybugModel extends Observable {
   }
 
   def isPaused() = paused
+
+  def isRecordingFull = {
+    recordHistory.length >= getMaxRecordPoints
+  }
 
   def rewind = {
     setPlaybackIndexFloat(0.0)
