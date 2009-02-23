@@ -63,7 +63,7 @@ class Preferences {
 			//reset();
 		//}
 		/////////////////////////////////////////
-		if(!sharedObject.data.dataVersion || sharedObject.data.dataVersion != CURRENT_PREF_VERSION) {
+		if(sharedObject.data.exists && (!sharedObject.data.dataVersion || sharedObject.data.dataVersion != CURRENT_PREF_VERSION)) {
 			debug("Preferences: DEVELOPMENT: resetting shared object, new information to be stored\n");
 			reset();
 		}
@@ -198,18 +198,27 @@ class Preferences {
 	}
 	
 	// set ask me later time
-	public function setAskLater(days : Number) : Void {
+	public function setSimAskLater(days : Number) : Void {
 		load();
-		// TODO: debug ask later date?
-		sharedObject.data[FIELD_ASK_LATER] = (new Date()).valueOf() + days * 24 * 60 * 60;
+		
+		var dateMilliseconds = (new Date()).valueOf() + days * 24 * 60 * 60 * 1000;
+		sharedObject.data[FIELD_ASK_LATER] = dateMilliseconds;
+		
+		debug("Preferences: sim ask later set to " + FlashCommon.dateString(FlashCommon.dateOfMilliseconds(dateMilliseconds)) + "\n");
+		
 		save();
 		unload();
 	}
 	
 	public function setInstallationAskLater(days : Number) : Void {
 		load();
-		// TODO: debug ask later date?
-		sharedObject.data[FIELD_INSTALLATION_ASK_LATER] = (new Date()).valueOf() + days * 24 * 60 * 60;
+		
+		var dateMilliseconds = (new Date()).valueOf() + days * 24 * 60 * 60 * 1000;
+		
+		sharedObject.data[FIELD_INSTALLATION_ASK_LATER] = dateMilliseconds;
+		
+		debug("Preferences: installation ask later set to " + FlashCommon.dateString(FlashCommon.dateOfMilliseconds(dateMilliseconds)) + "\n");
+		
 		save();
 		unload();
 	}
@@ -310,7 +319,7 @@ class Preferences {
 	}
 	
 	// return number of milliseconds elapsed since ask-later was selected
-	public function askLaterElapsed() : Number {
+	public function simAskLaterElapsed() : Number {
 		load();
 		var time : Number = sharedObject.data[FIELD_ASK_LATER];
 		unload();

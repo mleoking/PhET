@@ -64,4 +64,6 @@
   <string key="InstallationDated" value="Your PhET Offline Website Installation is dated {0}." />
   <string key="InstallationNewer" value="A newer version is available, dated {0}." />
   <string key="InstallerAsk" value="Would you like to get the latest PhET Offline Website Installer?" />
+  <string key="InstallerInfo1" value="Keeping your PhET Offline Website Installation up-to-date ensures that you have access to the newest PhET simulations and supplemental materials." />
+  <string key="InstallerInfo2" value="If you choose to get the newest version, a web browser will open to the PhET website, where you can download the PhET Offline Website Installer." />
 </SimStrings>

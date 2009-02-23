@@ -74,7 +74,7 @@ class UpdateInstallationDialog {
 			"a:hover{color:#0000FF;text-decoration:underline;font-weight:bold;}" +
 			"a:active{color:#0000FF;font-weight:bold;}"); 
 		
-		var textArea = new JTextArea(str, 0, 40);
+		var textArea = new JTextArea(str, 0, 0);
 		textArea.setHtml(true);
 		textArea.setEditable(false);
 		textArea.setCSS(css);
@@ -151,7 +151,12 @@ class UpdateInstallationDialog {
 	}
 	
 	public function tellMoreClicked(src : JButton) {
-		// hide this window
-		_level0.updateInstallationWindow.setVisible(false);
+		if(_level0.updateInstallationDetailsWindow) {
+			debug("Showing dialog again\n");
+			_level0.updateInstallationDetailsWindow.show();
+		} else {
+			debug("Creating Dialog\n");
+			_level0.UpdateInstallationDetailsDialog = new UpdateInstallationDetailsDialog();
+		}
 	}
 }
