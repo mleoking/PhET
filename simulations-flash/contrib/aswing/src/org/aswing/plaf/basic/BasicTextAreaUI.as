@@ -1,4 +1,4 @@
-﻿import org.aswing.ASColor;
+import org.aswing.ASColor;
 import org.aswing.Component;
 import org.aswing.geom.Dimension;
 import org.aswing.geom.Rectangle;
@@ -49,7 +49,8 @@ class org.aswing.plaf.basic.BasicTextAreaUI extends BasicTextComponentUI {
 			var h:Number = r.height;
 			g.fillRectangle(new SolidBrush(c.getBackground()), x,y,w,h);
 			
-			var colors:Array = [0xF7F7F7, c.getBackground().getRGB()];
+			//var colors:Array = [0xF7F7F7, c.getBackground().getRGB()];
+            var colors:Array = [c.getBackground().getRGB(), c.getBackground().getRGB()];
 			var alphas:Array = [50, 0];
 			var ratios:Array = [0, 100];
 			var matrix:Object = {matrixType:"box", x:x, y:y, w:w, h:h, r:(90/180)*Math.PI};        
