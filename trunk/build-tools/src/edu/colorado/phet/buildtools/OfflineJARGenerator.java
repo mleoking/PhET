@@ -99,7 +99,7 @@ public class OfflineJARGenerator {
                 int index = name.indexOf( "_" );//TODO: assumes no _ in simulation name
                 if ( index >= 0 ) {
                     String localeStr = name.substring( index + 1, name.indexOf( ".properties" ) );
-                    locales.add( LocaleUtils.toLocale(localeStr ));
+                    locales.add( LocaleUtils.stringToLocale(localeStr ));
                 }
             }
         }
