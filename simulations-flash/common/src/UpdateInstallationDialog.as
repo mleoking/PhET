@@ -74,15 +74,18 @@ class UpdateInstallationDialog {
 			"a:hover{color:#0000FF;text-decoration:underline;font-weight:bold;}" +
 			"a:active{color:#0000FF;font-weight:bold;}"); 
 		
-		var textArea = new JTextArea(str, 0, 0);
+		var textArea = new JTextArea(str, 0, 40);
 		textArea.setHtml(true);
 		textArea.setEditable(false);
 		textArea.setCSS(css);
 		textArea.setWordWrap(true);
-		textArea.setWidth(300);
+		textArea.setMultiline(true);
+		
 		textArea.setBackground(common.backgroundColor);
+		
 		// add padding around the text
 		textArea.setBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)));
+		textArea.setWidth(300);
 		
 		window.getContentPane().append(textArea);
 		
@@ -120,6 +123,8 @@ class UpdateInstallationDialog {
 		// center the window
 		window.setLocation((Stage.width - window.getWidth()) / 2, (Stage.height - window.getHeight()) / 2);
 		window.show();
+		
+		debug("UID::: " + String(textArea.getVisibleRows()) + "\n");
 	}
 	
 	public function onWindowClose() {
