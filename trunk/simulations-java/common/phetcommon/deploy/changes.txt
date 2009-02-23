@@ -1,3 +1,4 @@
+2-23-09: #1248, field user_installation_timestamp is missing from Java session message
 2-23-09: #1254, session counts should not be incremented if Software Agreement is declined
 2-21-09: make ErrorDialog handle html formatting & styling so that clients can pass in any string
 2-21-09: provide default title for ErrorDialog, since all current uses are "Error"
