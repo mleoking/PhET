@@ -57,9 +57,10 @@ class LadybugModel extends Observable {
 
   def setSamplePoint(pt: Point2D) = {
     this.penPoint = pt
+    //todo: send notification?
   }
 
-  def getBounds(): Rectangle2D = {
+  def getBounds: Rectangle2D = {
     return new Rectangle2D.Double(bounds.getX, bounds.getY, bounds.getWidth, bounds.getHeight) //defensive copy
   }
 
@@ -178,9 +179,9 @@ class LadybugModel extends Observable {
     }
   }
 
-  def getHistory() = recordHistory
+  def getRecordingHistory = recordHistory
 
-  def getTimeRange(): Double = {
+  def getRecordedTimeRange(): Double = {
     if (recordHistory.length == 0) {
       0
     } else {
@@ -206,7 +207,7 @@ class LadybugModel extends Observable {
           penPath.remove(0)
         }
 
-        while (getTimeRange > LadybugDefaults.timelineLengthSeconds) {
+        while (getRecordedTimeRange > LadybugDefaults.timelineLengthSeconds) {
           recordHistory.remove(recordHistory.length-1)
         }
 
@@ -300,7 +301,7 @@ class LadybugModel extends Observable {
     if (record != rec) {
       record = rec
       if (record) {
-        clearHistoryRemainder
+        clearHistoryRemainder()
         ladybug.setVelocity(new Vector2D)
         ladybug.setAcceleration(new Vector2D)
       }
@@ -309,7 +310,7 @@ class LadybugModel extends Observable {
     }
   }
 
-  def clearHistoryRemainder = {
+  def clearHistoryRemainder() = {
     val earlyEnough = modelHistory.filter(_.time < time)
     modelHistory.clear
     modelHistory.appendAll(earlyEnough)

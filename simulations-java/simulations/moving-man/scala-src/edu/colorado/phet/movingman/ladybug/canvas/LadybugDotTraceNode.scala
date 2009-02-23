@@ -27,7 +27,7 @@ class LadybugDotTraceNode(model: LadybugModel, transform: ModelViewTransform2D, 
     val p = new GeneralPath
     implicit def historyToPoint(dataPoint: DataPoint) = new Point2D.Float(dataPoint.state.position.x.toFloat, dataPoint.state.position.y.toFloat)
 
-    if (model.getHistory.length > 0) {
+    if (model.getRecordingHistory.length > 0) {
       for (h <- getHistoryToShow()) {
         val pt: Point2D.Float = h
         val tx = transform.modelToView(pt)
