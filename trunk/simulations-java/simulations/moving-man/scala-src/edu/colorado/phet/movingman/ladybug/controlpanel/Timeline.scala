@@ -91,7 +91,7 @@ class Timeline(model: LadybugModel, canvas: PhetPCanvas) extends PNode {
   def updateSelf() = {
     scale = (canvas.getWidth - insetX * 2) / LadybugDefaults.timelineLengthSeconds
 
-    shaded.setPathTo(new Rectangle(insetX, pathOffsetY + 1, (model.getTimeRange * scale).toInt, pathHeight - 1))
+    shaded.setPathTo(new Rectangle(insetX, pathOffsetY + 1, (model.getRecordedTimeRange * scale).toInt, pathHeight - 1))
     background.setPathTo(new Rectangle(insetX, pathOffsetY, (LadybugDefaults.timelineLengthSeconds * scale).toInt, pathHeight))
     handle.setVisible(model.isPlayback)
     val elapsed = model.getTime - model.getMinRecordedTime

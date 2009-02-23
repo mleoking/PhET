@@ -82,7 +82,7 @@ class LadybugClockControlPanel[M <: LadybugModel](module: LadybugModule[M], crea
   module.model.addListenerByName(updateRewindEnabled)
   updateRewindEnabled
   def updateRewindEnabled = {
-    val enabled = module.model.isPlayback && module.model.getHistory.length > 0 && module.model.getTime != module.model.getMinRecordedTime
+    val enabled = module.model.isPlayback && module.model.getRecordingHistory.length > 0 && module.model.getTime != module.model.getMinRecordedTime
     rewind.setEnabled(enabled)
   }
   rewind.addInputEventListener(new ToolTipHandler("Rewind", this))
@@ -110,7 +110,7 @@ class LadybugClockControlPanel[M <: LadybugModel](module: LadybugModule[M], crea
   stepButton.setEnabled(false)
   stepButton.addInputEventListener(new ToolTipHandler("Step", this))
   module.model.addListener(() => {
-    val isLastStep = module.model.getPlaybackIndex == module.model.getHistory.length
+    val isLastStep = module.model.getPlaybackIndex == module.model.getRecordingHistory.length
     stepButton.setEnabled(module.model.isPlayback && module.model.isPaused && !isLastStep)
   })
   stepButton.addListener(() => {module.model.stepPlayback()})

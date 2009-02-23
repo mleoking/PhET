@@ -41,7 +41,7 @@ object LadybugMotionModel {
       var vx = model.ladybug.getVelocity.x
       var vy = model.ladybug.getVelocity.y
       var changed = false
-      val bounds = model.getBounds()
+      val bounds = model.getBounds
       if (x > bounds.getMaxX && vx > 0) {
         vx = -abs(vx)
         x = bounds.getMaxX
@@ -70,7 +70,7 @@ object LadybugMotionModel {
       model.ladybug.setPosition(new Vector2D(x, y))
       model.ladybug.setVelocity(new Vector2D(vx, vy))
       model.ladybug.setAngle(model.ladybug.getVelocity.getAngle)
-      model.ladybug.setAcceleration(model.average(model.getHistory.length - 15, model.getHistory.length - 1, model.estimateAcceleration))
+      model.ladybug.setAcceleration(model.average(model.getRecordingHistory.length - 15, model.getRecordingHistory.length - 1, model.estimateAcceleration))
       model.setSamplePoint(model.ladybug.getPosition)
     }
   }
