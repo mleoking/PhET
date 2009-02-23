@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -545,7 +545,7 @@ class org.aswing.JTextComponent extends Component {
     /**
      * @return the textField if created, null if not.
      */
-    private function getTextField():TextField{
+    public function getTextField():TextField{
     	if(isDisplayable()){
     		return textField;
     	}else{
