@@ -2,8 +2,8 @@
 
 package edu.colorado.phet.common.phetcommon.view;
 
-import java.awt.Container;
-import java.awt.HeadlessException;
+import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.common.phetcommon.view.menu.PhetFileMenu;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -76,6 +77,24 @@ public class PhetFrame extends JFrame {
                 removeModule( event.getModule() );
             }
 
+        } );
+
+        addF8ToClearPreferencesFile();
+    }
+
+    private void addF8ToClearPreferencesFile() {
+        final String mapKey = "reset-preferences-file";
+        getRootPane().getInputMap( JComponent.WHEN_IN_FOCUSED_WINDOW ).put( KeyStroke.getKeyStroke( KeyEvent.VK_F8, 0 ), mapKey );
+
+        getRootPane().getActionMap().put( mapKey, new AbstractAction() {
+            public void actionPerformed( java.awt.event.ActionEvent e ) {
+                String path = PhetPreferences.getPreferencesFile().getAbsolutePath();
+                System.out.println( "Preferences=" + PhetPreferences.getInstance().toString() );
+                System.out.println( "Resetting preferences file." );
+                PhetPreferences.clear();
+                JOptionPane.showMessageDialog( PhetFrame.this, "Preferences file cleared, press OK to exit.\nFile is " + path );
+                System.exit( 0 );
+            }
         } );
     }
 
