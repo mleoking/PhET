@@ -101,8 +101,8 @@
 	<classpathentry kind="src" path="simulations-java/simulations/circuit-construction-kit/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/color-vision/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/color-vision/data"/>
-	<classpathentry kind="src" path="simulations-java/simulations/common-strings/src"/>
-	<classpathentry kind="src" path="simulations-java/simulations/common-strings/data"/>
+	<classpathentry kind="src" path="simulations-java/simulations/java-common-strings/src"/>
+	<classpathentry kind="src" path="simulations-java/simulations/java-common-strings/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/conductivity/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/conductivity/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/discharge-lamps/src"/>
