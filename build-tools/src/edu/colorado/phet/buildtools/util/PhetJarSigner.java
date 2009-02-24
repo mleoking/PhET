@@ -22,23 +22,31 @@ public class PhetJarSigner {
     public static final String CERTIFICATE_ALIAS_PROPERTY_NAME = "signing-config.alias";
 
 	String pathToJarSigner;
-	String pathToConfigFile;
-	String pathToJarFile;
 	Properties signingConfigProperties;
-	
-	public PhetJarSigner( String pathToJarsigner, String pathToConfigFile, String pathToJarFile ) {
+	private File signingConfigFile;
+
+	/**
+	 * Constructor
+	 * 
+	 * @param pathToJarsigner
+	 * @param pathToConfigFile
+	 */
+	public PhetJarSigner( String pathToJarsigner, String pathToConfigFile ) {
 		this.pathToJarSigner = pathToJarsigner;
-		this.pathToConfigFile = pathToConfigFile;
-		this.pathToJarFile = pathToJarFile;
-		
+		signingConfigFile = new File( pathToConfigFile );
 	}
 
-	public boolean signJar(){
+	/**
+	 * Sign the specified jar file.
+	 * 
+	 * @param pathToJarFile - Full path to the jar file to be signed.
+	 * @return true if successful, false if problems are encountered.
+	 */
+	public boolean signJar( String pathToJarFile ){
 
 		// Verify that the specified properties file exists and can be loaded.
         
-		File signingConfigFile = new File( pathToConfigFile );
-		signingConfigProperties = new Properties();
+		Properties signingConfigProperties = new Properties();
         if ( signingConfigFile.exists() ) {
             try {
             	signingConfigProperties.load( new FileInputStream( signingConfigFile ) );
@@ -50,7 +58,7 @@ public class PhetJarSigner {
             }
         }
         else{
-        	System.err.println("Error: Signing config file does not exist: " + pathToConfigFile);
+        	System.err.println("Error: Signing config file does not exist: " + signingConfigFile.getName());
         }
         
         // Make sure the needed properties are present.
@@ -142,14 +150,19 @@ public class PhetJarSigner {
 	        return false;
 	    }
         
-        
         return true;
 	}
 
+	/**
+	 * Main routine, which is used for testing and also for signing JAR files
+	 * from the command line.
+	 * 
+	 * @param args <path-to-signing-utility> <path-to-signing-config-file> <jar-to-be-signed>
+	 */
 	public static void main(String[] args) {
 		
 		if (args.length != 3){
-			System.err.println("PhET JAR Signer: Not enough arguments, aborting.");
+			System.err.println("usage: phetjarsigner <path-to-signing-utility> <path-to-signing-config-file> <jar-to-be-signed>");
 			System.exit( -1 );
 		}
 		
@@ -159,9 +172,9 @@ public class PhetJarSigner {
 		}
 		System.out.println();
 		
-		PhetJarSigner signer = new PhetJarSigner( args[0], args[1], args[2] );
+		PhetJarSigner signer = new PhetJarSigner( args[0], args[1] );
 		
-		boolean result = signer.signJar();
+		boolean result = signer.signJar( args[2] );
 		
 		System.out.println("Done, result = " + result + ".");
 	}
