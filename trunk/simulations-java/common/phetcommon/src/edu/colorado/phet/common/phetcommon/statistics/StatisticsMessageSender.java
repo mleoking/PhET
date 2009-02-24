@@ -87,7 +87,7 @@ public class StatisticsMessageSender {
 
         if ( ENABLE_DEBUG_OUTPUT ) {
             System.out.println( StatisticsMessageSender.class.getName() + " posting to url=" + url );
-            System.out.println( StatisticsMessageSender.class.getName() + " query=" + XMLUtils.toString( queryDocument ) );
+            System.out.println( StatisticsMessageSender.class.getName() + " query=\n" + XMLUtils.toString( queryDocument ) );
         }
 
         // post Document
@@ -97,7 +97,7 @@ public class StatisticsMessageSender {
         Document responseDocument = XMLUtils.readDocument( connection );
 
         if ( ENABLE_DEBUG_OUTPUT ) {
-            System.out.println( StatisticsMessageSender.class.getName() + ": response=" + XMLUtils.toString( responseDocument ) );
+            System.out.println( StatisticsMessageSender.class.getName() + " response=\n" + XMLUtils.toString( responseDocument ) );
         }
 
         success = true; //TODO #1286, parse the response, set success correctly, print errors and warnings to System.err
