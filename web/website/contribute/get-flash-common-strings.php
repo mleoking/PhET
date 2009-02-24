@@ -8,7 +8,7 @@
 
     require_once("include/sys-utils.php");
 
-    $filename = SIMS_ROOT.'common-strings/common-strings.jar';
+    $filename = SIMS_ROOT.'flash-common-strings/flash-common-strings.jar';
     send_file_to_browser($filename, null, 'application/java-archive', 'attachment');
 
 ?>
