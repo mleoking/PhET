@@ -1,3 +1,4 @@
+2-24-09: rename to java-common-strings, to distinguish from Flash
 # 1.01.01 (28782) Feb 19, 2009
 Batch deploy for alpha Simulation Tests, svn 28773
 # 1.01.00 (28669) Feb 17, 2009
