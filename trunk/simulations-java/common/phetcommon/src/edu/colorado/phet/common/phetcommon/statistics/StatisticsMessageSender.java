@@ -39,8 +39,10 @@ public class StatisticsMessageSender {
     public boolean sendMessage( StatisticsMessage message ) {
         boolean success = false;
         try {
-            Document document = toDocument( message );
-            success = postDocument( PhetCommonConstants.STATISTICS_SERVICE_URL, document );
+            Document messageDocument = toDocument( message );
+            HttpURLConnection connection = postDocument( messageDocument );
+            Document responseDocument = XMLUtils.readDocument( connection );
+            success = parseResponse( responseDocument );
         }
         catch ( UnknownHostException uhe ) {
             System.err.println( getClass().getName() + " could not send message, perhaps network is unavailable: " + uhe.toString() );
@@ -59,11 +61,11 @@ public class StatisticsMessageSender {
         }
         return success;
     }
-
+    
     /*
      * Converts a message to an XML Document.
      */
-    private Document toDocument( StatisticsMessage message ) throws ParserConfigurationException, TransformerException {
+    private static Document toDocument( StatisticsMessage message ) throws ParserConfigurationException, TransformerException {
 
         //see: http://www.genedavis.com/library/xml/java_dom_xml_creation.jsp
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -78,31 +80,31 @@ public class StatisticsMessageSender {
 
         return document;
     }
+    
+    /*
+     * Sends the message by posting it as an XML document.
+     */
+    private HttpURLConnection postDocument( Document document ) throws ParserConfigurationException, TransformerException, UnknownHostException, IOException {
+        final String url = PhetCommonConstants.STATISTICS_SERVICE_URL;
+        if ( ENABLE_DEBUG_OUTPUT ) {
+            System.out.println( getClass().getName() + " posting to url=" + url );
+            System.out.println( getClass().getName() + " query=\n" + XMLUtils.toString( document ) );
+        }
+        return XMLUtils.post( url, document );
+    }
 
     /*
-     * Posts an XML document to the specified URL.
-     * Processes the result.
+     * Parses the response to see if we succeeded.
      */
-    private static boolean postDocument( String url, Document queryDocument ) throws IOException, TransformerException, SAXException, ParserConfigurationException {
-
+    private boolean parseResponse( Document responseDocument ) throws IOException, SAXException, ParserConfigurationException, TransformerException {
+        
         boolean success = false;
-
+        
         if ( ENABLE_DEBUG_OUTPUT ) {
-            System.out.println( StatisticsMessageSender.class.getName() + " posting to url=" + url );
-            System.out.println( StatisticsMessageSender.class.getName() + " query=\n" + XMLUtils.toString( queryDocument ) );
-        }
-
-        // post Document
-        HttpURLConnection connection = XMLUtils.post( url, queryDocument );
-
-        // read response
-        Document responseDocument = XMLUtils.readDocument( connection );
-
-        if ( ENABLE_DEBUG_OUTPUT ) {
-            System.out.println( StatisticsMessageSender.class.getName() + " response=\n" + XMLUtils.toString( responseDocument ) );
+            System.out.println( getClass().getName() + " response=\n" + XMLUtils.toString( responseDocument ) );
         }
         
-        // parse the response for warnings
+        // look for warnings
         NodeList warnings = responseDocument.getElementsByTagName( "warning-message" );
         for ( int i = 0; i < warnings.getLength(); i++ ) {
             Element element = (Element) warnings.item( i );
@@ -115,7 +117,7 @@ public class StatisticsMessageSender {
             }
         }
         
-        // parse the response for errors, set success correctly
+        // look for errors
         NodeList errors = responseDocument.getElementsByTagName( "error-message" );
         for ( int i = 0; i < errors.getLength(); i++ ) {
             Element element = (Element) errors.item( i );
@@ -127,6 +129,8 @@ public class StatisticsMessageSender {
                 }
             }
         }
+        
+        // success is based on errors
         success = ( errors.getLength() == 0 );
 
         return success;
