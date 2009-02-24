@@ -5,14 +5,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.UnknownHostException;
 
+import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -24,7 +24,7 @@ public class XMLUtils {
     private XMLUtils() {}
 
     /**
-     * Converts a Document to a String.
+     * Converts a Document to an XML String.
      * @param document
      * @return
      * @throws TransformerException
@@ -32,15 +32,41 @@ public class XMLUtils {
     public static String toString( Document document ) throws TransformerException {
 
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        Transformer trans = transformerFactory.newTransformer();
-        trans.setOutputProperty( OutputKeys.OMIT_XML_DECLARATION, "yes" );
-        trans.setOutputProperty( OutputKeys.INDENT, "yes" );
+        Transformer transformer = transformerFactory.newTransformer();
 
-        StringWriter stringWriter = new StringWriter();
-        StreamResult result = new StreamResult( stringWriter );
+        // Document source
         DOMSource source = new DOMSource( document );
-        trans.transform( source, result );
+        
+        // StringWriter result
+        StringWriter stringWriter = new StringWriter();
+        Result result = new StreamResult( stringWriter );
+
+        transformer.transform( source, result );
         return stringWriter.toString();
+    }
+    
+    /**
+     * Converts an XML String to a Document
+     * @param string
+     * @return
+     * @throws TransformerException
+     * @throws ParserConfigurationException
+     */
+    public static Document toDocument( String string ) throws TransformerException, ParserConfigurationException {
+
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        
+        // StringReader source
+        Source source = new StreamSource( new StringReader( string ) );
+
+        // Document result
+        DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        Document document = builder.newDocument();
+        Result result = new DOMResult(document);
+        
+        transformer.transform( source, result );
+        return document;
     }
     
     /**
@@ -87,11 +113,11 @@ public class XMLUtils {
      * @throws IOException
      * @throws ParserConfigurationException 
      * @throws SAXException 
+     * @throws TransformerException 
      */
-    public static Document readDocument( HttpURLConnection connection ) throws IOException, SAXException, ParserConfigurationException {
+    public static Document readDocument( HttpURLConnection connection ) throws IOException, SAXException, ParserConfigurationException, TransformerException {
         String xmlString = readString( connection );
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        return factory.newDocumentBuilder().parse( xmlString );
+        return toDocument( xmlString );
     }
     
     /**
