@@ -23,6 +23,31 @@ import edu.colorado.phet.common.phetcommon.view.util.XMLUtils;
 
 /**
  * Query that returns version information about the simulation and PhET installer.
+ * <p>
+ * Query format:
+ * <code>
+ * <php_info>
+ *   <sim_version project="faraday" sim="magnet-and-compass"/>
+ *   <phet_installer_update timestamp_seconds="1234567890"/>
+ * </php_info>
+ * </code>
+ * <p>
+ * Response format:
+ * <code>
+ * <php_info_response>
+ *   <sim_version_response
+ *      version_major="1" 
+ *      version_minor="01" 
+ *      version_dev="00"
+ *      version_revision="23478"
+ *      version_timestamp="1234567890"
+ *      ask_me_later_duration_days="1"/>
+ *   <phet_installer_update_response
+ *      recommend_update="false" 
+ *      timestamp_seconds="1234567890"
+ *      ask_me_later_duration_days="1"/>
+ * </php_info_response>
+ * </code>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
