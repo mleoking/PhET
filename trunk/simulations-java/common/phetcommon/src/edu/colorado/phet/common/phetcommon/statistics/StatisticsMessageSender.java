@@ -1,11 +1,8 @@
+
 package edu.colorado.phet.common.phetcommon.statistics;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.URL;
 import java.net.UnknownHostException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -15,6 +12,7 @@ import javax.xml.transform.TransformerException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -27,6 +25,7 @@ import edu.colorado.phet.common.phetcommon.view.util.XMLUtils;
  */
 public class StatisticsMessageSender {
 
+    // prints debug output to the System.out
     private static final boolean ENABLE_DEBUG_OUTPUT = true;
 
     /**
@@ -38,10 +37,11 @@ public class StatisticsMessageSender {
     public boolean sendMessage( StatisticsMessage message ) {
         boolean success = false;
         try {
-            success = postXML( PhetCommonConstants.STATISTICS_SERVICE_URL, toXMLString( message ) );
+            Document document = toDocument( message );
+            success = postDocument( PhetCommonConstants.STATISTICS_SERVICE_URL, document );
         }
-        catch ( IOException e ) {
-            e.printStackTrace();
+        catch ( UnknownHostException uhe ) {
+            System.err.println( getClass().getName() + " could not send message, perhaps network is unavailable: " + uhe.toString() );
         }
         catch ( ParserConfigurationException e ) {
             e.printStackTrace();
@@ -49,78 +49,65 @@ public class StatisticsMessageSender {
         catch ( TransformerException e ) {
             e.printStackTrace();
         }
+        catch ( IOException e ) {
+            e.printStackTrace();
+        }
+        catch ( SAXException e ) {
+            e.printStackTrace();
+        }
         return success;
     }
 
-    private String toXMLString( StatisticsMessage message ) throws ParserConfigurationException, TransformerException {
+    /*
+     * Converts a message to an XML Document.
+     */
+    private Document toDocument( StatisticsMessage message ) throws ParserConfigurationException, TransformerException {
 
         //see: http://www.genedavis.com/library/xml/java_dom_xml_creation.jsp
-        DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
-        DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
-        Document doc = docBuilder.newDocument();
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document document = builder.newDocument();
 
-        Element root = doc.createElement( "statistics" );
-        for (int i=0;i<message.getFieldCount();i++){
-            root.setAttribute( message.getField(i ).getName(),message.getField( i ).getValue() );
+        Element root = document.createElement( "statistics" );
+        for ( int i = 0; i < message.getFieldCount(); i++ ) {
+            root.setAttribute( message.getField( i ).getName(), message.getField( i ).getValue() );
         }
-        doc.appendChild( root );
-        
-        return XMLUtils.toString( doc );
+        document.appendChild( root );
+
+        return document;
     }
 
-    private static boolean postXML( String url, String xmlString ) throws IOException {
-        
-        // post
-        if ( ENABLE_DEBUG_OUTPUT ) {
-            System.out.println( StatisticsMessageSender.class.getName() + ": posting to url=" + url + " xml=" + xmlString );
-        }
-        
+    /*
+     * Posts an XML document to the specified URL.
+     * Processes the result.
+     */
+    private static boolean postDocument( String url, Document queryDocument ) throws IOException, TransformerException, SAXException, ParserConfigurationException {
+
         boolean success = false;
-        
-        // open connection
-        URL urlObject = new URL( url );
-        HttpURLConnection connection = (HttpURLConnection) urlObject.openConnection();
-        connection.setRequestMethod( "POST" );
-        connection.setRequestProperty( "Content-Type", "text/xml; charset=\"utf-8\"" );
-        connection.setDoOutput( true );
 
-        try {
-            OutputStreamWriter outStream = new OutputStreamWriter( connection.getOutputStream(), "UTF-8" );
-            outStream.write( xmlString );
-            outStream.close();
-
-            // Get the response
-            StringBuffer buffer = new StringBuffer();
-            BufferedReader reader = new BufferedReader( new InputStreamReader( connection.getInputStream() ) );
-            String line;
-            while ( ( line = reader.readLine() ) != null ) {
-                buffer.append( line );
-            }
-            reader.close();
-            success = true;
-
-            if ( ENABLE_DEBUG_OUTPUT ) {
-                System.out.println( StatisticsMessageSender.class.getName() + ": response=" + buffer.toString() );
-            }
-            
-            //TODO #1286, parse the response, set success correctly, print errors and warnings to System.err
+        if ( ENABLE_DEBUG_OUTPUT ) {
+            System.out.println( StatisticsMessageSender.class.getName() + " posting to url=" + url );
+            System.out.println( StatisticsMessageSender.class.getName() + " query=" + XMLUtils.toString( queryDocument ) );
         }
-        catch( UnknownHostException uhe ) {
-            System.err.println( StatisticsMessageSender.class.getName() + ": Could not sumbit message, perhaps network is unavailable: " + uhe.toString() );
+
+        // post Document
+        HttpURLConnection connection = XMLUtils.post( url, queryDocument );
+
+        // read response
+        Document responseDocument = XMLUtils.readDocument( connection );
+
+        if ( ENABLE_DEBUG_OUTPUT ) {
+            System.out.println( StatisticsMessageSender.class.getName() + ": response=" + XMLUtils.toString( responseDocument ) );
         }
+
+        success = true; //TODO #1286, parse the response, set success correctly, print errors and warnings to System.err
+
         return success;
     }
 
 
     public static void main( String[] args ) throws IOException {
-        
-        // send a bogus message
-        String URL_STRING = PhetCommonConstants.STATISTICS_SERVICE_URL;
-        String XML_STRING = "<xml>hello stats 1234</xml>";
-        postXML( URL_STRING, XML_STRING );
-        
-        // send a valid session message
-        PhetApplicationConfig config = new PhetApplicationConfig( null, "balloons");
+        PhetApplicationConfig config = new PhetApplicationConfig( null, "balloons" );
         SessionCounter.initInstance( config.getProjectName(), config.getFlavor() );
         SessionMessage.initInstance( config );
         new StatisticsMessageSender().sendMessage( SessionMessage.getInstance() );
