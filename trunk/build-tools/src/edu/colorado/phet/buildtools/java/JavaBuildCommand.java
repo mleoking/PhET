@@ -4,6 +4,7 @@ package edu.colorado.phet.buildtools.java;
 import scala.tools.ant.Scalac;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -22,6 +23,7 @@ import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.buildtools.proguard.PhetProguardConfigBuilder;
 import edu.colorado.phet.buildtools.proguard.ProguardCommand;
 import edu.colorado.phet.buildtools.util.PhetBuildUtils;
+import edu.colorado.phet.buildtools.util.PhetJarSigner;
 import edu.colorado.phet.common.phetcommon.application.JARLauncher;
 
 /**
@@ -42,6 +44,7 @@ public class JavaBuildCommand {
 
     public static final String JAVA_VERSION_CHECKER_CLASS_NAME = "edu.colorado.phet.javaversionchecker.JavaVersionChecker";
     public static final String JAR_LAUNCHER_CLASS_NAME = JARLauncher.class.getName();
+    private boolean signJAR = false;
 
     public static String getMainLauncherClassName( PhetProject project ) {
         if ( project.getAlternateMainClass() != null ) {
@@ -63,6 +66,24 @@ public class JavaBuildCommand {
         project.copyLicenseInfo();
         jar();
         proguard();
+        if ( signJAR ) {
+            signJAR();
+        }
+    }
+
+    private void signJAR() {
+        File configProperties = new File( project.getTrunk(), "build-tools/build-local.properties" );
+        Properties properties = new Properties();
+        try {
+            properties.load( new FileInputStream( configProperties ) );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        PhetJarSigner signer = new PhetJarSigner( properties.getProperty( "signing-config.jarsigner" ), configProperties.getAbsolutePath(), outputJar.getAbsolutePath() );
+        boolean result = signer.signJar();
+
+        System.out.println( "Done, signing result = " + result + "." );
     }
 
     private void clean() throws Exception {
