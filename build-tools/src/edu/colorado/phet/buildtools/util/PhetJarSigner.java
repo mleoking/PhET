@@ -76,7 +76,7 @@ public class PhetJarSigner {
         // Create and execute the signing command.
 
         String signingCommand = pathToJarSigner + " -keystore " + keystoreFileName + " -storetype pkcs12 " +
- 	    	" -storepass " + keystorePassword + " \"" + pathToJarFile + "\" " + alias;
+ 	    	" -storepass " + keystorePassword + ' ' + pathToJarFile + ' ' + alias;
         
         System.out.println("About to execute signing command:");
         System.out.println(signingCommand);
@@ -124,15 +124,17 @@ public class PhetJarSigner {
 	
 	        // Output the results echoed by the execution of the command.
 	        String s = null;
-	        System.out.println("Standard output from verify:\n");
+	        System.out.println("Standard output from verify:");
 	        while ((s = stdInput.readLine()) != null) {
 	            System.out.println(s);
 	        }
+	        System.out.print("\n");
 	
-	        System.out.println("Standard error from verify (if any):\n");
+	        System.out.println("Standard error from verify (if any):");
 	        while ((s = stdError.readLine()) != null) {
 	            System.out.println(s);
 	        }
+	        System.out.print("\n");
 	    }
 	    catch (IOException e) {
 	        System.out.println("Exception while attempting to sign JAR:");
@@ -145,6 +147,7 @@ public class PhetJarSigner {
 	}
 
 	public static void main(String[] args) {
+		
 		if (args.length != 3){
 			System.err.println("PhET JAR Signer: Not enough arguments, aborting.");
 			System.exit( -1 );
@@ -158,6 +161,8 @@ public class PhetJarSigner {
 		
 		PhetJarSigner signer = new PhetJarSigner( args[0], args[1], args[2] );
 		
-		signer.signJar();
+		boolean result = signer.signJar();
+		
+		System.out.println("Done, result = " + result + ".");
 	}
 }
