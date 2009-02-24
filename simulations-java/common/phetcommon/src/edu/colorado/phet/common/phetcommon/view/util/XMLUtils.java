@@ -54,19 +54,26 @@ public class XMLUtils {
      */
     public static Document toDocument( String string ) throws TransformerException, ParserConfigurationException {
 
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        Transformer transformer = transformerFactory.newTransformer();
-        
-        // StringReader source
-        Source source = new StreamSource( new StringReader( string ) );
+        //see http://www.exampledepot.com/egs/javax.xml.parsers/BasicDom.html
+        try {
+            // Create a builder factory
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
-        // Document result
-        DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        Document document = builder.newDocument();
-        Result result = new DOMResult(document);
-        
-        transformer.transform( source, result );
-        return document;
+            // Create the builder and parse the file
+            Document doc = factory.newDocumentBuilder().parse( new ByteArrayInputStream( string.getBytes() ) );
+            return doc;
+        }
+        catch( SAXException e ) {
+            // A parsing error occurred; the xml input is not valid
+            e.printStackTrace(  );
+        }
+        catch( ParserConfigurationException e ) {
+            e.printStackTrace(  );
+        }
+        catch( IOException e ) {
+            e.printStackTrace(  );
+        }
+        return null;
     }
     
     /**
