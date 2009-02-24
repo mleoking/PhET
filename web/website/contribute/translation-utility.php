@@ -140,7 +140,7 @@ class TranslationInstructionsPage extends SitePage {
             To translate common strings, you'll need to download special JAR files to your computer.
             There are separate JAR files (and separate sets of common strings) for Java and Flash simulations.
             To translate Java common strings, download <a href="get-java-common-strings.php">java-common-strings.jar</a>.
-            To translate Flash common strings, download <a href="get-flash-common-strings.php">flash-common-strings.jar</a>.
+            To translate Flash common strings, download <a href="get-flash-common-strings.php">flash-common-strings_en.jar</a>.
             Load these JAR files into Translation Utility in the same way that you would for a simulation JAR file.
             You only need to translate each JAR once, and we will incorporate your translations into all simulations.
             </p>
