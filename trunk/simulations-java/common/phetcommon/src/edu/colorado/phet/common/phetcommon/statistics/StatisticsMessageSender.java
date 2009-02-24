@@ -1,6 +1,9 @@
 package edu.colorado.phet.common.phetcommon.statistics;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -8,12 +11,7 @@ import java.net.UnknownHostException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -21,6 +19,7 @@ import org.w3c.dom.Element;
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.SessionCounter;
+import edu.colorado.phet.common.phetcommon.view.util.XMLUtils;
 
 /**
  * Sends a statistics message to PhET.
@@ -36,21 +35,24 @@ public class StatisticsMessageSender {
      * @param message
      * @return true if the message was successfully sent
      */
-    public boolean sendMessage( StatisticsMessage message ) throws IOException {
-        return postXML( PhetCommonConstants.STATISTICS_SERVICE_URL, toXML( message ) );
-    }
-
-    private String toXML( StatisticsMessage message ) {
+    public boolean sendMessage( StatisticsMessage message ) {
+        boolean success = false;
         try {
-            return toXMLFromDom( message );
+            success = postXML( PhetCommonConstants.STATISTICS_SERVICE_URL, toXMLString( message ) );
         }
-        catch( Exception e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
-            return toXMLFromStringConcatenation( message );
         }
+        catch ( ParserConfigurationException e ) {
+            e.printStackTrace();
+        }
+        catch ( TransformerException e ) {
+            e.printStackTrace();
+        }
+        return success;
     }
 
-    private String toXMLFromDom( StatisticsMessage message ) throws ParserConfigurationException, TransformerException {
+    private String toXMLString( StatisticsMessage message ) throws ParserConfigurationException, TransformerException {
 
         //see: http://www.genedavis.com/library/xml/java_dom_xml_creation.jsp
         DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
@@ -62,41 +64,16 @@ public class StatisticsMessageSender {
             root.setAttribute( message.getField(i ).getName(),message.getField( i ).getValue() );
         }
         doc.appendChild( root );
+        
+        return XMLUtils.toString( doc );
+    }
 
-        TransformerFactory transfac = TransformerFactory.newInstance();
-        Transformer trans = transfac.newTransformer();
-        trans.setOutputProperty( OutputKeys.OMIT_XML_DECLARATION, "yes" );
-        trans.setOutputProperty( OutputKeys.INDENT, "yes" );
-
-        //create string from xml tree
-        StringWriter sw = new StringWriter();
-        StreamResult result = new StreamResult( sw );
-        DOMSource source = new DOMSource( doc );
-        trans.transform( source, result );
-        String xmlString = sw.toString();
-
-        //print xml
+    private static boolean postXML( String url, String xmlString ) throws IOException {
+        
+        // post
         if ( ENABLE_DEBUG_OUTPUT ) {
-            System.out.println( getClass().getName() + ": xmlString=\n" + xmlString );
+            System.out.println( StatisticsMessageSender.class.getName() + ": posting to url=" + url + " xml=" + xmlString );
         }
-        return xmlString;
-    }
-
-    private String toXMLFromStringConcatenation( StatisticsMessage message ) {
-        String xml = "<statistics ";
-        for ( int i = 0; i < message.getFieldCount(); i++ ) {
-            xml += message.getField( i ).getName() + "=\"" + encode( message.getField( i ).getValue() + "\"" ) + " ";
-        }
-        xml += "/>";
-        return xml;
-    }
-
-    private String encode( String value ) {
-        //TODO: turn - into %2D as in flash?
-        return value;
-    }
-
-    private static boolean postXML( String url, String xml ) throws IOException {
         
         boolean success = false;
         
@@ -107,27 +84,26 @@ public class StatisticsMessageSender {
         connection.setRequestProperty( "Content-Type", "text/xml; charset=\"utf-8\"" );
         connection.setDoOutput( true );
 
-        // post
-        if ( ENABLE_DEBUG_OUTPUT ) {
-            System.out.println( StatisticsMessageSender.class.getName() + ": posting to url=" + url + " xml=" + xml );
-        }
         try {
             OutputStreamWriter outStream = new OutputStreamWriter( connection.getOutputStream(), "UTF-8" );
-            outStream.write( xml );
+            outStream.write( xmlString );
             outStream.close();
 
             // Get the response
-            if ( ENABLE_DEBUG_OUTPUT ) {
-                BufferedReader reader = new BufferedReader( new InputStreamReader( connection.getInputStream() ) );
-                System.out.println( StatisticsMessageSender.class.getName() + ": reading response ..." );
-                String line;
-                while ( ( line = reader.readLine() ) != null ) {
-                    System.out.println( line );
-                }
-                reader.close();
-                success = true;
-                System.out.println( "done." );
+            StringBuffer buffer = new StringBuffer();
+            BufferedReader reader = new BufferedReader( new InputStreamReader( connection.getInputStream() ) );
+            String line;
+            while ( ( line = reader.readLine() ) != null ) {
+                buffer.append( line );
             }
+            reader.close();
+            success = true;
+
+            if ( ENABLE_DEBUG_OUTPUT ) {
+                System.out.println( StatisticsMessageSender.class.getName() + ": response=" + buffer.toString() );
+            }
+            
+            //TODO #1286, parse the response, set success correctly, print errors and warnings to System.err
         }
         catch( UnknownHostException uhe ) {
             System.err.println( StatisticsMessageSender.class.getName() + ": Could not sumbit message, perhaps network is unavailable: " + uhe.toString() );

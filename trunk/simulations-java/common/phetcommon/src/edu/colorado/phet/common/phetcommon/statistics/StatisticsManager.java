@@ -1,7 +1,6 @@
 package edu.colorado.phet.common.phetcommon.statistics;
 
 import java.awt.Frame;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
@@ -109,16 +108,11 @@ public class StatisticsManager {
     }
 
     private void sendAllMessages() {
-        try {
-            while ( messageQueue.size() > 0 ) {
-                StatisticsMessage m = (StatisticsMessage) messageQueue.get( 0 );
-                boolean success = statisticsService.sendMessage( m );
-                messageQueue.remove( m ); // remove message from queue after post, so that messageQueue won't be considered empty prematurely
-                notifyListeners( success, m );
-            }
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
+        while ( messageQueue.size() > 0 ) {
+            StatisticsMessage m = (StatisticsMessage) messageQueue.get( 0 );
+            boolean success = statisticsService.sendMessage( m );
+            messageQueue.remove( m ); // remove message from queue after post, so that messageQueue won't be considered empty prematurely
+            notifyListeners( success, m );
         }
     }
     
