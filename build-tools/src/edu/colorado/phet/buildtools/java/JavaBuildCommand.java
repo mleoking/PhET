@@ -44,7 +44,7 @@ public class JavaBuildCommand {
 
     public static final String JAVA_VERSION_CHECKER_CLASS_NAME = "edu.colorado.phet.javaversionchecker.JavaVersionChecker";
     public static final String JAR_LAUNCHER_CLASS_NAME = JARLauncher.class.getName();
-    private boolean signJAR = false;
+    private boolean signJAR = true;
 
     public static String getMainLauncherClassName( PhetProject project ) {
         if ( project.getAlternateMainClass() != null ) {
@@ -80,8 +80,8 @@ public class JavaBuildCommand {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        PhetJarSigner signer = new PhetJarSigner( properties.getProperty( "signing-config.jarsigner" ), configProperties.getAbsolutePath(), outputJar.getAbsolutePath() );
-        boolean result = signer.signJar();
+        PhetJarSigner signer = new PhetJarSigner( properties.getProperty( "signing-config.jarsigner" ), configProperties.getAbsolutePath() );
+        boolean result = signer.signJar( outputJar.getAbsolutePath() );
 
         System.out.println( "Done, signing result = " + result + "." );
     }
