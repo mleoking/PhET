@@ -12,6 +12,8 @@ import javax.xml.transform.TransformerException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
@@ -99,8 +101,33 @@ public class StatisticsMessageSender {
         if ( ENABLE_DEBUG_OUTPUT ) {
             System.out.println( StatisticsMessageSender.class.getName() + " response=\n" + XMLUtils.toString( responseDocument ) );
         }
-
-        success = true; //TODO #1286, parse the response, set success correctly, print errors and warnings to System.err
+        
+        // parse the response for warnings
+        NodeList warnings = responseDocument.getElementsByTagName( "warning-message" );
+        for ( int i = 0; i < warnings.getLength(); i++ ) {
+            Element element = (Element) warnings.item( i );
+            NodeList children = element.getChildNodes();
+            for ( int j = 0; j < children.getLength(); j++ ) {
+                if ( children.item( j ) instanceof Text ) {
+                    Text text = (Text) children.item( j );
+                    System.out.println( "WARNING: " + StatisticsMessageSender.class.getName() + ": " + text.getData() );
+                }
+            }
+        }
+        
+        // parse the response for errors, set success correctly
+        NodeList errors = responseDocument.getElementsByTagName( "error-message" );
+        for ( int i = 0; i < errors.getLength(); i++ ) {
+            Element element = (Element) errors.item( i );
+            NodeList children = element.getChildNodes();
+            for ( int j = 0; j < children.getLength(); j++ ) {
+                if ( children.item( j ) instanceof Text ) {
+                    Text text = (Text) children.item( j );
+                    System.err.println( "ERROR: " + StatisticsMessageSender.class.getName() + ": " + text.getData() );
+                }
+            }
+        }
+        success = ( errors.getLength() == 0 );
 
         return success;
     }

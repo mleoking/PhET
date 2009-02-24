@@ -1,3 +1,4 @@
+2-23-00: #1286, result of sending a statistics message is not parsed
 2-23-09: #1237, first attempt at using phet-info.php, I don't understand the error returned
 2-23-09: XMLUtils, used by both phet_info.php and submit_message.php
 2-23-09: #1286, indicated where parsing of statistics message results should be handled
