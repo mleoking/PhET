@@ -75,7 +75,7 @@ class UpdateHandler {
 		}
 		
 		var str = "<?xml version=\"1.0\"?>";
-		str += "<sim_startup_query>";
+		str += "<phet_info>";
 		
 		if(checkSim) {
 			str += "<sim_version project=\"" + common.getSimProject() + "\" sim=\"" + common.getSimName() + "\" />";
@@ -85,7 +85,7 @@ class UpdateHandler {
 			str += "<phet_installer_update timestamp_seconds=\"" + String(common.getInstallationTimestamp()) + "\" />";
 		}
 		
-		str += "</sim_startup_query>";
+		str += "</phet_info>";
 		
 		_level0.debug("UpdateHandler (2): Startup query:\n" + str + "\n");
 		
@@ -174,7 +174,8 @@ class UpdateHandler {
 		}
 		
 		// send the request, wait for the response to load
-		xml.load("http://localhost/jolson/deploy/fake-sim-startup-query.php?request=" + escape(query));
+		//xml.load("http://localhost/jolson/deploy/fake-sim-startup-query.php?request=" + escape(query));
+		xml.load("http://phet.colorado.edu/services/phet-info.php?request=" + escape(query));
 	}
 	
 	public function manualCheckSim() : Void {
@@ -232,8 +233,6 @@ class UpdateHandler {
 					_level0.preferencesDialog.updatesSimButton.setEnabled(false);
 					_level0.preferencesDialog.updatesSimButton.setForeground(ASColor.RED);
 				}
-			} else if(versionRevision < common.getVersionRevision()) {
-				_level0.debug("WARNING UpdateHandler: running a more recent version than on the production website.\n");
 			} else if(versionMajor == undefined || versionMinor == undefined) {
 				_level0.debug("WARNING UpdateHandler: received undefined version information!\n");
 			} else if(!manual && (versionMajor < latestSkipped[0] || (versionMajor == latestSkipped[0] && versionMinor <= latestSkipped[1]))) {
@@ -246,6 +245,9 @@ class UpdateHandler {
 				// installer was deployed before (or just around) the time the sim was deployed
 				_level0.debug("UpdateHandler: installer might not contain the most recent sim\n");
 			} else {
+				if(versionRevision < common.getVersionRevision()) {
+					_level0.debug("WARNING UpdateHandler: running a more recent version than on the production website.\n");
+				}
 				simUpdatesAvailable(versionMajor, versionMinor, versionDev, simAskLaterDays);
 			}
 			
