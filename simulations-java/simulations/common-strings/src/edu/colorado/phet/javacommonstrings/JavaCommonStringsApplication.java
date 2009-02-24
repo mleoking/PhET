@@ -1,6 +1,6 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.commonstrings;
+package edu.colorado.phet.javacommonstrings;
 
 import javax.swing.JOptionPane;
 
@@ -13,11 +13,11 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class CommonStringsApplication {
+public class JavaCommonStringsApplication {
     
     private static final String VERSION_ID = new PhetResources( "common-strings" ).getVersion().formatForAboutDialog();
     
-    private CommonStringsApplication() {}
+    private JavaCommonStringsApplication() {}
 
     public static void main( String[] args ) {
         String message = "<html>PhET common strings" + " : " + "version " + VERSION_ID + "<br><br>" + 
