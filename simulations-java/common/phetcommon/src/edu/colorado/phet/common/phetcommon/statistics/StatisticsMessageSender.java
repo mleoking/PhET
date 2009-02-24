@@ -84,7 +84,7 @@ public class StatisticsMessageSender {
     /*
      * Sends the message by posting it as an XML document.
      */
-    private HttpURLConnection postDocument( Document document ) throws ParserConfigurationException, TransformerException, UnknownHostException, IOException {
+    private HttpURLConnection postDocument( Document document ) throws ParserConfigurationException, TransformerException, IOException {
         final String url = PhetCommonConstants.STATISTICS_SERVICE_URL;
         if ( ENABLE_DEBUG_OUTPUT ) {
             System.out.println( getClass().getName() + " posting to url=" + url );
