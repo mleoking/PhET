@@ -1,0 +1,54 @@
+#
+# HTACCESS file for remapping old simulations to new
+#
+# fluorescent-lights -> discharge-lamps
+# qwi -> whantum-wave-interference
+# waveinterference -> wave-interference
+#
+
+Redirect permanent /sims/fluorescent-lights/fluorescent-lights.jar     http://phet.colorado.edu/sims/discharge-lamps/discharge-lamps.jar
+Redirect permanent /sims/fluorescent-lights/fluorescent-lights.jnlp    http://phet.colorado.edu/sims/discharge-lamps/discharge-lamps.jnlp
+Redirect permanent /sims/fluorescent-lights/fluorescent-lights_all.jar http://phet.colorado.edu/sims/discharge-lamps/discharge-lamps.jar
+Redirect permanent /sims/fluorescent-lights/fluorescent-lights_es.jnlp http://phet.colorado.edu/sims/discharge-lamps/discharge-lamps_es.jnlp
+Redirect permanent /sims/fluorescent-lights/fluorescent-lights_pt.jnlp http://phet.colorado.edu/sims/discharge-lamps/discharge-lamps_pt.jnlp
+Redirect permanent /sims/qwi/qwi-dg.jar                                http://phet.colorado.edu/sims/quantum-wave-interference/davisson-germer.jar
+Redirect permanent /sims/qwi/qwi-dg.jnlp                               http://phet.colorado.edu/sims/quantum-wave-interference/davisson-germer.jnlp
+Redirect permanent /sims/qwi/qwi-dg_el.jnlp                            http://phet.colorado.edu/sims/quantum-wave-interference/davisson-germer_el.jnlp
+Redirect permanent /sims/qwi/qwi-dg_pt.jnlp                            http://phet.colorado.edu/sims/quantum-wave-interference/davisson-germer_pt.jnlp
+Redirect permanent /sims/qwi/qwi.jar                                   http://phet.colorado.edu/sims/quantum-wave-interference/quantum-wave-interference.jar
+Redirect permanent /sims/qwi/qwi.jnlp                                  http://phet.colorado.edu/sims/quantum-wave-interference/quantum-wave-interference.jnlp
+Redirect permanent /sims/qwi/qwi_all.jar                               http://phet.colorado.edu/sims/quantum-wave-interference/quantum-wave-interference.jar
+Redirect permanent /sims/qwi/qwi_el.jnlp                               http://phet.colorado.edu/sims/quantum-wave-interference/quantum-wave-interference_el.jnlp
+Redirect permanent /sims/qwi/qwi_pt.jnlp                               http://phet.colorado.edu/sims/quantum-wave-interference/quantum-wave-interference_pt.jnlp
+Redirect permanent /sims/waveinterference/waveinterference.jar         http://phet.colorado.edu/sims/wave-interference/wave-interference.jar
+Redirect permanent /sims/waveinterference/waveinterference.jnlp        http://phet.colorado.edu/sims/wave-interference/wave-interference.jnlp
+Redirect permanent /sims/waveinterference/waveinterference_all.jar     http://phet.colorado.edu/sims/wave-interference/wave-interference.jar
+Redirect permanent /sims/waveinterference/waveinterference_es.jnlp     http://phet.colorado.edu/sims/wave-interference/wave-interference_es.jnlp
+Redirect permanent /sims/waveinterference/waveinterference_pt.jnlp     http://phet.colorado.edu/sims/wave-interference/wave-interference_pt.jnlp
+Redirect permanent /sims/waveinterference/waveinterference_sr.jnlp     http://phet.colorado.edu/sims/wave-interference/wave-interference_sr.jnlp
+Redirect permanent /sims/waveinterference/waveinterference_sv.jnlp     http://phet.colorado.edu/sims/wave-interference/wave-interference_sv.jnlp
+
+# Redirect for Circuit Construction Kit
+Redirect permanent /sims/cck/cck.jar                                   http://phet.colorado.edu/sims/circuit-construction-kit/circuit-construction-kit.jar 
+Redirect permanent /sims/cck/cck_all.jar                               http://phet.colorado.edu/sims/circuit-construction-kit/circuit-construction-kit.jar 
+RedirectMatch permanent /sims/cck/cck(.*)                              http://phet.colorado.edu/sims/circuit-construction-kit/circuit-construction-kit$1
+
+# Redirects for Nuclear Physics, which was split into Nuclear Fission and Alpha Decay in September 2008.
+Redirect permanent /sims/nuclear-physics/nuclear-physics.jnlp          http://phet.colorado.edu/sims/nuclear-physics/nuclear-fission.jnlp
+RedirectMatch permanent /sims/nuclear-physics/nuclear-physics_(.*)     http://phet.colorado.edu/sims/nuclear-physics/nuclear-fission_$1
+
+# Redirects for flash sims whose names were changed circa summer 2008.
+Redirect permanent /sims/black-body-radiation/black-body-radiation.swf http://phet.colorado.edu/simulations/sims.php?sim=Blackbody_Spectrum
+Redirect permanent /sims/lens/lens.swf                                 http://phet.colorado.edu/simulations/sims.php?sim=Geometric_Optics
+Redirect permanent /sims/veqir/veqir.swf                               http://phet.colorado.edu/simulations/sims.php?sim=Ohms_Law
+Redirect permanent /sims/curve-fit/curve-fit.swf                       http://phet.colorado.edu/simulations/sims.php?sim=Curve_Fitting
+Redirect permanent /sims/faraday-mx/faraday-mx.swf                     http://phet.colorado.edu/simulations/sims.php?sim=Faradays_Law
+Redirect permanent /sims/stern-gerlacher/stern-gerlach.swf             http://phet.colorado.edu/simulations/sims.php?sim=Stern_Gerlach
+Redirect permanent /sims/string-wave/string-wave.swf                   http://phet.colorado.edu/simulations/sims.php?sim=Wave_on_a_String
+Redirect permanent /sims/vector-math/vector-math.swf                   http://phet.colorado.edu/simulations/sims.php?sim=Vector_Addition
+
+# Catch all for everything else
+RedirectMatch permanent /sims/fluorescent-lights(.*)                   http://phet.colorado.edu/sims/discharge-lamps$1
+RedirectMatch permanent /sims/qwi(.*)                                  http://phet.colorado.edu/sims/quantum-wave-interference$1
+RedirectMatch permanent /sims/waveinterference(.*)                     http://phet.colorado.edu/sims/wave-interference$1
+RedirectMatch permanent /sims/cck(.*)                                  http://phet.colorado.edu/sims/circuit-construction-kit$1
