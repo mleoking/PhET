@@ -186,7 +186,6 @@ public class HTMLUtils {
             setEditorKit( new HTMLEditorKit() );
             setText( html );
             setEditable( false );
-            setBackground( new JPanel().getBackground() );
         }
     }
     
@@ -237,7 +236,7 @@ public class HTMLUtils {
      * <p>
      * Example "\<html\>foo\</html\> \<html\>bar\</html\>" becomes "\<html\>foo bar\</html\>".
      * 
-     * @param htmlString
+     * @param string
      * @return
      */
     public static String toHTMLString( String string ) {

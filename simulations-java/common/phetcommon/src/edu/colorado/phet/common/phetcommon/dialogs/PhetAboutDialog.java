@@ -123,6 +123,7 @@ public class PhetAboutDialog extends PaintImmediateDialog {
 
         String html = HTMLUtils.createStyledHTMLFromFragment( COPYRIGHT_HTML_FRAGMENT );
         InteractiveHTMLPane pane = new InteractiveHTMLPane( html );
+        pane.setBackground( new JPanel().getBackground() );//see #1275
 
         HorizontalLayoutPanel logoPanel = new HorizontalLayoutPanel();
         logoPanel.setInsets( new Insets( 10, 10, 10, 10 ) ); // top,left,bottom,right

@@ -95,6 +95,7 @@ public class PrivacyPreferencesPanel extends JPanel {
                     }
                 }
             } );
+            setBackground( new JPanel().getBackground() );
         }
         
         private static void showStatisticsDetails( Window owner, SessionMessage sessionMessage ) {
