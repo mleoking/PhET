@@ -27,6 +27,9 @@ public class FlashSimulation extends AbstractSimulation {
     
     private static final String ARGS_FILENAME = "flash-launcher-args.txt";
     
+    private static final String COMMON_STRINGS_PROJECT = "flash-common-strings";
+    private static final String COMMON_STRINGS_BASENAME = "common";
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -41,7 +44,7 @@ public class FlashSimulation extends AbstractSimulation {
     
     public void testStrings( Properties properties, String languageCode ) throws SimulationException {
         String xmlFilename = getDocumentResourceName( getProjectName(), languageCode );
-        writeDocumentToJarCopy( getProjectName(), languageCode, getJarFileName(), TEST_JAR, getManifest(), xmlFilename, properties );
+        writeDocumentToJarCopy( getActualProjectName( getJarFileName() ), languageCode, getJarFileName(), TEST_JAR, getManifest(), xmlFilename, properties );
         try {
             String[] cmdArray = { "java", "-jar", TEST_JAR };
             Command.run( cmdArray, false /* waitForCompletion */ );
@@ -71,7 +74,7 @@ public class FlashSimulation extends AbstractSimulation {
 
     public void saveStrings( Properties properties, File file ) throws SimulationException {
         try {
-            String projectName = getProjectName();
+            String projectName = getActualProjectName( getJarFileName() );
             String projectVersion = getProjectVersion( projectName + ".properties" ); // eg, curve-fitting.properties
             String header = getTranslationFileHeader( file.getName(), projectName, projectVersion );
             OutputStream outputStream = new FileOutputStream( file );
@@ -90,6 +93,24 @@ public class FlashSimulation extends AbstractSimulation {
     }
     
     /*
+     * Gets the project name for the simulation, adjusted to handle common strings.
+     * <p>
+     * PhET common strings are bundled into their own JAR file for use with translation utility.
+     * Because the PhET build process is so inflexible, the JAR file must be built & deployed
+     * via a dummy sim named COMMON_STRINGS_PROJECT, found in trunk/simulations-flash/simulations.
+     * If the project name is COMMON_STRINGS_PROJECT, we really want to load the common strings
+     * which are in files with basename COMMON_STRINGS_BASENAME.  So we use COMMON_STRINGS_BASENAME 
+     * as the project name.
+     */
+    protected String getProjectName( String jarFileName ) throws SimulationException {
+        String projectName = getActualProjectName( jarFileName );
+        if ( projectName.equals( COMMON_STRINGS_PROJECT ) ) {
+            projectName = COMMON_STRINGS_BASENAME;
+        }
+        return projectName;
+    }
+    
+    /*
      * Gets the project name, based on the JAR file name.
      * The JAR file name may or may not contain a language code.
      * For example, acceptable file names for the "curve-fit" project are curve-fit.jar and curve-fit_fr.jar.
@@ -97,7 +118,7 @@ public class FlashSimulation extends AbstractSimulation {
      * @param jarFileName
      * @return String
      */
-    protected String getProjectName( String jarFileName ) throws SimulationException {
+    protected String getActualProjectName( String jarFileName ) throws SimulationException {
         String projectName = null;
         File jarFile = new File( jarFileName );
         String name = jarFile.getName();
