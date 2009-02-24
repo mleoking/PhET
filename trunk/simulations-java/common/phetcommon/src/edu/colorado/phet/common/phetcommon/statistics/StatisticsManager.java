@@ -169,16 +169,12 @@ public class StatisticsManager {
         }
     }
     
-    public interface StatisticsManagerListener {
+    private interface StatisticsManagerListener {
         public void receiveResponse( boolean success, StatisticsMessage m );
     }
     
-    public synchronized void addListener( StatisticsManagerListener listener ) {
+    private synchronized void addListener( StatisticsManagerListener listener ) {
         listeners.add( listener );
-    }
-    
-    public synchronized void removeListener( StatisticsManagerListener listener ) {
-        listeners.remove( listener );
     }
     
     // called from another thread, StatisticsThread
