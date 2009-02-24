@@ -181,6 +181,7 @@ public class SoftwareAgreementManager {
                     }
                 }
             } );
+            setBackground( new JPanel().getBackground() );//see #1275
         }
         
         private static void showStatisticsDetails( JDialog owner, SessionMessage sessionMessage ) {
