@@ -11,8 +11,10 @@ import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery;
 import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery.VersionInfoQueryResponse;
 import edu.colorado.phet.common.phetcommon.resources.PhetInstallerVersion;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.InstallerManualUpdateDialog;
+import edu.colorado.phet.common.phetcommon.updates.dialogs.SimManualUpdateDialog;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateErrorDialog;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.NoUpdateDialog.InstallerNoUpdateDialog;
+import edu.colorado.phet.common.phetcommon.updates.dialogs.NoUpdateDialog.SimNoUpdateDialog;
 
 /**
  * Handles manual requests for update checks.
@@ -45,7 +47,7 @@ public class ManualUpdatesManager {
     public void checkForSimUpdates() {
         
         final PhetInstallerVersion currentInstallerVersion = new PhetInstallerVersion( 0 ); // don't care, since this query is for the sim
-        ISimInfo simInfo = app.getSimInfo();
+        final ISimInfo simInfo = app.getSimInfo();
         final Frame parentFrame = app.getPhetFrame();
         
         final VersionInfoQuery query = new VersionInfoQuery( simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getVersion(), currentInstallerVersion );
@@ -54,8 +56,11 @@ public class ManualUpdatesManager {
             public void done( final VersionInfoQueryResponse result ) {
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
-                        if ( result.isInstallerUpdateRecommended() ) {
-                            new InstallerManualUpdateDialog( parentFrame ).setVisible( true );
+                        if ( result.isSimUpdateRecommended() ) {
+                            new SimManualUpdateDialog( parentFrame, simInfo, result.getSimVersion() ).setVisible( true );
+                        }
+                        else {
+                            new SimNoUpdateDialog( parentFrame, simInfo.getName(), simInfo.getVersion() ).setVisible( true );
                         }
                     }
                 } );
