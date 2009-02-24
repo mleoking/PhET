@@ -1,3 +1,5 @@
+# 1.02.00 (29002) Feb 24, 2009
+#933, support for flash common strings
 2-24-09: rename to java-common-strings, to distinguish from Flash
 # 1.01.01 (28782) Feb 19, 2009
 Batch deploy for alpha Simulation Tests, svn 28773
