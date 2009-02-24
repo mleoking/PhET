@@ -1,7 +1,5 @@
 package edu.colorado.phet.common.phetcommon.statistics.tests;
 
-import java.io.IOException;
-
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.SessionCounter;
 import edu.colorado.phet.common.phetcommon.statistics.SessionMessage;
@@ -45,12 +43,7 @@ public class BurstTest {
 
         private void sendMessage() {
             SessionMessage sessionMessage = SessionMessage.getInstance();
-            try {
-                new StatisticsMessageSender().sendMessage( sessionMessage );
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
+            new StatisticsMessageSender().sendMessage( sessionMessage );
         }
     }
 }
