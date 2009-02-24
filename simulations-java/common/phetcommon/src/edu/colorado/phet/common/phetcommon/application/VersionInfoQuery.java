@@ -13,6 +13,7 @@ import javax.xml.transform.TransformerException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
@@ -20,7 +21,11 @@ import edu.colorado.phet.common.phetcommon.resources.PhetInstallerVersion;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.view.util.XMLUtils;
 
-
+/**
+ * Query that returns version information about the simulation and PhET installer.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class VersionInfoQuery {
     
     // prints debug output to the System.out
@@ -79,7 +84,9 @@ public class VersionInfoQuery {
             VersionInfoQueryResponse response = parseResponseDocument( responseDocument, this );
             
             // notification
-            notifyDone( response );
+            if ( response != null ) {
+                notifyDone( response );
+            }
         }
         catch ( ParserConfigurationException e ) {
             notifyException( e );
@@ -98,6 +105,9 @@ public class VersionInfoQuery {
         }
     }
 
+    /*
+     * Creates an XML document that represents the query.
+     */
     private static Document buildQueryDocument( String project, String sim, PhetInstallerVersion currentInstallerVersion ) throws ParserConfigurationException {
 
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -121,16 +131,134 @@ public class VersionInfoQuery {
         return document;
     }
     
-    private static VersionInfoQueryResponse parseResponseDocument( Document document, VersionInfoQuery query ) {
-        //TODO read document
-        PhetVersion simVersion = new PhetVersion( "2", "01", "00", "999999", "123456789" );//TODO
-        long simAskMeLaterDuration = 1; //TODO
-        boolean isInstallerUpdateRecommended = true;//TODO
-        PhetInstallerVersion installerVersion = new PhetInstallerVersion( 1234567890 );//TODO
-        long installerAskMeLaterDuration = 30;//TODO
+    /*
+     * Parses an XML document that represents the query response.
+     * If no errors are encountered, returns an object that contains the query results.
+     * When the first error is encountered, parsing stops, listeners are notified of an exception, and null is returned.
+     */
+    private VersionInfoQueryResponse parseResponseDocument( Document document, VersionInfoQuery query ) throws TransformerException {
+        
+        String elementName, attributeName, attributeValue;
+        
+        // look for general errors
+        elementName = "phet_info_response";
+        attributeValue = getAttribute( document, elementName, "error" );
+        if ( attributeValue != null ) {
+            notifyException( new VersionInfoQueryException( attributeValue ) );
+            return null;
+        }
+
+        // look for errors in sim_version_response
+        elementName = "sim_version_response";
+        attributeValue = getAttribute( document, elementName, "error" );
+        if ( attributeValue != null ) {
+            notifyException( new VersionInfoQueryException( attributeValue ) );
+            return null;
+        }
+        
+        // parse sim_version_response
+        PhetVersion simVersion;
+        long simAskMeLaterDuration;
+        {
+            elementName = "sim_version_response";
+
+            String versionMajor = getAttribute( document, elementName, "version_major" );
+            String versionMinor = getAttribute( document, elementName, "version_minor" );
+            String versionDev = getAttribute( document, elementName, "version_dev" );
+            String versionRevision = getAttribute( document, elementName, "version_revision" );
+            String versionTimestamp = getAttribute( document, elementName, "version_timestamp" );
+            if ( versionMajor == null || versionMinor == null || versionDev == null || versionRevision == null || versionTimestamp == null ) {
+                notifyException( new VersionInfoQueryException( "missing one or more attribututes related to sim version" ) );
+                return null;
+            }
+            simVersion = new PhetVersion( versionMajor, versionMinor, versionDev, versionRevision, versionTimestamp );
+
+            attributeName = "ask_me_later_duration_days";
+            String askMeLaterDuration = getAttribute( document, elementName, attributeName );
+            if ( askMeLaterDuration == null ) {
+                notifyException( new VersionInfoQueryException( elementName + " is missing attribute " + attributeName ) );
+                return null;
+            }
+            try {
+                simAskMeLaterDuration = Long.parseLong( askMeLaterDuration );
+            }
+            catch ( NumberFormatException e ) {
+                notifyException( new VersionInfoQueryException( "expected a number, received " + askMeLaterDuration ) );
+                return null;
+            }
+        }
+        
+        // look for errors in phet_installer_update_response
+        elementName = "phet_installer_update_response";
+        attributeValue = getAttribute( document, elementName, "error" );
+        if ( attributeValue != null ) {
+            notifyException( new VersionInfoQueryException( attributeValue ) );
+            return null;
+        }
+
+        // parse phet_installer_update_response
+        boolean isInstallerUpdateRecommended;
+        PhetInstallerVersion installerVersion;
+        long installerAskMeLaterDuration;
+        {
+            elementName = "phet_installer_update_response";
+            
+            attributeName = "recommend_update";
+            attributeValue = getAttribute( document, elementName, attributeName );
+            if ( attributeValue == null ) {
+                notifyException( new VersionInfoQueryException( elementName + " is missing attribute " + attributeName ) );
+            }
+            isInstallerUpdateRecommended = Boolean.valueOf( attributeValue ).booleanValue();
+            
+            attributeName = "timestamp_seconds";
+            attributeValue = getAttribute( document, elementName, attributeName );
+            if ( attributeValue == null ) {
+                notifyException( new VersionInfoQueryException( elementName + " is missing attribute " + attributeName ) );
+                return null;
+            }
+            try {
+                installerVersion = new PhetInstallerVersion( Long.parseLong( attributeValue ) );
+            }
+            catch ( NumberFormatException e ) {
+                notifyException( new VersionInfoQueryException( "expected a number, received " + attributeValue ) );
+                return null;
+            }
+            
+            attributeName = "ask_me_later_duration_days";
+            attributeValue = getAttribute( document, elementName, attributeName );
+            if ( attributeValue == null ) {
+                notifyException( new VersionInfoQueryException( elementName + " is missing attribute " + attributeName ) );
+                return null;
+            }
+            try {
+                installerAskMeLaterDuration = Long.parseLong( attributeValue );
+            }
+            catch ( NumberFormatException e ) {
+                notifyException( new VersionInfoQueryException( "expected a number, received " + attributeValue ) );
+                return null;
+            }
+        }
+        
+        // response object
         return new VersionInfoQueryResponse( query, simVersion, simAskMeLaterDuration, isInstallerUpdateRecommended, installerVersion, installerAskMeLaterDuration );
     }
-
+    
+    /*
+     * Gets the first occurrence of an attribute.
+     */
+    private String getAttribute( Document document, String elementName, String attributeName ) {
+        String value = null;
+        NodeList nodelist = document.getElementsByTagName( elementName );
+        if ( nodelist.getLength() > 0 ) {
+            Element element = (Element) nodelist.item( 0 );
+            value = element.getAttribute( attributeName );
+            if ( value != null && value.length() == 0 ) {
+                value = null;
+            }
+        }
+        return value;
+    }
+    
     /**
      * Encapsulates the response to this query.
      */
@@ -196,6 +324,12 @@ public class VersionInfoQuery {
          * @param e
          */
         public void exception( Exception e );
+    }
+    
+    public static class VersionInfoQueryException extends Exception {
+        public VersionInfoQueryException( String message ) {
+            super( message );
+        }
     }
 
     public static class VersionInfoQueryAdapter implements VersionInfoQueryListener {
