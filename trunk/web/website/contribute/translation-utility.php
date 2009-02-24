@@ -136,9 +136,13 @@ class TranslationInstructionsPage extends SitePage {
             We refer to these strings as "common strings".
             Examples of common strings include: the "File" menu, the "Help" menu, the Play/Pause/Step buttons that control the clock.
             When you're translating a simulation, Translation Utility does not allow you to translate common strings.
-            To translate common strings, download <a href="get-common-strings.php">common-strings.jar</a> to your computer.
-            Then load common-strings.jar into Translation Utility in the same way that you would for a simulation JAR file.
-            You only need to do this once, and we will incorporate your translation of common strings into all simulations.
+            <p>
+            To translate common strings, you'll need to download special JAR files to your computer.
+            There are separate JAR files (and separate sets of common strings) for Java and Flash simulations.
+            To translate Java common strings, download <a href="get-java-common-strings.php">java-common-strings.jar</a>.
+            To translate Flash common strings, download <a href="get-flash-common-strings.php">flash-common-strings.jar</a>.
+            Load these JAR files into Translation Utility in the same way that you would for a simulation JAR file.
+            You only need to translate each JAR once, and we will incorporate your translations into all simulations.
             </p>
 
             <h2>
