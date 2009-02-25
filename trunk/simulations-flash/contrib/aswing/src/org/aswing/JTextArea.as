@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
  
@@ -180,7 +180,7 @@ class org.aswing.JTextArea extends JTextComponent implements Viewportable {
 		return columns == 0 || rows == 0;
 	}	
 				
-	private function countPreferredSize():Dimension{
+	public function countPreferredSize():Dimension{
 		var size:Dimension;
 		if(columns > 0 && rows > 0){
 			var width:Number = getColumnWidth() * columns + getWidthMargin();

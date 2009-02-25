@@ -752,7 +752,7 @@ class org.aswing.JTextComponent extends Component {
 		columnRowCounted = true;
 	}
 	
-	private function getTextFieldAutoSizedSize():Dimension{
+	public function getTextFieldAutoSizedSize():Dimension{
 		if(!autoSizedToCountPrefferedSize){
 			 countAutoSizedSize();
 			 autoSizedToCountPrefferedSize = true;
