@@ -9,6 +9,7 @@ import javax.swing.event.HyperlinkListener;
 import javax.swing.text.html.HTMLEditorKit;
 
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
+import edu.colorado.phet.common.phetcommon.util.DeploymentScenario;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 
 
@@ -103,7 +104,10 @@ public class HTMLUtils {
      * @return
      */
     public static String getSimJarURL( String project, String sim, String ampersand, Locale locale ) {
-        String url = PhetCommonConstants.SIM_JAR_REDIRECT_URL + "?project=" + project + ampersand + "sim=" + sim + ampersand + "language=" + locale.getLanguage();
+        String url=PhetCommonConstants.SIM_JAR_REDIRECT_URL + "?project=" + project;
+        if (DeploymentScenario.getInstance()!= DeploymentScenario.PHET_INSTALLATION){
+               url+=ampersand + "sim=" + sim + ampersand + "language=" + locale.getLanguage();
+        }
         if ( !locale.getCountry().equals( "" ) ) {
             // add optional country code
             url += ampersand + "country=" + locale.getCountry();
