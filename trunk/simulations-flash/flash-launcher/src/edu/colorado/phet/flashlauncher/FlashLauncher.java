@@ -4,6 +4,7 @@ package edu.colorado.phet.flashlauncher;
 
 import java.io.*;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
@@ -200,7 +201,13 @@ public class FlashLauncher {
      */
     private File getJARFile() {
         URL url = FlashLauncher.class.getProtectionDomain().getCodeSource().getLocation();
-        return new File( url.getFile() );
+        File f = null;
+        try {
+            f = new File( URLDecoder.decode( url.getFile(), "UTF-8" ) );
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return f;
     }
 
     public static void main( String[] args ) throws IOException {
