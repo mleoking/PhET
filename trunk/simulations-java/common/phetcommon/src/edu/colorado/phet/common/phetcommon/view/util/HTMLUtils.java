@@ -104,16 +104,21 @@ public class HTMLUtils {
      * @return
      */
     public static String getSimJarURL( String project, String sim, String ampersand, Locale locale ) {
-        String url = PhetCommonConstants.SIM_JAR_REDIRECT_URL + "?project=" + project;
-        if ( DeploymentScenario.getInstance() != DeploymentScenario.PHET_INSTALLATION ) {
-            url += ampersand + "sim=" + sim + ampersand + "language=" + locale.getLanguage();
-
-            if ( !locale.getCountry().equals( "" ) ) {
-                // add optional country code
-                url += ampersand + "country=" + locale.getCountry();
-            }
+        String url = PhetCommonConstants.SIM_JAR_REDIRECT_URL + "?project=" + project + ampersand + "sim=" + sim + ampersand + "language=" + locale.getLanguage();
+        if ( !locale.getCountry().equals( "" ) ) {
+            // add optional country code
+            url += ampersand + "country=" + locale.getCountry();
         }
         return url;
+    }
+
+    /**
+     * Returns the URL for the <project>_all.jar from the PhET site.
+     * @param project
+     * @return
+     */
+    public static String getProjectJarURL( String project ) {
+        return PhetCommonConstants.SIM_JAR_REDIRECT_URL + "?project=" + project;
     }
     
     /**
