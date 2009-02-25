@@ -1,0 +1,42 @@
+PhET Progress Report
+John Blanco
+February 18, 2009
+
+Alpha Decay Tabbed Redesign - 2.0 hrs
+
+•	Deployed to the production server
+•	Looked at an issue with Chris where the downloaded JAR is prompting the user for the flavor of sim to run.
+
+Installer & Web Site – 13.5 hrs
+
+•	Continued work on PHP scripts for automating JAR signing, HTML manipulation, and JNLP manipulation.
+•	Created a version of the installer that contains the alpha test versions of balloons (Java sim) and charges-and-fields (Flash sim).
+•	Tested installer on Windows XP platform.
+•	Posted new alpha test version on Spot.
+
+Requirements and Test Plan for IOM Milestone – 4.0 hrs
+
+•	Added several new high-level test cases.
+•	Created a number of detailed test procedures.
+•	Worked with Sam on the process for performing and tracking sim and common code testing.
+•	Set up a form for easy entry of test results.
+•	Got several PhET PCs set up in my office, ready to have different versions of browsers, Java, etc. installed.
+
+Common Code - 2.5
+
+•	Fixed an issue with the play/pause buttons that caused to panel to look asymmetrical (Unfuddle #843).
+
+Meetings & Email - 9.0 hrs
+
+•	Weekly status meeting.
+•	Set up a couple of conference calls where the development team worked out the testing approach.
+•	Normal email and administrative overhead.
+
+Development Environment 1.0
+
+•	Got full checkout of the base, including build tools and utilities, operating as a single Eclipse workspace.
+
+Holiday - 8.0 hrs
+
+•	President's day (taken instead of MLK day)
+
