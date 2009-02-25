@@ -431,6 +431,7 @@ public class BuildScript {
 
                         if ( !dryRun ) {
                             sendSSH( PhetServer.DEVELOPMENT, devAuth );
+                            generateSimulationAndLanguageJARFilesJava( project, PhetServer.DEVELOPMENT, devAuth );
                         }
                         openBrowser( PhetServer.DEVELOPMENT.getCodebase( project ) );
                         return true;
