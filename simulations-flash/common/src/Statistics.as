@@ -122,7 +122,7 @@ class Statistics {
 		debug("Statistics: sending session start message\n");
 		
 		// wrap the message in xml tags
-		var str : String = "<?xml version=\"1.0\"?><phet_info><statistics_message " + sessionStartMessage() + " /></phet_info>";
+		var str : String = "<?xml version=\"1.0\"?><submit_message><statistics_message " + sessionStartMessage() + " /></submit_message>";
 		sendXML(new XML(str));
 	}
 	
