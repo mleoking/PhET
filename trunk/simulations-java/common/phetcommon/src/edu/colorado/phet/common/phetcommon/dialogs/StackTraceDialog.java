@@ -42,7 +42,10 @@ public class StackTraceDialog extends PaintImmediateDialog {
         setModal( false );
         setResizable( true );
         
+        JPanel panel = new JPanel( new BorderLayout() );
+        
         JComponent htmlPane = new InteractiveHTMLPane( htmlMessage );
+        htmlPane.setBackground( panel.getBackground() );
         htmlPane.setBorder(  BorderFactory.createEmptyBorder( 0, 0, 10, 0 ) );
         
         String stackTrace = StringUtil.stackTraceToString( e );
@@ -60,7 +63,6 @@ public class StackTraceDialog extends PaintImmediateDialog {
         JPanel buttonPanel = new JPanel();
         buttonPanel.add( closeButton );
         
-        JPanel panel = new JPanel( new BorderLayout() );
         panel.setBorder( BorderFactory.createEmptyBorder( 10, 10, 0, 10 ) );
         panel.add( htmlPane, BorderLayout.NORTH );
         panel.add( scrollPane, BorderLayout.CENTER );
