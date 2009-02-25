@@ -17,6 +17,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
+import edu.colorado.phet.common.phetcommon.util.logging.USLConsoleLogger;
 import edu.colorado.phet.common.phetcommon.resources.PhetInstallerVersion;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.view.util.XMLUtils;
@@ -109,15 +110,15 @@ public class VersionInfoQuery {
             // query
             Document queryDocument = buildQueryDocument( project, sim, currentInstallerVersion, automaticRequest );
             if ( ENABLE_DEBUG_OUTPUT ) {
-                System.out.println( getClass().getName() + " posting to url=" + url );
-                System.out.println( getClass().getName() + " query=\n" + XMLUtils.toString( queryDocument ) );
+                USLConsoleLogger.log( getClass().getName() + " posting to url=" + url );
+                USLConsoleLogger.log( getClass().getName() + " query=\n" + XMLUtils.toString( queryDocument ) );
             }
             HttpURLConnection connection = XMLUtils.post( url, queryDocument );
             
             // response
             Document responseDocument = XMLUtils.readDocument( connection );
             if ( ENABLE_DEBUG_OUTPUT ) {
-                System.out.println( getClass().getName() + " response=\n" + XMLUtils.toString( responseDocument ) );
+                USLConsoleLogger.log( getClass().getName() + " response=\n" + XMLUtils.toString( responseDocument ) );
             }
             VersionInfoQueryResponse response = parseResponseDocument( responseDocument, this );
             
