@@ -58,20 +58,24 @@ class UpdateInstallationDetailsDialog {
 			"a:hover{color:#0000FF;text-decoration:underline;font-weight:bold;}" +
 			"a:active{color:#0000FF;font-weight:bold;}"); 
 		
-		var textArea = new JTextArea(str, 0, 35);
+		var textArea = new JTextArea(str, 0, 0);
 		//textArea = new JTextArea(str, 0, 0);
 		textArea.setHtml(true);
 		textArea.setEditable(false);
 		textArea.setCSS(css);
 		textArea.setMultiline(true);
 		
+		
 		textArea.setBackground(common.backgroundColor);
 		
 		// add padding around the text
 		textArea.setBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)));
-		textArea.setWidth(300);
-		//textArea.setWidth(100);
+		textArea.setWidth(250);
 		textArea.setWordWrap(true);
+		//textArea.setPreferredSize(textArea.countPreferredSize());
+		//textArea.size();
+		//textArea.setWidth(100);
+		
 		//textArea.updateUI();
 		//textArea.setText(str);
 		

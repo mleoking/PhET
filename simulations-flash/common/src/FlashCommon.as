@@ -9,6 +9,7 @@ import org.aswing.JButton;
 import org.aswing.JWindow;
 import org.aswing.JFrame;
 import org.aswing.*;
+import org.aswing.geom.*;
 
 // should be instance of FlashCommon at _level0.common
 class FlashCommon {
@@ -180,6 +181,7 @@ class FlashCommon {
 		if(Key.getCode() == 35) {
 			// End was pressed
 			//_level0.updateInstallationDetailsDialog.textArea.setHeight(300);
+			/*
 			debug("h: " + String(_level0.updateInstallationDetailsDialog.textArea.getTextField().textHeight) + "\n");
 			var ta : JTextArea = _level0.updateInstallationDetailsDialog.textArea;
 			ta.setHeight(ta.getTextField().textHeight);
@@ -195,6 +197,29 @@ class FlashCommon {
 			ta.invalidate();
 			_level0.updateInstallationDetailsWindow.paintImmediately();
 			_level0.updateInstallationDetailsWindow.invalidate();
+			*/
+			/*
+			var ta : JTextArea = _level0.testTextArea;
+			var tf : TextField = ta.getTextField();
+			var d : Dimension;
+			var b : Rectangle;
+			
+			debug("tf _width/_height: (" + String(tf._width) + ", " + String(tf._height) + ")\n");
+			debug("tf textWidth/textHeight: (" + String(tf.textWidth) + ", " + String(tf.textHeight) + ")\n");
+			debug("ta getWidth()/getHeight(): (" + String(ta.getWidth()) + ", " + String(ta.getHeight()) + ")\n");
+			d = ta.getTextFieldAutoSizedSize();
+			debug("ta getTextFieldAutoSizedSize: (" + String(d.width) + ", " + String(d.height) + ")\n");
+			d = ta.countPreferredSize();
+			debug("ta countPreferredSize: (" + String(d.width) + ", " + String(d.height) + ")\n");
+			d = ta.getViewSize();
+			debug("ta getViewSize: (" + String(d.width) + ", " + String(d.height) + ")\n");
+			d = ta.getExtentSize();
+			debug("ta getExtentSize: (" + String(d.width) + ", " + String(d.height) + ")\n");
+			b = ta.getBounds();
+			debug("ta getBounds: (" + String(b.width) + ", " + String(b.height) + ")\n");
+			b = ta.getPaintBounds();
+			debug("ta getPaintBounds: (" + String(b.width) + ", " + String(b.height) + ")\n");
+			*/
 		}
 	}
 	
