@@ -222,9 +222,15 @@ public abstract class BSAbstractApplication extends PiccoloPhetApplication {
         }
         
         // Modules config
-        appConfig.setOneWellModuleConfig( _oneWellModule.save() );
-        appConfig.setTwoWellsModuleConfig( _twoWellsModule.save() );
-        appConfig.setManyWellsModuleConfig( _manyWellsModule.save() );
+        if ( _oneWellModule != null ) {
+            appConfig.setOneWellModuleConfig( _oneWellModule.save() );
+        }
+        if ( _twoWellsModule != null ) {
+            appConfig.setTwoWellsModuleConfig( _twoWellsModule.save() );
+        }
+        if ( _manyWellsModule != null ) {
+            appConfig.setManyWellsModuleConfig( _manyWellsModule.save() );
+        }
         
         _persistenceManager.save( appConfig );
     }
@@ -267,9 +273,15 @@ public abstract class BSAbstractApplication extends PiccoloPhetApplication {
                 }
 
                 // Modules config
-                _oneWellModule.load( appConfig.getOneWellModuleConfig() );
-                _twoWellsModule.load( appConfig.getTwoWellsModuleConfig() );
-                _manyWellsModule.load( appConfig.getManyWellsModuleConfig() );
+                if ( _oneWellModule != null ) {
+                    _oneWellModule.load( appConfig.getOneWellModuleConfig() );
+                }
+                if ( _twoWellsModule != null ) {
+                    _twoWellsModule.load( appConfig.getTwoWellsModuleConfig() );
+                }
+                if ( _manyWellsModule != null ) {
+                    _manyWellsModule.load( appConfig.getManyWellsModuleConfig() );
+                }
             }
             else {
                 String message = BSResources.getString( "message.notAConfigFile" );
