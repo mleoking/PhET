@@ -18,11 +18,7 @@
 	$raw_post_data = $HTTP_RAW_POST_DATA;
 	$xml = simplexml_load_string($raw_post_data);
 	
-	print_r($xml);
-	
 	$xml = $xml->statistics_message;
-	
-	print_r($xml);
 	
 	$warnings = array();
 	$errors = array();
