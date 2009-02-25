@@ -27,8 +27,8 @@ import edu.colorado.phet.common.phetcommon.view.util.XMLUtils;
  * Query format:
  * <code>
  * <php_info>
- *   <sim_version project="faraday" sim="magnet-and-compass"/>
- *   <phet_installer_update timestamp_seconds="1234567890"/>
+ *   <sim_version project="faraday" sim="magnet-and-compass" requested_by="automatic"/>
+ *   <phet_installer_update timestamp_seconds="1234567890" requested_by="automatic"/>
  * </php_info>
  * </code>
  * <p>
@@ -60,13 +60,15 @@ public class VersionInfoQuery {
     private final String sim;
     private final PhetVersion currentSimVersion;
     private final PhetInstallerVersion currentInstallerVersion;
+    private final boolean automaticRequest;
     private final ArrayList listeners;
 
-    public VersionInfoQuery( String project, String sim, PhetVersion currentSimVersion, PhetInstallerVersion currentInstallerVersion ) {
+    public VersionInfoQuery( String project, String sim, PhetVersion currentSimVersion, PhetInstallerVersion currentInstallerVersion, boolean automaticRequest ) {
         this.project = project;
         this.sim = sim;
         this.currentSimVersion = currentSimVersion;
         this.currentInstallerVersion = currentInstallerVersion;
+        this.automaticRequest = automaticRequest;
         listeners = new ArrayList();
     }
 
@@ -94,7 +96,7 @@ public class VersionInfoQuery {
         final String url = PhetCommonConstants.PHET_INFO_URL;
         try {
             // query
-            Document queryDocument = buildQueryDocument( project, sim, currentInstallerVersion );
+            Document queryDocument = buildQueryDocument( project, sim, currentInstallerVersion, automaticRequest );
             if ( ENABLE_DEBUG_OUTPUT ) {
                 System.out.println( getClass().getName() + " posting to url=" + url );
                 System.out.println( getClass().getName() + " query=\n" + XMLUtils.toString( queryDocument ) );
@@ -133,8 +135,10 @@ public class VersionInfoQuery {
     /*
      * Creates an XML document that represents the query.
      */
-    private static Document buildQueryDocument( String project, String sim, PhetInstallerVersion currentInstallerVersion ) throws ParserConfigurationException {
+    private static Document buildQueryDocument( String project, String sim, PhetInstallerVersion currentInstallerVersion, boolean automaticRequest ) throws ParserConfigurationException {
 
+        String requestedBy = ( automaticRequest ? "automatic" : "manual" );
+        
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = documentBuilderFactory.newDocumentBuilder();
         Document document = docBuilder.newDocument();
@@ -145,12 +149,12 @@ public class VersionInfoQuery {
         Element simVersionElement = document.createElement( "sim_version" );
         simVersionElement.setAttribute( "project", project );
         simVersionElement.setAttribute( "sim", sim );
-        simVersionElement.setAttribute( "requested_by", "auto" );//TODO
+        simVersionElement.setAttribute( "requested_by", requestedBy );
         rootElement.appendChild( simVersionElement );
 
         Element installerUpdateElement = document.createElement( "phet_installer_update" );
         installerUpdateElement.setAttribute( "timestamp_seconds", String.valueOf( currentInstallerVersion.getTimestamp() ) );
-        installerUpdateElement.setAttribute( "requested_by", "auto" );//TODO
+        installerUpdateElement.setAttribute( "requested_by", requestedBy );
         rootElement.appendChild( installerUpdateElement );
 
         return document;
@@ -271,7 +275,7 @@ public class VersionInfoQuery {
     /*
      * Gets the first occurrence of an attribute.
      */
-    private String getAttribute( Document document, String elementName, String attributeName ) {
+    private static String getAttribute( Document document, String elementName, String attributeName ) {
         String value = null;
         NodeList nodelist = document.getElementsByTagName( elementName );
         if ( nodelist.getLength() > 0 ) {
@@ -387,7 +391,7 @@ public class VersionInfoQuery {
     public static void main( String[] args ) {
         PhetVersion simVersion = new PhetVersion( "1", "02", "03", "45678", "1122334455" );
         PhetInstallerVersion installerVersion = new PhetInstallerVersion( 1234567890 );
-        VersionInfoQuery query = new VersionInfoQuery( "balloons", "balloons", simVersion, installerVersion );
+        VersionInfoQuery query = new VersionInfoQuery( "balloons", "balloons", simVersion, installerVersion, true /* automaticRequest */ );
         query.addListener( new VersionInfoQueryListener() {
             public void done( VersionInfoQueryResponse result ) {
                 System.out.println( getClass().getName() + ".done" );
