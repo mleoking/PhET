@@ -60,7 +60,7 @@ public class StatisticsMessageSender {
     private static final boolean ENABLE_DEBUG_OUTPUT = true;
     
     // XML tags and attributes
-    private static final String ROOT_TAG = "phet_info"; //TODO #1297, change to "submit_message"
+    private static final String ROOT_TAG = "submit_message";
     private static final String STATISTICS_MESSAGE_TAG = "statistics_message";
     private static final String SUCCESS_ATTRIBUTE = "success";
     private static final String ERROR_TAG = "error";
