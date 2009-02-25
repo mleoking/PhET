@@ -242,11 +242,10 @@ class UpdateHandler {
 				_level0.debug("UpdateHandler: used selected to skip this update\n");
 			} else if(!manual && common.preferences.simAskLaterElapsed() < 0) {
 				_level0.debug("UpdateHandler: used selected ask later, sim time elapsed = " + String(common.preferences.simAskLaterElapsed()) + "\n");
-			} else if(common.fromFullInstallation() && simTimestamp + 604800 > installerTimestamp) {
-				// TODO: what happens if installerTimestamp is not set? muahaha!
-				// installer was deployed before (or just around) the time the sim was deployed
-				_level0.debug("UpdateHandler: installer might not contain the most recent sim\n");
 			} else {
+				if(common.fromFullInstallation() && simTimestamp + 1800 > installerTimestamp) {
+					_level0.debug("UpdateHandler: installer might not contain the most recent sim\n");
+				}
 				simUpdatesAvailable(versionMajor, versionMinor, versionDev, simAskLaterDays);
 			}
 			
