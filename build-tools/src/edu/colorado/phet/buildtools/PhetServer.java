@@ -125,6 +125,9 @@ public abstract class PhetServer {
     public void deployFinished() {
     }
 
+    public abstract String getJavaCommand();
+    public abstract String getJarCommand();
+
     private static class PhetDevServer extends PhetServer {
         public PhetDevServer( String serverHost, String webHost, String serverDeployPath, String webDeployPath, String cacheClearUrl, String cacheClearFile, String localizationCommand ) {
             super( serverHost, webHost, serverDeployPath, webDeployPath, cacheClearUrl, cacheClearFile, localizationCommand, true );
@@ -140,6 +143,14 @@ public abstract class PhetServer {
 
         public String getWebDeployURL( PhetProject project ) {
             return "http://" + getWebHost() + getWebDeployPath() + "/" + project.getName() + "/" + project.getDevDirectoryBasename();
+        }
+
+        public String getJavaCommand() {
+            return "java";
+        }
+
+        public String getJarCommand() {
+            return "jar";
         }
     }
 
@@ -176,6 +187,14 @@ public abstract class PhetServer {
             JOptionPane.showMessageDialog( null, "Reminder:\n" +
                                                  "Document this release in trunk/website/about/changes.txt.\n" +
                                                  "Copy to tigercat:/web/htdocs/phet/about/changes.txt." );
+        }
+
+        public String getJavaCommand() {
+            return "/web/chroot/phet/usr/local/java/bin/java";
+        }
+
+        public String getJarCommand() {
+            return "/web/chroot/phet/usr/local/java/bin/jar";
         }
     }
 

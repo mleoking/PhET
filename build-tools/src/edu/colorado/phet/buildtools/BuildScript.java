@@ -474,8 +474,9 @@ public class BuildScript {
             String buildScriptDir = server.getServerDeployPath( new BuildToolsProject( new File( project.getTrunk(), "build-tools" ) ) );
             String projectDir = server.getServerDeployPath( project );
 
-            //TODO: get 'java' and 'jar' commands from PhetServer
-            String command = "java -classpath " + buildScriptDir + "/build-tools_all.jar " + OfflineJARGenerator.class.getName() + " " + projectDir + "/" + project.getDefaultDeployJar().getName() + " jar";
+            String javaCmd=server.getJavaCommand();
+            String jarCmd=server.getJarCommand();
+            String command = javaCmd+" -classpath " + buildScriptDir + "/build-tools_all.jar " + OfflineJARGenerator.class.getName() + " " + projectDir + "/" + project.getDefaultDeployJar().getName() + " "+jarCmd;
 
             System.out.println( "Running command: \n" + command );
             sshConnection.executeTask( new SshCommand( command ) );
