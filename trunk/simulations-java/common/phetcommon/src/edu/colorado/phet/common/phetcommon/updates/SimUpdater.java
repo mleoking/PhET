@@ -92,7 +92,7 @@ public class SimUpdater {
 
     /**
      * Determines which JAR URL should be used to update this simulation, depends on whether we're in a phet installation (which gives <project>_all.jar)
-     * or an offline simulation (which gives <sim>_<language>.jar).
+     * or an offline simulation (which gives <sim>_<locale>.jar).
      * @param simInfo
      * @return
      */
