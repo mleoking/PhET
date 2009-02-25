@@ -124,7 +124,6 @@ class UpdateInstallationDialog {
 		window.setLocation((Stage.width - window.getWidth()) / 2, (Stage.height - window.getHeight()) / 2);
 		window.show();
 		
-		debug("UID::: " + String(textArea.getVisibleRows()) + "\n");
 	}
 	
 	public function onWindowClose() {
@@ -156,7 +155,7 @@ class UpdateInstallationDialog {
 			_level0.updateInstallationDetailsWindow.show();
 		} else {
 			debug("Creating Dialog\n");
-			_level0.UpdateInstallationDetailsDialog = new UpdateInstallationDetailsDialog();
+			_level0.updateInstallationDetailsDialog = new UpdateInstallationDetailsDialog();
 		}
 	}
 }

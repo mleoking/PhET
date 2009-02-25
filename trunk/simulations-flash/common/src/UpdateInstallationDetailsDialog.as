@@ -12,6 +12,8 @@ class UpdateInstallationDetailsDialog {
 	
 	public var common : FlashCommon;
 	
+	public var textArea : JTextArea;
+	
 	// shorthand for debugging function
 	public function debug(str : String) : Void {
 		_level0.debug(str);
@@ -57,10 +59,10 @@ class UpdateInstallationDetailsDialog {
 			"a:active{color:#0000FF;font-weight:bold;}"); 
 		
 		var textArea = new JTextArea(str, 0, 35);
+		//textArea = new JTextArea(str, 0, 0);
 		textArea.setHtml(true);
 		textArea.setEditable(false);
 		textArea.setCSS(css);
-		textArea.setWordWrap(true);
 		textArea.setMultiline(true);
 		
 		textArea.setBackground(common.backgroundColor);
@@ -68,6 +70,10 @@ class UpdateInstallationDetailsDialog {
 		// add padding around the text
 		textArea.setBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)));
 		textArea.setWidth(300);
+		//textArea.setWidth(100);
+		textArea.setWordWrap(true);
+		//textArea.updateUI();
+		//textArea.setText(str);
 		
 		window.getContentPane().append(textArea);
 		
@@ -92,6 +98,17 @@ class UpdateInstallationDetailsDialog {
 		// center the window
 		window.setLocation((Stage.width - window.getWidth()) / 2, (Stage.height - window.getHeight()) / 2);
 		window.show();
+		
+		debug("UID::: " + String(textArea.getVisibleRows()) + "\n");
+		
+		var tex : TextField = textArea.getTextField();
+		
+		debug("_height " + String(tex._height) + "\n");
+		debug("_width " + String(tex._width) + "\n");
+		debug("textHeight " + String(tex.textHeight) + "\n");
+		debug("textWidth " + String(tex.textWidth) + "\n");
+		
+		_level0.debugTextArea = tex;
 		
 	}
 	
