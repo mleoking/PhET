@@ -4,7 +4,6 @@ import java.awt.Font;
 import java.util.Locale;
 
 import javax.swing.JEditorPane;
-import javax.swing.JPanel;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.text.html.HTMLEditorKit;
