@@ -22,7 +22,7 @@ public class BuildToolsProject extends JavaProject {
     }
 
     public String getProdServerDeployPath() {
-        return null;
+        return "/web/chroot/phet/usr/local/apache/htdocs/cl_utils";
     }
 
     //TODO: should be written to bin/ or other useful location
