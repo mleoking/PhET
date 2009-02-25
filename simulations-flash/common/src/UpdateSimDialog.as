@@ -103,6 +103,13 @@ class UpdateSimDialog {
 		// panel to lay the buttons in
 		var panel : JPanel = new JPanel(new FlowLayout());
 		
+		var tryButton : JButton = new JButton(common.strings.get("TryNow", "Try it now"));
+		tryButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, tryClicked));
+		tryButton.setForeground(ASColor.BLUE);
+		tryButton.setFont(new ASFont(ASFont.DEFAULT_NAME, ASFont.DEFAULT_SIZE + 2, true, false, false));
+		tryButton.setUseHandCursor(true);
+		CommonButtons.padButtonAdd(tryButton, panel);
+		
 		var askLaterButton : JButton = new JButton(common.strings.get("AskLater", "Ask me later"));
 		askLaterButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, askLaterClicked));
 		CommonButtons.padButtonAdd(askLaterButton, panel);
@@ -110,13 +117,6 @@ class UpdateSimDialog {
 		var skipButton : JButton = new JButton(common.strings.get("PrivacySkip", "Skip this update"));
 		skipButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, skipClicked));
 		CommonButtons.padButtonAdd(skipButton, panel);
-		
-		var tryButton : JButton = new JButton(common.strings.get("TryNow", "Try it now"));
-		tryButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, tryClicked));
-		tryButton.setForeground(ASColor.BLUE);
-		tryButton.setFont(new ASFont(ASFont.DEFAULT_NAME, ASFont.DEFAULT_SIZE + 2, true, false, false));
-		tryButton.setUseHandCursor(true);
-		CommonButtons.padButtonAdd(tryButton, panel);
 		
 		//window.getContentPane().append(panel);
 		var centerPanel : JPanel = new JPanel(new CenterLayout()); //SoftBoxLayout.X_AXIS, 0, SoftBoxLayout.CENTER
