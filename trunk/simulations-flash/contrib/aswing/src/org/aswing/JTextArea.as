@@ -155,7 +155,7 @@ class org.aswing.JTextArea extends JTextComponent implements Viewportable {
 		return rows;
 	}
 	
-	private function size():Void{
+	public function size():Void{
 		super.size();
 		if(isWordWrap()){
 			//invalidateTextFieldAutoSizeToCountPrefferedSize();
