@@ -23,12 +23,49 @@ import edu.colorado.phet.common.phetcommon.view.util.XMLUtils;
 
 /**
  * Sends a statistics message to PhET.
- * This implementation posts an XML document to a PHP script.
+ * This implementation posts an XML document to a PHP script, receives an XML response.
+ * <p>
+ * XML request format:
+ * <code>
+ * <?xml version="1.0" encoding="UTF-8"?>
+ * <submit_message>
+ *   <statistics_message key=value ... />
+ * </submit_message>
+ * </code>
+ * <p>
+ * XML response format with no errors:
+ * <code>
+ * <?xml version="1.0" encoding="UTF-8"?>
+ * <submit_message_response status="true">
+ *   <statistics_message_response status="true">
+ *      <warning>message</warning>
+ *   </statistics_message_response/>
+ * </submit_message_response>
+ * </code>
+ * <p>
+ * XML response format with errors:
+ * <code>
+ * <?xml version="1.0" encoding="UTF-8"?>
+ * <submit_message_response status="false">
+ *   <statistics_message_response status="false">
+ *      <warning>message</warning>
+ *      <error>message</error>
+ *   </statistics_message_response/>
+ * </submit_message_response>
+ * </code>
  */
 public class StatisticsMessageSender {
 
     // prints debug output to the System.out
     private static final boolean ENABLE_DEBUG_OUTPUT = true;
+    
+    // XML tags and attributes
+    private static final String ROOT_TAG = "phet_info"; //TODO #1297, change to "submit_message"
+    private static final String STATISTICS_MESSAGE_TAG = "statistics_message";
+    private static final String SUCCESS_ATTRIBUTE = "success";
+    private static final String ERROR_TAG = "error";
+    private static final String WARNING_TAG = "warning";
+    private static final String TRUE_VALUE = "true";
 
     /**
      * Sends a statistics message to PhET.
@@ -72,11 +109,14 @@ public class StatisticsMessageSender {
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.newDocument();
 
-        Element root = document.createElement( "statistics" );
-        for ( int i = 0; i < message.getFieldCount(); i++ ) {
-            root.setAttribute( message.getField( i ).getName(), message.getField( i ).getValue() );
-        }
+        Element root = document.createElement( ROOT_TAG );
         document.appendChild( root );
+        
+        Element statisticsMessageElement = document.createElement( STATISTICS_MESSAGE_TAG );
+        for ( int i = 0; i < message.getFieldCount(); i++ ) {
+            statisticsMessageElement.setAttribute( message.getField( i ).getName(), message.getField( i ).getValue() );
+        }
+        root.appendChild( statisticsMessageElement );
 
         return document;
     }
@@ -96,16 +136,14 @@ public class StatisticsMessageSender {
     /*
      * Parses the response to see if we succeeded.
      */
-    private boolean parseResponse( Document responseDocument ) throws IOException, SAXException, ParserConfigurationException, TransformerException {
-        
-        boolean success = false;
+    private boolean parseResponse( Document document ) throws IOException, SAXException, ParserConfigurationException, TransformerException {
         
         if ( ENABLE_DEBUG_OUTPUT ) {
-            System.out.println( getClass().getName() + " response=\n" + XMLUtils.toString( responseDocument ) );
+            System.out.println( getClass().getName() + " response=\n" + XMLUtils.toString( document ) );
         }
         
         // look for warnings
-        NodeList warnings = responseDocument.getElementsByTagName( "warning-message" );
+        NodeList warnings = document.getElementsByTagName( WARNING_TAG );
         for ( int i = 0; i < warnings.getLength(); i++ ) {
             Element element = (Element) warnings.item( i );
             NodeList children = element.getChildNodes();
@@ -118,7 +156,7 @@ public class StatisticsMessageSender {
         }
         
         // look for errors
-        NodeList errors = responseDocument.getElementsByTagName( "error-message" );
+        NodeList errors = document.getElementsByTagName( ERROR_TAG );
         for ( int i = 0; i < errors.getLength(); i++ ) {
             Element element = (Element) errors.item( i );
             NodeList children = element.getChildNodes();
@@ -130,17 +168,42 @@ public class StatisticsMessageSender {
             }
         }
         
-        // success is based on errors
-        success = ( errors.getLength() == 0 );
-
-        return success;
+        // determine success
+        String elementName = getResponseTag( STATISTICS_MESSAGE_TAG );
+        String attributeValue = getAttribute( document, elementName, SUCCESS_ATTRIBUTE );
+        return attributeValue.equals( TRUE_VALUE );
     }
-
+    
+    /*
+     * Convention for naming a response tag.
+     * For example, request "foo" has response "foo_response".
+     */
+    private static String getResponseTag( String tag ) {
+        return tag + "_response";
+    }
+    
+    /*
+     * Gets the first occurrence of an attribute.
+     */
+    private static String getAttribute( Document document, String elementName, String attributeName ) {
+        String value = null;
+        NodeList nodelist = document.getElementsByTagName( elementName );
+        if ( nodelist.getLength() > 0 ) {
+            Element element = (Element) nodelist.item( 0 );
+            value = element.getAttribute( attributeName );
+            if ( value != null && value.length() == 0 ) {
+                value = null;
+            }
+        }
+        return value;
+    }
 
     public static void main( String[] args ) throws IOException {
         PhetApplicationConfig config = new PhetApplicationConfig( null, "balloons" );
         SessionCounter.initInstance( config.getProjectName(), config.getFlavor() );
         SessionMessage.initInstance( config );
-        new StatisticsMessageSender().sendMessage( SessionMessage.getInstance() );
+        StatisticsMessageSender sender = new StatisticsMessageSender();
+        boolean success = sender.sendMessage( SessionMessage.getInstance() );
+        System.out.println( "success=" + success );
     }
 }
