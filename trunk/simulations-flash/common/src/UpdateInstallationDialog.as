@@ -94,6 +94,13 @@ class UpdateInstallationDialog {
 		// panel to lay the buttons in
 		var panel : JPanel = new JPanel(new FlowLayout());
 		
+		var yesButton : JButton = new JButton(common.strings.get("Yes!", "Yes!"));
+		yesButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, yesClicked));
+		yesButton.setForeground(ASColor.BLUE);
+		yesButton.setFont(new ASFont(ASFont.DEFAULT_NAME, ASFont.DEFAULT_SIZE + 2, true, false, false));
+		yesButton.setUseHandCursor(true);
+		CommonButtons.padButtonAdd(yesButton, panel);
+		
 		var askLaterButton : JButton = new JButton(common.strings.get("AskLater", "Ask me later"));
 		askLaterButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, askLaterClicked));
 		CommonButtons.padButtonAdd(askLaterButton, panel);
@@ -101,13 +108,6 @@ class UpdateInstallationDialog {
 		var tellMoreButton : JButton = new JButton(common.strings.get("TellMore", "Tell me more..."));
 		tellMoreButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, tellMoreClicked));
 		CommonButtons.padButtonAdd(tellMoreButton, panel);
-		
-		var yesButton : JButton = new JButton(common.strings.get("Yes!", "Yes!"));
-		yesButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, yesClicked));
-		yesButton.setForeground(ASColor.BLUE);
-		yesButton.setFont(new ASFont(ASFont.DEFAULT_NAME, ASFont.DEFAULT_SIZE + 2, true, false, false));
-		yesButton.setUseHandCursor(true);
-		CommonButtons.padButtonAdd(yesButton, panel);
 		
 		//window.getContentPane().append(panel);
 		var centerPanel : JPanel = new JPanel(new CenterLayout()); //SoftBoxLayout.X_AXIS, 0, SoftBoxLayout.CENTER
