@@ -1,3 +1,5 @@
+# 1.07.08 (29048) Feb 25, 2009
+Alpha test build.  Barring unforseen problems, this is the version that will be used for the initial group alpha testing.
 # 1.07.07 (28775) Feb 19, 2009
 Batch deploy for alpha Simulation Tests, svn 28773
 # 1.07.06 (28014) Feb 03 2009
