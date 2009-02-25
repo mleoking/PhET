@@ -105,7 +105,7 @@ public class HTMLUtils {
      */
     public static String getSimJarURL( String project, String sim, String ampersand, Locale locale ) {
         String url = PhetCommonConstants.SIM_JAR_REDIRECT_URL + "?project=" + project + ampersand + "sim=" + sim + ampersand + "language=" + locale.getLanguage();
-        if ( locale.getCountry().equals( "" ) ) {
+        if ( !locale.getCountry().equals( "" ) ) {
             // add optional country code
             url += ampersand + "country=" + locale.getCountry();
         }
