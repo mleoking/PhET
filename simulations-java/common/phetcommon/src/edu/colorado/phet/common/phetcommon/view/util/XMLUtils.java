@@ -43,34 +43,23 @@ public class XMLUtils {
     }
     
     /**
-     * Converts an XML String to a Document
+     * Converts an XML String to a Document.
      * @param string
      * @return
      * @throws TransformerException
      * @throws ParserConfigurationException
      */
-    public static Document toDocument( String string ) throws TransformerException, ParserConfigurationException {
+    public static Document toDocument( String string ) throws SAXException, ParserConfigurationException, IOException {
 
-        //see http://www.exampledepot.com/egs/javax.xml.parsers/BasicDom.html
-        try {
-            // Create a builder factory
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        // see http://www.exampledepot.com/egs/javax.xml.parsers/BasicDom.html
+        
+        // Create a builder factory
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
-            // Create the builder and parse the file
-            Document doc = factory.newDocumentBuilder().parse( new ByteArrayInputStream( string.getBytes() ) );
-            return doc;
-        }
-        catch( SAXException e ) {
-            // A parsing error occurred; the xml input is not valid
-            e.printStackTrace(  );
-        }
-        catch( ParserConfigurationException e ) {
-            e.printStackTrace(  );
-        }
-        catch( IOException e ) {
-            e.printStackTrace(  );
-        }
-        return null;
+        // Create the builder and parse the file
+        Document doc = factory.newDocumentBuilder().parse( new ByteArrayInputStream( string.getBytes() ) );
+        
+        return doc;
     }
     
     /**
