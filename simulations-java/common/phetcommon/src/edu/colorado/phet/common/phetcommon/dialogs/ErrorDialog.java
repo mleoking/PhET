@@ -56,11 +56,12 @@ public class ErrorDialog extends PaintImmediateDialog {
         setResizable( false );
         setModal( true );
         
-        String htmlString = HTMLUtils.createStyledHTMLFromFragment( message );
-        JComponent htmlPane = new InteractiveHTMLPane( htmlString );
         JPanel messagePanel = new JPanel();
         messagePanel.setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
+        String htmlString = HTMLUtils.createStyledHTMLFromFragment( message );
+        JComponent htmlPane = new InteractiveHTMLPane( htmlString );
         messagePanel.add( htmlPane );
+        htmlPane.setBackground( messagePanel.getBackground() );
 
         JPanel buttonPanel = new JPanel();
         
