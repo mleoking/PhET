@@ -17,6 +17,7 @@ import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
+import edu.colorado.phet.common.phetcommon.util.logging.USLConsoleLogger;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.SessionCounter;
 import edu.colorado.phet.common.phetcommon.view.util.XMLUtils;
@@ -127,8 +128,8 @@ public class StatisticsMessageSender {
     private HttpURLConnection postDocument( Document document ) throws ParserConfigurationException, TransformerException, IOException {
         final String url = PhetCommonConstants.STATISTICS_SERVICE_URL;
         if ( ENABLE_DEBUG_OUTPUT ) {
-            System.out.println( getClass().getName() + " posting to url=" + url );
-            System.out.println( getClass().getName() + " query=\n" + XMLUtils.toString( document ) );
+            USLConsoleLogger.log( getClass().getName() + " posting to url=" + url );
+            USLConsoleLogger.log( getClass().getName() + " query=\n" + XMLUtils.toString( document ) );
         }
         return XMLUtils.post( url, document );
     }
@@ -139,7 +140,7 @@ public class StatisticsMessageSender {
     private boolean parseResponse( Document document ) throws IOException, SAXException, ParserConfigurationException, TransformerException {
         
         if ( ENABLE_DEBUG_OUTPUT ) {
-            System.out.println( getClass().getName() + " response=\n" + XMLUtils.toString( document ) );
+            USLConsoleLogger.log( getClass().getName() + " response=\n" + XMLUtils.toString( document ) );
         }
         
         // look for warnings
