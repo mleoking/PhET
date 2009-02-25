@@ -18,20 +18,60 @@
 	$raw_post_data = $HTTP_RAW_POST_DATA;
 	$xml = simplexml_load_string($raw_post_data);
 	
+	print_r($xml);
+	
+	$xml = $xml->statistics_message;
+	
+	print_r($xml);
+	
+	$warnings = array();
+	$errors = array();
+	$message_success = true;
+	
+	function send_response() {
+		global $warnings;
+		global $errors;
+		global $message_success;
+		
+		print '<?xml version="1.0"?>';
+		print '<phet_info_response success="true">';
+		// TODO: check for global success / failure
+		
+		$success_string = ($message_success ? "true" : "false");
+		
+		print "<statistics_message_response success=\"${success_string}\">";
+		
+		foreach($warnings as $warning) {
+			print "<warning>${warning}</warning>";
+		}
+		
+		foreach($errors as $error) {
+			print "<error>${error}</error>";
+		}
+		
+		print "</statistics_message_response>";
+		
+		print '</phet_info_response>';
+	}
+	
 	function fail_me($str) {
 		global $raw_post_data;
-		print "<error-message>{$str}</error-message><success>false</success></statistics-result></xml>";
+		global $errors;
+		global $message_success;
+		
 		message_error($raw_post_data, $str);
+		
+		array_push($errors, $str);
+		$message_success = false;
+		send_response();
+		
 		exit;
 	}
 	
 	function warn_me($str) {
-		print "<warning-message>{$str}</warning-message>";
+		global $warnings;
+		array_push($warnings, $str);
 	}
-	
-	print "<xml><statistics-result>";
-	
-	
 	
 	
 	// if we want to track the raw messages that are coming through, this will be used
@@ -303,8 +343,6 @@
 		fail_me("sim_type was not java or flash");
 	}
 	
-	print "<success>true</success>";
-	
-	print "</statistics-result></xml>";
+	send_response();
 	
 ?>
