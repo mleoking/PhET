@@ -177,6 +177,25 @@ class FlashCommon {
 			// Home was pressed
 			updateHandler.installationUpdatesAvailable(1234567890, 0, 0);
 		}
+		if(Key.getCode() == 35) {
+			// End was pressed
+			//_level0.updateInstallationDetailsDialog.textArea.setHeight(300);
+			debug("h: " + String(_level0.updateInstallationDetailsDialog.textArea.getTextField().textHeight) + "\n");
+			var ta : JTextArea = _level0.updateInstallationDetailsDialog.textArea;
+			ta.setHeight(ta.getTextField().textHeight);
+			ta.updateUI();
+			ta.revalidate();
+			ta.getParent().revalidate();
+			ta.paintImmediately();
+			_level0.updateInstallationDetailsWindow.revalidate();
+			ta.getParent().paintImmediately();
+			debug("paintwidth: " + String(ta.getPaintBounds().width) + "\n");
+			debug("paintheight: " + String(ta.getPaintBounds().height) + "\n");
+			ta.paintImmediately();
+			ta.invalidate();
+			_level0.updateInstallationDetailsWindow.paintImmediately();
+			_level0.updateInstallationDetailsWindow.invalidate();
+		}
 	}
 	
 	// returns the version string with minor and dev fields padded with a zero if necessary
