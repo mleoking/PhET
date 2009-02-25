@@ -122,7 +122,7 @@ class Statistics {
 		debug("Statistics: sending session start message\n");
 		
 		// wrap the message in xml tags
-		var str : String = "<statistics " + sessionStartMessage() + "></statistics>";
+		var str : String = "<?xml version=\"1.0\"?><phet_info><statistics_message " + sessionStartMessage() + " /></phet_info>";
 		sendXML(new XML(str));
 	}
 	
@@ -151,22 +151,28 @@ class Statistics {
 				_level0.debug("Statistics: message received:\n");
 				_level0.debug(reply.toString()+"\n");
 				
-				// not necessarily a success, we need to check for a server-side success
-				var statisticsResult : XMLNode = reply.childNodes[0].childNodes[0];
-				var messages : Array = statisticsResult.childNodes;
-				
 				// whether the message was successful
 				var full_success : Boolean = false;
 				
-				for(var idx in messages) {
-					var mess : XMLNode = messages[idx];
-					if(mess.nodeName == "success") {
-						var val : XMLNode = mess.childNodes[0];
-						if(val.nodeValue == "true") {
-							full_success = true;
+				var phetInfoResponse : XMLNode = reply.childNodes[0];
+				
+				if(phetInfoResponse.attributes.success == "true") {
+					var responses : Array = phetInfoResponse.childNodes;
+					for(var idx in responses) {
+						var child : XMLNode = responses[idx];
+						if(child.nodeName == "statistics_message_response") {
+							if(child.attributes.success == "true") {
+								_level0.debug("Statistics: statistics_message_response found\n");
+								full_success = true;
+							} else {
+								_level0.debug("Statistics: statistics_message_response FAILURE\n");
+							}
 						}
 					}
+				} else {
+					_level0.debug("Statistics: phet_info_response FAILURE\n");
 				}
+				
 				
 				if(full_success) {
 					// statistics message successful
