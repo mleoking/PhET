@@ -19,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateErrorDialog;
 import edu.colorado.phet.common.phetcommon.util.DownloadThread;
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.util.DeploymentScenario;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
 /**
@@ -66,11 +67,11 @@ public class SimUpdater {
                     handleErrorWritePermissions( simJAR );
                 }
                 else {
-                    String simJarURL = HTMLUtils.getSimJarURL( simInfo.getProjectName(), simInfo.getFlavor(), "&", simInfo.getLocale() );
-                    println( "requesting update via URL=" + simJarURL );
+                    String jarURL = getJarURL(simInfo);
+                    println( "requesting update via URL=" + jarURL );
                     File tempSimJAR = getTempSimJAR( simJAR );
                     File tempUpdaterJAR = getTempUpdaterJAR();
-                    boolean success = downloadFiles( UPDATER_ADDRESS, tempUpdaterJAR, simJarURL, tempSimJAR, simInfo.getName(), newVersion );
+                    boolean success = downloadFiles( UPDATER_ADDRESS, tempUpdaterJAR, jarURL, tempSimJAR, simInfo.getName(), newVersion );
                     if ( success ) {
                         
                         // validate the downloaded JAR files
@@ -88,7 +89,22 @@ public class SimUpdater {
             }
         }
     }
-    
+
+    /**
+     * Determines which JAR URL should be used to update this simulation, depends on whether we're in a phet installation (which gives <project>_all.jar)
+     * or an offline simulation (which gives <sim>_<language>.jar).
+     * @param simInfo
+     * @return
+     */
+    private String getJarURL( ISimInfo simInfo ) {
+        if ( DeploymentScenario.getInstance() == DeploymentScenario.PHET_INSTALLATION ) {
+            return HTMLUtils.getProjectJarURL( simInfo.getProjectName() );
+        }
+        else {
+            return HTMLUtils.getSimJarURL( simInfo.getProjectName(), simInfo.getFlavor(), "&", simInfo.getLocale() );
+        }
+    }
+
     /**
      * Displays an update exception in a dialog.
      * @param e
