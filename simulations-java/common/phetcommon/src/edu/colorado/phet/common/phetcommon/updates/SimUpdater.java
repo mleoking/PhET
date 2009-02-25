@@ -31,6 +31,7 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 public class SimUpdater {
     
     // do not enabled debug output for public releases, the log file will grow indefinitely!
+    //see also the UpdateLogger implementation for whether outputs will also be echoed to console
     private static final boolean DEBUG_OUTPUT_ENABLED = true;
 
     // updater basename

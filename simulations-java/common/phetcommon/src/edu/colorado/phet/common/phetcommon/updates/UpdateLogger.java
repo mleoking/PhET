@@ -14,19 +14,23 @@ public class UpdateLogger {
 
     private static final String LOG_FILE_NAME = System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" ) + "phet-log.txt";
 
-    private static final ILogger FILE_LOGGER = new FileLogger( LOG_FILE_NAME, true /* append */);
+    private static final ILogger FILE_LOGGER = new FileLogger( LOG_FILE_NAME, true /* append */ );
     private static final ILogger CONSOLE_LOGGER = new ConsoleLogger();
+    private static boolean ECHO_TO_CONSOLE = false;
 
     /* not intended for instantiation */
-    private UpdateLogger() {}
+    private UpdateLogger() {
+    }
 
     /**
-     * Write a message to the console and the log file.
+     * Write a message to the console (if enabled) and the log file.
      *
      * @param message
      */
     public static void log( String message ) {
-        CONSOLE_LOGGER.log( message );
+        if ( ECHO_TO_CONSOLE ) {
+            CONSOLE_LOGGER.log( message );
+        }
         FILE_LOGGER.log( message );
     }
 }
