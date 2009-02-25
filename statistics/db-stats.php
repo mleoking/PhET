@@ -25,7 +25,7 @@
 		
 		if(mysql_errno()) {
 			// TODO: remove after development is over, could expose some inner workings of DB? Ask Dano
-			print "<warning-message>" . htmlentities(mysql_error()) . "</warning-message>";
+			//print "<warning-message>" . htmlentities(mysql_error()) . "</warning-message>";
 		} else {
 			//print "<debug-message>affected: " . htmlentities(mysql_affected_rows()) . "</debug-message>";
 		}
@@ -71,10 +71,12 @@ BOO;
 		
 		$id = $row[0];
 		
+		/*
 		if(empty($id)) {
 			// either 0 or something unknown. either way, an error occurred
 			print "<warning-message>Could not find correct ID</warning-message>";
 		}
+		*/
 		
 		return $id;
 	}
