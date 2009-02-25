@@ -50,7 +50,7 @@ public class ManualUpdatesManager {
         final ISimInfo simInfo = app.getSimInfo();
         final Frame parentFrame = app.getPhetFrame();
         
-        final VersionInfoQuery query = new VersionInfoQuery( simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getVersion(), currentInstallerVersion );
+        final VersionInfoQuery query = new VersionInfoQuery( simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getVersion(), currentInstallerVersion, false /* automaticRequest */ );
         query.addListener( new VersionInfoQuery.VersionInfoQueryListener() {
             
             public void done( final VersionInfoQueryResponse result ) {
@@ -80,7 +80,7 @@ public class ManualUpdatesManager {
         ISimInfo simInfo = app.getSimInfo();
         final Frame parentFrame = app.getPhetFrame();
         
-        final VersionInfoQuery query = new VersionInfoQuery( simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getVersion(), currentInstallerVersion );
+        final VersionInfoQuery query = new VersionInfoQuery( simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getVersion(), currentInstallerVersion, false /* automaticRequest */ );
         query.addListener( new VersionInfoQuery.VersionInfoQueryListener() {
             
             public void done( final VersionInfoQueryResponse result ) {

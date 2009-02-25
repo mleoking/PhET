@@ -65,7 +65,7 @@ public class AutomaticUpdatesManager {
     private void runUpdateCheckThread() {
         
         final PhetInstallerVersion currentInstallerVersion = new PhetInstallerVersion( 0 ); //TODO get this from phet-installation.properties
-        final VersionInfoQuery query = new VersionInfoQuery( simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getVersion(), currentInstallerVersion );
+        final VersionInfoQuery query = new VersionInfoQuery( simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getVersion(), currentInstallerVersion, true /* automaticRequest */ );
         
         query.addListener( new VersionInfoQuery.VersionInfoQueryListener() {
             
