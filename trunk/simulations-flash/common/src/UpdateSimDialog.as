@@ -60,7 +60,7 @@ class UpdateSimDialog {
 		
 		str += "\n";
 		
-		if(common.fromFullInstallation() || common.getSimName() == "flash-common-strings") {
+		if((common.fromFullInstallation() && common.updateHandler.simTimestamp + 1800 < common.updateHandler.installerTimestamp) || common.getSimName() == "flash-common-strings") {
 			// sim should be contained in the newest installation, otherwise we would not reach here
 			str += notUpdateStr;
 			str += "\n";
