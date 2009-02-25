@@ -71,6 +71,14 @@ public class DeploymentScenario {
         return name;
     }
     
+    public boolean equals( Object object ) {
+        boolean equals = false;
+        if ( object instanceof DeploymentScenario ) {
+            equals = getName().equals( ( (DeploymentScenario) object ).getName() );
+        }
+        return equals;
+    }
+    
     /**
      * Gets the deployment scenario, a singleton.
      * This is determined once, on demand, since it does not change.
