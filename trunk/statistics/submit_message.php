@@ -30,7 +30,7 @@
 		global $message_success;
 		
 		print '<?xml version="1.0"?>';
-		print '<phet_info_response success="true">';
+		print '<submit_message_response success="true">';
 		// TODO: check for global success / failure
 		
 		$success_string = ($message_success ? "true" : "false");
@@ -47,7 +47,7 @@
 		
 		print "</statistics_message_response>";
 		
-		print '</phet_info_response>';
+		print '</submit_message_response>';
 	}
 	
 	function fail_me($str) {
