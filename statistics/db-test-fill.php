@@ -8,7 +8,7 @@
 	$link = setup_mysql();
 	
 	// number of simulated messages to be sent
-	$num_entries = 100000;
+	$num_entries = 500;
 	
 	
 	// percentage of sims that are flash (100-x % are java)
@@ -402,8 +402,8 @@
 	// insert user visits
 	for($i = 0; $i < $num_entries; $i++) {
 		$firstOffset = rand(0, 11231)*rand(0, 11231);
-		$userPreferencesFileCreationTime = time() - $firstOffset;
-		$userInstallTimestamp = $userPreferencesFileCreationTime - rand(0, 20000);
+		$userPreferencesFileCreationTime = rand(1, 200); //time() - $firstOffset;
+		$userInstallTimestamp = rand(1, 80); //$userPreferencesFileCreationTime - rand(0, 20000);
 		if(rand(0, 99) < 60) {
 			$userInstallTimestamp = "NULL";
 		}
@@ -427,7 +427,7 @@
 		$insert_query = query_from_values("user", $values);
 		phet_mysql_query($insert_query);
 		
-		$i += $userTotalSessions - 1;
+		//$i += $userTotalSessions - 1;
 	}
 	
 ?>
