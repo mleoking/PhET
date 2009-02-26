@@ -11,6 +11,11 @@
     require_once("include/sim-utils.php");
     require_once("include/sys-utils.php");
     require_once("include/web-utils.php");
+    require_once("include/locale-utils.php");
+
+    if (isset($_REQUEST['OVERRIDE_SIMS_ROOT'])) {
+        sim_set_root($_REQUEST['OVERRIDE_SIMS_ROOT']);
+    }
 
     function query_string_extract($key) {
         if (is_array($key)) {
@@ -39,49 +44,100 @@
         }
     }
 
-    // Grab the required parameters
-    $required_params = array('project', 'sim', 'language');
-    $missing_params = array();
-    foreach ($required_params as $key) {
-        $$key = query_string_extract($key);
-        if (empty($$key)) {
-            $missing_params[] = $key;
+    function requested_project_only() {
+        if ((isset($_GET['project'])) &&
+            (!isset($_GET['sim'])) &&
+            (!isset($_GET['language']))) {
+            return true;
+        }
+        else {
+            return false;
         }
     }
 
-    // Send an error if there are missing parametrs
-    if (!empty($missing_params)) {
-        error("Error: Missing required information in the query string: '".
-              join("', '", $missing_params)."'.\n");
-        exit;
+    function handle_request_project_only() {
+        $project = query_string_extract('project');
+        // Send an error if there are missing parametrs
+        if (empty($project)) {
+            error("Error: Project only specified in query string, but project is blank.\n");
+            exit;
+        }
+
+        $download_data = sim_get_project_jar_download($project);
+        if (!$download_data) {
+            error("Error: Project JAR {$project}_all.jar not found.\n");
+            exit;
+        }
+
+        // Send the file as an attachment
+        $filename = $download_data[0];
+        $contents = $download_data[1];
+        send_file_to_browser($filename, $contents, null, "attachment");
     }
 
-    // Get the country, this is not required to be specified
-    $country = query_string_extract('country');
+    function handle_request_sim() {
+        $required_params = array('project', 'sim', 'language');
+        $missing_params = array();
+        foreach ($required_params as $key) {
+            $$key = query_string_extract($key);
+            if (empty($$key)) {
+                $missing_params[] = $key;
+            }
+        }
 
-    // Create a locale from the language and country
-    $locale = $language;
-    if (!empty($country)) {
-        $locale .= '_'.$country;
+        // Send an error if there are missing parametrs
+        if (!empty($missing_params)) {
+            error("Error: Missing required information in the query string: '".
+                  join("', '", $missing_params)."'.\n");
+            exit;
+        }
+
+        // Get the country, this is not required to be specified
+        $country = query_string_extract('country');
+
+        if (!locale_valid_language_code($language)) {
+            error("Error: invalid lanugage code specified\n");
+            exit;
+        }
+
+        // Create a locale from the language and country
+        $locale = $language;
+        if (!empty($country)) {
+            if (!locale_valid_country_code($country)) {
+                error("Error: invalid country code specified\n");
+                exit;
+            }
+            $locale .= '_'.$country;
+        }
+
+        // Get the database info for the requested sim
+        $simulation = sim_get_sim_by_dirname_flavorname($project, $sim);
+        if (!$simulation) {
+            error("Error: Simulation not found.\n");
+            exit;
+        }
+
+        // Get the filename and content
+        $download_data = sim_get_download($simulation, $locale);
+        if (!$download_data) {
+            error("Error: Simulation jar or language not found.\n");
+            exit;
+        }
+
+        // Send the file as an attachment
+        $filename = $download_data[0];
+        $contents = $download_data[1];
+        send_file_to_browser($filename, $contents, null, "attachment");
     }
 
-    // Get the database info for the requested sim
-    $simulation = sim_get_sim_by_dirname_flavorname($project, $sim);
-    if (!$simulation) {
-        error("Error: Simulation not found.\n");
-        exit;
+    // Grab the required parameters
+    // TODO: refactor this
+    if (requested_project_only()) {
+        handle_request_project_only();
+    }
+    else {
+        handle_request_sim();
     }
 
-    // Get the filename and content
-    $download_data = sim_get_download($simulation, $locale);
-    if (!$download_data) {
-        error("Error: Simulation jar or language not found.\n");
-        exit;
-    }
-
-    // Send the file as an attachment
-    $filename = $download_data[0];
-    $contents = $download_data[1];
-    send_file_to_browser($filename, $contents, null, "attachment");
 
 ?>
