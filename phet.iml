@@ -9,11 +9,12 @@
     <output url="file://$MODULE_DIR$/../../../../reid/phet/out-test/production/phet" />
     <output-test url="file://$MODULE_DIR$/../../../../reid/phet/out-test/test/phet" />
     <exclude-output />
-    <content url="file://$MODULE_DIR$/../../../../reid/svn-working-copy/trunk/projects/phet" />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/build-tools/contrib/securechannelfacade/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/build-tools/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-flash/contrib/aswing/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-flash/flash-launcher/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/build-reports/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/charts/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/collision/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/controls/src" isTestSource="false" />
@@ -93,12 +94,15 @@
       <sourceFolder url="file://$MODULE_DIR$/team/reids/admin/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/team/reids/tracking/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/licensing/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/util/phet-updater/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/util/testing/contrib/opencsv/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/util/testing/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/translation-strings-diff" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/translation-utility/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/util/updater/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/build-tools/ant_output" />
+      <excludeFolder url="file://$MODULE_DIR$/simulations-flash/ant_output" />
+      <excludeFolder url="file://$MODULE_DIR$/simulations-java/ant_output" />
     </content>
+    <content url="file://$MODULE_DIR$/../../../../reid/svn-working-copy/trunk/projects/phet" />
+    <orderEntry type="library" name="scala-2.7.3.final" level="application" />
     <orderEntry type="library" name="scala-2.7.3.final" level="application" />
     <orderEntry type="jdk" jdkName="1.6" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
