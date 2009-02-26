@@ -8,12 +8,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.HashSet;
 
 public class Spreadsheet {
     private ArrayList entries = new ArrayList();
 
     public Spreadsheet( Entry[] entries ) {
         this.entries.addAll( Arrays.asList( entries ) );
+    }
+
+    public HashSet getUniqueValues(String key){
+        return new HashSet( Arrays.asList( listValues(key )));
     }
 
     public String[] listValues( String key ) {
