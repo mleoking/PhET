@@ -40,24 +40,28 @@ class phetInfoTest extends PHPUnit_Framework_TestCase {
             (self::INSTALLER_TIMESTAMP_AGE_IN_DAYS * $days_to_secs);
     }
 
-    private function makeRequest($xml, $request_key = self::REQUEST_KEY, $verbose = false) {
-        $query = array();
-        $query[$request_key] = $xml;
+    private function makeRequest($xml, $verbose = false) {
+        $overrides = 
+            array('PHET-DEFINE-OVERRIDE-DB_HOSTNAME' => 'localhost',
+                  'PHET-DEFINE-OVERRIDE-DB_NAME' => 'phet_test',
+                  'PHET-DEFINE-OVERRIDE-DB_USERNAME' => 'phet_test',
+                  'PHET-DEFINE-OVERRIDE-DB_PASSWORD' => '',
+                  'PHET-DEFINE-OVERRIDE-SIMS_ROOT' => SIMS_ROOT
+                );
 
-
-        // Special override to the script to make it use the test database
-        $query['PHET-TEST-DEFINE-OVERRIDE'] = 'DB_HOSTNAME::localhost~~~~DB_NAME::phet_test~~~~DB_USERNAME::phet_test~~~~DB_PASSWORD::~~~~SIMS_ROOT::'.SIMS_ROOT;
+        $query = $overrides;
 
         if ($verbose) {
             $query['verbose'] = 1;
         }
 
-        $request_content = http_build_query($query);
+        $query_string = http_build_query($query);
 
+        // Setup submitting the POST elements
         $request_parameters = array(
             'method' => 'POST',
-            'header' => 'Content-type: application/x-www-form-urlencoded',
-            'content' => $request_content,
+            'header' => 'Content-type: text/xml',
+            'content' => $xml
             );
 
         $http_context = array('http' => $request_parameters);
@@ -65,7 +69,7 @@ class phetInfoTest extends PHPUnit_Framework_TestCase {
         $stream = stream_context_create($http_context);
 
         // Make the request and return the data
-        return file_get_contents(self::QUERY_URL, 0, $stream);
+        return file_get_contents(self::QUERY_URL.'?'.$query_string, 0, $stream);
     }
 
     private function constructBadQuotesXML() {
@@ -210,13 +214,6 @@ EOT;
         $this->assertRegExp('/^badly formed XML$/', (string) $xml['error']);
     }
 
-    public function testPhetInfo_noRequestKeyReturnsError() {
-        $request_xml = $this->constructBadQuotesXML();
-        $data = $this->makeRequest($request_xml, 'bad_request_key');
-        $xml = new SimpleXMLElement($data);
-        $this->assertRegExp("/^'request' key not found$/", (string) $xml['error']);
-    }
-
     public function testPhetInfo_badQuoteXMLReturnsError() {
         $request_xml = $this->constructBadQuotesXML();
         $data = $this->makeRequest($request_xml);
@@ -255,7 +252,7 @@ EOT;
 
     public function testPhetInfo_badVersionRequestGivesResponseWithError() {
         $request_xml = $this->constructGoodFullTagXML(self::INVALID_BAD_ATTR);
-        $data = $this->makeRequest($request_xml, self::REQUEST_KEY);
+        $data = $this->makeRequest($request_xml);
         $response_xml = new SimpleXMLElement($data);
         $info = $response_xml->sim_version_response[0];
         $this->assertRegExp('#^project and/or sim does not exist: "'.self::NONEXISTENT_REQUESTED_PROJECT.'", "'.self::NONEXISTENT_REQUESTED_SIM.'"$#i', (string) $info['error']);
@@ -275,9 +272,11 @@ EOT;
         $info = $response_xml->sim_version_response[0];
         $this->assertEquals(self::REQUESTED_PROJECT, (string) $info['project']);
         $this->assertEquals(self::REQUESTED_SIM, (string) $info['sim']);
-        $this->assertRegExp('/^[0-9]+\.[0-9]+\.[0-9]+$/', (string) $info['version']);
-        $this->assertRegExp('/^[0-9]+$/', (string) $info['revision']);
-        $this->assertRegExp('/^[0-9]+$/', (string) $info['timestamp_seconds']);
+        $this->assertRegExp('/^[0-9]+$/', (string) $info['version_major']);
+        $this->assertRegExp('/^[0-9]+$/', (string) $info['version_minor']);
+        $this->assertRegExp('/^[0-9]+$/', (string) $info['version_dev']);
+        $this->assertRegExp('/^[0-9]+$/', (string) $info['version_revision']);
+        $this->assertRegExp('/^[0-9]+$/', (string) $info['version_timestamp']);
         $this->assertRegExp('/^[0-9]+$/', (string) $info['ask_me_later_duration_days']);
     }
 
@@ -298,9 +297,11 @@ EOT;
         $info = $response_xml->sim_version_response[0];
         $this->assertEquals(self::REQUESTED_PROJECT, (string) $info['project']);
         $this->assertEquals(self::REQUESTED_SIM, (string) $info['sim']);
-        $this->assertRegExp('/^1\.08\.00$/', (string) $info['version']);
-        $this->assertRegExp('/^28720$/', (string) $info['revision']);
-        $this->assertRegExp('/^1235020762$/', (string) $info['timestamp_seconds']);
+        $this->assertRegExp('/^1$/', (string) $info['version_major']);
+        $this->assertRegExp('/^08$/', (string) $info['version_minor']);
+        $this->assertRegExp('/^00$/', (string) $info['version_dev']);
+        $this->assertRegExp('/^28720$/', (string) $info['version_revision']);
+        $this->assertRegExp('/^1235020762$/', (string) $info['version_timestamp']);
         $this->assertRegExp('/^12342$/', (string) $info['ask_me_later_duration_days']);
     }
 

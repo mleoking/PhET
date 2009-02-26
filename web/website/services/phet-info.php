@@ -2,28 +2,15 @@
 
   // SPECIAL TEST EXTENSION:
   //
-  // Because the unit tests are testing throught the web interface, it
+  // Because the unit tests are testing through the web interface, it
   // can't set up the database to force certian conditions to be met.
-  // So if the there is a key 'PHET-TEST-OVERRIDE' then force the
-  // override specified.
-  //
-  // Key/Value pairs delimited with '::', and pairs are delimited with '::::'
-  //
-  // Examlpe:
-  // PHET-TEST-DEFINE-OVERRIDE=DB_HOSTNAME::localhost~~~~DB_NAME::phet_test~~~~DB_USERNAME::phet_test~~~~DB_PASSWORD::~~~~SIMS_ROOT::/etc/etc/etc...
+  // So if the there is a key prefix on the query string key then
+  // force the override specified.
 
-if (isset($_REQUEST['PHET-TEST-DEFINE-OVERRIDE'])) {
-    $override = array();
-    $params = split('~~~~', $_REQUEST['PHET-TEST-DEFINE-OVERRIDE']);
-    foreach ($params as $param) {
-        $pair = split('::', $param);
-        $key = $pair[0];
-        $value = $pair[1];
-        $override[$key] = $value;
-    }
-
-    foreach ($override as $key => $value) {
-        define($key, $value);
+define('OVERRIDE_PREFIX', 'PHET-DEFINE-OVERRIDE-');
+foreach ($_GET as $key => $value) {
+    if (0 === strpos($key, OVERRIDE_PREFIX)) {
+        define(substr($key, strlen(OVERRIDE_PREFIX)), $value);
     }
 }
 
@@ -38,7 +25,6 @@ require_once('include/sim-utils.php');
 
 class PhetInfo {
     const ROOT_ELEMENT_NAME = 'phet_info';
-    const QUERY_XML_KEY = 'request';
     const RESPONSE_XML_SHELL =
         '<?xml version="1.0"?><phet_info_response></phet_info_response>';
     const ERROR_RESPONSE_XML_SHELL =
@@ -74,19 +60,15 @@ class PhetInfo {
         }
         exit();
     }
-    
-    private function getValidXmlFromQuery($request) {
+
+    private function getValidXmlFromQuery() {
         // Get the XML, and parse it
         try {
-            if ($this->verbose) var_dump($request);
-            $xml_text = $request[self::QUERY_XML_KEY];
+            $xml_text = $GLOBALS['HTTP_RAW_POST_DATA'];
             $xml = new SimpleXMLElement($xml_text);
         }
         catch (ErrorException $e) {
-            if ($e->getSeverity() == 8) {
-                $this->sendErrorAndExit("'".self::QUERY_XML_KEY."' key not found");
-            }
-            else if ($e->getSeverity() == 2) {
+            if ($e->getSeverity() == 2) {
                 $this->sendErrorAndExit("badly formed XML");
             }
             else {
@@ -97,7 +79,7 @@ class PhetInfo {
         if ($xml->getName() == 'phet-info') {
             $this->sendErrorAndExit('underscores needed in XML tags');
         }
-        
+
         if ($xml->getName() != self::ROOT_ELEMENT_NAME) {
             $this->sendErrorAndExit('XML root element name invalid');
         }
@@ -111,7 +93,7 @@ class PhetInfo {
 
         $settings = UpdateUtils::inst()->getSettings();
 
-        $max_age = $settings['install_recommend_update_age'] * $days_to_secs;        
+        $max_age = $settings['install_recommend_update_age'] * $days_to_secs;
         $installer_age = $now - $installer_timestamp;
         if ($installer_age > $max_age) {
             //$tag->addAttribute('recommend_update_reason', 'recommend on age');
@@ -190,19 +172,26 @@ class PhetInfo {
 
         // Get the version info
         $version = sim_get_version($simulation, false);
-        $version_string = '';
-        if ((!empty($version['major'])) &&
-            (!empty($version['minor'])) &&
-            (!empty($version['dev']))) {
-            $version_string = "{$version['major']}.{$version['minor']}.{$version['dev']}";
+        $missing_attributes = array();
+        foreach ($version as $key => $value) {
+            if (empty($value)) {
+                $missing_attributes[] = "version_{$key}";
+            }
         }
+
+        if (!empty($missing_attributes)) {
+            $error = "can't find value for attributes: ".join(', ', $missing_attributes);
+            $this->addErrorAttribute($version_tag, $error);
+            return;
+        }
+
         $version_tag->addAttribute('project', $project);
         $version_tag->addAttribute('sim', $sim);
         $version_tag->addAttribute('version_major', $version['major']);
         $version_tag->addAttribute('version_minor', $version['minor']);
         $version_tag->addAttribute('version_dev', $version['dev']);
         $version_tag->addAttribute('version_revision', $version['revision']);
-        $version_tag->addAttribute('timestamp_seconds', $version['timestamp']);
+        $version_tag->addAttribute('version_timestamp', $version['timestamp']);
 
         // Add the "ask me later" timeframe
         $settings = UpdateUtils::inst()->getSettings();
@@ -224,7 +213,7 @@ class PhetInfo {
     }
 
     public function go() {
-        $xml = $this->getValidXmlFromQuery($_REQUEST);
+        $xml = $this->getValidXmlFromQuery();
 
         // Process the version_request if any
         $response_xml = $this->processRequest($xml);
@@ -245,7 +234,7 @@ function exception_error_handler($errno, $errstr, $errfile, $errline) {
 }
 set_error_handler("exception_error_handler");
 
-$verbose = ((isset($_REQUEST['verbose'])) && $_REQUEST['verbose']);
+$verbose = ((isset($_GET['verbose'])) && $_GET['verbose']);
 
 $phet_info = new PhetInfo($verbose);
 $phet_info->go();
