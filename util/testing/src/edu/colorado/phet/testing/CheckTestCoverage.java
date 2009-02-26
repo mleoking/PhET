@@ -19,8 +19,8 @@ public class CheckTestCoverage {
         System.out.println( "Tester = " + spreadsheet.getUniqueValues( "Tester" ) );
         System.out.println( "Scenario = " + spreadsheet.getUniqueValues( "Scenario" ) );
 
-        showData( "Test Results", "PASSED", spreadsheet );
-        showData( "Test Results", "FAILED", spreadsheet );
+        showData( "Test Results", "PASS", spreadsheet );
+        showData( "Test Results", "FAIL", spreadsheet );
         showData( "Test Results", "", spreadsheet );
 
     }
