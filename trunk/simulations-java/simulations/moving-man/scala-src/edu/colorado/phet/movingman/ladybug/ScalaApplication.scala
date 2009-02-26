@@ -1,5 +1,6 @@
 package edu.colorado.phet.movingman.ladybug
 
+import _root_.edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel
 import aphidmaze.AphidMazeModule
 import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor
 import edu.colorado.phet.common.phetcommon.application.Module
@@ -16,13 +17,16 @@ import edu.umd.cs.piccolo.PNode
 import java.awt.Color
 import java.awt.Font
 import java.util.Date
-import javax.swing.JLabel
+import javax.swing.{UIManager, JLabel}
 import model.ScalaClock
 
 object ScalaApplication {
   def main(args: Array[String], project: String, simulation: String, modules: Module*) = {
+    val pac = new PhetApplicationConfig(args, project, simulation)
+    pac.setLookAndFeel(new PhetLookAndFeel() {protected override def getLookAndFeelClassName = UIManager.getCrossPlatformLookAndFeelClassName})
+
     new PhetApplicationLauncher().launchSim(
-      new PhetApplicationConfig(args, project, simulation),
+      pac,
       new ApplicationConstructor() {
         override def getApplication(config: PhetApplicationConfig) = new PhetApplication(config) {
           modules.foreach(addModule(_))
