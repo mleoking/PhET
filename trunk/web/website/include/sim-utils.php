@@ -4,7 +4,7 @@
 
     // In each web accessable script SITE_ROOT must be defined FIRST
     if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
-    
+
     // See global.php for an explaination of the next line
     require_once(dirname(dirname(__FILE__))."/include/global.php");
 
@@ -19,6 +19,9 @@
     $g_SIM_ROOT = SIMS_ROOT;
     function sim_get_root() {
         global $g_SIM_ROOT;
+        if (is_null($g_SIM_ROOT)) {
+            return SIMS_ROOT;
+        }
         return $g_SIM_ROOT;
     }
 
@@ -96,7 +99,7 @@
 
     /**
      * Return all translations of all sims
-     * 
+     *
      * @return arary with format 'locale' => array(sim_id1, sim_id2, ...)
      **/
     function sim_get_all_sim_translations() {
@@ -126,7 +129,7 @@
 
     /*
      * Get all the translation for the given sim
-     * 
+     *
      * @param simulation array Simulation to get translations from
      * @return mixed array of locales (if any), false if sim type not valid
      */
@@ -160,7 +163,7 @@
                 // Skip the default locale, it is not a translation
                 continue;
             }
-            
+
             if (!locale_valid($locale)) {
                 // Locale is not in the table, log error and skip
                 // TODO: log an error
@@ -170,7 +173,7 @@
                 // Skip the default locale, it is not a translation
                 continue;
             }
-            
+
             if (!isset($translations[$locale])) {
                 $translations[$locale] = 1;
             }
@@ -195,7 +198,7 @@
 
         $translations = $end;
         usort($translations, 'locale_sort_code_by_name');
-        return $translations;        
+        return $translations;
     }
 
     // Returns an array with the sim version, keys 
@@ -648,14 +651,62 @@
         return $listings;
     }
 
+    // TODO: do this with JNLP files too
+    function sim_get_locale_jar_filename($simulation, $locale) {
+        $locales = array();
+        if (locale_is_default($locale)) {
+            $locales[] = DEFAULT_LOCALE_LONG_FORM;
+            $locales[] = DEFAULT_LOCALE_SHORT_FORM;
+            $locales[] = '';
+        }
+        else if (locale_is_combined_language_code($locale)) {
+            $full_locale = locale_combined_language_code_to_full_locale($locale);
+            $combined_locale = $locale;
+            $locales[] = $full_locale;
+            $locales[] = $combined_locale;
+        }
+        else if (locale_has_combined_language_code_map($locale)) {
+            $combined_locale = locale_full_locale_to_combined_language_code($locale);
+            $full_locale = $locale;
+            $locales[] = $full_locale;
+            $locales[] = $combined_locale;
+        }
+        else {
+            $locales[] = $locale;
+        }
+
+        $dirname     = $simulation['sim_dirname'];
+        $flavorname  = $simulation['sim_flavorname'];
+        $base_file = sim_get_root()."{$dirname}/{$flavorname}";
+        foreach ($locales as $locale) {
+            $test_locale = (!empty($locale)) ? '_'.$locale : '';
+            $locale_file = $base_file.$test_locale.'.jar';
+            if (file_exists($locale_file)) {
+                return $locale_file;
+            }
+        }
+
+        return false;
+    }
+
+    function sim_get_project_jar_download($project) {
+        $project_file = sim_get_root()."{$project}/{$project}_all.jar";
+        if (!file_exists($project_file)) {
+            return false;
+        }
+
+        // Return the filename and the contents of that file
+        return array($project_file, file_get_contents($project_file));
+    }
+
     /**
      * Return the filename and downloadable content.
      * If $strict is true, the requested locale must exist.  If it doesn't return false.
      * If $strict is false, if the requested locale does not exists the default is substituted.
-     * 
+     *
      * @param array $simulation Array of simulation info as given by the database
      * @param string $requested_locae Locale desired
-     * @param bool $strict True if the file 
+     * @param bool $strict True if the file
      * @return arary(filename, conent), or false if not successful
      **/
     function sim_get_download($simulation, $locale = DEFAULT_LOCALE, $strict = true) {
@@ -664,19 +715,26 @@
 
         $dirname     = $simulation['sim_dirname'];
         $flavorname  = $simulation['sim_flavorname'];
-        
+
         // Create 2 variables:
         //    $default_file is the JAR filename for the default locale
         //    $locale_file is the JAR filename for the requested locale
         // The default will be used if strict is off and the locale file cannot be found
         if ($simulation['sim_type'] == SIM_TYPE_JAVA) {
-            $default_file = sim_get_root()."{$dirname}/{$flavorname}.jar";
-            if (locale_is_default($locale)) {
-                $locale_file = $default_file;
+            $locale_file = sim_get_locale_jar_filename($simulation, $locale);
+            if (!$locale_file) {
+                if ($strict) {
+                    return false;
+                }
+
+                $locale_file = sim_get_locale_jar_filename($simulation, DEFAULT_LOCALE);
+                if (!$locale_file) {
+                    return false;
+                }
             }
-            else {
-                $locale_file = sim_get_root()."{$dirname}/{$flavorname}_{$locale}.jar";
-            }
+
+            // Return the filename and the contents of that file
+            return array($locale_file, file_get_contents($locale_file));
         }
         else if ($simulation['sim_type'] == SIM_TYPE_FLASH) {
             $default_file = sim_get_root()."{$dirname}/{$flavorname}".DEFAULT_LOCALE.".jar";
@@ -751,7 +809,7 @@
 
     /**
      * Get the simulataion download link of the specified languagefile exists
-     * 
+     *
      * @param array $simulation Simulation information
      * @param string $locale OPTIONAL locale to use
      * @param bool $test_existance OPTIONAL if true will check the existance of the downloadable file
@@ -765,7 +823,7 @@
             $flavorname = $simulation['sim_flavorname'];
             $sim_type   = $simulation['sim_type'];
             $file = '';
-            
+
             if ($sim_type == SIM_TYPE_JAVA) {
                 if (locale_is_default($locale)) {
                     $file = sim_get_root()."{$dirname}/{$flavorname}_all.jar";
@@ -777,7 +835,7 @@
             else if ($sim_type == SIM_TYPE_FLASH) {
                 $file = sim_get_root()."{$dirname}/{$flavorname}_{$locale}.jar";
             }
-            
+
             if (!file_exists($file)) {
                 return '';
             }
