@@ -108,7 +108,7 @@ public class FlashLauncher {
             displayString += "PhET Flash common strings : version ";
             displayString += versionMajor + "." + versionMinor + "." + versionDev + " (" + versionRevision + ")";
             displayString += "\n\n";
-            displayString += "This JAR file contains common strings used by all PhET flash simulations.\n" +
+            displayString += "This JAR file contains common strings used by all PhET Flash simulations.\n" +
                     "You can use this JAR file to translate common strings with Translation Utility.\n" +
                     "But testing those translations is not currently supported.";
             JOptionPane.showMessageDialog( null, displayString );
