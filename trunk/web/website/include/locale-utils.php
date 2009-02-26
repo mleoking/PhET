@@ -13,8 +13,11 @@
 
     // These defines should NOT be used outside this file.  Use the
     // DEFAULT_LOCALE below
-    define('DEFAULT_LOCALE_SHORT_FORM', 'en');
-    define('DEFAULT_LOCALE_LONG_FORM', 'en_US');
+    define('DEFAULT_LOCALE_LANGUAGE', 'en');
+    define('DEFAULT_LOCALE_COUNTRY', 'US');
+    define('DEFAULT_LOCALE_SHORT_FORM', DEFAULT_LOCALE_LANGUAGE);
+    define('DEFAULT_LOCALE_LONG_FORM', 
+           DEFAULT_LOCALE_LANGUAGE.'_'.DEFAULT_LOCALE_COUNTRY);
 
     // Shortcut everything will use.  Idea is that it is short
     // and understandable and may be "upgraded" to the long
@@ -46,23 +49,67 @@
     define('RE_COUNTRY', 3);
 
     /**
-     * Until everything supports the long for locale, remap the old combined
-     * language codes to the long form locale.  The old combined language
-     * code must still apper in the langages table.
+     * Returns a map from the combined "fake" language codes to the full locale.
+     *
+     * @return array Map from the combined "fake" language codes to the full locale.
+     */
+    function locale_get_combined_languge_code_map() {
+        return array('bp' => 'pt_BR', 'tc' => 'zh_TW');
+    }
+
+    /**
+     * Determine if the specified locale is a "fake" combined langugae code
+     *
+     * @return bool True it is a comibned language code, otherwise false
+     */
+    function locale_is_combined_language_code($locale) {
+        return array_key_exists($locale, locale_get_combined_languge_code_map());
+    }
+
+    /**
+     * Determine if the specified locale has a mapping to a "fake"
+     * combined langugae code
+     *
+     * @return bool True it has a mapping, otherwise false
+     */
+    function locale_has_combined_language_code_map($locale) {
+        return array_key_exists($locale,
+                                array_flip(locale_get_combined_languge_code_map()));
+    }
+
+    /**
+     * Remap the combined language codes to the long form locale.  The
+     * old combined language code must still apper in the langages
+     * table.
      *
      * Validity checking is NOT performed.
      *
-     * @param string $locale Old style language code, or short or long form locale
-     * @return string New long form locale if argument is old style combined langage code, or the locale that was passed
+     * @param string $language_code Langugage code, short or long form locale to romap
+     * @return string New long form locale if argument is old style combined langage code, or the original locale that was passed
      */
-    function locale_remap_combined_language_code($locale) {
-        // Slight hack:
-        // This function is used in the service of displaying stuff on the web page
-        // (as opposed to using it to find sim files).
-        // "Promote" the old combined language codes to a full long form locale
-        $fake_language_to_locale = array('bp' => 'pt_BR', 'tc' => 'zh_TW');
-        if (array_key_exists($locale, $fake_language_to_locale)) {
-            return $fake_language_to_locale[$locale];
+    function locale_combined_language_code_to_full_locale($language_code) {
+        $combined_language_code_map = locale_get_combined_languge_code_map();
+        if (array_key_exists($language_code, $combined_language_code_map)) {
+            return $combined_language_code_map[$language_code];
+        }
+        else {
+            return $language_code;
+        }
+    }
+
+    /**
+     * Remap the long form language code to a combined language code, if it exists.
+     *
+     * Validity checking is NOT performed.
+     *
+     * @param string $language_code Locale, short or long form
+     * @return string New combined language code if the mapping exists, or the original locale that was passed
+     */
+    function locale_full_locale_to_combined_language_code($locale) {
+        $full_locale_to_combined_language_map = 
+            array_flip(locale_get_combined_languge_code_map());
+        if (array_key_exists($locale, $full_locale_to_combined_language_map)) {
+            return $full_locale_to_combined_language_map[$locale];
         }
         else {
             return $locale;
@@ -343,8 +390,8 @@
      */
     function locale_language_sort_code_by_name($a, $b) {
         // This top part is temporary until there is support for long form locales everywhere
-        $a1 = locale_extract_language_code(locale_remap_combined_language_code($a));
-        $b1 = locale_extract_language_code(locale_remap_combined_language_code($b));
+        $a1 = locale_extract_language_code(locale_combined_language_code_to_full_locale($a));
+        $b1 = locale_extract_language_code(locale_combined_language_code_to_full_locale($b));
 
         return strcmp(locale_get_language_name($a1), locale_get_language_name($b1));
     }
@@ -361,9 +408,9 @@
      */
     function locale_country_sort_code_by_name($a, $b) {
         // This top part is temporary until there is support for long form locales everywhere
-        $a2 = locale_remap_combined_language_code($a);
+        $a2 = locale_combined_language_code_to_full_locale($a);
         if ($a != $a2) $a = locale_extract_country_code($a);
-        $b2 = locale_remap_combined_language_code($b);
+        $b2 = locale_combined_language_code_to_full_locale($b);
         if ($b != $b2) $a = locale_extract_country_code($a);
 
         return strcmp(locale_get_country_name($a), locale_get_country_name($b));
@@ -378,8 +425,8 @@
      * @exception PhetLocaleException if either of the codes are invalid
      */
     function locale_sort_code_by_name($a, $b) {
-        $a1 = locale_remap_combined_language_code($a);
-        $b1 = locale_remap_combined_language_code($b);
+        $a1 = locale_combined_language_code_to_full_locale($a);
+        $b1 = locale_combined_language_code_to_full_locale($b);
 
         // First do languages
         $lang_a = locale_extract_language_code($a1);
@@ -494,7 +541,7 @@
             return false;
         }
 
-        $locale = locale_remap_combined_language_code($locale);
+        $locale = locale_combined_language_code_to_full_locale($locale);
 
         $info = array();
 
