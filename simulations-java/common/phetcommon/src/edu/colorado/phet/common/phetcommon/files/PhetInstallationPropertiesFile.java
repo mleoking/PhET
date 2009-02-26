@@ -53,7 +53,7 @@ public class PhetInstallationPropertiesFile extends AbstractPropertiesFile {
      * @return
      */
     public int getInstallationTimestamp() {
-        return getPropertyInt( "install.date.epoch.second", -1 );
+        return getPropertyInt( "install.date.epoch.seconds", -1 );
     }
 
     /*
