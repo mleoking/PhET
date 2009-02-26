@@ -140,7 +140,8 @@ public class SwingUtils {
             Rectangle dialogBounds = new Rectangle( (int) ( parentBounds.getMinX() + parentBounds.getWidth() / 2 - dialog.getWidth() / 2 ),
                                                     (int) ( parentBounds.getMinY() + parentBounds.getHeight() / 2 - dialog.getHeight() / 2 ),
                                                     dialog.getWidth(), dialog.getHeight() );
-            dialog.setBounds( dialogBounds );
+            //dialog.setBounds( dialogBounds );
+            dialog.setLocation( dialogBounds.x, dialogBounds.y );
         }
     }
     
