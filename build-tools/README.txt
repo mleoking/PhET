@@ -10,6 +10,10 @@ svn.username
 svn.password
 browser
 
+signing-config.keystore
+signing-config.keystore-password
+signing-config.alias
+
 #Flash
 wine (boolean)
 flash
