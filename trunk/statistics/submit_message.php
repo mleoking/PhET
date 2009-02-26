@@ -133,7 +133,7 @@
 			return "NULL";
 		}
 		
-		if(ctype_digit($decoded)) {
+		if(ctype_digit($decoded) || $decoded + 7 != 7) {
 			// is a numeric string, this is OK
 			return $decoded;
 		} else {
