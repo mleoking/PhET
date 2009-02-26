@@ -19,14 +19,14 @@ import LadybugUtil._
 
 class BugNode(bug: Bug, transform: ModelViewTransform2D,bufferedImage:BufferedImage) extends PNode {
   val pimage = new PImage(BufferedImageUtils.multiScale(bufferedImage, LadybugDefaults.LADYBUG_SCALE))
-  val boundsPPath=new PhetPPath(new BasicStroke(0.1f),Color.blue)
+//  val boundsPPath=new PhetPPath(new BasicStroke(0.1f),Color.blue)
 
 
   bug.addListener(updateBug)
   updateBug()
 
   addChild(pimage)
-  addChild(boundsPPath)
+//  addChild(boundsPPath)
 
   transform.addTransformListener(new TransformListener() {
     def transformChanged(mvt: ModelViewTransform2D) = {
@@ -50,7 +50,7 @@ class BugNode(bug: Bug, transform: ModelViewTransform2D,bufferedImage:BufferedIm
       pimage.getFullBounds.getCenter2D.getX - (viewPosition.x - dx.x / 2),
       pimage.getFullBounds.getCenter2D.getY - (viewPosition.y - dx.y / 2))
 
-    boundsPPath.setPathTo(transform.getAffineTransform.createTransformedShape(bug.getBounds))
+//    boundsPPath.setPathTo(transform.getAffineTransform.createTransformedShape(bug.getBounds))
   }
 
 }

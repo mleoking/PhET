@@ -1,3 +1,5 @@
+> Removed bounding box from graphics
+
 # 1.20.35 (28935) Feb 22, 2009
 > Fixed: when you drive the bug with the remote using velocity or acceleration, the bug does not face the direction of velocity (always faces the same direction)
 > Fixed: Rewind button should be disabled when the timeline knob is at t=0
