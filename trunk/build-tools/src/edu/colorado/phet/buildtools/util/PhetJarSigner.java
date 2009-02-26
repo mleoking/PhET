@@ -16,166 +16,157 @@ import java.util.Properties;
  * @author John Blanco
  */
 public class PhetJarSigner {
-	
-    public static final String KEYSTORE_PROPERTY_NAME = "signing-config.keystore";
-    public static final String KEYSTORE_PASSWORD_PROPERTY_NAME = "signing-config.keystore-password";
-    public static final String CERTIFICATE_ALIAS_PROPERTY_NAME = "signing-config.alias";
 
-	String pathToJarSigner;
-	Properties signingConfigProperties;
-	private File signingConfigFile;
+    // these keys must be in a properties file
+    public static final String KEY_JARSIGNER_PATH = "jarsigner.path";
+    public static final String KEY_KEYSTORE = "jarsigner.keystore";
+    public static final String KEY_PASSWORD = "jarsigner.password";
+    public static final String KEY_ALIAS = "jarsigner.alias";
 
-	/**
-	 * Constructor
-	 * 
-	 * @param pathToJarsigner
-	 * @param pathToConfigFile
-	 */
-	public PhetJarSigner( String pathToJarsigner, String pathToConfigFile ) {
-		this.pathToJarSigner = pathToJarsigner;
-		signingConfigFile = new File( pathToConfigFile );
-	}
+    private final File configFile;
 
-	/**
-	 * Sign the specified jar file.
-	 * 
-	 * @param pathToJarFile - Full path to the jar file to be signed.
-	 * @return true if successful, false if problems are encountered.
-	 */
-	public boolean signJar( String pathToJarFile ){
+    /**
+     * Constructor
+     * 
+     * @param configPath
+     */
+    public PhetJarSigner( String configPath ) {
+        configFile = new File( configPath );
+    }
 
-		// Verify that the specified properties file exists and can be loaded.
+    /**
+     * Sign the specified jar file.
+     * 
+     * @param jarPath - Full path to the jar file to be signed.
+     * @return true if successful, false if problems are encountered.
+     */
+    public boolean signJar( String jarPath ) {
+
+        // Make sure that the specified JAR file can be located.
+        File jarFile = new File( jarPath );
+        if ( !jarFile.exists() ) {
+            System.err.println( "Error: jar does not exist: " + jarFile.getAbsolutePath() );
+            return false;
+        }
         
-		Properties signingConfigProperties = new Properties();
-        if ( signingConfigFile.exists() ) {
+        // Verify that the specified properties file exists and can be loaded.
+        Properties jarsignerProperties = new Properties();
+        if ( configFile.exists() ) {
             try {
-            	signingConfigProperties.load( new FileInputStream( signingConfigFile ) );
+                jarsignerProperties.load( new FileInputStream( configFile ) );
             }
-            catch( IOException e ) {
-            	System.err.println("Error: Unable to load signing configuration file, aborting.");
+            catch ( IOException e ) {
+                System.err.println( "Error: Unable to load signing configuration file." );
                 e.printStackTrace();
                 return false;
             }
         }
-        else{
-        	System.err.println("Error: Signing config file does not exist: " + signingConfigFile.getName());
+        else {
+            System.err.println( "Error: Signing config file does not exist: " + configFile.getAbsolutePath() );
+            return false;
         }
-        
+
         // Make sure the needed properties are present.
-        String keystoreFileName = signingConfigProperties.getProperty( KEYSTORE_PROPERTY_NAME );
-        String keystorePassword = signingConfigProperties.getProperty( KEYSTORE_PASSWORD_PROPERTY_NAME );
-        String alias = signingConfigProperties.getProperty( CERTIFICATE_ALIAS_PROPERTY_NAME );
-        
-        if ((keystoreFileName == null) ||
-        	(keystorePassword == null) ||
-        	(alias == null)){
-        	
-        	System.err.println("Error: Missing one or more properties needed for signing, aborting.");
-        	return false;
-        }
-        
-        // Make sure that the specified JAR file can be located.
-		File jarFile = new File( pathToJarFile );
-		if ( !jarFile.exists() ){
-			System.err.println("Error: Could not locate specified JAR file, aborting.");
-			return false;
-		}
-        
-        // Create and execute the signing command.
-
-        String signingCommand = pathToJarSigner + " -keystore " + keystoreFileName + " -storetype pkcs12 " +
- 	    	" -storepass " + keystorePassword + ' ' + pathToJarFile + ' ' + alias;
-        
-        System.out.println("About to execute signing command:");
-        System.out.println(signingCommand);
-        
-        try {
-        	// Execute the signing command.
-            Process p = Runtime.getRuntime().exec( signingCommand );
-            
-            // Obtain the standard and error output.
-            BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-
-            // Output the results echoed by the execution of the command.
-            String s = null;
-            System.out.println("Standard output from signing (if any):\n");
-            while ((s = stdInput.readLine()) != null) {
-                System.out.println(s);
-            }
-
-            System.out.println("Standard error from signing (if any):\n");
-            while ((s = stdError.readLine()) != null) {
-                System.out.println(s);
-            }
-        }
-        catch (IOException e) {
-            System.out.println("Exception while attempting to sign JAR:");
-            e.printStackTrace();
+        String jarsignerPath = jarsignerProperties.getProperty( KEY_JARSIGNER_PATH );
+        String keystoreFileName = jarsignerProperties.getProperty( KEY_KEYSTORE );
+        String password = jarsignerProperties.getProperty( KEY_PASSWORD );
+        String alias = jarsignerProperties.getProperty( KEY_ALIAS );
+        if ( ( jarsignerPath == null ) || ( keystoreFileName == null ) || ( password == null ) || ( alias == null ) ) {
+            System.err.println( "Error: Missing one or more properties needed for signing, aborting." );
             return false;
         }
         
-        // Create and execute the verification command.
-        
-        String verifyCommand = pathToJarSigner + " -verify " + " -certs " + pathToJarFile;
-    
-        System.out.println("About to execute the verification command:");
-        System.out.println(verifyCommand);
-    
-	    try {
-	    	// Execute the signing command.
-	        Process p = Runtime.getRuntime().exec( verifyCommand );
-	        
-	        // Obtain the standard and error output.
-	        BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
-	        BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-	
-	        // Output the results echoed by the execution of the command.
-	        String s = null;
-	        System.out.println("Standard output from verify:");
-	        while ((s = stdInput.readLine()) != null) {
-	            System.out.println(s);
-	        }
-	        System.out.print("\n");
-	
-	        System.out.println("Standard error from verify (if any):");
-	        while ((s = stdError.readLine()) != null) {
-	            System.out.println(s);
-	        }
-	        System.out.print("\n");
-	    }
-	    catch (IOException e) {
-	        System.out.println("Exception while attempting to sign JAR:");
-	        e.printStackTrace();
-	        return false;
-	    }
-        
-        return true;
-	}
+        // sign and verify the jar
+        boolean success = signJar( jarsignerPath, keystoreFileName, password, alias, jarPath );
+        if ( success ) {
+            success = verifyJar( jarsignerPath, jarPath );
+        }
+        return success;
+    }
 
-	/**
-	 * Main routine, which is used for testing and also for signing JAR files
-	 * from the command line.
-	 * 
-	 * @param args <path-to-signing-utility> <path-to-signing-config-file> <jar-to-be-signed>
-	 */
-	public static void main(String[] args) {
-		
-		if (args.length != 3){
-			System.err.println("usage: phetjarsigner <path-to-signing-utility> <path-to-signing-config-file> <jar-to-be-signed>");
-			System.exit( -1 );
-		}
-		
-		System.out.print("Executing Jar Signer Test, args = ");
-		for ( int i = 0; i < 3; i++ ){
-			System.out.print(args[i] + " ");
-		}
-		System.out.println();
-		
-		PhetJarSigner signer = new PhetJarSigner( args[0], args[1] );
-		
-		boolean result = signer.signJar( args[2] );
-		
-		System.out.println("Done, result = " + result + ".");
-	}
+    /*
+     * Signs a jar file.
+     */
+    private boolean signJar( String jarsignerPath, String keystoreFileName, String password, String alias, String jarPath ) {
+
+        boolean success = false;
+        
+        // sign the jar
+        String signingCommand = jarsignerPath + " -keystore " + keystoreFileName + " -storetype pkcs12 " + " -storepass " + password + ' ' + jarPath + ' ' + alias;
+        System.out.println( "Signing jar:" + signingCommand );
+        try {
+            // Execute the signing command.
+            Process p = Runtime.getRuntime().exec( signingCommand );
+            echoProcessOutput( p, "signing" );
+            success = true;
+        }
+        catch ( IOException e ) {
+            System.out.println( "Exception while attempting to sign JAR:" );
+            e.printStackTrace();
+        }
+        
+        return success;
+    }
+    
+    /*
+     * Verifies a signed jar file.
+     */
+    private boolean verifyJar( String jarsignerPath, String jarPath ) {
+        
+        boolean success = false;
+
+        // verify the signed jar
+        String verifyCommand = jarsignerPath + " -verify " + " -certs " + jarPath;
+        System.out.println( "Verifying signed jar:" + verifyCommand );
+        try {
+            Process p = Runtime.getRuntime().exec( verifyCommand );
+            echoProcessOutput( p, "verifying" );
+            success = true;
+        }
+        catch ( IOException e ) {
+            System.out.println( "Exception while attempting to verify signed JAR:" );
+            e.printStackTrace();
+        }
+
+        return success;
+    }
+    
+    private void echoProcessOutput( Process p, String name ) throws IOException {
+        
+        BufferedReader stdInput = new BufferedReader( new InputStreamReader( p.getInputStream() ) );
+        BufferedReader stdError = new BufferedReader( new InputStreamReader( p.getErrorStream() ) );
+
+        // Output the results echoed by the execution of the command.
+        String s = null;
+        System.out.println( "Standard output from " + name + ":" );
+        while ( ( s = stdInput.readLine() ) != null ) {
+            System.out.println( s );
+        }
+        System.out.print( "\n" );
+
+        System.out.println( "Standard error from " + name + ":" );
+        while ( ( s = stdError.readLine() ) != null ) {
+            System.out.println( s );
+        }
+        System.out.print( "\n" );
+    }
+
+    /**
+     * Main routine, which is used for testing and also for signing JAR files
+     * from the command line.
+     * 
+     * @param args config-file jar-to-be-signed
+     */
+    public static void main( String[] args ) {
+
+        if ( args.length != 2 ) {
+            System.err.println( "usage: PhetJarSigner config-file jar-to-be-signed" );
+            System.exit( -1 );
+        }
+
+        PhetJarSigner signer = new PhetJarSigner( args[0] );
+        boolean result = signer.signJar( args[1] );
+
+        System.out.println( "Done, result = " + result + "." );
+    }
 }

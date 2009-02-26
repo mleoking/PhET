@@ -80,7 +80,7 @@ public class JavaBuildCommand {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        PhetJarSigner signer = new PhetJarSigner( properties.getProperty( "signing-config.jarsigner" ), configProperties.getAbsolutePath() );
+        PhetJarSigner signer = new PhetJarSigner( configProperties.getAbsolutePath() );
         boolean result = signer.signJar( outputJar.getAbsolutePath() );
 
         System.out.println( "Done, signing result = " + result + "." );
