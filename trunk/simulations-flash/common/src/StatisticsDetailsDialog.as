@@ -36,6 +36,8 @@ class StatisticsDetailsDialog {
 		// set the background color to default
 		window.setBackground(common.backgroundColor);
 		
+		window.setResizable(false);
+		
 		// layout the window vertically
 		window.getContentPane().setLayout(new SoftBoxLayout(SoftBoxLayout.Y_AXIS));
 		
