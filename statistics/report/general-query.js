@@ -210,6 +210,18 @@ function setupUsers() {
 	fid("query_options").innerHTML = str;
 }
 
+function setupRawTable() {
+	var str = "";
+	
+	str += "<div class='constraint'>";
+	str += "Table: <select name='table' id='table'>";
+	str += "<option value='user'>user (user data)</option>";
+	str += "</select>";
+	str += "</div>";
+	
+	fid("query_options").innerHTML = str;
+}
+
 function build_order() {
 	var str = "";
 	str += "<span class='field'>Order by: </span><select name='ordercolumn' id='ordercolumn'>";
@@ -256,6 +268,8 @@ function query_change() {
 			setupRecentMessages(); break;
 		case "errors":
 			setupErrors(); break;
+		case "full_table":
+			setupRawTable(); break;
 	}
 }
 
@@ -293,6 +307,8 @@ function query_string() {
 		str += "&count=" + getValue('count');
 	} else if(getValue("query") == "users") {
 		str += "&query_type=" + getValue("query_type");
+	} else if(getValue("query") == "full_table") {
+		str += "&table=" + getValue("table");
 	}
 	
 	return str;
