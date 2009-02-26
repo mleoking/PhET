@@ -431,6 +431,9 @@
 					array_push($query, "SELECT DISTINCT IF(sim_type = 0, 'java', 'flash') AS sim_type FROM session WHERE sim_name = @sid; ");
 				} else { die("cannot have sim_type query without sim_name"); }
 				break;
+			case "full_table":
+				array_push($query, "SELECT * FROM ${arr['table']}");
+				break;
 			case "recent_messages":
 				$count = ( $arr['count'] ? $arr['count'] : '10' );
 				if($arr['recent_sim_type'] == 'all') {
