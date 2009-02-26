@@ -61,25 +61,93 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
 
     /**
      *
-     * Testing locale_remap_combined_language_code()
+     * Testing locale_is_combined_language_code()
      *
      */
 
-    public function testLocaleRemapCombinedLangageCode_returnsExpetedRemappedCodes() {
+    public function testLocaleIsCombinedLanguageCode_returnsExpeted() {
         // combined_code => expected_remap
         $combined_codes = array('bp' => 'pt_BR', 'tc' => 'zh_TW');
-        foreach ($combined_codes as $old => $new) {
-            $result = locale_remap_combined_language_code($old);
-            $this->assertEquals($new, $result);
+        foreach ($combined_codes as $combined => $full) {
+            $result = locale_is_combined_language_code($combined);
+            $this->assertTrue($result);
         }
     }
 
-    public function testLocaleRemapCombinedLangageCode_nonRemappedCodeRetursUnchanged() {
+    public function testLocaleIsCombinedLanguageCode_nonRemappedCodeReturnsFalse() {
         $language_code = $this->getValidLanguageCode();
         $country_code = $this->getValidCountryCode();
         $locale = $language_code.'_'.$country_code;
 
-        $result = locale_remap_combined_language_code($locale);
+        $result =  locale_is_combined_language_code($locale);
+        
+        $this->assertFalse($result);
+    }
+
+    public function testLocaleHasCombinedLanguageCodeMap_returnsExpeted() {
+        // combined_code => expected_remap
+        $full_locales = array('pt_BR' => 'bp', 'zh_TW' => 'tc');
+        foreach ($full_locales as $full => $combined) {
+            $result = locale_has_combined_language_code_map($full);
+            $this->assertTrue($result);
+        }
+    }
+
+    public function testLocaleHasCombinedLanguageCodeMap_nonRemappedCodeReturnsFalse() {
+        $language_code = $this->getValidLanguageCode();
+        $country_code = $this->getValidCountryCode();
+        $locale = $language_code.'_'.$country_code;
+
+        $result =  locale_has_combined_language_code_map($locale);
+        
+        $this->assertFalse($result);
+    }
+
+    /**
+     *
+     * Testing locale_combined_language_code_to_full_locale()
+     *
+     */
+
+    public function testLocaleCombinedLanguageCodeToFullLocale_returnsExpetedRemappedCodes() {
+        // combined_code => expected_remap
+        $combined_codes = array('bp' => 'pt_BR', 'tc' => 'zh_TW');
+        foreach ($combined_codes as $combined => $full) {
+            $result =  locale_combined_language_code_to_full_locale($combined);
+            $this->assertEquals($full, $result);
+        }
+    }
+
+    public function testLocaleCombinedLanguageCodeToFullLocale_nonRemappedCodeRetursUnchanged() {
+        $language_code = $this->getValidLanguageCode();
+        $country_code = $this->getValidCountryCode();
+        $locale = $language_code.'_'.$country_code;
+
+        $result =  locale_combined_language_code_to_full_locale($locale);
+        $this->assertEquals($locale, $result);
+    }
+
+    /**
+     *
+     * Testing locale_full_locale_to_combined_language_code()
+     *
+     */
+
+    public function testLocaleFullLocaleToCombinedLanguageCode_returnsExpetedRemappedCodes() {
+        // combined_code => expected_remap
+        $full_locales = array('pt_BR' => 'bp', 'zh_TW' => 'tc');
+        foreach ($full_locales as $full => $combined) {
+            $result =  locale_full_locale_to_combined_language_code($full);
+            $this->assertEquals($combined, $result);
+        }
+    }
+
+    public function testLocaleFullLocaleToCombinedLanguageCode_nonRemappedCodeRetursUnchanged() {
+        $language_code = $this->getValidLanguageCode();
+        $country_code = $this->getValidCountryCode();
+        $locale = $language_code.'_'.$country_code;
+
+        $result =  locale_full_locale_to_combined_language_code($locale);
         $this->assertEquals($locale, $result);
     }
 
