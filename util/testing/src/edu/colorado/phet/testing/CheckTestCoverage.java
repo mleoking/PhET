@@ -15,8 +15,9 @@ public class CheckTestCoverage {
         //for now, just download manually
 
         Spreadsheet spreadsheet = Spreadsheet.load( new File( "C:\\Users\\Owner\\Desktop\\iom.csv" ) );
-        String[] keys = spreadsheet.listValues( "Test ID" );
-        System.out.println( "Declared Tests = " + Arrays.asList( keys ) );
+        System.out.println( "Test IDs = " + Arrays.asList( spreadsheet.listValues( "Test ID" ) ) );
+        System.out.println( "Tester = " + spreadsheet.getUniqueValues( "Tester" ) );
+        System.out.println( "Scenario = " + spreadsheet.getUniqueValues( "Scenario" ) );
 
         showData( "Test Results", "PASSED", spreadsheet );
         showData( "Test Results", "FAILED", spreadsheet );
