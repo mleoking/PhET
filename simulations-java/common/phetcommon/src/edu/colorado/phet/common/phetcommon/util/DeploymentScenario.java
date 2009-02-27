@@ -2,12 +2,13 @@
 
 package edu.colorado.phet.common.phetcommon.util;
 
-import java.io.File;
 import java.net.URL;
 
 import javax.jnlp.UnavailableServiceException;
 
+import edu.colorado.phet.common.phetcommon.files.PhetInstallation;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
+import edu.colorado.phet.common.phetcommon.util.logging.USLogger;
 
 /**
  * PhET simulations can be deployed in several different ways.
@@ -24,10 +25,7 @@ public class DeploymentScenario {
     public static final DeploymentScenario PHET_DEVELOPMENT_WEBSITE = new DeploymentScenario( "phet-development-website", true );
     public static final DeploymentScenario OTHER_WEBSITE = new DeploymentScenario( "other-website", true );
     public static final DeploymentScenario DEVELOPER_IDE = new DeploymentScenario( "developer-ide", false );
-    
-    private static final DeploymentScenario[] ALL_SCENARIOS = {
-        PHET_INSTALLATION, STANDALONE_JAR, PHET_PRODUCTION_WEBSITE, PHET_DEVELOPMENT_WEBSITE, OTHER_WEBSITE, DEVELOPER_IDE
-    };
+    public static final DeploymentScenario UNKNOWN = new DeploymentScenario( "unknown", false );
     
     /*
      * There are fragments of the codebase attribute in JNLP files.
@@ -96,40 +94,21 @@ public class DeploymentScenario {
      */
     private static DeploymentScenario determineScenario() {
 
-        DeploymentScenario scenario = null;
+        DeploymentScenario scenario = UNKNOWN;
 
-        String name;
-        
-        // specify scenario via system property, for development only
-        name = System.getProperty( "javaws.deployment.scenario" );
-        if ( name != null ) {
-            scenario = getByName( name );
-            if ( scenario == null ) {
-                System.err.println( "DeploymentScenario: ignoring bad value: " + name );
+        if ( PhetServiceManager.isJavaWebStart() ) {
+
+            if ( PhetInstallation.exists() ) {
+                scenario = DeploymentScenario.PHET_INSTALLATION;
             }
-        }
+            else {
+                URL codeBase = PhetServiceManager.getCodeBase();
+                if ( codeBase != null ) {
 
-        if ( scenario == null ) {
-            if ( PhetServiceManager.isJavaWebStart() ) {
-
-                if ( isPhetInstallation() ) {
-                    scenario = DeploymentScenario.PHET_INSTALLATION;
-                }
-                else {
                     // web-started sims are differentiated base on the codebase attribute specified in the JNLP file
-                    String codebaseFragment = null;
-                    try {
-                        URL codebase = PhetServiceManager.getBasicService().getCodeBase();
-                        codebaseFragment = codebase.getAuthority() + codebase.getPath();
-                    }
-                    catch ( UnavailableServiceException e ) {
-                        e.printStackTrace();
-                    }
 
-                    // in case we still have null for any reason
-                    if ( codebaseFragment == null ) {
-                        codebaseFragment = "?";
-                    }
+                    USLogger.log( "DeploymentScenario codeBase=" + codeBase.toString() );
+                    String codebaseFragment = codeBase.getAuthority() + codeBase.getPath();
 
                     if ( codebaseFragment.startsWith( PHET_PRODUCTION_CODEBASE_PREFIX ) ) {
                         scenario = DeploymentScenario.PHET_PRODUCTION_WEBSITE;
@@ -146,48 +125,16 @@ public class DeploymentScenario {
                     }
                 }
             }
-            else if ( FileUtils.isJarCodeSource() ) {
-                scenario = DeploymentScenario.STANDALONE_JAR;
-            }
-            else {
-                scenario = DeploymentScenario.DEVELOPER_IDE;
-            }
+        }
+        else if ( FileUtils.isJarCodeSource() ) {
+            scenario = DeploymentScenario.STANDALONE_JAR;
+        }
+        else {
+            scenario = DeploymentScenario.DEVELOPER_IDE;
         }
 
+        USLogger.log( "DeploymentScenario.determineScenario " + scenario.getName() );
         return scenario;
-    }
-    
-    /*
-     * Detect a PhET installation by looking for the phet-installation.properties file.
-     */
-    private static boolean isPhetInstallation( ) {
-        boolean exists = false;
-        if ( FileUtils.isJarCodeSource() ) {
-            File codeSource = FileUtils.getCodeSource();
-            File parent = codeSource.getParentFile();
-            if ( parent != null ) {
-                File grandparent = parent.getParentFile();
-                if ( grandparent != null ) {
-                    File specialFile = new File( grandparent.getAbsolutePath() + System.getProperty( "file.separator" ) + "phet-installation.properties" );
-                    exists = specialFile.exists();
-                }
-            }
-        }
-        return exists;
-    }
-    
-    /*
-     * Gets a scenario by name.
-     */
-    private static DeploymentScenario getByName( String name ) {
-        DeploymentScenario d = null;
-        for ( int i = 0; i < ALL_SCENARIOS.length; i++ ) {
-            if ( ALL_SCENARIOS[i].getName().equals( name ) ) {
-                d = ALL_SCENARIOS[i];
-                break;
-            }
-        }
-        return d;
     }
     
     public static void main( String[] args ) {

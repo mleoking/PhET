@@ -36,6 +36,24 @@ public class PhetServiceManager {
     public static boolean isJavaWebStart() {
         return System.getProperty( "javawebstart.version" ) != null;
     }
+    
+    /**
+     * Gets the JNLP code base. 
+     * Returns null if we don't have a JNLP code base.
+     */
+    public static URL getCodeBase() {
+        URL codeBase = null;
+        if ( isJavaWebStart() ) {
+            try {
+                codeBase = getBasicService().getCodeBase();
+            }
+            catch ( UnavailableServiceException e ) {
+                // this shouldn't happen. if we're running from JWS, we must have a codebase.
+                e.printStackTrace();
+            }
+        }
+        return codeBase;
+    }
 
     public static BasicService getBasicService() throws UnavailableServiceException {
         if ( isJavaWebStart() ) {

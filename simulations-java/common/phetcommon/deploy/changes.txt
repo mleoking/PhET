@@ -1,3 +1,4 @@
+2-26-09: #1320, fix how phet installation is detected and properties accessed
 2-26-09: #1274, revise logging 
 2-25-09 #1331, fix user_installation_timestamp in session message
 2-23-09 #1237, brute-force parsing of results returned by phet-info.php
