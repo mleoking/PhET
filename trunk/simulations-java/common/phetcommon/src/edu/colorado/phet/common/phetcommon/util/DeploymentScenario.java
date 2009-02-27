@@ -4,8 +4,6 @@ package edu.colorado.phet.common.phetcommon.util;
 
 import java.net.URL;
 
-import javax.jnlp.UnavailableServiceException;
-
 import edu.colorado.phet.common.phetcommon.files.PhetInstallation;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.util.logging.USLogger;
