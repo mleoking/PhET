@@ -37,7 +37,7 @@ public class SimUpdater {
     private static final String UPDATER_JAR = UPDATER_BASENAME + ".jar";
     
     // where the updater lives on the PhET site
-    private static final String UPDATER_ADDRESS = "http://phet.colorado.edu/phet-dist/updater/" + UPDATER_JAR;
+    private static final String UPDATER_ADDRESS = "http://phet.colorado.edu/phet-dist/phet-updater/" + UPDATER_JAR;
     
     private final File tmpDir;
     

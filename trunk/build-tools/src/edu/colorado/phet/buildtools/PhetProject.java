@@ -820,7 +820,7 @@ public abstract class PhetProject {
 
     /**
      * returns main class to use other than JARLauncher
-     * primarily for use in non-simulation projects such as util/updater
+     * primarily for use in non-simulation projects such as util/phet-updater
      * Should return null if JARLauncher should be used
      *
      * @return
