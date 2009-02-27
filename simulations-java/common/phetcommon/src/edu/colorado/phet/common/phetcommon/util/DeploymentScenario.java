@@ -28,7 +28,7 @@ public class DeploymentScenario {
     /*
      * There are fragments of the codebase attribute in JNLP files.
      * Codebase is a URL, whose syntax is:
-     * <scheme>://<authority><path>?<query>#<fragment>
+     * <protocol>://<authority><path>?<query>#<fragment>
      * 
      * Example: 
      * http://www.colorado.edu/physics/phet/dev/balloons/1.07.05
