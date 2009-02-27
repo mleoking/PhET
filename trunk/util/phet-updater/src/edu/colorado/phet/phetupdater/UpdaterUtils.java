@@ -2,6 +2,8 @@ package edu.colorado.phet.phetupdater;
 
 import java.io.*;
 import java.net.URL;
+import java.net.URISyntaxException;
+import java.net.URLDecoder;
 
 /**
  * A collection of utility methods.  
@@ -46,12 +48,25 @@ public class UpdaterUtils {
         return file.getName().toLowerCase().endsWith( suffix );
     }
 
+    // copied from phetcommon FileUtils
     /**
      * Gets the JAR file that this class was launched from.
      */
     public static File getCodeSource() {
         URL url = UpdaterUtils.class.getProtectionDomain().getCodeSource().getLocation();
-        return new File( url.getFile() );
+        try {
+            return new File( url.toURI() );
+        }
+        catch( URISyntaxException e ) {
+            e.printStackTrace();
+            try {
+               return new File( URLDecoder.decode( url.getFile(), "UTF-8" ) );//whitespace are %20 if you don't decode with utf-8, and file ops will fail.  See #1308
+            }
+            catch( UnsupportedEncodingException ex ) {
+                ex.printStackTrace();
+            }
+            throw new RuntimeException( "No code source found for URL: "+url);
+        }
     }
     
     // copied from phetcommon StringUtil

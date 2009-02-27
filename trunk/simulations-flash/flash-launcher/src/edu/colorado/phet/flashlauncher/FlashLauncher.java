@@ -5,6 +5,7 @@ package edu.colorado.phet.flashlauncher;
 import java.io.*;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.net.URISyntaxException;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
@@ -196,18 +197,25 @@ public class FlashLauncher {
         return bgcolor;
     }
 
+
     /*
-     * Gets the JAR file that this class was launched from.
+     * Gets the JAR file that this class was launched from, copied from FileUtils in phetcommon.
      */
     private File getJARFile() {
-        URL url = FlashLauncher.class.getProtectionDomain().getCodeSource().getLocation();
-        File f = null;
+        URL url = FileUtils.class.getProtectionDomain().getCodeSource().getLocation();
         try {
-            f = new File( URLDecoder.decode( url.getFile(), "UTF-8" ) );
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            return new File( url.toURI() );
         }
-        return f;
+        catch( URISyntaxException e ) {
+            e.printStackTrace();
+            try {
+               return new File( URLDecoder.decode( url.getFile(), "UTF-8" ) );//whitespace are %20 if you don't decode with utf-8, and file ops will fail.  See #1308
+            }
+            catch( UnsupportedEncodingException ex ) {
+                ex.printStackTrace();
+            }
+            throw new RuntimeException( "No code source found for URL: "+url);
+        }
     }
 
     public static void main( String[] args ) throws IOException {
