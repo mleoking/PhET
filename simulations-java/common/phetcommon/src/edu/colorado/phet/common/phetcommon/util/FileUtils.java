@@ -2,7 +2,10 @@ package edu.colorado.phet.common.phetcommon.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URISyntaxException;
+import java.net.URLDecoder;
 import java.security.AccessControlException;
 import java.util.jar.JarFile;
 
@@ -49,12 +52,25 @@ public class FileUtils {
         return file.getName().toLowerCase().endsWith( suffix );
     }
     
+    //See also copies in updater and flash-launcher; deep copies since those subprojects cannot take in all of phetcommon.
     /**
      * Gets the JAR file that this class was launched from.
      */
     public static File getCodeSource() {
         URL url = FileUtils.class.getProtectionDomain().getCodeSource().getLocation();
-        return new File( url.getFile() );
+        try {
+            return new File( url.toURI() );
+        }
+        catch( URISyntaxException e ) {
+            e.printStackTrace();
+            try {
+               return new File( URLDecoder.decode( url.getFile(), "UTF-8" ) );//whitespace are %20 if you don't decode with utf-8, and file ops will fail.  See #1308
+            }
+            catch( UnsupportedEncodingException ex ) {
+                ex.printStackTrace();
+            }
+            throw new RuntimeException( "No code source found for URL: "+url);
+        }
     }
     
     /**
