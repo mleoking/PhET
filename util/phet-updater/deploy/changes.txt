@@ -1,3 +1,4 @@
+2-26-09: #1331, fix phet-updater flavor name, fix prod deploy location
 # 00.01.02 (29095) Feb 27, 2009
 testing deploy to dev again
 # 00.01.01 (29093) Feb 27, 2009
