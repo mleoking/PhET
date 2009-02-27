@@ -46,10 +46,11 @@ EOT;
 EOT;
         
         $sim_translations = sim_get_all_sim_translations();
+        $localeUtils = Locale::inst();
 
         print "<table>\n";
         foreach ($sim_translations as $locale => $sim_list) {
-            $locale_info = locale_get_full_info($locale);
+            $locale_info = $localeUtils->getFullInfo($locale);
             if ($locale_info === false) {
                 // TODO: log error
                 continue;
@@ -75,7 +76,7 @@ EOT;
         // Translations content, sections that contain the localizd sims
         /*************************************************************/
         foreach ($sim_translations as $locale => $sim_list) {
-            $locale_info = locale_get_full_info($locale);
+            $locale_info = $localeUtils->getFullInfo($locale);
             if ($locale_info === false) {
                 // TODO: log error
                 continue;

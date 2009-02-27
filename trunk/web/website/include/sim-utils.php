@@ -12,7 +12,6 @@
     require_once("include/web-utils.php");
     require_once("include/db-utils.php");
     require_once("include/cache-utils.php");
-    require_once("include/locale-utils.php");
     require_once("include/installer-utils.php");
 
     // Do not access this variable directly
@@ -122,7 +121,7 @@
 
         // Sort the codes so that the English locale names will come out
         // in the right order
-        uksort($translations, 'locale_sort_code_by_name');
+        uksort($translations, array(Locale::inst(), 'sortCodeByNameCmp'));
 
         return $translations;
     }
@@ -153,7 +152,6 @@
 
         $files = glob($base_glob);
         foreach ($files as $file) {
-            // print "file: {$file}\n";
             $regs = array();
             $result = ereg($base_regex, $file, $regs);
             if ($result !== false) {
@@ -164,12 +162,13 @@
                 continue;
             }
 
-            if (!locale_valid($locale)) {
+            $localeUtils = Locale::inst();
+            if (!$localeUtils->isValid($locale)) {
                 // Locale is not in the table, log error and skip
                 // TODO: log an error
                 continue;
             }
-            else if (locale_is_default($locale)) {
+            else if ($localeUtils->isDefault($locale)) {
                 // Skip the default locale, it is not a translation
                 continue;
             }
@@ -185,19 +184,15 @@
         $end = array();
         foreach ($translations as $key => $value) {
             if ($sim['sim_type'] == SIM_TYPE_JAVA) {
-                if ($value > 0) {
-                    $end[] = $key;
-                }
+                $end[] = $key;
             }
             else if ($sim['sim_type'] == SIM_TYPE_FLASH) {
-                if ($value > 1) {
-                    $end[] = $key;
-                }
+                $end[] = $key;
             }
         }
 
         $translations = $end;
-        usort($translations, 'locale_sort_code_by_name');
+        usort($translations, array(Locale::inst(), 'sortCodeByNameCmp'));
         return $translations;
     }
 
@@ -654,19 +649,20 @@
     // TODO: do this with JNLP files too
     function sim_get_locale_jar_filename($simulation, $locale) {
         $locales = array();
-        if (locale_is_default($locale)) {
-            $locales[] = DEFAULT_LOCALE_LONG_FORM;
-            $locales[] = DEFAULT_LOCALE_SHORT_FORM;
+        $localeUtils = Locale::inst();
+        if ($localeUtils->isDefault($locale)) {
+            $locales[] = Locale::DEFAULT_LOCALE_LONG_FORM;
+            $locales[] = Locale::DEFAULT_LOCALE_SHORT_FORM;
             $locales[] = '';
         }
-        else if (locale_is_combined_language_code($locale)) {
-            $full_locale = locale_combined_language_code_to_full_locale($locale);
+        else if ($localeUtils->isCombinedLanguageCode($locale)) {
+            $full_locale = $localeUtils->combinedLanguageCodeToFullLocale($locale);
             $combined_locale = $locale;
             $locales[] = $full_locale;
             $locales[] = $combined_locale;
         }
-        else if (locale_has_combined_language_code_map($locale)) {
-            $combined_locale = locale_full_locale_to_combined_language_code($locale);
+        else if ($localeUtils->hasCombinedLanguageCodeMap($locale)) {
+            $combined_locale = $localeUtils->fullLocaleToCombinedLanguageCode($locale);
             $full_locale = $locale;
             $locales[] = $full_locale;
             $locales[] = $combined_locale;
@@ -709,7 +705,7 @@
      * @param bool $strict True if the file
      * @return arary(filename, conent), or false if not successful
      **/
-    function sim_get_download($simulation, $locale = DEFAULT_LOCALE, $strict = true) {
+    function sim_get_download($simulation, $locale = Locale::DEFAULT_LOCALE, $strict = true) {
 
         $verbose = debug_is_on();
 
@@ -727,7 +723,7 @@
                     return false;
                 }
 
-                $locale_file = sim_get_locale_jar_filename($simulation, DEFAULT_LOCALE);
+                $locale_file = sim_get_locale_jar_filename($simulation, Locale::DEFAULT_LOCALE);
                 if (!$locale_file) {
                     return false;
                 }
@@ -737,7 +733,7 @@
             return array($locale_file, file_get_contents($locale_file));
         }
         else if ($simulation['sim_type'] == SIM_TYPE_FLASH) {
-            $default_file = sim_get_root()."{$dirname}/{$flavorname}".DEFAULT_LOCALE.".jar";
+            $default_file = sim_get_root()."{$dirname}/{$flavorname}".Locale::DEFAULT_LOCALE.".jar";
             $locale_file = sim_get_root()."{$dirname}/{$flavorname}_{$locale}.jar";
         }
         else {
@@ -776,8 +772,9 @@
     }
 
     /** TODO: docstring **/
-    function sim_get_launch_url($simulation, $locale = DEFAULT_LOCALE, $test_existance = false) {
-        if (!locale_valid($locale)) {
+    function sim_get_launch_url($simulation, $locale = Locale::DEFAULT_LOCALE, $test_existance = false) {
+        $localeUtils = Locale::inst();
+        if (!$localeUtils->isValid($locale)) {
             return '';
         }
 
@@ -787,7 +784,7 @@
         $url = '';
 
         if ($sim_type == SIM_TYPE_JAVA) {
-            if (locale_is_default($locale)) {
+            if ($localeUtils->isDefault($locale)) {
                 $url = sim_get_root()."{$dirname}/{$flavorname}.jnlp";
             }
             else {
@@ -815,8 +812,9 @@
      * @param bool $test_existance OPTIONAL if true will check the existance of the downloadable file
      * @return mixed Returns an empty string if $test_existance is true and the file does not exist, otherwise returns a string with the link that will allow downloading of the sim
      */
-    function sim_get_download_url($simulation, $requested_locale = DEFAULT_LOCALE, $test_existance = false) {
-        $locale = (locale_valid($requested_locale)) ? $requested_locale : DEFAULT_LOCALE;
+    function sim_get_download_url($simulation, $requested_locale = Locale::DEFAULT_LOCALE, $test_existance = false) {
+        $localeUtils = Locale::inst();
+        $locale = ($localeUtils->isValid($requested_locale)) ? $requested_locale : Locale::DEFAULT_LOCALE;
 
         if ($test_existance) {
             $dirname    = $simulation['sim_dirname'];
@@ -825,7 +823,7 @@
             $file = '';
 
             if ($sim_type == SIM_TYPE_JAVA) {
-                if (locale_is_default($locale)) {
+                if ($localeUtils->isDefault($locale)) {
                     $file = sim_get_root()."{$dirname}/{$flavorname}_all.jar";
                 }
                 else {

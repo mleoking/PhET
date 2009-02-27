@@ -11,7 +11,6 @@
     require_once("include/sim-utils.php");
     require_once("include/sys-utils.php");
     require_once("include/web-utils.php");
-    require_once("include/locale-utils.php");
 
     if (isset($_REQUEST['OVERRIDE_SIMS_ROOT'])) {
         sim_set_root($_REQUEST['OVERRIDE_SIMS_ROOT']);
@@ -36,7 +35,7 @@
     }
 
     function error($message) {
-        if (debug_is_on()) {
+        if (isset($_REQUEST['verbose']) && $_REQUEST['verbose']) {
             var_dump($message);
         }
         else {
@@ -95,7 +94,9 @@
         // Get the country, this is not required to be specified
         $country = query_string_extract('country');
 
-        if (!locale_valid_language_code($language)) {
+        $localeUtils = Locale::inst();
+
+        if (!$localeUtils->isValidLanguageCode($language)) {
             error("Error: invalid lanugage code specified\n");
             exit;
         }
@@ -103,7 +104,7 @@
         // Create a locale from the language and country
         $locale = $language;
         if (!empty($country)) {
-            if (!locale_valid_country_code($country)) {
+            if (!$localeUtils->isValidCountryCode($country)) {
                 error("Error: invalid country code specified\n");
                 exit;
             }
