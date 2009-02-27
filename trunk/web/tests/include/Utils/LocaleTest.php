@@ -6,12 +6,17 @@ require_once('PHPUnit/Framework.php');
 if (!defined('SITE_ROOT')) define('SITE_ROOT', '../');
 
 // Get the test globals to set everything up
-require_once(dirname(dirname(__FILE__)).'/test_global.php');
+require_once(dirname(dirname(dirname(__FILE__))).'/test_global.php');
+
+// Include global.php and the autoloader will take care of the classes
+require_once("include/global.php");
 
 // Get the file to test
-require_once("include/locale-utils.php");
+//require_once("include/locale-utils.php");
+require_once("include/locale-codes-country.php");
+require_once("include/locale-codes-language.php");
 
-class localeUtilsTest extends PHPUnit_Framework_TestCase {
+class LocaleTest extends PHPUnit_Framework_TestCase {
     private $lower_chars;
     private $upper_chars;
 
@@ -60,6 +65,15 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * Setup
+     */
+
+    public function setUp() {
+        parent::setUp();
+        $this->fixture = Locale::inst();
+    }
+
+    /**
      *
      * Testing locale_is_combined_language_code()
      *
@@ -69,7 +83,7 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         // combined_code => expected_remap
         $combined_codes = array('bp' => 'pt_BR', 'tc' => 'zh_TW');
         foreach ($combined_codes as $combined => $full) {
-            $result = locale_is_combined_language_code($combined);
+            $result = $this->fixture->isCombinedLanguageCode($combined);
             $this->assertTrue($result);
         }
     }
@@ -79,7 +93,7 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         $country_code = $this->getValidCountryCode();
         $locale = $language_code.'_'.$country_code;
 
-        $result =  locale_is_combined_language_code($locale);
+        $result =  $this->fixture->isCombinedLanguageCode($locale);
         
         $this->assertFalse($result);
     }
@@ -88,7 +102,7 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         // combined_code => expected_remap
         $full_locales = array('pt_BR' => 'bp', 'zh_TW' => 'tc');
         foreach ($full_locales as $full => $combined) {
-            $result = locale_has_combined_language_code_map($full);
+            $result = $this->fixture->hasCombinedLanguageCodeMap($full);
             $this->assertTrue($result);
         }
     }
@@ -98,14 +112,14 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         $country_code = $this->getValidCountryCode();
         $locale = $language_code.'_'.$country_code;
 
-        $result =  locale_has_combined_language_code_map($locale);
+        $result =  $this->fixture->hasCombinedLanguageCodeMap($locale);
         
         $this->assertFalse($result);
     }
 
     /**
      *
-     * Testing locale_combined_language_code_to_full_locale()
+     * Testing $this->fixture->combinedLanguageCodeToFullLocale()
      *
      */
 
@@ -113,7 +127,7 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         // combined_code => expected_remap
         $combined_codes = array('bp' => 'pt_BR', 'tc' => 'zh_TW');
         foreach ($combined_codes as $combined => $full) {
-            $result =  locale_combined_language_code_to_full_locale($combined);
+            $result =  $this->fixture->combinedLanguageCodeToFullLocale($combined);
             $this->assertEquals($full, $result);
         }
     }
@@ -123,7 +137,7 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         $country_code = $this->getValidCountryCode();
         $locale = $language_code.'_'.$country_code;
 
-        $result =  locale_combined_language_code_to_full_locale($locale);
+        $result =  $this->fixture->combinedLanguageCodeToFullLocale($locale);
         $this->assertEquals($locale, $result);
     }
 
@@ -131,13 +145,20 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
      *
      * Testing locale_full_locale_to_combined_language_code()
      *
+     * These tests are from when locale support was a set of functions
+     * rather than a class.  These are now private methods, and cannot
+     * be tested directly.  I'm keeping them around in case they every
+     * need public visibility.  If the member function does get
+     * promoted, uncomment and retest.
+     *
      */
 
-    public function testLocaleFullLocaleToCombinedLanguageCode_returnsExpetedRemappedCodes() {
+    /*
+     public function testLocaleFullLocaleToCombinedLanguageCode_returnsExpetedRemappedCodes() {
         // combined_code => expected_remap
         $full_locales = array('pt_BR' => 'bp', 'zh_TW' => 'tc');
         foreach ($full_locales as $full => $combined) {
-            $result =  locale_full_locale_to_combined_language_code($full);
+            $result =  $this->fixture->fullLocaleToCombinedLanguageCode($full);
             $this->assertEquals($combined, $result);
         }
     }
@@ -147,9 +168,10 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         $country_code = $this->getValidCountryCode();
         $locale = $language_code.'_'.$country_code;
 
-        $result =  locale_full_locale_to_combined_language_code($locale);
+        $result =  $this->fixture->fullLocaleToCombinedLanguageCode($locale);
         $this->assertEquals($locale, $result);
     }
+    */
 
     /**
      *
@@ -157,8 +179,25 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
      *
      */
 
-    public function testLocaleIsDefault_testCase() {
-        $this->markTestIncomplete();
+    public function testLocaleIsDefault_defaultShortFormLocaleRetrunsTrue() {
+        $this->assertTrue($this->fixture->isDefault('en'));
+    }
+
+    public function testLocaleIsDefault_defaultLongFormLocaleRetrunsTrue() {
+        $this->assertTrue($this->fixture->isDefault('en_US'));
+    }
+
+    public function testLocaleIsDefault_nondefaultShortFormLocaleRetrunsFalse() {
+        $language_code = $this->getValidLanguageCode();
+        $locale = $language_code;
+        $this->assertFalse($this->fixture->isDefault($locale));
+    }
+
+    public function testLocaleIsDefault_nondefaultLongFormLocaleRetrunsFalse() {
+        $language_code = $this->getValidLanguageCode();
+        $country_code = $this->getValidCountryCode();
+        $locale = $language_code.'_'.$country_code;
+        $this->assertFalse($this->fixture->isDefault($locale));
     }
 
     /**
@@ -170,14 +209,14 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
     public function testLocaleValidLanguageCode_validCodeReturnsTrue() {
         $language_code = $this->getValidLanguageCode();
 
-        $result = locale_valid_language_code($language_code);
+        $result = $this->fixture->isValidLanguageCode($language_code);
         $this->assertTrue($result);
     }
 
     public function testLocaleValidLanguageCode_invalidCodeReturnsFalse() {
         $language_code = $this->getInvalidLanguageCode();
 
-        $result = locale_valid_language_code($language_code);
+        $result = $this->fixture->isValidLanguageCode($language_code);
         $this->assertFalse($result);
     }
 
@@ -185,14 +224,14 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         $language_code = '_foo';
         $this->assertFalse(array_key_exists($language_code, $this->language_map));
 
-        $result = locale_valid_language_code($language_code);
+        $result = $this->fixture->isValidLanguageCode($language_code);
         $this->assertFalse($result);
     }
 
     public function testLocaleValidLanguageCode_invalidTypeReturnsFalse() {
         $language_code = array();
 
-        $result = locale_valid_language_code($language_code);
+        $result = $this->fixture->isValidLanguageCode($language_code);
         $this->assertFalse($result);
     }
 
@@ -205,7 +244,7 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
     public function testLocaleValidCountryCode_validCodeReturnsTrue() {
         $country_code = $this->getValidCountryCode();
 
-        $result = locale_valid_country_code($country_code);
+        $result = $this->fixture->isValidCountryCode($country_code);
         $this->assertTrue($result);
     }
 
@@ -213,7 +252,7 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         // Find a country that is not supported
         $country_code = $this->getInvalidCountryCode();
 
-        $result = locale_valid_country_code($country_code);
+        $result = $this->fixture->isValidCountryCode($country_code);
         $this->assertFalse($result);
     }
 
@@ -221,14 +260,14 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         $country_code = '_FOO';
         $this->assertFalse(array_key_exists($country_code, $this->country_map));
 
-        $result = locale_valid_country_code($country_code);
+        $result = $this->fixture->isValidCountryCode($country_code);
         $this->assertFalse($result);
     }
 
     public function testLocaleValidCountryCode_invalidTypeReturnsFalse() {
         $country_code = array();
 
-        $result = locale_valid_country_code($country_code);
+        $result = $this->fixture->isValidCountryCode($country_code);
         $this->assertFalse($result);
     }
 
@@ -244,7 +283,7 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         // Create the locale
         $locale = $language_code;
 
-        $result = locale_valid($locale);
+        $result = $this->fixture->isValid($locale);
         $this->assertTrue($result);
     }
 
@@ -254,7 +293,7 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         $locale = $language_code.'_'.$country_code;
         
         // Test the code
-        $result = locale_valid($locale);
+        $result = $this->fixture->isValid($locale);
         $this->assertTrue($result);
     }
 
@@ -266,7 +305,7 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         $locale = $language_code.'_'.$country_code;
         
         // Test the code
-        $result = locale_valid($locale);
+        $result = $this->fixture->isValid($locale);
         $this->assertFalse($result);
     }
 
@@ -278,22 +317,22 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         $locale = $language_code.'_'.$country_code;
         
         // Test the code
-        $result = locale_valid($locale);
+        $result = $this->fixture->isValid($locale);
         $this->assertFalse($result);
     }
 
     public function testLocaleValid_emptyStringReturnsFalse() {
-        $result = locale_valid('');
+        $result = $this->fixture->isValid('');
         $this->assertFalse($result);
     }
     
     public function testLocaleValid_badTypeReturnsFalse() {
-        $result = locale_valid(array('en', 'US'));
+        $result = $this->fixture->isValid(array('en', 'US'));
         $this->assertFalse($result);
     }
 
     public function testLocaleValid_invalidStringReturnsFalse() {
-        $result = locale_valid('foo bar');
+        $result = $this->fixture->isValid('foo bar');
         $this->assertFalse($result);
     }
 
@@ -301,13 +340,20 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
      *
      * Testing locale_has_valid_language_code()
      *
+     * These tests are from when locale support was a set of functions
+     * rather than a class.  These are now private methods, and cannot
+     * be tested directly.  I'm keeping them around in case they every
+     * need public visibility.  If the member function does get
+     * promoted, uncomment and retest.
+     *
      */
 
+    /*
     public function testLocaleHasValidLanguageCode_shortFormValidLanguageReturnsTrue() {
         $language_code = $this->getValidLanguageCode();
         $locale = $language_code;
 
-        $result = locale_has_valid_language_code($locale);
+        $result = $this->fixture->hasValidLanguageCode($locale);
         $this->assertTrue($result);
     }
 
@@ -315,7 +361,7 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         $language_code = $this->getInvalidLanguageCode();
         $locale = $language_code;
 
-        $result = locale_has_valid_language_code($locale);
+        $result = $this->fixture->hasValidLanguageCode($locale);
         $this->assertFalse($result);
     }
 
@@ -324,7 +370,7 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         $country_code = $this->getValidCountryCode();
         $locale = $language_code.'_'.$country_code;
 
-        $result = locale_has_valid_language_code($locale);
+        $result = $this->fixture->hasValidLanguageCode($locale);
         $this->assertTrue($result);
     }
 
@@ -333,7 +379,7 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         $country_code = $this->getInvalidCountryCode();
 
         $locale = $language_code.'_'.$country_code;
-        $result = locale_has_valid_language_code($locale);
+        $result = $this->fixture->hasValidLanguageCode($locale);
         $this->assertTrue($result);
     }
 
@@ -342,28 +388,36 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         $country_code = $this->getValidCountryCode();
         $locale = $language_code.'_'.$country_code;
 
-        $result = locale_has_valid_language_code($locale);
+        $result = $this->fixture->hasValidLanguageCode($locale);
         $this->assertFalse($result);
     }
 
     public function testLocaleHasValidLanguageCode_invalidFormReturnsFalse() {
         $locale = 'foo_BAR';
 
-        $result = locale_has_valid_language_code($locale);
+        $result = $this->fixture->hasValidLanguageCode($locale);
         $this->assertFalse($result);
     }
+    */
 
     /**
      *
      * Testing locale_has_valid_country_code()
      *
+     * These tests are from when locale support was a set of functions
+     * rather than a class.  These are now private methods, and cannot
+     * be tested directly.  I'm keeping them around in case they every
+     * need public visibility.  If the member function does get
+     * promoted, uncomment and retest.
+     *
      */
 
+    /*
     public function testLocaleHasValidCountryCode_shortFormReturnsFalse() {
         $language_code = $this->getValidLanguageCode();
         $locale = $language_code;
 
-        $result = locale_has_valid_country_code($locale);
+        $result = $this->fixture->hasValidCountryCode($locale);
         $this->assertFalse($result);
     }
 
@@ -371,7 +425,7 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         $language_code = $this->getInvalidLanguageCode();
         $locale = $language_code;
 
-        $result = locale_has_valid_language_code($locale);
+        $result = $this->fixture->hasValidLanguageCode($locale);
         $this->assertFalse($result);
     }
 
@@ -380,7 +434,7 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         $country_code = $this->getValidCountryCode();
         $locale = $language_code.'_'.$country_code;
 
-        $result = locale_has_valid_country_code($locale);
+        $result = $this->fixture->hasValidCountryCode($locale);
         $this->assertTrue($result);
     }
 
@@ -389,7 +443,7 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         $country_code = $this->getInvalidCountryCode();
         $locale = $language_code.'_'.$country_code;
 
-        $result = locale_has_valid_country_code($locale);
+        $result = $this->fixture->hasValidCountryCode($locale);
         $this->assertFalse($result);
     }
 
@@ -398,28 +452,36 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         $country_code = $this->getValidCountryCode();
         $locale = $language_code.'_'.$country_code;
 
-        $result = locale_has_valid_country_code($locale);
+        $result = $this->fixture->hasValidCountryCode($locale);
         $this->assertTrue($result);
     }
 
     public function testLocaleHasValidCountryCode_invalidFormReturnsFalse() {
         $locale = 'foo_BAR';
 
-        $result = locale_has_valid_country_code($locale);
+        $result = $this->fixture->hasValidCountryCode($locale);
         $this->assertFalse($result);
     }
+    */
 
     /**
      *
      * Testing locale_extract_language_code()
      *
+     * These tests are from when locale support was a set of functions
+     * rather than a class.  These are now private methods, and cannot
+     * be tested directly.  I'm keeping them around in case they every
+     * need public visibility.  If the member function does get
+     * promoted, uncomment and retest.
+     *
      */
 
+    /*
     public function testLocaleExtractLanguageCode_shortFormLocaleWithValidLanguageCodeReturnsCode() {
         $language_code = $this->getValidLanguageCode();
         $locale_code = $language_code;
 
-        $result = locale_extract_language_code($locale_code);
+        $result = $this->fixture->extractLanguageCode($locale_code);
         $this->assertEquals($language_code, $result);
     }
 
@@ -428,7 +490,7 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         $language_code = $this->getInvalidLanguageCode();
 
         $this->setExpectedException('PhetLocaleException');
-        locale_extract_language_code($language_code);
+        $this->fixture->extractLanguageCode($language_code);
     }
 
     public function testLocaleExtractLanguageCode_longFormLocaleWithValidLanguageAndValidCountryCodeCodeReturnsCode() {
@@ -438,7 +500,7 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         // Create the locale
         $locale_code = $language_code.'_'.$country_code;
 
-        $result = locale_extract_language_code($locale_code);
+        $result = $this->fixture->extractLanguageCode($locale_code);
         $this->assertEquals($language_code, $result);
     }
 
@@ -449,27 +511,35 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         // Add a country code, the acutal code doesn't matter
         $locale_code = $language_code.'_'.$country_code;
 
-        $result = locale_extract_language_code($locale_code);
+        $result = $this->fixture->extractLanguageCode($locale_code);
         $this->assertEquals($language_code, $result);
     }
 
     public function testLocaleExtractLanguageCode_invalidTypeRaisesException() {
         $this->setExpectedException('PhetLocaleException');
-        locale_extract_language_code(array());
+        $this->fixture->extractLanguageCode(array());
     }
+    */
 
     /**
      *
      * Testing locale_extract_country_code()
      *
+     * These tests are from when locale support was a set of functions
+     * rather than a class.  These are now private methods, and cannot
+     * be tested directly.  I'm keeping them around in case they every
+     * need public visibility.  If the member function does get
+     * promoted, uncomment and retest.
+     *
      */
 
+    /*
     public function testLocaleExtractCountryCode_shortFormLocaleRaisesException() {
         $language_code = $this->getValidLanguageCode();
         $locale_code = $language_code;
         
         $this->setExpectedException('PhetLocaleException');
-        locale_extract_country_code($locale_code);
+        $this->fixture->extractCountryCode($locale_code);
     }
 
     public function testLocaleExtractCountryCode_longFormLocaleWithValidLangugeAndValidCountryCodeReturnsCode() {
@@ -477,7 +547,7 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         $country_code = $this->getValidCountryCode();
         $locale_code = $language_code."_".$country_code;
 
-        $result = locale_extract_country_code($locale_code);
+        $result = $this->fixture->extractCountryCode($locale_code);
         $this->assertEquals($country_code, $result);
     }
 
@@ -486,7 +556,7 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         $country_code = $this->getValidCountryCode();
         $locale_code = $language_code."_".$country_code;
 
-        $result = locale_extract_country_code($locale_code);
+        $result = $this->fixture->extractCountryCode($locale_code);
         $this->assertEquals($country_code, $result);
     }
 
@@ -496,24 +566,32 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         $locale_code = $language_code."_".$country_code;
 
         $this->setExpectedException('PhetLocaleException');
-        locale_extract_country_code($locale_code);
+        $this->fixture->extractCountryCode($locale_code);
     }
 
     public function testLocaleExtractCountryCode_invalidTypeRaisesException() {
         $this->setExpectedException('PhetLocaleException');
-        locale_extract_country_code(array());
+        $this->fixture->extractCountryCode(array());
     }
+    */
 
     /**
      *
      * Testing locale_get_language_name()
      *
+     * These tests are from when locale support was a set of functions
+     * rather than a class.  These are now private methods, and cannot
+     * be tested directly.  I'm keeping them around in case they every
+     * need public visibility.  If the member function does get
+     * promoted, uncomment and retest.
+     *
      */
 
+    /*
     public function testLocaleGetLanguageName_validCodeReturnsName() {
         $language_code = $this->getValidLanguageCode();
 
-        $result = locale_get_language_name($language_code);
+        $result = $this->fixture->getLanguageName($language_code);
         $this->assertEquals($this->language_map[$language_code], $result);
     }
 
@@ -521,7 +599,7 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         $language_code = $this->getInvalidLanguageCode();
 
         $this->setExpectedException('PhetLocaleException');
-        locale_get_language_name($language_code);
+        $this->fixture->getLanguageName($language_code);
     }
 
     public function testLocaleGetLanguageName_invalidStringRaisesException() {
@@ -529,23 +607,31 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         $this->assertFalse(array_key_exists($language_code, $this->language_map));
 
         $this->setExpectedException('PhetLocaleException');
-        locale_get_language_name($language_code);
+        $this->fixture->getLanguageName($language_code);
     }
 
     public function testLocaleGetLanguageName_invalidTypeRaisesException() {
         $this->setExpectedException('PhetLocaleException');
-        locale_get_language_name(array());
+        $this->fixture->getLanguageName(array());
     }
+    */
 
     /**
      *
      * Testing locale_get_country_name()
      *
+     * These tests are from when locale support was a set of functions
+     * rather than a class.  These are now private methods, and cannot
+     * be tested directly.  I'm keeping them around in case they every
+     * need public visibility.  If the member function does get
+     * promoted, uncomment and retest.
+     *
      */
 
+    /*
     public function testLocaleGetCountryName_validCodeReturnsName() {
         $country_code = $this->getValidCountryCode();
-        $result = locale_get_country_name($country_code);
+        $result = $this->fixture->getCountryName($country_code);
         $this->assertEquals($this->country_map[$country_code], $result);
     }
 
@@ -554,7 +640,7 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         $country_code = $this->getInvalidCountryCode();
 
         $this->setExpectedException('PhetLocaleException');
-        locale_get_country_name($country_code);
+        $this->fixture->getCountryName($country_code);
     }
 
     public function testLocaleGetCountryName_invalidStringRaisesException() {
@@ -562,27 +648,35 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         $this->assertFalse(array_key_exists($country_code, $this->country_map));
 
         $this->setExpectedException('PhetLocaleException');
-        locale_get_country_name($country_code);
+        $this->fixture->getCountryName($country_code);
     }
 
     public function testLocaleGetCountryName_invalidTypeRaisesException() {
         $this->setExpectedException('PhetLocaleException');
-        locale_get_country_name(array());
+        $this->fixture->getCountryName(array());
     }
+    */
 
     /**
      *
      * Testing locale_get_locale_name()
      *
+     * These tests are from when locale support was a set of functions
+     * rather than a class.  These are now private methods, and cannot
+     * be tested directly.  I'm keeping them around in case they every
+     * need public visibility.  If the member function does get
+     * promoted, uncomment and retest.
+     *
      */
 
-    public function testLocaleGetLocaleName_validShortFormReturnsExpectedString() {
+    /*
+     public function testLocaleGetLocaleName_validShortFormReturnsExpectedString() {
         $language_code = $this->getValidLanguageCode();
         $locale_code = $language_code;
 
         $expected_result = "{$this->language_map[$language_code]}";
 
-        $result = locale_get_locale_name($locale_code);
+        $result = $this->fixture->getLocaleName($locale_code);
         $this->assertEquals($expected_result, $result);
     }
     
@@ -593,7 +687,7 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
 
         $expected_result = "{$this->language_map[$language_code]}, {$this->country_map[$country_code]}";
 
-        $result = locale_get_locale_name($locale_code);
+        $result = $this->fixture->getLocaleName($locale_code);
         $this->assertEquals($expected_result, $result);
     }
     
@@ -603,7 +697,7 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         $locale_code = $language_code."_".$country_code;
 
         $this->setExpectedException('PhetLocaleException');
-        locale_get_locale_name($locale_code);
+        $this->fixture->getLocaleName($locale_code);
     }
     
     public function testLocaleGetLocaleName_longFormInvalidLanguageValidCountryRaisesException() {
@@ -612,7 +706,7 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         $locale_code = $language_code."_".$country_code;
 
         $this->setExpectedException('PhetLocaleException');
-        locale_get_locale_name($locale_code);
+        $this->fixture->getLocaleName($locale_code);
     }
     
     public function testLocaleGetLocaleName_longFormInvalidLanguageInvalidCountryRaisesException() {
@@ -621,71 +715,88 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         $locale_code = $language_code."_".$country_code;
 
         $this->setExpectedException('PhetLocaleException');
-        locale_get_locale_name($locale_code);
+        $this->fixture->getLocaleName($locale_code);
     }
     
     public function testLocaleGetLocaleName_invalidLongFormRaisesException() {
         $locale_code = 'foo_BAR';
 
         $this->setExpectedException('PhetLocaleException');
-        locale_get_locale_name($locale_code);
+        $this->fixture->getLocaleName($locale_code);
     }
-    
+    */
+
     /**
      *
      * Testing locale_language_sort_code_by_name()
      *
+     * These tests are from when locale support was a set of functions
+     * rather than a class.  These are now private methods, and cannot
+     * be tested directly.  I'm keeping them around in case they every
+     * need public visibility.  If the member function does get
+     * promoted, uncomment and retest.
+     *
      */
 
-    public function testLocaleLanguageSortCodeByName_sortsInCorrectOrderGreaterThan() {
-        $result = locale_language_sort_code_by_name('eu', 'sq');
+    /*
+     public function testLocaleLanguageSortCodeByName_sortsInCorrectOrderGreaterThan() {
+        $result = $this->fixture->languageSortCodeByName('eu', 'sq');
         $this->assertGreaterThan(0, $result);
     }
 
     public function testLocaleLanguageSortCodeByName_sortsInCorrectOrderLessThan() {
-        $result = locale_language_sort_code_by_name('sq', 'eu');
+        $result = $this->fixture->languageSortCodeByName('sq', 'eu');
         $this->assertLessThan(0, $result);
     }
 
     public function testLocaleLanguageSortCodeByName_sortsInCorrectOrderEquals() {
-        $result = locale_language_sort_code_by_name('he', 'iw');
+        $result = $this->fixture->languageSortCodeByName('he', 'iw');
         $this->assertEquals(0, $result);
     }
 
     public function testLocaleLanguageSortCodeByName_sortsInCorrectOrderArray() {
         $codes_to_sort = array('aa', 'an', 'bs', 'eu', 'hy', 'sq', 'bp', 'tc');
         $expected_order = array('aa', 'sq', 'an', 'hy', 'eu', 'bs', 'tc', 'bp');
-        usort($codes_to_sort, 'locale_language_sort_code_by_name');
+        usort($codes_to_sort, array($this->fixture, 'languageSortCodeByName'));
         $this->assertEquals($expected_order, $codes_to_sort);
     }
+    */
 
     /**
      *
      * Testing locale_country_sort_code_by_name()
      *
+     * These tests are from when locale support was a set of functions
+     * rather than a class.  These are now private methods, and cannot
+     * be tested directly.  I'm keeping them around in case they every
+     * need public visibility.  If the member function does get
+     * promoted, uncomment and retest.
+     *
      */
 
-    public function testLocaleCountrySortCodeByName_sortsInCorrectOrderGreaterThan() {
-        $result = locale_country_sort_code_by_name('AS', 'DZ');
+    /*
+     public function testLocaleCountrySortCodeByName_sortsInCorrectOrderGreaterThan() {
+        $result = $this->fixture->countrySortCodeByName('AS', 'DZ');
         $this->assertGreaterThan(0, $result);
     }
 
     public function testLocaleCountrySortCodeByName_sortsInCorrectOrderLessThan() {
-        $result = locale_country_sort_code_by_name('AU', 'AT');
+        $result = $this->fixture->countrySortCodeByName('AU', 'AT');
         $this->assertLessThan(0, $result);
     }
 
     public function testLocaleCountrySortCodeByName_sortsInCorrectOrderEquals() {
-        $result = locale_country_sort_code_by_name('US', 'US');
+        $result = $this->fixture->countrySortCodeByName('US', 'US');
         $this->assertEquals(0, $result);
     }
 
     public function testLocaleCountrySortCodeByName_sortsInCorrectOrderArray() {
         $codes_to_sort = array('AS', 'AU', 'AX', 'BN', 'DZ', 'IO');
         $expected_order = array('AX', 'DZ', 'AS', 'AU', 'IO', 'BN');
-        usort($codes_to_sort, 'locale_country_sort_code_by_name');
+        usort($codes_to_sort, array($this->fixture, 'countrySortCodeByName'));
         $this->assertEquals($expected_order, $codes_to_sort);
     }
+    */
 
     /**
      *
@@ -694,70 +805,70 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
      */
 
     public function testLocaleSortCodeByName_shortFormLanguageSortsInCorrectOrderGreaterThan() {
-        $result = locale_sort_code_by_name('en', 'aa');
+        $result = $this->fixture->sortCodeByNameCmp('en', 'aa');
         $this->assertGreaterThan(0, $result);
     }
 
     public function testLocaleSortCodeByName_shortFormLanguageSortsInCorrectOrderLessThan() {
-        $result = locale_sort_code_by_name('aa', 'en');
+        $result = $this->fixture->sortCodeByNameCmp('aa', 'en');
         $this->assertLessThan(0, $result);
     }
 
     public function testLocaleSortCodeByName_shortFormLanguageSortsInCorrectOrderEquals() {
-        $result = locale_sort_code_by_name('en', 'en');
+        $result = $this->fixture->sortCodeByNameCmp('en', 'en');
         $this->assertEquals(0, $result);
     }
 
     public function testLocaleSortCodeByName_longFormDifferentLanguageSortsInCorrectOrderGreaterThan() {
-        $result = locale_sort_code_by_name('en_GB', 'zh_TW');
+        $result = $this->fixture->sortCodeByNameCmp('en_GB', 'zh_TW');
         $this->assertGreaterThan(0, $result);
     }
 
     public function testLocaleSortCodeByName_longFormDifferentLanguageSortsInCorrectOrderLessThan() {
-        $result = locale_sort_code_by_name('zh_TW', 'en_GB');
+        $result = $this->fixture->sortCodeByNameCmp('zh_TW', 'en_GB');
         $this->assertLessThan(0, $result);
     }
 
     public function testLocaleSortCodeByName_longFormSameLanguageSortsInCorrectOrderEquals() {
-        $result = locale_sort_code_by_name('en_GB', 'en_GB');
+        $result = $this->fixture->sortCodeByNameCmp('en_GB', 'en_GB');
         $this->assertEquals(0, $result);
     }
 
     public function testLocaleSortCodeByName_longFormSameLanguageSortsInCorrectOrderGreaterThan() {
-        $result = locale_sort_code_by_name('en_US', 'en_GB');
+        $result = $this->fixture->sortCodeByNameCmp('en_US', 'en_GB');
         $this->assertGreaterThan(0, $result);
     }
 
     public function testLocaleSortCodeByName_longFormSameLanguageSortsInCorrectOrderLessThan() {
-        $result = locale_sort_code_by_name('en_GB', 'en_US');
+        $result = $this->fixture->sortCodeByNameCmp('en_GB', 'en_US');
         $this->assertLessThan(0, $result);
     }
 
     public function testLocaleSortCodeByName_mixedFormDifferentLanguageSortsInCorrectOrderGreaterThan() {
-        $result = locale_sort_code_by_name('en_GB', 'zh');
+        $result = $this->fixture->sortCodeByNameCmp('en_GB', 'zh');
         $this->assertGreaterThan(0, $result);
     }
 
     public function testLocaleSortCodeByName_mixedFormDifferentLanguageSortsInCorrectOrderLessThan() {
-        $result = locale_sort_code_by_name('zh_TW', 'en');
+        $result = $this->fixture->sortCodeByNameCmp('zh_TW', 'en');
         $this->assertLessThan(0, $result);
     }
 
     public function testLocaleSortCodeByName_mixedFormSameLanguageSortsInCorrectOrderGreaterThan() {
-        $result = locale_sort_code_by_name('en_US', 'en');
+        $result = $this->fixture->sortCodeByNameCmp('en_US', 'en');
         $this->assertGreaterThan(0, $result);
     }
 
     public function testLocaleSortCodeByName_mixedFormSameLanguageSortsInCorrectOrderLessThan() {
-        $result = locale_sort_code_by_name('en', 'en_US');
+        $result = $this->fixture->sortCodeByNameCmp('en', 'en_US');
         $this->assertLessThan(0, $result);
     }
 
     public function testLocaleSortCodeByName_mixedFormExpectedSortOrder() {
-        $locales = array('en_US', 'en_GB', 'en', 'zh_TW', 'zh_CN', 'zh');
-        $expected_orders = array('zh', 'zh_CN', 'zh_TW', 'en', 'en_GB', 'en_US');
+        $locales = array('en_US', 'en_GB', 'en', 'zh_TW', 'zh_CN', 'zh', 'pt', 'bp');
+        $expected_orders = array('zh', 'zh_CN', 'zh_TW', 'en', 'en_GB', 'en_US', 'pt', 'bp');
 
-        $sort_result = usort($locales, 'locale_sort_code_by_name');
+        $sort_result = usort($locales, array($this->fixture, 'sortCodeByNameCmp'));
         $this->assertEquals($expected_orders, $locales);
     }
 
@@ -765,89 +876,111 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
      *
      * Testing locale_get_language_icon_url()
      *
+     * These tests are from when locale support was a set of functions
+     * rather than a class.  These are now private methods, and cannot
+     * be tested directly.  I'm keeping them around in case they every
+     * need public visibility.  If the member function does get
+     * promoted, uncomment and retest.
+     *
      */
 
-    public function testLocaleGetLanguageIconUrl_validLanguageCodeReturnsExpected() {
+    /*
+     public function testLocaleGetLanguageIconUrl_validLanguageCodeReturnsExpected() {
         $language_code = $this->getValidLanguageCode();
 
-        $language_name = locale_get_language_name($language_code);
+        $language_name = $this->fixture->getLanguageName($language_code);
         $exepcted_result = SITE_ROOT."images/languages/".strtolower("{$language_name}-{$language_code}.png");
 
-        $result = locale_get_language_icon_url($language_code);
+        $result = $this->fixture->getLanguageIconUrl($language_code);
         $this->assertEquals($exepcted_result, $result);
     }
 
     public function testLocaleGetLanguageIconUrl_invalidLanguageCodeRaisesException() {
         $language_code = $this->getInvalidLanguageCode();
         $this->setExpectedException('PhetLocaleException');
-        locale_get_language_icon_url($language_code);
+        $this->fixture->getLanguageIconUrl($language_code);
     }
 
     public function testLocaleGetLanguageIconUrl_invalidTypeRaisesException() {
         $this->setExpectedException('PhetLocaleException');
-        locale_get_language_icon_url(array());
+        $this->fixture->getLanguageIconUrl(array());
     }
 
     public function testLocaleGetLanguageIconUrl_invalidStringRaisesException() {
         $this->setExpectedException('PhetLocaleException');
-        locale_get_language_icon_url('foo_BAR');
+        $this->fixture->getLanguageIconUrl('foo_BAR');
     }
+    */
 
     /**
      *
      * Testing locale_get_country_icon_url()
      *
+     * These tests are from when locale support was a set of functions
+     * rather than a class.  These are now private methods, and cannot
+     * be tested directly.  I'm keeping them around in case they every
+     * need public visibility.  If the member function does get
+     * promoted, uncomment and retest.
+     *
      */
 
-    public function testLocaleGetCountryIconUrl_validCountryCodeReturnsExpected() {
+    /*
+     public function testLocaleGetCountryIconUrl_validCountryCodeReturnsExpected() {
         $country_code = $this->getValidCountryCode();
 
-        $country_name = locale_get_country_name($country_code);
+        $country_name = $this->fixture->getCountryName($country_code);
         $exepcted_result = SITE_ROOT."images/countries/{$country_code}.png";
 
-        $result = locale_get_country_icon_url($country_code);
+        $result = $this->fixture->getCountryIconUrl($country_code);
         $this->assertEquals($exepcted_result, $result);
     }
 
     public function testLocaleGetCountryIconUrl_invalidCountryCodeRaisesException() {
         $country_code = $this->getInvalidCountryCode();
         $this->setExpectedException('PhetLocaleException');
-        locale_get_country_icon_url($country_code);
+        $this->fixture->getCountryIconUrl($country_code);
     }
 
     public function testLocaleGetCountryIconUrl_invalidTypeRaisesException() {
         $this->setExpectedException('PhetLocaleException');
-        locale_get_country_icon_url(array());
+        $this->fixture->getCountryIconUrl(array());
     }
 
     public function testLocaleGetCountryIconUrl_invalidStringRaisesException() {
         $this->setExpectedException('PhetLocaleException');
-        locale_get_country_icon_url('foo_BAR');
+        $this->fixture->getCountryIconUrl('foo_BAR');
     }
 
     /**
      *
      * Testing locale_get_language_img_html()
      *
+     * These tests are from when locale support was a set of functions
+     * rather than a class.  These are now private methods, and cannot
+     * be tested directly.  I'm keeping them around in case they every
+     * need public visibility.  If the member function does get
+     * promoted, uncomment and retest.
+     *
      */
 
-    public function testLocaleGetLanguageImgHtml_invalidLocaleRaisesException() {
+    /*
+     public function testLocaleGetLanguageImgHtml_invalidLocaleRaisesException() {
         $language_code = $this->getInvalidLanguageCode();
         $country_code = $this->getInvalidCountryCode();
         $locale = $language_code.'_'.$country_code;
-        $this->assertFalse(locale_valid($locale));
+        $this->assertFalse($this->fixture->isValid($locale));
 
         $this->setExpectedException('PhetLocaleException');
-        locale_get_language_img_html($locale);        
+        $this->fixture->getLanguageImgHtml($locale);        
     }
     
     public function testLocaleGetLanguageImgHtml_validShortFormLocaleRecturnsExpected() {
         $language_code = $this->getValidLanguageCode();
         $locale = $language_code;
-        $this->assertTrue(locale_valid($locale));
+        $this->assertTrue($this->fixture->isValid($locale));
 
-        $language_name = locale_get_language_name($language_code);
-        $language_icon = locale_get_language_icon_url($language_code);
+        $language_name = $this->fixture->getLanguageName($language_code);
+        $language_icon = $this->fixture->getLanguageIconUrl($language_code);
         $expeted_img_html = 
                 "<img ".
                     "class=\"language\" ".
@@ -856,7 +989,7 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
                     "title=\"{$language_name}\" ".
                 "/>";
 
-        $result = locale_get_language_img_html($locale);
+        $result = $this->fixture->getLanguageImgHtml($locale);
         $this->assertEquals($expeted_img_html, $result);
     }
     
@@ -864,10 +997,10 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         $language_code = $this->getValidLanguageCode();
         $country_code = $this->getValidCountryCode();
         $locale = $language_code.'_'.$country_code;
-        $this->assertTrue(locale_valid($locale));
+        $this->assertTrue($this->fixture->isValid($locale));
 
-        $language_name = locale_get_language_name($language_code);
-        $language_icon = locale_get_language_icon_url($language_code);
+        $language_name = $this->fixture->getLanguageName($language_code);
+        $language_icon = $this->fixture->getLanguageIconUrl($language_code);
         $expeted_img_html = 
                 "<img ".
                     "class=\"language\" ".
@@ -876,7 +1009,7 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
                     "title=\"{$language_name}\" ".
                 "/>";
 
-        $result = locale_get_language_img_html($language_code);
+        $result = $this->fixture->getLanguageImgHtml($language_code);
         $this->assertEquals($expeted_img_html, $result);
     }
     
@@ -884,35 +1017,42 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
      *
      * Testing locale_get_country_img_html()
      *
+     * These tests are from when locale support was a set of functions
+     * rather than a class.  These are now private methods, and cannot
+     * be tested directly.  I'm keeping them around in case they every
+     * need public visibility.  If the member function does get
+     * promoted, uncomment and retest.
+     *
      */
 
-    public function testLocaleGetCountryImgHtml_invalidLocaleRaisesException() {
+    /*
+     public function testLocaleGetCountryImgHtml_invalidLocaleRaisesException() {
         $language_code = $this->getInvalidLanguageCode();
         $country_code = $this->getInvalidCountryCode();
         $locale = $language_code.'_'.$country_code;
-        $this->assertFalse(locale_valid($locale));
+        $this->assertFalse($this->fixture->isValid($locale));
 
         $this->setExpectedException('PhetLocaleException');
-        locale_get_country_img_html($locale);        
+        $this->fixture->getCountryImgHtml($locale);        
     }
     
     public function testLocaleGetCountryImgHtml_validShortFormLocaleRaisesException() {
         $language_code = $this->getValidLanguageCode();
         $locale = $language_code;
-        $this->assertTrue(locale_valid($locale));
+        $this->assertTrue($this->fixture->isValid($locale));
 
         $this->setExpectedException('PhetLocaleException');
-        locale_get_country_img_html($locale);        
+        $this->fixture->getCountryImgHtml($locale);        
     }
     
     public function testLocaleGetCountryImgHtml_validLongFormLocaleRecturnsExpected() {
         $language_code = $this->getValidLanguageCode();
         $country_code = $this->getValidCountryCode();
         $locale = $language_code.'_'.$country_code;
-        $this->assertTrue(locale_valid($locale));
+        $this->assertTrue($this->fixture->isValid($locale));
 
-        $country_name = locale_get_country_name($country_code);
-        $country_icon = locale_get_country_icon_url($country_code);
+        $country_name = $this->fixture->getCountryName($country_code);
+        $country_icon = $this->fixture->getCountryIconUrl($country_code);
         $expeted_img_html = 
                 "<img ".
                     "class=\"country\" ".
@@ -921,48 +1061,10 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
                     "title=\"{$country_name}\" ".
                 "/>";
 
-        $result = locale_get_country_img_html($country_code);
+        $result = $this->fixture->getCountryImgHtml($country_code);
         $this->assertEquals($expeted_img_html, $result);
     }
-    
-    /**
-     *
-     * Testing locale_is_default()
-     *
-     */
-
-    public function testLocaleIsDefault_defaultShortFormReturnsTrue() {
-        $locale = DEFAULT_LOCALE_SHORT_FORM;
-        $result = locale_is_default($locale);
-        $this->assertTrue($result);
-
-        // Throw this one in too
-        $locale = DEFAULT_LOCALE;
-        $result = locale_is_default($locale);
-        $this->assertTrue($result);
-    }
-
-    public function testLocaleIsDefault_defaultLongFormReturnsTrue() {
-        $locale = DEFAULT_LOCALE_LONG_FORM;
-        $result = locale_is_default($locale);
-        $this->assertTrue($result);
-    }
-
-    public function testLocaleIsDefault_nondefaultShortFormReturnsFalse() {
-        $locale = 'pt';
-        $this->assertNotEquals(DEFAULT_LOCALE_SHORT_FORM, $locale);
-
-        $result = locale_is_default($locale);
-        $this->assertFalse($result);
-    }
-
-    public function testLocaleIsDefault_nondefaultLongFormReturnsFalse() {
-        $locale = 'pt_BR';
-        $this->assertNotEquals(DEFAULT_LOCALE_LONG_FORM, $locale);
-
-        $result = locale_is_default($locale);
-        $this->assertFalse($result);
-    }
+    */
 
     /**
      *
@@ -974,31 +1076,38 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         $language_code = $this->getInvalidLanguageCode();
         $country_code = $this->getInvalidCountryCode();
         $locale = $language_code.'_'.$country_code;
-        $this->assertFalse(locale_valid($locale));
+        $this->assertFalse($this->fixture->isValid($locale));
 
-        $result = locale_get_full_info($locale);
+        $result = $this->fixture->getFullInfo($locale);
         $this->assertFalse($result);
     }
 
     public function testLocaleGetFullInfo_validShortFromReturnsExpected() {
         $language_code = $this->getValidLanguageCode();
         $locale = $language_code;
-        $this->assertTrue(locale_valid($locale));
+        $this->assertTrue($this->fixture->isValid($locale));
 
+        $language_name = 'Abkhazian';
+        $language_icon = SITE_ROOT.'images/languages/abkhazian-ab.png';
         $expceted_result = array(
             'locale' => $locale,
-            'locale_name' => locale_get_locale_name($locale),
-            'language_code' => locale_extract_language_code($locale),
-            'language_name' => locale_get_language_name($language_code),
-            'language_icon' => locale_get_language_icon_url($language_code),
-            'language_img' => locale_get_language_img_html($language_code),
+            'locale_name' => $language_name,
+            'language_code' => 'ab',
+            'language_name' => $language_name,
+            'language_icon' => $language_icon,
+            'language_img' => "<img ".
+                    "class=\"language\" ".
+                    "src=\"{$language_icon}\" ".
+                    "alt=\"{$language_name}\" ".
+                    "title=\"{$language_name}\" ".
+            "/>",
             'country_code' => null,
             'country_name' => null,
             'country_icon' => null,
             'country_img' => null
             );
 
-        $result = locale_get_full_info($locale);
+        $result = $this->fixture->getFullInfo($locale);
         $this->assertEquals($expceted_result, $result);
     }
 
@@ -1006,22 +1115,46 @@ class localeUtilsTest extends PHPUnit_Framework_TestCase {
         $language_code = $this->getValidLanguageCode();
         $country_code = $this->getValidCountryCode();
         $locale = $language_code.'_'.$country_code;
-        $this->assertTrue(locale_valid($locale));
+        $this->assertTrue($this->fixture->isValid($locale));
 
+        $language_name = 'Abkhazian';
+        $language_icon = SITE_ROOT.'images/languages/abkhazian-ab.png';
+        $country_name = 'Aaland Islands';
+        $country_icon = SITE_ROOT.'images/countries/AX.png';
         $expceted_result = array(
             'locale' => $locale,
-            'locale_name' => locale_get_locale_name($locale),
-            'language_code' => locale_extract_language_code($locale),
-            'language_name' => locale_get_language_name($language_code),
-            'language_icon' => locale_get_language_icon_url($language_code),
-            'language_img' => locale_get_language_img_html($language_code),
-            'country_code' => locale_extract_country_code($locale),
-            'country_name' => locale_get_country_name($country_code),
-            'country_icon' => locale_get_country_icon_url($country_code),
-            'country_img' => locale_get_country_img_html($country_code),
+            'locale_name' => "{$language_name}, {$country_name}",
+            'language_code' => 'ab',
+            'language_name' => $language_name,
+            'language_icon' => $language_icon,
+            'language_img' => "<img ".
+                    "class=\"language\" ".
+                    "src=\"{$language_icon}\" ".
+                    "alt=\"{$language_name}\" ".
+                    "title=\"{$language_name}\" ".
+            "/>",
+            'country_code' => 'AX',
+            'country_name' => $country_name,
+            'country_icon' => $country_icon,
+            'country_img' =>  "<img ".
+                    "class=\"country\" ".
+                    "src=\"{$country_icon}\" ".
+                    "alt=\"{$country_name}\" ".
+                    "title=\"{$country_name}\" ".
+                "/>"
+            /*
+            'language_code' => $this->fixture->extractLanguageCode($locale),
+            'language_name' => $this->fixture->getLanguageName($language_code),
+            'language_icon' => $this->fixture->getLanguageIconUrl($language_code),
+            'language_img' => $this->fixture->getLanguageImgHtml($language_code),
+            'country_code' => $this->fixture->extractCountryCode($locale),
+            'country_name' => $this->fixture->getCountryName($country_code),
+            'country_icon' => $this->fixture->getCountryIconUrl($country_code),
+            'country_img' => $this->fixture->getCountryImgHtml($country_code),
+            */
             );
 
-        $result = locale_get_full_info($locale);
+        $result = $this->fixture->getFullInfo($locale);
         $this->assertEquals($expceted_result, $result);
     }
 
