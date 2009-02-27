@@ -2,11 +2,7 @@
 
 package edu.colorado.phet.buildtools.util;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.Properties;
 
 /**
@@ -131,24 +127,27 @@ public class PhetJarSigner {
         return success;
     }
     
-    private void echoProcessOutput( Process p, String name ) throws IOException {
-        
-        BufferedReader stdInput = new BufferedReader( new InputStreamReader( p.getInputStream() ) );
-        BufferedReader stdError = new BufferedReader( new InputStreamReader( p.getErrorStream() ) );
-
-        // Output the results echoed by the execution of the command.
+    /*
+     * Reads from a Process' stdout and stderr streams.
+     */
+    private void echoProcessOutput( Process p, String processName ) throws IOException {
+        echoProcessOutput( p.getInputStream(), processName, "stdout" );
+        echoProcessOutput( p.getErrorStream(), processName, "stderr" );
+    }
+    
+    /*
+     * Reads from an input stream, assumed to be associated with a Process.
+     */
+    private void echoProcessOutput( InputStream inputStream, String processName, String streamName ) throws IOException {
+        BufferedReader reader = new BufferedReader( new InputStreamReader( inputStream ) );
+        System.out.println( "Reading " + streamName + " from " + processName + ":" );
         String s = null;
-        System.out.println( "Standard output from " + name + ":" );
-        while ( ( s = stdInput.readLine() ) != null ) {
+        while ( ( s = reader.readLine() ) != null ) {
             System.out.println( s );
         }
-        System.out.print( "\n" );
-
-        System.out.println( "Standard error from " + name + ":" );
-        while ( ( s = stdError.readLine() ) != null ) {
-            System.out.println( s );
+        if ( s != null ) {
+            System.out.print( "\n" );
         }
-        System.out.print( "\n" );
     }
 
     /**
