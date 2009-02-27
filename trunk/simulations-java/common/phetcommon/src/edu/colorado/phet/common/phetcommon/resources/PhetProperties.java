@@ -34,6 +34,10 @@ public class PhetProperties extends Properties {
     public double getDouble( String key, double defaultValue ) {
         return StringUtil.asDouble( getString( key ), defaultValue );
     }
+    
+    public long getLong( String key, long defaultValue ) {
+        return StringUtil.asLong( getString( key ), defaultValue );
+    }
 
     public char getChar( String key, char defaultValue ) {
         return StringUtil.asChar( getString( key ), defaultValue );

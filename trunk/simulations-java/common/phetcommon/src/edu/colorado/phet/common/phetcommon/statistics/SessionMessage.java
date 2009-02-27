@@ -4,7 +4,7 @@ import java.util.Date;
 
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.application.SessionCounter;
-import edu.colorado.phet.common.phetcommon.files.PhetInstallationPropertiesFile;
+import edu.colorado.phet.common.phetcommon.files.PhetInstallation;
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.util.DeploymentScenario;
@@ -90,7 +90,7 @@ public class SessionMessage extends StatisticsMessage {
         super.addFields( fields );
         
         if ( DeploymentScenario.getInstance() == DeploymentScenario.PHET_INSTALLATION ) {
-            PhetInstallationPropertiesFile p = PhetInstallationPropertiesFile.getInstance();
+            PhetInstallation p = PhetInstallation.getInstance();
             addField( new StatisticsMessageField( "user_installation_timestamp", p.getInstallationTimestamp() ) );
         }
         

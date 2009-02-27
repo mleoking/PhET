@@ -35,6 +35,20 @@ public class StringUtil {
 
         return value;
     }
+    
+    public static long asLong( String s, long defaultValue ) {
+        long value;
+
+        try {
+            value = Long.parseLong( s );
+        }
+        catch( NumberFormatException nfe ) {
+            System.err.println( "StringUtil: " + s + " is not a long" );
+            value = defaultValue;
+        }
+
+        return value;
+    }
 
     public static char asChar( String s, char defaultValue ) {
         if ( s.length() != 1 ) {
