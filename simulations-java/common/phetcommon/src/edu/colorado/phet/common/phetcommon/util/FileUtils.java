@@ -49,7 +49,6 @@ public class FileUtils {
         return file.getName().toLowerCase().endsWith( suffix );
     }
     
-    //TODO: consolidate with copy from flash-launcher and updater
     /**
      * Gets the JAR file that this class was launched from.
      */
