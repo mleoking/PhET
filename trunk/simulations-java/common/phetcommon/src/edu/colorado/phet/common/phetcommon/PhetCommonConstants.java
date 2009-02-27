@@ -15,7 +15,7 @@ public class PhetCommonConstants {
     
     // services
     public static final String SIM_REDIRECT_URL = PHET_HOME_URL + "/simulations/sim-redirect.php";
-    public static final String SIM_JAR_REDIRECT_URL = PHET_HOME_URL + "/simulations/sim-jar-redirect.php";
+    public static final String SIM_JAR_REDIRECT_URL = PHET_HOME_URL + "/services/sim-jar-redirect.php";
     public static final String STATISTICS_SERVICE_URL = PHET_HOME_URL + "/statistics/submit_message.php";
     public static final String PHET_INFO_URL = PHET_HOME_URL + "/services/phet-info.php";
     
