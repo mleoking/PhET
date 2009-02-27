@@ -287,6 +287,7 @@ public class QTModule extends QTAbstractModule implements Observer {
             _clockControls.setTimeFormat( QTConstants.TIME_FORMAT_PATTERN );
             _clockControls.setTimeColumns( QTConstants.TIME_COLUMNS );
             _clockControls.setUnits( QTResources.getString( "units.time" ) );
+            _clockControls.setRewindButtonTooltip( QTResources.getString( "button.restart" ) );
             setClockControlPanel( _clockControls );
             addClockListener( new ClockAdapter() {
 
