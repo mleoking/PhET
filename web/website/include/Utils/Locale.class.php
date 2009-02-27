@@ -1,24 +1,9 @@
 <?php
 
-    // Utils to support locales
+require_once('include/locale-codes-language.php');
+require_once('include/locale-codes-country.php');
 
-    // In each web accessable script SITE_ROOT must be defined FIRST
-    if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
-    
-    // See global.php for an explaination of the next line
-    require_once(dirname(dirname(__FILE__))."/include/global.php");
-
-    require_once("include/locale-codes-country.php");
-    require_once("include/locale-codes-language.php");
-
-    // These defines should NOT be used outside this file.  Use the
-    // DEFAULT_LOCALE below
-    define('DEFAULT_LOCALE_LANGUAGE', 'en');
-    define('DEFAULT_LOCALE_COUNTRY', 'US');
-    define('DEFAULT_LOCALE_SHORT_FORM', DEFAULT_LOCALE_LANGUAGE);
-    define('DEFAULT_LOCALE_LONG_FORM', 
-           DEFAULT_LOCALE_LANGUAGE.'_'.DEFAULT_LOCALE_COUNTRY);
-
+class Locale {
     // Shortcut everything will use.  Idea is that it is short
     // and understandable and may be "upgraded" to the long
     // form in the future.
@@ -30,11 +15,10 @@
     // "sim-name-en.html".  Downloadadable localized jars are also
     // affected.  Also update the default LOCALE command line script
     // in cl_utils/pyphetutil/simutil.py.  Just check everything, yes?
-    define('DEFAULT_LOCALE', DEFAULT_LOCALE_SHORT_FORM);
+    const DEFAULT_LOCALE = 'en';
 
-    //
-    // Defines if interest to this module
-    //
+    const DEFAULT_LOCALE_SHORT_FORM = 'en';
+    const DEFAULT_LOCALE_LONG_FORM = 'en_US';
 
     // Regular expression for parsing locales.  Laungage code is
     // required, country code is optional.
@@ -43,17 +27,31 @@
     //   1  language code
     //   2  underscore with country code
     //   3  country code (without underscore)
-    define('LOCALE_REGEX', '^([a-z]{2})(_([A-Z]{2}))?$');
-    define('RE_LOCALE', 0);
-    define('RE_LANGUAGE', 1);
-    define('RE_COUNTRY', 3);
+    private static $LOCALE_REGEX = '^([a-z]{2})(_([A-Z]{2}))?$';
+    private static $RE_LOCALE = 0;
+    private static $RE_LANGUAGE = 1;
+    private static $RE_COUNTRY = 3;
+
+    // For singleton pattern
+    private static $instance;
+
+    private function __construct() {
+    }
+
+    public static function inst() {
+        if (!isset(self::$instance)) {
+            $class = __CLASS__;
+            self::$instance = new $class;
+        }
+        return self::$instance;
+    }
 
     /**
      * Returns a map from the combined "fake" language codes to the full locale.
      *
      * @return array Map from the combined "fake" language codes to the full locale.
      */
-    function locale_get_combined_languge_code_map() {
+    private function getCombinedLangugeCodeMap() {
         return array('bp' => 'pt_BR', 'tc' => 'zh_TW');
     }
 
@@ -62,8 +60,8 @@
      *
      * @return bool True it is a comibned language code, otherwise false
      */
-    function locale_is_combined_language_code($locale) {
-        return array_key_exists($locale, locale_get_combined_languge_code_map());
+    public function isCombinedLanguageCode($locale) {
+        return array_key_exists($locale, $this->getCombinedLangugeCodeMap());
     }
 
     /**
@@ -72,9 +70,9 @@
      *
      * @return bool True it has a mapping, otherwise false
      */
-    function locale_has_combined_language_code_map($locale) {
+    public function hasCombinedLanguageCodeMap($locale) {
         return array_key_exists($locale,
-                                array_flip(locale_get_combined_languge_code_map()));
+                                array_flip($this->getCombinedLangugeCodeMap()));
     }
 
     /**
@@ -87,8 +85,8 @@
      * @param string $language_code Langugage code, short or long form locale to romap
      * @return string New long form locale if argument is old style combined langage code, or the original locale that was passed
      */
-    function locale_combined_language_code_to_full_locale($language_code) {
-        $combined_language_code_map = locale_get_combined_languge_code_map();
+    public function combinedLanguageCodeToFullLocale($language_code) {
+        $combined_language_code_map = $this->getCombinedLangugeCodeMap();
         if (array_key_exists($language_code, $combined_language_code_map)) {
             return $combined_language_code_map[$language_code];
         }
@@ -105,9 +103,9 @@
      * @param string $language_code Locale, short or long form
      * @return string New combined language code if the mapping exists, or the original locale that was passed
      */
-    function locale_full_locale_to_combined_language_code($locale) {
+    public function fullLocaleToCombinedLanguageCode($locale) {
         $full_locale_to_combined_language_map = 
-            array_flip(locale_get_combined_languge_code_map());
+            array_flip($this->getCombinedLangugeCodeMap());
         if (array_key_exists($locale, $full_locale_to_combined_language_map)) {
             return $full_locale_to_combined_language_map[$locale];
         }
@@ -126,9 +124,9 @@
      * @param string $locale Locale to test
      * @return bool True if valid and supported, false otherwise
      */
-    function locale_is_default($locale) {
-        return ((0 == strcmp($locale, DEFAULT_LOCALE_SHORT_FORM)) ||
-                (0 == strcmp($locale, DEFAULT_LOCALE_LONG_FORM)));
+    public function isDefault($locale) {
+        return ((0 == strcmp($locale, self::DEFAULT_LOCALE_SHORT_FORM)) ||
+                (0 == strcmp($locale, self::DEFAULT_LOCALE_LONG_FORM)));
     }
 
     /**
@@ -137,7 +135,7 @@
      * @param string $language_code Two letter lowercase language code
      * @return bool True if it is valid, false otherwise
      */
-    function locale_valid_language_code($language_code) {
+    public function isValidLanguageCode($language_code) {
         $language_map = locale_get_language_map();
         if (gettype($language_code) != 'string') {
             return false;
@@ -152,7 +150,7 @@
      * @param string $country_code Two letter uppercase language code
      * @return bool True if it is valid, false otherwise
      */
-    function locale_valid_country_code($country_code) {
+    public function isValidCountryCode($country_code) {
         $country_map = locale_get_country_map();
         if (gettype($country_code) != 'string') {
             return false;
@@ -171,7 +169,7 @@
      * @param string $locale Short or long form locale to test
      * @return bool True if locale is valid, false otherwise
      */
-    function locale_valid($locale) {
+    public function isValid($locale) {
         // Check the type
         if (gettype($locale) != 'string') {
             return false;
@@ -179,24 +177,24 @@
 
         // Match the locale with a regex
         $regs = array();
-        $result = ereg(LOCALE_REGEX, $locale, $regs);
+        $result = ereg(self::$LOCALE_REGEX, $locale, $regs);
         if (false === $result) {
             // Regex failed, not valid
             return false;
         }
 
         // Check if it is long form (country present)
-        if ($regs[RE_COUNTRY]) {
-            if (!locale_valid_country_code($regs[RE_COUNTRY])) {
+        if ($regs[self::$RE_COUNTRY]) {
+            if (!$this->isValidCountryCode($regs[self::$RE_COUNTRY])) {
                 // Country present and invalid, return false
                 return false;
             }
         }
 
-        if ($regs[RE_LANGUAGE]) {
+        if ($regs[self::$RE_LANGUAGE]) {
             // Either short form or long form with valid country,
             // return result of language code check
-            return locale_valid_language_code($regs[RE_LANGUAGE]);
+            return $this->isValidLanguageCode($regs[self::$RE_LANGUAGE]);
         }
 
         // Shouldn't get here, catch all
@@ -211,21 +209,21 @@
      * @param string $locale Short or long form locale to test
      * @return bool True if language is present and valid, false otherwise
      */
-    function locale_has_valid_language_code($locale) {
+    private function hasValidLanguageCode($locale) {
         if (gettype($locale) != 'string') {
             return false;
         }
 
         $regs = array();
-        $result = ereg(LOCALE_REGEX, $locale, $regs);
+        $result = ereg(self::$LOCALE_REGEX, $locale, $regs);
         if (false === $result) {
             return false;
         }
-        else if (false === $regs[RE_LANGUAGE]) {
+        else if (false === $regs[self::$RE_LANGUAGE]) {
             return false;
         }
 
-        return locale_valid_language_code($regs[RE_LANGUAGE]);
+        return $this->isValidLanguageCode($regs[self::$RE_LANGUAGE]);
     }
 
     /**
@@ -236,21 +234,21 @@
      * @param string $locale Short or long form locale to test
      * @return bool True if country is present and valid, false otherwise
      */
-    function locale_has_valid_country_code($locale) {
+    private function hasValidCountryCode($locale) {
         if (gettype($locale) != 'string') {
             return false;
         }
 
         $regs = array();
-        $result = ereg(LOCALE_REGEX, $locale, $regs);
+        $result = ereg(self::$LOCALE_REGEX, $locale, $regs);
         if (false === $result) {
             return false;
         }
-        else if (false === $regs[RE_COUNTRY]) {
+        else if (false === $regs[self::$RE_COUNTRY]) {
             return false;
         }
 
-        return locale_valid_country_code($regs[RE_COUNTRY]);
+        return $this->isValidCountryCode($regs[self::$RE_COUNTRY]);
     }
 
     /**
@@ -260,7 +258,7 @@
      * @return string Two letter lowercase language code
      * @exception PhetLocaleException if the locale or language code is invalid
      */
-    function locale_extract_language_code($locale) {
+    private function extractLanguageCode($locale) {
         // Check the type
         if (gettype($locale) != 'string') {
             $type = gettype($locale);
@@ -269,18 +267,18 @@
         }
 
         $regs = array();
-        $result = ereg(LOCALE_REGEX, $locale, $regs);
+        $result = ereg(self::$LOCALE_REGEX, $locale, $regs);
         if (false === $result) {
             $msg = "Cannot extract language code, invalid locale '{$locale}'";
             throw new PhetLocaleException($msg);
         }
 
-        if (!locale_valid_language_code($regs[RE_LANGUAGE])) {
-            $msg = "Cannot extract language code, invalid language '{$regs[RE_LANGUAGE]}'";
+        if (!$this->isValidLanguageCode($regs[self::$RE_LANGUAGE])) {
+            $msg = "Cannot extract language code, invalid language '{$regs[self::$RE_LANGUAGE]}'";
             throw new PhetLocaleException($msg);
         }
 
-        return $regs[RE_LANGUAGE];
+        return $regs[self::$RE_LANGUAGE];
     }
 
     /**
@@ -290,7 +288,7 @@
      * @return string Two letter uppercase country code
      * @exception PhetLocaleException if the locale is short form, invalid, or country code is invalid
      */
-    function locale_extract_country_code($locale) {
+    private function extractCountryCode($locale) {
         // Check the type
         if (gettype($locale) != 'string') {
             $type = gettype($locale);
@@ -299,22 +297,22 @@
         }
 
         $regs = array();
-        $result = ereg(LOCALE_REGEX, $locale, $regs);
+        $result = ereg(self::$LOCALE_REGEX, $locale, $regs);
         if (false === $result) {
             $msg = "Cannot extract country code, invalid locale '{$locale}'";
             throw new PhetLocaleException($msg);
         }
-        else if (false === $regs[RE_COUNTRY]) {
+        else if (false === $regs[self::$RE_COUNTRY]) {
             $msg = "Cannot extract country code, country not present in locale '{$locale}'";
             throw new PhetLocaleException($msg);
         }
 
-        if (!locale_valid_country_code($regs[RE_COUNTRY])) {
-            $msg = "Cannot extract country code, invalid country '{$regs[RE_COUNTRY]}'";
+        if (!$this->isValidCountryCode($regs[self::$RE_COUNTRY])) {
+            $msg = "Cannot extract country code, invalid country '{$regs[self::$RE_COUNTRY]}'";
             throw new PhetLocaleException($msg);
         }
 
-        return $regs[RE_COUNTRY];
+        return $regs[self::$RE_COUNTRY];
     }
 
     /**
@@ -324,10 +322,10 @@
      * @return string English name of language
      * @exception PhetLocaleException if the language code is not valid
      */
-     function locale_get_language_name($language_code) {
+     private function getLanguageName($language_code) {
         $language_map = locale_get_language_map();
 
-        if (!locale_valid_language_code($language_code)) {
+        if (!$this->isValidLanguageCode($language_code)) {
             $msg = "Invalid langage code '{$language_code}'";
             throw new PhetLocaleException($msg);
         }
@@ -342,10 +340,10 @@
      * @return string English name of country
      * @exception PhetLocaleException if the language code is not valid
      */
-    function locale_get_country_name($country_code) {
+    private function getCountryName($country_code) {
         $country_map = locale_get_country_map();;
 
-        if (!locale_valid_country_code($country_code)) {
+        if (!$this->isValidCountryCode($country_code)) {
             $msg = "Invalid country code '{$country_code}'";
             throw new PhetLocaleException($msg);
         }
@@ -360,19 +358,19 @@
      * @return string English language and country name (if present)
      * @exception PhetLocaleException if the locale is invalid
      */
-    function locale_get_locale_name($locale) {
-        if (!locale_valid($locale)) {
+    private function getLocaleName($locale) {
+        if (!$this->isValid($locale)) {
             $msg = "Invalid locale '{$locale}'";
             throw new PhetLocaleException($msg);
         }
 
-        $language_code = locale_extract_language_code($locale);
-        $language_name = locale_get_language_name($language_code);
+        $language_code = $this->extractLanguageCode($locale);
+        $language_name = $this->getLanguageName($language_code);
 
         $country_name = '';
-        if (locale_has_valid_country_code($locale)) {
-            $country_code = locale_extract_country_code($locale);
-            $country_name = ', '.locale_get_country_name($country_code);
+        if ($this->hasValidCountryCode($locale)) {
+            $country_code = $this->extractCountryCode($locale);
+            $country_name = ', '.$this->getCountryName($country_code);
         }
 
         return $language_name.$country_name;
@@ -388,12 +386,12 @@
      * @return int Result of comparison: <0, 0, >0
      * @exception PhetLocaleException if either if the codes are invalid
      */
-    function locale_language_sort_code_by_name($a, $b) {
+    private function languageSortCodeByNameCmp($a, $b) {
         // This top part is temporary until there is support for long form locales everywhere
-        $a1 = locale_extract_language_code(locale_combined_language_code_to_full_locale($a));
-        $b1 = locale_extract_language_code(locale_combined_language_code_to_full_locale($b));
+        $a1 = $this->extractLanguageCode($this->combinedLanguageCodeToFullLocale($a));
+        $b1 = $this->extractLanguageCode($this->combinedLanguageCodeToFullLocale($b));
 
-        return strcmp(locale_get_language_name($a1), locale_get_language_name($b1));
+        return strcmp($this->getLanguageName($a1), $this->getLanguageName($b1));
     }
 
     /**
@@ -406,14 +404,14 @@
      * @return int Result of comparison: <0, 0, >0
      * @exception PhetLocaleException if either of the codes are invalid
      */
-    function locale_country_sort_code_by_name($a, $b) {
+    private function countrySortCodeByNameCmp($a, $b) {
         // This top part is temporary until there is support for long form locales everywhere
-        $a2 = locale_combined_language_code_to_full_locale($a);
-        if ($a != $a2) $a = locale_extract_country_code($a);
-        $b2 = locale_combined_language_code_to_full_locale($b);
-        if ($b != $b2) $a = locale_extract_country_code($a);
+        $a2 = $this->combinedLanguageCodeToFullLocale($a);
+        if ($a != $a2) $a = $this->extractCountryCode($a);
+        $b2 = $this->combinedLanguageCodeToFullLocale($b);
+        if ($b != $b2) $a = $this->extractCountryCode($a);
 
-        return strcmp(locale_get_country_name($a), locale_get_country_name($b));
+        return strcmp($this->getCountryName($a), $this->getCountryName($b));
     }
 
     /**
@@ -424,35 +422,38 @@
      * @return int Result of comparison: <0, 0, >0
      * @exception PhetLocaleException if either of the codes are invalid
      */
-    function locale_sort_code_by_name($a, $b) {
-        $a1 = locale_combined_language_code_to_full_locale($a);
-        $b1 = locale_combined_language_code_to_full_locale($b);
+    public function sortCodeByNameCmp($a, $b) {
+        $a1 = $this->combinedLanguageCodeToFullLocale($a);
+        $b1 = $this->combinedLanguageCodeToFullLocale($b);
 
         // First do languages
-        $lang_a = locale_extract_language_code($a1);
-        $lang_b = locale_extract_language_code($b1);
-        $result = locale_language_sort_code_by_name($lang_a, $lang_b);
+        $lang_a = $this->extractLanguageCode($a1);
+        $lang_b = $this->extractLanguageCode($b1);
+        $result = $this->languageSortCodeByNameCmp($lang_a, $lang_b);
         if (0 !== $result) {
             return $result;
         }
 
         // Language codes are the same, try the countries
         // which may or may not be present
-        $valid_country_a = locale_has_valid_country_code($a);
-        $valid_country_b = locale_has_valid_country_code($b);
+        $valid_country_a = $this->hasValidCountryCode($a1);
+        $valid_country_b = $this->hasValidCountryCode($b1);
         if ((!$valid_country_a) && (!$valid_country_b)) {
+            // Countries are the same
             return 0;
         }
         else if ((!$valid_country_a) && ($valid_country_b)) {
+            // B has a Country, A does not
             return -1;
         }
         else if (($valid_country_a) && (!$valid_country_b)) {
+            // A has a Country, B does not
             return 1;
         }
         else {
-            $country_a = locale_extract_country_code($a);
-            $country_b = locale_extract_country_code($b);
-            return locale_country_sort_code_by_name($country_a, $country_b);
+            $country_a = $this->extractCountryCode($a1);
+            $country_b = $this->extractCountryCode($b1);
+            return $this->countrySortCodeByNameCmp($country_a, $country_b);
         }
     }
 
@@ -463,13 +464,13 @@
      * @return string Relative path from SITE_ROOT to the language image file
      * @exception PhetLocaleException if the code is invalid
      */
-    function locale_get_language_icon_url($language_code) {
-        if (!locale_valid_language_code($language_code)) {
+    private function getLanguageIconUrl($language_code) {
+        if (!$this->isValidLanguageCode($language_code)) {
             $msg = "Cannot find path to langaugae icon, invalid language code '{$language_code}'";
             throw new PhetLocaleException($msg);
         }
 
-        $language_name = locale_get_language_name($language_code);
+        $language_name = $this->getLanguageName($language_code);
         $icon = strtolower("{$language_name}-{$language_code}.png");
         return SITE_ROOT."images/languages/{$icon}";
     }
@@ -481,8 +482,8 @@
      * @return string Relative path from SITE_ROOT to the country image file
      * @exception PhetLocaleException if the code is invalid
      */
-    function locale_get_country_icon_url($country_code) {
-        if (!locale_valid_country_code($country_code)) {
+    private function getCountryIconUrl($country_code) {
+        if (!$this->isValidCountryCode($country_code)) {
             $msg = "Cannot find path to langaugae icon, invalid country code '{$country_code}'";
             throw new PhetLocaleException($msg);
         }
@@ -497,9 +498,9 @@
      * @return string HTML to render the image
      * @exception PhetLocaleException if the language code is invalid
      */
-    function locale_get_language_img_html($language_code) {
-        $language_name = locale_get_language_name($language_code);
-        $language_icon = locale_get_language_icon_url($language_code);
+    private function getLanguageImgHtml($language_code) {
+        $language_name = $this->getLanguageName($language_code);
+        $language_icon = $this->getLanguageIconUrl($language_code);
         return
                 "<img ".
                     "class=\"language\" ".
@@ -517,9 +518,9 @@
      * @return string HTML to render the image
      * @exception PhetLocaleException if the country code is invalid
      */
-    function locale_get_country_img_html($country_code) {
-        $country_name = locale_get_country_name($country_code);
-        $country_icon = locale_get_country_icon_url($country_code);
+    private function getCountryImgHtml($country_code) {
+        $country_name = $this->getCountryName($country_code);
+        $country_icon = $this->getCountryIconUrl($country_code);
         return
                 "<img ".
                     "class=\"country\" ".
@@ -536,28 +537,28 @@
      * @param string $locale Short or long form locale
      * @return mixed False if locale is invalid, else an array of locale info
      */
-    function locale_get_full_info($locale) {
-        if (!locale_valid($locale)) {
+    public function getFullInfo($locale) {
+        if (!$this->isValid($locale)) {
             return false;
         }
 
-        $locale = locale_combined_language_code_to_full_locale($locale);
+        $locale = $this->combinedLanguageCodeToFullLocale($locale);
 
         $info = array();
 
         $info['locale'] = $locale;
-        $info['locale_name'] = locale_get_locale_name($locale);
+        $info['locale_name'] = $this->getLocaleName($locale);
 
-        $info['language_code'] = locale_extract_language_code($locale);
-        $info['language_name'] = locale_get_language_name($info['language_code']);
-        $info['language_icon'] = locale_get_language_icon_url($info['language_code']);
-        $info['language_img'] = locale_get_language_img_html($info['language_code']);
+        $info['language_code'] = $this->extractLanguageCode($locale);
+        $info['language_name'] = $this->getLanguageName($info['language_code']);
+        $info['language_icon'] = $this->getLanguageIconUrl($info['language_code']);
+        $info['language_img'] = $this->getLanguageImgHtml($info['language_code']);
 
-        if (locale_has_valid_country_code($locale)) {
-            $info['country_code'] = locale_extract_country_code($locale);
-            $info['country_name'] = locale_get_country_name($info['country_code']);
-            $info['country_icon'] = locale_get_country_icon_url($info['country_code']);
-            $info['country_img'] = locale_get_country_img_html($info['country_code']);
+        if ($this->hasValidCountryCode($locale)) {
+            $info['country_code'] = $this->extractCountryCode($locale);
+            $info['country_name'] = $this->getCountryName($info['country_code']);
+            $info['country_icon'] = $this->getCountryIconUrl($info['country_code']);
+            $info['country_img'] = $this->getCountryImgHtml($info['country_code']);
         }
         else {
             $info['country_code'] = null;
@@ -568,4 +569,6 @@
 
         return $info;
     }
+}
+
 ?>

@@ -20,7 +20,6 @@
     require_once("include/sys-utils.php");
     require_once("include/web-utils.php");
     require_once("include/log-utils.php");
-    require_once("include/locale-utils.php");
 
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
@@ -29,11 +28,12 @@
     $sim_id = $_REQUEST['sim_id'];
 
     // Get the language, if present
-    $locale = DEFAULT_LOCALE;
-    if (isset($_REQUEST["locale"]) && (locale_valid($_REQUEST["locale"]))) {
+    $localeUtils = Locale::inst();
+    $locale = Locale::DEFAULT_LOCALE;
+    if (isset($_REQUEST["locale"]) && ($localeUtils->isValid($_REQUEST["locale"]))) {
         $locale = $_REQUEST["locale"];
     }
-    else if (isset($_REQUEST["lang"]) && (locale_valid($_REQUEST["lang"]))) {
+    else if (isset($_REQUEST["lang"]) && ($localeUtils->isValid($_REQUEST["lang"]))) {
         // Legacy, support the language argument
         $locale = $_REQUEST["lang"];
     }

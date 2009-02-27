@@ -582,7 +582,7 @@ EOT;
 EOT;
 
         foreach ($translations as $locale) {
-            $locale_info = locale_get_full_info($locale);
+            $locale_info = Locale::inst()->getFullInfo($locale);
             if ($locale_info === false) {
                 // TODO: log error
                 continue;
