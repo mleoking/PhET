@@ -116,11 +116,11 @@ public class SimUpdater {
      * Downloads files and displays a progress bar.
      * The files downloaded are the updater bootstrap jar, and the sim's new jar.
      */
-    private boolean downloadFiles( String updateSrc, File updaterDst, String simSrc, File simDst, String simName, PhetVersion newVersion ) throws IOException {
+    private boolean downloadFiles( String updaterSrc, File updaterDst, String simSrc, File simDst, String simName, PhetVersion newVersion ) throws IOException {
         
         // download requests
         DownloadThread downloadThread = new DownloadThread();
-        downloadThread.addRequest( PhetCommonResources.getString( "Common.updates.downloadingBootstrap" ), updateSrc, updaterDst );
+        downloadThread.addRequest( PhetCommonResources.getString( "Common.updates.downloadingBootstrap" ), updaterSrc, updaterDst );
         downloadThread.addRequest( PhetCommonResources.getString( "Common.updates.downloadingSimJar" ), simSrc, simDst );
         
         // progress dialog
