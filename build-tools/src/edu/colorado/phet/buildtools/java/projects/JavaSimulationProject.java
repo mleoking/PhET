@@ -30,4 +30,8 @@ public class JavaSimulationProject extends JavaProject {
     public String getProdServerDeployPath() {
         return null;//deploys to simulations
     }
+
+    public boolean getSignJar() {
+        return true;
+    }
 }

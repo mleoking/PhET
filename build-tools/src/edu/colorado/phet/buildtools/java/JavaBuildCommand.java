@@ -18,7 +18,6 @@ import org.apache.tools.ant.types.Path;
 
 import edu.colorado.phet.buildtools.AntTaskRunner;
 import edu.colorado.phet.buildtools.PhetCleanCommand;
-import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.buildtools.proguard.PhetProguardConfigBuilder;
 import edu.colorado.phet.buildtools.proguard.ProguardCommand;
@@ -30,7 +29,7 @@ import edu.colorado.phet.common.phetcommon.application.JARLauncher;
  * This command builds a PhET project, together with any dependencies.
  */
 public class JavaBuildCommand {
-    private final PhetProject project;
+    private final JavaProject project;
     private final AntTaskRunner antTaskRunner;
     private final boolean shrink;
     private final File outputJar;
@@ -44,16 +43,15 @@ public class JavaBuildCommand {
 
     public static final String JAVA_VERSION_CHECKER_CLASS_NAME = "edu.colorado.phet.javaversionchecker.JavaVersionChecker";
     public static final String JAR_LAUNCHER_CLASS_NAME = JARLauncher.class.getName();
-    private boolean signJAR = true;
 
-    public static String getMainLauncherClassName( PhetProject project ) {
+    public static String getMainLauncherClassName( JavaProject project ) {
         if ( project.getAlternateMainClass() != null ) {
             return project.getAlternateMainClass();
         }
         return ( useJavaVersionChecker ? JAVA_VERSION_CHECKER_CLASS_NAME : JAR_LAUNCHER_CLASS_NAME );
     }
 
-    public JavaBuildCommand( PhetProject project, AntTaskRunner taskRunner, boolean shrink, File outputJar ) {
+    public JavaBuildCommand( JavaProject project, AntTaskRunner taskRunner, boolean shrink, File outputJar ) {
         this.project = project;
         this.antTaskRunner = taskRunner;
         this.shrink = shrink;
@@ -66,7 +64,7 @@ public class JavaBuildCommand {
         project.copyLicenseInfo();
         jar();
         proguard();
-        if ( signJAR ) {
+        if ( project.getSignJar() ) {
             signJAR();
         }
     }
@@ -231,7 +229,7 @@ public class JavaBuildCommand {
         PhetProguardConfigBuilder builder = new PhetProguardConfigBuilder();
 
         builder.setDestJar( outputJar );
-        builder.setPhetProject( project );
+        builder.setJavaProject( project );
         builder.setShrink( shrink );
 
         new ProguardCommand( builder.build(), antTaskRunner ).execute();

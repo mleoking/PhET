@@ -227,4 +227,8 @@ public abstract class JavaProject extends PhetProject {
     public String getLaunchFileSuffix() {
         return "jnlp";
     }
+
+    public boolean getSignJar() {
+        return false;
+    }
 }
