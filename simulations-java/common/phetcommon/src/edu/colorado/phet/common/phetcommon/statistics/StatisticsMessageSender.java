@@ -17,7 +17,7 @@ import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
-import edu.colorado.phet.common.phetcommon.util.logging.USLConsoleLogger;
+import edu.colorado.phet.common.phetcommon.util.logging.USLogger;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.SessionCounter;
 import edu.colorado.phet.common.phetcommon.view.util.XMLUtils;
@@ -57,9 +57,6 @@ import edu.colorado.phet.common.phetcommon.view.util.XMLUtils;
  */
 public class StatisticsMessageSender {
 
-    // prints debug output to the System.out
-    private static final boolean ENABLE_DEBUG_OUTPUT = true;
-    
     // XML tags and attributes
     private static final String ROOT_TAG = "submit_message";
     private static final String STATISTICS_MESSAGE_TAG = "statistics_message";
@@ -127,10 +124,8 @@ public class StatisticsMessageSender {
      */
     private HttpURLConnection postDocument( Document document ) throws ParserConfigurationException, TransformerException, IOException {
         final String url = PhetCommonConstants.STATISTICS_SERVICE_URL;
-        if ( ENABLE_DEBUG_OUTPUT ) {
-            USLConsoleLogger.log( getClass().getName() + " posting to url=" + url );
-            USLConsoleLogger.log( getClass().getName() + " query=\n" + XMLUtils.toString( document ) );
-        }
+        USLogger.log( getClass().getName() + " posting to url=" + url );
+        USLogger.log( getClass().getName() + " query=\n" + XMLUtils.toString( document ) );
         return XMLUtils.post( url, document );
     }
 
@@ -138,10 +133,8 @@ public class StatisticsMessageSender {
      * Parses the response to see if we succeeded.
      */
     private boolean parseResponse( Document document ) throws IOException, SAXException, ParserConfigurationException, TransformerException {
-        
-        if ( ENABLE_DEBUG_OUTPUT ) {
-            USLConsoleLogger.log( getClass().getName() + " response=\n" + XMLUtils.toString( document ) );
-        }
+
+        USLogger.log( getClass().getName() + " response=\n" + XMLUtils.toString( document ) );
         
         // look for warnings
         NodeList warnings = document.getElementsByTagName( WARNING_TAG );

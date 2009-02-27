@@ -14,7 +14,7 @@ public class StatisticsMessageField {
 
     public StatisticsMessageField( String name, String value ) {
         this.name = name;
-        this.value = ( value == null ? NULL_STRING : value );
+        this.value = ( ( value == null || value.length() == 0 ) ? NULL_STRING : value );
     }
     
     public StatisticsMessageField( String name, int value ) {
