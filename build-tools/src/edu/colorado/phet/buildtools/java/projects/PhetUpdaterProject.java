@@ -27,6 +27,6 @@ public class PhetUpdaterProject extends JavaProject {
     }
 
     public String getProdServerDeployPath() {
-        return "/web/htdocs/phet/phet-dist/updater";
+        return "/web/htdocs/phet/phet-dist/phet-updater";
     }
 }
