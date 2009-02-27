@@ -136,6 +136,7 @@ class TranslationInstructionsPage extends SitePage {
             We refer to these strings as "common strings".
             Examples of common strings include: the "File" menu, the "Help" menu, the Play/Pause/Step buttons that control the clock.
             When you're translating a simulation, Translation Utility does not allow you to translate common strings.
+            </p>
             <p>
             To translate common strings, you'll need to download special JAR files to your computer.
             There are separate JAR files (and separate sets of common strings) for Java and Flash simulations.
