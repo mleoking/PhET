@@ -46,7 +46,6 @@ public class UpdaterUtils {
         return file.getName().toLowerCase().endsWith( suffix );
     }
 
-    // copied from phetcommon FileUtils
     /**
      * Gets the JAR file that this class was launched from.
      */
