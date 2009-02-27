@@ -17,7 +17,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
-import edu.colorado.phet.common.phetcommon.util.logging.USLConsoleLogger;
+import edu.colorado.phet.common.phetcommon.util.logging.USLogger;
 import edu.colorado.phet.common.phetcommon.resources.PhetInstallerVersion;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.view.util.XMLUtils;
@@ -65,9 +65,6 @@ import edu.colorado.phet.common.phetcommon.view.util.XMLUtils;
  */
 public class VersionInfoQuery {
     
-    // prints debug output to the System.out
-    private static final boolean ENABLE_DEBUG_OUTPUT = true;
-    
     private final String project;
     private final String sim;
     private final PhetVersion currentSimVersion;
@@ -109,17 +106,13 @@ public class VersionInfoQuery {
         try {
             // query
             Document queryDocument = buildQueryDocument( project, sim, currentInstallerVersion, automaticRequest );
-            if ( ENABLE_DEBUG_OUTPUT ) {
-                USLConsoleLogger.log( getClass().getName() + " posting to url=" + url );
-                USLConsoleLogger.log( getClass().getName() + " query=\n" + XMLUtils.toString( queryDocument ) );
-            }
+            USLogger.log( getClass().getName() + " posting to url=" + url );
+            USLogger.log( getClass().getName() + " query=\n" + XMLUtils.toString( queryDocument ) );
             HttpURLConnection connection = XMLUtils.post( url, queryDocument );
             
             // response
             Document responseDocument = XMLUtils.readDocument( connection );
-            if ( ENABLE_DEBUG_OUTPUT ) {
-                USLConsoleLogger.log( getClass().getName() + " response=\n" + XMLUtils.toString( responseDocument ) );
-            }
+            USLogger.log( getClass().getName() + " response=\n" + XMLUtils.toString( responseDocument ) );
             VersionInfoQueryResponse response = parseResponseDocument( responseDocument, this );
             
             // notification

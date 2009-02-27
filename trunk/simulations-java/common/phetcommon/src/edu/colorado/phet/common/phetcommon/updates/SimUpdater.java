@@ -16,10 +16,11 @@ import edu.colorado.phet.common.phetcommon.dialogs.ErrorDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateErrorDialog;
+import edu.colorado.phet.common.phetcommon.util.DeploymentScenario;
 import edu.colorado.phet.common.phetcommon.util.DownloadThread;
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
-import edu.colorado.phet.common.phetcommon.util.DeploymentScenario;
+import edu.colorado.phet.common.phetcommon.util.logging.USLogger;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
 /**
@@ -30,10 +31,6 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
  */
 public class SimUpdater {
     
-    // do not enabled debug output for public releases, the log file will grow indefinitely!
-    //see also the UpdateLogger implementation for whether outputs will also be echoed to console
-    private static final boolean DEBUG_OUTPUT_ENABLED = true;
-
     // updater basename
     private static final String UPDATER_BASENAME = "phet-updater";
     
@@ -69,7 +66,7 @@ public class SimUpdater {
                 }
                 else {
                     String jarURL = getJarURL(simInfo);
-                    println( "requesting update via URL=" + jarURL );
+                    log( "requesting update via URL=" + jarURL );
                     File tempSimJAR = getTempSimJAR( simJAR );
                     File tempUpdaterJAR = getTempUpdaterJAR();
                     boolean success = downloadFiles( UPDATER_ADDRESS, tempUpdaterJAR, jarURL, tempSimJAR, simInfo.getName(), newVersion );
@@ -144,7 +141,7 @@ public class SimUpdater {
      */
     private void startUpdaterBootstrap( File updaterBootstrap, File src, File dst ) throws IOException {
         String[] cmdArray = new String[] { PhetUtilities.getJavaPath(), "-jar", updaterBootstrap.getAbsolutePath(), src.getAbsolutePath(), dst.getAbsolutePath() };
-        println( "Starting updater bootstrap with cmdArray=" + Arrays.asList( cmdArray ).toString() );
+        log( "Starting updater bootstrap with cmdArray=" + Arrays.asList( cmdArray ).toString() );
         Runtime.getRuntime().exec( cmdArray );
         // It would be nice to read output from the Process returned by exec.
         // However, the simulation JAR must exit so that it can be overwritten.
@@ -159,9 +156,9 @@ public class SimUpdater {
             // So that this works in IDEs, where we aren't running a JAR.
             // In general, we only support running JAR files.
             location = File.createTempFile( sim, ".jar" );
-            println( "Not running from a JAR, you are likely running from an IDE, update will be installed at " + location );
+            log( "Not running from a JAR, you are likely running from an IDE, update will be installed at " + location );
         }
-        println( "running sim JAR is " + location.getAbsolutePath() );
+        log( "running sim JAR is " + location.getAbsolutePath() );
         return location;
     }
     
@@ -171,7 +168,7 @@ public class SimUpdater {
     private File getTempSimJAR( File simJAR ) throws IOException {
         String basename = FileUtils.getBasename( simJAR );
         File file = File.createTempFile( basename, ".jar" );
-        println( "temporary JAR is " + file.getAbsolutePath() );
+        log( "temporary JAR is " + file.getAbsolutePath() );
         return file;
     }
 
@@ -185,7 +182,7 @@ public class SimUpdater {
         if ( updaterJAR.exists() && !updaterJAR.canWrite() ) {
             updaterJAR = File.createTempFile( UPDATER_BASENAME, ".jar" );
         }
-        println( "Downloading updater to " + updaterJAR.getAbsolutePath() );
+        log( "Downloading updater to " + updaterJAR.getAbsolutePath() );
         return updaterJAR;
     }
     
@@ -198,10 +195,8 @@ public class SimUpdater {
         new JarFile( file ); // throws IOException if not a jar file
     }
 
-    private void println( String message ) {
-        if ( DEBUG_OUTPUT_ENABLED ) {
-            UpdateLogger.log( getClass().getName() + "> " + message );
-        }
+    private void log( String message ) {
+        USLogger.log( getClass().getName() + ": " + message );
     }
     
     private static void handleErrorWritePermissions( File file ) {

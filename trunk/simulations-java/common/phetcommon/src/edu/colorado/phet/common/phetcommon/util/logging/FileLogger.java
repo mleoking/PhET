@@ -10,15 +10,16 @@ import java.io.IOException;
 /**
  * Logs to a file.
  */
-public class FileLogger implements ILogger {
+public class FileLogger extends AbstractLogger {
 
     private FileWriter fileWriter;
-
+    
     public FileLogger( String logFileName, boolean append ) {
         this( new File( logFileName ), append );
     }
 
     public FileLogger( File logFile, boolean append ) {
+        super( true /* enabled */ );
         try {
             logFile.createNewFile(); // creates a new file if the file doesn't already exist
             fileWriter = new FileWriter( logFile, append );
@@ -38,15 +39,9 @@ public class FileLogger implements ILogger {
         }
     }
 
-    public void logError( String message ) {
-        log( "ERROR: " + message );
-    }
-
     public static void main( String[] args ) {
         String logFileName = System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" ) + "log-test.txt";
         ILogger logger = new FileLogger( logFileName, true /* append */);
-        logger.log( "good news" );
-        logger.logError( "bad news" );
+        logger.test();
     }
-
 }

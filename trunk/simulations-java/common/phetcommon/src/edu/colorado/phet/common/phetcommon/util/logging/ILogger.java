@@ -2,6 +2,16 @@
 package edu.colorado.phet.common.phetcommon.util.logging;
 
 public interface ILogger {
-    void log( String message );
-    void logError( String message );
+    
+    public void setEnabled( boolean enabled );
+    
+    public boolean isEnabled();
+
+    public void log( String message );
+
+    public void warning( String message );
+
+    public void error( String message );
+    
+    public void test();
 }

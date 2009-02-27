@@ -2,21 +2,35 @@
 
 package edu.colorado.phet.common.phetcommon.util.logging;
 
-public class ConsoleLogger implements ILogger {
+import java.io.PrintStream;
 
-    public void log( String message ) {
-        System.out.println( message );
-        System.out.flush();
+public class ConsoleLogger extends AbstractLogger {
+    
+    public ConsoleLogger() {
+        super( true /* enabled */ );
     }
-
-    public void logError( String message ) {
-        System.err.println( message );
-        System.err.flush();
+    
+    public ConsoleLogger( boolean enabled ) {
+        super( enabled );
+    }
+    
+    public void log( String message ) {
+        log( message, System.out );
+    }
+    
+    public void error( String message ) {
+        log( "ERROR: " + message , System.err );
+    }
+    
+    private void log( String message, PrintStream printStream ) {
+        if ( isEnabled() ) {
+            printStream.println( message );
+            printStream.flush();
+        }
     }
 
     public static void main( String[] args ) {
         ILogger logger = new ConsoleLogger();
-        logger.log( "good news" );
-        logger.logError( "bad news" );
+        logger.test();
     }
 }
