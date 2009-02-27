@@ -59,17 +59,18 @@ public class FileUtils {
     public static File getCodeSource() {
         URL url = FileUtils.class.getProtectionDomain().getCodeSource().getLocation();
         try {
-            return new File( url.toURI() );
+            //TODO: consider using new File(URL.toURI) when we move to 1.5
+            return new File( URLDecoder.decode( url.getFile(), "UTF-8" ) );//whitespace are %20 if you don't decode with utf-8, and file ops will fail.  See #1308
         }
-        catch( URISyntaxException e ) {
+        catch( UnsupportedEncodingException e ) {
             e.printStackTrace();
             try {
-               return new File( URLDecoder.decode( url.getFile(), "UTF-8" ) );//whitespace are %20 if you don't decode with utf-8, and file ops will fail.  See #1308
+                return new File( URLDecoder.decode( url.getPath(), "UTF-8" ) );
             }
-            catch( UnsupportedEncodingException ex ) {
-                ex.printStackTrace();
+            catch( UnsupportedEncodingException e1 ) {
+                e1.printStackTrace();
+                return new File( url.getPath() );
             }
-            throw new RuntimeException( "No code source found for URL: "+url);
         }
     }
     
