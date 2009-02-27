@@ -1,3 +1,4 @@
+2/26/09 - #1288, change clock rewind button tooltip to "Restart"
 # 1.09.01 (28809) Feb 19, 2009
 Batch deploy for alpha Simulation Tests, svn 28773
 10/8/08 - use PhetApplicationConfig.launchSim
