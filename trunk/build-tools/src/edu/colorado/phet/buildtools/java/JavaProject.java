@@ -20,6 +20,7 @@ import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.util.BuildPropertiesFile;
 import edu.colorado.phet.buildtools.util.PhetBuildUtils;
+import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 
 public abstract class JavaProject extends PhetProject {
@@ -107,8 +108,18 @@ public abstract class JavaProject extends PhetProject {
         }
 
         java.setArgs( "-dev" ); // program arg to run in developer mode
+        File file = new File( getTrunk(), "build-tools/test-output.txt" );
+        java.setOutput( file );
 
+        System.out.println( "Launching task, output will be printed after finish." );
         new MyAntTaskRunner().runTask( java );
+        try {
+            String text= FileUtils.loadFileAsString( file );
+            System.out.println( "Process finished:\n"+text );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
     }
 
     /**
