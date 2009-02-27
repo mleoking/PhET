@@ -7,6 +7,7 @@ import java.util.Arrays;
 
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.java.JavaBuildCommand;
+import edu.colorado.phet.buildtools.java.JavaProject;
 
 /**
  * Builds a Proguard config for a Phet project.
@@ -23,7 +24,7 @@ public class PhetProguardConfigBuilder {
         builder.setOutputJar( outputJar );
     }
 
-    public void setPhetProject( PhetProject project ) {
+    public void setJavaProject( JavaProject project ) {
         builder.setName( project.getName() );
         builder.setProguardTemplate( new File( project.getTrunk(), PROGUARD_TEMPLATE ) );
         builder.setInputJars( prepend( project.getAllJarFiles(), project.getJarFile() ) );
@@ -31,7 +32,7 @@ public class PhetProguardConfigBuilder {
         builder.setMainClasses( getAllMainClasses( project ) );
     }
 
-    private String[] getAllMainClasses( PhetProject project ) {
+    private String[] getAllMainClasses( JavaProject project ) {
         ArrayList list = new ArrayList( Arrays.asList( project.getAllMainClasses() ) );
         list.add( JavaBuildCommand.getMainLauncherClassName( project ) );
         return (String[]) list.toArray( new String[0] );
