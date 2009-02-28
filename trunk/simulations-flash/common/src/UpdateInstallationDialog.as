@@ -85,7 +85,7 @@ class UpdateInstallationDialog {
 		
 		// add padding around the text
 		textArea.setBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)));
-		textArea.setWidth(300);
+		textArea.setWidth(350);
 		
 		window.getContentPane().append(textArea);
 		
