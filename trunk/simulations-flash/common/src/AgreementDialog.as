@@ -80,11 +80,16 @@ class AgreementDialog {
 		var okButton : JButton = new JButton(common.strings.get("Close", "Close"));
 		okButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, okClicked));
 		CommonButtons.padButtonAdd(okButton, panel);
-		window.getContentPane().append(panel);
+		
+		//window.getContentPane().append(panel);
+		var centerPanel : JPanel = new JPanel(new CenterLayout()); //SoftBoxLayout.X_AXIS, 0, SoftBoxLayout.CENTER
+		centerPanel.append(panel);
+		window.getContentPane().append(centerPanel);
+		
+		window.getContentPane().append(new JSpacer(5, 5));
 		
 		// scale the window to fit
-		window.setHeight(window.getContentPane().getPreferredSize().height + 50);
-		window.setWidth(window.getContentPane().getPreferredSize().width + 50);
+		window.setSize(window.getPreferredSize());
 		
 		// center the window
 		window.setLocation((Stage.width - window.getWidth()) / 2, (Stage.height - window.getHeight()) / 2);

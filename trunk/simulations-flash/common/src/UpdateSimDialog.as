@@ -124,8 +124,7 @@ class UpdateSimDialog {
 		window.getContentPane().append(centerPanel);
 		
 		// fit the window to its contents
-		window.setHeight(window.getContentPane().getPreferredSize().height + 50);
-		window.setWidth(window.getContentPane().getPreferredSize().width + 50);
+		window.setSize(window.getPreferredSize());
 		
 		// center the window
 		window.setLocation((Stage.width - window.getWidth()) / 2, (Stage.height - window.getHeight()) / 2);

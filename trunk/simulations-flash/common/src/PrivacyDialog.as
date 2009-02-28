@@ -98,7 +98,7 @@ class PrivacyDialog {
 		
 		window.getContentPane().append(textArea);
 		
-		//window.getContentPane().append(new JSpacer(5, 5));
+		window.getContentPane().append(new JSpacer(5, 5));
 		
 		// panel to lay the buttons in
 		var panel : JPanel = new JPanel(new BoxLayout());
@@ -110,9 +110,10 @@ class PrivacyDialog {
 		
 		window.getContentPane().append(panel);
 		
+		window.getContentPane().append(new JSpacer(5, 5));
+		
 		// fit the window to its contents
-		window.setHeight(window.getContentPane().getPreferredSize().height + 50);
-		window.setWidth(window.getContentPane().getPreferredSize().width + 50);
+		window.setSize(window.getPreferredSize());
 		
 		// center the window
 		window.setLocation((Stage.width - window.getWidth()) / 2, (Stage.height - window.getHeight()) / 2);

@@ -84,9 +84,10 @@ class StatisticsDetailsDialog {
 		CommonButtons.padButtonAdd(okButton, panel);		
 		window.getContentPane().append(panel);
 		
+		window.getContentPane().append(new JSpacer(5, 5));
+		
 		// scale the window to fit
-		window.setHeight(window.getContentPane().getPreferredSize().height + 50);
-		window.setWidth(window.getContentPane().getPreferredSize().width + 50);
+		window.setSize(window.getPreferredSize());
 		
 		// center the window
 		window.setLocation((Stage.width - window.getWidth()) / 2, (Stage.height - window.getHeight()) / 2);

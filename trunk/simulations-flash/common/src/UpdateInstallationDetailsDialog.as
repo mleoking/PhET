@@ -25,7 +25,6 @@ class UpdateInstallationDetailsDialog {
 		// shortcut to FlashCommon, but now with type-checking!
 		common = _level0.common;
 		
-		
 		// mysterious fix since "this" does not refer to a MovieClip or Component
 		ASWingUtils.getRootMovieClip();
 		
@@ -34,7 +33,6 @@ class UpdateInstallationDetailsDialog {
 		
 		// the window shouldn't be resizable
 		window.setResizable(false);
-		
 		
 		// make sure we can access it from anywhere
 		_level0.updateInstallationDetailsWindow = window;
@@ -64,20 +62,10 @@ class UpdateInstallationDetailsDialog {
 		textArea.setEditable(false);
 		textArea.setCSS(css);
 		textArea.setMultiline(true);
-		
-		
 		textArea.setBackground(common.backgroundColor);
-		
-		// add padding around the text
 		textArea.setBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)));
 		textArea.setWidth(250);
 		textArea.setWordWrap(true);
-		//textArea.setPreferredSize(textArea.countPreferredSize());
-		//textArea.size();
-		//textArea.setWidth(100);
-		
-		//textArea.updateUI();
-		//textArea.setText(str);
 		
 		window.getContentPane().append(textArea);
 		
@@ -96,8 +84,7 @@ class UpdateInstallationDetailsDialog {
 		window.getContentPane().append(centerPanel);
 		
 		// fit the window to its contents
-		window.setHeight(window.getContentPane().getPreferredSize().height + 50);
-		window.setWidth(window.getContentPane().getPreferredSize().width + 50);
+		window.setSize(window.getPreferredSize());
 		
 		// center the window
 		window.setLocation((Stage.width - window.getWidth()) / 2, (Stage.height - window.getHeight()) / 2);
