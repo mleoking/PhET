@@ -115,8 +115,7 @@ class UpdateInstallationDialog {
 		window.getContentPane().append(centerPanel);
 		
 		// fit the window to its contents
-		window.setHeight(window.getContentPane().getPreferredSize().height + 50);
-		window.setWidth(window.getContentPane().getPreferredSize().width + 50);
+		window.setSize(window.getPreferredSize());
 		
 		window.addEventListener(JFrame.ON_WINDOW_CLOSED, Delegate.create(this, onWindowClose));
 		
