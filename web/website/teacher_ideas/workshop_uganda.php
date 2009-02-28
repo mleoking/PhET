@@ -19,6 +19,7 @@ class UgandaWorkshopPage extends SitePage {
 
         $installer_url = SITE_ROOT.'get_phet/full_install.php';
 
+        $publications_location = PHET_DIST_ROOT."publications/";
         $workshop_materials_location = PHET_DIST_ROOT."workshops/";
         $uganda_materials_location = PHET_DIST_ROOT."workshops/Uganda/";
 
@@ -31,7 +32,7 @@ class UgandaWorkshopPage extends SitePage {
 </p>
 
 <p>
-<a href="http://jilawww.colorado.edu/~mckagan/papers/UgandaPaper.pdf">An article about the workshops</a>
+<a href="{$publications_location}McKagan_UgandaPaper.pdf">An article about the workshops</a>
 </p>
 
 <p>
