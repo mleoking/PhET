@@ -19,9 +19,7 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
-require_once('include/sys-utils.php');
 require_once('include/sim-utils.php');
-
 
 class PhetInfo {
     const ROOT_ELEMENT_NAME = 'phet_info';
@@ -34,11 +32,12 @@ class PhetInfo {
         $this->verbose = $verbose;
     }
 
-    private function addErrorAttribute(&$tag, $error) {
-        $tag->addAttribute('error', $error);
+    private function addErrorElement($tag, $error) {
+        $this->setFail($tag);
+        $tag->addChild('error', $error);
     }
 
-    private function verifyRequiredTags($request_xml, $required_tags) {
+    private function verifyRequiredAttributes($request_xml, $required_tags) {
         $missing_tags = array();
         foreach ($required_tags as $tag) {
             if (!isset($request_xml[$tag])) {
@@ -48,9 +47,28 @@ class PhetInfo {
         return $missing_tags;
     }
 
+    private function setSuccess($xml) {
+        if (isset($xml['success'])) {
+            $xml['success'] = 'true';
+        }
+        else {
+            $xml->addAttribute('success', 'true');
+        }
+    }
+
+    private function setFail($xml) {
+        if (isset($xml['success'])) {
+            $xml['success'] = 'false';
+        }
+        else {
+            $xml->addAttribute('success', 'false');
+        }
+    }
+
     private function sendErrorAndExit($error) {
         $xml = new SimpleXMLElement(self::ERROR_RESPONSE_XML_SHELL);
-        $this->addErrorAttribute($xml, $error);
+        $this->setFail($xml, false);
+        $this->addErrorElement($xml, $error);
 
         if ($this->verbose) {
             print 'error:'.$error."\n";
@@ -72,7 +90,7 @@ class PhetInfo {
                 $this->sendErrorAndExit("badly formed XML");
             }
             else {
-                $this->sendErrorAndExit("unexpetect internal error, xml=".urlencode($xml_text));
+                $this->sendErrorAndExit("unexpected internal error, xml=".urlencode($xml_text));
             }
         }
 
@@ -87,7 +105,7 @@ class PhetInfo {
         return $xml;
     }
 
-    private function recommendInstallerUpdate($installer_timestamp, $tag) {
+    private function recommendInstallerUpdate($installer_timestamp) {
         $now = time();
         $days_to_secs = 60 * 60 * 24;
 
@@ -96,7 +114,6 @@ class PhetInfo {
         $max_age = $settings['install_recommend_update_age'] * $days_to_secs;
         $installer_age = $now - $installer_timestamp;
         if ($installer_age > $max_age) {
-            //$tag->addAttribute('recommend_update_reason', 'recommend on age');
             return true;
         }
 
@@ -106,58 +123,61 @@ class PhetInfo {
                              $date);
         $date_threshold = mktime(0, 0, 0, $date[2], $date[3], $date[1]);
         if ($installer_timestamp < $date_threshold) {
-            //$tag->addAttribute('recommend_update_reason', "recommend on date {$settings['install_recommend_update_date']} {$installer_timestamp} {$date_threshold} - ".DB_USERNAME);
-
             return true;
         }
 
-        //$tag->addAttribute('recommend_update_reason', "no recommend {$installer_age} {$max_age} {$installer_timestamp} {$date_threshold}".DB_USERNAME);
         return false;
     }
 
-    private function processRequestInstaller($request_xml, &$response_xml) {
-        $installer_tag = $response_xml->addChild('phet_installer_update_response', '');
+    private function processRequestInstaller($request_xml, $response_xml) {
+        $instal_element = $response_xml->addChild('phet_installer_update_response', '');
 
-        $missing_tags = $this->verifyRequiredTags($request_xml, array('timestamp_seconds'));
+        // Assume success, change if not
+        $this->setSuccess($instal_element);
+
+        $missing_tags = $this->verifyRequiredAttributes($request_xml, array('timestamp_seconds'));
 
         if (!empty($missing_tags)) {
-            $this->addErrorAttribute($installer_tag, 'required tags not specified: '.join(', ', $missing_tags));
+            $this->addErrorElement($instal_element, 'required tags not specified: '.join(', ', $missing_tags));
             return;
         }
 
         if (!empty($missing_tags)) {
-            $this->addErrorAttribute($installer_tag, 'required tags not specified: '.join(', ', $missing_tags));
+            $this->addErrorElement($instal_element, 'required tags not specified: '.join(', ', $missing_tags));
             return;
         }
 
         if (0 == preg_match('/^[0-9]+$/', $request_xml['timestamp_seconds'])) {
-            $this->addErrorAttribute($installer_tag, 'timestamp_seconds is invalid');
+            $this->addErrorElement($instal_element, 'timestamp_seconds is invalid');
             return;
         }
 
         // Add the "ask me later" timeframe
         $installer_timestamp = (int) $request_xml['timestamp_seconds'];
-        if ($this->recommendInstallerUpdate($installer_timestamp, $installer_tag)) {
-            $installer_tag->addAttribute('recommend_update', 'true');
+        if ($this->recommendInstallerUpdate($installer_timestamp)) {
+            $instal_element->addAttribute('recommend_update', 'true');
         }
         else {
-            $installer_tag->addAttribute('recommend_update', 'false');
+            $instal_element->addAttribute('recommend_update', 'false');
         }
 
         $settings = UpdateUtils::inst()->getSettings();
         $latest_timestamp = installer_get_latest_timestamp();
-        $installer_tag->addAttribute('timestamp_seconds', $latest_timestamp);
-        $installer_tag->addAttribute('ask_me_later_duration_days',
-                                     $settings['install_ask_later_duration']);
+        $instal_element->addAttribute('timestamp_seconds', $latest_timestamp);
+        $instal_element->addAttribute('ask_me_later_duration_days',
+                                      $settings['install_ask_later_duration']);
     }
 
-    private function processRequestSimVersion($request_xml, &$response_xml) {
-        $version_tag = $response_xml->addChild('sim_version_response', '');
+    private function processRequestSimVersion($request_xml, $response_xml) {
+        $version_element = $response_xml->addChild('sim_version_response', '');
 
-        $missing_tags = $this->verifyRequiredTags($request_xml, array('project', 'sim'));
+        // Assume success, change if not
+        $this->setSuccess($version_element);
+
+        $missing_tags = $this->verifyRequiredAttributes($request_xml, array('project', 'sim'));
 
         if (!empty($missing_tags)) {
-            $this->addErrorAttribute($version_tag, 'required tags not specified: '.join(', ', $missing_tags));
+            $this->addErrorElement($version_element, 'required tags not specified: '.join(', ', $missing_tags));
             return;
         }
 
@@ -166,7 +186,7 @@ class PhetInfo {
 
         $simulation = sim_get_sim_by_dirname_flavorname($project, $sim);
         if (!$simulation) {
-            $this->addErrorAttribute($version_tag, "project and/or sim does not exist: \"{$project}\", \"{$sim}\"");
+            $this->addErrorElement($version_element, "project and/or sim does not exist: \"{$project}\", \"{$sim}\"");
             return;
         }
 
@@ -181,25 +201,28 @@ class PhetInfo {
 
         if (!empty($missing_attributes)) {
             $error = "can't find value for attributes: ".join(', ', $missing_attributes);
-            $this->addErrorAttribute($version_tag, $error);
+            $this->addErrorElement($version_element, $error);
             return;
         }
 
-        $version_tag->addAttribute('project', $project);
-        $version_tag->addAttribute('sim', $sim);
-        $version_tag->addAttribute('version_major', $version['major']);
-        $version_tag->addAttribute('version_minor', $version['minor']);
-        $version_tag->addAttribute('version_dev', $version['dev']);
-        $version_tag->addAttribute('version_revision', $version['revision']);
-        $version_tag->addAttribute('version_timestamp', $version['timestamp']);
+        $version_element->addAttribute('project', $project);
+        $version_element->addAttribute('sim', $sim);
+        $version_element->addAttribute('version_major', $version['major']);
+        $version_element->addAttribute('version_minor', $version['minor']);
+        $version_element->addAttribute('version_dev', $version['dev']);
+        $version_element->addAttribute('version_revision', $version['revision']);
+        $version_element->addAttribute('version_timestamp', $version['timestamp']);
 
         // Add the "ask me later" timeframe
         $settings = UpdateUtils::inst()->getSettings();
-        $version_tag->addAttribute('ask_me_later_duration_days', $settings['sim_ask_later_duration']);
+        $version_element->addAttribute('ask_me_later_duration_days', $settings['sim_ask_later_duration']);
     }
 
     private function processRequest($xml) {
         $response_xml = new SimpleXMLElement(self::RESPONSE_XML_SHELL);
+
+        // The error checking has already happened for the root element
+        $this->setSuccess($response_xml);
 
         if (isset($xml->sim_version)) {
             $this->processRequestSimVersion($xml->sim_version, $response_xml);

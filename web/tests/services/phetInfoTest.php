@@ -36,12 +36,12 @@ class phetInfoTest extends PHPUnit_Framework_TestCase {
         $this->nonexistent_requested_sim = self::NONEXISTENT_REQUESTED_SIM;
 
         $days_to_secs = 60 * 60 * 24;
-        $this->installer_timestamp = time() - 
+        $this->installer_timestamp = time() -
             (self::INSTALLER_TIMESTAMP_AGE_IN_DAYS * $days_to_secs);
     }
 
     private function makeRequest($xml, $verbose = false) {
-        $overrides = 
+        $overrides =
             array('PHET-DEFINE-OVERRIDE-DB_HOSTNAME' => 'localhost',
                   'PHET-DEFINE-OVERRIDE-DB_NAME' => 'phet_test',
                   'PHET-DEFINE-OVERRIDE-DB_USERNAME' => 'phet_test',
@@ -125,7 +125,7 @@ EOT;
             default:
                 throw new RuntimeException("Invalid value passed to version_request in constructGoodEmptyTagXML");
         }
-    
+
         if ($empty_tag) {
             return "<{$tag} $guts />";
         }
@@ -151,7 +151,7 @@ EOT;
             default:
                 throw new RuntimeException("Invalid value passed to version_request in constructGoodEmptyTagXML");
         }
-        
+
         if ($empty_tag) {
             return "<{$tag} $guts />";
         }
@@ -187,6 +187,22 @@ EOT;
 EOT;
     }
 
+    private function getSuccessStatus($xml) {
+        $this->assertTrue(isset($xml['success']), 'success attribute does not exist');
+        return 'true' == ((string) $xml['success']);
+    }
+
+    private function hasError($xml, $path, $error_regex) {
+        $success = false;
+        foreach ($xml->xpath($path.'/error') as $error) {
+            if (preg_match($error_regex, (string) $error)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function setUp() {
         parent::setUp();
         $settings = array(
@@ -211,34 +227,59 @@ EOT;
         $not_xml = 'this is not XML';
         $data = $this->makeRequest($not_xml);
         $xml = new SimpleXMLElement($data);
-        $this->assertRegExp('/^badly formed XML$/', (string) $xml['error']);
+        $this->assertFalse($this->getSuccessStatus($xml));
+        $this->assertTrue(
+            $this->hasError(
+                $xml,
+                '/phet_info_response',
+                '/^badly formed XML$/')
+            );
     }
 
     public function testPhetInfo_badQuoteXMLReturnsError() {
         $request_xml = $this->constructBadQuotesXML();
         $data = $this->makeRequest($request_xml);
         $xml = new SimpleXMLElement($data);
-        $this->assertRegExp('/^badly formed XML$/', (string) $xml['error']);
+        $this->assertFalse($this->getSuccessStatus($xml));
+        $this->assertTrue(
+            $this->hasError(
+                $xml,
+                '/phet_info_response',
+                '/^badly formed XML$/')
+            );
     }
 
     public function testPhetInfo_dashedXMLTagsReturnsError() {
         $request_xml = $this->constructBadDashesXML();
         $data = $this->makeRequest($request_xml);
         $xml = new SimpleXMLElement($data);
-        $this->assertRegExp('/^underscores needed in XML tags$/', (string) $xml['error']);
+        $this->assertFalse($this->getSuccessStatus($xml));
+        $this->assertTrue(
+            $this->hasError(
+                $xml,
+                '/phet_info_response',
+                '/^underscores needed in XML tags$/')
+            );
     }
 
     public function testPhetInfo_badRootElementNameReturnsError() {
         $request_xml = $this->constructBadRootElementNameXML();
         $data = $this->makeRequest($request_xml);
         $xml = new SimpleXMLElement($data);
-        $this->assertRegExp('/^XML root element name invalid$/', (string) $xml['error']);
+        $this->assertFalse($this->getSuccessStatus($xml));
+        $this->assertTrue(
+            $this->hasError(
+                $xml,
+                '/phet_info_response',
+                '/^XML root element name invalid$/')
+            );
     }
 
     public function testPhetInfo_noVersionRequestDoesNotGiveResponseTag() {
         $request_xml = $this->constructGoodFullTagXML(self::NONE);
         $data = $this->makeRequest($request_xml);
         $response_xml = new SimpleXMLElement($data);
+        $this->assertTrue($this->getSuccessStatus($response_xml));
         $this->assertFalse(isset($response_xml->sim_version_response));
     }
 
@@ -246,22 +287,37 @@ EOT;
         $request_xml = $this->constructGoodFullTagXML(self::INVALID_MISSING_ATTR);
         $data = $this->makeRequest($request_xml);
         $response_xml = new SimpleXMLElement($data);
+        $this->assertTrue($this->getSuccessStatus($response_xml));
         $info = $response_xml->sim_version_response[0];
-        $this->assertRegExp('/^required tags not specified: project, sim$/i', (string) $info['error']);
+        $this->assertFalse($this->getSuccessStatus($info));
+        $this->assertTrue(
+            $this->hasError(
+                $info,
+                '/phet_info_response/sim_version_response',
+                '/^required tags not specified: project, sim$/i')
+            );
     }
 
     public function testPhetInfo_badVersionRequestGivesResponseWithError() {
         $request_xml = $this->constructGoodFullTagXML(self::INVALID_BAD_ATTR);
         $data = $this->makeRequest($request_xml);
         $response_xml = new SimpleXMLElement($data);
+        $this->assertTrue($this->getSuccessStatus($response_xml));
         $info = $response_xml->sim_version_response[0];
-        $this->assertRegExp('#^project and/or sim does not exist: "'.self::NONEXISTENT_REQUESTED_PROJECT.'", "'.self::NONEXISTENT_REQUESTED_SIM.'"$#i', (string) $info['error']);
+        $this->assertFalse($this->getSuccessStatus($info));
+        $this->assertTrue(
+            $this->hasError(
+                $info,
+                '/phet_info_response/sim_version_response',
+                '#^project and/or sim does not exist: "'.self::NONEXISTENT_REQUESTED_PROJECT.'", "'.self::NONEXISTENT_REQUESTED_SIM.'"$#i')
+            );
     }
 
     public function testPhetInfo_versionRequestGivesResponseTag() {
         $request_xml = $this->constructGoodFullTagXML(self::VALID);
         $data = $this->makeRequest($request_xml);
         $response_xml = new SimpleXMLElement($data);
+        $this->assertTrue($this->getSuccessStatus($response_xml));
         $this->assertTrue(isset($response_xml->sim_version_response));
     }
 
@@ -269,7 +325,9 @@ EOT;
         $request_xml = $this->constructGoodFullTagXML(self::VALID);
         $data = $this->makeRequest($request_xml);
         $response_xml = new SimpleXMLElement($data);
+        $this->assertTrue($this->getSuccessStatus($response_xml));
         $info = $response_xml->sim_version_response[0];
+        $this->assertTrue($this->getSuccessStatus($info));
         $this->assertEquals(self::REQUESTED_PROJECT, (string) $info['project']);
         $this->assertEquals(self::REQUESTED_SIM, (string) $info['sim']);
         $this->assertRegExp('/^[0-9]+$/', (string) $info['version_major']);
@@ -294,7 +352,9 @@ EOT;
         $request_xml = $this->constructGoodFullTagXML(self::VALID);
         $data = $this->makeRequest($request_xml);
         $response_xml = new SimpleXMLElement($data);
+        $this->assertTrue($this->getSuccessStatus($response_xml));
         $info = $response_xml->sim_version_response[0];
+        $this->assertTrue($this->getSuccessStatus($info));
         $this->assertEquals(self::REQUESTED_PROJECT, (string) $info['project']);
         $this->assertEquals(self::REQUESTED_SIM, (string) $info['sim']);
         $this->assertRegExp('/^1$/', (string) $info['version_major']);
@@ -309,6 +369,7 @@ EOT;
         $request_xml = $this->constructGoodFullTagXML(self::NONE, self::NONE);
         $data = $this->makeRequest($request_xml);
         $response_xml = new SimpleXMLElement($data);
+        $this->assertTrue($this->getSuccessStatus($response_xml));
         $this->assertFalse(isset($response_xml->phet_installer_update_response));
     }
 
@@ -316,22 +377,37 @@ EOT;
         $request_xml = $this->constructGoodFullTagXML(self::NONE, self::INVALID_MISSING_ATTR);
         $data = $this->makeRequest($request_xml);
         $response_xml = new SimpleXMLElement($data);
+        $this->assertTrue($this->getSuccessStatus($response_xml));
         $info = $response_xml->phet_installer_update_response[0];
-        $this->assertRegExp('/^required tags not specified: timestamp_seconds$/i', (string) $info['error']);
+        $this->assertFalse($this->getSuccessStatus($info));
+        $this->assertTrue(
+            $this->hasError(
+                $info,
+                '/phet_info_response/phet_installer_update_response',
+                '/^required tags not specified: timestamp_seconds$/i')
+            );
     }
 
     public function testPhetInfo_badInstallerRequestGivesResponseWithError() {
         $request_xml = $this->constructGoodFullTagXML(self::NONE, self::INVALID_BAD_ATTR);
         $data = $this->makeRequest($request_xml);
         $response_xml = new SimpleXMLElement($data);
+        $this->assertTrue($this->getSuccessStatus($response_xml));
         $info = $response_xml->phet_installer_update_response[0];
-        $this->assertRegExp('/^timestamp_seconds is invalid$/i', (string) $info['error']);
+        $this->assertFalse($this->getSuccessStatus($info));
+        $this->assertTrue(
+            $this->hasError(
+                $info,
+                '/phet_info_response/phet_installer_update_response',
+                '/^timestamp_seconds is invalid$/i')
+            );
     }
 
     public function testPhetInfo_installerRequestGivesResponseTag() {
         $request_xml = $this->constructGoodFullTagXML(self::NONE, self::VALID);
         $data = $this->makeRequest($request_xml);
         $response_xml = new SimpleXMLElement($data);
+        $this->assertTrue($this->getSuccessStatus($response_xml));
         $this->assertTrue(isset($response_xml->phet_installer_update_response));
     }
 
@@ -339,7 +415,9 @@ EOT;
         $request_xml = $this->constructGoodFullTagXML(self::NONE, self::VALID);
         $data = $this->makeRequest($request_xml);
         $response_xml = new SimpleXMLElement($data);
+        $this->assertTrue($this->getSuccessStatus($response_xml));
         $info = $response_xml->phet_installer_update_response[0];
+        $this->assertTrue($this->getSuccessStatus($info));
         $this->assertRegExp('/^(true|false)$/i', (string) $info['recommend_update']);
         $this->assertRegExp('/^[0-9]+$/', (string) $info['timestamp_seconds']);
         $this->assertRegExp('/^[0-9]+/', (string) $info['ask_me_later_duration_days']);
@@ -357,12 +435,14 @@ EOT;
             'install_recommend_update_age' => 25,
             'install_recommend_update_date' => $recommend_date,
             );
-     
+
         UpdateUtils::inst()->setSettings($settings);
         $request_xml = $this->constructGoodFullTagXML(self::NONE, self::VALID);
         $data = $this->makeRequest($request_xml);
         $response_xml = new SimpleXMLElement($data);
+        $this->assertTrue($this->getSuccessStatus($response_xml));
         $info = $response_xml->phet_installer_update_response[0];
+        $this->assertTrue($this->getSuccessStatus($info));
 
         // First just check a valid response
         $this->assertRegExp('/^(true|false)$/i', (string) $info['recommend_update']);
@@ -387,12 +467,14 @@ EOT;
             'install_recommend_update_age' => 5,
             'install_recommend_update_date' => $recommend_date,
             );
-     
+
         UpdateUtils::inst()->setSettings($settings);
         $request_xml = $this->constructGoodFullTagXML(self::NONE, self::VALID);
         $data = $this->makeRequest($request_xml);
         $response_xml = new SimpleXMLElement($data);
+        $this->assertTrue($this->getSuccessStatus($response_xml));
         $info = $response_xml->phet_installer_update_response[0];
+        $this->assertTrue($this->getSuccessStatus($info));
 
         // First just check a valid response
         $this->assertRegExp('/^(true|false)$/i', (string) $info['recommend_update']);
@@ -417,12 +499,14 @@ EOT;
             'install_recommend_update_age' => 25,
             'install_recommend_update_date' => $recommend_date,
             );
-     
+
         UpdateUtils::inst()->setSettings($settings);
         $request_xml = $this->constructGoodFullTagXML(self::NONE, self::VALID);
         $data = $this->makeRequest($request_xml);
         $response_xml = new SimpleXMLElement($data);
+        $this->assertTrue($this->getSuccessStatus($response_xml));
         $info = $response_xml->phet_installer_update_response[0];
+        $this->assertTrue($this->getSuccessStatus($info));
 
         // First just check a valid response
         $this->assertRegExp('/^(true|false)$/i', (string) $info['recommend_update']);
