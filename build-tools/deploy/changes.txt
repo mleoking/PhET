@@ -1,3 +1,5 @@
+# 00.04.00 (29113) Mar 1, 2009
+moved offline jar generation script distribution directory, see #1330
 # 00.03.00 (29035) Feb 25, 2009
 Deploy to tigercat
 # 00.02.00 (29031) Feb 24, 2009
