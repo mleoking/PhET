@@ -1,3 +1,5 @@
+# 00.03.00 (29109) Mar 1, 2009
+Redeploy after removing 1.5 dependency on URL.toURI
 # 00.02.00 (29098) Feb 27, 2009
 deploy fix #1331 to tigercat
 2-26-09: #1331, fix phet-updater flavor name, fix prod deploy location
