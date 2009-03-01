@@ -447,27 +447,6 @@ public class BuildScript {
                 } );
     }
 
-    public static void generateSimulationAndLanguageJARFilesPython( PhetProject project, PhetServer server, AuthenticationInfo authenticationInfo ) {
-        SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername( server.getHost() ), authenticationInfo.getPassword( server.getHost() ) );
-        try {
-            sshConnection.connect();
-            for ( int i = 0; i < project.getSimulationNames().length; i++ ) {
-                String command = server.getLocalizationCommand();
-                if ( command != null ) {
-                    String fullCommand = command + " " + project.getName() + " " + project.getSimulationNames()[i];
-                    System.out.println( "Running command: " + fullCommand );
-                    sshConnection.executeTask( new SshCommand( fullCommand ) );
-                }
-            }
-        }
-        catch( SshException e ) {
-            e.printStackTrace();
-        }
-        finally {
-            sshConnection.disconnect();
-        }
-    }
-
     public static void generateSimulationAndLanguageJARFilesJava( PhetProject project, PhetServer server, AuthenticationInfo authenticationInfo ) {
         SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername( server.getHost() ), authenticationInfo.getPassword( server.getHost() ) );
         try {
