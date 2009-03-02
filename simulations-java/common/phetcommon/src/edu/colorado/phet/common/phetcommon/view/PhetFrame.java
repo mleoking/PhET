@@ -9,10 +9,7 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
-import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.common.phetcommon.view.menu.PhetFileMenu;
@@ -92,7 +89,10 @@ public class PhetFrame extends JFrame {
                 System.out.println( "Preferences=" + PhetPreferences.getInstance().toString() );
                 System.out.println( "Resetting preferences file." );
                 PhetPreferences.clear();
-                JOptionPane.showMessageDialog( PhetFrame.this, "Preferences file cleared, press OK to exit.\nFile is " + path+"\nDelete session counts manually, in the same directory." );
+
+                System.out.println( "Clearing session counts." );
+                SessionCounter.clear();
+                JOptionPane.showMessageDialog( PhetFrame.this, "Preferences file and session counts cleared, press OK to exit.\nFile is " + path+"" );
                 System.exit( 0 );
             }
         } );
