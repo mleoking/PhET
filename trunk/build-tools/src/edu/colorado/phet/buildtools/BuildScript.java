@@ -451,12 +451,15 @@ public class BuildScript {
         SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername( server.getHost() ), authenticationInfo.getPassword( server.getHost() ) );
         try {
             sshConnection.connect();
-            String buildScriptDir = server.getServerDeployPath( new BuildToolsProject( new File( project.getTrunk(), "build-tools" ) ) );
+            
+            BuildToolsProject buildToolsProject = new BuildToolsProject( new File( project.getTrunk(), "build-tools" ) );
+            String buildScriptDir = server.getServerDeployPath( project );
             String projectDir = server.getServerDeployPath( project );
 
             String javaCmd=server.getJavaCommand();
             String jarCmd=server.getJarCommand();
-            String command = javaCmd+" -classpath " + buildScriptDir + "/build-tools_all.jar " + OfflineJARGenerator.class.getName() + " " + projectDir + "/" + project.getDefaultDeployJar().getName() + " "+jarCmd;
+            String jarName = buildToolsProject.getDefaultDeployJar().getName();
+            String command = javaCmd+" -classpath " + buildScriptDir + "/" + jarName + " " + OfflineJARGenerator.class.getName() + " " + projectDir + "/" + project.getDefaultDeployJar().getName() + " "+jarCmd;
 
             System.out.println( "Running command: \n" + command );
             sshConnection.executeTask( new SshCommand( command ) );
