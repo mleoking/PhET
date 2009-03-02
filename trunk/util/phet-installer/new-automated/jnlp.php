@@ -1,7 +1,6 @@
 <?php
     //========================================================================
-    // This file contains functions for locating and manipulating JNLP files
-    // as needed for inclusion in the installers.
+    // This file contains functions for locating and manipulating JNLP files.
     //========================================================================
 
     require_once("file-util.php");
