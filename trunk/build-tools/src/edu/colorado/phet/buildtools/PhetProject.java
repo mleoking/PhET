@@ -11,6 +11,7 @@ import edu.colorado.phet.buildtools.java.projects.PhetUpdaterProject;
 import edu.colorado.phet.buildtools.java.projects.TranslationUtilityProject;
 import edu.colorado.phet.buildtools.scripts.SetSVNIgnoreToDeployDirectories;
 import edu.colorado.phet.buildtools.util.*;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.resources.PhetProperties;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
@@ -51,8 +52,12 @@ public abstract class PhetProject {
         return file;
     }
 
+    private String getJarName() {
+        return PhetApplicationConfig.getProjectJarName( getName() );
+    }
+    
     public File getDefaultDeployJar() {
-        return new File( getDeployDir(), getName() + "_all.jar" );
+        return new File( getDeployDir(), getJarName() );
     }
 
     public File getProjectDir() {
@@ -318,7 +323,7 @@ public abstract class PhetProject {
     }
 
     public File getJarFile() {
-        File file = new File( getAntOutputDir(), "jars/" + name + "_all.jar" );
+        File file = new File( getAntOutputDir(), "jars/" + getJarName() );
         file.getParentFile().mkdirs();
         return file;
     }
@@ -522,7 +527,7 @@ public abstract class PhetProject {
     }
 
     public String getDeployedSimulationJarURL() {
-        return PhetServer.PRODUCTION.getWebDeployURL( this ) + "/" + getName() + "_all.jar";
+        return PhetServer.PRODUCTION.getWebDeployURL( this ) + "/" + getJarName();
     }
 
     public abstract File getTranslationFile( Locale locale );
