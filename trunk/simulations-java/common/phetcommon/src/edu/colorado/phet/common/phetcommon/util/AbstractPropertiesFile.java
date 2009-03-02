@@ -179,4 +179,11 @@ public class AbstractPropertiesFile {
     public String toString() {
         return properties.toString();
     }
+
+    public boolean delete(){
+        return file.delete();
+    }
+    public void deleteOnExit(){
+        file.deleteOnExit();
+    }
 }

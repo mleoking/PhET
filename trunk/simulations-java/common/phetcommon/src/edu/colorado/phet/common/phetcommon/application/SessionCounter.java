@@ -118,7 +118,17 @@ public class SessionCounter {
     public synchronized int getCountSince() {
         return file.getCountSince( project, simulation );
     }
-    
+
+    public static void clear() {
+        getInstance().doClear();
+    }
+
+    private void doClear() {
+        if (!file.delete()){
+            file.deleteOnExit();
+        }
+    }
+
     /**
      * This is the interface to the sessions-counts.properties file.
      */
