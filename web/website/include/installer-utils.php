@@ -89,7 +89,7 @@
     }
 
     function installer_get_win_filename() {
-        $file = PHET_DIST_ROOT.'installers/PhET-Installer_Windows.exe';
+        $file = PHET_DIST_ROOT.'installers/PhET-Installer_windows.exe';
         if (file_exists($file)) {
         	return $file;
         }
@@ -100,7 +100,7 @@
     }
 
     function installer_get_mac_filename() {
-        $file = PHET_DIST_ROOT.'installers/PhET-Installer_OSX.zip';
+        $file = PHET_DIST_ROOT.'installers/PhET-Installer_osx.zip';
         if (file_exists($file)) {
         	return $file;
         }
@@ -111,7 +111,7 @@
     }
 	
     function installer_get_linux_filename() {
-        $file = PHET_DIST_ROOT.'installers/PhET-Installer_Linux.bin';
+        $file = PHET_DIST_ROOT.'installers/PhET-Installer_linux.bin';
         if (file_exists($file)) {
         	return $file;
         }
@@ -122,7 +122,7 @@
     }
 
     function installer_get_cdrom_filename() {
-        $file = PHET_DIST_ROOT.'installers/PhET-Installer_CDROM.zip';
+        $file = PHET_DIST_ROOT.'installers/PhET-Installer_cdrom.zip';
         if (file_exists($file)) {
         	return $file;
         }
