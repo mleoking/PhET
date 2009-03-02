@@ -1,0 +1,15 @@
+#!/bin/bash
+#
+# create a backup of the statistics database remotely (from somewhere else on campus or VPN)
+# a local copy of all data will be made in your trunk/statistics/backup/ directory (and will be ignored by subversion)
+#
+# usage:
+#
+# ./create_remote_backup <tigercat username> <suffix for backup>
+#
+# NOTE: SSH will first prompt you for your tigercat password, then MySQL will prompt you for the statistics database password.
+#
+# example: ./create_remote_backup olsonjb alpha
+# This created phet_stats-backup-1235971713-alpha.sql
+
+ssh $1@tigercat.colorado.edu "mysqldump --compact --compress --no-create-db --no-create-info --host=hellcat.colorado.edu --user=phet_stats -p phet_stats" > backup/phet_stats-backup-`date +%s`-$2.sql
