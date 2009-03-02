@@ -453,7 +453,7 @@ public class BuildScript {
             sshConnection.connect();
             
             BuildToolsProject buildToolsProject = new BuildToolsProject( new File( project.getTrunk(), "build-tools" ) );
-            String buildScriptDir = server.getServerDeployPath( project );
+            String buildScriptDir = server.getServerDeployPath( buildToolsProject );
             String projectDir = server.getServerDeployPath( project );
 
             String javaCmd=server.getJavaCommand();
