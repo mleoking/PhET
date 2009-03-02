@@ -10,7 +10,7 @@
 server="${1}.colorado.edu:htdocs/statistics/"
 
 # the files that need to be copied
-files="db-display.php db-errors.php db-recent.php db-stats.php db-test-fill.php parsed-log.php raw-log.php phet_stats.sql submit_message.php report/general-report.php report/queries.php report/query-csv.php report/query-demo.php report/query-table.php report/general-query.php report/query-combo-box.php report/select-projects.php report/general-query.js report/general-query.css report/prev.gif report/calendarDateInput.js report/next.gif report/calendar.jpg report/user-queries.php"
+files="db-display.php db-errors.php db-recent.php db-stats.php db-test-fill.php parsed-log.php raw-log.php phet_stats.sql submit_message.php report/general-report.php report/queries.php report/query-csv.php report/query-demo.php report/query-table.php report/general-query.php report/query-combo-box.php report/select-projects.php report/general-query.js report/general-query.css report/prev.gif report/calendarDateInput.js report/next.gif report/calendar.jpg report/user-queries.php create_local_backup"
 
 for file in $files;
 do

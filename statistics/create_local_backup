@@ -1,0 +1,15 @@
+#!/bin/bash
+#
+# WARNING:
+#     This script will create a large amount of data on tigercat. Only use this if the size of data stored on hellcat
+#     will easily fit inside tigercat's quota
+#
+# Create a local (stored on tigercat) backup. Run this from tigercat!
+#
+# usage:
+#
+# ./create_local_backup <suffix for backup>
+#
+# the resulting file will be stored in statistics/backup/ and will include the suffix and a timestamp in the filename
+
+mysqldump --compact --compress --no-create-db --no-create-info --host=hellcat.colorado.edu --user=phet_stats -p --result-file=backup/phet_stats-backup-`date +%s`-$1.sql phet_stats
