@@ -43,11 +43,18 @@ public class PhetBuildGUI {
         c.add( menuItem );
         menuBar.add( c );
         menuBar.add( translationMenu );
-        menuBar.add( new MiscMenu( trunk ) );
+        final MiscMenu miscMenu = new MiscMenu( trunk );
+        menuBar.add( miscMenu );
         frame.setJMenuBar( menuBar );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        PhetBuildGUIPanel panel = new PhetBuildGUIPanel( trunk );
+        final PhetBuildGUIPanel panel = new PhetBuildGUIPanel( trunk );
+        panel.addListener( new ProjectListPanel.Listener() {
+            public void notifyChanged() {
+                miscMenu.setSelectedProject( panel.getSelectedProject() );
+            }
+        } );
+        miscMenu.setSelectedProject( panel.getSelectedProject() );
         frame.setContentPane( panel );
 
         frame.setSize( 1200, 400 );
