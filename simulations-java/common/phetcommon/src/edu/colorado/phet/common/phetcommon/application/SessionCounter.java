@@ -119,12 +119,11 @@ public class SessionCounter {
         return file.getCountSince( project, simulation );
     }
 
-    public static void clear() {
-        getInstance().doClear();
-    }
-
-    private void doClear() {
-        if (!file.delete()){
+    /**
+     * Effectively sets all counts to zero by deleting the underlying properties file.
+     */
+    public synchronized void clear() {
+        if ( !file.delete() ) {
             file.deleteOnExit();
         }
     }
@@ -212,5 +211,14 @@ public class SessionCounter {
         public int getTotal() {
             return getPropertyInt( KEY_TOTAL_COUNT, 0 );
         }
+    }
+    
+    public static void main( String[] args ) {
+        SessionCounter s = SessionCounter.initInstance( "balloons", "balloons" );
+        System.out.println( "before increment: count=" + s.getCount() + " since=" + s.getCountSince() );
+        s.incrementCounts();
+        System.out.println( "after increment: count=" + s.getCount() + " since=" + s.getCountSince() );
+        s.clear();
+        System.out.println( "after clear: count=" + s.getCount() + " since=" + s.getCountSince() );
     }
 }

@@ -97,7 +97,7 @@ public class PhetFrame extends JFrame {
                     PhetPreferences.clear();
 
                     System.out.println( "Clearing session counts." );
-                    SessionCounter.clear();
+                    SessionCounter.getInstance().clear();
                     JOptionPane.showMessageDialog( PhetFrame.this, "Preferences file and session counts cleared, press OK to exit.\nFile is " + path + "" );
                     System.exit( 0 );
                 }
