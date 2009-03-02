@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.dialogs.DownloadProgressDialog;
 import edu.colorado.phet.common.phetcommon.dialogs.ErrorDialog;
+import edu.colorado.phet.common.phetcommon.files.PhetInstallation;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateErrorDialog;
@@ -39,6 +40,10 @@ public class SimUpdater {
     // where the updater lives on the PhET site
     private static final String UPDATER_ADDRESS = "http://phet.colorado.edu/phet-dist/phet-updater/" + UPDATER_JAR;
     
+    // localized strings
+    private static final String ERROR_WRITE_PERMISSIONS = PhetCommonResources.getString( "Common.updates.errorWritePermissions" );
+    private static final String ERROR_MISSING_JAR = PhetCommonResources.getString( "Common.updates.errorMissingJar" );
+    
     private final File tmpDir;
     
     public SimUpdater() {
@@ -61,7 +66,10 @@ public class SimUpdater {
         else {
             try {
                 File simJAR = getSimJAR( simInfo.getFlavor() );
-                if ( !simJAR.canWrite() ) {
+                if ( simJAR == null ) {
+                    handleErrorMissingJar( simJAR );
+                }
+                else if ( !simJAR.canWrite() ) {
                     handleErrorWritePermissions( simJAR );
                 }
                 else {
@@ -89,7 +97,8 @@ public class SimUpdater {
     }
 
     /**
-     * Determines which JAR URL should be used to update this simulation, depends on whether we're in a phet installation (which gives <project>_all.jar)
+     * Determines which JAR URL should be used to update this simulation, 
+     * depends on whether we're in a phet installation (which gives <project>_all.jar)
      * or an offline simulation (which gives <sim>_<locale>.jar).
      * @param simInfo
      * @return
@@ -151,14 +160,20 @@ public class SimUpdater {
      * Gets the running simulation's JAR file.
      */
     private File getSimJAR( String sim ) throws IOException {
-        File location = FileUtils.getCodeSource();
-        if ( !FileUtils.hasSuffix( location, "jar" ) ) {
-            // So that this works in IDEs, where we aren't running a JAR.
-            // In general, we only support running JAR files.
-            location = File.createTempFile( sim, ".jar" );
-            log( "Not running from a JAR, you are likely running from an IDE, update will be installed at " + location );
+        File location = null;
+        if ( DeploymentScenario.getInstance() == DeploymentScenario.PHET_INSTALLATION ) {
+            location = PhetInstallation.getInstance().getInstalledJarFile();
         }
-        log( "running sim JAR is " + location.getAbsolutePath() );
+        else {
+            location = FileUtils.getCodeSource();
+            if ( !FileUtils.hasSuffix( location, "jar" ) ) {
+                // So that this works in IDEs, where we aren't running a JAR.
+                // In general, we only support running JAR files.
+                location = File.createTempFile( sim, ".jar" );
+                log( "Not running from a JAR, you are likely running from an IDE, update will be installed at " + location );
+            }
+            log( "running sim JAR is " + location.getAbsolutePath() );
+        }
         return location;
     }
     
@@ -201,8 +216,18 @@ public class SimUpdater {
     
     private static void handleErrorWritePermissions( File file ) {
         Object[] args = { file.getAbsolutePath() };
-        String message = MessageFormat.format( PhetCommonResources.getString( "Common.updates.errorWritePermissions" ), args );
-        JDialog d = new ErrorDialog( (Frame)null, message );
-        d.setVisible( true );
+        String message = MessageFormat.format( ERROR_WRITE_PERMISSIONS, args );
+        displayError( null, message );
+    }
+    
+    private static void handleErrorMissingJar( File file ) {
+        Object[] args = { file.getAbsolutePath() };
+        String message = MessageFormat.format( ERROR_MISSING_JAR, args );
+        displayError( null, message );
+    }
+    
+    private static void displayError( Frame parent, String message ) {
+        JDialog d = new ErrorDialog( parent, message );
+        d.setVisible( true ); 
     }
 }
