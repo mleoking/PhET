@@ -61,6 +61,13 @@
 		return " = '{$val}'";
 	}
 
+	function esc($arr, $val) {
+	    if($arr[$val] === null) {
+	        return null;
+	    }
+	    return mysql_real_escape_string($arr[$val]);
+	}
+
 	// build a query list based on the variables of the associative array $arr.
 	//
 	// for many scripts, the queries should be obtained with report_query($_GET)
@@ -76,18 +83,18 @@
 		// signifies whether we are including session_flash_info / session_java_info into the joins
 		$flash_info = false;
 		$java_info = false;
-
+                                         
 		// identifies the type of query being performed
-		$query_name = $arr['query'];
+		$query_name = esc($arr, 'query');
 
 
 		//////////
 		// Restriction of values included. Goes into the WHERE clause
 
 		if($arr['sim_type'] !== null) {
-			if($arr['sim_type'] == "flash") {
+			if(esc($arr, 'sim_type') == "flash") {
 				array_push($session_where, "session.sim_type != 0");
-			} else if($arr['sim_type'] == "java") {
+			} else if(esc($arr, 'sim_type') == "java") {
 				array_push($session_where, "session.sim_type = 0");
 			}
 		}
@@ -118,7 +125,7 @@
                 } else if($table_names[0] == "session_java_info") {
                     $java_info = true;
                 }
-		        array_push($query, "SELECT (@sub_{$field_name} := {$table_names[1]}.id) FROM {$table_names[1]} WHERE {$table_names[1]}.name = '{$arr[$field_name]}'; ");
+		        array_push($query, "SELECT (@sub_{$field_name} := {$table_names[1]}.id) FROM {$table_names[1]} WHERE {$table_names[1]}.name = '" . esc($arr, $field_name) . "'; ");
 			    array_push($session_where, "{$table_names[0]}.{$field_name} = @sub_{$field_name}");
             }
 		}
@@ -148,7 +155,7 @@
                 } else if($table_name == "session_java_info") {
                     $java_info = true;
                 }
-		        array_push($session_where, "{$table_name}.{$field_name}" . plain_cmp($arr[$field_name]));
+		        array_push($session_where, "{$table_name}.{$field_name}" . plain_cmp(esc($arr, $field_name)));
             }
 		}
 
@@ -162,28 +169,26 @@
 		    "host_locale_country" => "session"
 		);
 		foreach($string_wheres as $field_name => $table_name) {
-		    if($arr[$field_name] !== null) {
-		        array_push($session_where, "{$table_name}.{$field_name}" . string_equal($arr[$field_name]));
+		    if(esc($arr, $field_name) !== null) {
+		        array_push($session_where, "{$table_name}.{$field_name}" . string_equal(esc($arr, $field_name)));
             }
 		}
 		
 		// for timestamp
-		if($arr['timestamptype']) {
-			switch($arr['timestamptype']) {
+		if(esc($arr, 'timestamptype')) {
+			switch(esc($arr, 'timestamptype')) {
 				case 'before':
-					array_push($session_where, "session.timestamp < '{$arr['timestampA']}'");
+					array_push($session_where, "session.timestamp < '" . esc($arr, 'timestampA') . "'");
 					break;
 				case 'after':
-					array_push($session_where, "session.timestamp >= '{$arr['timestampA']}'");
+					array_push($session_where, "session.timestamp >= '" . esc($arr, 'timestampA') . "'");
 					break;
 				case 'between':
-					$tA = "'" . $arr['timestampA'] . "'";
-					$tB = "'" . $arr['timestampB'] . "'";
+					$tA = "'" . esc($arr, 'timestampA') . "'";
+					$tB = "'" . esc($arr, 'timestampB') . "'";
 					$sT = "session.timestamp";
 					$tstr = "IF({$tA} > {$tB}, {$sT} < {$tA} AND {$sT} >= {$tB}, {$sT} < {$tB} AND {$sT} >= {$tA})";
 					array_push($session_where, $tstr);
-					//array_push($session_where, "session.timestamp < '{$arr['timestampA']}'");
-					//array_push($session_where, "session.timestamp >= '{$arr['timestampB']}'");
 					break;
 			}
 		}
@@ -191,7 +196,7 @@
 		//////////
 		// Grouping of values, for the GROUP BY clause
 
-		$group = $arr['group'];
+		$group = esc($arr, 'group');
 		
 		if($group) {
 			switch($group) {
@@ -382,7 +387,7 @@
 		//////////
 		// Order and maximum # of rows returned
 
-		$order = $arr['order'];
+		$order = esc($arr, 'order');
 		
 		if($order) {
 			if(substr($order, 0, 5) == "desc:") {
@@ -392,7 +397,7 @@
 			}
 		}
 		
-		$limit = $arr['limit'];
+		$limit = esc($arr, 'limit');
 		if($order && $limit) {
 			$order_by .= " LIMIT {$limit}";
 		}
@@ -427,7 +432,7 @@
 				array_push($query, "SELECT {$pre_select}SUM(session.sim_sessions_since) as session_count FROM session{$tables}{$session_where}{$group_by}{$order_by}; ");
 				break;
 			case "sim_type":
-				if($arr['sim_name']) {
+				if(esc($arr, 'sim_name')) {
 					array_push($query, "SELECT DISTINCT IF(sim_type = 0, 'java', 'flash') AS sim_type FROM session WHERE sim_name = @sid; ");
 				} else { die("cannot have sim_type query without sim_name"); }
 				break;
@@ -435,8 +440,8 @@
 				array_push($query, "SELECT * FROM ${arr['table']}");
 				break;
 			case "recent_messages":
-				$count = ( $arr['count'] ? $arr['count'] : '10' );
-				if($arr['recent_sim_type'] == 'all') {
+				$count = ( esc($arr, 'count') ? esc($arr, 'count') : '10' );
+				if(esc($arr, 'recent_sim_type') == 'all') {
 					$querytext = <<<SES
 SELECT
 	session.id,
@@ -471,7 +476,7 @@ WHERE (
 )
 ORDER BY session.id DESC LIMIT {$count};
 SES;
-				} else if($arr['recent_sim_type'] == 'flash') {
+				} else if(esc($arr, 'recent_sim_type') == 'flash') {
 					$querytext = <<<FLA
 SELECT
 	session.id,
@@ -518,7 +523,7 @@ WHERE (
 )
 ORDER BY session.id DESC LIMIT {$count};
 FLA;
-				} else if($arr['recent_sim_type'] == 'java') {
+				} else if(esc($arr, 'recent_sim_type') == 'java') {
 					$querytext = <<<JAV
 SELECT
 	session.id,
@@ -572,9 +577,9 @@ JAV;
 				array_push($query, $querytext);
 				break;
 			case "users":
-				if($arr['query_type'] == 'unique_prefs') {
+				if(esc($arr, 'query_type') == 'unique_prefs') {
 					array_push($query, "SELECT COUNT(DISTINCT user_preferences_file_creation_time) FROM user");
-				} else if($arr['query_type'] == 'unique_installations') {
+				} else if(esc($arr, 'query_type') == 'unique_installations') {
 					array_push($query, "SELECT COUNT(DISTINCT user_installation_timestamp) FROM user WHERE user_installation_timestamp IS NOT NULL");
 				}
 		}
