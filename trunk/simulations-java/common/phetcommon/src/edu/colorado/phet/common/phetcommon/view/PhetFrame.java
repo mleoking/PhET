@@ -76,7 +76,12 @@ public class PhetFrame extends JFrame {
 
         } );
 
-        addF8ToClearPreferencesFile();
+
+        if (
+                true||//TODO: remove short circuit after alpha testing, for beta testing
+                getApplication().getSimInfo().isDev() ) {
+            addF8ToClearPreferencesFile();
+        }
     }
 
     private void addF8ToClearPreferencesFile() {
@@ -97,8 +102,8 @@ public class PhetFrame extends JFrame {
                     System.exit( 0 );
                 }
                 catch( Throwable t ) {
-                    t.printStackTrace(  );
-                    System.out.println( "Could not clear preferences, t="+t );
+                    t.printStackTrace();
+                    System.out.println( "Could not clear preferences, t=" + t );
                     JOptionPane.showMessageDialog( PhetFrame.this, "Couldn't clear preferences, perhaps you are not running with permission to do so." );
                 }
             }
