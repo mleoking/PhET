@@ -1,24 +1,30 @@
+<?xml version="1.0"?>
 <!--
 
-This build file is specific to the PhET website. However, it borrows some 
-build-related libraries from the build-utils project.
+This build file deploys the website to various locations.
+
+The destination location MUST present a prompt that ends in '$', like a
+bash shell.  I presume that it can work in other shells if the prompt is
+correct, but I have not tested this.  The reason for this is the use of
+the Maverick library to copy files, and I'm 99.9% there is no way to 
+change this.
+
+This script uses maverick ssh to copy the files over a secure channel.
+Maverick is poorly documented, closed source, and difficult to modify.
+Its inclusion here is legacy.  It used to be use by the other
+build-tools, but they have switched to using JSCH.  Maybe someday this
+script can be switched too.
+
+IF YOU DEPLOY ON A MAC WITH ECLIPSE:
+Library antform doesn't work so you must hardcode your username and
+password.  Only do this on your local machine, don't check it in.
+This file 'build.xml' is NOT deployed, so this info won't be propogated.
+See the location specific "Deploy to ..." targets at the end of the file.
 
 -->
 <project name="PhET Website Utility Script" default="Deploy to live server" basedir=".">
     <!-- Website properties -->
     <property name="dir.website" value="${basedir}" />
-
-    <!-- *** IF YOU DEPLOY ON A MAC WITH ECLIPSE:
-    Library antform doesn't work so you must hardcode your username and password.
-    Only do this on your local machine, don't check it in.
-    This file 'build.xml' is NOT deployed, so this info won't be propogated
-    -->
-
-    <!-- Uncommend this to hardcode your username and password -->
-    <!--
-    <property name="deploy.username" value="" />
-    <property name="deploy.password" value="" />
-    -->
 
     <!-- Build tools -->
     <property name="dir.build-tools" value="${basedir}/../build-tools/contrib/" />
@@ -134,6 +140,12 @@ build-related libraries from the build-utils project.
 
     <target name="Deploy to live server" description="Deploy the website to the live production server." >
         <antcall target="_deploy-to-server">
+            <!-- Uncomment this to hardcode your username and password -->
+            <!--
+            <param name="deploy.username" value="" />
+            <param name="deploy.password" value="" />
+            -->
+
             <param name="deploy.host" value="tigercat.colorado.edu" />
             <param name="deploy.staging" value="/tmp/phet_website_deploy_staging" />
             <param name="deploy.path" value="/web/chroot/phet/usr/local/apache/htdocs" />
@@ -141,12 +153,33 @@ build-related libraries from the build-utils project.
         </antcall>
     </target>
 
-    <target name="Deploy to test server" description="Deploy the website to a test non-production server." >
+    <target name="Deploy to phet-server" description="Deploy the website to the phet-server." >
         <antcall target="_deploy-to-server">
+            <!-- Uncomment this to hardcode your username and password -->
+            <!--
+            <param name="deploy.username" value="" />
+            <param name="deploy.password" value="" />
+            -->
+
+            <param name="deploy.host" value="phet-server.colorado.edu" />
+            <param name="deploy.staging" value="/tmp/phet_website_deploy_staging" />
+            <param name="deploy.path" value="/var/www/phet-test" />
+            <param name="deploy.url" value="http://phet-server.colorado.edu/phet-test/" />
+        </antcall>
+    </target>
+
+    <target name="Deploy to a local test server" description="Deploy the website to a test non-production server." >
+        <antcall target="_deploy-to-server">
+            <!-- Uncomment this to hardcode your username and password -->
+            <!--
+            <param name="deploy.username" value="" />
+            <param name="deploy.password" value="" />
+            -->
+
             <param name="deploy.host" value="192.168.42.102" />
             <param name="deploy.staging" value="/tmp/phet_website_deploy_staging" />
             <param name="deploy.path" value="/var/www/dev/phet" />
-            <param name="deploy.url" value="http://${deploy.test_server.host}/dev/phet/" />
+            <param name="deploy.url" value="http://192.168.42.102/dev/phet/" />
         </antcall>
     </target>
 </project>
