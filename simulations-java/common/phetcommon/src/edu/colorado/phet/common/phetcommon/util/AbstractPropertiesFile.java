@@ -181,6 +181,7 @@ public class AbstractPropertiesFile {
     }
 
     public boolean delete(){
+        properties.clear();
         return file.delete();
     }
     
