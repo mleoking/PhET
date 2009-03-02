@@ -2,7 +2,7 @@
     <shortName>PhET</shortName>
     <fullName>PhET</fullName>
     <version>$VERSION$</version>
-    <installerFilename>${product_shortname}-${platform_name}-installer.${platform_exec_suffix}</installerFilename>
+    <installerFilename>${product_shortname}-Installer_${platform_name}.${platform_exec_suffix}</installerFilename>
     <readmeFile>../../Installer-Resources/Install-Path/${platform_name}/readme.txt</readmeFile>
     <licenseFile>../../Installer-Resources/Install-Path/license.txt</licenseFile>
     <installationLogFile>${installdir}/install_log.txt</installationLogFile>
