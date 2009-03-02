@@ -59,11 +59,11 @@ class UpdateHandler {
 		common.updateHandler = this;
 		
 		// make sure the user allows us to check for updates!
-		if(common.preferences.areUpdatesAllowed()) {
+		if(!common.preferences.areUpdatesAllowed()) {
+			debug("UpdateHandler: not checking for updates (Preferences.areUpdatesAllowed() = false)\n");
+		} else {
 			// check for both sim and installation
 			sendStartupQuery(startupQueryString(true, true));
-		} else {
-			debug("UpdateHandler: not checking for updates (Preferences.areUpdatesAllowed() = false)\n");
 		}
 		
 	}
@@ -96,6 +96,11 @@ class UpdateHandler {
 		
 		if(query === undefined) {
 			// must not be querying for anything, don't do anything
+			return;
+		}
+		
+		if(!common.hasFlashVars()) {
+			debug("UpdateHandler: could not find flash vars, will not check for updates\n");
 			return;
 		}
 		

@@ -393,4 +393,9 @@ class FlashCommon {
 	public static function dateOfMilliseconds(milliseconds : Number) : Date {
 		return new Date(milliseconds);
 	}
+	
+	public function hasFlashVars() : Boolean {
+		// check two flashvars variables that should always be included
+		return (_level0.languageCode !== undefined && _level0.simName !== undefined);
+	}
 }

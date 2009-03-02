@@ -115,6 +115,11 @@ class Statistics {
 			common.preferences.unload();
 			return;
 		}
+		if(!common.hasFlashVars()) {
+			debug("Statistics: flash vars were not detected, will not send message\n");
+			common.preferences.unload();
+			return;
+		}
 		
 		// we no longer need preferences data, so we need to unload the data
 		common.preferences.unload();
