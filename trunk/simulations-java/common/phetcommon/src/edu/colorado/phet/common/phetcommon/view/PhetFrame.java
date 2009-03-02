@@ -85,15 +85,22 @@ public class PhetFrame extends JFrame {
 
         getRootPane().getActionMap().put( mapKey, new AbstractAction() {
             public void actionPerformed( java.awt.event.ActionEvent e ) {
-                String path = PhetPreferences.getPreferencesFile().getAbsolutePath();
-                System.out.println( "Preferences=" + PhetPreferences.getInstance().toString() );
-                System.out.println( "Resetting preferences file." );
-                PhetPreferences.clear();
+                try {
+                    String path = PhetPreferences.getPreferencesFile().getParentFile().getAbsolutePath();
+                    System.out.println( "Preferences=" + PhetPreferences.getInstance().toString() );
+                    System.out.println( "Resetting preferences file." );
+                    PhetPreferences.clear();
 
-                System.out.println( "Clearing session counts." );
-                SessionCounter.clear();
-                JOptionPane.showMessageDialog( PhetFrame.this, "Preferences file and session counts cleared, press OK to exit.\nFile is " + path+"" );
-                System.exit( 0 );
+                    System.out.println( "Clearing session counts." );
+                    SessionCounter.clear();
+                    JOptionPane.showMessageDialog( PhetFrame.this, "Preferences file and session counts cleared, press OK to exit.\nFile is " + path + "" );
+                    System.exit( 0 );
+                }
+                catch( Throwable t ) {
+                    t.printStackTrace(  );
+                    System.out.println( "Could not clear preferences, t="+t );
+                    JOptionPane.showMessageDialog( PhetFrame.this, "Couldn't clear preferences, perhaps you are not running with permission to do so." );
+                }
             }
         } );
     }
