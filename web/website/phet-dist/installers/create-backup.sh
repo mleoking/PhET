@@ -40,7 +40,7 @@ fi
 # Copy the files into the backup directory.
 
 echo ""
-cp -v $ROOT_DIR*installer* $BACKUP_DIR
+cp -v $ROOT_DIR*Installer* $BACKUP_DIR
 cp -v $ROOT_DIR*CD* $BACKUP_DIR
 echo ""
 
