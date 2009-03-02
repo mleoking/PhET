@@ -202,4 +202,11 @@ public class PhetApplicationConfig implements ISimInfo {
     public boolean isStatisticsEnabled() {
         return isStatisticsFeatureIncluded() && PhetPreferences.getInstance().isStatisticsEnabled();
     }
+    
+    /**
+     * Project JAR file is named <project>_all.jar
+     */
+    public static String getProjectJarName( String project ) {
+        return project + "_all.jar";
+    }
 }

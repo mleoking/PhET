@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.resources.PhetProperties;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 
@@ -72,16 +73,9 @@ public class PhetInstallation {
         if ( codeBase != null && codeBase.getProtocol().equals( "file" ) ) {
             String dirname = codeBase.getPath();
             String project = new File( dirname ).getName(); // last name in path is project name
-            file = new File( dirname, getProjectJarName( project ) );
+            file = new File( dirname, PhetApplicationConfig.getProjectJarName( project ) );
         }
         return file;
-    }
-    
-    /*
-     * Project JAR file is named <project>_all.jar
-     */
-    private String getProjectJarName( String project ) {
-        return project + "_all.jar";
     }
     
     /**
