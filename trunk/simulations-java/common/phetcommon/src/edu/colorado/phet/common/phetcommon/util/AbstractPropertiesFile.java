@@ -183,6 +183,7 @@ public class AbstractPropertiesFile {
     public boolean delete(){
         return file.delete();
     }
+    
     public void deleteOnExit(){
         file.deleteOnExit();
     }
