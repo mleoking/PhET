@@ -59,6 +59,32 @@ public class PhetInstallation {
     }
     
     /**
+     * Gets the JAR file in the installation that corresponds to the running simulation.
+     * We cannot use File.getCodeSource, because in some versions of Java, that will
+     * return the JAR file in the JWS cache (see #1320).  So we use the JNLP code base
+     * to identify the JAR.
+     * 
+     * @return
+     */
+    public File getInstalledJarFile() {
+        File file = null;
+        URL codeBase = PhetServiceManager.getCodeBase();
+        if ( codeBase != null && codeBase.getProtocol().equals( "file" ) ) {
+            String dirname = codeBase.getPath();
+            String project = new File( dirname ).getName(); // last name in path is project name
+            file = new File( dirname, getProjectJarName( project ) );
+        }
+        return file;
+    }
+    
+    /*
+     * Project JAR file is named <project>_all.jar
+     */
+    private String getProjectJarName( String project ) {
+        return project + "_all.jar";
+    }
+    
+    /**
      * Does a PhET installation exists that is associated with this sim?
      * @return
      */
