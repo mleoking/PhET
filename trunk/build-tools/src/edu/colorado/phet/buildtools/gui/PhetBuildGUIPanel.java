@@ -5,6 +5,8 @@ import java.io.File;
 
 import javax.swing.*;
 
+import edu.colorado.phet.buildtools.PhetProject;
+
 public class PhetBuildGUIPanel extends JPanel {
     private ProjectPanel simPanel;
     private ProjectListPanel projectPanel;
@@ -23,8 +25,15 @@ public class PhetBuildGUIPanel extends JPanel {
         } );
         updateSelection();
     }
+    public void addListener(ProjectListPanel.Listener listener){
+        projectPanel.addListener( listener );
+    }
+
+    public PhetProject getSelectedProject(){
+        return projectPanel.getSelectedProject();
+    }
 
     private void updateSelection() {
-        simPanel.setProject( projectPanel.getSelectedProject() );
+        simPanel.setProject( getSelectedProject() );
     }
 }
