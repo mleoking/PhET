@@ -9,20 +9,26 @@ public class StatisticsMessageField {
     
     private static final String NULL_STRING = "null"; // server requires this explicit representation of null
     
+    private final String humanReadableName;
     private final String name;
     private final String value;
-
-    public StatisticsMessageField( String name, String value ) {
+    
+    public StatisticsMessageField( String humanReadableName, String name, String value ) {
+        this.humanReadableName = humanReadableName;
         this.name = name;
         this.value = ( ( value == null || value.length() == 0 ) ? NULL_STRING : value );
     }
     
-    public StatisticsMessageField( String name, int value ) {
-        this( name, String.valueOf( value ) );
+    public StatisticsMessageField( String humanReadableName, String name, int value ) {
+        this( humanReadableName, name, String.valueOf( value ) );
     }
     
-    public StatisticsMessageField( String name, long value ) {
-        this( name, String.valueOf( value ) );
+    public StatisticsMessageField( String humanReadableName, String name, long value ) {
+        this( humanReadableName, name, String.valueOf( value ) );
+    }
+    
+    public String getHumanReadableName() {
+        return humanReadableName;
     }
 
     public String getName() {
@@ -34,8 +40,8 @@ public class StatisticsMessageField {
     }
 
     public static class SystemProperty extends StatisticsMessageField {
-        public SystemProperty( String fieldName, String s ) {
-            super( fieldName, System.getProperty( s ) );
+        public SystemProperty( String humanReadableName, String fieldName, String s ) {
+            super( humanReadableName, fieldName, System.getProperty( s ) );
         }
     }
 }
