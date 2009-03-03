@@ -225,8 +225,48 @@
 		print "</p>";
 	}
 	
+	function write_entities(&$entities) {
+		// remove table if it exists (it probably does exist)
+		mysql_query("DROP TABLE IF EXISTS entity;");
+		
+		// create table with correct structure
+		$str = <<<QUE
+CREATE TABLE entity (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	
+	preferences_count SMALLINT UNSIGNED,
+	installation_count SMALLINT UNSIGNED,
+	user_total_sessions MEDIUMINT UNSIGNED,
+	first_seen DATETIME,
+	last_seen DATETIME
+);
+QUE;
+		mysql_query($str);
+		
+		// insert all of the data into the table
+		$str = "INSERT INTO entity (preferences_count, installation_count, user_total_sessions, first_seen, last_seen) VALUES ";
+		$count = 0;
+		foreach($entities as $entity) {
+			if($count > 0) {
+				$str .= ", ";
+			}
+			$count = $count + 1;
+			
+			$str .= "(" . implode(", ", array($entity->num_prefs, $entity->num_installs, $entity->total, "'" . $entity->first . "'", "'" . $entity->last . "'")) . ")";
+		}
+		$str .= ";";
+		if($count == 0) {
+			return;
+		}
+		mysql_query($str);
+	}
+	
+	
 	$entities = create_entities($data);
 	process_entities($entities);
-	print_entities($entities);
+	write_entities($entities);
+	//print_entities($entities);
+	
+	print "Entities generated";
 	
 ?>
