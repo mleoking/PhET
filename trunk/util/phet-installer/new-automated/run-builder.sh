@@ -36,16 +36,6 @@ echo " Initiated in directory: " | tee --append installer-builder-log.txt
 pwd  | tee --append installer-builder-log.txt
 echo "================================================================" | tee --append installer-builder-log.txt
 
-echo "Performing SVN update" | tee --append installer-builder-log.txt
-
-svn update
-
-if [ "$?" -ne "0" ]; then
-  echo "Error performing SVN update" | tee --append installer-builder-log.txt
-  send_email_notification FAILURE
-  exit 1
-fi
-
 echo "Removing previous web site copy" | tee --append installer-builder-log.txt
 /usr/local/php/bin/php build-install.php --remove-web-site-copy | tee --append installer-builder-log.txt
 
