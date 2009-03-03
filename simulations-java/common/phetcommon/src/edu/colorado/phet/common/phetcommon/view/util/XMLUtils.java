@@ -5,11 +5,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.UnknownHostException;
 
+import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -49,17 +52,21 @@ public class XMLUtils {
      * @throws TransformerException
      * @throws ParserConfigurationException
      */
-    public static Document toDocument( String string ) throws SAXException, ParserConfigurationException, IOException {
+    public static Document toDocument( String string ) throws TransformerException, ParserConfigurationException {
 
-        // see http://www.exampledepot.com/egs/javax.xml.parsers/BasicDom.html
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
         
-        // Create a builder factory
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        // StringReader source
+        Source source = new StreamSource( new StringReader( string ) );
 
-        // Create the builder and parse the file
-        Document doc = factory.newDocumentBuilder().parse( new ByteArrayInputStream( string.getBytes() ) );
+        // Document result
+        DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        Document document = builder.newDocument();
+        Result result = new DOMResult(document);
         
-        return doc;
+        transformer.transform( source, result );
+        return document;
     }
     
     /**
