@@ -10,7 +10,6 @@ public class PhetCommonConstants {
     
     // web pages
     public static final String PHET_INSTALLER_URL = PHET_HOME_URL + "/get_phet/full_install.php";
-    public static final String PHET_SIMS_URL = PHET_HOME_URL + "/sims/";
     public static final String PHET_LICENSE_URL = PHET_HOME_URL + "/about/licensing.php";
     
     // services
