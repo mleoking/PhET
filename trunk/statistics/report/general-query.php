@@ -43,7 +43,7 @@
 							<option value="full_table">Raw Tables</option>
 						</optgroup>
 						<optgroup label="Other">
-							<option value="users">User Information</option>
+							<option value="unique_users">Unique user Information</option>
 							<!-- <option value="raw_tables">Raw Tables (DO NOT CLICK IF TABLES ARE LARGE)</option> -->
 						</optgroup>
 					</select>

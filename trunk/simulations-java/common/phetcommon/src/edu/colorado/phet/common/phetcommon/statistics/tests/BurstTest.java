@@ -15,7 +15,7 @@ public class BurstTest {
 //        int numThreads = 100;
 //        int numMessagesPerThread = 100;
 
-        int numThreads = 150;
+        int numThreads = 250;
         int numMessagesPerThread = 1;
 
         for ( int i = 0; i < numThreads; i++ ) {

@@ -576,12 +576,135 @@ JAV;
 				}
 				array_push($query, $querytext);
 				break;
-			case "users":
-				if(esc($arr, 'query_type') == 'unique_prefs') {
-					array_push($query, "SELECT COUNT(DISTINCT user_preferences_file_creation_time) FROM user");
-				} else if(esc($arr, 'query_type') == 'unique_installations') {
-					array_push($query, "SELECT COUNT(DISTINCT user_installation_timestamp) FROM user WHERE user_installation_timestamp IS NOT NULL");
+			case "unique_users":
+				$n_max = esc($arr, 'n_max');
+				$alpha = esc($arr, 'alpha');
+				$beta = esc($arr, 'beta');
+				$delta = esc($arr, 'delta');
+				
+				// initialize variables
+				array_push($query, "SELECT (@n_max := {$n_max});");
+				array_push($query, "SELECT (@alpha := {$alpha});");
+				array_push($query, "SELECT (@beta := {$beta});");
+				array_push($query, "SELECT (@delta := {$delta});");
+				
+				if($arr['ceil'] == "true") {
+					$ceil = "CEIL";
+				} else {
+					$ceil = "";
 				}
+				
+				if($arr['group_month'] === null) {
+					
+					
+					// totals for preferences and installations
+					array_push($query, "SELECT @total_preferences_count := SUM(preferences_count) FROM entity;");
+					array_push($query, "SELECT @total_installation_count := SUM(installation_count) FROM entity;");
+					
+					// separate case counts
+					array_push($query, "SELECT @count_jeffco := (@beta * 0.5 * SUM(preferences_count) + (1.0 - @beta) * COUNT(*)) AS jeffco_count FROM entity WHERE preferences_count > @n_max;");
+					array_push($query, "SELECT @count_linked := COUNT(*) AS count_linked FROM entity WHERE (preferences_count <= @n_max AND preferences_count > 1);");
+					array_push($query, "SELECT @count_unlinked := (COUNT(*) / (@alpha + 1.0)) AS count_unlinked FROM entity WHERE (preferences_count = 1);");
+					
+					// estimated number of unique users
+					array_push($query, "SELECT @estimated_unique_users := {$ceil}( (IF(@count_jeffco, @count_jeffco, 0) + IF(@count_linked, @count_linked, 0) + IF(@count_unlinked, @count_unlinked, 0)) * @delta ) AS estimated_unique_users;");
+					
+					// all of that jazz put together
+					array_push($query, "SELECT @estimated_unique_users AS estimated_unique_users, @total_installation_count AS unique_installations, @total_preferences_count AS unique_preferences_files;");
+				} else {
+					$groupMonth = $arr['group_month'];
+					if($groupMonth == "first_seen" || $groupMonth == "last_seen") {
+						// monster query!
+						$querytext = <<<MON
+SELECT
+	YEAR(prefs.{$groupMonth}) AS year, MONTH(prefs.{$groupMonth}) AS month, {$ceil}(uniq.estimated_unique_users) AS estimated_unique_users, installations.count AS unique_installations, prefs.count AS unique_preferences_files
+FROM
+	(	SELECT
+			{$groupMonth},
+			SUM(preferences_count) as count
+		FROM entity
+		GROUP BY {$groupMonth}
+	) AS prefs,
+	(	SELECT
+			{$groupMonth},
+			SUM(installation_count) as count
+		FROM entity 
+		GROUP BY {$groupMonth}
+	) AS installations,
+	(	SELECT
+			toss.{$groupMonth}, jeffco.count AS jeffco_count, linked.count AS linked_count, unlinked.count AS unlinked_count, ( (jeffco.count + linked.count + unlinked.count) * @delta ) AS estimated_unique_users
+		FROM
+			(SELECT {$groupMonth}, COUNT(*) AS unused FROM entity GROUP BY {$groupMonth}) AS toss,
+			(	SELECT
+					months.{$groupMonth}, IF(data.count IS NULL, 0, data.count) AS count
+				FROM
+					((
+						SELECT DISTINCT {$groupMonth} FROM entity
+					) AS months)
+					LEFT JOIN
+					((
+						SELECT
+							{$groupMonth},
+							(@beta * 0.5 * SUM(preferences_count) + (1.0 - @beta) * COUNT(*)) AS count
+						FROM entity
+						WHERE (preferences_count > @n_max)
+						GROUP BY {$groupMonth}
+					) AS data)
+					ON (months.{$groupMonth} = data.{$groupMonth})
+			) AS jeffco,
+			(	SELECT
+					months.{$groupMonth}, IF(data.count IS NULL, 0, data.count) AS count
+				FROM
+					((
+						SELECT DISTINCT {$groupMonth} FROM entity
+					) AS months)
+					LEFT JOIN
+					((
+						SELECT
+							{$groupMonth},
+							COUNT(*) AS COUNT
+						FROM entity
+						WHERE (preferences_count <= @n_max AND preferences_count > 1)
+						GROUP BY {$groupMonth}
+					) AS data)
+					ON (months.{$groupMonth} = data.{$groupMonth})
+			) AS linked,
+			(	SELECT
+					months.{$groupMonth}, IF(data.count IS NULL, 0, data.count) AS count
+				FROM
+					((
+						SELECT DISTINCT {$groupMonth} FROM entity
+					) AS months)
+					LEFT JOIN
+					((
+						SELECT
+							{$groupMonth},
+							(COUNT(*) / (@alpha + 1.0)) AS count
+						FROM entity
+						WHERE (preferences_count = 1)
+						GROUP BY {$groupMonth}
+					) AS data)
+					ON (months.{$groupMonth} = data.{$groupMonth})
+			) AS unlinked
+		WHERE (
+			toss.{$groupMonth} = jeffco.{$groupMonth}
+			AND toss.{$groupMonth} = linked.{$groupMonth}
+			AND toss.{$groupMonth} = unlinked.{$groupMonth}
+		)
+		GROUP BY toss.{$groupMonth}
+	) AS uniq
+WHERE (
+	prefs.{$groupMonth} = installations.{$groupMonth}
+	AND prefs.{$groupMonth} = uniq.{$groupMonth}
+)
+GROUP BY prefs.{$groupMonth}
+ORDER BY prefs.{$groupMonth} DESC
+;
+MON;
+						array_push($query, $querytext);
+					}
+				}
+				break;
 		}
 		
 		return $query;
