@@ -1,0 +1,52 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: February 19 - March 1, 2009 (Thu-Mon)
+
+ACCOMPLISHMENTS:
+
+  common code:
+  - review meeting for IOM user-interface features
+  - misc meetings and calls about IOM test planning
+  - check for PhET Installer updates, #1236
+  - issue with dialogs that don't repaint, #89
+  - various web services issues, #1237, 1286, 1236, 1297
+  - IOM group testing session
+  - change how PhET installation is identified, #1320
+  - change how JAR file is identified in PhET installation, #1320
+  
+  build process:
+  - discuss SVN branching and tagging policies
+  
+  translation utility:
+  - add support for Flash common strings
+  - publish 1.11.00
+  - publish Java and Flash common strings
+  - update instructions on web page
+  
+  misc:
+  - review and verify many Unfuddle tickets
+  - verify that 16 sims start on Mac OS 10.4 and 10.5
+  - fix save/load feature for bound-states, 1283
+  - investigate save/load feature for quantum-tunneling, 1284
+  
+WAITING FOR: (ordered by decreasing priority)
+
+  - final text of Software Agreement, #1140 (Kathy)
+  
+WHAT'S NEXT:
+ 
+  - IOM testing
+  - acid-base-solutions implementation
+  - investigate 3D libraries
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+  March 13-16
+  April 1-4
+  
+--
