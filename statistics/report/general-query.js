@@ -174,6 +174,20 @@ function changeTimestampType() {
 		</form>
 */
 
+function generateEntities() {
+	loadHTML("generate-entities.php");
+}
+
+function generateEntitiesButton() {
+	return '<div><button name="generate_entities" id="generate_entities" type="button">Generate Entities</button> (Do this first to populate data. Will be slow after time)</div>';
+}
+
+function setupEntitiesButton() {
+	fid("generate_entities").onclick = function() {
+		generateEntities();
+	}
+}
+
 function setupRecentMessages() {
 	var str = "";
 	
@@ -197,17 +211,42 @@ function setupErrors() {
 	fid("query_options").innerHTML = "";
 }
 
-function setupUsers() {
+function setupUniqueUsers() {
 	var str = "";
 	
+	str += generateEntitiesButton();
+	
 	str += "<div class='constraint'>";
-	str += "Sub query: <select name='query_type' id='query_type'>";
-	str += "<option value='unique_prefs'>Number of unique preferences files</option>";
-	str += "<option value='unique_installations'>Number of unique installations</option>";
+	str += "Maximum number of preferences files for normal use: <input type='text' name='n_max' size='5' maxlength='10' id='n_max' value='10'>";
+	str += "</input>";
+	str += "</div>";
+	
+	str += "<div class='constraint'>";
+	str += "Probability a user did not run Flash and Java sims, given an entry with just one preferences file: <input type='text' name='alpha' size='5' maxlength='10' id='alpha' value='0.4'>";
+	str += "</input>";
+	str += "</div>";
+	
+	str += "<div class='constraint'>";
+	str += "Fraction of many-preferences cases that are shared (0 => all JeffCo cases, 1 => all shared cases): <input type='text' name='beta' size='5' maxlength='10' id='beta' value='0.6'>";
+	str += "</input>";
+	str += "</div>";
+	
+	str += "<div class='constraint'>";
+	str += "Estimated number of users per computer: <input type='text' name='delta' size='5' maxlength='10' id='delta' value='1.0'>";
+	str += "</input>";
+	str += "</div>";
+	
+	str += "<div class='constraint'>";
+	str += "Group by: <select name='group_month' id='group_month'>";
+	str += "<option value='none'>none</option>";
+	str += "<option value='first_seen'>First seen month</option>";
+	str += "<option value='last_seen'>Last seen month</option>";
 	str += "</select>";
 	str += "</div>";
 	
 	fid("query_options").innerHTML = str;
+	
+	setupEntitiesButton();
 }
 
 function setupRawTable() {
@@ -262,8 +301,8 @@ function query_change() {
 			setupSessionCounts(); break;
 		case "message_count":
 			setupMessageCounts(); break;
-		case "users":
-			setupUsers(); break;
+		case "unique_users":
+			setupUniqueUsers(); break;
 		case "recent_messages":
 			setupRecentMessages(); break;
 		case "errors":
@@ -305,8 +344,15 @@ function query_string() {
 	} else if(getValue("query") == "recent_messages") {
 		str += "&recent_sim_type=" + getValue('recent_sim_type');
 		str += "&count=" + getValue('count');
-	} else if(getValue("query") == "users") {
-		str += "&query_type=" + getValue("query_type");
+	} else if(getValue("query") == "unique_users") {
+		str += "&n_max=" + getValue("n_max");
+		str += "&alpha=" + getValue("alpha");
+		str += "&beta=" + getValue("beta");
+		str += "&delta=" + getValue("delta");
+		str += "&ceil=true";
+		if(getValue("group_month") != "none") {
+			str += "&group_month=" + getValue("group_month");
+		}
 	} else if(getValue("query") == "full_table") {
 		str += "&table=" + getValue("table");
 	}
