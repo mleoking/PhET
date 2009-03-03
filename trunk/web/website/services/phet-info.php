@@ -23,6 +23,7 @@ require_once('include/sim-utils.php');
 
 class PhetInfo {
     const ROOT_ELEMENT_NAME = 'phet_info';
+    const REQUEST_VERSION_ATTR = 'request_version';
     const RESPONSE_XML_SHELL =
         '<?xml version="1.0"?><phet_info_response></phet_info_response>';
     const ERROR_RESPONSE_XML_SHELL =
@@ -135,6 +136,13 @@ class PhetInfo {
         // Assume success, change if not
         $this->setSuccess($instal_element);
 
+        // Only support version 1 right now, refactor if we go to v2
+        if (!isset($request_xml[self::REQUEST_VERSION_ATTR]) ||
+            ($request_xml[self::REQUEST_VERSION_ATTR] != 1)) {
+            $this->addErrorElement($instal_element, 'Invalid request version');
+            return;
+        }
+
         $missing_tags = $this->verifyRequiredAttributes($request_xml, array('timestamp_seconds'));
 
         if (!empty($missing_tags)) {
@@ -174,8 +182,15 @@ class PhetInfo {
         // Assume success, change if not
         $this->setSuccess($version_element);
 
-        $missing_tags = $this->verifyRequiredAttributes($request_xml, array('project', 'sim'));
+        // Only support version 1 right now, refactor if we go to v2
+        if (!isset($request_xml[self::REQUEST_VERSION_ATTR]) ||
+            ($request_xml[self::REQUEST_VERSION_ATTR] != 1)) {
+            $this->addErrorElement($version_element, 'Invalid request version');
+            return;
+        }
 
+        // Check for missing tags
+        $missing_tags = $this->verifyRequiredAttributes($request_xml, array('project', 'sim'));
         if (!empty($missing_tags)) {
             $this->addErrorElement($version_element, 'required tags not specified: '.join(', ', $missing_tags));
             return;
