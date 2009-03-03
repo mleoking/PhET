@@ -14,12 +14,14 @@ import javax.xml.transform.TransformerException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.util.logging.USLogger;
 import edu.colorado.phet.common.phetcommon.resources.PhetInstallerVersion;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
+import edu.colorado.phet.common.phetcommon.statistics.StatisticsMessageSender;
 import edu.colorado.phet.common.phetcommon.view.util.XMLUtils;
 
 /**
@@ -29,16 +31,17 @@ import edu.colorado.phet.common.phetcommon.view.util.XMLUtils;
  * <code>
  * <?xml version="1.0" encoding="UTF-8"?>
  * <php_info>
- *   <sim_version project="faraday" sim="magnet-and-compass" requested_by="automatic"/>
- *   <phet_installer_update timestamp_seconds="1234567890" requested_by="automatic"/>
+ *   <sim_version request_version="1" project="faraday" sim="magnet-and-compass" requested_by="automatic"/>
+ *   <phet_installer_update request_version="1" timestamp_seconds="1234567890" requested_by="automatic"/>
  * </php_info>
  * </code>
  * <p>
  * XML response format with no errors:
  * <code>
  * <?xml version="1.0" encoding="UTF-8"?>
- * <php_info_response>
- *   <sim_version_response
+ * <php_info_response success="true">
+ *   <sim_version_response 
+ *      success="true"
  *      version_major="1" 
  *      version_minor="01" 
  *      version_dev="00"
@@ -46,6 +49,7 @@ import edu.colorado.phet.common.phetcommon.view.util.XMLUtils;
  *      version_timestamp="1234567890"
  *      ask_me_later_duration_days="1"/>
  *   <phet_installer_update_response
+ *      success="true"
  *      recommend_update="false" 
  *      timestamp_seconds="1234567890"
  *      ask_me_later_duration_days="1"/>
@@ -55,15 +59,28 @@ import edu.colorado.phet.common.phetcommon.view.util.XMLUtils;
  * XML response format with errors:
  * <code>
  * <?xml version="1.0" encoding="UTF-8"?>
- * <php_info_response>
- *   <sim_version_response error="message"/>
- *   <phet_installer_update_response error="message"/>
+ * <php_info_response success="false">
+ *   <sim_version_response success="false">
+ *     <error>message</error>
+ *     <warning>message</warning>
+ *   </sim_version_response>
+ *   <phet_installer_update_response success="false"/>
+ *     <error>message</error>
+ *     <warning>message</warning>
+ *   </phet_installer_update_response>
  * </php_info_response>
  * </code>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class VersionInfoQuery {
+    
+    private static final int SIM_VERSION_REQUEST_VERSION = 1;
+    private static final int PHET_INSTALLER_UPDATE_REQUEST_VERSION = 1;
+    
+    private static final String REQUEST_VERSION_TAG = "request_version";
+    private static final String ERROR_TAG = "error";
+    private static final String WARNING_TAG = "warning";
     
     private final String project;
     private final String sim;
@@ -152,12 +169,14 @@ public class VersionInfoQuery {
         document.appendChild( rootElement );
 
         Element simVersionElement = document.createElement( "sim_version" );
+        simVersionElement.setAttribute( REQUEST_VERSION_TAG, String.valueOf( SIM_VERSION_REQUEST_VERSION ) );
         simVersionElement.setAttribute( "project", project );
         simVersionElement.setAttribute( "sim", sim );
         simVersionElement.setAttribute( "requested_by", requestedBy );
         rootElement.appendChild( simVersionElement );
 
         Element installerUpdateElement = document.createElement( "phet_installer_update" );
+        installerUpdateElement.setAttribute( REQUEST_VERSION_TAG, String.valueOf( PHET_INSTALLER_UPDATE_REQUEST_VERSION ) );
         installerUpdateElement.setAttribute( "timestamp_seconds", String.valueOf( currentInstallerVersion.getTimestamp() ) );
         installerUpdateElement.setAttribute( "requested_by", requestedBy );
         rootElement.appendChild( installerUpdateElement );
@@ -172,29 +191,36 @@ public class VersionInfoQuery {
      */
     private VersionInfoQueryResponse parseResponseDocument( Document document, VersionInfoQuery query ) throws TransformerException {
         
-        String elementName, attributeName, attributeValue;
-        
-        // look for general errors
-        elementName = "phet_info_response";
-        attributeValue = getAttribute( document, elementName, "error" );
-        if ( attributeValue != null ) {
-            notifyException( new VersionInfoQueryException( attributeValue ) );
+        // bail on the first error
+        NodeList errors = document.getElementsByTagName( ERROR_TAG );
+        if ( errors.getLength() > 0 ) {
+            Element element = (Element) errors.item( 0 );
+            NodeList children = element.getChildNodes();
+            Text text = (Text) children.item( 0 );
+            System.err.println( "ERROR: " + StatisticsMessageSender.class.getName() + ": " + text.getData() );
+            notifyException( new VersionInfoQueryException( text.getData() ) );
             return null;
         }
-
-        // look for errors in sim_version_response
-        elementName = "sim_version_response";
-        attributeValue = getAttribute( document, elementName, "error" );
-        if ( attributeValue != null ) {
-            notifyException( new VersionInfoQueryException( attributeValue ) );
-            return null;
+        // if there were no <error> elements, then we assume that's we have results
+        
+        // print warnings to the console
+        NodeList warnings = document.getElementsByTagName( WARNING_TAG );
+        for ( int i = 0; i < warnings.getLength(); i++ ) {
+            Element element = (Element) warnings.item( i );
+            NodeList children = element.getChildNodes();
+            for ( int j = 0; j < children.getLength(); j++ ) {
+                if ( children.item( j ) instanceof Text ) {
+                    Text text = (Text) children.item( j );
+                    System.out.println( "WARNING: " + StatisticsMessageSender.class.getName() + ": " + text.getData() );
+                }
+            }
         }
         
         // parse sim_version_response
         PhetVersion simVersion;
         long simAskMeLaterDuration;
         {
-            elementName = "sim_version_response";
+            String elementName = "sim_version_response";
 
             String versionMajor = getAttribute( document, elementName, "version_major" );
             String versionMinor = getAttribute( document, elementName, "version_minor" );
@@ -207,38 +233,30 @@ public class VersionInfoQuery {
             }
             simVersion = new PhetVersion( versionMajor, versionMinor, versionDev, versionRevision, versionTimestamp );
 
-            attributeName = "ask_me_later_duration_days";
-            String askMeLaterDuration = getAttribute( document, elementName, attributeName );
-            if ( askMeLaterDuration == null ) {
+            String attributeName = "ask_me_later_duration_days";
+            String attributeValue = getAttribute( document, elementName, attributeName );
+            if ( attributeValue == null ) {
                 notifyException( new VersionInfoQueryException( elementName + " is missing attribute " + attributeName ) );
                 return null;
             }
             try {
-                simAskMeLaterDuration = Long.parseLong( askMeLaterDuration );
+                simAskMeLaterDuration = Long.parseLong( attributeValue );
             }
             catch ( NumberFormatException e ) {
-                notifyException( new VersionInfoQueryException( "expected a number, received " + askMeLaterDuration ) );
+                notifyException( new VersionInfoQueryException( "expected a number, received " + attributeValue ) );
                 return null;
             }
         }
         
-        // look for errors in phet_installer_update_response
-        elementName = "phet_installer_update_response";
-        attributeValue = getAttribute( document, elementName, "error" );
-        if ( attributeValue != null ) {
-            notifyException( new VersionInfoQueryException( attributeValue ) );
-            return null;
-        }
-
         // parse phet_installer_update_response
         boolean isInstallerUpdateRecommended;
         PhetInstallerVersion installerVersion;
         long installerAskMeLaterDuration;
         {
-            elementName = "phet_installer_update_response";
+            String elementName = "phet_installer_update_response";
             
-            attributeName = "recommend_update";
-            attributeValue = getAttribute( document, elementName, attributeName );
+            String attributeName = "recommend_update";
+            String attributeValue = getAttribute( document, elementName, attributeName );
             if ( attributeValue == null ) {
                 notifyException( new VersionInfoQueryException( elementName + " is missing attribute " + attributeName ) );
             }
