@@ -84,7 +84,6 @@
 	<classpathentry kind="src" path="simulations-java/contrib/piccolo2d/core/src/test/java"/>
 	<classpathentry excluding="edu/umd/cs/piccolox/swt/" kind="src" path="simulations-java/contrib/piccolo2d/extras/src/main/java"/>
 	<classpathentry excluding="edu/umd/cs/piccolo/swtexamples/" kind="src" path="simulations-java/contrib/piccolo2d/examples/src/main/java"/>
-	<classpathentry kind="lib" path="simulations-java/contrib/piccolo-sax/piccolo-sax.jar"/>
 	
 	<!-- Java simulations -->
 	<classpathentry kind="src" path="simulations-java/simulations/acid-base-solutions/src"/>
