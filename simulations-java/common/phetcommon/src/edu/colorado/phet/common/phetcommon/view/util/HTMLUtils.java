@@ -9,7 +9,6 @@ import javax.swing.event.HyperlinkListener;
 import javax.swing.text.html.HTMLEditorKit;
 
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
-import edu.colorado.phet.common.phetcommon.util.DeploymentScenario;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 
 
@@ -120,30 +119,7 @@ public class HTMLUtils {
     public static String getProjectJarURL( String project ) {
         return PhetCommonConstants.SIM_JAR_REDIRECT_URL + "?project=" + project;
     }
-    
-    /**
-     * Creates an \<a\> tag that contains a link to a specific sim's web page.
-     * The url is displayed.
-     * @param project
-     * @param sim
-     * @return
-     */
-    public static String getSimHref( String project, String sim,String ampersand ) {
-        String url = getSimURL( project, sim,ampersand );
-        return getHref( url, url );
-    }
-    
-    /**
-     * Creates an \<a\> tag that contains a link to a specific sim's web page.
-     * @param project
-     * @param sim
-     * @param userVisibleSimName the text to be displayed
-     * @return
-     */
-    public static String getSimHref( String project, String sim, String userVisibleSimName,String ampersand ) {
-        return getHref( getSimURL( project, sim,ampersand ), userVisibleSimName );
-    }
-    
+        
     /**
      * Gets the URL for a project's properties file, where version information is found.
      * @param project
