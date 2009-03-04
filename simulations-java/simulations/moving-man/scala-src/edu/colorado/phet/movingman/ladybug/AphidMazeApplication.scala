@@ -1,8 +1,7 @@
 package edu.colorado.phet.movingman.ladybug
 
 import aphidmaze.AphidMazeModule
-import scalacommon.ScalaApplicationLauncher
-import model.ScalaClock
+import scalacommon.{ScalaApplicationLauncher, ScalaClock}
 
 //aphid maze is a tab in ladybug 2d, just an application during development to facilitate deployment and testing
 object AphidMazeApplication {

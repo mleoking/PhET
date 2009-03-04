@@ -1,7 +1,7 @@
 package edu.colorado.phet.movingman.ladybug
 
-import model.{LadybugModel, ScalaClock}
-import scalacommon.ScalaApplicationLauncher
+import model.LadybugModel
+import scalacommon.{ScalaApplicationLauncher, ScalaClock}
 
 object Ladybug2DApplication {
   def main(args: Array[String]) = {

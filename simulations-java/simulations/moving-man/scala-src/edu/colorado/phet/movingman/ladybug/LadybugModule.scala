@@ -2,12 +2,13 @@ package edu.colorado.phet.movingman.ladybug
 
 import canvas.{LadybugNode, LadybugSolidTraceNode, LadybugDotTraceNode, LadybugCanvas}
 import controlpanel._
-import model.{LadybugModel, ScalaClock}
+import model.LadybugModel
 import model.LadybugMotionModel._
 
 import edu.colorado.phet.common.phetcommon.application.Module
 import edu.colorado.phet.common.phetcommon.model.clock.IClock
 import java.awt.Color
+import scalacommon.ScalaClock
 import umd.cs.piccolo.PNode
 
 class LadybugModule[ModelType <: LadybugModel](clock: ScalaClock,

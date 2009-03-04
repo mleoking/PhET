@@ -2,7 +2,7 @@ package edu.colorado.phet.movingman.ladybug.aphidmaze
 
 import canvas.LadybugCanvas
 import controlpanel.DigitalTimer
-import model.{LadybugModel, ScalaClock}
+import scalacommon.ScalaClock
 
 class AphidMazeModule(clock: ScalaClock) extends LadybugModule[AphidMazeModel](
   clock: ScalaClock,
