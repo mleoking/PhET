@@ -10,6 +10,8 @@ require_once("page_templates/SitePage.php");
 
 class RedirectSimulationPage extends SitePage {
 
+    private $error = '';
+
     function update() {
         $result = parent::update();
         if (!$result) {
@@ -17,15 +19,29 @@ class RedirectSimulationPage extends SitePage {
         }
 
         $this->simulation = null;
+
+        // Get the request version.  Currently we're at version 1, refactor this if we
+        // change versions.
+        if ((!isset($_REQUEST['request_version'])) || 
+            ($_REQUEST['request_version'] != 1)) {
+            $this->error = "Invalid request version number";
+            return false;
+        }
+
         // Try dirname and flavorname
         if (!isset($_REQUEST['project']) || !isset($_REQUEST['sim'])) {
+            $this->error = "Make sure that query terms 'dirname' and 'flavorname' are properly specificed.'";
             return false;
         }
 
         // Get the sims that match the specificed dirname and flavorname
         $cond = array('sim_dirname' => $_REQUEST['project'], 'sim_flavorname' => $_REQUEST['sim']);
         $this->sims = db_get_rows_by_condition('simulation', $cond, false, false);
-        if (count($this->sims) == 1) {
+        if (count($this->sims) == 0) {
+            $this->error = "Cannot find a simulation matching project='{$_REQUEST['project']}' sim='{$_REQUEST['sim']}'";
+            return false;
+        }
+        else if (count($this->sims) == 1) {
             // If there is one match, do the redirect
             $sim_url = sim_get_url_to_sim_page_by_sim_name($this->sims[0]['sim_name']);
             $this->header_redirect($sim_url);
@@ -40,15 +56,10 @@ class RedirectSimulationPage extends SitePage {
             return $result;
         }
 
-        if (!isset($this->sims)) {
+        if (!empty($this->error)) {
             // No sims variable found, problem with the parameters
             print "<h2>Error</h2>\n";
-            print "<p>An error occurred, make sure that query terms 'dirname' and 'flavorname' are properly specificed.</p>";
-        }
-        else if (count($this->sims) == 0) {
-            // No sims found
-            print "<h2>Error: No match</h2>\n";
-            print "<p>An error occurred, make sure that query terms 'dirname' and 'flavorname' are properly specificed.</p>";
+            print "<p>{$this->error}</p>";
         }
         else if (count($this->sims) == 1) {
             // One sim found, but if we're here the redirect failed
