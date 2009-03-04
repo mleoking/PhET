@@ -136,7 +136,9 @@ class Statistics {
 		
 		// wrap the message in xml tags
 		var str : String = "<?xml version=\"1.0\"?><submit_message><statistics_message " + sessionStartMessage(false) + " /></submit_message>";
-		sendXML(new XML(str));
+		var queryXML = new XML(str);
+		queryXML.addRequestHeader("Content-type", "text/xml");
+		sendXML(queryXML);
 	}
 	
 	// this is used for all statistics messages to send the xml to the server

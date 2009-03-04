@@ -184,6 +184,7 @@ class UpdateHandler {
 		// send the request, wait for the response to load
 		//xml.load("http://localhost/jolson/deploy/fake-sim-startup-query.php?request=" + escape(query));
 		var queryXML = new XML(query);
+		queryXML.addRequestHeader("Content-type", "text/xml");
 		queryXML.sendAndLoad("http://phet.colorado.edu/services/phet-info", xml);
 	}
 	
