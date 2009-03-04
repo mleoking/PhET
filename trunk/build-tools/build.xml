@@ -21,6 +21,9 @@
     * svn.username - username for the SVN repository server
     * svn.password - password for the SVN repository server
     * browser - pathname of a web browser
+    * jarsigner.keystore - path to the pkcs12 keystore that contain the PhET digital signature
+    * jarsigner.password - password for the keystore
+    * jarsigner.alias - alias for the keystore
     
   NOTE: Putting username and password information in build-local.properties is not
   recommended; it is a potential security issue!

@@ -10,10 +10,9 @@ svn.username
 svn.password
 browser
 
-signing-config.jarsigner
-signing-config.keystore
-signing-config.keystore-password
-signing-config.alias
+jarsigner.keystore
+jarsigner.password
+jarsigner.alias
 
 #Flash
 wine (boolean)
