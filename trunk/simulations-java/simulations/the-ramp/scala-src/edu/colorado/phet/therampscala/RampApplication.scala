@@ -42,12 +42,9 @@ class RampModel {
   }
 }
 class BlockNode(b: Block, transform: ModelViewTransform2D) extends PText("Block") {
-  //todo: look at pattern for addlistener, define method, call method
-  b.addListenerByName({update()})
-  def update() = {
+  val updateMethod = defineInvokeAndPass(b.addListenerByName){
     setOffset(b.position)
   }
-  update()
 }
 
 class RampCanvas(model: RampModel) extends DefaultCanvas(20, 20) {
