@@ -11,6 +11,9 @@ import org.aswing.util.*;
 import org.aswing.border.*;
 
 class UpdateHandler {
+	public static var SIM_REQUEST_VERSION : String = "1";
+	public static var INSTALLER_REQUEST_VERSION : String = "1";
+	
 	// the latest version information detected from the server
 	// TODO: rename these to match _level0 fields
 	public var versionMajor : Number;
@@ -78,11 +81,11 @@ class UpdateHandler {
 		str += "<phet_info>";
 		
 		if(checkSim) {
-			str += "<sim_version project=\"" + common.getSimProject() + "\" sim=\"" + common.getSimName() + "\" />";
+			str += "<sim_version request_version=\"" + SIM_REQUEST_VERSION + "\" project=\"" + common.getSimProject() + "\" sim=\"" + common.getSimName() + "\" />";
 		}
 		
 		if(checkInstallation && common.fromFullInstallation()) {
-			str += "<phet_installer_update timestamp_seconds=\"" + String(common.getInstallationTimestamp()) + "\" />";
+			str += "<phet_installer_update request_version=\"" + INSTALLER_REQUEST_VERSION + "\" timestamp_seconds=\"" + String(common.getInstallationTimestamp()) + "\" />";
 		}
 		
 		str += "</phet_info>";
@@ -180,7 +183,8 @@ class UpdateHandler {
 		
 		// send the request, wait for the response to load
 		//xml.load("http://localhost/jolson/deploy/fake-sim-startup-query.php?request=" + escape(query));
-		xml.load("http://phet.colorado.edu/services/phet-info.php?request=" + escape(query));
+		var queryXML = new XML(query);
+		queryXML.sendAndLoad("http://phet.colorado.edu/services/phet-info", xml);
 	}
 	
 	public function manualCheckSim() : Void {
