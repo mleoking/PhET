@@ -747,7 +747,8 @@ MON;
 		while($get_info = mysql_fetch_row($result)) {
 			print "<tr>\n";
 			foreach($get_info as $field) {
-				print "\t<td><font face=arial size=2/>{$field}</font></td>\n";
+				$str = htmlentities($field);
+				print "\t<td><font face=arial size=2/>{$str}</font></td>\n";
 			}
 			print "</tr>\n";
 		}
