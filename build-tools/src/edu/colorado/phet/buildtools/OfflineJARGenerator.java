@@ -80,6 +80,8 @@ public class OfflineJARGenerator {
             getTempPropertiesFile( jar ).deleteOnExit();
             System.out.println( "Could not delete: " + getTempPropertiesFile( jar ) + ", attempting deleteOnExit" );
         }
+
+        //TODO: add signing
     }
 
     private File getTempPropertiesFile( File jar ) {
