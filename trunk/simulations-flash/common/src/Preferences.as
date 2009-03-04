@@ -92,7 +92,9 @@ class Preferences {
 		}
 		
 		// increment the number of times the current sim has been run
-		incrementVisit();
+		if(userAllowsStatistics()) {
+			incrementVisit();
+		}
 		
 		// conditionally add update information if it doesn't exist
 		initUpdateInfo();
