@@ -26,7 +26,7 @@ public class PhetJarSigner {
     public static final String KEY_PASSWORD = "jarsigner.password";
     public static final String KEY_ALIAS = "jarsigner.alias";
 
-    private final File configFile;
+    private final File propertiesFile;
     
     private AntTaskRunner antTaskRunner;
 
@@ -35,24 +35,24 @@ public class PhetJarSigner {
      * 
      * @param configPath
      */
-    public PhetJarSigner( String configPath, AntTaskRunner antTaskRunner ) {
-        configFile = new File( configPath );
-        this.antTaskRunner = antTaskRunner;
+    public PhetJarSigner( File propertiesFile ) {
+    	this.propertiesFile = propertiesFile;
+        antTaskRunner = new MyAntTaskRunner();
     }
 
     /**
-     * Sign the specified jar file.
+     * Sign (and verify) the specified jar file.
      * 
-     * @param jarPath - Full path to the jar file to be signed.
+     * @param jarFile - Full path to the jar file to be signed.
      * @return true if successful, false if problems are encountered.
      */
-    public boolean signJar( String jarPath ) {
+    public boolean signJar( File jarFile ) {
 
         // Verify that the properties file exists and can be loaded.
         Properties jarsignerProperties = new Properties();
-        if ( configFile.exists() ) {
+        if ( propertiesFile.exists() ) {
             try {
-                jarsignerProperties.load( new FileInputStream( configFile ) );
+                jarsignerProperties.load( new FileInputStream( propertiesFile ) );
             }
             catch ( IOException e ) {
                 System.err.println( "Error: Unable to load signing configuration file." );
@@ -61,7 +61,7 @@ public class PhetJarSigner {
             }
         }
         else {
-            System.err.println( "Error: Signing config file does not exist: " + configFile.getAbsolutePath() );
+            System.err.println( "Error: Signing config file does not exist: " + propertiesFile.getAbsolutePath() );
             return false;
         }
 
@@ -75,16 +75,15 @@ public class PhetJarSigner {
         }
         
         // Sign the JAR
-        return signJar( keystoreFileName, password, alias, jarPath);
+        return signJar( keystoreFileName, password, alias, jarFile);
     }
 
     /*
      * Signs a jar file.
      */
-    private boolean signJar( String keystoreFileName, String password, String alias, String jarPath ) {
+    private boolean signJar( String keystoreFileName, String password, String alias, File jarFile ) {
 
         // Make sure that the specified JAR file can be located.
-        File jarFile = new File( jarPath );
         if ( !jarFile.exists() ) {
             System.err.println( "Error: jar does not exist: " + jarFile.getAbsolutePath() );
             return false;
@@ -111,18 +110,19 @@ public class PhetJarSigner {
         
         // If we made it to this point, signing succeeded.
         System.out.println( "Signing succeeded." );
-        return true;
+        
+        // Verify the JAR.
+        return verifyJar( jarFile );
     }
     
     /**
      * Verifies a signed jar file.
      */
-    public boolean verifyJar( String jarPath ) {
+    private boolean verifyJar( File jarFile ) {
         
     	boolean success = true;
     	
         // Make sure that the specified JAR file can be located.
-        File jarFile = new File( jarPath );
         if ( !jarFile.exists() ) {
             System.err.println( "Error: jar does not exist: " + jarFile.getAbsolutePath() );
             return false;
@@ -158,10 +158,10 @@ public class PhetJarSigner {
             System.exit( -1 );
         }
         
-        String jarFilePath = args[0];
+        File testPropertiesFile = new File( args[0] );
 
-        PhetJarSigner signer = new PhetJarSigner( jarFilePath, new MyAntTaskRunner() );
-        boolean result = signer.signJar( args[1] );
+        PhetJarSigner signer = new PhetJarSigner( testPropertiesFile );
+        boolean result = signer.signJar( new File( args[1] ) );
 
         System.out.println( "Done, result = " + result + "." );
     }
