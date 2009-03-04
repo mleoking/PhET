@@ -12,8 +12,6 @@ import org.apache.tools.ant.taskdefs.Jar;
 import org.apache.tools.ant.taskdefs.Javac;
 import org.apache.tools.ant.taskdefs.Manifest;
 import org.apache.tools.ant.taskdefs.ManifestException;
-import org.apache.tools.ant.taskdefs.SignJar;
-import org.apache.tools.ant.taskdefs.VerifyJar;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
@@ -83,18 +81,12 @@ public class JavaBuildCommand {
             throw new BuildException("Property file needed for signing JAR not found.");
         }
         
-        PhetJarSigner signer = new PhetJarSigner( configProperties.getAbsolutePath(), antTaskRunner );
+        PhetJarSigner signer = new PhetJarSigner( configProperties );
         
         // Sign the JAR.
-        if ( signer.signJar( outputJar.getAbsolutePath() ) != true ){
+        if ( signer.signJar( outputJar ) != true ){
         	// Signing failed.  Throw an exception in order to force the build process to stop.
             throw new BuildException("Signing of JAR file failed.");
-        }
-        
-        // Verify the JAR.
-        if ( signer.verifyJar( outputJar.getAbsolutePath() ) != true ){
-        	// Verification failed.  Throw an exception in order to force the build process to stop.
-            throw new BuildException("Verification of JAR file failed.");
         }
     }
 
