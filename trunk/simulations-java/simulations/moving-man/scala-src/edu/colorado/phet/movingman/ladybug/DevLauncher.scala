@@ -10,7 +10,8 @@ import javax.swing._
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher
 import edu.colorado.phet.common.phetcommon.application.PhetApplication
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig
-import model.{LadybugModel, ScalaClock}
+import scalacommon.ScalaClock
+import model.LadybugModel
 
 object DevLauncher {
   def main(args: Array[String]) = {
