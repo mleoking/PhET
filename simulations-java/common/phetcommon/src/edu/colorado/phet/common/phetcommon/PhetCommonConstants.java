@@ -13,9 +13,9 @@ public class PhetCommonConstants {
     public static final String PHET_LICENSE_URL = PHET_HOME_URL + "/about/licensing.php";
     
     // services
-    public static final String SIM_WEBSITE_REDIRECT_URL = PHET_HOME_URL + "/services/sim-website-redirect.php";
-    public static final String SIM_JAR_REDIRECT_URL = PHET_HOME_URL + "/services/sim-jar-redirect.php";
-    public static final String PHET_INFO_URL = PHET_HOME_URL + "/services/phet-info.php";
+    public static final String SIM_WEBSITE_REDIRECT_URL = PHET_HOME_URL + "/services/sim-website-redirect";
+    public static final String SIM_JAR_REDIRECT_URL = PHET_HOME_URL + "/services/sim-jar-redirect";
+    public static final String PHET_INFO_URL = PHET_HOME_URL + "/services/phet-info";
     public static final String STATISTICS_SERVICE_URL = PHET_HOME_URL + "/statistics/submit_message.php";
     
     // service request version numbers
