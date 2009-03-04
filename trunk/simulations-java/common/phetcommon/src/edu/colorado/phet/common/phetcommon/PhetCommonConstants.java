@@ -16,7 +16,7 @@ public class PhetCommonConstants {
     public static final String SIM_WEBSITE_REDIRECT_URL = PHET_HOME_URL + "/services/sim-website-redirect";
     public static final String SIM_JAR_REDIRECT_URL = PHET_HOME_URL + "/services/sim-jar-redirect";
     public static final String PHET_INFO_URL = PHET_HOME_URL + "/services/phet-info";
-    public static final String STATISTICS_SERVICE_URL = PHET_HOME_URL + "/statistics/submit_message.php";
+    public static final String STATISTICS_SERVICE_URL = PHET_HOME_URL + "/statistics/submit_message";
     
     // service request version numbers
     public static final int SIM_WEBSITE_REDIRECT_VERSION = 1; // associated with SIM_WEBSITE_REDIRECT_URL
