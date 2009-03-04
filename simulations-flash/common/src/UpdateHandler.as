@@ -127,14 +127,19 @@ class UpdateHandler {
 				// TODO: remove after DEVELOPMENT
 				_level0.debugXML = xml;
 				
+				hand.receivedSimResponse = false;
+				hand.receivedInstallationResponse = false;
 				
+				if(xml.childNodes[0].attributes.success != "true") {
+					_level0.debug("WARNING UpdateHandler: phet_info_response failure\n");
+					return;
+				}
 				
 				var children : Array = xml.childNodes[0].childNodes; // children of sim_startup_query_response
 				
 				var hand : UpdateHandler = _level0.updateHandler;
 				
-				hand.receivedSimResponse = false;
-				hand.receivedInstallationResponse = false;
+				
 				
 				for(var idx in children) {
 					var child = children[idx];
@@ -142,6 +147,12 @@ class UpdateHandler {
 					if(child.nodeName == "sim_version_response") {
 						_level0.debug("UpdateHandler (2): received sim_version_response\n");
 						// sanity checks
+						if(atts["success"] != "true") {
+							_level0.debug("WARNING UpdateHandler: sim_version_response failure\n");
+							
+							// do not continue further with this child
+							continue;
+						}
 						if(atts["project"] != hand.common.getSimProject()) {
 							_level0.debug("WARNING UpdateHandler (2): Project does not match\n");
 						}
@@ -162,6 +173,13 @@ class UpdateHandler {
 						
 					} else if(child.nodeName == "phet_installer_update_response") {
 						_level0.debug("UpdateHandler (2): received phet_installer_update_response\n");
+						
+						if(atts["success"] != "true") {
+							_level0.debug("WARNING UpdateHandler: phet_installer_update_response failure\n");
+							
+							// do not continue further with this child
+							continue;
+						}
 						
 						hand.receivedInstallationResponse = true;
 						
