@@ -88,8 +88,11 @@ public class HTMLUtils {
      * @param ampersand
      * @return
      */
-    public static String getSimURL( String project, String sim,String ampersand ) {
-        return PhetCommonConstants.SIM_REDIRECT_URL + "?project=" + project + ampersand + "sim=" + sim;
+    public static String getSimWebsiteURL( String project, String sim,String ampersand ) {
+        return PhetCommonConstants.SIM_WEBSITE_REDIRECT_URL + "?" + 
+            "request_version=" + PhetCommonConstants.SIM_WEBSITE_REDIRECT_VERSION + ampersand + 
+            "project=" + project + ampersand + 
+            "sim=" + sim;
     }
 
 
@@ -103,7 +106,11 @@ public class HTMLUtils {
      * @return
      */
     public static String getSimJarURL( String project, String sim, String ampersand, Locale locale ) {
-        String url = PhetCommonConstants.SIM_JAR_REDIRECT_URL + "?project=" + project + ampersand + "sim=" + sim + ampersand + "language=" + locale.getLanguage();
+        String url = PhetCommonConstants.SIM_JAR_REDIRECT_URL + "?" + 
+            "request_version=" + PhetCommonConstants.SIM_JAR_REDIRECT_VERSION + ampersand + 
+            "project=" + project + ampersand + 
+            "sim=" + sim + ampersand + 
+            "language=" + locale.getLanguage();
         if ( !locale.getCountry().equals( "" ) ) {
             // add optional country code
             url += ampersand + "country=" + locale.getCountry();
