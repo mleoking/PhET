@@ -47,7 +47,7 @@ class StatisticsDetailsDialog {
 		str += "<font size=\"12\">"
 		// insert what would be sent as the message. we need to unescape strings so they will be
 		// correctly viewable
-		str += unescape(common.statistics.sessionStartMessage());
+		str += common.statistics.sessionStartMessage(true);
 		str += "</font>"
 		
 		// CSS will make links blue
