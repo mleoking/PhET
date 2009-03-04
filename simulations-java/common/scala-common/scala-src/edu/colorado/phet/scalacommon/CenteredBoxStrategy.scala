@@ -1,11 +1,13 @@
-package edu.colorado.phet.movingman.ladybug.canvas
+package edu.colorado.phet.scalacommon
 
 import _root_.edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import javax.swing.JComponent
 import _root_.edu.colorado.phet.common.piccolophet.PhetPCanvas.TransformStrategy
 import java.awt.geom.{AffineTransform, Rectangle2D}
 
-class CenteredBoxStrategy456(modelWidth: Double, modelHeight: Double, canvas: JComponent) extends TransformStrategy {
+//Used to be called CenteredBoxStrategy, but this caused "does not have a constructor" compiler errors
+//see http://lampsvn.epfl.ch/trac/scala/ticket/735
+class CenteredBoxStrategy(modelWidth: Double, modelHeight: Double, canvas: JComponent) extends TransformStrategy {
   def getTransform(): AffineTransform = {
     if (canvas.getWidth > 0 && canvas.getHeight > 0) {
       val sx = canvas.getWidth / modelWidth
