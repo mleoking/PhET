@@ -1,3 +1,4 @@
+3-3-09: #1357, changes to sim-website-redirect.php and sim-jar-redirect.php
 3-3-09: #1357, changes to phet-info.php service
 3-3-09: #1355, user-friendly names for the info that PhET collects
 2-26-09: #1320, fix how phet installation is detected and properties accessed

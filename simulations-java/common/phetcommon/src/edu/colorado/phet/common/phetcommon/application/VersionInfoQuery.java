@@ -75,9 +75,6 @@ import edu.colorado.phet.common.phetcommon.view.util.XMLUtils;
  */
 public class VersionInfoQuery {
     
-    private static final int SIM_VERSION_REQUEST_VERSION = 1;
-    private static final int PHET_INSTALLER_UPDATE_REQUEST_VERSION = 1;
-    
     private static final String REQUEST_VERSION_TAG = "request_version";
     private static final String ERROR_TAG = "error";
     private static final String WARNING_TAG = "warning";
@@ -169,14 +166,14 @@ public class VersionInfoQuery {
         document.appendChild( rootElement );
 
         Element simVersionElement = document.createElement( "sim_version" );
-        simVersionElement.setAttribute( REQUEST_VERSION_TAG, String.valueOf( SIM_VERSION_REQUEST_VERSION ) );
+        simVersionElement.setAttribute( REQUEST_VERSION_TAG, String.valueOf( PhetCommonConstants.SIM_VERSION_VERSION ) );
         simVersionElement.setAttribute( "project", project );
         simVersionElement.setAttribute( "sim", sim );
         simVersionElement.setAttribute( "requested_by", requestedBy );
         rootElement.appendChild( simVersionElement );
 
         Element installerUpdateElement = document.createElement( "phet_installer_update" );
-        installerUpdateElement.setAttribute( REQUEST_VERSION_TAG, String.valueOf( PHET_INSTALLER_UPDATE_REQUEST_VERSION ) );
+        installerUpdateElement.setAttribute( REQUEST_VERSION_TAG, String.valueOf( PhetCommonConstants.PHET_INSTALLER_UPDATE_VERSION ) );
         installerUpdateElement.setAttribute( "timestamp_seconds", String.valueOf( currentInstallerVersion.getTimestamp() ) );
         installerUpdateElement.setAttribute( "requested_by", requestedBy );
         rootElement.appendChild( installerUpdateElement );
