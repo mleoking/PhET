@@ -180,49 +180,6 @@ class FlashCommon {
 			// Home was pressed
 			updateHandler.installationUpdatesAvailable(1234567890, 0, 0);
 		}
-		if(Key.getCode() == 35) {
-			// End was pressed
-			//_level0.updateInstallationDetailsDialog.textArea.setHeight(300);
-			/*
-			debug("h: " + String(_level0.updateInstallationDetailsDialog.textArea.getTextField().textHeight) + "\n");
-			var ta : JTextArea = _level0.updateInstallationDetailsDialog.textArea;
-			ta.setHeight(ta.getTextField().textHeight);
-			ta.updateUI();
-			ta.revalidate();
-			ta.getParent().revalidate();
-			ta.paintImmediately();
-			_level0.updateInstallationDetailsWindow.revalidate();
-			ta.getParent().paintImmediately();
-			debug("paintwidth: " + String(ta.getPaintBounds().width) + "\n");
-			debug("paintheight: " + String(ta.getPaintBounds().height) + "\n");
-			ta.paintImmediately();
-			ta.invalidate();
-			_level0.updateInstallationDetailsWindow.paintImmediately();
-			_level0.updateInstallationDetailsWindow.invalidate();
-			*/
-			/*
-			var ta : JTextArea = _level0.testTextArea;
-			var tf : TextField = ta.getTextField();
-			var d : Dimension;
-			var b : Rectangle;
-			
-			debug("tf _width/_height: (" + String(tf._width) + ", " + String(tf._height) + ")\n");
-			debug("tf textWidth/textHeight: (" + String(tf.textWidth) + ", " + String(tf.textHeight) + ")\n");
-			debug("ta getWidth()/getHeight(): (" + String(ta.getWidth()) + ", " + String(ta.getHeight()) + ")\n");
-			d = ta.getTextFieldAutoSizedSize();
-			debug("ta getTextFieldAutoSizedSize: (" + String(d.width) + ", " + String(d.height) + ")\n");
-			d = ta.countPreferredSize();
-			debug("ta countPreferredSize: (" + String(d.width) + ", " + String(d.height) + ")\n");
-			d = ta.getViewSize();
-			debug("ta getViewSize: (" + String(d.width) + ", " + String(d.height) + ")\n");
-			d = ta.getExtentSize();
-			debug("ta getExtentSize: (" + String(d.width) + ", " + String(d.height) + ")\n");
-			b = ta.getBounds();
-			debug("ta getBounds: (" + String(b.width) + ", " + String(b.height) + ")\n");
-			b = ta.getPaintBounds();
-			debug("ta getPaintBounds: (" + String(b.width) + ", " + String(b.height) + ")\n");
-			*/
-		}
 	}
 	
 	// returns the version string with minor and dev fields padded with a zero if necessary
@@ -253,17 +210,6 @@ class FlashCommon {
 	
 	// get the URL of the simulation on the website
 	public function simWebsiteURL() : String {
-		/*
-		var str : String = "http://phet.colorado.edu/simulations/sims.php?sim=";
-		for(var i : Number = 0; i < _level0.simName.length; i++) {
-			if(_level0.simName.charAt(i) == "-") {
-				str += "_";
-			} else {
-				str += _level0.simName.charAt(i);
-			}
-		}
-		return str;
-		*/
 		return "http://phet.colorado.edu/simulations/sim-redirect.php?project=" + getSimProject() + "&sim=" + getSimName() + "&request_version=1";
 	}
 	
