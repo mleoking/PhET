@@ -51,7 +51,7 @@ class PrivacyDialog {
 		backgroundMC.onRelease = function() { }
 		
 		// create a window
-		var window : JFrame = new JFrame(_level0, common.strings.get("SoftwarePrivacyAgreements", "Software & Privacy Agreements"));
+		var window : JFrame = new JFrame(_level0, common.strings.get("SoftwareAgreement", "Software Agreement"));
 		
 		// we don't want this window closable
 		window.setClosable(false);
