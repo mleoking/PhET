@@ -41,36 +41,44 @@ class phetInfoTest extends PHPUnit_Framework_TestCase {
             (self::INSTALLER_TIMESTAMP_AGE_IN_DAYS * $days_to_secs);
     }
 
-    private function makeRequest($xml, $verbose = false) {
-        $overrides =
-            array('PHET-DEFINE-OVERRIDE-DB_HOSTNAME' => 'localhost',
-                  'PHET-DEFINE-OVERRIDE-DB_NAME' => 'phet_test',
-                  'PHET-DEFINE-OVERRIDE-DB_USERNAME' => 'phet_test',
-                  'PHET-DEFINE-OVERRIDE-DB_PASSWORD' => '',
-                  'PHET-DEFINE-OVERRIDE-SIMS_ROOT' => SIMS_ROOT
-                );
+    private function getPlainTextRequestParameters($xml) {
+        // Setup submitting the POST elements
+        return array(
+            'method' => 'POST',
+            'header' => 'Content-type: text/xml',
+            'content' => $xml
+            );
+    }
 
-        $query = $overrides;
+    private function getRequestOverrides() {
+        return array('PHET-DEFINE-OVERRIDE-DB_HOSTNAME' => 'localhost',
+                     'PHET-DEFINE-OVERRIDE-DB_NAME' => 'phet_test',
+                     'PHET-DEFINE-OVERRIDE-DB_USERNAME' => 'phet_test',
+                     'PHET-DEFINE-OVERRIDE-DB_PASSWORD' => '',
+                     'PHET-DEFINE-OVERRIDE-SIMS_ROOT' => SIMS_ROOT
+            );
+    }
 
+    private function makeRequest($request_parameters, $verbose = false) {
+        $query = $this->getRequestOverrides();
         if ($verbose) {
             $query['verbose'] = 1;
         }
 
         $query_string = http_build_query($query);
 
-        // Setup submitting the POST elements
-        $request_parameters = array(
-            'method' => 'POST',
-            'header' => 'Content-type: text/xml',
-            'content' => $xml
-            );
-
         $http_context = array('http' => $request_parameters);
 
         $stream = stream_context_create($http_context);
 
         // Make the request and return the data
-        return file_get_contents(self::QUERY_URL.'?'.$query_string, 0, $stream);
+        return file_get_contents(self::QUERY_URL.'?'.$query_string, 0, $stream);        
+    }
+
+    private function makePlainTextRequest($xml, $verbose = false) {
+        return $this->makeRequest(
+            $this->getPlainTextRequestParameters($xml),
+            $verbose);
     }
 
     private function constructBadQuotesXML() {
@@ -225,7 +233,7 @@ EOT;
 
     public function testPhetInfo_nonXMLRequestReturnsValidXML() {
         $not_xml = 'this is not XML';
-        $data = $this->makeRequest($not_xml);
+        $data = $this->makePlainTextRequest($not_xml);
         $xml = new SimpleXMLElement($data);
         $this->assertType('object', $xml);
         $this->assertEquals('SimpleXMLElement', get_class($xml));
@@ -233,7 +241,7 @@ EOT;
 
     public function testPhetInfo_nonXMLRequestReturnsValidXMLWithError() {
         $not_xml = 'this is not XML';
-        $data = $this->makeRequest($not_xml);
+        $data = $this->makePlainTextRequest($not_xml);
         $xml = new SimpleXMLElement($data);
         $this->assertFalse($this->getSuccessStatus($xml));
         $this->assertTrue(
@@ -246,7 +254,7 @@ EOT;
 
     public function testPhetInfo_badQuoteXMLReturnsError() {
         $request_xml = $this->constructBadQuotesXML();
-        $data = $this->makeRequest($request_xml);
+        $data = $this->makePlainTextRequest($request_xml);
         $xml = new SimpleXMLElement($data);
         $this->assertFalse($this->getSuccessStatus($xml));
         $this->assertTrue(
@@ -259,7 +267,7 @@ EOT;
 
     public function testPhetInfo_dashedXMLTagsReturnsError() {
         $request_xml = $this->constructBadDashesXML();
-        $data = $this->makeRequest($request_xml);
+        $data = $this->makePlainTextRequest($request_xml);
         $xml = new SimpleXMLElement($data);
         $this->assertFalse($this->getSuccessStatus($xml));
         $this->assertTrue(
@@ -272,7 +280,7 @@ EOT;
 
     public function testPhetInfo_badRootElementNameReturnsError() {
         $request_xml = $this->constructBadRootElementNameXML();
-        $data = $this->makeRequest($request_xml);
+        $data = $this->makePlainTextRequest($request_xml);
         $xml = new SimpleXMLElement($data);
         $this->assertFalse($this->getSuccessStatus($xml));
         $this->assertTrue(
@@ -285,7 +293,7 @@ EOT;
 
     public function testPhetInfo_noVersionRequestDoesNotGiveResponseTag() {
         $request_xml = $this->constructGoodFullTagXML(self::NONE);
-        $data = $this->makeRequest($request_xml);
+        $data = $this->makePlainTextRequest($request_xml);
         $response_xml = new SimpleXMLElement($data);
         $this->assertTrue($this->getSuccessStatus($response_xml));
         $this->assertFalse(isset($response_xml->sim_version_response));
@@ -293,7 +301,7 @@ EOT;
 
     public function testPhetInfo_incompleteVersionRequestGivesResponseWithError() {
         $request_xml = $this->constructGoodFullTagXML(self::INVALID_MISSING_ATTR);
-        $data = $this->makeRequest($request_xml);
+        $data = $this->makePlainTextRequest($request_xml);
         $response_xml = new SimpleXMLElement($data);
         $this->assertTrue($this->getSuccessStatus($response_xml));
         $info = $response_xml->sim_version_response[0];
@@ -308,7 +316,7 @@ EOT;
 
     public function testPhetInfo_badVersionRequestGivesResponseWithError() {
         $request_xml = $this->constructGoodFullTagXML(self::INVALID_BAD_ATTR);
-        $data = $this->makeRequest($request_xml);
+        $data = $this->makePlainTextRequest($request_xml);
         $response_xml = new SimpleXMLElement($data);
         $this->assertTrue($this->getSuccessStatus($response_xml));
         $info = $response_xml->sim_version_response[0];
@@ -323,7 +331,7 @@ EOT;
 
     public function testPhetInfo_badVersionRequestVersionGivesResponseWithError() {
         $request_xml = $this->constructGoodFullTagXML(self::INVALID_REQUEST_VERSION);
-        $data = $this->makeRequest($request_xml);
+        $data = $this->makePlainTextRequest($request_xml);
         $response_xml = new SimpleXMLElement($data);
         $this->assertTrue($this->getSuccessStatus($response_xml));
         $info = $response_xml->sim_version_response[0];
@@ -338,7 +346,7 @@ EOT;
 
     public function testPhetInfo_versionRequestGivesResponseTag() {
         $request_xml = $this->constructGoodFullTagXML(self::VALID);
-        $data = $this->makeRequest($request_xml);
+        $data = $this->makePlainTextRequest($request_xml);
         $response_xml = new SimpleXMLElement($data);
         $this->assertTrue($this->getSuccessStatus($response_xml));
         $this->assertTrue(isset($response_xml->sim_version_response));
@@ -346,7 +354,7 @@ EOT;
 
     public function testPhetInfo_versionRequestGivesValidResponse() {
         $request_xml = $this->constructGoodFullTagXML(self::VALID);
-        $data = $this->makeRequest($request_xml);
+        $data = $this->makePlainTextRequest($request_xml);
         $response_xml = new SimpleXMLElement($data);
         $this->assertTrue($this->getSuccessStatus($response_xml));
         $info = $response_xml->sim_version_response[0];
@@ -373,7 +381,7 @@ EOT;
         UpdateUtils::inst()->setSettings($settings);
 
         $request_xml = $this->constructGoodFullTagXML(self::VALID);
-        $data = $this->makeRequest($request_xml);
+        $data = $this->makePlainTextRequest($request_xml);
         $response_xml = new SimpleXMLElement($data);
         $this->assertTrue($this->getSuccessStatus($response_xml));
         $info = $response_xml->sim_version_response[0];
@@ -390,7 +398,7 @@ EOT;
 
     public function testPhetInfo_noInstallerRequestDoesNotGiveResponseTag() {
         $request_xml = $this->constructGoodFullTagXML(self::NONE, self::NONE);
-        $data = $this->makeRequest($request_xml);
+        $data = $this->makePlainTextRequest($request_xml);
         $response_xml = new SimpleXMLElement($data);
         $this->assertTrue($this->getSuccessStatus($response_xml));
         $this->assertFalse(isset($response_xml->phet_installer_update_response));
@@ -398,7 +406,7 @@ EOT;
 
     public function testPhetInfo_incompleteInstallerRequestGivesResponseWithError() {
         $request_xml = $this->constructGoodFullTagXML(self::NONE, self::INVALID_MISSING_ATTR);
-        $data = $this->makeRequest($request_xml);
+        $data = $this->makePlainTextRequest($request_xml);
         $response_xml = new SimpleXMLElement($data);
         $this->assertTrue($this->getSuccessStatus($response_xml));
         $info = $response_xml->phet_installer_update_response[0];
@@ -413,7 +421,7 @@ EOT;
 
     public function testPhetInfo_badInstallerRequestGivesResponseWithError() {
         $request_xml = $this->constructGoodFullTagXML(self::NONE, self::INVALID_BAD_ATTR);
-        $data = $this->makeRequest($request_xml);
+        $data = $this->makePlainTextRequest($request_xml);
         $response_xml = new SimpleXMLElement($data);
         $this->assertTrue($this->getSuccessStatus($response_xml));
         $info = $response_xml->phet_installer_update_response[0];
@@ -428,7 +436,7 @@ EOT;
 
     public function testPhetInfo_badInstallerRequestVersionGivesResponseWithError() {
         $request_xml = $this->constructGoodFullTagXML(self::NONE, self::INVALID_REQUEST_VERSION);
-        $data = $this->makeRequest($request_xml);
+        $data = $this->makePlainTextRequest($request_xml);
         $response_xml = new SimpleXMLElement($data);
         $this->assertTrue($this->getSuccessStatus($response_xml));
         $info = $response_xml->phet_installer_update_response[0];
@@ -443,7 +451,7 @@ EOT;
 
     public function testPhetInfo_installerRequestGivesResponseTag() {
         $request_xml = $this->constructGoodFullTagXML(self::NONE, self::VALID);
-        $data = $this->makeRequest($request_xml);
+        $data = $this->makePlainTextRequest($request_xml);
         $response_xml = new SimpleXMLElement($data);
         $this->assertTrue($this->getSuccessStatus($response_xml));
         $this->assertTrue(isset($response_xml->phet_installer_update_response));
@@ -451,7 +459,7 @@ EOT;
 
     public function testPhetInfo_installerRequestGivesValidResponse() {
         $request_xml = $this->constructGoodFullTagXML(self::NONE, self::VALID);
-        $data = $this->makeRequest($request_xml);
+        $data = $this->makePlainTextRequest($request_xml);
         $response_xml = new SimpleXMLElement($data);
         $this->assertTrue($this->getSuccessStatus($response_xml));
         $info = $response_xml->phet_installer_update_response[0];
@@ -476,7 +484,7 @@ EOT;
 
         UpdateUtils::inst()->setSettings($settings);
         $request_xml = $this->constructGoodFullTagXML(self::NONE, self::VALID);
-        $data = $this->makeRequest($request_xml);
+        $data = $this->makePlainTextRequest($request_xml);
         $response_xml = new SimpleXMLElement($data);
         $this->assertTrue($this->getSuccessStatus($response_xml));
         $info = $response_xml->phet_installer_update_response[0];
@@ -508,7 +516,7 @@ EOT;
 
         UpdateUtils::inst()->setSettings($settings);
         $request_xml = $this->constructGoodFullTagXML(self::NONE, self::VALID);
-        $data = $this->makeRequest($request_xml);
+        $data = $this->makePlainTextRequest($request_xml);
         $response_xml = new SimpleXMLElement($data);
         $this->assertTrue($this->getSuccessStatus($response_xml));
         $info = $response_xml->phet_installer_update_response[0];
@@ -540,7 +548,7 @@ EOT;
 
         UpdateUtils::inst()->setSettings($settings);
         $request_xml = $this->constructGoodFullTagXML(self::NONE, self::VALID);
-        $data = $this->makeRequest($request_xml);
+        $data = $this->makePlainTextRequest($request_xml);
         $response_xml = new SimpleXMLElement($data);
         $this->assertTrue($this->getSuccessStatus($response_xml));
         $info = $response_xml->phet_installer_update_response[0];
