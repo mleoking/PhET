@@ -41,57 +41,65 @@ class Statistics {
 		// CURRENTLY CALLED FROM ELSEWHERE sendSessionStart();
 	}
 	
+	public function fieldFormat(field : String, val, humanReadable : Boolean) {
+		if(humanReadable) {
+			return common.strings.get("StatisticsField-" + field, field) + ": " + unescape(messageEscape(val) + "\n");
+		} else {
+			return field + " = '" + messageEscape(val) + "' \n";
+		}
+	}
+	
 	// get the exact string sent to the server. this will be used to show
 	// users exactly what statistics data is sent.
-	public function sessionStartMessage() : String {
+	public function sessionStartMessage(humanReadable : Boolean) : String {
 		var str : String = "";
 		
 		// make data available to be read
 		common.preferences.load();
 		
 		/////// message information
-		str += "message_type = 'session' \n";
-		str += "message_version = '0' \n";
+		str += fieldFormat("message_type", "session", humanReadable);
+		str += fieldFormat("message_version", "0", humanReadable);
 		
 		
 		/////// simulation data
-		str += "sim_type = 'flash' \n";
+		str += fieldFormat("sim_type", "flash", humanReadable);
 		
 		// currently, project is the same as sim for Flash simulations
-		str += "sim_project = '" + messageEscape(common.getSimProject()) + "' \n";
-		str += "sim_name = '" + messageEscape(common.getSimName()) + "' \n";
+		str += fieldFormat("sim_project", common.getSimProject(), humanReadable);
+		str += fieldFormat("sim_name", common.getSimName(), humanReadable);
 		
-		str += "sim_major_version = '" + messageEscape(common.getVersionMajor()) + "' \n";
-		str += "sim_minor_version = '" + messageEscape(common.getVersionMinor()) + "' \n";
-		str += "sim_dev_version = '" + messageEscape(common.getVersionDev()) + "' \n";
-		str += "sim_svn_revision = '" + messageEscape(common.getVersionRevision()) + "' \n";
-		str += "sim_version_timestamp = '" + messageEscape(common.getVersionTimestamp()) + "' \n";
+		str += fieldFormat("sim_major_version", common.getVersionMajor(), humanReadable);
+		str += fieldFormat("sim_minor_version", common.getVersionMinor(), humanReadable);
+		str += fieldFormat("sim_dev_version", common.getVersionDev(), humanReadable);
+		str += fieldFormat("sim_svn_revision", common.getVersionRevision(), humanReadable);
+		str += fieldFormat("sim_version_timestamp", common.getVersionTimestamp(), humanReadable);
 		
-		str += "sim_locale_language = '" + messageEscape(common.getLanguage()) + "' \n";
-		str += "sim_locale_country = '" + messageEscape(common.getCountry()) + "' \n";
+		str += fieldFormat("sim_locale_language", common.getLanguage(), humanReadable);
+		str += fieldFormat("sim_locale_country", common.getCountry(), humanReadable);
 		
-		str += "sim_sessions_since = '" + messageEscape(common.preferences.visitsSince()) + "' \n";
-		str += "sim_total_sessions = '" + messageEscape(common.preferences.visitsEver()) + "' \n";
+		str += fieldFormat("sim_sessions_since", common.preferences.visitsSince(), humanReadable);
+		str += fieldFormat("sim_total_sessions", common.preferences.visitsEver(), humanReadable);
 		
-		str += "sim_deployment = '" + messageEscape(common.getDeployment()) + "' \n";
-		str += "sim_distribution_tag = '" + messageEscape(common.getDistributionTag()) + "' \n";
-		str += "sim_dev = '" + messageEscape(String(common.getDev())) + "' \n";
+		str += fieldFormat("sim_deployment", common.getDeployment(), humanReadable);
+		str += fieldFormat("sim_distribution_tag", common.getDistributionTag(), humanReadable);
+		str += fieldFormat("sim_dev", String(common.getDev()), humanReadable);
 		
 		
 		/////// host data
 		
-		str += "host_flash_os = '" + messageEscape(System.capabilities.os) + "' \n";
-		str += "host_flash_version = '" + messageEscape(System.capabilities.version) + "' \n";
-		str += "host_locale_language = '" + messageEscape(System.capabilities.language) + "' \n";
-		str += "host_flash_time_offset = '" + messageEscape(String((new Date()).getTimezoneOffset())) + "' \n";
-		str += "host_flash_accessibility = '" + messageEscape(String(System.capabilities.hasAccessibility)) + "' \n";
-		str += "host_flash_domain = '" + messageEscape((new LocalConnection()).domain()) + "' \n";
+		str += fieldFormat("host_flash_os", System.capabilities.os, humanReadable);
+		str += fieldFormat("host_flash_version", System.capabilities.version, humanReadable);
+		str += fieldFormat("host_locale_language", System.capabilities.language, humanReadable);
+		str += fieldFormat("host_flash_time_offset", String((new Date()).getTimezoneOffset()), humanReadable);
+		str += fieldFormat("host_flash_accessibility", String(System.capabilities.hasAccessibility), humanReadable);
+		str += fieldFormat("host_flash_domain", (new LocalConnection()).domain(), humanReadable);
 		
 		
 		/////// user data
-		str += "user_preference_file_creation_time = '" + messageEscape(common.preferences.getUserTime()) + "' \n";
-		str += "user_installation_timestamp = '" + messageEscape(common.getInstallationTimestamp()) + "' \n";
-		str += "user_total_sessions = '" + messageEscape(common.preferences.getUserTotalSessions()) + "' \n";
+		str += fieldFormat("user_preference_file_creation_time", common.preferences.getUserTime(), humanReadable);
+		str += fieldFormat("user_installation_timestamp", common.getInstallationTimestamp(), humanReadable);
+		str += fieldFormat("user_total_sessions", common.preferences.getUserTotalSessions(), humanReadable);
 		
 		// unload data from shared object
 		common.preferences.unload();
@@ -127,7 +135,7 @@ class Statistics {
 		debug("Statistics: sending session start message\n");
 		
 		// wrap the message in xml tags
-		var str : String = "<?xml version=\"1.0\"?><submit_message><statistics_message " + sessionStartMessage() + " /></submit_message>";
+		var str : String = "<?xml version=\"1.0\"?><submit_message><statistics_message " + sessionStartMessage(false) + " /></submit_message>";
 		sendXML(new XML(str));
 	}
 	

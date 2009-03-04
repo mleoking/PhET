@@ -55,4 +55,30 @@
   <string key="InstallerInfo1" value="Keeping your PhET Offline Website Installation up-to-date ensures that you have access to the newest PhET simulations and supplemental materials." />
   <string key="InstallerInfo2" value="If you choose to get the newest version, a web browser will open to the PhET website, where you can download the PhET Offline Website Installer." />
   <string key="Distribution" value="Distribution" />
+  <string key="StatisticsField-message_type" value="Message type" />
+  <string key="StatisticsField-message_version" value="Message version" />
+  <string key="StatisticsField-sim_type" value="Simulation type" />
+  <string key="StatisticsField-sim_project" value="Project name" />
+  <string key="StatisticsField-sim_name" value="Simulation name" />
+  <string key="StatisticsField-sim_major_version" value="Simulation version (major)" />
+  <string key="StatisticsField-sim_minor_version" value="Simulation version (minor)" />
+  <string key="StatisticsField-sim_dev_version" value="Simulation version (dev)" />
+  <string key="StatisticsField-sim_svn_revision" value="Simulation version (revision)" />
+  <string key="StatisticsField-sim_version_timestamp" value="Simulation version (timestamp)" />
+  <string key="StatisticsField-sim_distribution_tag" value="Simulation version (distribution)" />
+  <string key="StatisticsField-sim_locale_language" value="Language" />
+  <string key="StatisticsField-sim_locale_country" value="Country" />
+  <string key="StatisticsField-sim_deployment" value="Deployment type" />
+  <string key="StatisticsField-sim_dev" value="Is this a developer version?" />
+  <string key="StatisticsField-sim_total_sessions" value="Total number of times this simulation has been run" />
+  <string key="StatisticsField-sim_sessions_since" value="Number of times this simulation has been run since last online" />
+  <string key="StatisticsField-host_flash_os" value="Operating system and name" />
+  <string key="StatisticsField-host_flash_version" value="Flash Player version" />
+  <string key="StatisticsField-host_locale_language" value="Host language" />
+  <string key="StatisticsField-host_flash_time_offset" value="Timezone" />
+  <string key="StatisticsField-host_flash_accessibility" value="Using an accessible device?" />
+  <string key="StatisticsField-host_flash_domain" value="Simulation domain" />
+  <string key="StatisticsField-user_preference_file_creation_time" value="Preferences file creation time" />
+  <string key="StatisticsField-user_total_sessions" value="Total number of times all simulations have been run" />
+  <string key="StatisticsField-user_installation_timestamp" value="PhET installation timestamp" />
 </SimStrings>
