@@ -32,7 +32,7 @@
 
     // Log this info
     $datefmt = "y/m/d h:i:s A";
-    $log_string = join("\t", array(date($datefmt), time(), $simulation['sim_name'], $locale, $_SERVER['REMOTE_ADDR']))."\n";
+    $log_string = join("\t", array(date($datefmt), time(), $simulation['sim_name'], $locale))."\n";
     log_message('download-sim.log', $log_string);
 
     // Get the filename and content
