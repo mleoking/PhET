@@ -83,7 +83,7 @@ class PhetInfo {
     private function getValidXmlFromQuery() {
         // Get the XML, and parse it
         try {
-            $xml_text = $GLOBALS['HTTP_RAW_POST_DATA'];
+            $xml_text = file_get_contents("php://input");
             $xml = new SimpleXMLElement($xml_text);
         }
         catch (ErrorException $e) {
