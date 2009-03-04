@@ -20,7 +20,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  */
 public class StatisticsDetailsDialog extends PaintImmediateDialog {
     
-    private static final int PREFERRED_WIDTH = 400;
+    private static final int PREFERRED_WIDTH = 450;
     
     private static final String TITLE = PhetCommonResources.getString( "Common.statistics.details.title" );
     private static final String DESCRIPTION = PhetCommonResources.getString( "Common.statistics.details.description" );
