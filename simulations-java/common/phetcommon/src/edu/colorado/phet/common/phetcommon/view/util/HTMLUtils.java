@@ -88,7 +88,7 @@ public class HTMLUtils {
      * @param ampersand
      * @return
      */
-    public static String getSimWebsiteURL( String project, String sim,String ampersand ) {
+    public static String getSimWebsiteURL( String project, String sim, String ampersand ) {
         return PhetCommonConstants.SIM_WEBSITE_REDIRECT_URL + "?" + 
             "request_version=" + PhetCommonConstants.SIM_WEBSITE_REDIRECT_VERSION + ampersand + 
             "project=" + project + ampersand + 
@@ -101,11 +101,11 @@ public class HTMLUtils {
      *
      * @param project
      * @param sim
-     * @param ampersand
      * @param locale
+     * @param ampersand
      * @return
      */
-    public static String getSimJarURL( String project, String sim, String ampersand, Locale locale ) {
+    public static String getSimJarURL( String project, String sim, Locale locale, String ampersand ) {
         String url = PhetCommonConstants.SIM_JAR_REDIRECT_URL + "?" + 
             "request_version=" + PhetCommonConstants.SIM_JAR_REDIRECT_VERSION + ampersand + 
             "project=" + project + ampersand + 
@@ -121,6 +121,7 @@ public class HTMLUtils {
     /**
      * Returns the URL for the <project>_all.jar from the PhET site.
      * @param project
+     * @param ampersand
      * @return
      */
     public static String getProjectJarURL( String project, String ampersand ) {
