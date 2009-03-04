@@ -6,6 +6,8 @@
 	
 	include("db-stats.php");
 	
+	header("Connection: close");
+	
 	// connect to statistics database
 	$link = setup_mysql();
 	
