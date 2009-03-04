@@ -108,7 +108,7 @@ public class SimUpdater {
             return HTMLUtils.getProjectJarURL( simInfo.getProjectName(), "&" );
         }
         else {
-            return HTMLUtils.getSimJarURL( simInfo.getProjectName(), simInfo.getFlavor(), "&", simInfo.getLocale() );
+            return HTMLUtils.getSimJarURL( simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getLocale(), "&" );
         }
     }
 
