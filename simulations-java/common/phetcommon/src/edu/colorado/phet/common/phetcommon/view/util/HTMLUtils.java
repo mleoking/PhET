@@ -129,15 +129,6 @@ public class HTMLUtils {
             "project=" + project;
     }
         
-    /**
-     * Gets the URL for a project's properties file, where version information is found.
-     * @param project
-     * @return
-     */
-    public static String getProjectPropertiesURL( String project ) {
-        return PhetCommonConstants.PHET_HOME_URL + "/sims/" + project + "/" + project + ".properties";
-    }
-
     public static String createStyledHTMLFromFragment( String htmlFragment ) {
         return createStyledHTMLFromFragment( htmlFragment, DEFAULT_FONT, DEFAULT_CSS );
     }
