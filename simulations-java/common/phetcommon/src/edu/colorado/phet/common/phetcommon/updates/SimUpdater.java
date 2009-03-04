@@ -105,7 +105,7 @@ public class SimUpdater {
      */
     private String getJarURL( ISimInfo simInfo ) {
         if ( DeploymentScenario.getInstance() == DeploymentScenario.PHET_INSTALLATION ) {
-            return HTMLUtils.getProjectJarURL( simInfo.getProjectName() );
+            return HTMLUtils.getProjectJarURL( simInfo.getProjectName(), "&" );
         }
         else {
             return HTMLUtils.getSimJarURL( simInfo.getProjectName(), simInfo.getFlavor(), "&", simInfo.getLocale() );

@@ -123,8 +123,10 @@ public class HTMLUtils {
      * @param project
      * @return
      */
-    public static String getProjectJarURL( String project ) {
-        return PhetCommonConstants.SIM_JAR_REDIRECT_URL + "?project=" + project;
+    public static String getProjectJarURL( String project, String ampersand ) {
+        return PhetCommonConstants.SIM_JAR_REDIRECT_URL + "?" +
+            "request_version=" + PhetCommonConstants.SIM_JAR_REDIRECT_VERSION + ampersand + 
+            "project=" + project;
     }
         
     /**
