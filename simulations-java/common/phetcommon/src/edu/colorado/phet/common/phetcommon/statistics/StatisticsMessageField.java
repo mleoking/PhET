@@ -1,5 +1,7 @@
 package edu.colorado.phet.common.phetcommon.statistics;
 
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+
 /**
  * StatisticsMessageField is a field in a statistics message, consisting of a name/value pair.
  *
@@ -13,18 +15,18 @@ public class StatisticsMessageField {
     private final String name;
     private final String value;
     
-    public StatisticsMessageField( String humanReadableName, String name, String value ) {
-        this.humanReadableName = humanReadableName;
+    public StatisticsMessageField( String name, String value ) {
+        this.humanReadableName = getHumanReadableName( name );
         this.name = name;
         this.value = ( ( value == null || value.length() == 0 ) ? NULL_STRING : value );
     }
     
-    public StatisticsMessageField( String humanReadableName, String name, int value ) {
-        this( humanReadableName, name, String.valueOf( value ) );
+    public StatisticsMessageField( String name, int value ) {
+        this( name, String.valueOf( value ) );
     }
     
-    public StatisticsMessageField( String humanReadableName, String name, long value ) {
-        this( humanReadableName, name, String.valueOf( value ) );
+    public StatisticsMessageField( String name, long value ) {
+        this( name, String.valueOf( value ) );
     }
     
     public String getHumanReadableName() {
@@ -40,8 +42,15 @@ public class StatisticsMessageField {
     }
 
     public static class SystemProperty extends StatisticsMessageField {
-        public SystemProperty( String humanReadableName, String fieldName, String s ) {
-            super( humanReadableName, fieldName, System.getProperty( s ) );
+        public SystemProperty( String fieldName, String systemPropertyKey ) {
+            super( fieldName, System.getProperty( systemPropertyKey ) );
         }
+    }
+    
+    /*
+     * The fieldName is used to look up the localized human-readable name.
+     */
+    private static String getHumanReadableName( String fieldName ) {
+        return PhetCommonResources.getString( "Common.statistics." + fieldName );
     }
 }
