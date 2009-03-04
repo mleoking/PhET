@@ -43,6 +43,14 @@
         }
     }
 
+    function get_request_version() {
+        if ((!isset($_GET['request_version'])) ||
+            ($_GET['request_version'] != 1)) {
+            return false;
+        }
+        return $_GET['request_version'];
+    }
+
     function requested_project_only() {
         if ((isset($_GET['project'])) &&
             (!isset($_GET['sim'])) &&
@@ -131,14 +139,24 @@
         send_file_to_browser($filename, $contents, null, "attachment");
     }
 
-    // Grab the required parameters
-    // TODO: refactor this
-    if (requested_project_only()) {
-        handle_request_project_only();
-    }
-    else {
-        handle_request_sim();
+    function main() {
+        // Check the request version number
+        $request_version = get_request_version();
+        if ($request_version != '1') {
+            error("Error: Invalid request version.\n");
+            exit;
+        }
+
+        // Grab the required parameters
+        if (requested_project_only()) {
+            handle_request_project_only();
+        }
+        else {
+            handle_request_sim();
+        }
     }
 
+    // Go!
+    main();
 
 ?>
