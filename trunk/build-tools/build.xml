@@ -24,6 +24,10 @@
     * jarsigner.keystore - path to the pkcs12 keystore that contain the PhET digital signature
     * jarsigner.password - password for the keystore
     * jarsigner.alias - alias for the keystore
+    * wine - ?? (boolean)
+    * flash - ??
+    * browser-flash - ??
+    * autobuild-swf (boolean) - ??
     
   NOTE: Putting username and password information in build-local.properties is not
   recommended; it is a potential security issue!
