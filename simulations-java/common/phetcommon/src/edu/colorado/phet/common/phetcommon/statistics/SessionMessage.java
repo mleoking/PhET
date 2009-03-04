@@ -65,8 +65,8 @@ public class SessionMessage extends StatisticsMessage {
                 new StatisticsMessageField( "Country", "sim_locale_country", PhetResources.readLocale().getCountry() ),
                 new StatisticsMessageField( "Deployment type", "sim_deployment", DeploymentScenario.getInstance().toString() ),
                 new StatisticsMessageField( "Is this a developer version?", "sim_dev", simInfo.isDev() + "" ),
-                new StatisticsMessageField( "Number of times you've run this sim", "sim_total_sessions", SessionCounter.getInstance().getCount() ),
-                new StatisticsMessageField( "Number of times since we last heard from you", "sim_sessions_since", SessionCounter.getInstance().getCountSince() ),
+                new StatisticsMessageField( "Total number of times this simulation has been run", "sim_total_sessions", SessionCounter.getInstance().getCount() ),
+                new StatisticsMessageField( "Number of times this simulation has been run since last online", "sim_sessions_since", SessionCounter.getInstance().getCountSince() ),
                 
                 // Host data
                 new StatisticsMessageField.SystemProperty( "Operating system name", "host_os_name", "os.name" ),
@@ -83,7 +83,7 @@ public class SessionMessage extends StatisticsMessage {
                 
                 // User data
                 new StatisticsMessageField( "Preferences file creation timestamp", "user_preference_file_creation_time", PhetPreferences.getInstance().getPreferencesFileCreationTime() ),
-                new StatisticsMessageField( "Total number of times you've run all simulations", "user_total_sessions", SessionCounter.getInstance().getTotal() ),
+                new StatisticsMessageField( "Total number of times all simulations have been run", "user_total_sessions", SessionCounter.getInstance().getTotal() ),
         };
         super.addFields( fields );
         
