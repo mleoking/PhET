@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.Properties;
 
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Jar;
 import org.apache.tools.ant.taskdefs.Javac;
 import org.apache.tools.ant.taskdefs.Manifest;
@@ -25,6 +24,7 @@ import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.buildtools.proguard.PhetProguardConfigBuilder;
 import edu.colorado.phet.buildtools.proguard.ProguardCommand;
 import edu.colorado.phet.buildtools.util.PhetBuildUtils;
+import edu.colorado.phet.buildtools.util.PhetJarSigner;
 import edu.colorado.phet.common.phetcommon.application.JARLauncher;
 
 /**
@@ -46,11 +46,6 @@ public class JavaBuildCommand {
     public static final String JAVA_VERSION_CHECKER_CLASS_NAME = "edu.colorado.phet.javaversionchecker.JavaVersionChecker";
     public static final String JAR_LAUNCHER_CLASS_NAME = JARLauncher.class.getName();
     
-    // these keys must be in a properties file
-    public static final String KEY_KEYSTORE = "jarsigner.keystore";
-    public static final String KEY_PASSWORD = "jarsigner.password";
-    public static final String KEY_ALIAS = "jarsigner.alias";
-
     public static String getMainLauncherClassName( JavaProject project ) {
         if ( project.getAlternateMainClass() != null ) {
             return project.getAlternateMainClass();
@@ -77,9 +72,6 @@ public class JavaBuildCommand {
     }
 
     private void signJAR() {
-    	
-    	// Obtain the properties needed for signing the JAR.
-    	
         File configProperties = new File( project.getTrunk(), "build-tools/build-local.properties" );
         Properties properties = new Properties();
         try {
@@ -91,36 +83,19 @@ public class JavaBuildCommand {
             throw new BuildException("Property file needed for signing JAR not found.");
         }
         
-        String alias = properties.getProperty( KEY_ALIAS );
-        String keystore = properties.getProperty( KEY_KEYSTORE );
-        String storepass = properties.getProperty( KEY_PASSWORD );
+        PhetJarSigner signer = new PhetJarSigner( configProperties.getAbsolutePath(), antTaskRunner );
         
-        // All properties must be present.
-        if ( (alias == null) || (keystore == null) || (storepass == null) ){
-        	throw new BuildException("One or more properties needed for signing JAR file not found.");
+        // Sign the JAR.
+        if ( signer.signJar( outputJar.getAbsolutePath() ) != true ){
+        	// Signing failed.  Throw an exception in order to force the build process to stop.
+            throw new BuildException("Signing of JAR file failed.");
         }
         
-        // Do the actual signing.
-        
-        SignJar signer = new SignJar();
-        signer.setAlias( alias );
-        signer.setKeystore( keystore );
-        signer.setStoretype( "pkcs12" );
-        signer.setStorepass( storepass );
-        signer.setJar( outputJar );
-        signer.setVerbose( true );
-        
-        antTaskRunner.runTask( signer );
-        
-        // Verify that the signing succeeded.
-        
-        VerifyJar verifier = new VerifyJar();
-        verifier.setVerbose( true );
-        verifier.setJar( outputJar );
-        
-        antTaskRunner.runTask( verifier );
-        
-        System.out.println("Signing of JAR file completed.");
+        // Verify the JAR.
+        if ( signer.verifyJar( outputJar.getAbsolutePath() ) != true ){
+        	// Verification failed.  Throw an exception in order to force the build process to stop.
+            throw new BuildException("Verification of JAR file failed.");
+        }
     }
 
     private void clean() throws Exception {
