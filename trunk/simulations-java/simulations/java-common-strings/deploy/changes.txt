@@ -1,3 +1,5 @@
+# 1.02.01 (29176) Mar 3, 2009
+test to see if java-common-strings_en.jar is properly created
 # 1.02.00 (29002) Feb 24, 2009
 #933, support for flash common strings
 2-24-09: rename to java-common-strings, to distinguish from Flash
