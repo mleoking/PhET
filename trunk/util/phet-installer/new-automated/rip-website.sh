@@ -14,22 +14,10 @@
 # Main body of this script.
 #----------------------------------------------------------------------------
 
-# Make sure we're in the proper directory
-cd /web/htdocs/phet/installer-builder/
-
 echo "================================================================"
 echo " Ripping web site on: "
 date
 echo "================================================================"
-
-echo "Performing SVN update"
-
-svn update
-
-if [ "$?" -ne "0" ]; then
-  echo "Error performing SVN update"
-  exit 1
-fi
 
 echo "Removing old web site..."
 
