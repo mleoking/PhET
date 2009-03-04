@@ -18,9 +18,10 @@ import java.awt.Font
 import java.util.Date
 import javax.swing.JLabel
 import model.{LadybugModel, ScalaClock}
+import scalacommon.ScalaApplicationLauncher
 
 object Ladybug2DApplication {
   def main(args: Array[String]) = {
-    ScalaApplication.main(args, "moving-man", "ladybug-2d", new LadybugModule[LadybugModel](new ScalaClock(30, 30 / 1000.0)))
+    ScalaApplicationLauncher.launchApplication(args, "moving-man", "ladybug-2d", ()=>new LadybugModule[LadybugModel](new ScalaClock(30, 30 / 1000.0)))
   }
 }
