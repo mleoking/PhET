@@ -22,7 +22,8 @@ class phetInfoTest extends PHPUnit_Framework_TestCase {
     const NONE = 1100;
     const INVALID_MISSING_ATTR = 1101;
     const INVALID_BAD_ATTR = 1102;
-    const VALID=1103;
+    const INVALID_REQUEST_VERSION = 1103;
+    const VALID=1104;
 
     const REQUEST_KEY = 'request';
 
@@ -105,25 +106,28 @@ EOT;
 EOT;
     }
 
-    private function getVersionRequest($version_request, $empty_tag) {
+    private function getVersionRequest($test_request_type, $empty_tag) {
         $tag = 'sim_version';
 
-        switch ($version_request) {
+        switch ($test_request_type) {
             case self::VALID:
-                $guts = "project=\"{$this->requested_project}\" sim=\"{$this->requested_sim}\"";
+                $guts = "request_version=\"1\" project=\"{$this->requested_project}\" sim=\"{$this->requested_sim}\"";
                 break;
             case self::INVALID_MISSING_ATTR:
                 // Asking for nonexistent info
-                $guts = "";
+                $guts = "request_version=\"1\"";
                 break;
             case self::INVALID_BAD_ATTR:
                 // Asking for nonexistent info
-                $guts = "project=\"{$this->nonexistent_requested_project}\" sim=\"{$this->nonexistent_requested_sim}\"";
+                $guts = "request_version=\"1\" project=\"{$this->nonexistent_requested_project}\" sim=\"{$this->nonexistent_requested_sim}\"";
+                break;
+            case self::INVALID_REQUEST_VERSION:
+                $guts = "request_version=\"999\" project=\"{$this->requested_project}\" sim=\"{$this->requested_sim}\"";
                 break;
             case self::NONE:
                 return '';
             default:
-                throw new RuntimeException("Invalid value passed to version_request in constructGoodEmptyTagXML");
+                throw new RuntimeException("Invalid value passed to test_request_type in constructGoodEmptyTagXML");
         }
 
         if ($empty_tag) {
@@ -134,22 +138,26 @@ EOT;
         }
     }
 
-    private function getInstallerRequest($installer_request, $empty_tag) {
+    private function getInstallerRequest($test_request_type, $empty_tag) {
         $tag = 'phet_installer_update';
-        switch ($installer_request) {
+
+        switch ($test_request_type) {
             case self::VALID:
-                $guts = 'timestamp_seconds="'.$this->installer_timestamp.'"';
+                $guts = 'request_version="1" timestamp_seconds="'.$this->installer_timestamp.'"';
                 break;
             case self::INVALID_MISSING_ATTR:
-                $guts = '';
+                $guts = 'request_version="1"';
                 break;
             case self::INVALID_BAD_ATTR:
-                $guts = 'timestamp_seconds="JUST-RECENTLY"';
+                $guts = 'request_version="1" timestamp_seconds="JUST-RECENTLY"';
+                break;
+            case self::INVALID_REQUEST_VERSION:
+                $guts = 'request_version="999" timestamp_seconds="'.$this->installer_timestamp.'"';
                 break;
             case self::NONE:
                 return '';
             default:
-                throw new RuntimeException("Invalid value passed to version_request in constructGoodEmptyTagXML");
+                throw new RuntimeException("Invalid value passed to test_request_type in constructGoodEmptyTagXML");
         }
 
         if ($empty_tag) {
@@ -313,6 +321,21 @@ EOT;
             );
     }
 
+    public function testPhetInfo_badVersionRequestVersionGivesResponseWithError() {
+        $request_xml = $this->constructGoodFullTagXML(self::INVALID_REQUEST_VERSION);
+        $data = $this->makeRequest($request_xml);
+        $response_xml = new SimpleXMLElement($data);
+        $this->assertTrue($this->getSuccessStatus($response_xml));
+        $info = $response_xml->sim_version_response[0];
+        $this->assertFalse($this->getSuccessStatus($info));
+        $this->assertTrue(
+            $this->hasError(
+                $info,
+                '/phet_info_response/sim_version_response',
+                '#^Invalid request version$#i')
+            );
+    }
+
     public function testPhetInfo_versionRequestGivesResponseTag() {
         $request_xml = $this->constructGoodFullTagXML(self::VALID);
         $data = $this->makeRequest($request_xml);
@@ -400,6 +423,21 @@ EOT;
                 $info,
                 '/phet_info_response/phet_installer_update_response',
                 '/^timestamp_seconds is invalid$/i')
+            );
+    }
+
+    public function testPhetInfo_badInstallerRequestVersionGivesResponseWithError() {
+        $request_xml = $this->constructGoodFullTagXML(self::NONE, self::INVALID_REQUEST_VERSION);
+        $data = $this->makeRequest($request_xml);
+        $response_xml = new SimpleXMLElement($data);
+        $this->assertTrue($this->getSuccessStatus($response_xml));
+        $info = $response_xml->phet_installer_update_response[0];
+        $this->assertFalse($this->getSuccessStatus($info));
+        $this->assertTrue(
+            $this->hasError(
+                $info,
+                '/phet_info_response/phet_installer_update_response',
+                '/^Invalid request version/i')
             );
     }
 
