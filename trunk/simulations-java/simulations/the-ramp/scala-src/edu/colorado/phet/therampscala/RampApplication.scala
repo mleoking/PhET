@@ -11,23 +11,26 @@ import movingman.ladybug.model.{Observable, Vector2D}
 import movingman.ladybug.LadybugUtil._
 import umd.cs.piccolo.nodes.PText
 import umd.cs.piccolo.PNode
-import scalacommon.{CenteredBoxStrategy, ScalaApplicationLauncher, ScalaClock}
+import scalacommon.{CenterBoxStrategy, ScalaApplicationLauncher, ScalaClock}
 
 class RampSegment
-class BlockState(_position: Vector2D) {
+class BlockState(_position: Vector2D, _velocity: Vector2D) {
   val position = _position
+  val velocity = _velocity
 
-  def translate(dx: Double, dy: Double) = new BlockState(position + new Vector2D(dx, dy))
+  def translate(delta: Vector2D) = new BlockState(position + delta, velocity)
 }
 class Block extends Observable {
-  var state = new BlockState(new Vector2D(200, 200))
+  var state = new BlockState(new Vector2D(200, 200), new Vector2D(20, 1))
 
-  def translate(dx: Double, dy: Double) = {
-    state = state.translate(dx, dy)
+  def translate(delta: Vector2D) = {
+    state = state.translate(delta)
     notifyListeners()
   }
 
-  def position=state.position
+  def position = state.position
+
+  def velocity = state.velocity
 }
 class RampModel {
   val rampSegments = new ArrayBuffer[RampSegment]
@@ -35,11 +38,10 @@ class RampModel {
 
   blocks += new Block()
   def update(dt: Double) = {
-    blocks.foreach(_.translate(1, 0))
+    blocks.foreach((b: Block) => {b.translate(b.velocity * dt)})
   }
 }
 class BlockNode(b: Block, transform: ModelViewTransform2D) extends PText("Block") {
-
   //todo: look at pattern for addlistener, define method, call method
   b.addListenerByName({update()})
   def update() = {
@@ -47,22 +49,13 @@ class BlockNode(b: Block, transform: ModelViewTransform2D) extends PText("Block"
   }
   update()
 }
-class RampCanvas(model: RampModel) extends PhetPCanvas(new Dimension(1024, 768)) {
-  setWorldTransformStrategy(new CenteredBoxStrategy(768, 768, this))
-  val modelWidth = 20
-  val modelHeight = modelWidth;
-  val transform: ModelViewTransform2D = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight), new Rectangle(0, 0, 768, 768), true)
 
-  val worldNode = new PNode
-  addWorldChild(worldNode)
-  def addNode(node: PNode) = worldNode.addChild(node)
-
-  def addNode(index: Int, node: PNode) = worldNode.addChild(index, node)
+class RampCanvas(model: RampModel) extends DefaultCanvas(20, 20) {
   setBackground(new Color(200, 255, 240))
-
   val blockNode = new BlockNode(model.blocks(0), transform)
   addNode(blockNode)
 }
+
 class RampModule(clock: ScalaClock) extends Module("Ramp", clock) {
   val model = new RampModel
   setSimulationPanel(new RampCanvas(model))
