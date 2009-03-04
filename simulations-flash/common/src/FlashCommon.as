@@ -253,6 +253,7 @@ class FlashCommon {
 	
 	// get the URL of the simulation on the website
 	public function simWebsiteURL() : String {
+		/*
 		var str : String = "http://phet.colorado.edu/simulations/sims.php?sim=";
 		for(var i : Number = 0; i < _level0.simName.length; i++) {
 			if(_level0.simName.charAt(i) == "-") {
@@ -262,6 +263,8 @@ class FlashCommon {
 			}
 		}
 		return str;
+		*/
+		return "http://phet.colorado.edu/simulations/sim-redirect.php?project=" + getSimProject() + "&sim=" + getSimName() + "&request_version=1";
 	}
 	
 	public function getLocale() : String {
