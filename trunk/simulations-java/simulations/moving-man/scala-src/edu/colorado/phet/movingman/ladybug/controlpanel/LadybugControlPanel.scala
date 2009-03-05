@@ -55,7 +55,7 @@ class LadybugControlPanel[M <: LadybugModel](module: LadybugModule[M]) extends C
   getContentPanel.setAnchor(WEST)
   getContentPanel.setFillNone
 
-  addControl(new VectorControlPanel(module.getVectorVisibilityModel))
+  addControl(new VectorControlPanel(module.vectorVisibilityModel))
 
   class MotionControlPanel(m: LadybugMotionModel) extends BoxPanel(Orientation.Vertical) {
     contents += new Label("Choose Motion") {font = new PhetFont(14, true)}
@@ -103,7 +103,7 @@ class LadybugControlPanel[M <: LadybugModel](module: LadybugModule[M]) extends C
   }
 
 
-  addControl(new TraceControlPanel(module.getPathVisibilityModel))
+  addControl(new TraceControlPanel(module.pathVisibilityModel))
   addControl(createBox)
 
 
