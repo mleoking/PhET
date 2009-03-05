@@ -10,7 +10,13 @@ class PhetDBException extends PhetException {
                                 $db_error_code = null,
                                 $message = null,
                                 $code = 0) {
-        parent::__construct($message, $code);
+        if (is_null($message)) {
+            parent::__construct(mysql_error(), $code);
+        }
+        else {
+            parent::__construct($message, $code);
+        }
+
         $this->query = $query;
         $this->db_error_message = (is_null($db_error_message)) ?
             mysql_error() : $db_error_message;
