@@ -5,7 +5,8 @@ import _root_.edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import _root_.edu.colorado.phet.movingman.ladybug.aphidmaze.Aphid
 import java.awt.image.BufferedImage
 import java.awt.{BasicStroke, Color}
-import model.{Bug, Vector2D}
+import model.Bug
+import scalacommon.math.Vector2D
 import umd.cs.piccolo.nodes.PImage
 import _root_.edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
 import _root_.edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener

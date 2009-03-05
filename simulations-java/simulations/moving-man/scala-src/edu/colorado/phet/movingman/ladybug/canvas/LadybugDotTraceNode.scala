@@ -3,8 +3,10 @@ package edu.colorado.phet.movingman.ladybug.canvas
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import java.awt.geom.{Ellipse2D, GeneralPath, Point2D}
-import model.{DataPoint, Observable, LadybugModel}
+import model.{DataPoint, LadybugModel}
 
+
+import scalacommon.util.Observable
 import umd.cs.piccolo.nodes.PPath
 import umd.cs.piccolo.PNode
 import java.awt.{BasicStroke, Color}

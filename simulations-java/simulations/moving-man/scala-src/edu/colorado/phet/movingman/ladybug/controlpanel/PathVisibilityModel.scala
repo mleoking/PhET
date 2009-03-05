@@ -1,6 +1,6 @@
 package edu.colorado.phet.movingman.ladybug.controlpanel
 
-import model.Observable
+import scalacommon.util.Observable
 
 class PathVisibilityModel extends Observable {
   private var _lineVisible = false

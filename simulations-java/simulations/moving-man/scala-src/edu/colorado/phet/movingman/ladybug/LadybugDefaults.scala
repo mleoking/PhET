@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.movingman.ladybug
 
-import model.Vector2D
+import scalacommon.math.Vector2D
 
 object LadybugDefaults {
   var remoteIsIndicator = true

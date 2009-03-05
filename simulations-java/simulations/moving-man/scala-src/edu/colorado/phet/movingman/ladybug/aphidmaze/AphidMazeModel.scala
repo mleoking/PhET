@@ -1,7 +1,8 @@
 package edu.colorado.phet.movingman.ladybug.aphidmaze
 
-import model.{Vector2D, LadybugModel}
+import model.LadybugModel
 import scala.collection.mutable.ArrayBuffer
+import scalacommon.math.Vector2D
 import model.aphidmaze.BarrierSet
 import LadybugUtil._
 

@@ -7,11 +7,12 @@ import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.piccolophet.PhetPCanvas
 import java.awt.geom.Rectangle2D
 import java.awt.{Rectangle, Dimension, Color}
-import movingman.ladybug.model.{Observable, Vector2D}
 import movingman.ladybug.LadybugUtil._
+import scalacommon.math.Vector2D
+import scalacommon.util.Observable
 import umd.cs.piccolo.nodes.PText
 import umd.cs.piccolo.PNode
-import scalacommon.{CenterBoxStrategy, ScalaApplicationLauncher, ScalaClock}
+import scalacommon.{CenteredBoxStrategy, ScalaApplicationLauncher, ScalaClock}
 
 class RampSegment
 class BlockState(_position: Vector2D, _velocity: Vector2D) {

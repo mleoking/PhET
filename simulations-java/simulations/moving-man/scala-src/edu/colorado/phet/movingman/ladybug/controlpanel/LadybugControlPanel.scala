@@ -1,18 +1,20 @@
 package edu.colorado.phet.movingman.ladybug.controlpanel
 
+import _root_.edu.colorado.phet.movingman.ladybug.model.{LadybugMotionModel, LadybugModel}
 import edu.colorado.phet.common.phetcommon.model.Resettable
 import edu.colorado.phet.movingman.ladybug.model.LadybugMotionModel._
 import edu.colorado.phet.common.phetcommon.view.ControlPanel
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import javax.swing.border.TitledBorder
-import model.{LadybugMotionModel, Observable, LadybugModel}
+
 import scala.swing._
 import scala.swing.event.ButtonClicked
 import java.awt.Dimension
 import java.awt.event.{ActionEvent, ActionListener}
 import javax.swing.{Box, JButton, JRadioButton, JLabel}
 import LadybugUtil._
+import scalacommon.util.Observable
 import swing.MyRadioButton
 import java.awt.GridBagConstraints._
 
