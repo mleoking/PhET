@@ -10,6 +10,7 @@ require_once(dirname(dirname(__FILE__)).'/test_global.php');
 
 // Get the file to test
 require_once("include/db-utils.php");
+require_once("include/sim-utils.php");
 
 class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
 
@@ -60,47 +61,47 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
      *
      */
 
-    public function testDbConvertConditionArrayToSqlEmptyConditionReturnsEmptyQuery() {
+    public function testDbConvertConditionArrayToSql_EmptyConditionReturnsEmptyQuery() {
         $condition = array();
         $result = db_convert_condition_array_to_sql($condition);
         $this->assertEquals('', $result);
     }
 
-    public function testDbConvertConditionArrayToSqlValidConditionReturnsValidQuery() {
+    public function testDbConvertConditionArrayToSql_ValidConditionReturnsValidQuery() {
         $condition = array('foo1' => 'bar1', 'foo2' => 'bar2', 'foo3' => 'bar3');
         $expected_query = "`foo1`='bar1' AND `foo2`='bar2' AND `foo3`='bar3'";
         $result = db_convert_condition_array_to_sql($condition);
         $this->assertEquals($expected_query, $result);
     }
 
-    public function testDbConvertConditionArrayToSqlValidConditionReturnsValidQueryFuzzy() {
+    public function testDbConvertConditionArrayToSql_ValidConditionReturnsValidQueryFuzzy() {
         $condition = array('foo1' => 'bar1', 'foo2' => 'bar2', 'foo3' => 'bar3');
         $expected_query = "`foo1` LIKE '%bar1%' AND `foo2` LIKE '%bar2%' AND `foo3` LIKE '%bar3%'";
         $result = db_convert_condition_array_to_sql($condition, true);
         $this->assertEquals($expected_query, $result);
     }
 
-    public function testDbConvertConditionArrayToSqlValidConditionWithEscapableCharsReturnsValidQuery() {
+    public function testDbConvertConditionArrayToSql_ValidConditionWithEscapableCharsReturnsValidQuery() {
         $condition = array('fo"o1' => 'ba\r1', "fo'o2" => "ba\nr2", "fo\ro3" => "ba\x00r\x1a3");
         $expected_query = "`fo\\\"o1`='ba\\\\r1' AND `fo\\'o2`='ba\\nr2' AND `fo\\ro3`='ba\\0r\\Z3'";
         $result = db_convert_condition_array_to_sql($condition);
         $this->assertEquals($expected_query, $result);
     }
 
-    public function testDbConvertConditionArrayToSqlValidConditionWithEscapableCharsReturnsValidQueryFuzzy() {
+    public function testDbConvertConditionArrayToSql_ValidConditionWithEscapableCharsReturnsValidQueryFuzzy() {
         $condition = array('fo"o1' => 'ba\r1', "fo'o2" => "ba\nr2", "fo\ro3" => "ba\x00r\x1a3");
         $expected_query = "`fo\\\"o1` LIKE '%ba\\\\r1%' AND `fo\\'o2` LIKE '%ba\\nr2%' AND `fo\\ro3` LIKE '%ba\\0r\\Z3%'";
         $result = db_convert_condition_array_to_sql($condition, true);
         $this->assertEquals($expected_query, $result);
     }
 
-    public function testDbConvertConditionArrayToSqlStringConditionFails() {
+    public function testDbConvertConditionArrayToSql_StringConditionFails() {
         $condition = 'hello';
         $result = db_convert_condition_array_to_sql($condition);
         $this->assertEquals('', $result);
     }
 
-    public function testDbConvertConditionArrayToSqlNonkeyArrayCondition() {
+    public function testDbConvertConditionArrayToSql_NonkeyArrayCondition() {
         $condition = array('hello');
         $result = db_convert_condition_array_to_sql($condition);
         $this->assertEquals("`0`='hello'", $result);
@@ -130,73 +131,73 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
      *
      **/
 
-    public function testDbExecQuery_badQueryRaisesException() {
+    public function testDbExecQuery_BadQueryRaisesException() {
         $this->setExpectedException('PhetDBException');
         $query = "BAD QUERY WONT WORK";
         db_exec_query($query);
     }
 
-    public function testDbExecQuery_selectGoodQueryReturnsResource() {
+    public function testDbExecQuery_SelectGoodQueryReturnsResource() {
         $query = "SELECT * FROM `category`";
         $result = db_exec_query($query);
         $this->assertTrue(is_resource($result));
     }
 
-    public function testDbExecQuery_selectBadQueryRaisesException() {
+    public function testDbExecQuery_SelectBadQueryRaisesException() {
         $this->setExpectedException('PhetDBException');
         $query = "SELECT * FROM `foo_category`";
         db_exec_query($query);
     }
 
-    public function testDbExecQuery_showGoodQueryReturnsResource() {
+    public function testDbExecQuery_ShowGoodQueryReturnsResource() {
         $query = "SHOW CREATE TABLE `category`";
         $result = db_exec_query($query);
         $this->assertTrue(is_resource($result));
     }
 
-    public function testDbExecQuery_showBadQueryRaisesException() {
+    public function testDbExecQuery_ShowBadQueryRaisesException() {
         $this->setExpectedException('PhetDBException');
         $query = "SHOW CREATE TABLE `FOO_category`";
         db_exec_query($query);
     }
 
-    public function testDbExecQuery_describeGoodQueryReturnsResource() {
+    public function testDbExecQuery_DescribeGoodQueryReturnsResource() {
         $query = "DESCRIBE `category`";
         $result = db_exec_query($query);
         $this->assertTrue(is_resource($result));
     }
 
-    public function testDbExecQuery_describeBadQueryRaisesException() {
+    public function testDbExecQuery_DescribeBadQueryRaisesException() {
         $this->setExpectedException('PhetDBException');
         $query = "DESCRIBE `FOO_category`";
         db_exec_query($query);
     }
 
-    public function testDbExecQuery_explainGoodQueryReturnsResource() {
+    public function testDbExecQuery_ExplainGoodQueryReturnsResource() {
         $query = "EXPLAIN SELECT * FROM `category`";
         $result = db_exec_query($query);
         $this->assertTrue(is_resource($result));
     }
 
-    public function testDbExecQuery_explainBadQueryRaisesException() {
+    public function testDbExecQuery_ExplainBadQueryRaisesException() {
         $this->setExpectedException('PhetDBException');
         $query = "EXPLAIN SELECT * FROM `foo_category`";
         db_exec_query($query);
     }
 
-    public function testDbExecQuery_insertGoodQueryReturnsTrue() {
+    public function testDbExecQuery_InsertGoodQueryReturnsTrue() {
         $query = "INSERT INTO `category` VALUES (387, 'Added Category', 1, 39, -1)";
         $result = db_exec_query($query);
         $this->assertTrue($result);
     }
 
-    public function testDbExecQuery_insertBadQueryRaisesException() {
+    public function testDbExecQuery_InsertBadQueryRaisesException() {
         $this->setExpectedException('PhetDBException');
         $query = "INSERT INTO `foo_category` VALUES (387, 'Added Category', 1, 39, -1)";
         db_exec_query($query);
     }
 
-    public function testDbExecQuery_insertGoodQueryCorrectlyAltersData() {
+    public function testDbExecQuery_InsertGoodQueryCorrectlyAltersData() {
         // Construct and run the query
         $query = "INSERT INTO `category` VALUES (387, 'Added Category', 1, 39, -1)";
         $result = db_exec_query($query);
@@ -219,19 +220,19 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
         $this->assertTablesEqual($table, $db_set);
     }
 
-    public function testDbExecQuery_updateGoodQueryReturnsTrue() {
+    public function testDbExecQuery_UpdateGoodQueryReturnsTrue() {
         $query = "UPDATE `category` SET `cat_name` = 'Altered Category' WHERE `cat_id`=1";
         $result = db_exec_query($query);
         $this->assertTrue($result);
     }
 
-    public function testDbExecQuery_updateBadQueryRaisesException() {
+    public function testDbExecQuery_UpdateBadQueryRaisesException() {
         $this->setExpectedException('PhetDBException');
         $query = "UPDATE `foo_category` SET `cat_name` = 'Altered Category' WHERE `cat_id`=1";
         db_exec_query($query);
     }
 
-    public function testDbExecQuery_updateGoodQueryCorrectlyAltersData() {
+    public function testDbExecQuery_UpdateGoodQueryCorrectlyAltersData() {
         // Construct and run the query
         $query = "UPDATE `category` SET `cat_name` = 'Altered Category' WHERE `cat_id`=1";
         $result = db_exec_query($query);
@@ -250,19 +251,19 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
         $this->assertTablesEqual($db_set, $table);
     }
 
-    public function testDbExecQuery_deleteGoodQueryReturnsTrue() {
+    public function testDbExecQuery_DeleteGoodQueryReturnsTrue() {
         $query = "DELETE FROM `category` WHERE `cat_id`=1";
         $result = db_exec_query($query);
         $this->assertTrue($result);
     }
 
-    public function testDbExecQuery_deleteBadQueryRaisesException() {
+    public function testDbExecQuery_DeleteBadQueryRaisesException() {
         $this->setExpectedException('PhetDBException');
         $query = "DELETE FROM `foo_category` WHERE `cat_id`=1";
         db_exec_query($query);
     }
 
-    public function testDbExecQuery_deleteGoodQueryCorrectlyAltersData() {
+    public function testDbExecQuery_DeleteGoodQueryCorrectlyAltersData() {
         // Construct and run the query
         $query = "DELETE FROM `category` WHERE `cat_id`=1";
         $result = db_exec_query($query);
@@ -286,12 +287,12 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
      *
      */
 
-    public function testDbDescribeTable_goodTableReturnsArray() {
+    public function testDbDescribeTable_GoodTableReturnsArray() {
         $table_description = db_describe_table('category');
         $this->assertType('array', $table_description);
     }
 
-    public function testDbDescribeTable_goodTableReturnsExpectedArray() {
+    public function testDbDescribeTable_GoodTableReturnsExpectedArray() {
         $table_description = db_describe_table('category');
         $expected_description = array(
             array('Field' => 'cat_id',
@@ -334,12 +335,12 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
         $this->assertEquals($expected_description, $table_description);
     }
 
-    public function testDbDescribeTable_tableWithWeirdCharactersOK() {
+    public function testDbDescribeTable_TableWithWeirdCharactersOK() {
         $table_description = db_describe_table('cat\'"\'egory');
         $this->assertType('array', $table_description);
     }
 
-    public function testDbDescribeTable_badTableRaisesException() {
+    public function testDbDescribeTable_BadTableRaisesException() {
         $this->setExpectedException('PhetDBException');
         db_describe_table('foo_category');
     }
@@ -350,17 +351,17 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
      *
      */
 
-    public function testDbGetAllRows_returnsArrayWithCorrectNumberOfRows() {
+    public function testDbGetAllRows_ReturnsArrayWithCorrectNumberOfRows() {
         $result = db_get_all_rows('category');
         $this->assertEquals(20, count($result));
     }
 
-    public function testDbGetAllRows_raisesExceptionForBadTable() {
+    public function testDbGetAllRows_RaisesExceptionForBadTable() {
         $this->setExpectedException('PhetDBException');
         db_get_all_rows('foo_category');
     }
 
-    public function testDbGetAllRows_returnsAssociativeArrayWithColumnHeaders() {
+    public function testDbGetAllRows_ReturnsAssociativeArrayWithColumnHeaders() {
         // Get the first row from the query
         $result = db_get_all_rows('category');
         $result_row = $result[0];
@@ -375,18 +376,18 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
         }
     }
 
-    public function testDbGetAllRows_worksWithWeirdTableNames() {
+    public function testDbGetAllRows_WorksWithWeirdTableNames() {
         $result = db_get_all_rows('cat\'"\'egory');
         $this->assertEquals(20, count($result));
     }
 
-    public function testDbGetAllRows_returnsEmptyArrayWhenNotEmpty() {
+    public function testDbGetAllRows_ReturnsEmptyArrayWhenNotEmpty() {
         // Do the test
         $result = db_get_all_rows('category');
         $this->assertType('array', $result);
     }
 
-    public function testDbGetAllRows_returnsEmptyArrayWhenEmpty() {
+    public function testDbGetAllRows_ReturnsEmptyArrayWhenEmpty() {
         // Clear the database
         $result = mysql_query("DELETE FROM `category`");
         $this->assertTrue($result);
@@ -402,7 +403,7 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
      *
      */
 
-    public function testDbGetRowByCondition_returnsOnlyFirstRow() {
+    public function testDbGetRowByCondition_ReturnsOnlyFirstRow() {
         // Returns only the first row, even if there are several that
         // match the criteria
         $conditions = array('cat_parent' => '-1', 'cat_is_visible' => '1');
@@ -418,13 +419,13 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
         $this->assertEquals($expected_array, $result);
     }
 
-    public function testDbGetRowByCondition_raisesExceptionForBadTable() {
+    public function testDbGetRowByCondition_RaisesExceptionForBadTable() {
         $this->setExpectedException('PhetDBException');
         $conditions = array('cat_parent' => '-1', 'cat_is_visible' => '1');
         db_get_row_by_condition('foo_category', $conditions);
     }
 
-    public function testDbGetRowByCondition_returnsAssociativeArrayWithColumnHeaders() {
+    public function testDbGetRowByCondition_ReturnsAssociativeArrayWithColumnHeaders() {
         // Get the first row from the query
         $conditions = array('cat_parent' => '-1', 'cat_is_visible' => '1');
         $result_row = db_get_row_by_condition('category', $conditions);
@@ -439,19 +440,19 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
         }
     }
 
-    public function testDbGetRowByCondition_worksWithWeirdTableNames() {
+    public function testDbGetRowByCondition_WorksWithWeirdTableNames() {
         $conditions = array('cat_\'"\'_parent' => '-1', 'cat_\'"\'_is_visible' => '1');
         $result = db_get_row_by_condition('cat\'"\'egory', $conditions);
         $this->assertType('array', $result);
     }
 
-    public function testDbGetRowByCondition_returnsArrayWhenNotEmpty() {
+    public function testDbGetRowByCondition_ReturnsArrayWhenNotEmpty() {
         $conditions = array('cat_parent' => '-1', 'cat_is_visible' => '1');
         $result = db_get_row_by_condition('category', $conditions);
         $this->assertType('array', $result);
     }
 
-    public function testDbGetRowByCondition_returnsFalseWhenEmpty() {
+    public function testDbGetRowByCondition_ReturnsFalseWhenEmpty() {
         // Clear the database
         $result = mysql_query("DELETE FROM `category`");
         $this->assertTrue($result);
@@ -462,7 +463,7 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
         $this->assertFalse($result);
     }
 
-    public function testDbGetRowByCondition_returnsProperRowWithFuzzyMatch() {
+    public function testDbGetRowByCondition_ReturnsProperRowWithFuzzyMatch() {
         $conditions = array('cat_name' => 'iology');
         $result = db_get_row_by_condition('category', $conditions, true);
         $expected_array = 
@@ -476,7 +477,7 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
         $this->assertEquals($expected_array, $result);
     }
 
-    public function testDbGetRowByCondition_extraFieldAffectsQuery() {
+    public function testDbGetRowByCondition_ExtraFieldAffectsQuery() {
         // Returns only the first row, even if there are several that
         // match the criteria, and alter it so it is ordered differently
         // that the defalt query
@@ -502,23 +503,19 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
      *
      **/
 
-    public function test_db_get_rows_by_condition_pre() {
-        $this->markTestIncomplete();
-    }
-
-    public function testDbGetRowsByCondition_returnsCorrectNumberOfRows() {
+    public function testDbGetRowsByCondition_ReturnsCorrectNumberOfRows() {
         $conditions = array('cat_parent' => '-1', 'cat_is_visible' => '1');
         $result = db_get_rows_by_condition('category', $conditions);
         $this->assertEquals(9, count($result));
     }
 
-    public function testDbGetRowsByCondition_raisesExceptionForBadTable() {
+    public function testDbGetRowsByCondition_RaisesExceptionForBadTable() {
         $this->setExpectedException('PhetDBException');
         $conditions = array('cat_parent' => '-1', 'cat_is_visible' => '1');
         db_get_rows_by_condition('foo_category', $conditions);
     }
 
-    public function testDbGetRowsByCondition_returnsAssociativeArrayWithColumnHeaders() {
+    public function testDbGetRowsByCondition_ReturnsAssociativeArrayWithColumnHeaders() {
         // Get the first row from the query
         $conditions = array('cat_parent' => '-1', 'cat_is_visible' => '1');
         $result = db_get_rows_by_condition('category', $conditions);
@@ -534,19 +531,19 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
         }
     }
 
-    public function testDbGetRowsByCondition_worksWithWeirdTableNames() {
+    public function testDbGetRowsByCondition_WorksWithWeirdTableNames() {
         $conditions = array('cat_\'"\'_parent' => '-1', 'cat_\'"\'_is_visible' => '1');
         $result = db_get_rows_by_condition('cat\'"\'egory', $conditions);
         $this->assertType('array', $result);
     }
 
-    public function testDbGetRowsByCondition_returnsArrayWhenNotEmpty() {
+    public function testDbGetRowsByCondition_ReturnsArrayWhenNotEmpty() {
         $conditions = array('cat_parent' => '-1', 'cat_is_visible' => '1');
         $result = db_get_rows_by_condition('category', $conditions);
         $this->assertType('array', $result);
     }
 
-    public function testDbGetRowsByCondition_returnsEmptyArrayWhenDbHasNoRows() {
+    public function testDbGetRowsByCondition_ReturnsEmptyArrayWhenDbHasNoRows() {
         // Clear the database
         $result = mysql_query("DELETE FROM `category`");
         $this->assertTrue($result);
@@ -557,7 +554,7 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
         $this->assertType('array', $result);
     }
 
-    public function testDbGetRowsByCondition_returnsArrayWhenDbHasNoRows() {
+    public function testDbGetRowsByCondition_ReturnsArrayWhenDbHasNoRows() {
         // Clear the database
         $result = mysql_query("DELETE FROM `category`");
         $this->assertTrue($result);
@@ -569,7 +566,7 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
         $this->assertTrue(empty($result));
     }
 
-    public function testDbGetRowsByCondition_returnsProperRowWithFuzzyMatch() {
+    public function testDbGetRowsByCondition_ReturnsProperRowWithFuzzyMatch() {
         $conditions = array('cat_name' => 'iology');
         $result = db_get_rows_by_condition('category', $conditions, true);
         $expected_array = array(
@@ -583,7 +580,7 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
         $this->assertEquals($expected_array, $result);
     }
 
-    public function testDbGetRowsByCondition_dataReformatedByDefault() {
+    public function testDbGetRowsByCondition_DataReformatedByDefault() {
         // Returns only the first row, even if there are several that
         // match the criteria, and alter it so it is ordered differently
         // that the defalt query
@@ -594,7 +591,7 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
         }
     }
 
-    public function testDbGetRowsByCondition_dataNotFormated() {
+    public function testDbGetRowsByCondition_DataNotFormated() {
         // Returns only the first row, even if there are several that
         // match the criteria, and alter it so it is ordered differently
         // that the defalt query
@@ -606,7 +603,7 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
         }
     }
 
-    public function testDbGetRowsByCondition_extraFieldAffectsQuery() {
+    public function testDbGetRowsByCondition_ExtraFieldAffectsQuery() {
         // Returns only the first row, even if there are several that
         // match the criteria, and alter it so it is ordered differently
         // that the defalt query
@@ -629,9 +626,126 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
      * Testing db_search_for()
      *
      */
+    /* template:
+     string(0) ""
+     string(49) "SELECT * FROM `wacky` WHERE ( `hello` LIKE '%%' )"
+     string(2) "  "
+     string(75) "SELECT * FROM `wacky` WHERE ( `hello` LIKE '%%' ) AND ( `hello` LIKE '%%' )"
+     string(4) "this"
+     string(53) "SELECT * FROM `wacky` WHERE ( `hello` LIKE '%this%' )"
+     string(13) "this and that"
+     string(112) "SELECT * FROM `wacky` WHERE ( `hello` LIKE '%this%' ) AND ( `hello` LIKE '%and%' ) AND ( `hello` LIKE '%that%' )"
+     string(15) "this,that,other"
+     string(114) "SELECT * FROM `wacky` WHERE ( `hello` LIKE '%this%' ) AND ( `hello` LIKE '%that%' ) AND ( `hello` LIKE '%other%' )"
+     string(19) "this , that , other"
+     string(114) "SELECT * FROM `wacky` WHERE ( `hello` LIKE '%this%' ) AND ( `hello` LIKE '%that%' ) AND ( `hello` LIKE '%other%' )"
+     string(17) "this ,that ,other"
+     string(114) "SELECT * FROM `wacky` WHERE ( `hello` LIKE '%this%' ) AND ( `hello` LIKE '%that%' ) AND ( `hello` LIKE '%other%' )"
+    */
+    public function testDbSearchFor_EmptyArrayFieldsParameterThrowsException() {
+        $this->setExpectedException('PhetException');
+        db_search_for('', '', array());
+    }
 
-    public function testDbSearchFor_testCase() {
-        $this->markTestIncomplete();
+    public function testDbSearchFor_NonArrayFieldThrowsException() {
+        $this->setExpectedException('PhetException');
+        db_search_for('', '', 'henery');
+    }
+
+    public function testDbSearchFor_BadTableThrows() {
+        $this->setExpectedException('PhetDBException');
+        $table = 'fairyland';
+        $search_for = 'bunnies, friends';
+        $fields_to_search = array('column', 'row');
+        db_search_for($table, $search_for, $fields_to_search);
+    }
+
+    public function testDbSearchFor_BadFieldsParameterThrows() {
+        $this->setExpectedException('PhetDBException');
+        $table = 'simulation';
+        $search_for = 'bunnies, friends';
+        $fields_to_search = array('column', 'row');
+        db_search_for($table, $search_for, $fields_to_search);
+    }
+
+    public function testDbSearchFor_SingleSeachWordSingleFieldReturnsExpected() {
+        $table = 'simulation';
+        $search_for = 'mass';
+        $fields_to_search = array('sim_name');
+        $result = db_search_for($table, $search_for, $fields_to_search);
+        $expected_sim = sim_get_sim_by_id(106);
+        $this->assertEquals(1, count($result));
+        $this->assertEquals($expected_sim, $result[0]);
+    }
+
+    public function testDbSearchFor_SingleSeachWordMultiField1ReturnsExpected() {
+        $table = 'simulation';
+        $search_for = 'light';
+        $fields_to_search = array('sim_name', 'sim_keywords');
+        $result = db_search_for($table, $search_for, $fields_to_search);
+        $expected_sim = sim_get_sim_by_id(83);
+        $this->assertEquals(1, count($result));
+        $this->assertEquals($expected_sim, $result[0]);
+    }
+
+    public function testDbSearchFor_SingleSeachWordMultiField2ReturnsExpected() {
+        $table = 'simulation';
+        $search_for = 'balloon';
+        $fields_to_search = array('sim_name', 'sim_keywords');
+        $result = db_search_for($table, $search_for, $fields_to_search);
+        $expected_sim = sim_get_sim_by_id(81);
+        $this->assertEquals(1, count($result));
+        $this->assertEquals($expected_sim, $result[0]);
+    }
+
+    public function testDbSearchFor_MultiSeachWordWithSpacesReturnsExpected() {
+        $table = 'simulation';
+        $search_for = 'balloon static';
+        $fields_to_search = array('sim_name');
+        $result = db_search_for($table, $search_for, $fields_to_search);
+        $expected_sim = sim_get_sim_by_id(81);
+        $this->assertEquals(1, count($result));
+        $this->assertEquals($expected_sim, $result[0]);
+    }
+
+    public function testDbSearchFor_MultiSeachWordWithCommasReturnsExpected() {
+        $table = 'simulation';
+        $search_for = 'balloon,static';
+        $fields_to_search = array('sim_name');
+        $result = db_search_for($table, $search_for, $fields_to_search);
+        $expected_sim = sim_get_sim_by_id(81);
+        $this->assertEquals(1, count($result));
+        $this->assertEquals($expected_sim, $result[0]);
+    }
+
+    public function testDbSearchFor_MultiSeachWordWithCommasAndSpaces1ReturnsExpected() {
+        $table = 'simulation';
+        $search_for = 'balloon ,static';
+        $fields_to_search = array('sim_name');
+        $result = db_search_for($table, $search_for, $fields_to_search);
+        $expected_sim = sim_get_sim_by_id(81);
+        $this->assertEquals(1, count($result));
+        $this->assertEquals($expected_sim, $result[0]);
+    }
+
+    public function testDbSearchFor_MultiSeachWordWithCommasAndSpaces2ReturnsExpected() {
+        $table = 'simulation';
+        $search_for = 'balloon, static';
+        $fields_to_search = array('sim_name');
+        $result = db_search_for($table, $search_for, $fields_to_search);
+        $expected_sim = sim_get_sim_by_id(81);
+        $this->assertEquals(1, count($result));
+        $this->assertEquals($expected_sim, $result[0]);
+    }
+
+    public function testDbSearchFor_MultiSeachWordWithCommasAndSpaces3ReturnsExpected() {
+        $table = 'simulation';
+        $search_for = 'balloon , static';
+        $fields_to_search = array('sim_name');
+        $result = db_search_for($table, $search_for, $fields_to_search);
+        $expected_sim = sim_get_sim_by_id(81);
+        $this->assertEquals(1, count($result));
+        $this->assertEquals($expected_sim, $result[0]);
     }
 
     /**
@@ -640,7 +754,7 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
      *
      */
 
-    public function testDbFormAlternationWhereClause_testCase() {
+    public function testDbFormAlternationWhereClause_TestCase() {
         $this->markTestIncomplete();
     }
 
@@ -650,7 +764,7 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
      *
      */
 
-    public function testDbGetRowById_testCase() {
+    public function testDbGetRowById_TestCase() {
         $this->markTestIncomplete();
     }
 
@@ -660,7 +774,7 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
      *
      */
 
-    public function testDbDeleteRow_testCase() {
+    public function testDbDeleteRow_TestCase() {
         $this->markTestIncomplete();
     }
 
@@ -670,7 +784,7 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
      *
      */
 
-    public function testDbInsertRow_testCase() {
+    public function testDbInsertRow_TestCase() {
         $this->markTestIncomplete();
     }
 
@@ -680,7 +794,7 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
      *
      */
 
-    public function testDbGetBlankRow_testCase() {
+    public function testDbGetBlankRow_TestCase() {
         $this->markTestIncomplete();
     }
 
@@ -690,7 +804,7 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
      *
      */
 
-    public function testDbSimplifySqlTimestamp_testCase() {
+    public function testDbSimplifySqlTimestamp_TestCase() {
         $this->markTestIncomplete();
     }
 
@@ -700,7 +814,7 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
      *
      */
 
-    public function testDbUpdateTable_testCase() {
+    public function testDbUpdateTable_TestCase() {
         $this->markTestIncomplete();
     }
 
@@ -710,7 +824,7 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
      *
      */
 
-    public function testDbBackupTable_testCase() {
+    public function testDbBackupTable_TestCase() {
         $this->markTestIncomplete();
     }
 
@@ -720,7 +834,7 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
      *
      */
 
-    public function testDbRestoreTable_testCase() {
+    public function testDbRestoreTable_TestCase() {
         $this->markTestIncomplete();
     }
 
@@ -730,7 +844,7 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
      *
      */
 
-    public function testDbGetAllTableNames_testCase() {
+    public function testDbGetAllTableNames_TestCase() {
         $this->markTestIncomplete();
     }
 
@@ -740,7 +854,7 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
      *
      */
 
-    public function testDbBackup_testCase() {
+    public function testDbBackup_TestCase() {
         $this->markTestIncomplete();
     }
 
@@ -750,7 +864,7 @@ class dbUtilsTest extends PHPUnit_Extensions_Database_TestCase {
      *
      */
 
-    public function testDbRestore_testCase() {
+    public function testDbRestore_TestCase() {
         $this->markTestIncomplete();
     }
 
