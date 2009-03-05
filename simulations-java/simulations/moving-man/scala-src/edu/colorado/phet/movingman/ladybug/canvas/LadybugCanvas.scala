@@ -22,28 +22,10 @@ class LadybugCanvas(model: LadybugModel,
                    modelHeight: Double)
         extends PhetPCanvas(new Dimension(1024, 768)) {
   setWorldTransformStrategy(new CenterBoxStrategy(768, 768, this))
-  val transform: ModelViewTransform2D = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight), new Rectangle(0, 0, 768, 768), LadybugDefaults.POSITIVE_Y_IS_UP)
+  val transform: ModelViewTransform2D = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight),
+    new Rectangle(0, 0, 768, 768), LadybugDefaults.POSITIVE_Y_IS_UP)
   val constructed = true
   updateWorldScale
-
-  protected override def updateWorldScale = {
-    super.updateWorldScale
-    if (constructed) {
-      //to go from pixels to model, must go backwards through canvas transform and modelviewtransform
-      val topLeft = new Point2D.Double(0, 0)
-      val bottomRight = new Point2D.Double(getWidth, getHeight)
-
-      def tx(pt: Point2D) = {
-        val intermediate = getWorldTransformStrategy.getTransform.inverseTransform(pt, null)
-        val model = transform.viewToModel(intermediate.getX, intermediate.getY)
-        model
-      }
-      val out = new Rectangle2D.Double()
-      out.setFrameFromDiagonal(tx(topLeft).getX, tx(topLeft).getY, tx(bottomRight).getX, tx(bottomRight).getY)
-      model.setBounds(out)
-    }
-  }
-
 
   val worldNode = new PNode
   addWorldChild(worldNode)
@@ -67,4 +49,22 @@ class LadybugCanvas(model: LadybugModel,
   }
 
   def setLadybugDraggable(draggable: Boolean) = ladybugNode.setDraggable(draggable)
+
+  protected override def updateWorldScale = {
+    super.updateWorldScale
+    if (constructed) {   //make sure we aren't in the call from superclass
+      //to go from pixels to model, must go backwards through canvas transform and modelviewtransform
+      val topLeft = new Point2D.Double(0, 0)
+      val bottomRight = new Point2D.Double(getWidth, getHeight)
+
+      def tx(pt: Point2D) = {
+        val intermediate = getWorldTransformStrategy.getTransform.inverseTransform(pt, null)
+        val model = transform.viewToModel(intermediate.getX, intermediate.getY)
+        model
+      }
+      val out = new Rectangle2D.Double()
+      out.setFrameFromDiagonal(tx(topLeft).getX, tx(topLeft).getY, tx(bottomRight).getX, tx(bottomRight).getY)
+      model.setBounds(out)
+    }
+  }
 }

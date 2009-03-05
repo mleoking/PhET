@@ -12,7 +12,7 @@ import scalacommon.ScalaClock
 import umd.cs.piccolo.PNode
 
 class LadybugModule[ModelType <: LadybugModel](clock: ScalaClock,
-                                              newModel: ModelType,
+                                              _model: ModelType,
                                               newCanvas: LadybugModule[ModelType] => LadybugCanvas,
                                               newControlPanel: LadybugModule[ModelType] => LadybugControlPanel[ModelType],
                                               createRightControl: (LadybugModule[ModelType]) => PNode)
@@ -24,7 +24,7 @@ class LadybugModule[ModelType <: LadybugModel](clock: ScalaClock,
     (m: LadybugModule[ModelType]) => new PlaybackSpeedSlider(m.model)
     )
 
-  val model = newModel
+  val model = _model
   val vectorVisibilityModel = new VectorVisibilityModel
   val pathVisibilityModel = new PathVisibilityModel
   val canvas = newCanvas(this)
