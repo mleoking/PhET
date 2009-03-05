@@ -121,7 +121,7 @@ EOT;
 
     function jnlp_add_permissions_request($jnlp_file) {
         $pattern = '/<\/jnlp>/';
-        $replacement = "    <security>\n        <all-permisions/>\n    </security>\n\n</jnlp>";
+        $replacement = "    <security>\n        <all-permissions/>\n    </security>\n\n</jnlp>";
         return preg_replace($pattern, $replacement, $jnlp_file);
     }
 
