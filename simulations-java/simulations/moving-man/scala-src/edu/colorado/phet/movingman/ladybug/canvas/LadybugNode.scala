@@ -25,7 +25,7 @@ class LadybugNode(model: LadybugModel,
         extends BugNode(ladybug, transform, MovingManResources.loadBufferedImage("ladybug/ladybug.png")) {
   var interactive = true //todo: do we need both draggable and interactive?
   var draggable = true
-  model.addListener(() => updateInteractive())
+  model.addListenerByName(updateInteractive())
   def updateInteractive() = {interactive = model.readyForInteraction}
 
   val arrowSetNode = new ArrowSetNode(ladybug, transform, vectorVisibilityModel)

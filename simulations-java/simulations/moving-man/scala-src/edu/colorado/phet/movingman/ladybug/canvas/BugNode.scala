@@ -20,14 +20,12 @@ import edu.colorado.phet.scalacommon.Predef._
 
 class BugNode(bug: Bug, transform: ModelViewTransform2D, bufferedImage: BufferedImage) extends PNode {
   val pimage = new PImage(BufferedImageUtils.multiScale(bufferedImage, LadybugDefaults.LADYBUG_SCALE))
-  //  val boundsPPath=new PhetPPath(new BasicStroke(0.1f),Color.blue)
-
+  addChild(pimage)
+  //  val boundsPPath=new PhetPPath(new BasicStroke(0.1f),Color.blue)  //for debugging bounds
+  //  addChild(boundsPPath)
 
   bug.addListener(updateBug)
   updateBug()
-
-  addChild(pimage)
-  //  addChild(boundsPPath)
 
   transform.addTransformListener(new TransformListener() {
     def transformChanged(mvt: ModelViewTransform2D) = {
@@ -37,9 +35,10 @@ class BugNode(bug: Bug, transform: ModelViewTransform2D, bufferedImage: Buffered
 
   def updateBug(): Unit = {
 
+    pimage.setTransform(new AffineTransform)
+    
     val modelPosition = bug.getPosition
     val viewPosition = transform.modelToView(modelPosition)
-    pimage.setTransform(new AffineTransform)
     val dx = new Vector2D(pimage.getImage.getWidth(null), pimage.getImage.getHeight(null))
 
     //todo: why is scale factor 4 here?

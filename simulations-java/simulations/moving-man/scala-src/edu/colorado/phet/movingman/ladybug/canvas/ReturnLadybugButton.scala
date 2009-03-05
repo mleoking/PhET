@@ -15,13 +15,13 @@ import umd.cs.piccolox.pswing.PSwing
 import java.awt.Color._
 
 class ReturnLadybugButton(model: LadybugModel, canvas: LadybugCanvas) extends PhetPNode {
-  val b = new JButton("Return Ladybug")
-  b.addActionListener(() => model.returnLadybug)
-  addChild(new PSwing(b))
+  private val button = new JButton("Return Ladybug")
+  button.addActionListener(() => model.returnLadybug)
+  button.setFont(new PhetFont(20))
+  addChild(new PSwing(button))
   model.addListener(updateVisible)
   updateVisible()
   updateLocation()
-  b.setFont(new PhetFont(20))
   canvas.addComponentListener(new ComponentAdapter {
     override def componentResized(e: ComponentEvent) = {
       updateLocation
