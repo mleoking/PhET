@@ -23,7 +23,7 @@ class LadybugModel extends Observable {
   private var frictionless = false
   val motion2DModel = new Motion2DModel(10, 5, LadybugDefaults.defaultLocation.x, LadybugDefaults.defaultLocation.y)
   private val modelHistory = new ArrayBuffer[DataPoint] //recent history used to compute velocities, etc.
-  var dt=0.0
+  var dt = 0.0
 
   //State related to recording; consider moving to a trait
   private val recordHistory = new ArrayBuffer[DataPoint]
@@ -194,7 +194,7 @@ class LadybugModel extends Observable {
   }
 
   def update(dt: Double) = {
-    this.dt=dt
+    this.dt = dt
     if (!paused) {
       tickListeners.foreach(_())
       if (isRecord()) {

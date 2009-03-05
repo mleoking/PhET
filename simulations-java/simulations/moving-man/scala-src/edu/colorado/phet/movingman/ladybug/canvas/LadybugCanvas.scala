@@ -48,8 +48,9 @@ class LadybugCanvas(model: LadybugModel,
   val worldNode = new PNode
   addWorldChild(worldNode)
   def addNode(node: PNode) = worldNode.addChild(node)
+
   def addNode(index: Int, node: PNode) = worldNode.addChild(index, node)
-  
+
   setBackground(new Color(200, 255, 240))
 
   val ladybugNode = new LadybugNode(model, model.ladybug, transform, vectorVisibilityModel)

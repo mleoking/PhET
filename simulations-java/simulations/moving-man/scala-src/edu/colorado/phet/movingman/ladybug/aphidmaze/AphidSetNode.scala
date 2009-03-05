@@ -8,6 +8,6 @@ import edu.colorado.phet.scalacommon.Predef._
 class AphidSetNode(model: AphidMazeModel, transform: ModelViewTransform2D) extends PNode {
   val update = defineInvokeAndPass(model.addListenerByName){
     removeAllChildren
-    model.aphids.foreach((aphid: Aphid) => addChild(new BugNode(aphid, transform,MovingManResources.loadBufferedImage("ladybug/valessiobrito_Bug_Buddy_Vec.png"))))
+    model.aphids.foreach((aphid: Aphid) => addChild(new BugNode(aphid, transform, MovingManResources.loadBufferedImage("ladybug/valessiobrito_Bug_Buddy_Vec.png"))))
   }
 }

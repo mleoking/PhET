@@ -10,7 +10,7 @@ import javax.swing.UIManager
  * TODO: should this be part of PhetApplication hierarchy?
  */
 object ScalaApplicationLauncher {
-  def launchApplication(args: Array[String], project: String, simulation: String, modules: (() => Module)*) = {
+  def launchApplication(args: Array[String], project: String, simulation: String, moduleConstructors: (() => Module)*) = {
     val phetApplicationConfig = new PhetApplicationConfig(args, project, simulation)
 
     //Override look and feel to be metal due to problems with Windows components in PSwings
@@ -21,7 +21,7 @@ object ScalaApplicationLauncher {
       phetApplicationConfig,
       new ApplicationConstructor() {
         override def getApplication(config: PhetApplicationConfig) = new PhetApplication(config) {
-          modules.foreach(m => addModule(m()))
+          moduleConstructors.foreach(m => addModule(m()))
         }
       })
   }
