@@ -4,13 +4,14 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
 import controlpanel.VectorVisibilityModel
 import java.awt.image.BufferedImage
 import java.awt.{Point, Color, Cursor}
-import model.{Ladybug, Vector2D, LadybugModel}
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.piccolophet.util.PImageFactory
 import edu.colorado.phet.common.piccolophet.event.CursorHandler
 import edu.umd.cs.piccolo.PNode
 import java.awt.geom.{AffineTransform, Point2D}
+import model.{Ladybug, LadybugModel}
+
 
 import umd.cs.piccolo.event.{PInputEventListener, PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.nodes.{PPath, PImage}

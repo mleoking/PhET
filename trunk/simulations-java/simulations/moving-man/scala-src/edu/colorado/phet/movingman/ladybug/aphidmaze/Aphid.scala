@@ -1,8 +1,11 @@
 package edu.colorado.phet.movingman.ladybug.aphidmaze
 
 import java.awt.geom.Rectangle2D
-import model.{Bug, Observable, Vector2D}
+import model.Bug
+import scalacommon.math.Vector2D
+
 import edu.colorado.phet.movingman.ladybug.LadybugUtil._
+import scalacommon.util.Observable
 
 class Aphid(x: Double, y: Double) extends Bug with Observable {
   def getPosition = new Vector2D(x, y)

@@ -3,6 +3,8 @@ package edu.colorado.phet.movingman.ladybug.model
 import java.awt.geom.Rectangle2D
 import LadybugUtil._
 import java.lang.Math._
+import scalacommon.util.Observable
+import scalacommon.math.Vector2D
 
 abstract case class MotionType(name: String) {
   def update(dt: Double, model: LadybugModel)

@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.ladybug.model
+package edu.colorado.phet.scalacommon.math
 
 import java.awt.geom.Line2D
 

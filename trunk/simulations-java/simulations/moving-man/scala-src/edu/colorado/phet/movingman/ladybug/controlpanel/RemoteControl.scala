@@ -3,6 +3,10 @@ package edu.colorado.phet.movingman.ladybug.controlpanel
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import edu.colorado.phet.common.piccolophet.event.CursorHandler
 import javax.swing.border.BevelBorder
+import model.{Ladybug, LadybugModel}
+
+
+import scalacommon.util.Observable
 import swing.MyRadioButton
 import umd.cs.piccolo.event.{PInputEventListener, PBasicInputEventHandler, PInputEvent}
 import util.ToggleListener
@@ -16,8 +20,8 @@ import java.awt.geom.{Rectangle2D, Ellipse2D, Point2D, Dimension2D}
 import java.awt.{Rectangle, Dimension, Color}
 import javax.swing._
 import javax.swing.event.MouseInputAdapter
-import model.{Observable, Ladybug, Vector2D, LadybugModel}
 import umd.cs.piccolo.PNode
+import scalacommon.math.Vector2D
 import umd.cs.piccolo.util.PDimension
 import LadybugUtil._
 

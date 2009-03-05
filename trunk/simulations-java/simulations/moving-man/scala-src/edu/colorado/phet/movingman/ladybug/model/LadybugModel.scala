@@ -7,6 +7,8 @@ import java.awt.geom.{Rectangle2D, Point2D}
 import scala.collection.mutable.ArrayBuffer
 import LadybugUtil._
 import edu.colorado.phet.common.motion._
+import scalacommon.math.Vector2D
+import scalacommon.util.Observable
 
 
 class LadybugModel extends Observable {

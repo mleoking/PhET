@@ -8,6 +8,8 @@ import java.awt.geom.{Line2D, Rectangle2D}
 import scala.collection.mutable.ArrayBuffer
 import edu.colorado.phet.movingman.ladybug.LadybugUtil._
 import java.lang.Math._
+import scalacommon.util.Observable
+import scalacommon.math.Vector2D
 
 class BarrierSet extends Observable {
   val rectangles = new ArrayBuffer[Rectangle2D]

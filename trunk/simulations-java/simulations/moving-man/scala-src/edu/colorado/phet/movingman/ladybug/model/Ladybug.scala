@@ -3,6 +3,8 @@ package edu.colorado.phet.movingman.ladybug.model
 import java.awt.geom.Ellipse2D
 import scala.collection.mutable.ArrayBuffer
 import edu.colorado.phet.movingman.ladybug.LadybugUtil._
+import scalacommon.math.Vector2D
+import scalacommon.util.Observable
 
 case class LadybugState(_position: Vector2D, _velocity: Vector2D, _acceleration: Vector2D, _angle: Double) {
   val position = _position
