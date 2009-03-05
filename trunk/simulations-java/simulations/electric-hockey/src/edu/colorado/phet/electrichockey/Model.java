@@ -209,11 +209,6 @@ public class Model {
 
     class timerHandler implements ActionListener {
         public void actionPerformed( ActionEvent aevt ) {
-            time++;
-            updatePuckPositionVerlet();
-            if ( electricHockeySimulationPanel.getControlPanel().getTraceState() ) {
-                updatePath();
-            }
             int x = puck.getPosition().x;
             int y = puck.getPosition().y;
             //prt("x=" + x);
@@ -221,10 +216,17 @@ public class Model {
                 if ( BarrierList.currentCollisionArray[x][y] == 1 ) {
                     collisionState = true;
                     if ( electricHockeySimulationPanel.getCork() != null ) {
-                        electricHockeySimulationPanel.getCork().play();
+                        try {
+                            electricHockeySimulationPanel.getCork().play();
+                        } catch ( Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                     electricHockeySimulationPanel.getPlayingField().paintAgain();
                     stopTimer();
+
+                    // do not allow the puck to be moved
+                    return;
                 }
             }
             if ( electricHockeySimulationPanel.getPlayingField().goal.contains( puck.getPosition() ) ) {
@@ -234,7 +236,18 @@ public class Model {
                 }
                 electricHockeySimulationPanel.getPlayingField().paintAgain();
                 stopTimer();
+
+                // do not allow the puck to be moved
+                return;
             }
+
+            // only if the puck did not hit anything do we allow it to move
+            time++;
+            updatePuckPositionVerlet();
+            if ( electricHockeySimulationPanel.getControlPanel().getTraceState() ) {
+                updatePath();
+            }
+            
             //if(time%4 == 0)		//use to paint at intervals
             electricHockeySimulationPanel.getPlayingField().paintAgain(); //
 
