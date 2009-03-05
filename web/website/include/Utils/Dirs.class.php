@@ -22,11 +22,12 @@ class Dirs {
 
         $cacheRoot = (defined('CACHE_ROOT')) ? CACHE_ROOT : $this->portalRoot;
         $cacheDirName = (defined('CACHE_DIRNAME')) ? CACHE_DIRNAME : "webcache";
-        $this->cacheDir = $cacheRoot . DIRECTORY_SEPARATOR . $cacheDirName . DIRECTORY_SEPARATOR;
+        $this->cacheDir = $cacheRoot.$cacheDirName.DIRECTORY_SEPARATOR;
 
         $this->simsRoot = (defined('SIMS_ROOT')) ? SIMS_ROOT : $this->portalRoot.'sims';
         $this->phetDistRoot = (defined('PHET_DIST_ROOT')) ? PHET_DIST_ROOT : $this->portalRoot.'phet-dist'.DIRECTORY_SEPARATOR;
-        $this->newslettersRoot = (defined('NEWSLETTERS_ROOT')) ? NEWSLETTERS_ROOT : $this->portalRoot.'newsletters'.DIRECTORY_SEPARATOR;
+
+        $this->newslettersRoot = (defined('NEWSLETTERS_ROOT')) ? NEWSLETTERS_ROOT : $this->phetDistRoot.'newsletters'.DIRECTORY_SEPARATOR;
     }
 
     public static function inst($immutable = true) {
@@ -55,7 +56,7 @@ class Dirs {
     }
 
     public function cacheDir() {
-        return $this->cacheRoot;
+        return $this->cacheDir;
     }
 
     public function simsRoot() {
@@ -87,14 +88,6 @@ class Dirs {
         }
 
         $this->portalRoot = $portalRoot;
-    }
-
-    public function setCacheRoot($cacheRoot) {
-        if ($this->immutable) {
-            throw new PhetException("class Dirs() is immutable");
-        }
-
-        $this->cacheRoot = $cacheRoot;
     }
 
     public function setSimsRoot($simsRoot) {
