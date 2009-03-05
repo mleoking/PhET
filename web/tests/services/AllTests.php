@@ -13,10 +13,10 @@ unset($root);
 class services_AllTests {
   public static function suite() {
     $suite = new PHPUnit_Framework_TestSuite('simulation');
-    
-  $suite->addTestSuite('simJarRedirectTest');
+
   $suite->addTestSuite('phetInfoTest');
-    
+  $suite->addTestSuite('simJarRedirectTest');
+
     return $suite;
   }
 }

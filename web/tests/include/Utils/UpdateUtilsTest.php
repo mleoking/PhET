@@ -8,6 +8,7 @@ if (!defined('SITE_ROOT')) define('SITE_ROOT', '../');
 // Get the test globals to set everything up
 require_once(dirname(dirname(dirname(__FILE__))).'/test_global.php');
 
+require_once('include/db-utils.php');
 
 class UpdateUtilsTest extends PHPUnit_Extensions_Database_TestCase {
     
