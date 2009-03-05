@@ -41,9 +41,51 @@ class Statistics {
 		// CURRENTLY CALLED FROM ELSEWHERE sendSessionStart();
 	}
 	
+	public function fieldTranslate(field : String) {
+		var str = common.strings.get("StatisticsField-" + field, field);
+		if(str != field) {
+			// it was translated
+			return str;
+		}
+		debug("WARNING Statistics: could not translate " + field + "\n");
+		var ob : Object = {
+				message_type : "Message type",
+				message_version : "Message version",
+				sim_type : "Simulation type",
+				sim_project : "Project name",
+				sim_name : "Simulation name",
+				sim_major_version : "Simulation version (major)",
+				sim_minor_version : "Simulation version (minor)",
+				sim_dev_version : "Simulation version (dev)",
+				sim_svn_revision : "Simulation version (revision)",
+				sim_version_timestamp : "Simulation version (timestamp)",
+				sim_distribution_tag : "Simulation version (distribution)",
+				sim_locale_language : "Language",
+				sim_locale_country : "Country",
+				sim_deployment : "Deployment type",
+				sim_dev : "Is this a developer version?",
+				sim_total_sessions : "Total number of times this simulation has been run",
+				sim_sessions_since : "Number of times this simulation has been run since last online",
+				host_flash_os : "Operating system and name",
+				host_flash_version : "Flash Player version",
+				host_locale_language : "Host language",
+				host_flash_time_offset : "Timezone",
+				host_flash_accessibility : "Using an accessible device?",
+				host_flash_domain : "Simulation domain",
+				user_preference_file_creation_time : "Preferences file creation time",
+				user_total_sessions : "Total number of times all simulations have been run",
+				user_installation_timestamp : "PhET installation timestamp"
+		}
+		if(ob[field] != undefined) {
+			return ob[field];
+		}
+		debug("WARNING Statistics: could not find default for " + field + "\n");
+		return field;
+	}
+	
 	public function fieldFormat(field : String, val, humanReadable : Boolean) {
 		if(humanReadable) {
-			return common.strings.get("StatisticsField-" + field, field) + ": " + unescape(messageEscape(val) + "\n");
+			return fieldTranslate(field) + ": " + unescape(messageEscape(val) + "\n");
 		} else {
 			return field + " = '" + messageEscape(val) + "' \n";
 		}
