@@ -5,28 +5,28 @@ class Dirs {
 
     private $siteRoot;
     private $portalRoot;
-    private $cacheRoot;
+    private $cacheDir;
     private $simsRoot;
     private $phetDistRoot;
+    private $newslettersRoot;
 
-    // $immutable allows tying in test harness.  Set it to TRUE in production code.
+    // $immutable allows tying in test harness.  Must be set to TRUE in production code.
     private function __construct($immutable = true) {
         $this->immutable = $immutable;
 
+        // SITE_ROOT *MUST* be defined
         assert(defined('SITE_ROOT'));
         $this->siteRoot = SITE_ROOT;
 
-        assert(defined('PORTAL_ROOT'));
-        $this->portalRoot = PORTAL_ROOT;
+        $this->portalRoot = (defined('PORTAL_ROOT')) ? PORTAL_ROOT : $this->siteRoot;
 
-        assert(defined('CACHE_ROOT'));
-        $this->cacheRoot = CACHE_ROOT;
+        $cacheRoot = (defined('CACHE_ROOT')) ? CACHE_ROOT : $this->portalRoot;
+        $cacheDirName = (defined('CACHE_DIRNAME')) ? CACHE_DIRNAME : "webcache";
+        $this->cacheDir = $cacheRoot . DIRECTORY_SEPARATOR . $cacheDirName . DIRECTORY_SEPARATOR;
 
-        assert(defined('SIMS_ROOT'));
-        $this->simsRoot = SIMS_ROOT;
-
-        assert(defined('PHET_DIST_ROOT'));
-        $this->phetDistRoot = PHET_DIST_ROOT;
+        $this->simsRoot = (defined('SIMS_ROOT')) ? SIMS_ROOT : $this->portalRoot.'sims';
+        $this->phetDistRoot = (defined('PHET_DIST_ROOT')) ? PHET_DIST_ROOT : $this->portalRoot.'phet-dist'.DIRECTORY_SEPARATOR;
+        $this->newslettersRoot = (defined('NEWSLETTERS_ROOT')) ? NEWSLETTERS_ROOT : $this->portalRoot.'newsletters'.DIRECTORY_SEPARATOR;
     }
 
     public static function inst($immutable = true) {
@@ -54,7 +54,7 @@ class Dirs {
         return $this->portalRoot;
     }
 
-    public function cacheRoot() {
+    public function cacheDir() {
         return $this->cacheRoot;
     }
 
@@ -64,6 +64,10 @@ class Dirs {
 
     public function phetDistRoot() {
         return $this->phetDistRoot;
+    }
+
+    public function newslettersRoot() {
+        return $this->newslettersRoot;
     }
 
     // If $this->immutable is set, these functions throw exceptions
