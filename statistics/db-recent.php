@@ -42,7 +42,7 @@ SELECT
 	session.timestamp,
 	session.message_version,
 	session.server_svn_revision,
-	IF(session.sim_type = 0, 'java', 'flash') AS sim_type,
+	sim_type.name AS sim_name,
 	sim_project.name AS sim_project,
 	sim_name.name AS sim_name,
 	session.sim_major_version,
@@ -60,10 +60,11 @@ SELECT
 	session.host_locale_language,
 	session.host_locale_country,
 	simplified_os.name AS host_simplified_os
-FROM session, sim_project, sim_name, deployment, distribution_tag, simplified_os
+FROM session, sim_type, sim_project, sim_name, deployment, distribution_tag, simplified_os
 WHERE (
 	session.sim_project = sim_project.id
 	AND session.sim_name = sim_name.id
+	AND session.sim_type = sim_type.id
 	AND session.sim_deployment = deployment.id
 	AND session.sim_distribution_tag = distribution_tag.id
 	AND session.host_simplified_os = simplified_os.id

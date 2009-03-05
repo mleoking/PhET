@@ -54,6 +54,7 @@
 EOT;
 	
 	display_table("user");
+	display_table("sim_type");
 	display_table("sim_project");
 	display_table("sim_name");
 	display_table("deployment");

@@ -79,18 +79,19 @@
 		$group_by = array();
 		$pre_select = "";
 		$order_by = "";
-
+		
 		// signifies whether we are including session_flash_info / session_java_info into the joins
 		$flash_info = false;
 		$java_info = false;
                                          
 		// identifies the type of query being performed
 		$query_name = esc($arr, 'query');
-
-
+		
+		
 		//////////
 		// Restriction of values included. Goes into the WHERE clause
-
+		
+		/*
 		if($arr['sim_type'] !== null) {
 			if(esc($arr, 'sim_type') == "flash") {
 				array_push($session_where, "session.sim_type != 0");
@@ -98,15 +99,17 @@
 				array_push($session_where, "session.sim_type = 0");
 			}
 		}
-
-        // testing for equality for strings normalized in separate tables
+		*/
+		
+		// testing for equality for strings normalized in separate tables
 		$strnorm_wheres = array(
+		"sim_type" => array("session", "sim_type"),
 	        "sim_project" => array("session", "sim_project"),
 	        "sim_name" => array("session", "sim_name"),
 	        "sim_deployment" => array("session", "deployment"),
 	        "sim_distribution_tag" => array("session", "distribution_tag"),
 	        "host_simplified_os" => array("session", "simplified_os"),
-
+		
 	        "host_flash_version_type" => array("session_flash_info", "flash_version_type"),
 	        "host_flash_domain" => array("session_flash_info", "flash_domain"),
 	        "host_flash_os" => array("session_flash_info", "flash_os"),
@@ -235,7 +238,9 @@
 					array_push($group_by, "sim_dev");
 					break;
 				case "sim_type":
-					$pre_select .= "IF(session.sim_type = 0, 'java', 'flash') AS sim_type, ";
+					$pre_select .= "sim_type.name AS sim_type, ";
+					array_push($session_where, "session.sim_type = sim_type.id");
+					array_push($tables, "sim_type");
 					array_push($group_by, "sim_type");
 					break;
 				case "sim_name":
@@ -431,11 +436,13 @@
 			case "session_count":
 				array_push($query, "SELECT {$pre_select}SUM(session.sim_sessions_since) as session_count FROM session{$tables}{$session_where}{$group_by}{$order_by}; ");
 				break;
+			/*
 			case "sim_type":
 				if(esc($arr, 'sim_name')) {
 					array_push($query, "SELECT DISTINCT IF(sim_type = 0, 'java', 'flash') AS sim_type FROM session WHERE sim_name = @sid; ");
 				} else { die("cannot have sim_type query without sim_name"); }
 				break;
+			*/
 			case "full_table":
 				array_push($query, "SELECT * FROM ${arr['table']}");
 				break;
@@ -448,7 +455,7 @@ SELECT
 	session.timestamp,
 	session.message_version,
 	session.server_svn_revision,
-	IF(session.sim_type = 0, 'java', 'flash') AS sim_type,
+	sim_type.name AS sim_type,
 	sim_project.name AS sim_project,
 	sim_name.name AS sim_name,
 	session.sim_major_version,
@@ -466,10 +473,11 @@ SELECT
 	session.host_locale_language,
 	session.host_locale_country,
 	simplified_os.name AS host_simplified_os
-FROM session, sim_project, sim_name, deployment, distribution_tag, simplified_os
+FROM session, sim_type, sim_project, sim_name, deployment, distribution_tag, simplified_os
 WHERE (
 	session.sim_project = sim_project.id
 	AND session.sim_name = sim_name.id
+	AND session.sim_type = sim_type.id
 	AND session.sim_deployment = deployment.id
 	AND session.sim_distribution_tag = distribution_tag.id
 	AND session.host_simplified_os = simplified_os.id
