@@ -1,3 +1,5 @@
+# 1.07.10 (29243) Mar 5, 2009
+Posted version for testing common features.
 # 1.07.09 (29053) Feb 25, 2009
 Version for Feb 26 alpha testing - previous attempt had problems with JAR signing
 # 1.07.08 (29048) Feb 25, 2009
