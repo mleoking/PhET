@@ -1,0 +1,63 @@
+
+			J2SSH MAVERICK SSH ANT TASK V1.2
+
+This directory contains the latest SSH Ant task from 3SP Ltd.
+
+Please report any bugs to support@3sp.com
+
+There is a web site at http://3sp.com where the latest releases and similar software are published.
+
++--------------+
+| INTRODUCTION |
++--------------+
+
+J2SSH Maverick is a Java-based API that implements the SSH1 and SSH2 protocols.  This library is not free to use, however this ANT task may be used in both commercial and non-commercial situations without payment of license fees.  
+
+Maverick is the second generation of our popular open source J2SSH Java SSH library. Designed to be a lightweight and flexible successor to J2SSH, Maverick has been completely rewritten from the ground up to provide the fastest and most extensible SSH library in existence, delivering SSH connectivity to all Java platforms available today.
+
+This library is enhanced by dramatic performance improvements in any Maverick-based SSH application. We are now able to deliver the power and flexibility of the original J2SSH API to all Java platforms, and the API is also now J2ME-ready for the new wave of interconnected devices.
+
+
++--------------+
+|    USAGE     |
++--------------+
+
+The SSH task implements an SSH client, performing operations such as connecting, authenticating and executing commands on remote servers. SFTP support is included as a subtask of the main SSH task, which itself can send, receive, list, delete files and create directories. The SFTP task has been modelled on the optional Ant FTP task and hence its operation is very similar.
+
+Please see the files sftp.html, exec.html and ssh.html for further information on the correct usage.
+
++--------------+
+| Source Code  |
++--------------+
+
+Source code is now provided (without warranty) for the ant tasks themselves and we welcome any contributions that people have to improve the tasks. The API is a commercial product and therefore source code cannot be provided however if you would like to work on the tasks and submit the source code back to 3SP for inclusion in the next release an extended evaluation license may be provided upon request.
+
++--------------+
+|   ABOUT US   |
++--------------+
+
+3SP is a growing, privately owned organization founded by the core developers of the SSHTools range of open source software. We are dedicated to extending the scope of SSH-enabled applications and are committed to providing professional applications and services in the area of secure network communications. 
+
+With a core product range consisting of several popular open source components and applications, we recognize that open source solutions provide the greatest return on investment when compared to competing products.
+
+We also provide the following connectivity software:
+
+SSHTerm Professional:  
+---------------------
+SSHTerm Professional is a multi-talented client that does much more than just standard SSH. This client provides the network administrator with the ability to connect to systems using SSH, SFTP, Telnet, Secure VNC and also provides sophisticated identity management facilities - helping to cut down on repeated and unnecessary password entry.
+
+Find out more at http://3sp.com/catalog/product_info.php?products_id=35
+
+
+Terminal Components:  
+--------------------
+The Terminal Components are highly configurable, protocol-independent implementations of a standard ANSI/VT terminal. We've designed the component to ensure the lowest possible distribution size, along with AWT and Swing distributions for environments where compatibility with lesser JDKs is paramount.  The component is protocol-independent and supports Telnet rlogin, rcommand, rexec as standard, with SSH1 & 2 plug-ins also available using the J2SSH Maverick API.
+
+Find out more at http://3sp.com/catalog/product_info.php?products_id=33
+
+
+Maverick SSHD:
+--------------
+The SSHD Maverick Component is designed specifically for intensive, server-side SSH applications. Built to take advantage of the optimized classes provided by the Java Development Kit version 1.4.2. The new Java NIO API provides a range of enhancements that bring maximum performance to your platform-independent security solutions.
+
+Find out more at http://3sp.com/catalog/product_info.php?products_id=34
