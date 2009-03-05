@@ -13,7 +13,7 @@ import scala.swing.event.ButtonClicked
 import java.awt.Dimension
 import java.awt.event.{ActionEvent, ActionListener}
 import javax.swing.{Box, JButton, JRadioButton, JLabel}
-import LadybugUtil._
+import edu.colorado.phet.scalacommon.Predef._
 import scalacommon.util.Observable
 import swing.MyRadioButton
 import java.awt.GridBagConstraints._

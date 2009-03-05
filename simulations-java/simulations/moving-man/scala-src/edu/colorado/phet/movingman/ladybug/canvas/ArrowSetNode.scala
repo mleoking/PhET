@@ -12,7 +12,7 @@ import java.awt.{BasicStroke, Color}
 
 import umd.cs.piccolo.nodes.PText
 import umd.cs.piccolo.PNode
-import LadybugUtil._
+import edu.colorado.phet.scalacommon.Predef._
 
 class ArrowSetNode(ladybug: Ladybug, transform: ModelViewTransform2D, vectorVisibilityModel: VectorVisibilityModel) extends PNode {
   class LabeledArrowNode(color: Color, name: String) extends PNode {

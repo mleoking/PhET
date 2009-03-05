@@ -28,7 +28,7 @@ import umd.cs.piccolo.PNode
 import umd.cs.piccolo.util.PBounds
 import umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloTimeControlPanel.BackgroundNode
-import edu.colorado.phet.movingman.ladybug.LadybugUtil._
+import edu.colorado.phet.scalacommon.Predef._
 
 
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}

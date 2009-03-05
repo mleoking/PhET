@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
 import edu.colorado.phet.movingman.util.Motion2DModel
 import java.awt.geom.{Rectangle2D, Point2D}
 import scala.collection.mutable.ArrayBuffer
-import LadybugUtil._
+import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.common.motion._
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable

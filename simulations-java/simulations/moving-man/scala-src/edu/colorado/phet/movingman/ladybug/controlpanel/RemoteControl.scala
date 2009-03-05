@@ -23,7 +23,7 @@ import javax.swing.event.MouseInputAdapter
 import umd.cs.piccolo.PNode
 import scalacommon.math.Vector2D
 import umd.cs.piccolo.util.PDimension
-import LadybugUtil._
+import edu.colorado.phet.scalacommon.Predef._
 
 class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends VerticalLayoutPanel with Observable {
   def mode = _mode

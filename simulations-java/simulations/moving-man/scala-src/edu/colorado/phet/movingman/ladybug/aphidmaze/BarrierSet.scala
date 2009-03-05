@@ -6,7 +6,7 @@ import edu.colorado.phet.movingman.ladybug.aphidmaze.MazeGenerator
 import edu.colorado.phet.movingman.ladybug.aphidmaze.Wall
 import java.awt.geom.{Line2D, Rectangle2D}
 import scala.collection.mutable.ArrayBuffer
-import edu.colorado.phet.movingman.ladybug.LadybugUtil._
+import edu.colorado.phet.scalacommon.Predef._
 import java.lang.Math._
 import scalacommon.util.Observable
 import scalacommon.math.Vector2D

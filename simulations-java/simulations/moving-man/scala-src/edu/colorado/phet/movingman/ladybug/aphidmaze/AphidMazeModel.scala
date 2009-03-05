@@ -4,7 +4,7 @@ import model.LadybugModel
 import scala.collection.mutable.ArrayBuffer
 import scalacommon.math.Vector2D
 import model.aphidmaze.BarrierSet
-import LadybugUtil._
+import edu.colorado.phet.scalacommon.Predef._
 
 class AphidMazeModel extends LadybugModel {
   val maze = new BarrierSet

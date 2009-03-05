@@ -2,7 +2,7 @@ package edu.colorado.phet.movingman.ladybug.model
 
 import java.awt.geom.Ellipse2D
 import scala.collection.mutable.ArrayBuffer
-import edu.colorado.phet.movingman.ladybug.LadybugUtil._
+import edu.colorado.phet.scalacommon.Predef._
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
 
