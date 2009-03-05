@@ -14,9 +14,9 @@ class Aphid(x: Double, y: Double) extends Bug with Observable {
 
   def getRadius = 0.5
 
-  def getBounds={
-    val bounds=new Rectangle2D.Double
-    bounds.setFrameFromCenter(getPosition,getPosition+new Vector2D(getRadius,getRadius))
+  def getBounds = {
+    val bounds = new Rectangle2D.Double
+    bounds.setFrameFromCenter(getPosition, getPosition + new Vector2D(getRadius, getRadius))
     bounds
   }
 }

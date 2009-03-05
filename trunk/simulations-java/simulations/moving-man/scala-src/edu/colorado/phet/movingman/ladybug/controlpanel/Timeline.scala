@@ -32,6 +32,7 @@ import edu.colorado.phet.scalacommon.Predef._
 
 
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
+
 class Timeline(model: LadybugModel, canvas: PhetPCanvas) extends PNode {
   val pathOffsetY = 4
   val pathHeight = 6

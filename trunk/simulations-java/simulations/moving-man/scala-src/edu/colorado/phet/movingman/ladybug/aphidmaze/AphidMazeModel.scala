@@ -46,7 +46,7 @@ class AphidMazeModel extends LadybugModel {
   }
 
   def eatAphid(a: Aphid) = {
-    
+
   }
 
   def setMazeDim(dim: Int) = {

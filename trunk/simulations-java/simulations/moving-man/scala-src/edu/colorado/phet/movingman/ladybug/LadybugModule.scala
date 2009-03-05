@@ -15,11 +15,11 @@ class LadybugModule[ModelType <: LadybugModel](clock: ScalaClock,
                                               newModel: () => ModelType,
                                               newCanvas: LadybugModule[ModelType] => LadybugCanvas,
                                               newControlPanel: LadybugModule[ModelType] => LadybugControlPanel[ModelType],
-                                              createRightControl:(LadybugModule[ModelType])=>PNode)
+                                              createRightControl: (LadybugModule[ModelType]) => PNode)
         extends Module("my module", clock) {
   def this(clock: ScalaClock) = this (clock,
     () => (new LadybugModel).asInstanceOf[ModelType],
-    (m: LadybugModule[ModelType]) => new LadybugCanvas(m.model, m.getVectorVisibilityModel, m.getPathVisibilityModel,20,20),
+    (m: LadybugModule[ModelType]) => new LadybugCanvas(m.model, m.getVectorVisibilityModel, m.getPathVisibilityModel, 20, 20),
     (m: LadybugModule[ModelType]) => new LadybugControlPanel[ModelType](m),
     (m: LadybugModule[ModelType]) => new PlaybackSpeedSlider(m.model)
     )
