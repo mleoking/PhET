@@ -67,7 +67,7 @@ class RampCanvas(model: RampModel) extends DefaultCanvas(20, 20) {
   val blockNode = new BlockNode(model.blocks(0), transform)
   addNode(blockNode)
 
-  model.addListenerByName(addNode(new BlockNode(model.blocks.toList.reverse.head,transform)))//todo: cleanup
+  model.addListenerByName(addNode(new BlockNode(model.blocks.toList.reverse.head,transform)))//todo: cleanup listener notification
 }
 
 class RampControlPanel(model: RampModel) extends JPanel {
