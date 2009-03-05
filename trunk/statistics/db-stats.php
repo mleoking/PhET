@@ -8,8 +8,8 @@
 	include("db-revision.php");
 	
 	// define sim_type to correspond with website code
-	define("SIM_TYPE_JAVA", "0");
-	define("SIM_TYPE_FLASH", "1");
+	$SIM_TYPE_JAVA = "java";
+	$SIM_TYPE_FLASH = "flash";
 	
 	// TODO: uncomment for the live version:
 	//error_reporting(0);
@@ -108,6 +108,7 @@ BOO;
 		global $serverVersion;
 		
 		// get IDs from normalized tables
+		$sim_type_ID = get_id_value("sim_type", "id", "name", quo($data['sim_type']));
 		$sim_project_ID = get_id_value("sim_project", "id", "name", quo($data['sim_project']));
 		$sim_name_ID = get_id_value("sim_name", "id", "name", quo($data['sim_name']));
 		$sim_deployment_ID = get_id_value("deployment", "id", "name", quo($data['sim_deployment']));
@@ -118,7 +119,7 @@ BOO;
 			'timestamp' => 'NOW()',
 			'message_version' => mysql_real_escape_string($data['message_version']),
 			'server_svn_revision' => $serverVersion,
-			'sim_type' => mysql_real_escape_string($data['sim_type']),
+			'sim_type' => $sim_type_ID,
 			'sim_project' => $sim_project_ID,
 			'sim_name' => $sim_name_ID,
 			'sim_major_version' => mysql_real_escape_string($data['sim_major_version']),
@@ -213,7 +214,7 @@ BOO;
 	// returns the session ID of the inserted session (or 0 for failure)
 	function insert_flash_message($data) {
 		// this is a Flash sim
-		$data['sim_type'] = SIM_TYPE_FLASH;
+		$data['sim_type'] = 'flash';
 		
 		// calculate hostSimplifiedOS
 		$data['host_simplified_os'] = "Unknown";
@@ -271,7 +272,7 @@ BOO;
 	// returns the session ID of the inserted session (or 0 for failure)
 	function insert_java_message($data) {
 		// this is a Java sim
-		$data["sim_type"] = SIM_TYPE_JAVA;
+		$data["sim_type"] = 'java';
 		
 		// calculate hostSimplifiedOS
 		$data['host_simplified_os'] = "Unknown";

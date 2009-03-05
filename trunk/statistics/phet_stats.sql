@@ -28,6 +28,12 @@ CREATE TABLE user (
 
 # normalized tables for use in the session table
 
+DROP TABLE IF EXISTS sim_type;
+CREATE TABLE sim_type (
+	id TINYINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	name CHAR(30)
+);
+
 DROP TABLE IF EXISTS sim_project;
 CREATE TABLE sim_project (
 	id MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -74,7 +80,7 @@ CREATE TABLE session (
 	server_svn_revision MEDIUMINT UNSIGNED,
 	
 	# Java (0) or Flash (1)
-	sim_type ENUM('0', '1') NOT NULL default '0',
+	sim_type TINYINT UNSIGNED NOT NULL,
 	
 	# project and name
 	sim_project MEDIUMINT UNSIGNED NOT NULL,
@@ -276,6 +282,7 @@ CREATE TABLE message_error (
 
 # insert nulls into the normalized tables so that NOT EXISTS works correctly
 # and the conditional inserts will work
+INSERT INTO sim_type (name) VALUES (NULL);
 INSERT INTO sim_project (name) VALUES (NULL);
 INSERT INTO sim_name (name) VALUES (NULL);
 INSERT INTO deployment (name) VALUES (NULL);
@@ -291,5 +298,6 @@ INSERT INTO java_vendor (name) VALUES (NULL);
 INSERT INTO java_webstart_version (name) VALUES (NULL);
 INSERT INTO java_timezone (name) VALUES (NULL);
 
+INSERT INTO sim_type (name) VALUES ("java"), ("flash");
 
 
