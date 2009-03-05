@@ -10,7 +10,7 @@ import javax.swing.JButton
 import model.LadybugModel
 import umd.cs.piccolo.nodes.PText
 import umd.cs.piccolo.PNode
-import edu.colorado.phet.movingman.ladybug.LadybugUtil._
+import edu.colorado.phet.scalacommon.Predef._
 import umd.cs.piccolox.pswing.PSwing
 import java.awt.Color._
 

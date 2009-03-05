@@ -7,7 +7,7 @@ import java.text.DecimalFormat
 import model.LadybugModel
 import umd.cs.piccolo.nodes.{PPath, PText}
 import umd.cs.piccolo.PNode
-import LadybugUtil._
+import edu.colorado.phet.scalacommon.Predef._
 
 class DigitalTimer(model: LadybugModel) extends PNode {
   val text = new PText("123.27 sec")

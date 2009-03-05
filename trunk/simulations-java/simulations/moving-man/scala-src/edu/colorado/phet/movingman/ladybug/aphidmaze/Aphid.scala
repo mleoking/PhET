@@ -4,7 +4,7 @@ import java.awt.geom.Rectangle2D
 import model.Bug
 import scalacommon.math.Vector2D
 
-import edu.colorado.phet.movingman.ladybug.LadybugUtil._
+import edu.colorado.phet.scalacommon.Predef._
 import scalacommon.util.Observable
 
 class Aphid(x: Double, y: Double) extends Bug with Observable {

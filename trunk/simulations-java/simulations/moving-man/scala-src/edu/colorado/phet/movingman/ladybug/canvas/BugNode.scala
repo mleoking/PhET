@@ -15,7 +15,7 @@ import util.ToggleListener
 import java.awt.geom.AffineTransform
 import umd.cs.piccolo.event.PInputEvent
 import umd.cs.piccolo.PNode
-import LadybugUtil._
+import edu.colorado.phet.scalacommon.Predef._
 
 
 class BugNode(bug: Bug, transform: ModelViewTransform2D,bufferedImage:BufferedImage) extends PNode {

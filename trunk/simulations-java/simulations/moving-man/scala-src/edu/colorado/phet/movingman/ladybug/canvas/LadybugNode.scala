@@ -15,7 +15,7 @@ import model.{Ladybug, LadybugModel}
 
 import umd.cs.piccolo.event.{PInputEventListener, PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.nodes.{PPath, PImage}
-import LadybugUtil._
+import edu.colorado.phet.scalacommon.Predef._
 import util.ToggleListener
 
 class LadybugNode(model: LadybugModel,

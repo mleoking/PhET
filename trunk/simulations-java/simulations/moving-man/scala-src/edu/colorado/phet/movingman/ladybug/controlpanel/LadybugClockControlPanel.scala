@@ -28,7 +28,7 @@ import umd.cs.piccolo.PNode
 import umd.cs.piccolo.util.PBounds
 import umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloTimeControlPanel.BackgroundNode
-import edu.colorado.phet.movingman.ladybug.LadybugUtil._
+import edu.colorado.phet.scalacommon.Predef._
 
 class LadybugClockControlPanel[M <: LadybugModel](module: LadybugModule[M], createRightControl: () => PNode) extends PhetPCanvas {
   private class MyButtonNode(text: String, icon: Icon, action: () => Unit) extends PText(text) {
