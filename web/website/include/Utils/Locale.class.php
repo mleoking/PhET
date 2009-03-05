@@ -19,6 +19,8 @@ class Locale {
 
     const DEFAULT_LOCALE_SHORT_FORM = 'en';
     const DEFAULT_LOCALE_LONG_FORM = 'en_US';
+    const DEFAULT_LOCALE_LANGUAGE = 'en';
+    const DEFAULT_LOCALE_COUNTRY = 'US';
 
     // Regular expression for parsing locales.  Laungage code is
     // required, country code is optional.
