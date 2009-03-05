@@ -3,7 +3,17 @@ function fid(target) {
 	return document.getElementById(target);
 }
 
-function ahah(url, target) {
+function ahah(raw_url, target) {
+	var url = raw_url;
+	
+	if(url.indexOf("?") == -1) {
+		url += "?random=";
+	} else {
+		url += "&random=";
+	}
+	
+	url += String(Math.random());
+	
 	document.getElementById(target).innerHTML = 'Loading...';
 	if (window.XMLHttpRequest) {
 		req = new XMLHttpRequest();
@@ -322,6 +332,9 @@ function query_string() {
 		for(idx in simCountsConstraints) {
 			var name = simCountsConstraints[idx];
 			if(getValue(name) !== null && getValue(name) != "all") {
+				if(name == "sim_name" && (getValue("sim_project") === null || getValue("sim_project") == "all")) {
+					continue;
+				}
 				str += "&" + name + "=" + getValue(name);
 			}
 		}

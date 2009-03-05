@@ -8,7 +8,8 @@
 <html>
 	<head>
 		<title>PhET Statistics - General Query</title>
-		
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta http-equiv="Expires" content="-1" />
 		<script type="text/javascript">
 			function boo() {
 				alert("boobo");
