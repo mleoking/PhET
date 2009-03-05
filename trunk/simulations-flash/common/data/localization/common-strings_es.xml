@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--common-strings_es.xml created Wed Mar 04 20:01:56 MST 2009 using: flash-common-strings 1.02.00 (29196), translation-utility 1.11.00 (29003)-->
+<SimStrings>
+<string key="About..." value="Sobre el programa..."/>
+<string key="SoftwareDevelopment" value="Desarollo de software"/>
+<string key="Cancel" value="Cancelar"/>
+<string key="StatisticsField-host_flash_accessibility" value="¿Está utilizando un dipositivo accesible?"/>
+<string key="Privacy" value="Privacidad"/>
+<string key="Version" value="Versión"/>
+<string key="NewVersionAvailable" value="Nueva versión disponible"/>
+<string key="SoftwareAgreement" value="Acuerdo del software"/>
+<string key="PhETInstallation" value="Para descargar una nueva instalción que contiene la simulación más reciente, por favor visite la &lt;a href='{0}'&gt;pagina de instalación de PhET&lt;/a&gt; para más información."/>
+<string key="StatisticsField-sim_version_timestamp" value="Versión de simulación (sello de tiempo)"/>
+<string key="StatisticsField-sim_dev_version" value="Versión de simulación (desarollo)"/>
+<string key="AskLater" value="Preguntar despues"/>
+<string key="AcceptContinue" value="Acceptar y Continuar"/>
+<string key="SomeRightsReserved" value="Algunos derechos reservados."/>
+<string key="BuildDate" value="Fecha de construcción"/>
+<string key="TellMore" value="Más información..."/>
+<string key="FlashVersion" value="Versión de Flash"/>
+<string key="PhetSoftwareAgreement" value="Acuerdo del software de PhET"/>
+<string key="PhET" value="PhET"/>
+<string key="NoUpdatesAvailable" value="No actualizaciónes disponibles"/>
+<string key="StatisticsField-message_type" value="Typo de mensaje"/>
+<string key="InstallationDated" value="La instalación de la pagina web de PhET offline tiene la fecha {0}"/>
+<string key="CheckUpdates" value="Buscar actualizaciónes automaticamente"/>
+<string key="StatisticsField-sim_major_version" value="Versión de simulación (mayor)"/>
+<string key="StatisticsField-user_total_sessions" value="Número total de veces que se han ejecutado todas las simulaciónes"/>
+<string key="Visit" value="Visite {0}."/>
+<string key="InstallationNewer" value="Una versión nueva está disponible, con fecha de {0}."/>
+<string key="StatisticsField-sim_sessions_since" value="Número de veces que esta simulación ha sido ejecutada desde la ultima conexión a la red"/>
+<string key="StatisticsField-sim_distribution_tag" value="Versión de simulación (distribución)"/>
+<string key="Yes!" value="¡Sí!"/>
+<string key="StatisticsField-host_flash_domain" value="Dominio de la simulación"/>
+<string key="DesignTeam" value="Equipo de diseño"/>
+<string key="PhETPreferences" value="Preferencias de PhET"/>
+<string key="Preferences" value="Preferencias"/>
+<string key="AllowMessages" value="Permitir el envio de información a PhET"/>
+<string key="Updates" value="Acutalizaciónes"/>
+<string key="StatisticsField-user_preference_file_creation_time" value="Tiempo de creación del archivo de preferencias"/>
+<string key="Interviews" value="Entrevistas"/>
+<string key="StatisticsField-host_flash_time_offset" value="Franja horaria"/>
+<string key="StatisticsField-sim_deployment" value="Typo de despliegue"/>
+<string key="PrivacyRequirement" value="&lt;a href='{0}'&gt;PhET&lt;/a&gt; está disponible gratuitamente a traves de ayudas que requieren que recojamos una cantidad minima de informacion para ayudar a documentar el uso de las simulaciones de PhET y para servir mejor las necesidades de acutalización de nuestros usuarios."/>
+<string key="StatisticsField-sim_type" value="Typo de simulación"/>
+<string key="Close" value="Cerrar"/>
+<string key="StatisticsField-sim_dev" value="¿Es esta una versión de desarollo?"/>
+<string key="InstallerAsk" value="¿Le gustaria obtener el ultimo instalador de la pagina web de PhET offline?"/>
+<string key="PrivacyMessage2" value="Al presionar &quot;Acceptar y Continuar&quot;, usted acepta las normas de licencia y privacidad de PhET.  (Para detalles, &lt;a href='{0}'&gt;presione aquí&lt;/a&gt;)."/>
+<string key="StatisticsField-sim_total_sessions" value="Número total de veces que esta simulación ha sido ejecutada"/>
+<string key="PrivacyMessage1" value="En todos las simulaciónes de PhET, recogemos una cantidad minima de &lt;a href='{0}'&gt;información&lt;/a&gt; cuando empieza la simulación.  Puede parar el envio de esta información en cualquier momento mediante la opción de preferencias."/>
+<string key="StatisticsField-user_installation_timestamp" value="Sello de tiempo de la instalción PhET"/>
+<string key="StatisticsField-sim_name" value="Nombre de simulación"/>
+<string key="UpdateOptionsAvailable" value="Opciones de actualización se encuentran disponibles bajo &lt;i&gt;Preferencias&lt;/i&gt;."/>
+<string key="CopyrightColorado" value="Copyright {0} Universidad de Colorado."/>
+<string key="PhetDevelopmentTeam" value="Equipo de desarollo de PhET"/>
+<string key="InstallerInfo2" value="Si usted elige obtener la versión más reciente, un navegador de red se abrirá en la pagina web de PhET, donde puede descargar el instalador de la pagina web de PhET offline."/>
+<string key="InstallerInfo1" value="Mantener la instalación de la pagina web de PhET offline al dia asegura su acceso a las simulaciones más recientes y a materials suplementarios."/>
+<string key="StatisticsField-sim_minor_version" value="Versión de simulación (menor)"/>
+<string key="Credits" value="Créditos"/>
+<string key="StatisticsField-host_flash_version" value="Versión de intérprete de Flash"/>
+<string key="TryNow" value="Pruébela ahora"/>
+<string key="PrivacySkip" value="Ignorar esta versión"/>
+<string key="CheckInstallationUpdates" value="Buscar actualización de instalador de la pagina de PhET Offline"/>
+<string key="StatisticsField-sim_locale_language" value="Lengua"/>
+<string key="Distribution" value="Distribución"/>
+<string key="LicenseLibraries" value="Información sobre la licencia de uso de librerías."/>
+<string key="PrivacyDetails" value="Detalles de privacidad"/>
+<string key="StatisticsField-sim_svn_revision" value="Versión de simulación (revisión)"/>
+<string key="NotUpdateSim" value="Esta simulación no puede actualizarse automaticamente."/>
+<string key="CurrentVersionIs" value="La versión actual de {0} es {1}"/>
+<string key="StatisticsField-host_flash_os" value="Systema operativo y nombre"/>
+<string key="OK" value="OK"/>
+<string key="CheckSimUpdates" value="Buscar actualización de simulación..."/>
+<string key="NewerVersionIs" value="Una versión nueva {0} está disponible"/>
+<string key="StatisticsField-sim_project" value="Nombre del proyecto"/>
+<string key="SentInformation" value="La información mostrada abajo se enviará a PhET cuando empiece la simulación."/>
+<string key="OSVersion" value="SO"/>
+<string key="Details" value="Detalles"/>
+<string key="StatisticsField-message_version" value="Versión de mensaje"/>
+<string key="LeadDesign" value="Jefe de diseño"/>
+<string key="StatisticsField-host_locale_language" value="Lengua de computadora anfitriona"/>
+<string key="AboutSim" value="Sobre {0}"/>
+<string key="StatisticsField-sim_locale_country" value="País"/>
+</SimStrings>
