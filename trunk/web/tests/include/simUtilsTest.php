@@ -187,7 +187,7 @@ class simUtilsTest extends PHPUnit_Extensions_Database_TestCase {
     public function testSimGetAllSimTranslations_keysAreLocales() {
         $translations = sim_get_all_sim_translations();
         foreach ($translations as $locale => $sim_list) {
-            $this->assertTrue(locale_valid($locale));
+            $this->assertTrue(Locale::inst()->isValid($locale));
         }
     }
     
@@ -277,7 +277,7 @@ class simUtilsTest extends PHPUnit_Extensions_Database_TestCase {
         $sim = $this->getJavaSimArray();
         $result = sim_get_translations($sim);
         foreach ($result as $locale) {
-            $this->assertTrue(locale_valid($locale));
+            $this->assertTrue(Locale::inst()->isValid($locale));
         }
     }
 
@@ -295,7 +295,7 @@ class simUtilsTest extends PHPUnit_Extensions_Database_TestCase {
         $sim = $this->getFlashSimArray();
         $result = sim_get_translations($sim);
         foreach ($result as $locale) {
-            $this->assertTrue(locale_valid($locale));
+            $this->assertTrue(Locale::inst()->isValid($locale));
         }
     }
 
