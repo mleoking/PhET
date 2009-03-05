@@ -23,7 +23,6 @@ require_once($root . 'installerUtilsTest.php');
 require_once($root . 'localDebugSettingsTest.php');
 require_once($root . 'localeCodesCountryTest.php');
 require_once($root . 'localeCodesLanguageTest.php');
-require_once($root . 'localeUtilsTest.php');
 require_once($root . 'logUtilsTest.php');
 require_once($root . 'nominateUtilsTest.php');
 require_once($root . 'orderingUtilTest.php');
@@ -66,7 +65,6 @@ class include_AllTests {
     $suite->addTestSuite('localDebugSettingsTest');
     $suite->addTestSuite('localeCodesCountryTest');
     $suite->addTestSuite('localeCodesLanguageTest');
-    $suite->addTestSuite('localeUtilsTest');
     $suite->addTestSuite('logUtilsTest');
     $suite->addTestSuite('nominateUtilsTest');
     $suite->addTestSuite('orderingUtilTest');
