@@ -5,13 +5,17 @@
 require_once 'PHPUnit/Framework/TestSuite.php';
 require_once 'PHPUnit/Extensions/PhptTestSuite.php';
 
-require_once 'phetInfoTest.php';
+$root = dirname(__FILE__) . DIRECTORY_SEPARATOR;
+require_once($root . 'phetInfoTest.php');
+require_once($root . 'simJarRedirectTest.php');
+unset($root);
 
 class services_AllTests {
   public static function suite() {
     $suite = new PHPUnit_Framework_TestSuite('simulation');
     
-    $suite->addTestSuite('phetInfoTest');
+  $suite->addTestSuite('simJarRedirectTest');
+  $suite->addTestSuite('phetInfoTest');
     
     return $suite;
   }
