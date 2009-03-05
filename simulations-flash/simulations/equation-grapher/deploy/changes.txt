@@ -1,2 +1,4 @@
+# 1.00.02 (29213) Mar 4, 2009
+Test to see if JARs will run from Windows + Firefox
 # 1.00.01 (28842) Feb 19, 2009
 Batch deploy for alpha Simulation Tests, svn 28835
