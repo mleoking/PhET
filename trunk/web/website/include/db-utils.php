@@ -205,6 +205,9 @@
             connect_to_db();
         }
 
+        if (!is_array($fields_to_search) || empty($fields_to_search)) {
+            throw new PhETException("$fields_to_search most be a non-empty array");
+        }
         $rows = array();
 
         $st = "SELECT * FROM `$table_name` WHERE ";
@@ -212,7 +215,7 @@
         $is_first = true;
 
         $safe_search_for = mysql_real_escape_string($search_for, $connection);
-        foreach(preg_split('/( +)|( *, *)/i', $safe_search_for) as $word) {
+        foreach(preg_split('/( *, *)|( +)/i', $safe_search_for) as $word) {
             if ($is_first) {
                 $is_first = false;
             }
