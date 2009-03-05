@@ -27,8 +27,10 @@ class BlockState(_position: Vector2D, _velocity: Vector2D) {
   def translate(delta: Vector2D) = new BlockState(position + delta, velocity)
 }
 
+object MyRandom extends Random
+
 class Block extends Observable {
-  var state = new BlockState(new Vector2D(200, 200), new Vector2D(20, 1))
+  var state = new BlockState(new Vector2D(200, 200), new Vector2D(MyRandom.nextDouble() * 30 + 10, MyRandom.nextDouble() * 30 + 10))
 
   def translate(delta: Vector2D) = {
     state = state.translate(delta)
@@ -48,8 +50,9 @@ class RampModel extends Observable {
   def update(dt: Double) = {
     blocks.foreach((b: Block) => {b.translate(b.velocity * dt)})
   }
-  def addRandomBlock()={
-    blocks+=new Block
+
+  def addRandomBlock() = {
+    blocks += new Block
     notifyListeners
   }
 }
@@ -67,13 +70,13 @@ class RampCanvas(model: RampModel) extends DefaultCanvas(20, 20) {
   val blockNode = new BlockNode(model.blocks(0), transform)
   addNode(blockNode)
 
-  model.addListenerByName(addNode(new BlockNode(model.blocks.toList.reverse.head,transform)))//todo: cleanup listener notification
+  model.addListenerByName(addNode(new BlockNode(model.blocks.toList.reverse.head, transform))) //todo: cleanup listener notification
 }
 
 class RampControlPanel(model: RampModel) extends JPanel {
   setLayout(new BoxLayout(this, BoxLayout.Y_AXIS))
   val button = new JButton("Test button")
-  button.addActionListener(() => {model.addRandomBlock()})
+  button.addActionListener(() => {model.addRandomBlock()}) //todo: could use implicit conversion to get rid of ()=>
   add(button)
 }
 
