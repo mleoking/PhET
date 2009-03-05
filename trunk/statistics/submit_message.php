@@ -6,10 +6,13 @@
 	
 	include("db-stats.php");
 	
-	header("Connection: close");
-	
 	// connect to statistics database
 	$link = setup_mysql();
+	
+	header("Connection: close");
+	
+	// if somehow the connection drops, don't die in the middle of DB insertion
+	ignore_user_abort();
 	
 	// whether or not logging the messages is enabled.
 	// TODO: DO NOT ENABLE FOR LIVE VERSION
@@ -18,7 +21,8 @@
 	
 	// load the xml from postdata
 	$raw_post_data = $HTTP_RAW_POST_DATA;
-	$xml = simplexml_load_string($raw_post_data);
+	
+	$xml = simplexml_load_string($raw_post_data, "SimpleXMLElement", LIBXML_NOERROR);
 	
 	$xml = $xml->statistics_message;
 	
@@ -52,6 +56,24 @@
 		print '</submit_message_response>';
 	}
 	
+	function send_full_failure() {
+		global $warnings;
+		global $errors;
+		
+		print '<?xml version="1.0"?>';
+		print '<submit_message_response success="false">';
+		
+		foreach($warnings as $warning) {
+			print "<warning>${warning}</warning>";
+		}
+		
+		foreach($errors as $error) {
+			print "<error>${error}</error>";
+		}
+		
+		print '</submit_message_response>';
+	}
+	
 	function fail_me($str) {
 		global $raw_post_data;
 		global $errors;
@@ -63,7 +85,21 @@
 		$message_success = false;
 		send_response();
 		
-		exit;
+		exit();
+	}
+	
+	function full_fail_me($str) {
+		global $raw_post_data;
+		global $errors;
+		global $message_success;
+		
+		message_error($raw_post_data, $str);
+		
+		array_push($errors, $str);
+		
+		send_full_failure();
+		
+		exit();
 	}
 	
 	function warn_me($str) {
@@ -208,6 +244,10 @@
 		}
 		
 		fail_me("field {$field} value {$decoded} is not boolean");
+	}
+	
+	if(empty($xml['sim_type'])) {
+		full_fail_me("Could not parse the message");
 	}
 	
 	if($xml["sim_type"] == "flash") {
