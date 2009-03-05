@@ -8,8 +8,8 @@ if (!defined('SITE_ROOT')) define('SITE_ROOT', '../');
 // Get the test globals to set everything up
 require_once(dirname(dirname(dirname(__FILE__))).'/test_global.php');
 
-// Get the file to test
-require_once("include/utils/Validate.class.php");
+// Include global.php and the autoloader will take care of the classes
+require_once "include/global.php";
 
 class ValidateTest extends PHPUnit_Framework_TestCase {
     /**

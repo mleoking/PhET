@@ -1,15 +1,10 @@
 <?php
 
-require_once 'PHPUnit/Framework.php';
+require_once('PHPUnit/Framework.php');
 
-require_once dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'test_global.php';
+require_once(dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'test_global.php');
 
 // Do not need to include the acutal file to test, it is all tested through the web interface
-
-// These files are needed
-//require_once('include/locale-utils.php');
-define("SITE_ROOT", "../");
-    require_once('include/global.php');
 
 class simJarRedirectTest extends PHPUnit_Framework_TestCase {
 
@@ -17,6 +12,12 @@ class simJarRedirectTest extends PHPUnit_Framework_TestCase {
 
     const GOOD_PROJECT = 'balloons';
     const GOOD_SIM = 'balloons';
+
+    // Copied from Locale.class.php
+    const DEFAULT_LOCALE_SHORT_FORM = 'en';
+    const DEFAULT_LOCALE_LONG_FORM = 'en_US';
+    const DEFAULT_LOCALE_LANGUAGE = 'en';
+    const DEFAULT_LOCALE_COUNTRY = 'US';
 
     const GOOD_FOREIGN_LANGUAGE = 'cs';
     const GOOD_FOREIGN_LANGUAGE_COMBO = 'pt';
@@ -186,7 +187,7 @@ class simJarRedirectTest extends PHPUnit_Framework_TestCase {
         $query = array(
             'project' => self::GOOD_PROJECT,
             'sim' => self::GOOD_SIM,
-            'language' => Locale::DEFAULT_LOCALE_LONG_FORM,
+            'language' => self::DEFAULT_LOCALE_LONG_FORM,
             );
         $data = $this->makeRequest($query);
         $this->assertRegExp('/^Error:/', $data);
@@ -196,8 +197,8 @@ class simJarRedirectTest extends PHPUnit_Framework_TestCase {
         $query = array(
             'project' => self::GOOD_PROJECT,
             'sim' => self::GOOD_SIM,
-            'language' => Locale::DEFAULT_LOCALE_LANGUAGE,
-            'country' => Locale::DEFAULT_LOCALE_COUNTRY
+            'language' => self::DEFAULT_LOCALE_LANGUAGE,
+            'country' => self::DEFAULT_LOCALE_COUNTRY
             );
         $data = $this->makeRequest($query);
         $expected_data = file_get_contents(SIMS_ROOT.'balloons/balloons.jar');
@@ -208,7 +209,7 @@ class simJarRedirectTest extends PHPUnit_Framework_TestCase {
         $query = array(
             'project' => self::GOOD_PROJECT,
             'sim' => self::GOOD_SIM,
-            'language' => Locale::DEFAULT_LOCALE_LANGUAGE
+            'language' => self::DEFAULT_LOCALE_LANGUAGE
             );
         $data = $this->makeRequest($query);
         $expected_data = file_get_contents(SIMS_ROOT.'balloons/balloons.jar');

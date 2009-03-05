@@ -1,10 +1,12 @@
 <?php
 
-require_once 'PHPUnit/Framework.php';
+require_once('PHPUnit/Framework.php');
 
-require_once dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'test_global.php';
+require_once(dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'test_global.php');
 
-// Do not need to include a file to test, it is all tested through the web interface
+// Do not need to include phet-info.php to test, it is all tested through the web interface
+
+// Used to put database in expected state for update recommendation
 require_once('include/installer-utils.php');
 
 class phetInfoTest extends PHPUnit_Framework_TestCase {

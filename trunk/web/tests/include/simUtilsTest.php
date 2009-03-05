@@ -9,6 +9,7 @@ if (!defined('SITE_ROOT')) define('SITE_ROOT', '../');
 require_once(dirname(dirname(__FILE__)).'/test_global.php');
 
 // Get the file to test
+require_once("include/global.php");
 require_once("include/sim-utils.php");
 
     /*
@@ -267,7 +268,7 @@ class simUtilsTest extends PHPUnit_Extensions_Database_TestCase {
         $sim = $this->getJavaSimArray();
 
         $expected_locales = array('bp', 'cs', 'de', 'el', 'es', 'et', 'fi', 'fr', 'ga', 'in', 'it', 'iw', 'nl', 'pt', 'ru', 'sk', 'sl', 'tr', 'uk');        
-        usort($expected_locales, 'locale_sort_code_by_name');
+        usort($expected_locales, array(Locale::inst(), 'sortCodeByNameCmp'));
 
         $result = sim_get_translations($sim);
         $this->assertEquals($expected_locales, $result);
@@ -284,8 +285,8 @@ class simUtilsTest extends PHPUnit_Extensions_Database_TestCase {
     public function testSimGetTranslations_flashSimReturnsArrayOfExpetedLocales() {
         $sim = $this->getFlashSimArray();
 
-        $expected_locales = array('es', 'it', 'nl', 'sk', 'tc', 'sl');
-        usort($expected_locales, 'locale_sort_code_by_name');
+        $expected_locales = array('es', 'it', 'nl', 'sk', 'hz', 'tc', 'sl', 'hr');
+        usort($expected_locales, array(Locale::inst(), 'sortCodeByNameCmp'));
         
         $result = sim_get_translations($sim);
         $this->assertEquals($expected_locales, $result);
@@ -903,13 +904,13 @@ class simUtilsTest extends PHPUnit_Extensions_Database_TestCase {
         $sim = $this->getJavaSimArray();
         $locale = 'foo_BAR';
         $expected_value = '';
-        $expected_value = SITE_ROOT."admin/get-run-offline.php?sim_id={$sim['sim_id']}&amp;locale=".DEFAULT_LOCALE;
+        $expected_value = SITE_ROOT."admin/get-run-offline.php?sim_id={$sim['sim_id']}&amp;locale=".Locale::DEFAULT_LOCALE;
         $download_url = sim_get_download_url($sim, $locale);
         $this->assertEquals($expected_value, $download_url);
     }
 
     public function testSimGetDownloadUrl_javaSimWithDefaultLocaleReturnsLinkToGetRunOffline() {
-        $locale = DEFAULT_LOCALE;
+        $locale = Locale::DEFAULT_LOCALE;
         $sim = $this->getJavaSimArray();
         $expected_value = SITE_ROOT."admin/get-run-offline.php?sim_id={$sim['sim_id']}&amp;locale={$locale}";
         $download_url = sim_get_download_url($sim);
@@ -949,7 +950,7 @@ class simUtilsTest extends PHPUnit_Extensions_Database_TestCase {
     }
 
     public function testSimGetDownloadUrl_flashSimWithDefaultLocaleReturnsLinkToGetRunOffline() {
-        $locale = DEFAULT_LOCALE;
+        $locale = Locale::DEFAULT_LOCALE;
         $sim = $this->getFlashSimArray();
         $expected_value = SIMS_ROOT."{$sim['sim_dirname']}/{$sim['sim_flavorname']}_en.jar";
         $expected_value = SITE_ROOT."admin/get-run-offline.php?sim_id={$sim['sim_id']}&amp;locale={$locale}";

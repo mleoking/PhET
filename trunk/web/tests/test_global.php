@@ -18,7 +18,10 @@ define('TEST_SITE_ROOT', dirname(dirname(__FILE__)).'/website/');
 define('TEST_ROOT', dirname(__FILE__));
 
 // SIMS_ROOT is at absolute path to the test version of the sims
-define('SIMS_ROOT', TEST_ROOT.DIRECTORY_SEPARATOR.'_files'.DIRECTORY_SEPARATOR.'sims'.DIRECTORY_SEPARATOR);
+define('SIMS_ROOT', TEST_ROOT.DIRECTORY_SEPARATOR.'_files'.DIRECTORY_SEPARATOR.'sims_minimal'.DIRECTORY_SEPARATOR);
+// Other sims dir options
+//define('SIMS_ROOT', TEST_ROOT.DIRECTORY_SEPARATOR.'_files'.DIRECTORY_SEPARATOR.'sims_freezeiom'.DIRECTORY_SEPARATOR);
+//define('SIMS_ROOT', TEST_ROOT.DIRECTORY_SEPARATOR.'_files'.DIRECTORY_SEPARATOR.'sims_postiom'.DIRECTORY_SEPARATOR);
 
 // Add both these to the include path
 set_include_path(

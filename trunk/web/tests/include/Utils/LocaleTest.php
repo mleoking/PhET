@@ -12,7 +12,6 @@ require_once(dirname(dirname(dirname(__FILE__))).'/test_global.php');
 require_once("include/global.php");
 
 // Get the file to test
-//require_once("include/locale-utils.php");
 require_once("include/locale-codes-country.php");
 require_once("include/locale-codes-language.php");
 

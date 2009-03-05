@@ -218,6 +218,70 @@ class installerUtilsTest extends PHPUnit_Extensions_Database_TestCase {
          $this->assertEquals($inserted_time, $result);
      }
 
+     public function testInstallerGetWinFilename_() {
+         // Hard to test multiple scenarios without being able to change the
+         // hardcoded directories.  Dirs.class.php was a start to fix this but
+         // this approach has been abandoned as not worth the time to
+         // implement.
+         $this->markTestIncomplete();
+     }
+
+     public function testInstallerGetMacFilename_() {
+         // Hard to test multiple scenarios without being able to change the
+         // hardcoded directories.  Dirs.class.php was a start to fix this but
+         // this approach has been abandoned as not worth the time to
+         // implement.
+         $this->markTestIncomplete();
+     }
+
+     public function testInstallerGetLinuxFilename_() {
+         // Hard to test multiple scenarios without being able to change the
+         // hardcoded directories.  Dirs.class.php was a start to fix this but
+         // this approach has been abandoned as not worth the time to
+         // implement.
+         $this->markTestIncomplete();
+     }
+
+     public function testInstallerGetCdromFilename_() {
+         // Hard to test multiple scenarios without being able to change the
+         // hardcoded directories.  Dirs.class.php was a start to fix this but
+         // this approach has been abandoned as not worth the time to
+         // implement.
+         $this->markTestIncomplete();
+     }
+
+     public function testInstallerGetWinFilesize_() {
+         // Hard to test multiple scenarios without being able to change the
+         // hardcoded directories.  Dirs.class.php was a start to fix this but
+         // this approach has been abandoned as not worth the time to
+         // implement.
+         $this->markTestIncomplete();
+     }
+
+     public function testInstallerGetMacFilesize_() {
+         // Hard to test multiple scenarios without being able to change the
+         // hardcoded directories.  Dirs.class.php was a start to fix this but
+         // this approach has been abandoned as not worth the time to
+         // implement.
+         $this->markTestIncomplete();
+     }
+
+     public function testInstallerGetLinuxFilesize_() {
+         // Hard to test multiple scenarios without being able to change the
+         // hardcoded directories.  Dirs.class.php was a start to fix this but
+         // this approach has been abandoned as not worth the time to
+         // implement.
+         $this->markTestIncomplete();
+     }
+
+     public function testInstallerGetCdromFilesize_() {
+         // Hard to test multiple scenarios without being able to change the
+         // hardcoded directories.  Dirs.class.php was a start to fix this but
+         // this approach has been abandoned as not worth the time to
+         // implement.
+         $this->markTestIncomplete();
+     }
+
 }
 
 ?>
