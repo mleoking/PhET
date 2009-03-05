@@ -16,7 +16,7 @@ import scalacommon.math.Vector2D
 import scalacommon.util.Observable
 import umd.cs.piccolo.nodes.PText
 import umd.cs.piccolo.PNode
-import scalacommon.{CenterBoxStrategy, ScalaApplicationLauncher, ScalaClock}
+import scalacommon.{CenteredBoxStrategy, ScalaApplicationLauncher, ScalaClock}
 
 class RampSegment
 
