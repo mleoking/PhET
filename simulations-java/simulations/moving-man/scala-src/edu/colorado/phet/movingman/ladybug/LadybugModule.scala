@@ -12,36 +12,31 @@ import scalacommon.ScalaClock
 import umd.cs.piccolo.PNode
 
 class LadybugModule[ModelType <: LadybugModel](clock: ScalaClock,
-                                              newModel: () => ModelType,
+                                              newModel: ModelType,
                                               newCanvas: LadybugModule[ModelType] => LadybugCanvas,
                                               newControlPanel: LadybugModule[ModelType] => LadybugControlPanel[ModelType],
                                               createRightControl: (LadybugModule[ModelType]) => PNode)
         extends Module("my module", clock) {
   def this(clock: ScalaClock) = this (clock,
-    () => (new LadybugModel).asInstanceOf[ModelType],
-    (m: LadybugModule[ModelType]) => new LadybugCanvas(m.model, m.getVectorVisibilityModel, m.getPathVisibilityModel, 20, 20),
+    (new LadybugModel).asInstanceOf[ModelType], //todo: why does compiler require cast here?
+    (m: LadybugModule[ModelType]) => new LadybugCanvas(m.model, m.vectorVisibilityModel, m.pathVisibilityModel, 20, 20),
     (m: LadybugModule[ModelType]) => new LadybugControlPanel[ModelType](m),
     (m: LadybugModule[ModelType]) => new PlaybackSpeedSlider(m.model)
     )
 
-  final val model = newModel()
-  private val vectorVisibilityModel = new VectorVisibilityModel
-  private val pathVisibilityModel = new PathVisibilityModel
-
+  val model = newModel
+  val vectorVisibilityModel = new VectorVisibilityModel
+  val pathVisibilityModel = new PathVisibilityModel
   val canvas = newCanvas(this)
+  val controlPanel = newControlPanel(this)
 
   setSimulationPanel(canvas)
 
   clock.addClockListener(model.update(_))
 
-  val controlPanel = newControlPanel(this)
   setControlPanel(controlPanel)
 
   setClockControlPanel(new LadybugClockControlPanel(this, () => {createRightControl(this)}))
-
-  def getVectorVisibilityModel = vectorVisibilityModel
-
-  def getPathVisibilityModel = pathVisibilityModel
 
   def getLadybugMotionModel = model.getLadybugMotionModel()
 

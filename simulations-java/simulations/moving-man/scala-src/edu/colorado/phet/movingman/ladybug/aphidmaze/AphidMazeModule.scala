@@ -6,8 +6,8 @@ import scalacommon.ScalaClock
 
 class AphidMazeModule(clock: ScalaClock) extends LadybugModule[AphidMazeModel](
   clock: ScalaClock,
-  () => new AphidMazeModel,
-  (m: LadybugModule[AphidMazeModel]) => new AphidMazeCanvas(m.model, m.getVectorVisibilityModel, m.getPathVisibilityModel),
+  new AphidMazeModel,
+  (m: LadybugModule[AphidMazeModel]) => new AphidMazeCanvas(m.model, m.vectorVisibilityModel, m.pathVisibilityModel),
   (m: LadybugModule[AphidMazeModel]) => new AphidMazeControlPanel(m),
   (m: LadybugModule[AphidMazeModel]) => new DigitalTimer(m.model)
   ) {
