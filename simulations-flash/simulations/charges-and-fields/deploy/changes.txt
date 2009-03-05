@@ -1,3 +1,5 @@
+# 1.00.11 (29231) Mar 5, 2009
+Adding Spanish common-strings translation
 # 1.00.10 (29230) Mar 5, 2009
 # 1.00.09 (29052) Feb 25, 2009
 Version for alpha testing (previous one had an issue with jar signing)
