@@ -76,6 +76,28 @@ EOT;
         return $jnlp_xmls;
     }
 
+    // This is a refactoring of the previous jnlp_get_all_in_directory, which
+    // also performed the UTF16 to UTF8 conversion.  This is being broken into
+    // two steps (assuming I can get it to work).
+    function jnlp_get_all_in_directory2($directory) {
+        $jnlp_files = file_list_in_directory($directory, "*.jnlp");
+        return $jnlp_files;
+    }
+
+    function jnlp_convert_to_utf8($jnlp_file){
+
+        // Convert to UTF-8:
+        $contents = mb_convert_encoding($jnlp_file, "UTF-8", file_detect_encoding($jnlp_file));
+
+        // Replace 'XML' declaration specifying encoding:
+        $contents = preg_replace('/<\? *xml[^>]+\?>/i', '<?xml version="1.0" encoding="utf-8"?>', $contents);
+
+        // Possibly, there will be 2 extra junk bytes from UTF-16 conversion; get rid of them now:
+        $contents = preg_replace('/^[^<]+<\?xml/', '<?xml', $contents);
+
+        return $contents;
+    }
+
     function jnlp_get_codebase($jnlp_file) {
         $matches = array();
 
@@ -98,9 +120,9 @@ EOT;
     }
 
     function jnlp_add_permissions_request($jnlp_file) {
-	$pattern = '/<\/jnlp>/';
-	$replacement = "    <security>\n        <all-permisions/>\n    </security>\n\n</jnlp>";
-	return preg_replace($pattern, $replacement, $jnlp_file);
+        $pattern = '/<\/jnlp>/';
+        $replacement = "    <security>\n        <all-permisions/>\n    </security>\n\n</jnlp>";
+        return preg_replace($pattern, $replacement, $jnlp_file);
     }
 
     function jnlp_replace_absolute_links_with_local_file_macro($jnlp_file, $absolute_link_pattern, $macro_name) {
