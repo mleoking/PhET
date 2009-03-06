@@ -3,5 +3,5 @@
 # Automatically generated on Fri Aug 08 00:08:01 MDT 2008
 ###################################
 
-cork.au 
+cork.wav
 tada.WAV 

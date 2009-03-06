@@ -72,7 +72,7 @@ public class ElectricHockeySimulationPanel extends JPanel implements Runnable {
 
     public void run() {
         tada = new PhetAudioClip( "electric-hockey/audio/tada.WAV" );
-        cork = new PhetAudioClip( "electric-hockey/audio/cork.au" );
+        cork = new PhetAudioClip( "electric-hockey/audio/cork.wav" );
     }
 
     public boolean isAntialias() {
