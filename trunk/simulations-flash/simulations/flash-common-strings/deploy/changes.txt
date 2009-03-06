@@ -1,0 +1,4 @@
+# 1.02.00 (29196) Mar 4, 2009
+Latest flash common strings for alpha 2
+# 1.01.01 (29074) Feb 26, 2009
+Flash common strings used for alpha tests
