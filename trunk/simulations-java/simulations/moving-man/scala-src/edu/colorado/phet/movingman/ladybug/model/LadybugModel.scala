@@ -379,7 +379,7 @@ class LadybugModel extends Observable {
     playbackSpeed = 1.0
     modelHistory.clear()
     recordHistory.clear()
-    penPath.clear
+    penPath.clear()
 
     ladybugMotionModel.resetAll()
     playbackIndexFloat = 0.0
@@ -398,7 +398,7 @@ class LadybugModel extends Observable {
     notifyListeners()
   }
 
-  def clearSampleHistory() = penPath.clear
+  def clearSampleHistory() = penPath.clear()
 
   def resetMotion2DModel() = {
     motion2DModel.reset(ladybug.getPosition.x, ladybug.getPosition.y)
@@ -408,14 +408,14 @@ class LadybugModel extends Observable {
   def returnLadybug() = {
     ladybug.setPosition(LadybugDefaults.defaultLocation)
     ladybug.setVelocity(new Vector2D)
-    penPath.clear
+    penPath.clear()
     setSamplePoint(ladybug.getPosition)
     resetMotion2DModel
-    notifyListeners
+    notifyListeners()
   }
 
   def setPenDown(p: Boolean) = {
     penDown = p
-    notifyListeners
+    notifyListeners()
   }
 }
