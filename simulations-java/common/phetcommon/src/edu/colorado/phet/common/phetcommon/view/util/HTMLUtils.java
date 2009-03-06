@@ -21,6 +21,7 @@ public class HTMLUtils {
     
     private static final Font DEFAULT_FONT = new PhetFont();
     private static final String DEFAULT_CSS = "<head><style type=\"text/css\">body { font-size: @FONT_SIZE@; font-family: @FONT_FAMILY@ }</style></head>";
+    private static final String PHP_ARG_DELIMITER = "&";
     
     /* not intended for instantiation */
     private HTMLUtils() {}
@@ -85,13 +86,12 @@ public class HTMLUtils {
      * Gets the URL for a simulation's web page on the PhET site.
      * @param project
      * @param sim
-     * @param ampersand
      * @return
      */
-    public static String getSimWebsiteURL( String project, String sim, String ampersand ) {
+    public static String getSimWebsiteURL( String project, String sim ) {
         return PhetCommonConstants.SIM_WEBSITE_REDIRECT_URL + "?" + 
-            "request_version=" + PhetCommonConstants.SIM_WEBSITE_REDIRECT_VERSION + ampersand + 
-            "project=" + project + ampersand + 
+            "request_version=" + PhetCommonConstants.SIM_WEBSITE_REDIRECT_VERSION + PHP_ARG_DELIMITER + 
+            "project=" + project + PHP_ARG_DELIMITER + 
             "sim=" + sim;
     }
 
@@ -102,18 +102,17 @@ public class HTMLUtils {
      * @param project
      * @param sim
      * @param locale
-     * @param ampersand
      * @return
      */
-    public static String getSimJarURL( String project, String sim, Locale locale, String ampersand ) {
+    public static String getSimJarURL( String project, String sim, Locale locale ) {
         String url = PhetCommonConstants.SIM_JAR_REDIRECT_URL + "?" + 
-            "request_version=" + PhetCommonConstants.SIM_JAR_REDIRECT_VERSION + ampersand + 
-            "project=" + project + ampersand + 
-            "sim=" + sim + ampersand + 
+            "request_version=" + PhetCommonConstants.SIM_JAR_REDIRECT_VERSION + PHP_ARG_DELIMITER + 
+            "project=" + project + PHP_ARG_DELIMITER + 
+            "sim=" + sim + PHP_ARG_DELIMITER + 
             "language=" + locale.getLanguage();
         if ( !locale.getCountry().equals( "" ) ) {
             // add optional country code
-            url += ampersand + "country=" + locale.getCountry();
+            url += PHP_ARG_DELIMITER + "country=" + locale.getCountry();
         }
         return url;
     }

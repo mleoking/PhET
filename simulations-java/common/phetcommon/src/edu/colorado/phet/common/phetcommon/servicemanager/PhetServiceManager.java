@@ -94,7 +94,7 @@ public class PhetServiceManager {
      * @param sim
      */
     public static void showSimPage( String project, String sim ) {
-        showWebPage( HTMLUtils.getSimWebsiteURL( project, sim, "&" ) );
+        showWebPage( HTMLUtils.getSimWebsiteURL( project, sim ) );
     }
     
     public static void showWebPage( String url ) {
