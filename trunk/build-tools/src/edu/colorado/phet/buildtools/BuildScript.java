@@ -462,7 +462,8 @@ public class BuildScript {
             String javaCmd=server.getJavaCommand();
             String jarCmd=server.getJarCommand();
             String jarName = buildToolsProject.getDefaultDeployJar().getName();
-            String command = javaCmd+" -classpath " + buildScriptDir + "/" + jarName + " " + OfflineJARGenerator.class.getName() + " " + projectDir + "/" + project.getDefaultDeployJar().getName() + " "+jarCmd;
+            String pathToBuildLocalProperties=server.getBuildLocalPropertiesFile();
+            String command = javaCmd+" -classpath " + buildScriptDir + "/" + jarName + " " + OfflineJARGenerator.class.getName() + " " + projectDir + "/" + project.getDefaultDeployJar().getName() + " "+jarCmd+ " "+pathToBuildLocalProperties;
 
             System.out.println( "Running command: \n" + command );
             sshConnection.executeTask( new SshCommand( command ) );

@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 
 import edu.colorado.phet.buildtools.util.FileUtils;
+import edu.colorado.phet.buildtools.util.PhetJarSigner;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.application.JARLauncher;
 
@@ -29,12 +30,13 @@ public class OfflineJARGenerator {
         if ( args.length < 2 ) {
             System.out.println( "Should specify: \n" +
                                 "args[0] as the path to the offline <project>_all.jar\n" +
-                                "args[1] as the path to a jar utility executable" );
+                                "args[1] as the path to a jar utility executable\n" +
+                                "args[2] as the path to the build-local.properties file" );
         }
-        new OfflineJARGenerator().generateOfflineJARs( new File( args[0] ), args[1] );
+        new OfflineJARGenerator().generateOfflineJARs( new File( args[0] ), args[1],new File(args[2]) );
     }
 
-    private void generateOfflineJARs( File jar, String pathToJARUtility ) throws IOException, InterruptedException {
+    private void generateOfflineJARs( File jar, String pathToJARUtility,File buildLocalProperties ) throws IOException, InterruptedException {
         String[] flavors = getFlavors( jar );
         System.out.println( "Found flavors: " + Arrays.asList( flavors ) );
 
@@ -43,7 +45,7 @@ public class OfflineJARGenerator {
 
         for ( int i = 0; i < locales.length; i++ ) {
             for ( int j = 0; j < flavors.length; j++ ) {
-                generateOfflineJAR( jar, flavors[j], locales[i], pathToJARUtility );
+                generateOfflineJAR( jar, flavors[j], locales[i], pathToJARUtility,buildLocalProperties );
             }
         }
     }
@@ -53,7 +55,7 @@ public class OfflineJARGenerator {
         return stringTokenizer.nextToken();
     }
 
-    private void generateOfflineJAR( File jar, String flavor, Locale locale, String pathToJARUtility ) throws IOException, InterruptedException {
+    private void generateOfflineJAR( File jar, String flavor, Locale locale, String pathToJARUtility,File buildLocalProperties ) throws IOException, InterruptedException {
         File dst = new File( jar.getParentFile(), flavor + "_" + locale + ".jar" );
         System.out.println( "Writing to: " + dst.getAbsolutePath() );
         FileUtils.copyTo( jar, dst );
@@ -81,7 +83,8 @@ public class OfflineJARGenerator {
             System.out.println( "Could not delete: " + getTempPropertiesFile( jar ) + ", attempting deleteOnExit" );
         }
 
-        //TODO: add signing
+        PhetJarSigner jarSigner=new PhetJarSigner( buildLocalProperties );
+        jarSigner.signJar( dst );
     }
 
     private File getTempPropertiesFile( File jar ) {
