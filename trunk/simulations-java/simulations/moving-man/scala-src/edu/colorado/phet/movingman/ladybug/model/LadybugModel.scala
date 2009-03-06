@@ -10,7 +10,11 @@ import edu.colorado.phet.common.motion._
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
 
-
+/**
+ * This class is the main model for Ladybug2DApplication.  It contains both a model for the current state as well as the history.
+ * The smoothing of motion is done by leading the ladybug (with an abstraction called the pen),
+ * and using the same model as Motion2D for interpolation.
+ */
 class LadybugModel extends Observable {
   val ladybug = new Ladybug
   private val ladybugMotionModel = new LadybugMotionModel(this)
