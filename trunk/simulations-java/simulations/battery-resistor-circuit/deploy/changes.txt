@@ -1,3 +1,5 @@
+# 1.01.03 (29272) Mar 6, 2009
+3/6/09 fix for #1243 deployed for verification
 3/6/09 #1243, battery-resistor-circuit won't run on Mac OS 10.4.x
 # 1.01.02 (28776) Feb 19, 2009
 Batch deploy for alpha Simulation Tests, svn 28773
