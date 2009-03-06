@@ -195,6 +195,7 @@
     <classpathentry kind="src" path="util/phet-updater/src"/>
 	<classpathentry kind="src" path="util/translation-utility/src"/>
 	<classpathentry kind="src" path="util/translation-utility/data"/>
+	<classpathentry kind="src" path="util/translation-strings-diff/src"/>
 	
 	<!-- Unfuddle notifier -->
 	<!-- this was implemented in Java 5 code, omit from classpath until we move to Java 5
