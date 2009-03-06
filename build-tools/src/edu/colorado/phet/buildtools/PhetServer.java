@@ -28,7 +28,8 @@ public abstract class PhetServer {
                     "/physics/phet/dev", // Deploy path on web host
                     null, // Cache clear full URL
                     null, // Cache clear file
-                    null // Localization generation command
+                    null, // Localization generation command
+                    "/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet/dev/build-tools/config/build-local.properties"//todo: could just require specifying subpath from path on server, see above
             );
 
     public static PhetServer PRODUCTION =
@@ -39,7 +40,8 @@ public abstract class PhetServer {
                     "/sims", // Deploy path on web host
                     "http://phet.colorado.edu/admin/cache-clear.php?cache=all", // Cache clear full URL
                     "cache-clear.php", // Cache clear file
-                    "/web/chroot/phet/usr/local/apache/htdocs/cl_utils/create-localized-jars.py --verbose " // Localization generation command
+                    "/web/chroot/phet/usr/local/apache/htdocs/cl_utils/create-localized-jars.py --verbose ", // Localization generation command
+                    "TODO"
             );
     /* Dano's test machine
     public static PhetServer DEVELOPMENT = 
@@ -72,8 +74,9 @@ public abstract class PhetServer {
     private String cacheClearFile;
     private String localizationCommand;
     private boolean developmentServer;
+    private String buildLocalPropertiesFile;
 
-    public PhetServer( String serverHost, String webHost, String serverDeployPath, String webDeployPath, String cacheClearUrl, String cacheClearFile, String localizationCommand, boolean developmentServer ) {
+    public PhetServer( String serverHost, String webHost, String serverDeployPath, String webDeployPath, String cacheClearUrl, String cacheClearFile, String localizationCommand, boolean developmentServer,String buildLocalPropertiesFile) {
         this.serverHost = serverHost;
         this.webHost = webHost;
         this.serverDeployPath = serverDeployPath;
@@ -82,6 +85,7 @@ public abstract class PhetServer {
         this.cacheClearFile = cacheClearFile;
         this.localizationCommand = localizationCommand;
         this.developmentServer = developmentServer;
+        this.buildLocalPropertiesFile = buildLocalPropertiesFile;
     }
 
     public String getHost() {
@@ -128,9 +132,13 @@ public abstract class PhetServer {
     public abstract String getJavaCommand();
     public abstract String getJarCommand();
 
+    public String getBuildLocalPropertiesFile() {
+        return buildLocalPropertiesFile;
+    }
+
     private static class PhetDevServer extends PhetServer {
-        public PhetDevServer( String serverHost, String webHost, String serverDeployPath, String webDeployPath, String cacheClearUrl, String cacheClearFile, String localizationCommand ) {
-            super( serverHost, webHost, serverDeployPath, webDeployPath, cacheClearUrl, cacheClearFile, localizationCommand, true );
+        public PhetDevServer( String serverHost, String webHost, String serverDeployPath, String webDeployPath, String cacheClearUrl, String cacheClearFile, String localizationCommand,String buildLocalPropertiesFile ) {
+            super( serverHost, webHost, serverDeployPath, webDeployPath, cacheClearUrl, cacheClearFile, localizationCommand, true,buildLocalPropertiesFile );
         }
 
         public String getCodebase( PhetProject project ) {
@@ -155,8 +163,8 @@ public abstract class PhetServer {
     }
 
     private static class PhetProdServer extends PhetServer {
-        public PhetProdServer( String serverHost, String webHost, String serverDeployPath, String webDeployPath, String cacheClearUrl, String cacheClearFile, String localizationCommand ) {
-            super( serverHost, webHost, serverDeployPath, webDeployPath, cacheClearUrl, cacheClearFile, localizationCommand, false );
+        public PhetProdServer( String serverHost, String webHost, String serverDeployPath, String webDeployPath, String cacheClearUrl, String cacheClearFile, String localizationCommand ,String buildLocalPropertiesFile) {
+            super( serverHost, webHost, serverDeployPath, webDeployPath, cacheClearUrl, cacheClearFile, localizationCommand, false,buildLocalPropertiesFile );
         }
 
         public String getCodebase( PhetProject project ) {
