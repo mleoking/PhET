@@ -24,6 +24,7 @@ import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListene
 import edu.colorado.phet.translationutility.userinterface.ToolBar.ToolBarListener;
 import edu.colorado.phet.translationutility.util.ExceptionHandler;
 import edu.colorado.phet.translationutility.util.FontFactory;
+import edu.colorado.phet.translationutility.util.TULogger;
 
 /**
  * MainFrame is the application's main window.
@@ -83,6 +84,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         catch ( SimulationException e ) {
             ExceptionHandler.handleFatalException( e );
         }
+        assert( sourceProperties != null );
         if ( targetProperties == null ) {
             targetProperties = new Properties();
         }
@@ -225,6 +227,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
                 return;
             }
         }
+        TULogger.log( "MainFrame: submit is saving to " + outFile.getAbsolutePath() );
         
         try {
             _simulation.saveStrings( properties, outFile );

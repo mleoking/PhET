@@ -12,9 +12,6 @@ import java.io.InputStream;
  */
 public class Command {
     
-    private static final boolean DEBUG_COMMAND_STRING = false;
-    private static final boolean DEBUG_COMMAND_STREAMS = false;
-    
     /**
      * All exceptions caught by Command will be mapped to CommandException.
      */
@@ -51,14 +48,12 @@ public class Command {
                 command += " ";
             }
         }
-        if ( DEBUG_COMMAND_STRING ) {
-            System.out.println( "Command.run " + command );
-        }
+        TULogger.log( "Command.run: " + command );
         
         try {
             Process process = Runtime.getRuntime().exec( cmdArray );
             
-            if ( DEBUG_COMMAND_STREAMS ) {
+            if ( TULogger.isEnabled() ) {
                 InputStream in = process.getInputStream();
                 int c;
                 while ( ( c = in.read() ) != -1 ) {

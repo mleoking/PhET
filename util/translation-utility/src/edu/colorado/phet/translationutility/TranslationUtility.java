@@ -7,6 +7,7 @@ import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.phetcommon.view.util.StringUtil;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.translationutility.simulations.ISimulation;
 import edu.colorado.phet.translationutility.simulations.SimulationFactory;
@@ -14,6 +15,7 @@ import edu.colorado.phet.translationutility.simulations.ISimulation.SimulationEx
 import edu.colorado.phet.translationutility.userinterface.InitializationDialog;
 import edu.colorado.phet.translationutility.userinterface.MainFrame;
 import edu.colorado.phet.translationutility.util.ExceptionHandler;
+import edu.colorado.phet.translationutility.util.TULogger;
 
 /**
  * TranslationUtility is the main class for the translation utility.
@@ -41,6 +43,8 @@ public class TranslationUtility extends JFrame {
         }
         String jarFileName = initDialog.getJarFileName();
         String targetLanguageCode = initDialog.getTargetLanguageCode();
+        TULogger.log( "TranslationUtility: jar=" + jarFileName );
+        TULogger.log( "TranslationUtility: language=" + targetLanguageCode );
         
         // create a Simulation
         ISimulation simulation = null;
@@ -50,6 +54,7 @@ public class TranslationUtility extends JFrame {
         catch ( SimulationException e ) {
             ExceptionHandler.handleFatalException( e );
         }
+        TULogger.log( "TranslationUtility: simulation type is " + simulation.getClass().getName() );
         
         // save "submitted" files in the same directory as the JAR
         String saveDirName = new File( jarFileName ).getParent();
@@ -63,7 +68,7 @@ public class TranslationUtility extends JFrame {
         mainFrame.setVisible( true );
     }
 
-    public static void main( String[] args ) {
+    public static void main( final String[] args ) {
         /*
          * Wrap the body of main in invokeLater, so that all initialization occurs
          * in the event dispatch thread. Sun now recommends doing all Swing init in
@@ -71,6 +76,7 @@ public class TranslationUtility extends JFrame {
          */
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
+                TULogger.setEnabled( StringUtil.contains( args, "-log" ) );
                 TranslationUtility.start();
             }
         } );
