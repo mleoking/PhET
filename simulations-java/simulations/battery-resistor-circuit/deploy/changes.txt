@@ -1,3 +1,5 @@
+# 1.01.04 (29286) Mar 6, 2009
+3/6/09 deploying for #1243 verification again, localized jars were broken due to #913
 # 1.01.03 (29272) Mar 6, 2009
 3/6/09 fix for #1243 deployed for verification
 3/6/09 #1243, battery-resistor-circuit won't run on Mac OS 10.4.x
