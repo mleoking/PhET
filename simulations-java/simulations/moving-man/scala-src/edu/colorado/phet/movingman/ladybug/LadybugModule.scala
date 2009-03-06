@@ -15,8 +15,10 @@ class LadybugModule[ModelType <: LadybugModel](clock: ScalaClock,
                                               _model: ModelType,
                                               newCanvas: LadybugModule[ModelType] => LadybugCanvas,
                                               newControlPanel: LadybugModule[ModelType] => LadybugControlPanel[ModelType],
-                                              createRightControl: (LadybugModule[ModelType]) => PNode)
+                                              createRightControl: (LadybugModule[ModelType]) => PNode) //control used in right side of clock control panel
         extends Module("my module", clock) {
+
+  //Auxiliary constructor, used for making a plain vanilla LadybugModule, rather than subclasses
   def this(clock: ScalaClock) = this (clock,
     (new LadybugModel).asInstanceOf[ModelType], //todo: why does compiler require cast here?
     (m: LadybugModule[ModelType]) => new LadybugCanvas(m.model, m.vectorVisibilityModel, m.pathVisibilityModel, 20, 20),
@@ -32,9 +34,9 @@ class LadybugModule[ModelType <: LadybugModel](clock: ScalaClock,
 
   setSimulationPanel(canvas)
 
-  clock.addClockListener(model.update(_))
-
   setControlPanel(controlPanel)
+
+  clock.addClockListener(model.update(_))
 
   setClockControlPanel(new LadybugClockControlPanel(this, () => {createRightControl(this)}))
 
@@ -44,12 +46,12 @@ class LadybugModule[ModelType <: LadybugModel](clock: ScalaClock,
 
   def setMotionManual() = model.getLadybugMotionModel().motion = MANUAL //todo encapsulate
 
+  def setLadybugDraggable(draggable: Boolean) = canvas.setLadybugDraggable(draggable)
+
   def resetAll() = {
     model.resetAll()
     vectorVisibilityModel.resetAll()
     pathVisibilityModel.resetAll()
     controlPanel.resetAll()
   }
-
-  def setLadybugDraggable(draggable: Boolean) = canvas.setLadybugDraggable(draggable)
 }
