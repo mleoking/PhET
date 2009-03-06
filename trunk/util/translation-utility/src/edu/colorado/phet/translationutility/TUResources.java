@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 
 /**
  * This is a convenience wrapper around PhetResources and PhetApplicationConfig that provides 
@@ -59,7 +60,8 @@ public class TUResources {
      * @return
      */
     public static String getVersion() {
-        return RESOURCES.getVersion().formatForAboutDialog();
+        PhetVersion version = RESOURCES.getVersion();
+        return version.formatForAboutDialog() + " " + version.formatTimestamp();
     }
     
     /**
@@ -70,7 +72,7 @@ public class TUResources {
         String[] titleFormatArgs = { 
                 TUResources.getString( "translation-utility.name" ),
                 TUResources.getString( "label.version" ),
-                getVersion()
+                getVersion(),
         };
         return MessageFormat.format( "{0} : {1} {2}", titleFormatArgs );
     }
