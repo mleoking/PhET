@@ -1,5 +1,10 @@
+3/5/09 add logging that can be turned on via command line with -log
+3/5/09 replace getActualProjectName mess, use getStringsBasename to handle name mapping for common strings
+3/5/09 #1389, exclude files related to digital signature
+3/5/09 #1389, exclude files from jar based on regular expressions
+3/5/09 use FlashLauncher.ARS_FILENAME, add flash-launcher build dependency
 # 1.11.00 (29003) Feb 24, 2009
-#933, deploying support for flash common strings
+2/24/09 #933, deploying support for flash common strings
 2/24/09 - #933, add support for Flash common strings "flash-common-strings.jar"
 2/24/09 - #933, adjustment for name change of Java common strings to "java-common-strings.jar"
 # 1.10.00 (28666) Feb 17, 2009

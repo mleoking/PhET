@@ -8,10 +8,12 @@ import java.util.jar.*;
 
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.application.JARLauncher;
+import edu.colorado.phet.common.phetcommon.view.util.StringUtil;
 import edu.colorado.phet.translationutility.TUConstants;
 import edu.colorado.phet.translationutility.TUResources;
 import edu.colorado.phet.translationutility.util.Command;
 import edu.colorado.phet.translationutility.util.PropertiesIO;
+import edu.colorado.phet.translationutility.util.TULogger;
 import edu.colorado.phet.translationutility.util.Command.CommandException;
 import edu.colorado.phet.translationutility.util.PropertiesIO.PropertiesIOException;
 
@@ -50,14 +52,13 @@ public class JavaSimulation extends AbstractSimulation {
     //----------------------------------------------------------------------------
     
     public void testStrings( Properties properties, String languageCode ) throws SimulationException {
-        String propertiesFileName = getPropertiesResourceName( getProjectName(), languageCode );
-        createTestJar( getJarFileName(), TEST_JAR, getManifest(), propertiesFileName, properties, languageCode );
+        String testJarFileName = createTestJar( properties, languageCode );
         try {
             String[] cmdArray = { "java", 
                     "-D" + PhetCommonConstants.PROPERTY_PHET_LANGUAGE + "=" + languageCode, /* TODO: #1249, delete after IOM */
                     "-Djavaws.phet.locale=" + languageCode, /* TODO: #1249, delete after IOM */
                     "-Duser.language=" + languageCode, /* TODO: #1249, delete after IOM */
-                    "-jar", TEST_JAR };
+                    "-jar", testJarFileName };
             Command.run( cmdArray, false /* waitForCompletion */ );
         }
         catch ( CommandException e ) {
@@ -68,15 +69,16 @@ public class JavaSimulation extends AbstractSimulation {
     public Properties getStrings( String languageCode ) throws SimulationException {
         
         // Load strings from a resource file.
-        String propertiesFileName = getPropertiesResourceName( getProjectName(), languageCode );
+        String propertiesFileName = getStringsPath( getProjectName(), languageCode );
         Properties properties = readPropertiesFromJar( getJarFileName(), propertiesFileName );
         
         // English strings may be in a fallback resource file.
         if ( properties == null && languageCode.equals( TUConstants.ENGLISH_LANGUAGE_CODE ) ) {
-            propertiesFileName = getFallbackPropertiesResourceName( getProjectName() );
+            propertiesFileName = getFallbackStringsPath( getProjectName() );
             properties = readPropertiesFromJar( getJarFileName(), propertiesFileName );
         }
         
+        TULogger.log( "JavaSimulation: loaded strings from " + propertiesFileName );//XXX
         return properties;
     }
 
@@ -93,7 +95,7 @@ public class JavaSimulation extends AbstractSimulation {
 
     public void saveStrings( Properties properties, File file ) throws SimulationException {
         try {
-            String projectName = getActualProjectName( getJarFileName() );
+            String projectName = getProjectName();
             String projectVersion = getProjectVersion( projectName + TUConstants.RESOURCE_PATH_SEPARATOR + projectName + ".properties" ); // eg, faraday/faraday.properties
             String header = getTranslationFileHeader( file.getName(), projectName, projectVersion );
             PropertiesIO.write( properties, header, file );
@@ -104,25 +106,7 @@ public class JavaSimulation extends AbstractSimulation {
     }
     
     public String getSubmitBasename( String languageCode ) {
-        return getPropertiesResourceBasename( getProjectName(), languageCode );
-    }
-    
-    /*
-     * Gets the project name for the simulation, adjusted to handle common strings.
-     * <p>
-     * PhET common strings are bundled into their own JAR file for use with translation utility.
-     * Because the PhET build process is so inflexible, the JAR file must be built & deployed
-     * via a dummy sim named COMMON_STRINGS_PROJECT, found in trunk/simulations-java/simulations.
-     * If the project name is COMMON_STRINGS_PROJECT, we really want to load the common strings
-     * which are in files with basename COMMON_STRINGS_BASENAME.  So we use COMMON_STRINGS_BASENAME 
-     * as the project name.
-     */
-    protected String getProjectName( String jarFileName ) throws SimulationException {
-        String projectName = getActualProjectName( jarFileName );
-        if ( projectName.equals( COMMON_STRINGS_PROJECT ) ) {
-            projectName = COMMON_STRINGS_BASENAME;
-        }
-        return projectName;
+        return getStringsName( getProjectName(), languageCode );
     }
     
     /*
@@ -130,7 +114,7 @@ public class JavaSimulation extends AbstractSimulation {
      * 
      * @param jarFileName
      */
-    private String getActualProjectName( String jarFileName ) throws SimulationException {
+    protected String getProjectName( String jarFileName ) throws SimulationException {
         
         String projectName = null;
         Properties projectProperties = null;
@@ -165,28 +149,29 @@ public class JavaSimulation extends AbstractSimulation {
     //----------------------------------------------------------------------------
     
     /*
-     * Gets the full name of the fallback JAR resource that contains 
+     * Gets the path to the fallback JAR resource that contains 
      * English strings for a specified project.
      */
-    private static String getFallbackPropertiesResourceName( String projectName ) {
-        return getPropertiesResourceName( projectName, null /* languageCode */ );
+    private static String getFallbackStringsPath( String projectName ) {
+        return getStringsPath( projectName, null /* languageCode */ );
     }
     
     /*
-     * Gets the full name of the JAR resource that contains localized strings for 
+     * Gets the path to the JAR resource that contains localized strings for 
      * a specified project and language. If language code is null, the fallback resource
-     * name is returned. 
+     * path is returned. 
      */
-    private static String getPropertiesResourceName( String projectName, String languageCode ) {
-        String basename = getPropertiesResourceBasename( projectName, languageCode );
-        return projectName + TUConstants.RESOURCE_PATH_SEPARATOR + "localization" + TUConstants.RESOURCE_PATH_SEPARATOR + basename;
+    private static String getStringsPath( String projectName, String languageCode ) {
+        String dirName = getStringsBasename( projectName );
+        String fileName = getStringsName( projectName, languageCode );
+        return dirName + TUConstants.RESOURCE_PATH_SEPARATOR + "localization" + TUConstants.RESOURCE_PATH_SEPARATOR + fileName;
     }
     
     /*
-     * Gets the basename of the JAR resource that contains localized strings for 
+     * Gets the name of the JAR resource that contains localized strings for 
      * a specified project and language. For example, faraday-strings_es.properties
      * <p>
-     * If language code is null, the basename of the fallback resource is returned.
+     * If language code is null, the name of the fallback resource is returned.
      * The fallback name does not contain a language code, and contains English strings.
      * For example: faraday-strings.properties
      * <p>
@@ -198,13 +183,32 @@ public class JavaSimulation extends AbstractSimulation {
      * @param languageCode
      * @return
      */
-    private static String getPropertiesResourceBasename( String projectName, String languageCode ) {
+    private static String getStringsName( String projectName, String languageCode ) {
+        String stringsBasename = getStringsBasename( projectName );
         String basename = null;
         if ( languageCode == null ) {
-            basename = projectName + "-strings" + ".properties"; // fallback basename contains no language code
+            basename = stringsBasename + "-strings" + ".properties"; // fallback basename contains no language code
         }
         else {
-            basename = projectName + "-strings_" + languageCode + ".properties";
+            basename = stringsBasename + "-strings_" + languageCode + ".properties";
+        }
+        return basename;
+    }
+    
+    /*
+     * Gets the basename of the resource that contains localized strings.
+     * <p>
+     * This is typically the same as the project name, except for common strings.
+     * PhET common strings are bundled into their own JAR file for use with translation utility.
+     * The JAR file must be built & deployed via a dummy sim named COMMON_STRINGS_PROJECT, 
+     * found in trunk/simulations-flash/simulations.  If the project name is COMMON_STRINGS_PROJECT,
+     * we really want to load the common strings which are in files with basename COMMON_STRINGS_BASENAME.
+     * So we use COMMON_STRINGS_BASENAME as the project name.
+     */
+    private static String getStringsBasename( String projectName ) {
+        String basename = projectName;
+        if ( basename.equals( COMMON_STRINGS_PROJECT ) ) {
+            basename = COMMON_STRINGS_BASENAME;
         }
         return basename;
     }
@@ -274,21 +278,19 @@ public class JavaSimulation extends AbstractSimulation {
      * 1. copies the original JAR file
      * 2. adds or replaces a properties file containing localized strings
      * 3. adds or replaces a properties file used by JARLauncher to set the locale
+     * 4. removes files related to digital signatures
      * 
      * The original JAR file is not modified.
      * 
-     * @param originalJarFileName
-     * @param newJarFileName
-     * @param manifest
-     * @param propertiesFileName
      * @param properties
      * @param languageCode
      */
-    private static void createTestJar( 
-            String originalJarFileName, String newJarFileName, Manifest manifest, 
-            String propertiesFileName, Properties properties, String languageCode ) throws SimulationException {
+    private String createTestJar( Properties properties, String languageCode ) throws SimulationException {
+
+        final String testJarFileName = TEST_JAR;
+        final String originalJarFileName = getJarFileName();
         
-        if ( originalJarFileName.equals( newJarFileName  ) ) {
+        if ( originalJarFileName.equals( testJarFileName ) ) {
             throw new IllegalArgumentException( "originalJarFileName and newJarFileName must be different" );
         }
         
@@ -317,16 +319,18 @@ public class JavaSimulation extends AbstractSimulation {
             throw new SimulationException( "jar file not found: " + originalJarFileName, e );
         }
         
-        // files to skip while copying the JAR
-        String[] skipFileNames = {
+        // regular expressions for files to exclude while copying the JAR
+        String propertiesFileName = getStringsPath( getProjectName(), languageCode );
+        String[] exclude = {
                 JarFile.MANIFEST_NAME,
+                "META-INF/.*\\.SF", "META-INF/.*\\.RSA", "META-INF/.*\\.DSA", /* signing information */
                 propertiesFileName,
                 JARLauncher.PROPERTIES_FILE_NAME,
                 "locale.properties", "options.properties" /*TODO: #1249, delete after IOM */
         };
         
         // create the test JAR file
-        File testFile = new File( newJarFileName );
+        File testFile = new File( testJarFileName );
         testFile.deleteOnExit(); // temporary file, delete when the VM exits
         try {
             // input comes from the original JAR file
@@ -334,13 +338,14 @@ public class JavaSimulation extends AbstractSimulation {
             
             // output goes to test JAR file
             OutputStream outputStream = new FileOutputStream( testFile );
+            Manifest manifest = getManifest();
             JarOutputStream testOutputStream = new JarOutputStream( outputStream, manifest );
             
-            // copy all entries from input to output, skipping the properties file & manifest
+            // copy all entries from input to output, excluding some entries
             JarEntry jarEntry = jarInputStream.getNextJarEntry();
             while ( jarEntry != null ) {
                 
-                if ( !contains( skipFileNames, jarEntry.getName() ) ) {
+                if ( !StringUtil.matches( exclude, jarEntry.getName() ) ) {
                     
                     testOutputStream.putNextEntry( jarEntry );
                     byte[] buf = new byte[1024];
@@ -349,6 +354,9 @@ public class JavaSimulation extends AbstractSimulation {
                         testOutputStream.write( buf, 0, len );
                     }
                     testOutputStream.closeEntry();
+                }
+                else {
+                    TULogger.log( "JavaSimulation: copying jar, skipping " + jarEntry.getName() );
                 }
                 jarEntry = jarInputStream.getNextJarEntry();
             }
@@ -391,21 +399,9 @@ public class JavaSimulation extends AbstractSimulation {
         catch ( IOException e ) {
             testFile.delete();
             e.printStackTrace();
-            throw new SimulationException( "cannot add localized strings to jar file: " + newJarFileName, e );
+            throw new SimulationException( "cannot add localized strings to jar file: " + testJarFileName, e );
         }
-    }
-    
-    /*
-     * Is a specified string in an array of strings?
-     */
-    private static boolean contains( String[] array, String s ) {
-        boolean found = false;
-        for ( int i = 0; i < array.length; i++ ) {
-            if ( array[i].equals( s ) ) {
-                found = true;
-                break;
-            }
-        }
-        return found;
+        
+        return testJarFileName;
     }
 }
