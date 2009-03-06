@@ -27,7 +27,7 @@ import edu.colorado.phet.flashlauncher.util.FileUtils;
  */
 public class FlashLauncher {
 
-    private static final String ARGS_FILENAME = "flash-launcher-args.txt";
+    public static final String ARGS_FILENAME = "flash-launcher-args.txt";
 
     private String simName;
     private String language;
