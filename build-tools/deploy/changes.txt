@@ -1,3 +1,5 @@
+# 00.04.01 (29277) Mar 6, 2009
+3/6/09 Added signatures for offline-jar-generator, on spot.
 # 00.04.00 (29113) Mar 1, 2009
 moved offline jar generation script distribution directory, see #1330
 # 00.03.00 (29035) Feb 25, 2009
