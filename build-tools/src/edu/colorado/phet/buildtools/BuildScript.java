@@ -2,23 +2,21 @@ package edu.colorado.phet.buildtools;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.StringTokenizer;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 
 import org.rev6.scf.SshCommand;
 import org.rev6.scf.SshConnection;
 import org.rev6.scf.SshException;
 
+import com.jcraft.jsch.JSchException;
+
 import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
 import edu.colorado.phet.buildtools.translate.ScpTo;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.ProcessOutputReader;
-
-import com.jcraft.jsch.JSchException;
 
 public class BuildScript {
     private PhetProject project;
@@ -175,10 +173,15 @@ public class BuildScript {
             message = JOptionPane.showInputDialog( "Enter a message to add to the change log\n(or Cancel or Enter a blank line if change log is up to date)" );
         }
         if ( message != null && message.trim().length() > 0 ) {
-            prependChange( message );
+            prependChange( getChangeLogEntryDateStamp() + " " + message );
         }
 
         prependChange( "# " + getFullVersionStr( svn ) );
+    }
+    
+    private String getChangeLogEntryDateStamp() {
+        SimpleDateFormat format = new SimpleDateFormat( "M/d/yy" ); // eg, 3/5/09
+        return format.format( new Date() );
     }
 
     private String getFullVersionStr( int svn ) {
