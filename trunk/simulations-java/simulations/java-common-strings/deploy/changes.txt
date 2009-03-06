@@ -1,3 +1,5 @@
+# 1.04.00 (29275) Mar 6, 2009
+3/6/09 deploy change to software agreement notification #1398
 # 1.03.00 (29177) Mar 3, 2009
 #1327, deploy  java-common-string_en.jar
 # 1.02.01 (29176) Mar 3, 2009
