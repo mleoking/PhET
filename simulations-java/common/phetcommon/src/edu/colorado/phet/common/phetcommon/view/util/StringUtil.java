@@ -1,8 +1,11 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2007-2009, University of Colorado */
+
 package edu.colorado.phet.common.phetcommon.view.util;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Arrays;
+import java.util.regex.Pattern;
 
 public class StringUtil {
     private StringUtil() {
@@ -73,5 +76,40 @@ public class StringUtil {
         PrintWriter pw = new PrintWriter( sw );
         e.printStackTrace( pw );
         return sw.toString();
+    }
+    
+    /**
+     * Does a specified string match any one of a set of regular expressions?
+     * See java.util.regex.Pattern for regular expression syntax.
+     * 
+     * @param regex
+     * @param s
+     * @return true or false
+     */
+    public static boolean matches( String[] regex, String s ) {
+        boolean matches = false;
+        for ( int i = 0; i < regex.length; i++ ) {
+            if ( Pattern.matches( regex[i], s ) ) {
+                matches = true;
+                break;
+            }
+        }
+        return matches;
+    }
+    
+    /**
+     * Is a specified string contained in an array of strings?
+     * Useful for checking for the existence of commandline args.
+     * 
+     * @param array
+     * @param s
+     * @return
+     */
+    public static boolean contains( String[] array, String s ) {
+        boolean b = false;
+        if ( array != null ) {
+            b = Arrays.asList( array ).contains( s );
+        }
+        return b;
     }
 }
