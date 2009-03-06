@@ -158,10 +158,11 @@ public class PhetJarSigner {
             System.exit( -1 );
         }
         
-        File testPropertiesFile = new File( args[0] );
+        File configFile = new File( args[0] );
+        File jarToBeSigned = new File( args[1] );
 
-        PhetJarSigner signer = new PhetJarSigner( testPropertiesFile );
-        boolean result = signer.signJar( new File( args[1] ) );
+        PhetJarSigner signer = new PhetJarSigner( configFile );
+        boolean result = signer.signJar( jarToBeSigned );
 
         System.out.println( "Done, result = " + result + "." );
     }
