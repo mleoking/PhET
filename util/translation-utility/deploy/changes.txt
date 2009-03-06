@@ -1,3 +1,5 @@
+# 1.12.00 (29256) Mar 5, 2009
+make translation utility usable with signed jars (#1389)
 3/5/09 add logging that can be turned on via command line with -log
 3/5/09 replace getActualProjectName mess, use getStringsBasename to handle name mapping for common strings
 3/5/09 #1389, exclude files related to digital signature
