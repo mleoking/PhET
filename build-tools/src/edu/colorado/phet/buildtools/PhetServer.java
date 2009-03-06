@@ -41,7 +41,7 @@ public abstract class PhetServer {
                     "http://phet.colorado.edu/admin/cache-clear.php?cache=all", // Cache clear full URL
                     "cache-clear.php", // Cache clear file
                     "/web/chroot/phet/usr/local/apache/htdocs/cl_utils/create-localized-jars.py --verbose ", // Localization generation command
-                    "TODO"
+                    "/web/htdocs/phet/phet-dist/build-tools-config/build-local.properties"
             );
     /* Dano's test machine
     public static PhetServer DEVELOPMENT = 
