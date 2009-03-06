@@ -1,3 +1,5 @@
+# 00.06.00 (29281) Mar 6, 2009
+3/6/09 Redeploy with local signatures working to sign build-tools_all.jar
 # 00.05.00 (29280) Mar 6, 2009
 3/6/09 Added signatures for offline-jar-generator on tigercat
 # 00.04.01 (29277) Mar 6, 2009
