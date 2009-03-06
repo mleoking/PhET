@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.common.phetcommon.application;
 
-import java.util.Arrays;
 import java.util.Locale;
 
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
@@ -11,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.util.DeploymentScenario;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.view.util.StringUtil;
 
 /**
  * PhetApplicationConfig encapsulates the information required to configure
@@ -85,11 +85,7 @@ public class PhetApplicationConfig implements ISimInfo {
     }
 
     public boolean hasCommandLineArg( String arg ) {
-        boolean b = false;
-        if ( commandLineArgs != null ) {
-            b = Arrays.asList( commandLineArgs ).contains( arg );
-        }
-        return b;
+        return StringUtil.contains( commandLineArgs, arg );
     }
     
     public void setFrameSetup( FrameSetup frameSetup ) {
