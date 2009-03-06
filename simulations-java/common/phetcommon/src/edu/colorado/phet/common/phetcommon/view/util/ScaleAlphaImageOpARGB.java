@@ -42,8 +42,8 @@ public class ScaleAlphaImageOpARGB implements BufferedImageOp {
 
     public BufferedImage filter( BufferedImage src, BufferedImage dest ) {
 
-        if ( src.getType() != BufferedImage.TYPE_INT_ARGB ) {
-            throw new UnsupportedOperationException( "this operation is applicable only to BufferedImage of type TYPE_INT_ARGB" );
+        if ( src.getType() != BufferedImage.TYPE_INT_ARGB && src.getType() != BufferedImage.TYPE_INT_ARGB_PRE) {
+            throw new UnsupportedOperationException( "unsupported BufferedImage type=" + src.getType() );
         }
 
         WritableRaster srcRaster = src.getRaster();
