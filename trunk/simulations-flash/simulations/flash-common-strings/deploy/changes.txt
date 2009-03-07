@@ -1,3 +1,5 @@
+# 1.03.00 (29290) Mar 6, 2009
+3/6/09 Changed text notifying user of the software agreement
 # 1.02.01 (29289) Mar 6, 2009
 # 1.02.00 (29196) Mar 4, 2009
 Latest flash common strings for alpha 2
