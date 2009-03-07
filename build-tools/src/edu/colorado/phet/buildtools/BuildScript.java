@@ -14,6 +14,7 @@ import org.rev6.scf.SshException;
 import com.jcraft.jsch.JSchException;
 
 import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
+import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.translate.ScpTo;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.ProcessOutputReader;
@@ -178,7 +179,7 @@ public class BuildScript {
 
         prependChange( "# " + getFullVersionStr( svn ) );
     }
-    
+
     private String getChangeLogEntryDateStamp() {
         SimpleDateFormat format = new SimpleDateFormat( "M/d/yy" ); // eg, 3/5/09
         return format.format( new Date() );
@@ -416,7 +417,7 @@ public class BuildScript {
     public void deployDev( final AuthenticationInfo devAuth ) {
         deploy( new NullTask(), PhetServer.DEVELOPMENT, devAuth, new VersionIncrement.UpdateDev(), new Task() {
             public boolean invoke() {
-                generateSimulationAndLanguageJARFilesJava( project, PhetServer.DEVELOPMENT, devAuth );
+                generateOfflineJars( project, PhetServer.DEVELOPMENT, devAuth );
                 return true;
             }
         } );
@@ -434,7 +435,7 @@ public class BuildScript {
 
                         if ( !dryRun ) {
                             sendSSH( PhetServer.DEVELOPMENT, devAuth );
-                            generateSimulationAndLanguageJARFilesJava( project, PhetServer.DEVELOPMENT, devAuth );
+                            generateOfflineJars( project, PhetServer.DEVELOPMENT, devAuth );
                         }
                         openBrowser( PhetServer.DEVELOPMENT.getCodebase( project ) );
                         return true;
@@ -443,39 +444,43 @@ public class BuildScript {
                     public boolean invoke() {
                         System.out.println( "Invoking server side scripts to generate simulation and language JAR files" );
                         if ( !dryRun ) {
-                            generateSimulationAndLanguageJARFilesJava( project, PhetServer.PRODUCTION, prodAuth );
+                            generateOfflineJars( project, PhetServer.PRODUCTION, prodAuth );
                         }
                         return true;
                     }
                 } );
     }
 
-    public static void generateSimulationAndLanguageJARFilesJava( PhetProject project, PhetServer server, AuthenticationInfo authenticationInfo ) {
-        SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername( server.getHost() ), authenticationInfo.getPassword( server.getHost() ) );
-        try {
-            sshConnection.connect();
-            
-            BuildToolsProject buildToolsProject = new BuildToolsProject( new File( project.getTrunk(), "build-tools" ) );
-            String buildScriptDir = server.getServerDeployPath( buildToolsProject );
-            String projectDir = server.getServerDeployPath( project );
+    public static void generateOfflineJars( PhetProject project, PhetServer server, AuthenticationInfo authenticationInfo ) {
 
-            String javaCmd=server.getJavaCommand();
-            String jarCmd=server.getJarCommand();
-            String jarName = buildToolsProject.getDefaultDeployJar().getName();
-            String pathToBuildLocalProperties=server.getBuildLocalPropertiesFile();
-            String command = javaCmd+" -classpath " + buildScriptDir + "/" + jarName + " " + OfflineJARGenerator.class.getName() + " " + projectDir + "/" + project.getDefaultDeployJar().getName() + " "+jarCmd+ " "+pathToBuildLocalProperties;
+        //only sign jars for Java Projects, and only if it is enabled (e.g. for simulations)
+        if ( project instanceof JavaProject && ( (JavaProject) project ).getSignJar() ) {
+            SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername( server.getHost() ), authenticationInfo.getPassword( server.getHost() ) );
+            try {
+                sshConnection.connect();
 
-            System.out.println( "Running command: \n" + command );
-            sshConnection.executeTask( new SshCommand( command ) );
-        }
-        catch( SshException e ) {
-            e.printStackTrace();
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-        finally {
-            sshConnection.disconnect();
+                BuildToolsProject buildToolsProject = new BuildToolsProject( new File( project.getTrunk(), "build-tools" ) );
+                String buildScriptDir = server.getServerDeployPath( buildToolsProject );
+                String projectDir = server.getServerDeployPath( project );
+
+                String javaCmd = server.getJavaCommand();
+                String jarCmd = server.getJarCommand();
+                String jarName = buildToolsProject.getDefaultDeployJar().getName();
+                String pathToBuildLocalProperties = server.getBuildLocalPropertiesFile();
+                String command = javaCmd + " -classpath " + buildScriptDir + "/" + jarName + " " + OfflineJARGenerator.class.getName() + " " + projectDir + "/" + project.getDefaultDeployJar().getName() + " " + jarCmd + " " + pathToBuildLocalProperties;
+
+                System.out.println( "Running command: \n" + command );
+                sshConnection.executeTask( new SshCommand( command ) );
+            }
+            catch( SshException e ) {
+                e.printStackTrace();
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+            finally {
+                sshConnection.disconnect();
+            }
         }
     }
 }
