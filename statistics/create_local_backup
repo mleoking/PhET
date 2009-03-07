@@ -12,4 +12,6 @@
 #
 # the resulting file will be stored in statistics/backup/ and will include the suffix and a timestamp in the filename
 
-mysqldump --compact --compress --no-create-db --no-create-info --host=hellcat.colorado.edu --user=phet_stats -p --result-file=backup/phet_stats-backup-`date +%s`-$1.sql phet_stats
+file=backup/phet_stats-backup-`date +%s`-$1.sql
+mysqldump --compact --compress --no-create-db --no-create-info --host=hellcat.colorado.edu --user=phet_stats -p --result-file=$file phet_stats
+chmod o-r $file
