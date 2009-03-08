@@ -27,7 +27,7 @@ class BlockState(_position: Vector2D, _velocity: Vector2D) {
   def translate(delta: Vector2D) = new BlockState(position + delta, velocity)
 }
 
-object MyRandom extends Random
+object MyRandom extends scala.util.Random
 
 class Block extends Observable {
   var state = new BlockState(new Vector2D(200, 200), new Vector2D(MyRandom.nextDouble() * 30 + 10, MyRandom.nextDouble() * 30 + 10))
@@ -42,25 +42,28 @@ class Block extends Observable {
   def velocity = state.velocity
 }
 
-class RampModel extends Observable {
+class RampModel {
   val rampSegments = new ArrayBuffer[RampSegment]
   val blocks = new ArrayBuffer[Block]
 
   blocks += new Block
+  val blockListeners = new ArrayBuffer[Block => Unit]
+
   def update(dt: Double) = {
-    blocks.foreach((b: Block) => {b.translate(b.velocity * dt)})
+    blocks.foreach(b => b.translate(b.velocity * dt))
   }
 
   def addRandomBlock() = {
-    blocks += new Block
-    notifyListeners
+    val block = new Block
+    blocks += block
+    blockListeners.foreach(_(block))
   }
 }
 
 class BlockNode(b: Block, transform: ModelViewTransform2D) extends PText("Block") {
   addInputEventListener(new CursorHandler)
   setFont(new PhetFont(24, true))
-  val updateMethod = defineInvokeAndPass(b.addListenerByName){
+  defineInvokeAndPass(b.addListenerByName){
     setOffset(b.position)
   }
 }
@@ -70,13 +73,13 @@ class RampCanvas(model: RampModel) extends DefaultCanvas(20, 20) {
   val blockNode = new BlockNode(model.blocks(0), transform)
   addNode(blockNode)
 
-  model.addListenerByName(addNode(new BlockNode(model.blocks.toList.reverse.head, transform))) //todo: cleanup listener notification
+  model.blockListeners += (b => addNode(new BlockNode(b, transform)))
 }
 
 class RampControlPanel(model: RampModel) extends JPanel {
   setLayout(new BoxLayout(this, BoxLayout.Y_AXIS))
-  val button = new JButton("Test button")
-  button.addActionListener(() => {model.addRandomBlock()}) //todo: could use implicit conversion to get rid of ()=>
+  val button = new JButton("Create Block")
+  button.addActionListenerByName(model.addRandomBlock())
   add(button)
 }
 
