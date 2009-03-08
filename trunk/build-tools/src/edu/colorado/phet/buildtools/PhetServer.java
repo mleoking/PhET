@@ -52,7 +52,8 @@ public abstract class PhetServer {
                 "/dev/phet/dev", // Deploy path on web host
                 null, // Cache clear full URL
                 null, // Cache clear file
-                null // Localization generation command
+                null, // Localization generation command
+		"/var/www/dev/phet/phet-dist/build-tools-config/build-local.properties" // build-local.properties file on server
             );
     public static PhetServer PRODUCTION =
         new PhetProdServer(
@@ -62,7 +63,8 @@ public abstract class PhetServer {
                 "/dev/phet/sims", // Deploy path on web host
                 "http://192.168.42.102/dev/phet/admin/cache-clear.php?cache=all", // Cache clear full URL
                 "cache-clear.php", // Cache clear file
-                "/var/www/dev/phet/cl_utils/create-localized-jars.py --verbose --sim-root=/var/www/dev/phet/sims --jar-cmd=/usr/lib/jvm/java-6-sun-1.6.0.03/bin/jar" // Localization generation command
+                "/var/www/dev/phet/cl_utils/create-localized-jars.py --verbose --sim-root=/var/www/dev/phet/sims --jar-cmd=/usr/lib/jvm/java-6-sun-1.6.0.03/bin/jar", // Localization generation command
+		"/var/www/dev/phet/phet-dist/build-tools-config/build-local.properties" // build-local.properties file on server
             );
     */
 
