@@ -230,6 +230,11 @@ function clearAll(){		//clear stage of clips, clear model of charges,sensors,obs
 }//end of clearAll()
 
 function traceV():Void{
+	if(!this.model.hasCharges()) {
+		// if there are no charges, don't plot this
+		return;
+	}
+	
 	//var myModel = this.model;
 	var delSA = 5;	 //step length along equipotential in pixels
 	var delSB = 5;
