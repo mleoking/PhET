@@ -1,3 +1,4 @@
+3/6/09 #1355, Archie added Spanish common strings for this new feature
 3/6/09 #1398, revise text in Software Agreement notification dialog
 3/5/09 encapsulate php arg delimiter in HTMLUtils
 3-3-09: #1355, localize user-friendly names for the info that PhET collects
