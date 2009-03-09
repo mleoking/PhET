@@ -59,7 +59,7 @@ public class SoftwareAgreementDialog extends PaintImmediateDialog {
   protected JComponent createAgreementPanel() {
         
         String html = HTMLUtils.createStyledHTMLFromFragment( SoftwareAgreement.getInstance().getContent() );
-        HTMLEditorPane htmlEditorPane = new HTMLEditorPane( html );
+        HTMLEditorPane htmlEditorPane = new HTMLUtils.InteractiveHTMLPane( html );
         htmlEditorPane.setBackground( Color.WHITE );
         
         JScrollPane scrollPane = new JScrollPane( htmlEditorPane );
