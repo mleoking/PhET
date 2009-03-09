@@ -231,4 +231,5 @@ public abstract class JavaProject extends PhetProject {
     public boolean getSignJar() {
         return false;
     }
+
 }

@@ -14,16 +14,17 @@ import javax.swing.*;
 
 import edu.colorado.phet.buildtools.*;
 import edu.colorado.phet.buildtools.flash.PhetFlashProject;
+import edu.colorado.phet.buildtools.java.JavaBuildCommand;
+import edu.colorado.phet.buildtools.java.JavaProject;
 
 public class MiscMenu extends JMenu {
     private PhetProject selectedProject;
 
     public MiscMenu( final File trunk ) {
         super( "Misc" );
-
-        JMenuItem menuItem1 = new JMenuItem( "Generate License Info" );
-        add( menuItem1 );
-        menuItem1.addActionListener( new ActionListener() {
+        JMenuItem generateLicenseInfoItem = new JMenuItem( "Generate License Info" );
+        add( generateLicenseInfoItem );
+        generateLicenseInfoItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 PhetProject[] projects = PhetProject.getAllProjects( trunk );
                 for ( int i = 0; i < projects.length; i++ ) {
@@ -32,6 +33,18 @@ public class MiscMenu extends JMenu {
                 }
             }
         } );
+
+        JMenuItem copyAgreementItem = new JMenuItem( "Copy software agreement" );
+        add( copyAgreementItem );
+        copyAgreementItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+
+                PhetProject[] projects = JavaProject.getJavaSimulations( trunk );
+                new JavaBuildCommand( (JavaProject) projects[0], new MyAntTaskRunner(), true, null ).copySoftwareAgreement();
+
+            }
+        } );
+
 
         JMenuItem showAllLicenseKeys = new JMenuItem( "Show Credits Keys" );
         showAllLicenseKeys.addActionListener( new ActionListener() {

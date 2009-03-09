@@ -774,6 +774,9 @@ public abstract class PhetProject {
         return new File( getDataDirectory(), "contrib-licenses" );
     }
 
+    public File getSoftwareAgreementDir(){
+        return new File(getDataDirectory(), "software-agreement");
+    }
 
     public PhetProperties getProjectProperties() {
         PhetProperties phetProperties = new PhetProperties();
