@@ -19,10 +19,12 @@ import scala.tools.ant.Scalac;
 import edu.colorado.phet.buildtools.AntTaskRunner;
 import edu.colorado.phet.buildtools.PhetCleanCommand;
 import edu.colorado.phet.buildtools.Simulation;
+import edu.colorado.phet.buildtools.scripts.SetSVNIgnoreToDeployDirectories;
 import edu.colorado.phet.buildtools.proguard.PhetProguardConfigBuilder;
 import edu.colorado.phet.buildtools.proguard.ProguardCommand;
 import edu.colorado.phet.buildtools.util.PhetBuildUtils;
 import edu.colorado.phet.buildtools.util.PhetJarSigner;
+import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.application.JARLauncher;
 
 /**
@@ -43,7 +45,7 @@ public class JavaBuildCommand {
 
     public static final String JAVA_VERSION_CHECKER_CLASS_NAME = "edu.colorado.phet.javaversionchecker.JavaVersionChecker";
     public static final String JAR_LAUNCHER_CLASS_NAME = JARLauncher.class.getName();
-    
+
     public static String getMainLauncherClassName( JavaProject project ) {
         if ( project.getAlternateMainClass() != null ) {
             return project.getAlternateMainClass();
@@ -61,12 +63,28 @@ public class JavaBuildCommand {
     public void execute() throws Exception {
         clean();
         compile();
+        copySoftwareAgreement();
         project.copyLicenseInfo();
         jar();
         proguard();
         if ( project.getSignJar() ) {
             signJAR();
         }
+    }
+
+    public void copySoftwareAgreement() {
+        File src=new File(project.getTrunk(), "simulations-common/data/software-agreement");
+        try {
+            FileUtils.copyRecursive(src,getSoftwareAgreementDir() );
+//            SetSVNIgnoreToDeployDirectories.setIgnorePatternsOnDir( getSoftwareAgreementDir().getParentFile(), new String[]{getSoftwareAgreementDir().getName()} );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+    }
+
+    private File getSoftwareAgreementDir() {
+        return new File(project.getTrunk(), "simulations-java/common/phetcommon/data/phetcommon/software-agreement");
     }
 
     private void signJAR() {
@@ -80,9 +98,9 @@ public class JavaBuildCommand {
             e.printStackTrace();
             throw new BuildException("Property file needed for signing JAR not found.");
         }
-        
+
         PhetJarSigner signer = new PhetJarSigner( configProperties );
-        
+
         // Sign the JAR.
         if ( signer.signJar( outputJar ) != true ){
         	// Signing failed.  Throw an exception in order to force the build process to stop.
