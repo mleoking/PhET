@@ -1,3 +1,5 @@
+# 1.00.13 (29321) Mar 9, 2009
+3/9/09 Release candidate for the IOM Alpha-2 testing, will be used unless big issues are found.
 # 1.00.12 (29305) Mar 9, 2009
 3/9/09 Latest common code, sim internationalization and bug fixes
 # 1.00.11 (29231) Mar 5, 2009
