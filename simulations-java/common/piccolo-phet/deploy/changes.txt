@@ -1,5 +1,0 @@
-Updated tab colors as requested, see #1058
-
-1-6-09: delete experimental SVG support (BufferedSVGNode, contrib/svgsalamander)
-11-20-08: add SphericalNode.setConvertToImage to make convertToImage property mutable
-11-20-08: created this change log file

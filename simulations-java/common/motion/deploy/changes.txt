@@ -1,6 +1,0 @@
-6-28-2007
-Time derivatives need a time-offset to match other series.
-Views of recorded data observe a State + Time Series
-
-6-25-2007
-Fixed: When the time series is off-scale, dragging the slider doesn't immediately respond. Clicking on the slider thumb should set the current value, and allow immediate drags.
