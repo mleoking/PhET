@@ -465,12 +465,14 @@ function colorTilesOutward():Void{
 
 //Set up keyListener
 function createKeyListener(){
+	var thisGUI = this;
 	var keyListener = new Object();
 	var vSensorClip_mc = _root.voltageSensor_mc;
 	var myModel = this.model;
 	keyListener.onKeyDown = function(){
 		if(Key.getCode()== Key.SPACE){
-			vSensorClip_mc.traceVButton_mc.onRelease()
+			//vSensorClip_mc.traceVButton_mc.onRelease()
+			thisGUI.traceV();
 			//trace("space");
 		}else if(Key.getCode() == Key.RIGHT){
 			vSensorClip_mc._x++;
