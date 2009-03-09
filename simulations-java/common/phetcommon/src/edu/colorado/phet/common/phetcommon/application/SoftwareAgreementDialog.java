@@ -25,7 +25,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  */
 public class SoftwareAgreementDialog extends PaintImmediateDialog {
 
-    private static final Dimension PREFERRED_SIZE = new Dimension( 500, 400 );
+    private static final Dimension PREFERRED_SIZE = new Dimension( 700, 400 );
 
     private static final String TITLE = PhetCommonResources.getString( "Common.softwareAgreement.title" );
     private static final String CLOSE_BUTTON = PhetCommonResources.getString( "Common.choice.close" );
