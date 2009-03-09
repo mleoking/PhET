@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--common-strings_es.xml created Wed Mar 04 20:01:56 MST 2009 using: flash-common-strings 1.02.00 (29196), translation-utility 1.11.00 (29003)-->
+<!--common-strings_es.xml created Mon Mar 09 10:40:33 MDT 2009 using: flash-common-strings 1.03.00 (29290), translation-utility 1.12.00 (29256)-->
 <SimStrings>
 <string key="About..." value="Sobre el programa..."/>
 <string key="SoftwareDevelopment" value="Desarollo de software"/>
@@ -48,7 +48,7 @@
 <string key="InstallerAsk" value="¿Le gustaria obtener el ultimo instalador de la pagina web de PhET offline?"/>
 <string key="PrivacyMessage2" value="Al presionar &quot;Acceptar y Continuar&quot;, usted acepta las normas de licencia y privacidad de PhET.  (Para detalles, &lt;a href='{0}'&gt;presione aquí&lt;/a&gt;)."/>
 <string key="StatisticsField-sim_total_sessions" value="Número total de veces que esta simulación ha sido ejecutada"/>
-<string key="PrivacyMessage1" value="En todos las simulaciónes de PhET, recogemos una cantidad minima de &lt;a href='{0}'&gt;información&lt;/a&gt; cuando empieza la simulación.  Puede parar el envio de esta información en cualquier momento mediante la opción de preferencias."/>
+<string key="PrivacyMessage1" value="En todas las simulaciónes de PhET, recogemos una cantidad minima de &lt;a href=&quot;{0}&quot;&gt;información&lt;/a&gt; anónima caundo la simulación comienza (por ejemplo, versión de simulación y systema operativo). Usted puede invalidar el envio de esta información&lt;br&gt;en qualquier momento a través de las preferencias."/>
 <string key="StatisticsField-user_installation_timestamp" value="Sello de tiempo de la instalción PhET"/>
 <string key="StatisticsField-sim_name" value="Nombre de simulación"/>
 <string key="UpdateOptionsAvailable" value="Opciones de actualización se encuentran disponibles bajo &lt;i&gt;Preferencias&lt;/i&gt;."/>

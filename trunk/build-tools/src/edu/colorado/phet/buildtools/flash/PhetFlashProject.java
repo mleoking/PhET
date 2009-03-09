@@ -153,7 +153,7 @@ public class PhetFlashProject extends PhetProject {
             copyExtrasTo( getOfflineJARContentsDir() );
 
             // copy agreement text
-            FileUtils.copyToDir( getAgreementFile(), getOfflineJARContentsDir() );
+            FileUtils.copyToDir( getAgreementPropertiesFile(), getOfflineJARContentsDir() );
 
             // copy credits file
             FileUtils.copyToDir( getCreditsFile(), getOfflineJARContentsDir() );
@@ -262,7 +262,8 @@ public class PhetFlashProject extends PhetProject {
                 Properties agreementProperties = getAgreementProperties();
 
                 String agreementVersion = agreementProperties.getProperty( "version" );
-                String agreementContent = agreementProperties.getProperty( "content" );
+                //String agreementContent = agreementProperties.getProperty( "content" );
+                String agreementContent = FileUtils.loadFileAsString( getAgreementHTMLFile() );
 
                 String creditsString = FileUtils.loadFileAsString( getCreditsFile() );
 
@@ -320,14 +321,22 @@ public class PhetFlashProject extends PhetProject {
         }
     }
 
-    private File getAgreementFile() {
-        return new File( getTrunkAbsolute(), "simulations-common/data/software-agreement.properties" );
+    private File getAgreementPropertiesFile() {
+        File f = new File( getTrunkAbsolute(), "simulations-common/data/software-agreement/software-agreement.properties" );
+        if( !f.exists() ) {
+            System.out.println( "software-agreement.properties does not exist" );
+        }
+        return f;
+    }
+
+    private File getAgreementHTMLFile() {
+        return new File( getTrunkAbsolute(), "simulations-common/data/software-agreement/software-agreement.htm" );
     }
 
     private Properties getAgreementProperties() {
         FileInputStream inStream = null;
         try {
-            inStream = new FileInputStream( getAgreementFile() );
+            inStream = new FileInputStream( getAgreementPropertiesFile() );
         }
         catch( FileNotFoundException e ) {
             e.printStackTrace();
