@@ -29,7 +29,6 @@ public class SoftwareAgreement {
     private SoftwareAgreement() {
         PhetProperties p = readProperties();
         version = p.getInt( KEY_VERSION, DEFAULT_VERSION );
-//        content = p.getProperty( KEY_CONTENT );
         try {
             content=readContent();
         }
