@@ -35,6 +35,8 @@ function GUI(model:ChargeGroup) {
 	_root.createEmptyMovieClip("backgroundGrid_mc",_root.getNextHighestDepth());
 	_root.createEmptyMovieClip("vaneGrid_mc",_root.getNextHighestDepth());
 	
+	_root.createEmptyMovieClip("voltageLineDrawing_mc",_root.getNextHighestDepth());
+	
 	//create charge Bags
 	_root.attachMovie("plusChargeBag","plusChargeBag_mc",_root.getNextHighestDepth());
 	_root.attachMovie("minusChargeBag","minusChargeBag_mc",_root.getNextHighestDepth());
@@ -123,7 +125,6 @@ function GUI(model:ChargeGroup) {
 	//make voltage sensor respond to keyboard
 	this.createKeyListener();
 	
-	_root.createEmptyMovieClip("voltageLineDrawing_mc",_root.getNextHighestDepth());
 	//makeVoltageLineDrawingObserver();
 	
 }//end of constructor
