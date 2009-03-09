@@ -330,7 +330,7 @@ public class PhetFlashProject extends PhetProject {
     }
 
     private File getAgreementHTMLFile() {
-        return new File( getTrunkAbsolute(), "simulations-common/data/software-agreement/software-agreement.htm" );
+        return new File( getTrunkAbsolute(), "simulations-common/data/software-agreement/flash-software-agreement.html" );
     }
 
     private Properties getAgreementProperties() {
