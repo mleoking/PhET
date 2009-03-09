@@ -25,6 +25,7 @@ class TroubleshootingPage extends SitePage {
         $phet_help_email = PHET_HELP_EMAIL;
 
         $os_min_version_osx = OS_MIN_VERSION_OSX;
+        $os_min_version_win = OS_MIN_VERSION_WIN;
 
         $java_min_version_generic = JAVA_MIN_VERSION_GENERIC;
         $java_min_version_win_full = JAVA_MIN_VERSION_WIN_FULL;
@@ -96,7 +97,7 @@ class TroubleshootingPage extends SitePage {
 
             <p><strong>Windows Systems</strong><br />
             Intel Pentium processor<br />
-            Microsoft Windows 98SE/2000/XP/Vista<br />
+            {$os_min_version_win}<br />
             256MB RAM minimum<br />
             Approximately {$win_size} MB available disk space (for full <a href="{$installer_url}">installation</a>)<br />
             1024x768 screen resolution or better<br />

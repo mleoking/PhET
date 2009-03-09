@@ -1,0 +1,522 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>PhET Glaciers - glaciers, climate change</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <style type="text/css">
+        /*<![CDATA[*/
+            @import url(../css/main.css);
+        /*]]>*/
+    </style>
+    <!-- compliance patch for microsoft browsers -->
+    <!--[if lt IE 7]><script src="../js/ie7/ie7-standard-p.js" type="text/javascript"></script><![endif]-->
+    <script type="text/javascript" src="../js/jquery.pack.js"></script>
+    <script type="text/javascript" src="../js/jquery.MultiFile.js"></script>
+    <script type="text/javascript" src="../js/jquery_std.js"></script>
+    <script type="text/javascript" src="../js/jquery.autocomplete.js"></script>
+    <script type="text/javascript" src="../js/http.js"></script>
+    <script type="text/javascript" src="../js/form-validation.js"></script>
+    <script type="text/javascript" src="../js/multi-select.js"></script>
+    <script type="text/javascript" src="../js/phet-scripts.js"></script>
+    <script type="text/javascript" src="../js/navigation.js"></script>
+    <script type="text/javascript" src="../js/submit.js"></script>
+    <script type="text/javascript">
+        //<![CDATA[
+            $(document).ready(
+                function () {
+                    select_current_navbar_category('/PhET-postiom/website/simulations/sims.php?sim=Glaciers');
+                    setup_input_validation_patterns();
+                    validate_and_setup_validation_triggers();
+                    setup_submit_form_validation();
+ms_mark_as_invalid(document.getElementById('ms_1_list_uid'));
+                }
+            );
+      //]]>
+    </script>
+    <script type="text/javascript" src="../js/autoTracking_phet.js"></script>
+  </head>
+
+  <body id="top">
+  <div id="skipNav">
+        <a href="#content" accesskey="0">Skip to Main Content</a>
+    </div>
+
+    <div id="header">
+        <div id="headerContainer">
+            <div class="images">
+                <div class="logo">
+                    <a href="../index.php"><img src="../images/phet-logo.gif" alt="PhET Logo" title="Click here to go to the home page" /></a>
+                </div>
+
+                <div class="title">
+                    <img src="../images/logo-title.jpg" alt="Physics Education Technology - University of Colorado, Boulder" title="Physics Education Technology - University of Colorado, Boulder" />
+
+                    <div id="quicksearch">
+                        <form method="get" action="../simulations/search.php">
+                            <fieldset>
+                                <span>Search</span>
+                                <input type="text" size="15" name="search_for" title="Enter the text to search for" class="always-enabled" />
+                                <input type="submit" value="Go" title="Click here to search the PhET website" class="always-enabled" />
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clear"></div>
+        </div>
+    </div>
+
+    <div id="container">
+        <div id="localNav">
+            <ul class="topnav">
+                <li class="topnav">
+                    <a href="../index.php" accesskey="1" class="topnav">Home</a>
+                </li>
+                <li class="topnav-selected">
+                    <a href="../simulations/index.php?cat=Featured_Sims" accesskey="2" class="topnav-selected">Simulations</a>
+                    <ul class="subnav">
+                        <li class="subnav" style="padding-left: 0px"><a href="../simulations/index.php?cat=Featured_Sims" class="subnav">Featured Sims</a></li>
+                        <li class="subnav" style="padding-left: 0px"><a href="../simulations/index.php?cat=New_Sims" class="subnav">New Sims</a></li>
+                        <li class="subnav" style="padding-left: 0px"><a href="../simulations/index.php?cat=Physics" class="subnav">Physics</a></li>
+                        <li class="subnav" style="padding-left: 20px"><a href="../simulations/index.php?cat=Motion" class="subnav">Motion</a></li>
+                        <li class="subnav" style="padding-left: 20px"><a href="../simulations/index.php?cat=Sound_and_Waves" class="subnav">Sound &amp; Waves</a></li>
+                        <li class="subnav" style="padding-left: 20px"><a href="../simulations/index.php?cat=Work_Energy_and_Power" class="subnav">Work, Energy &amp; Power</a></li>
+                        <li class="subnav" style="padding-left: 20px"><a href="../simulations/index.php?cat=Heat_and_Thermo" class="subnav">Heat &amp; Thermo</a></li>
+                        <li class="subnav" style="padding-left: 20px"><a href="../simulations/index.php?cat=Quantum_Phenomena" class="subnav">Quantum Phenomena</a></li>
+                        <li class="subnav" style="padding-left: 20px"><a href="../simulations/index.php?cat=Light_and_Radiation" class="subnav">Light &amp; Radiation</a></li>
+                        <li class="subnav" style="padding-left: 20px"><a href="../simulations/index.php?cat=Electricity_Magnets_and_Circuits" class="subnav">Electricity, Magnets &amp; Circuits</a></li>
+                        <li class="subnav" style="padding-left: 0px"><a href="../simulations/index.php?cat=Biology" class="subnav">Biology</a></li>
+                        <li class="subnav" style="padding-left: 0px"><a href="../simulations/index.php?cat=Chemistry" class="subnav">Chemistry</a></li>
+                        <li class="subnav" style="padding-left: 0px"><a href="../simulations/index.php?cat=Earth_Science" class="subnav">Earth Science</a></li>
+                        <li class="subnav" style="padding-left: 0px"><a href="../simulations/index.php?cat=Math_" class="subnav">Math </a></li>
+                        <li class="subnav" style="padding-left: 20px"><a href="../simulations/index.php?cat=Tools" class="subnav">Tools</a></li>
+                        <li class="subnav" style="padding-left: 20px"><a href="../simulations/index.php?cat=Applications" class="subnav">Applications</a></li>
+                        <li class="subnav" style="padding-left: 0px"><a href="../simulations/index.php?cat=Cutting_Edge_Research" class="subnav">Cutting Edge Research</a></li>
+                        <li class="subnav" style="padding-left: 0px"><a href="../simulations/index.php?cat=All_Sims" class="subnav">All Sims</a></li>
+                        <li class="subnav" ><a href="../simulations/translations.php" class="subnav">Translated Sims</a></li>
+                    </ul>
+                </li>
+                <li class="topnav">
+                    <a href="../teacher_ideas/index.php" accesskey="3" class="topnav">Teacher Ideas &amp; Activities</a>
+                </li>
+                <li class="topnav">
+                    <a href="../get_phet/index.php" accesskey="4" class="topnav">Run our Simulations</a>
+                </li>
+                <li class="topnav">
+                    <a href="../tech_support/index.php" accesskey="5" class="topnav">Troubleshooting</a>
+                </li>
+                <li class="topnav">
+                    <a href="../contribute/index.php" accesskey="6" class="topnav">Contribute</a>
+                </li>
+                <li class="topnav">
+                    <a href="../research/index.php" accesskey="7" class="topnav">Research</a>
+                </li>
+                <li class="topnav">
+                    <a href="../about/index.php" accesskey="8" class="topnav">About PhET</a>
+                </li>
+            </ul>
+
+            <div id="sponsors">
+                <h4>Principal Sponsors</h4>
+
+                <div class="header">
+                </div>
+                <dl>
+                    <dt>
+                        <a href="http://www.hewlett.org/Default.htm">The William and Flora Hewlett Foundation</a>
+                    </dt>
+
+                    <dd>
+                        <a href="http://www.hewlett.org/Default.htm">
+                            <img src="../images/hewlett-logo.jpg" alt="The Hewlett Logo"/>
+                        </a>
+                        <br />
+
+                        <br />
+                        Makes grants to address the most serious social and environmental problems facing society, where risk capital, responsibly invested, may make a difference over time.
+                    </dd>
+
+                    <dt>
+                        <a href="http://www.nsf.gov/">
+                            <img class="sponsors" src="../images/nsf-logo.gif" alt="The NSF Logo"/>National Science Foundation</a>
+                    </dt>
+
+                    <dd>
+                        <br />
+                        An independent federal agency created by Congress in 1950 to promote the progress of science.<br />
+                        <br />
+                    </dd>
+
+                    <dt>
+                        <a href="http://www.ksu.edu.sa/">
+                            <img class="sponsors" src="../images/ksu-logo.gif" alt="The King Saud Logo" />King Saud University</a>
+                    </dt>
+
+                    <dd>
+                        <br />
+                        King Saud University seeks to become a leader in educational and technological innovation, scientific discovery and creativity through fostering an atmosphere of intellectual inspiration and partnership for the prosperity of society.<br />
+                        <br />
+                    </dd>
+                    <dt>
+                        <a href="../sponsors/index.php">
+                        <img src="../images/other-sponsors.gif" alt="Other Sponsors Logo"/></a>
+                    </dt>
+
+                </dl>
+            </div>
+        </div>
+        <div id="content">
+            <div class="main">
+<h1 class="first-child"><a href="../../sims/glaciers/glaciers.jnlp" >Glaciers</a></h1>    <div class="main">
+          <div class="main">
+      
+    </div>
+        <div class="container">
+
+                        <div class="simupgrade">
+                <p>
+                    <a href="http://www.java.com/"><img src="../images/javalogo52x88.gif" alt="Java Jump" /></a>
+                </p>
+                <div>
+                    <p>
+                        <strong>PhET is upgrading to Java 1.5!</strong>
+                    </p>
+                    <p>
+                        Effective <strong>May 1st, 2009</strong>, to run the Java-based simulations you will need to upgrade to Java version 1.5 or higher.
+                        <a href="http://www.java.com/">Upgrade now!</a>
+                    </p>
+                    <p>
+                        <a href="../tech_support/support-java.php#q4">How do I check my computer's current version of Java?</a>
+                    </p>
+                </div>
+                <div class="clear"></div>
+            </div>
+
+
+            <div id="simsummary">
+                <p class="sim-abstract">Adjust mountain snowfall and temperature to see the glacier grow and shrink. Use scientific tools to measure thickness, velocity and glacial budget.</p>
+
+                <table id="simratings">
+                    <tr>
+                        <td></td>   <td>&nbsp;</td>     <td><a href="../about/legend.php"><img src="../images/sims/ratings/alpha25x25.png"         alt="Alpha Rating Image"         width="37" title="Under Construction: This simulation is an early preview version, and may have functional or usability bugs." /></a></td>
+                    </tr>
+                </table>
+
+                <div id="simtoolbar">
+                    <div class="stats">
+                                                <span class="version">
+                            Version 2.00
+                        </span><br />
+
+                        <span class="size">
+                            1377 KB
+                        </span>
+                    </div>
+                    <span class="promote" title="If you like this simulation, please consider sharing it with others by submitting it to Digg or StumbleUpon">
+                            share sim:
+
+                            <a href="http://digg.com/submit?phase=2&amp;url=http%3A%2F%2Fphet.colorado.edu%2F%2FPhET-postiom%2Fwebsite%2Fsimulations%2Fsims.php%3Fsim%3DGlaciers&amp;title=Glaciers+-+Interactive+Physics+Simulation&amp;bodytext=Adjust+mountain+snowfall+and+temperature+to+see+the+glacier+grow+and+shrink.+Use+scientific+tools+to+measure+thickness%2C+velocity+and+glacial+budget.&amp;topic=general_sciences"><img class="digg" src="../images/digg-thumb-10x10.gif" alt="Icon for Digg" title="Click here to submit this page to Digg" /></a>
+
+                            <a href="http://www.stumbleupon.com/submit?url=http%3A%2F%2Fphet.colorado.edu%2F%2FPhET-postiom%2Fwebsite%2Fsimulations%2Fsims.php%3Fsim%3DGlaciers&amp;title=Glaciers+-+Interactive+Physics+Simulation"><img class="stumble" src="../images/stumble.gif" alt="StumbleUpon Toolbar" title="Click here to submit this page to StumbleUpon" /></a>
+                    </span>
+                </div>
+
+            </div>
+
+            <div id="simpreview">
+                <a href="../../sims/glaciers/glaciers.jnlp" >
+                    <img src="../../sims/glaciers/glaciers-screenshot.png" alt="Sim preview image" title="Click here to launch the simulation from your browser" width="300" height="225"/>
+                </a>
+
+                <div id="simrunoptions">
+                    <table>
+                        <tr>
+                            <td>
+                                                            <div class="rage_button_928365">
+                                    <a href="../admin/get-run-offline.php?sim_id=226&amp;locale=en" title="Click here to download the simulation to your computer, to run when you do not have an Internet connection">Download</a>
+                                </div>
+
+                            </td>
+
+                            <td>
+                                <div class="rage_button_358398">
+                                    <a href="../../sims/glaciers/glaciers.jnlp"  title="Click here to run the simulation from your browser">Run Now!</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="shortcuts">
+            <span class="burg"><a href="#topics">Topics</a></span>
+
+            <span class="burg"><a href="#ideas">Teaching Ideas</a></span>
+
+            <span class="burg"><a href="#software">Software Requirements</a></span>
+
+            <span class="burg"><a href="#versions">Translated Versions</a></span>
+
+            <span class="burg"><a href="#credits">Credits</a></span>
+        </div>
+
+        <h1 class="indi-sim" id="topics">Topics</h1>
+
+        <h2>Main Topics</h2>
+<ul><li>glacier advance and retreat
+</li><li>climate's influence on glacier state</li></ul>
+        <h2>Related Topics</h2>
+
+        <ul>
+            <li>
+<span class="keywordlist"><a href="../simulations/search.php?search_for=glaciers">glaciers</a>, <a href="../simulations/search.php?search_for=climate+change">climate change</a></span>            </li>
+        </ul>
+
+        <h2>Sample Learning Goals</h2>
+<ul><li>Explain how environmental conditions (temperature and precipitation) impact glacial mass budget; identify where snow accumulates in a glacier and justify why.
+</li><li>Explain how ice moves within a glacier; describe and illustrate flow within a glacier.
+</li><li>Explain or illustrate (demonstrate) how glaciers (i) stay at equilibrium, (ii) grow/advance,  (iii) shrink/retreat, and (iv) form; compare climatic conditions leading  to each.
+</li><li>Determine and illustrate how multiple advance-retreat cycles affect the record of glacial end moraines.</li></ul>        <p><a href="#top"><img src="../images/top.gif" alt="Go to Top Image"/></a></p>
+
+        <h1 class="indi-sim" id="ideas">Teaching Ideas</h1>
+
+        <h2>Tips for Teachers</h2>
+
+        <p class="indi-sim">
+            There is no teacher's guide for this simulation.
+        </p>
+
+        <h2>Ideas and Activities for this Sim</h2>
+
+        <div id="simcontribbrowser">
+            <div id="browseresults" class="compact">
+            <p>There is 1 contribution listed.</p>
+            
+            <table>
+                    <thead>
+                        <tr>
+
+                                    <td><a href="/PhET-postiom/website/simulations/sims.php?sim=Glaciers&amp;order=desc&amp;sort_by=contribution_title&amp;Simulations[]=Glaciers&amp;Types[]=all&amp;Levels[]=all"><img src="../images/sorting-uarrow.gif" alt="Ascending Sort (Z-A)" />Title</a></td>
+
+                                    <td><a href="/PhET-postiom/website/simulations/sims.php?sim=Glaciers&amp;order=asc&amp;sort_by=contribution_authors&amp;Simulations[]=Glaciers&amp;Types[]=all&amp;Levels[]=all">Author</a></td>
+
+                                    <td><a href="/PhET-postiom/website/simulations/sims.php?sim=Glaciers&amp;order=asc&amp;sort_by=contribution_level_desc&amp;Simulations[]=Glaciers&amp;Types[]=all&amp;Levels[]=all">Level</a></td>
+
+                                    <td><a href="/PhET-postiom/website/simulations/sims.php?sim=Glaciers&amp;order=asc&amp;sort_by=contribution_type_desc&amp;Simulations[]=Glaciers&amp;Types[]=all&amp;Levels[]=all">Type</a></td>
+
+                        
+
+                                    <td><a href="/PhET-postiom/website/simulations/sims.php?sim=Glaciers&amp;order=asc&amp;sort_by=contribution_date_updated&amp;Simulations[]=Glaciers&amp;Types[]=all&amp;Levels[]=all">Updated</a></td>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <tr><td>                <a href="../teacher_ideas/view-contribution.php?contribution_id=590">Glaciers Earth Science</a>
+</td><td><abbr title="Ryan Tucek">R. Tucek</abbr></td><td><abbr title="High School">HS</abbr></td><td><abbr title="Lab">Lab</abbr></td><td>10/08</td></tr>
+
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+
+        <h2>Submit Your Ideas &amp; Activities</h2>
+
+        <div class="p-indentation">
+        <form id="quicksubmit" enctype="multipart/form-data" action="submit-contribution.php" method="post">
+            <div>
+                <input type="hidden" name="sim_id"   value="226" />
+            </div>
+
+            <p>Note: The maximum file size is <strong>2M</strong>, with a maximum upload of <strong>8M</strong> at a time.</p>
+
+            <p>Required fields are marked with an asterisk (*).</p>
+
+            <table class="form">
+                <tr>
+                    <td>
+                        title*
+                    </td>
+
+                    <td>
+                        <input type="text" name="contribution_title" size="40" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        file(s)
+                    </td>
+
+                    <td>
+                        <input type="file" class="multi" name="contribution_file_url" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        grade level(s)*
+                    </td>
+
+                    <td>
+                        <noscript><p style="text-align: right;">JavaScript is OFF, you cannot submit data</p></noscript>
+                  <select name="ms_1_select" id="ms_1_uid"
+                      onchange="ms_on_change('ms_1', 'ms_1_list_uid', this.form.ms_1_select, true);"
+                      onmousewheel="return false;">
+                      <option value="" selected="selected">Select Type:</option><option value="multiselect_contribution_level_id_90">K-5</option><option value="multiselect_contribution_level_id_91">Middle School</option><option value="multiselect_contribution_level_id_92">High School</option><option value="multiselect_contribution_level_id_93">Undergraduate - Intro</option><option value="multiselect_contribution_level_id_94">Undergraduate - Advanced</option><option value="multiselect_contribution_level_id_96">Graduate</option><option value="multiselect_contribution_level_id_95">Other</option>
+                  </select>
+            <ul id="ms_1_list_uid">
+                
+            </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                    <span style="float: left">
+                        Check the <a href="../teacher_ideas/contribution-guidelines.php">PhET design guidelines</a>
+                        (<a href="../teacher_ideas/contribution-guidelines.pdf">PDF</a>)</span>
+                    <input type="submit" name="submit" value="Submit" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+        </div>
+
+        <p><a href="#top"><img src="../images/top.gif" alt="Go to Top Image"/></a></p>
+
+        <h1 class="indi-sim" id="software">Software Requirements</h1>
+
+        <p><a href="../tech_support/support-java.php"> <img src="../images/sims/ratings/java.png" alt="Java Icon" title="This simulation is a Java simulation" /></a></p>
+
+        <div class="compact">
+            <table>
+                <thead>
+                    <tr>
+                        <td>
+                            Windows Systems
+                        </td>
+
+                        <td>
+                            Macintosh Systems
+                        </td>
+
+                        <td>
+                            Linux Systems
+                        </td>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>
+                            Microsoft Windows 98SE/2000/XP/Vista<br/>
+Sun Java 1.5.0_15 or later<br/>                        </td>
+
+
+                        <td>
+                            OS 10.4 or later<br/>
+Apple Java 1.5.0_16 or later<br/>                        </td>
+
+
+                        <td>
+Sun Java 1.5.0_15 or later<br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p><a href="#top"><img src="../images/top.gif" alt="Go to Top Image"/></a></p>
+
+        <h1 class="indi-sim" id="versions">Translated Versions</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <td colspan="2" style="text-align: center;"><strong>Run localized</strong></td>
+                        <td><strong>Download</strong></td>
+                    </tr>
+                </thead>
+                <tbody>
+<tr style="vertical-align: bottom;">
+  <td>
+    <a href="../../sims/glaciers/glaciers_hu.jnlp" title="Click here to launch the Hungarian version of Glaciers" ><img class="language" src="../images/languages/hungarian-hu.png" alt="Hungarian" title="Hungarian" /></a>
+    <a href="../../sims/glaciers/glaciers_hu.jnlp" title="Click here to launch the Hungarian version of Glaciers" ></a>
+  </td>
+  <td>
+    <a href="../../sims/glaciers/glaciers_hu.jnlp" title="Click here to launch the Hungarian version of Glaciers" >Hungarian</a>
+  </td>
+  <td><a href="../admin/get-run-offline.php?sim_id=226&amp;locale=hu" title="Click here to download the Hungarian version of Glaciers">Download</a></td>
+</tr>
+                                                     <tr style="vertical-align: bottom;">
+  <td>
+    <a href="../../sims/glaciers/glaciers_es.jnlp" title="Click here to launch the Spanish version of Glaciers" ><img class="language" src="../images/languages/spanish-es.png" alt="Spanish" title="Spanish" /></a>
+    <a href="../../sims/glaciers/glaciers_es.jnlp" title="Click here to launch the Spanish version of Glaciers" ></a>
+  </td>
+  <td>
+    <a href="../../sims/glaciers/glaciers_es.jnlp" title="Click here to launch the Spanish version of Glaciers" >Spanish</a>
+  </td>
+  <td><a href="../admin/get-run-offline.php?sim_id=226&amp;locale=es" title="Click here to download the Spanish version of Glaciers">Download</a></td>
+</tr>
+                                                                     </tbody>
+            </table>
+
+        <p><a href="#top"><img src="../images/top.gif" alt="Go to Top Image"/></a></p>
+
+        <h1 class="indi-sim" id="credits">Credits</h1>
+
+        <div class="compact">
+            <table>
+                <thead>
+                    <tr>
+                        <td>
+                            Design Team
+                        </td>
+
+                        <td>
+                            Third-party Libraries
+                        </td>
+
+                        <td>
+                            Thanks To
+                        </td>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>
+<ul><li>Wendy Adams</li><li>Bob Anderson</li><li>Andrea Blair</li><li>Chris Malley (programmer)</li><li>Archie Paulson (lead)</li><li>Kathy Perkins</li><li>Dylan Ward</li></ul>                        </td>
+
+                        <td>
+<ul><li>JFreeChart</li><li>Piccolo</li></ul>                        </td>
+
+                        <td>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+                        </div>
+
+                        <div id="footer">
+                            <p>&copy; 2008 University of Colorado. <a href="../about/licensing.php ">Some rights reserved.</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="utility-panel">
+                                <a href="../teacher_ideas/login-and-redirect.php?url=/PhET-postiom/website/simulations/sims.php?sim=Glaciers">Login / Register</a>
+
+                </div>
+            </body>
+</html>

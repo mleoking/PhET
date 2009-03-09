@@ -10,6 +10,7 @@ function classLoader($class_name) {
     // frequency of their use
     static $class_dirs = array(
 	'Utils',
+        'Simulation',
         'Exception',
         );
 

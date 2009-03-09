@@ -93,6 +93,7 @@
     define("PHET_HELP_EMAIL", "phethelp@colorado.edu");
 
     // Latest versions of flash and java
+    define("OS_MIN_VERSION_WIN", "Microsoft Windows 98SE/2000/XP/Vista");
     define("OS_MIN_VERSION_OSX", "10.4");
 
     define("JAVA_MIN_VERSION_GENERIC", "1.5");

@@ -33,20 +33,24 @@
     define("SIM_THUMBNAIL_WIDTH", 130);
     define("SIM_THUMBNAIL_HEIGHT", 97);
 
+    // TODO: Remove from public scope
     define("SIM_TYPE_JAVA",  "0");
     define("SIM_TYPE_FLASH", "1");
 
+    // TODO: Change use to SimUtils
     $SIM_TYPE_TO_IMAGE =
         array(
             SIM_TYPE_JAVA   => 'java.png',
             SIM_TYPE_FLASH  => 'flash.png'
         );
 
+    // TODO: Change use to SimUtils
     // Beta has been removed but I'm keeping these here for reference
     define("SIM_RATING_NONE",           "0");
     define("SIM_RATING_ALPHA",          "1");
     define("SIM_RATING_CHECK",          "2");
-
+    
+    // TODO: Change use to SimUtils
     $SIM_RATING_TO_IMAGE =
         array(
             // Beta has been removed but these must stay to match the database
@@ -55,6 +59,7 @@
             SIM_RATING_CHECK        => 'checkmark25x25.png'
             );
 
+    // TODO: Change use to SimUtils
     $SIM_RATING_TO_IMAGE_HTML =
         array(
             // Beta has been removed but these must stay to match the database
@@ -63,6 +68,7 @@
             SIM_RATING_ALPHA        => '<a href="'.SITE_ROOT.'about/legend.php"><img src="'.SITE_ROOT.'images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_ALPHA].'"         alt="Alpha Rating Image"         width="37" title="Under Construction: This simulation is an early preview version, and may have functional or usability bugs." /></a>'
             );
 
+    // TODO: Change use to SimUtils
     $SIM_TYPE_TO_IMAGE_HTML =
         array(
             SIM_TYPE_JAVA  => '<a href="'.SITE_ROOT.'tech_support/support-java.php"> <img src="'.SITE_ROOT.'images/sims/ratings/'.$SIM_TYPE_TO_IMAGE[SIM_TYPE_JAVA].'" alt="Java Icon" title="This simulation is a Java simulation" /></a>',
@@ -282,48 +288,113 @@
         return $cats;
     }
 
-    function sim_get_sim_by_sim_encoding($sim_encoding) {
+    function sim_get_sim_by_sim_encoding($sim_encoding, $verbose_instrumenting = false, $extra = false, $noncustom_dist = false) {
+        if ($verbose_instrumenting) {
+            print "Enocding trying $sim_encoding<br />\n";
+            $t1 = microtime_float();
+        }
         $map = sim_get_name_to_sim_map();
 
         foreach($map as $name => $sim) {
             $encoding = web_encode_string($name);
 
             if ($encoding == $sim_encoding) {
+                if ($verbose_instrumenting) {
+                    $t2 = microtime_float() - $t1;
+                    print "exact match {$sim['sim_name']} $t2<br />\n";
+                }
                 return $sim;
             }
         }
 
         // Look for best match using substrings:
-        foreach($map as $name => $sim) {
-            $encoding = web_encode_string($name);
-
-            $s1 = strtolower($sim_encoding);
-            $s2 = strtolower($encoding);
-
-            if (strpos($s1, $s2) !== false) {
+        // Too liberal ('a' matches to 'Gas Properties'), see ticket 754
+        if ((!$extra) || ($extra && (strlen($sim_encoding) >= 3))) {
+            foreach($map as $name => $sim) {
+                $encoding = web_encode_string($name);
+                
+                $s1 = strtolower($sim_encoding);
+                $s2 = strtolower($encoding);
+                
+                if (strpos($s1, $s2) !== false) {
+                    if ($verbose_instrumenting) {
+                        $t2 = microtime_float() - $t1;
+                        print "found built encoding in given encoding {$sim['sim_name']} $t2<br />\n";
+                    }
+                    return $sim;
+                }
+                else if (strpos($s2, $s1) !== false) {
+                    if ($verbose_instrumenting) {
+                        $t2 = microtime_float() - $t1;
+                        print "found given encoding in built encoding {$sim['sim_name']} $t2<br />\n";
+                    }
                 return $sim;
-            }
-            else if (strpos($s2, $s1) !== false) {
-                return $sim;
+                }
             }
         }
+
+        // Hack: don't use extra for distance calc
 
         // TODO: extract this into its own algorithm
         $best_dist = 9999999;
         $best_sim  = false;
-
+        $max_dist = 9999999;
+        if ($extra) {
+        $max_dist = (int) ( (int) strlen($sim_encoding) / (int) 3);
+        $max_dist = 4;
+        }
         // Look for best match using Levenshtein distance function:
         foreach($map as $name => $sim) {
             $encoding = web_encode_string($name);
+            if ($extra) {
+                if (abs(strlen($encoding) - strlen($sim_encoding)) > 5) {
+                    if ($verbose_instrumenting) {
+                        //print "continuing to next<br />\n";
+                    }
+                    continue;
+                }
+            }
 
-            $distance = levenshtein(strtolower($sim_encoding), strtolower($encoding), 0, 2, 1);
-
+            if ($noncustom_dist) {
+                $distance = levenshtein(strtolower($sim_encoding), strtolower($encoding));
+            }
+            else {
+                if ($extra) {
+                    $distance = levenshtein(strtolower($sim_encoding), strtolower($encoding));
+                }
+                else {
+                    $distance = levenshtein(strtolower($sim_encoding), strtolower($encoding), 0, 2, 1);
+                }
+            }
+            
+            if ($verbose_instrumenting) {
+                print "distance: $distance $sim_encoding $encoding<br />\n";
+            }
+            
             if ($distance < $best_dist && $distance !== -1) {
                 $best_dist = $distance;
                 $best_sim  = $sim;
+                if ($extra) {
+                    $max_dist = max((int) (strlen($encoding) / 2), 4);
+                }
             }
         }
 
+        if ($extra) {
+            if ($best_dist > $max_dist) {
+                if ($verbose_instrumenting) {
+                    $t2 = microtime_float() - $t1;
+                    print "rejected, levenshtein distance too big; input ={$sim_encoding}  best match ={$best_sim['sim_name']} $best_dist / $max_dist, time = $t2<br />\n";
+                }
+                return null;
+            }
+        }
+
+        if ($verbose_instrumenting) {
+            $t2 = microtime_float() - $t1;
+            print "found levenshtein distance '{$best_sim['sim_name']}'$best_dist / $max_dist, time= $t2<br />\n";
+        }
+        
         return $best_sim;
     }
 
@@ -465,7 +536,9 @@
     }
 
     function sim_get_name_to_sim_map() {
-        $simulations = db_get_all_rows('simulation');
+        // For now, sort of ease of debugging
+        $simulations = db_get_rows_by_condition('simulation', array(), false, false, 'ORDER BY `sim_name`');
+        //$simulations = db_get_all_rows('simulation');
 
         $map = array();
 

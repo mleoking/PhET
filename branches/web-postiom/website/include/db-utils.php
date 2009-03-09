@@ -96,7 +96,7 @@
             connect_to_db();
         }
 
-        //print "<!-- MYSQLQUERY: $statement -->\n";
+        // print "<!-- MYSQLQUERY: $statement -->\n";
         $result = mysql_query($statement, $connection);
 
         // Query failed, take action
