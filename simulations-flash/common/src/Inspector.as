@@ -148,7 +148,7 @@ class Inspector {
 	}
 	
 	public function onKeyDown() {
-		if(Key.getCode() == Key.PGDN || Key.getCode() == 122) {
+		if((Key.getCode() == Key.PGDN || Key.getCode() == 122) && Key.isDown(Key.SHIFT)) {
 			// page down or F11
 			_level0.inspector.hits.onPress();
 		}

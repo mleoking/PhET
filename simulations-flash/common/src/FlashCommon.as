@@ -46,6 +46,10 @@ class FlashCommon {
 	// handles keyboard accessibility (tab traversal)
 	public var tabHandler : TabHandler;
 	
+	public static var allowedSystemFonts : Array = ["_sans", "_serif", "_typewriter", "Times New Roman", "Arial"];
+	
+	public static var defaultSystemFont : String = "_sans";
+	
 	// DEVELOPMENT
 	public var inspector : Inspector;
 	
@@ -168,15 +172,15 @@ class FlashCommon {
 	
 	// TODO: remove after DEVELOPMENT??? or make harder to access debugging areas
 	public function onKeyDown() {
-		if(Key.getCode() == Key.PGUP || Key.getCode() == 121) {
+		if((Key.getCode() == Key.PGUP || Key.getCode() == 121) && Key.isDown(Key.SHIFT)) {
 			// page up OR F10
 			_level0.debugs._visible = !_level0.debugs._visible;
 		}
-		if(Key.getCode() == 120) {
+		if(Key.getCode() == 120 && Key.isDown(Key.SHIFT)) {
 			// F9 was pressed
 			updateHandler.simUpdatesAvailable(5, 10, 0, 0);
 		}
-		if(Key.getCode() == 36) {
+		if(Key.getCode() == 36 && Key.isDown(Key.SHIFT)) {
 			// Home was pressed
 			updateHandler.installationUpdatesAvailable(1234567890, 0, 0);
 		}
@@ -346,5 +350,35 @@ class FlashCommon {
 	public function hasFlashVars() : Boolean {
 		// check two flashvars variables that should always be included
 		return (_level0.languageCode !== undefined && _level0.simName !== undefined);
+	}
+	
+	public function prepareTranslatedTextField(field : TextField) {
+		var format : TextFormat = field.getTextFormat();
+		
+		if(getLanguage() == "en") {
+			field.setTextFormat(format);
+		} else if(field.embedFonts == false) {
+			// TODO: possibly change this to only use fonts in allowedSystemFonts
+			field.setTextFormat(format);
+		} else {
+			debug("WARNING: embedded fonts\n");
+			var allowed : Boolean = false;
+			var fontName : String = format.font;
+			
+			for(var allowedFont in allowedSystemFonts) {
+				if(fontName == allowedFont) {
+					allowed = true;
+					break;
+				}
+			}
+			
+			field.embedFonts = false;
+			if(!allowed) {
+				debug("WARNING: FlashCommon: font " + format.font + " is embedded and not in allowedSystemFonts. replacing\n");
+				format.font = defaultSystemFont;
+			}
+			
+			field.setTextFormat(format);
+		}
 	}
 }
