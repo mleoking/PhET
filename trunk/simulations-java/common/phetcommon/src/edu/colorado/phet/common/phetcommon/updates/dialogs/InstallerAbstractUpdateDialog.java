@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.updates.IAskMeLaterStrategy;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.phetcommon.view.util.PlainMessageDialog;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
@@ -119,10 +119,7 @@ public abstract class InstallerAbstractUpdateDialog extends PaintImmediateDialog
             super( MORE_BUTTON );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    JDialog dialog = new PlainMessageDialog( parent, TITLE, MORE_MESSAGE );
-                    dialog.setResizable( false );
-                    dialog.setModal( true );
-                    dialog. setVisible( true );
+                    PhetOptionPane.showMessageDialog( parent, TITLE, MORE_MESSAGE );
                 }
             } );
         }
