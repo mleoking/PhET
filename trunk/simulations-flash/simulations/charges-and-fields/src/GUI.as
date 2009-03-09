@@ -517,7 +517,16 @@ function makeChargeBagMousey(chargeBagClip:MovieClip){
 		this.onMouseMove = undefined;
 		//create new Charge instance and attach to clip
 		var myChargeValue = chargeClip_mc.chargeValue;
-		var presentCharge = new Charge(myChargeValue,myModel,_root._xmouse,_root._ymouse);
+		
+		var mX = _root._xmouse;
+		var mY = _root._ymouse;
+		
+		if(mX < 0) { mX = 0; }
+		if(mX > Stage.width) { mX = Stage.width; }
+		if(mY < 0) { mY = 0; }
+		if(mY > Stage.height) { mY = Stage.height; }
+		
+		var presentCharge = new Charge(myChargeValue,myModel, mX, mY);
 		chargeClip_mc.chargeObject = presentCharge;
 		myModel.addCharge(presentCharge);
 		//if(_root.controlPanel_mc.hiResVoltage_ch.checkState){
