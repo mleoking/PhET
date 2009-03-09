@@ -36,6 +36,9 @@ class ChargeGroup extends Observable{
 		return false;
 	}
 	
+	function hasCharges() : Boolean {
+		return charge_array.length != 0;
+	}
 	
 	function removeSensor(i:Number):Void{
 		if( i >= 0 && i < this.sensor_array.length){
