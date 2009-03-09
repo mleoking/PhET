@@ -232,7 +232,7 @@
 		field.setNewTextFormat(labelTextFormat);
 		//field.border = true;
 		field.text = field._name;
-		field.embedFonts = true;  //needed in order to set alpha value of textfield
+		//field.embedFonts = true;  //needed in order to set alpha value of textfield
 		field.selectable = false;
 	}
 	
