@@ -6,7 +6,15 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.Element;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.View;
+import javax.swing.text.ViewFactory;
+import javax.swing.text.html.HTML;
+import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.html.ImageView;
 
+import edu.colorado.phet.common.phetcommon.resources.DefaultResourceLoader;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.HTMLEditorPane;
@@ -56,6 +64,17 @@ public class SoftwareAgreementDialog extends PaintImmediateDialog {
 
         String html = HTMLUtils.createStyledHTMLFromFragment( SoftwareAgreement.getInstance().getContent() );
         HTMLEditorPane htmlEditorPane = new HTMLUtils.InteractiveHTMLPane( html );
+
+        //TODO: choose whether we're using images or not
+        final HTMLEditorKit.HTMLFactory htmlFactory = new HTMLFactoryWithImages();
+//        final HTMLEditorKit.HTMLFactory htmlFactory = new HTMLEditorKit.HTMLFactory();
+
+        htmlEditorPane.setEditorKit( new HTMLEditorKit() {
+            public ViewFactory getViewFactory() {
+                return htmlFactory;
+            }
+        } );
+        htmlEditorPane.setText( html );
         htmlEditorPane.setBackground( Color.WHITE );
 
         JScrollPane scrollPane = new JScrollPane( htmlEditorPane );
@@ -77,5 +96,38 @@ public class SoftwareAgreementDialog extends PaintImmediateDialog {
         } );
         panel.add( closeButton );
         return panel;
+    }
+
+    //todo: provide correct bounds for the image
+    private class HTMLTagImageView extends ImageView {
+        public HTMLTagImageView( Element elem ) {
+            super( elem );
+        }
+
+        public void paint( Graphics g, Shape a ) {
+            Rectangle rect = ( a instanceof Rectangle ) ? (Rectangle) a : a.getBounds();
+            String src = (String) getElement().getAttributes().getAttribute( HTML.Attribute.SRC );
+
+            Image image = new DefaultResourceLoader().getImage( "phetcommon/software-agreement/" + src );
+            g.drawImage( image, rect.x, rect.y, image.getWidth( null ), image.getHeight( null ), null );
+        }
+    }
+
+    private class HTMLFactoryWithImages extends HTMLEditorKit.HTMLFactory {
+        public View create( Element elem ) {
+            Object nameAttribute = elem.getAttributes().getAttribute( StyleConstants.NameAttribute );
+            if ( nameAttribute instanceof HTML.Tag ) {
+                HTML.Tag htmlTag = (HTML.Tag) nameAttribute;
+                if ( htmlTag == HTML.Tag.IMG ) {
+                    return new HTMLTagImageView( elem );
+                }
+                else {
+                    return super.create( elem );
+                }
+            }
+            else {
+                return super.create( elem );
+            }
+        }
     }
 }
