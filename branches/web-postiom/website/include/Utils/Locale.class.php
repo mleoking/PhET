@@ -40,6 +40,9 @@ class Locale {
     private function __construct() {
     }
 
+    private function __clone() {
+    }
+
     public static function inst() {
         if (!isset(self::$instance)) {
             $class = __CLASS__;

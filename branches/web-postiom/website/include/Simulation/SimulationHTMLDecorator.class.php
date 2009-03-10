@@ -82,14 +82,6 @@ class SimulationHTMLDecorator implements SimulationInterface, SimulationEnhancer
         */
     //    }
 
-    private function getBulletedList($list) {
-        if (empty($list)) {
-            return '';
-        }
-
-        return '<ul><li>'.join('</li><li>', $list).'</li></ul>';
-    }
-
     public function getType() {
         return $this->sim->getType();
     }
@@ -101,6 +93,14 @@ class SimulationHTMLDecorator implements SimulationInterface, SimulationEnhancer
 
     public function getName() {
         return htmlentities($this->sim->getName());
+    }
+
+    public function getSortingName() {
+        return $this->sim->getSortingName();
+    }
+
+    public function getSortingFirstChar() {
+        return $this->sim->getSortingFirstChar();
     }
 
     public function getDescription() {
@@ -128,7 +128,7 @@ class SimulationHTMLDecorator implements SimulationInterface, SimulationEnhancer
     }
 
     public function getTeachersGuideAnchorTag($link_text = "teacher's guide") {
-        return "<a href=\"{$this->getTeachersGuideUrl()}\">teacher's guide</a>";
+        return WebUtils::inst()->buildAnchorTag($this->getTeachersGuideUrl(), $link_text);
     }
 
     public function getMainTopics() {
@@ -141,13 +141,6 @@ class SimulationHTMLDecorator implements SimulationInterface, SimulationEnhancer
         return $formatted_topics;
     }
 
-    public function getMainTopicsBulletedList() {
-        if (count($this->sim->getMainTopics()) == 0) {
-            return '';
-        }
-
-        return $this->getBulletedList($this->getMainTopics());
-    }
 
     public function getLearningGoals() {
         // TODO: copied from web-utils.php::format_for_html()
@@ -157,14 +150,6 @@ class SimulationHTMLDecorator implements SimulationInterface, SimulationEnhancer
             $formatted_topics[] = htmlentities($topic);
         }
         return $formatted_topics;
-    }
-
-    public function getLearningGoalsBulletedList() {
-        if (count($this->sim->getLearningGoals()) == 0) {
-            return '';
-        }
-
-        return $this->getBulletedList($this->getLearningGoals());
     }
 
     public function getDesignTeam() {
@@ -177,14 +162,6 @@ class SimulationHTMLDecorator implements SimulationInterface, SimulationEnhancer
         return $formatted_topics;
     }
 
-    public function getDesignTeamBulletedList() {
-        if (count($this->sim->getDesignTeam()) == 0) {
-            return '';
-        }
-
-        return $this->getBulletedList($this->getDesignTeam());
-    }
-
     public function getLibraries() {
         // TODO: copied from web-utils.php::format_for_html()
         // push this into a utility class
@@ -193,14 +170,6 @@ class SimulationHTMLDecorator implements SimulationInterface, SimulationEnhancer
             $formatted_topics[] = htmlentities($topic);
         }
         return $formatted_topics;
-    }
-
-    public function getLibrariesBulletedList() {
-        if (count($this->sim->getLibraries()) == 0) {
-            return '';
-        }
-
-        return $this->getBulletedList($this->getLibraries());
     }
 
     public function getThanksTo() {
@@ -213,28 +182,14 @@ class SimulationHTMLDecorator implements SimulationInterface, SimulationEnhancer
         return $formatted_topics;
     }
 
-    public function getThanksToBulletedList() {
-        if (count($this->sim->getThanksTo()) == 0) {
-            return '';
-        }
-
-        return $this->getBulletedList($this->getThanksTo());
-    }
-
     public function getKeywords() {
-        // Semi-duplicated from 
-        // web-utils.php::convert_comma_list_into_linked_keyword_list()
-        $xml = '<span class="keywordlist">';
         $keyword_links = array();
         foreach ($this->sim->getKeywords() as $keyword) {
-            $keyword_links[] = '<a href="'.SITE_ROOT.'simulations/search.php?search_for='.urlencode($keyword).'">'.$keyword.'</a>';
+            $url = SITE_ROOT.'simulations/search.php?search_for='.urlencode($keyword);
+            $keyword_links[] = WebUtils::inst()->buildAnchorTag($url, $keyword);
         }
 
-        return 
-            '<span class="keywordlist">'.
-            implode(', ', $keyword_links).
-            '</span>';
-
+        return $keyword_links;
     }
 
 
@@ -247,8 +202,8 @@ class SimulationHTMLDecorator implements SimulationInterface, SimulationEnhancer
         static $typeMap = NULL;
         if (is_null($typeMap)) {
             $typeMap = array(
-                'Java'  => '<a href="'.SITE_ROOT.'tech_support/support-java.php"> <img src="'.SITE_ROOT.'images/sims/ratings/java.png" alt="Java Icon" title="This simulation is a Java simulation" /></a>',
-                'Flash' => '<a href="'.SITE_ROOT.'tech_support/support-flash.php"><img src="'.SITE_ROOT.'images/sims/ratings/flash.png" alt="Java Icon" title="This simulation is a Flash simulation" /></a>'
+                'Java' => WebUtils::inst()->buildAnchorTag(SITE_ROOT.'tech_support/support-java.php', WebUtils::inst()->buildImageTag(SITE_ROOT.'images/sims/ratings/java.png', array('alt'=>"Java Icon", 'title'=>"This simulation is a Java simulation"))),
+                'Flash' => WebUtils::inst()->buildAnchorTag(SITE_ROOT.'tech_support/support-flash.php', WebUtils::inst()->buildImageTag(SITE_ROOT.'images/sims/ratings/flash.png', array('alt'=>"Flash Icon", 'title'=>"This simulation is a Flash simulation"))),
                 );
         }
 
@@ -259,12 +214,20 @@ class SimulationHTMLDecorator implements SimulationInterface, SimulationEnhancer
         return htmlentities($this->sim->getScreenshotUrl());
     }
 
+    public function getThumbnailUrl() {
+        return htmlentities($this->sim->getThumbnailUrl());
+    }
+
     public function getWebEncodedName() {
         return web_encode_string($this->sim->getName());
     }
 
     public function getTranslations() {
         throw new RuntimeError("Not Implemented");
+    }
+
+    public function getPageUrl() {
+        return htmlentities($this->sim->getPageUrl());
     }
 
     public function getLaunchUrl($locale = Locale::DEFAULT_LOCALE) {
@@ -288,9 +251,12 @@ class SimulationHTMLDecorator implements SimulationInterface, SimulationEnhancer
     }
 
     public function getScreenshotImageTag() {
-        return <<<EOT
-<img src="{$this->sim->getScreenshotUrl()}" alt="Sim preview image" title="Click here to launch the simulation from your browser" width="300" height="225"/>
-EOT;
+        $attributes = array(
+            'alt' => 'Sim preview image',
+            'title' => 'Click here to launch the simulation from your browser',
+            'width' => '300',
+            'height' => '225');
+        return WebUtils::inst()->buildImageTag($this->sim->getScreenshotUrl(), $attributes);
     }
 
     public function getVersion($ignore_flash = true) {
@@ -303,16 +269,16 @@ EOT;
 
     public function getGuidanceAnchorTag() {
         $root = SITE_ROOT;
-        return <<<EOT
-<a href="{$root}about/legend.php">{$this->getGuidanceImageTag()}</a>
-EOT;
+        return WebUtils::inst()->buildAnchorTag(SITE_ROOT.'about/legend.php', $this->getGuidanceImageTag());
     }
 
     public function getGuidanceImageTag() {
-        return <<<EOT
-<img src="{$this->getGuidanceImageUrl()}" alt="Not standalone" width="37" title="{$this->getGuidanceDescription()}"/>
-EOT;
-        
+        $attributes = array(
+            'alt' => 'Not standalone',
+            'width' => '37',
+            'title' => $this->getGuidanceDescription()
+            );
+        return WebUtils::inst()->buildImageTag($this->getGuidanceImageUrl(), $attributes);
     }
 
     public function getGuidanceImageUrl() {

@@ -9,14 +9,25 @@ function classLoader($class_name) {
     // For efficiency, these should be in relative order of the
     // frequency of their use
     static $class_dirs = array(
-	'Utils',
+        'PageTemplates',
+        'Utils',
         'Simulation',
         'Exception',
         );
 
+    // Optimize, skipping the file existance check
+    static $loaded = array();
+
     foreach ($class_dirs as $dir) {
         $path = dirname(__FILE__)."/{$dir}/{$class_name}.class.php";
+
+        if (isset($loaded[$path])) {
+            // Already loaded, return
+            return;
+        }
+
         if (file_exists($path)) {
+            $loaded[$path] = TRUE;
             require_once($path);
             return;
         }

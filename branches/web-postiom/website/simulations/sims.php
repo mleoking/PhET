@@ -149,6 +149,8 @@ EOT;
 EOT;
         }
 
+        $WebUtils = WebUtils::inst();
+
             print <<<EOT
         <div class="container">
 
@@ -249,16 +251,18 @@ EOT;
         <h1 class="indi-sim" id="topics">Topics</h1>
 
         <h2>Main Topics</h2>
-{$this->simhtml->getMainTopicsBulletedList()}
+{$WebUtils->buildBulletedList($this->simhtml->getMainTopics())}
         <h2>Related Topics</h2>
 
         <ul>
             <li>
-{$this->simhtml->getKeywords()}            </li>
+{$WebUtils->buildSpanCommaList($this->simhtml->getKeywords(), array('class' => 'keywordlist'))}
+            </li>
         </ul>
 
         <h2>Sample Learning Goals</h2>
-{$this->simhtml->getLearningGoalsBulletedList()}
+{$WebUtils->buildBulletedList($this->simhtml->getLearningGoals())}
+
 EOT;
 
         if ($this->simhtml->hasTeachersGuide()) {
@@ -538,13 +542,16 @@ EOT;
                 <tbody>
                     <tr>
                         <td>
-{$this->simhtml->getDesignTeamBulletedList()}                        </td>
+{$WebUtils->buildBulletedList($this->simhtml->getDesignTeam())}
+                        </td>
 
                         <td>
-{$this->simhtml->getLibrariesBulletedList()}                        </td>
+{$WebUtils->buildBulletedList($this->simhtml->getLibraries())}
+                        </td>
 
                         <td>
-{$this->simhtml->getThanksToBulletedList()}                        </td>
+{$WebUtils->buildBulletedList($this->simhtml->getThanksTo())}
+                        </td>
                     </tr>
                 </tbody>
             </table>

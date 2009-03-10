@@ -7,7 +7,7 @@ require_once('include/db-utils.php');
 class SimFactory {
     private static $instance;
 
-    const PRE_IOM_COMPATIBLE = TRUE;
+    const PRE_IOM_COMPATIBLE = FALSE;
 
     // TODO: make these private
     const JAVA_TYPE = 0;
@@ -57,6 +57,25 @@ class SimFactory {
         }
     
         return $this->webEncodedMap;
+    }
+
+    private function getFlashSimulation($db_data) {
+        // Remove postIOM
+        if (self::PRE_IOM_COMPATIBLE) {
+            return new PreIomFlashSimulation($db_data);
+        }
+
+        return new FlashSimulation($db_data);
+    }
+
+    private function getJavaSimulation($db_data) {
+        // Remove postIOM
+        if (self::PRE_IOM_COMPATIBLE) {
+            return new PreIomJavaSimulation($db_data);
+
+        }
+
+        return new JavaSimulation($db_data);
     }
 
     public function getFromWebEncodedName($sim_encoding) {
@@ -133,25 +152,28 @@ class SimFactory {
         return $this->idMap[$sim_id];
     }
 
-    private function getFlashSimulation($db_data) {
-        // Remove postIOM
-        if (self::PRE_IOM_COMPATIBLE) {
-            return new PreIomFlashSimulation($db_data);
+    public function getSimsByCatId($cat_id, $sort_alphabetically = false) {
+        if ($sort_alphabetically) {
+            $order = "`simulation`.`sim_sorting_name` ASC";
+        }
+        else {
+            $order = "`simulation_listing`.`simulation_listing_order` ASC";
         }
 
-        return new FlashSimulation($db_data);
-    }
+        $sql = "SELECT DISTINCT `simulation`.`sim_id` ".
+            "FROM `simulation`, `simulation_listing` ".
+            "WHERE `simulation_listing`.`cat_id`='$cat_id' ".
+            "AND `simulation`.`sim_id`=`simulation_listing`.`sim_id`".
+            "ORDER BY ".$order;
 
-    private function getJavaSimulation($db_data) {
-        // Remove postIOM
-        if (self::PRE_IOM_COMPATIBLE) {
-            return new PreIomJavaSimulation($db_data);
-
+        $sims = array();
+        $sim_ids = db_get_rows_custom_query($sql);
+        foreach ($sim_ids as $row) {
+            $sims[] = $this->getById($row['sim_id']);
         }
-
-        return new JavaSimulation($db_data);
+           
+        return $sims;
     }
-
 }
 
 ?>

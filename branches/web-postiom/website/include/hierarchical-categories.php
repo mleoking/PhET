@@ -47,12 +47,13 @@ class HierarchicalCategories {
         }
 
         // Compute all category orders:
-        $category_rows = mysql_query(SQL_SELECT_ALL_VISIBLE_CATEGORIES, $connection);
-        $work = array();
-
-        // First make a dict
+        $category_rows = db_get_rows_custom_query("SELECT * FROM `category` WHERE `cat_is_visible`='1' ORDER BY `cat_parent`,`cat_order` ASC");
         $cats = array();
-        while ($category = mysql_fetch_assoc($category_rows)) {
+        foreach ($category_rows as $category) {
+            if (!$category['cat_is_visible']) {
+                continue;
+            }
+
             $cats[$category['cat_id']] = $category;
         }
 

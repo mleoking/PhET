@@ -1,11 +1,18 @@
 <?php
 
+require_once('include/installer-utils.php');
+
 abstract class BaseSimulation implements SimulationInterface {
     const sim_root = SIMS_ROOT;
+    const thumbnail_cache = 'thumbnails';
+    const thumbnail_cache_lifespan = 24;
+    const thumbnail_width = 130;
+    const thumbnail_height = 97;
 
     // Sim data
     private $id;
     private $name;
+    private $sorting_name;
     private $description;
     protected $project_name;
     protected $sim_name;
@@ -29,6 +36,7 @@ abstract class BaseSimulation implements SimulationInterface {
         'name' => array('sim_name', 'string'),
         'project_name' => array('sim_dirname', 'string'),
         'sim_name' => array('sim_flavorname', 'string'),
+        'sorting_name' => array('sim_sorting_name', 'string'),
         'guidance_recommended' => array('sim_crutch', 'bool'),
         'rating' => array('sim_rating', 'int'),
         'description' => array('sim_desc', 'string'),
@@ -94,6 +102,14 @@ abstract class BaseSimulation implements SimulationInterface {
         return $this->name;
     }
 
+    public function getSortingName() {
+        return $this->sorting_name;
+    }
+
+    public function getSortingFirstChar() {
+        return strtoupper($this->sorting_name[0]);
+    }
+
     public function getDescription() {
         return $this->description;
     }
@@ -145,6 +161,49 @@ abstract class BaseSimulation implements SimulationInterface {
     public function getScreenshotUrl() {
         $basename = "{$this->project_name}/{$this->sim_name}-screenshot.png";
         return self::sim_root.$basename;
+    }
+
+    public function getThumbnailUrl() {
+        // TODO: too much in 1 function, refactor
+
+        $image_url = $this->getScreenshotUrl();
+        $file_name_hash = md5($image_url).'.jpg';
+        if (cache_has_valid_page(self::thumbnail_cache, $file_name_hash, self::thumbnail_cache_lifespan)) {
+            return cache_get_file_location(self::thumbnail_cache, $file_name_hash);
+        }
+
+        // Load image -- assume image is in png format (for now):
+        @$img = imagecreatefrompng($image_url);
+        if ($img == false) {
+            return;
+        }
+        
+        $existing_width  = imagesx($img);
+        $existing_height = imagesy($img);
+        
+        // Scale to thumbnail width, preserving aspect ratio:
+        $new_width  = self::thumbnail_width;
+        $new_height = self::thumbnail_height;
+        //old method is proportional: floor($existing_height * ( thumbnail_width / $existing_width ));
+
+        $tmp_img = imagecreatetruecolor($new_width, $new_height);
+        
+        imagecopyresampled($tmp_img, $img, 0, 0, 0, 0, $new_width, $new_height, $existing_width, $existing_height);
+
+        $temp_file = tempnam('/tmp', 'sim-thumbnail');
+
+        // Output image to cached image location:
+        imagejpeg($tmp_img, $temp_file);
+
+        cache_put(self::thumbnail_cache, $file_name_hash, file_get_contents($temp_file));
+
+        unlink($temp_file);
+        
+        return cache_get_file_location(self::thumbnail_cache, $file_name_hash);
+    }
+
+    public function getPageUrl() {
+        return SITE_ROOT.'simulations/sims.php?sim='.WebUtils::inst()->encodeString($this->getName());
     }
 
     public function getDownloadUrl($requested_locale = Locale::DEFAULT_LOCALE) {

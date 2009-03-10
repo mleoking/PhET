@@ -127,6 +127,17 @@
         return $table_info;
     }
 
+    function db_get_rows_custom_query($statement) {
+        $result = db_exec_query($statement);
+
+        $rows = array();
+        while ($row = mysql_fetch_assoc($result)) {
+            $rows[] = $row;
+        }
+
+        return $rows;
+    }
+
     function db_get_all_rows($table_name) {
         return db_get_rows_by_condition($table_name, array(), false, false);
     }

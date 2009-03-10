@@ -919,6 +919,8 @@ EOT;
 
 EOT;
 
+        // ' <-- That aprostrophe makes Emacs highlighting back to normal
+
         print <<<EOT
 
                     <tr>
