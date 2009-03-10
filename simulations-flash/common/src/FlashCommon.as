@@ -321,7 +321,7 @@ class FlashCommon {
 		return parseInt(_level0.agreementVersion);
 	}
 	public function getAgreementText() : String {
-		return _level0.agreementText;
+		return stripNewlines(_level0.agreementText);
 	}
 	public function getCreditsText() : String {
 		return strings.format(_level0.creditsText, [
@@ -380,5 +380,19 @@ class FlashCommon {
 			
 			field.setTextFormat(format);
 		}
+	}
+	
+	public function stripNewlines(str : String) {
+		var ret : String = "";
+		
+		for(var idx = 0; idx < str.length; idx++) {
+			if(str.charCodeAt(idx) == 10 || str.charCodeAt(idx) == 13) {
+				continue;
+			}
+			
+			ret += str.charAt(idx);
+		}
+		
+		return ret;
 	}
 }
