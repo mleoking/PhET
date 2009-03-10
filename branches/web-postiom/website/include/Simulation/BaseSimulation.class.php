@@ -151,6 +151,7 @@ abstract class BaseSimulation implements SimulationInterface {
         $locale = (Locale::inst()->isValid($requested_locale)) ? $requested_locale : Locale::DEFAULT_LOCALE;
 
         $file = self::sim_root."{$this->project_name}/{$this->sim_name}_{$locale}.jar";
+
         if (!file_exists($file)) {
             return '';
         }

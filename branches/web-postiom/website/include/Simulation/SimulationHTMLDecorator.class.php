@@ -90,6 +90,10 @@ class SimulationHTMLDecorator implements SimulationInterface, SimulationEnhancer
         return '<ul><li>'.join('</li><li>', $list).'</li></ul>';
     }
 
+    public function getType() {
+        return $this->sim->getType();
+    }
+
     public function getId() {
         // This is an int, no need to process
         return $this->sim->getId();
@@ -239,15 +243,16 @@ class SimulationHTMLDecorator implements SimulationInterface, SimulationEnhancer
     }
 
     public function getTypeImageAnchorTag() {
+        // TODO: Remove switch on type
         static $typeMap = NULL;
         if (is_null($typeMap)) {
             $typeMap = array(
-                'JavaSimulation'  => '<a href="'.SITE_ROOT.'tech_support/support-java.php"> <img src="'.SITE_ROOT.'images/sims/ratings/java.png" alt="Java Icon" title="This simulation is a Java simulation" /></a>',
-                'FlashSimulation' => '<a href="'.SITE_ROOT.'tech_support/support-flash.php"><img src="'.SITE_ROOT.'images/sims/ratings/flash.png" alt="Java Icon" title="This simulation is a Flash simulation" /></a>'
+                'Java'  => '<a href="'.SITE_ROOT.'tech_support/support-java.php"> <img src="'.SITE_ROOT.'images/sims/ratings/java.png" alt="Java Icon" title="This simulation is a Java simulation" /></a>',
+                'Flash' => '<a href="'.SITE_ROOT.'tech_support/support-flash.php"><img src="'.SITE_ROOT.'images/sims/ratings/flash.png" alt="Java Icon" title="This simulation is a Flash simulation" /></a>'
                 );
         }
 
-        return $typeMap[get_class($this->sim)];
+        return $typeMap[$this->getType()];
     }
 
     public function getScreenshotUrl() {

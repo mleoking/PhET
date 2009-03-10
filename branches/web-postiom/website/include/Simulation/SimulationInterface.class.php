@@ -2,6 +2,7 @@
 
 interface SimulationInterface {
     public function runsInNewBrowserWindow();
+    public function getType();
     public function getId();
     public function getName();
     public function getDescription();

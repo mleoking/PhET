@@ -6,6 +6,10 @@ class FlashSimulation extends BaseSimulation {
         return TRUE;
     }
 
+    public function getType() {
+        return 'Flash';
+    }
+
     public function getSize() {
         $file = self::sim_root."{$this->project_name}/{$this->project_name}.swf";
         if (!file_exists($file)) {

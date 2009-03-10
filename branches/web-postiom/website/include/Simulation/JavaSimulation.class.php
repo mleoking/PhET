@@ -2,15 +2,25 @@
 
 class JavaSimulation extends BaseSimulation {
     public function runsInNewBrowserWindow() {
+        // Java sims run as a Web Start application, not in a browser window
         return FALSE;
+    }
+
+    public function getType() {
+        return 'Java';
     }
 
     public function getSize() {
         $file = self::sim_root."{$this->project_name}/{$this->project_name}_all.jar";
+        
+        if (!file_exists($file)) {
+            return 0;
+        }
+        /*
         if (!file_exists($file)) {
             throw new RuntimeException("Cannot get size, project file '{$file}' does not exist");
         }
-
+        */
         return (int) (filesize($file) / 1024);
     }
 

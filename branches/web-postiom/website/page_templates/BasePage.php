@@ -572,6 +572,10 @@ EOT;
      * @return bool FALSE if login required and the user isn't validated
      */
     function render_content() {
+        if (empty($this->content)) {
+            return TRUE;
+        }
+
         $rendered_content = join("\n", $this->content);
         print <<<EOT
     <div class="main">

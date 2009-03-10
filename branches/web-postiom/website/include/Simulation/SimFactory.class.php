@@ -6,6 +6,10 @@ require_once('include/db-utils.php');
 // This is technically a simple factory.  Called SimFactory for ease of use.
 class SimFactory {
     private static $instance;
+
+    const PRE_IOM_COMPATIBLE = TRUE;
+
+    // TODO: make these private
     const JAVA_TYPE = 0;
     const FLASH_TYPE = 1;
 
@@ -130,10 +134,21 @@ class SimFactory {
     }
 
     private function getFlashSimulation($db_data) {
+        // Remove postIOM
+        if (self::PRE_IOM_COMPATIBLE) {
+            return new PreIomFlashSimulation($db_data);
+        }
+
         return new FlashSimulation($db_data);
     }
 
     private function getJavaSimulation($db_data) {
+        // Remove postIOM
+        if (self::PRE_IOM_COMPATIBLE) {
+            return new PreIomJavaSimulation($db_data);
+
+        }
+
         return new JavaSimulation($db_data);
     }
 

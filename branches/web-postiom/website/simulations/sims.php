@@ -120,18 +120,18 @@ EOT;
 
         // TODO: Remove explicit class checking
         $sim_java_upgrade_html = "";
-        if (get_class($this->simobj) == 'JavaSimulation') {
+        if ($this->simobj->getType() == 'Java') {
             $sim_java_upgrade_html = $this->get_sim_java_upgrade_html();
         }
 
         // TODO: Remove explicit class checking
         $sim_type_version = array('win', 'osx', 'lin');
-        if (get_class($this->simobj) == 'JavaSimulation') {
+        if ($this->simobj->getType() == 'Java') {
             $sim_type_version['win'] = JAVA_MIN_VERSION_WIN_FULL;
             $sim_type_version['osx'] = JAVA_MIN_VERSION_OSX_FULL;
             $sim_type_version['lin'] = JAVA_MIN_VERSION_LIN_FULL;
         }
-        else if (get_class($this->simobj) == 'FlashSimulation') {
+        else if ($this->simobj->getType() == 'Flash') {
             $sim_type_version['win'] = FLASH_MIN_VERSION_FULL;
             $sim_type_version['osx'] = FLASH_MIN_VERSION_FULL;
             $sim_type_version['lin'] = FLASH_MIN_VERSION_FULL;
@@ -167,7 +167,7 @@ EOT;
                     <div class="stats">
                         {$sim_version_html}
                         <span class="size">
-                           {$this->simhtml->getSize()} KB
+                            {$this->simhtml->getSize()} KB
                         </span>
 
 EOT;
@@ -185,12 +185,17 @@ EOT;
                             $download_button_slot = '&nbsp;';
                         }
                         else {
-                            $download_button_slot = <<<EOT
+                            $download_url = $this->simhtml->getDownloadUrl();
+                            
+                            $download_button_slot = '';
+                            if (!empty($download_url)) {
+                                $download_button_slot = <<<EOT
                                 <div class="rage_button_928365">
-                                    <a href="{$this->simhtml->getDownloadUrl()}" title="Click here to download the simulation to your computer, to run when you do not have an Internet connection">Download</a>
+                                    <a href="{$download_url}" title="Click here to download the simulation to your computer, to run when you do not have an Internet connection">Download</a>
                                 </div>
 
 EOT;
+                            }
                         }
 
                         print <<<EOT
