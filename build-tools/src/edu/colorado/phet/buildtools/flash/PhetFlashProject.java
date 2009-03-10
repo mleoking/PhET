@@ -152,8 +152,11 @@ public class PhetFlashProject extends PhetProject {
             // copy HTML extras like get_flash.jpg
             copyExtrasTo( getOfflineJARContentsDir() );
 
-            // copy agreement text
+            // copy agreement properties
             FileUtils.copyToDir( getAgreementPropertiesFile(), getOfflineJARContentsDir() );
+
+            // copy agreement text
+            FileUtils.copyToDir( getAgreementHTMLFile(), getOfflineJARContentsDir() );
 
             // copy credits file
             FileUtils.copyToDir( getCreditsFile(), getOfflineJARContentsDir() );
