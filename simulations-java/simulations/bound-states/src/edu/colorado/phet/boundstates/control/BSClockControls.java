@@ -15,7 +15,6 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.model.BSClock;
-import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 
 
@@ -52,6 +51,7 @@ public class BSClockControls extends PiccoloClockControlPanel {
         
         // Restart button
         setRewindButtonVisible( true  );
+        setRewindButtonTooltip( BSResources.getString( "button.restart" ) );
 
         // Time display
         setUnits( BSResources.getString( "units.time" ) );
