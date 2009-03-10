@@ -1,7 +1,7 @@
 --
 Chris Malley (PixelZoom, Inc.) - Weekly Status Report
 
-PERIOD: February 19 - March 1, 2009 (Thu-Mon)
+PERIOD: February 19 - March 2, 2009 (Thu-Mon)
 
 ACCOMPLISHMENTS:
 
