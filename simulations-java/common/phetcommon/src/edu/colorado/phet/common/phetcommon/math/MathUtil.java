@@ -712,4 +712,8 @@ public class MathUtil {
         }
         throw new RuntimeException( "No machine epsilon found" );
     }
+    
+    public static long daysToMilliseconds( long days ) {
+        return days * 24 * 60 * 60 * 1000; // days * hours/day * minutes/hour * sec/minute * ms/sec
+    }
 }

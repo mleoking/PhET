@@ -1,5 +1,6 @@
 package edu.colorado.phet.common.phetcommon.updates;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 
 /**
@@ -7,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
  */
 public class SimAskMeLaterStrategy implements IAskMeLaterStrategy {
     
-    private static final long DEFAULT_DURATION = 1000 * 60 * 60 * 24; // ms, 1 day
+    private static final long DEFAULT_DURATION = MathUtil.daysToMilliseconds( 1 );
     
     private final String project, sim;
     private long duration;

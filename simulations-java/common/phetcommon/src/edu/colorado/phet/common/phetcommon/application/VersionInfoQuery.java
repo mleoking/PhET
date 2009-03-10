@@ -18,10 +18,11 @@ import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
-import edu.colorado.phet.common.phetcommon.util.logging.USLogger;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.resources.PhetInstallerVersion;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.statistics.StatisticsMessageSender;
+import edu.colorado.phet.common.phetcommon.util.logging.USLogger;
 import edu.colorado.phet.common.phetcommon.view.util.XMLUtils;
 
 /**
@@ -237,7 +238,7 @@ public class VersionInfoQuery {
                 return null;
             }
             try {
-                simAskMeLaterDuration = Long.parseLong( attributeValue );
+                simAskMeLaterDuration = MathUtil.daysToMilliseconds( Long.parseLong( attributeValue ) ); // days to ms !
             }
             catch ( NumberFormatException e ) {
                 notifyException( new VersionInfoQueryException( "expected a number, received " + attributeValue ) );
@@ -280,7 +281,7 @@ public class VersionInfoQuery {
                 return null;
             }
             try {
-                installerAskMeLaterDuration = Long.parseLong( attributeValue );
+                installerAskMeLaterDuration = MathUtil.daysToMilliseconds( Long.parseLong( attributeValue ) ); // days to ms !
             }
             catch ( NumberFormatException e ) {
                 notifyException( new VersionInfoQueryException( "expected a number, received " + attributeValue ) );
@@ -315,10 +316,10 @@ public class VersionInfoQuery {
         
         private final VersionInfoQuery query;
         private final PhetVersion simVersion;
-        private final long simAskMeLaterDuration;
+        private final long simAskMeLaterDuration; // ms
         private final boolean isInstallerUpdateRecommended;
         private final PhetInstallerVersion installerVersion;
-        private final long installerAskMeLaterDuration;
+        private final long installerAskMeLaterDuration; // ms
 
         public VersionInfoQueryResponse( VersionInfoQuery query, 
                 PhetVersion simVersion, long simAskMeLaterDuration, 
@@ -343,10 +344,11 @@ public class VersionInfoQuery {
             return simVersion;
         }
 
+        // ms
         public long getSimAskMeLaterDuration() {
             return simAskMeLaterDuration;
         }
-
+        
         public boolean isInstallerUpdateRecommended() {
             return isInstallerUpdateRecommended;
         }
@@ -355,6 +357,7 @@ public class VersionInfoQuery {
             return installerVersion;
         }
 
+        // ms
         public long getInstallerAskMeLaterDuration() {
             return installerAskMeLaterDuration;
         }

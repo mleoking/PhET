@@ -1,5 +1,6 @@
 package edu.colorado.phet.common.phetcommon.updates;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 
 /**
@@ -7,9 +8,9 @@ import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
  */
 public class InstallerAskMeLaterStrategy implements IAskMeLaterStrategy {
     
-    private static final long DEFAULT_DURATION = 1000 * 60 * 60 * 24 * 30; // ms, 30 days
+    private static final long DEFAULT_DURATION = MathUtil.daysToMilliseconds( 30 );
     
-    private long duration;
+    private long duration; // ms
 
     public InstallerAskMeLaterStrategy() {
         duration = DEFAULT_DURATION;
