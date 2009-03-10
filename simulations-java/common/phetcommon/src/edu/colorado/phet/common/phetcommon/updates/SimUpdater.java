@@ -239,10 +239,13 @@ public class SimUpdater {
     private void log( String message ) {
         USLogger.log( getClass().getName() + ": " + message );
     }
-    
+
     private static void handleErrorSimJar( File file ) {
         try {
-            // if we had a sim jar error, then the file should contain an error message
+            /* If we had a sim jar error, then the file should contain an error message.
+             * This error message is NOT localized, and we are at the mercy 
+             * of the server to provide something intelligible to the user
+             */
             String message = null;
             BufferedReader in = new BufferedReader( new FileReader( file ) );
             String s;
