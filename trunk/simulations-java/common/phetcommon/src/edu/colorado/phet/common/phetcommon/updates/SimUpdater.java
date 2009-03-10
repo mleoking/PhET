@@ -1,7 +1,9 @@
 package edu.colorado.phet.common.phetcommon.updates;
 
 import java.awt.Frame;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -23,6 +25,7 @@ import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.util.logging.USLogger;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
  * Updates the simulations by running the PhET "updater", which downloads the new version
@@ -43,6 +46,7 @@ public class SimUpdater {
     // localized strings
     private static final String ERROR_WRITE_PERMISSIONS = PhetCommonResources.getString( "Common.updates.errorWritePermissions" );
     private static final String ERROR_MISSING_JAR = PhetCommonResources.getString( "Common.updates.errorMissingJar" );
+    private static final String ERROR_NOT_A_JAR = PhetCommonResources.getString( "Common.updates.errorNotAJar" );
     
     private final File tmpDir;
     
@@ -79,13 +83,12 @@ public class SimUpdater {
                     File tempUpdaterJAR = getTempUpdaterJAR();
                     boolean success = downloadFiles( UPDATER_ADDRESS, tempUpdaterJAR, jarURL, tempSimJAR, simInfo.getName(), newVersion );
                     if ( success ) {
-                        
-                        // validate the downloaded JAR files
-                        validateJAR( tempUpdaterJAR );
-                        validateJAR( tempSimJAR );
-                        
-                        startUpdaterBootstrap( tempUpdaterJAR, tempSimJAR, simJAR );
-                        System.exit( 0 ); //presumably, jar must exit before it can be overwritten
+                        boolean validUpdaterJar = validateUpdateJar( tempUpdaterJAR );
+                        boolean validSimJar = validateSimJar( tempSimJAR );
+                        if ( validUpdaterJar && validSimJar ) {
+                            startUpdaterBootstrap( tempUpdaterJAR, tempSimJAR, simJAR );
+                            System.exit( 0 ); //presumably, jar must exit before it can be overwritten
+                        }
                     }
                 }
             }
@@ -202,32 +205,80 @@ public class SimUpdater {
     }
     
     /*
-     * Verifies that a downloaded file is actually a JAR file.
-     * If an error was experienced on the server, the file will be a text file containing an error message.
-     * The format of the error message is not well-defined or suitable for displaying to the user.
+     * Validates the sim jar that was downloaded.
+     * If it's not a jar, attempts to display the error returned by the server.
      */
-    private void validateJAR( File file ) throws IOException {
-        new JarFile( file ); // throws IOException if not a jar file
+    private boolean validateSimJar( File file ) {
+        boolean valid = true;
+        try {
+            new JarFile( file );
+        }
+        catch ( IOException e ) {
+            valid = false;
+            handleErrorSimJar( file );
+        }
+        return valid;
+    }
+    
+    /*
+     * Validates the updater jar that was downloaded.
+     * Displays an error if it's not a jar.
+     */
+    private boolean validateUpdateJar( File file ) {
+        boolean valid = true;
+        try { 
+            new JarFile( file );
+        }
+        catch ( IOException e ) {
+            valid = false;
+            handleErrorNotAJar( file );
+        }
+        return valid;
     }
 
     private void log( String message ) {
         USLogger.log( getClass().getName() + ": " + message );
     }
     
+    private static void handleErrorSimJar( File file ) {
+        try {
+            // if we had a sim jar error, then the file should contain an error message
+            String message = null;
+            BufferedReader in = new BufferedReader( new FileReader( file ) );
+            String s;
+            while ( ( s = in.readLine() ) != null ) {
+                message += s;
+            }
+            in.close();
+            displayError( message );
+        }
+        catch ( IOException e ) {
+            // fallback
+            handleErrorNotAJar( file );
+        }
+    }
+    
     private static void handleErrorWritePermissions( File file ) {
         Object[] args = { file.getAbsolutePath() };
         String message = MessageFormat.format( ERROR_WRITE_PERMISSIONS, args );
-        displayError( null, message );
+        displayError( message );
     }
     
     private static void handleErrorMissingJar( File file ) {
         Object[] args = { file.getAbsolutePath() };
         String message = MessageFormat.format( ERROR_MISSING_JAR, args );
-        displayError( null, message );
+        displayError( message );
     }
     
-    private static void displayError( Frame parent, String message ) {
-        JDialog d = new ErrorDialog( parent, message );
+    private static void handleErrorNotAJar( File file ) {
+        Object[] args = { file.getAbsolutePath() };
+        String message = MessageFormat.format( ERROR_NOT_A_JAR, args );
+        displayError( message );
+    }
+    
+    private static void displayError( String message ) {
+        JDialog d = new ErrorDialog( (Frame)null, message );
+        SwingUtils.centerWindowOnScreen( d );
         d.setVisible( true ); 
     }
 }
