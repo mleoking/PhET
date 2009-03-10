@@ -1,0 +1,61 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: March 3-9, 2009 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+  common code:
+  - #1355, add user-friendly names for statistics message fields
+  - #1357, update Java sims for new web service requirements
+  - overview of non-standard control panels for JB
+  - #1398, change text of Software Agreement notification dialog
+  - #1407, discuss rendering images in Software Agreement with SR
+  - #1308, verify fix for whitespace in path names
+  - #1409, delete common code change logs
+  - #1304, PhetOptionPane fix for JOptionPane repaint issue
+    
+  build process:
+  - #1346, verify that failure of jarsigner stop build
+  - #1369, debug localized jars with SR
+  - #1396, add datestamp to changelog messages added by PBG
+  - #913, verify file permissions related to digital certs on spot and tigercat
+  
+  translation utility:
+  - #1327, redeploy java-common-strings, update Translation Utility web page
+  - #1395, add logger
+  - #1389, make it work with signed jars
+  - fix internal problem with getProjectName and getActualProjectName
+  - #1397, discuss names for submitted common-strings files
+  
+  installer:
+  - #1318,1319, verify fixes on Mac
+  
+  misc sims:
+  - electric-hockey: #1364, fix sound
+  - battery-resistor-circuit: #1243, fix on Mac
+  - bound-states: #1289, set clock rewind tooltip to "Restart"
+  
+  misc:
+  - 3/3 status meeting
+  - 3/3 development meeting (alpha 2, web services, database backups, #89, git)
+  - discuss licensing issues with embedded Flash fonts
+  - test Flash localization problems for JO
+  
+WHAT'S NEXT:
+ 
+  - IOM testing
+  - acid-base-solutions implementation
+  - become familiar with Scala
+  - investigate 3D libraries
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+  March 13-16
+  April 2-5
+  
+--
