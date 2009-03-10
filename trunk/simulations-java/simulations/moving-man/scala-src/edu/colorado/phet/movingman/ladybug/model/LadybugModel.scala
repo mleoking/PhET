@@ -217,7 +217,9 @@ class LadybugModel extends Observable {
         }
 
         while (recordHistory.length > getMaxRecordPoints) {
-          recordHistory.remove(recordHistory.length - 1)
+          //decide whether to remove end of path or beginning of path.
+//          recordHistory.remove(recordHistory.length - 1)
+          recordHistory.remove(0)
         }
 
         if (!ladybugMotionModel.isExclusive()) {
