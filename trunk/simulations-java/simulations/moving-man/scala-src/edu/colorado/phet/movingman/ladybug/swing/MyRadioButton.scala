@@ -1,6 +1,5 @@
 package edu.colorado.phet.movingman.ladybug.swing
 
-import model.Observable
 import scala.swing.RadioButton
 import java.awt.event.{ActionEvent, ActionListener}
 
