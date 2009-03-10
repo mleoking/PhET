@@ -1,3 +1,5 @@
+# 1.20.37 (29341) Mar 10, 2009
+3/10/09 change the latest Ladybug back to the behavior where the trace continues (and erases the beginning)
 # 1.20.36 (29139) Mar 2, 2009
 > Removed bounding box from graphics
 > Workaround for faded out buttons in time control panel
