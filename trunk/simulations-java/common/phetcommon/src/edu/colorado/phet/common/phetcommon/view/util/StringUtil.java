@@ -60,8 +60,11 @@ public class StringUtil {
             return defaultValue;
         }
 
-
         return s.charAt( 0 );
+    }
+    
+    public static boolean asBoolean( String s ) {
+        return Boolean.valueOf( s ).booleanValue();
     }
     
     /**
