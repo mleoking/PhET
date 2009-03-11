@@ -17,12 +17,16 @@ public class ChargesAndFieldsDisplay extends Sprite {
     private var myWidth : Number;
     private var myHeight : Number;
 
+    public var model : Model;
+
     private var background : BackgroundSprite;
     private var minusCharges : Array = new Array();
 
     public function ChargesAndFieldsDisplay(tempStage : Stage) {
         myWidth = tempStage.stageWidth;
         myHeight = tempStage.stageHeight;
+
+        model = new Model();
 
         background = new BackgroundSprite(myWidth, myHeight);
         addChild(background);
@@ -36,7 +40,7 @@ public class ChargesAndFieldsDisplay extends Sprite {
             }
             addChild(charge);
             minusCharges.push(charge);
-            charge.setPosition(Math.random() * myWidth, Math.random() * myHeight);
+            charge.setDisplayPosition(Math.random() * myWidth, Math.random() * myHeight);
         }
 
         var txt1 : TextField = new TextField();

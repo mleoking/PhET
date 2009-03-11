@@ -16,7 +16,12 @@ import mx.controls.TextInput;
 import mx.core.UIComponent;
 
 public class ChargesAndFieldsApplication extends UIComponent {
+
+    public static const EFAC : Number = 0.2046; // E-field conversion factor: E_true = E_model*EFAC
+    public static const VFAC : Number = 1.917E-3; // Voltage conversion factor: V_true = V_model*VFAC
+
     public var display : ChargesAndFieldsDisplay;
+
     public function ChargesAndFieldsApplication() {
            this.addEventListener(Event.ADDED_TO_STAGE, init);
     }

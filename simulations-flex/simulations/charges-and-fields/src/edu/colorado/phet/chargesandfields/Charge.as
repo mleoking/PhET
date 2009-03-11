@@ -30,9 +30,13 @@ public class Charge extends Sprite {
 		addEventListener(MouseEvent.MOUSE_UP, mouseUp);
     }
 
-    public function setPosition(x : Number, y : Number) : void {
+    public function setDisplayPosition(x : Number, y : Number) : void {
         this.x = x;
         this.y = y;
+
+        // TODO: integrate in scale. if we find this in the GUI
+        modelX = x;
+        modelY = y;
     }
 
     public function mouseDown(evt : MouseEvent) : void {
