@@ -110,6 +110,9 @@ public class BuildLocalProperties {
     /**
      * Gets the path to the web browser executable.
      * Used to test Flash sims, and to go to deployed web pages.
+     * <p>
+     * Mac tip: /usr/bin/open
+     * 
      * @return
      */
     public String getBrowser() {
@@ -118,6 +121,9 @@ public class BuildLocalProperties {
     
     /**
      * Gets the path to the Flash IDE executable.
+     * <p>
+     * Mac tip: /Applications/Macromedia Flash 8/Flash 8.app/Contents/MacOS/Flash
+     * 
      * @return
      */
     public String getFlash() {
