@@ -42,4 +42,13 @@ public class PhetProperties extends Properties {
     public char getChar( String key, char defaultValue ) {
         return StringUtil.asChar( getString( key ), defaultValue );
     }
+    
+    public boolean getBoolean( String key, boolean defaultValue ) {
+        boolean value = defaultValue;
+        String s = getString( key );
+        if ( s != null ) {
+            value = StringUtil.asBoolean( s );
+        }
+        return value;
+    }
 }
