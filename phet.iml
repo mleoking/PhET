@@ -5,6 +5,13 @@
       <configuration />
     </facet>
   </component>
+  <component name="Flex.Build.Configuration">
+    <option name="DO_BUILD" value="true" />
+    <option name="USE_DEFAULT_SDK_CONFIG_FILE" value="false" />
+    <option name="APPLICATION_ENTRY_POINT" value="$MODULE_DIR$/team/jolson/flextest/ChickenPoxSim/ChargesAndFields.mxml" />
+    <option name="OUTPUT_FILE_NAME" value="test-out.swf" />
+    <option name="VERSION" value="2" />
+  </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/../../../../reid/phet/out-test/production/phet" />
     <output-test url="file://$MODULE_DIR$/../../../../reid/phet/out-test/test/phet" />
@@ -15,6 +22,7 @@
       <sourceFolder url="file://$MODULE_DIR$/build-tools/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-flash/contrib/aswing/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-flash/flash-launcher/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-flex/simulations/charges-and-fields/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/charts/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/collision/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/controls/src" isTestSource="false" />
@@ -43,6 +51,7 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/battery-resistor-circuit/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/battery-voltage/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/bound-states/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/charges-and-fields/scala-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/circuit-construction-kit/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/color-vision/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/conductivity/src" isTestSource="false" />
@@ -104,7 +113,6 @@
       <excludeFolder url="file://$MODULE_DIR$/simulations-flash/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/ant_output" />
     </content>
-    <orderEntry type="library" name="scala-2.7.3.final" level="application" />
     <orderEntry type="library" name="scala-2.7.3.final" level="application" />
     <orderEntry type="jdk" jdkName="1.6" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -1138,6 +1146,11 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="flex_sdk_3" level="application" />
+    <orderEntry type="library" name="" level="application" />
+    <orderEntry type="library" name="" level="application" />
+    <orderEntry type="library" name="" level="application" />
+    <orderEntry type="library" name="flex3" level="project" />
   </component>
 </module>
 
