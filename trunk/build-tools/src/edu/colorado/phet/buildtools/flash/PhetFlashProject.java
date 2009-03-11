@@ -356,7 +356,7 @@ public class PhetFlashProject extends PhetProject {
         try {
             String command = exe + " " + getHTMLFile( locale ).getAbsolutePath();
             System.out.println( "command = " + command );
-            Process p = Runtime.getRuntime().exec( command ); //TODO this will not work on Mac, need to use cmdArray[] form of exec
+            Process p = Runtime.getRuntime().exec( command ); //TODO #1446, unlikely to work on Mac, need to use cmdArray[] form of exec
         }
         catch( IOException e ) {
             e.printStackTrace();
