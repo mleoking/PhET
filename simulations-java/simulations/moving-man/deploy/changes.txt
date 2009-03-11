@@ -1,3 +1,4 @@
+> Switch to position mode when dragging ladybug
 # 1.20.38 (29343) Mar 10, 2009
 3/10/09 change the latest Ladybug back to the behavior where the trace continues (and erases the beginning)
 # 1.20.37 (29341) Mar 10, 2009
