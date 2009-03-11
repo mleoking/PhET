@@ -94,7 +94,7 @@ class LadybugModel extends Observable {
   object VelocityMode extends UpdateMode {def update(dt: Double) = velocityMode(dt)}
   object AccelerationMode extends UpdateMode {def update(dt: Double) = accelerationMode(dt)}
 
-  def setUpdateModePosition = {
+  def setUpdateModePosition() = {
     if (updateMode != PositionMode) {
       updateMode = PositionMode
       clearSampleHistory
@@ -102,13 +102,13 @@ class LadybugModel extends Observable {
     }
   }
 
-  def setUpdateModeVelocity = {
+  def setUpdateModeVelocity() = {
     if (updateMode != VelocityMode) {
       updateMode = VelocityMode
     }
   }
 
-  def setUpdateModeAcceleration = {
+  def setUpdateModeAcceleration() = {
     updateMode = AccelerationMode
   }
 

@@ -40,6 +40,7 @@ class LadybugNode(model: LadybugModel,
     model.startRecording()
     model.setPenDown(true)
     model.setSamplePoint(transform.viewToModel(event.getPositionRelativeTo(getParent)))
+    model.setUpdateModePosition()
   }
 
   val inputHandler = new PBasicInputEventHandler() {
