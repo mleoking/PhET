@@ -18,7 +18,7 @@ package edu.colorado.phet.chargesandfields {
 		private var myHeight : Number;
 		
 		private var background : BackgroundSprite;
-		private var ovals : Array = new Array();
+		private var minusCharges : Array = new Array();
 		
 		public function ChargesAndFieldsDisplay(tempStage : Stage) {
 			myWidth = tempStage.stageWidth;
@@ -28,11 +28,15 @@ package edu.colorado.phet.chargesandfields {
 			addChild(background);
 			
 			for(var i : uint = 0; i < 500; i++) {
-				var oval : OvalSprite = new OvalSprite(myWidth, myHeight);
-				addChild(oval);
-				ovals.push(oval);
-				oval.setPosition(Math.random() * myWidth, Math.random() * myHeight);
-				oval.alpha = Math.random() / 2 + 0.25;
+				var charge : Charge;
+                if(i % 2 == 0) {
+                    charge = new MinusCharge();
+                } else {
+                    charge = new PlusCharge();
+                }
+				addChild(charge);
+				minusCharges.push(charge);
+				charge.setPosition(Math.random() * myWidth, Math.random() * myHeight);
 			}
 			
 			var txt1 : TextField = new TextField();
@@ -51,10 +55,6 @@ package edu.colorado.phet.chargesandfields {
 			myWidth = this.stage.stageWidth;
 			myHeight = this.stage.stageHeight;
 			background.changeSize(myWidth, myHeight);
-			for(var idx : uint = 0; idx < ovals.length; idx++) {
-				var oval : OvalSprite = ovals[idx] as OvalSprite;
-				oval.setSize(myWidth, myHeight);
-			}
 		}
 	}
 }
