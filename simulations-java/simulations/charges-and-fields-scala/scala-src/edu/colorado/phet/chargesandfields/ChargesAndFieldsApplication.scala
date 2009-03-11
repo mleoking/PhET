@@ -195,6 +195,6 @@ class ChargesAndFieldsModule(clock: ScalaClock) extends Module("ChargesAndFields
 
 object ChargesAndFieldsApplication {
   def main(args: Array[String]) = {
-    ScalaApplicationLauncher.launchApplication(args, "the-ChargesAndFields", "the-ChargesAndFields", () => new ChargesAndFieldsModule(new ScalaClock(30, 30 / 1000.0)))
+    ScalaApplicationLauncher.launchApplication(args, "charges-and-fields-scala", "charges-and-fields-scala", () => new ChargesAndFieldsModule(new ScalaClock(30, 30 / 1000.0)))
   }
 }
