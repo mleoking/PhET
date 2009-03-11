@@ -89,7 +89,6 @@ public class Model {
 
     //returns voltage and color nbr (RGB values) associated with voltage
 	public function getV(x : Number, y : Number) : Array{
-		var V : Number;	//Voltage at point x, y
 		var len : uint = chargeArray.length;
 		var sumV : Number = 0;
 		var maxV : Number = 20000;//voltage at which color will saturate
@@ -98,25 +97,27 @@ public class Model {
 		var blue : Number;
 		var colorNbr : uint;  	//RGB number of color associated with voltage
 
+        var xi : Number;
+        var yi : Number;
+        var dist : Number;
+
 		for(var i : uint = 0; i < len ; i++){
-			var xi : Number = chargeArray[i].modelX;
-			var yi : Number = chargeArray[i].modelY;
-			var dist : Number = Math.sqrt((x - xi)*(x - xi) + (y - yi)*(y - yi));
-			sumV = sumV+ chargeArray[i].q/dist;
+			xi = chargeArray[i].modelX;
+			yi = chargeArray[i].modelY;
+			dist = Math.sqrt((x - xi)*(x - xi) + (y - yi)*(y - yi));
+			sumV = sumV + chargeArray[i].q/dist;
 		}
 		sumV = k*sumV;	//prefactor depends on units
-		//set color associated with voltage
-			if(sumV>0){
-				red =255;
-				green = blue = Math.max(0,(1-(sumV/maxV))*255);
-			}else{
-				blue = 255;
-				red = green = Math.max(0,(1-(-sumV/maxV))*255);
-			}
-		colorNbr = combineRGB(red,green,blue);
-		//trace("R: "+red+"    G: "+green+"   B: "+blue);
 
-        // TODO: examine for rounding / implicit conversion errors
+		//set color associated with voltage
+        if(sumV>0){
+            red =255;
+            green = blue = Math.max(0,(1-(sumV/maxV))*255);
+        }else{
+            blue = 255;
+            red = green = Math.max(0,(1-(-sumV/maxV))*255);
+        }
+		colorNbr = combineRGB(red,green,blue);
         
 		return [sumV,colorNbr];
 	}

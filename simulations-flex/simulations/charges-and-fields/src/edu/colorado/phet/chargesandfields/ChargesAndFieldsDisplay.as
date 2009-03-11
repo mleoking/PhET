@@ -36,7 +36,7 @@ public class ChargesAndFieldsDisplay extends Sprite {
         mosaic = new VoltageMosaic(model, myWidth, myHeight);
         addChild(mosaic);
 
-        for(var i : uint = 0; i < 100; i++) {
+        for(var i : uint = 0; i < 20; i++) {
             var charge : Charge;
             if(i % 2 == 0) {
                 charge = new MinusCharge(mosaic);
