@@ -15,12 +15,16 @@ import flash.text.TextField;
 import flash.ui.Keyboard;
 
 public class Charge extends Sprite {
-    public var q : Number;
+    public var q : Number = 0;
 
     public var modelX : Number;
     public var modelY : Number;
 
-    public function Charge() {
+    private var mosaic : VoltageMosaic;
+
+    public function Charge(mosaic : VoltageMosaic) {
+
+        this.mosaic = mosaic;
 
         // make it appear hand-like
         this.useHandCursor = true;
@@ -34,6 +38,10 @@ public class Charge extends Sprite {
         this.x = x;
         this.y = y;
 
+        displayPositionToModel();
+    }
+
+    private function displayPositionToModel() : void {
         // TODO: integrate in scale. if we find this in the GUI
         modelX = x;
         modelY = y;
@@ -45,6 +53,8 @@ public class Charge extends Sprite {
 
     public function mouseUp(evt : MouseEvent) : void {
         stopDrag();
+        displayPositionToModel();
+        mosaic.draw();
     }
 }
 }
