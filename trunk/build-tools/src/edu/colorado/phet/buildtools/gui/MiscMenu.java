@@ -64,7 +64,6 @@ public class MiscMenu extends JMenu {
         buildAndDeployAll.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 String message = JOptionPane.showInputDialog( "Deploying all sims to dev/.  \nEnter a message to add to the change log for all sims\n(or Cancel or Enter a blank line to omit batch message)" );
-                LocalProperties localProperties = new LocalProperties( new File( trunk, "build-tools/build-local.properties" ) );
 //                PhetProject[] projects = PhetProject.getAllSimulations( trunk );
                 PhetProject[] projects = PhetFlashProject.getFlashProjects( trunk ); //todo re-enable all
 
@@ -90,7 +89,7 @@ public class MiscMenu extends JMenu {
                 for ( int i = 0; i < projects.length; i++ ) {
 //                    if ( projects[i].getName().startsWith( "test" ) ) {
                     if ( true ) {
-                        BuildScript buildScript = new BuildScript( trunk, projects[i], new AuthenticationInfo( localProperties.getProperty( "svn.username" ), localProperties.getProperty( "svn.password" ) ), localProperties.getProperty( "browser" ) );
+                        BuildScript buildScript = new BuildScript( trunk, projects[i] );
                         buildScript.setBatchMessage( message );
                         final BufferedWriter bufferedWriter1 = bufferedWriter;
                         buildScript.addListener( new BuildScript.Listener() {
@@ -117,7 +116,7 @@ public class MiscMenu extends JMenu {
                                 }
                             }
                         } );
-                        buildScript.deployDev( new AuthenticationInfo( localProperties.getProperty( "deploy." + "dev" + ".username" ), localProperties.getProperty( "deploy." + "dev" + ".password" ) ) );
+                        buildScript.deployDev( BuildLocalProperties.getInstance().getDevAuthenticationInfo() );
                     }
                 }
                 try {

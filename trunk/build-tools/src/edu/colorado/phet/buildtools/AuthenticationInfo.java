@@ -1,27 +1,21 @@
 package edu.colorado.phet.buildtools;
 
-import javax.swing.*;
 
 public class AuthenticationInfo {
-    private String username;
-    private String password;
-
+    
+    private final String username;
+    private final String password;
+    
     public AuthenticationInfo( String username, String password ) {
         this.username = username;
         this.password = password;
     }
 
-    public String getUsername( String context ) {
-        if ( username == null ) {
-            username = JOptionPane.showInputDialog( "login username to " + context );
-        }
+    public String getUsername() {
         return username;
     }
 
-    public String getPassword( String context ) {
-        if ( password == null ) {
-            password = JOptionPane.showInputDialog( "login password to " + context );
-        }
+    public String getPassword() {
         return password;
     }
 }

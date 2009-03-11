@@ -2,7 +2,6 @@
 package edu.colorado.phet.buildtools.java;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -17,14 +16,14 @@ import org.apache.tools.ant.types.Path;
 
 import scala.tools.ant.Scalac;
 import edu.colorado.phet.buildtools.AntTaskRunner;
+import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.PhetCleanCommand;
 import edu.colorado.phet.buildtools.Simulation;
-import edu.colorado.phet.buildtools.scripts.SetSVNIgnoreToDeployDirectories;
 import edu.colorado.phet.buildtools.proguard.PhetProguardConfigBuilder;
 import edu.colorado.phet.buildtools.proguard.ProguardCommand;
+import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.PhetBuildUtils;
 import edu.colorado.phet.buildtools.util.PhetJarSigner;
-import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.application.JARLauncher;
 
 /**
@@ -88,19 +87,7 @@ public class JavaBuildCommand {
     }
 
     private void signJAR() {
-        File configProperties = new File( project.getTrunk(), "build-tools/build-local.properties" );
-        Properties properties = new Properties();
-        try {
-            properties.load( new FileInputStream( configProperties ) );
-        }
-        catch( IOException e ) {
-        	System.out.println("Error: Property file needed for signing JAR not found.");
-            e.printStackTrace();
-            throw new BuildException("Property file needed for signing JAR not found.");
-        }
-
-        PhetJarSigner signer = new PhetJarSigner( configProperties );
-
+        PhetJarSigner signer = new PhetJarSigner( BuildLocalProperties.getInstance() );
         // Sign the JAR.
         if ( signer.signJar( outputJar ) != true ){
         	// Signing failed.  Throw an exception in order to force the build process to stop.

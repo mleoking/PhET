@@ -29,13 +29,13 @@ public class ProjectPanel extends JPanel {
         titleLabel.setText( project.getName() + " : " + project.getFullVersionString() );
     }
 
-    private LocalProperties localProperties;
-    private JButton deployProdButton;
+    private final BuildLocalProperties buildLocalProperties;
+    private final JButton deployProdButton;
 
     public ProjectPanel( final File trunk, final PhetProject project ) {
         this.trunk = trunk;
         this.project = project;
-        this.localProperties = new LocalProperties( new File( trunk, "build-tools/build-local.properties" ) );
+        this.buildLocalProperties = BuildLocalProperties.getInstance();
         titleLabel = new JLabel( project.getName() );
 
 
@@ -126,7 +126,7 @@ public class ProjectPanel extends JPanel {
                          "</html>";
         int option = JOptionPane.showConfirmDialog( deployProdButton, message, "Confirm", JOptionPane.YES_NO_OPTION );
         if ( option == JOptionPane.YES_OPTION ) {
-            getBuildScript().deployProd( getDevelopmentAuthentication( "dev" ), getDevelopmentAuthentication( "prod" ) );
+            getBuildScript().deployProd( buildLocalProperties.getDevAuthenticationInfo(), buildLocalProperties.getProdAuthenticationInfo() );
         }
         else {
             System.out.println( "Cancelled" );
@@ -134,7 +134,7 @@ public class ProjectPanel extends JPanel {
     }
 
     private void doDev() {
-        getBuildScript().deployDev( getDevelopmentAuthentication( "dev" ) );
+        getBuildScript().deployDev( buildLocalProperties.getDevAuthenticationInfo() );
     }
 
     private void doTest() {
@@ -148,18 +148,9 @@ public class ProjectPanel extends JPanel {
         }
     }
 
-    private AuthenticationInfo getDevelopmentAuthentication( String serverType ) {
-        return new AuthenticationInfo( getLocalProperty( "deploy." + serverType + ".username" ), getLocalProperty( "deploy." + serverType + ".password" ) );
-    }
-
     private BuildScript getBuildScript() {
-        return new BuildScript( trunk, project, new AuthenticationInfo( getLocalProperty( "svn.username" ), getLocalProperty( "svn.password" ) ), getLocalProperty( "browser" ) );
+        return new BuildScript( trunk, project );
     }
-
-    private String getLocalProperty( String s ) {
-        return localProperties.getProperty( s );
-    }
-
 
     private String getSelectedSimulation() {
         return (String) simulationList.getSelectedValue();

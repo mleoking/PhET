@@ -31,12 +31,12 @@ public class OfflineJARGenerator {
             System.out.println( "Should specify: \n" +
                                 "args[0] as the path to the offline <project>_all.jar\n" +
                                 "args[1] as the path to a jar utility executable\n" +
-                                "args[2] as the path to the build-local.properties file" );
+                                "args[2] as the path to build-local.properties" );
         }
-        new OfflineJARGenerator().generateOfflineJARs( new File( args[0] ), args[1],new File(args[2]) );
+        new OfflineJARGenerator().generateOfflineJARs( new File( args[0] ), args[1], BuildLocalProperties.initFromPropertiesFile( new File( args[2] ) ) );
     }
 
-    private void generateOfflineJARs( File jar, String pathToJARUtility,File buildLocalProperties ) throws IOException, InterruptedException {
+    private void generateOfflineJARs( File jar, String pathToJARUtility,BuildLocalProperties buildLocalProperties ) throws IOException, InterruptedException {
         String[] flavors = getFlavors( jar );
         System.out.println( "Found flavors: " + Arrays.asList( flavors ) );
 
@@ -55,7 +55,7 @@ public class OfflineJARGenerator {
         return stringTokenizer.nextToken();
     }
 
-    private void generateOfflineJAR( File jar, String flavor, Locale locale, String pathToJARUtility,File buildLocalProperties ) throws IOException, InterruptedException {
+    private void generateOfflineJAR( File jar, String flavor, Locale locale, String pathToJARUtility,BuildLocalProperties buildLocalProperties ) throws IOException, InterruptedException {
         File dst = new File( jar.getParentFile(), flavor + "_" + locale + ".jar" );
         System.out.println( "Writing to: " + dst.getAbsolutePath() );
         FileUtils.copyTo( jar, dst );
