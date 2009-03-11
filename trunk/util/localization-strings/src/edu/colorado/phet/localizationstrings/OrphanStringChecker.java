@@ -3,17 +3,22 @@
 package edu.colorado.phet.localizationstrings;
 
 import java.awt.List;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.ListIterator;
 import java.util.Properties;
 
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.licensing.Config;
 import edu.colorado.phet.licensing.reports.LicenseIssue;
 import edu.colorado.phet.localizationstrings.util.FileFinder;
+import edu.colorado.phet.localizationstrings.util.SimpleHtmlOutputHelper;
 import edu.colorado.phet.localizationstrings.util.WildCardFileFilter;
 
 /**
@@ -52,8 +57,11 @@ public class OrphanStringChecker {
         	return;
         }
         
+        SimpleHtmlOutputHelper.printHtmlHeader();
+        SimpleHtmlOutputHelper.printHtmlHeading("Orphan String Report", 1);
+        
         for ( int i = 0; i < simulations.length; i++ ) {
-            System.out.println( "Simulation: " + simulations[i] );
+            SimpleHtmlOutputHelper.printHtmlHeading("Simulation: " + simulations[i], 2);
             
             // Find the localization directory.
             String localizationDirName = m_baseDirectory.getAbsolutePath() + "/simulations/" + simulations[i] + 
@@ -67,51 +75,117 @@ public class OrphanStringChecker {
             // Make a list of the localization property files.
             File[] localizationFiles = localizationDir.listFiles( new WildCardFileFilter("*.properties") );
             
-            // TODO temp. - Print a list of the localization files.
-            for (int j = 0; j < localizationFiles.length; j++){
-            	System.out.println("Localization file: " + localizationFiles[j].getAbsolutePath());
-            }
-            
             // Find the java source directory.
-            String javaSourceDirName = m_baseDirectory.getAbsolutePath() + "/simulations/" + simulations[i] + 
-            	"/src/";
+            String javaSourceDirName = m_baseDirectory.getAbsolutePath() + "/simulations/" + simulations[i] + "/src/";
             File javaSourceDir = new File( javaSourceDirName );
             if (!javaSourceDir.exists() || !javaSourceDir.isDirectory()){
             	System.out.println("Could not find java source directory " + javaSourceDirName);
             	continue;
             }
             
-            // Make a list of the Java file that comprise this sim.
+            // Make a list of the Java files that make up this sim.
             ArrayList javaFiles = new ArrayList();
             FileFinder.findFiles(javaSourceDir, new WildCardFileFilter("*.java"), javaFiles);
 
-            // See if the properties are used.
-            for (int javaFileIndex = 0; javaFileIndex < javaFiles.size(); javaFileIndex++){
-            	System.out.println("Java file: " + ((File)javaFiles.get(javaFileIndex)).getAbsolutePath());
-                for (int propFileIndex = 0; propFileIndex < localizationFiles.length; propFileIndex++){
-                	// Load the properites from the property file.
-                	Properties localizationStringProps = new Properties();
-                	try {
-						localizationStringProps.load(new FileInputStream(localizationFiles[propFileIndex]));
+            // Go through the property files.
+            for (int propFileIndex = 0; propFileIndex < localizationFiles.length; propFileIndex++){
+            	
+            	// Load the properties from the property file.
+            	Properties localizationStringProps = new Properties();
+            	try {
+					localizationStringProps.load(new FileInputStream(localizationFiles[propFileIndex]));
+				} catch (FileNotFoundException e) {
+					System.err.println("File not found: " + localizationFiles[propFileIndex].getAbsolutePath());
+					e.printStackTrace();
+					continue;
+				} catch (IOException e) {
+					System.err.println("IO exception on file: " + localizationFiles[propFileIndex].getAbsolutePath());
+					e.printStackTrace();
+					continue;
+				}
+				
+				SimpleHtmlOutputHelper.printHtmlHeading("Properties File: " + localizationFiles[propFileIndex].getName(), 3);
+				
+				// Create a list of the property names.
+				ArrayList unusedProperties = new ArrayList();
+				Enumeration propNamesEnum = localizationStringProps.propertyNames();
+			    while (propNamesEnum.hasMoreElements()){
+			    	unusedProperties.add(propNamesEnum.nextElement());
+			    }
+				ListIterator iter = unusedProperties.listIterator();
+				
+				// Go through the list and remove any standard property names
+				// that wouldn't show up in the Java files.
+				while (iter.hasNext()){
+					String propName = (String)iter.next();
+					if ((propName.contains(".name")) || (propName.contains(".description"))){
+//						System.out.println("Removing property " + propName);
+						iter.remove();
+					}
+				}
+				
+				// Reset the iterator.
+				iter = unusedProperties.listIterator();
+				
+				for (int javaFileIndex = 0; (javaFileIndex < javaFiles.size()) && (!unusedProperties.isEmpty()); javaFileIndex++){
+					
+					// Skip files that are from the SVN directories.
+					String javaFileName = ((File)javaFiles.get(javaFileIndex)).getAbsolutePath();
+					if (javaFileName.contains("svn-base")){
+						continue;
+					}
+					
+//					System.out.println("Java file name: " + javaFileName);
+					
+					// Create a buffered reader for the Java source file.
+					BufferedReader javaFileReader;
+					try {
+						javaFileReader = new BufferedReader(new FileReader((File)(javaFiles.get(javaFileIndex))));
 					} catch (FileNotFoundException e) {
-						System.err.println("File not found: " + localizationFiles[propFileIndex].getAbsolutePath());
+						System.err.println("Error reading file " + javaFileName);
 						e.printStackTrace();
 						continue;
+					}
+
+					String lineOfJavaFile;
+			    	try {
+						while ((lineOfJavaFile = javaFileReader.readLine()) != null) {
+//							System.out.println("Line of Java file: " + lineOfJavaFile);
+							while (iter.hasNext()){
+								String propName = (String)iter.next();
+//								System.out.println("Property name = " + propName);
+								if (lineOfJavaFile.contains(propName)){
+//									System.out.println("Removing property " + propName);
+//									System.out.println("Found on line: " + lineOfJavaFile);
+						    		iter.remove();
+						    	}
+							}
+							iter = unusedProperties.listIterator();
+		                }
 					} catch (IOException e) {
-						System.err.println("IO exception on file: " + localizationFiles[propFileIndex].getAbsolutePath());
+						System.err.println("Error while reading file " + 
+								((File)javaFiles.get(javaFileIndex)).getAbsolutePath());
 						e.printStackTrace();
 						continue;
 					}
-					
-					boolean [] propertyUsed = new boolean[localizationStringProps.size()];
-					
-					for (int propIndex = 0; propIndex < localizationStringProps.size(); propIndex++){
+				}
+
+				// Output the list of unused strings.
+				SimpleHtmlOutputHelper.printHtmlHeading("Orphan Strings", 4);
+				if (unusedProperties.size() == 0){
+					System.out.println("No orphan strings found.");
+				}
+				else{
+					SimpleHtmlOutputHelper.printHtmlStartList();
+					for (int j = 0; j < unusedProperties.size(); j++){
+			    		SimpleHtmlOutputHelper.printHtmlListItem((String)unusedProperties.get(j));
 					}
-                }
+					SimpleHtmlOutputHelper.printHtmlEndList();
+				}
             }
-            
-            // Load up
         }
+        
+        SimpleHtmlOutputHelper.printHtmlClose();
 	}
 
 	private static void printUsage(){
