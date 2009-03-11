@@ -6,6 +6,7 @@ import java.io.File;
 
 import javax.swing.*;
 
+import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.translate.ImportAndAddBatch;
 
 /**
@@ -16,6 +17,8 @@ public class PhetBuildGUI {
     private JFrame frame = new JFrame();
 
     public PhetBuildGUI( final File trunk ) {
+        
+        BuildLocalProperties.initRelativeToTrunk( trunk );
 
         this.frame = new JFrame( "PhET Build" );
         JMenuBar menuBar = new JMenuBar();

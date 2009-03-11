@@ -2,13 +2,14 @@ package edu.colorado.phet.buildtools.flash;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Locale;
 import java.util.Properties;
-import java.util.Collection;
 
 import org.apache.tools.ant.taskdefs.Jar;
 import org.apache.tools.ant.taskdefs.Manifest;
 
+import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.MyAntTaskRunner;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.Simulation;
@@ -27,6 +28,7 @@ import edu.colorado.phet.flashlauncher.FlashLauncher;
  * //phetProjects.addAll(Arrays.asList( PhetFlashProject.getFlashProjects(baseDir ) ));
  */
 public class PhetFlashProject extends PhetProject {
+    
     public PhetFlashProject( File projectRoot ) throws IOException {
         super( projectRoot );
     }
@@ -60,23 +62,19 @@ public class PhetFlashProject extends PhetProject {
     public boolean build() throws Exception {
         System.out.println( "Building flash sim." );
 
-        boolean success;
-
         cleanDeploy();
 
         buildHTMLs();
 
         copyProperties();
 
-        success = buildSWF();
-
-        if ( !success ) { return false; }
-
-
-        buildOfflineJARs();
+        boolean success = buildSWF();
+        if ( success ) {
+            buildOfflineJARs();
+        }
 
         //TODO: check for success
-        return true;
+        return success;
     }
 
     private void copyProperties() throws IOException {
@@ -105,16 +103,11 @@ public class PhetFlashProject extends PhetProject {
     }
 
     private void cleanDeploy() {
-        if ( shouldRebuildSWF() ) {
-            cleanSWF();
-        }
+        cleanSWF();
         cleanHTML();
     }
 
     private void buildOfflineJARs() {
-        if ( !shouldRebuildJARs() ) {
-            return;
-        }
         Locale[] locales = getLocales();
         for ( int i = 0; i < locales.length; i++ ) {
             buildOfflineJAR( locales[i] );
@@ -212,28 +205,11 @@ public class PhetFlashProject extends PhetProject {
         return new File( getAntOutputDir(), "jardata" );
     }
 
-    private boolean shouldRebuildSWF() {
-        // TODO: check whether testing. (override for deploy dev / deploy dev & production)
-        return getConfigValue( "autobuild-swf", "true" ).equals( "true" );
-    }
-
-    private boolean shouldRebuildJARs() {
-        // TODO: check whether testing. (override for deploy dev / deploy dev & production)
-        return getConfigValue( "autobuild-jars", "true" ).equals( "true" );
-    }
-
     private boolean buildSWF() throws Exception {
 
-        // if the user has decided not to auto-build the SWF, don't do anything else
-        if ( !shouldRebuildSWF() ) {
-            return true;
-        }
+        String exe = BuildLocalProperties.getInstance().getFlash();
 
-        String def = "C:\\Program Files\\Macromedia\\Flash 8\\Flash.exe";
-        String property = "flash";
-        String exe = getConfigValue( property, def );
-
-        boolean useWine = getConfigValue( "wine", "false" ).equals( "true" );
+        boolean useWine = BuildLocalProperties.getInstance().getWine();
 
         File trunk = getProjectDir().getParentFile() // simulations
                 .getParentFile() // simulations-flash
@@ -370,47 +346,17 @@ public class PhetFlashProject extends PhetProject {
         }
     }
 
-    private File getFlashBuildConfigFile() {
-        File configFile=new File( getTrunk(), "build-tools/build-local.properties");
-//        File configFile = new File( getProjectDir().getParentFile().getParentFile(), "flash-build.properties" );
-        if ( !configFile.exists() ) {
-            String defaultFlashProperties = "build-tools" + File.separator + "flash-build" + File.separator + "default-flash-build.properties";
-            File defaultConfigFile = new File( getProjectDir().getParentFile().getParentFile(), defaultFlashProperties );
-            try {
-                FileUtils.copyTo( defaultConfigFile, configFile );
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
-        }
-        return configFile;
-    }
-
-    private String getConfigValue( String property, String defaultValue ) {
-        Properties properties = new Properties();
-        try {
-            properties.load( new FileInputStream( getFlashBuildConfigFile() ) );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-            return defaultValue;
-        }
-
-        return properties.getProperty( property, defaultValue );
-    }
-
     public String getListDisplayName() {
         return "Flash: " + getName();
     }
 
     public void runSim( Locale locale, String simulationName ) {
         System.out.println( "Running the flash sim: " + simulationName );
-        String exe = getConfigValue( "browser-flash", "C:\\Users\\Sam\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe" );
+        String exe = BuildLocalProperties.getInstance().getBrowser();
         try {
             String command = exe + " " + getHTMLFile( locale ).getAbsolutePath();
             System.out.println( "command = " + command );
-            Process p = Runtime.getRuntime().exec( command );
-
+            Process p = Runtime.getRuntime().exec( command ); //TODO this will not work on Mac, need to use cmdArray[] form of exec
         }
         catch( IOException e ) {
             e.printStackTrace();

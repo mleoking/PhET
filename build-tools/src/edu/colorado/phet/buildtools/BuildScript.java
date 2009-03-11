@@ -20,16 +20,18 @@ import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.ProcessOutputReader;
 
 public class BuildScript {
-    private PhetProject project;
-    private AuthenticationInfo svnAuth;
-    private String browser;
-    private File trunk;
-    private LocalProperties localProperties;
-    private static final boolean dryRun = false;
-    private static final boolean skipBuild = false;
-    private static boolean skipSVNStatus = false;
-    private static boolean skipSVNCommit = false;
-    private ArrayList listeners = new ArrayList();
+    
+    // debug flags that can be set via build-local.properties
+    private final boolean debugDryRun;
+    private final boolean debugSkipBuild;
+    private final boolean debugSkipStatus;
+    private final boolean debugSkipCommit;
+    
+    private final PhetProject project;
+    private final File trunk;
+    private final BuildLocalProperties buildLocalProperties;
+    private final ArrayList listeners;
+    
     private String batchMessage;
 
     public void addListener( Listener listener ) {
@@ -42,16 +44,16 @@ public class BuildScript {
         void deployErrorOccurred( BuildScript buildScript, PhetProject project, String error );
     }
 
-    public BuildScript( File trunk, PhetProject project, AuthenticationInfo svnAuth, String browser ) {
+    public BuildScript( File trunk, PhetProject project ) {
         this.trunk = trunk;
         this.project = project;
-        this.svnAuth = svnAuth;
-        this.browser = browser;
-
-        // Overrides specified in build-local.properties
-        this.localProperties = new LocalProperties( new File( trunk, "build-tools/build-local.properties" ) );
-        skipSVNStatus = this.localProperties.getBoolProperty( "svn.skip-status", false );
-        skipSVNCommit = this.localProperties.getBoolProperty( "svn.skip-commit", false );
+        this.buildLocalProperties = BuildLocalProperties.getInstance();
+        this.listeners = new ArrayList();
+        
+        debugDryRun = this.buildLocalProperties.getDebugDryRun();
+        debugSkipBuild = this.buildLocalProperties.getDebugSkipBuild();
+        debugSkipStatus = this.buildLocalProperties.getDebugSkipStatus();
+        debugSkipCommit = this.buildLocalProperties.getDebugSkipCommit();
     }
 
     public void clean() {
@@ -85,7 +87,7 @@ public class BuildScript {
                         AuthenticationInfo authenticationInfo, VersionIncrement versionIncrement, Task postDeployTask ) {
         clean();
 
-        if (skipSVNStatus){
+        if (debugSkipStatus){
             System.out.println( "Skipping SVN status" );
         }
         else if (!isSVNInSync() ) {
@@ -103,7 +105,7 @@ public class BuildScript {
         System.out.println( "Adding message to change file" );
         addMessagesToChangeFile( svnNumber + 1 );
 
-        if ( !dryRun && !skipSVNCommit ) {
+        if ( !debugDryRun && !debugSkipCommit ) {
             System.out.println( "Committing changes to version and change file." );
             commitProject();//commits both changes to version and change file
         }
@@ -112,7 +114,7 @@ public class BuildScript {
 
         //would be nice to build before deploying new SVN number in case there are errors,
         //however, we need the correct version info in the JAR
-        if ( !skipBuild ) {
+        if ( !debugSkipBuild ) {
             System.out.println( "Starting build..." );
             boolean success = build();
             if ( !success ) {
@@ -135,7 +137,7 @@ public class BuildScript {
 
         project.buildLaunchFiles( server.getCodebase( project ), server.isDevelopmentServer() );
 
-        if ( !dryRun ) {
+        if ( !debugDryRun ) {
             System.out.println( "Sending SSH." );
             sendSSH( server, authenticationInfo );
         }
@@ -206,6 +208,7 @@ public class BuildScript {
     }
 
     private void openBrowser( String deployPath ) {
+        String browser = buildLocalProperties.getBrowser();
         if ( browser != null ) {
             try {
                 Runtime.getRuntime().exec( new String[]{browser, deployPath} );
@@ -217,7 +220,7 @@ public class BuildScript {
     }
 
     private void sendSSH( PhetServer server, AuthenticationInfo authenticationInfo ) {
-        SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername( server.getHost() ), authenticationInfo.getPassword( server.getHost() ) );
+        SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword() );
         String remotePathDir = server.getServerDeployPath( project );
         try {
             sshConnection.connect();
@@ -252,7 +255,7 @@ public class BuildScript {
             else {
                 //server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword()
                 try {
-                    ScpTo.uploadFile( f[i], authenticationInfo.getUsername( server.getHost() ), server.getHost(), remotePathDir + "/" + f[i].getName(), authenticationInfo.getPassword( server.getHost() ) );
+                    ScpTo.uploadFile( f[i], authenticationInfo.getUsername(), server.getHost(), remotePathDir + "/" + f[i].getName(), authenticationInfo.getPassword() );
                 }
                 catch( JSchException e ) {
                     e.printStackTrace();
@@ -301,11 +304,10 @@ public class BuildScript {
     }
 
     private void commitProject() {
-        String svnusername = svnAuth.getUsername( "svn" );
-        String svnpassword = svnAuth.getPassword( "svn" );
+        AuthenticationInfo auth = buildLocalProperties.getRespositoryAuthenticationInfo();
         String message = project.getName() + ": deployed version " + project.getFullVersionString();
         String path = project.getProjectDir().getAbsolutePath();
-        String[] args = new String[]{"svn", "commit", "--username", svnusername, "--password", svnpassword, "--message", message, path};
+        String[] args = new String[]{"svn", "commit", "--username", auth.getUsername(), "--password", auth.getPassword(), "--message", message, path};
         //TODO: verify that SVN repository revision number now matches what we wrote to the project properties file
         ProcessOutputReader.ProcessExecResult a = ProcessOutputReader.exec( args );
         if ( a.getTerminatedNormally() ) {
@@ -433,7 +435,7 @@ public class BuildScript {
 //                        String codebase = PhetServer.DEVELOPMENT.getURL( project );
 //                        buildJNLP( codebase, PhetServer.DEVELOPMENT.isDevelopmentServer() );
 
-                        if ( !dryRun ) {
+                        if ( !debugDryRun ) {
                             sendSSH( PhetServer.DEVELOPMENT, devAuth );
                             generateOfflineJars( project, PhetServer.DEVELOPMENT, devAuth );
                         }
@@ -443,7 +445,7 @@ public class BuildScript {
                 }, PhetServer.PRODUCTION, prodAuth, new VersionIncrement.UpdateProd(), new Task() {
                     public boolean invoke() {
                         System.out.println( "Invoking server side scripts to generate simulation and language JAR files" );
-                        if ( !dryRun ) {
+                        if ( !debugDryRun ) {
                             generateOfflineJars( project, PhetServer.PRODUCTION, prodAuth );
                         }
                         return true;
@@ -455,7 +457,7 @@ public class BuildScript {
 
         //only sign jars for Java Projects, and only if it is enabled (e.g. for simulations)
         if ( project instanceof JavaProject && ( (JavaProject) project ).getSignJar() ) {
-            SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername( server.getHost() ), authenticationInfo.getPassword( server.getHost() ) );
+            SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword() );
             try {
                 sshConnection.connect();
 

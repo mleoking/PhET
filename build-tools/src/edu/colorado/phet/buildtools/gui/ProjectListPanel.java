@@ -20,12 +20,12 @@ public class ProjectListPanel extends JPanel {
     private File trunk;
     private JList projectList;
     private JButton runButton;
-    private LocalProperties localProperties;
+    private BuildLocalProperties buildLocalProperties;
 
     public ProjectListPanel( File trunk ) {
         setMaximumSize( new Dimension( 200, 10000 ) );
         this.trunk = trunk;
-        this.localProperties = new LocalProperties( new File( trunk, "build-tools/build-local.properties" ) );
+        this.buildLocalProperties = BuildLocalProperties.getInstance();
 
         ProjectListElement[] p = getProjectListElements();
         projectList = new JList( p );
@@ -99,7 +99,7 @@ public class ProjectListPanel extends JPanel {
         JButton deployDev = new JButton( "Deploy Dev" );
         deployDev.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getBuildScript().deployDev( getDevelopmentAuthentication( "dev" ) );
+                getBuildScript().deployDev( buildLocalProperties.getDevAuthenticationInfo() );
             }
         } );
 
@@ -108,7 +108,7 @@ public class ProjectListPanel extends JPanel {
             public void actionPerformed( ActionEvent e ) {
                 int option = JOptionPane.showConfirmDialog( deployProd, "Are you sure you are ready to deploy " + getSelectedProject().getName() + " to " + PhetServer.PRODUCTION.getHost() + "?" );
                 if ( option == JOptionPane.YES_OPTION ) {
-                    getBuildScript().deployProd( getDevelopmentAuthentication( "dev" ), getDevelopmentAuthentication( "prod" ) );
+                    getBuildScript().deployProd( buildLocalProperties.getDevAuthenticationInfo(), buildLocalProperties.getProdAuthenticationInfo() );
                 }
                 else {
                     System.out.println( "Cancelled" );
@@ -207,15 +207,7 @@ public class ProjectListPanel extends JPanel {
     }
 
     private BuildScript getBuildScript() {
-        return new BuildScript( trunk, getSelectedProject(), new AuthenticationInfo( getLocalProperty( "svn.username" ), getLocalProperty( "svn.password" ) ), getLocalProperty( "browser" ) );
-    }
-
-    private AuthenticationInfo getDevelopmentAuthentication( String serverType ) {
-        return new AuthenticationInfo( getLocalProperty( "deploy." + serverType + ".username" ), getLocalProperty( "deploy." + serverType + ".password" ) );
-    }
-
-    private String getLocalProperty( String s ) {
-        return localProperties.getProperty( s );
+        return new BuildScript( trunk, getSelectedProject() );
     }
 
     public PhetProject getSelectedProject() {

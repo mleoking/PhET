@@ -7,28 +7,14 @@
   building JAR and JNLP files. To make this buildfile easier to read, only the 
   primary targets that support day-to-day operations are included herein.
 
-  PhET's build process is implemented in Java.  This file is responsible for starting up the java-based
-  PhetBuildGUI, from which the user can test or deploy simulations.
+  PhET's build process is implemented in Java.  This file is responsible for
+  starting up the java-based PhetBuildGUI, from which the user can test or
+  deploy simulations.
 
-  TODO: is the following still valid?
-  You may configure the build process by specifying properties in file build-local.properties.
-  The properties that may be safely specified are listed below.
+  You may configure the build process by specifying properties in file 
+  build-local.properties. See BuildProperties.java for documentaton of
+  those properties.
 
-    * deploy.dev.username - username for the development server
-    * deploy.dev.password - password for the development server
-    * deploy.prod.username - username for the production server
-    * deploy.prod.password - password for the production server
-    * svn.username - username for the SVN repository server
-    * svn.password - password for the SVN repository server
-    * browser - pathname of a web browser
-    * jarsigner.keystore - path to the pkcs12 keystore that contain the PhET digital signature
-    * jarsigner.password - password for the keystore
-    * jarsigner.alias - alias for the keystore
-    * wine - ?? (boolean)
-    * flash - ??
-    * browser-flash - ??
-    * autobuild-swf (boolean) - ??
-    
   NOTE: Putting username and password information in build-local.properties is not
   recommended; it is a potential security issue!
 

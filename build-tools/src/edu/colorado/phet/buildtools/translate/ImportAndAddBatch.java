@@ -5,7 +5,7 @@ import java.io.File;
 import javax.swing.*;
 
 import edu.colorado.phet.buildtools.AuthenticationInfo;
-import edu.colorado.phet.buildtools.LocalProperties;
+import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.translate.AddTranslation.AddTranslationReturnValue;
 
 /**
@@ -16,27 +16,21 @@ import edu.colorado.phet.buildtools.translate.AddTranslation.AddTranslationRetur
  */
 public class ImportAndAddBatch {
     private File simulationsJava;
-    private LocalProperties localProperties;
+    private BuildLocalProperties buildLocalProperties;
 
     public ImportAndAddBatch( File trunk ) {
         this.simulationsJava = new File( trunk, "simulations-java" );
-        this.localProperties = new LocalProperties( new File( trunk, "build-tools/build-local.properties" ) );
+        this.buildLocalProperties = BuildLocalProperties.getInstance();
     }
 
     public static void main( String[] args ) throws Exception {
         if ( args.length != 1 ) {
-            System.out.println( "usage: ImportAndAddBatch path-to-simulations-java-in-your-workspace" );
+            System.out.println( "usage: ImportAndAddBatch path-to-trunk" );
             System.exit( 1 );
         }
-        startImportAndAddBatch( new File( args[0] ) );
-    }
-
-    private String getLocalProperty( String s ) {
-        return localProperties.getProperty( s );
-    }
-
-    private AuthenticationInfo getDevelopmentAuthentication( String serverType ) {
-        return new AuthenticationInfo( getLocalProperty( "deploy." + serverType + ".username" ), getLocalProperty( "deploy." + serverType + ".password" ) );
+        File trunk = new File( args[0] );
+        BuildLocalProperties.initRelativeToTrunk( trunk );
+        startImportAndAddBatch( trunk );
     }
 
     public static void startImportAndAddBatch( File trunk ) throws Exception {
@@ -60,8 +54,8 @@ public class ImportAndAddBatch {
                                        "the PHET production server." );
 
         // deploy the translations to the PhET productions server
-        AuthenticationInfo auth = getDevelopmentAuthentication( "prod" );
-        AddTranslationBatch addTranslationBatch = new AddTranslationBatch( simulationsJava, new File( dir ), auth.getUsername( "production server" ), auth.getPassword( "production server" ) );
+        AuthenticationInfo auth = buildLocalProperties.getProdAuthenticationInfo();
+        AddTranslationBatch addTranslationBatch = new AddTranslationBatch( simulationsJava, new File( dir ), auth.getUsername(), auth.getPassword() );
         AddTranslationReturnValue[] returnValues = addTranslationBatch.runBatch();
         System.out.println( "Finished deploying" );
 
