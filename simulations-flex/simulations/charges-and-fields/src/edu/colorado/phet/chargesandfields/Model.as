@@ -102,10 +102,12 @@ public class Model {
         var dist : Number;
 
 		for(var i : uint = 0; i < len ; i++){
-			xi = chargeArray[i].modelX;
-			yi = chargeArray[i].modelY;
+            var charge : Charge = chargeArray[i];
+			xi = charge.modelX;
+			yi = charge.modelY;
+            
 			dist = Math.sqrt((x - xi)*(x - xi) + (y - yi)*(y - yi));
-			sumV = sumV + chargeArray[i].q/dist;
+			sumV = sumV + charge.q/dist;
 		}
 		sumV = k*sumV;	//prefactor depends on units
 
