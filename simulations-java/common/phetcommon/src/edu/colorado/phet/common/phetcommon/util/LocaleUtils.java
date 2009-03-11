@@ -27,7 +27,7 @@ public class LocaleUtils {
     }
 
     /**
-     * Gets the suffix for a localization string file.
+     * Converts a Locale to a String.
      *
      * @param locale
      * @return
@@ -45,6 +45,12 @@ public class LocaleUtils {
 
     //returns a Locale given a string like en_CA or ja
     //TODO: throw exception when localeString has incorrect form, such as ____en____CA__
+    /**
+     * Converts a String to a Locale.
+     * 
+     * @param localeString
+     * @return
+     */
     public static Locale stringToLocale( String localeString ) {
         assert localeString != null;
         StringTokenizer stringTokenizer = new StringTokenizer( localeString, "_" );
@@ -67,10 +73,12 @@ public class LocaleUtils {
         System.out.println( "\"" + localeToString( new Locale( "en" ) ) + "\"" );
         System.out.println( "\"" + localeToString( new Locale( "zh" ) ) + "\"" );
         System.out.println( "\"" + localeToString( new Locale( "zh", "CN" ) ) + "\"" );
+        System.out.println( "\"" + localeToString( new Locale( "zh", "cn" ) ) + "\"" );
 
         // suffixToLocale
         System.out.println( "\"" + stringToLocale( "CN" ) + "\"" );
         System.out.println( "\"" + stringToLocale( "en" ) + "\"" );
         System.out.println( "\"" + stringToLocale( "zh_CN" ) + "\"" );
+        System.out.println( "\"" + stringToLocale( "zh_cn" ) + "\"" );
     }
 }
