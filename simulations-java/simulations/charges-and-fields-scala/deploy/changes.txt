@@ -1,2 +1,4 @@
+# 0.0.02 (29371) Mar 11, 2009
+3/11/09 Renamed to charges-and-fields-scala
 # 0.0.01 (29367) Mar 11, 2009
 3/11/09 Added rough draft of scala charges-and-fields
