@@ -15,7 +15,6 @@
       <sourceFolder url="file://$MODULE_DIR$/build-tools/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-flash/contrib/aswing/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-flash/flash-launcher/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/build-reports/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/charts/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/collision/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/controls/src" isTestSource="false" />
@@ -46,7 +45,6 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/bound-states/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/circuit-construction-kit/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/color-vision/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/common-strings/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/conductivity/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/discharge-lamps/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/eating-and-exercise/src" isTestSource="false" />
@@ -93,7 +91,6 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/travoltage/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/wave-interference/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/team/cmalley/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/team/reids/admin/scala-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/team/reids/admin/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/team/reids/tracking/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/licensing/src" isTestSource="false" />
@@ -103,7 +100,6 @@
       <sourceFolder url="file://$MODULE_DIR$/util/testing/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/translation-strings-diff" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/translation-utility/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/util/updater/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/build-tools/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-flash/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/ant_output" />
@@ -738,15 +734,6 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/simulations-java/contrib/piccolo-sax/piccolo-sax.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="jar://$APPLICATION_HOME_DIR$/lib/javaee.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -834,15 +821,6 @@
         <SOURCES>
           <root url="jar://$MODULE_DIR$/../../../../install/scala-2.7.3.final/src/scala-swing-src.jar!/" />
         </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/build-tools/contrib/ant-contrib/lib/commons-httpclient-3.0.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
       </library>
     </orderEntry>
     <orderEntry type="module-library">
@@ -947,15 +925,6 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/build-tools/contrib/ant-contrib/lib/commons-logging-1.0.4.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="jar://$MODULE_DIR$/build-tools/contrib/commons-lang/commons-lang-javadoc.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -1046,34 +1015,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/build-tools/contrib/antform/lib/antform.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/build-tools/contrib/ant-contrib/ant-contrib.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="jar://$MODULE_DIR$/build-tools/contrib/apache-ant/lib/ant-apache-bcel.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/build-tools/contrib/ant-contrib/lib/bcel-5.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1101,15 +1043,6 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/build-tools/contrib/apache-ant/lib/ant-starteam.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/build-tools/contrib/ant-contrib/lib/ivy-1.3.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
