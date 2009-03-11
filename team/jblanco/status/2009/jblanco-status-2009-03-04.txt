@@ -1,0 +1,41 @@
+PhET Progress Report
+John Blanco
+March 4, 2009
+
+IOM Alpha Testing – 11.0 hrs
+
+•	Helped to organize and conduct the group alpha testing for Alpha Release 1.
+•	Created a number of new test procedures and got the document finalized, printed, and ready for use in the group testing.
+•	Supported further testing by Marj, Nina, Archie, and Noah.
+•	Did some simple post-processing of the alpha-1 test results.
+•	Currently working on getting group testing organized for Alpha Release 2.
+
+Installer & Web Site – 11.0 hrs
+
+•	Modified installer-builder scripts to add permissions request to JNLP files.
+•	Restructured some of the installer-builder shell and PHP scripts to better support alpha and beta installer generation.
+•	Changed the names of the installers (ticket #1260)
+
+JAR Signing - 3.0
+
+•	Created an Unfuddle notebook containing information about the signing certificate.
+•	Did some research on and created a ticket concerning timestamping, which will affects when the JAR files expire.
+
+Common Code – 5.0 hrs
+
+•	Added a class for signing JAR files from within the build process and worked with Sam to integrate it into the build process.
+•	Verified and closed several tickets that had been resolved by the other developers.
+
+Meetings & Email - 8.5 hrs
+
+•	Weekly status meeting (on Tuesday of this week).
+•	Developer meeting to review and prioritize tickets, plan alpha testing, and decide on client-server interface details (among other things).
+•	Normal email and administrative overhead.
+
+Development Environment - 1.5 hrs
+
+•	Set up my environment on tigercat and spot to make development of shell, php, and html more productive by enabling better editor with syntax coloring.
+
+Administrative - (Done on my own time at home)
+
+•	Filled out the feedback form requested by Carl
