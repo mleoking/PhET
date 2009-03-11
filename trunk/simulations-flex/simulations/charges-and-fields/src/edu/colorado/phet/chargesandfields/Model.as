@@ -83,6 +83,10 @@ public class Model {
 		return [eMag, eAng, EX, EY];
 	}
 
+    private function combineRGB(red : Number, green : Number, blue : Number) : uint {
+        return (red << 16) | (green << 8) | blue;
+    }
+
     //returns voltage and color nbr (RGB values) associated with voltage
 	public function getV(x : Number, y : Number) : Array{
 		var V : Number;	//Voltage at point x, y
@@ -92,7 +96,7 @@ public class Model {
 		var red : Number;
 		var green : Number;
 		var blue : Number;
-		var colorNbr : Number;  	//RGB number of color associated with voltage
+		var colorNbr : uint;  	//RGB number of color associated with voltage
 
 		for(var i : uint = 0; i < len ; i++){
 			var xi : Number = chargeArray[i].modelX;
@@ -113,11 +117,6 @@ public class Model {
 		//trace("R: "+red+"    G: "+green+"   B: "+blue);
 
         // TODO: examine for rounding / implicit conversion errors
-
-		function combineRGB(red:Number,green:Number,blue:Number):Number{
-			var RGB : uint = (red<<16)|(green<<8)|blue;
-			return RGB;
-		}
         
 		return [sumV,colorNbr];
 	}

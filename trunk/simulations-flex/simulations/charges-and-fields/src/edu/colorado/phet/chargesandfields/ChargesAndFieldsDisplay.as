@@ -1,4 +1,5 @@
 package edu.colorado.phet.chargesandfields {
+
 import flash.display.DisplayObject;
 import flash.display.Graphics;
 import flash.display.MovieClip;
@@ -20,7 +21,8 @@ public class ChargesAndFieldsDisplay extends Sprite {
     public var model : Model;
 
     private var background : BackgroundSprite;
-    private var minusCharges : Array = new Array();
+    private var mosaic : VoltageMosaic;
+    private var charges : Array = new Array();
 
     public function ChargesAndFieldsDisplay(tempStage : Stage) {
         myWidth = tempStage.stageWidth;
@@ -31,17 +33,23 @@ public class ChargesAndFieldsDisplay extends Sprite {
         background = new BackgroundSprite(myWidth, myHeight);
         addChild(background);
 
-        for(var i : uint = 0; i < 500; i++) {
+        mosaic = new VoltageMosaic(model, myWidth, myHeight);
+        addChild(mosaic);
+
+        for(var i : uint = 0; i < 100; i++) {
             var charge : Charge;
             if(i % 2 == 0) {
-                charge = new MinusCharge();
+                charge = new MinusCharge(mosaic);
             } else {
-                charge = new PlusCharge();
+                charge = new PlusCharge(mosaic);
             }
             addChild(charge);
-            minusCharges.push(charge);
+            charges.push(charge);
+            model.addCharge(charge);
             charge.setDisplayPosition(Math.random() * myWidth, Math.random() * myHeight);
         }
+
+        mosaic.draw();
 
         var txt1 : TextField = new TextField();
         txt1.text = "foobar";
@@ -59,6 +67,7 @@ public class ChargesAndFieldsDisplay extends Sprite {
         myWidth = this.stage.stageWidth;
         myHeight = this.stage.stageHeight;
         background.changeSize(myWidth, myHeight);
+        mosaic.changeSize(myWidth, myHeight);
     }
 }
 }

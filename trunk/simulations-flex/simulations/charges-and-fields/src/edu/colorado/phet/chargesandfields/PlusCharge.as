@@ -6,13 +6,15 @@ public class PlusCharge extends Charge {
     [Embed(source='assets.swf', symbol='plusCharge_mc')]
     public static var plusMC : Class;
 
-    public function PlusCharge() {
+    public function PlusCharge(mosaic : VoltageMosaic) {
 
         // create a child sprite containing the graphics
         var mc : Sprite = new plusMC();
         addChild(mc);
 
-        super();
+        q = 1;
+
+        super(mosaic);
     }
 }
 
