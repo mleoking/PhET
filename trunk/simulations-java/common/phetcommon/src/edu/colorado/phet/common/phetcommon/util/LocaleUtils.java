@@ -32,7 +32,7 @@ public class LocaleUtils {
      * @param locale
      * @return
      */
-    private static String localeToString( Locale locale ) {
+    public static String localeToString( Locale locale ) {
         assert ( locale != null );
         // tempting to use locale.toString here, but don't do it.
         if ( locale.getCountry().equals( "" ) ) {
