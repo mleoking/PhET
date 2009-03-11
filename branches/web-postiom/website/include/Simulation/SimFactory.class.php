@@ -140,14 +140,16 @@ class SimFactory {
         }
 
         if ($db_data['sim_type'] == self::JAVA_TYPE) {
-            $this->idMap[$sim_id] = $this->getJavaSimulation($db_data);
+            $sim = $this->getJavaSimulation($db_data);
         }
         else if ($db_data['sim_type'] == self::FLASH_TYPE) {
-            $this->idMap[$sim_id] = $this->getFlashSimulation($db_data);
+            $sim = $this->getFlashSimulation($db_data);
         }
         else {
             throw new PhetSimException("Bad simulation type received from database");
         }
+
+        $this->idMap[$sim_id] = new SimulationHTMLDecorator($sim);
 
         return $this->idMap[$sim_id];
     }
@@ -172,6 +174,25 @@ class SimFactory {
             $sims[] = $this->getById($row['sim_id']);
         }
            
+        return $sims;
+    }
+
+    private function cmpSortingName($a, $b) {
+        //var_dump("called", $a, $b);
+        return strcmp($a->getSortingName(), $b->getSortingName());
+    }
+
+    public function getAllSims($sort = false) {
+        $sims = array();
+        $db_data = $this->getSimDBData();
+        foreach ($db_data as $data) {
+            $sims[] = $this->getById($data['sim_id']);
+        }
+
+        if ($sort) {
+            usort($sims, array($this, 'cmpSortingName'));
+        }
+
         return $sims;
     }
 }

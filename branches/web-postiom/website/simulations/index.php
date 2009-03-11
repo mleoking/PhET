@@ -74,11 +74,6 @@ class SimulationsPage extends SitePage {
             $simulations = SimFactory::inst()->getSimsByCatId($cat_id, false);
         }
 
-        // Wrap the sims in HTML decorators
-        foreach ($simulations as $key => $value) {
-            $simulations[$key] = new SimulationHTMLDecorator($value);
-        }
-
         $num_sims_in_category = count($simulations);
 
         if ($view_type == "thumbs") {
@@ -190,7 +185,7 @@ EOT;
             $url .= '&amp;view_type=thumbs';
             $anchor = WebUtils::inst()->buildAnchorTag($url, 'Thumbnail View');
 
-            print "<div id=\"listing_type\">{$anchor}</a></div>";
+            print "<div id=\"listing_type\">{$anchor}</div>";
 
             // ALPHABETICAL INDEX
 

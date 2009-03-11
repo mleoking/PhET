@@ -19,7 +19,7 @@ class IndividualSimulationPage extends SitePage {
             return $result;
         }
 
-        $this->simobj = null;
+        $this->sim = null;
         if (!isset($_REQUEST['sim'])) {
             $this->set_title("No Simulation");
             return;
@@ -29,10 +29,7 @@ class IndividualSimulationPage extends SitePage {
 
         $sim_encoding = $_REQUEST['sim'];
 
-        // ** Brave new world **
-        $this->simobj = SimFactory::inst()->getFromWebEncodedName($sim_encoding);
-        $this->simhtml = new SimulationHTMLDecorator($this->simobj);
-
+        $this->sim = SimFactory::inst()->getFromWebEncodedName($sim_encoding);
 
         $this->addKeywordsToTitle();
 
@@ -82,12 +79,12 @@ EOT;
 
     function addKeywordsToTitle() {
         // Add keywords to title
-        $new_title = "PhET {$this->simhtml->getName()} - ";
+        $new_title = "PhET {$this->sim->getName()} - ";
 
         $delimiter = ', ';
         $title_keywords = array();
         $len = strlen($new_title);
-        foreach ($this->simobj->getKeywords() as $keyword) {
+        foreach ($this->sim->getKeywords() as $keyword) {
             if (($len + strlen($keyword)) > self::MAX_TITLE_CHARS) {
                 break;
             }
@@ -107,38 +104,41 @@ EOT;
             return $result;
         }
 
-        if (is_null($this->simobj)) {
+        // Will need this later
+        $simobj = $this->sim->getWrapped();
+
+        if (is_null($this->sim)) {
             print "<p>There is no simulation by the specified id.</p>";
 
             return;
         }
 
         $guidance_html = '';
-        if ($this->simhtml->getGuidanceRecommended()) {
-            $guidance_html = $this->simhtml->getGuidanceAnchorTag();
+        if ($this->sim->getGuidanceRecommended()) {
+            $guidance_html = $this->sim->getGuidanceAnchorTag();
         }
 
         // TODO: Remove explicit class checking
         $sim_java_upgrade_html = "";
-        if ($this->simobj->getType() == 'Java') {
+        if ($this->sim->getType() == 'Java') {
             $sim_java_upgrade_html = $this->get_sim_java_upgrade_html();
         }
 
         // TODO: Remove explicit class checking
         $sim_type_version = array('win', 'osx', 'lin');
-        if ($this->simobj->getType() == 'Java') {
+        if ($this->sim->getType() == 'Java') {
             $sim_type_version['win'] = JAVA_MIN_VERSION_WIN_FULL;
             $sim_type_version['osx'] = JAVA_MIN_VERSION_OSX_FULL;
             $sim_type_version['lin'] = JAVA_MIN_VERSION_LIN_FULL;
         }
-        else if ($this->simobj->getType() == 'Flash') {
+        else if ($this->sim->getType() == 'Flash') {
             $sim_type_version['win'] = FLASH_MIN_VERSION_FULL;
             $sim_type_version['osx'] = FLASH_MIN_VERSION_FULL;
             $sim_type_version['lin'] = FLASH_MIN_VERSION_FULL;
         }
 
 
-        $version = $this->simhtml->getVersion();
+        $version = $this->sim->getVersion();
         $sim_version_html = '';
         if (!empty($version['major']) && !empty($version['minor'])) {
             $sim_version_html = <<<EOT
@@ -157,11 +157,11 @@ EOT;
             {$sim_java_upgrade_html}
 
             <div id="simsummary">
-                <p class="sim-abstract">{$this->simhtml->getDescription()}</p>
+                <p class="sim-abstract">{$this->sim->getDescription()}</p>
 
                 <table id="simratings">
                     <tr>
-                        <td>{$guidance_html}</td>   <td>&nbsp;</td>     <td>{$this->simhtml->getRatingImageAnchorTag()}</td>
+                        <td>{$guidance_html}</td>   <td>&nbsp;</td>     <td>{$this->sim->getRatingImageAnchorTag()}</td>
                     </tr>
                 </table>
 
@@ -169,15 +169,15 @@ EOT;
                     <div class="stats">
                         {$sim_version_html}
                         <span class="size">
-                            {$this->simhtml->getSize()} KB
+                            {$this->sim->getSize()} KB
                         </span>
 
 EOT;
 
                         $url        = urlencode("http://".PHET_DOMAIN_NAME."/".$_SERVER['REQUEST_URI']);
-                        $title      = urlencode($this->simobj->getName()." - Interactive Physics Simulation");
+                        $title      = urlencode($simobj->getName()." - Interactive Physics Simulation");
 
-                        $digg_body  = urlencode(html_entity_decode($this->simobj->getDescription()));
+                        $digg_body  = urlencode($simobj->getDescription());
                         $digg_topic = urlencode("general_sciences");
                         $digg_link  = "http://digg.com/submit?phase=2&amp;url={$url}&amp;title={$title}&amp;bodytext={$digg_body}&amp;topic={$digg_topic}";
 
@@ -187,7 +187,7 @@ EOT;
                             $download_button_slot = '&nbsp;';
                         }
                         else {
-                            $download_url = $this->simhtml->getDownloadUrl();
+                            $download_url = $this->sim->getDownloadUrl();
                             
                             $download_button_slot = '';
                             if (!empty($download_url)) {
@@ -214,8 +214,8 @@ EOT;
             </div>
 
             <div id="simpreview">
-                <a href="{$this->simhtml->getLaunchUrl()}" {$this->simhtml->getLaunchOnClick()}>
-                    {$this->simhtml->getScreenshotImageTag()}
+                <a href="{$this->sim->getLaunchUrl()}" {$this->sim->getLaunchOnClick()}>
+                    {$this->sim->getScreenshotImageTag()}
                 </a>
 
                 <div id="simrunoptions">
@@ -227,7 +227,7 @@ EOT;
 
                             <td>
                                 <div class="rage_button_358398">
-                                    <a href="{$this->simhtml->getLaunchUrl()}" {$this->simhtml->getLaunchOnClick()} title="Click here to run the simulation from your browser">Run Now!</a>
+                                    <a href="{$this->sim->getLaunchUrl()}" {$this->sim->getLaunchOnClick()} title="Click here to run the simulation from your browser">Run Now!</a>
                                 </div>
                             </td>
                         </tr>
@@ -251,23 +251,23 @@ EOT;
         <h1 class="indi-sim" id="topics">Topics</h1>
 
         <h2>Main Topics</h2>
-{$WebUtils->buildBulletedList($this->simhtml->getMainTopics())}
+{$WebUtils->buildBulletedList($this->sim->getMainTopics())}
         <h2>Related Topics</h2>
 
         <ul>
             <li>
-{$WebUtils->buildSpanCommaList($this->simhtml->getKeywords(), array('class' => 'keywordlist'))}
+{$WebUtils->buildSpanCommaList($this->sim->getKeywords(), array('class' => 'keywordlist'))}
             </li>
         </ul>
 
         <h2>Sample Learning Goals</h2>
-{$WebUtils->buildBulletedList($this->simhtml->getLearningGoals())}
+{$WebUtils->buildBulletedList($this->sim->getLearningGoals())}
 
 EOT;
 
-        if ($this->simhtml->hasTeachersGuide()) {
+        if ($this->sim->hasTeachersGuide()) {
             $guide_html = <<<EOT
-                The {$this->simhtml->getTeachersGuideAnchorTag()} contains tips for teachers created by the PhET team (PDF).
+                The {$this->sim->getTeachersGuideAnchorTag()} contains tips for teachers created by the PhET team (PDF).
 
 EOT;
         }
@@ -316,7 +316,7 @@ EOT;
             $next_order = 'desc';
         }
 
-        $Simulations = array($this->simobj->getName());
+        $Simulations = array($simobj->getName());
         $Types = array( 'all' );
         $Levels = array( 'all' );
 
@@ -340,7 +340,7 @@ EOT;
         <div class="p-indentation">
         <form id="quicksubmit" enctype="multipart/form-data" action="submit-contribution.php" method="post">
             <div>
-                <input type="hidden" name="sim_id"   value="{$this->simhtml->getId()}" />
+                <input type="hidden" name="sim_id"   value="{$this->sim->getId()}" />
             </div>
 
             <p>Note: The maximum file size is <strong>{$file_max_size}</strong>, with a maximum upload of <strong>{$post_max_size}</strong> at a time.</p>
@@ -394,7 +394,7 @@ EOT;
 
         <h1 class="indi-sim" id="software">Software Requirements</h1>
 
-        <p>{$this->simhtml->getTypeImageAnchorTag()}</p>
+        <p>{$this->sim->getTypeImageAnchorTag()}</p>
 
         <div class="compact">
             <table>
@@ -440,7 +440,7 @@ EOT;
 
 EOT;
 
-    $translations = $this->simobj->getTranslations();
+        $translations = $this->sim->getTranslations();
 
         if (count($translations) > 0) {
             // Only have a "Download" column if this is not for the installer
@@ -469,28 +469,28 @@ EOT;
                 continue;
             }
 
-            $launch_link_open = "a href=\"{$this->simhtml->getLaunchUrl($locale)}\" title=\"Click here to launch the {$locale_info['locale_name']} version of {$this->simhtml->getName()}\"";
+            $launch_link_open = "a href=\"{$this->sim->getLaunchUrl($locale)}\" title=\"Click here to launch the {$locale_info['locale_name']} version of {$this->sim->getName()}\"";
 
             // Download link is provided if it exists and this is not the installer-builder
             $download_html = '';
             if (!$this->is_installer_builder_rip()) {
-                $download_url = $this->simhtml->getDownloadUrl($locale);
+                $download_url = $this->sim->getDownloadUrl($locale);
                 if (empty($download_url)) {
                     $download_html = "<td><em>Not available</em></td>";
                 }
                 else {
-                    $download_html = "<td><a href=\"{$download_url}\" title=\"Click here to download the {$locale_info['locale_name']} version of {$this->simhtml->getName()}\">Download</a></td>";
+                    $download_html = "<td><a href=\"{$download_url}\" title=\"Click here to download the {$locale_info['locale_name']} version of {$this->sim->getName()}\">Download</a></td>";
                 }
             }
 
             print <<<EOT
 <tr style="vertical-align: bottom;">
   <td>
-    <{$launch_link_open} {$this->simhtml->getLaunchOnClick($locale)}>{$locale_info['language_img']}</a>
-    <{$launch_link_open} {$this->simhtml->getLaunchOnClick($locale)}>{$locale_info['country_img']}</a>
+    <{$launch_link_open} {$this->sim->getLaunchOnClick($locale)}>{$locale_info['language_img']}</a>
+    <{$launch_link_open} {$this->sim->getLaunchOnClick($locale)}>{$locale_info['country_img']}</a>
   </td>
   <td>
-    <{$launch_link_open} {$this->simhtml->getLaunchOnClick($locale)}>{$locale_info['locale_name']}</a>
+    <{$launch_link_open} {$this->sim->getLaunchOnClick($locale)}>{$locale_info['locale_name']}</a>
   </td>
   {$download_html}
 </tr>
@@ -542,15 +542,15 @@ EOT;
                 <tbody>
                     <tr>
                         <td>
-{$WebUtils->buildBulletedList($this->simhtml->getDesignTeam())}
+{$WebUtils->buildBulletedList($this->sim->getDesignTeam())}
                         </td>
 
                         <td>
-{$WebUtils->buildBulletedList($this->simhtml->getLibraries())}
+{$WebUtils->buildBulletedList($this->sim->getLibraries())}
                         </td>
 
                         <td>
-{$WebUtils->buildBulletedList($this->simhtml->getThanksTo())}
+{$WebUtils->buildBulletedList($this->sim->getThanksTo())}
                         </td>
                     </tr>
                 </tbody>
@@ -561,16 +561,16 @@ EOT;
     }
 
     function render_title() {
-        if (is_null($this->simobj)) {
+        if (is_null($this->sim)) {
             parent::render_title();
             return;
         }
 
         if (isset($this->user) && ($this->user["contributor_is_team_member"] == '1')) {
-            print "<h1 class=\"first-child\"><a href=\"{$this->prefix}admin/edit-sim.php?sim_id={$this->simhtml->getId()}\" title=\"Click here to edit the simulation\">{$this->simhtml->getName()}</a></h1>";
+            print "<h1 class=\"first-child\"><a href=\"{$this->prefix}admin/edit-sim.php?sim_id={$this->sim->getId()}\" title=\"Click here to edit the simulation\">{$this->sim->getName()}</a></h1>";
         }
         else {
-            print "<h1 class=\"first-child\"><a href=\"{$this->simhtml->getLaunchUrl()}\" {$this->simhtml->getLaunchOnClick()}>{$this->simhtml->getName()}</a></h1>";
+            print "<h1 class=\"first-child\"><a href=\"{$this->sim->getLaunchUrl()}\" {$this->sim->getLaunchOnClick()}>{$this->sim->getName()}</a></h1>";
         }
     }
 

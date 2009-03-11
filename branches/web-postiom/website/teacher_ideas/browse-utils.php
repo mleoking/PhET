@@ -99,9 +99,9 @@
     function browse_get_contributions($Simulations, $Types, $Levels, $sort_by, $order) {
         $contributions = newer_contribution_get_specific_contributions($Simulations, $Types, $Levels);
 
-        $contributions = /*orig_*/browse_sort_contributions($contributions, $sort_by, $order);
+        $sorted_contributions = /*orig_*/browse_sort_contributions($contributions, $sort_by, $order);
 
-        return $contributions;
+        return $sorted_contributions;
     }
 
     function browse_url_encode_list($name, $list) {

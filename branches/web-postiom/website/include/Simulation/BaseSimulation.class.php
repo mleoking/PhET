@@ -36,7 +36,7 @@ abstract class BaseSimulation implements SimulationInterface {
         'name' => array('sim_name', 'string'),
         'project_name' => array('sim_dirname', 'string'),
         'sim_name' => array('sim_flavorname', 'string'),
-        'sorting_name' => array('sim_sorting_name', 'string'),
+        'sorting_name' => array('sim_sorting_name', 'tolower_string'),
         'guidance_recommended' => array('sim_crutch', 'bool'),
         'rating' => array('sim_rating', 'int'),
         'description' => array('sim_desc', 'string'),
@@ -64,6 +64,10 @@ abstract class BaseSimulation implements SimulationInterface {
                     break;
                 case 'string':
                     $data = $raw_data;
+                    break;
+                case 'tolower_string':
+                    // TODO: data should come out of database already lowercased
+                    $data = strtolower($raw_data);
                     break;
                 case 'delimited-list':
                     // TODO: fix data in database so the trim is not neede
@@ -161,6 +165,10 @@ abstract class BaseSimulation implements SimulationInterface {
     public function getScreenshotUrl() {
         $basename = "{$this->project_name}/{$this->sim_name}-screenshot.png";
         return self::sim_root.$basename;
+    }
+
+    public function getAnimatedScreenshotUrl() {
+        return self::sim_root."{$this->project_name}/{$this->sim_name}-animated-screenshot.gif";
     }
 
     public function getThumbnailUrl() {
@@ -269,7 +277,6 @@ abstract class BaseSimulation implements SimulationInterface {
         $translations = $end;
         usort($translations, array(Locale::inst(), 'sortCodeByNameCmp'));
         return $translations;
-
     }
 
     public function getVersion() {

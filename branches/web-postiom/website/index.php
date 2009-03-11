@@ -60,11 +60,12 @@ EOT;
 
 EOT;
 
-        $default_sim_category = sim_get_encoded_default_category();
+        $default_category = CategoryUtils::inst()->getDefaultCategory();
+        $default_sim_category = WebUtils::inst()->encodeString($default_category['cat_name']);
 
             print <<<EOT
                             <a href="about/news.php">What's New</a> |
-                            <a href="about/index.php">About PhET</a>
+                            <a href="about/index.php">About PhET</a> <!-- ' -->
                         </td>
                     </tr>
                 </table>
@@ -167,7 +168,7 @@ EOT;
             <dl>
                 <dt onclick="javascript:location.href='contribute/index.php'"><a href="contribute/index.php">Contribute</a></dt>
 
-                <dd><a href="teacher_ideas/index.php">Provide ideas you've used in class</a></dd>
+                <dd><a href="teacher_ideas/index.php">Provide ideas you've used in class</a></dd><!-- ' -->
 
                 <dd><a href="contribute/index.php">Support PhET</a></dd>
 
@@ -181,7 +182,7 @@ EOT;
                     <a class="nolink" href="simulations/index.php">
 
 EOT;
-                            display_slideshow(sim_get_static_previews(), "150", "110");
+            display_slideshow(SimUtils::inst()->getAllStaticPreviewUrls(), "150", "110");
 
                         print <<<EOT
                     </a>

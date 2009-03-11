@@ -7,6 +7,7 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
 require_once("page_templates/SitePage.php");
+require_once("include/installer-utils.php");
 
 class TroubleshootingPage extends SitePage {
 
@@ -19,8 +20,6 @@ class TroubleshootingPage extends SitePage {
         $installer_url = SITE_ROOT.'get_phet/full_install.php';
         $installer_name = 'PhET Offline Website Installer';
         $installer_anchor = '<a href="'.SITE_ROOT.'get_phet/full_install.php">'.$installer_name.'</a>';
-
-        $no_mac = SIM_NO_MAC_IMAGE_HTML;
 
         $phet_help_email = PHET_HELP_EMAIL;
 

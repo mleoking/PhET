@@ -11,7 +11,6 @@
     require_once("include/db-utils.php");
     require_once("include/web-utils.php");
     require_once("include/sys-utils.php");
-    require_once("include/sim-utils.php");
     require_once("include/nominate-utils.php");
 
     define("BROWSE_CACHE",                 'browse-pages');
@@ -123,37 +122,6 @@
         }
 
         return $files_html;
-    }
-
-    /**
-     * This function is unused
-     *
-     * @param unknown_type $contribution_id
-     * @return unknown
-     */
-    function contribution_get_simulations_listing_html($contribution_id) {
-        $simulations_html = "<ul>";
-
-        $simulation_listings = contribution_get_associated_simulation_listings($contribution_id);
-
-        foreach($simulation_listings as $simulation_listing) {
-            //eval(get_code_to_create_variables_from_array($simulation_listing));
-            $sim_id = $simulation_listing["sim_id"];
-            $simulation = sim_get_sim_by_id($sim_id);
-
-            //eval(get_code_to_create_variables_from_array($simulation));
-            $sim_name = $simulation["sim_name"];
-            $simulation_contribution_id = $simulation["simulation_contribution_id"]; 
-            $delete = "<input name=\"delete_simulation_contribution_id_{$simulation_contribution_id}\" type=\"submit\" value=\"Delete\" />";
-
-            $sim_url = sim_get_url_to_sim_page($sim_id);
-
-            $simulations_html .= "<li>$delete <a href=\"$sim_url\">".format_string_for_html($sim_name)."</a></li>";
-        }
-
-        $simulations_html .= "</ul>";
-
-        return $simulations_html;
     }
 
     /**
@@ -693,6 +661,7 @@ EOT;
     }
 
     function contribution_print_full_edit_form($contribution_id, $script, $return_to, $button_name = 'Update', $page = null) {
+
         $contributor_authenticated = $page->authenticate_user_is_authorized();
 
         $contributor = $page->authenticate_get_user();
@@ -775,9 +744,9 @@ EOT;
         }
 
         if ($contribution_keywords == '' && isset($GLOBALS['sim_id'])) {
-            $simulation = sim_get_sim_by_id($GLOBALS['sim_id']);
-
-            $contribution_keywords = format_for_html($simulation['sim_keywords']);
+            // Not sure when this is valid, not sure if it ever is...
+            $simulation = SimFactory::inst()->getById($GLOBALS['sim_id']);
+            $contribution_keywords = $simulation->getKeywords();
         }
 
         $all_contribution_types = contribution_get_all_template_type_names();
@@ -932,7 +901,7 @@ EOT;
 
                             print_multiple_selection(
                                 'Simulation',
-                                sim_get_all_sim_names(),
+                                SimUtils::inst()->getAllSimNames(),
                                 contribution_get_associated_simulation_listing_names($contribution_id),
                                 true,
                                 true,
@@ -1342,7 +1311,8 @@ EOT;
         // Do sims
         $sims = array();
         foreach ($all_contribution_info["simulations"] as $sim) {
-            $sims[] = sim_get_link_to_sim_page_by_name(format_string_for_html($sim["sim_name"]));
+            $sim = SimFactory::inst()->getById($sim['sim_id']);
+            $sims[] = WebUtils::inst()->buildAnchorTag($sim->getPageUrl(), $sim->getName());
         }
 
         if (count($sims) > 0) {
@@ -1417,7 +1387,8 @@ EOT;
 EOT;
 
         if ($contribution_from_phet == 1) {
-        $title_html = "${title_html} ".FROM_PHET_IMAGE_HTML;
+            $title_html = "${title_html} ".
+                SimUtils::inst()->getContributionFromPhetImageAnchorTag();
         }
 
         $title_html .= $gold_star_html;
@@ -2094,56 +2065,6 @@ EOT;
         return $new_contribs;
     }
 
-
-    function contribution_explode_contributions($contributions) {
-        // Index by number:
-        $contributions = array_values($contributions);
-
-        $exploded = array();
-
-        $explosion_functions = array(
-            'contribution_get_levels_for_contribution',
-            'contribution_get_types_for_contribution',
-            'contribution_get_associated_simulation_listings',
-        );
-
-        foreach($explosion_functions as $explosion_function) {
-            $exploded = array();
-
-            foreach($contributions as $contribution) {
-                $contribution_id = $contribution['contribution_id'];
-
-                $array = call_user_func($explosion_function, $contribution_id);
-
-                $new_contribs = contribution_explode_contribution_by_array($contribution, $array);
-
-                $exploded = array_merge($exploded, $new_contribs);
-            }
-
-            $contributions = $exploded;
-        }
-
-        // Join simulation data:
-        $final = array();
-
-        foreach($exploded as $contribution) {
-            if (isset($contribution['sim_id'])) {
-                $simulation = sim_get_sim_by_id($contribution['sim_id']);
-
-                if (is_array($simulation)) {
-                    foreach($simulation as $key => $value) {
-                        $contribution["$key"] = "$value";
-                    }
-                }
-            }
-
-            $final[] = $contribution;
-        }
-
-        return $final;
-    }
-
-
     function newer_contribution_get_specific_contributions($sim_names, $type_descs, $level_descs) {
         $contributions = array();
 
@@ -2218,7 +2139,7 @@ EOT;
 
         // Now the sims
         $sql = <<<EOT
-            SELECT sc.contribution_id, s.sim_name
+            SELECT sc.contribution_id, s.sim_id, s.sim_name
               FROM simulation AS s, simulation_contribution AS sc
               WHERE sc.sim_id=s.sim_id
                 AND sc.contribution_id 

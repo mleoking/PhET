@@ -173,10 +173,13 @@ EOT;
             "Home"
         );
 
+        $default_category = CategoryUtils::inst()->getDefaultCategory();
+        $def_name = $default_category['cat_name'];
+        $encoded_default_cat_name = WebUtils::inst()->encodeString($def_name);
         $this->print_navigation_element(
             $prefix,
             $selected_page,
-            "simulations/index.php?cat=".sim_get_encoded_default_category(),
+            "simulations/index.php?cat=".$encoded_default_cat_name,
             "Simulations",
             $this->get_sim_categories_for_navbar($prefix)
         );
@@ -206,7 +209,7 @@ EOT;
             "get_phet/index.php",
             "Run our Simulations",
             array(
-                'simulations/index.php?cat='.sim_get_encoded_default_category() => 'On Line',
+                'simulations/index.php?cat='.$encoded_default_cat_name,
                 'get_phet/full_install.php' => 'Full Install',
                 'get_phet/simlauncher.php'  => 'One at a Time'
             )
@@ -362,12 +365,15 @@ EOT;
 function get_sim_categories_for_navbar_callback($user_var, $category, $depth, $has_children) {
     $cat_id   = $category['cat_id'];
     $cat_name = $category['cat_name'];
+    $encoded_cat_name = WebUtils::inst()->encodeString($cat_name);
 
-    $link = sim_get_category_url_by_cat_id($cat_id);
-
+    $url = CategoryUtils::inst()->getCategoryBaseUrl($encoded_cat_name);
+    // Hack: remove the SITE_ROOT
+    $url = substr($url, 3);
+  
     $pad_left = 0 + (($depth - 1) * 20)."px";
 
-    $user_var->sim_categories["$link"] = array($cat_name, $pad_left);
+    $user_var->sim_categories["$url"] = array($cat_name, $pad_left);
 }
 
 ?>

@@ -1,5 +1,9 @@
 <?php
 
+var_dump("SIM-UTILS.PHP included");
+    assert(FALSE);
+
+
     // Utils to support sims
 
     // In each web accessable script SITE_ROOT must be defined FIRST

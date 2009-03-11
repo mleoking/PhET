@@ -14,6 +14,7 @@ require_once(dirname(dirname(__FILE__))."/include/global.php");
 require_once("page_templates/BasePage.php");
 require_once("page_templates/NavBar.php");
 require_once("include/authentication.php");
+require_once("include/cache-utils.php");
 
 // Required athentication levels to view the page
 // The numbers must increase so that they may be compared

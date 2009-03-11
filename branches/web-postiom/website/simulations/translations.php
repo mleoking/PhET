@@ -6,8 +6,9 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
+    //var_dump("HERE");
 require_once("page_templates/SitePage.php");
-require_once("include/sim-utils.php");
+    //require_once("include/sim-utils.php");
 
 class TranslationsPage extends SitePage {
 
@@ -16,8 +17,6 @@ class TranslationsPage extends SitePage {
         if (!$result) {
             return $result;
         }
-
-        $this->set_css_container_name("container");
     }
 
     function render_content() {
@@ -33,6 +32,7 @@ class TranslationsPage extends SitePage {
             </p>
 
 EOT;
+        // ' <-- That aprostrophe makes Emacs highlighting back to normal
 
         /*************************************************************/
         // Translations header, links to sections that contain the localizd sims

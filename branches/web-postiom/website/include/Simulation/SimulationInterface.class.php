@@ -30,6 +30,7 @@ interface SimulationInterface {
     public function getLearningGoals();
 
     public function getScreenshotUrl();
+    public function getAnimatedScreenshotUrl();
 
     public function getThumbnailUrl();
 

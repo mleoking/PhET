@@ -71,6 +71,10 @@ class SimulationHTMLDecorator implements SimulationInterface, SimulationEnhancer
         $this->sim = $undecorated_sim;
     }
 
+    public function getWrapped() {
+        return $this->sim;
+    }
+
     //    public function __call($method, $arguments) {
     //        throw new RuntimeException("SimulationHTMLDecorator method called that doesn't exist: {$method}");
         /*
@@ -214,6 +218,10 @@ class SimulationHTMLDecorator implements SimulationInterface, SimulationEnhancer
         return htmlentities($this->sim->getScreenshotUrl());
     }
 
+    public function getAnimatedScreenshotUrl() {
+        return htmlentities($this->sim->getAnimatedScreenshotUrl());
+    }
+
     public function getThumbnailUrl() {
         return htmlentities($this->sim->getThumbnailUrl());
     }
@@ -223,7 +231,8 @@ class SimulationHTMLDecorator implements SimulationInterface, SimulationEnhancer
     }
 
     public function getTranslations() {
-        throw new RuntimeError("Not Implemented");
+        // Only locale codes that don't need encoding
+        return $this->sim->getTranslations();
     }
 
     public function getPageUrl() {
@@ -284,6 +293,7 @@ class SimulationHTMLDecorator implements SimulationInterface, SimulationEnhancer
     public function getGuidanceImageUrl() {
         return SITE_ROOT.'images/sims/ratings/crutch25x25.png';
     }
+
     public function getGuidanceDescription() {
         return 'Guidance Recommended: This simulation is very effective when used in conjunction with a lecture, homework or other teacher designed activity.';
     }

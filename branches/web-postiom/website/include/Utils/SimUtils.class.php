@@ -1,5 +1,7 @@
 <?php
 
+require_once('include/db-utils.php');
+
 class SimUtils {
     private static $instance;
 
@@ -45,6 +47,83 @@ class SimUtils {
         }
 
         return $tagMap[$rating];
+    }
+
+    public function getContributionFromPhetImageAnchorTag() {
+        $img_attributes = array(
+            'alt' => 'Designed by PhET Icon',
+            'title' => 'PhET Designed: This contribution was designed by PhET'
+            );
+        $image_tag = WebUtils::inst()->buildImageTag(
+            SITE_ROOT.'images/phet-logo-icon.jpg',
+            $img_attributes);
+        $anchor_tag = WebUtils::inst()->buildAnchorTag(
+            SITE_ROOT.'about/legend.php',
+            $image_tag
+            );
+        return $anchor_tag;
+        define("FROM_PHET_IMAGE_HTML", '<a href="'.SITE_ROOT.'about/legend.php"><img src="'.SITE_ROOT.'images/phet-logo-icon.jpg" alt="Designed by PhET Icon" title="PhET Designed: This contribution was designed by PhET." /></a>');
+
+    }
+
+    public function getAllSimNames($id_prefix = 'sim_id_') {
+        $sims = SimFactory::inst()->getAllSims(TRUE);
+        $mapped_sims = array();
+        foreach ($sims as $sim) {
+            $mapped_sims["{$id_prefix}{$sim->getId()}"] = $sim->getName();
+        }
+
+        return $mapped_sims;
+    }
+
+    private function getAllImagePreviewUrls($animated) {
+        // A near-copy of sim_get_image_previews
+        // Get the database connection, start it if if this is the first call
+
+        $type = ($animated) ? 'animated' : 'static';
+
+        $query = "SELECT * FROM `category` WHERE `cat_is_visible`='0' ";
+        $category_rows = db_get_rows_custom_query($query);
+
+        foreach ($category_rows as $category_row) {
+            $cat_id   = $category_row['cat_id'];
+            $cat_name = $category_row['cat_name'];
+
+            if (preg_match("/.*{$type}.*preview.*/i", $cat_name) == 1) {
+                $images = array();
+
+                $cat_sims = SimFactory::inst()->getSimsByCatId($cat_id);
+                foreach ($cat_sims as $simulation) {
+                    if ($animated) {
+                        $animated_screenshot = $simulation->getAnimatedScreenshotUrl();
+                        // This double check is because sometime the screenshots
+                        // that are expected to be seen are not present.  See
+                        // ticket #1444 for an example.
+                        if (file_exists($animated_screenshot)) {
+                            $images[] = $animated_screenshot;
+                        }
+                    }
+                    else {
+                        $static_screenshot = $simulation->getScreenshotUrl();
+                        $images[] = $static_screenshot;
+                    }
+                }
+
+                return $images;
+            }
+        }
+
+        return FALSE;
+    }
+
+    public function getAllAnimatedPreviewUrls() {
+        // A near-copy of sim_get_animated_previews
+        return $this->getAllImagePreviewUrls(TRUE);
+    }
+
+    public function getAllStaticPreviewUrls() {
+        // A near-copy of sim_get_static_previews
+        return $this->getAllImagePreviewUrls(FALSE);
     }
 }
 
