@@ -12,40 +12,41 @@ require_once("page_templates/SitePage.php");
 
 class TranslationsPage extends SitePage {
 
-    function update() {
-        $result = parent::update();
-        if (!$result) {
-            return $result;
+    private function build_locale_to_sim_table($simulations) {
+        $translations = array();
+        foreach ($simulations as $sim) {
+            $sim_trans = $sim->getTranslations();
+            foreach ($sim_trans as $locale) {
+                if (!array_key_exists($locale, $translations)) {
+                    $translations[$locale] = array();
+                }
+
+                $translations[$locale][] = $sim;
+            }
         }
+
+        return $translations;
     }
 
-    function render_content() {
-        $result = parent::render_content();
-        if (!$result) {
-            return $result;
-        }
+    private function sort_translations_inplace(&$translations) {
+        uksort($translations, array(Locale::inst(), 'sortCodeByNameCmp'));
+    }
 
+    private function get_all_translations() {
+        $simulations = SimFactory::inst()->getAllSims(true);
+        $translations = $this->build_locale_to_sim_table($simulations);
+        $this->sort_translations_inplace($translations);
+        return $translations;
+    }
+
+    private function render_translations_toc($sim_translations) {
         print <<<EOT
-            <h2>Can't find a translation?</h2>
-            <p>
-                <a href="{$this->prefix}contribute/translation-utility.php">Create a New Translation!</a>
-            </p>
-
-EOT;
-        // ' <-- That aprostrophe makes Emacs highlighting back to normal
-
-        /*************************************************************/
-        // Translations header, links to sections that contain the localizd sims
-        /*************************************************************/
-
-        print <<<EOT
-    <hr />
 
             <h2>All Translations</h2>
 
 EOT;
         
-        $sim_translations = sim_get_all_sim_translations();
+        //$sim_translations = sim_get_all_sim_translations();
         $localeUtils = Locale::inst();
 
         print "<table>\n";
@@ -57,6 +58,7 @@ EOT;
             }
 
             $link = "<a href=\"#{$locale}\">{$locale_info['locale_name']}</a>";
+            //$link = WebUtils::inst()->buildAnchorTag("#{$locale}", $locale_info['locale_name']);
             $sim_count = count($sim_list);
             print <<<EOT
                 <tr>
@@ -71,38 +73,46 @@ EOT;
 EOT;
         }
         print "</table>\n";
+    }
 
-        /*************************************************************/
-        // Translations content, sections that contain the localizd sims
-        /*************************************************************/
-        foreach ($sim_translations as $locale => $sim_list) {
-            $locale_info = $localeUtils->getFullInfo($locale);
-            if ($locale_info === false) {
-                // TODO: log error
-                continue;
-            }
+    private function render_locale_translated_sims($locale, $sim_list) {
+        $localeUtils = Locale::inst();
+        $locale_info = $localeUtils->getFullInfo($locale);
+        if ($locale_info === false) {
+            // TODO: log error
+            continue;
+        }
 
-            print <<<EOT
+        print <<<EOT
             <hr />
 
             <h3 id="{$locale}">{$locale_info['language_img']} {$locale_info['country_img']} - {$locale_info['locale_name']}</h3>
             <table class="localized_sims">
 
 EOT;
+
             $count = 0;
             $last_sim = count($sim_list);
-            foreach ($sim_list as $sim_id) {
-                $sim = sim_get_sim_by_id($sim_id);
-                $formatted_sim_name = format_for_html($sim['sim_name']);
-                $sim_page = sim_get_url_to_sim_page($sim['sim_id']);
-                $launch_url = sim_get_launch_url($sim, $locale);
-                $launch_link_open = "a href=\"{$launch_url}\" title=\"Click here to launch the {$locale_info['locale_name']} version of {$formatted_sim_name}\"";
+            foreach ($sim_list as $sim) {
+                $launch_anchor_attributes = array(
+                    'title' => "Click here to launch the {$locale_info['locale_name']} version of {$sim->getName()}"
+                    );
 
-                // Flash sims should run in a new window
-                $onclick = "";
-                if ($sim['sim_type'] == SIM_TYPE_FLASH) {
-                    $onclick = 'onclick="javascript:open_limited_window(\''.$launch_url.'\',\'simwindow\'); return false;"';
+                $onclick = $sim->getLaunchOnClick();
+                if (!empty($onclick)) {
+                    $launch_anchor_attributes['onclick'] = $sim->getLaunchOnClick($locale);
                 }
+
+                $lang_launch_anchor_tag = WebUtils::inst()->buildAnchorTag(
+                    $sim->getLaunchUrl($locale),
+                    $sim->getName(),
+                    $launch_anchor_attributes
+                    );
+                $launch_anchor_tag = WebUtils::inst()->buildAnchorTag(
+                    $sim->getLaunchUrl($locale),
+                    'Run Now',
+                    $launch_anchor_attributes
+                    );
 
                 $count = $count + 1;
                 $last_row = "";
@@ -113,25 +123,59 @@ EOT;
 
                 $download_html = '';
                 if (!$this->is_installer_builder_rip()) {
-                    $download_url = sim_get_download_url($sim, $locale, true);
+                    $download_url = $sim->getDownloadUrl($locale);
                     if (empty($download_url)) {
-                        $download_html = "<td><em>Download not available</em></td>";
+                        $download_html = '<td><em>Download not available</em></td>';
                     }
                     else {
-                        $download_html = "<td><a href=\"{$download_url}\" title=\"Click here to download the {$locale_info['locale_name']} version of {$formatted_sim_name}\">Download</a></td>";
+                        $download_html = "<td><a href=\"{$download_url}\" title=\"Click here to download the {$locale_info['locale_name']} version of {$sim->getName()}\">Download</a></td>";
                     }
                 }
 
                 print <<<EOT
                 <tr {$row_class}>
-                  <td><{$launch_link_open} {$onclick}>{$formatted_sim_name}</a></td>
-                  <td><{$launch_link_open} {$onclick}>Run Now</a></td>
+                  <td>{$lang_launch_anchor_tag}</td>
+                  <td>{$launch_anchor_tag}</td>
                   {$download_html}
                 </tr>
 
 EOT;
             }
             print "</table>\n";
+    }
+
+    public function update() {
+        $result = parent::update();
+        if (!$result) {
+            return $result;
+        }
+    }
+
+    public function render_content() {
+        $result = parent::render_content();
+        if (!$result) {
+            return $result;
+        }
+
+        $translations = $this->get_all_translations();
+
+        print <<<EOT
+            <h2>Can't find a translation?</h2>
+            <p>
+                <a href="{$this->prefix}contribute/translation-utility.php">Create a New Translation!</a>
+            </p>
+
+            <hr />
+
+EOT;
+        // ' <-- That aprostrophe makes Emacs highlighting back to normal
+
+        // Translations header, links to sections that contain the localizd sims
+        $this->render_translations_toc($translations);
+
+        // Translations content, sections that contain the localizd sims
+        foreach ($translations as $locale => $sim_list) {
+            $this->render_locale_translated_sims($locale, $sim_list);
         }
 
         flush();

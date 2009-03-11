@@ -1,6 +1,6 @@
 <?php
 
-var_dump("SIM-UTILS.PHP included");
+    var_dump("SIM-UTILS.PHP included");
     assert(FALSE);
 
 

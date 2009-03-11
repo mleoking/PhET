@@ -62,8 +62,6 @@ class SimUtils {
             $image_tag
             );
         return $anchor_tag;
-        define("FROM_PHET_IMAGE_HTML", '<a href="'.SITE_ROOT.'about/legend.php"><img src="'.SITE_ROOT.'images/phet-logo-icon.jpg" alt="Designed by PhET Icon" title="PhET Designed: This contribution was designed by PhET." /></a>');
-
     }
 
     public function getAllSimNames($id_prefix = 'sim_id_') {

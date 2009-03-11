@@ -227,7 +227,7 @@ EOT;
 
                             <td>
                                 <div class="rage_button_358398">
-                                    <a href="{$this->sim->getLaunchUrl()}" {$this->sim->getLaunchOnClick()} title="Click here to run the simulation from your browser">Run Now!</a>
+                                    <a href="{$this->sim->getLaunchUrl()}" onclick="{$this->sim->getLaunchOnClick()}" title="Click here to run the simulation from your browser">Run Now!</a>
                                 </div>
                             </td>
                         </tr>
