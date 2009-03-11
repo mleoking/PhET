@@ -36,10 +36,10 @@ public class LocaleUtils {
         assert ( locale != null );
         // tempting to use locale.toString here, but don't do it.
         if ( locale.getCountry().equals( "" ) ) {
-            return locale.getLanguage();
+            return locale.getLanguage().toLowerCase();
         }
         else {
-            return locale.getLanguage() + "_" + locale.getCountry();
+            return locale.getLanguage().toLowerCase() + "_" + locale.getCountry().toUpperCase();
         }
     }
 
@@ -52,7 +52,7 @@ public class LocaleUtils {
             return new Locale( stringTokenizer.nextToken() );
         }
         else if ( stringTokenizer.countTokens() == 2 ) {
-            return new Locale( stringTokenizer.nextToken(), stringTokenizer.nextToken() );
+            return new Locale( stringTokenizer.nextToken().toLowerCase(), stringTokenizer.nextToken().toUpperCase() );
         }
         else {
             throw new RuntimeException( "Locale string should have language OR language_COUNTRY" );
