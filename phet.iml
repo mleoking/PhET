@@ -9,6 +9,7 @@
     <output url="file://$MODULE_DIR$/../../../../reid/phet/out-test/production/phet" />
     <output-test url="file://$MODULE_DIR$/../../../../reid/phet/out-test/test/phet" />
     <exclude-output />
+    <content url="file://$MODULE_DIR$/../../../../reid/svn-working-copy/trunk/projects/phet" />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/build-tools/contrib/securechannelfacade/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/build-tools/src" isTestSource="false" />
@@ -26,6 +27,7 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/phetgraphics/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/piccolo-phet/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/quantum/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/scala-common/scala-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/timeseries/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/JSci" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/Jama/src" isTestSource="false" />
@@ -86,6 +88,7 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/sound/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/states-of-matter/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/test-project/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/the-ramp/scala-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/the-ramp/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/travoltage/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/wave-interference/src" isTestSource="false" />
@@ -94,6 +97,10 @@
       <sourceFolder url="file://$MODULE_DIR$/team/reids/admin/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/team/reids/tracking/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/licensing/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/util/localization-strings/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/util/phet-updater/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/util/testing/contrib/opencsv/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/util/testing/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/translation-strings-diff" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/translation-utility/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/updater/src" isTestSource="false" />
@@ -101,7 +108,6 @@
       <excludeFolder url="file://$MODULE_DIR$/simulations-flash/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/ant_output" />
     </content>
-    <content url="file://$MODULE_DIR$/../../../../reid/svn-working-copy/trunk/projects/phet" />
     <orderEntry type="library" name="scala-2.7.3.final" level="application" />
     <orderEntry type="library" name="scala-2.7.3.final" level="application" />
     <orderEntry type="jdk" jdkName="1.6" jdkType="JavaSDK" />
