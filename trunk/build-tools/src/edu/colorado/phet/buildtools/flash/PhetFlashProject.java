@@ -352,11 +352,11 @@ public class PhetFlashProject extends PhetProject {
 
     public void runSim( Locale locale, String simulationName ) {
         System.out.println( "Running the flash sim: " + simulationName );
-        String exe = BuildLocalProperties.getInstance().getBrowser();
+        String browser = BuildLocalProperties.getInstance().getBrowser();
+        String path = getHTMLFile( locale ).getAbsolutePath();
+        System.out.println( "command=" + browser + " " + path );
         try {
-            String command = exe + " " + getHTMLFile( locale ).getAbsolutePath();
-            System.out.println( "command = " + command );
-            Process p = Runtime.getRuntime().exec( command ); //TODO #1446, unlikely to work on Mac, need to use cmdArray[] form of exec
+            Process p = Runtime.getRuntime().exec( new String[] { browser, path } );
         }
         catch( IOException e ) {
             e.printStackTrace();
