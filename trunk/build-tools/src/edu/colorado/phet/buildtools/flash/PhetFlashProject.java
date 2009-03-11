@@ -16,6 +16,7 @@ import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.buildtools.java.projects.FlashLauncherProject;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
+import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.flashlauncher.FlashHTML;
 import edu.colorado.phet.flashlauncher.FlashLauncher;
 
@@ -335,8 +336,8 @@ public class PhetFlashProject extends PhetProject {
     }
 
     private File getCommonTranslationFile( Locale locale ) {
-        String lang = "_" + locale.getLanguage();
-        File file = new File( getProjectDir().getParentFile().getParentFile(), "common/data" + File.separator + "localization" + File.separator + "common-strings" + lang + ".xml" );
+        String localeString = LocaleUtils.localeToString( locale );
+        File file = new File( getProjectDir().getParentFile().getParentFile(), "common/data" + File.separator + "localization" + File.separator + "common-strings_" + localeString + ".xml" );
         if ( file.exists() ) {
             return file;
         }
@@ -374,16 +375,16 @@ public class PhetFlashProject extends PhetProject {
     public Simulation getSimulation( String simulationName, Locale locale ) {
         return new Simulation( simulationName, getName(), "description", "mainclass", new String[0], new File( "screenshot.gif" ) );
     }
-
+    
     public Locale[] getLocales() {
         return getLocalesImpl( ".xml" );
     }
 
     public File getTranslationFile( Locale locale ) {
-        String lang = "_" + locale.getLanguage();
-        return new File( getProjectDir(), "data" + File.separator + getName() + File.separator + "localization" + File.separator + getName() + "-strings" + lang + ".xml" );
+        String localeString = LocaleUtils.localeToString( locale );
+        return new File( getProjectDir(), "data" + File.separator + getName() + File.separator + "localization" + File.separator + getName() + "-strings_" + localeString + ".xml" );
     }
-
+    
     public File getTrunkAbsolute() {
         return new File( getProjectDir(), "../../.." );
     }
