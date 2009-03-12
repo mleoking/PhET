@@ -762,7 +762,7 @@ class org.aswing.JTextComponent extends Component {
 	private function countAutoSizedSize():Void{
 		var t:TextField = creater.createTF(_root, "tempText");
 		applyPropertiesToText(t, true);
-		autoSizedSize = new Dimension(t._width, t._height);
+		autoSizedSize = new Dimension(t._width + 4, t._height + 10);
 		t.removeTextField();
 		delete _root[t._name];
 	}
