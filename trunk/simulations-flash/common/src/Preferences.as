@@ -187,7 +187,7 @@ class Preferences {
 	// returns latest skipped update version as [major, minor]
 	public function getLatestSkippedUpdate() : Array {
 		load();
-		return sharedObject.data.skippedUpdate;
+		return sharedObject.data[FIELD_SKIPPED_UPDATE];
 		unload();
 	}
 	
