@@ -68,7 +68,7 @@ class UpdateSimDialog {
 			var defaultStr = "To download a new installation containing the latest simulation, ";
 			defaultStr += "please visit the <a href='{0}'>PhET installation page</a> for more information.";
 				
-			str += common.strings.get("PhETInstallation", defaultStr, ["http://phet.colorado.edu/get_phet/full_install.php"]);
+			str += common.strings.get("PhETInstallation", defaultStr, ["asfunction:_level0.common.openExternalLink,http://phet.colorado.edu/get_phet/full_install.php"]);
 			
 			str += "\n";
 		} else {
@@ -151,6 +151,7 @@ class UpdateSimDialog {
 	}
 	
 	public function tryClicked(src : JButton) {
-		getURL(common.simWebsiteURL());
+		common.openExternalLink( common.simWebsiteURL() );
+		//getURL(common.simWebsiteURL(), "_blank");
 	}
 }

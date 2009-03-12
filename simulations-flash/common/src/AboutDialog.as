@@ -53,7 +53,8 @@ class AboutDialog {
 		str += "Some rights reserved.\n";
 		
 		//str += common.strings.get("Visit", "Visit {0}.", ["<a href='http://phet.colorado.edu'>http://phet.colorado.edu</a>"]) + "\n\n";
-		str += "Visit <a href='http://phet.colorado.edu'>http://phet.colorado.edu</a>\n\n";
+		//str += "Visit <a href='http://phet.colorado.edu'>http://phet.colorado.edu</a>\n\n";
+		str += "Visit <a href='asfunction:_level0.common.openExternalLink,http://phet.colorado.edu'>http://phet.colorado.edu</a>\n\n";
 		
 		str += "<b><font size='16'>" + common.getSimName() + "</font></b>\n";
 		str += common.strings.get("Version", "Version") + ": " + common.getFullVersionString() + "\n";

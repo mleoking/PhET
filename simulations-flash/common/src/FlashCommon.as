@@ -321,7 +321,8 @@ class FlashCommon {
 		return parseInt(_level0.agreementVersion);
 	}
 	public function getAgreementText() : String {
-		return stripNewlines(_level0.agreementText);
+		var strippedText = stripNewlines(_level0.agreementText);
+		return stringReplace(strippedText, "href=\"", "href=\"asfunction:_level0.common.openExternalLink,");
 	}
 	public function getCreditsText() : String {
 		return strings.format(_level0.creditsText, [
@@ -394,5 +395,25 @@ class FlashCommon {
 		}
 		
 		return ret;
+	}
+	
+	public function stringReplace(str : String, pattern : String, replacement : String) {
+		var ret : String = "";
+		var chopped : String = str;
+		
+		while(chopped.indexOf(pattern) != -1) {
+			var startIdx : Number = chopped.indexOf(pattern);
+			ret += chopped.slice(0, startIdx);
+			ret += replacement;
+			chopped = chopped.substring(startIdx + pattern.length);
+		}
+		
+		ret += chopped;
+		
+		return ret;
+	}
+	
+	public function openExternalLink(str : String) {
+		getURL(str, "_blank");
 	}
 }
