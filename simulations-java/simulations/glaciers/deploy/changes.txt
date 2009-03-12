@@ -1,3 +1,4 @@
+3/12/09 #1453, remove unused strings from English localization file
 # 2.00.01 (28792) Feb 19, 2009
 Batch deploy for alpha Simulation Tests, svn 28773
 # 2.00.00 (27161) 01-12-2009
