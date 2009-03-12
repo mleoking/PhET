@@ -2,17 +2,17 @@ package edu.colorado.phet.localizationstrings.util;
 
 public class SimpleHtmlOutputHelper {
 	
-	public static void printHtmlHeader(){
+	public static void printPageHeader(){
 		System.out.println("<html>");
 		System.out.println("<body>");
 	}
 	
-	public static void printHtmlClose(){
+	public static void printClose(){
 		System.out.println("</body>");
 		System.out.println("</html>");
 	}
 	
-	public static void printHtmlHeading(String text, int level){
+	public static void printHeading(String text, int level){
 		if ((level > 5) || (level < 1)){
 			System.err.println("Invalid header level: " + level);
 			level = 1;
@@ -20,23 +20,23 @@ public class SimpleHtmlOutputHelper {
 		System.out.println("<h" + level + ">" + text + "</h" + level + ">");
 	}
 	
-	public static void printHtmlStartList(){
+	public static void printStartList(){
 		System.out.println("<ul>");
 	}
 
-	public static void printHtmlListItem(String text){
+	public static void printListItem(String text){
 		System.out.println("<li>" + text + "</li>");
 	}
 	
-	public static void printHtmlEndList(){
+	public static void printEndList(){
 		System.out.println("</ul>");
 	}
 
-	public static void printHtmlBreak(){
+	public static void printTextBreak(){
 		System.out.println("<br>");
 	}
 	
-	public static void printHtmlParagraph(String text){
+	public static void printParagraph(String text){
 		System.out.print("<p>");
 		System.out.print(text);
 		System.out.print("</p>");
