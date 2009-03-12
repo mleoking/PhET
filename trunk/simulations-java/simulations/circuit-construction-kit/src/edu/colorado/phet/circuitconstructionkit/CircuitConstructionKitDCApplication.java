@@ -6,7 +6,6 @@ import java.awt.event.KeyListener;
 import java.util.Arrays;
 
 import edu.colorado.phet.circuitconstructionkit.controls.OptionsMenu;
-import edu.colorado.phet.circuitconstructionkit.util.CCKUtil;
 import edu.colorado.phet.circuitconstructionkit.view.CCKPhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
@@ -81,8 +80,6 @@ public class CircuitConstructionKitDCApplication extends PiccoloPhetApplication 
     }
 
     public static void main( final String[] args ) {
-        
-        CCKUtil.setupLanguagesForSwingComponents();
         
         ApplicationConstructor appConstructor = new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
