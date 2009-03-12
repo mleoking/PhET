@@ -31,16 +31,19 @@ import edu.colorado.phet.localizationstrings.util.WildCardFileFilter;
 public class OrphanStringChecker {
 	
 	public static final String DATE_FORMAT = "MMM dd yyyy HH:mm:ss";
-	public static final String COMMON_CODE_BASE_DIR = "/common/phetcommon/";
-	public static final String COMMON_STRINGS_PATH = COMMON_CODE_BASE_DIR + "data/phetcommon/localization/";
+	public static final String COMMON_CODE_BASE_DIR = "/common/";
+	public static final String COMMON_STRINGS_PATH = COMMON_CODE_BASE_DIR + "/phetcommon/data/phetcommon/localization/";
 	public static final String COMMON_STRINGS_FILE_NAME = "phetcommon-strings.properties";
 
 	/**
 	 * Check the base directory for orphan strings and output the resulting
-	 * report to the standard output.  The base directory is expected to be
-	 * the full path on the local machine to the directory under which all
-	 * the Java simulations reside, which is "<local-dir>/simulations-java"
-	 * at the time of this writing.
+	 * report to the standard output.  An "orphan string" is a string that is
+	 * defined in the English version of the localized strings but is not used
+	 * in the source code.
+	 * 
+	 * @param baseDirectory - The directory on the local machine where the
+	 * Java sims and common code reside, which as of this writing is something
+	 * like <local-path>/simulations-java.
 	 */
 	public static void checkForOrphanStrings(File baseDirectory){
 		
@@ -273,17 +276,13 @@ public class OrphanStringChecker {
 			return sourceFiles;
 		}
 
+        File sourceDir = new File( dir.getAbsolutePath() );
+
         // Find the Java source files.
-        File javaSourceDir = new File( dir.getAbsolutePath() + "/src/" );
-        if (javaSourceDir.exists() && javaSourceDir.isDirectory()){
-            FileFinder.findFiles(javaSourceDir, new WildCardFileFilter("*\\.java"), sourceFiles);
-        }
+        FileFinder.findFiles(sourceDir, new WildCardFileFilter("*\\.java"), sourceFiles);
         
         // Find the Scala source files (if any).
-        File scalaSourceDir = new File( dir.getAbsolutePath() + "/scala-src" );
-        if (scalaSourceDir.exists() && scalaSourceDir.isDirectory()){
-            FileFinder.findFiles(scalaSourceDir, new WildCardFileFilter("*\\.scala"), sourceFiles);
-        }
+        FileFinder.findFiles(sourceDir, new WildCardFileFilter("*\\.scala"), sourceFiles);
         
         return sourceFiles;
 	}
