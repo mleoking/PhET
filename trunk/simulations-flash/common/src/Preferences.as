@@ -203,7 +203,7 @@ class Preferences {
 	public function setSimAskLater(days : Number) : Void {
 		load();
 		
-		var dateMilliseconds = (new Date()).valueOf() + days * 24 * 60 * 60 * 1000;
+		var dateMilliseconds : Number = (new Date()).valueOf() + days * 24 * 60 * 60 * 1000;
 		sharedObject.data[FIELD_ASK_LATER] = dateMilliseconds;
 		
 		debug("Preferences: sim ask later set to " + FlashCommon.dateString(FlashCommon.dateOfMilliseconds(dateMilliseconds)) + "\n");
