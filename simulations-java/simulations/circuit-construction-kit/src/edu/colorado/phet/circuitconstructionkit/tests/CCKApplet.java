@@ -3,7 +3,6 @@ package edu.colorado.phet.circuitconstructionkit.tests;
 import javax.swing.*;
 
 import edu.colorado.phet.circuitconstructionkit.CircuitConstructionKitDCApplication;
-import edu.colorado.phet.circuitconstructionkit.util.CCKUtil;
 import edu.colorado.phet.circuitconstructionkit.view.CCKPhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
@@ -28,7 +27,6 @@ public class CCKApplet extends JApplet implements IProguardKeepClass {
 
     public void init() {
         super.init();
-        CCKUtil.setupLanguagesForSwingComponents();
 
         ApplicationConstructor appConstructor = new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
