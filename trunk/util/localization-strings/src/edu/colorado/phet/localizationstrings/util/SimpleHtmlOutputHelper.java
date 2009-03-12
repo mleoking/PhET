@@ -35,4 +35,11 @@ public class SimpleHtmlOutputHelper {
 	public static void printHtmlBreak(){
 		System.out.println("<br>");
 	}
+	
+	public static void printHtmlParagraph(String text){
+		System.out.print("<p>");
+		System.out.print(text);
+		System.out.print("</p>");
+		
+	}
 }
