@@ -68,7 +68,7 @@ class Internationalizer{
 		
 		this.setString(_level0.eChart_mc.eLine_mc.label_txt, "totalE", "center");
 		
-		if(countryCode == "en" || countryCode == undefined){
+		if(_level0.languageCode == "en"){
 			_level0.yAxisLabel = this.simStrings.get("energyOf");
 			_level0.eChart_mc.xAxis_mc.label1_txt.text = this.simStrings.get("KE");
 			_level0.eChart_mc.xAxis_mc.label2_txt.text = this.simStrings.get("PEgrav");
@@ -131,6 +131,7 @@ class Internationalizer{
 				}
 				field.text = stringValue;
 			}
+			_level0.common.prepareTranslatedTextField(field);
 			this.resizeText(field, alignment);
 			//trace("key: "+key+"   stringValue:"+stringValue);
 		}

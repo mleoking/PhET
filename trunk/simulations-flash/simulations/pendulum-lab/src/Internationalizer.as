@@ -78,7 +78,7 @@ class Internationalizer{
 		this.view1.angleUnit_str = this.simStrings.get("angleUnit");
 		this.view2.angleUnit_str = this.simStrings.get("angleUnit");
 		
-		if(countryCode == "en"){
+		if(_level0.languageCode == "en"){
 			//embed fonts so they can be greyed out
 			var myFormat = new TextFormat();
 			myFormat.font = "Arial";
@@ -167,7 +167,8 @@ class Internationalizer{
 				}
 				field.text = stringValue;
 			}
-			field.setTextFormat(currentTextFormat);
+			_level0.common.prepareTranslatedTextField(field);
+			//field.setTextFormat(currentTextFormat);
 			this.resizeText(field, alignment);
 			//trace("key: "+key+"   stringValue:"+stringValue);
 		}

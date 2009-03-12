@@ -33,7 +33,7 @@ class Internationalizer{
 		this.setComponentLabel(_root.flipMagnet_ch, "flipMagnet");
 		
 		
-		if(countryCode == "en" || countryCode == undefined){
+		if(_level0.languageCode == "en"){
 			//embed fonts so they can be greyed out
 			var myFormat = new TextFormat();
 			myFormat.font = "Arial";
@@ -82,7 +82,8 @@ class Internationalizer{
 				}
 				field.text = stringValue;
 			}
-			field.setTextFormat(currentTextFormat);
+			//field.setTextFormat(currentTextFormat);
+			_level0.common.prepareTranslatedTextField(field);
 			this.resizeText(field, alignment);
 			//trace("key: "+key+"   stringValue:"+stringValue);
 		}

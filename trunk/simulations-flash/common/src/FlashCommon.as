@@ -46,9 +46,9 @@ class FlashCommon {
 	// handles keyboard accessibility (tab traversal)
 	public var tabHandler : TabHandler;
 	
-	public static var allowedSystemFonts : Array = ["_sans", "_serif", "_typewriter", "Times New Roman", "Arial"];
+	//public static var allowedSystemFonts : Array = ["_sans", "_serif", "_typewriter", "Times New Roman", "Arial"];
 	
-	public static var defaultSystemFont : String = "_sans";
+	//public static var defaultSystemFont : String = "_sans";
 	
 	// DEVELOPMENT
 	public var inspector : Inspector;
@@ -362,23 +362,7 @@ class FlashCommon {
 			// TODO: possibly change this to only use fonts in allowedSystemFonts
 			field.setTextFormat(format);
 		} else {
-			debug("WARNING: embedded fonts\n");
-			var allowed : Boolean = false;
-			var fontName : String = format.font;
-			
-			for(var allowedFont in allowedSystemFonts) {
-				if(fontName == allowedFont) {
-					allowed = true;
-					break;
-				}
-			}
-			
 			field.embedFonts = false;
-			if(!allowed) {
-				debug("WARNING: FlashCommon: font " + format.font + " is embedded and not in allowedSystemFonts. replacing\n");
-				format.font = defaultSystemFont;
-			}
-			
 			field.setTextFormat(format);
 		}
 	}
