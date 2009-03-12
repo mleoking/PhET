@@ -8,7 +8,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.ListIterator;
 import java.util.Properties;
@@ -21,19 +23,34 @@ import edu.colorado.phet.localizationstrings.util.WildCardFileFilter;
 /**
  * Main class for a standalone, command line application that looks for orphan
  * strings in the properties files.  An "orphan string" is a string that is
- * defined in a localization property file but that is not used in the source
- * code.
+ * defined in the main (i.e. English) localization property file but that is
+ * not used in the source code.
  * 
  * @author John Blanco
  */
 public class OrphanStringChecker {
+	
+	public static final String DATE_FORMAT = "MMM dd yyyy HH:mm:ss";
 
 	/**
 	 * Check the base directory for orphan strings and output the resulting
-	 * report to the standard output.
+	 * report to the standard output.  The base directory is expected to be
+	 * the full path on the local machine to the directory under which all
+	 * the Java simulations reside, which is "<local-dir>/simulations-java"
+	 * at the time of this writing.
 	 */
 	public static void checkForOrphanStrings(File baseDirectory){
 		
+        // Output the header portion of the report.
+        SimpleHtmlOutputHelper.printHtmlHeader();
+        SimpleHtmlOutputHelper.printHtmlHeading("Orphan String Report", 1);
+        String explanationOfReport = "This report lists the strings that appear in the English version of the " +
+        		"localization file but that do NOT appear in any Java or Scala files associated with the simulation.";
+        SimpleHtmlOutputHelper.printHtmlParagraph(explanationOfReport);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+        SimpleHtmlOutputHelper.printHtmlParagraph("Base Directory: " + baseDirectory.getAbsolutePath());
+        SimpleHtmlOutputHelper.printHtmlParagraph("Report generated " + sdf.format(Calendar.getInstance().getTime()));
+        
 		// Locate the simulations.
         String[] simulations = PhetProject.getSimNames( baseDirectory );
         
@@ -41,13 +58,6 @@ public class OrphanStringChecker {
         	System.out.println("No simulations found in base directory " + baseDirectory.getAbsolutePath());
         	return;
         }
-        
-        SimpleHtmlOutputHelper.printHtmlHeader();
-        SimpleHtmlOutputHelper.printHtmlHeading("Orphan String Report", 1);
-        SimpleHtmlOutputHelper.printHtmlBreak();
-        System.out.print("This report lists the strings that appear in the English version of the localization file ");
-        System.out.print("but that do NOT appear in any Java or Scala files associated with the simulation");
-        SimpleHtmlOutputHelper.printHtmlBreak();
         
         // For each simulation...
         for ( int i = 0; i < simulations.length; i++ ) {
@@ -120,7 +130,6 @@ public class OrphanStringChecker {
 			while (iter.hasNext()){
 				String propName = (String)iter.next();
 				if ((propName.endsWith(".name")) || (propName.endsWith(".description"))){
-//						System.out.println("Removing property " + propName);
 					iter.remove();
 				}
 			}
@@ -137,8 +146,6 @@ public class OrphanStringChecker {
 					continue;
 				}
 				
-//					System.out.println("Java file name: " + javaFileName);
-				
 				// Create a buffered reader for the Java source file.
 				BufferedReader srcFileReader;
 				try {
@@ -153,7 +160,6 @@ public class OrphanStringChecker {
 		    	try {
 		    		// For each line of the Java source code file...
 					while ((lineOfJavaFile = srcFileReader.readLine()) != null) {
-//							System.out.println("Line of Java file: " + lineOfJavaFile);
 						// A very small optimization: skip blank lines.
 						if (lineOfJavaFile.length() == 0){
 							continue;
@@ -161,10 +167,7 @@ public class OrphanStringChecker {
 						// For each property, see if it can be found on this line of the Java file.
 						while (iter.hasNext()){
 							String propName = (String)iter.next();
-//								System.out.println("Property name = " + propName);
 							if (lineOfJavaFile.contains(propName)){
-//									System.out.println("Removing property " + propName);
-//									System.out.println("Found on line: " + lineOfJavaFile);
 					    		iter.remove();
 					    	}
 						}
@@ -196,7 +199,8 @@ public class OrphanStringChecker {
 	}
 
 	private static void printUsage(){
-		System.out.println("Usage: CheckForOrphanStrings <base-directory>");
+		System.out.println("Usage: CheckForOrphanStrings <base-directory>, where the base-directory is the");
+		System.out.println("location of the simulations-java directory on the local machine.");
 	}
 	
 	public static void main (String[] args) {
