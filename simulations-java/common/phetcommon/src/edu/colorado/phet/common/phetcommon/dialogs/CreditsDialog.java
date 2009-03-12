@@ -42,6 +42,13 @@ public class CreditsDialog extends PaintImmediateDialog {
     private static final String CLOSE_BUTTON = PhetCommonResources.getString( "Common.choice.close" );
     private static final String PHET_DEV_TEAM = PhetCommonResources.getString( "Common.About.CreditsDialog.PhetDevelopmentTeam" );
     private static final String THIRD_PARTY_USAGE = PhetCommonResources.getString( "Common.About.CreditsDialog.UsesThirdPartySoftware" );
+
+    //Roles in credits
+    private static final String LEAD_DESIGN = PhetCommonResources.getString( "Common.About.CreditsDialog.lead-design" );
+    private static final String SOFTWARE_DEVELOPMENT = PhetCommonResources.getString( "Common.About.CreditsDialog.software-development" );
+    private static final String DESIGN_TEAM = PhetCommonResources.getString( "Common.About.CreditsDialog.design-team" );
+    private static final String INTERVIEWS = PhetCommonResources.getString( "Common.About.CreditsDialog.interviews" );
+
     private String projectName;
     private String phetLicenseString;
 
@@ -175,8 +182,21 @@ public class CreditsDialog extends PaintImmediateDialog {
     }
 
     private String translate( String key, String value ) {
-        String pattern = PhetCommonResources.getString( "Common.About.CreditsDialog." + key );
-        return pattern + ": " + value;
+        if ( key.equals( "lead-design" ) ) {
+            return LEAD_DESIGN + ": " + value;
+        }
+        else if ( key.equals( "software-development" ) ) {
+            return SOFTWARE_DEVELOPMENT + ": " + value;
+        }
+        else if ( key.equals( "design-team" ) ) {
+            return DESIGN_TEAM + ": " + value;
+        }
+        else if ( key.equals( "interviews" ) ) {
+            return INTERVIEWS + ": " + value;
+        }
+        else {
+            return value;
+        }
     }
 
     /**
