@@ -31,6 +31,9 @@ import edu.colorado.phet.localizationstrings.util.WildCardFileFilter;
 public class OrphanStringChecker {
 	
 	public static final String DATE_FORMAT = "MMM dd yyyy HH:mm:ss";
+	public static final String COMMON_CODE_BASE_DIR = "/common/phetcommon/";
+	public static final String COMMON_STRINGS_PATH = COMMON_CODE_BASE_DIR + "data/phetcommon/localization/";
+	public static final String COMMON_STRINGS_FILE_NAME = "phetcommon-strings.properties";
 
 	/**
 	 * Check the base directory for orphan strings and output the resulting
@@ -42,26 +45,69 @@ public class OrphanStringChecker {
 	public static void checkForOrphanStrings(File baseDirectory){
 		
         // Output the header portion of the report.
-        SimpleHtmlOutputHelper.printHtmlHeader();
-        SimpleHtmlOutputHelper.printHtmlHeading("Orphan String Report", 1);
+        SimpleHtmlOutputHelper.printPageHeader();
+        SimpleHtmlOutputHelper.printHeading("Orphan String Report", 1);
         String explanationOfReport = "This report lists the strings that appear in the English version of the " +
         		"localization file but that do NOT appear in any Java or Scala files associated with the simulation.";
-        SimpleHtmlOutputHelper.printHtmlParagraph(explanationOfReport);
+        SimpleHtmlOutputHelper.printParagraph(explanationOfReport);
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-        SimpleHtmlOutputHelper.printHtmlParagraph("Base Directory: " + baseDirectory.getAbsolutePath());
-        SimpleHtmlOutputHelper.printHtmlParagraph("Report generated " + sdf.format(Calendar.getInstance().getTime()));
+        SimpleHtmlOutputHelper.printParagraph("Base Directory: " + baseDirectory.getAbsolutePath());
+        SimpleHtmlOutputHelper.printParagraph("Report generated " + sdf.format(Calendar.getInstance().getTime()));
         
 		// Locate the simulations.
         String[] simulations = PhetProject.getSimNames( baseDirectory );
         
         if (simulations.length == 0){
         	System.out.println("No simulations found in base directory " + baseDirectory.getAbsolutePath());
+            SimpleHtmlOutputHelper.printClose();
         	return;
         }
         
+        // Locate and load the common strings.
+        String commonStringsDirName = baseDirectory.getAbsolutePath() + COMMON_STRINGS_PATH;
+        File commonStringsDir = new File(commonStringsDirName);
+        ArrayList commonPropertyNames = new ArrayList();
+        if (!commonStringsDir.isDirectory()){
+        	SimpleHtmlOutputHelper.printParagraph("WARNING: Could not locate directory for common strings: " + commonStringsDirName);
+        }
+        else{
+        	ArrayList commonSrcFiles = 
+        		getSourceFiles(new File(baseDirectory.getAbsolutePath() + COMMON_CODE_BASE_DIR));
+
+        	// Locate the English version of the common localization strings file.
+            File commonEnglishStringsFile = new File(commonStringsDirName + COMMON_STRINGS_FILE_NAME);
+            if (!commonEnglishStringsFile.isFile()){
+            	System.out.println("Could not find common English localization strings file " + commonEnglishStringsFile.getAbsolutePath());
+            }
+            else{
+            	// Load the properties from the property file.
+            	Properties commonStringsProps = new Properties();
+            	try {
+            		commonStringsProps.load(new FileInputStream(commonEnglishStringsFile));
+    			} catch (FileNotFoundException e) {
+    				System.out.println("File not found: " + commonEnglishStringsFile.getAbsolutePath());
+    				e.printStackTrace();
+    	            SimpleHtmlOutputHelper.printClose();
+    				return;
+    			} catch (IOException e) {
+    				System.out.println("IO exception on file: " + commonEnglishStringsFile.getAbsolutePath());
+    				e.printStackTrace();
+    	            SimpleHtmlOutputHelper.printClose();
+    				return;
+    			}
+    			
+            	commonPropertyNames = getPropertyNames(commonStringsProps);
+            	
+            	// Eliminate property names that are found in the source code.
+            	eliminateUsedProperties(commonPropertyNames, commonSrcFiles);
+            }
+        }
+        
+        SimpleHtmlOutputHelper.printHeading("Simulations", 2);
+        
         // For each simulation...
         for ( int i = 0; i < simulations.length; i++ ) {
-            SimpleHtmlOutputHelper.printHtmlHeading("Simulation: " + simulations[i], 2);
+            SimpleHtmlOutputHelper.printHeading("Simulation: " + simulations[i], 3);
             
             // Find the localization directory.
             String localizationDirName = baseDirectory.getAbsolutePath() + "/simulations/" + simulations[i] + 
@@ -79,25 +125,12 @@ public class OrphanStringChecker {
             	continue;
             }
             
-            ArrayList sourceFiles = new ArrayList();
+            String simDirectoryName = baseDirectory.getAbsolutePath() + "/simulations/" + simulations[i];
+            ArrayList sourceFiles = getSourceFiles( new File (simDirectoryName));
 
-            // Find the Java source files.
-            String javaSourceDirName = baseDirectory.getAbsolutePath() + "/simulations/" + simulations[i] + "/src/";
-            File javaSourceDir = new File( javaSourceDirName );
-            if (javaSourceDir.exists() && javaSourceDir.isDirectory()){
-                FileFinder.findFiles(javaSourceDir, new WildCardFileFilter("*\\.java"), sourceFiles);
-            }
-            
-            // Find the Scala source files (if any).
-            String scalaSourceDirName = baseDirectory.getAbsolutePath() + "/simulations/" + simulations[i] + "/scala-src/";
-            File scalaSourceDir = new File( scalaSourceDirName );
-            if (scalaSourceDir.exists() && scalaSourceDir.isDirectory()){
-                FileFinder.findFiles(scalaSourceDir, new WildCardFileFilter("*\\.scala"), sourceFiles);
-            }
-            
-            // Make a list of the Java and Scala files that make up this sim.
+            // Make sure we found some source files.
             if (sourceFiles.size() == 0){
-            	System.out.println("Error: No source files located for simulation: " + simulations[i]);
+            	System.out.println("WARNING: No source files located for simulation: " + simulations[i]);
             	continue;
             }
 
@@ -115,18 +148,15 @@ public class OrphanStringChecker {
 				continue;
 			}
 			
-			SimpleHtmlOutputHelper.printHtmlHeading("Properties File: " + englishStringsFile.getName(), 3);
+			SimpleHtmlOutputHelper.printHeading("Properties File: " + englishStringsFile.getName(), 4);
 			
-			// Create a list of the property names.
-			ArrayList unusedProperties = new ArrayList();
-			Enumeration propNamesEnum = localizationStringProps.propertyNames();
-		    while (propNamesEnum.hasMoreElements()){
-		    	unusedProperties.add(propNamesEnum.nextElement());
-		    }
+			// Obtain a list of the property names.
+			ArrayList unusedProperties = getPropertyNames(localizationStringProps);
 			ListIterator iter = unusedProperties.listIterator();
 			
 			// Go through the list and remove any standard property names
-			// that wouldn't show up in the Java files.
+			// that wouldn't show up in the source files but that are known to
+			// be used elsewhere.
 			while (iter.hasNext()){
 				String propName = (String)iter.next();
 				if ((propName.endsWith(".name")) || (propName.endsWith(".description"))){
@@ -134,68 +164,141 @@ public class OrphanStringChecker {
 				}
 			}
 			
-			// Reset the iterator.
-			iter = unusedProperties.listIterator();
+			// Eliminate the sim properties that are used in the source files.
+			eliminateUsedProperties(unusedProperties, sourceFiles);
 			
-			// For each source code file...
-			for (int srcFileIndex = 0; (srcFileIndex < sourceFiles.size()) && (!unusedProperties.isEmpty()); srcFileIndex++){
-				
-				// Skip files that are from the SVN directories.
-				String srcFileName = ((File)sourceFiles.get(srcFileIndex)).getAbsolutePath();
-				if (srcFileName.contains("svn-base")){
-					continue;
-				}
-				
-				// Create a buffered reader for the Java source file.
-				BufferedReader srcFileReader;
-				try {
-					srcFileReader = new BufferedReader(new FileReader((File)(sourceFiles.get(srcFileIndex))));
-				} catch (FileNotFoundException e) {
-					System.out.println("Error reading file " + srcFileName);
-					e.printStackTrace();
-					continue;
-				}
-
-				String lineOfJavaFile;
-		    	try {
-		    		// For each line of the Java source code file...
-					while ((lineOfJavaFile = srcFileReader.readLine()) != null) {
-						// A very small optimization: skip blank lines.
-						if (lineOfJavaFile.length() == 0){
-							continue;
-						}
-						// For each property, see if it can be found on this line of the Java file.
-						while (iter.hasNext()){
-							String propName = (String)iter.next();
-							if (lineOfJavaFile.contains(propName)){
-					    		iter.remove();
-					    	}
-						}
-						iter = unusedProperties.listIterator();
-	                }
-				} catch (IOException e) {
-					System.out.println("Error while reading file " + 
-							((File)sourceFiles.get(srcFileIndex)).getAbsolutePath());
-					e.printStackTrace();
-					continue;
-				}
-			}
-
 			// Output the list of unused strings.
-			SimpleHtmlOutputHelper.printHtmlHeading("Orphan Strings", 4);
+			SimpleHtmlOutputHelper.printHeading("Orphan Strings for this Sim", 5);
 			if (unusedProperties.size() == 0){
 				System.out.println("No orphan strings found.");
 			}
 			else{
-				SimpleHtmlOutputHelper.printHtmlStartList();
+				SimpleHtmlOutputHelper.printStartList();
 				for (int j = 0; j < unusedProperties.size(); j++){
-		    		SimpleHtmlOutputHelper.printHtmlListItem((String)unusedProperties.get(j));
+		    		SimpleHtmlOutputHelper.printListItem((String)unusedProperties.get(j));
 				}
-				SimpleHtmlOutputHelper.printHtmlEndList();
+				SimpleHtmlOutputHelper.printEndList();
 			}
+			
+			// Check for an eliminate any common properties that are used in
+			// these source files.
+			eliminateUsedProperties(commonPropertyNames, sourceFiles);
         }
         
-        SimpleHtmlOutputHelper.printHtmlClose();
+        // Output the list of unused common code strings.
+		SimpleHtmlOutputHelper.printHeading("Orphan Strings for Common Code", 2);
+		if (commonPropertyNames.size() == 0){
+			System.out.println("No orphan strings found.");
+		}
+		else{
+			SimpleHtmlOutputHelper.printStartList();
+			for (int j = 0; j < commonPropertyNames.size(); j++){
+	    		SimpleHtmlOutputHelper.printListItem((String)commonPropertyNames.get(j));
+			}
+			SimpleHtmlOutputHelper.printEndList();
+		}
+        
+        SimpleHtmlOutputHelper.printClose();
+	}
+
+	/**
+	 * Eliminate the properties from the supplied list that are found to be
+	 * used somewhere within the source code.
+	 * 
+	 * @param propertyNames
+	 * @param sourceFiles
+	 * @return
+	 */
+	private static void eliminateUsedProperties( ArrayList propertyNames, ArrayList sourceFiles ){
+		
+		ListIterator iter = propertyNames.listIterator();
+		
+		// For each source code file...
+		for (int srcFileIndex = 0; (srcFileIndex < sourceFiles.size()) && (!propertyNames.isEmpty()); srcFileIndex++){
+			
+			// Skip files that are from the SVN directories.
+			String srcFileName = ((File)sourceFiles.get(srcFileIndex)).getAbsolutePath();
+			if (srcFileName.contains("svn-base")){
+				continue;
+			}
+			
+			// Create a buffered reader for the source file.
+			BufferedReader srcFileReader;
+			try {
+				srcFileReader = new BufferedReader(new FileReader((File)(sourceFiles.get(srcFileIndex))));
+			} catch (FileNotFoundException e) {
+				System.out.println("Error reading file " + srcFileName);
+				e.printStackTrace();
+				continue;
+			}
+
+			String lineOfSourceFile;
+			try {
+				// For each line of the source code file...
+				while ((lineOfSourceFile = srcFileReader.readLine()) != null) {
+					// A very small optimization: skip blank lines.
+					if (lineOfSourceFile.length() == 0){
+						continue;
+					}
+					// For each property, see if it can be found on this line of the Java file.
+					while (iter.hasNext()){
+						String propName = (String)iter.next();
+						if (lineOfSourceFile.contains(propName)){
+				    		iter.remove();
+				    	}
+					}
+					iter = propertyNames.listIterator();
+		        }
+			} catch (IOException e) {
+				System.out.println("Error while reading file " + 
+						((File)sourceFiles.get(srcFileIndex)).getAbsolutePath());
+				e.printStackTrace();
+				continue;
+			}
+		}
+	}
+	
+	/**
+	 * Get a list of the source files (Java and Scala) that exist beneath the
+	 * given directory.
+	 * 
+	 * @return List of source files found.
+	 */
+	private static ArrayList getSourceFiles( File dir ){
+
+		ArrayList sourceFiles = new ArrayList();
+		
+		if (!dir.isDirectory()){
+			SimpleHtmlOutputHelper.printParagraph("ERROR: " + dir.getAbsolutePath() + "is not a directory.");
+			return sourceFiles;
+		}
+
+        // Find the Java source files.
+        File javaSourceDir = new File( dir.getAbsolutePath() + "/src/" );
+        if (javaSourceDir.exists() && javaSourceDir.isDirectory()){
+            FileFinder.findFiles(javaSourceDir, new WildCardFileFilter("*\\.java"), sourceFiles);
+        }
+        
+        // Find the Scala source files (if any).
+        File scalaSourceDir = new File( dir.getAbsolutePath() + "/scala-src" );
+        if (scalaSourceDir.exists() && scalaSourceDir.isDirectory()){
+            FileFinder.findFiles(scalaSourceDir, new WildCardFileFilter("*\\.scala"), sourceFiles);
+        }
+        
+        return sourceFiles;
+	}
+
+	/**
+	 * Make an array list of the names of the properties found in the given
+	 * properties variable.
+	 */
+	private static ArrayList getPropertyNames(Properties properties){
+		ArrayList propertyNames = new ArrayList();
+		Enumeration propNamesEnum = properties.propertyNames();
+	    while (propNamesEnum.hasMoreElements()){
+	    	propertyNames.add(propNamesEnum.nextElement());
+	    }
+	    return propertyNames;
 	}
 
 	private static void printUsage(){
