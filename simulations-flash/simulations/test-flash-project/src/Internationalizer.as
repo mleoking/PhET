@@ -59,7 +59,7 @@ class Internationalizer{
 		//_level0.GUIPanel_mc.startButton_mc.theLabel = this.simStrings.get("start");
 		//_level0.GUIPanel_mc.startButton_mc.gotoAndPlay(1);
 		
-		if(countryCode == "en" || countryCode == undefined){
+		if(_level0.languageCode == "en"){
 			//embed fonts so they can be greyed out
 			var myFormat = new TextFormat();
 			myFormat.font = "Arial";
@@ -112,7 +112,8 @@ class Internationalizer{
 				}
 				field.text = stringValue;
 			}
-			field.setTextFormat(currentTextFormat);
+			_level0.common.prepareTranslatedTextField(field);
+			//field.setTextFormat(currentTextFormat);
 			this.resizeText(field, alignment);
 			//trace("key: "+key+"   stringValue:"+stringValue);
 		}

@@ -107,7 +107,8 @@ class Internationalizer{
 				}
 				field.text = stringValue;
 			}
-			field.setTextFormat(currentTextFormat);
+			//field.setTextFormat(currentTextFormat);
+			_level0.common.prepareTranslatedTextField(field);
 			this.resizeText(field, alignment);
 			//trace("key: "+key+"   stringValue:"+stringValue);
 		}

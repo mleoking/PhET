@@ -90,6 +90,7 @@ class Internationalizer{
 				}
 				field.text = stringValue;
 			}
+			_level0.common.prepareTranslatedTextField(field);
 			this.resizeText(field, alignment);
 			//trace("key: "+key+"   stringValue:"+stringValue);
 		}

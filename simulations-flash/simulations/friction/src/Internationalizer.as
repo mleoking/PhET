@@ -27,7 +27,7 @@ class Internationalizer{
 		this.setString(_level0.topAtoms_mc.topExtras_mc.grabSign_mc.label_txt, "rubYellowAtoms", "center");
 		this.setString(_level0.resetButton_mc.label_txt, "reset", "center");
 		
-		if(countryCode == "en" || countryCode == undefined){
+		if(_level0.languageCode == "en"){
 			//embed fonts so they can be greyed out
 			var myFormat = new TextFormat();
 			myFormat.font = "Arial";
@@ -76,7 +76,8 @@ class Internationalizer{
 				}
 				field.text = stringValue;
 			}
-			field.setTextFormat(currentTextFormat);
+			//field.setTextFormat(currentTextFormat);
+			_level0.common.prepareTranslatedTextField(field);
 			this.resizeText(field, alignment);
 			//trace("key: "+key+"   stringValue:"+stringValue);
 		}

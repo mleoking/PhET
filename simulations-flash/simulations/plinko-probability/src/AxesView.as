@@ -134,7 +134,7 @@
 
 		this.writeYAxisNumbers();
 		
-		if(this.countryCode == "en" || this.countryCode == undefined){
+		if(_level0.languageCode == "en"){
 			with(this.canvas){
 				//yAxisLabel_txt.text = "fraction";
 				yAxisLabel_txt.autoSize = true;
