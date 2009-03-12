@@ -134,9 +134,10 @@ class UpdateInstallationDialog {
 	
 	public function yesClicked(src : JButton) {
 		// hide this window
-		_level0.updateInstallationWindow.setVisible(false);
+		//_level0.updateInstallationWindow.setVisible(false);
 		
-		getURL("http://phet.colorado.edu/get_phet/full_install.php");
+		common.openExternalLink( "http://phet.colorado.edu/get_phet/full_install.php" );
+		//getURL("http://phet.colorado.edu/get_phet/full_install.php", "_blank");
 	}
 	
 	public function askLaterClicked(src : JButton) {
