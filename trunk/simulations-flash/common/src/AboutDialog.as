@@ -43,17 +43,12 @@ class AboutDialog {
 		
 		// construct the string of text to show
 		var str : String = "";
-		//str += "<b>" + common.strings.get("PhET", "PhET") + "</b>\n";
 		str += "<b>PhET Interactive Simulations</b>\n";
 		
-		//str += common.strings.get("CopyrightColorado", "Copyright {0} University of Colorado.", ["\u00A9 2004-2008"]) + "\n";
 		str += "Copyright \u00A9 2004-2009 University of Colorado.\n";
 		
-		//str += common.strings.get("SomeRightsReserved", "Some rights reserved.") + "\n";
 		str += "Some rights reserved.\n";
 		
-		//str += common.strings.get("Visit", "Visit {0}.", ["<a href='http://phet.colorado.edu'>http://phet.colorado.edu</a>"]) + "\n\n";
-		//str += "Visit <a href='http://phet.colorado.edu'>http://phet.colorado.edu</a>\n\n";
 		str += "Visit <a href='asfunction:_level0.common.openExternalLink,http://phet.colorado.edu'>http://phet.colorado.edu</a>\n\n";
 		
 		str += "<b><font size='16'>" + common.getSimName() + "</font></b>\n";

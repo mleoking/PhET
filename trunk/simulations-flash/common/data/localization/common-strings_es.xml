@@ -14,19 +14,16 @@
 <string key="StatisticsField-sim_dev_version" value="Versión de simulación (desarollo)"/>
 <string key="AskLater" value="Preguntar despues"/>
 <string key="AcceptContinue" value="Acceptar y Continuar"/>
-<string key="SomeRightsReserved" value="Algunos derechos reservados."/>
 <string key="BuildDate" value="Fecha de construcción"/>
 <string key="TellMore" value="Más información..."/>
 <string key="FlashVersion" value="Versión de Flash"/>
 <string key="PhetSoftwareAgreement" value="Acuerdo del software de PhET"/>
-<string key="PhET" value="PhET"/>
 <string key="NoUpdatesAvailable" value="No actualizaciónes disponibles"/>
 <string key="StatisticsField-message_type" value="Typo de mensaje"/>
 <string key="InstallationDated" value="La instalación de la pagina web de PhET offline tiene la fecha {0}"/>
 <string key="CheckUpdates" value="Buscar actualizaciónes automaticamente"/>
 <string key="StatisticsField-sim_major_version" value="Versión de simulación (mayor)"/>
 <string key="StatisticsField-user_total_sessions" value="Número total de veces que se han ejecutado todas las simulaciónes"/>
-<string key="Visit" value="Visite {0}."/>
 <string key="InstallationNewer" value="Una versión nueva está disponible, con fecha de {0}."/>
 <string key="StatisticsField-sim_sessions_since" value="Número de veces que esta simulación ha sido ejecutada desde la ultima conexión a la red"/>
 <string key="StatisticsField-sim_distribution_tag" value="Versión de simulación (distribución)"/>
@@ -52,7 +49,6 @@
 <string key="StatisticsField-user_installation_timestamp" value="Sello de tiempo de la instalción PhET"/>
 <string key="StatisticsField-sim_name" value="Nombre de simulación"/>
 <string key="UpdateOptionsAvailable" value="Opciones de actualización se encuentran disponibles bajo &lt;i&gt;Preferencias&lt;/i&gt;."/>
-<string key="CopyrightColorado" value="Copyright {0} Universidad de Colorado."/>
 <string key="PhetDevelopmentTeam" value="Equipo de desarollo de PhET"/>
 <string key="InstallerInfo2" value="Si usted elige obtener la versión más reciente, un navegador de red se abrirá en la pagina web de PhET, donde puede descargar el instalador de la pagina web de PhET offline."/>
 <string key="InstallerInfo1" value="Mantener la instalación de la pagina web de PhET offline al dia asegura su acceso a las simulaciones más recientes y a materials suplementarios."/>
