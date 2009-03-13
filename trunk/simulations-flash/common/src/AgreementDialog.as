@@ -4,9 +4,21 @@
 //
 // Author: Jonathan Olson
 
-import org.aswing.*;
-import org.aswing.util.*;
-import org.aswing.border.*;
+import org.aswing.ASColor;
+import org.aswing.ASWingUtils;
+import org.aswing.BoxLayout;
+import org.aswing.CenterLayout;
+import org.aswing.Insets;
+import org.aswing.JButton;
+import org.aswing.JFrame;
+import org.aswing.JPanel;
+import org.aswing.JScrollPane;
+import org.aswing.JSpacer;
+import org.aswing.JTextArea;
+import org.aswing.SoftBoxLayout
+import org.aswing.util.Delegate;
+import org.aswing.border.EmptyBorder;
+import org.aswing.border.LineBorder;
 
 class AgreementDialog {
 	
