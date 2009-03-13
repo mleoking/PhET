@@ -46,7 +46,7 @@ public class PreferencesDialog extends PaintImmediateDialog {
         JTabbedPane jTabbedPane = new JTabbedPane();
         userInputPanel.add( jTabbedPane );
         updatesPreferencesPanel = new UpdatesPreferencesPanel( preferences );
-        privacyPreferencesPanel = new PrivacyPreferencesPanel( preferences, sessionMessage, isDev, this );
+        privacyPreferencesPanel = new PrivacyPreferencesPanel( preferences, sessionMessage, isDev );
         if ( showUpdatesUI ) {
             jTabbedPane.addTab( UPDATES_TAB, updatesPreferencesPanel );
         }
