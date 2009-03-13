@@ -7,8 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.HashSet;
+import java.util.List;
 
 public class Spreadsheet {
     private ArrayList entries = new ArrayList();
@@ -17,8 +17,8 @@ public class Spreadsheet {
         this.entries.addAll( Arrays.asList( entries ) );
     }
 
-    public HashSet getUniqueValues(String key){
-        return new HashSet( Arrays.asList( listValues(key )));
+    public HashSet getUniqueValues( String key ) {
+        return new HashSet( Arrays.asList( listValues( key ) ) );
     }
 
     public String[] listValues( String key ) {
@@ -30,7 +30,26 @@ public class Spreadsheet {
         return (String[]) values.toArray( new String[values.size()] );
     }
 
-    public Entry[] getMatches( String key, String value ) {
+    public int size() {
+        return entries.size();
+    }
+
+    public static interface Matcher {
+        boolean matches( Entry e );
+    }
+
+    public Spreadsheet getMatches( Matcher matcher ) {
+        ArrayList matches = new ArrayList();
+        for ( int i = 0; i < entries.size(); i++ ) {
+            Entry entry = (Entry) entries.get( i );
+            if ( matcher.matches( entry ) ) {
+                matches.add( entry );
+            }
+        }
+        return new Spreadsheet( (Entry[]) matches.toArray( new Entry[matches.size()] ));
+    }
+
+    public Spreadsheet getMatches( String key, String value ) {
         ArrayList matches = new ArrayList();
         for ( int i = 0; i < entries.size(); i++ ) {
             Entry entry = (Entry) entries.get( i );
@@ -38,7 +57,7 @@ public class Spreadsheet {
                 matches.add( entry );
             }
         }
-        return (Entry[]) matches.toArray( new Entry[matches.size()] );
+        return new Spreadsheet( (Entry[]) matches.toArray( new Entry[matches.size()] ));
     }
 
     public static Spreadsheet load( File file ) throws IOException {
