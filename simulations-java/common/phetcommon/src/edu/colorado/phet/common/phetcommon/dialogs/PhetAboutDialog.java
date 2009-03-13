@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
@@ -16,11 +15,11 @@ import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.application.SoftwareAgreementDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.view.SoftwareAgreementButton;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -49,7 +48,6 @@ public class PhetAboutDialog extends PaintImmediateDialog {
     private static final String DISTRIBUTION = PhetCommonResources.getString( "Common.About.Distribution" );
     private static final String JAVA_VERSION = PhetCommonResources.getString( "Common.About.JavaVersion" );
     private static final String OS_VERSION = PhetCommonResources.getString( "Common.About.OSVersion" );
-    private static final String AGREEMENT_BUTTON = PhetCommonResources.getString( "Common.About.AgreementButton" );
     private static final String CREDITS_BUTTON = PhetCommonResources.getString( "Common.About.CreditsButton" );
     private static final String CLOSE_BUTTON = PhetCommonResources.getString( "Common.choice.close" );
 
@@ -213,17 +211,7 @@ public class PhetAboutDialog extends PaintImmediateDialog {
     private JPanel createButtonPanel( boolean isStatisticsFeatureIncluded ) {
 
         // Software Use Agreement
-        JButton agreementButton = new JButton( AGREEMENT_BUTTON );
-        agreementButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                try {
-                    showAgreement();
-                }
-                catch ( IOException ioe ) {
-                    ioe.printStackTrace();
-                }
-            }
-        } );
+        JButton agreementButton = new SoftwareAgreementButton( this );
 
         // Credits
         JButton creditsButton = new JButton( CREDITS_BUTTON );
@@ -250,13 +238,6 @@ public class PhetAboutDialog extends PaintImmediateDialog {
         buttonPanel.add( closeButton );
 
         return buttonPanel;
-    }
-
-    /*
-     * Displays the Software Use Agreement in a dialog.
-     */
-    protected void showAgreement() throws IOException {
-        new SoftwareAgreementDialog( this ).setVisible( true );
     }
 
     protected void showCredits() {
