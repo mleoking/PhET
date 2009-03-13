@@ -16,9 +16,9 @@ public abstract class StatisticsMessage {
     private final ArrayList fields = new ArrayList();
 
     public StatisticsMessage( String messageType, String messageVersion ) {
-        addField( new StatisticsMessageField( "message_type", messageType ) );
-        addField( new StatisticsMessageField( "message_version", messageVersion ) );
-        addField( new StatisticsMessageField( "sim_type", "java" ) );
+        addField( new StatisticsMessageField( "Common.statistics.message_type", "message_type", messageType ) );
+        addField( new StatisticsMessageField( "Common.statistics.message_version", "message_version", messageVersion ) );
+        addField( new StatisticsMessageField( "Common.statistics.sim_type", "sim_type", "java" ) );
     }
 
     public void addFields( StatisticsMessageField[] list ) {

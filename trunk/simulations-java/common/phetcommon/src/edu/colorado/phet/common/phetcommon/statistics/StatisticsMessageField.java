@@ -15,18 +15,18 @@ public class StatisticsMessageField {
     private final String name;
     private final String value;
     
-    public StatisticsMessageField( String name, String value ) {
-        this.humanReadableName = getHumanReadableName( name );
+    public StatisticsMessageField( String keyForHumanReadableName, String name, String value ) {
+        this.humanReadableName = PhetCommonResources.getString( keyForHumanReadableName );
         this.name = name;
         this.value = ( ( value == null || value.length() == 0 ) ? NULL_STRING : value );
     }
     
-    public StatisticsMessageField( String name, int value ) {
-        this( name, String.valueOf( value ) );
+    public StatisticsMessageField( String keyForHumanReadableName, String name, int value ) {
+        this( keyForHumanReadableName, name, String.valueOf( value ) );
     }
     
-    public StatisticsMessageField( String name, long value ) {
-        this( name, String.valueOf( value ) );
+    public StatisticsMessageField( String keyForHumanReadableName, String name, long value ) {
+        this( keyForHumanReadableName, name, String.valueOf( value ) );
     }
     
     public String getHumanReadableName() {
@@ -42,15 +42,8 @@ public class StatisticsMessageField {
     }
 
     public static class SystemProperty extends StatisticsMessageField {
-        public SystemProperty( String fieldName, String systemPropertyKey ) {
-            super( fieldName, System.getProperty( systemPropertyKey ) );
+        public SystemProperty( String keyForHumanReadableName, String fieldName, String systemPropertyKey ) {
+            super( keyForHumanReadableName, fieldName, System.getProperty( systemPropertyKey ) );
         }
-    }
-    
-    /*
-     * The fieldName is used to look up the localized human-readable name.
-     */
-    private static String getHumanReadableName( String fieldName ) {
-        return PhetCommonResources.getString( "Common.statistics." + fieldName );
     }
 }
