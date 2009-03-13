@@ -339,7 +339,6 @@ public class PhaseChangesControlPanel extends ControlPanel {
             m_oxygenRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     m_model.setMoleculeType( StatesOfMatterConstants.DIATOMIC_OXYGEN );
-                    m_model.setPhase( MultipleParticleModel.PHASE_SOLID);
                     m_interactionPotentialDiagram.setMolecular( true );
                     m_phaseDiagram.setDepictingWater( false );
                     updateVisibilityStates();
@@ -350,7 +349,6 @@ public class PhaseChangesControlPanel extends ControlPanel {
             m_neonRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     m_model.setMoleculeType( StatesOfMatterConstants.NEON );
-                    m_model.setPhase( MultipleParticleModel.PHASE_SOLID);
                     m_interactionPotentialDiagram.setMolecular( false );
                     m_phaseDiagram.setDepictingWater( false );
                     updateVisibilityStates();
@@ -361,7 +359,6 @@ public class PhaseChangesControlPanel extends ControlPanel {
             m_argonRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     m_model.setMoleculeType( StatesOfMatterConstants.ARGON );
-                    m_model.setPhase( MultipleParticleModel.PHASE_SOLID);
                     m_interactionPotentialDiagram.setMolecular( false );
                     m_phaseDiagram.setDepictingWater( false );
                     updateVisibilityStates();
@@ -372,7 +369,6 @@ public class PhaseChangesControlPanel extends ControlPanel {
             m_waterRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     m_model.setMoleculeType( StatesOfMatterConstants.WATER );
-                    m_model.setPhase( MultipleParticleModel.PHASE_SOLID);
                     m_interactionPotentialDiagram.setMolecular( true );
                     m_phaseDiagram.setDepictingWater( true );
                     updateVisibilityStates();
@@ -383,7 +379,6 @@ public class PhaseChangesControlPanel extends ControlPanel {
             m_configurableRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     m_model.setMoleculeType( StatesOfMatterConstants.USER_DEFINED_MOLECULE );
-                    m_model.setPhase( MultipleParticleModel.PHASE_SOLID);
                     m_interactionPotentialDiagram.setMolecular( false );
                     m_phaseDiagram.setDepictingWater( false );
                     updateVisibilityStates();
