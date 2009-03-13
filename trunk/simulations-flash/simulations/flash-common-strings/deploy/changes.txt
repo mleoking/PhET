@@ -1,3 +1,5 @@
+# 1.04.00 (29429) Mar 12, 2009
+3/12/09 Removed unnecessary About dialog strings
 # 1.03.00 (29290) Mar 6, 2009
 3/6/09 Changed text notifying user of the software agreement
 # 1.02.01 (29289) Mar 6, 2009
