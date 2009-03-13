@@ -1,3 +1,5 @@
+# 1.06.00 (29438) Mar 12, 2009
+3/12/09 common strings updates for #1467
 # 1.05.00 (29287) Mar 6, 2009
 3/6/09 deploy after jarsigning was fixed #913
 # 1.04.00 (29275) Mar 6, 2009
