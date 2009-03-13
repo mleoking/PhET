@@ -66,6 +66,7 @@ public class MultipleParticleModel{
 
     // The internal model temperature values for the various states.
 	public static final double SOLID_TEMPERATURE = 0.15;
+	public static final double SLUSH_TEMPERATURE = 0.33;
 	public static final double LIQUID_TEMPERATURE = 0.42;
 	public static final double GAS_TEMPERATURE = 1.0;
 
@@ -1057,6 +1058,13 @@ public class MultipleParticleModel{
 
         // Initialize the particle positions according the to requested phase.
         setPhase( phase );
+        
+        // For the atom with adjustable interaction, set its temperature a
+        // bit higher initially so that it is easier to see the effect of
+        // changing the epsilon value.
+        if (getMoleculeType() == StatesOfMatterConstants.USER_DEFINED_MOLECULE){
+        	setTemperature(SLUSH_TEMPERATURE);
+        }
     }
 
     /**
