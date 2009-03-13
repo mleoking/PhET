@@ -11,7 +11,7 @@ public class Entry {
         map = new HashMap();
         for ( int i = 0; i < keys.length; i++ ) {
             String value = i < values.length ? values[i] : "";
-            map.put( keys[i], value );
+            map.put( keys[i], value.trim() );
         }
     }
 
