@@ -30,11 +30,7 @@ public class CheckTestCoverage {
     }
 
     private static void analyzeTest( Spreadsheet spreadsheet, final String testID ) {
-        Spreadsheet entries = spreadsheet.getMatches( new Spreadsheet.Matcher() {
-            public boolean matches( Entry e ) {
-                return e.getValue( "Test ID" ).equals( testID );
-            }
-        } );
+        Spreadsheet entries = spreadsheet.getMatches( "Test ID", testID );
         System.out.println( testID + "\n\tnumTests=" + entries.size() );
         Spreadsheet macTests = entries.getMatches( new Spreadsheet.Matcher() {
             public boolean matches( Entry e ) {
@@ -42,6 +38,7 @@ public class CheckTestCoverage {
             }
         } );
         System.out.println( "\tMac tests: " + macTests.size() );
+        System.out.println( "\tWindows tests: " + macTests.size() );
 
     }
 

@@ -46,7 +46,7 @@ public class Spreadsheet {
                 matches.add( entry );
             }
         }
-        return new Spreadsheet( (Entry[]) matches.toArray( new Entry[matches.size()] ));
+        return new Spreadsheet( (Entry[]) matches.toArray( new Entry[matches.size()] ) );
     }
 
     public Spreadsheet getMatches( String key, String value ) {
@@ -57,11 +57,11 @@ public class Spreadsheet {
                 matches.add( entry );
             }
         }
-        return new Spreadsheet( (Entry[]) matches.toArray( new Entry[matches.size()] ));
+        return new Spreadsheet( (Entry[]) matches.toArray( new Entry[matches.size()] ) );
     }
 
     public static Spreadsheet load( File file ) throws IOException {
-        CSVReader reader = new CSVReader( new FileReader( new File( "C:\\Users\\Owner\\Desktop\\iom.csv" ) ) );
+        CSVReader reader = new CSVReader( new FileReader( file ) );
         List myEntries = reader.readAll();
         ArrayList entries = new ArrayList();
 
