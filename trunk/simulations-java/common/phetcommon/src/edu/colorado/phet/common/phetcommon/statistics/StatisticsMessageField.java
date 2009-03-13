@@ -15,8 +15,8 @@ public class StatisticsMessageField {
     private final String name;
     private final String value;
     
-    public StatisticsMessageField( String keyForHumanReadableName, String name, String value ) {
-        this.humanReadableName = PhetCommonResources.getString( keyForHumanReadableName );
+    public StatisticsMessageField( String localizationKey, String name, String value ) {
+        this.humanReadableName = PhetCommonResources.getString( localizationKey );
         this.name = name;
         this.value = ( ( value == null || value.length() == 0 ) ? NULL_STRING : value );
     }
