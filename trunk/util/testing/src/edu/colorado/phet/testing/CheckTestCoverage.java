@@ -7,13 +7,16 @@ import java.util.*;
 public class CheckTestCoverage {
 
     public static void main( String[] args ) throws IOException {
+        if ( args.length != 1 ) {
+            throw new RuntimeException( "Need to specify as an argument the absolute path of the CSV file downloaded from google docs" );
+        }
 
         //todo: use google docs api to auto-download latest version of spreadsheet
         //http://code.google.com/apis/documents/docs/2.0/developers_guide_java.html
 
         //for now, just download manually
 
-        Spreadsheet spreadsheet = Spreadsheet.load( new File( "C:\\Users\\Owner\\Desktop\\iom.csv" ) );
+        Spreadsheet spreadsheet = Spreadsheet.load( new File( args[0] ) );
         List testIDs = Arrays.asList( spreadsheet.listValues( "Test ID" ) );
         HashSet testIDSet = new HashSet( testIDs );
 
