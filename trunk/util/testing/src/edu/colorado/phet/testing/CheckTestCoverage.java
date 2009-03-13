@@ -20,9 +20,10 @@ public class CheckTestCoverage {
         List testIDs = Arrays.asList( spreadsheet.listValues( "Test ID" ) );
         HashSet testIDSet = new HashSet( testIDs );
 
-        System.out.println( "Test IDs = " + testIDSet );
-        System.out.println( "Testers = " + spreadsheet.getUniqueValues( "Tester" ) );
-        System.out.println( "Scenarios = " + spreadsheet.getUniqueValues( "Scenario" ) );
+//        System.out.println( "Test IDs = " + testIDSet );
+//        System.out.println( "Testers = " + spreadsheet.getUniqueValues( "Tester" ) );
+//        System.out.println( "Scenarios = " + spreadsheet.getUniqueValues( "Scenario" ) );
+//        System.out.println( "" );
 
         List sorted = new ArrayList( testIDSet );
         Collections.sort( sorted );
