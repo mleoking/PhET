@@ -155,21 +155,10 @@ class PreferencesDialog {
 		
 		privacyPanel.append(new JSpacer(5, 5));
 		
-		//var privacyButtonPanel : JPanel = new JPanel(new BoxLayout());
-		
 		// button to show details about the privacy information
 		var detailsButton = new JButton(common.strings.get("Details", "Details") + "...");
 		detailsButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, detailsClicked));
 		CommonButtons.padButtonAdd(detailsButton, privacyPanel);
-		
-		privacyPanel.append(new JSpacer(5, 5));
-		
-		// button that will open the agreements dialog
-		var agreementButton : JButton = new JButton(common.strings.get("SoftwareAgreement", "Software Agreement") + "...");
-		agreementButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, agreementClicked));
-		CommonButtons.padButtonAdd(agreementButton, privacyPanel);
-		
-		//privacyPanel.append(privacyButtonPanel);
 		
 		privacyPanel.append(new JSpacer(5, 5));
 		
