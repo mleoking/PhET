@@ -155,10 +155,21 @@ class PreferencesDialog {
 		
 		privacyPanel.append(new JSpacer(5, 5));
 		
+		//var privacyButtonPanel : JPanel = new JPanel(new BoxLayout());
+		
 		// button to show details about the privacy information
 		var detailsButton = new JButton(common.strings.get("Details", "Details") + "...");
 		detailsButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, detailsClicked));
 		CommonButtons.padButtonAdd(detailsButton, privacyPanel);
+		
+		privacyPanel.append(new JSpacer(5, 5));
+		
+		// button that will open the agreements dialog
+		var agreementButton : JButton = new JButton(common.strings.get("SoftwareAgreement", "Software Agreement") + "...");
+		agreementButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, agreementClicked));
+		CommonButtons.padButtonAdd(agreementButton, privacyPanel);
+		
+		//privacyPanel.append(privacyButtonPanel);
 		
 		privacyPanel.append(new JSpacer(5, 5));
 		
@@ -245,6 +256,18 @@ class PreferencesDialog {
 		} else {
 			debug("Creating Dialog\n");
 			_level0.statisticsDetailsDialog = new StatisticsDetailsDialog();
+		}
+	}
+	
+	public function agreementClicked(src : JButton) {
+		if(_level0.agreementWindow) {
+			// agreement window exists, just show it
+			debug("Showing dialog again\n");
+			_level0.agreementWindow.show();
+		} else {
+			// agreement window doesn't exist, we must create it
+			debug("Creating Dialog\n");
+			_level0.agreementDialog = new AgreementDialog();
 		}
 	}
 	
