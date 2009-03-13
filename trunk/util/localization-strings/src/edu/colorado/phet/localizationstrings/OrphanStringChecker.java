@@ -23,8 +23,9 @@ import edu.colorado.phet.localizationstrings.util.WildCardFileFilter;
 /**
  * Main class for a standalone, command line application that looks for orphan
  * strings in the properties files.  An "orphan string" is a string that is
- * defined in the main (i.e. English) localization property file but that is
- * not used in the source code.
+ * defined in the main (i.e. English) localization property file but that does
+ * not appear literally in the source code. (If the string may still be used 
+ * if its key is constructed or loaded programmatically.)
  * 
  * @author John Blanco
  */
