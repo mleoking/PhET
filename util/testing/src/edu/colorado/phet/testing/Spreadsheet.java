@@ -5,10 +5,9 @@ import au.com.bytecode.opencsv.CSVReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class Spreadsheet {
     private ArrayList entries = new ArrayList();
@@ -32,6 +31,47 @@ public class Spreadsheet {
 
     public int size() {
         return entries.size();
+    }
+
+    public Spreadsheet getLowercaseSubstringMatches( final String key, final String value ) {
+        return getMatches( new Spreadsheet.Matcher() {
+            public boolean matches( Entry e ) {
+                return e.getValue( key ).toLowerCase().indexOf( value ) >= 0;
+            }
+        } );
+    }
+
+    public Spreadsheet sortByDate() {
+        ArrayList entryArray = new ArrayList();
+        entryArray.addAll( entries );
+        Collections.sort( entryArray, new Comparator() {
+            public int compare( Object o1, Object o2 ) {
+                Entry a = (Entry) o1;
+                Entry b = (Entry) o2;
+                try {
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat( "M/d/yyyy H:m:s" );
+                    Date adate = simpleDateFormat.parse( a.getValue( "Timestamp" ) );
+                    Date bdate = simpleDateFormat.parse( b.getValue( "Timestamp" ) );
+                    return adate.compareTo( bdate );
+                }
+                catch( ParseException e ) {
+                    e.printStackTrace();
+                    throw new RuntimeException( e );
+                }
+
+            }
+        } );
+        return new Spreadsheet( (Entry[]) entryArray.toArray( new Entry[entryArray.size()] ) );
+    }
+
+    public Spreadsheet keepColumns( String[] strings ) {
+        ArrayList reducedEntries=new ArrayList( );
+        for ( int i = 0; i < entries.size(); i++ ) {
+            Entry entry = (Entry) entries.get( i );
+            reducedEntries.add(entry.keepColumns(strings));
+        }
+
+        return new Spreadsheet( (Entry[]) reducedEntries.toArray( new Entry[reducedEntries.size()] ) );
     }
 
     public static interface Matcher {
@@ -74,5 +114,25 @@ public class Spreadsheet {
 
         Spreadsheet spreadsheet = new Spreadsheet( (Entry[]) entries.toArray( new Entry[entries.size()] ) );
         return spreadsheet;
+    }
+
+    public String toString() {
+        String s = "";
+        Entry key = (Entry) entries.get( 0 );
+        String[] keys = key.getKeys();
+        for ( int i = 0; i < keys.length; i++ ) {
+            String k = keys[i];
+            s += k + "\t";
+        }
+        s += "\n";
+        for ( int i = 0; i < entries.size(); i++ ) {
+            Entry e = (Entry) entries.get( i );
+            for ( int j = 0; j < keys.length; j++ ) {
+                String key1 = keys[j];
+                s += e.getValue( key1 ) + "\t";
+            }
+            s += "\n";
+        }
+        return s;
     }
 }

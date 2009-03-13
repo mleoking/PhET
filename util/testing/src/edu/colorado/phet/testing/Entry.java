@@ -15,6 +15,10 @@ public class Entry {
         }
     }
 
+    public String[] getKeys() {
+        return keys;
+    }
+
     public String toString() {
         String s = "[";
         for ( int i = 0; i < keys.length; i++ ) {
@@ -29,5 +33,13 @@ public class Entry {
 
     public String getValue( String key ) {
         return (String) map.get( key );
+    }
+
+    public Entry keepColumns( String[] strings ) {
+        String[] values = new String[strings.length];
+        for ( int i = 0; i < values.length; i++ ) {
+            values[i] = getValue( strings[i] );
+        }
+        return new Entry( strings, values );
     }
 }
