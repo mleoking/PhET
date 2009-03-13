@@ -5,9 +5,16 @@
 //
 // Author: Jonathan Olson
 
-import org.aswing.*;
-import org.aswing.util.*;
-import org.aswing.border.*;
+import org.aswing.ASWingUtils;
+import org.aswing.CenterLayout;
+import org.aswing.Container;
+import org.aswing.FlowLayout;
+import org.aswing.FocusManager;
+import org.aswing.Insets;
+import org.aswing.JButton;
+import org.aswing.JPanel;
+import org.aswing.JWindow;
+import org.aswing.util.Delegate;
 
 class CommonButtons {
 	

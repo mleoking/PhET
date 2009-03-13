@@ -5,8 +5,6 @@
 //
 // Author: Jonathan Olson
 
-import flash.external.ExternalInterface;
-
 class Statistics {
 	
 	// stores whether a message send has failed. if it has, don't send more!

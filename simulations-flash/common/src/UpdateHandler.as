@@ -6,9 +6,7 @@
 //
 // Author: Jonathan Olson
 
-import org.aswing.*;
-import org.aswing.util.*;
-import org.aswing.border.*;
+import org.aswing.ASColor;
 
 class UpdateHandler {
 	public static var SIM_REQUEST_VERSION : String = "1";
