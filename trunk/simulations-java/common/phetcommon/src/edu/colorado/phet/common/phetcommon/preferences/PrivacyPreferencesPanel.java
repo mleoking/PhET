@@ -6,13 +6,15 @@ import java.awt.Insets;
 import java.awt.Window;
 import java.text.MessageFormat;
 
-import javax.swing.*;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.statistics.SessionMessage;
-import edu.colorado.phet.common.phetcommon.view.SoftwareAgreementButton;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.HTMLEditorPane;
@@ -28,7 +30,7 @@ public class PrivacyPreferencesPanel extends JPanel {
     private final JCheckBox statisticsEnabledCheckBox;
     private final JCheckBox alwaysShowSoftwareAgreementCheckBox;
 
-    public PrivacyPreferencesPanel( PhetPreferences preferences, SessionMessage sessionMessage, boolean isDev, Dialog parent ) {
+    public PrivacyPreferencesPanel( PhetPreferences preferences, SessionMessage sessionMessage, boolean isDev ) {
         
         this.preferences = preferences;
         
@@ -41,9 +43,6 @@ public class PrivacyPreferencesPanel extends JPanel {
         // developer control to always show the software agreement dialog, not localized
         alwaysShowSoftwareAgreementCheckBox = new JCheckBox( "Always show Software Agreement (dev)", preferences.isAlwaysShowSoftwareAgreement() );
         
-        // button to show software agreement
-        JButton agreementButton = new SoftwareAgreementButton( parent );
-        
         // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         this.setLayout( layout );
@@ -55,7 +54,6 @@ public class PrivacyPreferencesPanel extends JPanel {
         if ( isDev ) {
             layout.addComponent( alwaysShowSoftwareAgreementCheckBox, row++, column ); 
         }
-        layout.addComponent( agreementButton, row++, column );
     }
     
     /**
