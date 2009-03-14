@@ -20,7 +20,9 @@ import org.aswing.SoftBoxLayout
 import org.aswing.util.Delegate;
 import org.aswing.border.EmptyBorder;
 
-class UpdateInstallationDialog {
+import edu.colorado.phet.flashcommon.*;
+
+class edu.colorado.phet.flashcommon.UpdateInstallationDialog {
 	
 	public var newInstallerTimestamp : Number;
 	public var newInstallerAskLaterDays : Number;

@@ -6,8 +6,9 @@
 //
 // Author: Jonathan Olson
 
+import edu.colorado.phet.flashcommon.*;
 
-class Preferences {
+class edu.colorado.phet.flashcommon.Preferences {
 	
 	// current preferences version
 	// this SHOULD NOT CHANGE after development, and is an

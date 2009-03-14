@@ -8,7 +8,9 @@
 
 import org.aswing.ASColor;
 
-class UpdateHandler {
+import edu.colorado.phet.flashcommon.*;
+
+class edu.colorado.phet.flashcommon.UpdateHandler {
 	public static var SIM_REQUEST_VERSION : String = "1";
 	public static var INSTALLER_REQUEST_VERSION : String = "1";
 	

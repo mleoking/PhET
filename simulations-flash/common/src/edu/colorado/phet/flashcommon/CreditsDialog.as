@@ -19,7 +19,9 @@ import org.aswing.util.Delegate;
 import org.aswing.border.EmptyBorder;
 import org.aswing.border.LineBorder;
 
-class CreditsDialog {
+import edu.colorado.phet.flashcommon.*;
+
+class edu.colorado.phet.flashcommon.CreditsDialog {
 	
 	public var common : FlashCommon;
 	

@@ -6,8 +6,10 @@
 
 import org.aswing.ASColor;
 
+import edu.colorado.phet.flashcommon.*;
+
 // should be instance of FlashCommon at _level0.common
-class FlashCommon {
+class edu.colorado.phet.flashcommon.FlashCommon {
 	
 	public static var NULLVAL : String = "null";
 	

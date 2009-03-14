@@ -20,7 +20,9 @@ import org.aswing.SoftBoxLayout
 import org.aswing.util.Delegate;
 import org.aswing.border.EmptyBorder;
 
-class UpdateSimDialog {
+import edu.colorado.phet.flashcommon.*;
+
+class edu.colorado.phet.flashcommon.UpdateSimDialog {
 	
 	public var newMajorVersion : Number;
 	public var newMinorVersion : Number;

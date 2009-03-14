@@ -4,7 +4,9 @@
 //
 // Author: Jonathan Olson
 
-class CommonStrings {
+import edu.colorado.phet.flashcommon.*;
+
+class edu.colorado.phet.flashcommon.CommonStrings {
 	
 	// where the XML object lives (it is parsed from FlashVars)
 	public var xml : XML;

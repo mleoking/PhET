@@ -1,5 +1,8 @@
 ﻿//All internationalizable string collected here
 //All strings must default to english
+
+import edu.colorado.phet.flashcommon.*;
+
 class Internationalizer{
 	private var simStrings:SimStrings;
 	//private var mainView:Object;

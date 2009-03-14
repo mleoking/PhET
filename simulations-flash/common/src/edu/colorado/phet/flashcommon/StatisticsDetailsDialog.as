@@ -19,7 +19,9 @@ import org.aswing.util.Delegate;
 import org.aswing.border.EmptyBorder;
 import org.aswing.border.LineBorder;
 
-class StatisticsDetailsDialog {
+import edu.colorado.phet.flashcommon.*;
+
+class edu.colorado.phet.flashcommon.StatisticsDetailsDialog {
 	
 	public var common : FlashCommon;
 	
