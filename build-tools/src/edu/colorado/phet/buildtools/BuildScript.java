@@ -20,18 +20,18 @@ import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.ProcessOutputReader;
 
 public class BuildScript {
-    
+
     // debug flags that can be set via build-local.properties
     private final boolean debugDryRun;
     private final boolean debugSkipBuild;
     private final boolean debugSkipStatus;
     private final boolean debugSkipCommit;
-    
+
     private final PhetProject project;
     private final File trunk;
     private final BuildLocalProperties buildLocalProperties;
     private final ArrayList listeners;
-    
+
     private String batchMessage;
 
     public void addListener( Listener listener ) {
@@ -49,7 +49,7 @@ public class BuildScript {
         this.project = project;
         this.buildLocalProperties = BuildLocalProperties.getInstance();
         this.listeners = new ArrayList();
-        
+
         debugDryRun = this.buildLocalProperties.getDebugDryRun();
         debugSkipBuild = this.buildLocalProperties.getDebugSkipBuild();
         debugSkipStatus = this.buildLocalProperties.getDebugSkipStatus();
@@ -416,10 +416,12 @@ public class BuildScript {
         return output + "</ul>";
     }
 
-    public void deployDev( final AuthenticationInfo devAuth ) {
+    public void deployDev( final AuthenticationInfo devAuth, final boolean generateOfflineJARs ) {
         deploy( new NullTask(), PhetServer.DEVELOPMENT, devAuth, new VersionIncrement.UpdateDev(), new Task() {
             public boolean invoke() {
-                generateOfflineJars( project, PhetServer.DEVELOPMENT, devAuth );
+                if ( generateOfflineJARs ) {
+                    generateOfflineJars( project, PhetServer.DEVELOPMENT, devAuth );
+                }
                 return true;
             }
         } );

@@ -99,7 +99,7 @@ public class ProjectListPanel extends JPanel {
         JButton deployDev = new JButton( "Deploy Dev" );
         deployDev.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getBuildScript().deployDev( buildLocalProperties.getDevAuthenticationInfo() );
+                getBuildScript().deployDev( buildLocalProperties.getDevAuthenticationInfo() ,false);
             }
         } );
 
