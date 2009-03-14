@@ -116,7 +116,7 @@ public class MiscMenu extends JMenu {
                                 }
                             }
                         } );
-                        buildScript.deployDev( BuildLocalProperties.getInstance().getDevAuthenticationInfo() );
+                        buildScript.deployDev( BuildLocalProperties.getInstance().getDevAuthenticationInfo() ,true);
                     }
                 }
                 try {
