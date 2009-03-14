@@ -4,8 +4,9 @@
 //
 // Author: Jonathan Olson
 
+import edu.colorado.phet.flashcommon.*;
 
-class TabHandler {
+class edu.colorado.phet.flashcommon.TabHandler {
 	
 	// stores whether keyboard accessibility is currently active. currently
 	// it defaults to false, and only becomes active (true) if the tab key

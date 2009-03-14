@@ -23,7 +23,9 @@ import org.aswing.util.Delegate;
 import org.aswing.border.EmptyBorder;
 import org.aswing.border.TitledBorder;
 
-class PreferencesDialog {
+import edu.colorado.phet.flashcommon.*;
+
+class edu.colorado.phet.flashcommon.PreferencesDialog {
 	
 	// keep track of what states would be if the user clicks OK
 	public var updateState : Boolean;

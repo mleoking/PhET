@@ -4,7 +4,9 @@
 //
 // Author: Jonathan Olson
 
-class Preloader {
+import edu.colorado.phet.flashcommon.*;
+
+class edu.colorado.phet.flashcommon.Preloader {
 	public var totalBytes : Number;
 	public var loadedBytes : Number;
 	public var loadedPercent : Number;

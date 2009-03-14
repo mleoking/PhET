@@ -3,6 +3,8 @@ import org.aswing.*;
 import org.aswing.util.*;
 import org.aswing.border.*;
 
+import edu.colorado.phet.flashcommon.*;
+
 class FlashCommonStrings {
 	
 	public var common : FlashCommon;

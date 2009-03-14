@@ -4,8 +4,9 @@
 //
 // Author: Jonathan Olson
 
+import edu.colorado.phet.flashcommon.*;
 
-class Inspector {
+class edu.colorado.phet.flashcommon.Inspector {
 	public var mc : MovieClip;
 	public var inputText : TextField;
 	public var hits : MovieClip;

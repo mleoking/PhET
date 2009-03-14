@@ -17,7 +17,9 @@ import org.aswing.SoftBoxLayout
 import org.aswing.util.Delegate;
 import org.aswing.border.EmptyBorder;
 
-class AboutDialog {
+import edu.colorado.phet.flashcommon.*;
+
+class edu.colorado.phet.flashcommon.AboutDialog {
 	
 	public var common : FlashCommon;
 	

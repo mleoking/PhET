@@ -55,7 +55,10 @@
  *    myButton.label = simStrings.get("myButtonLabel"); // a Button instance
  *
  */
-class SimStrings
+
+import edu.colorado.phet.flashcommon.*;
+
+class edu.colorado.phet.flashcommon.SimStrings
 {
   /** Suffix for XML files */
   private static var SUFFIX:String = ".xml";

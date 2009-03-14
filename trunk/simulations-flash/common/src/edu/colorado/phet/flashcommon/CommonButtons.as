@@ -16,7 +16,9 @@ import org.aswing.JPanel;
 import org.aswing.JWindow;
 import org.aswing.util.Delegate;
 
-class CommonButtons {
+import edu.colorado.phet.flashcommon.*;
+
+class edu.colorado.phet.flashcommon.CommonButtons {
 	
 	// locations for the common buttons
 	public static var LOCATION_UPPER_LEFT : String = "upper-left";

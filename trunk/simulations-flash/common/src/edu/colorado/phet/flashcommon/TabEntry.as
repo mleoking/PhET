@@ -5,8 +5,9 @@
 //
 // Author: Jonathan Olson
 
+import edu.colorado.phet.flashcommon.*;
 
-class TabEntry {
+class edu.colorado.phet.flashcommon.TabEntry {
 	
 	// the actual object in the tab order (which is a movieclip, textfield, etc)
 	public var control : Object;

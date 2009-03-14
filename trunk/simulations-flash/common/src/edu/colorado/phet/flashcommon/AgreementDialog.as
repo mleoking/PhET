@@ -20,7 +20,9 @@ import org.aswing.util.Delegate;
 import org.aswing.border.EmptyBorder;
 import org.aswing.border.LineBorder;
 
-class AgreementDialog {
+import edu.colorado.phet.flashcommon.*;
+
+class edu.colorado.phet.flashcommon.AgreementDialog {
 	
 	public var common : FlashCommon;
 	

@@ -5,7 +5,9 @@
 //
 // Author: Jonathan Olson
 
-class Statistics {
+import edu.colorado.phet.flashcommon.*;
+
+class edu.colorado.phet.flashcommon.Statistics {
 	
 	// stores whether a message send has failed. if it has, don't send more!
 	public var messageError : Boolean;
