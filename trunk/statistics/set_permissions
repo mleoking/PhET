@@ -1,2 +1,32 @@
-chmod o+r db-*.php submit_message.php
-chmod o-r set_permissions reset_raw_logs reset_db reset_db_for_restore restore backup_critical_files backup log_in_db phet_stats.sql
+
+scripts="backup_critical_files create_local_backup log_in_db reset_db reset_db_for_restore reset_raw_logs restore set_permissions"
+
+# allow all people in phet to read/write all of the files
+chmod ug+rw -R *
+
+# disallow anyone outside phet from seeing anything in backup or report
+chmod o-rwx -R backup
+
+# disallow write to report, but allow global read
+chmod o-wx -R report
+chmod o+rx -R report
+
+# make tigercat scripts runnable only by people in the group
+chmod ug+rwx $scripts
+chmod o-rwx $scripts
+
+# make sure all PHP files can be read by Apache
+chmod o+r *.php
+
+# more miscellaneous files that should never be read by others
+chmod o-r phet_stats.sql
+
+# allow raw logs to be written and read (redirect will prevent external users from reading)
+chmod a+r raw-log.txt parsed-log.txt
+
+# sanity check, make sure submit_message is readable!
+chmod a+r submit_message.php
+
+# make sure we can read/write .htaccess correctly (hidden!)
+chmod a+r .htaccess
+chmod o-w .htaccess
