@@ -1,2 +1,2 @@
 chmod o+r db-*.php submit_message.php
-chmod o-r set_permissions reset_raw_logs reset_db log_in_db phet_stats.sql
+chmod o-r set_permissions reset_raw_logs reset_db reset_db_for_restore restore backup_critical_files backup log_in_db phet_stats.sql
