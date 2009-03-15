@@ -9,7 +9,8 @@ chmod o-rwx -R backup
 
 # disallow write to report, but allow global read
 chmod o-wx -R report
-chmod o+rx -R report
+chmod o+rx report
+chmod o+r -R report
 
 # make tigercat scripts runnable only by people in the group
 chmod ug+rwx $scripts
