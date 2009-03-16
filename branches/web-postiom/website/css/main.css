@@ -592,6 +592,24 @@ div.horizontal_center {
     padding-left: 0;
 }
 
+/******** Simulation edit form  *********/
+#editsimulationform .fieldtitle {
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+#editsimulationform .fieldentry {
+    margin-left: 2em;
+}
+
+#editsimulationform .fieldentryhelp {
+    font-style:italic;
+    color: #222;
+    margin-left: 1em;
+    display: block;
+    line-height: 100%;
+}
+
 /* -------- modified sliding doors on globalNav -------- */
 #headerContainer div.globalNav {
     background: url("../images/globalNavLeft_BG.gif") left bottom no-repeat;

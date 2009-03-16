@@ -67,19 +67,19 @@ class WebUtils {
         }
     }
 
-    public function buildImageTag($src, $attributes = array()) {
+    public function buildImageTag($src, $extra_attributes = array()) {
         if (empty($src)) {
             return '';
         }
         $attribute_order = array('id', 'class', 'src', 'alt', 'title');
-        $all_attributes = $attributes;
+        $all_attributes = $extra_attributes;
         $all_attributes['src'] = $src;
 
         $attrs = $this->processAttributes($all_attributes, $attribute_order);
         return '<img '.join(' ', $attrs).' />';
     }
 
-    public function buildAnchorTag($url, $text, $attributes = array()) {
+    public function buildAnchorTag($url, $text, $extra_attributes = array()) {
         if (empty($url)) {
             return '';
         }
@@ -87,7 +87,7 @@ class WebUtils {
         // Put the attributes in order:
         // <a id class href ..other..>text</a>
         $attribute_order = array('id', 'class', 'href');
-        $all_attributes = $attributes;
+        $all_attributes = $extra_attributes;
         $all_attributes['href'] = $url;
         $attrs = $this->processAttributes($all_attributes, $attribute_order);
         return '<a '.join(' ', $attrs).">{$text}</a>";
@@ -138,31 +138,31 @@ class WebUtils {
         return '<input '.join(' ', $attrs).' />';
     }
 
-    public function buildTextInput($name, $contents) {
-        $attrs = array(
-            'type' => 'text',
-            'name' => $name,
-            'value' => $contents
-            );
+    public function buildTextInput($name, $contents, $extra_attributes = array()) {
+        $attrs = $extra_attributes;
+        $attrs['type'] = 'text';
+        $attrs['name'] = $name;
+        $attrs['value'] = $contents;
+
         return $this->buildInput($attrs);
     }
 
-    public function buildTextAreaInput($name, $contents, $rows = 20, $cols = 40) {
-        $attrs = array(
-            'name' => $name,
-            'rows' => $rows,
-            'cols' => $cols,
-            );
+    public function buildTextAreaInput($name, $contents, $extra_attributes = array(), $rows = 20, $cols = 40) {
+        $attrs = $extra_attributes;
+        $attrs['name'] = $name;
+        $attrs['rows'] = $rows;
+        $attrs['cols'] = $cols;
+
         return
             $this->buildOpenTag('textarea', $this->processAttributes($attrs)).
             $contents.
             '</textarea>';
     }
 
-    public function buildCheckboxInput($name, $options, $selected = NULL) {
+    public function buildCheckboxInput($name, $options, $selected = NULL, $extra_attributes = array()) {
         $radios = array();
         foreach ($options as $value => $text) {
-            $attrs = array();
+            $attrs = $extra_attributes;
             $attrs['type'] = 'checkbox';
             $attrs['name'] = $name;
             $attrs['value'] = $value;
@@ -180,10 +180,10 @@ class WebUtils {
     // $options is key/value pairs for value/option
     // $selected is the key of the options that is selected
     // ex: <input type='radio' name=$name value=value /> option
-    public function buildHorizontalRadioButtonInput($name, $options, $selected) {
+    public function buildHorizontalRadioButtonInput($name, $options, $selected, $extra_attributes = array()) {
         $radios = array();
         foreach ($options as $value => $text) {
-            $attrs = array();
+            $attrs = $extra_attributes;
             $attrs['type'] = 'radio';
             $attrs['name'] = $name;
             $attrs['value'] = $value;
@@ -198,10 +198,10 @@ class WebUtils {
         return join("\n", $radios);
     }
 
-    public function buildVerticalRadioButtonInput($name, $options, $selected) {
+    public function buildVerticalRadioButtonInput($name, $options, $selected, $extra_attributes = array()) {
         $radios = array();
         foreach ($options as $value => $text) {
-            $attrs = array();
+            $attrs = $extra_attributes;
             $attrs['type'] = 'radio';
             $attrs['name'] = $name;
             $attrs['value'] = $value;
@@ -216,8 +216,11 @@ class WebUtils {
         return join("<br />\n", $radios);
     }
 
-    public function buildFileInput($name) {
-        return '<input type="file" name="'.$name.'" />';
+    public function buildFileInput($name, $extr_attributes = array()) {
+        $attrs = $extr_attributes;
+        $attrs['type'] = 'file';
+        $attrs['name'] = $name;
+        return $this->buildInput($attrs);
     }
 }
 

@@ -8,6 +8,12 @@ require_once(dirname(dirname(__FILE__))."/include/global.php");
 
 class EditSimPage extends SitePage {
 
+    function __construct($page_title, $nav_selected_page, $referrer, $athentication_level = self::AUTHLEVEL_NONE, $cache_page = true, $base_title = '') {
+        parent::__construct($page_title, $nav_selected_page, $referrer, $athentication_level, $cache_page, $base_title);
+        $this->title_attr = array('class' => 'fieldtitle');
+        $this->input_attr = array('class' => 'fieldentry');
+    }
+
     function print_category_checkbox($cat_id, $cat_name, $cat_is_visible) {
         // Get the database connection, start it if if this is the first call
         global $connection;
@@ -34,10 +40,10 @@ class EditSimPage extends SitePage {
 
         $formatted_cat_name = WebUtils::inst()->toHtml($cat_name);
         if ($cat_is_visible == '1') {
-            print "<input type=\"checkbox\" name=\"checkbox_cat_id_$cat_id\" value=\"true\" $is_checked />$formatted_cat_name<br/>";
+            print "<input class=\"fieldentry\" type=\"checkbox\" name=\"checkbox_cat_id_$cat_id\" value=\"true\" $is_checked />$formatted_cat_name<br/>";
         }
         else {
-            print "<input type=\"checkbox\" name=\"checkbox_cat_id_$cat_id\" value=\"true\" $is_checked /><strong>$formatted_cat_name</strong><br/>";
+            print "<input class=\"fieldentry\" type=\"checkbox\" name=\"checkbox_cat_id_$cat_id\" value=\"true\" $is_checked /><strong>$formatted_cat_name</strong><br/>";
         }
     }
 
@@ -61,7 +67,7 @@ class EditSimPage extends SitePage {
     }
 
     function print_teachers_guide($sim) {
-        print "<p  style=\"font-size: large;\">\n";
+        print "<p>\n";
         print "<strong>Teachers Guide options:</strong><br />";
         if ($sim->hasTeachersGuide()) {
             print "This sim has no teacher's guide<br />\n";
@@ -75,7 +81,7 @@ class EditSimPage extends SitePage {
             'remove' => 'Remove the guide',
             'upload' => 'Upload a new guide: '.WebUtils::inst()->buildFileInput('sim_teachers_guide_file_upload')
             );
-        print WebUtils::inst()->buildVerticalRadioButtonInput('radio_teachers_guide_action', $options, 'no_change');
+        print WebUtils::inst()->buildVerticalRadioButtonInput('radio_teachers_guide_action', $options, 'no_change', $this->input_attr);
         print "</p>\n";
         // TODO: add ability to JavaScript in radion button inputs
         /*
@@ -105,6 +111,7 @@ class EditSimPage extends SitePage {
         }
 
         print <<<EOT
+            <div id="editsimulationform">
             <form enctype="multipart/form-data" action="update-sim.php" method="post">
                 <p>
                     <input type="hidden" name="sim_id" value="{$sim->getId()}" />
@@ -113,23 +120,23 @@ class EditSimPage extends SitePage {
 EOT;
 
         $Web = WebUtils::inst();
-        print "<p  style=\"font-size: large;\"><strong>Specify the name of the simulation</strong></p>\n";
+        print "<p class=\"fieldtitle\">Specify the name of the simulation</p>\n";
         print "<p>\n";
-        print $Web->buildTextInput('sim_name', $sim->getName());
+        print $Web->buildTextInput('sim_name', $sim->getName(), $this->input_attr);
         print "</p>\n";
 
-        print "<p  style=\"font-size: large;\"><strong>Specify the <em>SVN project name</em> of the simulation</strong></p>\n";
+        print "<p class=\"fieldtitle\">Specify the <em>version control project name</em> of the simulation</p>\n";
         print "<p>\n";
-        print $Web->buildTextInput('sim_dirname', $sim->getProjectName());
+        print $Web->buildTextInput('sim_dirname', $sim->getProjectName(), $this->input_attr);
         print "</p>\n";
 
-        print "<p  style=\"font-size: large;\"><strong>Specify the <em>SVN simulation name</em>'</strong></p>\n";
+        print "<p class=\"fieldtitle\">Specify the <em>version control simulation name</em>'</p>\n";
         print "<p>\n";
-        print $Web->buildTextInput('sim_flavorname', $sim->getSimName());
+        print $Web->buildTextInput('sim_flavorname', $sim->getSimName(), $this->input_attr);
         print "</p>\n";
 
         print <<<EOT
-    <div><p  style="font-size: large;"><strong>Please select a rating for this simulation</strong></p></div>
+            <p class="fieldtitle">Please select a rating for this simulation</p>
                 <p>
 
 EOT;
@@ -140,12 +147,12 @@ EOT;
         $ar['1'] = $SimUtils->getRatingImageTag(SimUtils::SIM_RATING_ALPHA);
         $ar['2'] = $SimUtils->getRatingImageTag(SimUtils::SIM_RATING_CHECK);
         $check = $sim->getRating();
-        print $Web->buildHorizontalRadioButtonInput('sim_rating', $ar, $check);
+        print $Web->buildHorizontalRadioButtonInput('sim_rating', $ar, $check, $this->input_attr);
 
 print <<<EOT
                 </p>
 
-    <div><p  style="font-size: large;"><strong>Please select the type of the simulation</strong></p></div>
+    <p class="fieldtitle">Please select the type of the simulation</p>
 
         <p>
 
@@ -155,82 +162,90 @@ EOT;
  $ar['0'] = 'Java';
  $ar['1'] = 'Flash';
  $check = ($sim->getType() == 'Flash') ? '1' : '0';
- print $Web->buildHorizontalRadioButtonInput('sim_type', $ar, $check);
+ print $Web->buildHorizontalRadioButtonInput('sim_type', $ar, $check, $this->input_attr);
 
         print "</p>";
 
-        print "<div><p  style=\"font-size: large;\"><strong>Please check this box of the simulation is <em>NOT</em> Standalone</strong><br />";
-
+        print "<p class=\"fieldtitle\">Please check this box of the simulation is <em>NOT</em> Standalone<br /></p>";
+        print "<div class=\"fieldentry\">";
+        print "<div class=\"fieldentry\">";
         print $Web->buildCheckboxInput('sim_crutch', array(1 => $SimUtils->getGuidanceImageTag().$SimUtils->getGuidanceDescription()));
-        print "</p></div>";
+        print "</div>";
+        print "</div>";
 
-        print "<p  style=\"font-size: large;\"><strong>Simulation Description</strong></p>\n";
+        print "<p class=\"fieldtitle\">Simulation Description</p>\n";
         print "<p>\n";
-        print $Web->buildTextAreaInput('sim_desc', $sim->getDescription(), 10);
+        print $Web->buildTextAreaInput('sim_desc', $sim->getDescription(), $this->input_attr, 10);
         print "</p>\n";
 
-        print "<p style=\"font-size: large;\"><strong>Enter the keywords to associate with the simulation***</strong><br />\n";
+        print "<p><span class=\"fieldtitle\">Enter the keywords to associate with the simulation***</span><br />\n";
         print <<<EOT
-<span style="font-size: x-small; color: grey;"><strong>***</strong><em>Separated by commas or asterisks. Asterisk separation has precedence over comma separation.  Newlines are removed.</em></span></p>
+<span class="fieldentryhelp">***Separated by commas or asterisks. Asterisk separation has precedence over comma separation.  Newlines are removed.</span></p>
+
 EOT;
         print "<p>\n";
         $list = join("*\n", $sim->getKeywords());
-        print $Web->buildTextAreaInput('sim_keywords', $list, 5);
+        print $Web->buildTextAreaInput('sim_keywords', $list, $this->input_attr, 5);
         print "</p>\n";
 
-        print "<p  style=\"font-size: large;\"><strong>Enter the members of the design team***</strong><br />\n";
+        print "<p><span class=\"fieldtitle\">Enter the members of the design team***</span><br />\n";
         print <<<EOT
-<span style="font-size: x-small; color: grey;"><strong>***</strong><em>Separated by commas or asterisks. Asterisk separation has precedence over comma separation.  Newlines are removed.</em></span></p>
+<span class="fieldentryhelp">***Separated by commas or asterisks. Asterisk separation has precedence over comma separation.  Newlines are removed.</span></p>
+
 EOT;
         print "<p>\n";
         $list = join("*\n", $sim->getDesignTeam());
-        print $Web->buildTextAreaInput('sim_design_team', $list, 5);
+        print $Web->buildTextAreaInput('sim_design_team', $list, $this->input_attr, 5);
         print "</p>\n";
 
 
-        print "<p  style=\"font-size: large;\"><strong>Enter any 3rd-party libraries used by the simulation***</strong><br />\n";
+        print "<p><span class=\"fieldtitle\">Enter any 3rd-party libraries used by the simulation***</span><br />\n";
         print <<<EOT
-<span style="font-size: x-small; color: grey;"><strong>***</strong><em>Separated by commas or asterisks. Asterisk separation has precedence over comma separation.  Newlines are removed.</em></span></p>
+<span class="fieldentryhelp">***Separated by commas or asterisks. Asterisk separation has precedence over comma separation.  Newlines are removed.</span></p>
+
 EOT;
         print "<p>\n";
         $list = join("*\n", $sim->getLibraries());
-        print $Web->buildTextAreaInput('sim_libraries', $list, 5);
+        print $Web->buildTextAreaInput('sim_libraries', $list, $this->input_attr, 5);
         print "</p>\n";
 
-        print "<p  style=\"font-size: large;\"><strong>Enter the 'thanks to' for the simulation***</strong><br />\n";
+        print "<p><span class=\"fieldtitle\">Enter the 'thanks to' for the simulation***</span><br />\n";
         print <<<EOT
-<span style="font-size: x-small; color: grey;"><strong>***</strong><em>Separated by commas or asterisks. Asterisk separation has precedence over comma separation.  Newlines are removed.</em></span></p>
+<span class="fieldentryhelp">***Separated by commas or asterisks. Asterisk separation has precedence over comma separation.  Newlines are removed.</span></p>
+
 EOT;
         print "<p>\n";
         $list = join("*\n", $sim->getThanksTo());
-        print $Web->buildTextAreaInput('sim_thanks_to', $list, 5);
+        print $Web->buildTextAreaInput('sim_thanks_to', $list, $this->input_attr, 5);
         print "</p>\n";
 
         $this->print_teachers_guide($sim);
 
-        print "<p  style=\"font-size: large;\"><strong>Enter the main topics***</strong><br />\n";
+        print "<p><span class=\"fieldtitle\">Enter the main topics***</span><br />\n";
         print <<<EOT
-<span style="font-size: x-small; color: grey;"><strong>***</strong><em>Separated by commas or asterisks. Asterisk separation has precedence over comma separation.  Newlines are removed.</em></span></p>
+<span class="fieldentryhelp">***Separated by commas or asterisks. Asterisk separation has precedence over comma separation.  Newlines are removed.</span></p>
+
 EOT;
         print "<p>\n";
         $list = join("*\n", $sim->getMainTopics());
-        print $Web->buildTextAreaInput('sim_main_topics', $list, 5);
+        print $Web->buildTextAreaInput('sim_main_topics', $list, $this->input_attr, 5);
         print "</p>\n";
 
 
-        print "<p  style=\"font-size: large;\"><strong>Enter the main topics***</strong><br />\n";
+        print "<p><span class=\"fieldtitle\">Enter the main topics***</span><br />\n";
         print <<<EOT
-<span style="font-size: x-small; color: grey;"><strong>***</strong><em>Separated by commas or asterisks. Asterisk separation has precedence over comma separation.  Newlines are removed.</em></span></p>
+<span class="fieldentryhelp">***Separated by commas or asterisks. Asterisk separation has precedence over comma separation.  Newlines are removed.</span></p>
+
 EOT;
         print "<p>\n";
         $list = join("*\n", $sim->getLearningGoals());
-        print $Web->buildTextAreaInput('sim_sample_goals', $list, 5);
+        print $Web->buildTextAreaInput('sim_sample_goals', $list, $this->input_attr, 5);
         print "</p>\n";
 
 
         print <<<EOT
-            <div><p style="font-size: large;"><strong>Please select the categories you would like the Simulation to appear under:</strong><br />
-            <span class="p-indentation"><em>(<strong>Boldface</strong> indicates this is a hidden category)</em></span></p></div>
+            <p><span class="fieldtitle">Please select the categories you would like the Simulation to appear under:</span><br />
+            <span class="fieldentryhelp">(<strong>Boldface</strong> indicates this is a hidden category)</span></p>
 
 EOT;
         print "<p>\n";
@@ -244,6 +259,7 @@ EOT;
             </p>
 
             </form>
+            </div>
 
 EOT;
     }
