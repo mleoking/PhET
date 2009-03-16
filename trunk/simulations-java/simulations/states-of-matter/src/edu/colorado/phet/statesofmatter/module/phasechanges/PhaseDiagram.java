@@ -56,11 +56,14 @@ public class PhaseDiagram extends PhetPCanvas {
     private static final double HORIZ_AXIS_SIZE_PROPORTION = 0.88;
     private static final double VERT_AXIS_SIZE_PROPORTION = 0.85;
     
+    // Constant for size of the close button.
+    private static final double CLOSE_BUTTON_PROPORTION = 0.10;  // Button size as proportion of diagram height.
+    
     // Constants that control the location of the origin for the graph.
     private static final double X_ORIGIN_OFFSET = 0.10 * (double)WIDTH;
     private static final double Y_ORIGIN_OFFSET = 0.85 * (double)HEIGHT;
     private static final double X_USABLE_RANGE = WIDTH * HORIZ_AXIS_SIZE_PROPORTION - AXES_ARROW_HEAD_HEIGHT;
-    private static final double Y_USABLE_RANGE = HEIGHT * VERT_AXIS_SIZE_PROPORTION - AXES_ARROW_HEAD_HEIGHT;
+    private static final double Y_USABLE_RANGE = HEIGHT * (VERT_AXIS_SIZE_PROPORTION - CLOSE_BUTTON_PROPORTION);
     
     // Font for the labels used on the axes.
     private static final int AXIS_LABEL_FONT_SIZE = 14;
@@ -97,9 +100,6 @@ public class PhaseDiagram extends PhetPCanvas {
             Y_ORIGIN_OFFSET - (Y_USABLE_RANGE * 0.60));
     private static final Point2D DEFAULT_GAS_LABEL_LOCATION = new Point2D.Double(X_ORIGIN_OFFSET + (X_USABLE_RANGE * 0.6), 
             Y_ORIGIN_OFFSET - (Y_USABLE_RANGE * 0.15));
-    
-    // Constants for size of the close button.
-    private static final double CLOSE_BUTTON_PROPORTION = 0.13;  // Button size as proportion of diagram height.
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -208,7 +208,7 @@ public class PhaseDiagram extends PhetPCanvas {
         addWorldChild( horizontalAxis );
         
         ArrowNode verticalAxis = new ArrowNode( new Point2D.Double(X_ORIGIN_OFFSET, Y_ORIGIN_OFFSET), 
-                new Point2D.Double(X_ORIGIN_OFFSET, Y_ORIGIN_OFFSET - VERT_AXIS_SIZE_PROPORTION * HEIGHT), 
+                new Point2D.Double(X_ORIGIN_OFFSET, Y_ORIGIN_OFFSET - Y_USABLE_RANGE - AXES_ARROW_HEAD_HEIGHT), 
                 AXES_ARROW_HEAD_HEIGHT, AXES_ARROW_HEAD_WIDTH, AXES_LINE_WIDTH );
         verticalAxis.setPaint( Color.BLACK );
         addWorldChild( verticalAxis );
@@ -367,8 +367,21 @@ public class PhaseDiagram extends PhetPCanvas {
                     ", pressure = " + normalizedPressure);
         }
         m_currentStateMarkerPos.setLocation( normalizedTemperature, normalizedPressure );
-        m_currentStateMarker.setOffset( normalizedTemperature * X_USABLE_RANGE + X_ORIGIN_OFFSET - (CURRENT_STATE_MARKER_DIAMETER / 2), 
-                -normalizedPressure * Y_USABLE_RANGE + Y_ORIGIN_OFFSET - (CURRENT_STATE_MARKER_DIAMETER / 2));
+
+        double markerXPos = normalizedTemperature * X_USABLE_RANGE + X_ORIGIN_OFFSET - 
+        	(CURRENT_STATE_MARKER_DIAMETER / 2);
+        double markerYPos = -normalizedPressure * Y_USABLE_RANGE + Y_ORIGIN_OFFSET - 
+        	(CURRENT_STATE_MARKER_DIAMETER / 2);
+        // Limit the actual position values, if necessary, to prevent the
+        // marker from being partially off of the diagram.
+        if (markerXPos + CURRENT_STATE_MARKER_DIAMETER > (X_USABLE_RANGE + X_ORIGIN_OFFSET)){
+        	markerXPos = X_USABLE_RANGE + X_ORIGIN_OFFSET - CURRENT_STATE_MARKER_DIAMETER;
+        }
+        if (markerYPos < Y_ORIGIN_OFFSET - Y_USABLE_RANGE){
+        	markerYPos = Y_ORIGIN_OFFSET - Y_USABLE_RANGE;
+        }
+
+        m_currentStateMarker.setOffset( markerXPos, markerYPos ); 
     }
     
     /**
