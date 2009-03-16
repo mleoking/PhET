@@ -45,7 +45,10 @@ class Internationalizer{
 		this.setString(_root.xAxis_mc.xAxisLabel_mc.label_txt, "wavelength", "right");
 		//this.setString(_root.yAxis_mc.yAxisLabel_mc.label_txt, "intensity", "right");
 		//vertical text cannot be handled with setString():
-		_root.yAxis_mc.yAxisLabel_mc.label_txt = this.simStrings.get("intensity");
+		//_root.yAxis_mc.yAxisLabel_mc.label_txt = this.simStrings.get("intensity");
+		if(_level0.common.getLanguage() != "en") {
+			stackString(_root.yAxis_mc.yAxisLabel_mc.label_txt, "intensity");
+		}
 		
 		this.setString(_root.tempSlider_mc.label_txt, "tempInK", "center");
 		
@@ -165,5 +168,38 @@ class Internationalizer{
 			//trace(mTextField.text+" has field._width " + mTextField._width);
 		}
 	}
+	
+	function stackString(field:TextField, key:String){
+		//trace("key: "+key);
+		var mc : MovieClip = field._parent;
+		var newField : TextField = mc.createTextField("stacked_txt", mc.getNextHighestDepth(), field._x - 10, field._y - field._height, field._width, field._height);
+		newField.embedFonts = false;
+		var stringValue:String = this.simStrings.get( key );
+		var currentTextFormat:TextFormat = field.getTextFormat();
+		currentTextFormat.size = 16;
+		currentTextFormat.leading = -4;
+		if(stringValue == "keyNotFound"  || stringValue == ""){
+		   //Do nothing.  String will default to English
+		}else{
+			if(field.html){
+				field.htmlText = stringValue;
+			}else{
+				//search for "newline" 
+				var chars_arr:Array = stringValue.split("");
+				if(chars_arr.length > 1){
+					var newStringValue:String = "";
+					for (var i:Number = 0; i < chars_arr.length; i++){
+						newStringValue += chars_arr[i]+newline;
+					}
+					stringValue = newStringValue;
+				}
+				newField.text = stringValue;
+			}
+			newField.setTextFormat(currentTextFormat);
+			//this.resizeText(newField, "center");
+			//trace("key: "+key+"   stringValue:"+stringValue);
+		}
+		field._visible = false;
+	}//end of stackString()
 						
 }//end of class
