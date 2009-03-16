@@ -62,7 +62,7 @@ class edu.colorado.phet.flashcommon.AboutDialog {
 		
 		str += "Visit <a href='asfunction:_level0.common.openExternalLink,http://phet.colorado.edu'>http://phet.colorado.edu</a>\n\n";
 		
-		str += "<b><font size='16'>" + common.getSimName() + "</font></b>\n";
+		str += "<b><font size='16'>" + common.getSimTitle() + "</font></b>\n";
 		str += common.strings.get("Version", "Version") + ": " + common.getFullVersionString() + "\n";
 		str += common.strings.get("BuildDate", "Build Date") + ": " + FlashCommon.dateString(FlashCommon.dateOfSeconds(common.getVersionTimestamp())) + "\n";
 		if(common.getDistributionTag() != null || common.getSimName() == "flash-common-strings") {
