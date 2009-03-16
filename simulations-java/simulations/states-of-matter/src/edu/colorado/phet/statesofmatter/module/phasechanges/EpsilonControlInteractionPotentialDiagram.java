@@ -16,20 +16,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ResizeArrowNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
-import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
-import edu.colorado.phet.statesofmatter.model.DualParticleModel;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.module.CloseRequestListener;
 import edu.colorado.phet.statesofmatter.module.InteractionPotentialDiagramNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -54,7 +48,7 @@ public class EpsilonControlInteractionPotentialDiagram extends InteractionPotent
     private static final float EPSILON_LINE_WIDTH = 1f;
     private static Stroke EPSILON_LINE_STROKE = new BasicStroke( EPSILON_LINE_WIDTH );
     private static final Color EPSILON_LINE_COLOR = RESIZE_HANDLE_NORMAL_COLOR; 
-    private static final double CLOSE_BUTTON_PROPORTION = 0.12;  // Size of button as fraction of diagram height.
+    private static final double CLOSE_BUTTON_PROPORTION = 0.10;  // Size of button as fraction of diagram height.
     
     //-----------------------------------------------------------------------------
     // Instance Data
