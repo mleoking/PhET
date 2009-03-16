@@ -26,6 +26,12 @@
 		//fullThrust_sound.attachSound("fullThrust");
 		thrust_sound.attachSound("thrust");
 		adjustThrust_sound.attachSound("thrust");
+		adjustThrust_sound.onSoundComplete = function(){
+				//XX Error repeats at random intervals
+				//trace("adjustThrust sound repeated " + getTimer()/1000);
+				this.start();
+		}
+		
 		explode_sound.attachSound("explode");
 	}//end of constructor
 	
@@ -37,7 +43,8 @@
 		if(soundOn){
 			thrust_sound.start(0.1,1);
 			thrust_sound.onSoundComplete = function(){
-				thrust_sound.start(0.2,1);
+				//trace("thrust sounded repeated " + getTimer()/1000);
+				this.start(0.1,1);
 			}
 		}
 	}
@@ -46,14 +53,12 @@
 		thrust_sound.stop();
 	}
 	
-	function adjustThrustSound(volume:Number):Void{
+	function adjustThrustSound(loudness:Number):Void{
+		
 		if(soundOn){
 			//adjustThrust_sound.stop();
-			adjustThrust_sound.setVolume(volume);
-			adjustThrust_sound.start(0.1,1);
-			adjustThrust_sound.onSoundComplete = function(){
-					adjustThrust_sound.start(0.5,1);
-			}
+			adjustThrust_sound.setVolume(loudness/2);
+			adjustThrust_sound.start();
 		}
 	}
 	
