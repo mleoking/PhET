@@ -72,9 +72,6 @@ public class OTConstants {
     // Generic transparent color
     public static final Color COLOR_TRANSPARENT = new Color( 0f, 0f, 0f, 0f );
     
-    // Default color for module tabs
-    public static final Color SELECTED_TAB_COLOR = new Color( 150, 150, 255 ); // royal blue
-    
     // Colors for the control panel & clock control panel backgrounds
     public static final Color CONTROL_PANEL_COLOR = new JPanel().getBackground(); // default panel background
     
