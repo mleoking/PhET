@@ -38,7 +38,7 @@ class edu.colorado.phet.flashcommon.AboutDialog {
 		ASWingUtils.getRootMovieClip();
 		
 		// create a window
-		var window : JFrame = new JFrame(_level0, common.strings.get("AboutSim", "About {0}", [common.getSimName()]));
+		var window : JFrame = new JFrame(_level0, common.strings.get("AboutSim", "About {0}", [common.getSimTitle()]));
 		
 		// the window shouldn't be resizable
 		window.setResizable(false);
