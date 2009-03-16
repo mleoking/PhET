@@ -4,4 +4,5 @@
   <string key="chemistry" value="Chemistry" />
   <string key="reset" value="Reset" />
   <string key="rubYellowAtoms" value="Rub yellow atoms \nagainst green." />
+  <string key="simTitle" value="Friction" />
 </SimStrings>

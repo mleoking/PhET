@@ -21,6 +21,6 @@
   <string key="xAvgEquals" value="" /> 
   <string key="sEquals" value="s =" /> 
   <string key="sMeanEquals" value="" /> 
-
+  <string key="simTitle" value="Plinko Probability" />
   
 </SimStrings>

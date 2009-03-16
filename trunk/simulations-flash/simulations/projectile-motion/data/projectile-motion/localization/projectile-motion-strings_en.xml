@@ -27,5 +27,7 @@
   <string key="erase" value="Erase" />
   <string key="collision" value="Collision!" />
   <string key="score" value="Score!" />
+
+  <string key="simTitle" value="Projectile Motion" />
  
 </SimStrings>

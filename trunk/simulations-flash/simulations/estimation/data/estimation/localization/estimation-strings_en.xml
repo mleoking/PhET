@@ -42,4 +42,5 @@
   <string key="yourAnswer" value="your answer" /> 
   <string key="exactAnswer" value="exact answer" /> 
   <string key="or" value="or2" />
+  <string key="simTitle" value="Estimation" />
 </SimStrings>

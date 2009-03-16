@@ -15,4 +15,5 @@
   <string key="zoomOut" value="zoom \nout" />
   <string key="wavelength" value="wavelength" />
   <string key="intensity" value="intensity" />
+  <string key="simTitle" value="Blackbody Spectrum" />
 </SimStrings>

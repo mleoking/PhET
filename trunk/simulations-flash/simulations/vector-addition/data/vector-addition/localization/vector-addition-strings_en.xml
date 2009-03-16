@@ -11,6 +11,6 @@
   <string key="clearAll" value="Clear All" />
   <string key="x" value="x" />
   <string key="y" value="y" />
-
+  <string key="simTitle" value="Vector Addition" />
  
 </SimStrings>

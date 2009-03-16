@@ -20,4 +20,5 @@
   <string key="draggableLens" value="draggable lens" />
   <string key="draggableRuler" value="draggable ruler" />
   <string key="draggableScreen" value="draggable screen" />
+  <string key="simTitle" value="Geometric Optics" />
 </SimStrings>

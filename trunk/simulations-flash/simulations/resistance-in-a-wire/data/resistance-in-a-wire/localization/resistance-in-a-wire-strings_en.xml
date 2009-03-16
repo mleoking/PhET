@@ -3,5 +3,5 @@
   <string key="resistanceEq" value="resistance =" />
   <string key="cm" value="cm" />
   <string key="ohm" value="ohm" />
-  <string key="" value="" />
+  <string key="simTitle" value="Resistance in a Wire" />
 </SimStrings>

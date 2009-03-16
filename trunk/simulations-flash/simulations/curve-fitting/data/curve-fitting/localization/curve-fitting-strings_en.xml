@@ -32,4 +32,5 @@
   <string key="chiSqHelp4" value=":   good fit   (green zone)" />
   <string key="chiSqHelp5" value=":   fit too good   (error bars too small)" />
   <string key="correlation" value="correlation coefficient " />
+  <string key="simTitle" value="Curve Fitting" />
 </SimStrings>

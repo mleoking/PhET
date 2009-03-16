@@ -4,5 +4,6 @@
   <string key="save" value="Save" />
   <string key="erase" value="Erase" />
   <string key="showYEq" value="Show y =" />
+  <string key="simTitle" value="Equation Grapher" />
  
 </SimStrings>

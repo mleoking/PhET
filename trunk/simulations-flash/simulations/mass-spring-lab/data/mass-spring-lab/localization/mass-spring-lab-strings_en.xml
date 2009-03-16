@@ -48,5 +48,6 @@
   <string key="hangMe" value="Hang Me!"/>
   <string key="resetTimer" value="reset" />
   <string key="startTimer" value="start/pause" />
+  <string key="simTitle" value="Masses &amp; Springs" />
  
 </SimStrings>
