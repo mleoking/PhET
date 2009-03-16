@@ -1,19 +1,10 @@
-/* Copyright 2006, University of Colorado */
+/* Copyright 2009, University of Colorado */
 
 package edu.colorado.phet.localizationstrings;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Enumeration;
-import java.util.ListIterator;
-import java.util.Properties;
+import java.util.*;
 
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.localizationstrings.util.FileFinder;
@@ -51,7 +42,7 @@ public class OrphanStringChecker {
         // Output the header portion of the report.
         SimpleHtmlOutputHelper.printPageHeader();
         SimpleHtmlOutputHelper.printHeading("Orphan String Report", 1);
-        String explanationOfReport = "This report lists the strings that appear in the English version of the " +
+        String explanationOfReport = "This report lists the localization keys that appear in the English version of the " +
         		"localization file but that do NOT appear in any Java or Scala files associated with the simulation.";
         SimpleHtmlOutputHelper.printParagraph(explanationOfReport);
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
@@ -62,7 +53,7 @@ public class OrphanStringChecker {
         String[] simulations = PhetProject.getSimNames( baseDirectory );
         
         if (simulations.length == 0){
-        	System.out.println("No simulations found in base directory " + baseDirectory.getAbsolutePath());
+            SimpleHtmlOutputHelper.printError("No simulations found in base directory " + baseDirectory.getAbsolutePath());
             SimpleHtmlOutputHelper.printClose();
         	return;
         }
@@ -72,7 +63,9 @@ public class OrphanStringChecker {
         File commonStringsDir = new File(commonStringsDirName);
         ArrayList commonPropertyNames = new ArrayList();
         if (!commonStringsDir.isDirectory()){
-        	SimpleHtmlOutputHelper.printParagraph("WARNING: Could not locate directory for common strings: " + commonStringsDirName);
+        	SimpleHtmlOutputHelper.printError("Could not locate directory for common strings: " + commonStringsDirName);
+        	SimpleHtmlOutputHelper.printClose();
+            return;
         }
         else{
         	ArrayList commonSrcFiles = 
@@ -81,7 +74,9 @@ public class OrphanStringChecker {
         	// Locate the English version of the common localization strings file.
             File commonEnglishStringsFile = new File(commonStringsDirName + COMMON_STRINGS_FILE_NAME);
             if (!commonEnglishStringsFile.isFile()){
-            	System.out.println("Could not find common English localization strings file " + commonEnglishStringsFile.getAbsolutePath());
+                SimpleHtmlOutputHelper.printError("Could not find common English localization strings file " + commonEnglishStringsFile.getAbsolutePath());
+                SimpleHtmlOutputHelper.printClose();
+                return;
             }
             else{
             	// Load the properties from the property file.
@@ -89,14 +84,14 @@ public class OrphanStringChecker {
             	try {
             		commonStringsProps.load(new FileInputStream(commonEnglishStringsFile));
     			} catch (FileNotFoundException e) {
-    				System.out.println("File not found: " + commonEnglishStringsFile.getAbsolutePath());
-    				e.printStackTrace();
+    			    SimpleHtmlOutputHelper.printError("File not found: " + commonEnglishStringsFile.getAbsolutePath());
     	            SimpleHtmlOutputHelper.printClose();
+                    e.printStackTrace();
     				return;
     			} catch (IOException e) {
-    				System.out.println("IO exception on file: " + commonEnglishStringsFile.getAbsolutePath());
-    				e.printStackTrace();
+    			    SimpleHtmlOutputHelper.printError("IO exception on file: " + commonEnglishStringsFile.getAbsolutePath());
     	            SimpleHtmlOutputHelper.printClose();
+                    e.printStackTrace();
     				return;
     			}
     			
@@ -107,25 +102,28 @@ public class OrphanStringChecker {
             }
         }
         
-        SimpleHtmlOutputHelper.printHeading("Simulations", 2);
+        SimpleHtmlOutputHelper.printHeading( "Simulations", 2 );
+        
+        ArrayList simulationsWithNoOrphans = new ArrayList();
         
         // For each simulation...
         for ( int i = 0; i < simulations.length; i++ ) {
-            SimpleHtmlOutputHelper.printHeading("Simulation: " + simulations[i], 3);
             
             // Find the localization directory.
             String localizationDirName = baseDirectory.getAbsolutePath() + "/simulations/" + simulations[i] + 
             	"/data/" + simulations[i] + "/localization/";
             File localizationDir = new File( localizationDirName );
             if (!localizationDir.exists() || !localizationDir.isDirectory()){
-            	System.out.println("Could not find localization directory " + localizationDirName);
+                SimpleHtmlOutputHelper.printHeading( simulations[i], 3 );
+                SimpleHtmlOutputHelper.printError("Could not find localization directory " + localizationDirName);
             	continue;
             }
             
             // Locate the English version of the localization strings file.
             File englishStringsFile = new File(localizationDirName + simulations[i] + "-strings.properties");
             if (!englishStringsFile.isFile()){
-            	System.out.println("Could not find English localization file " + englishStringsFile.getAbsolutePath());
+                SimpleHtmlOutputHelper.printHeading( simulations[i], 3 );
+                SimpleHtmlOutputHelper.printError("Could not find English localization file " + englishStringsFile.getAbsolutePath());
             	continue;
             }
             
@@ -134,7 +132,8 @@ public class OrphanStringChecker {
 
             // Make sure we found some source files.
             if (sourceFiles.size() == 0){
-            	System.out.println("WARNING: No source files located for simulation: " + simulations[i]);
+                SimpleHtmlOutputHelper.printHeading( simulations[i], 3 );
+                SimpleHtmlOutputHelper.printError("No source files located.");
             	continue;
             }
 
@@ -143,27 +142,30 @@ public class OrphanStringChecker {
         	try {
 				localizationStringProps.load(new FileInputStream(englishStringsFile));
 			} catch (FileNotFoundException e) {
-				System.out.println("File not found: " + englishStringsFile.getAbsolutePath());
+			    SimpleHtmlOutputHelper.printHeading( simulations[i], 3 );
+			    SimpleHtmlOutputHelper.printError("File not found: " + englishStringsFile.getAbsolutePath());
 				e.printStackTrace();
 				continue;
 			} catch (IOException e) {
-				System.out.println("IO exception on file: " + englishStringsFile.getAbsolutePath());
+			    SimpleHtmlOutputHelper.printHeading( simulations[i], 3 );
+				SimpleHtmlOutputHelper.printError("IO exception on file: " + englishStringsFile.getAbsolutePath());
 				e.printStackTrace();
 				continue;
 			}
-			
-			SimpleHtmlOutputHelper.printHeading("Properties File: " + englishStringsFile.getName(), 4);
 			
 			// Obtain a list of the property names.
 			ArrayList unusedProperties = getPropertyNames(localizationStringProps);
 			ListIterator iter = unusedProperties.listIterator();
 			
-			// Go through the list and remove any standard property names
-			// that wouldn't show up in the source files but that are known to
-			// be used elsewhere.
+			// Go through the list and remove any standard property names that wouldn't 
+			// show up in the source files but that are known to be used elsewhere.
+			// These include:
+			// *.name is a required property, the simulation's user-visible name
+			// *.description is a required property, the simulation's description in the About dialog
+			// *.dynamic is a convention used to denote property names that are programmatically generated
 			while (iter.hasNext()){
 				String propName = (String)iter.next();
-				if ((propName.endsWith(".name")) || (propName.endsWith(".description"))){
+				if (propName.endsWith(".name") || propName.endsWith(".description") || propName.endsWith(".dynamic")){
 					iter.remove();
 				}
 			}
@@ -172,11 +174,11 @@ public class OrphanStringChecker {
 			eliminateUsedProperties(unusedProperties, sourceFiles);
 			
 			// Output the list of unused strings.
-			SimpleHtmlOutputHelper.printHeading("Orphan Strings for this Sim", 5);
 			if (unusedProperties.size() == 0){
-				System.out.println("No orphan strings found.");
+			    simulationsWithNoOrphans.add( simulations[i] );
 			}
 			else{
+	            SimpleHtmlOutputHelper.printHeading( simulations[i] + " (" + englishStringsFile.getName() + ")", 3);
 				SimpleHtmlOutputHelper.printStartList();
 				for (int j = 0; j < unusedProperties.size(); j++){
 		    		SimpleHtmlOutputHelper.printListItem((String)unusedProperties.get(j));
@@ -189,8 +191,17 @@ public class OrphanStringChecker {
 			eliminateUsedProperties(commonPropertyNames, sourceFiles);
         }
         
+        // Output the list of simulations that has no problems
+        if ( simulationsWithNoOrphans.size() > 0 ) {
+            SimpleHtmlOutputHelper.printHeading( "No orphaned strings found for these simulations:", 3 );
+            Iterator i = simulationsWithNoOrphans.iterator();
+            while ( i.hasNext() ) {
+                SimpleHtmlOutputHelper.printListItem( (String)i.next() );
+            }
+        }
+        
         // Output the list of unused common code strings.
-		SimpleHtmlOutputHelper.printHeading("Orphan Strings for Common Code", 2);
+		SimpleHtmlOutputHelper.printHeading("Common Code", 2);
 		if (commonPropertyNames.size() == 0){
 			System.out.println("No orphan strings found.");
 		}
