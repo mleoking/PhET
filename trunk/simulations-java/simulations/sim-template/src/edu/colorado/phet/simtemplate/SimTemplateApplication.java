@@ -74,8 +74,6 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
         TabbedPaneType tabbedPaneType = new TabbedPaneType(){
             public ITabbedModulePane createTabbedPane() {
                 _tabbedModulePane = new TabbedModulePanePiccolo();
-                _tabbedModulePane.setSelectedTabColor( SimTemplateConstants.SELECTED_TAB_COLOR );
-                _tabbedModulePane.setUnselectedTabColor( SimTemplateConstants.UNSELECTED_TAB_COLOR );
                 return _tabbedModulePane;
             }
         };
