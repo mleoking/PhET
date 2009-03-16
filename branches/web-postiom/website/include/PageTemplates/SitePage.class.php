@@ -6,13 +6,13 @@
 // I can separate some things out.
 
 // In each web accessable script SITE_ROOT must be defined FIRST
-if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+  //if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 
 // See global.php for an explaination of the next line
-require_once(dirname(dirname(__FILE__))."/include/global.php");
+  //require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/BasePage.php");
-require_once("page_templates/NavBar.php");
+  //require_once("page_templates/BasePage.php");
+  //require_once("page_templates/NavBar.php");
 require_once("include/authentication.php");
 require_once("include/cache-utils.php");
 

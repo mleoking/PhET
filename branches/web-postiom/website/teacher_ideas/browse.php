@@ -18,7 +18,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
 require_once("teacher_ideas/browse-utils.php");
-require_once("page_templates/SitePage.php");
 
 class BrowseContributionsPage extends SitePage {
 

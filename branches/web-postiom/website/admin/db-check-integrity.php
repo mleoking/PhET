@@ -6,8 +6,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
-
 class CheckContributionItegrityPage extends SitePage {
     const ENTRY_VALID_DATA = "0";
     const ENTRY_INVALID_DATA = "1";

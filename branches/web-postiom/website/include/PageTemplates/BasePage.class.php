@@ -1,10 +1,10 @@
 <?php
 
 // In each web accessable script SITE_ROOT must be defined FIRST
-if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+  //if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 
 // See global.php for an explaination of the next line
-require_once(dirname(dirname(__FILE__))."/include/global.php");
+  //require_once(dirname(dirname(__FILE__))."/include/global.php");
 
 define("WEBSITE_BASE_TITLE", "PhET :: Physics Education Technology at CU Boulder");
 

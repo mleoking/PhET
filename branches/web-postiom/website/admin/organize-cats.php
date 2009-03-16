@@ -6,7 +6,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
 require_once("include/hierarchical-categories.php");
 
 class OrganizeCategoriesPage extends SitePage {

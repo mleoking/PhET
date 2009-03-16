@@ -7,7 +7,8 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "./");
 // see global.php for an explaination.
 if (!defined("INCLUDE_PATH_SET")) define("INCLUDE_PATH_SET", "true");
 
-require_once("page_templates/SitePage.php");
+require_once("include/PageTemplates/BasePage.class.php");
+require_once("include/PageTemplates/SitePage.class.php");
 
 class MainPage extends SitePage {
     function __construct($title, $nav) {

@@ -7,6 +7,7 @@
 // sensical fashion.  Additionally, I suspect that there is a JavaScript component
 // that must manually be kept in sync with the PHP code.  Would be best if they kept
 // in sync automatically.
+  /*
 define("NAV_NOT_SPECIFIED",  -1);
 define("NAV_INVALID0",  0);
 define("NAV_INVALID1",  1);
@@ -19,12 +20,13 @@ define("NAV_RESEARCH",  7);
 define("NAV_ABOUT_PHET",  8);
 define("NAV_ADMIN",  9);
 define("NAV_COUNT",  10);
+  */
 
 // In each web accessable script SITE_ROOT must be defined FIRST
-if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+//if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 
 // See global.php for an explaination of the next line
-require_once(dirname(dirname(__FILE__))."/include/global.php");
+//require_once(dirname(dirname(__FILE__))."/include/global.php");
 
 require_once("include/hierarchical-categories.php");
 

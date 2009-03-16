@@ -13,7 +13,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
 require_once("include/web-utils.php");
-require_once("page_templates/SitePage.php");
 
 class DownloadPage extends SitePage {
     function __construct($nav_selected_page, $page_title = "Download File") {
