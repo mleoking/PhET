@@ -3,6 +3,7 @@ package edu.colorado.phet.flashlauncher;
 // Functions to generate and write Flash HTML files
 
 import edu.colorado.phet.flashlauncher.util.AnnotationParser;
+import edu.colorado.phet.flashlauncher.util.XMLUtils;
 
 import java.io.*;
 import java.net.URLEncoder;
@@ -10,6 +11,13 @@ import java.util.Properties;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Element;
+
+import javax.xml.transform.TransformerException;
+import javax.xml.parsers.ParserConfigurationException;
 
 //import edu.colorado.phet.buildtools.util.FileUtils;
 
@@ -28,58 +36,13 @@ public class FlashHTML {
     public static String installation_timestamp_dummy = "@@INSTALLATION_TIMESTAMP@@";
     public static String installer_creation_timestamp_dummy = "@@INSTALLER_CREATION_TIMESTAMP@@";
 
-    // returns true on success
-    /* TODO: unused, so commented out for now. delete later if desired
-    public static boolean writeHTML( String simName, String language, String country, String deployment,
-                                     String distributionTag, String simDev, String installationTimestamp,
-                                     String installerCreationTimestamp, String simXMLFile, String htmlFile,
-                                     String propertiesFile, String commonXMLFile, String HTML_TEMPLATE ) {
-        try {
-            String versionMajor = null;
-            String versionMinor = null;
-            String versionDev = null;
-            String versionRevision = null;
-            String versionTimestamp = null;
-            String bgcolor = null;
-
-            // parse the .properties file, store results in variables above
-            Properties props = new Properties();
-            props.load( new FileInputStream( new File( propertiesFile ) ) );
-            versionMajor = props.getProperty( "version.major" );
-            versionMinor = props.getProperty( "version.minor" );
-            versionDev = props.getProperty( "version.dev" );
-            versionRevision = props.getProperty( "version.revision" );
-            versionTimestamp = props.getProperty( "version.timestamp" );
-            bgcolor = props.getProperty( "bgcolor" );
-
-            String encodedSimXML = encodeXML( rawFile( simXMLFile ) );
-            String encodedCommonXML = encodeXML( rawFile( commonXMLFile ) );
-
-            String html = generateHTML( simName, language, country, deployment, distributionTag, installationTimestamp,
-                                        installerCreationTimestamp, versionMajor, versionMinor, versionDev,
-                                        versionRevision, versionTimestamp, simDev, bgcolor, encodedSimXML,
-                                        encodedCommonXML, "8", HTML_TEMPLATE );
-
-            // write to file
-            FileOutputStream fileOut = new FileOutputStream( htmlFile );
-            PrintStream printOut = new PrintStream( fileOut );
-            printOut.println( html );
-            printOut.close();
-        }
-        catch( IOException e ) {
-            System.out.println( "FlashHTML.writeHTML failed with:\n" + e.toString() );
-            return false;
-        }
-        return true;
-    }
-    */
-
     public static String generateHTML( String simName, String language, String country, String deployment,
                                        String distributionTag, String installationTimestamp, String installerCreationTimestamp,
                                        String versionMajor, String versionMinor, String versionDev, String versionRevision,
                                        String versionTimestamp, String simDev, String bgcolor, String encodedSimXML,
                                        String encodedCommonXML, String minimumFlashMajorVersion, String HTML_TEMPLATE,
-                                       String agreementVersion, String encodedAgreementHTML, String creditsString
+                                       String agreementVersion, String encodedAgreementHTML, String creditsString,
+                                       String titleString
                                     ) throws IOException {
         String s = "";
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( HTML_TEMPLATE );
@@ -136,6 +99,7 @@ public class FlashHTML {
         s = s.replaceAll( "@@agreementVersion@@", agreementVersion );
         s = s.replaceAll( "@@agreementText@@", encodedAgreementHTML );
         s = s.replaceAll( "@@creditsText@@", parseCredits( creditsString ) );
+        s = s.replaceAll( "@@simTitle@@", XMLUtils.HTMLEntityEncode( titleString ) );
 
         return s;
     }
@@ -212,5 +176,55 @@ public class FlashHTML {
         }
         return encodeXML(credits);
     }
+
+    public static String extractTitleFromXML( File xmlFile ) {
+        try {
+            String xmlString = rawFile( xmlFile );
+
+            Document document = XMLUtils.toDocument( xmlString );
+
+            //System.out.println( XMLUtils.toString( document ) );
+
+            NodeList strings = document.getElementsByTagName( "string" );
+
+            for( int i = 0; i < strings.getLength(); i++ ) {
+                Element element = (Element) strings.item( i );
+
+                String key = element.getAttribute( "key" );
+
+                //System.out.println( "key: " + key );
+
+                if( !key.equals( "simTitle" ) ) {
+                    continue;
+                }
+
+                String value = element.getAttribute( "value" );
+
+                //System.out.println( "value: " + value );
+
+                return value;
+            }
+
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (TransformerException e) {
+            e.printStackTrace();
+            return null;
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /*
+    public static void main(String[] args) {
+        String str = extractTitleFromXML( new File( "/home/jon/phet/svn/trunk/simulations-flash/simulations/arithmetic/data/arithmetic/localization/arithmetic-strings_en.xml" ) );
+
+        System.out.println( "Title is: " + str );
+        
+    }
+    */
 
 }

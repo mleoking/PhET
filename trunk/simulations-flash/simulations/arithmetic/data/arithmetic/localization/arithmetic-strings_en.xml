@@ -27,4 +27,6 @@
   <string key="typeAnswer" value="Type answer,\npress Enter key" />
   <string key="clickToSelect" value="Click to select \ncorrect square" />
 
+  <string key="simTitle" value="Arithmetic" />
+
 </SimStrings>

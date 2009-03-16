@@ -24,4 +24,5 @@
 <string key="reset" value="Reiniciar"/>
 <string key="clock" value="reloj"/>
 <string key="title" value="Tareas Aritmeticas"/>
+<string key="simTitle" value="Aritmética" />
 </SimStrings>
