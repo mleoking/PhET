@@ -602,7 +602,7 @@ EOT;
 
 }
 
-$page = new IndividualSimulationPage("Simulation", NAV_SIMULATIONS, null);
+$page = new IndividualSimulationPage("Simulation", NavBar::NAV_SIMULATIONS, null);
 $page->update();
 $page->render();
 

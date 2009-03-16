@@ -29,7 +29,7 @@ class NewSimulationPage extends SitePage {
 
 }
 
-$page = new NewSimulationPage("New Simulations", NAV_ADMIN, null, AUTHLEVEL_TEAM, false);
+$page = new NewSimulationPage("New Simulations", NavBar::NAV_ADMIN, null, SitePage::AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

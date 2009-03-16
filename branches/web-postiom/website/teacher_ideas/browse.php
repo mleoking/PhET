@@ -303,7 +303,7 @@ EOT;
 
 }
 
-$page = new BrowseContributionsPage("Browse Contributions", NAV_TEACHER_IDEAS, null, AUTHLEVEL_NONE, false);
+$page = new BrowseContributionsPage("Browse Contributions", NavBar::NAV_TEACHER_IDEAS, null, SitePage::AUTHLEVEL_NONE, false);
 $page->add_javascript_file("js/browse.js");
 $page->update();
 $page->render();

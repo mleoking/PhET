@@ -1,27 +1,9 @@
 <?php
 
-// BasePage.php is getting  a little more crowded than I would like,
-// so enter SitePage, whith should have been here from the beginning.
-// Since I'm working on something else, this will be mostly a stud until
-// I can separate some things out.
-
-// In each web accessable script SITE_ROOT must be defined FIRST
-  //if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
-
-// See global.php for an explaination of the next line
-  //require_once(dirname(dirname(__FILE__))."/include/global.php");
-
-  //require_once("page_templates/BasePage.php");
-  //require_once("page_templates/NavBar.php");
 require_once("include/authentication.php");
 require_once("include/cache-utils.php");
 
-// Required athentication levels to view the page
-// The numbers must increase so that they may be compared
-define("AUTHLEVEL_NONE", 0);
-define("AUTHLEVEL_USER", 1);
-define("AUTHLEVEL_TEAM", 2);
-
+// TODO: move these into the Validate utils class and use more consistently
 // Value types, used to verify that desired query string info is presentt
 define("VT_NONE", 0);       // Do not check this value
 define("VT_ISSET", 1);      // Only check if it is set, all further checks include this check
@@ -30,6 +12,12 @@ define("VT_VALID_COMMENT_ID", 3);      // Check that the comment_id is valid
 define("VT_VALID_EMAIL", 4);      // Check that the email address is valid
 
 class SitePage extends BasePage {
+    // Required athentication levels to view the page. Each additional
+    // level gives the benefits of previous levels plus that new level.
+    const AUTHLEVEL_NONE = 0;
+    const AUTHLEVEL_USER = 1;
+    const AUTHLEVEL_TEAM = 2;
+
     protected $required_authentication_level;
     protected $authentication_level;
 
@@ -50,12 +38,12 @@ class SitePage extends BasePage {
     function __construct($page_title,
                          $nav_selected_page,
                          $referrer,
-                         $authentication_level = AUTHLEVEL_NONE,
+                         $authentication_level = self::AUTHLEVEL_NONE,
                          $cache_page = true,
                          $base_title = "") {
-        assert(($authentication_level == AUTHLEVEL_NONE) ||
-            ($authentication_level == AUTHLEVEL_USER) ||
-            ($authentication_level == AUTHLEVEL_TEAM));
+        assert(($authentication_level == self::AUTHLEVEL_NONE) ||
+            ($authentication_level == self::AUTHLEVEL_USER) ||
+            ($authentication_level == self::AUTHLEVEL_TEAM));
 
         // Assume the info needed is all correct
         $this->valid_info = true;
@@ -196,16 +184,16 @@ EOT;
     function authenticate_user() {
         $user_authenticated = auth_do_validation();
         if ($user_authenticated == false) {
-            $this->authentication_level = AUTHLEVEL_NONE;
+            $this->authentication_level = self::AUTHLEVEL_NONE;
         }
         else {
             // If someone is logged in, check if they are a team member
             $this->user = contributor_get_contributor_by_username(auth_get_username());
             if ($this->user["contributor_is_team_member"]) {
-                $this->authentication_level = AUTHLEVEL_TEAM;
+                $this->authentication_level = self::AUTHLEVEL_TEAM;
             }
             else {
-                $this->authentication_level = AUTHLEVEL_USER;
+                $this->authentication_level = self::AUTHLEVEL_USER;
             }
         }
 
@@ -391,7 +379,7 @@ EOT;
         }
 
         // Handle mismatch between the required and actual authentication level
-        if ($this->authentication_level == AUTHLEVEL_NONE) {
+        if ($this->authentication_level == self::AUTHLEVEL_NONE) {
             // Need to login
             print_login_and_new_account_form("", "", $this->login_header_message);
             return FALSE;
@@ -428,7 +416,7 @@ EOT;
         $php_self = $_SERVER['REQUEST_URI'];
 
         // Don't require authentication, but do it if the cookies are available:
-        $contributor_authenticated = $this->authenticate_get_level() != AUTHLEVEL_NONE;
+        $contributor_authenticated = $this->authenticate_get_level() != self::AUTHLEVEL_NONE;
 
         if (!$contributor_authenticated) {
             $cooked_php_self = htmlspecialchars($php_self);

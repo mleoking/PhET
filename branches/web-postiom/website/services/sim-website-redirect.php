@@ -79,7 +79,7 @@ class RedirectSimulationPage extends SitePage {
     }
 }
 
-$page = new RedirectSimulationPage("Redirect Simulation", NAV_NOT_SPECIFIED, null, AUTHLEVEL_NONE, false);
+$page = new RedirectSimulationPage("Redirect Simulation", NavBar::NAV_NOT_SPECIFIED, null, SitePage::AUTHLEVEL_NONE, false);
 $page->update();
 $page->render();
 

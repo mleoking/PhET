@@ -48,7 +48,7 @@ EOT;
 
 }
 
-$page = new SimulationLauncherPage("Launch Sim One at a Time", NAV_GET_PHET, null);
+$page = new SimulationLauncherPage("Launch Sim One at a Time", NavBar::NAV_GET_PHET, null);
 $page->update();
 $page->render();
 

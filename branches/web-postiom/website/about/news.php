@@ -37,7 +37,7 @@ EOT;
 
 }
 
-$page = new NewsPage("News", NAV_ABOUT_PHET, null);
+$page = new NewsPage("News", NavBar::NAV_ABOUT_PHET, null);
 $page->update();
 $page->render();
 

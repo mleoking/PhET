@@ -78,7 +78,7 @@ EOT;
 
             $can_edit = false;
 
-            if ($this->authentication_level >= AUTHLEVEL_TEAM) {
+            if ($this->authentication_level >= SitePage::AUTHLEVEL_TEAM) {
                 $can_edit = true;
             }
 
@@ -144,7 +144,7 @@ EOT;
 
 }
 
-$page = new ResearchPage("Research", NAV_RESEARCH, null, AUTHLEVEL_NONE, false);
+$page = new ResearchPage("Research", NavBar::NAV_RESEARCH, null, SitePage::AUTHLEVEL_NONE, false);
 $page->update();
 $page->render();
 

@@ -66,7 +66,7 @@ class UpadteOtherProfilePage extends SitePage {
 
 }
 
-$page = new UpadteOtherProfilePage("Update Profile", NAV_ADMIN, null, AUTHLEVEL_TEAM, false);
+$page = new UpadteOtherProfilePage("Update Profile", NavBar::NAV_ADMIN, null, SitePage::AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

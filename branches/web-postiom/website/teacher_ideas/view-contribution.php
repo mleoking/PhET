@@ -120,7 +120,7 @@ EOT;
             $download_zip_html = "";
         }
 
-        if ($this->authenticate_get_level() >= AUTHLEVEL_TEAM) {
+        if ($this->authenticate_get_level() >= SitePage::AUTHLEVEL_TEAM) {
             print_contribution_admin_control_panel($contribution_id, $this->prefix, $this->referrer);
         }
 
@@ -333,7 +333,7 @@ EOT;
 
 }
 
-$page = new ViewContributionPage("View Contributions", NAV_TEACHER_IDEAS, get_referrer(SITE_ROOT."teacher_ideas/manage-contributions.php"), AUTHLEVEL_NONE);
+$page = new ViewContributionPage("View Contributions", NavBar::NAV_TEACHER_IDEAS, get_referrer(SITE_ROOT."teacher_ideas/manage-contributions.php"), SitePage::AUTHLEVEL_NONE);
 $page->update();
 $page->render();
 

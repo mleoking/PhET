@@ -42,7 +42,7 @@ EOT;
 
 }
 
-$page = new ContributePage("Contribute", NAV_CONTRIBUTE, null);
+$page = new ContributePage("Contribute", NavBar::NAV_CONTRIBUTE, null);
 $page->update();
 $page->render();
 

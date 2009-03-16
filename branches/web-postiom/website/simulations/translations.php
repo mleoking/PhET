@@ -178,7 +178,7 @@ EOT;
 
 }
 
-$page = new TranslationsPage("Translated Sims", NAV_SIMULATIONS, null);
+$page = new TranslationsPage("Translated Sims", NavBar::NAV_SIMULATIONS, null);
 $page->update();
 $page->render();
 

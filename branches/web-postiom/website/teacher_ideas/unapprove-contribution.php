@@ -45,7 +45,7 @@ EOT;
 
 }
 
-$page = new UnapproveContributionPage("Unapprove Contribtuion", NAV_TEACHER_IDEAS, get_referrer(contribution_url_to_view_from_uri()), AUTHLEVEL_TEAM);
+$page = new UnapproveContributionPage("Unapprove Contribtuion", NavBar::NAV_TEACHER_IDEAS, get_referrer(contribution_url_to_view_from_uri()), SitePage::AUTHLEVEL_TEAM);
 $page->update();
 $page->render();
 

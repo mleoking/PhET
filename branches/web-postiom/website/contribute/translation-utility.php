@@ -167,7 +167,7 @@ EOT;
 
 }
 
-$page = new TranslationInstructionsPage("PhET Translation Utility", NAV_CONTRIBUTE, null);
+$page = new TranslationInstructionsPage("PhET Translation Utility", NavBar::NAV_CONTRIBUTE, null);
 $page->update();
 $page->render();
 

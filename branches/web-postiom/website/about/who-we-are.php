@@ -101,7 +101,7 @@ EOT;
 
 }
 
-$page = new WhoWeArePage("Who We Are", NAV_ABOUT_PHET, null);
+$page = new WhoWeArePage("Who We Are", NavBar::NAV_ABOUT_PHET, null);
 $page->update();
 $page->render();
 

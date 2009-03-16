@@ -158,7 +158,7 @@ EOT;
 
 }
 
-$page = new UpdateConfigurationPage("Update Configuration Page", NAV_ADMIN, null, AUTHLEVEL_TEAM, false);
+$page = new UpdateConfigurationPage("Update Configuration Page", NavBar::NAV_ADMIN, null, SitePage::AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

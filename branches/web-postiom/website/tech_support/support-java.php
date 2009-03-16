@@ -161,7 +161,7 @@ EOT;
 
 }
 
-$page = new JavaSupportPage("Troubleshooting Java", NAV_TECH_SUPPORT, null);
+$page = new JavaSupportPage("Troubleshooting Java", NavBar::NAV_TECH_SUPPORT, null);
 $page->update();
 $page->render();
 

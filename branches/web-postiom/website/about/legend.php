@@ -62,7 +62,7 @@ EOT;
 
 }
 
-$page = new LegendPage("Legend", NAV_ABOUT_PHET, null);
+$page = new LegendPage("Legend", NavBar::NAV_ABOUT_PHET, null);
 $page->update();
 $page->render();
 

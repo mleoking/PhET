@@ -95,7 +95,7 @@ EOT;
 
 }
 
-$page = new UpdateUserProfilePage("Update User Profile", NAV_TEACHER_IDEAS, null, AUTHLEVEL_USER);
+$page = new UpdateUserProfilePage("Update User Profile", NavBar::NAV_TEACHER_IDEAS, null, SitePage::AUTHLEVEL_USER);
 $page->update();
 $page->render();
 

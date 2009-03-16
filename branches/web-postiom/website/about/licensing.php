@@ -53,7 +53,7 @@ EOT;
     }
 }
 
-$page = new LicensingPage("Licensing", NAV_ABOUT_PHET, null);
+$page = new LicensingPage("Licensing", NavBar::NAV_ABOUT_PHET, null);
 $page->update();
 $page->render();
 

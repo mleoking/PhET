@@ -102,7 +102,7 @@ EOT;
 
 }
 
-$page = new DeleteCommentPage("Delete Comment", NAV_TEACHER_IDEAS, get_referrer(), AUTHLEVEL_USER, false);
+$page = new DeleteCommentPage("Delete Comment", NavBar::NAV_TEACHER_IDEAS, get_referrer(), SitePage::AUTHLEVEL_USER, false);
 $page->update();
 $page->render();
 

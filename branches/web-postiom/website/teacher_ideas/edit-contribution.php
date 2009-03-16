@@ -179,7 +179,7 @@ EOT;
 EOT;
         }
         else {
-            if ($this->authentication_level < AUTHLEVEL_USER) {
+            if ($this->authentication_level < SitePage::AUTHLEVEL_USER) {
                 $this->add_javascript_header_script("disable_not_always_enabled_form_elements();");
             }
 
@@ -199,7 +199,7 @@ EOT;
                         $this->print_success();
                     }
                     else {
-                        if ($this->authenticate_get_level() >= AUTHLEVEL_TEAM) {
+                        if ($this->authenticate_get_level() >= SitePage::AUTHLEVEL_TEAM) {
                             print_contribution_admin_control_panel($contribution_id, $this->prefix, $this->referrer);
                         }
                         $return_to = (!empty($_REQUEST['return_to'])) ? $_REQUEST['return_to'] : $this->referrer;
@@ -207,7 +207,7 @@ EOT;
                     }
                 }
                 else {
-                    if ($this->authenticate_get_level() >= AUTHLEVEL_TEAM) {
+                    if ($this->authenticate_get_level() >= SitePage::AUTHLEVEL_TEAM) {
                         print_contribution_admin_control_panel($contribution_id, $this->prefix, $this->referrer);
                     }
                     $return_to = (!empty($_REQUEST['return_to'])) ? $_REQUEST['return_to'] : $this->referrer;
@@ -243,7 +243,7 @@ EOT;
 
 }
 
-$page = new EditContributionPage("Edit an Activity", NAV_TEACHER_IDEAS, get_referrer(SITE_ROOT.'teacher_ideas/manage-contributions.php'), AUTHLEVEL_USER, false);
+$page = new EditContributionPage("Edit an Activity", NavBar::NAV_TEACHER_IDEAS, get_referrer(SITE_ROOT.'teacher_ideas/manage-contributions.php'), SitePage::AUTHLEVEL_USER, false);
 $page->update();
 $page->render();
 

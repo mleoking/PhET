@@ -100,7 +100,7 @@ EOT;
 
 }
 
-$page = new FullInstallPage("PhET Offline Website Installer - Full Install", NAV_GET_PHET, null);
+$page = new FullInstallPage("PhET Offline Website Installer - Full Install", NavBar::NAV_GET_PHET, null);
 $page->update();
 $page->render();
 

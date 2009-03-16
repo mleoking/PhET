@@ -97,7 +97,7 @@ EOT;
 
 }
 
-$page = new SponsorsPage("Sponsors", NAV_NOT_SPECIFIED, null);
+$page = new SponsorsPage("Sponsors", NavBar::NAV_NOT_SPECIFIED, null);
 $page->update();
 $page->render();
 

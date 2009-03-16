@@ -1,14 +1,9 @@
 <?php
 
-// In each web accessable script SITE_ROOT must be defined FIRST
-  //if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
-
-// See global.php for an explaination of the next line
-  //require_once(dirname(dirname(__FILE__))."/include/global.php");
-
-define("WEBSITE_BASE_TITLE", "PhET :: Physics Education Technology at CU Boulder");
-
 class BasePage {
+
+    const WEBSITE_BASE_TITLE = 
+        'PhET :: Physics Education Technology at CU Boulder';
 
     // Page content
     protected $content;
@@ -62,7 +57,7 @@ class BasePage {
      */
     function __construct($page_title = "",
                          $referrer = null,
-                         $base_title = WEBSITE_BASE_TITLE) {
+                         $base_title = self::WEBSITE_BASE_TITLE) {
         $this->set_title($page_title, $base_title);
 
         // Setup the content
@@ -111,7 +106,7 @@ class BasePage {
      * @param $page_title string[optional] specific title of this page
      * @param $base_title string[optional] base tile of the website
      */
-    function set_title($page_title, $base_title = WEBSITE_BASE_TITLE) {
+    function set_title($page_title, $base_title = self::WEBSITE_BASE_TITLE) {
         // Setup the page's full title
         $this->base_title = $base_title;
         $this->page_title = $page_title;

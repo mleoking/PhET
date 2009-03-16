@@ -122,7 +122,7 @@ EOT;
             return $result;
         }
 
-        if ($this->authenticate_get_level() > AUTHLEVEL_NONE) {
+        if ($this->authenticate_get_level() > SitePage::AUTHLEVEL_NONE) {
             $phet_domain_name = PHET_DOMAIN_NAME;
             print <<<EOT
             <p>
@@ -171,7 +171,7 @@ EOT;
 
 }
 
-$page = new ForgotPasswordPage("Forgot Password", NAV_GET_PHET, null, AUTHLEVEL_NONE, false);
+$page = new ForgotPasswordPage("Forgot Password", NavBar::NAV_GET_PHET, null, SitePage::AUTHLEVEL_NONE, false);
 $page->update();
 $page->render();
 

@@ -113,7 +113,7 @@ EOT;
 
 }
 
-$page = new ManageCommentsPage("Manage Comments", NAV_ADMIN, null, AUTHLEVEL_TEAM, false);
+$page = new ManageCommentsPage("Manage Comments", NavBar::NAV_ADMIN, null, SitePage::AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

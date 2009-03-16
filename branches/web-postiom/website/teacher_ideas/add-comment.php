@@ -56,7 +56,7 @@ EOT;
 
 }
 
-$page = new AddCommentPage("Add Comment", NAV_TEACHER_IDEAS, get_referrer(contribution_url_to_view_from_uri()), AUTHLEVEL_USER, false);
+$page = new AddCommentPage("Add Comment", NavBar::NAV_TEACHER_IDEAS, get_referrer(contribution_url_to_view_from_uri()), SitePage::AUTHLEVEL_USER, false);
 $page->update();
 $page->render();
 

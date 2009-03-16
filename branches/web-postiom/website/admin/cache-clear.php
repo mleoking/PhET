@@ -75,7 +75,7 @@ EOT;
 
 }
 
-$page = new ClearCachePage("Clear Cache", NAV_ADMIN, null, AUTHLEVEL_NONE, false);
+$page = new ClearCachePage("Clear Cache", NavBar::NAV_ADMIN, null, SitePage::AUTHLEVEL_NONE, false);
 $page->update();
 $page->render();
 

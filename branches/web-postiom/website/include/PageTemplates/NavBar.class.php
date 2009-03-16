@@ -1,37 +1,31 @@
 <?php
 
-// Navigation enumerations for the selected page
-// Initial conversation from numbers to something more meaningful
-// TODO: I suspect that these just indext an array wherever the navigation bar
-// is stored.  It should be changed to accept these values, and use them in a
-// sensical fashion.  Additionally, I suspect that there is a JavaScript component
-// that must manually be kept in sync with the PHP code.  Would be best if they kept
-// in sync automatically.
-  /*
-define("NAV_NOT_SPECIFIED",  -1);
-define("NAV_INVALID0",  0);
-define("NAV_INVALID1",  1);
-define("NAV_SIMULATIONS",  2);
-define("NAV_TEACHER_IDEAS",  3);
-define("NAV_GET_PHET",  4);
-define("NAV_TECH_SUPPORT",  5);
-define("NAV_CONTRIBUTE",  6);
-define("NAV_RESEARCH",  7);
-define("NAV_ABOUT_PHET",  8);
-define("NAV_ADMIN",  9);
-define("NAV_COUNT",  10);
-  */
-
-// In each web accessable script SITE_ROOT must be defined FIRST
-//if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
-
-// See global.php for an explaination of the next line
-//require_once(dirname(dirname(__FILE__))."/include/global.php");
-
 require_once("include/hierarchical-categories.php");
 
 class NavBar {
-    // Page navbar will be on
+    // Navigation enumerations for the selected page
+    //
+    // Initial conversation from numbers to something more meaningful
+    //
+    // TODO: I suspect that these just index an array wherever the
+    // navigation bar is stored.  It should be changed to accept these
+    // values, and use them in a sensical fashion.  Additionally, I
+    // suspect that there is a JavaScript component that must manually
+    // be kept in sync with the PHP code.  Would be best if they kept
+    // in sync automatically.  Verify the above and fix.
+    const NAV_NOT_SPECIFIED =  -1;
+    const NAV_INVALID0 =  0;
+    const NAV_INVALID1 =  1;
+    const NAV_SIMULATIONS =  2;
+    const NAV_TEACHER_IDEAS =  3;
+    const NAV_GET_PHET =  4;
+    const NAV_TECH_SUPPORT =  5;
+    const NAV_CONTRIBUTE =  6;
+    const NAV_RESEARCH =  7;
+    const NAV_ABOUT_PHET =  8;
+    const NAV_ADMIN =  9;
+    const NAV_COUNT =  10;
+
     // TODO: this should be an abstract interface for authentication
     private $page;
 
@@ -64,12 +58,12 @@ class NavBar {
      */
     function selected_page_is_valid($selected_page) {
         if ($selected_page < 0) {
-            return ($selected_page == NAV_NOT_SPECIFIED);
+            return ($selected_page == self::NAV_NOT_SPECIFIED);
         }
 
-        return (($selected_page < NAV_COUNT) &&
-            ($selected_page != NAV_INVALID0) &&
-            ($selected_page != NAV_INVALID1));
+        return (($selected_page < self::NAV_COUNT) &&
+            ($selected_page != self::NAV_INVALID0) &&
+            ($selected_page != self::NAV_INVALID1));
     }
 
     function print_header_navigation_element($prefix, $selected_page, $link, $desc, $access_key) {
@@ -194,7 +188,7 @@ EOT;
         $teacher_ideas_subs['teacher_ideas/manage-contributions.php']   = 'My Activities';
         $teacher_ideas_subs['teacher_ideas/user-edit-profile.php']      = 'My Profile';
 
-        if ($this->page->authenticate_get_level() > AUTHLEVEL_NONE) {
+        if ($this->page->authenticate_get_level() > SitePage::AUTHLEVEL_NONE) {
             $teacher_ideas_subs['teacher_ideas/user-logout.php'] = 'Logout';
         }
 

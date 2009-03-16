@@ -66,7 +66,7 @@ EOT;
 
 }
 
-$page = new WorkshopsPage("PhET Workshops", NAV_TEACHER_IDEAS, null);
+$page = new WorkshopsPage("PhET Workshops", NavBar::NAV_TEACHER_IDEAS, null);
 $page->update();
 $page->render();
 

@@ -127,7 +127,7 @@ EOT;
 
 }
 
-$page = new OrganizeSimulationsPage("Organize Simulations", NAV_ADMIN, null, AUTHLEVEL_TEAM, false);
+$page = new OrganizeSimulationsPage("Organize Simulations", NavBar::NAV_ADMIN, null, SitePage::AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

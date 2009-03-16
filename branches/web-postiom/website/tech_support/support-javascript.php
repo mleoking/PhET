@@ -123,7 +123,7 @@ EOT;
 
 }
 
-$page = new JavaScriptTroubleshootingPage("Troubleshooting JavaScript", NAV_TECH_SUPPORT, null);
+$page = new JavaScriptTroubleshootingPage("Troubleshooting JavaScript", NavBar::NAV_TECH_SUPPORT, null);
 $page->update();
 $page->render();
 

@@ -200,7 +200,7 @@ EOT;
 
 }
 
-$page = new MainPage("PhET: Free online physics, chemistry, biology, earth science and math simulations", NAV_NOT_SPECIFIED);
+$page = new MainPage("PhET: Free online physics, chemistry, biology, earth science and math simulations", NavBar::NAV_NOT_SPECIFIED);
 $page->set_prefix(SITE_ROOT);
 $page->add_stylesheet("css/home.css");
 $page->update();

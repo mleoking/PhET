@@ -113,7 +113,7 @@ EOT;
 
 }
 
-$page = new ManageDatabasePage("Manage Database", NAV_ADMIN, null, AUTHLEVEL_TEAM, false);
+$page = new ManageDatabasePage("Manage Database", NavBar::NAV_ADMIN, null, SitePage::AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

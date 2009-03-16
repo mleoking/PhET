@@ -9,7 +9,7 @@ require_once(dirname(dirname(__FILE__))."/include/global.php");
 class LoginAndRedirectPage extends SitePage {
 
     function update() {
-        if ($this->authentication_level >= AUTHLEVEL_USER) {
+        if ($this->authentication_level >= SitePage::AUTHLEVEL_USER) {
             $this->header_redirect($_REQUEST['url']);
         }
     }
@@ -32,7 +32,7 @@ else {
     $redirect_url = SITE_ROOT."index.php";
 }
 
-$page = new LoginAndRedirectPage("Login", NAV_NOT_SPECIFIED, null, AUTHLEVEL_NONE, false);
+$page = new LoginAndRedirectPage("Login", NavBar::NAV_NOT_SPECIFIED, null, SitePage::AUTHLEVEL_NONE, false);
 $page->update();
 $page->render();
 

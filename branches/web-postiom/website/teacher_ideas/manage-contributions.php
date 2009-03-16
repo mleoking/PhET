@@ -81,7 +81,7 @@ EOT;
 
 }
 
-$page = new ManageContributionsPage("Manage Contributions", NAV_TEACHER_IDEAS, null, AUTHLEVEL_USER, false);
+$page = new ManageContributionsPage("Manage Contributions", NavBar::NAV_TEACHER_IDEAS, null, SitePage::AUTHLEVEL_USER, false);
 $page->update();
 $page->render();
 

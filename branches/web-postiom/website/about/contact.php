@@ -38,7 +38,7 @@ EOT;
 
 }
 
-$page = new ContactPage("Contact", NAV_ABOUT_PHET, null);
+$page = new ContactPage("Contact", NavBar::NAV_ABOUT_PHET, null);
 $page->update();
 $page->render();
 

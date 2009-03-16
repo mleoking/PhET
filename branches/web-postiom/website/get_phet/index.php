@@ -117,7 +117,7 @@ EOT;
 
 }
 
-$page = new GetPhETPage("Three Ways to Run Our Free Simulations", NAV_GET_PHET, null);
+$page = new GetPhETPage("Three Ways to Run Our Free Simulations", NavBar::NAV_GET_PHET, null);
 $page->update();
 $page->render();
 

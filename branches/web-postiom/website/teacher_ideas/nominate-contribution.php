@@ -64,7 +64,7 @@ EOT;
 
 }
 
-$page = new NominateContributionPage("Nominate Contribution", NAV_TEACHER_IDEAS, get_referrer(contribution_url_to_view_from_uri()), AUTHLEVEL_USER, false);
+$page = new NominateContributionPage("Nominate Contribution", NavBar::NAV_TEACHER_IDEAS, get_referrer(contribution_url_to_view_from_uri()), SitePage::AUTHLEVEL_USER, false);
 $page->update();
 $page->render();
 

@@ -113,7 +113,7 @@ EOT;
 }
 
 
-$page = new ContributionGuidelinesPage("Contribution Guidelines", NAV_TEACHER_IDEAS, null);
+$page = new ContributionGuidelinesPage("Contribution Guidelines", NavBar::NAV_TEACHER_IDEAS, null);
 $page->update();
 $page->render();
 

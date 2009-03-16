@@ -235,7 +235,7 @@ EOT;
 
 }
 
-$page = new SimulationsPage("Simulations", NAV_SIMULATIONS, null);
+$page = new SimulationsPage("Simulations", NavBar::NAV_SIMULATIONS, null);
 $page->update();
 $page->render();
 

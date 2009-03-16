@@ -61,7 +61,7 @@ EOT;
 
 }
 
-$page = new AboutPage("About PhET", NAV_ABOUT_PHET, null);
+$page = new AboutPage("About PhET", NavBar::NAV_ABOUT_PHET, null);
 $page->update();
 $page->render();
 

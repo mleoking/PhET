@@ -59,7 +59,7 @@ EOT;
 
 }
 
-$page = new FlashSupportPage("Troubleshooting Flash", NAV_TECH_SUPPORT, null);
+$page = new FlashSupportPage("Troubleshooting Flash", NavBar::NAV_TECH_SUPPORT, null);
 $page->update();
 $page->render();
 

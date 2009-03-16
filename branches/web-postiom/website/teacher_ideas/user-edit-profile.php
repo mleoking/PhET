@@ -19,7 +19,7 @@ class EditProfilePage extends SitePage {
 
 }
 
-$page = new EditProfilePage("Edit Profile", NAV_TEACHER_IDEAS, null, AUTHLEVEL_USER, false);
+$page = new EditProfilePage("Edit Profile", NavBar::NAV_TEACHER_IDEAS, null, SitePage::AUTHLEVEL_USER, false);
 $page->update();
 $page->render();
 

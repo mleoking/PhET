@@ -245,7 +245,7 @@ EOT;
 
 }
 
-$page = new TroubleshootingPage("Troubleshooting", NAV_TECH_SUPPORT, null);
+$page = new TroubleshootingPage("Troubleshooting", NavBar::NAV_TECH_SUPPORT, null);
 $page->update();
 $page->render();
 

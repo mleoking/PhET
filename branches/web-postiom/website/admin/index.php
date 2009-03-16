@@ -61,7 +61,7 @@ EOT;
 
 }
 
-$page = new AdminControlPanelPage("PhET Administration Control Panel", NAV_ADMIN, null, AUTHLEVEL_TEAM, false);
+$page = new AdminControlPanelPage("PhET Administration Control Panel", NavBar::NAV_ADMIN, null, SitePage::AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

@@ -28,7 +28,7 @@ EOT;
 
 }
 
-$page = new SourceCodePage("PhET Source Code", NAV_ABOUT_PHET, null);
+$page = new SourceCodePage("PhET Source Code", NavBar::NAV_ABOUT_PHET, null);
 $page->update();
 $page->render();
 

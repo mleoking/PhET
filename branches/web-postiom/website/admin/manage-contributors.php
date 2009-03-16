@@ -139,7 +139,7 @@ EOT2;
 
 }
 
-$page = new ManageContributorsPage("Manage Contributors", NAV_ADMIN, null, AUTHLEVEL_TEAM, false);
+$page = new ManageContributorsPage("Manage Contributors", NavBar::NAV_ADMIN, null, SitePage::AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

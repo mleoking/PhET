@@ -120,7 +120,7 @@ EOT;
 
 }
 
-$page = new SearchPage("Search results", NAV_NOT_SPECIFIED, get_referrer(), AUTHLEVEL_NONE, false);
+$page = new SearchPage("Search results", NavBar::NAV_NOT_SPECIFIED, get_referrer(), SitePage::AUTHLEVEL_NONE, false);
 $page->update();
 $page->render();
 

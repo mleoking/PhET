@@ -232,7 +232,7 @@ EOT;
 EOT;
 }
 
-$page = new OrganizeCategoriesPage("Organize Categories", NAV_ADMIN, null, AUTHLEVEL_TEAM, false);
+$page = new OrganizeCategoriesPage("Organize Categories", NavBar::NAV_ADMIN, null, SitePage::AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

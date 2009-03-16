@@ -41,7 +41,7 @@ EOT;
 
 }
 
-$page = new EditOtherProfilePage("Edit Other Profile", NAV_ADMIN, null, AUTHLEVEL_TEAM, false);
+$page = new EditOtherProfilePage("Edit Other Profile", NavBar::NAV_ADMIN, null, SitePage::AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

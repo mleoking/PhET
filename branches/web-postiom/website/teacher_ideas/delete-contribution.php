@@ -58,7 +58,7 @@ EOT;
 
 }
 
-$page = new DeleteContributionPage("Delete Contribution", NAV_TEACHER_IDEAS, null, AUTHLEVEL_USER, false);
+$page = new DeleteContributionPage("Delete Contribution", NavBar::NAV_TEACHER_IDEAS, null, SitePage::AUTHLEVEL_USER, false);
 $page->update();
 $page->render();
 

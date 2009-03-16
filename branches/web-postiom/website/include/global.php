@@ -83,21 +83,6 @@
         assert_options(ASSERT_ACTIVE, 0);
     }
 
-    
-    // TODO: move this back into the NavBar class
-define("NAV_NOT_SPECIFIED",  -1);
-define("NAV_INVALID0",  0);
-define("NAV_INVALID1",  1);
-define("NAV_SIMULATIONS",  2);
-define("NAV_TEACHER_IDEAS",  3);
-define("NAV_GET_PHET",  4);
-define("NAV_TECH_SUPPORT",  5);
-define("NAV_CONTRIBUTE",  6);
-define("NAV_RESEARCH",  7);
-define("NAV_ABOUT_PHET",  8);
-define("NAV_ADMIN",  9);
-define("NAV_COUNT",  10);
-
     //
     // Defines
     //
@@ -157,22 +142,6 @@ define("NAV_COUNT",  10);
     define("JAVA_MIN_VERSION_LIN_FULL", "Sun Java ".JAVA_MIN_VERSION_LIN);
     define("FLASH_MIN_VERSION", "8");
     define("FLASH_MIN_VERSION_FULL", "Macromedia Flash 8");
-
-    // TODO: move this out of this class to where it belongs
-    /*
-    define("NAV_NOT_SPECIFIED",  -1);
-    define("NAV_INVALID0",  0);
-    define("NAV_INVALID1",  1);
-    define("NAV_SIMULATIONS",  2);
-    define("NAV_TEACHER_IDEAS",  3);
-    define("NAV_GET_PHET",  4);
-    define("NAV_TECH_SUPPORT",  5);
-    define("NAV_CONTRIBUTE",  6);
-    define("NAV_RESEARCH",  7);
-    define("NAV_ABOUT_PHET",  8);
-    define("NAV_ADMIN",  9);
-    define("NAV_COUNT",  10);
-    */
 
     // When a simulation is created, an empty simulation is added
     // to the database (yes, before the data has been populated, and

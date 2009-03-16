@@ -56,7 +56,7 @@ EOT;
 
 }
 
-$page = new ChooseSimPage("Choose Simulation", NAV_ADMIN, null, AUTHLEVEL_TEAM, false);
+$page = new ChooseSimPage("Choose Simulation", NavBar::NAV_ADMIN, null, SitePage::AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 
