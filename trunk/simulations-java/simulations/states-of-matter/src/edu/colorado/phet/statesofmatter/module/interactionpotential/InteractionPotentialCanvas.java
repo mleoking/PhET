@@ -45,7 +45,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     // Translation factors, used to set origin of canvas area.
     private static final double WIDTH_TRANSLATION_FACTOR = 0.3;   // 0 puts the vertical origin all the way left, 1
                                                                   // is all the way to the right.
-    private static final double HEIGHT_TRANSLATION_FACTOR = 0.73; // 0 puts the horizontal origin at the top of the 
+    private static final double HEIGHT_TRANSLATION_FACTOR = 0.78; // 0 puts the horizontal origin at the top of the 
                                                                   // window, 1 puts it at the bottom.
     
     // Constant used to control size of button.
@@ -57,17 +57,13 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     // Constant used to control size of push pin.
     private static final double PUSH_PIN_WIDTH = CANVAS_WIDTH * 0.10;
     
-    // The following constants control whether the wiggle me and stop buttons
-    // appear.  These two components of the user interface were requested in
-    // the original specification, but after being reviewed on 9/4/2008, it
-    // was requested that they be removed.  They are being left in the code so
-    // that it will be easy to bring them back if necessary.  If they aren't
-    // back in by, say, Feb 2009, the code should just be removed.  NOTE THAT
-    // THEY ARE NOT FULLY DEBUGGED, so it will take a little effort to make
-    // each of these feature fully operational.
-    private static final boolean ENABLE_STOP_BUTTON = false;
+    // The following constant control whether the wiggle me appears.  This
+    // was requested in the original specification, but after being reviewed
+    // on 9/4/2008, it was requested that it be removed.  It is being left
+    // in the code in case it is ever brought back.  Note that it is not fully
+    // debugged, so will likely take some effort to get it working correctly.
     private static final boolean ENABLE_WIGGLE_ME = false;
-    
+        
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -83,7 +79,6 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     private boolean m_showAttractiveForces;
     private boolean m_showRepulsiveForces;
     private boolean m_showTotalForces;
-    private GradientButtonNode m_stopAtomButtonNode;
     private GradientButtonNode m_retrieveAtomButtonNode;
     private DefaultWiggleMe m_wiggleMe;
     private boolean m_wiggleMeShown;
@@ -163,25 +158,6 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
                   -m_diagram.getFullBoundsReference().height * 1.3 );
         addWorldChild( m_diagram );
         
-        // Add button to the canvas for stopping the motion of the atom.
-        if ( ENABLE_STOP_BUTTON ) {
-            m_stopAtomButtonNode = new GradientButtonNode(StatesOfMatterStrings.STOP_ATOM, 16, new Color(0xffcc66));
-            m_stopAtomButtonNode.scale( BUTTON_HEIGHT / m_stopAtomButtonNode.getFullBoundsReference().height );
-            addWorldChild( m_stopAtomButtonNode );
-            m_stopAtomButtonNode.setOffset( 
-                    m_diagram.getFullBoundsReference().getMaxX() - m_stopAtomButtonNode.getFullBoundsReference().width,
-                    StatesOfMatterConstants.MAX_SIGMA / 2 * 1.1 );
-            
-            // Register to receive button pushes.
-            m_stopAtomButtonNode.addActionListener( new ActionListener(){
-                public void actionPerformed(ActionEvent event){
-                    // Pause particle motion.  Moving the movable particle will
-                    // restart it.
-                    m_model.setParticleMotionPaused( true );
-                }
-            });
-        }
-        
         // Add the button for retrieving the atom to the canvas. 
         m_retrieveAtomButtonNode = new GradientButtonNode(StatesOfMatterStrings.RETRIEVE_ATOM, 16, new Color(0xffcc66));
         m_retrieveAtomButtonNode.scale( BUTTON_HEIGHT / m_retrieveAtomButtonNode.getFullBoundsReference().height );
@@ -189,7 +165,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         addWorldChild( m_retrieveAtomButtonNode );
         m_retrieveAtomButtonNode.setOffset( 
                 m_diagram.getFullBoundsReference().getMaxX() - m_retrieveAtomButtonNode.getFullBoundsReference().width,
-                StatesOfMatterConstants.MAX_SIGMA / 2 * 1.1 );
+                StatesOfMatterConstants.MAX_SIGMA / 3 * 1.1 );  // Almost fully below the largest atom.
         
         // Register to receive button pushes.
         m_retrieveAtomButtonNode.addActionListener( new ActionListener(){
