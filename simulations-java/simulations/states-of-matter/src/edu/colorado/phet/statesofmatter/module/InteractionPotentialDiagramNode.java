@@ -8,12 +8,19 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
@@ -24,6 +31,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PPaintContext;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * This class displays a phase diagram suitable for inclusion on the control
@@ -60,6 +68,7 @@ public class InteractionPotentialDiagramNode extends PNode {
     private static final float POSITION_MARKER_STROKE_WIDTH = 0.75f;
     private static final Stroke POSITION_MARKER_STROKE = new BasicStroke(POSITION_MARKER_STROKE_WIDTH);
     private static final Color CENTER_AXIS_LINE_COLOR = Color.LIGHT_GRAY;
+    private static final double CLOSE_BUTTON_PROPORTION = 0.11;  // Size of button as fraction of diagram height.
     
     // Constants that control the location and size of the graph.
     private static final double VERT_AXIS_SIZE_PROPORTION = 0.85;
@@ -78,8 +87,8 @@ public class InteractionPotentialDiagramNode extends PNode {
     protected final double m_height;
     private double m_sigma;
     private double m_epsilon;
-    private double m_graphOffsetX;
-    private double m_graphOffsetY;
+    private double m_graphXOrigin;
+    private double m_graphYOrigin;
     private double m_graphWidth;
     private double m_graphHeight;
     private PPath m_background;
@@ -94,7 +103,10 @@ public class InteractionPotentialDiagramNode extends PNode {
     private double m_markerDistance;
     private PText m_horizontalAxisLabel;
     private LjPotentialCalculator m_LjPotentialCalculator;
-    
+    private ArrayList _listeners = new ArrayList();
+    private JButton m_closeButton;
+	private PSwing m_closePSwing;
+
     // Variables for controlling the appearance, visibility, and location of
     // the position marker.
     protected final PNode m_markerLayer;
@@ -111,7 +123,7 @@ public class InteractionPotentialDiagramNode extends PNode {
      * @param wide - True if the widescreen version of the graph is needed,
      * false if not.
      */
-    public InteractionPotentialDiagramNode(double sigma, double epsilon, boolean wide){
+    public InteractionPotentialDiagramNode(double sigma, double epsilon, boolean wide, boolean closable){
 
         m_sigma = sigma;
         m_epsilon = epsilon;
@@ -130,10 +142,15 @@ public class InteractionPotentialDiagramNode extends PNode {
             m_width = NARROW_VERSION_WIDTH;
             m_height = m_width * 0.8;
         }
-        m_graphOffsetX = 0.10 * (double)m_width;
-        m_graphOffsetY = AXES_ARROW_HEAD_HEIGHT;
-        m_graphWidth = m_width - m_graphOffsetX - AXES_ARROW_HEAD_HEIGHT;
-        m_graphHeight = m_height * VERT_AXIS_SIZE_PROPORTION - AXES_ARROW_HEAD_HEIGHT;
+        m_graphXOrigin = 0.10 * (double)m_width;
+        m_graphYOrigin = 0.85 * (double)m_height;
+        m_graphWidth = m_width - m_graphXOrigin - AXES_ARROW_HEAD_HEIGHT;
+        if (closable){
+            m_graphHeight = m_height * (VERT_AXIS_SIZE_PROPORTION - CLOSE_BUTTON_PROPORTION);
+        }
+        else{
+            m_graphHeight = m_height * VERT_AXIS_SIZE_PROPORTION - AXES_ARROW_HEAD_HEIGHT;
+        }
         m_verticalScalingFactor = m_graphHeight / 2 / (StatesOfMatterConstants.MAX_EPSILON * StatesOfMatterConstants.K_BOLTZMANN);
         
         // Create the background that will sit behind everything.
@@ -143,7 +160,7 @@ public class InteractionPotentialDiagramNode extends PNode {
 
         // Create and add the portion that depicts the Lennard-Jones potential curve.
         m_ljPotentialGraph = new PPath(new Rectangle2D.Double(0, 0, m_graphWidth, m_graphHeight));
-        m_ljPotentialGraph.setOffset( m_graphOffsetX, AXES_ARROW_HEAD_HEIGHT );
+        m_ljPotentialGraph.setOffset( m_graphXOrigin, m_graphYOrigin - m_graphHeight );
         m_ljPotentialGraph.setPaint( Color.WHITE );
         m_ljPotentialGraph.setStrokePaint( Color.WHITE );
         addChild( m_ljPotentialGraph );
@@ -192,7 +209,7 @@ public class InteractionPotentialDiagramNode extends PNode {
 
         // Add the position marker.
         m_markerLayer = new PNode();
-        m_markerLayer.setOffset( m_graphOffsetX, m_graphOffsetY );
+        m_markerLayer.setOffset( m_graphXOrigin, m_graphYOrigin - m_graphHeight );
         addChild( m_markerLayer );
         GeneralPath markerPath = new GeneralPath();
         double markerDiameter = POSITION_MARKER_DIAMETER_PROPORTION * m_graphWidth;
@@ -207,6 +224,23 @@ public class InteractionPotentialDiagramNode extends PNode {
         m_positionMarker.setVisible( m_positionMarkerEnabled );
         m_markerLayer.addChild( m_positionMarker );
 
+        if (closable){
+            // Add the button that will allow the user to close the diagram.
+            m_closeButton = new JButton( 
+            		new ImageIcon( PhetCommonResources.getInstance().getImage(PhetCommonResources.IMAGE_CLOSE_BUTTON)));
+            m_closeButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                	notifyCloseRequestReceived();
+                }
+            } );
+            
+            m_closePSwing = new PSwing( m_closeButton );
+            m_closePSwing.setScale(getFullBoundsReference().height * CLOSE_BUTTON_PROPORTION / 
+            		m_closePSwing.getFullBoundsReference().height);
+            m_closePSwing.setOffset(m_width - m_closePSwing.getFullBoundsReference().width, 0);
+            addChild(m_closePSwing);
+        }
+        
         // Create and add the horizontal axis line for the graph.
         ArrowNode horizontalAxis = new ArrowNode( new Point2D.Double(0, 0), 
         		new Point2D.Double(m_graphWidth + AXES_ARROW_HEAD_HEIGHT, 0), AXES_ARROW_HEAD_HEIGHT,
@@ -214,8 +248,8 @@ public class InteractionPotentialDiagramNode extends PNode {
         horizontalAxis.setStroke( AXIS_LINE_STROKE );
         horizontalAxis.setPaint( AXIS_LINE_COLOR );
         horizontalAxis.setStrokePaint( AXIS_LINE_COLOR );
+        horizontalAxis.setOffset( m_graphXOrigin, m_graphYOrigin );
         addChild( horizontalAxis );
-        horizontalAxis.setOffset( m_graphOffsetX, m_graphHeight + AXES_ARROW_HEAD_HEIGHT );
         
         m_horizontalAxisLabel = new PText(StatesOfMatterStrings.INTERACTION_POTENTIAL_GRAPH_X_AXIS_LABEL_ATOMS);
         m_horizontalAxisLabel.setFont( AXIS_LABEL_FONT );
@@ -223,18 +257,19 @@ public class InteractionPotentialDiagramNode extends PNode {
         setMolecular( false );
         
         // Create and add the vertical axis line for the graph.
-        ArrowNode verticalAxis = new ArrowNode( new Point2D.Double(0, m_graphHeight + AXES_ARROW_HEAD_HEIGHT),
-        		new Point2D.Double(0, 0), AXES_ARROW_HEAD_HEIGHT, AXES_ARROW_HEAD_WIDTH, AXIS_LINE_WIDTH );
+        ArrowNode verticalAxis = new ArrowNode( new Point2D.Double(0, 0),  
+        		new Point2D.Double(0, -m_graphHeight - AXES_ARROW_HEAD_HEIGHT),
+        		AXES_ARROW_HEAD_HEIGHT, AXES_ARROW_HEAD_WIDTH, AXIS_LINE_WIDTH );
         verticalAxis.setStroke( AXIS_LINE_STROKE );
         verticalAxis.setPaint( AXIS_LINE_COLOR );
         verticalAxis.setStrokePaint( AXIS_LINE_COLOR );
+        verticalAxis.setOffset( m_graphXOrigin, m_graphYOrigin );
         addChild( verticalAxis );
-        verticalAxis.setOffset( m_graphOffsetX, 0 );
         
         PText verticalAxisLabel = new PText(StatesOfMatterStrings.INTERACTION_POTENTIAL_GRAPH_Y_AXIS_LABEL);
         verticalAxisLabel.setFont( AXIS_LABEL_FONT );
-        verticalAxisLabel.setOffset( m_graphOffsetX / 2 - (verticalAxisLabel.getFullBoundsReference().height / 2), 
-                (m_graphOffsetY + m_graphHeight) / 2 + (verticalAxisLabel.getFullBoundsReference().width / 2) );
+        verticalAxisLabel.setOffset( m_graphXOrigin / 2 - (verticalAxisLabel.getFullBoundsReference().height / 2), 
+                m_graphYOrigin - (m_graphHeight / 2) + (verticalAxisLabel.getFullBoundsReference().width / 2) );
         verticalAxisLabel.rotate( 3 * Math.PI / 2 );
         addChild( verticalAxisLabel );
         
@@ -261,6 +296,13 @@ public class InteractionPotentialDiagramNode extends PNode {
         
         // Redraw the graph to reflect the new parameters.
         drawPotentialCurve();
+    }
+    
+    public void addListener(CloseRequestListener listener)
+    {
+        if ( !_listeners.contains( listener )){
+            _listeners.add( listener );
+        }
     }
 
     protected DoubleArrowNode getEpsilonArrow() {
@@ -347,9 +389,9 @@ public class InteractionPotentialDiagramNode extends PNode {
         else {
             m_horizontalAxisLabel.setText( StatesOfMatterStrings.INTERACTION_POTENTIAL_GRAPH_X_AXIS_LABEL_ATOMS );
         }
-        m_horizontalAxisLabel.setOffset( m_graphOffsetX + (m_graphWidth / 2) - 
+        m_horizontalAxisLabel.setOffset( m_graphXOrigin + (m_graphWidth / 2) - 
                 (m_horizontalAxisLabel.getFullBoundsReference().width / 2), 
-                m_graphOffsetY + m_graphHeight + (m_horizontalAxisLabel.getFullBoundsReference().height * 0.3));
+                m_graphYOrigin + (m_horizontalAxisLabel.getFullBoundsReference().height * 0.3));
 
     }
     
@@ -437,5 +479,14 @@ public class InteractionPotentialDiagramNode extends PNode {
         
         // Update the position of the marker in case the curve has moved.
         setMarkerPosition( m_markerDistance );
+    }
+    
+    /**
+     * Notify listeners about a request to close this diagram.
+     */
+    private void notifyCloseRequestReceived(){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((CloseRequestListener)_listeners.get(i)).closeRequestReceived();
+        }
     }
 }
