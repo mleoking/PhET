@@ -12,7 +12,7 @@ require_once("include/ordering-util.php");
 class OrganizeSimulationsPage extends SitePage {
 
     function handle_action($action, $simulation_listing_id, $cat_id) {
-        $condition = array( 'cat_id' => $cat_id );
+        $condition = array('cat_id' => $cat_id);
 
         if ($action == 'move_up') {
             order_move_higher('simulation_listing', $simulation_listing_id, $condition);
@@ -51,6 +51,10 @@ class OrganizeSimulationsPage extends SitePage {
             return $result;
         }
 
+        if (isset($_REQUEST['auto_order'])) {
+            CategoryUtils::inst()->fixSimListingOrder();
+        }
+
         print <<<EOT
             <p>On this page, you may choose the order in which simulations appear for every category.
             Note that simulations appear in this order only in the thumbnail view.</p>
@@ -63,9 +67,9 @@ class OrganizeSimulationsPage extends SitePage {
 
 EOT;
 
-        foreach(sim_get_categories() as $category) {
+        foreach(CategoryUtils::inst()->getAllCategories() as $category) {
             $cat_id   = $category['cat_id'];
-            $cat_name = format_string_for_html($category['cat_name']);
+            $cat_name = WebUtils::inst()->toHtml($category['cat_name']);
 
             print <<<EOT
                 <h2 id="cat_$cat_id">$cat_name</h2>
@@ -81,28 +85,29 @@ EOT;
 
 EOT;
 
-            $auto_order = 1;
-
-            foreach(sim_get_sim_listings_by_cat_id($cat_id) as $sim_listing) {
+            $listing_order = CategoryUtils::inst()->getSimListingOrder($cat_id);
+            foreach($listing_order as $sim_listing) {
                 $simulation_listing_id = $sim_listing["simulation_listing_id"];
                 $simulation_listing_order = $sim_listing["simulation_listing_order"];
 
-                $sim = sim_get_sim_by_id($sim_listing['sim_id']);
-
-                $sim_name = format_string_for_html($sim['sim_name']);
-
-                if (isset($_REQUEST['auto_order'])) {
-                    db_exec_query("UPDATE `simulation_listing` SET `simulation_listing_order`='$auto_order' WHERE `simulation_listing_id`='$simulation_listing_id' ");
-                    $simulation_listing_order = $auto_order;
+                try {
+                    $sim = SimFactory::inst()->getById($sim_listing['sim_id']);
                 }
+                catch (PhetSimException $e) {
+                    // TODO: log an error, remove the invalid listing
+                    //print "<tr><td>Invalid id #{$sim_listing['sim_id']}</td><td>no action</td><td>{$simulation_listing_order}</td></tr>";
+                    continue;
+                }
+
+                $sim_name = $sim->getName();
 
                 print <<<EOT
                     <tr>
                         <td>$sim_name</td>
 
                         <td>
-                            <a href="organize-sims.php?action=move_up&amp;simulation_listing_id=$simulation_listing_id&amp;cat_id=$cat_id">up</a>
-                            <a href="organize-sims.php?action=move_down&amp;simulation_listing_id=$simulation_listing_id&amp;cat_id=$cat_id">down</a>
+                            <a href="organize-sims.php?action=move_up&amp;simulation_listing_id={$simulation_listing_id}&amp;cat_id={$cat_id}">up</a>
+                            <a href="organize-sims.php?action=move_down&amp;simulation_listing_id={$simulation_listing_id}&amp;cat_id={$cat_id}">down</a>
                         </td>
 
                         <td>
@@ -111,7 +116,6 @@ EOT;
                     </tr>
 
 EOT;
-                $auto_order++;
             }
 
             print <<<EOT

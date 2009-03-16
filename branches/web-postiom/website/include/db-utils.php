@@ -197,7 +197,7 @@
 
         while ($row = mysql_fetch_assoc($result)) {
             if ($reformat) {
-                $rows[] = format_for_html($row);
+                $rows[] = WebUtils::inst()->toHtml($row);
             }
             else {
                 $rows[] = $row;

@@ -28,12 +28,6 @@
         return $pass;
     }
 
-    function generate_check_status($item_num, $checked_item_num) {
-        if ($checked_item_num == null && $item_num == "0" || $item_num == $checked_item_num) return "checked=\"checked\"";
-
-        return " ";
-    }
-
     function force_redirect($url, $timeout = 0, $die = true) {
         print "<meta http-equiv=\"Refresh\" content=\"$timeout;url=$url\">";
     }
@@ -42,15 +36,7 @@
         header("Location: ".$url);
     }
 
-    // function url_exists($url) {
-    //     if (is_array(get_headers($url))) {
-    //         return true;
-    //     }
-    //     else {
-    //         return false;
-    //     }
-    // }
-
+    // DEPRECIATED
     function file_or_url_exists($file) {
         if ($file == null || trim($file) == '') return false;
 
@@ -65,6 +51,7 @@
      * @param string $file
      * @return bool true of 404 is not in the header
      */
+    // DEPRECIATED
     function url_exists($file) {
         $file_headers = get_headers($file);
 
@@ -280,106 +267,10 @@
         return $input;
     }
 
-    function print_comma_list_as_bulleted_list($comma_list) {
-        if (!is_string($comma_list) || strlen(trim($comma_list)) == 0) return;
-
-        print "<ul>";
-
-        if (strstr($comma_list, '*')) {
-            $list = preg_split('/ *\\* */', $comma_list);
-        }
-        else {
-            $list = preg_split('/ *, */', $comma_list);
-        }
-
-        foreach($list as $item) {
-            if (trim($item) != '') {
-                print "<li>$item</li>";
-            }
-        }
-
-        print "</ul>";
-    }
-
-    function print_editable_area($control_name, $contents, $rows = "20", $cols = "40") {
-        $formatted_contents = format_string_for_html($contents);
-        print("<textarea name=\"$control_name\" rows=\"$rows\" cols=\"$cols\">$formatted_contents</textarea>\n");
-    }
-
-    function print_captioned_editable_area($caption, $control_name, $contents, $rows = "20", $cols = "40") {
-        print("<p><strong>$caption</strong></p>\n<p>");
-
-        print_editable_area($control_name, $contents, $rows, $cols);
-
-        print("</p>\n");
-    }
-
-    function print_editable_input($control_name, $contents) {
-        $formatted_contents = format_string_for_html($contents);
-        print("<input type=\"text\" name=\"$control_name\" value=\"$formatted_contents\" />\n");
-    }
-
-    function print_captioned_editable_input($caption, $control_name, $contents) {
-        print("<p><strong>$caption</strong></p>\n<p>");
-
-        print_editable_input($control_name, $contents);
-
-        print("</p>\n");
-    }
-
-    function print_text_input($control_name, $control_value, $width = 20) {
-        print <<<EO_PRINT_TEXT_INPUT
-            <input type="text" name="$control_name" value="$control_value" size="$width"/>
-EO_PRINT_TEXT_INPUT;
-
-    }
-
-    function print_password_input($control_name, $control_value, $width = 20) {
-        print <<<EO_PRINT_PASSWORD_INPUT
-            <input type="password" name="$control_name" value="$control_value" size="$width"/>
-EO_PRINT_PASSWORD_INPUT;
-
-    }
-
-    function print_hidden_input($control_name, $control_value) {
-        print <<<EO_PRINT_HIDDEN_INPUT
-            <input type="hidden" name="$control_name" value="$control_value"/>
-EO_PRINT_HIDDEN_INPUT;
-
-    }
-
-    function get_upload_path_prefix_from_name($name) {
-        $matches = array();
-
-        preg_match('/^(.+?)((_url)?)$/', $name, $matches);
-
-        $path_name = $matches[1];
-
-        $path_prefix = preg_replace('/_/', '/', $path_name);
-
-        //print "Path prefix = $path_prefix\n";
-
-        return $path_prefix;
-    }
-
-
     function remove_script_param_from_url($param_name, $url) {
         $param_name = preg_quote($param_name);
 
         return preg_replace("/(&$param_name=[^&]+)|((?<=\\?)$param_name=[^?&]+&?)/i", '', $url);
-    }
-
-    function remove_all_script_params_from_url($url) {
-        return preg_replace("/(&.+$)/i", '', $url);
-    }
-
-    function web_encode_string($string) {
-        $string = str_replace(' ',              '_',    $string);
-        $string = str_replace('&amp;',          'and',  $string);
-        $string = str_replace('&',              'and',  $string);
-        $string = preg_replace('/[^\\w_\\d]+/',  '',     $string);
-
-        return $string;
     }
 
     /**
@@ -948,51 +839,6 @@ EOT;
                 <input type="checkbox" name="$checkbox_name" value="1" id="${checkbox_name}_uid" $is_checked />$checkbox_text
 
 EOT;
-    }
-
-    function web_close_unclosed_tags($html) {
-        preg_match_all("#<([a-z]+)( .*)?(?!/)>#iU",$html,$result);
-
-        $openedtags=$result[1];
-
-        preg_match_all("#</([a-z]+)>#iU",$html,$result);
-
-        $closedtags=$result[1];
-        $len_opened = count($openedtags);
-
-        if (count($closedtags) == $len_opened){
-            return $html;
-        }
-
-        $openedtags = array_reverse($openedtags);
-
-        for($i=0;$i < $len_opened;$i++) {
-            if (!in_array($openedtags[$i],$closedtags)){
-                $html .= '</'.$openedtags[$i].'>';
-            }
-            else {
-                unset($closedtags[array_search($openedtags[$i],$closedtags)]);
-            }
-        }
-        return $html;
-    }
-
-
-    function web_utf16_decode( $str ) {
-        if( strlen($str) < 2 ) return $str;
-        $bom_be = true;
-        $c0 = ord($str{0});
-        $c1 = ord($str{1});
-        if( $c0 == 0xfe && $c1 == 0xff ) { $str = substr($str,2); }
-        elseif( $c0 == 0xff && $c1 == 0xfe ) { $str = substr($str,2); $bom_be = false; }
-        $len = strlen($str);
-        $newstr = '';
-        for($i=0;$i<$len;$i+=2) {
-            if( $bom_be ) { $val = ord($str{$i})   << 4; $val += ord($str{$i+1}); }
-            else {        $val = ord($str{$i+1}) << 4; $val += ord($str{$i}); }
-            $newstr .= ($val == 0x228) ? "\n" : chr($val);
-        }
-        return $newstr;
     }
 
     /*

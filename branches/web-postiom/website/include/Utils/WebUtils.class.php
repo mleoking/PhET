@@ -48,6 +48,25 @@ class WebUtils {
         return $attrs;
     }
 
+    public function stringToHtml($string) {
+        return htmlentities($string);
+    }
+
+    public function toHtml($mixed) {
+        if (is_array($mixed)) {
+            $clean = array();
+
+            foreach($mixed as $key => $value) {
+                $clean["$key"] = $this->toHtml("$value");
+            }
+
+            return $clean;
+        }
+        else {
+            return $this->stringToHtml($mixed);
+        }
+    }
+
     public function buildImageTag($src, $attributes = array()) {
         if (empty($src)) {
             return '';
@@ -109,6 +128,96 @@ class WebUtils {
         $string = preg_replace('/[^\\w_\\d]+/',  '',     $string);
 
         return $string;
+    }
+
+    private function buildInput($attributes) {
+        $attr = array();
+        foreach ($attributes as $attr_name => $attr_value) {
+            $attrs[] = "{$attr_name}=\"{$attr_value}\"";
+        }
+        return '<input '.join(' ', $attrs).' />';
+    }
+
+    public function buildTextInput($name, $contents) {
+        $attrs = array(
+            'type' => 'text',
+            'name' => $name,
+            'value' => $contents
+            );
+        return $this->buildInput($attrs);
+    }
+
+    public function buildTextAreaInput($name, $contents, $rows = 20, $cols = 40) {
+        $attrs = array(
+            'name' => $name,
+            'rows' => $rows,
+            'cols' => $cols,
+            );
+        return 
+            $this->buildOpenTag('textarea', $this->processAttributes($attrs)).
+            $contents.
+            '</textarea>';
+    }
+
+    public function buildCheckboxInput($name, $options, $selected = NULL) {
+        $radios = array();
+        foreach ($options as $value => $text) {
+            $attrs = array();
+            $attrs['type'] = 'checkbox';
+            $attrs['name'] = $name;
+            $attrs['value'] = $value;
+
+            $check_status = '';
+            if ($selected == $value) {
+                $attrs['checked'] = 'checked';
+            }
+
+            $radios[] = $this->buildInput($attrs).' '.$text;
+        }
+        return join("\n", $radios);
+    }
+
+    // $options is key/value pairs for value/option
+    // $selected is the key of the options that is selected
+    // ex: <input type='radio' name=$name value=value /> option
+    public function buildHorizontalRadioButtonInput($name, $options, $selected) {
+        $radios = array();
+        foreach ($options as $value => $text) {
+            $attrs = array();
+            $attrs['type'] = 'radio';
+            $attrs['name'] = $name;
+            $attrs['value'] = $value;
+
+            $check_status = '';
+            if ($selected == $value) {
+                $attrs['checked'] = 'checked';
+            }
+
+            $radios[] = $this->buildInput($attrs).' '.$text;
+        }
+        return join("\n", $radios);
+    }
+
+    public function buildVerticalRadioButtonInput($name, $options, $selected) {
+        $radios = array();
+        foreach ($options as $value => $text) {
+            $attrs = array();
+            $attrs['type'] = 'radio';
+            $attrs['name'] = $name;
+            $attrs['value'] = $value;
+
+            $check_status = '';
+            if ($selected == $value) {
+                $attrs['checked'] = 'checked';
+            }
+
+            $radios[] = $this->buildInput($attrs).' '.$text;
+        }
+        return join("<br />\n", $radios);
+    }
+
+    public function buildFileInput($name) {
+        return '<input type="file" name="'.$name.'" />';
     }
 }
 

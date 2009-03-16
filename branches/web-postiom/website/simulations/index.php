@@ -23,20 +23,20 @@ class SimulationsPage extends SitePage {
 
         if (isset($_REQUEST['cat'])) {
             $cat_encoding = $_REQUEST['cat'];
-            $ccategory = $CatUtils->getCategory($cat_encoding);
+            $category = $CatUtils->getCategory($cat_encoding);
         }
         else {	
-            $ccategory = $CatUtils->getDefaultCategory();
-            $cat_encoding = $WebUtils->encodeString($ccategory['cat_name']);
+            $category = $CatUtils->getDefaultCategory();
+            $cat_encoding = $WebUtils->encodeString($category['cat_name']);
         }
 
-        $cat_id = $ccategory['cat_id'];
-        if (!$ccategory) {
+        $cat_id = $category['cat_id'];
+        if (!$category) {
             print "<h2>Invalid Category</h2>";
             // FIXME: some type of error here, do not proceed
         }
         else {
-            print "<h2>{$ccategory['cat_name']}</h2>";            
+            print "<h2>{$category['cat_name']}</h2>";
         }
 
         $sim_limit = self::SIMS_PER_PAGE;

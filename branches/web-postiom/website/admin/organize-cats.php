@@ -24,10 +24,10 @@ class OrganizeCategoriesPage extends SitePage {
         }
 
         // Compute all category orders:
-        $category_rows = mysql_query(SQL_SELECT_ALL_VISIBLE_CATEGORIES, $connection);
+        $categories = CategoryUtils::inst()->getAllVisibleCategories();
         $this->cat_orders    = array();
 
-        while ($category = mysql_fetch_assoc($category_rows)) {
+        foreach ($categories as $category) {
             $this->cat_orders[] = $category['cat_order'];
         }
 
@@ -178,7 +178,7 @@ EOT;
 // a different class in a different file.  Static class functions don't work.
 function print_hier_cat_form($user_var, $data, $depth, $has_children) {
     $cat_id    = $data['cat_id'];
-    $cat_name  = format_string_for_html($data['cat_name']);
+    $cat_name  = WebUtils::inst()->toHtml($data['cat_name']);
     $cat_order = $data['cat_order'];
 
     $ind = "";
@@ -200,7 +200,7 @@ EOT;
 
     foreach ($possible_parents as $parent) {
         
-        $html_parent_list .= "<option value=\"{$parent[0]}\">".format_string_for_html($parent[1])."</option>\n";
+        $html_parent_list .= "<option value=\"{$parent[0]}\">".WebUtils::inst()->toHtml($parent[1])."</option>\n";
     }
     $html_parent_list .= "</select>\n";
 

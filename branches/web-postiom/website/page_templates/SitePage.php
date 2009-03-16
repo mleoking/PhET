@@ -393,7 +393,7 @@ EOT;
         // Handle mismatch between the required and actual authentication level
         if ($this->authentication_level == AUTHLEVEL_NONE) {
             // Need to login
-            print_login_and_new_account_form("", "", $this->referrer, $this->login_header_message);
+            print_login_and_new_account_form("", "", $this->login_header_message);
             return FALSE;
         }
         else {
@@ -441,7 +441,7 @@ EOT;
             $contributor = $this->user;
             $contributor_name = $contributor['contributor_name'];
 
-            $formatted_php_self = format_string_for_html($php_self);
+            $formatted_php_self = WebUtils::inst()->toHtml($php_self);
 
             $utility_panel_html = <<<EOT
             Welcome <a href="{$this->prefix}teacher_ideas/user-edit-profile.php">{$contributor_name}</a> - <a href="{$this->prefix}teacher_ideas/user-logout.php?url={$formatted_php_self}">Logout</a>

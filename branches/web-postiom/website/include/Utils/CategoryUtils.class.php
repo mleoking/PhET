@@ -23,6 +23,15 @@ class CategoryUtils {
         return self::$instance;
     }
 
+    public function getAllVisibleCategories() {
+        //define("SQL_SELECT_ALL_VISIBLE_CATEGORIES",
+        //   "SELECT * FROM `category` WHERE `cat_is_visible`='1' ORDER BY `cat_parent`,`cat_order` ASC ");
+        $sql = "SELECT * FROM `category` ".
+            "WHERE `cat_is_visible`='1' ".
+            "ORDER BY `cat_parent`,`cat_order` ASC ";
+        return db_get_rows_custom_query($sql);
+    }
+
     public function getAllCategories() {
         if (isset($this->categories)) {
             return $this->categories;
@@ -67,6 +76,46 @@ class CategoryUtils {
         $categories = $this->getAllCategories();
         $site_root = SITE_ROOT;
         return SITE_ROOT."simulations/index.php?cat={$encoding}";
+    }
+
+    public function getSimListingOrder($cat_id) {
+        $sql = "SELECT * FROM `simulation_listing` ".
+            "WHERE `simulation_listing`.`cat_id`='{$cat_id}' ".
+            "ORDER BY `simulation_listing`.`simulation_listing_order` ASC";
+
+        return db_get_rows_custom_query($sql);
+    }
+
+    /**
+     * Hopefully no longer needed, but I'm not yet sure.  Holdover
+     * from a previous era where the sim listing orders were not
+     * updated properly when other sims were added or deleted.
+     *
+     *
+     */
+    public function fixSimListingOrder() {
+        foreach($this->getAllCategories() as $category) {
+            $cat_id = $category['cat_id'];
+            $auto_order = 1;
+            foreach ($this->getSimListingOrder($cat_id) as $sim_listing) {
+                $simulation_listing_id = $sim_listing["simulation_listing_id"];
+                $sql = "UPDATE `simulation_listing` ".
+                    "SET `simulation_listing_order`='$auto_order' ".
+                    "WHERE `simulation_listing_id`='$simulation_listing_id'";
+                db_exec_query($sql);
+                ++$auto_order;
+            }
+        }
+    }
+
+    public function isSimInCategory($sim_id, $cat_id) {
+        foreach ($this->getSimListingOrder($cat_id) as $sim_listing) {
+            if ($sim_listing['sim_id'] == $sim_id) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 

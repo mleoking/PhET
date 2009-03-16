@@ -16,8 +16,6 @@ class SourceCodePage extends SitePage {
             return $result;
         }
 
-        $no_mac = SIM_NO_MAC_IMAGE_HTML;
-
         $phet_help_email = PHET_HELP_EMAIL;
 
         print <<<EOT

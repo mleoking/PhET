@@ -1,61 +1,81 @@
 <?php
 
 class PreIomJavaSimulation extends JavaSimulation {
+    private function getPreIomProjectFilename() {
+        return self::sim_root."{$this->project_name}/{$this->sim_name}.jar";
+    }
+
     public function getSize() {
-        $size = parent::getSize();
-        if ($size != 0) {
-            return $size;
+        try {
+            return parent::getSize();
+        }
+        catch (PhetSimException $e) {
+            // Ignore the exception and keep on trucking
         }
 
-        $file = self::sim_root."{$this->project_name}/{$this->sim_name}.jar";
-        if (!file_exists($file)) {
-            return 0;
+        $filename = $this->getPreIomProjectFilename();
+        if (!file_exists($filename)) {
+            throw new PhetSimException("Cannot get size, project file '{$file}' does not exist");
         }
-        /*
-        if (!file_exists($file)) {
-            throw new RuntimeException("Cannot get size, project file '{$file}' does not exist");
+
+        return (int) (filesize($filename) / 1024);
+    }
+
+    private function getPreIomLaunchFilename($locale = Locale::DEFAULT_LOCALE) {
+        if (Locale::inst()->isDefault($locale)) {
+            return self::sim_root."{$this->project_name}/{$this->sim_name}.jnlp";
         }
-        */
-        return (int) (filesize($file) / 1024);
+        else {
+            return self::sim_root."{$this->project_name}/{$this->sim_name}_{$locale}.jnlp";
+        }
     }
 
     public function getLaunchUrl($locale = Locale::DEFAULT_LOCALE) {
-        $url = parent::getLaunchUrl();
-        if (file_exists($url)) {
-            return $url;
+        $filename = parent::getLaunchFilename($locale);
+        if (file_exists($filename)) {
+            return $filename;
         }
 
-        if (!Locale::inst()->isValid($locale)) {
-            return '';
+        $filename = $this->getPreIomLaunchFilename($locale);
+        if (file_exists($filename)) {
+            return $filename;
         }
 
-        if (Locale::inst()->isDefault($locale)) {
-            $url = self::sim_root."{$this->project_name}/{$this->sim_name}.jnlp";
-        }
-        else {
-            $url = self::sim_root."{$this->project_name}/{$this->sim_name}_{$locale}.jnlp";
-        }
-
-        return $url;        
+        return '';
     }
 
-    public function getDownloadUrl($requested_locale = Locale::DEFAULT_LOCALE) {
-        $url = parent::getDownloadUrl();
-        if (!empty($url)) {
-            return $url;
-        }
-
-        if (Locale::inst()->isDefault($requested_locale)) {
-            $url = self::sim_root."{$this->project_name}/{$this->sim_name}.jar";
+    private function getPreIomDownloadFilename($locale = Locale::DEFAULT_LOCALE) {
+        if (Locale::inst()->isDefault($locale)) {
+            return self::sim_root."{$this->project_name}/{$this->sim_name}.jar";
         }
         else {
-            $url = self::sim_root."{$this->project_name}/{$this->sim_name}_{$requested_locale}.jar";
+            return self::sim_root."{$this->project_name}/{$this->sim_name}_{$locale}.jar";
+        }
+    }
+
+    public function getDownloadFilename($locale = Locale::DEFAULT_LOCALE) {
+        // Try straight post IOM
+        $filename = parent::getDownloadFilename($locale);
+        if (file_exists($filename)) {
+            return $filename;
         }
 
-        if (!file_exists($url)) {
+        // Try pre iom
+        $filename = $this->getPreIomDownloadFilename($locale);
+        if (file_exists($filename)) {
+            return $filename;
+        }
+
+        return '';
+    }
+
+    public function getDownloadUrl($locale = Locale::DEFAULT_LOCALE) {
+        $filename = $this->getDownloadFilename($locale);
+        if (!file_exists($filename)) {
             return '';
         }
-        return SITE_ROOT."admin/get-run-offline.php?sim_id={$this->getId()}&locale={$requested_locale}";
+
+        return SITE_ROOT."admin/get-run-offline.php?sim_id={$this->getId()}&locale={$locale}";
 ;
     }
 }

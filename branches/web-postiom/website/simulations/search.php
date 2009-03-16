@@ -29,7 +29,7 @@ class SearchPage extends SitePage {
                 return;
             }
 
-            $this->sims       = sim_search_for_sims($this->search_for);
+            $this->sims       = SimUtils::inst()->searchForSims($this->search_for);
             $this->contribs   = contribution_search_for_contributions($this->search_for);
             $this->researches = research_search_for($this->search_for);
         }
@@ -41,7 +41,7 @@ class SearchPage extends SitePage {
             return $result;
         }
 
-        $html_referrer = format_string_for_html($this->referrer);
+        $html_referrer = WebUtils::inst()->toHtml($this->referrer);
 
         $number_results = count($this->sims) + count($this->contribs) + count($this->researches);
         if (!strcmp("", $this->search_for)) {
@@ -61,13 +61,10 @@ class SearchPage extends SitePage {
             print "<ul>\n";
 
             foreach($this->sims as $sim) {
-                $sim_id = $sim['sim_id'];
-                $sim_name = format_string_for_html($sim['sim_name']);
-
-                $sim_url = sim_get_url_to_sim_page($sim_id);
+                $simm = SimFactory::inst()->getById($sim['sim_id']);
 
                 print <<<EOT
-                    <li><a href="$sim_url">$sim_name</a></li>
+                    <li><a href="{$simm->getPageUrl()}">{$simm->getName()}</a></li>
 
 EOT;
             }
@@ -85,7 +82,7 @@ EOT;
 
             foreach($this->contribs as $contrib) {
                 $contribution_id = $contrib['contribution_id'];
-                $contribution_title = format_string_for_html($contrib['contribution_title']);
+                $contribution_title = WebUtils::inst()->toHtml($contrib['contribution_title']);
                 print <<<EOT
                     <li><a href="{$this->prefix}teacher_ideas/view-contribution.php?contribution_id=$contribution_id">$contribution_title</a></li>
 

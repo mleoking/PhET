@@ -11,22 +11,26 @@ class FlashSimulation extends BaseSimulation {
     }
 
     public function getSize() {
-        $file = self::sim_root."{$this->project_name}/{$this->project_name}.swf";
-        if (!file_exists($file)) {
-            throw new RuntimeException("Cannot get size, SWF file '{$file}' does not exist");
+        $filename = $this->getProjectFilename();
+
+        if (!file_exists($filename)) {
+            throw new RuntimeException("Cannot get size, SWF file '{$filename}' does not exist");
         }
 
-        return (int) (filesize($file) / 1024);
+        return (int) (filesize($filename) / 1024);
 
     }
 
-    public function getLaunchUrl($locale = Locale::DEFAULT_LOCALE) {
-        if (!Locale::inst()->isValid($locale)) {
-            return '';
-        }
+    public function getLaunchFilename($locale = Locale::DEFAULT_LOCALE) {
+        return self::sim_root."{$this->project_name}/{$this->sim_name}_{$locale}.html";
+    }
 
-        $url = SIMS_ROOT."{$this->project_name}/{$this->sim_name}_{$locale}.html";
-        return $url;
+    public function getLaunchUrl($locale = Locale::DEFAULT_LOCALE) {
+        return $this->getLaunchFilename($locale);
+    }
+
+    public function getProjectFilename() {
+        return self::sim_root."{$this->project_name}/{$this->project_name}.swf";
     }
 
     protected function getTranslationGlob() {

@@ -29,7 +29,7 @@ class IndividualSimulationPage extends SitePage {
 
         $sim_encoding = $_REQUEST['sim'];
 
-        $this->sim = SimFactory::inst()->getFromWebEncodedName($sim_encoding);
+        $this->sim = SimFactory::inst()->getByWebEncodedName($sim_encoding);
 
         $this->addKeywordsToTitle();
 
@@ -115,7 +115,7 @@ EOT;
 
         $guidance_html = '';
         if ($this->sim->getGuidanceRecommended()) {
-            $guidance_html = $this->sim->getGuidanceAnchorTag();
+            $guidance_html = SimUtils::inst()->getGuidanceImageAnchorTag();
         }
 
         // TODO: Remove explicit class checking
@@ -150,6 +150,7 @@ EOT;
         }
 
         $WebUtils = WebUtils::inst();
+        $SimUtils = SimUtils::inst();
 
             print <<<EOT
         <div class="container">
@@ -161,7 +162,7 @@ EOT;
 
                 <table id="simratings">
                     <tr>
-                        <td>{$guidance_html}</td>   <td>&nbsp;</td>     <td>{$this->sim->getRatingImageAnchorTag()}</td>
+                        <td>{$guidance_html}</td>   <td>&nbsp;</td>     <td>{$SimUtils->getRatingImageAnchorTag($this->sim->getRating())}</td>
                     </tr>
                 </table>
 
@@ -200,6 +201,11 @@ EOT;
                             }
                         }
 
+                        $launch_onclick = $this->sim->getLaunchOnClick();
+                        if (!empty($launch_onclick)) {
+                            $launch_onclick = ' onclick="'.$launch_onclick.'"';
+                        }
+
                         print <<<EOT
                     </div>
                     <span class="promote" title="If you like this simulation, please consider sharing it with others by submitting it to Digg or StumbleUpon">
@@ -214,7 +220,7 @@ EOT;
             </div>
 
             <div id="simpreview">
-                <a href="{$this->sim->getLaunchUrl()}" {$this->sim->getLaunchOnClick()}>
+                <a href="{$this->sim->getLaunchUrl()}"{$launch_onclick}>
                     {$this->sim->getScreenshotImageTag()}
                 </a>
 
@@ -227,7 +233,7 @@ EOT;
 
                             <td>
                                 <div class="rage_button_358398">
-                                    <a href="{$this->sim->getLaunchUrl()}" onclick="{$this->sim->getLaunchOnClick()}" title="Click here to run the simulation from your browser">Run Now!</a>
+                                  <a href="{$this->sim->getLaunchUrl()}"{$launch_onclick} title="Click here to run the simulation from your browser">Run Now!</a>
                                 </div>
                             </td>
                         </tr>
@@ -256,7 +262,7 @@ EOT;
 
         <ul>
             <li>
-{$WebUtils->buildSpanCommaList($this->sim->getKeywords(), array('class' => 'keywordlist'))}
+{$WebUtils->buildSpanCommaList($this->sim->getKeywordAnchorTags(), array('class' => 'keywordlist'))}
             </li>
         </ul>
 
@@ -483,14 +489,30 @@ EOT;
                 }
             }
 
+            $launch_onclick = $this->sim->getLaunchOnClick($locale);
+            if (!empty($launch_onclick)) {
+                $launch_onclick = ' onclick="'.$launch_onclick.'"';
+            }
+
+            
+            $language_launch = '';
+            if (!is_null($locale_info['language_code'])) {
+                $language_launch = "<{$launch_link_open}{$launch_onclick}>{$locale_info['language_img']}</a>";
+            }
+
+            $country_launch = '';
+            if (!is_null($locale_info['country_code'])) {
+                $country_launch = "<{$launch_link_open}{$launch_onclick}>{$locale_info['country_img']}</a>";
+            }
+
             print <<<EOT
 <tr style="vertical-align: bottom;">
   <td>
-    <{$launch_link_open} {$this->sim->getLaunchOnClick($locale)}>{$locale_info['language_img']}</a>
-    <{$launch_link_open} {$this->sim->getLaunchOnClick($locale)}>{$locale_info['country_img']}</a>
+    {$language_launch}
+    {$country_launch}
   </td>
   <td>
-    <{$launch_link_open} {$this->sim->getLaunchOnClick($locale)}>{$locale_info['locale_name']}</a>
+    <{$launch_link_open}{$launch_onclick}>{$locale_info['locale_name']}</a>
   </td>
   {$download_html}
 </tr>
@@ -570,7 +592,12 @@ EOT;
             print "<h1 class=\"first-child\"><a href=\"{$this->prefix}admin/edit-sim.php?sim_id={$this->sim->getId()}\" title=\"Click here to edit the simulation\">{$this->sim->getName()}</a></h1>";
         }
         else {
-            print "<h1 class=\"first-child\"><a href=\"{$this->sim->getLaunchUrl()}\" {$this->sim->getLaunchOnClick()}>{$this->sim->getName()}</a></h1>";
+            $launch_onclick = $this->sim->getLaunchOnClick();
+            if (!empty($launch_onclick)) {
+                $launch_onclick = ' onclick="'.$launch_onclick.'"';
+            }
+
+            print "<h1 class=\"first-child\"><a href=\"{$this->sim->getLaunchUrl()}\" {$launch_onclick}>{$this->sim->getName()}</a></h1>\n";
         }
     }
 

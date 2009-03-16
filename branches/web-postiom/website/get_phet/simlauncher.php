@@ -31,14 +31,10 @@ class SimulationLauncherPage extends SitePage {
 
 EOT;
 
-            foreach (sim_get_all_sims() as $simulation) {
-                $sim_name = format_string_for_html($simulation['sim_name']);
-
-                $sim_download_url = sim_get_download_url($simulation);
-
+        foreach (SimFactory::inst()->getAllSims(true) as $simulation) {
                 print <<<EOT
                     <li>
-                        <a href="$sim_download_url">$sim_name</a>
+                    <a href="{$simulation->getDownloadUrl()}">{$simulation->getName()}</a>
                     </li>
 
 EOT;

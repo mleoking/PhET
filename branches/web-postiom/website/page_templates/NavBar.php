@@ -88,11 +88,11 @@ EOT;
 
     function print_subnavigation_element($prefix, $link, $desc) {
         if (is_array($desc)) {
-            $name = format_for_html($desc[0]);
+            $name = WebUtils::inst()->toHtml($desc[0]);
             $extra_style = "style=\"padding-left: {$desc[1]}\"";
         }
         else {
-            $name = format_for_html($desc);
+            $name = WebUtils::inst()->toHtml($desc);
             $extra_style = "";
         }
 
@@ -209,7 +209,7 @@ EOT;
             "get_phet/index.php",
             "Run our Simulations",
             array(
-                'simulations/index.php?cat='.$encoded_default_cat_name,
+                'simulations/index.php?cat='.$encoded_default_cat_name => 'On Line',
                 'get_phet/full_install.php' => 'Full Install',
                 'get_phet/simlauncher.php'  => 'One at a Time'
             )

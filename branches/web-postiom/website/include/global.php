@@ -1,5 +1,42 @@
 <?php
 
+  // TEMP TO TEST PRE AND POST IOM STUFF
+    define('PORTAL_ROOT', '../'.SITE_ROOT);
+    if (strpos($_SERVER['SCRIPT_NAME'], '/PhET-method1') === 0) {
+        // Case of POST IOM code setting, POST IOM sims
+        $GLOBALS['PREIOM_CODE'] = FALSE;
+        $GLOBALS['IOM_METHOD'] = 1;
+        $GLOBALS['EXTRA_TITLE'] = 'POST IOM CODE ONLY, POST IOM SIMS';
+        define("SIMS_ROOT", PORTAL_ROOT.'sims-postiom/');
+    }
+    else if (strpos($_SERVER['SCRIPT_NAME'], '/PhET-method2') === 0) {
+        // Case of PRE IOM code setting, POST IOM sims
+        $GLOBALS['PREIOM_CODE'] = TRUE;
+        $GLOBALS['IOM_METHOD'] = 2;
+        $GLOBALS['EXTRA_TITLE'] = 'PRE IOM CODE ENABLED, POST IOM SIMS';
+        define("SIMS_ROOT", PORTAL_ROOT.'sims-postiom/');
+    }
+    else if (strpos($_SERVER['SCRIPT_NAME'], '/PhET-method3') === 0) {
+        // Case of POST IOM code setting, PRE IOM sims
+        $GLOBALS['PREIOM_CODE'] = FALSE;
+        $GLOBALS['IOM_METHOD'] = 3;
+        $GLOBALS['EXTRA_TITLE'] = 'POST IOM CODE ONLY, PRE IOM SIMS';
+        define("SIMS_ROOT", PORTAL_ROOT.'sims-current/');
+    }
+    else if (strpos($_SERVER['SCRIPT_NAME'], '/PhET-method4') === 0) {
+        // Case of PRE IOM code setting, PRE IOM sims
+        $GLOBALS['PREIOM_CODE'] = TRUE;
+        $GLOBALS['IOM_METHOD'] = 4;
+        $GLOBALS['EXTRA_TITLE'] = 'PRE IOM CODE ENABLED, PRE IOM SIMS';
+        define("SIMS_ROOT", PORTAL_ROOT.'sims-current/');
+    }
+    else {
+        // act normally
+        $GLOBALS['PREIOM_CODE'] = FALSE;
+        $GLOBALS['IOM_METHOD'] = 0;
+        $GLOBALS['EXTRA_TITLE'] = 'Running Normally';
+    }
+
     // Temp hack to get around magic_quotes_gpc until admins can set it
     //
     if (get_magic_quotes_gpc()) {

@@ -311,7 +311,7 @@ EOT;
             $meta_refresh = "<meta http-equiv=\"Refresh\" content=\"{$this->meta_refresh_timeout};url={$this->meta_refresh_location}\" />";
         }
 
-        $formatted_title = format_string_for_html($this->full_title);
+        $formatted_title = WebUtils::inst()->toHtml($this->full_title);
 
         print <<<EOT
   <head>
@@ -399,7 +399,7 @@ EOT;
     function open_xhtml_body() {
         $referrer = "";
         if (!is_null($this->referrer)) {
-            $formatted_referrer = format_string_for_html($this->referrer);
+            $formatted_referrer = WebUtils::inst()->toHtml($this->referrer);
             $referrer = '<input type="hidden" name="referrer" value="'.$formatted_referrer.'"  class="always-enabled" />';
         }
 
@@ -554,7 +554,7 @@ EOT;
     function render_title() {
         if (!strcmp("", $this->render_title)) return;
 
-        $formatted_text = format_string_for_html($this->render_title);
+        $formatted_text = WebUtils::inst()->toHtml($this->render_title);
         print "    <h1>{$formatted_text}</h1>\n";
     }
 

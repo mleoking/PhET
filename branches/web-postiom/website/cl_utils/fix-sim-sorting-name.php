@@ -10,16 +10,22 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("include/sim-utils.php");
 require_once("include/cache-utils.php");
 
-$sims = sim_get_all_sims();
-
-foreach ($sims as $sim) {
-  $new_sim_info = array();
-  $new_sim_info['sim_id'] = $sim['sim_id'];
-  $new_sim_info['sim_sorting_name'] = get_sorting_name($sim['sim_name']);
-  sim_update_sim($new_sim_info);
+foreach (SimFactory::inst()->getAllSims(TRUE) as $sick_sim) {
+    $simulation = array();
+    $simulation['sim_id'] = $sick_sim->getId();
+    $simulation['sim_sorting_name'] = 
+        SimUtils::inst()->generateSortingName(
+            $sick_sim->getWrapped()->getName()
+            );
+  
+    db_update_table(
+        'simulation',
+        $simulation,
+        'sim_id',
+        $simulation['sim_id']
+        );
 }
 
 cache_clear_simulations();

@@ -6,9 +6,7 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-    //var_dump("HERE");
 require_once("page_templates/SitePage.php");
-    //require_once("include/sim-utils.php");
 
 class TranslationsPage extends SitePage {
 
@@ -46,7 +44,6 @@ class TranslationsPage extends SitePage {
 
 EOT;
         
-        //$sim_translations = sim_get_all_sim_translations();
         $localeUtils = Locale::inst();
 
         print "<table>\n";

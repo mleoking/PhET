@@ -12,6 +12,7 @@ abstract class BaseSimulation implements SimulationInterface {
     // Sim data
     private $id;
     private $name;
+    private $type;
     private $sorting_name;
     private $description;
     protected $project_name;
@@ -27,35 +28,41 @@ abstract class BaseSimulation implements SimulationInterface {
     private $thanks_to;
     
     // Data from the database, used during the refactor
-    private $original_data;
-    private $db_data;
+    private $original_db_data;
+    private $used_db_data;
+    private $unused_db_data;
 
     // Map the database field names to local variable names
     private static $map = array(
         'id' => array('sim_id', 'int'),
         'name' => array('sim_name', 'string'),
+        'type' => array('sim_type', 'ignore'),
         'project_name' => array('sim_dirname', 'string'),
         'sim_name' => array('sim_flavorname', 'string'),
         'sorting_name' => array('sim_sorting_name', 'tolower_string'),
         'guidance_recommended' => array('sim_crutch', 'bool'),
         'rating' => array('sim_rating', 'int'),
         'description' => array('sim_desc', 'string'),
-        'keywords' => array('sim_keywords', 'delimited-list'),
+        'keywords' => array('sim_keywords', 'delimited_list'),
         'teachers_guide_id' => array('sim_teachers_guide_id', 'int'),
-        'main_topics' => array('sim_main_topics', 'delimited-list'),
-        'learning_goals' => array('sim_sample_goals', 'delimited-list'),
-        'design_team' => array('sim_design_team', 'delimited-list'),
-        'libraries' => array('sim_libraries', 'delimited-list'),
-        'thanks_to' => array('sim_thanks_to', 'delimited-list'),
+        'main_topics' => array('sim_main_topics', 'delimited_list'),
+        'learning_goals' => array('sim_sample_goals', 'delimited_list'),
+        'design_team' => array('sim_design_team', 'delimited_list'),
+        'libraries' => array('sim_libraries', 'delimited_list'),
+        'thanks_to' => array('sim_thanks_to', 'delimited_list'),
         );
 
     public function __construct($db_data) {
-        $this->original_data = $db_data;
+        $this->used_db_data = array();
+        $this->original_db_data = $db_data;
         foreach (self::$map as $property => $db_field) {
             $type = $db_field[1];
             $raw_data = $db_data[$db_field[0]];
             // Convert the data to the specified type
             switch ($type) {
+                case 'ignore':
+                    $data = $raw_data;
+                    break;
                 case 'bool':
                     $data = (0 != intval($raw_data));
                     break;
@@ -69,8 +76,8 @@ abstract class BaseSimulation implements SimulationInterface {
                     // TODO: data should come out of database already lowercased
                     $data = strtolower($raw_data);
                     break;
-                case 'delimited-list':
-                    // TODO: fix data in database so the trim is not neede
+                case 'delimited_list':
+                    // TODO: fix data in database so the trim is not needed
                     // This will involve fixing existing data, and updating
                     // admin/edit-sim.php to do this trimming
                     $trimmed_data = rtrim($raw_data, '*, ');
@@ -80,9 +87,6 @@ abstract class BaseSimulation implements SimulationInterface {
                     else {
                         $data = preg_split('/ *, */', $trimmed_data, -1, PREG_SPLIT_NO_EMPTY);
                     }
-                    if ($property == 'libraries') {
-                        //var_dump($raw_data, $trimmed_data, $data);
-                    }
                     break;
                 default:
                     throw new RuntimeException("Type '{$type}' is not supported");
@@ -90,12 +94,27 @@ abstract class BaseSimulation implements SimulationInterface {
 
             $this->$property = $data;
 
+            // Keep track of what was used
+            $this->used_db_data[$db_field[0]] = $raw_data;
+
             // Unset the data and later check for unused data
             unset($db_data[$db_field[0]]);
         }
 
         // Save what is left for easy checking for unused data
-        $this->db_data = $db_data;
+        $this->unused_db_data = $db_data;
+    }
+
+    public function getOriginalDBData() {
+        return $this->original_db_data;
+    }
+
+    public function getUsedDBData() {
+        return $this->used_db_data;
+    }
+
+    public function getUnusedDBData() {
+        return $this->unused_db_data;
     }
 
     public function getId() {
@@ -111,7 +130,26 @@ abstract class BaseSimulation implements SimulationInterface {
     }
 
     public function getSortingFirstChar() {
+        if (strlen($this->sorting_name) == 0) {
+            // TODO: log error
+            // This case is here to get around a rare but thus far
+            // non-reproducible error where the database sorting names
+            // get cleared.  Note: this error happened with the old
+            // sim-utils.php code, and probably will not be seen here.
+            // But since the actual problem was never uncovered, one
+            // can never be too careful.
+            $sort = SimUtils::inst()->generateSortingName($this->getName());
+            return $sort[0];
+        }
         return strtoupper($this->sorting_name[0]);
+    }
+
+    public function getProjectName() {
+        return $this->project_name;
+    }
+
+    public function getSimName() {
+        return $this->sim_name;
     }
 
     public function getDescription() {
@@ -142,6 +180,55 @@ abstract class BaseSimulation implements SimulationInterface {
         return SITE_ROOT.'admin/get-teachers-guide.php?teachers_guide_id='.$this->teachers_guide_id;
     }
 
+    public function setTeachersGuide($filename, $contents, $size) {
+        $this->removeTeachersGuide();
+
+        $encoded_data = base64_encode($contents);
+
+        $new_id = db_insert_row(
+                "teachers_guide",
+                array(
+                    "teachers_guide_filename" => $filename,
+                    "teachers_guide_size" => $size,
+                    "teachers_guide_contents" => $encoded_data
+                )
+            );
+
+        assert($new_id);
+        db_update_table(
+            "simulation",
+            array("sim_teachers_guide_id" => $new_id),
+            "sim_id",
+            $this->id
+            );
+    }
+ 
+    public function removeTeachersGuide() {
+        if ($this->teachers_guide_id == 0) {
+            return;
+        }
+
+        db_delete_row("teachers_guide",
+                      array("teachers_guide_id" => $this->teachers_guide_id));
+        db_update_table("simulation",
+                        array("sim_teachers_guide_id" => 0),
+                        "sim_id",
+                        $this->id);
+    }
+
+    public function getTeachersGuideFilename() {
+        if (!$this->hasTeachersGuide()) {
+            return '';
+        }
+
+        $sql = "SELECT teachers_guide_filename ".
+            "FROM teachers_guide".
+            "WHERE teachers_guide_id=".$this->teachers_guide_id;
+        $rows = db_get_rows_custom_query($sql);
+
+        return $rows[0]['teachers_guide_filename'];
+    }
+
     public function getMainTopics() {
         return $this->main_topics;
     }
@@ -162,18 +249,26 @@ abstract class BaseSimulation implements SimulationInterface {
         return $this->thanks_to;
     }
 
-    public function getScreenshotUrl() {
+    public function getScreenshotFilename() {
         $basename = "{$this->project_name}/{$this->sim_name}-screenshot.png";
         return self::sim_root.$basename;
     }
 
-    public function getAnimatedScreenshotUrl() {
+    public function getScreenshotUrl() {
+        return $this->getScreenshotFilename();
+    }
+
+    public function getAnimatedScreenshotFilename() {
         return self::sim_root."{$this->project_name}/{$this->sim_name}-animated-screenshot.gif";
     }
 
-    public function getThumbnailUrl() {
-        // TODO: too much in 1 function, refactor
+    public function getAnimatedScreenshotUrl() {
+        return $this->getAnimatedScreenshotFilename();
+    }
 
+    public function getThumbnailFilename() {
+        // TODO: too much in 1 function, refactor
+        // TODO: abstract the file_name_hash, there is a naming convention between this and a 'resounce name'
         $image_url = $this->getScreenshotUrl();
         $file_name_hash = md5($image_url).'.jpg';
         if (cache_has_valid_page(self::thumbnail_cache, $file_name_hash, self::thumbnail_cache_lifespan)) {
@@ -210,19 +305,51 @@ abstract class BaseSimulation implements SimulationInterface {
         return cache_get_file_location(self::thumbnail_cache, $file_name_hash);
     }
 
+    public function getThumbnailUrl() {
+        return $this->getThumbnailFilename();
+    }
+
     public function getPageUrl() {
         return SITE_ROOT.'simulations/sims.php?sim='.WebUtils::inst()->encodeString($this->getName());
     }
 
-    public function getDownloadUrl($requested_locale = Locale::DEFAULT_LOCALE) {
-        $locale = (Locale::inst()->isValid($requested_locale)) ? $requested_locale : Locale::DEFAULT_LOCALE;
-
-        $file = self::sim_root."{$this->project_name}/{$this->sim_name}_{$locale}.jar";
-
-        if (!file_exists($file)) {
-            return '';
+    public function getDownloadFilename($locale = Locale::DEFAULT_LOCALE) {
+        // Remapping until Country codes can stand on their own
+        $locales = array();
+        $localeUtils = Locale::inst();
+        if ($localeUtils->isDefault($locale)) {
+            $locales[] = Locale::DEFAULT_LOCALE_LONG_FORM;
+            $locales[] = Locale::DEFAULT_LOCALE_SHORT_FORM;
+        }
+        else if ($localeUtils->isCombinedLanguageCode($locale)) {
+            $full_locale = $localeUtils->combinedLanguageCodeToFullLocale($locale);
+            $combined_locale = $locale;
+            $locales[] = $full_locale;
+            $locales[] = $combined_locale;
+        }
+        else if ($localeUtils->hasCombinedLanguageCodeMap($locale)) {
+            $combined_locale = $localeUtils->fullLocaleToCombinedLanguageCode($locale);
+            $full_locale = $locale;
+            $locales[] = $full_locale;
+            $locales[] = $combined_locale;
+        }
+        else {
+            $locales[] = $locale;
         }
 
+        $base_file = self::sim_root."{$this->project_name}/{$this->sim_name}";
+        foreach ($locales as $locale) {
+            $test_locale = (!empty($locale)) ? '_'.$locale : '';
+            $locale_file = $base_file.$test_locale.'.jar';
+            if (file_exists($locale_file)) {
+                return $locale_file;
+            }
+        }
+
+        return false;
+    }
+
+    public function getDownloadUrl($locale = Locale::DEFAULT_LOCALE) {
         return SITE_ROOT."admin/get-run-offline.php?sim_id={$this->getId()}&locale={$locale}";
     }
 

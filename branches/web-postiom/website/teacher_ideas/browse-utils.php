@@ -273,10 +273,10 @@ EOT;
             // as well as the actual table rows
             foreach ($keys as $key) {
                 // Format the key for display in HTML
-                $formatted_key = format_string_for_html($key);
+                $formatted_key = WebUtils::inst()->toHtml($key);
 
                 // and have a version to use in the anchors
-                $encoded_key = web_encode_string($key);
+                $encoded_key = WebUtils::inst()->encodeString($key);
 
                 // Get all contributions associated with the key
                 $con = $contr[$key];

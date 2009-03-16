@@ -43,8 +43,8 @@ class BrowseContributionsPage extends SitePage {
             $selected_status = 'selected="selected"';
         }
 
-        $formatted_name = format_string_for_html($name);
-        $formatted_id = format_string_for_html($id);
+        $formatted_name = WebUtils::inst()->toHtml($name);
+        $formatted_id = WebUtils::inst()->toHtml($id);
 
         return "<option value=\"{$formatted_id}\" $selected_status>{$formatted_name}</option>";
     }

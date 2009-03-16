@@ -47,9 +47,11 @@ class HierarchicalCategories {
         }
 
         // Compute all category orders:
-        $category_rows = db_get_rows_custom_query("SELECT * FROM `category` WHERE `cat_is_visible`='1' ORDER BY `cat_parent`,`cat_order` ASC");
+        $categories = CategoryUtils::inst()->getAllVisibleCategories();
+        //$category_rows = db_get_rows_custom_query("SELECT * FROM `category` WHERE `cat_is_visible`='1' ORDER BY `cat_parent`,`cat_order` ASC");
         $cats = array();
-        foreach ($category_rows as $category) {
+        foreach ($categories as $category) {
+            //foreach ($category_rows as $category) {
             if (!$category['cat_is_visible']) {
                 continue;
             }
@@ -193,6 +195,8 @@ class HierarchicalCategories {
     }
 
     function &find_stuff_containing_id($cat_id, &$hier_cats, $depth = 0) {
+        static $null_ref = NULL;
+
         if ($depth > HierarchicalCategories::MAX_DEPTH) {
             throw Exception("find_id: too much recursion, loop?");
         }
@@ -211,11 +215,13 @@ class HierarchicalCategories {
             }
         }
 
-        return NULL;
+        return $null_ref;
+        //        return NULL;
     }
 
     function move_up($cat_id) {
         $container = &$this->find_stuff_containing_id($cat_id, $this->hier_cats);
+        assert(!is_null($container));
         $sorted_array = $this->go_one_up($container, $cat_id, $this->hier_cats);
         $container = $sorted_array;
         $this->commit_orders();

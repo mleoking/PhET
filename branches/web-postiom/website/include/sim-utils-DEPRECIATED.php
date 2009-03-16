@@ -1,8 +1,9 @@
 <?php
 
+  /*
     var_dump("SIM-UTILS.PHP included");
     assert(FALSE);
-
+  */
 
     // Utils to support sims
 

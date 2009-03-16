@@ -16,6 +16,11 @@ class SimulationListingPage extends SitePage {
             return $result;
         }
 
+        print <<<EOT
+            <p>
+            Entries that are <span style="color: grey;">grey</span> represent legacy database data that is no longer used and has not yet been culled out of the database.
+            </p>
+EOT;
         print "<table class=\"compact\">";
 
         print "<thead><tr>";
@@ -23,24 +28,25 @@ class SimulationListingPage extends SitePage {
         print "</tr></thead>";
         print "<tbody>";
 
-        foreach (sim_get_all_sims() as $simulation) {
-            $sim_id = $simulation['sim_id'];
+        foreach (SimFactory::inst()->getAllSims(true) as $simulation) {
+            $sim_id = $simulation->getId();
 
-            print "<tr><td><h3>".format_string_for_html($simulation['sim_name'])."</h3>";
-            print "<a href=\"delete-sim.php?sim_id=$sim_id&amp;delete=0\">Delete</a>, ";
-            print "<a href=\"edit-sim.php?sim_id=$sim_id\">Edit</a>";
+            print "<tr><td colspan=\"2\"><h3>{$simulation->getName()}</h3>";
+            print "<a href=\"delete-sim.php?sim_id={$sim_id}&amp;delete=0\">Delete</a>, ";
+            print "<a href=\"edit-sim.php?sim_id={$sim_id}\">Edit</a>";
             print "</td></tr>";
 
-            foreach($simulation as $key => $value) {
-                // FIXME: change this to == and a continue
-                if ($key != 'sim_name') {
-                    $formatted_key = format_string_for_html($key);
-                    $formatted_value = format_string_for_html($value);
-                    print "<tr><td>$formatted_key</td><td>$formatted_value</td></tr>";
-                }
+            foreach ($simulation->getUsedDBData() as $key => $value) {
+                if ($key == 'sim_name') continue;
+                print "<tr><td>{$key}</td><td>{$value}</td></tr>";
             }
 
-            print "<tr><td>&nbsp;</td></tr>";
+            foreach ($simulation->getUnusedDBData() as $key => $value) {
+                if ($key == 'sim_name') continue;
+                print "<tr><td style=\"color: grey;\">{$key}</td><td style=\"color: grey;\">{$value}</td></tr>";
+            }
+
+            print "<tr><td colspan=\"2\">&nbsp;</td></tr>";
         }
         
         print "</tbody>";

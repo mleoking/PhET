@@ -25,7 +25,8 @@ class UpdateSimulationPage extends SitePage {
         }
         else if ($_REQUEST["radio_teachers_guide_action"] == 'remove') {
             // Remove the teacher's guide
-            sim_remove_teachers_guide($sim_id);
+            $sim = SimFactory::inst()->getById($sim_id);
+            $sim->removeTeachersGuide();
             return true;
         }
         else if ($_REQUEST["radio_teachers_guide_action"] != 'upload') {
@@ -46,10 +47,11 @@ class UpdateSimulationPage extends SitePage {
                 // All good, do file stuff
 
                 // If there is a file, drop any associations with it
-                sim_remove_teachers_guide($sim_id);
+                $sim = SimFactory::inst()->getById($sim_id);
+                $sim->removeTeachersGuide();
 
                 $file_content = file_get_contents($file_tmp_name);
-                sim_set_teachers_guide($sim_id, $file_user_name, $file_size, $file_content);
+                $sim->setTeachersGuide($file_user_name, $file_content, $file_size);
             }
         }
     }
@@ -68,12 +70,33 @@ class UpdateSimulationPage extends SitePage {
 
         $simulation = array();
 
+        // Input names for strings requiring list processing
+        $lists = array(
+            'sim_keywords', 'sim_main_topics', 'sim_sample_goals', 
+            'sim_design_team', 'sim_libraries', 'sim_thanks_to'
+            );
+
         // Update every field that was passed in as a _REQUEST parameter and
         // which starts with 'sim_':
-        foreach($_REQUEST as $key => $value) {
-            if (preg_match('/sim_.*/', $key) == 1) {
-                $simulation[$key] = trim($value);
+        foreach($_REQUEST as $key => $raw_value) {
+            if (preg_match('/sim_.*/', $key) != 1) continue;
+
+            if (in_array($key, $lists)) {
+                $trimmed_data = trim($raw_value, '*, ');
+                $stripped_data = preg_replace("/\r\n/", '', $trimmed_data);
+                if (strstr($stripped_data, '*')) {
+                    $data = preg_split('/ *\\* */', $stripped_data, -1, PREG_SPLIT_NO_EMPTY);
+                }
+                else {
+                    $data = preg_split('/ *, */', $stripped_data, -1, PREG_SPLIT_NO_EMPTY);
+                }
+                $value = join('*', $data);
             }
+            else {
+                $value = trim($raw_value);
+            }
+
+            $simulation[$key] = $value;
         }
 
         $this->handle_teachers_guide($simulation["sim_id"]);
@@ -82,12 +105,14 @@ class UpdateSimulationPage extends SitePage {
         $sim_id = $simulation["sim_id"];
 
         // The sorting name should not be prefixed by such words as 'the', 'an', 'a':
-        $simulation['sim_sorting_name'] = get_sorting_name($this->sim_name);
+        $simulation['sim_sorting_name'] = SimUtils::inst()->generateSortingName($this->sim_name);
 
-        sim_update_sim($simulation);
-
-        // Update size of simulation:
-        sim_auto_calc_sim_size($simulation['sim_id']);
+        db_update_table(
+            'simulation',
+            $simulation,
+            'sim_id',
+            $simulation['sim_id']
+            );
 
         // Now we have to update the categories manually:
         $category_rows = mysql_query("SELECT * FROM `category` ", $connection);
@@ -98,7 +123,7 @@ class UpdateSimulationPage extends SitePage {
 
             $key_to_check_for = "checkbox_cat_id_$cat_id";
 
-            $is_in_category        = sim_is_in_category($sim_id, $cat_id);
+            $is_in_category        = CategoryUtils::inst()->isSimInCategory($sim_id, $cat_id);
             $should_be_in_category = isset($_REQUEST["$key_to_check_for"]);
 
             if ($is_in_category && !$should_be_in_category) {
@@ -123,7 +148,7 @@ class UpdateSimulationPage extends SitePage {
         }
 
         // FIXME: $this->sim_name needs to be HTML formatted
-        $encoded_sim_name = web_encode_string($this->sim_name);
+        $encoded_sim_name = WebUtils::inst()->encodeString($this->sim_name);
         print <<<EOT
             <h2>Update Successful</h2>
 

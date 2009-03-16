@@ -1,69 +1,5 @@
 <?php
 
-  // TODO: I made up the term "Enhancer".  This pattern probably
-  // already exists and has a name.  Find the pattern and see if this
-  // is going in a good direction.  Try: "Design Patterns, GOF"
-  //
-  // ========================================
-  //
-  // NEW NOTE SINCE COMMENT WAS WRITTEN:
-  // Apparently this idea of an Enhancer is still considered a Decorator.
-  // Gotten from a quick skim of Head First: Design Patterns
-  //
-  // ...more time passes...
-  //
-  // Ah, I see now.  Head First focuses on just wrapping and enhancing
-  // existing behavior in their examples and deemphasize extending or
-  // enhancing (until later in the book under "Compound Patterns".
-  //
-  // GOF uses the term to talk about extending functionality as the
-  // _primary_ intent of the pattern.  They use an example of a text
-  // view wrapped in a scroll decorator wrapped in a border decorator.
-  //
-  // Keeping the rest of the comment as is, though it will probably be
-  // deleted when I get farther into implementing everything.
-  //
-  // ========================================
-  //
-  // This class is a combination Decorator and Enhancer.  It wraps an
-  // abstract BaseSimulation object and both decorates and provides
-  // more functionality.
-  //
-  // The abstract BaseSimulation does know where to find things
-  // related to the simulation, such as screetshots or the location of
-  // the file to launch.
-  //
-  // The abstract BaseSimulation class knows nothing about HTML,
-  // generating proper URLs or the functions needed to do interesting
-  // things in HTML.
-  //
-  // That's the plan as I write this anyway, we'll see how it goes.
-  //
-  // The Decorator aspect of this just wraps methods such as getName()
-  // to return HTML vernions.
-  //     Ex: 'Masses & Springs' => 'Masses &amp; Springs'
-  //
-  // The Enhancer aspect of this gives greater functionality.  A
-  // couple aspects planned an this moment:
-  //
-  // Translating the name from the normal human readable name (with no
-  // markup) to something we could use in a web browser.
-  //     Ex: 'Masses & Springs' => 'Masses_and_Springs'
-  //
-  // Generating a relative or absolute URL to the simulation page:
-  //     Ex: 'http://phet.colorado.edu/simulations/sims.php?sim=Masses_and_Springs'
-  //
-  // Generating an anchor to the sim page:
-  //     Ex: '<a href="{url}" title="{HTML sim name}">{HTML sim name}</a>'
-  //
-  // Etc.
-  //
-  // Brainstorm:
-  //
-  // Alternate idea would be to make the BaseSimulation class aware of
-  // generating URLs to sim pages and the like, but still knows no HTML.
-  // Resolution: try above first.  If that is unweildly, do try this idea.
-  //
 class SimulationHTMLDecorator implements SimulationInterface, SimulationEnhancerInterface {
     private $sim;
 
@@ -75,16 +11,21 @@ class SimulationHTMLDecorator implements SimulationInterface, SimulationEnhancer
         return $this->sim;
     }
 
-    //    public function __call($method, $arguments) {
-    //        throw new RuntimeException("SimulationHTMLDecorator method called that doesn't exist: {$method}");
-        /*
-         // Will this be needed?  Probably not.
-        if (method_exists($this->sim, $method)) {
-            return call_user_func_array(
-                array($this->sim, $method), $arguments);
-        }
-        */
-    //    }
+    public function convertDBData($raw_data) {
+        return WebUtils::inst()->toHtml($raw_data);
+    }
+
+    public function getOriginalDBData() {
+        return $this->convertDBData($this->sim->getOriginalDBData());
+    } 
+
+    public function getUsedDBData() {
+        return $this->convertDBData($this->sim->getUsedDBData());
+    } 
+
+    public function getUnusedDBData() {
+        return $this->convertDBData($this->sim->getUnusedDBData());
+    } 
 
     public function getType() {
         return $this->sim->getType();
@@ -96,7 +37,7 @@ class SimulationHTMLDecorator implements SimulationInterface, SimulationEnhancer
     }
 
     public function getName() {
-        return htmlentities($this->sim->getName());
+        return WebUtils::inst()->toHtml($this->sim->getName());
     }
 
     public function getSortingName() {
@@ -107,8 +48,16 @@ class SimulationHTMLDecorator implements SimulationInterface, SimulationEnhancer
         return $this->sim->getSortingFirstChar();
     }
 
+    public function getProjectName() {
+        return WebUtils::inst()->toHtml($this->sim->getProjectName());
+    }
+
+    public function getSimName() {
+        return WebUtils::inst()->toHtml($this->sim->getSimName());
+    }
+
     public function getDescription() {
-        return htmlentities($this->sim->getDescription());
+        return WebUtils::inst()->toHtml($this->sim->getDescription());
     }
 
     public function getSize() {
@@ -128,7 +77,19 @@ class SimulationHTMLDecorator implements SimulationInterface, SimulationEnhancer
     }
 
     public function getTeachersGuideUrl() {
-        return htmlentities($this->sim->getTeachersGuideUrl());
+        return WebUtils::inst()->toHtml($this->sim->getTeachersGuideUrl());
+    }
+
+    public function getTeachersGuideFilename() {
+        return WebUtils::inst()->toHtml($this->sim->getTeachersGuideFilename());
+    }
+
+    public function setTeachersGuide($filename, $contents, $size) {
+        return $this->sim->setTeachersGuide($filename, $contents, $size);
+    }
+
+    public function removeTeachersGuide() {
+        return $this->sim->removeTeachersGuide();
     }
 
     public function getTeachersGuideAnchorTag($link_text = "teacher's guide") {
@@ -136,69 +97,56 @@ class SimulationHTMLDecorator implements SimulationInterface, SimulationEnhancer
     }
 
     public function getMainTopics() {
-        // TODO: copied from web-utils.php::format_for_html()
-        // push this into a utility class
-        $formatted_topics = array();
-        foreach ($this->sim->getMainTopics() as $topic) {
-            $formatted_topics[] = htmlentities($topic);
-        }
-        return $formatted_topics;
+        return WebUtils::inst()->toHtml($this->sim->getMainTopics());
     }
 
 
     public function getLearningGoals() {
-        // TODO: copied from web-utils.php::format_for_html()
-        // push this into a utility class
-        $formatted_topics = array();
-        foreach ($this->sim->getLearningGoals() as $topic) {
-            $formatted_topics[] = htmlentities($topic);
-        }
-        return $formatted_topics;
+        return WebUtils::inst()->toHtml($this->sim->getLearningGoals());
     }
 
     public function getDesignTeam() {
-        // TODO: copied from web-utils.php::format_for_html()
-        // push this into a utility class
-        $formatted_topics = array();
-        foreach ($this->sim->getDesignTeam() as $topic) {
-            $formatted_topics[] = htmlentities($topic);
-        }
-        return $formatted_topics;
+        return WebUtils::inst()->toHtml($this->sim->getDesignTeam());
     }
 
     public function getLibraries() {
-        // TODO: copied from web-utils.php::format_for_html()
-        // push this into a utility class
-        $formatted_topics = array();
-        foreach ($this->sim->getLibraries() as $topic) {
-            $formatted_topics[] = htmlentities($topic);
-        }
-        return $formatted_topics;
+        return WebUtils::inst()->toHtml($this->sim->getLibraries());
     }
 
     public function getThanksTo() {
-        // TODO: copied from web-utils.php::format_for_html()
-        // push this into a utility class
-        $formatted_topics = array();
-        foreach ($this->sim->getThanksTo() as $topic) {
-            $formatted_topics[] = htmlentities($topic);
-        }
-        return $formatted_topics;
+        return WebUtils::inst()->toHtml($this->sim->getThanksTo());
     }
 
     public function getKeywords() {
+        return WebUtils::inst()->toHtml($this->sim->getKeywords());
+    }
+
+    public function getKeywordAnchorTags() {
+        $Web = WebUtils::inst();
         $keyword_links = array();
         foreach ($this->sim->getKeywords() as $keyword) {
             $url = SITE_ROOT.'simulations/search.php?search_for='.urlencode($keyword);
-            $keyword_links[] = WebUtils::inst()->buildAnchorTag($url, $keyword);
+            $keyword_links[] = $Web->buildAnchorTag($url, $Web->toHtml($keyword));
         }
 
         return $keyword_links;
     }
 
-
     public function getRatingImageAnchorTag() {
         return SimUtils::inst()->getRatingImageAnchorTag($this->sim->getRating());
+    }
+
+    public function getTypeImageTag() {
+        // TODO: Remove switch on type
+        static $typeMap = NULL;
+        if (is_null($typeMap)) {
+            $typeMap = array(
+                'Java' => WebUtils::inst()->buildImageTag(SITE_ROOT.'images/sims/ratings/java.png', array('alt'=>"Java Icon", 'title'=>"This simulation is a Java simulation")),
+                'Flash' => WebUtils::inst()->buildImageTag(SITE_ROOT.'images/sims/ratings/flash.png', array('alt'=>"Flash Icon", 'title'=>"This simulation is a Flash simulation"))
+                );
+        }
+
+        return $typeMap[$this->getType()];
     }
 
     public function getTypeImageAnchorTag() {
@@ -206,28 +154,43 @@ class SimulationHTMLDecorator implements SimulationInterface, SimulationEnhancer
         static $typeMap = NULL;
         if (is_null($typeMap)) {
             $typeMap = array(
-                'Java' => WebUtils::inst()->buildAnchorTag(SITE_ROOT.'tech_support/support-java.php', WebUtils::inst()->buildImageTag(SITE_ROOT.'images/sims/ratings/java.png', array('alt'=>"Java Icon", 'title'=>"This simulation is a Java simulation"))),
-                'Flash' => WebUtils::inst()->buildAnchorTag(SITE_ROOT.'tech_support/support-flash.php', WebUtils::inst()->buildImageTag(SITE_ROOT.'images/sims/ratings/flash.png', array('alt'=>"Flash Icon", 'title'=>"This simulation is a Flash simulation"))),
+                'Java' => WebUtils::inst()->buildAnchorTag(SITE_ROOT.'tech_support/support-java.php', $this->getTypeImageTag()),
+                'Flash' => WebUtils::inst()->buildAnchorTag(SITE_ROOT.'tech_support/support-flash.php', $this->getTypeImageTag()),
                 );
         }
 
         return $typeMap[$this->getType()];
     }
 
+    public function getScreenshotFilename() {
+        // Don't encode the filename
+        return $this->sim->getScreenshotFilename();
+    }
+
     public function getScreenshotUrl() {
-        return htmlentities($this->sim->getScreenshotUrl());
+        return WebUtils::inst()->toHtml($this->sim->getScreenshotUrl());
+    }
+
+    public function getAnimatedScreenshotFilename() {
+        // Don't encode the filename
+        return $this->sim->getAnimatedScreenshotFilename();
     }
 
     public function getAnimatedScreenshotUrl() {
-        return htmlentities($this->sim->getAnimatedScreenshotUrl());
+        return WebUtils::inst()->toHtml($this->sim->getAnimatedScreenshotUrl());
+    }
+
+    public function getThumbnailFilename() {
+        // Don't encode the filename
+        return $this->sim->getThumbnailFilename();
     }
 
     public function getThumbnailUrl() {
-        return htmlentities($this->sim->getThumbnailUrl());
+        return WebUtils::inst()->toHtml($this->sim->getThumbnailUrl());
     }
 
     public function getWebEncodedName() {
-        return web_encode_string($this->sim->getName());
+        return WebUtils::inst()->encodeString($this->sim->getName());
     }
 
     public function getTranslations() {
@@ -236,11 +199,16 @@ class SimulationHTMLDecorator implements SimulationInterface, SimulationEnhancer
     }
 
     public function getPageUrl() {
-        return htmlentities($this->sim->getPageUrl());
+        return WebUtils::inst()->toHtml($this->sim->getPageUrl());
+    }
+
+    public function getLaunchFilename($locale = Locale::DEFAULT_LOCALE) {
+        // Don't encode the filename
+        return $this->sim->getLaunchFilename($locale);
     }
 
     public function getLaunchUrl($locale = Locale::DEFAULT_LOCALE) {
-        return htmlentities($this->sim->getLaunchUrl($locale));
+        return WebUtils::inst()->toHtml($this->sim->getLaunchUrl($locale));
     }
 
     public function runsInNewBrowserWindow() {
@@ -255,8 +223,18 @@ class SimulationHTMLDecorator implements SimulationInterface, SimulationEnhancer
         return "javascript:open_limited_window('{$this->sim->getLaunchUrl($locale)}', 'simwindow'); return false;";
     }
 
+    public function getDownloadFilename($locale = Locale::DEFAULT_LOCALE) {
+        // Don't encode the filename
+        return $this->sim->getDownloadFilename($locale);
+    }
+
     public function getDownloadUrl($locale = Locale::DEFAULT_LOCALE) {
-        return htmlentities($this->sim->getDownloadUrl($locale));
+        return WebUtils::inst()->toHtml($this->sim->getDownloadUrl($locale));
+    }
+
+    public function getProjectFilename() {
+        // Don't encode the filename
+        return $this->sim->getProjectFilename();
     }
 
     public function getScreenshotImageTag() {
@@ -271,31 +249,9 @@ class SimulationHTMLDecorator implements SimulationInterface, SimulationEnhancer
     public function getVersion($ignore_flash = true) {
         $version = $this->sim->getVersion($ignore_flash);
         foreach ($version as $key => $value) {
-            $version[$key] = htmlentities($value);
+            $version[$key] = WebUtils::inst()->toHtml($value);
         }
         return $version;
-    }
-
-    public function getGuidanceAnchorTag() {
-        $root = SITE_ROOT;
-        return WebUtils::inst()->buildAnchorTag(SITE_ROOT.'about/legend.php', $this->getGuidanceImageTag());
-    }
-
-    public function getGuidanceImageTag() {
-        $attributes = array(
-            'alt' => 'Not standalone',
-            'width' => '37',
-            'title' => $this->getGuidanceDescription()
-            );
-        return WebUtils::inst()->buildImageTag($this->getGuidanceImageUrl(), $attributes);
-    }
-
-    public function getGuidanceImageUrl() {
-        return SITE_ROOT.'images/sims/ratings/crutch25x25.png';
-    }
-
-    public function getGuidanceDescription() {
-        return 'Guidance Recommended: This simulation is very effective when used in conjunction with a lecture, homework or other teacher designed activity.';
     }
 }
 
