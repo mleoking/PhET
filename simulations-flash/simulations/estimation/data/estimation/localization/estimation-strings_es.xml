@@ -42,4 +42,5 @@
 <string key="enter" value="Introducir"/>
 <string key="endGame" value="Finalizar juego"/>
 <string key="nextLowerCase" value="siguiente"/>
+<string key="simTitle" value="Estimación" />
 </SimStrings>

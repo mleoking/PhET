@@ -40,4 +40,5 @@
   <string key="PE" value="PE" />
   <string key="thermal" value="thermal" />
   <string key="total" value="total" />
+  <string key="simStrings" value="Pendulum Lab" />
 </SimStrings>

@@ -20,5 +20,6 @@
   <string key="clear" value="clear" />
   <string key="equipotential" value="equipotential" />
   <string key="voltage" value="voltage" />
+  <string key="simTitle" value="Charges and Fields" />
 
 </SimStrings>

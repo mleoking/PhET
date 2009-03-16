@@ -22,5 +22,6 @@
   <string key="-z" value="-z" />
   <string key="randomXZ" value="random xz" />
   <string key="sound" value="Sound" />
+  <string key="simTitle" value="Stern-Gerlach Experiment" />
   
 </SimStrings>

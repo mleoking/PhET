@@ -22,4 +22,5 @@
 <string key="reset" value="Reinicio"/>
 <string key="resetCount" value="Reiniciar contador"/>
 <string key="off" value="No"/>
+<string key="simTitle" value="Experimento de Stern-Gerlach" />
 </SimStrings>
