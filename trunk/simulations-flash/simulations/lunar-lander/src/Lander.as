@@ -40,14 +40,15 @@ class Lander{
 	private var lastCount:Number; //used for de-bugging only
 	
 	private var mySoundMaker:SoundMaker;
-	//private var soundTarget:MovieClip;
+	private var theView:MovieClip;
 	
-	function Lander(pos:Object, velocity:Object, soundTarget:MovieClip, soundTarget2:MovieClip) {
+	function Lander(pos:Object, velocity:Object, soundTarget:MovieClip, soundTarget2:MovieClip, theView:MovieClip) {
 		this.pos = pos;  //XX problem with reserved word?
 		this.velocity = velocity;
 		//this.soundTarget = soundTarget;
 		this.acceleration = new Object();
 		this.mySoundMaker = new SoundMaker(soundTarget, soundTarget2);
+		this.theView = theView;
 		this.initialize();
 	}//end of constructor
 	
@@ -148,7 +149,7 @@ class Lander{
 		this.t = 0; 
 		this.lastT = getTimer(); 
 		this.lastCount = 1;
-		this.intervalID = setInterval(this, "evolveOneTimeStep", 40)
+		this.intervalID = setInterval(this, "evolveOneTimeStep", 40);
 		this.crashState = "inFlight";
 		this.landingSpeed = undefined;
 		this.inMotion = true;
@@ -158,6 +159,13 @@ class Lander{
 		clearInterval(this.intervalID);
 		this.inMotion = false;
 	}
+	
+	function restartMotion():Void{
+		this.lastT = getTimer(); 
+		this.intervalID = setInterval(this, "evolveOneTimeStep", 40);
+		this.inMotion = true;
+	}
+	
 	function crash():Void{
 		this.stopMotion();
 		trace("CRASH!");
@@ -221,23 +229,29 @@ class Lander{
 	}//end of setThrust()
 	
 	function angleRight(){  //+3 degree change of angle
+		if(this.crashState != "crashLanded"){
+			this.theView.landerHolder_mc.lander_mc.rightThrust_mc.gotoAndPlay("begin");
+			mySoundMaker.soundSideThrust(1);
+		}
 		if(this.crashState == "inFlight"){
 			this.angle += 3*pi/180;
 			this.cosTheta = Math.cos(this.angle);
 			this.sinTheta = Math.sin(this.angle);
 			//trace("angleRight call successful.")
 		}
-		mySoundMaker.soundSideThrust(1);
 	}
 	
 	function angleLeft(){
+		if(this.crashState != "crashLanded"){
+			this.theView.landerHolder_mc.lander_mc.leftThrust_mc.gotoAndPlay("begin");
+			mySoundMaker.soundSideThrust(1);
+		}
 		if(this.crashState == "inFlight"){
 			this.angle -= 3*pi/180;
 			this.cosTheta = Math.cos(this.angle);
 			this.sinTheta = Math.sin(this.angle);
 			//trace("angleLeft call successful.")
 		}
-		mySoundMaker.soundSideThrust(1);
 	}
 	
 	function getFuelInitial():Number{
