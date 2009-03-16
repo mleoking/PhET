@@ -50,14 +50,18 @@ class Internationalizer{
 		this.setListComponentLabel(_root.controlPanel_mc.myComboBox, 11, "doubleDouble");
 		
 		_level0.controlPanel_mc.startButton_mc.buttonLabel = this.simStrings.get("start");
-		_root.controlPanel_mc.startButton_mc.gotoAndPlay(2);
-		_root.controlPanel_mc.startButton_mc.gotoAndStop(1);
+		//_root.controlPanel_mc.startButton_mc.gotoAndPlay(2);
+		//_root.controlPanel_mc.startButton_mc.gotoAndStop(1);
+		_root.controlPanel_mc.startButton_mc.gotoAndPlay(1);
+		//setString(_root.controlPanel_mc.startButton_mc.label_txt, this.simStrings.get("start"), "center");
 		_level0.controlPanel_mc.stopButton_mc.buttonLabel = this.simStrings.get("stop");
-		_root.controlPanel_mc.stopButton_mc.gotoAndPlay(2);
-		_root.controlPanel_mc.stopButton_mc.gotoAndStop(1);
+		//_root.controlPanel_mc.stopButton_mc.gotoAndPlay(2);
+		//_root.controlPanel_mc.stopButton_mc.gotoAndStop(1);
+		_root.controlPanel_mc.stopButton_mc.gotoAndPlay(1);
 		_level0.controlPanel_mc.resetButton_mc.buttonLabel = this.simStrings.get("reset");
-		_root.controlPanel_mc.resetButton_mc.gotoAndPlay(2);
-		_root.controlPanel_mc.resetButton_mc.gotoAndStop(1);
+		//_root.controlPanel_mc.resetButton_mc.gotoAndPlay(2);
+		//_root.controlPanel_mc.resetButton_mc.gotoAndStop(1);
+		_root.controlPanel_mc.resetButton_mc.gotoAndPlay(1);
 		
 		setString(_root.controlPanel_mc.trackCM_cb.label_txt, "systemCentered", "left");
 		setString(_root.controlPanel_mc.showTraces_cb.label_txt, "showTraces", "left");
@@ -68,8 +72,9 @@ class Internationalizer{
 		setString(_root.controlPanel_mc.slider_mc.rightLabel_txt, "fast", "right");
 		
 		_level0.controlPanel_mc.helpButton_mc.buttonLabel = this.simStrings.get("help");
-		_root.controlPanel_mc.helpButton_mc.gotoAndPlay(2);
-		_root.controlPanel_mc.helpButton_mc.gotoAndStop(1);
+		//_root.controlPanel_mc.helpButton_mc.gotoAndPlay(2);
+		//_root.controlPanel_mc.helpButton_mc.gotoAndStop(1);
+		_root.controlPanel_mc.helpButton_mc.gotoAndPlay(1);
 		
 		setString(_root.labelHolder_mc["Initial Settings:"], "initialSettings", "center");
 		setString(_root.labelHolder_mc["position"], "position", "right");
@@ -87,8 +92,9 @@ class Internationalizer{
 		setString(_root.timeHolder_mc["timeEquals"], "timeEquals","right");
 		
 		_level0.infoPage_mc.backButton_mc.buttonLabel = this.simStrings.get("back");
-		_level0.infoPage_mc.backButton_mc.gotoAndPlay(2);
-		_level0.infoPage_mc.backButton_mc.gotoAndStop(1);
+		//_level0.infoPage_mc.backButton_mc.gotoAndPlay(2);
+		//_level0.infoPage_mc.backButton_mc.gotoAndStop(1);
+		_level0.infoPage_mc.backButton_mc.gotoAndPlay(1);
 		
 		setString(_root.trajectoryHolder_mc.specWindow_mc.massEquals_txt, "massEquals", "right");
 		setString(_root.trajectoryHolder_mc.specWindow_mc.xEquals_txt, "xEquals", "right");
