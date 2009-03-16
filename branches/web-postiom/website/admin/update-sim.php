@@ -70,7 +70,7 @@ class UpdateSimulationPage extends SitePage {
 
         // Input names for strings requiring list processing
         $lists = array(
-            'sim_keywords', 'sim_main_topics', 'sim_sample_goals', 
+            'sim_keywords', 'sim_main_topics', 'sim_sample_goals',
             'sim_design_team', 'sim_libraries', 'sim_thanks_to'
             );
 

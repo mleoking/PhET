@@ -143,16 +143,16 @@ class SimulationsPage extends SitePage {
             foreach ($simulations as $sim) {
 
                 ++$sim_number;
-                
+
                 if ($sim_number <  $sim_start_number) continue;
                 if ($sim_number >= $sim_start_number + $sim_limit) break;
-                
+
                 print "<div class=\"productEntry\">\n";
-                
+
                 $link_to_sim = "<a href=\"{$sim->getPageUrl()}\">";
-                
+
                 $sim_thumbnail_link = $sim->getThumbnailUrl();
-                
+
                 print <<<EOT
                         <a href="{$sim->getPageUrl()}">
                             <img src="$sim_thumbnail_link"
@@ -165,7 +165,7 @@ class SimulationsPage extends SitePage {
 EOT;
 
                 print "<p>$link_to_sim{$sim->getName()}</a></p>\n";
-                
+
                 // Close product:
                 print "</div>\n";
 

@@ -26,7 +26,7 @@ abstract class BaseSimulation implements SimulationInterface {
     private $design_team;
     private $libraries;
     private $thanks_to;
-    
+
     // Data from the database, used during the refactor
     private $original_db_data;
     private $used_db_data;
@@ -202,7 +202,7 @@ abstract class BaseSimulation implements SimulationInterface {
             $this->id
             );
     }
- 
+
     public function removeTeachersGuide() {
         if ($this->teachers_guide_id == 0) {
             return;
@@ -280,17 +280,17 @@ abstract class BaseSimulation implements SimulationInterface {
         if ($img == false) {
             return;
         }
-        
+
         $existing_width  = imagesx($img);
         $existing_height = imagesy($img);
-        
+
         // Scale to thumbnail width, preserving aspect ratio:
         $new_width  = self::thumbnail_width;
         $new_height = self::thumbnail_height;
         //old method is proportional: floor($existing_height * ( thumbnail_width / $existing_width ));
 
         $tmp_img = imagecreatetruecolor($new_width, $new_height);
-        
+
         imagecopyresampled($tmp_img, $img, 0, 0, 0, 0, $new_width, $new_height, $existing_width, $existing_height);
 
         $temp_file = tempnam('/tmp', 'sim-thumbnail');
@@ -301,7 +301,7 @@ abstract class BaseSimulation implements SimulationInterface {
         cache_put(self::thumbnail_cache, $file_name_hash, file_get_contents($temp_file));
 
         unlink($temp_file);
-        
+
         return cache_get_file_location(self::thumbnail_cache, $file_name_hash);
     }
 

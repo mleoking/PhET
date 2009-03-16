@@ -17,15 +17,15 @@ class SimulationHTMLDecorator implements SimulationInterface, SimulationEnhancer
 
     public function getOriginalDBData() {
         return $this->convertDBData($this->sim->getOriginalDBData());
-    } 
+    }
 
     public function getUsedDBData() {
         return $this->convertDBData($this->sim->getUsedDBData());
-    } 
+    }
 
     public function getUnusedDBData() {
         return $this->convertDBData($this->sim->getUnusedDBData());
-    } 
+    }
 
     public function getType() {
         return $this->sim->getType();

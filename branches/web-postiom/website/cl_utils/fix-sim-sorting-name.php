@@ -15,11 +15,11 @@ require_once("include/cache-utils.php");
 foreach (SimFactory::inst()->getAllSims(TRUE) as $sick_sim) {
     $simulation = array();
     $simulation['sim_id'] = $sick_sim->getId();
-    $simulation['sim_sorting_name'] = 
+    $simulation['sim_sorting_name'] =
         SimUtils::inst()->generateSortingName(
             $sick_sim->getWrapped()->getName()
             );
-  
+
     db_update_table(
         'simulation',
         $simulation,

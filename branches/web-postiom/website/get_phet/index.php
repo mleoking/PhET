@@ -17,7 +17,7 @@ class GetPhETPage extends SitePage {
         print <<<EOT
             <div id="get_phet">
                 <table>
-                    
+
                     <tr>
                         <th scope="row" abbr="" class="specalt-none"></th>
 
@@ -33,7 +33,7 @@ class GetPhETPage extends SitePage {
                             <p>Download <strong>one or more</strong> simulations to your computer, USB, or CD</p>
                         </th>
                     </tr>
-                
+
                     <tr>
                         <th scope="row" abbr="" class="specalt-none"></th>
 
@@ -49,7 +49,7 @@ class GetPhETPage extends SitePage {
                             <p><a href="{$this->prefix}get_phet/simlauncher.php"><img src="{$this->prefix}images/button-clickhere.jpg"  alt="Click here"/></a></p>
                         </th>
                     </tr>
-                
+
                     <tr>
                         <th scope="row" abbr="" class="spec-none"><p>How do I get the simulations?</p></th>
 
@@ -79,7 +79,7 @@ class GetPhETPage extends SitePage {
 
                         <th scope="row" abbr="" class="specalt"><p>Under 1.5 MB for each simulation.</p></th>
                     </tr>
-                
+
                     <tr>
                         <th scope="row" abbr="" class="specalt-none"><p>How often are updates made available?</p></th>
 
@@ -99,14 +99,14 @@ class GetPhETPage extends SitePage {
 
                         <th scope="row" abbr="" class="specalt"><p>No</p></th>
                     </tr>
-                
+
                     <tr>
                         <th scope="row" abbr="" class="spec-none"><p>Where can I save them to on my computer?</p></th>
-                    
+
                         <th scope="row" abbr="" class="spec"><p>Flash applets cannot be saved. Java applications are automatically stored in your computer's WebStart cache, but cannot be moved.</p></th>
-                    
+
                         <th scope="row" abbr="" class="spec"><p>CD, USB or hard drive.</p></th>
-                    
+
                         <th scope="row" abbr="" class="spec"><p>CD, USB or hard drive.</p></th>
                     </tr>
                 </table>

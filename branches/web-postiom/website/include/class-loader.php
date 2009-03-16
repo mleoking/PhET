@@ -36,7 +36,7 @@ function classLoader($class_name) {
 
 // Nullify any existing autoloads
 spl_autoload_register(null, false);
-    
+
 // Specify extensions that may be loaded
 spl_autoload_extensions('.php, .class.php');
 

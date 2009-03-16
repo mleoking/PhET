@@ -87,7 +87,7 @@
     // Defines
     //
     // If you want to change these to be specific to
-    // your development machine, set them in 
+    // your development machine, set them in
     // local-debug-settings.php
     //
 
@@ -123,7 +123,7 @@
 
     // PHET_DIST_ROOT is the root of the phet-dist directory
     if (!defined("PHET_DIST_ROOT")) define("PHET_DIST_ROOT", PORTAL_ROOT.'phet-dist/');
-    
+
     // Convenience defines for PhET related contact
     define("PHET_DOMAIN_NAME", "phet.colorado.edu");
     define("PHET_HELP_EMAIL", "phethelp@colorado.edu");
@@ -151,12 +151,12 @@
     define("DEFAULT_NEW_SIMULATION_NAME", "New Simulation");
 
     ini_set('upload_max_filesize',    '20M');
-    ini_set("session.gc_maxlifetime", "10800"); 
+    ini_set("session.gc_maxlifetime", "10800");
     ini_set("session.cache_expire",   "180");
     /*
      * Not sure why these are so high... makes for a lot of garbage piling up
      * changing these to lower numbers, about 3 hours
-    ini_set("session.gc_maxlifetime", "999999999"); 
+    ini_set("session.gc_maxlifetime", "999999999");
     ini_set("session.cache_expire",   "999999999");
     */
 

@@ -26,7 +26,7 @@ class ContactPage extends SitePage {
 
             <h2 style="margin-bottom: -10px;">License Information:</h2>
 
-            <p style="margin-left:0px;"><a href="licensing.php"><em>Click here</em></a> to access the licensing information for the interactive simulations and their source code.</p>  
+            <p style="margin-left:0px;"><a href="licensing.php"><em>Click here</em></a> to access the licensing information for the interactive simulations and their source code.</p>
 
             <h2 style="margin-bottom: -10px;">Email:</h2>
 

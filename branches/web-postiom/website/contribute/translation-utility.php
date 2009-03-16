@@ -127,7 +127,7 @@ class TranslationInstructionsPage extends SitePage {
                     Email hydrogen-atom-strings_fr.properties to {$phet_help_email}.
                 </li>
             </ol>
-            
+
             <h2>Common Strings</h2>
             <p>
             Some strings that appear in a simulation are part of a library of "common components" that are used in all PhET simulations.

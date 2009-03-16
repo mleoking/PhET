@@ -4,26 +4,26 @@
 
 
 // Additions to the wonderful jQuery Javascript library
-// 
-// 
+//
+//
 // // basics
-// 
+//
 // $.fn.first = function() {
 // 	return this.cur[0];
 // }
-// 
+//
 // $.fn.last = function() {
 // 	return this.cur[this.size()-1];
 // }
-// 
-// 
+//
+//
 // // form handling
-// 
+//
 // $.fn.focus = function() {
 // 	if (this.size() && this.get(0).focus) try { this.get(0).focus() } catch(e) {};
 // 	return this;
 // }
-// 
+//
 // $.fn.blur = function() {
 // 	if (this.size() && this.get(0).blur) this.get(0).blur();
 // 	return this;
@@ -40,56 +40,56 @@ $.fn.disable = function() {
 		this.disabled = true;
 	});
 }
-// 
-// 
+//
+//
 // // timed events
-// 
+//
 // $.fn.time = function (t, f, id) {
 // 	id = id || 1;
 // 	return this.each(function(){
 // 		this['timer'+id] = setTimeout(f,t*1000);
 // 	});
 // }
-// 
+//
 // $.fn.untime = function (id) {
 // 	id = id || 1;
 // 	return this.each(function(){
 // 		clearTimeout(this['timer'+id]);
 // 	});
 // }
-// 
-// 
+//
+//
 // // visual DOM manipulation
-// 
-// 
+//
+//
 // $.pos = function (n) {
 // 	var t = 0, l = 0;
-// 
+//
 // 	var rev = false;
 // 	if (n.style && (n.style.position == 'static')) {
 // 		n.style.position = 'absolute';
 // 		rev = true;
 // 	}
-// 
+//
 // 	do {
 // 		t += n.offsetTop || 0;
 // 		l += n.offsetLeft || 0;
 // 		// n = n.offsetParent;
 // 		try { n = n.offsetParent; } catch(e){ return { x: 0, y: 0}; }
 // 	} while (n);
-// 
+//
 // 	if (rev) n.style.position = 'static';
-// 
+//
 // 	return { x: l, y: t };
 // }
-// 
+//
 // $.place = function (n, p) {
 // 	var s = n.style;
 // 	s.position = 'absolute';
 // 	s.left = p.x + 'px';
 // 	s.top  = p.y + 'px';
 // }
-// 
+//
 // $.scrollOffset = function(pos) {
 // 	if (pos) {
 // 		if (window.pageXOffset) {
@@ -116,7 +116,7 @@ $.fn.disable = function() {
 // 		   || 0
 // 	}
 // }
-// 
+//
 // $.fn.pos = function(p) {
 // 	if (p)
 // 		return this.each(function(){
@@ -125,11 +125,11 @@ $.fn.disable = function() {
 // 	else
 // 		return $.pos(this.get(0));
 // }
-// 
+//
 // $.fn.center = function() {
 // 	var w = $.windowSize();
 // 	var so = $.scrollOffset();
-// 
+//
 // 	return this.each(function(){
 // 		var s = $.size(this);
 // 		$.place(this, {
@@ -138,14 +138,14 @@ $.fn.disable = function() {
 // 		});
 // 	});
 // }
-// 
+//
 // $.fn.centerOver = function(rel) {
 // 	var s = $.size(rel);
 // 	var p = $.pos(rel);
 // 	var so = $.scrollOffset();
 // 	var x = so.x + Math.round((p.x + s.w)/2);
 // 	var y = so.y + Math.round((p.y + s.h)/2);
-// 
+//
 // 	return this.each(function(){
 // 		var s = $.size(this);
 // 		$.place(this, {
@@ -154,14 +154,14 @@ $.fn.disable = function() {
 // 		});
 // 	});
 // }
-// 
+//
 // $.fn.centerBelow = function(rel, dist) {
 // 	var p = $.pos(rel);
 // 	var s = $.size(rel);
 // 	var so = $.scrollOffset();
 // 	var x = so.x + Math.round(p.x + s.w/2);
 // 	var y = p.y + so.y + s.h + (dist || 0);
-// 
+//
 // 	return this.each(function(){
 // 		var s = $.size(this);
 // 		$.place(this, {
@@ -170,7 +170,7 @@ $.fn.disable = function() {
 // 		});
 // 	});
 // }
-// 
+//
 // $.fn.limitToWindow = function() {
 // 	var w = $.windowSize();
 // 	return this.each(function(){
@@ -181,20 +181,20 @@ $.fn.disable = function() {
 // 		$.place(this, p);
 // 	});
 // }
-// 
+//
 // $.fn.resizeTo = function(size) {
 // 	return this.each(function(){
 // 		this.style.height = size.h + 'px';
 // 		this.style.width  = size.w + 'px';
 // 	});
 // }
-// 
-// 
+//
+//
 // // DOM measurements
-// 
+//
 // $.size = function (n) {
 // 	n = $(n).get(0);
-// 
+//
 // 	if (n.style.display == 'none') {
 // 		var v = n.style.visibility;
 // 		n.style.visibility = 'hidden';
@@ -206,10 +206,10 @@ $.fn.disable = function() {
 // 	else {
 // 		var s = { w: n.offsetWidth, h: n.offsetHeight };
 // 	}
-// 
+//
 // 	return s;
 // }
-// 
+//
 // $.windowSize = function() {
 // 	var de = document.documentElement;
 // 	var db = document.body;
@@ -218,30 +218,30 @@ $.fn.disable = function() {
 // 		h: window.innerHeight || (de && de.clientHeight) || (db && db.clientHeight)
 // 	}
 // }
-// 
-// 
+//
+//
 // // DOM properties
-// 
+//
 // $.fn.prop = function(a,b) {
 // 	if (b == null && this.size())
 // 		return this.get(0)[a];
 // 	else
 // 		return this.set(a,b);
 // }
-// 
+//
 // $.fn.hasClass = function(c) {
 // 	if (this.size()) return $.hasWord(this.get(0),c);
 // 	else return false;
 // }
-// 
-// 
+//
+//
 // // DOM builders
-// 
+//
 // $.elem = function(tag) {
 // 	var fix = { 'class':'className', 'Class':'className' };
 // 	try {
 // 		var e = document.createElement(tag);
-// 
+//
 // 		var attrs = arguments[1] || {};
 // 		for (var attr in attrs) {
 // 			var a = fix[attr] || attr;
@@ -254,15 +254,15 @@ $.fn.disable = function() {
 // 	};
 // 	return e;
 // };
-// 
+//
 // $.text = function(content) {
 // 	return document.createTextNode(content);
 // };
-// 
-// 
+//
+//
 // // patch for jquery ajax to handle json natively
 // // Opera 9 doesn't like text/json header, I use text/javascript
-// 
+//
 // $.httpData = function(r,type) {
 // 	var h = r.getResponseHeader("content-type");
 // 	return h.indexOf("xml") > 0 || type == "xml"
@@ -271,26 +271,26 @@ $.fn.disable = function() {
 // 			? eval('('+r.responseText+')')
 // 			: r.responseText;
 // };
-// 
-// 
+//
+//
 // // some useful extensions to Array (from Prototype)
-// 
+//
 // Array.prototype.each = function(iterator) {
 // 	for (var i = 0; i < this.length; i++)
 // 		iterator(this[i]);
 // };
-// 
+//
 // Array.prototype.last = function() {
 // 	return this[this.length - 1];
 // };
-// 
-// 
+//
+//
 // // minor utility functions
-// 
+//
 // function min(a,b) {
 // 	return a <= b? a: b;
 // }
-// 
+//
 // function max(a,b) {
 // 	return a >= b? a: b;
 // }

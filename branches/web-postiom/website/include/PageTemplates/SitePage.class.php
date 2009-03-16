@@ -311,7 +311,7 @@ EOT;
      *    BasePage::update() return false
      *    user does not have proper authorization
      *    cache is active and does not have a valid page
-     * 
+     *
      * @return bool true if page should be updated (this is a suggestion)
      */
     function update() {

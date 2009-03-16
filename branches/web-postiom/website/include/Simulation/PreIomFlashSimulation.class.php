@@ -18,7 +18,7 @@ class PreIomFlashSimulation extends FlashSimulation {
 
         return $version;
     }
-    
+
 }
 
 ?>

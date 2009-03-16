@@ -19,16 +19,16 @@
  *
  *   You might (will) want to play around with the addListRow() method to make the output prettier.
  *
- *   You might also want to change the line 
+ *   You might also want to change the line
  *       element.name = 'file_' + this.count;
  *   ...to a naming convention that makes more sense to you.
- * 
+ *
  * Licence:
  *   Use this however/wherever you like, just don't blame me if it breaks anything.
  *
  * Credit:
  *   If you're nice, you'll leave this bit:
- *  
+ *
  *   Class by Stickman -- http://www.the-stickman.com
  *      with thanks to:
  *      [for Safari fixes]

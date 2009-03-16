@@ -41,7 +41,7 @@ class TranslationsPage extends SitePage {
             <h2>All Translations</h2>
 
 EOT;
-        
+
         $localeUtils = Locale::inst();
 
         print "<table>\n";
@@ -59,7 +59,7 @@ EOT;
                 <tr>
                     <td>{$link}</td>
                     <td>
-                        <a href="#{$locale}">{$locale_info['language_img']}</a> 
+                        <a href="#{$locale}">{$locale_info['language_img']}</a>
                         <a href="#{$locale}">{$locale_info['country_img']}</a>
                     </td>
                     <td>({$sim_count} translations)</td>

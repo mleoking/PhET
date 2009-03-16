@@ -46,9 +46,9 @@ EOT;
 
             print "<tr><td colspan=\"2\">&nbsp;</td></tr>";
         }
-        
+
         print "</tbody>";
-        
+
         print "</table>";
     }
 

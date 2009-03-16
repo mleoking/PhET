@@ -50,7 +50,7 @@ class CategoryUtils {
 
     public function getCategory($encoding) {
         $categories = $this->getAllCategories();
-        
+
         if (!isset($categories[$encoding])) {
             return null;
         }

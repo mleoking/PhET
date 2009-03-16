@@ -2,7 +2,7 @@
 
 class BasePage {
 
-    const WEBSITE_BASE_TITLE = 
+    const WEBSITE_BASE_TITLE =
         'PhET :: Physics Education Technology at CU Boulder';
 
     // Page content
@@ -133,7 +133,7 @@ class BasePage {
     }
 
     /**
-     * Set the css id name of the div container containing all the page 
+     * Set the css id name of the div container containing all the page
      *
      * @param $new_container_name string name of the new container
      */
@@ -198,7 +198,7 @@ class BasePage {
     /**
      * Add the given JavaScript to the head section of the page, to be run when the page is read
      *
-     * @param $script string or string array 
+     * @param $script string or string array
      */
     function add_javascript_header_script($script) {
         if (is_array($script)) {
@@ -230,10 +230,10 @@ class BasePage {
     //
     // NOTE: these should be sent BEFORE anything else.
     //
-    
+
     /**
      * Send the headers for the HTML transaction.
-     * 
+     *
      * NOTE: these should be sent BEFORE anything else.
      *
      */
@@ -255,7 +255,7 @@ class BasePage {
     }
 
     function set_header($key, $value) {
-        
+
     }
 
     //
@@ -527,7 +527,7 @@ EOT;
 
     /**
      * Do the logic in needs to before the page is rendered.
-     * 
+     *
      * Base function does nothing, meant to be overridden
      *
      * @return bool TRUE if everything works OK
@@ -590,7 +590,7 @@ EOT;
         print <<<EOT
     <div class="main">
       <h2>This page is  being redirected.</h2>
-      <p>If this does not happen automatically,<br />please select 
+      <p>If this does not happen automatically,<br />please select
       <a href="{$this->meta_refresh_location}">this link</a>.</p>
     </div>
 

@@ -220,7 +220,7 @@ EOT;
                 'tech_support/support-java.php'     => 'Java',
                 'tech_support/support-flash.php'    => 'Flash',
                 'tech_support/support-javascript.php'    => 'JavaScript'
-            
+
             )
         );
 
@@ -366,7 +366,7 @@ function get_sim_categories_for_navbar_callback($user_var, $category, $depth, $h
     $url = CategoryUtils::inst()->getCategoryBaseUrl($encoded_cat_name);
     // Hack: remove the SITE_ROOT
     $url = substr($url, 3);
-  
+
     $pad_left = 0 + (($depth - 1) * 20)."px";
 
     $user_var->sim_categories["$url"] = array($cat_name, $pad_left);

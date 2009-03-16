@@ -57,7 +57,7 @@ class SimFactory {
             $name = WebUtils::inst()->encodeString($simulation['sim_name']);
             $this->webEncodedMap[$name] = $simulation;
         }
-    
+
         return $this->webEncodedMap;
     }
 
@@ -187,7 +187,7 @@ class SimFactory {
         foreach ($sim_ids as $row) {
             $sims[] = $this->getById($row['sim_id'], $pre_iom);
         }
-           
+
         return $sims;
     }
 

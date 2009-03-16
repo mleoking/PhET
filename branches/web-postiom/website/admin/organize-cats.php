@@ -198,7 +198,7 @@ function print_hier_cat_form($user_var, $data, $depth, $has_children) {
 EOT;
 
     foreach ($possible_parents as $parent) {
-        
+
         $html_parent_list .= "<option value=\"{$parent[0]}\">".WebUtils::inst()->toHtml($parent[1])."</option>\n";
     }
     $html_parent_list .= "</select>\n";

@@ -5,7 +5,7 @@
    // Don't need these
     // In each web accessable script SITE_ROOT must be defined FIRST
     if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
-    
+
     // See global.php for an explaination of the next line
     require_once(dirname(dirname(dirname(__FILE__)))."/include/global.php");
 
@@ -94,7 +94,7 @@
             if (empty($settings)) {
                 return false;
             }
-            
+
             unset($settings['id']);
 
             if (!$this->validateData($settings)) {

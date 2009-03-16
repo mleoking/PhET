@@ -60,7 +60,7 @@ class UpadteOtherProfilePage extends SitePage {
         if (!$result) {
             return $result;
         }
-        
+
         print("<p>The user's profile has been successfully updated!</p>");
     }
 

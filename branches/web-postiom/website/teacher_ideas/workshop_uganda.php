@@ -69,7 +69,7 @@ Another valuable thing you can do for teachers is to teach them about inquiry-ba
 </li>
 
 <li>
-Bring CD's with all the software needed to run PhET.  Don't expect to be able to access the internet. Directions for making installation CDs are available at: <a href="http://phet.colorado.edu/get_phet/full_install.php">http://phet.colorado.edu/get_phet/full_install.php</a> 
+Bring CD's with all the software needed to run PhET.  Don't expect to be able to access the internet. Directions for making installation CDs are available at: <a href="http://phet.colorado.edu/get_phet/full_install.php">http://phet.colorado.edu/get_phet/full_install.php</a>
 </li>
 
 <li>

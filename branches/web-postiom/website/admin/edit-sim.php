@@ -68,7 +68,7 @@ class EditSimPage extends SitePage {
         }
         else {
             print "Current teacher's guide: <em><a href=\"{$sim->getTeachersGuideUrl()}\">{$sim->getTeachersGuideFilename()}</a></em><br />\n";
-            
+
         }
         $options = array(
             'no_change' => 'Keep as is',

@@ -20,7 +20,7 @@ class RedirectSimulationPage extends SitePage {
 
         // Get the request version.  Currently we're at version 1, refactor this if we
         // change versions.
-        if ((!isset($_REQUEST['request_version'])) || 
+        if ((!isset($_REQUEST['request_version'])) ||
             ($_REQUEST['request_version'] != 1)) {
             $this->error = "Invalid request version number";
             return false;

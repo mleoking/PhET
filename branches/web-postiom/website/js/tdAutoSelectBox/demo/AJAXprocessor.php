@@ -1,6 +1,6 @@
 <?php
 /************************************************************************************
-* This is sample PHP script that proccesses an AJAX request and returns 
+* This is sample PHP script that proccesses an AJAX request and returns
 * a simple response to be processed in the Javascript of the calling page.
 **************************************************************************************/
 
@@ -15,9 +15,9 @@ header( 'Pragma: no-cache' );
 /************************************************************************************
 *
 * In a real application, we might make a DB query to collect information, based
-* on the value selected in the select box. 
+* on the value selected in the select box.
 *
-* However, here we will simply chose what to return based on some hard-coded data. 
+* However, here we will simply chose what to return based on some hard-coded data.
 *
 * In this example, we create an "array" as a string to send back to the page to be processed in
 * javascript.  Since we cannot actually return a real 2D array, we fake it using delimeters.
@@ -43,7 +43,7 @@ if(isset($_REQUEST['cityCode'])) {
 }
 
 if ($StateCd != "") {
-    if ($StateCd == "AZ") { 
+    if ($StateCd == "AZ") {
         $AJAXResponse = "Flagstaff;FLG|Phoenix;PHX|Scottsdale;SCF|Tempe;TMP|Tucson;TUS";
     } else if ($StateCd == "CA") {
         $AJAXResponse = "Fresno;FCH|Los Angeles;LAX|Oakland;OAK|Pasadena;PAS|Sacramento;SAC|San Francisco;SFO";
@@ -53,7 +53,7 @@ if ($StateCd != "") {
         $AJAXResponse = "nothing;0";
     }
 } else {
-    if ($CityCd == "FLG") { 
+    if ($CityCd == "FLG") {
         $AJAXResponse = "86001|86002|86003|86004|86011";
     } else if ($CityCd == "PHX") {
         $AJAXResponse = "85015|85016|85038|85078|85079|85080|85082|85085|85098";

@@ -174,7 +174,7 @@ class CheckContributionItegrityPage extends SitePage {
                 default:
                     assert(false);
                     break;
-                
+
             }
 
         }
@@ -261,7 +261,7 @@ class CheckContributionItegrityPage extends SitePage {
             return $result;
         }
 
-        $contributor = 
+        $contributor =
         $skip_keys = array(
                 "row_condition",
                 "contribution_approved",

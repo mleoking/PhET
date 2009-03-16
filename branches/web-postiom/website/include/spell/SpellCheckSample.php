@@ -1,19 +1,19 @@
 <?php
 
-  // Dano: changed 'tree.php' to 'tree.php.bigarray' to stop it from 
+  // Dano: changed 'tree.php' to 'tree.php.bigarray' to stop it from
   //   being searched during in multi-file searches.
 
-  ////////////////////////////////////////////////////////////////////////////  
+  ////////////////////////////////////////////////////////////////////////////
   // File   : Sample Spell Check
   // Author : Jeff Welch (jeff@jwelch.org)
   // Date   : May 29, 2005
   //
   // This is a real quick script I wrote as a demonstration of how to
   // implement my spell check class.  This script is by no means the only
-  // or the best way to implement this class.  Fell free to use this 
+  // or the best way to implement this class.  Fell free to use this
   // script and change anything in it at your own discretion.
   ////////////////////////////////////////////////////////////////////////////
-  
+
   // This class keeps track of the execution time of the script.
   // Basically I just use it to round my numbers to three decimal
   // places.
@@ -27,10 +27,10 @@
         return $time_init[1] + $time_init[0];
     }
   }
-  
+
   // Get the current time
   $st = dtime::stamp();
-  
+
   // Keeps the current dictionary speed checked
   if($_POST['dictionary'] == 'fast') {
     $fastString = 'checked="checked"';
@@ -40,7 +40,7 @@
 
   if($_POST['spellcheck'] || $_POST['check'])
   {
-    // Get the current dictionary speed and pick the 
+    // Get the current dictionary speed and pick the
     // appropriate dictionary
     if($_POST['dictionary'] == 'fast') {
       include('tree.php.bigarray');
@@ -50,7 +50,7 @@
 
     // Where all the magic happens
     include('SpellCheck.class.php');
-    
+
     // Reacts to whatever button the user pressed
     switch($_POST['check'])
     {
@@ -80,22 +80,22 @@
       default:
         $check = new SpellCheck(stripslashes(trim($_POST['content'])));
     }
-    
+
     // If there is another misspelled word, let the user know
     if(is_object($check) && $check->findNext())
     {
       // Format the display string
-      $check->displayString = str_replace(array("\n","\r"), '', 
+      $check->displayString = str_replace(array("\n","\r"), '',
                               nl2br($check->displayString));
       // Get suggestions
       $first = $check->suggest();
       $sug = "\n          <option>$first</option>";
         while($suggestion = $check->suggest())
           $sug .= "\n          <option>$suggestion</option>";
-      
+
       // Get the ending time stamp
       $et = dtime::elapsed($st, dtime::stamp());
-      
+
       // Build the page
       $body = <<< EOBODY
 <?xml version="1.0" encoding="UTF-8"?>
@@ -119,7 +119,7 @@ h1
 }
 
 #container
-{ 
+{
   border:     1px dashed #660000;
   background: #ffeeff;
   color:      #660000;
@@ -185,40 +185,40 @@ input.button
   <!-- Start Time Stamp -->
   <p id="stamp">$et seconds</p>
   <!-- End Time Stamp -->
-  
+
   <!-- Start Title -->
   <h1>Spell Check</h1>
   <!-- End Title -->
-  
+
   <!-- Start Spell Check Container -->
   <div id="container">
-    
+
     <!-- Start Display String -->
     <p id="paragraph">$check->displayString</p>
     <!-- End Display String -->
-    
+
     <!-- Start Corrections Box -->
     <div id="corrections">
       <form name="spellcheck" method="post" action="">
-        
+
         <!-- Start Main Suggestions Box -->
         <input class="medium" type="text" name="correction" value="$first" />
         <input class="button" name="check" type="submit" value="change" /><br /><br />
         <select class="medium" name="corrections" size="7" onChange="if (selectedIndex >= 0) document.spellcheck.correction.value=document.spellcheck.corrections.options[selectedIndex].text">$sug
         </select>
         <!-- End Main Suggestions Box -->
-        
+
         <!-- Start Buttons -->
         <input class="button" name="check" type="submit" value="change all" />
         <input class="button" name="check" type="submit" value="ignore" />
         <input class="button" name="check" type="submit" value="ignore all" />
         <input class="button" name="check" type="submit" value="done" />
         <!-- End Buttons -->
-        
+
         <!-- Start Clear Fix -->
         <br class="clear_fix" /><br />
         <!-- End Clear Fix -->
-        
+
         <!-- Start Hidden Variables -->
         <input type="hidden" name="string" value="$check->string" />
         <input type="hidden" name="pos" value="$check->strpos" />
@@ -227,7 +227,7 @@ input.button
         <input type="hidden" name="misspelled" value="$check->misspelling" />
         <input type="hidden" name="ignoreList" value="$check->ignoreString" />
         <!-- End Hidden Variables -->
-        
+
         <input type="radio" name="dictionary" $slowString value="slow" />Slow (264,000 word dictionary)<br />
         <input type="radio" name="dictionary" $fastString value="fast" />Fast (36,000 word dictionary)
       </form>
@@ -237,10 +237,10 @@ input.button
     <!-- Start Clear Fix -->
     <br class="clear_fix" />
     <!-- End Clear Fix -->
-    
+
   </div>
   <!-- End Spell Check Container -->
-  
+
 </body>
 </html>
 EOBODY;
@@ -248,7 +248,7 @@ EOBODY;
     // Print out the page
     die($body);
     } else {
-    
+
       // If no more misspellings are found, let the user know that
       // the spell check is complete.
       $msg = '<span> - Complete!</span>';
@@ -260,10 +260,10 @@ EOBODY;
      } else {
        $string = $check->string;
      }
-     
+
      // Get the ending time stamp
      $et = dtime::elapsed($st, dtime::stamp());
-     
+
      // Build the page
      $body = <<< EOBODY
 <?xml version="1.0" encoding="UTF-8"?>
@@ -301,15 +301,15 @@ h1 span
 </style>
 </head>
 <body>
-  
+
   <!-- Start Time Stamp -->
   <p id="stamp">$et seconds</p>
   <!-- End Time Stamp -->
-  
+
   <!-- Start Title -->
   <h1>Spell Check$msg</h1>
   <!-- End Title -->
-  
+
   <!-- Start Spell Check Form -->
   <form method="post" action="">
     <textarea rows="25" cols="80" name="content">$string</textarea><br />
@@ -318,11 +318,11 @@ h1 span
     <input type="radio" name="dictionary" $fastString value="fast" />Fast (36,000 word dictionary)
   </form>
   <!-- End Spell Check Form -->
-  
+
 </body>
 </html>
 EOBODY;
-  
+
   // Print out the page
   echo $body;
 ?>

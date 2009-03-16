@@ -843,7 +843,7 @@ EOT;
 
     /*
      * Check if the size of the POST is ok
-     * 
+     *
      * @return bool false if the size is not OK, true in all other cases (including not finding the proper walues)
      */
     function post_size_ok() {
@@ -864,7 +864,7 @@ EOT;
             case 'g':
                 $multiplier = 1073741824;
                 break;
-            
+
             case 'M':
             case 'm':
                 $multiplier = 1048576;

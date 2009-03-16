@@ -54,7 +54,7 @@
     define("SIM_RATING_NONE",           "0");
     define("SIM_RATING_ALPHA",          "1");
     define("SIM_RATING_CHECK",          "2");
-    
+
     // TODO: Change use to SimUtils
     $SIM_RATING_TO_IMAGE =
         array(
@@ -207,12 +207,12 @@
         return $translations;
     }
 
-    // Returns an array with the sim version, keys 
+    // Returns an array with the sim version, keys
     // will be empty if the information is not available
     //
     // TEMP: Flash versioning is inaccurate, return blank version
     //
-    // Example array form: 
+    // Example array form:
     //     'major' => '1'
     //     'minor' => '07'
     //     'dev' => '00'
@@ -317,10 +317,10 @@
         if ((!$extra) || ($extra && (strlen($sim_encoding) >= 3))) {
             foreach($map as $name => $sim) {
                 $encoding = web_encode_string($name);
-                
+
                 $s1 = strtolower($sim_encoding);
                 $s2 = strtolower($encoding);
-                
+
                 if (strpos($s1, $s2) !== false) {
                     if ($verbose_instrumenting) {
                         $t2 = microtime_float() - $t1;
@@ -371,11 +371,11 @@
                     $distance = levenshtein(strtolower($sim_encoding), strtolower($encoding), 0, 2, 1);
                 }
             }
-            
+
             if ($verbose_instrumenting) {
                 print "distance: $distance $sim_encoding $encoding<br />\n";
             }
-            
+
             if ($distance < $best_dist && $distance !== -1) {
                 $best_dist = $distance;
                 $best_sim  = $sim;
@@ -399,7 +399,7 @@
             $t2 = microtime_float() - $t1;
             print "found levenshtein distance '{$best_sim['sim_name']}'$best_dist / $max_dist, time= $t2<br />\n";
         }
-        
+
         return $best_sim;
     }
 

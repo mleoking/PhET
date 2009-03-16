@@ -252,7 +252,7 @@ EOT;
 
             <p><em>
                 Gold Star contributions are high quality inquiry-based activities that follow the
-                <a href="contribution-guidelines.php">PhET design guidelines</a> 
+                <a href="contribution-guidelines.php">PhET design guidelines</a>
                 (<a href="contribution-guidelines.pdf">PDF</a>) and that teachers
                 find useful.
             </em></p>
@@ -318,7 +318,7 @@ EOT;
 
             <div class="comments">
                 $comments_html
-            </div>  
+            </div>
 
             <hr/>
 

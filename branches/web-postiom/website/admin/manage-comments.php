@@ -55,7 +55,7 @@ class ManageCommentsPage extends SitePage {
             if ($t1 == $t2)
                 return 0;
             return ($t1 > $t2) ? -1 : 1;
-            
+
         }
         usort($this->comments_array_html, "lambdacmp");
     }

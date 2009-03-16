@@ -74,7 +74,7 @@ class WebUtils {
         $attribute_order = array('id', 'class', 'src', 'alt', 'title');
         $all_attributes = $attributes;
         $all_attributes['src'] = $src;
-        
+
         $attrs = $this->processAttributes($all_attributes, $attribute_order);
         return '<img '.join(' ', $attrs).' />';
     }
@@ -107,7 +107,7 @@ class WebUtils {
         $span_open_tag = $this->buildOpenTag('span', $attrs);
 
         return $span_open_tag.join(', ', $list)."</span>";
-        
+
     }
 
     public function buildBulletedList($list, $ul_attributes = array(), $li_attributes = array()) {
@@ -153,7 +153,7 @@ class WebUtils {
             'rows' => $rows,
             'cols' => $cols,
             );
-        return 
+        return
             $this->buildOpenTag('textarea', $this->processAttributes($attrs)).
             $contents.
             '</textarea>';

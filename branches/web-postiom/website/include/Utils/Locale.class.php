@@ -109,7 +109,7 @@ class Locale {
      * @return string New combined language code if the mapping exists, or the original locale that was passed
      */
     public function fullLocaleToCombinedLanguageCode($locale) {
-        $full_locale_to_combined_language_map = 
+        $full_locale_to_combined_language_map =
             array_flip($this->getCombinedLangugeCodeMap());
         if (array_key_exists($locale, $full_locale_to_combined_language_map)) {
             return $full_locale_to_combined_language_map[$locale];
@@ -170,7 +170,7 @@ class Locale {
      * Two form are supported:
      *     Short form: just the language code (eg 'en')
      *     Long form: language and country code (eg. 'en_US')
-     * 
+     *
      * @param string $locale Short or long form locale to test
      * @return bool True if locale is valid, false otherwise
      */

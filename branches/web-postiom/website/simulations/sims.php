@@ -188,7 +188,7 @@ EOT;
                         }
                         else {
                             $download_url = $this->sim->getDownloadUrl();
-                            
+
                             $download_button_slot = '';
                             if (!empty($download_url)) {
                                 $download_button_slot = <<<EOT
@@ -325,7 +325,7 @@ EOT;
         $Types = array( 'all' );
         $Levels = array( 'all' );
 
-        $result = browse_print_content_only($Simulations, $Types, $Levels, 
+        $result = browse_print_content_only($Simulations, $Types, $Levels,
             $sort_by, $order, $next_order, false);
         if (!$result) {
             print "<p>There are no contributions for this simulation.</p>";
@@ -493,7 +493,7 @@ EOT;
                 $launch_onclick = ' onclick="'.$launch_onclick.'"';
             }
 
-            
+
             $language_launch = '';
             if (!is_null($locale_info['language_code'])) {
                 $language_launch = "<{$launch_link_open}{$launch_onclick}>{$locale_info['language_img']}</a>";
@@ -515,7 +515,7 @@ EOT;
   </td>
   {$download_html}
 </tr>
-                                                     
+
 EOT;
         }
             // Close the table

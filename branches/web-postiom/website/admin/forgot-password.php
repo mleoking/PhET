@@ -13,8 +13,8 @@ class ForgotPasswordPage extends SitePage {
         // Doesn't need to be extremely fancy, a random string should suffice
         // This isn't the Pentagon, ya know!
 
-        // Make a pool of valid characters, avoid confusions like 
-        // 1 and i and l and 0 and O with certain fonts 
+        // Make a pool of valid characters, avoid confusions like
+        // 1 and i and l and 0 and O with certain fonts
         $chars = "abcdefghjkmnopqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789";
         $chars_len = strlen($chars);
         $new_password = "";
@@ -80,9 +80,9 @@ class ForgotPasswordPage extends SitePage {
                         Your password has been reset and emailed to your email account.
                         Check your email, and if it doesn't show up right away, check your junk mail filters.                    </p>
                     <p>
-                        You may use your new password to login.  You will probably want to 
+                        You may use your new password to login.  You will probably want to
                         change your password to something more memorable right away.
-                        You can do so by going to the 
+                        You can do so by going to the
                         <a href="http://{$phet_domain_name}/teacher_ideas/user-edit-profile.php">Edit User Profile page</a>
                     </p>
                     <p>
@@ -126,7 +126,7 @@ EOT;
             $phet_domain_name = PHET_DOMAIN_NAME;
             print <<<EOT
             <p>
-                You are already logged in.  If you would like to change your password, use the 
+                You are already logged in.  If you would like to change your password, use the
                 <a href="http://{$phet_domain_name}/teacher_ideas/user-edit-profile.php">Edit User Profile page</a>.
             </p>
 

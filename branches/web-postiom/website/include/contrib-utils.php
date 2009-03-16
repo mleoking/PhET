@@ -270,12 +270,12 @@ EOT;
     }
 
     function contribution_contribution_form_has_files() {
-        if ((isset($_FILES['contribution_file_url'])) && 
+        if ((isset($_FILES['contribution_file_url'])) &&
             ($_FILES['contribution_file_url'] != 4)) {
             return true;
         }
         else if ((isset($_FILES['MF__F_0_0'])) &&
-                ($_FILES['MF__F_0_0']['error'] != 4)) { 
+                ($_FILES['MF__F_0_0']['error'] != 4)) {
             return true;
         }
         else {
@@ -555,7 +555,7 @@ EOT;
     /**
      * Print a small admin panel that has options to control a contribution
      *
-     * @param $contribution_id int contribution number to operate on 
+     * @param $contribution_id int contribution number to operate on
      * @param $prefix string relative directory pointing to the web root
      */
     function print_contribution_admin_control_panel($contribution_id, $prefix, $return_to) {
@@ -630,7 +630,7 @@ EOT;
      * 1. if the key is a multiselect control, make an association with the proper table (I assume this means levels etc)
      * 2. if the key is a "deletable_item", then add it to the files to keep list which will be returned (naming convention is confusing)
      * 3. if the key is a simulation id of form sim_id_* associate the contribution with that simulation
-     * 
+     *
      * @param int $contribution_id id of the contribution
      * @return string array list of files to keep- TODO: not sure what this means
      */
@@ -729,7 +729,7 @@ EOT;
         // Set reasonable defaults:
         if ($contributor_authenticated) {
             $contributor_is_team_member = $contributor['contributor_is_team_member'];
-            
+
             if ($fill_in_data) {
                 if ($contribution_authors_organization == '') {
                     $contribution_authors_organization = $contributor['contributor_organization'];
@@ -1419,7 +1419,7 @@ EOT;
     }
 
     /**
-     * Deletes the specified file from the database 
+     * Deletes the specified file from the database
      *
      * @param int $contribution_file_id id of the contributed file
      * @return true no matter the result of the operation
@@ -1470,9 +1470,9 @@ EOT;
 
         // Get all columns except the actual file
         $columns = array('contribution_file_id',
-                         'contribution_file_name', 
-                         'contribution_file_url', 
-                         'contribution_file_size', 
+                         'contribution_file_name',
+                         'contribution_file_url',
+                         'contribution_file_size',
                          'contribution_id');
 
         $query = "SELECT ".join(',', $columns)." FROM `contribution_file` WHERE `contribution_id`='$contribution_id'";
@@ -1725,7 +1725,7 @@ EOT;
 
     function contribution_get_contribution_file_name($contribution_file_id) {
         $contribution = contribution_get_contribution_file_by_id($contribution_file_id);
-        
+
         return $contribution['contribution_file_name'];
     }
 
@@ -2142,7 +2142,7 @@ EOT;
             SELECT sc.contribution_id, s.sim_id, s.sim_name
               FROM simulation AS s, simulation_contribution AS sc
               WHERE sc.sim_id=s.sim_id
-                AND sc.contribution_id 
+                AND sc.contribution_id
                   IN (SELECT contribution_id FROM t1) ORDER BY sc.contribution_id;
 
 EOT;
@@ -2459,7 +2459,7 @@ EOT;
     }
 
     /**
-     * Return the id of the contributor who matches the given email and password. 
+     * Return the id of the contributor who matches the given email and password.
      *
      * @param string $username this is an email address of the contributor to find
      * @param string $password password associated with the email (will convert to lower case)

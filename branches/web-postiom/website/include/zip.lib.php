@@ -182,16 +182,16 @@ class zipfile
             pack('V', strlen($data)) .              // offset to start of central dir
             "\x00\x00";                             // .zip file comment length
     } // end of the 'file()' method
-    
+
 	
 	function write_to_file($file_name) {
 	    $zip_file = $this->build_zipped_file();
-	    
+	
 	    $handle = fopen($file_name, 'wb');
         fwrite($handle, $zip_file);
         fflush($handle);
         fclose($handle);
-        
+
         return $file_name;
 	}
 
