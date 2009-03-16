@@ -40,6 +40,9 @@ public class SimpleHtmlOutputHelper {
 		System.out.print("<p>");
 		System.out.print(text);
 		System.out.print("</p>");
-		
+	}
+	
+	public static void printError( String text ) {
+	    printParagraph( "ERROR: " + text );
 	}
 }
