@@ -68,7 +68,7 @@ public class InteractiveInteractionPotentialDiagram extends InteractionPotential
     public InteractiveInteractionPotentialDiagram(double sigma, double epsilon, boolean wide, 
             final DualParticleModel model) {
         
-        super(sigma, epsilon, wide);
+        super(sigma, epsilon, wide, false);
         
         this.m_model = model;
         model.addListener(new DualParticleModel.Adapter(){
