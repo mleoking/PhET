@@ -26,7 +26,6 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
-import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.module.CloseRequestListener;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -57,7 +56,7 @@ public class PhaseDiagram extends PhetPCanvas {
     private static final double VERT_AXIS_SIZE_PROPORTION = 0.85;
     
     // Constant for size of the close button.
-    private static final double CLOSE_BUTTON_PROPORTION = 0.10;  // Button size as proportion of diagram height.
+    private static final double CLOSE_BUTTON_PROPORTION = 0.11;  // Button size as proportion of diagram height.
     
     // Constants that control the location of the origin for the graph.
     private static final double X_ORIGIN_OFFSET = 0.10 * (double)WIDTH;
