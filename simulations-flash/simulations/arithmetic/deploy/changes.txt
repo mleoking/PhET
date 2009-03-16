@@ -1,3 +1,5 @@
+# 1.00.03 (29475) Mar 16, 2009
+3/16/09 Sim should be disabled when initial software agreement dialog is shown
 # 1.00.02 (28838) Feb 19, 2009
 Batch deploy for alpha Simulation Tests, svn 28835
 # 1.00.01 (28826) Feb 19, 2009
