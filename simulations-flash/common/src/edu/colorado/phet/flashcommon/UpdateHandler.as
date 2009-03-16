@@ -132,6 +132,7 @@ class edu.colorado.phet.flashcommon.UpdateHandler {
 				
 				if(xml.childNodes[0].attributes.success != "true") {
 					_level0.debug("WARNING UpdateHandler: phet_info_response failure\n");
+					hand.showUpdateError();
 					return;
 				}
 				
@@ -151,6 +152,7 @@ class edu.colorado.phet.flashcommon.UpdateHandler {
 							_level0.debug("WARNING UpdateHandler: sim_version_response failure\n");
 							
 							// do not continue further with this child
+							hand.showUpdateError();
 							continue;
 						}
 						if(atts["project"] != hand.common.getSimProject()) {
@@ -178,6 +180,7 @@ class edu.colorado.phet.flashcommon.UpdateHandler {
 							_level0.debug("WARNING UpdateHandler: phet_installer_update_response failure\n");
 							
 							// do not continue further with this child
+							hand.showUpdateError();
 							continue;
 						}
 						
@@ -196,6 +199,7 @@ class edu.colorado.phet.flashcommon.UpdateHandler {
 				
 			} else {
 				_level0.debug("WARNING: UpdateHandler (2): Failure to obtain latest version information\n");
+				hand.showUpdateError();
 			}
 		}
 		
@@ -313,6 +317,13 @@ class edu.colorado.phet.flashcommon.UpdateHandler {
 		}
 	}
 	
+	public function showUpdateError() : Void {
+		if(!manual) { return; }
+		var str : String = "";
+		str += "An error was encountered while trying to obtain version information.\n";
+		str += "Please try again later, or visit <a href='asfunction:_level0.common.openExternalLink,http://phet.colorado.edu'>http://phet.colorado.edu</a>";
+		_level0.errorDialog = new ErrorDialog("Error", str);
+	}
 	
 }
 
