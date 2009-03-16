@@ -249,11 +249,18 @@ public class PhetFlashProject extends PhetProject {
 
                 String encodedAgreement = FlashHTML.encodeXML( agreementContent );
 
-                // TODO: use country code as well
-                File HTMLFile = new File( getDeployDir(), getName() + "_" + locale.toString() + ".html" );
+                String localeString = LocaleUtils.localeToString( locale );
+                File HTMLFile = new File( getDeployDir(), getName() + "_" + localeString + ".html" );
 
                 System.out.println( "Generating " + HTMLFile.getName() );
 
+                String titleString = FlashHTML.extractTitleFromXML( getTranslationFile( locale ) );
+                if( titleString == null ) {
+                    titleString = FlashHTML.extractTitleFromXML( getDefaultTranslationFile() );
+                    if( titleString == null ) {
+                        titleString = getName();
+                    }
+                }
 
                 // TODO: why is version.formatTimestamp() returning bad things?
                 String html = FlashHTML.generateHTML( getName(), locale.getLanguage(), countryCode,
@@ -265,7 +272,7 @@ public class PhetFlashProject extends PhetProject {
                                                       FlashHTML.encodeXMLFile( getTranslationFile( locale ) ),
                                                       FlashHTML.encodeXMLFile( getCommonTranslationFile( locale ) ), "8",
                                                       getFlashHTMLTemplate().getAbsolutePath(),
-                                                      agreementVersion, encodedAgreement, creditsString );
+                                                      agreementVersion, encodedAgreement, creditsString, titleString );
 
                 FileUtils.writeString( HTMLFile, html );
             }
@@ -378,6 +385,10 @@ public class PhetFlashProject extends PhetProject {
     
     public Locale[] getLocales() {
         return getLocalesImpl( ".xml" );
+    }
+
+    public File getDefaultTranslationFile() {
+        return getTranslationFile( new Locale( "en" ) );
     }
 
     public File getTranslationFile( Locale locale ) {

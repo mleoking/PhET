@@ -139,10 +139,12 @@ public class FlashLauncher {
         // files where the simulation and common internationalization XML should be.
         // if they don't exist, replace with defaults
         File simXMLFile = new File( unzipDir, simName + "-strings_" + locale + ".xml" );
+
         if ( !simXMLFile.exists() ) {
             simXMLFile = new File( unzipDir, simName + "-strings_en.xml" );
             println( "WARNING: could not find sim strings for " + locale + ", using default en." );
         }
+
         File commonXMLFile = new File( unzipDir, "common-strings_" + locale + ".xml" );
         if ( !commonXMLFile.exists() ) {
             commonXMLFile = new File( unzipDir, "common-strings_en.xml" );
@@ -164,10 +166,19 @@ public class FlashLauncher {
 
         String encodedAgreement = FlashHTML.encodeXML(agreementContent);
 
+        String titleString = FlashHTML.extractTitleFromXML( simXMLFile );
+        if( titleString == null ) {
+            titleString = FlashHTML.extractTitleFromXML( new File( unzipDir, simName + "-strings_en.xml" ) );
+            if( titleString == null ) {
+                titleString = simName;
+            }
+        }
+
         // dynamically generate an HTML file
         String html = FlashHTML.generateHTML( simName, language, country, deployment, distributionTag, installationTimestamp,
                 installerCreationTimestamp, versionMajor, versionMinor, versionDev, versionRevision, versionTimestamp, simDev, bgcolor,
-                simEncodedXML, commonEncodedXML, "8","flash-template.html", agreementVersion, encodedAgreement, creditsString );
+                simEncodedXML, commonEncodedXML, "8","flash-template.html", agreementVersion, encodedAgreement, creditsString,
+                titleString );
         File htmlFile = new File( unzipDir, simName + "_" + language + ".html" );
         FileOutputStream outputStream = new FileOutputStream( htmlFile );
         outputStream.write( html.getBytes() );
