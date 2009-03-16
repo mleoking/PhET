@@ -73,7 +73,7 @@ public class FlashHTML {
                            "simDev=@@simDev@@&simDistributionTag=@@distributionTag@@&installationTimestamp=@@installationTimestamp@@&" +
                            "installerCreationTimestamp=@@installerCreationTimestamp@@&versionTimestamp=@@versionTimestamp@@&" +
                            "bgColor=@@bgcolorint@@&agreementVersion=@@agreementVersion@@&agreementText=@@agreementText@@&" +
-                           "creditsText=@@creditsText@@";
+                           "creditsText=@@creditsText@@&simTitle=@@encodedSimTitle@@";
 
         s = s.replaceAll( "@@flashVars@@", flashVars );
 
@@ -100,6 +100,7 @@ public class FlashHTML {
         s = s.replaceAll( "@@agreementText@@", encodedAgreementHTML );
         s = s.replaceAll( "@@creditsText@@", parseCredits( creditsString ) );
         s = s.replaceAll( "@@simTitle@@", XMLUtils.HTMLEntityEncode( titleString ) );
+        s = s.replaceAll( "@@encodedSimTitle@@", encodeXML( titleString ) );
 
         return s;
     }

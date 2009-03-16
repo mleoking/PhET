@@ -330,6 +330,14 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 													]);
 	}
 	
+	public function getSimTitle() : String {
+		if(_level0.simTitle == undefined) {
+			return getSimName();
+		} else {
+			return _level0.simTitle;
+		}
+	}
+	
 	
 	public static function dateString(date : Date) : String {
 		var year : String = new String(date.getYear() + 1900);
