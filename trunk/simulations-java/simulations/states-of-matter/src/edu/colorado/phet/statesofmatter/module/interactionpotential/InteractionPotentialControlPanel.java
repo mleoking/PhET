@@ -225,12 +225,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
          * 
          */
         private void updateLjControlSliderState(){
-            if (m_atomDiameterControlPanel != null){
-                m_atomDiameterControlPanel.setVisible( m_model.getMoleculeType() == MoleculeType.ADJUSTABLE );
-            }
-            if (m_interactionStrengthControlPanel != null){
-                m_interactionStrengthControlPanel.setVisible( m_model.getMoleculeType() == MoleculeType.ADJUSTABLE );
-            }
+            m_atomDiameterControlPanel.setVisible( m_model.getMoleculeType() == MoleculeType.ADJUSTABLE );
+            m_interactionStrengthControlPanel.setVisible( m_model.getMoleculeType() == MoleculeType.ADJUSTABLE );
         }
     }
     
