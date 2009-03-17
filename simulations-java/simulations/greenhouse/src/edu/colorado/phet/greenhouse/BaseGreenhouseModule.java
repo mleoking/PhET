@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
@@ -15,6 +15,7 @@ import java.util.Iterator;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.greenhouse.common.graphics.ApparatusPanel;
 import edu.colorado.phet.greenhouse.common.graphics.CompositeGraphic;
 import edu.colorado.phet.greenhouse.filter.Filter1D;
@@ -56,6 +57,9 @@ public abstract class BaseGreenhouseModule extends Module {
     }
 
     private void init() {
+        
+        setClockControlPanel( new PiccoloClockControlPanel( getClock() ) );
+        
         earthPhotonEmitterListener = new PhotonEmitterListener();
 
         // Set up the model and apparatus panel
