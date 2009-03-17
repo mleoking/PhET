@@ -73,7 +73,6 @@ public class GlaciersApplication extends PiccoloPhetApplication {
         TabbedPaneType tabbedPaneType = new TabbedPaneType(){
             public ITabbedModulePane createTabbedPane() {
                 _tabbedModulePane = new TabbedModulePanePiccolo();
-                _tabbedModulePane.setSelectedTabColor( GlaciersConstants.SELECTED_TAB_COLOR );
                 return _tabbedModulePane;
             }
         };

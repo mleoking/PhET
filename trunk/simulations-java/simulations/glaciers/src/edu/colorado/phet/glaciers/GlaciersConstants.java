@@ -121,9 +121,6 @@ public class GlaciersConstants {
     // Colors
     //----------------------------------------------------------------------------
     
-    // Default color for module tabs
-    public static final Color SELECTED_TAB_COLOR = Color.ORANGE;
-    
     // color of the Piccolo canvases
     public static final Color BIRDS_EYE_CANVAS_COLOR = new Color( 99, 173, 255 ); // sky blue
     public static final Color ZOOMED_CANVAS_COLOR = BIRDS_EYE_CANVAS_COLOR;

@@ -65,8 +65,6 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
         TabbedPaneType tabbedPaneType = new TabbedPaneType(){
             public ITabbedModulePane createTabbedPane() {
                 m_tabbedModulePane = new TabbedModulePanePiccolo();
-                m_tabbedModulePane.setSelectedTabColor( StatesOfMatterConstants.SELECTED_TAB_COLOR );
-                m_tabbedModulePane.setBackground(Color.WHITE);
                 return m_tabbedModulePane;
             }
         };
