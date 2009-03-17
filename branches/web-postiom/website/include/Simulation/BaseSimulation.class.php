@@ -313,8 +313,15 @@ abstract class BaseSimulation implements SimulationInterface {
         return SITE_ROOT.'simulations/sims.php?sim='.WebUtils::inst()->encodeString($this->getName());
     }
 
-    public function getDownloadFilename($locale = Locale::DEFAULT_LOCALE) {
-        // Remapping until Country codes can stand on their own
+    /**
+     * This function is needed until country codes are suppored in the
+     * sim filenames.  Until that point, we're using fake country
+     * codes.  For example, 'bp' is short for 'pt_BR' (Briazilian
+     * Portuguese).
+     * @param string $locale any locale
+     * @return array orderd list of locales to try
+     */
+    protected function getRemappedLocales($locale) {
         $locales = array();
         $localeUtils = Locale::inst();
         if ($localeUtils->isDefault($locale)) {
@@ -336,11 +343,17 @@ abstract class BaseSimulation implements SimulationInterface {
         else {
             $locales[] = $locale;
         }
+        return $locales;
+    }
+
+    public function getDownloadFilename($locale = Locale::DEFAULT_LOCALE) {
+        // TODO: When country codes have been fully implemented in the
+        // simulation filenames, change this entire function to:
+        //return self::sim_root."{$this->project_name}/{$this->sim_name}_{$locale}.jnlp";
 
         $base_file = self::sim_root."{$this->project_name}/{$this->sim_name}";
-        foreach ($locales as $locale) {
-            $test_locale = (!empty($locale)) ? '_'.$locale : '';
-            $locale_file = $base_file.$test_locale.'.jar';
+        foreach ($this->getRemappedLocales($locale) as $loc) {
+            $locale_file = $base_file.'_'.$loc.'.jar';
             if (file_exists($locale_file)) {
                 return $locale_file;
             }
@@ -388,11 +401,19 @@ abstract class BaseSimulation implements SimulationInterface {
                 continue;
             }
 
-            if (!isset($translations[$locale])) {
-                $translations[$locale] = 1;
+            // TODO: When country codes have been fully implemented in the
+            // simulation filenames, remove this remapping
+            $final_locale = $locale;
+            if (Locale::inst()->isCombinedLanguageCode($locale)) {
+                $final_locale =
+                    Locale::inst()->combinedLanguageCodeToFullLocale($locale);
+            }
+
+            if (!isset($translations[$final_locale])) {
+                $translations[$final_locale] = 1;
             }
             else {
-                $translations[$locale] += 1;
+                $translations[$final_locale] += 1;
             }
         }
 

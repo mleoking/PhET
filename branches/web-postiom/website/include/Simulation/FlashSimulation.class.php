@@ -22,7 +22,18 @@ class FlashSimulation extends BaseSimulation {
     }
 
     public function getLaunchFilename($locale = Locale::DEFAULT_LOCALE) {
-        return self::sim_root."{$this->project_name}/{$this->sim_name}_{$locale}.html";
+        // TODO: When country codes have been fully implemented in the
+        // simulation filenames, change this entire function to:
+        //return self::sim_root."{$this->project_name}/{$this->sim_name}_{$locale}.html";
+        $base_file = self::sim_root."{$this->project_name}/{$this->sim_name}";
+        foreach ($this->getRemappedLocales($locale) as $loc) {
+            $locale_file = $base_file.'_'.$loc.'.html';
+            if (file_exists($locale_file)) {
+                return $locale_file;
+            }
+        }
+
+        return false;
     }
 
     public function getLaunchUrl($locale = Locale::DEFAULT_LOCALE) {

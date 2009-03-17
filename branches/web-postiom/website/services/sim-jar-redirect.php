@@ -133,7 +133,7 @@
         // Get the filename and content
         $download_filename = $simulation->getDownloadFilename($locale);
         if (!file_exists($download_filename)) {
-            error("Error: Simulation jar or language not found.\n");
+            error("Error: Localized simulation JAR file not found.\n");
             exit;
         }
 
