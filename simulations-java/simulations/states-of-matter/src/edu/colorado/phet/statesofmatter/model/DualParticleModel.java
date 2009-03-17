@@ -26,7 +26,7 @@ public class DualParticleModel {
     // Class Data
     //----------------------------------------------------------------------------
 
-    public static final int DEFAULT_MOLECULE = StatesOfMatterConstants.NEON;
+    public static final MoleculeType DEFAULT_MOLECULE = MoleculeType.NEON;
     public static final double DEFAULT_SIGMA = NeonAtom.getSigma();
     public static final double DEFAULT_EPSILON = NeonAtom.getEpsilon();
     public static final int CALCULATIONS_PER_TICK = 8;
@@ -44,7 +44,8 @@ public class DualParticleModel {
     private double m_repulsiveForce;
     private double m_epsilon;  // Epsilon represents the interaction strength.
     private double m_sigma;    // Sigma represents the diameter of the molecule, roughly speaking.
-    private int m_currentMoleculeID;
+    private MoleculeType m_fixedMoleculeType = DEFAULT_MOLECULE;
+    private MoleculeType m_movableMoleculeType = DEFAULT_MOLECULE;
     private boolean m_particleMotionPaused;
     private LjPotentialCalculator m_ljPotentialCalculator;
     private double m_timeStep;
@@ -112,20 +113,21 @@ public class DualParticleModel {
         return m_repulsiveForce;
     }
     
-    public int getMoleculeType(){
-        return m_currentMoleculeID;
+    public MoleculeType getMoleculeType(){
+        return m_fixedMoleculeType;
     }
     
-    public void setMoleculeType(int atomID){
+    public void setMoleculeType(MoleculeType moleculeType){
         
         // Verify that this is a supported value.
-        if ((atomID != StatesOfMatterConstants.USER_DEFINED_MOLECULE) &&
-            (atomID != StatesOfMatterConstants.ARGON) &&
-            (atomID != StatesOfMatterConstants.NEON)){
+        if ((moleculeType != MoleculeType.NEON) &&
+            (moleculeType != MoleculeType.ARGON) &&
+            (moleculeType != MoleculeType.OXYGEN) &&
+            (moleculeType != MoleculeType.ADJUSTABLE)){
             
             System.err.println("Error: Unsupported molecule type.");
             assert false;
-            atomID = StatesOfMatterConstants.NEON;
+            moleculeType = MoleculeType.NEON;
         }
         
         // Inform any listeners of the removal of existing particles.
@@ -140,28 +142,26 @@ public class DualParticleModel {
         }
         
         // Set the new atoms based on the requested type..
-        switch (atomID){
-        case StatesOfMatterConstants.USER_DEFINED_MOLECULE:
+        if (moleculeType == MoleculeType.ADJUSTABLE){
             m_fixedParticle = new UserDefinedAtom(0, 0);
             m_movableParticle = new UserDefinedAtom(0, 0);
             m_sigma = UserDefinedAtom.getSigma();
             m_epsilon = UserDefinedAtom.getEpsilon();
-            break;
-        case StatesOfMatterConstants.ARGON:
+        }
+        else if (moleculeType == MoleculeType.ARGON){
             m_fixedParticle = new ArgonAtom(0, 0);
             m_movableParticle = new ArgonAtom(0, 0);
             m_sigma = ArgonAtom.getSigma();
             m_epsilon = ArgonAtom.getEpsilon();
-            break;
-        case StatesOfMatterConstants.NEON:
+        }
+        else if (moleculeType == MoleculeType.NEON){
             m_fixedParticle = new NeonAtom(0, 0);
             m_movableParticle = new NeonAtom(0, 0);
             m_sigma = NeonAtom.getSigma();
             m_epsilon = NeonAtom.getEpsilon();
-            break;
         }
         
-        m_currentMoleculeID = atomID;
+        m_fixedMoleculeType = moleculeType;
         
         // Register to listen to motion of the movable particle so that we can
         // tell when the user is moving it.

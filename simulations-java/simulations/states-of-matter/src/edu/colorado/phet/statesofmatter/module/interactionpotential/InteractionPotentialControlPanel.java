@@ -43,6 +43,7 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.model.DualParticleModel;
+import edu.colorado.phet.statesofmatter.model.MoleculeType;
 import edu.colorado.phet.statesofmatter.view.ParticleForceNode;
 
 
@@ -81,7 +82,6 @@ public class InteractionPotentialControlPanel extends ControlPanel {
      */
     public InteractionPotentialControlPanel( InteractionPotentialModule solidLiquidGasModule, Frame parentFrame ) {
         
-        super();
         m_model = solidLiquidGasModule.getDualParticleModel();
         m_canvas = solidLiquidGasModule.getCanvas();
         
@@ -161,8 +161,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_neonRadioButton.setFont( LABEL_FONT );
             m_neonRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if (m_model.getMoleculeType() != StatesOfMatterConstants.NEON){
-                        m_model.setMoleculeType( StatesOfMatterConstants.NEON );
+                    if (m_model.getMoleculeType() != MoleculeType.NEON){
+                        m_model.setMoleculeType( MoleculeType.NEON );
                         m_adjustableAtomSelected = false;
                         updateLjControlSliderState();
                     }
@@ -172,8 +172,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_argonRadioButton.setFont( LABEL_FONT );
             m_argonRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if (m_model.getMoleculeType() != StatesOfMatterConstants.ARGON){
-                        m_model.setMoleculeType( StatesOfMatterConstants.ARGON );
+                    if (m_model.getMoleculeType() != MoleculeType.ARGON){
+                        m_model.setMoleculeType( MoleculeType.ARGON );
                         m_adjustableAtomSelected = false;
                         updateLjControlSliderState();
                     }
@@ -184,8 +184,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_adjustableAttractionRadioButton.setFont( LABEL_FONT );
             m_adjustableAttractionRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if (m_model.getMoleculeType() != StatesOfMatterConstants.USER_DEFINED_MOLECULE){
-                        m_model.setMoleculeType( StatesOfMatterConstants.USER_DEFINED_MOLECULE );
+                    if (m_model.getMoleculeType() != MoleculeType.ADJUSTABLE){
+                        m_model.setMoleculeType( MoleculeType.ADJUSTABLE );
                         m_adjustableAtomSelected = true;
                         updateLjControlSliderState();
                     }
@@ -210,21 +210,19 @@ public class InteractionPotentialControlPanel extends ControlPanel {
          * it to be.
          */
         public void updateMoleculeType(){
-            int moleculeType = m_model.getMoleculeType();
+            MoleculeType moleculeType = m_model.getMoleculeType();
             
-            switch (moleculeType){
-            case StatesOfMatterConstants.NEON:
+            if (moleculeType == MoleculeType.NEON){
                 m_neonRadioButton.setSelected( true );
                 m_adjustableAtomSelected = false;
-                break;
-            case StatesOfMatterConstants.ARGON:
+            }
+            else if (moleculeType == MoleculeType.ARGON){
                 m_argonRadioButton.setSelected( true );
                 m_adjustableAtomSelected = false;
-                break;
-            default:
+            }
+            else{
                 m_adjustableAttractionRadioButton.setSelected( true );
                 m_adjustableAtomSelected = true;
-                break;
             }
             
             updateLjControlSliderState();
