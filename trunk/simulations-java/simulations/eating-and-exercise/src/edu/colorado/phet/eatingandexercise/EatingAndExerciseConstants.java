@@ -40,14 +40,4 @@ public class EatingAndExerciseConstants {
     //----------------------------------------------------------------------------
 
     public static final Color BACKGROUND = new Color( 156, 178, 223 );
-
-    // Color of labels placed directly on the play area
-    public static final Color CANVAS_LABELS_COLOR = Color.BLACK;
-
-    // Generic transparent color
-    public static final Color COLOR_TRANSPARENT = new Color( 0f, 0f, 0f, 0f );
-
-    // Default color for module tabs
-    public static final Color SELECTED_TAB_COLOR = Color.ORANGE;
-
 }
