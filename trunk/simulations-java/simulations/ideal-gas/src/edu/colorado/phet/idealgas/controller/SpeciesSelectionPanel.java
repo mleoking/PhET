@@ -1,13 +1,5 @@
-/* Copyright 2003-2004, University of Colorado */
+/* Copyright 2003-2009, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
@@ -109,8 +101,7 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
      * Sets up the spinners
      */
     private void makeSpinners() {
-        // Set up the spinner for controlling the number of particles in
-        // the hollow sphere
+
         Integer value = new Integer( 0 );
         Integer min = new Integer( 0 );
         Integer max = new Integer( 1000 );
@@ -236,21 +227,6 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
             super( model );
             this.value = value;
         }
-
-//        public void incrementValue() {
-//            changeValue( ( (Integer)getValue() ).intValue() + 1 );
-//        }
-//
-//        public void decrementValue() {
-//            changeValue( ( (Integer)getValue() ).intValue() - 1 );
-//        }
-//
-//        private void changeValue( int value ) {
-//            boolean isEnabled = isEnabled();
-//            setEnabled( false );
-//            setValue( new Integer( value ) );
-//            setEnabled( isEnabled );
-//        }
 
         public void updateValue() {
 //            System.out.println( "MoleculeCountSpinner.updateValue" );//XXX
