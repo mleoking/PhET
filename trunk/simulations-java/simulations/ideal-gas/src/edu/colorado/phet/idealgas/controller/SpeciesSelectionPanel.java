@@ -44,11 +44,12 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
     }
 
     public SpeciesSelectionPanel( final IdealGasModule module, final String[] speciesNames ) {
+//        System.out.println( "constructing " + this.getClass().getName() );//XXX
         this.module = module;
         module.addResetListener( this );
 
-        // Radio buttons
-        makeRadioButtons( speciesNames );
+        // Labels for the species
+        makeLabels( speciesNames );
 
         // Spinners for the species
         makeSpinners();
@@ -95,9 +96,9 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
     }
 
     /**
-     * Sets up the radio buttons for selecting a species
+     * Sets up the labels for each species.
      */
-    private void makeRadioButtons( String[] speciesNames ) {
+    private void makeLabels( String[] speciesNames ) {
         heavySpeciesLbl = new JLabel( speciesNames[0] );
         heavySpeciesLbl.setForeground( Color.blue );
         lightSpeciesLbl = new JLabel( speciesNames[1] );
@@ -252,6 +253,7 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
 //        }
 
         public void updateValue() {
+//            System.out.println( "MoleculeCountSpinner.updateValue" );//XXX
             setValue( new Integer( value.getValue() ) );
         }
     }
