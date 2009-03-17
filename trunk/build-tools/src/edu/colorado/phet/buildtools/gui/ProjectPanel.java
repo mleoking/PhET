@@ -134,8 +134,8 @@ public class ProjectPanel extends JPanel {
     }
 
     private void doDev() {
-        Object[] objects = {"No","Yes, generate offline JARs"};
-        int option=JOptionPane.showOptionDialog( this, "Generate Offline JARs?","Options",JOptionPane.DEFAULT_OPTION,JOptionPane.QUESTION_MESSAGE,null, objects,objects[0]);
+        Object[] objects = {"No","Yes"};
+        int option=JOptionPane.showOptionDialog( this, "Generate locale-specific JARs?","Options",JOptionPane.DEFAULT_OPTION,JOptionPane.QUESTION_MESSAGE,null, objects,objects[0]);
         final boolean generateOfflineJars= option==1;
         System.out.println( "genoj="+generateOfflineJars );
         getBuildScript().deployDev( buildLocalProperties.getDevAuthenticationInfo(),generateOfflineJars );
