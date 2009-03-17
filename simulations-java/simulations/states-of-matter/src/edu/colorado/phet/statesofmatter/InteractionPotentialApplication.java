@@ -59,7 +59,6 @@ public class InteractionPotentialApplication extends PiccoloPhetApplication impl
         TabbedPaneType tabbedPaneType = new TabbedPaneType(){
             public ITabbedModulePane createTabbedPane() {
                 m_tabbedModulePane = new TabbedModulePanePiccolo();
-                m_tabbedModulePane.setSelectedTabColor( StatesOfMatterConstants.SELECTED_TAB_COLOR );
                 return m_tabbedModulePane;
             }
         };

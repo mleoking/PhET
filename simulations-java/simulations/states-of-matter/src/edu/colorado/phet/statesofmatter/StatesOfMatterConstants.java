@@ -73,9 +73,6 @@ public class StatesOfMatterConstants {
     // Generic transparent color
     public static final Color COLOR_TRANSPARENT = new Color( 0f, 0f, 0f, 0f );
     
-    // Default color for module tabs
-    public static final Color SELECTED_TAB_COLOR = new Color(0xffff99);
-    
 	//----------------------------------------------------------------------------
     // Simulation Control
     //----------------------------------------------------------------------------

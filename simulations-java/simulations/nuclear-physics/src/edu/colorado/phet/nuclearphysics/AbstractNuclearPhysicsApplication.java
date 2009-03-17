@@ -33,7 +33,6 @@ public class AbstractNuclearPhysicsApplication extends PiccoloPhetApplication {
         TabbedPaneType tabbedPaneType = new TabbedPaneType(){
             public ITabbedModulePane createTabbedPane() {
                 _tabbedModulePane = new TabbedModulePanePiccolo();
-                _tabbedModulePane.setSelectedTabColor( NuclearPhysicsConstants.SELECTED_TAB_COLOR );
                 return _tabbedModulePane;
             }
         };

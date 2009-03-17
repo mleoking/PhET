@@ -80,9 +80,6 @@ public class NuclearPhysicsConstants {
     // Generic transparent color
     public static final Color COLOR_TRANSPARENT = new Color( 0f, 0f, 0f, 0f );
     
-    // Default color for module tabs
-    public static final Color SELECTED_TAB_COLOR = Color.ORANGE;
-    
     // Color for the label used for the Polonium nucleus.
     public static final Color POLONIUM_LABEL_COLOR = Color.YELLOW;
     
