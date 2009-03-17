@@ -86,7 +86,6 @@ public class TemperatureControlGraphic extends RegisterablePNode implements Temp
     }
 
     private PNode createSlider() {
-        JPanel stovePanel = new JPanel();
         int maxStoveSliderValue = 40;
 
         stoveSlider = new JSlider( JSlider.VERTICAL, -maxStoveSliderValue,
@@ -126,18 +125,12 @@ public class TemperatureControlGraphic extends RegisterablePNode implements Temp
             }
         } );
 
-        stovePanel.setBorder( ControlBorderFactory.createPrimaryBorder( MRConfig.RESOURCES.getLocalizedString( "Control.Heat_Control" ) ) );
+        stoveSlider.setBorder( ControlBorderFactory.createPrimaryBorder( MRConfig.RESOURCES.getLocalizedString( "Control.Heat_Control" ) ) );
         Color background = MRConfig.SPATIAL_VIEW_BACKGROUND;
-        stovePanel.setBackground( background );
         stoveSlider.setBackground( background );
 
-        // Fix horizontal size to make room for border title
-        stovePanel.setLayout( new BorderLayout( 2, 1 ) );
-        stovePanel.add( Box.createHorizontalStrut( 125 ), BorderLayout.NORTH );
-        stovePanel.add( stoveSlider );
-
-
-        PSwing sliderNode = new PSwing( stovePanel );
+        stoveSlider.setPreferredSize( new Dimension( stoveSlider.getPreferredSize().width, 100 ) );
+        PSwing sliderNode = new PSwing( stoveSlider );
         sliderNode.setOffset( stoveGraphic.getWidth() + 5, 0 );
 
         return sliderNode;
