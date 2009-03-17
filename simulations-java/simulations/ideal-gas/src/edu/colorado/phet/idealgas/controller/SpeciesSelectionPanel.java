@@ -29,6 +29,9 @@ import java.awt.geom.Point2D;
  * A JPanel with two spinners for adding and removing molecules from the model.
  */
 public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasModule.ResetListener {
+    
+    private static final Dimension PREFERRED_SPINNER_SIZE = new Dimension( 70, 20 );
+    
     private IdealGasModule module;
     private MoleculeCountSpinner heavySpinner;
     private MoleculeCountSpinner lightSpinner;
@@ -119,9 +122,10 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
                 return getHeavySpeciesCnt();
             }
         } );
-        heavySpinner.setPreferredSize( new Dimension( 50, 20 ) );
+        heavySpinner.setPreferredSize( PREFERRED_SPINNER_SIZE );
         heavySpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
+//                System.out.println( "heavySpinner stateChange " + heavySpinner.getValue() );//XXX
                 if( heavySpinner.isEnabled() ) {
                     int dn = ( (Integer)heavySpinner.getValue() ).intValue() - getHeavySpeciesCnt();
                     if( dn > 0 ) {
@@ -145,9 +149,10 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
                 return getLightSpeciesCnt();
             }
         } );
-        lightSpinner.setPreferredSize( new Dimension( 50, 20 ) );
+        lightSpinner.setPreferredSize( PREFERRED_SPINNER_SIZE );
         lightSpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
+//                System.out.println( "lightSpinner stateChanged " + lightSpinner.getValue() );//XXX
                 if( lightSpinner.isEnabled() ) {
                     int dn = ( (Integer)lightSpinner.getValue() ).intValue() - getLightSpeciesCnt();
                     if( dn > 0 ) {
