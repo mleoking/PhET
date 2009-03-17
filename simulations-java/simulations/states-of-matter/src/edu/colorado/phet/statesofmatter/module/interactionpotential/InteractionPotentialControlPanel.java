@@ -139,11 +139,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
         private JRadioButton m_neonRadioButton;
         private JRadioButton m_argonRadioButton;
         private JRadioButton m_adjustableAttractionRadioButton;
-        private boolean m_adjustableAtomSelected;
         
         AtomSelectionPanel(){
-            
-            m_adjustableAtomSelected = false;
             
             setLayout( new GridLayout(0, 1) );
             
@@ -163,7 +160,6 @@ public class InteractionPotentialControlPanel extends ControlPanel {
                 public void actionPerformed( ActionEvent e ) {
                     if (m_model.getMoleculeType() != MoleculeType.NEON){
                         m_model.setMoleculeType( MoleculeType.NEON );
-                        m_adjustableAtomSelected = false;
                         updateLjControlSliderState();
                     }
                 }
@@ -174,7 +170,6 @@ public class InteractionPotentialControlPanel extends ControlPanel {
                 public void actionPerformed( ActionEvent e ) {
                     if (m_model.getMoleculeType() != MoleculeType.ARGON){
                         m_model.setMoleculeType( MoleculeType.ARGON );
-                        m_adjustableAtomSelected = false;
                         updateLjControlSliderState();
                     }
                 }
@@ -186,7 +181,6 @@ public class InteractionPotentialControlPanel extends ControlPanel {
                 public void actionPerformed( ActionEvent e ) {
                     if (m_model.getMoleculeType() != MoleculeType.ADJUSTABLE){
                         m_model.setMoleculeType( MoleculeType.ADJUSTABLE );
-                        m_adjustableAtomSelected = true;
                         updateLjControlSliderState();
                     }
                 }
@@ -214,15 +208,12 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             
             if (moleculeType == MoleculeType.NEON){
                 m_neonRadioButton.setSelected( true );
-                m_adjustableAtomSelected = false;
             }
             else if (moleculeType == MoleculeType.ARGON){
                 m_argonRadioButton.setSelected( true );
-                m_adjustableAtomSelected = false;
             }
             else{
                 m_adjustableAttractionRadioButton.setSelected( true );
-                m_adjustableAtomSelected = true;
             }
             
             updateLjControlSliderState();
@@ -235,10 +226,10 @@ public class InteractionPotentialControlPanel extends ControlPanel {
          */
         private void updateLjControlSliderState(){
             if (m_atomDiameterControlPanel != null){
-                m_atomDiameterControlPanel.setVisible( m_adjustableAtomSelected );
+                m_atomDiameterControlPanel.setVisible( m_model.getMoleculeType() == MoleculeType.ADJUSTABLE );
             }
             if (m_interactionStrengthControlPanel != null){
-                m_interactionStrengthControlPanel.setVisible( m_adjustableAtomSelected );
+                m_interactionStrengthControlPanel.setVisible( m_model.getMoleculeType() == MoleculeType.ADJUSTABLE );
             }
         }
     }
