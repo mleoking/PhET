@@ -50,8 +50,6 @@ public class GasPropertiesApplication extends PhetApplication {
                 }
             }
         } );
-
-        super.startApplication();
     }
 
 
