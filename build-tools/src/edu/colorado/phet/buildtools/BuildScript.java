@@ -18,6 +18,7 @@ import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.translate.ScpTo;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.ProcessOutputReader;
+import edu.colorado.phet.buildtools.flex.PhetFlexProject;
 
 public class BuildScript {
 
@@ -386,9 +387,12 @@ public class BuildScript {
         //<li><a href="@jnlp-filename@">Launch @sim-name@</a></li>
         String s = "";
         for ( int i = 0; i < project.getSimulationNames().length; i++ ) {
-            String jnlpFilename = project.getSimulationNames()[i] + "_en." + project.getLaunchFileSuffix();
+            String launchFile = project.getSimulationNames()[i] + "_en." + project.getLaunchFileSuffix();
+            if (project instanceof PhetFlexProject){//TODO: factor into PhetProject hierarchy
+                launchFile = project.getSimulationNames()[i] + "." + project.getLaunchFileSuffix();
+            }
             String simname = project.getSimulations()[i].getTitle();
-            s += "<li><a href=\"" + jnlpFilename + "\">Launch " + simname + "</a></li>";
+            s += "<li><a href=\"" + launchFile + "\">Launch " + simname + "</a></li>";
             if ( i < project.getSimulationNames().length - 1 ) {
                 s += "\n";
             }
