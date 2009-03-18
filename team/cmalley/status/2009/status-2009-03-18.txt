@@ -1,0 +1,57 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: March 10-18, 2009 (Tue-Wed)
+
+ACCOMPLISHMENTS:
+
+  common code:
+  - #1298, small JWS window in sims that use PhetJComponent
+  - #1410, verify fix for whitespace in file paths
+  - #1453, remove unused localization keys
+  - #1058, change default color for selected tab
+    
+  build process:
+  - #1371, encapsulate build-local.properties
+  - #1446, struggle with Flash build process on Mac OS
+  - #1466, change method of localizing statistics message field names
+  - #1467, remove "svn" from statistics messages
+  - #1461, open browser doesn't work on Linux
+  - #1436, better error messages when update fails
+  
+  misc sims:
+  - ph-scale: #1383, bogus
+  - various: #1453, remove unused localization keys
+  - greenhouse: #1493, use new clock controls
+  - optical-tweezers: #1494, use default color for selected tab
+  - various: #1459, use default color for selected tab
+  - reactions-and-rates: #1386, slider on Mac OS
+  - nuclear-physics: #1459, publish 3.09.01
+  - ideal-gas: #1372, JSpinner problem on Mac OS
+  - ideal-gas: #1497, problem with temperature control
+  
+  misc:
+  - IOM alpha-2 test session
+  - meeting about future Flash development
+  - plan for Romanian translations
+  - #1455, discuss adding 3rd-party sims to website
+  - #1108, bug fix in OrpanStringChecker
+  - #1417, feedback on changelog format
+  - review and discuss IOM test coverage reports
+    
+WHAT'S NEXT:
+ 
+  - IOM testing & bug fixes
+  - acid-base-solutions implementation
+  - become familiar with Scala
+  - investigate 3D libraries
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+  April 1-5
+  
+--
