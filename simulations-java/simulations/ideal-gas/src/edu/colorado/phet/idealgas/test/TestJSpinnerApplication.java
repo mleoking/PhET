@@ -3,10 +3,7 @@ package edu.colorado.phet.idealgas.test;
 
 import java.awt.Color;
 
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -22,21 +19,23 @@ import edu.colorado.phet.idealgas.IdealGasConfig;
  * Typing Return/Enter in the spinner does not result in a call to stateChanged.
  */
 public class TestJSpinnerApplication extends PhetApplication {
+    
+    private static final boolean TEST_IN_PHET_FRAMEWORK = true;
 
-    public class TestClock extends ConstantDtClock {
+    public static class TestClock extends ConstantDtClock {
         public TestClock() {
             super( 100, 1 );
         }
     }
     
-    public class TestPlayArea extends JPanel {
+    public static class TestPlayArea extends JPanel {
         public TestPlayArea() {
             setBackground( Color.WHITE );
             setBorder( BorderFactory.createLineBorder( Color.BLACK ) );
         }
     }
     
-    public class TestControlPanel extends JPanel {
+    public static class TestControlPanel extends JPanel {
         public TestControlPanel() {
             final JSpinner spinner = new JSpinner( new SpinnerNumberModel( 0, 0, 100, 1 ) );
             spinner.addChangeListener( new ChangeListener() {
@@ -48,7 +47,7 @@ public class TestJSpinnerApplication extends PhetApplication {
         }
     }
     
-    public class TestModule extends Module {
+    public static class TestModule extends Module {
         public TestModule() {
             super( "TestModule", new TestClock() );
             setSimulationPanel( new TestPlayArea() );
@@ -62,6 +61,17 @@ public class TestJSpinnerApplication extends PhetApplication {
     }
 
     public static void main( final String[] args ) {
-        new PhetApplicationLauncher().launchSim( args, IdealGasConfig.PROJECT_NAME, TestJSpinnerApplication.class );
+        if ( TEST_IN_PHET_FRAMEWORK ) {
+            // test in the PhET framework
+            new PhetApplicationLauncher().launchSim( args, IdealGasConfig.PROJECT_NAME, TestJSpinnerApplication.class );
+        }
+        else {
+            // test in a simple JFrame
+            JFrame frame = new JFrame();
+            frame.getContentPane().add( new TestControlPanel() );
+            frame.pack();
+            frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+            frame.setVisible( true );
+        }
     }
 }
