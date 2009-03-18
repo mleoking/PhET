@@ -46,6 +46,10 @@ public class ParticleNode extends PNode {
 
     public ParticleNode( StatesOfMatterAtom particle, ModelViewTransform mvt, boolean useGradient ) {
 
+    	if ((mvt == null) || (particle == null)){
+    		throw new IllegalArgumentException();
+    	}
+    	
         m_particle = particle;
         m_mvt = mvt;
         m_useGradient = useGradient;

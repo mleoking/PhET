@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.defaults.InteractionPotentialDefaults;
 import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
@@ -42,8 +43,6 @@ public class DualParticleModel {
     private StatesOfMatterAtom m_shadowMovableParticle;
     private double m_attractiveForce;
     private double m_repulsiveForce;
-    private double m_epsilon;  // Epsilon represents the interaction strength.
-    private double m_sigma;    // Sigma represents the diameter of the molecule, roughly speaking.
     private MoleculeType m_fixedMoleculeType = DEFAULT_MOLECULE;
     private MoleculeType m_movableMoleculeType = DEFAULT_MOLECULE;
     private boolean m_particleMotionPaused;
@@ -59,10 +58,9 @@ public class DualParticleModel {
         
         m_clock = clock;
         m_timeStep = InteractionPotentialDefaults.CLOCK_DT / 1000 / CALCULATIONS_PER_TICK;
-        m_epsilon = DEFAULT_EPSILON;
-        m_sigma = DEFAULT_SIGMA;
         m_particleMotionPaused = false;
-        m_ljPotentialCalculator = new LjPotentialCalculator( m_epsilon, m_sigma );
+        m_ljPotentialCalculator = new LjPotentialCalculator( getMovableMoleculeType().getEpsilon(), 
+        		getMovableMoleculeType().getSigma() );
         
         // Register as a clock listener.
         clock.addClockListener(new ClockAdapter(){
@@ -88,9 +86,10 @@ public class DualParticleModel {
                 }
             };
         };
-        
-        // Don't bother adding molecules since the model will be reset as part
-        // of the initialization process.
+
+        // Add the initial particles.
+        m_fixedParticle = createAtom(m_fixedMoleculeType);
+        m_movableParticle = createAtom(m_movableMoleculeType);
     }
 
     //----------------------------------------------------------------------------
@@ -113,13 +112,69 @@ public class DualParticleModel {
         return m_repulsiveForce;
     }
     
-    public MoleculeType getMoleculeType(){
+    public MoleculeType getFixedMoleculeType(){
         return m_fixedMoleculeType;
     }
     
-    public void setMoleculeType(MoleculeType moleculeType){
+    public MoleculeType getMovableMoleculeType(){
+        return m_movableMoleculeType;
+    }
+    
+    public void setFixedMoleculeType(MoleculeType moleculeType){
+    	ensureValidMoleculeType( moleculeType );
+
+    	// Inform any listeners of the removal of existing particles.
+        if (m_fixedParticle != null){
+            notifyFixedParticleRemoved( m_fixedParticle );
+            m_fixedParticle = null;
+        }
+
+        m_fixedMoleculeType = moleculeType;
+        m_fixedParticle = createAtom(moleculeType);
+
+        // TODO: Setting sigma as the average of the two molecules.  Not sure
+        // if this is valid, need to check with the physicists.
+        m_ljPotentialCalculator.setSigma( ( getMovableMoleculeSigma() + getFixedMoleculeSigma() ) / 2);
+
+        notifyFixedParticleAdded( m_fixedParticle );
+        notifyInteractionPotentialChanged();
+        notifyFixedParticleDiameterChanged();
+        m_fixedParticle.setPosition( 0, 0 );
+        notifyFixedMoleculeTypeChanged();
+    }
+
+    public void setMovableMoleculeType(MoleculeType moleculeType){
+    	
+    	ensureValidMoleculeType( moleculeType );
+
+    	if (m_movableParticle != null){
+            notifyMovableParticleRemoved( m_movableParticle );
+            m_movableParticle.removeListener( m_movableParticleListener );
+            m_movableParticle = null;
+        }
+    	
+        m_movableMoleculeType = moleculeType;
+    	m_movableParticle = createAtom(moleculeType);
+    	
+        // Register to listen to motion of the movable particle so that we can
+        // tell when the user is moving it.
+        m_movableParticle.addListener( m_movableParticleListener );
         
-        // Verify that this is a supported value.
+        // TODO: Setting sigma as the average of the two molecules.  Not sure
+        // if this is valid, need to check with the physicists.
+        m_ljPotentialCalculator.setSigma( ( getMovableMoleculeSigma() + getFixedMoleculeSigma() ) / 2);
+
+        m_ljPotentialCalculator.setEpsilon(determineEpsilon());
+
+        notifyMovableParticleAdded( m_movableParticle );
+        notifyInteractionPotentialChanged();
+        notifyMovableParticleDiameterChanged();
+        resetMovableParticlePos();
+        notifyMovableMoleculeTypeChanged();
+    }
+
+	private void ensureValidMoleculeType(MoleculeType moleculeType) {
+		// Verify that this is a supported value.
         if ((moleculeType != MoleculeType.NEON) &&
             (moleculeType != MoleculeType.ARGON) &&
             (moleculeType != MoleculeType.OXYGEN) &&
@@ -129,64 +184,58 @@ public class DualParticleModel {
             assert false;
             moleculeType = MoleculeType.NEON;
         }
-        
-        // Inform any listeners of the removal of existing particles.
-        if (m_fixedParticle != null){
-            notifyFixedParticleRemoved( m_fixedParticle );
-            m_fixedParticle = null;
-        }
-        if (m_movableParticle != null){
-            notifyMovableParticleRemoved( m_movableParticle );
-            m_movableParticle.removeListener( m_movableParticleListener );
-            m_movableParticle = null;
-        }
-        
-        // Set the new atoms based on the requested type..
+	}
+	
+	public StatesOfMatterAtom createAtom(MoleculeType moleculeType){
+		
+		StatesOfMatterAtom molecule = null;
+		
         if (moleculeType == MoleculeType.ADJUSTABLE){
-            m_fixedParticle = new UserDefinedAtom(0, 0);
-            m_movableParticle = new UserDefinedAtom(0, 0);
-            m_sigma = UserDefinedAtom.getSigma();
-            m_epsilon = UserDefinedAtom.getEpsilon();
+            molecule = new UserDefinedAtom(0, 0);
         }
         else if (moleculeType == MoleculeType.ARGON){
-            m_fixedParticle = new ArgonAtom(0, 0);
-            m_movableParticle = new ArgonAtom(0, 0);
-            m_sigma = ArgonAtom.getSigma();
-            m_epsilon = ArgonAtom.getEpsilon();
+            molecule = new ArgonAtom(0, 0);
         }
         else if (moleculeType == MoleculeType.NEON){
-            m_fixedParticle = new NeonAtom(0, 0);
-            m_movableParticle = new NeonAtom(0, 0);
-            m_sigma = NeonAtom.getSigma();
-            m_epsilon = NeonAtom.getEpsilon();
+            molecule = new NeonAtom(0, 0);
         }
         
-        m_fixedMoleculeType = moleculeType;
+        return molecule;
+	}
+	
+	/**
+	 * Determine the value that should be used for epsilon (the interaction
+	 * potential) based on the two atoms being used.
+	 * @return
+	 */
+	public double determineEpsilon(){
+		
+		double epsilon = 0;
+		
+		if ( m_fixedMoleculeType == m_movableMoleculeType ){
+			epsilon = m_fixedMoleculeType.getEpsilon();
+		}
+		else{
+			// This is a heterogeneous situation, and epsilon is unique for each combination.
+			if (((m_fixedMoleculeType == MoleculeType.ARGON) && (m_movableMoleculeType == MoleculeType.NEON)) ||
+				((m_fixedMoleculeType == MoleculeType.NEON) && (m_movableMoleculeType == MoleculeType.ARGON))){
+				epsilon = 54.12;
+			}
+			else{
+				// TODO: For not the epsilon value with be the average of the values for two interacting atoms of
+				// the same type.  This is almost certainly not physically valid, so we need to work with the
+				// physicists to get better values.
+				epsilon = (m_fixedMoleculeType.getEpsilon() + m_movableMoleculeType.getEpsilon()) / 2;
+			}
+		}
+		
+		return epsilon;
+	}
+    
+    public void setBothMoleculeTypes(MoleculeType moleculeType){
         
-        // Register to listen to motion of the movable particle so that we can
-        // tell when the user is moving it.
-        m_movableParticle.addListener( m_movableParticleListener );
-        
-        // Update our Lennard-Jones force calculator.
-        m_ljPotentialCalculator.setEpsilon( m_epsilon );
-        m_ljPotentialCalculator.setSigma( m_sigma );
-        
-        // Let listeners know about the new molecules.
-        notifyFixedParticleAdded( m_fixedParticle );
-        notifyMovableParticleAdded( m_movableParticle );
-        
-        // Let listeners know about parameter changes.
-        notifyInteractionPotentialChanged();
-        
-        // Let listeners know about the diameter change.
-        notifyParticleDiameterChanged();
-        
-        // Move the particles to their initial positions.
-        m_fixedParticle.setPosition( 0, 0 );
-        resetMovableParticlePos();
-        
-        // Let listeners know that the molecule type has changed.
-        notifyMoleculeTypeChanged();
+        setFixedMoleculeType(moleculeType);
+        setMovableMoleculeType(moleculeType);
     }
     
     /**
@@ -197,52 +246,46 @@ public class DualParticleModel {
      * @param sigma - distance parameter
      */
     public void setSigma( double sigma ){
-        if (sigma > StatesOfMatterConstants.MAX_SIGMA){
-            m_sigma = StatesOfMatterConstants.MAX_SIGMA;
-        }
-        else if ( sigma < StatesOfMatterConstants.MIN_SIGMA ){
-            m_sigma = StatesOfMatterConstants.MIN_SIGMA;
-        }
-        else{
-            m_sigma = sigma;
-        }
+    	if ((m_fixedMoleculeType == MoleculeType.ADJUSTABLE) && 
+    		(m_movableMoleculeType == MoleculeType.ADJUSTABLE)){
+    		
+    		m_fixedMoleculeType.setSigma(sigma);
+    		m_movableMoleculeType.setSigma(sigma);
+    		
+    	}
         
-        m_ljPotentialCalculator.setSigma( m_sigma );
+        m_ljPotentialCalculator.setSigma( sigma );
         notifyInteractionPotentialChanged();
-        m_fixedParticle.setRadius( m_sigma / 2 );
-        m_movableParticle.setRadius( m_sigma / 2 );
-        notifyParticleDiameterChanged();
+        m_fixedParticle.setRadius( sigma / 2 );
+        notifyFixedParticleDiameterChanged();
+        m_movableParticle.setRadius( sigma / 2 );
+        notifyMovableParticleDiameterChanged();
+    }
+    
+    public double getFixedMoleculeSigma(){
+        return m_fixedMoleculeType.getSigma();
+    }
+    
+    public double getMovableMoleculeSigma(){
+        return m_movableMoleculeType.getSigma();
     }
     
     /**
-     * Get the sigma value, a.k.a. the Molecular Diameter Parameter, which is
-     * one of the two parameters that describes the Lennard-Jones potential.
-     * 
-     * @return
-     */
-    public double getSigma(){
-        return m_sigma;
-    }
-    
-    /**
-     * Set the epsilon value, a.k.a. the Interaction Strength Paramter, which 
+     * Set the epsilon value, a.k.a. the Interaction Strength Parameter, which 
      * is one of the two parameters that describes the Lennard-Jones potential.
      * 
      * @param sigma - distance parameter
      */
     public void setEpsilon( double epsilon ){
         
-        if (epsilon > StatesOfMatterConstants.MAX_EPSILON){
-            m_epsilon = StatesOfMatterConstants.MAX_EPSILON;
-        }
-        else if ( epsilon < StatesOfMatterConstants.MIN_EPSILON ){
-            m_epsilon = StatesOfMatterConstants.MIN_EPSILON;
-        }
-        else{
-            m_epsilon = epsilon;
-        }
+    	if ((m_fixedMoleculeType == MoleculeType.ADJUSTABLE) && 
+       		(m_movableMoleculeType == MoleculeType.ADJUSTABLE)){
+        		
+        		m_fixedMoleculeType.setSigma(epsilon);
+        		m_movableMoleculeType.setSigma(epsilon);
+       	}
         
-        m_ljPotentialCalculator.setEpsilon( m_epsilon );
+        m_ljPotentialCalculator.setEpsilon( determineEpsilon() );
         notifyInteractionPotentialChanged();
     }
     
@@ -253,7 +296,7 @@ public class DualParticleModel {
      * @return
      */
     public double getEpsilon(){
-        return m_epsilon;
+        return determineEpsilon();
     }
     
     //----------------------------------------------------------------------------
@@ -264,10 +307,10 @@ public class DualParticleModel {
      * Reset the model.
      */
     public void reset() {
-        
+
         // Initialize the system parameters.
         m_particleMotionPaused = false;
-        setMoleculeType( DEFAULT_MOLECULE );
+        setBothMoleculeTypes( DEFAULT_MOLECULE );
     }
     
     /**
@@ -338,10 +381,10 @@ public class DualParticleModel {
         
         double distance = m_shadowMovableParticle.getPositionReference().distance( m_fixedParticle.getPositionReference() );
         
-        if (distance < m_sigma / 2){
+        if (distance < (m_fixedMoleculeType.getSigma() + m_movableMoleculeType.getSigma()) / 4){
             // The particles are too close together, and calculating the force
             // will cause unusable levels of speed later, so we limit it.
-            distance = m_sigma / 2;
+            distance = (m_fixedMoleculeType.getSigma() + m_movableMoleculeType.getSigma()) / 4;
         }
         
         // Calculate the force.  The result should be in newtons.
@@ -400,15 +443,27 @@ public class DualParticleModel {
         }        
     }
     
-    private void notifyParticleDiameterChanged(){
+    private void notifyFixedParticleDiameterChanged(){
         for (int i = 0; i < m_listeners.size(); i++){
-            ((Listener)m_listeners.get( i )).particleDiameterChanged();
+            ((Listener)m_listeners.get( i )).fixedParticleDiameterChanged();
         }        
     }
     
-    private void notifyMoleculeTypeChanged(){
+    private void notifyMovableParticleDiameterChanged(){
         for (int i = 0; i < m_listeners.size(); i++){
-            ((Listener)m_listeners.get( i )).moleculeTypeChanged();
+            ((Listener)m_listeners.get( i )).movableParticleDiameterChanged();
+        }        
+    }
+    
+    private void notifyFixedMoleculeTypeChanged(){
+        for (int i = 0; i < m_listeners.size(); i++){
+            ((Listener)m_listeners.get( i )).fixedMoleculeTypeChanged();
+        }        
+    }
+    
+    private void notifyMovableMoleculeTypeChanged(){
+        for (int i = 0; i < m_listeners.size(); i++){
+            ((Listener)m_listeners.get( i )).movableMoleculeTypeChanged();
         }        
     }
     
@@ -426,8 +481,10 @@ public class DualParticleModel {
         public void fixedParticleRemoved(StatesOfMatterAtom particle);
         public void movableParticleRemoved(StatesOfMatterAtom particle);
         public void interactionPotentialChanged();
-        public void particleDiameterChanged();
-        public void moleculeTypeChanged();
+        public void fixedParticleDiameterChanged();
+        public void movableParticleDiameterChanged();
+        public void fixedMoleculeTypeChanged();
+        public void movableMoleculeTypeChanged();
     }
     
     public static class Adapter implements Listener {
@@ -436,7 +493,9 @@ public class DualParticleModel {
         public void fixedParticleRemoved(StatesOfMatterAtom particle){}
         public void movableParticleRemoved(StatesOfMatterAtom particle){}
         public void interactionPotentialChanged(){};
-        public void particleDiameterChanged(){};
-        public void moleculeTypeChanged(){};
+        public void fixedParticleDiameterChanged(){};
+        public void movableParticleDiameterChanged(){};
+        public void fixedMoleculeTypeChanged(){};
+        public void movableMoleculeTypeChanged(){};
     }
 }

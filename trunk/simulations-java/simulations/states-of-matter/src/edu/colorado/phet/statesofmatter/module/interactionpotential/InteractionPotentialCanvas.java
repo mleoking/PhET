@@ -95,6 +95,8 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         m_showRepulsiveForces = false;
         m_showTotalForces = false;
         m_wiggleMeShown = false;
+        m_movableParticle = m_model.getMovableParticleRef();
+        m_fixedParticle = m_model.getFixedParticleRef();
         
         // Set the transform strategy so that the the origin (i.e. point x=0,
         // y = 0) is in a reasonable place.
@@ -104,6 +106,9 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
                         getHeight() * HEIGHT_TRANSLATION_FACTOR );
             }
         });
+        
+        // Create the Model-View transform that we will be using.
+        m_mvt = new ModelViewTransform(1.0, 1.0, 0.0, 0.0, false, true);
         
         // Register for notifications of important events from the model.
         m_model.addListener( new DualParticleModel.Adapter(){
@@ -119,17 +124,15 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
             public void movableParticleRemoved(StatesOfMatterAtom particle){
                 handleMovableParticleRemoved( particle );
             }
-            public void particleDiameterChanged(){
-                m_movableParticleNode.setMinX( m_movableParticle.getRadius() * 1.9 );
+            public void movableParticleDiameterChanged(){
+            	if (m_movableParticle != null){
+            		m_movableParticleNode.setMinX( m_movableParticle.getRadius() * 1.9 );
+            	}
             };
-
         });
 
         // Set the background color.
         setBackground( StatesOfMatterConstants.CANVAS_BACKGROUND );
-        
-        // Create the Model-View transform that we will be using.
-        m_mvt = new ModelViewTransform(1.0, 1.0, 0.0, 0.0, false, true);
         
         // Create the listener for monitoring particle motion.
         m_atomListener = new StatesOfMatterAtom.Adapter(){
@@ -146,7 +149,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         // needs to be sized so that one picometer on the canvas is the same as
         // one picometer on the diagram.  Hence the somewhat tricky scaling
         // calculation.
-        m_diagram = new InteractiveInteractionPotentialDiagram(m_model.getSigma(),
+        m_diagram = new InteractiveInteractionPotentialDiagram(m_model.getFixedMoleculeSigma(),
                 m_model.getEpsilon(), true,m_model);
         double desiredWidth = m_diagram.getXAxisRange() + 
                 ((1 - m_diagram.getXAxisGraphProportion()) * m_diagram.getXAxisRange());
@@ -180,6 +183,14 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         // canvas when the particles appear.
         m_pushPinNode = new PushpinNode();
         m_pushPinNode.scale( PUSH_PIN_WIDTH / m_pushPinNode.getFullBoundsReference().width );
+
+        // Create the nodes that will represent the particles in the view.
+        if (m_movableParticle != null){
+        	handleMovableParticleAdded( m_movableParticle );
+        }
+        if (m_fixedParticle != null){
+        	handleFixedParticleAdded( m_fixedParticle );
+        }
     }
     
     //----------------------------------------------------------------------------
