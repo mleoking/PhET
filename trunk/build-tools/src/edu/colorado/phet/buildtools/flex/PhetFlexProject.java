@@ -42,7 +42,7 @@ public class PhetFlexProject extends PhetProject {
     }
 
     public String getLaunchFileSuffix() {
-        return "html";
+        return "swf";
     }
 
     public boolean build() throws Exception {
