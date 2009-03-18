@@ -36,7 +36,6 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
     }
 
     public SpeciesSelectionPanel( final IdealGasModule module, final String[] speciesNames ) {
-//        System.out.println( "constructing " + this.getClass().getName() );//XXX
         this.module = module;
         module.addResetListener( this );
 
@@ -117,7 +116,6 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
         heavySpinner.setPreferredSize( PREFERRED_SPINNER_SIZE );
         heavySpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-//                System.out.println( "heavySpinner stateChange " + heavySpinner.getValue() );//XXX
                 if( heavySpinner.isEnabled() ) {
                     int dn = ( (Integer)heavySpinner.getValue() ).intValue() - getHeavySpeciesCnt();
                     if( dn > 0 ) {
@@ -144,7 +142,6 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
         lightSpinner.setPreferredSize( PREFERRED_SPINNER_SIZE );
         lightSpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-//                System.out.println( "lightSpinner stateChanged " + lightSpinner.getValue() );//XXX
                 if( lightSpinner.isEnabled() ) {
                     int dn = ( (Integer)lightSpinner.getValue() ).intValue() - getLightSpeciesCnt();
                     if( dn > 0 ) {
@@ -229,7 +226,6 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
         }
 
         public void updateValue() {
-//            System.out.println( "MoleculeCountSpinner.updateValue" );//XXX
             setValue( new Integer( value.getValue() ) );
         }
     }
