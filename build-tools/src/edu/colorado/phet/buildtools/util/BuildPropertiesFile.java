@@ -86,6 +86,11 @@ public class BuildPropertiesFile extends AbstractPropertiesFile {
         return PhetBuildUtils.toStringArray( argsString == null ? "" : argsString, " " );
     }
 
+    //TODO: factor this into a subclass
+    public String getMXML(String simulationName){
+        return getProperty( "project.flavor." + simulationName + ".mxml" );
+    }
+
     public String getScreenshot( String simulationName ) {
         return getProperty( "project.flavor." + simulationName + ".screenshot" );
     }
