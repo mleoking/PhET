@@ -22,7 +22,7 @@
       <sourceFolder url="file://$MODULE_DIR$/build-tools/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-flash/contrib/aswing/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-flash/flash-launcher/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-flex/simulations/charges-and-fields/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-flex/simulations/charges-and-fields-flex/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/charts/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/collision/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/controls/src" isTestSource="false" />
