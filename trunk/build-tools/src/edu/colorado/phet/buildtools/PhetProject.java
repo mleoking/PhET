@@ -11,6 +11,7 @@ import edu.colorado.phet.buildtools.java.projects.PhetUpdaterProject;
 import edu.colorado.phet.buildtools.java.projects.TranslationUtilityProject;
 import edu.colorado.phet.buildtools.scripts.SetSVNIgnoreToDeployDirectories;
 import edu.colorado.phet.buildtools.util.*;
+import edu.colorado.phet.buildtools.flex.PhetFlexProject;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.resources.PhetProperties;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
@@ -495,6 +496,7 @@ public abstract class PhetProject {
 
         phetProjects.addAll( Arrays.asList( JavaProject.getJavaSimulations( trunk ) ) );
         phetProjects.addAll( Arrays.asList( PhetFlashProject.getFlashProjects( trunk ) ) );
+        phetProjects.addAll( Arrays.asList( PhetFlexProject.getFlexProjects( trunk ) ) );
         return (PhetProject[]) phetProjects.toArray( new PhetProject[phetProjects.size()] );
     }
 
