@@ -86,7 +86,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
         m_canvas = solidLiquidGasModule.getCanvas();
         
         m_model.addListener( new DualParticleModel.Adapter(){
-            public void moleculeTypeChanged(){
+            public void fixedMoleculeTypeChanged(){
                 m_moleculeSelectionPanel.updateMoleculeType();
             };
         });
@@ -158,8 +158,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_neonRadioButton.setFont( LABEL_FONT );
             m_neonRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if (m_model.getMoleculeType() != MoleculeType.NEON){
-                        m_model.setMoleculeType( MoleculeType.NEON );
+                    if (m_model.getFixedMoleculeType() != MoleculeType.NEON){
+                        m_model.setBothMoleculeTypes( MoleculeType.NEON );
                         updateLjControlSliderState();
                     }
                 }
@@ -168,8 +168,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_argonRadioButton.setFont( LABEL_FONT );
             m_argonRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if (m_model.getMoleculeType() != MoleculeType.ARGON){
-                        m_model.setMoleculeType( MoleculeType.ARGON );
+                    if (m_model.getFixedMoleculeType() != MoleculeType.ARGON){
+                        m_model.setBothMoleculeTypes( MoleculeType.ARGON );
                         updateLjControlSliderState();
                     }
                 }
@@ -179,8 +179,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_adjustableAttractionRadioButton.setFont( LABEL_FONT );
             m_adjustableAttractionRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if (m_model.getMoleculeType() != MoleculeType.ADJUSTABLE){
-                        m_model.setMoleculeType( MoleculeType.ADJUSTABLE );
+                    if (m_model.getFixedMoleculeType() != MoleculeType.ADJUSTABLE){
+                        m_model.setBothMoleculeTypes( MoleculeType.ADJUSTABLE );
                         updateLjControlSliderState();
                     }
                 }
@@ -204,7 +204,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
          * it to be.
          */
         public void updateMoleculeType(){
-            MoleculeType moleculeType = m_model.getMoleculeType();
+            MoleculeType moleculeType = m_model.getFixedMoleculeType();
             
             if (moleculeType == MoleculeType.NEON){
                 m_neonRadioButton.setSelected( true );
@@ -225,8 +225,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
          * 
          */
         private void updateLjControlSliderState(){
-            m_atomDiameterControlPanel.setVisible( m_model.getMoleculeType() == MoleculeType.ADJUSTABLE );
-            m_interactionStrengthControlPanel.setVisible( m_model.getMoleculeType() == MoleculeType.ADJUSTABLE );
+            m_atomDiameterControlPanel.setVisible( m_model.getFixedMoleculeType() == MoleculeType.ADJUSTABLE );
+            m_interactionStrengthControlPanel.setVisible( m_model.getFixedMoleculeType() == MoleculeType.ADJUSTABLE );
         }
     }
     
@@ -263,7 +263,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             // Add the control slider.
             m_atomDiameterControl = new LinearValueControl( StatesOfMatterConstants.MIN_SIGMA,
                     StatesOfMatterConstants.MAX_SIGMA, "", "0", "", new SliderLayoutStrategy() );
-            m_atomDiameterControl.setValue( m_model.getSigma() );
+            m_atomDiameterControl.setValue( m_model.getFixedMoleculeSigma() );
             m_atomDiameterControl.setUpDownArrowDelta( 0.01 );
             m_atomDiameterControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
@@ -286,13 +286,20 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_rightLabel.setFont( LABEL_FONT );
             diameterControlLabelTable.put( new Double( m_atomDiameterControl.getMaximum() ), m_rightLabel );
             m_atomDiameterControl.setTickLabels( diameterControlLabelTable );
-            m_atomDiameterControl.setValue(m_model.getSigma());
+            m_atomDiameterControl.setValue(m_model.getFixedMoleculeSigma());
             add(m_atomDiameterControl);
 
             // Register as a listener with the model for relevant events.
             m_model.addListener( new DualParticleModel.Adapter(){
-                public void particleDiameterChanged(){
-                    m_atomDiameterControl.setValue(m_model.getSigma());
+                public void fixedParticleDiameterChanged(){
+                	// Assume that since we are using the adjustable atom, the
+                	// diameter is the same for both atoms.
+                    m_atomDiameterControl.setValue(m_model.getFixedMoleculeSigma());
+                }
+                public void movableParticleDiameterChanged(){
+                	// Assume that since we are using the adjustable atom, the
+                	// diameter is the same for both atoms.
+                    m_atomDiameterControl.setValue(m_model.getMovableMoleculeSigma());
                 }
             });
             
