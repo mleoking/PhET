@@ -37,6 +37,7 @@ public class PhetApplication
     private PhetFrame phetFrame;
     private ModuleManager moduleManager;
     private PhetAboutDialog aboutDialog; // not null only when About dialog is shown for the first time
+    private boolean applicationStarted=false;//flag to make sure we don't start the application more than once
 
     //----------------------------------------------------------------
     // Constructors
@@ -122,25 +123,31 @@ public class PhetApplication
      * Sets up the mechanism that sets the reference sizes of all ApparatusPanel2 instances.
      */
     public void startApplication() {
-        if ( moduleManager.numModules() == 0 ) {
-            throw new RuntimeException( "No modules in module manager" );
-        }
-
-        // Set up a mechanism that will set the reference sizes of all ApparatusPanel2 instances
-        // after the PhetFrame has been set to its startup size.
-        // When the outer WindowAdapter gets called, the PhetFrame is
-        // at the proper size, but the ApparatusPanel2 has not yet gotten its resize event.
-        phetFrame.addWindowFocusListener( new WindowAdapter() {
-            public void windowGainedFocus( WindowEvent e ) {
-                initializeModuleReferenceSizes();
-                phetFrame.removeWindowFocusListener( this );
+        if ( !applicationStarted ) {
+            applicationStarted = true;
+            if ( moduleManager.numModules() == 0 ) {
+                throw new RuntimeException( "No modules in module manager" );
             }
-        } );
 
-        moduleManager.setActiveModule( getStartModule() );
-        phetFrame.setVisible( true );
+            // Set up a mechanism that will set the reference sizes of all ApparatusPanel2 instances
+            // after the PhetFrame has been set to its startup size.
+            // When the outer WindowAdapter gets called, the PhetFrame is
+            // at the proper size, but the ApparatusPanel2 has not yet gotten its resize event.
+            phetFrame.addWindowFocusListener( new WindowAdapter() {
+                public void windowGainedFocus( WindowEvent e ) {
+                    initializeModuleReferenceSizes();
+                    phetFrame.removeWindowFocusListener( this );
+                }
+            } );
 
-        updateLogoVisibility();
+            moduleManager.setActiveModule( getStartModule() );
+            phetFrame.setVisible( true );
+
+            updateLogoVisibility();
+        }else{
+            //TODO: put into standard logging framework
+            System.out.println( "WARNING: PhetApplication.startApplication was called more than once." );
+        }
     }
 
     /**
