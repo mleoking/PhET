@@ -2,6 +2,7 @@ package edu.colorado.phet.common.phetcommon.application;
 
 import java.awt.Frame;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 
 import javax.swing.SwingUtilities;
 
@@ -9,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.statistics.SessionMessage;
 import edu.colorado.phet.common.phetcommon.statistics.StatisticsManager;
 import edu.colorado.phet.common.phetcommon.updates.AutomaticUpdatesManager;
 import edu.colorado.phet.common.phetcommon.updates.ManualUpdatesManager;
+import edu.colorado.phet.common.phetcommon.util.logging.USLogger;
 
 /**
  * This launcher solves the following problems:
@@ -83,6 +85,10 @@ public class PhetApplicationLauncher {
     }
 
     public void launchSim( final PhetApplicationConfig config, final ApplicationConstructor applicationConstructor ) {
+
+        //Set whether logging is enabled for statistics and updates, depending on whether -log appears in args
+        USLogger.setLoggingEnabled( Arrays.asList( config.getCommandLineArgs() ).contains( "-log" ));
+        
         /*
          * Wrap the body of main in invokeAndWait, so that all initialization occurs
          * in the event dispatch thread. Sun now recommends doing all Swing init in
