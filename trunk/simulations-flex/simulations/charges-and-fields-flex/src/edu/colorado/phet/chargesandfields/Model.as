@@ -1,10 +1,16 @@
 package edu.colorado.phet.chargesandfields {
 
+import mx.events.SliderEvent;
+
 public class Model {
 
     // named ChargeGroup.as in the Flash version
 
-    private static const k : Number = 0.5*1E6; // prefactor in E-field equation: E= k*Q/r^2
+    public static var k : Number = 0.5*1E6; // prefactor in E-field equation: E= k*Q/r^2
+
+    [Bindable]
+    public static var kScaled : Number = Math.log( k ); 
+
     private static const RtoD : Number = 180/Math.PI; //convert radians to degrees
 
     public var chargeArray : Vector.<Charge>;
@@ -27,6 +33,11 @@ public class Model {
         // TODO: lots of stuff
     }
      */
+
+    public static function setKScaled( event : SliderEvent ) : void {
+        k = Math.exp( event.value );
+        kScaled = Math.log( k );
+    }
 
     public function removeCharge(charge : Charge) : Boolean {
 

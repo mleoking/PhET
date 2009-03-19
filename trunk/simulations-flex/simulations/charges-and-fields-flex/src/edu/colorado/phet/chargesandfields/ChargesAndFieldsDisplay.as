@@ -13,6 +13,7 @@ import flash.events.MouseEvent;
 import flash.geom.ColorTransform;
 import flash.text.TextField;
 import flash.ui.Keyboard;
+import mx.events.SliderEvent;
 
 public class ChargesAndFieldsDisplay extends Sprite {
     private var myWidth : Number;
@@ -54,18 +55,6 @@ public class ChargesAndFieldsDisplay extends Sprite {
 
         mosaic.draw();
 
-        /*
-        var txt1 : TextField = new TextField();
-        txt1.text = "foobar";
-        txt1.alpha = 50;
-        addChild(txt1);
-
-        var txt2 : TextField = new TextField();
-        txt2.text = "foobar";
-        txt2.alpha = 100;
-        txt2.x = 100;
-        addChild(txt2);
-        */
     }
 
     public function onResize(evt : Event) : void {
@@ -73,6 +62,17 @@ public class ChargesAndFieldsDisplay extends Sprite {
         myHeight = this.stage.stageHeight;
         background.changeSize(myWidth, myHeight);
         mosaic.changeSize(myWidth, myHeight);
+    }
+
+    public function clearCharges() : void {
+        for( var i : int = 0; i < charges.length; i++ ) {
+            var charge : Charge = charges[i];
+            removeChild( charge );
+            model.removeCharge( charge );
+        }
+        charges = new Array();
+
+        mosaic.draw();
     }
 
     public function addCharge( charge : Charge ) : void {
@@ -121,6 +121,11 @@ public class ChargesAndFieldsDisplay extends Sprite {
         var charge : Charge = new MinusCharge( mosaic );
         addCharge( charge );
         scatterCharge( charge );
+        mosaic.draw();
+    }
+
+    public function setKScaled( event : SliderEvent ) : void {
+        Model.setKScaled( event );
         mosaic.draw();
     }
 }

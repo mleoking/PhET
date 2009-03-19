@@ -14,7 +14,6 @@ import flash.geom.ColorTransform;
 import flash.text.TextField;
 import flash.ui.Keyboard;
 import mx.events.SliderEvent;
-import mx.controls.sliderClasses.Slider;
 
 
 public class VoltageMosaic extends Sprite {
