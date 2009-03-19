@@ -115,7 +115,7 @@ class edu.colorado.phet.flashcommon.PrivacyDialog {
 		
 		// button that will allow us to continue
 		var continueButton : JButton = new JButton(common.strings.get("AcceptContinue", "Accept and Continue"));
-		continueButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, continueClicked));
+		continueButton.addEventListener(JButton.ON_RELEASE, Delegate.create(this, continueClicked));
 		CommonButtons.padButtonAdd(continueButton, panel);
 		
 		window.getContentPane().append(panel);

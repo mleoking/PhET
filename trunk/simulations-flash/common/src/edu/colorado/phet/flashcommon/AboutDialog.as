@@ -96,17 +96,17 @@ class edu.colorado.phet.flashcommon.AboutDialog {
 		
 		// button that will open the agreements dialog
 		var agreementButton : JButton = new JButton(common.strings.get("SoftwareAgreement", "Software Agreement") + "...");
-		agreementButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, agreementClicked));
+		agreementButton.addEventListener(JButton.ON_RELEASE, Delegate.create(this, agreementClicked));
 		CommonButtons.padButtonAdd(agreementButton, panel);
 		
 		// button that will open the credits dialog
 		var creditsButton : JButton = new JButton(common.strings.get("Credits", "Credits") + "...");
-		creditsButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, creditsClicked));
+		creditsButton.addEventListener(JButton.ON_RELEASE, Delegate.create(this, creditsClicked));
 		CommonButtons.padButtonAdd(creditsButton, panel);
 		
 		// button will close the about dialog
 		var okButton : JButton = new JButton(common.strings.get("OK", "OK"));
-		okButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, okClicked));
+		okButton.addEventListener(JButton.ON_RELEASE, Delegate.create(this, okClicked));
 		CommonButtons.padButtonAdd(okButton, panel);
 		
 		//window.getContentPane().append(panel);

@@ -86,7 +86,7 @@ class edu.colorado.phet.flashcommon.ErrorDialog {
 		
 		var panel : JPanel = new JPanel(new BoxLayout());
 		var okButton : JButton = new JButton(common.strings.get("Close", "Close"));
-		okButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, closeClicked));
+		okButton.addEventListener(JButton.ON_RELEASE, Delegate.create(this, closeClicked));
 		CommonButtons.padButtonAdd(okButton, panel);
 		
 		//window.getContentPane().append(panel);

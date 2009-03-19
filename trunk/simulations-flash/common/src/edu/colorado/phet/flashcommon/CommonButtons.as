@@ -58,7 +58,7 @@ class edu.colorado.phet.flashcommon.CommonButtons {
 		var aboutButton : JButton = new JButton(common.strings.get("About...", "About..."));
 		_level0.aboutButton = aboutButton;
 		aboutButton.setSize(aboutButton.getPreferredSize());
-		aboutButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, aboutButtonClicked));
+		aboutButton.addEventListener(JButton.ON_RELEASE, Delegate.create(this, aboutButtonClicked));
 		window.getContentPane().append(aboutButton);
 		
 		if(!common.fromPhetWebsite()) {
@@ -66,7 +66,7 @@ class edu.colorado.phet.flashcommon.CommonButtons {
 			var preferencesButton : JButton = new JButton(common.strings.get("Preferences", "Preferences"));
 			_level0.preferencesButton = preferencesButton;
 			preferencesButton.setSize(preferencesButton.getPreferredSize());
-			preferencesButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, preferencesButtonClicked));
+			preferencesButton.addEventListener(JButton.ON_RELEASE, Delegate.create(this, preferencesButtonClicked));
 			window.getContentPane().append(preferencesButton);
 		}
 		
