@@ -85,9 +85,6 @@ public class PhetApplicationLauncher {
     }
 
     public void launchSim( final PhetApplicationConfig config, final ApplicationConstructor applicationConstructor ) {
-
-        //Set whether logging is enabled for statistics and updates, depending on whether -log appears in args
-        USLogger.setLoggingEnabled( Arrays.asList( config.getCommandLineArgs() ).contains( "-log" ));
         
         /*
          * Wrap the body of main in invokeAndWait, so that all initialization occurs
