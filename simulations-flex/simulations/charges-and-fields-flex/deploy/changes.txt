@@ -1,3 +1,5 @@
+# 0.0.03 (29549) Mar 19, 2009
+3/19/09 Added resolution slider and Flex buttons for adding charges
 # 0.0.02 (29531) Mar 18, 2009
 3/18/09 Testing deploy header generation.
 # 0.0.01 (29528) Mar 18, 2009
