@@ -35,9 +35,8 @@ public abstract class SoundModule extends PhetGraphicsModule implements RgbRepor
     protected final static Random randomGenerator = new Random();
 
     static {
-        primaryOscillator.run();
+//        primaryOscillator.run();
         octaveOscillator.setHarmonicFactor( 2 );
-        //        octaveOscillator.run();
     }
 
     //------------------------------------------------------------------------------
@@ -124,6 +123,9 @@ public abstract class SoundModule extends PhetGraphicsModule implements RgbRepor
         else {
             audioEnabled = enabled;
             primaryOscillator.setEnabled( enabled );
+            if (audioEnabled){
+                primaryOscillator.run();
+            }
             octaveOscillator.setEnabled( enabled && getSoundModel().isOctaveEnabled() );
         }
     }

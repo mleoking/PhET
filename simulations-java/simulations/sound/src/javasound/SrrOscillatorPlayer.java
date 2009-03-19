@@ -7,27 +7,20 @@
  */
 package javasound;
 
-import javasound.tone.ToneDelegator;
+import javasound.tone.Tone;
 
-//import srr.tone.ToneDelegator;
+public class SrrOscillatorPlayer {
 
-public class SrrOscillatorPlayer /*extends MyOscillatorPlayer */ {
-
-    private ToneDelegator tone = new ToneDelegator( 1, 1 );
+    private Tone tone = new Tone( 1, 0 );
     private float freq;
     private float amp;
     private boolean isRunning;
 
-    public SrrOscillatorPlayer() {
-    }
-
     public void run() {
-        //        super.run();
-        if( tone == null ) {
-            tone = new ToneDelegator( 1, 1 );
+        if ( !isRunning ) {
+            isRunning = true;
+            tone.start();
         }
-        tone.start();
-        isRunning = true;
     }
 
     public synchronized float getFrequency() {

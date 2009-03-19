@@ -31,11 +31,6 @@ public class WavefrontOscillator extends SrrOscillatorPlayer implements SimpleOb
     // This is a special overide flag so that the two source interference panel works.
     private boolean interferenceOverideEnabled = false;
 
-
-    public void run() {
-        super.run();
-    }
-
     public void clockTicked( IClock c, double dt ) {
         update();
     }
