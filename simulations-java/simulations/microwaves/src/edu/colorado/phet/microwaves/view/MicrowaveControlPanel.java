@@ -34,16 +34,13 @@ public class MicrowaveControlPanel extends JPanel {
     MicrowavesModel model;
     MicrowaveModule module;
     PhetApplication application;
-    private JSlider ampSlider;
-    private JTextField ampTF;
     private JRadioButton noFieldViewRB;
     private JRadioButton fullViewRB;
     private JRadioButton singleViewRB;
     private ButtonGroup fieldViewBtnGrp;
     private JRadioButton splineViewRB;
-    NumberFormat frequencyFormatter = new DecimalFormat( ".00000" );
-    NumberFormat amplitudeFormatter = new DecimalFormat( ".00" );
     private LinearValueControl frequencyControl;
+    private LinearValueControl amplitudeControl;
 
     public MicrowaveControlPanel( MicrowaveModule module, MicrowavesModel model ) {
         this.module = module;
@@ -55,6 +52,7 @@ public class MicrowaveControlPanel extends JPanel {
 
         // Create the controls
         frequencyControl = new LinearValueControl( 0, MicrowavesConfig.MAX_FREQUENCY,module.getMicrowaveFrequency(), MicrowavesResources.getString( "MicrowaveControlPanel.FrequencyLabel" ),"0.00000","");
+        amplitudeControl = new LinearValueControl( 0, MicrowavesConfig.MAX_AMPLITUDE,module.getMicrowaveAmplitude(), MicrowavesResources.getString( "MicrowaveControlPanel.AmplitudeLabel" ),"0.00","");
 
         frequencyControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -62,16 +60,9 @@ public class MicrowaveControlPanel extends JPanel {
             }
         } );
 
-        // Slider to control amplitude
-        ampSlider = new JSlider( SwingConstants.HORIZONTAL, 0,
-                                 100, 50 );
-        final ModelViewTx1D ampSliderTx = new ModelViewTx1D( 0, MicrowavesConfig.MAX_AMPLITUDE,
-                                                             0, 100 );
-        ampSlider.addChangeListener( new ChangeListener() {
+        amplitudeControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                double amp = ampSliderTx.viewToModel( ampSlider.getValue() );
-                module.setMicrowaveAmplitude( amp );
-                displayAmplitude( amp );
+                module.setMicrowaveAmplitude( amplitudeControl.getValue() );
             }
         } );
 
@@ -160,18 +151,8 @@ public class MicrowaveControlPanel extends JPanel {
                                             0, rowIdx++, 1, 1,
                                             GridBagConstraints.NONE,
                                             GridBagConstraints.CENTER );
-            
-            SwingUtils.addGridBagComponent( this, new JLabel( MicrowavesResources.getString( "MicrowaveControlPanel.AmplitudeLabel" ) ),
-                                            0, rowIdx++, 1, 1,
-                                            GridBagConstraints.NONE,
-                                            GridBagConstraints.CENTER );
-            SwingUtils.addGridBagComponent( this, ampSlider,
-                                            0, rowIdx++, 1, 1,
-                                            GridBagConstraints.HORIZONTAL,
-                                            GridBagConstraints.CENTER );
-            ampTF = new JTextField();
-            displayAmplitude( ampSliderTx.viewToModel( ampSlider.getValue() ) );
-            SwingUtils.addGridBagComponent( this, ampTF,
+
+            SwingUtils.addGridBagComponent( this, amplitudeControl,
                                             0, rowIdx++, 1, 1,
                                             GridBagConstraints.NONE,
                                             GridBagConstraints.CENTER );
@@ -196,10 +177,6 @@ public class MicrowaveControlPanel extends JPanel {
     protected void setDefaults() {
         splineViewRB.setSelected( true );
         fieldViewActionListener.actionPerformed( null );
-    }
-
-    private void displayAmplitude( double amplitude ) {
-        ampTF.setText( amplitudeFormatter.format( amplitude ) );
     }
 
     private ActionListener fieldViewActionListener = new ActionListener() {
