@@ -64,12 +64,8 @@ public class RotationApplication extends PiccoloPhetApplication {
                 synchronizedPSwingRepaintManager.setDoMyCoalesce( true );
                 RepaintManager.setCurrentManager( synchronizedPSwingRepaintManager );
 
-                QuickProfiler appStartTime = new QuickProfiler();
                 new RotationLookAndFeel().initLookAndFeel();
-                RotationApplication rotationApplication = new RotationApplication( config );
-                rotationApplication.startApplication();
-                System.out.println( "Rotation Application started in = " + appStartTime );
-                return rotationApplication;
+                return new RotationApplication( config );
             }
         } );
     }
