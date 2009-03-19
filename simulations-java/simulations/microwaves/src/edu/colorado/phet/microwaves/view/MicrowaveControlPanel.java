@@ -21,6 +21,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.microwaves.MicrowaveModule;
 import edu.colorado.phet.microwaves.MicrowavesConfig;
 import edu.colorado.phet.microwaves.MicrowavesResources;
@@ -33,9 +34,7 @@ public class MicrowaveControlPanel extends JPanel {
     MicrowavesModel model;
     MicrowaveModule module;
     PhetApplication application;
-    private JSlider freqSlider;
     private JSlider ampSlider;
-    private JTextField freqTF;
     private JTextField ampTF;
     private JRadioButton noFieldViewRB;
     private JRadioButton fullViewRB;
@@ -44,7 +43,7 @@ public class MicrowaveControlPanel extends JPanel {
     private JRadioButton splineViewRB;
     NumberFormat frequencyFormatter = new DecimalFormat( ".00000" );
     NumberFormat amplitudeFormatter = new DecimalFormat( ".00" );
-    private ModelViewTx1D freqSliderTx;
+    private LinearValueControl frequencyControl;
 
     public MicrowaveControlPanel( MicrowaveModule module, MicrowavesModel model ) {
         this.module = module;
@@ -55,18 +54,11 @@ public class MicrowaveControlPanel extends JPanel {
     private void layoutPanel() {
 
         // Create the controls
+        frequencyControl = new LinearValueControl( 0, MicrowavesConfig.MAX_FREQUENCY,module.getMicrowaveFrequency(), MicrowavesResources.getString( "MicrowaveControlPanel.FrequencyLabel" ),"0.00000","");
 
-        // Slider to control frequency
-        freqSlider = new JSlider( SwingConstants.HORIZONTAL, 0,
-                                  100,
-                                  50 );
-        freqSliderTx = new ModelViewTx1D( 0, MicrowavesConfig.MAX_FREQUENCY,
-                                          0, 100 );
-        freqSlider.addChangeListener( new ChangeListener() {
+        frequencyControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                double freq = freqSliderTx.viewToModel( freqSlider.getValue() );
-                module.setMicrowaveFrequency( freq );
-                displayFrequency( freq );
+                module.setMicrowaveFrequency( frequencyControl.getValue() );
             }
         } );
 
@@ -163,20 +155,12 @@ public class MicrowaveControlPanel extends JPanel {
                                             0, rowIdx++, 1, 1,
                                             GridBagConstraints.NONE,
                                             GridBagConstraints.CENTER );
-            SwingUtils.addGridBagComponent( this, new JLabel( MicrowavesResources.getString( "MicrowaveControlPanel.FrequencyLabel" ) ),
+
+            SwingUtils.addGridBagComponent( this, frequencyControl,
                                             0, rowIdx++, 1, 1,
                                             GridBagConstraints.NONE,
                                             GridBagConstraints.CENTER );
-            SwingUtils.addGridBagComponent( this, freqSlider,
-                                            0, rowIdx++, 1, 1,
-                                            GridBagConstraints.NONE,
-                                            GridBagConstraints.CENTER );
-            freqTF = new JTextField();
-            displayFrequency( freqSliderTx.viewToModel( freqSlider.getValue() ) );
-            SwingUtils.addGridBagComponent( this, freqTF,
-                                            0, rowIdx++, 1, 1,
-                                            GridBagConstraints.NONE,
-                                            GridBagConstraints.CENTER );
+            
             SwingUtils.addGridBagComponent( this, new JLabel( MicrowavesResources.getString( "MicrowaveControlPanel.AmplitudeLabel" ) ),
                                             0, rowIdx++, 1, 1,
                                             GridBagConstraints.NONE,
@@ -187,7 +171,6 @@ public class MicrowaveControlPanel extends JPanel {
                                             GridBagConstraints.CENTER );
             ampTF = new JTextField();
             displayAmplitude( ampSliderTx.viewToModel( ampSlider.getValue() ) );
-//            ampTF = new JTextField( Double.toString( ampSliderTx.viewToModel( ampSlider.getValue() ) ), 10 );
             SwingUtils.addGridBagComponent( this, ampTF,
                                             0, rowIdx++, 1, 1,
                                             GridBagConstraints.NONE,
@@ -213,10 +196,6 @@ public class MicrowaveControlPanel extends JPanel {
     protected void setDefaults() {
         splineViewRB.setSelected( true );
         fieldViewActionListener.actionPerformed( null );
-    }
-
-    private void displayFrequency( double freq ) {
-        freqTF.setText( frequencyFormatter.format( freq ) );
     }
 
     private void displayAmplitude( double amplitude ) {

@@ -214,6 +214,10 @@ public abstract class MicrowaveModule extends Module {
         fieldLattiveView.setViewSpline();
     }
 
+    public double getMicrowaveFrequency() {
+        return microwaveModel.getFrequency();
+    }
+
     //
     // Inner classes
     //
