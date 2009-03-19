@@ -50,6 +50,12 @@ public class SessionMessage extends StatisticsMessage {
         initTimeZone();
         JREVersion jre = new JREVersion();
         
+        String userInstallationTimestamp = null;
+        if ( DeploymentScenario.getInstance() == DeploymentScenario.PHET_INSTALLATION ) {
+            PhetInstallation p = PhetInstallation.getInstance();
+            userInstallationTimestamp = String.valueOf( p.getInstallationTimestamp() );
+        }
+        
         StatisticsMessageField[] fields = new StatisticsMessageField[]{
                 
                 // Sim data
@@ -84,13 +90,9 @@ public class SessionMessage extends StatisticsMessage {
                 // User data
                 new StatisticsMessageField( "Common.statistics.user_preference_file_creation_time", "user_preference_file_creation_time", PhetPreferences.getInstance().getPreferencesFileCreationTime() ),
                 new StatisticsMessageField( "Common.statistics.user_total_sessions", "user_total_sessions", SessionCounter.getInstance().getTotal() ),
+                new StatisticsMessageField( "Common.statistics.user_installation_timestamp", "user_installation_timestamp", userInstallationTimestamp )
         };
         super.addFields( fields );
-        
-        if ( DeploymentScenario.getInstance() == DeploymentScenario.PHET_INSTALLATION ) {
-            PhetInstallation p = PhetInstallation.getInstance();
-            addField( new StatisticsMessageField( "Common.statistics.user_installation_timestamp", "user_installation_timestamp", p.getInstallationTimestamp() ) );
-        }
     }
 
     private void initTimeZone() {
