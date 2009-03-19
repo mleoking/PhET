@@ -15,11 +15,11 @@ import javax.swing.event.ChangeListener;
 public class TestJSpinnerApplication {
 
     public static void main( final String[] args ) {
-        new JSpinner();// if this is done first, no problem
+//        new JSpinner();// if this is done first, no problem
         new JTextField() {
             public String getUIClassID() {
                 return super.getUIClassID();
-//                return "TextAreaUI"; // with this UI class id, no problem
+//                return "TextAreaUI"; // if we use this UI class id, no problem
             }
         };
         final JSpinner spinner = new JSpinner();
