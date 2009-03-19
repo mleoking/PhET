@@ -27,17 +27,20 @@ import edu.colorado.phet.sound.SoundResources;
 
 public class ClockPanelLarge extends JPanel {
 
-    private JTextField clockTF = new JTextField();
+    private JTextField readoutTextField = new JTextField();
     private NumberFormat clockFormat = new DecimalFormat( "0.0000" );
-    private String[] startStopStr;
+    private String[] startStopStr = new String[]{PhetCommonResources.getString( "Common.StopwatchPanel.start" ),
+            PhetCommonResources.getString( "Common.StopwatchPanel.stop" )};
     private EventChannel eventRegistry = new EventChannel( ClockPanelListener.class );
-    private ClockPanelListener clockPanelListenerProxy = (ClockPanelListener)eventRegistry.getListenerProxy();
     private JButton resetBtn;
 
     private ModelElement modelTickCounter;
     private BaseModel model;
     private double runningTime = 0;
-    private int startStopState = 0;
+
+    private static final int STOPPED=0;
+    private static final int RUNNING=1;
+    private int state = STOPPED;
     private JButton startStopBtn;
 
     public ClockPanelLarge( BaseModel model ) {
@@ -46,27 +49,23 @@ public class ClockPanelLarge extends JPanel {
 
         // Clock readout
         setBorder( BorderFactory.createRaisedBevelBorder() );
-        clockTF = new JTextField( 5 );
-        Font clockFont = clockTF.getFont();
-        clockTF.setFont( new Font( clockFont.getName(), Font.BOLD, 16 ) );
-        clockTF.setEditable( false );
-        clockTF.setHorizontalAlignment( JTextField.RIGHT );
-        clockTF.setText( clockFormat.format( 0 ) );
+        readoutTextField = new JTextField( 5 );
+        Font clockFont = readoutTextField.getFont();
+        readoutTextField.setFont( new Font( clockFont.getName(), Font.BOLD, 16 ) );
+        readoutTextField.setEditable( false );
+        readoutTextField.setHorizontalAlignment( JTextField.RIGHT );
+        readoutTextField.setText( clockFormat.format( 0 ) );
 
         // Model element that keeps track of the time ticked off by the model
         runningTime = 0;
         modelTickCounter = new ModelElement() {
             public void stepInTime( double dt ) {
                 runningTime = dt + runningTime;
-                clockTF.setText( clockFormat.format( runningTime * SoundConfig.CLOCK_SCALE_FACTOR ) );
+                readoutTextField.setText( clockFormat.format( runningTime * SoundConfig.CLOCK_SCALE_FACTOR ) );
             }
         };
 
         // Start/stop button
-        startStopStr = new String[2];
-
-        startStopStr[0] = PhetCommonResources.getString( "Common.StopwatchPanel.start" );
-        startStopStr[1] = PhetCommonResources.getString( "Common.StopwatchPanel.stop" );
         startStopBtn = new JButton( startStopStr[0] );
         startStopBtn.addActionListener( new StartStopActionListener() );
 
@@ -93,7 +92,7 @@ public class ClockPanelLarge extends JPanel {
         gbc = new GridBagConstraints( 0, rowIdx, 1, 1, 1, 1,
                                       GridBagConstraints.EAST, GridBagConstraints.NONE,
                                       insets, padX, padY );
-        this.add( clockTF, gbc );
+        this.add( readoutTextField, gbc );
         gbc = new GridBagConstraints( 1, rowIdx, 1, 1, 1, 1,
                                       GridBagConstraints.WEST, GridBagConstraints.NONE,
                                       insets, padX, padY );
@@ -117,12 +116,11 @@ public class ClockPanelLarge extends JPanel {
         ClockPanelEvent event = new ClockPanelEvent( this );
         event.setReset( true );
         event.setRunning( false );
-        clockPanelListenerProxy.clockPaneEventOccurred( event );
     }
 
     public void clockTicked( IClock c, double dt ) {
         String s = clockFormat.format( c.getSimulationTime() * SoundConfig.CLOCK_SCALE_FACTOR );
-        clockTF.setText( s );
+        readoutTextField.setText( s );
     }
 
     public void setClockPanelVisible( boolean isVisible ) {
@@ -140,22 +138,23 @@ public class ClockPanelLarge extends JPanel {
         }
 
         private void toggle() {
-            if( startStopState == 0 ) {
+            if( state == STOPPED ) {
                 model.addModelElement( modelTickCounter );
                 ClockPanelEvent event = new ClockPanelEvent( this );
                 event.setRunning( true );
-                clockPanelListenerProxy.clockPaneEventOccurred( event );
+//                clockPanelListenerProxy.clockPaneEventOccurred( event );
                 resetBtn.setEnabled( false );
+                state=RUNNING;
             }
             else {
                 model.removeModelElement( modelTickCounter );
                 ClockPanelEvent event = new ClockPanelEvent( this );
                 event.setRunning( false );
-                clockPanelListenerProxy.clockPaneEventOccurred( event );
+//                clockPanelListenerProxy.clockPaneEventOccurred( event );
                 resetBtn.setEnabled( true );
+                state=STOPPED;
             }
-            startStopState = ( startStopState + 1 ) % 2;
-            startStopBtn.setText( startStopStr[startStopState] );
+            startStopBtn.setText( startStopStr[state] );
         }
     }
 
