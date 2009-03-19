@@ -11,18 +11,17 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.StringTokenizer;
 
-
+import javax.jnlp.BasicService;
+import javax.jnlp.ServiceManager;
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.text.html.HTMLEditorKit;
-import javax.jnlp.BasicService;
-import javax.jnlp.ServiceManager;
 
 
 /**
  * This file checks on the Java version, if it is too low, then an dialog is shown, otherwise the application launches.
- * This file can only use code and be compiled in the lowest common denominator API (currently Java 1.4) 
+ * This file can only use code and be compiled in the lowest common denominator API (currently Java 1.4)
  */
 public class JavaVersionChecker {
     public static void main( String[] args ) throws IOException, InvocationTargetException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException {
@@ -153,35 +152,16 @@ public class JavaVersionChecker {
                     }
 
                     else {
-                        // Under Unix, Netscape has to be running for the "-remote"
-                        // command to work.  So, we try sending the command and
-                        // check for an exit value.  If the exit command is 0,
-                        // it worked, otherwise we need to start the browser.
-                        // cmd = 'netscape -remote openURL(http://www.javaworld.com)'
-                        cmd = UNIX_PATH + " " + UNIX_FLAG + "(" + url + ")";
-                        Process p = Runtime.getRuntime().exec( cmd );
-                        try {
-                            // wait for exit code -- if it's 0, command worked,
-                            // otherwise we need to start the browser up.
-                            int exitCode = p.waitFor();
-                            if ( exitCode != 0 ) {
-                                // Command failed, start up the browser
-                                // cmd = 'netscape http://www.javaworld.com'
-                                cmd = UNIX_PATH + " " + url;
-                                p = Runtime.getRuntime().exec( cmd );
-                            }
-                        }
-                        catch( InterruptedException x ) {
-                            System.err.println( "Error bringing up browser, cmd='" +
-                                                cmd + "'" );
-                            System.err.println( "Caught: " + x );
-                        }
+                        launchBrowserOnLinux( url );
                     }
                 }
                 catch( IOException x ) {
                     // couldn't exec browser
                     System.err.println( "Could not invoke browser, command=" + cmd );
                     System.err.println( "Caught: " + x );
+                }
+                catch( Exception e ) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
             }
 
@@ -224,4 +204,24 @@ public class JavaVersionChecker {
     public static final int OS_WINDOWS = 0;
     public static final int OS_MACINTOSH = 1;
     public static final int OS_OTHER = 2;
+
+    //http://www.java2s.com/Code/Java/Development-Class/LaunchBrowserinMacLinuxUnix.htm
+    public static void launchBrowserOnLinux( String url ) throws Exception, InterruptedException {
+        String[] browsers = {
+                "firefox", "opera", "konqueror", "epiphany", "mozilla", "netscape"};
+        String browser = null;
+        for ( int count = 0; count < browsers.length && browser == null; count++ ) {
+            if ( Runtime.getRuntime().exec(
+                    new String[]{"which", browsers[count]} ).waitFor() == 0 ) {
+                browser = browsers[count];
+            }
+        }
+        if ( browser == null ) {
+            throw new Exception( "Could not find web browser" );
+        }
+        else {
+            Runtime.getRuntime().exec( new String[]{browser, url} );
+        }
+    }
+
 }
