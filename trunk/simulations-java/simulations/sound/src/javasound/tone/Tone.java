@@ -48,24 +48,23 @@ public class Tone {
         setMuted( muted );
     }
 
-    void setPitch( float freq ) {
+    public void setPitch( float freq ) {
         float f = (float)freq;
         /*Hack to make the freq correspond to reality.  Used MBTuner to verify tuning.*/
         float speed = f / 50;
         loopBuffer.setSpeed( speed );
     }
 
-    void start() {
+    public void start() {
         player.setPriority( Thread.NORM_PRIORITY );
-        //        player.setPriority( Thread.MAX_PRIORITY );
         player.start();
     }
 
-    void stop() {
+    public void stop() {
         player.stopPlaying();
     }
 
-    void setVolume( float amp ) {
+    public void setVolume( float amp ) {
         if( amp < 0 ) {
             throw new RuntimeException( "Volume was negative: " + amp );
         }
