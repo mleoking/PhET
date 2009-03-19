@@ -7,12 +7,12 @@ public class Model {
     private static const k : Number = 0.5*1E6; // prefactor in E-field equation: E= k*Q/r^2
     private static const RtoD : Number = 180/Math.PI; //convert radians to degrees
 
-    public var chargeArray : Array;
+    public var chargeArray : Vector.<Charge>;
     public var sensorArray : Array;
 
     public function Model() {
 
-        chargeArray = new Array();
+        chargeArray = new Vector.<Charge>();
         sensorArray = new Array();
 
     }
@@ -136,29 +136,39 @@ public class Model {
 
 		for(var i : int = 0; i < len ; i++){
             charge = chargeArray[i];
-			xi = charge.modelX;
-			yi = charge.modelY;
+			xi = x - charge.modelX;
+			yi = y - charge.modelY;
             
-			sumV += charge.q / Math.sqrt( (x - xi)*(x - xi) + (y - yi)*(y - yi) );
+			sumV += charge.q / Math.sqrt( xi * xi + yi * yi );
 		}
 
 
-		sumV *= k;	//prefactor depends on units
+		//sumV *= k;	//prefactor depends on units
 
-        var red : int;
-		var green : int;
-		var blue : int;
+        var red : int; // = 0;
+		var green : int; // = 0;
+		var blue : int; // = 0;
 
-        var scaled : Number = sumV / 20000; // voltage will saturate at 20000
+        var scaled : Number = sumV * ( k / 20000 ); // voltage will saturate at 20000
 
 
 		//set color associated with voltage
         if( sumV > 0 ){
             red = 255;
             green = blue = Math.max( 0, ( 1 - scaled ) * 255 );
+            /*
+            if( scaled < 1 ) {
+                green = blue = ( 1 - scaled ) * 255;
+            }
+            */
         } else {
             blue = 255;
             red = green = Math.max( 0, ( 1 + scaled ) * 255 );
+            /*
+            if( scaled > -1 ) {
+                red = green = ( 1 + scaled ) * 255;
+            }
+            */
         }
 
 		return (red << 16) | (green << 8) | blue;

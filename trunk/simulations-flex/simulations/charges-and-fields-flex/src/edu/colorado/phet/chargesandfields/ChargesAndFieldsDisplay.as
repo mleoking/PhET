@@ -21,7 +21,10 @@ public class ChargesAndFieldsDisplay extends Sprite {
     public var model : Model;
 
     private var background : BackgroundSprite;
-    private var mosaic : VoltageMosaic;
+
+    [Bindable]
+    public var mosaic : VoltageMosaic;
+    
     private var charges : Array = new Array();
 
     public function ChargesAndFieldsDisplay(tempStage : Stage) {
@@ -36,7 +39,7 @@ public class ChargesAndFieldsDisplay extends Sprite {
         mosaic = new VoltageMosaic(model, myWidth, myHeight);
         addChild(mosaic);
 
-        for(var i : uint = 0; i < 20; i++) {
+        for(var i : uint = 0; i < 1; i++) {
             var charge : Charge;
             if(i % 2 == 0) {
                 charge = new MinusCharge(mosaic);
@@ -51,6 +54,7 @@ public class ChargesAndFieldsDisplay extends Sprite {
 
         mosaic.draw();
 
+        /*
         var txt1 : TextField = new TextField();
         txt1.text = "foobar";
         txt1.alpha = 50;
@@ -61,6 +65,7 @@ public class ChargesAndFieldsDisplay extends Sprite {
         txt2.alpha = 100;
         txt2.x = 100;
         addChild(txt2);
+        */
     }
 
     public function onResize(evt : Event) : void {
@@ -68,6 +73,55 @@ public class ChargesAndFieldsDisplay extends Sprite {
         myHeight = this.stage.stageHeight;
         background.changeSize(myWidth, myHeight);
         mosaic.changeSize(myWidth, myHeight);
+    }
+
+    public function addCharge( charge : Charge ) : void {
+        addChild( charge );
+        charges.push( charge );
+        model.addCharge( charge );
+    }
+
+    public function scatterCharge( charge : Charge ) : void {
+        charge.setDisplayPosition( Math.random() * myWidth, Math.random() * myHeight );        
+    }
+
+    public function addRandomCharges( quantity : int ) : void {
+        for( var i : int = 0; i < quantity; i++ ) {
+            var charge : Charge;
+
+            if( Math.random() < 0.5 ) {
+                charge = new PlusCharge( mosaic );
+            } else {
+                charge = new MinusCharge( mosaic );
+            }
+
+            addCharge( charge );
+            scatterCharge( charge );            
+        }
+
+        mosaic.draw();
+    }
+
+    public function addRandomCharge() : void {
+        addRandomCharges( 1 );
+    }
+
+    public function add20() : void {
+        addRandomCharges( 20 );
+    }
+
+    public function addPlusCharge() : void {
+        var charge : Charge = new PlusCharge( mosaic );
+        addCharge( charge );
+        scatterCharge( charge );
+        mosaic.draw();
+    }
+
+    public function addMinusCharge() : void {
+        var charge : Charge = new MinusCharge( mosaic );
+        addCharge( charge );
+        scatterCharge( charge );
+        mosaic.draw();
     }
 }
 }

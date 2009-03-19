@@ -13,6 +13,8 @@ import flash.events.MouseEvent;
 import flash.geom.ColorTransform;
 import flash.text.TextField;
 import flash.ui.Keyboard;
+import flash.utils.Timer;
+import flash.events.TimerEvent;
 
 public class Charge extends Sprite {
     public var q : Number = 0;
@@ -22,9 +24,18 @@ public class Charge extends Sprite {
 
     private var mosaic : VoltageMosaic;
 
+    public var dragging : Boolean;
+
+    private var timer : Timer;
+
     public function Charge(mosaic : VoltageMosaic) {
 
         this.mosaic = mosaic;
+        dragging = false;
+
+        timer = new Timer( 50 );
+
+        timer.addEventListener( TimerEvent.TIMER, onTick );
 
         // make it appear hand-like
         this.useHandCursor = true;
@@ -49,10 +60,18 @@ public class Charge extends Sprite {
 
     public function mouseDown(evt : MouseEvent) : void {
         startDrag();
+        timer.start();
     }
 
     public function mouseUp(evt : MouseEvent) : void {
+        timer.stop();
         stopDrag();
+        displayPositionToModel();
+        mosaic.draw();
+    }
+
+    public function onTick( event : TimerEvent ) : void {
+        //trace("tick");
         displayPositionToModel();
         mosaic.draw();
     }

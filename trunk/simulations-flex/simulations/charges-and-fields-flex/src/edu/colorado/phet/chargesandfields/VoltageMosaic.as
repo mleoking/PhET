@@ -13,12 +13,21 @@ import flash.events.MouseEvent;
 import flash.geom.ColorTransform;
 import flash.text.TextField;
 import flash.ui.Keyboard;
+import mx.events.SliderEvent;
+import mx.controls.sliderClasses.Slider;
+
 
 public class VoltageMosaic extends Sprite {
     private var myWidth : Number;
     private var myHeight : Number;
 
     private var model : Model;
+
+    [Bindable]
+    public var fps : String = "FPS";
+
+    [Bindable]
+    public var step : Number = 10;
 
     public function VoltageMosaic(model : Model, w : Number, h : Number) {
         this.model = model;
@@ -37,7 +46,7 @@ public class VoltageMosaic extends Sprite {
     public function draw() : void {
         this.graphics.clear();
 
-        var step : Number = 10;
+        //var step : Number = 10;
 
         var halfstep : Number = step * 0.5;
 
@@ -54,7 +63,13 @@ public class VoltageMosaic extends Sprite {
                 this.graphics.endFill();
             }
         }
-        trace( (new Date()).valueOf() - time );
+
+        fps = String( int( 1000 / ((new Date()).valueOf() - time) ) );
+    }
+
+    public function changeStepSize( event : SliderEvent ) : void {
+        step = event.value;
+        draw();
     }
 }
 }
