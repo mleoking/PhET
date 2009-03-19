@@ -83,9 +83,11 @@ public class Model {
 		return [eMag, eAng, EX, EY];
 	}
 
+    /*
     private function combineRGB(red : Number, green : Number, blue : Number) : uint {
         return (red << 16) | (green << 8) | blue;
     }
+    */
 
     //returns voltage and color nbr (RGB values) associated with voltage
 	public function getV(x : Number, y : Number) : Array{
@@ -95,7 +97,6 @@ public class Model {
 		var red : Number;
 		var green : Number;
 		var blue : Number;
-		var colorNbr : uint;  	//RGB number of color associated with voltage
 
         var xi : Number;
         var yi : Number;
@@ -107,22 +108,61 @@ public class Model {
 			yi = charge.modelY;
             
 			dist = Math.sqrt((x - xi)*(x - xi) + (y - yi)*(y - yi));
-			sumV = sumV + charge.q/dist;
+			sumV += charge.q/dist;
 		}
-		sumV = k*sumV;	//prefactor depends on units
+		sumV *= k;	//prefactor depends on units
 
 		//set color associated with voltage
-        if(sumV>0){
-            red =255;
+        if( sumV > 0 ){
+            red = 255;
             green = blue = Math.max(0,(1-(sumV/maxV))*255);
-        }else{
+        } else {
             blue = 255;
             red = green = Math.max(0,(1-(-sumV/maxV))*255);
         }
-		colorNbr = combineRGB(red,green,blue);
         
-		return [sumV,colorNbr];
+		return [ sumV, (red << 16) | (green << 8) | blue ];
 	}
+
+    public function getVColor( x : Number, y : Number ) : int {
+        var len : int = chargeArray.length;
+		var sumV : Number = 0;
+        
+        var xi : Number;
+        var yi : Number;
+
+        var charge : Charge;
+
+
+		for(var i : int = 0; i < len ; i++){
+            charge = chargeArray[i];
+			xi = charge.modelX;
+			yi = charge.modelY;
+            
+			sumV += charge.q / Math.sqrt( (x - xi)*(x - xi) + (y - yi)*(y - yi) );
+		}
+
+
+		sumV *= k;	//prefactor depends on units
+
+        var red : int;
+		var green : int;
+		var blue : int;
+
+        var scaled : Number = sumV / 20000; // voltage will saturate at 20000
+
+
+		//set color associated with voltage
+        if( sumV > 0 ){
+            red = 255;
+            green = blue = Math.max( 0, ( 1 - scaled ) * 255 );
+        } else {
+            blue = 255;
+            red = green = Math.max( 0, ( 1 + scaled ) * 255 );
+        }
+
+		return (red << 16) | (green << 8) | blue;
+    }
 
     public function getEX(x : Number, y : Number) : Number{
 		var sum : Number = 0;
