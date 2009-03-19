@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.microwaves.MicrowavesConfig;
 import edu.colorado.phet.microwaves.coreadditions.Vector2D;
 import edu.colorado.phet.microwaves.coreadditions.collision.Box2D;
 import edu.colorado.phet.microwaves.model.waves.FiniteWaveMedium;
@@ -21,7 +22,7 @@ public class MicrowavesModel extends BaseModel {
     private ArrayList polarBodies = new ArrayList();
     private FiniteWaveMedium waveMedium = new FiniteWaveMedium( new Point2D.Double( 100, 100 ), 500, 400 );
     private ArrayList microwaves = new ArrayList();
-    private double frequency;
+    private double frequency = MicrowavesConfig.MAX_FREQUENCY / 2;
     private double amplitude;
     private Box2D oven;
     private Microwave mw;
@@ -32,7 +33,7 @@ public class MicrowavesModel extends BaseModel {
         addModelElement( waveMedium );
         new WaterMoleculeWaterMoleculeCollisionExpert();
     }
-    
+
     public void addMicrowave( Microwave microwave ) {
         waveMedium.addWavefront( microwave );
         microwaves.add( microwave );
