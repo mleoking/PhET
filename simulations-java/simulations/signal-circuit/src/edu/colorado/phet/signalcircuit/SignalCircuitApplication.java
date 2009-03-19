@@ -2,6 +2,7 @@ package edu.colorado.phet.signalcircuit;
 
 import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 public class SignalCircuitApplication extends PiccoloPhetApplication {
@@ -15,6 +16,7 @@ public class SignalCircuitApplication extends PiccoloPhetApplication {
     public static class SignalCircuitApplicationConfig extends PhetApplicationConfig {
         public SignalCircuitApplicationConfig( String[] commandLineArgs ) {
             super( commandLineArgs, "signal-circuit" );
+            setFrameSetup( new FrameSetup.CenteredWithSize( 720,500) );
         }
     }
 
