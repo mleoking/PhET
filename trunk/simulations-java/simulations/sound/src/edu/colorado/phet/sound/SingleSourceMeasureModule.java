@@ -6,7 +6,10 @@
  */
 package edu.colorado.phet.sound;
 
-import java.awt.Color;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -33,6 +36,7 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
     private static final int s_guidelineBaseX = 70;
     private JDialog stopwatchDlg;
     private final IClock clock;
+    private final Point dragPoint = new Point();
 
     /**
      * @param application
@@ -41,7 +45,7 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
         super( SoundResources.getString( "ModuleTitle.SingleSourceMeasure" ) );
 
         this.clock = getClock();
-        
+
         ApparatusPanel apparatusPanel = (ApparatusPanel)getSimulationPanel();
 
         // Add the ruler
@@ -95,12 +99,30 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
         stopwatchDlg.getRootPane().setWindowDecorationStyle( JRootPane.PLAIN_DIALOG );
         stopwatchDlg.pack();
         stopwatchDlg.setDefaultCloseOperation( JDialog.DO_NOTHING_ON_CLOSE );
+
+        // Avoid creating a point with each mousePressed() call
+
+        //see http://www.ibm.com/developerworks/java/library/j-mer0717/
+        stopwatchDlg.addMouseListener(new MouseAdapter() {
+          public void mousePressed( MouseEvent e) {
+            dragPoint.x = e.getX();
+            dragPoint.y = e.getY();
+          }
+        });
+        stopwatchDlg.addMouseMotionListener(new MouseMotionAdapter() {
+          public void mouseDragged(MouseEvent e) {
+            Point p = stopwatchDlg.getLocation();
+            stopwatchDlg.setLocation( p.x + e.getX() - dragPoint.x, p.y + e.getY() - dragPoint.y);
+          }
+        });
+        clockPanel.setCursor( Cursor.getPredefinedCursor(Cursor.HAND_CURSOR ));
+
     }
 
     public boolean hasHelp() {
         return true;
     }
-    
+
     public void activate() {
         super.activate();
         stopwatchDlg.setVisible( true );
