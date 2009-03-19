@@ -8,7 +8,7 @@ package edu.colorado.phet.common.phetcommon.util.logging;
  */
 public class USLogger {
     
-    private static final boolean ENABLED = true;
+    private static boolean ENABLED = false;
 
     private static final ILogger LOGGER = new ConsoleLogger( ENABLED );
     
@@ -30,5 +30,10 @@ public class USLogger {
     
     public static void main( String[] args ) {
         LOGGER.test();
+    }
+
+    public static void setLoggingEnabled( boolean b ) {
+        ENABLED=b;
+        LOGGER.setEnabled( ENABLED );
     }
 }
