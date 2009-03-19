@@ -218,6 +218,10 @@ public abstract class MicrowaveModule extends Module {
         return microwaveModel.getFrequency();
     }
 
+    public double getMicrowaveAmplitude() {
+        return microwaveModel.getAmplitude();
+    }
+
     //
     // Inner classes
     //

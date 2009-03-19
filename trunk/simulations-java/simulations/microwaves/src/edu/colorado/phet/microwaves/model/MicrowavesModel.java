@@ -23,7 +23,7 @@ public class MicrowavesModel extends BaseModel {
     private FiniteWaveMedium waveMedium = new FiniteWaveMedium( new Point2D.Double( 100, 100 ), 500, 400 );
     private ArrayList microwaves = new ArrayList();
     private double frequency = MicrowavesConfig.MAX_FREQUENCY / 2;
-    private double amplitude;
+    private double amplitude = MicrowavesConfig.MAX_AMPLITUDE / 2;
     private Box2D oven;
     private Microwave mw;
     private final String name;
