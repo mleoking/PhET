@@ -5,6 +5,9 @@
     <mx:Button id="addPlusChargeButton" label="Add +" height="20" x="0" y="0" click="app.addPlusCharge()" />
     <mx:Button id="addMinusChargeButton" label="Add -" height="20" x="0" y="20" click="app.addMinusCharge()" />
     <mx:Button id="add20Button" label="Add 20" height="20" x="0" y="40" click="app.add20()" />
+    <mx:Button id="clearButton" label="Clear" height="20" x="0" y="60" click="app.display.clearCharges()" />
     <mx:Label id="fps" text="{app.display.mosaic.fps}" x="0" y="480" />
-    <mx:HSlider tickInterval="1" snapInterval="1" x="400" y="0" width="300" value="{app.display.mosaic.step}" minimum="3" maximum="50" change="app.display.mosaic.changeStepSize(event)"/>
+    <mx:HSlider id="stepSlider" tickInterval="1" snapInterval="1" x="400" y="0" width="300" value="{app.display.mosaic.step}" minimum="3" maximum="50" change="app.display.mosaic.changeStepSize(event)"/>
+    <mx:Text text="{Math.round(stepSlider.value)}" x="700" y="0" height="20" />
+    <mx:VSlider id="kSlider" x="0" y="200" value="{Model.kScaled}" minimum="8" maximum="15" change="app.display.setKScaled(event)" />
 </mx:Application>
