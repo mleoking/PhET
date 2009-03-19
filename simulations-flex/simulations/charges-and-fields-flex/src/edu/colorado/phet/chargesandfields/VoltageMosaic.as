@@ -39,14 +39,22 @@ public class VoltageMosaic extends Sprite {
 
         var step : Number = 10;
 
+        var halfstep : Number = step * 0.5;
+
+        var time : Number = (new Date()).valueOf();
         for(var ox : Number = 0; ox < myWidth; ox += step) {
             for(var oy : Number = 0; oy < myHeight; oy += step) {
-                var color : uint = model.getV(ox + step / 2, oy + step / 2)[1];
+                // 30ms for getV total
+                //var color : uint = model.getV(ox + halfstep, oy + halfstep)[1];
+                var color : int = model.getVColor(ox + halfstep, oy + halfstep);
+
+                // 10 ms for graphics total
                 this.graphics.beginFill(color);
                 this.graphics.drawRect(ox, oy, ox + step, oy + step);
                 this.graphics.endFill();
             }
         }
+        trace( (new Date()).valueOf() - time );
     }
 }
 }
