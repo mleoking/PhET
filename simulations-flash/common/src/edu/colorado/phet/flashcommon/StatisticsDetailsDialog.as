@@ -93,7 +93,7 @@ class edu.colorado.phet.flashcommon.StatisticsDetailsDialog {
 		// add the OK button
 		var panel : JPanel = new JPanel(new BoxLayout());
 		var okButton : JButton = new JButton(common.strings.get("OK", "OK"));
-		okButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, okClicked));
+		okButton.addEventListener(JButton.ON_RELEASE, Delegate.create(this, okClicked));
 		CommonButtons.padButtonAdd(okButton, panel);		
 		window.getContentPane().append(panel);
 		

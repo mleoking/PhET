@@ -106,7 +106,7 @@ class edu.colorado.phet.flashcommon.PreferencesDialog {
 		
 		// update sim button
 		updatesSimButton = new JButton(common.strings.get("CheckSimUpdates", "Check for simulation update..."));
-		updatesSimButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, updatesSimClicked));
+		updatesSimButton.addEventListener(JButton.ON_RELEASE, Delegate.create(this, updatesSimClicked));
 		CommonButtons.padButtonAdd(updatesSimButton, updatesPanel);
 		
 		if(common.fromFullInstallation()) {
@@ -114,7 +114,7 @@ class edu.colorado.phet.flashcommon.PreferencesDialog {
 			
 			// update installation button
 			updatesInstallationButton = new JButton(common.strings.get("CheckInstallationUpdates", "Check for PhET Offline Website Installer update..."));
-			updatesInstallationButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, updatesInstallationClicked));
+			updatesInstallationButton.addEventListener(JButton.ON_RELEASE, Delegate.create(this, updatesInstallationClicked));
 			CommonButtons.padButtonAdd(updatesInstallationButton, updatesPanel);
 		}
 		
@@ -171,7 +171,7 @@ class edu.colorado.phet.flashcommon.PreferencesDialog {
 		
 		// button to show details about the privacy information
 		var detailsButton = new JButton(common.strings.get("Details", "Details") + "...");
-		detailsButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, detailsClicked));
+		detailsButton.addEventListener(JButton.ON_RELEASE, Delegate.create(this, detailsClicked));
 		CommonButtons.padButtonAdd(detailsButton, privacyPanel);
 		
 		privacyPanel.append(new JSpacer(5, 5));
@@ -185,11 +185,11 @@ class edu.colorado.phet.flashcommon.PreferencesDialog {
 		var buttonPanel : JPanel = new JPanel(new BoxLayout());
 		
 		var okButton : JButton = new JButton(common.strings.get("OK", "OK"));
-		okButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, okClicked));
+		okButton.addEventListener(JButton.ON_RELEASE, Delegate.create(this, okClicked));
 		CommonButtons.padButtonAdd(okButton, buttonPanel);
 		
 		var cancelButton : JButton = new JButton(common.strings.get("Cancel", "Cancel"));
-		cancelButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, cancelClicked));
+		cancelButton.addEventListener(JButton.ON_RELEASE, Delegate.create(this, cancelClicked));
 		CommonButtons.padButtonAdd(cancelButton, buttonPanel);
 		
 		window.getContentPane().append(new JSpacer(5, 5));
