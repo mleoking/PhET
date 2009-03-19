@@ -1,1 +1,1 @@
-mxmlc -output deploy/charges-and-fields.swf -compiler.source-path=src src/edu/colorado/phet/chargesandfields/ChargesAndFields.mxml
+mxmlc -output deploy/charges-and-fields.swf -compiler.source-path=src -target-player 10 src/edu/colorado/phet/chargesandfields/ChargesAndFields.mxml
