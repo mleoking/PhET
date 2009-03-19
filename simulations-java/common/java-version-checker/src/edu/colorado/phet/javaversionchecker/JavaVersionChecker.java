@@ -208,7 +208,7 @@ public class JavaVersionChecker {
     //http://www.java2s.com/Code/Java/Development-Class/LaunchBrowserinMacLinuxUnix.htm
     public static void launchBrowserOnLinux( String url ) throws Exception, InterruptedException {
         String[] browsers = {
-                "firefox", "opera", "konqueror", "epiphany", "mozilla", "netscape"};
+                "firefox", "opera", "konqueror", "epiphany", "mozilla", "netscape", "galeon", "iceweasel"};
         String browser = null;
         for ( int count = 0; count < browsers.length && browser == null; count++ ) {
             if ( Runtime.getRuntime().exec(
