@@ -192,6 +192,7 @@ public class DualParticleModel {
 		
         if (moleculeType == MoleculeType.ADJUSTABLE){
             molecule = new UserDefinedAtom(0, 0);
+            molecule.setRadius(MoleculeType.ADJUSTABLE.getSigma() / 2);
         }
         else if (moleculeType == MoleculeType.ARGON){
             molecule = new ArgonAtom(0, 0);
