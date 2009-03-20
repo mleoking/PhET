@@ -1,3 +1,5 @@
+# 00.08.00 (29567) Mar 19, 2009
+3/19/09 Bugfix for JARGenerator
 # 00.07.00 (29564) Mar 19, 2009
 3/19/09 Renamed OfflineJARGenerator to JARGenerator
 # 00.06.00 (29281) Mar 6, 2009
