@@ -1,3 +1,5 @@
+# 0.30.00 (29575) Mar 20, 2009
+3/20/09 Test deployment to try to work out permissions problems
 # 0.31.00 (29568) Mar 19, 2009
 3/19/09 Testing JARLauncher after bugfix
 # 0.30.00 (29565) Mar 19, 2009
