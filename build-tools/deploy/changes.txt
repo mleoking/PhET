@@ -1,3 +1,5 @@
+# 00.07.00 (29564) Mar 19, 2009
+3/19/09 Renamed OfflineJARGenerator to JARGenerator
 # 00.06.00 (29281) Mar 6, 2009
 3/6/09 Redeploy with local signatures working to sign build-tools_all.jar
 # 00.05.00 (29280) Mar 6, 2009
