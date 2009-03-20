@@ -1,3 +1,5 @@
+# 1.02.01 (29574) Mar 20, 2009
+3/20/09 >Set initial temperature of adjustable molecules to be warmer, fixed issue where close button overlapped diagram.
 # 1.02.00 (28877) Feb 20, 2009
 Fixed a problem where the sim would throw an exception when running from web start.
 # 1.01.00 (28875) Feb 20, 2009
