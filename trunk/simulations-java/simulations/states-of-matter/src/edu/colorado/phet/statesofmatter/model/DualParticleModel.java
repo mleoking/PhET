@@ -239,27 +239,27 @@ public class DualParticleModel {
     }
     
     /**
-     * Set the sigma value, a.k.a. the Molecular Diameter Parameter, which is
-     * one of the two parameters that are used for calculating the Lennard-
-     * Jones potential.
+     * Set the sigma value, a.k.a. the Molecular Diameter Parameter, for the
+     * adjustable molecule.  This is one of the two parameters that are used
+     * for calculating the Lennard-Jones potential.  If an attempt is made to
+     * set this value when the adjustable atom is not selected, it is ignored.
      * 
      * @param sigma - distance parameter
      */
-    public void setSigma( double sigma ){
+    public void setAdjustableParticleSigma( double sigma ){
     	if ((m_fixedMoleculeType == MoleculeType.ADJUSTABLE) && 
-    		(m_movableMoleculeType == MoleculeType.ADJUSTABLE)){
+    		(m_movableMoleculeType == MoleculeType.ADJUSTABLE) &&
+    		(sigma != m_ljPotentialCalculator.getSigma())){
     		
     		m_fixedMoleculeType.setSigma(sigma);
     		m_movableMoleculeType.setSigma(sigma);
-    		
+            m_ljPotentialCalculator.setSigma( sigma );
+            notifyInteractionPotentialChanged();
+            m_fixedParticle.setRadius( sigma / 2 );
+            notifyFixedParticleDiameterChanged();
+            m_movableParticle.setRadius( sigma / 2 );
+            notifyMovableParticleDiameterChanged();
     	}
-        
-        m_ljPotentialCalculator.setSigma( sigma );
-        notifyInteractionPotentialChanged();
-        m_fixedParticle.setRadius( sigma / 2 );
-        notifyFixedParticleDiameterChanged();
-        m_movableParticle.setRadius( sigma / 2 );
-        notifyMovableParticleDiameterChanged();
     }
     
     public double getFixedMoleculeSigma(){
