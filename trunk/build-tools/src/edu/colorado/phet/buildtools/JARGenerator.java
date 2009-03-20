@@ -15,14 +15,14 @@ import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.application.JARLauncher;
 
 /**
- * Takes a <project>_all.jar and generates offline jars for Java sims.
+ * Takes a <project>_all.jar and generates offline jars for Java sims, which specify both simulation and locale.
  * <p/>
  * If you make changes to this file, make sure you re-deploy build-tools to dev/ or prod/
  * Also, do not rename or repackage this utility without changing BuildScript.generateSimulationAndLanguageJARFilesJava
  *
  * @author Sam Reid
  */
-public class OfflineJARGenerator {
+public class JARGenerator {
     private String JAR_LAUNCHER_FILENAME = "jar-launcher.properties";
 
     public static void main( String[] args ) throws IOException, InterruptedException {
@@ -33,7 +33,7 @@ public class OfflineJARGenerator {
                                 "args[1] as the path to a jar utility executable\n" +
                                 "args[2] as the path to build-local.properties" );
         }
-        new OfflineJARGenerator().generateOfflineJARs( new File( args[0] ), args[1], BuildLocalProperties.initFromPropertiesFile( new File( args[2] ) ) );
+        new JARGenerator().generateOfflineJARs( new File( args[0] ), args[1], BuildLocalProperties.initFromPropertiesFile( new File( args[2] ) ) );
     }
 
     private void generateOfflineJARs( File jar, String pathToJARUtility,BuildLocalProperties buildLocalProperties ) throws IOException, InterruptedException {
