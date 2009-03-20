@@ -74,7 +74,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     private StatesOfMatterAtom m_movableParticle;
     private ParticleForceNode m_fixedParticleNode;
     private GrabbableParticleNode m_movableParticleNode;
-    private InteractionPotentialDiagramNode m_diagram;
+    private InteractionPotentialDiagramNode m_interactionPotentialdiagram;
     private StatesOfMatterAtom.Listener m_atomListener;
     private boolean m_showAttractiveForces;
     private boolean m_showRepulsiveForces;
@@ -149,17 +149,17 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         // needs to be sized so that one picometer on the canvas is the same as
         // one picometer on the diagram.  Hence the somewhat tricky scaling
         // calculation.
-        m_diagram = new InteractiveInteractionPotentialDiagram(m_model.getFixedMoleculeSigma(),
+        m_interactionPotentialdiagram = new InteractiveInteractionPotentialDiagram(m_model.getFixedMoleculeSigma(),
                 m_model.getEpsilon(), true,m_model);
-        double desiredWidth = m_diagram.getXAxisRange() + 
-                ((1 - m_diagram.getXAxisGraphProportion()) * m_diagram.getXAxisRange());
-        double diagramScaleFactor = desiredWidth / m_diagram.getFullBoundsReference().width;
-        m_diagram.scale( diagramScaleFactor );
+        double desiredWidth = m_interactionPotentialdiagram.getXAxisRange() + 
+                ((1 - m_interactionPotentialdiagram.getXAxisGraphProportion()) * m_interactionPotentialdiagram.getXAxisRange());
+        double diagramScaleFactor = desiredWidth / m_interactionPotentialdiagram.getFullBoundsReference().width;
+        m_interactionPotentialdiagram.scale( diagramScaleFactor );
         
         // Position the diagram so that the x origin lines up with the fixed particle.
-        m_diagram.setOffset( -m_diagram.getFullBoundsReference().width * (1 - m_diagram.getXAxisGraphProportion()), 
-                  -m_diagram.getFullBoundsReference().height * 1.3 );
-        addWorldChild( m_diagram );
+        m_interactionPotentialdiagram.setOffset( -m_interactionPotentialdiagram.getFullBoundsReference().width * (1 - m_interactionPotentialdiagram.getXAxisGraphProportion()), 
+                  -m_interactionPotentialdiagram.getFullBoundsReference().height * 1.3 );
+        addWorldChild( m_interactionPotentialdiagram );
         
         // Add the button for retrieving the atom to the canvas. 
         m_retrieveAtomButtonNode = new GradientButtonNode(StatesOfMatterStrings.RETRIEVE_ATOM, 16, new Color(0xffcc66));
@@ -167,7 +167,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         m_retrieveAtomButtonNode.setVisible( false );
         addWorldChild( m_retrieveAtomButtonNode );
         m_retrieveAtomButtonNode.setOffset( 
-                m_diagram.getFullBoundsReference().getMaxX() - m_retrieveAtomButtonNode.getFullBoundsReference().width,
+                m_interactionPotentialdiagram.getFullBoundsReference().getMaxX() - m_retrieveAtomButtonNode.getFullBoundsReference().width,
                 StatesOfMatterConstants.MAX_SIGMA / 3 * 1.1 );  // Almost fully below the largest atom.
         
         // Register to receive button pushes.
@@ -243,11 +243,11 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
             addWorldChild( m_wiggleMe );
             
             // Animate from off to the left to the position of the movable atom.
-            PBounds diagramBounds = m_diagram.getFullBoundsReference();
+            PBounds diagramBounds = m_interactionPotentialdiagram.getFullBoundsReference();
             m_wiggleMe.setOffset( diagramBounds.getMinX() - (diagramBounds.width * 0.5), 
-                    m_diagram.getFullBoundsReference().getMaxY() + m_wiggleMe.getFullBoundsReference().height );
+                    m_interactionPotentialdiagram.getFullBoundsReference().getMaxY() + m_wiggleMe.getFullBoundsReference().height );
             m_wiggleMe.animateToPositionScaleRotation( m_model.getMovableParticleRef().getX(),
-                    m_diagram.getFullBoundsReference().getMaxY() + m_wiggleMe.getFullBoundsReference().height, wiggleMeScale, 0, 5000 );
+                    m_interactionPotentialdiagram.getFullBoundsReference().getMaxY() + m_wiggleMe.getFullBoundsReference().height, wiggleMeScale, 0, 5000 );
             
             // Clicking anywhere on the canvas makes the wiggle me go away.
             addInputEventListener( new PBasicInputEventHandler() {
@@ -409,15 +409,15 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
             double distance = m_fixedParticle.getPositionReference().distance( m_movableParticle.getPositionReference() );
 
             if (distance > 0){
-                m_diagram.setMarkerEnabled( true );
-                m_diagram.setMarkerPosition( distance );
+                m_interactionPotentialdiagram.setMarkerEnabled( true );
+                m_interactionPotentialdiagram.setMarkerPosition( distance );
             }
             else{
-                m_diagram.setMarkerEnabled( false );
+                m_interactionPotentialdiagram.setMarkerEnabled( false );
             }
         }
         else{
-            m_diagram.setMarkerEnabled( false );
+            m_interactionPotentialdiagram.setMarkerEnabled( false );
         }
     }
     
