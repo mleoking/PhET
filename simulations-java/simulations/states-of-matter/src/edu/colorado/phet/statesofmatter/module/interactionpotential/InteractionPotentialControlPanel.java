@@ -267,7 +267,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_atomDiameterControl.setUpDownArrowDelta( 0.01 );
             m_atomDiameterControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    m_model.setSigma( m_atomDiameterControl.getValue() );
+                    m_model.setAdjustableParticleSigma( m_atomDiameterControl.getValue() );
                 }
             });
             m_atomDiameterControl.getSlider().addMouseListener(new MouseAdapter() {
