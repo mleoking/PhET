@@ -551,7 +551,7 @@ public class ModelSlider extends JPanel {
         }
     }
 
-    public void setValue( double value ) {
+    public void setValue( final double value ) {
         //bugfix: test for change of state was incomplete: comparing the new 'value' against the old 'value' missed valid changes in the transform.
         if ( slider.getValue() == modelViewTransform.modelToView( value ) && this.value == value ) {
             return;
@@ -560,7 +560,9 @@ public class ModelSlider extends JPanel {
             String string = textFieldFormat.format( value );
             double newValue= value;
             try {
-                newValue = DecimalFormat.getNumberInstance( PhetResources.readLocale() ).parse( string).doubleValue();
+
+                newValue = textFieldFormat.parse( string).doubleValue();
+//                System.out.println( "value="+value+", string = " + string +", newValue="+newValue);
             }
             catch( ParseException e ) {
                 e.printStackTrace();
