@@ -129,6 +129,7 @@ public class BuildScript {
 
         System.out.println( "Copying version files to deploy dir." );
         copyVersionFilesToDeployDir();
+//        copyImageFilesToDeployDir();//TODO: enable image copying
 
         boolean ok = preDeployTask.invoke();
         if ( !ok ) {
@@ -155,6 +156,15 @@ public class BuildScript {
         for ( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener) listeners.get( i );
             listener.deployFinished( this, project, server.getCodebase( project ) );
+        }
+    }
+
+    private void copyImageFilesToDeployDir() {
+        try {
+            new ScreenshotProcessor().copyScreenshotsToDeployDir(project);
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
         }
     }
 

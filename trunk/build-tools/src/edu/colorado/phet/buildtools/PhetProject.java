@@ -56,7 +56,7 @@ public abstract class PhetProject {
     private String getJarName() {
         return PhetApplicationConfig.getProjectJarName( getName() );
     }
-    
+
     public File getDefaultDeployJar() {
         return new File( getDeployDir(), getJarName() );
     }
@@ -842,6 +842,10 @@ public abstract class PhetProject {
 
     /*JNLP for web start, HTML for Flash*/
     public abstract String getLaunchFileSuffix();
+
+    public File getScreenshot( String sim ) {
+        return new File( getProjectDir(),"screenshots/"+sim+"-screenshot.png");
+    }
 
     public static interface Listener {
         public void changesTextChanged();
