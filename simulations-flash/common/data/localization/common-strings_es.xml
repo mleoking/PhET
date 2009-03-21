@@ -62,7 +62,7 @@
 <string key="Distribution" value="Distribución"/>
 <string key="LicenseLibraries" value="Información sobre la licencia de uso de librerías."/>
 <string key="PrivacyDetails" value="Detalles de privacidad"/>
-<string key="StatisticsField-sim_svn_revision" value="Versión de simulación (revisión)"/>
+<string key="StatisticsField-sim_revision" value="Versión de simulación (revisión)"/>
 <string key="NotUpdateSim" value="Esta simulación no puede actualizarse automaticamente."/>
 <string key="CurrentVersionIs" value="La versión actual de {0} es {1}"/>
 <string key="StatisticsField-host_flash_os" value="Systema operativo y nombre"/>

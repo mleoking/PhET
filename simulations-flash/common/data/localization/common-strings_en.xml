@@ -59,7 +59,7 @@
   <string key="StatisticsField-sim_major_version" value="Simulation version (major)" />
   <string key="StatisticsField-sim_minor_version" value="Simulation version (minor)" />
   <string key="StatisticsField-sim_dev_version" value="Simulation version (dev)" />
-  <string key="StatisticsField-sim_svn_revision" value="Simulation version (revision)" />
+  <string key="StatisticsField-sim_revision" value="Simulation version (revision)" />
   <string key="StatisticsField-sim_version_timestamp" value="Simulation version (timestamp)" />
   <string key="StatisticsField-sim_distribution_tag" value="Simulation version (distribution)" />
   <string key="StatisticsField-sim_locale_language" value="Language" />

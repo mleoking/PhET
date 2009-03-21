@@ -57,7 +57,7 @@ class edu.colorado.phet.flashcommon.Statistics {
 				sim_major_version : "Simulation version (major)",
 				sim_minor_version : "Simulation version (minor)",
 				sim_dev_version : "Simulation version (dev)",
-				sim_svn_revision : "Simulation version (revision)",
+				sim_revision : "Simulation version (revision)",
 				sim_version_timestamp : "Simulation version (timestamp)",
 				sim_distribution_tag : "Simulation version (distribution)",
 				sim_locale_language : "Language",
@@ -114,7 +114,7 @@ class edu.colorado.phet.flashcommon.Statistics {
 		str += fieldFormat("sim_major_version", common.getVersionMajor(), humanReadable);
 		str += fieldFormat("sim_minor_version", common.getVersionMinor(), humanReadable);
 		str += fieldFormat("sim_dev_version", common.getVersionDev(), humanReadable);
-		str += fieldFormat("sim_svn_revision", common.getVersionRevision(), humanReadable);
+		str += fieldFormat("sim_revision", common.getVersionRevision(), humanReadable);
 		str += fieldFormat("sim_version_timestamp", common.getVersionTimestamp(), humanReadable);
 		
 		str += fieldFormat("sim_locale_language", common.getLanguage(), humanReadable);
