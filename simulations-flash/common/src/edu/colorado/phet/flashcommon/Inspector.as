@@ -11,6 +11,8 @@ class edu.colorado.phet.flashcommon.Inspector {
 	public var inputText : TextField;
 	public var hits : MovieClip;
 	
+	public var common : FlashCommon;
+	
 	// shorthand for debugging function
 	public function debug(str : String) : Void {
 		_level0.debug(str);
@@ -19,6 +21,9 @@ class edu.colorado.phet.flashcommon.Inspector {
 	public function Inspector() {
 		//debug("Initializing Inspector\n");
 		mc = _level0.createEmptyMovieClip("inspector", 105849);
+		
+		// shortcut to FlashCommon, but now with type-checking!
+		common = _level0.common;
 		
 		// catch key events to this object
 		Key.addListener(this);
@@ -149,6 +154,10 @@ class edu.colorado.phet.flashcommon.Inspector {
 	}
 	
 	public function onKeyDown() {
+		if(!common.getDev()) {
+			return;
+		}
+		
 		if((Key.getCode() == Key.PGDN || Key.getCode() == 122) && Key.isDown(Key.SHIFT)) {
 			// page down or F11
 			_level0.inspector.hits.onPress();

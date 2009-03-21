@@ -87,7 +87,7 @@ public class FlashLauncher {
     /*
      * Launches the simulation in a web browser.
      */
-    private void start() throws IOException {
+    private void start( String args[] ) throws IOException {
 
          // read the properties file
         Properties properties = readProperties( simName );
@@ -131,7 +131,19 @@ public class FlashLauncher {
         // read the background color property
         String bgcolor = readBackgroundColor( properties );
 
-        String simDev = "true"; // TODO: allow construction of dev and non-dev JARs
+
+        String simDev = "false";
+
+        if( !versionDev.equals( "0" ) && !versionDev.equals( "00" ) ) {
+            simDev = "true";
+        }
+
+        for( int i = 0; i < args.length; i++ ) {
+            if( args[i].equals( "-dev" ) ) {
+                simDev = "true";
+            }
+        }
+        
 
         // get the locale string
         String locale = FlashHTML.localeString( language, country );
@@ -235,7 +247,7 @@ public class FlashLauncher {
     public static void main( String[] args ) throws IOException {
         System.out.println( "FlashLauncher.main started" );
 //        JOptionPane.showMessageDialog( null, System.getProperty( "java.class.path" ) );
-        new FlashLauncher().start();
+        new FlashLauncher().start( args );
         System.out.println( "FlashLauncher.main finished" );
     }
 }

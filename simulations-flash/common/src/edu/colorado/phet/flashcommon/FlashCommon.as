@@ -115,8 +115,9 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 		preferences = new Preferences();
 		
 		// DEVELOPMENT: load the inspector
-		inspector = new Inspector();
-		
+		if(getDev()) {
+			inspector = new Inspector();
+		}
 	}
 	
 	// this should be called from preferences when it is verified the
@@ -167,8 +168,10 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 		return (str.substr(0, 2) == "@@" && str.substr(-2, 2) == "@@");
 	}
 	
-	// TODO: remove after DEVELOPMENT??? or make harder to access debugging areas
 	public function onKeyDown() {
+		if(!getDev()) {
+			return;
+		}
 		if((Key.getCode() == Key.PGUP || Key.getCode() == 121) && Key.isDown(Key.SHIFT)) {
 			// page up OR F10
 			_level0.debugs._visible = !_level0.debugs._visible;
