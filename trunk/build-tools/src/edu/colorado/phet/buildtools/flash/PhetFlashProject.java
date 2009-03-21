@@ -228,7 +228,13 @@ public class PhetFlashProject extends PhetProject {
             PhetVersion version = super.getVersion();
             try {
                 String bgColor = getProjectProperties().getProperty( "bgcolor" );
-                String simDev = "true"; // TODO: handle what will be sent as the sim_dev field for statistics
+
+                String simDev = "false";
+
+                if( !version.getDev().equals( "0" ) && !version.getDev().equals( "00" ) ) {
+                    simDev = "true";
+                }
+
                 String countryCode = locale.getCountry();
 
                 // TODO: maybe version.formatTimestamp() will work sometime in the future?

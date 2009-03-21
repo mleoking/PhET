@@ -339,7 +339,11 @@ class edu.colorado.phet.flashcommon.Preferences {
 	/////////////////////////////////////////
 	// for resetting preferences data
 	public function onKeyDown() : Void {
-		if(Key.getCode() == 119) {
+		if(!common.getDev()) {
+			return;
+		}
+		
+		if(Key.getCode() == 119 && Key.isDown(Key.SHIFT)) {
 			// F8 was pressed
 			debug("Preferences: Manually resetting shared data\n");
 			load();
