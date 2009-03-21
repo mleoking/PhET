@@ -1,3 +1,5 @@
+# 0.04.00 (29587) Mar 21, 2009
+3/21/09 Testing HTML title version numbers
 # 0.03.17 (29285) Mar 6, 2009
 3/6/09 Testing behavior under jar signatures and offline jar generator
 # 0.03.16 (29050) Feb 25, 2009
