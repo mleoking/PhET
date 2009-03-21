@@ -14,7 +14,9 @@ class FlashSimulation extends BaseSimulation {
         $filename = $this->getProjectFilename();
 
         if (!file_exists($filename)) {
-            throw new RuntimeException("Cannot get size, SWF file '{$filename}' does not exist");
+            return 0;
+            // Don't throw until file size checkers catch it
+            //throw new RuntimeException("Cannot get size, SWF file '{$filename}' does not exist");
         }
 
         return (int) (filesize($filename) / 1024);

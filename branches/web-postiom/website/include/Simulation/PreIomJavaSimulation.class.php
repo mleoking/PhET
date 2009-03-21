@@ -15,7 +15,9 @@ class PreIomJavaSimulation extends JavaSimulation {
 
         $filename = $this->getPreIomProjectFilename();
         if (!file_exists($filename)) {
-            throw new PhetSimException("Cannot get size, project file '{$file}' does not exist");
+            return 0;
+            // Don't throw until file size checkers catch it
+            //throw new PhetSimException("Cannot get size, project file '{$filename}' does not exist");
         }
 
         return (int) (filesize($filename) / 1024);
