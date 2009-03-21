@@ -191,7 +191,7 @@ public class FlashLauncher {
                 installerCreationTimestamp, versionMajor, versionMinor, versionDev, versionRevision, versionTimestamp, simDev, bgcolor,
                 simEncodedXML, commonEncodedXML, "8","flash-template.html", agreementVersion, encodedAgreement, creditsString,
                 titleString );
-        File htmlFile = new File( unzipDir, simName + "_" + language + ".html" );
+        File htmlFile = new File( unzipDir, simName + "_" + locale + ".html" );
         FileOutputStream outputStream = new FileOutputStream( htmlFile );
         outputStream.write( html.getBytes() );
         outputStream.close();
