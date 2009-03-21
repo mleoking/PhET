@@ -32,7 +32,6 @@ public class StatisticsDeployCommand {
             "parsed-log.txt",
             "db-stats-login.php",
             "create_remote_backup",
-            "phet_stats.sql",
             "deploy",
             "reset_db",
             "reset_db_for_restore",
