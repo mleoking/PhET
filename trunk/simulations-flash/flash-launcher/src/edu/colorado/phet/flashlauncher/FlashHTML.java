@@ -101,8 +101,17 @@ public class FlashHTML {
         s = s.replaceAll( "@@creditsText@@", parseCredits( creditsString ) );
         s = s.replaceAll( "@@simTitle@@", XMLUtils.HTMLEntityEncode( titleString ) );
         s = s.replaceAll( "@@encodedSimTitle@@", encodeXML( titleString ) );
+        s = s.replaceAll( "@@versionTitle@@", versionTitleString( versionMajor, versionMinor, versionDev ) );
 
         return s;
+    }
+
+    public static String versionTitleString( String versionMajor, String versionMinor, String versionDev ) {
+        String ret = versionMajor + "." + versionMinor;
+        if( !versionDev.equals("0") && !versionDev.equals("00") ) {
+            ret += "." + versionDev;
+        }
+        return ret;
     }
 
     public static String localeString( String language, String country ) {
