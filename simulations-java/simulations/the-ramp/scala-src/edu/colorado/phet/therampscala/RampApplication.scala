@@ -7,18 +7,75 @@ import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.util.PhetFont
 import common.phetcommon.view.VerticalLayoutPanel
 import common.piccolophet.event.CursorHandler
+import common.piccolophet.nodes.PhetPPath
 import common.piccolophet.PhetPCanvas
-import java.awt.geom.Rectangle2D
-import java.awt.{Rectangle, Dimension, Color}
 import edu.colorado.phet.scalacommon.Predef._
+import java.awt.geom.{Line2D, Rectangle2D, Ellipse2D, Point2D}
+import java.awt.{Rectangle, Dimension, BasicStroke, Color}
 import javax.swing.{JButton, BoxLayout, JPanel}
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
+import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.nodes.PText
 import umd.cs.piccolo.PNode
 import scalacommon.{CenteredBoxStrategy, ScalaApplicationLauncher, ScalaClock}
 
-class RampSegment
+case class RampSegmentState(startPoint: Vector2D, endPoint: Vector2D) { //don't use Point2D since it's not immutable
+  def setStartPoint(newStartPoint: Vector2D) = new RampSegmentState(newStartPoint, endPoint)
+
+  def setEndPoint(newEndPoint: Vector2D) = new RampSegmentState(startPoint, newEndPoint)
+}
+class RampSegment(_state: RampSegmentState) extends Observable {
+  var state = _state;
+  def this(startPt: Point2D, endPt: Point2D) = this (new RampSegmentState(startPt, endPt))
+
+  def toLine2D = new Line2D.Double(state.startPoint, state.endPoint)
+
+  def startPoint = state.startPoint
+
+  def endPoint = state.endPoint
+
+  def startPoint_=(pt: Vector2D) = {
+    state = state.setStartPoint(pt)
+    notifyListeners()
+  }
+
+  def endPoint_=(pt: Vector2D) = {
+    state = state.setEndPoint(pt)
+    notifyListeners()
+  }
+}
+
+class Circle(center: Vector2D, radius: Double) extends Ellipse2D.Double(center.x - radius, center.y - radius, radius * 2, radius * 2)
+
+class RampSegmentNode(rampSegment: RampSegment, transform: ModelViewTransform2D) extends PNode {
+  val line = new PhetPPath(new BasicStroke(1f), Color.black)
+  addChild(line)
+
+  defineInvokeAndPass(rampSegment.addListenerByName){
+    line.setPathTo(rampSegment.toLine2D)
+  }
+
+  class SegmentPointNode(getPoint: () => Vector2D, setPoint: (Vector2D) => Unit) extends PNode {
+    val node = new PhetPPath(Color.blue)
+
+    def createPath = new Circle(getPoint(), 10)
+
+    addChild(node)
+    node.addInputEventListener(new PBasicInputEventHandler() {
+      override def mouseDragged(event: PInputEvent) = {
+        setPoint(getPoint() + event.getDeltaRelativeTo(node.getParent))
+      }
+    })
+    node.addInputEventListener(new CursorHandler)
+    defineInvokeAndPass(rampSegment.addListenerByName){
+      node.setPathTo(createPath)
+    }
+  }
+
+  addChild(new SegmentPointNode(() => rampSegment.startPoint, pt => rampSegment.startPoint = pt))
+  addChild(new SegmentPointNode(() => rampSegment.endPoint, pt => rampSegment.endPoint = pt))
+}
 
 class BlockState(_position: Vector2D, _velocity: Vector2D) {
   val position = _position
@@ -49,6 +106,8 @@ class RampModel {
   blocks += new Block
   val blockListeners = new ArrayBuffer[Block => Unit]
 
+  rampSegments += new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(100, 100))
+
   def update(dt: Double) = {
     blocks.foreach(b => b.translate(b.velocity * dt))
   }
@@ -74,6 +133,8 @@ class RampCanvas(model: RampModel) extends DefaultCanvas(20, 20) {
   addNode(blockNode)
 
   model.blockListeners += (b => addNode(new BlockNode(b, transform)))
+
+  addNode(new RampSegmentNode(model.rampSegments(0), transform))
 }
 
 class RampControlPanel(model: RampModel) extends JPanel {
