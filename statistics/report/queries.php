@@ -139,7 +139,7 @@
 		    "sim_major_version" => "session",
 		    "sim_minor_version" => "session",
 		    "sim_dev_version" => "session",
-		    "sim_svn_revision" => "session",
+		    "sim_revision" => "session",
 		    "sim_version_timestamp" => "session",
 		    "host_flash_version_major" => "session_flash_info",
 		    "host_flash_version_minor" => "session_flash_info",
@@ -216,7 +216,7 @@
 					array_push($group_by, "month");
 					break;
 				case "version":
-					$pre_select .= "CONCAT(session.sim_major_version, '.', session.sim_minor_version, '.', session.sim_dev_version, ' (', session.sim_svn_revision, ')') AS version, ";
+					$pre_select .= "CONCAT(session.sim_major_version, '.', session.sim_minor_version, '.', session.sim_dev_version, ' (', session.sim_revision, ')') AS version, ";
 					array_push($group_by, "version");
 					break;
 				case "sim_locale":
@@ -454,14 +454,14 @@ SELECT
 	session.id,
 	session.timestamp,
 	session.message_version,
-	session.server_svn_revision,
+	session.server_revision,
 	sim_type.name AS sim_type,
 	sim_project.name AS sim_project,
 	sim_name.name AS sim_name,
 	session.sim_major_version,
 	session.sim_minor_version,
 	session.sim_dev_version,
-	session.sim_svn_revision,
+	session.sim_revision,
 	session.sim_version_timestamp,
 	session.sim_locale_language,
 	session.sim_locale_country,
@@ -490,13 +490,13 @@ SELECT
 	session.id,
 	session.timestamp,
 	session.message_version,
-	session.server_svn_revision,
+	session.server_revision,
 	sim_project.name AS sim_project,
 	sim_name.name AS sim_name,
 	session.sim_major_version,
 	session.sim_minor_version,
 	session.sim_dev_version,
-	session.sim_svn_revision,
+	session.sim_revision,
 	session.sim_version_timestamp,
 	session.sim_locale_language,
 	session.sim_locale_country,
@@ -537,13 +537,13 @@ SELECT
 	session.id,
 	session.timestamp,
 	session.message_version,
-	session.server_svn_revision,
+	session.server_revision,
 	sim_project.name AS sim_project,
 	sim_name.name AS sim_name,
 	session.sim_major_version,
 	session.sim_minor_version,
 	session.sim_dev_version,
-	session.sim_svn_revision,
+	session.sim_revision,
 	session.sim_version_timestamp,
 	session.sim_locale_language,
 	session.sim_locale_country,

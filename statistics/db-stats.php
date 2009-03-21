@@ -118,14 +118,14 @@ BOO;
 		$values = array(
 			'timestamp' => 'NOW()',
 			'message_version' => mysql_real_escape_string($data['message_version']),
-			'server_svn_revision' => $serverVersion,
+			'server_revision' => $serverVersion,
 			'sim_type' => $sim_type_ID,
 			'sim_project' => $sim_project_ID,
 			'sim_name' => $sim_name_ID,
 			'sim_major_version' => mysql_real_escape_string($data['sim_major_version']),
 			'sim_minor_version' => mysql_real_escape_string($data['sim_minor_version']),
 			'sim_dev_version' => mysql_real_escape_string($data['sim_dev_version']),
-			'sim_svn_revision' => mysql_real_escape_string($data['sim_svn_revision']),
+			'sim_revision' => mysql_real_escape_string($data['sim_revision']),
 			'sim_version_timestamp' => 'FROM_UNIXTIME(' . mysql_real_escape_string($data['sim_version_timestamp']) . ')',
 			'sim_locale_language' => quo($data['sim_locale_language']),
 			'sim_locale_country' => quo($data['sim_locale_country']),
@@ -401,7 +401,7 @@ BOO;
 		
 		$values = array(
 			'timestamp' => 'NOW()',
-			'server_svn_revision' => $serverVersion,
+			'server_revision' => $serverVersion,
 			'raw_post_data' => quo($raw_post_data),
 			'mysql_error' => quo(mysql_error()),
 			'error_info' => quo($info)

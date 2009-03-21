@@ -77,7 +77,7 @@ CREATE TABLE session (
 	message_version TINYINT UNSIGNED,
 	
 	# version of the server-side code that recorded this message
-	server_svn_revision MEDIUMINT UNSIGNED,
+	server_revision MEDIUMINT UNSIGNED,
 	
 	# Java (0) or Flash (1)
 	sim_type TINYINT UNSIGNED NOT NULL,
@@ -90,7 +90,7 @@ CREATE TABLE session (
 	sim_major_version TINYINT UNSIGNED,
 	sim_minor_version TINYINT UNSIGNED,
 	sim_dev_version SMALLINT UNSIGNED,
-	sim_svn_revision MEDIUMINT UNSIGNED,
+	sim_revision MEDIUMINT UNSIGNED,
 	sim_version_timestamp DATETIME,
 	
 	# locale of the simulation run
@@ -272,7 +272,7 @@ CREATE TABLE message_error (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	
 	timestamp DATETIME,
-	server_svn_revision MEDIUMINT UNSIGNED,
+	server_revision MEDIUMINT UNSIGNED,
 	raw_post_data VARCHAR(2000),
 	mysql_error VARCHAR(2000),
 	error_info VARCHAR(2000)
