@@ -174,7 +174,7 @@
 		
 		myKeyListener.onKeyDown = function(){
 			var pressedKeyCode:Number = Key.getCode();
-			if(pressedKeyCode == Key.SPACE){
+			if(pressedKeyCode == Key.SPACE && _level0.common.getDev()){
 				controllerRef.view_arr[0].pendulum.dtMax = 0;
 				controllerRef.view_arr[0].pendulum.dtMin = 1000;
 				controllerRef.view_arr[0].pendulum.dtAvg = 0;
