@@ -64,7 +64,7 @@ public class SessionMessage extends StatisticsMessage {
                 new StatisticsMessageField( "Common.statistics.sim_major_version", "sim_major_version", simInfo.getVersion().getMajor() ),
                 new StatisticsMessageField( "Common.statistics.sim_minor_version", "sim_minor_version", simInfo.getVersion().getMinor() ),
                 new StatisticsMessageField( "Common.statistics.sim_dev_version", "sim_dev_version", simInfo.getVersion().getDev() ),
-                new StatisticsMessageField( "Common.statistics.sim_revision", "sim_svn_revision", simInfo.getVersion().getRevision() ),
+                new StatisticsMessageField( "Common.statistics.sim_revision", "sim_revision", simInfo.getVersion().getRevision() ),
                 new StatisticsMessageField( "Common.statistics.sim_version_timestamp", "sim_version_timestamp", simInfo.getVersion().getTimestampSeconds() ),
                 new StatisticsMessageField( "Common.statistics.sim_distribution_tag", "sim_distribution_tag", simInfo.getDistributionTag() ),
                 new StatisticsMessageField( "Common.statistics.sim_locale_language", "sim_locale_language", PhetResources.readLocale().getLanguage() ),
