@@ -19,7 +19,7 @@ public class ChargesAndFieldsDisplay extends Sprite {
 
     private var charges : Array = new Array();
 
-    public function ChargesAndFieldsDisplay(tempStage : Stage) {
+    public function ChargesAndFieldsDisplay( tempStage : Stage ) {
         myWidth = tempStage.stageWidth;
         myHeight = tempStage.stageHeight;
 
@@ -31,11 +31,12 @@ public class ChargesAndFieldsDisplay extends Sprite {
         mosaic = new VoltageMosaic(model, myWidth, myHeight);
         addChild(mosaic);
 
-        for (var i : uint = 0; i < 1; i++) {
+        for ( var i : uint = 0; i < 1; i++ ) {
             var charge : Charge;
-            if (i % 2 == 0) {
+            if ( i % 2 == 0 ) {
                 charge = new MinusCharge(mosaic);
-            } else {
+            }
+            else {
                 charge = new PlusCharge(mosaic);
             }
             addChild(charge);
@@ -48,7 +49,7 @@ public class ChargesAndFieldsDisplay extends Sprite {
 
     }
 
-    public function onResize(evt : Event) : void {
+    public function onResize( evt : Event ) : void {
         myWidth = this.stage.stageWidth;
         myHeight = this.stage.stageHeight;
         background.changeSize(myWidth, myHeight);
@@ -56,7 +57,7 @@ public class ChargesAndFieldsDisplay extends Sprite {
     }
 
     public function clearCharges() : void {
-        for (var i : int = 0; i < charges.length; i++) {
+        for ( var i : int = 0; i < charges.length; i++ ) {
             var charge : Charge = charges[i];
             removeChild(charge);
             model.removeCharge(charge);
@@ -66,23 +67,24 @@ public class ChargesAndFieldsDisplay extends Sprite {
         mosaic.draw();
     }
 
-    public function addCharge(charge : Charge) : void {
+    public function addCharge( charge : Charge ) : void {
         addChild(charge);
         charges.push(charge);
         model.addCharge(charge);
     }
 
-    public function scatterCharge(charge : Charge) : void {
+    public function scatterCharge( charge : Charge ) : void {
         charge.setDisplayPosition(Math.random() * myWidth, Math.random() * myHeight);
     }
 
-    public function addRandomCharges(quantity : int) : void {
-        for (var i : int = 0; i < quantity; i++) {
+    public function addRandomCharges( quantity : int ) : void {
+        for ( var i : int = 0; i < quantity; i++ ) {
             var charge : Charge;
 
-            if (Math.random() < 0.5) {
+            if ( Math.random() < 0.5 ) {
                 charge = new PlusCharge(mosaic);
-            } else {
+            }
+            else {
                 charge = new MinusCharge(mosaic);
             }
 
@@ -115,7 +117,7 @@ public class ChargesAndFieldsDisplay extends Sprite {
         mosaic.draw();
     }
 
-    public function setKScaled(event : SliderEvent) : void {
+    public function setKScaled( event : SliderEvent ) : void {
         Model.setKScaled(event);
         mosaic.draw();
     }

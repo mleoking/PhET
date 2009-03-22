@@ -17,7 +17,7 @@ public class Charge extends Sprite {
 
     private var timer : Timer;
 
-    public function Charge(mosaic : VoltageMosaic) {
+    public function Charge( mosaic : VoltageMosaic ) {
 
         this.mosaic = mosaic;
         dragging = false;
@@ -34,7 +34,7 @@ public class Charge extends Sprite {
         addEventListener(MouseEvent.MOUSE_UP, mouseUp);
     }
 
-    public function setDisplayPosition(x : Number, y : Number) : void {
+    public function setDisplayPosition( x : Number, y : Number ) : void {
         this.x = x;
         this.y = y;
 
@@ -47,19 +47,19 @@ public class Charge extends Sprite {
         modelY = y;
     }
 
-    public function mouseDown(evt : MouseEvent) : void {
+    public function mouseDown( evt : MouseEvent ) : void {
         startDrag();
         timer.start();
     }
 
-    public function mouseUp(evt : MouseEvent) : void {
+    public function mouseUp( evt : MouseEvent ) : void {
         timer.stop();
         stopDrag();
         displayPositionToModel();
         mosaic.draw();
     }
 
-    public function onTick(event : TimerEvent) : void {
+    public function onTick( event : TimerEvent ) : void {
         //trace("tick");
         displayPositionToModel();
         mosaic.draw();
