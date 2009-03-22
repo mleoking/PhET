@@ -64,7 +64,7 @@ public class EnergyHistogramDialog extends JDialog {
 
     // Out-of-range indicator fields
     private String inRangeIndicator = "  ";
-    private String outOfRangeIndicator = "»";
+    private String outOfRangeIndicator = ">>";
     private JLabel energyOutOfRangeIndicator = new JLabel( outOfRangeIndicator );
     private JLabel speedOutOfRangeIndicator = new JLabel( outOfRangeIndicator );
     private JLabel heavySpeciesSpeedOutOfRangeIndicator = new JLabel( outOfRangeIndicator );
