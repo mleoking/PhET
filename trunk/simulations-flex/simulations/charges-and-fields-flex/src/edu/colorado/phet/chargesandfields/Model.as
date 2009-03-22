@@ -23,7 +23,7 @@ public class Model {
 
     }
 
-    public function addCharge(charge : Charge) : void {
+    public function addCharge( charge : Charge ) : void {
         chargeArray.push(charge);
         // TODO: setChanged or notifyObservers?
     }
@@ -34,17 +34,17 @@ public class Model {
      }
      */
 
-    public static function setKScaled(event : SliderEvent) : void {
+    public static function setKScaled( event : SliderEvent ) : void {
         k = Math.exp(event.value);
         kScaled = Math.log(k);
     }
 
-    public function removeCharge(charge : Charge) : Boolean {
+    public function removeCharge( charge : Charge ) : Boolean {
 
         // pull out removal from array into helper function somewhere
         var len : uint = chargeArray.length;
-        for (var i : uint = 0; i < chargeArray.length; i++) {
-            if (charge == chargeArray[i]) {
+        for ( var i : uint = 0; i < chargeArray.length; i++ ) {
+            if ( charge == chargeArray[i] ) {
                 chargeArray.splice(i, 1);
                 // TODO: setChanged or notifyObservers?
 
@@ -65,7 +65,7 @@ public class Model {
      }
      */
 
-    public function getE(x : Number, y : Number) : Array {
+    public function getE( x : Number, y : Number ) : Array {
 
         // TODO: optimize function for AS3
 
@@ -75,7 +75,7 @@ public class Model {
         var sumX : Number = 0;
         var sumY : Number = 0;
 
-        for (var i : uint = 0; i < len; i++) {
+        for ( var i : uint = 0; i < len; i++ ) {
             var xi : Number = chargeArray[i].modelX;
             var yi : Number = chargeArray[i].modelY;
             var distSq : Number = (x - xi) * (x - xi) + (y - yi) * (y - yi)
@@ -101,7 +101,7 @@ public class Model {
      */
 
     //returns voltage and color nbr (RGB values) associated with voltage
-    public function getV(x : Number, y : Number) : Array {
+    public function getV( x : Number, y : Number ) : Array {
         var len : uint = chargeArray.length;
         var sumV : Number = 0;
         var maxV : Number = 20000;//voltage at which color will saturate
@@ -113,7 +113,7 @@ public class Model {
         var yi : Number;
         var dist : Number;
 
-        for (var i : uint = 0; i < len; i++) {
+        for ( var i : uint = 0; i < len; i++ ) {
             var charge : Charge = chargeArray[i];
             xi = charge.modelX;
             yi = charge.modelY;
@@ -124,10 +124,11 @@ public class Model {
         sumV *= k;	//prefactor depends on units
 
         //set color associated with voltage
-        if (sumV > 0) {
+        if ( sumV > 0 ) {
             red = 255;
             green = blue = Math.max(0, (1 - (sumV / maxV)) * 255);
-        } else {
+        }
+        else {
             blue = 255;
             red = green = Math.max(0, (1 - (-sumV / maxV)) * 255);
         }
@@ -135,7 +136,7 @@ public class Model {
         return [ sumV, (red << 16) | (green << 8) | blue ];
     }
 
-    public function getVColor(x : Number, y : Number) : int {
+    public function getVColor( x : Number, y : Number ) : int {
         var len : int = chargeArray.length;
         var sumV : Number = 0;
 
@@ -145,7 +146,7 @@ public class Model {
         var charge : Charge;
 
 
-        for (var i : int = 0; i < len; i++) {
+        for ( var i : int = 0; i < len; i++ ) {
             charge = chargeArray[i];
             xi = x - charge.modelX;
             yi = y - charge.modelY;
@@ -164,7 +165,7 @@ public class Model {
 
 
         //set color associated with voltage
-        if (sumV > 0) {
+        if ( sumV > 0 ) {
             red = 255;
             green = blue = Math.max(0, ( 1 - scaled ) * 255);
             /*
@@ -172,7 +173,8 @@ public class Model {
              green = blue = ( 1 - scaled ) * 255;
              }
              */
-        } else {
+        }
+        else {
             blue = 255;
             red = green = Math.max(0, ( 1 + scaled ) * 255);
             /*
@@ -185,9 +187,9 @@ public class Model {
         return (red << 16) | (green << 8) | blue;
     }
 
-    public function getEX(x : Number, y : Number) : Number {
+    public function getEX( x : Number, y : Number ) : Number {
         var sum : Number = 0;
-        for (var i : uint = 0; i < chargeArray.length; i++) {
+        for ( var i : uint = 0; i < chargeArray.length; i++ ) {
             var xi : Number = chargeArray[i].modelX;
             var yi : Number = chargeArray[i].modelY;
             var distSq : Number = (x - xi) * (x - xi) + (y - yi) * (y - yi);
@@ -198,9 +200,9 @@ public class Model {
     }
 
     //return angle of E-field at position (x,y)
-    public function getEY(x:Number, y:Number):Number {
+    public function getEY( x:Number, y:Number ):Number {
         var sum : Number = 0;
-        for (var i : uint = 0; i < chargeArray.length; i++) {
+        for ( var i : uint = 0; i < chargeArray.length; i++ ) {
             var xi : Number = chargeArray[i].modelX;
             var yi : Number = chargeArray[i].modelY;
             var distSq : Number = (x - xi) * (x - xi) + (y - yi) * (y - yi);
@@ -211,7 +213,7 @@ public class Model {
     }
 
     //starting at (xInit, yInit), find final position distance delS along equipotential
-    public function getMoveToSameVPos(VInit:Number, delS:Number, xInit:Number, yInit:Number):Array {
+    public function getMoveToSameVPos( VInit:Number, delS:Number, xInit:Number, yInit:Number ):Array {
         var E0_array : Array = this.getE(xInit, yInit);  //E_array = [EMag, EAng, EX, EY]
         //var VInit = getV(xInit, yInit)[0];	//getV(x,y) returns [V,color]
         var EInit : Number = E0_array[0];
@@ -234,7 +236,7 @@ public class Model {
 
     //starting at (xInit,yInit) move along E-field direction and get (x,y) position at which voltage is targetV
     //this function unused at present
-    public function getTargetVPos(targetV:Number, xInit:Number, yInit:Number):Array {
+    public function getTargetVPos( targetV:Number, xInit:Number, yInit:Number ):Array {
         var E_array : Array = this.getE(xInit, yInit);  //E_array = [EMag, EAng, EX, EY]
         var VInit : Number = this.getV(xInit, yInit)[0];  //returns [voltage:Number, colorNbr:Number]
         var EInit : Number = E_array[0];

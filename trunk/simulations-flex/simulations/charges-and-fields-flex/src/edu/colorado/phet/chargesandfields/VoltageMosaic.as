@@ -16,7 +16,7 @@ public class VoltageMosaic extends Sprite {
     [Bindable]
     public var step : Number = 10;
 
-    public function VoltageMosaic(model : Model, w : Number, h : Number) {
+    public function VoltageMosaic( model : Model, w : Number, h : Number ) {
         this.model = model;
         myWidth = w;
         myHeight = h;
@@ -24,7 +24,7 @@ public class VoltageMosaic extends Sprite {
         draw();
     }
 
-    public function changeSize(w : Number, h : Number) : void {
+    public function changeSize( w : Number, h : Number ) : void {
         myWidth = w;
         myHeight = h;
         draw();
@@ -38,8 +38,8 @@ public class VoltageMosaic extends Sprite {
         var halfstep : Number = step * 0.5;
 
         var time : Number = (new Date()).valueOf();
-        for (var ox : Number = 0; ox < myWidth; ox += step) {
-            for (var oy : Number = 0; oy < myHeight; oy += step) {
+        for ( var ox : Number = 0; ox < myWidth; ox += step ) {
+            for ( var oy : Number = 0; oy < myHeight; oy += step ) {
                 // 30ms for getV total
                 //var color : uint = model.getV(ox + halfstep, oy + halfstep)[1];
                 var color : int = model.getVColor(ox + halfstep, oy + halfstep);
@@ -54,7 +54,7 @@ public class VoltageMosaic extends Sprite {
         fps = String(int(1000 / ((new Date()).valueOf() - time)));
     }
 
-    public function changeStepSize(event : SliderEvent) : void {
+    public function changeStepSize( event : SliderEvent ) : void {
         step = event.value;
         draw();
     }

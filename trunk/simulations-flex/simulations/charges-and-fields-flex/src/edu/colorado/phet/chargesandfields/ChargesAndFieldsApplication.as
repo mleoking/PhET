@@ -17,7 +17,7 @@ public class ChargesAndFieldsApplication extends UIComponent {
         this.addEventListener(Event.ADDED_TO_STAGE, init);
     }
 
-    public function init(evt : Event) : void {
+    public function init( evt : Event ) : void {
 
         display = new ChargesAndFieldsDisplay(stage);
         this.addChild(display);
