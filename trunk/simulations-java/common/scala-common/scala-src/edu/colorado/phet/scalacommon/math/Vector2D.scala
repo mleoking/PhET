@@ -37,6 +37,8 @@ class Vector2D(_x: Double, _y: Double) {
   def magnitude = java.lang.Math.sqrt(x * x + y * y);
 
   def dot(that: Vector2D) = x * that.x + y * that.y;
+
+  def normalize = this / this.magnitude
 }
 
 object TestVector2D {
