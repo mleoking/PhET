@@ -62,7 +62,7 @@ public class IntensityModule extends QWIModule {
             }
         } );
 
-        //•	Fixed: If I add double slits, and then add a detector on the left slit, without changing anything else first, the detector is shifted to the left, rather than directly over the slit, as it should be.
+        //Fixed: If I add double slits, and then add a detector on the left slit, without changing anything else first, the detector is shifted to the left, rather than directly over the slit, as it should be.
         getSchrodingerPanel().addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 splitModel.synchronizeDetectorRegions();

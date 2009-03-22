@@ -17,9 +17,9 @@ public class AtomLatticeControlPanel extends VerticalLayoutPanel {
     private DGModel dgModel;
 
     /*
-        •	 “Atom separation.”  Range should be from 0.4nm to 1.2nm, in increments of 0.1nm.  Default value should be 0.6nm  
+        Atom Separation: Range should be from 0.4nm to 1.2nm, in increments of 0.1nm.  Default value should be 0.6nm  
         (note that at low resolution, 1 grid point = 0.1nm)
-        •	 “Atom radius.”  Range should be from 0.05nm to 0.25nm, in increments of 0.05nm.  Default value should be 0.1nm.
+        Atom Radius: Range should be from 0.05nm to 0.25nm, in increments of 0.05nm.  Default value should be 0.1nm.
      */
     public AtomLatticeControlPanel( final DGModel dgModel ) {
         this.dgModel = dgModel;
