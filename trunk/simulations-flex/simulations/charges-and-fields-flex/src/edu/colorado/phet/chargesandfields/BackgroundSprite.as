@@ -1,18 +1,6 @@
 package edu.colorado.phet.chargesandfields {
 
-import flash.display.DisplayObject;
-import flash.display.Graphics;
-import flash.display.MovieClip;
 import flash.display.Sprite;
-import flash.display.Stage
-import flash.display.StageAlign;
-import flash.display.StageScaleMode;
-import flash.events.Event;
-import flash.events.KeyboardEvent;
-import flash.events.MouseEvent;
-import flash.geom.ColorTransform;
-import flash.text.TextField;
-import flash.ui.Keyboard;
 
 public class BackgroundSprite extends Sprite {
     private var myWidth : Number;

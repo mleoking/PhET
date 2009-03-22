@@ -1,18 +1,9 @@
 package edu.colorado.phet.chargesandfields {
 
-import flash.display.DisplayObject;
-import flash.display.Graphics;
-import flash.display.MovieClip;
 import flash.display.Sprite;
-import flash.display.Stage
-import flash.display.StageAlign;
-import flash.display.StageScaleMode;
+import flash.display.Stage;
 import flash.events.Event;
-import flash.events.KeyboardEvent;
-import flash.events.MouseEvent;
-import flash.geom.ColorTransform;
-import flash.text.TextField;
-import flash.ui.Keyboard;
+
 import mx.events.SliderEvent;
 
 public class ChargesAndFieldsDisplay extends Sprite {
@@ -25,7 +16,7 @@ public class ChargesAndFieldsDisplay extends Sprite {
 
     [Bindable]
     public var mosaic : VoltageMosaic;
-    
+
     private var charges : Array = new Array();
 
     public function ChargesAndFieldsDisplay(tempStage : Stage) {
@@ -40,9 +31,9 @@ public class ChargesAndFieldsDisplay extends Sprite {
         mosaic = new VoltageMosaic(model, myWidth, myHeight);
         addChild(mosaic);
 
-        for(var i : uint = 0; i < 1; i++) {
+        for (var i : uint = 0; i < 1; i++) {
             var charge : Charge;
-            if(i % 2 == 0) {
+            if (i % 2 == 0) {
                 charge = new MinusCharge(mosaic);
             } else {
                 charge = new PlusCharge(mosaic);
@@ -65,67 +56,67 @@ public class ChargesAndFieldsDisplay extends Sprite {
     }
 
     public function clearCharges() : void {
-        for( var i : int = 0; i < charges.length; i++ ) {
+        for (var i : int = 0; i < charges.length; i++) {
             var charge : Charge = charges[i];
-            removeChild( charge );
-            model.removeCharge( charge );
+            removeChild(charge);
+            model.removeCharge(charge);
         }
         charges = new Array();
 
         mosaic.draw();
     }
 
-    public function addCharge( charge : Charge ) : void {
-        addChild( charge );
-        charges.push( charge );
-        model.addCharge( charge );
+    public function addCharge(charge : Charge) : void {
+        addChild(charge);
+        charges.push(charge);
+        model.addCharge(charge);
     }
 
-    public function scatterCharge( charge : Charge ) : void {
-        charge.setDisplayPosition( Math.random() * myWidth, Math.random() * myHeight );        
+    public function scatterCharge(charge : Charge) : void {
+        charge.setDisplayPosition(Math.random() * myWidth, Math.random() * myHeight);
     }
 
-    public function addRandomCharges( quantity : int ) : void {
-        for( var i : int = 0; i < quantity; i++ ) {
+    public function addRandomCharges(quantity : int) : void {
+        for (var i : int = 0; i < quantity; i++) {
             var charge : Charge;
 
-            if( Math.random() < 0.5 ) {
-                charge = new PlusCharge( mosaic );
+            if (Math.random() < 0.5) {
+                charge = new PlusCharge(mosaic);
             } else {
-                charge = new MinusCharge( mosaic );
+                charge = new MinusCharge(mosaic);
             }
 
-            addCharge( charge );
-            scatterCharge( charge );            
+            addCharge(charge);
+            scatterCharge(charge);
         }
 
         mosaic.draw();
     }
 
     public function addRandomCharge() : void {
-        addRandomCharges( 1 );
+        addRandomCharges(1);
     }
 
     public function add20() : void {
-        addRandomCharges( 20 );
+        addRandomCharges(20);
     }
 
     public function addPlusCharge() : void {
-        var charge : Charge = new PlusCharge( mosaic );
-        addCharge( charge );
-        scatterCharge( charge );
+        var charge : Charge = new PlusCharge(mosaic);
+        addCharge(charge);
+        scatterCharge(charge);
         mosaic.draw();
     }
 
     public function addMinusCharge() : void {
-        var charge : Charge = new MinusCharge( mosaic );
-        addCharge( charge );
-        scatterCharge( charge );
+        var charge : Charge = new MinusCharge(mosaic);
+        addCharge(charge);
+        scatterCharge(charge);
         mosaic.draw();
     }
 
-    public function setKScaled( event : SliderEvent ) : void {
-        Model.setKScaled( event );
+    public function setKScaled(event : SliderEvent) : void {
+        Model.setKScaled(event);
         mosaic.draw();
     }
 }

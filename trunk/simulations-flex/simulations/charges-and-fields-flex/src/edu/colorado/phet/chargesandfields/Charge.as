@@ -1,20 +1,9 @@
 package edu.colorado.phet.chargesandfields {
 
-import flash.display.DisplayObject;
-import flash.display.Graphics;
-import flash.display.MovieClip;
 import flash.display.Sprite;
-import flash.display.Stage
-import flash.display.StageAlign;
-import flash.display.StageScaleMode;
-import flash.events.Event;
-import flash.events.KeyboardEvent;
 import flash.events.MouseEvent;
-import flash.geom.ColorTransform;
-import flash.text.TextField;
-import flash.ui.Keyboard;
-import flash.utils.Timer;
 import flash.events.TimerEvent;
+import flash.utils.Timer;
 
 public class Charge extends Sprite {
     public var q : Number = 0;
@@ -33,16 +22,16 @@ public class Charge extends Sprite {
         this.mosaic = mosaic;
         dragging = false;
 
-        timer = new Timer( 50 );
+        timer = new Timer(50);
 
-        timer.addEventListener( TimerEvent.TIMER, onTick );
+        timer.addEventListener(TimerEvent.TIMER, onTick);
 
         // make it appear hand-like
         this.useHandCursor = true;
-		this.buttonMode = true;
+        this.buttonMode = true;
 
         addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
-		addEventListener(MouseEvent.MOUSE_UP, mouseUp);
+        addEventListener(MouseEvent.MOUSE_UP, mouseUp);
     }
 
     public function setDisplayPosition(x : Number, y : Number) : void {
@@ -70,7 +59,7 @@ public class Charge extends Sprite {
         mosaic.draw();
     }
 
-    public function onTick( event : TimerEvent ) : void {
+    public function onTick(event : TimerEvent) : void {
         //trace("tick");
         displayPositionToModel();
         mosaic.draw();

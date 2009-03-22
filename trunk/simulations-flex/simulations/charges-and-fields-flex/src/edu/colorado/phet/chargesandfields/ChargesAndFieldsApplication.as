@@ -1,19 +1,8 @@
 package edu.colorado.phet.chargesandfields {
-import flash.display.DisplayObject;
-import flash.display.Graphics;
-import flash.display.MovieClip;
-import flash.display.Sprite;
-import flash.display.Stage
 import flash.display.StageAlign;
 import flash.display.StageScaleMode;
 import flash.events.Event;
-import flash.events.KeyboardEvent;
-import flash.events.MouseEvent;
-import flash.geom.ColorTransform;
-import flash.text.TextField;
-import flash.ui.Keyboard;
-import mx.controls.TextInput;
-import mx.controls.Button;
+
 import mx.core.UIComponent;
 
 public class ChargesAndFieldsApplication extends UIComponent {
@@ -25,7 +14,7 @@ public class ChargesAndFieldsApplication extends UIComponent {
     public var display : ChargesAndFieldsDisplay;
 
     public function ChargesAndFieldsApplication() {
-           this.addEventListener(Event.ADDED_TO_STAGE, init);
+        this.addEventListener(Event.ADDED_TO_STAGE, init);
     }
 
     public function init(evt : Event) : void {
@@ -38,17 +27,17 @@ public class ChargesAndFieldsApplication extends UIComponent {
         stage.addEventListener(Event.RESIZE, display.onResize);
 
         /*
-        var button : Button = new Button();
+         var button : Button = new Button();
 
-        button.label = "boo";
+         button.label = "boo";
 
-        this.addChild( button );
+         this.addChild( button );
 
-        trace(button.x);
-        trace(button.y);
-        */
+         trace(button.x);
+         trace(button.y);
+         */
 
-        
+
     }
 
     public function addPlusCharge() : void {
