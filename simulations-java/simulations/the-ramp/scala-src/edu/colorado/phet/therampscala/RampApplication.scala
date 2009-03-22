@@ -24,6 +24,8 @@ case class RampSegmentState(startPoint: Vector2D, endPoint: Vector2D) { //don't 
   def setStartPoint(newStartPoint: Vector2D) = new RampSegmentState(newStartPoint, endPoint)
 
   def setEndPoint(newEndPoint: Vector2D) = new RampSegmentState(startPoint, newEndPoint)
+
+  def getUnitVector = (endPoint - startPoint).normalize
 }
 class RampSegment(_state: RampSegmentState) extends Observable {
   var state = _state;
@@ -44,6 +46,8 @@ class RampSegment(_state: RampSegmentState) extends Observable {
     state = state.setEndPoint(pt)
     notifyListeners()
   }
+
+  def getUnitVector = state.getUnitVector
 }
 
 class Circle(center: Vector2D, radius: Double) extends Ellipse2D.Double(center.x - radius, center.y - radius, radius * 2, radius * 2)
@@ -99,14 +103,25 @@ class Block extends Observable {
   def velocity = state.velocity
 }
 
+case class BeadState(distance: Double)
+class Bead(_state: BeadState, _rampSegment: RampSegment) extends Observable {
+  var state = _state
+  var rampSegment = _rampSegment
+
+  def position2D = rampSegment.getUnitVector * state.distance + rampSegment.startPoint
+
+  _rampSegment.addListenerByName(notifyListeners)
+}
 class RampModel {
   val rampSegments = new ArrayBuffer[RampSegment]
   val blocks = new ArrayBuffer[Block]
+  val beads = new ArrayBuffer[Bead]
 
   blocks += new Block
   val blockListeners = new ArrayBuffer[Block => Unit]
 
   rampSegments += new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(100, 100))
+  beads += new Bead(new BeadState(50), rampSegments(0))
 
   def update(dt: Double) = {
     blocks.foreach(b => b.translate(b.velocity * dt))
@@ -116,6 +131,14 @@ class RampModel {
     val block = new Block
     blocks += block
     blockListeners.foreach(_(block))
+  }
+}
+
+class BeadNode(bead: Bead, transform: ModelViewTransform2D) extends PNode {
+  val node = new PhetPPath(Color.green)
+  addChild(node)
+  defineInvokeAndPass(bead.addListenerByName){
+    node.setPathTo(new Circle(bead.position2D, 10))
   }
 }
 
@@ -135,6 +158,7 @@ class RampCanvas(model: RampModel) extends DefaultCanvas(20, 20) {
   model.blockListeners += (b => addNode(new BlockNode(b, transform)))
 
   addNode(new RampSegmentNode(model.rampSegments(0), transform))
+  addNode(new BeadNode(model.beads(0), transform))
 }
 
 class RampControlPanel(model: RampModel) extends JPanel {
