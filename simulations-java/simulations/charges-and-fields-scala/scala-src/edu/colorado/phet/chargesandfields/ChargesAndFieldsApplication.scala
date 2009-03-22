@@ -127,7 +127,7 @@ class LatticeNode(model: ChargesAndFieldsModel, _canvas: JComponent) extends PNo
   })
   model.listeners += (() => repaint)
 
-  protected override def paint(paintContext: PPaintContext) = {
+  override def paint(paintContext: PPaintContext) = {
     val step = model.cellSpacing.toInt;
     val nx = (canvas.getWidth / step).toInt
     val ny = (canvas.getHeight / step).toInt
