@@ -5,7 +5,7 @@ import javax.swing.JComponent
 import _root_.edu.colorado.phet.common.piccolophet.PhetPCanvas.TransformStrategy
 import java.awt.geom.{AffineTransform, Rectangle2D}
 
-//Used to be called CenteredBoxStrategy, but this caused "does not have a constructor" compiler errors
+//Sometimes causes "does not have a constructor" compiler errors; I'm not sure why.
 //see http://lampsvn.epfl.ch/trac/scala/ticket/735
 class CenteredBoxStrategy(modelWidth: Double, modelHeight: Double, canvas: JComponent) extends TransformStrategy {
   def getTransform(): AffineTransform = {
