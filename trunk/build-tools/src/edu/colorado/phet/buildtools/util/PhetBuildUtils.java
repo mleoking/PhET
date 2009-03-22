@@ -47,12 +47,11 @@ public class PhetBuildUtils {
      * Retrieves the build properties file for the dir and project name. This
      * file may not exist, if the directory does not describe a project.
      *
-     * @param dir         The directory.
-     * @param projectName The project name.
+     * @param dir         The project directory.
      * @return The build properties file.
      */
-    public static File getBuildPropertiesFile( File dir, String projectName ) {
-        return new File( dir, projectName + "-build.properties" );
+    public static File getBuildPropertiesFile( File dir ) {
+        return new File( dir, dir.getName() + "-build.properties" );
     }
 
     /**
@@ -74,7 +73,7 @@ public class PhetBuildUtils {
             File searchRoot = searchRoots[i];
             File dir = new File( searchRoot, name );
 
-            File props = getBuildPropertiesFile( dir, name );
+            File props = getBuildPropertiesFile( dir );
 
             if ( dir.exists() && dir.isDirectory() && props.exists() ) {
                 return searchRoot;

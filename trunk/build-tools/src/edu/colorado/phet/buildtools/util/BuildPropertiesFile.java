@@ -17,7 +17,7 @@ public class BuildPropertiesFile extends AbstractPropertiesFile {
     private final PhetProject project;
 
     public BuildPropertiesFile( PhetProject project ) {
-        super( PhetBuildUtils.getBuildPropertiesFile( project.getProjectDir(), project.getName() ) );
+        super( PhetBuildUtils.getBuildPropertiesFile( project.getProjectDir() ) );
         this.project = project;
     }
 
