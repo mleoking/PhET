@@ -67,8 +67,10 @@ public class MiscMenu extends JMenu {
         batchTest.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
-                    PhetProject[] projects = new PhetProject[]{new JavaSimulationProject( new File( trunk, "simulations-java/simulations/test-project" ) ),
-                            new PhetFlashProject( trunk, "simulations-flash/simulations/test-flash-project" )};
+                    PhetProject[] projects = new PhetProject[]{
+                            new JavaSimulationProject( new File( trunk, "simulations-java/simulations/test-project" ) ),
+                            new PhetFlashProject( new File( trunk, "simulations-flash/simulations/test-flash-project" ) )
+                    };
                     batchDeploy( projects );
                 }
                 catch( IOException e1 ) {
