@@ -13,12 +13,12 @@ public class Model {
 
     private static const RtoD : Number = 180 / Math.PI; //convert radians to degrees
 
-    public var chargeArray : Vector.<Charge>;
+    public var chargeArray : Array;
     public var sensorArray : Array;
 
     public function Model() {
 
-        chargeArray = new Vector.<Charge>();
+        chargeArray = new Array;
         sensorArray = new Array();
 
     }
