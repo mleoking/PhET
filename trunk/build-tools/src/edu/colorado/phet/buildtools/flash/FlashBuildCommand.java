@@ -14,7 +14,7 @@ import edu.colorado.phet.buildtools.util.FileUtils;
  * Time: 10:17:40 AM
  */
 public class FlashBuildCommand {
-    private static boolean useTimeout = false;
+    public static boolean useTimeout = false;
 
     // returns boolean success of whether the sim was built without errors
     public static boolean build( String cmd, String sim, File trunk, boolean useWine ) throws IOException {

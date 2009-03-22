@@ -14,6 +14,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.buildtools.*;
 import edu.colorado.phet.buildtools.flash.PhetFlashProject;
+import edu.colorado.phet.buildtools.flash.FlashBuildCommand;
 import edu.colorado.phet.buildtools.java.JavaBuildCommand;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
@@ -102,6 +103,7 @@ public class MiscMenu extends JMenu {
     }
 
     private void batchDeploy( PhetProject[] projects ) {
+        FlashBuildCommand.useTimeout=true;
         String message = JOptionPane.showInputDialog( "Deploying all sims to dev/.  \n" +
                                                       "Enter a message to add to the change log for all sims\n" +
                                                       "(or Cancel or Enter a blank line to omit batch message)" );
