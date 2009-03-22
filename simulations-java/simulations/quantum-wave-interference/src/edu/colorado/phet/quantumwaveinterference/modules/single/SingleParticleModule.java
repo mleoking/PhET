@@ -31,10 +31,10 @@ public class SingleParticleModule extends QWIModule {
         setSchrodingerControlPanel( new SingleParticleControlPanel( this ) );
 //        getSchrodingerPanel().getDetectorSheetPNode().getDetectorSheetControlPanel().setBrightnessSliderVisible( false );
 
-        //•	If I run QWI on auto-repeat for single particles and a double slit for a long time, I would like an interference pattern to build up, but it doesn’t because the dots on the screen fade too fast.  The rate of fading should be much slower in single particle mode than in the other two cases, since the dots don’t build up as fast.
+        //If I run QWI on auto-repeat for single particles and a double slit for a long time, I would like an interference pattern to build up, but it doesn't because the dots on the screen fade too fast.  The rate of fading should be much slower in single particle mode than in the other two cases, since the dots don't build up as fast.
 //        getSchrodingerPanel().getDetectorSheetPNode().setFadeDelay( DetectorSheetPNode.DEFAULT_FADE_DELAY * 10 );
 
-        //•	It would be nice to be have the fade checkbox in single particle mode so that I can turn it off.
+        //It would be nice to be have the fade checkbox in single particle mode so that I can turn it off.
 //        getSchrodingerPanel().getDetectorSheetPNode().getDetectorSheetControlPanel().setFadeCheckBoxVisible( false );
         getSchrodingerPanel().getDetectorSheetPNode().getDetectorSheetControlPanel().setTypeControlVisible( false );
         getSchrodingerPanel().getDetectorSheetPNode().updatePSwing();

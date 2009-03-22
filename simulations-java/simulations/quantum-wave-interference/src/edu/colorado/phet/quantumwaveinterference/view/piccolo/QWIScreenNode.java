@@ -176,7 +176,7 @@ public class QWIScreenNode extends PNode {
             }
         } );
 
-        //•	If the simulation is paused and you hit the "Double Slits" button, the slits don't appear until you unpause it.  
+        //If the simulation is paused and you hit the "Double Slits" button, the slits don't appear until you unpause it.  
         // They should appear right away.  Same for disabling the slits.
         module.getQWIModel().addListener( new QWIModel.Adapter() {
             public void potentialChanged() {
