@@ -19,9 +19,11 @@ import edu.colorado.phet.buildtools.java.JavaProject;
 
 public class MiscMenu extends JMenu {
     private PhetProject selectedProject;
+    private File trunk;
 
     public MiscMenu( final File trunk ) {
         super( "Misc" );
+        this.trunk = trunk;
         JMenuItem generateLicenseInfoItem = new JMenuItem( "Generate License Info" );
         add( generateLicenseInfoItem );
         generateLicenseInfoItem.addActionListener( new ActionListener() {
@@ -63,68 +65,13 @@ public class MiscMenu extends JMenu {
         JMenuItem buildAndDeployAll = new JMenuItem( "Build and Deploy all-dev" );
         buildAndDeployAll.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                String message = JOptionPane.showInputDialog( "Deploying all sims to dev/.  \nEnter a message to add to the change log for all sims\n(or Cancel or Enter a blank line to omit batch message)" );
-//                PhetProject[] projects = PhetProject.getAllSimulations( trunk );
+                //                PhetProject[] projects = PhetProject.getAllSimulations( trunk );
                 PhetProject[] projects = PhetFlashProject.getFlashProjects( trunk ); //todo re-enable all
 
 //                PhetProject[] projects = PhetProject.getAllSimulations( trunk );
-                BufferedWriter bufferedWriter = null;
-                try {
-                    File file = new File( trunk, "build-tools/deploy-report.txt" );
-                    boolean deleted = file.delete();
-                    System.out.println( "Delete " + file.getAbsolutePath() + " = " + deleted );
-                    file.createNewFile();
-                    bufferedWriter = new BufferedWriter( new FileWriter( file ) ) {
-                        public void write( String str ) throws IOException {
-                            super.write( str + "\n" );
-                            flush();
-                            System.out.println( str );
-                        }
-                    };
-                    bufferedWriter.write( "#Started batch deploy on " + new Date() + "\n" );
-                }
-                catch( IOException e1 ) {
-                    e1.printStackTrace();
-                }
-                for ( int i = 0; i < projects.length; i++ ) {
-//                    if ( projects[i].getName().startsWith( "test" ) ) {
-                    if ( true ) {
-                        BuildScript buildScript = new BuildScript( trunk, projects[i] );
-                        buildScript.setBatchMessage( message );
-                        final BufferedWriter bufferedWriter1 = bufferedWriter;
-                        buildScript.addListener( new BuildScript.Listener() {
-                            public void deployFinished( BuildScript buildScript, PhetProject project, String codebase ) {
-//                                System.out.println( ">>>Deploy finished, project=" + project.getName() + ", codebase=" + codebase );
-                                try {
-                                    bufferedWriter1.write( project.getName() + ": " + codebase );
-                                    for ( int k = 0; k < project.getSimulationNames().length; k++ ) {
-                                        bufferedWriter1.write( "\t" + project.getSimulation( project.getSimulationNames()[k] ).getTitle() );
-                                    }
-                                    bufferedWriter1.write( "" );
-                                }
-                                catch( IOException e1 ) {
-                                    e1.printStackTrace();
-                                }
-                            }
 
-                            public void deployErrorOccurred( BuildScript buildScript, PhetProject project, String error ) {
-                                try {
-                                    bufferedWriter1.write( "ERROR: " + project.getName() + ", errror=" + error + "\n" );
-                                }
-                                catch( IOException e1 ) {
-                                    e1.printStackTrace();
-                                }
-                            }
-                        } );
-                        buildScript.deployDev( BuildLocalProperties.getInstance().getDevAuthenticationInfo() ,true);
-                    }
-                }
-                try {
-                    bufferedWriter.close();
-                }
-                catch( IOException e1 ) {
-                    e1.printStackTrace();
-                }
+                batchDeploy( projects );
+
             }
         } );
         add( buildAndDeployAll );
@@ -138,6 +85,64 @@ public class MiscMenu extends JMenu {
             }
         } );
         add( generateJNLP );
+    }
+
+    private void batchDeploy( PhetProject[] projects ) {
+        String message = JOptionPane.showInputDialog( "Deploying all sims to dev/.  \nEnter a message to add to the change log for all sims\n(or Cancel or Enter a blank line to omit batch message)" );
+        BufferedWriter bufferedWriter = null;
+        try {
+            File logFile = new File( trunk, "build-tools/deploy-report.txt" );
+            boolean deleted = logFile.delete();
+            System.out.println( "Delete " + logFile.getAbsolutePath() + " = " + deleted );
+            logFile.createNewFile();
+            bufferedWriter = new BufferedWriter( new FileWriter( logFile ) ) {
+                public void write( String str ) throws IOException {
+                    super.write( str + "\n" );
+                    flush();
+                    System.out.println( str );
+                }
+            };
+            bufferedWriter.write( "#Started batch deploy on " + new Date() + "\n" );
+            System.out.println( "Started logging to: " + logFile.getAbsolutePath() );
+        }
+        catch( IOException e1 ) {
+            e1.printStackTrace();
+        }
+        for ( int i = 0; i < projects.length; i++ ) {
+            BuildScript buildScript = new BuildScript( trunk, projects[i] );
+            buildScript.setBatchMessage( message );
+            final BufferedWriter bufferedWriter1 = bufferedWriter;
+            buildScript.addListener( new BuildScript.Listener() {
+                public void deployFinished( BuildScript buildScript, PhetProject project, String codebase ) {
+                    try {
+                        bufferedWriter1.write( project.getName() + ": " + codebase );
+                        for ( int k = 0; k < project.getSimulationNames().length; k++ ) {
+                            bufferedWriter1.write( "\t" + project.getSimulation( project.getSimulationNames()[k] ).getTitle() );
+                        }
+                        bufferedWriter1.write( "" );
+                    }
+                    catch( IOException e1 ) {
+                        e1.printStackTrace();
+                    }
+                }
+
+                public void deployErrorOccurred( BuildScript buildScript, PhetProject project, String error ) {
+                    try {
+                        bufferedWriter1.write( "ERROR: " + project.getName() + ", errror=" + error + "\n" );
+                    }
+                    catch( IOException e1 ) {
+                        e1.printStackTrace();
+                    }
+                }
+            } );
+            buildScript.deployDev( BuildLocalProperties.getInstance().getDevAuthenticationInfo(), true );
+        }
+        try {
+            bufferedWriter.close();
+        }
+        catch( IOException e1 ) {
+            e1.printStackTrace();
+        }
     }
 
     public void setSelectedProject( PhetProject selectedProject ) {
