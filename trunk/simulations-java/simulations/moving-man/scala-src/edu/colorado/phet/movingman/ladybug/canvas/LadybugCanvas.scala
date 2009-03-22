@@ -50,7 +50,7 @@ class LadybugCanvas(model: LadybugModel,
 
   def setLadybugDraggable(draggable: Boolean) = ladybugNode.setDraggable(draggable)
 
-  protected override def updateWorldScale = {
+  override def updateWorldScale = {
     super.updateWorldScale
     if (constructed) {   //make sure we aren't in the call from superclass
       //to go from pixels to model, must go backwards through canvas transform and modelviewtransform

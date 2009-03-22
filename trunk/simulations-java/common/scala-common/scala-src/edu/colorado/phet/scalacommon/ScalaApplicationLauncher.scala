@@ -15,7 +15,7 @@ object ScalaApplicationLauncher {
 
     //Override look and feel to be metal due to problems with Windows components in PSwings
     //Not sure whether this is a problem for Aqua
-    phetApplicationConfig.setLookAndFeel(new PhetLookAndFeel() {protected override def getLookAndFeelClassName = UIManager.getCrossPlatformLookAndFeelClassName})
+    phetApplicationConfig.setLookAndFeel(new PhetLookAndFeel() {override def getLookAndFeelClassName = UIManager.getCrossPlatformLookAndFeelClassName})
 
     new PhetApplicationLauncher().launchSim(
       phetApplicationConfig,
