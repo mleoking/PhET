@@ -1,3 +1,5 @@
+# 0.04.02 (29613) Mar 22, 2009
+3/22/09 Batch deploy test 7, for SVN 29611
 # 0.04.01 (29609) Mar 22, 2009
 3/22/09 Batch deploy test 6
 # null.null.00 (29608) Mar 22, 2009
