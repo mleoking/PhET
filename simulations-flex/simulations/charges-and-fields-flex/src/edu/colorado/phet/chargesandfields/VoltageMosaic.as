@@ -1,20 +1,8 @@
 package edu.colorado.phet.chargesandfields {
 
-import flash.display.DisplayObject;
-import flash.display.Graphics;
-import flash.display.MovieClip;
 import flash.display.Sprite;
-import flash.display.Stage
-import flash.display.StageAlign;
-import flash.display.StageScaleMode;
-import flash.events.Event;
-import flash.events.KeyboardEvent;
-import flash.events.MouseEvent;
-import flash.geom.ColorTransform;
-import flash.text.TextField;
-import flash.ui.Keyboard;
-import mx.events.SliderEvent;
 
+import mx.events.SliderEvent;
 
 public class VoltageMosaic extends Sprite {
     private var myWidth : Number;
@@ -50,8 +38,8 @@ public class VoltageMosaic extends Sprite {
         var halfstep : Number = step * 0.5;
 
         var time : Number = (new Date()).valueOf();
-        for(var ox : Number = 0; ox < myWidth; ox += step) {
-            for(var oy : Number = 0; oy < myHeight; oy += step) {
+        for (var ox : Number = 0; ox < myWidth; ox += step) {
+            for (var oy : Number = 0; oy < myHeight; oy += step) {
                 // 30ms for getV total
                 //var color : uint = model.getV(ox + halfstep, oy + halfstep)[1];
                 var color : int = model.getVColor(ox + halfstep, oy + halfstep);
@@ -63,10 +51,10 @@ public class VoltageMosaic extends Sprite {
             }
         }
 
-        fps = String( int( 1000 / ((new Date()).valueOf() - time) ) );
+        fps = String(int(1000 / ((new Date()).valueOf() - time)));
     }
 
-    public function changeStepSize( event : SliderEvent ) : void {
+    public function changeStepSize(event : SliderEvent) : void {
         step = event.value;
         draw();
     }
