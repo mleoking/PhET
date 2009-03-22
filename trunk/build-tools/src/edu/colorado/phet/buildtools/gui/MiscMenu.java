@@ -16,6 +16,7 @@ import edu.colorado.phet.buildtools.*;
 import edu.colorado.phet.buildtools.flash.PhetFlashProject;
 import edu.colorado.phet.buildtools.java.JavaBuildCommand;
 import edu.colorado.phet.buildtools.java.JavaProject;
+import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 
 public class MiscMenu extends JMenu {
     private PhetProject selectedProject;
@@ -62,15 +63,27 @@ public class MiscMenu extends JMenu {
         } );
         add( showAllLicenseKeys );
 
-        JMenuItem buildAndDeployAll = new JMenuItem( "Build and Deploy all-dev" );
-        buildAndDeployAll.addActionListener( new ActionListener() {
+        JMenuItem batchTest = new JMenuItem( "Batch Deploy-Test" );
+        batchTest.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                //                PhetProject[] projects = PhetProject.getAllSimulations( trunk );
-                PhetProject[] projects = PhetFlashProject.getFlashProjects( trunk ); //todo re-enable all
-
-//                PhetProject[] projects = PhetProject.getAllSimulations( trunk );
+                PhetProject[] projects = new PhetProject[0];
+                try {
+                    projects = new PhetProject[]{new JavaSimulationProject( new File( trunk, "simulations-java/simulations/test-project" ) ),
+                            new PhetFlashProject( trunk, "simulations-flash/simulations/test-flash-project" )};
+                }
+                catch( IOException e1 ) {
+                    e1.printStackTrace();
+                }
 
                 batchDeploy( projects );
+            }
+        } );
+        add( batchTest );
+
+        JMenuItem buildAndDeployAll = new JMenuItem( "Batch Deploy All to Dev" );
+        buildAndDeployAll.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                batchDeploy( PhetProject.getAllSimulations( trunk ) );
 
             }
         } );
@@ -88,22 +101,25 @@ public class MiscMenu extends JMenu {
     }
 
     private void batchDeploy( PhetProject[] projects ) {
-        String message = JOptionPane.showInputDialog( "Deploying all sims to dev/.  \nEnter a message to add to the change log for all sims\n(or Cancel or Enter a blank line to omit batch message)" );
+        String message = JOptionPane.showInputDialog( "Deploying all sims to dev/.  \n" +
+                                                      "Enter a message to add to the change log for all sims\n" +
+                                                      "(or Cancel or Enter a blank line to omit batch message)" );
         BufferedWriter bufferedWriter = null;
         try {
             File logFile = new File( trunk, "build-tools/deploy-report.txt" );
             boolean deleted = logFile.delete();
             System.out.println( "Delete " + logFile.getAbsolutePath() + " = " + deleted );
             logFile.createNewFile();
+            System.out.println( "Started logging to: " + logFile.getAbsolutePath() );
             bufferedWriter = new BufferedWriter( new FileWriter( logFile ) ) {
-                public void write( String str ) throws IOException {
+                public void write( String str ) throws IOException {//log should write to console and file
                     super.write( str + "\n" );
                     flush();
                     System.out.println( str );
                 }
             };
             bufferedWriter.write( "#Started batch deploy on " + new Date() + "\n" );
-            System.out.println( "Started logging to: " + logFile.getAbsolutePath() );
+
         }
         catch( IOException e1 ) {
             e1.printStackTrace();
