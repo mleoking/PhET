@@ -68,7 +68,7 @@
         $project = query_string_extract('project');
         // Send an error if there are missing parametrs
         if (empty($project)) {
-            error("Error: Project only specified in query string, but project is blank.\n");
+            error("Error: project-all.jar requested, but project specified in query string is blank.\n");
             exit;
         }
 
