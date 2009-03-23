@@ -6,8 +6,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
-
 class UpdateConfigurationPage extends SitePage {
 
     function get_settings() {
@@ -160,7 +158,7 @@ EOT;
 
 }
 
-$page = new UpdateConfigurationPage("Update Configuration Page", NAV_ADMIN, null, AUTHLEVEL_TEAM, false);
+$page = new UpdateConfigurationPage("Update Configuration Page", NavBar::NAV_ADMIN, null, SitePage::AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

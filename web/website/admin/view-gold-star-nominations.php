@@ -6,8 +6,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
-
 class ViewGoldStarNominationsPage extends SitePage {
 
     function render_content() {
@@ -42,7 +40,7 @@ class ViewGoldStarNominationsPage extends SitePage {
 
 }
 
-$page = new ViewGoldStarNominationsPage("View Gold Star Nominations", NAV_ADMIN, null, AUTHLEVEL_TEAM, false);
+$page = new ViewGoldStarNominationsPage("View Gold Star Nominations", NavBar::NAV_ADMIN, null, SitePage::AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

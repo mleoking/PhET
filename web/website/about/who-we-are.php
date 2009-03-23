@@ -6,8 +6,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
-
 class WhoWeArePage extends SitePage {
 
     function render_content() {
@@ -103,7 +101,7 @@ EOT;
 
 }
 
-$page = new WhoWeArePage("Who We Are", NAV_ABOUT_PHET, null);
+$page = new WhoWeArePage("Who We Are", NavBar::NAV_ABOUT_PHET, null);
 $page->update();
 $page->render();
 

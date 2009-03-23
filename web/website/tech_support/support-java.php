@@ -6,8 +6,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
-
 class JavaSupportPage extends SitePage {
 
     function render_content() {
@@ -87,7 +85,7 @@ class JavaSupportPage extends SitePage {
             <p>Some Windows 2000 systems have been reported to lack part of the necessary Java configuration. These systems will typically start our Flash-based simulations reliably, but will appear to do nothing when launching our Java-based simulations.</p>
 
             <p><strong>To resolve this situation, please perform the following steps:</strong></p>
-            
+
             <ol>
                 <li>From the desktop or start menu, open "My Computer"</li>
                 <li>Click on the "Folder Options" item in the "Tools" menu</li>
@@ -107,25 +105,25 @@ class JavaSupportPage extends SitePage {
 
             <ul>
                 <li><strong>Empty Your Browser's Cache</strong>
-                
+
                 <br/>
-                
+
                 <table>
                     <thead>
                         <tr>
                             <td>Internet Explorer</td>  <td>Firefox</td>
                         </tr>
                     </thead>
-                    
+
                     <tbody>
                         <tr>
                             <td>Select "Tools-&gt;Options", then click on the "Delete Files..." button under "Temporary Internet Files"</td>
-                            
+
                             <td>Select "Tools-&gt;Options-&gt;Privacy", then click the "Clear" button next to "Cache".</td>
                         </tr>
                     </tbody>
                 </table>
-                
+
                 </li>
 
                 <li><strong>Empty Java Web Start's Cache</strong><br />
@@ -163,7 +161,7 @@ EOT;
 
 }
 
-$page = new JavaSupportPage("Troubleshooting Java", NAV_TECH_SUPPORT, null);
+$page = new JavaSupportPage("Troubleshooting Java", NavBar::NAV_TECH_SUPPORT, null);
 $page->update();
 $page->render();
 

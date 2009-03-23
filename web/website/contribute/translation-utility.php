@@ -6,8 +6,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
-
 class TranslationInstructionsPage extends SitePage {
 
     function render_content() {
@@ -129,7 +127,7 @@ class TranslationInstructionsPage extends SitePage {
                     Email hydrogen-atom-strings_fr.properties to {$phet_help_email}.
                 </li>
             </ol>
-            
+
             <h2>Common Strings</h2>
             <p>
             Some strings that appear in a simulation are part of a library of "common components" that are used in all PhET simulations.
@@ -169,7 +167,7 @@ EOT;
 
 }
 
-$page = new TranslationInstructionsPage("PhET Translation Utility", NAV_CONTRIBUTE, null);
+$page = new TranslationInstructionsPage("PhET Translation Utility", NavBar::NAV_CONTRIBUTE, null);
 $page->update();
 $page->render();
 

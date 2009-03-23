@@ -6,8 +6,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
-
 class EditProfilePage extends SitePage {
 
     function render_content() {
@@ -21,7 +19,7 @@ class EditProfilePage extends SitePage {
 
 }
 
-$page = new EditProfilePage("Edit Profile", NAV_TEACHER_IDEAS, null, AUTHLEVEL_USER, false);
+$page = new EditProfilePage("Edit Profile", NavBar::NAV_TEACHER_IDEAS, null, SitePage::AUTHLEVEL_USER, false);
 $page->update();
 $page->render();
 

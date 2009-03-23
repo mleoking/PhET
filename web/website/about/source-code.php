@@ -6,8 +6,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
-
 class SourceCodePage extends SitePage {
 
     function render_content() {
@@ -15,8 +13,6 @@ class SourceCodePage extends SitePage {
         if (!$result) {
             return $result;
         }
-
-        $no_mac = SIM_NO_MAC_IMAGE_HTML;
 
         $phet_help_email = PHET_HELP_EMAIL;
 
@@ -32,7 +28,7 @@ EOT;
 
 }
 
-$page = new SourceCodePage("PhET Source Code", NAV_ABOUT_PHET, null);
+$page = new SourceCodePage("PhET Source Code", NavBar::NAV_ABOUT_PHET, null);
 $page->update();
 $page->render();
 

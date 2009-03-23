@@ -6,8 +6,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
-
 class UpadteOtherProfilePage extends SitePage {
 
     function update() {
@@ -62,13 +60,13 @@ class UpadteOtherProfilePage extends SitePage {
         if (!$result) {
             return $result;
         }
-        
+
         print("<p>The user's profile has been successfully updated!</p>");
     }
 
 }
 
-$page = new UpadteOtherProfilePage("Update Profile", NAV_ADMIN, null, AUTHLEVEL_TEAM, false);
+$page = new UpadteOtherProfilePage("Update Profile", NavBar::NAV_ADMIN, null, SitePage::AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

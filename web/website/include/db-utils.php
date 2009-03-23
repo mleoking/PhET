@@ -96,7 +96,7 @@
             connect_to_db();
         }
 
-        //print "<!-- MYSQLQUERY: $statement -->\n";
+        // print "<!-- MYSQLQUERY: $statement -->\n";
         $result = mysql_query($statement, $connection);
 
         // Query failed, take action
@@ -125,6 +125,17 @@
         }
 
         return $table_info;
+    }
+
+    function db_get_rows_custom_query($statement) {
+        $result = db_exec_query($statement);
+
+        $rows = array();
+        while ($row = mysql_fetch_assoc($result)) {
+            $rows[] = $row;
+        }
+
+        return $rows;
     }
 
     function db_get_all_rows($table_name) {
@@ -186,7 +197,7 @@
 
         while ($row = mysql_fetch_assoc($result)) {
             if ($reformat) {
-                $rows[] = format_for_html($row);
+                $rows[] = WebUtils::inst()->toHtml($row);
             }
             else {
                 $rows[] = $row;

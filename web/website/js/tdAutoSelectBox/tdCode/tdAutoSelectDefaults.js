@@ -38,4 +38,4 @@ var def_MultiDefArr = "";
  *
  * Also, do not change the variable name itself
  */
-var def_PathToImages = "tdAutoSelectBox/css" 
+var def_PathToImages = "tdAutoSelectBox/css"

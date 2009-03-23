@@ -1,35 +1,31 @@
 <?php
 
-// Navigation enumerations for the selected page
-// Initial conversation from numbers to something more meaningful
-// TODO: I suspect that these just indext an array wherever the navigation bar
-// is stored.  It should be changed to accept these values, and use them in a
-// sensical fashion.  Additionally, I suspect that there is a JavaScript component
-// that must manually be kept in sync with the PHP code.  Would be best if they kept
-// in sync automatically.
-define("NAV_NOT_SPECIFIED",  -1);
-define("NAV_INVALID0",  0);
-define("NAV_INVALID1",  1);
-define("NAV_SIMULATIONS",  2);
-define("NAV_TEACHER_IDEAS",  3);
-define("NAV_GET_PHET",  4);
-define("NAV_TECH_SUPPORT",  5);
-define("NAV_CONTRIBUTE",  6);
-define("NAV_RESEARCH",  7);
-define("NAV_ABOUT_PHET",  8);
-define("NAV_ADMIN",  9);
-define("NAV_COUNT",  10);
-
-// In each web accessable script SITE_ROOT must be defined FIRST
-if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
-
-// See global.php for an explaination of the next line
-require_once(dirname(dirname(__FILE__))."/include/global.php");
-
 require_once("include/hierarchical-categories.php");
 
 class NavBar {
-    // Page navbar will be on
+    // Navigation enumerations for the selected page
+    //
+    // Initial conversation from numbers to something more meaningful
+    //
+    // TODO: I suspect that these just index an array wherever the
+    // navigation bar is stored.  It should be changed to accept these
+    // values, and use them in a sensical fashion.  Additionally, I
+    // suspect that there is a JavaScript component that must manually
+    // be kept in sync with the PHP code.  Would be best if they kept
+    // in sync automatically.  Verify the above and fix.
+    const NAV_NOT_SPECIFIED =  -1;
+    const NAV_INVALID0 =  0;
+    const NAV_INVALID1 =  1;
+    const NAV_SIMULATIONS =  2;
+    const NAV_TEACHER_IDEAS =  3;
+    const NAV_GET_PHET =  4;
+    const NAV_TECH_SUPPORT =  5;
+    const NAV_CONTRIBUTE =  6;
+    const NAV_RESEARCH =  7;
+    const NAV_ABOUT_PHET =  8;
+    const NAV_ADMIN =  9;
+    const NAV_COUNT =  10;
+
     // TODO: this should be an abstract interface for authentication
     private $page;
 
@@ -62,12 +58,12 @@ class NavBar {
      */
     function selected_page_is_valid($selected_page) {
         if ($selected_page < 0) {
-            return ($selected_page == NAV_NOT_SPECIFIED);
+            return ($selected_page == self::NAV_NOT_SPECIFIED);
         }
 
-        return (($selected_page < NAV_COUNT) &&
-            ($selected_page != NAV_INVALID0) &&
-            ($selected_page != NAV_INVALID1));
+        return (($selected_page < self::NAV_COUNT) &&
+            ($selected_page != self::NAV_INVALID0) &&
+            ($selected_page != self::NAV_INVALID1));
     }
 
     function print_header_navigation_element($prefix, $selected_page, $link, $desc, $access_key) {
@@ -88,11 +84,11 @@ EOT;
 
     function print_subnavigation_element($prefix, $link, $desc) {
         if (is_array($desc)) {
-            $name = format_for_html($desc[0]);
+            $name = WebUtils::inst()->toHtml($desc[0]);
             $extra_style = "style=\"padding-left: {$desc[1]}\"";
         }
         else {
-            $name = format_for_html($desc);
+            $name = WebUtils::inst()->toHtml($desc);
             $extra_style = "";
         }
 
@@ -173,10 +169,13 @@ EOT;
             "Home"
         );
 
+        $default_category = CategoryUtils::inst()->getDefaultCategory();
+        $def_name = $default_category['cat_name'];
+        $encoded_default_cat_name = WebUtils::inst()->encodeString($def_name);
         $this->print_navigation_element(
             $prefix,
             $selected_page,
-            "simulations/index.php?cat=".sim_get_encoded_default_category(),
+            "simulations/index.php?cat=".$encoded_default_cat_name,
             "Simulations",
             $this->get_sim_categories_for_navbar($prefix)
         );
@@ -189,7 +188,7 @@ EOT;
         $teacher_ideas_subs['teacher_ideas/manage-contributions.php']   = 'My Activities';
         $teacher_ideas_subs['teacher_ideas/user-edit-profile.php']      = 'My Profile';
 
-        if ($this->page->authenticate_get_level() > AUTHLEVEL_NONE) {
+        if ($this->page->authenticate_get_level() > SitePage::AUTHLEVEL_NONE) {
             $teacher_ideas_subs['teacher_ideas/user-logout.php'] = 'Logout';
         }
 
@@ -206,7 +205,7 @@ EOT;
             "get_phet/index.php",
             "Run our Simulations",
             array(
-                'simulations/index.php?cat='.sim_get_encoded_default_category() => 'On Line',
+                'simulations/index.php?cat='.$encoded_default_cat_name => 'On Line',
                 'get_phet/full_install.php' => 'Full Install',
                 'get_phet/simlauncher.php'  => 'One at a Time'
             )
@@ -221,7 +220,7 @@ EOT;
                 'tech_support/support-java.php'     => 'Java',
                 'tech_support/support-flash.php'    => 'Flash',
                 'tech_support/support-javascript.php'    => 'JavaScript'
-            
+
             )
         );
 
@@ -362,12 +361,15 @@ EOT;
 function get_sim_categories_for_navbar_callback($user_var, $category, $depth, $has_children) {
     $cat_id   = $category['cat_id'];
     $cat_name = $category['cat_name'];
+    $encoded_cat_name = WebUtils::inst()->encodeString($cat_name);
 
-    $link = sim_get_category_url_by_cat_id($cat_id);
+    $url = CategoryUtils::inst()->getCategoryBaseUrl($encoded_cat_name);
+    // Hack: remove the SITE_ROOT
+    $url = substr($url, 3);
 
     $pad_left = 0 + (($depth - 1) * 20)."px";
 
-    $user_var->sim_categories["$link"] = array($cat_name, $pad_left);
+    $user_var->sim_categories["$url"] = array($cat_name, $pad_left);
 }
 
 ?>

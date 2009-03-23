@@ -10,7 +10,7 @@ define('DEFAULT_LOG_FILE_LOCATION', SITE_ROOT.'logs/');
 
 /**
  * Add the message to the specificed log file, create it and the path if it does note exist
- * 
+ *
  * Note: An EOL is NOT added to the message.
  *
  * @param string $log_file file name of the log file
@@ -47,7 +47,7 @@ function log_message($log_file, $msg, $log_file_location = DEFAULT_LOG_FILE_LOCA
             fclose($fp);
             return false;
         }
-    } 
+    }
 
     // Done with the file
     flock($fp, LOCK_UN);

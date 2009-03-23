@@ -6,7 +6,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
 require_once("teacher_ideas/referrer.php");
 
 class UnapproveContributionPage extends SitePage {
@@ -46,7 +45,7 @@ EOT;
 
 }
 
-$page = new UnapproveContributionPage("Unapprove Contribtuion", NAV_TEACHER_IDEAS, get_referrer(contribution_url_to_view_from_uri()), AUTHLEVEL_TEAM);
+$page = new UnapproveContributionPage("Unapprove Contribtuion", NavBar::NAV_TEACHER_IDEAS, get_referrer(contribution_url_to_view_from_uri()), SitePage::AUTHLEVEL_TEAM);
 $page->update();
 $page->render();
 

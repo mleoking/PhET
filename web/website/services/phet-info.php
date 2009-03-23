@@ -19,7 +19,9 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
-require_once('include/sim-utils.php');
+require_once('include/db-utils.php');
+require_once('include/installer-utils.php');
+require_once('include/sys-utils.php');
 
 class PhetInfo {
     const ROOT_ELEMENT_NAME = 'phet_info';
@@ -68,7 +70,7 @@ class PhetInfo {
 
     private function sendErrorAndExit($error) {
         $xml = new SimpleXMLElement(self::ERROR_RESPONSE_XML_SHELL);
-        $this->setFail($xml, false);
+        $this->setFail($xml);
         $this->addErrorElement($xml, $error);
 
         if ($this->verbose) {
@@ -115,7 +117,7 @@ class PhetInfo {
         $max_age = $settings['install_recommend_update_age'] * $days_to_secs;
         $installer_age = $now - $installer_timestamp;
         if ($installer_age > $max_age) {
-            return true;
+            return TRUE;
         }
 
         $regs = array();
@@ -124,10 +126,10 @@ class PhetInfo {
                              $date);
         $date_threshold = mktime(0, 0, 0, $date[2], $date[3], $date[1]);
         if ($installer_timestamp < $date_threshold) {
-            return true;
+            return TRUE;
         }
 
-        return false;
+        return FALSE;
     }
 
     private function processRequestInstaller($request_xml, $response_xml) {
@@ -199,14 +201,22 @@ class PhetInfo {
         $project = (string) $request_xml['project'];
         $sim = (string) $request_xml['sim'];
 
-        $simulation = sim_get_sim_by_dirname_flavorname($project, $sim);
-        if (!$simulation) {
+        try {
+            $simulation =
+                SimFactory::inst()->getByProjectAndSimName(
+                    $project,
+                    $sim,
+                    FALSE
+                    );
+        }
+        catch (PhetSimException $e) {
+            // project/sim name combo does not exist
             $this->addErrorElement($version_element, "project and/or sim does not exist: \"{$project}\", \"{$sim}\"");
             return;
         }
 
         // Get the version info
-        $version = sim_get_version($simulation, false);
+        $version = $simulation->getVersion();
         $missing_attributes = array();
         foreach ($version as $key => $value) {
             if (empty($value)) {

@@ -73,7 +73,7 @@
                     $parsed_name = parse_name($names[0]);
 
                     $key = $parsed_name['last_name'];
-                    
+
                 }
             }
 
@@ -99,9 +99,9 @@
     function browse_get_contributions($Simulations, $Types, $Levels, $sort_by, $order) {
         $contributions = newer_contribution_get_specific_contributions($Simulations, $Types, $Levels);
 
-        $contributions = /*orig_*/browse_sort_contributions($contributions, $sort_by, $order);
+        $sorted_contributions = /*orig_*/browse_sort_contributions($contributions, $sort_by, $order);
 
-        return $contributions;
+        return $sorted_contributions;
     }
 
     function browse_url_encode_list($name, $list) {
@@ -273,10 +273,10 @@ EOT;
             // as well as the actual table rows
             foreach ($keys as $key) {
                 // Format the key for display in HTML
-                $formatted_key = format_string_for_html($key);
+                $formatted_key = WebUtils::inst()->toHtml($key);
 
                 // and have a version to use in the anchors
-                $encoded_key = web_encode_string($key);
+                $encoded_key = WebUtils::inst()->encodeString($key);
 
                 // Get all contributions associated with the key
                 $con = $contr[$key];

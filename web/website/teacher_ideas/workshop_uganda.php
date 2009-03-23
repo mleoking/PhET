@@ -7,8 +7,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
-
 class UgandaWorkshopPage extends SitePage {
 
     function render_content() {
@@ -71,7 +69,7 @@ Another valuable thing you can do for teachers is to teach them about inquiry-ba
 </li>
 
 <li>
-Bring CD's with all the software needed to run PhET.  Don't expect to be able to access the internet. Directions for making installation CDs are available at: <a href="http://phet.colorado.edu/get_phet/full_install.php">http://phet.colorado.edu/get_phet/full_install.php</a> 
+Bring CD's with all the software needed to run PhET.  Don't expect to be able to access the internet. Directions for making installation CDs are available at: <a href="http://phet.colorado.edu/get_phet/full_install.php">http://phet.colorado.edu/get_phet/full_install.php</a>
 </li>
 
 <li>
@@ -151,7 +149,7 @@ EOT;
     }
 }
 
-$page = new UgandaWorkshopPage("PhET Workshops in Soroti, Uganda (Jan 29 - Feb 1, 2008)", NAV_TEACHER_IDEAS, null);
+$page = new UgandaWorkshopPage("PhET Workshops in Soroti, Uganda (Jan 29 - Feb 1, 2008)", NavBar::NAV_TEACHER_IDEAS, null);
 $page->update();
 $page->render();
 

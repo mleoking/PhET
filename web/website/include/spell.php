@@ -15,7 +15,7 @@
 
     function spell_is_valid_word($word) {
         $checker = new SpellCheck($word);
-        
+
         return $checker->findNext() == false;
     }
 
@@ -26,7 +26,7 @@
         else {
             print "$word is not a valid word";
         }
-        
+
         print "<br/>";
     }
 

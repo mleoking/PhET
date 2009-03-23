@@ -6,15 +6,13 @@
     // See global.php for an explaination of the next line
     require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-    require_once("include/sim-utils.php");
-
     if (!isset($_REQUEST["teachers_guide_id"]) ||
         empty($_REQUEST["teachers_guide_id"])) {
             print "no";
         exit;
     }
 
-    $teachers_guide = sim_get_teachers_guide($_REQUEST["teachers_guide_id"], true);
+    $teachers_guide = SimUtils::inst()->getTeachersGuideFilenameAndContents($_REQUEST["teachers_guide_id"], true);
 
     send_file_to_browser($teachers_guide["teachers_guide_filename"], $teachers_guide["teachers_guide_contents"]);
 

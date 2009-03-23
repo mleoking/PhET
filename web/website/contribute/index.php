@@ -6,8 +6,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
-
 class ContributePage extends SitePage {
 
     function render_content() {
@@ -44,7 +42,7 @@ EOT;
 
 }
 
-$page = new ContributePage("Contribute", NAV_CONTRIBUTE, null);
+$page = new ContributePage("Contribute", NavBar::NAV_CONTRIBUTE, null);
 $page->update();
 $page->render();
 

@@ -1,5 +1,42 @@
 <?php
 
+  // TEMP TO TEST PRE AND POST IOM STUFF
+    define('PORTAL_ROOT', '../'.SITE_ROOT);
+    if (strpos($_SERVER['SCRIPT_NAME'], '/PhET-method1') === 0) {
+        // Case of POST IOM code setting, POST IOM sims
+        $GLOBALS['PREIOM_CODE'] = FALSE;
+        $GLOBALS['IOM_METHOD'] = 1;
+        $GLOBALS['EXTRA_TITLE'] = 'POST IOM CODE ONLY, POST IOM SIMS';
+        define("SIMS_ROOT", PORTAL_ROOT.'sims-postiom/');
+    }
+    else if (strpos($_SERVER['SCRIPT_NAME'], '/PhET-method2') === 0) {
+        // Case of PRE IOM code setting, POST IOM sims
+        $GLOBALS['PREIOM_CODE'] = TRUE;
+        $GLOBALS['IOM_METHOD'] = 2;
+        $GLOBALS['EXTRA_TITLE'] = 'PRE IOM CODE ENABLED, POST IOM SIMS';
+        define("SIMS_ROOT", PORTAL_ROOT.'sims-postiom/');
+    }
+    else if (strpos($_SERVER['SCRIPT_NAME'], '/PhET-method3') === 0) {
+        // Case of POST IOM code setting, PRE IOM sims
+        $GLOBALS['PREIOM_CODE'] = FALSE;
+        $GLOBALS['IOM_METHOD'] = 3;
+        $GLOBALS['EXTRA_TITLE'] = 'POST IOM CODE ONLY, PRE IOM SIMS';
+        define("SIMS_ROOT", PORTAL_ROOT.'sims-current/');
+    }
+    else if (strpos($_SERVER['SCRIPT_NAME'], '/PhET-method4') === 0) {
+        // Case of PRE IOM code setting, PRE IOM sims
+        $GLOBALS['PREIOM_CODE'] = TRUE;
+        $GLOBALS['IOM_METHOD'] = 4;
+        $GLOBALS['EXTRA_TITLE'] = 'PRE IOM CODE ENABLED, PRE IOM SIMS';
+        define("SIMS_ROOT", PORTAL_ROOT.'sims-current/');
+    }
+    else {
+        // act normally
+        $GLOBALS['PREIOM_CODE'] = FALSE;
+        $GLOBALS['IOM_METHOD'] = 0;
+        $GLOBALS['EXTRA_TITLE'] = 'Running Normally';
+    }
+
     // Temp hack to get around magic_quotes_gpc until admins can set it
     //
     if (get_magic_quotes_gpc()) {
@@ -46,12 +83,11 @@
         assert_options(ASSERT_ACTIVE, 0);
     }
 
-    
     //
     // Defines
     //
     // If you want to change these to be specific to
-    // your development machine, set them in 
+    // your development machine, set them in
     // local-debug-settings.php
     //
 
@@ -87,12 +123,13 @@
 
     // PHET_DIST_ROOT is the root of the phet-dist directory
     if (!defined("PHET_DIST_ROOT")) define("PHET_DIST_ROOT", PORTAL_ROOT.'phet-dist/');
-    
+
     // Convenience defines for PhET related contact
     define("PHET_DOMAIN_NAME", "phet.colorado.edu");
     define("PHET_HELP_EMAIL", "phethelp@colorado.edu");
 
     // Latest versions of flash and java
+    define("OS_MIN_VERSION_WIN", "Microsoft Windows 98SE/2000/XP/Vista");
     define("OS_MIN_VERSION_OSX", "10.4");
 
     define("JAVA_MIN_VERSION_GENERIC", "1.5");
@@ -114,12 +151,12 @@
     define("DEFAULT_NEW_SIMULATION_NAME", "New Simulation");
 
     ini_set('upload_max_filesize',    '20M');
-    ini_set("session.gc_maxlifetime", "10800"); 
+    ini_set("session.gc_maxlifetime", "10800");
     ini_set("session.cache_expire",   "180");
     /*
      * Not sure why these are so high... makes for a lot of garbage piling up
      * changing these to lower numbers, about 3 hours
-    ini_set("session.gc_maxlifetime", "999999999"); 
+    ini_set("session.gc_maxlifetime", "999999999");
     ini_set("session.cache_expire",   "999999999");
     */
 

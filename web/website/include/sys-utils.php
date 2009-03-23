@@ -99,27 +99,27 @@
     /**
      * Recursively make directories with specified mode.
      * (PHP's mkdir command claims to be able do this, but it doesn't)
-     * 
-     * NOTE: This function is NOT fully secure.  
-     * It is OK to add permissions to directories, 
+     *
+     * NOTE: This function is NOT fully secure.
+     * It is OK to add permissions to directories,
      * but NOT to take them away after they have been built.
      * See the discussion on php.net under the mkdir and chomod
      * command for more information.
-     * 
+     *
      * This routine has been built to be straightforward and
      * give the proper end result, NOT for security.  Through
      * umask, the PHP mkdir command, and the chmod that
      * follows, there are various paths that can make this
      * function secure and paths that are less so.
-     * 
+     *
      * The less secure paths have a slight but nonzero
      * chance of being compromised.  The would-be attacker
      * would have to be at the right place at the right time,
      * an extremely difficult place to be without extensive
      * inside knowledge.
-     * 
+     *
      * At the time of this writing, the cost of the type
-     * of security breach that this function exposes the 
+     * of security breach that this function exposes the
      * site to is minimal... maybe the would-be attacker would
      * get an email address or two.  This has been deemed
      * acceptable, and all the time I spent on this comment
@@ -343,7 +343,7 @@
                 $mime_type = auto_detect_mime_type($file_contents, true);
 
                 // Add another check, the auto detect can't tell the difference
-                // between powerpoint, excel and word files, so if it thinks it 
+                // between powerpoint, excel and word files, so if it thinks it
                 // is a word file, and the extension is "ppt" or "xls", change the
                 // mimetype.
                 // Why not just key off the extension?
@@ -367,7 +367,7 @@
                          * application/xls
                          * application/x-xls
                          * zz-application/zz-winassoc-xls
-                         * 
+                         *
                          */
                         $mime_type1 = "application/vnd.ms-excel";
                     }

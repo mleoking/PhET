@@ -60,7 +60,7 @@
     }
 
     function cache_get_cache_root_dir() {
-       return CACHE_ROOT.CACHE_DIRNAME.DIRECTORY_SEPARATOR; 
+       return CACHE_ROOT.CACHE_DIRNAME.DIRECTORY_SEPARATOR;
     }
 
     /**

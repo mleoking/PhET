@@ -6,8 +6,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
-
 class ManageCommentsPage extends SitePage {
 
     function update() {
@@ -57,7 +55,7 @@ class ManageCommentsPage extends SitePage {
             if ($t1 == $t2)
                 return 0;
             return ($t1 > $t2) ? -1 : 1;
-            
+
         }
         usort($this->comments_array_html, "lambdacmp");
     }
@@ -115,7 +113,7 @@ EOT;
 
 }
 
-$page = new ManageCommentsPage("Manage Comments", NAV_ADMIN, null, AUTHLEVEL_TEAM, false);
+$page = new ManageCommentsPage("Manage Comments", NavBar::NAV_ADMIN, null, SitePage::AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

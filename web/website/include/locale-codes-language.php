@@ -1,5 +1,5 @@
 <?php
-    
+
 // Map of language codes to English readable language names
 // This table should (generally) match ISO 369-1 at:
 //    http://www.loc.gov/standards/iso639-2/php/code_list.php

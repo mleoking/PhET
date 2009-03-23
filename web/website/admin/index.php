@@ -8,8 +8,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
-
 class AdminControlPanelPage extends SitePage {
 
     function render_content() {
@@ -63,7 +61,7 @@ EOT;
 
 }
 
-$page = new AdminControlPanelPage("PhET Administration Control Panel", NAV_ADMIN, null, AUTHLEVEL_TEAM, false);
+$page = new AdminControlPanelPage("PhET Administration Control Panel", NavBar::NAV_ADMIN, null, SitePage::AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

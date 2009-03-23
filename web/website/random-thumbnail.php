@@ -8,11 +8,10 @@
     if (!defined("INCLUDE_PATH_SET")) define("INCLUDE_PATH_SET", "true");
 
     require_once("include/global.php");
-    require_once("include/sim-utils.php");
     require_once("include/sys-utils.php");
     require_once("include/web-utils.php");
 
-    $thumbnails = sim_get_animated_previews();
+    $thumbnails = SimUtils::inst()->getAllAnimatedPreviewUrls();
 
     if (count($thumbnails) > 0) {
         for ($i = 0; $i < count($thumbnails); $i++) {
@@ -20,9 +19,9 @@
 
             $animated_screenshot = $thumbnails[$random_key];
 
-            if ($animated_screenshot_contents = sim_get_file_contents($animated_screenshot)) {
-                send_file_to_browser($animated_screenshot, $animated_screenshot_contents);
-
+            $file_contents = file_get_contents($animated_screenshot);
+            if ($file_contents) {
+                send_file_to_browser($animated_screenshot, $file_contents);
                 break;
             }
         }

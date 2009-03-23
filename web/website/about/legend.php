@@ -6,8 +6,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
-
 class LegendPage extends SitePage {
 
     function render_content() {
@@ -18,12 +16,8 @@ class LegendPage extends SitePage {
 
         global $SIM_RATING_TO_IMAGE_HTML;
 
-        $crutch_html     = SIM_CRUTCH_IMAGE_HTML;
-        $no_mac_html     = SIM_NO_MAC_IMAGE_HTML;
-        $check_html      = $SIM_RATING_TO_IMAGE_HTML[SIM_RATING_CHECK];
-        $alpha_html      = $SIM_RATING_TO_IMAGE_HTML[SIM_RATING_ALPHA];
+        $Sim = SimUtils::inst();
         $gold_star_html  = contribution_get_gold_star_html();
-        $from_phet_html  = FROM_PHET_IMAGE_HTML;
 
         print <<<EOT
             <div id="simratinglegend">
@@ -36,19 +30,19 @@ class LegendPage extends SitePage {
 
                     <tbody>
                         <tr>
-                            <td>$crutch_html</td>       <td><strong>Guidance Recommended</strong>: This simulation is very effective when used in conjunction with a lecture, homework  or other teacher designed activity.</td>
+                            <td>{$Sim->getGuidanceImageTag()}</td>       <td><strong>Guidance Recommended</strong>: This simulation is very effective when used in conjunction with a lecture, homework  or other teacher designed activity.</td>
                         </tr>
 
                         <tr>
-                            <td>$alpha_html</td>        <td><strong>Under Construction</strong>: This simulation is a preview version, and may have functional or usability bugs.</td>
+                            <td>{$Sim->getRatingImageTag(SimUtils::SIM_RATING_ALPHA)}</td>        <td><strong>Under Construction</strong>: This simulation is a preview version, and may have functional or usability bugs.</td>
                         </tr>
 
                         <tr>
-                            <td>$check_html</td>        <td><strong>Classroom Tested</strong>: This simulation has been used and tested in the classroom, and on multiple computer platforms. The simulation has been refined based on that experience and on student interviews.</td>
+            <td>{$Sim->getRatingImageTag(SimUtils::SIM_RATING_CHECK)}</td>        <td><strong>Classroom Tested</strong>: This simulation has been used and tested in the classroom, and on multiple computer platforms. The simulation has been refined based on that experience and on student interviews.</td>
                         </tr>
 
                         <tr>
-                            <td>$gold_star_html</td>    <td><strong>Gold Star Contribution</strong>: 
+                            <td>$gold_star_html</td>    <td><strong>Gold Star Contribution</strong>:
                             This contribution has received a Gold Star
                             because it is a high quality inquiry-based activity that follows the
                             <a href="{$this->prefix}teacher_ideas/contribution-guidelines.php">PhET design guidelines</a>
@@ -57,7 +51,7 @@ class LegendPage extends SitePage {
                         </tr>
 
                         <tr>
-                            <td>$from_phet_html</td>    <td><strong>PhET Designed</strong>: This contribution was designed by PhET.</td>
+                                <td>{$Sim->getContributionFromPhetImageTag()}</td>    <td><strong>PhET Designed</strong>: This contribution was designed by PhET.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -68,7 +62,7 @@ EOT;
 
 }
 
-$page = new LegendPage("Legend", NAV_ABOUT_PHET, null);
+$page = new LegendPage("Legend", NavBar::NAV_ABOUT_PHET, null);
 $page->update();
 $page->render();
 

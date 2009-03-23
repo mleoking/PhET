@@ -6,7 +6,7 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
+require_once("include/installer-utils.php");
 
 class TroubleshootingPage extends SitePage {
 
@@ -20,11 +20,10 @@ class TroubleshootingPage extends SitePage {
         $installer_name = 'PhET Offline Website Installer';
         $installer_anchor = '<a href="'.SITE_ROOT.'get_phet/full_install.php">'.$installer_name.'</a>';
 
-        $no_mac = SIM_NO_MAC_IMAGE_HTML;
-
         $phet_help_email = PHET_HELP_EMAIL;
 
         $os_min_version_osx = OS_MIN_VERSION_OSX;
+        $os_min_version_win = OS_MIN_VERSION_WIN;
 
         $java_min_version_generic = JAVA_MIN_VERSION_GENERIC;
         $java_min_version_win_full = JAVA_MIN_VERSION_WIN_FULL;
@@ -96,7 +95,7 @@ class TroubleshootingPage extends SitePage {
 
             <p><strong>Windows Systems</strong><br />
             Intel Pentium processor<br />
-            Microsoft Windows 98SE/2000/XP/Vista<br />
+            {$os_min_version_win}<br />
             256MB RAM minimum<br />
             Approximately {$win_size} MB available disk space (for full <a href="{$installer_url}">installation</a>)<br />
             1024x768 screen resolution or better<br />
@@ -246,7 +245,7 @@ EOT;
 
 }
 
-$page = new TroubleshootingPage("Troubleshooting", NAV_TECH_SUPPORT, null);
+$page = new TroubleshootingPage("Troubleshooting", NavBar::NAV_TECH_SUPPORT, null);
 $page->update();
 $page->render();
 

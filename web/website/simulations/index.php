@@ -6,9 +6,9 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
-
 class SimulationsPage extends SitePage {
+
+    const SIMS_PER_PAGE = 9;
 
     function render_content() {
         $result = parent::render_content();
@@ -16,43 +16,28 @@ class SimulationsPage extends SitePage {
             return $result;
         }
 
-        // Get the database connection, start it if if this is the first call
-        global $connection;
-        if (!isset($connection)) {
-            connect_to_db();
-        }
+        $CatUtils = CategoryUtils::inst();
+        $WebUtils = WebUtils::inst();
 
         if (isset($_REQUEST['cat'])) {
             $cat_encoding = $_REQUEST['cat'];
-
-            $cat_id = sim_get_cat_id_by_cat_encoding($cat_encoding);
+            $category = $CatUtils->getCategory($cat_encoding);
         }
-        else {
-            $cat_encoding = sim_get_encoded_default_category();
-            $cat_id       = 1;
-        }
-
-        if (is_null($cat_id)) {
-            $cat_encoding = sim_get_encoded_default_category();
-            $cat_id       = 1;
+        else {	
+            $category = $CatUtils->getDefaultCategory();
+            $cat_encoding = $WebUtils->encodeString($category['cat_name']);
         }
 
-        $select_category_st = "SELECT * FROM `category` WHERE `cat_id`='$cat_id'";
-        $category_rows      = mysql_query($select_category_st, $connection);
-
-        // Print the category header -- e.g. 'Top Sims':
-        if (!$category_rows) {
+        $cat_id = $category['cat_id'];
+        if (!$category) {
             print "<h2>Invalid Category</h2>";
+            // FIXME: some type of error here, do not proceed
         }
         else {
-            $category_row = mysql_fetch_assoc($category_rows);
-
-            $cat_name = $category_row['cat_name'];
-
-            print "<h2>$cat_name</h2>";
+            print "<h2>{$category['cat_name']}</h2>";
         }
 
-        $sim_limit = SIMS_PER_PAGE;
+        $sim_limit = self::SIMS_PER_PAGE;
 
         if (isset($_REQUEST['st'])) {
             $sim_start_number = $_REQUEST['st'];
@@ -81,52 +66,62 @@ class SimulationsPage extends SitePage {
 
         // This statement selects for all sims in the category, and orders by the sim sorting name:
         if (($view_type == "index") || ($cat_encoding == "All_Sims")) {
-            $simulations = sim_get_sims_by_cat_id_alphabetically($cat_id);
+            $simulations = SimFactory::inst()->getSimsByCatId($cat_id, true);
         }
         else {
-            $simulations = sim_get_sims_by_cat_id($cat_id);
+            $simulations = SimFactory::inst()->getSimsByCatId($cat_id, false);
         }
 
         $num_sims_in_category = count($simulations);
 
         if ($view_type == "thumbs") {
-            $link = sim_get_category_link_by_cat_id($cat_id, 'Index View', '&amp;view_type=index');
+            $url = $CatUtils->getCategoryBaseUrl($cat_encoding);
+            $url .= '&amp;view_type=index';
+            $anchor = $WebUtils->buildAnchorTag($url, 'Index View');
 
             // THUMBNAIL INDEX
-            print "<div id=\"listing_type\">$link</div>";
+            print "<div id=\"listing_type\">{$anchor}</div>";
 
             $pages_html = '';
 
-            if ($num_sims_in_category > SIMS_PER_PAGE) {
-                $current_page = $sim_start_number / SIMS_PER_PAGE + 1;
+            if ($num_sims_in_category > self::SIMS_PER_PAGE) {
+                $current_page = $sim_start_number / self::SIMS_PER_PAGE + 1;
 
                 // Don't bother printing this section unless there are more sims than will fit on one page:
                 $pages_html .= "<div id=\"pg\">\n";
 
                 if ($sim_limit == 999) {
-                    $link = "View All";
+                    $anchor = "View All";
                 }
                 else {
-                    $link = sim_get_category_link_by_cat_id($cat_id, "View All", "&amp;st=-1", 'pg');
+                    $url = $CatUtils->getCategoryBaseUrl($cat_encoding);
+                    $url .= '&amp;st=-1';
+                    $anchor = $WebUtils->buildAnchorTag($url, 'View All', array('class' => 'pg'));
                 }
 
-                $pages_html .= "$link | ";
+                $pages_html .= "{$anchor} | ";
 
-                $num_pages = (int)ceil((float)$num_sims_in_category / (float)SIMS_PER_PAGE);
+                $num_pages = (int)ceil((float)$num_sims_in_category / (float)self::SIMS_PER_PAGE);
 
                 for ($n = 0; $n < $num_pages; $n = $n + 1) {
                     $page_number = $n + 1;
 
-                    $page_sim_start_number = SIMS_PER_PAGE * $n;
+                    $page_sim_start_number = self::SIMS_PER_PAGE * $n;
 
                     if ($page_number == $current_page && $sim_limit != 999) {
-                        $link = "$page_number";
+                        $anchor = "$page_number";
+                        //$link = "$page_number";
                     }
                     else {
-                        $link = sim_get_category_link_by_cat_id($cat_id, "$page_number", "&amp;st=$page_sim_start_number", 'pg');
+                        $url = $CatUtils->getCategoryBaseUrl($cat_encoding);
+                        $url .= '&amp;st='.$page_sim_start_number;
+                        $anchor = $WebUtils->buildAnchorTag(
+                            $url,
+                            "{$page_number}",
+                            array('class' => 'pg'));
                     }
 
-                    $pages_html .=  "$link\n";
+                    $pages_html .=  "{$anchor}\n";
                 }
 
                 $pages_html .=  "</div>\n";
@@ -145,70 +140,36 @@ class SimulationsPage extends SitePage {
             $sim_number   = -1;
             $sims_printed = 0;
 
-            foreach($simulations as $simulation) {
-                // Removing unsafe function 'get_code_to_create_variables_from_array',
-                // just doing the equivalent by hand
-                //eval(get_code_to_create_variables_from_array($simulation));
-                $sim_id = $simulation["sim_id"];
-                $sim_name = $simulation["sim_name"];
-                $sim_dirname = $simulation["sim_dirname"];
-                $sim_flavorname = $simulation["sim_flavorname"];
-                $sim_rating = $simulation["sim_rating"];
-                $sim_no_mac = $simulation["sim_no_mac"];
-                $sim_crutch = $simulation["sim_crutch"];
-                $sim_type = $simulation["sim_type"];
-                $sim_size = $simulation["sim_size"];
-                $sim_launch_url = $simulation["sim_launch_url"];
-                $sim_image_url = $simulation["sim_image_url"];
-                $sim_desc = $simulation["sim_desc"];
-                $sim_keywords = $simulation["sim_keywords"];
-                $sim_system_req = $simulation["sim_system_req"];
-                $sim_teachers_guide_id = $simulation["sim_teachers_guide_id"];
-                $sim_main_topics = $simulation["sim_main_topics"];
-                $sim_design_team = $simulation["sim_design_team"];
-                $sim_libraries = $simulation["sim_libraries"];
-                $sim_thanks_to = $simulation["sim_thanks_to"];
-                $sim_sample_goals = $simulation["sim_sample_goals"];
-                $sim_sorting_name = $simulation["sim_sorting_name"];
-                $sim_animated_image_url = $simulation["sim_animated_image_url"];
-                $sim_is_real = $simulation["sim_is_real"];
+            foreach ($simulations as $sim) {
 
-                $formatted_sim_name = format_string_for_html($sim_name);
+                ++$sim_number;
 
-                // Make sure the simulation is valid:
-                if (is_numeric($sim_id)) {
-                    ++$sim_number;
+                if ($sim_number <  $sim_start_number) continue;
+                if ($sim_number >= $sim_start_number + $sim_limit) break;
 
-                    if ($sim_number <  $sim_start_number) continue;
-                    if ($sim_number >= $sim_start_number + $sim_limit) break;
+                print "<div class=\"productEntry\">\n";
 
-                    print "<div class=\"productEntry\">\n";
+                $link_to_sim = "<a href=\"{$sim->getPageUrl()}\">";
 
-                    $sim_url = sim_get_url_to_sim_page($sim_id);
+                $sim_thumbnail_link = $sim->getThumbnailUrl();
 
-                    $link_to_sim = "<a href=\"$sim_url\">";
-
-
-                    $sim_thumbnail_link = sim_get_thumbnail($simulation);
-
-                    print <<<EOT
-                        <a href="$sim_url">
+                print <<<EOT
+                        <a href="{$sim->getPageUrl()}">
                             <img src="$sim_thumbnail_link"
                                  width="130"
-                                 alt="Screenshot of $formatted_sim_name Simulation"
-                                 title="Clear here to view the $formatted_sim_name simulation"
+                                 alt="Screenshot of {$sim->getName()} Simulation"
+                                 title="Clear here to view the {$sim->getName()} simulation"
                              />
                         </a>
 
 EOT;
 
-                    print "<p>$link_to_sim$formatted_sim_name</a></p>\n";
+                print "<p>$link_to_sim{$sim->getName()}</a></p>\n";
 
-                    // Close product:
-                    print "</div>\n";
+                // Close product:
+                print "</div>\n";
 
-                    ++$sims_printed;
-                }
+                ++$sims_printed;
             }
 
             print "</div>"; // Close product list
@@ -218,9 +179,11 @@ EOT;
             }
         }
         else {
-            $link = sim_get_category_link_by_cat_id($cat_id, "Thumbnail View", '&amp;view_type=thumbs');
+            $url = $CatUtils->getCategoryBaseUrl($cat_encoding);
+            $url .= '&amp;view_type=thumbs';
+            $anchor = WebUtils::inst()->buildAnchorTag($url, 'Thumbnail View');
 
-            print "<div id=\"listing_type\">$link</a></div>";
+            print "<div id=\"listing_type\">{$anchor}</div>";
 
             // ALPHABETICAL INDEX
 
@@ -228,41 +191,11 @@ EOT;
 
             $last_printed_char = '';
 
-            foreach($simulations as $simulation) {
-                // Removing unsafe function 'get_code_to_create_variables_from_array',
-                // just doing the equivalent by hand
-                //eval(get_code_to_create_variables_from_array($simulation));
-                $sim_id = $simulation["sim_id"];
-                $sim_name = $simulation["sim_name"];
-                $sim_dirname = $simulation["sim_dirname"];
-                $sim_flavorname = $simulation["sim_flavorname"];
-                $sim_rating = $simulation["sim_rating"];
-                $sim_no_mac = $simulation["sim_no_mac"];
-                $sim_crutch = $simulation["sim_crutch"];
-                $sim_type = $simulation["sim_type"];
-                $sim_size = $simulation["sim_size"];
-                $sim_launch_url = $simulation["sim_launch_url"];
-                $sim_image_url = $simulation["sim_image_url"];
-                $sim_desc = $simulation["sim_desc"];
-                $sim_keywords = $simulation["sim_keywords"];
-                $sim_system_req = $simulation["sim_system_req"];
-                $sim_teachers_guide_id = $simulation["sim_teachers_guide_id"];
-                $sim_main_topics = $simulation["sim_main_topics"];
-                $sim_design_team = $simulation["sim_design_team"];
-                $sim_libraries = $simulation["sim_libraries"];
-                $sim_thanks_to = $simulation["sim_thanks_to"];
-                $sim_sample_goals = $simulation["sim_sample_goals"];
-                $sim_sorting_name = $simulation["sim_sorting_name"];
-                $sim_animated_image_url = $simulation["sim_animated_image_url"];
-                $sim_is_real = $simulation["sim_is_real"];
-
-                $sim_sorting_name = get_sorting_name($sim_name);
-
-                $cur_char = strtoupper($sim_sorting_name[0]);
+            foreach ($simulations as $sim) {
+                $cur_char = $sim->getSortingFirstChar();
 
                 if ($cur_char !== $last_printed_char) {
                     print "<a class=\"pg\" href=\"#$cur_char\">$cur_char</a> ";
-
                     $last_printed_char = $cur_char;
                 }
             }
@@ -275,47 +208,16 @@ EOT;
 
             $last_printed_char = '';
 
-            foreach($simulations as $simulation) {
-                // Removing unsafe function 'get_code_to_create_variables_from_array',
-                // just doing the equivalent by hand
-                //eval(get_code_to_create_variables_from_array($simulation));
-                $sim_id = $simulation["sim_id"];
-                $sim_name = $simulation["sim_name"];
-                $sim_dirname = $simulation["sim_dirname"];
-                $sim_flavorname = $simulation["sim_flavorname"];
-                $sim_rating = $simulation["sim_rating"];
-                $sim_no_mac = $simulation["sim_no_mac"];
-                $sim_crutch = $simulation["sim_crutch"];
-                $sim_type = $simulation["sim_type"];
-                $sim_size = $simulation["sim_size"];
-                $sim_launch_url = $simulation["sim_launch_url"];
-                $sim_image_url = $simulation["sim_image_url"];
-                $sim_desc = $simulation["sim_desc"];
-                $sim_keywords = $simulation["sim_keywords"];
-                $sim_system_req = $simulation["sim_system_req"];
-                $sim_teachers_guide_id = $simulation["sim_teachers_guide_id"];
-                $sim_main_topics = $simulation["sim_main_topics"];
-                $sim_design_team = $simulation["sim_design_team"];
-                $sim_libraries = $simulation["sim_libraries"];
-                $sim_thanks_to = $simulation["sim_thanks_to"];
-                $sim_sample_goals = $simulation["sim_sample_goals"];
-                $sim_sorting_name = $simulation["sim_sorting_name"];
-                $sim_animated_image_url = $simulation["sim_animated_image_url"];
-                $sim_is_real = $simulation["sim_is_real"];
-
-                $sim_sorting_name = get_sorting_name($sim_name);
-
-                $cur_char = strtoupper($sim_sorting_name[0]);
+            foreach ($simulations as $sim) {
+                $cur_char = $sim->getSortingFirstChar();
 
                 if ($cur_char !== $last_printed_char) {
-                    print "<h3 id=\"$cur_char\">$cur_char</h3>";
+                    print "<h3 id=\"$cur_char\">$cur_char</h3>\n";
 
                     $last_printed_char = $cur_char;
                 }
 
-                $sim_url = sim_get_url_to_sim_page($sim_id);
-
-                print "<a href=\"$sim_url\">$sim_name</a><br />";
+                print "<a href=\"{$sim->getPageUrl()}\">{$sim->getName()}</a><br />\n";
             }
 
             print "</div>";  // Close product list
@@ -333,7 +235,7 @@ EOT;
 
 }
 
-$page = new SimulationsPage("Simulations", NAV_SIMULATIONS, null);
+$page = new SimulationsPage("Simulations", NavBar::NAV_SIMULATIONS, null);
 $page->update();
 $page->render();
 
