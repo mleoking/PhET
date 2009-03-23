@@ -1,3 +1,5 @@
+# 1.08.02 (29629) Mar 22, 2009
+3/22/09 Batch deploy for Alpha Simulation Tests 2, svn 29628
 # 1.08.01 (28784) Feb 19, 2009
 Batch deploy for alpha Simulation Tests, svn 28773
 1-9-2009: #1082, delete SimString from discharge-lamps
