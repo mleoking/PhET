@@ -34,31 +34,6 @@ public class BuildScript {
     private final ArrayList listeners;
 
     private String batchMessage;
-    private RevisionStrategy revisionStrategy=new DynamicRevisionStrategy();
-
-    public static interface RevisionStrategy{
-        String getRevision();
-    }
-    public class DynamicRevisionStrategy implements RevisionStrategy{
-        public String getRevision() {
-            return getSVNVersion()+"";
-        }
-    }
-    public static class ConstantRevisionStrategy implements RevisionStrategy{
-       private String revision;
-
-        public ConstantRevisionStrategy( String revision ) {
-            this.revision = revision;
-        }
-
-        public String getRevision() {
-            return revision;
-        }
-    }
-
-    public void setRevisionStrategy( RevisionStrategy revisionStrategy ) {
-        this.revisionStrategy = revisionStrategy;
-    }
 
     public void addListener( Listener listener ) {
         listeners.add( listener );
