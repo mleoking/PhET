@@ -220,7 +220,7 @@ class SimulationHTMLDecorator implements SimulationInterface, SimulationEnhancer
             return '';
         }
 
-        return "javascript:open_limited_window('{$this->sim->getLaunchUrl($locale)}', 'simwindow'); return false;";
+        return "javascript:open_limited_window('{$this->sim->getLaunchUrl($locale)}', '_blank'); return false;";
     }
 
     public function getDownloadFilename($locale = Locale::DEFAULT_LOCALE) {
