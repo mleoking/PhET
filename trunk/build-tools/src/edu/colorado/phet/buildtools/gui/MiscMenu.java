@@ -82,7 +82,7 @@ public class MiscMenu extends JMenu {
         } );
         add( batchTest );
 
-        JMenuItem buildAndDeployAll = new JMenuItem( "Batch Deploy All to Dev" );
+        JMenuItem buildAndDeployAll = new JMenuItem( "Batch Deploy All sims to Dev" );
         buildAndDeployAll.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 batchDeploy( PhetProject.getAllSimulations( trunk ) );
