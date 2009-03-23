@@ -11,6 +11,7 @@ import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.FileImageOutputStream;
 
+import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 
 /**
@@ -18,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
  * to produce the sim-page screenshot and sim thumbnail, which are deployed in the deploy process
  * <p/>
  * See #1505
+ *
  * @author Sam Reid
  */
 public class ScreenshotProcessor {
@@ -25,7 +27,18 @@ public class ScreenshotProcessor {
         String[] s = project.getSimulationNames();
         for ( int i = 0; i < s.length; i++ ) {
             String sim = s[i];
+
+            //copy the animated screenshot, if it exists
+            File animatedScreenshot = project.getAnimatedScreenshot( sim );
+            if ( animatedScreenshot.exists() ) {
+                File file = new File( project.getDeployDir(), animatedScreenshot.getName() );
+                FileUtils.copyTo( animatedScreenshot, file );
+                System.out.println( "Copied animated screenshot to: "+file.getAbsolutePath() );
+            }
+
             File imageFile = project.getScreenshot( sim );
+
+
             if ( !imageFile.exists() ) {
                 System.out.println( "No screenshot for: " + project.getName() + "." + sim );
             }
