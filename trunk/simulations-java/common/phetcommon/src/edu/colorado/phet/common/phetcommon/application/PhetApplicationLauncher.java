@@ -2,15 +2,13 @@ package edu.colorado.phet.common.phetcommon.application;
 
 import java.awt.Frame;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 
+import javax.swing.JSpinner;
 import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.common.phetcommon.statistics.SessionMessage;
 import edu.colorado.phet.common.phetcommon.statistics.StatisticsManager;
 import edu.colorado.phet.common.phetcommon.updates.AutomaticUpdatesManager;
 import edu.colorado.phet.common.phetcommon.updates.ManualUpdatesManager;
-import edu.colorado.phet.common.phetcommon.util.logging.USLogger;
 
 /**
  * This launcher solves the following problems:
@@ -104,6 +102,9 @@ public class PhetApplicationLauncher {
                 public void run() {
                     
                     config.getLookAndFeel().initLookAndFeel();
+                    
+                    new JSpinner(); // WORKAROUND for Unfuddle #1372 (Apple bug #6710919)
+                    
                     if ( applicationConstructor != null ) {
                         
                         // sim initialization
