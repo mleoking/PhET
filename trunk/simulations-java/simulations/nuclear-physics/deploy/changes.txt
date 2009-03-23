@@ -1,3 +1,5 @@
+# 3.09.02 (29629) Mar 22, 2009
+3/22/09 Batch deploy for Alpha Simulation Tests 2, svn 29628
 # 3.09.01 (29509) Mar 17, 2009
 3/17/09 testing #1495 and #1058, tab color scheme
 # 3.09.00 (28878) Feb 20, 2009
