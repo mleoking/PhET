@@ -38,7 +38,7 @@ public class PhetFlashProject extends PhetProject {
         super( parentDir, name );
     }
 
-    public static PhetProject[] getFlashProjects( File trunk ) {
+    public static PhetProject[] getFlashSimulations( File trunk ) {
 //        File flashSimDir=new File(baseDir.getParentFile(),"team/jolson/simulations");
         File flashSimDir = new File( trunk, "simulations-flash/simulations" );
         File[] files = flashSimDir.listFiles( new FileFilter() {

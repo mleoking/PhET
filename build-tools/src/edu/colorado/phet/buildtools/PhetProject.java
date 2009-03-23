@@ -495,7 +495,7 @@ public abstract class PhetProject {
         List phetProjects = new ArrayList();
 
         phetProjects.addAll( Arrays.asList( JavaProject.getJavaSimulations( trunk ) ) );
-        phetProjects.addAll( Arrays.asList( PhetFlashProject.getFlashProjects( trunk ) ) );
+        phetProjects.addAll( Arrays.asList( PhetFlashProject.getFlashSimulations( trunk ) ) );
         phetProjects.addAll( Arrays.asList( PhetFlexProject.getFlexProjects( trunk ) ) );
         return (PhetProject[]) phetProjects.toArray( new PhetProject[phetProjects.size()] );
     }

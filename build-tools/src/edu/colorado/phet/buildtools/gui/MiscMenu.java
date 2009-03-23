@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -86,6 +87,18 @@ public class MiscMenu extends JMenu {
         buildAndDeployAll.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 batchDeploy( PhetProject.getAllSimulations( trunk ) );
+
+                //this block of code is useful for deploying a subset of sims
+//                PhetProject[]p=PhetFlashProject.getFlashSimulations(trunk );
+//                ArrayList list=new ArrayList( );
+//                for ( int i = 0; i < p.length; i++ ) {
+//                    PhetProject phetProject = p[i];
+//                    if (phetProject.getName().compareTo( "pendulum-lab" )>0){
+//                        list.add(phetProject);
+//                        System.out.println( "keeping: "+phetProject.getName() );
+//                    }
+//                }
+//                batchDeploy( (PhetProject[]) list.toArray( new PhetProject[list.size()] ) );
 
             }
         } );
