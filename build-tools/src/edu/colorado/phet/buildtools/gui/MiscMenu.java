@@ -136,11 +136,8 @@ public class MiscMenu extends JMenu {
         for ( int i = 0; i < projects.length; i++ ) {
             BuildScript buildScript = new BuildScript( trunk, projects[i] );
 
-            //Use the same revision number for everything
-            buildScript.setRevisionStrategy( new BuildScript.ConstantRevisionStrategy( svnVersion ) );
             //Skip status checks, so that a commit during batch deploy won't cause errors
             buildScript.setDebugSkipStatus( true );
-
 
             buildScript.setBatchMessage( message );
             final BufferedWriter log = bufferedWriter;
