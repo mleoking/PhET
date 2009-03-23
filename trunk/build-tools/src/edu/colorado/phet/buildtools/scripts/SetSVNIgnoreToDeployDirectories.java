@@ -63,8 +63,8 @@ public class SetSVNIgnoreToDeployDirectories {
         String[] svnCommand = new String[]{"svn", "propset", "svn:ignore", "--file", propFilename, dir.getAbsolutePath()};
         System.out.println( Arrays.asList( svnCommand ) );
         Process p=Runtime.getRuntime().exec( svnCommand );
-        new StreamReaderThread( p.getErrorStream(), "err>" ).start();
-        new StreamReaderThread( p.getInputStream(), "" ).start();
+        new StreamReaderThread( p.getErrorStream(), "err" ).start();
+        new StreamReaderThread( p.getInputStream(), "out" ).start();
         p.waitFor();
     }
 }
