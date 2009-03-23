@@ -36,7 +36,7 @@ public class SetSVNIgnoreToDeployDirectories {
         PhetProject[] projects = PhetProject.getAllProjects( trunk );
         for ( int k = 0; k < projects.length; k++ ) {
             File dir = projects[k].getDeployDir();
-            String[] ignorePatterns = new String[]{"*.jar", "*.jnlp", "*.properties", "HEADER"};
+            String[] ignorePatterns = new String[]{"*.jar", "*.jnlp", "*.properties", "HEADER","*.png","*.jpg","*.gif"};
             setIgnorePatternsOnDir( dir, ignorePatterns );
         }
     }
