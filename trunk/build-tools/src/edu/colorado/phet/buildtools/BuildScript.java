@@ -34,6 +34,31 @@ public class BuildScript {
     private final ArrayList listeners;
 
     private String batchMessage;
+    private RevisionStrategy revisionStrategy=new DynamicRevisionStrategy();
+
+    public static interface RevisionStrategy{
+        int getRevision();
+    }
+    public class DynamicRevisionStrategy implements RevisionStrategy{
+        public int getRevision() {
+            return getRevisionOnTrunkREADME();
+        }
+    }
+    public static class ConstantRevisionStrategy implements RevisionStrategy{
+       private int revision;
+
+        public ConstantRevisionStrategy( int revision ) {
+            this.revision = revision;
+        }
+
+        public int getRevision() {
+            return revision;
+        }
+    }
+
+    public void setRevisionStrategy( RevisionStrategy revisionStrategy ) {
+        this.revisionStrategy = revisionStrategy;
+    }
 
     public void addListener( Listener listener ) {
         listeners.add( listener );
@@ -102,7 +127,7 @@ public class BuildScript {
         }
 
         versionIncrement.increment( project );
-        int svnNumber = getSVNVersion();
+        int svnNumber = revisionStrategy.getRevision();
         System.out.println( "Current SVN: " + svnNumber );
         System.out.println( "Setting SVN Version" );
         setSVNVersion( svnNumber + 1 );
@@ -299,7 +324,7 @@ public class BuildScript {
         project.setVersionTimestamp( System.currentTimeMillis() / 1000 ); // convert from ms to sec
     }
 
-    public int getSVNVersion() {
+    public int getRevisionOnTrunkREADME() {
         File readmeFile = new File( trunk, "README.txt" );
         if ( !readmeFile.exists() ) {
             throw new RuntimeException( "Readme file doesn't exist, need to get version info some other way" );

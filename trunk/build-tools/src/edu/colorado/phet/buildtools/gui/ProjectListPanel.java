@@ -119,7 +119,7 @@ public class ProjectListPanel extends JPanel {
         JButton getSVN = new JButton( "Get SVN version" );
         getSVN.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                System.out.println( "getBuildScript().getSVNVersion() = " + getBuildScript().getSVNVersion() );
+                System.out.println( "getBuildScript().getSVNVersion() = " + getBuildScript().getRevisionOnTrunkREADME() );
             }
         } );
         JButton addMessage = new JButton( "Add Message" );
