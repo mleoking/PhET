@@ -25,7 +25,7 @@ public class BuildScript {
     // debug flags that can be set via build-local.properties
     private final boolean debugDryRun;
     private final boolean debugSkipBuild;
-    private final boolean debugSkipStatus;
+    private boolean debugSkipStatus;
     private final boolean debugSkipCommit;
 
     private final PhetProject project;
@@ -34,6 +34,31 @@ public class BuildScript {
     private final ArrayList listeners;
 
     private String batchMessage;
+    private RevisionStrategy revisionStrategy=new DynamicRevisionStrategy();
+
+    public static interface RevisionStrategy{
+        String getRevision();
+    }
+    public class DynamicRevisionStrategy implements RevisionStrategy{
+        public String getRevision() {
+            return getSVNVersion()+"";
+        }
+    }
+    public static class ConstantRevisionStrategy implements RevisionStrategy{
+       private String revision;
+
+        public ConstantRevisionStrategy( String revision ) {
+            this.revision = revision;
+        }
+
+        public String getRevision() {
+            return revision;
+        }
+    }
+
+    public void setRevisionStrategy( RevisionStrategy revisionStrategy ) {
+        this.revisionStrategy = revisionStrategy;
+    }
 
     public void addListener( Listener listener ) {
         listeners.add( listener );
@@ -55,6 +80,10 @@ public class BuildScript {
         debugSkipBuild = this.buildLocalProperties.getDebugSkipBuild();
         debugSkipStatus = this.buildLocalProperties.getDebugSkipStatus();
         debugSkipCommit = this.buildLocalProperties.getDebugSkipCommit();
+    }
+
+    public void setDebugSkipStatus( boolean debugSkipStatus ) {
+        this.debugSkipStatus = debugSkipStatus;
     }
 
     public void clean() {

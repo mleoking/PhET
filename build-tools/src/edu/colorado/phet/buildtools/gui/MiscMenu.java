@@ -13,8 +13,8 @@ import java.util.HashSet;
 import javax.swing.*;
 
 import edu.colorado.phet.buildtools.*;
-import edu.colorado.phet.buildtools.flash.PhetFlashProject;
 import edu.colorado.phet.buildtools.flash.FlashBuildCommand;
+import edu.colorado.phet.buildtools.flash.PhetFlashProject;
 import edu.colorado.phet.buildtools.java.JavaBuildCommand;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
@@ -103,8 +103,10 @@ public class MiscMenu extends JMenu {
     }
 
     private void batchDeploy( PhetProject[] projects ) {
-        FlashBuildCommand.useTimeout=true;
-        String message = JOptionPane.showInputDialog( "Deploying all sims to dev/.  \n" +
+        FlashBuildCommand.useTimeout = true;
+        String svnVersion = new BuildScript( trunk, projects[0] ).getSVNVersion() + "";
+        String message = JOptionPane.showInputDialog( "Deploying all sims to dev/.  Make sure you've update your working copy.\n" +
+                                                      "Assuming you've updated already, the revision number will be: " + svnVersion + "\n" +
                                                       "Enter a message to add to the change log for all sims\n" +
                                                       "(or Cancel or Enter a blank line to omit batch message)" );
         BufferedWriter bufferedWriter = null;
@@ -127,18 +129,26 @@ public class MiscMenu extends JMenu {
         catch( IOException e1 ) {
             e1.printStackTrace();
         }
+
         for ( int i = 0; i < projects.length; i++ ) {
             BuildScript buildScript = new BuildScript( trunk, projects[i] );
+
+            //Use the same revision number for everything
+            buildScript.setRevisionStrategy( new BuildScript.ConstantRevisionStrategy( svnVersion ) );
+            //Skip status checks, so that a commit during batch deploy won't cause errors
+            buildScript.setDebugSkipStatus( true );
+
+
             buildScript.setBatchMessage( message );
-            final BufferedWriter bufferedWriter1 = bufferedWriter;
+            final BufferedWriter log = bufferedWriter;
             buildScript.addListener( new BuildScript.Listener() {
                 public void deployFinished( BuildScript buildScript, PhetProject project, String codebase ) {
                     try {
-                        bufferedWriter1.write( project.getName() + ": " + codebase );
+                        log.write( project.getName() + ": " + codebase );
                         for ( int k = 0; k < project.getSimulationNames().length; k++ ) {
-                            bufferedWriter1.write( "\t" + project.getSimulation( project.getSimulationNames()[k] ).getTitle() );
+                            log.write( "\t" + project.getSimulation( project.getSimulationNames()[k] ).getTitle() );
                         }
-                        bufferedWriter1.write( "" );
+                        log.write( "" );
                     }
                     catch( IOException e1 ) {
                         e1.printStackTrace();
@@ -147,7 +157,7 @@ public class MiscMenu extends JMenu {
 
                 public void deployErrorOccurred( BuildScript buildScript, PhetProject project, String error ) {
                     try {
-                        bufferedWriter1.write( "ERROR: " + project.getName() + ", errror=" + error + "\n" );
+                        log.write( "ERROR: " + project.getName() + ", errror=" + error + "\n" );
                     }
                     catch( IOException e1 ) {
                         e1.printStackTrace();
