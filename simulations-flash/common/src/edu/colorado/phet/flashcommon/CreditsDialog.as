@@ -41,7 +41,7 @@ class edu.colorado.phet.flashcommon.CreditsDialog {
 		ASWingUtils.getRootMovieClip();
 		
 		// create a window
-		var window : JFrame = new JFrame(_level0, common.strings.get("PhetSoftwareAgreement", "PhET Software Agreement"));
+		var window : JFrame = new JFrame(_level0, common.strings.get("Credits", "Credits"));
 		
 		// make it accessible from anywhere
 		_level0.creditsWindow = window;
