@@ -36,6 +36,13 @@ public class BuildScript {
     private String batchMessage;
     private RevisionStrategy revisionStrategy=new DynamicRevisionStrategy();
 
+    //TODO: refactor to not be public static
+    public static boolean generateJARs=true;//AND'ed with project setting
+
+    public static void setGenerateJARs( boolean _generateJARs ) {
+        generateJARs=_generateJARs;
+    }
+
     public static interface RevisionStrategy{
         int getRevision();
     }
@@ -501,7 +508,8 @@ public class BuildScript {
     public static void generateOfflineJars( PhetProject project, PhetServer server, AuthenticationInfo authenticationInfo ) {
 
         //only sign jars for Java Projects, and only if it is enabled (e.g. for simulations)
-        if ( project instanceof JavaProject && ( (JavaProject) project ).getSignJar() ) {
+        boolean projectWantsJARs = project instanceof JavaProject && ( (JavaProject) project ).getSignJar();
+        if ( projectWantsJARs && generateJARs ) {
             SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword() );
             try {
                 sshConnection.connect();
