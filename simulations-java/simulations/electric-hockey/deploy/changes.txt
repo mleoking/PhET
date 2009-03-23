@@ -1,3 +1,5 @@
+# 1.04.02 (29629) Mar 22, 2009
+3/22/09 Batch deploy for Alpha Simulation Tests 2, svn 29628
 3/5/09 #1364, fix collision sound, convert from .au to .wav
 # 1.04.01 (28787) Feb 19, 2009
 Batch deploy for alpha Simulation Tests, svn 28773
