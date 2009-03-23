@@ -1,3 +1,5 @@
+# 2.08.04 (29629) Mar 22, 2009
+3/22/09 Batch deploy for Alpha Simulation Tests 2, svn 29628
 # 2.08.03 (28820) Feb 19, 2009
 Batch deploy for alpha Simulation Tests, svn 28773
 10/8/08 - use PhetApplicationConfig.launchSim
