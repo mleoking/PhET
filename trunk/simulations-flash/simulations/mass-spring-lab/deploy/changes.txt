@@ -1,3 +1,5 @@
+# 1.00.03 (29629) Mar 22, 2009
+3/22/09 Batch deploy for Alpha Simulation Tests 2, svn 29628
 # 1.00.02 (29441) Mar 12, 2009
 3/12/09 Testing deploy of animated screenshot
 # 1.00.01 (28849) Feb 19, 2009
