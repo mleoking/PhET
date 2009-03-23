@@ -21,19 +21,19 @@ public class SetSVNIgnoreToDeployDirectories {
 
     public static void main( String[] args ) throws IOException {
 
-        // basedir must be on the command line (typically the full pathname of simulations-java)
+        // trunk must be specified on the command line
         if ( args.length != 1 ) {
-            System.out.println( "usage: AddSVNIgnoreToDeployDirectories basedir" );
+            System.out.println( "usage: SetSVNIgnoreToDeployDirectories trunk" );
             System.exit( 1 );
         }
 
-        // Verify that the basedir exists
-        File baseDir = new File( args[0] );
-        if ( !baseDir.exists() || !baseDir.isDirectory() ) {
-            System.out.println( baseDir.getAbsolutePath() + " does not exist or is not a directory" );
+        // Verify that trunk exists
+        File trunk = new File( args[0] );
+        if ( !trunk.exists() || !trunk.isDirectory() ) {
+            System.out.println( trunk.getAbsolutePath() + " does not exist or is not a directory" );
         }
 
-        PhetProject[] projects = PhetProject.getAllProjects( baseDir );
+        PhetProject[] projects = PhetProject.getAllProjects( trunk );
         for ( int k = 0; k < projects.length; k++ ) {
             File dir = projects[k].getDeployDir();
             String[] ignorePatterns = new String[]{"*.jar", "*.jnlp", "*.properties", "HEADER"};
