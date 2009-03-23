@@ -56,6 +56,7 @@ public class PhetJarSigner {
         signer.setStorepass( jarsignerInfo.getPassword() );
         signer.setJar( jarFile );
         signer.setAlias( jarsignerInfo.getAlias() );
+        signer.setTsaurl( jarsignerInfo.getTsaUrl() );
         try{
             antTaskRunner.runTask( signer );
         }
