@@ -1,6 +1,6 @@
 <?php
 
-class SimulationHTMLDecorator implements SimulationInterface, SimulationEnhancerInterface {
+class SimulationHTMLDecorator implements SimulationInterface {
     private $sim;
 
     public function __construct($undecorated_sim) {
