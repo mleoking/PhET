@@ -134,11 +134,16 @@ public class ProjectPanel extends JPanel {
     }
 
     private void doDev() {
-        Object[] objects = {"No","Yes"};
-        int option=JOptionPane.showOptionDialog( this, "Generate locale-specific JARs?","Options",JOptionPane.DEFAULT_OPTION,JOptionPane.QUESTION_MESSAGE,null, objects,objects[0]);
-        final boolean generateOfflineJars= option==1;
+        final boolean generateOfflineJars= askUserToGenerateOfflineJARS( this );
         System.out.println( "genoj="+generateOfflineJars );
         getBuildScript().deployDev( buildLocalProperties.getDevAuthenticationInfo(),generateOfflineJars );
+    }
+
+    public static boolean askUserToGenerateOfflineJARS( JComponent parent ) {
+        Object[] objects = {"No", "Yes"};
+        int option = JOptionPane.showOptionDialog( parent, "Generate locale-specific JARs?", "Options", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, objects, objects[0] );
+        final boolean generateOfflineJars = option == 1;
+        return generateOfflineJars;
     }
 
     private void doTest() {

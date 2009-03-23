@@ -109,6 +109,7 @@ public class MiscMenu extends JMenu {
                                                       "Assuming you've updated already, the revision number will be: " + svnVersion + "\n" +
                                                       "Enter a message to add to the change log for all sims\n" +
                                                       "(or Cancel or Enter a blank line to omit batch message)" );
+        boolean generateJARs = ProjectPanel.askUserToGenerateOfflineJARS( this );
         BufferedWriter bufferedWriter = null;
         try {
             File logFile = new File( trunk, "build-tools/deploy-report.txt" );
@@ -123,7 +124,9 @@ public class MiscMenu extends JMenu {
                     System.out.println( str );
                 }
             };
-            bufferedWriter.write( "#Started batch deploy on " + new Date() + "\n" );
+            bufferedWriter.write( "#Started batch deploy on " + new Date() );
+            bufferedWriter.write( "#revision="+svnVersion );
+            bufferedWriter.write( "#generate.jars="+generateJARs );
 
         }
         catch( IOException e1 ) {
