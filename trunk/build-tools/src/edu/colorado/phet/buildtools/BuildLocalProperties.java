@@ -104,7 +104,7 @@ public class BuildLocalProperties {
      * @return
      */
     public JarsignerInfo getJarsignerInfo() {
-        return new JarsignerInfo( getJarSignerKeystore(), getJarSignerPassword(), getJarSignerAlias() );
+        return new JarsignerInfo( getJarSignerKeystore(), getJarSignerPassword(), getJarSignerAlias(), getJarSignerTsaUrl() );
     }
     
     /**
@@ -213,6 +213,10 @@ public class BuildLocalProperties {
     
     private String getJarSignerAlias() {
         return getRequiredString( "jarsigner.alias", "jarsigner alias" );
+    }
+    
+    private String getJarSignerTsaUrl() {
+        return getRequiredString( "jarsigner.tsa-url", "jarsigner TSA URL" );
     }
     
     /*
