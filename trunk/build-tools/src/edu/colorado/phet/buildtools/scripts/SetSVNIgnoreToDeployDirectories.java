@@ -37,9 +37,9 @@ public class SetSVNIgnoreToDeployDirectories {
         PhetProject[] projects = PhetProject.getAllProjects( trunk );
         for ( int k = 0; k < projects.length; k++ ) {
             File dir = projects[k].getDeployDir();
-            String[] ignorePatterns = new String[]{"*.jar", "*.jnlp", "*.properties", "HEADER","*.png","*.jpg","*.gif","*.swf","*.html"};
+            String[] ignorePatterns = new String[]{"*.jar", "*.jnlp", "*.properties", "HEADER", "*.png", "*.jpg", "*.gif", "*.swf", "*.html"};
             setIgnorePatternsOnDir( dir, ignorePatterns );
-            System.out.println( "Update properties on: "+dir.getAbsolutePath() );
+            System.out.println( "Updated properties on: " + dir.getAbsolutePath() );
         }
     }
 
@@ -61,8 +61,8 @@ public class SetSVNIgnoreToDeployDirectories {
 
         //use a command array for non-windows platforms
         String[] svnCommand = new String[]{"svn", "propset", "svn:ignore", "--file", propFilename, dir.getAbsolutePath()};
-        System.out.println( Arrays.asList( svnCommand ) );
-        Process p=Runtime.getRuntime().exec( svnCommand );
+        System.out.println( "Running: " + Arrays.asList( svnCommand ) );
+        Process p = Runtime.getRuntime().exec( svnCommand );
         new StreamReaderThread( p.getErrorStream(), "err" ).start();
         new StreamReaderThread( p.getInputStream(), "out" ).start();
         p.waitFor();
