@@ -1,3 +1,5 @@
+# 1.09.02 (29629) Mar 22, 2009
+3/22/09 Batch deploy for Alpha Simulation Tests 2, svn 29628
 3/12/09 #1453, remove unused strings from English localization file
 2/26/09 - #1288, change clock rewind button tooltip to "Restart"
 # 1.09.01 (28809) Feb 19, 2009
