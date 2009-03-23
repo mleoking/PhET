@@ -2,7 +2,7 @@
 
 This directory contains the software for PhET simulations that are written using Java.
 
-Please see LICENSE.txt and LICENSE-PHET.txt for PhET's licensing policy.
+Please see http://phet.colorado.edu/about/licensing.php for PhET's licensing policy.
 Third-party libraries and tools (located in the "contrib" directory)
 have different licensing policies. Please see each contrib subdirectory
 for more information.
