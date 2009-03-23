@@ -1,3 +1,5 @@
+# 1.00.06 (29729) Mar 23, 2009
+3/23/09 Fixed credits dialog
 # 1.00.05 (29629) Mar 22, 2009
 3/22/09 Batch deploy for Alpha Simulation Tests 2, svn 29628
 # 1.00.04 (29570) Mar 20, 2009
