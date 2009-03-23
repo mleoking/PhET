@@ -1,3 +1,5 @@
+# 1.06.01 (29629) Mar 22, 2009
+3/22/09 Batch deploy for Alpha Simulation Tests 2, svn 29628
 # 1.06.00 (29438) Mar 12, 2009
 3/12/09 common strings updates for #1467
 # 1.05.00 (29287) Mar 6, 2009
