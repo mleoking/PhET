@@ -6,9 +6,13 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
-
 class EditSimPage extends SitePage {
+
+    function __construct($page_title, $nav_selected_page, $referrer, $athentication_level = self::AUTHLEVEL_NONE, $cache_page = true, $base_title = '') {
+        parent::__construct($page_title, $nav_selected_page, $referrer, $athentication_level, $cache_page, $base_title);
+        $this->title_attr = array('class' => 'fieldtitle');
+        $this->input_attr = array('class' => 'fieldentry');
+    }
 
     function print_category_checkbox($cat_id, $cat_name, $cat_is_visible) {
         // Get the database connection, start it if if this is the first call
@@ -28,18 +32,18 @@ class EditSimPage extends SitePage {
         // HACK: Make sure "All Sims" category is checked if this is a new simulation
         $default_checked_for_new_sim = array('All Sims', 'New Sims', 'Show Static Preview on Homepage');
         if (in_array($cat_name, $default_checked_for_new_sim)) {
-            $simulation = sim_get_sim_by_id($sim_id);
-            if ($simulation['sim_name'] == DEFAULT_NEW_SIMULATION_NAME) {
+            $simulation = SimFactory::inst()->getById($sim_id);
+            if ($simulation->getWrapped()->getName() == DEFAULT_NEW_SIMULATION_NAME) {
                 $is_checked = 'checked="checked"';
             }
         }
 
-        $formatted_cat_name = format_string_for_html($cat_name);
+        $formatted_cat_name = WebUtils::inst()->toHtml($cat_name);
         if ($cat_is_visible == '1') {
-            print "<input type=\"checkbox\" name=\"checkbox_cat_id_$cat_id\" value=\"true\" $is_checked />$formatted_cat_name<br/>";
+            print "<input class=\"fieldentry\" type=\"checkbox\" name=\"checkbox_cat_id_$cat_id\" value=\"true\" $is_checked />$formatted_cat_name<br/>";
         }
         else {
-            print "<input type=\"checkbox\" name=\"checkbox_cat_id_$cat_id\" value=\"true\" $is_checked /><strong>$formatted_cat_name</strong><br/>";
+            print "<input class=\"fieldentry\" type=\"checkbox\" name=\"checkbox_cat_id_$cat_id\" value=\"true\" $is_checked /><strong>$formatted_cat_name</strong><br/>";
         }
     }
 
@@ -62,48 +66,29 @@ class EditSimPage extends SitePage {
         }
     }
 
-    function print_rating_checkbox($rating, $selected) {
-        global $SIM_RATING_TO_IMAGE_HTML;
-
-        $check_status = generate_check_status($rating, $selected);
-
-        // Special case, have a "none" type with no image
-        if ($rating == SIM_RATING_NONE) {
-            print "<input name=\"sim_rating\" type=\"radio\" value=\"$rating\" $check_status /> None";
-            return;
-        }
-
-        $image_html   = $SIM_RATING_TO_IMAGE_HTML[$rating];
-
-        print "<input name=\"sim_rating\" type=\"radio\" value=\"$rating\" $check_status /> $image_html";
-    }
-
-    function print_type_checkbox($type, $selected) {
-        global $SIM_TYPE_TO_IMAGE_HTML;
-
-        $image_html   = $SIM_TYPE_TO_IMAGE_HTML[$type];
-        $check_status = generate_check_status($type, $selected);
-
-        print "<input name=\"sim_type\" type=\"radio\" value=\"$type\" $check_status /> $image_html";
-    }
-
-    function print_teachers_guide($sim_id) {
-        $teachers_guide = sim_get_teachers_guide_by_sim_id($sim_id);
+    function print_teachers_guide($sim) {
         print "<p>\n";
         print "<strong>Teachers Guide options:</strong><br />";
-        if ($teachers_guide) {
-            print "Current teacher's guide: <em><a href=\"{$this->prefix}admin/get-teachers-guide.php?teachers_guide_id={$teachers_guide["teachers_guide_id"]}\">{$teachers_guide["teachers_guide_filename"]}</a></em><br />\n";
-        }
-        else {
+        if ($sim->hasTeachersGuide()) {
             print "This sim has no teacher's guide<br />\n";
         }
-        print "<input type=\"radio\" name=\"radio_teachers_guide_action\" value=\"no_change\" id=\"rtga1\" checked=\"checked\" />Keep as is<br />\n";
-        print "<input type=\"radio\" name=\"radio_teachers_guide_action\" value=\"remove\" id=\"rtga2\" />Remove the guide<br />\n";
-        print "<input type=\"radio\" name=\"radio_teachers_guide_action\" value=\"upload\" id=\"rtga3\" />Upload a new guide: \n";
+        else {
+            print "Current teacher's guide: <em><a href=\"{$sim->getTeachersGuideUrl()}\">{$sim->getTeachersGuideFilename()}</a></em><br />\n";
+
+        }
+        $options = array(
+            'no_change' => 'Keep as is',
+            'remove' => 'Remove the guide',
+            'upload' => 'Upload a new guide: '.WebUtils::inst()->buildFileInput('sim_teachers_guide_file_upload')
+            );
+        print WebUtils::inst()->buildVerticalRadioButtonInput('radio_teachers_guide_action', $options, 'no_change', $this->input_attr);
+        print "</p>\n";
+        // TODO: add ability to JavaScript in radion button inputs
+        /*
         // JS nicety: if the user uploads a file, automatically select the "upload" radio button
         print "<input name=\"sim_teachers_guide_file_upload\" type=\"file\" id=\"rtga4\" ".
             "onclick=\"if (document.getElementById('rtga4').value != '') { document.getElementById('rtga3').checked = true;}\" />";
-        print "</p>\n";
+        */
     }
 
     function render_content() {
@@ -112,112 +97,155 @@ class EditSimPage extends SitePage {
             return $result;
         }
 
-        if (isset($_REQUEST['sim_id'])) {
-            $simulation = sim_get_sim_by_id($_REQUEST['sim_id']);
+        if (!isset($_REQUEST['sim_id'])) {
+            print "<h2>No Simulation Found</h2><p>Be sure to specify a simulation id.</p>";
+            return;
         }
 
-        if (!isset($simulation) || !$simulation) {
+        try {
+            $sim = SimFactory::inst()->getById($_REQUEST['sim_id']);
+        }
+        catch (PhetSimException $e) {
             print "<h2>No Simulation Found</h2><p>There is no simulation with the specified id.</p>";
             return;
         }
 
-        // Removing unsafe function 'get_code_to_create_variables_from_array',
-        // just doing the equivalent by hand
-        //eval(get_code_to_create_variables_from_array($simulation));
-        $sim_id = $simulation["sim_id"];
-        $sim_name = $simulation["sim_name"];
-        $sim_dirname = $simulation["sim_dirname"];
-        $sim_flavorname = $simulation["sim_flavorname"];
-        $sim_rating = $simulation["sim_rating"];
-        $sim_no_mac = $simulation["sim_no_mac"];
-        $sim_crutch = $simulation["sim_crutch"];
-        $sim_type = $simulation["sim_type"];
-        $sim_size = $simulation["sim_size"];
-        $sim_launch_url = $simulation["sim_launch_url"];
-        $sim_image_url = $simulation["sim_image_url"];
-        $sim_desc = $simulation["sim_desc"];
-        $sim_keywords = $simulation["sim_keywords"];
-        $sim_system_req = $simulation["sim_system_req"];
-        $sim_teachers_guide_id = $simulation["sim_teachers_guide_id"];
-        $sim_main_topics = $simulation["sim_main_topics"];
-        $sim_design_team = $simulation["sim_design_team"];
-        $sim_libraries = $simulation["sim_libraries"];
-        $sim_thanks_to = $simulation["sim_thanks_to"];
-        $sim_sample_goals = $simulation["sim_sample_goals"];
-        $sim_sorting_name = $simulation["sim_sorting_name"];
-        $sim_animated_image_url = $simulation["sim_animated_image_url"];
-        $sim_is_real = $simulation["sim_is_real"];
-
         print <<<EOT
+            <div id="editsimulationform">
             <form enctype="multipart/form-data" action="update-sim.php" method="post">
                 <p>
-                    <input type="hidden" name="sim_id" value="$sim_id" />
+                    <input type="hidden" name="sim_id" value="{$sim->getId()}" />
                 </p>
 
 EOT;
 
-        print_captioned_editable_input("Specify the name of the simulation", "sim_name", $sim_name);
+        $Web = WebUtils::inst();
+        print "<p class=\"fieldtitle\">Specify the name of the simulation</p>\n";
+        print "<p>\n";
+        print $Web->buildTextInput('sim_name', $sim->getName(), $this->input_attr);
+        print "</p>\n";
 
-        print_captioned_editable_input("Specify the <em>SVN project name</em> of the simulation", "sim_dirname", $sim_dirname);
+        print "<p class=\"fieldtitle\">Specify the <em>version control project name</em> of the simulation</p>\n";
+        print "<p>\n";
+        print $Web->buildTextInput('sim_dirname', $sim->getProjectName(), $this->input_attr);
+        print "</p>\n";
 
-        print_captioned_editable_input("Specify the <em>sim-name/flavor-name</em> of the simulation", "sim_flavorname", $sim_flavorname);
+        print "<p class=\"fieldtitle\">Specify the <em>version control simulation name</em>'</p>\n";
+        print "<p>\n";
+        print $Web->buildTextInput('sim_flavorname', $sim->getSimName(), $this->input_attr);
+        print "</p>\n";
 
         print <<<EOT
-    <div><p><strong>Please select a rating for this simulation</strong></p></div>
+            <p class="fieldtitle">Please select a rating for this simulation</p>
                 <p>
 
 EOT;
 
-        $this->print_rating_checkbox(SIM_RATING_NONE,         $sim_rating);
-        $this->print_rating_checkbox(SIM_RATING_ALPHA,         $sim_rating);
-        $this->print_rating_checkbox(SIM_RATING_CHECK,         $sim_rating);
+        $SimUtils = SimUtils::inst();
+        $ar = array();
+        $ar['0'] = 'None';
+        $ar['1'] = $SimUtils->getRatingImageTag(SimUtils::SIM_RATING_ALPHA);
+        $ar['2'] = $SimUtils->getRatingImageTag(SimUtils::SIM_RATING_CHECK);
+        $check = $sim->getRating();
+        print $Web->buildHorizontalRadioButtonInput('sim_rating', $ar, $check, $this->input_attr);
 
 print <<<EOT
                 </p>
 
-    <div><p><strong>Please select the type of the simulation</strong></p></div>
+    <p class="fieldtitle">Please select the type of the simulation</p>
 
         <p>
 
 EOT;
 
-        $this->print_type_checkbox(SIM_TYPE_JAVA,  $sim_type);
-        $this->print_type_checkbox(SIM_TYPE_FLASH, $sim_type);
+ $ar = array();
+ $ar['0'] = 'Java';
+ $ar['1'] = 'Flash';
+ $check = ($sim->getType() == 'Flash') ? '1' : '0';
+ print $Web->buildHorizontalRadioButtonInput('sim_type', $ar, $check, $this->input_attr);
 
         print "</p>";
 
-        print "<div><p><strong>Please check this box of the simulation is <em>NOT</em> Standalone</strong><br />";
+        print "<p class=\"fieldtitle\">Please check this box of the simulation is <em>NOT</em> Standalone<br /></p>";
+        print "<div class=\"fieldentry\">";
+        print "<div class=\"fieldentry\">";
+        print $Web->buildCheckboxInput('sim_crutch', array(1 => $SimUtils->getGuidanceImageTag().$SimUtils->getGuidanceDescription()));
+        print "</div>";
+        print "</div>";
 
-        print_checkbox(
-            "sim_crutch",
-            "<img src=\"".SIM_CRUTCH_IMAGE."\" alt=\"\" />".
-            "<strong>Guidance Recommended</strong>: This simulation is very effective when used in conjunction with a lecture, homework or other teacher designed activity.",
-            $sim_crutch
-        );
+        print "<p class=\"fieldtitle\">Simulation Description</p>\n";
+        print "<p>\n";
+        print $Web->buildTextAreaInput('sim_desc', $sim->getDescription(), $this->input_attr, 10);
+        print "</p>\n";
 
-        print "</p></div>";
-
-        print_captioned_editable_area("Simulation Description", "sim_desc", $sim_desc, "10");
-        print_captioned_editable_area("Enter the keywords to associated with the simulation<a href=\"#asterisk-note\">*</a>",
-                                      "sim_keywords", $sim_keywords, "5");
-        print_captioned_editable_area("Enter the members of the design team<a href=\"#asterisk-note\">*</a>",               "sim_design_team",     $sim_design_team, "4");
-        print_captioned_editable_area("Enter any 3rd-party libraries used by the simulation<a href=\"#asterisk-note\">*</a>",         "sim_libraries",       $sim_libraries,   "4");
-        print_captioned_editable_area("Enter the 'thanks to' for the simulation<a href=\"#asterisk-note\">*</a>",           "sim_thanks_to",       $sim_thanks_to,   "4");
-
-        $this->print_teachers_guide($sim_id);
-
-        print_captioned_editable_area("Enter the main topics<a href=\"#asterisk-note\">*</a>",                              "sim_main_topics",     $sim_main_topics, "4");
-
-        print_captioned_editable_area("Enter the sample learning goals<a href=\"#asterisk-note\">*</a>",                    "sim_sample_goals",    $sim_sample_goals,"6");
-
+        print "<p><span class=\"fieldtitle\">Enter the keywords to associate with the simulation***</span><br />\n";
         print <<<EOT
-            <div><p><a name="asterisk-note"></a><strong>*</strong><em>Separated by commas or asterisks. Asterisk separation has precedence over comma separation.</em></p></div>
+<span class="fieldentryhelp">***Separated by commas or asterisks. Asterisk separation has precedence over comma separation.  Newlines are removed.</span></p>
 
 EOT;
+        print "<p>\n";
+        $list = join("*\n", $sim->getKeywords());
+        print $Web->buildTextAreaInput('sim_keywords', $list, $this->input_attr, 5);
+        print "</p>\n";
+
+        print "<p><span class=\"fieldtitle\">Enter the members of the design team***</span><br />\n";
+        print <<<EOT
+<span class="fieldentryhelp">***Separated by commas or asterisks. Asterisk separation has precedence over comma separation.  Newlines are removed.</span></p>
+
+EOT;
+        print "<p>\n";
+        $list = join("*\n", $sim->getDesignTeam());
+        print $Web->buildTextAreaInput('sim_design_team', $list, $this->input_attr, 5);
+        print "</p>\n";
+
+
+        print "<p><span class=\"fieldtitle\">Enter any 3rd-party libraries used by the simulation***</span><br />\n";
+        print <<<EOT
+<span class="fieldentryhelp">***Separated by commas or asterisks. Asterisk separation has precedence over comma separation.  Newlines are removed.</span></p>
+
+EOT;
+        print "<p>\n";
+        $list = join("*\n", $sim->getLibraries());
+        print $Web->buildTextAreaInput('sim_libraries', $list, $this->input_attr, 5);
+        print "</p>\n";
+
+        print "<p><span class=\"fieldtitle\">Enter the 'thanks to' for the simulation***</span><br />\n";
+        print <<<EOT
+<span class="fieldentryhelp">***Separated by commas or asterisks. Asterisk separation has precedence over comma separation.  Newlines are removed.</span></p>
+
+EOT;
+        print "<p>\n";
+        $list = join("*\n", $sim->getThanksTo());
+        print $Web->buildTextAreaInput('sim_thanks_to', $list, $this->input_attr, 5);
+        print "</p>\n";
+
+        $this->print_teachers_guide($sim);
+
+        print "<p><span class=\"fieldtitle\">Enter the main topics***</span><br />\n";
+        print <<<EOT
+<span class="fieldentryhelp">***Separated by commas or asterisks. Asterisk separation has precedence over comma separation.  Newlines are removed.</span></p>
+
+EOT;
+        print "<p>\n";
+        $list = join("*\n", $sim->getMainTopics());
+        print $Web->buildTextAreaInput('sim_main_topics', $list, $this->input_attr, 5);
+        print "</p>\n";
+
+
+        print "<p><span class=\"fieldtitle\">Enter the main topics***</span><br />\n";
+        print <<<EOT
+<span class="fieldentryhelp">***Separated by commas or asterisks. Asterisk separation has precedence over comma separation.  Newlines are removed.</span></p>
+
+EOT;
+        print "<p>\n";
+        $list = join("*\n", $sim->getLearningGoals());
+        print $Web->buildTextAreaInput('sim_sample_goals', $list, $this->input_attr, 5);
+        print "</p>\n";
+
 
         print <<<EOT
-            <div><p><strong>Please select the categories you would like the Simulation to appear under:</strong><br />
-            <span class="p-indentation"><em>(<strong>Boldface</strong> indicates this is a hidden category)</em></span></p></div>
+            <p><span class="fieldtitle">Please select the categories you would like the Simulation to appear under:</span><br />
+            <span class="fieldentryhelp">(<strong>Boldface</strong> indicates this is a hidden category)</span></p>
 
 EOT;
         print "<p>\n";
@@ -231,13 +259,14 @@ EOT;
             </p>
 
             </form>
+            </div>
 
 EOT;
     }
 
 }
 
-$page = new EditSimPage("Edit Simulation Parameters", NAV_ADMIN, null, AUTHLEVEL_TEAM, false);
+$page = new EditSimPage("Edit Simulation Parameters", NavBar::NAV_ADMIN, null, SitePage::AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

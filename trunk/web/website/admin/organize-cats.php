@@ -6,7 +6,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
 require_once("include/hierarchical-categories.php");
 
 class OrganizeCategoriesPage extends SitePage {
@@ -24,10 +23,10 @@ class OrganizeCategoriesPage extends SitePage {
         }
 
         // Compute all category orders:
-        $category_rows = mysql_query(SQL_SELECT_ALL_VISIBLE_CATEGORIES, $connection);
+        $categories = CategoryUtils::inst()->getAllVisibleCategories();
         $this->cat_orders    = array();
 
-        while ($category = mysql_fetch_assoc($category_rows)) {
+        foreach ($categories as $category) {
             $this->cat_orders[] = $category['cat_order'];
         }
 
@@ -178,7 +177,7 @@ EOT;
 // a different class in a different file.  Static class functions don't work.
 function print_hier_cat_form($user_var, $data, $depth, $has_children) {
     $cat_id    = $data['cat_id'];
-    $cat_name  = format_string_for_html($data['cat_name']);
+    $cat_name  = WebUtils::inst()->toHtml($data['cat_name']);
     $cat_order = $data['cat_order'];
 
     $ind = "";
@@ -199,8 +198,8 @@ function print_hier_cat_form($user_var, $data, $depth, $has_children) {
 EOT;
 
     foreach ($possible_parents as $parent) {
-        
-        $html_parent_list .= "<option value=\"{$parent[0]}\">".format_string_for_html($parent[1])."</option>\n";
+
+        $html_parent_list .= "<option value=\"{$parent[0]}\">".WebUtils::inst()->toHtml($parent[1])."</option>\n";
     }
     $html_parent_list .= "</select>\n";
 
@@ -233,7 +232,7 @@ EOT;
 EOT;
 }
 
-$page = new OrganizeCategoriesPage("Organize Categories", NAV_ADMIN, null, AUTHLEVEL_TEAM, false);
+$page = new OrganizeCategoriesPage("Organize Categories", NavBar::NAV_ADMIN, null, SitePage::AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

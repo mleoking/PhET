@@ -6,8 +6,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
-
 class SimulationLauncherPage extends SitePage {
 
     function render_content() {
@@ -31,14 +29,10 @@ class SimulationLauncherPage extends SitePage {
 
 EOT;
 
-            foreach (sim_get_all_sims() as $simulation) {
-                $sim_name = format_string_for_html($simulation['sim_name']);
-
-                $sim_download_url = sim_get_download_url($simulation);
-
+        foreach (SimFactory::inst()->getAllSims(true) as $simulation) {
                 print <<<EOT
                     <li>
-                        <a href="$sim_download_url">$sim_name</a>
+                    <a href="{$simulation->getDownloadUrl()}">{$simulation->getName()}</a>
                     </li>
 
 EOT;
@@ -54,7 +48,7 @@ EOT;
 
 }
 
-$page = new SimulationLauncherPage("Launch Sim One at a Time", NAV_GET_PHET, null);
+$page = new SimulationLauncherPage("Launch Sim One at a Time", NavBar::NAV_GET_PHET, null);
 $page->update();
 $page->render();
 

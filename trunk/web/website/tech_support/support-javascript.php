@@ -6,8 +6,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
-
 class JavaScriptTroubleshootingPage extends SitePage {
 
     function render_content() {
@@ -125,7 +123,7 @@ EOT;
 
 }
 
-$page = new JavaScriptTroubleshootingPage("Troubleshooting JavaScript", NAV_TECH_SUPPORT, null);
+$page = new JavaScriptTroubleshootingPage("Troubleshooting JavaScript", NavBar::NAV_TECH_SUPPORT, null);
 $page->update();
 $page->render();
 

@@ -7,8 +7,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
-
 class UgandaPhotosPage extends SitePage {
 
     function render_content() {
@@ -340,7 +338,7 @@ EOT;
     }
 }
 
-$page = new UgandaPhotosPage("Photos of the PhET Uganda Workshop", NAV_TEACHER_IDEAS, null);
+$page = new UgandaPhotosPage("Photos of the PhET Uganda Workshop", NavBar::NAV_TEACHER_IDEAS, null);
 $page->add_stylesheet("css/uganda.css");
 $page->update();
 $page->render();

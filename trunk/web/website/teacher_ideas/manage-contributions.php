@@ -6,8 +6,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
-
 class ManageContributionsPage extends SitePage {
     function print_contributions($contributions, $heading) {
         $contributor = $this->user;
@@ -83,7 +81,7 @@ EOT;
 
 }
 
-$page = new ManageContributionsPage("Manage Contributions", NAV_TEACHER_IDEAS, null, AUTHLEVEL_USER, false);
+$page = new ManageContributionsPage("Manage Contributions", NavBar::NAV_TEACHER_IDEAS, null, SitePage::AUTHLEVEL_USER, false);
 $page->update();
 $page->render();
 

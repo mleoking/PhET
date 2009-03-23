@@ -6,7 +6,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
 require_once("teacher_ideas/referrer.php");
 
 class ContributePage extends SitePage {
@@ -18,7 +17,7 @@ class ContributePage extends SitePage {
         // inactivated.  Look but don't touch.
         parent::update();
 
-        if ($this->authentication_level < AUTHLEVEL_USER) {
+        if ($this->authentication_level < SitePage::AUTHLEVEL_USER) {
             $this->add_javascript_header_script("disable_not_always_enabled_form_elements();");
         }
 
@@ -39,7 +38,7 @@ class ContributePage extends SitePage {
 
 }
 
-$page = new ContributePage("Submit an Activity", NAV_TEACHER_IDEAS, get_referrer(SITE_ROOT.'teacher_ideas/manage-contributions.php'), AUTHLEVEL_USER, false);
+$page = new ContributePage("Submit an Activity", NavBar::NAV_TEACHER_IDEAS, get_referrer(SITE_ROOT.'teacher_ideas/manage-contributions.php'), SitePage::AUTHLEVEL_USER, false);
 $page->update();
 $page->render();
 

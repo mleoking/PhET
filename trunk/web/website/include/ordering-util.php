@@ -7,7 +7,6 @@
     require_once(dirname(dirname(__FILE__))."/include/global.php");
 
     require_once("include/db.php");
-    require_once("include/sim-utils.php");
     require_once("include/web-utils.php");
     require_once("include/db-utils.php");
 

@@ -6,7 +6,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
 require_once("include/installer-utils.php");
 
 class FullInstallPage extends SitePage {
@@ -101,7 +100,7 @@ EOT;
 
 }
 
-$page = new FullInstallPage("PhET Offline Website Installer - Full Install", NAV_GET_PHET, null);
+$page = new FullInstallPage("PhET Offline Website Installer - Full Install", NavBar::NAV_GET_PHET, null);
 $page->update();
 $page->render();
 

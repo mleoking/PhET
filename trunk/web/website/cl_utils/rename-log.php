@@ -86,7 +86,7 @@ if ($canWrite) {
         fclose($fp);
         return false;
     }
-} 
+}
 
 // Done with the new file
 flock($fp, LOCK_UN);

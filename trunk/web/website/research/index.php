@@ -6,7 +6,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
 require_once("include/research-utils.php");
 
 class ResearchPage extends SitePage {
@@ -79,7 +78,7 @@ EOT;
 
             $can_edit = false;
 
-            if ($this->authentication_level >= AUTHLEVEL_TEAM) {
+            if ($this->authentication_level >= SitePage::AUTHLEVEL_TEAM) {
                 $can_edit = true;
             }
 
@@ -145,7 +144,7 @@ EOT;
 
 }
 
-$page = new ResearchPage("Research", NAV_RESEARCH, null, AUTHLEVEL_NONE, false);
+$page = new ResearchPage("Research", NavBar::NAV_RESEARCH, null, SitePage::AUTHLEVEL_NONE, false);
 $page->update();
 $page->render();
 

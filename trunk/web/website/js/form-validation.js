@@ -1,7 +1,7 @@
 /**
  * Finds the parent of an element that matches a specified tag name
  * (e.g. 'FORM', 'TR', etc.)
- * 
+ *
  * @return The parent element if found, otherwise null
  */
 function find_parent_by_tagname(element, tagName) {

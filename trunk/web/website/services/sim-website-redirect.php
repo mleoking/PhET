@@ -6,8 +6,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
-
 class RedirectSimulationPage extends SitePage {
 
     private $error = '';
@@ -22,7 +20,7 @@ class RedirectSimulationPage extends SitePage {
 
         // Get the request version.  Currently we're at version 1, refactor this if we
         // change versions.
-        if ((!isset($_REQUEST['request_version'])) || 
+        if ((!isset($_REQUEST['request_version'])) ||
             ($_REQUEST['request_version'] != 1)) {
             $this->error = "Invalid request version number";
             return false;
@@ -81,7 +79,7 @@ class RedirectSimulationPage extends SitePage {
     }
 }
 
-$page = new RedirectSimulationPage("Redirect Simulation", NAV_NOT_SPECIFIED, null, AUTHLEVEL_NONE, false);
+$page = new RedirectSimulationPage("Redirect Simulation", NavBar::NAV_NOT_SPECIFIED, null, SitePage::AUTHLEVEL_NONE, false);
 $page->update();
 $page->render();
 

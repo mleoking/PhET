@@ -1,14 +1,9 @@
 <?php
 
-// In each web accessable script SITE_ROOT must be defined FIRST
-if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
-
-// See global.php for an explaination of the next line
-require_once(dirname(dirname(__FILE__))."/include/global.php");
-
-define("WEBSITE_BASE_TITLE", "PhET :: Physics Education Technology at CU Boulder");
-
 class BasePage {
+
+    const WEBSITE_BASE_TITLE =
+        'PhET :: Physics Education Technology at CU Boulder';
 
     // Page content
     protected $content;
@@ -62,7 +57,7 @@ class BasePage {
      */
     function __construct($page_title = "",
                          $referrer = null,
-                         $base_title = WEBSITE_BASE_TITLE) {
+                         $base_title = self::WEBSITE_BASE_TITLE) {
         $this->set_title($page_title, $base_title);
 
         // Setup the content
@@ -111,7 +106,7 @@ class BasePage {
      * @param $page_title string[optional] specific title of this page
      * @param $base_title string[optional] base tile of the website
      */
-    function set_title($page_title, $base_title = WEBSITE_BASE_TITLE) {
+    function set_title($page_title, $base_title = self::WEBSITE_BASE_TITLE) {
         // Setup the page's full title
         $this->base_title = $base_title;
         $this->page_title = $page_title;
@@ -138,7 +133,7 @@ class BasePage {
     }
 
     /**
-     * Set the css id name of the div container containing all the page 
+     * Set the css id name of the div container containing all the page
      *
      * @param $new_container_name string name of the new container
      */
@@ -203,7 +198,7 @@ class BasePage {
     /**
      * Add the given JavaScript to the head section of the page, to be run when the page is read
      *
-     * @param $script string or string array 
+     * @param $script string or string array
      */
     function add_javascript_header_script($script) {
         if (is_array($script)) {
@@ -235,10 +230,10 @@ class BasePage {
     //
     // NOTE: these should be sent BEFORE anything else.
     //
-    
+
     /**
      * Send the headers for the HTML transaction.
-     * 
+     *
      * NOTE: these should be sent BEFORE anything else.
      *
      */
@@ -260,7 +255,7 @@ class BasePage {
     }
 
     function set_header($key, $value) {
-        
+
     }
 
     //
@@ -311,7 +306,7 @@ EOT;
             $meta_refresh = "<meta http-equiv=\"Refresh\" content=\"{$this->meta_refresh_timeout};url={$this->meta_refresh_location}\" />";
         }
 
-        $formatted_title = format_string_for_html($this->full_title);
+        $formatted_title = WebUtils::inst()->toHtml($this->full_title);
 
         print <<<EOT
   <head>
@@ -399,7 +394,7 @@ EOT;
     function open_xhtml_body() {
         $referrer = "";
         if (!is_null($this->referrer)) {
-            $formatted_referrer = format_string_for_html($this->referrer);
+            $formatted_referrer = WebUtils::inst()->toHtml($this->referrer);
             $referrer = '<input type="hidden" name="referrer" value="'.$formatted_referrer.'"  class="always-enabled" />';
         }
 
@@ -532,7 +527,7 @@ EOT;
 
     /**
      * Do the logic in needs to before the page is rendered.
-     * 
+     *
      * Base function does nothing, meant to be overridden
      *
      * @return bool TRUE if everything works OK
@@ -554,7 +549,7 @@ EOT;
     function render_title() {
         if (!strcmp("", $this->render_title)) return;
 
-        $formatted_text = format_string_for_html($this->render_title);
+        $formatted_text = WebUtils::inst()->toHtml($this->render_title);
         print "    <h1>{$formatted_text}</h1>\n";
     }
 
@@ -572,6 +567,10 @@ EOT;
      * @return bool FALSE if login required and the user isn't validated
      */
     function render_content() {
+        if (empty($this->content)) {
+            return TRUE;
+        }
+
         $rendered_content = join("\n", $this->content);
         print <<<EOT
     <div class="main">
@@ -591,7 +590,7 @@ EOT;
         print <<<EOT
     <div class="main">
       <h2>This page is  being redirected.</h2>
-      <p>If this does not happen automatically,<br />please select 
+      <p>If this does not happen automatically,<br />please select
       <a href="{$this->meta_refresh_location}">this link</a>.</p>
     </div>
 

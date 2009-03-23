@@ -27,7 +27,7 @@ HTTP._factory = null;
 
 /**
  * Create and return a new XMLHttpRequest object.
- * 
+ *
  * The first time we're called, try the list of factory functions until
  * we find one that returns a nonnull value and does not throw an
  * exception.  Once we find a working factory, remember it for later use.
@@ -64,7 +64,7 @@ HTTP.newRequest = function() {
  * Use XMLHttpRequest to fetch the contents of the specified URL using
  * an HTTP GET request.  When the response arrives, pass it (as plain
  * text) to the specified callback function.
- * 
+ *
  * This function does not block and has no return value.
  */
 HTTP.getText = function(url, callback) {
@@ -81,7 +81,7 @@ HTTP.getText = function(url, callback) {
  * Use XMLHttpRequest to fetch the contents of the specified URL using
  * an HTTP GET request.  When the response arrives, pass it (as a parsed
  * XML Document object) to the specified callback function.
- * 
+ *
  * This function does not block and has no return value.
  */
 HTTP.getXML = function(url, callback) {
@@ -136,7 +136,7 @@ HTTP.parseHeaders = function(request) {
         var line = lines[i];
         if (line.length == 0) continue;  // Skip empty lines
         // Split each line at first colon, and trim whitespace away
-        var pos = line.indexOf(':');     
+        var pos = line.indexOf(':');
         var name = line.substring(0, pos).replace(ls, "").replace(ts, "");
         var value = line.substring(pos+1).replace(ls, "").replace(ts, "");
         // Store the header name/value pair in a JavaScript object
@@ -218,7 +218,7 @@ HTTP._getResponse = function(request) {
         return request.responseXML;
 
     case "text/json":
-    case "application/json": 
+    case "application/json":
     case "text/javascript":
     case "application/javascript":
     case "application/x-javascript":
@@ -243,12 +243,12 @@ HTTP._getResponse = function(request) {
  * the status code and message are passed to the options.errorHandler
  * function.  If no error handler is specified, the callback
  * function is called instead with a null argument.
- * 
+ *
  * If the options.parameters object is specified, its properties are
  * taken as the names and values of request parameters.  They are
  * converted to a URL-encoded string with HTTP.encodeFormData() and
  * are appended to the URL following a '?'.
- * 
+ *
  * If an options.progressHandler function is specified, it is
  * called each time the readyState property is set to some value less
  * than 4.  Each call to the progress handler function is passed an

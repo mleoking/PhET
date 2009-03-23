@@ -6,8 +6,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
-
 class FlashSupportPage extends SitePage {
 
     function render_content() {
@@ -23,7 +21,7 @@ class FlashSupportPage extends SitePage {
         print <<<EOT
             <p>
             This page will help you solve some of the problems people
-            commonly have running our programs. If you can't solve your 
+            commonly have running our programs. If you can't solve your
             problem here, please notify us by email at the following address:
             <a href="mailto:{$phet_help_email}">
               <span class="red">{$phet_help_email}</span>
@@ -41,7 +39,7 @@ class FlashSupportPage extends SitePage {
             </a>
 
             <p>
-            If you get a blank window when you try to launch a Flash 
+            If you get a blank window when you try to launch a Flash
             simulation, you probably need a new version of the Flash player.
             </p>
 
@@ -61,7 +59,7 @@ EOT;
 
 }
 
-$page = new FlashSupportPage("Troubleshooting Flash", NAV_TECH_SUPPORT, null);
+$page = new FlashSupportPage("Troubleshooting Flash", NavBar::NAV_TECH_SUPPORT, null);
 $page->update();
 $page->render();
 

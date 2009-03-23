@@ -6,8 +6,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
-
 class LicensingPage extends SitePage {
 
     function render_content() {
@@ -33,12 +31,12 @@ class LicensingPage extends SitePage {
         <blockquote>
         If you are interested in alternative license options, please contact PhET at <a href="mailto:phethelp@colorado.edu" mailto:phethelp@colorado.edu>phethelp@colorado.edu</a>.
         </blockquote>
-        <p><strong>Source code for sims:</strong>  
+        <p><strong>Source code for sims:</strong>
         <blockquote>
           <table width="485" border="0">
             <tr>
               <td width="32"><a rel="license" href="http://creativecommons.org/licenses/GPL/2.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/GPL/2.0/88x62.png" /></a></td>
-              <td width="443">The PhET sourcecode is licensed under a <A 
+              <td width="443">The PhET sourcecode is licensed under a <A
         href="http://creativecommons.org/licenses/GPL/2.0/" rel=license>Creative Commons GNU General Public License</A>. </td>
             </tr>
           </table>
@@ -55,7 +53,7 @@ EOT;
     }
 }
 
-$page = new LicensingPage("Licensing", NAV_ABOUT_PHET, null);
+$page = new LicensingPage("Licensing", NavBar::NAV_ABOUT_PHET, null);
 $page->update();
 $page->render();
 

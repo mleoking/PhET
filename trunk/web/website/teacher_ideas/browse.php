@@ -18,7 +18,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
 require_once("teacher_ideas/browse-utils.php");
-require_once("page_templates/SitePage.php");
 
 class BrowseContributionsPage extends SitePage {
 
@@ -43,8 +42,8 @@ class BrowseContributionsPage extends SitePage {
             $selected_status = 'selected="selected"';
         }
 
-        $formatted_name = format_string_for_html($name);
-        $formatted_id = format_string_for_html($id);
+        $formatted_name = WebUtils::inst()->toHtml($name);
+        $formatted_id = WebUtils::inst()->toHtml($id);
 
         return "<option value=\"{$formatted_id}\" $selected_status>{$formatted_name}</option>";
     }
@@ -68,7 +67,7 @@ class BrowseContributionsPage extends SitePage {
     }
 
     function build_sim_list($selected_values) {
-        $sim_names = sim_get_all_sim_names();
+        $sim_names = SimUtils::inst()->getAllSimNames();
 
         return $this->build_association_filter_list($sim_names, "Simulations", $selected_values);
     }
@@ -241,12 +240,11 @@ EOT;
 
             $cat_encoding = $_REQUEST['cat'];
 
-            $cat_id = sim_get_cat_id_by_cat_encoding($cat_encoding);
-
-            $sims = sim_get_sims_by_cat_id($cat_id);
+            $cat = CategoryUtils::inst()->getCategory($_REQUEST['cat']);
+            $sims = SimFactory::inst()->getSimsByCatId($cat['cat_id'], true);
 
             foreach($sims as $sim) {
-                $this->Simulations[] = $sim['sim_name'];
+                $this->Simulations[] = $sim->getWrapped()->getName();
             }
         }
         else {
@@ -262,9 +260,9 @@ EOT;
                 }
 
                 if (isset($sim_id)) {
-                    $sim = sim_get_sim_by_id($sim_id);
+                    $sim = SimFactory::inst()->getById($sim_id);
 
-                    $this->Simulations = array( html_entity_decode($sim['sim_name']) );
+                    $this->Simulations = array($sim->getWrapped()->getName());
                 }
             }
         }
@@ -305,7 +303,7 @@ EOT;
 
 }
 
-$page = new BrowseContributionsPage("Browse Contributions", NAV_TEACHER_IDEAS, null, AUTHLEVEL_NONE, false);
+$page = new BrowseContributionsPage("Browse Contributions", NavBar::NAV_TEACHER_IDEAS, null, SitePage::AUTHLEVEL_NONE, false);
 $page->add_javascript_file("js/browse.js");
 $page->update();
 $page->render();

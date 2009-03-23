@@ -2,19 +2,21 @@
 
     // This file is called from Java (& Flash?) sims as part of the update process
 
+    define('OVERRIDE_PREFIX', 'PHET-DEFINE-OVERRIDE-');
+    foreach ($_GET as $key => $value) {
+        if (0 === strpos($key, OVERRIDE_PREFIX)) {
+            define(substr($key, strlen(OVERRIDE_PREFIX)), $value);
+        }
+    }
+
     // In each web accessable script SITE_ROOT must be defined FIRST
     if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 
     // See global.php for an explaination of the next line
     require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-    require_once("include/sim-utils.php");
     require_once("include/sys-utils.php");
     require_once("include/web-utils.php");
-
-    if (isset($_REQUEST['OVERRIDE_SIMS_ROOT'])) {
-        sim_set_root($_REQUEST['OVERRIDE_SIMS_ROOT']);
-    }
 
     function query_string_extract($key) {
         if (is_array($key)) {
@@ -70,15 +72,15 @@
             exit;
         }
 
-        $download_data = sim_get_project_jar_download($project);
-        if (!$download_data) {
+        $project_filename = SimUtils::inst()->getProjectFilename($project);
+        if (!file_exists($project_filename)) {
             error("Error: Project JAR {$project}_all.jar not found.\n");
             exit;
         }
 
         // Send the file as an attachment
-        $filename = $download_data[0];
-        $contents = $download_data[1];
+        $filename = $project_filename;
+        $contents = file_get_contents($project_filename);
         send_file_to_browser($filename, $contents, null, "attachment");
     }
 
@@ -120,22 +122,24 @@
         }
 
         // Get the database info for the requested sim
-        $simulation = sim_get_sim_by_dirname_flavorname($project, $sim);
-        if (!$simulation) {
+        try {
+            $simulation = SimFactory::inst()->getByProjectAndSimName($project, $sim, FALSE);
+        }
+        catch (PhetSimException $e) {
             error("Error: Simulation not found.\n");
             exit;
         }
 
         // Get the filename and content
-        $download_data = sim_get_download($simulation, $locale);
-        if (!$download_data) {
-            error("Error: Simulation jar or language not found.\n");
+        $download_filename = $simulation->getDownloadFilename($locale);
+        if (!file_exists($download_filename)) {
+            error("Error: Localized simulation JAR file not found.\n");
             exit;
         }
 
         // Send the file as an attachment
-        $filename = $download_data[0];
-        $contents = $download_data[1];
+        $filename = $download_filename;
+        $contents = file_get_contents($download_filename);
         send_file_to_browser($filename, $contents, null, "attachment");
     }
 

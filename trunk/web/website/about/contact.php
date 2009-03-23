@@ -6,8 +6,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
-
 class ContactPage extends SitePage {
 
     function render_content() {
@@ -28,7 +26,7 @@ class ContactPage extends SitePage {
 
             <h2 style="margin-bottom: -10px;">License Information:</h2>
 
-            <p style="margin-left:0px;"><a href="licensing.php"><em>Click here</em></a> to access the licensing information for the interactive simulations and their source code.</p>  
+            <p style="margin-left:0px;"><a href="licensing.php"><em>Click here</em></a> to access the licensing information for the interactive simulations and their source code.</p>
 
             <h2 style="margin-bottom: -10px;">Email:</h2>
 
@@ -40,7 +38,7 @@ EOT;
 
 }
 
-$page = new ContactPage("Contact", NAV_ABOUT_PHET, null);
+$page = new ContactPage("Contact", NavBar::NAV_ABOUT_PHET, null);
 $page->update();
 $page->render();
 

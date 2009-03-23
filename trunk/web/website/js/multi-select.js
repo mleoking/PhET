@@ -6,7 +6,7 @@ function ms_get_parent_table_row(node) {
     while (node && node.tagName != 'TR') {
         node = node.parentNode;
     }
-    
+
     return node;
 }
 

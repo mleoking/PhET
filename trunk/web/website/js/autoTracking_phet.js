@@ -48,12 +48,12 @@ function listenToClicks() {
                     if (window.location.href.indexOf(domains[j]) == -1) {   // and our current location.href does not match
                         // then use _link and go to the next anchor tag
                         startListening(aTags[i],"click",useLinker);
-                        continue ANCHOR;  
+                        continue ANCHOR;
                     }
-                    else { 
+                    else {
                         // otherwise it is a link on the same domain, so just go to the next anchor tag
                         continue ANCHOR;
-                    } 
+                    }
                 }
             }
 
@@ -142,4 +142,4 @@ function trackOfflineSims(evnt) {
 }
 
 // register an event listener to run the script when the load event fires.
-startListening(window, 'load', listenToClicks); 
+startListening(window, 'load', listenToClicks);

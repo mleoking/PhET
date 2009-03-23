@@ -52,7 +52,7 @@
     // on my production machine?  Nope, not an option.
     // Grr!
     //
-    // Well maybe you can put something at the top of 
+    // Well maybe you can put something at the top of
     // every PHP file to alter the include_path at run-
     // time?  Sure, but you'd have to check to make sure
     // you don't do it more than once which makes the code
@@ -61,7 +61,7 @@
     // a change, which would then affect every file?
     // Ugly, messy, nightmarish maintenance, etc, grr!
     //
-    // Well maybe you can put something at the top of 
+    // Well maybe you can put something at the top of
     // every PHP file to alter the include_path at run-
     // time?  Sure, but you'd have to check to make sure
     // you don't do it more than once which makes the code

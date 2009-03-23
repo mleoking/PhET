@@ -13,12 +13,11 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
 require_once("include/web-utils.php");
-require_once("page_templates/SitePage.php");
 
 class DownloadPage extends SitePage {
     function __construct($nav_selected_page, $page_title = "Download File") {
         $this->render = true;
-        parent::__construct($page_title, $nav_selected_page, null, AUTHLEVEL_NONE, false);
+        parent::__construct($page_title, $nav_selected_page, null, SitePage::AUTHLEVEL_NONE, false);
     }
 
     function update() {
@@ -39,7 +38,7 @@ class DownloadPage extends SitePage {
         $download = isset($_REQUEST['download']) && $_REQUEST['download'] == '1';
 
         // TODO: This looks suspicious, but I'm in the middle of something else
-        if (!$this->authentication_level == AUTHLEVEL_USER) {
+        if (!$this->authentication_level == SitePage::AUTHLEVEL_USER) {
             $this->set_title("Download File");
             return;
         }
@@ -74,7 +73,7 @@ class DownloadPage extends SitePage {
             return;
         }
 
-        if ($this->authentication_level < AUTHLEVEL_USER) {
+        if ($this->authentication_level < SitePage::AUTHLEVEL_USER) {
             print <<<EOT
                     <p>Before downloading this file, please tell us a bit about yourself. Providing this information will help PhET retain the support of its financial sponsors.</p>
                     <p>Your email will not be shared with anyone.</p>
@@ -120,7 +119,7 @@ EOT;
 
 }
 
-$download_page = new DownloadPage(NAV_NOT_SPECIFIED);
+$download_page = new DownloadPage(NavBar::NAV_NOT_SPECIFIED);
 $download_page->update();
 $download_page->render();
 

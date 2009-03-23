@@ -6,8 +6,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
-
 class WorkshopsPage extends SitePage {
 
     function render_content() {
@@ -68,7 +66,7 @@ EOT;
 
 }
 
-$page = new WorkshopsPage("PhET Workshops", NAV_TEACHER_IDEAS, null);
+$page = new WorkshopsPage("PhET Workshops", NavBar::NAV_TEACHER_IDEAS, null);
 $page->update();
 $page->render();
 

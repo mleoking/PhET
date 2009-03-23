@@ -15,7 +15,7 @@
     }
 
     $contributor = contributor_get_contributor_by_username($_REQUEST['contributor_email']);
-    
+
     if ($contributor) {
         print format_for_html($contributor['contributor_organization']);
     }

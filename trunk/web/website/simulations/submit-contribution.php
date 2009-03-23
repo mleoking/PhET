@@ -6,7 +6,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
 require_once("include/web-utils.php");
 
 class SimSubmitContributionPage extends SitePage {
@@ -106,19 +105,16 @@ class SimSubmitContributionPage extends SitePage {
         // Establish multiselect associations (level, subject, type):
         contribution_establish_multiselect_associations_from_script_params($contribution_id);
 
-        $sim_url = sim_get_url_to_sim_page($sim_id);
 
         // Add it to the temporary table
         $row_data = array("contribution_id" => $contribution_id, "sessionid" => session_id());
         db_insert_row("temporary_partial_contribution_track", $row_data);
 
-        $sims_page    = "$sim_url";
-        var_dump($sims_page);
-        $this->edit_contrib = "{$this->prefix}teacher_ideas/edit-contribution.php?contribution_id=$contribution_id&amp;sim_id=$sim_id&amp;return_to={$sims_page}";
-        var_dump($this->edit_contrib);
+        $sim = SimFactory::inst()->getById($sim_id);
+        $this->edit_contrib = "{$this->prefix}teacher_ideas/edit-contribution.php?contribution_id=$contribution_id&amp;sim_id=$sim_id&amp;return_to={$sim->getPageUrl()}";
 
-        // Immediately redirect to contribution editing page:
-        $this->meta_refresh($this->edit_contrib, 10);
+        // Meta redirect is needed so the referring back to the sim page
+        $this->meta_refresh($this->edit_contrib, 2);
     }
 
     function render_content() {
@@ -148,7 +144,7 @@ class SimSubmitContributionPage extends SitePage {
 
 }
 
-$page = new SimSubmitContributionPage("Submit Contribution from Simulation Page", NAV_SIMULATIONS, null);
+$page = new SimSubmitContributionPage("Submit Contribution from Simulation Page", NavBar::NAV_SIMULATIONS, null);
 $page->update();
 $page->render();
 

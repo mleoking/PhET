@@ -6,8 +6,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
-
 class CheckContributionItegrityPage extends SitePage {
     const ENTRY_VALID_DATA = "0";
     const ENTRY_INVALID_DATA = "1";
@@ -24,7 +22,7 @@ class CheckContributionItegrityPage extends SitePage {
         $this->num_invalid_rows = 0;
         $this->num_rows = 0;
 
-        parent::__construct($page_title, $nav_selected_page, null, AUTHLEVEL_TEAM, false);
+        parent::__construct($page_title, $nav_selected_page, null, SitePage::AUTHLEVEL_TEAM, false);
     }
 
     function check_contribution_row($row) {
@@ -176,7 +174,7 @@ class CheckContributionItegrityPage extends SitePage {
                 default:
                     assert(false);
                     break;
-                
+
             }
 
         }
@@ -263,7 +261,7 @@ class CheckContributionItegrityPage extends SitePage {
             return $result;
         }
 
-        $contributor = 
+        $contributor =
         $skip_keys = array(
                 "row_condition",
                 "contribution_approved",
@@ -424,7 +422,7 @@ EOT;
     }
 }
 
-$page = new CheckContributionItegrityPage("Check Database Integrity", NAV_ADMIN);
+$page = new CheckContributionItegrityPage("Check Database Integrity", NavBar::NAV_ADMIN);
 $page->add_stylesheet("css/scrollable_tables.css");
 $page->add_stylesheet("css/db-integrity.css");
 $page->update();

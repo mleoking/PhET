@@ -6,8 +6,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
-
 class DeleteSimPage extends SitePage {
 
     function deletesim() {
@@ -72,7 +70,7 @@ class DeleteSimPage extends SitePage {
 
 }
 
-$page = new DeleteSimPage("Delete Simulation", NAV_ADMIN, null, AUTHLEVEL_TEAM, false);
+$page = new DeleteSimPage("Delete Simulation", NavBar::NAV_ADMIN, null, SitePage::AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

@@ -8,16 +8,16 @@ this workable but don't spend a lot of time making it spiffy nice.
 From: http://web.tampabay.rr.com/bmerkey/examples/nonscroll-table-header.html
 
 Explaination from the website:
-This frozen / locked HTML table header is a usability advance done without HTML 
+This frozen / locked HTML table header is a usability advance done without HTML
 fakery such as hidden tables, frames, or JavaScript. Tested in (Windows) Mozilla-
-spawned browsers (incl. Netscape 6+ and Firefox) and IE5+. IE has problems with 
-the screen behavior of the footer—but thanks to a clever expression provided by 
-Renato Cherullo, even IE6 can have a modern footer. Mozilla self-induces display 
-problems cramming the scrollbar into the last column, which can be corrected with 
-advanced selector syntax. Surprisingly, both render the printed version of the 
+spawned browsers (incl. Netscape 6+ and Firefox) and IE5+. IE has problems with
+the screen behavior of the footer—but thanks to a clever expression provided by
+Renato Cherullo, even IE6 can have a modern footer. Mozilla self-induces display
+problems cramming the scrollbar into the last column, which can be corrected with
+advanced selector syntax. Surprisingly, both render the printed version of the
 table consistently well, including the repeated headers and footers.
 
-Links: Windows tutorial (http://web.tampabay.rr.com/bmerkey/fall99.htm) 
+Links: Windows tutorial (http://web.tampabay.rr.com/bmerkey/fall99.htm)
 on the methods used § Extension in IE (http://web.tampabay.rr.com/bmerkey/examples/locked-column-csv.html)
 to provide locked columns § Dealing with Form Selects (http://web.tampabay.rr.com/bmerkey/examples/nonscroll-table-header2.html)
 in data tables § Vertical variation (http://web.tampabay.rr.com/bmerkey/examples/nonscroll-table-header3.html)
@@ -40,25 +40,25 @@ div.tableContainer {
     }
 
 .tableContainer table>tbody {  /* child selector syntax which IE6 and older do not support*/
-    overflow: auto; 
+    overflow: auto;
     height: 250px;
     overflow-x: hidden;
     }
 
 .tableContainer thead tr    {
-    position:relative; 
+    position:relative;
     top: expression(offsetParent.scrollTop); /*IE5+ only*/
     }
 
 .tableContainer thead td, .tableContainer thead th {
     text-align: center;
     vertical-align: bottom;
-    font-size: 14px; 
+    font-size: 14px;
     background-color: #fdf5e6/*oldlace*/;
     color: #4682b4/*steelblue*/;
     font-weight: bold;
     border-top: solid 1px #d8d8d8;
-    }   
+    }
 
 .tableContainer td  {
     color: #000;
@@ -70,9 +70,9 @@ div.tableContainer {
     }
 
 .tableContainer table tfoot tr { /*idea of Renato Cherullo to help IE*/
-      position: relative; 
+      position: relative;
       overflow-x: hidden;
-      top: expression(parentNode.parentNode.offsetHeight >= 
+      top: expression(parentNode.parentNode.offsetHeight >=
       offsetParent.offsetHeight ? 0 - parentNode.parentNode.offsetHeight + offsetParent.offsetHeight + offsetParent.scrollTop : 0);
       }
 

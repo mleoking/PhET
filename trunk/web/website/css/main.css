@@ -592,6 +592,24 @@ div.horizontal_center {
     padding-left: 0;
 }
 
+/******** Simulation edit form  *********/
+#editsimulationform .fieldtitle {
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+#editsimulationform .fieldentry {
+    margin-left: 2em;
+}
+
+#editsimulationform .fieldentryhelp {
+    font-style:italic;
+    color: #222;
+    margin-left: 1em;
+    display: block;
+    line-height: 100%;
+}
+
 /* -------- modified sliding doors on globalNav -------- */
 #headerContainer div.globalNav {
     background: url("../images/globalNavLeft_BG.gif") left bottom no-repeat;
@@ -1082,7 +1100,7 @@ img.rating {
 }
 
 #simcontribbrowser {
-    
+
 }
 
 th.spec-sim {
@@ -1303,7 +1321,7 @@ h1.indi-sim {
 }
 
 .ac_loading {
-    
+
 }
 
 .ac_over {
@@ -1369,11 +1387,11 @@ h1.indi-sim {
 }
 
 div.research .title {
-    
+
 }
 
 div.research .authors {
-    
+
 }
 
 div.research .publication_name {
@@ -1381,23 +1399,23 @@ div.research .publication_name {
 }
 
 div.research .publication_date {
-    
+
 }
 
 div.research .publication_lookup {
-    
+
 }
 
 div.research .publication_mainlink {
-    
+
 }
 
 div.research .publication_pdflink {
-    
+
 }
 
 div.research .publication_htmllink {
-    
+
 }
 
 /******** =localNav ********/ /* The navigation bar */
@@ -1482,7 +1500,7 @@ div.research .publication_htmllink {
 }
 
 #sponsors {
-    
+
 }
 
 img.sponsors {
@@ -1808,15 +1826,15 @@ background-color: rgb(210, 210, 210);
 }
 
 .workshop-location {
-    
+
 }
 
 .workshop-downloadables {
-    
+
 }
 
 .workshop-description {
-    
+
 }
 
 /* Contribution admin control panel */

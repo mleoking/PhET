@@ -6,7 +6,6 @@ if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
-require_once("page_templates/SitePage.php");
 require_once("teacher_ideas/referrer.php");
 
 class DeleteCommentPage extends SitePage {
@@ -103,7 +102,7 @@ EOT;
 
 }
 
-$page = new DeleteCommentPage("Delete Comment", NAV_TEACHER_IDEAS, get_referrer(), AUTHLEVEL_USER, false);
+$page = new DeleteCommentPage("Delete Comment", NavBar::NAV_TEACHER_IDEAS, get_referrer(), SitePage::AUTHLEVEL_USER, false);
 $page->update();
 $page->render();
 
