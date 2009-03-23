@@ -165,7 +165,7 @@ public class BuildScript {
 
         System.out.println( "Copying version files to deploy dir." );
         copyVersionFilesToDeployDir();
-//        copyImageFilesToDeployDir();//TODO: enable image copying
+        copyImageFilesToDeployDir();
 
         boolean ok = preDeployTask.invoke();
         if ( !ok ) {
