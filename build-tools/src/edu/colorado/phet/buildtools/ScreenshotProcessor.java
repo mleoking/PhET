@@ -13,7 +13,13 @@ import javax.imageio.stream.FileImageOutputStream;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 
-//See #1505
+/**
+ * Subsamples sim screenshot (full size screenshot in project/screenshots/flavor-screenshot.png
+ * to produce the sim-page screenshot and sim thumbnail, which are deployed in the deploy process
+ * <p/>
+ * See #1505
+ * @author Sam Reid
+ */
 public class ScreenshotProcessor {
     public void copyScreenshotsToDeployDir( PhetProject project ) throws IOException {
         String[] s = project.getSimulationNames();
@@ -65,11 +71,23 @@ public class ScreenshotProcessor {
         writer.write( null, a, iwp );
     }
 
+    /**
+     * Running ScreenshotProcessor batch processes all image subsampling and prepares a report of missing screenshots.
+     *
+     * @param args
+     * @throws IOException
+     */
     public static void main( String[] args ) throws IOException {
-        PhetProject[] projects = PhetProject.getAllSimulations( new File( args.length > 0 ? args[0] : "C:\\workingcopy\\phet\\svn\\trunk" ) );
-        for ( int i = 0; i < projects.length; i++ ) {
-            PhetProject project = projects[i];
-            new ScreenshotProcessor().copyScreenshotsToDeployDir( project );
+        String fallbackDir = "C:\\workingcopy\\phet\\svn\\trunk";
+        if ( args.length == 0 && !new File( fallbackDir ).exists() ) {
+            System.out.println( "Specify trunk on command line" );
+        }
+        else {
+            PhetProject[] projects = PhetProject.getAllSimulations( new File( args.length > 0 ? args[0] : fallbackDir ) );
+            for ( int i = 0; i < projects.length; i++ ) {
+                PhetProject project = projects[i];
+                new ScreenshotProcessor().copyScreenshotsToDeployDir( project );
+            }
         }
 //        new ScreenshotProcessor().copyScreenshotsToDeployDir( new JavaSimulationProject( new File( "C:\\workingcopy\\phet\\svn\\trunk\\simulations-java\\simulations\\balloons" ) ) );
     }
