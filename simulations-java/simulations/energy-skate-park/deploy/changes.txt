@@ -1,3 +1,5 @@
+# 2.04.06 (29629) Mar 22, 2009
+3/22/09 Batch deploy for Alpha Simulation Tests 2, svn 29628
 # 2.04.05 (28788) Feb 19, 2009
 Batch deploy for alpha Simulation Tests, svn 28773
 10-13-2008: disable some ancillary and test code that is using obsolete PhetApplication constructors
