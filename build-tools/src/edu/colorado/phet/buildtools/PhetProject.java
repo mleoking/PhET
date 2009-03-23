@@ -744,6 +744,9 @@ public abstract class PhetProject {
         catch( IOException e ) {
             e.printStackTrace();
         }
+        catch( InterruptedException e ) {
+            e.printStackTrace();
+        }
     }
 
     public String[] getCreditsKeys() {
