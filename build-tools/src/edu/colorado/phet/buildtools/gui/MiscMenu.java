@@ -141,7 +141,7 @@ public class MiscMenu extends JMenu {
             buildScript.setRevisionStrategy( new BuildScript.ConstantRevisionStrategy( svnVersion ) );
             //Skip status checks, so that a commit during batch deploy won't cause errors
             buildScript.setDebugSkipStatus( true );
-
+            BuildScript.setGenerateJARs(generateJARs);
 
             buildScript.setBatchMessage( message );
             final BufferedWriter log = bufferedWriter;
