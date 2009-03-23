@@ -1,3 +1,4 @@
+3/23/09 #1518, fluid controls check box should be unchecked by default
 # 2.01.02 (29629) Mar 22, 2009
 3/22/09 Batch deploy for Alpha Simulation Tests 2, svn 29628
 3/16/09 #1494, selected and unselected tab colors are indistinguishable
