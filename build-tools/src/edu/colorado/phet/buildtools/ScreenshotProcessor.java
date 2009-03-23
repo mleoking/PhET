@@ -20,6 +20,8 @@ public class ScreenshotProcessor {
             BufferedImage thumbnail = BufferedImageUtils.multiScaleToWidth( image, 130 );
             ImageIO.write( simPageScreenshot, "PNG", new File( project.getDeployDir(), sim + "-screenshot.png" ) );
             ImageIO.write( thumbnail, "PNG", new File( project.getDeployDir(), sim + "-thumbnail.png" ) );
+
+            //TODO: add ignores to the folder
         }
     }
 
