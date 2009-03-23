@@ -11,7 +11,6 @@ import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.FileImageOutputStream;
 
-import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 
 //See #1505
@@ -21,13 +20,18 @@ public class ScreenshotProcessor {
         for ( int i = 0; i < s.length; i++ ) {
             String sim = s[i];
             File imageFile = project.getScreenshot( sim );
-            BufferedImage image = ImageIO.read( imageFile );
-            BufferedImage simPageScreenshot = BufferedImageUtils.multiScaleToWidth( image, 300 );
-            BufferedImage thumbnail = BufferedImageUtils.multiScaleToWidth( image, 130 );
-            ImageIO.write( simPageScreenshot, "PNG", new File( project.getDeployDir(), sim + "-screenshot.png" ) );
+            if ( !imageFile.exists() ) {
+                System.out.println( "No screenshot for: " + project.getName() + "." + sim );
+            }
+            else {
+                BufferedImage image = ImageIO.read( imageFile );
+                BufferedImage simPageScreenshot = BufferedImageUtils.multiScaleToWidth( image, 300 );
+                BufferedImage thumbnail = BufferedImageUtils.multiScaleToWidth( image, 130 );
+                ImageIO.write( simPageScreenshot, "PNG", new File( project.getDeployDir(), sim + "-screenshot.png" ) );
 //            ImageIO.write( simPageScreenshot, "JPG", new File( project.getDeployDir(), sim + "-screenshot.jpg" ) );
 //            ImageIO.write( thumbnail, "PNG", new File( project.getDeployDir(), sim + "-thumbnail.png" ) );
-            ImageIO.write( thumbnail, "JPG", new File( project.getDeployDir(), sim + "-thumbnail.jpg" ) );
+                ImageIO.write( thumbnail, "JPG", new File( project.getDeployDir(), sim + "-thumbnail.jpg" ) );
+            }
 
             //quality = 0.9 looks worse and has larger file size than png for simPageScreenshot, let's leave that as PNG
 //            float quality = 0.9f;
@@ -62,6 +66,11 @@ public class ScreenshotProcessor {
     }
 
     public static void main( String[] args ) throws IOException {
-        new ScreenshotProcessor().copyScreenshotsToDeployDir( new JavaSimulationProject( new File( "C:\\workingcopy\\phet\\svn\\trunk\\simulations-java\\simulations\\balloons" ) ) );
+        PhetProject[] projects = PhetProject.getAllSimulations( new File( args.length > 0 ? args[0] : "C:\\workingcopy\\phet\\svn\\trunk" ) );
+        for ( int i = 0; i < projects.length; i++ ) {
+            PhetProject project = projects[i];
+            new ScreenshotProcessor().copyScreenshotsToDeployDir( project );
+        }
+//        new ScreenshotProcessor().copyScreenshotsToDeployDir( new JavaSimulationProject( new File( "C:\\workingcopy\\phet\\svn\\trunk\\simulations-java\\simulations\\balloons" ) ) );
     }
 }
