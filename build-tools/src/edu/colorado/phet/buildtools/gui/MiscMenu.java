@@ -111,8 +111,9 @@ public class MiscMenu extends JMenu {
                                                       "(or Cancel or Enter a blank line to omit batch message)" );
         boolean generateJARs = ProjectPanel.askUserToGenerateOfflineJARS( this );
         BufferedWriter bufferedWriter = null;
+        File logFile = new File( trunk, "build-tools/deploy-report.txt" );
         try {
-            File logFile = new File( trunk, "build-tools/deploy-report.txt" );
+
             boolean deleted = logFile.delete();
             System.out.println( "Delete " + logFile.getAbsolutePath() + " = " + deleted );
             logFile.createNewFile();
@@ -175,6 +176,7 @@ public class MiscMenu extends JMenu {
         catch( IOException e1 ) {
             e1.printStackTrace();
         }
+        System.out.println( "Finished batch deploy, see log file here: " + logFile.getAbsolutePath() );
     }
 
     public void setSelectedProject( PhetProject selectedProject ) {
