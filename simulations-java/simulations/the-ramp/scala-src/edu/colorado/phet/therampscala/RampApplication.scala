@@ -103,14 +103,33 @@ class Block extends Observable {
   def velocity = state.velocity
 }
 
-case class BeadState(distance: Double)
+case class BeadState(position: Double, velocity: Double, mass: Double) {
+  def translate(dx: Double) = new BeadState(position + dx, velocity, mass)
+
+  def setVelocity(vel: Double) = new BeadState(position, vel, mass)
+}
 class Bead(_state: BeadState, _rampSegment: RampSegment) extends Observable {
   var state = _state
   var rampSegment = _rampSegment
 
-  def position2D = rampSegment.getUnitVector * state.distance + rampSegment.startPoint
+  def position2D = rampSegment.getUnitVector * state.position + rampSegment.startPoint
 
   _rampSegment.addListenerByName(notifyListeners)
+  def mass = state.mass
+
+  def position = state.position
+
+  def velocity = state.velocity
+
+  def translate(dx: Double) = {
+    state = state.translate(dx)
+    notifyListeners()
+  }
+
+  def setVelocity(velocity: Double) = {
+    state = state.setVelocity(velocity)
+    notifyListeners()
+  }
 }
 class RampModel {
   val rampSegments = new ArrayBuffer[RampSegment]
@@ -121,16 +140,39 @@ class RampModel {
   val blockListeners = new ArrayBuffer[Block => Unit]
 
   rampSegments += new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(100, 100))
-  beads += new Bead(new BeadState(50), rampSegments(0))
+  beads += new Bead(new BeadState(50, 19, 5), rampSegments(0))
 
   def update(dt: Double) = {
     blocks.foreach(b => b.translate(b.velocity * dt))
+    beads.foreach(b => newStepCode(b, dt))
   }
 
   def addRandomBlock() = {
     val block = new Block
     blocks += block
     blockListeners.foreach(_(block))
+  }
+
+  def newStepCode(b: Bead, dt: Double) = {
+    val forces = getForces(b)
+    val netForce = forces.foldLeft(new Vector2D)((a, b) => {a + b})
+    //    println("step, net Force=" + netForce)
+    val parallelForce = netForce.dot(b.rampSegment.getUnitVector)
+    val parallelAccel = parallelForce / b.mass
+    //    println("parallel force=" + parallelForce + ", paraccel=" + parallelAccel)
+    b.setVelocity(b.velocity + parallelAccel * dt)
+    b.translate(b.velocity * dt)
+
+  }
+
+  def getForces(b: Bead) = {
+    getGravityForce(b) :: Nil
+    //    getGravity :: getFriction(b) :: getWallForce(b) :: getNormalForce(b) :: Nil
+    //    val netForce=getGravity+getFriction(b)+getNormal
+  }
+
+  def getGravityForce(b: Bead) = {
+    new Vector2D(0, 9.8) * b.mass //todo: reorient y-axis
   }
 }
 
