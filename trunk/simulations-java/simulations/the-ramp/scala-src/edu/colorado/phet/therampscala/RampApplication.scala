@@ -237,7 +237,7 @@ class RampModel extends Observable {
     //    println("parallel force=" + parallelForce + ", paraccel=" + parallelAccel)
     b.setVelocity(b.velocity + parallelAccel * dt)
 
-    val requestedPosition=b.position+b.velocity * dt
+    val requestedPosition = b.position + b.velocity * dt
 
     //TODO: generalize boundary code
     if (requestedPosition <= -10) {
@@ -248,7 +248,7 @@ class RampModel extends Observable {
       b.setVelocity(0)
       b.setPosition(10)
     }
-    else{
+    else {
       b.setPosition(requestedPosition)
     }
     val justCollided = false
@@ -376,13 +376,9 @@ class PusherNode(transform: ModelViewTransform2D, targetBead: Bead, manBead: Bea
   setChildrenPickable(false)
 }
 class AppliedForceSliderNode(bead: Bead, transform: ModelViewTransform2D) extends PNode {
-  val control = new LinearValueControl(-50, 50, 0, "Applied Force X", "0.0", "N")
-  control.addChangeListener(new ChangeListener() {
-    def stateChanged(e: ChangeEvent) = bead.appliedForce = new Vector2D(control.getValue, 0)
-  })
-  bead.addListenerByName{
-    control.setValue(bead.appliedForce.x)
-  }
+  val control=new ScalaValueControl(-50,50,"Applied Force X","0.0","N",
+    bead.appliedForce.x,value=>bead.appliedForce = new Vector2D(value, 0),bead.addListener)
+
   val pswing = new PSwing(control)
   addChild(pswing)
   def updatePosition() = {
@@ -488,23 +484,9 @@ class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramMo
     model.beads(0).position, model.beads(0).setPosition, model.beads(0).addListener)
   add(positionSlider)
 
-  class ScalaValueControl(min: Double, max: Double, name: String, decimalFormat: String, units: String,
-                         getter: => Double, setter: Double => Unit, addListener: (() => Unit) => Unit) extends LinearValueControl(min,max,name,decimalFormat,units) {
-    addListener(update)
-    update()
-    addChangeListener(new ChangeListener {
-      def stateChanged(e: ChangeEvent) = setter(getValue)
-    });
-    def update() = setValue(getter)
-  }
+  val angleSlider = new ScalaValueControl(0, 90, "Ramp Angle", "0.0", "degrees",
+    model.rampSegments(1).getUnitVector.getAngle.toDegrees, value => model.setRampAngle(value.toRadians), model.rampSegments(1).addListener)
 
-  val angleSlider = new LinearValueControl(0, 90, 20, "Ramp Angle", "0.0", "degrees")
-  angleSlider.addChangeListener(new ChangeListener() {
-    def stateChanged(e: ChangeEvent) = model.setRampAngle(angleSlider.getValue.toRadians)
-  })
-  def updateAngleSliderValue() = angleSlider.setValue(model.rampSegments(1).getUnitVector.getAngle.toDegrees)
-  updateAngleSliderValue()
-  model.rampSegments(1).addListenerByName{updateAngleSliderValue()}
   add(angleSlider)
 
   val resetButton = new ResetAllButton(this)
@@ -561,6 +543,16 @@ class RampModule(clock: ScalaClock) extends Module("Ramp", clock) {
   setSimulationPanel(new RampCanvas(model))
   clock.addClockListener(model.update(_))
   setControlPanel(new RampControlPanel(model, wordModel, fbdModel, coordinateSystemModel, vectorViewModel))
+}
+
+class ScalaValueControl(min: Double, max: Double, name: String, decimalFormat: String, units: String,
+                       getter: => Double, setter: Double => Unit, addListener: (() => Unit) => Unit) extends LinearValueControl(min, max, name, decimalFormat, units) {
+  addListener(update)
+  update()
+  addChangeListener(new ChangeListener {
+    def stateChanged(e: ChangeEvent) = setter(getValue)
+  });
+  def update() = setValue(getter)
 }
 
 object RampApplication {
