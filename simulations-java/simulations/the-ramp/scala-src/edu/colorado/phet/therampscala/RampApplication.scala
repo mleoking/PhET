@@ -62,11 +62,11 @@ class RampSegment(_state: RampSegmentState) extends Observable {
 class Circle(center: Vector2D, radius: Double) extends Ellipse2D.Double(center.x - radius, center.y - radius, radius * 2, radius * 2)
 
 class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D) extends PNode {
-  val line = new PhetPPath(new BasicStroke(1f), Color.black)
+  val line = new PhetPPath(new Color(184, 131, 24), new BasicStroke(1f), new Color(91, 78, 49))
   addChild(line)
 
   defineInvokeAndPass(rampSegment.addListenerByName){
-    line.setPathTo(mytransform.createTransformedShape(rampSegment.toLine2D))
+    line.setPathTo(mytransform.createTransformedShape(new BasicStroke(0.4f).createStrokedShape(rampSegment.toLine2D)))
   }
 
   class SegmentPointNode(getPoint: => Vector2D, setPoint: (Vector2D) => Unit) extends PNode {
