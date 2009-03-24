@@ -179,14 +179,8 @@ class RampModel extends Observable {
 
   //TODO: this may need to be more general
   def positionMapper(particleLocation: Double) = {
-    if (particleLocation <= 0) {
-      //  def position2D = _rampSegmentAccessor.getUnitVector * state.position + _rampSegmentAccessor.startPoint
-      rampSegments(0).getUnitVector * (10 + particleLocation) + rampSegments(0).startPoint
-    }
-    else {
-      rampSegments(1).getUnitVector * (particleLocation) + rampSegments(1).startPoint
-    }
-
+    if (particleLocation <= 0) rampSegments(0).getUnitVector * (10 + particleLocation) + rampSegments(0).startPoint
+    else rampSegments(1).getUnitVector * (particleLocation) + rampSegments(1).startPoint
   }
 
   def rampSegmentAccessor(particleLocation: Double) = {
@@ -194,7 +188,7 @@ class RampModel extends Observable {
   }
 
   //Sends notification when any ramp segment changes
-  object rampChangeAdapter extends Observable//todo: perhaps we should just pass the addListener method to the beads
+  object rampChangeAdapter extends Observable //todo: perhaps we should just pass the addListener method to the beads
   rampSegments(0).addListenerByName{rampChangeAdapter.notifyListeners}
   rampSegments(1).addListenerByName{rampChangeAdapter.notifyListeners}
   beads += new Bead(new BeadState(5, 0, 10, 0, 0), positionMapper, rampSegmentAccessor, rampChangeAdapter)
