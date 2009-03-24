@@ -37,25 +37,25 @@ RewriteRule .* %{REQUEST_FILENAME} [L]
 
 # Convert all requests for old project names, check the new file exists
 # ex: balloons.jar -> balloons_all.jar
-RewriteCond %{DOCUMENT_ROOT}/rewrite/sims-enhanced-htaccess-new-sims/$1_all.jar -f
+RewriteCond %{DOCUMENT_ROOT}/sims/$1_all.jar -f
 RewriteRule ^([-a-z0-9/]+)\.jar$ $1_all.jar [L,R=permanent]
 
 #ex: balloons.jnlp -> balloons_en.jnlp
-RewriteCond %{DOCUMENT_ROOT}/rewrite/sims-enhanced-htaccess-new-sims/$1_en.jnlp -f
+RewriteCond %{DOCUMENT_ROOT}/sims/$1_en.jnlp -f
 RewriteRule ^([-a-z0-9/]+)\.jnlp$ $1_en.jnlp [L,R=permanent]
 
 # Convert requests for old simulation names to English versions, check the new file exists
-RewriteCond %{DOCUMENT_ROOT}/rewrite/sims-enhanced-htaccess-new-sims/$1_en.jar -f
+RewriteCond %{DOCUMENT_ROOT}/sims/$1_en.jar -f
 RewriteRule ^([-a-z0-9/]+)\.jar$ $1_en.jar [L,R=permanent]
 
 # ohm-1d changed to batter-resistor-circuit
-RewriteCond %{DOCUMENT_ROOT}/rewrite/sims-enhanced-htaccess-new-sims/battery-resistor-circuit/battery-resistor-circuit$1 -f
+RewriteCond %{DOCUMENT_ROOT}/sims/battery-resistor-circuit/battery-resistor-circuit$1 -f
 RewriteRule ^ohm-1d/ohm-1d(.*)$ battery-resistor-circuit/battery-resistor-circuit$1 [L,R=permanent]
-RewriteCond %{DOCUMENT_ROOT}/rewrite/sims-enhanced-htaccess-new-sims/battery-resistor-circuit/battery-resistor-circuit_all.jar -f
+RewriteCond %{DOCUMENT_ROOT}/sims/battery-resistor-circuit/battery-resistor-circuit_all.jar -f
 RewriteRule ^ohm-1d/ohm-1d.jar$ battery-resistor-circuit/battery-resistor-circuit_all.jar [L,R=permanent]
-RewriteCond %{DOCUMENT_ROOT}/rewrite/sims-enhanced-htaccess-new-sims/battery-resistor-circuit/battery-resistor-circuit_en.jnlp -f
+RewriteCond %{DOCUMENT_ROOT}/sims/battery-resistor-circuit/battery-resistor-circuit_en.jnlp -f
 RewriteRule ^ohm-1d/ohm-1d.jnlp$ battery-resistor-circuit/battery-resistor-circuit_en.jnlp [L,R=permanent]
-RewriteCond %{DOCUMENT_ROOT}/rewrite/sims-enhanced-htaccess-new-sims/battery-resistor-circuit/ -d
+RewriteCond %{DOCUMENT_ROOT}/sims/battery-resistor-circuit/ -d
 RewriteRule ^ohm-1d/?$ battery-resistor-circuit/ [L,R=permanent]
 
 # fluorescent-lights changed to discharge-lamps
