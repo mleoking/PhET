@@ -14,8 +14,8 @@ import java.awt.Dimension
 import java.awt.event.{ActionEvent, ActionListener}
 import javax.swing.{Box, JButton, JRadioButton, JLabel}
 import edu.colorado.phet.scalacommon.Predef._
+import scalacommon.swing.MyRadioButton
 import scalacommon.util.Observable
-import swing.MyRadioButton
 import java.awt.GridBagConstraints._
 
 class LadybugControlPanel[M <: LadybugModel](module: LadybugModule[M]) extends ControlPanel(module) {

@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.ladybug.swing
+package edu.colorado.phet.scalacommon.swing
 
 import scala.swing.RadioButton
 import java.awt.event.{ActionEvent, ActionListener}
