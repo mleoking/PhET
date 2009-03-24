@@ -1,4 +1,5 @@
 package edu.colorado.phet.chargesandfields {
+
 import flash.display.StageAlign;
 import flash.display.StageScaleMode;
 import flash.events.Event;
@@ -15,6 +16,8 @@ public class ChargesAndFieldsApplication extends UIComponent {
 
     public function ChargesAndFieldsApplication() {
         this.addEventListener(Event.ADDED_TO_STAGE, init);
+
+        super();
     }
 
     public function init( evt : Event ) : void {
@@ -26,6 +29,7 @@ public class ChargesAndFieldsApplication extends UIComponent {
         stage.align = StageAlign.TOP_LEFT;
         stage.addEventListener(Event.RESIZE, display.onResize);
 
+        
         /*
          var button : Button = new Button();
 
