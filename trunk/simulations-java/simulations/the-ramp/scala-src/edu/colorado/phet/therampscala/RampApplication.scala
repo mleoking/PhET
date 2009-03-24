@@ -193,6 +193,9 @@ class RampModel extends Observable {
     if (particleLocation <= 0) rampSegments(0) else rampSegments(1)
   }
   beads += new Bead(new BeadState(5, 0, 10, 0, 0), positionMapper, rampSegmentAccessor)
+  val tree = new Bead(new BeadState(-9, 0, 10, 0, 0), positionMapper, rampSegmentAccessor)
+  val leftWall = new Bead(new BeadState(-10, 0, 10, 0, 0), positionMapper, rampSegmentAccessor)
+  val rightWall = new Bead(new BeadState(10, 0, 10, 0, 0), positionMapper, rampSegmentAccessor)
 
   def update(dt: Double) = {
     beads.foreach(b => newStepCode(b, dt))
@@ -257,14 +260,13 @@ class RampModel extends Observable {
   }
 }
 
-class BeadNode(bead: Bead, transform: ModelViewTransform2D) extends PNode {
+class BeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: String) extends PNode {
   val shapeNode = new PhetPPath(Color.green)
-  addChild(shapeNode)
+//  addChild(shapeNode)//TODO remove after debug done
 
-  val cabinetImage = RampResources.getImage("cabinet.gif")
+  val cabinetImage = RampResources.getImage(imageName)
   val imageNode = new PImage(cabinetImage)
   addChild(imageNode)
-
 
   addInputEventListener(new CursorHandler)
   addInputEventListener(new PBasicInputEventHandler() {
@@ -309,7 +311,12 @@ class RampCanvas(model: RampModel) extends DefaultCanvas(22, 20) {
 
   addNode(new RampSegmentNode(model.rampSegments(0), transform))
   addNode(new RampSegmentNode(model.rampSegments(1), transform))
-  addNode(new BeadNode(model.beads(0), transform))
+
+  addNode(new BeadNode(model.leftWall, transform, "barrier2.jpg"))
+  addNode(new BeadNode(model.rightWall, transform, "barrier2.jpg"))
+  addNode(new BeadNode(model.tree, transform, "tree.gif"))
+  
+  addNode(new BeadNode(model.beads(0), transform, "cabinet.gif"))
 
 }
 
