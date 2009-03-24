@@ -5,17 +5,17 @@ import _root_.scala.swing.CheckBox
 import common.phetcommon.application.Module
 import common.phetcommon.model.BaseModel
 import common.phetcommon.view.controls.valuecontrol.LinearValueControl
-import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import common.phetcommon.view.graphics.transforms.{TransformListener, ModelViewTransform2D}
 import common.phetcommon.view.util.PhetFont
 import common.phetcommon.view.{VerticalLayoutPanel, ResetAllButton}
 import common.piccolophet.event.CursorHandler
 import common.piccolophet.nodes.PhetPPath
 import common.piccolophet.PhetPCanvas
 import edu.colorado.phet.scalacommon.Predef._
+import java.awt._
 import java.awt.event.{ActionEvent, ActionListener}
 
 import java.awt.geom.{Line2D, Rectangle2D, Ellipse2D, Point2D}
-import java.awt.{Rectangle, Dimension, BasicStroke, Color}
 import javax.swing._
 import scalacommon.math.Vector2D
 import scalacommon.swing.MyRadioButton
@@ -225,10 +225,31 @@ class BeadNode(bead: Bead, transform: ModelViewTransform2D) extends PNode {
 class RampCanvas(model: RampModel) extends DefaultCanvas(22, 20) {
   setBackground(new Color(200, 255, 240))
 
+  addNode(new SkyNode(transform))
+  addNode(new EarthNode(transform))
+
   addNode(new RampSegmentNode(model.rampSegments(0), transform))
   addNode(new RampSegmentNode(model.rampSegments(1), transform))
   addNode(new BeadNode(model.beads(0), transform))
+
 }
+
+class AbstractBackgroundNode(getPaint: => Paint, getModelShape: => Shape, transform: ModelViewTransform2D) extends PNode {
+  val node = new PhetPPath(getPaint)
+  addChild(node)
+
+  def updatePath() = {
+    val viewPath = transform.createTransformedShape(getModelShape)
+    node.setPathTo(viewPath)
+  }
+  updatePath()
+
+  transform.addTransformListener(new TransformListener() {
+    def transformChanged(mvt: ModelViewTransform2D) = updatePath()
+  })
+}
+class SkyNode(transform: ModelViewTransform2D) extends AbstractBackgroundNode(new GradientPaint(transform.modelToView(0, 0), new Color(250, 250, 255), transform.modelToView(0, 10), new Color(202, 187, 255)), new Rectangle2D.Double(-100, 0, 200, 200), transform)
+class EarthNode(transform: ModelViewTransform2D) extends AbstractBackgroundNode(new Color(200, 240, 200), new Rectangle2D.Double(-100, -200, 200, 200), transform)
 
 class WordModel extends Observable {
   var _physicsWords = true
