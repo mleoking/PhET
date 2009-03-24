@@ -4,7 +4,7 @@
 // This table should (generally) match ISO 369-1 at:
 //    http://www.loc.gov/standards/iso639-2/php/code_list.php
 // And more importantly should also match the translation
-// utility in SVN at:
+// utility:
 //   trunk/util/translation-utility/data/translation-utility/language-codes.properties
 //
 // This map is sorted by English language name
