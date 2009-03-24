@@ -35,6 +35,8 @@ case class RampSegmentState(startPoint: Vector2D, endPoint: Vector2D) { //don't 
   def setEndPoint(newEndPoint: Vector2D) = new RampSegmentState(startPoint, newEndPoint)
 
   def getUnitVector = (endPoint - startPoint).normalize
+
+  def setAngle(angle: Double) = new RampSegmentState(startPoint, new Vector2D(angle) * (endPoint - startPoint).magnitude)
 }
 class RampSegment(_state: RampSegmentState) extends Observable {
   var state = _state;
@@ -57,6 +59,11 @@ class RampSegment(_state: RampSegmentState) extends Observable {
   }
 
   def getUnitVector = state.getUnitVector
+
+  def setAngle(angle: Double) = {
+    state = state.setAngle(angle)
+    notifyListeners()
+  }
 }
 
 class Circle(center: Vector2D, radius: Double) extends Ellipse2D.Double(center.x - radius, center.y - radius, radius * 2, radius * 2)
@@ -179,6 +186,10 @@ class RampModel extends Observable {
 
   rampSegments += new RampSegment(new Point2D.Double(-10, 0), new Point2D.Double(0, 0))
   rampSegments += new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(10 * sin(PI / 4), 10 * sin(PI / 4)))
+
+  def setRampAngle(angle: Double) = {
+    rampSegments(1).setAngle(angle)
+  }
 
   //TODO: this may need to be more general
   def positionMapper(particleLocation: Double) = {
@@ -432,6 +443,12 @@ class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramMo
   add(positionSlider)
 
   val angleSlider = new LinearValueControl(0, 90, 20, "Ramp Angle", "0.0", "degrees")
+  angleSlider.addChangeListener(new ChangeListener() {
+    def stateChanged(e: ChangeEvent) = model.setRampAngle(angleSlider.getValue.toRadians)
+  })
+  def updateAngleSliderValue() = angleSlider.setValue(model.rampSegments(1).getUnitVector.getAngle.toDegrees)
+  updateAngleSliderValue()
+  model.rampSegments(1).addListenerByName{updateAngleSliderValue()}
   add(angleSlider)
 
   val resetButton = new ResetAllButton(this)
