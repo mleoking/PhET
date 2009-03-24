@@ -24,6 +24,7 @@ import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.nodes.{PImage, PText}
 import umd.cs.piccolo.PNode
 import scalacommon.{CenteredBoxStrategy, ScalaApplicationLauncher, ScalaClock}
+import java.lang.Math._
 
 case class RampSegmentState(startPoint: Vector2D, endPoint: Vector2D) { //don't use Point2D since it's not immutable
   def setStartPoint(newStartPoint: Vector2D) = new RampSegmentState(newStartPoint, endPoint)
@@ -57,33 +58,34 @@ class RampSegment(_state: RampSegmentState) extends Observable {
 
 class Circle(center: Vector2D, radius: Double) extends Ellipse2D.Double(center.x - radius, center.y - radius, radius * 2, radius * 2)
 
-class RampSegmentNode(rampSegment: RampSegment, transform: ModelViewTransform2D) extends PNode {
+class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D) extends PNode {
   val line = new PhetPPath(new BasicStroke(1f), Color.black)
   addChild(line)
 
   defineInvokeAndPass(rampSegment.addListenerByName){
-    line.setPathTo(rampSegment.toLine2D)
+    line.setPathTo(mytransform.createTransformedShape(rampSegment.toLine2D))
   }
 
-  class SegmentPointNode(getPoint: () => Vector2D, setPoint: (Vector2D) => Unit) extends PNode {
+  class SegmentPointNode(getPoint: => Vector2D, setPoint: (Vector2D) => Unit) extends PNode {
     val node = new PhetPPath(Color.blue)
 
-    def createPath = new Circle(getPoint(), 10)
+    def createPath = new Circle(getPoint, 0.3)
 
     addChild(node)
     node.addInputEventListener(new PBasicInputEventHandler() {
       override def mouseDragged(event: PInputEvent) = {
-        setPoint(getPoint() + event.getDeltaRelativeTo(node.getParent))
+        val delta = event.getDeltaRelativeTo(node.getParent)
+        setPoint(getPoint + mytransform.viewToModelDifferential(delta.width, delta.height))
       }
     })
     node.addInputEventListener(new CursorHandler)
     defineInvokeAndPass(rampSegment.addListenerByName){
-      node.setPathTo(createPath)
+      node.setPathTo(mytransform.createTransformedShape(createPath))
     }
   }
 
-  addChild(new SegmentPointNode(() => rampSegment.startPoint, pt => rampSegment.startPoint = pt))
-  addChild(new SegmentPointNode(() => rampSegment.endPoint, pt => rampSegment.endPoint = pt))
+  addChild(new SegmentPointNode(rampSegment.startPoint, pt => rampSegment.startPoint = pt))
+  addChild(new SegmentPointNode(rampSegment.endPoint, pt => rampSegment.endPoint = pt))
 }
 
 object MyRandom extends scala.util.Random
@@ -96,7 +98,7 @@ case class BeadState(position: Double, velocity: Double, mass: Double, staticFri
   def thermalEnergy = 0
 }
 class Bead(_state: BeadState, _rampSegment: RampSegment) extends Observable {
-  val gravity = 9.8
+  val gravity = -9.8
   var state = _state
   var rampSegment = _rampSegment
 
@@ -149,8 +151,10 @@ class RampModel extends Observable {
     notifyListeners()
   }
 
-  rampSegments += new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(100, 100))
-  beads += new Bead(new BeadState(50, 19, 5, 0, 0), rampSegments(0))
+  rampSegments += new RampSegment(new Point2D.Double(-10, 0), new Point2D.Double(0, 0))
+  rampSegments += new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(10 * sin(PI / 4), 10 * sin(PI / 4)))
+
+  beads += new Bead(new BeadState(5, 0, 10, 0, 0), rampSegments(1))
 
   def update(dt: Double) = {
     beads.foreach(b => newStepCode(b, dt))
@@ -200,7 +204,7 @@ class RampModel extends Observable {
   }
 
   def getGravityForce(b: Bead) = {
-    new Vector2D(0, 9.8) * b.mass //todo: reorient y-axis
+    new Vector2D(0, -9.8) * b.mass
   }
 }
 
@@ -208,20 +212,21 @@ class BeadNode(bead: Bead, transform: ModelViewTransform2D) extends PNode {
   val shapeNode = new PhetPPath(Color.green)
   addChild(shapeNode)
 
-  val cabinetImage=RampResources.getImage("cabinet.gif")
+  val cabinetImage = RampResources.getImage("cabinet.gif")
   val imageNode = new PImage(cabinetImage)
   addChild(imageNode)
 
   defineInvokeAndPass(bead.addListenerByName){
-    shapeNode.setPathTo(new Circle(bead.position2D, 10))
-    imageNode.setOffset(bead.position2D+new Vector2D(-cabinetImage.getWidth/2.0,-cabinetImage.getHeight))
+    shapeNode.setPathTo(transform.createTransformedShape(new Circle(bead.position2D, 0.3)))
+    imageNode.setOffset(bead.position2D + new Vector2D(-cabinetImage.getWidth / 2.0, -cabinetImage.getHeight))
   }
 }
 
-class RampCanvas(model: RampModel) extends DefaultCanvas(20, 20) {
+class RampCanvas(model: RampModel) extends DefaultCanvas(22, 20) {
   setBackground(new Color(200, 255, 240))
 
   addNode(new RampSegmentNode(model.rampSegments(0), transform))
+  addNode(new RampSegmentNode(model.rampSegments(1), transform))
   addNode(new BeadNode(model.beads(0), transform))
 }
 
