@@ -35,6 +35,7 @@ class BrowseContributionsPage extends SitePage {
         return $new_contribs;
     }
 
+    // $id and $name should already be in HTML format
     function build_option_string($id, $name, $selected_values) {
         $selected_status = '';
 
@@ -42,10 +43,7 @@ class BrowseContributionsPage extends SitePage {
             $selected_status = 'selected="selected"';
         }
 
-        $formatted_name = WebUtils::inst()->toHtml($name);
-        $formatted_id = WebUtils::inst()->toHtml($id);
-
-        return "<option value=\"{$formatted_id}\" $selected_status>{$formatted_name}</option>";
+        return "<option value=\"{$id}\" $selected_status>{$name}</option>";
     }
 
     function build_association_filter_list($names, $all_filter_name, $selected_values, $size = '8') {
@@ -73,13 +71,23 @@ class BrowseContributionsPage extends SitePage {
     }
 
     function build_level_list($selected_values) {
-        $level_names = contribution_get_all_template_level_names();
+        $level_names_preformat = contribution_get_all_template_level_names();
+
+        $Web = WebUtils::inst();
+        foreach ($level_names_preformat as $key => $value) {
+            $level_names[$Web->toHtml($key)] = $Web->toHtml($value);
+        }
 
         return $this->build_association_filter_list($level_names, "Levels", $selected_values);
     }
 
     function build_type_list($selected_values) {
-        $type_names = contribution_get_all_template_type_names();
+        $type_names_preformat = contribution_get_all_template_type_names();
+
+        $Web = WebUtils::inst();
+        foreach ($type_names_preformat as $key => $value) {
+            $type_names[$Web->toHtml($key)] = $Web->toHtml($value);
+        }
 
         return $this->build_association_filter_list($type_names, "Types", $selected_values);
     }
