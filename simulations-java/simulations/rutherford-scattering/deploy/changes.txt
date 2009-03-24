@@ -1,3 +1,4 @@
+3/24/09 #1329, increase min energy to eliminate NaN errors in particle trajectory model
 # 1.01.02 (29629) Mar 22, 2009
 3/22/09 Batch deploy for Alpha Simulation Tests 2, svn 29628
 # 1.01.01 (28814) Feb 19, 2009
