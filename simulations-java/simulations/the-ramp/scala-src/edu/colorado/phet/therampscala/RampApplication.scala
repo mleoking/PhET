@@ -125,7 +125,6 @@ class Bead(_state: BeadState, positionMapper: Double => Vector2D, rampSegmentAcc
 
   def getRampUnitVector = rampSegmentAccessor(position).getUnitVector
 
-  //TODO: listen for angle changes
   model.addListenerByName(notifyListeners)
   def mass = state.mass
 
@@ -209,6 +208,8 @@ class RampModel extends Observable {
   val tree = new Bead(new BeadState(-9, 0, 10, 0, 0), positionMapper, rampSegmentAccessor, rampChangeAdapter)
   val leftWall = new Bead(new BeadState(-10, 0, 10, 0, 0), positionMapper, rampSegmentAccessor, rampChangeAdapter)
   val rightWall = new Bead(new BeadState(10, 0, 10, 0, 0), positionMapper, rampSegmentAccessor, rampChangeAdapter)
+
+  val manBead = new Bead(new BeadState(2, 0, 10, 0, 0), positionMapper, rampSegmentAccessor, rampChangeAdapter)
 
   def update(dt: Double) = {
     beads.foreach(b => newStepCode(b, dt))
@@ -329,10 +330,21 @@ class RampCanvas(model: RampModel) extends DefaultCanvas(22, 20) {
   addNode(new BeadNode(model.rightWall, transform, "barrier2.jpg"))
   addNode(new BeadNode(model.tree, transform, "tree.gif"))
 
-  addNode(new BeadNode(model.beads(0), transform, "cabinet.gif"))
+  val cabinetNode = new BeadNode(model.beads(0), transform, "cabinet.gif")
+  addNode(cabinetNode)
+
+  addNode(new PusherNode(transform, model.beads(0), model.manBead))
   addNode(new AppliedForceSliderNode(model.beads(0), transform))
 }
 
+class PusherNode(transform: ModelViewTransform2D, targetBead: Bead, manBead: Bead) extends BeadNode(manBead, transform, "standing-man.png") {
+  defineInvokeAndPass(targetBead.addListenerByName){
+    if (targetBead.appliedForce.magnitude > 0) {
+      val dx = if (targetBead.appliedForce.x > 0) -3 else 3
+      manBead.setPosition(targetBead.position + dx)
+    }
+  }
+}
 class AppliedForceSliderNode(bead: Bead, transform: ModelViewTransform2D) extends PNode {
   val control = new LinearValueControl(-50, 50, 0, "Applied Force X", "0.0", "N")
   control.addChangeListener(new ChangeListener() {
