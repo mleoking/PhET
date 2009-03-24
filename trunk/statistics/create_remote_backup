@@ -12,4 +12,8 @@
 # example: ./create_remote_backup olsonjb alpha
 # This created phet_stats-backup-1235971713-alpha.sql
 
-ssh $1@tigercat.colorado.edu "mysqldump --compact --compress --no-create-db --no-create-info --host=hellcat.colorado.edu --user=phet_stats -p phet_stats" > backup/phet_stats-backup-`date +%s`-$2.sql
+output_file=backup/phet_stats-backup-`date +%s`-$2.sql
+
+ssh $1@tigercat.colorado.edu "mysqldump --compact --compress --no-create-db --no-create-info --host=hellcat.colorado.edu --user=phet_stats -p phet_stats" > $output_file
+
+bzip2 $output_file
