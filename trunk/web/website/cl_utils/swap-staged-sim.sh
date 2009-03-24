@@ -36,10 +36,10 @@ fi
 if [ ! -d $BACKUP_SIMS_ROOT ] ; then
     # Try to make it first
     echo Making backup directories to: $BACKUP_SIMS_ROOT
-    mkdir $BACKUPS_ROOT
-    chmod 0770 $BACKUPS_ROOT
-    mkdir $BACKUP_SIMS_ROOT
-    chmod 0770 $BACKUP_SIMS_ROOT
+    mkdir $BACKUPS_ROOT 2> /dev/null
+    chmod 0770 $BACKUPS_ROOT 2> /dev/null
+    mkdir $BACKUP_SIMS_ROOT 2> /dev/null
+    chmod 0770 $BACKUP_SIMS_ROOT 2> /dev/null
     if [ ! -d $BACKUP_SIMS_ROOT ] ; then
 	echo Backup sims directory does not exist: $BACKUP_SIMS_ROOT
 	exit 1
@@ -51,4 +51,4 @@ fi
 SECS=`date -u +%s`
 mv $SIMS_ROOT/$1 $BACKUP_SIMS_ROOT/$1-$SECS
 mv $STAGING_SIMS_ROOT/$1 $SIMS_ROOT
-echo $?
+exit $?
