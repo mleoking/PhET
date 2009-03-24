@@ -4,7 +4,6 @@ package edu.colorado.phet.opticaltweezers.control.developer;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Insets;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -18,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantD
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LogarithmicValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
@@ -77,7 +77,7 @@ public class BeadDeveloperPanel extends JPanel implements Observer, ConstantDtCl
         this.setBorder( border );
 
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
-        layout.setInsets( new Insets( 0, 0, 0, 0 ) );
+        layout.setInsets( OTConstants.SUB_PANEL_INSETS );
         this.setLayout( layout );
         int row = 0;
         int column = 0;

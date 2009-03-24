@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.umd.cs.piccolo.PNode;
 
@@ -82,6 +83,7 @@ public class ChargeControlPanel extends JPanel {
         innerPanel.setLayout( layout );
         layout.setAnchor( GridBagConstraints.WEST );
         layout.setFill( GridBagConstraints.HORIZONTAL );
+        layout.setInsets( OTConstants.SUB_PANEL_INSETS );
         layout.setMinimumWidth( 0, 20 );
         int row = 0;
         layout.addComponent( titleLabel, row++, 0 );

@@ -21,6 +21,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.event.DragNotificationHandler.DragNotificationAdapter;
 import edu.colorado.phet.common.piccolophet.event.DragNotificationHandler.DragNotificationEvent;
 import edu.colorado.phet.common.piccolophet.event.DragNotificationHandler.DragNotificationListener;
+import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
@@ -206,6 +207,7 @@ public class ForcesControlPanel extends JPanel implements Observer {
         innerPanel.setLayout( layout );
         layout.setAnchor( GridBagConstraints.WEST );
         layout.setFill( GridBagConstraints.HORIZONTAL );
+        layout.setInsets( OTConstants.SUB_PANEL_INSETS );
         layout.setMinimumWidth( 0, 20 );
         int row = 0;
         int column = 0;

@@ -16,6 +16,7 @@ import java.util.Observer;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.AbstractEnzyme;
 import edu.colorado.phet.opticaltweezers.view.EnzymeANode;
@@ -126,6 +127,7 @@ public class EnzymeControlPanel extends JPanel implements Observer {
         innerPanel.setLayout( layout );
         layout.setAnchor( GridBagConstraints.WEST );
         layout.setFill( GridBagConstraints.NONE );
+        layout.setInsets( OTConstants.SUB_PANEL_INSETS );
         layout.setMinimumWidth( 0, 20 );
         int row = 0;
         int column = 0;

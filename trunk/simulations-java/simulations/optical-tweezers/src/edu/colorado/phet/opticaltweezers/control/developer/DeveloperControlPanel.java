@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.DNAStrand;
 import edu.colorado.phet.opticaltweezers.model.Laser;
@@ -95,6 +96,7 @@ public class DeveloperControlPanel extends JPanel {
         innerPanel.setLayout( layout );
         layout.setAnchor( GridBagConstraints.WEST );
         layout.setFill( GridBagConstraints.HORIZONTAL );
+        layout.setInsets( OTConstants.SUB_PANEL_INSETS );
         layout.setMinimumWidth( 0, 0 );
         int row = 0;
         layout.addComponent( _showHideButton, row++, 1 );
