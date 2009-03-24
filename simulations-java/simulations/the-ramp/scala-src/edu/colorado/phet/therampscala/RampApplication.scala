@@ -3,6 +3,7 @@ package edu.colorado.phet.therampscala
 import _root_.scala.collection.mutable.ArrayBuffer
 import _root_.scala.swing.CheckBox
 import common.phetcommon.application.Module
+import common.phetcommon.math.MathUtil
 import common.phetcommon.model.BaseModel
 import common.phetcommon.view.controls.valuecontrol.LinearValueControl
 import common.phetcommon.view.graphics.transforms.{TransformListener, ModelViewTransform2D}
@@ -235,18 +236,21 @@ class RampModel extends Observable {
     val parallelAccel = parallelForce / b.mass
     //    println("parallel force=" + parallelForce + ", paraccel=" + parallelAccel)
     b.setVelocity(b.velocity + parallelAccel * dt)
-    b.translate(b.velocity * dt)
+
+    val requestedPosition=b.position+b.velocity * dt
 
     //TODO: generalize boundary code
-    if (b.position <= -10) {
+    if (requestedPosition <= -10) {
       b.setVelocity(0)
       b.setPosition(-10)
     }
-    if (b.position >= 10) {
+    else if (requestedPosition >= 10) {
       b.setVelocity(0)
       b.setPosition(10)
     }
-
+    else{
+      b.setPosition(requestedPosition)
+    }
     val justCollided = false
 
     if (b.getStaticFriction == 0 && b.getKineticFriction == 0) {
@@ -356,18 +360,20 @@ class PusherNode(transform: ModelViewTransform2D, targetBead: Bead, manBead: Bea
       manBead.setPosition(targetBead.position + dx)
 
       //go 0 to 14
-      val leanAmount=(abs(targetBead.appliedForce.x)*13.0/50.0).toInt +1
-      var textStr=""+leanAmount
-      while(textStr.length<2)
-        textStr="0"+textStr
-      val im = RampResources.getImage("pusher-leaner-png/pusher-leaning-2_00"+textStr+".png")
-      val realIm = if (dx > 0) BufferedImageUtils.flipX(im) else im//todo: cache instead of flipping each time
+      val leanAmount = (abs(targetBead.appliedForce.x) * 13.0 / 50.0).toInt + 1
+      var textStr = "" + leanAmount
+      while (textStr.length < 2)
+        textStr = "0" + textStr
+      val im = RampResources.getImage("pusher-leaner-png/pusher-leaning-2_00" + textStr + ".png")
+      val realIm = if (dx > 0) BufferedImageUtils.flipX(im) else im //todo: cache instead of flipping each time
       setImage(realIm)
     }
     else {
       setImage(RampResources.getImage("standing-man.png"))
     }
   }
+  setPickable(false)
+  setChildrenPickable(false)
 }
 class AppliedForceSliderNode(bead: Bead, transform: ModelViewTransform2D) extends PNode {
   val control = new LinearValueControl(-50, 50, 0, "Applied Force X", "0.0", "N")
@@ -478,8 +484,19 @@ class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramMo
   add(new MyCheckBox("Frictionless", model.frictionless_=, model.frictionless, model.addListener))
 
   // double min, double max, double value, String label, String textFieldPattern, String units
-  val positionSlider = new LinearValueControl(RampDefaults.MIN_X, RampDefaults.MAX_X, "Object Position", "0.0", "meters")
+  val positionSlider = new ScalaValueControl(RampDefaults.MIN_X, RampDefaults.MAX_X, "Object Position", "0.0", "meters",
+    model.beads(0).position, model.beads(0).setPosition, model.beads(0).addListener)
   add(positionSlider)
+
+  class ScalaValueControl(min: Double, max: Double, name: String, decimalFormat: String, units: String,
+                         getter: => Double, setter: Double => Unit, addListener: (() => Unit) => Unit) extends LinearValueControl(min,max,name,decimalFormat,units) {
+    addListener(update)
+    update()
+    addChangeListener(new ChangeListener {
+      def stateChanged(e: ChangeEvent) = setter(getValue)
+    });
+    def update() = setValue(getter)
+  }
 
   val angleSlider = new LinearValueControl(0, 90, 20, "Ramp Angle", "0.0", "degrees")
   angleSlider.addChangeListener(new ChangeListener() {
