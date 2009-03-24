@@ -246,7 +246,7 @@ public class SimUpdater {
              * This error message is NOT localized, and we are at the mercy 
              * of the server to provide something intelligible to the user
              */
-            String message = null;
+            String message = "";
             BufferedReader in = new BufferedReader( new FileReader( file ) );
             String s;
             while ( ( s = in.readLine() ) != null ) {
