@@ -21,7 +21,7 @@ import scalacommon.math.Vector2D
 import scalacommon.swing.MyRadioButton
 import scalacommon.util.Observable
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
-import umd.cs.piccolo.nodes.PText
+import umd.cs.piccolo.nodes.{PImage, PText}
 import umd.cs.piccolo.PNode
 import scalacommon.{CenteredBoxStrategy, ScalaApplicationLauncher, ScalaClock}
 
@@ -205,10 +205,16 @@ class RampModel extends Observable {
 }
 
 class BeadNode(bead: Bead, transform: ModelViewTransform2D) extends PNode {
-  val node = new PhetPPath(Color.green)
-  addChild(node)
+  val shapeNode = new PhetPPath(Color.green)
+  addChild(shapeNode)
+
+  val cabinetImage=RampResources.getImage("cabinet.gif")
+  val imageNode = new PImage(cabinetImage)
+  addChild(imageNode)
+
   defineInvokeAndPass(bead.addListenerByName){
-    node.setPathTo(new Circle(bead.position2D, 10))
+    shapeNode.setPathTo(new Circle(bead.position2D, 10))
+    imageNode.setOffset(bead.position2D+new Vector2D(-cabinetImage.getWidth/2.0,-cabinetImage.getHeight))
   }
 }
 
@@ -307,7 +313,7 @@ class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramMo
   val angleSlider = new LinearValueControl(0, 90, 20, "Ramp Angle", "0.0", "degrees")
   add(angleSlider)
 
-  val resetButton=new ResetAllButton(this)
+  val resetButton = new ResetAllButton(this)
   add(resetButton)
 }
 class MyCheckBox(text: String, setter: Boolean => Unit, getter: => Boolean, addListener: (() => Unit) => Unit) extends CheckBox(text) {
