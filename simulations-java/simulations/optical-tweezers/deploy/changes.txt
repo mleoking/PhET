@@ -1,3 +1,5 @@
+# 2.01.03 (29786) Mar 24, 2009
+3/24/09 publish dev version so that fixes can be verified
 3/24/09 #1519, change control panel insets to account for PhetFont
 3/23/09 #1520, fix visibility of laser beam when a config is loaded
 3/23/09 #1518, fluid controls check box should be unchecked by default
