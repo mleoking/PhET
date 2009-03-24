@@ -2,7 +2,7 @@
 <SimStrings>
   <string key="About..." value="About..." />
   <string key="AboutSim" value="About {0}" />
-  <string key="Preferences" value="Preferences" />
+  <string key="Preferences" value="Preferences..." />
   <string key="Version" value="Version" />
   <string key="BuildDate" value="Build Date" />
   <string key="FlashVersion" value="Flash Version" />
