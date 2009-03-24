@@ -1,4 +1,4 @@
-﻿// CommonButtons.as
+// CommonButtons.as
 //
 // Creates the About and Preferences buttons for simulations
 // Handles when they are clicked
@@ -63,7 +63,7 @@ class edu.colorado.phet.flashcommon.CommonButtons {
 		
 		if(!common.fromPhetWebsite()) {
 			// creates the preferences button
-			var preferencesButton : JButton = new JButton(common.strings.get("Preferences", "Preferences"));
+			var preferencesButton : JButton = new JButton(common.strings.get("Preferences", "Preferences..."));
 			_level0.preferencesButton = preferencesButton;
 			preferencesButton.setSize(preferencesButton.getPreferredSize());
 			preferencesButton.addEventListener(JButton.ON_RELEASE, Delegate.create(this, preferencesButtonClicked));
