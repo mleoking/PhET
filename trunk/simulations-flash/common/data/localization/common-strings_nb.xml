@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--common-strings_nb.xml created Mon Mar 23 21:51:17 CET 2009 using: flash-common-strings 1.04.00 (29429), translation-utility 1.12.00 (29256)-->
+<SimStrings>
+<string key="CheckSimUpdates" value="Se etter simuleringsoppdatering"/>
+<string key="PrivacyDetails" value="Personverndetaljer"/>
+<string key="CheckUpdates" value="Se etter oppdateringer automatisk"/>
+<string key="AskLater" value="Spør meg senere"/>
+<string key="Preferences" value="Valg"/>
+<string key="OSVersion" value="OS"/>
+<string key="PhETPreferences" value="PhET valg"/>
+<string key="OK" value="OK"/>
+<string key="Version" value="Versjon"/>
+<string key="About..." value="Om..."/>
+<string key="Details" value="Detaljer"/>
+<string key="BuildDate" value="Byggedato"/>
+<string key="Privacy" value="Personvern"/>
+<string key="AboutSim" value="Om {0}"/>
+<string key="Yes!" value="Ja!"/>
+<string key="Cancel" value="Avbryt"/>
+<string key="FlashVersion" value="Flash-versjon"/>
+<string key="CurrentVersionIs" value="Din nåværende versjon av {0} er {1}."/>
+<string key="AcceptContinue" value="Aksepter og fortsett"/>
+<string key="Close" value="Lukk"/>
+<string key="AllowMessages" value="Tillat at informasjon sendes til PhET"/>
+<string key="PrivacyMessage2" value="Ved å klikke &quot;Samtykk og fortsett&quot;, samtykker du til PhET sin&lt;br&gt;lisens og personvernpolitikk. (For detaljer, klikk &lt;a href=&quot;{0}&quot;&gt;her&lt;/a&gt;)."/>
+<string key="TryNow" value="Prøv nå"/>
+<string key="PrivacyMessage1" value="I alle PhET-simuleringer samler vi inn en liten mengde &lt;br&gt;anonym &lt;a href=&quot;{0}&quot;&gt;informasjon&lt;/a&gt; når simuleringen starter&lt;br&gt;(f.eks. simuleringsversjon, operativsystem).&lt;br&gt;Du kan hindre at denne informasjonen &lt;br&gt;blir sendt, ved å bruke valg-knappen."/>
+<string key="Distribution" value="Distribusjon"/>
+</SimStrings>
