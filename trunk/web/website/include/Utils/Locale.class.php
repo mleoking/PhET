@@ -476,6 +476,7 @@ class Locale {
         }
 
         $language_name = $this->getLanguageName($language_code);
+        $language_name = preg_replace('/ /', '-', $language_name);
         $icon = strtolower("{$language_name}-{$language_code}.png");
         return SITE_ROOT."images/languages/{$icon}";
     }
