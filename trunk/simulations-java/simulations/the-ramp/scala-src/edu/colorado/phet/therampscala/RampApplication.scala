@@ -15,7 +15,7 @@ import edu.colorado.phet.scalacommon.Predef._
 import java.awt._
 import java.awt.event.{ActionEvent, ActionListener}
 
-import java.awt.geom.{Line2D, Rectangle2D, Ellipse2D, Point2D}
+import java.awt.geom._
 import javax.swing._
 import scalacommon.math.Vector2D
 import scalacommon.swing.MyRadioButton
@@ -91,20 +91,24 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
 object MyRandom extends scala.util.Random
 
 case class BeadState(position: Double, velocity: Double, mass: Double, staticFriction: Double, kineticFriction: Double) {
-  def translate(dx: Double) = new BeadState(position + dx, velocity, mass, staticFriction, kineticFriction)
+  def translate(dx: Double) = setPosition(position + dx)
+
+  def setPosition(pos: Double) = new BeadState(pos, velocity, mass, staticFriction, kineticFriction)
 
   def setVelocity(vel: Double) = new BeadState(position, vel, mass, staticFriction, kineticFriction)
 
   def thermalEnergy = 0
 }
-class Bead(_state: BeadState, _rampSegment: RampSegment) extends Observable {
+class Bead(_state: BeadState, positionMapper: Double => Vector2D, rampSegmentAccessor: Double => RampSegment) extends Observable {
   val gravity = -9.8
   var state = _state
-  var rampSegment = _rampSegment
 
-  def position2D = rampSegment.getUnitVector * state.position + rampSegment.startPoint
+  def position2D = positionMapper(position)
 
-  _rampSegment.addListenerByName(notifyListeners)
+  def getRampUnitVector = rampSegmentAccessor(position).getUnitVector
+
+  //TODO: listen for angle changes
+  //  _rampSegment.addListenerByName(notifyListeners)
   def mass = state.mass
 
   def position = state.position
@@ -125,11 +129,22 @@ class Bead(_state: BeadState, _rampSegment: RampSegment) extends Observable {
     notifyListeners()
   }
 
+  def setPosition(position: Double) = {
+    state = state.setPosition(position)
+    notifyListeners()
+  }
+
   def getTotalEnergy = getPotentialEnergy + getKineticEnergy
 
   def getPotentialEnergy = mass * gravity * position2D.y
 
   def getKineticEnergy = 1 / 2 * mass * velocity * velocity
+
+  def getAngleInvertY = {
+    val vector = rampSegmentAccessor(position).getUnitVector
+    val vectorInvertY = new Vector2D(vector.x, -vector.y)
+    vectorInvertY.getAngle
+  }
 }
 class RampModel extends Observable {
   val rampSegments = new ArrayBuffer[RampSegment]
@@ -154,7 +169,22 @@ class RampModel extends Observable {
   rampSegments += new RampSegment(new Point2D.Double(-10, 0), new Point2D.Double(0, 0))
   rampSegments += new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(10 * sin(PI / 4), 10 * sin(PI / 4)))
 
-  beads += new Bead(new BeadState(5, 0, 10, 0, 0), rampSegments(1))
+  //TODO: this may need to be more general
+  def positionMapper(particleLocation: Double) = {
+    if (particleLocation <= 0) {
+      //  def position2D = _rampSegmentAccessor.getUnitVector * state.position + _rampSegmentAccessor.startPoint
+      rampSegments(0).getUnitVector * (10 + particleLocation) + rampSegments(0).startPoint
+    }
+    else {
+      rampSegments(1).getUnitVector * (particleLocation) + rampSegments(1).startPoint
+    }
+
+  }
+
+  def rampSegmentAccessor(particleLocation: Double) = {
+    if (particleLocation <= 0) rampSegments(0) else rampSegments(1)
+  }
+  beads += new Bead(new BeadState(5, 0, 10, 0, 0), positionMapper, rampSegmentAccessor)
 
   def update(dt: Double) = {
     beads.foreach(b => newStepCode(b, dt))
@@ -168,11 +198,18 @@ class RampModel extends Observable {
     val forces = getForces(b)
     val netForce = forces.foldLeft(new Vector2D)((a, b) => {a + b})
     //    println("step, net Force=" + netForce)
-    val parallelForce = netForce.dot(b.rampSegment.getUnitVector)
+    val parallelForce = netForce.dot(b.getRampUnitVector)
     val parallelAccel = parallelForce / b.mass
     //    println("parallel force=" + parallelForce + ", paraccel=" + parallelAccel)
     b.setVelocity(b.velocity + parallelAccel * dt)
     b.translate(b.velocity * dt)
+
+    //TODO: generalize boundary code
+    if (b.position <= -10) {
+      b.setVelocity(0)
+      b.setPosition(-10)
+    }
+
     val justCollided = false
 
     if (b.getStaticFriction == 0 && b.getKineticFriction == 0) {
@@ -218,7 +255,23 @@ class BeadNode(bead: Bead, transform: ModelViewTransform2D) extends PNode {
 
   defineInvokeAndPass(bead.addListenerByName){
     shapeNode.setPathTo(transform.createTransformedShape(new Circle(bead.position2D, 0.3)))
-    imageNode.setOffset(bead.position2D + new Vector2D(-cabinetImage.getWidth / 2.0, -cabinetImage.getHeight))
+
+    //TODO consolidate/refactor with BugNode, similar graphics transform code
+    imageNode.setTransform(new AffineTransform)
+
+    val modelPosition = bead.position2D
+    val viewPosition = transform.modelToView(modelPosition)
+    val delta = new Vector2D(imageNode.getImage.getWidth(null), imageNode.getImage.getHeight(null))
+
+    //todo: why is scale factor 4 here?
+    val scale = transform.modelToViewDifferentialXDouble(1 * 4) / cabinetImage.getWidth
+
+    imageNode.translate(viewPosition.x - delta.x / 2 * scale, viewPosition.y - delta.y * scale)
+    imageNode.scale(scale)
+    imageNode.rotateAboutPoint(bead.getAngleInvertY,
+      imageNode.getFullBounds.getCenter2D.getX - (viewPosition.x - delta.x / 2),
+      imageNode.getFullBounds.getCenter2D.getY - (viewPosition.y - delta.y))
+
   }
 }
 
