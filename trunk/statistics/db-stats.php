@@ -12,8 +12,8 @@
 	$SIM_TYPE_FLASH = "flash";
 	
 	// TODO: uncomment for the live version:
-	//error_reporting(0);
-	//ini_set('display_errors', 0);
+	error_reporting(0);
+	ini_set('display_errors', 0);
 	
 	// used for every mysql query that needs to be made
 	// useful for debugging and error catching
@@ -328,8 +328,6 @@ BOO;
 	// insert/update data for the user table
 	// should return an error string if there was an error, otherwise will return ""
 	function update_user($userPreferencesFileCreationTime, $userInstallTimestamp, $userTotalSessions) {
-		// TODO: add success return value, use mysql_affected_rows, and mysql_errno to detect any errors
-		
 		// escaped versions
 		$safe_time = mysql_real_escape_string($userPreferencesFileCreationTime);
 		$safe_install_timestamp = mysql_real_escape_string($userInstallTimestamp);

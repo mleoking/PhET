@@ -37,7 +37,6 @@
 		
 		print '<?xml version="1.0"?>';
 		print '<submit_message_response success="true">';
-		// TODO: check for global success / failure
 		
 		$success_string = ($message_success ? "true" : "false");
 		
