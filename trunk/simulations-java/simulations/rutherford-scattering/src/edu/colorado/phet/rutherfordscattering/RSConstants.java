@@ -99,7 +99,7 @@ public class RSConstants {
     public static final boolean TRACES_ENABLED = false;
     public static final boolean GUN_ENABLED = false;
     public static final double GUN_INTENSITY = 1.0; // 0-1 (1=100%)
-    public static final DoubleRange INITIAL_SPEED_RANGE = new DoubleRange( 5, 12, 10, 1 );
+    public static final DoubleRange INITIAL_SPEED_RANGE = new DoubleRange( 6, 12, 10, 1 );
     public static final IntegerRange NUMBER_OF_PROTONS_RANGE = new IntegerRange( 20, 100, 79 );
     public static final IntegerRange NUMBER_OF_NEUTRONS_RANGE = new IntegerRange( 20, 150, 118 );
     public static final double ELECTRON_ANGULAR_SPEED = Math.toRadians( 0.75 ); // radians per dt
