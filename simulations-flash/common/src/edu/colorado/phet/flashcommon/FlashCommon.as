@@ -214,7 +214,7 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 	
 	// get the URL of the simulation on the website
 	public function simWebsiteURL() : String {
-		return "http://phet.colorado.edu/simulations/sim-redirect.php?project=" + getSimProject() + "&sim=" + getSimName() + "&request_version=1";
+		return "http://phet.colorado.edu/services/sim-website-redirect.php?project=" + getSimProject() + "&sim=" + getSimName() + "&request_version=1";
 	}
 	
 	// will return the full locale string: for example 'en', 'en_CA', 'es_MX' etc.
