@@ -7,7 +7,7 @@ import common.phetcommon.model.BaseModel
 import common.phetcommon.view.controls.valuecontrol.LinearValueControl
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.util.PhetFont
-import common.phetcommon.view.VerticalLayoutPanel
+import common.phetcommon.view.{VerticalLayoutPanel, ResetAllButton}
 import common.piccolophet.event.CursorHandler
 import common.piccolophet.nodes.PhetPPath
 import common.piccolophet.PhetPCanvas
@@ -86,27 +86,7 @@ class RampSegmentNode(rampSegment: RampSegment, transform: ModelViewTransform2D)
   addChild(new SegmentPointNode(() => rampSegment.endPoint, pt => rampSegment.endPoint = pt))
 }
 
-class BlockState(_position: Vector2D, _velocity: Vector2D) {
-  val position = _position
-  val velocity = _velocity
-
-  def translate(delta: Vector2D) = new BlockState(position + delta, velocity)
-}
-
 object MyRandom extends scala.util.Random
-
-class Block extends Observable {
-  var state = new BlockState(new Vector2D(200, 200), new Vector2D(MyRandom.nextDouble() * 30 + 10, MyRandom.nextDouble() * 30 + 10))
-
-  def translate(delta: Vector2D) = {
-    state = state.translate(delta)
-    notifyListeners()
-  }
-
-  def position = state.position
-
-  def velocity = state.velocity
-}
 
 case class BeadState(position: Double, velocity: Double, mass: Double, staticFriction: Double, kineticFriction: Double) {
   def translate(dx: Double) = new BeadState(position + dx, velocity, mass, staticFriction, kineticFriction)
@@ -151,7 +131,6 @@ class Bead(_state: BeadState, _rampSegment: RampSegment) extends Observable {
 }
 class RampModel extends Observable {
   val rampSegments = new ArrayBuffer[RampSegment]
-  val blocks = new ArrayBuffer[Block]
   val beads = new ArrayBuffer[Bead]
   private var _walls = true
   private var _frictionless = false
@@ -170,21 +149,11 @@ class RampModel extends Observable {
     notifyListeners()
   }
 
-  blocks += new Block
-  val blockListeners = new ArrayBuffer[Block => Unit]
-
   rampSegments += new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(100, 100))
   beads += new Bead(new BeadState(50, 19, 5, 0, 0), rampSegments(0))
 
   def update(dt: Double) = {
-    blocks.foreach(b => b.translate(b.velocity * dt))
     beads.foreach(b => newStepCode(b, dt))
-  }
-
-  def addRandomBlock() = {
-    val block = new Block
-    blocks += block
-    blockListeners.foreach(_(block))
   }
 
   case class WorkEnergyState(appliedWork: Double, gravityWork: Double, frictionWork: Double,
@@ -243,20 +212,8 @@ class BeadNode(bead: Bead, transform: ModelViewTransform2D) extends PNode {
   }
 }
 
-class BlockNode(b: Block, transform: ModelViewTransform2D) extends PText("Block") {
-  addInputEventListener(new CursorHandler)
-  setFont(new PhetFont(24, true))
-  defineInvokeAndPass(b.addListenerByName){
-    setOffset(b.position)
-  }
-}
-
 class RampCanvas(model: RampModel) extends DefaultCanvas(20, 20) {
   setBackground(new Color(200, 255, 240))
-  val blockNode = new BlockNode(model.blocks(0), transform)
-  addNode(blockNode)
-
-  model.blockListeners += (b => addNode(new BlockNode(b, transform)))
 
   addNode(new RampSegmentNode(model.rampSegments(0), transform))
   addNode(new BeadNode(model.beads(0), transform))
@@ -349,6 +306,9 @@ class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramMo
 
   val angleSlider = new LinearValueControl(0, 90, 20, "Ramp Angle", "0.0", "degrees")
   add(angleSlider)
+
+  val resetButton=new ResetAllButton(this)
+  add(resetButton)
 }
 class MyCheckBox(text: String, setter: Boolean => Unit, getter: => Boolean, addListener: (() => Unit) => Unit) extends CheckBox(text) {
   addListener(update)
