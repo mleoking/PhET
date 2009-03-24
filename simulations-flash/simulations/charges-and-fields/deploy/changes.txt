@@ -1,3 +1,5 @@
+# 1.00.19 (29794) Mar 24, 2009
+3/24/09 2nd release candidate for Alpha-3, fixes a problem with the "Try it Now" URL
 # 1.00.18 (29778) Mar 24, 2009
 3/24/09 Release candidate for Alpha-3 - will be used unless critical issues are found.
 # 1.00.17 (29629) Mar 22, 2009
