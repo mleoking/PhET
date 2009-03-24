@@ -270,7 +270,7 @@ class BeadNode(bead: Bead, transform: ModelViewTransform2D) extends PNode {
     imageNode.scale(scale)
     imageNode.rotateAboutPoint(bead.getAngleInvertY,
       imageNode.getFullBounds.getCenter2D.getX - (viewPosition.x - delta.x / 2),
-      imageNode.getFullBounds.getCenter2D.getY - (viewPosition.y - delta.y))
+      imageNode.getFullBounds.getMaxY - (viewPosition.y - delta.y))
 
   }
 }
