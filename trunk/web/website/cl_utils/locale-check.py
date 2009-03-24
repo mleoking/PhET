@@ -4,13 +4,14 @@ import re
 import os
 import os.path as path
 import sys
+import time
 from StringIO import StringIO
 
 from phet.utils import *
-from sendemil import send_email
+from phet.sendemail import send_email
 
 # Who the email will be from
-FROM = 'daniel.mckagan@gmail.com'
+FROM_ADDR = 'daniel.mckagan@gmail.com'
 
 # The list of people to receive email
 RCPTS = ['daniel.mckagan@gmail.com']
@@ -62,7 +63,7 @@ def main():
     output.write('Here are the results of the scan for duplicate locales.\n')
     output.write('(Seeking locales like bp and br_PT in the same context.)\n\n')
     output.write('Looking in:\n')
-    output.write(SIMS_DIR)
+    output.write(SIMS_DIR + '\n\n')
 
     # Do only one file type at a time
     for file_type in file_types:
@@ -70,7 +71,7 @@ def main():
 
         # Get a dirname to filename list map
         type_files = recursive_get_files_by_extension('.', file_type)
-        type_files = process_files_into_map(type_files)
+        type_files = process_files_into_dict(type_files)
 
         # Go in alphabetical order
         order = type_files.keys()
@@ -112,7 +113,7 @@ def main():
     uniques.sort()
 
     # Dump the results into the output
-    output.write('--- Results ---\n')
+    output.write('\n--- Results ---\n')
     output.write('Duplicates:\n')
     output.write('    ' + '\n    '.join(duplicates) + '\n')
     output.write('Uniques:\n')
@@ -125,6 +126,7 @@ def main():
 
     # Email the output
     output.seek(0)
+    subject = 'Duplicate locale scan results on ' + time.asctime()
     send_email(FROM_ADDR, RCPTS, subject, output.read())
 
     
