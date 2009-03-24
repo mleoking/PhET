@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.application.JARLauncher;
 /**
  * Takes a <project>_all.jar and generates offline jars for Java sims, which specify both simulation and locale.
  * <p/>
- * If you make changes to this file, make sure you re-deploy build-tools to dev/ or prod/
+ * If you make changes to this file or its dependencies, make sure you re-deploy build-tools to dev/ or prod/
  * Also, do not rename or repackage this utility without changing BuildScript.generateSimulationAndLanguageJARFilesJava
  *
  * @author Sam Reid
