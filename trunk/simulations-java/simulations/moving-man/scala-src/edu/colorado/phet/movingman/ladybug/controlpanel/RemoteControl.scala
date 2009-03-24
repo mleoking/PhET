@@ -6,8 +6,8 @@ import javax.swing.border.BevelBorder
 import model.{Ladybug, LadybugModel}
 
 
+import scalacommon.swing.MyRadioButton
 import scalacommon.util.Observable
-import swing.MyRadioButton
 import umd.cs.piccolo.event.{PInputEventListener, PBasicInputEventHandler, PInputEvent}
 import util.ToggleListener
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath

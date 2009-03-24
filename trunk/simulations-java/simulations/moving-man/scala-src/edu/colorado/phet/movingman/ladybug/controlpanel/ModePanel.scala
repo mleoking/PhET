@@ -6,8 +6,8 @@ import java.awt.Color
 import javax.swing.BoxLayout._
 import javax.swing.{BoxLayout, JPanel, JComponent}
 import model.LadybugModel
-import edu.colorado.phet.movingman.ladybug.swing.MyRadioButton
 import java.awt.Color._
+import scalacommon.swing.MyRadioButton
 
 class ModePanel(model: LadybugModel) extends JPanel {
   setLayout(new BoxLayout(this, Y_AXIS))

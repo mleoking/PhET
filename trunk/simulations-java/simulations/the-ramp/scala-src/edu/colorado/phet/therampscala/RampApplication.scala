@@ -12,8 +12,9 @@ import common.piccolophet.PhetPCanvas
 import edu.colorado.phet.scalacommon.Predef._
 import java.awt.geom.{Line2D, Rectangle2D, Ellipse2D, Point2D}
 import java.awt.{Rectangle, Dimension, BasicStroke, Color}
-import javax.swing.{JButton, BoxLayout, JPanel}
+import javax.swing._
 import scalacommon.math.Vector2D
+import scalacommon.swing.MyRadioButton
 import scalacommon.util.Observable
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.nodes.PText
@@ -103,12 +104,15 @@ class Block extends Observable {
   def velocity = state.velocity
 }
 
-case class BeadState(position: Double, velocity: Double, mass: Double) {
-  def translate(dx: Double) = new BeadState(position + dx, velocity, mass)
+case class BeadState(position: Double, velocity: Double, mass: Double, staticFriction: Double, kineticFriction: Double) {
+  def translate(dx: Double) = new BeadState(position + dx, velocity, mass, staticFriction, kineticFriction)
 
-  def setVelocity(vel: Double) = new BeadState(position, vel, mass)
+  def setVelocity(vel: Double) = new BeadState(position, vel, mass, staticFriction, kineticFriction)
+
+  def thermalEnergy = 0
 }
 class Bead(_state: BeadState, _rampSegment: RampSegment) extends Observable {
+  val gravity = 9.8
   var state = _state
   var rampSegment = _rampSegment
 
@@ -126,10 +130,20 @@ class Bead(_state: BeadState, _rampSegment: RampSegment) extends Observable {
     notifyListeners()
   }
 
+  def getStaticFriction = state.staticFriction
+
+  def getKineticFriction = state.kineticFriction
+
   def setVelocity(velocity: Double) = {
     state = state.setVelocity(velocity)
     notifyListeners()
   }
+
+  def getTotalEnergy = getPotentialEnergy + getKineticEnergy
+
+  def getPotentialEnergy = mass * gravity * position2D.y
+
+  def getKineticEnergy = 1 / 2 * mass * velocity * velocity
 }
 class RampModel {
   val rampSegments = new ArrayBuffer[RampSegment]
@@ -140,7 +154,7 @@ class RampModel {
   val blockListeners = new ArrayBuffer[Block => Unit]
 
   rampSegments += new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(100, 100))
-  beads += new Bead(new BeadState(50, 19, 5), rampSegments(0))
+  beads += new Bead(new BeadState(50, 19, 5, 0, 0), rampSegments(0))
 
   def update(dt: Double) = {
     blocks.foreach(b => b.translate(b.velocity * dt))
@@ -153,7 +167,11 @@ class RampModel {
     blockListeners.foreach(_(block))
   }
 
+  case class WorkEnergyState(appliedWork: Double, gravityWork: Double, frictionWork: Double,
+                            potentialEnergy: Double, kineticEnergy: Double, totalEnergy: Double)
+
   def newStepCode(b: Bead, dt: Double) = {
+    val origState = b.state
     val forces = getForces(b)
     val netForce = forces.foldLeft(new Vector2D)((a, b) => {a + b})
     //    println("step, net Force=" + netForce)
@@ -162,7 +180,28 @@ class RampModel {
     //    println("parallel force=" + parallelForce + ", paraccel=" + parallelAccel)
     b.setVelocity(b.velocity + parallelAccel * dt)
     b.translate(b.velocity * dt)
+    val justCollided = false
 
+    if (b.getStaticFriction == 0 && b.getKineticFriction == 0) {
+      val appliedWork = b.getTotalEnergy
+      val gravityWork = -b.getPotentialEnergy
+      val thermalEnergy = origState.thermalEnergy
+      if (justCollided) {
+        //        thermalEnergy += origState.kineticEnergy
+      }
+      val frictionWork = -thermalEnergy
+      frictionWork
+      new WorkEnergyState(appliedWork, gravityWork, frictionWork,
+        b.getPotentialEnergy, b.getKineticEnergy, b.getTotalEnergy)
+    } else {
+      //      val dW=getAppliedWorkDifferential
+      //      val appliedWork=origState.appliedWork
+      //      val gravityWork=-getPotentialEnergy
+      //      val etot=appliedWork
+      //      val thermalEnergy=etot-kineticEnergy-potentialEnergy
+      //      val frictionWork=-thermalEnergy
+
+    }
   }
 
   def getForces(b: Bead) = {
@@ -203,18 +242,51 @@ class RampCanvas(model: RampModel) extends DefaultCanvas(20, 20) {
   addNode(new BeadNode(model.beads(0), transform))
 }
 
-class RampControlPanel(model: RampModel) extends JPanel {
+class WordModel extends Observable {
+  var _physicsWords = true
+  var _everydayWords = false
+
+  def physicsWords_=(v: Boolean) = {
+    _physicsWords = v
+    _everydayWords = !_physicsWords
+
+    notifyListeners()
+  }
+
+  def physicsWords = _physicsWords
+
+  def everydayWords = _everydayWords
+
+  def everydayWords_=(v: Boolean) = {
+    _everydayWords = v
+    _physicsWords = !v
+    notifyListeners()
+  }
+}
+class FreeBodyDiagramModel{
+  
+}
+class RampControlPanel(model: RampModel, wordModel: WordModel,freeBodyDiagramModel:FreeBodyDiagramModel) extends JPanel {
   setLayout(new BoxLayout(this, BoxLayout.Y_AXIS))
-  val button = new JButton("Create Block")
-  button.addActionListenerByName(model.addRandomBlock())
-  add(button)
+
+  val physicsWordButton = new MyRadioButton("Physics words", wordModel.physicsWords = true, wordModel.physicsWords, wordModel.addListener)
+  val everydayWordButton = new MyRadioButton("Everyday words", wordModel.everydayWords = true, wordModel.everydayWords, wordModel.addListener)
+
+  add(physicsWordButton)
+  add(everydayWordButton)
+
+  add(new JLabel("Free Body Diagram"))
+  val showFBD = new MyRadioButton("Show", freeBodyDiagramModel._physicsWords = true, wordModel._physicsWords, wordModel.addListener)
+  val showFBD = new MyRadioButton("Hide", wordModel._physicsWords = true, wordModel._physicsWords, wordModel.addListener)
+  add()
 }
 
 class RampModule(clock: ScalaClock) extends Module("Ramp", clock) {
   val model = new RampModel
+  val wordModel = new WordModel
   setSimulationPanel(new RampCanvas(model))
   clock.addClockListener(model.update(_))
-  setControlPanel(new RampControlPanel(model))
+  setControlPanel(new RampControlPanel(model, wordModel))
 }
 
 object RampApplication {
