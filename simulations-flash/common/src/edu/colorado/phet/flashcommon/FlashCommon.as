@@ -217,6 +217,7 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 		return "http://phet.colorado.edu/simulations/sim-redirect.php?project=" + getSimProject() + "&sim=" + getSimName() + "&request_version=1";
 	}
 	
+	// will return the full locale string: for example 'en', 'en_CA', 'es_MX' etc.
 	public function getLocale() : String {
 		var str : String = getLanguage();
 		
@@ -273,6 +274,10 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 		return _level0.commonStrings;
 	}
 	public function getDeployment() : String {
+		// all phet-installation, phet-development-website and phet-production-website will have
+		// "phet-production-website" as the simDeployment FlashVar. We need to detect when this
+		// is not the case (since the same HTML is deployed in all situations, except fields are
+		// replaced in the Installation version.
 		if(fromFullInstallation()) {
 			return "phet-installation";
 		} else if (fromDevWebsite()) {
@@ -289,6 +294,8 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 	}
 	public function getDistributionTag() : String {
 		if(isPlaceholder(_level0.simDistributionTag) || null_replace(_level0.simDistributionTag) == NULLVAL) {
+			// if the distribution tag is null or a placeholder, it is not an actual distribution tag,
+			// so we return null
 			return null;
 		}
 		return _level0.simDistributionTag;
@@ -321,27 +328,34 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 		return parseInt(_level0.agreementVersion);
 	}
 	public function getAgreementText() : String {
+		// the agreement text must be stripped of newlines because Flash's HTML rendering incorrectly
+		// considers newlines to be "<br>".
 		var strippedText = stripNewlines(_level0.agreementText);
+		
+		// this replacement will make clicks call _level0.common.openExternalLink(<url>) instead of
+		// just opening the url
 		return stringReplace(strippedText, "href=\"", "href=\"asfunction:_level0.common.openExternalLink,");
 	}
 	public function getCreditsText() : String {
+		// localize the credits test fields
 		return strings.format(_level0.creditsText, [
-													strings.get("SoftwareDevelopment", "Software Development"),
-													strings.get("DesignTeam", "Design Team"),
-													strings.get("LeadDesign", "Lead Design"),
-													strings.get("Interviews", "Interviews")
-													]);
+			strings.get("SoftwareDevelopment", "Software Development"),
+			strings.get("DesignTeam", "Design Team"),
+			strings.get("LeadDesign", "Lead Design"),
+			strings.get("Interviews", "Interviews")
+		]);
 	}
 	
 	public function getSimTitle() : String {
 		if(_level0.simTitle == undefined) {
+			// if sim title isn't specified, just use the sim name as a backup
 			return getSimName();
 		} else {
 			return _level0.simTitle;
 		}
 	}
 	
-	
+	// return a date like Jan 12 2009
 	public static function dateString(date : Date) : String {
 		var year : String = new String(date.getYear() + 1900);
 		var month : String = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][date.getMonth()];
