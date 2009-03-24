@@ -17,6 +17,8 @@ import java.awt.event.{ActionEvent, ActionListener}
 
 import java.awt.geom._
 import javax.swing._
+import javax.swing.event.{ChangeListener, ChangeEvent}
+
 import scalacommon.math.Vector2D
 import scalacommon.swing.MyRadioButton
 import scalacommon.util.Observable
@@ -25,6 +27,7 @@ import umd.cs.piccolo.nodes.{PImage, PText}
 import umd.cs.piccolo.PNode
 import scalacommon.{CenteredBoxStrategy, ScalaApplicationLauncher, ScalaClock}
 import java.lang.Math._
+import umd.cs.piccolox.pswing.PSwing
 
 case class RampSegmentState(startPoint: Vector2D, endPoint: Vector2D) { //don't use Point2D since it's not immutable
   def setStartPoint(newStartPoint: Vector2D) = new RampSegmentState(newStartPoint, endPoint)
@@ -316,7 +319,21 @@ class RampCanvas(model: RampModel) extends DefaultCanvas(22, 20) {
   addNode(new BeadNode(model.tree, transform, "tree.gif"))
 
   addNode(new BeadNode(model.beads(0), transform, "cabinet.gif"))
+  addNode(new AppliedForceSliderNode(model.beads(0), transform))
+}
 
+class AppliedForceSliderNode(bead: Bead, transform: ModelViewTransform2D) extends PNode {
+  val control = new LinearValueControl(-50, 50, 0, "Applied Force X", "0.0", "N")
+  control.addChangeListener(new ChangeListener() {
+    def stateChanged(e: ChangeEvent) = bead.appliedForce = new Vector2D(control.getValue, 0)
+  })
+  val pswing = new PSwing(control)
+  addChild(pswing)
+  def updatePosition() = {
+    val viewLoc = transform.modelToView(new Point2D.Double(0, -1))
+    pswing.setOffset(viewLoc)
+  }
+  updatePosition()
 }
 
 class AbstractBackgroundNode(getPaint: => Paint, getModelShape: => Shape, transform: ModelViewTransform2D) extends PNode {
