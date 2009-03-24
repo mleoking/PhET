@@ -6,7 +6,7 @@ import common.phetcommon.application.Module
 import common.phetcommon.model.BaseModel
 import common.phetcommon.view.controls.valuecontrol.LinearValueControl
 import common.phetcommon.view.graphics.transforms.{TransformListener, ModelViewTransform2D}
-import common.phetcommon.view.util.PhetFont
+import common.phetcommon.view.util.{PhetFont, BufferedImageUtils}
 import common.phetcommon.view.{VerticalLayoutPanel, ResetAllButton}
 import common.piccolophet.event.CursorHandler
 import common.piccolophet.nodes.PhetPPath
@@ -16,6 +16,7 @@ import java.awt._
 import java.awt.event.{ActionEvent, ActionListener}
 
 import java.awt.geom._
+import java.awt.image.BufferedImage
 import javax.swing._
 import javax.swing.event.{ChangeListener, ChangeEvent}
 
@@ -58,6 +59,8 @@ class RampSegment(_state: RampSegmentState) extends Observable {
     notifyListeners()
   }
 
+  def length = (endPoint - startPoint).magnitude
+
   def getUnitVector = state.getUnitVector
 
   def setAngle(angle: Double) = {
@@ -69,33 +72,38 @@ class RampSegment(_state: RampSegmentState) extends Observable {
 class Circle(center: Vector2D, radius: Double) extends Ellipse2D.Double(center.x - radius, center.y - radius, radius * 2, radius * 2)
 
 class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D) extends PNode {
-  val line = new PhetPPath(new Color(184, 131, 24), new BasicStroke(1f), new Color(91, 78, 49))
+  val line = new PhetPPath(new Color(184, 131, 24), new BasicStroke(2f), new Color(91, 78, 49))
   addChild(line)
-
   defineInvokeAndPass(rampSegment.addListenerByName){
     line.setPathTo(mytransform.createTransformedShape(new BasicStroke(0.4f).createStrokedShape(rampSegment.toLine2D)))
   }
+}
 
-  class SegmentPointNode(getPoint: => Vector2D, setPoint: (Vector2D) => Unit) extends PNode {
-    val node = new PhetPPath(Color.blue)
+class RotatableSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D) extends RampSegmentNode(rampSegment, mytransform) {
+  line.addInputEventListener(new CursorHandler)
+  line.addInputEventListener(new PBasicInputEventHandler {
+    override def mouseDragged(event: PInputEvent) = {
+      val modelPt = mytransform.viewToModel(event.getPositionRelativeTo(line.getParent))
 
-    def createPath = new Circle(getPoint, 0.3)
+      val deltaView = event.getDeltaRelativeTo(line.getParent)
+      val deltaModel = mytransform.viewToModelDifferential(deltaView.width, deltaView.height)
 
-    addChild(node)
-    node.addInputEventListener(new PBasicInputEventHandler() {
-      override def mouseDragged(event: PInputEvent) = {
-        val delta = event.getDeltaRelativeTo(node.getParent)
-        setPoint(getPoint + mytransform.viewToModelDifferential(delta.width, delta.height))
-      }
-    })
-    node.addInputEventListener(new CursorHandler)
-    defineInvokeAndPass(rampSegment.addListenerByName){
-      node.setPathTo(mytransform.createTransformedShape(createPath))
+      val oldPtModel = modelPt - deltaModel
+
+      val oldAngle = (rampSegment.startPoint - oldPtModel).getAngle
+      val newAngle = (rampSegment.startPoint - modelPt).getAngle
+
+      val deltaAngle = newAngle - oldAngle
+
+      //draw a ray from start point to new mouse point
+      val newPt = new Vector2D(rampSegment.getUnitVector.getAngle + deltaAngle) * rampSegment.length
+      val clamped =
+      if (newPt.getAngle < 0) new Vector2D(0) * rampSegment.length
+      else if (newPt.getAngle > PI / 2) new Vector2D(PI / 2) * rampSegment.length
+      else newPt
+      rampSegment.endPoint = clamped
     }
-  }
-
-  addChild(new SegmentPointNode(rampSegment.startPoint, pt => rampSegment.startPoint = pt))
-  addChild(new SegmentPointNode(rampSegment.endPoint, pt => rampSegment.endPoint = pt))
+  })
 }
 
 object MyRandom extends scala.util.Random
@@ -274,14 +282,7 @@ class RampModel extends Observable {
   }
 }
 
-class BeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: String) extends PNode {
-  val shapeNode = new PhetPPath(Color.green)
-  //  addChild(shapeNode)//TODO remove after debug done
-
-  val cabinetImage = RampResources.getImage(imageName)
-  val imageNode = new PImage(cabinetImage)
-  addChild(imageNode)
-
+class DraggableBeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: String) extends BeadNode(bead, transform, imageName) {
   addInputEventListener(new CursorHandler)
   addInputEventListener(new PBasicInputEventHandler() {
     override def mouseDragged(event: PInputEvent) = {
@@ -294,6 +295,17 @@ class BeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: String) e
       bead.appliedForce = new Vector2D
     }
   })
+}
+
+class BeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: String) extends PNode {
+  val shapeNode = new PhetPPath(Color.green)
+  //  addChild(shapeNode)//TODO remove after debug done
+
+  val cabinetImage = RampResources.getImage(imageName)
+  val imageNode = new PImage(cabinetImage)
+
+  def setImage(im: BufferedImage) = imageNode.setImage(im)
+  addChild(imageNode)
 
   defineInvokeAndPass(bead.addListenerByName){
     shapeNode.setPathTo(transform.createTransformedShape(new Circle(bead.position2D, 0.3)))
@@ -324,13 +336,13 @@ class RampCanvas(model: RampModel) extends DefaultCanvas(22, 20) {
   addNode(new EarthNode(transform))
 
   addNode(new RampSegmentNode(model.rampSegments(0), transform))
-  addNode(new RampSegmentNode(model.rampSegments(1), transform))
+  addNode(new RotatableSegmentNode(model.rampSegments(1), transform))
 
   addNode(new BeadNode(model.leftWall, transform, "barrier2.jpg"))
   addNode(new BeadNode(model.rightWall, transform, "barrier2.jpg"))
   addNode(new BeadNode(model.tree, transform, "tree.gif"))
 
-  val cabinetNode = new BeadNode(model.beads(0), transform, "cabinet.gif")
+  val cabinetNode = new DraggableBeadNode(model.beads(0), transform, "cabinet.gif")
   addNode(cabinetNode)
 
   addNode(new PusherNode(transform, model.beads(0), model.manBead))
@@ -340,8 +352,20 @@ class RampCanvas(model: RampModel) extends DefaultCanvas(22, 20) {
 class PusherNode(transform: ModelViewTransform2D, targetBead: Bead, manBead: Bead) extends BeadNode(manBead, transform, "standing-man.png") {
   defineInvokeAndPass(targetBead.addListenerByName){
     if (targetBead.appliedForce.magnitude > 0) {
-      val dx = if (targetBead.appliedForce.x > 0) -3 else 3
+      val dx = if (targetBead.appliedForce.x > 0) -6 else 6
       manBead.setPosition(targetBead.position + dx)
+
+      //go 0 to 14
+      val leanAmount=(abs(targetBead.appliedForce.x)*13.0/50.0).toInt +1
+      var textStr=""+leanAmount
+      while(textStr.length<2)
+        textStr="0"+textStr
+      val im = RampResources.getImage("pusher-leaner-png/pusher-leaning-2_00"+textStr+".png")
+      val realIm = if (dx > 0) BufferedImageUtils.flipX(im) else im//todo: cache instead of flipping each time
+      setImage(realIm)
+    }
+    else {
+      setImage(RampResources.getImage("standing-man.png"))
     }
   }
 }
@@ -350,6 +374,9 @@ class AppliedForceSliderNode(bead: Bead, transform: ModelViewTransform2D) extend
   control.addChangeListener(new ChangeListener() {
     def stateChanged(e: ChangeEvent) = bead.appliedForce = new Vector2D(control.getValue, 0)
   })
+  bead.addListenerByName{
+    control.setValue(bead.appliedForce.x)
+  }
   val pswing = new PSwing(control)
   addChild(pswing)
   def updatePosition() = {
