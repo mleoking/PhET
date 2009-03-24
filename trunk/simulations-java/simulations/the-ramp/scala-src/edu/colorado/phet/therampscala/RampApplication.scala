@@ -1,8 +1,10 @@
 package edu.colorado.phet.therampscala
 
 import _root_.scala.collection.mutable.ArrayBuffer
+import _root_.scala.swing.CheckBox
 import common.phetcommon.application.Module
 import common.phetcommon.model.BaseModel
+import common.phetcommon.view.controls.valuecontrol.LinearValueControl
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.util.PhetFont
 import common.phetcommon.view.VerticalLayoutPanel
@@ -10,6 +12,8 @@ import common.piccolophet.event.CursorHandler
 import common.piccolophet.nodes.PhetPPath
 import common.piccolophet.PhetPCanvas
 import edu.colorado.phet.scalacommon.Predef._
+import java.awt.event.{ActionEvent, ActionListener}
+
 import java.awt.geom.{Line2D, Rectangle2D, Ellipse2D, Point2D}
 import java.awt.{Rectangle, Dimension, BasicStroke, Color}
 import javax.swing._
@@ -145,10 +149,26 @@ class Bead(_state: BeadState, _rampSegment: RampSegment) extends Observable {
 
   def getKineticEnergy = 1 / 2 * mass * velocity * velocity
 }
-class RampModel {
+class RampModel extends Observable {
   val rampSegments = new ArrayBuffer[RampSegment]
   val blocks = new ArrayBuffer[Block]
   val beads = new ArrayBuffer[Bead]
+  private var _walls = true
+  private var _frictionless = false
+
+  def walls = _walls
+
+  def frictionless = _frictionless
+
+  def walls_=(b: Boolean) = {
+    _walls = b
+    notifyListeners()
+  }
+
+  def frictionless_=(b: Boolean) = {
+    _frictionless = b
+    notifyListeners()
+  }
 
   blocks += new Block
   val blockListeners = new ArrayBuffer[Block => Unit]
@@ -263,10 +283,36 @@ class WordModel extends Observable {
     notifyListeners()
   }
 }
-class FreeBodyDiagramModel{
-  
+class FreeBodyDiagramModel extends Observable {
+  private var _visible = false
+
+  def visible = _visible
+
+  def visible_=(value: Boolean) = {
+    _visible = value;
+    notifyListeners()
+  }
+
 }
-class RampControlPanel(model: RampModel, wordModel: WordModel,freeBodyDiagramModel:FreeBodyDiagramModel) extends JPanel {
+class CoordinateSystemModel extends Observable {
+  private var _fixed = true
+
+  def fixed = _fixed
+
+  def adjustable = !_fixed
+
+  def fixed_=(b: Boolean) = {
+    _fixed = b
+    notifyListeners()
+  }
+
+  def adjustable_=(b: Boolean) = {
+    _fixed = !b
+    notifyListeners()
+  }
+}
+class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramModel: FreeBodyDiagramModel,
+                      coordinateSystemModel: CoordinateSystemModel, vectorViewModel: VectorViewModel) extends JPanel {
   setLayout(new BoxLayout(this, BoxLayout.Y_AXIS))
 
   val physicsWordButton = new MyRadioButton("Physics words", wordModel.physicsWords = true, wordModel.physicsWords, wordModel.addListener)
@@ -276,17 +322,85 @@ class RampControlPanel(model: RampModel, wordModel: WordModel,freeBodyDiagramMod
   add(everydayWordButton)
 
   add(new JLabel("Free Body Diagram"))
-  val showFBD = new MyRadioButton("Show", freeBodyDiagramModel._physicsWords = true, wordModel._physicsWords, wordModel.addListener)
-  val showFBD = new MyRadioButton("Hide", wordModel._physicsWords = true, wordModel._physicsWords, wordModel.addListener)
-  add()
-}
+  val showFBD = new MyRadioButton("Show", freeBodyDiagramModel.visible = true, freeBodyDiagramModel.visible, freeBodyDiagramModel.addListener)
+  val hideFBD = new MyRadioButton("Hide", freeBodyDiagramModel.visible = false, !freeBodyDiagramModel.visible, freeBodyDiagramModel.addListener)
+  add(showFBD)
+  add(hideFBD)
 
+  add(new JLabel("Coordinate System"))
+  val fixedCoord = new MyRadioButton("Fixed", coordinateSystemModel.fixed = true, coordinateSystemModel.fixed, coordinateSystemModel.addListener)
+  val adjustableCoord = new MyRadioButton("Adjustable", coordinateSystemModel.adjustable = true, coordinateSystemModel.adjustable, coordinateSystemModel.addListener)
+  add(fixedCoord)
+  add(adjustableCoord)
+
+  add(new JLabel("Vectors"))
+  add(new MyCheckBox("Original Vectors", vectorViewModel.originalVectors_=, vectorViewModel.originalVectors, vectorViewModel.addListener))
+  add(new MyCheckBox("Parallel Components", vectorViewModel.parallelComponents_=, vectorViewModel.parallelComponents, vectorViewModel.addListener))
+  add(new MyCheckBox("X-Y Components", vectorViewModel.xyComponents_=, vectorViewModel.xyComponents, vectorViewModel.addListener))
+  add(new MyCheckBox("Sum of Forces Vector", vectorViewModel.sumOfForcesVector_=, vectorViewModel.sumOfForcesVector, vectorViewModel.addListener))
+
+  add(new JLabel("Ramp Controls"))
+  add(new MyCheckBox("Walls", model.walls_=, model.walls, model.addListener))
+  add(new MyCheckBox("Frictionless", model.frictionless_=, model.frictionless, model.addListener))
+
+  // double min, double max, double value, String label, String textFieldPattern, String units
+  val positionSlider = new LinearValueControl(RampDefaults.MIN_X, RampDefaults.MAX_X, "Object Position", "0.0", "meters")
+  add(positionSlider)
+
+  val angleSlider = new LinearValueControl(0, 90, 20, "Ramp Angle", "0.0", "degrees")
+  add(angleSlider)
+}
+class MyCheckBox(text: String, setter: Boolean => Unit, getter: => Boolean, addListener: (() => Unit) => Unit) extends CheckBox(text) {
+  addListener(update)
+  update()
+  peer.addActionListener(new ActionListener() {
+    def actionPerformed(ae: ActionEvent) = setter(peer.isSelected)
+  });
+  def update() = peer.setSelected(getter)
+}
+class VectorViewModel extends Observable {
+  private var _originalVectors = true
+  private var _parallelComponents = false
+  private var _xyComponents = false
+  private var _sumOfForcesVector = false
+
+  def originalVectors = _originalVectors
+
+  def parallelComponents = _parallelComponents
+
+  def xyComponents = _xyComponents
+
+  def sumOfForcesVector = _sumOfForcesVector
+
+  def originalVectors_=(b: Boolean) = {
+    _originalVectors = b
+    notifyListeners()
+  }
+
+  def parallelComponents_=(b: Boolean) = {
+    _parallelComponents = b
+    notifyListeners()
+  }
+
+  def xyComponents_=(b: Boolean) = {
+    _xyComponents = b
+    notifyListeners()
+  }
+
+  def sumOfForcesVector_=(b: Boolean) = {
+    _sumOfForcesVector = b
+    notifyListeners()
+  }
+}
 class RampModule(clock: ScalaClock) extends Module("Ramp", clock) {
   val model = new RampModel
   val wordModel = new WordModel
+  val fbdModel = new FreeBodyDiagramModel
+  val coordinateSystemModel = new CoordinateSystemModel
+  val vectorViewModel = new VectorViewModel
   setSimulationPanel(new RampCanvas(model))
   clock.addClockListener(model.update(_))
-  setControlPanel(new RampControlPanel(model, wordModel))
+  setControlPanel(new RampControlPanel(model, wordModel, fbdModel, coordinateSystemModel, vectorViewModel))
 }
 
 object RampApplication {
