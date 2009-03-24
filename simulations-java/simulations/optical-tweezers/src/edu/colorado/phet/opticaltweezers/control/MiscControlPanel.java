@@ -133,6 +133,7 @@ public class MiscControlPanel extends JPanel implements Observer {
         innerPanel.setLayout( layout );
         layout.setAnchor( GridBagConstraints.WEST );
         layout.setFill( GridBagConstraints.HORIZONTAL );
+        layout.setInsets( OTConstants.SUB_PANEL_INSETS );
         layout.setMinimumWidth( 0, 20 );
         int row = 0;
         layout.addComponent( rulerPanel, row++, 0 );

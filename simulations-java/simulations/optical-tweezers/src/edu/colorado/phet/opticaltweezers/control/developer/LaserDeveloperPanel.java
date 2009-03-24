@@ -14,6 +14,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 
 /**
@@ -63,7 +64,7 @@ public class LaserDeveloperPanel extends JPanel implements Observer {
         
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
-        layout.setInsets( new Insets( 0, 0, 0, 0 ) );
+        layout.setInsets( OTConstants.SUB_PANEL_INSETS );
         this.setLayout( layout );
         int row = 0;
         int column = 0;

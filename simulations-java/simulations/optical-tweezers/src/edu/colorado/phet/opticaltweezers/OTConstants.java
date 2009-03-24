@@ -127,4 +127,11 @@ public class OTConstants {
     public static final Cursor LEFT_RIGHT_CURSOR = new Cursor( Cursor.W_RESIZE_CURSOR );
     public static final Cursor UP_DOWN_CURSOR = new Cursor( Cursor.N_RESIZE_CURSOR );
     
+    //----------------------------------------------------------------------------
+    // Misc
+    //----------------------------------------------------------------------------
+    
+    // insets (margins) around sub-panels in control panels
+    public static final Insets SUB_PANEL_INSETS = new Insets( 1, 2, 0, 2 ); // top, left, bottom, right
+    
 }

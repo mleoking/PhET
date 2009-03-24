@@ -15,6 +15,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.view.DNAForceNode;
 import edu.colorado.phet.opticaltweezers.view.ElectricFieldNode;
 import edu.colorado.phet.opticaltweezers.view.FluidDragForceNode;
@@ -101,7 +102,7 @@ public class VectorsDeveloperPanel extends JPanel {
         } );
 
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
-        layout.setInsets( new Insets( 0, 0, 0, 0 ) );
+        layout.setInsets( OTConstants.SUB_PANEL_INSETS );
         this.setLayout( layout );
         int row = 0;
         int column = 0;
