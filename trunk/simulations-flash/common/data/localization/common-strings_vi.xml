@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--common-strings_vi.xml created Tue Mar 24 17:28:07 ICT 2009 using: flash-common-strings 1.04.00 (29429), translation-utility 1.12.00 (29256)-->
+<SimStrings>
+<string key="About..." value="About..."/>
+<string key="SoftwareDevelopment" value="Thuyết minh về phần mềm"/>
+<string key="Cancel" value="Hủy bỏ"/>
+<string key="StatisticsField-host_flash_accessibility" value="Thiết bị còn sử dụng được?"/>
+<string key="Privacy" value="Quyền riêng tư"/>
+<string key="Version" value="Phiên bản"/>
+<string key="NewVersionAvailable" value="Đã có phiên bản mới"/>
+<string key="SoftwareAgreement" value="Điều kiện về phần mềm"/>
+<string key="PhETInstallation" value="Để download được bản cài đặt có chứa mô phỏng mới nhất, bạn hãy vui lòng ghé thăm &lt;a href='{0}'&gt; trang cài đặt của PhET&lt;/a&gt; để biết thêm thông tin."/>
+<string key="StatisticsField-sim_version_timestamp" value="Phiên bản mô phỏng (thời gian xác lập)"/>
+<string key="StatisticsField-sim_dev_version" value="Phiên bản mô phỏng (mở rộng)"/>
+<string key="AskLater" value="Hỏi lại sau"/>
+<string key="AcceptContinue" value="Chấp nhận và Tiếp tục"/>
+<string key="BuildDate" value="Ngày tạo"/>
+<string key="TellMore" value="Chi tiết hơn..."/>
+<string key="FlashVersion" value="Phiên bản Flash"/>
+<string key="PhetSoftwareAgreement" value="Điều kiện về phần mềm PhET"/>
+<string key="NoUpdatesAvailable" value="Không cập nhật"/>
+<string key="StatisticsField-message_type" value="Dạng thông báo"/>
+<string key="InstallationDated" value="Bản PhET Offline được cài đặt ngày {0}."/>
+<string key="CheckUpdates" value="Tự động kiểm tra các cập nhật"/>
+<string key="StatisticsField-sim_major_version" value="Phiên bản mô phỏng (chính)"/>
+<string key="StatisticsField-user_total_sessions" value="Tổng số lần chạy của tất cả các mô phỏng"/>
+<string key="InstallationNewer" value="Đã có phiên bản mới, ngày {0}"/>
+<string key="StatisticsField-sim_sessions_since" value="Số lần mô phỏng này đã chạy từ kể lần online mới nhất"/>
+<string key="StatisticsField-sim_distribution_tag" value="Phiên bản mô phỏng (phân phối)"/>
+<string key="Yes!" value="Yes!"/>
+<string key="StatisticsField-host_flash_domain" value="Tên miền mô phỏng"/>
+<string key="DesignTeam" value="Nhóm thiết kế"/>
+<string key="PhETPreferences" value="PhET Preferences"/>
+<string key="Preferences" value="Preferences"/>
+<string key="AllowMessages" value="Cho phép gửi thông tin đến PhET"/>
+<string key="Updates" value="Các cập nhật"/>
+<string key="StatisticsField-user_preference_file_creation_time" value="Thời gian tạo file Preferences"/>
+<string key="Interviews" value="Interviews"/>
+<string key="StatisticsField-host_flash_time_offset" value="Múi giờ"/>
+<string key="StatisticsField-sim_deployment" value="Dạng thiết kế "/>
+<string key="PrivacyRequirement" value="&lt;a href='{0}'&gt;PhET&lt;/a&gt; được tài trợ miễn phí, nhưng chúng tôi bắt buộc phải thu thập một số thông tin ẩn để có những báo cáo về số lượng người dùng các mô phỏng của PhET và để phục vụ tốt hơn nhu cầu cập nhật của người sử dụng."/>
+<string key="StatisticsField-sim_type" value="Dạng mô phỏng"/>
+<string key="Close" value="Đóng"/>
+<string key="StatisticsField-sim_dev" value="Đây là một phiên bản mở rộng?"/>
+<string key="InstallerAsk" value="Bạn có muốn cài đặt bản PhET Offline mới nhất không?"/>
+<string key="PrivacyMessage2" value="Click nút &quot;Chấp nhận và Tiếp tục&quot; để đồng ý về điều kiện và bản quyền của PhET. (Để xem chi tiết, &lt;a href='{0}'&gt;click vào đây&lt;/a&gt;)."/>
+<string key="StatisticsField-sim_total_sessions" value="Tổng số lần chạy của mô phỏng này"/>
+<string key="PrivacyMessage1" value="Trong tất cả mô phỏng PhET, chúng tôi thu thập tối thiểu các &lt;a href='{0}'&gt; thông tin ẩn&lt;/a&gt; khi mô phỏng khởi động (vd như phiên bản mô phỏng, hệ điều hành). Bạn có thể hủy bỏ việc gửi thông tin này bất kỳ lúc nào bằng nút Preferences."/>
+<string key="StatisticsField-user_installation_timestamp" value="Thời gian xác lập cài đặt PhET"/>
+<string key="StatisticsField-sim_name" value="Tên mô phỏng"/>
+<string key="UpdateOptionsAvailable" value="Các tùy chọn cập nhật có sẵn ở &lt;i&gt;Preferences&lt;/i&gt;"/>
+<string key="PhetDevelopmentTeam" value="Nhóm phát triển PhET"/>
+<string key="InstallerInfo2" value="Nếu bạn chọn cài đặt phiên bản mới nhất (get the newest version), trình duyệt Web sẽ mở website của PhET, tại đó bạn có thể download bản cài đặt PhET Offline."/>
+<string key="InstallerInfo1" value="Tiếp tục cập nhật cho phiên bản PhET Offline của bạn. Điều đó sẽ giúp bạn có được các mô phỏng và các tư liệu hỗ trợ mới nhất từ PhET. "/>
+<string key="StatisticsField-sim_minor_version" value="Phiên bản mô phỏng (phụ)"/>
+<string key="Credits" value="Credits"/>
+<string key="StatisticsField-host_flash_version" value="Phiên bản Flash Player"/>
+<string key="TryNow" value="Chạy thử xem"/>
+<string key="PrivacySkip" value="Bỏ qua phiên bản này"/>
+<string key="CheckInstallationUpdates" value="Kiểm tra cập nhật phiên bản cài đặt của PhET Offline..."/>
+<string key="StatisticsField-sim_locale_language" value="Ngôn ngữ"/>
+<string key="Distribution" value="Phân phối"/>
+<string key="LicenseLibraries" value="Thông tin về quyền sử dụng thư viện:"/>
+<string key="PrivacyDetails" value="Chi tiết về quyền riêng tư"/>
+<string key="StatisticsField-sim_svn_revision" value="Phiên bản mô phỏng (đã sửa)"/>
+<string key="NotUpdateSim" value="Không thể cập nhật tự động mô phỏng này"/>
+<string key="CurrentVersionIs" value="Phiên bản hiện thời của {0} là {1}"/>
+<string key="StatisticsField-host_flash_os" value="Hệ điều hành và tên"/>
+<string key="OK" value="OK"/>
+<string key="StatisticsField-sim_project" value="Tên dự án"/>
+<string key="NewerVersionIs" value="Đã có phiên bản mới hơn {0}"/>
+<string key="CheckSimUpdates" value="Kiểm tra cập nhật mô phỏng..."/>
+<string key="SentInformation" value="Thông tin hiển thị bên dưới sẽ được gửi cho PhET khi mô phỏng được khởi động. "/>
+<string key="OSVersion" value="HĐH"/>
+<string key="Details" value="Chi tiết"/>
+<string key="StatisticsField-message_version" value="Phiên bản thông báo"/>
+<string key="LeadDesign" value="Chỉ đạo thiết kế"/>
+<string key="StatisticsField-host_locale_language" value="Ngôn ngữ host"/>
+<string key="AboutSim" value="About {0}"/>
+<string key="StatisticsField-sim_locale_country" value="Nước"/>
+</SimStrings>
