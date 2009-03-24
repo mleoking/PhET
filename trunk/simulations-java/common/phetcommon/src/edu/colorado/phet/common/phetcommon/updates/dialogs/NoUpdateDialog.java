@@ -50,6 +50,7 @@ public abstract class NoUpdateDialog extends JDialog {
         // notification that there is no need to update
         String html = getUpToDateHTML( currentVersion, productName );
         JComponent htmlPane = new InteractiveHTMLPane( html );
+        htmlPane.setBackground( new JPanel().getBackground() ); // see #1532
         JPanel messagePanel = new JPanel();
         messagePanel.setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
         messagePanel.add( htmlPane );
