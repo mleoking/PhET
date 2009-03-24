@@ -99,7 +99,7 @@ case class BeadState(position: Double, velocity: Double, mass: Double, staticFri
 
   def thermalEnergy = 0
 }
-class Bead(_state: BeadState, positionMapper: Double => Vector2D, rampSegmentAccessor: Double => RampSegment) extends Observable {
+class Bead(_state: BeadState, positionMapper: Double => Vector2D, rampSegmentAccessor: Double => RampSegment, model: Observable) extends Observable {
   val gravity = -9.8
   var state = _state
   var _appliedForce = new Vector2D
@@ -116,7 +116,7 @@ class Bead(_state: BeadState, positionMapper: Double => Vector2D, rampSegmentAcc
   def getRampUnitVector = rampSegmentAccessor(position).getUnitVector
 
   //TODO: listen for angle changes
-  //  _rampSegment.addListenerByName(notifyListeners)
+  model.addListenerByName(notifyListeners)
   def mass = state.mass
 
   def position = state.position
@@ -192,10 +192,14 @@ class RampModel extends Observable {
   def rampSegmentAccessor(particleLocation: Double) = {
     if (particleLocation <= 0) rampSegments(0) else rampSegments(1)
   }
-  beads += new Bead(new BeadState(5, 0, 10, 0, 0), positionMapper, rampSegmentAccessor)
-  val tree = new Bead(new BeadState(-9, 0, 10, 0, 0), positionMapper, rampSegmentAccessor)
-  val leftWall = new Bead(new BeadState(-10, 0, 10, 0, 0), positionMapper, rampSegmentAccessor)
-  val rightWall = new Bead(new BeadState(10, 0, 10, 0, 0), positionMapper, rampSegmentAccessor)
+
+  object rampChangeAdapter extends Observable//todo: perhaps we should just pass the addListener method to the beads
+  rampSegments(0).addListenerByName{rampChangeAdapter.notifyListeners}
+  rampSegments(1).addListenerByName{rampChangeAdapter.notifyListeners}
+  beads += new Bead(new BeadState(5, 0, 10, 0, 0), positionMapper, rampSegmentAccessor, rampChangeAdapter)
+  val tree = new Bead(new BeadState(-9, 0, 10, 0, 0), positionMapper, rampSegmentAccessor, rampChangeAdapter)
+  val leftWall = new Bead(new BeadState(-10, 0, 10, 0, 0), positionMapper, rampSegmentAccessor, rampChangeAdapter)
+  val rightWall = new Bead(new BeadState(10, 0, 10, 0, 0), positionMapper, rampSegmentAccessor, rampChangeAdapter)
 
   def update(dt: Double) = {
     beads.foreach(b => newStepCode(b, dt))
@@ -262,7 +266,7 @@ class RampModel extends Observable {
 
 class BeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: String) extends PNode {
   val shapeNode = new PhetPPath(Color.green)
-//  addChild(shapeNode)//TODO remove after debug done
+  //  addChild(shapeNode)//TODO remove after debug done
 
   val cabinetImage = RampResources.getImage(imageName)
   val imageNode = new PImage(cabinetImage)
@@ -315,7 +319,7 @@ class RampCanvas(model: RampModel) extends DefaultCanvas(22, 20) {
   addNode(new BeadNode(model.leftWall, transform, "barrier2.jpg"))
   addNode(new BeadNode(model.rightWall, transform, "barrier2.jpg"))
   addNode(new BeadNode(model.tree, transform, "tree.gif"))
-  
+
   addNode(new BeadNode(model.beads(0), transform, "cabinet.gif"))
 
 }
