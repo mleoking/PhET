@@ -193,6 +193,7 @@ class RampModel extends Observable {
     if (particleLocation <= 0) rampSegments(0) else rampSegments(1)
   }
 
+  //Sends notification when any ramp segment changes
   object rampChangeAdapter extends Observable//todo: perhaps we should just pass the addListener method to the beads
   rampSegments(0).addListenerByName{rampChangeAdapter.notifyListeners}
   rampSegments(1).addListenerByName{rampChangeAdapter.notifyListeners}
