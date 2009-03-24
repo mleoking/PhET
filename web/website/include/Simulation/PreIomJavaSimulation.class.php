@@ -100,6 +100,15 @@ class PreIomJavaSimulation extends JavaSimulation {
     }
 
     public function getDownloadFilename($locale = Locale::DEFAULT_LOCALE) {
+        // No downloading of Java sims unless they are the default
+        // Yo, Mr. John B, see here see here!
+        // If you want to have ONLY the English version of Java simulations
+        // downloadable, uncomment the next code line, hit this link:
+        // http://phet.colorado.edu/admin/cache-clear.php?cache=all
+        // and test to be sure.
+        // Uncomment next line prevents download of nondefault locale Java sims
+        //if (!Locale::inst()->isDefault($locale)) return '';
+
         // Try straight post IOM
         $filename = parent::getDownloadFilename($locale);
         if (file_exists($filename)) {
