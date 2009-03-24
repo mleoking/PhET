@@ -102,6 +102,14 @@ case class BeadState(position: Double, velocity: Double, mass: Double, staticFri
 class Bead(_state: BeadState, positionMapper: Double => Vector2D, rampSegmentAccessor: Double => RampSegment) extends Observable {
   val gravity = -9.8
   var state = _state
+  var _appliedForce = new Vector2D
+
+  def appliedForce = _appliedForce
+
+  def appliedForce_=(force: Vector2D) = {
+    _appliedForce = force
+    notifyListeners()
+  }
 
   def position2D = positionMapper(position)
 
@@ -209,6 +217,10 @@ class RampModel extends Observable {
       b.setVelocity(0)
       b.setPosition(-10)
     }
+    if (b.position>= 10){
+      b.setVelocity(0)
+      b.setPosition(10)
+    }
 
     val justCollided = false
 
@@ -235,7 +247,7 @@ class RampModel extends Observable {
   }
 
   def getForces(b: Bead) = {
-    getGravityForce(b) :: Nil
+    getGravityForce(b) :: b.appliedForce :: Nil
     //    getGravity :: getFriction(b) :: getWallForce(b) :: getNormalForce(b) :: Nil
     //    val netForce=getGravity+getFriction(b)+getNormal
   }
@@ -252,6 +264,20 @@ class BeadNode(bead: Bead, transform: ModelViewTransform2D) extends PNode {
   val cabinetImage = RampResources.getImage("cabinet.gif")
   val imageNode = new PImage(cabinetImage)
   addChild(imageNode)
+
+
+  addInputEventListener(new CursorHandler)
+  addInputEventListener(new PBasicInputEventHandler() {
+    override def mouseDragged(event: PInputEvent) = {
+      val delta = event.getCanvasDelta
+      val modelDelta = transform.viewToModelDifferential(delta.width, delta.height)
+      bead.appliedForce = (bead.appliedForce + modelDelta)
+    }
+
+    override def mouseReleased(event: PInputEvent) = {
+      bead.appliedForce = new Vector2D
+    }
+  })
 
   defineInvokeAndPass(bead.addListenerByName){
     shapeNode.setPathTo(transform.createTransformedShape(new Circle(bead.position2D, 0.3)))
