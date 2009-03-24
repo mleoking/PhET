@@ -217,7 +217,7 @@ class RampModel extends Observable {
       b.setVelocity(0)
       b.setPosition(-10)
     }
-    if (b.position>= 10){
+    if (b.position >= 10) {
       b.setVelocity(0)
       b.setPosition(10)
     }
@@ -383,23 +383,16 @@ class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramMo
                       coordinateSystemModel: CoordinateSystemModel, vectorViewModel: VectorViewModel) extends JPanel {
   setLayout(new BoxLayout(this, BoxLayout.Y_AXIS))
 
-  val physicsWordButton = new MyRadioButton("Physics words", wordModel.physicsWords = true, wordModel.physicsWords, wordModel.addListener)
-  val everydayWordButton = new MyRadioButton("Everyday words", wordModel.everydayWords = true, wordModel.everydayWords, wordModel.addListener)
-
-  add(physicsWordButton)
-  add(everydayWordButton)
+  add(new MyRadioButton("Physics words", wordModel.physicsWords = true, wordModel.physicsWords, wordModel.addListener))
+  add(new MyRadioButton("Everyday words", wordModel.everydayWords = true, wordModel.everydayWords, wordModel.addListener))
 
   add(new JLabel("Free Body Diagram"))
-  val showFBD = new MyRadioButton("Show", freeBodyDiagramModel.visible = true, freeBodyDiagramModel.visible, freeBodyDiagramModel.addListener)
-  val hideFBD = new MyRadioButton("Hide", freeBodyDiagramModel.visible = false, !freeBodyDiagramModel.visible, freeBodyDiagramModel.addListener)
-  add(showFBD)
-  add(hideFBD)
+  add(new MyRadioButton("Show", freeBodyDiagramModel.visible = true, freeBodyDiagramModel.visible, freeBodyDiagramModel.addListener))
+  add(new MyRadioButton("Hide", freeBodyDiagramModel.visible = false, !freeBodyDiagramModel.visible, freeBodyDiagramModel.addListener))
 
   add(new JLabel("Coordinate System"))
-  val fixedCoord = new MyRadioButton("Fixed", coordinateSystemModel.fixed = true, coordinateSystemModel.fixed, coordinateSystemModel.addListener)
-  val adjustableCoord = new MyRadioButton("Adjustable", coordinateSystemModel.adjustable = true, coordinateSystemModel.adjustable, coordinateSystemModel.addListener)
-  add(fixedCoord)
-  add(adjustableCoord)
+  add(new MyRadioButton("Fixed", coordinateSystemModel.fixed = true, coordinateSystemModel.fixed, coordinateSystemModel.addListener))
+  add(new MyRadioButton("Adjustable", coordinateSystemModel.adjustable = true, coordinateSystemModel.adjustable, coordinateSystemModel.addListener))
 
   add(new JLabel("Vectors"))
   add(new MyCheckBox("Original Vectors", vectorViewModel.originalVectors_=, vectorViewModel.originalVectors, vectorViewModel.addListener))
