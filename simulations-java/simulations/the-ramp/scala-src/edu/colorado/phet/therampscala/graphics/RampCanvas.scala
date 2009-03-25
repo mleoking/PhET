@@ -2,6 +2,7 @@ package edu.colorado.phet.therampscala.graphics
 
 
 import java.awt.Color
+import model.RampModel
 
 class RampCanvas(model: RampModel) extends DefaultCanvas(22, 20) {
   setBackground(new Color(200, 255, 240))
