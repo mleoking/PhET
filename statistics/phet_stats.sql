@@ -300,4 +300,14 @@ INSERT INTO java_timezone (name) VALUES (NULL);
 
 INSERT INTO sim_type (name) VALUES ("java"), ("flash");
 
+DROP TABLE IF EXISTS entity;
+CREATE TABLE entity (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+
+	preferences_count SMALLINT UNSIGNED,
+	installation_count SMALLINT UNSIGNED,
+	user_total_sessions MEDIUMINT UNSIGNED,
+	first_seen DATETIME,
+	last_seen DATETIME
+);
 
