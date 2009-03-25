@@ -13,7 +13,7 @@ import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PlayPauseButton
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.RewindButton
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepButton
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
-import model.{TimeModel, LadybugModel}
+import model.{RecordModel, LadybugModel}
 import scala.collection.mutable.ArrayBuffer
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources
 import edu.colorado.phet.common.phetcommon.resources.PhetResources
@@ -33,7 +33,7 @@ import edu.colorado.phet.scalacommon.Predef._
 
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 
-class Timeline[T](model: TimeModel[T], canvas: PhetPCanvas) extends PNode {
+class Timeline[T](model: RecordModel[T], canvas: PhetPCanvas) extends PNode {
   val pathOffsetY = 4
   val pathHeight = 6
   val ellipseWidth = 10
