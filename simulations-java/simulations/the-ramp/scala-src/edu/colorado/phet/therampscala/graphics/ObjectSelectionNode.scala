@@ -36,7 +36,7 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
   val rows = new ArrayBuffer[ArrayBuffer[PNode]]
 
   class ObjectSelectionIcon(o: ScalaRampObject) extends PNode {
-    val textNode = new PText(o.name + " (" + o.mass + " kg)")
+    val textNode = new PText(o.getDisplayText)
     val imageNode = new PImage(BufferedImageUtils.multiScaleToHeight(RampResources.getImage(o.imageFilename), 100))
     imageNode.scale(0.5f)
     textNode.scale(0.9f)
@@ -50,7 +50,7 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
 
     def updateSelected() = {
       if (model.selectedObject == o) {
-        backgroundNode.setPaint(new Color(0, 0, 255, 128))
+        backgroundNode.setPaint(new Color(0, 0, 255, 50))
         textNode.setFont(new PhetFont(14, true))
       } else {
         backgroundNode.setPaint(new Color(0, 0, 0, 0))
@@ -80,7 +80,7 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
 
     val n = nodes(i)
     n.backgroundNode.setPathTo(new Rectangle2D.Double(0, 0, cellDim.width, cellDim.height))
-    n.setOffset(transform.modelToView(column * modelCellDimPt.x - 11, -10 - row * modelCellDimPt.y - 2 * modelCellDimPt.y))
+    n.setOffset(transform.modelToView(column * modelCellDimPt.x - 11, -10 + row * modelCellDimPt.y - 2 * modelCellDimPt.y+0.5))
     addChild(n)
   }
 
