@@ -14,7 +14,7 @@ import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PlayPauseButton
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.RewindButton
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepButton
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
-import model.DataPoint
+import model.{DataPoint, LadybugState}
 import scala.collection.mutable.ArrayBuffer
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources
 import edu.colorado.phet.common.phetcommon.resources.PhetResources
@@ -41,7 +41,15 @@ abstract class TimeModel extends Observable {
   protected var time = 0.0
   protected var playbackIndexFloat = 0.0 //floor this to get playbackIndex
 
-  def setStateToPlaybackIndex()
+  def setStateToPlaybackIndex() = {
+    val playbackIndex = getPlaybackIndex
+    if (playbackIndex >= 0 && playbackIndex < recordHistory.length) {
+      setPlaybackState(recordHistory(getPlaybackIndex).state)
+      time = recordHistory(getPlaybackIndex).time
+    }
+  }
+
+  def setPlaybackState(state: LadybugState)
 
   def setRecord(b: Boolean)
 
