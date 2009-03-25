@@ -1,0 +1,39 @@
+PhET Progress Report
+John Blanco
+March 18, 2009
+
+IOM Alpha Testing – 8.0 hrs
+
+•	Worked with Sam to devise and implement a scheme to track resolution of failed alpha tests.
+•	Went through the Common Code Test Results DB/spreadsheet and fixed any entry errors (arduous, but necessary).
+•	Supported additional testing by Marj & Nina.
+•	Followed up on each reported failure of Alpha-2 test cases (29 in all).
+•	Published test coverage report for the Alpha testing, will review at this week’s meeting.
+
+Common Code – 8.0 hrs
+
+•	Finished initial cut of OrphanStringChecker utility, published report. Unfuddle #1108. (An "Orphan String" is a string that is in the English localization file but not used in the sim).
+•	Cleaned up orphan strings for SOM, Nukes, and all of the sims created by Ron LeMaster.
+•	Worked with Sam and Chris to support cleanup of orphan strings in other sims.
+•	Enhanced TestCoverageChecker to output test coverage information in a format that can be easily imported into a spreadsheet.
+•	Verified and closed issues that were resolved by other developers.
+
+Heterogeneous Interaction Potential – 8.0 hrs
+
+•	Started implementing support for heterogeneous particles in the underlying model (in collaboration with Sam).
+•	Started implementing the new control panel.
+
+States of Matter – 6.0 hrs
+
+•	Made the adjustable-interaction-strength atoms start at a warmer temperature.
+•	Modified the phase diagram and interaction potential diagram so that the close button doesn't overlap and thus hide information (Unfuddle 1481).
+
+Installer & Web Site – 4.0 hrs
+
+•	Worked on getting the web site ripper to rip a single sim.  Part of tickets 1154 & 1155.
+
+Meetings & Email - 6.0 hrs
+
+•	Weekly status meeting.
+•	Normal email and administrative overhead.
+
