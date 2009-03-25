@@ -417,9 +417,15 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: {def selectedO
 class RampHeightIndicator(rampSegment: RampSegment, transform: ModelViewTransform2D) extends PNode {
   val line = new PhetPPath(new BasicStroke(2f), Color.black)
   addChild(line)
+
+  val readout = new PText
+  readout.setFont(new PhetFont(24))
+  addChild(readout)
   def getLine = new Line2D.Double(new Vector2D(rampSegment.endPoint.x, 0), rampSegment.endPoint)
   defineInvokeAndPass(rampSegment.addListenerByName) {
     line.setPathTo(transform.createTransformedShape(getLine))
+    readout.setOffset(line.getFullBounds.getMaxX+10, line.getFullBounds.getCenterY)
+    readout.setText("h = " + new DecimalFormat("0.0").format(rampSegment.endPoint.y) + " m")
   }
 }
 
