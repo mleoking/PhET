@@ -5,7 +5,9 @@ import flash.events.MouseEvent;
 import flash.events.TimerEvent;
 import flash.utils.Timer;
 
-public class Charge extends Sprite {
+import mx.managers.IFocusManagerComponent;
+
+public class Charge extends Sprite implements IFocusManagerComponent {
     public var q : Number = 0;
 
     public var modelX : Number;
@@ -17,7 +19,15 @@ public class Charge extends Sprite {
 
     private var timer : Timer;
 
+    private var focusIsEnabled = true;
+
+    private static var tabNumber : int = 5000;
+
     public function Charge( mosaic : VoltageMosaic ) {
+
+        this.tabEnabled = true;
+        //this.tabIndex = tabNumber++;
+        this.tabIndex = -1;
 
         this.mosaic = mosaic;
         dragging = false;
@@ -63,6 +73,29 @@ public class Charge extends Sprite {
         //trace("tick");
         displayPositionToModel();
         mosaic.draw();
+    }
+
+
+
+
+    
+    public function get focusEnabled():Boolean {
+        return focusIsEnabled;
+    }
+
+    public function set focusEnabled( value:Boolean ):void {
+        focusIsEnabled = value;
+    }
+
+    public function get mouseFocusEnabled():Boolean {
+        return true;
+    }
+
+    public function setFocus():void {
+    }
+
+    public function drawFocus( isFocused:Boolean ):void {
+        // draw something since it has focus!!!
     }
 }
 }
