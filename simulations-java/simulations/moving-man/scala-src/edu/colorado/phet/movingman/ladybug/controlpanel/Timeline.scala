@@ -13,8 +13,8 @@ import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PlayPauseButton
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.RewindButton
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepButton
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
-import model.{RecordModel, LadybugModel}
 import scala.collection.mutable.ArrayBuffer
+import scalacommon.record.{DataPoint, RecordModel}
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources
 import edu.colorado.phet.common.phetcommon.resources.PhetResources
 import java.awt.event.{ActionEvent, ComponentAdapter, ComponentEvent, ActionListener}

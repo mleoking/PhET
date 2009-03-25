@@ -5,7 +5,9 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import java.awt.geom.{Line2D, GeneralPath, Point2D}
 import java.awt.{BasicStroke, Color}
 import java.lang.Math._
-import model.{DataPoint, LadybugState, LadybugModel}
+import model.{LadybugState, LadybugModel}
+
+import scalacommon.record.DataPoint
 import scalacommon.util.Observable
 import umd.cs.piccolo.PNode
 
