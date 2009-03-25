@@ -157,12 +157,8 @@ class LadybugModel extends TimeModel{
     pointInDirectionOfMotion()
   }
 
-  def setStateToPlaybackIndex() = {
-    val playbackIndex = getPlaybackIndex
-    if (playbackIndex >= 0 && playbackIndex < recordHistory.length) {
-      ladybug.setState(recordHistory(getPlaybackIndex).state)
-      time = recordHistory(getPlaybackIndex).time
-    }
+  def setPlaybackState(state:LadybugState)={
+    ladybug.setState(state)
   }
 
   def update(dt: Double) = {
