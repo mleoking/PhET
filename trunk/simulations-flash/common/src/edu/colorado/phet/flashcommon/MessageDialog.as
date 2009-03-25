@@ -1,6 +1,6 @@
-﻿// ErrorDialog.as
+﻿// MessageDialog.as
 //
-// Shows any error information
+// Informative dialog
 //
 // Author: Jonathan Olson
 
@@ -22,7 +22,7 @@ import org.aswing.border.LineBorder;
 
 import edu.colorado.phet.flashcommon.*;
 
-class edu.colorado.phet.flashcommon.ErrorDialog {
+class edu.colorado.phet.flashcommon.MessageDialog {
 	
 	public var common : FlashCommon;
 	
@@ -33,7 +33,7 @@ class edu.colorado.phet.flashcommon.ErrorDialog {
 		_level0.debug(str);
 	}
 	
-	public function ErrorDialog(errorTitle : String, errorString : String) {
+	public function MessageDialog(title : String, message : String, ok : Boolean) {
 		//debug("AgreementDialog initializing\n");
 		
 		// shortcut to FlashCommon, but now with type-checking!
@@ -44,7 +44,7 @@ class edu.colorado.phet.flashcommon.ErrorDialog {
 		ASWingUtils.getRootMovieClip();
 		
 		// create a window
-		var window : JFrame = new JFrame(_level0, errorTitle);
+		var window : JFrame = new JFrame(_level0, title);
 		
 		// make it accessible from anywhere
 		_level0.errorWindow = window;
@@ -59,7 +59,7 @@ class edu.colorado.phet.flashcommon.ErrorDialog {
 		window.getContentPane().setLayout(new SoftBoxLayout(SoftBoxLayout.Y_AXIS));
 		
 		// get the string to display
-		var str : String = errorString;
+		var str : String = message;
 		
 		// CSS will make links blue
 		var css : TextField.StyleSheet = new TextField.StyleSheet();
@@ -85,7 +85,14 @@ class edu.colorado.phet.flashcommon.ErrorDialog {
 		window.getContentPane().append(new JSpacer(5, 5));
 		
 		var panel : JPanel = new JPanel(new BoxLayout());
-		var okButton : JButton = new JButton(common.strings.get("Close", "Close"));
+		var okButton : JButton;
+		
+		if(ok) {
+			okButton = new JButton(common.strings.get("OK", "OK"));
+		} else {
+			okButton = new JButton(common.strings.get("Close", "Close"));
+		}
+		
 		okButton.addEventListener(JButton.ON_RELEASE, Delegate.create(this, closeClicked));
 		CommonButtons.padButtonAdd(okButton, panel);
 		

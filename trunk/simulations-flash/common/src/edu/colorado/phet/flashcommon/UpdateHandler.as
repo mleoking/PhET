@@ -239,9 +239,10 @@ class edu.colorado.phet.flashcommon.UpdateHandler {
 				}
 			} else {
 				if(manual) {
-					_level0.preferencesDialog.updatesInstallationButton.setText(common.strings.get("NoUpdatesAvailable", "No Updates Available"));
-					_level0.preferencesDialog.updatesInstallationButton.setEnabled(false);
-					_level0.preferencesDialog.updatesInstallationButton.setForeground(ASColor.RED);
+					showInstallationUpToDate();
+					
+					// they can't query manually for both installer and sim
+					return;
 				}
 				
 				// run this again to handle whether sim response was received
@@ -261,14 +262,20 @@ class edu.colorado.phet.flashcommon.UpdateHandler {
 				// if the user clicked "Check for Updates Now", inform the user that no
 				// update is available
 				if(manual) {
-					_level0.preferencesDialog.updatesSimButton.setText(common.strings.get("NoUpdatesAvailable", "No Updates Available"));
-					_level0.preferencesDialog.updatesSimButton.setEnabled(false);
-					_level0.preferencesDialog.updatesSimButton.setForeground(ASColor.RED);
+					showSimUpToDate();
 				}
 			} else if(versionRevision < common.getVersionRevision()) {
 				_level0.debug("WARNING UpdateHandler: running a more recent version than on the production website.\n");
+				
+				if(manual) {
+					showSimUpToDate();
+				}
 			} else if(versionMajor == undefined || versionMinor == undefined) {
 				_level0.debug("WARNING UpdateHandler: received undefined version information!\n");
+				
+				if(manual) {
+					showUpdateError();
+				}
 			} else if(!manual && (versionMajor < latestSkipped[0] || (versionMajor == latestSkipped[0] && versionMinor <= latestSkipped[1]))) {
 				// user did not click "Check for Updates Now" AND the new version <= latest skipped version
 				_level0.debug("UpdateHandler: used selected to skip this update\n");
@@ -320,9 +327,23 @@ class edu.colorado.phet.flashcommon.UpdateHandler {
 	public function showUpdateError() : Void {
 		if(!manual) { return; }
 		var str : String = "";
-		str += "An error was encountered while trying to obtain version information.\n";
-		str += "Please try again later, or visit <a href='asfunction:_level0.common.openExternalLink,http://phet.colorado.edu'>http://phet.colorado.edu</a>";
-		_level0.errorDialog = new ErrorDialog("Error", str);
+		str += common.strings.get("VersionError1", "An error was encountered while trying to obtain version information.") + "\n";
+		str += common.strings.get("VersionError2", "Please try again later, or visit <a href='{0}'>http://phet.colorado.edu</a>", ["asfunction:_level0.common.openExternalLink,http://phet.colorado.edu"]);
+		_level0.messageDialog = new MessageDialog(common.strings.get("Error", "Error"), str, false);
+	}
+	
+	public function showSimUpToDate() : Void {
+		if(!manual) { return; }
+		var str : String = "";
+		str += common.strings.get("MostCurrentVersion", "You have the most current version ({0}) of {1}.", [common.getVersionString(), common.getSimTitle()]);
+		_level0.messageDialog = new MessageDialog(common.strings.get("UpToDate", "Up To Date"), str, true);
+	}
+	
+	public function showInstallationUpToDate() : Void {
+		if(!manual) { return; }
+		var str : String = "";
+		str += common.strings.get("MostCurrentVersion", "You have the most current version ({0}) of {1}.", [FlashCommon.dateString(FlashCommon.dateOfSeconds(common.getInstallerCreationTimestamp())), "PhET Offline Website Installer"]);
+		_level0.messageDialog = new MessageDialog(common.strings.get("UpToDate", "Up To Date"), str, true);
 	}
 	
 }
