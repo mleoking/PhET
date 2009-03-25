@@ -5,6 +5,9 @@
             import mx.managers.PopUpManager;
             import mx.controls.Text;
 
+            [Bindable]
+            public static var softwareAgreementText : String = "Software Agreement...";
+
             // A reference to the TextInput control in which to put the result.
             public var loginName:Text;
 
@@ -27,7 +30,7 @@
     </mx:HBox>
 
     <mx:HBox>
-        <mx:Button label="Software Agreement..." />
+        <mx:Button label="{softwareAgreementText}" />
         <mx:Button label="Credits..." />
         <mx:Button label="OK" click="closeDialog();"/>
     </mx:HBox>    
