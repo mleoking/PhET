@@ -4,6 +4,7 @@ package edu.colorado.phet.statesofmatter.model;
 
 import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
 import edu.colorado.phet.statesofmatter.model.particle.NeonAtom;
+import edu.colorado.phet.statesofmatter.model.particle.OxygenAtom;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.model.particle.UserDefinedAtom;
 
@@ -26,8 +27,8 @@ public class AtomFactory {
         else if (atomType == AtomType.NEON){
             atom = new NeonAtom(0, 0);
         }
-        else if (atomType == AtomType.NEON){
-            atom = new NeonAtom(0, 0);
+        else if (atomType == AtomType.OXYGEN){
+            atom = new OxygenAtom(0, 0);
         }
         
         return atom;

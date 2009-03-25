@@ -106,14 +106,14 @@ public class InteractionPotentialControlPanel extends ControlPanel {
         m_interactionStrengthControlPanel = new InteractionStrengthControlPanel( m_model );
         
         // Create the panel that allows the user to select molecule type.
-        m_moleculeSelectionPanel = new AtomSelectionPanel();
+        m_moleculeSelectionPanel = new HeterogeneousAtomSelectionPanel();
 
         // Create the panel that allows the user to control which forces are
         // shown on the atoms.
         m_forceControlPanel = new ForceControlPanel();
         
         // Add the panels we just created.
-        addControlFullWidth( m_moleculeSelectionPanel );
+        addControlFullWidth( (JPanel)m_moleculeSelectionPanel );
         addControlFullWidth( m_atomDiameterControlPanel );
         addControlFullWidth( m_interactionStrengthControlPanel );
         addControlFullWidth( m_forceControlPanel );
@@ -134,17 +134,21 @@ public class InteractionPotentialControlPanel extends ControlPanel {
     // Inner Classes
     //----------------------------------------------------------------------------
 
+    private interface AtomSelectionPanel {
+        public void updateMoleculeType();
+    }
+    
     /**
      * This class defines the selection panel that allows the user to choose
-     * the type of molecule.
+     * the type of molecule when both are the same.
      */
-    private class AtomSelectionPanel extends JPanel {
+    private class HomogeneousAtomSelectionPanel extends JPanel implements AtomSelectionPanel {
         
         private JRadioButton m_neonRadioButton;
         private JRadioButton m_argonRadioButton;
         private JRadioButton m_adjustableAttractionRadioButton;
         
-        AtomSelectionPanel(){
+        HomogeneousAtomSelectionPanel(){
             
             setLayout( new GridLayout(0, 1) );
             
@@ -218,6 +222,205 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             }
             else{
                 m_adjustableAttractionRadioButton.setSelected( true );
+            }
+            
+            updateLjControlSliderState();
+        }
+        
+        /**
+         * Update the state (i.e. enabled or disabled) of the sliders that
+         * control the Lennard-Jones parameters.
+         * 
+         */
+        private void updateLjControlSliderState(){
+            m_atomDiameterControlPanel.setVisible( m_model.getFixedMoleculeType() == AtomType.ADJUSTABLE );
+            m_interactionStrengthControlPanel.setVisible( m_model.getFixedMoleculeType() == AtomType.ADJUSTABLE );
+        }
+    }
+    
+    /**
+     * This class defines the selection panel that allows the user to choose
+     * the type of molecule when they don't have to be the same.
+     */
+    private class HeterogeneousAtomSelectionPanel extends JPanel implements AtomSelectionPanel {
+        
+        private JRadioButton m_neonFixedRadioButton;
+        private JRadioButton m_argonFixedRadioButton;
+        private JRadioButton m_oxygenFixedRadioButton;
+        private JRadioButton m_adjustableFixedRadioButton;
+        private JRadioButton m_neonMovableRadioButton;
+        private JRadioButton m_argonMovableRadioButton;
+        private JRadioButton m_oxygenMovableRadioButton;
+        private JRadioButton m_adjustableMovableRadioButton;
+        private JRadioButton m_adjustableAttractionRadioButton;
+        private JRadioButton m_adjustableAttractionNotSelectedRadioButton;
+        
+        HeterogeneousAtomSelectionPanel(){
+            
+            setLayout( new GridLayout(0, 1) );
+            
+            BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
+            TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
+                    StatesOfMatterStrings.INTERACTION_POTENTIAL_ATOM_SELECT_LABEL,
+                    TitledBorder.LEFT,
+                    TitledBorder.TOP,
+                    new PhetFont( Font.BOLD, 14 ),
+                    Color.GRAY );
+            
+            setBorder( titledBorder );
+
+            m_neonFixedRadioButton = new JRadioButton( StatesOfMatterStrings.NEON_SELECTION_LABEL );
+            m_neonFixedRadioButton.setFont( LABEL_FONT );
+            m_neonFixedRadioButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    if (m_model.getFixedMoleculeType() != AtomType.NEON){
+                        m_model.setFixedMoleculeType( AtomType.NEON );
+                        updateLjControlSliderState();
+                    }
+                }
+            } );
+            m_argonFixedRadioButton = new JRadioButton( StatesOfMatterStrings.ARGON_SELECTION_LABEL );
+            m_argonFixedRadioButton.setFont( LABEL_FONT );
+            m_argonFixedRadioButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    if (m_model.getFixedMoleculeType() != AtomType.ARGON){
+                        m_model.setFixedMoleculeType( AtomType.ARGON );
+                        updateLjControlSliderState();
+                    }
+                }
+            } );
+            m_oxygenFixedRadioButton = new JRadioButton( StatesOfMatterStrings.OXYGEN_SELECTION_LABEL );
+            m_oxygenFixedRadioButton.setFont( LABEL_FONT );
+            m_oxygenFixedRadioButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    if (m_model.getFixedMoleculeType() != AtomType.OXYGEN){
+                        m_model.setFixedMoleculeType( AtomType.OXYGEN );
+                        updateLjControlSliderState();
+                    }
+                }
+            } );
+            m_adjustableFixedRadioButton = new JRadioButton( "This should not be visible" );
+
+            ButtonGroup buttonGroupFixed = new ButtonGroup();
+            buttonGroupFixed.add( m_neonFixedRadioButton );
+            buttonGroupFixed.add( m_argonFixedRadioButton );
+            buttonGroupFixed.add( m_oxygenFixedRadioButton );
+            buttonGroupFixed.add( m_adjustableFixedRadioButton );
+            m_neonFixedRadioButton.setSelected( true );
+
+            m_neonMovableRadioButton = new JRadioButton( StatesOfMatterStrings.NEON_SELECTION_LABEL );
+            m_neonMovableRadioButton.setFont( LABEL_FONT );
+            m_neonMovableRadioButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    if (m_model.getMovableMoleculeType() != AtomType.NEON){
+                        m_model.setMovableMoleculeType( AtomType.NEON );
+                        updateLjControlSliderState();
+                    }
+                }
+            } );
+            m_argonMovableRadioButton = new JRadioButton( StatesOfMatterStrings.ARGON_SELECTION_LABEL );
+            m_argonMovableRadioButton.setFont( LABEL_FONT );
+            m_argonMovableRadioButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    if (m_model.getMovableMoleculeType() != AtomType.ARGON){
+                        m_model.setMovableMoleculeType( AtomType.ARGON );
+                        updateLjControlSliderState();
+                    }
+                }
+            } );
+            m_oxygenMovableRadioButton = new JRadioButton( StatesOfMatterStrings.OXYGEN_SELECTION_LABEL );
+            m_oxygenMovableRadioButton.setFont( LABEL_FONT );
+            m_oxygenMovableRadioButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    if (m_model.getMovableMoleculeType() != AtomType.OXYGEN){
+                        m_model.setMovableMoleculeType( AtomType.OXYGEN );
+                        updateLjControlSliderState();
+                    }
+                }
+            } );
+            m_adjustableMovableRadioButton = new JRadioButton( "This should not be visible" );
+
+            ButtonGroup buttonGroupMovable = new ButtonGroup();
+            buttonGroupMovable.add( m_neonMovableRadioButton );
+            buttonGroupMovable.add( m_argonMovableRadioButton );
+            buttonGroupMovable.add( m_oxygenMovableRadioButton );
+            buttonGroupMovable.add( m_adjustableMovableRadioButton );
+            m_neonFixedRadioButton.setSelected( true );
+
+            m_adjustableAttractionRadioButton = 
+                new JRadioButton( StatesOfMatterStrings.ADJUSTABLE_ATTRACTION_SELECTION_LABEL );
+            m_adjustableAttractionRadioButton.setFont( LABEL_FONT );
+            m_adjustableAttractionRadioButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    if (m_model.getFixedMoleculeType() != AtomType.ADJUSTABLE){
+                        m_model.setBothMoleculeTypes( AtomType.ADJUSTABLE );
+                        updateLjControlSliderState();
+                    }
+                }
+            } );
+            m_adjustableAttractionNotSelectedRadioButton = new JRadioButton( "This should not be visible" );
+
+            ButtonGroup adjustableSelection = new ButtonGroup();
+            adjustableSelection.add( m_adjustableAttractionRadioButton );
+            adjustableSelection.add( m_adjustableAttractionNotSelectedRadioButton );
+
+            JPanel individualMoleculeSelectionPanel = new JPanel();
+            individualMoleculeSelectionPanel.setLayout(new GridLayout(0, 2));
+            individualMoleculeSelectionPanel.add( m_neonFixedRadioButton );
+            individualMoleculeSelectionPanel.add( m_neonMovableRadioButton );
+            individualMoleculeSelectionPanel.add( m_argonFixedRadioButton );
+            individualMoleculeSelectionPanel.add( m_argonMovableRadioButton );
+            individualMoleculeSelectionPanel.add( m_oxygenFixedRadioButton );
+            individualMoleculeSelectionPanel.add( m_oxygenMovableRadioButton );
+            
+            add( individualMoleculeSelectionPanel );
+            add( m_adjustableAttractionRadioButton );
+            
+            updateMoleculeType();
+            updateLjControlSliderState();
+        }
+        
+        /**
+         * Update the selected molecule to match whatever the model believes
+         * it to be.
+         */
+        public void updateMoleculeType(){
+            AtomType fixedMoleculeType = m_model.getFixedMoleculeType();
+            
+            if (fixedMoleculeType == AtomType.NEON){
+                m_neonFixedRadioButton.setSelected( true );
+            	m_adjustableAttractionNotSelectedRadioButton.setSelected(true);
+            }
+            else if (fixedMoleculeType == AtomType.ARGON){
+                m_argonFixedRadioButton.setSelected( true );
+            	m_adjustableAttractionNotSelectedRadioButton.setSelected(true);
+            }
+            else if (fixedMoleculeType == AtomType.OXYGEN){
+                m_oxygenFixedRadioButton.setSelected( true );
+            	m_adjustableAttractionNotSelectedRadioButton.setSelected(true);
+            }
+            else if (fixedMoleculeType == AtomType.ADJUSTABLE){
+            	m_adjustableFixedRadioButton.setSelected(true);
+            	m_adjustableAttractionRadioButton.setSelected(true);
+            }
+            
+            AtomType movableMoleculeType = m_model.getMovableMoleculeType();
+            
+            if (movableMoleculeType == AtomType.NEON){
+                m_neonMovableRadioButton.setSelected( true );
+            	m_adjustableAttractionNotSelectedRadioButton.setSelected(true);
+            }
+            else if (movableMoleculeType == AtomType.ARGON){
+                m_argonMovableRadioButton.setSelected( true );
+            	m_adjustableAttractionNotSelectedRadioButton.setSelected(true);
+            }
+            else if (movableMoleculeType == AtomType.OXYGEN){
+                m_oxygenMovableRadioButton.setSelected( true );
+            	m_adjustableAttractionNotSelectedRadioButton.setSelected(true);
+            }
+            else if (fixedMoleculeType == AtomType.ADJUSTABLE){
+            	m_adjustableMovableRadioButton.setSelected(true);
+            	m_adjustableAttractionRadioButton.setSelected(true);
             }
             
             updateLjControlSliderState();
@@ -333,7 +536,6 @@ public class InteractionPotentialControlPanel extends ControlPanel {
         private JLabel m_rightLabel;
 
         public InteractionStrengthControlPanel(DualParticleModel model){
-
 
             m_model = model;
             
