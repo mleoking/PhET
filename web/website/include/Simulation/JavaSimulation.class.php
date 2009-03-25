@@ -29,7 +29,7 @@ class JavaSimulation extends BaseSimulation {
 
         $base_file = self::sim_root."{$this->project_name}/{$this->sim_name}";
         foreach ($this->getRemappedLocales($locale) as $loc) {
-            $locale_file = $this->makeLocaleFilename($base_file, $loc, '.jnlp');
+            $locale_file = $base_file.'_'.$loc.'.jnlp';
             if (file_exists($locale_file)) {
                 return $locale_file;
             }

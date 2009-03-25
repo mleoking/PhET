@@ -310,27 +310,6 @@ abstract class BaseSimulation implements SimulationInterface {
         return $locales;
     }
 
-    // Puts together a localized filename
-    // Example:
-    //   $base_name = 'nuclear-physics'
-    //   $locale = 'bp'
-    //   $extension = '.jar'
-    protected function makeLocaleFilename($base_file, $locale, $extension) {
-        // Don't use _en in the files until we go Beta
-        // https://phet.unfuddle.com/projects/9404/tickets/by_number/1535
-        // When fixing, remove this function and just build the paths directly
-        // BEGIN WORKAROUND
-        if (empty($locale) || Locale::inst()->isDefault($locale)) {
-            return $base_file.$extension;
-        }
-        else {
-            return $base_file.'_'.$locale.'.jar';
-        }
-        // END WORKAROUND
-        // ORIG:
-        // return $base_file.'_'.$loc.'.jar';
-    }
-
     public function getDownloadFilename($locale = Locale::DEFAULT_LOCALE) {
         // TODO: When country codes have been fully implemented in the
         // simulation filenames, change this entire function to:
@@ -338,7 +317,7 @@ abstract class BaseSimulation implements SimulationInterface {
 
         $base_file = self::sim_root."{$this->project_name}/{$this->sim_name}";
         foreach ($this->getRemappedLocales($locale) as $loc) {
-            $locale_file = $this->makeLocaleFilename($base_file, $loc, '.jar');
+            $locale_file = $base_file.'_'.$loc.'.jar';
             if (file_exists($locale_file)) {
                 return $locale_file;
             }

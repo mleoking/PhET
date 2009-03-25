@@ -37,8 +37,8 @@ class RedirectSimulationPage extends SitePage {
             $this->sim = 
                 SimFactory::inst()->getByProjectAndSimName(
                     $_REQUEST['project'],
-                    $_REQUEST['sim']
-                    );
+                    $_REQUEST['sim'],
+                    FALSE);
             $this->header_redirect($this->sim->getPageUrl());
         }
         catch (PhetSimException $e) {

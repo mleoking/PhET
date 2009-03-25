@@ -77,9 +77,13 @@ class PreIomJavaSimulation extends JavaSimulation {
     }
 
     public function getLaunchUrl($locale = Locale::DEFAULT_LOCALE) {
-        $filename = parent::getLaunchFilename($locale);
-        if (file_exists($filename)) {
-            return $filename;
+        // Don't allow downloading of non default locales until we go Beta
+        // https://phet.unfuddle.com/projects/9404/tickets/by_number/1536
+        if (!Locale::inst()->isDefault($locale)) {
+            $filename = parent::getLaunchFilename($locale);
+            if (file_exists($filename)) {
+                return $filename;
+            }
         }
 
         $filename = $this->getPreIomLaunchFilename($locale);
@@ -100,20 +104,18 @@ class PreIomJavaSimulation extends JavaSimulation {
     }
 
     public function getDownloadFilename($locale = Locale::DEFAULT_LOCALE) {
-        // No downloading of Java sims unless they are the default
-        // Yo, Mr. John B, see here see here!
-        // If you want to have ONLY the English version of Java simulations
-        // downloadable, uncomment the next code line, hit this link:
-        // http://phet.colorado.edu/admin/cache-clear.php?cache=all
-        // and test to be sure.
-        // Uncomment next line prevents download of nondefault locale Java sims
-        //if (!Locale::inst()->isDefault($locale)) return '';
+        // Don't allow download of localized sims until Beta
+        // https://phet.unfuddle.com/projects/9404/tickets/by_number/1536
+        if (!Locale::inst()->isDefault($locale)) return '';
 
+        // Don't use _en in the files until we go Beta
+        // https://phet.unfuddle.com/projects/9404/tickets/by_number/1535
+        // Don't try post IOM
         // Try straight post IOM
-        $filename = parent::getDownloadFilename($locale);
-        if (file_exists($filename)) {
-            return $filename;
-        }
+        //$filename = parent::getDownloadFilename($locale);
+        //if (file_exists($filename)) {
+        //    return $filename;
+        //}
 
         // Try pre iom
         $filename = $this->getPreIomDownloadFilename($locale);
