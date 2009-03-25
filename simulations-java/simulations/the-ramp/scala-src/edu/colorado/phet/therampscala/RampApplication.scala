@@ -18,6 +18,7 @@ import java.awt.event.{ActionEvent, ActionListener}
 
 import java.awt.geom._
 import java.awt.image.BufferedImage
+import java.text.DecimalFormat
 import javax.swing._
 import javax.swing.event.{ChangeListener, ChangeEvent}
 
@@ -425,13 +426,20 @@ class RampHeightIndicator(rampSegment: RampSegment, transform: ModelViewTransfor
 //todo: consider coalescing with RampHeightIndicator
 class RampAngleIndicator(rampSegment: RampSegment, transform: ModelViewTransform2D) extends PNode {
   val line = new PhetPPath(new BasicStroke(2f), Color.black)
+  val readout = new PText
+  readout.setFont(new PhetFont(24))
   addChild(line)
+  addChild(readout)
+  def getDegrees = rampSegment.getUnitVector.getAngle.toDegrees
+
   def getPath = {
-    val arc = new Arc2D.Double(rampSegment.startPoint.x - 3, rampSegment.startPoint.y - 3, 6, 6, 0, -rampSegment.getUnitVector.getAngle.toDegrees, Arc2D.OPEN)
+    val arc = new Arc2D.Double(rampSegment.startPoint.x - 3, rampSegment.startPoint.y - 3, 6, 6, 0, -getDegrees, Arc2D.OPEN)
     arc
   }
   defineInvokeAndPass(rampSegment.addListenerByName) {
     line.setPathTo(transform.createTransformedShape(getPath))
+    readout.setOffset(transform.modelToView(0.5, -0.08))
+    readout.setText("Angle = " + new DecimalFormat("0.0").format(getDegrees) + " \u00B0")
   }
 }
 class RampCanvas(model: RampModel) extends DefaultCanvas(22, 20) {
@@ -490,8 +498,8 @@ class AppliedForceSliderNode(bead: Bead, transform: ModelViewTransform2D) extend
   addChild(pswing)
   def updatePosition() = {
     val viewLoc = transform.modelToView(new Point2D.Double(0, -1))
-    val scale=1.2f
-    pswing.setOffset(viewLoc-new Vector2D(pswing.getFullBounds.getWidth*scale,0))
+    val scale = 1.2f
+    pswing.setOffset(viewLoc - new Vector2D(pswing.getFullBounds.getWidth * scale, 0))
     pswing.setScale(scale)
   }
   updatePosition()
