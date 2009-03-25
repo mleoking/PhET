@@ -123,7 +123,8 @@
 
         // Get the database info for the requested sim
         try {
-            $simulation = SimFactory::inst()->getByProjectAndSimName($project, $sim, FALSE);
+            $simulation = 
+                SimFactory::inst()->getByProjectAndSimName($project, $sim, FALSE);
         }
         catch (PhetSimException $e) {
             error("Error: Simulation not found.\n");
