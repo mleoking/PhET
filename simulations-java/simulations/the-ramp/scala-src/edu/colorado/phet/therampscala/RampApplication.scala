@@ -391,7 +391,7 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: {def selectedO
   }
 
   val cellDim = nodes.foldLeft(new PDimension)((a, b) => new PDimension(max(a.width, b.getFullBounds.width), max(a.height, b.getFullBounds.height)))
-//  println("CellDim=" + cellDim)
+  //  println("CellDim=" + cellDim)
 
   val modelCellDimPt = transform.viewToModelDifferential(cellDim.width, cellDim.height)
   for (i <- 0 until nodes.length) {
@@ -401,7 +401,7 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: {def selectedO
     val n = nodes(i)
     n.backgroundNode.setPathTo(new Rectangle2D.Double(0, 0, cellDim.width, cellDim.height))
     n.setOffset(transform.modelToView(column * modelCellDimPt.x - 10, row * modelCellDimPt.y - 5))
-//    println("i=" + i + ", row=" + row + ", col=" + column + ", offset=" + n.getOffset)
+    //    println("i=" + i + ", row=" + row + ", col=" + column + ", offset=" + n.getOffset)
     addChild(n)
   }
 
@@ -409,12 +409,26 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: {def selectedO
   //  val cellHeight = nodes.foldleft(0, (a, b) => max(a, b))
 }
 
-class RampHeightIndicator(rampSegment:RampSegment,transform:ModelViewTransform2D) extends PNode{
-  val line = new PhetPPath( new BasicStroke(2f), Color.black)
+class RampHeightIndicator(rampSegment: RampSegment, transform: ModelViewTransform2D) extends PNode {
+  val line = new PhetPPath(new BasicStroke(2f), Color.black)
   addChild(line)
-  def getLine=new Line2D.Double(new Vector2D(rampSegment.endPoint.x,0),rampSegment.endPoint)
+  def getLine = new Line2D.Double(new Vector2D(rampSegment.endPoint.x, 0), rampSegment.endPoint)
   defineInvokeAndPass(rampSegment.addListenerByName){
     line.setPathTo(transform.createTransformedShape(getLine))
+  }
+}
+
+//todo: consider coalescing with RampHeightIndicator
+class RampAngleIndicator(rampSegment: RampSegment, transform: ModelViewTransform2D) extends PNode {
+  
+  val line = new PhetPPath(new BasicStroke(2f), Color.black)
+  addChild(line)
+  def getPath = {
+    val arc=new Arc2D.Double(rampSegment.startPoint.x-3,rampSegment.startPoint.y-3,6,6,0,-rampSegment.getUnitVector.getAngle.toDegrees,Arc2D.OPEN)
+    arc
+  }
+  defineInvokeAndPass(rampSegment.addListenerByName){
+    line.setPathTo(transform.createTransformedShape(getPath))
   }
 }
 class RampCanvas(model: RampModel) extends DefaultCanvas(22, 20) {
@@ -426,7 +440,8 @@ class RampCanvas(model: RampModel) extends DefaultCanvas(22, 20) {
   addNode(new RampSegmentNode(model.rampSegments(0), transform))
   addNode(new RotatableSegmentNode(model.rampSegments(1), transform))
 
-  addNode(new RampHeightIndicator(model.rampSegments(1),transform))
+  addNode(new RampHeightIndicator(model.rampSegments(1), transform))
+  addNode(new RampAngleIndicator(model.rampSegments(1), transform))
 
   addNode(new BeadNode(model.leftWall, transform, "barrier2.jpg"))
   addNode(new BeadNode(model.rightWall, transform, "barrier2.jpg"))
