@@ -1,15 +1,15 @@
 package edu.colorado.phet.movingman.ladybug.controlpanel
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
+import model.{TimeModel, LadybugState, LadybugModel}
 import scala.swing.{Component, Panel}
 import java.awt.Color
 import javax.swing.BoxLayout._
 import javax.swing.{BoxLayout, JPanel, JComponent}
-import model.LadybugModel
 import java.awt.Color._
 import scalacommon.swing.MyRadioButton
 
-class ModePanel(model: TimeModel) extends JPanel {
+class ModePanel(model: TimeModel[LadybugState]) extends JPanel {
   setLayout(new BoxLayout(this, Y_AXIS))
   setBackground(new Color(0, 0, 0, 0))
 

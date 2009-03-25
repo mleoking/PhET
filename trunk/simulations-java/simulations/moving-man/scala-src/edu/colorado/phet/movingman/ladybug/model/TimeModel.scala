@@ -4,8 +4,8 @@ import _root_.edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
 import scalacommon.util.Observable
 import _root_.scala.collection.mutable.ArrayBuffer
 
-abstract class TimeModel extends Observable {
-  val recordHistory = new ArrayBuffer[DataPoint]
+abstract class TimeModel[T] extends Observable {
+  val recordHistory = new ArrayBuffer[DataPoint[T]]
 
   //todo make private after refactor
   private var record = true
@@ -53,7 +53,7 @@ abstract class TimeModel extends Observable {
 
   def getPlaybackIndexFloat(): Double = playbackIndexFloat
 
-  def setPlaybackState(state: LadybugState)
+  def setPlaybackState(state: T)
 
   def getMaxRecordPoints: Int
 

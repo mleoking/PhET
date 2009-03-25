@@ -5,9 +5,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import java.awt.geom.{Line2D, GeneralPath, Point2D}
 import java.awt.{BasicStroke, Color}
 import java.lang.Math._
-import model.{DataPoint, LadybugModel}
-
-
+import model.{DataPoint, LadybugState, LadybugModel}
 import scalacommon.util.Observable
 import umd.cs.piccolo.PNode
 
@@ -16,7 +14,7 @@ class LadybugFadeTraceNode(model: LadybugModel, transform: ModelViewTransform2D,
 
   def update() = {
     removeAllChildren
-    implicit def historyToPoint(dataPoint: DataPoint) = new Point2D.Float(dataPoint.state.position.x.toFloat, dataPoint.state.position.y.toFloat)
+    implicit def historyToPoint(dataPoint: DataPoint[LadybugState]) = new Point2D.Float(dataPoint.state.position.x.toFloat, dataPoint.state.position.y.toFloat)
 
     val historyToShow = getHistoryToShow()
     if (historyToShow.length >= 2) {
