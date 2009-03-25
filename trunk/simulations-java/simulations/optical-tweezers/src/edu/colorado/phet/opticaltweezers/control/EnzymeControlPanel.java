@@ -83,6 +83,7 @@ public class EnzymeControlPanel extends JPanel implements Observer {
                 });
                 
                 enzymeAPanel = new JPanel(new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
+                enzymeAPanel.setBorder( BorderFactory.createEmptyBorder( 2, 0, 2, 0 ) );
                 enzymeAPanel.add( _enzymeARadioButton );
                 enzymeAPanel.add( enzymeALabel );
             }
@@ -107,6 +108,7 @@ public class EnzymeControlPanel extends JPanel implements Observer {
                 });
                 
                 enzymeBPanel = new JPanel(new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
+                enzymeBPanel.setBorder( BorderFactory.createEmptyBorder( 2, 0, 2, 0 ) );
                 enzymeBPanel.add( _enzymeBRadioButton );
                 enzymeBPanel.add( enzymeBLabel );
             }
