@@ -184,6 +184,18 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 			// Home was pressed
 			updateHandler.installationUpdatesAvailable(1234567890, 0, 0);
 		}
+		if(Key.getCode() == 37 && Key.isDown(Key.SHIFT)) {
+			// left arrow
+			updateHandler.showUpdateError();
+		}
+		if(Key.getCode() == 38 && Key.isDown(Key.SHIFT)) {
+			// up arrow
+			updateHandler.showSimUpToDate();
+		}
+		if(Key.getCode() == 40 && Key.isDown(Key.SHIFT)) {
+			// down arrow
+			updateHandler.showInstallationUpToDate();
+		}
 	}
 	
 	// returns the version string with minor and dev fields padded with a zero if necessary

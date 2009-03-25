@@ -51,6 +51,11 @@
   <string key="InstallerInfo1" value="Keeping your PhET Offline Website Installation up-to-date ensures that you have access to the newest PhET simulations and supplemental materials." />
   <string key="InstallerInfo2" value="If you choose to get the newest version, a web browser will open to the PhET website, where you can download the PhET Offline Website Installer." />
   <string key="Distribution" value="Distribution" />
+  <string key="Error" value="Error" />
+  <string key="VersionError1" value="An error was encountered while trying to obtain version information." />
+  <string key="VersionError2" value="Please try again later, or visit &lt;a href='{0}'&gt;http://phet.colorado.edu&lt;/a&gt;" />
+  <string key="UpToDate" value="Up To Date" />
+  <string key="MostCurrentVersion" value="You have the most current version ({0}) of {1}." />
   <string key="StatisticsField-message_type" value="Message type" />
   <string key="StatisticsField-message_version" value="Message version" />
   <string key="StatisticsField-sim_type" value="Simulation type" />
