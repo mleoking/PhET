@@ -42,8 +42,8 @@ import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
-import edu.colorado.phet.statesofmatter.model.DualParticleModel;
 import edu.colorado.phet.statesofmatter.model.AtomType;
+import edu.colorado.phet.statesofmatter.model.DualParticleModel;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.view.ParticleForceNode;
 
@@ -363,6 +363,15 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             ButtonGroup adjustableSelection = new ButtonGroup();
             adjustableSelection.add( m_adjustableAttractionRadioButton );
             adjustableSelection.add( m_adjustableAttractionNotSelectedRadioButton );
+            
+            JLabel fixedAtomLabel = new JLabel( StatesOfMatterStrings.FIXED_ATOM_LABEL );
+//            fixedAtomLabel.setFont(LABEL_FONT);
+            JLabel movableAtomLabel = new JLabel( StatesOfMatterStrings.MOVABLE_ATOM_LABEL );
+//            movableAtomLabel.setFont(LABEL_FONT);
+            JPanel labelPanel = new JPanel();
+            labelPanel.setLayout(new GridLayout(1, 2));
+            labelPanel.add( fixedAtomLabel );
+            labelPanel.add( movableAtomLabel );
 
             JPanel individualMoleculeSelectionPanel = new JPanel();
             individualMoleculeSelectionPanel.setLayout(new GridLayout(0, 2));
@@ -373,6 +382,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             individualMoleculeSelectionPanel.add( m_oxygenFixedRadioButton );
             individualMoleculeSelectionPanel.add( m_oxygenMovableRadioButton );
             
+            add( labelPanel );
             add( individualMoleculeSelectionPanel );
             add( m_adjustableAttractionRadioButton );
             
