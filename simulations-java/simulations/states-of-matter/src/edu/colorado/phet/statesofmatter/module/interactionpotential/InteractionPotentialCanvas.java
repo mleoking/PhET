@@ -149,7 +149,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         // needs to be sized so that one picometer on the canvas is the same as
         // one picometer on the diagram.  Hence the somewhat tricky scaling
         // calculation.
-        m_interactionPotentialdiagram = new InteractiveInteractionPotentialDiagram(m_model.getFixedMoleculeSigma(),
+        m_interactionPotentialdiagram = new InteractiveInteractionPotentialDiagram(m_model.getSigma(),
                 m_model.getEpsilon(), true,m_model);
         double desiredWidth = m_interactionPotentialdiagram.getXAxisRange() + 
                 ((1 - m_interactionPotentialdiagram.getXAxisGraphProportion()) * m_interactionPotentialdiagram.getXAxisRange());

@@ -74,7 +74,7 @@ public class InteractiveInteractionPotentialDiagram extends InteractionPotential
         this.m_model = model;
         model.addListener(new DualParticleModel.Adapter(){
             public void interactionPotentialChanged() {
-                setLjPotentialParameters( model.getFixedMoleculeSigma(), model.getEpsilon() );
+                setLjPotentialParameters( model.getSigma(), model.getEpsilon() );
             }
             public void fixedParticleAdded(StatesOfMatterAtom particle) {
                 updateInteractivityState();
@@ -135,7 +135,7 @@ public class InteractiveInteractionPotentialDiagram extends InteractionPotential
                 PDimension d = event.getDeltaRelativeTo(draggedNode);
                 draggedNode.localToParent(d);
                 double scaleFactor = MAX_INTER_ATOM_DISTANCE / getGraphWidth();
-                m_model.setAdjustableParticleSigma( m_model.getFixedMoleculeSigma() + d.getWidth() * scaleFactor );
+                m_model.setAdjustableParticleSigma( m_model.getSigma() + d.getWidth() * scaleFactor );
             }
         });
         

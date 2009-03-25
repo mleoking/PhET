@@ -130,7 +130,12 @@ public class DualParticleModel {
 
         // TODO: Setting sigma as the average of the two molecules.  Not sure
         // if this is valid, need to check with the physicists.
-        m_ljPotentialCalculator.setSigma( ( getMovableMoleculeSigma() + getFixedMoleculeSigma() ) / 2);
+        if (m_movableParticle != null){
+            m_ljPotentialCalculator.setSigma( (m_movableParticle.getSigma() + m_fixedParticle.getSigma()) / 2 );
+        }
+        else{
+            m_ljPotentialCalculator.setSigma( m_fixedParticle.getSigma() );
+        }
 
         notifyFixedParticleAdded( m_fixedParticle );
         notifyInteractionPotentialChanged();
@@ -159,7 +164,12 @@ public class DualParticleModel {
         
         // TODO: Setting sigma as the average of the two molecules.  Not sure
         // if this is valid, need to check with the physicists.
-        m_ljPotentialCalculator.setSigma( ( getMovableMoleculeSigma() + getFixedMoleculeSigma() ) / 2);
+        if (m_fixedParticle != null){
+            m_ljPotentialCalculator.setSigma( (m_movableParticle.getSigma() + m_fixedParticle.getSigma()) / 2 );
+        }
+        else{
+            m_ljPotentialCalculator.setSigma( m_movableParticle.getSigma() );
+        }
 
         m_ljPotentialCalculator.setEpsilon(determineEpsilon());
         
@@ -244,12 +254,16 @@ public class DualParticleModel {
     	}
     }
     
-    public double getFixedMoleculeSigma(){
-        return m_fixedParticle.getSigma();
-    }
-    
-    public double getMovableMoleculeSigma(){
-        return m_movableParticle.getSigma();
+    /**
+     * Get the value of the sigma parameter that is being used for the motion
+     * calculations.  If the molecules are the same, it will be the diameter
+     * of one particle.  If they are not, it will be a function of the
+     * diameters.
+     * 
+     * @return
+     */
+    public double getSigma(){
+        return m_ljPotentialCalculator.getSigma();
     }
     
     /**
