@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.statesofmatter.model.AtomType;
 
 /**
  * This class represents a particle in the model portion of the States of
@@ -24,6 +25,7 @@ public class StatesOfMatterAtom implements Cloneable {
     public static final StatesOfMatterAtom TEST = new StatesOfMatterAtom(0.0, 0.0, 1.0, 1.0);
     private static final double DEFAULT_SIGMA = 330;    // Atom diameter, in picometers.
     private static final double DEFAULT_EPSILON = 120;  // epsilon/k-Boltzmann is in Kelvin.
+    protected static final AtomType ATOM_TYPE = AtomType.UNDEFINED;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -52,6 +54,10 @@ public class StatesOfMatterAtom implements Cloneable {
     // Accessor Methods
     //----------------------------------------------------------------------------
 
+    public AtomType getType(){
+    	return ATOM_TYPE;
+    }
+    
     public double getX() {
         return m_position.x;
     }

@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.statesofmatter.model.particle;
 
+import edu.colorado.phet.statesofmatter.model.AtomType;
+
 /**
  * The class represents a single atom of neon in the model.
  *
@@ -13,7 +15,7 @@ public class NeonAtom extends StatesOfMatterAtom {
     private static final double MASS = 20.1797; // In atomic mass units.
     private static final double SIGMA = 308;    // In picometers.
     private static final double EPSILON = 32.8; // epsilon/k-Boltzmann is in Kelvin.
-
+    protected static final AtomType ATOM_TYPE = AtomType.NEON;
     
     public NeonAtom(double xPos, double yPos){
         super(xPos, yPos, RADIUS, MASS);
