@@ -318,12 +318,6 @@ class LadybugModel extends TimeModel{
     setPlaybackIndexFloat(0.0)
   }
 
-  def setPlaybackIndexFloat(index: Double) = {
-    playbackIndexFloat = index
-    setStateToPlaybackIndex()
-    notifyListeners()
-  }
-
   def startRecording() = {
     getLadybugMotionModel.motion = LadybugMotionModel.MANUAL
     setRecord(true)

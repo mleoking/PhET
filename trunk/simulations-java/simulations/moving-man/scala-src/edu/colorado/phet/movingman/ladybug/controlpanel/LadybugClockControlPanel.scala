@@ -34,22 +34,35 @@ import edu.colorado.phet.scalacommon.Predef._
 
 abstract class TimeModel extends Observable {
   val recordHistory = new ArrayBuffer[DataPoint]
-  var record = true //todo make private after refactor
-  var paused = true //todo make private after refactor
-  var time = 0.0 //todo make private after refactor
-  var playbackIndexFloat = 0.0 //floor this to get playbackIndex
+
+  //todo make private after refactor
+  protected var record = true
+  protected var paused = true
+  protected var time = 0.0
+  protected var playbackIndexFloat = 0.0 //floor this to get playbackIndex
+
+  def setStateToPlaybackIndex()
+
+  def setRecord(b: Boolean)
+
+  def getMaxRecordPoints: Int
+
+  def stepPlayback()
+
   def clearHistory() = {
     recordHistory.clear()
     notifyListeners()
   }
 
-  def setRecord(b: Boolean)
-
   def isPlayback() = !record
 
   def isRecord() = record
 
-  def setPlaybackIndexFloat(f: Double)
+  def setPlaybackIndexFloat(index: Double) = {
+    playbackIndexFloat = index
+    setStateToPlaybackIndex()
+    notifyListeners()
+  }
 
   def setPaused(p: Boolean) = {
     if (paused != p) {
@@ -66,8 +79,6 @@ abstract class TimeModel extends Observable {
     recordHistory.length >= getMaxRecordPoints
   }
 
-  def getMaxRecordPoints: Int
-
   def getRecordingHistory = recordHistory
 
   def getRecordedTimeRange(): Double = {
@@ -77,8 +88,6 @@ abstract class TimeModel extends Observable {
       recordHistory(recordHistory.length - 1).time - recordHistory(0).time
     }
   }
-
-  def stepPlayback()
 
   def getTime() = time
 
