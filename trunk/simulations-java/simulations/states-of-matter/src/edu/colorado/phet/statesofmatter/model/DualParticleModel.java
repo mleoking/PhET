@@ -7,13 +7,10 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.defaults.InteractionPotentialDefaults;
-import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
 import edu.colorado.phet.statesofmatter.model.particle.NeonAtom;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
-import edu.colorado.phet.statesofmatter.model.particle.UserDefinedAtom;
 
 /**
  * This is the model for two particles interacting with a Lennard-Jones
@@ -59,8 +56,8 @@ public class DualParticleModel {
         m_clock = clock;
         m_timeStep = InteractionPotentialDefaults.CLOCK_DT / 1000 / CALCULATIONS_PER_TICK;
         m_particleMotionPaused = false;
-        m_ljPotentialCalculator = new LjPotentialCalculator( getMovableMoleculeType().getEpsilon(), 
-        		getMovableMoleculeType().getSigma() );
+        m_ljPotentialCalculator = new LjPotentialCalculator( StatesOfMatterConstants.MIN_SIGMA, 
+        		StatesOfMatterConstants.MIN_EPSILON ); // Initial values arbitrary, will be set during reset.
         
         // Register as a clock listener.
         clock.addClockListener(new ClockAdapter(){
@@ -190,12 +187,12 @@ public class DualParticleModel {
 	 * potential) based on the two atoms being used.
 	 * @return
 	 */
-	public double determineEpsilon(){
+	private double determineEpsilon(){
 		
 		double epsilon = 0;
 		
 		if ( m_fixedMoleculeType == m_movableMoleculeType ){
-			epsilon = m_fixedMoleculeType.getEpsilon();
+			epsilon = m_fixedParticle.getEpsilon();
 		}
 		else{
 			// This is a heterogeneous situation, and epsilon is unique for each combination.
@@ -207,7 +204,7 @@ public class DualParticleModel {
 				// TODO: For not the epsilon value with be the average of the values for two interacting atoms of
 				// the same type.  This is almost certainly not physically valid, so we need to work with the
 				// physicists to get better values.
-				epsilon = (m_fixedMoleculeType.getEpsilon() + m_movableMoleculeType.getEpsilon()) / 2;
+				epsilon = (m_fixedParticle.getEpsilon() + m_movableParticle.getEpsilon()) / 2;
 			}
 		}
 		
@@ -233,8 +230,9 @@ public class DualParticleModel {
     		(m_movableMoleculeType == AtomType.ADJUSTABLE) &&
     		(sigma != m_ljPotentialCalculator.getSigma())){
     		
-    		m_fixedMoleculeType.setSigma(sigma);
-    		m_movableMoleculeType.setSigma(sigma);
+    		// TODO - Need to work out how this works, commenting out for now.
+//    		m_fixedParticle.setSigma(sigma);
+//    		m_movableMoleculeType.setSigma(sigma);
             m_ljPotentialCalculator.setSigma( sigma );
             notifyInteractionPotentialChanged();
             m_fixedParticle.setRadius( sigma / 2 );
@@ -245,11 +243,11 @@ public class DualParticleModel {
     }
     
     public double getFixedMoleculeSigma(){
-        return m_fixedMoleculeType.getSigma();
+        return m_fixedParticle.getSigma();
     }
     
     public double getMovableMoleculeSigma(){
-        return m_movableMoleculeType.getSigma();
+        return m_movableParticle.getSigma();
     }
     
     /**
@@ -262,13 +260,12 @@ public class DualParticleModel {
         
     	if ((m_fixedMoleculeType == AtomType.ADJUSTABLE) && 
        		(m_movableMoleculeType == AtomType.ADJUSTABLE)){
-        		
-        		m_fixedMoleculeType.setSigma(epsilon);
-        		m_movableMoleculeType.setSigma(epsilon);
+
+    		// TODO: Do I adjust the atoms themselves, or just the overall value?
+    		
+            m_ljPotentialCalculator.setEpsilon( determineEpsilon() );
+            notifyInteractionPotentialChanged();
        	}
-        
-        m_ljPotentialCalculator.setEpsilon( determineEpsilon() );
-        notifyInteractionPotentialChanged();
     }
     
     /**
@@ -363,10 +360,10 @@ public class DualParticleModel {
         
         double distance = m_shadowMovableParticle.getPositionReference().distance( m_fixedParticle.getPositionReference() );
         
-        if (distance < (m_fixedMoleculeType.getSigma() + m_movableMoleculeType.getSigma()) / 4){
+        if (distance < (m_fixedParticle.getSigma() + m_movableParticle.getSigma()) / 4){
             // The particles are too close together, and calculating the force
             // will cause unusable levels of speed later, so we limit it.
-            distance = (m_fixedMoleculeType.getSigma() + m_movableMoleculeType.getSigma()) / 4;
+            distance = (m_fixedParticle.getSigma() + m_movableParticle.getSigma()) / 4;
         }
         
         // Calculate the force.  The result should be in newtons.
