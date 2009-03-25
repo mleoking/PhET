@@ -15,6 +15,12 @@
 	/*float: left;*/
 }
 
+.commonconstraint {
+    padding: 5px;
+    display: block;
+    float: left;
+}
+
 #content {
 	max-width: 900px;
 	font-size: 12px;
