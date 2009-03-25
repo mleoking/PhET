@@ -3,9 +3,7 @@ package edu.colorado.phet.movingman.ladybug.canvas
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import java.awt.geom.{Ellipse2D, GeneralPath, Point2D}
-import model.{DataPoint, LadybugModel}
-
-
+import model.{DataPoint, LadybugState, LadybugModel}
 import scalacommon.util.Observable
 import umd.cs.piccolo.nodes.PPath
 import umd.cs.piccolo.PNode
@@ -27,7 +25,7 @@ class LadybugDotTraceNode(model: LadybugModel, transform: ModelViewTransform2D, 
   def update() = {
     node.removeAllChildren
     val p = new GeneralPath
-    implicit def historyToPoint(dataPoint: DataPoint) = new Point2D.Float(dataPoint.state.position.x.toFloat, dataPoint.state.position.y.toFloat)
+    implicit def historyToPoint(dataPoint: DataPoint[LadybugState]) = new Point2D.Float(dataPoint.state.position.x.toFloat, dataPoint.state.position.y.toFloat)
 
     if (model.getRecordingHistory.length > 0) {
       for (h <- getHistoryToShow()) {

@@ -13,6 +13,7 @@ import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PlayPauseButton
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.RewindButton
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepButton
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
+import model.{TimeModel, LadybugModel}
 import scala.collection.mutable.ArrayBuffer
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources
 import edu.colorado.phet.common.phetcommon.resources.PhetResources
@@ -21,7 +22,6 @@ import java.awt.event.{ActionEvent, ComponentAdapter, ComponentEvent, ActionList
 import java.awt.geom.{Line2D, Ellipse2D}
 import java.util.{Hashtable, Dictionary}
 import javax.swing._
-import model.LadybugModel
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.nodes.{PImage, PText}
 import umd.cs.piccolo.PNode
@@ -33,7 +33,7 @@ import edu.colorado.phet.scalacommon.Predef._
 
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 
-class Timeline(model: TimeModel, canvas: PhetPCanvas) extends PNode {
+class Timeline[T](model: TimeModel[T], canvas: PhetPCanvas) extends PNode {
   val pathOffsetY = 4
   val pathHeight = 6
   val ellipseWidth = 10

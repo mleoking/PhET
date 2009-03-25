@@ -1,6 +1,5 @@
 package edu.colorado.phet.movingman.ladybug.model
 
-import controlpanel.TimeModel
 import edu.colorado.phet.common.motion.model.TimeData
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
 import edu.colorado.phet.movingman.util.Motion2DModel
@@ -16,7 +15,7 @@ import scalacommon.util.Observable
  * The smoothing of motion is done by leading the ladybug (with an abstraction called the pen),
  * and using the same model as Motion2D for interpolation.
  */
-class LadybugModel extends TimeModel {
+class LadybugModel extends TimeModel[LadybugState] {
   val ladybug = new Ladybug
   private val ladybugMotionModel = new LadybugMotionModel(this)
   private var bounds = new Rectangle2D.Double(-10, -10, 20, 20)
@@ -25,7 +24,7 @@ class LadybugModel extends TimeModel {
   val resetListeners = new ArrayBuffer[() => Unit]
   private var frictionless = false
   val motion2DModel = new Motion2DModel(10, 5, LadybugDefaults.defaultLocation.x, LadybugDefaults.defaultLocation.y)
-  private val modelHistory = new ArrayBuffer[DataPoint] //recent history used to compute velocities, etc.
+  private val modelHistory = new ArrayBuffer[DataPoint[LadybugState]] //recent history used to compute velocities, etc.
   var dt = 0.0
 
   //samples inputted from the user that will be used to determine the path of the object
