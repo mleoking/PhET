@@ -448,6 +448,9 @@
 				break;
 			case "recent_messages":
 				$count = ( esc($arr, 'count') ? esc($arr, 'count') : '10' );
+				if(empty($order_by)) {
+			        $order_by = "ORDER BY session.id DESC LIMIT {$count}";
+			    }
 				if(esc($arr, 'recent_sim_type') == 'all') {
 					$querytext = <<<SES
 SELECT
@@ -482,7 +485,7 @@ WHERE (
 	AND session.sim_distribution_tag = distribution_tag.id
 	AND session.host_simplified_os = simplified_os.id
 )
-ORDER BY session.id DESC LIMIT {$count};
+{$order_by};
 SES;
 				} else if(esc($arr, 'recent_sim_type') == 'flash') {
 					$querytext = <<<FLA
@@ -529,7 +532,7 @@ WHERE (
 	AND session_flash_info.host_flash_domain = flash_domain.id
 	AND session_flash_info.host_flash_os = flash_os.id
 )
-ORDER BY session.id DESC LIMIT {$count};
+{$order_by};
 FLA;
 				} else if(esc($arr, 'recent_sim_type') == 'java') {
 					$querytext = <<<JAV
@@ -579,7 +582,7 @@ WHERE (
 	AND session_java_info.host_java_webstart_version = java_webstart_version.id
 	AND session_java_info.host_java_timezone = java_timezone.id
 )
-ORDER BY session.id DESC LIMIT {$count};
+{$order_by};
 JAV;
 				}
 				array_push($query, $querytext);

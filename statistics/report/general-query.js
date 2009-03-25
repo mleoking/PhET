@@ -55,9 +55,15 @@ function setValue(str, val) {
 }
 
 
-function constraintGeneralString(desc, field, href) {
+function constraintGeneralString(desc, field, href, type) {
 	var str = "";
-	str += "<div class='constraint'>";
+
+    var typeString = "constraint";
+    if( type == "common" ) {
+        typeString = "commonconstraint";
+    }
+
+	str += "<div class='" + typeString + "'>";
 	str += "<span class='field'>" + desc + ": </span>";
 	str += "<span id='" + field + "'>";
 	str += "(<a href=\"" + href + "\">specify</a>)";
@@ -66,12 +72,12 @@ function constraintGeneralString(desc, field, href) {
 	return str;
 }
 
-function constraintString(desc, field, url) {
-	return constraintGeneralString(desc, field, "javascript:ahah('" + url + "', '" + field + "')");
+function constraintString(desc, field, url, type) {
+	return constraintGeneralString(desc, field, "javascript:ahah('" + url + "', '" + field + "')", type);
 }
 
 function commonConstraintString(desc, field) {
-	return constraintString(desc, field, "query-combo-box.php?select_name=" + field + "&group=" + field + "&order=" + field);
+	return constraintString(desc, field, "query-combo-box.php?select_name=" + field + "&group=" + field + "&order=" + field, "common");
 }
 
 // called when project is changed
@@ -79,7 +85,19 @@ function specify_name() {
 	fid("name_holder").innerHTML = constraintString("Name", "sim_name", "query-combo-box.php?select_name=sim_name&group=sim_name&hide_all=true&sim_project=" + getValue("sim_project"));
 }
 
-var simCountsConstraints = ["sim_project", "sim_name", "sim_dev", "sim_type", "sim_deployment", "sim_distribution_tag", "host_simplified_os"];
+var simCountsConstraints = [
+    "sim_project",
+    "sim_name",
+    "sim_dev",
+    "sim_type",
+    "sim_deployment",
+    "sim_distribution_tag",
+    "host_simplified_os",
+    "sim_major_version",
+    "sim_minor_version",
+    "sim_dev_version",
+    "sim_revision"
+];
 
 
 function setupSimCounts() {
@@ -99,6 +117,12 @@ function setupSimCounts() {
 	str += commonConstraintString("Deployment", "sim_deployment");
 	str += commonConstraintString("Distribution Tag", "sim_distribution_tag");
 	str += commonConstraintString("OS", "host_simplified_os");
+    str += commonConstraintString("Sim Major Version", "sim_major_version");
+    str += commonConstraintString("Sim Minor Version", "sim_minor_version");
+    str += commonConstraintString("Sim Dev Version", "sim_dev_version");
+    str += commonConstraintString("Sim Revision", "sim_revision");
+
+    str += "<br style='clear: both;'/>";
 	
 	str += "<div class='constraint'><span class='field'>Group by: </span><select name='group' id='group' onchange='javascript:build_order()'>";
 	str += "<option value='none'>none</option>";
