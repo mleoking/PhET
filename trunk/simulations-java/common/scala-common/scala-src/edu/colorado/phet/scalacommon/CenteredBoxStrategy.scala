@@ -11,7 +11,8 @@ import java.awt.geom.{AffineTransform, Rectangle2D}
 //see http://lampsvn.epfl.ch/trac/scala/ticket/735
 
 //todo: Rename to CenteredBoxStrategy when possible
-class CB(modelWidth: Double, modelHeight: Double, canvas: JComponent) extends TransformStrategy {
+class CenteredBoxStrategy(modelWidth: Double, modelHeight: Double, canvas: JComponent) extends TransformStrategy {
+//  def this()=this(3,4,null)//workaround for no constructor found problem
   def getTransform(): AffineTransform = {
     if (canvas.getWidth > 0 && canvas.getHeight > 0) {
       val sx = canvas.getWidth / modelWidth
