@@ -21,35 +21,35 @@ import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
  */
 public class PhetOptionPane {
     
-    public static int showMessageDialog( Component parent, String title, String message ) {
-        return showJOptionPaneDialog( parent, title, message, JOptionPane.INFORMATION_MESSAGE );
+    public static int showMessageDialog( Component parent, String message, String title ) {
+        return showJOptionPaneDialog( parent, message, title, JOptionPane.INFORMATION_MESSAGE );
     }
     
-    public static int showOKCancelDialog( Component parent, String title, String message ) {
-        return showJOptionPaneDialog( parent, title, message, JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION );
+    public static int showOKCancelDialog( Component parent, String message, String title ) {
+        return showJOptionPaneDialog( parent, message, title, JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION );
     }
     
-    public static int showYesNoDialog( Component parent, String title, String message ) {
-        return showJOptionPaneDialog( parent, title, message, JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION );
+    public static int showYesNoDialog( Component parent, String message, String title ) {
+        return showJOptionPaneDialog( parent, message, title, JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION );
     }
     
-    public static int showWarningDialog( Component parent, String title, String message ) {
-        return showJOptionPaneDialog( parent, title, message, JOptionPane.WARNING_MESSAGE );
+    public static int showWarningDialog( Component parent, String message, String title ) {
+        return showJOptionPaneDialog( parent, message, title, JOptionPane.WARNING_MESSAGE );
     }
     
-    public static int showErrorDialog( Component parent, String title, String message ) {
-        return showJOptionPaneDialog( parent, title, message, JOptionPane.ERROR_MESSAGE );
+    public static int showErrorDialog( Component parent, String message, String title ) {
+        return showJOptionPaneDialog( parent, message, title, JOptionPane.ERROR_MESSAGE );
     }
 
-    private static int showJOptionPaneDialog( Component parent, String title, String message, int messageType ) {
-        return showJOptionPaneDialog( parent, title, message, JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION );
+    private static int showJOptionPaneDialog( Component parent, String message, String title, int messageType ) {
+        return showJOptionPaneDialog( parent, message, title, messageType, JOptionPane.DEFAULT_OPTION );
     }
    
     /*
      * Shows a dialog using a JOptionPane.
      * Return values are obtained from JOptionPane, see its javadoc.
      */
-    private static int showJOptionPaneDialog( Component parent, String title, String message, int messageType, int optionType ) {
+    private static int showJOptionPaneDialog( Component parent, String message, String title, int messageType, int optionType ) {
 
         // Use a JOptionPane to get the right dialog look and layout
         JOptionPane pane = new JOptionPane( message, messageType, optionType );
@@ -68,18 +68,9 @@ public class PhetOptionPane {
             }
         } );
 
-        //pack the dialog first so it will be centered correctly
+        // pack the dialog first so it will be centered correctly
         dialog.pack();
-
-        // center on the parent
-        if ( parent ==  null ) {
-            SwingUtils.centerWindowOnScreen( dialog );
-        }
-        else {
-            SwingUtils.centerDialogInParent( dialog );
-        }
-
-        // show the dialog
+        SwingUtils.centerDialog( dialog, parent );
         dialog.setVisible( true );
         
         // blocks here until user makes a choice
@@ -126,15 +117,15 @@ public class PhetOptionPane {
     
     /* tests */
     public static void main( String[] args ) {
-        int value = PhetOptionPane.showMessageDialog( null, "Message", "message" );
+        int value = PhetOptionPane.showMessageDialog( null, "message", "title" );
         System.out.println( "value=" + value );
-        value = PhetOptionPane.showOKCancelDialog( null, "OK/Cancel Question", "question" );
+        value = PhetOptionPane.showOKCancelDialog( null, "ok question", "title" );
         System.out.println( "value=" + value );
-        value = PhetOptionPane.showYesNoDialog( null, "Yes/No Question", "question" );
+        value = PhetOptionPane.showYesNoDialog( null, "yes/no question", "title" );
         System.out.println( "value=" + value );
-        value = PhetOptionPane.showWarningDialog( null, "Warning", "warning" );
+        value = PhetOptionPane.showWarningDialog( null, "warning", "title" );
         System.out.println( "value=" + value );
-        value = PhetOptionPane.showErrorDialog( null, "Error", "error" );
+        value = PhetOptionPane.showErrorDialog( null, "error", "title" );
         System.out.println( "value=" + value );
         System.exit( 0 );
     }
