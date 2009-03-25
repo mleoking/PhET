@@ -409,6 +409,14 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: {def selectedO
   //  val cellHeight = nodes.foldleft(0, (a, b) => max(a, b))
 }
 
+class RampHeightIndicator(rampSegment:RampSegment,transform:ModelViewTransform2D) extends PNode{
+  val line = new PhetPPath( new BasicStroke(2f), Color.black)
+  addChild(line)
+  def getLine=new Line2D.Double(new Vector2D(rampSegment.endPoint.x,0),rampSegment.endPoint)
+  defineInvokeAndPass(rampSegment.addListenerByName){
+    line.setPathTo(transform.createTransformedShape(getLine))
+  }
+}
 class RampCanvas(model: RampModel) extends DefaultCanvas(22, 20) {
   setBackground(new Color(200, 255, 240))
 
@@ -417,6 +425,8 @@ class RampCanvas(model: RampModel) extends DefaultCanvas(22, 20) {
 
   addNode(new RampSegmentNode(model.rampSegments(0), transform))
   addNode(new RotatableSegmentNode(model.rampSegments(1), transform))
+
+  addNode(new RampHeightIndicator(model.rampSegments(1),transform))
 
   addNode(new BeadNode(model.leftWall, transform, "barrier2.jpg"))
   addNode(new BeadNode(model.rightWall, transform, "barrier2.jpg"))
