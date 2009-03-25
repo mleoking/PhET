@@ -15,7 +15,7 @@ import scalacommon.util.Observable
  * The smoothing of motion is done by leading the ladybug (with an abstraction called the pen),
  * and using the same model as Motion2D for interpolation.
  */
-class LadybugModel extends TimeModel[LadybugState] {
+class LadybugModel extends RecordModel[LadybugState] {
   val ladybug = new Ladybug
   private val ladybugMotionModel = new LadybugMotionModel(this)
   private var bounds = new Rectangle2D.Double(-10, -10, 20, 20)

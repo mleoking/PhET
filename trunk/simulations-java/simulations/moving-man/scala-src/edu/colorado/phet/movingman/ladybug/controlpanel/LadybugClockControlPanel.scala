@@ -14,7 +14,7 @@ import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PlayPauseButton
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.RewindButton
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepButton
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
-import model.{DataPoint, TimeModel, LadybugState}
+import model.{DataPoint, RecordModel, LadybugState}
 import scala.collection.mutable.ArrayBuffer
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources
 import edu.colorado.phet.common.phetcommon.resources.PhetResources
@@ -32,7 +32,7 @@ import umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloTimeControlPanel.BackgroundNode
 import edu.colorado.phet.scalacommon.Predef._
 
-class LadybugClockControlPanel(model: TimeModel[LadybugState], simPanel: JComponent, createRightControl: () => PNode) extends PhetPCanvas {
+class LadybugClockControlPanel(model: RecordModel[LadybugState], simPanel: JComponent, createRightControl: () => PNode) extends PhetPCanvas {
   private class MyButtonNode(text: String, icon: Icon, action: () => Unit) extends PText(text) {
     addInputEventListener(new PBasicInputEventHandler() {
       override def mousePressed(event: PInputEvent) = {action()}

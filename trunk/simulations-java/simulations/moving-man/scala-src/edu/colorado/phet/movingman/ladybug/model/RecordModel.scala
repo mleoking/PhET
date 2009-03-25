@@ -4,7 +4,7 @@ import _root_.edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
 import scalacommon.util.Observable
 import _root_.scala.collection.mutable.ArrayBuffer
 
-abstract class TimeModel[T] extends Observable {
+abstract class RecordModel[T] extends Observable {
   val recordHistory = new ArrayBuffer[DataPoint[T]]
 
   //todo make private after refactor
