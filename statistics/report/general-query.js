@@ -141,6 +141,8 @@ function setupSimCounts() {
 		str += "<option value='project_name'>Project, Name</option>";
 		str += "<option value='sim_deployment'>Deployment</option>";
 		str += "<option value='sim_distribution_tag'>Distribution Tag</option>";
+        str += "<option value='sim_revision'>Sim Revision</option>";
+        str += "<option value='server_revision'>Server Code Revision</option>";
 	str += "</optgroup>";
 	str += "<optgroup label='Java sims only'>";
 		str += "<option value='host_java_version_full'>Java Version (full)</option>";
