@@ -143,12 +143,16 @@ public class SwingUtils {
             //dialog.setBounds( dialogBounds );
             dialog.setLocation( dialogBounds.x, dialogBounds.y );
         }
+        else {
+            centerWindowOnScreen( dialog );
+        }
     }
     
     /**
      * If the dialog has a parent, center the dialog on the parent.
      * Otherwise center it on the screen.
      * @param dialog
+     * @deprecated use centerDialogInParent
      */
     public static void centerDialog( JDialog dialog, Component owner ) {
         // note: can't rely on dialog.getParent, it will always return non-null!
