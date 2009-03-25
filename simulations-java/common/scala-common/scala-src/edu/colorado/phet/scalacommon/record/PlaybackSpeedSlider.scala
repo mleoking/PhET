@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.ladybug.controlpanel
+package edu.colorado.phet.scalacommon.record
 
 import _root_.edu.colorado.phet.common.piccolophet.event.CursorHandler
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
@@ -9,11 +9,10 @@ import java.util.Hashtable
 import javax.swing.event.{ChangeListener, ChangeEvent}
 import javax.swing.{JSlider, JLabel}
 
-import model.LadybugModel
 import umd.cs.piccolo.PNode
 import umd.cs.piccolox.pswing.PSwing
 
-class PlaybackSpeedSlider(model: LadybugModel) extends PNode {
+class PlaybackSpeedSlider[T](model: RecordModel[T]) extends PNode {
   addInputEventListener(new CursorHandler)
   val slider = new JSlider
   slider.setBackground(new Color(0, 0, 0, 0))

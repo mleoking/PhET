@@ -8,7 +8,7 @@ import model.LadybugMotionModel._
 import edu.colorado.phet.common.phetcommon.application.Module
 import edu.colorado.phet.common.phetcommon.model.clock.IClock
 import java.awt.Color
-import scalacommon.record.RecordModelControlPanel
+import scalacommon.record.{PlaybackSpeedSlider, RecordModelControlPanel}
 import scalacommon.ScalaClock
 import umd.cs.piccolo.PNode
 
