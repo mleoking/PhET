@@ -13,7 +13,7 @@ import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.MyAntTaskRunner;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.Simulation;
-import edu.colorado.phet.buildtools.java.projects.FlashLauncherProject;
+import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.application.JARLauncher;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
@@ -446,4 +446,26 @@ public class FlashSimulationProject extends PhetProject {
         return new PhetProject[]{commonProject};
     }
 
+
+    /**
+     * Used solely for building the flash-launcher .class files that will be used in PhetFlashProject.
+     * This project is not intended to be used or deployed by itself.
+     */
+    public class FlashLauncherProject extends JavaProject {
+        public FlashLauncherProject( File trunk ) throws IOException {
+            super( new File( trunk, "simulations-flash/flash-launcher" ) );
+        }
+
+        public File getTrunkAbsolute() {
+            return new File( getProjectDir(), "../../" );
+        }
+
+        public String getAlternateMainClass() {
+            return null;
+        }
+
+        public String getProdServerDeployPath() {
+            return null;
+        }
+    }
 }
