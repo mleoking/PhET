@@ -237,6 +237,18 @@ function setupRecentMessages() {
 	str += "Quantity: <input type='text' name='count' size='5' maxlength='10' id='count' value='10'>";
 	str += "</input>";
 	str += "</div>";
+
+    str += constraintString("Project", "sim_project", "select-projects.php");
+	str += "<div id='name_holder'></div>";
+
+    str += commonConstraintString("Dev", "sim_dev");
+	str += commonConstraintString("Deployment", "sim_deployment");
+	str += commonConstraintString("Distribution Tag", "sim_distribution_tag");
+	str += commonConstraintString("OS", "host_simplified_os");
+    str += commonConstraintString("Sim Major Version", "sim_major_version");
+    str += commonConstraintString("Sim Minor Version", "sim_minor_version");
+    str += commonConstraintString("Sim Dev Version", "sim_dev_version");
+    str += commonConstraintString("Sim Revision", "sim_revision");
 	
 	fid("query_options").innerHTML = str;
 }
@@ -347,12 +359,25 @@ function query_change() {
 }
 
 
-
+function constraints_query_string() {
+    var str = "";
+    for(idx in simCountsConstraints) {
+        var name = simCountsConstraints[idx];
+        if(getValue(name) !== null && getValue(name) != "all") {
+            if(name == "sim_name" && (getValue("sim_project") === null || getValue("sim_project") == "all")) {
+                continue;
+            }
+            str += "&" + name + "=" + getValue(name);
+        }
+    }
+    return str;
+}
 
 function query_string() {
 	var str = "query=" + getValue("query");
 	
 	if(getValue("query") == "session_count" || getValue("query") == "message_count") {
+        /*
 		for(idx in simCountsConstraints) {
 			var name = simCountsConstraints[idx];
 			if(getValue(name) !== null && getValue(name) != "all") {
@@ -362,6 +387,10 @@ function query_string() {
 				str += "&" + name + "=" + getValue(name);
 			}
 		}
+		*/
+
+        str += constraints_query_string();
+
 		if(getValue('group') != "none") {
 			str += "&group=" + getValue('group');
 		}
@@ -381,6 +410,7 @@ function query_string() {
 	} else if(getValue("query") == "recent_messages") {
 		str += "&recent_sim_type=" + getValue('recent_sim_type');
 		str += "&count=" + getValue('count');
+        str += constraints_query_string();
 	} else if(getValue("query") == "unique_users") {
 		str += "&n_max=" + getValue("n_max");
 		str += "&alpha=" + getValue("alpha");
