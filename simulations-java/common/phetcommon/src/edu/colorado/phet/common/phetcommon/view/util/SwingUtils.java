@@ -134,7 +134,7 @@ public class SwingUtils {
      * @param dialog
      */
     public static void centerDialogInParent( JDialog dialog ) {
-        Container parent = dialog.getParent();
+        Container parent = dialog.getParent(); // Note! getParent always returns non-null, returns a SharedOwnerFrame if no parent was explicitly set
         if ( parent != null ) {
             Rectangle parentBounds = parent.getBounds();
             Rectangle dialogBounds = new Rectangle( (int) ( parentBounds.getMinX() + parentBounds.getWidth() / 2 - dialog.getWidth() / 2 ),
@@ -143,16 +143,12 @@ public class SwingUtils {
             //dialog.setBounds( dialogBounds );
             dialog.setLocation( dialogBounds.x, dialogBounds.y );
         }
-        else {
-            centerWindowOnScreen( dialog );
-        }
     }
     
     /**
      * If the dialog has a parent, center the dialog on the parent.
      * Otherwise center it on the screen.
      * @param dialog
-     * @deprecated use centerDialogInParent
      */
     public static void centerDialog( JDialog dialog, Component owner ) {
         // note: can't rely on dialog.getParent, it will always return non-null!
