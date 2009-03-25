@@ -248,10 +248,8 @@ class RampModel extends Observable {
     val origState = b.state
     val forces = getForces(b)
     val netForce = forces.foldLeft(new Vector2D)((a, b) => {a + b})
-    //    println("step, net Force=" + netForce)
     val parallelForce = netForce.dot(b.getRampUnitVector)
     val parallelAccel = parallelForce / b.mass
-    //    println("parallel force=" + parallelForce + ", paraccel=" + parallelAccel)
     b.setVelocity(b.velocity + parallelAccel * dt)
 
     val requestedPosition = b.position + b.velocity * dt
@@ -391,7 +389,6 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: {def selectedO
   }
 
   val cellDim = nodes.foldLeft(new PDimension)((a, b) => new PDimension(max(a.width, b.getFullBounds.width), max(a.height, b.getFullBounds.height)))
-  //  println("CellDim=" + cellDim)
 
   val modelCellDimPt = transform.viewToModelDifferential(cellDim.width, cellDim.height)
   for (i <- 0 until nodes.length) {
@@ -401,12 +398,9 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: {def selectedO
     val n = nodes(i)
     n.backgroundNode.setPathTo(new Rectangle2D.Double(0, 0, cellDim.width, cellDim.height))
     n.setOffset(transform.modelToView(column * modelCellDimPt.x - 10, row * modelCellDimPt.y - 5))
-    //    println("i=" + i + ", row=" + row + ", col=" + column + ", offset=" + n.getOffset)
     addChild(n)
   }
 
-  //  val cellWidth = bounds.foldLeft(new Rectangle2D.Double(0, 0, 0, 0))((a, b) => max(a.getFullBounds.width, b.getFullBounds.width))
-  //  val cellHeight = nodes.foldleft(0, (a, b) => max(a, b))
 }
 
 class RampHeightIndicator(rampSegment: RampSegment, transform: ModelViewTransform2D) extends PNode {
@@ -463,7 +457,7 @@ class PusherNode(transform: ModelViewTransform2D, targetBead: Bead, manBead: Bea
       val dx = if (targetBead.appliedForce.x > 0) -6 else 6
       manBead.setPosition(targetBead.position + dx)
 
-      //go 0 to 14
+      //images go 0 to 14
       val leanAmount = (abs(targetBead.appliedForce.x) * 13.0 / 50.0).toInt + 1
       var textStr = "" + leanAmount
       while (textStr.length < 2)
@@ -584,7 +578,6 @@ class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramMo
   add(new MyCheckBox("Walls", model.walls_=, model.walls, model.addListener))
   add(new MyCheckBox("Frictionless", model.frictionless_=, model.frictionless, model.addListener))
 
-  // double min, double max, double value, String label, String textFieldPattern, String units
   val positionSlider = new ScalaValueControl(RampDefaults.MIN_X, RampDefaults.MAX_X, "Object Position", "0.0", "meters",
     model.beads(0).position, model.beads(0).setPosition, model.beads(0).addListener)
   add(positionSlider)
