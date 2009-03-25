@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.ladybug.controlpanel
+package edu.colorado.phet.scalacommon.record
 
 import _root_.edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
@@ -15,7 +15,6 @@ import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.RewindButton
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepButton
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import scala.collection.mutable.ArrayBuffer
-import scalacommon.record.{DataPoint, RecordModel}
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources
 import edu.colorado.phet.common.phetcommon.resources.PhetResources
 import java.awt.event.{ActionEvent, ComponentAdapter, ComponentEvent, ActionListener}
@@ -32,7 +31,7 @@ import umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloTimeControlPanel.BackgroundNode
 import edu.colorado.phet.scalacommon.Predef._
 
-class RecordModelControlPanel[T](model: RecordModel[T], simPanel: JComponent, createRightControl: () => PNode) extends PhetPCanvas {
+class RecordModelControlPanel[T](model: RecordModel[T], simPanel: JComponent, createRightControl: () => PNode,timelineColor:Color,maxTime:Double) extends PhetPCanvas {
   private class MyButtonNode(text: String, icon: Icon, action: () => Unit) extends PText(text) {
     addInputEventListener(new PBasicInputEventHandler() {
       override def mousePressed(event: PInputEvent) = {action()}
@@ -127,7 +126,7 @@ class RecordModelControlPanel[T](model: RecordModel[T], simPanel: JComponent, cr
   addControl(rightmostControl)
 
 
-  val timeline = new Timeline(model, this)
+  val timeline = new Timeline(model, this,timelineColor,maxTime)
   addScreenChild(timeline)
 
   setPreferredSize(prefSizeM)

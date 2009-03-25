@@ -1,8 +1,6 @@
-package edu.colorado.phet.movingman.ladybug.controlpanel
+package edu.colorado.phet.scalacommon.record
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
-import model.LadybugState
-import scalacommon.record.{DataPoint, RecordModel}
 import scala.swing.{Component, Panel}
 import java.awt.Color
 import javax.swing.BoxLayout._

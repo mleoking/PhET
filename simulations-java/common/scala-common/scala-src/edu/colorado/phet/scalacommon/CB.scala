@@ -9,7 +9,9 @@ import java.awt.geom.{AffineTransform, Rectangle2D}
 //Renaming it and renaming it back seems to resolve the problem when it occurs.
 //Probably a bug with the IntelliJ Plugin
 //see http://lampsvn.epfl.ch/trac/scala/ticket/735
-class CenteredBoxStrategy(modelWidth: Double, modelHeight: Double, canvas: JComponent) extends TransformStrategy {
+
+//todo: Rename to CenteredBoxStrategy when possible
+class CB(modelWidth: Double, modelHeight: Double, canvas: JComponent) extends TransformStrategy {
   def getTransform(): AffineTransform = {
     if (canvas.getWidth > 0 && canvas.getHeight > 0) {
       val sx = canvas.getWidth / modelWidth

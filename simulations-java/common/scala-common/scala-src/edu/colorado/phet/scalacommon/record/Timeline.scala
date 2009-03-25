@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.ladybug.controlpanel
+package edu.colorado.phet.scalacommon.record
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader._
@@ -14,7 +14,6 @@ import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.RewindButton
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepButton
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import scala.collection.mutable.ArrayBuffer
-import scalacommon.record.{DataPoint, RecordModel}
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources
 import edu.colorado.phet.common.phetcommon.resources.PhetResources
 import java.awt.event.{ActionEvent, ComponentAdapter, ComponentEvent, ActionListener}
@@ -33,13 +32,13 @@ import edu.colorado.phet.scalacommon.Predef._
 
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 
-class Timeline[T](model: RecordModel[T], canvas: PhetPCanvas) extends PNode {
+class Timeline[T](model: RecordModel[T], canvas: PhetPCanvas,timelineColor:Color,maxTime:Double) extends PNode {
   val pathOffsetY = 4
   val pathHeight = 6
   val ellipseWidth = 10
   val ellipseHeight = 8
   val insetX = 10
-  val shaded = new PhetPPath(LadybugColorSet.position)
+  val shaded = new PhetPPath(timelineColor)
   val backgroundColor = new Color(190, 195, 195)
 
   def darker(c: Color, del: Int) = {
@@ -90,10 +89,10 @@ class Timeline[T](model: RecordModel[T], canvas: PhetPCanvas) extends PNode {
   model.addListenerByName(updateSelf())
   updateSelf
   def updateSelf() = {
-    scale = (canvas.getWidth - insetX * 2) / LadybugDefaults.timelineLengthSeconds
+    scale = (canvas.getWidth - insetX * 2) / maxTime
 
     shaded.setPathTo(new Rectangle(insetX, pathOffsetY + 1, (model.getRecordedTimeRange * scale).toInt, pathHeight - 1))
-    background.setPathTo(new Rectangle(insetX, pathOffsetY, (LadybugDefaults.timelineLengthSeconds * scale).toInt, pathHeight))
+    background.setPathTo(new Rectangle(insetX, pathOffsetY, (maxTime * scale).toInt, pathHeight))
     handle.setVisible(model.isPlayback)
     val elapsed = model.getTime - model.getMinRecordedTime
     //    handle.setPathTo(new Ellipse2D.Double(elapsed * scale - ellipseWidth / 2 + insetX, pathOffsetY - 1, ellipseWidth, ellipseHeight))
