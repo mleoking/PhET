@@ -50,7 +50,7 @@ public class PhetFlexProject extends PhetProject {
         boolean b = swfFile.delete();
         System.out.println( "Delete SWFFile=" + b );
 //        Process p = Runtime.getRuntime().exec( "mxmlc -output deploy/" + getName() + ".swf -compiler.source-path=src " + getMXML(), null, getProjectDir() );
-        Process p = Runtime.getRuntime().exec( new String[]{"mxmlc", "-output", "deploy/" + getName() + ".swf", "-compiler.source-path=src", "-target-player", "10", getMXML()}, null, getProjectDir() );
+        Process p = Runtime.getRuntime().exec( new String[]{"mxmlc", "-output", "deploy/" + getName() + ".swf", "-compiler.source-path=src:../../common/src", "-target-player", "10", getMXML()}, null, getProjectDir() );
         new StreamReaderThread( p.getErrorStream(), "err>" ).start();
         new StreamReaderThread( p.getInputStream(), "" ).start();
         p.waitFor();
