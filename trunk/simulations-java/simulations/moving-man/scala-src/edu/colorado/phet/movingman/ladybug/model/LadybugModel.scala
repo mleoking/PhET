@@ -94,8 +94,6 @@ class LadybugModel extends TimeModel {
     updateMode = AccelerationMode
   }
 
-  def getPlaybackIndexFloat(): Double = playbackIndexFloat
-
   private def getLastSamplePoint = penPath(penPath.length - 1)
 
   //  println("t\tx\tvx\tax")
@@ -105,7 +103,7 @@ class LadybugModel extends TimeModel {
       velocityMode(dt)
       if (penPath.length > 2) {
         penPoint = ladybug.getPosition
-        penPath += new PenSample(time, penPoint)
+        penPath += new PenSample(getTime, penPoint)
         motion2DModel.addPointAndUpdate(getLastSamplePoint.location.x, getLastSamplePoint.location.y)
       }
     }
@@ -154,16 +152,15 @@ class LadybugModel extends TimeModel {
     pointInDirectionOfMotion()
   }
 
-  def setPlaybackState(state: LadybugState) = {
-    ladybug.setState(state)
-  }
+  def setPlaybackState(state: LadybugState) = ladybug.setState(state)
 
   def update(dt: Double) = {
     this.dt = dt
-    if (!paused) {
+    if (!isPaused) {
       tickListeners.foreach(_())
       if (isRecord()) {
-        time += dt;
+        setTime(getTime+dt)
+        val time=getTime
         ladybugMotionModel.update(dt, this)
 
         modelHistory += new DataPoint(time, ladybug.getState)
@@ -199,9 +196,7 @@ class LadybugModel extends TimeModel {
     }
   }
 
-  def getMaxRecordPoints = {
-    (LadybugDefaults.timelineLengthSeconds / dt).toInt
-  }
+  def getMaxRecordPoints = (LadybugDefaults.timelineLengthSeconds / dt).toInt
 
   def initManual = {
     println("init: " + ladybug.getPosition)
@@ -218,9 +213,7 @@ class LadybugModel extends TimeModel {
 
   def estimateAngle(): Double = estimateVelocity(modelHistory.length - 1).getAngle
 
-  def getPosition(index: Int): Vector2D = {
-    modelHistory(index).state.position
-  }
+  def getPosition(index: Int): Vector2D = modelHistory(index).state.position
 
   def estimateVelocity(index: Int): Vector2D = {
     val h = modelHistory.slice(modelHistory.length - 6, modelHistory.length)
@@ -260,28 +253,12 @@ class LadybugModel extends TimeModel {
   override def clearHistoryRemainder() = {
     super.clearHistoryRemainder()
 
-    val earlyEnough = modelHistory.filter(_.time < time)
+    val earlyEnough = modelHistory.filter(_.time < getTime)
     modelHistory.clear
     modelHistory.appendAll(earlyEnough)
-    
+
     clearSampleHistory()
     resetMotion2DModel
-  }
-
-  def setPlaybackSpeed(speed: Double) = {
-    if (speed != playbackSpeed) {
-      playbackSpeed = speed
-      notifyListeners()
-    }
-  }
-
-  def setPlayback(speed: Double) = {
-    setPlaybackSpeed(speed)
-    setRecord(false)
-  }
-
-  def rewind = {
-    setPlaybackIndexFloat(0.0)
   }
 
   def startRecording() = {
@@ -290,17 +267,14 @@ class LadybugModel extends TimeModel {
     setPaused(false)
   }
 
-  def resetAll() = {
-    record = true
-    paused = true
-    playbackSpeed = 1.0
+  override def resetAll() = {
+    super.resetAll()
+
     modelHistory.clear()
-    recordHistory.clear()
     penPath.clear()
 
     ladybugMotionModel.resetAll()
-    playbackIndexFloat = 0.0
-    time = 0
+
     ladybug.resetAll()
     frictionless = false
     resetMotion2DModel
