@@ -23,9 +23,8 @@ public class ChargesAndFieldsApplication extends UIComponent {
 
         super();
 
-
-
-
+        this.tabEnabled = true;
+        this.tabIndex = -1;
     }
 
     public function init( evt : Event ) : void {
