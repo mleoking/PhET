@@ -25,10 +25,11 @@ import scalacommon.math.Vector2D
 import scalacommon.swing.MyRadioButton
 import scalacommon.util.Observable
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
-import umd.cs.piccolo.nodes.{PImage, PText}
+import umd.cs.piccolo.nodes.{PPath, PImage, PText}
 import umd.cs.piccolo.PNode
 import scalacommon.{CenteredBoxStrategy, ScalaApplicationLauncher, ScalaClock}
 import java.lang.Math._
+import umd.cs.piccolo.util.PDimension
 import umd.cs.piccolox.pswing.PSwing
 
 case class RampSegmentState(startPoint: Vector2D, endPoint: Vector2D) { //don't use Point2D since it's not immutable
@@ -116,6 +117,8 @@ case class BeadState(position: Double, velocity: Double, mass: Double, staticFri
 
   def setVelocity(vel: Double) = new BeadState(position, vel, mass, staticFriction, kineticFriction)
 
+  def setMass(m: Double) = new BeadState(position, velocity, m, staticFriction, kineticFriction)
+
   def thermalEnergy = 0
 }
 class Bead(_state: BeadState, positionMapper: Double => Vector2D, rampSegmentAccessor: Double => RampSegment, model: Observable) extends Observable {
@@ -155,6 +158,11 @@ class Bead(_state: BeadState, positionMapper: Double => Vector2D, rampSegmentAcc
     notifyListeners()
   }
 
+  def mass_=(mass: Double) = {
+    state = state.setMass(mass)
+    notifyListeners()
+  }
+
   def setPosition(position: Double) = {
     state = state.setPosition(position)
     notifyListeners()
@@ -177,6 +185,15 @@ class RampModel extends Observable {
   val beads = new ArrayBuffer[Bead]
   private var _walls = true
   private var _frictionless = false
+  private var _selectedObject = RampDefaults.objects(0)
+
+  def selectedObject = _selectedObject
+
+  def selectedObject_=(obj: ScalaRampObject) = {
+    _selectedObject = obj
+    beads(0).mass = _selectedObject.mass
+    notifyListeners()
+  }
 
   def walls = _walls
 
@@ -333,6 +350,64 @@ class BeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: String) e
   }
 }
 
+
+//see scala duck typing
+class ObjectSelectionNode(transform: ModelViewTransform2D, model: {def selectedObject: ScalaRampObject; def selectedObject_=(ro: ScalaRampObject): Unit; def addListenerByName(listener: => Unit): Unit}) extends PNode {
+  val objects = RampDefaults.objects
+  val rows = new ArrayBuffer[ArrayBuffer[PNode]]
+
+  class ObjectSelectionIcon(o: ScalaRampObject) extends PNode {
+    val textNode = new PText(o.name)
+    val imageNode = new PImage(BufferedImageUtils.multiScaleToHeight(RampResources.getImage(o.imageFilename), 100))
+    imageNode.scale(0.5f)
+    textNode.scale(1.4f)
+    textNode.setOffset(imageNode.getFullBounds.getWidth, 0)
+
+    val backgroundNode = new PhetPPath(new BasicStroke(1f), new Color(0, 0, 0, 0))
+
+    addChild(backgroundNode)
+    addChild(imageNode)
+    addChild(textNode)
+
+    def updateSelected() = {
+      if (model.selectedObject == o) {
+        backgroundNode.setPaint(new Color(0, 0, 255, 128))
+      } else {
+        backgroundNode.setPaint(new Color(0, 0, 0, 0))
+      }
+    }
+    addInputEventListener(new PBasicInputEventHandler {
+      override def mousePressed(event: PInputEvent) = {
+        model.selectedObject = o
+      }
+    })
+    updateSelected()
+    model.addListenerByName{updateSelected()}
+  }
+
+  val nodes = for (o <- objects) yield {
+    new ObjectSelectionIcon(o)
+  }
+
+  val cellDim = nodes.foldLeft(new PDimension)((a, b) => new PDimension(max(a.width, b.getFullBounds.width), max(a.height, b.getFullBounds.height)))
+//  println("CellDim=" + cellDim)
+
+  val modelCellDimPt = transform.viewToModelDifferential(cellDim.width, cellDim.height)
+  for (i <- 0 until nodes.length) {
+    val row = i / RampDefaults.objectsPerRow
+    val column = i % RampDefaults.objectsPerRow
+
+    val n = nodes(i)
+    n.backgroundNode.setPathTo(new Rectangle2D.Double(0, 0, cellDim.width, cellDim.height))
+    n.setOffset(transform.modelToView(column * modelCellDimPt.x - 10, row * modelCellDimPt.y - 5))
+//    println("i=" + i + ", row=" + row + ", col=" + column + ", offset=" + n.getOffset)
+    addChild(n)
+  }
+
+  //  val cellWidth = bounds.foldLeft(new Rectangle2D.Double(0, 0, 0, 0))((a, b) => max(a.getFullBounds.width, b.getFullBounds.width))
+  //  val cellHeight = nodes.foldleft(0, (a, b) => max(a, b))
+}
+
 class RampCanvas(model: RampModel) extends DefaultCanvas(22, 20) {
   setBackground(new Color(200, 255, 240))
 
@@ -347,10 +422,13 @@ class RampCanvas(model: RampModel) extends DefaultCanvas(22, 20) {
   addNode(new BeadNode(model.tree, transform, "tree.gif"))
 
   val cabinetNode = new DraggableBeadNode(model.beads(0), transform, "cabinet.gif")
+  model.addListenerByName(cabinetNode.setImage(RampResources.getImage(model.selectedObject.imageFilename)))
   addNode(cabinetNode)
 
   addNode(new PusherNode(transform, model.beads(0), model.manBead))
   addNode(new AppliedForceSliderNode(model.beads(0), transform))
+
+  addNode(new ObjectSelectionNode(transform, model))
 }
 
 class PusherNode(transform: ModelViewTransform2D, targetBead: Bead, manBead: Bead) extends BeadNode(manBead, transform, "standing-man.png") {
@@ -376,14 +454,15 @@ class PusherNode(transform: ModelViewTransform2D, targetBead: Bead, manBead: Bea
   setChildrenPickable(false)
 }
 class AppliedForceSliderNode(bead: Bead, transform: ModelViewTransform2D) extends PNode {
-  val control=new ScalaValueControl(-50,50,"Applied Force X","0.0","N",
-    bead.appliedForce.x,value=>bead.appliedForce = new Vector2D(value, 0),bead.addListener)
+  val control = new ScalaValueControl(-50, 50, "Applied Force X", "0.0", "N",
+    bead.appliedForce.x, value => bead.appliedForce = new Vector2D(value, 0), bead.addListener)
 
   val pswing = new PSwing(control)
   addChild(pswing)
   def updatePosition() = {
     val viewLoc = transform.modelToView(new Point2D.Double(0, -1))
     pswing.setOffset(viewLoc)
+    pswing.setScale(1.2f)
   }
   updatePosition()
 }
