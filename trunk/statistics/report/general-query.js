@@ -127,6 +127,7 @@ function setupSimCounts() {
 	str += "<div class='constraint'><span class='field'>Group by: </span><select name='group' id='group' onchange='javascript:build_order()'>";
 	str += "<option value='none'>none</option>";
 	str += "<optgroup label='All sims'>";
+        str += "<option value='hour'>Hour</option>"
 		str += "<option value='day'>Day</option>";
 		str += "<option value='week'>Week</option>";
 		str += "<option value='month'>Month</option>";
