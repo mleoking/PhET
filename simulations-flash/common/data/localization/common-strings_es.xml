@@ -31,7 +31,7 @@
 <string key="StatisticsField-host_flash_domain" value="Dominio de la simulación"/>
 <string key="DesignTeam" value="Equipo de diseño"/>
 <string key="PhETPreferences" value="Preferencias de PhET"/>
-<string key="Preferences" value="Preferencias"/>
+<string key="Preferences" value="Preferencias..."/>
 <string key="AllowMessages" value="Permitir el envio de información a PhET"/>
 <string key="Updates" value="Acutalizaciónes"/>
 <string key="StatisticsField-user_preference_file_creation_time" value="Tiempo de creación del archivo de preferencias"/>

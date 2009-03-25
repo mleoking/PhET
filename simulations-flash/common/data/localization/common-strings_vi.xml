@@ -31,7 +31,7 @@
 <string key="StatisticsField-host_flash_domain" value="Tên miền mô phỏng"/>
 <string key="DesignTeam" value="Nhóm thiết kế"/>
 <string key="PhETPreferences" value="PhET Preferences"/>
-<string key="Preferences" value="Preferences"/>
+<string key="Preferences" value="Preferences..."/>
 <string key="AllowMessages" value="Cho phép gửi thông tin đến PhET"/>
 <string key="Updates" value="Các cập nhật"/>
 <string key="StatisticsField-user_preference_file_creation_time" value="Thời gian tạo file Preferences"/>
