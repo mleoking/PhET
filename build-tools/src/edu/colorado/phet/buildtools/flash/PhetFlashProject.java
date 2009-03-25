@@ -125,6 +125,12 @@ public class PhetFlashProject extends PhetProject {
             FlashLauncherProject launcherProject = new FlashLauncherProject( getTrunk() );
             launcherProject.build();
             FileUtils.unzip( launcherProject.getDefaultDeployJar(), getOfflineJARContentsDir() );
+            
+            //The FlashLauncherProject came with a jar-launcher.properties, which should be deleted for
+            //embedding in this new project, see #1292
+            File jarLauncherPropertiesFile=new File( getOfflineJARContentsDir(), "jar-launcher.properties");
+            boolean deleted=jarLauncherPropertiesFile.delete();
+            System.out.println( "Attempt to delete file, deleted="+deleted+": "+jarLauncherPropertiesFile.getAbsolutePath() );
 
             //copy SWF File
             FileUtils.copyToDir( getSWFFile(), getOfflineJARContentsDir() );
