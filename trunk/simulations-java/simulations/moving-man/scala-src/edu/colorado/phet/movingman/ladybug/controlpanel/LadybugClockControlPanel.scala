@@ -22,6 +22,7 @@ import java.awt.event.{ActionEvent, ComponentAdapter, ComponentEvent, ActionList
 import java.awt.geom.{Line2D, Ellipse2D}
 import java.util.{Hashtable, Dictionary}
 import javax.swing._
+import scalacommon.util.Observable
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.nodes.{PImage, PText}
 import umd.cs.piccolo.PNode
@@ -30,18 +31,19 @@ import umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloTimeControlPanel.BackgroundNode
 import edu.colorado.phet.scalacommon.Predef._
 
-trait TimeModel {
-  def clearHistory()
+abstract class TimeModel extends Observable{
+  val recordHistory = new ArrayBuffer[DataPoint]
+  var record = true//todo make private after refactor
+  def clearHistory()={
+    recordHistory.clear()
+    notifyListeners()
+  }
 
   def setRecord(b: Boolean)
 
-  def isPlayback: Boolean
+  def isPlayback() = !record
 
-  def isRecord: Boolean
-
-  def addListener(listener: () => Unit)
-
-  def addListenerByName(listener: => Unit)
+  def isRecord() = record
 
   def setPlaybackIndexFloat(f: Double)
 
@@ -53,13 +55,19 @@ trait TimeModel {
 
   def isRecordingFull: Boolean
 
-  def getRecordingHistory: ArrayBuffer[DataPoint]
+  def getRecordingHistory = recordHistory
+
+  def getRecordedTimeRange(): Double = {
+    if (recordHistory.length == 0) {
+      0
+    } else {
+      recordHistory(recordHistory.length - 1).time - recordHistory(0).time
+    }
+  }
 
   def stepPlayback()
 
   def getTime: Double
-
-  def getRecordedTimeRange: Double
 
   def getMinRecordedTime: Double
 

@@ -16,7 +16,7 @@ import scalacommon.util.Observable
  * The smoothing of motion is done by leading the ladybug (with an abstraction called the pen),
  * and using the same model as Motion2D for interpolation.
  */
-class LadybugModel extends Observable with TimeModel{
+class LadybugModel extends TimeModel{
   val ladybug = new Ladybug
   private val ladybugMotionModel = new LadybugMotionModel(this)
   private var time: Double = 0;
@@ -31,8 +31,6 @@ class LadybugModel extends Observable with TimeModel{
   var dt = 0.0
 
   //State related to recording; consider moving to a trait
-  private val recordHistory = new ArrayBuffer[DataPoint]
-  private var record = true
   private var playbackSpeed = 1.0
   var playbackIndexFloat = 0.0 //floor this to get playbackIndex
 
@@ -188,16 +186,6 @@ class LadybugModel extends Observable with TimeModel{
     }
   }
 
-  def getRecordingHistory = recordHistory
-
-  def getRecordedTimeRange(): Double = {
-    if (recordHistory.length == 0) {
-      0
-    } else {
-      recordHistory(recordHistory.length - 1).time - recordHistory(0).time
-    }
-  }
-
   def update(dt: Double) = {
     this.dt = dt
     if (!paused) {
@@ -309,10 +297,6 @@ class LadybugModel extends Observable with TimeModel{
     sum / (end - start)
   }
 
-  def isPlayback() = !record
-
-  def isRecord() = record
-
   def setRecord(rec: Boolean) = {
     if (record != rec) {
       record = rec
@@ -398,11 +382,11 @@ class LadybugModel extends Observable with TimeModel{
     notifyListeners()
   }
 
-  def clearHistory() = {
+  override def clearHistory() = {
     modelHistory.clear()
-    recordHistory.clear()
     penPath.clear()
-    notifyListeners()
+
+    super.clearHistory()  //do super last to call notifyListeners
   }
 
   def clearSampleHistory() = penPath.clear()
