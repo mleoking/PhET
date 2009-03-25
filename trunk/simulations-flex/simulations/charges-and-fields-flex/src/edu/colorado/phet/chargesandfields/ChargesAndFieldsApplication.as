@@ -6,6 +6,7 @@ import flash.display.StageAlign;
 import flash.display.StageScaleMode;
 import flash.events.Event;
 
+import flash.ui.ContextMenu;
 import mx.controls.Button;
 import mx.core.UIComponent;
 
@@ -33,8 +34,11 @@ public class ChargesAndFieldsApplication extends UIComponent {
         this.addChild(display);
 
         stage.scaleMode = StageScaleMode.NO_SCALE;
+        //stage.scaleMode = StageScaleMode.SHOW_ALL;
         stage.align = StageAlign.TOP_LEFT;
         stage.addEventListener(Event.RESIZE, display.onResize);
+
+        stage.showDefaultContextMenu = true;
 
         this.addChild(new FlexCommonComponent());
 

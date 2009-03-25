@@ -1,15 +1,8 @@
 <?xml version="1.0" ?>
-<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" title="About" >
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" title="{CommonStrings.labelAbout}" >
     <mx:Script>
         <![CDATA[
             import mx.managers.PopUpManager;
-            import mx.controls.Text;
-
-            [Bindable]
-            public static var softwareAgreementText : String = "Software Agreement...";
-
-            // A reference to the TextInput control in which to put the result.
-            public var loginName:Text;
 
             private function closeDialog() : void {
                 PopUpManager.removePopUp(this);
@@ -30,8 +23,8 @@
     </mx:HBox>
 
     <mx:HBox>
-        <mx:Button label="{softwareAgreementText}" />
-        <mx:Button label="Credits..." />
-        <mx:Button label="OK" click="closeDialog();"/>
+        <mx:Button label="{CommonStrings.labelSoftwareAgreement + '...'}" />
+        <mx:Button label="{CommonStrings.labelCredits + '...'}" />
+        <mx:Button label="{CommonStrings.labelOK}" click="closeDialog();"/>
     </mx:HBox>    
 </mx:TitleWindow>

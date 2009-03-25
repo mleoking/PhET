@@ -1,14 +1,21 @@
 <?xml version="1.0" ?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml">
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" preinitialize="init()" >
 
     <mx:Script>
     <![CDATA[
 
         import mx.managers.PopUpManager;
         import flash.geom.Point;
+        import flash.ui.ContextMenu;
+
+        private function init() : void {
+            CommonStrings.initialize();
+        }
 
         private function showWindow():void {
             var aboutDialog : AboutDialog=AboutDialog(PopUpManager.createPopUp( this, AboutDialog , true));
+
+            aboutDialog.contextMenu = new ContextMenu();
 
             var p : Point = new Point();
 
@@ -32,6 +39,6 @@
     ]]>
     </mx:Script>
 
-    <mx:Button id="aboutButton" label="About..." height="20" x="0" y="0" click="showWindow();" />
-    <mx:Button id="preferencesButton" label="Preferences..." height="20" x="{aboutButton.width}" y="0" />
+    <mx:Button id="aboutButton" label="{CommonStrings.labelAbout + '...'}" height="20" x="0" y="0" click="showWindow();" />
+    <mx:Button id="preferencesButton" label="{CommonStrings.labelPreferences + '...'}" height="20" x="{aboutButton.width}" y="0" />
 </mx:Canvas>
