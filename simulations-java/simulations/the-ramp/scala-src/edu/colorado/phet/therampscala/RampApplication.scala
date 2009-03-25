@@ -352,6 +352,7 @@ class BeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: String) e
 
 
 //see scala duck typing
+//maybe we should replace this with a named trait
 class ObjectSelectionNode(transform: ModelViewTransform2D, model: {def selectedObject: ScalaRampObject; def selectedObject_=(ro: ScalaRampObject): Unit; def addListenerByName(listener: => Unit): Unit}) extends PNode {
   val objects = RampDefaults.objects
   val rows = new ArrayBuffer[ArrayBuffer[PNode]]
