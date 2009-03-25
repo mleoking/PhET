@@ -10,7 +10,7 @@ import javax.swing.{BoxLayout, JPanel, JComponent}
 import java.awt.Color._
 import scalacommon.swing.MyRadioButton
 
-class ModePanel(model: RecordModel[LadybugState]) extends JPanel {
+class ModePanel[T](model: RecordModel[T]) extends JPanel {
   setLayout(new BoxLayout(this, Y_AXIS))
   setBackground(new Color(0, 0, 0, 0))
 
