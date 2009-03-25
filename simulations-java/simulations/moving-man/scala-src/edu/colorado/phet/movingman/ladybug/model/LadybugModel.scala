@@ -74,11 +74,6 @@ class LadybugModel extends TimeModel{
 
   def getLadybugMotionModel() = ladybugMotionModel
 
-  def setPlaybackTime(t: Double) = {
-    val f = new LinearFunction(getMinRecordedTime, getMaxRecordedTime, 0, recordHistory.length - 1)
-    setPlaybackIndexFloat(f.evaluate(t))
-  }
-
   abstract class UpdateMode {def update(dt: Double): Unit}
   object PositionMode extends UpdateMode {def update(dt: Double) = positionMode(dt)}
   object VelocityMode extends UpdateMode {def update(dt: Double) = velocityMode(dt)}
@@ -103,11 +98,6 @@ class LadybugModel extends TimeModel{
   }
 
   def getPlaybackIndexFloat(): Double = playbackIndexFloat
-
-  def getFloatTime(): Double = {
-    val f = new LinearFunction(0, recordHistory.length - 1, getMinRecordedTime, getMaxRecordedTime)
-    f.evaluate(playbackIndexFloat)
-  }
 
   private def getLastSamplePoint = penPath(penPath.length - 1)
 

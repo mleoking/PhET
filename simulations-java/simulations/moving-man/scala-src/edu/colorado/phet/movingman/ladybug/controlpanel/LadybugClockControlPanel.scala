@@ -1,5 +1,6 @@
 package edu.colorado.phet.movingman.ladybug.controlpanel
 
+import _root_.edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader._
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils
@@ -35,7 +36,7 @@ abstract class TimeModel extends Observable {
   val recordHistory = new ArrayBuffer[DataPoint]
   var record = true //todo make private after refactor
   var paused = true //todo make private after refactor
-  var time = 0.0//todo make private after refactor
+  var time = 0.0 //todo make private after refactor
   var playbackIndexFloat = 0.0 //floor this to get playbackIndex
   def clearHistory() = {
     recordHistory.clear()
@@ -85,9 +86,15 @@ abstract class TimeModel extends Observable {
 
   def getMinRecordedTime() = if (recordHistory.length == 0) 0.0 else recordHistory(0).time
 
-  def setPlaybackTime(b: Double)
+  def setPlaybackTime(t: Double) = {
+    val f = new LinearFunction(getMinRecordedTime, getMaxRecordedTime, 0, recordHistory.length - 1)
+    setPlaybackIndexFloat(f.evaluate(t))
+  }
 
-  def getFloatTime: Double
+  def getFloatTime(): Double = {
+    val f = new LinearFunction(0, recordHistory.length - 1, getMinRecordedTime, getMaxRecordedTime)
+    f.evaluate(playbackIndexFloat)
+  }
 
 }
 
