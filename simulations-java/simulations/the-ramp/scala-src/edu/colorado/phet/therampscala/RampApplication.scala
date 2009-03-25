@@ -28,7 +28,7 @@ import scalacommon.util.Observable
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.nodes.{PPath, PImage, PText}
 import umd.cs.piccolo.PNode
-import scalacommon.{CB, ScalaApplicationLauncher, ScalaClock}
+import scalacommon.{ScalaApplicationLauncher, ScalaClock}
 import java.lang.Math._
 import umd.cs.piccolo.util.PDimension
 import umd.cs.piccolox.pswing.PSwing
@@ -77,7 +77,7 @@ class Circle(center: Vector2D, radius: Double) extends Ellipse2D.Double(center.x
 class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D) extends PNode {
   val line = new PhetPPath(new Color(184, 131, 24), new BasicStroke(2f), new Color(91, 78, 49))
   addChild(line)
-  defineInvokeAndPass(rampSegment.addListenerByName){
+  defineInvokeAndPass(rampSegment.addListenerByName) {
     line.setPathTo(mytransform.createTransformedShape(new BasicStroke(0.4f).createStrokedShape(rampSegment.toLine2D)))
   }
 }
@@ -184,7 +184,7 @@ class Bead(_state: BeadState, positionMapper: Double => Vector2D, rampSegmentAcc
 class RampModel extends RecordModel[String] {
   def setPlaybackState(state: String) {}
 
-  def handleRecordStartedDuringPlayback(){}
+  def handleRecordStartedDuringPlayback() {}
 
   def getMaxRecordPoints = 100
 
@@ -235,8 +235,8 @@ class RampModel extends RecordModel[String] {
 
   //Sends notification when any ramp segment changes
   object rampChangeAdapter extends Observable //todo: perhaps we should just pass the addListener method to the beads
-  rampSegments(0).addListenerByName{rampChangeAdapter.notifyListeners}
-  rampSegments(1).addListenerByName{rampChangeAdapter.notifyListeners}
+  rampSegments(0).addListenerByName {rampChangeAdapter.notifyListeners}
+  rampSegments(1).addListenerByName {rampChangeAdapter.notifyListeners}
   beads += new Bead(new BeadState(5, 0, 10, 0, 0), positionMapper, rampSegmentAccessor, rampChangeAdapter)
   val tree = new Bead(new BeadState(-9, 0, 10, 0, 0), positionMapper, rampSegmentAccessor, rampChangeAdapter)
   val leftWall = new Bead(new BeadState(-10, 0, 10, 0, 0), positionMapper, rampSegmentAccessor, rampChangeAdapter)
@@ -333,7 +333,7 @@ class BeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: String) e
   def setImage(im: BufferedImage) = imageNode.setImage(im)
   addChild(imageNode)
 
-  defineInvokeAndPass(bead.addListenerByName){
+  defineInvokeAndPass(bead.addListenerByName) {
     shapeNode.setPathTo(transform.createTransformedShape(new Circle(bead.position2D, 0.3)))
 
     //TODO consolidate/refactor with BugNode, similar graphics transform code
@@ -363,10 +363,10 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: {def selectedO
   val rows = new ArrayBuffer[ArrayBuffer[PNode]]
 
   class ObjectSelectionIcon(o: ScalaRampObject) extends PNode {
-    val textNode = new PText(o.name)
+    val textNode = new PText(o.name + " (" + o.mass + " kg)")
     val imageNode = new PImage(BufferedImageUtils.multiScaleToHeight(RampResources.getImage(o.imageFilename), 100))
     imageNode.scale(0.5f)
-    textNode.scale(1.4f)
+    textNode.scale(1.1f)
     textNode.setOffset(imageNode.getFullBounds.getWidth, 0)
 
     val backgroundNode = new PhetPPath(new BasicStroke(1f), new Color(0, 0, 0, 0))
@@ -378,8 +378,10 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: {def selectedO
     def updateSelected() = {
       if (model.selectedObject == o) {
         backgroundNode.setPaint(new Color(0, 0, 255, 128))
+        textNode.setFont(new PhetFont(14, true))
       } else {
         backgroundNode.setPaint(new Color(0, 0, 0, 0))
+        textNode.setFont(new PhetFont(14, false))
       }
     }
     addInputEventListener(new PBasicInputEventHandler {
@@ -388,7 +390,7 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: {def selectedO
       }
     })
     updateSelected()
-    model.addListenerByName{updateSelected()}
+    model.addListenerByName {updateSelected()}
   }
 
   val nodes = for (o <- objects) yield {
@@ -404,7 +406,7 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: {def selectedO
 
     val n = nodes(i)
     n.backgroundNode.setPathTo(new Rectangle2D.Double(0, 0, cellDim.width, cellDim.height))
-    n.setOffset(transform.modelToView(column * modelCellDimPt.x - 10, row * modelCellDimPt.y - 5))
+    n.setOffset(transform.modelToView(column * modelCellDimPt.x - 11, row * modelCellDimPt.y - 5))
     addChild(n)
   }
 
@@ -414,7 +416,7 @@ class RampHeightIndicator(rampSegment: RampSegment, transform: ModelViewTransfor
   val line = new PhetPPath(new BasicStroke(2f), Color.black)
   addChild(line)
   def getLine = new Line2D.Double(new Vector2D(rampSegment.endPoint.x, 0), rampSegment.endPoint)
-  defineInvokeAndPass(rampSegment.addListenerByName){
+  defineInvokeAndPass(rampSegment.addListenerByName) {
     line.setPathTo(transform.createTransformedShape(getLine))
   }
 }
@@ -427,7 +429,7 @@ class RampAngleIndicator(rampSegment: RampSegment, transform: ModelViewTransform
     val arc = new Arc2D.Double(rampSegment.startPoint.x - 3, rampSegment.startPoint.y - 3, 6, 6, 0, -rampSegment.getUnitVector.getAngle.toDegrees, Arc2D.OPEN)
     arc
   }
-  defineInvokeAndPass(rampSegment.addListenerByName){
+  defineInvokeAndPass(rampSegment.addListenerByName) {
     line.setPathTo(transform.createTransformedShape(getPath))
   }
 }
@@ -458,7 +460,7 @@ class RampCanvas(model: RampModel) extends DefaultCanvas(22, 20) {
 }
 
 class PusherNode(transform: ModelViewTransform2D, targetBead: Bead, manBead: Bead) extends BeadNode(manBead, transform, "standing-man.png") {
-  defineInvokeAndPass(targetBead.addListenerByName){
+  defineInvokeAndPass(targetBead.addListenerByName) {
     if (targetBead.appliedForce.magnitude > 0) {
       val dx = if (targetBead.appliedForce.x > 0) -6 else 6
       manBead.setPosition(targetBead.position + dx)
@@ -653,7 +655,7 @@ class RampModule(clock: ScalaClock) extends Module("Ramp", clock) {
   val fbdModel = new FreeBodyDiagramModel
   val coordinateSystemModel = new CoordinateSystemModel
   val vectorViewModel = new VectorViewModel
-  val canvas=new RampCanvas(model)
+  val canvas = new RampCanvas(model)
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
   setControlPanel(new RampControlPanel(model, wordModel, fbdModel, coordinateSystemModel, vectorViewModel))
