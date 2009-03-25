@@ -21,9 +21,9 @@
   <string key="Details" value="Details" />
   <string key="SentInformation" value="The information shown below will be sent to PhET when the simulation starts." />
   <string key="PrivacyDetails" value="Privacy Details" />
-  <string key="PrivacyMessage1" value="In all PhET simulations, we collect a minimal amount of anonymous &lt;a href='{0}'&gt;information&lt;/a&gt; when the simulation starts (e.g., simulation version, operating system). You can disable the sending of this information at any time via the Preferences button." />
-  <string key="PrivacyMessage2" value="By clicking &quot;Accept and Continue&quot;, you agree to PhET's licensing and privacy policies. (For details, &lt;a href='{0}'&gt;click here&lt;/a&gt;)." />
-  <string key="AcceptContinue" value="Accept and Continue" />
+  <string key="PrivacyMessage1" value="In all PhET simulations, we collect a minimal amount of anonymous &lt;a href='{0}'&gt;information&lt;/a&gt; each time the simulation starts (e.g., simulation version, operating system). You can disable the sending of this information at any time via the Preferences button." />
+  <string key="PrivacyMessage2" value="By clicking &quot;Agree and Continue&quot;, you agree to PhET's Software Agreement, including our privacy policy, for this and every PhET simulation you run. (For details, &lt;a href='{0}'&gt;click here&lt;/a&gt;)." />
+  <string key="AcceptContinue" value="Agree and Continue" />
   <string key="LicenseLibraries" value="Used Library Licensing Information:" />
   <string key="NewVersionAvailable" value="New Version Available" />
   <string key="CurrentVersionIs" value="Your current version of {0} is {1}." />
