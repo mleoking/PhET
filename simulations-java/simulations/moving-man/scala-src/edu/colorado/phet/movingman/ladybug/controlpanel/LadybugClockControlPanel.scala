@@ -13,6 +13,7 @@ import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PlayPauseButton
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.RewindButton
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepButton
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
+import model.DataPoint
 import scala.collection.mutable.ArrayBuffer
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources
 import edu.colorado.phet.common.phetcommon.resources.PhetResources
@@ -21,7 +22,6 @@ import java.awt.event.{ActionEvent, ComponentAdapter, ComponentEvent, ActionList
 import java.awt.geom.{Line2D, Ellipse2D}
 import java.util.{Hashtable, Dictionary}
 import javax.swing._
-import model.LadybugModel
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.nodes.{PImage, PText}
 import umd.cs.piccolo.PNode
@@ -30,7 +30,47 @@ import umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloTimeControlPanel.BackgroundNode
 import edu.colorado.phet.scalacommon.Predef._
 
-class LadybugClockControlPanel[M <: LadybugModel](module: LadybugModule[M], createRightControl: () => PNode) extends PhetPCanvas {
+trait TimeModel {
+  def clearHistory()
+
+  def setRecord(b: Boolean)
+
+  def isPlayback: Boolean
+
+  def isRecord: Boolean
+
+  def addListener(listener: () => Unit)
+
+  def addListenerByName(listener: => Unit)
+
+  def setPlaybackIndexFloat(f: Double)
+
+  def setPaused(b: Boolean)
+
+  def isPaused: Boolean
+
+  def getPlaybackIndex: Int
+
+  def isRecordingFull: Boolean
+
+  def getRecordingHistory: ArrayBuffer[DataPoint]
+
+  def stepPlayback()
+
+  def getTime: Double
+
+  def getRecordedTimeRange: Double
+
+  def getMinRecordedTime: Double
+
+  def setPlaybackTime(b: Double)
+
+  def getFloatTime: Double
+
+  def getMaxRecordedTime: Double
+}
+
+class LadybugClockControlPanel(model: TimeModel, simPanel: JComponent, createRightControl: () => PNode) extends PhetPCanvas {
   private class MyButtonNode(text: String, icon: Icon, action: () => Unit) extends PText(text) {
     addInputEventListener(new PBasicInputEventHandler() {
       override def mousePressed(event: PInputEvent) = {action()}
@@ -58,15 +98,15 @@ class LadybugClockControlPanel[M <: LadybugModel](module: LadybugModule[M], crea
   val backgroundNode = new BackgroundNode;
   addScreenChild(backgroundNode)
 
-  val modePanel = new ModePanel(module.model)
+  val modePanel = new ModePanel(model)
 
 
   val clearButton = new JButton("Clear")
 
   clearButton.addActionListener(() => { //todo : couldn't figure out how to remove ()=> with by name using implicits
-    module.model.clearHistory
-    module.model.setPaused(true)
-    module.model.setRecord(true)
+    model.clearHistory
+    model.setPaused(true)
+    model.setRecord(true)
   })
 
 
@@ -75,14 +115,14 @@ class LadybugClockControlPanel[M <: LadybugModel](module: LadybugModule[M], crea
 
   val rewind = new RewindButton(50)
   rewind.addListener(() => {
-    module.model.setRecord(false)
-    module.model.setPlaybackIndexFloat(0.0)
-    module.model.setPaused(true)
+    model.setRecord(false)
+    model.setPlaybackIndexFloat(0.0)
+    model.setPaused(true)
   })
-  module.model.addListenerByName(updateRewindEnabled)
+  model.addListenerByName(updateRewindEnabled)
   updateRewindEnabled
   def updateRewindEnabled = {
-    val enabled = module.model.isPlayback && module.model.getRecordingHistory.length > 0 && module.model.getTime != module.model.getMinRecordedTime
+    val enabled = model.isPlayback && model.getRecordingHistory.length > 0 && model.getTime != model.getMinRecordedTime
     rewind.setEnabled(enabled)
   }
   rewind.addInputEventListener(new ToolTipHandler("Rewind", this))
@@ -95,13 +135,13 @@ class LadybugClockControlPanel[M <: LadybugModel](module: LadybugModule[M], crea
 
   val playPause = new PlayPauseButton(75)
   playPause.addListener(new PlayPauseButton.Listener() {
-    def playbackStateChanged = module.model.setPaused(!playPause.isPlaying)
+    def playbackStateChanged = model.setPaused(!playPause.isPlaying)
   })
   val playPauseTooltipHandler = new ToolTipHandler("Pause", this)
   playPause.addInputEventListener(playPauseTooltipHandler)
-  module.model.addListener(() => {
-    playPause.setPlaying(!module.model.isPaused)
-    playPauseTooltipHandler.setText(if (module.model.isPaused) "Play" else "Pause")
+  model.addListener(() => {
+    playPause.setPlaying(!model.isPaused)
+    playPauseTooltipHandler.setText(if (model.isPaused) "Play" else "Pause")
   })
 
 
@@ -109,11 +149,11 @@ class LadybugClockControlPanel[M <: LadybugModel](module: LadybugModule[M], crea
   val stepButton = new StepButton(50)
   stepButton.setEnabled(false)
   stepButton.addInputEventListener(new ToolTipHandler("Step", this))
-  module.model.addListener(() => {
-    val isLastStep = module.model.getPlaybackIndex == module.model.getRecordingHistory.length
-    stepButton.setEnabled(module.model.isPlayback && module.model.isPaused && !isLastStep)
+  model.addListener(() => {
+    val isLastStep = model.getPlaybackIndex == model.getRecordingHistory.length
+    stepButton.setEnabled(model.isPlayback && model.isPaused && !isLastStep)
   })
-  stepButton.addListener(() => {module.model.stepPlayback()})
+  stepButton.addListener(() => {model.stepPlayback()})
   stepButton.setOffset(0, 12)
 
 
@@ -125,19 +165,18 @@ class LadybugClockControlPanel[M <: LadybugModel](module: LadybugModule[M], crea
   addControl(rightmostControl)
 
 
-  val timeline = new Timeline(module.model, this)
+  val timeline = new Timeline(model, this)
   addScreenChild(timeline)
-  //  module.model.addListener(() => timeline.setVisible(module.model.isPlayback))
 
   setPreferredSize(prefSizeM)
   def updateSize = {
-    if (module.getSimulationPanel.getWidth > 0) {
-      val pref = new Dimension(module.getSimulationPanel.getWidth(), prefSizeM.height)
+    if (simPanel.getWidth > 0) {
+      val pref = new Dimension(simPanel.getWidth(), prefSizeM.height)
       setPreferredSize(pref)
       updateLayout
     }
   }
-  module.getSimulationPanel.addComponentListener(new ComponentAdapter() {
+  simPanel.addComponentListener(new ComponentAdapter() {
     override def componentResized(e: ComponentEvent) = {
       SwingUtilities.invokeLater(new Runnable() {
         def run = {updateSize}
