@@ -44,7 +44,7 @@ public class ResetAllButton extends JButton {
             public void actionPerformed( ActionEvent e ) {
                 String message = PhetCommonResources.getInstance().getLocalizedString( "ControlPanel.message.confirmResetAll" );
                 String title = PhetCommonResources.getInstance().getLocalizedString( "Common.title.confirm" );
-                int option = PhetOptionPane.showYesNoDialog( parent, title, message );
+                int option = PhetOptionPane.showYesNoDialog( parent, message, title );
                 if ( option == JOptionPane.YES_OPTION ) {
                     for ( int i = 0; i < m_resettables.size(); i++ ) {
                         ((Resettable)m_resettables.get(i)).reset();

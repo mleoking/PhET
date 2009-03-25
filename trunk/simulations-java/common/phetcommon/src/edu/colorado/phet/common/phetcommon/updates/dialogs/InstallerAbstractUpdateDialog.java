@@ -120,7 +120,7 @@ public abstract class InstallerAbstractUpdateDialog extends PaintImmediateDialog
             super( MORE_BUTTON );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    PhetOptionPane.showMessageDialog( parent, TITLE, MORE_MESSAGE );
+                    PhetOptionPane.showMessageDialog( parent, MORE_MESSAGE, TITLE );
                 }
             } );
         }
