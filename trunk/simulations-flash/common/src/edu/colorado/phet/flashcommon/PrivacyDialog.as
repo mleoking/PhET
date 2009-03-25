@@ -80,13 +80,14 @@ class edu.colorado.phet.flashcommon.PrivacyDialog {
 		// construct the string of text to show
 		var str : String = "";
 		var defaultString : String = "";
-		defaultString += "In all PhET simulations, we collect a minimal amount of <a href='{0}'>information</a> ";
-		defaultString += "when the simulation starts. You can disable the sending of this ";
-		defaultString += "information at any time via the Preferences button.";
+		defaultString += "In all PhET simulations, we collect a minimal amount of anonymous <a href='{0}'>information</a> ";
+		defaultString += "each time the simulation starts (e.g., simulation version, operating system). ";
+		defaultString += "You can disable the sending of this information at any time via the Preferences button."
 		str += common.strings.get("PrivacyMessage1", defaultString, ["asfunction:_level0.privacyDialog.infoClicked,"]);
 		str += "\n\n";
-		defaultString = "By clicking \"Accept and Continue\", you agree to PhET's licensing ";
-		defaultString += "and privacy policies. (For details, <a href='{0}'>click here</a>).";
+		defaultString = "By clicking \"Agree and Continue\", you agree to PhET's Software Agreement, ";
+		defaultString = "including our privacy policy, for this and every PhET simulation you run. ";
+		defaultString = "(For details, <a href='{0}'>click here</a>).";
 		str += common.strings.get("PrivacyMessage2", defaultString, ["asfunction:_level0.privacyDialog.detailsClicked,"]);
 		//str += "\n";
 		
