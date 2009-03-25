@@ -239,6 +239,10 @@ function setupRecentMessages() {
 	str += "</input>";
 	str += "</div>";
 
+    for(idx in simCountsConstraints) {
+		delete document.query_info[simCountsConstraints[idx]];
+	}
+
     str += constraintString("Project", "sim_project", "select-projects.php");
 	str += "<div id='name_holder'></div>";
 
