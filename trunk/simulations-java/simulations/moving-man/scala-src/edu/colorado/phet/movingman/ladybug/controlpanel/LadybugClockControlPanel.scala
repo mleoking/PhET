@@ -40,6 +40,7 @@ abstract class TimeModel extends Observable {
   protected var paused = true
   protected var time = 0.0
   protected var playbackIndexFloat = 0.0 //floor this to get playbackIndex
+  protected var playbackSpeed = 1.0
 
   def setStateToPlaybackIndex() = {
     val playbackIndex = getPlaybackIndex
@@ -51,11 +52,26 @@ abstract class TimeModel extends Observable {
 
   def setPlaybackState(state: LadybugState)
 
-  def setRecord(b: Boolean)
-
   def getMaxRecordPoints: Int
 
-  def stepPlayback()
+  def setRecord(b: Boolean)
+  
+  def stepPlayback() = {
+    if (getPlaybackIndex() < recordHistory.length) {
+      setStateToPlaybackIndex()
+      time = recordHistory(getPlaybackIndex()).time
+      playbackIndexFloat = playbackIndexFloat + playbackSpeed
+      notifyListeners()
+    } else {
+      if (LadybugDefaults.recordAtEndOfPlayback) {
+        setRecord(true)
+      }
+
+      if (LadybugDefaults.pauseAtEndOfPlayback) {
+        setPaused(true)
+      }
+    }
+  }
 
   def clearHistory() = {
     recordHistory.clear()

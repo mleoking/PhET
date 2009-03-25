@@ -28,9 +28,6 @@ class LadybugModel extends TimeModel{
   private val modelHistory = new ArrayBuffer[DataPoint] //recent history used to compute velocities, etc.
   var dt = 0.0
 
-  //State related to recording; consider moving to a trait
-  private var playbackSpeed = 1.0
-
   //samples inputted from the user that will be used to determine the path of the object
   //imagine as a pen on the canvas that leads the ladybug
   case class PenSample(time: Double, location: Vector2D)
@@ -217,23 +214,6 @@ class LadybugModel extends TimeModel{
     val recording = isRecord
     val isDonePlayback = (getPlaybackIndex() >= recordHistory.length - 1) && isPaused
     recording || isDonePlayback
-  }
-
-  def stepPlayback() = {
-    if (getPlaybackIndex() < recordHistory.length) {
-      setStateToPlaybackIndex()
-      time = recordHistory(getPlaybackIndex()).time
-      playbackIndexFloat = playbackIndexFloat + playbackSpeed
-      notifyListeners()
-    } else {
-      if (LadybugDefaults.recordAtEndOfPlayback) {
-        setRecord(true)
-      }
-
-      if (LadybugDefaults.pauseAtEndOfPlayback) {
-        setPaused(true)
-      }
-    }
   }
 
   def estimateAngle(): Double = estimateVelocity(modelHistory.length - 1).getAngle
