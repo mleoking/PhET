@@ -13,7 +13,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ResizeArrowNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.DualParticleModel;
-import edu.colorado.phet.statesofmatter.model.MoleculeType;
+import edu.colorado.phet.statesofmatter.model.AtomType;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.module.InteractionPotentialDiagramNode;
 import edu.umd.cs.piccolo.PNode;
@@ -223,7 +223,7 @@ public class InteractiveInteractionPotentialDiagram extends InteractionPotential
     //-----------------------------------------------------------------------------
 
     private void updateInteractivityState() {
-        if (m_model.getFixedMoleculeType() != MoleculeType.ADJUSTABLE){
+        if (m_model.getFixedMoleculeType() != AtomType.ADJUSTABLE){
             m_interactionEnabled = false;
         }
         else{

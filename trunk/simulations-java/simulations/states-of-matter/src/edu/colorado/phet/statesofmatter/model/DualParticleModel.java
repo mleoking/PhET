@@ -27,7 +27,7 @@ public class DualParticleModel {
     // Class Data
     //----------------------------------------------------------------------------
 
-    public static final MoleculeType DEFAULT_MOLECULE = MoleculeType.NEON;
+    public static final AtomType DEFAULT_MOLECULE = AtomType.NEON;
     public static final double DEFAULT_SIGMA = NeonAtom.getSigma();
     public static final double DEFAULT_EPSILON = NeonAtom.getEpsilon();
     public static final int CALCULATIONS_PER_TICK = 8;
@@ -43,8 +43,8 @@ public class DualParticleModel {
     private StatesOfMatterAtom m_shadowMovableParticle;
     private double m_attractiveForce;
     private double m_repulsiveForce;
-    private MoleculeType m_fixedMoleculeType = DEFAULT_MOLECULE;
-    private MoleculeType m_movableMoleculeType = DEFAULT_MOLECULE;
+    private AtomType m_fixedMoleculeType = DEFAULT_MOLECULE;
+    private AtomType m_movableMoleculeType = DEFAULT_MOLECULE;
     private boolean m_particleMotionPaused;
     private LjPotentialCalculator m_ljPotentialCalculator;
     private double m_timeStep;
@@ -87,9 +87,8 @@ public class DualParticleModel {
             };
         };
 
-        // Add the initial particles.
-        m_fixedParticle = createAtom(m_fixedMoleculeType);
-        m_movableParticle = createAtom(m_movableMoleculeType);
+        // Put the model into its initial state.
+        reset();
     }
 
     //----------------------------------------------------------------------------
@@ -112,15 +111,15 @@ public class DualParticleModel {
         return m_repulsiveForce;
     }
     
-    public MoleculeType getFixedMoleculeType(){
+    public AtomType getFixedMoleculeType(){
         return m_fixedMoleculeType;
     }
     
-    public MoleculeType getMovableMoleculeType(){
+    public AtomType getMovableMoleculeType(){
         return m_movableMoleculeType;
     }
     
-    public void setFixedMoleculeType(MoleculeType moleculeType){
+    public void setFixedMoleculeType(AtomType moleculeType){
     	ensureValidMoleculeType( moleculeType );
 
     	// Inform any listeners of the removal of existing particles.
@@ -130,7 +129,7 @@ public class DualParticleModel {
         }
 
         m_fixedMoleculeType = moleculeType;
-        m_fixedParticle = createAtom(moleculeType);
+        m_fixedParticle = AtomFactory.createAtom(moleculeType);
 
         // TODO: Setting sigma as the average of the two molecules.  Not sure
         // if this is valid, need to check with the physicists.
@@ -143,7 +142,7 @@ public class DualParticleModel {
         notifyFixedMoleculeTypeChanged();
     }
 
-    public void setMovableMoleculeType(MoleculeType moleculeType){
+    public void setMovableMoleculeType(AtomType moleculeType){
     	
     	ensureValidMoleculeType( moleculeType );
 
@@ -154,7 +153,7 @@ public class DualParticleModel {
         }
     	
         m_movableMoleculeType = moleculeType;
-    	m_movableParticle = createAtom(moleculeType);
+    	m_movableParticle = AtomFactory.createAtom(moleculeType);
     	
         // Register to listen to motion of the movable particle so that we can
         // tell when the user is moving it.
@@ -173,35 +172,17 @@ public class DualParticleModel {
         notifyMovableMoleculeTypeChanged();
     }
 
-	private void ensureValidMoleculeType(MoleculeType moleculeType) {
+	private void ensureValidMoleculeType(AtomType moleculeType) {
 		// Verify that this is a supported value.
-        if ((moleculeType != MoleculeType.NEON) &&
-            (moleculeType != MoleculeType.ARGON) &&
-            (moleculeType != MoleculeType.OXYGEN) &&
-            (moleculeType != MoleculeType.ADJUSTABLE)){
+        if ((moleculeType != AtomType.NEON) &&
+            (moleculeType != AtomType.ARGON) &&
+            (moleculeType != AtomType.OXYGEN) &&
+            (moleculeType != AtomType.ADJUSTABLE)){
             
             System.err.println("Error: Unsupported molecule type.");
             assert false;
-            moleculeType = MoleculeType.NEON;
+            moleculeType = AtomType.NEON;
         }
-	}
-	
-	public StatesOfMatterAtom createAtom(MoleculeType moleculeType){
-		
-		StatesOfMatterAtom molecule = null;
-		
-        if (moleculeType == MoleculeType.ADJUSTABLE){
-            molecule = new UserDefinedAtom(0, 0);
-            molecule.setRadius(MoleculeType.ADJUSTABLE.getSigma() / 2);
-        }
-        else if (moleculeType == MoleculeType.ARGON){
-            molecule = new ArgonAtom(0, 0);
-        }
-        else if (moleculeType == MoleculeType.NEON){
-            molecule = new NeonAtom(0, 0);
-        }
-        
-        return molecule;
 	}
 	
 	/**
@@ -218,8 +199,8 @@ public class DualParticleModel {
 		}
 		else{
 			// This is a heterogeneous situation, and epsilon is unique for each combination.
-			if (((m_fixedMoleculeType == MoleculeType.ARGON) && (m_movableMoleculeType == MoleculeType.NEON)) ||
-				((m_fixedMoleculeType == MoleculeType.NEON) && (m_movableMoleculeType == MoleculeType.ARGON))){
+			if (((m_fixedMoleculeType == AtomType.ARGON) && (m_movableMoleculeType == AtomType.NEON)) ||
+				((m_fixedMoleculeType == AtomType.NEON) && (m_movableMoleculeType == AtomType.ARGON))){
 				epsilon = 54.12;
 			}
 			else{
@@ -233,7 +214,7 @@ public class DualParticleModel {
 		return epsilon;
 	}
     
-    public void setBothMoleculeTypes(MoleculeType moleculeType){
+    public void setBothMoleculeTypes(AtomType moleculeType){
         
         setFixedMoleculeType(moleculeType);
         setMovableMoleculeType(moleculeType);
@@ -248,8 +229,8 @@ public class DualParticleModel {
      * @param sigma - distance parameter
      */
     public void setAdjustableParticleSigma( double sigma ){
-    	if ((m_fixedMoleculeType == MoleculeType.ADJUSTABLE) && 
-    		(m_movableMoleculeType == MoleculeType.ADJUSTABLE) &&
+    	if ((m_fixedMoleculeType == AtomType.ADJUSTABLE) && 
+    		(m_movableMoleculeType == AtomType.ADJUSTABLE) &&
     		(sigma != m_ljPotentialCalculator.getSigma())){
     		
     		m_fixedMoleculeType.setSigma(sigma);
@@ -279,8 +260,8 @@ public class DualParticleModel {
      */
     public void setEpsilon( double epsilon ){
         
-    	if ((m_fixedMoleculeType == MoleculeType.ADJUSTABLE) && 
-       		(m_movableMoleculeType == MoleculeType.ADJUSTABLE)){
+    	if ((m_fixedMoleculeType == AtomType.ADJUSTABLE) && 
+       		(m_movableMoleculeType == AtomType.ADJUSTABLE)){
         		
         		m_fixedMoleculeType.setSigma(epsilon);
         		m_movableMoleculeType.setSigma(epsilon);
