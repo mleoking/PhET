@@ -68,6 +68,9 @@ public class PhetOptionPane {
             }
         } );
 
+        //pack the dialog first so it will be centered correctly
+        dialog.pack();
+
         // center on the parent
         if ( parent ==  null ) {
             SwingUtils.centerWindowOnScreen( dialog );
@@ -75,9 +78,8 @@ public class PhetOptionPane {
         else {
             SwingUtils.centerDialogInParent( dialog );
         }
-        
+
         // show the dialog
-        dialog.pack();
         dialog.setVisible( true );
         
         // blocks here until user makes a choice
