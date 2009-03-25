@@ -12,6 +12,11 @@ import common.phetcommon.view.{VerticalLayoutPanel, ResetAllButton}
 import common.piccolophet.event.CursorHandler
 import common.piccolophet.nodes.PhetPPath
 import common.piccolophet.PhetPCanvas
+import controls.RampControlPanel
+import graphics.{RampCanvas, BeadNode, SkyNode, EarthNode}
+
+import model.{BeadState, Bead}
+
 import edu.colorado.phet.scalacommon.Predef._
 import java.awt._
 import java.awt.event.{ActionEvent, ActionListener}
@@ -26,6 +31,7 @@ import scalacommon.math.Vector2D
 import scalacommon.record.{PlaybackSpeedSlider, RecordModel, RecordModelControlPanel}
 import scalacommon.swing.MyRadioButton
 import scalacommon.util.Observable
+import swing.ScalaValueControl
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.nodes.{PPath, PImage, PText}
 import umd.cs.piccolo.PNode
@@ -112,76 +118,7 @@ class RotatableSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTrans
 
 object MyRandom extends scala.util.Random
 
-case class BeadState(position: Double, velocity: Double, mass: Double, staticFriction: Double, kineticFriction: Double) {
-  def translate(dx: Double) = setPosition(position + dx)
 
-  def setPosition(pos: Double) = new BeadState(pos, velocity, mass, staticFriction, kineticFriction)
-
-  def setVelocity(vel: Double) = new BeadState(position, vel, mass, staticFriction, kineticFriction)
-
-  def setMass(m: Double) = new BeadState(position, velocity, m, staticFriction, kineticFriction)
-
-  def thermalEnergy = 0
-}
-class Bead(_state: BeadState, positionMapper: Double => Vector2D, rampSegmentAccessor: Double => RampSegment, model: Observable) extends Observable {
-  val gravity = -9.8
-  var state = _state
-  var _appliedForce = new Vector2D
-
-  def appliedForce = _appliedForce
-
-  def appliedForce_=(force: Vector2D) = {
-    _appliedForce = force
-    notifyListeners()
-  }
-
-  def position2D = positionMapper(position)
-
-  def getRampUnitVector = rampSegmentAccessor(position).getUnitVector
-
-  model.addListenerByName(notifyListeners)
-  def mass = state.mass
-
-  def position = state.position
-
-  def velocity = state.velocity
-
-  def translate(dx: Double) = {
-    state = state.translate(dx)
-    notifyListeners()
-  }
-
-  def getStaticFriction = state.staticFriction
-
-  def getKineticFriction = state.kineticFriction
-
-  def setVelocity(velocity: Double) = {
-    state = state.setVelocity(velocity)
-    notifyListeners()
-  }
-
-  def mass_=(mass: Double) = {
-    state = state.setMass(mass)
-    notifyListeners()
-  }
-
-  def setPosition(position: Double) = {
-    state = state.setPosition(position)
-    notifyListeners()
-  }
-
-  def getTotalEnergy = getPotentialEnergy + getKineticEnergy
-
-  def getPotentialEnergy = mass * gravity * position2D.y
-
-  def getKineticEnergy = 1 / 2 * mass * velocity * velocity
-
-  def getAngleInvertY = {
-    val vector = rampSegmentAccessor(position).getUnitVector
-    val vectorInvertY = new Vector2D(vector.x, -vector.y)
-    vectorInvertY.getAngle
-  }
-}
 class RampModel extends RecordModel[String] {
   def setPlaybackState(state: String) {}
 
@@ -309,54 +246,6 @@ class RampModel extends RecordModel[String] {
   }
 }
 
-class DraggableBeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: String) extends BeadNode(bead, transform, imageName) {
-  addInputEventListener(new CursorHandler)
-  addInputEventListener(new PBasicInputEventHandler() {
-    override def mouseDragged(event: PInputEvent) = {
-      val delta = event.getCanvasDelta
-      val modelDelta = transform.viewToModelDifferential(delta.width, delta.height)
-      bead.appliedForce = (bead.appliedForce + modelDelta)
-    }
-
-    override def mouseReleased(event: PInputEvent) = {
-      bead.appliedForce = new Vector2D
-    }
-  })
-}
-
-class BeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: String) extends PNode {
-  val shapeNode = new PhetPPath(Color.green)
-  //  addChild(shapeNode)//TODO remove after debug done
-
-  val cabinetImage = RampResources.getImage(imageName)
-  val imageNode = new PImage(cabinetImage)
-
-  def setImage(im: BufferedImage) = imageNode.setImage(im)
-  addChild(imageNode)
-
-  defineInvokeAndPass(bead.addListenerByName) {
-    shapeNode.setPathTo(transform.createTransformedShape(new Circle(bead.position2D, 0.3)))
-
-    //TODO consolidate/refactor with BugNode, similar graphics transform code
-    imageNode.setTransform(new AffineTransform)
-
-    val modelPosition = bead.position2D
-    val viewPosition = transform.modelToView(modelPosition)
-    val delta = new Vector2D(imageNode.getImage.getWidth(null), imageNode.getImage.getHeight(null))
-
-    //todo: why is scale factor 4 here?
-    val scale = transform.modelToViewDifferentialXDouble(1 * 4) / cabinetImage.getWidth
-
-    imageNode.translate(viewPosition.x - delta.x / 2 * scale, viewPosition.y - delta.y * scale)
-    imageNode.scale(scale)
-    imageNode.rotateAboutPoint(bead.getAngleInvertY,
-      imageNode.getFullBounds.getCenter2D.getX - (viewPosition.x - delta.x / 2),
-      imageNode.getFullBounds.getMaxY - (viewPosition.y - delta.y))
-
-  }
-}
-
-
 //see scala duck typing
 //maybe we should replace this with a named trait
 class ObjectSelectionNode(transform: ModelViewTransform2D, model: {def selectedObject: ScalaRampObject; def selectedObject_=(ro: ScalaRampObject): Unit; def addListenerByName(listener: => Unit): Unit}) extends PNode {
@@ -424,7 +313,7 @@ class RampHeightIndicator(rampSegment: RampSegment, transform: ModelViewTransfor
   def getLine = new Line2D.Double(new Vector2D(rampSegment.endPoint.x, 0), rampSegment.endPoint)
   defineInvokeAndPass(rampSegment.addListenerByName) {
     line.setPathTo(transform.createTransformedShape(getLine))
-    readout.setOffset(line.getFullBounds.getMaxX+10, line.getFullBounds.getCenterY)
+    readout.setOffset(line.getFullBounds.getMaxX + 10, line.getFullBounds.getCenterY)
     readout.setText("h = " + new DecimalFormat("0.0").format(rampSegment.endPoint.y) + " m")
   }
 }
@@ -447,31 +336,6 @@ class RampAngleIndicator(rampSegment: RampSegment, transform: ModelViewTransform
     readout.setOffset(transform.modelToView(0.5, -0.08))
     readout.setText("Angle = " + new DecimalFormat("0.0").format(getDegrees) + " \u00B0")
   }
-}
-class RampCanvas(model: RampModel) extends DefaultCanvas(22, 20) {
-  setBackground(new Color(200, 255, 240))
-
-  addNode(new SkyNode(transform))
-  addNode(new EarthNode(transform))
-
-  addNode(new RampSegmentNode(model.rampSegments(0), transform))
-  addNode(new RotatableSegmentNode(model.rampSegments(1), transform))
-
-  addNode(new RampHeightIndicator(model.rampSegments(1), transform))
-  addNode(new RampAngleIndicator(model.rampSegments(1), transform))
-
-  addNode(new BeadNode(model.leftWall, transform, "barrier2.jpg"))
-  addNode(new BeadNode(model.rightWall, transform, "barrier2.jpg"))
-  addNode(new BeadNode(model.tree, transform, "tree.gif"))
-
-  val cabinetNode = new DraggableBeadNode(model.beads(0), transform, "cabinet.gif")
-  model.addListenerByName(cabinetNode.setImage(RampResources.getImage(model.selectedObject.imageFilename)))
-  addNode(cabinetNode)
-
-  addNode(new PusherNode(transform, model.beads(0), model.manBead))
-  addNode(new AppliedForceSliderNode(model.beads(0), transform))
-
-  addNode(new ObjectSelectionNode(transform, model))
 }
 
 class PusherNode(transform: ModelViewTransform2D, targetBead: Bead, manBead: Bead) extends BeadNode(manBead, transform, "standing-man.png") {
@@ -510,23 +374,6 @@ class AppliedForceSliderNode(bead: Bead, transform: ModelViewTransform2D) extend
   }
   updatePosition()
 }
-
-class AbstractBackgroundNode(getPaint: => Paint, getModelShape: => Shape, transform: ModelViewTransform2D) extends PNode {
-  val node = new PhetPPath(getPaint)
-  addChild(node)
-
-  def updatePath() = {
-    val viewPath = transform.createTransformedShape(getModelShape)
-    node.setPathTo(viewPath)
-  }
-  updatePath()
-
-  transform.addTransformListener(new TransformListener() {
-    def transformChanged(mvt: ModelViewTransform2D) = updatePath()
-  })
-}
-class SkyNode(transform: ModelViewTransform2D) extends AbstractBackgroundNode(new GradientPaint(transform.modelToView(0, 0), new Color(250, 250, 255), transform.modelToView(0, 10), new Color(202, 187, 255)), new Rectangle2D.Double(-100, 0, 200, 200), transform)
-class EarthNode(transform: ModelViewTransform2D) extends AbstractBackgroundNode(new Color(200, 240, 200), new Rectangle2D.Double(-100, -200, 200, 200), transform)
 
 class WordModel extends Observable {
   var _physicsWords = true
@@ -577,60 +424,7 @@ class CoordinateSystemModel extends Observable {
     notifyListeners()
   }
 }
-class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                      coordinateSystemModel: CoordinateSystemModel, vectorViewModel: VectorViewModel) extends VerticalLayoutPanel {
-  //  setLayout(new BoxLayout(this, BoxLayout.Y_AXIS))
 
-  add(new MyRadioButton("Physics words", wordModel.physicsWords = true, wordModel.physicsWords, wordModel.addListener))
-  add(new MyRadioButton("Everyday words", wordModel.everydayWords = true, wordModel.everydayWords, wordModel.addListener))
-
-  add(new JLabel("Free Body Diagram"))
-  add(new MyRadioButton("Show", freeBodyDiagramModel.visible = true, freeBodyDiagramModel.visible, freeBodyDiagramModel.addListener))
-  add(new MyRadioButton("Hide", freeBodyDiagramModel.visible = false, !freeBodyDiagramModel.visible, freeBodyDiagramModel.addListener))
-
-  add(new JLabel("Coordinate System"))
-  add(new MyRadioButton("Fixed", coordinateSystemModel.fixed = true, coordinateSystemModel.fixed, coordinateSystemModel.addListener))
-  add(new MyRadioButton("Adjustable", coordinateSystemModel.adjustable = true, coordinateSystemModel.adjustable, coordinateSystemModel.addListener))
-
-  class SubControlPanel(title: String) extends VerticalLayoutPanel {
-    add(new JLabel(title))
-    setBorder(BorderFactory.createRaisedBevelBorder)
-  }
-
-  val vectorPanel = new SubControlPanel("Vectors")
-  vectorPanel.add(new MyCheckBox("Original Vectors", vectorViewModel.originalVectors_=, vectorViewModel.originalVectors, vectorViewModel.addListener))
-  vectorPanel.add(new MyCheckBox("Parallel Components", vectorViewModel.parallelComponents_=, vectorViewModel.parallelComponents, vectorViewModel.addListener))
-  vectorPanel.add(new MyCheckBox("X-Y Components", vectorViewModel.xyComponents_=, vectorViewModel.xyComponents, vectorViewModel.addListener))
-  vectorPanel.add(new MyCheckBox("Sum of Forces Vector", vectorViewModel.sumOfForcesVector_=, vectorViewModel.sumOfForcesVector, vectorViewModel.addListener))
-
-  add(vectorPanel)
-
-  val rampPanel = new SubControlPanel("Ramp Controls")
-  rampPanel.add(new MyCheckBox("Walls", model.walls_=, model.walls, model.addListener))
-  rampPanel.add(new MyCheckBox("Frictionless", model.frictionless_=, model.frictionless, model.addListener))
-
-  add(rampPanel)
-
-  val positionSlider = new ScalaValueControl(RampDefaults.MIN_X, RampDefaults.MAX_X, "Object Position", "0.0", "meters",
-    model.beads(0).position, model.beads(0).setPosition, model.beads(0).addListener)
-  add(positionSlider)
-
-  val angleSlider = new ScalaValueControl(0, 90, "Ramp Angle", "0.0", "degrees",
-    model.rampSegments(1).getUnitVector.getAngle.toDegrees, value => model.setRampAngle(value.toRadians), model.rampSegments(1).addListener)
-
-  add(angleSlider)
-
-  val resetButton = new ResetAllButton(this)
-  add(resetButton)
-}
-class MyCheckBox(text: String, setter: Boolean => Unit, getter: => Boolean, addListener: (() => Unit) => Unit) extends CheckBox(text) {
-  addListener(update)
-  update()
-  peer.addActionListener(new ActionListener() {
-    def actionPerformed(ae: ActionEvent) = setter(peer.isSelected)
-  });
-  def update() = peer.setSelected(getter)
-}
 class VectorViewModel extends Observable {
   private var _originalVectors = true
   private var _parallelComponents = false
@@ -676,16 +470,6 @@ class RampModule(clock: ScalaClock) extends Module("Ramp", clock) {
   clock.addClockListener(model.update(_))
   setControlPanel(new RampControlPanel(model, wordModel, fbdModel, coordinateSystemModel, vectorViewModel))
   setClockControlPanel(new RecordModelControlPanel(model, canvas, () => {new PlaybackSpeedSlider(model)}, Color.blue, 20))
-}
-
-class ScalaValueControl(min: Double, max: Double, name: String, decimalFormat: String, units: String,
-                       getter: => Double, setter: Double => Unit, addListener: (() => Unit) => Unit) extends LinearValueControl(min, max, name, decimalFormat, units) {
-  addListener(update)
-  update()
-  addChangeListener(new ChangeListener {
-    def stateChanged(e: ChangeEvent) = setter(getValue)
-  });
-  def update() = setValue(getter)
 }
 
 object RampApplication {
