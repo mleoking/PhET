@@ -36,11 +36,11 @@ abstract class TimeModel extends Observable {
   val recordHistory = new ArrayBuffer[DataPoint]
 
   //todo make private after refactor
-  protected var record = true
-  protected var paused = true
-  protected var time = 0.0
-  protected var playbackIndexFloat = 0.0 //floor this to get playbackIndex
-  protected var playbackSpeed = 1.0
+  private var record = true
+  private var paused = true
+  private var time = 0.0
+  private var playbackIndexFloat = 0.0 //floor this to get playbackIndex
+  private var playbackSpeed = 1.0
 
   def setStateToPlaybackIndex() = {
     val playbackIndex = getPlaybackIndex
@@ -49,6 +49,37 @@ abstract class TimeModel extends Observable {
       time = recordHistory(getPlaybackIndex).time
     }
   }
+
+  def setPlayback(speed: Double) = {
+    setPlaybackSpeed(speed)
+    setRecord(false)
+  }
+
+  def rewind = setPlaybackIndexFloat(0.0)
+
+  def setTime(t: Double) {
+    time = t
+  }
+
+  def resetAll() {
+    record = true
+    paused = true
+    playbackIndexFloat = 0.0
+    playbackSpeed = 1.0
+    recordHistory.clear()
+    time = 0
+
+    notifyListeners() //todo: duplicate notification
+  }
+
+  def setPlaybackSpeed(speed: Double) = {
+    if (speed != playbackSpeed) {
+      playbackSpeed = speed
+      notifyListeners()
+    }
+  }
+
+  def getPlaybackIndexFloat(): Double = playbackIndexFloat
 
   def setPlaybackState(state: LadybugState)
 
