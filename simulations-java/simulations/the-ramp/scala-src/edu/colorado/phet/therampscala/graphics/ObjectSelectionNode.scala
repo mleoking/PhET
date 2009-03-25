@@ -19,7 +19,19 @@ import java.lang.Math._
 
 //see scala duck typing
 //maybe we should replace this with a named trait
-class ObjectSelectionNode(transform: ModelViewTransform2D, model: {def selectedObject: ScalaRampObject; def selectedObject_=(ro: ScalaRampObject): Unit; def addListenerByName(listener: => Unit): Unit}) extends PNode {
+
+//note to self, Proguard throws away structural type when duck typing
+//Exception in thread "AWT-EventQueue-0" java.lang.NoSuchMethodException: edu.colorado.phet.therampscala.model.RampModel.selectedObject_$eq(edu.colorado.phet.therampscala.ScalaRampObject)
+
+trait ObjectModel {
+  def selectedObject: ScalaRampObject
+
+  def selectedObject_=(ro: ScalaRampObject): Unit
+
+  def addListenerByName(listener: => Unit): Unit
+}
+
+class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) extends PNode {
   val objects = RampDefaults.objects
   val rows = new ArrayBuffer[ArrayBuffer[PNode]]
 

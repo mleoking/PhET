@@ -2,13 +2,14 @@ package edu.colorado.phet.therampscala.model
 
 
 import collection.mutable.ArrayBuffer
+import graphics.ObjectModel
 import scalacommon.math.Vector2D
 import java.awt.geom.Point2D
 import scalacommon.util.Observable
 import scalacommon.record.RecordModel
 import java.lang.Math._
 
-class RampModel extends RecordModel[String] {
+class RampModel extends RecordModel[String] with ObjectModel {
   def setPlaybackState(state: String) {}
 
   def handleRecordStartedDuringPlayback() {}
