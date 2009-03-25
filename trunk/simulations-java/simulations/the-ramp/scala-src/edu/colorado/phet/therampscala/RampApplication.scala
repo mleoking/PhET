@@ -414,11 +414,10 @@ class RampHeightIndicator(rampSegment: RampSegment, transform: ModelViewTransfor
 
 //todo: consider coalescing with RampHeightIndicator
 class RampAngleIndicator(rampSegment: RampSegment, transform: ModelViewTransform2D) extends PNode {
-  
   val line = new PhetPPath(new BasicStroke(2f), Color.black)
   addChild(line)
   def getPath = {
-    val arc=new Arc2D.Double(rampSegment.startPoint.x-3,rampSegment.startPoint.y-3,6,6,0,-rampSegment.getUnitVector.getAngle.toDegrees,Arc2D.OPEN)
+    val arc = new Arc2D.Double(rampSegment.startPoint.x - 3, rampSegment.startPoint.y - 3, 6, 6, 0, -rampSegment.getUnitVector.getAngle.toDegrees, Arc2D.OPEN)
     arc
   }
   defineInvokeAndPass(rampSegment.addListenerByName){
@@ -554,8 +553,8 @@ class CoordinateSystemModel extends Observable {
   }
 }
 class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                      coordinateSystemModel: CoordinateSystemModel, vectorViewModel: VectorViewModel) extends JPanel {
-  setLayout(new BoxLayout(this, BoxLayout.Y_AXIS))
+                      coordinateSystemModel: CoordinateSystemModel, vectorViewModel: VectorViewModel) extends VerticalLayoutPanel {
+  //  setLayout(new BoxLayout(this, BoxLayout.Y_AXIS))
 
   add(new MyRadioButton("Physics words", wordModel.physicsWords = true, wordModel.physicsWords, wordModel.addListener))
   add(new MyRadioButton("Everyday words", wordModel.everydayWords = true, wordModel.everydayWords, wordModel.addListener))
@@ -568,15 +567,24 @@ class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramMo
   add(new MyRadioButton("Fixed", coordinateSystemModel.fixed = true, coordinateSystemModel.fixed, coordinateSystemModel.addListener))
   add(new MyRadioButton("Adjustable", coordinateSystemModel.adjustable = true, coordinateSystemModel.adjustable, coordinateSystemModel.addListener))
 
-  add(new JLabel("Vectors"))
-  add(new MyCheckBox("Original Vectors", vectorViewModel.originalVectors_=, vectorViewModel.originalVectors, vectorViewModel.addListener))
-  add(new MyCheckBox("Parallel Components", vectorViewModel.parallelComponents_=, vectorViewModel.parallelComponents, vectorViewModel.addListener))
-  add(new MyCheckBox("X-Y Components", vectorViewModel.xyComponents_=, vectorViewModel.xyComponents, vectorViewModel.addListener))
-  add(new MyCheckBox("Sum of Forces Vector", vectorViewModel.sumOfForcesVector_=, vectorViewModel.sumOfForcesVector, vectorViewModel.addListener))
+  class SubControlPanel(title: String) extends VerticalLayoutPanel {
+    add(new JLabel(title))
+    setBorder(BorderFactory.createRaisedBevelBorder)
+  }
 
-  add(new JLabel("Ramp Controls"))
-  add(new MyCheckBox("Walls", model.walls_=, model.walls, model.addListener))
-  add(new MyCheckBox("Frictionless", model.frictionless_=, model.frictionless, model.addListener))
+  val vectorPanel = new SubControlPanel("Vectors")
+  vectorPanel.add(new MyCheckBox("Original Vectors", vectorViewModel.originalVectors_=, vectorViewModel.originalVectors, vectorViewModel.addListener))
+  vectorPanel.add(new MyCheckBox("Parallel Components", vectorViewModel.parallelComponents_=, vectorViewModel.parallelComponents, vectorViewModel.addListener))
+  vectorPanel.add(new MyCheckBox("X-Y Components", vectorViewModel.xyComponents_=, vectorViewModel.xyComponents, vectorViewModel.addListener))
+  vectorPanel.add(new MyCheckBox("Sum of Forces Vector", vectorViewModel.sumOfForcesVector_=, vectorViewModel.sumOfForcesVector, vectorViewModel.addListener))
+
+  add(vectorPanel)
+
+  val rampPanel = new SubControlPanel("Ramp Controls")
+  rampPanel.add(new MyCheckBox("Walls", model.walls_=, model.walls, model.addListener))
+  rampPanel.add(new MyCheckBox("Frictionless", model.frictionless_=, model.frictionless, model.addListener))
+
+  add(rampPanel)
 
   val positionSlider = new ScalaValueControl(RampDefaults.MIN_X, RampDefaults.MAX_X, "Object Position", "0.0", "meters",
     model.beads(0).position, model.beads(0).setPosition, model.beads(0).addListener)
