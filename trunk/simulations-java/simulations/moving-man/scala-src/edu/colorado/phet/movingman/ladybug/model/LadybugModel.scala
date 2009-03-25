@@ -19,8 +19,6 @@ import scalacommon.util.Observable
 class LadybugModel extends TimeModel{
   val ladybug = new Ladybug
   private val ladybugMotionModel = new LadybugMotionModel(this)
-  private var time: Double = 0;
-  private var paused = true
   private var bounds = new Rectangle2D.Double(-10, -10, 20, 20)
   private var updateMode: UpdateMode = PositionMode
   val tickListeners = new ArrayBuffer[() => Unit]
@@ -32,7 +30,6 @@ class LadybugModel extends TimeModel{
 
   //State related to recording; consider moving to a trait
   private var playbackSpeed = 1.0
-  var playbackIndexFloat = 0.0 //floor this to get playbackIndex
 
   //samples inputted from the user that will be used to determine the path of the object
   //imagine as a pen on the canvas that leads the ladybug
@@ -77,12 +74,6 @@ class LadybugModel extends TimeModel{
 
   def getLadybugMotionModel() = ladybugMotionModel
 
-  def getTime() = time
-
-  def getMaxRecordedTime() = if (recordHistory.length == 0) 0.0 else recordHistory(recordHistory.length - 1).time
-
-  def getMinRecordedTime() = if (recordHistory.length == 0) 0.0 else recordHistory(0).time
-
   def setPlaybackTime(t: Double) = {
     val f = new LinearFunction(getMinRecordedTime, getMaxRecordedTime, 0, recordHistory.length - 1)
     setPlaybackIndexFloat(f.evaluate(t))
@@ -110,8 +101,6 @@ class LadybugModel extends TimeModel{
   def setUpdateModeAcceleration() = {
     updateMode = AccelerationMode
   }
-
-  def getPlaybackIndex(): Int = java.lang.Math.floor(playbackIndexFloat).toInt
 
   def getPlaybackIndexFloat(): Double = playbackIndexFloat
 
@@ -333,19 +322,6 @@ class LadybugModel extends TimeModel{
   def setPlayback(speed: Double) = {
     setPlaybackSpeed(speed)
     setRecord(false)
-  }
-
-  def setPaused(p: Boolean) = {
-    if (paused != p) {
-      paused = p
-      notifyListeners()
-    }
-  }
-
-  def isPaused() = paused
-
-  def isRecordingFull = {
-    recordHistory.length >= getMaxRecordPoints
   }
 
   def rewind = {

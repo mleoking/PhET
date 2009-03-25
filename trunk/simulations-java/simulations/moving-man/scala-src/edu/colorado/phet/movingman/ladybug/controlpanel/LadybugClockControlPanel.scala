@@ -31,10 +31,13 @@ import umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloTimeControlPanel.BackgroundNode
 import edu.colorado.phet.scalacommon.Predef._
 
-abstract class TimeModel extends Observable{
+abstract class TimeModel extends Observable {
   val recordHistory = new ArrayBuffer[DataPoint]
-  var record = true//todo make private after refactor
-  def clearHistory()={
+  var record = true //todo make private after refactor
+  var paused = true //todo make private after refactor
+  var time = 0.0//todo make private after refactor
+  var playbackIndexFloat = 0.0 //floor this to get playbackIndex
+  def clearHistory() = {
     recordHistory.clear()
     notifyListeners()
   }
@@ -47,13 +50,22 @@ abstract class TimeModel extends Observable{
 
   def setPlaybackIndexFloat(f: Double)
 
-  def setPaused(b: Boolean)
+  def setPaused(p: Boolean) = {
+    if (paused != p) {
+      paused = p
+      notifyListeners()
+    }
+  }
 
-  def isPaused: Boolean
+  def isPaused() = paused
 
-  def getPlaybackIndex: Int
+  def getPlaybackIndex(): Int = java.lang.Math.floor(playbackIndexFloat).toInt
 
-  def isRecordingFull: Boolean
+  def isRecordingFull = {
+    recordHistory.length >= getMaxRecordPoints
+  }
+
+  def getMaxRecordPoints: Int
 
   def getRecordingHistory = recordHistory
 
@@ -67,15 +79,16 @@ abstract class TimeModel extends Observable{
 
   def stepPlayback()
 
-  def getTime: Double
+  def getTime() = time
 
-  def getMinRecordedTime: Double
+  def getMaxRecordedTime() = if (recordHistory.length == 0) 0.0 else recordHistory(recordHistory.length - 1).time
+
+  def getMinRecordedTime() = if (recordHistory.length == 0) 0.0 else recordHistory(0).time
 
   def setPlaybackTime(b: Double)
 
   def getFloatTime: Double
 
-  def getMaxRecordedTime: Double
 }
 
 class LadybugClockControlPanel(model: TimeModel, simPanel: JComponent, createRightControl: () => PNode) extends PhetPCanvas {
