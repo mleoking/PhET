@@ -44,6 +44,7 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.model.DualParticleModel;
 import edu.colorado.phet.statesofmatter.model.AtomType;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.view.ParticleForceNode;
 
 
@@ -86,7 +87,10 @@ public class InteractionPotentialControlPanel extends ControlPanel {
         m_canvas = solidLiquidGasModule.getCanvas();
         
         m_model.addListener( new DualParticleModel.Adapter(){
-            public void fixedMoleculeTypeChanged(){
+            public void fixedParticleAdded(StatesOfMatterAtom particle){
+                m_moleculeSelectionPanel.updateMoleculeType();
+            };
+            public void movableParticleAdded(StatesOfMatterAtom particle){
                 m_moleculeSelectionPanel.updateMoleculeType();
             };
         });
