@@ -22,6 +22,7 @@ import javax.swing._
 import javax.swing.event.{ChangeListener, ChangeEvent}
 
 import scalacommon.math.Vector2D
+import scalacommon.record.{PlaybackSpeedSlider, RecordModel, RecordModelControlPanel}
 import scalacommon.swing.MyRadioButton
 import scalacommon.util.Observable
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
@@ -180,7 +181,13 @@ class Bead(_state: BeadState, positionMapper: Double => Vector2D, rampSegmentAcc
     vectorInvertY.getAngle
   }
 }
-class RampModel extends Observable {
+class RampModel extends RecordModel[String] {
+  def setPlaybackState(state: String) {}
+
+  def handleRecordStartedDuringPlayback(){}
+
+  def getMaxRecordPoints = 100
+
   val rampSegments = new ArrayBuffer[RampSegment]
   val beads = new ArrayBuffer[Bead]
   private var _walls = true
@@ -646,9 +653,11 @@ class RampModule(clock: ScalaClock) extends Module("Ramp", clock) {
   val fbdModel = new FreeBodyDiagramModel
   val coordinateSystemModel = new CoordinateSystemModel
   val vectorViewModel = new VectorViewModel
-  setSimulationPanel(new RampCanvas(model))
+  val canvas=new RampCanvas(model)
+  setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
   setControlPanel(new RampControlPanel(model, wordModel, fbdModel, coordinateSystemModel, vectorViewModel))
+  setClockControlPanel(new RecordModelControlPanel(model, canvas, () => {new PlaybackSpeedSlider(model)}, Color.blue, 20))
 }
 
 class ScalaValueControl(min: Double, max: Double, name: String, decimalFormat: String, units: String,
