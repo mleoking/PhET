@@ -366,7 +366,7 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: {def selectedO
     val textNode = new PText(o.name + " (" + o.mass + " kg)")
     val imageNode = new PImage(BufferedImageUtils.multiScaleToHeight(RampResources.getImage(o.imageFilename), 100))
     imageNode.scale(0.5f)
-    textNode.scale(1.1f)
+    textNode.scale(0.9f)
     textNode.setOffset(imageNode.getFullBounds.getWidth, 0)
 
     val backgroundNode = new PhetPPath(new BasicStroke(1f), new Color(0, 0, 0, 0))
@@ -400,13 +400,14 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: {def selectedO
   val cellDim = nodes.foldLeft(new PDimension)((a, b) => new PDimension(max(a.width, b.getFullBounds.width), max(a.height, b.getFullBounds.height)))
 
   val modelCellDimPt = transform.viewToModelDifferential(cellDim.width, cellDim.height)
+  //y is down, so modelCellDimPt.y is negative 
   for (i <- 0 until nodes.length) {
     val row = i / RampDefaults.objectsPerRow
     val column = i % RampDefaults.objectsPerRow
 
     val n = nodes(i)
     n.backgroundNode.setPathTo(new Rectangle2D.Double(0, 0, cellDim.width, cellDim.height))
-    n.setOffset(transform.modelToView(column * modelCellDimPt.x - 11, row * modelCellDimPt.y - 5))
+    n.setOffset(transform.modelToView(column * modelCellDimPt.x - 11, -10 - row * modelCellDimPt.y - 2 * modelCellDimPt.y))
     addChild(n)
   }
 
