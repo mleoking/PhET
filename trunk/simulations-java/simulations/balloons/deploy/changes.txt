@@ -1,3 +1,5 @@
+# 1.07.17 (29831) Mar 25, 2009
+3/25/09 Next Alpha-3 candidate
 # 1.07.16 (29782) Mar 24, 2009
 3/24/09 2nd try for Alpha-3 release - neglected the locale-specific JARs the first time.
 # 1.07.15 (29776) Mar 24, 2009
