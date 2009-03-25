@@ -29,13 +29,13 @@ import edu.colorado.phet.flashlauncher.FlashLauncher;
  * <p/>
  * //phetProjects.addAll(Arrays.asList( PhetFlashProject.getFlashProjects(baseDir ) ));
  */
-public class PhetFlashProject extends PhetProject {
+public class FlashSimulationProject extends PhetProject {
     
-    public PhetFlashProject( File projectRoot ) throws IOException {
+    public FlashSimulationProject( File projectRoot ) throws IOException {
         super( projectRoot );
     }
 
-    public PhetFlashProject( File parentDir, String name ) throws IOException {
+    public FlashSimulationProject( File parentDir, String name ) throws IOException {
         super( parentDir, name );
     }
 
@@ -51,14 +51,14 @@ public class PhetFlashProject extends PhetProject {
         for ( int i = 0; ( files != null ) && ( i < files.length ); i++ ) {
             File file = files[i];
             try {
-                projects.add( new PhetFlashProject( file ) );
+                projects.add( new FlashSimulationProject( file ) );
             }
             catch( IOException e ) {
                 e.printStackTrace();
             }
         }
         projects=PhetProject.sort( new ArrayList(projects) );
-        return (PhetFlashProject[]) projects.toArray( new PhetFlashProject[projects.size()] );
+        return (FlashSimulationProject[]) projects.toArray( new FlashSimulationProject[projects.size()] );
     }
 
     public boolean build() throws Exception {

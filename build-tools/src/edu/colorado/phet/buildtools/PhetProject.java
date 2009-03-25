@@ -3,7 +3,7 @@ package edu.colorado.phet.buildtools;
 import java.io.*;
 import java.util.*;
 
-import edu.colorado.phet.buildtools.flash.PhetFlashProject;
+import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
@@ -495,7 +495,7 @@ public abstract class PhetProject {
         List phetProjects = new ArrayList();
 
         phetProjects.addAll( Arrays.asList( JavaProject.getJavaSimulations( trunk ) ) );
-        phetProjects.addAll( Arrays.asList( PhetFlashProject.getFlashSimulations( trunk ) ) );
+        phetProjects.addAll( Arrays.asList( FlashSimulationProject.getFlashSimulations( trunk ) ) );
         phetProjects.addAll( Arrays.asList( PhetFlexProject.getFlexProjects( trunk ) ) );
         return (PhetProject[]) phetProjects.toArray( new PhetProject[phetProjects.size()] );
     }
