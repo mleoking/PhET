@@ -1,3 +1,5 @@
+# 1.00.20 (29830) Mar 25, 2009
+3/25/09 Next Alpha-3 candidate - fixes some issues with dialog behavior
 # 1.00.19 (29794) Mar 24, 2009
 3/24/09 2nd release candidate for Alpha-3, fixes a problem with the "Try it Now" URL
 # 1.00.18 (29778) Mar 24, 2009
