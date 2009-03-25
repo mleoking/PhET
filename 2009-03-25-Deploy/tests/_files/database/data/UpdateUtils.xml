@@ -1,0 +1,18 @@
+<?xeml version="1.0" encoding="UTF-8" ?>
+<dataset>
+aosentuhaosnethiaosnetihasenihaeiosn
+  <table name="update_settings">
+    <column>id</column>
+    <column>sim_ask_later_duration</column>
+    <column>install_ask_later_duration</column>
+    <column>install_recommend_update_age</column>
+    <column>install_recommend_update_date</column>
+    <row>
+      <value>1</value>
+      <value>33</value>
+      <value>44</value>
+      <value>55</value>
+      <value>2001-02-03</value>
+    </row>
+  </table>
+</dataset>

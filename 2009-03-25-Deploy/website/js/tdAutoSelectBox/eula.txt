@@ -1,0 +1,70 @@
+TETRAKYS DEVELOPMENT STANDARD END USER LICENSE AGREEMENT
+
+By downloading and installing this software you agree to accept the terms set forth in this Agreement as of the date in which the software was downloaded.
+
+IMPORTANT: THIS SOFTWARE END USER LICENSE AGREEMENT ("EULA") IS A LEGAL AGREEMENT BETWEEN A LICENSEE AND TETRAKYS DEVELOPMENT. READ IT CAREFULLY BEFORE COMPLETING THE INSTALLATION PROCESS AND USING THIS SOFTWARE. IT PROVIDES A LICENSE TO USE THIS SOFTWARE AND CONTAINS WARRANTY INFORMATION AND LIABILITY DISCLAIMERS. BY DOWNLOADING OR INSTALLING THE SOFTWARE YOU ARE INDICATING YOUR ASSENT TO THE TERMS OF THIS LICENSE. IF YOU DO NOT AGREE TO ALL OF THE FOLLOWING TERMS, DO NOT DOWNLOAD OR INSTALL THE SOFTWARE OR DISCONTINUE USE IMMEDIATELY AND DESTROY ALL COPIES.
+
+1. DEFINITION
+
+a) "tdAutoSelectBox" is the software application code.
+
+b) "Software" means the executable code of tdAutoSelectBox and corresponding documentation, printed materials, online or electronic documentation.
+
+c) "Licensee" is the individual or entity (i.e., corporation) authorized to use the Software, regardless of whether or not the individual is using the Software at any given time. 
+
+d) "Web site" is a single production web site, defined by a domain name.  
+
+2. RIGHTS OF LICENSEE
+
+2.1 Subject to the terms and conditions set forth in the License Agreement, Tetrakys Development grants to Licensee the non-exclusive, non-transferable right to use the Software.  The Licensee may also modify the Software for his own purposes.
+
+
+3. LICENSE RESTRICTIONS
+
+3.1 Licensee may not alter, merge, modify, adapt or translate the Software, or decompile, reverse engineer, disassemble, or otherwise reduce the Software to a human-perceivable form, except for his or her own use.
+
+3.2 Licensee may not modify the Software or create derivative works based upon the Software, except for his or her own use.
+
+3.3 Licensee may not remove or obscure any copyright and trademark notices relating to the Software.
+
+4. OWNERSHIP AND INTELLECTUAL PROPERTY RIGHTS
+
+4.1 This Agreement gives the Licensee limited rights to use the Software. Tetrakys Development retains any and all rights, title and interest in and to the Software and all copies thereof, including copyrights, patents, trade secret rights, trademarks and other intellectual property rights. All rights not specifically granted in this Agreement, including International Copyrights, are reserved by Tetrakys Development. 
+
+5. INDEMNIFICATION
+
+5.1 Tetrakys Development will defend and indemnify Licensee for all costs (including reasonable attorneys fees) arising from a claim that Software furnished and used within the scope of this Agreement infringes the copyright or other intellectual property rights of any third party, provided that:
+
+(i) Licensee notify Tetrakys Development in writing within 30 days of the claim, (ii) Tetrakys Development has sole control of the defense and all related settlement negotiations, and (iii) Licensee provide Tetrakys Development with the assistance, information, and authority necessary to perform the above.
+
+5.2 Tetrakys Development will have no liability for any claim of infringement based on (i) code contained within the Software which was not created by Tetrakys Development (ii) use of a superseded or altered release of the Software, except for such alteration(s) or modification(s) which have been made by Tetrakys Development or under Tetrakys Development's direction, if such infringement would have been avoided by the use of a current, unaltered release of the Software that Tetrakys Development provides to Licensee, or (iii) the combination, operation, or use of any Software furnished under this Agreement with programs or data not furnished by Tetrakys Development if such infringement would have been avoided by the use of the Software without such programs or data.
+
+5.3 In the event the Software is held or believed by Tetrakys Development to infringe, or Licensee's use of the Software is enjoined, Tetrakys Development will have the option, at its expense, to (i) modify the Software to cause it to become non-infringing, (ii) obtain for Licensee a license to continue using the Software, (iii) substitute the Software with other Software reasonably suitable to Licensee, or (iv) if none of the foregoing remedies are commercially feasible, terminate the license for the infringing Software and refund any license fees paid for the Software. This Section states Tetrakys Development's entire liability for infringement.
+
+6. LIMITED WARRANTIES
+
+6.1 Tetrakys Development warrants that it holds the proper rights allowing it to license the Software and is not currently aware of any actions that may affect its rights to do so.
+
+6.2 THE SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, TETRAKYS DEVELOPMENT MAKES NO WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED WARRANTY OR MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE. WITHOUT LIMITATION, LICENSEE ASSUMES SOLE RESPONSIBILITY FOR SELECTING THE SOFTWARE TO ACHIEVE THE INTENDED RESULTS AND FOR THE INSTALLATION, USE AND RESULTS OBTAINED FROM THE SOFTWARE. TETRAKYS DEVELOPMENT MAKES NO WARRANTY THAT THE SOFTWARE WILL BE ERROR FREE OR FREE FROM INTERRUPTIONS OR OTHER FAILURES. IN PARTICULAR, THE SOFTWARE IS NOT DESIGNED FOR USE IN HAZARDOUS ENVIRONMENTS REQUIRING FAIL-SAFE PERFORMANCE. TETRAKYS DEVELOPMENT EXPRESSLY DISCLAIMS ANY WARRANTY OF FITNESS FOR HIGH-RISK ACTIVITIES.
+
+7. LIMITATION OF LIABILITY
+
+7.1 TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL TETRAKYS DEVELOPMENT OR ITS SUPPLIERS BE LIABLE FOR ANY SPECIAL, INCIDENTAL, INDIRECT, OR CONSEQUENTIAL DAMAGES WHATSOEVER (INCLUDING, BUT NOT LIMITED TO, DAMAGES FOR LOSS OF PROFITS OR CONFIDENTIAL OR OTHER INFORMATION, FOR BUSINESS INTERRUPTION, FOR PERSONAL INJURY, FOR LOSS OF PRIVACY, FOR FAILURE TO MEET ANY DUTY INCLUDING OF GOOD FAITH OR OF REASONABLE CARE, FOR NEGLIGENCE, AND FOR ANY OTHER PECUNIARY OR OTHER LOSS WHATSOEVER) ARISING OUT OF OR IN ANY WAY RELATED TO THE USE OR INABILITY TO USE THE SOFTWARE, THE PROVISION OF OR FAILURE TO PROVIDE SUPPORT SERVICES, OR OTHERWISE UNDER OR IN CONNECTION WITH ANY PROVISION OF THIS EULA, EVEN IN EVENT OF FAULT, TORT (INCLUDING NEGLIGENCE), STRICT LIABILITY, BREACH OF CONTRACT OR BREACH OF WARRANTY OF TETRAKYS DEVELOPMENT OR ANY SUPPLIER, AND EVEN IF TETRAKYS DEVELOPMENT OR ANY SUPPLIER HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. IN ANY CASE, TETRAKYS DEVELOPMENT ENTIRE LIABILITY UNDER ANY PROVISION OF THIS EULA SHALL BE LIMITED TO THE GREATER OF THE AMOUNT ACTUALLY PAID BY LICENSEE FOR THE SOFTWARE OR U.S.$5.00.
+
+8. DURATION
+
+8.1 Once the Licensee has purchased a license, this Agreement shall remain in effect until terminated by either party. The Licensee may terminate the Agreement at any time by destroying all copies of the Software in their possession. Tetrakys Development may terminate the Agreement upon breach of Licensee's obligations under the present Agreement.
+
+9. GENERAL
+
+9.1 Tetrakys Development reserves the right at any time to cease the support of the Software and to alter prices, features, specifications, capabilities, functions, licensing terms, release dates, general availability or other characteristics of the Software.
+
+9.2 If any provision hereof shall be held illegal, invalid or unenforceable, in whole or in part, such provision shall be modified to the minimum extent necessary to make it legal, valid and enforceable, and the legality, validity and enforceability of all other provisions of this Agreement shall not be affected.
+
+9.3 This Agreement is to be governed by and construed in accordance with the laws and jurisdiction of the defending party. Each party for itself and its property, hereby submits to the jurisdiction and venue of the defending party in relation to any claim or dispute that may arise with respect to this Agreement and any judgment that may be rendered in connection with any such claim or dispute. Service of process upon either party shall be valid if served by registered or certified mail, return receipt requested and to the most current address provided by such party. The United Nations Convention on Contracts for the International Sale of Goods shall not apply to this Agreement.
+
+9.4 This Agreement contains the entire agreement between Tetrakys Development and Licensee related to the software and supersedes all prior agreements and understandings, whether oral or written. 
+
+10. FORCE MAJEURE
+
+10.1 The Licensee should be aware that the Software is dependent upon technologies and standards such as HTML, Javascript, CSS, and XML, as well as comparability compliancy of the client's hypertext browser, all of which are subject to change in due time and may be superceded by new, as yet unknown, technologies.  Therefore, Software failures due to changing technology or browsers which fail to meet compatible standards, are excluded from any liability of Tetrakys Development to the Licensee.  
