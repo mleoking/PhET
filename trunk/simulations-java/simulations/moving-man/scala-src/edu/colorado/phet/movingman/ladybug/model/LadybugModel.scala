@@ -1,5 +1,6 @@
 package edu.colorado.phet.movingman.ladybug.model
 
+import controlpanel.TimeModel
 import edu.colorado.phet.common.motion.model.TimeData
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
 import edu.colorado.phet.movingman.util.Motion2DModel
@@ -15,7 +16,7 @@ import scalacommon.util.Observable
  * The smoothing of motion is done by leading the ladybug (with an abstraction called the pen),
  * and using the same model as Motion2D for interpolation.
  */
-class LadybugModel extends Observable {
+class LadybugModel extends Observable with TimeModel{
   val ladybug = new Ladybug
   private val ladybugMotionModel = new LadybugMotionModel(this)
   private var time: Double = 0;

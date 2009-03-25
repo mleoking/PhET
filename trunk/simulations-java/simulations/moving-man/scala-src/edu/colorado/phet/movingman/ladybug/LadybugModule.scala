@@ -38,7 +38,7 @@ class LadybugModule[ModelType <: LadybugModel](clock: ScalaClock,
 
   clock.addClockListener(model.update(_))
 
-  setClockControlPanel(new LadybugClockControlPanel(this, () => {createRightControl(this)}))
+  setClockControlPanel(new LadybugClockControlPanel(model,canvas, () => {createRightControl(this)}))
 
   def getLadybugMotionModel = model.getLadybugMotionModel()
 
