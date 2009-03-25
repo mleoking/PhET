@@ -1,9 +1,13 @@
-package edu.colorado.phet.movingman.ladybug.model
+package edu.colorado.phet.scalacommon.record
 
 import _root_.edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
 import scalacommon.util.Observable
 import _root_.scala.collection.mutable.ArrayBuffer
 
+object RecordModelDefaults {
+  var pauseAtEndOfPlayback = true
+  var recordAtEndOfPlayback = false
+}
 abstract class RecordModel[T] extends Observable {
   val recordHistory = new ArrayBuffer[DataPoint[T]]
 
@@ -85,11 +89,11 @@ abstract class RecordModel[T] extends Observable {
       playbackIndexFloat = playbackIndexFloat + playbackSpeed
       notifyListeners()
     } else {
-      if (LadybugDefaults.recordAtEndOfPlayback) {
+      if (RecordModelDefaults.recordAtEndOfPlayback) {
         setRecord(true)
       }
 
-      if (LadybugDefaults.pauseAtEndOfPlayback) {
+      if (RecordModelDefaults.pauseAtEndOfPlayback) {
         setPaused(true)
       }
     }

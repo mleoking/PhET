@@ -8,6 +8,8 @@ import scala.collection.mutable.ArrayBuffer
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.common.motion._
 import scalacommon.math.Vector2D
+import scalacommon.record.{DataPoint, RecordModel}
+
 import scalacommon.util.Observable
 
 /**

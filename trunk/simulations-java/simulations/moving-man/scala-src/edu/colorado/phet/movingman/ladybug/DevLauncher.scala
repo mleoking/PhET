@@ -10,6 +10,7 @@ import javax.swing._
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher
 import edu.colorado.phet.common.phetcommon.application.PhetApplication
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig
+import scalacommon.record.RecordModelDefaults
 import scalacommon.ScalaClock
 import model.LadybugModel
 
@@ -45,18 +46,18 @@ object DevLauncher {
 
     contentPane.add(timelineLengthTextField)
 
-    val pauseEnd = new JCheckBox("Pause at end of playback", LadybugDefaults.pauseAtEndOfPlayback)
+    val pauseEnd = new JCheckBox("Pause at end of playback", RecordModelDefaults.pauseAtEndOfPlayback)
     pauseEnd.addActionListener(new ActionListener() {
       def actionPerformed(e: ActionEvent) = {
-        LadybugDefaults.pauseAtEndOfPlayback = pauseEnd.isSelected
+        RecordModelDefaults.pauseAtEndOfPlayback = pauseEnd.isSelected
       }
     })
     contentPane.add(pauseEnd)
 
-    val recEnd = new JCheckBox("Record at end of playback", LadybugDefaults.recordAtEndOfPlayback)
+    val recEnd = new JCheckBox("Record at end of playback", RecordModelDefaults.recordAtEndOfPlayback)
     recEnd.addActionListener(new ActionListener() {
       def actionPerformed(e: ActionEvent) = {
-        LadybugDefaults.recordAtEndOfPlayback = recEnd.isSelected
+        RecordModelDefaults.recordAtEndOfPlayback = recEnd.isSelected
       }
     })
     contentPane.add(recEnd)
