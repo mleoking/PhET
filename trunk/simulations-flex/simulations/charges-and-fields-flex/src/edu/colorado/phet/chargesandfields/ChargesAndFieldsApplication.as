@@ -1,9 +1,12 @@
 package edu.colorado.phet.chargesandfields {
 
+import edu.colorado.phet.flexcommon.FlexCommonComponent;
+
 import flash.display.StageAlign;
 import flash.display.StageScaleMode;
 import flash.events.Event;
 
+import mx.controls.Button;
 import mx.core.UIComponent;
 
 public class ChargesAndFieldsApplication extends UIComponent {
@@ -18,6 +21,10 @@ public class ChargesAndFieldsApplication extends UIComponent {
         this.addEventListener(Event.ADDED_TO_STAGE, init);
 
         super();
+
+
+
+
     }
 
     public function init( evt : Event ) : void {
@@ -29,17 +36,13 @@ public class ChargesAndFieldsApplication extends UIComponent {
         stage.align = StageAlign.TOP_LEFT;
         stage.addEventListener(Event.RESIZE, display.onResize);
 
-        
-        /*
-         var button : Button = new Button();
+        this.addChild(new FlexCommonComponent());
 
-         button.label = "boo";
-
-         this.addChild( button );
-
-         trace(button.x);
-         trace(button.y);
-         */
+        var button : Button = new Button();
+        button.label = "boo";
+        button.x = 200;
+        button.y = 200;
+        this.addChild(button);
 
 
     }

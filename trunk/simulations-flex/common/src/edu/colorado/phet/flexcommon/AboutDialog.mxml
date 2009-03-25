@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" title="About" >
+    <mx:Script>
+        <![CDATA[
+            import mx.managers.PopUpManager;
+            import mx.controls.Text;
+
+            // A reference to the TextInput control in which to put the result.
+            public var loginName:Text;
+
+            private function closeDialog() : void {
+                PopUpManager.removePopUp(this);
+            }
+
+            public function linkHandler(event:TextEvent):void {
+                navigateToURL(new URLRequest(event.text), '_blank')
+            }
+        ]]>
+    </mx:Script>
+
+    <mx:HBox>
+        <mx:Label text="PhET Interactive Simulations"/>
+    </mx:HBox>
+
+    <mx:HBox>
+        <mx:Label link="linkHandler(event);" htmlText="Visit &lt;a href='http://phet.colorado.edu'&gt;&lt;font color='#0000FF'&gt;http://phet.colorado.edu&lt;font&gt;&lt;/a&gt;" />
+    </mx:HBox>
+
+    <mx:HBox>
+        <mx:Button label="Software Agreement..." />
+        <mx:Button label="Credits..." />
+        <mx:Button label="OK" click="closeDialog();"/>
+    </mx:HBox>    
+</mx:TitleWindow>
