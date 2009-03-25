@@ -15,6 +15,7 @@ import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.buildtools.java.projects.FlashLauncherProject;
 import edu.colorado.phet.buildtools.util.FileUtils;
+import edu.colorado.phet.common.phetcommon.application.JARLauncher;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.flashlauncher.FlashHTML;
@@ -128,7 +129,7 @@ public class PhetFlashProject extends PhetProject {
             
             //The FlashLauncherProject came with a jar-launcher.properties, which should be deleted for
             //embedding in this new project, see #1292
-            File jarLauncherPropertiesFile=new File( getOfflineJARContentsDir(), "jar-launcher.properties");
+            File jarLauncherPropertiesFile=new File( getOfflineJARContentsDir(), JARLauncher.PROPERTIES_FILE_NAME );
             boolean deleted=jarLauncherPropertiesFile.delete();
             System.out.println( "Attempt to delete file, deleted="+deleted+": "+jarLauncherPropertiesFile.getAbsolutePath() );
 
