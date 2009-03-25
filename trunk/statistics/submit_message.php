@@ -17,7 +17,7 @@
 	// whether or not logging the messages is enabled.
 	// TODO: DO NOT ENABLE FOR LIVE VERSION
 	$raw_logging = true;
-	$raw_logging_verbose = true;
+	$raw_logging_verbose = false;
 	
 	// load the xml from postdata
 	$raw_post_data = $HTTP_RAW_POST_DATA;
