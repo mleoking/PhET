@@ -7,6 +7,7 @@ import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.MessageFormat;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -123,5 +124,26 @@ public abstract class InstallerAbstractUpdateDialog extends PaintImmediateDialog
                 }
             } );
         }
+    }
+
+    public static void main( String[] args ) throws InvocationTargetException, InterruptedException {
+
+        //Small test for MoreButton+PhetOptionPane
+        SwingUtilities.invokeAndWait( new Runnable() {
+            public void run() {
+
+                JFrame frame = new JFrame( "Test More Button" );
+                frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+
+                JDialog parent = new JDialog( frame, "parent" );
+                parent.setLocation( 500, 500 );
+                parent.pack();
+                parent.setVisible( true );
+
+                frame.setContentPane( new MoreButton( parent ) );
+                frame.pack();
+                frame.setVisible( true );
+            }
+        } );
     }
 }
