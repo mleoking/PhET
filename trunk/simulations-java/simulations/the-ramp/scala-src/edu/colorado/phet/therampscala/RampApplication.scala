@@ -27,7 +27,7 @@ import scalacommon.util.Observable
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.nodes.{PPath, PImage, PText}
 import umd.cs.piccolo.PNode
-import scalacommon.{CenteredBoxStrategy, ScalaApplicationLauncher, ScalaClock}
+import scalacommon.{CB, ScalaApplicationLauncher, ScalaClock}
 import java.lang.Math._
 import umd.cs.piccolo.util.PDimension
 import umd.cs.piccolox.pswing.PSwing

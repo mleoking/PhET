@@ -19,7 +19,7 @@ class MazeGenerator(dim: Int) {
   val maxX = dim;
   val maxY = dim;
 
-  val random = new Random
+  val random = new java.util.Random
 
   def getXPoints = -maxX to maxX
 

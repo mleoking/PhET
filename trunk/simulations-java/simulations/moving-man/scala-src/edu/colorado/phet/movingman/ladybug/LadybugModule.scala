@@ -8,6 +8,7 @@ import model.LadybugMotionModel._
 import edu.colorado.phet.common.phetcommon.application.Module
 import edu.colorado.phet.common.phetcommon.model.clock.IClock
 import java.awt.Color
+import scalacommon.record.RecordModelControlPanel
 import scalacommon.ScalaClock
 import umd.cs.piccolo.PNode
 
@@ -38,7 +39,7 @@ class LadybugModule[ModelType <: LadybugModel](clock: ScalaClock,
 
   clock.addClockListener(model.update(_))
 
-  setClockControlPanel(new RecordModelControlPanel(model,canvas, () => {createRightControl(this)}))
+  setClockControlPanel(new RecordModelControlPanel(model,canvas, () => {createRightControl(this)},LadybugColorSet.position,LadybugDefaults.timelineLengthSeconds))
 
   def getLadybugMotionModel = model.getLadybugMotionModel()
 
