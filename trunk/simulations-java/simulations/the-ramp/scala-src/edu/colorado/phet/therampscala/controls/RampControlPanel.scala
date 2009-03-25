@@ -3,6 +3,7 @@ package edu.colorado.phet.therampscala.controls
 
 import common.phetcommon.view.{VerticalLayoutPanel, ResetAllButton}
 import javax.swing.{JLabel, BorderFactory}
+import model.RampModel
 import scalacommon.swing.MyRadioButton
 import swing.{MyCheckBox, ScalaValueControl}
 import edu.colorado.phet.scalacommon.Predef._

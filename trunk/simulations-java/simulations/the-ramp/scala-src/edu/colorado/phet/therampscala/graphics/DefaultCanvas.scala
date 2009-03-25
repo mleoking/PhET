@@ -1,5 +1,4 @@
-package edu.colorado.phet.therampscala
-
+package edu.colorado.phet.therampscala.graphics
 
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.piccolophet.PhetPCanvas
