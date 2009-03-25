@@ -76,11 +76,11 @@ public class InteractiveInteractionPotentialDiagram extends InteractionPotential
             public void interactionPotentialChanged() {
                 setLjPotentialParameters( model.getFixedMoleculeSigma(), model.getEpsilon() );
             }
-            public void fixedMoleculeTypeChanged() {
+            public void fixedParticleAdded(StatesOfMatterAtom particle) {
                 updateInteractivityState();
                 drawPotentialCurve();
             }
-            public void movableMoleculeTypeChanged() {
+            public void movableParticleAdded(StatesOfMatterAtom particle) {
                 updateInteractivityState();
                 drawPotentialCurve();
             }

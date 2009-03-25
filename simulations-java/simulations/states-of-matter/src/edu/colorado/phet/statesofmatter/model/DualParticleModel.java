@@ -136,7 +136,6 @@ public class DualParticleModel {
         notifyInteractionPotentialChanged();
         notifyFixedParticleDiameterChanged();
         m_fixedParticle.setPosition( 0, 0 );
-        notifyFixedMoleculeTypeChanged();
 
         resetMovableParticlePos();
     }
@@ -170,7 +169,6 @@ public class DualParticleModel {
         notifyInteractionPotentialChanged();
         notifyMovableParticleDiameterChanged();
         resetMovableParticlePos();
-        notifyMovableMoleculeTypeChanged();
     }
 
 	private void ensureValidMoleculeType(AtomType moleculeType) {
@@ -449,18 +447,6 @@ public class DualParticleModel {
         }        
     }
     
-    private void notifyFixedMoleculeTypeChanged(){
-        for (int i = 0; i < m_listeners.size(); i++){
-            ((Listener)m_listeners.get( i )).fixedMoleculeTypeChanged();
-        }        
-    }
-    
-    private void notifyMovableMoleculeTypeChanged(){
-        for (int i = 0; i < m_listeners.size(); i++){
-            ((Listener)m_listeners.get( i )).movableMoleculeTypeChanged();
-        }        
-    }
-    
     //------------------------------------------------------------------------
     // Inner Interfaces and Classes
     //------------------------------------------------------------------------
@@ -477,8 +463,6 @@ public class DualParticleModel {
         public void interactionPotentialChanged();
         public void fixedParticleDiameterChanged();
         public void movableParticleDiameterChanged();
-        public void fixedMoleculeTypeChanged();
-        public void movableMoleculeTypeChanged();
     }
     
     public static class Adapter implements Listener {
@@ -489,7 +473,5 @@ public class DualParticleModel {
         public void interactionPotentialChanged(){};
         public void fixedParticleDiameterChanged(){};
         public void movableParticleDiameterChanged(){};
-        public void fixedMoleculeTypeChanged(){};
-        public void movableMoleculeTypeChanged(){};
     }
 }
