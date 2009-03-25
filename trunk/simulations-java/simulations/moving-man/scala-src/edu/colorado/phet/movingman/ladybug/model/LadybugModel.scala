@@ -16,7 +16,7 @@ import scalacommon.util.Observable
  * The smoothing of motion is done by leading the ladybug (with an abstraction called the pen),
  * and using the same model as Motion2D for interpolation.
  */
-class LadybugModel extends TimeModel{
+class LadybugModel extends TimeModel {
   val ladybug = new Ladybug
   private val ladybugMotionModel = new LadybugMotionModel(this)
   private var bounds = new Rectangle2D.Double(-10, -10, 20, 20)
@@ -154,7 +154,7 @@ class LadybugModel extends TimeModel{
     pointInDirectionOfMotion()
   }
 
-  def setPlaybackState(state:LadybugState)={
+  def setPlaybackState(state: LadybugState) = {
     ladybug.setState(state)
   }
 
@@ -179,7 +179,7 @@ class LadybugModel extends TimeModel{
 
         while (recordHistory.length > getMaxRecordPoints) {
           //decide whether to remove end of path or beginning of path.
-//          recordHistory.remove(recordHistory.length - 1)
+          //          recordHistory.remove(recordHistory.length - 1)
           recordHistory.remove(0)
         }
 
@@ -252,28 +252,18 @@ class LadybugModel extends TimeModel{
     sum / (end - start)
   }
 
-  def setRecord(rec: Boolean) = {
-    if (record != rec) {
-      record = rec
-      if (record) {
-        clearHistoryRemainder()
-        ladybug.setVelocity(new Vector2D)
-        ladybug.setAcceleration(new Vector2D)
-      }
-
-      notifyListeners()
-    }
+  def handleRecordStartedDuringPlayback() {
+    ladybug.setVelocity(new Vector2D)
+    ladybug.setAcceleration(new Vector2D)
   }
 
-  def clearHistoryRemainder() = {
+  override def clearHistoryRemainder() = {
+    super.clearHistoryRemainder()
+
     val earlyEnough = modelHistory.filter(_.time < time)
     modelHistory.clear
     modelHistory.appendAll(earlyEnough)
-
-    val earlyEnoughRecordData = recordHistory.filter(_.time < time)
-    recordHistory.clear
-    recordHistory.appendAll(earlyEnoughRecordData)
-
+    
     clearSampleHistory()
     resetMotion2DModel
   }
@@ -322,7 +312,7 @@ class LadybugModel extends TimeModel{
     modelHistory.clear()
     penPath.clear()
 
-    super.clearHistory()  //do super last to call notifyListeners
+    super.clearHistory() //do super last to call notifyListeners
   }
 
   def clearSampleHistory() = penPath.clear()

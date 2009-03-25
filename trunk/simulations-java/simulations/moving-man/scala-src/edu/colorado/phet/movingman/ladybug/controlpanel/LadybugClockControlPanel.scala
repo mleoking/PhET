@@ -54,8 +54,27 @@ abstract class TimeModel extends Observable {
 
   def getMaxRecordPoints: Int
 
-  def setRecord(b: Boolean)
-  
+  def handleRecordStartedDuringPlayback()
+
+  def setRecord(rec: Boolean) = {
+    if (record != rec) {
+      record = rec
+      if (record) {
+        clearHistoryRemainder()
+        handleRecordStartedDuringPlayback()
+      }
+
+      notifyListeners()
+    }
+  }
+
+  def clearHistoryRemainder() = {
+    val earlyEnoughRecordData = recordHistory.filter(_.time < time)
+    recordHistory.clear
+    recordHistory.appendAll(earlyEnoughRecordData)
+    //todo: notify listeners?
+  }
+
   def stepPlayback() = {
     if (getPlaybackIndex() < recordHistory.length) {
       setStateToPlaybackIndex()
