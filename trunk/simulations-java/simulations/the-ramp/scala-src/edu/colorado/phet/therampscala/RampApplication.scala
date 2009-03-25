@@ -84,7 +84,7 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
 }
 
 class RotatableSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D) extends RampSegmentNode(rampSegment, mytransform) {
-  line.addInputEventListener(new CursorHandler)
+  line.addInputEventListener(new CursorHandler(Cursor.N_RESIZE_CURSOR))
   line.addInputEventListener(new PBasicInputEventHandler {
     override def mouseDragged(event: PInputEvent) = {
       val modelPt = mytransform.viewToModel(event.getPositionRelativeTo(line.getParent))
