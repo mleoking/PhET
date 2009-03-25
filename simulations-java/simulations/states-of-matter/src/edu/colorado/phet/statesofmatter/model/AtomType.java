@@ -16,7 +16,10 @@ public class AtomType{
 	public static final AtomType NEON = new AtomType("Neon");
 	public static final AtomType ARGON = new AtomType("Argon");
 	public static final AtomType OXYGEN = new AtomType("Oxygen");
+	public static final AtomType HYDROGEN = new AtomType("Hydrogen");
 	public static final AtomType ADJUSTABLE = new AtomType("Adjustable");
+	public static final AtomType UNDEFINED = new AtomType("Undefined");  // TODO: This may be able to be removed if and
+	                                                                     // when the base atom class becomes abstract.
 
 	public AtomType(String name) {
 		this.m_name = name;

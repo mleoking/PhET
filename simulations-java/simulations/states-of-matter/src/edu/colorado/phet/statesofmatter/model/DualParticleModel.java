@@ -24,7 +24,7 @@ public class DualParticleModel {
     // Class Data
     //----------------------------------------------------------------------------
 
-    public static final AtomType DEFAULT_MOLECULE = AtomType.NEON;
+    public static final AtomType DEFAULT_ATOM_TYPE = AtomType.NEON;
     public static final double DEFAULT_SIGMA = NeonAtom.getSigma();
     public static final double DEFAULT_EPSILON = NeonAtom.getEpsilon();
     public static final int CALCULATIONS_PER_TICK = 8;
@@ -40,8 +40,8 @@ public class DualParticleModel {
     private StatesOfMatterAtom m_shadowMovableParticle;
     private double m_attractiveForce;
     private double m_repulsiveForce;
-    private AtomType m_fixedMoleculeType = DEFAULT_MOLECULE;
-    private AtomType m_movableMoleculeType = DEFAULT_MOLECULE;
+    private AtomType m_fixedMoleculeType = DEFAULT_ATOM_TYPE;
+    private AtomType m_movableMoleculeType = DEFAULT_ATOM_TYPE;
     private boolean m_particleMotionPaused;
     private LjPotentialCalculator m_ljPotentialCalculator;
     private double m_timeStep;
@@ -137,6 +137,8 @@ public class DualParticleModel {
         notifyFixedParticleDiameterChanged();
         m_fixedParticle.setPosition( 0, 0 );
         notifyFixedMoleculeTypeChanged();
+
+        resetMovableParticlePos();
     }
 
     public void setMovableMoleculeType(AtomType moleculeType){
@@ -161,6 +163,8 @@ public class DualParticleModel {
         m_ljPotentialCalculator.setSigma( ( getMovableMoleculeSigma() + getFixedMoleculeSigma() ) / 2);
 
         m_ljPotentialCalculator.setEpsilon(determineEpsilon());
+        
+        resetMovableParticlePos();
 
         notifyMovableParticleAdded( m_movableParticle );
         notifyInteractionPotentialChanged();
@@ -287,9 +291,18 @@ public class DualParticleModel {
      */
     public void reset() {
 
-        // Initialize the system parameters.
+        if ( m_fixedParticle == null || m_fixedParticle.getType() != DEFAULT_ATOM_TYPE ){
+        	setFixedMoleculeType(DEFAULT_ATOM_TYPE);
+        }
+        if ( m_movableParticle == null || m_movableParticle.getType() != DEFAULT_ATOM_TYPE ){
+        	setMovableMoleculeType(DEFAULT_ATOM_TYPE);
+        }
+        else{
+        	resetMovableParticlePos();
+        }
+
+        // Make sure we are not paused.
         m_particleMotionPaused = false;
-        setBothMoleculeTypes( DEFAULT_MOLECULE );
     }
     
     /**
@@ -297,9 +310,11 @@ public class DualParticleModel {
      * minimized, and reset the velocity and acceleration to 0.
      */
     public void resetMovableParticlePos() {
-        m_movableParticle.setPosition( m_ljPotentialCalculator.calculateMinimumForceDistance(), 0 );
-        m_movableParticle.setVx( 0 );
-        m_movableParticle.setAx( 0 );
+    	if ( m_movableParticle != null ){
+	        m_movableParticle.setPosition( m_ljPotentialCalculator.calculateMinimumForceDistance(), 0 );
+	        m_movableParticle.setVx( 0 );
+	        m_movableParticle.setAx( 0 );
+    	}
     }
     
     public void addListener(Listener listener){

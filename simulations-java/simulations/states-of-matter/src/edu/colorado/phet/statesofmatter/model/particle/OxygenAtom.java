@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.statesofmatter.model.particle;
 
+import edu.colorado.phet.statesofmatter.model.AtomType;
+
 /**
  * The class represents a single atom of oxygen in the model.
  *
@@ -11,6 +13,7 @@ public class OxygenAtom extends StatesOfMatterAtom {
     
     public static final double RADIUS = 162;    // In picometers.
     private static final double MASS = 15.9994; // In atomic mass units.
+    protected static final AtomType ATOM_TYPE = AtomType.OXYGEN;
 
     // TODO: JPB TBD - These values are guesses, need to get real ones.
     private static final double SIGMA = 324;    // In picometers.
