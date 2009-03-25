@@ -20,6 +20,10 @@ public class ChargesAndFieldsDisplay extends Sprite {
     private var charges : Array = new Array();
 
     public function ChargesAndFieldsDisplay( tempStage : Stage ) {
+        
+        this.tabEnabled = true;
+        this.tabIndex = -1;
+
         myWidth = tempStage.stageWidth;
         myHeight = tempStage.stageHeight;
 
