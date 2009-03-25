@@ -48,6 +48,8 @@ public class StatesOfMatterStrings {
     public static final String PHASE_DIAGRAM_BUTTON_LABEL = StatesOfMatterResources.getString("PhaseChanges.PhaseDiagram.ButtonLabel");
     
     public static final String INTERACTION_POTENTIAL_ATOM_SELECT_LABEL = StatesOfMatterResources.getString("InteractionPotential.Atoms");
+    public static final String FIXED_ATOM_LABEL = StatesOfMatterResources.getString("InteractionPotential.FixedAtom");
+    public static final String MOVABLE_ATOM_LABEL = StatesOfMatterResources.getString("InteractionPotential.MovableAtom");
     public static final String INTERACTION_POTENTIAL_SHOW_FORCES = StatesOfMatterResources.getString("InteractionPotential.ShowForces");
     public static final String INTERACTION_POTENTIAL_HIDE_FORCES = StatesOfMatterResources.getString("InteractionPotential.HideForces");
     public static final String INTERACTION_POTENTIAL_TOTAL_FORCES = StatesOfMatterResources.getString("InteractionPotential.TotalForces");
