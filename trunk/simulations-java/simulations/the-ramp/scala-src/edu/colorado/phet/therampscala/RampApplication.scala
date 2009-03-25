@@ -490,8 +490,9 @@ class AppliedForceSliderNode(bead: Bead, transform: ModelViewTransform2D) extend
   addChild(pswing)
   def updatePosition() = {
     val viewLoc = transform.modelToView(new Point2D.Double(0, -1))
-    pswing.setOffset(viewLoc)
-    pswing.setScale(1.2f)
+    val scale=1.2f
+    pswing.setOffset(viewLoc-new Vector2D(pswing.getFullBounds.getWidth*scale,0))
+    pswing.setScale(scale)
   }
   updatePosition()
 }
