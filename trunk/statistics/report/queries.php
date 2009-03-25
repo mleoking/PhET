@@ -13,6 +13,13 @@
 		return " WHERE (" . join(" AND ", $arr) . ")";
 	}
 
+	function append_where_array($arr) {
+	    if(sizeof($arr) == 0) {
+	        return "";
+	    }
+	    return " AND " . join(" AND ", $arr);
+	}
+
 	// combine an array into a list of additional tables to use for joining
 	function tables_array($arr) {
 		if(sizeof($arr) == 0) {
@@ -57,6 +64,9 @@
 	function string_equal($val) {
 		if($val == "null") {
 			return " IS NULL";
+		}
+		if($val == "not_null") {
+			return " IS NOT NULL";
 		}
 		return " = '{$val}'";
 	}
@@ -160,6 +170,13 @@
                 }
 		        array_push($session_where, "{$table_name}.{$field_name}" . plain_cmp(esc($arr, $field_name)));
             }
+		}
+
+		if($arr["beforetimestamp"] !== null) {
+		    array_push($session_where, "session.timestamp < '" . esc($arr, "beforetimestamp") . "'" );
+		}
+		if($arr["aftertimestamp"] !== null) {
+		    array_push($session_where, "session.timestamp > '" . esc($arr, "aftertimestamp") . "'" );
 		}
 
         // testing for non-normalized strings
@@ -417,6 +434,8 @@
 			array_push($tables, "session_java_info");
 		}
 
+		$session_where_array = $session_where;
+
 		// build the strings for clauses
 		$session_where = where_array($session_where);
 		$tables = tables_array($tables);
@@ -451,6 +470,8 @@
 				if(empty($order_by)) {
 			        $order_by = "ORDER BY session.id DESC LIMIT {$count}";
 			    }
+			    $where_append = append_where_array($session_where_array);
+
 				if(esc($arr, 'recent_sim_type') == 'all') {
 					$querytext = <<<SES
 SELECT
@@ -484,6 +505,7 @@ WHERE (
 	AND session.sim_deployment = deployment.id
 	AND session.sim_distribution_tag = distribution_tag.id
 	AND session.host_simplified_os = simplified_os.id
+	{$where_append}
 )
 {$order_by};
 SES;
@@ -531,6 +553,7 @@ WHERE (
 	AND session_flash_info.host_flash_version_type = flash_version_type.id
 	AND session_flash_info.host_flash_domain = flash_domain.id
 	AND session_flash_info.host_flash_os = flash_os.id
+	{$where_append}
 )
 {$order_by};
 FLA;
@@ -581,6 +604,7 @@ WHERE (
 	AND session_java_info.host_java_vendor = java_vendor.id
 	AND session_java_info.host_java_webstart_version = java_webstart_version.id
 	AND session_java_info.host_java_timezone = java_timezone.id
+	{$where_append}
 )
 {$order_by};
 JAV;
