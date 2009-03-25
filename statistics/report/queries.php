@@ -220,6 +220,14 @@
 		
 		if($group) {
 			switch($group) {
+			    case "minute":
+					$pre_select .= "DATE_FORMAT(session.timestamp, '%Y-%m-%d %H:%i') as minute, ";
+					array_push($group_by, "minute");
+					break;
+			    case "hour":
+					$pre_select .= "DATE_FORMAT(session.timestamp, '%Y-%m-%d %H') as hour, ";
+					array_push($group_by, "hour");
+					break;
 				case "day":
 					$pre_select .= "DATE_FORMAT(session.timestamp, '%Y-%m-%d') as day, ";
 					array_push($group_by, "day");
