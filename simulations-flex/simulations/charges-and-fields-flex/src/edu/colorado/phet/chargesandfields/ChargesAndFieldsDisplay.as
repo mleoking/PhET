@@ -4,9 +4,11 @@ import flash.display.Sprite;
 import flash.display.Stage;
 import flash.events.Event;
 
+import mx.core.Application;
+import mx.core.UIComponent;
 import mx.events.SliderEvent;
 
-public class ChargesAndFieldsDisplay extends Sprite {
+public class ChargesAndFieldsDisplay extends UIComponent {
     private var myWidth : Number;
     private var myHeight : Number;
 
@@ -43,7 +45,7 @@ public class ChargesAndFieldsDisplay extends Sprite {
             else {
                 charge = new PlusCharge(mosaic);
             }
-            addChild(charge);
+            Application.application.addChild(charge);
             charges.push(charge);
             model.addCharge(charge);
             charge.setDisplayPosition(Math.random() * myWidth, Math.random() * myHeight);
@@ -63,7 +65,7 @@ public class ChargesAndFieldsDisplay extends Sprite {
     public function clearCharges() : void {
         for ( var i : int = 0; i < charges.length; i++ ) {
             var charge : Charge = charges[i];
-            removeChild(charge);
+            Application.application.removeChild(charge);
             model.removeCharge(charge);
         }
         charges = new Array();
@@ -72,7 +74,7 @@ public class ChargesAndFieldsDisplay extends Sprite {
     }
 
     public function addCharge( charge : Charge ) : void {
-        addChild(charge);
+        Application.application.addChild(charge);
         charges.push(charge);
         model.addCharge(charge);
     }

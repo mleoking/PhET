@@ -4,8 +4,7 @@
         layout="absolute"
         xmlns:cmp="edu.colorado.phet.chargesandfields.*"
         xmlns:common="edu.colorado.phet.flexcommon.*"
-        width="800"
-        height="500"
+        
         preinitialize="init()"
 >
     <mx:Script source="ChargesAndFields.as"/>
@@ -23,5 +22,5 @@
     <mx:VSlider id="kSlider" x="0" y="200" value="{Model.kScaled}" minimum="8" maximum="15"
                 change="app.display.setKScaled(event)"/>
 
-    <common:FlexCommonMXML x="0" y="0" />
+    <common:FlexCommonMXML id="flexcommon" x="0" y="0" />
 </mx:Application>

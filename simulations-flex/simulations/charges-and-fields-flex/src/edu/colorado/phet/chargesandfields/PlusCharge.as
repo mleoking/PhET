@@ -9,8 +9,8 @@ public class PlusCharge extends Charge {
     public function PlusCharge( mosaic : VoltageMosaic ) {
 
         // create a child sprite containing the graphics
-        var mc : Sprite = new plusMC();
-        addChild(mc);
+        chargeMC = new plusMC();
+        addChild(chargeMC);
 
         q = 1;
 

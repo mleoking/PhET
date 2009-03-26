@@ -23,10 +23,10 @@ public class CommonStrings {
 
     }
 
-    public static function initialize() {
+    public static function initialize() : void {
         trace( "CommonStrings initialize()" );
 
-        if( Math.random() < 0.5 ) {
+        if( true ) {
             labelSoftwareAgreement = "Software Agreement";
             labelCredits = "Credits";
             labelOK = "OK";
