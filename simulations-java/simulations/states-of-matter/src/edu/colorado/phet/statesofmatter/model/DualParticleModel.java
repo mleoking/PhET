@@ -46,6 +46,7 @@ public class DualParticleModel {
     private LjPotentialCalculator m_ljPotentialCalculator;
     private double m_timeStep;
     private StatesOfMatterAtom.Adapter m_movableParticleListener;
+    private boolean m_settingBothAtomsToAdjustable = false;  // Flag used to prevent getting in disallowed state.
     
     //----------------------------------------------------------------------------
     // Constructor
@@ -116,8 +117,13 @@ public class DualParticleModel {
         return m_movableMoleculeType;
     }
     
-    public void setFixedMoleculeType(AtomType moleculeType){
-    	ensureValidMoleculeType( moleculeType );
+    public void setFixedMoleculeType(AtomType atomType){
+    	
+    	if (atomType == AtomType.ADJUSTABLE && !m_settingBothAtomsToAdjustable){
+    		System.err.println(this.getClass().getName() + " - Error: Cannot set just one atom to be adjustable, ignoring request.");
+    		return;
+    	}
+    	ensureValidMoleculeType( atomType );
 
     	// Inform any listeners of the removal of existing particles.
         if (m_fixedParticle != null){
@@ -125,8 +131,8 @@ public class DualParticleModel {
             m_fixedParticle = null;
         }
 
-        m_fixedMoleculeType = moleculeType;
-        m_fixedParticle = AtomFactory.createAtom(moleculeType);
+        m_fixedMoleculeType = atomType;
+        m_fixedParticle = AtomFactory.createAtom(atomType);
 
         // TODO: Setting sigma as the average of the two molecules.  Not sure
         // if this is valid, need to check with the physicists.
@@ -145,9 +151,13 @@ public class DualParticleModel {
         resetMovableParticlePos();
     }
 
-    public void setMovableMoleculeType(AtomType moleculeType){
+    public void setMovableMoleculeType(AtomType atomType){
     	
-    	ensureValidMoleculeType( moleculeType );
+    	if (atomType == AtomType.ADJUSTABLE && !m_settingBothAtomsToAdjustable){
+    		System.err.println(this.getClass().getName() + " - Error: Cannot set just one atom to be adjustable, ignoring request.");
+    		return;
+    	}
+    	ensureValidMoleculeType( atomType );
 
     	if (m_movableParticle != null){
             notifyMovableParticleRemoved( m_movableParticle );
@@ -155,8 +165,8 @@ public class DualParticleModel {
             m_movableParticle = null;
         }
     	
-        m_movableMoleculeType = moleculeType;
-    	m_movableParticle = AtomFactory.createAtom(moleculeType);
+        m_movableMoleculeType = atomType;
+    	m_movableParticle = AtomFactory.createAtom(atomType);
     	
         // Register to listen to motion of the movable particle so that we can
         // tell when the user is moving it.
@@ -223,10 +233,14 @@ public class DualParticleModel {
 		return epsilon;
 	}
     
-    public void setBothMoleculeTypes(AtomType moleculeType){
+    public void setBothMoleculeTypes(AtomType atomType){
         
-        setFixedMoleculeType(moleculeType);
-        setMovableMoleculeType(moleculeType);
+    	if (atomType == AtomType.ADJUSTABLE){
+        	m_settingBothAtomsToAdjustable = true;
+    	}
+        setFixedMoleculeType(atomType);
+        setMovableMoleculeType(atomType);
+    	m_settingBothAtomsToAdjustable = false;
     }
     
     /**
