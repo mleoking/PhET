@@ -81,7 +81,6 @@ public class AmplitudeSlider extends GraphicLayerSet
     // Label parameters
     private static final Color LABEL_COLOR = Color.BLACK;
     private static final Font LABEL_FONT = new PhetFont( Font.PLAIN, 12 );
-    private static final Font LABEL_SUBSCRIPT_FONT = new PhetFont( Font.PLAIN, 12 );
     private static final int LABEL_Y_OFFSET = VALUE_Y_OFFSET + 18; // above the maximum height of the slider track
 
     // Knob parameters
@@ -354,7 +353,7 @@ public class AmplitudeSlider extends GraphicLayerSet
     private void showUserInputErrorDialog() {
         String message = FourierResources.getString( "AmplitudeErrorDialog.message" );
         JOptionPane op = new JOptionPane( message, JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION );
-        op.createDialog( getComponent(), null ).show();
+        op.createDialog( getComponent(), null ).setVisible( true );
     }
     
     //----------------------------------------------------------------------------
