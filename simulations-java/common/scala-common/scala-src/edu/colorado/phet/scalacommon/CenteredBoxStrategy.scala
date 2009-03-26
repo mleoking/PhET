@@ -8,9 +8,8 @@ import java.awt.geom.{AffineTransform, Rectangle2D}
 //Sometimes causes "does not have a constructor" compiler errors; I'm not sure why.
 //Renaming it and renaming it back seems to resolve the problem when it occurs.
 //Probably a bug with the IntelliJ Plugin
-//see http://lampsvn.epfl.ch/trac/scala/ticket/735
+//or maybe http://lampsvn.epfl.ch/trac/scala/ticket/735
 
-//todo: Rename to CenteredBoxStrategy when possible
 class CenteredBoxStrategy(modelWidth: Double, modelHeight: Double, canvas: JComponent) extends TransformStrategy {
   def this()=this(3,4,null)//workaround for no constructor found problem, toggle this line instead of renaming class
   def getTransform(): AffineTransform = {
