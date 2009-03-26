@@ -1,3 +1,5 @@
+# 2.01.07 (29916) Mar 26, 2009
+3/26/09 #1526, this version to be used for Romanian translations
 # 2.01.06 (29629) Mar 22, 2009
 3/22/09 Batch deploy for Alpha Simulation Tests 2, svn 29628
 3/12/09 #1453, remove unused strings from English localization file
