@@ -1,3 +1,5 @@
+# 1.00.03 (29928) Mar 26, 2009
+3/26/09 Added Romanian strings
 # 1.00.02 (29629) Mar 22, 2009
 3/22/09 Batch deploy for Alpha Simulation Tests 2, svn 29628
 # 1.00.01 (28852) Feb 19, 2009
