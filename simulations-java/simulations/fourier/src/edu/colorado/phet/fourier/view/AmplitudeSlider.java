@@ -65,7 +65,7 @@ public class AmplitudeSlider extends GraphicLayerSet
     private static final double MAX_AMPLITUDE = FourierConstants.MAX_HARMONIC_AMPLITUDE;
     private static final double VALUE_STEP = 0.01;
     private static final String VALUE_FORMAT = "0.00";
-    private static final int VALUE_COLUMNS = 3;
+    private static final int VALUE_COLUMNS = 4;
     private static final Font VALUE_FONT = new PhetFont( Font.PLAIN, 12 );
     private static final int VALUE_Y_OFFSET = 17; // above the maximum height of the slider track
     
@@ -147,6 +147,7 @@ public class AmplitudeSlider extends GraphicLayerSet
             _valueTextField = new JTextField( _valueFormatter.format( 0.0 ) );
             _valueTextField.setFont( VALUE_FONT );
             _valueTextField.setColumns( VALUE_COLUMNS );
+            _valueTextField.setHorizontalAlignment( JTextField.RIGHT );
             _valueGraphic = PhetJComponent.newInstance( component, _valueTextField );
             _valueGraphic.setName( "AmplitudeSlider.value" );
             _valueGraphic.centerRegistrationPoint();
