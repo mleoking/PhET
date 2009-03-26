@@ -17,6 +17,7 @@ case class BeadState(position: Double, velocity: Double, mass: Double, staticFri
 }
 class Bead(_state: BeadState, positionMapper: Double => Vector2D, rampSegmentAccessor: Double => RampSegment, model: Observable) extends Observable {
   val gravity = -9.8
+  private var _height = 1.0
   var state = _state
   var _appliedForce = new Vector2D
 
@@ -42,6 +43,13 @@ class Bead(_state: BeadState, positionMapper: Double => Vector2D, rampSegmentAcc
     state = state.translate(dx)
     notifyListeners()
   }
+
+  def height_=(height: Double) = {
+    _height = height
+    notifyListeners
+  }
+
+  def height = _height
 
   def getStaticFriction = state.staticFriction
 

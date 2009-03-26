@@ -50,8 +50,10 @@ class BeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: String) e
     val viewPosition = transform.modelToView(modelPosition)
     val delta = new Vector2D(imageNode.getImage.getWidth(null), imageNode.getImage.getHeight(null))
 
-    //todo: why is scale factor 4 here?
-    val scale = transform.modelToViewDifferentialXDouble(1 * 4) / cabinetImage.getWidth
+    //    todo: why is scale factor 4 here?
+    //    val scale = transform.modelToViewDifferentialXDouble(1 * 4) / cabinetImage.getWidth
+    val modelHeight = bead.height
+    val scale = -transform.modelToViewDifferentialYDouble(modelHeight) / cabinetImage.getHeight
 
     imageNode.translate(viewPosition.x - delta.x / 2 * scale, viewPosition.y - delta.y * scale)
     imageNode.scale(scale)
