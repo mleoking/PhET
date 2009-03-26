@@ -336,10 +336,17 @@ public class ApparatusPanel2 extends ApparatusPanel implements ClockListener {
         GraphicsState gs = new GraphicsState( g2 );
         paintStrategy.render( g2, transformManager.getGraphicTx() );
 
+        if ( debugRepaintRegion ) {
+            g2.setPaint( new Color( rand.nextInt( 255 ), rand.nextInt( 255 ), rand.nextInt( 255 ), 55 ) );
+            g2.fillRect( clipBounds.x, clipBounds.y, clipBounds.width, clipBounds.height );
+        }
+
         //remove the affine transform.
         gs.restoreGraphics();
         super.drawBorder( g2 );
     }
+    static Random rand=new Random();
+    private static final boolean debugRepaintRegion=false;
 
     /**
      * Gets the size of the drawing area (the canvas) that is available to clients.
