@@ -1,3 +1,5 @@
+# 1.04.03 (29917) Mar 26, 2009
+3/26/09 #1526, this version to be used for Romanian translations
 # 1.04.02 (29629) Mar 22, 2009
 3/22/09 Batch deploy for Alpha Simulation Tests 2, svn 29628
 3/5/09 #1364, fix collision sound, convert from .au to .wav
