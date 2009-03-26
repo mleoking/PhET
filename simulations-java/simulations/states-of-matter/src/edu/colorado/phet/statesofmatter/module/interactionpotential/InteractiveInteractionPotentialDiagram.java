@@ -12,7 +12,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ResizeArrowNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
-import edu.colorado.phet.statesofmatter.model.DualParticleModel;
+import edu.colorado.phet.statesofmatter.model.DualAtomModel;
 import edu.colorado.phet.statesofmatter.model.AtomType;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.module.InteractionPotentialDiagramNode;
@@ -48,7 +48,7 @@ public class InteractiveInteractionPotentialDiagram extends InteractionPotential
     // Instance Data
     //-----------------------------------------------------------------------------
 
-    private DualParticleModel m_model;
+    private DualAtomModel m_model;
     private ResizeArrowNode m_sigmaResizeHandle;
     private ResizeArrowNode m_epsilonResizeHandle;
     private PPath m_epsilonLine;
@@ -67,20 +67,20 @@ public class InteractiveInteractionPotentialDiagram extends InteractionPotential
      * @param wide    - True if the widescreen version of the graph is needed, false if not.
      */
     public InteractiveInteractionPotentialDiagram(double sigma, double epsilon, boolean wide, 
-            final DualParticleModel model) {
+            final DualAtomModel model) {
         
         super(sigma, epsilon, wide, false);
         
         this.m_model = model;
-        model.addListener(new DualParticleModel.Adapter(){
+        model.addListener(new DualAtomModel.Adapter(){
             public void interactionPotentialChanged() {
                 setLjPotentialParameters( model.getSigma(), model.getEpsilon() );
             }
-            public void fixedParticleAdded(StatesOfMatterAtom particle) {
+            public void fixedAtomAdded(StatesOfMatterAtom particle) {
                 updateInteractivityState();
                 drawPotentialCurve();
             }
-            public void movableParticleAdded(StatesOfMatterAtom particle) {
+            public void movableAtomAdded(StatesOfMatterAtom particle) {
                 updateInteractivityState();
                 drawPotentialCurve();
             }
@@ -90,10 +90,10 @@ public class InteractiveInteractionPotentialDiagram extends InteractionPotential
         // changing the value of epsilon.
         m_epsilonChangeHandler = new PBasicInputEventHandler(){
         	public void mousePressed(PInputEvent event) {
-        		m_model.setParticleMotionPaused(true);
+        		m_model.setMotionPaused(true);
         	}
         	public void mouseReleased(PInputEvent event) {
-        		m_model.setParticleMotionPaused(false);
+        		m_model.setMotionPaused(false);
         	}
             public void mouseDragged(PInputEvent event) {
                 PNode draggedNode = event.getPickedNode();
@@ -125,17 +125,17 @@ public class InteractiveInteractionPotentialDiagram extends InteractionPotential
         m_ljPotentialGraph.addChild( m_sigmaResizeHandle );
         m_sigmaResizeHandle.addInputEventListener(new PBasicInputEventHandler(){
         	public void mousePressed(PInputEvent event) {
-        		m_model.setParticleMotionPaused(true);
+        		m_model.setMotionPaused(true);
         	}
         	public void mouseReleased(PInputEvent event) {
-        		m_model.setParticleMotionPaused(false);
+        		m_model.setMotionPaused(false);
         	}
             public void mouseDragged(PInputEvent event) {
                 PNode draggedNode = event.getPickedNode();
                 PDimension d = event.getDeltaRelativeTo(draggedNode);
                 draggedNode.localToParent(d);
                 double scaleFactor = MAX_INTER_ATOM_DISTANCE / getGraphWidth();
-                m_model.setAdjustableParticleSigma( m_model.getSigma() + d.getWidth() * scaleFactor );
+                m_model.setAdjustableAtomSigma( m_model.getSigma() + d.getWidth() * scaleFactor );
             }
         });
         
@@ -150,7 +150,7 @@ public class InteractiveInteractionPotentialDiagram extends InteractionPotential
             public void startDrag( PInputEvent event) {
                 super.startDrag(event);
                 // Stop the particle from moving in the model.
-                m_model.setParticleMotionPaused( true );
+                m_model.setMotionPaused( true );
             }
             
             public void drag(PInputEvent event){
@@ -159,7 +159,7 @@ public class InteractiveInteractionPotentialDiagram extends InteractionPotential
                 draggedNode.localToParent(d);
 
                 // Move the particle based on the amount of mouse movement.
-                StatesOfMatterAtom atom = m_model.getMovableParticleRef();
+                StatesOfMatterAtom atom = m_model.getMovableAtomRef();
                 double scaleFactor = MAX_INTER_ATOM_DISTANCE / getGraphWidth();
                 double newPosX = Math.max( atom.getX() + (d.width * scaleFactor), atom.getRadius() * 1.8);
                 atom.setPosition( newPosX, atom.getY() );
@@ -169,7 +169,7 @@ public class InteractiveInteractionPotentialDiagram extends InteractionPotential
                 super.endDrag(event);     
                 // Let the model move the particle again.  Note that this happens
                 // even if the motion was paused by some other means.
-                m_model.setParticleMotionPaused( false );
+                m_model.setMotionPaused( false );
             }
         });
         

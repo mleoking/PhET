@@ -5,7 +5,7 @@ package edu.colorado.phet.statesofmatter.view;
 import java.awt.Cursor;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.statesofmatter.model.DualParticleModel;
+import edu.colorado.phet.statesofmatter.model.DualAtomModel;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
@@ -28,7 +28,7 @@ public class GrabbableParticleNode extends ParticleForceNode {
     // Instance Data
     //----------------------------------------------------------------------------
 
-    DualParticleModel m_model;
+    DualAtomModel m_model;
     double m_minX; // The minimum value allowed in the x direction.
     double m_maxX; // The minimum value allowed in the x direction.
     
@@ -43,7 +43,7 @@ public class GrabbableParticleNode extends ParticleForceNode {
      * @param minX - Minimum value in the X direction to which the particle can be moved.
      * @param maxX - Maximum value in the X direction to which the particle can be moved.
      */
-    public GrabbableParticleNode( DualParticleModel model, StatesOfMatterAtom particle, ModelViewTransform mvt,
+    public GrabbableParticleNode( DualAtomModel model, StatesOfMatterAtom particle, ModelViewTransform mvt,
     		boolean useGradient, double minX, double maxX ) {
         
         super( particle, mvt, useGradient );
@@ -80,7 +80,7 @@ public class GrabbableParticleNode extends ParticleForceNode {
     /**
      * Constructor
      */
-    public GrabbableParticleNode( DualParticleModel model, StatesOfMatterAtom particle, ModelViewTransform mvt, 
+    public GrabbableParticleNode( DualAtomModel model, StatesOfMatterAtom particle, ModelViewTransform mvt, 
             boolean useGradient ) {
 
         this(model, particle, mvt, useGradient, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
@@ -116,7 +116,7 @@ public class GrabbableParticleNode extends ParticleForceNode {
     private void handleMouseStartDragEvent(PInputEvent event){
         // Stop the model from moving the particle at the same time the user
         // is moving it.
-        m_model.setParticleMotionPaused( true );
+        m_model.setMotionPaused( true );
     }
 
     private void handleMouseDragEvent(PInputEvent event){
@@ -141,6 +141,6 @@ public class GrabbableParticleNode extends ParticleForceNode {
     private void handleMouseEndDragEvent(PInputEvent event){
         // Let the model move the particles again.  Note that this happens
         // even if the motion was paused by some other means.
-        m_model.setParticleMotionPaused( false );
+        m_model.setMotionPaused( false );
     }
 }

@@ -13,7 +13,7 @@ import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
-import edu.colorado.phet.statesofmatter.model.DualParticleModel;
+import edu.colorado.phet.statesofmatter.model.DualAtomModel;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.module.InteractionPotentialDiagramNode;
 import edu.colorado.phet.statesofmatter.view.GrabbableParticleNode;
@@ -68,7 +68,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     // Instance Data
     //----------------------------------------------------------------------------
     
-    private DualParticleModel m_model;
+    private DualAtomModel m_model;
     private ModelViewTransform m_mvt;
     private StatesOfMatterAtom m_fixedParticle;
     private StatesOfMatterAtom m_movableParticle;
@@ -88,15 +88,15 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     // Constructor
     //----------------------------------------------------------------------------
     
-    public InteractionPotentialCanvas(DualParticleModel dualParticleModel) {
+    public InteractionPotentialCanvas(DualAtomModel dualParticleModel) {
         
         m_model = dualParticleModel;
         m_showAttractiveForces = false;
         m_showRepulsiveForces = false;
         m_showTotalForces = false;
         m_wiggleMeShown = false;
-        m_movableParticle = m_model.getMovableParticleRef();
-        m_fixedParticle = m_model.getFixedParticleRef();
+        m_movableParticle = m_model.getMovableAtomRef();
+        m_fixedParticle = m_model.getFixedAtomRef();
         
         // Set the transform strategy so that the the origin (i.e. point x=0,
         // y = 0) is in a reasonable place.
@@ -111,20 +111,20 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         m_mvt = new ModelViewTransform(1.0, 1.0, 0.0, 0.0, false, true);
         
         // Register for notifications of important events from the model.
-        m_model.addListener( new DualParticleModel.Adapter(){
-            public void fixedParticleAdded(StatesOfMatterAtom particle){
+        m_model.addListener( new DualAtomModel.Adapter(){
+            public void fixedAtomAdded(StatesOfMatterAtom particle){
                 handleFixedParticleAdded( particle );
             }
-            public void fixedParticleRemoved(StatesOfMatterAtom particle){
+            public void fixedAtomRemoved(StatesOfMatterAtom particle){
                 handleFixedParticleRemoved( particle );
             }
-            public void movableParticleAdded(StatesOfMatterAtom particle){
+            public void movableAtomAdded(StatesOfMatterAtom particle){
                 handleMovableParticleAdded( particle );
             }
-            public void movableParticleRemoved(StatesOfMatterAtom particle){
+            public void movableAtomRemoved(StatesOfMatterAtom particle){
                 handleMovableParticleRemoved( particle );
             }
-            public void movableParticleDiameterChanged(){
+            public void movableAtomDiameterChanged(){
             	if (m_movableParticle != null){
             		m_movableParticleNode.setMinX( m_movableParticle.getRadius() * 1.9 );
             	}
@@ -174,7 +174,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         m_retrieveAtomButtonNode.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent event){
                 // Move the rogue particle back to its initial position.
-                m_model.resetMovableParticlePos();
+                m_model.resetMovableAtomPos();
             }
         });
         
@@ -246,7 +246,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
             PBounds diagramBounds = m_interactionPotentialdiagram.getFullBoundsReference();
             m_wiggleMe.setOffset( diagramBounds.getMinX() - (diagramBounds.width * 0.5), 
                     m_interactionPotentialdiagram.getFullBoundsReference().getMaxY() + m_wiggleMe.getFullBoundsReference().height );
-            m_wiggleMe.animateToPositionScaleRotation( m_model.getMovableParticleRef().getX(),
+            m_wiggleMe.animateToPositionScaleRotation( m_model.getMovableAtomRef().getX(),
                     m_interactionPotentialdiagram.getFullBoundsReference().getMaxY() + m_wiggleMe.getFullBoundsReference().height, wiggleMeScale, 0, 5000 );
             
             // Clicking anywhere on the canvas makes the wiggle me go away.
@@ -354,7 +354,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
 
 		// The particles are being resized, so disable the gradients if they
 		// are being used and if motion is paused.
-		if (m_model.getParticleMotionPaused()){
+		if (m_model.getMotionPaused()){
 		    if (m_fixedParticleNode.getGradientEnabled()){
 		    	m_fixedParticleNode.setGradientEnabled(false);
 			}
@@ -366,7 +366,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
 	
 	private void handlePositionChanged() {
 		
-		if (!m_model.getParticleMotionPaused()){
+		if (!m_model.getMotionPaused()){
 			if (!m_fixedParticleNode.getGradientEnabled()){
 	    		// The movable particle is moving, so turn the gradient
 	    		// back on.
@@ -383,7 +383,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         updateForceVectors();
         
         if ( ( getWorldSize().getWidth() > 0 ) &&
-             ( m_model.getMovableParticleRef().getX() > (1 - WIDTH_TRANSLATION_FACTOR) * getWorldSize().getWidth())) {
+             ( m_model.getMovableAtomRef().getX() > (1 - WIDTH_TRANSLATION_FACTOR) * getWorldSize().getWidth())) {
             if ( !m_retrieveAtomButtonNode.isVisible() ) {
                 // The particle is off the canvas and the button is not
                 // yet shown, so show it.
