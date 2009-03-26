@@ -281,7 +281,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_neonFixedRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if (m_model.getFixedMoleculeType() != AtomType.NEON){
-                        m_model.setFixedMoleculeType( AtomType.NEON );
+                        setFixedAtom( AtomType.NEON );
                         updateLjControlSliderState();
                     }
                 }
@@ -291,7 +291,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_argonFixedRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if (m_model.getFixedMoleculeType() != AtomType.ARGON){
-                        m_model.setFixedMoleculeType( AtomType.ARGON );
+                        setFixedAtom( AtomType.ARGON );
                         updateLjControlSliderState();
                     }
                 }
@@ -301,7 +301,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_oxygenFixedRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if (m_model.getFixedMoleculeType() != AtomType.OXYGEN){
-                        m_model.setFixedMoleculeType( AtomType.OXYGEN );
+                    	setFixedAtom( AtomType.OXYGEN );
                         updateLjControlSliderState();
                     }
                 }
@@ -322,7 +322,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_neonMovableRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if (m_model.getMovableMoleculeType() != AtomType.NEON){
-                        m_model.setMovableMoleculeType( AtomType.NEON );
+                        setMovableAtom( AtomType.NEON );
                         updateLjControlSliderState();
                     }
                 }
@@ -332,7 +332,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_argonMovableRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if (m_model.getMovableMoleculeType() != AtomType.ARGON){
-                        m_model.setMovableMoleculeType( AtomType.ARGON );
+                    	setMovableAtom( AtomType.ARGON );
                         updateLjControlSliderState();
                     }
                 }
@@ -342,7 +342,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_oxygenMovableRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if (m_model.getMovableMoleculeType() != AtomType.OXYGEN){
-                        m_model.setMovableMoleculeType( AtomType.OXYGEN );
+                    	setMovableAtom( AtomType.OXYGEN );
                         updateLjControlSliderState();
                     }
                 }
@@ -470,6 +470,26 @@ public class InteractionPotentialControlPanel extends ControlPanel {
         private void updateLjControlSliderState(){
             m_atomDiameterControlPanel.setVisible( m_model.getFixedMoleculeType() == AtomType.ADJUSTABLE );
             m_interactionStrengthControlPanel.setVisible( m_model.getFixedMoleculeType() == AtomType.ADJUSTABLE );
+        }
+        
+        private void setFixedAtom( AtomType atomType ){
+        	if (m_model.getMovableMoleculeType() == AtomType.ADJUSTABLE){
+        		// Can't have one adjustable and the other not, so we need to set both.
+        		m_model.setBothMoleculeTypes(atomType);
+        	}
+        	else{
+        		m_model.setFixedMoleculeType(atomType);
+        	}
+        }
+
+        private void setMovableAtom( AtomType atomType ){
+        	if (m_model.getFixedMoleculeType() == AtomType.ADJUSTABLE){
+        		// Can't have one adjustable and the other not, so we need to set both.
+        		m_model.setBothMoleculeTypes(atomType);
+        	}
+        	else{
+        		m_model.setMovableMoleculeType(atomType);
+        	}
         }
     }
     

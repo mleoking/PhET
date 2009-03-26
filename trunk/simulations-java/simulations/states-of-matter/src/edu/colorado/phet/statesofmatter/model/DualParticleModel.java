@@ -46,7 +46,7 @@ public class DualParticleModel {
     private LjPotentialCalculator m_ljPotentialCalculator;
     private double m_timeStep;
     private StatesOfMatterAtom.Adapter m_movableParticleListener;
-    private boolean m_settingBothAtomsToAdjustable = false;  // Flag used to prevent getting in disallowed state.
+    private boolean m_settingBothAtomTypes = false;  // Flag used to prevent getting in disallowed state.
     
     //----------------------------------------------------------------------------
     // Constructor
@@ -121,7 +121,7 @@ public class DualParticleModel {
     	
     	if (((atomType == AtomType.ADJUSTABLE && m_movableMoleculeType != AtomType.ADJUSTABLE) ||
     		 (atomType != AtomType.ADJUSTABLE && m_movableMoleculeType == AtomType.ADJUSTABLE)) &&
-        	  !m_settingBothAtomsToAdjustable){
+        	  !m_settingBothAtomTypes){
     		System.err.println(this.getClass().getName() + " - Error: Cannot set just one atom to be adjustable, ignoring request.");
     		return;
     	}
@@ -157,7 +157,7 @@ public class DualParticleModel {
     	
     	if (((atomType == AtomType.ADJUSTABLE && m_fixedMoleculeType != AtomType.ADJUSTABLE) ||
        		 (atomType != AtomType.ADJUSTABLE && m_fixedMoleculeType == AtomType.ADJUSTABLE)) &&
-           	  !m_settingBothAtomsToAdjustable){
+           	  !m_settingBothAtomTypes){
     		System.err.println(this.getClass().getName() + " - Error: Cannot set just one atom to be adjustable, ignoring request.");
     		return;
     	}
@@ -239,12 +239,10 @@ public class DualParticleModel {
     
     public void setBothMoleculeTypes(AtomType atomType){
         
-    	if (atomType == AtomType.ADJUSTABLE){
-        	m_settingBothAtomsToAdjustable = true;
-    	}
+        m_settingBothAtomTypes = true;
         setFixedMoleculeType(atomType);
         setMovableMoleculeType(atomType);
-    	m_settingBothAtomsToAdjustable = false;
+    	m_settingBothAtomTypes = false;
     }
     
     /**
