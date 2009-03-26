@@ -41,14 +41,14 @@
 <string key="StatisticsField-host_flash_time_offset" value="Fus Orar"/>
 <string key="MostCurrentVersion" value="Aveti versiunea curenta ({0}) din {1}."/>
 <string key="StatisticsField-sim_deployment" value="Tipul desfasurarii"/>
-<string key="PrivacyRequirement" value=" &lt;a href='{0}'&gt; PhET este disponibil gratuit prin mijloace care necesita strangerea unui minim de informatii anonime pentru a ajuta la documentarea numarului de folosiri ale simularilor PhET si pentru a servi nevoilor de updatare ale userilor nostri."/>
+<string key="PrivacyRequirement" value="&lt;a href='{0}'&gt;PhET&lt;/a&gt; este disponibil gratuit prin mijloace care necesita strangerea unui minim de informatii anonime pentru a ajuta la documentarea numarului de folosiri ale simularilor PhET si pentru a servi nevoilor de updatare ale userilor nostri."/>
 <string key="StatisticsField-sim_type" value="Tipul simularii"/>
 <string key="Close" value="Inchide"/>
 <string key="StatisticsField-sim_dev" value="Estea aceasta o versiune programatoare?"/>
 <string key="InstallerAsk" value="Doriti sa upgradati la cea mai noua versiune a Instalarii Website Offline PhET?"/>
-<string key="PrivacyMessage2" value="Dand click pe &quot;Acceptati si Continuati&quot;, acceptati Acordul Software PhET, incluzand clauza de confidentialitate, pentru aceasta si orice simulare PhET pe care o utilizati. (Pentru detalii,  &lt;a href='{0}'&gt; click aici &lt;/a&gt;)."/>
+<string key="PrivacyMessage2" value="Dand click pe &quot;Acceptati si Continuati&quot;, acceptati Acordul Software PhET, incluzand clauza de confidentialitate, pentru aceasta si orice simulare PhET pe care o utilizati. (Pentru detalii, &lt;a href='{0}'&gt;click aici&lt;/a&gt;)."/>
 <string key="StatisticsField-sim_total_sessions" value="Numar total de folosiri a simularii"/>
-<string key="PrivacyMessage1" value="In toate simularile PhET, colectam un minim de &lt; &lt;a href='{0}'&gt; informatii &lt;/a&gt;  anonime de fiecare data cand incepe simularea (ex., versiunea simularii, sistem de operare). Puteti dezactiva oricand trimiterea informatiilor  prin butonul Preferinte."/>
+<string key="PrivacyMessage1" value="In toate simularile PhET, colectam un minim de &lt;a href='{0}'&gt;informatii&lt;/a&gt; anonime de fiecare data cand incepe simularea (ex., versiunea simularii, sistem de operare). Puteti dezactiva oricand trimiterea informatiilor  prin butonul Preferinte."/>
 <string key="StatisticsField-user_installation_timestamp" value="Instalare timestamp PhET"/>
 <string key="StatisticsField-sim_name" value="Numele simularii"/>
 <string key="UpdateOptionsAvailable" value="Optiuni de updatare sunt valabile in &lt;i&gt; Preferinte &lt;/i&gt;."/>
