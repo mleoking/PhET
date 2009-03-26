@@ -16,7 +16,7 @@ import scalacommon.math.Vector2D
 import scalacommon.util.Observable
 import umd.cs.piccolo.nodes.PText
 import umd.cs.piccolo.PNode
-import scalacommon.{CB, ScalaApplicationLauncher, ScalaClock}
+import scalacommon.{CenteredBoxStrategy, ScalaApplicationLauncher, ScalaClock}
 
 class BlockState(_position: Vector2D, _velocity: Vector2D) {
   val position = _position
