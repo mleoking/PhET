@@ -2,12 +2,16 @@ package edu.colorado.phet.chargesandfields {
 
 import edu.colorado.phet.flexcommon.FlexCommonComponent;
 
+import flash.display.Sprite;
 import flash.display.StageAlign;
 import flash.display.StageScaleMode;
 import flash.events.Event;
 
+import flash.events.FocusEvent;
+import flash.geom.ColorTransform;
 import flash.ui.ContextMenu;
 import mx.controls.Button;
+import mx.core.Application;
 import mx.core.UIComponent;
 
 public class ChargesAndFieldsApplication extends UIComponent {
@@ -25,6 +29,7 @@ public class ChargesAndFieldsApplication extends UIComponent {
 
         this.tabEnabled = true;
         this.tabIndex = -1;
+        
     }
 
     public function init( evt : Event ) : void {

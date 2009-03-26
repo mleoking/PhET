@@ -4,41 +4,66 @@
     <mx:Script>
     <![CDATA[
 
+        import mx.controls.Button;
+        import mx.core.Application;
+        import mx.core.UIComponent;
         import mx.managers.PopUpManager;
         import flash.geom.Point;
         import flash.ui.ContextMenu;
+
+        [Bindable]
+        public var highContrast = false; 
 
         private function init() : void {
             CommonStrings.initialize();
         }
 
-        private function showWindow():void {
-            var aboutDialog : AboutDialog=AboutDialog(PopUpManager.createPopUp( this, AboutDialog , true));
+        // from http://livedocs.adobe.com/flex/3/html/help.html?content=Capturing_User_Input_4.html
+        public function changeColor(event : FocusEvent) : void {
+            event.target.transform.colorTransform = getRandomColor();
+        }
+
+        // from http://livedocs.adobe.com/flex/3/html/help.html?content=Capturing_User_Input_4.html
+        public function getRandomColor() : ColorTransform {
+            // Generate random values for the red, green, and blue color channels.
+            var red:Number = (Math.random() * 512) - 255;
+            var green:Number = (Math.random() * 512) - 255;
+            var blue:Number = (Math.random() * 512) - 255;
+
+            // Create and return a ColorTransform object with the random colors.
+            return new ColorTransform(1, 1, 1, 1, red, green, blue, 0);
+        }
+
+        private function showAboutWindow():void {
+            var aboutDialog : AboutDialog = AboutDialog(PopUpManager.createPopUp( this, AboutDialog , true));
 
             aboutDialog.contextMenu = new ContextMenu();
 
+            centerDialog( aboutDialog );
+        }
+
+        private function showPreferencesWindow():void {
+            var preferencesDialog : PreferencesDialog = PreferencesDialog(PopUpManager.createPopUp( this, PreferencesDialog , true));
+
+            preferencesDialog.contextMenu = new ContextMenu();
+
+            centerDialog( preferencesDialog );
+        }
+
+        private function centerDialog( dialog : UIComponent ) : void {
             var p : Point = new Point();
 
-            trace( "stage.stageWidth = " + String( stage.stageWidth ) );
-            trace( "stage.stageHeight = " + String( stage.stageHeight ) );
-
-            trace( "aboutDialog.width = " + String( aboutDialog.width ) );
-            trace( "aboutDialog.height = " + String( aboutDialog.height ) );
-
-            p.x = ( stage.stageWidth - aboutDialog.width ) / 2;
-            p.y = ( stage.stageHeight - aboutDialog.height ) / 2;
-
-            trace( "p.x = " + String( p.x ) );
-            trace( "p.y = " + String( p.y ) );
+            p.x = ( stage.stageWidth - dialog.width ) / 2;
+            p.y = ( stage.stageHeight - dialog.height ) / 2;
 
             p = globalToLocal( p );
 
-            aboutDialog.x = p.x;
-            aboutDialog.y = p.y;
+            dialog.x = p.x;
+            dialog.y = p.y;
         }
     ]]>
     </mx:Script>
 
-    <mx:Button id="aboutButton" label="{CommonStrings.labelAbout + '...'}" height="20" x="0" y="0" click="showWindow();" />
-    <mx:Button id="preferencesButton" label="{CommonStrings.labelPreferences + '...'}" height="20" x="{aboutButton.width}" y="0" />
+    <mx:Button id="aboutButton" label="{CommonStrings.labelAbout + '...'}" height="20" x="0" y="0" click="showAboutWindow();" />
+    <mx:Button id="preferencesButton" label="{CommonStrings.labelPreferences + '...'}" height="20" x="{aboutButton.width}" y="0" click="showPreferencesWindow();"/>
 </mx:Canvas>
