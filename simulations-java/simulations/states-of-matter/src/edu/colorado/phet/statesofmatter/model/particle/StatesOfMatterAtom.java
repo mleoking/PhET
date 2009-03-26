@@ -16,16 +16,15 @@ import edu.colorado.phet.statesofmatter.model.AtomType;
  */
 // TODO: JPB TBD - It may make sense to make this into an abstract class once
 // all of De Goes old code is removed.
-public class StatesOfMatterAtom implements Cloneable {
+public abstract class StatesOfMatterAtom implements Cloneable {
     
     //----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
 
-    public static final StatesOfMatterAtom TEST = new StatesOfMatterAtom(0.0, 0.0, 1.0, 1.0);
     private static final double DEFAULT_SIGMA = 330;    // Atom diameter, in picometers.
     private static final double DEFAULT_EPSILON = 120;  // epsilon/k-Boltzmann is in Kelvin.
-    protected static final AtomType ATOM_TYPE = AtomType.UNDEFINED;
+    protected static AtomType ATOM_TYPE = AtomType.UNDEFINED;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -54,9 +53,7 @@ public class StatesOfMatterAtom implements Cloneable {
     // Accessor Methods
     //----------------------------------------------------------------------------
 
-    public AtomType getType(){
-    	return ATOM_TYPE;
-    }
+    abstract public AtomType getType();
     
     public double getX() {
         return m_position.x;

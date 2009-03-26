@@ -28,4 +28,8 @@ public class NeonAtom extends StatesOfMatterAtom {
     public static double getSigma(){
         return SIGMA;
     }
+    
+	public AtomType getType() {
+		return ATOM_TYPE;
+	}
 }

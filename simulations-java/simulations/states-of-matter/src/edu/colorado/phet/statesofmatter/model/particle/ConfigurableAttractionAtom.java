@@ -3,6 +3,7 @@
 package edu.colorado.phet.statesofmatter.model.particle;
 
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
+import edu.colorado.phet.statesofmatter.model.AtomType;
 
 /**
  * The class represents a single atom for which the attraction (also known as
@@ -28,4 +29,9 @@ public class ConfigurableAttractionAtom extends StatesOfMatterAtom {
     public static double getSigma(){
         return SIGMA;
     }
+    
+	public AtomType getType() {
+		return ATOM_TYPE;
+	}
+
 }

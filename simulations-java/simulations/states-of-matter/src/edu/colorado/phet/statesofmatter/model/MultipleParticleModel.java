@@ -675,7 +675,8 @@ public class MultipleParticleModel{
                     particle = new ConfigurableAttractionAtom(0, 0);
                     break;
                 default:
-                    particle = new StatesOfMatterAtom(0, 0, m_particleDiameter/2, 10);
+                	// Use the default.
+                    particle = new NeonAtom(0, 0);
                     break;
                 }
                 m_particles.add( particle );
