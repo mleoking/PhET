@@ -1,3 +1,5 @@
+# 1.01.06 (29913) Mar 26, 2009
+3/26/09 #1526, this version to be used for Romanian translations
 # 1.01.05 (29629) Mar 22, 2009
 3/22/09 Batch deploy for Alpha Simulation Tests 2, svn 29628
 # 1.01.04 (29286) Mar 6, 2009
