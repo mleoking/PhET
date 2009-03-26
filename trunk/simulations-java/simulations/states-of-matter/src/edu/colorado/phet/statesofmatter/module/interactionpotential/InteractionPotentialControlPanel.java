@@ -62,6 +62,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     
     private static final Font LABEL_FONT = new PhetFont( Font.PLAIN, 14 );
+    private static final Font BOLD_LABEL_FONT = new PhetFont( Font.BOLD, 14 );
     private static final Color ENABLED_TITLE_COLOR = new Color ( 128, 128, 128 );
     private static final int PIN_ICON_WIDTH = 30; // In pixels.
     private static final int PIN_ICON_HEIGHT = 32; // In pixels.
@@ -245,7 +246,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
      * This class defines the selection panel that allows the user to choose
      * the type of molecule when they don't have to be the same.
      */
-    private class HeterogeneousAtomSelectionPanel extends JPanel implements AtomSelectionPanel {
+    private class HeterogeneousAtomSelectionPanel extends VerticalLayoutPanel implements AtomSelectionPanel {
         
         private JRadioButton m_neonFixedRadioButton;
         private JRadioButton m_argonFixedRadioButton;
@@ -262,8 +263,6 @@ public class InteractionPotentialControlPanel extends ControlPanel {
          * Constructor.
          */
         HeterogeneousAtomSelectionPanel(){
-            
-            setLayout( new GridLayout(0, 1) );
             
             BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
             TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
@@ -383,11 +382,11 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             Image scaledPinImage = pinImage.getScaledInstance(PIN_ICON_WIDTH, PIN_ICON_HEIGHT, Image.SCALE_SMOOTH);
             Icon pinIcon = new ImageIcon(scaledPinImage);
             JLabel fixedAtomLabel = new JLabel( StatesOfMatterStrings.FIXED_ATOM_LABEL, pinIcon, JLabel.LEFT );
-            fixedAtomLabel.setFont(LABEL_FONT);
+            fixedAtomLabel.setFont(BOLD_LABEL_FONT);
             JLabel movableAtomLabel = new JLabel( StatesOfMatterStrings.MOVABLE_ATOM_LABEL );
-            movableAtomLabel.setFont(LABEL_FONT);
+            movableAtomLabel.setFont(BOLD_LABEL_FONT);
             JPanel labelPanel = new JPanel();
-            labelPanel.setLayout(new GridLayout(1, 2));
+            labelPanel.setLayout(new GridLayout(1, 2, 30, 0));
             labelPanel.add( fixedAtomLabel );
             labelPanel.add( movableAtomLabel );
 
@@ -401,12 +400,17 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             individualMoleculeSelectionPanel.add( m_argonMovableRadioButton );
             individualMoleculeSelectionPanel.add( m_oxygenFixedRadioButton );
             individualMoleculeSelectionPanel.add( m_oxygenMovableRadioButton );
-            
+         
+            // Create a panel to contain Adjustable Attraction selection.
+            JPanel adjustableAttractionButtonPanel = new JPanel();
+            adjustableAttractionButtonPanel.setLayout( new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0) );
+            adjustableAttractionButtonPanel.add( m_adjustableAttractionRadioButton );
+
             // Add everything to the main panel.
             
             add( labelPanel );
             add( individualMoleculeSelectionPanel );
-            add( m_adjustableAttractionRadioButton );
+            add( adjustableAttractionButtonPanel );
             
             updateMoleculeType();
             updateLjControlSliderState();
