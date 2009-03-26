@@ -1,13 +1,4 @@
-/* Copyright 2005, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2005-2009, University of Colorado */
 
 package edu.colorado.phet.opticalquantumcontrol.view;
 
@@ -20,7 +11,6 @@ import java.text.NumberFormat;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.event.EventListenerList;
 import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
@@ -74,7 +64,6 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     // Label parameters
     private static final Color LABEL_COLOR = Color.BLACK;
     private static final Font LABEL_FONT = new PhetFont( Font.PLAIN, 12 );
-    private static final Font LABEL_SUBSCRIPT_FONT = new PhetFont( Font.PLAIN, 12 );
     private static final int LABEL_Y_OFFSET = VALUE_Y_OFFSET + 18; // above the maximum height of the slider track
 
     // Knob parameters
@@ -103,7 +92,6 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     private Rectangle _knobRectangle;
     private PhetShapeGraphic _clickZoneGraphic;
     private Rectangle _clickZoneRectangle;
-    private EventListenerList _listenerList;
     private Point _somePoint;
     
     //----------------------------------------------------------------------------
@@ -130,7 +118,6 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
         // Misc initialization
         {
             _maxSize = new Dimension( DEFAULT_TRACK_SIZE );
-            _listenerList = new EventListenerList();
             _somePoint = new Point();
         }
 
@@ -349,7 +336,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     private void showUserInputErrorDialog() {
         String message = OQCResources.AMPLITUDE_ERROR_MESSAGE;
         JOptionPane op = new JOptionPane( message, JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION );
-        op.createDialog( getComponent(), null ).show();
+        op.createDialog( getComponent(), null ).setVisible( true );
     }
     
     //----------------------------------------------------------------------------
