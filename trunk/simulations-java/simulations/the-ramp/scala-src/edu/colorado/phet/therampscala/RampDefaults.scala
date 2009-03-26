@@ -25,7 +25,7 @@ object RampDefaults {
           new ScalaRampObject("Refrigerator", 400, "fridge.gif") ::
           new ScalaRampObject("Textboox", 10, "phetbook.gif") ::
           new ScalaRampObject("Big Crate", 300, "crate.gif") ::
-          new CustomTextRampObject("Mystery Object", 300, "crate.gif", false) ::
+          new CustomTextRampObject("Mystery Object", 300, "mystery-box.png", false) ::
           Nil
   val objectsPerRow = 4
 
