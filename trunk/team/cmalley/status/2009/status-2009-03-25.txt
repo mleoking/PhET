@@ -1,0 +1,55 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: March 19-25, 2009 (Tue-Wed)
+
+ACCOMPLISHMENTS:
+
+  common code:
+  - JSpinner issue on Mac OS, #1372 (with Sam R.)
+  - removal of "SVN" from statistics, #1467
+  - delete phet-dist/updater/ on tigercat, #1332
+  - resolved VersionQueryException, #1516
+  - new language in Software Agreement notification dialog, #1524
+  - ellipsis in Flash button labels, #1485
+  - Flash user model for manual updates, #1533
+  - fix background color in "Update to Date" dialog, #1532
+  - fixes to PhetOptionPane, #1304
+  
+  build process:
+  - review and test jarsigner TSA URL
+  - fix localized jars that were deployed to tigercat with IOM features enabled
+  - discuss reorg of project class hierarchy with Sam R.
+
+  misc sims:
+  - rutherford-scattering: fix trajectory model, #1329 (with Sam M.)
+  - optical-tweezers: misc fixes, #1518, 1519, 1520
+  - fourier: working on #1337
+  
+  translations:
+  - review/fix/integrate common translations (ro, vi, sk, no, nb)
+  
+  misc:
+  - IOM planning meeting for alpha-3
+  - status meeting
+  - developer meeting to review IOM tickets
+  - test IOM alpha-3 installer on Mac OS
+  - verify and close many Unfuddle tickets
+  - numerous email discussions
+    
+WHAT'S NEXT:
+ 
+  - IOM testing & bug fixes
+  - acid-base-solutions implementation
+  - become familiar with Scala
+  - investigate 3D libraries
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+  April 1-5
+  
+--
