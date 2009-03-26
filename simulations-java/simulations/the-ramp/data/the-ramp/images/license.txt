@@ -35,3 +35,4 @@ tape.jpg author=PhET
 tree.gif 
 wood5.png author=PhET 
 x-25.gif author=PhET 
+mystery-box.png author=PhET
