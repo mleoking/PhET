@@ -15,7 +15,7 @@ class ScalaRampObject(_name: String, _mass: Double, _imageFilename: String, _cus
 
   def this(name: String, mass: Double, imageFilename: String) = this (name, mass, imageFilename, false)
 
-//  def height = m_mass / 100.0
+  def height = mass / 100.0
 }
 
 class CustomTextRampObject(name: String, mass: Double, imageFilename: String, customizable: Boolean) extends ScalaRampObject(name, mass, imageFilename, customizable) {
@@ -33,7 +33,7 @@ class MutableRampObject(name: String, _mass: Double, imageFilename: String, cust
     notifyListeners()
   }
 
-  def height = m_mass / 100.0
+//  def height = m_mass / 100.0
 }
 
 object RampDefaults {

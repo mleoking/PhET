@@ -133,7 +133,7 @@ class RampModule(clock: ScalaClock) extends Module("Ramp", clock) {
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
   setControlPanel(new RampControlPanel(model, wordModel, fbdModel, coordinateSystemModel, vectorViewModel))
-  setClockControlPanel(new RecordModelControlPanel(model, canvas, () => {new PlaybackSpeedSlider(model)}, Color.blue, 20))
+  setClockControlPanel(new RecordModelControlPanel(model, canvas, () => new PlaybackSpeedSlider(model), Color.blue, 20))
 }
 
 object RampApplication {
