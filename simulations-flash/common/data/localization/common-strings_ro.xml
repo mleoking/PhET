@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--common-strings_ro.xml created Thu Mar 26 12:41:09 EET 2009 using: flash-common-strings 1.06.00 (29825), translation-utility 1.12.00 (29256)-->
+<SimStrings>
+<string key="About..." value="Despre..."/>
+<string key="SoftwareDevelopment" value="Programare Software"/>
+<string key="Cancel" value="Anuleaza"/>
+<string key="StatisticsField-host_flash_accessibility" value="Folosind un dispozitiv accesibil?"/>
+<string key="Privacy" value="Confidentialitate"/>
+<string key="Version" value="Versiune"/>
+<string key="NewVersionAvailable" value="Versiune noua disponibila."/>
+<string key="SoftwareAgreement" value="Acord software"/>
+<string key="PhETInstallation" value="Pentru a downloada o noua instalare continand cea mai noua simulate, va rugam vizitati  &lt;a href='{0}'&gt; pagina de instalare PhET &lt;/a&gt; pentru mai multe informatii."/>
+<string key="StatisticsField-sim_version_timestamp" value="Versiunea simularii (timestamp)"/>
+<string key="StatisticsField-sim_dev_version" value="Versiunea simularii (dev)"/>
+<string key="AskLater" value="Intreaba-ma mai tarziu"/>
+<string key="AcceptContinue" value="Accepta si Continua"/>
+<string key="BuildDate" value="Data construirii"/>
+<string key="TellMore" value="Mai multe detalii..."/>
+<string key="FlashVersion" value="Versiune Flash"/>
+<string key="PhetSoftwareAgreement" value="Acord Software PhET"/>
+<string key="NoUpdatesAvailable" value="Nicio updatare disponibila."/>
+<string key="StatisticsField-message_type" value="Tipul mesajului"/>
+<string key="InstallationDated" value="Instalarea Website Offline Flash este datata {0}."/>
+<string key="CheckUpdates" value="Verifica updatari automat"/>
+<string key="UpToDate" value="Pana La Data"/>
+<string key="StatisticsField-sim_major_version" value="Versiunea simularii (major)"/>
+<string key="StatisticsField-user_total_sessions" value="Numar total de folosiri ale tuturor simularilor"/>
+<string key="InstallationNewer" value="O noua versiune este disponibila, datata {0}."/>
+<string key="StatisticsField-sim_sessions_since" value="Numar de folosiri a simularii de la ultima data online"/>
+<string key="StatisticsField-sim_distribution_tag" value="Versiunea simularii (distributie)"/>
+<string key="Yes!" value="Da!"/>
+<string key="StatisticsField-host_flash_domain" value="Domeniu Simulare"/>
+<string key="DesignTeam" value="Echipa Design"/>
+<string key="PhETPreferences" value="Preferinte PhET"/>
+<string key="Preferences" value="Preferinte..."/>
+<string key="AllowMessages" value="Permite trimiterea informatiilor la PhET"/>
+<string key="Updates" value="Updatari"/>
+<string key="StatisticsField-sim_revision" value="Versiunea simularii (revizie)"/>
+<string key="StatisticsField-user_preference_file_creation_time" value="Preferinte timp creare fisier"/>
+<string key="Interviews" value="Interviuri"/>
+<string key="StatisticsField-host_flash_time_offset" value="Fus Orar"/>
+<string key="MostCurrentVersion" value="Aveti versiunea curenta ({0}) din {1}."/>
+<string key="StatisticsField-sim_deployment" value="Tipul desfasurarii"/>
+<string key="PrivacyRequirement" value=" &lt;a href='{0}'&gt; PhET este disponibil gratuit prin mijloace care necesita strangerea unui minim de informatii anonime pentru a ajuta la documentarea numarului de folosiri ale simularilor PhET si pentru a servi nevoilor de updatare ale userilor nostri."/>
+<string key="StatisticsField-sim_type" value="Tipul simularii"/>
+<string key="Close" value="Inchide"/>
+<string key="StatisticsField-sim_dev" value="Estea aceasta o versiune programatoare?"/>
+<string key="InstallerAsk" value="Doriti sa upgradati la cea mai noua versiune a Instalarii Website Offline PhET?"/>
+<string key="PrivacyMessage2" value="Dand click pe &quot;Acceptati si Continuati&quot;, acceptati Acordul Software PhET, incluzand clauza de confidentialitate, pentru aceasta si orice simulare PhET pe care o utilizati. (Pentru detalii,  &lt;a href='{0}'&gt; click aici &lt;/a&gt;)."/>
+<string key="StatisticsField-sim_total_sessions" value="Numar total de folosiri a simularii"/>
+<string key="PrivacyMessage1" value="In toate simularile PhET, colectam un minim de &lt; &lt;a href='{0}'&gt; informatii &lt;/a&gt;  anonime de fiecare data cand incepe simularea (ex., versiunea simularii, sistem de operare). Puteti dezactiva oricand trimiterea informatiilor  prin butonul Preferinte."/>
+<string key="StatisticsField-user_installation_timestamp" value="Instalare timestamp PhET"/>
+<string key="StatisticsField-sim_name" value="Numele simularii"/>
+<string key="UpdateOptionsAvailable" value="Optiuni de updatare sunt valabile in &lt;i&gt; Preferinte &lt;/i&gt;."/>
+<string key="PhetDevelopmentTeam" value="Echipa Programatoare PhET"/>
+<string key="InstallerInfo2" value="Daca alegeti sa downloadati cea mai noua versiune, un browser web se va deschide la pagina PhET, de unde puteti downloada Instalarea Website Offline PhET."/>
+<string key="InstallerInfo1" value="Upgradand in permanenta Instalarea Website Offline PhET, aveti acces la cele mai noi simulari si materiale suplimentare PhET."/>
+<string key="StatisticsField-sim_minor_version" value="Versiunea simularii (minor)"/>
+<string key="Credits" value="Credite"/>
+<string key="StatisticsField-host_flash_version" value="Versiune Flash Player"/>
+<string key="TryNow" value="Incearca acum"/>
+<string key="PrivacySkip" value="Sariti peste aceasta versiune"/>
+<string key="CheckInstallationUpdates" value="Verifica updatari Instalare Website Offline PhET"/>
+<string key="StatisticsField-sim_locale_language" value="Limba"/>
+<string key="Distribution" value="Distributie"/>
+<string key="LicenseLibraries" value="Informatii licenta librarie folosite:"/>
+<string key="PrivacyDetails" value="Detalii confidentialitate"/>
+<string key="NotUpdateSim" value="Simularea nu poate fi updatata automat."/>
+<string key="CurrentVersionIs" value="Versiunea dvs. curenta de {0} este {1}"/>
+<string key="StatisticsField-host_flash_os" value="Sistem de operare si nume"/>
+<string key="OK" value="OK"/>
+<string key="Error" value="Eroare"/>
+<string key="CheckSimUpdates" value="Verifica updatari simulari"/>
+<string key="StatisticsField-sim_project" value="Nume proiect"/>
+<string key="NewerVersionIs" value="O noua versiune {0} este disponibila."/>
+<string key="SentInformation" value="Informatiile de mai jos vor fi trimise la PhET cand incepe simularea."/>
+<string key="OSVersion" value="OS"/>
+<string key="Details" value="Detalii"/>
+<string key="StatisticsField-message_version" value="Versiunea mesajului"/>
+<string key="LeadDesign" value="Design Principal"/>
+<string key="StatisticsField-host_locale_language" value="Limba gazda"/>
+<string key="AboutSim" value="Despre {0}"/>
+<string key="VersionError2" value="Va rugam incercati mai tarziu, sau vizitati  &lt;a href='{0}'&gt;http://phet.colorado.edu&lt;/a&gt;"/>
+<string key="VersionError1" value="O eroare a fost intalnita incercand sa se obtina informatii despre versiune."/>
+<string key="StatisticsField-sim_locale_country" value="Tara"/>
+</SimStrings>
