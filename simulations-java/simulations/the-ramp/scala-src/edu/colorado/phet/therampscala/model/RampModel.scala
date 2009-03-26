@@ -28,6 +28,12 @@ class RampModel extends RecordModel[String] with ObjectModel {
     _selectedObject = obj
     beads(0).mass = _selectedObject.mass
     beads(0).height = _selectedObject.height
+
+    //todo: remove listeners on object selection change
+    _selectedObject match{
+      case o:MutableRampObject => o.addListenerByName(beads(0).height = o.height)
+    }
+    println("height="+_selectedObject.height)
     notifyListeners()
   }
 
