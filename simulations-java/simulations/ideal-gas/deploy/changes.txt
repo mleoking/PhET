@@ -1,3 +1,4 @@
+3/25/09 #1497, fixed and rewrote InputTemperatureControl
 # 3.08.08 (29629) Mar 22, 2009
 3/22/09 Batch deploy for Alpha Simulation Tests 2, svn 29628
 # 3.08.07 (28795) Feb 19, 2009
