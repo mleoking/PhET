@@ -342,7 +342,8 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 	public function getAgreementText() : String {
 		// the agreement text must be stripped of newlines because Flash's HTML rendering incorrectly
 		// considers newlines to be "<br>".
-		var strippedText = stripNewlines(_level0.agreementText);
+		//var strippedText = stripNewlines(_level0.agreementText);
+		var strippedText = stripNewlines(SoftwareAgreement.agreementText);
 		
 		// this replacement will make clicks call _level0.common.openExternalLink(<url>) instead of
 		// just opening the url

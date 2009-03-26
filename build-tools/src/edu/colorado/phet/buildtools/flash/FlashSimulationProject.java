@@ -157,7 +157,8 @@ public class FlashSimulationProject extends PhetProject {
             FileUtils.copyToDir( getAgreementPropertiesFile(), getOfflineJARContentsDir() );
 
             // copy agreement text
-            FileUtils.copyToDir( getAgreementHTMLFile(), getOfflineJARContentsDir() );
+            // NOT NEEDED anymore, strings are inlined.
+            //FileUtils.copyToDir( getAgreementHTMLFile(), getOfflineJARContentsDir() );
 
             // copy credits file
             FileUtils.copyToDir( getCreditsFile(), getOfflineJARContentsDir() );
