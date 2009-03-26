@@ -119,7 +119,8 @@ public class DualParticleModel {
     
     public void setFixedMoleculeType(AtomType atomType){
     	
-    	if (atomType == AtomType.ADJUSTABLE && !m_settingBothAtomsToAdjustable){
+    	if (atomType == AtomType.ADJUSTABLE && m_movableMoleculeType != AtomType.ADJUSTABLE && 
+    		!m_settingBothAtomsToAdjustable){
     		System.err.println(this.getClass().getName() + " - Error: Cannot set just one atom to be adjustable, ignoring request.");
     		return;
     	}
@@ -153,7 +154,8 @@ public class DualParticleModel {
 
     public void setMovableMoleculeType(AtomType atomType){
     	
-    	if (atomType == AtomType.ADJUSTABLE && !m_settingBothAtomsToAdjustable){
+    	if (atomType == AtomType.ADJUSTABLE && m_fixedMoleculeType != AtomType.ADJUSTABLE && 
+       		!m_settingBothAtomsToAdjustable){
     		System.err.println(this.getClass().getName() + " - Error: Cannot set just one atom to be adjustable, ignoring request.");
     		return;
     	}
@@ -317,11 +319,9 @@ public class DualParticleModel {
      */
     public void reset() {
 
-        if ( m_fixedParticle == null || m_fixedParticle.getType() != DEFAULT_ATOM_TYPE ){
-        	setFixedMoleculeType(DEFAULT_ATOM_TYPE);
-        }
-        if ( m_movableParticle == null || m_movableParticle.getType() != DEFAULT_ATOM_TYPE ){
-        	setMovableMoleculeType(DEFAULT_ATOM_TYPE);
+        if ( m_fixedParticle == null || m_fixedParticle.getType() != DEFAULT_ATOM_TYPE ||
+        	 m_movableParticle == null || m_movableParticle.getType() != DEFAULT_ATOM_TYPE){
+        	setBothMoleculeTypes(DEFAULT_ATOM_TYPE);
         }
         else{
         	resetMovableParticlePos();

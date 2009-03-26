@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.statesofmatter.model.particle;
 
+import edu.colorado.phet.statesofmatter.model.AtomType;
+
 /**
  * The class represents an atom where some of the parameters can be changed by
  * the user.
@@ -14,7 +16,7 @@ public class UserDefinedAtom extends StatesOfMatterAtom {
     private static final double MASS = 14;      // In atomic mass units.
     private static final double SIGMA = 390;    // In picometers.
     private static final double EPSILON = 155;   // epsilon/k-Boltzmann is in Kelvin.
-
+    protected static final AtomType ATOM_TYPE = AtomType.ADJUSTABLE;
     
     public UserDefinedAtom(double xPos, double yPos){
         super(xPos, yPos, RADIUS, MASS);
@@ -27,4 +29,8 @@ public class UserDefinedAtom extends StatesOfMatterAtom {
     public static double getSigma(){
         return SIGMA;
     }
+    
+	public AtomType getType() {
+		return ATOM_TYPE;
+	}
 }
