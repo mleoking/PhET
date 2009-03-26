@@ -17,12 +17,6 @@ import umd.cs.piccolo.util.PDimension
 import edu.colorado.phet.scalacommon.Predef._
 import java.lang.Math._
 
-//see scala duck typing
-//maybe we should replace this with a named trait
-
-//note to self, Proguard throws away structural type when duck typing
-//Exception in thread "AWT-EventQueue-0" java.lang.NoSuchMethodException: edu.colorado.phet.therampscala.model.RampModel.selectedObject_$eq(edu.colorado.phet.therampscala.ScalaRampObject)
-
 trait ObjectModel {
   def selectedObject: ScalaRampObject
 
@@ -48,7 +42,7 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
     addChild(imageNode)
     addChild(textNode)
 
-    def updateSelected() = {
+    defineInvokeAndPass(model.addListenerByName) {
       if (model.selectedObject == o) {
         backgroundNode.setPaint(new Color(0, 0, 255, 50))
         textNode.setFont(new PhetFont(14, true))
@@ -62,8 +56,6 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
         model.selectedObject = o
       }
     })
-    updateSelected()
-    model.addListenerByName {updateSelected()}
   }
 
   val nodes = for (o <- objects) yield {
@@ -80,7 +72,7 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
 
     val n = nodes(i)
     n.backgroundNode.setPathTo(new Rectangle2D.Double(0, 0, cellDim.width, cellDim.height))
-    n.setOffset(transform.modelToView(column * modelCellDimPt.x - 11, -10 + row * modelCellDimPt.y - 2 * modelCellDimPt.y+0.5))
+    n.setOffset(transform.modelToView(column * modelCellDimPt.x - 11, -10 + row * modelCellDimPt.y - 2 * modelCellDimPt.y + 0.5))
     addChild(n)
   }
 
