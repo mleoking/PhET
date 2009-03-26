@@ -119,8 +119,9 @@ public class DualParticleModel {
     
     public void setFixedMoleculeType(AtomType atomType){
     	
-    	if (atomType == AtomType.ADJUSTABLE && m_movableMoleculeType != AtomType.ADJUSTABLE && 
-    		!m_settingBothAtomsToAdjustable){
+    	if (((atomType == AtomType.ADJUSTABLE && m_movableMoleculeType != AtomType.ADJUSTABLE) ||
+    		 (atomType != AtomType.ADJUSTABLE && m_movableMoleculeType == AtomType.ADJUSTABLE)) &&
+        	  !m_settingBothAtomsToAdjustable){
     		System.err.println(this.getClass().getName() + " - Error: Cannot set just one atom to be adjustable, ignoring request.");
     		return;
     	}
@@ -154,8 +155,9 @@ public class DualParticleModel {
 
     public void setMovableMoleculeType(AtomType atomType){
     	
-    	if (atomType == AtomType.ADJUSTABLE && m_fixedMoleculeType != AtomType.ADJUSTABLE && 
-       		!m_settingBothAtomsToAdjustable){
+    	if (((atomType == AtomType.ADJUSTABLE && m_fixedMoleculeType != AtomType.ADJUSTABLE) ||
+       		 (atomType != AtomType.ADJUSTABLE && m_fixedMoleculeType == AtomType.ADJUSTABLE)) &&
+           	  !m_settingBothAtomsToAdjustable){
     		System.err.println(this.getClass().getName() + " - Error: Cannot set just one atom to be adjustable, ignoring request.");
     		return;
     	}
