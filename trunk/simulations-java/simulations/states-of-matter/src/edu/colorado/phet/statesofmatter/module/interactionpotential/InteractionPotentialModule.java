@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.defaults.InteractionPotentialDefaults;
-import edu.colorado.phet.statesofmatter.model.DualParticleModel;
+import edu.colorado.phet.statesofmatter.model.DualAtomModel;
 
 /**
  * This class is where the model and view classes for the "Interaction
@@ -22,7 +22,7 @@ public class InteractionPotentialModule extends PiccoloModule {
     // Instance Data
     //----------------------------------------------------------------------------
 
-    private DualParticleModel m_model;
+    private DualAtomModel m_model;
     private InteractionPotentialCanvas  m_canvas;
 
     //----------------------------------------------------------------------------
@@ -36,7 +36,7 @@ public class InteractionPotentialModule extends PiccoloModule {
                 InteractionPotentialDefaults.CLOCK_DT));
 
         // Model
-        m_model = new DualParticleModel( getClock() );
+        m_model = new DualAtomModel( getClock() );
 
         // Canvas
         m_canvas = new InteractionPotentialCanvas( m_model );
@@ -58,7 +58,7 @@ public class InteractionPotentialModule extends PiccoloModule {
     // Accessor Methods
     //----------------------------------------------------------------------------
     
-    public DualParticleModel getDualParticleModel(){
+    public DualAtomModel getDualParticleModel(){
         return m_model;
     }
     

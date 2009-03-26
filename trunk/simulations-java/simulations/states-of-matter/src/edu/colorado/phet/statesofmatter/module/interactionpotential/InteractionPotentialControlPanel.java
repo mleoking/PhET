@@ -44,7 +44,7 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.model.AtomType;
-import edu.colorado.phet.statesofmatter.model.DualParticleModel;
+import edu.colorado.phet.statesofmatter.model.DualAtomModel;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.view.ParticleForceNode;
 
@@ -71,7 +71,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
     // Instance Data
     //----------------------------------------------------------------------------
     
-    private DualParticleModel m_model;
+    private DualAtomModel m_model;
     private InteractionPotentialCanvas m_canvas;
     private AtomSelectionPanel m_moleculeSelectionPanel;
     private AtomDiameterControlPanel m_atomDiameterControlPanel;
@@ -90,11 +90,11 @@ public class InteractionPotentialControlPanel extends ControlPanel {
         m_model = solidLiquidGasModule.getDualParticleModel();
         m_canvas = solidLiquidGasModule.getCanvas();
         
-        m_model.addListener( new DualParticleModel.Adapter(){
-            public void fixedParticleAdded(StatesOfMatterAtom particle){
+        m_model.addListener( new DualAtomModel.Adapter(){
+            public void fixedAtomAdded(StatesOfMatterAtom particle){
                 m_moleculeSelectionPanel.updateMoleculeType();
             };
-            public void movableParticleAdded(StatesOfMatterAtom particle){
+            public void movableAtomAdded(StatesOfMatterAtom particle){
                 m_moleculeSelectionPanel.updateMoleculeType();
             };
         });
@@ -501,12 +501,12 @@ public class InteractionPotentialControlPanel extends ControlPanel {
         private final Font LABEL_FONT = new PhetFont(14, false);
 
         private LinearValueControl m_atomDiameterControl;
-        private DualParticleModel m_model;
+        private DualAtomModel m_model;
         private TitledBorder m_titledBorder;
         private JLabel m_leftLabel;
         private JLabel m_rightLabel;
         
-        public AtomDiameterControlPanel(DualParticleModel model){
+        public AtomDiameterControlPanel(DualAtomModel model){
 
             m_model = model;
             
@@ -530,15 +530,15 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_atomDiameterControl.setUpDownArrowDelta( 0.01 );
             m_atomDiameterControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    m_model.setAdjustableParticleSigma( m_atomDiameterControl.getValue() );
+                    m_model.setAdjustableAtomSigma( m_atomDiameterControl.getValue() );
                 }
             });
             m_atomDiameterControl.getSlider().addMouseListener(new MouseAdapter() {
                 public void mousePressed(MouseEvent e) {
-                	m_model.setParticleMotionPaused(true);
+                	m_model.setMotionPaused(true);
                 }
                 public void mouseReleased(MouseEvent e) {
-                	m_model.setParticleMotionPaused(false);
+                	m_model.setMotionPaused(false);
                 }
             });
             Hashtable diameterControlLabelTable = new Hashtable();
@@ -553,11 +553,11 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             add(m_atomDiameterControl);
 
             // Register as a listener with the model for relevant events.
-            m_model.addListener( new DualParticleModel.Adapter(){
-                public void fixedParticleDiameterChanged(){
+            m_model.addListener( new DualAtomModel.Adapter(){
+                public void fixedAtomDiameterChanged(){
                     m_atomDiameterControl.setValue(m_model.getSigma());
                 }
-                public void movableParticleDiameterChanged(){
+                public void movableAtomDiameterChanged(){
                     m_atomDiameterControl.setValue(m_model.getSigma());
                 }
             });
@@ -586,12 +586,12 @@ public class InteractionPotentialControlPanel extends ControlPanel {
         private final Font LABEL_FONT = new PhetFont(14, false);
 
         private LinearValueControl m_interactionStrengthControl;
-        private DualParticleModel m_model;
+        private DualAtomModel m_model;
         private TitledBorder m_titledBorder;
         private JLabel m_leftLabel;
         private JLabel m_rightLabel;
 
-        public InteractionStrengthControlPanel(DualParticleModel model){
+        public InteractionStrengthControlPanel(DualAtomModel model){
 
             m_model = model;
             
@@ -621,10 +621,10 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             });
             m_interactionStrengthControl.getSlider().addMouseListener(new MouseAdapter() {
                 public void mousePressed(MouseEvent e) {
-                	m_model.setParticleMotionPaused(true);
+                	m_model.setMotionPaused(true);
                 }
                 public void mouseReleased(MouseEvent e) {
-                	m_model.setParticleMotionPaused(false);
+                	m_model.setMotionPaused(false);
                 }
             });
             Hashtable diameterControlLabelTable = new Hashtable();
@@ -638,7 +638,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
 
             // Register as a listener with the model so that we know when the
             // settings for potential are changed.
-            m_model.addListener( new DualParticleModel.Adapter(){
+            m_model.addListener( new DualAtomModel.Adapter(){
                 public void interactionPotentialChanged(){
                     m_interactionStrengthControl.setValue( m_model.getEpsilon() );
                 }
