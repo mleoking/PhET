@@ -27,6 +27,7 @@ class RampModel extends RecordModel[String] with ObjectModel {
   def selectedObject_=(obj: ScalaRampObject) = {
     _selectedObject = obj
     beads(0).mass = _selectedObject.mass
+//    beads(0).height = _selectedObject.height
     notifyListeners()
   }
 
