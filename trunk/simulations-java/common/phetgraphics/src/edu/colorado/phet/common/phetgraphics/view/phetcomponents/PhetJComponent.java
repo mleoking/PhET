@@ -24,7 +24,8 @@ import java.util.Iterator;
 import java.util.Set;
 
 import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
+import javax.swing.event.*;
+import javax.swing.text.JTextComponent;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
@@ -71,7 +72,7 @@ public class PhetJComponent extends PhetGraphic {
 
     private static PhetGraphic newInstance( Component apparatusPanel, JComponent jComponent, boolean topLevel ) {
         if ( !inited ) {
-            init( PhetApplication.instance().getPhetFrame() );
+            init( PhetApplication.getInstance().getPhetFrame() );
         }
 
         if ( topLevel ) {
@@ -169,10 +170,6 @@ public class PhetJComponent extends PhetGraphic {
                 doNotifyAll( c[i] );
             }
         }
-    }
-
-    protected PhetJComponent( Component ap, JComponent component ) {
-        this( ap, component, true );
     }
 
     protected PhetJComponent( Component ap, final JComponent component, boolean topLevel ) {
@@ -287,6 +284,7 @@ public class PhetJComponent extends PhetGraphic {
             }
         };
         addKeyListener( keyHandler );
+        
         component.addFocusListener( new FocusAdapter() {
             public void focusGained( FocusEvent e ) {
 //                System.out.println( "PhetJComponent.focusGained=" + component );
@@ -298,11 +296,13 @@ public class PhetJComponent extends PhetGraphic {
                 repaint();
             }
         } );
+        
         component.addPropertyChangeListener( "enabled", new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 fireRepaintBurst();
             }
         } );
+        
         component.addMouseListener( new MouseInputAdapter() {
             public void mouseExited( MouseEvent e ) {
                 fireRepaintBurst();
@@ -312,8 +312,44 @@ public class PhetJComponent extends PhetGraphic {
                 fireRepaintBurst();
             }
         } );
+        
+        if ( component instanceof JTextComponent ) {
+            addTextComponentListeners( (JTextComponent)component );
+        }
+        
         repaintManagerPhet.put( this );
         manager.phetJComponentCreated( this );
+    }
+    
+    /*
+     * Ensure that repaint is called when various aspects of JTextComponet change.
+     * This was added to address Unfuddle #1337.
+     */
+    private void addTextComponentListeners( JTextComponent textComponent ) {
+        
+        textComponent.getDocument().addDocumentListener( new DocumentListener() {
+
+            public void changedUpdate( DocumentEvent e ) {
+                repaint();
+            }
+
+            public void insertUpdate( DocumentEvent e ) {
+                repaint();
+            }
+
+            public void removeUpdate( DocumentEvent e ) {
+                repaint();
+            }
+            
+        });
+        
+        textComponent.addCaretListener( new CaretListener() {
+
+            public void caretUpdate( CaretEvent e ) {
+                repaint();
+            }
+            
+        });
     }
 
     /**
