@@ -19,6 +19,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -62,6 +63,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
     
     private static final Font LABEL_FONT = new PhetFont( Font.PLAIN, 14 );
     private static final Color ENABLED_TITLE_COLOR = new Color ( 128, 128, 128 );
+    private static final int PIN_ICON_WIDTH = 30; // In pixels.
+    private static final int PIN_ICON_HEIGHT = 32; // In pixels.
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -255,6 +258,9 @@ public class InteractionPotentialControlPanel extends ControlPanel {
         private JRadioButton m_adjustableAttractionRadioButton;
         private JRadioButton m_adjustableAttractionNotSelectedRadioButton;
         
+        /**
+         * Constructor.
+         */
         HeterogeneousAtomSelectionPanel(){
             
             setLayout( new GridLayout(0, 1) );
@@ -269,6 +275,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             
             setBorder( titledBorder );
 
+            // Create and group the buttons that select the fixed or "pinned" atom.
+            
             m_neonFixedRadioButton = new JRadioButton( StatesOfMatterStrings.NEON_SELECTION_LABEL );
             m_neonFixedRadioButton.setFont( LABEL_FONT );
             m_neonFixedRadioButton.addActionListener( new ActionListener() {
@@ -307,6 +315,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             buttonGroupFixed.add( m_oxygenFixedRadioButton );
             buttonGroupFixed.add( m_adjustableFixedRadioButton );
             m_neonFixedRadioButton.setSelected( true );
+
+            // Create and group the buttons that select the movable atom.
 
             m_neonMovableRadioButton = new JRadioButton( StatesOfMatterStrings.NEON_SELECTION_LABEL );
             m_neonMovableRadioButton.setFont( LABEL_FONT );
@@ -347,6 +357,9 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             buttonGroupMovable.add( m_adjustableMovableRadioButton );
             m_neonFixedRadioButton.setSelected( true );
 
+            // Create the radio button used for selecting the adjustable
+            // attraction atom.
+            
             m_adjustableAttractionRadioButton = 
                 new JRadioButton( StatesOfMatterStrings.ADJUSTABLE_ATTRACTION_SELECTION_LABEL );
             m_adjustableAttractionRadioButton.setFont( LABEL_FONT );
@@ -364,15 +377,22 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             adjustableSelection.add( m_adjustableAttractionRadioButton );
             adjustableSelection.add( m_adjustableAttractionNotSelectedRadioButton );
             
-            JLabel fixedAtomLabel = new JLabel( StatesOfMatterStrings.FIXED_ATOM_LABEL );
-//            fixedAtomLabel.setFont(LABEL_FONT);
+            // Create the labels for the fixed and movable atom selection.
+
+            Image pinImage = StatesOfMatterResources.getImage( StatesOfMatterConstants.PUSH_PIN_IMAGE );
+            Image scaledPinImage = pinImage.getScaledInstance(PIN_ICON_WIDTH, PIN_ICON_HEIGHT, Image.SCALE_SMOOTH);
+            Icon pinIcon = new ImageIcon(scaledPinImage);
+            JLabel fixedAtomLabel = new JLabel( StatesOfMatterStrings.FIXED_ATOM_LABEL, pinIcon, JLabel.LEFT );
+            fixedAtomLabel.setFont(LABEL_FONT);
             JLabel movableAtomLabel = new JLabel( StatesOfMatterStrings.MOVABLE_ATOM_LABEL );
-//            movableAtomLabel.setFont(LABEL_FONT);
+            movableAtomLabel.setFont(LABEL_FONT);
             JPanel labelPanel = new JPanel();
             labelPanel.setLayout(new GridLayout(1, 2));
             labelPanel.add( fixedAtomLabel );
             labelPanel.add( movableAtomLabel );
 
+            // Create a panel and add all the buttons for selecting atoms.
+            
             JPanel individualMoleculeSelectionPanel = new JPanel();
             individualMoleculeSelectionPanel.setLayout(new GridLayout(0, 2));
             individualMoleculeSelectionPanel.add( m_neonFixedRadioButton );
@@ -381,6 +401,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             individualMoleculeSelectionPanel.add( m_argonMovableRadioButton );
             individualMoleculeSelectionPanel.add( m_oxygenFixedRadioButton );
             individualMoleculeSelectionPanel.add( m_oxygenMovableRadioButton );
+            
+            // Add everything to the main panel.
             
             add( labelPanel );
             add( individualMoleculeSelectionPanel );
