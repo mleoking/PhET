@@ -147,9 +147,9 @@ public class Path {
         }
         long finalTime = System.currentTimeMillis();
         long dt = finalTime - time;
-        if ( dt > 0 ) {
-            System.out.println( "Loop computation time=" + dt + ", num loops=" + all.size() );
-        }
+//        if ( dt > 0 ) {
+//            System.out.println( "Loop computation time=" + dt + ", num loops=" + all.size() );
+//        }
         return (Path[]) all.toArray( new Path[0] );
     }
 
