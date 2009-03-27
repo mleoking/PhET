@@ -8,6 +8,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.buildtools.util.SVNDependencyProject;
 import edu.colorado.phet.buildtools.util.FileUtils;
+import edu.colorado.phet.buildtools.java.JavaBuildCommand;
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,7 +23,7 @@ public class FlashCommonProject extends SVNDependencyProject {
     }
 
     public static void generateFlashSoftwareAgreement( File trunk ) {
-        File softwareAgreementFile = new File( trunk, "simulations-common/data/software-agreement/software-agreement.htm" );
+        File softwareAgreementFile = new File( trunk, JavaBuildCommand.SOFTWARE_AGREEMENT_PATH+"/software-agreement.htm" );
 
         if( !softwareAgreementFile.exists() ) {
             JOptionPane.showMessageDialog( null, "Could not find software-agreement.htm", "Error", JOptionPane.ERROR_MESSAGE );
