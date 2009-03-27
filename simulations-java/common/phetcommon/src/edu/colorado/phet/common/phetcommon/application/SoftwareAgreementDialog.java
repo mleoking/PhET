@@ -108,7 +108,7 @@ public class SoftwareAgreementDialog extends PaintImmediateDialog {
             Rectangle rect = ( a instanceof Rectangle ) ? (Rectangle) a : a.getBounds();
             String src = (String) getElement().getAttributes().getAttribute( HTML.Attribute.SRC );
 
-            Image image = new DefaultResourceLoader().getImage( "phetcommon/software-agreement/" + src );
+            Image image = new DefaultResourceLoader().getImage( src );
             g.drawImage( image, rect.x, rect.y, image.getWidth( null ), image.getHeight( null ), null );
         }
     }

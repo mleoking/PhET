@@ -14,8 +14,8 @@ import edu.colorado.phet.common.phetcommon.resources.PhetProperties;
  */
 public class SoftwareAgreement {
 
-    private static final String RESOURCE_NAME = "phetcommon/software-agreement/software-agreement.properties";
-    private static final String HTML_RESOURCE_NAME = "phetcommon/software-agreement/software-agreement.htm";
+    private static final String RESOURCE_NAME = "software-agreement.properties";
+    private static final String HTML_RESOURCE_NAME = "software-agreement.htm";
     private static final String KEY_VERSION = "version";
     private static final int DEFAULT_VERSION = -1;
 
