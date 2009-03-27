@@ -6,13 +6,9 @@
  */
 package edu.colorado.phet.microwaves.view;
 
-import java.awt.AWTException;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -20,13 +16,12 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.microwaves.MicrowaveModule;
 import edu.colorado.phet.microwaves.MicrowavesConfig;
 import edu.colorado.phet.microwaves.MicrowavesResources;
 import edu.colorado.phet.microwaves.coreadditions.MeasuringTape;
-import edu.colorado.phet.microwaves.coreadditions.ModelViewTx1D;
 import edu.colorado.phet.microwaves.model.MicrowavesModel;
 
 public class MicrowaveControlPanel extends JPanel {
@@ -51,8 +46,8 @@ public class MicrowaveControlPanel extends JPanel {
     private void layoutPanel() {
 
         // Create the controls
-        frequencyControl = new LinearValueControl( 0, MicrowavesConfig.MAX_FREQUENCY,module.getMicrowaveFrequency(), MicrowavesResources.getString( "MicrowaveControlPanel.FrequencyLabel" ),"0.00000","");
-        amplitudeControl = new LinearValueControl( 0, MicrowavesConfig.MAX_AMPLITUDE,module.getMicrowaveAmplitude(), MicrowavesResources.getString( "MicrowaveControlPanel.AmplitudeLabel" ),"0.00","");
+        frequencyControl = new LinearValueControl( 0, MicrowavesConfig.MAX_FREQUENCY, module.getMicrowaveFrequency(), MicrowavesResources.getString( "MicrowaveControlPanel.FrequencyLabel" ), "0.00000", "" );
+        amplitudeControl = new LinearValueControl( 0, MicrowavesConfig.MAX_AMPLITUDE, module.getMicrowaveAmplitude(), MicrowavesResources.getString( "MicrowaveControlPanel.AmplitudeLabel" ), "0.00", "" );
 
         frequencyControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -170,13 +165,19 @@ public class MicrowaveControlPanel extends JPanel {
         }
     }
 
-    private void reset() {
+    public void reset() {
         setDefaults();
     }
 
     protected void setDefaults() {
-        splineViewRB.setSelected( true );
-        fieldViewActionListener.actionPerformed( null );
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                splineViewRB.setSelected( true );
+                fieldViewActionListener.actionPerformed( null );
+                frequencyControl.setValue( module.getMicrowaveFrequency() );
+                amplitudeControl.setValue( module.getMicrowaveAmplitude() );
+            }
+        } );
     }
 
     private ActionListener fieldViewActionListener = new ActionListener() {
