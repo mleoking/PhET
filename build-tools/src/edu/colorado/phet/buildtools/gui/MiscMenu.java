@@ -13,8 +13,10 @@ import java.util.HashSet;
 import javax.swing.*;
 
 import edu.colorado.phet.buildtools.*;
+import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.flash.FlashBuildCommand;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
+import edu.colorado.phet.buildtools.flash.FlashCommonProject;
 import edu.colorado.phet.buildtools.java.JavaBuildCommand;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
@@ -112,6 +114,15 @@ public class MiscMenu extends JMenu {
             }
         } );
         add( generateJNLP );
+
+        JMenuItem generateFlashAgreement = new JMenuItem( "Generate Flash Agreement" );
+        generateFlashAgreement.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                FlashCommonProject.generateFlashSoftwareAgreement( trunk );
+                System.out.println( "Created SoftwareAgreement.as" );
+            }
+        } );
+        add( generateFlashAgreement );
     }
 
     private void batchDeploy( PhetProject[] projects ) {
