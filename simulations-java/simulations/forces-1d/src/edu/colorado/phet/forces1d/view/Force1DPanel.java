@@ -575,7 +575,8 @@ public class Force1DPanel extends ApparatusPanel2 implements OffsetManager {
         boolean moved = forcePlotDevice.getVerticalChartSlider().hasMoved();
         if ( !moved ) {
             if ( forcePlotDevice.isVisible() ) {
-                sliderWiggleMe.setVisible( true );
+                //disabled slider wiggle me, see #1475
+//                sliderWiggleMe.setVisible( true );
             }
         }
     }
