@@ -14,6 +14,7 @@ import edu.colorado.phet.buildtools.MyAntTaskRunner;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.buildtools.java.JavaProject;
+import edu.colorado.phet.buildtools.java.JavaBuildCommand;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.application.JARLauncher;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
@@ -156,9 +157,15 @@ public class FlashSimulationProject extends PhetProject {
             // copy agreement properties
             FileUtils.copyToDir( getAgreementPropertiesFile(), getOfflineJARContentsDir() );
 
-            // copy agreement text
-            // NOT NEEDED anymore, strings are inlined.
-            //FileUtils.copyToDir( getAgreementHTMLFile(), getOfflineJARContentsDir() );
+            // copy agreement text so there is an HTML copy at the top level of the JAR, adds about 20kb to JAR
+            //see similar code in JavaBuildCommand
+            File src = new File( getTrunk(), JavaBuildCommand.SOFTWARE_AGREEMENT_PATH );
+            try {
+                FileUtils.copyRecursive( src, getOfflineJARContentsDir() );
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
 
             // copy credits file
             FileUtils.copyToDir( getCreditsFile(), getOfflineJARContentsDir() );
