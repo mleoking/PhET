@@ -126,9 +126,4 @@ public class FlashBuildCommand {
         return s;
     }
 
-    public static void main( String[] args ) throws IOException {
-        FlashBuildCommand.build( "C:\\Program Files\\Macromedia\\Flash 8\\Flash.exe",
-                                 new String[]{"pendulum-lab", "test-flash-project"},
-                                 new File( "C:\\reid\\phet\\svn\\trunk" ), false );
-    }
 }

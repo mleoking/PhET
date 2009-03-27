@@ -208,7 +208,4 @@ public abstract class PhetServer {
         }
     }
 
-    public static void main( String[] args ) {
-        PhetServer.PRODUCTION.deployFinished();
-    }
 }
