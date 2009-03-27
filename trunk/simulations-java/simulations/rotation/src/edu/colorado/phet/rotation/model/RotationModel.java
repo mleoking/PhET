@@ -46,6 +46,8 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
                           rotationPlatform.getCenter().getY() - rotationPlatform.getRadius() );
         body.setOffPlatform();
         body.setOrientation( 0.0 );
+        body.clearWindingNumber();
+        body.clearAngularVelocity();
     }
 
     private void resetBody1( RotationBody body ) {
@@ -54,6 +56,8 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
                           rotationPlatform.getCenter().getY() );
         body.setOnPlatform( rotationPlatform );
         body.setOrientation( 0.0 );
+        body.clearWindingNumber();
+        body.clearAngularVelocity();
     }
 
     public void resetAll() {
