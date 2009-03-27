@@ -1,3 +1,5 @@
+# 0.04.06 (30006) Mar 27, 2009
+3/27/09 Testing new license text.
 # 0.04.05 (30002) Mar 27, 2009
 3/27/09 Testing new license agreement text, see #1407
 # 0.04.04 (29697) Mar 22, 2009
