@@ -124,6 +124,9 @@ public class BuildScript {
                         AuthenticationInfo authenticationInfo, VersionIncrement versionIncrement, Task postDeployTask ) {
         clean();
 
+        //Update any project files before SVN status update check, to make sure everything's in sync
+        //Currently only used for synchronizing the software agreement with flash
+        project.updateProjectFiles();
         if (debugSkipStatus){
             System.out.println( "Skipping SVN status" );
         }

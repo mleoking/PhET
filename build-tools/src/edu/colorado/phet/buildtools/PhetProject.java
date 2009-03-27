@@ -850,6 +850,9 @@ public abstract class PhetProject {
         return new File( getProjectDir(), "screenshots/" + sim + "-animated-screenshot.gif" );
     }
 
+    public void updateProjectFiles() {
+    }
+
     public static interface Listener {
         public void changesTextChanged();
     }
