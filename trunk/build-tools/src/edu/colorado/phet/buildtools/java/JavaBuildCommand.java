@@ -83,7 +83,8 @@ public class JavaBuildCommand {
     }
 
     private File getSoftwareAgreementDir() {
-        return new File(project.getTrunk(), "simulations-java/common/phetcommon/data/phetcommon/software-agreement");
+        //Copy the software agreement to the top level, so it will appear at the top level of the jar file
+        return new File(project.getTrunk(), "simulations-java/common/phetcommon/data");
     }
 
     private void signJAR() {
