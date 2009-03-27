@@ -31,7 +31,7 @@
 <string key="StatisticsField-host_flash_domain" value="Simuleringsdomene"/>
 <string key="DesignTeam" value="Designteam"/>
 <string key="PhETPreferences" value="PhET valg"/>
-<string key="Preferences" value="Valg"/>
+<string key="Preferences" value="Valg..."/>
 <string key="AllowMessages" value="Tillat at informasjon sendes til PhET"/>
 <string key="Updates" value="Oppdateringer"/>
 <string key="StatisticsField-user_preference_file_creation_time" value="Tidsstempel for oppdatert preferansefil"/>
@@ -43,7 +43,7 @@
 <string key="Close" value="Lukk"/>
 <string key="StatisticsField-sim_dev" value="Er dette en utviklerversjon?"/>
 <string key="InstallerAsk" value="Vil du hente den nyeste versjonen av PhET Frakoblet Nettsted?"/>
-<string key="PrivacyMessage2" value="Ved å klikke &quot;Samtykk og fortsett&quot;, samtykker du til PhET sin&lt;br&gt;lisens og personvernpolitikk. (For detaljer, klikk &lt;a href=&quot;{0}&quot;&gt;her&lt;/a&gt;)."/>
+<string key="PrivacyMessage2" value="Ved å klikke &quot;Samtykk og fortsett&quot;, samtykker du til PhET sin lisens og personvernpolitikk. (For detaljer, klikk &lt;a href=&quot;{0}&quot;&gt;her&lt;/a&gt;)."/>
 <string key="StatisticsField-sim_total_sessions" value="Totalt antall ganger denne simuleringen har blitt kjørt"/>
 <string key="PrivacyMessage1" value="I alle PhET-simuleringer samler vi inn en liten mengde &lt;br&gt;anonym &lt;a href=&quot;{0}&quot;&gt;informasjon&lt;/a&gt; når simuleringen starter&lt;br&gt;(f.eks. simuleringsversjon, operativsystem).&lt;br&gt;Du kan hindre at denne informasjonen &lt;br&gt;blir sendt, ved å bruke valg-knappen."/>
 <string key="StatisticsField-user_installation_timestamp" value="PhET installasjon tidsstempel"/>
