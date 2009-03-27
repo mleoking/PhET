@@ -20,7 +20,7 @@ public abstract class SingleTerminalFloatingChart extends AbstractFloatingChart 
     private PhetPCanvas pSwingCanvas;
 
     public SingleTerminalFloatingChart( PhetPCanvas pSwingCanvas, String title, ValueReader valueReader, IClock clock ) {
-        super( pSwingCanvas, title, clock );
+        super( title, clock );
         this.pSwingCanvas = pSwingCanvas;
         this.valueReader = valueReader;
 
