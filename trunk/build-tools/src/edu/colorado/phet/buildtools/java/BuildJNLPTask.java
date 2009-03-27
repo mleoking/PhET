@@ -67,15 +67,17 @@ public class BuildJNLPTask extends AbstractPhetBuildTask {
     private String[] getArgs( Simulation simulation ) {
         ArrayList args = new ArrayList( Arrays.asList( simulation.getArgs() ) );
 
-        //optionally add a -dev parameter if this simulation is deployed to dev directory 
-        String property = getOwningTarget() != null ? getOwningTarget().getProject().getProperty( "deploy.to.dev" ) : null;
+        //TODO this block should probably be removed, this is vestigial from old ant build process
+        {
+            //optionally add a -dev parameter if this simulation is deployed to dev directory 
+            String property = getOwningTarget() != null ? getOwningTarget().getProject().getProperty( "deploy.to.dev" ) : null;
 
-        //TODO: rewrite/remove this if clause
-        if ( property != null && property.equalsIgnoreCase( "true" ) ) {
-            //TODO: should use the constant for this arg from phetcommon
-            args.add( "-dev" );
+            //TODO: rewrite/remove this if clause
+            if ( property != null && property.equalsIgnoreCase( "true" ) ) {
+                //TODO: should use the constant for this arg from phetcommon
+                args.add( "-dev" );
+            }
         }
-
 
         if ( dev ) {
             if ( !args.contains( "-dev" ) ) {
