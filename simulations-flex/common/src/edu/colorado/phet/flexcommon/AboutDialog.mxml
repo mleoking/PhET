@@ -1,16 +1,21 @@
 <?xml version="1.0" ?>
-<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" title="{CommonStrings.labelAbout}" >
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" title="{CommonStrings.labelAbout}" initialize="init()">
     <mx:Script>
         <![CDATA[
-            import mx.managers.PopUpManager;
+        import mx.core.Application;
+        import mx.managers.PopUpManager;
 
-            private function closeDialog() : void {
-                PopUpManager.removePopUp(this);
-            }
+        private function init() : void {
+            this.transform.colorTransform = Application.application.transform.colorTransform;
+        }
 
-            public function linkHandler(event:TextEvent):void {
-                navigateToURL(new URLRequest(event.text), '_blank')
-            }
+        private function closeDialog() : void {
+            PopUpManager.removePopUp(this);
+        }
+
+        public function linkHandler( event:TextEvent ):void {
+            navigateToURL(new URLRequest(event.text), '_blank')
+        }
         ]]>
     </mx:Script>
 
@@ -19,12 +24,13 @@
     </mx:HBox>
 
     <mx:HBox>
-        <mx:Label link="linkHandler(event);" htmlText="Visit &lt;a href='http://phet.colorado.edu'&gt;&lt;font color='#0000FF'&gt;http://phet.colorado.edu&lt;font&gt;&lt;/a&gt;" />
+        <mx:Label link="linkHandler(event);"
+                  htmlText="Visit &lt;a href='http://phet.colorado.edu'&gt;&lt;font color='#0000FF'&gt;http://phet.colorado.edu&lt;font&gt;&lt;/a&gt;"/>
     </mx:HBox>
 
     <mx:HBox>
-        <mx:Button label="{CommonStrings.labelSoftwareAgreement + '...'}" />
-        <mx:Button label="{CommonStrings.labelCredits + '...'}" />
+        <mx:Button label="{CommonStrings.labelSoftwareAgreement + '...'}"/>
+        <mx:Button label="{CommonStrings.labelCredits + '...'}"/>
         <mx:Button label="{CommonStrings.labelOK}" click="closeDialog();"/>
-    </mx:HBox>    
+    </mx:HBox>
 </mx:TitleWindow>

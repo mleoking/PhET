@@ -12,26 +12,12 @@
         import flash.ui.ContextMenu;
 
         [Bindable]
-        public var highContrast = false; 
+        public var highContrast : Boolean = false;
+
+        public var develTODO : Array;
 
         private function init() : void {
             CommonStrings.initialize();
-        }
-
-        // from http://livedocs.adobe.com/flex/3/html/help.html?content=Capturing_User_Input_4.html
-        public function changeColor(event : FocusEvent) : void {
-            event.target.transform.colorTransform = getRandomColor();
-        }
-
-        // from http://livedocs.adobe.com/flex/3/html/help.html?content=Capturing_User_Input_4.html
-        public function getRandomColor() : ColorTransform {
-            // Generate random values for the red, green, and blue color channels.
-            var red:Number = (Math.random() * 512) - 255;
-            var green:Number = (Math.random() * 512) - 255;
-            var blue:Number = (Math.random() * 512) - 255;
-
-            // Create and return a ColorTransform object with the random colors.
-            return new ColorTransform(1, 1, 1, 1, red, green, blue, 0);
         }
 
         private function showAboutWindow():void {
