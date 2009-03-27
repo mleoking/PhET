@@ -45,6 +45,7 @@ public abstract class MicrowaveModule extends Module {
     private FieldLatticeView fieldLattiveView;
     private boolean isMicrowaveOn = false;
     private ApparatusPanel apparatusPanel;
+    private MicrowaveControlPanel controlPanel;
 
     public MicrowaveModule( String name ) {
         super( name, new MicrowavesClock() );
@@ -80,7 +81,13 @@ public abstract class MicrowaveModule extends Module {
         Graphic thermometerGraphic = new ThermometerView( thermometer );
         apparatusPanel.addGraphic( thermometerGraphic, 100.0 );
 
-        super.setControlPanel( new MicrowaveControlPanel( this, microwaveModel ) );
+
+        if (getModulePanel().getControlPanel()==null){
+            controlPanel = new MicrowaveControlPanel( this, microwaveModel );
+            setControlPanel( controlPanel );
+        }
+        controlPanel.reset();
+
 
 //        PressureMeasurementTool t = new PressureMeasurementTool( apparatusPanel );
 //        t.setArmed( true );
