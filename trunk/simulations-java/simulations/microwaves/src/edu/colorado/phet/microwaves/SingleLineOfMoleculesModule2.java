@@ -16,7 +16,11 @@ public class SingleLineOfMoleculesModule2 extends MicrowaveModule {
     public SingleLineOfMoleculesModule2() {
         super( MessageFormatter.format( MicrowavesResources.getString( "ModuleTitle.SingleLineOfMoleculesModule2" ) ) );
 
-        // Put a line of water molecules across the middle of the screen
+    }
+
+    protected void init() {
+        super.init();
+                // Put a line of water molecules across the middle of the screen
         Box2D oven = this.getMicrowaveModel().getOven();
         for ( int x = (int) ( oven.getMinX() + WaterMolecule.s_oxygenRadius + WaterMolecule.s_hydrogenRadius * 2 );
               x < (int) ( oven.getMaxX() - WaterMolecule.s_oxygenRadius - WaterMolecule.s_hydrogenRadius * 2 );

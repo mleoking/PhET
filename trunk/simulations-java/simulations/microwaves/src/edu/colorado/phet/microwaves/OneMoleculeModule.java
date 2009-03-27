@@ -15,6 +15,10 @@ public class OneMoleculeModule extends MicrowaveModule {
     public OneMoleculeModule() {
         super( MessageFormatter.format( MicrowavesResources.getString( "ModuleTitle.OneMoleculeModule" ) ) );
 
+    }
+
+    protected void init() {
+        super.init();
         WaterMolecule molecule = new WaterMolecule();
 
         molecule.setLocation( getMicrowaveModel().getOven().getMinX() + ( getMicrowaveModel().getOven().getMaxX() - getMicrowaveModel().getOven().getMinX() ) / 2,
@@ -28,6 +32,5 @@ public class OneMoleculeModule extends MicrowaveModule {
         getMicrowaveModel().addPolarBody( molecule );
         WaterMoleculeGraphic moleculeGraphic = new WaterMoleculeGraphic( molecule, getModelViewTransform() );
         getApparatusPanel().addGraphic( moleculeGraphic, 5 );
-
     }
 }

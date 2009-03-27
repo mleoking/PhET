@@ -30,7 +30,12 @@ public class CoffeeModule extends MicrowaveModule {
     public CoffeeModule() {
         super( MicrowavesResources.getString( "ModuleTitle.CoffeeModule" ) );
 
-        // Put the coffee mug on the screen
+
+    }
+
+    protected void init() {
+        super.init();
+                // Put the coffee mug on the screen
         try {
             BufferedImage mugBI = ImageLoader.loadBufferedImage( "microwaves/images/coffee-cup-2.gif" );
             Graphic mugGraphic = new ImageGraphic( mugBI, new Point2D.Double( 150, 120 ) );
