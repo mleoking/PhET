@@ -4,10 +4,10 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import edu.colorado.phet.circuitconstructionkit.view.CCKImageSuite;
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Resistor;
+import edu.colorado.phet.circuitconstructionkit.view.CCKImageSuite;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.ComponentImageNode;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.ResistorColors;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;

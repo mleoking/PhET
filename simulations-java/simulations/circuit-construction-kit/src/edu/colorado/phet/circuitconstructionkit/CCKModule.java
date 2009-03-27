@@ -14,7 +14,6 @@ import edu.colorado.phet.circuitconstructionkit.view.piccolo.CCKSimulationPanel;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.CircuitNode;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.MeasurementToolSet;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.VoltmeterModel;
-import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;

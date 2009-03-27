@@ -9,8 +9,8 @@ import java.util.StringTokenizer;
 
 import javax.swing.*;
 
-import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.*;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;

@@ -1,10 +1,10 @@
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
+import edu.colorado.phet.circuitconstructionkit.CCKStrings;
+import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.view.chart.AbstractFloatingChart;
 import edu.colorado.phet.circuitconstructionkit.view.chart.CurrentStripChart;
 import edu.colorado.phet.circuitconstructionkit.view.chart.VoltageStripChart;
-import edu.colorado.phet.circuitconstructionkit.CCKStrings;
-import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 

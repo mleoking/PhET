@@ -2,10 +2,10 @@ package edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike;
 
 import javax.swing.*;
 
-import edu.colorado.phet.circuitconstructionkit.view.CCKImageSuite;
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Inductor;
+import edu.colorado.phet.circuitconstructionkit.view.CCKImageSuite;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.ComponentImageNode;
 
 /**

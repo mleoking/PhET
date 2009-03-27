@@ -7,12 +7,12 @@ import java.awt.geom.Point2D;
 import javax.swing.*;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
-import edu.colorado.phet.circuitconstructionkit.view.piccolo.LineSegment;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponent;
 import edu.colorado.phet.circuitconstructionkit.model.components.Resistor;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.ComponentNode;
+import edu.colorado.phet.circuitconstructionkit.view.piccolo.LineSegment;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;

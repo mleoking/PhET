@@ -9,15 +9,15 @@ import javax.swing.*;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
-import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.CCKStrings;
-import edu.colorado.phet.circuitconstructionkit.controls.ResetDynamicsMenuItem;
 import edu.colorado.phet.circuitconstructionkit.controls.JPopupMenuRepaintWorkaround;
-import edu.colorado.phet.circuitconstructionkit.model.grabbag.GrabBagResistor;
+import edu.colorado.phet.circuitconstructionkit.controls.ResetDynamicsMenuItem;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.components.*;
+import edu.colorado.phet.circuitconstructionkit.model.grabbag.GrabBagResistor;
 
 public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
     protected CCKModule module;

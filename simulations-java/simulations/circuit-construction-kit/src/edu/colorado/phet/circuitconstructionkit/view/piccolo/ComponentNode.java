@@ -5,7 +5,6 @@ import java.awt.*;
 import javax.swing.*;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
-import edu.colorado.phet.circuitconstructionkit.view.piccolo.DynamicPopupMenuHandler;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponent;

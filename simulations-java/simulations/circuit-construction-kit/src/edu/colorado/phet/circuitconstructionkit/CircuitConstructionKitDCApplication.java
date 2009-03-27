@@ -1,6 +1,6 @@
 package edu.colorado.phet.circuitconstructionkit;
 
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Arrays;
@@ -80,13 +80,13 @@ public class CircuitConstructionKitDCApplication extends PiccoloPhetApplication 
     }
 
     public static void main( final String[] args ) {
-        
+
         ApplicationConstructor appConstructor = new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 return new CircuitConstructionKitDCApplication( config );
             }
         };
-        
+
         String flavor = isDynamic( args ) ? "circuit-construction-kit-ac" : "circuit-construction-kit-dc";
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, "circuit-construction-kit", flavor );
         appConfig.setLookAndFeel( new CCKPhetLookAndFeel() );

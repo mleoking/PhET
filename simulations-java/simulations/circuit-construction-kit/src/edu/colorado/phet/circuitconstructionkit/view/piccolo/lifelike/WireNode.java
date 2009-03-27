@@ -2,11 +2,11 @@ package edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike;
 
 import java.awt.*;
 
-import edu.colorado.phet.circuitconstructionkit.view.CCKLookAndFeel;
 import edu.colorado.phet.circuitconstructionkit.model.CCKDefaults;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
+import edu.colorado.phet.circuitconstructionkit.view.CCKLookAndFeel;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.BranchNode;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.CircuitInteractionModel;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.WirePopupMenu;

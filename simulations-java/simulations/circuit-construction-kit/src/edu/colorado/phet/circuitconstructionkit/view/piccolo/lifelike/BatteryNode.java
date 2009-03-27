@@ -4,10 +4,10 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 
-import edu.colorado.phet.circuitconstructionkit.view.CCKImageSuite;
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Battery;
+import edu.colorado.phet.circuitconstructionkit.view.CCKImageSuite;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.ComponentImageNode;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 

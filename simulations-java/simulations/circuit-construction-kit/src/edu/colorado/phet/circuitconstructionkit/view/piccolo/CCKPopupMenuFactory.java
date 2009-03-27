@@ -3,8 +3,8 @@ package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 import javax.swing.*;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
-import edu.colorado.phet.circuitconstructionkit.model.grabbag.GrabBagResistor;
 import edu.colorado.phet.circuitconstructionkit.model.components.*;
+import edu.colorado.phet.circuitconstructionkit.model.grabbag.GrabBagResistor;
 
 /**
  * User: Sam Reid
