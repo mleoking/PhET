@@ -14,6 +14,9 @@ public class CommonStrings {
     public static var labelOK : String = "Default";
 
     [Bindable(event="CommonStringEvent")]
+    public static var labelCancel : String = "Default";
+
+    [Bindable(event="CommonStringEvent")]
     public static var labelAbout : String = "Default";
 
     [Bindable(event="CommonStringEvent")]
@@ -26,21 +29,26 @@ public class CommonStrings {
     public static function initialize() : void {
         trace( "CommonStrings initialize()" );
 
-        if( true ) {
-            labelSoftwareAgreement = "Software Agreement";
-            labelCredits = "Credits";
-            labelOK = "OK";
-            labelAbout = "About";
-            labelPreferences = "Preferences";
-        } else {
-            labelSoftwareAgreement = "Acuerdo del software";
-            labelCredits = "Créditos";
-            labelOK = "OK";
-            labelAbout = "Sobre el programa";
-            labelPreferences = "Preferencias";
+        var vars : Object = Application.application.parameters;
+
+        labelSoftwareAgreement = "Software Agreement";
+        labelCredits = "Credits";
+        labelOK = "OK";                                                         
+        labelCancel = "Cancel";
+        labelAbout = "About";
+        labelPreferences = "Preferences";
+
+        if( vars.languageCode == "pg" ) {
+            labelSoftwareAgreement = "Oftware-say Agreement-ay";
+            labelCredits = "Edits-cray";
+            labelOK = "OK-ay";
+            labelCancel = "Ancel-cay";
+            labelAbout = "About-ay";
+            labelPreferences = "Eferences-pray";
         }
 
         Application.application.dispatchEvent( new Event( "CommonStringEvent" ) );
+        
     }
 
 }

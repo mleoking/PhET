@@ -14,7 +14,7 @@ public class VoltageMosaic extends Sprite {
     public var fps : String = "FPS";
 
     [Bindable]
-    public var step : Number = 10;
+    public var step : Number = 30;
 
     public function VoltageMosaic( model : Model, w : Number, h : Number ) {
         this.model = model;

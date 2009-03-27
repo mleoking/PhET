@@ -4,7 +4,6 @@
         layout="absolute"
         xmlns:cmp="edu.colorado.phet.chargesandfields.*"
         xmlns:common="edu.colorado.phet.flexcommon.*"
-        
         preinitialize="init()"
 >
     <mx:Script source="ChargesAndFields.as"/>

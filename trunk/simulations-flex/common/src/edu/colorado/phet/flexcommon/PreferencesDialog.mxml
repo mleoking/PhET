@@ -1,9 +1,13 @@
 <?xml version="1.0" ?>
-<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" title="{CommonStrings.labelPreferences}" >
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" title="{CommonStrings.labelPreferences}" initialize="init()">
     <mx:Script>
         <![CDATA[
         import mx.core.Application;
-import mx.managers.PopUpManager;
+        import mx.managers.PopUpManager;
+
+        private function init() : void {
+            this.transform.colorTransform = Application.application.transform.colorTransform;
+        }
 
         private function closeDialog() : void {
             PopUpManager.removePopUp(this);
@@ -14,13 +18,34 @@ import mx.managers.PopUpManager;
         }
 
         public function setRegularContrast() : void {
-            Application.application.transform.colorTransform = new ColorTransform();
+            this.transform.colorTransform = Application.application.transform.colorTransform = new ColorTransform();
             Application.application.flexcommon.highContrast = false;
+
+            Application.application.setStyle( "color", null );
+            Application.application.setStyle( "textRollOverColor", null );
+
+            //StyleManager.getStyleDeclaration("global").clearStyle( "color" );
+            //StyleManager.getStyleDeclaration("global").clearStyle( "textRollOverColor" );
+
+
+            //StyleManager.getStyleDeclaration("global").clearStyle( "fillAlphas" );
+            //StyleManager.getStyleDeclaration("global").clearStyle( "fillColors" );
+            //StyleManager.getStyleDeclaration("global").clearStyle( "highlightAlphas" );
         }
 
         public function setHighContrast() : void {
-            Application.application.transform.colorTransform = new ColorTransform(-1, -1, -1, 1, 255, 255, 255, 0);
+            this.transform.colorTransform = Application.application.transform.colorTransform = new ColorTransform(-1, -1, -1, 1, 255, 255, 255, 0);
             Application.application.flexcommon.highContrast = true;
+
+            Application.application.setStyle( "color", 0xFFFFFF );
+            Application.application.setStyle( "textRollOverColor", 0xAAFFFF );
+
+            //StyleManager.getStyleDeclaration("global").setStyle( "color", 0xFFFFFF );
+            //StyleManager.getStyleDeclaration("global").setStyle( "textRollOverColor", 0xAAFFFF );
+
+            //StyleManager.getStyleDeclaration("global").setStyle( "fillAlphas", [1, 1] );
+            //StyleManager.getStyleDeclaration("global").setStyle( "fillColors", [0xFFFFFF, 0xFFFFFF] );
+            //StyleManager.getStyleDeclaration("global").setStyle( "highlightAlphas", [0, 0] );
         }
 
         public function changeContrast() : void {
@@ -30,14 +55,24 @@ import mx.managers.PopUpManager;
                 setRegularContrast();
             }
         }
+
+        private function ok() : void {
+            changeContrast();
+            closeDialog();
+        }
+
+        private function cancel() : void {
+            closeDialog();
+        }
         ]]>
     </mx:Script>
 
     <mx:HBox>
-        <mx:CheckBox id="highContrastCheckBox" label="High Contrast" selected="{Application.application.flexcommon.highContrast}" click="changeContrast()"/>
+        <mx:CheckBox id="highContrastCheckBox" label="High Contrast" selected="{Application.application.flexcommon.highContrast}" />
     </mx:HBox>
 
     <mx:HBox>
-        <mx:Button label="{CommonStrings.labelOK}" click="closeDialog();"/>
+        <mx:Button label="{CommonStrings.labelOK}" click="ok();"/>
+        <mx:Button label="{CommonStrings.labelCancel}" click="cancel();"/>
     </mx:HBox>
 </mx:TitleWindow>
