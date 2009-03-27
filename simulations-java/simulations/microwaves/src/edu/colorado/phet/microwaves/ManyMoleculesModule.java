@@ -15,6 +15,11 @@ public class ManyMoleculesModule extends MicrowaveModule {
     public ManyMoleculesModule() {
         super( MicrowavesResources.getString( "ModuleTitle.ManyMoleculesModule" ) );
 
+    }
+
+    protected void init() {
+        super.init();
+
         // Put a bunch of water molecules randomly on the screen. Make sure they don't overlap
         // so the collision mechanics stay sane
         WaterMolecule[] molecules = new WaterMolecule[MicrowavesConfig.NUM_WATER_MOLECULES_PLACED_RANDOMLY];

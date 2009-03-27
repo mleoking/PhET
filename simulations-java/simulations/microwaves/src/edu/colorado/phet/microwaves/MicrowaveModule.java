@@ -58,7 +58,7 @@ public abstract class MicrowaveModule extends Module {
         return apparatusPanel;
     }
     
-    private void init() {
+    protected void init() {
 
         // Put a microwave in the microwaveModel
         muWave = new Microwave( 0f, 0f );
