@@ -24,7 +24,7 @@ public class KirkhoffSolver extends CircuitSolver {
     public KirkhoffSolver() {
     }
 
-    public void apply( final Circuit circuit ) {
+    public void apply( final Circuit circuit,double dt ) {
         applyOrig( circuit );
     }
 

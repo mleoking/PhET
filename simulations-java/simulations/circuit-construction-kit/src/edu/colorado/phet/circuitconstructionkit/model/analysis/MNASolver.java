@@ -14,14 +14,16 @@ import edu.colorado.phet.circuitconstructionkit.model.mna.MNACircuit;
  */
 
 public class MNASolver extends CircuitSolver {
-    double dt = 0.01;
+//    double dt = 0.01;
     //    private double capFudgeFactor = 4;//todo what's the cause of this fudge factor?
     //    private double capFudgeFactor = 3;//todo what's the cause of this fudge factor?
     //    private double capFudgeFactor = 2;//todo what's the cause of this fudge factor?
     private double capFudgeFactor = 2.5;//todo what's the cause of this fudge factor?
+//    private double capFudgeFactor = 1;//todo what's the cause of this fudge factor?
     private KirkhoffSolver.MatrixTable matrixTable;
 
-    public void apply( Circuit circuit ) {
+    public void apply( Circuit circuit,double dt ) {
+        dt=0.01;
         //can't clear the circuit because dynamic components require history
         MNACircuit mnaCircuit = new MNACircuit();
         for ( int i = 0; i < circuit.numBranches(); i++ ) {

@@ -23,7 +23,7 @@ public class CircuitAnalysisCCKAdapter extends CircuitSolver {
         this.circuitSolver = circuitSolver;
     }
 
-    public synchronized void apply( final Circuit circuit ) {
+    public synchronized void apply( final Circuit circuit,double dt ) {
         ArrayList strongComponents = getStrongComponents( circuit );
         for ( int i = 0; i < strongComponents.size(); i++ ) {
             Circuit subCircuit = createSubCircuit( (Branch[]) strongComponents.get( i ) );

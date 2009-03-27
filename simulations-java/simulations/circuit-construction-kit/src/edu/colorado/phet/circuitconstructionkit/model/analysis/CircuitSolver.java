@@ -12,7 +12,11 @@ import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 public abstract class CircuitSolver {
     private ArrayList listeners = new ArrayList();
 
-    public abstract void apply( Circuit circuit );
+    public final void apply( Circuit circuit ) {
+        apply( circuit, 1.0 );
+    }
+
+    public abstract void apply( Circuit circuit, double dt );
 
     public void addSolutionListener( CircuitSolutionListener ksl ) {
         listeners.add( ksl );
