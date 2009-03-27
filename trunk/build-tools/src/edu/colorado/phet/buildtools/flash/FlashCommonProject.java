@@ -2,8 +2,12 @@ package edu.colorado.phet.buildtools.flash;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
+
+import javax.swing.*;
 
 import edu.colorado.phet.buildtools.util.SVNDependencyProject;
+import edu.colorado.phet.buildtools.util.FileUtils;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,5 +19,41 @@ import edu.colorado.phet.buildtools.util.SVNDependencyProject;
 public class FlashCommonProject extends SVNDependencyProject {
     public FlashCommonProject( File projectRoot ) throws IOException {
         super( projectRoot );
+    }
+
+    public static void generateFlashSoftwareAgreement( File trunk ) {
+        File softwareAgreementFile = new File( trunk, "simulations-common/data/software-agreement/software-agreement.htm" );
+
+        if( !softwareAgreementFile.exists() ) {
+            JOptionPane.showMessageDialog( null, "Could not find software-agreement.htm", "Error", JOptionPane.ERROR_MESSAGE );
+            return;
+        }
+
+        try {
+            String text = FileUtils.loadFileAsString( softwareAgreementFile );
+
+            text = text.replaceAll( "\n", "" );
+            text = text.replaceAll( "\r", "" );
+
+            text = text.replaceAll( "'", "\\\\'" );
+
+            Date now = new Date();
+
+            String aString = "// SoftwareAgreement.as\n//\n// Contains the text of the software agreement\n";
+
+            //aString += "// Generated from PBG at " + now.toString() + "\n\n";
+
+            aString += "\nclass edu.colorado.phet.flashcommon.SoftwareAgreement {\n\tpublic static var agreementText : String = '";
+            aString += text;
+            aString += "';\n}\n";
+            
+            File actionScriptSoftwareAgreementFile = new File( trunk, "simulations-flash/common/src/edu/colorado/phet/flashcommon/SoftwareAgreement.as" );
+
+            FileUtils.writeString( actionScriptSoftwareAgreementFile , aString );
+            
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
     }
 }
