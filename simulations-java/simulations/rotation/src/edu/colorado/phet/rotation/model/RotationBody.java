@@ -103,6 +103,14 @@ public class RotationBody {
         getAccelMagnitude().setValue( 0 );
     }
 
+    public void clearWindingNumber() {
+        angle.setValue( getAngleNoWindingNumber() );
+    }
+
+    public void clearAngularVelocity() {
+        angularVelocity.setValue( 0.0 );
+    }
+
     interface DoubleComparator {
         boolean compare( double a, double b );
     }
