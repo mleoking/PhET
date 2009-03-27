@@ -341,7 +341,7 @@ public class FlashSimulationProject extends PhetProject {
     }
 
     private File getAgreementPropertiesFile() {
-        File f = new File( getTrunkAbsolute(), "simulations-common/data/software-agreement/software-agreement.properties" );
+        File f = new File( getTrunkAbsolute(), JavaBuildCommand.SOFTWARE_AGREEMENT_PATH+"/software-agreement.properties" );
         if( !f.exists() ) {
             System.out.println( "software-agreement.properties does not exist" );
         }
@@ -349,7 +349,7 @@ public class FlashSimulationProject extends PhetProject {
     }
 
     private File getAgreementHTMLFile() {
-        return new File( getTrunkAbsolute(), "simulations-common/data/software-agreement/software-agreement.htm" );
+        return new File( getTrunkAbsolute(), JavaBuildCommand.SOFTWARE_AGREEMENT_PATH+"/software-agreement.htm" );
     }
 
     private Properties getAgreementProperties() {
