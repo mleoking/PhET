@@ -8,13 +8,13 @@ import java.text.DecimalFormat;
 
 import javax.swing.*;
 
-import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
-import edu.colorado.phet.circuitconstructionkit.view.piccolo.LineSegment;
+import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitSolutionListener;
 import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponent;
 import edu.colorado.phet.circuitconstructionkit.model.components.SeriesAmmeter;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.ComponentNode;
+import edu.colorado.phet.circuitconstructionkit.view.piccolo.LineSegment;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;

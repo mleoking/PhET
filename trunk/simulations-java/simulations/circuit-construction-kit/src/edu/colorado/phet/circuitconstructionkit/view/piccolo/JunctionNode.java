@@ -4,14 +4,13 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import edu.colorado.phet.circuitconstructionkit.view.CCKLookAndFeel;
-import edu.colorado.phet.circuitconstructionkit.view.piccolo.DynamicPopupMenuHandler;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitListenerAdapter;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
+import edu.colorado.phet.circuitconstructionkit.view.CCKLookAndFeel;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;

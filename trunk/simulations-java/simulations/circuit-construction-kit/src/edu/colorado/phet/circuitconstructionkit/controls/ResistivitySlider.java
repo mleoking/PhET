@@ -5,8 +5,8 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.circuitconstructionkit.model.ResistivityManager;
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
+import edu.colorado.phet.circuitconstructionkit.model.ResistivityManager;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 

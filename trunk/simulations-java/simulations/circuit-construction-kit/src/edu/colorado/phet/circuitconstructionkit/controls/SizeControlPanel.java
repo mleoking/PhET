@@ -8,9 +8,9 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKResources;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 
 /**
  * User: Sam Reid

@@ -19,7 +19,7 @@ public class CCKImageSuite {
     private BufferedImage inductorImage;
     private String inductorImageLoc = "circuit-construction-kit/images/inductor2.gif";
     private String batteryImageLocation = "circuit-construction-kit/images/AA-battery-100.gif";
-//    private String resistorImageLocation = "circuit-construction-kit/images/resistor3.gif";
+    //    private String resistorImageLocation = "circuit-construction-kit/images/resistor3.gif";
     private String resistorImageLocation = "circuit-construction-kit/images/resistor.png";
     private String capImageLoc = "circuit-construction-kit/images/cap5.gif";
     private String acImageLoc = "circuit-construction-kit/images/ac.gif";

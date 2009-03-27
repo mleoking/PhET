@@ -55,7 +55,7 @@ public class Capacitor extends CircuitComponent implements DynamicBranch {
     /**
      * Set the capacitance and keep the charge constant.  That means that
      * the voltage will need to be changed accordingly.
-     * 
+     *
      * @param capacitance
      */
     public void setCapacitanceConstantCharge( double capacitance ) {

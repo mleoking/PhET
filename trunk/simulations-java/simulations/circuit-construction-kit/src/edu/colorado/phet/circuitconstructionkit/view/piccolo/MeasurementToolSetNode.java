@@ -4,8 +4,8 @@ import java.awt.*;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.controls.StopwatchDecorator;
-import edu.colorado.phet.circuitconstructionkit.view.chart.CCKTime;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
+import edu.colorado.phet.circuitconstructionkit.view.chart.CCKTime;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;

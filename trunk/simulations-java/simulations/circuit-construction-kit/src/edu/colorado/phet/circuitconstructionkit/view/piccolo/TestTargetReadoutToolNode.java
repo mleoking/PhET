@@ -13,7 +13,6 @@ import java.util.Date;
 
 import javax.swing.*;
 
-import edu.colorado.phet.circuitconstructionkit.view.piccolo.TargetReadoutToolNode;
 import edu.umd.cs.piccolo.PCanvas;
 
 public class TestTargetReadoutToolNode {

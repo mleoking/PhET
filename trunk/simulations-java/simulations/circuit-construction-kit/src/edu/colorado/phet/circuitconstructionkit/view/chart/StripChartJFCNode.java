@@ -78,8 +78,8 @@ public class StripChartJFCNode extends PNode {
         plot.setRenderer( renderer );
         return chart;
     }
-    
-    public Range getVerticalRange(){
+
+    public Range getVerticalRange() {
         return jFreeChart.getXYPlot().getRangeAxis().getRange();
     }
 

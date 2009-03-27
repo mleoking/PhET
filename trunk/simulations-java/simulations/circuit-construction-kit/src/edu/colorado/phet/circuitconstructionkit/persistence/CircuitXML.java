@@ -138,8 +138,8 @@ public class CircuitXML {
         if ( type.equals( "edu.colorado.phet.cck3.circuit.Branch" ) ) {
             return "edu.colorado.phet.circuitconstructionkit.model.components.Wire";
         }
-        type=type.replaceAll( "edu.colorado.phet.cck.model.components.","edu.colorado.phet.circuitconstructionkit.model.components." );
-        type=type.replaceAll( "edu.colorado.phet.cck3.circuit.components","edu.colorado.phet.circuitconstructionkit.model.components." );
+        type = type.replaceAll( "edu.colorado.phet.cck.model.components.", "edu.colorado.phet.circuitconstructionkit.model.components." );
+        type = type.replaceAll( "edu.colorado.phet.cck3.circuit.components", "edu.colorado.phet.circuitconstructionkit.model.components." );
         return type;
     }
 

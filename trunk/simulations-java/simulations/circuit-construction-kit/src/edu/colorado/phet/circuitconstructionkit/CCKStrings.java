@@ -1,8 +1,6 @@
 /*  */
 package edu.colorado.phet.circuitconstructionkit;
 
-import edu.colorado.phet.circuitconstructionkit.CCKResources;
-
 /**
  * User: Sam Reid
  * Date: Jun 24, 2006

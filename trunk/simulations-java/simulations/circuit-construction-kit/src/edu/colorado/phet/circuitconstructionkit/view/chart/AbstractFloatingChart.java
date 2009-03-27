@@ -42,7 +42,7 @@ public abstract class AbstractFloatingChart extends PhetPNode {
     private ClockAdapter clockListener;
     private ChartZoomControl chartZoomControl;
 
-    public AbstractFloatingChart( String title, IClock clock ) {
+    public AbstractFloatingChart( String title, final IClock clock ) {
         this.clock = clock;
         textReadout = new TextReadout();
         stripChartJFCNode = new StripChartJFCNode( 200, 150, CCKStrings.getString( "time.sec" ), title );

@@ -8,12 +8,12 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
-import edu.colorado.phet.circuitconstructionkit.model.grabbag.GrabBag;
-import edu.colorado.phet.circuitconstructionkit.model.grabbag.GrabBagItem;
+import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.Resistor;
+import edu.colorado.phet.circuitconstructionkit.model.grabbag.GrabBag;
+import edu.colorado.phet.circuitconstructionkit.model.grabbag.GrabBagItem;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
