@@ -22,7 +22,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 public class ModifiedNodalAnalysis_Orig extends CircuitSolver {
     public static boolean debugging = false;
 
-    public synchronized void apply( final Circuit circuit ) {
+    public synchronized void apply( final Circuit circuit,double dt ) {
         ArrayList strongComponents = getStrongComponents( circuit );
         for ( int i = 0; i < strongComponents.size(); i++ ) {
             Circuit subCircuit = createSubCircuit( (Branch[]) strongComponents.get( i ) );
