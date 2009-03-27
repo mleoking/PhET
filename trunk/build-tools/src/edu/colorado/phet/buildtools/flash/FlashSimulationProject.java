@@ -40,6 +40,15 @@ public class FlashSimulationProject extends PhetProject {
         super( parentDir, name );
     }
 
+    public void updateProjectFiles() {
+        super.updateProjectFiles();
+        copySoftwareAgreement();
+    }
+
+    private void copySoftwareAgreement() {
+        FlashCommonProject.generateFlashSoftwareAgreement( getTrunk() );
+    }
+
     public static PhetProject[] getFlashSimulations( File trunk ) {
 //        File flashSimDir=new File(baseDir.getParentFile(),"team/jolson/simulations");
         File flashSimDir = new File( trunk, "simulations-flash/simulations" );
@@ -222,6 +231,8 @@ public class FlashSimulationProject extends PhetProject {
     }
 
     private boolean buildSWF() throws Exception {
+        //copy software agreement HTM to AS for compilation into SWF
+        copySoftwareAgreement();
 
         String exe = BuildLocalProperties.getInstance().getFlash();
 
