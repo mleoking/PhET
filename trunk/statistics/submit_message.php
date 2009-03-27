@@ -154,18 +154,21 @@
 		$decoded = urldecode($raw);
 		
 		if($raw === null) {
+		    fail_me("field {$field} was not specified, replacing with null");
+		    /*
 			warn_me("field {$field} was not specified, replacing with null");
 			if($field == "sim_version_timestamp") {
 				return "0";
 				warn_me("sim_version_timestamp cannot be null, replacing with '0'");
 			}
 			return "NULL";
+			*/
 		}
 		
 		if($decoded === "null" || $decoded === "NaN") {
 			if($field == "sim_version_timestamp") {
-				return "0";
-				warn_me("sim_version_timestamp cannot be {$decoded}, replacing with '0'");
+				//return "0";
+				fail_me("sim_version_timestamp cannot be {$decoded}, replacing with '0'");
 			}
 			return "NULL";
 		}
@@ -201,8 +204,11 @@
 		$decoded = urldecode($raw);
 		
 		if($raw === null) {
+		    fail_me("field {$field} was not specified, replacing with null");
+		    /*
 			warn_me("field {$field} was not specified, replacing with null");
 			return "NULL";
+		    */
 		}
 		
 		if($decoded === "null") {
@@ -224,8 +230,11 @@
 		$decoded = urldecode($xml[$field]);
 		
 		if($decoded === null) {
+		    fail_me("boolean field {$field} was not specified, replacing with null");
+		    /*
 			warn_me("boolean field {$field} was not specified, replacing with null");
 			return "NULL";
+			*/
 		}
 		
 		if($decoded === "null") {
