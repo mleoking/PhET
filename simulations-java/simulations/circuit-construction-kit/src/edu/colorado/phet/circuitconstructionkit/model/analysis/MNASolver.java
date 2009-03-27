@@ -4,6 +4,9 @@ package edu.colorado.phet.circuitconstructionkit.model.analysis;
 import java.util.ArrayList;
 
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
+import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
+import edu.colorado.phet.circuitconstructionkit.model.CompositeCircuitChangeListener;
+import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.components.*;
 import edu.colorado.phet.circuitconstructionkit.model.mna.MNACircuit;
 
@@ -14,16 +17,16 @@ import edu.colorado.phet.circuitconstructionkit.model.mna.MNACircuit;
  */
 
 public class MNASolver extends CircuitSolver {
-//    double dt = 0.01;
+    //    double dt = 0.01;
     //    private double capFudgeFactor = 4;//todo what's the cause of this fudge factor?
     //    private double capFudgeFactor = 3;//todo what's the cause of this fudge factor?
     //    private double capFudgeFactor = 2;//todo what's the cause of this fudge factor?
-    private double capFudgeFactor = 2.5;//todo what's the cause of this fudge factor?
+        private double capFudgeFactor = 2.5;//todo what's the cause of this fudge factor?
 //    private double capFudgeFactor = 1;//todo what's the cause of this fudge factor?
     private KirkhoffSolver.MatrixTable matrixTable;
 
-    public void apply( Circuit circuit,double dt ) {
-        dt=0.01;
+    public void apply( Circuit circuit, double dt ) {
+        dt = 0.01;
         //can't clear the circuit because dynamic components require history
         MNACircuit mnaCircuit = new MNACircuit();
         for ( int i = 0; i < circuit.numBranches(); i++ ) {
@@ -151,6 +154,46 @@ public class MNASolver extends CircuitSolver {
         }
         else {
             throw new RuntimeException( "Component not recognized: " + branch );
+        }
+    }
+
+    public static void main( String[] args ) {
+        //test mnasolver
+        Circuit circuit = new Circuit();
+        Junction a = new Junction( 0, 0 );
+        Junction b = new Junction( 1, 0 );
+        Junction c = new Junction( 1, 1 );
+        circuit.addJunction( a );
+        circuit.addJunction( b );
+        circuit.addJunction( c );
+        CircuitChangeListener cc = new CompositeCircuitChangeListener();
+        Battery battery = new Battery( cc, a, b, 1, 1, 1E-5, false );
+        battery.setVoltageDrop( 10 );
+
+        Resistor resistor = new Resistor( cc, b, c, 1, 1 );
+        resistor.setResistance( 100 );
+
+        Capacitor capacitor = new Capacitor( cc, c, a, Math.sqrt( 2 ), 1 );
+        capacitor.setCapacitance( 2 );
+
+        circuit.addBranch( battery );
+        circuit.addBranch( resistor );
+        circuit.addBranch( capacitor );
+
+        double dt = 1;
+        double time = 0;
+        MNASolver mnaSolver = new MNASolver();
+        for ( int i = 0; i < 100000; i++ ) {
+
+            mnaSolver.apply( circuit, dt );
+            double current = resistor.getCurrent();
+            System.out.println( time + "\t" + current );
+
+            time += dt;
+
+            if (current <=0.033){
+                System.exit( 0 );
+            }
         }
     }
 }
