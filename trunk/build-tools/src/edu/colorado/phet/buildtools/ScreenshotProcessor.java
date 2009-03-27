@@ -1,5 +1,6 @@
 package edu.colorado.phet.buildtools;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -33,7 +34,7 @@ public class ScreenshotProcessor {
             if ( animatedScreenshot.exists() ) {
                 File file = new File( project.getDeployDir(), animatedScreenshot.getName() );
                 FileUtils.copyTo( animatedScreenshot, file );
-                System.out.println( "Copied animated screenshot to: "+file.getAbsolutePath() );
+                System.out.println( "Copied animated screenshot to: " + file.getAbsolutePath() );
             }
 
             File imageFile = project.getScreenshot( sim );
@@ -46,10 +47,14 @@ public class ScreenshotProcessor {
                 BufferedImage image = ImageIO.read( imageFile );
                 BufferedImage simPageScreenshot = BufferedImageUtils.multiScaleToWidth( image, 300 );
                 BufferedImage thumbnail = BufferedImageUtils.multiScaleToWidth( image, 130 );
+//                new ImageFrame( thumbnail).setVisible( true );
+//                new ImageFrame( simPageScreenshot).setVisible( true );
                 ImageIO.write( simPageScreenshot, "PNG", new File( project.getDeployDir(), sim + "-screenshot.png" ) );
 //            ImageIO.write( simPageScreenshot, "JPG", new File( project.getDeployDir(), sim + "-screenshot.jpg" ) );
 //            ImageIO.write( thumbnail, "PNG", new File( project.getDeployDir(), sim + "-thumbnail.png" ) );
-                ImageIO.write( thumbnail, "JPG", new File( project.getDeployDir(), sim + "-thumbnail.jpg" ) );
+
+                //convert to RGB since ImageIO has problems with alpha channel
+                ImageIO.write( toRGB( thumbnail ), "JPEG", new File( project.getDeployDir(), sim + "-thumbnail.jpg" ) );
             }
 
             //quality = 0.9 looks worse and has larger file size than png for simPageScreenshot, let's leave that as PNG
@@ -61,6 +66,18 @@ public class ScreenshotProcessor {
             //See SetSVNIgnoreToDeployDirectories regarding ignoring screenshots and other matter
         }
     }
+
+    private static BufferedImage toRGB( Image src ) {
+        int w = src.getWidth( null );
+        int h = src.getHeight( null );
+        int type = BufferedImage.TYPE_INT_RGB;  // other options
+        BufferedImage dest = new BufferedImage( w, h, type );
+        Graphics2D g2 = dest.createGraphics();
+        g2.drawImage( src, 0, 0, null );
+        g2.dispose();
+        return dest;
+    }
+
 
     ////see http://www.universalwebservices.net/web-programming-resources/java/adjust-jpeg-image-compression-quality-when-saving-images-in-java
     //TODO: Java almanac suggests this doesn't work in 1.4
