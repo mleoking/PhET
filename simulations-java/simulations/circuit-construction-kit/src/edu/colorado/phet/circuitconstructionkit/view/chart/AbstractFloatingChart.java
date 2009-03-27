@@ -26,7 +26,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * User: Sam Reid
@@ -43,7 +42,7 @@ public abstract class AbstractFloatingChart extends PhetPNode {
     private ClockAdapter clockListener;
     private ChartZoomControl chartZoomControl;
 
-    public AbstractFloatingChart( PSwingCanvas pSwingCanvas, String title, IClock clock ) {
+    public AbstractFloatingChart( String title, IClock clock ) {
         this.clock = clock;
         textReadout = new TextReadout();
         stripChartJFCNode = new StripChartJFCNode( 200, 150, CCKStrings.getString( "time.sec" ), title );
@@ -66,7 +65,7 @@ public abstract class AbstractFloatingChart extends PhetPNode {
                 update();
             }
         };
-        clock.addClockListener( clockListener );
+        this.clock.addClockListener( clockListener );
         try {
             closeButton = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "circuit-construction-kit/images/x-20.png" ) ) );
             closeButton.addActionListener( new ActionListener() {
@@ -135,9 +134,9 @@ public abstract class AbstractFloatingChart extends PhetPNode {
 
     private void updateButtonLocations() {
 //        closeButtonPSwing.setOffset( stripChartJFCNode.getFullBounds().getOrigin().getX(), stripChartJFCNode.getFullBounds().getOrigin().getY() - closeButtonPSwing.getFullBounds().getHeight() );
-        closeButtonPSwing.setOffset( stripChartJFCNode.getFullBounds().getMaxX()-closeButtonPSwing.getFullBounds().getWidth(), 
+        closeButtonPSwing.setOffset( stripChartJFCNode.getFullBounds().getMaxX() - closeButtonPSwing.getFullBounds().getWidth(),
                                      stripChartJFCNode.getFullBounds().getOrigin().getY() - closeButtonPSwing.getFullBounds().getHeight() );
-        chartZoomControl.setOffset( stripChartJFCNode.getFullBounds().getOrigin().getX() , stripChartJFCNode.getFullBounds().getOrigin().getY() - chartZoomControl.getFullBounds().getHeight() );
+        chartZoomControl.setOffset( stripChartJFCNode.getFullBounds().getOrigin().getX(), stripChartJFCNode.getFullBounds().getOrigin().getY() - chartZoomControl.getFullBounds().getHeight() );
     }
 
     public StripChartJFCNode getStripChartJFCNode() {

@@ -24,7 +24,7 @@ public abstract class DoubleTerminalFloatingChart extends AbstractFloatingChart 
     private PhetPCanvas phetPCanvas;
 
     public DoubleTerminalFloatingChart( PhetPCanvas phetPCanvas, String title, TwoTerminalValueReader valueReader, IClock clock ) {
-        super( phetPCanvas, title, clock );
+        super( title, clock );
         this.valueReader = valueReader;
         this.phetPCanvas = phetPCanvas;
 
