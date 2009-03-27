@@ -21,11 +21,12 @@ public class MNASolver extends CircuitSolver {
     //    private double capFudgeFactor = 4;//todo what's the cause of this fudge factor?
     //    private double capFudgeFactor = 3;//todo what's the cause of this fudge factor?
     //    private double capFudgeFactor = 2;//todo what's the cause of this fudge factor?
-        private double capFudgeFactor = 2.5;//todo what's the cause of this fudge factor?
+            private double capFudgeFactor = 2.5;//todo what's the cause of this fudge factor?
 //    private double capFudgeFactor = 1;//todo what's the cause of this fudge factor?
     private KirkhoffSolver.MatrixTable matrixTable;
 
     public void apply( Circuit circuit, double dt ) {
+//        dt = dt * 2.985;
         dt = 0.01;
         //can't clear the circuit because dynamic components require history
         MNACircuit mnaCircuit = new MNACircuit();
@@ -191,7 +192,7 @@ public class MNASolver extends CircuitSolver {
 
             time += dt;
 
-            if (current <=0.033){
+            if ( current <= 0.037 ) {
                 System.exit( 0 );
             }
         }
