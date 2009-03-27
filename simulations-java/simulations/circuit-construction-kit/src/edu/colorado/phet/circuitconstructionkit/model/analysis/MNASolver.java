@@ -21,13 +21,18 @@ public class MNASolver extends CircuitSolver {
     //    private double capFudgeFactor = 4;//todo what's the cause of this fudge factor?
     //    private double capFudgeFactor = 3;//todo what's the cause of this fudge factor?
     //    private double capFudgeFactor = 2;//todo what's the cause of this fudge factor?
-            private double capFudgeFactor = 2.5;//todo what's the cause of this fudge factor?
-//    private double capFudgeFactor = 1;//todo what's the cause of this fudge factor?
+    //            private double capFudgeFactor = 2.5;//todo what's the cause of this fudge factor?
+    private static double capFudgeFactor = 2.5;//todo what's the cause of this fudge factor?
+    private static boolean overrideTimeScale = true;
     private KirkhoffSolver.MatrixTable matrixTable;
 
+
     public void apply( Circuit circuit, double dt ) {
+        if ( overrideTimeScale ) {
+            dt = 0.01;
+        }
 //        dt = dt * 2.985;
-        dt = 0.01;
+//        dt = 0.01;
         //can't clear the circuit because dynamic components require history
         MNACircuit mnaCircuit = new MNACircuit();
         for ( int i = 0; i < circuit.numBranches(); i++ ) {
@@ -159,6 +164,8 @@ public class MNASolver extends CircuitSolver {
     }
 
     public static void main( String[] args ) {
+        overrideTimeScale = false;
+        capFudgeFactor = 1;
         //test mnasolver
         Circuit circuit = new Circuit();
         Junction a = new Junction( 0, 0 );
@@ -184,15 +191,15 @@ public class MNASolver extends CircuitSolver {
         double dt = 1;
         double time = 0;
         MNASolver mnaSolver = new MNASolver();
+        System.out.println( time + "\t" + resistor.getCurrent() + "\t" + resistor.getVoltageDrop() );
         for ( int i = 0; i < 100000; i++ ) {
 
             mnaSolver.apply( circuit, dt );
-            double current = resistor.getCurrent();
-            System.out.println( time + "\t" + current );
-
             time += dt;
+            System.out.println( time + "\t" + resistor.getCurrent() + "\t" + resistor.getVoltageDrop() );
 
-            if ( current <= 0.037 ) {
+
+            if ( resistor.getCurrent() <= 0.037 ) {
                 System.exit( 0 );
             }
         }
