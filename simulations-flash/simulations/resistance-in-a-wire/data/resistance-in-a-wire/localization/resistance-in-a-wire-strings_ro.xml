@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resistance-in-a-wire-strings_ro.xml created Fri Mar 27 12:54:42 EET 2009 using: resistance-in-a-wire 1.00.03 (29929), translation-utility 1.12.00 (29256)-->
+<SimStrings>
+<string key="cm" value="cm"/>
+<string key="resistanceEq" value="rezistenta ="/>
+<string key="ohm" value="ohm"/>
+<string key="simTitle" value="Rezistenta intr-un cablu"/>
+</SimStrings>

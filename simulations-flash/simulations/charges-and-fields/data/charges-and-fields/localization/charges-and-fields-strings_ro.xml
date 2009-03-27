@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--charges-and-fields-strings_ro.xml created Fri Mar 27 12:48:32 EET 2009 using: charges-and-fields 1.00.20 (29926), translation-utility 1.12.00 (29256)-->
+<SimStrings>
+<string key="directionOnly" value="doar directie"/>
+<string key="grid" value="grila"/>
+<string key="clearAll" value="sterge tot"/>
+<string key="simTitle" value="Sarcini si Campuri Electrice"/>
+<string key="distanceUnit" value="m"/>
+<string key="showNumbers" value="Arata numere"/>
+<string key="voltageUnit" value="V"/>
+<string key="oneMeter" value="1 metru"/>
+<string key="showEField" value="arata Camp-E"/>
+<string key="oneNanoC" value="1 nC"/>
+<string key="showHiRes" value="Arata V rez mare"/>
+<string key="EFieldSensors" value="Senzori Camp-E"/>
+<string key="eFieldUnit" value="V/m"/>
+<string key="clear" value="sterge"/>
+<string key="plot" value="grafic"/>
+<string key="equipotential" value="echipotential"/>
+<string key="angleUnit" value="grade"/>
+<string key="showLoRes" value="Arata V rez mica"/>
+<string key="moreSpeedLessRes" value="mai multa viteza/mai putina rez"/>
+<string key="tapeMeasure" value="masurare banda"/>
+<string key="voltage" value="voltaj"/>
+</SimStrings>
