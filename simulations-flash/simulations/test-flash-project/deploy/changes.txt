@@ -1,3 +1,5 @@
+# 0.04.05 (30002) Mar 27, 2009
+3/27/09 Testing new license agreement text, see #1407
 # 0.04.04 (29697) Mar 22, 2009
 3/22/09 Batch deploy for Alpha Simulation Tests 2, svn 29628
 # 0.04.03 (29626) Mar 22, 2009
