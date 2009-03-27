@@ -27,7 +27,6 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 
 public class CCKModule extends PiccoloModule {
     public static Color BACKGROUND_COLOR = new Color( 100, 160, 255 );
-    private String[] args;
     private CCKModel model;
     private CCKParameters cckParameters;
     private CCKSimulationPanel cckSimulationPanel;
@@ -37,7 +36,6 @@ public class CCKModule extends PiccoloModule {
         super( "CCK-Piccolo", new SwingClock( 30, 1 ) );
 
         cckParameters = new CCKParameters( this, args );
-        this.args = args;
         setModel( new BaseModel() );
 
         this.model = new CCKModel();
