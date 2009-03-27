@@ -1,3 +1,5 @@
+# 3.16.04 (29974) Mar 27, 2009
+3/27/09 #1526, incorporate Romanian sim translation
 # 3.16.03 (29914) Mar 26, 2009
 3/26/09 #1526, this version to be used for Romanian translations
 # 3.16.02 (29629) Mar 22, 2009
