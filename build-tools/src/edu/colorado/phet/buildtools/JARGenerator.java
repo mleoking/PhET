@@ -23,7 +23,7 @@ import edu.colorado.phet.common.phetcommon.application.JARLauncher;
  * @author Sam Reid
  */
 public class JARGenerator {
-    private String JAR_LAUNCHER_FILENAME = "jar-launcher.properties";
+    private static String JAR_LAUNCHER_FILENAME = "jar-launcher.properties";
 
     public static void main( String[] args ) throws IOException, InterruptedException {
         System.out.println( "Started offline JAR generator" );
@@ -111,7 +111,7 @@ public class JARGenerator {
         return (Locale[]) locales.toArray( new Locale[locales.size()] );
     }
 
-    private String[] getFlavors( File jar ) throws IOException {
+    public static String[] getFlavors( File jar ) throws IOException {
         Properties properties = getJarLauncherProperties( jar );
         Enumeration propertyNames = properties.propertyNames();
         HashSet flavors = new HashSet();
@@ -128,7 +128,7 @@ public class JARGenerator {
         return (String[]) flavors.toArray( new String[flavors.size()] );
     }
 
-    private Properties getJarLauncherProperties( File jar ) throws IOException {
+    private static Properties getJarLauncherProperties( File jar ) throws IOException {
         JarFile jarFile = new JarFile( jar );
         ZipEntry e = jarFile.getEntry( JAR_LAUNCHER_FILENAME );
         InputStream in = jarFile.getInputStream( e );
