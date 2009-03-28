@@ -14,7 +14,6 @@ import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 
-//TODO: see other TODOs below
 public class BuildJNLPTask {
 
     protected void buildJNLP( PhetProject phetProject, String simulationName, Locale locale, boolean dev, String codebase ) throws Exception {
