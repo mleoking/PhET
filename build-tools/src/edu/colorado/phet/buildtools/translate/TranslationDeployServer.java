@@ -8,7 +8,10 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 
+import edu.colorado.phet.buildtools.BuildLocalProperties;
+import edu.colorado.phet.buildtools.JARGenerator;
 import edu.colorado.phet.buildtools.util.FileUtils;
+import edu.colorado.phet.buildtools.util.PhetJarSigner;
 import edu.colorado.phet.common.phetcommon.util.StreamReaderThread;
 
 /**
@@ -33,21 +36,28 @@ public class TranslationDeployServer {
     }
 
     public void integrateTranslations( File translationDir ) throws IOException, InterruptedException {
+        ArrayList list = getProjectNameList( translationDir );
+        for ( int i = 0; i < list.size(); i++ ) {
+            integrateTranslations( translationDir, (String) list.get( i ) );
+        }
+        signifyReadyForTesting( translationDir );
+    }
+
+    private ArrayList getProjectNameList( File translationDir ) {
         HashSet projectNames = getProjectNames( translationDir );
         ArrayList list = new ArrayList( projectNames );
         Collections.sort( list );//iterate in order in case any problems happen halfway through
-        for ( int i = 0; i < list.size(); i++ ) {
-            String project = (String) list.get( i );
-            integrateTranslations( translationDir, project );
-        }
-        signifyReadyForTesting( translationDir );
+        return list;
     }
 
     private void integrateTranslations( File translationDir, String project ) throws IOException, InterruptedException {
         copySimJAR( translationDir, project );
         updateSimJAR( translationDir, project );
         signJAR( translationDir, project );
-        createTestJNLPFiles( translationDir, project );
+
+        //todo: implement optional JNLP test
+//        createTestJNLPFiles( translationDir, project );
+
         createOfflineJARFiles( translationDir, project );
     }
 
@@ -61,7 +71,7 @@ public class TranslationDeployServer {
         String[] locales = getNewLocales( translationDir, project );
         for ( int i = 0; i < locales.length; i++ ) {
             copyTranslationSubDir( translationDir, project, locales[i] );
-            File dst = new File( translationDir, project + "_all.jar" );
+            File dst = getLocalCopyOfAllJAR( translationDir, project );
             String command = jarCommand + " uf " + dst.getAbsolutePath() + " -C " + translationDir.getAbsolutePath() + " " + project + "/localization/" + project + "-strings_" + locales[i] + ".properties";
             System.out.println( "Running command: " + command );
             Process p = Runtime.getRuntime().exec( command );
@@ -93,17 +103,24 @@ public class TranslationDeployServer {
         return locales;
     }
 
-    private void createOfflineJARFiles( File translationDir, String project ) {
+    private void createOfflineJARFiles( File translationDir, String project ) throws IOException, InterruptedException {
+        new JARGenerator().generateOfflineJARs( getLocalCopyOfAllJAR( translationDir, project ), jarCommand, BuildLocalProperties.getProperties( buildLocalProperties ) );
     }
 
     private void createTestJNLPFiles( File translationDir, String project ) {
     }
 
     private void signJAR( File translationDir, String project ) {
+        PhetJarSigner phetJarSigner = new PhetJarSigner( BuildLocalProperties.initFromPropertiesFile( buildLocalProperties ) );
+        phetJarSigner.signJar( getLocalCopyOfAllJAR( translationDir, project ) );
+    }
+
+    private File getLocalCopyOfAllJAR( File translationDir, String project ) {
+        return new File( translationDir, project + "_all.jar" );
     }
 
     private void copySimJAR( File translationDir, String project ) throws IOException {
-        FileUtils.copyToDir( new File( pathToSimsDir, project + "/" + project + "_all.jar" ), translationDir );
+        FileUtils.copyToDir( getLocalCopyOfAllJAR( pathToSimsDir, project + "/" + project ), translationDir );
     }
 
     private HashSet getProjectNames( File translationDir ) {
