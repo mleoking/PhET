@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.swing.*;
+
 import org.rev6.scf.SshCommand;
 import org.rev6.scf.SshConnection;
 import org.rev6.scf.SshException;
@@ -12,6 +14,8 @@ import org.rev6.scf.SshException;
 import edu.colorado.phet.buildtools.AuthenticationInfo;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.PhetServer;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 import com.jcraft.jsch.JSchException;
 
@@ -79,7 +83,21 @@ public class TranslationDeployClient {
         transfer( PhetServer.PRODUCTION, BuildLocalProperties.getInstance().getProdAuthenticationInfo(), srcDir, deployPath );
         openBrowser( "http://phet.colorado.edu/sims/translations/" + deployDirName );
 
+        showMessage( "<html>Deployed localization files to " +
+                     "http://phet.colorado.edu/sims/translations/" + deployDirName +
+                     "<br>  Please wait for finished.txt to appear, then test the simulations, " +
+                     "then you can deploy them to the sims/ directory." );
+
         //launch remote TranslationDeployServer
+    }
+
+    private static void showMessage( String html ) {
+        JEditorPane jEditorPane = new HTMLUtils.HTMLEditorPane( html );
+        JFrame frame = new JFrame( "Message" );
+        frame.setContentPane( jEditorPane );
+        frame.setSize( 400, 400 );
+        SwingUtils.centerWindowOnScreen( frame );
+        frame.setVisible( true );
     }
 
     private void openBrowser( String deployPath ) {
