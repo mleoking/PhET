@@ -1,3 +1,5 @@
+# 0.31.08 (30023) Mar 28, 2009
+3/28/09 Testing JNLP generation
 # 0.31.07 (30002) Mar 27, 2009
 3/27/09 Testing new license agreement text, see #1407
 # 0.31.06 (29629) Mar 22, 2009
