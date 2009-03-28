@@ -30,10 +30,18 @@ import com.jcraft.jsch.JSchException;
  *      a. Copies the project_all.jar to the unique directory
  *      b. Runs java -jar to integrate the new translations into the project_all.jar
  *      c. Signs the modified project_all.jar
- *      d. creates new JNLP Files (note, these can't be tested unless codebase is correct.)
+ *      d. Create the language JARs for testing (must be signed)
+ *      e. (Optional) create JNLPs for testing (will need to be rewritten for actual codebase)
  * 5. Notifies completion with a file finished.txt or creates an error log error.txt
  * 6. User tests the new project_all.jar files and/or JNLP files
- * 7. User signifies to server that sims can be copied to the sim directory.
+ * 7. User signifies to server that testing is complete
+ * 8. Server copies the new project_all.jar file to the sim directory
+ * 9. Server copies the language JARs to the server
+ * 10. Server creates new JNLP files for production
+ * 11. Server regenerates HTML to indicate new sims available.
+ *
+ * This technique won't exactly work for redeploying phetcommon translations, but it should provide many
+ * of the right building blocks.
  */
 public class TranslationDeployClient {
     private File trunk;
@@ -62,14 +70,16 @@ public class TranslationDeployClient {
 //                                       "Press OK when you are ready to integrate the files into<br>" +
 //                                       "the PHET production server." );
 
-        File srcDir = new File( "C:\\Users\\Owner\\Desktop\\txdir" );
+        File srcDir = new File( "C:\\Users\\Sam\\Desktop\\tx" );
         String deployDirName = new SimpleDateFormat( "M-d-yyyy_h-ma" ).format( new Date() );
         System.out.println( "Deploying to: " + deployDirName );
-        String deployPath = "/web/chroot/phet/usr/local/apache/htdocs/staging/translations/" + deployDirName;
+        String deployPath = "/web/chroot/phet/usr/local/apache/htdocs/sims/translations/" + deployDirName;
 
         mkdir( PhetServer.PRODUCTION, BuildLocalProperties.getInstance().getProdAuthenticationInfo(), deployPath );
         transfer( PhetServer.PRODUCTION, BuildLocalProperties.getInstance().getProdAuthenticationInfo(), srcDir, deployPath );
-        openBrowser( "http://phet.colorado.edu/staging/translations/" + deployDirName );
+        openBrowser( "http://phet.colorado.edu/sims/translations/" + deployDirName );
+
+        //launch remote TranslationDeployServer
     }
 
     private void openBrowser( String deployPath ) {

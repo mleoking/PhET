@@ -134,6 +134,7 @@ public class FileUtils {
     }
 
     public static void copyTo( File source, File dest ) throws IOException {
+        dest.getParentFile().mkdirs();
         copyAndClose( new FileInputStream( source ), new FileOutputStream( dest ), true );
     }
 
