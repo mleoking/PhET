@@ -36,7 +36,7 @@ public class JARGenerator {
         new JARGenerator().generateOfflineJARs( new File( args[0] ), args[1], BuildLocalProperties.initFromPropertiesFile( new File( args[2] ) ) );
     }
 
-    private void generateOfflineJARs( File jar, String pathToJARUtility,BuildLocalProperties buildLocalProperties ) throws IOException, InterruptedException {
+    public void generateOfflineJARs( File jar, String pathToJARUtility,BuildLocalProperties buildLocalProperties ) throws IOException, InterruptedException {
         String[] flavors = getFlavors( jar );
         System.out.println( "Found flavors: " + Arrays.asList( flavors ) );
 

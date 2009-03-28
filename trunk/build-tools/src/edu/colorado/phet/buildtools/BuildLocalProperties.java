@@ -259,4 +259,15 @@ public class BuildLocalProperties {
         }
         return s;
     }
+
+    /**
+     * Returns the BuildLocalProperties for a given buildLocalProperties file.  This method was introduced
+     * to overcome the problem that BuildLocalProperties is singleton and throws an exception if
+     * you try to init it more than once.
+     * @param propertiesFile
+     * @return
+     */
+    public static BuildLocalProperties getProperties( File propertiesFile ) {
+        return new BuildLocalProperties( propertiesFile );
+    }
 }
