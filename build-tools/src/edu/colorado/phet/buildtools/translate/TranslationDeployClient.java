@@ -17,6 +17,7 @@ import org.rev6.scf.SshException;
 import edu.colorado.phet.buildtools.AuthenticationInfo;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.PhetServer;
+import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
@@ -80,10 +81,14 @@ public class TranslationDeployClient {
         File srcDir = new File( "C:\\Users\\Sam\\Desktop\\tx" );
         String deployDirName = new SimpleDateFormat( "M-d-yyyy_h-ma" ).format( new Date() );
         System.out.println( "Deploying to: " + deployDirName );
-        String deployPath = "/web/chroot/phet/usr/local/apache/htdocs/sims/translations/" + deployDirName;
+        String translationDir = "/web/chroot/phet/usr/local/apache/htdocs/sims/translations/" + deployDirName;
 
-        mkdir( PhetServer.PRODUCTION, BuildLocalProperties.getInstance().getProdAuthenticationInfo(), deployPath );
-        transfer( PhetServer.PRODUCTION, BuildLocalProperties.getInstance().getProdAuthenticationInfo(), srcDir, deployPath );
+        AuthenticationInfo authenticationInfo = BuildLocalProperties.getInstance().getProdAuthenticationInfo();
+        PhetServer server = PhetServer.PRODUCTION;
+        mkdir( server, authenticationInfo, translationDir );
+        transfer( server, authenticationInfo, srcDir, translationDir );
+
+        invokeTranslationDeployServer( translationDir, authenticationInfo, server );
 
         openBrowser( "http://phet.colorado.edu/sims/translations/" + deployDirName );
 
@@ -94,6 +99,36 @@ public class TranslationDeployClient {
                      "For future reference, the work is being done in this directory: " + deployDirName );
 
         //launch remote TranslationDeployServer
+    }
+
+    private void invokeTranslationDeployServer( String translationDir, AuthenticationInfo authenticationInfo, PhetServer server ) {
+        SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword() );
+        try {
+            sshConnection.connect();
+
+            BuildToolsProject buildToolsProject = new BuildToolsProject( new File( trunk, "build-tools" ) );
+            String buildScriptDir = server.getServerDeployPath( buildToolsProject );
+
+            String javaCmd = server.getJavaCommand();
+            String jarCmd = server.getJarCommand();
+            String jarName = buildToolsProject.getDefaultDeployJar().getName();
+            String pathToBuildLocalProperties = server.getBuildLocalPropertiesFile();
+            //String jarCommand, File buildLocalProperties, File pathToSimsDir, File translationDir
+            String command = javaCmd + " -classpath " + buildScriptDir + "/" + jarName + " " + TranslationDeployServer.class.getName() + " " +
+                             jarCmd + " " + pathToBuildLocalProperties + " /web/chroot/phet/usr/local/apache/htdocs/sims " + translationDir;
+
+            System.out.println( "Running command: \n" + command );
+            sshConnection.executeTask( new SshCommand( command ) );
+        }
+        catch( SshException e ) {
+            e.printStackTrace();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        finally {
+            sshConnection.disconnect();
+        }
     }
 
     private static void showMessage( String html ) {
@@ -109,7 +144,7 @@ public class TranslationDeployClient {
         JButton jButton = new JButton( "Finished testing, copy them to sims/" );
         jButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                copyToSims();
+                publish();
                 frame.dispose();
             }
         } );
@@ -123,7 +158,7 @@ public class TranslationDeployClient {
         frame.setVisible( true );
     }
 
-    private static void copyToSims() {
+    private static void publish() {
 
     }
 
