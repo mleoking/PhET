@@ -100,7 +100,7 @@ public abstract class JavaProject extends PhetProject {
         set.setFile( getDefaultDeployJar() );
         classpath.addFileset( set );
         java.setClasspath( classpath );
-        
+
         String language = locale.getLanguage();
         if ( !language.equals( "en" ) ) {
             java.setJvmargs( "-D" + PhetCommonConstants.PROPERTY_PHET_LANGUAGE + "=" + language );
@@ -203,24 +203,20 @@ public abstract class JavaProject extends PhetProject {
 
             for ( int j = 0; j < simulationNames.length; j++ ) {
                 String simulationName = simulationNames[j];
-                buildJNLP( locale, simulationName, codebase, dev );
+                try {
+                    buildJNLP( locale, simulationName, codebase, dev );
+                }
+                catch( Exception e ) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
             }
         }
     }
 
-    public void buildJNLP( Locale locale, String simulationName, String codebase, boolean dev ) {
+    public void buildJNLP( Locale locale, String simulationName, String codebase, boolean dev ) throws Exception {
         System.out.println( "Building JNLP for locale=" + locale + ", simulation=" + simulationName );
         BuildJNLPTask j = new BuildJNLPTask();
-        j.setDev( dev );
-        j.setDeployUrl( codebase );
-        j.setProject( getName() );
-        j.setLocale( locale);
-        j.setSimulation( simulationName );
-        org.apache.tools.ant.Project project = new org.apache.tools.ant.Project();
-        project.setBaseDir( getSimulationsJava() );//TODO: is this correct?
-        project.init();
-        j.setProject( project );
-        j.execute();
+        j.buildJNLP( this, simulationName, locale, dev, codebase );
         System.out.println( "Finished Building JNLP" );
     }
 
