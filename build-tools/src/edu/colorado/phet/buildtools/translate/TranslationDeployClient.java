@@ -152,7 +152,7 @@ public class TranslationDeployClient {
         contentPane.add( buttonPanel, BorderLayout.SOUTH );
 
 
-        frame.setContentPane( jEditorPane );
+        frame.setContentPane( contentPane );
         frame.setSize( 400, 400 );
         SwingUtils.centerWindowOnScreen( frame );
         frame.setVisible( true );
