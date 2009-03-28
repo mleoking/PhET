@@ -45,11 +45,16 @@ public class TranslationDeployServer {
 
     private void integrateTranslations( File translationDir, String project ) throws IOException, InterruptedException {
         copySimJAR( translationDir, project );
+        createBackupOfJAR( getLocalCopyOfAllJAR( translationDir, project ) );
         updateSimJAR( translationDir, project );
         signJAR( translationDir, project );
 //        createTestJNLPFiles( translationDir, project );//todo: implement optional JNLP test
         createOfflineJARFiles( translationDir, project );//todo: only create JARs for new submissions
         //todo: clean up JARs when done testing
+    }
+
+    private void createBackupOfJAR( File localCopyOfAllJAR ) throws IOException {
+        FileUtils.copyTo( localCopyOfAllJAR, new File( localCopyOfAllJAR.getParentFile(), localCopyOfAllJAR.getName() + ".bak" ) );
     }
 
     private ArrayList getProjectNameList( File translationDir ) {

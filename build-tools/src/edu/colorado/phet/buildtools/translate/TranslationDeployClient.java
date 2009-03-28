@@ -1,5 +1,8 @@
 package edu.colorado.phet.buildtools.translate;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -81,23 +84,47 @@ public class TranslationDeployClient {
 
         mkdir( PhetServer.PRODUCTION, BuildLocalProperties.getInstance().getProdAuthenticationInfo(), deployPath );
         transfer( PhetServer.PRODUCTION, BuildLocalProperties.getInstance().getProdAuthenticationInfo(), srcDir, deployPath );
+
         openBrowser( "http://phet.colorado.edu/sims/translations/" + deployDirName );
 
         showMessage( "<html>Deployed localization files to " +
                      "http://phet.colorado.edu/sims/translations/" + deployDirName +
                      "<br>  Please wait for finished.txt to appear, then test the simulations, " +
-                     "then you can deploy them to the sims/ directory." );
+                     "then you can deploy them to the sims/ directory.<br><br>" +
+                     "For future reference, the work is being done in this directory: " + deployDirName );
 
         //launch remote TranslationDeployServer
     }
 
     private static void showMessage( String html ) {
         JEditorPane jEditorPane = new HTMLUtils.HTMLEditorPane( html );
-        JFrame frame = new JFrame( "Message" );
+
+        JPanel contentPane = new JPanel();
+        contentPane.setLayout( new BorderLayout() );
+        contentPane.add( jEditorPane, BorderLayout.CENTER );
+
+
+        final JFrame frame = new JFrame( "Message" );
+        JPanel buttonPanel = new JPanel();
+        JButton jButton = new JButton( "Finished testing, copy them to sims/" );
+        jButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                copyToSims();
+                frame.dispose();
+            }
+        } );
+
+        contentPane.add( buttonPanel, BorderLayout.SOUTH );
+
+
         frame.setContentPane( jEditorPane );
         frame.setSize( 400, 400 );
         SwingUtils.centerWindowOnScreen( frame );
         frame.setVisible( true );
+    }
+
+    private static void copyToSims() {
+
     }
 
     private void openBrowser( String deployPath ) {
