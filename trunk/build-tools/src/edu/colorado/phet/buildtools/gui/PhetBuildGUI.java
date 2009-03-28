@@ -8,6 +8,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.translate.ImportAndAddBatch;
+import edu.colorado.phet.buildtools.translate.TranslationDeployClient;
 
 /**
  * Provides a front-end user interface for building and deploying phet's java simulations.
@@ -27,7 +28,8 @@ public class PhetBuildGUI {
         deployItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
-                    ImportAndAddBatch.startImportAndAddBatch( trunk );
+                    TranslationDeployClient translationDeployClient=new TranslationDeployClient( trunk );
+                    translationDeployClient.startClient();
                 }
                 catch( Exception e1 ) {
                     e1.printStackTrace();
