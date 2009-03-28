@@ -57,7 +57,7 @@ public class TranslationDeployServer {
         FileUtils.copyTo( localCopyOfAllJAR, new File( localCopyOfAllJAR.getParentFile(), localCopyOfAllJAR.getName() + ".bak" ) );
     }
 
-    private ArrayList getProjectNameList( File translationDir ) {
+    public static ArrayList getProjectNameList( File translationDir ) {
         HashSet projectNames = getProjectNames( translationDir );
         ArrayList list = new ArrayList( projectNames );
         Collections.sort( list );//iterate in order in case any problems happen halfway through
@@ -71,7 +71,7 @@ public class TranslationDeployServer {
 
     private void updateSimJAR( File translationDir, String project ) throws IOException, InterruptedException {
         //integrate translations with jar -uf
-        String[] locales = getNewLocales( translationDir, project );
+        String[] locales = getTranslatedLocales( translationDir, project );
         for ( int i = 0; i < locales.length; i++ ) {
             copyTranslationSubDir( translationDir, project, locales[i] );
             File dst = getLocalCopyOfAllJAR( translationDir, project );
@@ -89,7 +89,7 @@ public class TranslationDeployServer {
         FileUtils.copyToDir( translation, new File( translationDir, project + "/localization" ) );
     }
 
-    private String[] getNewLocales( File translationDir, final String project ) {
+    public static String[] getTranslatedLocales( File translationDir, final String project ) {
         File[] f = translationDir.listFiles( new FilenameFilter() {
             public boolean accept( File dir, String name ) {
                 return name.startsWith( project + "-strings" );
@@ -126,7 +126,7 @@ public class TranslationDeployServer {
         FileUtils.copyToDir( getLocalCopyOfAllJAR( pathToSimsDir, project + "/" + project ), translationDir );
     }
 
-    private HashSet getProjectNames( File translationDir ) {
+    private static HashSet getProjectNames( File translationDir ) {
         File[] f = translationDir.listFiles( new FilenameFilter() {
             public boolean accept( File dir, String name ) {
                 return name.endsWith( ".properties" ) && name.indexOf( "-strings_" ) > 0;
