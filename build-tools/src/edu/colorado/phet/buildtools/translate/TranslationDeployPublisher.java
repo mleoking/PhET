@@ -41,9 +41,12 @@ public class TranslationDeployPublisher {
 
     //copy new translated JARs and project_all.jar to the sims directory
     private void copyToSimsDir( File translationDir, String project, String[] locales ) throws IOException {
-        for ( int i = 0; i < locales.length; i++ ) {
-            File jar = new File( translationDir, project + "_" + locales[i] + ".jar" );
-            FileUtils.copyToDir( jar, new File( sims, project ) );
+        String[] flavors = JARGenerator.getFlavors( getAllJAR( translationDir, project ) );
+        for ( int i = 0; i < flavors.length; i++ ) {
+            for ( int k = 0; k < locales.length; k++ ) {
+                File jar = new File( translationDir, flavors[i] + "_" + locales[k] + ".jar" );
+                FileUtils.copyToDir( jar, new File( sims, project ) );
+            }
         }
         FileUtils.copyToDir( getAllJAR( translationDir, project ), new File( sims, project ) );
     }
