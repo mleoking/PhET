@@ -43,22 +43,20 @@ public class TranslationDeployServer {
         signifyReadyForTesting( translationDir );
     }
 
+    private void integrateTranslations( File translationDir, String project ) throws IOException, InterruptedException {
+        copySimJAR( translationDir, project );
+        updateSimJAR( translationDir, project );
+        signJAR( translationDir, project );
+//        createTestJNLPFiles( translationDir, project );//todo: implement optional JNLP test
+        createOfflineJARFiles( translationDir, project );//todo: only create JARs for new submissions
+        //todo: clean up JARs when done testing
+    }
+
     private ArrayList getProjectNameList( File translationDir ) {
         HashSet projectNames = getProjectNames( translationDir );
         ArrayList list = new ArrayList( projectNames );
         Collections.sort( list );//iterate in order in case any problems happen halfway through
         return list;
-    }
-
-    private void integrateTranslations( File translationDir, String project ) throws IOException, InterruptedException {
-        copySimJAR( translationDir, project );
-        updateSimJAR( translationDir, project );
-        signJAR( translationDir, project );
-
-        //todo: implement optional JNLP test
-//        createTestJNLPFiles( translationDir, project );
-
-        createOfflineJARFiles( translationDir, project );
     }
 
     private void signifyReadyForTesting( File translationDir ) throws IOException {
