@@ -68,7 +68,7 @@ public class TranslationDeployPublisher {
             String englishJNLP = FileUtils.loadFileAsString( new File( sims, project + "/" + flavors[i] + "_en.jnlp" ), "UTF-16" );
             for ( int j = 0; j < locales.length; j++ ) {
                 String out = FileUtils.replaceAll( englishJNLP, "value=\"en\"", "value=\"" + locales[j] + "\"" );
-                out = FileUtils.replaceAll( out, "href=\"sim1_en.jnlp\"", "href=\"" + flavors[i] + "_" + locales[j] + ".jnlp\"" );
+                out = FileUtils.replaceAll( out, "href=\""+flavors[i]+"_en.jnlp\"", "href=\"" + flavors[i] + "_" + locales[j] + ".jnlp\"" );
                 FileUtils.writeString( new File( sims, project + "/" + flavors[i] + "_" + locales[j] + ".jnlp" ), out, "UTF-16" );
             }
         }
