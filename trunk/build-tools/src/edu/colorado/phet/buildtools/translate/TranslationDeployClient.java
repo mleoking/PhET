@@ -62,8 +62,10 @@ public class TranslationDeployClient {
         new TranslationDeployClient( new File( args[0] ) ).startClient();
     }
 
-    private void startClient() throws IOException {
-        BuildLocalProperties.initRelativeToTrunk( trunk );
+    public void startClient() throws IOException {
+        if ( BuildLocalProperties.getInstance() == null ) {
+            BuildLocalProperties.initRelativeToTrunk( trunk );
+        }
         giveInstructions();
         String dirname = AddTranslation.prompt( "Enter the name of the directory where your localization files are:" );
         // import the translations into the IDE workspace
