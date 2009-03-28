@@ -80,9 +80,8 @@ public class TranslationDeployClient {
         mkdir( server, authenticationInfo, translationDir );
         transfer( server, authenticationInfo, srcDir, translationDir );
 
-        invokeTranslationDeployServer( translationDir, authenticationInfo, server );
-
         openBrowser( "http://phet.colorado.edu/sims/translations/" + deployDirName );
+        invokeTranslationDeployServer( translationDir, authenticationInfo, server );
 
         showMessage( "<html>Deployed localization files to " +
                      "http://phet.colorado.edu/sims/translations/" + deployDirName +
@@ -150,6 +149,7 @@ public class TranslationDeployClient {
         final JFrame frame = new JFrame( "Message" );
         JPanel buttonPanel = new JPanel();
         JButton jButton = new JButton( "Finished testing, copy them to sims/" );
+        buttonPanel.add( jButton );
         jButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 frame.dispose();
