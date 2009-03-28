@@ -5,14 +5,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Locale;
 
-import javax.swing.JOptionPane;
-
-import com.jcraft.jsch.JSchException;
+import javax.swing.*;
 
 import edu.colorado.phet.buildtools.*;
-import edu.colorado.phet.buildtools.java.BuildJNLPTask;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.util.FileUtils;
+
+import com.jcraft.jsch.JSchException;
 
 /**
  * Created by: Sam
@@ -88,7 +87,9 @@ public class AddTranslation {
 
             //create a JNLP file for each simulation
             System.out.println( "Building JNLP" );
-            BuildJNLPTask.buildJNLPForSimAndLocale( phetProject, locale );
+
+            //todo: delete AddTranslation, should be using new deploy system
+//            BuildJNLPTask.buildJNLPForSimAndLocale( phetProject, locale );
             checkMainClasses( phetProject, locale );
             System.out.println( "Finished building JNLP" );
 
@@ -275,10 +276,10 @@ public class AddTranslation {
     public static void main( String[] args ) throws Exception {
         File basedir = new File( args[0] );
         if ( args.length == 5 ) {
-            new AddTranslation( basedir ).addTranslation( args[1], new Locale(args[2]), args[3], args[4] );
+            new AddTranslation( basedir ).addTranslation( args[1], new Locale( args[2] ), args[3], args[4] );
         }
         else {
-            new AddTranslation( basedir ).addTranslation( prompt( "sim-name (e.g. cck)" ), new Locale(prompt( "Locale (e.g. es)" )), prompt( "username" ), prompt( "password" ) );
+            new AddTranslation( basedir ).addTranslation( prompt( "sim-name (e.g. cck)" ), new Locale( prompt( "Locale (e.g. es)" ) ), prompt( "username" ), prompt( "password" ) );
         }
         System.exit( 0 );//daemon thread running?
     }
