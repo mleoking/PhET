@@ -64,21 +64,13 @@ public class TranslationDeployClient {
 
     private void startClient() throws IOException {
         BuildLocalProperties.initRelativeToTrunk( trunk );
-//        JOptionPane.showMessageDialog( null,
-//                                       "<html>Put the localization files that you wish to deploy in a directory.<br>" +
-//                                       "When you have finished this step, press OK to continue.<br>" +
-//                                       "You will be prompted for the directory name.</html>" );
-//        String dirname = AddTranslation.prompt( "Enter the name of the directory where your localization files are:" );
-//        // import the translations into the IDE workspace
-//        new ImportTranslations( new File( trunk, "simulations-java" ) ).importTranslations( new File( dirname ) );
-//        JOptionPane.showMessageDialog( null,
-//                                       "<html>Localization files have been imported into your IDE workspace.<br>" +
-//                                       "Please refresh your workspace, examine the files,<br>" +
-//                                       "and manually commit them to the SVN repository.<br><br>" +
-//                                       "Press OK when you are ready to integrate the files into<br>" +
-//                                       "the PHET production server." );
+        giveInstructions();
+        String dirname = AddTranslation.prompt( "Enter the name of the directory where your localization files are:" );
+        // import the translations into the IDE workspace
+        new ImportTranslations( new File( trunk, "simulations-java" ) ).importTranslations( new File( dirname ) );
+        instructUserToCommit();
 
-        File srcDir = new File( "C:\\Users\\Sam\\Desktop\\tx" );
+        File srcDir = new File( dirname );
         String deployDirName = new SimpleDateFormat( "M-d-yyyy_h-ma" ).format( new Date() );
         System.out.println( "Deploying to: " + deployDirName );
         String translationDir = "/web/chroot/phet/usr/local/apache/htdocs/sims/translations/" + deployDirName;
@@ -96,9 +88,25 @@ public class TranslationDeployClient {
                      "http://phet.colorado.edu/sims/translations/" + deployDirName +
                      "<br>  Please wait for finished.txt to appear, then test the simulations, " +
                      "then you can deploy them to the sims/ directory.<br><br>" +
-                     "For future reference, the work is being done in this directory: " + deployDirName );
+                     "For future reference, the work is being done in this directory: " + deployDirName, translationDir, authenticationInfo, server );
 
         //launch remote TranslationDeployServer
+    }
+
+    private void instructUserToCommit() {
+        JOptionPane.showMessageDialog( null,
+                                       "<html>Localization files have been imported into your IDE workspace.<br>" +
+                                       "Please refresh your workspace, examine the files,<br>" +
+                                       "and manually commit them to the SVN repository.<br><br>" +
+                                       "Press OK when you are ready to integrate the files into<br>" +
+                                       "the PHET production server." );
+    }
+
+    private void giveInstructions() {
+        JOptionPane.showMessageDialog( null,
+                                       "<html>Put the localization files that you wish to deploy in a directory.<br>" +
+                                       "When you have finished this step, press OK to continue.<br>" +
+                                       "You will be prompted for the directory name.</html>" );
     }
 
     private void invokeTranslationDeployServer( String translationDir, AuthenticationInfo authenticationInfo, PhetServer server ) {
@@ -131,7 +139,7 @@ public class TranslationDeployClient {
         }
     }
 
-    private static void showMessage( String html ) {
+    private void showMessage( String html, final String translationDir, final AuthenticationInfo authenticationInfo, final PhetServer phetServer ) {
         JEditorPane jEditorPane = new HTMLUtils.HTMLEditorPane( html );
 
         JPanel contentPane = new JPanel();
@@ -144,8 +152,8 @@ public class TranslationDeployClient {
         JButton jButton = new JButton( "Finished testing, copy them to sims/" );
         jButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                publish();
                 frame.dispose();
+                publish( translationDir, authenticationInfo, phetServer );
             }
         } );
 
@@ -158,8 +166,34 @@ public class TranslationDeployClient {
         frame.setVisible( true );
     }
 
-    private static void publish() {
+    private void publish( String translationDir, AuthenticationInfo authenticationInfo, PhetServer server ) {
+        SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword() );
+        try {
+            sshConnection.connect();
 
+            BuildToolsProject buildToolsProject = new BuildToolsProject( new File( trunk, "build-tools" ) );
+            String buildScriptDir = server.getServerDeployPath( buildToolsProject );
+
+            String javaCmd = server.getJavaCommand();
+            String jarCmd = server.getJarCommand();
+            String jarName = buildToolsProject.getDefaultDeployJar().getName();
+            String pathToBuildLocalProperties = server.getBuildLocalPropertiesFile();
+            //String jarCommand, File buildLocalProperties, File pathToSimsDir, File translationDir
+            String command = javaCmd + " -classpath " + buildScriptDir + "/" + jarName + " " + TranslationDeployServer.class.getName() + " " +
+                             jarCmd + " " + pathToBuildLocalProperties + " /web/chroot/phet/usr/local/apache/htdocs/sims " + translationDir;
+
+            System.out.println( "Running command: \n" + command );
+            sshConnection.executeTask( new SshCommand( command ) );
+        }
+        catch( SshException e ) {
+            e.printStackTrace();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        finally {
+            sshConnection.disconnect();
+        }
     }
 
     private void openBrowser( String deployPath ) {
