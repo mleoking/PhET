@@ -75,7 +75,7 @@ public class TranslationDeployPublisher {
                 String out = FileUtils.replaceAll( englishJNLP, "value=\"en\"", "value=\"" + language + "\"" );
                 if ( country != null ) {
                     String newKey="<property name=\"javaws.user.country\" value=\""+country+"\" />";
-                    out=FileUtils.replaceAll( out,"<property name=\"javaws.user.language\"",newKey+"<property name=\"javaws.user.language\"" );
+                    out=FileUtils.replaceFirst( out,"<property name=\"javaws.user.language\"",newKey+"<property name=\"javaws.user.language\"" );
                 }
 
                 out = FileUtils.replaceAll( out, "href=\"" + flavors[i] + "_en.jnlp\"", "href=\"" + flavors[i] + "_" + locales[j] + ".jnlp\"" );

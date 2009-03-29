@@ -75,6 +75,20 @@ public class FileUtils {
         }
     }
 
+    public static String replaceFirst( String body, String find, String replacement ) {
+        int indexOfFindText = body.indexOf( find );
+
+        if ( indexOfFindText != -1 ) {
+
+            String before = body.substring( 0, indexOfFindText );
+            String after = body.substring( indexOfFindText + find.length() );
+
+            body = before + replacement + after;
+        }
+
+        return body;
+    }
+
     public static String replaceAll( String body, String find, String replacement ) {
         boolean changed;
 
