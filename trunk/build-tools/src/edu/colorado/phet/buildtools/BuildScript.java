@@ -488,19 +488,13 @@ public class BuildScript {
                 new Task() {
                     public boolean invoke() {
                         //generate JNLP files for dev
-                        project.buildLaunchFiles( PhetServer.DEVELOPMENT.getCodebase( project ), PhetServer.DEVELOPMENT.isDevelopmentServer() );
-//                        String codebase = PhetServer.DEVELOPMENT.getURL( project );
-//                        buildJNLP( codebase, PhetServer.DEVELOPMENT.isDevelopmentServer() );
-
-                        if ( !debugDryRun ) {
-                            sendSSH( PhetServer.DEVELOPMENT, devAuth );
-                            generateOfflineJars( project, PhetServer.DEVELOPMENT, devAuth );
-                        }
-                        openBrowser( PhetServer.DEVELOPMENT.getCodebase( project ) );
+                        sendCopyToDev( devAuth );
+                        prepareStagingArea( PhetServer.PRODUCTION, prodAuth );
                         return true;
                     }
                 }, PhetServer.PRODUCTION, prodAuth, new VersionIncrement.UpdateProd(), new Task() {
                     public boolean invoke() {
+                        copyFromStagingAreaToSimDir( PhetServer.PRODUCTION, prodAuth );
                         System.out.println( "Invoking server side scripts to generate simulation and language JAR files" );
                         if ( !debugDryRun ) {
                             generateOfflineJars( project, PhetServer.PRODUCTION, prodAuth );
@@ -508,6 +502,43 @@ public class BuildScript {
                         return true;
                     }
                 } );
+    }
+
+    //Run "rm" on the server to remove the phet/staging/sims/<project> directory contents, see #1529
+    private void prepareStagingArea( PhetServer server, AuthenticationInfo authenticationInfo ) {
+        SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword() );
+        try {
+            sshConnection.connect();
+            sshConnection.executeTask( new SshCommand( "mkdir -m 775 " + server.getStagingArea() + "/" + project.getName() ) );
+            assert project.getName().length() >= 2;//reduce probability of a scary rm
+            sshConnection.executeTask( new SshCommand( "rm -f " + server.getStagingArea() + "/" + project.getName() + "/*" ) );
+        }
+        catch( Exception e ) {e.printStackTrace();}
+        finally {sshConnection.disconnect();}
+    }
+
+    /*
+    4. Run a server-side script that will do the following, see #1529
+        > a. mv phet/sims/<project> phet/backup/sims/<project>-<timestamp>
+        > b. mv phet/staging/sims/<project> phet/sims/<project>
+     */
+    private void copyFromStagingAreaToSimDir( PhetServer server, AuthenticationInfo authenticationInfo ) {
+        SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword() );
+        try {
+            sshConnection.connect();
+            sshConnection.executeTask( new SshCommand( "/web/htdocs/phet/cl_utils/swap-staged-sim.sh " + project.getName() ) );
+        }
+        catch( Exception e ) {e.printStackTrace();}
+        finally {sshConnection.disconnect();}
+    }
+
+    private void sendCopyToDev( AuthenticationInfo devAuth ) {
+        project.buildLaunchFiles( PhetServer.DEVELOPMENT.getCodebase( project ), PhetServer.DEVELOPMENT.isDevelopmentServer() );
+        if ( !debugDryRun ) {
+            sendSSH( PhetServer.DEVELOPMENT, devAuth );
+            generateOfflineJars( project, PhetServer.DEVELOPMENT, devAuth );
+        }
+        openBrowser( PhetServer.DEVELOPMENT.getCodebase( project ) );
     }
 
     public static void generateOfflineJars( PhetProject project, PhetServer server, AuthenticationInfo authenticationInfo ) {
