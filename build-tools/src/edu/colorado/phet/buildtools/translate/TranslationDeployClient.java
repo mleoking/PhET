@@ -17,8 +17,8 @@ import org.rev6.scf.SshException;
 import edu.colorado.phet.buildtools.AuthenticationInfo;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.PhetServer;
-import edu.colorado.phet.buildtools.util.ScpTo;
 import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
+import edu.colorado.phet.buildtools.util.ScpTo;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 

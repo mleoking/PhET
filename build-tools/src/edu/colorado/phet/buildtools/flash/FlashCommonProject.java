@@ -6,9 +6,9 @@ import java.util.Date;
 
 import javax.swing.*;
 
-import edu.colorado.phet.buildtools.util.SVNDependencyProject;
-import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.java.JavaBuildCommand;
+import edu.colorado.phet.buildtools.util.FileUtils;
+import edu.colorado.phet.buildtools.util.SVNDependencyProject;
 
 /**
  * Created by IntelliJ IDEA.
@@ -23,9 +23,9 @@ public class FlashCommonProject extends SVNDependencyProject {
     }
 
     public static void generateFlashSoftwareAgreement( File trunk ) {
-        File softwareAgreementFile = new File( trunk, JavaBuildCommand.SOFTWARE_AGREEMENT_PATH+"/software-agreement.htm" );
+        File softwareAgreementFile = new File( trunk, JavaBuildCommand.SOFTWARE_AGREEMENT_PATH + "/software-agreement.htm" );
 
-        if( !softwareAgreementFile.exists() ) {
+        if ( !softwareAgreementFile.exists() ) {
             JOptionPane.showMessageDialog( null, "Could not find software-agreement.htm", "Error", JOptionPane.ERROR_MESSAGE );
             return;
         }
@@ -47,11 +47,11 @@ public class FlashCommonProject extends SVNDependencyProject {
             aString += "\nclass edu.colorado.phet.flashcommon.SoftwareAgreement {\n\tpublic static var agreementText : String = '";
             aString += text;
             aString += "';\n}\n";
-            
+
             File actionScriptSoftwareAgreementFile = new File( trunk, "simulations-flash/common/src/edu/colorado/phet/flashcommon/SoftwareAgreement.as" );
 
-            FileUtils.writeString( actionScriptSoftwareAgreementFile , aString );
-            
+            FileUtils.writeString( actionScriptSoftwareAgreementFile, aString );
+
         }
         catch( IOException e ) {
             e.printStackTrace();

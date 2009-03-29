@@ -6,7 +6,7 @@ import java.io.IOException;
 import edu.colorado.phet.buildtools.java.JavaProject;
 
 /**
- *  build the Translation Utility (translation-utility.jar)
+ * build the Translation Utility (translation-utility.jar)
  */
 public class TranslationUtilityProject extends JavaProject {
     public TranslationUtilityProject( File file ) throws IOException {

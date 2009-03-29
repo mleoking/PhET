@@ -87,7 +87,7 @@ public class BuildPropertiesFile extends AbstractPropertiesFile {
     }
 
     //TODO: factor this into a subclass
-    public String getMXML(String simulationName){
+    public String getMXML( String simulationName ) {
         return getProperty( "project.flavor." + simulationName + ".mxml" );
     }
 

@@ -1,21 +1,22 @@
 package edu.colorado.phet.buildtools.statistics;
 
-import edu.colorado.phet.buildtools.BuildLocalProperties;
-import edu.colorado.phet.buildtools.SVNStatusChecker;
-import edu.colorado.phet.buildtools.AuthenticationInfo;
-import edu.colorado.phet.buildtools.util.ScpTo;
-import edu.colorado.phet.buildtools.util.ProcessOutputReader;
-import edu.colorado.phet.buildtools.util.FileUtils;
-
 import java.io.File;
-import java.io.IOException;
 import java.io.FileFilter;
+import java.io.IOException;
 import java.util.StringTokenizer;
 
-import com.jcraft.jsch.JSchException;
-import org.rev6.scf.SshConnection;
 import org.rev6.scf.SshCommand;
+import org.rev6.scf.SshConnection;
 import org.rev6.scf.SshException;
+
+import edu.colorado.phet.buildtools.AuthenticationInfo;
+import edu.colorado.phet.buildtools.BuildLocalProperties;
+import edu.colorado.phet.buildtools.SVNStatusChecker;
+import edu.colorado.phet.buildtools.util.FileUtils;
+import edu.colorado.phet.buildtools.util.ProcessOutputReader;
+import edu.colorado.phet.buildtools.util.ScpTo;
+
+import com.jcraft.jsch.JSchException;
 
 public class StatisticsDeployCommand {
 
@@ -52,30 +53,34 @@ public class StatisticsDeployCommand {
 
         writeRevisionFile();
 
-        File[] statisticsFiles = getStatisticsDir().listFiles(new StatisticsFileFilter());
+        File[] statisticsFiles = getStatisticsDir().listFiles( new StatisticsFileFilter() );
 
-        File[] reportFiles = getReportDir().listFiles(new StatisticsFileFilter());
+        File[] reportFiles = getReportDir().listFiles( new StatisticsFileFilter() );
 
         AuthenticationInfo authenticationInfo = buildLocalProperties.getProdAuthenticationInfo();
 
-        for( int i = 0; i < statisticsFiles.length; i++ ) {
+        for ( int i = 0; i < statisticsFiles.length; i++ ) {
             //System.out.println( statisticsFiles[i].getCanonicalPath() + " => " + deployFileName( statisticsFiles[i], "/" ) );
             try {
                 ScpTo.uploadFile( statisticsFiles[i], authenticationInfo.getUsername(), remoteDeployServer, deployFileName( statisticsFiles[i], "/" ), authenticationInfo.getPassword() );
-            } catch (JSchException e) {
+            }
+            catch( JSchException e ) {
                 e.printStackTrace();
-            } catch (IOException e) {
+            }
+            catch( IOException e ) {
                 e.printStackTrace();
             }
         }
 
-        for( int i = 0; i < reportFiles.length; i++ ) {
+        for ( int i = 0; i < reportFiles.length; i++ ) {
             //System.out.println( reportFiles[i].getCanonicalPath() + " => " + deployFileName( reportFiles[i], "/report/" ) );
             try {
                 ScpTo.uploadFile( reportFiles[i], authenticationInfo.getUsername(), remoteDeployServer, deployFileName( reportFiles[i], "/report/" ), authenticationInfo.getPassword() );
-            } catch (JSchException e) {
+            }
+            catch( JSchException e ) {
                 e.printStackTrace();
-            } catch (IOException e) {
+            }
+            catch( IOException e ) {
                 e.printStackTrace();
             }
         }
@@ -85,7 +90,7 @@ public class StatisticsDeployCommand {
         try {
             sshConnection.connect();
 
-            sshConnection.executeTask( new SshCommand( "cd " + remoteDeployDir + "; chmod ug+x set_permissions; ./set_permissions" )  );
+            sshConnection.executeTask( new SshCommand( "cd " + remoteDeployDir + "; chmod ug+x set_permissions; ./set_permissions" ) );
 
             //sshConnection.executeTask( new SshCommand( "chmod ug+x " + remoteDeployDir + "/set_permissions" );
             //sshConnection.executeTask( new SshCommand( remoteDeployDir + "/set_permissions" );
@@ -102,12 +107,12 @@ public class StatisticsDeployCommand {
         finally {
             sshConnection.disconnect();
         }
-        
+
         return true;
     }
 
     private void writeRevisionFile() throws IOException {
-        FileUtils.writeString( new File( getStatisticsDir(), "db-revision.php" ), "<?php $serverVersion = \"" + getSVNVersion() + "\"; ?>\n");
+        FileUtils.writeString( new File( getStatisticsDir(), "db-revision.php" ), "<?php $serverVersion = \"" + getSVNVersion() + "\"; ?>\n" );
     }
 
     private File getTrunkDir() {
@@ -117,10 +122,11 @@ public class StatisticsDeployCommand {
     private String getTrunkPath() {
         try {
             return getTrunkDir().getCanonicalPath();
-        } catch (IOException e) {
+        }
+        catch( IOException e ) {
             e.printStackTrace();
         }
-        throw new RuntimeException( "Trunk path not found." ); 
+        throw new RuntimeException( "Trunk path not found." );
     }
 
     private File getStatisticsDir() {
@@ -135,11 +141,12 @@ public class StatisticsDeployCommand {
         String fileName = null;
         try {
             fileName = file.getCanonicalFile().getName();
-        } catch (IOException e) {
+        }
+        catch( IOException e ) {
             e.printStackTrace();
         }
-        for( int i = 0; i < ignoreFileNames.length; i++ ) {
-            if( fileName.equals(ignoreFileNames[i]) ) {
+        for ( int i = 0; i < ignoreFileNames.length; i++ ) {
+            if ( fileName.equals( ignoreFileNames[i] ) ) {
                 return true;
             }
         }
@@ -147,12 +154,12 @@ public class StatisticsDeployCommand {
     }
 
     private String deployFileName( File file, String deployDir ) {
-        if( deployDir == null ) {
+        if ( deployDir == null ) {
             deployDir = "/";
         }
 
         String resultName = file.getName();
-        if( resultName.equals("htaccess") ) {
+        if ( resultName.equals( "htaccess" ) ) {
             resultName = ".htaccess";
         }
 
@@ -160,7 +167,7 @@ public class StatisticsDeployCommand {
     }
 
     private String getSVNVersion() {
-        String[] args = new String[]{ "svn", "status", "-u", getTrunkPath() };
+        String[] args = new String[]{"svn", "status", "-u", getTrunkPath()};
         ProcessOutputReader.ProcessExecResult output = ProcessOutputReader.exec( args );
         StringTokenizer st = new StringTokenizer( output.getOut(), "\n" );
         while ( st.hasMoreTokens() ) {
@@ -177,41 +184,42 @@ public class StatisticsDeployCommand {
 
 
     public static void main( String[] args ) {
-        if( args.length == 0 ) {
+        if ( args.length == 0 ) {
             System.out.println( "You just provide a system-specific path to the trunk" );
         }
 
         try {
 
-            File trunk = (new File( args[0] )).getCanonicalFile();
+            File trunk = ( new File( args[0] ) ).getCanonicalFile();
 
             System.out.println( "Trunk file specified as: " + trunk.getCanonicalPath() );
 
-            if( !trunk.getName().equals( "trunk" ) ) {
+            if ( !trunk.getName().equals( "trunk" ) ) {
                 throw new RuntimeException( "WARNING: may not be correct path to trunk" );
             }
 
             StatisticsProject project = new StatisticsProject( trunk );
             SVNStatusChecker checker = new SVNStatusChecker();
 
-            if( checker.isUpToDate( project ) ) {
+            if ( checker.isUpToDate( project ) ) {
                 StatisticsDeployCommand command = new StatisticsDeployCommand( trunk );
 
                 command.deploy();
             }
 
 
-        } catch (IOException e) {
+        }
+        catch( IOException e ) {
             e.printStackTrace();
         }
-        
+
     }
 
 }
 
 
 class StatisticsFileFilter implements FileFilter {
-    public boolean accept(File file) {
+    public boolean accept( File file ) {
         return file.isFile() && !StatisticsDeployCommand.ignoreFile( file );
     }
 }

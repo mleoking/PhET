@@ -25,11 +25,12 @@ public class PhetBuildGUIPanel extends JPanel {
         } );
         updateSelection();
     }
-    public void addListener(ProjectListPanel.Listener listener){
+
+    public void addListener( ProjectListPanel.Listener listener ) {
         projectPanel.addListener( listener );
     }
 
-    public PhetProject getSelectedProject(){
+    public PhetProject getSelectedProject() {
         return projectPanel.getSelectedProject();
     }
 

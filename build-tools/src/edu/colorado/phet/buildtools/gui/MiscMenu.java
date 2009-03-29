@@ -13,10 +13,9 @@ import java.util.HashSet;
 import javax.swing.*;
 
 import edu.colorado.phet.buildtools.*;
-import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.flash.FlashBuildCommand;
-import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.flash.FlashCommonProject;
+import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.java.JavaBuildCommand;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
@@ -149,8 +148,8 @@ public class MiscMenu extends JMenu {
                 }
             };
             bufferedWriter.write( "#Started batch deploy on " + new Date() );
-            bufferedWriter.write( "#revision="+svnVersion );
-            bufferedWriter.write( "#generate.jars="+generateJARs );
+            bufferedWriter.write( "#revision=" + svnVersion );
+            bufferedWriter.write( "#generate.jars=" + generateJARs );
 
         }
         catch( IOException e1 ) {
@@ -164,7 +163,7 @@ public class MiscMenu extends JMenu {
             buildScript.setRevisionStrategy( new BuildScript.ConstantRevisionStrategy( svnVersion ) );
             //Skip status checks, so that a commit during batch deploy won't cause errors
             buildScript.setDebugSkipStatus( true );
-            BuildScript.setGenerateJARs(generateJARs);
+            BuildScript.setGenerateJARs( generateJARs );
 
             buildScript.setBatchMessage( message );
             final BufferedWriter log = bufferedWriter;

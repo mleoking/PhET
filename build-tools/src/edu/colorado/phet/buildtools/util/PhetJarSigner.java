@@ -15,7 +15,7 @@ import edu.colorado.phet.buildtools.MyAntTaskRunner;
 /**
  * This class can be used to sign JAR files, and is intended to be used within
  * the PhET build environment.
- * 
+ *
  * @author John Blanco
  */
 public class PhetJarSigner {
@@ -25,17 +25,17 @@ public class PhetJarSigner {
 
     /**
      * Constructor
-     * 
+     *
      * @param configPath
      */
     public PhetJarSigner( BuildLocalProperties buildProperties ) {
-    	this.buildProperties = buildProperties;
+        this.buildProperties = buildProperties;
         antTaskRunner = new MyAntTaskRunner();
     }
 
     /**
      * Sign (and verify) the specified jar file.
-     * 
+     *
      * @param jarFile - Full path to the jar file to be signed.
      * @return true if successful, false if problems are encountered.
      */
@@ -48,7 +48,7 @@ public class PhetJarSigner {
         }
 
         // Sign the JAR using the ant task
-        System.out.println("Signing JAR...");
+        System.out.println( "Signing JAR..." );
         JarsignerInfo jarsignerInfo = buildProperties.getJarsignerInfo();
         SignJar signer = new SignJar();
         signer.setKeystore( jarsignerInfo.getKeystore() );
@@ -57,43 +57,43 @@ public class PhetJarSigner {
         signer.setJar( jarFile );
         signer.setAlias( jarsignerInfo.getAlias() );
         signer.setTsaurl( jarsignerInfo.getTsaUrl() );
-        try{
+        try {
             antTaskRunner.runTask( signer );
         }
-        catch (Exception e){
-        	System.err.println("Exception caught while attempting to sign jar.");
-        	e.printStackTrace();
-        	return false;
+        catch( Exception e ) {
+            System.err.println( "Exception caught while attempting to sign jar." );
+            e.printStackTrace();
+            return false;
         }
-        
+
         // If we made it to this point, signing succeeded.
         System.out.println( "Signing succeeded." );
-        
+
         // Verify the JAR.
         return verifyJar( jarFile );
     }
-    
+
     /**
      * Verifies a signed jar file.
      */
     private boolean verifyJar( File jarFile ) {
-        
-    	boolean success = true;
-    	
+
+        boolean success = true;
+
         // Make sure that the specified JAR file can be located.
         if ( !jarFile.exists() ) {
             System.err.println( "Error: jar does not exist: " + jarFile.getAbsolutePath() );
             return false;
         }
-        
+
         // verify the signed jar
         System.out.println( "Verifying signed JAR..." );
         try {
-        	VerifyJar verifier = new VerifyJar();
-        	verifier.setJar( jarFile );
-        	antTaskRunner.runTask( verifier );
+            VerifyJar verifier = new VerifyJar();
+            verifier.setJar( jarFile );
+            antTaskRunner.runTask( verifier );
         }
-        catch ( Exception e ) {
+        catch( Exception e ) {
             System.out.println( "Exception while attempting to verify signed JAR:" );
             e.printStackTrace();
             return false;
@@ -102,11 +102,11 @@ public class PhetJarSigner {
         System.out.println( "Verification succeeded." );
         return success;
     }
-    
+
     /**
      * Main routine, which is used for testing and also for signing JAR files
      * from the command line.
-     * 
+     *
      * @param args config-file jar-to-be-signed
      */
     public static void main( String[] args ) {
@@ -115,7 +115,7 @@ public class PhetJarSigner {
             System.err.println( "usage: PhetJarSigner path-to-trunk jar-to-be-signed" );
             System.exit( -1 );
         }
-        
+
         File trunkDir = new File( args[0] );
         File jarToBeSigned = new File( args[1] );
 
