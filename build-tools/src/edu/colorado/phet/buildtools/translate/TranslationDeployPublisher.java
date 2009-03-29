@@ -72,11 +72,11 @@ public class TranslationDeployPublisher {
                 String language = stringTokenizer.nextToken();
                 String country = stringTokenizer.hasMoreTokens() ? stringTokenizer.nextToken() : null;
 
-                String out = FileUtils.replaceAll( englishJNLP, "value=\"en\"", "value=\"" + language + "\"" );
-                if ( country != null ) {
-                    String newKey="<property name=\"javaws.user.country\" value=\""+country+"\" />";
-                    out=FileUtils.replaceFirst( out,"<property name=\"javaws.user.language\"",newKey+"<property name=\"javaws.user.language\"" );
+                String replacement = "<property name=\"javaws.phet.language\" value=\"" + language + "\" />";
+                if (country!=null){
+                    replacement=replacement+"<property name=\"javaws.phet.country\" value=\"" + country + "\" />";
                 }
+                String out = FileUtils.replaceFirst( englishJNLP, "<property name=\"javaws.user.language\" value=\"en\" />", replacement );
 
                 out = FileUtils.replaceAll( out, "href=\"" + flavors[i] + "_en.jnlp\"", "href=\"" + flavors[i] + "_" + locales[j] + ".jnlp\"" );
                 FileUtils.writeString( new File( sims, project + "/" + flavors[i] + "_" + locales[j] + ".jnlp" ), out, "UTF-16" );
