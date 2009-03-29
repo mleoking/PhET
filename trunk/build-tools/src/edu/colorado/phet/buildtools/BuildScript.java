@@ -15,7 +15,7 @@ import com.jcraft.jsch.JSchException;
 
 import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
 import edu.colorado.phet.buildtools.java.JavaProject;
-import edu.colorado.phet.buildtools.translate.ScpTo;
+import edu.colorado.phet.buildtools.util.ScpTo;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.ProcessOutputReader;
 import edu.colorado.phet.buildtools.flex.PhetFlexProject;
