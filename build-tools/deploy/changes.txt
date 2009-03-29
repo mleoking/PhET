@@ -1,3 +1,5 @@
+# 00.16.00 (30044) Mar 28, 2009
+3/28/09 Bugfixes for translation deploy process, see #1368
 # 00.15.00 (30042) Mar 28, 2009
 3/28/09 bugfix for jnlp generation, see #1368
 # 00.14.00 (30040) Mar 28, 2009
