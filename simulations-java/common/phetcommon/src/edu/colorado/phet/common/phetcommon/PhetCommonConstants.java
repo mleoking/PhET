@@ -28,6 +28,8 @@ public class PhetCommonConstants {
     // Since these need to be usable via JNLP, they begin with "javaws".
     // For an untrusted application, system properties set in the JNLP file will 
     // only be set by Java Web Start if property name begins with "jnlp." or "javaws.".
+
+    //Do not change these values lightly; the translation-deploy process and many other processes will need to accommodate any changes
     public static final String PROPERTY_PHET_LANGUAGE = "javaws.user.language";
     public static final String PROPERTY_PHET_COUNTRY = "javaws.user.country";
 }
