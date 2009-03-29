@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import edu.colorado.phet.buildtools.JARGenerator;
 import edu.colorado.phet.buildtools.PhetServer;
@@ -56,6 +57,7 @@ public class TranslationDeployPublisher {
     }
 
     //generate new JNLPs in sims directory
+    //TODO: this is currently very brittle, no parser for the JNLP and just using string matching
     private void generateJNLPs( File translationDir, String project, String[] locales ) throws IOException {
         //TODO generate fresh JNLPs instead?
         //might be safer to copy existing JNLP to make sure main class is right, etc.
@@ -66,8 +68,17 @@ public class TranslationDeployPublisher {
             //also fix codebase
             String englishJNLP = FileUtils.loadFileAsString( new File( sims, project + "/" + flavors[i] + "_en.jnlp" ), "UTF-16" );
             for ( int j = 0; j < locales.length; j++ ) {
-                String out = FileUtils.replaceAll( englishJNLP, "value=\"en\"", "value=\"" + locales[j] + "\"" );
-                out = FileUtils.replaceAll( out, "href=\""+flavors[i]+"_en.jnlp\"", "href=\"" + flavors[i] + "_" + locales[j] + ".jnlp\"" );
+                StringTokenizer stringTokenizer = new StringTokenizer( locales[j], "_ " );
+                String language = stringTokenizer.nextToken();
+                String country = stringTokenizer.hasMoreTokens() ? stringTokenizer.nextToken() : null;
+
+                String out = FileUtils.replaceAll( englishJNLP, "value=\"en\"", "value=\"" + language + "\"" );
+                if ( country != null ) {
+                    String newKey="<property name=\"javaws.user.country\" value=\""+country+"\" />";
+                    out=FileUtils.replaceAll( out,"<property name=\"javaws.user.language\"",newKey+"<property name=\"javaws.user.language\"" );
+                }
+
+                out = FileUtils.replaceAll( out, "href=\"" + flavors[i] + "_en.jnlp\"", "href=\"" + flavors[i] + "_" + locales[j] + ".jnlp\"" );
                 FileUtils.writeString( new File( sims, project + "/" + flavors[i] + "_" + locales[j] + ".jnlp" ), out, "UTF-16" );
             }
         }
