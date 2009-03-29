@@ -47,7 +47,7 @@ public class PhetBuildUtils {
      * Retrieves the build properties file for the dir and project name. This
      * file may not exist, if the directory does not describe a project.
      *
-     * @param dir         The project directory.
+     * @param dir The project directory.
      * @return The build properties file.
      */
     public static File getBuildPropertiesFile( File dir ) {

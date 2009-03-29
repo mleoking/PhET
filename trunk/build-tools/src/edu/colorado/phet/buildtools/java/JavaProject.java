@@ -5,9 +5,9 @@ import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Locale;
 import java.util.Properties;
-import java.util.Collection;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Java;
@@ -19,8 +19,8 @@ import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.util.BuildPropertiesFile;
-import edu.colorado.phet.buildtools.util.PhetBuildUtils;
 import edu.colorado.phet.buildtools.util.FileUtils;
+import edu.colorado.phet.buildtools.util.PhetBuildUtils;
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 
 public abstract class JavaProject extends PhetProject {
@@ -52,7 +52,7 @@ public abstract class JavaProject extends PhetProject {
             }
         }
 
-        projects=PhetProject.sort( new ArrayList(projects) );
+        projects = PhetProject.sort( new ArrayList( projects ) );
         return (PhetProject[]) projects.toArray( new PhetProject[projects.size()] );
     }
 
@@ -114,8 +114,8 @@ public abstract class JavaProject extends PhetProject {
         System.out.println( "Launching task, output will be printed after finish." );
         new MyAntTaskRunner().runTask( java );
         try {
-            String text= FileUtils.loadFileAsString( file );
-            System.out.println( "Process finished:\n"+text );
+            String text = FileUtils.loadFileAsString( file );
+            System.out.println( "Process finished:\n" + text );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -154,7 +154,7 @@ public abstract class JavaProject extends PhetProject {
                 title = localizedProperties.getProperty( titleKey );
                 if ( title == null ) {
                     Properties englishProperties = new Properties();
-                    englishProperties.load( new FileInputStream( getLocalizationFile( new Locale("en") ) ) );
+                    englishProperties.load( new FileInputStream( getLocalizationFile( new Locale( "en" ) ) ) );
                     title = englishProperties.getProperty( titleKey );
                     System.out.println( "PhetProject.getSimulation: missing title for simulation: key=" + titleKey + ", locale=" + locale + ", using English" );
                     if ( title == null ) {
@@ -165,7 +165,7 @@ public abstract class JavaProject extends PhetProject {
                 description = localizedProperties.getProperty( descriptionKey );
                 if ( description == null ) {
                     Properties englishProperties = new Properties();
-                    englishProperties.load( new FileInputStream( getLocalizationFile(new Locale( "en" )) ) );
+                    englishProperties.load( new FileInputStream( getLocalizationFile( new Locale( "en" ) ) ) );
                     description = englishProperties.getProperty( descriptionKey );
                     System.out.println( "PhetProject.getSimulation: missing description for simulation: key=" + descriptionKey + ", locale=" + locale + ", using English" );
                     if ( description == null ) {

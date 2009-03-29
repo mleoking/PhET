@@ -13,8 +13,8 @@ import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.MyAntTaskRunner;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.Simulation;
-import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.JavaBuildCommand;
+import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.application.JARLauncher;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
@@ -31,7 +31,7 @@ import edu.colorado.phet.flashlauncher.FlashLauncher;
  * //phetProjects.addAll(Arrays.asList( PhetFlashProject.getFlashProjects(baseDir ) ));
  */
 public class FlashSimulationProject extends PhetProject {
-    
+
     public FlashSimulationProject( File projectRoot ) throws IOException {
         super( projectRoot );
     }
@@ -67,7 +67,7 @@ public class FlashSimulationProject extends PhetProject {
                 e.printStackTrace();
             }
         }
-        projects=PhetProject.sort( new ArrayList(projects) );
+        projects = PhetProject.sort( new ArrayList( projects ) );
         return (FlashSimulationProject[]) projects.toArray( new FlashSimulationProject[projects.size()] );
     }
 
@@ -136,12 +136,12 @@ public class FlashSimulationProject extends PhetProject {
             FlashLauncherProject launcherProject = new FlashLauncherProject( getTrunk() );
             launcherProject.build();
             FileUtils.unzip( launcherProject.getDefaultDeployJar(), getOfflineJARContentsDir() );
-            
+
             //The FlashLauncherProject came with a jar-launcher.properties, which should be deleted for
             //embedding in this new project, see #1292
-            File jarLauncherPropertiesFile=new File( getOfflineJARContentsDir(), JARLauncher.PROPERTIES_FILE_NAME );
-            boolean deleted=jarLauncherPropertiesFile.delete();
-            System.out.println( "Attempt to delete file, deleted="+deleted+": "+jarLauncherPropertiesFile.getAbsolutePath() );
+            File jarLauncherPropertiesFile = new File( getOfflineJARContentsDir(), JARLauncher.PROPERTIES_FILE_NAME );
+            boolean deleted = jarLauncherPropertiesFile.delete();
+            System.out.println( "Attempt to delete file, deleted=" + deleted + ": " + jarLauncherPropertiesFile.getAbsolutePath() );
 
             //copy SWF File
             FileUtils.copyToDir( getSWFFile(), getOfflineJARContentsDir() );
@@ -150,7 +150,7 @@ public class FlashSimulationProject extends PhetProject {
             copyLocalizationFiles( new File( getDataDirectory(), "localization" ) );
 
             // copy common XML to en for flash-common-strings
-            if( getName().equals( "flash-common-strings" ) ) {
+            if ( getName().equals( "flash-common-strings" ) ) {
                 FileUtils.copyTo( new File( getCommonLocalizationDir(), "common-strings_en.xml" ), new File( getOfflineJARContentsDir(), "flash-common-strings-strings_en.xml" ) );
             }
 
@@ -257,7 +257,7 @@ public class FlashSimulationProject extends PhetProject {
 
                 String simDev = "false";
 
-                if( !version.getDev().equals( "0" ) && !version.getDev().equals( "00" ) ) {
+                if ( !version.getDev().equals( "0" ) && !version.getDev().equals( "00" ) ) {
                     simDev = "true";
                 }
 
@@ -287,9 +287,9 @@ public class FlashSimulationProject extends PhetProject {
                 System.out.println( "Generating " + HTMLFile.getName() );
 
                 String titleString = FlashHTML.extractTitleFromXML( getTranslationFile( locale ) );
-                if( titleString == null ) {
+                if ( titleString == null ) {
                     titleString = FlashHTML.extractTitleFromXML( getDefaultTranslationFile() );
-                    if( titleString == null ) {
+                    if ( titleString == null ) {
                         titleString = getName();
                     }
                 }
@@ -320,7 +320,7 @@ public class FlashSimulationProject extends PhetProject {
 
     private File[] getExtras() {
         return new File[]{
-                new File(getTrunkAbsolute(), "build-tools/data/flash/get_flash.jpg")
+                new File( getTrunkAbsolute(), "build-tools/data/flash/get_flash.jpg" )
         };
     }
 
@@ -341,15 +341,15 @@ public class FlashSimulationProject extends PhetProject {
     }
 
     private File getAgreementPropertiesFile() {
-        File f = new File( getTrunkAbsolute(), JavaBuildCommand.SOFTWARE_AGREEMENT_PATH+"/software-agreement.properties" );
-        if( !f.exists() ) {
+        File f = new File( getTrunkAbsolute(), JavaBuildCommand.SOFTWARE_AGREEMENT_PATH + "/software-agreement.properties" );
+        if ( !f.exists() ) {
             System.out.println( "software-agreement.properties does not exist" );
         }
         return f;
     }
 
     private File getAgreementHTMLFile() {
-        return new File( getTrunkAbsolute(), JavaBuildCommand.SOFTWARE_AGREEMENT_PATH+"/software-agreement.htm" );
+        return new File( getTrunkAbsolute(), JavaBuildCommand.SOFTWARE_AGREEMENT_PATH + "/software-agreement.htm" );
     }
 
     private Properties getAgreementProperties() {
@@ -396,7 +396,7 @@ public class FlashSimulationProject extends PhetProject {
         String path = getHTMLFile( locale ).getAbsolutePath();
         System.out.println( "command=" + browser + " " + path );
         try {
-            Process p = Runtime.getRuntime().exec( new String[] { browser, path } );
+            Process p = Runtime.getRuntime().exec( new String[]{browser, path} );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -414,7 +414,7 @@ public class FlashSimulationProject extends PhetProject {
     public Simulation getSimulation( String simulationName, Locale locale ) {
         return new Simulation( simulationName, getName(), "description", "mainclass", new String[0], new File( "screenshot.gif" ) );
     }
-    
+
     public Locale[] getLocales() {
         return getLocalesImpl( ".xml" );
     }
@@ -427,7 +427,7 @@ public class FlashSimulationProject extends PhetProject {
         String localeString = LocaleUtils.localeToString( locale );
         return new File( getProjectDir(), "data" + File.separator + getName() + File.separator + "localization" + File.separator + getName() + "-strings_" + localeString + ".xml" );
     }
-    
+
     public File getTrunkAbsolute() {
         return new File( getProjectDir(), "../../.." );
     }

@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.*;
 
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
+import edu.colorado.phet.buildtools.flex.PhetFlexProject;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
@@ -11,7 +12,6 @@ import edu.colorado.phet.buildtools.java.projects.PhetUpdaterProject;
 import edu.colorado.phet.buildtools.java.projects.TranslationUtilityProject;
 import edu.colorado.phet.buildtools.scripts.SetSVNIgnoreToDeployDirectories;
 import edu.colorado.phet.buildtools.util.*;
-import edu.colorado.phet.buildtools.flex.PhetFlexProject;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.resources.PhetProperties;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
@@ -843,7 +843,7 @@ public abstract class PhetProject {
     public abstract String getLaunchFileSuffix();
 
     public File getScreenshot( String sim ) {
-        return new File( getProjectDir(),"screenshots/"+sim+"-screenshot.png");
+        return new File( getProjectDir(), "screenshots/" + sim + "-screenshot.png" );
     }
 
     public File getAnimatedScreenshot( String sim ) {

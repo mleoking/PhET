@@ -5,20 +5,20 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 import org.rev6.scf.SshCommand;
 import org.rev6.scf.SshConnection;
 import org.rev6.scf.SshException;
 
-import com.jcraft.jsch.JSchException;
-
-import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
+import edu.colorado.phet.buildtools.flex.PhetFlexProject;
 import edu.colorado.phet.buildtools.java.JavaProject;
-import edu.colorado.phet.buildtools.util.ScpTo;
+import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.ProcessOutputReader;
-import edu.colorado.phet.buildtools.flex.PhetFlexProject;
+import edu.colorado.phet.buildtools.util.ScpTo;
+
+import com.jcraft.jsch.JSchException;
 
 public class BuildScript {
 
@@ -34,25 +34,27 @@ public class BuildScript {
     private final ArrayList listeners;
 
     private String batchMessage;
-    private RevisionStrategy revisionStrategy=new DynamicRevisionStrategy();
+    private RevisionStrategy revisionStrategy = new DynamicRevisionStrategy();
 
     //TODO: refactor to not be public static
-    public static boolean generateJARs=true;//AND'ed with project setting
+    public static boolean generateJARs = true;//AND'ed with project setting
 
     public static void setGenerateJARs( boolean _generateJARs ) {
-        generateJARs=_generateJARs;
+        generateJARs = _generateJARs;
     }
 
-    public static interface RevisionStrategy{
+    public static interface RevisionStrategy {
         int getRevision();
     }
-    public class DynamicRevisionStrategy implements RevisionStrategy{
+
+    public class DynamicRevisionStrategy implements RevisionStrategy {
         public int getRevision() {
             return getRevisionOnTrunkREADME();
         }
     }
-    public static class ConstantRevisionStrategy implements RevisionStrategy{
-       private int revision;
+
+    public static class ConstantRevisionStrategy implements RevisionStrategy {
+        private int revision;
 
         public ConstantRevisionStrategy( int revision ) {
             this.revision = revision;
@@ -127,10 +129,10 @@ public class BuildScript {
         //Update any project files before SVN status update check, to make sure everything's in sync
         //Currently only used for synchronizing the software agreement with flash
         project.updateProjectFiles();
-        if (debugSkipStatus){
+        if ( debugSkipStatus ) {
             System.out.println( "Skipping SVN status" );
         }
-        else if (!isSVNInSync() ) {
+        else if ( !isSVNInSync() ) {
             notifyError( project, "SVN is out of sync; halting" );
 
             return;
@@ -158,7 +160,7 @@ public class BuildScript {
             System.out.println( "Starting build..." );
             boolean success = build();
             if ( !success ) {
-                notifyError( project,  "Stopping due to build failure, see console." );
+                notifyError( project, "Stopping due to build failure, see console." );
                 return;
             }
         }
@@ -172,7 +174,7 @@ public class BuildScript {
 
         boolean ok = preDeployTask.invoke();
         if ( !ok ) {
-            notifyError( project, "Pre deploy task failed");
+            notifyError( project, "Pre deploy task failed" );
             return;
         }
 
@@ -200,7 +202,7 @@ public class BuildScript {
 
     private void copyImageFilesToDeployDir() {
         try {
-            new ScreenshotProcessor().copyScreenshotsToDeployDir(project);
+            new ScreenshotProcessor().copyScreenshotsToDeployDir( project );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -208,7 +210,7 @@ public class BuildScript {
     }
 
     private void notifyError( PhetProject project, String error ) {
-        System.out.println( "error: "+error );
+        System.out.println( "error: " + error );
         for ( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener) listeners.get( i );
             listener.deployErrorOccurred( this, project, error );
@@ -437,7 +439,7 @@ public class BuildScript {
         String s = "";
         for ( int i = 0; i < project.getSimulationNames().length; i++ ) {
             String launchFile = project.getSimulationNames()[i] + "_en." + project.getLaunchFileSuffix();
-            if (project instanceof PhetFlexProject){//TODO: factor into PhetProject hierarchy
+            if ( project instanceof PhetFlexProject ) {//TODO: factor into PhetProject hierarchy
                 launchFile = project.getSimulationNames()[i] + "." + project.getLaunchFileSuffix();
             }
             String simname = project.getSimulations()[i].getTitle();

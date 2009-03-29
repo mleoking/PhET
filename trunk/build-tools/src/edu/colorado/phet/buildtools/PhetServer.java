@@ -78,7 +78,7 @@ public abstract class PhetServer {
     private boolean developmentServer;
     private String buildLocalPropertiesFile;
 
-    public PhetServer( String serverHost, String webHost, String serverDeployPath, String webDeployPath, String cacheClearUrl, String cacheClearFile, String localizationCommand, boolean developmentServer,String buildLocalPropertiesFile) {
+    public PhetServer( String serverHost, String webHost, String serverDeployPath, String webDeployPath, String cacheClearUrl, String cacheClearFile, String localizationCommand, boolean developmentServer, String buildLocalPropertiesFile ) {
         this.serverHost = serverHost;
         this.webHost = webHost;
         this.serverDeployPath = serverDeployPath;
@@ -132,6 +132,7 @@ public abstract class PhetServer {
     }
 
     public abstract String getJavaCommand();
+
     public abstract String getJarCommand();
 
     public String getBuildLocalPropertiesFile() {
@@ -139,8 +140,8 @@ public abstract class PhetServer {
     }
 
     private static class PhetDevServer extends PhetServer {
-        public PhetDevServer( String serverHost, String webHost, String serverDeployPath, String webDeployPath, String cacheClearUrl, String cacheClearFile, String localizationCommand,String buildLocalPropertiesFile ) {
-            super( serverHost, webHost, serverDeployPath, webDeployPath, cacheClearUrl, cacheClearFile, localizationCommand, true,buildLocalPropertiesFile );
+        public PhetDevServer( String serverHost, String webHost, String serverDeployPath, String webDeployPath, String cacheClearUrl, String cacheClearFile, String localizationCommand, String buildLocalPropertiesFile ) {
+            super( serverHost, webHost, serverDeployPath, webDeployPath, cacheClearUrl, cacheClearFile, localizationCommand, true, buildLocalPropertiesFile );
         }
 
         public String getCodebase( PhetProject project ) {
@@ -165,8 +166,8 @@ public abstract class PhetServer {
     }
 
     private static class PhetProdServer extends PhetServer {
-        public PhetProdServer( String serverHost, String webHost, String serverDeployPath, String webDeployPath, String cacheClearUrl, String cacheClearFile, String localizationCommand ,String buildLocalPropertiesFile) {
-            super( serverHost, webHost, serverDeployPath, webDeployPath, cacheClearUrl, cacheClearFile, localizationCommand, false,buildLocalPropertiesFile );
+        public PhetProdServer( String serverHost, String webHost, String serverDeployPath, String webDeployPath, String cacheClearUrl, String cacheClearFile, String localizationCommand, String buildLocalPropertiesFile ) {
+            super( serverHost, webHost, serverDeployPath, webDeployPath, cacheClearUrl, cacheClearFile, localizationCommand, false, buildLocalPropertiesFile );
         }
 
         public String getCodebase( PhetProject project ) {

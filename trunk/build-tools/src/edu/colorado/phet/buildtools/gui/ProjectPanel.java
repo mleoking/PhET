@@ -134,9 +134,9 @@ public class ProjectPanel extends JPanel {
     }
 
     private void doDev() {
-        final boolean generateOfflineJars= askUserToGenerateOfflineJARS( this );
-        System.out.println( "genoj="+generateOfflineJars );
-        getBuildScript().deployDev( buildLocalProperties.getDevAuthenticationInfo(),generateOfflineJars );
+        final boolean generateOfflineJars = askUserToGenerateOfflineJARS( this );
+        System.out.println( "genoj=" + generateOfflineJars );
+        getBuildScript().deployDev( buildLocalProperties.getDevAuthenticationInfo(), generateOfflineJars );
     }
 
     public static boolean askUserToGenerateOfflineJARS( JComponent parent ) {

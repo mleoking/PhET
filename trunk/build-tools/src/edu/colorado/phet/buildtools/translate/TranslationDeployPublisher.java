@@ -73,8 +73,8 @@ public class TranslationDeployPublisher {
                 String country = stringTokenizer.hasMoreTokens() ? stringTokenizer.nextToken() : null;
 
                 String replacement = "<property name=\"javaws.user.language\" value=\"" + language + "\" />";
-                if (country!=null){
-                    replacement=replacement+"<property name=\"javaws.user.country\" value=\"" + country + "\" />";
+                if ( country != null ) {
+                    replacement = replacement + "<property name=\"javaws.user.country\" value=\"" + country + "\" />";
                 }
                 String out = FileUtils.replaceFirst( englishJNLP, "<property name=\"javaws.user.language\" value=\"en\" />", replacement );
 

@@ -11,8 +11,8 @@ import java.util.zip.ZipEntry;
 
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.PhetJarSigner;
-import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.application.JARLauncher;
+import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
 /**
  * Takes a <project>_all.jar and generates offline jars for Java sims, which specify both simulation and locale.
@@ -36,7 +36,7 @@ public class JARGenerator {
         new JARGenerator().generateOfflineJARs( new File( args[0] ), args[1], BuildLocalProperties.initFromPropertiesFile( new File( args[2] ) ) );
     }
 
-    public void generateOfflineJARs( File jar, String pathToJARUtility,BuildLocalProperties buildLocalProperties ) throws IOException, InterruptedException {
+    public void generateOfflineJARs( File jar, String pathToJARUtility, BuildLocalProperties buildLocalProperties ) throws IOException, InterruptedException {
         String[] flavors = getFlavors( jar );
         System.out.println( "Found flavors: " + Arrays.asList( flavors ) );
 
@@ -45,7 +45,7 @@ public class JARGenerator {
 
         for ( int i = 0; i < locales.length; i++ ) {
             for ( int j = 0; j < flavors.length; j++ ) {
-                generateOfflineJAR( jar, flavors[j], locales[i], pathToJARUtility,buildLocalProperties );
+                generateOfflineJAR( jar, flavors[j], locales[i], pathToJARUtility, buildLocalProperties );
             }
         }
     }
@@ -55,7 +55,7 @@ public class JARGenerator {
         return stringTokenizer.nextToken();
     }
 
-    private void generateOfflineJAR( File jar, String flavor, Locale locale, String pathToJARUtility,BuildLocalProperties buildLocalProperties ) throws IOException, InterruptedException {
+    private void generateOfflineJAR( File jar, String flavor, Locale locale, String pathToJARUtility, BuildLocalProperties buildLocalProperties ) throws IOException, InterruptedException {
         File dst = new File( jar.getParentFile(), flavor + "_" + locale + ".jar" );
         System.out.println( "Writing to: " + dst.getAbsolutePath() );
         FileUtils.copyTo( jar, dst );
@@ -83,7 +83,7 @@ public class JARGenerator {
             System.out.println( "Could not delete: " + getTempPropertiesFile( jar ) + ", attempting deleteOnExit" );
         }
 
-        PhetJarSigner jarSigner=new PhetJarSigner( buildLocalProperties );
+        PhetJarSigner jarSigner = new PhetJarSigner( buildLocalProperties );
         jarSigner.signJar( dst );
     }
 
@@ -95,7 +95,7 @@ public class JARGenerator {
         JarFile jarFile = new JarFile( jar );
         Enumeration entries = jarFile.entries();
         HashSet locales = new HashSet();
-        locales.add( new Locale("en") );//TODO: this can be removed if/when we add _en suffixes original phet localization files
+        locales.add( new Locale( "en" ) );//TODO: this can be removed if/when we add _en suffixes original phet localization files
         Pattern p = Pattern.compile( ".*" + getProjectName( jar ) + ".*strings.*" );//TODO: will dash character cause problems here?
         while ( entries.hasMoreElements() ) {
             ZipEntry zipEntry = (ZipEntry) entries.nextElement();
@@ -104,7 +104,7 @@ public class JARGenerator {
                 int index = name.indexOf( "_" );//TODO: assumes no _ in simulation name
                 if ( index >= 0 ) {
                     String localeStr = name.substring( index + 1, name.indexOf( ".properties" ) );
-                    locales.add( LocaleUtils.stringToLocale(localeStr ));
+                    locales.add( LocaleUtils.stringToLocale( localeStr ) );
                 }
             }
         }

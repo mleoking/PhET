@@ -1,6 +1,8 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.buildtools.java;
 
+import scala.tools.ant.Scalac;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -14,7 +16,6 @@ import org.apache.tools.ant.taskdefs.ManifestException;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
-import scala.tools.ant.Scalac;
 import edu.colorado.phet.buildtools.AntTaskRunner;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.PhetCleanCommand;
@@ -73,9 +74,9 @@ public class JavaBuildCommand {
     }
 
     public void copySoftwareAgreement() {
-        File src=new File(project.getTrunk(), SOFTWARE_AGREEMENT_PATH );
+        File src = new File( project.getTrunk(), SOFTWARE_AGREEMENT_PATH );
         try {
-            FileUtils.copyRecursive(src,getSoftwareAgreementDir() );
+            FileUtils.copyRecursive( src, getSoftwareAgreementDir() );
 //            SetSVNIgnoreToDeployDirectories.setIgnorePatternsOnDir( getSoftwareAgreementDir().getParentFile(), new String[]{getSoftwareAgreementDir().getName()} );
         }
         catch( IOException e ) {
@@ -85,15 +86,15 @@ public class JavaBuildCommand {
 
     private File getSoftwareAgreementDir() {
         //Copy the software agreement to the top level, so it will appear at the top level of the jar file
-        return new File(project.getTrunk(), "simulations-java/common/phetcommon/data");
+        return new File( project.getTrunk(), "simulations-java/common/phetcommon/data" );
     }
 
     private void signJAR() {
         PhetJarSigner signer = new PhetJarSigner( BuildLocalProperties.getInstance() );
         // Sign the JAR.
-        if ( signer.signJar( outputJar ) != true ){
-        	// Signing failed.  Throw an exception in order to force the build process to stop.
-            throw new BuildException("Signing of JAR file failed.");
+        if ( signer.signJar( outputJar ) != true ) {
+            // Signing failed.  Throw an exception in order to force the build process to stop.
+            throw new BuildException( "Signing of JAR file failed." );
         }
     }
 

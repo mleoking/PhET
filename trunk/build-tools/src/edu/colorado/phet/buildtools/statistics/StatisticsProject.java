@@ -1,11 +1,11 @@
 package edu.colorado.phet.buildtools.statistics;
 
-import edu.colorado.phet.buildtools.PhetProject;
-import edu.colorado.phet.buildtools.Simulation;
-
-import java.util.Locale;
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
+
+import edu.colorado.phet.buildtools.PhetProject;
+import edu.colorado.phet.buildtools.Simulation;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,7 +20,7 @@ public class StatisticsProject extends PhetProject {
         super( new File( trunk, "statistics" ) );
     }
 
-    public Simulation getSimulation(String simulationName, Locale locale) {
+    public Simulation getSimulation( String simulationName, Locale locale ) {
         return null;
     }
 
@@ -28,7 +28,7 @@ public class StatisticsProject extends PhetProject {
         return new Locale[0];
     }
 
-    public File getTranslationFile(Locale locale) {
+    public File getTranslationFile( Locale locale ) {
         return null;
     }
 
@@ -56,11 +56,11 @@ public class StatisticsProject extends PhetProject {
         return null;
     }
 
-    public void runSim(Locale locale, String simulationName) {
-        
+    public void runSim( Locale locale, String simulationName ) {
+
     }
 
     public PhetProject[] getAllDependencies() {
-        return new PhetProject[] { this };
+        return new PhetProject[]{this};
     }
 }

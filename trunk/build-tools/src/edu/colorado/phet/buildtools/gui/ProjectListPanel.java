@@ -14,7 +14,10 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import edu.colorado.phet.buildtools.*;
+import edu.colorado.phet.buildtools.BuildLocalProperties;
+import edu.colorado.phet.buildtools.BuildScript;
+import edu.colorado.phet.buildtools.PhetProject;
+import edu.colorado.phet.buildtools.PhetServer;
 
 public class ProjectListPanel extends JPanel {
     private File trunk;
@@ -99,7 +102,7 @@ public class ProjectListPanel extends JPanel {
         JButton deployDev = new JButton( "Deploy Dev" );
         deployDev.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getBuildScript().deployDev( buildLocalProperties.getDevAuthenticationInfo() ,false);
+                getBuildScript().deployDev( buildLocalProperties.getDevAuthenticationInfo(), false );
             }
         } );
 

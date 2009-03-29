@@ -5,7 +5,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.java.JavaBuildCommand;
 import edu.colorado.phet.buildtools.java.JavaProject;
 
