@@ -7,7 +7,6 @@ import java.io.File;
 import javax.swing.*;
 
 import edu.colorado.phet.buildtools.BuildLocalProperties;
-import edu.colorado.phet.buildtools.translate.ImportAndAddBatch;
 import edu.colorado.phet.buildtools.translate.TranslationDeployClient;
 
 /**
@@ -18,7 +17,7 @@ public class PhetBuildGUI {
     private JFrame frame = new JFrame();
 
     public PhetBuildGUI( final File trunk ) {
-        
+
         BuildLocalProperties.initRelativeToTrunk( trunk );
 
         this.frame = new JFrame( "PhET Build" );
@@ -28,7 +27,7 @@ public class PhetBuildGUI {
         deployItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
-                    TranslationDeployClient translationDeployClient=new TranslationDeployClient( trunk );
+                    TranslationDeployClient translationDeployClient = new TranslationDeployClient( trunk );
                     translationDeployClient.startClient();
                 }
                 catch( Exception e1 ) {

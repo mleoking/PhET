@@ -10,6 +10,7 @@ import javax.swing.*;
 import edu.colorado.phet.buildtools.*;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.util.FileUtils;
+import edu.colorado.phet.buildtools.util.ScpTo;
 
 import com.jcraft.jsch.JSchException;
 

@@ -3,7 +3,7 @@ package edu.colorado.phet.buildtools.statistics;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.SVNStatusChecker;
 import edu.colorado.phet.buildtools.AuthenticationInfo;
-import edu.colorado.phet.buildtools.translate.ScpTo;
+import edu.colorado.phet.buildtools.util.ScpTo;
 import edu.colorado.phet.buildtools.util.ProcessOutputReader;
 import edu.colorado.phet.buildtools.util.FileUtils;
 

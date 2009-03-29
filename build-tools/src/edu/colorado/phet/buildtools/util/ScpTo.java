@@ -1,4 +1,4 @@
-package edu.colorado.phet.buildtools.translate;
+package edu.colorado.phet.buildtools.util;
 
 /* -*-mode:java; c-basic-offset:2; indent-tabs-mode:nil -*- */
 

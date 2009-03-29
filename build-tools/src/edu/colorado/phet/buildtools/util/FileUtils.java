@@ -15,8 +15,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
-import edu.colorado.phet.buildtools.translate.TranslationDiscrepancy;
-
 public class FileUtils {
     private static String DEFAULT_ENCODING = "utf-8";
 
@@ -282,12 +280,20 @@ public class FileUtils {
         jarOutputStream.close();
     }
 
+    //http://www.exampledepot.com/egs/java.util.regex/Escape.html
+    public static String quote( String name ) {
+        if ( name.toLowerCase().indexOf( "\\e" ) > 0 ) {
+            throw new RuntimeException( "Quote method will fail" );
+        }
+        return "\\Q" + name + "\\E";
+    }
+
     public static void main( String[] args ) throws IOException {
         testUnzip();
     }
 
     public static void testUnzip() throws IOException {
-        final Pattern excludePattern = Pattern.compile( TranslationDiscrepancy.quote( "quantum-tunneling" ) + "[\\\\/]localization[\\\\/]" + TranslationDiscrepancy.quote( "quantum-tunneling" ) + ".*\\.properties" );
+        final Pattern excludePattern = Pattern.compile( quote( "quantum-tunneling" ) + "[\\\\/]localization[\\\\/]" + quote( "quantum-tunneling" ) + ".*\\.properties" );
 
         unzip( new File( "C:\\Users\\Sam\\AppData\\Local\\Temp\\soluble-salts40662.jar" ), new File( "C:\\Users\\Sam\\AppData\\Local\\Temp\\soluble-salts40662-test-unzip-8" ), new FileFilter() {
             public boolean accept( File file ) {
