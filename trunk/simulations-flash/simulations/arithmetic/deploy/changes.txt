@@ -1,3 +1,5 @@
+# 1.00.08 (30070) Mar 30, 2009
+3/30/09 Test for manual update behavior
 # 1.00.07 (29796) Mar 24, 2009
 3/24/09 Test for up-to-date simulation version
 # 1.00.06 (29729) Mar 23, 2009
