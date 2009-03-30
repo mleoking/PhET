@@ -36,14 +36,20 @@ public class TranslationDeployServer {
     }
 
     public void integrateTranslations( File translationDir ) throws IOException, InterruptedException {
-        ArrayList list = getProjectNameList( translationDir );
-        for ( int i = 0; i < list.size(); i++ ) {
-            integrateTranslations( translationDir, (String) list.get( i ) );
+        ArrayList javaList = getJavaProjectNameList( translationDir );
+        for ( int i = 0; i < javaList.size(); i++ ) {
+            integrateJavaTranslations( translationDir, (String) javaList.get( i ) );
         }
+
+        ArrayList flashList = getFlashProjectNameList( translationDir );
+        for ( int i = 0; i < flashList.size(); i++ ) {
+            integrateFlashTranslations( translationDir, (String) flashList.get( i ) );
+        }
+        
         signifyReadyForTesting( translationDir );
     }
 
-    private void integrateTranslations( File translationDir, String project ) throws IOException, InterruptedException {
+    private void integrateJavaTranslations( File translationDir, String project ) throws IOException, InterruptedException {
         copySimJAR( translationDir, project );
         createBackupOfJAR( getLocalCopyOfAllJAR( translationDir, project ) );
         updateSimJAR( translationDir, project );
@@ -53,12 +59,27 @@ public class TranslationDeployServer {
         //todo: clean up JARs when done testing
     }
 
+    private void integrateFlashTranslations( File translationDir, String project ) throws IOException {
+        copyFlashSWF( translationDir, project );
+    }
+
+    private void copyFlashSWF( File translationDir, String project ) throws IOException {
+        FileUtils.copyToDir( new File( pathToSimsDir, project + "/" + project + ".swf" ), translationDir );
+    }
+
     private void createBackupOfJAR( File localCopyOfAllJAR ) throws IOException {
         FileUtils.copyTo( localCopyOfAllJAR, new File( localCopyOfAllJAR.getParentFile(), localCopyOfAllJAR.getName() + ".bak" ) );
     }
 
-    public static ArrayList getProjectNameList( File translationDir ) {
-        HashSet projectNames = getProjectNames( translationDir );
+    public static ArrayList getJavaProjectNameList( File translationDir ) {
+        HashSet projectNames = getJavaProjectNames( translationDir );
+        ArrayList list = new ArrayList( projectNames );
+        Collections.sort( list );//iterate in order in case any problems happen halfway through
+        return list;
+    }
+
+    public static ArrayList getFlashProjectNameList( File translationDir ) {
+        HashSet projectNames = getFlashProjectNames( translationDir );
         ArrayList list = new ArrayList( projectNames );
         Collections.sort( list );//iterate in order in case any problems happen halfway through
         return list;
@@ -126,17 +147,33 @@ public class TranslationDeployServer {
         FileUtils.copyToDir( getLocalCopyOfAllJAR( pathToSimsDir, project + "/" + project ), translationDir );
     }
 
-    private static HashSet getProjectNames( File translationDir ) {
+    private static HashSet getJavaProjectNames( File translationDir ) {
         File[] f = translationDir.listFiles( new FilenameFilter() {
             public boolean accept( File dir, String name ) {
-                return (name.endsWith( ".properties" ) || name.endsWith( ".xml" ) ) && name.indexOf( "-strings_" ) > 0;
+                return (name.endsWith( ".properties" ) ) && name.indexOf( "-strings_" ) > 0;
             }
         } );
         HashSet set = new HashSet();
         for ( int i = 0; i < f.length; i++ ) {
             File file = f[i];
             String projectName = file.getName().substring( 0, file.getName().indexOf( "-strings_" ) );
-            System.out.println( "Found project: " + projectName );
+            System.out.println( "Found Java project: " + projectName );
+            set.add( projectName );
+        }
+        return set;
+    }
+
+    private static HashSet getFlashProjectNames( File translationDir ) {
+        File[] f = translationDir.listFiles( new FilenameFilter() {
+            public boolean accept( File dir, String name ) {
+                return (name.endsWith( ".xml" ) ) && name.indexOf( "-strings_" ) > 0;
+            }
+        } );
+        HashSet set = new HashSet();
+        for ( int i = 0; i < f.length; i++ ) {
+            File file = f[i];
+            String projectName = file.getName().substring( 0, file.getName().indexOf( "-strings_" ) );
+            System.out.println( "Found Flash project: " + projectName );
             set.add( projectName );
         }
         return set;

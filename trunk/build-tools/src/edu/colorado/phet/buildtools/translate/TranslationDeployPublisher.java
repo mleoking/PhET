@@ -28,7 +28,7 @@ public class TranslationDeployPublisher {
     }
 
     private void publishTranslations( File translationDir ) throws IOException {
-        ArrayList projectNameList = TranslationDeployServer.getProjectNameList( translationDir );
+        ArrayList projectNameList = TranslationDeployServer.getJavaProjectNameList( translationDir );
         for ( int i = 0; i < projectNameList.size(); i++ ) {
             String project = (String) projectNameList.get( i );
             String[] locales = TranslationDeployServer.getTranslatedLocales( translationDir, project );
