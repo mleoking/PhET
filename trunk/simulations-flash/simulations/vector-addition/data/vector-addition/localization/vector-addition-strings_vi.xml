@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--vector-addition-strings_vi.xml created Sun Mar 15 20:13:51 ICT 2009 using: vector-addition 1.00.00 (22510), translation-utility 1.12.00 (29256)-->
+<SimStrings>
+<string key="showSum" value="Tổng các vector"/>
+<string key="grabOne" value="Lấy ra"/>
+<string key="clearAll" value="Xóa tất cả"/>
+<string key="componentDisplay" value="Các thành phần vector"/>
+<string key="y" value="y"/>
+<string key="style3" value="Kiểu 3"/>
+<string key="none" value="Không"/>
+<string key="style2" value="Kiểu 2"/>
+<string key="showGrid" value="Hiện ô lưới"/>
+<string key="x" value="x"/>
+<string key="style1" value="Kiểu 1"/>
+</SimStrings>
