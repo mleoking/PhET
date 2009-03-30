@@ -92,7 +92,7 @@ public class TranslationDeployServer {
 
     private void updateSimJAR( File translationDir, String project ) throws IOException, InterruptedException {
         //integrate translations with jar -uf
-        String[] locales = getTranslatedLocales( translationDir, project );
+        String[] locales = getJavaTranslatedLocales( translationDir, project );
         for ( int i = 0; i < locales.length; i++ ) {
             copyTranslationSubDir( translationDir, project, locales[i] );
             File dst = getLocalCopyOfAllJAR( translationDir, project );
@@ -110,7 +110,15 @@ public class TranslationDeployServer {
         FileUtils.copyToDir( translation, new File( translationDir, project + "/localization" ) );
     }
 
-    public static String[] getTranslatedLocales( File translationDir, final String project ) {
+    public static String[] getJavaTranslatedLocales( File translationDir, final String project ) {
+        return getTranslatedLocales( translationDir, project, ".properties" ); 
+    }
+
+    public static String[] getFlashTranslatedLocales( File translationDir, final String project ) {
+        return getTranslatedLocales( translationDir, project, ".xml" ); 
+    }
+
+    public static String[] getTranslatedLocales( File translationDir, final String project, String endString ) {
         File[] f = translationDir.listFiles( new FilenameFilter() {
             public boolean accept( File dir, String name ) {
                 return name.startsWith( project + "-strings" );
@@ -121,7 +129,7 @@ public class TranslationDeployServer {
             File file = f[i];
             String name = file.getName();
             int startIndex = name.indexOf( '_' ) + 1;
-            int endIndex = name.indexOf( ".properties" );
+            int endIndex = name.indexOf( endString );
             locales[i] = name.substring( startIndex, endIndex );
         }
         return locales;

@@ -9,6 +9,7 @@ import java.util.StringTokenizer;
 import edu.colorado.phet.buildtools.JARGenerator;
 import edu.colorado.phet.buildtools.PhetServer;
 import edu.colorado.phet.buildtools.util.FileUtils;
+import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
 /**
  * Created by IntelliJ IDEA.
@@ -28,16 +29,40 @@ public class TranslationDeployPublisher {
     }
 
     private void publishTranslations( File translationDir ) throws IOException {
-        ArrayList projectNameList = TranslationDeployServer.getJavaProjectNameList( translationDir );
-        for ( int i = 0; i < projectNameList.size(); i++ ) {
-            String project = (String) projectNameList.get( i );
-            String[] locales = TranslationDeployServer.getTranslatedLocales( translationDir, project );
+        ArrayList javaProjectNameList = TranslationDeployServer.getJavaProjectNameList( translationDir );
+        for ( int i = 0; i < javaProjectNameList.size(); i++ ) {
+            String project = (String) javaProjectNameList.get( i );
+            String[] locales = TranslationDeployServer.getJavaTranslatedLocales( translationDir, project );
 
             copyToSimsDir( translationDir, project, locales );
             generateJNLPs( translationDir, project, locales );
 
         }
+
+        ArrayList flashProjectNameList = TranslationDeployServer.getFlashProjectNameList( translationDir );
+        for ( int i = 0; i < flashProjectNameList.size(); i++ ) {
+            String project = (String) flashProjectNameList.get( i );
+            String[] locales = TranslationDeployServer.getFlashTranslatedLocales( translationDir, project );
+
+            copyHTMLs( translationDir, project, locales );
+
+        }
+
         clearWebCaches( translationDir );
+    }
+
+    private void copyHTMLs( File translationDir, String project, String[] locales ) {
+        for( int i = 0; i < locales.length; i++ ) {
+            String HTMLName = project + "_" + locales[i] + ".html";
+            File fromFile = new File( translationDir, HTMLName );
+            File toFile = new File( sims, project + "/" + HTMLName );
+            try {
+                FileUtils.copyTo( fromFile, toFile );
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+        }
     }
 
     //copy new translated JARs and project_all.jar to the sims directory
