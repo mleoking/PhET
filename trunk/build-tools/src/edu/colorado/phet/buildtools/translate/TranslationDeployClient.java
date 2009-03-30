@@ -29,6 +29,7 @@ import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.SimManualUpdateDialog;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.NoUpdateDialog;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateErrorDialog;
+import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
 import com.jcraft.jsch.JSchException;
 
@@ -93,7 +94,7 @@ public class TranslationDeployClient {
 
         openBrowser( "http://phet.colorado.edu/sims/translations/" + deployDirName );
 
-        transferFlashHTML( trunk, srcDir );
+        transferFlashHTML( trunk, srcDir, server, authenticationInfo, translationDir );
 
         invokeTranslationDeployServer( translationDir, authenticationInfo, server );
 
@@ -106,7 +107,7 @@ public class TranslationDeployClient {
         //launch remote TranslationDeployServer
     }
 
-    private void transferFlashHTML( File trunk, File srcDir ) throws IOException {
+    private void transferFlashHTML( File trunk, File srcDir, final PhetServer server, final AuthenticationInfo authenticationInfo, final String remotePathDir ) throws IOException {
 
         File[] files = srcDir.listFiles();
 
@@ -128,8 +129,13 @@ public class TranslationDeployClient {
                     PhetVersion version = result.getSimVersion();
                     try {
                         project.buildHTML( translation.getLocale() , version );
+                        String HTMLName = project.getName() + "_" + LocaleUtils.localeToString( translation.getLocale() )+ ".html";
+                        ScpTo.uploadFile( new File( project.getDeployDir(), HTMLName), authenticationInfo.getUsername(), server.getHost(), remotePathDir + "/" + HTMLName, authenticationInfo.getPassword() );
                     }
                     catch( IOException e ) {
+                        e.printStackTrace();
+                    }
+                    catch( JSchException e ) {
                         e.printStackTrace();
                     }
                 }
