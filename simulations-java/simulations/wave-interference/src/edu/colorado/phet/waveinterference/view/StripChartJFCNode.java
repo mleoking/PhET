@@ -39,7 +39,7 @@ public class StripChartJFCNode extends PNode {
         jFreeChart.setBorderVisible( true );
         jFreeChart.setBorderStroke( new BasicStroke( 5 ) );
 
-        jFreeChartNode = new JFreeChartNode( jFreeChart, true );
+        jFreeChartNode = new JFreeChartNode( jFreeChart );
 
         addChild( jFreeChartNode );
         jFreeChartNode.setBounds( 0, 0, width, height );
