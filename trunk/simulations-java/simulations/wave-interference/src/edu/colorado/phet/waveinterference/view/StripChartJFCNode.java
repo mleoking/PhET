@@ -39,7 +39,7 @@ public class StripChartJFCNode extends PNode {
         jFreeChart.setBorderVisible( true );
         jFreeChart.setBorderStroke( new BasicStroke( 5 ) );
 
-        jFreeChartNode = new JFreeChartNode( jFreeChart );
+        jFreeChartNode = new JFreeChartNode( jFreeChart, true );
 
         addChild( jFreeChartNode );
         jFreeChartNode.setBounds( 0, 0, width, height );
@@ -76,6 +76,7 @@ public class StripChartJFCNode extends PNode {
         return chart;
     }
 
+    //TODO: 100 looks like a magic number in this method, repeated over and over, make it a constant
     public void addValue( double x, double y ) {
         if ( enabled ) {
             //todo can we temporarily disable render, do both steps as batch?
