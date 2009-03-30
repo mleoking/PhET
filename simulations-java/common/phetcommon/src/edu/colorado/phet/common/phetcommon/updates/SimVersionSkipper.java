@@ -23,6 +23,6 @@ public class SimVersionSkipper implements IVersionSkipper {
     }
     
     public boolean isSkipped( int version ) {
-        return version <= getSkippedVersion();
+        return version == getSkippedVersion();
     }
 }
