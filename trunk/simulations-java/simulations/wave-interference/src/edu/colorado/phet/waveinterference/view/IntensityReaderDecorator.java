@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
-import java.awt.*;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -13,14 +13,14 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.waveinterference.model.WaveModel;
-import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
@@ -36,10 +36,10 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * Decorates with buttons and controls.
  */
 public class IntensityReaderDecorator extends PhetPNode {
+    
     private ArrayList listeners = new ArrayList();
     private IntensityReader intensityReader;
     private PSwing buttonPSwing;
-    private Point lastMovePoint = null;
 
     public IntensityReaderDecorator( String title, final PSwingCanvas pSwingCanvas, WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, IClock clock ) {
         this.intensityReader = new IntensityReader( title, waveModel, latticeScreenCoordinates, clock );
@@ -58,33 +58,7 @@ public class IntensityReaderDecorator extends PhetPNode {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        final JPopupMenu jPopupMenu = new JPopupMenu();
-        final JCheckBoxMenuItem menuItem = new JCheckBoxMenuItem( WIStrings.getString( "readout.display" ), intensityReader.isReadoutVisible() );
-        menuItem.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                intensityReader.setReadoutVisible( menuItem.isSelected() );
-            }
-        } );
-        jPopupMenu.add( menuItem );
-        jPopupMenu.addSeparator();
-        JMenuItem deleteItem = new JMenuItem( WIStrings.getString( "controls.delete" ) );
-        deleteItem.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                doDelete();
-            }
-
-        } );
-        jPopupMenu.add( deleteItem );
-        pSwingCanvas.addMouseMotionListener( new MouseMotionListener() {
-            public void mouseDragged( MouseEvent e ) {
-                lastMovePoint = e.getPoint();
-            }
-
-            public void mouseMoved( MouseEvent e ) {
-                lastMovePoint = e.getPoint();
-            }
-        } );
-
+        
         buttonPSwing = new PSwing( close );
         addChild( intensityReader );
         addChild( buttonPSwing );
@@ -124,12 +98,8 @@ public class IntensityReaderDecorator extends PhetPNode {
     }
 
     private void updateLocation() {
-//        buttonPSwing.setOffset( intensityReader.getFullBounds().getX(), intensityReader.getFullBounds().getY() - buttonPSwing.getFullBounds().getHeight() );
         Rectangle2D bounds = intensityReader.getStripChartJFCNode().getFullBounds();
-//        intensityReader.getStripChartJFCNode().localToParent( bounds );
         intensityReader.localToParent( bounds );
-//        buttonPSwing.setOffset( )
-//        buttonPSwing.setOffset( bounds.getX(), bounds.getY() - buttonPSwing.getFullBounds().getHeight() );
         buttonPSwing.setOffset( bounds.getX() + 2, bounds.getMaxY() - buttonPSwing.getFullBounds().getHeight() - 2 );
     }
 
