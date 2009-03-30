@@ -178,7 +178,7 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 		}
 		if(Key.getCode() == 120 && Key.isDown(Key.SHIFT)) {
 			// F9 was pressed
-			updateHandler.simUpdatesAvailable(5, 10, 0, 0);
+			updateHandler.simUpdatesAvailable(5, 10, 0, 0, 0);
 		}
 		if(Key.getCode() == 36 && Key.isDown(Key.SHIFT)) {
 			// Home was pressed

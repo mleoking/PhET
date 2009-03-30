@@ -253,8 +253,6 @@ class edu.colorado.phet.flashcommon.UpdateHandler {
 		if(receivedSimResponse && !installShown) {
 			receivedSimResponse = false;
 			
-			var latestSkipped : Array = common.preferences.getLatestSkippedUpdate();
-			
 			if(versionRevision == common.getVersionRevision()) {
 				// running the latest version
 				_level0.debug("UpdateHandler: running latest version\n");
@@ -276,7 +274,7 @@ class edu.colorado.phet.flashcommon.UpdateHandler {
 				if(manual) {
 					showUpdateError();
 				}
-			} else if(!manual && (versionMajor < latestSkipped[0] || (versionMajor == latestSkipped[0] && versionMinor <= latestSkipped[1]))) {
+			} else if(!manual && versionRevision == common.preferences.getSkippedRevision()) {
 				// user did not click "Check for Updates Now" AND the new version <= latest skipped version
 				_level0.debug("UpdateHandler: used selected to skip this update\n");
 			} else if(!manual && common.preferences.simAskLaterElapsed() < 0) {
@@ -285,7 +283,7 @@ class edu.colorado.phet.flashcommon.UpdateHandler {
 				if(common.fromFullInstallation() && simTimestamp + 1800 > installerTimestamp) {
 					_level0.debug("UpdateHandler: installer might not contain the most recent sim\n");
 				}
-				simUpdatesAvailable(versionMajor, versionMinor, versionDev, simAskLaterDays);
+				simUpdatesAvailable(versionMajor, versionMinor, versionDev, versionRevision, simAskLaterDays);
 			}
 			
 		}
@@ -295,7 +293,7 @@ class edu.colorado.phet.flashcommon.UpdateHandler {
 	
 	
 	// called if a newer version is available online
-	public function simUpdatesAvailable(versionMajor : Number, versionMinor : Number, versionDev : Number, simAskLaterDays : Number) : Void {
+	public function simUpdatesAvailable(versionMajor : Number, versionMinor : Number, versionDev : Number, versionRevision : Number, simAskLaterDays : Number) : Void {
 		debug("UpdateHandler: Sim Updates Available (dialog)!\n");
 		
 		if(_level0.updateSimWindow) {
@@ -305,7 +303,7 @@ class edu.colorado.phet.flashcommon.UpdateHandler {
 		} else {
 			// update window doesn't exist, we must create it
 			debug("Creating Dialog\n");
-			_level0.updateSimDialog = new UpdateSimDialog(versionMajor, versionMinor, versionDev, simAskLaterDays);
+			_level0.updateSimDialog = new UpdateSimDialog(versionMajor, versionMinor, versionDev, versionRevision, simAskLaterDays);
 		}
 	}
 	
