@@ -1,3 +1,5 @@
+# 1.00.04 (30071) Mar 30, 2009
+3/30/09 Testing for manual update behavior
 # 1.00.03 (29629) Mar 22, 2009
 3/22/09 Batch deploy for Alpha Simulation Tests 2, svn 29628
 # 1.00.02 (28839) Feb 19, 2009
