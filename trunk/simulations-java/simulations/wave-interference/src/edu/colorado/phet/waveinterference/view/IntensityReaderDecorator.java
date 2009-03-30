@@ -69,6 +69,7 @@ public class IntensityReaderDecorator extends PhetPNode {
         // rendering order
         addChild( intensityReader );
         addChild( buttonPSwing );
+        updateLocation();
     }
 
     public void delete() {
