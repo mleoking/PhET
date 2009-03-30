@@ -23,7 +23,7 @@ public class PhetBuildGUI {
         this.frame = new JFrame( "PhET Build" );
         JMenuBar menuBar = new JMenuBar();
         JMenu translationMenu = new JMenu( "Translations" );
-        JMenuItem deployItem = new JMenuItem( "Deploy" );
+        JMenuItem deployItem = new JMenuItem( "Deploy..." );
         deployItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
