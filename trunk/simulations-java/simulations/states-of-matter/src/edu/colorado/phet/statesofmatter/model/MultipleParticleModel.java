@@ -31,7 +31,7 @@ import edu.colorado.phet.statesofmatter.model.engine.kinetic.AndersenThermostat;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.IsokineticThermostat;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.Thermostat;
 import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
-import edu.colorado.phet.statesofmatter.model.particle.ConfigurableAttractionAtom;
+import edu.colorado.phet.statesofmatter.model.particle.ConfigurableStatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom;
 import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom2;
 import edu.colorado.phet.statesofmatter.model.particle.NeonAtom;
@@ -50,8 +50,8 @@ import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
  * simulation is running, the molecule data set is updated first, since that
  * is where the hardcore calculations are performed, and then the model data
  * set is synchronized with the molecule data.  It is the model data set that
- * is monitored by the view components that actually displays the molecule
- * positions to the user. 
+ * is monitored by the view components that actually display the molecule
+ * positions to the user.
  *
  * @author John Blanco
  */
@@ -140,7 +140,7 @@ public class MultipleParticleModel{
     // Min a max values for adjustable epsilon.  Originally there was a wider
     // allowable range, but the simulation did not work so well, so the range
     // below was arrived at empirically and seems to work reasonably well.
-    public static final double MIN_ADJUSTABLE_EPSILON = 1.5 * NeonAtom.getEpsilon();
+    public static final double MIN_ADJUSTABLE_EPSILON = 1.5 * NeonAtom.EPSILON;
     public static final double MAX_ADJUSTABLE_EPSILON = StatesOfMatterConstants.EPSILON_FOR_WATER;
     
     //----------------------------------------------------------------------------
@@ -386,7 +386,7 @@ public class MultipleParticleModel{
             m_minModelTemperature = 0.5 * TRIPLE_POINT_MODEL_TEMPERATURE / WATER_TRIPLE_POINT_IN_KELVIN;
             break;
         case StatesOfMatterConstants.USER_DEFINED_MOLECULE:
-            m_particleDiameter = ConfigurableAttractionAtom.RADIUS * 2;
+            m_particleDiameter = ConfigurableStatesOfMatterAtom.DEFAULT_RADIUS * 2;
             m_minModelTemperature = 0.5 * TRIPLE_POINT_MODEL_TEMPERATURE / ADJUSTABLE_ATOM_TRIPLE_POINT_IN_KELVIN;
             break;
         default:
@@ -467,11 +467,11 @@ public class MultipleParticleModel{
         switch ( m_currentMolecule ){
         
         case StatesOfMatterConstants.NEON:
-            sigma = NeonAtom.getSigma();
+            sigma = NeonAtom.RADIUS * 2;
             break;
         
         case StatesOfMatterConstants.ARGON:
-            sigma = ArgonAtom.getSigma();
+            sigma = ArgonAtom.RADIUS * 2;
             break;
         
         case StatesOfMatterConstants.DIATOMIC_OXYGEN:
@@ -479,7 +479,7 @@ public class MultipleParticleModel{
             break;
         
         case StatesOfMatterConstants.MONATOMIC_OXYGEN:
-            sigma = OxygenAtom.getSigma();
+            sigma = OxygenAtom.RADIUS * 2;
             break;
         
         case StatesOfMatterConstants.WATER:
@@ -487,7 +487,7 @@ public class MultipleParticleModel{
             break;
             
         case StatesOfMatterConstants.USER_DEFINED_MOLECULE:
-            sigma = ConfigurableAttractionAtom.getSigma();
+            sigma = ConfigurableStatesOfMatterAtom.DEFAULT_RADIUS * 2;
             break;
             
         default:
@@ -511,11 +511,11 @@ public class MultipleParticleModel{
         switch ( m_currentMolecule ){
         
         case StatesOfMatterConstants.NEON:
-            epsilon = NeonAtom.getEpsilon();
+            epsilon = InteractionPotentialTable.getInteractionPotential(AtomType.NEON, AtomType.NEON);
             break;
         
         case StatesOfMatterConstants.ARGON:
-            epsilon = ArgonAtom.getEpsilon();
+            epsilon = InteractionPotentialTable.getInteractionPotential(AtomType.ARGON, AtomType.ARGON);
             break;
         
         case StatesOfMatterConstants.DIATOMIC_OXYGEN:
@@ -523,7 +523,7 @@ public class MultipleParticleModel{
             break;
         
         case StatesOfMatterConstants.MONATOMIC_OXYGEN:
-            epsilon = OxygenAtom.getEpsilon();
+            epsilon = InteractionPotentialTable.getInteractionPotential(AtomType.OXYGEN, AtomType.OXYGEN);
             break;
         
         case StatesOfMatterConstants.WATER:
@@ -535,7 +535,7 @@ public class MultipleParticleModel{
         		epsilon = convertScaledEpsilonToEpsilon( m_moleculeForceAndMotionCalculator.getScaledEpsilon() );
         	}
         	else{
-        		epsilon = ConfigurableAttractionAtom.getEpsilon();
+        		epsilon = ConfigurableStatesOfMatterAtom.DEFAULT_INTERACTION_POTENTIAL;
         	}
             break;
             
@@ -672,7 +672,7 @@ public class MultipleParticleModel{
                     particle = new NeonAtom(0, 0);
                     break;
                 case StatesOfMatterConstants.USER_DEFINED_MOLECULE:
-                    particle = new ConfigurableAttractionAtom(0, 0);
+                    particle = new ConfigurableStatesOfMatterAtom(0, 0);
                     break;
                 default:
                 	// Use the default.
@@ -1003,7 +1003,7 @@ public class MultipleParticleModel{
             particleDiameter = ArgonAtom.RADIUS * 2;
         }
         else if (moleculeID == StatesOfMatterConstants.USER_DEFINED_MOLECULE){
-            particleDiameter = ConfigurableAttractionAtom.RADIUS * 2;
+            particleDiameter = ConfigurableStatesOfMatterAtom.DEFAULT_RADIUS * 2;
         }
         else{
             // Force it to neon.
@@ -1048,7 +1048,7 @@ public class MultipleParticleModel{
                 atom = new ArgonAtom(0, 0);
             }
             else if (moleculeID == StatesOfMatterConstants.USER_DEFINED_MOLECULE){
-                atom = new ConfigurableAttractionAtom(0, 0);
+                atom = new ConfigurableStatesOfMatterAtom(0, 0);
             }
             else{
                 atom = new NeonAtom(0, 0);

@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.defaults.InteractionPotentialDefaults;
+import edu.colorado.phet.statesofmatter.model.particle.ConfigurableStatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.model.particle.NeonAtom;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 
@@ -25,8 +26,8 @@ public class DualAtomModel {
     //----------------------------------------------------------------------------
 
     public static final AtomType DEFAULT_ATOM_TYPE = AtomType.NEON;
-    public static final double DEFAULT_SIGMA = NeonAtom.getSigma();
-    public static final double DEFAULT_EPSILON = NeonAtom.getEpsilon();
+    public static final double DEFAULT_SIGMA = NeonAtom.RADIUS * 2;
+    public static final double DEFAULT_EPSILON = NeonAtom.EPSILON;
     public static final int CALCULATIONS_PER_TICK = 8;
     
     //----------------------------------------------------------------------------
@@ -139,10 +140,10 @@ public class DualAtomModel {
         // TODO: Setting sigma as the average of the two molecules.  Not sure
         // if this is valid, need to check with the physicists.
         if (m_movableAtom != null){
-            m_ljPotentialCalculator.setSigma( (m_movableAtom.getSigma() + m_fixedAtom.getSigma()) / 2 );
+            m_ljPotentialCalculator.setSigma( m_movableAtom.getRadius() + m_fixedAtom.getRadius() );
         }
         else{
-            m_ljPotentialCalculator.setSigma( m_fixedAtom.getSigma() );
+            m_ljPotentialCalculator.setSigma( m_fixedAtom.getRadius() * 2 );
         }
 
         notifyFixedAtomAdded( m_fixedAtom );
@@ -179,10 +180,10 @@ public class DualAtomModel {
         // TODO: Setting sigma as the average of the two molecules.  Not sure
         // if this is valid, need to check with the physicists.
         if (m_fixedAtom != null){
-            m_ljPotentialCalculator.setSigma( (m_movableAtom.getSigma() + m_fixedAtom.getSigma()) / 2 );
+            m_ljPotentialCalculator.setSigma( m_movableAtom.getRadius() + m_fixedAtom.getRadius() );
         }
         else{
-            m_ljPotentialCalculator.setSigma( m_movableAtom.getSigma() );
+            m_ljPotentialCalculator.setSigma( m_movableAtom.getRadius() * 2 );
         }
 
         m_ljPotentialCalculator.setEpsilon(determineEpsilon());
@@ -217,27 +218,17 @@ public class DualAtomModel {
 		
 		double epsilon = 0;
 		
-		if ( m_fixedMoleculeType == m_movableMoleculeType ){
-			epsilon = m_fixedAtom.getEpsilon();
+		if ( m_fixedMoleculeType != AtomType.ADJUSTABLE ){
+			epsilon = InteractionPotentialTable.getInteractionPotential(m_fixedMoleculeType, m_movableMoleculeType);
 		}
 		else{
-			// This is a heterogeneous situation, and epsilon is unique for each combination.
-			if (((m_fixedMoleculeType == AtomType.ARGON) && (m_movableMoleculeType == AtomType.NEON)) ||
-				((m_fixedMoleculeType == AtomType.NEON) && (m_movableMoleculeType == AtomType.ARGON))){
-				epsilon = 54.12;
-			}
-			else{
-				// TODO: For not the epsilon value with be the average of the values for two interacting atoms of
-				// the same type.  This is almost certainly not physically valid, so we need to work with the
-				// physicists to get better values.
-				epsilon = (m_fixedAtom.getEpsilon() + m_movableAtom.getEpsilon()) / 2;
-			}
+			epsilon = ((ConfigurableStatesOfMatterAtom)m_fixedAtom).getInteractionPotential();
 		}
 		
 		return epsilon;
 	}
     
-    public void setBothMoleculeTypes(AtomType atomType){
+	public void setBothMoleculeTypes(AtomType atomType){
         
         m_settingBothAtomTypes = true;
         setFixedMoleculeType(atomType);
@@ -259,13 +250,11 @@ public class DualAtomModel {
     		(sigma != m_ljPotentialCalculator.getSigma())){
     		
     		// TODO - Need to work out how this works, commenting out for now.
-//    		m_fixedParticle.setSigma(sigma);
-//    		m_movableMoleculeType.setSigma(sigma);
             m_ljPotentialCalculator.setSigma( sigma );
             notifyInteractionPotentialChanged();
-            m_fixedAtom.setRadius( sigma / 2 );
+            ((ConfigurableStatesOfMatterAtom)m_fixedAtom).setRadius( sigma / 2 );
             notifyFixedAtomDiameterChanged();
-            m_movableAtom.setRadius( sigma / 2 );
+            ((ConfigurableStatesOfMatterAtom)m_fixedAtom).setRadius( sigma / 2 );
             notifyMovableAtomDiameterChanged();
     	}
     }
@@ -401,10 +390,10 @@ public class DualAtomModel {
         
         double distance = m_shadowMovableAtom.getPositionReference().distance( m_fixedAtom.getPositionReference() );
         
-        if (distance < (m_fixedAtom.getSigma() + m_movableAtom.getSigma()) / 4){
+        if (distance < (m_fixedAtom.getRadius() + m_movableAtom.getRadius()) / 2){
             // The atoms are too close together, and calculating the force
             // will cause unusable levels of speed later, so we limit it.
-            distance = (m_fixedAtom.getSigma() + m_movableAtom.getSigma()) / 4;
+            distance = (m_fixedAtom.getRadius() + m_movableAtom.getRadius()) / 2;
         }
         
         // Calculate the force.  The result should be in newtons.

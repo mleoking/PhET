@@ -3,7 +3,7 @@
 package edu.colorado.phet.statesofmatter.model;
 
 import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
-import edu.colorado.phet.statesofmatter.model.particle.ConfigurableAttractionAtom;
+import edu.colorado.phet.statesofmatter.model.particle.ConfigurableStatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.model.particle.NeonAtom;
 import edu.colorado.phet.statesofmatter.model.particle.OxygenAtom;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
@@ -19,7 +19,7 @@ public class AtomFactory {
 		StatesOfMatterAtom atom = null;
 		
         if (atomType == AtomType.ADJUSTABLE){
-            atom = new ConfigurableAttractionAtom(0, 0);
+            atom = new ConfigurableStatesOfMatterAtom(0, 0);
         }
         else if (atomType == AtomType.ARGON){
             atom = new ArgonAtom(0, 0);

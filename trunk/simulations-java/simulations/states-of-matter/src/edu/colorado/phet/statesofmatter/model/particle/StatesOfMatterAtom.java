@@ -14,16 +14,12 @@ import edu.colorado.phet.statesofmatter.model.AtomType;
  *
  * @author John De Goes, John Blanco
  */
-// TODO: JPB TBD - It may make sense to make this into an abstract class once
-// all of De Goes old code is removed.
 public abstract class StatesOfMatterAtom implements Cloneable {
     
     //----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
 
-    private static final double DEFAULT_SIGMA = 330;    // Atom diameter, in picometers.
-    private static final double DEFAULT_EPSILON = 120;  // epsilon/k-Boltzmann is in Kelvin.
     protected static AtomType ATOM_TYPE = AtomType.UNDEFINED;
 
     //----------------------------------------------------------------------------
@@ -33,7 +29,7 @@ public abstract class StatesOfMatterAtom implements Cloneable {
     private Point2D.Double  m_position = new Point2D.Double();  // In picometers.
     private Vector2D.Double m_velocity = new Vector2D.Double(); // In meters/sec
     private Vector2D.Double m_accel    = new Vector2D.Double(); // In meters/(sec * sec)
-    private double m_radius;       // In picometers.
+    protected double m_radius;                   // In picometers.
     private double m_mass;         // In atomic mass units.
     private double m_inverseMass;
     private ArrayList m_listeners = new ArrayList();
@@ -113,48 +109,12 @@ public abstract class StatesOfMatterAtom implements Cloneable {
         return m_radius;
     }
     
-    public void setRadius(double radius) {
-        m_radius = radius;
-        notifyRadiusChanged();
-    }
-    
-    public static double getSigma() {
-        return DEFAULT_SIGMA;
-    }
-    
-    public static double getEpsilon() {
-        return DEFAULT_EPSILON;
-    }
-    
     public double getInverseMass() {
         if (m_inverseMass == 0.0) {
             m_inverseMass = m_mass == 0.0 ? Double.MAX_VALUE : 1.0 / m_mass;
         }
 
         return m_inverseMass;
-    }
-
-    public double getKineticEnergy() {
-        return 0.5 * m_mass * (getVx() * getVx() + getVy() * getVy());
-    }
-
-    public void setKineticEnergy(double energy) {
-        // KE = 0.5 * m * v^2 => v = sqrt(2 KE / m)
-        double mag = Math.sqrt(2.0 * energy / m_mass);
-
-        double curMag = m_velocity.getMagnitude();
-
-        if (curMag == 0.0) {
-            double rad = Math.random() * Math.PI * 2.0;
-
-            m_velocity.setComponents(Math.cos(rad), Math.sin(rad));
-
-            curMag = 1.0;
-        }
-        
-        double scale = mag / curMag;
-
-        m_velocity.scale(scale);
     }
 
     public Point2D getPositionReference() {
@@ -295,9 +255,9 @@ public abstract class StatesOfMatterAtom implements Cloneable {
         }        
     }
 
-    private void notifyRadiusChanged(){
+    protected void notifyRadiusChanged(){
         for (int i = 0; i < m_listeners.size(); i++){
-            ((Listener)m_listeners.get( i )).particleRadiusChanged();
+            ((Listener)m_listeners.get( i )).radiusChanged();
         }        
     }
 
@@ -331,7 +291,8 @@ public abstract class StatesOfMatterAtom implements Cloneable {
         /**
          * Inform listeners that the radius of this particle has been changed.
          */
-        public void particleRadiusChanged();
+        public void radiusChanged();
+
     }
     
     public static class Adapter implements Listener {
@@ -339,6 +300,6 @@ public abstract class StatesOfMatterAtom implements Cloneable {
         public void velocityChanged(){};
         public void accelerationChanged(){};
         public void particleRemoved(StatesOfMatterAtom particle){};
-        public void particleRadiusChanged(){};
+        public void radiusChanged(){};
     }
 }
