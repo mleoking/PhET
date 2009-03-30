@@ -61,7 +61,6 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
             throw new RuntimeException( "Class other than a gas species class sent to constructor for GasSpeciesMonitorPanel" );
         }
 
-        this.setPreferredSize( new Dimension( 410, 60 ) );
         setTitle( speciesName );
 
         // Set up the readout for the number of gas molecules
