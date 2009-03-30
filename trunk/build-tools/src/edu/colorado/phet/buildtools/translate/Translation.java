@@ -2,10 +2,12 @@ package edu.colorado.phet.buildtools.translate;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
+import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
 public class Translation {
 
@@ -40,6 +42,20 @@ public class Translation {
         }
 
         return simname;
+    }
+
+    public Locale getLocale() {
+        Locale ret = null;
+        String search = "-strings_";
+        int index = file.getName().indexOf( search );
+
+        if( index != -1 ) {
+            index += search.length();
+            String localeString = file.getName().substring( index, file.getName().indexOf( ".", index ) );
+            ret = LocaleUtils.stringToLocale( localeString );
+        }
+
+        return ret;
     }
 
     public String getType() {
@@ -77,7 +93,7 @@ public class Translation {
     }
 
     public String toString() {
-        return file.getName() + " (" + getSimName() + ", " + getType() + ")";
+        return file.getName() + " (" + getSimName() + ", " + getType() + ", " + LocaleUtils.localeToString( getLocale() ) + ")";
     }
 
 }
