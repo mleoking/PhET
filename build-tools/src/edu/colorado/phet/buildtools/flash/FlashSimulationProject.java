@@ -247,66 +247,68 @@ public class FlashSimulationProject extends PhetProject {
         return success;
     }
 
+    public void buildHTML( Locale locale, PhetVersion version ) throws IOException {
+        String bgColor = getProjectProperties().getProperty( "bgcolor" );
+
+        String simDev = "false";
+
+        if ( !version.getDev().equals( "0" ) && !version.getDev().equals( "00" ) ) {
+            simDev = "true";
+        }
+
+        String countryCode = locale.getCountry();
+
+        String versionTimestamp = getProjectProperties().getProperty( "version.timestamp" );
+
+        // TODO: get FlashHTML to handle this part
+        if ( countryCode == null || countryCode.trim().length() == 0 ) {
+            countryCode = "null";
+        }
+
+        Properties agreementProperties = getAgreementProperties();
+
+        String agreementVersion = agreementProperties.getProperty( "version" );
+        //String agreementContent = agreementProperties.getProperty( "content" );
+        String agreementContent = FileUtils.loadFileAsString( getAgreementHTMLFile() );
+
+        String creditsString = FileUtils.loadFileAsString( getCreditsFile() );
+
+        String encodedAgreement = FlashHTML.encodeXML( agreementContent );
+
+        String localeString = LocaleUtils.localeToString( locale );
+        File HTMLFile = new File( getDeployDir(), getName() + "_" + localeString + ".html" );
+
+        System.out.println( "Generating " + HTMLFile.getName() );
+
+        String titleString = FlashHTML.extractTitleFromXML( getTranslationFile( locale ) );
+        if ( titleString == null ) {
+            titleString = FlashHTML.extractTitleFromXML( getDefaultTranslationFile() );
+            if ( titleString == null ) {
+                titleString = getName();
+            }
+        }
+
+        String html = FlashHTML.generateHTML( getName(), locale.getLanguage(), countryCode,
+                                              "phet-production-website", FlashHTML.distribution_tag_dummy,
+                                              FlashHTML.installation_timestamp_dummy,
+                                              FlashHTML.installer_creation_timestamp_dummy,
+                                              version.getMajor(), version.getMinor(), version.getDev(),
+                                              version.getRevision(), versionTimestamp, simDev, bgColor,
+                                              FlashHTML.encodeXMLFile( getTranslationFile( locale ) ),
+                                              FlashHTML.encodeXMLFile( getCommonTranslationFile( locale ) ), "8",
+                                              getFlashHTMLTemplate().getAbsolutePath(),
+                                              agreementVersion, encodedAgreement, creditsString, titleString );
+
+        FileUtils.writeString( HTMLFile, html );
+    }
+
     private void buildHTMLs() {
         Locale[] locales = getLocales();
         for ( int i = 0; i < locales.length; i++ ) {
             Locale locale = locales[i];
             PhetVersion version = super.getVersion();
             try {
-                String bgColor = getProjectProperties().getProperty( "bgcolor" );
-
-                String simDev = "false";
-
-                if ( !version.getDev().equals( "0" ) && !version.getDev().equals( "00" ) ) {
-                    simDev = "true";
-                }
-
-                String countryCode = locale.getCountry();
-
-                // TODO: maybe version.formatTimestamp() will work sometime in the future?
-                String versionTimestamp = getProjectProperties().getProperty( "version.timestamp" );
-
-                // TODO: get FlashHTML to handle this part
-                if ( countryCode == null || countryCode.trim().length() == 0 ) {
-                    countryCode = "null";
-                }
-
-                Properties agreementProperties = getAgreementProperties();
-
-                String agreementVersion = agreementProperties.getProperty( "version" );
-                //String agreementContent = agreementProperties.getProperty( "content" );
-                String agreementContent = FileUtils.loadFileAsString( getAgreementHTMLFile() );
-
-                String creditsString = FileUtils.loadFileAsString( getCreditsFile() );
-
-                String encodedAgreement = FlashHTML.encodeXML( agreementContent );
-
-                String localeString = LocaleUtils.localeToString( locale );
-                File HTMLFile = new File( getDeployDir(), getName() + "_" + localeString + ".html" );
-
-                System.out.println( "Generating " + HTMLFile.getName() );
-
-                String titleString = FlashHTML.extractTitleFromXML( getTranslationFile( locale ) );
-                if ( titleString == null ) {
-                    titleString = FlashHTML.extractTitleFromXML( getDefaultTranslationFile() );
-                    if ( titleString == null ) {
-                        titleString = getName();
-                    }
-                }
-
-                // TODO: why is version.formatTimestamp() returning bad things?
-                String html = FlashHTML.generateHTML( getName(), locale.getLanguage(), countryCode,
-                                                      "phet-production-website", FlashHTML.distribution_tag_dummy,
-                                                      FlashHTML.installation_timestamp_dummy,
-                                                      FlashHTML.installer_creation_timestamp_dummy,
-                                                      version.getMajor(), version.getMinor(), version.getDev(),
-                                                      version.getRevision(), versionTimestamp, simDev, bgColor,
-                                                      FlashHTML.encodeXMLFile( getTranslationFile( locale ) ),
-                                                      FlashHTML.encodeXMLFile( getCommonTranslationFile( locale ) ), "8",
-                                                      getFlashHTMLTemplate().getAbsolutePath(),
-                                                      agreementVersion, encodedAgreement, creditsString, titleString );
-
-                FileUtils.writeString( HTMLFile, html );
+                buildHTML( locale, version );
             }
             catch( IOException e ) {
                 e.printStackTrace();
