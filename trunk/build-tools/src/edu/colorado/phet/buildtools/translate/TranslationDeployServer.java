@@ -156,32 +156,24 @@ public class TranslationDeployServer {
     }
 
     private static HashSet getJavaProjectNames( File translationDir ) {
-        File[] f = translationDir.listFiles( new FilenameFilter() {
-            public boolean accept( File dir, String name ) {
-                return (name.endsWith( ".properties" ) ) && name.indexOf( "-strings_" ) > 0;
-            }
-        } );
-        HashSet set = new HashSet();
-        for ( int i = 0; i < f.length; i++ ) {
-            File file = f[i];
-            String projectName = file.getName().substring( 0, file.getName().indexOf( "-strings_" ) );
-            System.out.println( "Found Java project: " + projectName );
-            set.add( projectName );
-        }
-        return set;
+        return getProjectNames( translationDir, ".properties", "java" );
     }
 
     private static HashSet getFlashProjectNames( File translationDir ) {
+        return getProjectNames( translationDir, ".xml", "flash" );
+    }
+
+    private static HashSet getProjectNames( File translationDir, final String endString, String typeString ) {
         File[] f = translationDir.listFiles( new FilenameFilter() {
             public boolean accept( File dir, String name ) {
-                return (name.endsWith( ".xml" ) ) && name.indexOf( "-strings_" ) > 0;
+                return (name.endsWith( endString ) ) && name.indexOf( "-strings_" ) > 0;
             }
         } );
         HashSet set = new HashSet();
         for ( int i = 0; i < f.length; i++ ) {
             File file = f[i];
             String projectName = file.getName().substring( 0, file.getName().indexOf( "-strings_" ) );
-            System.out.println( "Found Flash project: " + projectName );
+            System.out.println( "Found " + typeString + " project: " + projectName );
             set.add( projectName );
         }
         return set;
