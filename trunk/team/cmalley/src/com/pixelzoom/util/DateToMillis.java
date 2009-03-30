@@ -1,5 +1,6 @@
 package com.pixelzoom.util;
 
+import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -139,6 +140,10 @@ public class DateToMillis extends JFrame {
     }
     
     public static void main( String[] args ) {
-        new DateToMillis().setVisible( true );
+        JFrame frame = new DateToMillis();
+        Dimension frameSize = frame.getSize();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setLocation( screenSize.width / 2 - frameSize.width / 2, screenSize.height / 2 - frameSize.height / 2 );
+        frame.setVisible( true );
     }
 }
