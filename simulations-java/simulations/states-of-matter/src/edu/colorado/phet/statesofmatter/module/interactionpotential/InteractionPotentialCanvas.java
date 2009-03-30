@@ -140,7 +140,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
             	handlePositionChanged();
             }
             
-            public void particleRadiusChanged(){
+            public void radiusChanged(){
             	handleParticleRadiusChanged();
             };
         };

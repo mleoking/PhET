@@ -24,14 +24,6 @@ public class OxygenAtom extends StatesOfMatterAtom {
         super(xPos, yPos, RADIUS, MASS);
     }
     
-    public static double getEpsilon(){
-        return EPSILON;
-    }
-
-    public static double getSigma(){
-        return SIGMA;
-    }
-    
 	public AtomType getType() {
 		return ATOM_TYPE;
 	}
