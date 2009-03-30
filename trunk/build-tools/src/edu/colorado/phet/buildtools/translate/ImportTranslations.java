@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import edu.colorado.phet.buildtools.PhetProject;
+import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.util.FileUtils;
 
@@ -18,10 +19,10 @@ public class ImportTranslations {
 
     private static final boolean DO_SVN_ADD = true;
 
-    private final File basedir;
+    private final File trunk;
 
-    public ImportTranslations( File basedir ) {
-        this.basedir = basedir;
+    public ImportTranslations( File trunk ) {
+        this.trunk = trunk;
     }
 
     public static void main( String[] args ) throws IOException {
@@ -32,8 +33,9 @@ public class ImportTranslations {
         ArrayList simNames = new ArrayList();
         File[] files = dir.listFiles();
         for ( int i = 0; i < files.length; i++ ) {
-            importTranslation( files[i] );
-            simNames.add( getSimName( files[i] ) );
+            Translation translation = new Translation( files[i] );
+            importTranslation( translation );
+            simNames.add( translation.getSimName() );
         }
         String s = "";
         for ( int i = 0; i < simNames.size(); i++ ) {
@@ -43,15 +45,18 @@ public class ImportTranslations {
         System.out.println( "added simulations: " + s );
     }
 
-    private void importTranslation( File file ) throws IOException {
-        String simname = getSimName( file );
-        System.out.println( "simname = " + simname );
-        if ( simname == null ) {
-            System.out.println( "ignoring non-localization file: " + simname );
+    private void importTranslation( Translation translation ) throws IOException {
+        File file = translation.getFile();
+        String simName = translation.getSimName();
+        String simType = translation.getType();
+        System.out.println( "simname = " + simName + " (" + simType + ")" );
+        if ( !translation.isValid() ) {
+            System.out.println( "ignoring non-localization file: " + file.getName() );
         }
         else {
             try {
-                PhetProject phetProject = new JavaSimulationProject( new File( basedir + "/simulations", simname ) );
+                PhetProject phetProject = translation.getProject( trunk );
+                
                 System.out.println( "phetProject = " + phetProject );
                 File localizationDir = phetProject.getLocalizationDir();
                 final File dst = new File( localizationDir, file.getName() );
@@ -78,14 +83,5 @@ public class ImportTranslations {
                 ie.printStackTrace();
             }
         }
-    }
-
-    private String getSimName( File file ) {
-        String simname = null;
-        final int index = file.getName().indexOf( "-strings_" );
-        if ( index != -1 ) {
-            simname = file.getName().substring( 0, index );
-        }
-        return simname;
     }
 }

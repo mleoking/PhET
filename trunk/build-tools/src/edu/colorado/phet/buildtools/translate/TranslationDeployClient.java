@@ -70,7 +70,7 @@ public class TranslationDeployClient {
         giveInstructions();
         String dirname = AddTranslation.prompt( "Enter the name of the directory where your localization files are:" );
         // import the translations into the IDE workspace
-        new ImportTranslations( new File( trunk, "simulations-java" ) ).importTranslations( new File( dirname ) );
+        new ImportTranslations( trunk ).importTranslations( new File( dirname ) );
         instructUserToCommit();
 
         File srcDir = new File( dirname );

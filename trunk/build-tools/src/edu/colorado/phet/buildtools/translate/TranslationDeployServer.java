@@ -129,7 +129,7 @@ public class TranslationDeployServer {
     private static HashSet getProjectNames( File translationDir ) {
         File[] f = translationDir.listFiles( new FilenameFilter() {
             public boolean accept( File dir, String name ) {
-                return name.endsWith( ".properties" ) && name.indexOf( "-strings_" ) > 0;
+                return (name.endsWith( ".properties" ) || name.endsWith( ".xml" ) ) && name.indexOf( "-strings_" ) > 0;
             }
         } );
         HashSet set = new HashSet();
