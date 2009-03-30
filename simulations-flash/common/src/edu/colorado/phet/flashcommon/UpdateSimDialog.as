@@ -27,6 +27,7 @@ class edu.colorado.phet.flashcommon.UpdateSimDialog {
 	public var newMajorVersion : Number;
 	public var newMinorVersion : Number;
 	public var newSimAskLaterDays : Number;
+	public var newRevision : Number;
 	
 	public var common : FlashCommon;
 	
@@ -35,7 +36,7 @@ class edu.colorado.phet.flashcommon.UpdateSimDialog {
 		_level0.debug(str);
 	}
 	
-	public function UpdateSimDialog(versionMajor : Number, versionMinor : Number, versionDev : Number, simAskLaterDays : Number) {
+	public function UpdateSimDialog(versionMajor : Number, versionMinor : Number, versionDev : Number, versionRevision : Number, simAskLaterDays : Number) {
 		//debug("UpdateSimDialog initializing\n");
 		
 		// shortcut to FlashCommon, but now with type-checking!
@@ -45,6 +46,7 @@ class edu.colorado.phet.flashcommon.UpdateSimDialog {
 		newMajorVersion = versionMajor;
 		newMinorVersion = versionMinor;
 		newSimAskLaterDays = simAskLaterDays;
+		newRevision = versionRevision;
 		
 		// mysterious fix since "this" does not refer to a MovieClip or Component
 		ASWingUtils.getRootMovieClip();
@@ -146,7 +148,7 @@ class edu.colorado.phet.flashcommon.UpdateSimDialog {
 	
 	public function askLaterClicked(src : JButton) {
 		// always ask later on if time has elapsed
-		common.preferences.setSkippedUpdate(0, 0);
+		common.preferences.setSkippedRevision(0);
 		
 		// record the time the user clicked this
 		common.preferences.setSimAskLater(newSimAskLaterDays);
@@ -157,7 +159,7 @@ class edu.colorado.phet.flashcommon.UpdateSimDialog {
 	
 	public function skipClicked(src : JButton) {
 		// skip this update in the future
-		common.preferences.setSkippedUpdate(newMajorVersion, newMinorVersion);
+		common.preferences.setSkippedRevision(newRevision);
 		
 		// hide this window
 		_level0.updateSimWindow.setVisible(false);

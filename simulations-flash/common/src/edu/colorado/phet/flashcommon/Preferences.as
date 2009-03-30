@@ -22,7 +22,7 @@ class edu.colorado.phet.flashcommon.Preferences {
 	
 	// "constant"s to refer to fields that change sim-to-sim but
 	// are otherwise constant
-	public var FIELD_SKIPPED_UPDATE : String;
+	public var FIELD_SKIPPED_REVISION : String;
 	public var FIELD_ASK_LATER : String;
 	public var FIELD_VISITS_SINCE : String;
 	public var FIELD_VISITS_EVER : String;
@@ -50,7 +50,7 @@ class edu.colorado.phet.flashcommon.Preferences {
 		load();
 		
 		// set "constant" strings
-		FIELD_SKIPPED_UPDATE = common.getSimName() + "_skippedUpdate";
+		FIELD_SKIPPED_REVISION = common.getSimName() + "_skippedRevision";
 		FIELD_ASK_LATER = common.getSimName() + "_askLater";
 		FIELD_VISITS_SINCE = common.getSimName() + "_visitsSince";
 		FIELD_VISITS_EVER = common.getSimName() + "_visitsEver";
@@ -185,17 +185,16 @@ class edu.colorado.phet.flashcommon.Preferences {
 		return ret;
 	}
 	
-	// returns latest skipped update version as [major, minor]
-	public function getLatestSkippedUpdate() : Array {
+	public function getSkippedRevision() : Number {
 		load();
-		return sharedObject.data[FIELD_SKIPPED_UPDATE];
+		var ret : Number = sharedObject.data[FIELD_SKIPPED_REVISION];
 		unload();
+		return ret;
 	}
 	
-	// set latest skipped update version
-	public function setSkippedUpdate(major : Number, minor : Number) : Void {
+	public function setSkippedRevision( revision : Number ) : Void {
 		load();
-		sharedObject.data[FIELD_SKIPPED_UPDATE] = [major, minor];
+		sharedObject.data[FIELD_SKIPPED_REVISION] = revision;
 		save();
 		unload();
 	}
@@ -279,8 +278,8 @@ class edu.colorado.phet.flashcommon.Preferences {
 	
 	// add sim-specific update information
 	public function initUpdateInfo() : Void {
-		if(!sharedObject.data.hasOwnProperty(FIELD_SKIPPED_UPDATE)) {
-			sharedObject.data[FIELD_SKIPPED_UPDATE] = [0, 0];
+		if(!sharedObject.data.hasOwnProperty(FIELD_SKIPPED_REVISION)) {
+			sharedObject.data[FIELD_SKIPPED_REVISION] = 0;
 		}
 		
 		if(!sharedObject.data.hasOwnProperty(FIELD_ASK_LATER)) {
