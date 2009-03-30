@@ -1,3 +1,5 @@
+# 00.19.00 (30080) Mar 30, 2009
+3/30/09 Added Flash support
 # 00.18.00 (30079) Mar 30, 2009
 3/30/09 Added Flash translation support
 # 00.17.00 (30046) Mar 28, 2009
