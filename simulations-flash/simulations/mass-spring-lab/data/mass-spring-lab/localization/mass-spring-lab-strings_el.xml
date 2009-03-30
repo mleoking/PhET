@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--mass-spring-lab-strings_el.xml created Fri Feb 27 18:02:30 EET 2009 using: mass-spring-lab 1.00.00 (22498), translation-utility 1.11.00 (29003)-->
+<SimStrings>
+<string key="pause" value="σταματημα"/>
+<string key="earth" value="Γη"/>
+<string key="dontBother" value="Μην ενοχλεις"/>
+<string key="16thTime" value="1/16 χρόνου"/>
+<string key="nothinOK" value="τίπατα! οκ;"/>
+<string key="planetX" value="πλανήτης χ"/>
+<string key="showEnergyOf" value="δείξε την ενέργεια"/>
+<string key="hangMe" value="Κρέμασέ με"/>
+<string key="resetTimer" value="επανεκίνηση"/>
+<string key="hard" value="σκληρό"/>
+<string key="stopWatch" value="χρονόμετρο"/>
+<string key="none" value="καθόλου"/>
+<string key="realTime" value="πραγματικός χρόνος"/>
+<string key="startTimer" value="σταματημα/ξεκίνημα"/>
+<string key="help4" value="κινητό χρονόμετρο"/>
+<string key="help3" value="Τράβηξε τη μάζα στο πλαι να φύγει από το ελατήριο"/>
+<string key="showHelp" value="βοήθεια"/>
+<string key="lots" value="πολλή"/>
+<string key="help2" value="κινητή γραμμή αναφοράς"/>
+<string key="help1" value="κινητός χάρακας"/>
+<string key="friction" value="Τριβή"/>
+<string key="PEelas" value="Δ.Ε ελαστ"/>
+<string key="jupiter" value="Δίας"/>
+<string key="moon" value="Σελήνη"/>
+<string key="energyOf" value="Ενέργεια"/>
+<string key="total" value="Συνολική"/>
+<string key="sound" value="ήχος"/>
+<string key="PEgrav" value="Δ.Ε βαρυτ."/>
+<string key="thermal" value="Θερμική"/>
+<string key="quarterTime" value="1/4 χρόνου"/>
+<string key="KE" value="Κ.Ε"/>
+<string key="hideHelp" value="κρύψε βοήθεια"/>
+<string key="gEqZero" value="g=0"/>
+<string key="noHelp" value="όχι βοήθεια"/>
+<string key="soft" value="μαλακό"/>
+<string key="softness" value="σκληρότητα ελατηρίου 3"/>
+<string key="totalE" value="Ολική ενέργεια"/>
+<string key="noShow" value="μη δείχνεις"/>
+<string key="paused" value="σταματημένο"/>
+</SimStrings>

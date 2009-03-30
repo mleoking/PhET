@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<SimStrings>
+<string key="r" value="Č"/>
+<string key="zoomIn" value="zväčšiť"/>
+<string key="intensity" value="intenzita"/>
+<string key="zoomOut" value="zmenšiť"/>
+<string key="clear" value="Zmazať"/>
+<string key="g" value="Z"/>
+<string key="sun" value="slnko"/>
+<string key="save" value="Uložiť"/>
+<string key="showRuler" value="zobraziť pravítko"/>
+<string key="wavelength" value="vlnová dĺžka"/>
+<string key="b" value="M"/>
+<string key="oven" value="trúba na pečenie"/>
+<string key="earth" value="zem"/>
+<string key="lightBulb" value="vlákno žiarovky"/>
+</SimStrings>
