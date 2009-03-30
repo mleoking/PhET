@@ -1,3 +1,5 @@
+# 0.05.00 (30055) Mar 29, 2009
+3/29/09 Testing deploy and dev flags
 # 0.04.06 (30006) Mar 27, 2009
 3/27/09 Testing new license text.
 # 0.04.05 (30002) Mar 27, 2009
