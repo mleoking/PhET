@@ -58,6 +58,26 @@ import com.jcraft.jsch.JSchException;
  *
  * This technique won't exactly work for redeploying phetcommon translations, but it should provide many
  * of the right building blocks.
+ *
+ *
+ * The process for Flash translations:
+ * (1) Client identifies new localization files (including common strings files), and installs them into trunk
+ * (2) User REALLY SHOULD manually commit these (but is not required to)
+ * (3) Each Flash translation follows the following process (in the client)
+ *     (a) If the translation is for common strings, we do the following process for each
+ *         simulation translation for that particular locale
+ *     (b) Pull the tigercat version information from phet-info. This will be the version that is the latest on the
+ *         server, NOT what is on the local .properties
+ *     (c) Build the HTML for the translation (in the regular deploy directory) using the version info from (b)
+ *     (d) Generated HTML is SCP'ed to the temp directory on the server.
+ *     (e) Simulation XML is SCP'ed to the temp directory on the server (significant for common string updates, so
+ *         that TranslationDeployServer and TranslationDeployPublisher will see them.
+ * (4) Server looks at each of the Flash translations in the temp directory, doing the following for each:
+ *     (a) Copy the corresponding SWF from htdocs/sims/ into the temp directory for testing
+ * (5) Wait for user to test the translations
+ * (6) If OK, then the Publisher simply copies over the HTML from the temp directory into the corresponding sims directory
+ * (7) Webcache is reset so that the new translations appear on the website
+ *
  */
 public class TranslationDeployClient {
     private File trunk;
@@ -108,8 +128,8 @@ public class TranslationDeployClient {
     private void buildAndSendFlashTranslation( final String simName, final String remotePathDir, final Locale locale, final FlashSimulationProject project, final AuthenticationInfo authenticationInfo, final PhetServer server ) {
         System.out.println( "Getting tigercat info for " + simName + " (" + LocaleUtils.localeToString( locale ) + ")" );
 
+        // fake info for phet-info
         final PhetInstallerVersion currentInstallerVersion = new PhetInstallerVersion( 0 ); // don't care, since this query is for the sim
-
         PhetVersion oldVersion = new PhetVersion( "1", "00", "00", "20000", "10" );
 
         final VersionInfoQuery query = new VersionInfoQuery( simName, simName, oldVersion, currentInstallerVersion, false );
@@ -120,7 +140,10 @@ public class TranslationDeployClient {
                 PhetVersion version = result.getSimVersion();
                 try {
                     System.out.println( "Obtained version information, generating HTML" );
+
+                    // build the HTML into the correct deploy directory
                     project.buildHTML( locale, version );
+                    
                     String HTMLName = project.getName() + "_" + LocaleUtils.localeToString( locale ) + ".html";
 
                     // transfer the HTML file
@@ -168,6 +191,8 @@ public class TranslationDeployClient {
                 buildAndSendFlashTranslation( translation.getSimName(), remotePathDir, translation.getLocale(), (FlashSimulationProject) translation.getProject( trunk ), authenticationInfo, server );
             }
             else if ( translation.isCommonTranslation() ) {
+                // common strings instead, so we need to find all simulations with sim-strings for the same locale
+                
                 File simsDir = new File( trunk, "simulations-flash/simulations" );
 
                 File[] sims = simsDir.listFiles( new FileFilter() {
@@ -181,6 +206,7 @@ public class TranslationDeployClient {
 
                     FlashSimulationProject project = new FlashSimulationProject( projectDir );
 
+                    // for each sim with sim-strings of the same locale, we build and send the HTML like the user specified all of them individually
                     if ( project.hasLocale( translation.getLocale() ) ) {
                         buildAndSendFlashTranslation( project.getName(), remotePathDir, translation.getLocale(), project, authenticationInfo, server );
                         // have server copy over sim XML?
