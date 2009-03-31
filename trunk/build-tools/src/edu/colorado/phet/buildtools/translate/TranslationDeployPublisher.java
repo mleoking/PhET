@@ -42,7 +42,7 @@ public class TranslationDeployPublisher {
         for ( int i = 0; i < flashProjectNameList.size(); i++ ) {
             String project = (String) flashProjectNameList.get( i );
 
-            if( project.equals( "common" ) ) {
+            if ( project.equals( "common" ) ) {
                 System.out.println( "Not publishing common strings XML directly" );
                 continue;
             }
@@ -58,7 +58,7 @@ public class TranslationDeployPublisher {
 
     // copy the necessary flash HTML files in translationDir (with project and locales) to the main location
     private void copyFlashHTMLs( File translationDir, String project, String[] locales ) {
-        for( int i = 0; i < locales.length; i++ ) {
+        for ( int i = 0; i < locales.length; i++ ) {
             String HTMLName = project + "_" + locales[i] + ".html";
             File fromFile = new File( translationDir, HTMLName );
             File toFile = new File( sims, project + "/" + HTMLName );
