@@ -421,6 +421,18 @@ public class FlashSimulationProject extends PhetProject {
         return getLocalesImpl( ".xml" );
     }
 
+    public boolean hasLocale( Locale locale ) {
+        Locale[] locales = getLocales();
+
+        for( int i = 0; i < locales.length; i++ ) {
+            if( LocaleUtils.localeToString( locales[i] ).equals( LocaleUtils.localeToString( locale )) ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public File getDefaultTranslationFile() {
         return getTranslationFile( new Locale( "en" ) );
     }

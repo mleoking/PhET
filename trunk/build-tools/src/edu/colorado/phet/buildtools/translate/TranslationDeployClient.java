@@ -105,7 +105,7 @@ public class TranslationDeployClient {
         //launch remote TranslationDeployServer
     }
 
-    private void transferFlashHTML( final String simName, final String remotePathDir, final Locale locale, final FlashSimulationProject project, final AuthenticationInfo authenticationInfo, final PhetServer server ) {
+    private void buildAndSendFlashHTML( final String simName, final String remotePathDir, final Locale locale, final FlashSimulationProject project, final AuthenticationInfo authenticationInfo, final PhetServer server ) {
         System.out.println( "Getting tigercat info for " + simName + " (" + LocaleUtils.localeToString( locale ) + ")" );
 
         final PhetInstallerVersion currentInstallerVersion = new PhetInstallerVersion( 0 ); // don't care, since this query is for the sim
@@ -154,7 +154,7 @@ public class TranslationDeployClient {
             }
 
             if ( translation.isSimulationTranslation() ) {
-                transferFlashHTML( translation.getSimName(), remotePathDir, translation.getLocale(), (FlashSimulationProject) translation.getProject( trunk ), authenticationInfo, server );
+                buildAndSendFlashHTML( translation.getSimName(), remotePathDir, translation.getLocale(), (FlashSimulationProject) translation.getProject( trunk ), authenticationInfo, server );
             }
             else if ( translation.isCommonTranslation() ) {
                 File simsDir = new File( trunk, "simulations-flash/simulations" );
@@ -170,7 +170,9 @@ public class TranslationDeployClient {
 
                     FlashSimulationProject project = new FlashSimulationProject( projectDir );
 
-                    transferFlashHTML( project.getName(), remotePathDir, translation.getLocale(), project, authenticationInfo, server );
+                    if( project.hasLocale( translation.getLocale() ) ) {
+                        buildAndSendFlashHTML( project.getName(), remotePathDir, translation.getLocale(), project, authenticationInfo, server );
+                    }
                 }
             }
 
