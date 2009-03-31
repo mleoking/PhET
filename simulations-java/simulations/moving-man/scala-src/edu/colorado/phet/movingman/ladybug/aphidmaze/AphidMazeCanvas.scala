@@ -10,9 +10,9 @@ import model.LadybugModel
 import controlpanel.{PathVisibilityModel, VectorVisibilityModel}
 
 class AphidMazeCanvas(
-                     model: AphidMazeModel,
-                     vectorVisibilityModel: VectorVisibilityModel,
-                     pathVisibilityModel: PathVisibilityModel)
+        model: AphidMazeModel,
+        vectorVisibilityModel: VectorVisibilityModel,
+        pathVisibilityModel: PathVisibilityModel)
         extends LadybugCanvas(
           model: LadybugModel,
           vectorVisibilityModel: VectorVisibilityModel,

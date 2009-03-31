@@ -27,7 +27,7 @@ class DigitalTimer(model: LadybugModel) extends PNode {
   text.setText(new DecimalFormat("0.00").format(m.getTime)+" sec")
    */
 
-  val update = defineInvokeAndPass(model.addListenerByName){
+  val update = defineInvokeAndPass(model.addListenerByName) {
     text.setText(new DecimalFormat("0.00").format(model.getTime) + " sec")
   }
 

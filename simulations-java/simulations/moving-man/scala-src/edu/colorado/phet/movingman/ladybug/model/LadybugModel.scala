@@ -160,8 +160,8 @@ class LadybugModel extends RecordModel[LadybugState] {
     if (!isPaused) {
       tickListeners.foreach(_())
       if (isRecord()) {
-        setTime(getTime+dt)
-        val time=getTime
+        setTime(getTime + dt)
+        val time = getTime
         ladybugMotionModel.update(dt, this)
 
         modelHistory += new DataPoint(time, ladybug.getState)

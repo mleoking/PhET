@@ -16,10 +16,10 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas.ViewportStrategy
 import umd.cs.piccolo.util.PDimension
 
 class LadybugCanvas(model: LadybugModel,
-                   vectorVisibilityModel: VectorVisibilityModel,
-                   pathVisibilityModel: PathVisibilityModel,
-                   modelWidth: Double,
-                   modelHeight: Double)
+                    vectorVisibilityModel: VectorVisibilityModel,
+                    pathVisibilityModel: PathVisibilityModel,
+                    modelWidth: Double,
+                    modelHeight: Double)
         extends PhetPCanvas(new Dimension(1024, 768)) {
   setWorldTransformStrategy(new CenteredBoxStrategy(768, 768, this))
   val transform: ModelViewTransform2D = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight),
@@ -52,7 +52,7 @@ class LadybugCanvas(model: LadybugModel,
 
   override def updateWorldScale = {
     super.updateWorldScale
-    if (constructed) {   //make sure we aren't in the call from superclass
+    if (constructed) { //make sure we aren't in the call from superclass
       //to go from pixels to model, must go backwards through canvas transform and modelviewtransform
       val topLeft = new Point2D.Double(0, 0)
       val bottomRight = new Point2D.Double(getWidth, getHeight)
