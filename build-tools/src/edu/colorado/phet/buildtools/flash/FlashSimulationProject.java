@@ -433,6 +433,10 @@ public class FlashSimulationProject extends PhetProject {
         return false;
     }
 
+    public File getLocalizationFile( Locale locale ) {
+        return new File( getLocalizationDir(), getName() + "-strings_" + LocaleUtils.localeToString( locale )+ ".xml" );
+    }
+
     public File getDefaultTranslationFile() {
         return getTranslationFile( new Locale( "en" ) );
     }
