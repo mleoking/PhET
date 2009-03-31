@@ -122,13 +122,8 @@ public class InteractionPotentialApplication extends PiccoloPhetApplication impl
 
         ApplicationConstructor applicationConstructor = new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
-
                 // Create the application.
-                InteractionPotentialApplication app = new InteractionPotentialApplication( config );
-
-                // Start the application.
-                app.startApplication();
-                return app;
+                return( new InteractionPotentialApplication( config ) );
             }
         };
         PhetApplicationConfig config = new PhetApplicationConfig( args, StatesOfMatterConstants.PROJECT_NAME, StatesOfMatterConstants.FLAVOR_INTERACTION_POTENTIAL );
