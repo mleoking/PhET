@@ -41,7 +41,15 @@ public class TranslationDeployPublisher {
 
         ArrayList flashProjectNameList = TranslationDeployServer.getFlashProjectNameList( translationDir );
         for ( int i = 0; i < flashProjectNameList.size(); i++ ) {
+            // TODO: don't try to copy common strings to something fake
+
             String project = (String) flashProjectNameList.get( i );
+
+            if( project.equals( "common" ) ) {
+                System.out.println( "Not publishing common strings XML directly" );
+                continue;
+            }
+
             String[] locales = TranslationDeployServer.getFlashTranslatedLocales( translationDir, project );
 
             copyHTMLs( translationDir, project, locales );

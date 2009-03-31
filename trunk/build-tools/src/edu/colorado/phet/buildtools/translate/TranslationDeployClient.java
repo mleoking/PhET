@@ -4,8 +4,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 import java.io.FileFilter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -105,11 +105,15 @@ public class TranslationDeployClient {
         //launch remote TranslationDeployServer
     }
 
-    private void buildAndSendFlashHTML( final String simName, final String remotePathDir, final Locale locale, final FlashSimulationProject project, final AuthenticationInfo authenticationInfo, final PhetServer server ) {
+    private void buildAndSendFlashTranslation( final String simName, final String remotePathDir, final Locale locale, final FlashSimulationProject project, final AuthenticationInfo authenticationInfo, final PhetServer server ) {
         System.out.println( "Getting tigercat info for " + simName + " (" + LocaleUtils.localeToString( locale ) + ")" );
 
         final PhetInstallerVersion currentInstallerVersion = new PhetInstallerVersion( 0 ); // don't care, since this query is for the sim
-        final VersionInfoQuery query = new VersionInfoQuery( simName, simName, new PhetVersion( "1", "00", "00", "20000", "10" ), currentInstallerVersion, false /* automaticRequest */ );
+
+        PhetVersion oldVersion = new PhetVersion( "1", "00", "00", "20000", "10" );
+
+        final VersionInfoQuery query = new VersionInfoQuery( simName, simName, oldVersion, currentInstallerVersion, false );
+
         query.addListener( new VersionInfoQuery.VersionInfoQueryListener() {
 
             public void done( final VersionInfoQuery.VersionInfoQueryResponse result ) {
@@ -118,7 +122,14 @@ public class TranslationDeployClient {
                     System.out.println( "Obtained version information, generating HTML" );
                     project.buildHTML( locale, version );
                     String HTMLName = project.getName() + "_" + LocaleUtils.localeToString( locale ) + ".html";
-                    ScpTo.uploadFile( new File( project.getDeployDir(), HTMLName ), authenticationInfo.getUsername(), server.getHost(), remotePathDir + "/" + HTMLName, authenticationInfo.getPassword() );
+
+                    // transfer the HTML file
+                    File LocalHTMLFile = new File( project.getDeployDir(), HTMLName );
+                    ScpTo.uploadFile( LocalHTMLFile, authenticationInfo.getUsername(), server.getHost(), remotePathDir + "/" + HTMLName, authenticationInfo.getPassword() );
+
+                    // transfer the sim XML (in case transfer() only copied over common-strings_XX_YY.xml)
+                    File LocalSimXMLFile = project.getLocalizationFile( locale );
+                    ScpTo.uploadFile( LocalSimXMLFile, authenticationInfo.getUsername(), server.getHost(), remotePathDir + "/" + LocalSimXMLFile.getName(), authenticationInfo.getPassword() );
                 }
                 catch( IOException e ) {
                     e.printStackTrace();
@@ -154,7 +165,7 @@ public class TranslationDeployClient {
             }
 
             if ( translation.isSimulationTranslation() ) {
-                buildAndSendFlashHTML( translation.getSimName(), remotePathDir, translation.getLocale(), (FlashSimulationProject) translation.getProject( trunk ), authenticationInfo, server );
+                buildAndSendFlashTranslation( translation.getSimName(), remotePathDir, translation.getLocale(), (FlashSimulationProject) translation.getProject( trunk ), authenticationInfo, server );
             }
             else if ( translation.isCommonTranslation() ) {
                 File simsDir = new File( trunk, "simulations-flash/simulations" );
@@ -170,8 +181,9 @@ public class TranslationDeployClient {
 
                     FlashSimulationProject project = new FlashSimulationProject( projectDir );
 
-                    if( project.hasLocale( translation.getLocale() ) ) {
-                        buildAndSendFlashHTML( project.getName(), remotePathDir, translation.getLocale(), project, authenticationInfo, server );
+                    if ( project.hasLocale( translation.getLocale() ) ) {
+                        buildAndSendFlashTranslation( project.getName(), remotePathDir, translation.getLocale(), project, authenticationInfo, server );
+                        // have server copy over sim XML?
                     }
                 }
             }
