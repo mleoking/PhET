@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.io.FileFilter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -158,7 +159,11 @@ public class TranslationDeployClient {
             else if ( translation.isCommonTranslation() ) {
                 File simsDir = new File( trunk, "simulations-flash/simulations" );
 
-                File[] sims = simsDir.listFiles();
+                File[] sims = simsDir.listFiles( new FileFilter() {
+                    public boolean accept( File pathname ) {
+                        return pathname.isDirectory() && !pathname.getName().startsWith( "." );
+                    }
+                } );
 
                 for ( int j = 0; j < sims.length; j++ ) {
                     File projectDir = sims[j];
