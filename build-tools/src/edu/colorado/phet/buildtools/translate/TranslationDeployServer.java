@@ -45,7 +45,7 @@ public class TranslationDeployServer {
         for ( int i = 0; i < flashList.size(); i++ ) {
             integrateFlashTranslations( translationDir, (String) flashList.get( i ) );
         }
-        
+
         signifyReadyForTesting( translationDir );
     }
 
@@ -60,6 +60,10 @@ public class TranslationDeployServer {
     }
 
     private void integrateFlashTranslations( File translationDir, String project ) throws IOException {
+        if ( project.equals( "common" ) ) {
+            return;
+        }
+
         copyFlashSWF( translationDir, project );
     }
 
@@ -111,11 +115,11 @@ public class TranslationDeployServer {
     }
 
     public static String[] getJavaTranslatedLocales( File translationDir, final String project ) {
-        return getTranslatedLocales( translationDir, project, ".properties" ); 
+        return getTranslatedLocales( translationDir, project, ".properties" );
     }
 
     public static String[] getFlashTranslatedLocales( File translationDir, final String project ) {
-        return getTranslatedLocales( translationDir, project, ".xml" ); 
+        return getTranslatedLocales( translationDir, project, ".xml" );
     }
 
     public static String[] getTranslatedLocales( File translationDir, final String project, String endString ) {
@@ -166,7 +170,7 @@ public class TranslationDeployServer {
     private static HashSet getProjectNames( File translationDir, final String endString, String typeString ) {
         File[] f = translationDir.listFiles( new FilenameFilter() {
             public boolean accept( File dir, String name ) {
-                return (name.endsWith( endString ) ) && name.indexOf( "-strings_" ) > 0;
+                return ( name.endsWith( endString ) ) && name.indexOf( "-strings_" ) > 0;
             }
         } );
         HashSet set = new HashSet();
