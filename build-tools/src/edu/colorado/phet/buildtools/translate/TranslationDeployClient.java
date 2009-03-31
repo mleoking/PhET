@@ -18,16 +18,15 @@ import org.rev6.scf.SshException;
 import edu.colorado.phet.buildtools.AuthenticationInfo;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.PhetServer;
-import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
 import edu.colorado.phet.buildtools.util.ScpTo;
-import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery;
 import edu.colorado.phet.common.phetcommon.resources.PhetInstallerVersion;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 import com.jcraft.jsch.JSchException;
 
@@ -106,6 +105,8 @@ public class TranslationDeployClient {
     }
 
     private void transferFlashHTML( final String simName, final String remotePathDir, final Locale locale, final FlashSimulationProject project, final AuthenticationInfo authenticationInfo, final PhetServer server ) {
+        System.out.println( "Getting tigercat info for " + simName + " (" + LocaleUtils.localeToString( locale ) + ")" );
+
         final PhetInstallerVersion currentInstallerVersion = new PhetInstallerVersion( 0 ); // don't care, since this query is for the sim
         final VersionInfoQuery query = new VersionInfoQuery( simName, simName, new PhetVersion( "1", "00", "00", "20000", "10" ), currentInstallerVersion, false /* automaticRequest */ );
         query.addListener( new VersionInfoQuery.VersionInfoQueryListener() {
@@ -113,9 +114,10 @@ public class TranslationDeployClient {
             public void done( final VersionInfoQuery.VersionInfoQueryResponse result ) {
                 PhetVersion version = result.getSimVersion();
                 try {
-                    project.buildHTML( locale , version );
-                    String HTMLName = project.getName() + "_" + LocaleUtils.localeToString( locale )+ ".html";
-                    ScpTo.uploadFile( new File( project.getDeployDir(), HTMLName), authenticationInfo.getUsername(), server.getHost(), remotePathDir + "/" + HTMLName, authenticationInfo.getPassword() );
+                    System.out.println( "Obtained version information, generating HTML" );
+                    project.buildHTML( locale, version );
+                    String HTMLName = project.getName() + "_" + LocaleUtils.localeToString( locale ) + ".html";
+                    ScpTo.uploadFile( new File( project.getDeployDir(), HTMLName ), authenticationInfo.getUsername(), server.getHost(), remotePathDir + "/" + HTMLName, authenticationInfo.getPassword() );
                 }
                 catch( IOException e ) {
                     e.printStackTrace();
@@ -128,7 +130,7 @@ public class TranslationDeployClient {
             public void exception( Exception e ) {
                 e.printStackTrace();
             }
-        });
+        } );
         query.send();
     }
 
@@ -136,48 +138,37 @@ public class TranslationDeployClient {
 
         File[] files = srcDir.listFiles();
 
-        for( int i = 0; i < files.length; i++ ) {
+        for ( int i = 0; i < files.length; i++ ) {
 
             final Translation translation = new Translation( files[i] );
 
-            if( !translation.isValid() || !translation.isFlashTranslation() ) {
+            if ( !translation.isValid() ) {
+                System.out.println( "Invalid translation for " + files[i].getName() );
                 continue;
             }
 
-            if( translation.isSimulationTranslation() ) {
-                transferFlashHTML( translation.getSimName(), remotePathDir, translation.getLocale(), (FlashSimulationProject) translation.getProject( trunk ), authenticationInfo, server );
-            } else if( translation.isCommonTranslation() ) {
-                System.out.println( "WARNING: Flash common translations not supported yet" );
+            if ( !translation.isFlashTranslation() ) {
+                System.out.println( "WARNING: Not a Flash translation: " + files[i].getName() );
+                continue;
             }
 
-            /*
-            final PhetInstallerVersion currentInstallerVersion = new PhetInstallerVersion( 0 ); // don't care, since this query is for the sim
-            final FlashSimulationProject project = (FlashSimulationProject) translation.getProject( trunk );
+            if ( translation.isSimulationTranslation() ) {
+                transferFlashHTML( translation.getSimName(), remotePathDir, translation.getLocale(), (FlashSimulationProject) translation.getProject( trunk ), authenticationInfo, server );
+            }
+            else if ( translation.isCommonTranslation() ) {
+                File simsDir = new File( trunk, "simulations-flash/simulations" );
 
-            final VersionInfoQuery query = new VersionInfoQuery( translation.getSimName(), translation.getSimName(), new PhetVersion( "1", "00", "00", "20000", "10" ), currentInstallerVersion, false );
-            query.addListener( new VersionInfoQuery.VersionInfoQueryListener() {
+                File[] sims = simsDir.listFiles();
 
-                public void done( final VersionInfoQuery.VersionInfoQueryResponse result ) {
-                    PhetVersion version = result.getSimVersion();
-                    try {
-                        project.buildHTML( translation.getLocale() , version );
-                        String HTMLName = project.getName() + "_" + LocaleUtils.localeToString( translation.getLocale() )+ ".html";
-                        ScpTo.uploadFile( new File( project.getDeployDir(), HTMLName), authenticationInfo.getUsername(), server.getHost(), remotePathDir + "/" + HTMLName, authenticationInfo.getPassword() );
-                    }
-                    catch( IOException e ) {
-                        e.printStackTrace();
-                    }
-                    catch( JSchException e ) {
-                        e.printStackTrace();
-                    }
+                for ( int j = 0; j < sims.length; j++ ) {
+                    File projectDir = sims[j];
+
+                    FlashSimulationProject project = new FlashSimulationProject( projectDir );
+
+                    transferFlashHTML( project.getName(), remotePathDir, translation.getLocale(), project, authenticationInfo, server );
                 }
+            }
 
-                public void exception( Exception e ) {
-                    e.printStackTrace();
-                }
-            });
-            query.send();
-            */
         }
     }
 

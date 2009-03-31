@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import edu.colorado.phet.buildtools.PhetProject;
-import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
-import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.util.FileUtils;
 
 /**
@@ -47,6 +45,7 @@ public class ImportTranslations {
 
     private void importTranslation( Translation translation ) throws IOException {
         File file = translation.getFile();
+        System.out.println( "Attempting to import " + file.getName() );
         String simName = translation.getSimName();
         String simType = translation.getType();
         System.out.println( "simname = " + simName + " (" + simType + ")" );
@@ -55,19 +54,32 @@ public class ImportTranslations {
         }
         else {
             try {
-                PhetProject phetProject = translation.getProject( trunk );
-                
-                System.out.println( "phetProject = " + phetProject );
-                File localizationDir = phetProject.getLocalizationDir();
-                final File dst = new File( localizationDir, file.getName() );
-                FileUtils.copyTo( file, dst );
+                File destination = null;
+
+                if ( translation.isCommonTranslation() ) {
+                    if ( translation.isJavaTranslation() ) {
+                        destination = new File( trunk, "simulations-java/common/phetcommon/data/phetcommon/localization/" + file.getName() );
+                    }
+                    else if ( translation.isFlashTranslation() ) {
+                        destination = new File( trunk, "simulations-flash/common/data/localization/" + file.getName() );
+                    }
+                }
+                else {
+                    PhetProject phetProject = translation.getProject( trunk );
+
+                    System.out.println( "phetProject = " + phetProject );
+                    File localizationDir = phetProject.getLocalizationDir();
+                    destination = new File( localizationDir, file.getName() );
+                }
+
+                FileUtils.copyTo( file, destination );
                 if ( DO_SVN_ADD ) {
                     /* 
                      * This adds the file to the SVN repository if it didn't already exist.
                      * It does not commit files that already exist, so that we have the 
                      * opportunity to manually review them.
                      */
-                    String cmd = "svn add " + dst.getAbsolutePath();
+                    String cmd = "svn add " + destination.getAbsolutePath();
                     System.out.println( cmd );
                     Process process = Runtime.getRuntime().exec( cmd );
                     int rval = process.waitFor();

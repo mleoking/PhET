@@ -37,7 +37,7 @@ public class Translation {
             simname = file.getName().substring( 0, index );
         }
 
-        if( simname != null && ( simname.equals( "java-common-strings" ) || simname.equals( "flash-common-strings" ) ) ) {
+        if ( simname != null && ( simname.equals( "java-common-strings" ) || simname.equals( "flash-common-strings" ) ) ) {
             simname = null;
         }
 
@@ -50,9 +50,10 @@ public class Translation {
         String type = getType();
         String name = file.getName();
 
-        if( isJavaTranslation() ) {
+        if ( isJavaTranslation() ) {
             ret = name.startsWith( "phetcommon-strings_" );
-        } else if( isFlashTranslation() ) {
+        }
+        else if ( isFlashTranslation() ) {
             ret = name.startsWith( "common-strings_" );
         }
 
@@ -68,7 +69,7 @@ public class Translation {
         String search = "-strings_";
         int index = file.getName().indexOf( search );
 
-        if( index != -1 ) {
+        if ( index != -1 ) {
             index += search.length();
             String localeString = file.getName().substring( index, file.getName().indexOf( ".", index ) );
             ret = LocaleUtils.stringToLocale( localeString );
@@ -79,22 +80,23 @@ public class Translation {
 
     public boolean isJavaTranslation() {
         String type = getType();
-        if( type == null ) { return false; }
+        if ( type == null ) { return false; }
         return type.equals( TRANSLATION_JAVA );
     }
 
     public boolean isFlashTranslation() {
         String type = getType();
-        if( type == null ) { return false; }
+        if ( type == null ) { return false; }
         return type.equals( TRANSLATION_FLASH );
     }
 
     public String getType() {
         String filename = file.getName();
 
-        if( filename.endsWith( ".properties" ) ) {
+        if ( filename.endsWith( ".properties" ) ) {
             return TRANSLATION_JAVA;
-        } else if( filename.endsWith( ".xml" ) ) {
+        }
+        else if ( filename.endsWith( ".xml" ) ) {
             return TRANSLATION_FLASH;
         }
 
@@ -102,9 +104,10 @@ public class Translation {
     }
 
     public File getSimulationsDir( File trunk ) {
-        if( isJavaTranslation() ) {
+        if ( isJavaTranslation() ) {
             return new File( trunk, "simulations-java/simulations" );
-        } else if( isFlashTranslation() ) {
+        }
+        else if ( isFlashTranslation() ) {
             return new File( trunk, "simulations-flash/simulations" );
         }
 
@@ -113,10 +116,11 @@ public class Translation {
 
     public PhetProject getProject( File trunk ) throws IOException {
         String simName = getSimName();
-        
-        if( isJavaTranslation() ) {
+
+        if ( isJavaTranslation() ) {
             return new JavaSimulationProject( new File( getSimulationsDir( trunk ), simName ) );
-        } else if( isJavaTranslation() ) {
+        }
+        else if ( isFlashTranslation() ) {
             return new FlashSimulationProject( new File( getSimulationsDir( trunk ), simName ) );
         }
 
