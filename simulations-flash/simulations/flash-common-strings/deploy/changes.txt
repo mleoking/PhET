@@ -1,3 +1,5 @@
+# 1.08.00 (30124) Mar 31, 2009
+3/31/09 Slight changes to privacy and updates
 # 1.07.00 (29925) Mar 26, 2009
 3/26/09 Added Romanian (and Vietnamese)
 # 1.06.00 (29825) Mar 25, 2009
