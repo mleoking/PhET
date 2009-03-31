@@ -5,7 +5,7 @@ package edu.colorado.phet.statesofmatter.model;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 
 /**
- * This class provides the interaction potential value between a number of
+ * This class provides the interaction strength value between a number of
  * different pairs of atoms.  To do them all would be too much, so this is a
  * sparse table.  Feel free to fill them in as more are needed.
  * 
@@ -18,7 +18,7 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
  * @author John Blanco
  *
  */
-public class InteractionPotentialTable {
+public class InteractionStrengthTable {
 
 	/**
 	 * Get the interaction potential between two atoms.  Units are such that
