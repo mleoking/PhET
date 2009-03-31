@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.statesofmatter.model;
 
+import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
+
 /**
  * This class provides the interaction potential value between a number of
  * different pairs of atoms.  To do them all would be too much, so this is a
@@ -29,6 +31,31 @@ public class InteractionPotentialTable {
 	 * @return
 	 */
 	static double getInteractionPotential( AtomType atom1, AtomType atom2 ){
-		return 100;
+		if (atom1 == atom2){
+			// Heterogeneous pair of atoms.
+			if (atom1 == AtomType.NEON){
+				return 32.8;
+			}
+			else if (atom1 == AtomType.ARGON){
+				return 111.84;
+			}
+			else if (atom1 == AtomType.OXYGEN){
+				return 113.27;
+			}
+			else if (atom1 == AtomType.ADJUSTABLE){
+				return StatesOfMatterConstants.MAX_EPSILON / 2;
+			}
+			else{
+				System.err.println("Error: Interaction potential not available for requested atom: " + atom1);
+				assert(false);
+				return StatesOfMatterConstants.MAX_EPSILON / 2;  // In the real world, default to an arbitrary value.
+			}
+		}
+		else{
+			// Heterogeneous situation.  I think that in reality each pair of
+			// atoms would have a unique interaction potential, but for now we
+			// just use the average of the two atoms.
+			return (getInteractionPotential(atom1, atom1) + getInteractionPotential(atom2, atom2)) / 2;
+		}
 	}
 }
