@@ -1,9 +1,11 @@
 package edu.colorado.phet.common.phetcommon.updates;
 
 import java.awt.Frame;
+import java.net.UnknownHostException;
 
 import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery;
@@ -90,8 +92,14 @@ public class AutomaticUpdatesManager {
             }
             
             public void exception( Exception e ) {
-                //TODO handle differently?
-                e.printStackTrace();
+                if ( e instanceof UnknownHostException ) {
+                    // user is probably not connected to the Internet
+                    System.out.println( getClass().getName() + ": cannot connect, " + e.toString() );
+                }
+                else {
+                    //TODO handle differently?
+                    e.printStackTrace();
+                }
             }
         });
         
