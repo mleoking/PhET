@@ -9,7 +9,6 @@ import java.util.StringTokenizer;
 import edu.colorado.phet.buildtools.JARGenerator;
 import edu.colorado.phet.buildtools.PhetServer;
 import edu.colorado.phet.buildtools.util.FileUtils;
-import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
 /**
  * Created by IntelliJ IDEA.
@@ -50,14 +49,15 @@ public class TranslationDeployPublisher {
 
             String[] locales = TranslationDeployServer.getFlashTranslatedLocales( translationDir, project );
 
-            copyHTMLs( translationDir, project, locales );
+            copyFlashHTMLs( translationDir, project, locales );
 
         }
 
         clearWebCaches( translationDir );
     }
 
-    private void copyHTMLs( File translationDir, String project, String[] locales ) {
+    // copy the necessary flash HTML files in translationDir (with project and locales) to the main location
+    private void copyFlashHTMLs( File translationDir, String project, String[] locales ) {
         for( int i = 0; i < locales.length; i++ ) {
             String HTMLName = project + "_" + locales[i] + ".html";
             File fromFile = new File( translationDir, HTMLName );
