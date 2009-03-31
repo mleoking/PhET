@@ -9,7 +9,7 @@ package edu.colorado.phet.movingman.ladybug.util
 object TestBlock {
   def main(args: Array[String]) = {
 
-    val block = defineAndInvoke{
+    val block = defineAndInvoke {
       println("evaluated block")
     }
 

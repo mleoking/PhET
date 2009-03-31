@@ -13,10 +13,10 @@ import scalacommon.ScalaClock
 import umd.cs.piccolo.PNode
 
 class LadybugModule[ModelType <: LadybugModel](clock: ScalaClock,
-                                              _model: ModelType,
-                                              newCanvas: LadybugModule[ModelType] => LadybugCanvas,
-                                              newControlPanel: LadybugModule[ModelType] => LadybugControlPanel[ModelType],
-                                              createRightControl: (LadybugModule[ModelType]) => PNode) //control used in right side of clock control panel
+                                               _model: ModelType,
+                                               newCanvas: LadybugModule[ModelType] => LadybugCanvas,
+                                               newControlPanel: LadybugModule[ModelType] => LadybugControlPanel[ModelType],
+                                               createRightControl: (LadybugModule[ModelType]) => PNode) //control used in right side of clock control panel
         extends Module("my module", clock) {
 
   //Auxiliary constructor, used for making a plain vanilla LadybugModule, rather than subclasses
@@ -39,7 +39,7 @@ class LadybugModule[ModelType <: LadybugModel](clock: ScalaClock,
 
   clock.addClockListener(model.update(_))
 
-  setClockControlPanel(new RecordModelControlPanel(model,canvas, () => {createRightControl(this)},LadybugColorSet.position,LadybugDefaults.timelineLengthSeconds))
+  setClockControlPanel(new RecordModelControlPanel(model, canvas, () => {createRightControl(this)}, LadybugColorSet.position, LadybugDefaults.timelineLengthSeconds))
 
   def getLadybugMotionModel = model.getLadybugMotionModel()
 

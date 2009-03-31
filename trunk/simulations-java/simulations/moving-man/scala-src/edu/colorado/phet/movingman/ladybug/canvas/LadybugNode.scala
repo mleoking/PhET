@@ -19,9 +19,9 @@ import edu.colorado.phet.scalacommon.Predef._
 import util.ToggleListener
 
 class LadybugNode(model: LadybugModel,
-                 ladybug: Ladybug,
-                 transform: ModelViewTransform2D,
-                 vectorVisibilityModel: VectorVisibilityModel)
+                  ladybug: Ladybug,
+                  transform: ModelViewTransform2D,
+                  vectorVisibilityModel: VectorVisibilityModel)
         extends BugNode(ladybug, transform, MovingManResources.loadBufferedImage("ladybug/ladybug.png")) {
   var interactive = true //todo: do we need both draggable and interactive?
   var draggable = true

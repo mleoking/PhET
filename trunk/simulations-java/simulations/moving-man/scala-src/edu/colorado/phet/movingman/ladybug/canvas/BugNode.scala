@@ -36,7 +36,7 @@ class BugNode(bug: Bug, transform: ModelViewTransform2D, bufferedImage: Buffered
   def updateBug(): Unit = {
 
     pimage.setTransform(new AffineTransform)
-    
+
     val modelPosition = bug.getPosition
     val viewPosition = transform.modelToView(modelPosition)
     val dx = new Vector2D(pimage.getImage.getWidth(null), pimage.getImage.getHeight(null))
