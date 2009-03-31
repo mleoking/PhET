@@ -29,7 +29,7 @@
   <string key="CurrentVersionIs" value="Your current version of {0} is {1}." />
   <string key="NewerVersionIs" value="A newer version {0} is available." />
   <string key="NotUpdateSim" value="This simulation cannot be updated automatically." />
-  <string key="PhETInstallation" value="To download a new installation containing the latest simulation, please visit the &lt;a href='{0}'&gt;PhET installation page&lt;/a&gt; for more information." />
+  <string key="PhETInstallation" value="To download a new installer containing the latest simulation, please visit the &lt;a href='{0}'&gt;PhET Offline Website Installer page&lt;/a&gt;." />
   <string key="UpdateOptionsAvailable" value="Update options are available under &lt;i&gt;Preferences&lt;/i&gt;." />
   <string key="AskLater" value="Ask me later" />
   <string key="PrivacySkip" value="Skip this version" />
