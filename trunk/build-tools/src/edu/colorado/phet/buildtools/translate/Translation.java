@@ -44,6 +44,25 @@ public class Translation {
         return simname;
     }
 
+    public boolean isCommonTranslation() {
+        boolean ret = false;
+
+        String type = getType();
+        String name = file.getName();
+
+        if( isJavaTranslation() ) {
+            ret = name.startsWith( "phetcommon-strings_" );
+        } else if( isFlashTranslation() ) {
+            ret = name.startsWith( "common-strings_" );
+        }
+
+        return ret;
+    }
+
+    public boolean isSimulationTranslation() {
+        return isValid() && !isCommonTranslation();
+    }
+
     public Locale getLocale() {
         Locale ret = null;
         String search = "-strings_";
@@ -56,6 +75,18 @@ public class Translation {
         }
 
         return ret;
+    }
+
+    public boolean isJavaTranslation() {
+        String type = getType();
+        if( type == null ) { return false; }
+        return type.equals( TRANSLATION_JAVA );
+    }
+
+    public boolean isFlashTranslation() {
+        String type = getType();
+        if( type == null ) { return false; }
+        return type.equals( TRANSLATION_FLASH );
     }
 
     public String getType() {
@@ -71,9 +102,9 @@ public class Translation {
     }
 
     public File getSimulationsDir( File trunk ) {
-        if( getType().equals( TRANSLATION_JAVA) ) {
+        if( isJavaTranslation() ) {
             return new File( trunk, "simulations-java/simulations" );
-        } else if( getType().equals( TRANSLATION_FLASH ) ) {
+        } else if( isFlashTranslation() ) {
             return new File( trunk, "simulations-flash/simulations" );
         }
 
@@ -83,9 +114,9 @@ public class Translation {
     public PhetProject getProject( File trunk ) throws IOException {
         String simName = getSimName();
         
-        if( getType().equals( TRANSLATION_JAVA) ) {
+        if( isJavaTranslation() ) {
             return new JavaSimulationProject( new File( getSimulationsDir( trunk ), simName ) );
-        } else if( getType().equals( TRANSLATION_FLASH ) ) {
+        } else if( isJavaTranslation() ) {
             return new FlashSimulationProject( new File( getSimulationsDir( trunk ), simName ) );
         }
 

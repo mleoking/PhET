@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.swing.*;
 
@@ -17,6 +18,7 @@ import org.rev6.scf.SshException;
 import edu.colorado.phet.buildtools.AuthenticationInfo;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.PhetServer;
+import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
 import edu.colorado.phet.buildtools.util.ScpTo;
@@ -24,11 +26,7 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.phetcommon.resources.PhetInstallerVersion;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery;
-import edu.colorado.phet.common.phetcommon.updates.dialogs.SimManualUpdateDialog;
-import edu.colorado.phet.common.phetcommon.updates.dialogs.NoUpdateDialog;
-import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateErrorDialog;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
 import com.jcraft.jsch.JSchException;
@@ -94,7 +92,7 @@ public class TranslationDeployClient {
 
         openBrowser( "http://phet.colorado.edu/sims/translations/" + deployDirName );
 
-        transferFlashHTML( trunk, srcDir, server, authenticationInfo, translationDir );
+        transferFlashHTMLs( trunk, srcDir, server, authenticationInfo, translationDir );
 
         invokeTranslationDeployServer( translationDir, authenticationInfo, server );
 
@@ -107,7 +105,34 @@ public class TranslationDeployClient {
         //launch remote TranslationDeployServer
     }
 
-    private void transferFlashHTML( File trunk, File srcDir, final PhetServer server, final AuthenticationInfo authenticationInfo, final String remotePathDir ) throws IOException {
+    private void transferFlashHTML( final String simName, final String remotePathDir, final Locale locale, final FlashSimulationProject project, final AuthenticationInfo authenticationInfo, final PhetServer server ) {
+        final PhetInstallerVersion currentInstallerVersion = new PhetInstallerVersion( 0 ); // don't care, since this query is for the sim
+        final VersionInfoQuery query = new VersionInfoQuery( simName, simName, new PhetVersion( "1", "00", "00", "20000", "10" ), currentInstallerVersion, false /* automaticRequest */ );
+        query.addListener( new VersionInfoQuery.VersionInfoQueryListener() {
+
+            public void done( final VersionInfoQuery.VersionInfoQueryResponse result ) {
+                PhetVersion version = result.getSimVersion();
+                try {
+                    project.buildHTML( locale , version );
+                    String HTMLName = project.getName() + "_" + LocaleUtils.localeToString( locale )+ ".html";
+                    ScpTo.uploadFile( new File( project.getDeployDir(), HTMLName), authenticationInfo.getUsername(), server.getHost(), remotePathDir + "/" + HTMLName, authenticationInfo.getPassword() );
+                }
+                catch( IOException e ) {
+                    e.printStackTrace();
+                }
+                catch( JSchException e ) {
+                    e.printStackTrace();
+                }
+            }
+
+            public void exception( Exception e ) {
+                e.printStackTrace();
+            }
+        });
+        query.send();
+    }
+
+    private void transferFlashHTMLs( File trunk, File srcDir, final PhetServer server, final AuthenticationInfo authenticationInfo, final String remotePathDir ) throws IOException {
 
         File[] files = srcDir.listFiles();
 
@@ -115,14 +140,21 @@ public class TranslationDeployClient {
 
             final Translation translation = new Translation( files[i] );
 
-            if( !translation.isValid() || !translation.getType().equals( Translation.TRANSLATION_FLASH ) ) {
+            if( !translation.isValid() || !translation.isFlashTranslation() ) {
                 continue;
             }
 
+            if( translation.isSimulationTranslation() ) {
+                transferFlashHTML( translation.getSimName(), remotePathDir, translation.getLocale(), (FlashSimulationProject) translation.getProject( trunk ), authenticationInfo, server );
+            } else if( translation.isCommonTranslation() ) {
+                System.out.println( "WARNING: Flash common translations not supported yet" );
+            }
+
+            /*
             final PhetInstallerVersion currentInstallerVersion = new PhetInstallerVersion( 0 ); // don't care, since this query is for the sim
             final FlashSimulationProject project = (FlashSimulationProject) translation.getProject( trunk );
 
-            final VersionInfoQuery query = new VersionInfoQuery( translation.getSimName(), translation.getSimName(), new PhetVersion( "1", "00", "00", "20000", "10" ), currentInstallerVersion, false /* automaticRequest */ );
+            final VersionInfoQuery query = new VersionInfoQuery( translation.getSimName(), translation.getSimName(), new PhetVersion( "1", "00", "00", "20000", "10" ), currentInstallerVersion, false );
             query.addListener( new VersionInfoQuery.VersionInfoQueryListener() {
 
                 public void done( final VersionInfoQuery.VersionInfoQueryResponse result ) {
@@ -145,6 +177,7 @@ public class TranslationDeployClient {
                 }
             });
             query.send();
+            */
         }
     }
 
