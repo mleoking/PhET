@@ -41,8 +41,6 @@ public class TranslationDeployPublisher {
 
         ArrayList flashProjectNameList = TranslationDeployServer.getFlashProjectNameList( translationDir );
         for ( int i = 0; i < flashProjectNameList.size(); i++ ) {
-            // TODO: don't try to copy common strings to something fake
-
             String project = (String) flashProjectNameList.get( i );
 
             if( project.equals( "common" ) ) {
