@@ -145,6 +145,9 @@ public class DualAtomModel {
         else{
             m_ljPotentialCalculator.setSigma( m_fixedAtom.getRadius() * 2 );
         }
+        
+        // Set the value of epsilon.
+        m_ljPotentialCalculator.setEpsilon(InteractionStrengthTable.getInteractionPotential(m_fixedMoleculeType, m_movableMoleculeType));
 
         notifyFixedAtomAdded( m_fixedAtom );
         notifyInteractionPotentialChanged();
@@ -186,8 +189,9 @@ public class DualAtomModel {
             m_ljPotentialCalculator.setSigma( m_movableAtom.getRadius() * 2 );
         }
 
-        m_ljPotentialCalculator.setEpsilon(determineEpsilon());
-        
+        // Set the value of epsilon.
+        m_ljPotentialCalculator.setEpsilon(InteractionStrengthTable.getInteractionPotential(m_fixedMoleculeType, m_movableMoleculeType));
+
         resetMovableAtomPos();
 
         notifyMovableAtomAdded( m_movableAtom );
@@ -219,7 +223,7 @@ public class DualAtomModel {
 		double epsilon = 0;
 		
 		if ( m_fixedMoleculeType != AtomType.ADJUSTABLE ){
-			epsilon = InteractionPotentialTable.getInteractionPotential(m_fixedMoleculeType, m_movableMoleculeType);
+			epsilon = InteractionStrengthTable.getInteractionPotential(m_fixedMoleculeType, m_movableMoleculeType);
 		}
 		else{
 			epsilon = ((ConfigurableStatesOfMatterAtom)m_fixedAtom).getInteractionPotential();
@@ -279,12 +283,17 @@ public class DualAtomModel {
      */
     public void setEpsilon( double epsilon ){
         
+    	if (epsilon < StatesOfMatterConstants.MIN_EPSILON){
+    		epsilon = StatesOfMatterConstants.MIN_EPSILON;
+    	}
+    	else if (epsilon > StatesOfMatterConstants.MAX_EPSILON){
+    		epsilon = StatesOfMatterConstants.MAX_EPSILON;
+    	}
+    	
     	if ((m_fixedMoleculeType == AtomType.ADJUSTABLE) && 
        		(m_movableMoleculeType == AtomType.ADJUSTABLE)){
 
-    		// TODO: Do I adjust the atoms themselves, or just the overall value?
-    		
-            m_ljPotentialCalculator.setEpsilon( determineEpsilon() );
+            m_ljPotentialCalculator.setEpsilon( epsilon );
             notifyInteractionPotentialChanged();
        	}
     }
@@ -296,7 +305,7 @@ public class DualAtomModel {
      * @return
      */
     public double getEpsilon(){
-        return determineEpsilon();
+        return m_ljPotentialCalculator.getEpsilon();
     }
     
     //----------------------------------------------------------------------------
