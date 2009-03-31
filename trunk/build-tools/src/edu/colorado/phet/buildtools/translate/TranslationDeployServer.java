@@ -61,6 +61,7 @@ public class TranslationDeployServer {
 
     private void integrateFlashTranslations( File translationDir, String project ) throws IOException {
         if ( project.equals( "common" ) ) {
+            // we can't copy htdocs/sims/common/common.swf, why even try?
             return;
         }
 
