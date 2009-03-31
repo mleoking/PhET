@@ -173,6 +173,9 @@ public class InteractiveInteractionPotentialDiagram extends InteractionPotential
             }
         });
         
+        // Redraw the potential curve.
+        drawPotentialCurve();
+        
         // Update interactivity state.
         updateInteractivityState();
     }
