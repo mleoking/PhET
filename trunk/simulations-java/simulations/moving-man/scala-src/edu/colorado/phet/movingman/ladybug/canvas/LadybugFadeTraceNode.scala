@@ -15,10 +15,10 @@ class LadybugFadeTraceNode(model: LadybugModel, transform: ModelViewTransform2D,
   update()
 
   def update() = {
-    removeAllChildren
+    removeAllChildren()
     implicit def historyToPoint(dataPoint: DataPoint[LadybugState]) = new Point2D.Float(dataPoint.state.position.x.toFloat, dataPoint.state.position.y.toFloat)
 
-    val historyToShow = getHistoryToShow()
+    val historyToShow = getHistoryToShow
     if (historyToShow.length >= 2) {
       val t = transform.modelToView(historyToShow(0))
       for (i <- 0 to (historyToShow.length - 2)) {
