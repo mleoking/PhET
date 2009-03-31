@@ -80,7 +80,7 @@ public class StatisticsMessageSender {
             success = parseResponse( responseDocument );
         }
         catch ( UnknownHostException uhe ) {
-            System.err.println( getClass().getName() + " could not send message, perhaps network is unavailable: " + uhe.toString() );
+            System.out.println( getClass().getName() + ": cannot connect, " + uhe.toString() );
         }
         catch ( ParserConfigurationException e ) {
             e.printStackTrace();
