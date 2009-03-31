@@ -2,22 +2,21 @@ package edu.colorado.phet.flashlauncher;
 
 // Functions to generate and write Flash HTML files
 
-import edu.colorado.phet.flashlauncher.util.AnnotationParser;
-import edu.colorado.phet.flashlauncher.util.XMLUtils;
-
 import java.io.*;
 import java.net.URLEncoder;
-import java.util.Properties;
-import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Element;
-
-import javax.xml.transform.TransformerException;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
+import edu.colorado.phet.flashlauncher.util.AnnotationParser;
+import edu.colorado.phet.flashlauncher.util.XMLUtils;
 
 //import edu.colorado.phet.buildtools.util.FileUtils;
 
@@ -43,7 +42,7 @@ public class FlashHTML {
                                        String encodedCommonXML, String minimumFlashMajorVersion, String HTML_TEMPLATE,
                                        String agreementVersion, String encodedAgreementHTML, String creditsString,
                                        String titleString
-                                    ) throws IOException {
+    ) throws IOException {
         String s = "";
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( HTML_TEMPLATE );
         BufferedReader bufferedReader = null;
@@ -107,7 +106,7 @@ public class FlashHTML {
 
     public static String versionTitleString( String versionMajor, String versionMinor, String versionDev ) {
         String ret = versionMajor + "." + versionMinor;
-        if( !versionDev.equals("0") && !versionDev.equals("00") ) {
+        if ( !versionDev.equals( "0" ) && !versionDev.equals( "00" ) ) {
             ret += "." + versionDev;
         }
         return ret;
@@ -183,7 +182,7 @@ public class FlashHTML {
             String value = (String) map.get( key );
             credits += key + ": " + value + "<br>";
         }
-        return encodeXML(credits);
+        return encodeXML( credits );
     }
 
     public static String extractTitleFromXML( File xmlFile ) {
@@ -196,14 +195,14 @@ public class FlashHTML {
 
             NodeList strings = document.getElementsByTagName( "string" );
 
-            for( int i = 0; i < strings.getLength(); i++ ) {
+            for ( int i = 0; i < strings.getLength(); i++ ) {
                 Element element = (Element) strings.item( i );
 
                 String key = element.getAttribute( "key" );
 
                 //System.out.println( "key: " + key );
 
-                if( !key.equals( "simTitle" ) ) {
+                if ( !key.equals( "simTitle" ) ) {
                     continue;
                 }
 
@@ -215,25 +214,19 @@ public class FlashHTML {
             }
 
             return null;
-        } catch (IOException e) {
+        }
+        catch( IOException e ) {
             e.printStackTrace();
             return null;
-        } catch (TransformerException e) {
+        }
+        catch( TransformerException e ) {
             e.printStackTrace();
             return null;
-        } catch (ParserConfigurationException e) {
+        }
+        catch( ParserConfigurationException e ) {
             e.printStackTrace();
             return null;
         }
     }
-
-    /*
-    public static void main(String[] args) {
-        String str = extractTitleFromXML( new File( "/home/jon/phet/svn/trunk/simulations-flash/simulations/arithmetic/data/arithmetic/localization/arithmetic-strings_en.xml" ) );
-
-        System.out.println( "Title is: " + str );
-        
-    }
-    */
 
 }
