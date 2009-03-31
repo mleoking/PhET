@@ -77,9 +77,7 @@ public class PhetFrame extends JFrame {
         } );
 
 
-        if (
-                true||//TODO 1325: remove short circuit after alpha testing, for beta testing, so that this is a developer control
-                getApplication().getSimInfo().isDev() ) {
+        if ( getApplication().getSimInfo().isDev() ) {
             addF8ToClearPreferencesFile();
         }
     }
