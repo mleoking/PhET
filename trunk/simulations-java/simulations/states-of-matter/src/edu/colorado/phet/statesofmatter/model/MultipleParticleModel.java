@@ -511,11 +511,11 @@ public class MultipleParticleModel{
         switch ( m_currentMolecule ){
         
         case StatesOfMatterConstants.NEON:
-            epsilon = InteractionPotentialTable.getInteractionPotential(AtomType.NEON, AtomType.NEON);
+            epsilon = InteractionStrengthTable.getInteractionPotential(AtomType.NEON, AtomType.NEON);
             break;
         
         case StatesOfMatterConstants.ARGON:
-            epsilon = InteractionPotentialTable.getInteractionPotential(AtomType.ARGON, AtomType.ARGON);
+            epsilon = InteractionStrengthTable.getInteractionPotential(AtomType.ARGON, AtomType.ARGON);
             break;
         
         case StatesOfMatterConstants.DIATOMIC_OXYGEN:
@@ -523,7 +523,7 @@ public class MultipleParticleModel{
             break;
         
         case StatesOfMatterConstants.MONATOMIC_OXYGEN:
-            epsilon = InteractionPotentialTable.getInteractionPotential(AtomType.OXYGEN, AtomType.OXYGEN);
+            epsilon = InteractionStrengthTable.getInteractionPotential(AtomType.OXYGEN, AtomType.OXYGEN);
             break;
         
         case StatesOfMatterConstants.WATER:
