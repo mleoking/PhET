@@ -213,25 +213,6 @@ public class DualAtomModel {
         }
 	}
 	
-	/**
-	 * Determine the value that should be used for epsilon (the interaction
-	 * potential) based on the two atoms being used.
-	 * @return
-	 */
-	private double determineEpsilon(){
-		
-		double epsilon = 0;
-		
-		if ( m_fixedMoleculeType != AtomType.ADJUSTABLE ){
-			epsilon = InteractionStrengthTable.getInteractionPotential(m_fixedMoleculeType, m_movableMoleculeType);
-		}
-		else{
-			epsilon = ((ConfigurableStatesOfMatterAtom)m_fixedAtom).getInteractionPotential();
-		}
-		
-		return epsilon;
-	}
-    
 	public void setBothMoleculeTypes(AtomType atomType){
         
         m_settingBothAtomTypes = true;

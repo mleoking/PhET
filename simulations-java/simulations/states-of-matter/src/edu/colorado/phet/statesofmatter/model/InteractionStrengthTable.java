@@ -3,6 +3,7 @@
 package edu.colorado.phet.statesofmatter.model;
 
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
+import edu.colorado.phet.statesofmatter.model.particle.ConfigurableStatesOfMatterAtom;
 
 /**
  * This class provides the interaction strength value between a number of
@@ -43,7 +44,7 @@ public class InteractionStrengthTable {
 				return 113.27;
 			}
 			else if (atom1 == AtomType.ADJUSTABLE){
-				return StatesOfMatterConstants.MAX_EPSILON / 2;
+				return ConfigurableStatesOfMatterAtom.DEFAULT_INTERACTION_POTENTIAL;
 			}
 			else{
 				System.err.println("Error: Interaction potential not available for requested atom: " + atom1);
