@@ -39,6 +39,15 @@ class Vector2D(_x: Double, _y: Double) {
   def dot(that: Vector2D) = x * that.x + y * that.y;
 
   def normalize = this / this.magnitude
+
+  override def hashCode = ((x+y*123456L)*1000).toInt
+
+  override def equals(obj: Any) = {
+    obj match {
+      case a:Vector2D => a.x==x && a.y==y
+      case _ => false
+    }
+  }
 }
 
 object TestVector2D {
