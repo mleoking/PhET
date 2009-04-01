@@ -77,7 +77,7 @@ public class RotationApplication extends PiccoloPhetApplication {
     private static class RotationApplicationConfig extends PhetApplicationConfig {
         public RotationApplicationConfig( final String[] args ) {
             super( args, "rotation" );
-            setFrameSetup( new RotationFrameSetup() );
+//            setFrameSetup( new RotationFrameSetup() );
         }
     }
 }
