@@ -29,10 +29,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 
 public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanvas {//using the buffer removes some glitches without causing significant performance impact
-//public abstract class AbstractRotationSimulationPanel extends PhetPCanvas {
     private AbstractRotationModule rotationModule;
 
-    /* PNodes*/
     private RotationPlayAreaNode rotationPlayAreaNode;
     private TimeSeriesGraphSetNode timeSeriesGraphSetNode;
     private PSwing rotationControlPanelNode;
@@ -43,9 +41,7 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
     private JComponent controlPanel;
     private long paintTime = 0;
     private PClip playAreaClip;
-    //    public static final Color PLAY_AREA_BACKGROUND_COLOR = new Color( 250, 239, 197 );
-    //    public static final Color PLAY_AREA_BACKGROUND_COLOR = new Color( 180, 250, 180 );
-    //    public static final Color PLAY_AREA_BACKGROUND_COLOR = new Color( 140, 255, 140);
+
     public static final Color PLAY_AREA_BACKGROUND_COLOR = new Color( 144, 240, 168 );
 
     public AbstractRotationSimulationPanel( final AbstractRotationModule rotationModule, final JFrame phetFrame ) {
@@ -70,26 +66,12 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
         rotationControlPanelNode = new PSwing( controlPanel );
 
         addScreenChild( rotationControlPanelNode );
-        addScreenChild( timeSeriesGraphSetNode );
-//        addScreenChild( rotationPlayAreaNode );
+
         playAreaClip = new PClip();
-//        playAreaClip.setPaint( new Color( 207, 187, 108 ));
         playAreaClip.setPaint( PLAY_AREA_BACKGROUND_COLOR );
         playAreaClip.addChild( rotationPlayAreaNode );
-//        JDialog x=ColorChooserFactory.createDialog( "color",phetFrame, (Color) playAreaClip.getPaint(),new ColorChooserFactory.Listener() {
-//            public void colorChanged( Color color ) {
-//                playAreaClip.setPaint(color );
-//            }
-//
-//            public void ok( Color color ) {
-//                playAreaClip.setPaint(color );
-//            }
-//
-//            public void cancelled( Color originalColor ) {
-//            }
-//        } );
-//        x.show( );
         addScreenChild( playAreaClip );
+        addScreenChild( timeSeriesGraphSetNode );
 
         relayout();
         addComponentListener( new ComponentListener() {

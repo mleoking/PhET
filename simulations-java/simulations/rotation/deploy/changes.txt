@@ -1,3 +1,4 @@
+> improve layout for 1024x768 resoultion, see #1092
 # 1.06.02 (29629) Mar 22, 2009
 3/22/09 Batch deploy for Alpha Simulation Tests 2, svn 29628
 # 1.06.01 (28813) Feb 19, 2009

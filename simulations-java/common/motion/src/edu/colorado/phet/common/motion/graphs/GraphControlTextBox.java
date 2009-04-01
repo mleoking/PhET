@@ -37,7 +37,7 @@ public class GraphControlTextBox extends JPanel {
         equalsSign.setFont( labelFont );
         add( equalsSign );
 
-        textField = new JTextField( "0.0", 6 );
+        textField = new JTextField( "0.0", 5 );
         textField.setFont( new PhetFont( 20,true) );
         textField.setHorizontalAlignment( JTextField.RIGHT );
         add( textField );
