@@ -85,7 +85,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
     /**
      * Constructor.
      */
-    public InteractionPotentialControlPanel( InteractionPotentialModule solidLiquidGasModule, Frame parentFrame ) {
+    public InteractionPotentialControlPanel( InteractionPotentialModule solidLiquidGasModule, Frame parentFrame, 
+    		boolean enableHeterogeneousAtoms ) {
         
         m_model = solidLiquidGasModule.getDualParticleModel();
         m_canvas = solidLiquidGasModule.getCanvas();
@@ -110,7 +111,12 @@ public class InteractionPotentialControlPanel extends ControlPanel {
         m_interactionStrengthControlPanel = new InteractionStrengthControlPanel( m_model );
         
         // Create the panel that allows the user to select molecule type.
-        m_moleculeSelectionPanel = new HeterogeneousAtomSelectionPanel();
+        if (enableHeterogeneousAtoms){
+            m_moleculeSelectionPanel = new HeterogeneousAtomSelectionPanel();
+        }
+        else{
+            m_moleculeSelectionPanel = new HomogeneousAtomSelectionPanel();
+        }
 
         // Create the panel that allows the user to control which forces are
         // shown on the atoms.
