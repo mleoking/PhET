@@ -1,3 +1,4 @@
+# 1.20.42 (30144) Mar 31, 2009
 > Fixed: path doesn't clear on reset
 > reduced radius in circular mode so the acceleration vector is longer
 # 1.20.41 (30131) Mar 31, 2009
