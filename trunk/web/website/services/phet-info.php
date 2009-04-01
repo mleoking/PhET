@@ -219,7 +219,7 @@ class PhetInfo {
         $version = $simulation->getVersion();
         $missing_attributes = array();
         foreach ($version as $key => $value) {
-            if (empty($value)) {
+            if (strlen($value) == 0) {
                 $missing_attributes[] = "version_{$key}";
             }
         }

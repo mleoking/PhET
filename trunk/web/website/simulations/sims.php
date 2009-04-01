@@ -139,7 +139,8 @@ EOT;
 
         $version = $this->sim->getVersion();
         $sim_version_html = '';
-        if (!empty($version['major']) && !empty($version['minor'])) {
+        if ((strlen($version['major']) > 0) &&
+            (strlen($version['minor']) > 0)) {
             $sim_version_html = <<<EOT
                         <span class="version">
                             Version {$version['major']}.{$version['minor']}
