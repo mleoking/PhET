@@ -1,3 +1,5 @@
+# 2.05.03 (30172) Apr 1, 2009
+4/1/09 Slowed down rate of photon motion by 50% so absorbtion and re-emission can be seen more easily
 # 2.05.02 (29629) Mar 22, 2009
 3/22/09 Batch deploy for Alpha Simulation Tests 2, svn 29628
 # 2.05.01 (28793) Feb 19, 2009
