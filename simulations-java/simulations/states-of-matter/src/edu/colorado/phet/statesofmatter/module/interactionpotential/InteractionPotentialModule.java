@@ -29,7 +29,7 @@ public class InteractionPotentialModule extends PiccoloModule {
     // Constructor
     //----------------------------------------------------------------------------
     
-    public InteractionPotentialModule( Frame parentFrame ) {
+    public InteractionPotentialModule( Frame parentFrame, boolean enableHeterogeneousAtoms ) {
         
         super(StatesOfMatterStrings.TITLE_INTERACTION_POTENTIAL_MODULE, 
                 new ConstantDtClock(InteractionPotentialDefaults.CLOCK_FRAME_DELAY, 
@@ -43,7 +43,7 @@ public class InteractionPotentialModule extends PiccoloModule {
         setSimulationPanel( m_canvas );
         
         // Control panel
-        setControlPanel( new InteractionPotentialControlPanel( this, parentFrame ) );
+        setControlPanel( new InteractionPotentialControlPanel( this, parentFrame, enableHeterogeneousAtoms ) );
         
         // Help
         if ( hasHelp() ) {

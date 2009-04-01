@@ -84,7 +84,7 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
         m_phaseChangesModule = new PhaseChangesModule( parentFrame );
         addModule( m_phaseChangesModule );
 
-        m_interactionPotentialModule = new InteractionPotentialModule( parentFrame );
+        m_interactionPotentialModule = new InteractionPotentialModule( parentFrame, false );
         addModule( m_interactionPotentialModule );
     }
 

@@ -72,7 +72,7 @@ public class InteractionPotentialApplication extends PiccoloPhetApplication impl
         
         Frame parentFrame = getPhetFrame();
 
-        m_interactionPotentialModule = new InteractionPotentialModule( parentFrame );
+        m_interactionPotentialModule = new InteractionPotentialModule( parentFrame, true );
         addModule( m_interactionPotentialModule );
     }
 
