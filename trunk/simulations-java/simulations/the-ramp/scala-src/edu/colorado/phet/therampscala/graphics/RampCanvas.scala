@@ -28,4 +28,6 @@ class RampCanvas(model: RampModel) extends DefaultCanvas(22, 20) {
   addNode(new AppliedForceSliderNode(model.beads(0), transform))
 
   addNode(new ObjectSelectionNode(transform, model))
+
+  addNode(new CoordinateFrame(model,transform))
 }
