@@ -1,3 +1,5 @@
+# 1.11.00 (30160) Apr 1, 2009
+4/1/09 Redeploy with generation of _en.jar file
 # 1.10.00 (30157) Apr 1, 2009
 4/1/09 Redeploy java common strings to try to produce java-common-strings_en.jar (was missing before)
 # 1.09.00 (30128) Mar 31, 2009
