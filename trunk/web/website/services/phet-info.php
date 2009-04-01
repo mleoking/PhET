@@ -202,6 +202,7 @@ class PhetInfo {
         $sim = (string) $request_xml['sim'];
 
         try {
+            SimFactory::inst()->enableTestSims();
             $simulation =
                 SimFactory::inst()->getByProjectAndSimName(
                     $project,

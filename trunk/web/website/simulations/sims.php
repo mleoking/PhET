@@ -24,6 +24,11 @@ class IndividualSimulationPage extends SitePage {
             return;
         }
 
+        if (isset($_REQUEST['enable_test_sims']) && 
+            $_REQUEST['enable_test_sims']) {
+            SimFactory::inst()->enableTestSims();
+        }
+
         // If we're here, a sim was specified
 
         $sim_encoding = $_REQUEST['sim'];

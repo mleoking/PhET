@@ -17,12 +17,15 @@ class SimFactory {
     private $projectSimNameMap;
     private $idMap;
     private $simDBCache;
+    private $testSimsEnabled;
+
     private function __construct() {
         self::$instance = $this;
         $this->webEncodedMap = array();
         $this->projectSimNameMap = array();
         $this->idMap = array();
         $this->simDBCache = NULL;
+        $this->testSimsEnabled = FALSE;
     }
 
     private function __clone() {
@@ -38,9 +41,97 @@ class SimFactory {
         return self::$instance;
     }
 
+    private function getTestSimData() {
+        $test_sim_data = array();
+        $test_sim_data[] = array(
+            'sim_id' => '-101',
+            'sim_name' => 'Test Java Sim 1',
+            'sim_dirname' => 'test-project',
+            'sim_flavorname' => 'sim1',
+            'sim_rating' => '0',
+            'sim_no_mac' => '0',
+            'sim_crutch' => '0',
+            'sim_type' => '0',
+            'sim_size' => 'ignored',
+            'sim_launch_url' => 'ignored',
+            'sim_image_url' => 'ignored',
+            'sim_desc' => 'This is the FIRST (1) test simulation within a test project for Java sims',
+            'sim_keywords' => 'JavaSim1_Keyword1, Part1*JavaSim1_Keyword2*JavaSim1_Keyword3',
+            'sim_system_req' => '',
+            'sim_teachers_guide_id' => '0',
+            'sim_main_topics' => 'TestJavaSim1_Topic1*TestJavaSim1_Topic2*TestJavaSim1_Topic3',
+            'sim_design_team' => 'Abraham Lincoln*Ferris Beuler*Saint Teresa of Ávila',
+            'sim_libraries' => 'UnknownA1*UnknownB1',
+            'sim_thanks_to' => 'Betty Davis*Yogi Bear*Cinco de Mayo',
+            'sim_sample_goals' => 'Test stuff in Java projects*Test stuff in Java sims*Test stuff in Java*Test stuff',
+            'sim_sorting_name' => 'test sim 1',
+            'sim_animated_image_url' => '',
+            'sim_is_real' => '0',
+            );
+        $test_sim_data[] = array(
+            'sim_id' => '-102',
+            'sim_name' => 'Test Java Sim 2',
+            'sim_dirname' => 'test-project',
+            'sim_flavorname' => 'sim2',
+            'sim_rating' => '0',
+            'sim_no_mac' => '0',
+            'sim_crutch' => '0',
+            'sim_type' => '0',
+            'sim_size' => 'ignored',
+            'sim_launch_url' => 'ignored',
+            'sim_image_url' => 'ignored',
+            'sim_desc' => 'This is the SECOND (2) test simulation within a test project for Java sims',
+            'sim_keywords' => 'JavaSim2_Keyword1, Part1*JavaSim2_Keyword2*JavaSim2_Keyword3',
+            'sim_system_req' => '',
+            'sim_teachers_guide_id' => '0',
+            'sim_main_topics' => 'TestJavaSim2_Topic1*TestJavaSim2_Topic2*TestJavaSim2_Topic3',
+            'sim_design_team' => 'Bell, Biv, Devoe*Charlie Chaplin*Scrooge McDuck',
+            'sim_libraries' => 'UnknownA2',
+            'sim_thanks_to' => 'Mohandas Karamchand Gandhi*Aldous Huxley*1985 Chicago Bears',
+            'sim_sample_goals' => 'Test stuff in Java projects*Test stuff in Java sims*Test stuff in Java*Test stuff',
+            'sim_sorting_name' => 'test sim 1',
+            'sim_animated_image_url' => '',
+            'sim_is_real' => '0',
+            );
+        $test_sim_data[] = array(
+            'sim_id' => '-201',
+            'sim_name' => 'Test Flash Sim',
+            'sim_dirname' => 'test-flash-project',
+            'sim_flavorname' => 'test-flash-project',
+            'sim_rating' => '0',
+            'sim_no_mac' => '0',
+            'sim_crutch' => '0',
+            'sim_type' => '1',
+            'sim_size' => 'ignored',
+            'sim_launch_url' => 'ignored',
+            'sim_image_url' => 'ignored',
+            'sim_desc' => 'This is the ONLY (-) test simulation within a test project for Flash sims',
+            'sim_keywords' => 'FlashSim_Keyword1, Part1*FlashSim_Keyword2*FlashSim_Keyword3',
+            'sim_system_req' => '',
+            'sim_teachers_guide_id' => '0',
+            'sim_main_topics' => 'TestFlashSim2_Topic1*TestFlashSim2_Topic2*TestFlashSim2_Topic3',
+            'sim_design_team' => 'Martin Scorsese*Albert Schweitzer*John Milton',
+            'sim_libraries' => 'UnknownF1*UnknownF2',
+            'sim_thanks_to' => 'Laika (first dog in space)*Thai food*The Colossus of Rome',
+            'sim_sample_goals' => 'Test stuff in Flash projects*Test stuff in Flash sims*Test stuff in Flash*Test stuff',
+            'sim_sorting_name' => 'test sim 1',
+            'sim_animated_image_url' => '',
+            'sim_is_real' => '0',
+            );
+
+        return $test_sim_data;
+    }
+
     private function getSimDBData() {
-        if (is_null($this->simDBCache)) {
-            $this->simDBCache = db_get_all_rows('simulation');
+        if (!is_null($this->simDBCache)) {
+            return $this->simDBCache;
+        }
+
+        $this->simDBCache = db_get_all_rows('simulation');
+
+        if ($this->testSimsEnabled) {
+            $test_sim_data = $this->getTestSimData();
+            array_splice($this->simDBCache, 0, 0, $test_sim_data);
         }
 
         return $this->simDBCache;
@@ -57,7 +148,6 @@ class SimFactory {
             $name = WebUtils::inst()->encodeString($simulation['sim_name']);
             $this->webEncodedMap[$name] = $simulation;
         }
-
         return $this->webEncodedMap;
     }
 
@@ -98,6 +188,14 @@ class SimFactory {
         }
 
         return new JavaSimulation($db_data);
+    }
+
+    public function enableTestSims() {
+        // Enable returning test sims
+        $this->testSimsEnabled = TRUE;
+
+        // Clear the various caches
+        $this->simDBCache = NULL;
     }
 
     public function getByWebEncodedName($sim_encoding, $pre_iom = self::PRE_IOM_COMPATIBLE) {
@@ -148,7 +246,22 @@ class SimFactory {
             return $this->idMap[$sim_id];
         }
 
-        $db_data = db_get_row_by_id('simulation', 'sim_id', $sim_id);
+        // If the test sims are enabled, find the sim in question
+        // Otherwise, look in the database
+        $db_data = false;
+        if ($this->testSimsEnabled) {
+            $data = $this->getSimDBData();
+            $db_data = false;
+            foreach ($data as $ignored => $db_data) {
+                if ($db_data['sim_id'] == $sim_id) {
+                    break;
+                }
+            }
+        }
+        else {
+            $db_data = db_get_row_by_id('simulation', 'sim_id', $sim_id);
+        }
+
         if ($db_data === false) {
             throw new PhetSimException("Simulation ID #{$sim_id} does not exist");
         }
