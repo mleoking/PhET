@@ -13,6 +13,7 @@ import scalacommon.record.DataPoint
 import scalacommon.util.Observable
 import umd.cs.piccolo.PNode
 
+//This class is computationally demanding and therefore contains several optimizations
 class LadybugFadeTraceNode(model: LadybugModel, transform: ModelViewTransform2D, shouldBeVisible: () => Boolean, observable: Observable, maxFade: Double) extends LadybugTraceNode(model, transform, shouldBeVisible, observable) {
   update()
   val stroke = new BasicStroke(6, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f)
@@ -27,7 +28,7 @@ class LadybugFadeTraceNode(model: LadybugModel, transform: ModelViewTransform2D,
     //this override saves a little bit of time according to the profiler
     override def equals(obj: Any) = {
       obj match {
-        case a:Key=>a.x1==x1 && a.y1==y1 && a.x2==x2 && a.y2==y2
+        case a: Key => a.x1 == x1 && a.y1 == y1 && a.x2 == x2 && a.y2 == y2
         case _ => false
       }
     }
@@ -36,13 +37,9 @@ class LadybugFadeTraceNode(model: LadybugModel, transform: ModelViewTransform2D,
   def update() = {
     if (segmentCache != null) {
 
-      val prof = new QuickProfiler("LadybugFadeTraceNode.update")
-      //    removeAllChildren()
       implicit def historyToPoint(dataPoint: DataPoint[LadybugState]) = new Point2D.Float(dataPoint.state.position.x.toFloat, dataPoint.state.position.y.toFloat)
 
       val historyToShow = getHistoryToShow
-      var hits = 0
-      var misses = 0
 
       var unusedKeys = scala.collection.mutable.Set.empty[Key]
       unusedKeys ++= segmentCache.keySet.elements
@@ -60,37 +57,22 @@ class LadybugFadeTraceNode(model: LadybugModel, transform: ModelViewTransform2D,
           val color = toColor(dt, maxFade)
           try {
             //cache checks are very expensive, only do it once
-            val cached = segmentCache(key)
-            cached.setStrokePaint(color)
-            //          println("Cache hit")
-            hits = hits + 1
+            segmentCache(key).setStrokePaint(color)
           } catch {
-            case e: Exception => {
+            case e: NoSuchElementException => {
               val segment = new PhetPPath(new Line2D.Double(a, b), stroke, color)
               segmentCache(key) = segment
               addChild(segment)
-              //          println("Cache miss")
-              misses = misses + 1
             }
             case _ => {}
           }
         }
 
       }
-      for (a <- unusedKeys){
+      for (a <- unusedKeys) {
         removeChild(segmentCache(a))
       }
       segmentCache --= unusedKeys
-
-      //    prof.println() //up to 5ms at half-time up before caching
-      //                     around 2.5ms at half-time after caching, without cache clearing
-      // around 6.5ms at half time with cache clearing
-      // around 1.5ms after changing tuple of Vector2D Vector2D to explicit Key case class
-      //      println("prof: " + prof + ": hits=" + hits + ", misses=" + misses + ", keys=" + segmentCache.keySet)
-      //      if (hits == 0 && misses >= 3)
-      //        {
-      //          println("why so many misses?")
-      //        }
     }
   }
 
