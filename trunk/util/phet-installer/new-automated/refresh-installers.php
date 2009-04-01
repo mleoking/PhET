@@ -27,14 +27,33 @@
     // Function for obtaining (a.k.a. "ripping") a single simulation from the
     // web site.
     //-------------------------------------------------------------------------
-    function builder_rip_sim($sim) {
+    function builder_rip_sim( $sim_name ) {
 
         // Make sure that the specified sim already exists.  If not,
         // refreshing it is not allowed.
-        $full_path_to_sim = RIPPED_WEBSITE_ROOT.PHET_SIMS_SUBDIR.$sim;
-        flushing_echo("Full path to sim: ".$full_path_to_sim);
+        $full_path_to_sim = RIPPED_WEBSITE_TOP.PHET_SIMS_SUBDIR.$sim_name;
+        if ( !file_exists( $full_path_to_sim ) ) {
+            flushing_echo( "Error: Unable to locate sim: ".$sim_name.", aborting." );
+            return false;
+        }
+        else{
+            flushing_echo( "Found sim, full path is: ".$full_path_to_sim );
+        }
 
-        flushing_echo("Stubbed, should be ripping sim: ".$sim);
+        // Determine the type of sim and perform the appropriate rip.
+        if ( is_java_sim( $full_path_to_sim ) ) {
+            flushing_echo( "This is a Java sim" );
+            remove_sim_files( $full_path_to_sim );
+        }
+        else if ( is_flash_sim( $full_path_to_sim ) ) {
+            flushing_echo( "This is a Flash sim" );
+            remove_sim_files( $full_path_to_sim );
+        }
+        else {
+            flushing_echo( "Error: The sim ".$sim_name." does not appear to be a Flash or Java sim, aborting." );
+            return false;
+        }
+
         return true;
     }
 
@@ -42,23 +61,47 @@
     // Function for determining if the given simulation is a flash sim.  This
     // is done by looking for the expected file types.
     //-------------------------------------------------------------------------
-    function is_flash_sim($sim) {
-        flushing_echo("Stubbed, should be seeing if this is a flash sim: ".$sim);
+    function is_flash_sim( $sim_directory ) {
+
+        // See if there are any SWF files present.
+        $swf_file_list = file_list_in_directory( $sim_directory, "*.swf" );
+
+        if ( count($swf_file_list ) > 0 ){
+            // Assume that this is a Flash sim due to the presence of SWF files.
+            return true;
+        }
+        else{
+            // No SWF files, must not be a Flash sim.
+            return false;
+        }
     }
     
     //-------------------------------------------------------------------------
     // Function for determining if the given simulation is a java sim.  This
     // is done by looking for the expected file types.
     //-------------------------------------------------------------------------
-    function is_java_sim($sim) {
-        flushing_echo("Stubbed, should be seeing if this is a java sim: ".$sim);
+    function is_java_sim( $sim_directory ) {
+
+        // See if there are any JNLP files present.
+        $jnlp_file_list = file_list_in_directory( $sim_directory, "*.jnlp" );
+
+        if ( count($jnlp_file_list ) > 0 ){
+            // Assume that this is a Java sim due to the presence of JNLP files.
+            return true;
+        }
+        else{
+            // No JNLP files, must not be a Java sim.
+            return false;
+        }
     }
 
     //-------------------------------------------------------------------------
     // Function to remove all files that currently make up the specified sim.
     //-------------------------------------------------------------------------
-    function remove_sim_files($sim) {
-        flushing_echo("Stubbed, should be removing files for sim: ".$sim);
+    function remove_sim_files( $sim_directory ) {
+        $remove_command = "rm -f ".$sim_directory.'/*';
+        flushing_echo("STUBBED - Remove command = ".$remove_command);
+        // system( $remove_command );
     }
 
     //-------------------------------------------------------------------------
@@ -85,7 +128,7 @@
         $args = $_SERVER['argv'];
 
         if (count($args) != 2){
-            flushing_echo("Usage: refresh_installers <sim-name>");
+            flushing_echo("Usage: $arg[0] <sim-name>");
             return;
         }
           
