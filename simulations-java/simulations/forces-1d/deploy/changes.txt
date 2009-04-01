@@ -1,3 +1,5 @@
+# 1.19.02 (30173) Apr 1, 2009
+4/1/09 Fixed by removing the slider wiggle me, see #1475
 # 1.19.01 (29629) Mar 22, 2009
 3/22/09 Batch deploy for Alpha Simulation Tests 2, svn 29628
 # 1.18.14 (28790) Feb 19, 2009
