@@ -1,3 +1,4 @@
+> Determined time units and scaling factors to make sure sound and light have approximately the right speeds, at least for the default wavelength and frequency, see #1479
 # 1.06.02 (29629) Mar 22, 2009
 3/22/09 Batch deploy for Alpha Simulation Tests 2, svn 29628
 # 1.06.01 (28825) Feb 19, 2009

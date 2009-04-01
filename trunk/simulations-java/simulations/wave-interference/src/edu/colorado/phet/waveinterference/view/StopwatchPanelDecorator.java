@@ -18,10 +18,10 @@ import edu.colorado.phet.waveinterference.util.WIStrings;
  * Time: 11:24:23 PM
  */
 
-public class StopwatchPanelDectorator extends VerticalLayoutPanel {
+public class StopwatchPanelDecorator extends VerticalLayoutPanel {
     private StopwatchPanel stopwatchPanel;
 
-    public StopwatchPanelDectorator( IClock clock, double timeScale, String timeUnits ) {
+    public StopwatchPanelDecorator( IClock clock, double timeScale, String timeUnits ) {
         setBorder( new LineBorder( Color.black, 2, true ) );
         JLabel label = new JLabel( WIStrings.getString( "controls.stopwatch" ) );
         add( label );

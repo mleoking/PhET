@@ -24,7 +24,7 @@ public class MeasurementToolSet extends PhetPNode {
     private PNode stopwatchGraphic;
     private PSwingCanvas pSwingCanvas;
     private ArrayList listeners = new ArrayList();
-    private StopwatchPanelDectorator stopwatchDecorator;
+    private StopwatchPanelDecorator stopwatchDecorator;
     private PSwing pswing;
 
     public MeasurementToolSet( PSwingCanvas pSwingCanvas, IClock clock, LatticeScreenCoordinates latticeScreenCoordinates, WaveInterferenceModel waveInterferenceModel ) {
@@ -38,7 +38,7 @@ public class MeasurementToolSet extends PhetPNode {
         measuringTape.setVisible( false );
         addChild( measuringTape );
 
-        stopwatchDecorator = new StopwatchPanelDectorator( clock, timeScale, timeUnits );
+        stopwatchDecorator = new StopwatchPanelDecorator( clock, timeScale, timeUnits );
         pswing = new PSwing( stopwatchDecorator );
         stopwatchGraphic = new PhetPNode( pswing );
         stopwatchGraphic.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );

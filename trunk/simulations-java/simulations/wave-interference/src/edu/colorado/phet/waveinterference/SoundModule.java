@@ -38,9 +38,10 @@ public class SoundModule extends WaveInterferenceModule {
 
     public static class SoundModel extends WaveInterferenceModel {
         public SoundModel() {
-            setDistanceUnits( "cm" );
+            setDistanceUnits( WIStrings.getString( "units.cm" ) );
             setPhysicalSize( 100, 100 );
-            setTimeUnits( "microsec" );
+            setTimeScale( 1.0/1.42 );//determined experimentally to get clock to show a time that makes speed of sound correct
+            setTimeUnits( WIStrings.getString( "units.ms" ) );
         }
     }
 
