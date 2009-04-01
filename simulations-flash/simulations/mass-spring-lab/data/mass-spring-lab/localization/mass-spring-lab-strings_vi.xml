@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--mass-spring-lab-strings_vi.xml created Tue Mar 24 17:45:24 ICT 2009 using: mass-spring-lab 1.00.00 (22498), translation-utility 1.12.00 (29256)-->
+<SimStrings>
+<string key="pause" value="tạm dừng"/>
+<string key="earth" value="Trái Đất"/>
+<string key="dontBother" value="Đừng lo"/>
+<string key="16thTime" value="chậm 1/16"/>
+<string key="nothinOK" value="Nothin! OK?"/>
+<string key="mass1Label" value="50 gram"/>
+<string key="mass3Label" value="250 gram"/>
+<string key="planetX" value="Hành tinh X"/>
+<string key="showEnergyOf" value="Năng lượng lò xo"/>
+<string key="mass5Label" value="?"/>
+<string key="hangMe" value="Treo các quả cân lên nào!"/>
+<string key="resetTimer" value="reset"/>
+<string key="hard" value="cứng"/>
+<string key="mass7Label" value="100 gram"/>
+<string key="stopWatch" value="Đồng hồ"/>
+<string key="none" value="không"/>
+<string key="realTime" value="thời gian thực"/>
+<string key="startTimer" value="start/pause"/>
+<string key="help4" value="đồng hồ (di chuyển được)"/>
+<string key="help3" value="Kéo quả cân sang một bên để tháo khỏi lò xo"/>
+<string key="showHelp" value="Bật chỉ dẫn"/>
+<string key="lots" value="lớn"/>
+<string key="help2" value="đường canh hàng (di chuyển được)"/>
+<string key="help1" value="thước (di chuyển được)"/>
+<string key="friction" value="ma sát"/>
+<string key="PEelas" value="Wt-đh"/>
+<string key="jupiter" value="Sao Hỏa"/>
+<string key="moon" value="Mặt Trăng"/>
+<string key="energyOf" value="Năng lượng lò xo "/>
+<string key="total" value="Tổng"/>
+<string key="sound" value="Âm thanh"/>
+<string key="PEgrav" value="Wt-hd"/>
+<string key="mass2Label" value="100 gram"/>
+<string key="mass4Label" value="?"/>
+<string key="mass6Label" value="?"/>
+<string key="thermal" value="Nhiệt"/>
+<string key="quarterTime" value="chậm 1/4"/>
+<string key="KE" value="Wđ"/>
+<string key="gEqZero" value="g = 0"/>
+<string key="hideHelp" value="Tắt chỉ dẫn"/>
+<string key="noHelp" value="No Help"/>
+<string key="soft" value="mềm"/>
+<string key="softness" value="độ cứng lò xo 3"/>
+<string key="totalE" value="Năng lượng toàn phần"/>
+<string key="noShow" value="Không hiển thị"/>
+<string key="paused" value="Tạm dừng"/>
+</SimStrings>
