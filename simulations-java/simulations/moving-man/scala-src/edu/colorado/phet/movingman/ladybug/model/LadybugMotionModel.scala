@@ -79,7 +79,7 @@ object LadybugMotionModel {
   val CIRCULAR = new MotionType("circular") {
     def update(dt: Double, model: LadybugModel) = {
       val distFromCenter = model.ladybug.getPosition.magnitude
-      val radius = 7.5
+      val radius = 4
       val distFromRing = abs(distFromCenter - radius)
 
       val dx = radius - distFromCenter;
@@ -96,7 +96,7 @@ object LadybugMotionModel {
         val angle = model.ladybug.getPosition.getAngle
         val r = model.ladybug.getPosition.magnitude
 
-        val delta0 = PI / 64 * 1.3 * dt * 30.0 * 0.7 //desired approximate deltaTheta
+        val delta0 = PI / 64 * 1.3 * dt * 30.0 * 0.7*2*0.85 //desired approximate deltaTheta
         val n = (PI * 2 / delta0).toInt //n deltaTheta=2 PI
         val newAngle = angle + 2 * PI / n
         model.ladybug.setPosition(new Vector2D(newAngle) * r)
