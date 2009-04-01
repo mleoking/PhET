@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SimStrings>
+<string key="manual" value="Điều khiển bằng tay"/>
+<string key="resetTimer" value="reset"/>
+<string key="damping" value="Tắt dần"/>
+<string key="showHelp" value="Bật chỉ dẫn"/>
+<string key="pulse" value="Từng xung dao động"/>
+<string key="amplitude" value="Biên độ"/>
+<string key="pausePlay" value="pause/play"/>
+<string key="step" value="tiếp"/>
+<string key="tension" value="độ căng dây"/>
+<string key="startTimer" value="start/pause"/>
+<string key="pulseWidth" value="Độ rộng xung"/>
+<string key="rulerHelp" value="rê chuột để di chuyển"/>
+<string key="high" value="lớn"/>
+<string key="wiggleWrench" value="Hãy lắc cái cờ-lê!"/>
+<string key="timer" value="Đồng hồ"/>
+<string key="oscillate" value="Dao động điều hòa"/>
+<string key="rulers" value="Thước đo"/>
+<string key="frequency" value="Tần số"/>
+<string key="wrenchHelp" value="rê chuột"/>
+<string key="fixedEnd" value="Vật cản cố định"/>
+<string key="refLineHelp" value="rê chuột để di chuyển"/>
+<string key="hideHelp" value="Tắt chỉ dẫn"/>
+<string key="timerHelp" value="rê chuột để di chuyển"/>
+<string key="looseEnd" value="Vật cản tự do"/>
+<string key="noEnd" value="Không vật cản"/>
+<string key="paused" value="Tạm dừng"/>
+<string key="reset" value="Bắt đầu lại"/>
+<string key="pulse2" value="Tạo xung "/>
+<string key="low" value="nhỏ"/>
+</SimStrings>
