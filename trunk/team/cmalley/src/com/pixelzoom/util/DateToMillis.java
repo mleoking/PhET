@@ -134,6 +134,10 @@ public class DateToMillis extends JFrame {
             setEditor( new JSpinner.NumberEditor( this, "0" ) );
         }
         
+        public void setValue( int value ) {
+            setValue( new Integer( value ) );
+        }
+        
         public int getInt() {
             return ( (Integer) getValue() ).intValue();
         }
