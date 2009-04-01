@@ -1,3 +1,4 @@
+#!/web/chroot/phet/usr/local/php/bin/php
 <?php
 
 // In each web accessable script SITE_ROOT must be defined FIRST
