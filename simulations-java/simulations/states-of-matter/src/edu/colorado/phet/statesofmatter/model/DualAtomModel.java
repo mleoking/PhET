@@ -233,13 +233,18 @@ public class DualAtomModel {
     	if ((m_fixedMoleculeType == AtomType.ADJUSTABLE) && 
     		(m_movableMoleculeType == AtomType.ADJUSTABLE) &&
     		(sigma != m_ljPotentialCalculator.getSigma())){
-    		
-    		// TODO - Need to work out how this works, commenting out for now.
+
+    		if (sigma > StatesOfMatterConstants.MAX_SIGMA){
+    			sigma = StatesOfMatterConstants.MAX_SIGMA;
+    		}
+    		else if (sigma < StatesOfMatterConstants.MIN_SIGMA){
+    			sigma = StatesOfMatterConstants.MIN_SIGMA;
+    		}
             m_ljPotentialCalculator.setSigma( sigma );
             notifyInteractionPotentialChanged();
             ((ConfigurableStatesOfMatterAtom)m_fixedAtom).setRadius( sigma / 2 );
             notifyFixedAtomDiameterChanged();
-            ((ConfigurableStatesOfMatterAtom)m_fixedAtom).setRadius( sigma / 2 );
+            ((ConfigurableStatesOfMatterAtom)m_movableAtom).setRadius( sigma / 2 );
             notifyMovableAtomDiameterChanged();
     	}
     }
