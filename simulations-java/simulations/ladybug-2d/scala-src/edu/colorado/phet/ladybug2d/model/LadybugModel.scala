@@ -2,7 +2,6 @@ package edu.colorado.phet.ladybug2d.model
 
 import edu.colorado.phet.common.motion.model.TimeData
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
-import edu.colorado.phet.movingman.util.Motion2DModel
 import java.awt.geom.{Rectangle2D, Point2D}
 import scala.collection.mutable.ArrayBuffer
 import edu.colorado.phet.scalacommon.Predef._
