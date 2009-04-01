@@ -1,3 +1,4 @@
+# 1.06.03 (30179) Apr 1, 2009
 > fix layout for torque simulation, remove unused PhetApplicationConfig subclasses, cleanup, see #1092
 > improve layout for 1024x768 resoultion, see #1092
 # 1.06.02 (29629) Mar 22, 2009
