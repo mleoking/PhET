@@ -1,3 +1,5 @@
+# 1.10.00 (30157) Apr 1, 2009
+4/1/09 Redeploy java common strings to try to produce java-common-strings_en.jar (was missing before)
 # 1.09.00 (30128) Mar 31, 2009
 3/31/09 add new string added by #1557
 # 1.08.00 (29999) Mar 27, 2009
