@@ -45,7 +45,8 @@ public abstract class AbstractFloatingChart extends PhetPNode {
     public AbstractFloatingChart( String title, final IClock clock ) {
         this.clock = clock;
         textReadout = new TextReadout();
-        stripChartJFCNode = new StripChartJFCNode( 200, 150, CCKStrings.getString( "time.sec" ), title );
+        //> Removed numbers and units from chart time axis, see #1333
+        stripChartJFCNode = new StripChartJFCNode( 200, 150, CCKStrings.getString( "time" ), title );
         stripChartJFCNode.setDomainRange( 0, 5 );
 
         addChild( textReadout );
