@@ -1,3 +1,4 @@
+> Fixed: path doesn't clear on reset
 # 1.20.41 (30131) Mar 31, 2009
 3/31/09 added caching to the default trace graphics for performance improvements
 # 1.20.40 (29629) Mar 22, 2009

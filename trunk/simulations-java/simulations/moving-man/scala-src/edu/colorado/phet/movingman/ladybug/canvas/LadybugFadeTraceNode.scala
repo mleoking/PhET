@@ -77,6 +77,9 @@ class LadybugFadeTraceNode(model: LadybugModel, transform: ModelViewTransform2D,
         }
 
       }
+      for (a <- unusedKeys){
+        removeChild(segmentCache(a))
+      }
       segmentCache --= unusedKeys
 
       //    prof.println() //up to 5ms at half-time up before caching
