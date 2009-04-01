@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.util;
+package edu.colorado.phet.ladybug2d.model;
 
 //Physics implementation for Motion2D
 //computes position, velocity and acceleration.
