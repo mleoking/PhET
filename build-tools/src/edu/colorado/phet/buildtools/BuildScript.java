@@ -494,11 +494,12 @@ public class BuildScript {
                     }
                 }, PhetServer.PRODUCTION, prodAuth, new VersionIncrement.UpdateProd(), new Task() {
                     public boolean invoke() {
-                        copyFromStagingAreaToSimDir( PhetServer.PRODUCTION, prodAuth );
                         System.out.println( "Invoking server side scripts to generate simulation and language JAR files" );
                         if ( !debugDryRun ) {
                             generateOfflineJars( project, PhetServer.PRODUCTION, prodAuth );
                         }
+                        copyFromStagingAreaToSimDir( PhetServer.PRODUCTION, prodAuth );
+
                         return true;
                     }
                 } );
