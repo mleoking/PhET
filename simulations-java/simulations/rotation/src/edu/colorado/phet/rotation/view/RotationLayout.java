@@ -47,12 +47,12 @@ public class RotationLayout {
         Dimension2D d = new PDimension( platformMaxWidth, platformMaxWidth );
         rotationPlayAreaNode.setScale( 1.0 );
         platformNode.getParent().localToGlobal( d );
-        System.out.println( "d = " + d );
+//        System.out.println( "d = " + d );
 
         double sx = availWidth / Math.abs( d.getHeight() );
         double sy = availHeight / Math.abs( d.getWidth() );
         double scale = Math.min( sx, sy );
-        System.out.println( "scale = " + scale + " limited by sx=" + ( scale == sx ) + ", lim by sy=" + ( scale == sy ) );
+//        System.out.println( "scale = " + scale + " limited by sx=" + ( scale == sx ) + ", lim by sy=" + ( scale == sy ) );
         if ( scale > 0 ) {
             rotationPlayAreaNode.scale( scale );
         }
@@ -62,10 +62,6 @@ public class RotationLayout {
         playAreaClip.setPathToRectangle( 0, 0, (float) availWidth, (float) availHeight );
         int padx = 3;
         timeSeriesGraphSetNode.setBounds( new Rectangle2D.Double( padx + getMaxXPlayAreaAndControlPanel(), 0, getWidth() - getMaxXPlayAreaAndControlPanel() - padx, getHeight() ) );
-    }
-
-    private RotationPlatform getRotationPlatform() {
-        return rotationPlatform;
     }
 
     private double getMaxXPlayAreaAndControlPanel() {
