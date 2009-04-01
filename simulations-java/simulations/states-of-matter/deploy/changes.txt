@@ -1,3 +1,5 @@
+# 1.02.03 (30169) Apr 1, 2009
+4/1/09 Added the ability to select heterogeneous atoms in the interaction potential sim
 # 1.02.02 (29629) Mar 22, 2009
 3/22/09 Batch deploy for Alpha Simulation Tests 2, svn 29628
 # 1.02.01 (29574) Mar 20, 2009
