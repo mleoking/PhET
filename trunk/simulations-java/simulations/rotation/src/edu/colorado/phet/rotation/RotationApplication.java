@@ -9,9 +9,7 @@ import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
-import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.rotation.view.RotationFrameSetup;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
 
 /**
@@ -57,7 +55,7 @@ public class RotationApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) {
-        RotationApplicationConfig rotationApplicationConfig = new RotationApplicationConfig( args );
+        PhetApplicationConfig rotationApplicationConfig = new PhetApplicationConfig( args,"rotation" );
         new PhetApplicationLauncher().launchSim( rotationApplicationConfig, new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 MyRepaintManager synchronizedPSwingRepaintManager = new MyRepaintManager();
@@ -74,10 +72,4 @@ public class RotationApplication extends PiccoloPhetApplication {
         return rotationModule;
     }
 
-    private static class RotationApplicationConfig extends PhetApplicationConfig {
-        public RotationApplicationConfig( final String[] args ) {
-            super( args, "rotation" );
-//            setFrameSetup( new RotationFrameSetup() );
-        }
-    }
 }
