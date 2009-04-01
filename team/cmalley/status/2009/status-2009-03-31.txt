@@ -1,0 +1,40 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: March 26-31, 2009 (Thu-Tue)
+
+ACCOMPLISHMENTS:
+
+  common code:
+  - change implementation of "Skip this verison", #1548
+  - fix error message when user is not connected to internet, #1557
+  - misc IOM discussions
+  - misc ticket comments and verifications
+  
+  misc sims:
+  - gas-properties: 1497,1373
+  - fourier: 1337,1545
+  - wave-interference: 1404
+  
+  translations:
+  - coordinate Romanian translations, #1526,
+    see http://www.colorado.edu/physics/phet/dev/cmalley/Romanian.html
+  - integrate misc common strings translations, #1547
+  
+WHAT'S NEXT:
+ 
+  - acid-base-solutions implementation
+  - misc sim fixes for IOM release
+  - become familiar with Scala
+  - investigate 3D libraries
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+  April 1-5
+  July 25 - August 9
+  
+--
