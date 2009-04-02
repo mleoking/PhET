@@ -4,7 +4,7 @@
 // * Date: Feb 10, 2009
 // * Time: 11:08:59 PM
 // */
-//package edu.colorado.phet.ladybug2d.test
+//package edu.colorado.phet.ladybugmotion2d.test
 //
 //
 //class MyQueue[T](p: String) extends MovingManApplication(null) {

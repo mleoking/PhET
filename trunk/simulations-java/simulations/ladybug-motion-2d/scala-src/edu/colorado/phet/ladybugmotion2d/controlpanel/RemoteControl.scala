@@ -1,4 +1,4 @@
-package edu.colorado.phet.ladybug2d.controlpanel
+package edu.colorado.phet.ladybugmotion2d.controlpanel
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import edu.colorado.phet.common.piccolophet.event.CursorHandler

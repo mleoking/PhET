@@ -1,4 +1,4 @@
-package edu.colorado.phet.ladybug2d.aphidmaze
+package edu.colorado.phet.ladybugmotion2d.aphidmaze
 
 import canvas.LadybugCanvas
 import controlpanel.DigitalTimer

@@ -4,7 +4,7 @@
  * Date: Jan 19, 2009
  * Time: 11:20:01 AM
  */
-package edu.colorado.phet.ladybug2d
+package edu.colorado.phet.ladybugmotion2d
 
 import scalacommon.math.Vector2D
 

@@ -1,4 +1,4 @@
-package edu.colorado.phet.ladybug2d.model
+package edu.colorado.phet.ladybugmotion2d.model
 
 import java.awt.geom.Ellipse2D
 import scala.collection.mutable.ArrayBuffer

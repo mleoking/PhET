@@ -1,4 +1,4 @@
-package edu.colorado.phet.ladybug2d
+package edu.colorado.phet.ladybugmotion2d
 
 import canvas.{LadybugNode, LadybugSolidTraceNode, LadybugDotTraceNode, LadybugCanvas}
 import controlpanel._

@@ -1,4 +1,4 @@
-package edu.colorado.phet.ladybug2d.controlpanel
+package edu.colorado.phet.ladybugmotion2d.controlpanel
 
 import _root_.edu.colorado.phet.ladybugmotion2d.model.{LadybugMotionModel, LadybugModel}
 import edu.colorado.phet.common.phetcommon.model.Resettable
