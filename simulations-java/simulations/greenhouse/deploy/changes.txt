@@ -1,3 +1,5 @@
+# 2.05.04 (30212) Apr 2, 2009
+4/2/09 >Added a slider that allows the user to control the speed of the photons.
 # 2.05.03 (30172) Apr 1, 2009
 4/1/09 Slowed down rate of photon motion by 50% so absorbtion and re-emission can be seen more easily
 # 2.05.02 (29629) Mar 22, 2009
