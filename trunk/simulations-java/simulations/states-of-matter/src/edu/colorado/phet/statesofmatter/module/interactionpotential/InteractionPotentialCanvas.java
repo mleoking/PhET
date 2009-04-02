@@ -125,9 +125,10 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
                 handleMovableParticleRemoved( particle );
             }
             public void movableAtomDiameterChanged(){
-            	if (m_movableParticle != null){
-            		m_movableParticleNode.setMinX( m_movableParticle.getRadius() * 1.9 );
-            	}
+            	updateMinimumXForMovableAtom();
+            };
+            public void fixedAtomDiameterChanged(){
+            	updateMinimumXForMovableAtom();
             };
         });
 
@@ -419,6 +420,16 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         else{
             m_interactionPotentialDiagram.setMarkerEnabled( false );
         }
+    }
+    
+    /**
+     * Update the minimum X value allowed for the movable atom.  This prevents
+     * too much overlap between the atoms.
+     */
+    private void updateMinimumXForMovableAtom(){
+    	if (m_movableParticle != null && m_fixedParticle != null){
+    		m_movableParticleNode.setMinX( ( m_fixedParticle.getRadius() + m_movableParticle.getRadius() ) * 0.95 );
+    	}
     }
     
     private void updateForceVectors(){
