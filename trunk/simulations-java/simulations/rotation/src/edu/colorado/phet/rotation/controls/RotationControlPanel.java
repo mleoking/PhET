@@ -31,7 +31,6 @@ public class RotationControlPanel extends HorizontalLayoutPanel implements Reset
     public RotationControlPanel( RulerNode rulerNode, GraphSuiteSet rotationGraphSet, GraphSetModel graphSetModel,
                                  VectorViewModel vectorViewModel, JFrame parentFrame, final RotationBody ladybug,
                                  final RotationBody beetle, AbstractRotationModule module, AngleUnitModel angleUnitModel, final RotationPlatform platform ) {
-//        super( new GridBagLayout() );
         GraphSelectionControl graphSelectionControl = new GraphSelectionControl( rotationGraphSet, graphSetModel );
         symbolKeyButton = new SymbolKeyButton( parentFrame );
 
@@ -91,7 +90,6 @@ public class RotationControlPanel extends HorizontalLayoutPanel implements Reset
         leftPanel.add( new ShowVectorsControl( vectorViewModel ) );
 
         add( leftPanel );
-        add( Box.createRigidArea( new Dimension( 30, 30 ) ) );
         add( rightPanel );
     }
 
