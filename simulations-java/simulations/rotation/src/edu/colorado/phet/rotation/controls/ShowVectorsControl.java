@@ -23,14 +23,14 @@ public class ShowVectorsControl extends VerticalLayoutPanel {
         this.vectorViewModel = vectorViewModel;
 
 //        gridBagConstraints = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
-        final JCheckBox velocityCheckBox = new JCheckBox( RotationStrings.getString( "show" ) + " " + RotationStrings.getString( "variable.velocity" ) + " " + RotationStrings.getString( "vector" ), vectorViewModel.isVelocityVisible() );
+        final JCheckBox velocityCheckBox = new JCheckBox( "<html>"+RotationStrings.getString( "show" ) + "<br>" + RotationStrings.getString( "variable.velocity" ) + " " + RotationStrings.getString( "vector" )+"</html>", vectorViewModel.isVelocityVisible() );
         velocityCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 vectorViewModel.setVelocityVisible( velocityCheckBox.isSelected() );
             }
         } );
 
-        final JCheckBox accelerationCheckBox = new JCheckBox( RotationStrings.getString( "show" ) + " " + RotationStrings.getString( "variable.acceleration" ) + " " + RotationStrings.getString( "vector" ), vectorViewModel.isAccelerationVisible() );
+        final JCheckBox accelerationCheckBox = new JCheckBox( "<html>"+RotationStrings.getString( "show" ) + "<br>" + RotationStrings.getString( "variable.acceleration" ) + " " + RotationStrings.getString( "vector" )+"</html>", vectorViewModel.isAccelerationVisible() );
         accelerationCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 vectorViewModel.setAccelerationVisible( accelerationCheckBox.isSelected() );
