@@ -12,10 +12,15 @@ import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
+import edu.colorado.phet.common.timeseries.ui.TimeSpeedSlider;
 import edu.colorado.phet.greenhouse.common.graphics.ApparatusPanel;
 import edu.colorado.phet.greenhouse.common.graphics.CompositeGraphic;
 import edu.colorado.phet.greenhouse.filter.Filter1D;
@@ -57,11 +62,19 @@ public abstract class BaseGreenhouseModule extends Module {
     }
 
     private void init() {
-        
-        setClockControlPanel( new PiccoloClockControlPanel( getClock() ) );
-        
-        earthPhotonEmitterListener = new PhotonEmitterListener();
 
+    	// Create the clock control panel, including slider.
+    	PiccoloClockControlPanel clockControlPanel = new PiccoloClockControlPanel( getClock() );
+    	final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider(1, GreenhouseClock.DEFAULT_TIME_DELTA_PER_TICK * 2,
+    			"0.00", getGreenhouseClock(), GreenhouseResources.getString( "ClockPanel.SliderTitle" ));
+        timeSpeedSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                getGreenhouseClock().setDt( timeSpeedSlider.getValue() );
+            }
+        } );
+    	clockControlPanel.addBetweenTimeDisplayAndButtons(timeSpeedSlider);
+        setClockControlPanel( clockControlPanel );
+        
         // Set up the model and apparatus panel
         double modelHeight = EARTH_DIAM + SUN_DIAM + SUN_EARTH_DIST * 2;
         modelHeight = exposedEarth + Atmosphere.troposphereThickness;
@@ -169,6 +182,10 @@ public abstract class BaseGreenhouseModule extends Module {
 
     public GreenhouseModel getGreenhouseModel() {
         return model;
+    }
+    
+    public GreenhouseClock getGreenhouseClock() {
+    	return (GreenhouseClock)super.getClock();
     }
 
     protected ApparatusPanel getApparatusPanel() {
