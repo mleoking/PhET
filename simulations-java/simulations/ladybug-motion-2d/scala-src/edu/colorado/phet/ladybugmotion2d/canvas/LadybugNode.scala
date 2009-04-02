@@ -22,7 +22,7 @@ class LadybugNode(model: LadybugModel,
                   ladybug: Ladybug,
                   transform: ModelViewTransform2D,
                   vectorVisibilityModel: VectorVisibilityModel)
-        extends BugNode(ladybug, transform, Ladybug2DResources.getImage("ladybug.png")) {
+        extends BugNode(ladybug, transform, LadybugMotion2DResources.getImage("ladybug.png")) {
   var interactive = true //todo: do we need both draggable and interactive?
   var draggable = true
   model.addListenerByName(updateInteractive())
