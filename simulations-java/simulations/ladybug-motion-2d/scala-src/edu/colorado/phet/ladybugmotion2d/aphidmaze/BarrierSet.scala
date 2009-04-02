@@ -1,8 +1,8 @@
-package edu.colorado.phet.ladybug2d.model.aphidmaze
+package edu.colorado.phet.ladybugmotion2d.model.aphidmaze
 
 import _root_.edu.colorado.phet.common.phetcommon.math.MathUtil
 import _root_.edu.colorado.phet.common.phetcommon.view.util.RectangleUtils
-import edu.colorado.phet.ladybug2d.aphidmaze.MazeGenerator
+import edu.colorado.phet.ladybugmotion2d.aphidmaze.MazeGenerator
 import edu.colorado.phet.ladybugmotion2d.aphidmaze.Wall
 import java.awt.geom.{Line2D, Rectangle2D}
 import scala.collection.mutable.ArrayBuffer

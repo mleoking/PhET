@@ -1,4 +1,4 @@
-package edu.colorado.phet.ladybug2d.canvas
+package edu.colorado.phet.ladybugmotion2d.canvas
 
 import _root_.edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import _root_.edu.colorado.phet.common.piccolophet.nodes.PhetPPath

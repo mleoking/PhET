@@ -1,4 +1,4 @@
-package edu.colorado.phet.ladybug2d
+package edu.colorado.phet.ladybugmotion2d
 
 import scala.io.Source
 import java.io.{File, BufferedWriter, FileOutputStream, FileWriter}

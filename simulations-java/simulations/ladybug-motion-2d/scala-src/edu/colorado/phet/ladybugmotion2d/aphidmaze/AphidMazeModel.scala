@@ -1,4 +1,4 @@
-package edu.colorado.phet.ladybug2d.aphidmaze
+package edu.colorado.phet.ladybugmotion2d.aphidmaze
 
 import model.LadybugModel
 import scala.collection.mutable.ArrayBuffer

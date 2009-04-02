@@ -1,5 +1,5 @@
-package edu.colorado.phet.ladybug2d
+package edu.colorado.phet.ladybugmotion2d
 
 import common.phetcommon.resources.PhetResources
 
-object Ladybug2DResources extends PhetResources("ladybug-2d")
+object Ladybug2DResources extends PhetResources("ladybug-motion-2d")

@@ -1,4 +1,4 @@
-package edu.colorado.phet.ladybug2d.model
+package edu.colorado.phet.ladybugmotion2d.model
 
 
 import _root_.java.awt.geom.{Point2D, Rectangle2D}

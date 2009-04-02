@@ -1,4 +1,4 @@
-package edu.colorado.phet.ladybug2d.test
+package edu.colorado.phet.ladybugmotion2d.test
 
 case class MammalFood(name: String)
 case class Grass(color: String) extends MammalFood("Grass")

@@ -1,4 +1,4 @@
-package edu.colorado.phet.ladybug2d
+package edu.colorado.phet.ladybugmotion2d
 
 import aphidmaze.AphidMazeModule
 import scalacommon.{ScalaApplicationLauncher, ScalaClock}

@@ -1,4 +1,4 @@
-package edu.colorado.phet.ladybug2d.canvas
+package edu.colorado.phet.ladybugmotion2d.canvas
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import edu.colorado.phet.common.piccolophet.PhetPNode

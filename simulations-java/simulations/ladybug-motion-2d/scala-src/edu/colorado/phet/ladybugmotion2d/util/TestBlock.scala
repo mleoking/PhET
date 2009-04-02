@@ -4,7 +4,7 @@
  * Date: Feb 8, 2009
  * Time: 7:18:15 PM
  */
-package edu.colorado.phet.ladybug2d.util
+package edu.colorado.phet.ladybugmotion2d.util
 
 object TestBlock {
   def main(args: Array[String]) = {
