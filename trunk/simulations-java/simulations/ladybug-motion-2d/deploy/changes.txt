@@ -1,3 +1,5 @@
+# 0.00.44 (30207) Apr 1, 2009
+4/1/09 Removed frictionless checkbox
 # 0.00.43 (30156) Apr 1, 2009
 4/1/09 Initial deploy of ladybug-2d simulation independent of moving-man
 # 1.20.42 (30144) Mar 31, 2009
