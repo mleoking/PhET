@@ -16,17 +16,20 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValu
  * Jun 1, 2007, 2:27:44 PM
  */
 public class TimeSpeedSlider extends VerticalLayoutPanel {
-    private ConstantDtClock energySkateParkClock;
     private LinearValueControl linearSlider;
 
     public TimeSpeedSlider( double min, double max, String textFieldPattern, final ConstantDtClock defaultClock ) {
+    	this( min, max, textFieldPattern, defaultClock, TimeseriesResources.getString( "Common.sim.speed" ) );
+    }
+
+    public TimeSpeedSlider( double min, double max, String textFieldPattern, final ConstantDtClock defaultClock,
+    		String title) {
         linearSlider = new LinearValueControl( min, max, "", textFieldPattern, "" );
-        this.energySkateParkClock = defaultClock;
         linearSlider.setTextFieldVisible( false );
         Hashtable table = new Hashtable();
         table.put( new Double( min ), new JLabel( TimeseriesResources.getString( "Common.time.slow" ) ) );
         table.put( new Double( max ), new JLabel( TimeseriesResources.getString( "Common.time.fast" ) ) );
-        final JLabel value = new JLabel( TimeseriesResources.getString( "Common.sim.speed" ) );
+        final JLabel value = new JLabel(  title );
         value.setFont( new PhetFont( Font.ITALIC, PhetFont.getDefaultFontSize()) );
         table.put( new Double( ( max + min ) / 2 ), value );
         linearSlider.setTickLabels( table );
@@ -36,8 +39,6 @@ public class TimeSpeedSlider extends VerticalLayoutPanel {
             }
         } );
         update( defaultClock );
-//        setBorder( BorderFactory.createTitledBorder( "sim speed" ) );
-//        add( new JLabel( "simulation speed" ) );
         add( linearSlider );
     }
 
@@ -56,4 +57,11 @@ public class TimeSpeedSlider extends VerticalLayoutPanel {
     public void setValue( double dt ) {
         linearSlider.setValue( dt );
     }
+    
+    public static void main(String[] args) {
+		JFrame testFrame = new JFrame();
+		testFrame.add(new TimeSpeedSlider(0, 100, "Test Slider", new ConstantDtClock(10, 10)));
+		testFrame.pack();
+		testFrame.setVisible(true);
+	}
 }
