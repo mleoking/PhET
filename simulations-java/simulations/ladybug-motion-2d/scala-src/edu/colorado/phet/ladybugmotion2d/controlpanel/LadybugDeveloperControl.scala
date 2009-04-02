@@ -29,6 +29,6 @@ class LadybugDeveloperControl[M <: LadybugModel](module: LadybugModule[M]) exten
     def actionPerformed(e: ActionEvent) = module.model.setFrictionless(throwBox.isSelected)
   })
   module.model.addListenerByName(throwBox.setSelected(module.model.isFrictionless))
-  add(throwBox)
+//  add(throwBox)
 
 }
