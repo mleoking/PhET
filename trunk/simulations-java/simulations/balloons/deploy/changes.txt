@@ -1,3 +1,5 @@
+# 1.08.00 (30194) Apr 1, 2009
+4/1/09 Added new common features, including updates, statistics and updated license
 # 1.07.20 (29971) Mar 27, 2009
 3/27/09 #1526, incorporate Romanian sim translation
 # 1.07.19 (29911) Mar 26, 2009
