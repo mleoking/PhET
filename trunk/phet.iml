@@ -67,8 +67,8 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/greenhouse/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/hydrogen-atom/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/ideal-gas/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/ladybug-2d/scala-src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/ladybug-2d/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/ladybug-motion-2d/scala-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/ladybug-motion-2d/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/lasers/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/maze-game/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/microwaves/src" isTestSource="false" />
@@ -1156,7 +1156,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/simulations-java/simulations/ladybug-2d/data" />
+          <root url="file://$MODULE_DIR$/simulations-java/simulations/ladybug-motion-2d/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
