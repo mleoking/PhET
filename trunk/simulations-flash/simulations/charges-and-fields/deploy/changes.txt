@@ -1,3 +1,5 @@
+# 2.00.00 (30196) Apr 1, 2009
+4/1/09 Added new common features, including updates, statistics and updated license
 # 1.00.23 (30077) Mar 30, 2009
 3/30/09 Latest version skipping behavior
 # 1.00.22 (29978) Mar 27, 2009
