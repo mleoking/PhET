@@ -1,2 +1,2 @@
-jass name=JASS description=JASS (Java Audio Synthesis System) is a unit generator based audio synthesis programming environment written in pure Java website=http://www.cs.ubc.ca/~kvdoel/jass/ copyright=Kees van den Doel 
-javasound description=???
+jass name=JASS description=JASS (Java Audio Synthesis System) is a unit generator based audio synthesis programming environment written in pure Java website=http://www.cs.ubc.ca/~kvdoel/jass/ copyright=Kees van den Doel licensefile=jass-license.txt license=JASS License
+javasound name=JavaSound OscillatorPlayer description=OscillatorPlayer used from www.jsresources.org copyright=Copyright (c) 1999 -2001 by Matthias Pfisterer <Matthias.Pfisterer@web.de> website=http://www.jsresources.org/examples/OscillatorPlayer.java.html license=LGPL licensefile=javasound-header.txt 
