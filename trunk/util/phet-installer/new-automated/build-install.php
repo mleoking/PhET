@@ -136,7 +136,7 @@
             // If this is a post-IOM simulation, add the permissions request.
             if ( is_post_iom_sim( $jnlp_filename ) ){
                 flushing_echo("Sim is post-IOM, adding permissions request to file: ".$jnlp_filename);
-                jnlp_add_permissions_request($jnlp_file);
+                $jnlp = jnlp_add_permissions_request( $jnlp );
             }
             else {
                 flushing_echo("Sim is pre-IOM, not adding permissions request to file: ".$jnlp_filename);
