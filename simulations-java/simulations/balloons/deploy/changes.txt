@@ -1,3 +1,5 @@
+# 1.10.00 (30257) Apr 6, 2009
+4/6/09 Deploying to production server in order to deploy fixes for installer update issue, see #1567
 # 1.09.01 (30235) Apr 6, 2009
 4/6/09 deploy to dev to test #1567
 # 1.09.00 (30219) Apr 2, 2009
