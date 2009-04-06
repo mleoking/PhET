@@ -18,6 +18,7 @@
     require_once("global.php");
     require_once("file-util.php");
     require_once("web-util.php");
+    require_once("jar-util.php");
     require_once("jnlp.php");
     require_once("ia.php");
     require_once("xml-util.php");
@@ -132,9 +133,58 @@
             // Replace any remaining 'http' href links with macro:
             $jnlp = jnlp_replace_absolute_links_with_local_file_macro($jnlp, PHET_WEBSITE_ROOT_PARTIAL_PATTERN, BITROCK_INSTALLDIR_MACRO);
 
+            // If this is a post-IOM simulation, add the permissions request.
+            if ( is_post_iom_sim( $jnlp_filename ) ){
+                flushing_echo("Sim is post-IOM, adding permissions request to file: ".$jnlp_filename);
+                jnlp_add_permissions_request($jnlp_file);
+            }
+            else {
+                flushing_echo("Sim is pre-IOM, not adding permissions request to file: ".$jnlp_filename);
+            }
+
             // Output the new JNLP file:
             file_put_contents($jnlp_filename, $jnlp); 
             ++$file_num;
+        }
+    }
+
+    //-------------------------------------------------------------------------
+    // Function to determine if this Java simulation is a post-IOM sim, which
+    // means that it contains features that require system resources such as
+    // disk and network access.  IMPORTANT NOTE: This is meant to be a
+    // temporary function that should be removed once all the simulations
+    // contain the IOM features and following the IOM naming and signing
+    // conventions.
+    //-------------------------------------------------------------------------
+    function is_post_iom_sim( $jnlp_filename ) {
+    
+        // Determine the directory in which this sim resides.
+        $sim_directory = substr( $jnlp_filename, 0, strripos( $jnlp_filename, "/", 0 ) );
+
+        // Locate the main JAR file for this sim.  The function returns a
+        // list, but there should only be one file on it.
+        $jar_files = file_list_in_directory( $sim_directory, "*_all.jar" );
+
+        // See if we found one and only one file.
+        if ( count( $jar_files ) == 0 ) {
+            // File with this name doesn't exist, must be a pre-IOM sim.
+            echo "!!!!!!! No _all.jar file found in this directory\n";
+            return false;
+        }
+        else if ( count( $jar_files ) > 1 ) {
+            // This shouldn't happen, so log an error and force an exit.
+            flushing_echo("Error: Multiple _all.jar files found in directory - this is unexpected - aborting.");
+            exit(1);
+        }
+        else {
+            // We found the one main JAR file.  Now see if it is signed.
+            $primary_jar_file = $jar_files[0];
+            if ( is_jar_signed( $primary_jar_file ) ){
+                return true;
+            }
+            else{
+                return false;
+            }
         }
     }
 
@@ -157,8 +207,8 @@
             flushing_echo("Processing JNLP file $file_num of ".count($jnlp_files)."...");
             flushing_echo("   JNLP file name = $jnlp_filename");
 
-	    // Convert file to UTF8
-	    $jnlp_contents = jnlp_convert_to_utf8($jnlp_filename);
+            // Convert file to UTF8
+            $jnlp_contents = jnlp_convert_to_utf8($jnlp_filename);
 
             $codebase = jnlp_get_codebase($jnlp_filename);
 
