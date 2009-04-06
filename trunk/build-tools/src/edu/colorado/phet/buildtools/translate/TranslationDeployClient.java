@@ -23,7 +23,6 @@ import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
 import edu.colorado.phet.buildtools.util.ScpTo;
 import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery;
-import edu.colorado.phet.common.phetcommon.resources.PhetInstallerVersion;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
@@ -129,15 +128,14 @@ public class TranslationDeployClient {
         System.out.println( "Getting tigercat info for " + simName + " (" + LocaleUtils.localeToString( locale ) + ")" );
 
         // fake info for phet-info
-        final PhetInstallerVersion currentInstallerVersion = new PhetInstallerVersion( 0 ); // don't care, since this query is for the sim
         PhetVersion oldVersion = new PhetVersion( "1", "00", "00", "20000", "10" );
 
-        final VersionInfoQuery query = new VersionInfoQuery( simName, simName, oldVersion, currentInstallerVersion, false );
+        final VersionInfoQuery query = new VersionInfoQuery( simName, simName, oldVersion, false );
 
         query.addListener( new VersionInfoQuery.VersionInfoQueryListener() {
 
-            public void done( final VersionInfoQuery.VersionInfoQueryResponse result ) {
-                PhetVersion version = result.getSimVersion();
+            public void done( final VersionInfoQuery.Response result ) {
+                PhetVersion version = result.getSimResponse().getVersion();
                 try {
                     System.out.println( "Obtained version information, generating HTML" );
 

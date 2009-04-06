@@ -9,7 +9,9 @@ import javax.swing.SwingUtilities;
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery;
-import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery.VersionInfoQueryResponse;
+import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery.InstallerResponse;
+import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery.Response;
+import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery.SimResponse;
 import edu.colorado.phet.common.phetcommon.files.PhetInstallation;
 import edu.colorado.phet.common.phetcommon.resources.PhetInstallerVersion;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
@@ -67,28 +69,44 @@ public class AutomaticUpdatesManager {
 
     private void runUpdateCheckThread() {
         
-        final PhetInstallerVersion currentInstallerVersion = PhetInstallation.getInstance().getInstallerVersion();
-        final VersionInfoQuery query = new VersionInfoQuery( simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getVersion(), currentInstallerVersion, true /* automaticRequest */ );
+        VersionInfoQuery query = null;
+        if ( DeploymentScenario.getInstance() == DeploymentScenario.PHET_INSTALLATION ) {
+            // get info for sim and installer
+            PhetInstallerVersion currentInstallerVersion = PhetInstallation.getInstance().getInstallerVersion();
+            query = new VersionInfoQuery( simInfo, currentInstallerVersion, true /* automaticRequest */ );
+        }
+        else {
+            // get info for sim only
+            query = new VersionInfoQuery( simInfo, true /* automaticRequest */ );
+        }
         
         query.addListener( new VersionInfoQuery.VersionInfoQueryListener() {
             
-            public void done( final VersionInfoQueryResponse result ) {
+            public void done( final Response response ) {
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
                         
                         // installer update
-                        installerAskMeLaterStrategy.setDuration( result.getInstallerAskMeLaterDuration() );
-                        if ( DeploymentScenario.getInstance() == DeploymentScenario.PHET_INSTALLATION && result.isInstallerUpdateRecommended() && installerAskMeLaterStrategy.isDurationExceeded() ) {
-                            PhetInstallerVersion newInstallerVersion = result.getInstallerVersion();
-                            JDialog dialog = new InstallerAutomaticUpdateDialog( parentFrame, installerAskMeLaterStrategy, currentInstallerVersion, newInstallerVersion );
-                            dialog.setVisible( true );
+                        InstallerResponse installerResponse = response.getInstallerResponse();
+                        if ( installerResponse != null ) {
+                            installerAskMeLaterStrategy.setDuration( installerResponse.getAskMeLaterDuration() );
+                            if ( DeploymentScenario.getInstance() == DeploymentScenario.PHET_INSTALLATION && installerResponse.isUpdateRecommended() && installerAskMeLaterStrategy.isDurationExceeded() ) {
+                                PhetInstallerVersion currentInstallerVersion = response.getQuery().getCurrentInstallerVersion();
+                                PhetInstallerVersion newInstallerVersion = installerResponse.getVersion();
+                                JDialog dialog = new InstallerAutomaticUpdateDialog( parentFrame, installerAskMeLaterStrategy, currentInstallerVersion, newInstallerVersion );
+                                dialog.setVisible( true );
+                            }
                         }
                         
                         // sim update
-                        simAskMeLaterStrategy.setDuration( result.getSimAskMeLaterDuration() );
-                        PhetVersion remoteVersion = result.getSimVersion();
-                        if ( result.isSimUpdateRecommended() && !simVersionSkipper.isSkipped( remoteVersion.getRevisionAsInt() ) && simAskMeLaterStrategy.isDurationExceeded() ) {
-                            new SimAutomaticUpdateDialog( parentFrame, simInfo, remoteVersion, simAskMeLaterStrategy, simVersionSkipper ).setVisible( true );
+                        SimResponse simResponse = response.getSimResponse();
+                        if ( simResponse != null ) {
+                            simAskMeLaterStrategy.setDuration( simResponse.getAskMeLaterDuration() );
+                            PhetVersion remoteVersion = simResponse.getVersion();
+                            if ( simResponse.isUpdateRecommended() && !simVersionSkipper.isSkipped( remoteVersion.getRevisionAsInt() ) && simAskMeLaterStrategy.isDurationExceeded() ) {
+                                JDialog dialog = new SimAutomaticUpdateDialog( parentFrame, simInfo, remoteVersion, simAskMeLaterStrategy, simVersionSkipper );
+                                dialog.setVisible( true );
+                            }
                         }
                     }
                 } );
@@ -106,9 +124,10 @@ public class AutomaticUpdatesManager {
         });
         
         // send query in separate thread
+        final VersionInfoQuery finalQuery = query;
         Thread t = new Thread( new Runnable() {
             public void run() {
-                query.send();
+                finalQuery.send();
             }
         } );
         t.start();

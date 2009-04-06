@@ -86,14 +86,53 @@ public class VersionInfoQuery {
     private final PhetInstallerVersion currentInstallerVersion;
     private final boolean automaticRequest;
     private final ArrayList listeners;
+    
+    private final boolean hasSimQuery, hasInstallerQuery;
 
+    /**
+     * Use this constructor to get both sim and installer version info.
+     */
     public VersionInfoQuery( String project, String sim, PhetVersion currentSimVersion, PhetInstallerVersion currentInstallerVersion, boolean automaticRequest ) {
+        
         this.project = project;
         this.sim = sim;
+        
         this.currentSimVersion = currentSimVersion;
         this.currentInstallerVersion = currentInstallerVersion;
         this.automaticRequest = automaticRequest;
+        
         listeners = new ArrayList();
+        
+        hasSimQuery = ( project != null && sim != null );
+        hasInstallerQuery = ( currentInstallerVersion != null );
+    }
+    
+    /**
+     * Convenience constructor, for getting both sim and installer version info.
+     */
+    public VersionInfoQuery( ISimInfo simInfo, PhetInstallerVersion currentInstallerVersion, boolean automaticRequest ) {
+        this( simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getVersion(), currentInstallerVersion, automaticRequest );
+    }
+    
+    /**
+     * Use this constructor to get sim version information.
+     */
+    public VersionInfoQuery( String project, String sim, PhetVersion currentSimVersion, boolean automaticRequest ) {
+        this( project, sim, currentSimVersion, null, automaticRequest );
+    }
+    
+    /**
+     * Convenience constructor, for getting sim version information.
+     */
+    public VersionInfoQuery( ISimInfo simInfo, boolean automaticRequest ) {
+        this( simInfo, null, automaticRequest );
+    }
+    
+    /** 
+     * Use this constructor to get installer version info.
+     */
+    public VersionInfoQuery( PhetInstallerVersion currentInstallerVersion, boolean automaticRequest ) {
+        this( null, null, null, currentInstallerVersion, automaticRequest );
     }
 
     public String getProject() {
@@ -111,7 +150,7 @@ public class VersionInfoQuery {
     public PhetInstallerVersion getCurrentInstallerVersion() {
         return currentInstallerVersion;
     }
-
+    
     /**
      * Sends the query to the server.
      * Notifies listeners when the response is received.
@@ -120,7 +159,7 @@ public class VersionInfoQuery {
         final String url = PhetCommonConstants.PHET_INFO_URL;
         try {
             // query
-            Document queryDocument = buildQueryDocument( project, sim, currentInstallerVersion, automaticRequest );
+            Document queryDocument = buildQueryDocument();
             USLogger.log( getClass().getName() + " posting to url=" + url );
             USLogger.log( getClass().getName() + " query=\n" + XMLUtils.toString( queryDocument ) );
             HttpURLConnection connection = XMLUtils.post( url, queryDocument );
@@ -128,7 +167,7 @@ public class VersionInfoQuery {
             // response
             Document responseDocument = XMLUtils.readDocument( connection );
             USLogger.log( getClass().getName() + " response=\n" + XMLUtils.toString( responseDocument ) );
-            VersionInfoQueryResponse response = parseResponseDocument( responseDocument, this );
+            Response response = parseResponse( responseDocument, this );
             
             // notification
             if ( response != null ) {
@@ -155,7 +194,7 @@ public class VersionInfoQuery {
     /*
      * Creates an XML document that represents the query.
      */
-    private static Document buildQueryDocument( String project, String sim, PhetInstallerVersion currentInstallerVersion, boolean automaticRequest ) throws ParserConfigurationException {
+    private Document buildQueryDocument() throws ParserConfigurationException {
 
         String requestedBy = ( automaticRequest ? "automatic" : "manual" );
         
@@ -166,18 +205,22 @@ public class VersionInfoQuery {
         Element rootElement = document.createElement( "phet_info" );
         document.appendChild( rootElement );
 
-        Element simVersionElement = document.createElement( "sim_version" );
-        simVersionElement.setAttribute( REQUEST_VERSION_TAG, String.valueOf( PhetCommonConstants.SIM_VERSION_VERSION ) );
-        simVersionElement.setAttribute( "project", project );
-        simVersionElement.setAttribute( "sim", sim );
-        simVersionElement.setAttribute( "requested_by", requestedBy );
-        rootElement.appendChild( simVersionElement );
+        if ( hasSimQuery ) {
+            Element simVersionElement = document.createElement( "sim_version" );
+            simVersionElement.setAttribute( REQUEST_VERSION_TAG, String.valueOf( PhetCommonConstants.SIM_VERSION_VERSION ) );
+            simVersionElement.setAttribute( "project", project );
+            simVersionElement.setAttribute( "sim", sim );
+            simVersionElement.setAttribute( "requested_by", requestedBy );
+            rootElement.appendChild( simVersionElement );
+        }
 
-        Element installerUpdateElement = document.createElement( "phet_installer_update" );
-        installerUpdateElement.setAttribute( REQUEST_VERSION_TAG, String.valueOf( PhetCommonConstants.PHET_INSTALLER_UPDATE_VERSION ) );
-        installerUpdateElement.setAttribute( "timestamp_seconds", String.valueOf( currentInstallerVersion.getTimestamp() ) );
-        installerUpdateElement.setAttribute( "requested_by", requestedBy );
-        rootElement.appendChild( installerUpdateElement );
+        if ( hasInstallerQuery ) {
+            Element installerUpdateElement = document.createElement( "phet_installer_update" );
+            installerUpdateElement.setAttribute( REQUEST_VERSION_TAG, String.valueOf( PhetCommonConstants.PHET_INSTALLER_UPDATE_VERSION ) );
+            installerUpdateElement.setAttribute( "timestamp_seconds", String.valueOf( currentInstallerVersion.getTimestamp() ) );
+            installerUpdateElement.setAttribute( "requested_by", requestedBy );
+            rootElement.appendChild( installerUpdateElement );
+        }
 
         return document;
     }
@@ -187,7 +230,7 @@ public class VersionInfoQuery {
      * If no errors are encountered, returns an object that contains the query results.
      * When the first error is encountered, parsing stops, listeners are notified of an exception, and null is returned.
      */
-    private VersionInfoQueryResponse parseResponseDocument( Document document, VersionInfoQuery query ) throws TransformerException {
+    private Response parseResponse( Document document, VersionInfoQuery query ) throws TransformerException {
         
         // bail on the first error
         NodeList errors = document.getElementsByTagName( ERROR_TAG );
@@ -214,10 +257,25 @@ public class VersionInfoQuery {
             }
         }
         
-        // parse sim_version_response
-        PhetVersion simVersion;
-        long simAskMeLaterDuration;
-        {
+        // parse content
+        SimResponse simResponse = parseSimResponse( document );
+        InstallerResponse installerResponse = parseInstallerResponse( document );
+        return new Response( query, simResponse, installerResponse );
+    }
+    
+    /*
+     * Parses the portion of the response that is related to sim version info.
+     * Returns null if there is no such response.
+     */
+    private SimResponse parseSimResponse( Document document ) {
+
+        SimResponse simResponse = null;
+
+        if ( hasSimQuery ) {
+
+            PhetVersion version = null;
+            long askMeLaterDuration = 0;
+
             String elementName = "sim_version_response";
 
             String versionMajor = getAttribute( document, elementName, "version_major" );
@@ -229,7 +287,7 @@ public class VersionInfoQuery {
                 notifyException( new VersionInfoQueryException( "missing one or more attribututes related to sim version" ) );
                 return null;
             }
-            simVersion = new PhetVersion( versionMajor, versionMinor, versionDev, versionRevision, versionTimestamp );
+            version = new PhetVersion( versionMajor, versionMinor, versionDev, versionRevision, versionTimestamp );
 
             String attributeName = "ask_me_later_duration_days";
             String attributeValue = getAttribute( document, elementName, attributeName );
@@ -238,28 +296,41 @@ public class VersionInfoQuery {
                 return null;
             }
             try {
-                simAskMeLaterDuration = MathUtil.daysToMilliseconds( Long.parseLong( attributeValue ) ); // days to ms !
+                askMeLaterDuration = MathUtil.daysToMilliseconds( Long.parseLong( attributeValue ) ); // days to ms !
             }
             catch ( NumberFormatException e ) {
                 notifyException( new VersionInfoQueryException( "expected a number, received " + attributeValue ) );
                 return null;
             }
+
+            simResponse = new SimResponse( this.getCurrentSimVersion(), version, askMeLaterDuration );
         }
-        
-        // parse phet_installer_update_response
-        boolean isInstallerUpdateRecommended;
-        PhetInstallerVersion installerVersion;
-        long installerAskMeLaterDuration;
-        {
+        return simResponse;
+    }
+    
+    /*
+     * Parses the portion of the response that is related to installer version info.
+     * Returns null if there is no such response.
+     */
+    private InstallerResponse parseInstallerResponse( Document document ) {
+
+        InstallerResponse installerResponse = null;
+
+        if ( hasInstallerQuery ) {
+
+            boolean isUpdateRecommended = false;
+            PhetInstallerVersion version = null;
+            long askMeLaterDuration = 0;
+
             String elementName = "phet_installer_update_response";
-            
+
             String attributeName = "recommend_update";
             String attributeValue = getAttribute( document, elementName, attributeName );
             if ( attributeValue == null ) {
                 notifyException( new VersionInfoQueryException( elementName + " is missing attribute " + attributeName ) );
             }
-            isInstallerUpdateRecommended = Boolean.valueOf( attributeValue ).booleanValue();
-            
+            isUpdateRecommended = Boolean.valueOf( attributeValue ).booleanValue();
+
             attributeName = "timestamp_seconds";
             attributeValue = getAttribute( document, elementName, attributeName );
             if ( attributeValue == null ) {
@@ -267,13 +338,13 @@ public class VersionInfoQuery {
                 return null;
             }
             try {
-                installerVersion = new PhetInstallerVersion( Long.parseLong( attributeValue ) );
+                version = new PhetInstallerVersion( Long.parseLong( attributeValue ) );
             }
             catch ( NumberFormatException e ) {
                 notifyException( new VersionInfoQueryException( "expected a number, received " + attributeValue ) );
                 return null;
             }
-            
+
             attributeName = "ask_me_later_duration_days";
             attributeValue = getAttribute( document, elementName, attributeName );
             if ( attributeValue == null ) {
@@ -281,20 +352,20 @@ public class VersionInfoQuery {
                 return null;
             }
             try {
-                installerAskMeLaterDuration = MathUtil.daysToMilliseconds( Long.parseLong( attributeValue ) ); // days to ms !
+                askMeLaterDuration = MathUtil.daysToMilliseconds( Long.parseLong( attributeValue ) ); // days to ms !
             }
             catch ( NumberFormatException e ) {
                 notifyException( new VersionInfoQueryException( "expected a number, received " + attributeValue ) );
                 return null;
             }
+
+            installerResponse = new InstallerResponse( isUpdateRecommended, version, askMeLaterDuration );
         }
-        
-        // response object
-        return new VersionInfoQueryResponse( query, simVersion, simAskMeLaterDuration, isInstallerUpdateRecommended, installerVersion, installerAskMeLaterDuration );
+        return installerResponse;
     }
     
     /*
-     * Gets the first occurrence of an attribute.
+     * Gets the first occurrence of an attribute in an XML document.
      */
     private static String getAttribute( Document document, String elementName, String attributeName ) {
         String value = null;
@@ -312,64 +383,94 @@ public class VersionInfoQuery {
     /**
      * Encapsulates the response to this query.
      */
-    public static class VersionInfoQueryResponse {
+    public static class Response {
         
         private final VersionInfoQuery query;
-        private final PhetVersion simVersion;
-        private final long simAskMeLaterDuration; // ms
-        private final boolean isInstallerUpdateRecommended;
-        private final PhetInstallerVersion installerVersion;
-        private final long installerAskMeLaterDuration; // ms
+        private final SimResponse simResponse;
+        private final InstallerResponse installerResponse;
 
-        public VersionInfoQueryResponse( VersionInfoQuery query, 
-                PhetVersion simVersion, long simAskMeLaterDuration, 
-                boolean isInstallerUpdateRecommended, PhetInstallerVersion installerVersion, long installerAskMeLaterDuration ) {
+        public Response( VersionInfoQuery query, SimResponse simResponse,InstallerResponse installerResponse ) { 
             this.query = query;
-            this.simVersion = simVersion;
-            this.simAskMeLaterDuration = simAskMeLaterDuration;
-            this.isInstallerUpdateRecommended = isInstallerUpdateRecommended;
-            this.installerVersion = installerVersion;
-            this.installerAskMeLaterDuration = installerAskMeLaterDuration;
+            this.simResponse = simResponse;
+            this.installerResponse = installerResponse;
         }
 
         public VersionInfoQuery getQuery() {
             return query;
         }
-
-        public boolean isSimUpdateRecommended() {
-            return getSimVersion().isGreaterThan( query.getCurrentSimVersion() );
-        }
-
-        public PhetVersion getSimVersion() {
-            return simVersion;
-        }
-
-        // ms
-        public long getSimAskMeLaterDuration() {
-            return simAskMeLaterDuration;
+        
+        public SimResponse getSimResponse() {
+            return simResponse;
         }
         
-        public boolean isInstallerUpdateRecommended() {
-            return isInstallerUpdateRecommended;
-        }
-
-        public PhetInstallerVersion getInstallerVersion() {
-            return installerVersion;
-        }
-
-        // ms
-        public long getInstallerAskMeLaterDuration() {
-            return installerAskMeLaterDuration;
+        public InstallerResponse getInstallerResponse() {
+            return installerResponse;
         }
     }
+    
+    /**
+     * Portion of the response related to the sim.
+     */
+    public static class SimResponse {
 
+        private final PhetVersion currentVersion;
+        private final PhetVersion version;
+        private final long askMeLaterDuration; // ms
+
+        public SimResponse( PhetVersion currentVersion, PhetVersion version, long askMeLaterDuration ) {
+            this.currentVersion = currentVersion;
+            this.version = version;
+            this.askMeLaterDuration = askMeLaterDuration;
+        }
+        
+        public boolean isUpdateRecommended() {
+            return getVersion().isGreaterThan( currentVersion );
+        }
+
+        public PhetVersion getVersion() {
+            return version;
+        }
+
+        public long getAskMeLaterDuration() {
+            return askMeLaterDuration;
+        }
+    }
+    
+    /**
+     * Portion of the response related to the installer.
+     */
+    public static class InstallerResponse {
+
+        private final boolean isUpdateRecommended;
+        private final PhetInstallerVersion version;
+        private final long askMeLaterDuration; // ms
+
+        public InstallerResponse( boolean isUpdateRecommended, PhetInstallerVersion version, long askMeLaterDuration ) {
+            this.isUpdateRecommended = isUpdateRecommended;
+            this.version = version;
+            this.askMeLaterDuration = askMeLaterDuration;
+        }
+        
+        public boolean isUpdateRecommended() {
+            return isUpdateRecommended;
+        }
+
+        public PhetInstallerVersion getVersion() {
+            return version;
+        }
+
+        public long getAskMeLaterDuration() {
+            return askMeLaterDuration;
+        }
+    }
+    
     public interface VersionInfoQueryListener {
 
         /**
          * The query is done and results are available.
          * @param result
          */
-        public void done( VersionInfoQueryResponse result );
+        public void done( Response response );
 
         /**
          * An exception occurred, and don't expect a result.
@@ -378,19 +479,6 @@ public class VersionInfoQuery {
         public void exception( Exception e );
     }
     
-    public static class VersionInfoQueryException extends Exception {
-        public VersionInfoQueryException( String message ) {
-            super( message );
-        }
-    }
-
-    public static class VersionInfoQueryAdapter implements VersionInfoQueryListener {
-
-        public void done( VersionInfoQueryResponse result ) {}
-
-        public void exception( Exception e ) {}
-    }
-
     public void addListener( VersionInfoQueryListener listener ) {
         listeners.add( listener );
     }
@@ -399,9 +487,9 @@ public class VersionInfoQuery {
         listeners.remove( listener );
     }
 
-    private void notifyDone( VersionInfoQueryResponse result ) {
+    private void notifyDone( Response response ) {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (VersionInfoQueryListener) listeners.get( i ) ).done( result );
+            ( (VersionInfoQueryListener) listeners.get( i ) ).done( response );
         }
     }
 
@@ -411,13 +499,26 @@ public class VersionInfoQuery {
         }
     }
     
+    public static class VersionInfoQueryException extends Exception {
+        public VersionInfoQueryException( String message ) {
+            super( message );
+        }
+    }
+    
     public static void main( String[] args ) {
+        
         PhetVersion simVersion = new PhetVersion( "1", "02", "03", "45678", "1122334455" );
         PhetInstallerVersion installerVersion = new PhetInstallerVersion( 1234567890 );
         VersionInfoQuery query = new VersionInfoQuery( "balloons", "balloons", simVersion, installerVersion, true /* automaticRequest */ );
         query.addListener( new VersionInfoQueryListener() {
-            public void done( VersionInfoQueryResponse result ) {
+            
+            public void done( Response result ) {
                 System.out.println( getClass().getName() + ".done" );
+                System.out.println( "sim.version=" + result.getSimResponse().getVersion() );
+                System.out.println( "sim.askMeLaterDuration=" + result.getSimResponse().getAskMeLaterDuration() );
+                System.out.println( "installer.isUpdateRecommended=" + result.getInstallerResponse().isUpdateRecommended() );
+                System.out.println( "installer.version=" + result.getInstallerResponse().getVersion().getTimestamp() );
+                System.out.println( "installer.askMeLaterDuration=" + result.getInstallerResponse().getAskMeLaterDuration() );
             }
 
             public void exception( Exception e ) {

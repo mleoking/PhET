@@ -11,7 +11,9 @@ import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery;
-import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery.VersionInfoQueryResponse;
+import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery.InstallerResponse;
+import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery.Response;
+import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery.SimResponse;
 import edu.colorado.phet.common.phetcommon.dialogs.ErrorDialog;
 import edu.colorado.phet.common.phetcommon.files.PhetInstallation;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
@@ -54,18 +56,18 @@ public class ManualUpdatesManager {
 
     public void checkForSimUpdates() {
         
-        final PhetInstallerVersion currentInstallerVersion = new PhetInstallerVersion( 0 ); // don't care, since this query is for the sim
         final ISimInfo simInfo = app.getSimInfo();
         final Frame parentFrame = app.getPhetFrame();
         
-        final VersionInfoQuery query = new VersionInfoQuery( simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getVersion(), currentInstallerVersion, false /* automaticRequest */ );
+        final VersionInfoQuery query = new VersionInfoQuery( simInfo, false /* automaticRequest */ );
         query.addListener( new VersionInfoQuery.VersionInfoQueryListener() {
             
-            public void done( final VersionInfoQueryResponse result ) {
+            public void done( final Response response ) {
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
-                        if ( result.isSimUpdateRecommended() ) {
-                            new SimManualUpdateDialog( parentFrame, simInfo, result.getSimVersion() ).setVisible( true );
+                        SimResponse simResponse = response.getSimResponse();
+                        if ( simResponse != null && simResponse.isUpdateRecommended() ) {
+                            new SimManualUpdateDialog( parentFrame, simInfo, simResponse.getVersion() ).setVisible( true );
                         }
                         else {
                             new SimNoUpdateDialog( parentFrame, simInfo.getName(), simInfo.getVersion() ).setVisible( true );
@@ -84,22 +86,23 @@ public class ManualUpdatesManager {
     public void checkForInstallerUpdates() {
         
         final PhetInstallerVersion currentInstallerVersion = PhetInstallation.getInstance().getInstallerVersion();
-        ISimInfo simInfo = app.getSimInfo();
         final Frame parentFrame = app.getPhetFrame();
         
-        final VersionInfoQuery query = new VersionInfoQuery( simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getVersion(), currentInstallerVersion, false /* automaticRequest */ );
+        final VersionInfoQuery query = new VersionInfoQuery( currentInstallerVersion, false /* automaticRequest */ );
         query.addListener( new VersionInfoQuery.VersionInfoQueryListener() {
             
-            public void done( final VersionInfoQueryResponse result ) {
+            public void done( final Response response ) {
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
-                        if ( result.isInstallerUpdateRecommended() ) {
-                            PhetInstallerVersion newInstallerVersion = result.getInstallerVersion();
+                        InstallerResponse installerResponse = response.getInstallerResponse();
+                        if ( installerResponse != null && installerResponse.isUpdateRecommended() ) {
+                            PhetInstallerVersion newInstallerVersion = installerResponse.getVersion();
                             JDialog dialog = new InstallerManualUpdateDialog( parentFrame, currentInstallerVersion, newInstallerVersion );
                             dialog.setVisible( true );
                         }
                         else {
-                            new InstallerNoUpdateDialog( parentFrame, currentInstallerVersion ).setVisible( true );
+                            JDialog dialog = new InstallerNoUpdateDialog( parentFrame, currentInstallerVersion );
+                            dialog.setVisible( true );
                         }
                     }
                 } );
