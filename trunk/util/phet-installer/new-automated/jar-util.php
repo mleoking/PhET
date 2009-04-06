@@ -41,7 +41,6 @@
     // directory.
     //------------------------------------------------------------------------
     function find_jar_files( $initial_directory ) {
-        flushing_echo( "function find_jar_files called, directory = ".$initial_directory );
         $file_list = file_list_in_directory( $initial_directory, "*.jar" );
         return $file_list;
     }
@@ -58,7 +57,6 @@
     // convention ever changes, this function will need to be modified.
     //------------------------------------------------------------------------
     function find_primary_project_jar_files( $initial_directory ) {
-        flushing_echo( "function find_primary_project_jar_files called, directory = ".$initial_directory );
         $file_list = file_list_in_directory( $initial_directory, "*_all.jar" );
         return $file_list;
     }
@@ -68,7 +66,6 @@
     // true if so and false if not.
     //------------------------------------------------------------------------
     function is_jar_signed( $path_to_jar_file ) {
-        flushing_echo( "function is_jar_signed called, file = ".$path_to_jar_file );
         $verify_command = JARSIGNER." -verify ".$path_to_jar_file;
         $result = system( $verify_command, $retval );
 
