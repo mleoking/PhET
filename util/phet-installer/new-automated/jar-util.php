@@ -12,29 +12,7 @@
     require_once("global.php");
     require_once("file-util.php");
 
-    define('CONFIG_FILE', 'keystore-config.ini');
     define('JARSIGNER', '/usr/local/java/bin/jarsigner'); // Full path to jarsigner util.
-
-    //------------------------------------------------------------------------
-    // Function to sign the specified JAR file.
-    //------------------------------------------------------------------------
-    function sign_jar( $jar_path_and_name ) {
-        $config_params = parse_ini_file( CONFIG_FILE );
-        $keystore = $config_params[ 'keystore' ];
-        $storepass = $config_params[ 'storepass' ];
-        $alias = $config_params[ 'alias' ];
-        exec( "/usr/local/java/bin/jarsigner -keystore $keystore -storetype pkcs12 -storepass $storepass $jar_path_and_name $alias" );
-    }
-
-    //------------------------------------------------------------------------
-    // Function to sign each of the JAR files in the provided list.
-    //------------------------------------------------------------------------
-    function sign_multiple_jars( $list_of_jar_files ) {
-        flushing_echo( "function sign_multiple_jars called" );
-        foreach ( $list_of_jar_files as $jar_file ){
-            sign_jar( $jar_file );
-        }
-    }
 
     //------------------------------------------------------------------------
     // Function to create a list of all JAR files located below the specified
