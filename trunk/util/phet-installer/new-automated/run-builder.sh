@@ -82,7 +82,7 @@ send_email_notification SUCCESS
 
 echo "Removing temporary files" | tee --append installer-builder-log.txt
 
-rm -rf ./temp/installer-output/* | tee --append installer-builder-log.txt
+rm -rf ./BitRock/output/* | tee --append installer-builder-log.txt
 
 if [ "$?" -ne "0" ]; then
   echo "Error removing temporary files" | tee --append installer-builder-log.txt
