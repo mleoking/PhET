@@ -44,20 +44,22 @@ import edu.colorado.phet.energyskatepark.view.swing.EnergySkateParkTestMenu;
 import edu.colorado.phet.energyskatepark.view.swing.EnergySkateParkTrackMenu;
 
 public class EnergySkateParkApplication extends PhetApplication {
-    
+
     private EnergySkateParkModule module;
     public static double SIMULATION_TIME_DT = 0.03;
     public static final boolean IGNORE_THERMAL_DEFAULT = false;
 
     public EnergySkateParkApplication( PhetApplicationConfig config ) {
         super( config );
-        
+
         EnergySkateParkOptions options = parseOptions( config.getCommandLineArgs() );
-        
+
         module = new EnergySkateParkModule( "Module", new ConstantDtClock( 30, SIMULATION_TIME_DT ), getPhetFrame(), options );
         setModules( new Module[]{module} );
         getPhetFrame().addMenu( new EnergySkateParkOptionsMenu( module ) );
-        getPhetFrame().addMenu( new EnergySkateParkTestMenu( this ) );
+        if ( config.isDev() ) {
+            getPhetFrame().addMenu( new EnergySkateParkTestMenu( this ) );
+        }
         getPhetFrame().addMenu( new EnergySkateParkTrackMenu( this ) );
 
         JMenuItem saveItem = new JMenuItem( EnergySkateParkStrings.getString( "file-menu.save" ) + "..." );
@@ -102,15 +104,15 @@ public class EnergySkateParkApplication extends PhetApplication {
         //todo: not yet implemented
         return new EnergySkateParkOptions();
     }
-    
+
     public static void main( final String[] args ) {
-        
+
         ApplicationConstructor appConstructor = new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 return new EnergySkateParkApplication( config );
             }
         };
-        
+
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, EnergySkateParkConstants.PROJECT_NAME );
         appConfig.setLookAndFeel( new EnergySkateParkLookAndFeel() );
         appConfig.setFrameSetup( new EnergySkateParkFrameSetup() );
