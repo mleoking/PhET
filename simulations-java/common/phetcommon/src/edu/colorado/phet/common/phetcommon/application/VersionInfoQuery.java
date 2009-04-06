@@ -242,7 +242,7 @@ public class VersionInfoQuery {
             notifyException( new VersionInfoQueryException( text.getData() ) );
             return null;
         }
-        // if there were no <error> elements, then we assume that's we have results
+        // if there were no <error> elements, then we assume that we have results
         
         // print warnings to the console
         NodeList warnings = document.getElementsByTagName( WARNING_TAG );
@@ -467,13 +467,13 @@ public class VersionInfoQuery {
     public interface VersionInfoQueryListener {
 
         /**
-         * The query is done and results are available.
-         * @param result
+         * The query is done and a response is available.
+         * @param response
          */
         public void done( Response response );
 
         /**
-         * An exception occurred, and don't expect a result.
+         * An exception occurred, and don't expect a response.
          * @param e
          */
         public void exception( Exception e );
@@ -512,13 +512,13 @@ public class VersionInfoQuery {
         VersionInfoQuery query = new VersionInfoQuery( "balloons", "balloons", simVersion, installerVersion, true /* automaticRequest */ );
         query.addListener( new VersionInfoQueryListener() {
             
-            public void done( Response result ) {
+            public void done( Response response ) {
                 System.out.println( getClass().getName() + ".done" );
-                System.out.println( "sim.version=" + result.getSimResponse().getVersion() );
-                System.out.println( "sim.askMeLaterDuration=" + result.getSimResponse().getAskMeLaterDuration() );
-                System.out.println( "installer.isUpdateRecommended=" + result.getInstallerResponse().isUpdateRecommended() );
-                System.out.println( "installer.version=" + result.getInstallerResponse().getVersion().getTimestamp() );
-                System.out.println( "installer.askMeLaterDuration=" + result.getInstallerResponse().getAskMeLaterDuration() );
+                System.out.println( "sim.version=" + response.getSimResponse().getVersion() );
+                System.out.println( "sim.askMeLaterDuration=" + response.getSimResponse().getAskMeLaterDuration() );
+                System.out.println( "installer.isUpdateRecommended=" + response.getInstallerResponse().isUpdateRecommended() );
+                System.out.println( "installer.version=" + response.getInstallerResponse().getVersion().getTimestamp() );
+                System.out.println( "installer.askMeLaterDuration=" + response.getInstallerResponse().getAskMeLaterDuration() );
             }
 
             public void exception( Exception e ) {
