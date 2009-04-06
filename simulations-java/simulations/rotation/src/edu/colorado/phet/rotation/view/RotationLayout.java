@@ -21,9 +21,6 @@ public class RotationLayout {
     private PNode rotationControlPanelNode;
     private PNode timeSeriesGraphSetNode;
     private PNode platformNode;
-    private PNode originNode;
-    private RotationPlatform rotationPlatform;
-    private double minFraction;
     private PClip playAreaClip;
 
     public RotationLayout( JComponent parent, PNode rotationPlayAreaNode, PNode rotationControlPanelNode, PNode timeSeriesGraphSetNode, PNode platformNode, PNode originNode, RotationPlatform rotationPlatform, double minFraction, PClip playAreaClip ) {
@@ -32,9 +29,6 @@ public class RotationLayout {
         this.rotationControlPanelNode = rotationControlPanelNode;
         this.timeSeriesGraphSetNode = timeSeriesGraphSetNode;
         this.platformNode = platformNode;
-        this.originNode = originNode;
-        this.rotationPlatform = rotationPlatform;
-        this.minFraction = minFraction;
         this.playAreaClip = playAreaClip;
     }
 
