@@ -452,9 +452,9 @@ public class ModelSlider extends JPanel {
 
     }
 
-//    Todo: Fix this number parsing:
-//    Todo: deprecate usage of ModelSlider, in favor of LinearValueControl
-//    Todo: consolidate usages of ModelSlider
+//    TODO: Fix this number parsing:
+//    TODO: deprecate usage of ModelSlider, in favor of LinearValueControl
+//    TODO: consolidate usages of ModelSlider
 //    An English string like "12,345.6" will be incorrectly changed to "12.345.6", since the European decimal char happens to be the same as the English separator char.  (Localization typically handles separator and decimal chars separately.)
 //
 //    A more robust method for parsing a number from a localized string is to use NumberFormat.parse, which handles all locales.

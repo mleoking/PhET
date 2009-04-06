@@ -98,7 +98,7 @@ public class SoftwareAgreementDialog extends PaintImmediateDialog {
         return panel;
     }
 
-    //todo: provide correct bounds for the image
+    //TODO: provide correct bounds for the image
     private class HTMLTagImageView extends ImageView {
         public HTMLTagImageView( Element elem ) {
             super( elem );
