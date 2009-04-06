@@ -48,11 +48,9 @@
         $result = system( $verify_command, $retval );
 
         if ( ( $retval == 0 ) && ( stristr( $result, "verified" ) ) ){
-            echo "JAR is signed.\n";
             return true;
         }
         else {
-            echo "JAR is unsigned.\n";
             return false;
         }
     }
