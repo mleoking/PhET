@@ -42,36 +42,7 @@ public abstract class GasMoleculeGraphic extends PhetImageGraphic implements Gas
         if( dim == null ) {
             dim = apparatusPanel.getSize();
         }
-        //todo: maybe just remove this whole handleResize subsystem altogether?
-        //it looks like particles scale without it
-        apparatusPanel.addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                handleResize( apparatusPanel, dim );
-            }
-        } );
-        handleResize( apparatusPanel, dim );
     }
-
-    private void handleResize( ApparatusPanel apparatusPanel, Dimension startingSize ) {
-        Dimension newSize = apparatusPanel.getSize();
-        double scale = newSize.getWidth() / startingSize.getWidth();
-        scaleAtx = AffineTransform.getScaleInstance( scale, scale );
-        AffineTransformOp atxOp = new AffineTransformOp( scaleAtx, new RenderingHints( RenderingHints.KEY_INTERPOLATION,
-                                                                                       RenderingHints.VALUE_INTERPOLATION_BICUBIC ) );
-        setImage( atxOp.filter( copyImage( baseImage ), null ) );
-    }
-
-    private static BufferedImage copyImage( Image src ) {
-        int w = src.getWidth( null );
-        int h = src.getHeight( null );
-        int type = BufferedImage.TYPE_INT_ARGB_PRE;  //todo: does this work on mac?
-        BufferedImage dest = new BufferedImage( w, h, type );
-        Graphics2D g2 = dest.createGraphics();
-        g2.drawImage( src, 0, 0, null );
-        g2.dispose();
-        return dest;
-    }
-
 
     public void paint( Graphics2D g2 ) {
         AffineTransform orgTx = getNetTransform();
