@@ -11,6 +11,7 @@ import java.util.Date;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetInstallerVersion;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
@@ -23,7 +24,7 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPa
  * Dialog uses to inform the user that no sim update is available.
  * This is used in situations where the user has manually requested an update check.
  */
-public abstract class NoUpdateDialog extends JDialog {
+public abstract class NoUpdateDialog extends PaintImmediateDialog {
     
     private static final String TITLE = PhetCommonResources.getString( "Common.updates.updateToDate");
     private static final String OK_BUTTON = PhetCommonResources.getString( "Common.choice.ok" );
