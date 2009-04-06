@@ -1,3 +1,5 @@
+# 3.08.10 (30233) Apr 6, 2009
+4/6/09 > remove extraneous image resize, see #1375
 # 3.08.09 (30126) Mar 31, 2009
 3/31/09 deploy dev version for verification of fixes
 3/25/09 #1497, fixed and rewrote InputTemperatureControl
