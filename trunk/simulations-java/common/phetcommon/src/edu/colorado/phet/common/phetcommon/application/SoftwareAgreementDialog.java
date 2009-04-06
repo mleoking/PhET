@@ -65,9 +65,7 @@ public class SoftwareAgreementDialog extends PaintImmediateDialog {
         String html = HTMLUtils.createStyledHTMLFromFragment( SoftwareAgreement.getInstance().getContent() );
         HTMLEditorPane htmlEditorPane = new HTMLUtils.InteractiveHTMLPane( html );
 
-        //TODO: choose whether we're using images or not
         final HTMLEditorKit.HTMLFactory htmlFactory = new HTMLFactoryWithImages();
-//        final HTMLEditorKit.HTMLFactory htmlFactory = new HTMLEditorKit.HTMLFactory();
 
         htmlEditorPane.setEditorKit( new HTMLEditorKit() {
             public ViewFactory getViewFactory() {
