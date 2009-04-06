@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.URL;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.resources.PhetInstallerVersion;
 import edu.colorado.phet.common.phetcommon.resources.PhetProperties;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 
@@ -42,12 +43,16 @@ public class PhetInstallation {
     }
     
     /**
-     * Timestamp that indicates when the installer was created,
-     * in seconds since Epoch.
+     * Gets the version information associated with the installer that was used to create the PhET installation.
      * @return
      */
-    public long getInstallerTimestamp() {
-        return properties.getLong( "installer.creation.date.epoch.seconds", -1 );
+    public PhetInstallerVersion getInstallerVersion() {
+        String key = "installer.creation.date.epoch.seconds";
+        long seconds = properties.getLong( key, -1 );
+        if ( seconds == -1 ) {
+            warnMissingKey( key );
+        }
+        return new PhetInstallerVersion( seconds );
     }
     
     /**
@@ -132,5 +137,9 @@ public class PhetInstallation {
             }
         }
         return file;
+    }
+    
+    private static void warnMissingKey( String key ) {
+        System.err.println( "WARNING: " + PROPERTIES_FILENAME + " is missing required key " + key );
     }
 }
