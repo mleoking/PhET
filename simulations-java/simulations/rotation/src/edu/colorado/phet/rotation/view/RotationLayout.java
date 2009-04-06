@@ -23,7 +23,7 @@ public class RotationLayout {
     private PNode platformNode;
     private PClip playAreaClip;
 
-    public RotationLayout( JComponent parent, PNode rotationPlayAreaNode, PNode rotationControlPanelNode, PNode timeSeriesGraphSetNode, PNode platformNode, PNode originNode, RotationPlatform rotationPlatform, double minFraction, PClip playAreaClip ) {
+    public RotationLayout( JComponent parent, PNode rotationPlayAreaNode, PNode rotationControlPanelNode, PNode timeSeriesGraphSetNode, PNode platformNode, PClip playAreaClip ) {
         this.parent = parent;
         this.rotationPlayAreaNode = rotationPlayAreaNode;
         this.rotationControlPanelNode = rotationControlPanelNode;
@@ -34,13 +34,19 @@ public class RotationLayout {
 
     public void layout() {
         rotationControlPanelNode.setOffset( 0, getHeight() - rotationControlPanelNode.getFullBounds().getHeight() );
-        double availWidth = rotationControlPanelNode.getFullBounds().getWidth();
+        double availWidth = getWidth() - ( 1024 - rotationControlPanelNode.getFullBounds().getWidth() );
+        if ( availWidth < rotationControlPanelNode.getWidth() ) {
+            availWidth = rotationControlPanelNode.getWidth();
+        }
+
+        //Share extra space equally between graphs and play area
+        double extra = availWidth - rotationControlPanelNode.getFullBounds().getWidth();
+        if ( extra > 0 ) {
+            availWidth -= extra / 2;
+        }
         double availHeight = getHeight() - rotationControlPanelNode.getFullBounds().getHeight();
 
-        double platformMaxWidth = RotationPlatform.MAX_RADIUS * 2.5;//double to get diameter, and add some for handle and padding
-        Dimension2D d = new PDimension( platformMaxWidth, platformMaxWidth );
-        rotationPlayAreaNode.setScale( 1.0 );
-        platformNode.getParent().localToGlobal( d );
+        Dimension2D d = getPlayAreaScreenDim();
 //        System.out.println( "d = " + d );
 
         double sx = availWidth / Math.abs( d.getHeight() );
@@ -50,18 +56,18 @@ public class RotationLayout {
         if ( scale > 0 ) {
             rotationPlayAreaNode.scale( scale );
         }
-//        rotationPlayAreaNode.setOffset( scale * getRotationPlatform().getRadius(), scale * getRotationPlatform().getRadius() );
-//        rotationPlayAreaNode.setOffset( 0,0);
-        rotationPlayAreaNode.setOffset( availWidth/2, availHeight/2);
+        rotationPlayAreaNode.setOffset( availWidth / 2, availHeight / 2 );
         playAreaClip.setPathToRectangle( 0, 0, (float) availWidth, (float) availHeight );
         int padx = 3;
-        timeSeriesGraphSetNode.setBounds( new Rectangle2D.Double( padx + getMaxXPlayAreaAndControlPanel(), 0, getWidth() - getMaxXPlayAreaAndControlPanel() - padx, getHeight() ) );
+        timeSeriesGraphSetNode.setBounds( new Rectangle2D.Double( padx + availWidth, 0, getWidth() - availWidth - padx, getHeight() ) );
     }
 
-    private double getMaxXPlayAreaAndControlPanel() {
-//        System.out.println( "playAreaClip.getGlobalFullBounds().getMaxX() = " + playAreaClip.getGlobalFullBounds().getMaxX() +", rotPanX="+rotationControlPanelNode.getGlobalFullBounds().getMaxX());
-//        return Math.max( playAreaClip.getGlobalFullBounds().getMaxX(), rotationControlPanelNode.getGlobalFullBounds().getMaxX() );
-        return rotationControlPanelNode.getGlobalFullBounds().getMaxX();//+100;
+    private Dimension2D getPlayAreaScreenDim() {
+        double platformMaxWidth = RotationPlatform.MAX_RADIUS * 2.5;//double to get diameter, and add some for handle and padding
+        Dimension2D d = new PDimension( platformMaxWidth, platformMaxWidth );
+        rotationPlayAreaNode.setScale( 1.0 );
+        platformNode.getParent().localToGlobal( d );
+        return d;
     }
 
     private double getWidth() {
