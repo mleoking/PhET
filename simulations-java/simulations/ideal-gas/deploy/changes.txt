@@ -1,3 +1,5 @@
+# 3.08.11 (30255) Apr 6, 2009
+4/6/09 dev version for verifying #1385
 # 3.08.10 (30233) Apr 6, 2009
 4/6/09 > remove extraneous image resize, see #1375
 # 3.08.09 (30126) Mar 31, 2009
