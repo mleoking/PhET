@@ -7,7 +7,6 @@ import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.MessageFormat;
-import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -15,6 +14,7 @@ import javax.swing.border.EmptyBorder;
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetInstallerVersion;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.updates.IAskMeLaterStrategy;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -46,9 +46,9 @@ public abstract class InstallerAbstractUpdateDialog extends PaintImmediateDialog
      * Subclass must call this at the end of their constructor,
      * so that the GUI is initialized *after* member data is initialized. 
      */
-    protected void initGUI() {
+    protected void initGUI( PhetInstallerVersion currentVersion, PhetInstallerVersion newVersion ) {
         // subpanels
-        JPanel messagePanel = createMessagePanel();
+        JPanel messagePanel = createMessagePanel( currentVersion, newVersion );
         JPanel buttonPanel = createButtonPanel();
         
         // main panel
@@ -67,9 +67,11 @@ public abstract class InstallerAbstractUpdateDialog extends PaintImmediateDialog
         SwingUtils.centerDialogInParent( this );
     }
     
-    private JPanel createMessagePanel() {
+    private JPanel createMessagePanel( PhetInstallerVersion currentVersion, PhetInstallerVersion newVersion ) {
         
-        Object[] args = { "Oct 3, 2008", "Feb 14, 2009" }; //TODO: get actual dates
+        String currentTimestamp = currentVersion.formatTimestamp();
+        String newTimestamp = newVersion.formatTimestamp();
+        Object[] args = { currentTimestamp, newTimestamp };
         String s = MessageFormat.format( MESSAGE_PATTERN, args );
         JLabel messageLabel = new JLabel( s );
         
@@ -124,26 +126,5 @@ public abstract class InstallerAbstractUpdateDialog extends PaintImmediateDialog
                 }
             } );
         }
-    }
-
-    public static void main( String[] args ) throws InvocationTargetException, InterruptedException {
-
-        //Small test for MoreButton+PhetOptionPane
-        SwingUtilities.invokeAndWait( new Runnable() {
-            public void run() {
-
-                JFrame frame = new JFrame( "Test More Button" );
-                frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-
-                JDialog parent = new JDialog( frame, "parent" );
-                parent.setLocation( 500, 500 );
-                parent.pack();
-                parent.setVisible( true );
-
-                frame.setContentPane( new MoreButton( parent ) );
-                frame.pack();
-                frame.setVisible( true );
-            }
-        } );
     }
 }

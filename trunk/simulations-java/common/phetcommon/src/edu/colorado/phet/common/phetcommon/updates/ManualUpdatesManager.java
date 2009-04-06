@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery;
 import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery.VersionInfoQueryResponse;
 import edu.colorado.phet.common.phetcommon.dialogs.ErrorDialog;
+import edu.colorado.phet.common.phetcommon.files.PhetInstallation;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetInstallerVersion;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.InstallerManualUpdateDialog;
@@ -82,7 +83,7 @@ public class ManualUpdatesManager {
     
     public void checkForInstallerUpdates() {
         
-        final PhetInstallerVersion currentInstallerVersion = new PhetInstallerVersion( 0 ); //TODO get this from phet-installation.properties
+        final PhetInstallerVersion currentInstallerVersion = PhetInstallation.getInstance().getInstallerVersion();
         ISimInfo simInfo = app.getSimInfo();
         final Frame parentFrame = app.getPhetFrame();
         
@@ -93,7 +94,9 @@ public class ManualUpdatesManager {
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
                         if ( result.isInstallerUpdateRecommended() ) {
-                            new InstallerManualUpdateDialog( parentFrame ).setVisible( true );
+                            PhetInstallerVersion newInstallerVersion = result.getInstallerVersion();
+                            JDialog dialog = new InstallerManualUpdateDialog( parentFrame, currentInstallerVersion, newInstallerVersion );
+                            dialog.setVisible( true );
                         }
                         else {
                             new InstallerNoUpdateDialog( parentFrame, currentInstallerVersion ).setVisible( true );

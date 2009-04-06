@@ -8,6 +8,7 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JPanel;
 
+import edu.colorado.phet.common.phetcommon.resources.PhetInstallerVersion;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
@@ -17,9 +18,9 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  */
 public class InstallerManualUpdateDialog extends InstallerAbstractUpdateDialog {
     
-    public InstallerManualUpdateDialog( Frame owner ) {
+    public InstallerManualUpdateDialog( Frame owner, PhetInstallerVersion currentVersion, PhetInstallerVersion newVersion ) {
         super( owner );
-        initGUI();
+        initGUI( currentVersion, newVersion );
     }
     
     protected JPanel createButtonPanel() {
@@ -34,7 +35,9 @@ public class InstallerManualUpdateDialog extends InstallerAbstractUpdateDialog {
      * Test, this edits the real preferences file!
      */
      public static void main( String[] args ) {
-         InstallerManualUpdateDialog dialog = new InstallerManualUpdateDialog( null );
+         PhetInstallerVersion currentVersion = new PhetInstallerVersion( 1170313200L ); // Feb 1, 2007
+         PhetInstallerVersion newVersion = new PhetInstallerVersion( 1175407200L ); // Apr 1, 2007
+         InstallerManualUpdateDialog dialog = new InstallerManualUpdateDialog( null, currentVersion, newVersion );
          dialog.addWindowListener( new WindowAdapter() {
              public void windowClosing( WindowEvent e ) {
                  System.exit( 0 );

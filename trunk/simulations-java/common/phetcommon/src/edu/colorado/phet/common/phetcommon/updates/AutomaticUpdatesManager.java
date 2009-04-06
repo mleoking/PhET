@@ -3,13 +3,14 @@ package edu.colorado.phet.common.phetcommon.updates;
 import java.awt.Frame;
 import java.net.UnknownHostException;
 
+import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery;
 import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery.VersionInfoQueryResponse;
+import edu.colorado.phet.common.phetcommon.files.PhetInstallation;
 import edu.colorado.phet.common.phetcommon.resources.PhetInstallerVersion;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.InstallerAutomaticUpdateDialog;
@@ -66,7 +67,7 @@ public class AutomaticUpdatesManager {
 
     private void runUpdateCheckThread() {
         
-        final PhetInstallerVersion currentInstallerVersion = new PhetInstallerVersion( 0 ); //TODO get this from phet-installation.properties
+        final PhetInstallerVersion currentInstallerVersion = PhetInstallation.getInstance().getInstallerVersion();
         final VersionInfoQuery query = new VersionInfoQuery( simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getVersion(), currentInstallerVersion, true /* automaticRequest */ );
         
         query.addListener( new VersionInfoQuery.VersionInfoQueryListener() {
@@ -78,7 +79,9 @@ public class AutomaticUpdatesManager {
                         // installer update
                         installerAskMeLaterStrategy.setDuration( result.getInstallerAskMeLaterDuration() );
                         if ( DeploymentScenario.getInstance() == DeploymentScenario.PHET_INSTALLATION && result.isInstallerUpdateRecommended() && installerAskMeLaterStrategy.isDurationExceeded() ) {
-                            new InstallerAutomaticUpdateDialog( parentFrame, installerAskMeLaterStrategy ).setVisible( true );
+                            PhetInstallerVersion newInstallerVersion = result.getInstallerVersion();
+                            JDialog dialog = new InstallerAutomaticUpdateDialog( parentFrame, installerAskMeLaterStrategy, currentInstallerVersion, newInstallerVersion );
+                            dialog.setVisible( true );
                         }
                         
                         // sim update
@@ -97,8 +100,7 @@ public class AutomaticUpdatesManager {
                     System.out.println( getClass().getName() + ": cannot connect, " + e.toString() );
                 }
                 else {
-                    //TODO handle differently?
-                    e.printStackTrace();
+                    e.printStackTrace(); //TODO handle differently?
                 }
             }
         });

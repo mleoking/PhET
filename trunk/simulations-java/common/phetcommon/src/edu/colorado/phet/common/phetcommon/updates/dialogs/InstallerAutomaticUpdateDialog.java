@@ -8,6 +8,7 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JPanel;
 
+import edu.colorado.phet.common.phetcommon.resources.PhetInstallerVersion;
 import edu.colorado.phet.common.phetcommon.updates.IAskMeLaterStrategy;
 import edu.colorado.phet.common.phetcommon.updates.InstallerAskMeLaterStrategy;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -21,10 +22,10 @@ public class InstallerAutomaticUpdateDialog extends InstallerAbstractUpdateDialo
     
     private final IAskMeLaterStrategy askMeLaterStrategy;
     
-    public InstallerAutomaticUpdateDialog( Frame owner, IAskMeLaterStrategy askMeLaterStrategy ) {
+    public InstallerAutomaticUpdateDialog( Frame owner, IAskMeLaterStrategy askMeLaterStrategy, PhetInstallerVersion currentVersion, PhetInstallerVersion newVersion ) {
         super( owner );
         this.askMeLaterStrategy = askMeLaterStrategy;
-        initGUI();
+        initGUI( currentVersion, newVersion );
     }
     
     protected JPanel createButtonPanel() {
@@ -39,7 +40,9 @@ public class InstallerAutomaticUpdateDialog extends InstallerAbstractUpdateDialo
      * Test, this edits the real preferences file!
      */
      public static void main( String[] args ) {
-         InstallerAutomaticUpdateDialog dialog = new InstallerAutomaticUpdateDialog( null, new InstallerAskMeLaterStrategy() );
+         PhetInstallerVersion currentVersion = new PhetInstallerVersion( 1170313200L ); // Feb 1, 2007
+         PhetInstallerVersion newVersion = new PhetInstallerVersion( 1175407200L ); // Apr 1, 2007
+         InstallerAutomaticUpdateDialog dialog = new InstallerAutomaticUpdateDialog( null, new InstallerAskMeLaterStrategy(), currentVersion, newVersion );
          dialog.addWindowListener( new WindowAdapter() {
              public void windowClosing( WindowEvent e ) {
                  System.exit( 0 );
