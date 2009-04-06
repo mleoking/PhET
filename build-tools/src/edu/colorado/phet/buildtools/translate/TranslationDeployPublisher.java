@@ -1,13 +1,12 @@
 package edu.colorado.phet.buildtools.translate;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import edu.colorado.phet.buildtools.BuildScript;
 import edu.colorado.phet.buildtools.JARGenerator;
-import edu.colorado.phet.buildtools.PhetServer;
 import edu.colorado.phet.buildtools.util.FileUtils;
 
 /**
@@ -53,7 +52,7 @@ public class TranslationDeployPublisher {
 
         }
 
-        clearWebCaches( translationDir );
+        BuildScript.clearWebCaches();
     }
 
     // copy the necessary flash HTML files in translationDir (with project and locales) to the main location
@@ -115,9 +114,4 @@ public class TranslationDeployPublisher {
         }
     }
 
-    //regenerate server HTML caches so new translations will appear
-    private void clearWebCaches( File translationDir ) throws FileNotFoundException {
-        System.out.println( "Clearing website cache" );
-        FileUtils.download( PhetServer.PRODUCTION.getCacheClearUrl(), new File( translationDir, PhetServer.PRODUCTION.getCacheClearFile() ) );
-    }
 }

@@ -2,6 +2,7 @@ package edu.colorado.phet.buildtools;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -499,6 +500,7 @@ public class BuildScript {
                             generateOfflineJars( project, PhetServer.PRODUCTION, prodAuth );
                         }
                         copyFromStagingAreaToSimDir( PhetServer.PRODUCTION, prodAuth );
+                        clearWebCaches();
 
                         return true;
                     }
@@ -573,6 +575,16 @@ public class BuildScript {
             finally {
                 sshConnection.disconnect();
             }
+        }
+    }
+    //regenerate server HTML caches so new material will appear
+    public static void clearWebCaches() {
+        System.out.println( "Clearing website cache" );
+        try {
+            FileUtils.download( PhetServer.PRODUCTION.getCacheClearUrl(), new File( new File(System.getProperty("java.io.tmpdir")), PhetServer.PRODUCTION.getCacheClearFile() ) );
+        }
+        catch( FileNotFoundException e ) {
+            e.printStackTrace();
         }
     }
 }
