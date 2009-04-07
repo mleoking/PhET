@@ -1,4 +1,4 @@
-package edu.colorado.phet.ladybugmotion2d.javabug;
+package edu.colorado.phet.ladybugmotion2d;
 
 //Physics implementation for Motion2D
 //computes position, velocity and acceleration.
