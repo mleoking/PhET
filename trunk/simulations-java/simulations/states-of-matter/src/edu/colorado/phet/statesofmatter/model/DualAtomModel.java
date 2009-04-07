@@ -25,15 +25,14 @@ public class DualAtomModel {
     // Class Data
     //----------------------------------------------------------------------------
 
-    public static final AtomType DEFAULT_ATOM_TYPE = AtomType.NEON;
-    public static final double DEFAULT_SIGMA = NeonAtom.RADIUS * 2;
-    public static final double DEFAULT_EPSILON = NeonAtom.EPSILON;
-    public static final int CALCULATIONS_PER_TICK = 8;
     public static final int BONDING_STATE_UNBONDED = 0;
     public static final int BONDING_STATE_BONDING = 1;
     public static final int BONDING_STATE_BONDED = 2;
-    public static final double BONDED_VELOCITY = 20;  // Velocity assigned to atom after bond forms. 
-    public static final double THRESHOLD_VELOCITY = 100;  // Used to distinguish small oscillations from real movement. 
+
+    private static final AtomType DEFAULT_ATOM_TYPE = AtomType.NEON;
+    private static final int CALCULATIONS_PER_TICK = 8;
+    private static final double BONDED_VELOCITY = 20;  // Velocity assigned to atom after bond forms. 
+    private static final double THRESHOLD_VELOCITY = 100;  // Used to distinguish small oscillations from real movement. 
     
     //----------------------------------------------------------------------------
     // Instance Data
