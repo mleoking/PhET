@@ -44,7 +44,7 @@ public class AbstractIntroSimulationPanel extends FullRepaintCanvas {
         if ( scale > 0 ) {
             playAreaNode.scale( scale );
         }
-        playAreaNode.setOffset( getWidth() / 2, scale * getRotationPlatform().getRadius() + padY / 2 );
+        playAreaNode.setOffset( getWidth() *0.6, scale * getRotationPlatform().getRadius() + padY / 2 );
         introSimControlPanelPSwing.setOffset( 0, getHeight() - introSimControlPanelPSwing.getFullBounds().getHeight() );
     }
 
