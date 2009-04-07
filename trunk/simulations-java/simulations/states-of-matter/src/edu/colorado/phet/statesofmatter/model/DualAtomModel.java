@@ -29,6 +29,11 @@ public class DualAtomModel {
     public static final double DEFAULT_SIGMA = NeonAtom.RADIUS * 2;
     public static final double DEFAULT_EPSILON = NeonAtom.EPSILON;
     public static final int CALCULATIONS_PER_TICK = 8;
+    public static final int BONDING_STATE_UNBONDED = 0;
+    public static final int BONDING_STATE_BONDING = 1;
+    public static final int BONDING_STATE_BONDED = 2;
+    public static final double BONDED_VELOCITY = 20;  // Velocity assigned to atom after bond forms. 
+    public static final double THRESHOLD_VELOCITY = 100;  // Used to distinguish small oscillations from real movement. 
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -48,6 +53,7 @@ public class DualAtomModel {
     private double m_timeStep;
     private StatesOfMatterAtom.Adapter m_movableAtomListener;
     private boolean m_settingBothAtomTypes = false;  // Flag used to prevent getting in disallowed state.
+    private int m_bondingState = BONDING_STATE_UNBONDED; // Tracks whether the atoms have formed a chemical bond.
     
     //----------------------------------------------------------------------------
     // Constructor
@@ -127,6 +133,7 @@ public class DualAtomModel {
     		return;
     	}
     	ensureValidMoleculeType( atomType );
+    	m_bondingState = BONDING_STATE_UNBONDED;
 
     	// Inform any listeners of the removal of existing atoms.
         if (m_fixedAtom != null){
@@ -166,6 +173,7 @@ public class DualAtomModel {
     		return;
     	}
     	ensureValidMoleculeType( atomType );
+    	m_bondingState = BONDING_STATE_UNBONDED;
 
     	if (m_movableAtom != null){
             notifyMovableAtomRemoved( m_movableAtom );
@@ -370,6 +378,47 @@ public class DualAtomModel {
         
         // Update the atom that is visible to the view.
         syncMovableAtomWithDummy();
+        
+        // Check if a bond has started to form.
+        if (m_movableMoleculeType == AtomType.OXYGEN && m_fixedMoleculeType == AtomType.OXYGEN){
+        	switch ( m_bondingState ){
+        	
+        	case BONDING_STATE_UNBONDED:
+        		if ( ( m_movableAtom.getVx() > THRESHOLD_VELOCITY ) &&
+        			 ( m_movableAtom.getPositionReference().distance( m_fixedAtom.getPositionReference() ) < m_fixedAtom.getRadius() * 2.5 ) ){
+        			// The atoms are close together and the movable one is
+        			// starting to move away, which is the point at which we
+        			// consider the bond to start forming.
+        			m_bondingState = BONDING_STATE_BONDING;
+        		}
+        		break;
+        		
+        	case BONDING_STATE_BONDING:
+        		if ( m_attractiveForce > m_repulsiveForce ){
+        			// A bond is forming and the force just exceeded the
+        			// repulsive force, meaning that the atom is starting
+        			// to pass the bottom of the well.  Reduce its velocity
+        			// so that it remains stuck in the bottom of the well.
+        			m_movableAtom.setVx( BONDED_VELOCITY );
+        			m_bondingState = BONDING_STATE_BONDED;
+        		}
+        		break;
+        		
+        	case BONDING_STATE_BONDED:
+        		if ( Math.abs( m_movableAtom.getVx() ) > BONDED_VELOCITY ){
+        			// The atom must have gotten accelerated by the potential.
+        			// Slow it back down.
+        			m_movableAtom.setVx( m_movableAtom.getVx() > 0 ? BONDED_VELOCITY : -BONDED_VELOCITY );
+        		}
+        		break;
+        		
+        	default:
+        		System.err.println(this.getClass().getName() + " - Error: Unrecognized bonding state.");
+        		assert false;
+        		m_bondingState = BONDING_STATE_UNBONDED;
+        		break;
+        	}
+        }
     }
 
     /**
