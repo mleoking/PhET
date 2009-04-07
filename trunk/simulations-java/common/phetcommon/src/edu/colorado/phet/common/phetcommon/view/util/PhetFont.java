@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 
 import javax.swing.JTextField;
 
@@ -103,16 +104,12 @@ public class PhetFont extends Font {
      * Creates the font that will be used to create all instances of PhetFont.
      */
     private static Font createDefaultFont() {
-
         Font defaultFont = FALLBACK_FONT;
-        String languageCode = PhetResources.readLocale().getLanguage().toLowerCase();
-//        String languageCode="ar";//temporary code to test localization coverage
-        String[] preferredFonts = PhetCommonResources.getPreferredFontNames( languageCode );
+        Locale locale = PhetResources.readLocale();
+        String[] preferredFonts = PhetCommonResources.getPreferredFontNames( locale );
         if ( preferredFonts != null ) {
             defaultFont = getPreferredFont( preferredFonts, FALLBACK_FONT );
         }
-
-//        System.out.println( "PhetFont.createDefaultFont defaultFont=" + defaultFont.toString() );
         return defaultFont;
     }
     
