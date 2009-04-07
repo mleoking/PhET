@@ -4,6 +4,7 @@ package edu.colorado.phet.translationutility.simulations;
 
 import java.io.*;
 import java.text.MessageFormat;
+import java.util.Locale;
 import java.util.Properties;
 import java.util.jar.*;
 
@@ -43,8 +44,8 @@ public class FlashSimulation extends AbstractSimulation {
     // Public interface
     //----------------------------------------------------------------------------
     
-    public void testStrings( Properties properties, String languageCode ) throws SimulationException {
-        String testJarFileName = createTestJar( properties, languageCode );
+    public void testStrings( Properties properties, Locale locale ) throws SimulationException {
+        String testJarFileName = createTestJar( properties, locale );
         try {
             String[] cmdArray = { "java", "-jar", testJarFileName };
             Command.run( cmdArray, false /* waitForCompletion */ );
@@ -54,8 +55,8 @@ public class FlashSimulation extends AbstractSimulation {
         }
     }
 
-    public Properties getStrings( String languageCode ) throws SimulationException {
-        String xmlFilename = getStringPath( getProjectName(), languageCode );
+    public Properties getStrings( Locale locale ) throws SimulationException {
+        String xmlFilename = getStringPath( getProjectName(), locale );
         Properties p = readDocumentFromJar( getJarFileName(), xmlFilename );
         TULogger.log( "FlashSimulation: loaded strings from " + xmlFilename );
         return p;
@@ -91,17 +92,14 @@ public class FlashSimulation extends AbstractSimulation {
         }
     }
 
-    public String getSubmitBasename( String languageCode ) {
-        return getStringsName( getProjectName(), languageCode );
+    public String getSubmitBasename( Locale locale ) {
+        return getStringsName( getProjectName(), locale );
     }
     
     /*
      * Gets the project name, based on the JAR file name.
      * The JAR file name may or may not contain a language code.
      * For example, acceptable file names for the "curve-fit" project are curve-fit.jar and curve-fit_fr.jar.
-     * 
-     * @param jarFileName
-     * @return String
      */
     protected String getProjectName( String jarFileName ) throws SimulationException {
         String projectName = null;
@@ -132,18 +130,18 @@ public class FlashSimulation extends AbstractSimulation {
     /*
      * Gets the path to the JAR resource that contains localized strings.
      */
-    private static String getStringPath( String projectName, String languageCode ) {
+    private static String getStringPath( String projectName, Locale locale ) {
         // XML resources are at the top-level of the JAR, so resource path is the same as resource name
-        return getStringsName( projectName, languageCode );
+        return getStringsName( projectName, locale );
     }
     
     /*
      * Gets the name of of the JAR resource for an XML document.
      */
-    private static String getStringsName( String projectName, String languageCode ) {
+    private static String getStringsName( String projectName, Locale locale ) {
         String stringsBasename = getStringsBasename( projectName );
         String format = "{0}-strings_{1}.xml";  // eg, curve-fit-strings_en.xml
-        Object[] args = { stringsBasename, languageCode };
+        Object[] args = { stringsBasename, locale };
         return MessageFormat.format( format, args );
     }
     
@@ -168,11 +166,6 @@ public class FlashSimulation extends AbstractSimulation {
     /*
      * Reads an XML document from the specified JAR file, and converts it to Properties.
      * The XML document contains localized strings.
-     * 
-     * @param jarFileName
-     * @param projectName
-     * @param languageCode
-     * @return Properties
      */
     private static Properties readDocumentFromJar( String jarFileName, String xmlFilename ) throws SimulationException {
         
@@ -233,17 +226,8 @@ public class FlashSimulation extends AbstractSimulation {
      * Copies a JAR file and adds (or replaces) an XML file and a file that identifies the language code for FlashLauncher.
      * The XML file contains localized strings.
      * The original JAR file is not modified.
-     * 
-     * @param testJarFileName
-     * @param projectName
-     * @param languageCode
-     * @param originalJarFileName
-     * @param manifest
-     * @param xmlFileName
-     * @param properties
-     * @throws JarIOException
      */
-    private String createTestJar( Properties properties, String languageCode ) throws SimulationException {
+    private String createTestJar( Properties properties, Locale locale ) throws SimulationException {
         
         final String testJarFileName = TEST_JAR;
         final String originalJarFileName = getJarFileName();
@@ -265,7 +249,7 @@ public class FlashSimulation extends AbstractSimulation {
         }
         
         // regular expressions for files to exclude while copying the JAR
-        String xmlFilename = getStringPath( projectName, languageCode );
+        String xmlFilename = getStringPath( projectName, locale );
         String[] exclude = {
                 JarFile.MANIFEST_NAME,
                 "META-INF/.*\\.SF", "META-INF/.*\\.RSA", "META-INF/.*\\.DSA", /* signing information */
@@ -314,7 +298,7 @@ public class FlashSimulation extends AbstractSimulation {
             // add args file used by FlashLauncher
             jarEntry = new JarEntry( FlashLauncher.ARGS_FILENAME );
             testOutputStream.putNextEntry( jarEntry );
-            String args = createArgsString( projectName, languageCode, null /*TODO: country */);
+            String args = createArgsString( projectName, locale );
             testOutputStream.write( args.getBytes() );
             testOutputStream.closeEntry();
             
@@ -337,7 +321,9 @@ public class FlashSimulation extends AbstractSimulation {
      * Format: projectName language country
      * If country doesn't have a value, use "null".
      */
-    private static String createArgsString( String projectName, String language, String country ) {
+    private static String createArgsString( String projectName, Locale locale ) {
+        String language = locale.getLanguage();
+        String country = locale.getCountry();
         String s = projectName + " " + language;
         if ( country == null || country.length() == 0 ) {
             s += " " + "null";

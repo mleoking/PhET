@@ -1,9 +1,10 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2007-2009, University of Colorado */
 
 package edu.colorado.phet.translationutility;
 
 import java.awt.image.BufferedImage;
 import java.text.MessageFormat;
+import java.util.Locale;
 import java.util.Properties;
 
 import javax.swing.Icon;
@@ -22,11 +23,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 public class TUResources {
     
     private static final PhetResources RESOURCES = new PhetResources( "translation-utility" );
-    private static final Properties LANGUAGE_CODES = RESOURCES.getProperties( "language-codes.properties" );
     private static final Properties COMMON_PROJECTS = RESOURCES.getProperties( "common-projects.properties" );
-
-    private static final String COMMON_PROJECTS_SEPARATOR = ",";
-    private static final String LANGUAGE_CODES_SEPARATOR = ",";
     
     /* not intended for instantiation */
     private TUResources() {}
@@ -45,6 +42,10 @@ public class TUResources {
     
     public static final BufferedImage getCommonImage( String name ) {
         return PhetCommonResources.getInstance().getImage( name );
+    }
+    
+    public static final Properties getProperties( String name ) {
+        return RESOURCES.getProperties( name );
     }
     
     /**
@@ -103,7 +104,7 @@ public class TUResources {
         allNames = allNames.replaceAll( "\\s+", "" );
         
         // parse
-        String[] names = allNames.split( COMMON_PROJECTS_SEPARATOR );
+        String[] names = allNames.split( "," );
         
         return names;
     }
@@ -114,40 +115,7 @@ public class TUResources {
      * @param languageCode
      * @return String[], possibly null
      */
-    public static String[] getPreferredFontNames( String languageCode ) {
-        return PhetCommonResources.getPreferredFontNames( languageCode );
-    }
-    
-    /**
-     * Gets ISO standard language codes.
-     * 
-     * @return
-     */
-    public static String[] getISOLanguageCodes() {
-        String[] codes = null;
-        String allNames = LANGUAGE_CODES.getProperty( "iso.language.codes" );
-        if ( allNames != null ) {
-            codes = allNames.split( LANGUAGE_CODES_SEPARATOR );
-        }
-        return codes;
-    }
-    
-    /**
-     * Gets additional language codes assigned by PhET.
-     * 
-     * @return
-     */
-    public static String[] getPhETLanguageCodes() {
-        String[] codes = null;
-        String allNames = LANGUAGE_CODES.getProperty( "phet.language.codes" );
-        if ( allNames != null ) {
-            codes = allNames.split( LANGUAGE_CODES_SEPARATOR );
-        }
-        return codes;
-    }
-    
-    public static String getLanguageName( String languageCode ) {
-        String key = "language." + languageCode;
-        return LANGUAGE_CODES.getProperty( key );
+    public static String[] getPreferredFontNames( Locale locale ) {
+        return PhetCommonResources.getPreferredFontNames( locale );
     }
 }
