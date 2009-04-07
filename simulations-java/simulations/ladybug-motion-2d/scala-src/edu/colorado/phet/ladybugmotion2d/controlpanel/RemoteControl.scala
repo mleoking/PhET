@@ -24,6 +24,7 @@ import umd.cs.piccolo.PNode
 import scalacommon.math.Vector2D
 import umd.cs.piccolo.util.PDimension
 import edu.colorado.phet.scalacommon.Predef._
+import LadybugMotion2DResources._
 
 class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends VerticalLayoutPanel with Observable {
   def mode = _mode
@@ -159,7 +160,7 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
     modeChanged
     def modeChanged() = centerDot.setOffset(_mode.transform.modelToView(0, 0).getX, _mode.transform.modelToView(0, 0).getY)
   }
-  val label = new JLabel("Remote Control")
+  val label = new JLabel(getLocalizedString("controls.remote"))
   label.setFont(new PhetFont(14, true))
   add(label)
   val canvas = new RemoteControlCanvas
@@ -179,9 +180,9 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
   addListener(() => {
     updateNode
   })
-  add(new MyRadioButton("Position", mode = positionMode, mode == positionMode, this.addListener))
-  add(new MyRadioButton("Velocity", mode = velocityMode, mode == velocityMode, this.addListener))
-  add(new MyRadioButton("Acceleration", mode = accelerationMode, mode == accelerationMode, this.addListener))
+  add(new MyRadioButton(getLocalizedString("model.position"), mode = positionMode, mode == positionMode, this.addListener))
+  add(new MyRadioButton(getLocalizedString("model.velocity"), mode = velocityMode, mode == velocityMode, this.addListener))
+  add(new MyRadioButton(getLocalizedString("model.acceleration"), mode = accelerationMode, mode == accelerationMode, this.addListener))
   setFillNone
 
 }

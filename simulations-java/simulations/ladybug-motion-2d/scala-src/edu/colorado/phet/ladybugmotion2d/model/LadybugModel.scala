@@ -201,10 +201,8 @@ class LadybugModel extends RecordModel[LadybugState] {
   def getMaxRecordPoints = (LadybugDefaults.timelineLengthSeconds / dt).toInt
 
   def initManual = {
-    println("init: " + ladybug.getPosition)
     resetMotion2DModel
     penPath.clear
-    println("cleared sample path: " + penPath.length)
   }
 
   def readyForInteraction(): Boolean = {
