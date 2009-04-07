@@ -3,6 +3,7 @@
 package edu.colorado.phet.statesofmatter.model;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -10,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.defaults.InteractionPotentialDefaults;
 import edu.colorado.phet.statesofmatter.model.particle.ConfigurableStatesOfMatterAtom;
-import edu.colorado.phet.statesofmatter.model.particle.NeonAtom;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 
 /**
@@ -33,12 +33,14 @@ public class DualAtomModel {
     private static final int CALCULATIONS_PER_TICK = 8;
     private static final double BONDED_VELOCITY = 20;  // Velocity assigned to atom after bond forms. 
     private static final double THRESHOLD_VELOCITY = 100;  // Used to distinguish small oscillations from real movement. 
+    private static final int VIBRATION_DURATION = 1200;  // In milliseconds. 
+    private static final int VIBRATION_COUNTER_RESET_VALUE = VIBRATION_DURATION / InteractionPotentialDefaults.CLOCK_FRAME_DELAY;
     
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
     
-    IClock m_clock;
+    private IClock m_clock;
     private ArrayList m_listeners = new ArrayList();
     private StatesOfMatterAtom m_fixedAtom;
     private StatesOfMatterAtom m_movableAtom;
@@ -53,6 +55,9 @@ public class DualAtomModel {
     private StatesOfMatterAtom.Adapter m_movableAtomListener;
     private boolean m_settingBothAtomTypes = false;  // Flag used to prevent getting in disallowed state.
     private int m_bondingState = BONDING_STATE_UNBONDED; // Tracks whether the atoms have formed a chemical bond.
+    private int m_vibrationCounter = 0; // Used to vibrate fixed atom during bonding.
+    private double m_forceMagnitudeAtBondingInstant = 0; // Used to set magnitude of vibration.
+    private final Random m_rand = new Random();
     
     //----------------------------------------------------------------------------
     // Constructor
@@ -378,7 +383,7 @@ public class DualAtomModel {
         // Update the atom that is visible to the view.
         syncMovableAtomWithDummy();
         
-        // Check if a bond has started to form.
+        // Handle inter-atom bonding.
         if (m_movableMoleculeType == AtomType.OXYGEN && m_fixedMoleculeType == AtomType.OXYGEN){
         	switch ( m_bondingState ){
         	
@@ -389,6 +394,7 @@ public class DualAtomModel {
         			// starting to move away, which is the point at which we
         			// consider the bond to start forming.
         			m_bondingState = BONDING_STATE_BONDING;
+        			startFixedAtomVibration();
         		}
         		break;
         		
@@ -400,6 +406,7 @@ public class DualAtomModel {
         			// so that it remains stuck in the bottom of the well.
         			m_movableAtom.setVx( BONDED_VELOCITY );
         			m_bondingState = BONDING_STATE_BONDED;
+        			stepFixedAtomVibration();
         		}
         		break;
         		
@@ -408,6 +415,9 @@ public class DualAtomModel {
         			// The atom must have gotten accelerated by the potential.
         			// Slow it back down.
         			m_movableAtom.setVx( m_movableAtom.getVx() > 0 ? BONDED_VELOCITY : -BONDED_VELOCITY );
+        		}
+        		if (isFixedAtomVibrating()){
+        			stepFixedAtomVibration();
         		}
         		break;
         		
@@ -463,6 +473,43 @@ public class DualAtomModel {
             double xPos = m_shadowMovableAtom.getPositionReference().getX() + (m_shadowMovableAtom.getVx() * m_timeStep);
             m_shadowMovableAtom.setPosition( xPos, 0 );
         }
+    }
+    
+    private void startFixedAtomVibration(){
+    	m_vibrationCounter = VIBRATION_COUNTER_RESET_VALUE;
+		m_forceMagnitudeAtBondingInstant = m_repulsiveForce;
+    }
+    
+    private void stepFixedAtomVibration(){
+    	if (m_vibrationCounter > 0){
+    		double vibrationScaleFactor = 1;
+    		if ( m_vibrationCounter < VIBRATION_COUNTER_RESET_VALUE / 4){
+    			// In the last part of the vibration, starting to wind it down.
+    			vibrationScaleFactor = (double)m_vibrationCounter / ((double)VIBRATION_COUNTER_RESET_VALUE / 4);
+    		}
+	    	if ( m_fixedAtom.getPositionReference().getX() != 0 ){
+	    		// Go back to the original position every other time.
+	    		m_fixedAtom.setPosition(0, 0);
+	    	}
+	    	else{
+	    		// Move some distance from the original position based on the
+	    		// energy contained at the time of bonding.
+	    		double xPos = ( m_rand.nextDouble() * 2 - 1 ) * m_forceMagnitudeAtBondingInstant * 1e23 * vibrationScaleFactor;
+	    		double yPos = ( m_rand.nextDouble() * 2 - 1 ) * m_forceMagnitudeAtBondingInstant * 1e23 * vibrationScaleFactor;
+	    		m_fixedAtom.setPosition( xPos, yPos );
+	    	}
+	    	
+	    	// Decrement the vibration counter.
+	    	m_vibrationCounter--;
+    	}
+        else if ( m_fixedAtom.getPositionReference().getX() != 0 ||
+       		      m_fixedAtom.getPositionReference().getY() != 0 ){
+        	m_fixedAtom.setPosition(0, 0);
+        }
+    }
+    
+    private boolean isFixedAtomVibrating(){
+    	return m_vibrationCounter > 0;
     }
     
     private void notifyFixedAtomAdded(StatesOfMatterAtom atom){
