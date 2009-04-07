@@ -1946,3 +1946,13 @@ img.getflashbutton {
     width: 160px;
     height: 41px;
 }
+
+.licensing blockquote {
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.licensing table {
+    margin-left: 2em;
+    padding-left: 0;
+}
