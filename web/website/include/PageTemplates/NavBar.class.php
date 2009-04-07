@@ -307,11 +307,11 @@ EOT;
                 </div>
                 <dl>
                     <dt>
-                        <a href="http://www.hewlett.org/Default.htm">The William and Flora Hewlett Foundation</a>
+                        <a href="http://www.hewlett.org/">The William and Flora Hewlett Foundation</a>
                     </dt>
 
                     <dd>
-                        <a href="http://www.hewlett.org/Default.htm">
+                        <a href="http://www.hewlett.org/">
                             <img src="{$prefix}images/hewlett-logo.jpg" alt="The Hewlett Logo"/>
                         </a>
                         <br />
