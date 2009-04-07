@@ -1,5 +1,6 @@
 package edu.colorado.phet.scalacommon.record
 
+import common.phetcommon.resources.PhetCommonResources
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import scala.swing.{Component, Panel}
 import java.awt.Color
@@ -7,19 +8,20 @@ import javax.swing.BoxLayout._
 import javax.swing.{BoxLayout, JPanel, JComponent}
 import java.awt.Color._
 import scalacommon.swing.MyRadioButton
+import PhetCommonResources._
 
 class ModePanel[T](model: RecordModel[T]) extends JPanel {
   setLayout(new BoxLayout(this, Y_AXIS))
   setBackground(new Color(0, 0, 0, 0))
 
   val recordingButton = addComponent{
-    new MyRadioButton("Record", model.setRecord(true), model.isRecord, model.addListener) {
+    new MyRadioButton(getString("Common.record"), model.setRecord(true), model.isRecord, model.addListener) {
       font = new PhetFont(15, true)
     }
   }
   recordingButton.peer.setBackground(new Color(0, 0, 0, 0))
   val playbackButton = addComponent{
-    new MyRadioButton("Playback", {model.setRecord(false); model.setPlaybackIndexFloat(0.0); model.setPaused(true)}, model.isPlayback, model.addListener) {
+    new MyRadioButton(getString("Common.playback"), {model.setRecord(false); model.setPlaybackIndexFloat(0.0); model.setPaused(true)}, model.isPlayback, model.addListener) {
       font = new PhetFont(15, true)
     }
   }

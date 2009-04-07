@@ -1,6 +1,7 @@
 package edu.colorado.phet.scalacommon.record
 
 import _root_.edu.colorado.phet.common.piccolophet.event.CursorHandler
+import common.phetcommon.resources.PhetCommonResources
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl
 import java.awt.Color
@@ -11,6 +12,7 @@ import javax.swing.{JSlider, JLabel}
 
 import umd.cs.piccolo.PNode
 import umd.cs.piccolox.pswing.PSwing
+import common.phetcommon.resources.PhetCommonResources._
 
 class PlaybackSpeedSlider[T](model: RecordModel[T]) extends PNode {
   addInputEventListener(new CursorHandler)
@@ -20,8 +22,8 @@ class PlaybackSpeedSlider[T](model: RecordModel[T]) extends PNode {
 
   val dict = new Hashtable[Integer, JLabel]
 
-  dict.put(slider.getMinimum, new JLabel("slow"))
-  dict.put(slider.getMaximum, new JLabel("fast"))
+  dict.put(slider.getMinimum, new JLabel(getString("Common.time.slow")))
+  dict.put(slider.getMaximum, new JLabel(getString("Common.time.fast")))
 
   slider.setLabelTable(dict)
   slider.setPaintLabels(true)
