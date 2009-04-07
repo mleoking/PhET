@@ -46,20 +46,21 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
       model.setPenDown(d)
     }
   }
-  val velocityMode = new RemoteMode(LadybugColorSet.velocity, 14, _.getVelocity) {
+  val vectorScale=14
+  val velocityMode = new RemoteMode(LadybugColorSet.velocity, vectorScale, _.getVelocity) {
     def setLadybugState(pt: Point2D) = {
       model.ladybug.setVelocity(pt)
       model.setUpdateModeVelocity
     }
   }
-  val accelerationMode = new RemoteMode(LadybugColorSet.acceleration, 2 / LadybugDefaults.ACCEL_VECTOR_SCALE, _.getAcceleration) {
+  val accelerationMode = new RemoteMode(LadybugColorSet.acceleration, vectorScale/ LadybugDefaults.ACCEL_VECTOR_SCALE, _.getAcceleration) {
     def setLadybugState(pt: Point2D) = {
       model.ladybug.setAcceleration(pt)
       model.setUpdateModeAcceleration
     }
   }
   var _mode: RemoteMode = positionMode;
-  _mode.updateArrow
+  _mode.updateArrow()
 
   abstract class RemoteMode(color: Color, rangeWidth: Double, getter: Ladybug => Vector2D) {
     val transform = new ModelViewTransform2D(new Rectangle2D.Double(-rangeWidth / 2, -rangeWidth / 2, rangeWidth, rangeWidth), new Rectangle(CANVAS_WIDTH, CANVAS_HEIGHT), LadybugDefaults.POSITIVE_Y_IS_UP)
@@ -75,7 +76,7 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
 
     def dragging = _dragging
 
-    def updateArrow = {
+    def updateArrow() = {
       val doUpdate = (!dragging && (RemoteControl.this._mode eq this) && LadybugDefaults.remoteIsIndicator)
       if (doUpdate) {
         _mode.arrowNode.setTipAndTailLocations(_mode.transform.modelToView(getter(model.ladybug)), _mode.transform.modelToView(new Point2D.Double(0, 0)))
@@ -101,7 +102,8 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
     _mode = m
     _mode.dragging = false
     canvas.modeChanged()
-    notifyListeners
+    _mode.updateArrow()
+    notifyListeners()
   }
 
   def isInteractive() = {model.readyForInteraction}
@@ -157,7 +159,7 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
       }
     })
     addInputEventListener(new ToggleListener(new CursorHandler, isInteractive))
-    modeChanged
+    modeChanged()
     def modeChanged() = centerDot.setOffset(_mode.transform.modelToView(0, 0).getX, _mode.transform.modelToView(0, 0).getY)
   }
   val label = new JLabel(getLocalizedString("controls.remote"))
