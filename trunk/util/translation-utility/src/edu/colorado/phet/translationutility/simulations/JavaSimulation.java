@@ -3,11 +3,13 @@
 package edu.colorado.phet.translationutility.simulations;
 
 import java.io.*;
+import java.util.Locale;
 import java.util.Properties;
 import java.util.jar.*;
 
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.application.JARLauncher;
+import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.view.util.StringUtil;
 import edu.colorado.phet.translationutility.TUConstants;
 import edu.colorado.phet.translationutility.TUResources;
@@ -20,7 +22,7 @@ import edu.colorado.phet.translationutility.util.PropertiesIO.PropertiesIOExcept
 /**
  * JavaSimulation supports of Java-based simulations.
  * Java simulations use Java properties files to store localized strings.
- * There is one properties file per language.
+ * There is one properties file per locale.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -51,13 +53,14 @@ public class JavaSimulation extends AbstractSimulation {
     // Public interface
     //----------------------------------------------------------------------------
     
-    public void testStrings( Properties properties, String languageCode ) throws SimulationException {
-        String testJarFileName = createTestJar( properties, languageCode );
+    public void testStrings( Properties properties, Locale locale ) throws SimulationException {
+        String testJarFileName = createTestJar( properties, locale );
+        String localeString = LocaleUtils.localeToString( locale );
         try {
             String[] cmdArray = { "java", 
-                    "-D" + PhetCommonConstants.PROPERTY_PHET_LANGUAGE + "=" + languageCode, /* TODO: #1249, delete after IOM */
-                    "-Djavaws.phet.locale=" + languageCode, /* TODO: #1249, delete after IOM */
-                    "-Duser.language=" + languageCode, /* TODO: #1249, delete after IOM */
+                    "-D" + PhetCommonConstants.PROPERTY_PHET_LANGUAGE + "=" + localeString, /* TODO: #1249, delete after IOM */
+                    "-Djavaws.phet.locale=" + localeString, /* TODO: #1249, delete after IOM */
+                    "-Duser.language=" + localeString, /* TODO: #1249, delete after IOM */
                     "-jar", testJarFileName };
             Command.run( cmdArray, false /* waitForCompletion */ );
         }
@@ -66,19 +69,19 @@ public class JavaSimulation extends AbstractSimulation {
         }
     }
 
-    public Properties getStrings( String languageCode ) throws SimulationException {
+    public Properties getStrings( Locale locale ) throws SimulationException {
         
         // Load strings from a resource file.
-        String propertiesFileName = getStringsPath( getProjectName(), languageCode );
+        String propertiesFileName = getStringsPath( getProjectName(), locale );
         Properties properties = readPropertiesFromJar( getJarFileName(), propertiesFileName );
         
         // English strings may be in a fallback resource file.
-        if ( properties == null && languageCode.equals( TUConstants.ENGLISH_LANGUAGE_CODE ) ) {
+        if ( properties == null && locale.equals( TUConstants.ENGLISH_LOCALE ) ) {
             propertiesFileName = getFallbackStringsPath( getProjectName() );
             properties = readPropertiesFromJar( getJarFileName(), propertiesFileName );
         }
         
-        TULogger.log( "JavaSimulation: loaded strings from " + propertiesFileName );//XXX
+        TULogger.log( "JavaSimulation: loaded strings from " + propertiesFileName );
         return properties;
     }
 
@@ -105,14 +108,12 @@ public class JavaSimulation extends AbstractSimulation {
         }
     }
     
-    public String getSubmitBasename( String languageCode ) {
-        return getStringsName( getProjectName(), languageCode );
+    public String getSubmitBasename( Locale locale ) {
+        return getStringsName( getProjectName(), locale );
     }
     
     /*
      * Gets the project name for the simulation.
-     * 
-     * @param jarFileName
      */
     protected String getProjectName( String jarFileName ) throws SimulationException {
         
@@ -153,44 +154,41 @@ public class JavaSimulation extends AbstractSimulation {
      * English strings for a specified project.
      */
     private static String getFallbackStringsPath( String projectName ) {
-        return getStringsPath( projectName, null /* languageCode */ );
+        return getStringsPath( projectName, null /* locale */ );
     }
     
     /*
      * Gets the path to the JAR resource that contains localized strings for 
-     * a specified project and language. If language code is null, the fallback resource
+     * a specified project and locale. If locale is null, the fallback resource
      * path is returned. 
      */
-    private static String getStringsPath( String projectName, String languageCode ) {
+    private static String getStringsPath( String projectName, Locale locale ) {
         String dirName = getStringsBasename( projectName );
-        String fileName = getStringsName( projectName, languageCode );
+        String fileName = getStringsName( projectName, locale );
         return dirName + TUConstants.RESOURCE_PATH_SEPARATOR + "localization" + TUConstants.RESOURCE_PATH_SEPARATOR + fileName;
     }
     
     /*
      * Gets the name of the JAR resource that contains localized strings for 
-     * a specified project and language. For example, faraday-strings_es.properties
+     * a specified project and locale. For example, faraday-strings_es.properties
      * <p>
-     * If language code is null, the name of the fallback resource is returned.
-     * The fallback name does not contain a language code, and contains English strings.
+     * If locale is null, the name of the fallback resource is returned.
+     * The fallback name does not contain a locale, and contains English strings.
      * For example: faraday-strings.properties
      * <p>
      * NOTE: Support for the fallback name is provided for backward compatibility.
      * All Java simulations should migrate to the convention of including "en" in the 
      * resource name of English localization files.
-     * 
-     * @param projectName
-     * @param languageCode
-     * @return
      */
-    private static String getStringsName( String projectName, String languageCode ) {
+    private static String getStringsName( String projectName, Locale locale ) {
         String stringsBasename = getStringsBasename( projectName );
         String basename = null;
-        if ( languageCode == null ) {
+        if ( locale == null ) {
             basename = stringsBasename + "-strings" + ".properties"; // fallback basename contains no language code
         }
         else {
-            basename = stringsBasename + "-strings_" + languageCode + ".properties";
+            String localeString = LocaleUtils.localeToString( locale );
+            basename = stringsBasename + "-strings_" + localeString + ".properties";
         }
         return basename;
     }
@@ -218,10 +216,6 @@ public class JavaSimulation extends AbstractSimulation {
      * We search for localization files in the JAR file.
      * The first localization file that does not belong to a common project is assumed
      * to belong to the simulation, and we extract the project name from the localization file name.
-     * 
-     * @param jarFileName
-     * @return String
-     * @throws SimulationException
      */
     private static String discoverProjectName( String jarFileName ) throws SimulationException {
         
@@ -281,11 +275,8 @@ public class JavaSimulation extends AbstractSimulation {
      * 4. removes files related to digital signatures
      * 
      * The original JAR file is not modified.
-     * 
-     * @param properties
-     * @param languageCode
      */
-    private String createTestJar( Properties properties, String languageCode ) throws SimulationException {
+    private String createTestJar( Properties properties, Locale locale ) throws SimulationException {
 
         final String testJarFileName = TEST_JAR;
         final String originalJarFileName = getJarFileName();
@@ -306,7 +297,13 @@ public class JavaSimulation extends AbstractSimulation {
         if ( jarLauncherProperties == null ) {
             jarLauncherProperties = new Properties();
         }
-        jarLauncherProperties.setProperty( "language", languageCode );
+        
+        // set the properties related to locale
+        jarLauncherProperties.setProperty( "language", locale.getLanguage() );
+        String country = locale.getCountry();
+        if ( country != null && country.length() > 0 ) {
+            jarLauncherProperties.setProperty( "country", country );
+        }
         
         // open the original JAR file
         File jarFile = new File( originalJarFileName );
@@ -320,7 +317,7 @@ public class JavaSimulation extends AbstractSimulation {
         }
         
         // regular expressions for files to exclude while copying the JAR
-        String propertiesFileName = getStringsPath( getProjectName(), languageCode );
+        String propertiesFileName = getStringsPath( getProjectName(), locale );
         String[] exclude = {
                 JarFile.MANIFEST_NAME,
                 "META-INF/.*\\.SF", "META-INF/.*\\.RSA", "META-INF/.*\\.DSA", /* signing information */
@@ -375,9 +372,11 @@ public class JavaSimulation extends AbstractSimulation {
             
             //TODO: #1249, delete after IOM
             {
+                String localeString = LocaleUtils.localeToString( locale );
+                
                 // backward compatibility for locale.properties
                 Properties localeProperties = new Properties();
-                localeProperties.setProperty( "language", languageCode );
+                localeProperties.setProperty( "language", localeString );
                 jarEntry = new JarEntry( "locale.properties" );
                 testOutputStream.putNextEntry( jarEntry );
                 localeProperties.store( testOutputStream, "created by " + JavaSimulation.class.getName() );
@@ -385,7 +384,7 @@ public class JavaSimulation extends AbstractSimulation {
                 
                 // backward compatibility for options.properties
                 Properties optionsProperties = new Properties();
-                optionsProperties.setProperty( "locale", languageCode );
+                optionsProperties.setProperty( "locale", localeString );
                 jarEntry = new JarEntry( "options.properties" );
                 testOutputStream.putNextEntry( jarEntry );
                 optionsProperties.store( testOutputStream, "created by " + JavaSimulation.class.getName() );

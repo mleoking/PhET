@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.text.MessageFormat;
+import java.util.Locale;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
@@ -13,11 +14,12 @@ import javax.swing.event.HyperlinkListener;
 import javax.swing.text.html.HTMLEditorKit;
 
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
+import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.translationutility.TULocales;
 import edu.colorado.phet.translationutility.TUResources;
 import edu.colorado.phet.translationutility.util.FileChooserFactory;
-import edu.colorado.phet.translationutility.util.LanguageCodes;
 
 /**
  * InitializationDialog is the first dialog seen by the user.
@@ -32,24 +34,22 @@ public class InitializationDialog extends JDialog {
     private static final String BROWSE_BUTTON_LABEL = TUResources.getString( "button.browse" );
     private static final String CANCEL_BUTTON_LABEL = TUResources.getString( "button.cancel" );
     private static final String CONTINUE_BUTTON_LABEL = TUResources.getString( "button.continue" );
-    private static final String LANGUAGE_LABEL = TUResources.getString( "label.language" );
+    private static final String LOCALE_LABEL = TUResources.getString( "label.locale" );
     
     private static final String ERROR_TITLE = TUResources.getString( "title.errorDialog" );
     
     private static final String ERROR_NO_SUCH_JAR = "JAR file does not exist";
-    private static final String ERROR_LANGUAGE_CODE_FORMAT = "Language code must in ISO 639-1 format (2 lowercase letters)";
-    private static final String ERROR_NOT_CUSTOM_LANGUAGE_CODE = "<html>{0} is not a custom language code.<br>It is the code for {1}.</html>";
+    private static final String ERROR_NOT_CUSTOM_LOCALE = "<html>{0} is not a custom locale code.<br>It is the code for {1}.</html>";
     
     private static final String HELP_TITLE = TUResources.getString( "title.help" );
     private static final String HELP_JAR_FILE = TUResources.getString( "help.jarFile" );
-    private static final String HELP_LANGUAGE_CODE = TUResources.getString( "help.languageCode" );
+    private static final String HELP_LANGUAGE_CODE = TUResources.getString( "help.locale" );
     
     private static final Font TITLE_FONT = new PhetFont( 32, true /* bold */ );
-    private static final String LANGUAGE_CODE_PATTERN = "[a-z][a-z]"; // regular expression that describes ISO 639-1 specification
     
     private JTextField _jarFileTextField;
-    private LanguageComboBox _languageComboBox;
-    private JTextField _languageCodeTextField;
+    private LocaleComboBox _localeComboBox;
+    private JTextField _localeTextField;
     private JCheckBox _autoTranslateCheckBox;
     private JButton _continueButton;
     private boolean _continue; // true if the user pressed the Continue button and their inputs contained no errors
@@ -58,17 +58,17 @@ public class InitializationDialog extends JDialog {
     /**
      * Constructs a dialog with no owner.
      */
-    public InitializationDialog( String sourceLanguageCode ) {
-        this( null, sourceLanguageCode );
+    public InitializationDialog( Locale sourceLocale ) {
+        this( null, sourceLocale );
     }
     
     /**
      * Constructs a dialog with a specified owner.
      * 
      * @param owner
-     * @param sourceLanguageCode
+     * @param sourceLocale
      */
-    public InitializationDialog( Frame owner, String sourceLanguageCode ) {
+    public InitializationDialog( Frame owner, Locale sourceLocale ) {
         super( owner, TUResources.getTitle() );
         
         setModal( true );
@@ -125,26 +125,26 @@ public class InitializationDialog extends JDialog {
             jarFilePanel.add( _browseButton );
         }
         
-        // panel with language
-        JPanel languagePanel = new JPanel();
-        languagePanel.setLayout( new FlowLayout( FlowLayout.LEFT ) );
+        // panel with locale
+        JPanel localePanel = new JPanel();
+        localePanel.setLayout( new FlowLayout( FlowLayout.LEFT ) );
         {
-            JLabel languageLabel = new JLabel( LANGUAGE_LABEL );
+            JLabel localeLabel = new JLabel( LOCALE_LABEL );
             
-            _languageComboBox = new LanguageComboBox( sourceLanguageCode );
-            _languageComboBox.setMaximumRowCount( 10 );
-            _languageComboBox.addItemListener( new ItemListener() {
+            _localeComboBox = new LocaleComboBox( sourceLocale );
+            _localeComboBox.setMaximumRowCount( 10 );
+            _localeComboBox.addItemListener( new ItemListener() {
                 public void itemStateChanged( ItemEvent e ) {
                     if ( e.getStateChange() == ItemEvent.SELECTED ) {
-                        updateLanguageCodeTextField();
+                        updateLocaleTextField();
                         updateContinueButton();
                     }
                 }
             } );
             
-            _languageCodeTextField = new JTextField();
-            _languageCodeTextField.setColumns( 3 );
-            _languageCodeTextField.addKeyListener( new KeyAdapter() {
+            _localeTextField = new JTextField();
+            _localeTextField.setColumns( 6 );
+            _localeTextField.addKeyListener( new KeyAdapter() {
                 public void keyReleased( KeyEvent event ) {
                     updateContinueButton();
                 }
@@ -159,10 +159,10 @@ public class InitializationDialog extends JDialog {
             } );
             helpLabel.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
             
-            languagePanel.add( languageLabel );
-            languagePanel.add( _languageComboBox );
-            languagePanel.add( _languageCodeTextField );
-            languagePanel.add( helpLabel );
+            localePanel.add( localeLabel );
+            localePanel.add( _localeComboBox );
+            localePanel.add( _localeTextField );
+            localePanel.add( helpLabel );
         }
         
         // buttons at the bottom of the dialog
@@ -197,7 +197,7 @@ public class InitializationDialog extends JDialog {
         mainPanel.add( titlePanel );
         mainPanel.add( new JSeparator() );
         mainPanel.add( jarFilePanel );
-        mainPanel.add( languagePanel );
+        mainPanel.add( localePanel );
         mainPanel.add( new JSeparator() );
         mainPanel.add( buttonPanel );
         
@@ -205,7 +205,7 @@ public class InitializationDialog extends JDialog {
         pack();
         
         updateContinueButton();
-        updateLanguageCodeTextField();
+        updateLocaleTextField();
     }
     
     /*
@@ -213,18 +213,18 @@ public class InitializationDialog extends JDialog {
      */
     private void updateContinueButton() {
         String jarFileName = getJarFileName();
-        String languageCode = getTargetLanguageCode();
-        _continueButton.setEnabled( jarFileName != null && languageCode != null );
+        Locale locale = getTargetLocale();
+        _continueButton.setEnabled( jarFileName != null && locale != null );
     }
     
     /*
-     * Language Code text field is visible only when the language code combo box is set to "custom".
+     * Locale text field is visible only when the locale combo box is set to "custom".
      */
-    private void updateLanguageCodeTextField() {
-        boolean isCustomSelected = _languageComboBox.isCustomSelected();
-        _languageCodeTextField.setVisible( isCustomSelected );
+    private void updateLocaleTextField() {
+        boolean isCustomSelected = _localeComboBox.isCustomSelected();
+        _localeTextField.setVisible( isCustomSelected );
         if ( !isCustomSelected ) {
-            _languageCodeTextField.setText( "" );
+            _localeTextField.setText( "" );
         }
         validate();
     }
@@ -250,19 +250,19 @@ public class InitializationDialog extends JDialog {
     }
     
     /**
-     * Gets the value selected for language code.
+     * Gets the value selected for locale.
      * 
      * @return String
      */
-    public String getTargetLanguageCode() {
-        String code = _languageComboBox.getSelectedCode();;
-        if ( code == null ) {
-            code = _languageCodeTextField.getText();
+    public Locale getTargetLocale() {
+        Locale locale = _localeComboBox.getSelectedLocale();
+        if ( locale == null ) {
+            String text = _localeTextField.getText();
+            if ( text != null && text.length() != 0 ) {
+                locale = LocaleUtils.stringToLocale( _localeTextField.getText() );
+            }
         }
-        if ( code.length() == 0 ) {
-            code = null;
-        }
-        return code;
+        return locale;
     }
     
     /**
@@ -271,15 +271,6 @@ public class InitializationDialog extends JDialog {
      */
     public boolean isAutoTranslateEnabled() { 
         return _autoTranslateCheckBox.isSelected();
-    }
-    
-    /*
-     * Determines if a language code is well formed.
-     * A well-formed language code conforms to the ISO 639-1 specification,
-     * as documented at http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes.
-     */
-    private boolean isWellFormedLanguageCode( String languageCode ) {
-        return ( languageCode.length() == 2 && languageCode.matches( LANGUAGE_CODE_PATTERN ) );
     }
     
     /*
@@ -313,19 +304,15 @@ public class InitializationDialog extends JDialog {
             showErrorDialog( ERROR_NO_SUCH_JAR );
         }
         else {
-            String languageCode = getTargetLanguageCode();
-            if ( !isWellFormedLanguageCode( languageCode ) ) {
-                error = true;
-                showErrorDialog( ERROR_LANGUAGE_CODE_FORMAT );
-            }
-            else if ( _languageComboBox.isCustomSelected() ) {
-                // if "custom" is selected, then the language code shouldn't be one of the standard codes
-                LanguageCodes lc = LanguageCodes.getInstance();
-                String name = lc.getName( languageCode );
+            Locale locale = getTargetLocale();
+            if ( _localeComboBox.isCustomSelected() ) {
+                // if "custom" is selected, then the locale shouldn't be one of the standard codes
+                TULocales lc = TULocales.getInstance();
+                String name = lc.getName( locale );
                 if ( name != null ) {
                     error = true;
-                    Object[] args = { languageCode, name };
-                    String message = MessageFormat.format( ERROR_NOT_CUSTOM_LANGUAGE_CODE, args );
+                    Object[] args = { locale, name };
+                    String message = MessageFormat.format( ERROR_NOT_CUSTOM_LOCALE, args );
                     showErrorDialog( message );
                 }
             }

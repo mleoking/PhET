@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 
 import javax.swing.JLabel;
 
@@ -25,31 +26,28 @@ public class FontFactory {
     private FontFactory() {}
     
     /**
-     * Creates a Font for a specified language code.
-     * Preferred font names are specified in the project properties file (eg, font.ja).
-     * If no preferred fonts are specified in the project properties file,
-     * or if one of the preferred font is not found, then a default font is returned.
+     * Creates a Font for a specified locale.
      * <p>
      * NOTE: This is probably not necessary on Macintosh, but doesn't hurt.
      * 
-     * @param languageCode
+     * @param locale
      * @return Font
      */
-    public static Font createFont( String languageCode ) {
-        return createFont( languageCode, DEFAULT_FONT.getStyle(), DEFAULT_FONT.getSize() );
+    public static Font createFont( Locale locale ) {
+        return createFont( locale, DEFAULT_FONT.getStyle(), DEFAULT_FONT.getSize() );
     }
     
     /**
-     * Creates a Font for a specified language code, style and size.
+     * Creates a Font for a specified locale, style and size.
      * 
-     * @param languageCode
+     * @param locale
      * @param style
      * @param size
      * @return Font
      */
-    public static Font createFont( String languageCode, int style, int size ) {
+    public static Font createFont( Locale locale, int style, int size ) {
         Font font = new PhetFont( style, size );
-        String[] preferredFontNames = TUResources.getPreferredFontNames( languageCode );
+        String[] preferredFontNames = TUResources.getPreferredFontNames( locale );
         if ( preferredFontNames != null ) {
             for ( int i = 0; i < preferredFontNames.length; i++ ) {
                 String fontName = preferredFontNames[i];

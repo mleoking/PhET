@@ -9,6 +9,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.text.MessageFormat;
+import java.util.Locale;
 import java.util.Properties;
 
 import javax.swing.*;
@@ -41,7 +42,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
     private static final String HELP_MESSAGE = TUResources.getString( "help.translation" );
     
     private final ISimulation _simulation;
-    private final String _targetLanguageCode;
+    private final Locale _targetLocale;
     private final String _saveDirName;
     
     private final TranslationPanel _translationPanel;
@@ -53,15 +54,15 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
      * Constructor.
      * 
      * @param simulation
-     * @param sourceLanguageCode
-     * @param targetLanguageCode
+     * @param sourceLocale
+     * @param targetLocale
      * @param saveDirName
      */
-    public MainFrame( ISimulation simulation, String sourceLanguageCode, String targetLanguageCode, String saveDirName ) {
+    public MainFrame( ISimulation simulation, Locale sourceLocale, Locale targetLocale, String saveDirName ) {
         super( TUResources.getTitle() );
         
         _simulation = simulation;
-        _targetLanguageCode = targetLanguageCode;
+        _targetLocale = targetLocale;
         _saveDirName = saveDirName;
         
         _currentDirectory = null;
@@ -78,8 +79,8 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         Properties sourceProperties = null;
         Properties targetProperties = null;
         try {
-            sourceProperties = _simulation.getStrings( sourceLanguageCode );
-            targetProperties = _simulation.getStrings( targetLanguageCode );
+            sourceProperties = _simulation.getStrings( sourceLocale );
+            targetProperties = _simulation.getStrings( targetLocale );
         }
         catch ( SimulationException e ) {
             ExceptionHandler.handleFatalException( e );
@@ -88,7 +89,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         if ( targetProperties == null ) {
             targetProperties = new Properties();
         }
-        _translationPanel = new TranslationPanel( _simulation.getProjectName(), sourceLanguageCode, sourceProperties, targetLanguageCode, targetProperties );
+        _translationPanel = new TranslationPanel( _simulation.getProjectName(), sourceLocale, sourceProperties, targetLocale, targetProperties );
         JScrollPane scrollPane = new JScrollPane( _translationPanel );
         
         // make Component with focus visible in the scroll pane
@@ -150,7 +151,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
     public void handleTest() {
         Properties properties = _translationPanel.getTargetProperties();
         try {
-            _simulation.testStrings( properties, _targetLanguageCode );
+            _simulation.testStrings( properties, _targetLocale );
         }
         catch ( SimulationException e ) {
             ExceptionHandler.handleNonFatalException( e );
@@ -216,7 +217,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         Properties properties = _translationPanel.getTargetProperties();
         
         // export properties to a file
-        String baseName = _simulation.getSubmitBasename( _targetLanguageCode );
+        String baseName = _simulation.getSubmitBasename( _targetLocale );
         String fileName = _saveDirName + File.separatorChar + baseName;
         File outFile = new File( fileName );
         if ( outFile.exists() ) {
@@ -255,7 +256,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
      */
     public void handleFind() {
         if ( _findDialog == null ) {
-            _findDialog = new FindDialog( this, _previousFindText, FontFactory.createFont( _targetLanguageCode ) );
+            _findDialog = new FindDialog( this, _previousFindText, FontFactory.createFont( _targetLocale ) );
             _findDialog.addFindListener( this );
             _findDialog.addWindowListener( new WindowAdapter() {
 

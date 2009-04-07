@@ -10,10 +10,10 @@ import javax.swing.*;
 import javax.swing.border.Border;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.translationutility.TULocales;
 import edu.colorado.phet.translationutility.TUResources;
 import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListener;
 import edu.colorado.phet.translationutility.util.FontFactory;
-import edu.colorado.phet.translationutility.util.LanguageCodes;
 
 /**
  * TranslationPanel is a panel that consists of 3 columns for localizing strings.
@@ -128,14 +128,14 @@ public class TranslationPanel extends JPanel implements FindListener {
     /**
      * Constructor.
      * 
-     * @param sourceLanguageCode
+     * @param sourceLocale
      * @param sourceProperties
-     * @param targetLanguageCode
+     * @param targetLocale
      * @param targetProperties
      */
     public TranslationPanel( String projectName, 
-            String sourceLanguageCode, Properties sourceProperties, 
-            String targetLanguageCode, Properties targetProperties ) {
+            Locale sourceLocale, Properties sourceProperties, 
+            Locale targetLocale, Properties targetProperties ) {
         super();
         
         _targetTextAreas = new ArrayList();
@@ -150,19 +150,19 @@ public class TranslationPanel extends JPanel implements FindListener {
         layout.setInsets( new Insets( 2, 5, 2, 5 ) ); // top, left, bottom, right
         int row = 0;
         
-        LanguageCodes lc = LanguageCodes.getInstance();
+        TULocales lc = TULocales.getInstance();
         JLabel projectNameLabel = new JLabel( projectName );
         projectNameLabel.setFont( TITLE_FONT );
         layout.addAnchoredComponent( projectNameLabel, row, KEY_COLUMN, GridBagConstraints.WEST );
-        String sourceText = lc.getName( sourceLanguageCode ) + " (" + sourceLanguageCode + ")";
+        String sourceText = lc.getName( sourceLocale ) + " (" + sourceLocale + ")";
         JLabel sourceLanguageLabel = new JLabel( sourceText );
         sourceLanguageLabel.setFont( TITLE_FONT );
         layout.addAnchoredComponent( sourceLanguageLabel, row, SOURCE_COLUMN, GridBagConstraints.WEST );
-        String targetName = lc.getName( targetLanguageCode );
+        String targetName = lc.getName( targetLocale );
         if ( targetName == null ) {
             targetName = TUResources.getString( "label.custom" );
         }
-        String targetText = targetName + " (" + targetLanguageCode + ")";
+        String targetText = targetName + " (" + targetLocale + ")";
         JLabel targetLanguageLabel = new JLabel( targetText );
         targetLanguageLabel.setFont( TITLE_FONT );
         layout.addAnchoredComponent( targetLanguageLabel, row, TARGET_COLUMN, GridBagConstraints.WEST );
@@ -179,8 +179,8 @@ public class TranslationPanel extends JPanel implements FindListener {
         }
         
         // create the table
-        Font sourceFont = FontFactory.createFont( sourceLanguageCode );
-        Font targetFont = FontFactory.createFont( targetLanguageCode );
+        Font sourceFont = FontFactory.createFont( sourceLocale );
+        Font targetFont = FontFactory.createFont( targetLocale );
         Iterator i = sortedSet.iterator();
         while ( i.hasNext() ) {
 

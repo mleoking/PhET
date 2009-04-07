@@ -3,6 +3,7 @@
 package edu.colorado.phet.translationutility;
 
 import java.io.File;
+import java.util.Locale;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -25,7 +26,7 @@ import edu.colorado.phet.translationutility.util.TULogger;
 public class TranslationUtility extends JFrame {
     
     // NOTE: untested for languages other than English
-    private static final String SOURCE_LANGUAGE_CODE = TUConstants.ENGLISH_LANGUAGE_CODE;
+    private static final Locale SOURCE_LOCALE = TUConstants.ENGLISH_LOCALE;
     
     private TranslationUtility() {}
     
@@ -37,16 +38,16 @@ public class TranslationUtility extends JFrame {
         UpdateManager.checkForUpdate();
         
         // prompt the user for initialization info
-        InitializationDialog initDialog = new InitializationDialog( SOURCE_LANGUAGE_CODE );
+        InitializationDialog initDialog = new InitializationDialog( SOURCE_LOCALE );
         SwingUtils.centerWindowOnScreen( initDialog );
         initDialog.setVisible( true );
         if ( !initDialog.isContinue() ) {
             System.exit( 0 );
         }
         String jarFileName = initDialog.getJarFileName();
-        String targetLanguageCode = initDialog.getTargetLanguageCode();
+        Locale targetLocale = initDialog.getTargetLocale();
         TULogger.log( "TranslationUtility: jar=" + jarFileName );
-        TULogger.log( "TranslationUtility: language=" + targetLanguageCode );
+        TULogger.log( "TranslationUtility: language=" + targetLocale.toString() );
         
         // create a Simulation
         ISimulation simulation = null;
@@ -65,7 +66,7 @@ public class TranslationUtility extends JFrame {
         }
         
         // open the primary user interface
-        JFrame mainFrame = new MainFrame( simulation, SOURCE_LANGUAGE_CODE, targetLanguageCode, saveDirName );
+        JFrame mainFrame = new MainFrame( simulation, SOURCE_LOCALE, targetLocale, saveDirName );
         mainFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         mainFrame.setVisible( true );
     }

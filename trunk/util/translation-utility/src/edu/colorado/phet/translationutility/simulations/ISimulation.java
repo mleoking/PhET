@@ -3,6 +3,7 @@
 package edu.colorado.phet.translationutility.simulations;
 
 import java.io.File;
+import java.util.Locale;
 import java.util.Properties;
 
 /**
@@ -38,19 +39,19 @@ public interface ISimulation {
      * Tests a set of localized strings by running the simulation.
      * 
      * @param properties the localized strings
-     * @param languageCode
+     * @param locale
      * @throws SimulationException
      */
-    public void testStrings( Properties properties, String languageCode ) throws SimulationException;
+    public void testStrings( Properties properties, Locale locale ) throws SimulationException;
 
     /**
-     * Gets the localized strings for a specified language.
+     * Gets the localized strings for a specified locale.
      * 
-     * @param languageCode
+     * @param locale
      * @return
      * @throws SimulationException
      */
-    public Properties getStrings( String languageCode ) throws SimulationException;
+    public Properties getStrings( Locale locale ) throws SimulationException;
 
     /**
      * Loads a set of localized strings from a file.
@@ -73,8 +74,8 @@ public interface ISimulation {
     /**
      * Gets the base name of the file for submitting localized strings to PhET.
      * 
-     * @param languageCode
+     * @param locale
      * @return
      */
-    public String getSubmitBasename( String languageCode );
+    public String getSubmitBasename( Locale locale );
 }
