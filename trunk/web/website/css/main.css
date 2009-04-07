@@ -1947,6 +1947,16 @@ img.getflashbutton {
     height: 41px;
 }
 
+.extra-indentation {
+    display: block;
+    line-height: 19px;
+    color: #000;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 2em;
+    margin-right: 2em;
+}
+
 .licensing blockquote {
     padding-left: 0;
     margin-left: 0;
