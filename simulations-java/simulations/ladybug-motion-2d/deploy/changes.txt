@@ -1,3 +1,5 @@
+> update remote control arrows on mode change
+> make sure velocity-acceleration proportion ratios match those in the play area
 # 0.00.45 (30270) Apr 7, 2009
 4/7/09 Added internationalization
 # 0.00.44 (30207) Apr 1, 2009
