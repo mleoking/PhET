@@ -41,7 +41,7 @@ public class InteractionStrengthTable {
 				return 111.84;
 			}
 			else if (atom1 == AtomType.OXYGEN){
-				return 113.27;
+				return 200;  // TODO: Waiting for actual value from Noah P for this.
 			}
 			else if (atom1 == AtomType.ADJUSTABLE){
 				return ConfigurableStatesOfMatterAtom.DEFAULT_INTERACTION_POTENTIAL;
