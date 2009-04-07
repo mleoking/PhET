@@ -30,6 +30,7 @@ import umd.cs.piccolo.util.PBounds
 import umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloTimeControlPanel.BackgroundNode
 import edu.colorado.phet.scalacommon.Predef._
+import common.phetcommon.resources.PhetCommonResources._
 
 class RecordModelControlPanel[T](model: RecordModel[T], simPanel: JComponent, createRightControl: () => PNode,timelineColor:Color,maxTime:Double) extends PhetPCanvas {
   private class MyButtonNode(text: String, icon: Icon, action: () => Unit) extends PText(text) {
@@ -62,7 +63,7 @@ class RecordModelControlPanel[T](model: RecordModel[T], simPanel: JComponent, cr
   val modePanel = new ModePanel(model)
 
 
-  val clearButton = new JButton("Clear")
+  val clearButton = new JButton(getString("Common.clear"))
 
   clearButton.addActionListener(() => { //todo : couldn't figure out how to remove ()=> with by name using implicits
     model.clearHistory
@@ -86,7 +87,7 @@ class RecordModelControlPanel[T](model: RecordModel[T], simPanel: JComponent, cr
     val enabled = model.isPlayback && model.getRecordingHistory.length > 0 && model.getTime != model.getMinRecordedTime
     rewind.setEnabled(enabled)
   }
-  rewind.addInputEventListener(new ToolTipHandler("Rewind", this))
+  rewind.addInputEventListener(new ToolTipHandler(getString("Common.rewind"), this))
   rewind.setOffset(0, 12)
 
 
@@ -98,18 +99,18 @@ class RecordModelControlPanel[T](model: RecordModel[T], simPanel: JComponent, cr
   playPause.addListener(new PlayPauseButton.Listener() {
     def playbackStateChanged = model.setPaused(!playPause.isPlaying)
   })
-  val playPauseTooltipHandler = new ToolTipHandler("Pause", this)
+  val playPauseTooltipHandler = new ToolTipHandler(getString("Common.ClockControlPanel.Pause"), this)
   playPause.addInputEventListener(playPauseTooltipHandler)
   model.addListener(() => {
     playPause.setPlaying(!model.isPaused)
-    playPauseTooltipHandler.setText(if (model.isPaused) "Play" else "Pause")
+    playPauseTooltipHandler.setText(if (model.isPaused) getString("Common.ClockControlPanel.Play") else getString("Common.ClockControlPanel.Pause"))
   })
 
 
 
   val stepButton = new StepButton(50)
   stepButton.setEnabled(false)
-  stepButton.addInputEventListener(new ToolTipHandler("Step", this))
+  stepButton.addInputEventListener(new ToolTipHandler(getString("Common.ClockControlPanel.Step"), this))
   model.addListener(() => {
     val isLastStep = model.getPlaybackIndex == model.getRecordingHistory.length
     stepButton.setEnabled(model.isPlayback && model.isPaused && !isLastStep)
