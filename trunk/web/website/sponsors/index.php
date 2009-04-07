@@ -31,11 +31,13 @@ class SponsorsPage extends SitePage {
                 <ul>
                     <li class="simple"><strong>Platinum Level Contributors ($100k+)</strong>
                         <ul>
-                            <li class="platinum"><a href="http://www.hewlett.org/Default.htm"><img class="sponsors" src="{$this->prefix}images/hewlett-logo.jpg" alt="Hewlett Logo" /><strong>The William and Flora Hewlett Foundation</strong></a></li>
+                            <li class="platinum"><a href="http://www.hewlett.org/"><img class="sponsors" src="{$this->prefix}images/hewlett-logo.jpg" alt="Hewlett Logo" /><strong>The William and Flora Hewlett Foundation</strong></a></li>
 
                             <li class="platinum"><a href="http://www.nsf.gov/"><img class="sponsors" src="{$this->prefix}images/nsf-logo.gif" alt="NSF Logo" /><strong>The National Science Foundation</strong></a></li>
 
                             <li class="platinum"><a href="http://www.ksu.edu.sa"><img class="sponsors" src="{$this->prefix}images/ECSME-logo.jpg" alt="KSU Logo" /><strong>King Saud University</strong></a></li>
+
+                            <li class="platinum"><a href="http://jila-amo.colorado.edu"><img class="sponsors" src="{$this->prefix}images/jila_logo_medium.gif" alt="JILA AMO Logo" /><strong>JILA Center for Atomic, Molecular, &amp; Optical Physics</strong></a></li>
 
                             <li class="platinum"><a href="http://www.colorado.edu"><img class="sponsors" src="{$this->prefix}images/cu.gif" width="45" alt="CU Logo" /><strong>University of Colorado</strong></a></li>
 

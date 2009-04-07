@@ -46,6 +46,11 @@ margin-top: -70px;
 text-decoration: none;
 }
 #home-page-sponsors .sponsor {
+width: 100px;
+text-align: center;
+float: right;
+}
+#home-page-sponsors .sponsor-wide {
 width: 120px;
 text-align: center;
 float: right;

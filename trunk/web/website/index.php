@@ -49,6 +49,9 @@ EOT;
     }
 
     function render_content() {
+        $default_category = CategoryUtils::inst()->getDefaultCategory();
+        $default_sim_category = WebUtils::inst()->encodeString($default_category['cat_name']);
+
         print <<<EOT
         <div class="home-page">
             <div id="newsflashes">
@@ -58,13 +61,6 @@ EOT;
                         </td>
 
                         <td class="links">
-
-EOT;
-
-        $default_category = CategoryUtils::inst()->getDefaultCategory();
-        $default_sim_category = WebUtils::inst()->encodeString($default_category['cat_name']);
-
-            print <<<EOT
                             <a href="about/news.php">What's New</a> |
                             <a href="about/index.php">About PhET</a> <!-- ' -->
                         </td>
@@ -105,7 +101,6 @@ EOT;
             </div>
 
             <div class="clear"></div>
-        </div>
 
         <div id="home-page-sponsors">
             <div class="sponsor">
@@ -115,6 +110,17 @@ EOT;
                 <p>
                     <a href="http://www.ksu.edu.sa/" title="Click here to visit the King Saud University">
                         King Saud University
+                    </a>
+                </p>
+            </div>
+
+            <div class="sponsor">
+                <a href="http://jila-amo.colorado.edu/" title="Click here to visit the JILA Center for Atomic, Molecular, &amp; Optical Physics">
+                    <img src="images/jila_logo_small.gif" height="28" alt="JILA AMO Logo"/>
+                </a>
+                <p>
+                    <a href="http://jila-amo.colorado.edu/" title="Click here to visit the JILA Center for Atomic, Molecular, &amp; Optical Physics">
+                        JILA AMO
                     </a>
                 </p>
             </div>
@@ -130,18 +136,19 @@ EOT;
                 </p>
             </div>
 
-            <div class="sponsor">
-                <a href="http://www.hewlett.org/Default.htm" title="Click here to visit the William and Flora Hewlett Foundation">
+            <div class="sponsor sponsor-wide">
+                <a href="http://www.hewlett.org/" title="Click here to visit the William and Flora Hewlett Foundation">
                     <img src="images/hewlett-logo-small.jpg" height="28" alt="William and Flora Hewlett Foundation Logo"/>
                 </a>
                 <p>
-                    <a href="http://www.hewlett.org/Default.htm" title="Click here to visit the William and Flora Hewlett Foundation">
+                    <a href="http://www.hewlett.org/" title="Click here to visit the William and Flora Hewlett Foundation">
                         The William and Flora Hewlett Foundation
                     </a>
                 </p>
             </div>
 
             <div class="clear"></div>
+        </div>
         </div>
 
         <div class="clear"></div>
