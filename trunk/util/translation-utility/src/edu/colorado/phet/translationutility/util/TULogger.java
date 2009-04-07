@@ -6,7 +6,7 @@ import edu.colorado.phet.common.phetcommon.util.logging.ILogger;
 
 public class TULogger {
 
-    private static final ILogger LOGGER = new ConsoleLogger( true ); // enable using -log commandline arg
+    private static final ILogger LOGGER = new ConsoleLogger( false ); // enable using -log commandline arg
     
     private static final String MESSAGE_PREFIX = "TULogger: ";
     
