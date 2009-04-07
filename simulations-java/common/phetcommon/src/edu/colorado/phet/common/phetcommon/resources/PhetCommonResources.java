@@ -4,7 +4,10 @@ package edu.colorado.phet.common.phetcommon.resources;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Properties;
+
+import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
 /**
  * PhetCommonResources is a singleton that provides access to phetcommon's JAR resources.
@@ -52,12 +55,13 @@ public class PhetCommonResources {
      * Returns the names as an array.
      * If no preferred fonts are specified, null is returned.
      */
-    public static String[] getPreferredFontNames( String languageCode ) {
+    public static String[] getPreferredFontNames( Locale locale ) {
         String[] names = null;
         Properties fontProperties = new Properties();
         try {
             fontProperties.load( PhetCommonResources.getInstance().getResourceAsStream( PREFERRED_FONTS_RESOURCE ) );
-            String key = "preferredFonts." + languageCode; // eg, preferredFonts.ja
+            String localeString = LocaleUtils.localeToString( locale );
+            String key = "preferredFonts." + localeString; // eg, preferredFonts.ja
             String allNames = fontProperties.getProperty( key );
             if ( allNames != null ) {
                 names = allNames.split( "," ); // comma separated, no whitespace
