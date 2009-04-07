@@ -81,7 +81,6 @@ class Ladybug extends Bug with Observable {
   def setPosition(x: Double, y: Double): Unit = setPosition(new Vector2D(x, y))
 
   def setPosition(position: Vector2D) = {
-    //    println("position="+position)
     state = state.setPosition(position)
     notifyListeners
   }

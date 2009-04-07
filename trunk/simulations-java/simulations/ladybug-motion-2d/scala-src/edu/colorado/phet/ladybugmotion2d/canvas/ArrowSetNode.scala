@@ -13,6 +13,7 @@ import java.awt.{BasicStroke, Color}
 import umd.cs.piccolo.nodes.PText
 import umd.cs.piccolo.PNode
 import edu.colorado.phet.scalacommon.Predef._
+import LadybugMotion2DResources._
 
 class ArrowSetNode(ladybug: Ladybug, transform: ModelViewTransform2D, vectorVisibilityModel: VectorVisibilityModel) extends PNode {
   class LabeledArrowNode(color: Color, name: String) extends PNode {
@@ -35,8 +36,8 @@ class ArrowSetNode(ladybug: Ladybug, transform: ModelViewTransform2D, vectorVisi
     }
   }
 
-  val velocityNode = new LabeledArrowNode(LadybugColorSet.velocity, "Velocity")
-  val accelNode = new LabeledArrowNode(LadybugColorSet.acceleration, "Acceleration")
+  val velocityNode = new LabeledArrowNode(LadybugColorSet.velocity, getLocalizedString("model.velocity"))
+  val accelNode = new LabeledArrowNode(LadybugColorSet.acceleration, getLocalizedString("model.acceleration"))
   addChild(velocityNode)
   addChild(accelNode)
 

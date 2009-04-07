@@ -13,9 +13,10 @@ import umd.cs.piccolo.PNode
 import edu.colorado.phet.scalacommon.Predef._
 import umd.cs.piccolox.pswing.PSwing
 import java.awt.Color._
+import LadybugMotion2DResources._
 
 class ReturnLadybugButton(model: LadybugModel, canvas: LadybugCanvas) extends PhetPNode {
-  private val button = new JButton("Return Ladybug")
+  private val button = new JButton(getLocalizedString("return.ladybug"))
   button.addActionListener(() => model.returnLadybug)
   button.setFont(new PhetFont(20))
   addChild(new PSwing(button))

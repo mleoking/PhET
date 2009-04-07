@@ -17,35 +17,36 @@ import edu.colorado.phet.scalacommon.Predef._
 import scalacommon.swing.MyRadioButton
 import scalacommon.util.Observable
 import java.awt.GridBagConstraints._
+import LadybugMotion2DResources._
 
 class LadybugControlPanel[M <: LadybugModel](module: LadybugModule[M]) extends ControlPanel(module) {
   val myModule = module;
   def createBox = Box.createRigidArea(new Dimension(10, 4))
 
   class VectorControlPanel(m: VectorVisibilityModel) extends BoxPanel(Orientation.Vertical) {
-    contents += new Label("Vectors") {font = new PhetFont(14, true)}
-    contents += new MyRadioButton("Show velocity vector", {
+    contents += new Label(getLocalizedString("model.vectors")) {font = new PhetFont(14, true)}
+    contents += new MyRadioButton(getLocalizedString("show.velocity.vector"), {
       m.velocityVectorVisible = true
       m.accelerationVectorVisible = false
     }
       , m.velocityVectorVisible && !m.accelerationVectorVisible,
       m.addListener)
 
-    contents += new MyRadioButton("Show acceleration vector", {
+    contents += new MyRadioButton(getLocalizedString("show.acceleration.vector"), {
       m.velocityVectorVisible = false
       m.accelerationVectorVisible = true
     }
       , !m.velocityVectorVisible && m.accelerationVectorVisible,
       m.addListener)
 
-    contents += new MyRadioButton("Show both", {
+    contents += new MyRadioButton(getLocalizedString("show.both"), {
       m.velocityVectorVisible = true
       m.accelerationVectorVisible = true
     }
       , m.velocityVectorVisible && m.accelerationVectorVisible,
       m.addListener)
 
-    contents += new MyRadioButton("Hide Vectors", {
+    contents += new MyRadioButton(getLocalizedString("hide.vectors"), {
       m.velocityVectorVisible = false
       m.accelerationVectorVisible = false
     }
@@ -58,7 +59,7 @@ class LadybugControlPanel[M <: LadybugModel](module: LadybugModule[M]) extends C
   addControl(new VectorControlPanel(module.vectorVisibilityModel))
 
   class MotionControlPanel(m: LadybugMotionModel) extends BoxPanel(Orientation.Vertical) {
-    contents += new Label("Choose Motion") {font = new PhetFont(14, true)}
+    contents += new Label(getLocalizedString("choose.motion")) {font = new PhetFont(14, true)}
 
     class MyRadioButtonWithEnable(text: String, actionListener: => Unit, getter: => Boolean, addListener: (() => Unit) => Unit, shouldBeEnabled: () => Boolean, enableObservable: Observable) extends MyRadioButton(text, actionListener, getter, addListener) {
       enableObservable.addListener(() => peer.setEnabled(shouldBeEnabled()))
@@ -68,10 +69,10 @@ class LadybugControlPanel[M <: LadybugModel](module: LadybugModule[M]) extends C
       module.model.setPaused(false)
       module.model.setRecord(true)
     }
-    contents += new MyRadioButtonWithEnable("Manual", {m.motion = MANUAL; rec}, m.motion == MANUAL, m.addListener, () => module.model.readyForInteraction, module.model)
-    contents += new MyRadioButtonWithEnable("Linear", {m.motion = LINEAR; rec}, m.motion == LINEAR, m.addListener, () => module.model.readyForInteraction, module.model)
-    contents += new MyRadioButtonWithEnable("Circular", {m.motion = CIRCULAR; rec}, m.motion == CIRCULAR, m.addListener, () => module.model.readyForInteraction, module.model)
-    contents += new MyRadioButtonWithEnable("Ellipse", {m.motion = ELLIPSE; rec}, m.motion == ELLIPSE, m.addListener, () => module.model.readyForInteraction, module.model)
+    contents += new MyRadioButtonWithEnable(getLocalizedString("motion.manual"), {m.motion = MANUAL; rec}, m.motion == MANUAL, m.addListener, () => module.model.readyForInteraction, module.model)
+    contents += new MyRadioButtonWithEnable(getLocalizedString("motion.linear"), {m.motion = LINEAR; rec}, m.motion == LINEAR, m.addListener, () => module.model.readyForInteraction, module.model)
+    contents += new MyRadioButtonWithEnable(getLocalizedString("motion.circular"), {m.motion = CIRCULAR; rec}, m.motion == CIRCULAR, m.addListener, () => module.model.readyForInteraction, module.model)
+    contents += new MyRadioButtonWithEnable(getLocalizedString("motion.ellipse"), {m.motion = ELLIPSE; rec}, m.motion == ELLIPSE, m.addListener, () => module.model.readyForInteraction, module.model)
   }
   val motionControlPanel = new MotionControlPanel(module.getLadybugMotionModel)
   addControl(motionControlPanel)
@@ -80,14 +81,14 @@ class LadybugControlPanel[M <: LadybugModel](module: LadybugModule[M]) extends C
 
 
   class TraceControlPanel(m: PathVisibilityModel) extends BoxPanel(Orientation.Vertical) {
-    contents += new Label("Trace") {font = new PhetFont(14, true)}
-    contents += new MyRadioButton("Line", {
+    contents += new Label(getLocalizedString("controls.trace")) {font = new PhetFont(14, true)}
+    contents += new MyRadioButton(getLocalizedString("trace.line"), {
       m.allOff()
       m.fadeVisible = true
     }
       , m.fadeVisible,
       m.addListener)
-    contents += new MyRadioButton("Dots", {
+    contents += new MyRadioButton(getLocalizedString("trace.dots"), {
       m.allOff()
       m.dotsVisible = true
     }
@@ -95,7 +96,7 @@ class LadybugControlPanel[M <: LadybugModel](module: LadybugModule[M]) extends C
       m.addListener)
 
 
-    contents += new MyRadioButton("Off", {
+    contents += new MyRadioButton(getLocalizedString("trace.off"), {
       m.allOff()
     }
       , !m.lineVisible && !m.dotsVisible && !m.fadeVisible && !m.fadeFullVisible,
