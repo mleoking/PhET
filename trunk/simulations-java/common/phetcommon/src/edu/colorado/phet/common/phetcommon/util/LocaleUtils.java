@@ -36,10 +36,10 @@ public class LocaleUtils {
         assert ( locale != null );
         // tempting to use locale.toString here, but don't do it.
         if ( locale.getCountry().equals( "" ) ) {
-            return locale.getLanguage().toLowerCase();
+            return locale.getLanguage();
         }
         else {
-            return locale.getLanguage().toLowerCase() + "_" + locale.getCountry().toUpperCase();
+            return locale.getLanguage() + "_" + locale.getCountry();
         }
     }
 
@@ -58,7 +58,7 @@ public class LocaleUtils {
             return new Locale( stringTokenizer.nextToken() );
         }
         else if ( stringTokenizer.countTokens() == 2 ) {
-            return new Locale( stringTokenizer.nextToken().toLowerCase(), stringTokenizer.nextToken().toUpperCase() );
+            return new Locale( stringTokenizer.nextToken(), stringTokenizer.nextToken() );
         }
         else {
             throw new RuntimeException( "Locale string should have language OR language_COUNTRY" );
@@ -74,6 +74,7 @@ public class LocaleUtils {
         System.out.println( "\"" + localeToString( new Locale( "zh" ) ) + "\"" );
         System.out.println( "\"" + localeToString( new Locale( "zh", "CN" ) ) + "\"" );
         System.out.println( "\"" + localeToString( new Locale( "zh", "cn" ) ) + "\"" );
+        System.out.println( "\"" + localeToString( new Locale( "ZH", "cn" ) ) + "\"" );
 
         // suffixToLocale
         System.out.println( "\"" + stringToLocale( "CN" ) + "\"" );
