@@ -20,6 +20,7 @@ import edu.colorado.phet.statesofmatter.view.GrabbableParticleNode;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
 import edu.colorado.phet.statesofmatter.view.ParticleForceNode;
 import edu.colorado.phet.statesofmatter.view.PushpinNode;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -83,6 +84,8 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     private DefaultWiggleMe m_wiggleMe;
     private boolean m_wiggleMeShown;
     private PushpinNode m_pushPinNode;
+    private PNode m_fixedParticleLayer;
+    private PNode m_movableParticleLayer;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -185,6 +188,14 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         m_pushPinNode = new PushpinNode();
         m_pushPinNode.scale( PUSH_PIN_WIDTH / m_pushPinNode.getFullBoundsReference().width );
 
+        // Create the nodes that will act as layers for the fixed and movable
+        // particles.  This is done so that the fixed particle can always
+        // appear to be on top.
+        m_movableParticleLayer = new PNode();
+        addWorldChild( m_movableParticleLayer );
+        m_fixedParticleLayer = new PNode();
+        addWorldChild( m_fixedParticleLayer );
+        
         // Create the nodes that will represent the particles in the view.
         if (m_movableParticle != null){
         	handleMovableParticleAdded( m_movableParticle );
@@ -273,7 +284,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         m_fixedParticleNode.setShowAttractiveForces( m_showAttractiveForces );
         m_fixedParticleNode.setShowRepulsiveForces( m_showRepulsiveForces );
         m_fixedParticleNode.setShowTotalForces( m_showTotalForces );
-        addWorldChild( m_fixedParticleNode );
+        m_fixedParticleLayer.addChild( m_fixedParticleNode );
         
         particle.addListener( m_atomListener );
         
@@ -291,7 +302,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         if (m_fixedParticleNode != null){
             
             // Remove the particle node.
-            removeWorldChild( m_fixedParticleNode );
+            m_fixedParticleLayer.removeChild( m_fixedParticleNode );
             
             // Remove the pin holding the node.
             removeWorldChild( m_pushPinNode );
@@ -314,7 +325,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         m_movableParticleNode.setShowAttractiveForces( m_showAttractiveForces );
         m_movableParticleNode.setShowRepulsiveForces( m_showRepulsiveForces );
         m_movableParticleNode.setShowTotalForces( m_showTotalForces );
-        addWorldChild( m_movableParticleNode );
+        m_movableParticleLayer.addChild( m_movableParticleNode );
 
         // Limit the particle's motion in the X direction so that it can't
         // get to where there is too much overlap, or is on the other side
@@ -333,7 +344,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         if (m_movableParticleNode != null){
             
             // Remove the particle node.
-            removeWorldChild( m_movableParticleNode );
+            m_movableParticleLayer.removeChild( m_movableParticleNode );
         }
         else{
             System.err.println("Error: Problem encountered removing node from canvas.");
