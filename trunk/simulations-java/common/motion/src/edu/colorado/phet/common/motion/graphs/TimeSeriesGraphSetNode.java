@@ -29,8 +29,6 @@ public class TimeSeriesGraphSetNode extends PNode {
     public TimeSeriesGraphSetNode( GraphSetModel graphSetModel, TimeSeriesModel timeSeriesModel, double minDT, double maxDT ) {
         setBounds( 0, 0, 800, 600 );
         graphSetNode = new GraphSetNode( graphSetModel );
-//        TimeSeriesControlPanel timeSeriesControlPanel = new TimeSeriesControlPanel( timeSeriesModel );
-//        TimeSeriesPlaybackPanel timeSeriesControlPanel = new TimeSeriesPlaybackPanel( timeSeriesModel );
         TimeSeriesControlPanel timeSeriesControlPanel = new TimeSeriesControlPanel( timeSeriesModel, minDT, maxDT );
         timeSeriesControlPanelNode = new PSwing( timeSeriesControlPanel );
 
@@ -62,7 +60,8 @@ public class TimeSeriesGraphSetNode extends PNode {
             Rectangle2D bounds = getBounds();
 //            System.out.println( "TSGSN::bounds = " + bounds );
             graphSetNode.setBounds( bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight() - timeSeriesControlPanelNode.getFullBounds().getHeight() );
-            timeSeriesControlPanelNode.setOffset( bounds.getX() + bounds.getWidth() / 2.0 - timeSeriesControlPanelNode.getFullBounds().getWidth() / 2.0, graphSetNode.getFullBounds().getMaxY() );
+            timeSeriesControlPanelNode.setOffset( bounds.getX() + bounds.getWidth() / 2.0 - timeSeriesControlPanelNode.getFullBounds().getWidth() / 2.0, graphSetNode.getFullBounds().getMaxY()
+                                                                                                                                                         -10);//workaround for problem in torque module in which the contents go vertically off the screen a bit 
             background.setPathTo(bounds);
 //            System.out.println( "bounds.getMaxY() = " + bounds.getMaxY() + ", tscpn.getmaxy=" + timeSeriesControlPanelNode.getFullBounds().getMaxY() );
         }
