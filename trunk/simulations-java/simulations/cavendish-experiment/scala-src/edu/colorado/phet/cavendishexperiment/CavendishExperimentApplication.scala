@@ -130,6 +130,11 @@ class CavendishExperimentCanvas(model: CavendishExperimentModel) extends Default
   addNode(new WallNode(model.wall, transform))
 
 }
+
+class MyDoubleGeneralPath(pt:Point2D) extends DoubleGeneralPath(pt){
+  def curveTo(control1: Vector2D, control2: Vector2D, dest: Vector2D) = super.curveTo(control1.x, control1.y, control2.x, control2.y, dest.x, dest.y)
+}
+
 class SpringNode(model: CavendishExperimentModel, transform: ModelViewTransform2D) extends PNode {
   val path = new PhetPPath(new BasicStroke(2), Color.black)
   addChild(path)
@@ -138,10 +143,7 @@ class SpringNode(model: CavendishExperimentModel, transform: ModelViewTransform2
     val endPt = transform.modelToView(model.m1.position)
     val unitVector = (startPt - endPt).normalize
     val distance = (startPt - endPt).magnitude
-    val p = new DoubleGeneralPath(startPt) {
-      def curveTo(control1: Vector2D, control2: Vector2D, dest: Vector2D) = super.curveTo(control1.x, control1.y, control2.x, control2.y, dest.x, dest.y)
-    }
-
+    val p = new MyDoubleGeneralPath(startPt)
     val springCurveHeight = 60
     p.lineTo(startPt + new Vector2D(distance / 6, 0))
     for (i <- 1 to 5) {
