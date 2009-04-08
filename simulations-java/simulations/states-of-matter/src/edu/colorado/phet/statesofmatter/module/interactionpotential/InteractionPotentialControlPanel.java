@@ -176,8 +176,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_neonRadioButton.setFont( LABEL_FONT );
             m_neonRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if (m_model.getFixedMoleculeType() != AtomType.NEON){
-                        m_model.setBothMoleculeTypes( AtomType.NEON );
+                    if (m_model.getFixedAtomType() != AtomType.NEON){
+                        m_model.setBothAtomTypes( AtomType.NEON );
                         updateLjControlSliderState();
                     }
                 }
@@ -186,8 +186,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_argonRadioButton.setFont( LABEL_FONT );
             m_argonRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if (m_model.getFixedMoleculeType() != AtomType.ARGON){
-                        m_model.setBothMoleculeTypes( AtomType.ARGON );
+                    if (m_model.getFixedAtomType() != AtomType.ARGON){
+                        m_model.setBothAtomTypes( AtomType.ARGON );
                         updateLjControlSliderState();
                     }
                 }
@@ -197,8 +197,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_adjustableAttractionRadioButton.setFont( LABEL_FONT );
             m_adjustableAttractionRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if (m_model.getFixedMoleculeType() != AtomType.ADJUSTABLE){
-                        m_model.setBothMoleculeTypes( AtomType.ADJUSTABLE );
+                    if (m_model.getFixedAtomType() != AtomType.ADJUSTABLE){
+                        m_model.setBothAtomTypes( AtomType.ADJUSTABLE );
                         updateLjControlSliderState();
                     }
                 }
@@ -222,7 +222,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
          * it to be.
          */
         public void updateMoleculeType(){
-            AtomType moleculeType = m_model.getFixedMoleculeType();
+            AtomType moleculeType = m_model.getFixedAtomType();
             
             if (moleculeType == AtomType.NEON){
                 m_neonRadioButton.setSelected( true );
@@ -243,8 +243,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
          * 
          */
         private void updateLjControlSliderState(){
-            m_atomDiameterControlPanel.setVisible( m_model.getFixedMoleculeType() == AtomType.ADJUSTABLE );
-            m_interactionStrengthControlPanel.setVisible( m_model.getFixedMoleculeType() == AtomType.ADJUSTABLE );
+            m_atomDiameterControlPanel.setVisible( m_model.getFixedAtomType() == AtomType.ADJUSTABLE );
+            m_interactionStrengthControlPanel.setVisible( m_model.getFixedAtomType() == AtomType.ADJUSTABLE );
         }
     }
     
@@ -286,7 +286,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_neonFixedRadioButton.setFont( LABEL_FONT );
             m_neonFixedRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if (m_model.getFixedMoleculeType() != AtomType.NEON){
+                    if (m_model.getFixedAtomType() != AtomType.NEON){
                         setFixedAtom( AtomType.NEON );
                         updateLjControlSliderState();
                     }
@@ -296,7 +296,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_argonFixedRadioButton.setFont( LABEL_FONT );
             m_argonFixedRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if (m_model.getFixedMoleculeType() != AtomType.ARGON){
+                    if (m_model.getFixedAtomType() != AtomType.ARGON){
                         setFixedAtom( AtomType.ARGON );
                         updateLjControlSliderState();
                     }
@@ -306,7 +306,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_oxygenFixedRadioButton.setFont( LABEL_FONT );
             m_oxygenFixedRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if (m_model.getFixedMoleculeType() != AtomType.OXYGEN){
+                    if (m_model.getFixedAtomType() != AtomType.OXYGEN){
                     	setFixedAtom( AtomType.OXYGEN );
                         updateLjControlSliderState();
                     }
@@ -327,7 +327,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_neonMovableRadioButton.setFont( LABEL_FONT );
             m_neonMovableRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if (m_model.getMovableMoleculeType() != AtomType.NEON){
+                    if (m_model.getMovableAtomType() != AtomType.NEON){
                         setMovableAtom( AtomType.NEON );
                         updateLjControlSliderState();
                     }
@@ -337,7 +337,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_argonMovableRadioButton.setFont( LABEL_FONT );
             m_argonMovableRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if (m_model.getMovableMoleculeType() != AtomType.ARGON){
+                    if (m_model.getMovableAtomType() != AtomType.ARGON){
                     	setMovableAtom( AtomType.ARGON );
                         updateLjControlSliderState();
                     }
@@ -347,7 +347,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_oxygenMovableRadioButton.setFont( LABEL_FONT );
             m_oxygenMovableRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if (m_model.getMovableMoleculeType() != AtomType.OXYGEN){
+                    if (m_model.getMovableAtomType() != AtomType.OXYGEN){
                     	setMovableAtom( AtomType.OXYGEN );
                         updateLjControlSliderState();
                     }
@@ -370,8 +370,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_adjustableAttractionRadioButton.setFont( LABEL_FONT );
             m_adjustableAttractionRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if (m_model.getFixedMoleculeType() != AtomType.ADJUSTABLE){
-                        m_model.setBothMoleculeTypes( AtomType.ADJUSTABLE );
+                    if (m_model.getFixedAtomType() != AtomType.ADJUSTABLE){
+                        m_model.setBothAtomTypes( AtomType.ADJUSTABLE );
                         updateLjControlSliderState();
                     }
                 }
@@ -427,7 +427,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
          * it to be.
          */
         public void updateMoleculeType(){
-            AtomType fixedMoleculeType = m_model.getFixedMoleculeType();
+            AtomType fixedMoleculeType = m_model.getFixedAtomType();
             
             if (fixedMoleculeType == AtomType.NEON){
                 m_neonFixedRadioButton.setSelected( true );
@@ -446,7 +446,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             	m_adjustableAttractionRadioButton.setSelected(true);
             }
             
-            AtomType movableMoleculeType = m_model.getMovableMoleculeType();
+            AtomType movableMoleculeType = m_model.getMovableAtomType();
             
             if (movableMoleculeType == AtomType.NEON){
                 m_neonMovableRadioButton.setSelected( true );
@@ -474,27 +474,27 @@ public class InteractionPotentialControlPanel extends ControlPanel {
          * 
          */
         private void updateLjControlSliderState(){
-            m_atomDiameterControlPanel.setVisible( m_model.getFixedMoleculeType() == AtomType.ADJUSTABLE );
-            m_interactionStrengthControlPanel.setVisible( m_model.getFixedMoleculeType() == AtomType.ADJUSTABLE );
+            m_atomDiameterControlPanel.setVisible( m_model.getFixedAtomType() == AtomType.ADJUSTABLE );
+            m_interactionStrengthControlPanel.setVisible( m_model.getFixedAtomType() == AtomType.ADJUSTABLE );
         }
         
         private void setFixedAtom( AtomType atomType ){
-        	if (m_model.getMovableMoleculeType() == AtomType.ADJUSTABLE){
+        	if (m_model.getMovableAtomType() == AtomType.ADJUSTABLE){
         		// Can't have one adjustable and the other not, so we need to set both.
-        		m_model.setBothMoleculeTypes(atomType);
+        		m_model.setBothAtomTypes(atomType);
         	}
         	else{
-        		m_model.setFixedMoleculeType(atomType);
+        		m_model.setFixedAtomType(atomType);
         	}
         }
 
         private void setMovableAtom( AtomType atomType ){
-        	if (m_model.getFixedMoleculeType() == AtomType.ADJUSTABLE){
+        	if (m_model.getFixedAtomType() == AtomType.ADJUSTABLE){
         		// Can't have one adjustable and the other not, so we need to set both.
-        		m_model.setBothMoleculeTypes(atomType);
+        		m_model.setBothAtomTypes(atomType);
         	}
         	else{
-        		m_model.setMovableMoleculeType(atomType);
+        		m_model.setMovableAtomType(atomType);
         	}
         }
     }
