@@ -1,0 +1,6 @@
+###################################
+# License info for states-of-matter
+# Automatically generated on Fri Aug 08 00:08:03 MDT 2008
+###################################
+
+push-pin.png source=microsoft clip art
