@@ -14,33 +14,35 @@ import edu.colorado.phet.buildtools.util.FileUtils;
  * Time: 10:17:40 AM
  */
 public class FlashBuildCommand {
-    public static boolean useTimeout = false;
-
     // returns boolean success of whether the sim was built without errors
     public static boolean build( String cmd, String sim, File trunk, boolean useWine ) throws IOException {
 
-        boolean success = false;
+        boolean success;
 
         File outputFile = new File( trunk, "simulations-flash/build-output-temp/output-" + sim + ".txt" );
 
         // if the output file exists, remove it so we can correctly detect whether the build is completed
         if ( outputFile.exists() ) {
-            outputFile.delete();
+            boolean b = outputFile.delete();
+            if ( !b ) {
+                System.out.println( "Could not delete output file" );
+                return false;
+            }
         }
 
         // run the JSFL
         build( cmd, new String[]{sim}, trunk, useWine );
-
-        if ( useTimeout ) {
+        long timeout = 1000 * 60 * 5;
+        long startTime = System.currentTimeMillis();
+        System.out.print( "Building the SWF, please wait" );
+        while ( !outputFile.exists() && System.currentTimeMillis() - startTime < timeout ) {
             try {
-                Thread.sleep( 30 * 1000 );
+                Thread.sleep( 50 );
+                System.out.print( '.' );
             }
             catch( InterruptedException e ) {
                 e.printStackTrace();
             }
-        }
-        else {
-            JOptionPane.showMessageDialog( null, "Building the Flash SWF, press OK when finished." );
         }
 
         if ( outputFile.exists() ) {
