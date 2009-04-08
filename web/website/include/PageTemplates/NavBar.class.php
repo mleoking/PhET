@@ -300,7 +300,7 @@ EOT;
         print <<<EOT
             </ul>
 
-            <div id="sponsors">
+            <div id="spons">
                 <h4>Principal Sponsors</h4>
 
                 <div class="header">
@@ -322,7 +322,7 @@ EOT;
 
                     <dt>
                         <a href="http://www.nsf.gov/">
-                            <img class="sponsors" src="{$prefix}images/nsf-logo.gif" alt="The NSF Logo"/>National Science Foundation</a>
+                            <img class="spons" src="{$prefix}images/nsf-logo.gif" alt="The NSF Logo"/>National Science Foundation</a>
                     </dt>
 
                     <dd>
@@ -333,7 +333,7 @@ EOT;
 
                     <dt>
                         <a href="http://www.ksu.edu.sa/">
-                            <img class="sponsors" src="{$prefix}images/ksu-logo.gif" alt="The King Saud Logo" />King Saud University</a>
+                            <img class="spons" src="{$prefix}images/ksu-logo.gif" alt="The King Saud Logo" />King Saud University</a>
                     </dt>
 
                     <dd>
