@@ -10,8 +10,8 @@ import edu.colorado.phet.testproject.TestProjectResources;
 public class Sim2Application extends PiccoloPhetApplication {
     public Sim2Application( PhetApplicationConfig config ) {
         super( config );
-        addModule( new EmptyModule( TestProjectResources.getString( "sim2.module-name" ) ) );
-        addModule( new EmptyModule( "Another tab" ) );
+        addModule( new EmptyModule( TestProjectResources.getString( "sim2.module1" ) ) );
+        addModule( new EmptyModule( TestProjectResources.getString( "sim2.module2" ) ) );
     }
 
     public static void main( String[] args ) {
