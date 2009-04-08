@@ -553,15 +553,7 @@ public class BuildScript {
             try {
                 sshConnection.connect();
 
-                BuildToolsProject buildToolsProject = new BuildToolsProject( new File( project.getTrunk(), "build-tools" ) );
-                String buildScriptDir = server.getServerDeployPath( buildToolsProject );
-                String projectDir = server.getServerDeployPath( project );
-
-                String javaCmd = server.getJavaCommand();
-                String jarCmd = server.getJarCommand();
-                String jarName = buildToolsProject.getDefaultDeployJar().getName();
-                String pathToBuildLocalProperties = server.getBuildLocalPropertiesFile();
-                String command = javaCmd + " -classpath " + buildScriptDir + "/" + jarName + " " + JARGenerator.class.getName() + " " + projectDir + "/" + project.getDefaultDeployJar().getName() + " " + jarCmd + " " + pathToBuildLocalProperties;
+                String command = getJARGenerationCommand( project, server );
 
                 System.out.println( "Running command: \n" + command );
                 sshConnection.executeTask( new SshCommand( command ) );
@@ -577,6 +569,20 @@ public class BuildScript {
             }
         }
     }
+
+    private static String getJARGenerationCommand( PhetProject project, PhetServer server ) throws IOException {
+        BuildToolsProject buildToolsProject = new BuildToolsProject( new File( project.getTrunk(), "build-tools" ) );
+        String buildScriptDir = server.getServerDeployPath( buildToolsProject );
+        String projectDir = server.getServerDeployPath( project );
+
+        String javaCmd = server.getJavaCommand();
+        String jarCmd = server.getJarCommand();
+        String jarName = buildToolsProject.getDefaultDeployJar().getName();
+        String pathToBuildLocalProperties = server.getBuildLocalPropertiesFile();
+        String command = javaCmd + " -classpath " + buildScriptDir + "/" + jarName + " " + JARGenerator.class.getName() + " " + projectDir + "/" + project.getDefaultDeployJar().getName() + " " + jarCmd + " " + pathToBuildLocalProperties;
+        return command;
+    }
+
     //regenerate server HTML caches so new material will appear
     public static void clearWebCaches() {
         System.out.println( "Clearing website cache" );
