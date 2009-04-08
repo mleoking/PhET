@@ -102,8 +102,8 @@ EOT;
 
             <div class="clear"></div>
 
-        <div id="home-page-sponsors">
-            <div class="sponsor">
+        <div id="home-page-spons">
+            <div class="spon">
                 <a href="http://www.ksu.edu.sa/" title="Click here to visit the King Saud University">
                     <img src="images/ksu-logo.gif" height="28" alt="King Saud University Logo"/>
                 </a>
@@ -114,29 +114,29 @@ EOT;
                 </p>
             </div>
 
-            <div class="sponsor">
+            <div class="spon">
                 <a href="http://jila-amo.colorado.edu/" title="Click here to visit the JILA Center for Atomic, Molecular, &amp; Optical Physics">
                     <img src="images/jila_logo_small.gif" height="28" alt="JILA AMO Logo"/>
                 </a>
                 <p>
                     <a href="http://jila-amo.colorado.edu/" title="Click here to visit the JILA Center for Atomic, Molecular, &amp; Optical Physics">
-                        JILA AMO
+                      JILA Center for Atomic, Molecular, &amp; Optical Physics 
                     </a>
                 </p>
             </div>
 
-            <div class="sponsor">
+            <div class="spon">
                 <a href="http://www.nsf.gov/" title="Click here to visit the National Science Foundation" >
                     <img src="images/nsf-logo-small.gif" height="28" alt="National Science Foundation Logo"/>
                 </a>
                 <p>
                     <a href="http://www.nsf.gov/" title="Click here to visit the National Science Foundation" >
-                        The National Science Foundation
+                        National Science Foundation
                     </a>
                 </p>
             </div>
 
-            <div class="sponsor sponsor-wide">
+            <div class="spon spon-wide">
                 <a href="http://www.hewlett.org/" title="Click here to visit the William and Flora Hewlett Foundation">
                     <img src="images/hewlett-logo-small.jpg" height="28" alt="William and Flora Hewlett Foundation Logo"/>
                 </a>

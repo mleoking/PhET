@@ -1257,12 +1257,12 @@ h1.indi-sim {
     padding: 10px 0px 30px 0px;
 }
 
-#people img.sponsors {
+#people img.spons {
     float: right;
     margin-bottom: 1em;
 }
 
-#people img.bordered_sponsors {
+#people img.bordered_spons {
     border-style: solid;
     border-color: gray;
     border-width: 1px;
@@ -1499,17 +1499,17 @@ div.research .publication_htmllink {
     background-image: url("../images/arrow-right.gif");
 }
 
-#sponsors {
+#spons {
 
 }
 
-img.sponsors {
+img.spons {
     float: left;
     margin: 0px 3px 0px 0px;
 }
 
 /* -------- Related Links --------*/
-#sponsors dl {
+#spons dl {
     width: 158px;
     background: url("../images/relatedLinksBTTM_BG.gif") left bottom
         no-repeat;
@@ -1520,16 +1520,16 @@ img.sponsors {
     border: none;
 }
 
-#sponsors dt,#sponsors dd {
+#spons dt,#spons dd {
     margin: 0;
     padding: 0 0 4px 18px;
 }
 
-#sponsors dt {
+#spons dt {
     background: url("../images/circleArrow_Icon.gif") left 3px no-repeat;
 }
 
-#sponsors dd {
+#spons dd {
     border-bottom: solid 1px #ccc;
     color: #313131;
     line-height: 1.2em;
@@ -1537,21 +1537,21 @@ img.sponsors {
     padding-bottom: 15px;
 }
 
-#sponsors dd.first {
+#spons dd.first {
     border: none;
 }
 
-#sponsors dt a,#sponsors dd a {
+#spons dt a,#spons dd a {
     color: #294ca8;
     font-weight: bold;
     text-decoration: underline;
 }
 
-#sponsors h4 {
+#spons h4 {
     color: #0d2973;
 }
 
-#sponsors div.header {
+#spons div.header {
     width: 178px;
     height: 8px;
     background: url("../images/relatedLinks_BG.gif") left bottom no-repeat;
