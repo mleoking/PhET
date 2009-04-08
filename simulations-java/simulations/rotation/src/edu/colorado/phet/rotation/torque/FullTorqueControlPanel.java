@@ -164,16 +164,14 @@ public class FullTorqueControlPanel extends VerticalLayoutPanel {
         return outerRadiusSlider;
     }
 
-//    private GridBagConstraints getConstraints( int gridX, int gridY, int gridWidth ) {
-//        return new GridBagConstraints( gridX, gridY, gridWidth, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets( 10, 10, 10, 10 ), 0, 0 );
-//    }
-
     public static class TorqueSlider extends LinearValueControl {
         public TorqueSlider( double min, double max, double initialValue, String label, String textFieldPattern, String units ) {
             super( min, max, label, textFieldPattern, units, new NullLayoutStrategy() );
             setValue( initialValue );
             setMinorTickSpacing( ( max - min ) / 20.0 );
             setPaintTickLabels( false );
+            //make sure control panel is thin enough, since this impacts the layout of the rest of the sim
+            getSlider().setPreferredSize( new Dimension( (int) (getSlider().getPreferredSize().width*0.7),getSlider().getPreferredSize().height) );
         }
     }
 }
