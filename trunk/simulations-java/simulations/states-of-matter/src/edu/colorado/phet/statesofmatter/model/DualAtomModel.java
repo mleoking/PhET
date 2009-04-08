@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.statesofmatter.model;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -298,6 +299,10 @@ public class DualAtomModel {
         return m_ljPotentialCalculator.getEpsilon();
     }
     
+    public int getBondingState(){
+    	return m_bondingState;
+    }
+    
     //----------------------------------------------------------------------------
     // Other Public Methods
     //----------------------------------------------------------------------------
@@ -355,8 +360,16 @@ public class DualAtomModel {
         return m_motionPaused;
     }
     
-    public int getBondingState(){
-    	return m_bondingState;
+    /**
+     * Release the bond that exists between the two atoms (if there is one).
+     */
+    public void releaseBond(){
+    	if ( m_bondingState == BONDING_STATE_BONDING ){
+    		// A bond is in the process of forming, so reset everything that
+    		// is involved in the bonding process.
+    		m_vibrationCounter = 0;
+    	}
+    	m_bondingState = BONDING_STATE_UNBONDED;
     }
     
     //----------------------------------------------------------------------------
@@ -437,7 +450,7 @@ public class DualAtomModel {
     
     private void updateForces(){
         
-        double distance = m_shadowMovableAtom.getPositionReference().distance( m_fixedAtom.getPositionReference() );
+        double distance = m_shadowMovableAtom.getPositionReference().distance( new Point2D.Double( 0, 0 ) );
         
         if (distance < (m_fixedAtom.getRadius() + m_movableAtom.getRadius()) / 8){
             // The atoms are too close together, and calculating the force
