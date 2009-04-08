@@ -40,15 +40,12 @@ public class DualAtomModel {
     // Instance Data
     //----------------------------------------------------------------------------
     
-    private IClock m_clock;
     private ArrayList m_listeners = new ArrayList();
     private StatesOfMatterAtom m_fixedAtom;
     private StatesOfMatterAtom m_movableAtom;
     private StatesOfMatterAtom m_shadowMovableAtom;
     private double m_attractiveForce;
     private double m_repulsiveForce;
-    private AtomType m_fixedMoleculeType = DEFAULT_ATOM_TYPE;
-    private AtomType m_movableMoleculeType = DEFAULT_ATOM_TYPE;
     private boolean m_motionPaused;
     private LjPotentialCalculator m_ljPotentialCalculator;
     private double m_timeStep;
@@ -65,7 +62,6 @@ public class DualAtomModel {
     
     public DualAtomModel(IClock clock) {
         
-        m_clock = clock;
         m_timeStep = InteractionPotentialDefaults.CLOCK_DT / 1000 / CALCULATIONS_PER_TICK;
         m_motionPaused = false;
         m_ljPotentialCalculator = new LjPotentialCalculator( StatesOfMatterConstants.MIN_SIGMA, 
@@ -121,18 +117,18 @@ public class DualAtomModel {
     }
     
     public AtomType getFixedMoleculeType(){
-        return m_fixedMoleculeType;
+        return m_fixedAtom.getType();
     }
     
     public AtomType getMovableMoleculeType(){
-        return m_movableMoleculeType;
+        return m_movableAtom.getType();
     }
     
     public void setFixedMoleculeType(AtomType atomType){
     	
-    	if (((atomType == AtomType.ADJUSTABLE && m_movableMoleculeType != AtomType.ADJUSTABLE) ||
-    		 (atomType != AtomType.ADJUSTABLE && m_movableMoleculeType == AtomType.ADJUSTABLE)) &&
-        	  !m_settingBothAtomTypes){
+    	if (!m_settingBothAtomTypes &&
+    		((atomType == AtomType.ADJUSTABLE && m_movableAtom.getType() != AtomType.ADJUSTABLE) ||
+    		 (atomType != AtomType.ADJUSTABLE && m_movableAtom.getType() == AtomType.ADJUSTABLE))){
     		System.err.println(this.getClass().getName() + " - Error: Cannot set just one atom to be adjustable, ignoring request.");
     		return;
     	}
@@ -145,8 +141,7 @@ public class DualAtomModel {
             m_fixedAtom = null;
         }
 
-        m_fixedMoleculeType = atomType;
-        m_fixedAtom = AtomFactory.createAtom(atomType);
+        m_fixedAtom = AtomFactory.createAtom( atomType );
 
         // TODO: Setting sigma as the average of the two molecules.  Not sure
         // if this is valid, need to check with the physicists.
@@ -157,8 +152,11 @@ public class DualAtomModel {
             m_ljPotentialCalculator.setSigma( m_fixedAtom.getRadius() * 2 );
         }
         
-        // Set the value of epsilon.
-        m_ljPotentialCalculator.setEpsilon(InteractionStrengthTable.getInteractionPotential(m_fixedMoleculeType, m_movableMoleculeType));
+        // If both atoms exist, set the value of epsilon.
+        if ( m_movableAtom != null ){
+            m_ljPotentialCalculator.setEpsilon(
+                InteractionStrengthTable.getInteractionPotential( m_fixedAtom.getType(), m_movableAtom.getType() ) );
+        }
 
         notifyFixedAtomAdded( m_fixedAtom );
         notifyInteractionPotentialChanged();
@@ -170,9 +168,9 @@ public class DualAtomModel {
 
     public void setMovableMoleculeType(AtomType atomType){
     	
-    	if (((atomType == AtomType.ADJUSTABLE && m_fixedMoleculeType != AtomType.ADJUSTABLE) ||
-       		 (atomType != AtomType.ADJUSTABLE && m_fixedMoleculeType == AtomType.ADJUSTABLE)) &&
-           	  !m_settingBothAtomTypes){
+    	if (!m_settingBothAtomTypes &&
+       		((atomType == AtomType.ADJUSTABLE && m_movableAtom.getType() != AtomType.ADJUSTABLE) ||
+       		 (atomType != AtomType.ADJUSTABLE && m_movableAtom.getType() == AtomType.ADJUSTABLE))){
     		System.err.println(this.getClass().getName() + " - Error: Cannot set just one atom to be adjustable, ignoring request.");
     		return;
     	}
@@ -185,7 +183,6 @@ public class DualAtomModel {
             m_movableAtom = null;
         }
     	
-        m_movableMoleculeType = atomType;
     	m_movableAtom = AtomFactory.createAtom(atomType);
     	
         // Register to listen to motion of the movable atom so that we can
@@ -201,8 +198,11 @@ public class DualAtomModel {
             m_ljPotentialCalculator.setSigma( m_movableAtom.getRadius() * 2 );
         }
 
-        // Set the value of epsilon.
-        m_ljPotentialCalculator.setEpsilon(InteractionStrengthTable.getInteractionPotential(m_fixedMoleculeType, m_movableMoleculeType));
+        // If both atoms exist, set the value of epsilon.
+        if ( m_fixedAtom != null ){
+            m_ljPotentialCalculator.setEpsilon(
+                InteractionStrengthTable.getInteractionPotential( m_fixedAtom.getType(), m_movableAtom.getType() ) );
+        }
 
         resetMovableAtomPos();
 
@@ -242,8 +242,8 @@ public class DualAtomModel {
      * @param sigma - distance parameter
      */
     public void setAdjustableAtomSigma( double sigma ){
-    	if ((m_fixedMoleculeType == AtomType.ADJUSTABLE) && 
-    		(m_movableMoleculeType == AtomType.ADJUSTABLE) &&
+    	if ((m_fixedAtom.getType() == AtomType.ADJUSTABLE) && 
+    		(m_movableAtom.getType() == AtomType.ADJUSTABLE) &&
     		(sigma != m_ljPotentialCalculator.getSigma())){
 
     		if (sigma > StatesOfMatterConstants.MAX_SIGMA){
@@ -288,8 +288,8 @@ public class DualAtomModel {
     		epsilon = StatesOfMatterConstants.MAX_EPSILON;
     	}
     	
-    	if ((m_fixedMoleculeType == AtomType.ADJUSTABLE) && 
-       		(m_movableMoleculeType == AtomType.ADJUSTABLE)){
+    	if ((m_fixedAtom.getType() == AtomType.ADJUSTABLE) && 
+       		(m_movableAtom.getType() == AtomType.ADJUSTABLE)){
 
             m_ljPotentialCalculator.setEpsilon( epsilon );
             notifyInteractionPotentialChanged();
@@ -363,6 +363,10 @@ public class DualAtomModel {
         return m_motionPaused;
     }
     
+    public int getBondingState(){
+    	return m_bondingState;
+    }
+    
     //----------------------------------------------------------------------------
     // Private Methods
     //----------------------------------------------------------------------------
@@ -384,7 +388,7 @@ public class DualAtomModel {
         syncMovableAtomWithDummy();
         
         // Handle inter-atom bonding.
-        if (m_movableMoleculeType == AtomType.OXYGEN && m_fixedMoleculeType == AtomType.OXYGEN){
+        if (m_movableAtom.getType() == AtomType.OXYGEN && m_fixedAtom.getType() == AtomType.OXYGEN){
         	switch ( m_bondingState ){
         	
         	case BONDING_STATE_UNBONDED:
