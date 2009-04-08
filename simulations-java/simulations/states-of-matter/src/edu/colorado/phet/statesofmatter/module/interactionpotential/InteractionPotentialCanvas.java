@@ -316,9 +316,10 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         m_movableParticleNode.setShowTotalForces( m_showTotalForces );
         addWorldChild( m_movableParticleNode );
 
-        // Limit the particle's motion in the X direction so that it can
-        // only slightly overlap with the fixed particle.
-        m_movableParticleNode.setMinX( m_movableParticle.getRadius() * 1.9 );
+        // Limit the particle's motion in the X direction so that it can't
+        // get to where there is too much overlap, or is on the other side
+        // of the fixed particle.
+        m_movableParticleNode.setMinX( m_movableParticle.getRadius() * 0.2 );
         
         // Add ourself as a listener.
         particle.addListener( m_atomListener );

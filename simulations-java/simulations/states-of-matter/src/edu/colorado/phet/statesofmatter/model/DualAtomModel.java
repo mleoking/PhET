@@ -143,13 +143,9 @@ public class DualAtomModel {
 
         m_fixedAtom = AtomFactory.createAtom( atomType );
 
-        // TODO: Setting sigma as the average of the two atoms.  Not sure
-        // if this is valid, need to check with the physicists.
+        // Set the value for sigma used in the LJ potential calculations.
         if (m_movableAtom != null){
-            m_ljPotentialCalculator.setSigma( m_movableAtom.getRadius() + m_fixedAtom.getRadius() );
-        }
-        else{
-            m_ljPotentialCalculator.setSigma( m_fixedAtom.getRadius() * 2 );
+            m_ljPotentialCalculator.setSigma( SigmaTable.getSigma(getFixedAtomType(), getMovableAtomType()) );
         }
         
         // If both atoms exist, set the value of epsilon.
@@ -189,13 +185,9 @@ public class DualAtomModel {
         // tell when the user is moving it.
         m_movableAtom.addListener( m_movableAtomListener );
         
-        // TODO: Setting sigma as the average of the two atoms.  Not sure
-        // if this is valid, need to check with the physicists.
-        if (m_fixedAtom != null){
-            m_ljPotentialCalculator.setSigma( m_movableAtom.getRadius() + m_fixedAtom.getRadius() );
-        }
-        else{
-            m_ljPotentialCalculator.setSigma( m_movableAtom.getRadius() * 2 );
+        // Set the value for sigma used in the LJ potential calculations.
+        if (m_movableAtom != null){
+            m_ljPotentialCalculator.setSigma( SigmaTable.getSigma(getFixedAtomType(), getMovableAtomType()) );
         }
 
         // If both atoms exist, set the value of epsilon.
@@ -447,10 +439,10 @@ public class DualAtomModel {
         
         double distance = m_shadowMovableAtom.getPositionReference().distance( m_fixedAtom.getPositionReference() );
         
-        if (distance < (m_fixedAtom.getRadius() + m_movableAtom.getRadius()) / 2){
+        if (distance < (m_fixedAtom.getRadius() + m_movableAtom.getRadius()) / 8){
             // The atoms are too close together, and calculating the force
             // will cause unusable levels of speed later, so we limit it.
-            distance = (m_fixedAtom.getRadius() + m_movableAtom.getRadius()) / 2;
+            distance = (m_fixedAtom.getRadius() + m_movableAtom.getRadius()) / 8;
         }
         
         // Calculate the force.  The result should be in newtons.
