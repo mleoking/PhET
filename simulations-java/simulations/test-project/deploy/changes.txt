@@ -1,3 +1,5 @@
+# 0.44.01 (30298) Apr 8, 2009
+4/8/09 dev version for testing #1574
 # 0.44.02 (30263) Apr 7, 2009
 4/7/09 Testing again as part of the verification of ticket #577
 # 0.44.01 (30261) Apr 7, 2009
