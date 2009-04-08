@@ -120,22 +120,28 @@ public class GrabbableParticleNode extends ParticleForceNode {
     }
 
     private void handleMouseDragEvent(PInputEvent event){
-        
-        PNode draggedNode = event.getPickedNode();
-        PDimension d = event.getDeltaRelativeTo(draggedNode);
-        draggedNode.localToParent(d);
 
-        // Make sure we don't exceed the positional limits.
-        double newPosX = m_particle.getX() + d.width;
-        if (newPosX > m_maxX) {
-            newPosX = m_maxX;
-        }
-        else if (newPosX < m_minX) {
-            newPosX = m_minX;
-        }
-        
-        // Move the particle based on the amount of mouse movement.
-        m_particle.setPosition( newPosX, m_particle.getY() );
+    	// Only allow the user to move unbonded atoms.
+    	if (m_model.getBondingState() == DualAtomModel.BONDING_STATE_UNBONDED){
+    		
+    		// Determine the amount of motion indicated by the drag event.
+            PNode draggedNode = event.getPickedNode();
+            PDimension d = event.getDeltaRelativeTo(draggedNode);
+            draggedNode.localToParent(d);
+
+            // Make sure we don't exceed the positional limits.
+            double newPosX = m_particle.getX() + d.width;
+            if (newPosX > m_maxX) {
+                newPosX = m_maxX;
+            }
+            else if (newPosX < m_minX) {
+                newPosX = m_minX;
+            }
+            
+            // Move the particle based on the amount of mouse movement.
+            m_particle.setPosition( newPosX, m_particle.getY() );
+    		
+    	}
     }
     
     private void handleMouseEndDragEvent(PInputEvent event){

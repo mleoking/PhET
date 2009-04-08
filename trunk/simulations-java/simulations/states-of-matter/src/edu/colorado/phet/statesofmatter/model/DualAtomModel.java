@@ -116,15 +116,15 @@ public class DualAtomModel {
         return m_repulsiveForce;
     }
     
-    public AtomType getFixedMoleculeType(){
+    public AtomType getFixedAtomType(){
         return m_fixedAtom.getType();
     }
     
-    public AtomType getMovableMoleculeType(){
+    public AtomType getMovableAtomType(){
         return m_movableAtom.getType();
     }
     
-    public void setFixedMoleculeType(AtomType atomType){
+    public void setFixedAtomType(AtomType atomType){
     	
     	if (!m_settingBothAtomTypes &&
     		((atomType == AtomType.ADJUSTABLE && m_movableAtom.getType() != AtomType.ADJUSTABLE) ||
@@ -132,7 +132,7 @@ public class DualAtomModel {
     		System.err.println(this.getClass().getName() + " - Error: Cannot set just one atom to be adjustable, ignoring request.");
     		return;
     	}
-    	ensureValidMoleculeType( atomType );
+    	ensureValidAtomType( atomType );
     	m_bondingState = BONDING_STATE_UNBONDED;
 
     	// Inform any listeners of the removal of existing atoms.
@@ -143,7 +143,7 @@ public class DualAtomModel {
 
         m_fixedAtom = AtomFactory.createAtom( atomType );
 
-        // TODO: Setting sigma as the average of the two molecules.  Not sure
+        // TODO: Setting sigma as the average of the two atoms.  Not sure
         // if this is valid, need to check with the physicists.
         if (m_movableAtom != null){
             m_ljPotentialCalculator.setSigma( m_movableAtom.getRadius() + m_fixedAtom.getRadius() );
@@ -166,7 +166,7 @@ public class DualAtomModel {
         resetMovableAtomPos();
     }
 
-    public void setMovableMoleculeType(AtomType atomType){
+    public void setMovableAtomType(AtomType atomType){
     	
     	if (!m_settingBothAtomTypes &&
        		((atomType == AtomType.ADJUSTABLE && m_movableAtom.getType() != AtomType.ADJUSTABLE) ||
@@ -174,7 +174,7 @@ public class DualAtomModel {
     		System.err.println(this.getClass().getName() + " - Error: Cannot set just one atom to be adjustable, ignoring request.");
     		return;
     	}
-    	ensureValidMoleculeType( atomType );
+    	ensureValidAtomType( atomType );
     	m_bondingState = BONDING_STATE_UNBONDED;
 
     	if (m_movableAtom != null){
@@ -189,7 +189,7 @@ public class DualAtomModel {
         // tell when the user is moving it.
         m_movableAtom.addListener( m_movableAtomListener );
         
-        // TODO: Setting sigma as the average of the two molecules.  Not sure
+        // TODO: Setting sigma as the average of the two atoms.  Not sure
         // if this is valid, need to check with the physicists.
         if (m_fixedAtom != null){
             m_ljPotentialCalculator.setSigma( m_movableAtom.getRadius() + m_fixedAtom.getRadius() );
@@ -212,30 +212,30 @@ public class DualAtomModel {
         resetMovableAtomPos();
     }
 
-	private void ensureValidMoleculeType(AtomType moleculeType) {
+	private void ensureValidAtomType(AtomType atomType) {
 		// Verify that this is a supported value.
-        if ((moleculeType != AtomType.NEON) &&
-            (moleculeType != AtomType.ARGON) &&
-            (moleculeType != AtomType.OXYGEN) &&
-            (moleculeType != AtomType.ADJUSTABLE)){
+        if ((atomType != AtomType.NEON) &&
+            (atomType != AtomType.ARGON) &&
+            (atomType != AtomType.OXYGEN) &&
+            (atomType != AtomType.ADJUSTABLE)){
             
-            System.err.println("Error: Unsupported molecule type.");
+            System.err.println("Error: Unsupported atom type.");
             assert false;
-            moleculeType = AtomType.NEON;
+            atomType = AtomType.NEON;
         }
 	}
 	
-	public void setBothMoleculeTypes(AtomType atomType){
+	public void setBothAtomTypes(AtomType atomType){
         
         m_settingBothAtomTypes = true;
-        setFixedMoleculeType(atomType);
-        setMovableMoleculeType(atomType);
+        setFixedAtomType(atomType);
+        setMovableAtomType(atomType);
     	m_settingBothAtomTypes = false;
     }
     
     /**
-     * Set the sigma value, a.k.a. the Molecular Diameter Parameter, for the
-     * adjustable molecule.  This is one of the two parameters that are used
+     * Set the sigma value, a.k.a. the Atomic Diameter Parameter, for the
+     * adjustable atom.  This is one of the two parameters that are used
      * for calculating the Lennard-Jones potential.  If an attempt is made to
      * set this value when the adjustable atom is not selected, it is ignored.
      * 
@@ -263,7 +263,7 @@ public class DualAtomModel {
     
     /**
      * Get the value of the sigma parameter that is being used for the motion
-     * calculations.  If the molecules are the same, it will be the diameter
+     * calculations.  If the atoms are the same, it will be the diameter
      * of one atom.  If they are not, it will be a function of the
      * diameters.
      * 
@@ -317,7 +317,7 @@ public class DualAtomModel {
 
         if ( m_fixedAtom == null || m_fixedAtom.getType() != DEFAULT_ATOM_TYPE ||
         	 m_movableAtom == null || m_movableAtom.getType() != DEFAULT_ATOM_TYPE){
-        	setBothMoleculeTypes(DEFAULT_ATOM_TYPE);
+        	setBothAtomTypes(DEFAULT_ATOM_TYPE);
         }
         else{
         	resetMovableAtomPos();
