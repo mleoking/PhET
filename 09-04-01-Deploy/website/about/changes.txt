@@ -1,0 +1,65 @@
+2-13-2009: Alpha Decay - Added a pie chart that depicts proportion of decayed nuclei, made several other minor changes.
+1-27-2009: States of Matter - Added a molecule with adjustable interaction strength, improved the charts.
+1-23-2009: Alpha Decay - Significatly redesigned to be more engaging and interactive.
+1-23-2009: Nuclear Fission - Added the ability to reset the chain reaction, improved reset of the reactor, modified the ray gun to have no text on it.
+1-12-2009: Glaciers (2.00) - many new features, minor bug fixes
+11-17-2008: Balloons and Static Electricity (1.07) - use PhET common code framework
+11-17-2008: Radio Waves and Electromagnetic Fields (1.06) - minor bug fixes,
+use PhET common code framework
+11-5-2008: Forces in 1 Dimension (1.19) - Minor user interface improvements
+11-5-2008: Wave Interference (1.06) - Waves are now in phase after using a single pulse
+11-4-2008: Circuit Construction Kit (3.15) - Added help for right clicking
+9-23-2008: Circuit Construction Kit (3.14) - User interface improvements
+9-10-2008: Forces in 1 Dimension (1.18) - User interface improvements
+9-9-2008: Arithmetic - bug fix
+9-9-2008: Pendulum Lab - enhancement, improved protractor
+8-28-2008: My Solar System - bug fix
+8-22-2008: Nuclear Physics (3.02) - Added picture of reactor to reactor tab.
+7-18-2008: ph Scale (1.00) - added
+6-27-2008: Nuclear Physics (3.00) - major physics and user interface improvements
+6-14-2008: Neon Light & Other Discharge Lamps (1.08) - minor user interface improvements for low screen resolution
+6-5-2008: Neon Light & Other Discharge Lamps (1.07) - minor user interface improvements
+5-28-2008: Lasers (4.05) - changed numbering of energy levels, changed look of photons, improved legend, changed default settings of lifetimes to make it easier to lase
+5-28-2008: Neon Light & Other Discharge Lamps (1.05) - changed numbering of energy levels, changed look of photons, added legend, fixed bug in mercury spectrum, user interface improvements
+5-21-2008: The Greenhouse Effect (2.04) - changed "ppm" to "ppb" where appropriate
+5-7-2008: Wave Interference (1.05) - fixes for translation support
+5-7-2008: Salts & Solubility (1.04) - fixes for translation support
+5-7-2008: Models of the Hydrogen Atom (1.07) - added support for Japanese and other languages that require preferred fonts
+4-28-2008: Torque (1.05) - added
+4-28-2008: Quantum Bound States (1.04) - minor bug fixes (translations, default font)
+4-28-2008: Double Wells and Covalent Bonds (1.04) - minor bug fixes (translations, default font)
+4-28-2008: Band Structure (1.04) - minor bug fixes (translations, default font)
+4-28-2008: Ladybug Revolution (1.05) - minor bug fixes (translations, default font)
+4-28-2008: Faraday's Electromagnetic Lab (2.01) - minor bug fixes (translations, default font)
+4-28-2008: Generator (2.01) - minor bug fixes (translations, default font)
+4-28-2008: Magnets and Electromagnets (2.01) - minor bug fixes (translations, default font)
+4-28-2008: Magnet and Compass (2.01) - minor bug fixes (translations, default font)
+4-28-2008: Optical Tweezers and Applications (2.01) - minor bug fixes (translations, default font)
+4-28-2008: Molecular Motors (2.01) - minor bug fixes (translations, default font)
+4-28-2008: Stretching DNA (2.01) - minor bug fixes (translations, default font)
+4-10-2008: Faraday's Electromagnetic Lab (2.00) - many enhancements and bug fixes, see faraday changelog
+4-10-2008: Generator (2.00) - new simulation (flavor of faraday)
+4-10-2008: Magnets and Electromagnets (2.00) - new simulation (flavor of faraday)
+4-10-2008: Magnet and Compass (2.00) - new simulation (flavor of faraday)
+4-8-2008: Soluble Salts (1.03) - Bugfix for Linux platforms
+2-28-2008: Wave Interference (1.04) - added walls and mirrors
+2-28-2008: Ladybug Revolution (1.04) - user interface improvements
+12-4-2007: Molecular Motors (2.00) - new simulation (flavor of optical-tweezers)
+12-4-2007: Stretching DNA (2.00) - new simulation (flavor of optical-tweezers)
+12-4-2007: Optical Tweezers and Applications (2.00) - change simulation name, added "Fun with DNA" and "Molecular Motors" panels
+12-4-2007: Quantum Tunneling and Wave Packets (1.09) - changed simulation name
+11-16-2007: Models of the Hydrogen Atom (1.06) - minor bug fixes
+10-24-2007: CCK (3.13) - Minor fixes
+10-24-2007: Wave Interference (1.03) - Minor user interface improvements
+10-16-2007: Semiconductor (1.02) - Minor user interface fixes
+10-5-2007: CCK (3.12) - Minor fixes
+10-3-2007: Thanks to CU's ITS team for supporting switch to new, faster server that accommodates our increase in traffic.
+8-30-2007: Moving Man (1.19) - User interface improvements
+8-29-2007: Lasers (4.04) - User interface improvements
+8-29-2007: MRI (1.05) - User interface improvements
+8-16-2007: Plinko Probability - added.
+8-16-2007: Equation Grapher - user interface improvements
+8-12-2007: Maze Game (1.03) - bugfixes
+8-10-2007: Signal Circuit (1.02) - fixed on Mac + Java 1.4
+8-10-2007: Forces in 1D (1.17) - fixed on Mac + Java 1.4
+8-9-2007: Energy Skate Park (2.04) - user interface improvements and bugfixes
