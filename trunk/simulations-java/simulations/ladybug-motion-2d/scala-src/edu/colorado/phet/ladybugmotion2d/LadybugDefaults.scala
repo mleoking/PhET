@@ -14,7 +14,7 @@ object LadybugDefaults {
   var timelineLengthSeconds: Double = 15
   //      var timelineLengthSeconds: Double = 1//debugging
   val defaultLocation = new Vector2D(5.5, 1.5)
-  val ACCEL_VECTOR_SCALE = 0.2454545
+  val ACCEL_VECTOR_SCALE = 0.2454545*2*0.8
 
   var WINDOW_SIZE = 7
   var HIDE_MOUSE_DURING_DRAG = true
