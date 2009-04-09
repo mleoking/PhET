@@ -1,0 +1,42 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: April 5-8, 2009 (Sun-Wed)
+
+ACCOMPLISHMENTS:
+
+  common code:
+  - redesign and fix installer update feature, #1567
+  - review TODO tasks for phetcommon, #1568
+  - fix "Update To Date" dialog so that it repaints, #1570
+  - rename localization files for zh_TW and pt_BR, #1574
+  - add preferred fonts for zh_TW and zh_CN, #1575
+  - address issues with LocaleUtils, #1577,1579
+  - verify/close/comment on misc tickets
+  
+  translations:
+  - added country code support to Translation Utility, #1054
+  - Farsi right-to-left questions 
+  
+  misc sims:
+  - gas-properties: 1573
+  - wave-interference: 1404
+  - Romanians received a special "Edison" diploma in their science contest, #1526
+  - sound: discussed publishing to tigercat
+  
+WHAT'S NEXT:
+ 
+  - acid-base-solutions implementation
+  - misc sim fixes for IOM release
+  - become familiar with Scala
+  - investigate 3D libraries
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+  July 25 - August 9
+  
+--
