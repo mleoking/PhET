@@ -57,10 +57,11 @@ public class StatisticsDeployCommand {
 
         File[] reportFiles = getReportDir().listFiles( new StatisticsFileFilter() );
 
+        File[] adminFiles = getAdminDir().listFiles( new StatisticsFileFilter() );
+
         AuthenticationInfo authenticationInfo = buildLocalProperties.getProdAuthenticationInfo();
 
         for ( int i = 0; i < statisticsFiles.length; i++ ) {
-            //System.out.println( statisticsFiles[i].getCanonicalPath() + " => " + deployFileName( statisticsFiles[i], "/" ) );
             try {
                 ScpTo.uploadFile( statisticsFiles[i], authenticationInfo.getUsername(), remoteDeployServer, deployFileName( statisticsFiles[i], "/" ), authenticationInfo.getPassword() );
             }
@@ -73,9 +74,20 @@ public class StatisticsDeployCommand {
         }
 
         for ( int i = 0; i < reportFiles.length; i++ ) {
-            //System.out.println( reportFiles[i].getCanonicalPath() + " => " + deployFileName( reportFiles[i], "/report/" ) );
             try {
                 ScpTo.uploadFile( reportFiles[i], authenticationInfo.getUsername(), remoteDeployServer, deployFileName( reportFiles[i], "/report/" ), authenticationInfo.getPassword() );
+            }
+            catch( JSchException e ) {
+                e.printStackTrace();
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+        }
+
+        for ( int i = 0; i < adminFiles.length; i++ ) {
+            try {
+                ScpTo.uploadFile( adminFiles[i], authenticationInfo.getUsername(), remoteDeployServer, deployFileName( reportFiles[i], "/admin/" ), authenticationInfo.getPassword() );
             }
             catch( JSchException e ) {
                 e.printStackTrace();
@@ -91,9 +103,6 @@ public class StatisticsDeployCommand {
             sshConnection.connect();
 
             sshConnection.executeTask( new SshCommand( "cd " + remoteDeployDir + "; chmod ug+x set_permissions; ./set_permissions" ) );
-
-            //sshConnection.executeTask( new SshCommand( "chmod ug+x " + remoteDeployDir + "/set_permissions" );
-            //sshConnection.executeTask( new SshCommand( remoteDeployDir + "/set_permissions" );
         }
         catch( SshException e ) {
             if ( e.toString().toLowerCase().indexOf( "auth fail" ) != -1 ) {
@@ -135,6 +144,10 @@ public class StatisticsDeployCommand {
 
     private File getReportDir() {
         return new File( getStatisticsDir(), "report" );
+    }
+
+    private File getAdminDir() {
+        return new File( getStatisticsDir(), "admin" );
     }
 
     public static boolean ignoreFile( File file ) {
