@@ -48,7 +48,7 @@ public class TranslationDeployPublisher {
 
             String[] locales = TranslationDeployServer.getFlashTranslatedLocales( translationDir, project );
 
-            copyFlashHTMLs( translationDir, project, locales );
+            copyFlashFiles( translationDir, project, locales );
 
         }
 
@@ -56,13 +56,20 @@ public class TranslationDeployPublisher {
     }
 
     // copy the necessary flash HTML files in translationDir (with project and locales) to the main location
-    private void copyFlashHTMLs( File translationDir, String project, String[] locales ) {
+    private void copyFlashFiles( File translationDir, String project, String[] locales ) {
         for ( int i = 0; i < locales.length; i++ ) {
-            String HTMLName = project + "_" + locales[i] + ".html";
-            File fromFile = new File( translationDir, HTMLName );
-            File toFile = new File( sims, project + "/" + HTMLName );
             try {
-                FileUtils.copyTo( fromFile, toFile );
+                // copy the JAR
+                String JARName = project + "_" + locales[i] + ".jar";
+                File fromJARFile = new File( translationDir, JARName );
+                File toJARFile = new File( sims, project + "/" + JARName );
+                FileUtils.copyTo( fromJARFile, toJARFile );
+
+                // copy the HTML
+                String HTMLName = project + "_" + locales[i] + ".html";
+                File fromHTMLFile = new File( translationDir, HTMLName );
+                File toHTMLFile = new File( sims, project + "/" + HTMLName );
+                FileUtils.copyTo( fromHTMLFile, toHTMLFile );
             }
             catch( IOException e ) {
                 e.printStackTrace();
