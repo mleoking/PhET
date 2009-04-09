@@ -51,16 +51,14 @@ public class LocaleUtils {
         if ( localeString.matches( "[a-z][a-z]" ) ) { /* eg, "zh" */
             locale = new Locale( localeString );
         }
+        else if ( localeString.matches( "[a-z][a-z](_[A-Z][A-Z])?" ) ) { /* eg, "zh_CN" */
+            StringTokenizer tokenizer = new StringTokenizer( localeString, "_" );
+            String language = tokenizer.nextToken();
+            String country = tokenizer.nextToken();
+            locale = new Locale( language, country );
+        }
         else {
-            if ( localeString.matches( "[a-z][a-z](_[A-Z][A-Z])?" ) ) { /* eg, "zh_CN" */
-                StringTokenizer tokenizer = new StringTokenizer( localeString, "_" );
-                String language = tokenizer.nextToken();
-                String country = tokenizer.nextToken();
-                locale = new Locale( language, country );
-            }
-            else {
-                throw new IllegalArgumentException( "malformed locale string: " + localeString );
-            }
+            throw new IllegalArgumentException( "malformed locale string: " + localeString );
         }
         return locale;
     } 
