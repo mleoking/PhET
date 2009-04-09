@@ -471,7 +471,31 @@
 				break;
 			*/
 			case "full_table":
-				array_push($query, "SELECT * FROM ${arr['table']}");
+			    if( esc($arr,  'admin_count_table') ) {
+			        $tableName = $arr['table'];
+			        $countTable = $arr['admin_count_table'];
+			        $countField = $arr['admin_count_field'];
+			        $q = <<<FUT
+SELECT
+    {$tableName}.*,
+    IF(data.uses IS NULL, 0, data.uses) AS uses
+FROM
+    {$tableName}
+LEFT JOIN
+    ((
+        SELECT
+            COUNT(*) as uses,
+            {$tableName}.id as id
+        FROM {$tableName}, {$countTable}
+        WHERE {$countTable}.{$countField} = {$tableName}.id
+        GROUP BY {$tableName}.id
+    ) as data)
+ON (data.id = {$tableName}.id)
+FUT;
+                    array_push($query, $q);
+			    } else {
+				    array_push($query, "SELECT * FROM ${arr['table']}");
+				}
 				break;
 			case "recent_messages":
 				$count = ( esc($arr, 'count') ? esc($arr, 'count') : '10' );
@@ -763,6 +787,25 @@ MON;
 		return $result;
 	}
 
+	function remove_row_query($table, $id_name, $id_val) {
+	    $safe_table = mysql_real_escape_string($table);
+	    $safe_id_name = mysql_real_escape_string($id_name);
+	    $safe_id_val = mysql_real_escape_string($id_val);
+	    return "DELETE FROM {$table} WHERE {$id_name} = {$id_val}";
+	}
+
+	function remove_row($table, $id_name, $id_val) {
+	    //print "remove_row({$table}, {$id_name}, {$id_val})<br/>";
+	    $query = remove_row_query($table, $id_name, $id_val);
+	    print $query;
+	    print "<br/>";
+	    mysql_query($query);
+	    $err = mysql_errno();
+	    if( !empty( $err ) ) {
+	        print $err;
+	    }
+	}
+
 	// if the query is expected to return a single value in a single row/column, extract and return it
 	function report_single_value($arr) {
 		$result = report_result($arr);
@@ -797,6 +840,35 @@ MON;
 		}
 		print "</table>\n";
 		
+		print "<br/>\n";
+	}
+
+	function display_removables($result, $tablename, $pk) {
+		$num_rows = mysql_num_rows($result);
+		print "<table border=1>\n";
+		print "<tr>\n";
+		$fields_num = mysql_num_fields($result);
+		print "<td><font face=arial size=1>admin</font></td>";
+		for($i=0; $i<$fields_num; $i++) {
+			$field = mysql_fetch_field($result);
+			print "<td><font face=arial size=1>{$field->name}</font></td>";
+		}
+		print "</tr>\n";
+		while($get_info = mysql_fetch_row($result)) {
+			print "<tr>\n";
+			print "<td><font face=arial size=2/>";
+
+			print "<button onclick='javascript:ahah(\"../admin/remove-row.php?table={$tablename}&id_name={$pk}&id_val={$get_info[0]}\", \"debug\")'>remove</button>";
+			
+			print "</font></td>";
+			foreach($get_info as $field) {
+				$str = htmlentities($field);
+				print "\t<td><font face=arial size=2/>{$str}</font></td>\n";
+			}
+			print "</tr>\n";
+		}
+		print "</table>\n";
+
 		print "<br/>\n";
 	}
 	
