@@ -5,7 +5,7 @@ import java.util.StringTokenizer;
 
 
 public class LocaleUtils {
-
+    
     /* not intended for instantiation */
     private LocaleUtils() {
     }
@@ -34,52 +34,57 @@ public class LocaleUtils {
      */
     public static String localeToString( Locale locale ) {
         assert ( locale != null );
-        // tempting to use locale.toString here, but don't do it.
-        if ( locale.getCountry().equals( "" ) ) {
-            return locale.getLanguage();
-        }
-        else {
-            return locale.getLanguage() + "_" + locale.getCountry();
-        }
+        return locale.toString();
     }
 
-    //returns a Locale given a string like en_CA or ja
-    //TODO: throw exception when localeString has incorrect form, such as ____en____CA__
     /**
      * Converts a String to a Locale.
+     * Supports two formats for the string representation, as illustrated by these examples: 
+     * "zh" or "zh_CN"
      * 
      * @param localeString
      * @return
      */
     public static Locale stringToLocale( String localeString ) {
         assert localeString != null;
-        StringTokenizer stringTokenizer = new StringTokenizer( localeString, "_" );
-        if ( stringTokenizer.countTokens() == 1 ) {
-            return new Locale( stringTokenizer.nextToken() );
-        }
-        else if ( stringTokenizer.countTokens() == 2 ) {
-            return new Locale( stringTokenizer.nextToken(), stringTokenizer.nextToken() );
+        Locale locale = null;
+        if ( localeString.matches( "[a-z][a-z]" ) ) { /* eg, "zh" */
+            locale = new Locale( localeString );
         }
         else {
-            throw new RuntimeException( "Locale string should have language OR language_COUNTRY" );
+            if ( localeString.matches( "[a-z][a-z](_[A-Z][A-Z])?" ) ) { /* eg, "zh_CN" */
+                StringTokenizer tokenizer = new StringTokenizer( localeString, "_" );
+                String language = tokenizer.nextToken();
+                String country = tokenizer.nextToken();
+                locale = new Locale( language, country );
+            }
+            else {
+                throw new IllegalArgumentException( "malformed locale string: " + localeString );
+            }
         }
-    }
+        return locale;
+    } 
 
     // tests
     public static void main( String[] args ) {
 
-        // getJNLPSuffix
-        System.out.println( "\"" + localeToString( new Locale( "" ) ) + "\"" );
-        System.out.println( "\"" + localeToString( new Locale( "en" ) ) + "\"" );
-        System.out.println( "\"" + localeToString( new Locale( "zh" ) ) + "\"" );
-        System.out.println( "\"" + localeToString( new Locale( "zh", "CN" ) ) + "\"" );
-        System.out.println( "\"" + localeToString( new Locale( "zh", "cn" ) ) + "\"" );
-        System.out.println( "\"" + localeToString( new Locale( "ZH", "cn" ) ) + "\"" );
-
-        // suffixToLocale
-        System.out.println( "\"" + stringToLocale( "CN" ) + "\"" );
-        System.out.println( "\"" + stringToLocale( "en" ) + "\"" );
-        System.out.println( "\"" + stringToLocale( "zh_CN" ) + "\"" );
-        System.out.println( "\"" + stringToLocale( "zh_cn" ) + "\"" );
+        // these should print out valid locale strings
+        System.out.println( localeToString( new Locale( "zh" ) ) );
+        System.out.println( localeToString( new Locale( "ZH" ) ) );
+        System.out.println( localeToString( new Locale( "zh", "CN" ) ) );
+        System.out.println( localeToString( new Locale( "ZH", "cn" ) ) );
+        System.out.println( stringToLocale( "zh" ) );
+        System.out.println( stringToLocale( "zh_CN" ) );
+        
+        // these should fail
+        String[] fail = { "CN", "zh_cn", "zh_", "_CN", "zn_CN_", "zn_CN_CN" };
+        for ( int i = 0; i < fail.length; i++ ) {
+            try {
+                System.out.println( stringToLocale( fail[i] ) );
+            }
+            catch ( Exception e ) {
+                System.out.println( e.getMessage() );
+            }
+        }
     }
 }
