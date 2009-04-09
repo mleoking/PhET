@@ -61,8 +61,7 @@ public class TicketNewMessage implements IMessage {
     }
 
     public static String toEmailSubject( String component, int ticketNumber, String summary, String type ) {
-//        return "[ignore]" + "Unfuddle " + component + " [#" + ticketNumber + " " + type + "] : " + summary;
-        return "Unfuddle " + component + " [#" + ticketNumber + " " + type + "] : " + summary;
+        return component + " #" + ticketNumber + ": " + summary;
     }
 
     public String getEmailBody() {
