@@ -12,4 +12,6 @@ public interface IMessage {
     String getEmailBody();
 
     String getEmailSubject();
+
+    String getFromAddress();
 }
