@@ -93,7 +93,7 @@ public class TranslationDeployServer {
             File localXML = new File( translationDir, project + "-strings_" + localeString + ".xml" );
 
             // add the translated strings into the JAR
-            String addXMLCommand = jarCommand + " uf " + localJAR.getAbsolutePath() + " -C " + localXML.getAbsolutePath() + " " + localXML.getName();
+            String addXMLCommand = jarCommand + " uf " + localJAR.getAbsolutePath() + " -C " + translationDir.getAbsolutePath() + " " + localXML.getName();
             runStringCommand( addXMLCommand );
 
             // build flash-launcher-args
@@ -101,7 +101,7 @@ public class TranslationDeployServer {
             FileUtils.writeString( flashLauncherArgs, project + " " + locale.getLanguage() + " " + locale.getCountry() );
 
             // add flash-launcher-args into the JAR
-            String addFlashLauncherArgscommand = jarCommand + " uf " + localJAR.getAbsolutePath() + " -C " + flashLauncherArgs.getAbsolutePath() + " " + flashLauncherArgs.getName();
+            String addFlashLauncherArgscommand = jarCommand + " uf " + localJAR.getAbsolutePath() + " -C " + translationDir.getAbsolutePath() + " " + flashLauncherArgs.getName();
             runStringCommand( addFlashLauncherArgscommand );
 
             flashLauncherArgs.delete();
