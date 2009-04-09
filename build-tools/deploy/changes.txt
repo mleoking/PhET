@@ -1,3 +1,5 @@
+# 00.22.00 (30317) Apr 8, 2009
+4/8/09 Added Flash JAR support for deploying translations
 # 00.21.00 (30115) Mar 31, 2009
 3/31/09 Enhancements for Flash common translation deployments
 # 00.20.00 (30081) Mar 30, 2009
