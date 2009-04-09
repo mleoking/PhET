@@ -72,6 +72,8 @@ public class FlashBuildCommand {
         else {
             System.out.println( "Could not find output file. Was the SWF build not completed?" );
 
+            JOptionPane.showMessageDialog( null, "Could not find output file. Was the SWF build not completed?" );
+
             success = false;
         }
 
