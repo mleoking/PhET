@@ -136,26 +136,14 @@ public class LjPotentialCalculator {
     }
     
     /**
-     * Calculate the potential energy of a particle at the given distance from
-     * only the attractive component of the LJ potential.  This can be used
-     * for approximating the energy of the system at the beginning of a set
-     * of calculations.  All calculations are done with respect to the low
-     * point of the potential energy well.
+     * Calculate the potential energy of a particle at the given distance.
+     * This calculation is performed by calculating the potential at the
+     * given point and subtracting the potential at the minimum point.
      * 
-     * Note: I'm not at all sure that I've done this right, and I need to
-     * verify it with the physicists.  TODO
      * @return
      */
-    public double calculateAttractivePotentialEnergy( double distance ){
-    	if (distance < calculateMinimumForceDistance()){
-    		return 0;
-    	}
-    	else{
-    		double distanceToMin = distance - calculateMinimumForceDistance();
-    		// TODO: Totally faked out as a linear equation for now.
-//            return (4 * m_epsilonForCalcs * Math.pow( m_sigma, 6 ) / (5 * Math.pow( distanceToMin, 5 )));
-    		return distanceToMin * 1E-20;
-    	}
+    public double calculatePotentialEnergy( double distance ){
+    	return calculateLjPotential(distance) - calculateLjPotential(calculateMinimumForceDistance());
     }
     
     //-----------------------------------------------------------------------------

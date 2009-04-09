@@ -54,7 +54,7 @@ public class DualAtomModel {
     private boolean m_settingBothAtomTypes = false;  // Flag used to prevent getting in disallowed state.
     private int m_bondingState = BONDING_STATE_UNBONDED; // Tracks whether the atoms have formed a chemical bond.
     private int m_vibrationCounter = 0; // Used to vibrate fixed atom during bonding.
-    private double m_energyWhenAtomReleased = 0; // Used to set magnitude of vibration.
+    private double m_potentialWhenAtomReleased = 0; // Used to set magnitude of vibration.
     private final Random m_rand = new Random();
     
     //----------------------------------------------------------------------------
@@ -362,7 +362,8 @@ public class DualAtomModel {
         	// the LJ potential is minimized.  Note that this is not precisely
         	// correct, since the potential is not continuous, but is close
         	// enough for our purposes.
-        	m_energyWhenAtomReleased = m_ljPotentialCalculator.calculateAttractivePotentialEnergy(m_movableAtom.getPositionReference().distance(m_fixedAtom.getPositionReference()));
+        	m_potentialWhenAtomReleased = 
+        		m_ljPotentialCalculator.calculatePotentialEnergy(m_movableAtom.getPositionReference().distance(m_fixedAtom.getPositionReference()));
         }
     }
 
@@ -512,10 +513,10 @@ public class DualAtomModel {
 	    	else{
 	    		// Move some distance from the original position based on the
 	    		// energy contained at the time of bonding.  The
-	    		// multiplication factor in the equation below is emperically
+	    		// multiplication factor in the equation below is empirically
 	    		// determined to look good on the screen.
-	    		double xPos = ( m_rand.nextDouble() * 2 - 1 ) * m_energyWhenAtomReleased * 1e19 * vibrationScaleFactor;
-	    		double yPos = ( m_rand.nextDouble() * 2 - 1 ) * m_energyWhenAtomReleased * 1e19 * vibrationScaleFactor;
+	    		double xPos = ( m_rand.nextDouble() * 2 - 1 ) * m_potentialWhenAtomReleased * 5e21 * vibrationScaleFactor;
+	    		double yPos = ( m_rand.nextDouble() * 2 - 1 ) * m_potentialWhenAtomReleased * 5e21 * vibrationScaleFactor;
 	    		m_fixedAtom.setPosition( xPos, yPos );
 	    	}
 	    	
