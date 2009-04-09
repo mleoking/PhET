@@ -1,11 +1,10 @@
 /*  */
 package edu.colorado.phet.waveinterference.tests;
 
-import java.awt.*;
-
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.waveinterference.model.Lattice2D;
 import edu.colorado.phet.waveinterference.model.Oscillator;
@@ -20,13 +19,7 @@ import edu.colorado.phet.waveinterference.model.WaveModel;
 public class BasicWaveTestModule extends Module {
     private WaveModel waveModel;
     private Oscillator oscillator;
-    private PhetPCanvas panel = new PhetPCanvas() {
-        public void paintComponent( Graphics g ) {
-            Graphics2D g2 = (Graphics2D) g;
-            g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
-            super.paintComponent( g );
-        }
-    };
+    private PhetPCanvas panel = new BufferedPhetPCanvas();
 
     public BasicWaveTestModule( String name ) {
         super( name, new SwingClock( 30, 1 ) );
