@@ -3,16 +3,14 @@ package edu.colorado.phet.buildtools.translate;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
+import java.util.*;
 
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.JARGenerator;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.PhetJarSigner;
 import edu.colorado.phet.common.phetcommon.util.StreamReaderThread;
+import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
 /**
  * Created by IntelliJ IDEA.
@@ -59,17 +57,55 @@ public class TranslationDeployServer {
         //todo: clean up JARs when done testing
     }
 
-    private void integrateFlashTranslations( File translationDir, String project ) throws IOException {
+    private void integrateFlashTranslations( File translationDir, String project ) throws IOException, InterruptedException {
         if ( project.equals( "common" ) ) {
             // we can't copy htdocs/sims/common/common.swf, why even try?
             return;
         }
 
         copyFlashSWF( translationDir, project );
+        File JAR = copyFlashJAR( translationDir, project );
+        createFlashJARs( translationDir, project, JAR );
+        JAR.delete();
     }
 
     private void copyFlashSWF( File translationDir, String project ) throws IOException {
         FileUtils.copyToDir( new File( pathToSimsDir, project + "/" + project + ".swf" ), translationDir );
+    }
+
+    private File copyFlashJAR( File translationDir, String project ) throws IOException {
+        File JAR = new File( translationDir, project + "_all.jar" );
+        FileUtils.copyTo( new File( pathToSimsDir, project + "/" + project + "_en.jar" ), JAR );
+        return JAR;
+    }
+
+    private void createFlashJARs( File translationDir, String project, File JAR ) throws IOException, InterruptedException {
+        String[] locales = getFlashTranslatedLocales( translationDir, project );
+        for( int i = 0; i < locales.length; i++ ) {
+            String localeString = locales[i];
+            Locale locale = LocaleUtils.stringToLocale( localeString );
+
+            // get the JAR that we'll be poking stuff into (language JAR)
+            File localJAR = new File( translationDir, project + "_" + localeString + ".jar" );
+            FileUtils.copyTo( JAR, localJAR );
+
+            // translation
+            File localXML = new File( translationDir, project + "-strings_" + localeString + ".xml" );
+
+            // add the translated strings into the JAR
+            String addXMLCommand = jarCommand + " uf " + localJAR.getAbsolutePath() + " -C " + localXML.getAbsolutePath() + " " + localXML.getName();
+            runStringCommand( addXMLCommand );
+
+            // build flash-launcher-args
+            File flashLauncherArgs = new File( translationDir, "flash-launcher-args.txt" );
+            FileUtils.writeString( flashLauncherArgs, project + " " + locale.getLanguage() + " " + locale.getCountry() );
+
+            // add flash-launcher-args into the JAR
+            String addFlashLauncherArgscommand = jarCommand + " uf " + localJAR.getAbsolutePath() + " -C " + flashLauncherArgs.getAbsolutePath() + " " + flashLauncherArgs.getName();
+            runStringCommand( addFlashLauncherArgscommand );
+
+            flashLauncherArgs.delete();
+        }
     }
 
     private void createBackupOfJAR( File localCopyOfAllJAR ) throws IOException {
@@ -102,12 +138,16 @@ public class TranslationDeployServer {
             copyTranslationSubDir( translationDir, project, locales[i] );
             File dst = getLocalCopyOfAllJAR( translationDir, project );
             String command = jarCommand + " uf " + dst.getAbsolutePath() + " -C " + translationDir.getAbsolutePath() + " " + project + "/localization/" + project + "-strings_" + locales[i] + ".properties";
-            System.out.println( "Running command: " + command );
-            Process p = Runtime.getRuntime().exec( command );
-            new StreamReaderThread( p.getErrorStream(), "err>" ).start();
-            new StreamReaderThread( p.getInputStream(), "" ).start();
-            p.waitFor();
+            runStringCommand( command );
         }
+    }
+
+    private void runStringCommand( String command ) throws IOException, InterruptedException {
+        System.out.println( "Running command: " + command );
+        Process p = Runtime.getRuntime().exec( command );
+        new StreamReaderThread( p.getErrorStream(), "err>" ).start();
+        new StreamReaderThread( p.getInputStream(), "" ).start();
+        p.waitFor();
     }
 
     private void copyTranslationSubDir( File translationDir, String project, String locale ) throws IOException {
