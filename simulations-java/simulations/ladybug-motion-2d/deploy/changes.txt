@@ -1,3 +1,4 @@
+> Updated speeds and vector scales
 # 0.00.46 (30273) Apr 7, 2009
 > update remote control arrows on mode change
 > make sure velocity-acceleration proportion ratios match those in the play area
