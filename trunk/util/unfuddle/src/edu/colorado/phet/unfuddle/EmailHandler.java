@@ -60,7 +60,8 @@ public class EmailHandler implements IMessageHandler {
                 return message;
             }
             else {
-                EmailAccount.sendEmail( fromAddress, to, server, m.getEmailBody(), m.getEmailSubject(), username, password );
+//                EmailAccount.sendEmail( fromAddress, to, server, m.getEmailBody(), m.getEmailSubject(), username, password );
+                EmailAccount.sendEmail( m.getFromAddress(), to, server, m.getEmailBody(), m.getEmailSubject(), username, password );
                 return "sent email subject=" + m.getEmailSubject() + ", to " + Arrays.asList( to );
             }
         }
