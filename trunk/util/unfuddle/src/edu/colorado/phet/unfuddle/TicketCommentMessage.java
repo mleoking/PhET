@@ -66,7 +66,7 @@ public class TicketCommentMessage implements IMessage {
 //        return body + "\n\n" + "-" + person + "\n\n" + "Please navigate to " + new NewTicketMessage( getTicketXML(), unfuddleAccount ).getTicketURL() +
 //               "\nto read other comments and add a comment.\n\n" + new NewTicketMessage( getTicketXML(), unfuddleAccount ).getSuffix();
 
-        String person = getPerson();
+        String person = getPersonName();
         //TODO: this is a hack to use the "new ticket" header; header and footer should be in a base class, used by all ticket types
         final TicketNewMessage message = new TicketNewMessage( getTicketXML(), unfuddleAccount );
         return TicketNewMessage.getHeader( message.getTicketURL() ) +
@@ -76,8 +76,8 @@ public class TicketCommentMessage implements IMessage {
                TicketNewMessage.getFooter();
     }
 
-    private String getPerson() {
-        String person = unfuddleAccount.getPersonForID( comment.getTextContentAsInt( "author-id" ) );
+    private String getPersonName() {
+        String person = unfuddleAccount.getPersonForID( comment.getTextContentAsInt( "author-id" ) ).getName();
         return person;
     }
 
@@ -89,7 +89,7 @@ public class TicketCommentMessage implements IMessage {
     }
 
     public String getFromAddress() {
-        return TicketNewMessage.format( getPerson() );
+        return TicketNewMessage.format( getPersonName() );
     }
 
     public String toString() {

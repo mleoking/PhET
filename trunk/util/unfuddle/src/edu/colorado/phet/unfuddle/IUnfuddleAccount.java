@@ -5,7 +5,8 @@ package edu.colorado.phet.unfuddle;
  * Feb 17, 2008 at 5:07:53 PM
  */
 public interface IUnfuddleAccount {
-    public String getPersonForID( int id );
+    public UnfuddlePerson getPersonForID( int id );
 
     public String getComponentForID( int id );
+
 }
