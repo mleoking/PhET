@@ -60,6 +60,8 @@ interface SimulationInterface {
     public function getTranslations();
 
     public function getVersion();
+
+    public function isReal();
 }
 
 ?>

@@ -26,6 +26,12 @@
         $locale = $_REQUEST["lang"];
     }
 
+    // Allow downloading test sims if requested
+    if (isset($_REQUEST['enable_test_sims']) && 
+        $_REQUEST['enable_test_sims']) {
+        SimFactory::inst()->enableTestSims();
+    }
+
     // Get the simulation data
     $simulation = SimFactory::inst()->getById($sim_id);
 

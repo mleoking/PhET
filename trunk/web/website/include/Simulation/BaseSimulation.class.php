@@ -26,6 +26,7 @@ abstract class BaseSimulation implements SimulationInterface {
     private $design_team;
     private $libraries;
     private $thanks_to;
+    private $is_real;
 
     // Data from the database, used during the refactor
     private $original_db_data;
@@ -50,6 +51,7 @@ abstract class BaseSimulation implements SimulationInterface {
         'design_team' => array('sim_design_team', 'delimited_list'),
         'libraries' => array('sim_libraries', 'delimited_list'),
         'thanks_to' => array('sim_thanks_to', 'delimited_list'),
+        'is_real' => array('sim_is_real', 'int'),
         );
 
     public function __construct($db_data) {
@@ -429,6 +431,10 @@ abstract class BaseSimulation implements SimulationInterface {
         }
 
         return $version;
+    }
+
+    public function isReal() {
+        return $this->is_real;
     }
 }
 

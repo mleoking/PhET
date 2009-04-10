@@ -343,6 +343,12 @@ EOT;
         $os_min_version_win = OS_MIN_VERSION_WIN;
         $os_min_version_osx = OS_MIN_VERSION_OSX;
 
+        // Don't allow submitting if the sim isn't real
+        $submit_disabled_html = '';
+        if (!$this->sim->isReal()) {
+            $submit_disabled_html = 'disabled="disabled"';
+        }
+
         print <<<EOT
         </div>
 
@@ -394,7 +400,7 @@ EOT;
                     <span style="float: left">
                         Check the <a href="{$this->prefix}teacher_ideas/contribution-guidelines.php">PhET design guidelines</a>
                         (<a href="{$this->prefix}teacher_ideas/contribution-guidelines.pdf">PDF</a>)</span>
-                    <input type="submit" name="submit" value="Submit" />
+                        <input type="submit" name="submit" value="Submit" {$submit_disabled_html}/>
                     </td>
                 </tr>
             </table>
