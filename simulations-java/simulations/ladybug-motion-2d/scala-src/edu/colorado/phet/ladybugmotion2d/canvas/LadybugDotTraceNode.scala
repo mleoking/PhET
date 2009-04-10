@@ -12,7 +12,9 @@ import umd.cs.piccolo.PNode
 import java.awt.{BasicStroke, Color}
 import java.lang.Math._
 
-class LadybugDotTraceNode(model: LadybugModel, transform: ModelViewTransform2D, shouldBeVisible: () => Boolean, observable: Observable, maxFade: Double) extends LadybugTraceNode(model, transform, shouldBeVisible, observable) {
+class LadybugDotTraceNode(model: LadybugModel, transform: ModelViewTransform2D,
+                          shouldBeVisible: () => Boolean, observable: Observable, maxFade: Double)
+        extends LadybugTraceNode(model, transform, shouldBeVisible, observable) {
   val node = new PNode
   addChild(node)
 
