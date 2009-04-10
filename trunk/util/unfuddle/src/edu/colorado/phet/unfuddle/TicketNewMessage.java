@@ -64,8 +64,12 @@ public class TicketNewMessage implements IMessage {
         return "new";
     }
 
+    public static String getEmailSubjectPrefix(){
+        return "uf:";
+    }
+    
     public static String toEmailSubject( String component, int ticketNumber, String summary, String type ) {
-        return component + " #" + ticketNumber + ": " + summary;
+        return getEmailSubjectPrefix()+" "+component + " #" + ticketNumber + ": " + summary;
     }
 
     public String getEmailBody() {
