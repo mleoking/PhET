@@ -50,36 +50,12 @@ public class UnfuddleAccount extends XMLObject implements IUnfuddleAccount {
         return null;
     }
 
-    static class UnfuddlePerson extends XMLObject {
-
-        public UnfuddlePerson( Node node ) {
-            super( node );
-        }
-
-        public int getID() {
-            return Integer.parseInt( getTextContent( "id" ) );
-        }
-
-        public String getName() {
-            return getTextContent( "first-name" ) + " " + getTextContent( "last-name" );
-        }
-
-
-        public String getUsername() {
-            return getTextContent( "username" );
-        }
-
-        public String getEmail() {
-            return getTextContent( "email" );
-        }
-    }
-
-    public String getPersonForID( int id ) {
+    public UnfuddlePerson getPersonForID( int id ) {
         int numPeople = numPeople();
         for ( int i = 0; i < numPeople; i++ ) {
             UnfuddlePerson p = new UnfuddlePerson( getListElement( "people", "person", i ) );
             if ( p.getID() == id ) {
-                return p.getName();
+                return p;
             }
         }
         return null;
@@ -197,7 +173,7 @@ public class UnfuddleAccount extends XMLObject implements IUnfuddleAccount {
         }
 
         public String toString() {
-            return mapping.getPersonForID( getAuthorID() ) + " said on " + getCreatedAt() + ": " + getTextContent( "body" );
+            return mapping.getPersonForID( getAuthorID() ).getName() + " said on " + getCreatedAt() + ": " + getTextContent( "body" );
         }
 
         public String getCreatedAt() {

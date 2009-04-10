@@ -39,7 +39,7 @@ public class TicketNewMessage implements IMessage {
         return ticket.getTextContent( "description" );
     }
 
-    protected String getReporter() {
+    protected UnfuddlePerson getReporter() {
         return unfuddleAccount.getPersonForID( Integer.parseInt( ticket.getTextContent( "reporter-id" ) ) );
     }
 
@@ -57,7 +57,7 @@ public class TicketNewMessage implements IMessage {
     }
 
     public String getFromAddress() {
-        return format(getReporter());
+        return format(getReporter().getName() );
     }
 
     public static String format( String reporter ) {
@@ -103,8 +103,8 @@ public class TicketNewMessage implements IMessage {
 
     protected String getMainEmailBodySection() {
         return "Ticket Number: " + getTicketNumber() + "\n" +
-               "Created by: " + getReporter() + "\n" +
-               "Assigned to : " + getAssignee() + "\n" +
+               "Created by: " + getReporter().getName() + "\n" +
+               "Assigned to : " + getAssigneeName() + "\n" +
                "Summary: " + getSummary() + "\n" +
                "Description:\n" +
                getDescription();
@@ -133,13 +133,13 @@ public class TicketNewMessage implements IMessage {
         return UnfuddleNotifierConstants.PHET_PROJECT_URL + "/tickets/by_number/" + getTicketNumber();
     }
 
-    protected String getAssignee() {
+    protected String getAssigneeName() {
         final String s = ticket.getTextContent( "assignee-id" );
         if ( s == null || s.trim().length() == 0 ) {
             return "<not-assigned>";
         }
         else {
-            return unfuddleAccount.getPersonForID( Integer.parseInt( s ) );
+            return unfuddleAccount.getPersonForID( Integer.parseInt( s ) ).getName();
         }
     }
 
