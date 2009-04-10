@@ -253,6 +253,10 @@ class SimulationHTMLDecorator implements SimulationInterface {
         }
         return $version;
     }
+
+    public function isReal() {
+        return $this->sim->isReal();
+    }
 }
 
 ?>

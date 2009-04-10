@@ -37,11 +37,20 @@
         $locale = $_REQUEST["lang"];
     }
 
+    // Allow downloading test sims if requested
+    if (isset($_REQUEST['enable_test_sims']) && 
+        $_REQUEST['enable_test_sims']) {
+        SimFactory::inst()->enableTestSims();
+    }
+
     // Get the simulation data
     $simulation = SimFactory::inst()->getById($sim_id);
 
     // Get the filename and content
     $filename = $simulation->getDownloadFilename($locale);
+    if (!file_exists($filename)) {
+        $filename = $simulation->getDownloadFilename(Locale::DEFAULT_LOCALE);
+    }
 
     if (file_exists($filename)) {
         $contents = file_get_contents($filename);

@@ -123,6 +123,7 @@
 
         // Get the database info for the requested sim
         try {
+            SimFactory::inst()->enableTestSims();
             $simulation = 
                 SimFactory::inst()->getByProjectAndSimName($project, $sim, FALSE);
         }

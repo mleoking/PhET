@@ -12,6 +12,8 @@ class SimFactory {
     // TODO: make these private
     const JAVA_TYPE = 0;
     const FLASH_TYPE = 1;
+    const TEST_JAVA_TYPE = 2;
+    const TEST_FLASH_TYPE = 3;
 
     private $webEncodedMap;
     private $projectSimNameMap;
@@ -51,7 +53,7 @@ class SimFactory {
             'sim_rating' => '0',
             'sim_no_mac' => '0',
             'sim_crutch' => '0',
-            'sim_type' => '0',
+            'sim_type' => '2',
             'sim_size' => 'ignored',
             'sim_launch_url' => 'ignored',
             'sim_image_url' => 'ignored',
@@ -76,7 +78,7 @@ class SimFactory {
             'sim_rating' => '0',
             'sim_no_mac' => '0',
             'sim_crutch' => '0',
-            'sim_type' => '0',
+            'sim_type' => '2',
             'sim_size' => 'ignored',
             'sim_launch_url' => 'ignored',
             'sim_image_url' => 'ignored',
@@ -101,7 +103,7 @@ class SimFactory {
             'sim_rating' => '0',
             'sim_no_mac' => '0',
             'sim_crutch' => '0',
-            'sim_type' => '1',
+            'sim_type' => '3',
             'sim_size' => 'ignored',
             'sim_launch_url' => 'ignored',
             'sim_image_url' => 'ignored',
@@ -271,6 +273,16 @@ class SimFactory {
         }
         else if ($db_data['sim_type'] == self::FLASH_TYPE) {
             $sim = $this->getFlashSimulation($db_data, $pre_iom);
+        }
+        else if ($db_data['sim_type'] == self::TEST_JAVA_TYPE) {
+            // Test simulations are NOT pre-IOM at this point, so just
+            // instantiate it directly
+            $sim = new TestJavaSimulation($db_data);
+        }
+        else if ($db_data['sim_type'] == self::TEST_FLASH_TYPE) {
+            // Test simulations are NOT pre-IOM at this point, so just
+            // instantiate it directly
+            $sim = new TestFlashSimulation($db_data);
         }
         else {
             throw new PhetSimException("Bad simulation type received from database");

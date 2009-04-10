@@ -34,6 +34,7 @@ class RedirectSimulationPage extends SitePage {
 
         // Get the sim
         try {
+            SimFactory::inst()->enableTestSims();
             $this->sim = 
                 SimFactory::inst()->getByProjectAndSimName(
                     $_REQUEST['project'],
