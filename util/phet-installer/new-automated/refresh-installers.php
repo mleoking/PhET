@@ -44,6 +44,7 @@
         if ( is_java_sim( $full_path_to_sim ) ) {
             flushing_echo( "This is a Java sim" );
             remove_sim_files( $full_path_to_sim );
+            rip_java_sim( $sim_name );
         }
         else if ( is_flash_sim( $full_path_to_sim ) ) {
             flushing_echo( "This is a Flash sim" );
@@ -107,8 +108,11 @@
     //-------------------------------------------------------------------------
     // Function for ripping a single Java sim from the web site.
     //-------------------------------------------------------------------------
-    function rip_java_sim($sim) {
-        flushing_echo("Stubbed, should be ripping java sim: ".$sim);
+    function rip_java_sim( $sim_name ) {
+        //./HTTrack/Linux/httrack "http://phet.colorado.edu/sims/balloons/" -O ./rip_test '-*' '+*.jnlp' '+*screenshot*' -q
+        //$java_rip_command = RIPPER_EXE." ".'"'.PHET_WEBSITE_URL.PHET_SIMS_SUBDIR.$sim_name'" -O "'.RIPPED_WEBSITE_ROOT;
+        $java_rip_command = RIPPER_EXE;
+        flushing_echo("STUBBED - Would rip Java sim with command:".$java_rip_command);
     }
 
     //-------------------------------------------------------------------------
@@ -128,7 +132,7 @@
         $args = $_SERVER['argv'];
 
         if (count($args) != 2){
-            flushing_echo("Usage: $arg[0] <sim-name>");
+            flushing_echo("Usage: $args[0] <sim-name>");
             return;
         }
           
