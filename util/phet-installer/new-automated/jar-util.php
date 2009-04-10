@@ -71,5 +71,6 @@
     // Entry point when run directly.  This intended primarily for testing
     // of the functions within this file.
     //------------------------------------------------------------------------
-    test_harness();
+
+    //test_harness();
 ?>
