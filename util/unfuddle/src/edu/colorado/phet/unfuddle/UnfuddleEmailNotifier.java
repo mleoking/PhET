@@ -201,9 +201,9 @@ public class UnfuddleEmailNotifier {
                 XMLObject ticket = record.getNode( "ticket" );
                 if ( ticket != null ) {
                     try {
-                        String resolvedBy = unfuddleAccount.getPersonForID( auditTrail.getTextContentAsInt( "person-id" ) ).getName();
+                        UnfuddlePerson resolvedPerson = unfuddleAccount.getPersonForID( auditTrail.getTextContentAsInt( "person-id" ) );
                         int recordID = auditTrail.getTextContentAsInt( "record-id" );
-                        String result = mh.handleMessage( new TicketResolvedMessage( ticket, unfuddleAccount, resolvedBy, recordID ) );
+                        String result = mh.handleMessage( new TicketResolvedMessage( ticket, unfuddleAccount, resolvedPerson, recordID ) );
                         results.add( result );
                     }
                     catch( MessagingException e1 ) {

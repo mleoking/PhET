@@ -6,12 +6,12 @@ package edu.colorado.phet.unfuddle;
  */
 //TODO: bad inheritance here, presumably for convenience. Move shared stuff into a base class.
 public class TicketResolvedMessage extends TicketNewMessage {
-    private String resolvedBy;
     private int recordID;
+    private UnfuddlePerson resolvedPerson;
 
-    public TicketResolvedMessage( XMLObject ticket, IUnfuddleAccount unfuddleAccount, String resolvedBy, int recordID ) {
+    public TicketResolvedMessage( XMLObject ticket, IUnfuddleAccount unfuddleAccount, UnfuddlePerson resolvedPerson, int recordID ) {
         super( ticket, unfuddleAccount );
-        this.resolvedBy = resolvedBy;
+        this.resolvedPerson = resolvedPerson;
         this.recordID = recordID;
     }
 
@@ -22,10 +22,8 @@ public class TicketResolvedMessage extends TicketNewMessage {
     protected String getMainEmailBodySection() {
         return "Ticket Number: " + getTicketNumber() + "\n" +
                "Resolved by: " + getResolvedBy() + "\n" +
-//               "Assigned to : " + getAssignee() + "\n" +
-//               "Summary: " + getSummary() + "\n" +
-"Resolution Description:\n" +
-getResolutionDescription();
+               "Resolution Description:\n" +
+               getResolutionDescription();
     }
 
     public String getHashID() {
@@ -35,7 +33,11 @@ getResolutionDescription();
     }
 
     private String getResolvedBy() {
-        return resolvedBy;
+        return resolvedPerson.getName();
+    }
+
+    public String getFromAddress() {
+        return resolvedPerson.getEmail();
     }
 
     private String getResolutionDescription() {

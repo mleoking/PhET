@@ -57,26 +57,7 @@ public class TicketNewMessage implements IMessage {
     }
 
     public String getFromAddress() {
-        return format(getReporter().getName() );
-    }
-
-    public static String format( String reporter ) {
-        return "uf-"+stripWhitespace(reporter)+"@uf.edu";
-    }
-
-    public static String stripWhitespace( String reporter ) {
-        String s="";
-        for (int i=0;i<reporter.length();i++){
-            if (reporter.charAt( i )!=' '){
-                s+=reporter.charAt( i );
-            }
-        }
-        return s;
-    }
-
-    public static void main( String[] args ) {
-        String st=stripWhitespace( "Sam Reid" );
-        System.out.println( "st = " + st );
+        return getReporter().getEmail();
     }
 
     protected String getMessageType() {
@@ -91,14 +72,6 @@ public class TicketNewMessage implements IMessage {
         return getHeader( getTicketURL() ) +
                getMainEmailBodySection() +
                getFooter();
-
-//        return "Ticket Created by: " + getReporter() + "\n" +
-//               "Ticket Assigned to : " + getAssignee() + "\n" +
-//               "Ticket Number: " + getTicketNumber() + "\n" +
-//               "Ticket URL: " + getTicketURL() + "\n" +
-//               "Ticket Description:\n" +
-//               "" + getDescription() + "\n\n" +
-//               getSuffix();
     }
 
     protected String getMainEmailBodySection() {
