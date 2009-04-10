@@ -23,7 +23,7 @@ abstract class LadybugTraceNode(model: LadybugModel, transform: ModelViewTransfo
 
   def doUpdate() = {
     if (shouldBeVisible()) {
-      update
+      update()
     }
   }
 
