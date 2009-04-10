@@ -101,8 +101,9 @@
     //-------------------------------------------------------------------------
     function remove_sim_files( $sim_directory ) {
         $remove_command = "rm -f ".$sim_directory.'/*';
-        flushing_echo("STUBBED - Remove command = ".$remove_command);
-        // system( $remove_command );
+        // flushing_echo("STUBBED - Remove command = ".$remove_command);
+        flushing_echo("Removing all files from directory: ".$sim_directory);
+        system( $remove_command );
     }
 
     //-------------------------------------------------------------------------
@@ -111,7 +112,7 @@
     function rip_java_sim( $sim_name ) {
         //./HTTrack/Linux/httrack "http://phet.colorado.edu/sims/balloons/" -O ./rip_test '-*' '+*.jnlp' '+*screenshot*' -q
         //$java_rip_command = RIPPER_EXE." ".'"'.PHET_WEBSITE_URL.PHET_SIMS_SUBDIR.$sim_name'" -O "'.RIPPED_WEBSITE_ROOT;
-        $java_rip_command = RIPPER_EXE;
+        $java_rip_command = RIPPER_EXE." ".'"'.PHET_WEBSITE_URL.PHET_SIMS_SUBDIR.$sim_name.'"'." -O ".RIPPED_WEBSITE_ROOT.' \'-*\''.' \'+*.jnlp\''.' \'+*screenshot*\''." -q";
         flushing_echo("STUBBED - Would rip Java sim with command:".$java_rip_command);
     }
 
