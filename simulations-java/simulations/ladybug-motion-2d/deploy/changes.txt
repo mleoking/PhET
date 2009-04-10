@@ -1,3 +1,4 @@
+# 0.00.47 (30345) Apr 10, 2009
 > added caching for performance improvements in dot path graphics
 > Updated speeds and vector scales
 # 0.00.46 (30273) Apr 7, 2009
