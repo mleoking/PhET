@@ -9,12 +9,14 @@ import common.phetcommon.view.util.{DoubleGeneralPath, PhetFont}
 import common.phetcommon.view.{ControlPanel, VerticalLayoutPanel}
 import common.piccolophet.nodes.{PhetPPath, ArrowNode, SphericalNode, RulerNode}
 import java.awt._
+import event.{ActionEvent, ActionListener}
 import java.awt.geom.{Point2D, Rectangle2D}
 import common.piccolophet.event.CursorHandler
 import common.piccolophet.PhetPCanvas
 import java.text.DecimalFormat
 import javax.swing.event.{ChangeListener, ChangeEvent}
 
+import javax.swing.JButton
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
 import scalacommon.{CenteredBoxStrategy, ScalaApplicationLauncher, ScalaClock}
@@ -115,7 +117,7 @@ class CavendishExperimentCanvas(model: CavendishExperimentModel) extends Default
 
   val rulerNode = newRulerNode()
   rulerNode.setOffset(150, 500)
-  
+
   addNode(new MassNode(model.m1, transform))
   addNode(new SpringNode(model, transform))
   addNode(new DraggableMassNode(model.m2, transform))
@@ -132,7 +134,7 @@ class CavendishExperimentCanvas(model: CavendishExperimentModel) extends Default
 
 }
 
-class MyDoubleGeneralPath(pt:Point2D) extends DoubleGeneralPath(pt){
+class MyDoubleGeneralPath(pt: Point2D) extends DoubleGeneralPath(pt) {
   def curveTo(control1: Vector2D, control2: Vector2D, dest: Vector2D) = super.curveTo(control1.x, control1.y, control2.x, control2.y, dest.x, dest.y)
 }
 
@@ -151,7 +153,7 @@ class SpringNode(model: CavendishExperimentModel, transform: ModelViewTransform2
       p.curveTo(p.getCurrentPoint + new Vector2D(0, -springCurveHeight), p.getCurrentPoint + new Vector2D(distance / 6, -springCurveHeight), p.getCurrentPoint + new Vector2D(distance / 6, 0))
       p.curveTo(p.getCurrentPoint + new Vector2D(0, springCurveHeight), p.getCurrentPoint + new Vector2D(-distance / 12, springCurveHeight), p.getCurrentPoint + new Vector2D(-distance / 12, 0))
     }
-    p.lineTo(endPt-new Vector2D(transform.modelToViewDifferentialXDouble(model.m1.radius),0))
+    p.lineTo(endPt - new Vector2D(transform.modelToViewDifferentialXDouble(model.m1.radius), 0))
 
     path.setPathTo(p.getGeneralPath)
   }
@@ -167,6 +169,16 @@ class WallNode(wall: Wall, transform: ModelViewTransform2D) extends PNode {
 class CavendishExperimentControlPanel(model: CavendishExperimentModel) extends ControlPanel {
   add(new ScalaValueControl(0.01, 100, "m1", "0.00", "kg", model.m1.mass, model.m1.mass = _, model.m1.addListener))
   add(new ScalaValueControl(0.01, 100, "m2", "0.00", "kg", model.m2.mass, model.m2.mass = _, model.m2.addListener))
+//  val button = new JButton("Sun-Earth System")
+//  button.addActionListener(new ActionListener {
+//    def actionPerformed(e: ActionEvent) = {
+//      model.m1.mass=5.9742E24//earth
+//      model.m2.mass=1.9891E30//sun
+//      model.spring.k=1E30
+//      println("actionperformed")
+//    }
+//  })
+//  add(button)
 }
 class Mass(private var _mass: Double, private var _position: Vector2D, val name: String) extends Observable {
   def mass = _mass
@@ -180,7 +192,7 @@ class Mass(private var _mass: Double, private var _position: Vector2D, val name:
   def radius = mass / 30
 }
 class Spring {
-  val k = 1E-8
+  var k = 1E-8
   val restingLength = 1
 }
 class CavendishExperimentModel extends Observable {
