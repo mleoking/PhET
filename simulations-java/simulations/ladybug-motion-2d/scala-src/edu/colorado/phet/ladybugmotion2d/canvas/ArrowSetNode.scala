@@ -32,7 +32,7 @@ class ArrowSetNode(ladybug: Ladybug, transform: ModelViewTransform2D, vectorVisi
     def setTipAndTailLocations(a: Vector2D, b: Vector2D) = {
       arrowNode.setTipAndTailLocations(a, b)
       labelNode.setOffset(a)
-      labelNode.setVisible(labelNode.getFullBounds.width < (a - b).magnitude*5)
+      labelNode.setVisible(labelNode.getFullBounds.width < (a - b).magnitude * 5)
     }
   }
 
@@ -50,7 +50,7 @@ class ArrowSetNode(ladybug: Ladybug, transform: ModelViewTransform2D, vectorVisi
   def update() {
     val viewPosition = transform modelToView ladybug.getPosition
     val viewVelocity = transform modelToViewDifferentialDouble ladybug.getVelocity
-    val vectorScale = 0.33*2
+    val vectorScale = 0.33 * 2
     val velTip = viewPosition + viewVelocity * vectorScale
     velocityNode.setTipAndTailLocations(velTip, viewPosition)
 

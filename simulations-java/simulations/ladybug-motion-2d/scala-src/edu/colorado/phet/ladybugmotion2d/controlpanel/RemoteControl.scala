@@ -46,14 +46,14 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
       model.setPenDown(d)
     }
   }
-  val vectorScale=14
+  val vectorScale = 14
   val velocityMode = new RemoteMode(LadybugColorSet.velocity, vectorScale, _.getVelocity) {
     def setLadybugState(pt: Point2D) = {
       model.ladybug.setVelocity(pt)
       model.setUpdateModeVelocity
     }
   }
-  val accelerationMode = new RemoteMode(LadybugColorSet.acceleration, vectorScale/ LadybugDefaults.ACCEL_VECTOR_SCALE, _.getAcceleration) {
+  val accelerationMode = new RemoteMode(LadybugColorSet.acceleration, vectorScale / LadybugDefaults.ACCEL_VECTOR_SCALE, _.getAcceleration) {
     def setLadybugState(pt: Point2D) = {
       model.ladybug.setAcceleration(pt)
       model.setUpdateModeAcceleration

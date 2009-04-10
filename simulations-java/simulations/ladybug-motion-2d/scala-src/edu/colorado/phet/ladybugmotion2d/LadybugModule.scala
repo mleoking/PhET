@@ -12,7 +12,7 @@ import scalacommon.record.{PlaybackSpeedSlider, RecordModelControlPanel}
 import scalacommon.ScalaClock
 import umd.cs.piccolo.PNode
 
-class LadybugModule[ModelType <: LadybugModel](name:String,clock: ScalaClock,
+class LadybugModule[ModelType <: LadybugModel](name: String, clock: ScalaClock,
                                                _model: ModelType,
                                                newCanvas: LadybugModule[ModelType] => LadybugCanvas,
                                                newControlPanel: LadybugModule[ModelType] => LadybugControlPanel[ModelType],
@@ -20,7 +20,7 @@ class LadybugModule[ModelType <: LadybugModel](name:String,clock: ScalaClock,
         extends Module(name, clock) {
 
   //Auxiliary constructor, used for making a plain vanilla LadybugModule, rather than subclasses
-  def this(clock: ScalaClock) = this ("ladybug-module",clock,
+  def this(clock: ScalaClock) = this ("ladybug-module", clock,
     (new LadybugModel).asInstanceOf[ModelType], //todo: why does compiler require cast here?
     (m: LadybugModule[ModelType]) => new LadybugCanvas(m.model, m.vectorVisibilityModel, m.pathVisibilityModel, 20, 20),
     (m: LadybugModule[ModelType]) => new LadybugControlPanel[ModelType](m),
