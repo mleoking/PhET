@@ -32,7 +32,7 @@ public class DualAtomModel {
 
     private static final AtomType DEFAULT_ATOM_TYPE = AtomType.NEON;
     private static final int CALCULATIONS_PER_TICK = 8;
-    private static final double BONDED_VELOCITY = 20;  // Velocity assigned to atom after bond forms. 
+    private static final double MAX_BONDED_VELOCITY = 153;  // Velocity assigned to atom after bond forms. 
     private static final double THRESHOLD_VELOCITY = 100;  // Used to distinguish small oscillations from real movement. 
     private static final int VIBRATION_DURATION = 1200;  // In milliseconds. 
     private static final int VIBRATION_COUNTER_RESET_VALUE = VIBRATION_DURATION / InteractionPotentialDefaults.CLOCK_FRAME_DELAY;
@@ -422,20 +422,24 @@ public class DualAtomModel {
         		if ( m_attractiveForce > m_repulsiveForce ){
         			// A bond is forming and the force just exceeded the
         			// repulsive force, meaning that the atom is starting
-        			// to pass the bottom of the well.  Reduce its velocity
-        			// so that it remains stuck in the bottom of the well.
-        			m_movableAtom.setVx( BONDED_VELOCITY );
+        			// to pass the bottom of the well.  Put it at the bottom
+        			// of the well with a predetermined velocity so that it
+        			// will stay in the well, and thus appear bonded to the
+        			// other atom.
+        			m_movableAtom.setAx( 0 );
+        			m_movableAtom.setVx( 0 );
+        			m_movableAtom.setPosition(m_ljPotentialCalculator.calculateMinimumForceDistance() + m_movableAtom.getRadius() * 0.1, 0);
         			m_bondingState = BONDING_STATE_BONDED;
         			stepFixedAtomVibration();
         		}
         		break;
         		
         	case BONDING_STATE_BONDED:
-        		if ( Math.abs( m_movableAtom.getVx() ) > BONDED_VELOCITY ){
-        			// The atom must have gotten accelerated by the potential.
-        			// Slow it back down.
-        			m_movableAtom.setVx( m_movableAtom.getVx() > 0 ? BONDED_VELOCITY : -BONDED_VELOCITY );
-        		}
+//        		if ( Math.abs( m_movableAtom.getVx() ) > MAX_BONDED_VELOCITY ){
+//        			// The atom must have gotten accelerated by the potential.
+//        			// Slow it back down.
+//        			m_movableAtom.setVx( m_movableAtom.getVx() > 0 ? MAX_BONDED_VELOCITY : -MAX_BONDED_VELOCITY );
+//        		}
         		if (isFixedAtomVibrating()){
         			stepFixedAtomVibration();
         		}
