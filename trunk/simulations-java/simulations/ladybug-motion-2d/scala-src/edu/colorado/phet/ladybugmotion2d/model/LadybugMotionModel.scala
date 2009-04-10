@@ -20,7 +20,7 @@ object LadybugMotionModel {
     }
   }
   val LINEAR = new MotionType("linear") {
-    val speed = 0.3 * 30 * 0.7*0.5
+    val speed = 0.3 * 30 * 0.7 * 0.5
 
     override def init(model: LadybugModel) = {
       model.ladybug.setVelocity(new Vector2D(model.ladybug.getAngle) * speed)
@@ -96,7 +96,7 @@ object LadybugMotionModel {
         val angle = model.ladybug.getPosition.getAngle
         val r = model.ladybug.getPosition.magnitude
 
-        val delta0 = PI / 64 * 1.3 * dt * 30.0 * 0.7*2*0.85*0.5 //desired approximate deltaTheta
+        val delta0 = PI / 64 * 1.3 * dt * 30.0 * 0.7 * 2 * 0.85 * 0.5 //desired approximate deltaTheta
         val n = (PI * 2 / delta0).toInt //n deltaTheta=2 PI
         val newAngle = angle + 2 * PI / n
         model.ladybug.setPosition(new Vector2D(newAngle) * r)
@@ -126,12 +126,12 @@ object LadybugMotionModel {
       val pos = model.ladybug.getPosition
       val ladybugC = pos.x * pos.x / a * a + pos.y * pos.y / b * b
 
-      val n = 79 * dt / 0.015 * 0.7*2
+      val n = 79 * dt / 0.015 * 0.7 * 2
       t = t + 2 * PI / n.toInt
-      
+
       def getPosition(t: Double) = new Vector2D(a * cos(t), b * sin(t))
-      def getVelocity(t:Double) = new Vector2D(- a*sin(t),b*cos(t))
-      def getAcceleration(t:Double) = new Vector2D(- a*cos(t),- b*sin(t))
+      def getVelocity(t: Double) = new Vector2D(-a * sin(t), b * cos(t))
+      def getAcceleration(t: Double) = new Vector2D(-a * cos(t), -b * sin(t))
       model.ladybug.setPosition(getPosition(t))
 
       model.ladybug.setVelocity(getVelocity(t))
