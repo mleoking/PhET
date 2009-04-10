@@ -138,7 +138,9 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 	
 	// returns whether the sim was run from the phet website
 	public function fromPhetWebsite() : Boolean {
-		var actually : Boolean = (new LocalConnection()).domain() == "phet.colorado.edu";
+		var domain : String = (new LocalConnection()).domain();
+		var actually : Boolean = (domain == "phet.colorado.edu" || domain == "phet.colorado.edu.");
+		
 		return actually || fromDevWebsite();
 		//return (new LocalConnection()).domain() == "phet.colorado.edu";
 	}
