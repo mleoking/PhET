@@ -1,3 +1,5 @@
+# 1.02.04 (30356) Apr 10, 2009
+4/10/09 > Added support for heterogeneous molecules and oxygen bonding.
 # 1.02.03 (30169) Apr 1, 2009
 4/1/09 Added the ability to select heterogeneous atoms in the interaction potential sim
 # 1.02.02 (29629) Mar 22, 2009
