@@ -1,5 +1,0 @@
-Recommendations from AAPT Summer 2007:
-
-i.	Allows putting in a negative drag coefficient (this should not be allowed)
-ii.	Canon can currently go below ground and be pulled off of canon support
-iii.	Controls that depend on air resistance being on, should be greyed out and unchangeable if air resistance is not checked (this was confusing teachers).  Possibly consider making Air resistance check box more as a header for the variables that are affected by having air resistance on, instead of below these variables? 
