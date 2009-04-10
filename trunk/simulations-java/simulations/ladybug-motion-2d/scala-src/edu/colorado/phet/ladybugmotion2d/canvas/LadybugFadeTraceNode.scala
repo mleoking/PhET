@@ -15,7 +15,6 @@ import umd.cs.piccolo.PNode
 
 //This class is computationally demanding and therefore contains several optimizations
 class LadybugFadeTraceNode(model: LadybugModel, transform: ModelViewTransform2D, shouldBeVisible: () => Boolean, observable: Observable, maxFade: Double) extends LadybugTraceNode(model, transform, shouldBeVisible, observable) {
-  update()
   val stroke = new BasicStroke(6, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f)
 
   val segmentCache = scala.collection.mutable.Map.empty[Key, PhetPPath]
@@ -33,6 +32,7 @@ class LadybugFadeTraceNode(model: LadybugModel, transform: ModelViewTransform2D,
       }
     }
   }
+  update()
 
   def update() = {
     if (segmentCache != null) {

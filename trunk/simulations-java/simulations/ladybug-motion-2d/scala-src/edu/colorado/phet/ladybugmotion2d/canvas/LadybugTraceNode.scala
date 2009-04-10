@@ -9,7 +9,8 @@ import model.LadybugModel
 import scalacommon.util.Observable
 import umd.cs.piccolo.PNode
 
-abstract class LadybugTraceNode(model: LadybugModel, transform: ModelViewTransform2D, shouldBeVisible: () => Boolean, observable: Observable) extends PNode {
+abstract class LadybugTraceNode(model: LadybugModel, transform: ModelViewTransform2D, 
+                                shouldBeVisible: () => Boolean, observable: Observable) extends PNode {
   var clearPt = 0
   setPickable(false)
   setChildrenPickable(false)
