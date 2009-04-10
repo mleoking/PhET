@@ -1,2 +1,3 @@
+> Show spring graphic in front of mass graphic
 # 0.00.01 (30287) Apr 8, 2009
 4/8/09 Initial version of Cavendish experiment

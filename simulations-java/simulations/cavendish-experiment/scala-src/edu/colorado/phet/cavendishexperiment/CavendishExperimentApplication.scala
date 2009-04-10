@@ -115,8 +115,9 @@ class CavendishExperimentCanvas(model: CavendishExperimentModel) extends Default
 
   val rulerNode = newRulerNode()
   rulerNode.setOffset(150, 500)
-  addNode(new SpringNode(model, transform))
+  
   addNode(new MassNode(model.m1, transform))
+  addNode(new SpringNode(model, transform))
   addNode(new DraggableMassNode(model.m2, transform))
   addNode(new ForceLabelNode(model.m1, transform, model))
   addNode(rulerNode)
@@ -150,7 +151,7 @@ class SpringNode(model: CavendishExperimentModel, transform: ModelViewTransform2
       p.curveTo(p.getCurrentPoint + new Vector2D(0, -springCurveHeight), p.getCurrentPoint + new Vector2D(distance / 6, -springCurveHeight), p.getCurrentPoint + new Vector2D(distance / 6, 0))
       p.curveTo(p.getCurrentPoint + new Vector2D(0, springCurveHeight), p.getCurrentPoint + new Vector2D(-distance / 12, springCurveHeight), p.getCurrentPoint + new Vector2D(-distance / 12, 0))
     }
-    p.lineTo(endPt)
+    p.lineTo(endPt-new Vector2D(transform.modelToViewDifferentialXDouble(model.m1.radius),0))
 
     path.setPathTo(p.getGeneralPath)
   }
