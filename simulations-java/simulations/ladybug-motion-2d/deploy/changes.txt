@@ -1,3 +1,4 @@
+> added caching for performance improvements in dot path graphics
 > Updated speeds and vector scales
 # 0.00.46 (30273) Apr 7, 2009
 > update remote control arrows on mode change
