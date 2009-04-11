@@ -32,7 +32,7 @@ public class NaturalSelectionConstants {
     // Application
     //----------------------------------------------------------------------------
     
-    public static final String PROJECT_NAME = "sim-template";
+    public static final String PROJECT_NAME = "natural-selection";
 
     //----------------------------------------------------------------------------
     // Fonts
