@@ -5,7 +5,7 @@ package edu.colorado.phet.naturalselection.module.example;
 import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-import edu.colorado.phet.naturalselection.SimTemplateResources;
+import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.control.ExampleSubPanel;
 
 /**
@@ -35,7 +35,7 @@ public class ExampleControlPanel extends ControlPanel {
         super();
         
         // Set the control panel's minimum width.
-        int minimumWidth = SimTemplateResources.getInt( "int.minControlPanelWidth", 215 );
+        int minimumWidth = NaturalSelectionResources.getInt( "int.minControlPanelWidth", 215 );
         setMinimumWidth( minimumWidth );
         
         // Create sub-panels

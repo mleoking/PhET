@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SimTemplateConfig implements IProguardKeepClass {
+public class NaturalSelectionConfig implements IProguardKeepClass {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -33,7 +33,7 @@ public class SimTemplateConfig implements IProguardKeepClass {
     /**
      * Zero-argument constructor for Java Bean compliance, required by XMLEncoder.
      */
-    public SimTemplateConfig() {
+    public NaturalSelectionConfig() {
         _exampleConfig = new ExampleConfig();
     }
 

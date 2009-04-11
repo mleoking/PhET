@@ -1,10 +1,10 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.simtemplate.menu;
+package edu.colorado.phet.naturalselection.menu;
 
 import javax.swing.JMenu;
 
-import edu.colorado.phet.simtemplate.SimTemplateResources;
+import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 
 /**
  * OptionsMenu is the "Options" menu that appears in the menu bar.
@@ -14,7 +14,7 @@ import edu.colorado.phet.simtemplate.SimTemplateResources;
 public class OptionsMenu extends JMenu {
     
     public OptionsMenu() {
-        super( SimTemplateResources.getString( "menu.options" ) );
-        setMnemonic( SimTemplateResources.getChar( "menu.options.mnemonic", 'O' ) );
+        super( NaturalSelectionResources.getString( "menu.options" ) );
+        setMnemonic( NaturalSelectionResources.getChar( "menu.options.mnemonic", 'O' ) );
     }
 }

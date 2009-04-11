@@ -4,7 +4,7 @@ package edu.colorado.phet.naturalselection.module.example;
 
 import edu.colorado.phet.naturalselection.defaults.ExampleDefaults;
 import edu.colorado.phet.naturalselection.model.ExampleModelElement;
-import edu.colorado.phet.naturalselection.model.SimTemplateClock;
+import edu.colorado.phet.naturalselection.model.NaturalSelectionClock;
 
 /**
  * ExampleModel is the model for ExampleModule.
@@ -17,14 +17,14 @@ public class ExampleModel {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final SimTemplateClock _clock;
+    private final NaturalSelectionClock _clock;
     private final ExampleModelElement _exampleModelElement;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ExampleModel( SimTemplateClock clock ) {
+    public ExampleModel( NaturalSelectionClock clock ) {
         super();
         
         _clock = clock;
@@ -41,7 +41,7 @@ public class ExampleModel {
     // Accessors
     //----------------------------------------------------------------------------
     
-    public SimTemplateClock getClock() {
+    public NaturalSelectionClock getClock() {
         return _clock;
     }
     
