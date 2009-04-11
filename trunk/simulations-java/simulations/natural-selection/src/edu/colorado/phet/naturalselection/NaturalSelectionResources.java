@@ -15,13 +15,13 @@ import edu.umd.cs.piccolo.nodes.PImage;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SimTemplateResources {
+public class NaturalSelectionResources {
     
-    private static final PhetResources RESOURCES = new PhetResources( SimTemplateConstants.PROJECT_NAME );
+    private static final PhetResources RESOURCES = new PhetResources( NaturalSelectionConstants.PROJECT_NAME );
     
     /* not intended for instantiation */
-    private SimTemplateResources() {}
-    
+    private NaturalSelectionResources() {}
+
     public static final PhetResources getResourceLoader() {
         return RESOURCES;
     }

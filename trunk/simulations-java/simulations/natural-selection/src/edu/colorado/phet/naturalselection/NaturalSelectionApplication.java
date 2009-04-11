@@ -23,7 +23,7 @@ import edu.colorado.phet.naturalselection.developer.DeveloperMenu;
 import edu.colorado.phet.naturalselection.menu.OptionsMenu;
 import edu.colorado.phet.naturalselection.module.example.ExampleModule;
 import edu.colorado.phet.naturalselection.persistence.ExampleConfig;
-import edu.colorado.phet.naturalselection.persistence.SimTemplateConfig;
+import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
 
 /**
  * SimTemplateApplication is the main application for this simulation.
@@ -31,7 +31,7 @@ import edu.colorado.phet.naturalselection.persistence.SimTemplateConfig;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * 
  */
-public class SimTemplateApplication extends PiccoloPhetApplication {
+public class NaturalSelectionApplication extends PiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -53,7 +53,7 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
      *
      * @param config the configuration for this application
      */
-    public SimTemplateApplication( PhetApplicationConfig config )
+    public NaturalSelectionApplication( PhetApplicationConfig config )
     {
         super( config );
         initTabbedPane();
@@ -112,16 +112,16 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
 
         // File menu
         {
-            JMenuItem saveItem = new JMenuItem( SimTemplateResources.getString( "menu.file.save" ) );
-            saveItem.setMnemonic( SimTemplateResources.getChar( "menu.file.save.mnemonic", 'S' ) );
+            JMenuItem saveItem = new JMenuItem( NaturalSelectionResources.getString( "menu.file.save" ) );
+            saveItem.setMnemonic( NaturalSelectionResources.getChar( "menu.file.save.mnemonic", 'S' ) );
             saveItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     save();
                 }
             } );
 
-            JMenuItem loadItem = new JMenuItem( SimTemplateResources.getString( "menu.file.load" ) );
-            loadItem.setMnemonic( SimTemplateResources.getChar( "menu.file.load.mnemonic", 'L' ) );
+            JMenuItem loadItem = new JMenuItem( NaturalSelectionResources.getString( "menu.file.load" ) );
+            loadItem.setMnemonic( NaturalSelectionResources.getChar( "menu.file.load.mnemonic", 'L' ) );
             loadItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     load();
@@ -176,7 +176,7 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
      */
     private void save() {
         
-        SimTemplateConfig appConfig = new SimTemplateConfig();
+        NaturalSelectionConfig appConfig = new NaturalSelectionConfig();
         
         appConfig.setVersionString( getSimInfo().getVersion().toString() );
         appConfig.setVersionMajor( getSimInfo().getVersion().getMajor() );
@@ -198,15 +198,15 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
         Object object = _persistenceManager.load();
         if ( object != null ) {
             
-            if ( object instanceof SimTemplateConfig ) {
-                SimTemplateConfig appConfig = (SimTemplateConfig) object;
+            if ( object instanceof NaturalSelectionConfig ) {
+                NaturalSelectionConfig appConfig = (NaturalSelectionConfig) object;
                 
                 ExampleConfig exampleConfig = appConfig.getExampleConfig();
                 _exampleModule.load( exampleConfig );
             }
             else {
-                String message = SimTemplateResources.getString( "message.notAConfigFile" );
-                String title = SimTemplateResources.getString( "title.error" );
+                String message = NaturalSelectionResources.getString( "message.notAConfigFile" );
+                String title = NaturalSelectionResources.getString( "title.error" );
                 JOptionPane.showMessageDialog( getPhetFrame(), message, title, JOptionPane.ERROR_MESSAGE );
             }
         }
@@ -223,12 +223,12 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
          */
         testReflection();
 
-        new PhetApplicationLauncher().launchSim( args, SimTemplateConstants.PROJECT_NAME, SimTemplateApplication.class );
+        new PhetApplicationLauncher().launchSim( args, NaturalSelectionConstants.PROJECT_NAME, NaturalSelectionApplication.class );
     }
 
     private static void testReflection() {
         try{
-        Class c=Class.forName( "edu.colorado.phet.simtemplate.SimTemplateApplication" );
+        Class c=Class.forName( "edu.colorado.phet.naturalselection.NaturalSelectionApplication" );
         System.out.println( "reflection gave: "+c.getMethods().length+" methods" );
         }catch(Throwable t){
             t.printStackTrace(  );

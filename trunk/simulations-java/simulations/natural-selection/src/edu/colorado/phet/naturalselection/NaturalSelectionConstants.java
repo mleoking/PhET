@@ -16,10 +16,10 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SimTemplateConstants {
+public class NaturalSelectionConstants {
 
     /* Not intended for instantiation. */
-    private SimTemplateConstants() {}
+    private NaturalSelectionConstants() {}
     
     //----------------------------------------------------------------------------
     // Debugging
@@ -75,5 +75,5 @@ public class SimTemplateConstants {
     //----------------------------------------------------------------------------
     // Cursors
     //----------------------------------------------------------------------------
-    
+
 }

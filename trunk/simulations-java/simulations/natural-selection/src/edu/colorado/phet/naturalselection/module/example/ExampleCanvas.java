@@ -5,7 +5,7 @@ package edu.colorado.phet.naturalselection.module.example;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.naturalselection.SimTemplateConstants;
+import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.defaults.ExampleDefaults;
 import edu.colorado.phet.naturalselection.view.ExampleNode;
 import edu.umd.cs.piccolo.PNode;
@@ -37,7 +37,7 @@ public class ExampleCanvas extends PhetPCanvas {
         
         _model = model;
         
-        setBackground( SimTemplateConstants.CANVAS_BACKGROUND );
+        setBackground( NaturalSelectionConstants.CANVAS_BACKGROUND );
         
         // Root of our scene graph
         _rootNode = new PNode();
@@ -71,7 +71,7 @@ public class ExampleCanvas extends PhetPCanvas {
             // canvas hasn't been sized, blow off layout
             return;
         }
-        else if ( SimTemplateConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
+        else if ( NaturalSelectionConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
             System.out.println( "ExampleCanvas.updateLayout worldSize=" + worldSize );//XXX
         }
         

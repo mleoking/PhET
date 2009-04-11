@@ -4,14 +4,13 @@ package edu.colorado.phet.naturalselection.module.example;
 
 import java.awt.Frame;
 
-import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
-import edu.colorado.phet.naturalselection.SimTemplateApplication;
-import edu.colorado.phet.naturalselection.SimTemplateStrings;
+import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
+import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.defaults.ExampleDefaults;
 import edu.colorado.phet.naturalselection.model.ExampleModelElement;
-import edu.colorado.phet.naturalselection.model.SimTemplateClock;
+import edu.colorado.phet.naturalselection.model.NaturalSelectionClock;
 import edu.colorado.phet.naturalselection.persistence.ExampleConfig;
 import edu.colorado.phet.naturalselection.view.ExampleNode;
 
@@ -36,10 +35,10 @@ public class ExampleModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public ExampleModule( Frame parentFrame ) {
-        super( SimTemplateStrings.TITLE_EXAMPLE_MODULE, new SimTemplateClock( ExampleDefaults.CLOCK_FRAME_RATE, ExampleDefaults.CLOCK_DT ) );
+        super( NaturalSelectionStrings.TITLE_EXAMPLE_MODULE, new NaturalSelectionClock( ExampleDefaults.CLOCK_FRAME_RATE, ExampleDefaults.CLOCK_DT ) );
 
         // Model
-        SimTemplateClock clock = (SimTemplateClock) getClock();
+        NaturalSelectionClock clock = (NaturalSelectionClock) getClock();
         _model = new ExampleModel( clock );
 
         // Canvas
@@ -54,7 +53,7 @@ public class ExampleModule extends PiccoloModule {
         _clockControlPanel = new PiccoloClockControlPanel( getClock() );
         _clockControlPanel.setRewindButtonVisible( true );
         _clockControlPanel.setTimeDisplayVisible( true );
-        _clockControlPanel.setUnits( SimTemplateStrings.UNITS_TIME );
+        _clockControlPanel.setUnits( NaturalSelectionStrings.UNITS_TIME );
         _clockControlPanel.setTimeColumns( ExampleDefaults.CLOCK_TIME_COLUMNS );
         setClockControlPanel( _clockControlPanel );
 
@@ -80,7 +79,7 @@ public class ExampleModule extends PiccoloModule {
     public void reset() {
 
         // Clock
-        SimTemplateClock clock = _model.getClock();
+        NaturalSelectionClock clock = _model.getClock();
         clock.resetSimulationTime();
         clock.setDt( ExampleDefaults.CLOCK_DT );
         setClockRunningWhenActive( ExampleDefaults.CLOCK_RUNNING );
@@ -109,7 +108,7 @@ public class ExampleModule extends PiccoloModule {
         config.setActive( isActive() );
 
         // Clock
-        SimTemplateClock clock = _model.getClock();
+        NaturalSelectionClock clock = _model.getClock();
         config.setClockDt( clock.getDt() );
         config.setClockRunning( getClockRunningWhenActive() );
 
@@ -128,11 +127,11 @@ public class ExampleModule extends PiccoloModule {
 
         // Module
         if ( config.isActive() ) {
-            SimTemplateApplication.instance().setActiveModule( this );
+            NaturalSelectionApplication.instance().setActiveModule( this );
         }
 
         // Clock
-        SimTemplateClock clock = _model.getClock();
+        NaturalSelectionClock clock = _model.getClock();
         clock.setDt( config.getClockDt() );
         setClockRunningWhenActive( config.isClockRunning() );
 

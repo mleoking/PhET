@@ -14,7 +14,7 @@ import javax.swing.JMenu;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedPanePropertiesDialog;
-import edu.colorado.phet.naturalselection.SimTemplateApplication;
+import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 
 /**
  * DeveloperMenu is the "Developer" menu that appears in the menu bar.
@@ -24,13 +24,13 @@ import edu.colorado.phet.naturalselection.SimTemplateApplication;
  */
 public class DeveloperMenu extends JMenu {
 
-    private SimTemplateApplication _app;
+    private NaturalSelectionApplication _app;
     private JCheckBoxMenuItem _developerControlsItem;
     private JCheckBoxMenuItem _tabPropertiesItem;
     private JDialog _developerControlsDialog;
     private JDialog _tabPropertiesDialog;
 
-    public DeveloperMenu( SimTemplateApplication app ) {
+    public DeveloperMenu( NaturalSelectionApplication app ) {
         super( "Developer" );
 
         _app = app;

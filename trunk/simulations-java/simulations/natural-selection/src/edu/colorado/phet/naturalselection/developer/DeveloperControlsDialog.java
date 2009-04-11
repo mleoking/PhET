@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.naturalselection.SimTemplateApplication;
+import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 
 /**
  * DeveloperControlsDialog is a dialog that contains "developer only" controls.
@@ -31,13 +31,13 @@ public class DeveloperControlsDialog extends JDialog {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private SimTemplateApplication _app;
+    private NaturalSelectionApplication _app;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    public DeveloperControlsDialog( Frame owner, SimTemplateApplication app ) {
+    public DeveloperControlsDialog( Frame owner, NaturalSelectionApplication app ) {
         super( owner, "Developer Controls" );
         setResizable( false );
         setModal( false );
