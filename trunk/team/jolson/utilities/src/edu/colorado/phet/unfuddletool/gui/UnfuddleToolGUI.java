@@ -5,6 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.html.HTMLDocument;
 
 import edu.colorado.phet.unfuddletool.Activity;
 import edu.colorado.phet.unfuddletool.Authentication;
@@ -58,6 +59,16 @@ public class UnfuddleToolGUI extends JFrame {
         displayArea.setText( "To the left are tickets sorted by when they were last modified." );
 
         displayArea.setBorder( new EmptyBorder( new Insets( 0, 10, 10, 10 ) ) );
+
+
+        // add a CSS rule to force body tags to use the default label font
+        // instead of the value in javax.swing.text.html.default.csss
+        Font font = UIManager.getFont("Label.font");
+        String bodyRule = "body { font-family: " + font.getFamily() + "; " +
+                "font-size: " + font.getSize() + "pt; }";
+        ((HTMLDocument) displayArea.getDocument()).getStyleSheet().addRule(bodyRule);
+
+
 
         JScrollPane areaScrollPane = new JScrollPane( displayArea );
 
