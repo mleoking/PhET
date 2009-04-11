@@ -1,0 +1,225 @@
+.home-page {
+background: url(../images/section_BG2.gif) left bottom no-repeat;
+width: 766px;
+margin: 0 0 1em 0;
+padding: 0;
+}
+div.home-page-links {
+clear: both;
+text-align: center;
+position: relative;
+top: -15px;
+}
+div.home-page-links a {
+font-size: larger;
+}
+div.introduction {
+clear: right;
+}
+#newsflashes {
+position: relative;
+top: -1em;
+}
+#newsflashes td {
+vertical-align: top;
+}
+#newsflashes td.warning-notice {
+text-align: left;
+color: red;
+font-weight: bold;
+width: 466px;
+}
+#newsflashes td.links {
+width: 300px;
+text-align: right;
+}
+#container {
+padding: 15px 0 0 0;
+margin: 0 auto;
+width: 766px;
+}
+#home-page-spons {
+width: 766px;
+margin-top: -70px;
+}
+#home-page-spons a {
+text-decoration: none;
+}
+#home-page-spons .spon {
+width: 100px;
+text-align: center;
+float: right;
+}
+#home-page-spons .spon-wide {
+width: 120px;
+text-align: center;
+float: right;
+}
+#home-page-spons .wide {
+width: 190px;
+}
+#home-page-spons .spon a {
+color: rgb(185, 115, 81);
+font-weight: bold;
+}
+#home-page-spons .spon p {
+margin: 0;
+padding: 0;
+font-size: 10px;
+line-height: 1.1em;
+}
+
+h1,
+h1 a {
+color: #dc5e0a;
+font-size: 1.4em;
+margin: 0;
+padding: 0;
+}
+h1 em {
+font-size: 1.05em;
+font-weight: 600;
+font-style: normal;
+}
+h4 {
+color: #727272;
+font-size: 1.1em;
+text-transform: uppercase;
+}
+p.openingParagraph {
+color: #666;
+font-size: 1.2em;
+font-weight: bold;
+line-height: 1.5em;
+margin: 9px 0 0 0;
+padding: 0;
+}
+
+p.openingParagraph a {
+/*	font-size:  smaller;*/
+	color:      rgb(50, 50, 255);
+text-decoration: underline;
+}
+#hotlinks p.findOutMore {
+margin: 0;
+cursor: pointer;
+padding-top: 9px;
+padding-left: 15px;
+background: url(../images/blank-button.gif) left top no-repeat;
+width: 153px;
+height: 38px;
+float: left;
+margin-top: 5px;
+}
+#hotlinks td {
+	padding: 0;
+	margin:  0;
+}
+#hotlinks td.other-languages {
+	vertical-align: middle;
+	text-align:     left;
+}
+#hotlinks p.findOutMore a {
+margin: 0;
+padding: 0;
+font-size: 14px;
+color: white;
+font-weight: bold;
+text-decoration: none;
+font-stretch: narrower;
+}
+.mainImage {
+float: left;
+margin: 0 1em 0 0;
+padding: 0;
+border: 1px solid rgb(200, 200, 200);
+}
+div.practices {
+background: url(../images/practice_BG.gif) left bottom no-repeat;
+width: 766px;
+margin: 2ex 0 15px 0;
+padding: 0;
+}
+div.practices dl dt {
+cursor: pointer;
+height: 41px;
+background-color: rgb(97, 92, 146);
+padding-left: 10px;
+margin-bottom: 1ex;
+}
+div.practices dl dt a {
+	/* Can't use transparent PNG due to IE6 */
+	/* 	background-image: url(../images/white-arrow-right.png);*/
+	background-image: url(../images/white-arrow-right2.png);
+background-repeat: no-repeat;
+background-position: 2px 5px;
+font-size: 14px;
+color: white;
+text-decoration: none;
+font-stretch: narrower;
+position: relative;
+top: 13px;
+padding-left: 9px;
+}
+dl {
+background: url(../images/practiceSeperator.gif) right top no-repeat;
+float: left;
+margin-left: 1px;
+padding: 0;
+width: 190px;
+}
+dl.last {
+background: none;
+width: 190px;
+}
+dl.last dd {
+text-align: right;
+}
+
+dl dd {
+margin: 0;
+padding: 0px 15px;
+}
+
+div.practices dd a.nolink {
+background: none;
+text-decoration: none;
+color: #000;
+padding: 0px 0px 0px 0px;
+line-height: 20px;
+}
+
+div.practices dd a:hover.nolink {
+background: none;
+text-decoration: none;
+color: #000;
+padding: 0px 0px 0px 0px;
+line-height: 20px;
+}
+
+div.practices dd a {
+background: url(../images/circleArrow_Icon.gif) no-repeat 0px 0px;
+text-decoration: none;
+color: #000;
+padding: 0px 0px 0px 17px;
+line-height: 20px;
+}
+
+div.practices dd a:hover {
+background: url(../images/circleArrow_Icon.gif) no-repeat 0px 0px;
+text-decoration: none;
+color: #2345a1;
+padding: 0px 0px 0px 17px;
+line-height: 20px;
+}
+
+dl dd.readMore a {
+float: right;
+margin: 0;
+padding: 0;
+text-decoration: none;
+}
+
+object.last {
+margin: 8px 0px 0px 15px;
+}
