@@ -77,6 +77,7 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/moving-man/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/mri/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/mvc-example/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/natural-selection/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/nuclear-physics/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/optical-quantum-control/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/optical-tweezers/src" isTestSource="false" />
@@ -1169,6 +1170,15 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/simulations-java/simulations/cavendish-experiment/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/simulations-java/simulations/natural-selection/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
