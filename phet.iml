@@ -103,6 +103,7 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/travoltage/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/wave-interference/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/team/cmalley/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/team/jolson/utilities/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/team/reids/admin/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/team/reids/tracking/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/licensing/src" isTestSource="false" />
@@ -112,12 +113,13 @@
       <sourceFolder url="file://$MODULE_DIR$/util/testing/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/translation-strings-diff" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/translation-utility/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/util/unfuddle/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/build-tools/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-flash/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/ant_output" />
     </content>
     <orderEntry type="library" name="scala-2.7.3.final" level="application" />
-    <orderEntry type="jdk" jdkName="1.6" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
       <library>
