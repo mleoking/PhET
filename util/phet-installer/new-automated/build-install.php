@@ -69,13 +69,15 @@
     // Download needed Java resources that can't be obtained by ripping
     // the main web site (because there are no direct links to them).
     //--------------------------------------------------------------------------
-    function builder_download_java_rsrcs() {
+    function builder_download_java_rsrcs( $directory ) {
 
-        flushing_echo("Downloading all Java simulation resources...");
+        flushing_echo("Downloading all Java simulation resources found in $directory...");
 
-        $jnlp_files = jnlp_get_all_in_directory(RIPPED_WEBSITE_TOP);
+        $jnlp_files = jnlp_get_all_in_directory( $directory );
 
         $file_num = 1;
+
+        flushing_echo("Found ".count($jnlp_files)." jnlp files");
 
         foreach ($jnlp_files as $jnlp_filename => $jnlp) {
             flushing_echo("Processing JNLP file $file_num of ".count($jnlp_files)."...");
@@ -105,7 +107,7 @@
                 }
 
                 if (($contents = file_get_contents($absolute_url)) !== false) {
-                    $local_file_name = file_cleanup_local_filename(preg_replace(PHET_WEBSITE_ROOT_PATTERN, RIPPED_WEBSITE_TOP, $absolute_url));
+                    $local_file_name = file_cleanup_local_filename(preg_replace(PHET_WEBSITE_ROOT_PATTERN, $directory , $absolute_url));
 
                     if (!is_dir($local_file_name)) {
                         flushing_echo("Downloaded $absolute_url to $local_file_name\n");
@@ -358,7 +360,7 @@
     function builder_download_sims() {
 
         // Get the resources for the Java sims.
-        builder_download_java_rsrcs();
+        builder_download_java_rsrcs( RIPPED_WEBSITE_TOP );
 
         // Get the resources for the Flash sims.
         builder_download_flash_rsrcs();
