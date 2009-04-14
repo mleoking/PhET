@@ -1,9 +1,11 @@
 package edu.colorado.phet.acidbasesolutions.model.acids;
 
-import edu.colorado.phet.acidbasesolutions.model.IMolecule;
+import edu.colorado.phet.acidbasesolutions.model.ISolute;
 
 
-public interface IAcid extends IMolecule {
+public interface IAcid extends ISolute {
     
-    public String getConjugateBaseSymbol();
+    public String getProductCationSymbol();
+    
+    public String getProductAnionSymbol();
 }

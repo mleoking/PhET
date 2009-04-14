@@ -14,7 +14,11 @@ public class HydrochloricAcid implements IStrongAcid {
         return ABSSymbols.HCl;
     }
 
-    public String getConjugateBaseSymbol() {
+    public String getProductCationSymbol() {
         return ABSSymbols.Cl;
+    }
+    
+    public String getProductAnionSymbol() {
+        return ABSSymbols.OH;
     }
 }

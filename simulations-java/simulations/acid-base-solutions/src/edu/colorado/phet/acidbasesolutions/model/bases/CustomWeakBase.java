@@ -30,8 +30,12 @@ public class CustomWeakBase implements IWeakBase {
         return ABSSymbols.B;
     }
     
-    public String getConjugateAcidSymbol() {
+    public String getProductCationSymbol() {
         return ABSSymbols.BH;
+    }
+    
+    public String getProductAnionSymbol() {
+        return ABSSymbols.OH;
     }
     
     public void setStrength( double strength ) {

@@ -93,4 +93,6 @@ public class ABSConstants {
     public static final double MAX_WEAK_STRENGTH = 1E2;
     public static final double DEFAULT_WEAK_STRENGTH = 1E-5;
     
+    public static final double STRENGTH_STRONG = 10;//XXX
+    
 }

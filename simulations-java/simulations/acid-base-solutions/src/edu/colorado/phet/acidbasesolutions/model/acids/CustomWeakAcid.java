@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 
 
 public class CustomWeakAcid implements IWeakAcid {
@@ -29,8 +30,12 @@ public class CustomWeakAcid implements IWeakAcid {
         return "HA";
     }
     
-    public String getConjugateBaseSymbol() {
+    public String getProductCationSymbol() {
         return "<html>A<sup>-</sup>";
+    }
+    
+    public String getProductAnionSymbol() {
+        return ABSSymbols.OH;
     }
     
     public void setStrength( double strength ) {
@@ -44,22 +49,22 @@ public class CustomWeakAcid implements IWeakAcid {
         return _strength;
     }
     
-    public interface CustomWeakAcidListener {
+    public interface CustomAcidListener {
         public void strengthChanged();
     }
     
-    public void addCustomWeakAcidListener( CustomWeakAcidListener listener ) {
+    public void addCustomAcidListener( CustomAcidListener listener ) {
         _listeners.add( listener );
     }
     
-    public void removeCustomWeakAcidListener( CustomWeakAcidListener listener ) {
+    public void removeCustomAcidListener( CustomAcidListener listener ) {
         _listeners.remove( listener );
     }
     
     private void notifyStrengthChanged() {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            ( (CustomWeakAcidListener) i.next() ).strengthChanged();
+            ( (CustomAcidListener) i.next() ).strengthChanged();
         }
     }
 }

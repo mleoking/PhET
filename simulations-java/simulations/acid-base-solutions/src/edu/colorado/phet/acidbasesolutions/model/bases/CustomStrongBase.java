@@ -4,20 +4,23 @@ import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 
 
-public class GenericStrongBase implements IStrongBase {
+public class CustomStrongBase implements IStrongBase {
 
-    public GenericStrongBase() {}
+    public CustomStrongBase() {}
     
     public String getName() {
-        return ABSStrings.STRONG_BASE;
+        return ABSStrings.CUSTOM_STRONG_BASE;
     }
     
     public String getSymbol() {
         return ABSSymbols.MOH;
     }
 
-    public String getCationSymbol() {
+    public String getProductCationSymbol() {
         return ABSSymbols.M;
     }
-
+    
+    public String getProductAnionSymbol() {
+        return ABSSymbols.OH;
+    }
 }

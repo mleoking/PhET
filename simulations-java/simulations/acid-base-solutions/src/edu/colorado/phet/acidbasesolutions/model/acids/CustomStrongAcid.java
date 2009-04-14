@@ -4,19 +4,23 @@ import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 
 
-public class GenericStrongAcid implements IStrongAcid {
-
-    public GenericStrongAcid() {}
+public class CustomStrongAcid implements IStrongAcid {
+    
+    public CustomStrongAcid() {}
     
     public String getName() {
-        return ABSStrings.STRONG_ACID;
+        return ABSStrings.CUSTOM_STRONG_ACID;
     }
     
     public String getSymbol() {
         return ABSSymbols.HA;
     }
-
-    public String getConjugateBaseSymbol() {
+    
+    public String getProductCationSymbol() {
         return ABSSymbols.A;
+    }
+    
+    public String getProductAnionSymbol() {
+        return ABSSymbols.OH;
     }
 }

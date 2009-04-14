@@ -14,8 +14,12 @@ public class HypochlorousAcid implements IWeakAcid {
         return ABSSymbols.HClO;
     }
 
-    public String getConjugateBaseSymbol() {
+    public String getProductCationSymbol() {
         return ABSSymbols.ClO;
+    }
+    
+    public String getProductAnionSymbol() {
+        return ABSSymbols.OH;
     }
     
     public double getStrength() {
