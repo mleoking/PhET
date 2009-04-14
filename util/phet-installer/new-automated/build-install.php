@@ -110,9 +110,9 @@
                     $local_file_name = file_cleanup_local_filename(preg_replace(PHET_WEBSITE_ROOT_PATTERN, $directory , $absolute_url));
 
                     if (!is_dir($local_file_name)) {
-                        flushing_echo("Downloaded $absolute_url to $local_file_name\n");
-
                         file_put_contents_anywhere($local_file_name, $contents);
+
+                        flushing_echo("Downloaded $absolute_url to $local_file_name\n");
                     }
                 }
                 else {
