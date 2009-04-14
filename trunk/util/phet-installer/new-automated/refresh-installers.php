@@ -163,7 +163,13 @@
         file_lock("install-builder");
 
         // Remove any previous rips of single sims that are lying around.
-        exec( "rm -rfv ".SINGLE_SIM_RIP_DIR );
+        if ( file_exists( SINGLE_SIM_RIP_DIR ) ){
+            flushing_echo( "Removing previous single sim rip, directory = ".SINGLE_SIM_RIP_DIR );
+            exec( "rm -rfv ".SINGLE_SIM_RIP_DIR );
+        }
+        else {
+            flushing_echo( "No previous single sim rip found in ".SINGLE_SIM_RIP_DIR.", not deleting anything." );
+        }
 
         // Log the start time of this operation.
         $start_time = exec("date");
@@ -172,13 +178,13 @@
         // Rip the files for the specified sim.
         $sim_name = $args[1];
         $rip_successful = builder_rip_sim($sim_name);
-        if ($rip_successful){
-            // TODO!!!! Rebuild the installers here if the previous operation worked.
-            flushing_echo("Stubbed: Should rebuild the intallers here.");
-        }
-        else{
+        if ( $rip_successful == false ){
             flushing_echo("Error: Failed to obtain sim from the web site, sim = ".$sim_name);
+            return;
         }
+
+        // Rebuild the installers.
+        flushing_echo("Stubbed: Should rebuild the intallers here.");
 
         // Release the lock.
         file_unlock("install-builder");
