@@ -22,6 +22,7 @@ import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.naturalselection.developer.DeveloperMenu;
 import edu.colorado.phet.naturalselection.menu.OptionsMenu;
 import edu.colorado.phet.naturalselection.module.example.ExampleModule;
+import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModule;
 import edu.colorado.phet.naturalselection.persistence.ExampleConfig;
 import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
 
@@ -87,12 +88,18 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
         
         Frame parentFrame = getPhetFrame();
 
+        Module tempModule = new NaturalSelectionModule( parentFrame );
+        addModule( tempModule );
+
         _exampleModule = getFirstModule(parentFrame);
         addModule( _exampleModule );
         
-        Module secondModule = new ExampleModule( parentFrame );
-        secondModule.setName( "Another Example" );
-        addModule( secondModule );
+        //Module secondModule = new ExampleModule( parentFrame );
+        //secondModule.setName( "Another Example" );
+        //addModule( secondModule );
+
+
+
     }
 
     protected ExampleModule getFirstModule(Frame parentFrame) {
