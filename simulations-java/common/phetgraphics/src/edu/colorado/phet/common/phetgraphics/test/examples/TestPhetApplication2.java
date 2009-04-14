@@ -37,10 +37,10 @@ import edu.colorado.phet.common.phetgraphics.view.help.HelpItem;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.phetcommon.application.DeprecatedPhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.application.PhetTestApplication;
 
 public class TestPhetApplication2 {
-    private static DeprecatedPhetApplicationLauncher app;
+    private static PhetTestApplication app;
 
     static class TestApparatusPanel extends ApparatusPanel {
         public TestApparatusPanel() {
@@ -214,7 +214,7 @@ public class TestPhetApplication2 {
         MyModule3 module4 = new MyModule3( clock );
         PhetGraphicsModule[] m = new PhetGraphicsModule[]{module, module2, module3, module4};
 
-        app = new DeprecatedPhetApplicationLauncher( args, "title", "desc", "version" );
+        app = new PhetTestApplication( args );
         app.setModules( m );
         app.startApplication();
 

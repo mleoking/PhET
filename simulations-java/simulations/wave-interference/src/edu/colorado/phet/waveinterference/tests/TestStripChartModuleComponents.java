@@ -5,12 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.JButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.application.PhetTestApplication;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
-import edu.colorado.phet.common.phetcommon.application.DeprecatedPhetApplicationLauncher;
 import edu.colorado.phet.waveinterference.view.IndexColorMap;
 import edu.colorado.phet.waveinterference.view.IntensityReaderDecorator;
 import edu.colorado.phet.waveinterference.view.WaveModelGraphic;
@@ -73,7 +73,7 @@ public class TestStripChartModuleComponents extends BasicWaveTestModule {
     }
 
     public static void main( String[] args ) {
-        DeprecatedPhetApplicationLauncher phetApplication = new DeprecatedPhetApplicationLauncher( args, "Test Strip Chart", "", "" );
+        PhetTestApplication phetApplication = new PhetTestApplication( args );
         phetApplication.addModule( new TestStripChartModuleComponents() );
         phetApplication.startApplication();
     }

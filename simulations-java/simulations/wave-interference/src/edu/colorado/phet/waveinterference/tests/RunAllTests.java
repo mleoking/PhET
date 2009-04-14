@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.waveinterference.tests;
 
-import edu.colorado.phet.common.phetcommon.application.DeprecatedPhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.application.PhetTestApplication;
 import edu.colorado.phet.waveinterference.WaveIntereferenceLookAndFeel;
 
 /**
@@ -10,9 +10,9 @@ import edu.colorado.phet.waveinterference.WaveIntereferenceLookAndFeel;
  * Time: 2:08:36 AM
  */
 
-public class RunAllTests extends DeprecatedPhetApplicationLauncher {
+public class RunAllTests extends PhetTestApplication {
     public RunAllTests( String[] args ) {
-        super( args, "All Tests", "", "" );
+        super( args );
 //        addModule( new TestTopView() );
 //        addModule( new TestSideViewModule() );
         addModule( new TestWaveRotateModule() );

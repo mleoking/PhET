@@ -19,7 +19,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.application.DeprecatedPhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.application.PhetTestApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.*;
 import edu.colorado.phet.common.phetcommon.util.ModelEventChannel;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
@@ -154,8 +154,7 @@ public class TestThreadSeparation {
      */
     public static void main( String[] args ) {
 
-        DeprecatedPhetApplicationLauncher app = new DeprecatedPhetApplicationLauncher( args, "Thread Separation Test", "", "",
-                                                                       new FrameSetup.CenteredWithSize( 600, 500 ) );
+        PhetTestApplication app = new PhetTestApplication( args, new FrameSetup.CenteredWithSize( 600, 500 ) );
         app.addModule( new TestModule() );
         app.startApplication();
     }

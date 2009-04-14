@@ -3,35 +3,35 @@ package edu.colorado.phet.common.phetcommon.application;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
 /**
- * @deprecated use phetapplication and phetapplicationconfig
+ * Use this for test applications.
+ * It will not send statistics messages or check for updates.
  */
-public class DeprecatedPhetApplicationLauncher {
+public class PhetTestApplication {
+    
     private String[] args;
-    private String title;
-    private String description;
-    private String version;
     private FrameSetup frameSetup;
     private ArrayList modules = new ArrayList();
 
-    public DeprecatedPhetApplicationLauncher( String[] args, String title, String description, String version ) {
-        this( args, title, description, version, null );
+    public PhetTestApplication( String[] args ) {
+        this( args, null );
     }
-
-    public DeprecatedPhetApplicationLauncher( String[] args, String title, String description, String version, FrameSetup frameSetup ) {
-        this.args = args;
-        this.title = title;
-        this.description = description;
-        this.version = version;
+    
+    public PhetTestApplication( String[] args, FrameSetup frameSetup ) {
+        this.args = processArgs( args );
         this.frameSetup = frameSetup;
     }
-
+    
+    private String[] processArgs( String[] args ) {
+        ArrayList list = new ArrayList( Arrays.asList( args ) );
+        list.add( "-statistics-off" );
+        list.add( "-updates-off" );
+        return (String[]) list.toArray( new String[list.size()] );
+    }
+    
     public void addModule( Module module ) {
         modules.add( module );
     }
@@ -57,7 +57,7 @@ public class DeprecatedPhetApplicationLauncher {
     }
 
     public PhetFrame getPhetFrame() {
-        return PhetApplication.instance().getPhetFrame();
+        return PhetApplication.getInstance().getPhetFrame();
     }
 
 }

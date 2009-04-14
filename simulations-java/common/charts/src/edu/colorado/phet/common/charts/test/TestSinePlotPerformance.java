@@ -20,7 +20,7 @@ import edu.colorado.phet.common.charts.SinePlot;
 import edu.colorado.phet.common.charts.StringLabelTable;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.application.DeprecatedPhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.application.PhetTestApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
@@ -92,13 +92,10 @@ public class TestSinePlotPerformance {
 
     public TestSinePlotPerformance( String[] args ) throws IOException {
 
-        String title = "Test SinePlot Performance";
         IClock clock = new SwingClock( 1, 40 );
-        boolean useClockControlPanel = false;
         FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
 
-        DeprecatedPhetApplicationLauncher app = new DeprecatedPhetApplicationLauncher( args,
-                                                                       title, "", "", frameSetup );
+        PhetTestApplication app = new PhetTestApplication( args, frameSetup );
 
         Module module = new TestModule( clock );
         app.setModules( new Module[]{module} );

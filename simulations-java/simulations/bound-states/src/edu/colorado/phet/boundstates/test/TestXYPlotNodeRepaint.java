@@ -37,7 +37,7 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.phetcommon.application.DeprecatedPhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.application.PhetTestApplication;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -59,7 +59,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class TestXYPlotNodeRepaint extends DeprecatedPhetApplicationLauncher {
+public class TestXYPlotNodeRepaint extends PhetTestApplication {
 
     private static final int CLOCK_RATE = 25; // wall time: frames per second
     private static final double MODEL_RATE = 1; // model time: dt per clock tick
@@ -83,7 +83,7 @@ public class TestXYPlotNodeRepaint extends DeprecatedPhetApplicationLauncher {
     }
 
     public TestXYPlotNodeRepaint( String[] args ) throws InterruptedException {
-        super( args, "TestXYPlotNodeRepaint", "description", "0.1", new FrameSetup.CenteredWithSize( 1024, 768 ) );
+        super( args, new FrameSetup.CenteredWithSize( 1024, 768 ) );
 
         // Add one module to the application...
         IClock clock = new SwingClock( 1000 / CLOCK_RATE, new TimingStrategy.Constant( MODEL_RATE ) );

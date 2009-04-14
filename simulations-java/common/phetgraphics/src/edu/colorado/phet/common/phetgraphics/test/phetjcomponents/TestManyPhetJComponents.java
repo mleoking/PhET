@@ -23,7 +23,7 @@ import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.phetcommon.application.DeprecatedPhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.application.PhetTestApplication;
 
 /**
  * User: Sam Reid
@@ -54,7 +54,7 @@ public class TestManyPhetJComponents extends PhetGraphicsModule {
     public static void main( String[] args ) {
         QuickProfiler main = new QuickProfiler( "main" );
         SwingClock clock = new SwingClock( 30, 1.0 );
-        DeprecatedPhetApplicationLauncher phetApplication = new DeprecatedPhetApplicationLauncher( args, "title", "desc", "version", new FrameSetup.CenteredWithSize( 600, 600 ) );
+        PhetTestApplication phetApplication = new PhetTestApplication( args, new FrameSetup.CenteredWithSize( 600, 600 ) );
 
         phetApplication.startApplication();
         TestManyPhetJComponents module = new TestManyPhetJComponents( "name", clock );
