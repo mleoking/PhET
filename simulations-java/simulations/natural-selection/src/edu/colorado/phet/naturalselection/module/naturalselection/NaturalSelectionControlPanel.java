@@ -98,4 +98,12 @@ public class NaturalSelectionControlPanel extends JPanel {
 
     }
 
+    public static void main( String[] args ) {
+        JFrame frame=new JFrame( );
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        frame.setContentPane( new NaturalSelectionControlPanel() );
+        frame.pack();
+        frame.setVisible( true );
+    }
+
 }
