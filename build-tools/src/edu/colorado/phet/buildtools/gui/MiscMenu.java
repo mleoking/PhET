@@ -10,10 +10,11 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 
-import javax.swing.*;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 import edu.colorado.phet.buildtools.*;
-import edu.colorado.phet.buildtools.flash.FlashBuildCommand;
 import edu.colorado.phet.buildtools.flash.FlashCommonProject;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.java.JavaBuildCommand;
@@ -38,18 +39,6 @@ public class MiscMenu extends JMenu {
                 }
             }
         } );
-
-        JMenuItem copyAgreementItem = new JMenuItem( "Copy software agreement" );
-        add( copyAgreementItem );
-        copyAgreementItem.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-
-                PhetProject[] projects = JavaProject.getJavaSimulations( trunk );
-                new JavaBuildCommand( (JavaProject) projects[0], new MyAntTaskRunner(), true, null ).copySoftwareAgreement();
-
-            }
-        } );
-
 
         JMenuItem showAllLicenseKeys = new JMenuItem( "Show Credits Keys" );
         showAllLicenseKeys.addActionListener( new ActionListener() {
@@ -114,14 +103,26 @@ public class MiscMenu extends JMenu {
         } );
         add( generateJNLP );
 
-        JMenuItem generateFlashAgreement = new JMenuItem( "Generate Flash Agreement" );
-        generateFlashAgreement.addActionListener( new ActionListener() {
+        JMenuItem updateJavaAgreement = new JMenuItem( "Update software agreement (Java)" );
+        add( updateJavaAgreement );
+        updateJavaAgreement.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+
+                PhetProject[] projects = JavaProject.getJavaSimulations( trunk );
+                new JavaBuildCommand( (JavaProject) projects[0], new MyAntTaskRunner(), true, null ).copySoftwareAgreement();
+
+            }
+        } );
+        
+        JMenuItem updateFlashAgreement = new JMenuItem( "Update software agreement (Flash)" );
+        updateFlashAgreement.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 FlashCommonProject.generateFlashSoftwareAgreement( trunk );
                 System.out.println( "Created SoftwareAgreement.as" );
+                JOptionPane.showMessageDialog( null, "You still need to do the following steps manually:\n\n1. test the agreement\n2. check in SoftwareAgreeement.as" );
             }
         } );
-        add( generateFlashAgreement );
+        add( updateFlashAgreement );
     }
 
     private void batchDeploy( PhetProject[] projects ) {
