@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--flashTurkish created Sat Apr 11 00:39:12 EEST 2009 using: flash-common-strings 1.06.00 (29825), translation-utility 1.12.00 (29256)-->
+<SimStrings>
+<string key="About..." value="Hakkında..."/>
+<string key="SoftwareDevelopment" value="Yazılım geliştirme"/>
+<string key="Cancel" value="İptal"/>
+<string key="StatisticsField-host_flash_accessibility" value="Erişilebilir bir cihaz kullanıyor musunuz  ?"/>
+<string key="Privacy" value="Gizlilik"/>
+<string key="Version" value="Versiyon"/>
+<string key="NewVersionAvailable" value="Yeni versiyon indirilebilir"/>
+<string key="SoftwareAgreement" value="Yazılım sözleşmesi"/>
+<string key="PhETInstallation" value="En son simülasyonları içeren yüklemeyi yapabilmek için ve  daha fazla bilgi için lütfen ziyaret edin &lt;a href='{0}'&gt;PhET yükleme sayfası&lt;/a&gt; "/>
+<string key="StatisticsField-sim_version_timestamp" value="Simülasyon versiyonu"/>
+<string key="StatisticsField-sim_dev_version" value="Simülasyon versiyonu (dev)"/>
+<string key="AskLater" value="Sonra sor"/>
+<string key="AcceptContinue" value="Kabul ve Devam et"/>
+<string key="BuildDate" value="Oluşturma Tarihi"/>
+<string key="TellMore" value="Daha fazla bilgi"/>
+<string key="FlashVersion" value="Flash versiyon"/>
+<string key="PhetSoftwareAgreement" value="Phet yazılım sözleşmesi"/>
+<string key="NoUpdatesAvailable" value="Yeni güncelleme yok"/>
+<string key="StatisticsField-message_type" value="Mesaj tipi"/>
+<string key="InstallationDated" value="Sizin Phet çevrimdışı websitesi kurulum tarihi {0}"/>
+<string key="CheckUpdates" value="Güncellemeleri otomatik kontrol et"/>
+<string key="UpToDate" value="Güncelle"/>
+<string key="StatisticsField-sim_major_version" value="Simülasyon versiyonu (Birincil)"/>
+<string key="StatisticsField-user_total_sessions" value="Şimdiye kadar  bütün simülasyonların toplam çalıştırılma sayısı"/>
+<string key="InstallationNewer" value="Daha yeni vir versiyon indirilebilir {0}."/>
+<string key="StatisticsField-sim_sessions_since" value="son çevrimiçi olduktan sonra şimdiye kadar bu simülasyonun toplam çalıştırılma sayısı"/>
+<string key="StatisticsField-sim_distribution_tag" value="Simülasyon versiyonu (Dağılım)"/>
+<string key="Yes!" value="Evet "/>
+<string key="StatisticsField-host_flash_domain" value="Simülasyon alanadı"/>
+<string key="DesignTeam" value="Tasarım Ekibi"/>
+<string key="PhETPreferences" value="PhetTtercihleri"/>
+<string key="Preferences" value="Tercihler..."/>
+<string key="AllowMessages" value="Phet'e bilgi göndermeye izin ver"/>
+<string key="Updates" value="Güncelleme"/>
+<string key="StatisticsField-sim_revision" value="Simülasyon versiyonu (düzeltilmiş)"/>
+<string key="StatisticsField-user_preference_file_creation_time" value="Tercihler dosyası oluşturma zamanı"/>
+<string key="Interviews" value="Görüşmeler"/>
+<string key="StatisticsField-host_flash_time_offset" value="Zaman dilimi"/>
+<string key="MostCurrentVersion" value="En güncel versiyona sahipsiniz {0} {1}"/>
+<string key="StatisticsField-sim_deployment" value="Dağıtım türü"/>
+<string key="PrivacyRequirement" value="&lt;a href='{0}'&gt;PhET&lt;/a&gt; bağış yolu ile ulaşılabilir ücretsiz hale getirilmiştir ve Phet simülasyonlarının kullanımını dökümante etmeye yardımcı olmak ve kullanıcılarımızın güncelleme ihtiyaçlarına daha iyi hizmet etmek için minumum miktarda bilgi toplamamız gerekiyor."/>
+<string key="StatisticsField-sim_type" value="Simülasyon tipi"/>
+<string key="Close" value="Kapat"/>
+<string key="StatisticsField-sim_dev" value="Geliştirici versiyonu bu mu ?"/>
+<string key="InstallerAsk" value="En güncel Phet çevrimdışı websitesi yükleyicisini indirmek istermisiniz ?"/>
+<string key="PrivacyMessage2" value="&quot;Kabul ve Devam&quot; a tıklayarak Phet  yazılım sözleşmesini onaylayabilirsiniz, bu gizlilik ilkeleri her Phet simülasyonu için geçerlidir.(Ayrıntılar için, &lt;a href='{0}'&gt;buraya tıklayın&lt;/a&gt;)."/>
+<string key="StatisticsField-sim_total_sessions" value="Şimdiye kadar bu simülasyonun toplam çalıştırılma sayısı"/>
+<string key="PrivacyMessage1" value="Tüm Phet simülasyonlarının her çalıştırılışında bazı anonim bilgileri genel olarak alıyoruz &lt;a href='{0}'&gt;bilgi&lt;/a&gt; (örneğin simülasyon versiyonunu, işletim sistemi gibi). Eğer bu bilgileri göndemeyi iptal etmek isterseniz Tercihler butonuna basarak bunu hizmet dışı bırakabilirsiniz."/>
+<string key="StatisticsField-user_installation_timestamp" value="Phet yükleme tarih bilgisi"/>
+<string key="StatisticsField-sim_name" value="Simülasyon ismi"/>
+<string key="UpdateOptionsAvailable" value="Güncelleme ayarlara şuradadır &lt;i&gt;Tercihler&lt;/i&gt;."/>
+<string key="PhetDevelopmentTeam" value="Phet geliştirici Ekibi"/>
+<string key="InstallerInfo2" value="Eğer yeni versiyonu istiyorsanız, Phet websitesine yönlendirileceksiniz ve çevrimdışı Phet websitesi yükleyicisini indirebileceksiniz."/>
+<string key="InstallerInfo1" value="PhET Çevrimdışı Websitesi Kurulum güncellemeleri size yeni PhET simülasyonları ve ilave materyallere  erişmenize olanak sağlar."/>
+<string key="StatisticsField-sim_minor_version" value="Simülasyon versiyonu (İkincil)"/>
+<string key="Credits" value="Hazırlayanlar"/>
+<string key="StatisticsField-host_flash_version" value="Flash oynatıcı versiyonu"/>
+<string key="TryNow" value="Şimdi dene"/>
+<string key="PrivacySkip" value="Bu versiyonu atla"/>
+<string key="CheckInstallationUpdates" value="Çevrimdışı Phet websitesi yükleyicisi güncellemesini kontrol et.."/>
+<string key="StatisticsField-sim_locale_language" value="Dil"/>
+<string key="Distribution" value="Dağıtım"/>
+<string key="LicenseLibraries" value="Kullanılmış Kütüphane Lisans Bilgileri:"/>
+<string key="PrivacyDetails" value="Gizlilik Ayrıntıları"/>
+<string key="NotUpdateSim" value="Bu simülasyon otomatik güncellenemez."/>
+<string key="CurrentVersionIs" value="Simdiki versiyonun {0} {1}"/>
+<string key="StatisticsField-host_flash_os" value="İşeletim sistemi ve adı"/>
+<string key="OK" value="TAMAM"/>
+<string key="Error" value="Hata"/>
+<string key="CheckSimUpdates" value="Simülasyon güncellemesini kontrol et"/>
+<string key="StatisticsField-sim_project" value="Proje ismi"/>
+<string key="NewerVersionIs" value="Daha yeni bir sürümü (0) indirilebilir."/>
+<string key="SentInformation" value="Aşağıda gösterilen bilgiler simülasyon başladığında Phet 'e gönderilecek."/>
+<string key="OSVersion" value="OS"/>
+<string key="Details" value="Ayrıntılar"/>
+<string key="StatisticsField-message_version" value="Mesaj versiyonu"/>
+<string key="LeadDesign" value="Tasarım Lideri"/>
+<string key="StatisticsField-host_locale_language" value="Sunucu dili"/>
+<string key="AboutSim" value="Hakkında {0}"/>
+<string key="VersionError2" value="Lütfen daha sonra deneyin, yada ziyaret edin &lt;a href='{0}'&gt;http://phet.colorado.edu&lt;/a&gt;"/>
+<string key="VersionError1" value="Sürüm bilgilerini elde etmek için çalışırken bir hata ile karşılaşıldı."/>
+<string key="StatisticsField-sim_locale_country" value="Ülke"/>
+</SimStrings>
