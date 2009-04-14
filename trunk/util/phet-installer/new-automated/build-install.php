@@ -282,15 +282,15 @@
     // Download the required flash resources that can't be obtained by ripping
     // the main site (because there are no direct links to them).
     //--------------------------------------------------------------------------
-    function builder_download_flash_rsrcs() {
+    function builder_download_flash_rsrcs( $directory ) {
 
         flushing_echo("Downloading all Flash simulation resources...");
 
         // Find all of the swf (for Shock Wave Flash) files in the ripped web
         // site files.
-        $swf_files = file_list_in_directory(RIPPED_WEBSITE_TOP.PHET_SIMS_SUBDIR, "*.swf");
+        $swf_files = file_list_in_directory( $directory.PHET_SIMS_SUBDIR, "*.swf");
 
-        if ( count( $swf_files) == 0 ){
+        if ( count( $swf_files ) == 0 ) {
             // No flash files were found.  This is unexpected.
             flushing_echo("WARNING: No swf (i.e. Flash) sims detected.");
         }
@@ -315,13 +315,14 @@
             $regex = '/href=".*\.xml"/';
             preg_match_all($regex, $flash_resource_dir_listing, $xml_hrefs);
 
-            if ( count ( $xml_hrefs[0] ) == 0 ){
-                // This can happen if the Flash sim has never been translated,
-                // but it is worth logging a warning.
-                flushing_echo("WARNING: No xml files found for the $core_filename sim.");
+            if ( count ( $xml_hrefs[0] ) == 0 ) {
+                // XML files may not be present in post-IOM sims, since (I
+                // think) the translated strings are incorporated directly
+                // into the HTML.
+                flushing_echo("NOTE: No XML files found for the $core_filename sim.");
             }
-            else{
-                foreach ($xml_hrefs[0] as $xml_href){
+            else {
+                foreach ($xml_hrefs[0] as $xml_href) {
                     $xml_file_name = str_ireplace("href=\"", "", $xml_href);
                     $xml_file_name = str_ireplace("\"", "", $xml_file_name);
                     flushing_echo("Retrieving file $xml_file_name");
@@ -370,7 +371,7 @@
         builder_download_java_rsrcs( RIPPED_WEBSITE_TOP );
 
         // Get the resources for the Flash sims.
-        builder_download_flash_rsrcs();
+        builder_download_flash_rsrcs( RIPPED_WEBSITE_TOP );
 
         // Add the marker file, needed for sim usage tracking.
         create_marker_file();
