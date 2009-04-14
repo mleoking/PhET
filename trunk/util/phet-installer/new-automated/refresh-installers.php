@@ -198,8 +198,12 @@
         // Copy the ripped files into the pre-existing full mirror.
         copy_sim_into_full_mirror( $sim_name );
 
+        // Refresh the timestamp information.
+        builder_create_marker_file();
+        builder_insert_installer_creation_time();
+
         // Rebuild the installers.
-        flushing_echo("Stubbed: Should rebuild the intallers here.");
+        builder_build_all();
 
         // Release the lock.
         file_unlock("install-builder");
