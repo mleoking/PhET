@@ -10,58 +10,102 @@
 # jblanco, 6/10/2008
 #############################################################################
 
-#----------------------------------------------------------------------------
+LOG_FILE_NAME=./rip-log.txt
+
+#==============================================================================
 # Main body of this script.
-#----------------------------------------------------------------------------
+#==============================================================================
 
-echo "================================================================"
-echo " Ripping web site on: "
-date
-echo "================================================================"
+echo "================================================================" | tee --append $LOG_FILE_NAME
+echo " Ripping web site on: " | tee --append $LOG_FILE_NAME
+date | tee --append $LOG_FILE_NAME
+echo "================================================================" | tee --append $LOG_FILE_NAME
 
-echo "Removing old web site..."
+#------------------------------------------------------------------------------
+# Remove the current copy of the web site if it exists.
+#------------------------------------------------------------------------------
 
-/usr/local/php/bin/php build-install.php --remove-website-copy
+echo "Started removing old web site at `date`" | tee --append $LOG_FILE_NAME
+
+/usr/local/php/bin/php build-install.php --remove-website-copy | tee --append $LOG_FILE_NAME
 
 if [ "$?" -ne "0" ]; then
-  echo "Error removing old web site."
+echo "Error removing old web site." | tee --append $LOG_FILE_NAME
+exit 1
+fi
+
+echo "Finished removing old web site at `date`" | tee --append $LOG_FILE_NAME
+
+
+#------------------------------------------------------------------------------
+# Rip the web site into a local copy.
+#------------------------------------------------------------------------------
+
+echo "Started ripping web site at `date`" | tee --append $LOG_FILE_NAME
+
+/usr/local/php/bin/php build-install.php --rip-website | tee --append $LOG_FILE_NAME
+
+if [ "$?" -ne "0" ]; then
+  echo "Error ripping web site." | tee --append $LOG_FILE_NAME
   exit 1
 fi
 
-echo "Ripping the web site..."
+echo "Finished ripping web site at `date`" | tee --append $LOG_FILE_NAME
 
-/usr/local/php/bin/php build-install.php --rip-website
+#------------------------------------------------------------------------------
+# Download the additional sim resources that can't be obtained directly by
+# ripping the web site.
+#------------------------------------------------------------------------------
+
+echo "Started downloading additional sim resources at `date`" | tee --append $LOG_FILE_NAME
+
+/usr/local/php/bin/php build-install.php --download-sims | tee --append $LOG_FILE_NAME
 
 if [ "$?" -ne "0" ]; then
-  echo "Error ripping web site."
+  echo "Error downloading sims" | tee --append $LOG_FILE_NAME
   exit 1
 fi
 
-echo "Downloading the sims..."
+echo "Finished downloading additional sim resources at `date`" | tee --append $LOG_FILE_NAME
 
-/usr/local/php/bin/php build-install.php --download-sims
+#------------------------------------------------------------------------------
+# Create the marker file, which is used by the sims to determine whether they
+# were run from the installer or as an individually downloaded executable.
+#------------------------------------------------------------------------------
+
+echo "Started creating marker file at `date`" | tee --append $LOG_FILE_NAME
+
+/usr/local/php/bin/php build-install.php --create-maker-file | tee --append $LOG_FILE_NAME
 
 if [ "$?" -ne "0" ]; then
-  echo "Error downloading sims"
+  echo "Error creating marker file" | tee --append $LOG_FILE_NAME
   exit 1
 fi
 
-echo "Creating marker file..."
+echo "Finished creating marker file at `date`" | tee --append $LOG_FILE_NAME
 
-/usr/local/php/bin/php build-install.php --create-maker-file
+#------------------------------------------------------------------------------
+# Insert the time stamps that are used by the sims to interact with the server
+# and decide if a newer version of the sim is available.
+#------------------------------------------------------------------------------
+
+echo "Started creating marker file at `date`" | tee --append $LOG_FILE_NAME
+
+/usr/local/php/bin/php build-install.php --insert-installer-creation-time | tee --append $LOG_FILE_NAME
 
 if [ "$?" -ne "0" ]; then
-  echo "Error creating marker file"
+  echo "Error inserting creation timestamps." | tee --append $LOG_FILE_NAME
   exit 1
 fi
 
-echo "Inserting creation time stamps..."
+echo "Finished creating marker file at `date`" | tee --append $LOG_FILE_NAME
 
-/usr/local/php/bin/php build-install.php --insert-installer-creation-time
+#------------------------------------------------------------------------------
+# Output some final time information.
+#------------------------------------------------------------------------------
 
-if [ "$?" -ne "0" ]; then
-  echo "Error inserting creation timestamps."
-  exit 1
-fi
+echo "================================================================" | tee --append $LOG_FILE_NAME
+echo " Completed web site rip at: " | tee --append $LOG_FILE_NAME
+date | tee --append $LOG_FILE_NAME
+echo "================================================================" | tee --append $LOG_FILE_NAME
 
-echo "Done."
