@@ -38,7 +38,7 @@
     // Function for obtaining (a.k.a. "ripping") a single simulation from the
     // web site.
     //-------------------------------------------------------------------------
-    function builder_rip_sim( $sim_name ) {
+    function rip_single_sim( $sim_name ) {
 
         // Make sure that the specified sim already exists.  If not,
         // refreshing it is not allowed.
@@ -107,20 +107,10 @@
     }
 
     //-------------------------------------------------------------------------
-    // Function to remove all files that currently make up the specified sim.
-    //-------------------------------------------------------------------------
-    function remove_sim_files( $sim_directory ) {
-        $remove_command = "rm -f ".$sim_directory.'/*';
-        // flushing_echo("STUBBED - Remove command = ".$remove_command);
-        flushing_echo("Removing all files from directory: ".$sim_directory);
-        system( $remove_command );
-    }
-
-    //-------------------------------------------------------------------------
     // Function for ripping a single Java sim from the web site.
     //-------------------------------------------------------------------------
     function rip_java_sim( $sim_name ) {
-        $java_rip_command = RIPPER_EXE." ".'"'.PHET_WEBSITE_URL.PHET_SIMS_SUBDIR.$sim_name.'"'." -O ".SINGLE_SIM_RIP_DIR.' \'-*\''.' \'+*.jnlp\''.' \'+*screenshot*\''." -q -v";
+        $java_rip_command = RIPPER_EXE." ".'"'.PHET_WEBSITE_URL.PHET_SIMS_SUBDIR.$sim_name.'"'.' -I0 -q -v'." -O ".SINGLE_SIM_RIP_DIR.' \'-*\''.' \'+*.jnlp\''.' \'+*screenshot*\'';
         // The command below doesn't seem to save much time - maybe a minute -
         // in the process of ripping the web site.
         //$java_rip_command = RIPPER_EXE." ".RIPPER_ARGS.' --update -v';
@@ -136,13 +126,28 @@
     // Function for ripping a single flash sim from the web site.
     //-------------------------------------------------------------------------
     function rip_flash_sim( $sim_name ) {
-        $flash_rip_command = RIPPER_EXE." ".'"'.PHET_WEBSITE_URL.PHET_SIMS_SUBDIR.$sim_name.'"'." -O ".SINGLE_SIM_RIP_DIR.' \'-*\''.' \'+*.swf\''.' \'+*.html\''.' \'+*screenshot*\''." -q -v";
+        $flash_rip_command = RIPPER_EXE." ".'"'.PHET_WEBSITE_URL.PHET_SIMS_SUBDIR.$sim_name.'"'.' -I0 -q -v'." -O ".SINGLE_SIM_RIP_DIR.' \'-*\''.' \'+*.swf\''.' \'+*.html\''.' \'+*screenshot*\''.' \'+*thumbnail*\'';
         flushing_echo("Ripping files for sim ".$sim_name." with command: ".$flash_rip_command);
         system( $flash_rip_command );
 
         // Download the additional resources that are needed by this sim but
         // that are not directory obtained through a rip of the web site.
         builder_download_flash_rsrcs( SINGLE_SIM_RIP_TOP );
+    }
+
+    //-------------------------------------------------------------------------
+    // Copies a simulation from the single sim mirror into the full web site
+    // mirror.
+    //-------------------------------------------------------------------------
+    function copy_sim_into_full_mirror( $sim_name ) {
+
+        // Copy over newly ripped files.
+        $full_rip_sim_path = RIPPED_WEBSITE_TOP.PHET_SIMS_SUBDIR.$sim_name.'/';
+        $single_sim_rip_path = SINGLE_SIM_RIP_TOP.PHET_SIMS_SUBDIR.$sim_name;
+        $copy_command = "cp -f $single_sim_rip_path".'/* '."$full_rip_sim_path";
+        echo "!!!!! $copy_command \n";
+        flushing_echo("Copying sim files into full mirror.");
+        exec( $copy_command );
     }
 
     //-------------------------------------------------------------------------
@@ -159,6 +164,8 @@
             return;
         }
           
+        $sim_name = $args[1];
+
         // Grab the lock to prevent multiple simultaneous executions.
         file_lock("install-builder");
 
@@ -173,15 +180,17 @@
 
         // Log the start time of this operation.
         $start_time = exec("date");
-        flushing_echo("Starting refresh at time $start_time");
+        flushing_echo("Starting refresh of sim $sim_name at time $start_time");
 
-        // Rip the files for the specified sim.
-        $sim_name = $args[1];
-        $rip_successful = builder_rip_sim($sim_name);
+        // Rip the specified sim from the main web site.
+        $rip_successful = rip_single_sim($sim_name);
         if ( $rip_successful == false ){
             flushing_echo("Error: Failed to obtain sim from the web site, sim = ".$sim_name);
             return;
         }
+
+        // Copy the ripped files into the pre-existing full mirror.
+        copy_sim_into_full_mirror( $sim_name );
 
         // Rebuild the installers.
         flushing_echo("Stubbed: Should rebuild the intallers here.");
