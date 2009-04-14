@@ -8,7 +8,6 @@
     // cached version of all other simulations.
     //=========================================================================
 
-
     //--------------------------------------------------------------------------
     // Inclusions of other PHP files.
     //--------------------------------------------------------------------------
@@ -22,6 +21,18 @@
     require_once("ia.php");
     require_once("xml-util.php");
     require_once("build-install.php");
+
+    //--------------------------------------------------------------------------
+    // Local definitions.
+    //--------------------------------------------------------------------------
+
+    // The name of the directory where the rip of the single simulation will be
+    // temporarily stored before being moved in to the full local web site
+    // copy.
+    define( "SINGLE_SIM_RIP_DIR", file_cleanup_local_filename( TEMP_DIR."single-sim-rip/" ) );
+
+    // Directory where sim rip will end up.
+    define( "SINGLE_SIM_RIP_TOP", file_cleanup_local_filename( SINGLE_SIM_RIP_DIR."phet.colorado.edu/" ) );
 
     //-------------------------------------------------------------------------
     // Function for obtaining (a.k.a. "ripping") a single simulation from the
@@ -43,12 +54,10 @@
         // Determine the type of sim and perform the appropriate rip.
         if ( is_java_sim( $full_path_to_sim ) ) {
             flushing_echo( "This is a Java sim" );
-            remove_sim_files( $full_path_to_sim );
             rip_java_sim( $sim_name );
         }
         else if ( is_flash_sim( $full_path_to_sim ) ) {
             flushing_echo( "This is a Flash sim" );
-            remove_sim_files( $full_path_to_sim );
         }
         else {
             flushing_echo( "Error: The sim ".$sim_name." does not appear to be a Flash or Java sim, aborting." );
@@ -110,10 +119,19 @@
     // Function for ripping a single Java sim from the web site.
     //-------------------------------------------------------------------------
     function rip_java_sim( $sim_name ) {
-        //./HTTrack/Linux/httrack "http://phet.colorado.edu/sims/balloons/" -O ./rip_test '-*' '+*.jnlp' '+*screenshot*' -q
-        //$java_rip_command = RIPPER_EXE." ".'"'.PHET_WEBSITE_URL.PHET_SIMS_SUBDIR.$sim_name'" -O "'.RIPPED_WEBSITE_ROOT;
-        $java_rip_command = RIPPER_EXE." ".'"'.PHET_WEBSITE_URL.PHET_SIMS_SUBDIR.$sim_name.'"'." -O ".RIPPED_WEBSITE_ROOT.' \'-*\''.' \'+*.jnlp\''.' \'+*screenshot*\''." -q";
-        flushing_echo("STUBBED - Would rip Java sim with command:".$java_rip_command);
+        // This command unfortunately causes a bunch of other things to be
+        // removed.  I think it looks at the cache and decides that the user
+        // no longer wants much of what was previously ripped.
+        $java_rip_command = RIPPER_EXE." ".'"'.PHET_WEBSITE_URL.PHET_SIMS_SUBDIR.$sim_name.'"'." -O ".SINGLE_SIM_RIP_DIR.' \'-*\''.' \'+*.jnlp\''.' \'+*screenshot*\''." -q -v";
+        // The command below doesn't seem to save much time - maybe a minute -
+        // in the process of ripping the web site.
+        //$java_rip_command = RIPPER_EXE." ".RIPPER_ARGS.' --update -v';
+        flushing_echo("Ripping files for sim ".$sim_name." with command: ".$java_rip_command);
+        system( $java_rip_command );
+
+        // Download the additional resources that are needed by this sim but
+        // that are not directory obtained through a rip of the web site.
+        builder_download_java_rsrcs( SINGLE_SIM_RIP_TOP );
     }
 
     //-------------------------------------------------------------------------
@@ -137,7 +155,17 @@
             return;
         }
           
+        // Grab the lock to prevent multiple simultaneous executions.
         file_lock("install-builder");
+
+        // Remove any previous rips of single sims that are lying around.
+        exec( "rm -rfv ".SINGLE_SIM_RIP_DIR );
+
+        // Log the start time of this operation.
+        $start_time = exec("date");
+        flushing_echo("Starting refresh at time $start_time");
+
+        // Rip the files for the specified sim.
         $sim_name = $args[1];
         $rip_successful = builder_rip_sim($sim_name);
         if ($rip_successful){
@@ -148,7 +176,12 @@
             flushing_echo("Error: Failed to obtain sim from the web site, sim = ".$sim_name);
         }
 
+        // Release the lock.
         file_unlock("install-builder");
+
+        // Output the time of completion.
+        $end_time = exec("date");
+        flushing_echo("Completed refresh at time $end_time");
     }
 
     //--------------------------------------------------------------------------
