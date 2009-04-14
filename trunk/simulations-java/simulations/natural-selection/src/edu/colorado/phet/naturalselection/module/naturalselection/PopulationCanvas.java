@@ -17,7 +17,7 @@ public class PopulationCanvas extends PhetPCanvas {
         rootNode = new PNode();
         addWorldChild( rootNode );
 
-        rootNode.addChild( new PopulationGraphNode() );
+        rootNode.addChild( new PopulationGraphNode( 23 ) );
 
         setPreferredSize( new Dimension( 80, 200 ) );
 

@@ -14,52 +14,78 @@ public class PopulationGraphNode extends PNode {
     public PText label;
     public PText quantity;
 
-    public PopulationGraphNode() {
+    private int population;
+
+    private static float BASELINE = 170;
+    private static float BAR_LEFT = 25;
+    private static float BAR_RIGHT = 55;
+    private static float AXIS_LEFT = 15;
+    private static float AXIS_RIGHT = 65;
+
+    private static float TOTAL_WIDTH = 80;
+
+    private static float AXIS_STROKE_WIDTH = 3f;
+    private static float BAR_STROKE_WIDTH = 1f;
+
+    private static float POPULATION_MULTIPLIER = 1f;
+
+    public PopulationGraphNode( int startPopulation ) {
         axis = new PPath();
         bar = new PPath();
         label = new PText( "# Rabbits" );
-        quantity = new PText( "23" );
-        
+        quantity = new PText();
+
+        updatePopulation( startPopulation );
+
+    }
+
+    private float getGraphHeight() {
+        return ( (float) population ) * POPULATION_MULTIPLIER;
+    }
+
+    private void updatePopulation( int newPopulation ) {
+        population = newPopulation;
+
+        quantity.setText( String.valueOf( population ) );
+
         drawBar();
         drawAxis();
         drawLabels();
     }
 
     private void drawAxis() {
-
-        axis.setStroke( new BasicStroke( 3f ) );
+        axis.setStroke( new BasicStroke( AXIS_STROKE_WIDTH ) );
         axis.setStrokePaint( Color.BLACK );
-        //axis.setPaint( Color.WHITE );
 
         GeneralPath path = new GeneralPath();
-        path.moveTo( 15, 170 );
-        path.lineTo( 65, 170 );
-        //path.closePath();
+        path.moveTo( AXIS_LEFT, BASELINE );
+        path.lineTo( AXIS_RIGHT, BASELINE );
         axis.setPathTo( path );
 
         conditionalAdd( axis );
     }
 
     private void drawLabels() {
-        label.setOffset( 40 - label.getWidth() / 2, 180 );
+        label.setOffset( ( TOTAL_WIDTH - label.getWidth() ) / 2, BASELINE + 10 );
         conditionalAdd( label );
 
-        quantity.setOffset( 40 - quantity.getWidth() / 2, 20 );
+        quantity.setOffset( ( TOTAL_WIDTH - quantity.getWidth() ) / 2, BASELINE - getGraphHeight() - 20 );
 
         conditionalAdd( quantity );
     }
 
     private void drawBar() {
-        bar.setStroke( new BasicStroke( 1f ) );
+        bar.setStroke( new BasicStroke( BAR_STROKE_WIDTH ) );
         bar.setStrokePaint( Color.BLACK );
         bar.setPaint( Color.WHITE );
 
+        float height = getGraphHeight();
 
         GeneralPath path = new GeneralPath();
-        path.moveTo( 25, 40 );
-        path.lineTo( 25, 170 );
-        path.lineTo( 55, 170 );
-        path.lineTo( 55, 40 );
+        path.moveTo( BAR_LEFT, BASELINE - height );
+        path.lineTo( BAR_LEFT, BASELINE );
+        path.lineTo( BAR_RIGHT, BASELINE );
+        path.lineTo( BAR_RIGHT, BASELINE - height );
         path.closePath();
         bar.setPathTo( path );
 
