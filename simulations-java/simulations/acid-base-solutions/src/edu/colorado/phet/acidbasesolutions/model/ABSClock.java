@@ -27,18 +27,4 @@ public class ABSClock extends ConstantDtClock {
     protected ABSClock( int framesPerSecond, double dt ) {
         super( 1000 / framesPerSecond, dt );
     }
-    
-    //----------------------------------------------------------------------------
-    // Superclass overrides
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Reset the clock when dt is changed.
-     * 
-     * @param dt
-     */
-    public void setDt( double dt ) {
-        super.setDt( dt );
-        resetSimulationTime();
-    }
 }
