@@ -58,6 +58,7 @@
         }
         else if ( is_flash_sim( $full_path_to_sim ) ) {
             flushing_echo( "This is a Flash sim" );
+            rip_flash_sim( $sim_name );
         }
         else {
             flushing_echo( "Error: The sim ".$sim_name." does not appear to be a Flash or Java sim, aborting." );
@@ -119,9 +120,6 @@
     // Function for ripping a single Java sim from the web site.
     //-------------------------------------------------------------------------
     function rip_java_sim( $sim_name ) {
-        // This command unfortunately causes a bunch of other things to be
-        // removed.  I think it looks at the cache and decides that the user
-        // no longer wants much of what was previously ripped.
         $java_rip_command = RIPPER_EXE." ".'"'.PHET_WEBSITE_URL.PHET_SIMS_SUBDIR.$sim_name.'"'." -O ".SINGLE_SIM_RIP_DIR.' \'-*\''.' \'+*.jnlp\''.' \'+*screenshot*\''." -q -v";
         // The command below doesn't seem to save much time - maybe a minute -
         // in the process of ripping the web site.
@@ -137,8 +135,14 @@
     //-------------------------------------------------------------------------
     // Function for ripping a single flash sim from the web site.
     //-------------------------------------------------------------------------
-    function rip_flash_sim($sim) {
-        flushing_echo("Stubbed, should be ripping flash sim: ".$sim);
+    function rip_flash_sim( $sim_name ) {
+        $flash_rip_command = RIPPER_EXE." ".'"'.PHET_WEBSITE_URL.PHET_SIMS_SUBDIR.$sim_name.'"'." -O ".SINGLE_SIM_RIP_DIR.' \'-*\''.' \'+*.swf\''.' \'+*.html\''.' \'+*screenshot*\''." -q -v";
+        flushing_echo("Ripping files for sim ".$sim_name." with command: ".$flash_rip_command);
+        system( $flash_rip_command );
+
+        // Download the additional resources that are needed by this sim but
+        // that are not directory obtained through a rip of the web site.
+        builder_download_flash_rsrcs( SINGLE_SIM_RIP_TOP );
     }
 
     //-------------------------------------------------------------------------
