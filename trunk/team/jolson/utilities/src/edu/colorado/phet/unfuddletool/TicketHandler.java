@@ -28,7 +28,7 @@ public class TicketHandler {
     }
 
     public Ticket requestNewTicketById( int id ) {
-        String xmlString = Communication.getXMLResponse( "<request></request>", "projects/9404/tickets/" + String.valueOf( id ), Authentication.auth );
+        String xmlString = Communication.getXMLResponse( "<request></request>", "projects/" + Configuration.getProjectIdString() + "/tickets/" + String.valueOf( id ), Authentication.auth );
         try {
             Ticket ticket = new Ticket( (Element) Communication.toDocument( xmlString ).getFirstChild() );
 

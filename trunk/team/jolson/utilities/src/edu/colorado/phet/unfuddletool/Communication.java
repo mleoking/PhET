@@ -1,9 +1,10 @@
 package edu.colorado.phet.unfuddletool;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
-import java.io.StringWriter;
+import java.io.*;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -99,9 +100,10 @@ public class Communication {
     }
 
     public static String getXMLResponse( String xmlString, String location, String auth ) {
+
         String ret = null;
         try {
-            ret = execCommand( new String[]{"curl", "-i", "-u", auth, "-X", "GET", "-H", "Accept: application/xml", "-d", xmlString, "http://phet.unfuddle.com/api/v1/" + location} );
+            ret = execCommand( new String[]{"curl", "-i", "-u", auth, "-X", "GET", "-H", "Accept: application/xml", "-d", xmlString, "http://" + Configuration.getAccountName() + ".unfuddle.com/api/v1/" + location} );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -110,6 +112,9 @@ public class Communication {
             e.printStackTrace();
         }
         return ret;
+        
+       // return rawHTTPRequest( xmlString, location, auth );
+        //return persistentHTTPRequest( xmlString, location, auth );
     }
 
 
@@ -152,6 +157,21 @@ public class Communication {
         return new DateTime( getTagString( element, name ) );
     }
 
+    public static String base64Data = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+
+
+    public static String base64Encode( String string ) {
+        String ret = "";
+        int count = ( 3 - ( string.length() % 3 ) ) % 3;
+        string += "\0\0".substring( 0, count );
+        for ( int i = 0; i < string.length(); i += 3 ) {
+            int j = ( string.charAt( i ) << 16 ) + ( string.charAt( i + 1 ) << 8 ) + string.charAt( i + 2 );
+            ret = ret + base64Data.charAt( ( j >> 18 ) & 0x3f ) + base64Data.charAt( ( j >> 12 ) & 0x3f ) + base64Data.charAt( ( j >> 6 ) & 0x3f ) + base64Data.charAt( j & 0x3f );
+        }
+        return ret.substring( 0, ret.length() - count ) + "==".substring( 0, count );
+    }
+
+
     public static String HTMLPrepare( String str ) {
         String ret = str.replaceAll( "\n", "ABRACADABRAX" );
 
@@ -176,5 +196,91 @@ public class Communication {
             }
         }
         return buf.toString();
+    }
+
+    public static String encodeAuth( String auth ) {
+        //return new sun.misc.BASE64Encoder().encode( auth.getBytes() );
+        return base64Encode( auth );
+    }
+
+    public static String HTMLRequestString( String xml, String location, String auth ) {
+        String ret = "GET /api/v1/" + location + " HTTP/1.1\n";
+        ret += "Authorization: Basic " + encodeAuth( auth ) + "\n";
+        ret += "User-Agent: curl/7.16.4 (i486-pc-linux-gnu) libcurl/7.16.4 OpenSSL/0.9.8e zlib/1.2.3.3 libidn/1.0\n";
+        ret += "Host: " + Configuration.getAccountName() + ".unfuddle.com\n";
+        ret += "Accept: application/xml\n";
+        ret += "Content-Length: " + String.valueOf( xml.length() ) + "\n";
+        ret += "Content-Type: application/x-www-form-urlencoded\n";
+        ret += "Connection: close\n";
+        ret += "\n";
+        ret += xml;
+        ret += "\n"; // should not be necessary
+        return ret;
+    }
+
+    public static String rawHTTPRequest( String xml, String location, String auth ) {
+        StringBuffer buf = new StringBuffer();
+
+        try {
+            InetAddress addr = InetAddress.getByName( Configuration.getAccountName() + ".unfuddle.com" );
+            SocketAddress sockAddr = new InetSocketAddress( addr, 80 );
+
+            Socket socket = new Socket();
+            socket.connect( sockAddr, 30000 );
+
+            PrintWriter out = new PrintWriter( socket.getOutputStream() );
+            BufferedReader in = new BufferedReader( new InputStreamReader( socket.getInputStream() ) );
+
+            String requestString = HTMLRequestString( xml, location, auth );
+
+            out.println( requestString );
+            out.flush();
+
+            String line;
+
+            boolean errorSet = false;
+
+            while ( ( line = in.readLine() ) != null && line.length() > 0 ) {
+                //buf.append( "Header: " + line + "\n" );
+
+                if( errorSet ) {
+                    System.err.println( line );
+                }
+
+                if( line.startsWith( "HTTP/1.1 " ) ) {
+                    if( !line.startsWith( "HTTP/1.1 200" ) ) {
+                        errorSet = true;
+                        System.err.println( "WARNING: HTTP Error code received" );
+                        System.err.println( "----====] Request [====----" );
+                        System.err.println( requestString );
+                        System.err.println( "\n----====] Response [====----" );
+                        System.err.println( line );
+                    }
+                }
+            }
+
+            while ( ( line = in.readLine() ) != null ) {
+                buf.append( line + "\n" );
+
+                if( errorSet ) {
+                    System.err.println( line );
+                }
+            }
+
+            if( errorSet ) {
+                System.err.println( "----------------" );
+            }
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+
+        return buf.toString();
+    }
+
+    public static void main( String[] args ) {
+        Authentication.auth = args[0];
+
+        System.out.println( rawHTTPRequest( "<?xml version=\"1.0\" encoding=\"UTF-8\"?><request><start-date>2009/4/9</start-date><end-date>2010/1/1</end-date><limit>50</limit></request>", "projects/9404/activity", Authentication.auth ) );
     }
 }

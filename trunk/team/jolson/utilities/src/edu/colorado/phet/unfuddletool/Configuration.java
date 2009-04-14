@@ -2,15 +2,23 @@ package edu.colorado.phet.unfuddletool;
 
 public class Configuration {
 
-    public String getAccountName() {
+    public static String getAccountName() {
         return "phet";
     }
 
-    public int getProjectId() {
+    public static int getProjectId() {
         return 9404;
     }
 
-    public String getDefaultHTMLFont() {
+    public static String browser() {
+        return "firefox";
+    }
+
+    public static String getProjectIdString() {
+        return String.valueOf( getProjectId() );
+    }
+
+    public static String getDefaultHTMLFont() {
         return "BitStream Vera Serif";
     }
 }

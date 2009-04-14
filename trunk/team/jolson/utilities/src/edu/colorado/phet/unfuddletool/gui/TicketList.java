@@ -33,10 +33,6 @@ public class TicketList extends JList implements ListSelectionListener {
         while ( iter.hasNext() ) {
             Ticket ticket = iter.next();
 
-            //String listItem = ticket.lastUpdateTime().toString() + " " + ticket.toString();
-
-            //model.addElement( listItem );
-
             model.addElement( ticket );
         }
 
