@@ -4,6 +4,7 @@ import java.awt.*;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.view.PopulationGraphNode;
+import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.umd.cs.piccolo.PNode;
 
 public class PopulationCanvas extends PhetPCanvas {
@@ -22,7 +23,7 @@ public class PopulationCanvas extends PhetPCanvas {
 
         setBorder( null );
 
-        setBackground( new Color( 0xC9E5C6 ) );
+        setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
     }
 
     public void updateLayout() {
