@@ -53,7 +53,7 @@ public class ModulePanel extends JPanel {
 
     private boolean fullScreen = false;
     private JDialog buttonDlg;
-    private JPanel clockControlPanelContainer;
+    private JComponent clockControlPanelContainer;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -167,6 +167,22 @@ public class ModulePanel extends JPanel {
     }
 
     /**
+     * Sets the clock control panel as a top-level container, not embedded in a child.
+     *
+     * @param panel, possibly null
+     */
+    public void setClockControlPanelWithoutContainer( JComponent panel ) {
+        if ( clockControlPanel != null ) {
+            leftPanel.remove( clockControlPanelContainer );
+        }
+        clockControlPanel = panel;
+        if ( panel != null ) {
+            clockControlPanelContainer = panel;
+            leftPanel.add( clockControlPanelContainer, BorderLayout.SOUTH );
+        }
+    }
+
+    /**
      * Sets the clock control panel.
      *
      * @param panel, possibly null
@@ -180,7 +196,7 @@ public class ModulePanel extends JPanel {
             // Embed the clockControlPanel in its own JPanel so that it will be centered.
             // This might cause issues for users that want to get a reference to the southern
             // part of the module panel instead of the control panel itself.
-            clockControlPanelContainer = new JPanel( new FlowLayout( FlowLayout.CENTER, 0, 0 ) );
+            clockControlPanelContainer = new JPanel(  );
             clockControlPanelContainer.add( panel );
 
             //trial workaround for keeping background color consistent
