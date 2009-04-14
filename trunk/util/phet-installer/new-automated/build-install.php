@@ -374,7 +374,7 @@
         builder_download_flash_rsrcs( RIPPED_WEBSITE_TOP );
 
         // Add the marker file, needed for sim usage tracking.
-        create_marker_file();
+        builder_create_marker_file();
     }
 
     //--------------------------------------------------------------------------
@@ -405,7 +405,7 @@
     // versus some other means (such as a single downloaded JAR file).  See
     // unfuddle ticket #875 for more information.
     //--------------------------------------------------------------------------
-    function create_marker_file(){
+    function builder_create_marker_file(){
         $marker_file_name = RIPPED_WEBSITE_TOP.PHET_SIMS_SUBDIR.MARKER_FILE_NAME;
         flushing_echo("Marker file name = $marker_file_name");
         $contents = "# DO NOT DELETE THIS FILE.\n# This file identifies this installation of PhET.\n\n";
@@ -418,7 +418,7 @@
     // flash simulations must be modified at the same time so that the time
     // stamp will be the same for both.
     //--------------------------------------------------------------------------
-    function insert_installer_creation_time(){
+    function builder_insert_installer_creation_time(){
 
         // Get the value of the time stamp.
         $time = time();
@@ -504,11 +504,8 @@
                 if (is_checked('download-sims'))
                     builder_download_sims();
 
-                if (is_checked('create-marker-file'))
-                    create_marker_file();
-
                 if (is_checked('insert-installer-creation-time'))
-                    insert_installer_creation_time();
+                    builder_insert_installer_creation_time();
 
                 if (is_checked('build-all'))
                     builder_build_all();
