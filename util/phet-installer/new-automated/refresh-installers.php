@@ -110,7 +110,7 @@
     // Function for ripping a single Java sim from the web site.
     //-------------------------------------------------------------------------
     function rip_java_sim( $sim_name ) {
-        $java_rip_command = RIPPER_EXE." ".'"'.PHET_WEBSITE_URL.PHET_SIMS_SUBDIR.$sim_name.'"'.' -I0 -q -v'." -O ".SINGLE_SIM_RIP_DIR.' \'-*\''.' \'+*.jnlp\''.' \'+*screenshot*\'';
+        $java_rip_command = RIPPER_EXE." ".'"'.PHET_WEBSITE_URL.PHET_SIMS_SUBDIR.$sim_name.'"'.' -I0 -q -v'." -O ".SINGLE_SIM_RIP_DIR.' \'-*\''.' \'+*.jnlp\''.' \'+*screenshot*\''.' \'+*thumbnail*\'';
         // The command below doesn't seem to save much time - maybe a minute -
         // in the process of ripping the web site.
         //$java_rip_command = RIPPER_EXE." ".RIPPER_ARGS.' --update -v';
