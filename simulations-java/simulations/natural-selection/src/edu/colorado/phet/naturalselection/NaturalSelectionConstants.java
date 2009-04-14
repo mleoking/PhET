@@ -26,7 +26,7 @@ public class NaturalSelectionConstants {
     //----------------------------------------------------------------------------
     
     // enable debug output for canvas layout updates
-    public static final boolean DEBUG_CANVAS_UPDATE_LAYOUT = false;
+    public static final boolean DEBUG_CANVAS_UPDATE_LAYOUT = true;
     
     //----------------------------------------------------------------------------
     // Application
@@ -60,7 +60,7 @@ public class NaturalSelectionConstants {
     //----------------------------------------------------------------------------
     
     // Color of the "play area"
-    public static final Color CANVAS_BACKGROUND = Color.BLACK;
+    public static final Color CANVAS_BACKGROUND = new Color( 0x888EC8 );
     
     // Color of labels placed directly on the play area
     public static final Color CANVAS_LABELS_COLOR = Color.BLACK;
