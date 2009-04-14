@@ -141,12 +141,18 @@
     //-------------------------------------------------------------------------
     function copy_sim_into_full_mirror( $sim_name ) {
 
-        // Copy over newly ripped files.
-        $full_rip_sim_path = RIPPED_WEBSITE_TOP.PHET_SIMS_SUBDIR.$sim_name.'/';
         $single_sim_rip_path = SINGLE_SIM_RIP_TOP.PHET_SIMS_SUBDIR.$sim_name;
-        $copy_command = "cp -f $single_sim_rip_path".'/* '."$full_rip_sim_path";
-        echo "!!!!! $copy_command \n";
+        $full_rip_sim_path = RIPPED_WEBSITE_TOP.PHET_SIMS_SUBDIR.$sim_name.'/';
+
+        // The httrack ripper produces an index file, and though there is
+        // supposed to be an option that prevents it from being created, it
+        // doesn't seem to work as documented.  So, at least for now, we
+        // explicitly get rid of it here.
+        exec( "rm $single_sim_rip_path".'/index.html' );
+
+        // Peform the actual copy operation.
         flushing_echo("Copying sim files into full mirror.");
+        $copy_command = "cp -f $single_sim_rip_path".'/* '."$full_rip_sim_path";
         exec( $copy_command );
     }
 
