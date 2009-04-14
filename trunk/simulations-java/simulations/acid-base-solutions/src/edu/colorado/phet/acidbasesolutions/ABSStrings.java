@@ -38,14 +38,14 @@ public class ABSStrings {
     public static final String PURE_WATER = ABSResources.getString( "pureWater" );
     
     // acids
-    public static final String STRONG_ACID = ABSResources.getString( "acid.strongAcid" );
     public static final String CUSTOM_WEAK_ACID = ABSResources.getString( "acid.customWeakAcid" );
+    public static final String CUSTOM_STRONG_ACID = ABSResources.getString( "acid.customStrongAcid" );
     public static final String HYDORCHLORIC_ACID = ABSResources.getString( "acid.hydrochloricAcid" );
     public static final String HYPOCHLOROUS_ACID = ABSResources.getString( "acid.hypochlorousAcid" );
     
     // bases
-    public static final String STRONG_BASE = ABSResources.getString( "base.strongBase" );
     public static final String CUSTOM_WEAK_BASE = ABSResources.getString( "base.customWeakBase" );
+    public static final String CUSTOM_STRONG_BASE = ABSResources.getString( "base.customStrongBase" );
     public static final String METHYLAMINE = ABSResources.getString( "base.methylamine" );
     public static final String SODIUM_HYDROXIDE = ABSResources.getString( "base.sodiumHydroxide" );
 }
