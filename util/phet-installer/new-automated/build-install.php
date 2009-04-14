@@ -77,7 +77,7 @@
 
         $file_num = 1;
 
-        flushing_echo("Found ".count($jnlp_files)." jnlp files");
+        flushing_echo("Found ".count($jnlp_files)." JNLP files");
 
         foreach ($jnlp_files as $jnlp_filename => $jnlp) {
             flushing_echo("Processing JNLP file $file_num of ".count($jnlp_files)."...");
@@ -107,9 +107,16 @@
                 }
 
                 if (($contents = file_get_contents($absolute_url)) !== false) {
-                    $local_file_name = file_cleanup_local_filename(preg_replace(PHET_WEBSITE_ROOT_PATTERN, $directory , $absolute_url));
+                    $local_file_name = 
+                        file_cleanup_local_filename(preg_replace(PHET_WEBSITE_ROOT_PATTERN, $directory , $absolute_url));
 
-                    if (!is_dir($local_file_name)) {
+                    if ( file_exists( $local_file_name ) ) {
+                        flushing_echo("File $local_file_name already exists locally, skipping download.");
+                    }
+                    else if ( is_dir( $local_file_name ) ) {
+                        flushing_echo("File $local_file_name is a directory, skipping download.");
+                    }
+                    else {
                         file_put_contents_anywhere($local_file_name, $contents);
 
                         flushing_echo("Downloaded $absolute_url to $local_file_name\n");
