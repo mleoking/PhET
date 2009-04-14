@@ -25,10 +25,14 @@ class LadybugDotTraceNode(model: LadybugModel, transform: ModelViewTransform2D,
 
   update()
 
+  var dotNodeIndex = 0
   class DotNode(val point: Vector2D, dt: Double) extends PNode {
     val path = new PhetPPath(new Ellipse2D.Double(point.getX - 5, point.getY - 5, 10, 10), toColor(dt, maxFade))
     addChild(path)
 
+    val index = dotNodeIndex
+    dotNodeIndex = dotNodeIndex + 1
+    setVisible(index % 2 == 0) //only paint every other node
     def setDT(dt: Double) = path.setPaint(toColor(dt, maxFade))
   }
 
@@ -38,20 +42,19 @@ class LadybugDotTraceNode(model: LadybugModel, transform: ModelViewTransform2D,
     //todo: some code duplicated with LadbyugFadeTraceNode
     var unusedKeys = scala.collection.mutable.Set.empty[Vector2D]
     unusedKeys ++= nodeCache.keySet.elements
-    for (h <- getHistoryToShow()) {
-      val pt: Point2D.Float = h
-      val tx = transform.modelToView(pt)
+    for (h <- getHistoryToShow) {
+      val viewPt = transform.modelToView(h)
       val dt = abs(model.getTime - h.time)
 
-      unusedKeys -= tx
+      unusedKeys -= viewPt
       try {
         //cache checks are very expensive, only do it once
-        nodeCache(tx).setDT(dt)
+        nodeCache(viewPt).setDT(dt)
       } catch {
         case e: NoSuchElementException => {
-          val dotNode = new DotNode(tx, dt)
+          val dotNode = new DotNode(viewPt, dt)
           node.addChild(dotNode)
-          nodeCache(tx) = dotNode
+          nodeCache(viewPt) = dotNode
         }
         case _ => {}
       }
