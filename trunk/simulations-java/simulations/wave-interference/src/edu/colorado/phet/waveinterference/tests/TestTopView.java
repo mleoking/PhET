@@ -4,8 +4,8 @@ package edu.colorado.phet.waveinterference.tests;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.application.PhetTestApplication;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
-import edu.colorado.phet.common.phetcommon.application.DeprecatedPhetApplicationLauncher;
 import edu.colorado.phet.waveinterference.view.IndexColorMap;
 import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
 import edu.colorado.phet.waveinterference.view.WaveModelGraphic;
@@ -52,7 +52,7 @@ public class TestTopView extends BasicWaveTestModule {
     }
 
     public static void main( String[] args ) {
-        DeprecatedPhetApplicationLauncher phetApplication = new DeprecatedPhetApplicationLauncher( args, "Test Top View", "", "" );
+        PhetTestApplication phetApplication = new PhetTestApplication( args );
         phetApplication.addModule( new TestTopView() );
         phetApplication.startApplication();
     }

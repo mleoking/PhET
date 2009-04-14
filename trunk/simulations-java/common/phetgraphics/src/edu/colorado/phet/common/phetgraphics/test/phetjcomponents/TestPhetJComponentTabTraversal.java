@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.application.DeprecatedPhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.application.PhetTestApplication;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
@@ -30,11 +30,8 @@ public class TestPhetJComponentTabTraversal {
 
     public TestPhetJComponentTabTraversal( String[] args ) throws IOException {
 
-        // Create the app.
-        String title = "TestPhetJComponentTabTraversal";
         IClock clock = new SwingClock( 40, 1 );
-
-        DeprecatedPhetApplicationLauncher app = new DeprecatedPhetApplicationLauncher( args, "title", "desc", "version" );
+        PhetTestApplication app = new PhetTestApplication( args );
 
         // Add modules.
         PhetGraphicsModule module = new TestModule( clock );

@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.application.DeprecatedPhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.application.PhetTestApplication;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
@@ -36,13 +36,11 @@ public class TestOffscreenBufferAlpha {
     public TestOffscreenBufferAlpha( String[] args ) throws IOException {
 
         // Set up the application descriptor.
-        String title = "TestOffscreenBufferAlpha";
-        FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 300, 300 );
         IClock clock = new SwingClock( 40, 1 );
         PhetGraphicsModule module = new TestModule( clock );
 
         // Create and start the application.
-        DeprecatedPhetApplicationLauncher app = new DeprecatedPhetApplicationLauncher( args, "title", "desc", "version" );
+        PhetTestApplication app = new PhetTestApplication( args );
         app.addModule( module );
         app.startApplication();
     }

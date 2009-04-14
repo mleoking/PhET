@@ -21,7 +21,7 @@ import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.application.DeprecatedPhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.application.PhetTestApplication;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
@@ -48,17 +48,12 @@ public class TestMouseHandling {
     public TestMouseHandling( String[] args ) throws IOException {
 
         // Set up the application descriptor.
-        String title = "TestMouseHandling";
-        String description = "A test harness for mouse event handling";
-        String version = "0.1";
-        FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 300, 300 );
         IClock clock = new SwingClock( 40, 1 );
         PhetGraphicsModule module = new TestModule( clock );
-//        ApplicationModel appModel =
-//                new ApplicationModel( title, description, version, frameSetup, module, clock );
 
         // Create and start the application.
-        DeprecatedPhetApplicationLauncher app = new DeprecatedPhetApplicationLauncher( args, "title", "description", "version" );
+        PhetTestApplication app = new PhetTestApplication( args );
+        app.addModule( module );
         app.startApplication();
     }
 

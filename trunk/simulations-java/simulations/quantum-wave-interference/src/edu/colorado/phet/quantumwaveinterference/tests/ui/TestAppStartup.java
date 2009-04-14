@@ -14,7 +14,7 @@ package edu.colorado.phet.quantumwaveinterference.tests.ui;
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.application.DeprecatedPhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.application.PhetTestApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.*;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
@@ -50,7 +50,7 @@ import java.awt.event.ComponentEvent;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class TestAppStartup extends DeprecatedPhetApplicationLauncher {
+public class TestAppStartup extends PhetTestApplication {
 
     private static final int CLOCK_RATE = 25; // wall time: frames per second
     private static final double MODEL_RATE = 0.1; // model time: dt per clock tick
@@ -74,7 +74,7 @@ public class TestAppStartup extends DeprecatedPhetApplicationLauncher {
     }
 
     public TestAppStartup( String[] args ) throws InterruptedException {
-        super( args, "TestAppStartUp", "description", "0.1", new FrameSetup.CenteredWithSize( 1024, 768 ) );
+        super( args, new FrameSetup.CenteredWithSize( 1024, 768 ) );
 
         // Add one module to the application...
         IClock clock = new SwingClock( 1000 / CLOCK_RATE, new TimingStrategy.Constant( MODEL_RATE ) );

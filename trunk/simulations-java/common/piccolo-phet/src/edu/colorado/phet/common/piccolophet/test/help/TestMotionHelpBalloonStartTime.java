@@ -3,15 +3,15 @@ package edu.colorado.phet.common.piccolophet.test.help;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
-import edu.colorado.phet.common.phetcommon.application.DeprecatedPhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.application.PhetTestApplication;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolo.util.PUtil;
 
-public class TestMotionHelpBalloonStartTime extends DeprecatedPhetApplicationLauncher {
+public class TestMotionHelpBalloonStartTime extends PhetTestApplication {
 
     public TestMotionHelpBalloonStartTime( String[] args ) throws InterruptedException {
-        super( args, "tmhbst", "", "" );
+        super( args );
         addModule( new TestMotionHelpBalloonStartTimeModule() );
     }
 

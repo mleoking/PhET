@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.waveinterference.tests;
 
-import edu.colorado.phet.common.phetcommon.application.DeprecatedPhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.application.PhetTestApplication;
 import edu.colorado.phet.waveinterference.model.Oscillator;
 
 /**
@@ -26,7 +26,7 @@ public class TestTwoSourcesWaveRotate extends TestWaveRotateModule {
     }
 
     public static void main( String[] args ) {
-        DeprecatedPhetApplicationLauncher a = new DeprecatedPhetApplicationLauncher( args, "Test 2 Sources", "", "" );
+        PhetTestApplication a = new PhetTestApplication( args );
         a.addModule( new TestTwoSourcesWaveRotate() );
         a.startApplication();
     }

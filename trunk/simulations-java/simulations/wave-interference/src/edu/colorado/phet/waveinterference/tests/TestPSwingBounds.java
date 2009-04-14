@@ -6,7 +6,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.DeprecatedPhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.application.PhetTestApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
@@ -48,13 +48,9 @@ public class TestPSwingBounds extends Module {
     public static void main( String[] args ) {
         TestPSwingBounds module = new TestPSwingBounds();
         System.out.println( "Made module..." );
-        PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
-        phetLookAndFeel.setFont( new PhetFont( Font.BOLD, 13 ) );
-        phetLookAndFeel.initLookAndFeel();
-//        ModuleApplication moduleApplication = new ModuleApplication();
-        DeprecatedPhetApplicationLauncher phetApplication = new DeprecatedPhetApplicationLauncher( args, "", "", "" );
+        
+        PhetTestApplication phetApplication = new PhetTestApplication( args );
         phetApplication.addModule( module );
-
 
         phetApplication.startApplication();
         module.fix();
