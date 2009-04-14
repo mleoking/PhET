@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--mass-spring-lab-strings_fr.xml created Fri Apr 10 16:43:23 CEST 2009 using: mass-spring-lab 1.00.00 (22498), translation-utility 1.12.00 (29256)-->
+<SimStrings>
+<string key="pause" value="Pause"/>
+<string key="earth" value="Terre"/>
+<string key="dontBother" value="Ne vous inquiétez pas"/>
+<string key="16thTime" value="1/16ème"/>
+<string key="nothinOK" value="Rien ! OK ?"/>
+<string key="mass1Label" value="50 grammes"/>
+<string key="mass3Label" value="250 grammes"/>
+<string key="planetX" value="Planète X"/>
+<string key="showEnergyOf" value="Montrez l'énergie de"/>
+<string key="hangMe" value="Accrochez-moi !"/>
+<string key="resetTimer" value="RAZ"/>
+<string key="hard" value="Forte"/>
+<string key="mass7Label" value="100 grammes"/>
+<string key="stopWatch" value="Chronomètre"/>
+<string key="none" value="Aucun"/>
+<string key="realTime" value="Temps réel"/>
+<string key="startTimer" value="Départ/Pause"/>
+<string key="help4" value="Chronomètre déplaçable"/>
+<string key="help3" value="Tirer sur la masse pour la détacher du ressort"/>
+<string key="showHelp" value="Aide"/>
+<string key="lots" value="Beaucoup"/>
+<string key="help2" value="Ligne de référence déplaçable"/>
+<string key="help1" value="Règle déplaçable"/>
+<string key="friction" value="Frottements"/>
+<string key="PEelas" value="E"/>
+<string key="jupiter" value="Jupiter"/>
+<string key="moon" value="Lune"/>
+<string key="energyOf" value="Energie de "/>
+<string key="total" value="Total"/>
+<string key="sound" value="Son"/>
+<string key="PEgrav" value="Epot de gravité"/>
+<string key="mass2Label" value="100 grammes"/>
+<string key="thermal" value="Thermique"/>
+<string key="quarterTime" value="1/4"/>
+<string key="KE" value="KE"/>
+<string key="gEqZero" value="g = 0"/>
+<string key="hideHelp" value="Cacher l'aide"/>
+<string key="noHelp" value="Pas d'aide"/>
+<string key="soft" value="Faible"/>
+<string key="softness" value="Rigidité du ressort 3"/>
+<string key="totalE" value="Energie totale"/>
+<string key="noShow" value="Ne rien afficher"/>
+<string key="paused" value="En pause"/>
+</SimStrings>
