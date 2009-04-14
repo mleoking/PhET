@@ -77,7 +77,7 @@ public class NaturalSelectionControlPanel extends JPanel {
         GridBagConstraints spacerConstraints2 = new GridBagConstraints();
         spacerConstraints2.gridx = 1;
         spacerConstraints2.gridy = 0;
-        Component spacer2 = Box.createRigidArea( new Dimension( 20, 0 ) );
+        Component spacer2 = Box.createRigidArea( new Dimension( 40, 0 ) );
         add( spacer2, spacerConstraints2 );
 
         GridBagConstraints rightConstraints = new GridBagConstraints();
@@ -95,6 +95,9 @@ public class NaturalSelectionControlPanel extends JPanel {
         mutationPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         rightPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         selectionPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        wolvesButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        foodButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        noneButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
 
     }
 
