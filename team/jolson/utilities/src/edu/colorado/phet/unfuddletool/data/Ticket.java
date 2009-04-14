@@ -13,6 +13,7 @@ import org.w3c.dom.NodeList;
 
 import edu.colorado.phet.unfuddletool.Authentication;
 import edu.colorado.phet.unfuddletool.Communication;
+import edu.colorado.phet.unfuddletool.Configuration;
 import edu.colorado.phet.unfuddletool.util.DateUtils;
 
 public class Ticket extends Record {
@@ -69,7 +70,7 @@ public class Ticket extends Record {
     }
 
     public String externalLink() {
-        return "http://phet.unfuddle.com/projects/9404/tickets/by_number/" + String.valueOf( getNumber() );
+        return "http://" + Configuration.getAccountName() + ".unfuddle.com/projects/" + Configuration.getProjectIdString() + "/tickets/by_number/" + String.valueOf( getNumber() );
     }
 
     public String toHTMLString() {
@@ -189,7 +190,7 @@ public class Ticket extends Record {
     public void refreshComments() {
 
 
-        String xmlString = Communication.getXMLResponse( "<request></request>", "projects/9404/tickets/" + String.valueOf( rawId ) + "/comments", Authentication.auth );
+        String xmlString = Communication.getXMLResponse( "<request></request>", "projects/" + Configuration.getProjectIdString() + "/tickets/" + String.valueOf( rawId ) + "/comments", Authentication.auth );
         try {
             if ( comments != null ) {
                 comments.clear();

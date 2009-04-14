@@ -17,7 +17,7 @@ public class Activity {
     }
 
     public String getActivityXMLString() {
-        return Communication.getXMLResponse( "<request><start-date>2009/1/1</start-date><end-date>2010/1/1</end-date><limit>2</limit></request>", "projects/9404/activity", Authentication.auth );
+        return Communication.getXMLResponse( "<request><start-date>2009/1/1</start-date><end-date>2020/1/1</end-date><limit>2</limit></request>", "projects/" + Configuration.getProjectIdString() + "/activity", Authentication.auth );
     }
 
     public void getEvents() {

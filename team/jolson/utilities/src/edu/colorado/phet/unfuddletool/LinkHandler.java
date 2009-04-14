@@ -15,7 +15,7 @@ public class LinkHandler implements HyperlinkListener {
         System.out.println( "Opening " + hyperlinkEvent.getDescription() );
 
         try {
-            Runtime.getRuntime().exec( new String[]{"firefox", hyperlinkEvent.getDescription()} );
+            Runtime.getRuntime().exec( new String[]{ Configuration.browser() , hyperlinkEvent.getDescription()} );
         }
         catch( IOException e ) {
             e.printStackTrace();
