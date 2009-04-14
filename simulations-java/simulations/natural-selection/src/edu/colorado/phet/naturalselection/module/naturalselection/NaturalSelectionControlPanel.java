@@ -90,11 +90,11 @@ public class NaturalSelectionControlPanel extends JPanel {
 
         setBackground( new Color( 0xC9E5C6 ) );
 
-        spacer.setBackground( NaturalSelectionConstants.COLOR_TRANSPARENT );
-        spacer2.setBackground( NaturalSelectionConstants.COLOR_TRANSPARENT );
-        mutationPanel.setBackground( NaturalSelectionConstants.COLOR_TRANSPARENT );
-        rightPanel.setBackground( NaturalSelectionConstants.COLOR_TRANSPARENT );
-        selectionPanel.setBackground( NaturalSelectionConstants.COLOR_TRANSPARENT );
+        spacer.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        spacer2.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        mutationPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        rightPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        selectionPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
 
     }
 

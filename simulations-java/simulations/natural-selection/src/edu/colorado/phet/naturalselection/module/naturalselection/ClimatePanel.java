@@ -52,12 +52,12 @@ public class ClimatePanel extends JPanel {
 
         equatorButton.setSelected( true );
 
-        setBackground( NaturalSelectionConstants.COLOR_TRANSPARENT );
-        equatorButton.setBackground( NaturalSelectionConstants.COLOR_TRANSPARENT );
-        equatorPanel.setBackground( NaturalSelectionConstants.COLOR_TRANSPARENT );
-        equatorImage.setBackground( NaturalSelectionConstants.COLOR_TRANSPARENT );
-        arcticButton.setBackground( NaturalSelectionConstants.COLOR_TRANSPARENT );
-        arcticPanel.setBackground( NaturalSelectionConstants.COLOR_TRANSPARENT );
-        arcticImage.setBackground( NaturalSelectionConstants.COLOR_TRANSPARENT );
+        setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        equatorButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        equatorPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        equatorImage.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        arcticButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        arcticPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        arcticImage.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
     }
 }
