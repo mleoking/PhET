@@ -18,10 +18,7 @@ import umd.cs.piccolo.nodes.PText
 import umd.cs.piccolo.PNode
 import scalacommon.{CenteredBoxStrategy, ScalaApplicationLauncher, ScalaClock}
 
-class BlockState(_position: Vector2D, _velocity: Vector2D) {
-  val position = _position
-  val velocity = _velocity
-
+class BlockState(val position: Vector2D, val velocity: Vector2D) {
   def translate(delta: Vector2D) = new BlockState(position + delta, velocity)
 }
 
