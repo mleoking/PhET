@@ -330,7 +330,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         // Limit the particle's motion in the X direction so that it can't
         // get to where there is too much overlap, or is on the other side
         // of the fixed particle.
-        m_movableParticleNode.setMinX( m_movableParticle.getRadius() * 0.4 );
+        updateMinimumXForMovableAtom();
         
         // Add ourself as a listener.
         particle.addListener( m_atomListener );
@@ -440,7 +440,8 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
      */
     private void updateMinimumXForMovableAtom(){
     	if (m_movableParticle != null && m_fixedParticle != null){
-    		m_movableParticleNode.setMinX( ( m_fixedParticle.getRadius() + m_movableParticle.getRadius() ) * 0.4 );
+//    		m_movableParticleNode.setMinX( ( m_fixedParticle.getRadius() + m_movableParticle.getRadius() ) * 0.35 );
+    		m_movableParticleNode.setMinX( m_model.getSigma() * 0.9 );
     	}
     }
     
