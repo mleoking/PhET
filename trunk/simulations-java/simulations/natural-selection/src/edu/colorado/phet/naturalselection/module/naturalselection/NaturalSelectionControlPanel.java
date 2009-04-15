@@ -1,18 +1,22 @@
 package edu.colorado.phet.naturalselection.module.naturalselection;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 import javax.swing.*;
 
 import edu.colorado.phet.naturalselection.util.ImagePanel;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 
-public class NaturalSelectionControlPanel extends JPanel {
+public class NaturalSelectionControlPanel extends JPanel implements ActionListener {
     
     private ClimatePanel climatePanel;
     private JRadioButton wolvesButton;
     private JRadioButton foodButton;
     private JRadioButton noneButton;
+    private JButton resetAllButton;
+    private TraitCanvas traitCanvas;
 
     public NaturalSelectionControlPanel() {
 
@@ -21,11 +25,7 @@ public class NaturalSelectionControlPanel extends JPanel {
         GridBagLayout layout = new GridBagLayout();
         this.setLayout( layout );
 
-
-
-        //ImagePanel mutationPanel = new ImagePanel( "mock-panel.png" );
-        //mutationPanel.setPreferredSize( new Dimension( 471, 272 ) );
-        TraitCanvas traitCanvas = new TraitCanvas();
+        traitCanvas = new TraitCanvas();
 
         JPanel rightPanel = new JPanel();
         rightPanel.setLayout( new BoxLayout( rightPanel, BoxLayout.Y_AXIS ) );
@@ -48,7 +48,8 @@ public class NaturalSelectionControlPanel extends JPanel {
         group.add( foodButton );
         group.add( noneButton );
 
-        JButton resetAllButton = new JButton( "Reset All" );
+        resetAllButton = new JButton( "Reset All" );
+        resetAllButton.addActionListener( this );
 
         rightPanel.add( climatePanel );
         rightPanel.add( Box.createRigidArea( new Dimension( 0, 10 ) ) );
@@ -67,14 +68,8 @@ public class NaturalSelectionControlPanel extends JPanel {
         traitCanvasConstraints.gridheight = 1;
         traitCanvasConstraints.anchor = GridBagConstraints.WEST;
         traitCanvasConstraints.insets = new Insets( 10, 10, 10, 10 );
+        traitCanvasConstraints.weightx = 1.0;
         add( traitCanvas, traitCanvasConstraints );
-
-        GridBagConstraints spacerConstraints = new GridBagConstraints();
-        spacerConstraints.gridx = 1;
-        spacerConstraints.gridy = 0;
-        spacerConstraints.weightx = 1.0;
-        Component spacer = Box.createRigidArea( new Dimension( 10, 0 ) );
-        add( spacer, spacerConstraints );
 
         GridBagConstraints popConstraints = new GridBagConstraints();
         popConstraints.gridx = 2;
@@ -98,7 +93,6 @@ public class NaturalSelectionControlPanel extends JPanel {
 
         setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
 
-        spacer.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         spacer2.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         traitCanvas.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         rightPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
@@ -107,6 +101,14 @@ public class NaturalSelectionControlPanel extends JPanel {
         foodButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         noneButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
 
+    }
+
+    public void actionPerformed( ActionEvent e ) {
+        if( e.getSource() == resetAllButton ) {
+            traitCanvas.reset();
+            climatePanel.reset();
+            noneButton.setSelected( true );
+        }
     }
 
     public static void main( String[] args ) {
