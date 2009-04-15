@@ -2,7 +2,6 @@
 package edu.colorado.phet.buildtools;
 
 import java.io.File;
-import java.io.FileFilter;
 
 import org.apache.tools.ant.taskdefs.Delete;
 
@@ -24,12 +23,7 @@ public class PhetCleanCommand {
         boolean del = header.delete();
         System.out.println( "Delete header file=" + del );
 
-        File[] jars = project.getDeployDir().listFiles( new FileFilter() {
-            public boolean accept( File pathname ) {
-                String name = pathname.getName().toLowerCase();
-                return name.endsWith( ".jar" ) || name.endsWith( ".jnlp" ) || name.endsWith( ".properties" );
-            }
-        } );
+        File[] jars = project.getDeployDir().listFiles();
         for ( int i = 0; i < jars.length; i++ ) {
             File jar = jars[i];
             boolean deleted = jar.delete();
