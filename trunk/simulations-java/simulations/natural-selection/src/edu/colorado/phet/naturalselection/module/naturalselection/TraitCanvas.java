@@ -10,6 +10,7 @@ import javax.swing.border.LineBorder;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.view.*;
@@ -94,10 +95,10 @@ public class TraitCanvas extends PhetPCanvas {
         Point2D bunnySpot = mutationNode.getBunnyLocation( bunny );
         Point2D nodeCenter = mutationNode.getCenter();
 
-        GeneralPath path = new GeneralPath();
+        DoubleGeneralPath path = new DoubleGeneralPath();
         path.moveTo( bunnySpot.getX(), bunnySpot.getY() );
         path.lineTo( nodeCenter.getX(), nodeCenter.getY() );
-        node.setPathTo( path );
+        node.setPathTo( path.getGeneralPath() );
 
         rootNode.addChild( node );
     }
