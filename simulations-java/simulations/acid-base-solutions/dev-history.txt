@@ -1,3 +1,4 @@
+4/15/09 add empty dialogs for Equilibrium Expressions, Reaction Equations, wire up to checkboxes
 4/15/09 add Symbol Legend dialog, wire up to checkbox
 4/15/09 add misc View controls, not wired up
 4/15/09 add beaker controls View, not wired up
