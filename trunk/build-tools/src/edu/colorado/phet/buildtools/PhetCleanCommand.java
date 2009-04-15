@@ -24,15 +24,15 @@ public class PhetCleanCommand {
         boolean del = header.delete();
         System.out.println( "Delete header file=" + del );
 
-        File[] jars = project.getDeployDir().listFiles(new FileFilter() {
+        File[] files = project.getDeployDir().listFiles(new FileFilter() {
             public boolean accept( File pathname ) {
                 return !pathname.isDirectory();
             }
         } );
-        for ( int i = 0; i < jars.length; i++ ) {
-            File jar = jars[i];
-            boolean deleted = jar.delete();
-            System.out.println( "Delete " + jar + " = " + deleted );
+        for ( int i = 0; i < files.length; i++ ) {
+            File file = files[i];
+            boolean deleted = file.delete();
+            System.out.println( "Delete " + file + " = " + deleted );
         }
 
         Delete d = new Delete();
