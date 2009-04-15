@@ -14,6 +14,7 @@ public class PhetTestApplication {
     
     private String[] args;
     private FrameSetup frameSetup;
+    private ApplicationConstructor appConstructor;
     private ArrayList modules = new ArrayList();
 
     public PhetTestApplication( String[] args ) {
@@ -35,21 +36,29 @@ public class PhetTestApplication {
     public void addModule( Module module ) {
         modules.add( module );
     }
+    
+    public void setApplicationConstructor( ApplicationConstructor appConstructor ) {
+        this.appConstructor = appConstructor;
+    }
 
     public void startApplication() {
-        ApplicationConstructor applicationConstructor = new ApplicationConstructor() {
-            public PhetApplication getApplication( PhetApplicationConfig config ) {
-                PhetApplication phetApplication = new PhetApplication( config ) {
-                };
-                phetApplication.setModules( (Module[]) modules.toArray( new Module[modules.size()] ) );
-                return phetApplication;
-            }
-        };
+        
         PhetApplicationConfig config = new PhetApplicationConfig( args, "phetcommon" );
         if ( frameSetup != null ) {
             config.setFrameSetup( frameSetup );
         }
-        new PhetApplicationLauncher().launchSim( config, applicationConstructor );
+        
+        if ( appConstructor == null ) {
+            appConstructor = new ApplicationConstructor() {
+                public PhetApplication getApplication( PhetApplicationConfig config ) {
+                    PhetApplication phetApplication = new PhetApplication( config ) {};
+                    phetApplication.setModules( (Module[]) modules.toArray( new Module[modules.size()] ) );
+                    return phetApplication;
+                }
+            };
+        }
+        
+        new PhetApplicationLauncher().launchSim( config, appConstructor );
     }
 
     public void setModules( Module[] m ) {
