@@ -13,10 +13,6 @@ object ScalaApplicationLauncher {
   def launchApplication(args: Array[String], project: String, simulation: String, moduleConstructors: (() => Module)*) = {
     val phetApplicationConfig = new PhetApplicationConfig(args, project, simulation)
 
-    //Override look and feel to be metal due to problems with Windows components in PSwings
-    //Not sure whether this is a problem for Aqua
-    phetApplicationConfig.setLookAndFeel(new PhetLookAndFeel() {override def getLookAndFeelClassName = UIManager.getCrossPlatformLookAndFeelClassName})
-
     new PhetApplicationLauncher().launchSim(
       phetApplicationConfig,
       new ApplicationConstructor() {
