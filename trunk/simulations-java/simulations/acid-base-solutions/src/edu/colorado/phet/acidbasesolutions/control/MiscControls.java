@@ -56,6 +56,16 @@ public class MiscControls extends JPanel {
         setBorder( border );
         
         _concentrationGraphCheckBox = new JCheckBox( CONCENTRATION_GRAPH );
+        _concentrationGraphCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if ( _concentrationGraphCheckBox.isSelected() ) {
+                    //TODO show graph
+                }
+                else {
+                    //TODO hide graph
+                }
+            }
+        });
         
         _symbolLegendCheckBox = new JCheckBox( SYMBOL_LEGEND );
         _symbolLegendCheckBox.addActionListener( new ActionListener() {
