@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
+import edu.colorado.phet.acidbasesolutions.dialog.EquilibriumExpressionsDialog;
 import edu.colorado.phet.acidbasesolutions.dialog.SymbolLegendDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -40,6 +41,10 @@ public class MiscControls extends JPanel {
     
     private JDialog _symbolLegendDialog;
     private Point _symbolLegendDialogLocation;
+    private JDialog _equilibriumExpressionsDialog;
+    private Point _equilibriumExpressionsDialogLocation;
+    private JDialog _reactionEquationsDialog;
+    private Point _reactionEquationsDialogLocation;
     
     public MiscControls() {
         super();
@@ -65,8 +70,28 @@ public class MiscControls extends JPanel {
         });
         
         _equilibriumExpressionsCheckBox = new JCheckBox( EQUILIBRIUM_EXPRESSIONS );
+        _equilibriumExpressionsCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if ( _equilibriumExpressionsCheckBox.isSelected() ) {
+                    openEquilibriumExpressionsDialog();
+                }
+                else {
+                    closeEquilibriumExpressionsDialog();
+                }
+            }
+        });
         
         _reactionEquationsCheckBox = new JCheckBox( REACTION_EQUATIONS );
+        _reactionEquationsCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if ( _reactionEquationsCheckBox.isSelected() ) {
+                    openReactionEquationsDialog();
+                }
+                else {
+                    closeReactionEquationsDialog();
+                }
+            }
+        });
         
         // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
@@ -82,8 +107,6 @@ public class MiscControls extends JPanel {
     }
     
     private void openSymbolLegendDialog() {
-        
-        closeSymbolLegendDialog();
         
         _symbolLegendDialog = new SymbolLegendDialog( _parentFrame );
         _symbolLegendDialog.addWindowListener( new WindowAdapter() {
@@ -110,10 +133,78 @@ public class MiscControls extends JPanel {
     }
     
     private void closeSymbolLegendDialog() {
-        if ( _symbolLegendDialog != null ) {
-            _symbolLegendDialogLocation = _symbolLegendDialog.getLocation();
-            _symbolLegendDialog.dispose();
-            _symbolLegendDialog = null;
+        _symbolLegendDialogLocation = closeDialog( _symbolLegendDialog );
+        _symbolLegendDialog = null;
+    }
+    
+    private void openEquilibriumExpressionsDialog() {
+        
+        _equilibriumExpressionsDialog = new EquilibriumExpressionsDialog( _parentFrame );
+        _equilibriumExpressionsDialog.addWindowListener( new WindowAdapter() {
+
+            // called when the close button in the dialog's window dressing is clicked
+            public void windowClosing( WindowEvent e ) {
+                closeEquilibriumExpressionsDialog();
+            }
+
+            // called by JDialog.dispose
+            public void windowClosed( WindowEvent e ) {
+                _equilibriumExpressionsDialog = null;
+                _equilibriumExpressionsCheckBox.setSelected( false );
+            }
+        } );
+        
+        if ( _equilibriumExpressionsDialogLocation == null ) {
+            SwingUtils.centerDialogInParent( _equilibriumExpressionsDialog );
         }
+        else {
+            _equilibriumExpressionsDialog.setLocation( _equilibriumExpressionsDialogLocation );
+        }
+        _equilibriumExpressionsDialog.setVisible( true );
+    }
+    
+    private void closeEquilibriumExpressionsDialog() {
+        _equilibriumExpressionsDialogLocation = closeDialog( _equilibriumExpressionsDialog );
+        _equilibriumExpressionsDialog = null;
+    }
+    
+    private void openReactionEquationsDialog() {
+        
+        _reactionEquationsDialog = new EquilibriumExpressionsDialog( _parentFrame );
+        _reactionEquationsDialog.addWindowListener( new WindowAdapter() {
+
+            // called when the close button in the dialog's window dressing is clicked
+            public void windowClosing( WindowEvent e ) {
+                closeReactionEquationsDialog();
+            }
+
+            // called by JDialog.dispose
+            public void windowClosed( WindowEvent e ) {
+                _reactionEquationsDialog = null;
+                _reactionEquationsCheckBox.setSelected( false );
+            }
+        } );
+        
+        if ( _reactionEquationsDialogLocation == null ) {
+            SwingUtils.centerDialogInParent( _reactionEquationsDialog );
+        }
+        else {
+            _reactionEquationsDialog.setLocation( _reactionEquationsDialogLocation );
+        }
+        _reactionEquationsDialog.setVisible( true );
+    }
+    
+    private void closeReactionEquationsDialog() {
+        _reactionEquationsDialogLocation = closeDialog( _reactionEquationsDialog );
+        _reactionEquationsDialog = null;
+    }
+    
+    private static Point closeDialog( JDialog dialog ) {
+        Point location = null;
+        if ( dialog != null ) {
+            location = dialog.getLocation();
+            dialog.dispose();
+        }
+        return location;
     }
 }
