@@ -132,7 +132,7 @@ public class LjPotentialCalculator {
     public double calculateMinimumForceDistance() {
         // The following equation was arrived at by solving the force equation
         // for 0.
-        return m_sigma * 1.1236;
+        return m_sigma * 1.122462;
     }
     
     /**
