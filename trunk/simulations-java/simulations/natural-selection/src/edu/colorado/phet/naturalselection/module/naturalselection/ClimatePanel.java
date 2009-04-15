@@ -21,7 +21,6 @@ public class ClimatePanel extends JPanel {
         equatorPanel.add( Box.createRigidArea( new Dimension( 5, 0 ) ) );
 
         ImagePanel equatorImage = new ImagePanel( "equator-environment.png" );
-        equatorImage.setPreferredSize( new Dimension( 32, 32 ) );
         equatorPanel.add( equatorImage );
 
         JPanel arcticPanel = new JPanel();
@@ -33,7 +32,6 @@ public class ClimatePanel extends JPanel {
         arcticPanel.add( Box.createRigidArea( new Dimension( 5, 0 ) ) );
 
         ImagePanel arcticImage = new ImagePanel( "arctic-environment.png" );
-        arcticImage.setPreferredSize( new Dimension( 32, 32 ) );
         arcticPanel.add( arcticImage );
 
         JLabel label = new JLabel( "Environment" );

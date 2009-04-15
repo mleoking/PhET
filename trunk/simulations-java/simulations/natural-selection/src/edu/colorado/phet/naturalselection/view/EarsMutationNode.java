@@ -7,7 +7,7 @@ import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 public class EarsMutationNode extends MutationControlNode {
 
     public EarsMutationNode() {
-        super( NaturalSelectionResources.getImage( "bunny_ears.png" ) );
+        super( NaturalSelectionResources.getImage( "bunny_ears.png" ), NaturalSelectionResources.getImage( "bunny_ears_long.png" ) );
     }
 
     public Point2D getBunnyLocation( BigVanillaBunny bunny ) {
