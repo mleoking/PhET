@@ -6,12 +6,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.*;
+import javax.swing.JButton;
 
 import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
@@ -28,65 +27,14 @@ public class TestPhetFrameWorkaround {
     // true = use a PhetFrameWorkaround
     // false = use a PhetFrame
     private static final boolean USE_WORKAROUND = true;
-
-    public static void main( final String[] args ) {
-        ApplicationConstructor applicationConstructor = new ApplicationConstructor() {
-            public PhetApplication getApplication( PhetApplicationConfig config ) {
-                final PhetApplication phetApplication = new PhetApplication( config ) {
-                    protected PhetFrame createPhetFrame() {
-                        if ( USE_WORKAROUND ) {
-                            return new PhetFrameWorkaround( this );
-                        }
-                        else {
-                            return new PhetFrame( this );
-                        }
-                    }
-                };
-                final TestModule module = new TestModule( "test", new SwingClock( 30, 1 ) );
-                module.getClock().addClockListener( new ClockAdapter() {
-                    public void clockTicked( ClockEvent clockEvent ) {
-                        module.contentPane.invalidate();
-                        module.contentPane.revalidate();
-                        module.contentPane.repaint();
-                        module.contentPane.setText( System.currentTimeMillis() + " button time!" );
-                        module.contentPane.paintImmediately( 0, 0, module.contentPane.getWidth(), module.contentPane.getHeight() );
-                    }
-                } );
-                phetApplication.addModule( module );
-                phetApplication.startApplication();
-
-                module.contentPane.addActionListener( new ActionListener() {
-                    public void actionPerformed( ActionEvent e ) {
-                        final Dialog dialog = new Dialog( phetApplication.getPhetFrame(), false );
-                        dialog.setSize( 400, 300 );
-                        dialog.addWindowListener( new WindowAdapter() {
-                            public void windowClosing( WindowEvent e ) {
-                                dialog.dispose();
-                            }
-                        } );
-                        Button comp = new Button( "dialog button" );
-
-                        comp.setBackground( Color.green );
-                        dialog.add( comp );
-//                        dialog.pack();
-                        dialog.setVisible( true );
-                    }
-                } );
-
-                return phetApplication;
-            }
-        };
-        PhetApplicationConfig config=new PhetApplicationConfig( args, "phetcommon");
-        config.setFrameSetup(  new FrameSetup.CenteredWithSize( 800, 600 ));
-        new PhetApplicationLauncher().launchSim( config,applicationConstructor );
-
-    }
-
-    static class TestModule extends Module {
+    
+    private static class TestModule extends Module {
+        
         private JButton contentPane;
 
-        public TestModule( String name, IClock clock ) {
-            super( name, clock );
+        public TestModule( final Frame owner ) {
+            super( "test", new SwingClock( 30, 1 ) );
+            
             contentPane = new JButton( "Simulation Panel Button" ) {
                 protected void paintComponent( Graphics g ) {
                     try {
@@ -99,8 +47,65 @@ public class TestPhetFrameWorkaround {
                 }
             };
             setSimulationPanel( contentPane );
+            
+            getClock().addClockListener( new ClockAdapter() {
+                public void clockTicked( ClockEvent clockEvent ) {
+                    contentPane.invalidate();
+                    contentPane.revalidate();
+                    contentPane.repaint();
+                    contentPane.setText( System.currentTimeMillis() + " button time!" );
+                    contentPane.paintImmediately( 0, 0, contentPane.getWidth(), contentPane.getHeight() );
+                }
+            } );
+            
+            contentPane.addActionListener( new ActionListener() {
+
+                public void actionPerformed( ActionEvent e ) {
+                    final Dialog dialog = new Dialog( owner, false );
+                    dialog.setSize( 400, 300 );
+                    dialog.addWindowListener( new WindowAdapter() {
+
+                        public void windowClosing( WindowEvent e ) {
+                            dialog.dispose();
+                        }
+                    } );
+                    Button comp = new Button( "dialog button" );
+
+                    comp.setBackground( Color.green );
+                    dialog.add( comp );
+                    //                    dialog.pack();
+                    dialog.setVisible( true );
+                }
+            } );
         }
 
+    }
+    
+    private static class TestApplication extends PhetApplication {
+
+        public TestApplication(  PhetApplicationConfig config ) {
+            super( config );
+            addModule( new TestModule( getPhetFrame() ) );
+        }
+
+        protected PhetFrame createPhetFrame() {
+            if ( USE_WORKAROUND ) {
+                return new PhetFrameWorkaround( this );
+            }
+            else {
+                return new PhetFrame( this );
+            }
+        }
+    }
+
+    public static void main( final String[] args ) {
+        PhetTestApplication app = new PhetTestApplication( args, new FrameSetup.CenteredWithSize( 800, 600 ) );
+        app.setApplicationConstructor( new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new TestApplication( config );
+            } 
+        });
+        app.startApplication();
     }
 }
 
