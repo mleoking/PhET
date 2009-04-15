@@ -23,8 +23,9 @@ public class NaturalSelectionControlPanel extends JPanel {
 
 
 
-        ImagePanel mutationPanel = new ImagePanel( "mock-panel.png" );
-        mutationPanel.setPreferredSize( new Dimension( 471, 272 ) );
+        //ImagePanel mutationPanel = new ImagePanel( "mock-panel.png" );
+        //mutationPanel.setPreferredSize( new Dimension( 471, 272 ) );
+        TraitCanvas traitCanvas = new TraitCanvas();
 
         JPanel rightPanel = new JPanel();
         rightPanel.setLayout( new BoxLayout( rightPanel, BoxLayout.Y_AXIS ) );
@@ -47,26 +48,32 @@ public class NaturalSelectionControlPanel extends JPanel {
         group.add( foodButton );
         group.add( noneButton );
 
+        JButton resetAllButton = new JButton( "Reset All" );
+
         rightPanel.add( climatePanel );
-        rightPanel.add( Box.createRigidArea( new Dimension( 0, 20 ) ) );
+        rightPanel.add( Box.createRigidArea( new Dimension( 0, 10 ) ) );
         rightPanel.add( selectionPanel );
-        rightPanel.add( Box.createRigidArea( new Dimension( 0, 20 ) ) );
+        rightPanel.add( Box.createRigidArea( new Dimension( 0, 10 ) ) );
         rightPanel.add( new JButton( "Generation Chart" ) );
+        rightPanel.add( Box.createRigidArea( new Dimension( 0, 10 ) ) );
+        rightPanel.add( resetAllButton );
 
         PopulationCanvas popCanvas = new PopulationCanvas();
 
-        GridBagConstraints mutationPanelConstraints = new GridBagConstraints();
-        mutationPanelConstraints.gridx = 0;
-        mutationPanelConstraints.gridy = 0;
-        mutationPanelConstraints.gridwidth = 1;
-        mutationPanelConstraints.gridheight = 1;
-        mutationPanelConstraints.anchor = GridBagConstraints.WEST;
-        add( mutationPanel, mutationPanelConstraints );
+        GridBagConstraints traitCanvasConstraints = new GridBagConstraints();
+        traitCanvasConstraints.gridx = 0;
+        traitCanvasConstraints.gridy = 0;
+        traitCanvasConstraints.gridwidth = 1;
+        traitCanvasConstraints.gridheight = 1;
+        traitCanvasConstraints.anchor = GridBagConstraints.WEST;
+        traitCanvasConstraints.insets = new Insets( 10, 10, 10, 10 );
+        add( traitCanvas, traitCanvasConstraints );
 
         GridBagConstraints spacerConstraints = new GridBagConstraints();
         spacerConstraints.gridx = 1;
         spacerConstraints.gridy = 0;
-        Component spacer = Box.createRigidArea( new Dimension( 200, 0 ) );
+        spacerConstraints.weightx = 1.0;
+        Component spacer = Box.createRigidArea( new Dimension( 10, 0 ) );
         add( spacer, spacerConstraints );
 
         GridBagConstraints popConstraints = new GridBagConstraints();
@@ -86,13 +93,14 @@ public class NaturalSelectionControlPanel extends JPanel {
         rightConstraints.gridwidth = 1;
         rightConstraints.gridheight = 1;
         rightConstraints.anchor = GridBagConstraints.EAST;
+        rightConstraints.insets = new Insets( 10, 10, 10, 10 );
         add( rightPanel, rightConstraints );
 
-        setBackground( new Color( 0xC9E5C6 ) );
+        setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
 
         spacer.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         spacer2.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
-        mutationPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        traitCanvas.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         rightPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         selectionPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         wolvesButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );

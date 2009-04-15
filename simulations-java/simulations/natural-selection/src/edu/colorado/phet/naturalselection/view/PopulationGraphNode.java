@@ -6,6 +6,7 @@ import java.awt.geom.GeneralPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 public class PopulationGraphNode extends PNode {
 
@@ -66,11 +67,12 @@ public class PopulationGraphNode extends PNode {
     }
 
     private void drawLabels() {
+        label.setFont( new PhetFont() );
         label.setOffset( ( TOTAL_WIDTH - label.getWidth() ) / 2, BASELINE + 10 );
         conditionalAdd( label );
 
+        quantity.setFont( new PhetFont() );
         quantity.setOffset( ( TOTAL_WIDTH - quantity.getWidth() ) / 2, BASELINE - getGraphHeight() - 20 );
-
         conditionalAdd( quantity );
     }
 

@@ -29,7 +29,7 @@ public class NaturalSelectionModule extends PiccoloModule {
         setSimulationPanel( canvas );
 
         controlPanel = new NaturalSelectionControlPanel();
-        setClockControlPanel( controlPanel );
+        getModulePanel().setClockControlPanelWithoutContainer( controlPanel );
 
 
         /*
