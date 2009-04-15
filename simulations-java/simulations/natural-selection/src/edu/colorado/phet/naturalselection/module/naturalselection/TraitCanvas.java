@@ -22,7 +22,7 @@ public class TraitCanvas extends PhetPCanvas {
 
     private PNode rootNode;
 
-    public static Dimension canvasSize = new Dimension( 450, 250 );
+    public static Dimension canvasSize = new Dimension( 530, 300 );
     private BigVanillaBunny bunny;
 
     public TraitCanvas() {
@@ -32,36 +32,36 @@ public class TraitCanvas extends PhetPCanvas {
         addWorldChild( rootNode );
 
         bunny = new BigVanillaBunny();
-        bunny.translate( 150, 100 );
+        bunny.translate( 200, 150 );
         rootNode.addChild( bunny );
 
         PText traitsText = new PText( "Traits" );
         traitsText.setFont( new PhetFont( 16, true ) );
-        traitsText.translate( 150 + ( 86 - traitsText.getWidth() ) / 2, 210 );
+        traitsText.translate( 200 + ( 86 - traitsText.getWidth() ) / 2, 260 );
         rootNode.addChild( traitsText );
 
         MutationControlNode earsMutationNode = new EarsMutationNode();
-        earsMutationNode.translate( 30, 70 );
+        earsMutationNode.translate( 30, 60 );
         drawConnectingLine( earsMutationNode );
         rootNode.addChild( earsMutationNode );
 
         MutationControlNode tailMutationNode = new TailMutationNode();
-        tailMutationNode.translate( 10, 170 );
+        tailMutationNode.translate( 10, 210 );
         drawConnectingLine( tailMutationNode );
         rootNode.addChild( tailMutationNode );
 
         MutationControlNode eyesMutationNode = new EyesMutationNode();
-        eyesMutationNode.translate( 200, 30 );
+        eyesMutationNode.translate( 215, 40 );
         drawConnectingLine( eyesMutationNode );
         rootNode.addChild( eyesMutationNode );
 
         MutationControlNode teethMutationNode = new TeethMutationNode();
-        teethMutationNode.translate( 280, 100 );
+        teethMutationNode.translate( 375, 85 );
         drawConnectingLine( teethMutationNode );
         rootNode.addChild( teethMutationNode );
 
         MutationControlNode colorMutationNode = new ColorMutationNode();
-        colorMutationNode.translate( 250, 170 );
+        colorMutationNode.translate( 330, 210 );
         drawConnectingLine( colorMutationNode );
         rootNode.addChild( colorMutationNode );
 

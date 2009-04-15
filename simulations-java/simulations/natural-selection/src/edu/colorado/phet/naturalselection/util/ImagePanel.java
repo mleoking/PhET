@@ -13,6 +13,12 @@ public class ImagePanel extends JPanel {
 
     public ImagePanel( String imageName ) {
         image = NaturalSelectionResources.getImage( imageName );
+        setPreferredSize( new Dimension( image.getWidth(), image.getHeight() ) );
+    }
+
+    public ImagePanel( BufferedImage actualImage ) {
+        image = actualImage;
+        setPreferredSize( new Dimension( image.getWidth(), image.getHeight() ) );
     }
 
     public void paintComponent( Graphics g ) {
