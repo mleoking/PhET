@@ -8,6 +8,9 @@ import edu.colorado.phet.naturalselection.util.ImagePanel;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 
 public class ClimatePanel extends JPanel {
+    private JRadioButton equatorButton;
+    private JRadioButton arcticButton;
+
     public ClimatePanel() {
 
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
@@ -15,7 +18,7 @@ public class ClimatePanel extends JPanel {
         JPanel equatorPanel = new JPanel();
         equatorPanel.setLayout( new BoxLayout( equatorPanel, BoxLayout.X_AXIS ) );
 
-        JRadioButton equatorButton = new JRadioButton( "Equator" );
+        equatorButton = new JRadioButton( "Equator" );
         equatorPanel.add( equatorButton );
 
         equatorPanel.add( Box.createRigidArea( new Dimension( 5, 0 ) ) );
@@ -26,7 +29,7 @@ public class ClimatePanel extends JPanel {
         JPanel arcticPanel = new JPanel();
         arcticPanel.setLayout( new BoxLayout( arcticPanel, BoxLayout.X_AXIS ) );
 
-        JRadioButton arcticButton = new JRadioButton( "Arctic" );
+        arcticButton = new JRadioButton( "Arctic" );
         arcticPanel.add( arcticButton );
 
         arcticPanel.add( Box.createRigidArea( new Dimension( 5, 0 ) ) );
@@ -57,5 +60,9 @@ public class ClimatePanel extends JPanel {
         arcticButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         arcticPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         arcticImage.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+    }
+
+    public void reset() {
+        equatorButton.setSelected( true );
     }
 }

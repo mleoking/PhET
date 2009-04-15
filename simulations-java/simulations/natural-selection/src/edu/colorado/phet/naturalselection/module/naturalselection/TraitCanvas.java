@@ -24,6 +24,11 @@ public class TraitCanvas extends PhetPCanvas {
 
     public static Dimension canvasSize = new Dimension( 530, 300 );
     private BigVanillaBunny bunny;
+    private MutationControlNode earsMutationNode;
+    private MutationControlNode tailMutationNode;
+    private MutationControlNode eyesMutationNode;
+    private MutationControlNode teethMutationNode;
+    private MutationControlNode colorMutationNode;
 
     public TraitCanvas() {
         super( canvasSize );
@@ -40,27 +45,27 @@ public class TraitCanvas extends PhetPCanvas {
         traitsText.translate( 200 + ( 86 - traitsText.getWidth() ) / 2, 260 );
         rootNode.addChild( traitsText );
 
-        MutationControlNode earsMutationNode = new EarsMutationNode();
+        earsMutationNode = new EarsMutationNode();
         earsMutationNode.translate( 30, 60 );
         drawConnectingLine( earsMutationNode );
         rootNode.addChild( earsMutationNode );
 
-        MutationControlNode tailMutationNode = new TailMutationNode();
+        tailMutationNode = new TailMutationNode();
         tailMutationNode.translate( 10, 210 );
         drawConnectingLine( tailMutationNode );
         rootNode.addChild( tailMutationNode );
 
-        MutationControlNode eyesMutationNode = new EyesMutationNode();
+        eyesMutationNode = new EyesMutationNode();
         eyesMutationNode.translate( 215, 40 );
         drawConnectingLine( eyesMutationNode );
         rootNode.addChild( eyesMutationNode );
 
-        MutationControlNode teethMutationNode = new TeethMutationNode();
+        teethMutationNode = new TeethMutationNode();
         teethMutationNode.translate( 375, 85 );
         drawConnectingLine( teethMutationNode );
         rootNode.addChild( teethMutationNode );
 
-        MutationControlNode colorMutationNode = new ColorMutationNode();
+        colorMutationNode = new ColorMutationNode();
         colorMutationNode.translate( 330, 210 );
         drawConnectingLine( colorMutationNode );
         rootNode.addChild( colorMutationNode );
@@ -70,6 +75,14 @@ public class TraitCanvas extends PhetPCanvas {
         setBorder( null );
 
         setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+    }
+
+    public void reset() {
+        earsMutationNode.reset();
+        tailMutationNode.reset();
+        eyesMutationNode.reset();
+        teethMutationNode.reset();
+        colorMutationNode.reset();
     }
 
     private void drawConnectingLine( MutationControlNode mutationNode ) {

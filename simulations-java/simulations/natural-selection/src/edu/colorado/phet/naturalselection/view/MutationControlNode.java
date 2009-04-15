@@ -26,6 +26,9 @@ public abstract class MutationControlNode extends PNode implements ActionListene
     private BufferedImage alternateImage;
     private JLabel percentOne;
     private JLabel percentTwo;
+    private JRadioButton radioOne;
+    private JRadioButton radioTwo;
+    private boolean mutated;
 
     public MutationControlNode( BufferedImage iconImage ) {
         this( iconImage, iconImage );
@@ -34,14 +37,30 @@ public abstract class MutationControlNode extends PNode implements ActionListene
     public MutationControlNode( BufferedImage iconImage, BufferedImage alternateIconImage ) {
         image = iconImage;
         alternateImage = alternateIconImage;
+        mutated = false;
+        showAddButton();
+    }
+
+    private void showAddButton() {
+        if( mutated ) {
+            removeChild( mutationOptionsHolder );
+            mutated = false;
+        }
         addMutationButton = new JButton( "Add Mutation", new ImageIcon( image ) );
         addMutationButton.addActionListener( this );
         addMutationButtonHolder = new PSwing( addMutationButton );
         addChild( addMutationButtonHolder );
     }
 
+    public void reset() {
+        showAddButton();
+    }
+
     public void showMutationDialog() {
-        addMutationButtonHolder.setVisible( false );
+        if( !mutated ) {
+            removeChild( addMutationButtonHolder );
+            mutated = true;
+        }
 
         JLabel dominantLabel = new JLabel( "<html><center>Dominant<br>trait</center></html>" );
         JLabel percentLabel = new JLabel( "<html><center>% with<br>trait</center></html>" );
@@ -50,7 +69,7 @@ public abstract class MutationControlNode extends PNode implements ActionListene
         optionOne.setBackground( NaturalSelectionConstants.COLOR_MUTATION_PANEL );
         ImagePanel imageOne = new ImagePanel( image );
         imageOne.setBackground( NaturalSelectionConstants.COLOR_MUTATION_PANEL );
-        JRadioButton radioOne = new JRadioButton( "" );
+        radioOne = new JRadioButton( "" );
         radioOne.setSelected( true );
         radioOne.setBackground( NaturalSelectionConstants.COLOR_MUTATION_PANEL );
         optionOne.add( imageOne );
@@ -62,7 +81,7 @@ public abstract class MutationControlNode extends PNode implements ActionListene
         optionTwo.setBackground( NaturalSelectionConstants.COLOR_MUTATION_PANEL );
         ImagePanel imageTwo = new ImagePanel( alternateImage );
         imageTwo.setBackground( NaturalSelectionConstants.COLOR_MUTATION_PANEL );
-        JRadioButton radioTwo = new JRadioButton( "" );        
+        radioTwo = new JRadioButton( "" );        
         radioTwo.setBackground( NaturalSelectionConstants.COLOR_MUTATION_PANEL );
         optionTwo.add( imageTwo );
         optionTwo.add( radioTwo );
@@ -73,14 +92,26 @@ public abstract class MutationControlNode extends PNode implements ActionListene
         group.add( radioOne );
         group.add( radioTwo );
 
-        mutationOptionsPanel = new JPanel( new GridLayout( 3, 2, 5, 0 ) );
+        mutationOptionsPanel = new JPanel();
+        GridBagLayout layout = new GridBagLayout();
+        mutationOptionsPanel.setLayout( layout );
 
-        mutationOptionsPanel.add( centerFit( dominantLabel ) );
-        mutationOptionsPanel.add( centerFit( percentLabel ) );
-        mutationOptionsPanel.add( centerFit( optionOne ) );
-        mutationOptionsPanel.add( centerFit( percentOne ) );
-        mutationOptionsPanel.add( centerFit( optionTwo ) );
-        mutationOptionsPanel.add( centerFit( percentTwo ) );
+        GridBagConstraints constraints = new GridBagConstraints();
+        
+        constraints.gridx = 0; constraints.gridy = 0;
+        constraints.insets = new Insets( 0, 0, 0, 15 );
+        mutationOptionsPanel.add( dominantLabel, constraints );
+        constraints.insets = new Insets( 0, 0, 0, 0 );
+        constraints.gridx = 1; constraints.gridy = 0;
+        mutationOptionsPanel.add( percentLabel, constraints );
+        constraints.gridx = 0; constraints.gridy = 1;
+        mutationOptionsPanel.add( optionOne, constraints );
+        constraints.gridx = 1; constraints.gridy = 1;
+        mutationOptionsPanel.add( percentOne, constraints );
+        constraints.gridx = 0; constraints.gridy = 2;
+        mutationOptionsPanel.add( optionTwo, constraints );
+        constraints.gridx = 1; constraints.gridy = 2;
+        mutationOptionsPanel.add( percentTwo, constraints );
 
         mutationOptionsPanel.setBorder( new CompoundBorder( new LineBorder( Color.BLACK, 1 ), new EmptyBorder( new Insets( 5, 5, 5, 5 ) ) ) );
         mutationOptionsPanel.setBackground( NaturalSelectionConstants.COLOR_MUTATION_PANEL );
