@@ -170,6 +170,12 @@ public class BuildScript {
         createHeader( svnNumber );
 
         System.out.println( "Copying version files to deploy dir." );
+        try {
+            project.copyChangesFileToDeployDir();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
         copyVersionFilesToDeployDir();
         copyImageFilesToDeployDir();
 

@@ -654,7 +654,7 @@ public abstract class PhetProject {
     }
 
     public File getChangesFile() {
-        return new File( getDeployDir(), "changes.txt" );
+        return new File( getProjectDir(), "changes.txt" );
     }
 
     public String getChangesText() {
@@ -851,6 +851,10 @@ public abstract class PhetProject {
     }
 
     public void updateProjectFiles() {
+    }
+
+    public void copyChangesFileToDeployDir() throws IOException {
+        FileUtils.copyToDir( getChangesFile(), getDeployDir() );
     }
 
     public static interface Listener {
