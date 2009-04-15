@@ -422,34 +422,66 @@
 
         // Get the value of the time stamp.
         $time = time();
-        flushing_echo("Creation Timestamp = $time");
+        flushing_echo( "Creation Timestamp = $time" );
  
         // Add the time stamp to the marker file, used by the Java sims.
         $marker_file_name = RIPPED_WEBSITE_TOP.PHET_SIMS_SUBDIR.MARKER_FILE_NAME;
-        if (!($fp = fopen($marker_file_name, 'a'))) {
+        if ( !( $fp = fopen( $marker_file_name, 'a' ) ) ) {
             flushing_echo('Error: Cannot open marker file, time stamp not added.');
         }
         else{
-            fwrite($fp, "installer.creation.date.epoch.seconds=".$time."\n");
-            flushing_echo('Successfully added timestamp marker to '.MARKER_FILE_NAME);
+            fwrite( $fp, "installer.creation.date.epoch.seconds=".$time."\n" );
+            flushing_echo( 'Successfully added timestamp marker to '.MARKER_FILE_NAME );
         }
 
         // Add the timestamp to each of the HTML files used to launch Flash sims.
-        $files = glob(RIPPED_WEBSITE_TOP.PHET_SIMS_SUBDIR."*/*.html");
-        $sedCmd = 'sed -i -e s/@@INSTALLER_CREATION_TIMESTAMP@@/'.$time.'/ ';
-        foreach ($files as $file){
-            exec($sedCmd.$file);
+        $html_file_names = glob( RIPPED_WEBSITE_TOP.PHET_SIMS_SUBDIR."*/*.html" );
+
+        // The commented out command below was how this was originally done,
+        // but no longer worked when we added the capability to update a
+        // single sim, since we needed to be able to go back and update the
+        // creation timestamp in previously ripped files.  The command is
+        // being kept here for reference in case problems arise.  If all is
+        // fine by, say, April 2010, feel free to delete this.
+        //$sedCmd = 'sed -i -e s/@@INSTALLER_CREATION_TIMESTAMP@@/'.$time.'/ ';
+
+        //$sedCmd = 'sed -i -e s/installerCreationTimestamp=.*\&/installerCreationTimestamp='.$time.'\&/ ';
+        //$sedCmd = 'sed -i -e s/installerCreationTimestamp=.*\&/installerCreationTimestamp='.$time.'\&/ ';
+        //echo "!!!!! $sedCmd \n";
+        //foreach ($files as $file){
+            //exec($sedCmd.$file);
+        //}
+        //$sedCmd = 'sed -i -e s/installerCreationTimestamp=.*\&/installerCreationTimestamp='.$time.'\&/ ';
+        //echo "!!!!! $sedCmd \n";
+        foreach ( $html_file_names as $html_file_name ) {
+            flushing_echo( "!!!! processing file: ".$html_file_name );
+            $html_file_contents = file_get_contents( $html_file_name );
+            if ( strstr( $html_file_contents, '@@INSTALLER_CREATION_TIMESTAMP@@' ) != false ){
+                // The timestamp has never been inserted into this file, so insert it.
+                flushing_echo( "Inserting timestamp for first time." );
+                $html_file_contents = preg_replace( '/@@INSTALLER_CREATION_TIMESTAMP@@/', $time, $html_file_contents );
+            }
+            else{
+                // The timestamp must have already been replaced, so insert a
+                // new value in its place.  NOTE: This solution assumes a 10-
+                // digit timestamp, and will only work until Nov of the year
+                // 2286.  If, God forbid, this is still in use at that time,
+                // a new solution will need to be devised.
+                flushing_echo( "Replacing existing timestamp." );
+                $html_file_contents = preg_replace( "/installerCreationTimestamp=........../", 'installerCreationTimestamp='.$time, $html_file_contents );
+            }
+            file_put_contents_anywhere( $html_file_name, $html_file_contents );
         }
-        flushing_echo("Processed ".sizeof($files)." HTML files for possible timestamp insertion.");
+        flushing_echo( "Processed ".sizeof ( $html_file_names )." HTML files for possible timestamp insertion." );
 
         // Write the timestamp to a temporary file so that we can use it later
         // if needed (such as for putting the creation timestamp into the DB).
-        if (!($fp = fopen(CREATION_TIMESTAMP_FILE_NAME, 'w'))) {
-            flushing_echo('Error: Unable to open temporary timestamp file.');
+        if ( !( $fp = fopen(CREATION_TIMESTAMP_FILE_NAME, 'w' ) ) ) {
+            flushing_echo( 'Error: Unable to open temporary timestamp file.' );
         }
         else{
-            fwrite($fp, $time);
-            flushing_echo('Successfully created timestamp file '.CREATION_TIMESTAMP_FILE_NAME);
+            fwrite( $fp, $time );
+            flushing_echo( 'Successfully created timestamp file '.CREATION_TIMESTAMP_FILE_NAME );
         }
     }
 
