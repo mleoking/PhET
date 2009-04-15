@@ -69,7 +69,9 @@ public class NaturalSelectionConstants {
     public static final Color COLOR_TRANSPARENT = new Color( 0f, 0f, 0f, 0f );
 
     // control panel background color
-    public static final Color COLOR_CONTROL_PANEL = new Color( 0xC9E5C6 ); 
+    public static final Color COLOR_CONTROL_PANEL = new Color( 0xC9E5C6 );
+
+    public static final Color COLOR_MUTATION_PANEL = new Color( 0xFA8F9F );
     
     //----------------------------------------------------------------------------
     // Images
