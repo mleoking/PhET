@@ -34,6 +34,9 @@ public class ABSConstants {
     // Model-view transform
     public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1024, 768 );
     
+    // how much to scale Swing components that are wrapped in PSwing
+    public static final double PSWING_SCALE = 1.25;
+    
     //----------------------------------------------------------------------------
     // Fonts
     //----------------------------------------------------------------------------
