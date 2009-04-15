@@ -32,10 +32,10 @@ public class DualAtomModel {
 
     private static final AtomType DEFAULT_ATOM_TYPE = AtomType.NEON;
     private static final int CALCULATIONS_PER_TICK = 8;
-    private static final double MAX_BONDED_VELOCITY = 153;  // Velocity assigned to atom after bond forms. 
     private static final double THRESHOLD_VELOCITY = 100;  // Used to distinguish small oscillations from real movement. 
     private static final int VIBRATION_DURATION = 1200;  // In milliseconds. 
     private static final int VIBRATION_COUNTER_RESET_VALUE = VIBRATION_DURATION / InteractionPotentialDefaults.CLOCK_FRAME_DELAY;
+    private static final double BONDED_OSCILLATION_PROPORTION = 0.06; // Proportion of atom radius.
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -56,6 +56,9 @@ public class DualAtomModel {
     private int m_vibrationCounter = 0; // Used to vibrate fixed atom during bonding.
     private double m_potentialWhenAtomReleased = 0; // Used to set magnitude of vibration.
     private final Random m_rand = new Random();
+    private double m_bondedOscillationRightDistance;
+    private double m_bondedOscillationLeftDistance;
+    private double m_minPotentialDistance;
     
     //----------------------------------------------------------------------------
     // Constructor
@@ -391,15 +394,18 @@ public class DualAtomModel {
 
         m_shadowMovableAtom = (StatesOfMatterAtom)m_movableAtom.clone();
         
+    	// Update the forces and motion of the atoms.
         for (int i = 0; i < CALCULATIONS_PER_TICK; i++) {
 
             // Execute the force calculation.
             updateForces();
             
-            // Update the motion information.
-            updateAtomMotion();
+            // Update the motion information (unless the atoms are bonded).
+            if (m_bondingState != BONDING_STATE_BONDED){
+            	updateAtomMotion();
+            }
         }
-        
+
         // Update the atom that is visible to the view.
         syncMovableAtomWithDummy();
         
@@ -422,24 +428,34 @@ public class DualAtomModel {
         		if ( m_attractiveForce > m_repulsiveForce ){
         			// A bond is forming and the force just exceeded the
         			// repulsive force, meaning that the atom is starting
-        			// to pass the bottom of the well.  Put it at the bottom
-        			// of the well with a predetermined velocity so that it
-        			// will stay in the well, and thus appear bonded to the
-        			// other atom.
+        			// to pass the bottom of the well.
         			m_movableAtom.setAx( 0 );
         			m_movableAtom.setVx( 0 );
-        			m_movableAtom.setPosition(m_ljPotentialCalculator.calculateMinimumForceDistance() + m_movableAtom.getRadius() * 0.1, 0);
+        			m_minPotentialDistance = m_ljPotentialCalculator.calculateMinimumForceDistance();
+        			m_bondedOscillationRightDistance = m_minPotentialDistance + 
+        			    BONDED_OSCILLATION_PROPORTION * m_movableAtom.getRadius();
+        			m_bondedOscillationLeftDistance = 
+        			    approximateEquivalentPotentialDistance(m_bondedOscillationRightDistance);
         			m_bondingState = BONDING_STATE_BONDED;
         			stepFixedAtomVibration();
         		}
         		break;
         		
         	case BONDING_STATE_BONDED:
-//        		if ( Math.abs( m_movableAtom.getVx() ) > MAX_BONDED_VELOCITY ){
-//        			// The atom must have gotten accelerated by the potential.
-//        			// Slow it back down.
-//        			m_movableAtom.setVx( m_movableAtom.getVx() > 0 ? MAX_BONDED_VELOCITY : -MAX_BONDED_VELOCITY );
-//        		}
+        		// Override the atom motion calculations and cause the atom to
+        		// oscillate a fixed distance from the bottom of the well.
+        		// This is necessary because otherwise we tend to have an
+        		// aliasing problem where it appears that the atom oscillates
+        		// for a while, then damps out, then starts up again.
+        		m_movableAtom.setAx(0);
+        		m_movableAtom.setVx(0);
+        		if (m_movableAtom.getPositionReference().getX() > m_minPotentialDistance){
+        			m_movableAtom.setPosition(m_bondedOscillationLeftDistance, 0);
+        		}
+        		else{
+        			m_movableAtom.setPosition(m_bondedOscillationRightDistance, 0);
+        		}
+        		
         		if (isFixedAtomVibrating()){
         			stepFixedAtomVibration();
         		}
@@ -531,6 +547,41 @@ public class DualAtomModel {
        		      m_fixedAtom.getPositionReference().getY() != 0 ){
         	m_fixedAtom.setPosition(0, 0);
         }
+    }
+    
+    /**
+     * This is a highly specialized function that is used for figuring out
+     * the inter-atom distance at which the value of the potential on the left
+     * side of the of the min of the LJ potential curve is equal to that at the
+     * given distance to the right of the min of the LJ potential curve.
+     *  
+     * @param distance - inter-atom distance, must be greater than the point at
+     * which the potential is at the minimum value.
+     * @return
+     */
+    private static final int MAX_APPROXIMATION_ITERATIONS = 100;
+    private double approximateEquivalentPotentialDistance( double distance ){
+    	
+    	if (distance < m_ljPotentialCalculator.calculateMinimumForceDistance()){
+    		System.err.println(this.getClass().getName() + "- Error: Distance value out of range.");
+    		return 0;
+    	}
+    	
+    	// Iterate by a fixed amount until a reasonable value is found.
+    	double totalSpanDistance = distance - m_ljPotentialCalculator.getSigma();
+    	double distanceChangePerIteration = totalSpanDistance / MAX_APPROXIMATION_ITERATIONS;
+    	double targetPotential = m_ljPotentialCalculator.calculateLjPotential(distance);
+    	double equivalentPotentialDistance = m_ljPotentialCalculator.calculateMinimumForceDistance();
+    	for (int i = 0; i < MAX_APPROXIMATION_ITERATIONS; i++){
+    		if (m_ljPotentialCalculator.calculateLjPotential(equivalentPotentialDistance) > targetPotential){
+    			// We've crossed over to where the potential is less negative.
+    			// Close enough.
+    			break;
+    		}
+    		equivalentPotentialDistance -= distanceChangePerIteration;
+    	}
+    	
+    	return equivalentPotentialDistance;
     }
     
     private boolean isFixedAtomVibrating(){
