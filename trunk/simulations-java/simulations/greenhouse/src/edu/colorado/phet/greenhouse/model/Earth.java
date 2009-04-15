@@ -13,6 +13,7 @@ import edu.colorado.phet.greenhouse.util.ModelViewTx1D;
 
 public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, PhotonAbsorber, PhotonEmitter.Listener {
 
+	private static final double PHOTON_EMISSION_TIME = GreenhouseClock.DEFAULT_TIME_DELTA_PER_TICK;
     public static double radius = 6370;
     private double netEnergy = 0;
     double emissivity = GreenhouseConfig.defaultEarthEmissivity;
@@ -23,6 +24,7 @@ public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, P
     private static final int temperatureHistoryLength = 200;
     private double[] temperatureHistory = new double[temperatureHistoryLength];
     private ReflectivityAssessor reflectivityAssessor;
+    private double timeSinceEmission = 0;
 
     private double[][] jimmyArray;
     private ModelViewTx1D[] txArray;
@@ -43,9 +45,13 @@ public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, P
 
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
-        computeTemperature();
-        while ( netEnergy > 0 ) {
-            photonSource.notifyListeners( photonSource.emitPhoton() );
+        timeSinceEmission += dt;
+        if (timeSinceEmission >= PHOTON_EMISSION_TIME){
+        	computeTemperature();
+	        while ( netEnergy > 0 ) {
+	            photonSource.notifyListeners( photonSource.emitPhoton() );
+	        }
+	        timeSinceEmission = 0;
         }
     }
 
@@ -114,6 +120,7 @@ public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, P
     public void absorbPhoton( Photon photon ) {
         photonAbsorber.absorbPhoton( photon );
         netEnergy += photon.getEnergy();
+        System.out.println("A: netEnergy = " + netEnergy);
     }
 
     public CircularPhotonEmitter getPhotonSource() {
@@ -126,6 +133,7 @@ public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, P
 
     public void photonEmitted( Photon photon ) {
         netEnergy = Math.max( 0, netEnergy -= photon.getEnergy() );
+        System.out.println("E: netEnergy = " + netEnergy);
     }
 
     public void addPhotonEmitterListener( PhotonEmitter.Listener listener ) {
