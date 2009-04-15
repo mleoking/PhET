@@ -5,7 +5,8 @@ package edu.colorado.phet.acidbasesolutions.module.solutions;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
-import edu.colorado.phet.acidbasesolutions.control.SolutionControlPanel;
+import edu.colorado.phet.acidbasesolutions.control.BeakerControls;
+import edu.colorado.phet.acidbasesolutions.control.MiscControls;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
 import edu.colorado.phet.acidbasesolutions.view.BeakerNode;
 import edu.colorado.phet.acidbasesolutions.view.PHProbeNode;
@@ -21,7 +22,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class SolutionsCanvas extends ABSAbstractCanvas {
-
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -35,7 +36,10 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
     private final SolutionNode _solutionNode;
     
     // Control
-    private final PSwing _solutionControlPanelWrapper;
+    private final BeakerControls _beakerControls;
+    private final PSwing _beakerControlsWrapper;
+    private final MiscControls _miscControls;
+    private final PSwing _miscControlsWrapper;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -53,14 +57,22 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         _solutionNode = new SolutionNode( _model.getSolution(), SolutionsDefaults.BEAKER_SIZE );
         _solutionNode.setParticlesVisible( true );
         
-        SolutionControlPanel solutionControlPanel = new SolutionControlPanel();
-        _solutionControlPanelWrapper = new PSwing( solutionControlPanel );
+        _beakerControls = new BeakerControls();
+        _beakerControls.setBackground( getBackground() );
+        _beakerControlsWrapper = new PSwing( _beakerControls );
+        _beakerControlsWrapper.scale( ABSConstants.PSWING_SCALE );
+        
+        _miscControls = new MiscControls();
+        _miscControls.setBackground( getBackground() );
+        _miscControlsWrapper = new PSwing( _miscControls );
+        _miscControlsWrapper.scale( ABSConstants.PSWING_SCALE );
         
         // rendering order
+        addNode( _beakerControlsWrapper );
+        addNode( _miscControlsWrapper );
         addNode( _solutionNode );
         addNode( _probeNode );
         addNode( _beakerNode );
-        addNode( _solutionControlPanelWrapper );
     }
     
     //----------------------------------------------------------------------------
@@ -91,23 +103,30 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         
         double xOffset, yOffset = 0;
         
-        // solution controls
-        xOffset = 10;
-        yOffset = 10;
-        _solutionControlPanelWrapper.setOffset( xOffset, yOffset );
-        
-        xOffset = _solutionControlPanelWrapper.getFullBoundsReference().getMinX() + 40;
-        yOffset = _solutionControlPanelWrapper.getFullBoundsReference().getMaxY() + 80;
+        // beaker
+        xOffset = 50;
+        yOffset = 325;
         _beakerNode.setOffset( xOffset, yOffset );
+        
+        // solution inside the beaker
+        _solutionNode.setOffset( _beakerNode.getOffset() );
         
         // probe horizontally centered in beaker, tip of probe at bottom of beaker
         xOffset = _beakerNode.getFullBoundsReference().getCenterX() - _probeNode.getFullBoundsReference().getWidth() / 2;
         yOffset = _beakerNode.getFullBoundsReference().getMaxY() - _probeNode.getFullBoundsReference().getHeight();
         _probeNode.setOffset( xOffset, yOffset );
         
-        // liquid has same offset as beaker, so that it's inside the beaker
-        _solutionNode.setOffset( _beakerNode.getOffset() );
+        // beaker controls attached to right edge of beaker
+        xOffset = _beakerNode.getFullBoundsReference().getMaxX() - 25;
+        yOffset = _beakerNode.getFullBoundsReference().getCenterY() - ( _beakerControlsWrapper.getFullBoundsReference().getHeight() / 2 );
+        _beakerControlsWrapper.setOffset( xOffset, yOffset );
         
+        // misc controls at bottom right
+        xOffset = worldSize.getWidth() - _miscControlsWrapper.getFullBoundsReference().getWidth() - 5;
+        yOffset = worldSize.getHeight() - _miscControlsWrapper.getFullBoundsReference().getHeight() - 5;
+        _miscControlsWrapper.setOffset( xOffset, yOffset );
+        
+        // Reset All button at bottom center
         PNode resetAllButton = getResetAllButton();
         xOffset = ( worldSize.getWidth() / 2 ) - ( resetAllButton.getFullBoundsReference().getWidth() / 2 );
         yOffset = worldSize.getHeight() - resetAllButton.getFullBounds().getHeight() - 20;

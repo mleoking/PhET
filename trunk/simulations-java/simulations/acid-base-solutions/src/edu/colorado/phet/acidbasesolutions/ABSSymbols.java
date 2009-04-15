@@ -13,17 +13,20 @@ package edu.colorado.phet.acidbasesolutions;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ABSSymbols {
-
+    
     // general symbols, HTML fragments
     public static final String H2O = "H<sub>2</sub>O";
     public static final String H3O = "H<sub>3</sub>O<sup>+</sup>";
     public static final String OH = "OH<sup>-</sup>";
     public static final String HA = "HA";
+    public static final String HA_EMPHASIS = "H<i>A</i>";
     public static final String A = "A<sup>-</sup>";
     public static final String B = "B";
+    public static final String B_EMPHASIS = "<i>B</i>";
     public static final String BH = "BH<sup>+</sup>";
     public static final String MOH = "MOH";
     public static final String M = "M<sup>+</sup>";
+    public static final String MOH_EMPHASIS = "<i>M</i>OH";
     public static final String Ka = "K<sub>a</sub>";
     public static final String Kb = "K<sub>b</sub>";
     public static final String Kw = "K<sub>w</sub>";
