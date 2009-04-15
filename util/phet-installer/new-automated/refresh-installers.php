@@ -210,7 +210,7 @@
 
         // Output the time of completion.
         $end_time = exec("date");
-        flushing_echo("Completed refresh at time $end_time");
+        flushing_echo("\nCompleted refresh at time $end_time");
     }
 
     //--------------------------------------------------------------------------
