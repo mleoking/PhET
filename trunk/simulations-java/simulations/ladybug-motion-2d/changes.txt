@@ -1,3 +1,5 @@
+# 0.00.49 (30469) Apr 15, 2009
+4/15/09 Testing with system UIManager
 # 0.00.48 (30393) Apr 14, 2009
 4/14/09 Only paint every other dot node
 # 0.00.47 (30345) Apr 10, 2009
