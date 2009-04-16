@@ -1,3 +1,5 @@
+# 1.02.04 (30491) Apr 16, 2009
+4/16/09 deploy dev version to test #1387
 # 1.02.03 (29629) Mar 22, 2009
 3/22/09 Batch deploy for Alpha Simulation Tests 2, svn 29628
 # 1.02.02 (28812) Feb 19, 2009
