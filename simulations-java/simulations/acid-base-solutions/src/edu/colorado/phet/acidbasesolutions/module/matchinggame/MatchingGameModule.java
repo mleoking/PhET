@@ -7,15 +7,15 @@ import java.awt.Frame;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.AcidBaseSolutionsApplication;
 import edu.colorado.phet.acidbasesolutions.model.ABSClock;
+import edu.colorado.phet.acidbasesolutions.module.ABSAbstractModule;
 import edu.colorado.phet.acidbasesolutions.persistence.MatchingGameConfig;
-import edu.colorado.phet.common.piccolophet.PiccoloModule;
 
 /**
  * MatchingGameModule is the "Matching Game" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MatchingGameModule extends PiccoloModule {
+public class MatchingGameModule extends ABSAbstractModule {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -36,8 +36,7 @@ public class MatchingGameModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public MatchingGameModule( Frame parentFrame ) {
-        super( TITLE, CLOCK, false /* startsPaused */ );
-        setLogoPanelVisible( false );
+        super( TITLE, CLOCK );
 
         // Model
         _model = new MatchingGameModel( CLOCK );

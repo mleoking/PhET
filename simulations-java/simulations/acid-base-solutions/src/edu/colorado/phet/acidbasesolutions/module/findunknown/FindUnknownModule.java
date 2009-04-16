@@ -7,6 +7,7 @@ import java.awt.Frame;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.AcidBaseSolutionsApplication;
 import edu.colorado.phet.acidbasesolutions.model.ABSClock;
+import edu.colorado.phet.acidbasesolutions.module.ABSAbstractModule;
 import edu.colorado.phet.acidbasesolutions.persistence.FindUnknownConfig;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 
@@ -15,7 +16,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class FindUnknownModule extends PiccoloModule {
+public class FindUnknownModule extends ABSAbstractModule {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -36,8 +37,7 @@ public class FindUnknownModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public FindUnknownModule( Frame parentFrame ) {
-        super( TITLE, CLOCK, false /* startsPaused */ );
-        setLogoPanelVisible( false );
+        super( TITLE, CLOCK );
 
         // Model
         _model = new FindUnknownModel( CLOCK );

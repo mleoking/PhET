@@ -15,6 +15,8 @@ public class ABSAbstractModule extends PiccoloModule {
     public ABSAbstractModule( String name, ABSClock clock ) {
         super( name, clock );
         
+        setLogoPanelVisible( false );
+        
         // No control panel
         setControlPanel( null );
         
