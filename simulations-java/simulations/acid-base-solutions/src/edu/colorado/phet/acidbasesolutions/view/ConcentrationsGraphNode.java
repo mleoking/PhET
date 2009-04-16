@@ -15,6 +15,10 @@ public class ConcentrationsGraphNode extends PhetPNode {
     public ConcentrationsGraphNode() {
         super();
         
+        // this node is not interactive
+        setPickable( false );
+        setChildrenPickable( false );
+        
         //XXX placeholder
         PPath outlineNode = new PPath();
         outlineNode.setPathTo( new Rectangle2D.Double( 0, 0, 400, 600 ) );
