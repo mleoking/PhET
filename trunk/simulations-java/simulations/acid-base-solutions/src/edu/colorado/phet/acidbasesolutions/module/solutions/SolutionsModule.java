@@ -38,7 +38,6 @@ public class SolutionsModule extends ABSAbstractModule {
 
     public SolutionsModule( Frame parentFrame ) {
         super( TITLE, CLOCK );
-        setLogoPanelVisible( false );
 
         // Model
         _model = new SolutionsModel( CLOCK );
