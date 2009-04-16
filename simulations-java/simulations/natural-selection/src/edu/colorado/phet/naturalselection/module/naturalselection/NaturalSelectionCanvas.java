@@ -3,9 +3,8 @@ package edu.colorado.phet.naturalselection.module.naturalselection;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.naturalselection.defaults.ExampleDefaults;
-import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
+import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.view.TestVanillaBunnyNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -18,7 +17,7 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
     public NaturalSelectionCanvas( NaturalSelectionModel _model ) {
 
         super( NaturalSelectionDefaults.VIEW_SIZE );
-        
+
         model = _model;
 
         setBackground( NaturalSelectionConstants.CANVAS_BACKGROUND );
@@ -29,7 +28,7 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
         TestVanillaBunnyNode bunny = new TestVanillaBunnyNode();
 
         bunny.setOffset( 200, 200 );
-        
+
         rootNode.addChild( bunny );
 
     }

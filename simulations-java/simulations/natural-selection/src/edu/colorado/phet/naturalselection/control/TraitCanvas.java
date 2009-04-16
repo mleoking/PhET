@@ -1,23 +1,16 @@
-package edu.colorado.phet.naturalselection.module.naturalselection;
+package edu.colorado.phet.naturalselection.control;
 
 import java.awt.*;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
-import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.view.*;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolo.nodes.PText;
 
 public class TraitCanvas extends PhetPCanvas {
 

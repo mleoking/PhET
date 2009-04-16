@@ -1,10 +1,10 @@
-package edu.colorado.phet.naturalselection.module.naturalselection;
+package edu.colorado.phet.naturalselection.control;
 
 import java.awt.*;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.naturalselection.view.PopulationGraphNode;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
+import edu.colorado.phet.naturalselection.view.PopulationGraphNode;
 import edu.umd.cs.piccolo.PNode;
 
 public class PopulationCanvas extends PhetPCanvas {
@@ -29,6 +29,6 @@ public class PopulationCanvas extends PhetPCanvas {
     }
 
     public void updateLayout() {
-        
+
     }
 }

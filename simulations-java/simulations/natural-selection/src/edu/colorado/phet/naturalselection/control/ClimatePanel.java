@@ -1,11 +1,11 @@
-package edu.colorado.phet.naturalselection.module.naturalselection;
+package edu.colorado.phet.naturalselection.control;
 
 import java.awt.*;
 
 import javax.swing.*;
 
-import edu.colorado.phet.naturalselection.util.ImagePanel;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
+import edu.colorado.phet.naturalselection.util.ImagePanel;
 
 public class ClimatePanel extends JPanel {
     private JRadioButton equatorButton;

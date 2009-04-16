@@ -1,19 +1,13 @@
-/* Copyright 2007-2008, University of Colorado */
-
 package edu.colorado.phet.naturalselection.defaults;
 
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.geom.Point2D;
 
-/**
- * ExampleDefaults contains default settings for ExampleModule.
- *
- * @author Chris Malley (cmalley@pixelzoom.com)
- */
 public class NaturalSelectionDefaults {
 
     /* Not intended for instantiation */
-    private NaturalSelectionDefaults() {}
+    private NaturalSelectionDefaults() {
+    }
 
     // Clock
     public static final boolean CLOCK_RUNNING = GlobalDefaults.CLOCK_RUNNING;
