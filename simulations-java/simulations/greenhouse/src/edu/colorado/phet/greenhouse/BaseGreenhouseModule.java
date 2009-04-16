@@ -18,15 +18,30 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.common.timeseries.ui.TimeSpeedSlider;
 import edu.colorado.phet.greenhouse.common.graphics.ApparatusPanel;
 import edu.colorado.phet.greenhouse.common.graphics.CompositeGraphic;
 import edu.colorado.phet.greenhouse.filter.Filter1D;
 import edu.colorado.phet.greenhouse.filter.IrFilter;
-import edu.colorado.phet.greenhouse.model.*;
-import edu.colorado.phet.greenhouse.view.*;
+import edu.colorado.phet.greenhouse.model.Atmosphere;
+import edu.colorado.phet.greenhouse.model.BlackHole;
+import edu.colorado.phet.greenhouse.model.Earth;
+import edu.colorado.phet.greenhouse.model.GreenhouseClock;
+import edu.colorado.phet.greenhouse.model.GreenhouseModel;
+import edu.colorado.phet.greenhouse.model.Photon;
+import edu.colorado.phet.greenhouse.model.PhotonAbsorber;
+import edu.colorado.phet.greenhouse.model.PhotonEmitter;
+import edu.colorado.phet.greenhouse.model.ScatterEvent;
+import edu.colorado.phet.greenhouse.model.Star;
+import edu.colorado.phet.greenhouse.model.Thermometer;
+import edu.colorado.phet.greenhouse.view.AtmosphereGraphic;
+import edu.colorado.phet.greenhouse.view.EarthGraphic;
+import edu.colorado.phet.greenhouse.view.FlipperAffineTransformFactory;
+import edu.colorado.phet.greenhouse.view.PhotonGraphic;
+import edu.colorado.phet.greenhouse.view.ScatterEventGraphic;
+import edu.colorado.phet.greenhouse.view.TestApparatusPanel;
+import edu.colorado.phet.greenhouse.view.ThermometerGraphic;
 
 
 public abstract class BaseGreenhouseModule extends Module {
@@ -55,6 +70,7 @@ public abstract class BaseGreenhouseModule extends Module {
     private static boolean s_firstTime = true;
     private Rectangle2D.Double modelBounds;
     private AtmosphereGraphic atmosphereGraphic;
+	private TimeSpeedSlider timeSpeedSlider;
 
     protected BaseGreenhouseModule( String s ) {
         super( s, new GreenhouseClock() );
@@ -65,7 +81,7 @@ public abstract class BaseGreenhouseModule extends Module {
 
     	// Create the clock control panel, including slider.
     	PiccoloClockControlPanel clockControlPanel = new PiccoloClockControlPanel( getClock() );
-    	final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider(1, GreenhouseClock.DEFAULT_TIME_DELTA_PER_TICK * 2,
+    	timeSpeedSlider = new TimeSpeedSlider(1, GreenhouseClock.DEFAULT_TIME_DELTA_PER_TICK * 2,
     			"0.00", getGreenhouseClock(), GreenhouseResources.getString( "ClockPanel.SliderTitle" ));
         timeSpeedSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -223,6 +239,10 @@ public abstract class BaseGreenhouseModule extends Module {
             getApparatusPanel().removeGraphic( pg );
         }
         photonToGraphicsMap.clear();
+        
+        // Reset the slider that controls sim speed.
+        timeSpeedSlider.setValue(GreenhouseClock.DEFAULT_TIME_DELTA_PER_TICK);
+        getGreenhouseClock().setDt( GreenhouseClock.DEFAULT_TIME_DELTA_PER_TICK );
     }
 
     public Earth getEarth() {
