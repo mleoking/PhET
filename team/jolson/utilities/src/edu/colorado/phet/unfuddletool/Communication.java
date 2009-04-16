@@ -20,6 +20,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.unfuddletool.data.DateTime;
 
 public class Communication {
@@ -99,11 +100,63 @@ public class Communication {
         //return s;
     }
 
-    public static String getXMLResponse( String xmlString, String location, String auth ) {
+    public static class Cache {
+        private File cacheDir = new File( System.getProperty( "java.io.tmpdir" ), "unfuddletool-cache" );
 
+        public Cache() {
+            cacheDir.mkdirs();
+            System.out.println( "cacheDir.getAbsolute = " + cacheDir.getAbsolutePath() );
+        }
+
+        public boolean containsKey( String key ) {
+            return new File( cacheDir, key + ".txt" ).exists();
+        }
+
+        public String get( String key ) {
+            try {
+                return FileUtils.loadFileAsString( new File( cacheDir, key + ".txt" ) );
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+                return "-1";
+            }
+        }
+
+        public void store( String key, String value ) {
+            try {
+                FileUtils.writeString( new File( cacheDir, key + ".txt" ), value );
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private static Cache cache = new Cache();
+
+    //    private static Cache cache=null;
+    private static String reduce( String k ) {
+        k = k.replace( '/', '_' );
+        k = k.replace( '<', '_' );
+        k = k.replace( '>', '_' );
+        k = k.replace( ';', '_' );
+        k = k.replace( ':', '_' );
+        return k;
+    }
+
+    public static String getXMLResponse( String xmlString, String location, String auth ) {
+        String key = location + "-" + xmlString;
+        key = reduce( key );
+
+        if ( cache != null && cache.containsKey( key ) ) {
+            return cache.get( key );
+        }
         String ret = null;
         try {
-            ret = execCommand( new String[]{"curl", "-i", "-u", auth, "-X", "GET", "-H", "Accept: application/xml", "-d", xmlString, "http://" + Configuration.getAccountName() + ".unfuddle.com/api/v1/" + location} );
+            String[] cmd = {"curl", "-i", "-u", auth, "-X", "GET", "-H", "Accept: application/xml", "-d", "\"" + xmlString + "\"", "http://" + Configuration.getAccountName() + ".unfuddle.com/api/v1/" + location};
+            System.out.println( "Running command\n" + toCommand( cmd ) );
+            ret = execCommand( cmd );
+            System.out.println( "Received data from unfuddle." );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -111,10 +164,21 @@ public class Communication {
         catch( InterruptedException e ) {
             e.printStackTrace();
         }
+        if ( cache != null ) {
+            cache.store( key, ret );
+        }
         return ret;
-        
-       // return rawHTTPRequest( xmlString, location, auth );
+
+        // return rawHTTPRequest( xmlString, location, auth );
         //return persistentHTTPRequest( xmlString, location, auth );
+    }
+
+    private static String toCommand( String[] cmd ) {
+        String s = "";
+        for ( int i = 0; i < cmd.length; i++ ) {
+            s = s + cmd[i] + " ";
+        }
+        return s;
     }
 
 
@@ -199,7 +263,6 @@ public class Communication {
     }
 
     public static String encodeAuth( String auth ) {
-        //return new sun.misc.BASE64Encoder().encode( auth.getBytes() );
         return base64Encode( auth );
     }
 
@@ -243,12 +306,12 @@ public class Communication {
             while ( ( line = in.readLine() ) != null && line.length() > 0 ) {
                 //buf.append( "Header: " + line + "\n" );
 
-                if( errorSet ) {
+                if ( errorSet ) {
                     System.err.println( line );
                 }
 
-                if( line.startsWith( "HTTP/1.1 " ) ) {
-                    if( !line.startsWith( "HTTP/1.1 200" ) ) {
+                if ( line.startsWith( "HTTP/1.1 " ) ) {
+                    if ( !line.startsWith( "HTTP/1.1 200" ) ) {
                         errorSet = true;
                         System.err.println( "WARNING: HTTP Error code received" );
                         System.err.println( "----====] Request [====----" );
@@ -262,12 +325,12 @@ public class Communication {
             while ( ( line = in.readLine() ) != null ) {
                 buf.append( line + "\n" );
 
-                if( errorSet ) {
+                if ( errorSet ) {
                     System.err.println( line );
                 }
             }
 
-            if( errorSet ) {
+            if ( errorSet ) {
                 System.err.println( "----------------" );
             }
         }
