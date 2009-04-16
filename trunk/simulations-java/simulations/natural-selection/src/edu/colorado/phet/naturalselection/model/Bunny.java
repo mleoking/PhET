@@ -29,6 +29,8 @@ public class Bunny {
 
         setAge( 0 );
 
+        notifyInit();
+
     }
 
     public boolean isAlive() {
@@ -70,6 +72,18 @@ public class Bunny {
 
 
 
+
+
+
+
+
+
+
+
+    // static methods
+
+
+
     public static Bunny[] mateBunnies( Bunny father, Bunny mother ) {
         father.notifyReproduces();
         mother.notifyReproduces();
@@ -79,6 +93,13 @@ public class Bunny {
 
 
     // notifications
+
+    private void notifyInit() {
+        Iterator iter = listeners.iterator();
+        while( iter.hasNext() ) {
+            ( ( BunnyListener ) iter.next() ).onBunnyInit( this );
+        }
+    }
 
     private void notifyDeath() {
         Iterator iter = listeners.iterator();
@@ -112,6 +133,7 @@ public class Bunny {
     }
 
     public interface BunnyListener {
+        public void onBunnyInit( Bunny bunny );
         public void onBunnyDeath( Bunny bunny );
         public void onBunnyReproduces( Bunny bunny );
         public void onBunnyAging( Bunny bunny );
