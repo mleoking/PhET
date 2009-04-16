@@ -15,10 +15,10 @@ public class SodiumHydroxide implements IStrongBase {
     }
 
     public String getProductCationSymbol() {
-        return ABSSymbols.Na;
+        return ABSSymbols.Na_PLUS;
     }
     
     public String getProductAnionSymbol() {
-        return ABSSymbols.OH;
+        return ABSSymbols.OH_MINUS;
     }
 }

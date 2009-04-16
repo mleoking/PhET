@@ -23,6 +23,6 @@ public class Methylamine implements IWeakBase {
     }
     
     public String getProductAnionSymbol() {
-        return ABSSymbols.OH;
+        return ABSSymbols.OH_MINUS;
     }
 }
