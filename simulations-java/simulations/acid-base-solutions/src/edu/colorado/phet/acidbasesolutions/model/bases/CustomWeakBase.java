@@ -31,11 +31,11 @@ public class CustomWeakBase implements IWeakBase {
     }
     
     public String getProductCationSymbol() {
-        return ABSSymbols.BH;
+        return ABSSymbols.BH_PLUS;
     }
     
     public String getProductAnionSymbol() {
-        return ABSSymbols.OH;
+        return ABSSymbols.OH_MINUS;
     }
     
     public void setStrength( double strength ) {

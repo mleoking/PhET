@@ -17,10 +17,10 @@ public class CustomStrongAcid implements IStrongAcid {
     }
     
     public String getProductCationSymbol() {
-        return ABSSymbols.A;
+        return ABSSymbols.A_MINUS;
     }
     
     public String getProductAnionSymbol() {
-        return ABSSymbols.OH;
+        return ABSSymbols.OH_MINUS;
     }
 }

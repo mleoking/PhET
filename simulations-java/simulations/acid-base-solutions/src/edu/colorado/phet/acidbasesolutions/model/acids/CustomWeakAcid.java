@@ -35,7 +35,7 @@ public class CustomWeakAcid implements IWeakAcid {
     }
     
     public String getProductAnionSymbol() {
-        return ABSSymbols.OH;
+        return ABSSymbols.OH_MINUS;
     }
     
     public void setStrength( double strength ) {

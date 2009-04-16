@@ -39,7 +39,7 @@ public class BeakerControls extends JPanel {
         _dissociatedComponentsRatioCheckBox = new JCheckBox();
         setDissociatedComponents( "?", "?" );
         
-        Object[] args = { ABSSymbols.H3O, ABSSymbols.OH };
+        Object[] args = { ABSSymbols.H3O_PLUS, ABSSymbols.OH_MINUS };
         String text = MessageFormat.format( HYDRONIUM_HYDROXIDE_RATIO_PATTERN, args );
         _hyroniumHydroxideRatioCheckBox = new JCheckBox( text );
         

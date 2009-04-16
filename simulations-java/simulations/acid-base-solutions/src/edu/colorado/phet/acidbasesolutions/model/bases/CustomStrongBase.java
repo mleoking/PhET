@@ -17,10 +17,10 @@ public class CustomStrongBase implements IStrongBase {
     }
 
     public String getProductCationSymbol() {
-        return ABSSymbols.M;
+        return ABSSymbols.M_PLUS;
     }
     
     public String getProductAnionSymbol() {
-        return ABSSymbols.OH;
+        return ABSSymbols.OH_MINUS;
     }
 }
