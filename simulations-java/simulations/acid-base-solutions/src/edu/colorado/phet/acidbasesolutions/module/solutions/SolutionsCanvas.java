@@ -8,10 +8,7 @@ import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.control.BeakerControls;
 import edu.colorado.phet.acidbasesolutions.control.MiscControls;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
-import edu.colorado.phet.acidbasesolutions.view.BeakerNode;
-import edu.colorado.phet.acidbasesolutions.view.PHProbeNode;
-import edu.colorado.phet.acidbasesolutions.view.ParticlesNode;
-import edu.colorado.phet.acidbasesolutions.view.SolutionNode;
+import edu.colorado.phet.acidbasesolutions.view.*;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -34,6 +31,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
     private final BeakerNode _beakerNode;
     private final PHProbeNode _probeNode;
     private final SolutionNode _solutionNode;
+    private final ConcentrationsGraphNode _concentrationsGraphNode;
     
     // Control
     private final BeakerControls _beakerControls;
@@ -57,12 +55,14 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         _solutionNode = new SolutionNode( _model.getSolution(), SolutionsDefaults.BEAKER_SIZE );
         _solutionNode.setParticlesVisible( true );
         
+        _concentrationsGraphNode = new ConcentrationsGraphNode();
+        
         _beakerControls = new BeakerControls();
         _beakerControls.setBackground( getBackground() );
         _beakerControlsWrapper = new PSwing( _beakerControls );
         _beakerControlsWrapper.scale( ABSConstants.PSWING_SCALE );
         
-        _miscControls = new MiscControls();
+        _miscControls = new MiscControls( _concentrationsGraphNode );
         _miscControls.setBackground( getBackground() );
         _miscControlsWrapper = new PSwing( _miscControls );
         _miscControlsWrapper.scale( ABSConstants.PSWING_SCALE );
@@ -73,6 +73,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         addNode( _solutionNode );
         addNode( _probeNode );
         addNode( _beakerNode );
+        addNode( _concentrationsGraphNode );
     }
     
     //----------------------------------------------------------------------------
@@ -120,6 +121,11 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         xOffset = _beakerNode.getFullBoundsReference().getMaxX() - 25;
         yOffset = _beakerNode.getFullBoundsReference().getCenterY() - ( _beakerControlsWrapper.getFullBoundsReference().getHeight() / 2 );
         _beakerControlsWrapper.setOffset( xOffset, yOffset );
+        
+        // concentration graph at upper right
+        xOffset = worldSize.getWidth() - _concentrationsGraphNode.getFullBoundsReference().getWidth() - 15;
+        yOffset = 15;
+        _concentrationsGraphNode.setOffset( xOffset, yOffset );
         
         // misc controls at bottom right
         xOffset = worldSize.getWidth() - _miscControlsWrapper.getFullBoundsReference().getWidth() - 5;
