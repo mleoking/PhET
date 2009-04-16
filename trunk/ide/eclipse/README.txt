@@ -6,12 +6,12 @@ the files in this directory can be used to quickly configure Eclipse.
 If you use Eclipse to alter these files, please copy the changed files
 to this directory, so that other developers can take advantage of your work.
 
-Follow these steps:
+If "trunk" is your Eclipse project name, follow these steps:
 
-(1) copy dot-classpath.xml to simulations-java/.classpath
+(1) copy dot-classpath.xml to trunk/.classpath
 This sets the Java classpath, and associates source code with JAR files.
 
-(2) copy org.eclipse.jdt.core.prefs to simulations-java/.settings/org.eclipse.jdt.core.prefs
+(2) copy org.eclipse.jdt.core.prefs to trunk/.settings/org.eclipse.jdt.core.prefs
 This configures compiler settings for your Eclipse project.
 
 (3) Import the PhET code format conventions.
