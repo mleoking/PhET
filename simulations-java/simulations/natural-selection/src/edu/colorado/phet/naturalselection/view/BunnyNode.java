@@ -9,6 +9,10 @@ public class BunnyNode extends PNode implements Bunny.BunnyListener {
         addChild( NaturalSelectionResources.getImageNode( "bunny_2_white.png" ) );
     }
 
+    public void onBunnyInit( Bunny bunny ) {
+        
+    }
+
     public void onBunnyDeath( Bunny bunny ) {
         setVisible( false );
     }
