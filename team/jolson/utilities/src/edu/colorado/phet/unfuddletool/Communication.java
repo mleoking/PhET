@@ -132,9 +132,9 @@ public class Communication {
         }
     }
 
-    private static Cache cache = new Cache();
+    //private static Cache cache = new Cache();
+    private static Cache cache = null;
 
-    //    private static Cache cache=null;
     private static String reduce( String k ) {
         k = k.replace( '/', '_' );
         k = k.replace( '<', '_' );
