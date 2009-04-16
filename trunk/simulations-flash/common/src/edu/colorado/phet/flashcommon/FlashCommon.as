@@ -1,4 +1,4 @@
-﻿// FlashCommon.as
+// FlashCommon.as
 //
 // coordinates all common flash code, including the updates and statistics
 //
@@ -322,6 +322,7 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 		}
 	}
 	public function getInstallerCreationTimestamp() : Number {
+        // WARNING: Do NOT CHANGE installerCreationTimestamp's name, it is used in the installation utility
 		if(null_replace(_level0.installerCreationTimestamp) == NULLVAL || isPlaceholder(_level0.installerCreationTimestamp)) {
 			return null;
 		} else {
