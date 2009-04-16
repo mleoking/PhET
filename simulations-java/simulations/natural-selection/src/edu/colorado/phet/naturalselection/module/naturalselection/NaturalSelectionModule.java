@@ -28,7 +28,7 @@ public class NaturalSelectionModule extends PiccoloModule {
         canvas = new NaturalSelectionCanvas( model );
         setSimulationPanel( canvas );
 
-        controlPanel = new NaturalSelectionControlPanel( model );
+        controlPanel = new NaturalSelectionControlPanel( this, model );
         getModulePanel().setClockControlPanelWithoutContainer( controlPanel );
 
 
@@ -42,12 +42,13 @@ public class NaturalSelectionModule extends PiccoloModule {
         setClockControlPanel( clockControlPanel );
         */
 
-        // Controller
-        // TODO: add in controller
-        //ExampleController controller = new ExampleController( model, canvas, _controlPanel );
+        NaturalSelectionController controller = new NaturalSelectionController( model, canvas, controlPanel );
+
+        model.initialize();
     }
 
-    public void reset() {
-
+    public void reset() {        
+        canvas.reset();
+        model.reset();
     }
 }
