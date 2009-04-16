@@ -5,6 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
+import edu.colorado.phet.naturalselection.model.Bunny;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 
 public class TimeDisplayPanel extends JPanel implements NaturalSelectionModel.NaturalSelectionModelListener {
@@ -12,7 +13,7 @@ public class TimeDisplayPanel extends JPanel implements NaturalSelectionModel.Na
     private JLabel generationLabel;
 
     public TimeDisplayPanel( NaturalSelectionModel _model ) {
-        
+        setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
 
         monthLabel = new JLabel( "Month: January" );
         add( monthLabel );
@@ -38,5 +39,9 @@ public class TimeDisplayPanel extends JPanel implements NaturalSelectionModel.Na
 
     public void onGenerationChange( int generation ) {
         setGeneration( generation );
+    }
+
+    public void onNewBunny( Bunny bunny ) {
+        
     }
 }

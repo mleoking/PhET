@@ -6,6 +6,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.view.TestVanillaBunnyNode;
+import edu.colorado.phet.naturalselection.view.BunniesNode;
 import edu.umd.cs.piccolo.PNode;
 
 public class NaturalSelectionCanvas extends PhetPCanvas {
@@ -13,6 +14,7 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
     private NaturalSelectionModel model;
 
     private PNode rootNode;
+    public BunniesNode bunnies;
 
     public NaturalSelectionCanvas( NaturalSelectionModel _model ) {
 
@@ -25,12 +27,19 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
         rootNode = new PNode();
         addWorldChild( rootNode );
 
+        bunnies = new BunniesNode();
+        rootNode.addChild( bunnies );
+
+        /*
         TestVanillaBunnyNode bunny = new TestVanillaBunnyNode();
-
         bunny.setOffset( 200, 200 );
-
         rootNode.addChild( bunny );
+        */
 
+    }
+
+    public void reset() {
+        bunnies.reset();
     }
 
     protected void updateLayout() {

@@ -34,6 +34,9 @@ public class NaturalSelectionConstants {
     
     public static final String PROJECT_NAME = "natural-selection";
 
+    public static final int BUNNIES_DIE_WHEN_THEY_ARE_THIS_OLD = 5;
+    public static final int BUNNIES_STERILE_WHEN_THIS_OLD = 2;
+
     //----------------------------------------------------------------------------
     // Fonts
     //----------------------------------------------------------------------------

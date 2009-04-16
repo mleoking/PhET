@@ -30,6 +30,8 @@ public class PopulationGraphNode extends PNode {
 
     private static float POPULATION_MULTIPLIER = 1f;
 
+    private static float GRAPH_TOP = 20;
+
     public PopulationGraphNode( int startPopulation ) {
         axis = new PPath();
         bar = new PPath();
@@ -40,11 +42,23 @@ public class PopulationGraphNode extends PNode {
 
     }
 
+    public void reset() {
+        updatePopulation( 2 );
+    }
+
     private float getGraphHeight() {
         return ( (float) population ) * POPULATION_MULTIPLIER;
     }
 
-    private void updatePopulation( int newPopulation ) {
+    private float getTopPosition() {
+        float top = BASELINE - getGraphHeight();
+        if( top < GRAPH_TOP ) {
+            top = GRAPH_TOP;
+        }
+        return top;
+    }
+
+    public void updatePopulation( int newPopulation ) {
         population = newPopulation;
 
         quantity.setText( String.valueOf( population ) );
@@ -72,7 +86,7 @@ public class PopulationGraphNode extends PNode {
         conditionalAdd( label );
 
         quantity.setFont( new PhetFont() );
-        quantity.setOffset( ( TOTAL_WIDTH - quantity.getWidth() ) / 2, BASELINE - getGraphHeight() - 20 );
+        quantity.setOffset( ( TOTAL_WIDTH - quantity.getWidth() ) / 2, getTopPosition() - GRAPH_TOP );
         conditionalAdd( quantity );
     }
 
@@ -81,13 +95,16 @@ public class PopulationGraphNode extends PNode {
         bar.setStrokePaint( Color.BLACK );
         bar.setPaint( Color.WHITE );
 
-        float height = getGraphHeight();
+        float top = getTopPosition();
 
         GeneralPath path = new GeneralPath();
-        path.moveTo( BAR_LEFT, BASELINE - height );
+        path.moveTo( BAR_LEFT, top );
         path.lineTo( BAR_LEFT, BASELINE );
         path.lineTo( BAR_RIGHT, BASELINE );
-        path.lineTo( BAR_RIGHT, BASELINE - height );
+        path.lineTo( BAR_RIGHT, top );
+        if( top == GRAPH_TOP ) {
+            bar.setStroke( new BasicStroke( BAR_STROKE_WIDTH, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL, 10.0f, new float[] { 2.0f, 2.0f }, 0.0f ) );
+        }
         path.closePath();
         bar.setPathTo( path );
 

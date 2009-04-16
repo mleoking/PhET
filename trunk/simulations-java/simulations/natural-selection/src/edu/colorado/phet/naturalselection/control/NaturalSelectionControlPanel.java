@@ -8,6 +8,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
+import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModule;
 
 public class NaturalSelectionControlPanel extends JPanel implements ActionListener {
 
@@ -19,9 +20,12 @@ public class NaturalSelectionControlPanel extends JPanel implements ActionListen
     private TraitCanvas traitCanvas;
     private TimeDisplayPanel timePanel;
     private NaturalSelectionModel model;
+    private NaturalSelectionModule module;
+    private PopulationCanvas popCanvas;
 
-    public NaturalSelectionControlPanel( NaturalSelectionModel _model ) {
+    public NaturalSelectionControlPanel( NaturalSelectionModule _module, NaturalSelectionModel _model ) {
         model = _model;
+        module = _module;
 
         GridBagLayout layout = new GridBagLayout();
         this.setLayout( layout );
@@ -61,7 +65,7 @@ public class NaturalSelectionControlPanel extends JPanel implements ActionListen
         rightPanel.add( resetAllButton );
 
         timePanel = new TimeDisplayPanel( model );
-        PopulationCanvas popCanvas = new PopulationCanvas();
+        popCanvas = new PopulationCanvas( model );
         JPanel timePopulationPanel = new JPanel();
         timePopulationPanel.setLayout( new GridBagLayout() );
         GridBagConstraints simpleConstraint = new GridBagConstraints();
@@ -121,13 +125,15 @@ public class NaturalSelectionControlPanel extends JPanel implements ActionListen
             traitCanvas.reset();
             climatePanel.reset();
             noneButton.setSelected( true );
+            popCanvas.reset();
+            module.reset();
         }
     }
 
     public static void main( String[] args ) {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setContentPane( new NaturalSelectionControlPanel( null ) );
+        frame.setContentPane( new NaturalSelectionControlPanel( null, null ) );
         frame.pack();
         frame.setVisible( true );
     }
