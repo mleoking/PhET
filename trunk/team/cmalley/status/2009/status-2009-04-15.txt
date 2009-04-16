@@ -1,0 +1,52 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: April 9-15, 2009 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  acid-base-solutions:
+  - revised model
+  - discussed issues related to solute strength
+  - started laying out controls and major components
+  
+  titration:
+  - design meeting
+  - reviewed first draft of design doc
+  
+  common code:
+  - prevent test apps from attempting to send statistics messages, #1589
+  - discuss process for updating software agreement, #1609
+  - investigate broken "information" link in Privacy preferences, #1606
+  - rescale glitch on startup, #1612
+  
+  translations:
+  - integrated Java common strings for "tr"
+  - rejected Java common strings for "hu" 
+  - try to make sense of request for Save feature enhancement in translation utility, #1608
+  - remove non-ISO language codes, #1574
+  
+  misc:
+  - fix wave-interference on Mac, #1404 (with Sam)
+  - try to get Flash builds working on Mac, #1446 (not working)
+  - status meeting
+  - Unfuddle meeting
+  - discuss Unfuddle notifier spoofing
+  - build process doesn't clean deploy directories properly, #1610
+  
+WHAT'S NEXT:
+ 
+  - acid-base-solutions implementation
+  - misc sim fixes for IOM release
+  - become familiar with Scala
+  - investigate 3D libraries
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+  July 25 - August 9
+  
+--
