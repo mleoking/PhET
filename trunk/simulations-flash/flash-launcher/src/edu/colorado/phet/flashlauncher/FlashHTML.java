@@ -18,17 +18,7 @@ import org.w3c.dom.NodeList;
 import edu.colorado.phet.flashlauncher.util.AnnotationParser;
 import edu.colorado.phet.flashlauncher.util.XMLUtils;
 
-//import edu.colorado.phet.buildtools.util.FileUtils;
-
-/**
- * Created by IntelliJ IDEA.
- * User: jon
- * Date: Feb 1, 2009
- * Time: 4:22:22 AM
- * To change this template use File | Settings | File Templates.
- */
 public class FlashHTML {
-    //    private static final String HTML_TEMPLATE = "flash-template.html";
     private static final String NULL = "null";
 
     public static String distribution_tag_dummy = "@@DISTRIBUTION_TAG@@";
@@ -66,6 +56,7 @@ public class FlashHTML {
         String bgcolorint = String.valueOf( Integer.parseInt( bgcolor.substring( 1 ), 16 ) );
 
         // TODO: a more elegant way?
+        // WARNING: Do NOT CHANGE installerCreationTimestamp's name, it is used in the installation utility
         String flashVars = "languageCode=@@language@@&countryCode=@@country@@&internationalization=@@encodedSimXML@@" +
                            "&commonStrings=@@encodedCommonXML@@&versionMajor=@@versionMajor@@&versionMinor=@@versionMinor@@&" +
                            "versionDev=@@versionDev@@&versionRevision=@@versionRevision@@&simName=@@simName@@&simDeployment=@@deployment@@&" +
@@ -83,6 +74,7 @@ public class FlashHTML {
         s = s.replaceAll( "@@simDev@@", simDev );
         s = s.replaceAll( "@@distributionTag@@", distributionTag );
         s = s.replaceAll( "@@installationTimestamp@@", installationTimestamp );
+        // WARNING: Do NOT CHANGE installerCreationTimestamp's name, it is used in the installation utility
         s = s.replaceAll( "@@installerCreationTimestamp@@", installerCreationTimestamp );
         s = s.replaceAll( "@@versionMajor@@", versionMajor );
         s = s.replaceAll( "@@versionMinor@@", versionMinor );
