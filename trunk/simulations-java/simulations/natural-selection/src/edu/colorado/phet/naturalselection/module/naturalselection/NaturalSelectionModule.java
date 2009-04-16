@@ -5,7 +5,7 @@ import java.awt.*;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
-import edu.colorado.phet.naturalselection.defaults.ExampleDefaults;
+import edu.colorado.phet.naturalselection.control.NaturalSelectionControlPanel;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionClock;
 
@@ -28,7 +28,7 @@ public class NaturalSelectionModule extends PiccoloModule {
         canvas = new NaturalSelectionCanvas( model );
         setSimulationPanel( canvas );
 
-        controlPanel = new NaturalSelectionControlPanel();
+        controlPanel = new NaturalSelectionControlPanel( model );
         getModulePanel().setClockControlPanelWithoutContainer( controlPanel );
 
 

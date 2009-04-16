@@ -1,26 +1,27 @@
-package edu.colorado.phet.naturalselection.module.naturalselection;
+package edu.colorado.phet.naturalselection.control;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import edu.colorado.phet.naturalselection.util.ImagePanel;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
+import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 
 public class NaturalSelectionControlPanel extends JPanel implements ActionListener {
-    
+
     private ClimatePanel climatePanel;
     private JRadioButton wolvesButton;
     private JRadioButton foodButton;
     private JRadioButton noneButton;
     private JButton resetAllButton;
     private TraitCanvas traitCanvas;
+    private TimeDisplayPanel timePanel;
+    private NaturalSelectionModel model;
 
-    public NaturalSelectionControlPanel() {
-
-
+    public NaturalSelectionControlPanel( NaturalSelectionModel _model ) {
+        model = _model;
 
         GridBagLayout layout = new GridBagLayout();
         this.setLayout( layout );
@@ -59,7 +60,15 @@ public class NaturalSelectionControlPanel extends JPanel implements ActionListen
         rightPanel.add( Box.createRigidArea( new Dimension( 0, 10 ) ) );
         rightPanel.add( resetAllButton );
 
+        timePanel = new TimeDisplayPanel( model );
         PopulationCanvas popCanvas = new PopulationCanvas();
+        JPanel timePopulationPanel = new JPanel();
+        timePopulationPanel.setLayout( new GridBagLayout() );
+        GridBagConstraints simpleConstraint = new GridBagConstraints();
+        simpleConstraint.gridx = 0; simpleConstraint.gridy = 0;
+        timePopulationPanel.add( timePanel, simpleConstraint );
+        simpleConstraint.gridx = 0; simpleConstraint.gridy = 1; simpleConstraint.anchor = GridBagConstraints.SOUTHEAST;
+        timePopulationPanel.add( popCanvas, simpleConstraint );
 
         GridBagConstraints traitCanvasConstraints = new GridBagConstraints();
         traitCanvasConstraints.gridx = 0;
@@ -69,16 +78,18 @@ public class NaturalSelectionControlPanel extends JPanel implements ActionListen
         traitCanvasConstraints.anchor = GridBagConstraints.WEST;
         traitCanvasConstraints.insets = new Insets( 10, 10, 10, 10 );
         traitCanvasConstraints.weightx = 1.0;
+        traitCanvasConstraints.gridheight = 2;
         add( traitCanvas, traitCanvasConstraints );
 
         GridBagConstraints popConstraints = new GridBagConstraints();
         popConstraints.gridx = 2;
         popConstraints.gridy = 0;
-        add( popCanvas, popConstraints );
+        add( timePopulationPanel, popConstraints );
 
         GridBagConstraints spacerConstraints2 = new GridBagConstraints();
         spacerConstraints2.gridx = 1;
         spacerConstraints2.gridy = 0;
+        spacerConstraints2.gridheight = 2;
         Component spacer2 = Box.createRigidArea( new Dimension( 40, 0 ) );
         add( spacer2, spacerConstraints2 );
 
@@ -89,6 +100,7 @@ public class NaturalSelectionControlPanel extends JPanel implements ActionListen
         rightConstraints.gridheight = 1;
         rightConstraints.anchor = GridBagConstraints.EAST;
         rightConstraints.insets = new Insets( 10, 10, 10, 10 );
+        rightConstraints.gridheight = 2;
         add( rightPanel, rightConstraints );
 
         setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
@@ -100,11 +112,12 @@ public class NaturalSelectionControlPanel extends JPanel implements ActionListen
         wolvesButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         foodButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         noneButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        timePopulationPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
 
     }
 
     public void actionPerformed( ActionEvent e ) {
-        if( e.getSource() == resetAllButton ) {
+        if ( e.getSource() == resetAllButton ) {
             traitCanvas.reset();
             climatePanel.reset();
             noneButton.setSelected( true );
@@ -112,9 +125,9 @@ public class NaturalSelectionControlPanel extends JPanel implements ActionListen
     }
 
     public static void main( String[] args ) {
-        JFrame frame=new JFrame( );
+        JFrame frame = new JFrame();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setContentPane( new NaturalSelectionControlPanel() );
+        frame.setContentPane( new NaturalSelectionControlPanel( null ) );
         frame.pack();
         frame.setVisible( true );
     }
