@@ -22,7 +22,7 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         super( owner, TITLE );
         setResizable( true );
         
-        JLabel label = new JLabel( "reaction equations will appear here" );//XXX
+        JLabel label = new JLabel( "Reaction Equations live here" );//XXX
         
         // layout
         JPanel panel = new JPanel();

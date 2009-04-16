@@ -22,7 +22,7 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
         super( owner, TITLE );
         setResizable( true );
         
-        JLabel label = new JLabel( "equilibrium expressions will appear here" );//XXX
+        JLabel label = new JLabel( "Equilibrium Expressions live here" );//XXX
         
         // layout
         JPanel panel = new JPanel();
