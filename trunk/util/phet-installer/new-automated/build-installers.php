@@ -20,7 +20,7 @@
     require_once("web-util.php");
     require_once("jar-util.php");
     require_once("jnlp.php");
-    require_once("ia.php");
+    require_once("installer-util.php");
     require_once("xml-util.php");
     require_once("rip-util.php");
 
