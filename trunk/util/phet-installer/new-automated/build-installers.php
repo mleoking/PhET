@@ -30,7 +30,7 @@
     //--------------------------------------------------------------------------
     function build_installers() {
         if (file_lock("install-builder")) {
-            builder_build_all();
+            installer_build_all();
         }
         else {
             flushing_echo("The PhET AutoInstallBuilder appears to be completing a previous build.");

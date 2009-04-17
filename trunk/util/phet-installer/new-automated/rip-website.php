@@ -49,7 +49,7 @@
 
             // Add the markers and timestamps needed in order to identify
             // this installation when running on a user's machine.
-            builder_insert_installer_creation_time();
+            installer_insert_installer_creation_time();
         }
         else {
             flushing_echo( "Performing rip for sim : ".$sim_name );
@@ -78,8 +78,8 @@
             copy_sim_into_full_mirror( $sim_name );
 
             // Refresh the timestamp information.
-            builder_create_marker_file();
-            builder_insert_installer_creation_time();
+            installer_create_marker_file();
+            installer_insert_installer_creation_time();
         }
 
         // Release the lock.

@@ -61,11 +61,11 @@
         }
 
         // Determine the type of sim and perform the appropriate rip.
-        if ( is_java_sim( $full_path_to_sim ) ) {
+        if ( installer_is_java_sim( $full_path_to_sim ) ) {
             flushing_echo( "This is a Java sim" );
             rip_java_sim( $sim_name );
         }
-        else if ( is_flash_sim( $full_path_to_sim ) ) {
+        else if ( installer_is_flash_sim( $full_path_to_sim ) ) {
             flushing_echo( "This is a Flash sim" );
             rip_flash_sim( $sim_name );
         }
@@ -235,7 +235,7 @@
             $jnlp = jnlp_replace_absolute_links_with_local_file_macro($jnlp, PHET_WEBSITE_ROOT_PARTIAL_PATTERN, BITROCK_INSTALLDIR_MACRO);
 
             // If this is a post-IOM simulation, add the permissions request.
-            if ( is_post_iom_sim( $jnlp_filename ) ){
+            if ( installer_is_post_iom_sim( $jnlp_filename ) ){
                 flushing_echo("Sim is post-IOM, adding permissions request to file: ".$jnlp_filename);
                 $jnlp = jnlp_add_permissions_request( $jnlp );
             }
@@ -345,7 +345,7 @@
         builder_download_flash_rsrcs( RIPPED_WEBSITE_TOP );
 
         // Add the marker file, needed for sim usage tracking.
-        builder_create_marker_file();
+        installer_create_marker_file();
     }
 
 ?>
