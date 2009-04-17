@@ -7,10 +7,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.HTMLDocument;
 
-import edu.colorado.phet.unfuddletool.Activity;
-import edu.colorado.phet.unfuddletool.Authentication;
-import edu.colorado.phet.unfuddletool.LinkHandler;
-import edu.colorado.phet.unfuddletool.TicketHandler;
+import edu.colorado.phet.unfuddletool.*;
 
 public class UnfuddleToolGUI extends JFrame {
 
@@ -32,6 +29,9 @@ public class UnfuddleToolGUI extends JFrame {
         ticketHandler = TicketHandler.getTicketHandler();
 
         Activity activity = new Activity();
+
+        // downloads component list
+        ComponentHandler.getComponentHandler();
 
         startupStatus.setText( startupStatus.getText() + "\nLoading tickets..." );
 

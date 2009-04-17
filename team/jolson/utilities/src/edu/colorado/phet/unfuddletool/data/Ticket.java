@@ -65,8 +65,12 @@ public class Ticket extends Record {
         return Record.RECORD_TICKET;
     }
 
+    public String getComponentName() {
+        return Component.getNameFromId( rawComponentId );
+    }
+
     public String toString() {
-        return "Ticket #" + String.valueOf( rawNumber ) + " " + rawSummary;
+        return getComponentName() + " #" + String.valueOf( rawNumber ) + " " + rawSummary;
     }
 
     public String externalLink() {
@@ -81,6 +85,7 @@ public class Ticket extends Record {
         ret += "Assignee: " + Person.getNameFromId( rawAssigneeId ) + "\n";
         ret += "Reporter: " + Person.getNameFromId( rawReporterId ) + "\n";
         // component
+        ret += "Component: " + getComponentName() + "\n";
         ret += "Created: " + DateUtils.compactDate( rawCreatedAt.getDate() ) + "\n";
         ret += "Updated: " + DateUtils.compactDate( rawUpdatedAt.getDate() ) + "\n";
         // milestone
