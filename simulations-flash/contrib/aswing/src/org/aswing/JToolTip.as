@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 import org.aswing.ASWingUtils;
@@ -24,7 +24,7 @@ import org.aswing.util.Timer;
  * <code>ToolTip</code>
  * display can create an owner <code>ToolTip</code> and apply it to a component by 
  * <code>JToolTip.setComponent</code> method.
- * @see org.aswing.JSharedToolTip
+ * @see org.aswing.overflow.JSharedToolTip
  * @author iiley
  */
 class org.aswing.JToolTip extends Container {

@@ -1,9 +1,9 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
 import org.aswing.awml.AbstractParser;
-import org.aswing.JTable;
+import org.aswing.overflow.JTable;
 import org.aswing.table.DefaultTableModel;
 import org.aswing.table.TableColumn;
 

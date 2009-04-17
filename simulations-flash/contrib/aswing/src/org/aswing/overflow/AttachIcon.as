@@ -1,10 +1,10 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
 import org.aswing.ASWingUtils;
 import org.aswing.Component;
-import org.aswing.ComponentDecorator;
+import org.aswing.overflow.ComponentDecorator;
 import org.aswing.graphics.Graphics;
 import org.aswing.Icon;
 
@@ -12,7 +12,7 @@ import org.aswing.Icon;
  * Attach a mc from library with the linkage name to be a icon.
  * @author iiley
  */
-class org.aswing.AttachIcon extends ComponentDecorator implements Icon{
+class org.aswing.overflow.AttachIcon extends ComponentDecorator implements Icon{
 	private var linkage:String;
 	private var width:Number;
 	private var height:Number;

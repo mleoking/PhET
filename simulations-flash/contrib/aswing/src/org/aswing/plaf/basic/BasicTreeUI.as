@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -16,7 +16,7 @@ import org.aswing.graphics.Graphics;
 import org.aswing.graphics.Pen;
 import org.aswing.graphics.SolidBrush;
 import org.aswing.Insets;
-import org.aswing.JTree;
+import org.aswing.overflow.JTree;
 import org.aswing.LookAndFeel;
 import org.aswing.plaf.basic.CellRendererPane;
 import org.aswing.plaf.TreeUI;

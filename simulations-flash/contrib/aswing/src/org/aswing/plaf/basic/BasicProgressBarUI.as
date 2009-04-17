@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 import org.aswing.ASTextExtent;
@@ -7,7 +7,7 @@ import org.aswing.Component;
 import org.aswing.geom.Dimension;
 import org.aswing.geom.Rectangle;
 import org.aswing.graphics.Graphics;
-import org.aswing.JProgressBar;
+import org.aswing.overflow.JProgressBar;
 import org.aswing.LookAndFeel;
 import org.aswing.plaf.ProgressBarUI;
 import org.aswing.plaf.UIResource;

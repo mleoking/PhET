@@ -1,8 +1,8 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 import org.aswing.Component;
-import org.aswing.JList;
+import org.aswing.overflow.JList;
 import org.aswing.ListCell;
 
 /**

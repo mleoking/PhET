@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -10,7 +10,7 @@ import org.aswing.awml.component.ComponentParser;
 import org.aswing.Component;
 import org.aswing.JScrollBar;
 import org.aswing.JScrollPane;
-import org.aswing.JViewport;
+import org.aswing.overflow.JViewport;
 
 /**
  * Parses {@link org.aswing.JScrollPane} level elements.

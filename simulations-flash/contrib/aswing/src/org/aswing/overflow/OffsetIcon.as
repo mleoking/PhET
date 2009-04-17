@@ -1,9 +1,9 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
 import org.aswing.Component;
-import org.aswing.DecorateIcon;
+import org.aswing.overflow.DecorateIcon;
 import org.aswing.graphics.Graphics;
 import org.aswing.Icon;
 
@@ -11,7 +11,7 @@ import org.aswing.Icon;
  * A icon that make it inner icon paint to a offset position.
  * @author iiley
  */
-class org.aswing.OffsetIcon extends DecorateIcon {
+class org.aswing.overflow.OffsetIcon extends DecorateIcon {
 	
 	private var offsetX:Number;
 	private var offsetY:Number;

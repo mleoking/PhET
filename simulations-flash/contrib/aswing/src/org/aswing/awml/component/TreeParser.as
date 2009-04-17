@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -8,13 +8,13 @@ import org.aswing.awml.AwmlNamespace;
 import org.aswing.awml.AwmlParser;
 import org.aswing.awml.component.ComponentParser;
 import org.aswing.awml.component.tree.TreeRootParser;
-import org.aswing.JTree;
+import org.aswing.overflow.JTree;
 import org.aswing.tree.DefaultMutableTreeNode;
 import org.aswing.tree.DefaultTreeModel;
 import org.aswing.tree.TreePath;
 
 /**
- * Parses {@link org.aswing.JTree} level elements.
+ * Parses {@link org.aswing.overflow.JTree} level elements.
  * 
  * @author Igor Sadovskiy
  */

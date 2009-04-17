@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -7,7 +7,7 @@ import org.aswing.Component;
 import org.aswing.FocusManager;
 import org.aswing.geom.Point;
 import org.aswing.graphics.Graphics;
-import org.aswing.JList;
+import org.aswing.overflow.JList;
 import org.aswing.ListCell;
 import org.aswing.LookAndFeel;
 import org.aswing.plaf.ListUI;

@@ -1,13 +1,13 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
 import org.aswing.awml.AwmlNamespace;
 import org.aswing.awml.component.AbstractButtonParser;
-import org.aswing.JToggleButton;
+import org.aswing.overflow.JToggleButton;
 
 /**
- * Parses {@link org.aswing.JToggleButton} level elements.
+ * Parses {@link org.aswing.overflow.JToggleButton} level elements.
  * 
  * @author Igor Sadovskiy
  */

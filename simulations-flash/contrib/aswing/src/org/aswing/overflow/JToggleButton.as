@@ -1,11 +1,11 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
 import org.aswing.AbstractButton;
 import org.aswing.Icon;
 import org.aswing.plaf.ButtonUI;
-import org.aswing.ToggleButtonModel;
+import org.aswing.overflow.ToggleButtonModel;
 import org.aswing.UIManager;
 
 /**
@@ -14,7 +14,7 @@ import org.aswing.UIManager;
  * are subclasses of this class.
  * @author iiley
  */
-class org.aswing.JToggleButton extends AbstractButton{
+class org.aswing.overflow.JToggleButton extends AbstractButton{
 	/**
      * JToggleButton(text:String, icon:Icon)<br>
      * JToggleButton(text:String)<br>

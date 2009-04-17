@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -11,8 +11,8 @@ import org.aswing.Component;
 import org.aswing.Icon;
 
 /**
- *  Parses tabs for {@link org.aswing.JTabbedPane} and
- *  {@link org.aswing.JAccordion}.
+ *  Parses tabs for {@link org.aswing.overflow.JTabbedPane} and
+ *  {@link org.aswing.overflow.JAccordion}.
  * 
  * @author Igor Sadovskiy
  */

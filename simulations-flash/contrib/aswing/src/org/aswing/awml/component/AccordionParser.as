@@ -1,13 +1,13 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
 import org.aswing.awml.AwmlNamespace;
 import org.aswing.awml.component.AbstractTabbedPaneParser;
-import org.aswing.JAccordion;
+import org.aswing.overflow.JAccordion;
 
 /**
- * Parses {@link org.aswing.JAccordion} level elements.
+ * Parses {@link org.aswing.overflow.JAccordion} level elements.
  * 
  * @author Igor Sadovskiy
  */

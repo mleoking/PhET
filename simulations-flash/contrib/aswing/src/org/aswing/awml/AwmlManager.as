@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -9,8 +9,8 @@ import org.aswing.Box;
 import org.aswing.ButtonGroup;
 import org.aswing.Component;
 import org.aswing.Container;
-import org.aswing.JAccordion;
-import org.aswing.JAdjuster;
+import org.aswing.overflow.JAccordion;
+import org.aswing.overflow.JAdjuster;
 import org.aswing.JAttachPane;
 import org.aswing.JButton;
 import org.aswing.JCheckBox;
@@ -18,16 +18,16 @@ import org.aswing.JCheckBoxMenuItem;
 import org.aswing.JComboBox;
 import org.aswing.JFrame;
 import org.aswing.JLabel;
-import org.aswing.JList;
-import org.aswing.JListTree;
-import org.aswing.JLoadPane;
-import org.aswing.JMenu;
-import org.aswing.JMenuBar;
-import org.aswing.JMenuItem;
+import org.aswing.overflow.JList;
+import org.aswing.overflow.JListTree;
+import org.aswing.overflow.JLoadPane;
+import org.aswing.overflow.JMenu;
+import org.aswing.overflow.JMenuBar;
+import org.aswing.overflow.JMenuItem;
 import org.aswing.JPanel;
-import org.aswing.JPopup;
-import org.aswing.JPopupMenu;
-import org.aswing.JProgressBar;
+import org.aswing.overflow.JPopup;
+import org.aswing.overflow.JPopupMenu;
+import org.aswing.overflow.JProgressBar;
 import org.aswing.JRadioButton;
 import org.aswing.JRadioButtonMenuItem;
 import org.aswing.JScrollBar;
@@ -35,15 +35,15 @@ import org.aswing.JScrollPane;
 import org.aswing.JSeparator;
 import org.aswing.JSlider;
 import org.aswing.JSpacer;
-import org.aswing.JSplitPane;
-import org.aswing.JTabbedPane;
-import org.aswing.JTable;
+import org.aswing.overflow.JSplitPane;
+import org.aswing.overflow.JTabbedPane;
+import org.aswing.overflow.JTable;
 import org.aswing.JTextArea;
 import org.aswing.JTextField;
-import org.aswing.JToggleButton;
+import org.aswing.overflow.JToggleButton;
 import org.aswing.JToolBar;
-import org.aswing.JTree;
-import org.aswing.JViewport;
+import org.aswing.overflow.JTree;
+import org.aswing.overflow.JViewport;
 import org.aswing.JWindow;
 import org.aswing.MCPanel;
 import org.aswing.SoftBox;
@@ -203,11 +203,11 @@ class org.aswing.awml.AwmlManager {
     }
 
     /**
-     * Returns AWML {@link org.aswing.JPopup} instance by <code>awmlID</code>.
+     * Returns AWML {@link org.aswing.overflow.JPopup} instance by <code>awmlID</code>.
      * 
-     * @param awmlID the AWML ID of the {@link org.aswing.JPopup} to get
+     * @param awmlID the AWML ID of the {@link org.aswing.overflow.JPopup} to get
      * @param namespaceName (optional) the namespace to search component in
-     * @return the AWML {@link org.aswing.JPopup}
+     * @return the AWML {@link org.aswing.overflow.JPopup}
      */
     public static function getPopup(awmlID:String, namespaceName:String):JPopup {
         return JPopup(getComponent(awmlID, namespaceName));
@@ -225,11 +225,11 @@ class org.aswing.awml.AwmlManager {
     }
 
     /**
-     * Returns AWML {@link org.aswing.JPopupMenu} instance by <code>awmlID</code>.
+     * Returns AWML {@link org.aswing.overflow.JPopupMenu} instance by <code>awmlID</code>.
      * 
-     * @param awmlID the AWML ID of the {@link org.aswing.JPopupMenu} to get
+     * @param awmlID the AWML ID of the {@link org.aswing.overflow.JPopupMenu} to get
      * @param namespaceName (optional) the namespace to search component in
-     * @return the AWML {@link org.aswing.JPopupMenu}
+     * @return the AWML {@link org.aswing.overflow.JPopupMenu}
      */
     public static function getPopupMenu(awmlID:String, namespaceName:String):JPopupMenu {
         return JPopupMenu(getComponent(awmlID, namespaceName));
@@ -269,11 +269,11 @@ class org.aswing.awml.AwmlManager {
     }
 
     /**
-     * Returns AWML {@link org.aswing.JProgressBar} instance by <code>awmlID</code>.
+     * Returns AWML {@link org.aswing.overflow.JProgressBar} instance by <code>awmlID</code>.
      * 
-     * @param awmlID the AWML ID of the {@link org.aswing.JProgressBar} to get
+     * @param awmlID the AWML ID of the {@link org.aswing.overflow.JProgressBar} to get
      * @param namespaceName (optional) the namespace to search component in
-     * @return the AWML {@link org.aswing.JProgressBar}
+     * @return the AWML {@link org.aswing.overflow.JProgressBar}
      */
     public static function getProgressBar(awmlID:String, namespaceName:String):JProgressBar {
         return JProgressBar(getComponent(awmlID, namespaceName));
@@ -302,11 +302,11 @@ class org.aswing.awml.AwmlManager {
     }
 
     /**
-     * Returns AWML {@link org.aswing.JToggleButton} instance by <code>awmlID</code>.
+     * Returns AWML {@link org.aswing.overflow.JToggleButton} instance by <code>awmlID</code>.
      * 
-     * @param awmlID the AWML ID of the {@link org.aswing.JToggleButton} to get
+     * @param awmlID the AWML ID of the {@link org.aswing.overflow.JToggleButton} to get
      * @param namespaceName (optional) the namespace to search component in
-     * @return the AWML {@link org.aswing.JToggleButton}
+     * @return the AWML {@link org.aswing.overflow.JToggleButton}
      */
     public static function getToggleButton(awmlID:String, namespaceName:String):JToggleButton {
         return JToggleButton(getComponent(awmlID, namespaceName));
@@ -401,11 +401,11 @@ class org.aswing.awml.AwmlManager {
     }
 
     /**
-     * Returns AWML {@link org.aswing.JList} instance by <code>awmlID</code>.
+     * Returns AWML {@link org.aswing.overflow.JList} instance by <code>awmlID</code>.
      * 
-     * @param awmlID the AWML ID of the {@link org.aswing.JList} to get
+     * @param awmlID the AWML ID of the {@link org.aswing.overflow.JList} to get
      * @param namespaceName (optional) the namespace to search component in
-     * @return the AWML {@link org.aswing.JList}
+     * @return the AWML {@link org.aswing.overflow.JList}
      */
     public static function getList(awmlID:String, namespaceName:String):JList {
         return JList(getComponent(awmlID, namespaceName));
@@ -423,33 +423,33 @@ class org.aswing.awml.AwmlManager {
     }
 
     /**
-     * Returns AWML {@link org.aswing.JAccordion} instance by <code>awmlID</code>.
+     * Returns AWML {@link org.aswing.overflow.JAccordion} instance by <code>awmlID</code>.
      * 
-     * @param awmlID the AWML ID of the {@link org.aswing.JAccordion} to get
+     * @param awmlID the AWML ID of the {@link org.aswing.overflow.JAccordion} to get
      * @param namespaceName (optional) the namespace to search component in
-     * @return the AWML {@link org.aswing.JAccordion}
+     * @return the AWML {@link org.aswing.overflow.JAccordion}
      */
     public static function getAccordion(awmlID:String, namespaceName:String):JAccordion {
         return JAccordion(getComponent(awmlID, namespaceName));
     }
 
     /**
-     * Returns AWML {@link org.aswing.JTabbedPane} instance by <code>awmlID</code>.
+     * Returns AWML {@link org.aswing.overflow.JTabbedPane} instance by <code>awmlID</code>.
      * 
-     * @param awmlID the AWML ID of the {@link org.aswing.JTabbedPane} to get
+     * @param awmlID the AWML ID of the {@link org.aswing.overflow.JTabbedPane} to get
      * @param namespaceName (optional) the namespace to search component in
-     * @return the AWML {@link org.aswing.JTabbedPane}
+     * @return the AWML {@link org.aswing.overflow.JTabbedPane}
      */
     public static function getTabbedPane(awmlID:String, namespaceName:String):JTabbedPane {
         return JTabbedPane(getComponent(awmlID, namespaceName));
     }
 
     /**
-     * Returns AWML {@link org.aswing.JLoadPane} instance by <code>awmlID</code>.
+     * Returns AWML {@link org.aswing.overflow.JLoadPane} instance by <code>awmlID</code>.
      * 
-     * @param awmlID the AWML ID of the {@link org.aswing.JLoadPane} to get
+     * @param awmlID the AWML ID of the {@link org.aswing.overflow.JLoadPane} to get
      * @param namespaceName (optional) the namespace to search component in
-     * @return the AWML {@link org.aswing.JLoadPane}
+     * @return the AWML {@link org.aswing.overflow.JLoadPane}
      */
     public static function getLoadPane(awmlID:String, namespaceName:String):JLoadPane {
         return JLoadPane(getComponent(awmlID, namespaceName));
@@ -478,44 +478,44 @@ class org.aswing.awml.AwmlManager {
     }
 
     /**
-     * Returns AWML {@link org.aswing.JViewport} instance by <code>awmlID</code>.
+     * Returns AWML {@link org.aswing.overflow.JViewport} instance by <code>awmlID</code>.
      * 
-     * @param awmlID the AWML ID of the {@link org.aswing.JViewport} to get
+     * @param awmlID the AWML ID of the {@link org.aswing.overflow.JViewport} to get
      * @param namespaceName (optional) the namespace to search component in
-     * @return the AWML {@link org.aswing.JViewport}
+     * @return the AWML {@link org.aswing.overflow.JViewport}
      */
     public static function getViewport(awmlID:String, namespaceName:String):JViewport {
         return JViewport(getComponent(awmlID, namespaceName));
     }
 
     /**
-     * Returns AWML {@link org.aswing.JTable} instance by <code>awmlID</code>.
+     * Returns AWML {@link org.aswing.overflow.JTable} instance by <code>awmlID</code>.
      * 
-     * @param awmlID the AWML ID of the {@link org.aswing.JTable} to get
+     * @param awmlID the AWML ID of the {@link org.aswing.overflow.JTable} to get
      * @param namespaceName (optional) the namespace to search component in
-     * @return the AWML {@link org.aswing.JTable}
+     * @return the AWML {@link org.aswing.overflow.JTable}
      */
     public static function getTable(awmlID:String, namespaceName:String):JTable {
         return JTable(getComponent(awmlID, namespaceName));
     }
 
     /**
-     * Returns AWML {@link org.aswing.JTree} instance by <code>awmlID</code>.
+     * Returns AWML {@link org.aswing.overflow.JTree} instance by <code>awmlID</code>.
      * 
-     * @param awmlID the AWML ID of the {@link org.aswing.JTree} to get
+     * @param awmlID the AWML ID of the {@link org.aswing.overflow.JTree} to get
      * @param namespaceName (optional) the namespace to search component in
-     * @return the AWML {@link org.aswing.JTree}
+     * @return the AWML {@link org.aswing.overflow.JTree}
      */
     public static function getTree(awmlID:String, namespaceName:String):JTree {
         return JTree(getComponent(awmlID, namespaceName));
     }
 
     /**
-     * Returns AWML {@link org.aswing.JAdjuster} instance by <code>awmlID</code>.
+     * Returns AWML {@link org.aswing.overflow.JAdjuster} instance by <code>awmlID</code>.
      * 
-     * @param awmlID the AWML ID of the {@link org.aswing.JAdjuster} to get
+     * @param awmlID the AWML ID of the {@link org.aswing.overflow.JAdjuster} to get
      * @param namespaceName (optional) the namespace to search component in
-     * @return the AWML {@link org.aswing.JAdjuster}
+     * @return the AWML {@link org.aswing.overflow.JAdjuster}
      */
     public static function getAdjuster(awmlID:String, namespaceName:String):JAdjuster {
         return JAdjuster(getComponent(awmlID, namespaceName));
@@ -533,55 +533,55 @@ class org.aswing.awml.AwmlManager {
     }
 
     /**
-     * Returns AWML {@link org.aswing.JListTree} instance by <code>awmlID</code>.
+     * Returns AWML {@link org.aswing.overflow.JListTree} instance by <code>awmlID</code>.
      * 
-     * @param awmlID the AWML ID of the {@link org.aswing.JListTree} to get
+     * @param awmlID the AWML ID of the {@link org.aswing.overflow.JListTree} to get
      * @param namespaceName (optional) the namespace to search component in
-     * @return the AWML {@link org.aswing.JListTree}
+     * @return the AWML {@link org.aswing.overflow.JListTree}
      */
     public static function getListTree(awmlID:String, namespaceName:String):JListTree {
         return JListTree(getComponent(awmlID, namespaceName));
     }
 
     /**
-     * Returns AWML {@link org.aswing.JSplitPane} instance by <code>awmlID</code>.
+     * Returns AWML {@link org.aswing.overflow.JSplitPane} instance by <code>awmlID</code>.
      * 
-     * @param awmlID the AWML ID of the {@link org.aswing.JSplitPane} to get
+     * @param awmlID the AWML ID of the {@link org.aswing.overflow.JSplitPane} to get
      * @param namespaceName (optional) the namespace to search component in
-     * @return the AWML {@link org.aswing.JSplitPane}
+     * @return the AWML {@link org.aswing.overflow.JSplitPane}
      */
     public static function getSplitPane(awmlID:String, namespaceName:String):JSplitPane {
         return JSplitPane(getComponent(awmlID, namespaceName));
     }
 
     /**
-     * Returns AWML {@link org.aswing.JMenuBar} instance by <code>awmlID</code>.
+     * Returns AWML {@link org.aswing.overflow.JMenuBar} instance by <code>awmlID</code>.
      * 
-     * @param awmlID the AWML ID of the {@link org.aswing.JMenuBar} to get
+     * @param awmlID the AWML ID of the {@link org.aswing.overflow.JMenuBar} to get
      * @param namespaceName (optional) the namespace to search component in
-     * @return the AWML {@link org.aswing.JMenuBar}
+     * @return the AWML {@link org.aswing.overflow.JMenuBar}
      */
     public static function getMenuBar(awmlID:String, namespaceName:String):JMenuBar {
         return JMenuBar(getComponent(awmlID, namespaceName));
     }
 
     /**
-     * Returns AWML {@link org.aswing.JMenu} instance by <code>awmlID</code>.
+     * Returns AWML {@link org.aswing.overflow.JMenu} instance by <code>awmlID</code>.
      * 
-     * @param awmlID the AWML ID of the {@link org.aswing.JMenu} to get
+     * @param awmlID the AWML ID of the {@link org.aswing.overflow.JMenu} to get
      * @param namespaceName (optional) the namespace to search component in
-     * @return the AWML {@link org.aswing.JMenu}
+     * @return the AWML {@link org.aswing.overflow.JMenu}
      */
     public static function getMenu(awmlID:String, namespaceName:String):JMenu {
         return JMenu(getComponent(awmlID, namespaceName));
     }
 
     /**
-     * Returns AWML {@link org.aswing.JMenuItem} instance by <code>awmlID</code>.
+     * Returns AWML {@link org.aswing.overflow.JMenuItem} instance by <code>awmlID</code>.
      * 
-     * @param awmlID the AWML ID of the {@link org.aswing.JMenuItem} to get
+     * @param awmlID the AWML ID of the {@link org.aswing.overflow.JMenuItem} to get
      * @param namespaceName (optional) the namespace to search component in
-     * @return the AWML {@link org.aswing.JMenuItem}
+     * @return the AWML {@link org.aswing.overflow.JMenuItem}
      */
     public static function getMenuItem(awmlID:String, namespaceName:String):JMenuItem {
         return JMenuItem(getComponent(awmlID, namespaceName));

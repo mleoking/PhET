@@ -1,12 +1,12 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
 import org.aswing.Component;
 import org.aswing.geom.Point;
 import org.aswing.Icon;
-import org.aswing.JMenuItem;
-import org.aswing.JPopupMenu;
+import org.aswing.overflow.JMenuItem;
+import org.aswing.overflow.JPopupMenu;
 import org.aswing.MenuElement;
 import org.aswing.plaf.MenuItemUI;
 import org.aswing.UIManager;
@@ -26,7 +26,7 @@ import org.aswing.util.Delegate;
  * "pull-right" menu.
  * @author iiley
  */
-class org.aswing.JMenu extends JMenuItem {
+class org.aswing.overflow.JMenu extends JMenuItem {
 	
 	/*
 	 * The popup menu portion of the menu.

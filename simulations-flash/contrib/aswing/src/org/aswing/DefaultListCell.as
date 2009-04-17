@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
  
@@ -6,7 +6,7 @@ import org.aswing.AbstractListCell;
 import org.aswing.Component;
 import org.aswing.geom.Point;
 import org.aswing.JLabel;
-import org.aswing.JSharedToolTip;
+import org.aswing.overflow.JSharedToolTip;
 
 /**
  * @author iiley

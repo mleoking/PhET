@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -6,7 +6,7 @@ import org.aswing.ASColor;
 import org.aswing.geom.Rectangle;
 import org.aswing.graphics.Graphics;
 import org.aswing.graphics.Pen;
-import org.aswing.JTabbedPane;
+import org.aswing.overflow.JTabbedPane;
 import org.aswing.plaf.asw.ASWingGraphicsUtils;
 import org.aswing.plaf.basic.BasicTabbedPaneUI;
 import org.aswing.UIManager;

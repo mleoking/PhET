@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -15,7 +15,7 @@ import org.aswing.util.MCUtils;
  * One component's can only manage one decorator MC or TextFiled in one Components by a ComponentDecorator.
  * @author iiley
  */
-class org.aswing.ComponentDecorator {
+class org.aswing.overflow.ComponentDecorator {
 	
 	public static function get creater():ElementCreater{
 		return ElementCreater.getInstance();

@@ -1,13 +1,13 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
 import org.aswing.awml.AwmlNamespace;
 import org.aswing.awml.component.ContainerParser;
-import org.aswing.JPopup;
+import org.aswing.overflow.JPopup;
 
 /**
- * Parses {@link org.aswing.JPopup} level elements.
+ * Parses {@link org.aswing.overflow.JPopup} level elements.
  * 
  * @author Igor Sadovskiy
  */

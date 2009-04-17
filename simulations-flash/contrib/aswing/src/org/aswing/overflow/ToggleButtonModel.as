@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
  
@@ -9,7 +9,7 @@ import org.aswing.DefaultButtonModel;
  * The ToggleButton model
  * @author iiley
  */
-class org.aswing.ToggleButtonModel extends DefaultButtonModel{
+class org.aswing.overflow.ToggleButtonModel extends DefaultButtonModel{
 
     /**
      * Creates a new ToggleButton Model

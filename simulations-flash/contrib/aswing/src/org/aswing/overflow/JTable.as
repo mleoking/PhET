@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -103,7 +103,7 @@ import org.aswing.Viewportable;
  * To listen other Table events see {@link org.aswing.table.TableModel#addTableModelListener}
  * @author iiley
  */
-class org.aswing.JTable extends ChildrenMaskedContainer implements Viewportable, TableModelListener, 
+class org.aswing.overflow.JTable extends ChildrenMaskedContainer implements Viewportable, TableModelListener,
 	TableColumnModelListener, CellEditorListener, LayoutManager{
 	
 	/**

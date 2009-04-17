@@ -1,4 +1,4 @@
-﻿import org.aswing.ASColor;
+import org.aswing.ASColor;
 import org.aswing.ASWingUtils;
 import org.aswing.border.LineBorder;
 import org.aswing.Component;
@@ -13,7 +13,7 @@ import org.aswing.graphics.SolidBrush;
 import org.aswing.Insets;
 import org.aswing.JButton;
 import org.aswing.JComboBox;
-import org.aswing.JList;
+import org.aswing.overflow.JList;
 import org.aswing.JScrollPane;
 import org.aswing.LayoutManager;
 import org.aswing.LookAndFeel;

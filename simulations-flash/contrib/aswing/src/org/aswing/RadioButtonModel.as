@@ -1,8 +1,8 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
  
-import org.aswing.ToggleButtonModel;
+import org.aswing.overflow.ToggleButtonModel;
  
 /**
  * The RadioButton model

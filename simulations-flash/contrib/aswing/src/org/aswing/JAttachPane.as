@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
  
@@ -8,7 +8,7 @@ import org.aswing.util.MCUtils;
 
 /**
  * JAttachPane, a container attach flash symbol in library to be its floor.
- * @see org.aswing.JLoadPane
+ * @see org.aswing.overflow.JLoadPane
  * @author iiley
  */
 class org.aswing.JAttachPane extends FloorPane {

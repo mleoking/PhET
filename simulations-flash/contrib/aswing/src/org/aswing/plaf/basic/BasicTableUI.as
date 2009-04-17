@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -11,7 +11,7 @@ import org.aswing.graphics.Brush;
 import org.aswing.graphics.Graphics;
 import org.aswing.graphics.Pen;
 import org.aswing.graphics.SolidBrush;
-import org.aswing.JTable;
+import org.aswing.overflow.JTable;
 import org.aswing.ListSelectionModel;
 import org.aswing.LookAndFeel;
 import org.aswing.plaf.TableUI;

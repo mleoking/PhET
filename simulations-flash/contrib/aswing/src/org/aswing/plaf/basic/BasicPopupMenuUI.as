@@ -1,9 +1,9 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
 import org.aswing.Component;
-import org.aswing.JPopupMenu;
+import org.aswing.overflow.JPopupMenu;
 import org.aswing.LayoutManager;
 import org.aswing.LookAndFeel;
 import org.aswing.MenuElement;

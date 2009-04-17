@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 import org.aswing.Component;
@@ -7,7 +7,7 @@ import org.aswing.FocusManager;
 import org.aswing.geom.Dimension;
 import org.aswing.graphics.Graphics;
 import org.aswing.Insets;
-import org.aswing.JAccordion;
+import org.aswing.overflow.JAccordion;
 import org.aswing.LookAndFeel;
 import org.aswing.plaf.AccordionUI;
 import org.aswing.plaf.basic.accordion.AccordionHeader;

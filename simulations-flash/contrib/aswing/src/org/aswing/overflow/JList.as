@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
  
@@ -126,7 +126,7 @@ import org.aswing.Viewportable;
  * @see ListModel
  * @see VectorListModel
  */
-class org.aswing.JList extends ChildrenMaskedContainer implements Viewportable, LayoutManager, ListDataListener{
+class org.aswing.overflow.JList extends ChildrenMaskedContainer implements Viewportable, LayoutManager, ListDataListener{
 	
 	/**
 	 * When the JList Viewportable state changed.

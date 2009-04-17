@@ -1,13 +1,13 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
 import org.aswing.awml.icon.IconWrapperParser;
 import org.aswing.Icon;
-import org.aswing.OffsetIcon;
+import org.aswing.overflow.OffsetIcon;
 
 /**
- *  Parses {@link org.aswing.OffsetIcon} element.
+ *  Parses {@link org.aswing.overflow.OffsetIcon} element.
  * 
  * @author Igor Sadovskiy
  */

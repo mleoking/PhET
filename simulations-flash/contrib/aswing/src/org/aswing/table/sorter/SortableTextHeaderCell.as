@@ -1,8 +1,8 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
-import org.aswing.JTable;
+import org.aswing.overflow.JTable;
 import org.aswing.table.DefaultTextHeaderCell;
 import org.aswing.table.sorter.TableSorter;
 

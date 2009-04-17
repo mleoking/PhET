@@ -1,10 +1,10 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
 import org.aswing.Icon;
-import org.aswing.JMenuItem;
-import org.aswing.ToggleButtonModel;
+import org.aswing.overflow.JMenuItem;
+import org.aswing.overflow.ToggleButtonModel;
 
 /**
  * An implementation of a radio button menu item.

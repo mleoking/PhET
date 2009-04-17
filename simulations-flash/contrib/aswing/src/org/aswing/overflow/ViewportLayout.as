@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 import org.aswing.Component;
@@ -8,7 +8,7 @@ import org.aswing.geom.Dimension;
 import org.aswing.geom.Point;
 import org.aswing.geom.Rectangle;
 import org.aswing.Insets;
-import org.aswing.JViewport;
+import org.aswing.overflow.JViewport;
 
 /**
  * The default layout manager for <code>JViewport</code>. 
@@ -22,7 +22,7 @@ import org.aswing.JViewport;
  * 
  * @author iiley
  */
-class org.aswing.ViewportLayout extends EmptyLayout {
+class org.aswing.overflow.ViewportLayout extends EmptyLayout {
     /**
      * Returns the preferred dimensions for this layout given the components
      * in the specified target container.

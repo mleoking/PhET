@@ -6,7 +6,7 @@ import org.aswing.ASColor;
 import org.aswing.Component;
 import org.aswing.graphics.Graphics;
 import org.aswing.graphics.SolidBrush;
-import org.aswing.JMenuItem;
+import org.aswing.overflow.JMenuItem;
 import org.aswing.plaf.basic.icon.MenuCheckIcon;
 
 /**

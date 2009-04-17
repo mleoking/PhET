@@ -1,13 +1,13 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
-import org.aswing.AttachIcon;
+import org.aswing.overflow.AttachIcon;
 import org.aswing.awml.core.CreatableObjectParser;
 import org.aswing.Icon;
 
 /**
- *  Parses {@link org.aswing.AttachIcon} element.
+ *  Parses {@link org.aswing.overflow.AttachIcon} element.
  * 
  * @author Igor Sadovskiy
  */

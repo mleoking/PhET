@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -19,7 +19,7 @@ import org.aswing.UIManager;
  * 
  * @author iiley
  */
-class org.aswing.JAdjuster extends Container {
+class org.aswing.overflow.JAdjuster extends Container {
 
     /** 
      * Horizontal orientation.

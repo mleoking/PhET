@@ -1,13 +1,13 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
 import org.aswing.awml.AwmlNamespace;
 import org.aswing.awml.component.AbstractTabbedPaneParser;
-import org.aswing.JTabbedPane;
+import org.aswing.overflow.JTabbedPane;
 
 /**
- * Parses {@link org.aswing.JTabbedPane} level elements.
+ * Parses {@link org.aswing.overflow.JTabbedPane} level elements.
  * 
  * @author Igor Sadovskiy
  */

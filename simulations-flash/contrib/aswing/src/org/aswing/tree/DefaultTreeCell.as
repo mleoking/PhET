@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -6,7 +6,7 @@ import org.aswing.Component;
 import org.aswing.geom.Rectangle;
 import org.aswing.Icon;
 import org.aswing.JLabel;
-import org.aswing.JTree;
+import org.aswing.overflow.JTree;
 import org.aswing.tree.TreeCell;
 import org.aswing.tree.TreeFolderIcon;
 import org.aswing.tree.TreeLeafIcon;

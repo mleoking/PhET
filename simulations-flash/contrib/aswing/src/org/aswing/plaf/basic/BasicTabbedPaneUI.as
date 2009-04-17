@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 import org.aswing.AbstractButton;
@@ -20,7 +20,7 @@ import org.aswing.Icon;
 import org.aswing.Insets;
 import org.aswing.JButton;
 import org.aswing.JPanel;
-import org.aswing.JTabbedPane;
+import org.aswing.overflow.JTabbedPane;
 import org.aswing.JToolTip;
 import org.aswing.LookAndFeel;
 import org.aswing.MCPanel;

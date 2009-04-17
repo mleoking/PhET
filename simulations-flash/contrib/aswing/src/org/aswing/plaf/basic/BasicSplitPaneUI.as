@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -14,7 +14,7 @@ import org.aswing.geom.Rectangle;
 import org.aswing.graphics.Graphics;
 import org.aswing.graphics.SolidBrush;
 import org.aswing.Insets;
-import org.aswing.JSplitPane;
+import org.aswing.overflow.JSplitPane;
 import org.aswing.LayoutManager;
 import org.aswing.LookAndFeel;
 import org.aswing.MouseManager;

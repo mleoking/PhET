@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -8,10 +8,10 @@ import org.aswing.awml.AwmlUtils;
 import org.aswing.awml.component.ComponentParser;
 import org.aswing.Component;
 import org.aswing.geom.Point;
-import org.aswing.JViewport;
+import org.aswing.overflow.JViewport;
 
 /**
- * Parses {@link org.aswing.JViewport} level elements.
+ * Parses {@link org.aswing.overflow.JViewport} level elements.
  * 
  * @author Igor Sadovskiy
  */

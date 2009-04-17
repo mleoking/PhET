@@ -1,9 +1,9 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
 import org.aswing.Component;
-import org.aswing.ComponentDecorator;
+import org.aswing.overflow.ComponentDecorator;
 import org.aswing.graphics.Graphics;
 import org.aswing.Icon;
  
@@ -14,7 +14,7 @@ import org.aswing.Icon;
  * //TODO implement this with flash 8 api
  * @author iiley
  */
-class org.aswing.GrayFilteredIcon extends ComponentDecorator implements Icon{
+class org.aswing.overflow.GrayFilteredIcon extends ComponentDecorator implements Icon{
 	public static var DEFAULT_GRAY:Number = 50;
 	
 	private var icon:Icon;

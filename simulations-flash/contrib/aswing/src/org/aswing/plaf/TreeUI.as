@@ -1,10 +1,10 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
 import org.aswing.geom.Dimension;
 import org.aswing.geom.Rectangle;
-import org.aswing.JTree;
+import org.aswing.overflow.JTree;
 import org.aswing.plaf.ComponentUI;
 import org.aswing.tree.TreePath;
 

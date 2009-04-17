@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -20,7 +20,7 @@ import org.aswing.Icon;
  * 
  * @author iiley
  */
-class org.aswing.DecorateIcon implements Icon{
+class org.aswing.overflow.DecorateIcon implements Icon{
 	
 	private var bottomIcon:Icon;
 	

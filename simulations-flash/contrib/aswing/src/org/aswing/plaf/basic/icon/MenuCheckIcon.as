@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -7,7 +7,7 @@ import org.aswing.Component;
 import org.aswing.graphics.Graphics;
 import org.aswing.graphics.Pen;
 import org.aswing.Icon;
-import org.aswing.JMenuItem;
+import org.aswing.overflow.JMenuItem;
 import org.aswing.plaf.UIResource;
 
 /**

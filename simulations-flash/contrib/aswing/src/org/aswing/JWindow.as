@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -8,7 +8,7 @@ import org.aswing.Component;
 import org.aswing.Container;
 import org.aswing.FocusManager;
 import org.aswing.geom.Dimension;
-import org.aswing.JPopup;
+import org.aswing.overflow.JPopup;
 import org.aswing.KeyboardManager;
 import org.aswing.KeyMap;
 import org.aswing.LayoutManager;
