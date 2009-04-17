@@ -1,5 +1,5 @@
 
-package edu.colorado.phet.waveinterference.tests;
+package edu.colorado.phet.common.piccolophet.test;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
