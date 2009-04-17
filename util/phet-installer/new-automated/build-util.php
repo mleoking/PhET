@@ -152,4 +152,41 @@
         }
     }
 
+    //-------------------------------------------------------------------------
+    // Function for determining if the given simulation is a flash sim.  This
+    // is done by looking for the expected file types.
+    //-------------------------------------------------------------------------
+    function is_flash_sim( $sim_directory ) {
+
+        // See if there are any SWF files present.
+        $swf_file_list = file_list_in_directory( $sim_directory, "*.swf" );
+
+        if ( count($swf_file_list ) > 0 ){
+            // Assume that this is a Flash sim due to the presence of SWF files.
+            return true;
+        }
+        else{
+            // No SWF files, must not be a Flash sim.
+            return false;
+        }
+    }
+
+    //-------------------------------------------------------------------------
+    // Function for determining if the given simulation is a java sim.  This
+    // is done by looking for the expected file types.
+    //-------------------------------------------------------------------------
+    function is_java_sim( $sim_directory ) {
+
+        // See if there are any JNLP files present.
+        $jnlp_file_list = file_list_in_directory( $sim_directory, "*.jnlp" );
+
+        if ( count($jnlp_file_list ) > 0 ){
+            // Assume that this is a Java sim due to the presence of JNLP files.
+            return true;
+        }
+        else{
+            // No JNLP files, must not be a Java sim.
+            return false;
+        }
+    }
 ?>

@@ -20,6 +20,18 @@
     require_once("xml-util.php");
 
     //--------------------------------------------------------------------------
+    // Local definitions.
+    //--------------------------------------------------------------------------
+
+    // The name of the directory where the rip of the single simulation will be
+    // temporarily stored before being moved in to the full local web site
+    // copy.
+    define( "SINGLE_SIM_RIP_DIR", file_cleanup_local_filename( TEMP_DIR."single-sim-rip/" ) );
+
+    // Directory where sim rip will end up.
+    define( "SINGLE_SIM_RIP_TOP", file_cleanup_local_filename( SINGLE_SIM_RIP_DIR."phet.colorado.edu/" ) );
+
+    //--------------------------------------------------------------------------
     // Function for ripping the main site, meaning that it traverses each link
     // and downloads the HTML files, images, etc that comprise the site.
     //--------------------------------------------------------------------------
@@ -29,6 +41,90 @@
         $result = exec(RIPPER_EXE." ".RIPPER_ARGS);
 
         flushing_echo($result);
+    }
+
+    //-------------------------------------------------------------------------
+    // Function for obtaining (a.k.a. "ripping") a single simulation from the
+    // web site.
+    //-------------------------------------------------------------------------
+    function rip_single_sim( $sim_name ) {
+
+        // Make sure that the specified sim already exists.  If not,
+        // refreshing it is not allowed.
+        $full_path_to_sim = RIPPED_WEBSITE_TOP.PHET_SIMS_SUBDIR.$sim_name;
+        if ( !file_exists( $full_path_to_sim ) ) {
+            flushing_echo( "Error: Unable to locate sim: ".$sim_name.", aborting." );
+            return false;
+        }       
+        else{   
+            flushing_echo( "Found sim, full path is: ".$full_path_to_sim );
+        }
+
+        // Determine the type of sim and perform the appropriate rip.
+        if ( is_java_sim( $full_path_to_sim ) ) {
+            flushing_echo( "This is a Java sim" );
+            rip_java_sim( $sim_name );
+        }
+        else if ( is_flash_sim( $full_path_to_sim ) ) {
+            flushing_echo( "This is a Flash sim" );
+            rip_flash_sim( $sim_name );
+        }
+        else {
+            flushing_echo( "Error: The sim ".$sim_name." does not appear to be a Flash or Java sim, aborting." );
+            return false;
+        }
+
+        return true;
+    }
+
+    //-------------------------------------------------------------------------
+    // Function for ripping a single Java sim from the web site.
+    //-------------------------------------------------------------------------
+    function rip_java_sim( $sim_name ) {
+        $java_rip_command = RIPPER_EXE." ".'"'.PHET_WEBSITE_URL.PHET_SIMS_SUBDIR.$sim_name.'"'.' -I0 -q -v'." -O ".SINGLE_SIM_RIP_DIR.' \'-*\''.' \'+*.jnlp\''.' \'+*screenshot*\''.' \'+*thumbnail*\'';
+        // The command below doesn't seem to save much time - maybe a minute -
+        // in the process of ripping the web site.
+        //$java_rip_command = RIPPER_EXE." ".RIPPER_ARGS.' --update -v';
+        flushing_echo("Ripping files for sim ".$sim_name." with command: ".$java_rip_command);
+        system( $java_rip_command );
+
+        // Download the additional resources that are needed by this sim but
+        // that are not directory obtained through a rip of the web site.
+        builder_download_java_rsrcs( SINGLE_SIM_RIP_TOP );
+    }
+
+    //-------------------------------------------------------------------------
+    // Function for ripping a single flash sim from the web site.
+    //-------------------------------------------------------------------------
+    function rip_flash_sim( $sim_name ) {
+        $flash_rip_command = RIPPER_EXE." ".'"'.PHET_WEBSITE_URL.PHET_SIMS_SUBDIR.$sim_name.'"'.' -I0 -q -v'." -O ".SINGLE_SIM_RIP_DIR.' \'-*\''.' \'+*.swf\''.' \'+*.html\''.' \'+*screenshot*\''.' \'+*thumbnail*\'';
+        flushing_echo("Ripping files for sim ".$sim_name." with command: ".$flash_rip_command);
+        system( $flash_rip_command );
+
+        // Download the additional resources that are needed by this sim but
+        // that are not directory obtained through a rip of the web site.
+        builder_download_flash_rsrcs( SINGLE_SIM_RIP_TOP );
+    }
+
+    //-------------------------------------------------------------------------
+    // Copies a simulation from the single sim mirror into the full web site
+    // mirror.
+    //-------------------------------------------------------------------------
+    function copy_sim_into_full_mirror( $sim_name ) {
+
+        $single_sim_rip_path = SINGLE_SIM_RIP_TOP.PHET_SIMS_SUBDIR.$sim_name;
+        $full_rip_sim_path = RIPPED_WEBSITE_TOP.PHET_SIMS_SUBDIR.$sim_name.'/';
+
+        // The httrack ripper produces an index file, and though there is
+        // supposed to be an option that prevents it from being created, it
+        // doesn't seem to work as documented.  So, at least for now, we
+        // explicitly get rid of it here.
+        exec( "rm $single_sim_rip_path".'/index.html' );
+
+        // Peform the actual copy operation.
+        flushing_echo("Copying sim files into full mirror.");
+        $copy_command = "cp -f $single_sim_rip_path".'/* '."$full_rip_sim_path";
+        exec( $copy_command );
     }
 
     //--------------------------------------------------------------------------
@@ -251,4 +347,5 @@
         // Add the marker file, needed for sim usage tracking.
         builder_create_marker_file();
     }
+
 ?>
