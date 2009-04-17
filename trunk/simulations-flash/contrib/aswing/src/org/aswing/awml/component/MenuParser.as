@@ -1,16 +1,16 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
 import org.aswing.awml.AwmlNamespace;
 import org.aswing.awml.component.MenuItemParser;
-import org.aswing.JMenu;
+import org.aswing.overflow.JMenu;
 import org.aswing.awml.AwmlUtils;
 import org.aswing.Component;
 import org.aswing.awml.AwmlParser;
 
 /**
- * Parses {@link org.aswing.JMenu} level elements.
+ * Parses {@link org.aswing.overflow.JMenu} level elements.
  * 
  * @author Igor Sadovskiy
  */

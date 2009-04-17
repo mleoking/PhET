@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -9,7 +9,7 @@
  * @author iiley
  * @see org.aswing.tree.MutableTreeNode
  * @see org.aswing.tree.DefaultMutableTreeNode
- * @see org.aswing.JTree
+ * @see org.aswing.overflow.JTree
  */
 interface org.aswing.tree.TreeNode {
 	

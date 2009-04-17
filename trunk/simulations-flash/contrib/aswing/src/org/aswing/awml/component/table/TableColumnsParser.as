@@ -1,11 +1,11 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
 import org.aswing.awml.AbstractParser;
 import org.aswing.awml.AwmlConstants;
 import org.aswing.awml.AwmlParser;
-import org.aswing.JTable;
+import org.aswing.overflow.JTable;
 
 /**
  *  Parses table column list.

@@ -1,13 +1,13 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
 import org.aswing.awml.AwmlNamespace;
 import org.aswing.awml.component.ComponentParser;
-import org.aswing.JAdjuster;
+import org.aswing.overflow.JAdjuster;
 
 /**
- * Parses {@link org.aswing.JAdjuster} level elements.
+ * Parses {@link org.aswing.overflow.JAdjuster} level elements.
  * 
  * @author Igor Sadovskiy
  */

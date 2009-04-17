@@ -1,11 +1,11 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
 import org.aswing.Component;
 import org.aswing.Container;
 import org.aswing.DefaultSingleSelectionModel;
-import org.aswing.JMenu;
+import org.aswing.overflow.JMenu;
 import org.aswing.MenuElement;
 import org.aswing.plaf.MenuBarUI;
 import org.aswing.SingleSelectionModel;
@@ -15,7 +15,7 @@ import org.aswing.util.Delegate;
 /**
  * @author iiley
  */
-class org.aswing.JMenuBar extends Container implements MenuElement{
+class org.aswing.overflow.JMenuBar extends Container implements MenuElement{
 	
 	private var selectionModel:SingleSelectionModel;
 	private var menuInUse:Boolean;

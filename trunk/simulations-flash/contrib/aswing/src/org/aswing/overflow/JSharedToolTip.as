@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 import org.aswing.Component;
@@ -8,7 +8,7 @@ import org.aswing.JToolTip;
  * Shared instance Tooltip to saving instances.
  * @author iiley
  */
-class org.aswing.JSharedToolTip extends JToolTip {
+class org.aswing.overflow.JSharedToolTip extends JToolTip {
 	
 	private static var sharedInstance:JSharedToolTip;
 	

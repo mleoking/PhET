@@ -1,10 +1,10 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
 import org.aswing.Icon;
-import org.aswing.JMenuItem;
-import org.aswing.ToggleButtonModel;
+import org.aswing.overflow.JMenuItem;
+import org.aswing.overflow.ToggleButtonModel;
 
 /**
  * A menu item that can be selected or deselected. If selected, the menu

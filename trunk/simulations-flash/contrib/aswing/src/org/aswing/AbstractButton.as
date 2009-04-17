@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
  
@@ -6,7 +6,7 @@ import org.aswing.Action;
 import org.aswing.ASWingConstants;
 import org.aswing.ButtonModel;
 import org.aswing.Component;
-import org.aswing.GrayFilteredIcon;
+import org.aswing.overflow.GrayFilteredIcon;
 import org.aswing.Icon;
 import org.aswing.Insets;
 import org.aswing.plaf.ButtonUI;

@@ -1,4 +1,4 @@
-﻿/*
+/*
  CopyRight @ 2005 XLands.com INC. All rights reserved.
 */
 
@@ -6,7 +6,7 @@ import org.aswing.Component;
 import org.aswing.dnd.ListSourceData;
 import org.aswing.GeneralListCellFactory;
 import org.aswing.geom.Point;
-import org.aswing.JList;
+import org.aswing.overflow.JList;
 import org.aswing.ListCell;
 import org.aswing.ListCellFactory;
 import org.aswing.tree.DefaultMutableTreeNode;
@@ -40,8 +40,8 @@ import org.aswing.tree.TreePath;
  * <li>JListTree auto Drag and Drop handler inherited from JList does not works, if you need you can take JList 
  * as example to implement it.
  * <ul>
- * @see org.aswing.JTree
- * @see org.aswing.JList
+ * @see org.aswing.overflow.JTree
+ * @see org.aswing.overflow.JList
  * @see org.aswing.ListCellFactory
  * @see org.aswing.tree.TreeModel
  * @see org.aswing.tree.list.ListTreeModel
@@ -51,7 +51,7 @@ import org.aswing.tree.TreePath;
  * 
  * @author iiley
  */
-class org.aswing.JListTree extends JList {
+class org.aswing.overflow.JListTree extends JList {
 	
 	private var treeModel:TreeModel;
 	private var toggleClickCount:Number;

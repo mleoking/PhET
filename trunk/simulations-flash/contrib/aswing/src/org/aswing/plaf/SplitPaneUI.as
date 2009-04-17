@@ -2,7 +2,7 @@
  Copyright aswing.org, see the LICENCE.txt.
 */
 
-import org.aswing.JSplitPane;
+import org.aswing.overflow.JSplitPane;
 import org.aswing.plaf.ComponentUI;
 
 /**

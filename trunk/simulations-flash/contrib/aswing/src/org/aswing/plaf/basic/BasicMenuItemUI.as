@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -15,8 +15,8 @@ import org.aswing.graphics.Graphics;
 import org.aswing.graphics.SolidBrush;
 import org.aswing.Icon;
 import org.aswing.Insets;
-import org.aswing.JMenuBar;
-import org.aswing.JMenuItem;
+import org.aswing.overflow.JMenuBar;
+import org.aswing.overflow.JMenuItem;
 import org.aswing.LookAndFeel;
 import org.aswing.MenuElement;
 import org.aswing.MenuSelectionManager;

@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -6,7 +6,7 @@ import org.aswing.Component;
 import org.aswing.Container;
 import org.aswing.geom.Rectangle;
 import org.aswing.JScrollBar;
-import org.aswing.JViewport;
+import org.aswing.overflow.JViewport;
 import org.aswing.LayoutManager;
 import org.aswing.plaf.ScrollPaneUI;
 import org.aswing.ScrollPaneLayout;
@@ -23,7 +23,7 @@ import org.aswing.Viewportable;
  * <code>JScrollBar.setUnitIncrement()</code>
  * 
  * @see org.aswing.Viewportable
- * @see org.aswing.JViewport
+ * @see org.aswing.overflow.JViewport
  * @see org.aswing.JScrollBar
  * @author iiley
  */
@@ -88,8 +88,8 @@ class org.aswing.JScrollPane extends Container{
 	 * @see #setViewportView()
 	 * @see #setViewport()
 	 * @see org.aswing.Viewportable
-	 * @see org.aswing.JViewport
-	 * @see org.aswing.JList
+	 * @see org.aswing.overflow.JViewport
+	 * @see org.aswing.overflow.JList
 	 * @see org.aswing.JTextArea
 	 */
 	public function JScrollPane(viewOrViewport:Object, vsbPolicy:Number, hsbPolicy:Number){
@@ -195,7 +195,7 @@ class org.aswing.JScrollPane extends Container{
      *
      * @param view the component to add to the viewport
      * @see #setViewport()
-     * @see org.aswing.JViewport#setView()
+     * @see org.aswing.overflow.JViewport#setView()
      */
 	public function setViewportView(view:Component):Void{
 		var jviewport:JViewport = JViewport(getViewport());
@@ -232,9 +232,9 @@ class org.aswing.JScrollPane extends Container{
      *		and the new viewport is set to <code>null</code>
      * @see #getViewport()
      * @see #setViewportView()
-     * @see org.aswing.JList
+     * @see org.aswing.overflow.JList
      * @see org.aswing.JTextArea
-     * @see org.aswing.JTable
+     * @see org.aswing.overflow.JTable
      */
 	private function setViewport(vp:Viewportable):Void{
 		if(viewport != vp){

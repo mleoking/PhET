@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -29,7 +29,7 @@ import org.aswing.util.ObjectUtils;
  * @see org.aswing.JWindow
  * @author iiley
  */
-class org.aswing.JPopup extends Container {
+class org.aswing.overflow.JPopup extends Container {
 	
 	/**
 	 * The window closed event means that When a window was opened.

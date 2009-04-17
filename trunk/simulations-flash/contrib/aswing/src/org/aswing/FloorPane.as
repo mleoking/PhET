@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
  
@@ -14,7 +14,7 @@ import org.aswing.util.MCUtils;
 /**
  * Abstract class for A container with a decorative floor movieclip.
  * <p> External content will be load automatically when the pane was create on the stage if floorEnabled.
- * @see org.aswing.JLoadPane
+ * @see org.aswing.overflow.JLoadPane
  * @see org.aswing.JAttachPane
  * @author iiley
  */
@@ -357,7 +357,7 @@ class org.aswing.FloorPane extends Container {
 	 * @return the movieclip where the extenal image/animation will be loaded in or 
 	 * the movieclip attached.
 	 * @see #getFloorMC()
-	 * @see org.aswing.JLoadPane
+	 * @see org.aswing.overflow.JLoadPane
 	 * @see org.aswing.JAttachPane
 	 */
 	public function getFloorMC():MovieClip{
@@ -573,7 +573,7 @@ class org.aswing.FloorPane extends Container {
 	 * @see #loadFloor()
 	 * @see #createFloorMC()
 	 * @see #createFloorMaskMC()
-	 * @see org.aswing.JLoadPane
+	 * @see org.aswing.overflow.JLoadPane
 	 * @see org.aswing.JAttachPane
 	 */
 	public function reload():Void{

@@ -1,4 +1,4 @@
-﻿/*
+/*
  CopyRight @ 2005 XLands.com INC. All rights reserved.
 */
 
@@ -15,7 +15,7 @@ import org.aswing.util.Vector;
  * The <code>TreeModel</code> to <code>ListModel</code> adapter and controller.
  * It store all the visible <code>TreePath</code> in the <code>ListModel</code>.
  * 
- * @see org.aswing.JListTree
+ * @see org.aswing.overflow.JListTree
  * @author iiley
  */
 class org.aswing.tree.list.ListTreeModel extends AbstractListModel implements ListModel, TreeModelListener{

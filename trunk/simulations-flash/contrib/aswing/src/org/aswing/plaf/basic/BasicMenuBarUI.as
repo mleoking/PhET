@@ -1,10 +1,10 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
 import org.aswing.Component;
-import org.aswing.JMenu;
-import org.aswing.JMenuBar;
+import org.aswing.overflow.JMenu;
+import org.aswing.overflow.JMenuBar;
 import org.aswing.LayoutManager;
 import org.aswing.LookAndFeel;
 import org.aswing.MenuElement;

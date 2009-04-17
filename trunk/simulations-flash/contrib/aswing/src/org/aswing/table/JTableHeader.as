@@ -1,11 +1,11 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
 import org.aswing.Container;
 import org.aswing.geom.Point;
 import org.aswing.geom.Rectangle;
-import org.aswing.JTable;
+import org.aswing.overflow.JTable;
 import org.aswing.plaf.TableHeaderUI;
 import org.aswing.table.DefaultTableColumnModel;
 import org.aswing.table.DefaultTextHeaderCell;

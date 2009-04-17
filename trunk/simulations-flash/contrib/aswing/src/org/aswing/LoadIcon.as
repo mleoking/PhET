@@ -1,9 +1,9 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
 import org.aswing.Component;
-import org.aswing.ComponentDecorator;
+import org.aswing.overflow.ComponentDecorator;
 import org.aswing.graphics.Graphics;
 import org.aswing.graphics.SolidBrush;
 import org.aswing.Icon;

@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -7,7 +7,7 @@ import org.aswing.ComboBoxEditor;
 import org.aswing.Component;
 import org.aswing.Container;
 import org.aswing.DefaultComboBoxEditor;
-import org.aswing.JList;
+import org.aswing.overflow.JList;
 import org.aswing.ListCellFactory;
 import org.aswing.ListModel;
 import org.aswing.plaf.ComboBoxUI;

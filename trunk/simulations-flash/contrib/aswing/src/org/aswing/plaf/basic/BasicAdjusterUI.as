@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -13,9 +13,9 @@ import org.aswing.geom.Rectangle;
 import org.aswing.graphics.Graphics;
 import org.aswing.Icon;
 import org.aswing.Insets;
-import org.aswing.JAdjuster;
+import org.aswing.overflow.JAdjuster;
 import org.aswing.JButton;
-import org.aswing.JPopup;
+import org.aswing.overflow.JPopup;
 import org.aswing.JSlider;
 import org.aswing.JTextField;
 import org.aswing.LookAndFeel;

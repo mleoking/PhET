@@ -1,9 +1,9 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
  
 import org.aswing.Component;
-import org.aswing.JViewport;
+import org.aswing.overflow.JViewport;
 import org.aswing.LookAndFeel;
 import org.aswing.plaf.ComponentUI;
 import org.aswing.plaf.ViewportUI;

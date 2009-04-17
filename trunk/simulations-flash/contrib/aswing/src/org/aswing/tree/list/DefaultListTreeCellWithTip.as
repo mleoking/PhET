@@ -1,9 +1,9 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
 import org.aswing.geom.Point;
-import org.aswing.JSharedToolTip;
+import org.aswing.overflow.JSharedToolTip;
 import org.aswing.tree.list.DefaultListTreeCell;
 
 /**

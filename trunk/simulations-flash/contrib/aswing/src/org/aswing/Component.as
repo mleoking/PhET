@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -6,7 +6,7 @@ import org.aswing.ASColor;
 import org.aswing.ASFont;
 import org.aswing.ASWingUtils;
 import org.aswing.border.Border;
-import org.aswing.ComponentDecorator;
+import org.aswing.overflow.ComponentDecorator;
 import org.aswing.Container;
 import org.aswing.dnd.SourceData;
 import org.aswing.ElementCreater;
@@ -20,7 +20,7 @@ import org.aswing.graphics.Graphics;
 import org.aswing.graphics.SolidBrush;
 import org.aswing.Icon;
 import org.aswing.Insets;
-import org.aswing.JSharedToolTip;
+import org.aswing.overflow.JSharedToolTip;
 import org.aswing.JWindow;
 import org.aswing.MCPanel;
 import org.aswing.plaf.ASColorUIResource;

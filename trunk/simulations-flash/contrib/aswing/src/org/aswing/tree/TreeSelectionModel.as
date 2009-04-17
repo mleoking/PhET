@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 import org.aswing.IEventDispatcher;
@@ -247,7 +247,7 @@ interface org.aswing.tree.TreeSelectionModel extends IEventDispatcher{
      * changes.
      *
      * @param listener  the PropertyChangeListener to be added
-     * @see org.aswing.JTree#ON_PROPERTY_CHANGED
+     * @see org.aswing.overflow.JTree#ON_PROPERTY_CHANGED
      */
     public function addPropertyChangeListener(func:Function, contextObj:Object):Object;
 
@@ -256,7 +256,7 @@ interface org.aswing.tree.TreeSelectionModel extends IEventDispatcher{
       * set of selected TreePaths changes.
       *
       * @param x the new listener to be added
-      * @see org.aswing.JTree#ON_SELECTION_CHANGED
+      * @see org.aswing.overflow.JTree#ON_SELECTION_CHANGED
       */
     public function addTreeSelectionListener(func:Function, contextObj:Object):Object;
 }

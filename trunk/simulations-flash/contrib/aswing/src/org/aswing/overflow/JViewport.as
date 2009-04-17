@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 import org.aswing.ASWingConstants;
@@ -11,7 +11,7 @@ import org.aswing.LayoutManager;
 import org.aswing.plaf.ViewportUI;
 import org.aswing.UIManager;
 import org.aswing.Viewportable;
-import org.aswing.ViewportLayout;
+import org.aswing.overflow.ViewportLayout;
 
 
 /**
@@ -26,7 +26,7 @@ import org.aswing.ViewportLayout;
  * the scroll content will always tracks the scroll pane width.
  * @author iiley
  */
-class org.aswing.JViewport extends Container implements Viewportable {
+class org.aswing.overflow.JViewport extends Container implements Viewportable {
 				
 	/**
 	 * When the viewport's state changed.

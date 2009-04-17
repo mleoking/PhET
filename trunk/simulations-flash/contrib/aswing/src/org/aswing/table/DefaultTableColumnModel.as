@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -247,7 +247,7 @@ class org.aswing.table.DefaultTableColumnModel implements TableColumnModel {
      *
      * @param x  the horizontal location of interest
      * @return the index of the column or -1 if no column is found
-     * @see org.aswing.JTable#columnAtPoint()
+     * @see org.aswing.overflow.JTable#columnAtPoint()
      */	
 	public function getColumnIndexAtX(x:Number):Number{
 		if (x < 0){

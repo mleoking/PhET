@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -12,7 +12,7 @@ import org.aswing.geom.Rectangle;
 import org.aswing.graphics.Graphics;
 import org.aswing.util.Delegate;
 
-class org.aswing.JPieChart extends Component
+class org.aswing.overflow.JPieChart extends Component
 {
 	private var _dataSet : Array;
 	private var _colorSet : Array;

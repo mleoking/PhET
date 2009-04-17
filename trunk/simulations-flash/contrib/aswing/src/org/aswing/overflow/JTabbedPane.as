@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 import org.aswing.AbstractTabbedPane;
@@ -16,7 +16,7 @@ import org.aswing.UIManager;
  * and the last tab has an index equal to the tab count minus 1.
  * @author iiley
  */
-class org.aswing.JTabbedPane extends AbstractTabbedPane {
+class org.aswing.overflow.JTabbedPane extends AbstractTabbedPane {
 	
 	private var tabPlacement:Number;
 	

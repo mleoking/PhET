@@ -1,9 +1,9 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
 import org.aswing.Cell;
-import org.aswing.JTree;
+import org.aswing.overflow.JTree;
 
 /**
  * @author iiley

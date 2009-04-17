@@ -1,11 +1,11 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
 import org.aswing.Event;
 
 /**
- * @see org.aswing.JList
+ * @see org.aswing.overflow.JList
  * @see org.aswing.event.ListDataListener
  * @author iiley
  */

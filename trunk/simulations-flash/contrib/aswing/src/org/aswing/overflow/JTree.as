@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -109,7 +109,7 @@ import org.aswing.Viewportable;
  * @see org.aswing.tree.Identifiable
  * @author iiley
  */
-class org.aswing.JTree extends Container implements Viewportable, TreeModelListener, CellEditorListener{
+class org.aswing.overflow.JTree extends Container implements Viewportable, TreeModelListener, CellEditorListener{
 	
     /** Selection can only contain one path at a time. */
     public static var SINGLE_TREE_SELECTION:Number = DefaultTreeSelectionModel.SINGLE_TREE_SELECTION;

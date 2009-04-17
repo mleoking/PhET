@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -6,11 +6,11 @@ import org.aswing.awml.AwmlConstants;
 import org.aswing.awml.AwmlNamespace;
 import org.aswing.awml.AwmlParser;
 import org.aswing.awml.component.ComponentParser;
-import org.aswing.JMenu;
-import org.aswing.JMenuBar;
+import org.aswing.overflow.JMenu;
+import org.aswing.overflow.JMenuBar;
 
 /**
- * Parses {@link org.aswing.JMenuBar} level elements.
+ * Parses {@link org.aswing.overflow.JMenuBar} level elements.
  * 
  * @author Igor Sadovskiy
  */

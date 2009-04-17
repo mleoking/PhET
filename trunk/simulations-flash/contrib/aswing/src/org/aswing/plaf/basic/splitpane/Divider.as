@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -10,7 +10,7 @@ import org.aswing.graphics.Graphics;
 import org.aswing.Icon;
 import org.aswing.Insets;
 import org.aswing.JButton;
-import org.aswing.JSplitPane;
+import org.aswing.overflow.JSplitPane;
 import org.aswing.plaf.basic.icon.SolidArrowIcon;
 import org.aswing.plaf.basic.splitpane.DividerIcon;
 

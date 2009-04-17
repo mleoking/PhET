@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -6,7 +6,7 @@ import org.aswing.AbstractButton;
 import org.aswing.Component;
 import org.aswing.DefaultButtonModel;
 import org.aswing.Icon;
-import org.aswing.JPopupMenu;
+import org.aswing.overflow.JPopupMenu;
 import org.aswing.JWindow;
 import org.aswing.KeyType;
 import org.aswing.KeyMap;
@@ -22,7 +22,7 @@ import org.aswing.UIManager;
  * 
  * @author iiley
  */
-class org.aswing.JMenuItem extends AbstractButton implements MenuElement{
+class org.aswing.overflow.JMenuItem extends AbstractButton implements MenuElement{
 	
 	private var menuInUse:Boolean;
 	private var accelerator:KeyType;

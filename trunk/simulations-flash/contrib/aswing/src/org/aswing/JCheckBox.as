@@ -1,9 +1,9 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
  
 import org.aswing.Icon;
-import org.aswing.JToggleButton;
+import org.aswing.overflow.JToggleButton;
  
 /**
  * An implementation of a check box -- an item that can be selected or

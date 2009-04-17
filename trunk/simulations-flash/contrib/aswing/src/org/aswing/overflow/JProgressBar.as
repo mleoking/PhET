@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 import org.aswing.ASWingConstants;
@@ -17,7 +17,7 @@ import org.aswing.util.Timer;
  * display of this percentage.
  * @author iiley
  */
-class org.aswing.JProgressBar extends Component {
+class org.aswing.overflow.JProgressBar extends Component {
 	/**
 	 * When the progressBar's progress state changed.
 	 *<br>

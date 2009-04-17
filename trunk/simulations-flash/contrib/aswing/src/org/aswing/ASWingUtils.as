@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -13,7 +13,7 @@ import org.aswing.geom.Point;
 import org.aswing.geom.Rectangle;
 import org.aswing.Icon;
 import org.aswing.JPanel;
-import org.aswing.JPopup;
+import org.aswing.overflow.JPopup;
 import org.aswing.JWindow;
 import org.aswing.LayoutManager;
 import org.aswing.MCPanel;

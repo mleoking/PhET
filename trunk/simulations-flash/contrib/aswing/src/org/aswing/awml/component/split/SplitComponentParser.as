@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -7,10 +7,10 @@ import org.aswing.awml.AwmlNamespace;
 import org.aswing.awml.AwmlParser;
 import org.aswing.awml.AwmlUtils;
 import org.aswing.Component;
-import org.aswing.JSplitPane;
+import org.aswing.overflow.JSplitPane;
 
 /**
- *  Parses components for {@link org.aswing.JSplitPane}.
+ *  Parses components for {@link org.aswing.overflow.JSplitPane}.
  * 
  * @author Igor Sadovskiy
  */

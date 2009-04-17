@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -8,9 +8,9 @@ import org.aswing.Container;
 import org.aswing.DefaultSingleSelectionModel;
 import org.aswing.geom.Point;
 import org.aswing.geom.Rectangle;
-import org.aswing.JMenu;
-import org.aswing.JMenuItem;
-import org.aswing.JPopup;
+import org.aswing.overflow.JMenu;
+import org.aswing.overflow.JMenuItem;
+import org.aswing.overflow.JPopup;
 import org.aswing.MenuElement;
 import org.aswing.MenuSelectionManager;
 import org.aswing.plaf.PopupMenuUI;
@@ -31,7 +31,7 @@ import org.aswing.WindowLayout;
  * 
  * @author iiley
  */
-class org.aswing.JPopupMenu extends Container implements MenuElement{
+class org.aswing.overflow.JPopupMenu extends Container implements MenuElement{
 	
 	private static var popupMenuMouseLis:Object;
 	private static var showingMenuPopups:Array;
@@ -46,7 +46,7 @@ class org.aswing.JPopupMenu extends Container implements MenuElement{
 	
 	/**
 	 * Create a popup menu
-	 * @see org.aswing.JPopup
+	 * @see org.aswing.overflow.JPopup
 	 */
 	public function JPopupMenu() {
 		super();

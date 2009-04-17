@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -20,7 +20,7 @@ import org.aswing.graphics.Graphics;
 import org.aswing.graphics.Pen;
 import org.aswing.graphics.SolidBrush;
 import org.aswing.Insets;
-import org.aswing.JAdjuster;
+import org.aswing.overflow.JAdjuster;
 import org.aswing.JLabel;
 import org.aswing.JPanel;
 import org.aswing.JTextField;

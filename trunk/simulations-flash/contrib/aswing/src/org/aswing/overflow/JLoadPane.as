@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
  
@@ -12,7 +12,7 @@ import org.aswing.util.MCUtils;
  * @see org.aswing.JAttachPane
  * @author iiley
  */
-class org.aswing.JLoadPane extends FloorPane {
+class org.aswing.overflow.JLoadPane extends FloorPane {
 	
 	/**
 	 * When the file that was loaded.

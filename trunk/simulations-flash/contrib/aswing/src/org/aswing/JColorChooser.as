@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -9,7 +9,7 @@ import org.aswing.Component;
 import org.aswing.geom.Point;
 import org.aswing.JButton;
 import org.aswing.JFrame;
-import org.aswing.JTabbedPane;
+import org.aswing.overflow.JTabbedPane;
 import org.aswing.JWindow;
 import org.aswing.plaf.ColorChooserUI;
 import org.aswing.UIManager;

@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -7,10 +7,10 @@ import org.aswing.awml.AwmlConstants;
 import org.aswing.awml.AwmlNamespace;
 import org.aswing.awml.AwmlParser;
 import org.aswing.awml.component.ComponentParser;
-import org.aswing.JTable;
+import org.aswing.overflow.JTable;
 
 /**
- * Parses {@link org.aswing.JTable} level elements.
+ * Parses {@link org.aswing.overflow.JTable} level elements.
  * 
  * @author iiley
  */

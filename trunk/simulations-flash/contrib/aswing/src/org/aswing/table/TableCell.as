@@ -1,9 +1,9 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
 import org.aswing.Cell;
-import org.aswing.JTable;
+import org.aswing.overflow.JTable;
 
 /**
  * @author iiley

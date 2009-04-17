@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -44,7 +44,7 @@ import org.aswing.UIManager;
  * 
  * @author iiley
  */
-class org.aswing.JSplitPane extends Container {
+class org.aswing.overflow.JSplitPane extends Container {
 	
     /**
      * Vertical split indicates the <code>Component</code>s are

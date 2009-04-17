@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -7,7 +7,7 @@ import org.aswing.dnd.DraggingImage;
 import org.aswing.ElementCreater;
 import org.aswing.graphics.Graphics;
 import org.aswing.graphics.Pen;
-import org.aswing.JList;
+import org.aswing.overflow.JList;
 
 /**
  * @author iiley

@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 import org.aswing.AbstractTabbedPane;
@@ -10,7 +10,7 @@ import org.aswing.UIManager;
  * Accordion Container.
  * @author iiley
  */
-class org.aswing.JAccordion extends AbstractTabbedPane {
+class org.aswing.overflow.JAccordion extends AbstractTabbedPane {
 	
     /**
      * JAccordion()

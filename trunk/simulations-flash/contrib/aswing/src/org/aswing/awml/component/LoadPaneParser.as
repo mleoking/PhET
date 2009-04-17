@@ -1,13 +1,13 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
 import org.aswing.awml.AwmlNamespace;
 import org.aswing.awml.component.FloorPaneParser;
-import org.aswing.JLoadPane;
+import org.aswing.overflow.JLoadPane;
 
 /**
- * Parses {@link org.aswing.JLoadPane} level elements.
+ * Parses {@link org.aswing.overflow.JLoadPane} level elements.
  * 
  * @author Igor Sadovskiy
  */

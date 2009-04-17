@@ -1,11 +1,11 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
 import org.aswing.Component;
 import org.aswing.geom.Rectangle;
 import org.aswing.JLabel;
-import org.aswing.JTable;
+import org.aswing.overflow.JTable;
 import org.aswing.table.TableCell;
 
 /**

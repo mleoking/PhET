@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -9,8 +9,8 @@ import org.aswing.util.ArrayUtils;
 /**
  * TreeSourceData is the draging source date of a Tree component.
  * 
- * @see org.aswing.JTree
- * @see org.aswing.JListTree
+ * @see org.aswing.overflow.JTree
+ * @see org.aswing.overflow.JListTree
  * @author iiley
  */
 class org.aswing.dnd.TreeSourceData extends SourceData {

@@ -1,9 +1,9 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 import org.aswing.ASWingConstants;
 import org.aswing.Component;
-import org.aswing.GrayFilteredIcon;
+import org.aswing.overflow.GrayFilteredIcon;
 import org.aswing.Icon;
 import org.aswing.plaf.LabelUI;
 import org.aswing.UIManager;

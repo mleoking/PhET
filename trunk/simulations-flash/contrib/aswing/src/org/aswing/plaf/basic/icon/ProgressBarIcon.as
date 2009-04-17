@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
  
@@ -8,7 +8,7 @@ import org.aswing.geom.Rectangle;
 import org.aswing.graphics.Graphics;
 import org.aswing.graphics.SolidBrush;
 import org.aswing.Icon;
-import org.aswing.JProgressBar;
+import org.aswing.overflow.JProgressBar;
 import org.aswing.plaf.UIResource;
 import org.aswing.UIManager;
 

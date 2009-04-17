@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -167,7 +167,7 @@ interface org.aswing.ListSelectionModel extends IEventDispatcher {
     /**
      * Add a listener to the list that's notified each time a change
      * to the selection occurs.
-     * @see org.aswing.JList#ON_SELECTION_CHANGED
+     * @see org.aswing.overflow.JList#ON_SELECTION_CHANGED
      */  
 	public function addListSelectionListener(func:Function, obj:Object):Object;
 }

@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright aswing.org, see the LICENCE.txt.
 */
 
@@ -7,10 +7,10 @@ import org.aswing.awml.AwmlParser;
 import org.aswing.awml.AwmlUtils;
 import org.aswing.awml.component.ComponentParser;
 import org.aswing.Icon;
-import org.aswing.JProgressBar;
+import org.aswing.overflow.JProgressBar;
 
 /**
- * Parses {@link org.aswing.JProgressBar} level elements.
+ * Parses {@link org.aswing.overflow.JProgressBar} level elements.
  * 
  * @author Igor Sadovskiy
  */
