@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
  * related to Piccolo (PSwing) scene graph rendering.
  *
  * @author Sam Reid
+ * @deprecated see Unfuddle #1621
  */
 public class BufferedPhetPCanvas extends PhetPCanvas {
 
