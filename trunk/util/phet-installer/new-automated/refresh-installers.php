@@ -16,7 +16,6 @@
     require_once("global.php");
     require_once("file-util.php");
     require_once("ia.php");
-    require_once("build-util.php");
     require_once("rip-util.php");
 
     //-------------------------------------------------------------------------
