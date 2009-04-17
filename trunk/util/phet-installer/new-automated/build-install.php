@@ -499,7 +499,7 @@
     }
 
     //--------------------------------------------------------------------------
-    // Main routine - interprests command line options and executes the
+    // Main routine - interprets command line options and executes the
     // indicated requests.
     //--------------------------------------------------------------------------
     function main() {
