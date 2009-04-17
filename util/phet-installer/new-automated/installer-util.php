@@ -27,7 +27,7 @@
     // contain the IOM features and following the IOM naming and signing
     // conventions.
     //-------------------------------------------------------------------------
-    function is_post_iom_sim( $jnlp_filename ) {
+    function installer_is_post_iom_sim( $jnlp_filename ) {
     
         // Determine the directory in which this sim resides.
         $sim_directory = substr( $jnlp_filename, 0, strripos( $jnlp_filename, "/", 0 ) );
@@ -62,7 +62,7 @@
     //--------------------------------------------------------------------------
     // Function for building installers for all of the supported platforms.
     //--------------------------------------------------------------------------
-    function builder_build_all() {
+    function installer_build_all() {
         flushing_echo("Building all installers for all configurations...");
 
         // Create output directory:
@@ -87,7 +87,7 @@
     // versus some other means (such as a single downloaded JAR file).  See
     // unfuddle ticket #875 for more information.
     //--------------------------------------------------------------------------
-    function builder_create_marker_file(){
+    function installer_create_marker_file(){
         $marker_file_name = RIPPED_WEBSITE_TOP.PHET_SIMS_SUBDIR.MARKER_FILE_NAME;
         flushing_echo("Marker file name = $marker_file_name");
         $contents = "# DO NOT DELETE THIS FILE.\n# This file identifies this installation of PhET.\n\n";
@@ -100,7 +100,7 @@
     // flash simulations must be modified at the same time so that the time
     // stamp will be the same for both.
     //--------------------------------------------------------------------------
-    function builder_insert_installer_creation_time(){
+    function installer_insert_installer_creation_time(){
 
         // Get the value of the time stamp.
         $time = time();
@@ -156,7 +156,7 @@
     // Function for determining if the given simulation is a flash sim.  This
     // is done by looking for the expected file types.
     //-------------------------------------------------------------------------
-    function is_flash_sim( $sim_directory ) {
+    function installer_is_flash_sim( $sim_directory ) {
 
         // See if there are any SWF files present.
         $swf_file_list = file_list_in_directory( $sim_directory, "*.swf" );
@@ -175,7 +175,7 @@
     // Function for determining if the given simulation is a java sim.  This
     // is done by looking for the expected file types.
     //-------------------------------------------------------------------------
-    function is_java_sim( $sim_directory ) {
+    function installer_is_java_sim( $sim_directory ) {
 
         // See if there are any JNLP files present.
         $jnlp_file_list = file_list_in_directory( $sim_directory, "*.jnlp" );

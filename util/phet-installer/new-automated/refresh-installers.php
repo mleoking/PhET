@@ -61,11 +61,11 @@
         copy_sim_into_full_mirror( $sim_name );
 
         // Refresh the timestamp information.
-        builder_create_marker_file();
-        builder_insert_installer_creation_time();
+        installer_create_marker_file();
+        installer_insert_installer_creation_time();
 
         // Rebuild the installers.
-        builder_build_all();
+        installer_build_all();
 
         // Release the lock.
         file_unlock("install-builder");
