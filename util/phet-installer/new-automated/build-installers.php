@@ -22,7 +22,6 @@
     require_once("jnlp.php");
     require_once("ia.php");
     require_once("xml-util.php");
-    require_once("build-util.php");
     require_once("rip-util.php");
 
     //--------------------------------------------------------------------------
