@@ -142,6 +142,7 @@
 	<classpathentry kind="src" path="simulations-java/simulations/mri/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/mvc-example/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/mvc-example/data"/>
+	
 	<classpathentry kind="src" path="simulations-java/simulations/nuclear-physics/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/nuclear-physics/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/optical-quantum-control/src"/>
@@ -198,6 +199,7 @@
 	<classpathentry kind="src" path="util/translation-strings-diff/src"/>
 	<classpathentry kind="src" path="util/localization-strings/src"/>
 	<classpathentry kind="src" path="util/testing/src"/>
+    <classpathentry kind="src" path="util/testing/contrib/opencsv/src"/>
 	
 	<!-- Unfuddle notifier -->
 	<!-- this was implemented in Java 5 code, omit from classpath until we move to Java 5
