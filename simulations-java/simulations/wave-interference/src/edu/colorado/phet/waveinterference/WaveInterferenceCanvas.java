@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 
 /**
  * User: Sam Reid
@@ -14,7 +14,7 @@ import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
  * Time: 5:12:40 PM
  */
 
-public abstract class WaveInterferenceCanvas extends BufferedPhetPCanvas implements Maximizable {
+public abstract class WaveInterferenceCanvas extends PhetPCanvas implements Maximizable {
     private boolean waveMaximized = false;
 
     public void paintComponent( Graphics g ) {
