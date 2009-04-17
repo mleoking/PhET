@@ -22,7 +22,7 @@
     require_once("jnlp.php");
     require_once("installer-util.php");
     require_once("xml-util.php");
-    require_once("rip-util.php");
+    require_once("ripper-util.php");
 
     //--------------------------------------------------------------------------
     // Main routine - interprets command line options and executes the
