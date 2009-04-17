@@ -16,7 +16,7 @@
     require_once("global.php");
     require_once("file-util.php");
     require_once("installer-util.php");
-    require_once("rip-util.php");
+    require_once("ripper-util.php");
 
     //-------------------------------------------------------------------------
     // Obtains the name of the simulation from the command line arguments and
@@ -51,14 +51,14 @@
         flushing_echo("Starting refresh of sim $sim_name at time $start_time");
 
         // Rip the specified sim from the main web site.
-        $rip_successful = rip_single_sim($sim_name);
+        $rip_successful = ripper_rip_single_sim($sim_name);
         if ( $rip_successful == false ){
             flushing_echo("Error: Failed to obtain sim from the web site, sim = ".$sim_name);
             return;
         }
 
         // Copy the ripped files into the pre-existing full mirror.
-        copy_sim_into_full_mirror( $sim_name );
+        ripper_copy_sim_into_full_mirror( $sim_name );
 
         // Refresh the timestamp information.
         installer_create_marker_file();

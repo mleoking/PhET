@@ -35,7 +35,7 @@
     // Function for ripping the main site, meaning that it traverses each link
     // and downloads the HTML files, images, etc that comprise the site.
     //--------------------------------------------------------------------------
-    function builder_rip_website() {
+    function ripper_rip_website() {
         flushing_echo("Ripping website with ".RIPPER_EXE." ".RIPPER_ARGS);
 
         $result = exec(RIPPER_EXE." ".RIPPER_ARGS);
@@ -47,7 +47,7 @@
     // Function for obtaining (a.k.a. "ripping") a single simulation from the
     // web site.
     //-------------------------------------------------------------------------
-    function rip_single_sim( $sim_name ) {
+    function ripper_rip_single_sim( $sim_name ) {
 
         // Make sure that the specified sim already exists.  If not,
         // refreshing it is not allowed.
@@ -63,11 +63,11 @@
         // Determine the type of sim and perform the appropriate rip.
         if ( installer_is_java_sim( $full_path_to_sim ) ) {
             flushing_echo( "This is a Java sim" );
-            rip_java_sim( $sim_name );
+            ripper_rip_java_sim( $sim_name );
         }
         else if ( installer_is_flash_sim( $full_path_to_sim ) ) {
             flushing_echo( "This is a Flash sim" );
-            rip_flash_sim( $sim_name );
+            ripper_rip_flash_sim( $sim_name );
         }
         else {
             flushing_echo( "Error: The sim ".$sim_name." does not appear to be a Flash or Java sim, aborting." );
@@ -80,7 +80,7 @@
     //-------------------------------------------------------------------------
     // Function for ripping a single Java sim from the web site.
     //-------------------------------------------------------------------------
-    function rip_java_sim( $sim_name ) {
+    function ripper_rip_java_sim( $sim_name ) {
         $java_rip_command = RIPPER_EXE." ".'"'.PHET_WEBSITE_URL.PHET_SIMS_SUBDIR.$sim_name.'"'.' -I0 -q -v'." -O ".SINGLE_SIM_RIP_DIR.' \'-*\''.' \'+*.jnlp\''.' \'+*screenshot*\''.' \'+*thumbnail*\'';
         // The command below doesn't seem to save much time - maybe a minute -
         // in the process of ripping the web site.
@@ -90,27 +90,27 @@
 
         // Download the additional resources that are needed by this sim but
         // that are not directory obtained through a rip of the web site.
-        builder_download_java_rsrcs( SINGLE_SIM_RIP_TOP );
+        ripper_download_java_rsrcs( SINGLE_SIM_RIP_TOP );
     }
 
     //-------------------------------------------------------------------------
     // Function for ripping a single flash sim from the web site.
     //-------------------------------------------------------------------------
-    function rip_flash_sim( $sim_name ) {
+    function ripper_rip_flash_sim( $sim_name ) {
         $flash_rip_command = RIPPER_EXE." ".'"'.PHET_WEBSITE_URL.PHET_SIMS_SUBDIR.$sim_name.'"'.' -I0 -q -v'." -O ".SINGLE_SIM_RIP_DIR.' \'-*\''.' \'+*.swf\''.' \'+*.html\''.' \'+*screenshot*\''.' \'+*thumbnail*\'';
         flushing_echo("Ripping files for sim ".$sim_name." with command: ".$flash_rip_command);
         system( $flash_rip_command );
 
         // Download the additional resources that are needed by this sim but
         // that are not directory obtained through a rip of the web site.
-        builder_download_flash_rsrcs( SINGLE_SIM_RIP_TOP );
+        ripper_download_flash_rsrcs( SINGLE_SIM_RIP_TOP );
     }
 
     //-------------------------------------------------------------------------
     // Copies a simulation from the single sim mirror into the full web site
     // mirror.
     //-------------------------------------------------------------------------
-    function copy_sim_into_full_mirror( $sim_name ) {
+    function ripper_copy_sim_into_full_mirror( $sim_name ) {
 
         $single_sim_rip_path = SINGLE_SIM_RIP_TOP.PHET_SIMS_SUBDIR.$sim_name;
         $full_rip_sim_path = RIPPED_WEBSITE_TOP.PHET_SIMS_SUBDIR.$sim_name.'/';
@@ -131,7 +131,7 @@
     // Function to remove an existing copy of the web site, i.e. one that was
     // previouly ripped.
     //--------------------------------------------------------------------------
-    function builder_remove_website_copy() {
+    function ripper_remove_website_copy() {
         flushing_echo("Checking if a previously ripped copy of the web site exists...");
         if (file_exists( RIPPED_WEBSITE_ROOT )){
             flushing_echo("Removing existing copy of the web site from ".RIPPED_WEBSITE_ROOT);
@@ -148,7 +148,7 @@
     // web site instead of the whole thing.  To use it, swap out the call
     // to the full ripper function.  Just don't forget to swap it back.
     //--------------------------------------------------------------------------
-    function builder_rip_website_subset() {
+    function ripper_rip_website_subset() {
         define("SUBSET_RIPPER_ARGS", '"'.PHET_WEBSITE_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.'"+*'.PHET_ROOT_URL.'sims*"'.' -E30 -v %q0 -%e0'); 
         flushing_echo("Ripping subset of website with ".RIPPER_EXE." ".SUBSET_RIPPER_ARGS);
 
@@ -161,7 +161,7 @@
     // Download needed Java resources that can't be obtained by ripping
     // the main web site (because there are no direct links to them).
     //--------------------------------------------------------------------------
-    function builder_download_java_rsrcs( $directory ) {
+    function ripper_download_java_rsrcs( $directory ) {
 
         flushing_echo("Downloading all Java simulation resources found in $directory...");
 
@@ -253,7 +253,7 @@
     // Download the required flash resources that can't be obtained by ripping
     // the main site (because there are no direct links to them).
     //--------------------------------------------------------------------------
-    function builder_download_flash_rsrcs( $directory ) {
+    function ripper_download_flash_rsrcs( $directory ) {
 
         flushing_echo("Downloading all Flash simulation resources...");
 
@@ -336,13 +336,13 @@
     // by the main web site.  This function obtains the other required
     // resources.
     //--------------------------------------------------------------------------
-    function builder_download_sims() {
+    function ripper_download_sims() {
 
         // Get the resources for the Java sims.
-        builder_download_java_rsrcs( RIPPED_WEBSITE_TOP );
+        ripper_download_java_rsrcs( RIPPED_WEBSITE_TOP );
 
         // Get the resources for the Flash sims.
-        builder_download_flash_rsrcs( RIPPED_WEBSITE_TOP );
+        ripper_download_flash_rsrcs( RIPPED_WEBSITE_TOP );
 
         // Add the marker file, needed for sim usage tracking.
         installer_create_marker_file();
