@@ -2,8 +2,7 @@
 
 package edu.colorado.phet.naturalselection.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
@@ -16,18 +15,18 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ExampleNode extends PPath {
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     public ExampleNode() {
         super();
         setStroke( new BasicStroke( 1f ) );
         setStrokePaint( Color.BLACK );
         setPaint( Color.ORANGE );
     }
-    
+
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
@@ -45,7 +44,7 @@ public class ExampleNode extends PPath {
         path.closePath();
         setPathTo( path );
     }
-    
+
     public void setPosition( Point2D position ) {
         setOffset( position );
     }

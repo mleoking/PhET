@@ -23,16 +23,16 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ExampleController {
-    
+
     public ExampleController( ExampleModel model, ExampleCanvas canvas, ExampleControlPanel controlPanel ) {
-        
+
         final ExampleModelElement modelElement = model.getExampleModelElement();
         final ExampleNode node = canvas.getExampleNode();
         final ExampleSubPanel subPanel = controlPanel.getExampleSubPanel();
-        
+
         /*
-         * When the model element changes, update the node and control panel.
-         */
+        * When the model element changes, update the node and control panel.
+        */
         modelElement.addExampleModelElementListener( new ExampleModelElementListener() {
 
             public void orientationChanged() {
@@ -47,11 +47,11 @@ public class ExampleController {
                 subPanel.setPosition( position );
                 node.setPosition( position );
             }
-        });
-        
+        } );
+
         /*
-         * When the node is dragged, update the model element.
-         */
+        * When the node is dragged, update the model element.
+        */
         node.addInputEventListener( new CursorHandler() );
         node.addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
@@ -61,10 +61,10 @@ public class ExampleController {
                 modelElement.setPosition( pNew );
             }
         } );
-        
+
         /*
-         * When the controls are changed, update the model element.
-         */
+        * When the controls are changed, update the model element.
+        */
         subPanel.addExampleSubPanelListener( new ExampleSubPanelListener() {
 
             public void orientationChanged() {
@@ -72,7 +72,7 @@ public class ExampleController {
                 modelElement.setOrientation( radians );
             }
         } );
-        
+
         // Initialize controls
         subPanel.setPosition( modelElement.getPositionReference() );
         subPanel.setOrientation( modelElement.getOrientation() );

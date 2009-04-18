@@ -2,12 +2,9 @@
 
 package edu.colorado.phet.naturalselection.developer;
 
-import java.awt.Color;
-import java.awt.Frame;
-import java.awt.Insets;
+import java.awt.*;
 
-import javax.swing.JDialog;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -66,7 +63,7 @@ public class DeveloperControlsDialog extends JDialog {
                 _app.setControlPanelBackground( controlPanelColorControl.getColor() );
             }
         } );
-        
+
         //XXX add more controls here, and in layout below
 
         // Layout

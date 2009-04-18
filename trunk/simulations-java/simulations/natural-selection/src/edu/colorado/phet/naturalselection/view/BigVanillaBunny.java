@@ -2,14 +2,14 @@ package edu.colorado.phet.naturalselection.view;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 
 public class BigVanillaBunny extends PNode {
     public BigVanillaBunny() {
         PImage child = NaturalSelectionResources.getImageNode( "big_bunny.png" );
-        
+
         addChild( child );
     }
 

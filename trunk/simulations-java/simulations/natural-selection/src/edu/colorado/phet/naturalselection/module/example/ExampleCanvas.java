@@ -23,47 +23,47 @@ public class ExampleCanvas extends PhetPCanvas {
 
     // Model
     private ExampleModel _model;
-    
+
     // View 
     private PNode _rootNode;
     private ExampleNode _exampleNode;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     public ExampleCanvas( ExampleModel model ) {
         super( ExampleDefaults.VIEW_SIZE );
-        
+
         _model = model;
-        
+
         setBackground( NaturalSelectionConstants.CANVAS_BACKGROUND );
-        
+
         // Root of our scene graph
         _rootNode = new PNode();
         addWorldChild( _rootNode );
-        
+
         _exampleNode = new ExampleNode();
         _rootNode.addChild( _exampleNode );
     }
-    
 
-    
+
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
+
     public ExampleNode getExampleNode() {
         return _exampleNode;
     }
-    
+
     //----------------------------------------------------------------------------
     // Canvas layout
     //----------------------------------------------------------------------------
-    
+
     /*
-     * Updates the layout of stuff on the canvas.
-     */
+    * Updates the layout of stuff on the canvas.
+    */
+
     protected void updateLayout() {
 
         Dimension2D worldSize = getWorldSize();
@@ -74,7 +74,7 @@ public class ExampleCanvas extends PhetPCanvas {
         else if ( NaturalSelectionConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
             System.out.println( "ExampleCanvas.updateLayout worldSize=" + worldSize );//XXX
         }
-        
+
         //XXX lay out nodes
     }
 }

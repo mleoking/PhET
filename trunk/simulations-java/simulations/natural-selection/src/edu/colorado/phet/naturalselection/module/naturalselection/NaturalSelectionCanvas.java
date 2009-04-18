@@ -5,7 +5,6 @@ import java.awt.geom.Dimension2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
-import edu.colorado.phet.naturalselection.view.TestVanillaBunnyNode;
 import edu.colorado.phet.naturalselection.view.BunniesNode;
 import edu.umd.cs.piccolo.PNode;
 

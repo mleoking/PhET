@@ -2,13 +2,11 @@
 
 package edu.colorado.phet.naturalselection;
 
-import java.awt.Color;
-import java.awt.Frame;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -30,7 +28,6 @@ import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
  * SimTemplateApplication is the main application for this simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * 
  */
 public class NaturalSelectionApplication extends PiccoloPhetApplication {
 
@@ -54,8 +51,7 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
      *
      * @param config the configuration for this application
      */
-    public NaturalSelectionApplication( PhetApplicationConfig config )
-    {
+    public NaturalSelectionApplication( PhetApplicationConfig config ) {
         super( config );
         initTabbedPane();
         initModules();
@@ -69,10 +65,11 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
     /*
      * Initializes the tabbed pane.
      */
+
     private void initTabbedPane() {
 
         // Create our own tabbed pane type so we can set the tab color
-        TabbedPaneType tabbedPaneType = new TabbedPaneType(){
+        TabbedPaneType tabbedPaneType = new TabbedPaneType() {
             public ITabbedModulePane createTabbedPane() {
                 _tabbedModulePane = new TabbedModulePanePiccolo();
                 return _tabbedModulePane;
@@ -80,29 +77,28 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
         };
         setTabbedPaneType( tabbedPaneType );
     }
-    
+
     /*
-     * Initializes the modules.
-     */
+    * Initializes the modules.
+    */
     private void initModules() {
-        
+
         Frame parentFrame = getPhetFrame();
 
         Module tempModule = new NaturalSelectionModule( parentFrame );
         addModule( tempModule );
 
-        _exampleModule = getFirstModule(parentFrame);
+        _exampleModule = getFirstModule( parentFrame );
         addModule( _exampleModule );
-        
+
         //Module secondModule = new ExampleModule( parentFrame );
         //secondModule.setName( "Another Example" );
         //addModule( secondModule );
 
 
-
     }
 
-    protected ExampleModule getFirstModule(Frame parentFrame) {
+    protected ExampleModule getFirstModule( Frame parentFrame ) {
         return new ExampleModule( parentFrame );
     }
 
@@ -173,7 +169,7 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
     public PhetTabbedPane getTabbedPane() {
         return _tabbedModulePane;
     }
-    
+
     //----------------------------------------------------------------------------
     // Persistence
     //----------------------------------------------------------------------------
@@ -181,19 +177,20 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
     /*
      * Saves the simulation's configuration.
      */
+
     private void save() {
-        
+
         NaturalSelectionConfig appConfig = new NaturalSelectionConfig();
-        
+
         appConfig.setVersionString( getSimInfo().getVersion().toString() );
         appConfig.setVersionMajor( getSimInfo().getVersion().getMajor() );
         appConfig.setVersionMinor( getSimInfo().getVersion().getMinor() );
         appConfig.setVersionDev( getSimInfo().getVersion().getDev() );
         appConfig.setVersionRevision( getSimInfo().getVersion().getRevision() );
-        
+
         ExampleConfig exampleConfig = _exampleModule.save();
         appConfig.setExampleConfig( exampleConfig );
-        
+
         _persistenceManager.save( appConfig );
     }
 
@@ -201,13 +198,13 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
      * Loads the simulation's configuration.
      */
     private void load() {
-        
+
         Object object = _persistenceManager.load();
         if ( object != null ) {
-            
+
             if ( object instanceof NaturalSelectionConfig ) {
                 NaturalSelectionConfig appConfig = (NaturalSelectionConfig) object;
-                
+
                 ExampleConfig exampleConfig = appConfig.getExampleConfig();
                 _exampleModule.load( exampleConfig );
             }
@@ -234,11 +231,12 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
     }
 
     private static void testReflection() {
-        try{
-        Class c=Class.forName( "edu.colorado.phet.naturalselection.NaturalSelectionApplication" );
-        System.out.println( "reflection gave: "+c.getMethods().length+" methods" );
-        }catch(Throwable t){
-            t.printStackTrace(  );
+        try {
+            Class c = Class.forName( "edu.colorado.phet.naturalselection.NaturalSelectionApplication" );
+            System.out.println( "reflection gave: " + c.getMethods().length + " methods" );
+        }
+        catch( Throwable t ) {
+            t.printStackTrace();
         }
     }
 }

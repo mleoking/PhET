@@ -69,9 +69,12 @@ public class NaturalSelectionControlPanel extends JPanel implements ActionListen
         JPanel timePopulationPanel = new JPanel();
         timePopulationPanel.setLayout( new GridBagLayout() );
         GridBagConstraints simpleConstraint = new GridBagConstraints();
-        simpleConstraint.gridx = 0; simpleConstraint.gridy = 0;
+        simpleConstraint.gridx = 0;
+        simpleConstraint.gridy = 0;
         timePopulationPanel.add( timePanel, simpleConstraint );
-        simpleConstraint.gridx = 0; simpleConstraint.gridy = 1; simpleConstraint.anchor = GridBagConstraints.SOUTHEAST;
+        simpleConstraint.gridx = 0;
+        simpleConstraint.gridy = 1;
+        simpleConstraint.anchor = GridBagConstraints.SOUTHEAST;
         timePopulationPanel.add( popCanvas, simpleConstraint );
 
         GridBagConstraints traitCanvasConstraints = new GridBagConstraints();
