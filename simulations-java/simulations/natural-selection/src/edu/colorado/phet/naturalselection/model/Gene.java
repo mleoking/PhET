@@ -149,9 +149,10 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
     public void onBunnyInit( Bunny bunny ) {
         // not in bunnies array yet
         //refreshPhenotypeCount();
-        if( getBunnyGenotype( bunny ).getPhenotype() == primaryAllele ) {
+        if ( getBunnyGenotype( bunny ).getPhenotype() == primaryAllele ) {
             primaryCount++;
-        } else {
+        }
+        else {
             secondaryCount++;
         }
 
@@ -171,9 +172,10 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
     }
 
     public void onChangeDominance( boolean primary ) {
-        if( primary ) {
+        if ( primary ) {
             setDominantAllele( primaryAllele );
-        } else {
+        }
+        else {
             setDominantAllele( secondaryAllele );
         }
     }

@@ -2,9 +2,8 @@ package edu.colorado.phet.naturalselection.module.naturalselection;
 
 import edu.colorado.phet.naturalselection.control.NaturalSelectionControlPanel;
 import edu.colorado.phet.naturalselection.model.ColorGene;
-import edu.colorado.phet.naturalselection.model.TeethGene;
 import edu.colorado.phet.naturalselection.model.TailGene;
-import edu.colorado.phet.naturalselection.model.Bunny;
+import edu.colorado.phet.naturalselection.model.TeethGene;
 
 public class NaturalSelectionController {
 
