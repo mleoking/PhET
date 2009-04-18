@@ -4,13 +4,13 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 
-public class TeethMutationNode extends MutationControlNode {
+public class EyesTraitNode extends TraitControlNode {
 
-    public TeethMutationNode() {
-        super( NaturalSelectionResources.getImage( "bunny_teeth.png" ) );
+    public EyesTraitNode() {
+        super( NaturalSelectionResources.getImage( "bunny_eye.png" ) );
     }
 
     public Point2D getBunnyLocation( BigVanillaBunny bunny ) {
-        return bunny.getTeethPosition();
+        return bunny.getEyePosition();
     }
 }

@@ -25,4 +25,8 @@ public class ColorGene extends Gene {
     public Genotype getBunnyGenotype( Bunny bunny ) {
         return bunny.getColorGenotype();
     }
+
+    public String getName() {
+        return "Color";
+    }
 }

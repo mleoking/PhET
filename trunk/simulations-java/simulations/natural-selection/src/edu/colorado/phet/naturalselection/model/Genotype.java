@@ -40,4 +40,8 @@ public class Genotype {
         return motherAllele;
     }
 
+    public String toString() {
+        return fatherAllele.toString() + motherAllele.toString();
+    }
+
 }

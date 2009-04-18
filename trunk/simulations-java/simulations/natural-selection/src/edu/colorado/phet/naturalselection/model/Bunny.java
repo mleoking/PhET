@@ -43,15 +43,19 @@ public class Bunny {
         setAge( 0 );
 
         if ( father == null || mother == null ) {
-            colorGenotype = new Genotype( ColorGene.getInstance(), ColorGene.WHITE_ALLELE, ColorGene.BROWN_ALLELE );
-            teethGenotype = new Genotype( TeethGene.getInstance(), TeethGene.TEETH_REGULAR_ALLELE, TeethGene.TEETH_HUGE_ALLELE );
-            tailGenotype = new Genotype( TailGene.getInstance(), TailGene.TAIL_SHORT_ALLELE, TailGene.TAIL_LONG_ALLELE );
+            colorGenotype = new Genotype( ColorGene.getInstance(), ColorGene.WHITE_ALLELE, ColorGene.WHITE_ALLELE );
+            teethGenotype = new Genotype( TeethGene.getInstance(), TeethGene.TEETH_REGULAR_ALLELE, TeethGene.TEETH_REGULAR_ALLELE );
+            tailGenotype = new Genotype( TailGene.getInstance(), TailGene.TAIL_SHORT_ALLELE, TailGene.TAIL_SHORT_ALLELE );
         }
         else {
             colorGenotype = combineGenotypes( father.getColorGenotype(), mother.getColorGenotype() );
             teethGenotype = combineGenotypes( father.getTeethGenotype(), mother.getTeethGenotype() );
             tailGenotype = combineGenotypes( father.getTailGenotype(), mother.getTailGenotype() );
         }
+
+        addListener( ColorGene.getInstance() );
+        addListener( TeethGene.getInstance() );
+        addListener( TailGene.getInstance() );
 
         notifyInit();
 
@@ -239,7 +243,13 @@ public class Bunny {
     // toString
 
     public String toString() {
-        return "#" + String.valueOf( bunnyId );
+        String ret = "#" + String.valueOf( bunnyId ) + "[ " + colorGenotype + " " + teethGenotype + " " + tailGenotype + " (";
+        ret += colorGenotype.getPhenotype().toString();
+        ret += teethGenotype.getPhenotype().toString();
+        ret += tailGenotype.getPhenotype().toString();
+        ret += ")]";
+
+        return ret;
     }
 
 }

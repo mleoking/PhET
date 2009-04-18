@@ -4,9 +4,9 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 
-public class TailMutationNode extends MutationControlNode {
+public class TailTraitNode extends TraitControlNode {
 
-    public TailMutationNode() {
+    public TailTraitNode() {
         super( NaturalSelectionResources.getImage( "bunny_tail.png" ) );
     }
 

@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -13,11 +14,12 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
+import edu.colorado.phet.naturalselection.model.GeneListener;
 import edu.colorado.phet.naturalselection.util.ImagePanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-public abstract class MutationControlNode extends PNode implements ActionListener {
+public abstract class TraitControlNode extends PNode implements ActionListener, GeneListener {
 
     private JButton addMutationButton;
     private PSwing addMutationButtonHolder;
@@ -33,11 +35,11 @@ public abstract class MutationControlNode extends PNode implements ActionListene
 
     private ArrayList listeners;
 
-    public MutationControlNode( BufferedImage iconImage ) {
+    public TraitControlNode( BufferedImage iconImage ) {
         this( iconImage, iconImage );
     }
 
-    public MutationControlNode( BufferedImage iconImage, BufferedImage alternateIconImage ) {
+    public TraitControlNode( BufferedImage iconImage, BufferedImage alternateIconImage ) {
         image = iconImage;
         alternateImage = alternateIconImage;
         mutated = false;
@@ -69,6 +71,8 @@ public abstract class MutationControlNode extends PNode implements ActionListene
             mutated = true;
         }
 
+        notifyAddMutation();
+
         JLabel dominantLabel = new JLabel( "<html><center>Dominant<br>trait</center></html>" );
         JLabel percentLabel = new JLabel( "<html><center>% with<br>trait</center></html>" );
 
@@ -78,6 +82,7 @@ public abstract class MutationControlNode extends PNode implements ActionListene
         imageOne.setBackground( NaturalSelectionConstants.COLOR_MUTATION_PANEL );
         radioOne = new JRadioButton( "" );
         radioOne.setSelected( true );
+        radioOne.addActionListener( this );
         radioOne.setBackground( NaturalSelectionConstants.COLOR_MUTATION_PANEL );
         optionOne.add( imageOne );
         optionOne.add( radioOne );
@@ -89,6 +94,7 @@ public abstract class MutationControlNode extends PNode implements ActionListene
         ImagePanel imageTwo = new ImagePanel( alternateImage );
         imageTwo.setBackground( NaturalSelectionConstants.COLOR_MUTATION_PANEL );
         radioTwo = new JRadioButton( "" );
+        radioTwo.addActionListener( this );
         radioTwo.setBackground( NaturalSelectionConstants.COLOR_MUTATION_PANEL );
         optionTwo.add( imageTwo );
         optionTwo.add( radioTwo );
@@ -150,18 +156,65 @@ public abstract class MutationControlNode extends PNode implements ActionListene
     public void actionPerformed( ActionEvent e ) {
         if ( e.getSource() == addMutationButton ) {
             showMutationDialog();
+        } else if( e.getSource() == radioOne && radioOne.isSelected() ) {
+            notifyChangeDominance( true );
+        } else if( e.getSource() == radioTwo && radioTwo.isSelected() ) {
+            notifyChangeDominance( false );
         }
     }
 
+    public void onChangeDominantAllele( boolean primary ) {
+        if( radioOne.isSelected() && !primary ) {
+            radioTwo.setSelected( true );
+        } else if( radioTwo.isSelected() && primary ) {
+            radioOne.setSelected( true );
+        }
+    }
+
+    public void onChangeDistribution( int primary, int secondary ) {
+        if( !mutated ) {
+            return;
+        }
+        int total = primary + secondary;
+        double primaryPercent = ((double) primary) * 100.0 / ((double) total);
+        double secondaryPercent = ((double) secondary) * 100.0 / ((double) total);
+        String p1 = String.valueOf( Math.round( primaryPercent ) ) + "%";
+        String p2 = String.valueOf( Math.round( secondaryPercent ) ) + "%";
+        percentOne.setText( p1 );
+        percentTwo.setText( p2 );
+    }
+
+
+
+    // notifiers
+
+    private void notifyAddMutation() {
+        Iterator iter = listeners.iterator();
+        while( iter.hasNext() ) {
+            ( (TraitControlNodeListener) iter.next() ).onAddMutation();
+        }
+    }
+
+    private void notifyChangeDominance( boolean primary ) {
+        Iterator iter = listeners.iterator();
+        while( iter.hasNext() ) {
+            ( (TraitControlNodeListener) iter.next() ).onChangeDominance( primary );
+        }
+    }
 
     // listeners
 
-    public void addListener() {
-
+    public void addListener( TraitControlNodeListener listener ) {
+        listeners.add( listener );
     }
 
-    public interface MutationControlNodeListener {
+    public void removeListener( TraitControlNodeListener listener ) {
+        listeners.remove( listener );
+    }
 
+    public interface TraitControlNodeListener {
+        public void onChangeDominance( boolean primary );
+        public void onAddMutation();
     }
 
 }

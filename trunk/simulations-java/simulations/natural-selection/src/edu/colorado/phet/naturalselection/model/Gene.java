@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
+import edu.colorado.phet.naturalselection.view.TraitControlNode;
 
-public abstract class Gene implements Bunny.BunnyListener {
+public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.TraitControlNodeListener {
     private ArrayList listeners;
 
     private Allele primaryAllele;
@@ -60,6 +61,8 @@ public abstract class Gene implements Bunny.BunnyListener {
         dominantAllele = _dominantAllele;
 
         notifyChangeDominantAllele();
+
+        refreshPhenotypeCount();
     }
 
     public int getPrimaryPhenotypeCount() {
@@ -116,6 +119,7 @@ public abstract class Gene implements Bunny.BunnyListener {
     }
 
     public void setMutatable( boolean maybe ) {
+        System.out.println( "Gene " + getName() + " will now start mutating" );
         mutatable = maybe;
     }
 
@@ -138,11 +142,20 @@ public abstract class Gene implements Bunny.BunnyListener {
         return base;
     }
 
+    public abstract String getName();
 
     public abstract Genotype getBunnyGenotype( Bunny bunny );
 
     public void onBunnyInit( Bunny bunny ) {
-        refreshPhenotypeCount();
+        // not in bunnies array yet
+        //refreshPhenotypeCount();
+        if( getBunnyGenotype( bunny ).getPhenotype() == primaryAllele ) {
+            primaryCount++;
+        } else {
+            secondaryCount++;
+        }
+
+        notifyChangeDistribution();
     }
 
     public void onBunnyDeath( Bunny bunny ) {
@@ -157,22 +170,35 @@ public abstract class Gene implements Bunny.BunnyListener {
 
     }
 
+    public void onChangeDominance( boolean primary ) {
+        if( primary ) {
+            setDominantAllele( primaryAllele );
+        } else {
+            setDominantAllele( secondaryAllele );
+        }
+    }
+
+    public void onAddMutation() {
+        setMutatable( true );
+    }
 
     // notifiers
 
     private void notifyChangeDistribution() {
+        System.out.println( "Gene distribution changed for " + getName() );
         Iterator iter = listeners.iterator();
 
         while ( iter.hasNext() ) {
-            ( (GeneListener) iter.next() ).onChangeDistribution();
+            ( (GeneListener) iter.next() ).onChangeDistribution( getPrimaryPhenotypeCount(), getSecondaryPhenotypeCount() );
         }
     }
 
     private void notifyChangeDominantAllele() {
+        System.out.println( "Gene dominant allele changed for " + getName() );
         Iterator iter = listeners.iterator();
 
         while ( iter.hasNext() ) {
-            ( (GeneListener) iter.next() ).onChangeDominantAllele();
+            ( (GeneListener) iter.next() ).onChangeDominantAllele( primaryAllele == dominantAllele );
         }
     }
 
@@ -184,12 +210,6 @@ public abstract class Gene implements Bunny.BunnyListener {
 
     public void removeListener( GeneListener listener ) {
         listeners.remove( listener );
-    }
-
-    public interface GeneListener {
-        public void onChangeDominantAllele();
-
-        public void onChangeDistribution();
     }
 
 }
