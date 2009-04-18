@@ -58,6 +58,7 @@ public abstract class MutationControlNode extends PNode implements ActionListene
 
     public void showMutationDialog() {
         if( !mutated ) {
+            addMutationButton.setVisible( false );
             removeChild( addMutationButtonHolder );
             mutated = true;
         }
