@@ -156,28 +156,31 @@ public abstract class TraitControlNode extends PNode implements ActionListener, 
     public void actionPerformed( ActionEvent e ) {
         if ( e.getSource() == addMutationButton ) {
             showMutationDialog();
-        } else if( e.getSource() == radioOne && radioOne.isSelected() ) {
+        }
+        else if ( e.getSource() == radioOne && radioOne.isSelected() ) {
             notifyChangeDominance( true );
-        } else if( e.getSource() == radioTwo && radioTwo.isSelected() ) {
+        }
+        else if ( e.getSource() == radioTwo && radioTwo.isSelected() ) {
             notifyChangeDominance( false );
         }
     }
 
     public void onChangeDominantAllele( boolean primary ) {
-        if( radioOne.isSelected() && !primary ) {
+        if ( radioOne.isSelected() && !primary ) {
             radioTwo.setSelected( true );
-        } else if( radioTwo.isSelected() && primary ) {
+        }
+        else if ( radioTwo.isSelected() && primary ) {
             radioOne.setSelected( true );
         }
     }
 
     public void onChangeDistribution( int primary, int secondary ) {
-        if( !mutated ) {
+        if ( !mutated ) {
             return;
         }
         int total = primary + secondary;
-        double primaryPercent = ((double) primary) * 100.0 / ((double) total);
-        double secondaryPercent = ((double) secondary) * 100.0 / ((double) total);
+        double primaryPercent = ( (double) primary ) * 100.0 / ( (double) total );
+        double secondaryPercent = ( (double) secondary ) * 100.0 / ( (double) total );
         String p1 = String.valueOf( Math.round( primaryPercent ) ) + "%";
         String p2 = String.valueOf( Math.round( secondaryPercent ) ) + "%";
         percentOne.setText( p1 );
@@ -185,19 +188,18 @@ public abstract class TraitControlNode extends PNode implements ActionListener, 
     }
 
 
-
     // notifiers
 
     private void notifyAddMutation() {
         Iterator iter = listeners.iterator();
-        while( iter.hasNext() ) {
+        while ( iter.hasNext() ) {
             ( (TraitControlNodeListener) iter.next() ).onAddMutation();
         }
     }
 
     private void notifyChangeDominance( boolean primary ) {
         Iterator iter = listeners.iterator();
-        while( iter.hasNext() ) {
+        while ( iter.hasNext() ) {
             ( (TraitControlNodeListener) iter.next() ).onChangeDominance( primary );
         }
     }
@@ -214,6 +216,7 @@ public abstract class TraitControlNode extends PNode implements ActionListener, 
 
     public interface TraitControlNodeListener {
         public void onChangeDominance( boolean primary );
+
         public void onAddMutation();
     }
 
