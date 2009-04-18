@@ -2,13 +2,10 @@ package edu.colorado.phet.naturalselection.module.naturalselection;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Collections;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.naturalselection.model.Bunny;
-import edu.colorado.phet.naturalselection.model.NaturalSelectionClock;
-import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
+import edu.colorado.phet.naturalselection.model.*;
 
 public class NaturalSelectionModel extends ClockAdapter {
 
@@ -36,8 +33,14 @@ public class NaturalSelectionModel extends ClockAdapter {
         bunnies = new ArrayList();
         listeners = new ArrayList();
 
+        ColorGene.getInstance().setModel( this );
+        TeethGene.getInstance().setModel( this );
+        TailGene.getInstance().setModel( this );
+
         rootFather = new Bunny( null, null );
         rootMother = new Bunny( null, null );
+        rootFather.setPotentialMate( rootMother );
+        rootMother.setPotentialMate( rootFather );
         bunnies.add( rootFather );
         bunnies.add( rootMother );
 
@@ -55,6 +58,8 @@ public class NaturalSelectionModel extends ClockAdapter {
 
         rootFather = new Bunny( null, null );
         rootMother = new Bunny( null, null );
+        rootFather.setPotentialMate( rootMother );
+        rootMother.setPotentialMate( rootFather );
         bunnies.add( rootFather );
         bunnies.add( rootMother );
 
@@ -85,6 +90,8 @@ public class NaturalSelectionModel extends ClockAdapter {
     }
 
     private void nextGeneration() {
+        System.out.println( "Mating season, creating next generation" );
+
         generation++;
 
         ageBunnies();
@@ -95,42 +102,33 @@ public class NaturalSelectionModel extends ClockAdapter {
     }
 
     private void mateBunnies() {
-        // randomize the bunnies
-        Collections.shuffle( bunnies );
         Iterator iter = bunnies.iterator();
 
         ArrayList newBunnies = new ArrayList();
 
-        while( iter.hasNext() ) {
-            // get the next two parents
-            Bunny father = (Bunny) iter.next();
-            if( father.getAge() >= NaturalSelectionConstants.BUNNIES_STERILE_WHEN_THIS_OLD ) { continue; }
+        while ( iter.hasNext() ) {
+            Bunny bunny = (Bunny) iter.next();
 
-            while( iter.hasNext() ) {
-                Bunny mother = (Bunny) iter.next();
-                if( mother.getAge() >= NaturalSelectionConstants.BUNNIES_STERILE_WHEN_THIS_OLD ) { continue; }
-
-                Bunny[] bunnyArray = Bunny.mateBunnies( father, mother );
-
-                for( int i = 0; i < bunnyArray.length; i++ ) {
-                    newBunnies.add( bunnyArray[i] );
+            if ( bunny.canMate() ) {
+                Bunny[] offspring = Bunny.mateBunnies( bunny, bunny.getPotentialMate() );
+                for ( int i = 0; i < offspring.length; i++ ) {
+                    newBunnies.add( offspring[i] );
                 }
             }
         }
 
-
-
         Iterator newIter = newBunnies.iterator();
-        while( newIter.hasNext() ) {
+        while ( newIter.hasNext() ) {
             Bunny bunny = (Bunny) newIter.next();
             bunnies.add( bunny );
+            // TODO: possibly notify at the end for potential performance issues?
             notifyNewBunny( bunny );
         }
     }
 
     private void ageBunnies() {
         Iterator iter = bunnies.iterator();
-        while( iter.hasNext() ) {
+        while ( iter.hasNext() ) {
             ( (Bunny) iter.next() ).ageMe();
         }
     }
@@ -141,7 +139,7 @@ public class NaturalSelectionModel extends ClockAdapter {
             currentMonth = 0;
         }
         notifyMonthChange();
-        if( getCurrentMonth().equals( "August" ) ) {
+        if ( getCurrentMonth().equals( "August" ) ) {
             nextGeneration();
         }
     }
@@ -158,13 +156,21 @@ public class NaturalSelectionModel extends ClockAdapter {
         return monthNames[currentMonth];
     }
 
+    public ArrayList getBunnyList() {
+        return bunnies;
+    }
 
-
-
-
-
-
-
+    public ArrayList getAliveBunnyList() {
+        ArrayList ret = new ArrayList();
+        Iterator iter = bunnies.iterator();
+        while ( iter.hasNext() ) {
+            Bunny bunny = (Bunny) iter.next();
+            if ( bunny.isAlive() ) {
+                ret.add( bunny );
+            }
+        }
+        return ret;
+    }
 
 
     // notification
@@ -203,7 +209,9 @@ public class NaturalSelectionModel extends ClockAdapter {
 
     public interface NaturalSelectionModelListener {
         public void onMonthChange( String monthName );
+
         public void onGenerationChange( int generation );
+
         public void onNewBunny( Bunny bunny );
     }
 
