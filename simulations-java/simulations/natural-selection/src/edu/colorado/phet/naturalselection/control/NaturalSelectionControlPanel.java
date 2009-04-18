@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModule;
@@ -22,6 +23,7 @@ public class NaturalSelectionControlPanel extends JPanel implements ActionListen
     private NaturalSelectionModel model;
     private NaturalSelectionModule module;
     private PopulationCanvas popCanvas;
+    private PiccoloClockControlPanel clockControlPanel;
 
     public NaturalSelectionControlPanel( NaturalSelectionModule _module, NaturalSelectionModel _model ) {
         model = _model;
@@ -77,37 +79,50 @@ public class NaturalSelectionControlPanel extends JPanel implements ActionListen
         simpleConstraint.anchor = GridBagConstraints.SOUTHEAST;
         timePopulationPanel.add( popCanvas, simpleConstraint );
 
+        clockControlPanel = new PiccoloClockControlPanel( module.getClock() );
+        //clockControlPanel.setTimeDisplayVisible( true );
+        //clockControlPanel.setUnits( "Units" );
+        //clockControlPanel.setTimeColumns( 10 );
+
+        int column = 0;
+
         GridBagConstraints traitCanvasConstraints = new GridBagConstraints();
-        traitCanvasConstraints.gridx = 0;
+        traitCanvasConstraints.gridx = column++;
         traitCanvasConstraints.gridy = 0;
         traitCanvasConstraints.gridwidth = 1;
         traitCanvasConstraints.gridheight = 1;
         traitCanvasConstraints.anchor = GridBagConstraints.WEST;
         traitCanvasConstraints.insets = new Insets( 10, 10, 10, 10 );
-        traitCanvasConstraints.weightx = 1.0;
-        traitCanvasConstraints.gridheight = 2;
+        //traitCanvasConstraints.weightx = 1.0;
+        //traitCanvasConstraints.gridheight = 2;
         add( traitCanvas, traitCanvasConstraints );
 
+        GridBagConstraints clockPanelConstraints = new GridBagConstraints();
+        clockPanelConstraints.gridx = column++;
+        clockPanelConstraints.gridy = 0;
+        clockPanelConstraints.weightx = 1.0;
+        add( clockControlPanel, clockPanelConstraints );
+
         GridBagConstraints popConstraints = new GridBagConstraints();
-        popConstraints.gridx = 2;
+        popConstraints.gridx = column++;
         popConstraints.gridy = 0;
         add( timePopulationPanel, popConstraints );
 
         GridBagConstraints spacerConstraints2 = new GridBagConstraints();
-        spacerConstraints2.gridx = 1;
+        spacerConstraints2.gridx = column++;
         spacerConstraints2.gridy = 0;
-        spacerConstraints2.gridheight = 2;
+        //spacerConstraints2.gridheight = 2;
         Component spacer2 = Box.createRigidArea( new Dimension( 40, 0 ) );
         add( spacer2, spacerConstraints2 );
 
         GridBagConstraints rightConstraints = new GridBagConstraints();
-        rightConstraints.gridx = 4;
+        rightConstraints.gridx = column++;
         rightConstraints.gridy = 0;
         rightConstraints.gridwidth = 1;
         rightConstraints.gridheight = 1;
         rightConstraints.anchor = GridBagConstraints.EAST;
         rightConstraints.insets = new Insets( 10, 10, 10, 10 );
-        rightConstraints.gridheight = 2;
+        //rightConstraints.gridheight = 2;
         add( rightPanel, rightConstraints );
 
         setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );

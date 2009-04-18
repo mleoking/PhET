@@ -16,11 +16,9 @@ public class TraitCanvas extends PhetPCanvas {
 
     private PNode rootNode;
 
-    public static Dimension canvasSize = new Dimension( 530, 300 );
+    public static Dimension canvasSize = new Dimension( 460, 300 );
     private BigVanillaBunny bunny;
-    private TraitControlNode earsTraitNode;
     public TraitControlNode tailTraitNode;
-    private TraitControlNode eyesTraitNode;
     public TraitControlNode teethTraitNode;
     public TraitControlNode colorTraitNode;
 
@@ -31,7 +29,7 @@ public class TraitCanvas extends PhetPCanvas {
         addWorldChild( rootNode );
 
         bunny = new BigVanillaBunny();
-        bunny.translate( 200, 150 );
+        bunny.translate( 180, 150 );
         rootNode.addChild( bunny );
 
         PText traitsText = new PText( "Traits" );
@@ -39,28 +37,18 @@ public class TraitCanvas extends PhetPCanvas {
         traitsText.translate( 200 + ( 86 - traitsText.getWidth() ) / 2, 260 );
         rootNode.addChild( traitsText );
 
-        earsTraitNode = new EarsTraitNode();
-        earsTraitNode.translate( 30, 60 );
-        drawConnectingLine( earsTraitNode );
-        rootNode.addChild( earsTraitNode );
-
         tailTraitNode = new TailTraitNode();
-        tailTraitNode.translate( 10, 210 );
+        tailTraitNode.translate( 10, 190 );
         drawConnectingLine( tailTraitNode );
         rootNode.addChild( tailTraitNode );
 
-        eyesTraitNode = new EyesTraitNode();
-        eyesTraitNode.translate( 215, 40 );
-        drawConnectingLine( eyesTraitNode );
-        rootNode.addChild( eyesTraitNode );
-
         teethTraitNode = new TeethTraitNode();
-        teethTraitNode.translate( 375, 85 );
+        teethTraitNode.translate( 240, 40 );
         drawConnectingLine( teethTraitNode );
         rootNode.addChild( teethTraitNode );
 
         colorTraitNode = new ColorTraitNode();
-        colorTraitNode.translate( 330, 210 );
+        colorTraitNode.translate( 300, 190 );
         drawConnectingLine( colorTraitNode );
         rootNode.addChild( colorTraitNode );
 
@@ -72,9 +60,7 @@ public class TraitCanvas extends PhetPCanvas {
     }
 
     public void reset() {
-        earsTraitNode.reset();
         tailTraitNode.reset();
-        eyesTraitNode.reset();
         teethTraitNode.reset();
         colorTraitNode.reset();
     }
