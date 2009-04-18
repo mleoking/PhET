@@ -4,9 +4,9 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 
-public class ColorMutationNode extends MutationControlNode {
+public class ColorTraitNode extends TraitControlNode {
 
-    public ColorMutationNode() {
+    public ColorTraitNode() {
         super( NaturalSelectionResources.getImage( "bunny_color.png" ), NaturalSelectionResources.getImage( "bunny_color_brown.png" ) );
     }
 

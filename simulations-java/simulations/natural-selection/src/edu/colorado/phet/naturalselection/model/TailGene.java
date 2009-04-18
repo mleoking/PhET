@@ -25,4 +25,8 @@ public class TailGene extends Gene {
     public Genotype getBunnyGenotype( Bunny bunny ) {
         return bunny.getTailGenotype();
     }
+
+    public String getName() {
+        return "Tail";
+    }
 }

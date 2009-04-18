@@ -18,11 +18,11 @@ public class TraitCanvas extends PhetPCanvas {
 
     public static Dimension canvasSize = new Dimension( 530, 300 );
     private BigVanillaBunny bunny;
-    private MutationControlNode earsMutationNode;
-    private MutationControlNode tailMutationNode;
-    private MutationControlNode eyesMutationNode;
-    private MutationControlNode teethMutationNode;
-    private MutationControlNode colorMutationNode;
+    private TraitControlNode earsTraitNode;
+    public TraitControlNode tailTraitNode;
+    private TraitControlNode eyesTraitNode;
+    public TraitControlNode teethTraitNode;
+    public TraitControlNode colorTraitNode;
 
     public TraitCanvas() {
         super( canvasSize );
@@ -39,30 +39,30 @@ public class TraitCanvas extends PhetPCanvas {
         traitsText.translate( 200 + ( 86 - traitsText.getWidth() ) / 2, 260 );
         rootNode.addChild( traitsText );
 
-        earsMutationNode = new EarsMutationNode();
-        earsMutationNode.translate( 30, 60 );
-        drawConnectingLine( earsMutationNode );
-        rootNode.addChild( earsMutationNode );
+        earsTraitNode = new EarsTraitNode();
+        earsTraitNode.translate( 30, 60 );
+        drawConnectingLine( earsTraitNode );
+        rootNode.addChild( earsTraitNode );
 
-        tailMutationNode = new TailMutationNode();
-        tailMutationNode.translate( 10, 210 );
-        drawConnectingLine( tailMutationNode );
-        rootNode.addChild( tailMutationNode );
+        tailTraitNode = new TailTraitNode();
+        tailTraitNode.translate( 10, 210 );
+        drawConnectingLine( tailTraitNode );
+        rootNode.addChild( tailTraitNode );
 
-        eyesMutationNode = new EyesMutationNode();
-        eyesMutationNode.translate( 215, 40 );
-        drawConnectingLine( eyesMutationNode );
-        rootNode.addChild( eyesMutationNode );
+        eyesTraitNode = new EyesTraitNode();
+        eyesTraitNode.translate( 215, 40 );
+        drawConnectingLine( eyesTraitNode );
+        rootNode.addChild( eyesTraitNode );
 
-        teethMutationNode = new TeethMutationNode();
-        teethMutationNode.translate( 375, 85 );
-        drawConnectingLine( teethMutationNode );
-        rootNode.addChild( teethMutationNode );
+        teethTraitNode = new TeethTraitNode();
+        teethTraitNode.translate( 375, 85 );
+        drawConnectingLine( teethTraitNode );
+        rootNode.addChild( teethTraitNode );
 
-        colorMutationNode = new ColorMutationNode();
-        colorMutationNode.translate( 330, 210 );
-        drawConnectingLine( colorMutationNode );
-        rootNode.addChild( colorMutationNode );
+        colorTraitNode = new ColorTraitNode();
+        colorTraitNode.translate( 330, 210 );
+        drawConnectingLine( colorTraitNode );
+        rootNode.addChild( colorTraitNode );
 
         setPreferredSize( canvasSize );
 
@@ -72,21 +72,21 @@ public class TraitCanvas extends PhetPCanvas {
     }
 
     public void reset() {
-        earsMutationNode.reset();
-        tailMutationNode.reset();
-        eyesMutationNode.reset();
-        teethMutationNode.reset();
-        colorMutationNode.reset();
+        earsTraitNode.reset();
+        tailTraitNode.reset();
+        eyesTraitNode.reset();
+        teethTraitNode.reset();
+        colorTraitNode.reset();
     }
 
-    private void drawConnectingLine( MutationControlNode mutationNode ) {
+    private void drawConnectingLine( TraitControlNode traitNode ) {
         PPath node = new PPath();
 
         node.setStroke( new BasicStroke( 1f ) );
         node.setStrokePaint( Color.BLACK );
 
-        Point2D bunnySpot = mutationNode.getBunnyLocation( bunny );
-        Point2D nodeCenter = mutationNode.getCenter();
+        Point2D bunnySpot = traitNode.getBunnyLocation( bunny );
+        Point2D nodeCenter = traitNode.getCenter();
 
         DoubleGeneralPath path = new DoubleGeneralPath();
         path.moveTo( bunnySpot.getX(), bunnySpot.getY() );

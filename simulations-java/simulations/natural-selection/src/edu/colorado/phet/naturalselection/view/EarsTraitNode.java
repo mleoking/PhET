@@ -4,9 +4,9 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 
-public class EarsMutationNode extends MutationControlNode {
+public class EarsTraitNode extends TraitControlNode {
 
-    public EarsMutationNode() {
+    public EarsTraitNode() {
         super( NaturalSelectionResources.getImage( "bunny_ears.png" ), NaturalSelectionResources.getImage( "bunny_ears_long.png" ) );
     }
 

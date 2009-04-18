@@ -17,7 +17,7 @@ public class NaturalSelectionControlPanel extends JPanel implements ActionListen
     private JRadioButton foodButton;
     private JRadioButton noneButton;
     private JButton resetAllButton;
-    private TraitCanvas traitCanvas;
+    public TraitCanvas traitCanvas;
     private TimeDisplayPanel timePanel;
     private NaturalSelectionModel model;
     private NaturalSelectionModule module;

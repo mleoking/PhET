@@ -25,4 +25,8 @@ public class TeethGene extends Gene {
     public Genotype getBunnyGenotype( Bunny bunny ) {
         return bunny.getTeethGenotype();
     }
+
+    public String getName() {
+        return "Teeth";
+    }
 }
