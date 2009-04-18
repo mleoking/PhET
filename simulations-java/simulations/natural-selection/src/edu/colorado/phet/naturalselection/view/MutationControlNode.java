@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -30,6 +31,8 @@ public abstract class MutationControlNode extends PNode implements ActionListene
     private JRadioButton radioTwo;
     private boolean mutated;
 
+    private ArrayList listeners;
+
     public MutationControlNode( BufferedImage iconImage ) {
         this( iconImage, iconImage );
     }
@@ -38,6 +41,9 @@ public abstract class MutationControlNode extends PNode implements ActionListene
         image = iconImage;
         alternateImage = alternateIconImage;
         mutated = false;
+
+        listeners = new ArrayList();
+
         showAddButton();
     }
 
@@ -139,6 +145,17 @@ public abstract class MutationControlNode extends PNode implements ActionListene
         if( e.getSource() == addMutationButton ) {
             showMutationDialog();
         }
+    }
+
+
+    // listeners
+
+    public void addListener() {
+
+    }
+
+    public interface MutationControlNodeListener {
+        
     }
 
 }
