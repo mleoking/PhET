@@ -12,6 +12,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * This class uses a swing layout manager to position PNodes.
+ * TODO: This implementation doesn't handle PNode resizes
  */
 public class SwingLayoutNode extends PNode {
     private JPanel container;
