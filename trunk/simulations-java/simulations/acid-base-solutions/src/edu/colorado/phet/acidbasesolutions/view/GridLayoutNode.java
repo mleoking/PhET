@@ -5,6 +5,7 @@ package edu.colorado.phet.acidbasesolutions.view;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -14,6 +15,7 @@ import javax.swing.WindowConstants;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -412,14 +414,17 @@ public class GridLayoutNode extends PComposite {
         canvas.setPreferredSize( new Dimension( 800, 600 ) );
         
         // grid
-        GridLayoutNode grid = new GridLayoutNode( new Insets( 10, 10, 10, 10 ) );
+        GridLayoutNode grid = new GridLayoutNode( new Insets( 2, 10, 2, 10 ) );
         grid.scale( 1.75 );
         canvas.getLayer().addChild( grid );
         grid.setOffset( 100, 100 );
-        grid.add( new PText( "one" ), 0, 0 );
-        grid.add( new PText( "hello" ), 0, 1, Anchor.NORTHEAST );
-        grid.add( new PText( "two2222222222" ), 1, 1 );
-        grid.add( new PText( "three!" ), 2, 2, Anchor.SOUTHWEST );
+        grid.add( new PText( "centered" ), 0, 0 );
+        grid.add( new PText( "northeast" ), 0, 1, Anchor.NORTHEAST );
+        grid.add( new PText( "centered" ), 1, 1 );
+        grid.add( new PText( "southwest!" ), 2, 2, Anchor.SOUTHWEST );
+        grid.add( new PPath( new Rectangle2D.Double( 0, 0, 30, 30 ) ), 3, 1 );
+        grid.add( new PText( "big-long-centered" ), 4, 1 );
+        grid.add( new PPath( new Rectangle2D.Double( 0, 0, 30, 60 ) ), 4, 2 );
         
         // frame
         JFrame frame = new JFrame();
