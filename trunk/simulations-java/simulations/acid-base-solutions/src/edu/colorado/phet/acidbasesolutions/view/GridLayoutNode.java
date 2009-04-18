@@ -1,3 +1,4 @@
+/* Copyright 2009, University of Colorado */
 
 package edu.colorado.phet.acidbasesolutions.view;
 
@@ -17,30 +18,58 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-
+/**
+ * GridLayoutNode provides some of the layout capabilities of Swing's GridBagLayout for Piccolo nodes.
+ * Nodes are added to cells in a grid, with optional constraints.
+ * The grid expands to fit the number of cells, and adjusts its layout when its children change size.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class GridLayoutNode extends PComposite {
 
-    //TODO enumeration
-    public static final int ANCHOR_CENTER = 0;
-    public static final int ANCHOR_NORTH = 1;
-    public static final int ANCHOR_NORTHEAST = 2;
-    public static final int ANCHOR_EAST = 3;
-    public static final int ANCHOR_SOUTHEAST = 4;
-    public static final int ANCHOR_SOUTH = 5;
-    public static final int ANCHOR_SOUTHWEST = 6;
-    public static final int ANCHOR_WEST = 7;
-    public static final int ANCHOR_NORTHWEST = 8;
-    private static final int ANCHOR_MIN = 0;
-    private static final int ANCHOR_MAX = 8;
+    /**
+     * Enumeration that specifies where a node should be anchored in a grid's cell.
+     * Use the Java 1.4 typesafe enumeration pattern.
+     */
+    public static class Anchor {
+        
+        public static final Anchor CENTER = new Anchor( "center" );
+        public static final Anchor NORTH = new Anchor( "north" );
+        public static final Anchor NORTHEAST = new Anchor( "northeast" );
+        public static final Anchor EAST = new Anchor( "east" );
+        public static final Anchor SOUTHEAST = new Anchor( "southeast" );
+        public static final Anchor SOUTH = new Anchor( "south" );
+        public static final Anchor SOUTHWEST = new Anchor( "southwest" );
+        public static final Anchor WEST = new Anchor( "west" );
+        public static final Anchor NORTHWEST = new Anchor( "northwest" );
 
+        private final String name;
+
+        /* enumeration, private constructor */
+        private Anchor( String name ) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
+    private Grid grid;
     private final Insets insets;
     private final PropertyChangeListener propertyChangeListener;
-    private Grid grid;
 
+    /**
+     * Layout with no insets.
+     */
     public GridLayoutNode() {
         this( new Insets( 0, 0, 0, 0 ) );
     }
 
+    /**
+     * Layout with specified insets.
+     * @param insets
+     */
     public GridLayoutNode( Insets insets ) {
         super();
         setPickable( false );
@@ -56,33 +85,56 @@ public class GridLayoutNode extends PComposite {
         };
     }
 
-    public void add( PNode node, int row, int column ) {
-        add( node, row, column, ANCHOR_CENTER );
-    }
-
-    public void add( PNode node, int row, int column, int anchor ) {
+    /**
+     * Adds a node to the grid.
+     * If the node is already in the grid, it is moved.
+     * If another node already occupies the cell, that other node is removed from the grid.
+     * @param node
+     * @param row
+     * @param column
+     * @param anchor
+     */
+    public void add( PNode node, int row, int column, Anchor anchor ) {
         assert ( node != null );
         assert ( row >= 0 );
         assert ( column >= 0 );
-        assert ( anchor >= ANCHOR_MIN && anchor <= ANCHOR_MAX );
-        Cell currentCell = grid.get( row, column );
-        if ( currentCell != null ) {
-            currentCell.node.removePropertyChangeListener( propertyChangeListener );
-        }
-        grid.put( new Cell( node, anchor ), row, column );
+        // remove the node if it's already in the grid
+        remove( node );
+        // clear the cell
+        clear( row, column );
+        // put the node in the cell
+        Constraints constraints = new Constraints( anchor );
+        Cell newCell = new Cell( node, constraints );
+        grid.put( newCell, row, column );
         addChild( node );
         node.addPropertyChangeListener( propertyChangeListener );
+        // update the layout
         updateLayout();
     }
+    
+    /**
+     * Adds a node to the grid, anchored at the center of its cell.
+     * @param node
+     * @param row
+     * @param column
+     */
+    public void add( PNode node, int row, int column ) {
+        add( node, row, column, Anchor.CENTER );
+    }
 
+    /**
+     * Removes a node from the grid.
+     * If the node is not in the grid, this does nothing.
+     * @param node
+     */
     public void remove( PNode node ) {
         assert ( node != null );
         boolean found = false;
         for ( int row = 0; row < grid.getNumberOfRows() && !found; row++ ) {
             for ( int column = 0; column < grid.getNumberOfColumns() && !found; column++ ) {
                 Cell cell = grid.get( row, column );
-                if ( cell != null && cell.node == node ) {
-                    grid.remove( row, column );
+                if ( cell != null && cell.getNode() == node ) {
+                    grid.clear( row, column );
                     removeChild( node );
                     node.removePropertyChangeListener( propertyChangeListener );
                     updateLayout();
@@ -92,15 +144,24 @@ public class GridLayoutNode extends PComposite {
         }
     }
 
-    public void remove( int row, int column ) {
+    /**
+     * Clears the specified cell in the grid.
+     * If nothing is in the cell, then this does nothing.
+     * @param row
+     * @param column
+     */
+    public void clear( int row, int column ) {
         Cell cell = grid.get( row, column );
         if ( cell != null ) {
-            cell.node.removePropertyChangeListener( propertyChangeListener );
-            grid.remove( row, column );
+            cell.getNode().removePropertyChangeListener( propertyChangeListener );
+            grid.clear( row, column );
             updateLayout();
         }
     }
 
+    /*
+     * Updates the layout by setting offsets for all nodes in the grid.
+     */
     private void updateLayout() {
         int numberOfRows = grid.getNumberOfRows();
         int numberOfColumns = grid.getNumberOfColumns();
@@ -112,8 +173,10 @@ public class GridLayoutNode extends PComposite {
             for ( int column = 0; column < numberOfColumns; column++ ) {
                 Cell cell = grid.get( row, column );
                 if ( cell != null ) {
-                    PNode node = cell.node;
-                    Point2D anchorOffset = cell.getOffset( new PDimension( columnWidths[column], rowHeights[row] ) );
+                    PNode node = cell.getNode();
+                    Constraints constraints = cell.getConstraints();
+                    PDimension cellSize = new PDimension( columnWidths[column], rowHeights[row] );
+                    Point2D anchorOffset = constraints.getAnchorOffset( cellSize, node );
                     node.setOffset( xOffset + anchorOffset.getX(), yOffset + anchorOffset.getY() );
                 }
                 xOffset += insets.left + columnWidths[column] + insets.right;
@@ -122,14 +185,26 @@ public class GridLayoutNode extends PComposite {
         }
     }
 
+    /*
+     * The grid is a 2-dimensional array of Cells.
+     * If automatically grows to fit the nodes that are added to it.
+     */
     private static class Grid {
 
         private Cell[][] cells;
 
+        /**
+         * Grid with a default size.
+         */
         public Grid() {
             this( 5, 5 );
         }
 
+        /**
+         * Grid with a specified size.
+         * @param rows
+         * @param columns
+         */
         public Grid( int rows, int columns ) {
             assert ( rows > 0 && columns > 0 );
             cells = new Cell[rows][columns];
@@ -147,6 +222,12 @@ public class GridLayoutNode extends PComposite {
             return cells[0].length;
         }
 
+        /**
+         * Adds the specified cell.
+         * @param cell
+         * @param row
+         * @param column
+         */
         public void put( Cell cell, int row, int column ) {
             assert ( row >= 0 && column >= 0 );
             if ( !hasCell( row, column ) ) {
@@ -155,6 +236,12 @@ public class GridLayoutNode extends PComposite {
             cells[row][column] = cell;
         }
 
+        /**
+         * Gets the specified cell, may be null.
+         * @param row
+         * @param column
+         * @return
+         */
         public Cell get( int row, int column ) {
             assert ( row >= 0 && column >= 0 );
             Cell cell = null;
@@ -164,14 +251,23 @@ public class GridLayoutNode extends PComposite {
             return cell;
         }
 
-        public void remove( int row, int column ) {
+        /**
+         * Clears a cell in the grid, so that it contains nothing.
+         */
+        public void clear( int row, int column ) {
             put( null, row, column );
         }
 
+        /*
+         * Does the specified cell exist in the grid?
+         */
         private boolean hasCell( int row, int column ) {
             return ( row >= 0 && row < getNumberOfRows() && column >= 0 && column < getNumberOfColumns() );
         }
 
+        /*
+         * Expands the grid so that it is at least rows x columns.
+         */
         private static Cell[][] expand( Cell[][] cells, int rows, int columns ) {
             assert ( cells != null );
             assert ( rows > 0 && columns > 0 );
@@ -186,6 +282,9 @@ public class GridLayoutNode extends PComposite {
             return newCells;
         }
 
+        /*
+         * Gets an array that contains the height of each row in the grid.
+         */
         public double[] getRowHeights() {
             int numberOfRows = getNumberOfRows();
             int numberOfColumns = getNumberOfColumns();
@@ -195,7 +294,7 @@ public class GridLayoutNode extends PComposite {
                 for ( int column = 0; column < numberOfColumns; column++ ) {
                     Cell cell = get( row, column );
                     if ( cell != null ) {
-                        max = Math.max( max, cell.node.getFullBoundsReference().getHeight() );
+                        max = Math.max( max, cell.getNode().getFullBoundsReference().getHeight() );
                     }
                 }
                 heights[row] = max;
@@ -203,6 +302,9 @@ public class GridLayoutNode extends PComposite {
             return heights;
         }
 
+        /*
+         * Gets an array that contains the width of each column in the grid.
+         */
         public double[] getColumnWidths() {
             int numberOfRows = getNumberOfRows();
             int numberOfColumns = getNumberOfColumns();
@@ -212,7 +314,7 @@ public class GridLayoutNode extends PComposite {
                 for ( int row = 0; row < numberOfRows; row++ ) {
                     Cell cell = get( row, column );
                     if ( cell != null ) {
-                        max = Math.max( max, cell.node.getFullBoundsReference().getWidth() );
+                        max = Math.max( max, cell.getNode().getFullBoundsReference().getWidth() );
                     }
                 }
                 widths[column] = max;
@@ -221,64 +323,90 @@ public class GridLayoutNode extends PComposite {
         }
     }
 
+    /*
+     * The grid is composed of Cells.  
+     * Each cell contains a node and some constraints.
+     */
     private static class Cell {
 
-        public final PNode node;
-        public final int anchor;
+        private final PNode node;
+        private final Constraints constraints;
 
-        public Cell( PNode node, int anchor ) {
+        public Cell( PNode node, Constraints constraints ) {
             this.node = node;
+            this.constraints = constraints;
+        }
+        
+        public PNode getNode() {
+            return node;
+        }
+        
+        public Constraints getConstraints() {
+            return constraints;
+        }
+    }
+    
+    /**
+     * Constraints that apply to a Cell in the Grid.
+     * This is a separate class so that we can add additional constraints in the future.
+     */
+    private static class Constraints {
+
+        public final Anchor anchor; // node's position relative to the cell's bounding rectangle
+
+        public Constraints( Anchor anchor ) {
             this.anchor = anchor;
         }
         
-        public Point2D getOffset( PDimension cellSize ) {
-            double x, y;
-            switch( anchor ) {
-            case ANCHOR_CENTER:
+        public Anchor getAnchor() {
+            return anchor;
+        }
+
+        public Point2D getAnchorOffset( PDimension cellSize, PNode node ) {
+            double x = 0, y = 0;
+            if ( anchor == Anchor.CENTER ) {
                 x = ( cellSize.getWidth() - node.getFullBoundsReference().getWidth() ) / 2;
                 y = ( cellSize.getHeight() - node.getFullBoundsReference().getHeight() ) / 2;
-                break;
-            case ANCHOR_NORTH:
+            }
+            else if ( anchor == Anchor.NORTH ) {
                 x = ( cellSize.getWidth() - node.getFullBoundsReference().getWidth() ) / 2;
                 y = 0;
-                break;
-            case ANCHOR_NORTHEAST:
+            }
+            else if ( anchor == Anchor.NORTHEAST ) {
                 x = cellSize.getWidth() - node.getFullBoundsReference().getWidth();
                 y = 0;
-                break;
-            case ANCHOR_EAST:
+            }
+            else if ( anchor == Anchor.EAST ) {
                 x = cellSize.getWidth() - node.getFullBoundsReference().getWidth();
                 y = ( cellSize.getHeight() - node.getFullBoundsReference().getHeight() ) / 2;
-                break;
-            case ANCHOR_SOUTHEAST:
+            }
+            else if ( anchor == Anchor.SOUTHEAST ) {
                 x = cellSize.getWidth() - node.getFullBoundsReference().getWidth();
                 y = cellSize.getHeight() - node.getFullBoundsReference().getHeight();
-                break;
-            case ANCHOR_SOUTH:
+            }
+            else if ( anchor == Anchor.SOUTH ) {
                 x = ( cellSize.getWidth() - node.getFullBoundsReference().getWidth() ) / 2;
                 y = cellSize.getHeight() - node.getFullBoundsReference().getHeight();
-                break;
-            case ANCHOR_SOUTHWEST:
+            }
+            else if ( anchor == Anchor.SOUTHWEST ) {
                 x = 0;
                 y = cellSize.getHeight() - node.getFullBoundsReference().getHeight();
-                break;
-            case ANCHOR_WEST:
+            }
+            else if ( anchor == Anchor.WEST ) {
                 x = 0;
                 y = ( cellSize.getHeight() - node.getFullBoundsReference().getHeight() ) / 2;
-                break;
-            case ANCHOR_NORTHWEST:
+            }
+            else if ( anchor == Anchor.NORTHWEST ) {
                 x = 0;
                 y = 0;
-                break;
-            default:
-                throw new IllegalArgumentException( "unsupported anchor: " + anchor );
             }
             return new Point2D.Double( x, y );
         }
     }
-    
+
+    // test
     public static void main( String[] args ) {
-        
+
         // canvas
         PCanvas canvas = new PhetPCanvas();
         canvas.setPreferredSize( new Dimension( 800, 600 ) );
@@ -289,9 +417,9 @@ public class GridLayoutNode extends PComposite {
         canvas.getLayer().addChild( grid );
         grid.setOffset( 100, 100 );
         grid.add( new PText( "one" ), 0, 0 );
-        grid.add( new PText( "hello" ), 0, 1, ANCHOR_NORTHEAST );
+        grid.add( new PText( "hello" ), 0, 1, Anchor.NORTHEAST );
         grid.add( new PText( "two2222222222" ), 1, 1 );
-        grid.add( new PText( "three!" ), 2, 2, ANCHOR_SOUTHWEST );
+        grid.add( new PText( "three!" ), 2, 2, Anchor.SOUTHWEST );
         
         // frame
         JFrame frame = new JFrame();
