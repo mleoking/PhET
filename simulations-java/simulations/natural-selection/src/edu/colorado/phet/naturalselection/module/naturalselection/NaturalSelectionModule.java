@@ -47,7 +47,7 @@ public class NaturalSelectionModule extends PiccoloModule {
         model.initialize();
     }
 
-    public void reset() {        
+    public void reset() {
         canvas.reset();
         model.reset();
     }

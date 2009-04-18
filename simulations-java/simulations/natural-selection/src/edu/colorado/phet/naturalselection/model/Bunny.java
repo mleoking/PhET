@@ -111,7 +111,7 @@ public class Bunny {
     }
 
     public void setPotentialMate( Bunny bunny ) {
-        if( bunny == null ) {
+        if ( bunny == null ) {
             System.out.println( "WARNING: setting potential mate to null on " + this );
         }
         potentialMate = bunny;
@@ -122,7 +122,7 @@ public class Bunny {
     }
 
     public boolean canMate() {
-        if( potentialMate == null ) {
+        if ( potentialMate == null ) {
             System.out.println( "WARNING: potentialMate == null on " + this );
             return false;
         }
@@ -193,7 +193,7 @@ public class Bunny {
     }
 
     private void notifyDeath() {
-        System.out.println( "Bunny Died: "  + this );
+        System.out.println( "Bunny Died: " + this );
         Iterator iter = listeners.iterator();
         while ( iter.hasNext() ) {
             ( (BunnyListener) iter.next() ).onBunnyDeath( this );
@@ -201,7 +201,7 @@ public class Bunny {
     }
 
     private void notifyReproduces() {
-        System.out.println( "Bunny Reproduced: "  + this );
+        System.out.println( "Bunny Reproduced: " + this );
         Iterator iter = listeners.iterator();
         while ( iter.hasNext() ) {
             ( (BunnyListener) iter.next() ).onBunnyReproduces( this );

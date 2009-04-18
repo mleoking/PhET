@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.naturalselection;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Stroke;
+import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
@@ -19,19 +16,20 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 public class NaturalSelectionConstants {
 
     /* Not intended for instantiation. */
-    private NaturalSelectionConstants() {}
-    
+    private NaturalSelectionConstants() {
+    }
+
     //----------------------------------------------------------------------------
     // Debugging
     //----------------------------------------------------------------------------
-    
+
     // enable debug output for canvas layout updates
     public static final boolean DEBUG_CANVAS_UPDATE_LAYOUT = true;
-    
+
     //----------------------------------------------------------------------------
     // Application
     //----------------------------------------------------------------------------
-    
+
     public static final String PROJECT_NAME = "natural-selection";
 
     public static final int BUNNIES_DIE_WHEN_THEY_ARE_THIS_OLD = 5;
@@ -44,30 +42,30 @@ public class NaturalSelectionConstants {
     // Default font properties
     public static final int DEFAULT_FONT_STYLE = Font.PLAIN;
     public static final int DEFAULT_FONT_SIZE = 16;
-    
+
     public static final Font CONTROL_PANEL_TITLE_FONT = new PhetFont( Font.BOLD, 12 );
     public static final Font CONTROL_PANEL_CONTROL_FONT = new PhetFont( Font.PLAIN, 12 );
-    
+
     public static final Font PLAY_AREA_TITLE_FONT = new PhetFont( Font.BOLD, 16 );
     public static final Font PLAY_AREA_CONTROL_FONT = new PhetFont( Font.PLAIN, 16 );
-    
+
     //----------------------------------------------------------------------------
     // Strokes
     //----------------------------------------------------------------------------
 
-    public static final Stroke DASHED_STROKE = 
-        new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,3}, 0 );
+    public static final Stroke DASHED_STROKE =
+            new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{3, 3}, 0 );
 
     //----------------------------------------------------------------------------
     // Paints
     //----------------------------------------------------------------------------
-    
+
     // Color of the "play area"
     public static final Color CANVAS_BACKGROUND = new Color( 0x888EC8 );
-    
+
     // Color of labels placed directly on the play area
     public static final Color CANVAS_LABELS_COLOR = Color.BLACK;
-    
+
     // Generic transparent color
     public static final Color COLOR_TRANSPARENT = new Color( 0f, 0f, 0f, 0f );
 
@@ -75,11 +73,11 @@ public class NaturalSelectionConstants {
     public static final Color COLOR_CONTROL_PANEL = new Color( 0xC9E5C6 );
 
     public static final Color COLOR_MUTATION_PANEL = new Color( 0xF8AF9F );
-    
+
     //----------------------------------------------------------------------------
     // Images
     //----------------------------------------------------------------------------
-    
+
     //----------------------------------------------------------------------------
     // Cursors
     //----------------------------------------------------------------------------

@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.naturalselection.module.example;
 
-import java.awt.Frame;
+import java.awt.*;
 
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
@@ -48,7 +48,7 @@ public class ExampleModule extends PiccoloModule {
         // Control Panel
         _controlPanel = new ExampleControlPanel( this, parentFrame );
         setControlPanel( _controlPanel );
-        
+
         // Clock controls
         _clockControlPanel = new PiccoloClockControlPanel( getClock() );
         _clockControlPanel.setRewindButtonVisible( true );
@@ -59,7 +59,7 @@ public class ExampleModule extends PiccoloModule {
 
         // Controller
         ExampleController controller = new ExampleController( _model, _canvas, _controlPanel );
-        
+
         // Help
         if ( hasHelp() ) {
             //XXX add help items
@@ -88,14 +88,14 @@ public class ExampleModule extends PiccoloModule {
         ExampleModelElement exampleModelElement = _model.getExampleModelElement();
         exampleModelElement.setPosition( ExampleDefaults.EXAMPLE_MODEL_ELEMENT_POSITION );
         exampleModelElement.setOrientation( ExampleDefaults.EXAMPLE_MODEL_ELEMENT_ORIENTATION );
-        
+
         // ExampleNode
         ExampleNode exampleNode = _canvas.getExampleNode();
         exampleNode.setSize( exampleModelElement.getWidth(), exampleModelElement.getHeight() );
         exampleNode.setPosition( exampleModelElement.getPosition() );
         exampleNode.setOrientation( exampleModelElement.getOrientation() );
     }
-    
+
     //----------------------------------------------------------------------------
     // Persistence
     //----------------------------------------------------------------------------
@@ -119,7 +119,7 @@ public class ExampleModule extends PiccoloModule {
 
         // Control panel settings that are specific to the view
         //XXX
-        
+
         return config;
     }
 

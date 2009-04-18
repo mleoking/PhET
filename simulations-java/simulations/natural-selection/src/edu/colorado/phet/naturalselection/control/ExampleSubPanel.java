@@ -2,13 +2,12 @@
 
 package edu.colorado.phet.naturalselection.control;
 
-import java.awt.GridBagConstraints;
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -20,7 +19,7 @@ import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
  * ExampleSubPanel is an example of a control panel that implements a subset
  * of the controls in the main control panel.
  * Notice that the panel has no knowledge of any model elements.
- * 
+ *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ExampleSubPanel extends JPanel {
@@ -28,26 +27,26 @@ public class ExampleSubPanel extends JPanel {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private JLabel _positionDisplay;
     private LinearValueControl _orientationControl; // in degrees
     private ArrayList _listeners;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     public ExampleSubPanel() {
         super();
-        
+
         _listeners = new ArrayList();
-        
+
         // Title
         JLabel titleLabel = new JLabel( NaturalSelectionStrings.TITLE_EXAMPLE_CONTROL_PANEL );
-        
+
         // Position display
         _positionDisplay = new JLabel();
-        
+
         // Orientation control
         double min = 0;
         double max = 360;
@@ -65,7 +64,7 @@ public class ExampleSubPanel extends JPanel {
                 notifyOrientationChanged();
             }
         } );
-        
+
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         this.setLayout( layout );
@@ -77,55 +76,57 @@ public class ExampleSubPanel extends JPanel {
         layout.addComponent( _positionDisplay, row++, column );
         layout.addComponent( _orientationControl, row++, column );
     }
-    
-    public void cleanup() {}
-    
+
+    public void cleanup() {
+    }
+
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
-    
+
     public double getOrientation() {
         return _orientationControl.getValue();
     }
-    
+
     public void setOrientation( double orientation ) {
         if ( orientation != getOrientation() ) {
             _orientationControl.setValue( orientation );
         }
     }
-    
+
     public void setPosition( Point2D p ) {
         String s = NaturalSelectionStrings.LABEL_POSITION + " (" + (int) p.getX() + "," + (int) p.getY() + ")";
         _positionDisplay.setText( s );
     }
-    
+
     //----------------------------------------------------------------------------
     // Notification
     //----------------------------------------------------------------------------
-    
+
     private void notifyOrientationChanged() {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
             ( (ExampleSubPanelListener) i.next() ).orientationChanged();
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // Listener
     //----------------------------------------------------------------------------
-    
+
     public interface ExampleSubPanelListener {
         public void orientationChanged();
     }
-    
+
     public static class ExampleSubPanelAdapter implements ExampleSubPanelListener {
-        public void orientationChanged() {}
+        public void orientationChanged() {
+        }
     }
-    
+
     public void addExampleSubPanelListener( ExampleSubPanelListener listener ) {
         _listeners.add( listener );
     }
-   
+
     public void removeExampleSubPanelListener( ExampleSubPanelListener listener ) {
         _listeners.remove( listener );
     }

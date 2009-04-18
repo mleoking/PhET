@@ -16,7 +16,7 @@ public class NaturalSelectionClock extends ConstantDtClock {
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     public NaturalSelectionClock( int framesPerSecond, double dt ) {
         super( 1000 / framesPerSecond, dt );
     }
@@ -24,10 +24,10 @@ public class NaturalSelectionClock extends ConstantDtClock {
     //----------------------------------------------------------------------------
     // Superclass overrides
     //----------------------------------------------------------------------------
-    
+
     /**
      * Reset the clock when dt is changed.
-     * 
+     *
      * @param dt
      */
     public void setDt( double dt ) {

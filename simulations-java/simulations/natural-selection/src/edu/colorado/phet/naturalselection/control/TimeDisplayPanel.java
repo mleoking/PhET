@@ -1,7 +1,5 @@
 package edu.colorado.phet.naturalselection.control;
 
-import java.awt.*;
-
 import javax.swing.*;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
@@ -42,6 +40,6 @@ public class TimeDisplayPanel extends JPanel implements NaturalSelectionModel.Na
     }
 
     public void onNewBunny( Bunny bunny ) {
-        
+
     }
 }

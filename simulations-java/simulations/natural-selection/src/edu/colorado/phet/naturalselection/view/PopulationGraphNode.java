@@ -3,10 +3,10 @@ package edu.colorado.phet.naturalselection.view;
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 public class PopulationGraphNode extends PNode {
 
@@ -52,7 +52,7 @@ public class PopulationGraphNode extends PNode {
 
     private float getTopPosition() {
         float top = BASELINE - getGraphHeight();
-        if( top < GRAPH_TOP ) {
+        if ( top < GRAPH_TOP ) {
             top = GRAPH_TOP;
         }
         return top;
@@ -102,8 +102,8 @@ public class PopulationGraphNode extends PNode {
         path.lineTo( BAR_LEFT, BASELINE );
         path.lineTo( BAR_RIGHT, BASELINE );
         path.lineTo( BAR_RIGHT, top );
-        if( top == GRAPH_TOP ) {
-            bar.setStroke( new BasicStroke( BAR_STROKE_WIDTH, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL, 10.0f, new float[] { 2.0f, 2.0f }, 0.0f ) );
+        if ( top == GRAPH_TOP ) {
+            bar.setStroke( new BasicStroke( BAR_STROKE_WIDTH, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL, 10.0f, new float[]{2.0f, 2.0f}, 0.0f ) );
         }
         path.closePath();
         bar.setPathTo( path );

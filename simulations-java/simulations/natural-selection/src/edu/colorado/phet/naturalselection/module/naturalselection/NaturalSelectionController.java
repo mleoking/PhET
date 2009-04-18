@@ -8,8 +8,7 @@ public class NaturalSelectionController {
 
         model.addListener( canvas.bunnies );
 
-        
-        
+
     }
 
 }

@@ -3,9 +3,9 @@ package edu.colorado.phet.naturalselection.view;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import edu.umd.cs.piccolo.PNode;
-import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.model.Bunny;
+import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
+import edu.umd.cs.piccolo.PNode;
 
 public class BunniesNode extends PNode implements NaturalSelectionModel.NaturalSelectionModelListener {
 
@@ -27,7 +27,7 @@ public class BunniesNode extends PNode implements NaturalSelectionModel.NaturalS
 
     public void reset() {
         Iterator iter = bunnyNodes.iterator();
-        while( iter.hasNext() ) {
+        while ( iter.hasNext() ) {
             BunnyNode bunnyNode = (BunnyNode) iter.next();
             removeChild( bunnyNode );
         }

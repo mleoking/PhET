@@ -2,15 +2,13 @@
 
 package edu.colorado.phet.naturalselection.developer;
 
-import java.awt.Frame;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JDialog;
-import javax.swing.JMenu;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedPanePropertiesDialog;
@@ -41,15 +39,15 @@ public class DeveloperMenu extends JMenu {
             public void actionPerformed( ActionEvent event ) {
                 handleDeveloperControls();
             }
-        });
-        
+        } );
+
         _tabPropertiesItem = new JCheckBoxMenuItem( "Tabbed Pane properties..." );
         add( _tabPropertiesItem );
         _tabPropertiesItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 handleTabProperties();
             }
-        });
+        } );
     }
 
     private void handleDeveloperControls() {
@@ -77,7 +75,7 @@ public class DeveloperMenu extends JMenu {
             _developerControlsDialog.dispose();
         }
     }
-    
+
     private void handleTabProperties() {
         if ( _tabPropertiesItem.isSelected() ) {
             Frame owner = PhetApplication.instance().getPhetFrame();

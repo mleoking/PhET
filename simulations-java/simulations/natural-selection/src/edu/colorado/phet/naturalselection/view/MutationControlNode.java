@@ -1,21 +1,21 @@
 package edu.colorado.phet.naturalselection.view;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.util.ImagePanel;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 public abstract class MutationControlNode extends PNode implements ActionListener {
 
@@ -48,7 +48,7 @@ public abstract class MutationControlNode extends PNode implements ActionListene
     }
 
     private void showAddButton() {
-        if( mutated ) {
+        if ( mutated ) {
             removeChild( mutationOptionsHolder );
             mutated = false;
         }
@@ -63,7 +63,7 @@ public abstract class MutationControlNode extends PNode implements ActionListene
     }
 
     public void showMutationDialog() {
-        if( !mutated ) {
+        if ( !mutated ) {
             addMutationButton.setVisible( false );
             removeChild( addMutationButtonHolder );
             mutated = true;
@@ -88,7 +88,7 @@ public abstract class MutationControlNode extends PNode implements ActionListene
         optionTwo.setBackground( NaturalSelectionConstants.COLOR_MUTATION_PANEL );
         ImagePanel imageTwo = new ImagePanel( alternateImage );
         imageTwo.setBackground( NaturalSelectionConstants.COLOR_MUTATION_PANEL );
-        radioTwo = new JRadioButton( "" );        
+        radioTwo = new JRadioButton( "" );
         radioTwo.setBackground( NaturalSelectionConstants.COLOR_MUTATION_PANEL );
         optionTwo.add( imageTwo );
         optionTwo.add( radioTwo );
@@ -104,20 +104,26 @@ public abstract class MutationControlNode extends PNode implements ActionListene
         mutationOptionsPanel.setLayout( layout );
 
         GridBagConstraints constraints = new GridBagConstraints();
-        
-        constraints.gridx = 0; constraints.gridy = 0;
+
+        constraints.gridx = 0;
+        constraints.gridy = 0;
         constraints.insets = new Insets( 0, 0, 0, 15 );
         mutationOptionsPanel.add( dominantLabel, constraints );
         constraints.insets = new Insets( 0, 0, 0, 0 );
-        constraints.gridx = 1; constraints.gridy = 0;
+        constraints.gridx = 1;
+        constraints.gridy = 0;
         mutationOptionsPanel.add( percentLabel, constraints );
-        constraints.gridx = 0; constraints.gridy = 1;
+        constraints.gridx = 0;
+        constraints.gridy = 1;
         mutationOptionsPanel.add( optionOne, constraints );
-        constraints.gridx = 1; constraints.gridy = 1;
+        constraints.gridx = 1;
+        constraints.gridy = 1;
         mutationOptionsPanel.add( percentOne, constraints );
-        constraints.gridx = 0; constraints.gridy = 2;
+        constraints.gridx = 0;
+        constraints.gridy = 2;
         mutationOptionsPanel.add( optionTwo, constraints );
-        constraints.gridx = 1; constraints.gridy = 2;
+        constraints.gridx = 1;
+        constraints.gridy = 2;
         mutationOptionsPanel.add( percentTwo, constraints );
 
         mutationOptionsPanel.setBorder( new CompoundBorder( new LineBorder( Color.BLACK, 1 ), new EmptyBorder( new Insets( 5, 5, 5, 5 ) ) ) );
@@ -142,7 +148,7 @@ public abstract class MutationControlNode extends PNode implements ActionListene
     public abstract Point2D getBunnyLocation( BigVanillaBunny bunny );
 
     public void actionPerformed( ActionEvent e ) {
-        if( e.getSource() == addMutationButton ) {
+        if ( e.getSource() == addMutationButton ) {
             showMutationDialog();
         }
     }
@@ -155,7 +161,7 @@ public abstract class MutationControlNode extends PNode implements ActionListene
     }
 
     public interface MutationControlNodeListener {
-        
+
     }
 
 }
