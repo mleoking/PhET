@@ -6,10 +6,7 @@ import java.util.*;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.flex.PhetFlexProject;
 import edu.colorado.phet.buildtools.java.JavaProject;
-import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
-import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
-import edu.colorado.phet.buildtools.java.projects.PhetUpdaterProject;
-import edu.colorado.phet.buildtools.java.projects.TranslationUtilityProject;
+import edu.colorado.phet.buildtools.java.projects.*;
 import edu.colorado.phet.buildtools.scripts.SetSVNIgnoreToDeployDirectories;
 import edu.colorado.phet.buildtools.util.*;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -182,15 +179,31 @@ public abstract class PhetProject {
         for ( int i = 0; i < path.length; i++ ) {
             File file = path[i];
             if ( file.exists() && isProject( file ) ) {
-                try {
-                    projects.add( new JavaSimulationProject( file ) );
-                }
-                catch( IOException e ) {
-                    e.printStackTrace();
-                }
+                projects.add( toProject(file) );
             }
         }
         return (PhetProject[]) projects.toArray( new PhetProject[0] );
+    }
+
+    /**
+     * This is a factory method for obtaining a PhetProject object given the root directory for the project.
+     * This is necessary to make sure that each project has its getTrunk() and dependency searches working properly.
+     * //todo: add support for other project types as well
+     * @param file
+     * @return
+     */
+    private PhetProject toProject( File file ) {
+        try{
+        if ( file.equals( new BuildToolsProject( new File( getTrunk(), "build-tools" ) ) ) ) {
+            return new BuildToolsProject( new File( getTrunk(), "build-tools" ) );
+        }
+        else {
+            return new JavaSimulationProject( file );
+        }
+        }catch (IOException e){
+            e.printStackTrace(  );
+            return null;
+        }
     }
 
     private boolean isProject( File file ) {
@@ -245,6 +258,7 @@ public abstract class PhetProject {
             System.out.println( "Found item based on path from trunk: " + trunkPath.getAbsolutePath() );
             return trunkPath;
         }
+        System.out.println( "Searched simJ="+getSimulationsJava() );
 
         throw new RuntimeException( "No path found for token=" + token + ", antBaseDir=" + getSimulationsJava().getAbsolutePath() + ", in project=" + this );
     }
@@ -500,6 +514,7 @@ public abstract class PhetProject {
         return (PhetProject[]) phetProjects.toArray( new PhetProject[phetProjects.size()] );
     }
 
+    //todo: use the factory method toProject above
     public static PhetProject[] getAllProjects( File trunk ) {
         List phetProjects = new ArrayList();
 
