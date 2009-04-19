@@ -35,7 +35,7 @@ public class BunniesNode extends PNode implements NaturalSelectionModel.NaturalS
     }
 
     public void onNewBunny( Bunny bunny ) {
-        BunnyNode bunnyNode = new BunnyNode();
+        BunnyNode bunnyNode = new BunnyNode( bunny.getColorGenotype().getPhenotype(), bunny.getTeethGenotype().getPhenotype(), bunny.getTailGenotype().getPhenotype() );
         bunnyNode.setOffset( 3200 * Math.random(), 1000 * Math.random() );
         addChild( bunnyNode );
         bunny.addListener( bunnyNode );
