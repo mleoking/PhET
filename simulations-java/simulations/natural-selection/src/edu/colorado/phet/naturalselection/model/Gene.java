@@ -31,6 +31,12 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
 
     }
 
+    public void reset() {
+        dominantAllele = primaryAllele;
+        primaryCount = secondaryCount = 0;
+        mutatable = false;
+    }
+
     public void setModel( NaturalSelectionModel _model ) {
         model = _model;
     }

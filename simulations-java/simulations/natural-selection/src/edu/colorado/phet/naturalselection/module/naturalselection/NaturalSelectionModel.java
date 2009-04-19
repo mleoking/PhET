@@ -56,6 +56,10 @@ public class NaturalSelectionModel extends ClockAdapter {
 
         bunnies = new ArrayList();
 
+        ColorGene.getInstance().reset();
+        TailGene.getInstance().reset();
+        TeethGene.getInstance().reset();
+
         rootFather = new Bunny( null, null );
         rootMother = new Bunny( null, null );
         rootFather.setPotentialMate( rootMother );
