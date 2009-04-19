@@ -106,6 +106,8 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
             else {
                 throw new RuntimeException( "Cannot get a count for unrelated allele" );
             }
+
+            bunny.checkPhenotypes();
         }
 
         if ( oldPrimary != primaryCount || oldSecondary != secondaryCount ) {
@@ -169,6 +171,10 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
 
     public void onBunnyAging( Bunny bunny ) {
 
+    }
+
+    public void onBunnyChangeColor( Allele allele ) {
+        
     }
 
     public void onChangeDominance( boolean primary ) {

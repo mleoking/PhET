@@ -29,6 +29,10 @@ public class Bunny {
 
     public int bunnyId;
 
+    private Allele cachedColorPhenotype;
+    private Allele cachedTeethPhenotype;
+    private Allele cachedTailPhenotype;
+
     public Bunny( Bunny _father, Bunny _mother ) {
 
         bunnyId = bunnyCount++;
@@ -52,6 +56,10 @@ public class Bunny {
             teethGenotype = combineGenotypes( father.getTeethGenotype(), mother.getTeethGenotype() );
             tailGenotype = combineGenotypes( father.getTailGenotype(), mother.getTailGenotype() );
         }
+
+        cachedColorPhenotype = colorGenotype.getPhenotype();
+        cachedTeethPhenotype = teethGenotype.getPhenotype();
+        cachedTailPhenotype = tailGenotype.getPhenotype();
 
         addListener( ColorGene.getInstance() );
         addListener( TeethGene.getInstance() );
@@ -185,6 +193,15 @@ public class Bunny {
         notifyReproduces();
     }
 
+    public void checkPhenotypes() {
+        if( cachedColorPhenotype != getColorGenotype().getPhenotype() ) {
+            cachedColorPhenotype = getColorGenotype().getPhenotype();
+            notifyChangeColor();
+        }
+
+        // TODO: add for other traits
+    }
+
 
     // notifications
 
@@ -219,6 +236,13 @@ public class Bunny {
         }
     }
 
+    private void notifyChangeColor() {
+        Iterator iter = listeners.iterator();
+        while ( iter.hasNext() ) {
+            ( (BunnyListener) iter.next() ).onBunnyChangeColor( getColorGenotype().getPhenotype() );
+        }
+    }
+
     // listeners
 
     public void addListener( BunnyListener listener ) {
@@ -237,6 +261,8 @@ public class Bunny {
         public void onBunnyReproduces( Bunny bunny );
 
         public void onBunnyAging( Bunny bunny );
+
+        public void onBunnyChangeColor( Allele allele );
     }
 
 
