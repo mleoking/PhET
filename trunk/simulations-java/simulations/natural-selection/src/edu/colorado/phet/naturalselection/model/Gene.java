@@ -180,7 +180,7 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
     }
 
     public void onBunnyChangeColor( Allele allele ) {
-        
+
     }
 
     public void onChangeDominance( boolean primary ) {

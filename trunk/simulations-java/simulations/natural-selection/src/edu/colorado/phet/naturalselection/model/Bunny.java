@@ -194,7 +194,7 @@ public class Bunny {
     }
 
     public void checkPhenotypes() {
-        if( cachedColorPhenotype != getColorGenotype().getPhenotype() ) {
+        if ( cachedColorPhenotype != getColorGenotype().getPhenotype() ) {
             cachedColorPhenotype = getColorGenotype().getPhenotype();
             notifyChangeColor();
         }

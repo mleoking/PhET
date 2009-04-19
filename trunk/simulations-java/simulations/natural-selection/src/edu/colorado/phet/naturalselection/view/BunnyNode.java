@@ -1,8 +1,8 @@
 package edu.colorado.phet.naturalselection.view;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
-import edu.colorado.phet.naturalselection.model.Bunny;
 import edu.colorado.phet.naturalselection.model.Allele;
+import edu.colorado.phet.naturalselection.model.Bunny;
 import edu.colorado.phet.naturalselection.model.ColorGene;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -17,10 +17,11 @@ public class BunnyNode extends PNode implements Bunny.BunnyListener {
         whiteImage = NaturalSelectionResources.getImageNode( "bunny_2_white.png" );
         brownImage = NaturalSelectionResources.getImageNode( "bunny_2_brown.png" );
 
-        if( colorPhenotype == ColorGene.WHITE_ALLELE ) {
+        if ( colorPhenotype == ColorGene.WHITE_ALLELE ) {
             isWhite = true;
             addChild( whiteImage );
-        } else {
+        }
+        else {
             isWhite = false;
             addChild( brownImage );
         }
@@ -43,17 +44,20 @@ public class BunnyNode extends PNode implements Bunny.BunnyListener {
     }
 
     public void onBunnyChangeColor( Allele allele ) {
-        if( isWhite ) {
-            if( allele == ColorGene.WHITE_ALLELE ) {
+        if ( isWhite ) {
+            if ( allele == ColorGene.WHITE_ALLELE ) {
                 return;
-            } else {
+            }
+            else {
                 removeChild( whiteImage );
                 addChild( brownImage );
             }
-        } else {
-            if( allele == ColorGene.BROWN_ALLELE ) {
+        }
+        else {
+            if ( allele == ColorGene.BROWN_ALLELE ) {
                 return;
-            } else {
+            }
+            else {
                 removeChild( brownImage );
                 addChild( whiteImage );
             }
