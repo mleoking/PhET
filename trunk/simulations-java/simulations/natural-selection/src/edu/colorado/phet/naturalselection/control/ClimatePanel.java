@@ -5,13 +5,17 @@ import java.awt.*;
 import javax.swing.*;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
+import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.util.ImagePanel;
 
 public class ClimatePanel extends JPanel {
     private JRadioButton equatorButton;
     private JRadioButton arcticButton;
 
-    public ClimatePanel() {
+    private NaturalSelectionModel model;
+
+    public ClimatePanel( NaturalSelectionModel _model ) {
+        model = _model;
 
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
 
@@ -60,6 +64,8 @@ public class ClimatePanel extends JPanel {
         arcticButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         arcticPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         arcticImage.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+
+
     }
 
     public void reset() {

@@ -14,6 +14,9 @@ public class BunnyNode extends PNode implements Bunny.BunnyListener {
     private boolean isWhite;
 
     public BunnyNode( Allele colorPhenotype, Allele teethPhenotype, Allele tailPhenotype ) {
+
+        scale( 0.25 );
+
         whiteImage = NaturalSelectionResources.getImageNode( "bunny_2_white.png" );
         brownImage = NaturalSelectionResources.getImageNode( "bunny_2_brown.png" );
 
