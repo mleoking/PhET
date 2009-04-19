@@ -37,7 +37,7 @@ public class NaturalSelectionControlPanel extends JPanel implements ActionListen
         JPanel rightPanel = new JPanel();
         rightPanel.setLayout( new BoxLayout( rightPanel, BoxLayout.Y_AXIS ) );
 
-        climatePanel = new ClimatePanel();
+        climatePanel = new ClimatePanel( model );
 
         JPanel selectionPanel = new JPanel();
         selectionPanel.setLayout( new BoxLayout( selectionPanel, BoxLayout.Y_AXIS ) );

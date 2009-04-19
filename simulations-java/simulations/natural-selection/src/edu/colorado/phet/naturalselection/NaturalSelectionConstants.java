@@ -78,6 +78,14 @@ public class NaturalSelectionConstants {
     // Images
     //----------------------------------------------------------------------------
 
+    public static final double FULL_BUNNY_WIDTH = 212;
+    public static final double FULL_BUNNY_HEIGHT = 244;
+
+    public static final double BUNNY_SCALE = 0.25;
+
+    public static final double SCALED_BUNNY_WIDTH = FULL_BUNNY_WIDTH * BUNNY_SCALE;
+    public static final double SCALED_BUNNY_HEIGHT = FULL_BUNNY_WIDTH * BUNNY_SCALE;
+
     //----------------------------------------------------------------------------
     // Cursors
     //----------------------------------------------------------------------------

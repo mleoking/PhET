@@ -4,6 +4,7 @@ package edu.colorado.phet.naturalselection.model;
 
 /**
  * Allele is used to store both alleles and phenotypes (since we are using Mendelian genetics)
+ *
  * @author Jonathan Olson
  */
 public class Allele {
@@ -12,6 +13,7 @@ public class Allele {
 
     /**
      * Allele constructor
+     *
      * @param _name A display name for the allele or the description of its corresponding trait
      */
     public Allele( String _name ) {
@@ -20,6 +22,7 @@ public class Allele {
 
     /**
      * Gets the name of the allele
+     *
      * @return The name of the Allele
      */
     public String getName() {
@@ -28,6 +31,7 @@ public class Allele {
 
     /**
      * Get the single-character representation
+     *
      * @return A single-letter representation of the Allele
      */
     public String toString() {

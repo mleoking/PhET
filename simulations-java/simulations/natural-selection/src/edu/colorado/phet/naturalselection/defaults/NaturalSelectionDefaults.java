@@ -16,7 +16,7 @@ public class NaturalSelectionDefaults {
     public static final int CLOCK_TIME_COLUMNS = GlobalDefaults.CLOCK_TIME_COLUMNS;
 
     // Model-view transform
-    public static final Dimension VIEW_SIZE = new Dimension( 1500, 1500 );
+    public static final Dimension VIEW_SIZE = new Dimension( 1014, 366 );
 
     // ExampleModelElement
     public static final double EXAMPLE_MODEL_ELEMENT_WIDTH = 200; // meters

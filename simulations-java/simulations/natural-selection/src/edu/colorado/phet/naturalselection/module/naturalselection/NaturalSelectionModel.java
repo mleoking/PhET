@@ -26,6 +26,7 @@ public class NaturalSelectionModel extends ClockAdapter {
 
     private int generation = 0;
 
+
     public NaturalSelectionModel( NaturalSelectionClock _clock ) {
 
         clock = _clock;
