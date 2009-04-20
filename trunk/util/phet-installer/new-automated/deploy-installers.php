@@ -12,6 +12,7 @@
 
     require_once("config.php");
     require_once("global.php");
+    require_once("installer-util.php");
 
     //--------------------------------------------------------------------------
     // Entry point for this PHP file.
