@@ -45,6 +45,8 @@ import edu.colorado.phet.greenhouse.view.ThermometerGraphic;
 
 
 public abstract class BaseGreenhouseModule extends Module {
+	public double MAX_TIME_DELTA_PER_TICK = GreenhouseClock.DEFAULT_TIME_DELTA_PER_TICK;
+	public double MIN_TIME_DELTA_PER_TICK = GreenhouseClock.DEFAULT_TIME_DELTA_PER_TICK / 5;
     private HashMap photonToGraphicsMap = new HashMap();
     protected CompositeGraphic drawingCanvas;
     private ThermometerGraphic thermometerGraphic;
@@ -81,8 +83,8 @@ public abstract class BaseGreenhouseModule extends Module {
 
     	// Create the clock control panel, including slider.
     	PiccoloClockControlPanel clockControlPanel = new PiccoloClockControlPanel( getClock() );
-    	timeSpeedSlider = new TimeSpeedSlider(1, GreenhouseClock.DEFAULT_TIME_DELTA_PER_TICK * 2,
-    			"0.00", getGreenhouseClock(), GreenhouseResources.getString( "ClockPanel.SliderTitle" ));
+    	timeSpeedSlider = new TimeSpeedSlider(MIN_TIME_DELTA_PER_TICK, MAX_TIME_DELTA_PER_TICK, "0.00",
+    			getGreenhouseClock(), GreenhouseResources.getString( "ClockPanel.SliderTitle" ));
         timeSpeedSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 getGreenhouseClock().setDt( timeSpeedSlider.getValue() );
