@@ -175,7 +175,7 @@ public abstract class TraitControlNode extends PNode implements ActionListener, 
     }
 
     public void onChangeDistribution( int primary, int secondary ) {
-        if ( !mutated ) {
+        if ( percentOne == null || percentTwo == null ) {
             return;
         }
         int total = primary + secondary;

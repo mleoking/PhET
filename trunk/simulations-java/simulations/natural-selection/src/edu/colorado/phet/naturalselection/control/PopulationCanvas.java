@@ -62,6 +62,6 @@ public class PopulationCanvas extends PhetPCanvas implements NaturalSelectionMod
     }
 
     public void onSelectionFactorChange( int selectionFactor ) {
-        
+
     }
 }
