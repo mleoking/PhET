@@ -12,6 +12,10 @@ public class NaturalSelectionModel extends ClockAdapter {
     public static final int CLIMATE_EQUATOR = 0;
     public static final int CLIMATE_ARCTIC = 1;
 
+    public static final int SELECTION_NONE = 0;
+    public static final int SELECTION_FOOD = 1;
+    public static final int SELECTION_WOLVES = 2;
+
     private NaturalSelectionClock clock;
 
     private ArrayList bunnies;
@@ -30,6 +34,7 @@ public class NaturalSelectionModel extends ClockAdapter {
     private int generation = 0;
 
     private int climate = CLIMATE_EQUATOR;
+    private int selectionFactor = SELECTION_NONE;
 
     public NaturalSelectionModel( NaturalSelectionClock _clock ) {
 
@@ -197,6 +202,20 @@ public class NaturalSelectionModel extends ClockAdapter {
         notifyClimateChange();
     }
 
+    public int getSelectionFactor() {
+        return selectionFactor;
+    }
+
+    public void setSelectionFactor( int _selectionFactor ) {
+        if( selectionFactor == _selectionFactor ) {
+            return;
+        }
+
+        selectionFactor = _selectionFactor;
+
+        notifySelectionFactorChange();
+    }
+
 
     // notification
 
@@ -228,6 +247,13 @@ public class NaturalSelectionModel extends ClockAdapter {
         }
     }
 
+    private void notifySelectionFactorChange() {
+        Iterator iter = listeners.iterator();
+        while ( iter.hasNext() ) {
+            ( (NaturalSelectionModelListener) iter.next() ).onSelectionFactorChange( selectionFactor );
+        }
+    }
+
     // listeners
 
     public void addListener( NaturalSelectionModelListener listener ) {
@@ -239,7 +265,7 @@ public class NaturalSelectionModel extends ClockAdapter {
     }
 
     public interface NaturalSelectionModelListener {
-        // shortcut: implemented in PopulationCanvas, TimeDisplayPanel, BunniesNode, NaturalSelectionBackgroundNode
+        // shortcut: implemented in PopulationCanvas, TimeDisplayPanel, SpritesNode, NaturalSelectionBackgroundNode
 
         public void onMonthChange( String monthName );
 
@@ -248,6 +274,8 @@ public class NaturalSelectionModel extends ClockAdapter {
         public void onNewBunny( Bunny bunny );
 
         public void onClimateChange( int climate );
+
+        public void onSelectionFactorChange( int selectionFactor );
     }
 
 }

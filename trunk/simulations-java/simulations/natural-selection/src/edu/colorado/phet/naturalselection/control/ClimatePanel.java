@@ -66,15 +66,6 @@ public class ClimatePanel extends JPanel {
         arcticButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         arcticPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         arcticImage.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
-
-        arcticButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent actionEvent ) {
-
-            }
-        }
-        );
-
-
     }
 
     public void reset() {

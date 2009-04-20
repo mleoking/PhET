@@ -5,7 +5,7 @@ import java.awt.geom.Dimension2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
-import edu.colorado.phet.naturalselection.view.BunniesNode;
+import edu.colorado.phet.naturalselection.view.SpritesNode;
 import edu.colorado.phet.naturalselection.view.NaturalSelectionBackgroundNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -16,7 +16,7 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
     private NaturalSelectionModel model;
 
     private PNode rootNode;
-    public BunniesNode bunnies;
+    public SpritesNode bunnies;
     public NaturalSelectionBackgroundNode backgroundNode;
 
     public NaturalSelectionCanvas( NaturalSelectionModel _model ) {
@@ -34,7 +34,7 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
         backgroundNode = new NaturalSelectionBackgroundNode( model.getClimate() );
         rootNode.addChild( backgroundNode );
 
-        bunnies = new BunniesNode();
+        bunnies = new SpritesNode();
         rootNode.addChild( bunnies );
 
     }

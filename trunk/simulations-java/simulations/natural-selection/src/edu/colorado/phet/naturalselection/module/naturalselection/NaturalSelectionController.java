@@ -35,6 +35,24 @@ public class NaturalSelectionController {
                 model.setClimate( NaturalSelectionModel.CLIMATE_EQUATOR );
             }
         } );
+
+        controlPanel.noneButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent actionEvent ) {
+                model.setSelectionFactor( NaturalSelectionModel.SELECTION_NONE );
+            }
+        } );
+
+        controlPanel.foodButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent actionEvent ) {
+                model.setSelectionFactor( NaturalSelectionModel.SELECTION_FOOD );
+            }
+        } );
+
+        controlPanel.wolvesButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent actionEvent ) {
+                model.setSelectionFactor( NaturalSelectionModel.SELECTION_WOLVES );
+            }
+        } );
     }
 
 }

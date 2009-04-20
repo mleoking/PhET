@@ -60,4 +60,8 @@ public class PopulationCanvas extends PhetPCanvas implements NaturalSelectionMod
     public void onClimateChange( int climate ) {
 
     }
+
+    public void onSelectionFactorChange( int selectionFactor ) {
+        
+    }
 }
