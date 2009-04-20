@@ -29,15 +29,6 @@ public interface AlphaDecayNucleusTypeControl {
 	public int getNucleusType();
 
 	/**
-	 * Get a boolean value indicating whether the alpha particle energy graph
-	 * is being shown.
-	 * 
-	 * @return - true if the graph is being shown, false if not.
-	 */
-	// TODO: JPB TBD - Is this really needed, or can it be removed?
-	public boolean getEnergyChartShowing();
-	
-	/**
 	 * Register to be informed of changes to the nucleus type (as well as
 	 * other nucleus events).
 	 */
