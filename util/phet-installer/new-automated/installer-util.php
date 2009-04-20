@@ -190,6 +190,37 @@
         }
     }
 
+    //--------------------------------------------------------------------------
+    // Deploy the installers to the production web site by copying them to the
+    // appropriate directory.
+    //--------------------------------------------------------------------------
+    function deploy_installers() {
+
+        // Verify that the installer files exist.
+        flushing_echo("Attemping to deploy the installers.");
+        if ( !file_exists( file_cleanup_local_filename( OUTPUT_DIR ) ) ) {
+            flushing_echo("Error: Directory containing installers not found, aborting deployment.");
+            return;
+        }
+        else {
+            flushing_echo("Found the installer files.");
+        }
+
+        // Create a back of the existing files.
+        // Note: This invokes an existing shell script.  At some point, it may
+        // make sense to incorporate the functionality of this script into the
+        // PHP code.
+        exec(DEPLOY_DIR."create_backup.sh");
+
+        // Copy the files to the distribution directory.
+        if ( copy( OUTPUT_DIR.'*Installer*', DEPLOY_DIR ) ){
+            flushing_echo( "Installers successfully copyed to: ".DEPLOY_DIR );
+        }
+        else {
+            flushing_echo( "Error: Unable to successfully copy installers to: ".DEPLOY_DIR );
+        }
+    }
+
     function installer_get_full_dist_name($dist) {
         return "PhET-dist-$dist";
     }
