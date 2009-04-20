@@ -7,6 +7,7 @@
 package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Point2D;
+import java.util.Random;
 
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.util.ModelViewTx1D;
@@ -46,6 +47,7 @@ public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, P
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
         timeSinceEmission += dt;
+        
         if (timeSinceEmission >= PHOTON_EMISSION_TIME){
         	computeTemperature();
 	        while ( netEnergy > 0 ) {
@@ -120,7 +122,6 @@ public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, P
     public void absorbPhoton( Photon photon ) {
         photonAbsorber.absorbPhoton( photon );
         netEnergy += photon.getEnergy();
-        System.out.println("A: netEnergy = " + netEnergy);
     }
 
     public CircularPhotonEmitter getPhotonSource() {
@@ -133,7 +134,6 @@ public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, P
 
     public void photonEmitted( Photon photon ) {
         netEnergy = Math.max( 0, netEnergy -= photon.getEnergy() );
-        System.out.println("E: netEnergy = " + netEnergy);
     }
 
     public void addPhotonEmitterListener( PhotonEmitter.Listener listener ) {
