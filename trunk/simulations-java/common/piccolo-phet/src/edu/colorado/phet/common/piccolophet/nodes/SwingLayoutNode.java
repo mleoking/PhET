@@ -1,6 +1,9 @@
 package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.HashMap;
 
 import javax.swing.*;
 
@@ -15,45 +18,112 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * TODO: This implementation doesn't handle PNode resizes
  */
 public class SwingLayoutNode extends PNode {
-    private JPanel container;
+    
+    private final JPanel container;
+    private final HashMap nodeComponentMap; // PNode -> NodeComponent
+    private final PropertyChangeListener propertyChangeListener;
 
+    public SwingLayoutNode() {
+        this( new FlowLayout() );
+    }
+    
     public SwingLayoutNode( LayoutManager layoutManager ) {
-        this.container = new JPanel( layoutManager ) {
-            public boolean isVisible() {
-                return true;//required for layouts to work
+        this.container = new JPanel( layoutManager );
+        this.nodeComponentMap = new HashMap();
+        this.propertyChangeListener = new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent event ) {
+                if ( isLayoutProperty( event.getPropertyName() ) ) {
+                    updateLayout();
+                }
             }
         };
     }
-
-    public void addChild( PNode node, Object constraints ) {
-        NodeComponent component = new NodeComponent( node );
-        container.add( component, constraints );
-        container.setSize( container.getPreferredSize() );
-        container.doLayout();
-        super.addChild( node );
+    
+    public void setLayout( LayoutManager layoutManager ) {
+        container.setLayout( layoutManager );
+        updateLayout();
     }
-
+    
+    public void addChild( PNode child, Object constraints ) {
+        super.addChild( child );
+        addNodeComponent( child, constraints );
+    }
+    
     public void addChild( PNode child ) {
         addChild( child, null );
     }
+    
+    public void addChild( int index, PNode child, Object constraints ) {
+        super.addChild( index, child  );
+        addNodeComponent( child, constraints );
+    }
+    
+    public void addChild( int index, PNode node ) {
+        super.addChild( index, node  );
+    }
+    
+    public PNode removeChild( PNode child ) {
+        PNode node = super.removeChild( child );
+        removeNodeComponent( node );
+        return node;
+    }
+    
+    public PNode removeChild( int index ) {
+        PNode node = super.removeChild( index );
+        removeNodeComponent( node );
+        return node;
+    }
+    
+    private void addNodeComponent( PNode node, Object constraints ) {
+        NodeComponent component = new NodeComponent( node );
+        container.add( component, constraints );
+        container.setSize( container.getPreferredSize() );
+        node.addPropertyChangeListener( propertyChangeListener );
+        nodeComponentMap.put( node, component );
+        updateLayout();
+    }
+    
+    private void removeNodeComponent( PNode node ) {
+        if ( node != null ) {
+            NodeComponent component = (NodeComponent) nodeComponentMap.get( node );
+            if ( component != null ) {
+                container.remove( component );
+                node.removePropertyChangeListener( propertyChangeListener );
+                nodeComponentMap.remove( node );
+                updateLayout();
+            }
+        }
+    }
+    
+    /*
+     * True if p is a PNode property that is related to layout.
+     */
+    private boolean isLayoutProperty( String p ) {
+        return ( p.equals( PNode.PROPERTY_VISIBLE ) || p.equals( PNode.PROPERTY_FULL_BOUNDS ) );
+    }
+    
+    private void updateLayout() {
+        container.doLayout();
+    }
 
-    /**
-     * The NodeComponent is an adapter for the Swing layout; it's layout is used to set the location of the PNode
+    /*
+     * JComponent that acts as a proxy for a PNode.
+     * Supplies a Swing layout manager with the PNode's layout info.
      */
     private static class NodeComponent extends JComponent {
-        private PNode node;
+
+        private final PNode node;
 
         public NodeComponent( PNode node ) {
             this.node = node;
         }
-
-        public boolean isVisible() {
-            return true;//required for layouts to work
+        
+        public PNode getNode() {
+            return node;
         }
 
-        //TODO: allow reshaping of piccolo nodes, or centering within bounding box
         public Dimension getPreferredSize() {
-            return new Dimension( (int) node.getFullBounds().getWidth(), (int) node.getFullBounds().getHeight() );
+            return new Dimension( (int) node.getFullBoundsReference().getWidth(), (int) node.getFullBoundsReference().getHeight() );
         }
 
         public void setBounds( int x, int y, int width, int height ) {
@@ -62,30 +132,8 @@ public class SwingLayoutNode extends PNode {
         }
     }
 
-    //Support for types like BoxLayout that need a reference to the container
-    private static final LayoutType BOX_Y = new LayoutType() {
-        public LayoutManager getLayout( JPanel container ) {
-            return new BoxLayout( container, BoxLayout.Y_AXIS );
-        }
-    };
-
-    static interface LayoutType {
-        LayoutManager getLayout( JPanel container );
-    }
-
-    public SwingLayoutNode( LayoutType layoutType ) {
-        this.container = new JPanel() {
-            public boolean isVisible() {
-                return super.isVisible();
-            }
-        };
-        container.setLayout( layoutType.getLayout( container ) );
-    }
-
     public static void main( String[] args ) {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setSize( 800, 600 );
+        
         PhetPCanvas contentPane = new PhetPCanvas();
         SwingLayoutNode borderLayoutNode = new SwingLayoutNode( new BorderLayout() );
         borderLayoutNode.addChild( new PText( "West" ), BorderLayout.WEST );
@@ -101,7 +149,6 @@ public class SwingLayoutNode extends PNode {
         flowLayoutNode.addChild( new PText( "Second Node" ) );
         flowLayoutNode.setOffset( 200, 200 );
         contentPane.addScreenChild( flowLayoutNode );
-
 
         SwingLayoutNode gridBagConstraintNode = new SwingLayoutNode( new GridBagLayout() );
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
@@ -126,8 +173,10 @@ public class SwingLayoutNode extends PNode {
         verticalLayout.setOffset( 100, 400 );
         contentPane.addScreenChild( verticalLayout );
 
-
+        JFrame frame = new JFrame();
         frame.setContentPane( contentPane );
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        frame.setSize( 800, 600 );
         frame.setVisible( true );
     }
 }
