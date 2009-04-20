@@ -11,6 +11,8 @@ import edu.umd.cs.piccolo.PNode;
 
 public class NaturalSelectionCanvas extends PhetPCanvas {
 
+    public static final double HORIZON = 120.0;
+
     private NaturalSelectionModel model;
 
     private PNode rootNode;
@@ -23,7 +25,8 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
 
         model = _model;
 
-        setBackground( NaturalSelectionConstants.CANVAS_BACKGROUND );
+        setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        setBorder( null );
 
         rootNode = new PNode();
         addWorldChild( rootNode );

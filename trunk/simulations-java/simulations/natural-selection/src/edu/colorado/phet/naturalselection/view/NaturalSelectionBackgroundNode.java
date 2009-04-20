@@ -18,9 +18,10 @@ public class NaturalSelectionBackgroundNode extends PNode implements NaturalSele
 
         climate = initialClimate;
 
-        if( climate == NaturalSelectionModel.CLIMATE_EQUATOR ) {
+        if ( climate == NaturalSelectionModel.CLIMATE_EQUATOR ) {
             addChild( equatorImage );
-        } else if ( climate == NaturalSelectionModel.CLIMATE_ARCTIC ) {
+        }
+        else if ( climate == NaturalSelectionModel.CLIMATE_ARCTIC ) {
             addChild( arcticImage );
         }
     }
@@ -30,16 +31,17 @@ public class NaturalSelectionBackgroundNode extends PNode implements NaturalSele
     }
 
     public void setClimate( int newClimate ) {
-        if( climate == newClimate ) {
+        if ( climate == newClimate ) {
             return;
         }
 
         climate = newClimate;
 
-        if( climate == NaturalSelectionModel.CLIMATE_EQUATOR ) {
+        if ( climate == NaturalSelectionModel.CLIMATE_EQUATOR ) {
             removeChild( arcticImage );
             addChild( equatorImage );
-        } else if ( climate == NaturalSelectionModel.CLIMATE_ARCTIC ) {
+        }
+        else if ( climate == NaturalSelectionModel.CLIMATE_ARCTIC ) {
             removeChild( equatorImage );
             addChild( arcticImage );
         }

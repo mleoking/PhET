@@ -188,7 +188,7 @@ public class NaturalSelectionModel extends ClockAdapter {
     }
 
     public void setClimate( int _climate ) {
-        if( climate == _climate ) {
+        if ( climate == _climate ) {
             return;
         }
 
@@ -196,8 +196,6 @@ public class NaturalSelectionModel extends ClockAdapter {
 
         notifyClimateChange();
     }
-
-    
 
 
     // notification

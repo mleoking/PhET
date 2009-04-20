@@ -1,7 +1,7 @@
 package edu.colorado.phet.naturalselection.module.naturalselection;
 
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import edu.colorado.phet.naturalselection.control.NaturalSelectionControlPanel;
 import edu.colorado.phet.naturalselection.model.ColorGene;
@@ -23,7 +23,6 @@ public class NaturalSelectionController {
         TeethGene.getInstance().addListener( controlPanel.traitCanvas.teethTraitNode );
         TailGene.getInstance().addListener( controlPanel.traitCanvas.tailTraitNode );
 
-        
 
         controlPanel.climatePanel.arcticButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
