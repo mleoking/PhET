@@ -1,13 +1,14 @@
 package edu.colorado.phet.buildtools.translate;
 
-import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 /**
  * This utility displays all translations given in the .properties file specificed as args[0].
@@ -15,8 +16,12 @@ import javax.swing.*;
  */
 public class DisplayTranslations {
     public static void main( final String[] args ) throws IOException {
+        if ( args.length != 1 ) {
+            System.out.println( DisplayTranslations.class.getName() + ": missing command line arg" );
+            System.exit( 1 );
+        }
         Properties p = new Properties();
-        p.load( new FileReader( new File( args[0] ) ) );
+        p.load( new FileInputStream( args[0] ) );
 
         String s = "";
         Set set = p.keySet();
