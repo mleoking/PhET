@@ -14,23 +14,6 @@
     require_once("global.php");
 
     //--------------------------------------------------------------------------
-    // Main routine - interprets command line options and executes the
-    // indicated requests.
-    //--------------------------------------------------------------------------
-    function deploy_installers() {
-        // Verify that the files exist.
-        flushing_echo("Attemping to deploy the installers.");
-        if ( !file_exists( file_cleanup_local_filename( OUTPUT_DIR ) ) ) {
-            flushing_echo("Error: Directory containing installers not found, aborting deployment.");
-            return;
-        }
-        else {
-            flushing_echo("Found it!");
-        }
-        flushing_echo("!!!! Deployment is stubbed !!!!!");
-    }
-
-    //--------------------------------------------------------------------------
     // Entry point for this PHP file.
     //--------------------------------------------------------------------------
     deploy_installers();
