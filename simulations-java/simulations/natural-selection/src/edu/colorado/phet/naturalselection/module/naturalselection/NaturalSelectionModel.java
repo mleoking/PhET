@@ -207,7 +207,7 @@ public class NaturalSelectionModel extends ClockAdapter {
     }
 
     public void setSelectionFactor( int _selectionFactor ) {
-        if( selectionFactor == _selectionFactor ) {
+        if ( selectionFactor == _selectionFactor ) {
             return;
         }
 

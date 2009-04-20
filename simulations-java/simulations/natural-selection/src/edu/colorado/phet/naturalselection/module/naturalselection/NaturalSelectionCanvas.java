@@ -5,8 +5,8 @@ import java.awt.geom.Dimension2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
-import edu.colorado.phet.naturalselection.view.SpritesNode;
 import edu.colorado.phet.naturalselection.view.NaturalSelectionBackgroundNode;
+import edu.colorado.phet.naturalselection.view.SpritesNode;
 import edu.umd.cs.piccolo.PNode;
 
 public class NaturalSelectionCanvas extends PhetPCanvas {
