@@ -1,22 +1,20 @@
 package edu.colorado.phet.naturalselection.view;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.model.Allele;
 import edu.colorado.phet.naturalselection.model.Bunny;
 import edu.colorado.phet.naturalselection.model.ColorGene;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-public class BunnyNode extends PNode implements Bunny.BunnyListener {
+public class BunnyNode extends NaturalSelectionSprite implements Bunny.BunnyListener {
     private PImage whiteImage;
     private PImage brownImage;
 
     private boolean isWhite;
 
     public BunnyNode( Allele colorPhenotype, Allele teethPhenotype, Allele tailPhenotype ) {
-
-        scale( 0.25 );
-
         whiteImage = NaturalSelectionResources.getImageNode( "bunny_2_white.png" );
         brownImage = NaturalSelectionResources.getImageNode( "bunny_2_brown.png" );
 
@@ -28,6 +26,28 @@ public class BunnyNode extends PNode implements Bunny.BunnyListener {
             isWhite = false;
             addChild( brownImage );
         }
+    }
+
+    public void setSpriteLocation( double x, double y, double z ) {
+        super.setSpriteLocation( x, y, z );
+
+        reposition();
+    }
+
+    public void reposition() {
+        double scaleFactor = getCanvasScale() * 0.25;
+        setScale( scaleFactor );
+
+        double scaledWidth = whiteImage.getWidth() * scaleFactor;
+        double scaledHeight = whiteImage.getHeight() * scaleFactor;
+
+        Point2D canvasLocation = getCanvasLocation();
+
+        Point2D.Double location = new Point2D.Double( canvasLocation.getX() - scaledWidth / 2, canvasLocation.getY() - scaledHeight );
+
+        System.out.println( "Setting bunny location to " + location );
+
+        setOffset( location );
     }
 
     public void onBunnyInit( Bunny bunny ) {
