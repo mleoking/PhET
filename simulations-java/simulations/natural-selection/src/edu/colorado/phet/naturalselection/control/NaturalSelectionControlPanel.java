@@ -13,7 +13,7 @@ import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelecti
 
 public class NaturalSelectionControlPanel extends JPanel implements ActionListener {
 
-    private ClimatePanel climatePanel;
+    public ClimatePanel climatePanel;
     private JRadioButton wolvesButton;
     private JRadioButton foodButton;
     private JRadioButton noneButton;

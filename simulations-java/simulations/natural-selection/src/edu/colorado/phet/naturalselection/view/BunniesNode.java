@@ -43,4 +43,8 @@ public class BunniesNode extends PNode implements NaturalSelectionModel.NaturalS
         bunny.addListener( bunnyNode );
         bunnyNodes.add( bunnyNode );
     }
+
+    public void onClimateChange( int climate ) {
+        
+    }
 }

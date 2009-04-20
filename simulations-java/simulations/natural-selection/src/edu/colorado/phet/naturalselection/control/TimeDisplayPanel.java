@@ -68,4 +68,8 @@ public class TimeDisplayPanel extends JPanel implements NaturalSelectionModel.Na
     public void onNewBunny( Bunny bunny ) {
 
     }
+
+    public void onClimateChange( int climate ) {
+
+    }
 }

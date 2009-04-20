@@ -9,6 +9,9 @@ import edu.colorado.phet.naturalselection.model.*;
 
 public class NaturalSelectionModel extends ClockAdapter {
 
+    public static final int CLIMATE_EQUATOR = 0;
+    public static final int CLIMATE_ARCTIC = 1;
+
     private NaturalSelectionClock clock;
 
     private ArrayList bunnies;
@@ -26,6 +29,7 @@ public class NaturalSelectionModel extends ClockAdapter {
 
     private int generation = 0;
 
+    private int climate = CLIMATE_EQUATOR;
 
     public NaturalSelectionModel( NaturalSelectionClock _clock ) {
 
@@ -49,6 +53,8 @@ public class NaturalSelectionModel extends ClockAdapter {
     }
 
     public void reset() {
+
+        climate = CLIMATE_EQUATOR;
 
         currentMonth = 0;
         generation = 0;
@@ -177,6 +183,22 @@ public class NaturalSelectionModel extends ClockAdapter {
         return ret;
     }
 
+    public int getClimate() {
+        return climate;
+    }
+
+    public void setClimate( int _climate ) {
+        if( climate == _climate ) {
+            return;
+        }
+
+        climate = _climate;
+
+        notifyClimateChange();
+    }
+
+    
+
 
     // notification
 
@@ -201,6 +223,12 @@ public class NaturalSelectionModel extends ClockAdapter {
         }
     }
 
+    private void notifyClimateChange() {
+        Iterator iter = listeners.iterator();
+        while ( iter.hasNext() ) {
+            ( (NaturalSelectionModelListener) iter.next() ).onClimateChange( climate );
+        }
+    }
 
     // listeners
 
@@ -213,11 +241,15 @@ public class NaturalSelectionModel extends ClockAdapter {
     }
 
     public interface NaturalSelectionModelListener {
+        // shortcut: implemented in PopulationCanvas, TimeDisplayPanel, BunniesNode, NaturalSelectionBackgroundNode
+
         public void onMonthChange( String monthName );
 
         public void onGenerationChange( int generation );
 
         public void onNewBunny( Bunny bunny );
+
+        public void onClimateChange( int climate );
     }
 
 }
