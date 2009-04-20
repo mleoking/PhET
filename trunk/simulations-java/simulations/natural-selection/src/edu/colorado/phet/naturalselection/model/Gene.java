@@ -199,7 +199,7 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
     // notifiers
 
     private void notifyChangeDistribution() {
-        System.out.println( "Gene distribution changed for " + getName() );
+        //System.out.println( "Gene distribution changed for " + getName() );
         Iterator iter = listeners.iterator();
 
         while ( iter.hasNext() ) {
