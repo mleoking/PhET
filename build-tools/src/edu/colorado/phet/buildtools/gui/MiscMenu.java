@@ -54,7 +54,7 @@ public class MiscMenu extends JMenu {
         } );
         add( showAllLicenseKeys );
 
-        JMenuItem batchTest = new JMenuItem( "Batch Deploy-Test" );
+        JMenuItem batchTest = new JMenuItem( "Batch Deploy Test" );
         batchTest.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
@@ -62,7 +62,7 @@ public class MiscMenu extends JMenu {
                             new JavaSimulationProject( new File( trunk, "simulations-java/simulations/test-project" ) ),
                             new FlashSimulationProject( new File( trunk, "simulations-flash/simulations/test-flash-project" ) )
                     };
-                    batchDeploy( projects );
+                    batchDeploy( projects,selectDeployStrategy() );
                 }
                 catch( IOException e1 ) {
                     e1.printStackTrace();
@@ -72,27 +72,13 @@ public class MiscMenu extends JMenu {
         } );
         add( batchTest );
 
-        JMenuItem buildAndDeployAll = new JMenuItem( "Batch Deploy All sims to Dev" );
+        JMenuItem buildAndDeployAll = new JMenuItem( "Batch Deploy All sims" );
         buildAndDeployAll.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                batchDeploy( PhetProject.getAllSimulations( trunk ) );
-
-                //this block of code is useful for deploying a subset of sims
-//                PhetProject[]p=PhetFlashProject.getFlashSimulations(trunk );
-//                ArrayList list=new ArrayList( );
-//                for ( int i = 0; i < p.length; i++ ) {
-//                    PhetProject phetProject = p[i];
-//                    if (phetProject.getName().compareTo( "pendulum-lab" )>0){
-//                        list.add(phetProject);
-//                        System.out.println( "keeping: "+phetProject.getName() );
-//                    }
-//                }
-//                batchDeploy( (PhetProject[]) list.toArray( new PhetProject[list.size()] ) );
-
+                batchDeploy( PhetProject.getAllSimulations( trunk ), selectDeployStrategy() );
             }
         } );
         add( buildAndDeployAll );
-
 
         JMenuItem generateJNLP = new JMenuItem( "Generate Prod JNLP" );
         generateJNLP.addActionListener( new ActionListener() {
@@ -125,7 +111,35 @@ public class MiscMenu extends JMenu {
         add( updateFlashAgreement );
     }
 
-    private void batchDeploy( PhetProject[] projects ) {
+    private DeployStrategy selectDeployStrategy() {
+        DeployDev dev = new DeployDev();
+        DeployStrategy sel= (DeployStrategy) JOptionPane.showInputDialog( this, "Choose a batch deploy location","Batch deploy location",JOptionPane.QUESTION_MESSAGE, null,new Object[]{dev,new DeployProd()},dev);
+        return sel;
+    }
+
+    private static interface DeployStrategy{
+        void deploy(BuildScript buildScript);
+    }
+    public static class DeployDev implements DeployStrategy{
+        public void deploy( BuildScript buildScript ) {
+            buildScript.deployDev( BuildLocalProperties.getInstance().getDevAuthenticationInfo(), true );
+        }
+
+        public String toString() {
+            return "Deploy dev";
+        }
+    }
+    public static class DeployProd implements DeployStrategy{
+        public void deploy( BuildScript buildScript ) {
+            buildScript.deployProd( BuildLocalProperties.getInstance().getDevAuthenticationInfo(),
+                                    BuildLocalProperties.getInstance().getProdAuthenticationInfo() );
+        }
+
+        public String toString() {
+            return "deploy prod";
+        }
+    }
+    private void batchDeploy( PhetProject[] projects,DeployStrategy deployStrategy ) {
         int svnVersion = new BuildScript( trunk, projects[0] ).getRevisionOnTrunkREADME();
         String message = JOptionPane.showInputDialog( "Deploying all sims to dev/.  Make sure you've update your working copy.\n" +
                                                       "Assuming you've updated already, the revision number will be: " + svnVersion + "\n" +
@@ -190,7 +204,7 @@ public class MiscMenu extends JMenu {
                     }
                 }
             } );
-            buildScript.deployDev( BuildLocalProperties.getInstance().getDevAuthenticationInfo(), true );
+            deployStrategy.deploy( buildScript );
         }
         try {
             bufferedWriter.close();
