@@ -62,4 +62,8 @@ public class NaturalSelectionBackgroundNode extends PNode implements NaturalSele
     public void onClimateChange( int climate ) {
         setClimate( climate );
     }
+
+    public void onSelectionFactorChange( int selectionFactor ) {
+
+    }
 }

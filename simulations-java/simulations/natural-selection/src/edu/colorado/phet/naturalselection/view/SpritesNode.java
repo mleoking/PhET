@@ -10,19 +10,23 @@ import edu.colorado.phet.naturalselection.model.Bunny;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.umd.cs.piccolo.PNode;
 
-public class BunniesNode extends PNode implements NaturalSelectionModel.NaturalSelectionModelListener {
+public class SpritesNode extends PNode implements NaturalSelectionModel.NaturalSelectionModelListener {
 
     private ArrayList sprites;
 
     private ArrayList trees;
+    private ArrayList shrubs;
 
     private int oldClimate;
+    private int oldSelection;
 
-    public BunniesNode() {
+    public SpritesNode() {
         sprites = new ArrayList();
         trees = new ArrayList();
+        shrubs = new ArrayList();
 
         oldClimate = NaturalSelectionModel.CLIMATE_EQUATOR;
+        oldSelection = NaturalSelectionModel.SELECTION_NONE;
 
         TreeNode bigTree = new TreeNode( 125, 138, 1 );
         addChildSprite( bigTree );
@@ -35,6 +39,21 @@ public class BunniesNode extends PNode implements NaturalSelectionModel.NaturalS
         TreeNode smallTree = new TreeNode( 635, 90, 0.2 );
         addChildSprite( smallTree );
         trees.add( smallTree );
+
+        ShrubNode shrubA = new ShrubNode( 80, 330, 1 );
+        addChildSprite( shrubA );
+        shrubs.add( shrubA );
+        shrubA.setVisible( false );
+
+        ShrubNode shrubB = new ShrubNode( 750, 200, 0.8 );
+        addChildSprite( shrubB );
+        shrubs.add( shrubB );
+        shrubB.setVisible( false );
+
+        ShrubNode shrubC = new ShrubNode( 320, 110, 0.6 );
+        addChildSprite( shrubC );
+        shrubs.add( shrubC );
+        shrubC.setVisible( false );
 
     }
 
@@ -65,8 +84,26 @@ public class BunniesNode extends PNode implements NaturalSelectionModel.NaturalS
                 ( (TreeNode) iter.next() ).setVisible( false );
             }
         }
+    }
 
+    public void onSelectionFactorChange( int selectionFactor ) {
+        if ( selectionFactor == oldSelection ) {
+            return;
+        }
+        oldSelection = selectionFactor;
 
+        if ( selectionFactor == NaturalSelectionModel.SELECTION_FOOD ) {
+            Iterator iter = shrubs.iterator();
+            while ( iter.hasNext() ) {
+                ( (ShrubNode) iter.next() ).setVisible( true );
+            }
+        }
+        else {
+            Iterator iter = shrubs.iterator();
+            while ( iter.hasNext() ) {
+                ( (ShrubNode) iter.next() ).setVisible( false );
+            }
+        }
     }
 
     public void reset() {
