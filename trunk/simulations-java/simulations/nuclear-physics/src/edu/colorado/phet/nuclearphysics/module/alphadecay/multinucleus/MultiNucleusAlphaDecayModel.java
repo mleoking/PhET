@@ -130,11 +130,6 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
         return _clock;
     }
     
-	public boolean getEnergyChartShowing() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	public void setNucleusType(int nucleusType) {
 		if (nucleusType != _nucleusType){
 			// The caller is setting a new nucleus type, so we need to
