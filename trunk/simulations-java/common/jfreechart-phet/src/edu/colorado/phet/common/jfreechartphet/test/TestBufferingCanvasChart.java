@@ -1,5 +1,4 @@
-
-package edu.colorado.phet.common.piccolophet.test;
+package edu.colorado.phet.common.jfreechartphet.test;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
