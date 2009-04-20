@@ -15,7 +15,7 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
 
     private PNode rootNode;
     public BunniesNode bunnies;
-    private NaturalSelectionBackgroundNode backgroundNode;
+    public NaturalSelectionBackgroundNode backgroundNode;
 
     public NaturalSelectionCanvas( NaturalSelectionModel _model ) {
 
@@ -28,7 +28,7 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
         rootNode = new PNode();
         addWorldChild( rootNode );
 
-        backgroundNode = new NaturalSelectionBackgroundNode();
+        backgroundNode = new NaturalSelectionBackgroundNode( model.getClimate() );
         rootNode.addChild( backgroundNode );
 
         bunnies = new BunniesNode();
@@ -38,6 +38,7 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
 
     public void reset() {
         bunnies.reset();
+        backgroundNode.reset();
     }
 
     protected void updateLayout() {

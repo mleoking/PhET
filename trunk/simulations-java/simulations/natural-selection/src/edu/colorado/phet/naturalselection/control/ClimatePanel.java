@@ -1,6 +1,8 @@
 package edu.colorado.phet.naturalselection.control;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
@@ -9,8 +11,8 @@ import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelecti
 import edu.colorado.phet.naturalselection.util.ImagePanel;
 
 public class ClimatePanel extends JPanel {
-    private JRadioButton equatorButton;
-    private JRadioButton arcticButton;
+    public JRadioButton equatorButton;
+    public JRadioButton arcticButton;
 
     private NaturalSelectionModel model;
 
@@ -64,6 +66,13 @@ public class ClimatePanel extends JPanel {
         arcticButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         arcticPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         arcticImage.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+
+        arcticButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent actionEvent ) {
+
+            }
+        }
+        );
 
 
     }

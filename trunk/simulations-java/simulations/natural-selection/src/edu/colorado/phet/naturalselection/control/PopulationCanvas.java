@@ -56,4 +56,8 @@ public class PopulationCanvas extends PhetPCanvas implements NaturalSelectionMod
     public void onNewBunny( Bunny bunny ) {
         populationGraphNode.updatePopulation( model.getPopulation() );
     }
+
+    public void onClimateChange( int climate ) {
+
+    }
 }
