@@ -166,6 +166,9 @@ public abstract class TraitControlNode extends PNode implements ActionListener, 
     }
 
     public void onChangeDominantAllele( boolean primary ) {
+        if( !mutated ) {
+            return;
+        }
         if ( radioOne.isSelected() && !primary ) {
             radioTwo.setSelected( true );
         }
