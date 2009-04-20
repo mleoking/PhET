@@ -94,6 +94,14 @@
     }
 
     //-------------------------------------------------------------------------
+    // Function for checking if a local copy, a.k.a. mirror, of the web site
+    // is present.
+    //-------------------------------------------------------------------------
+    function ripper_check_for_existing_mirror() {
+        flushing_echo("!!! Stubbed !!!");
+    }
+
+    //-------------------------------------------------------------------------
     // Function for ripping a single flash sim from the web site.
     //-------------------------------------------------------------------------
     function ripper_rip_flash_sim( $sim_name ) {
