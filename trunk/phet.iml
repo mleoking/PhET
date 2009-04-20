@@ -13,10 +13,9 @@
     <option name="VERSION" value="2" />
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
-    <output url="file://$MODULE_DIR$/../../../../reid/phet/out-test/production/phet" />
-    <output-test url="file://$MODULE_DIR$/../../../../reid/phet/out-test/test/phet" />
+    <output url="file://$MODULE_DIR$/../../out-test/production/phet" />
+    <output-test url="file://$MODULE_DIR$/../../out-test/test/phet" />
     <exclude-output />
-    <content url="file://$MODULE_DIR$/../../../../reid/svn-working-copy/trunk/projects/phet" />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/build-tools/contrib/securechannelfacade/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/build-tools/src" isTestSource="false" />
@@ -121,6 +120,7 @@
       <excludeFolder url="file://$MODULE_DIR$/simulations-flash/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/ant_output" />
     </content>
+    <content url="file://$MODULE_DIR$/../../../svn-working-copy/trunk/projects/phet" />
     <orderEntry type="library" name="scala-2.7.3.final" level="application" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
