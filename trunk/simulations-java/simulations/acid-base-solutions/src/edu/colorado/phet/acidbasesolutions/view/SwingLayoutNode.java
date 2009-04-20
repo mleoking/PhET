@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.piccolophet.nodes;
+package edu.colorado.phet.acidbasesolutions.view;
 
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
@@ -9,6 +9,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
