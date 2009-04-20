@@ -17,6 +17,7 @@
     define("ROOT_DIR",      file_cleanup_local_filename(dirname(__FILE__)."/"));
     define("TEMP_DIR",      file_cleanup_local_filename(ROOT_DIR."temp/"));
     define("OUTPUT_DIR",    file_cleanup_local_filename(TEMP_DIR."installer-output/"));
+    define("DEPLOY_DIR",    "/web/htdocs/phet/phet-dist/installers/");
 
     function GET_OS_BOUND_REL_PATH($constantPrefix) {
         return file_cleanup_local_filename(ROOT_DIR."${constantPrefix}/".PHP_OS."/");
