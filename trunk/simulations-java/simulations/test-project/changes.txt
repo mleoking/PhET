@@ -1,3 +1,5 @@
+# 0.45.03 (30567) Apr 20, 2009
+4/20/09 Test batch deploy dev at 30566
 # 0.45.02 (30441) Apr 14, 2009
 4/14/09 Test deploy process as part of #1610
 # 0.45.01 (30438) Apr 14, 2009
