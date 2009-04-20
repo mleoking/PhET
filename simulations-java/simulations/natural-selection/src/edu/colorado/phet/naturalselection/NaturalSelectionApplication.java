@@ -19,7 +19,6 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.naturalselection.developer.DeveloperMenu;
 import edu.colorado.phet.naturalselection.menu.OptionsMenu;
-import edu.colorado.phet.naturalselection.module.example.ExampleModule;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModule;
 import edu.colorado.phet.naturalselection.persistence.ExampleConfig;
 import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
@@ -34,8 +33,6 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-
-    private ExampleModule _exampleModule;
 
     // PersistanceManager is used to save/load simulation configurations.
     private XMLPersistenceManager _persistenceManager;
@@ -181,8 +178,8 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
         appConfig.setVersionDev( getSimInfo().getVersion().getDev() );
         appConfig.setVersionRevision( getSimInfo().getVersion().getRevision() );
 
-        ExampleConfig exampleConfig = _exampleModule.save();
-        appConfig.setExampleConfig( exampleConfig );
+        //ExampleConfig exampleConfig = _exampleModule.save();
+        //appConfig.setExampleConfig( exampleConfig );
 
         _persistenceManager.save( appConfig );
     }
@@ -199,7 +196,7 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
                 NaturalSelectionConfig appConfig = (NaturalSelectionConfig) object;
 
                 ExampleConfig exampleConfig = appConfig.getExampleConfig();
-                _exampleModule.load( exampleConfig );
+                //_exampleModule.load( exampleConfig );
             }
             else {
                 String message = NaturalSelectionResources.getString( "message.notAConfigFile" );
