@@ -45,8 +45,6 @@ public class BunnyNode extends NaturalSelectionSprite implements Bunny.BunnyList
 
         Point2D.Double location = new Point2D.Double( canvasLocation.getX() - scaledWidth / 2, canvasLocation.getY() - scaledHeight );
 
-        System.out.println( "Setting bunny location to " + location );
-
         setOffset( location );
     }
 

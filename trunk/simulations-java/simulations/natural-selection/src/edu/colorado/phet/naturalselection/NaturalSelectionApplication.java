@@ -88,18 +88,11 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
         Module tempModule = new NaturalSelectionModule( parentFrame );
         addModule( tempModule );
 
-        _exampleModule = getFirstModule( parentFrame );
-        addModule( _exampleModule );
-
-        //Module secondModule = new ExampleModule( parentFrame );
-        //secondModule.setName( "Another Example" );
-        //addModule( secondModule );
+        // for now, have another module for this
+        // TODO: remove that control-panel like thing on the right when there is only one module
+        addModule( new NaturalSelectionModule( parentFrame ) );
 
 
-    }
-
-    protected ExampleModule getFirstModule( Frame parentFrame ) {
-        return new ExampleModule( parentFrame );
     }
 
     /*
