@@ -1,12 +1,15 @@
 package edu.colorado.phet.acidbasesolutions.view;
 
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -243,7 +246,7 @@ public class SwingLayoutNode extends PNode {
         horizontalLayoutNode.setOffset( 100, 400 );
         rootNode.addChild( horizontalLayoutNode );
       
-        //TODO why does BoxLayout throw an exception?
+        //TODO why do these paths overlap?
         SwingLayoutNode boxLayoutNode = new SwingLayoutNode();
         boxLayoutNode.setLayout( new BoxLayout( boxLayoutNode.getContainer(), BoxLayout.Y_AXIS ) );
         boxLayoutNode.addChild( new PPath( new Rectangle2D.Double( 0, 0, 50, 50 ) ) );
@@ -251,8 +254,52 @@ public class SwingLayoutNode extends PNode {
         boxLayoutNode.setOffset( 300, 300 );
         rootNode.addChild( boxLayoutNode );
         
+        // 3x2 grid of values, shapes and labels (similar to a layout in acid-base-solutions)
+        SwingLayoutNode gridNode = new SwingLayoutNode( new GridBagLayout() );
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.insets = new Insets( 10, 10, 10, 10 );
+        constraints.gridy = 0; // row
+        constraints.gridx = 0; // column
+        constraints.anchor = GridBagConstraints.EAST; //TODO why isn't this anchor respected when dynamicNode is updated?
+        final PText dynamicNode = new PText("0"); // will be controlled by dynamicSlider
+        gridNode.addChild( dynamicNode, constraints );
+        constraints.gridy++;
+        gridNode.addChild( new PText("0"), constraints );
+        constraints.gridy = 0; // row
+        constraints.gridx++; // column
+        constraints.anchor = GridBagConstraints.CENTER;
+        PPath redCircle = new PPath( new Ellipse2D.Double( 0, 0, 25, 25 ));
+        redCircle.setPaint( Color.RED );
+        gridNode.addChild( redCircle, constraints );
+        constraints.gridy++;
+        PPath greenCircle = new PPath( new Ellipse2D.Double( 0, 0, 25, 25 ));
+        greenCircle.setPaint( Color.GREEN );
+        gridNode.addChild( greenCircle, constraints );
+        constraints.gridy = 0; // row
+        constraints.gridx++; // column
+        constraints.anchor = GridBagConstraints.WEST;
+        gridNode.addChild( new HTMLNode("<html>H<sub>2</sub>O</html>"), constraints );
+        constraints.gridy++;
+        gridNode.addChild( new HTMLNode("<html>H<sub>3</sub>O<sup>+</sup></html>"), constraints );
+        gridNode.scale( 2.0 );
+        gridNode.setOffset( 400, 50 );
+        rootNode.addChild( gridNode );
+        
+        JPanel controlPanel = new JPanel();
+        final JSlider dynamicSlider = new JSlider( 1, 1000000 ); // controls dynamicNode
+        dynamicSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                dynamicNode.setText( String.valueOf( dynamicSlider.getValue() ) );
+            }
+        });
+        controlPanel.add( dynamicSlider );
+        
+        JPanel appPanel = new JPanel( new BorderLayout() );
+        appPanel.add( canvas, BorderLayout.CENTER );
+        appPanel.add( controlPanel, BorderLayout.EAST );
+        
         JFrame frame = new JFrame();
-        frame.setContentPane( canvas );
+        frame.setContentPane( appPanel );
         frame.pack();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setVisible( true );
