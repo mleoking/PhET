@@ -36,7 +36,7 @@ public class SwingLayoutNode extends PNode {
 
     // By default, a node is put in the center of its allocated area.
     private static final NodeAnchorStrategy DEFAULT_ANCHORED_STRATEGY = new NodeAnchorStrategy.Center();
-
+    
     /**
      * Uses a default FlowLayout.
      */
@@ -58,19 +58,6 @@ public class SwingLayoutNode extends PNode {
             }
         };
         this.anchorStrategy = DEFAULT_ANCHORED_STRATEGY;
-    }
-
-    /**
-     * Sets the strategy used to anchor the node in the space provided by the layout manager.
-     * @param anchorStrategy
-     */
-    public void setAnchorStrategy( NodeAnchorStrategy anchorStrategy ) {
-        this.anchorStrategy = anchorStrategy;
-        updateLayout();
-    }
-    
-    public NodeAnchorStrategy getAnchorStrategey() {
-        return anchorStrategy;
     }
 
     /**
@@ -245,6 +232,24 @@ public class SwingLayoutNode extends PNode {
         }
     }
     
+    //TODO consider fleshing this out and making it public if needed in the future.
+    /*
+    * Determines where nodes are anchored in the area allocated by the Swing LayoutManager.
+    * Anchor names are similar to GridBagConstraint anchor values and have the same semantics.
+    * Used solely by SwingLayoutNode.
+    */
+    private interface NodeAnchorStrategy {
+        
+        void positionNode( PNode node, double x, double y, double w, double h );
+
+        public static class Center implements NodeAnchorStrategy {
+            public void positionNode( PNode node, double x, double y, double w, double h ) {
+                node.setOffset( x + ( w - node.getFullBoundsReference().getWidth() ) / 2, 
+                                y + ( h - node.getFullBoundsReference().getHeight() ) / 2 );
+            }
+        }
+    }
+    
     // test cases
     public static void main( String[] args ) {
 
@@ -296,7 +301,6 @@ public class SwingLayoutNode extends PNode {
         rootNode.addChild( horizontalLayoutNode );
 
         SwingLayoutNode boxLayoutNode = new SwingLayoutNode();
-        boxLayoutNode.setAnchorStrategy( new NodeAnchorStrategy.Northwest() );
         boxLayoutNode.setLayout( new BoxLayout( boxLayoutNode.getContainer(), BoxLayout.Y_AXIS ) );
         boxLayoutNode.addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 50, 50 ), Color.yellow, new BasicStroke( 2 ), Color.red ) );
         boxLayoutNode.addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 100, 50 ), Color.orange, new BasicStroke( 2 ), Color.blue ) );
