@@ -9,6 +9,7 @@ import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.model.Allele;
 import edu.colorado.phet.naturalselection.model.ColorGene;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -68,12 +69,12 @@ public class DisplayBunnyNode extends PNode {
         deadX.setStroke( new BasicStroke( 20 ) );
         deadX.setStrokePaint( Color.RED );
 
-        GeneralPath path = new GeneralPath();
+        DoubleGeneralPath path = new DoubleGeneralPath();
         path.moveTo( 0, 0 );
         path.lineTo( getBunnyWidth(), getBunnyHeight() );
         path.moveTo( getBunnyWidth(), 0 );
         path.lineTo( 0, getBunnyHeight() );
-        deadX.setPathTo( path );
+        deadX.setPathTo( path.getGeneralPath() );
     }
 
     //----------------------------------------------------------------------------
