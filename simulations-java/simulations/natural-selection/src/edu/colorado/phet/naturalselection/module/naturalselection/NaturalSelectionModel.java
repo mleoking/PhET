@@ -106,7 +106,7 @@ public class NaturalSelectionModel extends ClockAdapter {
     }
 
     private void nextGeneration() {
-        System.out.println( "Mating season, creating next generation" );
+        System.out.println( "***** Mating season, creating next generation" );
 
         generation++;
 
@@ -115,6 +115,10 @@ public class NaturalSelectionModel extends ClockAdapter {
         mateBunnies();
 
         notifyGenerationChange();
+
+        System.out.println( "***** End mating season, stats to follow:" );
+
+        System.out.println( "\tPopulation: " + getPopulation() );
     }
 
     private void mateBunnies() {

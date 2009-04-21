@@ -20,6 +20,7 @@ import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.naturalselection.developer.DeveloperMenu;
 import edu.colorado.phet.naturalselection.menu.OptionsMenu;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModule;
+import edu.colorado.phet.naturalselection.module.empty.EmptyModule;
 import edu.colorado.phet.naturalselection.persistence.ExampleConfig;
 import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
 
@@ -85,9 +86,8 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
         Module tempModule = new NaturalSelectionModule( parentFrame );
         addModule( tempModule );
 
-        // for now, have another module for this
         // TODO: remove that control-panel like thing on the right when there is only one module
-        addModule( new NaturalSelectionModule( parentFrame ) );
+        addModule( new EmptyModule( parentFrame ) );
 
 
     }
