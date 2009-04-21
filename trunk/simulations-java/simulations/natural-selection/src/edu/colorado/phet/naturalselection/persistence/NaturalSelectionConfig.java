@@ -12,6 +12,8 @@ import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
  */
 public class NaturalSelectionConfig implements IProguardKeepClass {
 
+    // TODO: persistence?
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
