@@ -1,10 +1,13 @@
 package edu.colorado.phet.acidbasesolutions.view;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Image;
-import java.awt.Insets;
+import java.awt.*;
 import java.text.NumberFormat;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSImages;
@@ -13,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.ConstantPowerOfTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FormattedNumberNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -39,6 +43,7 @@ public class MoleculeCountsNode extends PhetPNode {
     private final ValueNode countLHS, countRHS, countH3OPlus, countOHMinus, countH2O;
     private final IconNode iconLHS, iconRHS, iconH3OPlus, iconOHMinus, iconH2O;
     private final HTMLNode labelLHS, labelRHS, labelH3OPlus, labelOHMinus, labelH2O;
+    private final SwingLayoutNode layoutNode;
     
     public MoleculeCountsNode() {
         super();
@@ -59,32 +64,45 @@ public class MoleculeCountsNode extends PhetPNode {
         // icons
         iconLHS = new IconNode( ABSImages.HA_MOLECULE );
         iconRHS = new IconNode( ABSImages.OH_MINUS_MOLECULE );
-        iconH3OPlus = new IconNode( ABSImages.H3O_MOLECULE );
+        iconH3OPlus = new IconNode( ABSImages.H3O_PLUS_MOLECULE );
         iconOHMinus = new IconNode( ABSImages.OH_MINUS_MOLECULE );
         iconH2O = new IconNode( ABSImages.H2O_MOLECULE );
         
         // labels
-        labelLHS = new HTMLNode();
-        labelRHS = new HTMLNode();
+        labelLHS = new HTMLNode( "?" );
+        labelRHS = new HTMLNode( "?" );
         labelH3OPlus = new HTMLNode( HTMLUtils.toHTMLString( ABSSymbols.H3O_PLUS ) );
         labelOHMinus = new HTMLNode( HTMLUtils.toHTMLString( ABSSymbols.OH_MINUS ) );
         labelH2O = new HTMLNode( HTMLUtils.toHTMLString( ABSSymbols.H2O ) );
         
-        updateLayout();
-    }
-    
-    private void updateLayout() {
-        final int iconVerticalSpacing = 10;
-        final int iconHorizontalSpacing = 10;
-        // layout, origin at center of top-most icon
-        // icons
+        // layout in a grid
+        layoutNode = new SwingLayoutNode( new GridBagLayout() );
+        addChild( layoutNode );
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.insets = new Insets( 10, 10, 10, 10 );
+        constraints.gridy = 0; // row
+        constraints.gridx = 0; // column
+        constraints.anchor = GridBagConstraints.EAST;
+        PNode[] countNodes = { countLHS, countRHS, countH3OPlus, countOHMinus, countH2O };
+        for ( int i = 0; i < countNodes.length; i++ ) {
+            layoutNode.addChild( countNodes[i], constraints );
+            constraints.gridy++;
+        }
+        constraints.gridy = 0; // row
+        constraints.gridx++; // column
+        constraints.anchor = GridBagConstraints.CENTER;
         PNode[] iconNodes = { iconLHS, iconRHS, iconH3OPlus, iconOHMinus, iconH2O };
-        PNode previousNode = null;
         for ( int i = 0; i < iconNodes.length; i++ ) {
-            PNode currentNode = iconNodes[i];
-            double xOffset = -currentNode.getFullBoundsReference().getWidth() / 2;
-            double yOffset = ( previousNode == null ? 0 : previousNode.getFullBoundsReference().getMaxY() + iconVerticalSpacing );
-            currentNode.setOffset( xOffset, yOffset );
+            layoutNode.addChild( iconNodes[i], constraints );
+            constraints.gridy++;
+        }
+        constraints.gridy = 0; // row
+        constraints.gridx++; // column
+        constraints.anchor = GridBagConstraints.WEST;
+        PNode[] labelNodes = { labelLHS, labelRHS, labelH3OPlus, labelOHMinus, labelH2O };
+        for ( int i = 0; i < labelNodes.length; i++ ) {
+            layoutNode.addChild( labelNodes[i], constraints );
+            constraints.gridy++;
         }
     }
     
@@ -97,7 +115,6 @@ public class MoleculeCountsNode extends PhetPNode {
         iconLHS.setImage( image );
         iconLHS.setOffset( iconLHS.getFullBoundsReference().getWidth() / 2, 0 ); // center justified
         labelLHS.setHTML( HTMLUtils.toHTMLString( label ) );
-        updateLayout();
     }
     
     public void setRHS( double count, Image image, String label ) {
@@ -105,22 +122,26 @@ public class MoleculeCountsNode extends PhetPNode {
         iconRHS.setImage( image );
         iconRHS.setOffset( iconRHS.getFullBoundsReference().getWidth() / 2, 0 );// center justified
         labelRHS.setHTML( HTMLUtils.toHTMLString( label ) );
-        updateLayout();
+    }
+    
+    public void setLHS( double count ) {
+        countLHS.setValue( count );
+    }
+    
+    public void setRHS( double count ) {
+        countRHS.setValue( count );
     }
     
     public void setH3OPlus( double count ) {
         countH3OPlus.setValue( count );
-        updateLayout();
     }
     
     public void setOHMinus( double count ) {
         countOHMinus.setValue( count );
-        updateLayout();
     }
     
     public void setH2O( double count ) {
         countH2O.setValue( count );
-        updateLayout();
     }
     
     //----------------------------------------------------------------------------
@@ -135,7 +156,7 @@ public class MoleculeCountsNode extends PhetPNode {
             super();
             imageNode = new PImage( image );
             addChild( imageNode );
-            scale( 0.5 );//TODO scale image files
+            scale( 0.25 );//TODO scale image files
         }
         
         public void setImage( Image image ) {
@@ -163,5 +184,35 @@ public class MoleculeCountsNode extends PhetPNode {
         public void setValue( double value ) {
             _numberNode.setValue( value );
         }
+    }
+    
+    public static void main( String[] args ) {
+        
+            Dimension canvasSize = new Dimension( 800, 600 );
+            PhetPCanvas canvas = new PhetPCanvas( canvasSize );
+            canvas.setPreferredSize( canvasSize );
+            
+            final MoleculeCountsNode node = new MoleculeCountsNode();
+            canvas.getLayer().addChild( node );
+            node.setOffset( 100, 100 );
+            
+            JPanel controlPanel = new JPanel();
+            final JSlider slider = new JSlider( 0, 100000 );
+            slider.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    node.setLHS( slider.getValue() );
+                }
+            });
+            controlPanel.add( slider );
+            
+            JPanel panel = new JPanel( new BorderLayout() );
+            panel.add( canvas, BorderLayout.CENTER );
+            panel.add( controlPanel, BorderLayout.EAST );
+            
+            JFrame frame = new JFrame();
+            frame.setContentPane( panel );
+            frame.pack();
+            frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+            frame.setVisible( true );
     }
 }
