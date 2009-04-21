@@ -59,10 +59,10 @@ public class PopulationCanvas extends PhetPCanvas implements NaturalSelectionMod
         populationGraphNode.reset();
     }
 
-    
+
     /*
-     * Event handlers
-     */
+    * Event handlers
+    */
 
     public void onMonthChange( String monthName ) {
 

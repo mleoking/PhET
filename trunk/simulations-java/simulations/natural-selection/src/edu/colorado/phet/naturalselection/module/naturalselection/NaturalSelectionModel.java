@@ -5,8 +5,8 @@ import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.naturalselection.model.*;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
+import edu.colorado.phet.naturalselection.model.*;
 
 public class NaturalSelectionModel extends ClockAdapter {
 
@@ -30,7 +30,7 @@ public class NaturalSelectionModel extends ClockAdapter {
     private double lastMonthTick = 0;
 
     private int currentMonth = 0;
-    private static String[] monthNames = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+    public static final String[] MONTH_NAMES = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
     private int generation = 0;
 
@@ -73,7 +73,7 @@ public class NaturalSelectionModel extends ClockAdapter {
         TailGene.getInstance().reset();
         TeethGene.getInstance().reset();
 
-        if( NaturalSelectionDefaults.DEFAULT_NUMBER_OF_BUNNIES != 2 ) {
+        if ( NaturalSelectionDefaults.DEFAULT_NUMBER_OF_BUNNIES != 2 ) {
             throw new RuntimeException( "Number of starting bunnies must be 2, or this part should be changed" );
         }
 
@@ -182,7 +182,7 @@ public class NaturalSelectionModel extends ClockAdapter {
     }
 
     public String getCurrentMonth() {
-        return monthNames[currentMonth];
+        return MONTH_NAMES[currentMonth];
     }
 
     public ArrayList getBunnyList() {
@@ -247,7 +247,7 @@ public class NaturalSelectionModel extends ClockAdapter {
     private void notifyMonthChange() {
         Iterator iter = listeners.iterator();
         while ( iter.hasNext() ) {
-            ( (NaturalSelectionModelListener) iter.next() ).onMonthChange( monthNames[currentMonth] );
+            ( (NaturalSelectionModelListener) iter.next() ).onMonthChange( MONTH_NAMES[currentMonth] );
         }
     }
 
