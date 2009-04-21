@@ -1,3 +1,5 @@
+# 2.00.00 (30671) Apr 21, 2009
+4/21/09 Batch deploy as part of IOM milestone with revision 30670
 # 1.00.08 (30070) Mar 30, 2009
 3/30/09 Test for manual update behavior
 # 1.00.07 (29796) Mar 24, 2009
