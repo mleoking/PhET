@@ -11,6 +11,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
+import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 
 /**
  * Dialog that displays a summary of the generations (either through a genetic hierarchy or grouping of generations)
@@ -32,7 +33,7 @@ public class GenerationChartDialog extends JDialog {
     public GenerationChartDialog( Frame frame, NaturalSelectionModel model ) {
         super( frame );
 
-        setTitle( "Generation Chart" );
+        setTitle( NaturalSelectionStrings.GENERATION_CHART );
 
         // TODO: if we keep the radio buttons, improve the layout.
         VerticalLayoutPanel contentPanel = new VerticalLayoutPanel();
@@ -60,8 +61,8 @@ public class GenerationChartDialog extends JDialog {
     public JPanel createTypePanel() {
         JPanel panel = new JPanel();
 
-        heredityButton = new JRadioButton( "Heredity" );
-        generationButton = new JRadioButton( "Generation" );
+        heredityButton = new JRadioButton( NaturalSelectionStrings.HEREDITY );
+        generationButton = new JRadioButton( NaturalSelectionStrings.GENERATION );
 
         selectGenerationChart();
 

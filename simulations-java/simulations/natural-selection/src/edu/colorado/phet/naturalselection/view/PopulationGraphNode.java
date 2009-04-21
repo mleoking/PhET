@@ -7,6 +7,7 @@ import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
+import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -61,7 +62,7 @@ public class PopulationGraphNode extends PNode {
     public PopulationGraphNode( int startPopulation ) {
         axis = new PPath();
         bar = new PPath();
-        label = new PText( "# Rabbits" );
+        label = new PText( NaturalSelectionStrings.NUMBER_OF_RABBITS );
         quantity = new PText();
 
         updatePopulation( startPopulation );

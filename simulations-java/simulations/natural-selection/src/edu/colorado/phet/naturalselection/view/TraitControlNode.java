@@ -16,6 +16,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
+import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.model.GeneListener;
 import edu.colorado.phet.naturalselection.util.ImagePanel;
 import edu.umd.cs.piccolo.PNode;
@@ -82,7 +83,7 @@ public abstract class TraitControlNode extends PNode implements ActionListener, 
         }
         else {
             // has not been shown before, so we must create the nodes, etc.
-            addMutationButton = new JButton( "Add Mutation", new ImageIcon( image ) );
+            addMutationButton = new JButton( NaturalSelectionStrings.ADD_MUTATION, new ImageIcon( image ) );
             addMutationButton.addActionListener( this );
             addMutationButtonHolder = new PSwing( addMutationButton );
             addChild( addMutationButtonHolder );
@@ -107,8 +108,8 @@ public abstract class TraitControlNode extends PNode implements ActionListener, 
 
         notifyAddMutation();
 
-        JLabel dominantLabel = new JLabel( "<html><center>Dominant<br>trait</center></html>" );
-        JLabel percentLabel = new JLabel( "<html><center>% with<br>trait</center></html>" );
+        JLabel dominantLabel = new JLabel( "<html><center>" + NaturalSelectionStrings.DOMINANT_TRAIT + "</center></html>" );
+        JLabel percentLabel = new JLabel( "<html><center>" + NaturalSelectionStrings.PERCENT_WITH_TRAIT + "</center></html>" );
 
         JPanel optionOne = new JPanel();
         optionOne.setBackground( NaturalSelectionConstants.COLOR_MUTATION_PANEL );
