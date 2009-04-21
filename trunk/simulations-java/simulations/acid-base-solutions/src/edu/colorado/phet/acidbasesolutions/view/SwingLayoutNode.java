@@ -8,6 +8,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -35,7 +38,7 @@ public class SwingLayoutNode extends PNode {
     private NodeAnchorStrategy anchorStrategy;
 
     // By default, a node is put in the center of its allocated area.
-    private static final NodeAnchorStrategy DEFAULT_ANCHORED_STRATEGY = new NodeAnchorStrategy.Center();
+    private static final NodeAnchorStrategy DEFAULT_ANCHORED_STRATEGY = new NodeAnchorStrategy.West();
     
     /**
      * Uses a default FlowLayout.
@@ -242,10 +245,13 @@ public class SwingLayoutNode extends PNode {
         
         void positionNode( PNode node, double x, double y, double w, double h );
 
-        public static class Center implements NodeAnchorStrategy {
+        // West is the anchor policy that provides behavior similar to Swing layout managers.
+        // BorderLayout, BoxLayout, FlowLayout match this behavior.
+        // GridBagLayout has its own mechanism (GridBagConstraints) for specifying anchors.
+        // Did not compare to GridLayout, GroupLayout, SpringLayout.
+        public static class West implements NodeAnchorStrategy {
             public void positionNode( PNode node, double x, double y, double w, double h ) {
-                node.setOffset( x + ( w - node.getFullBoundsReference().getWidth() ) / 2, 
-                                y + ( h - node.getFullBoundsReference().getHeight() ) / 2 );
+                node.setOffset( x, y + ( h - node.getFullBoundsReference().getHeight() ) / 2 );
             }
         }
     }
@@ -273,11 +279,11 @@ public class SwingLayoutNode extends PNode {
         borderLayout.setHgap( 10 );
         borderLayout.setVgap( 5 );
         SwingLayoutNode borderLayoutNode = new SwingLayoutNode( borderLayout );
+        borderLayoutNode.addChild( new PText( "North" ), BorderLayout.NORTH );
+        borderLayoutNode.addChild( new PText( "South" ), BorderLayout.SOUTH );
+        borderLayoutNode.addChild( new PText( "East" ), BorderLayout.EAST );
         borderLayoutNode.addChild( new PText( "West" ), BorderLayout.WEST );
         borderLayoutNode.addChild( new PText( "CENTER" ), BorderLayout.CENTER );
-        borderLayoutNode.addChild( new PText( "South" ), BorderLayout.SOUTH );
-        borderLayoutNode.addChild( new PText( "North" ), BorderLayout.NORTH );
-        borderLayoutNode.addChild( new PText( "East" ), BorderLayout.EAST );
         borderLayoutNode.setOffset( 100, 100 );
         rootNode.addChild( borderLayoutNode );
 
@@ -352,6 +358,7 @@ public class SwingLayoutNode extends PNode {
         rootNode.addChild( gridNode );
 
         JPanel controlPanel = new JPanel();
+        controlPanel.setLayout( new BoxLayout( controlPanel, BoxLayout.Y_AXIS ) );
         final JSlider dynamicSlider = new JSlider( 0, 1000000 ); // controls dynamicNode
         dynamicSlider.setMajorTickSpacing( 1000000 );
         dynamicSlider.setPaintTicks( true );
@@ -363,7 +370,7 @@ public class SwingLayoutNode extends PNode {
             }
         } );
         controlPanel.add( dynamicSlider );
-
+        
         JPanel appPanel = new JPanel( new BorderLayout() );
         appPanel.add( canvas, BorderLayout.CENTER );
         appPanel.add( controlPanel, BorderLayout.EAST );
@@ -373,5 +380,41 @@ public class SwingLayoutNode extends PNode {
         frame.pack();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setVisible( true );
+        
+        /*--- pure Swing layouts, for comparison of anchor behavior ---*/
+        
+        BorderLayout layout1 = new BorderLayout();
+        layout1.setHgap( 10 );
+        layout1.setVgap( 5 );
+        JPanel panel1 = new JPanel( layout1 );
+        panel1.setBorder( new CompoundBorder( new EmptyBorder( 10, 10, 10, 10 ), new LineBorder( Color.BLACK ) ) );
+        panel1.add( new JLabel( "North" ), BorderLayout.NORTH );
+        panel1.add( new JLabel( "South" ), BorderLayout.PAGE_END );
+        panel1.add( new JLabel( "East" ), BorderLayout.EAST );
+        panel1.add( new JLabel( "West" ), BorderLayout.WEST );
+        panel1.add( new JLabel( "CENTER" ), BorderLayout.CENTER );
+        JFrame frame1 = new JFrame( "BorderLayout" );
+        frame1.setContentPane( panel1 );
+        frame1.pack();
+        frame1.setVisible( true );
+        
+        JPanel panel2 = new JPanel();
+        panel2.setLayout( new BoxLayout( panel2, BoxLayout.Y_AXIS ) );
+        panel2.add( new JLabel( "xxxxxxxxxxxx" ) );
+        panel2.add( new JLabel( "y" ) );
+        JFrame frame2 = new JFrame( "BoxLayout" );
+        frame2.setContentPane( panel2 );
+        frame2.pack();
+        frame2.setVisible( true );
+        
+        JPanel panel3 = new JPanel( new FlowLayout() );
+        panel3.add( new JLabel( "left" ) );
+        JLabel label1 = new JLabel( "right" );
+        label1.setFont( new Font( "Lucida Sans", Font.PLAIN, 48 ) );
+        panel3.add( label1 );
+        JFrame frame3 = new JFrame( "FlowLayout" );
+        frame3.setContentPane( panel3 );
+        frame3.pack();
+        frame3.setVisible( true );
     }
 }
