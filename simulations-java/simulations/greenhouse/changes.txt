@@ -1,3 +1,5 @@
+# 2.06.00 (30610) Apr 20, 2009
+4/20/09 Batch deploy as part of IOM milestone with revision 30609
 # 2.05.04 (30212) Apr 2, 2009
 4/2/09 >Added a slider that allows the user to control the speed of the photons.
 # 2.05.03 (30172) Apr 1, 2009
