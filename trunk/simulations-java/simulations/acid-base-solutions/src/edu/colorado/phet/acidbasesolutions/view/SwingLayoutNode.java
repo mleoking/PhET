@@ -256,8 +256,18 @@ public class SwingLayoutNode extends PNode {
         Dimension canvasSize = new Dimension( 800, 600 );
         PhetPCanvas canvas = new PhetPCanvas( canvasSize );
         canvas.setPreferredSize( canvasSize );
+        
         PNode rootNode = new PNode();
         canvas.addWorldChild( rootNode );
+        rootNode.addInputEventListener( new PBasicInputEventHandler() {
+            // Shift+Drag up/down will scale the node up/down
+            public void mouseDragged( PInputEvent event ) {
+                super.mouseDragged( event );
+                if ( event.isShiftDown() ) {
+                    event.getPickedNode().scale( event.getCanvasDelta().height > 0 ? 0.98 : 1.02 );
+                }
+            }
+        } );
 
         BorderLayout borderLayout = new BorderLayout();
         borderLayout.setHgap( 10 );
@@ -353,17 +363,6 @@ public class SwingLayoutNode extends PNode {
             }
         } );
         controlPanel.add( dynamicSlider );
-
-        //Shift+Drag right/left will scale the node up/down
-        rootNode.addInputEventListener( new PBasicInputEventHandler() {
-
-            public void mouseDragged( PInputEvent event ) {
-                super.mouseDragged( event );
-                if ( event.isShiftDown() ) {
-                    event.getPickedNode().scale( event.getCanvasDelta().width > 0 ? 1.02 : 0.98 );
-                }
-            }
-        } );
 
         JPanel appPanel = new JPanel( new BorderLayout() );
         appPanel.add( canvas, BorderLayout.CENTER );
