@@ -25,6 +25,7 @@ public class GenerationChartDialog extends JDialog {
 
     /**
      * Constructor
+     *
      * @param frame Parent frame, which should be the simulation frame
      * @param model The natural selection model
      */
@@ -53,6 +54,7 @@ public class GenerationChartDialog extends JDialog {
 
     /**
      * Creates a panel that allows the user to select what type of generation chart they want to see.
+     *
      * @return The created panel
      */
     public JPanel createTypePanel() {
@@ -60,7 +62,7 @@ public class GenerationChartDialog extends JDialog {
 
         heredityButton = new JRadioButton( "Heredity" );
         generationButton = new JRadioButton( "Generation" );
-        
+
         selectGenerationChart();
 
 

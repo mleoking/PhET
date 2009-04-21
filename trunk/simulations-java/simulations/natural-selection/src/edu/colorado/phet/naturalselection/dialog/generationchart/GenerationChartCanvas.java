@@ -29,6 +29,7 @@ public class GenerationChartCanvas extends PhetPCanvas {
 
     /**
      * Constructor
+     *
      * @param model The natural selection model
      */
     public GenerationChartCanvas( NaturalSelectionModel model ) {
@@ -44,7 +45,7 @@ public class GenerationChartCanvas extends PhetPCanvas {
         addWorldChild( rootNode );
 
         // add both of the charts
-        
+
         heredityChartNode = new HeredityChartNode( model );
         generationChartNode = new GenerationChartNode( model );
 
@@ -64,6 +65,7 @@ public class GenerationChartCanvas extends PhetPCanvas {
 
     /**
      * Change the type of chart being viewed
+     *
      * @param chartType The type of chart, for now either TYPE_HEREDITY or TYPE_GENERATION
      */
     public void select( int chartType ) {
