@@ -6,6 +6,9 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
+import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayControl;
 
 /**
  * This class contains much of the behavior that is common to all nuclei that
@@ -13,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
  * 
  * @author John Blanco
  */
-public abstract class AbstractAlphaDecayNucleus extends AtomicNucleus implements AlphaDecayControl {
+public abstract class AbstractAlphaDecayNucleus extends AtomicNucleus implements NuclearDecayControl {
 
 	protected double _decayTime = 0;
 	protected double _activatedLifetime = 0;

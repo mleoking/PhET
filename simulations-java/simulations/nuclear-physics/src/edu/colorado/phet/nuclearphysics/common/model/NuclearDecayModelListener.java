@@ -1,4 +1,4 @@
-package edu.colorado.phet.nuclearphysics.model;
+package edu.colorado.phet.nuclearphysics.common.model;
 
 /**
  * This listener interface allows listeners to get notifications for various

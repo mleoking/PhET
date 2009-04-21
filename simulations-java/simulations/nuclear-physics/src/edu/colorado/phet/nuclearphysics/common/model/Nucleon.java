@@ -1,10 +1,12 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.nuclearphysics.model;
+package edu.colorado.phet.nuclearphysics.common.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
+
+import edu.colorado.phet.nuclearphysics.model.AtomicNucleusConstituent;
 
 /**
  * Class the implements the behavior of nucleon (i.e. proton and neutron)

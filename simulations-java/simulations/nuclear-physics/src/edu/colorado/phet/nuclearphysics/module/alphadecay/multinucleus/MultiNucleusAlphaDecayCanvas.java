@@ -21,12 +21,12 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayControl;
 import edu.colorado.phet.nuclearphysics.model.AbstractAlphaDecayNucleus;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
-import edu.colorado.phet.nuclearphysics.model.AlphaDecayControl;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
-import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
 import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
 import edu.colorado.phet.nuclearphysics.view.AtomicNucleusNode;
@@ -379,8 +379,8 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
             AtomicNucleus nucleus = (AtomicNucleus)entry.getKey();
             nucleus.reset();
             if (!_bucketNode.isNodeInBucket((AtomicNucleusNode)_mapNucleiToNodes.get(nucleus))){
-            	if (nucleus instanceof AlphaDecayControl){
-            		((AlphaDecayControl) nucleus).activateDecay();
+            	if (nucleus instanceof NuclearDecayControl){
+            		((NuclearDecayControl) nucleus).activateDecay();
             	}
             }
         }
@@ -478,7 +478,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
 	    		}
 	    		else{
 		    		// Cause this node to start moving towards fissioning.
-		    		((AlphaDecayControl)nucleus).activateDecay();
+		    		((NuclearDecayControl)nucleus).activateDecay();
 	    		}
 	    	}
     	}
@@ -574,8 +574,8 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     			
     			// Activate the nucleus so that it will decay.
     			AtomicNucleus nucleus = nucleusNode.getNucleusRef();
-    			if (nucleus instanceof AlphaDecayControl){
-    				((AlphaDecayControl)nucleus).activateDecay();
+    			if (nucleus instanceof NuclearDecayControl){
+    				((NuclearDecayControl)nucleus).activateDecay();
     			}
     		}
     	}

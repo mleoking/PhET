@@ -1,5 +1,7 @@
 package edu.colorado.phet.nuclearphysics.model;
 
+import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayModelListener;
+
 /**
  * Adapter pattern for the AlphaDecayListener.
  * 

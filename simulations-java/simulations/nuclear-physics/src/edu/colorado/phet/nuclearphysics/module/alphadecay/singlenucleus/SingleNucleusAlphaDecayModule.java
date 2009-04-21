@@ -6,8 +6,8 @@ import java.awt.Frame;
 
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.defaults.SingleNucleusAlphaDecayDefaults;
-import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.AlphaDecayControlPanel;
 
 /**

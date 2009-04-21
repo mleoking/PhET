@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.nuclearphysics.defaults;
 
-import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsClock;
+import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 
 
 public class FissionOneNucleusDefaults {

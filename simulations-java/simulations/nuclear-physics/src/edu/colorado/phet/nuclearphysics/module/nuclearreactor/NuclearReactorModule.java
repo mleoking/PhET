@@ -6,10 +6,10 @@ import java.awt.Frame;
 
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.control.NuclearPhysicsClockControlPanel;
 import edu.colorado.phet.nuclearphysics.defaults.ChainReactionDefaults;
 import edu.colorado.phet.nuclearphysics.defaults.NuclearReactorDefaults;
-import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsClock;
 
 
 /**

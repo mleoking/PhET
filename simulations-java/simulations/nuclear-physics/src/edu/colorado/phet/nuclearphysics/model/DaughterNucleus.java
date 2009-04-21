@@ -4,6 +4,9 @@ package edu.colorado.phet.nuclearphysics.model;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
+import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
+
 /**
  * This class represents a model element that is generally the product
  * of a fission reaction.  This is a non-composite nucleus, meaning that it

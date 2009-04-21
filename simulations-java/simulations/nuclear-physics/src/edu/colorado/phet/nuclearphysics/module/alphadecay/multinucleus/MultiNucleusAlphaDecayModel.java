@@ -11,13 +11,13 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
+import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
+import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayControl;
+import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayModelListener;
 import edu.colorado.phet.nuclearphysics.model.AbstractAlphaDecayNucleus;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
-import edu.colorado.phet.nuclearphysics.model.AlphaDecayControl;
-import edu.colorado.phet.nuclearphysics.model.NuclearDecayModelListener;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
-import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
-import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.NucleusTypeControl;
 
@@ -185,8 +185,8 @@ public class MultiNucleusAlphaDecayModel implements NucleusTypeControl {
 		// the same in terms of half life.
 		AtomicNucleus nucleus = _atomicNuclei[0];
 		
-		if (nucleus instanceof AlphaDecayControl){
-			halfLife = ((AlphaDecayControl)nucleus).getHalfLife();
+		if (nucleus instanceof NuclearDecayControl){
+			halfLife = ((NuclearDecayControl)nucleus).getHalfLife();
 		}
 		
 		return halfLife;

@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.nuclearphysics.model.Nucleon;
+import edu.colorado.phet.nuclearphysics.common.model.Nucleon;
 
 /**
  * This class represents the position and behavior of the control rods within

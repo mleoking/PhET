@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 
 /**
  * Base class for composite nuclei (i.e. nuclei that are made up of lots of

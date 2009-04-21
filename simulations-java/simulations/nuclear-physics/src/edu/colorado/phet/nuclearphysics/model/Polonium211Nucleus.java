@@ -8,6 +8,7 @@ import java.util.Random;
 import javax.swing.JFrame;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.view.AtomicNucleusNode;
 
 /**

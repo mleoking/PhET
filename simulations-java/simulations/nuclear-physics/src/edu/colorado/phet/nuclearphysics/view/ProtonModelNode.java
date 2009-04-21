@@ -4,7 +4,7 @@ package edu.colorado.phet.nuclearphysics.view;
 
 
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
-import edu.colorado.phet.nuclearphysics.model.Nucleon;
+import edu.colorado.phet.nuclearphysics.common.model.Nucleon;
 
 
 /**

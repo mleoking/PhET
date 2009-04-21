@@ -4,6 +4,8 @@ package edu.colorado.phet.nuclearphysics.model;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
+
 
 /**
  * This class defines the behavior of the nucleus of Polonium 211, which

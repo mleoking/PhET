@@ -1,4 +1,5 @@
-package edu.colorado.phet.nuclearphysics.model;
+package edu.colorado.phet.nuclearphysics.common.model;
+
 
 
 public class Neutron extends Nucleon {
