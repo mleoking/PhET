@@ -189,10 +189,16 @@ public class SwingLayoutNode extends PNode {
         public NodeComponent( PNode node ) {
             this.node = node;
         }
+
+        private int round(double val){
+            return (int) Math.ceil( val );
+        }
         
         public Dimension getPreferredSize() {
-            //TODO: round up dimensions instead of rounding down
-            return new Dimension( (int) node.getFullBoundsReference().getWidth(), (int) node.getFullBoundsReference().getHeight() );
+            //round up fractional part instead of rounding down; better to include the whole node than to chop off part
+            double w=node.getFullBoundsReference().getWidth();
+            double h=node.getFullBoundsReference().getHeight();
+            return new Dimension( round(w), round(h) );
         }
 
         /**
