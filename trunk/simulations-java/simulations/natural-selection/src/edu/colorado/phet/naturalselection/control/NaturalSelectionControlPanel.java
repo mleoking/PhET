@@ -3,8 +3,6 @@
 package edu.colorado.phet.naturalselection.control;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
@@ -164,11 +162,14 @@ public class NaturalSelectionControlPanel extends JPanel {
         int selection = NaturalSelectionDefaults.DEFAULT_SELECTION_FACTOR;
         switch( selection ) {
             case NaturalSelectionModel.SELECTION_NONE:
-                noneButton.setSelected( true ); break;
+                noneButton.setSelected( true );
+                break;
             case NaturalSelectionModel.SELECTION_FOOD:
-                foodButton.setSelected( true ); break;
+                foodButton.setSelected( true );
+                break;
             case NaturalSelectionModel.SELECTION_WOLVES:
-                wolvesButton.setSelected( true ); break;
+                wolvesButton.setSelected( true );
+                break;
         }
     }
 
