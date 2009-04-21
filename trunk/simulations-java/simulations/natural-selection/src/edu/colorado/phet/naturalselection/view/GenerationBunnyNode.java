@@ -5,10 +5,22 @@ package edu.colorado.phet.naturalselection.view;
 import edu.colorado.phet.naturalselection.model.Allele;
 import edu.colorado.phet.naturalselection.model.Bunny;
 
+/**
+ * Bunny visual used in the generation charts. Essentially adds bunny listening capabilities
+ *
+ * @author Jonathan Olson
+ */
 public class GenerationBunnyNode extends DisplayBunnyNode implements Bunny.BunnyListener {
 
+    /**
+     * Bunny reference
+     */
     private Bunny myBunny;
 
+    /**
+     * Constructor
+     * @param bunny The bunny we are referencing
+     */
     public GenerationBunnyNode( Bunny bunny ) {
         super( bunny.getColorGenotype().getPhenotype(), bunny.getTeethGenotype().getPhenotype(), bunny.getTailGenotype().getPhenotype() );
         myBunny = bunny;
@@ -23,6 +35,10 @@ public class GenerationBunnyNode extends DisplayBunnyNode implements Bunny.Bunny
     public void cleanup() {
         myBunny.removeListener( this );
     }
+
+    //----------------------------------------------------------------------------
+    // Event handlers
+    //----------------------------------------------------------------------------
 
     public void onBunnyInit( Bunny bunny ) {
 

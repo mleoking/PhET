@@ -15,6 +15,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * Piccolo node that displays a bunny with various traits (or a red X if dead)
+ *
+ * @author Jonathan Olson
  */
 public class DisplayBunnyNode extends PNode {
 

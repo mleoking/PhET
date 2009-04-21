@@ -9,6 +9,8 @@ import edu.colorado.phet.naturalselection.model.Bunny;
 
 /**
  * The piccolo node for bunnies in the main simulation canvas
+ *
+ * @author Jonathan Olson
  */
 public class BunnyNode extends NaturalSelectionSprite implements Bunny.BunnyListener {
 
