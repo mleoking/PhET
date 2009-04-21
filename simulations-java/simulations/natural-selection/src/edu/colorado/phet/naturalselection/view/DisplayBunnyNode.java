@@ -6,39 +6,59 @@ import java.awt.*;
 import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
+import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.model.Allele;
 import edu.colorado.phet.naturalselection.model.ColorGene;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 
+/**
+ * Piccolo node that displays a bunny with various traits (or a red X if dead)
+ */
 public class DisplayBunnyNode extends PNode {
 
+    // images
     private PImage whiteImage;
     private PImage brownImage;
+
+    // red X
     private PPath deadX;
 
+    // alleles
     private Allele color;
     private Allele teeth;
     private Allele tail;
 
+    // whether dead or alive
     private boolean dead;
 
+    /**
+     * Constructor
+     * @param color Color allele
+     * @param teeth Teeth allele
+     * @param tail Tail allele
+     */
     public DisplayBunnyNode( Allele color, Allele teeth, Allele tail ) {
-        whiteImage = NaturalSelectionResources.getImageNode( "bunny_2_white.png" );
-        brownImage = NaturalSelectionResources.getImageNode( "bunny_2_brown.png" );
+        whiteImage = NaturalSelectionResources.getImageNode( NaturalSelectionConstants.IMAGE_DISPLAY_BUNNY_WHITE );
+        brownImage = NaturalSelectionResources.getImageNode( NaturalSelectionConstants.IMAGE_DISPLAY_BUNNY_BROWN );
         initDeadX();
 
+        // add children
         addChild( whiteImage );
         addChild( brownImage );
         addChild( deadX );
 
+        // set up the bunny
         setColor( color );
         setTeeth( teeth );
         setTail( tail );
         setDead( false );
     }
 
+    /**
+     * Draw the red X
+     */
     private void initDeadX() {
         deadX = new PPath();
 
@@ -52,6 +72,10 @@ public class DisplayBunnyNode extends PNode {
         path.lineTo( 0, getBunnyHeight() );
         deadX.setPathTo( path );
     }
+
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
 
     public void setDead( boolean dead ) {
         this.dead = dead;
