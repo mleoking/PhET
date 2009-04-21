@@ -2,9 +2,9 @@ package edu.colorado.phet.nuclearphysics.model;
 
 /**
  * This listener interface allows listeners to get notifications for various
- * events that could come from a model that is simulating alpha decay.
+ * events that could come from a model that is simulating nuclear decay.
  */
-public interface AlphaDecayModelListener {
+public interface NuclearDecayModelListener {
 	
     /**
      * This informs the listener that some new element has been added

@@ -1,17 +1,15 @@
 package edu.colorado.phet.nuclearphysics.module.alphadecay;
 
-import edu.colorado.phet.nuclearphysics.model.AlphaDecayModelListener;
+import edu.colorado.phet.nuclearphysics.model.NuclearDecayModelListener;
 
 /**
  * This interface is used, generally by a control panel, to set the type of
- * atomic nucleus being used by the model portion of a simulation.  It also
- * includes a query that is used by the control panel to make decisions about
- * its appearance based on the chart types being displayed.
+ * atomic nucleus being simulated.
  * 
  * @author John Blanco
  *
  */
-public interface AlphaDecayNucleusTypeControl {
+public interface NucleusTypeControl {
 
 	/**
 	 * Set the type of nucleus.
@@ -32,5 +30,5 @@ public interface AlphaDecayNucleusTypeControl {
 	 * Register to be informed of changes to the nucleus type (as well as
 	 * other nucleus events).
 	 */
-	public void addListener(AlphaDecayModelListener listener);
+	public void addListener(NuclearDecayModelListener listener);
 }
