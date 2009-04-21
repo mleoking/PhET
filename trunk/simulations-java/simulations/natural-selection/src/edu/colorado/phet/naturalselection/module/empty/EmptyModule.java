@@ -9,6 +9,11 @@ import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionClock;
 
+/**
+ * A quick and dirty emply module for development purposes
+ *
+ * @author Jonathan Olson
+ */
 public class EmptyModule extends PiccoloModule {
 
     public EmptyModule( Frame parentFrame ) {

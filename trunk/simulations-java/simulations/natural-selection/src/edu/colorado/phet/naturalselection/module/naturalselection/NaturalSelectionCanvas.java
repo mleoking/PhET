@@ -11,21 +11,41 @@ import edu.colorado.phet.naturalselection.view.NaturalSelectionBackgroundNode;
 import edu.colorado.phet.naturalselection.view.SpritesNode;
 import edu.umd.cs.piccolo.PNode;
 
+/**
+ * Holds the main simulation area's canvas.
+ *
+ * @author Jonathan Olson
+ */
 public class NaturalSelectionCanvas extends PhetPCanvas {
 
+    /**
+     * The pixel-level from the top of the "horizon", where the 3d bunny positions would appear if inifinitely far away
+     */
     public static final double HORIZON = 120.0;
 
     private NaturalSelectionModel model;
 
     private PNode rootNode;
+
+    /**
+     * Holds the piccolo node that has all of the sprites (bunnies, trees, shrubs, wolves, etc.)
+     */
     public SpritesNode bunnies;
+
+    /**
+     * The background node (background images, part of the environment)
+     */
     public NaturalSelectionBackgroundNode backgroundNode;
 
-    public NaturalSelectionCanvas( NaturalSelectionModel _model ) {
+    /**
+     * Constructor
+     * @param model The natural selection model
+     */
+    public NaturalSelectionCanvas( NaturalSelectionModel model ) {
 
         super( NaturalSelectionDefaults.VIEW_SIZE );
 
-        model = _model;
+        this.model = model;
 
         setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         setBorder( null );
@@ -33,7 +53,7 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
         rootNode = new PNode();
         addWorldChild( rootNode );
 
-        backgroundNode = new NaturalSelectionBackgroundNode( model.getClimate() );
+        backgroundNode = new NaturalSelectionBackgroundNode( this.model.getClimate() );
         rootNode.addChild( backgroundNode );
 
         bunnies = new SpritesNode();
