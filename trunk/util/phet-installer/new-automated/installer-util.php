@@ -210,14 +210,39 @@
         // Note: This invokes an existing shell script.  At some point, it may
         // make sense to incorporate the functionality of this script into the
         // PHP code.
-        exec(DEPLOY_DIR."create-backup.sh");
+        exec( DEPLOY_DIR."create-backup.sh", $output, $return );
+        flushing_echo( $output[1] );
+        if ( $return == 0 ){
+            flushing_echo( "Backup of previous installers succeeded." );
+        }
+        else{
+            flushing_echo( "WARNING: Backup of previous installers failed." );
+        }
 
         // Copy the files to the distribution directory.
-        if ( copy( OUTPUT_DIR.'*Installer*', DEPLOY_DIR ) ){
-            flushing_echo( "Installers successfully copyed to: ".DEPLOY_DIR );
+        if ( copy( OUTPUT_DIR.LINUX_INSTALLER_FILE_NAME, DEPLOY_DIR.LINUX_INSTALLER_FILE_NAME ) ){
+            flushing_echo( "Linux installer successfully copied to: ".DEPLOY_DIR );
         }
         else {
-            flushing_echo( "Error: Unable to successfully copy installers to: ".DEPLOY_DIR );
+            flushing_echo( "Error: Unable to successfully copy linux installer to: ".DEPLOY_DIR );
+        }
+        if ( copy( OUTPUT_DIR.WINDOWS_INSTALLER_FILE_NAME, DEPLOY_DIR.WINDOWS_INSTALLER_FILE_NAME) ){
+            flushing_echo( "Windows installer successfully copied to: ".DEPLOY_DIR );
+        }
+        else {
+            flushing_echo( "Error: Unable to successfully copy windows installer to: ".DEPLOY_DIR );
+        }
+        if ( copy( OUTPUT_DIR.OSX_INSTALLER_FILE_NAME, DEPLOY_DIR.OSX_INSTALLER_FILE_NAME ) ){
+            flushing_echo( "OSX installer successfully copied to: ".DEPLOY_DIR );
+        }
+        else {
+            flushing_echo( "Error: Unable to successfully copy OSX installer to: ".DEPLOY_DIR );
+        }
+        if ( copy( OUTPUT_DIR.CD_ROM_INSTALLER_FILE_NAME, DEPLOY_DIR.CD_ROM_INSTALLER_FILE_NAME ) ){
+            flushing_echo( "CD ROM installer successfully copied to: ".DEPLOY_DIR );
+        }
+        else {
+            flushing_echo( "Error: Unable to successfully copy CD ROM installer to: ".DEPLOY_DIR );
         }
     }
 
