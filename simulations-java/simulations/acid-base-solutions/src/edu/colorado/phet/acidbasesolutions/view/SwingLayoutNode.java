@@ -162,6 +162,9 @@ public class SwingLayoutNode extends PNode {
                 nodeComponentMap.remove( node );
                 updateLayout();
             }
+            else{
+                new RuntimeException( "No component found for node, see TODO above regarding map").printStackTrace(  );
+            }
         }
     }
     

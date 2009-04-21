@@ -43,9 +43,13 @@ class FreeBodyDiagramNode(val width: Int, val height: Int, val modelWidth: Doubl
     addChild(node)
   }
   class VectorNode(val vector: Vector) extends PNode {
-    val arrowNode = new ArrowNode(new Point2D.Double(width / 2, height / 2), transformT.modelToView(vector.getValue), 20, 20, 10)
-    arrowNode.setPaint(vector.getColor)
-    addChild(arrowNode)
+    def anode() = {
+
+      val arrowNode = new ArrowNode(new Point2D.Double(width / 2, height / 2), transformT.modelToView(vector.getValue), 20, 20, 10)
+      arrowNode.setPaint(vector.getColor)
+      addChild(arrowNode)
+    }
+    anode()
   }
 }
 
