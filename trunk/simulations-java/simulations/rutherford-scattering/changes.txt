@@ -1,3 +1,5 @@
+# 1.02.00 (30671) Apr 21, 2009
+4/21/09 Batch deploy as part of IOM milestone with revision 30670
 # 1.01.03 (29806) Mar 24, 2009
 3/24/09 publish dev version to test #1329
 3/24/09 #1329, increase min energy to eliminate NaN errors in particle trajectory model
