@@ -1,3 +1,5 @@
+# 2.02.00 (30671) Apr 21, 2009
+4/21/09 Batch deploy as part of IOM milestone with revision 30670
 # 2.01.03 (29786) Mar 24, 2009
 3/24/09 publish dev version so that fixes can be verified
 3/24/09 #1519, change control panel insets to account for PhetFont
