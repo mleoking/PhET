@@ -14,6 +14,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -28,6 +29,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class SwingLayoutNode extends PNode {
     
     private final JPanel container;
+    //TODO: Since PNode doesn't correctly override equals or hashcode, it shouldn't be used as a key in a HashMap like this
     private final HashMap nodeComponentMap; // PNode -> NodeComponent
     private final PropertyChangeListener propertyChangeListener;
 
@@ -249,8 +251,8 @@ public class SwingLayoutNode extends PNode {
         //TODO why do these paths overlap?
         SwingLayoutNode boxLayoutNode = new SwingLayoutNode();
         boxLayoutNode.setLayout( new BoxLayout( boxLayoutNode.getContainer(), BoxLayout.Y_AXIS ) );
-        boxLayoutNode.addChild( new PPath( new Rectangle2D.Double( 0, 0, 50, 50 ) ) );
-        boxLayoutNode.addChild( new PPath( new Rectangle2D.Double( 0, 0, 100, 50 ) ) );
+        boxLayoutNode.addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 50, 50 ) ,new BasicStroke(2),Color.red) );
+        boxLayoutNode.addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 100, 50 ) ,new BasicStroke(2),Color.blue) );
         boxLayoutNode.setOffset( 300, 300 );
         rootNode.addChild( boxLayoutNode );
         
