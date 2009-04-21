@@ -98,7 +98,7 @@ public class NaturalSelectionModel extends ClockAdapter {
     }
 
     /**
-     * Reset the entire module
+     * Reset the entire model
      */
     public void reset() {
 

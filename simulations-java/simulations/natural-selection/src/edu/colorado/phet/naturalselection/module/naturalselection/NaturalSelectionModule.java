@@ -15,11 +15,15 @@ import edu.colorado.phet.naturalselection.dialog.generationchart.GenerationChart
 import edu.colorado.phet.naturalselection.dialog.generationchart.GenerationChartDialog;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionClock;
 
+/**
+ * The natural selection module
+ *
+ * @author Jonathan Olson
+ */
 public class NaturalSelectionModule extends PiccoloModule {
 
     private NaturalSelectionModel model;
     private NaturalSelectionCanvas canvas;
-    //private ExampleControlPanel _controlPanel;
     private PiccoloClockControlPanel clockControlPanel;
     private NaturalSelectionControlPanel controlPanel;
 
@@ -40,25 +44,19 @@ public class NaturalSelectionModule extends PiccoloModule {
         canvas = new NaturalSelectionCanvas( model );
         setSimulationPanel( canvas );
 
+        // control panel
         controlPanel = new NaturalSelectionControlPanel( this, model );
         getModulePanel().setClockControlPanelWithoutContainer( controlPanel );
 
-
-        /*
-        clockControlPanel = new PiccoloClockControlPanel( getClock() );
-        //clockControlPanel.setRewindButtonVisible( true );
-        //clockControlPanel.setTimeDisplayVisible( true );
-        
-        clockControlPanel.setUnits( NaturalSelectionStrings.UNITS_TIME );
-        clockControlPanel.setTimeColumns( ExampleDefaults.CLOCK_TIME_COLUMNS );
-        setClockControlPanel( clockControlPanel );
-        */
-
+        // controller
         NaturalSelectionController controller = new NaturalSelectionController( model, canvas, controlPanel, this );
 
         model.initialize();
     }
 
+    /**
+     * Reset the entire module
+     */
     public void reset() {
         controlPanel.reset();
         canvas.reset();
@@ -71,6 +69,9 @@ public class NaturalSelectionModule extends PiccoloModule {
         }
     }
 
+    /**
+     * Shows the generation chart dialog
+     */
     public void showGenerationChart() {
         System.out.println( "Showing generation chart" );
         if ( generationChartDialog == null ) {
