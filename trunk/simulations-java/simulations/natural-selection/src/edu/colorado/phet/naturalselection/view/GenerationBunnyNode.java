@@ -14,6 +14,10 @@ public class GenerationBunnyNode extends DisplayBunnyNode implements Bunny.Bunny
         bunny.addListener( this );
     }
 
+    public Bunny getBunny() {
+        return myBunny;
+    }
+
     public void cleanup() {
         myBunny.removeListener( this );
     }

@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 
 public class NaturalSelectionDefaults {
+    public static final Dimension chartSize = new Dimension( 800, 600 );
 
     /* Not intended for instantiation */
     private NaturalSelectionDefaults() {
