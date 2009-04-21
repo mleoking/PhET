@@ -89,6 +89,10 @@ public class NaturalSelectionConstants {
     public static final String IMAGE_EQUATOR_ENVIRONMENT = "equator-environment.png";
     public static final String IMAGE_ARCTIC_ENVIRONMENT = "arctic-environment.png";
     public static final String IMAGE_BIG_VANILLA_BUNNY = "big_bunny.png";
+    public static final String IMAGE_BUNNY_COLOR = "bunny_color.png";
+    public static final String IMAGE_BUNNY_COLOR_BROWN = "bunny_color_brown.png";
+    public static final String IMAGE_BUNNY_TEETH = "bunny_teeth.png";
+    public static final String IMAGE_BUNNY_TAIL = "bunny_tail.png";
 
 
     //----------------------------------------------------------------------------

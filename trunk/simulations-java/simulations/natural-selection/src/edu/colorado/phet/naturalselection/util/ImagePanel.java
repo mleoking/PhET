@@ -20,6 +20,7 @@ public class ImagePanel extends JPanel {
 
     /**
      * Constructor
+     *
      * @param imageName The filename of the image
      */
     public ImagePanel( String imageName ) {
@@ -29,6 +30,7 @@ public class ImagePanel extends JPanel {
 
     /**
      * Constructor
+     *
      * @param actualImage The image
      */
     public ImagePanel( BufferedImage actualImage ) {
