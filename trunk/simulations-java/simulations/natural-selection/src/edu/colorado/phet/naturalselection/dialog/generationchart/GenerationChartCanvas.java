@@ -1,3 +1,5 @@
+/* Copyright 2009, University of Colorado */
+
 package edu.colorado.phet.naturalselection.dialog.generationchart;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
