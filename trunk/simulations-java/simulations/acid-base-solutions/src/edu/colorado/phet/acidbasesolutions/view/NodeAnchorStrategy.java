@@ -28,7 +28,7 @@ public interface NodeAnchorStrategy {
         }
     }
     
-    public static class NortEast implements NodeAnchorStrategy {
+    public static class Northeast implements NodeAnchorStrategy {
         public void positionNode( PNode node, double x, double y, double w, double h ) {
             node.setOffset( x + w - node.getFullBoundsReference().getWidth(), 
                             y );
@@ -42,7 +42,7 @@ public interface NodeAnchorStrategy {
         }
     }
     
-    public static class SouthEast implements NodeAnchorStrategy {
+    public static class Southeast implements NodeAnchorStrategy {
         public void positionNode( PNode node, double x, double y, double w, double h ) {
             node.setOffset( x + w - node.getFullBoundsReference().getWidth(), 
                             y + h - node.getFullBoundsReference().getHeight() );
@@ -56,7 +56,7 @@ public interface NodeAnchorStrategy {
         }
     }
     
-    public static class SouthWest implements NodeAnchorStrategy {
+    public static class Southwest implements NodeAnchorStrategy {
         public void positionNode( PNode node, double x, double y, double w, double h ) {
             node.setOffset( x,
                             y + h - node.getFullBoundsReference().getHeight() );
@@ -70,7 +70,7 @@ public interface NodeAnchorStrategy {
         }
     }
     
-    public static class NortWest implements NodeAnchorStrategy {
+    public static class Northwest implements NodeAnchorStrategy {
         public void positionNode( PNode node, double x, double y, double w, double h ) {
             node.setOffset( x, y );
         }
