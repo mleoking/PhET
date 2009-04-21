@@ -93,7 +93,7 @@ public class SwingLayoutNode extends PNode {
     }
 
     /**
-     * Adds a child with some layout constraints.
+     * Adds a child to the end of the node list.
      * Like Swing, bad things can happen if the type of the constraints
      * isn't compatible with the layout manager.
      * 
@@ -105,13 +105,6 @@ public class SwingLayoutNode extends PNode {
         addNodeComponent( child, constraints );
     }
 
-    /**
-     * Adds a child with no layout constraints.
-     * Like Swing, bad things can happen the layout manager 
-     * is expecting to receive constraints.
-     * 
-     * @param child
-     */
     public void addChild( PNode child ) {
         addChild( child, null );
     }
@@ -130,13 +123,6 @@ public class SwingLayoutNode extends PNode {
         addNodeComponent( child, constraints );
     }
 
-    /**
-     * Adds a child at the specified index with no layout constraints.
-     * Like Swing, bad things can happen the layout manager 
-     * is expecting to receive constraints.
-     * 
-     * @param index
-     */
     public void addChild( int index, PNode node ) {
         super.addChild( index, node );
     }
@@ -255,7 +241,7 @@ public class SwingLayoutNode extends PNode {
 
         public void setBounds( int x, int y, int width, int height ) {
             super.setBounds( x, y, width, height );
-            anchorStrategy.layoutNode( node, x, y, width, height );
+            anchorStrategy.positionNode( node, x, y, width, height );
         }
     }
     
