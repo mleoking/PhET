@@ -10,6 +10,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
+import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModule;
 
@@ -149,13 +150,26 @@ public class NaturalSelectionControlPanel extends JPanel {
         foodButton = new JRadioButton( "Food" );
         selectionPanel.add( foodButton );
         noneButton = new JRadioButton( "None" );
-        noneButton.setSelected( true );
         selectionPanel.add( noneButton );
 
         ButtonGroup group = new ButtonGroup();
         group.add( wolvesButton );
         group.add( foodButton );
         group.add( noneButton );
+
+        selectDefaultSelectionFactor();
+    }
+
+    public void selectDefaultSelectionFactor() {
+        int selection = NaturalSelectionDefaults.DEFAULT_SELECTION_FACTOR;
+        switch( selection ) {
+            case NaturalSelectionModel.SELECTION_NONE:
+                noneButton.setSelected( true ); break;
+            case NaturalSelectionModel.SELECTION_FOOD:
+                foodButton.setSelected( true ); break;
+            case NaturalSelectionModel.SELECTION_WOLVES:
+                wolvesButton.setSelected( true ); break;
+        }
     }
 
     /**
@@ -183,8 +197,8 @@ public class NaturalSelectionControlPanel extends JPanel {
     public void reset() {
         traitCanvas.reset();
         climatePanel.reset();
-        noneButton.setSelected( true );
         popCanvas.reset();
+        selectDefaultSelectionFactor();
     }
 
     /**

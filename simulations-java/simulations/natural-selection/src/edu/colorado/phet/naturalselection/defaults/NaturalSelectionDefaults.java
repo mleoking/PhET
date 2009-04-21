@@ -22,5 +22,6 @@ public class NaturalSelectionDefaults {
     public static final Dimension VIEW_SIZE = new Dimension( 1014, 366 ); // the size of the background images
 
     public static final int DEFAULT_CLIMATE = NaturalSelectionModel.CLIMATE_EQUATOR;
+    public static final int DEFAULT_SELECTION_FACTOR = NaturalSelectionModel.SELECTION_NONE;
 
 }
