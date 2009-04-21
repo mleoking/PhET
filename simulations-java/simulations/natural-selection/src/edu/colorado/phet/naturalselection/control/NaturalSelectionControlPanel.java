@@ -25,7 +25,7 @@ import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelecti
  *
  * @author Jonathan Olson
  */
-public class NaturalSelectionControlPanel extends JPanel implements ActionListener {
+public class NaturalSelectionControlPanel extends JPanel {
 
     // main panels
     public TraitCanvas traitCanvas;
@@ -42,7 +42,7 @@ public class NaturalSelectionControlPanel extends JPanel implements ActionListen
     public JRadioButton wolvesButton;
     public JRadioButton foodButton;
     public JRadioButton noneButton;
-    private JButton resetAllButton;
+    public JButton resetAllButton;
     public JButton generationChartButton;
 
     // private variables
@@ -176,19 +176,15 @@ public class NaturalSelectionControlPanel extends JPanel implements ActionListen
         rightPanel.add( Box.createRigidArea( new Dimension( 0, 10 ) ) );
 
         resetAllButton = new JButton( "Reset All" );
-        resetAllButton.addActionListener( this );
 
         rightPanel.add( resetAllButton );
     }
 
-    public void actionPerformed( ActionEvent e ) {
-        if ( e.getSource() == resetAllButton ) {
-            traitCanvas.reset();
-            climatePanel.reset();
-            noneButton.setSelected( true );
-            popCanvas.reset();
-            module.reset();
-        }
+    public void reset() {
+        traitCanvas.reset();
+        climatePanel.reset();
+        noneButton.setSelected( true );
+        popCanvas.reset();
     }
 
     /**
