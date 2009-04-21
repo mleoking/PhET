@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.model.*;
+import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 
 /**
  * The model itself for the Natural Selection simulation
@@ -53,7 +54,20 @@ public class NaturalSelectionModel extends ClockAdapter {
      * The current month name, as an index into MONTH_NAMES
      */
     private int currentMonth = 0;
-    public static final String[] MONTH_NAMES = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+    public static final String[] MONTH_NAMES = {
+            NaturalSelectionStrings.MONTH_JANUARY,
+            NaturalSelectionStrings.MONTH_FEBRUARY,
+            NaturalSelectionStrings.MONTH_MARCH,
+            NaturalSelectionStrings.MONTH_APRIL,
+            NaturalSelectionStrings.MONTH_MAY,
+            NaturalSelectionStrings.MONTH_JUNE,
+            NaturalSelectionStrings.MONTH_JULY,
+            NaturalSelectionStrings.MONTH_AUGUST,
+            NaturalSelectionStrings.MONTH_SEPTEMBER,
+            NaturalSelectionStrings.MONTH_OCTOBER,
+            NaturalSelectionStrings.MONTH_NOVEMBER,
+            NaturalSelectionStrings.MONTH_DECEMBER
+    };
 
     /**
      * The current generation

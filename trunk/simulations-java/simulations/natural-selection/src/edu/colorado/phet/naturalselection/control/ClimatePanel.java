@@ -7,6 +7,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
+import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.util.ImagePanel;
@@ -39,7 +40,7 @@ public class ClimatePanel extends JPanel {
         JPanel equatorPanel = new JPanel();
         equatorPanel.setLayout( new BoxLayout( equatorPanel, BoxLayout.X_AXIS ) );
 
-        equatorButton = new JRadioButton( "Equator" );
+        equatorButton = new JRadioButton( NaturalSelectionStrings.EQUATOR );
         equatorPanel.add( equatorButton );
 
         equatorPanel.add( Box.createRigidArea( new Dimension( 5, 0 ) ) );
@@ -50,7 +51,7 @@ public class ClimatePanel extends JPanel {
         JPanel arcticPanel = new JPanel();
         arcticPanel.setLayout( new BoxLayout( arcticPanel, BoxLayout.X_AXIS ) );
 
-        arcticButton = new JRadioButton( "Arctic" );
+        arcticButton = new JRadioButton( NaturalSelectionStrings.ARCTIC );
         arcticPanel.add( arcticButton );
 
         arcticPanel.add( Box.createRigidArea( new Dimension( 5, 0 ) ) );
@@ -58,7 +59,7 @@ public class ClimatePanel extends JPanel {
         ImagePanel arcticImage = new ImagePanel( NaturalSelectionConstants.IMAGE_ARCTIC_ENVIRONMENT );
         arcticPanel.add( arcticImage );
 
-        JLabel label = new JLabel( "Environment" );
+        JLabel label = new JLabel( NaturalSelectionStrings.ENVIRONMENT );
 
         equatorPanel.setAlignmentX( Component.LEFT_ALIGNMENT );
         arcticPanel.setAlignmentX( Component.LEFT_ALIGNMENT );

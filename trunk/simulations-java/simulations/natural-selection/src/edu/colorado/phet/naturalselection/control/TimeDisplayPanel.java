@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
+import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.model.Bunny;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
@@ -41,11 +42,11 @@ public class TimeDisplayPanel extends JPanel implements NaturalSelectionModel.Na
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = 0;
         c.gridy = 0;
-        add( new JLabel( "Month:" ), c );
+        add( new JLabel( NaturalSelectionStrings.MONTH + ":" ), c );
         c.gridy++;
         add( monthLabel, c );
         c.gridy++;
-        add( new JLabel( "Generation:" ), c );
+        add( new JLabel( NaturalSelectionStrings.GENERATION + ":" ), c );
         c.gridy++;
         add( generationLabel, c );
 

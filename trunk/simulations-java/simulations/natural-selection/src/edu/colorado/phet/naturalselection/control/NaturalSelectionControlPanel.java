@@ -8,6 +8,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
+import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModule;
@@ -142,12 +143,12 @@ public class NaturalSelectionControlPanel extends JPanel {
     public void createSelectionPanel() {
         selectionPanel = new JPanel();
         selectionPanel.setLayout( new BoxLayout( selectionPanel, BoxLayout.Y_AXIS ) );
-        selectionPanel.add( new JLabel( "Selection Factor" ) );
-        wolvesButton = new JRadioButton( "Wolves" );
+        selectionPanel.add( new JLabel( NaturalSelectionStrings.SELECTION_FACTOR ) );
+        wolvesButton = new JRadioButton( NaturalSelectionStrings.WOLVES );
         selectionPanel.add( wolvesButton );
-        foodButton = new JRadioButton( "Food" );
+        foodButton = new JRadioButton( NaturalSelectionStrings.FOOD );
         selectionPanel.add( foodButton );
-        noneButton = new JRadioButton( "None" );
+        noneButton = new JRadioButton( NaturalSelectionStrings.NONE );
         selectionPanel.add( noneButton );
 
         ButtonGroup group = new ButtonGroup();
@@ -185,12 +186,12 @@ public class NaturalSelectionControlPanel extends JPanel {
         rightPanel.add( selectionPanel );
         rightPanel.add( Box.createRigidArea( new Dimension( 0, 10 ) ) );
 
-        generationChartButton = new JButton( "Generation Chart" );
+        generationChartButton = new JButton( NaturalSelectionStrings.GENERATION_CHART );
 
         rightPanel.add( generationChartButton );
         rightPanel.add( Box.createRigidArea( new Dimension( 0, 10 ) ) );
 
-        resetAllButton = new JButton( "Reset All" );
+        resetAllButton = new JButton( NaturalSelectionStrings.RESET_ALL );
 
         rightPanel.add( resetAllButton );
     }
