@@ -265,7 +265,6 @@ public class SwingLayoutNode extends PNode {
         horizontalLayoutNode.setOffset( 100, 400 );
         rootNode.addChild( horizontalLayoutNode );
       
-        //TODO why do these paths overlap?
         SwingLayoutNode boxLayoutNode = new SwingLayoutNode();
         boxLayoutNode.setLayout( new BoxLayout( boxLayoutNode.getContainer(), BoxLayout.Y_AXIS ) );
         boxLayoutNode.addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 50, 50 ) ,Color.yellow,new BasicStroke(2),Color.red) );
