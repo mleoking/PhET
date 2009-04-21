@@ -100,6 +100,14 @@ public class Bunny {
         return generation;
     }
 
+    public ArrayList getChildren() {
+        return children;
+    }
+
+    public boolean hasChildren() {
+        return children.size() > 0;
+    }
+
     public void ageMe() {
         setAge( getAge() + 1 );
 
@@ -159,6 +167,9 @@ public class Bunny {
         return true;
     }
 
+    public int getId() {
+        return bunnyId;
+    }
 
     // static methods
 

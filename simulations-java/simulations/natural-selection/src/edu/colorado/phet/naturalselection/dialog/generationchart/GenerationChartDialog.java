@@ -31,6 +31,10 @@ public class GenerationChartDialog extends JDialog {
         SwingUtils.centerDialogInParent( this );
     }
 
+    public void reset() {
+        generationChartCanvas.reset();
+    }
+
     public JPanel createTypePanel() {
         JPanel panel = new JPanel();
 

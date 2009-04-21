@@ -1,17 +1,14 @@
 package edu.colorado.phet.naturalselection.dialog.generationchart;
 
-import java.awt.*;
-
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
+import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.view.GenerationChartNode;
 import edu.colorado.phet.naturalselection.view.HeredityChartNode;
 import edu.umd.cs.piccolo.PNode;
 
 public class GenerationChartCanvas extends PhetPCanvas {
-
-    public static final Dimension chartSize = new Dimension( 800, 600 );
 
     public static final int TYPE_HEREDITY = 0;
     public static final int TYPE_GENERATION = 1;
@@ -25,9 +22,9 @@ public class GenerationChartCanvas extends PhetPCanvas {
     public GenerationChartCanvas( NaturalSelectionModel model ) {
 
 
-        super( chartSize );
+        super( NaturalSelectionDefaults.chartSize );
 
-        setPreferredSize( chartSize );
+        setPreferredSize( NaturalSelectionDefaults.chartSize );
 
         this.model = model;
 
@@ -45,6 +42,11 @@ public class GenerationChartCanvas extends PhetPCanvas {
         rootNode.addChild( generationChartNode );
 
         select( lastType );
+    }
+
+    public void reset() {
+        heredityChartNode.reset();
+        generationChartNode.reset();
     }
 
     public void select( int lastType ) {

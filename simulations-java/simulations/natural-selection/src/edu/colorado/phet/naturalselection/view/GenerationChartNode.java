@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
+import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.model.Bunny;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.umd.cs.piccolo.PNode;
@@ -16,8 +17,10 @@ public class GenerationChartNode extends PNode implements NaturalSelectionModel.
 
     private LinkedList generations;
 
+    private static final double INITIAL_Y_OFFSET = 0;
+
     private double xoffset = 0;
-    private double yoffset = 0;
+    private double yoffset = INITIAL_Y_OFFSET;
 
     public GenerationChartNode( NaturalSelectionModel model ) {
         this.model = model;
@@ -35,6 +38,20 @@ public class GenerationChartNode extends PNode implements NaturalSelectionModel.
         }
 
         model.addListener( this );
+    }
+
+    public void reset() {
+        Iterator iter = generations.iterator();
+
+        while ( iter.hasNext() ) {
+            removeChild( (PNode) iter.next() );
+        }
+
+        generations = new LinkedList();
+
+        yoffset = INITIAL_Y_OFFSET;
+
+        addGeneration( 0 );
     }
 
     public void addGeneration( int generation ) {
@@ -60,8 +77,8 @@ public class GenerationChartNode extends PNode implements NaturalSelectionModel.
 
             bunnyNode.scale( 0.1 );
 
-            if ( localyoffset + 25 > 800 ) {
-                localyoffset = 0;
+            if ( xoffset + 25 > NaturalSelectionDefaults.chartSize.getWidth() ) {
+                xoffset = 0;
 
                 yoffset += 30;
                 localyoffset += 30;
