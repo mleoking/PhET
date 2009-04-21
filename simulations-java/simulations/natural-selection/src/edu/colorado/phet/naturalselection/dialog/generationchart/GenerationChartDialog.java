@@ -1,8 +1,8 @@
 package edu.colorado.phet.naturalselection.dialog.generationchart;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 
 public class GenerationChartDialog extends JDialog {
-    
+
     private GenerationChartCanvas generationChartCanvas;
 
     public GenerationChartDialog( Frame frame, NaturalSelectionModel model ) {
@@ -37,9 +37,10 @@ public class GenerationChartDialog extends JDialog {
         JRadioButton heredityButton = new JRadioButton( "Heredity" );
         JRadioButton generationButton = new JRadioButton( "Generation" );
 
-        if( GenerationChartCanvas.lastType == GenerationChartCanvas.TYPE_HEREDITY ) {
+        if ( GenerationChartCanvas.lastType == GenerationChartCanvas.TYPE_HEREDITY ) {
             heredityButton.setSelected( true );
-        } else {
+        }
+        else {
             generationButton.setSelected( true );
         }
 
@@ -47,13 +48,13 @@ public class GenerationChartDialog extends JDialog {
             public void actionPerformed( ActionEvent actionEvent ) {
                 generationChartCanvas.select( GenerationChartCanvas.TYPE_HEREDITY );
             }
-        });
+        } );
 
         generationButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
                 generationChartCanvas.select( GenerationChartCanvas.TYPE_GENERATION );
             }
-        });
+        } );
 
         ButtonGroup group = new ButtonGroup();
         group.add( heredityButton );
