@@ -395,7 +395,7 @@ public class NuclearReactorModel {
                     Uranium235Nucleus u235Nucleus = new Uranium235Nucleus(_clock, nucleusPosition, 0);
                     _u235Nuclei.add( u235Nucleus );
                     u235Nucleus.addListener( new Uranium235Nucleus.Adapter(){
-                        public void atomicWeightChanged(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
+                        public void nucleusChangeEvent(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
                                 ArrayList byProducts){
                             handleU235AtomicWeightChange( atomicNucleus, numProtons, numNeutrons, byProducts );
                         }

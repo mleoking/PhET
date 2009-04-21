@@ -68,7 +68,7 @@ public class FissionOneNucleusModel {
 
         _primaryNucleus.addListener( new AtomicNucleus.Adapter(){
             
-            public void atomicWeightChanged(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
+            public void nucleusChangeEvent(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
                     ArrayList byProducts){
                 handleAtomicWeightChanged(atomicNucleus, numProtons, numNeutrons, byProducts);
             }

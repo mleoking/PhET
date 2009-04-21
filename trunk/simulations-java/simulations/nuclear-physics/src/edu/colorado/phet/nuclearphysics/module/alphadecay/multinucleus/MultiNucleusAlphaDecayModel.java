@@ -93,7 +93,7 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
         // Create the object that will listen for nucleus events, such as decays.
         _nucleusListener = new AtomicNucleus.Adapter(){
             
-            public void atomicWeightChanged(AtomicNucleus nucleus, int numProtons, int numNeutrons, 
+            public void nucleusChangeEvent(AtomicNucleus nucleus, int numProtons, int numNeutrons, 
                     ArrayList byProducts){
                 
                 if (byProducts != null){

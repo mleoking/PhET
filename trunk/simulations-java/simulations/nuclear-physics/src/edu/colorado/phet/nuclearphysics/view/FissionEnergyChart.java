@@ -175,7 +175,7 @@ public class FissionEnergyChart extends PComposite {
         // Register as a listener to the nucleus so that we can see when it
         // decays and when it is reset.
         _model.getAtomicNucleus().addListener( new AtomicNucleus.Adapter(){
-            public void atomicWeightChanged(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
+            public void nucleusChangeEvent(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
                     ArrayList byProducts){
                 if (byProducts != null){
                     for (int i = 0; i < byProducts.size(); i++){

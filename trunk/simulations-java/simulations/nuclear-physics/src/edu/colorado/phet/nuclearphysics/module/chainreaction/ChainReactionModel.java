@@ -406,7 +406,7 @@ public class ChainReactionModel {
                 _u235Nuclei.add(nucleus);
                 notifyModelElementAdded( nucleus );
                 nucleus.addListener( new AtomicNucleus.Adapter(){
-                    public void atomicWeightChanged(AtomicNucleus nucleus, int numProtons, int numNeutrons,
+                    public void nucleusChangeEvent(AtomicNucleus nucleus, int numProtons, int numNeutrons,
                             ArrayList byProducts){
                         // Handle a potential fission event.
                         handleAtomicWeightChange(nucleus, numProtons, numNeutrons, byProducts);
@@ -467,7 +467,7 @@ public class ChainReactionModel {
                 _u238Nuclei.add(nucleus);
                 notifyModelElementAdded( nucleus );
                 nucleus.addListener( new AtomicNucleus.Adapter(){
-                    public void atomicWeightChanged(AtomicNucleus nucleus, int numProtons, int numNeutrons,
+                    public void nucleusChangeEvent(AtomicNucleus nucleus, int numProtons, int numNeutrons,
                             ArrayList byProducts){
                         // Handle a potential fission event.
                         handleAtomicWeightChange(nucleus, numProtons, numNeutrons, byProducts);
