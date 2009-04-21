@@ -6,6 +6,7 @@ import java.util.Iterator;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.naturalselection.model.*;
+import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 
 public class NaturalSelectionModel extends ClockAdapter {
 
@@ -71,6 +72,10 @@ public class NaturalSelectionModel extends ClockAdapter {
         ColorGene.getInstance().reset();
         TailGene.getInstance().reset();
         TeethGene.getInstance().reset();
+
+        if( NaturalSelectionDefaults.DEFAULT_NUMBER_OF_BUNNIES != 2 ) {
+            throw new RuntimeException( "Number of starting bunnies must be 2, or this part should be changed" );
+        }
 
         rootFather = new Bunny( null, null, 0 );
         rootMother = new Bunny( null, null, 0 );

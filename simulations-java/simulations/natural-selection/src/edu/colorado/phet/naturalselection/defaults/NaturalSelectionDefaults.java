@@ -1,7 +1,6 @@
 package edu.colorado.phet.naturalselection.defaults;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 
@@ -23,5 +22,6 @@ public class NaturalSelectionDefaults {
 
     public static final int DEFAULT_CLIMATE = NaturalSelectionModel.CLIMATE_EQUATOR;
     public static final int DEFAULT_SELECTION_FACTOR = NaturalSelectionModel.SELECTION_NONE;
+    public static final int DEFAULT_NUMBER_OF_BUNNIES = 2;
 
 }

@@ -24,7 +24,7 @@ public class NaturalSelectionConstants {
     //----------------------------------------------------------------------------
 
     // enable debug output for canvas layout updates
-    public static final boolean DEBUG_CANVAS_UPDATE_LAYOUT = true;
+    public static final boolean DEBUG_CANVAS_UPDATE_LAYOUT = false;
 
     //----------------------------------------------------------------------------
     // Application
@@ -89,7 +89,6 @@ public class NaturalSelectionConstants {
     public static final String IMAGE_EQUATOR_ENVIRONMENT = "equator-environment.png";
     public static final String IMAGE_ARCTIC_ENVIRONMENT = "arctic-environment.png";
 
-    
 
     //----------------------------------------------------------------------------
     // Cursors
