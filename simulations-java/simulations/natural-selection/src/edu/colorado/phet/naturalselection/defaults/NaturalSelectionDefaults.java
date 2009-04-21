@@ -5,13 +5,13 @@ package edu.colorado.phet.naturalselection.defaults;
 import java.awt.*;
 
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
+import edu.colorado.phet.naturalselection.dialog.generationchart.GenerationChartCanvas;
 
 /**
  * Defaults for the simulation
  */
 public class NaturalSelectionDefaults {
-    public static final Dimension chartSize = new Dimension( 800, 600 );
-
+    
     /* Not intended for instantiation */
     private NaturalSelectionDefaults() {
     }
@@ -29,6 +29,9 @@ public class NaturalSelectionDefaults {
     public static final int DEFAULT_CLIMATE = NaturalSelectionModel.CLIMATE_EQUATOR;
     public static final int DEFAULT_SELECTION_FACTOR = NaturalSelectionModel.SELECTION_NONE;
     public static final int DEFAULT_NUMBER_OF_BUNNIES = 2;
+    public static final int DEFAULT_GENERATION_CHART = GenerationChartCanvas.TYPE_HEREDITY;
+
+    public static final Dimension GENERATION_CHART_SIZE = new Dimension( 800, 600 );
 
     public static final int START_MONTH = 0; // January
 

@@ -12,6 +12,7 @@ import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.control.NaturalSelectionControlPanel;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.dialog.generationchart.GenerationChartDialog;
+import edu.colorado.phet.naturalselection.dialog.generationchart.GenerationChartCanvas;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionClock;
 
 public class NaturalSelectionModule extends PiccoloModule {
@@ -64,6 +65,8 @@ public class NaturalSelectionModule extends PiccoloModule {
         model.reset();
         if ( generationChartDialog != null ) {
             generationChartDialog.reset();
+        } else {
+            GenerationChartCanvas.resetType();
         }
     }
 

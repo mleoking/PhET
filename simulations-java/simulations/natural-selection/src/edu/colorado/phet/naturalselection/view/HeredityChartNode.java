@@ -24,7 +24,7 @@ public class HeredityChartNode extends PNode implements NaturalSelectionModel.Na
 
     private LinkedList generations;
 
-    private double availableWidth = NaturalSelectionDefaults.chartSize.getWidth();
+    private double availableWidth = NaturalSelectionDefaults.GENERATION_CHART_SIZE.getWidth();
 
     private static final double GENERATION_VERTICAL_SPACER = 50.0;
 

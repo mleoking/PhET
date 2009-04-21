@@ -12,15 +12,28 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 
+/**
+ * Dialog that displays a summary of the generations (either through a genetic hierarchy or grouping of generations)
+ *
+ * @author Jonathan Olson
+ */
 public class GenerationChartDialog extends JDialog {
 
     private GenerationChartCanvas generationChartCanvas;
+    private JRadioButton heredityButton;
+    private JRadioButton generationButton;
 
+    /**
+     * Constructor
+     * @param frame Parent frame, which should be the simulation frame
+     * @param model The natural selection model
+     */
     public GenerationChartDialog( Frame frame, NaturalSelectionModel model ) {
         super( frame );
 
         setTitle( "Generation Chart" );
 
+        // TODO: if we keep the radio buttons, improve the layout.
         VerticalLayoutPanel contentPanel = new VerticalLayoutPanel();
         contentPanel.setFillHorizontal();
         contentPanel.add( createTypePanel() );
@@ -35,20 +48,23 @@ public class GenerationChartDialog extends JDialog {
 
     public void reset() {
         generationChartCanvas.reset();
+        selectGenerationChart();
     }
 
+    /**
+     * Creates a panel that allows the user to select what type of generation chart they want to see.
+     * @return The created panel
+     */
     public JPanel createTypePanel() {
         JPanel panel = new JPanel();
 
-        JRadioButton heredityButton = new JRadioButton( "Heredity" );
-        JRadioButton generationButton = new JRadioButton( "Generation" );
+        heredityButton = new JRadioButton( "Heredity" );
+        generationButton = new JRadioButton( "Generation" );
+        
+        selectGenerationChart();
 
-        if ( GenerationChartCanvas.lastType == GenerationChartCanvas.TYPE_HEREDITY ) {
-            heredityButton.setSelected( true );
-        }
-        else {
-            generationButton.setSelected( true );
-        }
+
+        // event handlers
 
         heredityButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
@@ -70,5 +86,17 @@ public class GenerationChartDialog extends JDialog {
         panel.add( generationButton );
 
         return panel;
+    }
+
+    /**
+     * Remember what was used last, so if they close the window, it will open up with the same chart type
+     */
+    private void selectGenerationChart() {
+        if ( GenerationChartCanvas.lastType == GenerationChartCanvas.TYPE_HEREDITY ) {
+            heredityButton.setSelected( true );
+        }
+        else {
+            generationButton.setSelected( true );
+        }
     }
 }
