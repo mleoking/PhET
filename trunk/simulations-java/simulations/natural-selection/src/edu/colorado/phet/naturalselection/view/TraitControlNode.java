@@ -51,13 +51,19 @@ public abstract class TraitControlNode extends PNode implements ActionListener, 
 
     private void showAddButton() {
         if ( mutated ) {
+            // thus the add mutation button has been shown before, so we will just re-display it.
             removeChild( mutationOptionsHolder );
+            addMutationButton.setVisible( true );
+            addChild( addMutationButtonHolder );
             mutated = false;
         }
-        addMutationButton = new JButton( "Add Mutation", new ImageIcon( image ) );
-        addMutationButton.addActionListener( this );
-        addMutationButtonHolder = new PSwing( addMutationButton );
-        addChild( addMutationButtonHolder );
+        else {
+            // has not been shown before, so we must create the nodes, etc.
+            addMutationButton = new JButton( "Add Mutation", new ImageIcon( image ) );
+            addMutationButton.addActionListener( this );
+            addMutationButtonHolder = new PSwing( addMutationButton );
+            addChild( addMutationButtonHolder );
+        }
     }
 
     public void reset() {
