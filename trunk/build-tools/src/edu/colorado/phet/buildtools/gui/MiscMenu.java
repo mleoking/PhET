@@ -111,11 +111,13 @@ public class MiscMenu extends JMenu {
     }
 
     private PhetProject[] select( PhetProject[] allSimulations ) {
+        System.out.println( "starting selection with jvm: "+System.getProperty("java.version" ));
         ArrayList todo=new ArrayList( );
-        String doneString="acid-base-solutions,balloons,battery-resistor-circuit,battery-voltage,bound-states,cavendish-experiment,charges-and-fields-scala,circuit-construction-kit,color-vision,conductivity,discharge-lamps,eating-and-exercise,efield";
+        String deployedAsIOMBeta="acid-base-solutions,balloons,battery-resistor-circuit,battery-voltage,bound-states,cavendish-experiment,charges-and-fields-scala,circuit-construction-kit,color-vision,conductivity,discharge-lamps,eating-and-exercise,efield," +
+                          "electric-hockey,energy-skate-park,faraday,forces-1d,fourier,glaciers,greenhouse,hydrogen-atom";
 
         ArrayList done=new ArrayList( );
-        StringTokenizer st=new StringTokenizer( doneString,",");
+        StringTokenizer st=new StringTokenizer( deployedAsIOMBeta,",");
         while(st.hasMoreTokens() ){
             done.add(st.nextToken());
         }
