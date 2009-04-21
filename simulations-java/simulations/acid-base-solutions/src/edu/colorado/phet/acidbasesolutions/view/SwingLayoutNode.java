@@ -16,6 +16,8 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -260,8 +262,8 @@ public class SwingLayoutNode extends PNode {
         //TODO why do these paths overlap?
         SwingLayoutNode boxLayoutNode = new SwingLayoutNode();
         boxLayoutNode.setLayout( new BoxLayout( boxLayoutNode.getContainer(), BoxLayout.Y_AXIS ) );
-        boxLayoutNode.addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 50, 50 ) ,new BasicStroke(2),Color.red) );
-        boxLayoutNode.addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 100, 50 ) ,new BasicStroke(2),Color.blue) );
+        boxLayoutNode.addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 50, 50 ) ,Color.yellow,new BasicStroke(2),Color.red) );
+        boxLayoutNode.addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 100, 50 ) ,Color.orange, new BasicStroke(2),Color.blue) );
         boxLayoutNode.setOffset( 300, 300 );
         rootNode.addChild( boxLayoutNode );
         
@@ -310,6 +312,16 @@ public class SwingLayoutNode extends PNode {
             }
         });
         controlPanel.add( dynamicSlider );
+
+        //Shift+Drag right/left will scale the node up/down
+        rootNode.addInputEventListener( new PBasicInputEventHandler(){
+            public void mouseDragged( PInputEvent event ) {
+                super.mouseDragged( event );
+                if (event.isShiftDown() ){
+                    event.getPickedNode().scale( event.getCanvasDelta().width>0? 1.02:0.98);
+                }
+            }
+        } );
         
         JPanel appPanel = new JPanel( new BorderLayout() );
         appPanel.add( canvas, BorderLayout.CENTER );
