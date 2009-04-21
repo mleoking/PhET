@@ -10,21 +10,43 @@ import edu.colorado.phet.naturalselection.model.ColorGene;
 import edu.colorado.phet.naturalselection.model.TailGene;
 import edu.colorado.phet.naturalselection.model.TeethGene;
 
+/**
+ * Wires up parts of the control panel, model and views
+ *
+ * @author Jonathan Olson
+ */
 public class NaturalSelectionController {
 
+    /**
+     * Constructor
+     *
+     * @param model        The model
+     * @param canvas       The main simulation canvas
+     * @param controlPanel The control panel
+     * @param module       The module itself
+     */
     public NaturalSelectionController( final NaturalSelectionModel model, final NaturalSelectionCanvas canvas, final NaturalSelectionControlPanel controlPanel, final NaturalSelectionModule module ) {
 
+        // if a new bunny is created in the model, we should create a sprite for it. (Also bushes and trees change
+        // depending on environment and selection factors)
         model.addListener( canvas.bunnies );
+
+        // if the environment changes, we need to modify the background
         model.addListener( canvas.backgroundNode );
 
+        // hook up the trait control nodes with their corresponding genes
         controlPanel.traitCanvas.colorTraitNode.addListener( ColorGene.getInstance() );
         controlPanel.traitCanvas.teethTraitNode.addListener( TeethGene.getInstance() );
         controlPanel.traitCanvas.tailTraitNode.addListener( TailGene.getInstance() );
 
+        // and vica versa
         ColorGene.getInstance().addListener( controlPanel.traitCanvas.colorTraitNode );
         TeethGene.getInstance().addListener( controlPanel.traitCanvas.teethTraitNode );
         TailGene.getInstance().addListener( controlPanel.traitCanvas.tailTraitNode );
 
+        //----------------------------------------------------------------------------
+        // Control panel buttons
+        //----------------------------------------------------------------------------
 
         controlPanel.climatePanel.arcticButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {

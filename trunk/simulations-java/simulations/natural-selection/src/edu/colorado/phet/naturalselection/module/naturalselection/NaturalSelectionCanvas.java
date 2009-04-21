@@ -39,6 +39,7 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
 
     /**
      * Constructor
+     *
      * @param model The natural selection model
      */
     public NaturalSelectionCanvas( NaturalSelectionModel model ) {
