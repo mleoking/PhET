@@ -12,6 +12,8 @@ import edu.umd.cs.piccolo.PNode;
 
 /**
  * The piccolo canvas where the generation charts are drawn in. Allows changing between the charts
+ *
+ * @author Jonathan Olson
  */
 public class GenerationChartCanvas extends PhetPCanvas {
     // current types of generation charts
