@@ -59,6 +59,12 @@ public class NaturalSelectionController {
                 module.showGenerationChart();
             }
         } );
+
+        controlPanel.resetAllButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent actionEvent ) {
+                module.reset();
+            }
+        } );
     }
 
 }

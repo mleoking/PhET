@@ -57,6 +57,7 @@ public class NaturalSelectionModule extends PiccoloModule {
     }
 
     public void reset() {
+        controlPanel.reset();
         canvas.reset();
         model.reset();
         if ( generationChartDialog != null ) {
