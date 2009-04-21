@@ -3,6 +3,7 @@
 package edu.colorado.phet.naturalselection;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
@@ -97,6 +98,11 @@ public class NaturalSelectionConstants {
     public static final String IMAGE_DISPLAY_BUNNY_BROWN = "bunny_2_brown.png";
     public static final String IMAGE_BACKGROUND_EQUATOR = "natural_selection_background_equator_2.png";
     public static final String IMAGE_BACKGROUND_ARCTIC = "natural_selection_background_arctic_2.png";
+    public static final String IMAGE_SHRUB = "shrub.png";
+    public static final String IMAGE_TREE = "tree.png";
+
+    public static final Point2D IMAGE_SHRUB_OFFSET = new Point2D.Double( 0, 15 );
+    public static final Point2D IMAGE_TREE_OFFSET = new Point2D.Double( 0, 20 );
 
 
     //----------------------------------------------------------------------------
