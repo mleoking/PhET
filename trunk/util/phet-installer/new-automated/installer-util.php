@@ -210,7 +210,7 @@
         // Note: This invokes an existing shell script.  At some point, it may
         // make sense to incorporate the functionality of this script into the
         // PHP code.
-        exec(DEPLOY_DIR."create_backup.sh");
+        exec(DEPLOY_DIR."create-backup.sh");
 
         // Copy the files to the distribution directory.
         if ( copy( OUTPUT_DIR.'*Installer*', DEPLOY_DIR ) ){
