@@ -1,9 +1,14 @@
+/* Copyright 2009, University of Colorado */
+
 package edu.colorado.phet.naturalselection.defaults;
 
 import java.awt.*;
 
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 
+/**
+ * Defaults for the simulation
+ */
 public class NaturalSelectionDefaults {
     public static final Dimension chartSize = new Dimension( 800, 600 );
 
