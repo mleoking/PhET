@@ -32,9 +32,6 @@
           
         $sim_name = $args[1];
 
-        // Grab the lock to prevent multiple simultaneous executions.
-        file_lock("install-builder");
-
         if ( $sim_name == "all" ) {
             flushing_echo( "Performing complete rip of web site: ".PHET_ROOT_URL );
 
@@ -81,9 +78,6 @@
             installer_create_marker_file();
             installer_insert_installer_creation_time();
         }
-
-        // Release the lock.
-        file_unlock("install-builder");
 
         // Output the time of completion.
         $end_time = exec("date");
