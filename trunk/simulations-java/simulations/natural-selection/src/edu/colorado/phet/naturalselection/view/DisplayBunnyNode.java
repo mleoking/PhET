@@ -5,8 +5,8 @@ package edu.colorado.phet.naturalselection.view;
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 
-import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
+import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.model.Allele;
 import edu.colorado.phet.naturalselection.model.ColorGene;
 import edu.umd.cs.piccolo.PNode;
@@ -37,9 +37,10 @@ public class DisplayBunnyNode extends PNode {
 
     /**
      * Constructor
+     *
      * @param color Color allele
      * @param teeth Teeth allele
-     * @param tail Tail allele
+     * @param tail  Tail allele
      */
     public DisplayBunnyNode( Allele color, Allele teeth, Allele tail ) {
         whiteImage = NaturalSelectionResources.getImageNode( NaturalSelectionConstants.IMAGE_DISPLAY_BUNNY_WHITE );
