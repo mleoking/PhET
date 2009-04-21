@@ -18,6 +18,10 @@ public class ColorGene extends Gene {
 
     private static ColorGene instance = null;
 
+    /**
+     * Get the main instance
+     * @return The instance
+     */
     public static ColorGene getInstance() {
         if ( instance == null ) {
             instance = new ColorGene();
