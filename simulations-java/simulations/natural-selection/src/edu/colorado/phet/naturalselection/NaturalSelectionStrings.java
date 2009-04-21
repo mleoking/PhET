@@ -1,4 +1,4 @@
-/* Copyright 2008, University of Colorado */
+/* Copyright 2009, University of Colorado */
 
 package edu.colorado.phet.naturalselection;
 
