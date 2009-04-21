@@ -13,6 +13,7 @@ import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.model.Bunny;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -358,10 +359,10 @@ public class HeredityChartNode extends PNode implements NaturalSelectionModel.Na
             pathNode.setStroke( new BasicStroke( 1 ) );
             pathNode.setStrokePaint( Color.BLACK );
 
-            GeneralPath path = new GeneralPath();
+            DoubleGeneralPath path = new DoubleGeneralPath();
             path.moveTo( a.getX(), a.getY() );
             path.lineTo( b.getX(), b.getY() );
-            pathNode.setPathTo( path );
+            pathNode.setPathTo( path.getGeneralPath() );
 
             addChild( pathNode );
         }
