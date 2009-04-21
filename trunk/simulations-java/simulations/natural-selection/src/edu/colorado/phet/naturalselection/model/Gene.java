@@ -232,7 +232,7 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
     public void onBunnyInit( Bunny bunny ) {
         // not in bunnies array yet, don't refresh the phenotype count
         // here we manually increment the counts
-        
+
         if ( getBunnyGenotype( bunny ).getPhenotype() == primaryAllele ) {
             primaryCount++;
         }

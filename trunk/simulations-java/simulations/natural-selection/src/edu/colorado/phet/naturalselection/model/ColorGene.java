@@ -20,6 +20,7 @@ public class ColorGene extends Gene {
 
     /**
      * Get the main instance
+     *
      * @return The instance
      */
     public static ColorGene getInstance() {
@@ -31,6 +32,7 @@ public class ColorGene extends Gene {
 
     /**
      * Mutation probability
+     *
      * @return The fraction of bunnies that have a mutation when enabled.
      */
     public double getMutationFraction() {
@@ -39,6 +41,7 @@ public class ColorGene extends Gene {
 
     /**
      * Extracts the correct genotype from a bunny
+     *
      * @param bunny The bunny you need the DNA from
      * @return The bunny's Genotype for this gene
      */
@@ -48,6 +51,7 @@ public class ColorGene extends Gene {
 
     /**
      * The name of the gene
+     *
      * @return The name of the gene
      */
     public String getName() {
