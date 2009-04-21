@@ -1,3 +1,4 @@
+
 package edu.colorado.phet.acidbasesolutions.view;
 
 import java.awt.*;
@@ -29,7 +30,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class SwingLayoutNode extends PNode implements NodeLayoutStrategy {
-    
+
     private final JPanel container;
     //TODO: Since PNode doesn't correctly override equals or hashcode, it shouldn't be used as a key in a HashMap like this
     private final HashMap nodeComponentMap; // PNode -> NodeComponent
@@ -37,14 +38,15 @@ public class SwingLayoutNode extends PNode implements NodeLayoutStrategy {
     private NodeLayoutStrategy nodeLayoutStrategy;
 
     //By default a Node is centered in its allocated area
-    private static final NodeLayoutStrategy DEFAULT_NODE_LAYOUT_STRATEGY=new Centered(); 
+    private static final NodeLayoutStrategy DEFAULT_NODE_LAYOUT_STRATEGY = new Centered();
+
     /**
      * Uses a default FlowLayout.
      */
     public SwingLayoutNode() {
         this( new FlowLayout() );
     }
-    
+
     /**
      * Uses a specific layout.
      * @param layoutManager
@@ -53,13 +55,14 @@ public class SwingLayoutNode extends PNode implements NodeLayoutStrategy {
         this.container = new JPanel( layoutManager );
         this.nodeComponentMap = new HashMap();
         this.propertyChangeListener = new PropertyChangeListener() {
+
             public void propertyChange( PropertyChangeEvent event ) {
                 if ( isLayoutProperty( event.getPropertyName() ) ) {
                     updateLayout();
                 }
             }
         };
-        this.nodeLayoutStrategy=DEFAULT_NODE_LAYOUT_STRATEGY;
+        this.nodeLayoutStrategy = DEFAULT_NODE_LAYOUT_STRATEGY;
     }
 
     public NodeLayoutStrategy getNodeLayoutStrategy() {
@@ -74,7 +77,7 @@ public class SwingLayoutNode extends PNode implements NodeLayoutStrategy {
     public Container getContainer() {
         return container;
     }
-    
+
     /**
      * Sets the layout. Like Swing, if you call this after adding nodes,
      * the results can sometimes be a bit unpredictable.
@@ -85,7 +88,7 @@ public class SwingLayoutNode extends PNode implements NodeLayoutStrategy {
         container.setLayout( layoutManager );
         updateLayout();
     }
-    
+
     /**
      * Adds a child with some layout constraints.
      * Like Swing, bad things can happen if the type of the constraints
@@ -98,7 +101,7 @@ public class SwingLayoutNode extends PNode implements NodeLayoutStrategy {
         super.addChild( child );
         addNodeComponent( child, constraints );
     }
-    
+
     /**
      * Adds a child with no layout constraints.
      * Like Swing, bad things can happen the layout manager 
@@ -109,7 +112,7 @@ public class SwingLayoutNode extends PNode implements NodeLayoutStrategy {
     public void addChild( PNode child ) {
         addChild( child, null );
     }
-    
+
     /**
      * Adds a child at the specified index.
      * Like Swing, bad things can happen if the type of the constraints
@@ -120,10 +123,10 @@ public class SwingLayoutNode extends PNode implements NodeLayoutStrategy {
      * @param constraints
      */
     public void addChild( int index, PNode child, Object constraints ) {
-        super.addChild( index, child  );
+        super.addChild( index, child );
         addNodeComponent( child, constraints );
     }
-    
+
     /**
      * Adds a child at the specified index with no layout constraints.
      * Like Swing, bad things can happen the layout manager 
@@ -132,26 +135,26 @@ public class SwingLayoutNode extends PNode implements NodeLayoutStrategy {
      * @param index
      */
     public void addChild( int index, PNode node ) {
-        super.addChild( index, node  );
+        super.addChild( index, node );
     }
-    
+
     public PNode removeChild( PNode child ) {
         PNode node = super.removeChild( child );
         removeNodeComponent( node );
         return node;
     }
-    
+
     public PNode removeChild( int index ) {
         PNode node = super.removeChild( index );
         removeNodeComponent( node );
         return node;
     }
-    
+
     /*
      * Adds a proxy component for a node.
      */
     private void addNodeComponent( PNode node, Object constraints ) {
-        NodeComponent component = new NodeComponent( node,this );
+        NodeComponent component = new NodeComponent( node, this );
         if ( constraints == null ) {
             container.add( component );
         }
@@ -162,7 +165,7 @@ public class SwingLayoutNode extends PNode implements NodeLayoutStrategy {
         nodeComponentMap.put( node, component );
         updateLayout();
     }
-    
+
     /*
      * Removes a proxy component for a node.
      */
@@ -175,19 +178,19 @@ public class SwingLayoutNode extends PNode implements NodeLayoutStrategy {
                 nodeComponentMap.remove( node );
                 updateLayout();
             }
-            else{
-                new RuntimeException( "No component found for node, see TODO above regarding map").printStackTrace(  );
+            else {
+                new RuntimeException( "No component found for node, see TODO above regarding map" ).printStackTrace();
             }
         }
     }
-    
+
     /*
      * True if p is a PNode property that is related to layout.
      */
     private boolean isLayoutProperty( String p ) {
         return ( p.equals( PNode.PROPERTY_VISIBLE ) || p.equals( PNode.PROPERTY_FULL_BOUNDS ) );
     }
-    
+
     private void updateLayout() {
         container.invalidate(); // necessary for layouts like BoxLayout that would otherwise use stale state
         container.setSize( container.getPreferredSize() );
@@ -195,7 +198,7 @@ public class SwingLayoutNode extends PNode implements NodeLayoutStrategy {
     }
 
     public void layoutNode( PNode node, double x, double y, double w, double h ) {
-        nodeLayoutStrategy.layoutNode( node, x,y,w,h);
+        nodeLayoutStrategy.layoutNode( node, x, y, w, h );
     }
 
     /*
@@ -207,20 +210,20 @@ public class SwingLayoutNode extends PNode implements NodeLayoutStrategy {
         private final PNode node;
         private final NodeLayoutStrategy nodeLayoutStrategy;
 
-        public NodeComponent( PNode node ,NodeLayoutStrategy nodeLayoutStrategy) {
+        public NodeComponent( PNode node, NodeLayoutStrategy nodeLayoutStrategy ) {
             this.node = node;
             this.nodeLayoutStrategy = nodeLayoutStrategy;
         }
 
-        private int round(double val){
+        private int roundUp( double val ) {
             return (int) Math.ceil( val );
         }
-        
+
         public Dimension getPreferredSize() {
             //round up fractional part instead of rounding down; better to include the whole node than to chop off part
-            double w=node.getFullBoundsReference().getWidth();
-            double h=node.getFullBoundsReference().getHeight();
-            return new Dimension( round(w), round(h) );
+            double w = node.getFullBoundsReference().getWidth();
+            double h = node.getFullBoundsReference().getHeight();
+            return new Dimension( roundUp( w ), roundUp( h ) );
         }
 
         /**
@@ -233,19 +236,19 @@ public class SwingLayoutNode extends PNode implements NodeLayoutStrategy {
 
         public void setBounds( int x, int y, int width, int height ) {
             super.setBounds( x, y, width, height );
-            nodeLayoutStrategy.layoutNode( node,x,y,width,height );
+            nodeLayoutStrategy.layoutNode( node, x, y, width, height );
         }
     }
 
     // test cases
     public static void main( String[] args ) {
-        
+
         Dimension canvasSize = new Dimension( 800, 600 );
         PhetPCanvas canvas = new PhetPCanvas( canvasSize );
         canvas.setPreferredSize( canvasSize );
         PNode rootNode = new PNode();
         canvas.addWorldChild( rootNode );
-        
+
         BorderLayout borderLayout = new BorderLayout();
         borderLayout.setHgap( 10 );
         borderLayout.setVgap( 5 );
@@ -286,15 +289,15 @@ public class SwingLayoutNode extends PNode implements NodeLayoutStrategy {
         horizontalLayoutNode.addChild( htmlNode );
         horizontalLayoutNode.setOffset( 100, 400 );
         rootNode.addChild( horizontalLayoutNode );
-      
+
         SwingLayoutNode boxLayoutNode = new SwingLayoutNode();
         boxLayoutNode.setNodeLayoutStrategy( new TopLeft() );
         boxLayoutNode.setLayout( new BoxLayout( boxLayoutNode.getContainer(), BoxLayout.Y_AXIS ) );
-        boxLayoutNode.addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 50, 50 ) ,Color.yellow,new BasicStroke(2),Color.red) );
-        boxLayoutNode.addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 100, 50 ) ,Color.orange, new BasicStroke(2),Color.blue) );
+        boxLayoutNode.addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 50, 50 ), Color.yellow, new BasicStroke( 2 ), Color.red ) );
+        boxLayoutNode.addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 100, 50 ), Color.orange, new BasicStroke( 2 ), Color.blue ) );
         boxLayoutNode.setOffset( 300, 300 );
         rootNode.addChild( boxLayoutNode );
-        
+
         // 3x2 grid of values, shapes and labels (similar to a layout in acid-base-solutions)
         SwingLayoutNode gridNode = new SwingLayoutNode( new GridBagLayout() );
         GridBagConstraints constraints = new GridBagConstraints();
@@ -303,58 +306,60 @@ public class SwingLayoutNode extends PNode implements NodeLayoutStrategy {
         constraints.gridy = 0; // row
         constraints.gridx = 0; // column
         constraints.anchor = GridBagConstraints.EAST; //TODO why isn't this anchor respected when dynamicNode is updated?
-        final PText dynamicNode = new PText("0"); // will be controlled by dynamicSlider
+        final PText dynamicNode = new PText( "0" ); // will be controlled by dynamicSlider
         gridNode.addChild( dynamicNode, constraints );
         constraints.gridy++;
-        gridNode.addChild( new PText("0"), constraints );
+        gridNode.addChild( new PText( "0" ), constraints );
         /*---- column of shapes, center justified ---*/
         constraints.gridy = 0; // row
         constraints.gridx++; // column
         constraints.anchor = GridBagConstraints.CENTER;
-        PPath redCircle = new PPath( new Ellipse2D.Double( 0, 0, 25, 25 ));
+        PPath redCircle = new PPath( new Ellipse2D.Double( 0, 0, 25, 25 ) );
         redCircle.setPaint( Color.RED );
         gridNode.addChild( redCircle, constraints );
         constraints.gridy++;
-        PPath greenCircle = new PPath( new Ellipse2D.Double( 0, 0, 25, 25 ));
+        PPath greenCircle = new PPath( new Ellipse2D.Double( 0, 0, 25, 25 ) );
         greenCircle.setPaint( Color.GREEN );
         gridNode.addChild( greenCircle, constraints );
         /*---- column of labels, left justified ---*/
         constraints.gridy = 0; // row
         constraints.gridx++; // column
         constraints.anchor = GridBagConstraints.WEST;
-        gridNode.addChild( new HTMLNode("<html>H<sub>2</sub>O</html>"), constraints );
+        gridNode.addChild( new HTMLNode( "<html>H<sub>2</sub>O</html>" ), constraints );
         constraints.gridy++;
-        gridNode.addChild( new HTMLNode("<html>H<sub>3</sub>O<sup>+</sup></html>"), constraints );
+        gridNode.addChild( new HTMLNode( "<html>H<sub>3</sub>O<sup>+</sup></html>" ), constraints );
         gridNode.scale( 2.0 );
         gridNode.setOffset( 400, 50 );
         rootNode.addChild( gridNode );
-        
+
         JPanel controlPanel = new JPanel();
         final JSlider dynamicSlider = new JSlider( 0, 1000000 ); // controls dynamicNode
         dynamicSlider.setMajorTickSpacing( 1000000 );
         dynamicSlider.setPaintTicks( true );
         dynamicSlider.setPaintLabels( true );
         dynamicSlider.addChangeListener( new ChangeListener() {
+
             public void stateChanged( ChangeEvent e ) {
                 dynamicNode.setText( String.valueOf( dynamicSlider.getValue() ) );
             }
-        });
+        } );
         controlPanel.add( dynamicSlider );
 
         //Shift+Drag right/left will scale the node up/down
-        rootNode.addInputEventListener( new PBasicInputEventHandler(){
+        rootNode.addInputEventListener( new PBasicInputEventHandler() {
+
             public void mouseDragged( PInputEvent event ) {
                 super.mouseDragged( event );
-                if (event.isShiftDown() ){
-                    event.getPickedNode().scale( event.getCanvasDelta().width>0? 1.02:0.98);
+                if ( event.isShiftDown() ) {
+                    event.getPickedNode().scale( event.getCanvasDelta().width > 0 ? 1.02 : 0.98 );
                 }
             }
         } );
-        
+
         JPanel appPanel = new JPanel( new BorderLayout() );
         appPanel.add( canvas, BorderLayout.CENTER );
         appPanel.add( controlPanel, BorderLayout.EAST );
-        
+
         JFrame frame = new JFrame();
         frame.setContentPane( appPanel );
         frame.pack();
