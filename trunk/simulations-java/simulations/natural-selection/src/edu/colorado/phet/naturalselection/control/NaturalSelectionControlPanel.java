@@ -1,3 +1,5 @@
+/* Copyright 2009, University of Colorado */
+
 package edu.colorado.phet.naturalselection.control;
 
 import java.awt.*;
@@ -11,94 +13,75 @@ import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModule;
 
+/**
+ * Main control panel for Natural Selection
+ * <p/>
+ * Main panels are in the following order:
+ * <p/>
+ * trait panel: allows the user to add mutations, select the dominant trait, and view trait distributions
+ * time panel: allows the user to start / stop the clock
+ * time / population panel: shows the month and generation on top, and a bar chart of the number of bunnies below
+ * right panel: contains the climate panel, selection panel, generation chart button and reset all button
+ *
+ * @author Jonathan Olson
+ */
 public class NaturalSelectionControlPanel extends JPanel implements ActionListener {
 
+    // main panels
+    public TraitCanvas traitCanvas;
+    private TimeDisplayPanel timePanel;
+    private JPanel timePopulationPanel;
+    private JPanel rightPanel;
+
+    // subpanels
     public ClimatePanel climatePanel;
+    private PopulationCanvas popCanvas;
+    private JPanel selectionPanel;
+
+    // buttons
     public JRadioButton wolvesButton;
     public JRadioButton foodButton;
     public JRadioButton noneButton;
     private JButton resetAllButton;
-    public TraitCanvas traitCanvas;
-    private TimeDisplayPanel timePanel;
-    private NaturalSelectionModel model;
-    private NaturalSelectionModule module;
-    private PopulationCanvas popCanvas;
-    private PiccoloClockControlPanel clockControlPanel;
     public JButton generationChartButton;
 
-    public NaturalSelectionControlPanel( NaturalSelectionModule _module, NaturalSelectionModel _model ) {
-        model = _model;
-        module = _module;
+    // private variables
+    private NaturalSelectionModel model;
+    private NaturalSelectionModule module;
+
+    /**
+     * Constructor
+     *
+     * @param module The Natural Selection module
+     * @param model  The corresponding model
+     */
+    public NaturalSelectionControlPanel( NaturalSelectionModule module, NaturalSelectionModel model ) {
+        this.model = model;
+        this.module = module;
 
         GridBagLayout layout = new GridBagLayout();
         this.setLayout( layout );
 
+        // build all of the panels
         traitCanvas = new TraitCanvas();
+        climatePanel = new ClimatePanel( this.model );
+        PiccoloClockControlPanel clockControlPanel = new PiccoloClockControlPanel( this.module.getClock() );
+        createSelectionPanel();
+        createRightPanel();
+        createTimePopulationPanel();
 
-        JPanel rightPanel = new JPanel();
-        rightPanel.setLayout( new BoxLayout( rightPanel, BoxLayout.Y_AXIS ) );
-
-        climatePanel = new ClimatePanel( model );
-
-        JPanel selectionPanel = new JPanel();
-        selectionPanel.setLayout( new BoxLayout( selectionPanel, BoxLayout.Y_AXIS ) );
-        selectionPanel.add( new JLabel( "Selection Factor" ) );
-        wolvesButton = new JRadioButton( "Wolves" );
-        selectionPanel.add( wolvesButton );
-        foodButton = new JRadioButton( "Food" );
-        selectionPanel.add( foodButton );
-        noneButton = new JRadioButton( "None" );
-        noneButton.setSelected( true );
-        selectionPanel.add( noneButton );
-
-        ButtonGroup group = new ButtonGroup();
-        group.add( wolvesButton );
-        group.add( foodButton );
-        group.add( noneButton );
-
-        resetAllButton = new JButton( "Reset All" );
-        resetAllButton.addActionListener( this );
-
-        rightPanel.add( climatePanel );
-        rightPanel.add( Box.createRigidArea( new Dimension( 0, 10 ) ) );
-        rightPanel.add( selectionPanel );
-        rightPanel.add( Box.createRigidArea( new Dimension( 0, 10 ) ) );
-        generationChartButton = new JButton( "Generation Chart" );
-        rightPanel.add( generationChartButton );
-        rightPanel.add( Box.createRigidArea( new Dimension( 0, 10 ) ) );
-        rightPanel.add( resetAllButton );
-
-        timePanel = new TimeDisplayPanel( model );
-        popCanvas = new PopulationCanvas( model );
-        JPanel timePopulationPanel = new JPanel();
-        timePopulationPanel.setLayout( new GridBagLayout() );
-        GridBagConstraints simpleConstraint = new GridBagConstraints();
-        simpleConstraint.gridx = 0;
-        simpleConstraint.gridy = 0;
-        timePopulationPanel.add( timePanel, simpleConstraint );
-        simpleConstraint.gridx = 0;
-        simpleConstraint.gridy = 1;
-        simpleConstraint.anchor = GridBagConstraints.SOUTHEAST;
-        timePopulationPanel.add( popCanvas, simpleConstraint );
-
-        clockControlPanel = new PiccoloClockControlPanel( module.getClock() );
-        //clockControlPanel.setTimeDisplayVisible( true );
-        //clockControlPanel.setUnits( "Units" );
-        //clockControlPanel.setTimeColumns( 10 );
-
+        // keep track of the column for the gridbaglayout
         int column = 0;
 
+        // the uglier layout code
         GridBagConstraints traitCanvasConstraints = new GridBagConstraints();
         traitCanvasConstraints.gridx = column++;
         traitCanvasConstraints.gridy = 0;
-        traitCanvasConstraints.gridwidth = 1;
-        traitCanvasConstraints.gridheight = 1;
         traitCanvasConstraints.anchor = GridBagConstraints.WEST;
         traitCanvasConstraints.insets = new Insets( 10, 10, 10, 10 );
-        //traitCanvasConstraints.weightx = 1.0;
-        //traitCanvasConstraints.gridheight = 2;
         add( traitCanvas, traitCanvasConstraints );
 
+        // space will be padded equally on each side of the clock
         GridBagConstraints clockPanelConstraints = new GridBagConstraints();
         clockPanelConstraints.gridx = column++;
         clockPanelConstraints.gridy = 0;
@@ -113,22 +96,18 @@ public class NaturalSelectionControlPanel extends JPanel implements ActionListen
         GridBagConstraints spacerConstraints2 = new GridBagConstraints();
         spacerConstraints2.gridx = column++;
         spacerConstraints2.gridy = 0;
-        //spacerConstraints2.gridheight = 2;
         Component spacer2 = Box.createRigidArea( new Dimension( 40, 0 ) );
         add( spacer2, spacerConstraints2 );
 
         GridBagConstraints rightConstraints = new GridBagConstraints();
         rightConstraints.gridx = column++;
         rightConstraints.gridy = 0;
-        rightConstraints.gridwidth = 1;
-        rightConstraints.gridheight = 1;
         rightConstraints.anchor = GridBagConstraints.EAST;
         rightConstraints.insets = new Insets( 10, 10, 10, 10 );
-        //rightConstraints.gridheight = 2;
         add( rightPanel, rightConstraints );
 
+        // color everything with the control panel's background color
         setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
-
         spacer2.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         traitCanvas.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         rightPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
@@ -138,6 +117,68 @@ public class NaturalSelectionControlPanel extends JPanel implements ActionListen
         noneButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         timePopulationPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
 
+    }
+
+    /**
+     * Create the panel that shows the population, current month and current generation
+     */
+    private void createTimePopulationPanel() {
+        timePanel = new TimeDisplayPanel( model );
+        popCanvas = new PopulationCanvas( model );
+        timePopulationPanel = new JPanel();
+        timePopulationPanel.setLayout( new GridBagLayout() );
+        GridBagConstraints simpleConstraint = new GridBagConstraints();
+        simpleConstraint.gridx = 0;
+        simpleConstraint.gridy = 0;
+        timePopulationPanel.add( timePanel, simpleConstraint );
+        simpleConstraint.gridx = 0;
+        simpleConstraint.gridy = 1;
+        simpleConstraint.anchor = GridBagConstraints.SOUTHEAST;
+        timePopulationPanel.add( popCanvas, simpleConstraint );
+    }
+
+    /**
+     * Created the panel that allows the user to choose which selection factor they want
+     */
+    public void createSelectionPanel() {
+        selectionPanel = new JPanel();
+        selectionPanel.setLayout( new BoxLayout( selectionPanel, BoxLayout.Y_AXIS ) );
+        selectionPanel.add( new JLabel( "Selection Factor" ) );
+        wolvesButton = new JRadioButton( "Wolves" );
+        selectionPanel.add( wolvesButton );
+        foodButton = new JRadioButton( "Food" );
+        selectionPanel.add( foodButton );
+        noneButton = new JRadioButton( "None" );
+        noneButton.setSelected( true );
+        selectionPanel.add( noneButton );
+
+        ButtonGroup group = new ButtonGroup();
+        group.add( wolvesButton );
+        group.add( foodButton );
+        group.add( noneButton );
+    }
+
+    /**
+     * Create the right-most panel that includes the climate panel (user can select the climate), the selection panel,
+     * a button to show the generation chart, and the reset all button.
+     */
+    public void createRightPanel() {
+        rightPanel = new JPanel();
+        rightPanel.setLayout( new BoxLayout( rightPanel, BoxLayout.Y_AXIS ) );
+        rightPanel.add( climatePanel );
+        rightPanel.add( Box.createRigidArea( new Dimension( 0, 10 ) ) );
+        rightPanel.add( selectionPanel );
+        rightPanel.add( Box.createRigidArea( new Dimension( 0, 10 ) ) );
+
+        generationChartButton = new JButton( "Generation Chart" );
+
+        rightPanel.add( generationChartButton );
+        rightPanel.add( Box.createRigidArea( new Dimension( 0, 10 ) ) );
+
+        resetAllButton = new JButton( "Reset All" );
+        resetAllButton.addActionListener( this );
+
+        rightPanel.add( resetAllButton );
     }
 
     public void actionPerformed( ActionEvent e ) {
@@ -150,6 +191,11 @@ public class NaturalSelectionControlPanel extends JPanel implements ActionListen
         }
     }
 
+    /**
+     * Test main() function, probably won't work anymore
+     *
+     * @param args
+     */
     public static void main( String[] args ) {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
