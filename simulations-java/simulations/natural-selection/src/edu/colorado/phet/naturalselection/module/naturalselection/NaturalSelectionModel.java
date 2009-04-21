@@ -33,7 +33,7 @@ public class NaturalSelectionModel extends ClockAdapter {
 
     /**
      * A list of all of the (model) bunnies.
-     * WARNING: do NOT change the order of this list 
+     * WARNING: do NOT change the order of this list
      */
     private ArrayList bunnies;
 
@@ -61,17 +61,18 @@ public class NaturalSelectionModel extends ClockAdapter {
     private int generation = 0;
 
     /**
-     * The current climate (CLIMATE_EQUATOR or CLIMATE_ARCTIC) 
+     * The current climate (CLIMATE_EQUATOR or CLIMATE_ARCTIC)
      */
     private int climate = CLIMATE_EQUATOR;
 
     /**
-     * The current selection factor (SELECTION_NONE, SELECTION_FOOD, or SELECTION_WOLVES) 
+     * The current selection factor (SELECTION_NONE, SELECTION_FOOD, or SELECTION_WOLVES)
      */
     private int selectionFactor = SELECTION_NONE;
 
     /**
      * Constructor
+     *
      * @param clock The simulation clock
      */
     public NaturalSelectionModel( NaturalSelectionClock clock ) {
@@ -139,7 +140,6 @@ public class NaturalSelectionModel extends ClockAdapter {
         notifyNewBunny( rootFather );
         notifyNewBunny( rootMother );
     }
-
 
 
     /**
@@ -244,6 +244,7 @@ public class NaturalSelectionModel extends ClockAdapter {
 
     /**
      * Get only alive bunnies
+     *
      * @return A list of bunnies that are alive
      */
     public ArrayList getAliveBunnyList() {
@@ -260,6 +261,7 @@ public class NaturalSelectionModel extends ClockAdapter {
 
     /**
      * Get a list of all bunnies that were born in the desired generation
+     *
      * @param desiredGeneration The generation that bunnies were born in.
      * @return A list of all bunnies (alive or dead) born in desiredGeneration
      */
@@ -375,30 +377,35 @@ public class NaturalSelectionModel extends ClockAdapter {
 
         /**
          * Called when the month changes
+         *
          * @param monthName The new month name
          */
         public void onMonthChange( String monthName );
 
         /**
          * Called when the generation changes
+         *
          * @param generation The new generation number
          */
         public void onGenerationChange( int generation );
 
         /**
          * Called when a new bunny is born
+         *
          * @param bunny The bunny
          */
         public void onNewBunny( Bunny bunny );
 
         /**
          * Called when the climate changes
+         *
          * @param climate The new climate
          */
         public void onClimateChange( int climate );
 
         /**
          * Called when the selection factor changes
+         *
          * @param selectionFactor The new selection factor
          */
         public void onSelectionFactorChange( int selectionFactor );

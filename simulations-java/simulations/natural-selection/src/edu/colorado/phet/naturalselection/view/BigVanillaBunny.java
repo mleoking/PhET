@@ -4,8 +4,8 @@ package edu.colorado.phet.naturalselection.view;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
+import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 

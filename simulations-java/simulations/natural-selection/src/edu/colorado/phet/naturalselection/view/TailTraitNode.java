@@ -4,12 +4,16 @@ package edu.colorado.phet.naturalselection.view;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 
+/**
+ * The control node for the tail trait
+ */
 public class TailTraitNode extends TraitControlNode {
 
     public TailTraitNode() {
-        super( NaturalSelectionResources.getImage( "bunny_tail.png" ) );
+        super( NaturalSelectionResources.getImage( NaturalSelectionConstants.IMAGE_BUNNY_TAIL ) );
     }
 
     public Point2D getBunnyLocation( BigVanillaBunny bunny ) {
