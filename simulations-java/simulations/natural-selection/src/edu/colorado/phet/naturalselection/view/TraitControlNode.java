@@ -21,7 +21,16 @@ import edu.colorado.phet.naturalselection.util.ImagePanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+/**
+ * Piccolo node that contains a sub-control-panel for adding mutations and changing / displaying trait information
+ *
+ * @author Jonathan Olson
+ */
 public abstract class TraitControlNode extends PNode implements ActionListener, GeneListener {
+
+    //----------------------------------------------------------------------------
+    // Instance variables
+    //----------------------------------------------------------------------------
 
     private JButton addMutationButton;
     private PSwing addMutationButtonHolder;
@@ -37,10 +46,19 @@ public abstract class TraitControlNode extends PNode implements ActionListener, 
 
     private ArrayList listeners;
 
+    /**
+     * Constructor, that uses one icon for both traits
+     * @param iconImage Image to be used for both traits
+     */
     public TraitControlNode( BufferedImage iconImage ) {
         this( iconImage, iconImage );
     }
 
+    /**
+     * Constructor, uses two different icons for the different traits
+     * @param iconImage Primary trait icon
+     * @param alternateIconImage Secondary trait icon
+     */
     public TraitControlNode( BufferedImage iconImage, BufferedImage alternateIconImage ) {
         image = iconImage;
         alternateImage = alternateIconImage;
@@ -51,6 +69,9 @@ public abstract class TraitControlNode extends PNode implements ActionListener, 
         showAddButton();
     }
 
+    /**
+     * Displays the "Add Mutation" button
+     */
     private void showAddButton() {
         if ( mutated ) {
             // thus the add mutation button has been shown before, so we will just re-display it.
@@ -72,8 +93,13 @@ public abstract class TraitControlNode extends PNode implements ActionListener, 
         showAddButton();
     }
 
+    /**
+     * Displays the panel after the user clicks "Add Mutation".
+     */
     public void showMutationDialog() {
         if ( !mutated ) {
+            // hide the add mutation button
+            
             addMutationButton.setVisible( false );
             removeChild( addMutationButtonHolder );
             mutated = true;
@@ -148,20 +174,27 @@ public abstract class TraitControlNode extends PNode implements ActionListener, 
         addChild( mutationOptionsHolder );
     }
 
-    private Component centerFit( Component comp ) {
-        JPanel ret = new JPanel( new FlowLayout( FlowLayout.CENTER, 0, 0 ) );
-        ret.setBackground( NaturalSelectionConstants.COLOR_MUTATION_PANEL );
-        ret.add( comp );
-        return ret;
-    }
-
+    /**
+     * Returns the center of this control node
+     * @return The center of this control node
+     */
     public Point2D getCenter() {
         return new Point2D.Double( getOffset().getX() + addMutationButton.getWidth() / 2, getOffset().getY() + addMutationButton.getHeight() / 2 );
     }
 
+    /**
+     * Should be overridden by each subclass to identify the 2D point of the vanilla bunny that the trait refers to
+     * @param bunny The vanilla bunny
+     * @return The point to draw the line to
+     */
     public abstract Point2D getBunnyLocation( BigVanillaBunny bunny );
 
+    //----------------------------------------------------------------------------
+    // Event handlers
+    //----------------------------------------------------------------------------
+
     public void actionPerformed( ActionEvent e ) {
+        // TODO: split this into more separate event handlers
         if ( e.getSource() == addMutationButton ) {
             showMutationDialog();
         }
@@ -182,6 +215,11 @@ public abstract class TraitControlNode extends PNode implements ActionListener, 
         }
     }
 
+    /**
+     * Display the correct trait distribution
+     * @param primary   Number of bunnies with the primary phenotype
+     * @param secondary Number of bunnies with the second phenotype
+     */
     public void onChangeDistribution( int primary, int secondary ) {
         if ( percentOne == null || percentTwo == null ) {
             return;
@@ -196,7 +234,10 @@ public abstract class TraitControlNode extends PNode implements ActionListener, 
     }
 
 
-    // notifiers
+    //----------------------------------------------------------------------------
+    // Notifiers
+    //----------------------------------------------------------------------------
+
 
     private void notifyAddMutation() {
         Iterator iter = listeners.iterator();
@@ -212,7 +253,9 @@ public abstract class TraitControlNode extends PNode implements ActionListener, 
         }
     }
 
-    // listeners
+    //----------------------------------------------------------------------------
+    // Listeners
+    //----------------------------------------------------------------------------
 
     public void addListener( TraitControlNodeListener listener ) {
         listeners.add( listener );
@@ -222,9 +265,20 @@ public abstract class TraitControlNode extends PNode implements ActionListener, 
         listeners.remove( listener );
     }
 
+    /**
+     * Interface for receiving events from a trait control node
+     */
     public interface TraitControlNodeListener {
+
+        /**
+         * Called when the dominant trait changes
+         * @param primary Whether the new dominant trait is the primary trait
+         */
         public void onChangeDominance( boolean primary );
 
+        /**
+         * Called when a mutation is added
+         */
         public void onAddMutation();
     }
 
