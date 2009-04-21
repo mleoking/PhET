@@ -145,7 +145,6 @@ public class SwingLayoutNode extends PNode {
         else {
             container.add( component, constraints );
         }
-        container.setSize( container.getPreferredSize() );
         node.addPropertyChangeListener( propertyChangeListener );
         nodeComponentMap.put( node, component );
         updateLayout();
@@ -174,7 +173,8 @@ public class SwingLayoutNode extends PNode {
     }
     
     private void updateLayout() {
-        container.invalidate(); // necessary for layouts like BoxLayout that would otherwise use stale state 
+        container.invalidate(); // necessary for layouts like BoxLayout that would otherwise use stale state
+        container.setSize( container.getPreferredSize() );
         container.doLayout();
     }
 
