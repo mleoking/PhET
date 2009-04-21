@@ -62,9 +62,9 @@ public class TimeDisplayPanel extends JPanel implements NaturalSelectionModel.Na
         generationLabel.setText( String.valueOf( generation ) );
     }
 
-    /*
-     * Event Handlers
-     */
+    //----------------------------------------------------------------------------
+    // Event handlers
+    //----------------------------------------------------------------------------
 
     public void onMonthChange( String monthName ) {
         setMonth( monthName );

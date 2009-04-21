@@ -77,9 +77,9 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
         this.model = model;
     }
 
-    /*
-     * Getters and setters
-     */
+    //----------------------------------------------------------------------------
+    // Getters and setters
+    //----------------------------------------------------------------------------
 
     public Allele getPrimaryAllele() {
         return primaryAllele;
@@ -225,9 +225,9 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
      */
     public abstract Genotype getBunnyGenotype( Bunny bunny );
 
-    /*
-     * Event handlers
-     */
+    //----------------------------------------------------------------------------
+    // Event handlers
+    //----------------------------------------------------------------------------
 
     public void onBunnyInit( Bunny bunny ) {
         // not in bunnies array yet, don't refresh the phenotype count
@@ -272,9 +272,9 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
         setMutatable( true );
     }
 
-    /*
-     * Notifiers
-     */
+    //----------------------------------------------------------------------------
+    // Notifiers
+    //----------------------------------------------------------------------------
 
     private void notifyChangeDistribution() {
         System.out.println( "\tGene distribution changed for " + getName() );
@@ -294,9 +294,9 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
         }
     }
 
-    /*
-     * Listeners
-     */
+    //----------------------------------------------------------------------------
+    // Listeners
+    //----------------------------------------------------------------------------
 
     public void addListener( GeneListener listener ) {
         listeners.add( listener );

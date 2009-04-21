@@ -60,9 +60,9 @@ public class PopulationCanvas extends PhetPCanvas implements NaturalSelectionMod
     }
 
 
-    /*
-    * Event handlers
-    */
+    //----------------------------------------------------------------------------
+    // Event Handlers
+    //----------------------------------------------------------------------------
 
     public void onMonthChange( String monthName ) {
 
