@@ -42,6 +42,9 @@
             $deploy = true;
         }
           
+        // Grab a file lock to prevent multiple simultaneous executions.
+        file_lock("install-builder");
+
         // Log the start time of this operation.
         $start_time = exec("date");
         flushing_echo("Starting full rip and rebuild of installers at time $start_time");
@@ -68,6 +71,9 @@
         // Output the time of completion.
         $end_time = exec("date");
         flushing_echo("\nCompleted rebuild at time $end_time");
+
+        // Release the lock.
+        file_unlock("install-builder");
     }
 
     //--------------------------------------------------------------------------
