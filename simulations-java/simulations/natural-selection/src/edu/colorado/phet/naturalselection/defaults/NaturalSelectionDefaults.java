@@ -3,6 +3,8 @@ package edu.colorado.phet.naturalselection.defaults;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
+
 public class NaturalSelectionDefaults {
     public static final Dimension chartSize = new Dimension( 800, 600 );
 
@@ -17,12 +19,8 @@ public class NaturalSelectionDefaults {
     public static final int CLOCK_TIME_COLUMNS = GlobalDefaults.CLOCK_TIME_COLUMNS;
 
     // Model-view transform
-    public static final Dimension VIEW_SIZE = new Dimension( 1014, 366 );
+    public static final Dimension VIEW_SIZE = new Dimension( 1014, 366 ); // the size of the background images
 
-    // ExampleModelElement
-    public static final double EXAMPLE_MODEL_ELEMENT_WIDTH = 200; // meters
-    public static final double EXAMPLE_MODEL_ELEMENT_HEIGHT = 100; // meters
-    public static final Point2D EXAMPLE_MODEL_ELEMENT_POSITION = new Point2D.Double( 400, 400 );
-    public static final double EXAMPLE_MODEL_ELEMENT_ORIENTATION = 0; // radians
+    public static final int DEFAULT_CLIMATE = NaturalSelectionModel.CLIMATE_EQUATOR;
 
 }

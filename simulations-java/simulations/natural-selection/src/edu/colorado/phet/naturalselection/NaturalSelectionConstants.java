@@ -86,6 +86,11 @@ public class NaturalSelectionConstants {
     public static final double SCALED_BUNNY_WIDTH = FULL_BUNNY_WIDTH * BUNNY_SCALE;
     public static final double SCALED_BUNNY_HEIGHT = FULL_BUNNY_WIDTH * BUNNY_SCALE;
 
+    public static final String IMAGE_EQUATOR_ENVIRONMENT = "equator-environment.png";
+    public static final String IMAGE_ARCTIC_ENVIRONMENT = "arctic-environment.png";
+
+    
+
     //----------------------------------------------------------------------------
     // Cursors
     //----------------------------------------------------------------------------

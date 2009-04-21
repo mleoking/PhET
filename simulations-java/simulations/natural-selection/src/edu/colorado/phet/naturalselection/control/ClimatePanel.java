@@ -1,3 +1,5 @@
+/* Copyright 2009, University of Colorado */
+
 package edu.colorado.phet.naturalselection.control;
 
 import java.awt.*;
@@ -5,17 +7,32 @@ import java.awt.*;
 import javax.swing.*;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
+import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.util.ImagePanel;
 
+/**
+ * Panel that allows the user to select between two climates (equator and arctic)
+ *
+ * @author Jonathan Olson
+ */
 public class ClimatePanel extends JPanel {
+
+    // radio buttons
     public JRadioButton equatorButton;
     public JRadioButton arcticButton;
 
     private NaturalSelectionModel model;
 
-    public ClimatePanel( NaturalSelectionModel _model ) {
-        model = _model;
+    /**
+     * Constructor
+     *
+     * @param model The Natural Selection model
+     */
+    public ClimatePanel( NaturalSelectionModel model ) {
+        this.model = model;
+
+        // ugly layout code to follow
 
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
 
@@ -27,7 +44,7 @@ public class ClimatePanel extends JPanel {
 
         equatorPanel.add( Box.createRigidArea( new Dimension( 5, 0 ) ) );
 
-        ImagePanel equatorImage = new ImagePanel( "equator-environment.png" );
+        ImagePanel equatorImage = new ImagePanel( NaturalSelectionConstants.IMAGE_EQUATOR_ENVIRONMENT );
         equatorPanel.add( equatorImage );
 
         JPanel arcticPanel = new JPanel();
@@ -38,7 +55,7 @@ public class ClimatePanel extends JPanel {
 
         arcticPanel.add( Box.createRigidArea( new Dimension( 5, 0 ) ) );
 
-        ImagePanel arcticImage = new ImagePanel( "arctic-environment.png" );
+        ImagePanel arcticImage = new ImagePanel( NaturalSelectionConstants.IMAGE_ARCTIC_ENVIRONMENT );
         arcticPanel.add( arcticImage );
 
         JLabel label = new JLabel( "Environment" );
@@ -55,8 +72,9 @@ public class ClimatePanel extends JPanel {
         climateGroup.add( equatorButton );
         climateGroup.add( arcticButton );
 
-        equatorButton.setSelected( true );
+        selectDefaultClimate();
 
+        // make sure everything has the correct background color
         setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         equatorButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         equatorPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
@@ -66,7 +84,17 @@ public class ClimatePanel extends JPanel {
         arcticImage.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
     }
 
+    public void selectDefaultClimate() {
+        int climate = NaturalSelectionDefaults.DEFAULT_CLIMATE;
+        if ( climate == NaturalSelectionModel.CLIMATE_EQUATOR ) {
+            equatorButton.setSelected( true );
+        }
+        else if ( climate == NaturalSelectionModel.CLIMATE_ARCTIC ) {
+            arcticButton.setSelected( true );
+        }
+    }
+
     public void reset() {
-        equatorButton.setSelected( true );
+        selectDefaultClimate();
     }
 }
