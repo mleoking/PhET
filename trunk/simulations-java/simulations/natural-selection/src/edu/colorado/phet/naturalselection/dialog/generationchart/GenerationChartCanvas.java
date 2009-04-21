@@ -10,51 +10,64 @@ import edu.colorado.phet.naturalselection.view.GenerationChartNode;
 import edu.colorado.phet.naturalselection.view.HeredityChartNode;
 import edu.umd.cs.piccolo.PNode;
 
+/**
+ * The piccolo canvas where the generation charts are drawn in. Allows changing between the charts
+ */
 public class GenerationChartCanvas extends PhetPCanvas {
-
+    // current types of generation charts
     public static final int TYPE_HEREDITY = 0;
     public static final int TYPE_GENERATION = 1;
 
-    public static int lastType = TYPE_HEREDITY;
+    // the last type the user viewed
+    public static int lastType = NaturalSelectionDefaults.DEFAULT_GENERATION_CHART;
 
     private NaturalSelectionModel model;
     private GenerationChartNode generationChartNode;
     private HeredityChartNode heredityChartNode;
 
+    /**
+     * Constructor
+     * @param model The natural selection model
+     */
     public GenerationChartCanvas( NaturalSelectionModel model ) {
-
-
-        super( NaturalSelectionDefaults.chartSize );
-
-        setPreferredSize( NaturalSelectionDefaults.chartSize );
+        // TODO: allow the generation chart to change size
+        super( NaturalSelectionDefaults.GENERATION_CHART_SIZE );
+        setPreferredSize( NaturalSelectionDefaults.GENERATION_CHART_SIZE );
 
         this.model = model;
 
         setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
-        //setBorder( null );
-
 
         PNode rootNode = new PNode();
         addWorldChild( rootNode );
 
+        // add both of the charts
+        
         heredityChartNode = new HeredityChartNode( model );
         generationChartNode = new GenerationChartNode( model );
 
         rootNode.addChild( heredityChartNode );
         rootNode.addChild( generationChartNode );
 
+        // set it to the last used type
         select( lastType );
     }
 
     public void reset() {
         heredityChartNode.reset();
         generationChartNode.reset();
+
+        select( NaturalSelectionDefaults.DEFAULT_GENERATION_CHART );
     }
 
-    public void select( int lastType ) {
-        this.lastType = lastType;
+    /**
+     * Change the type of chart being viewed
+     * @param chartType The type of chart, for now either TYPE_HEREDITY or TYPE_GENERATION
+     */
+    public void select( int chartType ) {
+        lastType = chartType;
 
-        if ( lastType == TYPE_HEREDITY ) {
+        if ( chartType == TYPE_HEREDITY ) {
             heredityChartNode.setVisible( true );
             generationChartNode.setVisible( false );
         }
@@ -64,5 +77,8 @@ public class GenerationChartCanvas extends PhetPCanvas {
         }
     }
 
+    public static void resetType() {
+        lastType = NaturalSelectionDefaults.DEFAULT_GENERATION_CHART;
+    }
 
 }

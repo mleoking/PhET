@@ -79,7 +79,7 @@ public class GenerationChartNode extends PNode implements NaturalSelectionModel.
 
             bunnyNode.scale( 0.1 );
 
-            if ( xoffset + 25 > NaturalSelectionDefaults.chartSize.getWidth() ) {
+            if ( xoffset + 25 > NaturalSelectionDefaults.GENERATION_CHART_SIZE.getWidth() ) {
                 xoffset = 0;
 
                 yoffset += 30;
