@@ -189,7 +189,16 @@ public class SwingLayoutNode extends PNode {
         }
         
         public Dimension getPreferredSize() {
+            //TODO: round up dimensions instead of rounding down
             return new Dimension( (int) node.getFullBoundsReference().getWidth(), (int) node.getFullBoundsReference().getHeight() );
+        }
+
+        /**
+         * Return the PNode size as the minimum dimension; required by layouts such as BoxLayout.
+         * @return the minimum size for this component
+         */
+        public Dimension getMinimumSize() {
+            return getPreferredSize();
         }
 
         public void setBounds( int x, int y, int width, int height ) {
