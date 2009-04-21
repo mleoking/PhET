@@ -1,3 +1,5 @@
+# 1.02.00 (30589) Apr 20, 2009
+4/20/09 Batch deploy as part of IOM milestone with revision 30588
 # 1.01.03 (29629) Mar 22, 2009
 3/22/09 Batch deploy for Alpha Simulation Tests 2, svn 29628
 # 1.01.02 (28781) Feb 19, 2009
