@@ -65,6 +65,7 @@ public class BunnyNode extends NaturalSelectionSprite implements Bunny.BunnyList
     }
 
     public void onBunnyChangeColor( Allele allele ) {
+        System.out.println( "Bunny changing color" );
         if ( isWhite ) {
             if ( allele == ColorGene.WHITE_ALLELE ) {
                 return;
