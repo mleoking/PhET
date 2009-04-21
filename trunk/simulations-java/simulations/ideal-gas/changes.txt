@@ -1,3 +1,5 @@
+# 3.09.00 (30610) Apr 20, 2009
+4/20/09 Batch deploy as part of IOM milestone with revision 30609
 # 3.08.11 (30255) Apr 6, 2009
 4/6/09 dev version for verifying #1385
 # 3.08.10 (30233) Apr 6, 2009
