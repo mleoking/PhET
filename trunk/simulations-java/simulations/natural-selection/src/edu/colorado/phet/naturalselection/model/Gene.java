@@ -8,26 +8,55 @@ import java.util.Iterator;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.view.TraitControlNode;
 
+/**
+ * Represents a Gene using Mendelian genetics that contains only two traits.
+ * One of the traits is considered to be the primary one, and the other the secondary.
+ * <p/>
+ * The dominant trait can be changed
+ *
+ * @author Jonathan Olson
+ */
 public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.TraitControlNodeListener {
-    private ArrayList listeners;
 
+    /**
+     * The primary allele (usually the default)
+     */
     private Allele primaryAllele;
+
+    /**
+     * The secondary allele (usually the mutation)
+     */
     private Allele secondaryAllele;
 
+    // distribution counts of the various traits
     private int primaryCount = 0;
     private int secondaryCount = 0;
 
+    /**
+     * The dominant allele
+     */
     private Allele dominantAllele;
+
+    /**
+     * Whether or not this gene will mutate
+     */
     private boolean mutatable;
 
     private NaturalSelectionModel model;
+    private ArrayList listeners;
 
-    protected Gene( Allele _primaryAllele, Allele _secondaryAllele ) {
+    /**
+     * Constructor, builds a gene from two alleles
+     *
+     * @param primaryAllele   The primary (usually default) allele
+     * @param secondaryAllele The secondary (usually mutated) allele
+     */
+    protected Gene( Allele primaryAllele, Allele secondaryAllele ) {
 
-        primaryAllele = _primaryAllele;
-        secondaryAllele = _secondaryAllele;
+        this.primaryAllele = primaryAllele;
+        this.secondaryAllele = secondaryAllele;
 
-        dominantAllele = primaryAllele;
+        dominantAllele = this.primaryAllele;
 
         listeners = new ArrayList();
 
@@ -39,10 +68,18 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
         mutatable = false;
     }
 
-    public void setModel( NaturalSelectionModel _model ) {
-        model = _model;
+    /**
+     * Sets the natural selection model, since genes are constructed as singletons
+     *
+     * @param model The natural selection model they apply to
+     */
+    public void setModel( NaturalSelectionModel model ) {
+        this.model = model;
     }
 
+    /*
+     * Getters and setters
+     */
 
     public Allele getPrimaryAllele() {
         return primaryAllele;
@@ -68,8 +105,10 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
 
         dominantAllele = _dominantAllele;
 
+        // dominant allele changed, notify everything
         notifyChangeDominantAllele();
 
+        // refresh the distribution counts
         refreshPhenotypeCount();
     }
 
@@ -93,6 +132,10 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
         }
     }
 
+    /**
+     * Recount the number of alive bunnies with the primary and secondary alleles
+     * If it changed, then notify listeners
+     */
     public void refreshPhenotypeCount() {
         int oldPrimary = primaryCount;
         int oldSecondary = secondaryCount;
@@ -100,6 +143,7 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
         primaryCount = 0;
         secondaryCount = 0;
 
+        // only count alive bunnies
         ArrayList bunnies = model.getAliveBunnyList();
         Iterator iter = bunnies.iterator();
         while ( iter.hasNext() ) {
@@ -136,8 +180,19 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
         mutatable = maybe;
     }
 
+    /**
+     * Subclasses should implement this to return the fraction of alleles that will mutate when passed on.
+     *
+     * @return
+     */
     public abstract double getMutationFraction();
 
+    /**
+     * Return a (possibly) mutated allele
+     *
+     * @param base The starting allele
+     * @return A possibly mutated allele
+     */
     public Allele mutatedAllele( Allele base ) {
         if ( !getMutatable() ) {
             return base;
@@ -155,13 +210,29 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
         return base;
     }
 
+    /**
+     * The name of the gene
+     *
+     * @return The name of the gene
+     */
     public abstract String getName();
 
+    /**
+     * Should return the genotype of the particular bunny.
+     *
+     * @param bunny The bunny
+     * @return The genotype of the bunny for this particular gene
+     */
     public abstract Genotype getBunnyGenotype( Bunny bunny );
 
+    /*
+     * Event handlers
+     */
+
     public void onBunnyInit( Bunny bunny ) {
-        // not in bunnies array yet
-        //refreshPhenotypeCount();
+        // not in bunnies array yet, don't refresh the phenotype count
+        // here we manually increment the counts
+        
         if ( getBunnyGenotype( bunny ).getPhenotype() == primaryAllele ) {
             primaryCount++;
         }
@@ -201,7 +272,9 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
         setMutatable( true );
     }
 
-    // notifiers
+    /*
+     * Notifiers
+     */
 
     private void notifyChangeDistribution() {
         System.out.println( "\tGene distribution changed for " + getName() );
@@ -221,7 +294,9 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
         }
     }
 
-    // listeners
+    /*
+     * Listeners
+     */
 
     public void addListener( GeneListener listener ) {
         listeners.add( listener );
