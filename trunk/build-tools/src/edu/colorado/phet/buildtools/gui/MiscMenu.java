@@ -6,9 +6,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashSet;
+import java.util.*;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -75,7 +73,8 @@ public class MiscMenu extends JMenu {
         JMenuItem buildAndDeployAll = new JMenuItem( "Batch Deploy All sims" );
         buildAndDeployAll.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                batchDeploy( PhetProject.getAllSimulations( trunk ), selectDeployStrategy() );
+//                batchDeploy( PhetProject.getAllSimulations( trunk ), selectDeployStrategy() );
+                batchDeploy( select(PhetProject.getAllSimulations( trunk )), selectDeployStrategy() );
             }
         } );
         add( buildAndDeployAll );
@@ -109,6 +108,24 @@ public class MiscMenu extends JMenu {
             }
         } );
         add( updateFlashAgreement );
+    }
+
+    private PhetProject[] select( PhetProject[] allSimulations ) {
+        ArrayList todo=new ArrayList( );
+        String doneString="acid-base-solutions,balloons,battery-resistor-circuit,battery-voltage,bound-states,cavendish-experiment,charges-and-fields-scala,circuit-construction-kit,color-vision,conductivity,discharge-lamps,eating-and-exercise,efield";
+
+        ArrayList done=new ArrayList( );
+        StringTokenizer st=new StringTokenizer( doneString,",");
+        while(st.hasMoreTokens() ){
+            done.add(st.nextToken());
+        }
+        for ( int i = 0; i < allSimulations.length; i++ ) {
+            PhetProject allSimulation = allSimulations[i];
+            if (!done.contains(allSimulation.getName())){
+                 todo.add(allSimulation);
+            }
+        }
+        return (PhetProject[]) todo.toArray( new PhetProject[0] );
     }
 
     private DeployStrategy selectDeployStrategy() {
