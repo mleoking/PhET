@@ -6,7 +6,6 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.HashMap;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -32,8 +31,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class SwingLayoutNode extends PNode implements NodeLayoutStrategy {
 
     private final JPanel container;
-    //TODO: Since PNode doesn't correctly override equals or hashcode, it shouldn't be used as a key in a HashMap like this
-    private final HashMap nodeComponentMap; // PNode -> NodeComponent
     private final PropertyChangeListener propertyChangeListener;
     private NodeLayoutStrategy nodeLayoutStrategy;
 
@@ -53,9 +50,7 @@ public class SwingLayoutNode extends PNode implements NodeLayoutStrategy {
      */
     public SwingLayoutNode( LayoutManager layoutManager ) {
         this.container = new JPanel( layoutManager );
-        this.nodeComponentMap = new HashMap();
         this.propertyChangeListener = new PropertyChangeListener() {
-
             public void propertyChange( PropertyChangeEvent event ) {
                 if ( isLayoutProperty( event.getPropertyName() ) ) {
                     updateLayout();
@@ -65,15 +60,15 @@ public class SwingLayoutNode extends PNode implements NodeLayoutStrategy {
         this.nodeLayoutStrategy = DEFAULT_NODE_LAYOUT_STRATEGY;
     }
 
-    public NodeLayoutStrategy getNodeLayoutStrategy() {
-        return nodeLayoutStrategy;
-    }
-
-    public void setNodeLayoutStrategy( NodeLayoutStrategy nodeLayoutStrategy ) {
+    protected void setNodeLayoutStrategy( NodeLayoutStrategy nodeLayoutStrategy ) {
         this.nodeLayoutStrategy = nodeLayoutStrategy;
         updateLayout();
     }
 
+    /**
+     * Some Swing layouts (like BoxLayout) require a reference to the container.
+     * @return
+     */
     public Container getContainer() {
         return container;
     }
@@ -162,26 +157,42 @@ public class SwingLayoutNode extends PNode implements NodeLayoutStrategy {
             container.add( component, constraints );
         }
         node.addPropertyChangeListener( propertyChangeListener );
-        nodeComponentMap.put( node, component );
         updateLayout();
     }
 
     /*
      * Removes a proxy component for a node.
+     * Does nothing if the node is not a child of the layout.
      */
     private void removeNodeComponent( PNode node ) {
         if ( node != null ) {
-            NodeComponent component = (NodeComponent) nodeComponentMap.get( node );
+            NodeComponent component = getComponentForNode( node );
             if ( component != null ) {
                 container.remove( component );
                 node.removePropertyChangeListener( propertyChangeListener );
-                nodeComponentMap.remove( node );
                 updateLayout();
             }
-            else {
-                new RuntimeException( "No component found for node, see TODO above regarding map" ).printStackTrace();
+        }
+    }
+    
+    /*
+     * Find the component that is serving as the proxy for a specific node.
+     * Returns null if not found.
+     */
+    private NodeComponent getComponentForNode( PNode node ) {
+        NodeComponent nodeComponent = null;
+        Component[] components = container.getComponents();
+        if ( components != null ) {
+            for ( int i = 0; i < components.length && nodeComponent == null; i++ ) {
+                if ( components[i] instanceof NodeComponent ) {
+                    NodeComponent n = (NodeComponent)components[i];
+                    if ( n.getNode() == node ) {
+                        nodeComponent = n;
+                    }
+                }
             }
         }
+        return nodeComponent;
     }
 
     /*
@@ -214,9 +225,9 @@ public class SwingLayoutNode extends PNode implements NodeLayoutStrategy {
             this.node = node;
             this.nodeLayoutStrategy = nodeLayoutStrategy;
         }
-
-        private int roundUp( double val ) {
-            return (int) Math.ceil( val );
+        
+        public PNode getNode() {
+            return node;
         }
 
         public Dimension getPreferredSize() {
@@ -224,6 +235,10 @@ public class SwingLayoutNode extends PNode implements NodeLayoutStrategy {
             double w = node.getFullBoundsReference().getWidth();
             double h = node.getFullBoundsReference().getHeight();
             return new Dimension( roundUp( w ), roundUp( h ) );
+        }
+        
+        private int roundUp( double val ) {
+            return (int) Math.ceil( val );
         }
 
         /**
