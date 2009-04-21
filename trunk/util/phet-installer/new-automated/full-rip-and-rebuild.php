@@ -54,6 +54,7 @@
 
         // Rip the web site.
         ripper_rip_website();
+        ripper_download_sims();
 
         // Incorporate the timestamp information that indicates when this
         // version of the installer was created.
