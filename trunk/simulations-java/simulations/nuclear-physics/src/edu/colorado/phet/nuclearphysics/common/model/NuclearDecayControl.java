@@ -1,13 +1,13 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.nuclearphysics.model;
+package edu.colorado.phet.nuclearphysics.common.model;
 
 /**
  * Interface for controlling various aspects of a nucleus's decay behavior.
  * 
  * @author John Blanco
  */
-public interface AlphaDecayControl {
+public interface NuclearDecayControl {
 
 	/**
 	 * Activate the decay process for a nucleus.  In most cases, this will

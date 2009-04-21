@@ -5,6 +5,8 @@ package edu.colorado.phet.nuclearphysics.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.nuclearphysics.common.model.Neutron;
+
 /**
  * This class models the behavior of a neutron source, i.e. some sort of
  * device that can generate neutrons.

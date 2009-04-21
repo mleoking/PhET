@@ -2,7 +2,7 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.umd.cs.piccolo.PNode;
 
 

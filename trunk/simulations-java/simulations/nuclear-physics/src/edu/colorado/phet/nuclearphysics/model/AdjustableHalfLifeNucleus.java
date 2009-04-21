@@ -5,6 +5,8 @@ package edu.colorado.phet.nuclearphysics.model;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
+import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
+
 
 /**
  * This class represents a non-composite nucleus that has an adjustable half

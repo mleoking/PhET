@@ -3,6 +3,8 @@ package edu.colorado.phet.nuclearphysics.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
+
 
 public class DaughterCompositeNucleus extends CompositeAtomicNucleus {
 

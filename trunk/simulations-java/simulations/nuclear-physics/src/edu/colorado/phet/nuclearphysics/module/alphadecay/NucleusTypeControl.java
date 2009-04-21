@@ -1,6 +1,6 @@
 package edu.colorado.phet.nuclearphysics.module.alphadecay;
 
-import edu.colorado.phet.nuclearphysics.model.NuclearDecayModelListener;
+import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayModelListener;
 
 /**
  * This interface is used, generally by a control panel, to set the type of
