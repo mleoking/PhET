@@ -11,6 +11,7 @@ import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelecti
  * Defaults for the simulation
  */
 public class NaturalSelectionDefaults {
+    public static double TICKS_PER_MONTH = 25.0;
 
     /* Not intended for instantiation */
     private NaturalSelectionDefaults() {
@@ -34,5 +35,6 @@ public class NaturalSelectionDefaults {
     public static final Dimension GENERATION_CHART_SIZE = new Dimension( 800, 600 );
 
     public static final int START_MONTH = 0; // January
+    public static final int GENERATION_MONTH = 7; // August
 
 }
