@@ -6,13 +6,21 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.view.GenerationChartNode;
+import edu.colorado.phet.naturalselection.view.HeredityChartNode;
 import edu.umd.cs.piccolo.PNode;
 
 public class GenerationChartCanvas extends PhetPCanvas {
 
     public static final Dimension chartSize = new Dimension( 800, 600 );
 
+    public static final int TYPE_HEREDITY = 0;
+    public static final int TYPE_GENERATION = 1;
+
+    public static int lastType = TYPE_HEREDITY;
+
     private NaturalSelectionModel model;
+    private GenerationChartNode generationChartNode;
+    private HeredityChartNode heredityChartNode;
 
     public GenerationChartCanvas( NaturalSelectionModel model ) {
 
@@ -30,10 +38,26 @@ public class GenerationChartCanvas extends PhetPCanvas {
         PNode rootNode = new PNode();
         addWorldChild( rootNode );
 
-        //PNode bunny = new BunnyNode( ColorGene.WHITE_ALLELE, TeethGene.TEETH_REGULAR_ALLELE, TailGene.TAIL_SHORT_ALLELE );
-        //rootNode.addChild( bunny );
+        heredityChartNode = new HeredityChartNode( model );
+        generationChartNode = new GenerationChartNode( model );
 
-        GenerationChartNode generationChartNode = new GenerationChartNode( model );
+        rootNode.addChild( heredityChartNode );
         rootNode.addChild( generationChartNode );
+
+        select( lastType );
     }
+
+    public void select( int lastType ) {
+        this.lastType = lastType;
+
+        if( lastType == TYPE_HEREDITY ) {
+            heredityChartNode.setVisible( true );
+            generationChartNode.setVisible( false );
+        } else {
+            generationChartNode.setVisible( true );
+            heredityChartNode.setVisible( false );
+        }
+    }
+
+
 }
