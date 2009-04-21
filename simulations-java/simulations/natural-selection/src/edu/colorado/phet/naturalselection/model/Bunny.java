@@ -9,6 +9,8 @@ import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 
 /**
  * Represents a bunny in the Natural Selection model
+ *
+ * @author Jonathan Olson
  */
 public class Bunny {
     // parents (although currently the gender of bunnies is ignored)
