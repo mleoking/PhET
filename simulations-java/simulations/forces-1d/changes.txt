@@ -1,3 +1,5 @@
+# 1.20.00 (30610) Apr 20, 2009
+4/20/09 Batch deploy as part of IOM milestone with revision 30609
 # 1.19.02 (30173) Apr 1, 2009
 4/1/09 Fixed by removing the slider wiggle me, see #1475
 # 1.19.01 (29629) Mar 22, 2009
