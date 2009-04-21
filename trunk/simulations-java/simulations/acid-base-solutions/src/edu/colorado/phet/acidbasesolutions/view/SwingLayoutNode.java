@@ -170,7 +170,7 @@ public class SwingLayoutNode extends PNode {
     }
     
     private void updateLayout() {
-        container.invalidate();//necessary for layouts like BoxLayout that would otherwise use stale state 
+        container.invalidate(); // necessary for layouts like BoxLayout that would otherwise use stale state 
         container.doLayout();
     }
 
@@ -258,6 +258,7 @@ public class SwingLayoutNode extends PNode {
         SwingLayoutNode gridNode = new SwingLayoutNode( new GridBagLayout() );
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.insets = new Insets( 10, 10, 10, 10 );
+        /*---- column of values, right justified ---*/
         constraints.gridy = 0; // row
         constraints.gridx = 0; // column
         constraints.anchor = GridBagConstraints.EAST; //TODO why isn't this anchor respected when dynamicNode is updated?
@@ -265,6 +266,7 @@ public class SwingLayoutNode extends PNode {
         gridNode.addChild( dynamicNode, constraints );
         constraints.gridy++;
         gridNode.addChild( new PText("0"), constraints );
+        /*---- column of shapes, center justified ---*/
         constraints.gridy = 0; // row
         constraints.gridx++; // column
         constraints.anchor = GridBagConstraints.CENTER;
@@ -275,6 +277,7 @@ public class SwingLayoutNode extends PNode {
         PPath greenCircle = new PPath( new Ellipse2D.Double( 0, 0, 25, 25 ));
         greenCircle.setPaint( Color.GREEN );
         gridNode.addChild( greenCircle, constraints );
+        /*---- column of labels, left justified ---*/
         constraints.gridy = 0; // row
         constraints.gridx++; // column
         constraints.anchor = GridBagConstraints.WEST;
@@ -286,7 +289,10 @@ public class SwingLayoutNode extends PNode {
         rootNode.addChild( gridNode );
         
         JPanel controlPanel = new JPanel();
-        final JSlider dynamicSlider = new JSlider( 1, 1000000 ); // controls dynamicNode
+        final JSlider dynamicSlider = new JSlider( 0, 1000000 ); // controls dynamicNode
+        dynamicSlider.setMajorTickSpacing( 1000000 );
+        dynamicSlider.setPaintTicks( true );
+        dynamicSlider.setPaintLabels( true );
         dynamicSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 dynamicNode.setText( String.valueOf( dynamicSlider.getValue() ) );
