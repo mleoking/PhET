@@ -244,11 +244,6 @@ public class SwingLayoutNode extends PNode {
         horizontalLayoutNode.setOffset( 100, 400 );
         rootNode.addChild( horizontalLayoutNode );
         
-        JPanel p = new JPanel();
-        p.setLayout( new BoxLayout( p, BoxLayout.Y_AXIS ) );
-        p.add( new JLabel( "foo" ) );
-        p.doLayout();
-        
         SwingLayoutNode boxLayoutNode = new SwingLayoutNode();
         boxLayoutNode.setLayout( new BoxLayout( boxLayoutNode.getContainer(), BoxLayout.Y_AXIS ) );
         boxLayoutNode.addChild( new PPath( new Rectangle2D.Double( 0, 0, 50, 50 ) ) );
