@@ -1,3 +1,5 @@
+# 1.02.00 (30589) Apr 20, 2009
+4/20/09 Batch deploy as part of IOM milestone with revision 30588
 # 1.01.07 (29972) Mar 27, 2009
 3/27/09 #1526, incorporate Romanian sim translation
 # 1.01.06 (29913) Mar 26, 2009
