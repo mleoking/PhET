@@ -5,15 +5,25 @@ package edu.colorado.phet.naturalselection.view;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
+import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
+/**
+ * Displays the big vanilla bunny in the trait control panel. Contains coordinates for parts of the bunny
+ *
+ * @author Jonathan Olson
+ */
 public class BigVanillaBunny extends PNode {
     public BigVanillaBunny() {
-        PImage child = NaturalSelectionResources.getImageNode( "big_bunny.png" );
+        PImage child = NaturalSelectionResources.getImageNode( NaturalSelectionConstants.IMAGE_BIG_VANILLA_BUNNY );
 
         addChild( child );
     }
+
+    //----------------------------------------------------------------------------
+    // Position functions
+    //----------------------------------------------------------------------------
 
     public Point2D getColorPosition() {
         return new Point2D.Double( 58 + getOffset().getX(), 75 + getOffset().getY() );
