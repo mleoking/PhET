@@ -35,7 +35,7 @@ public class AlphaDecayControlPanel extends ControlPanel {
      * @param alphaDecayModel 
      */
     public AlphaDecayControlPanel( PiccoloModule piccoloModule, Frame parentFrame, 
-    		AlphaDecayNucleusTypeControl alphaDecayModel ) {
+    		NucleusTypeControl alphaDecayModel ) {
         
         // Set the control panel's minimum width.
         int minimumWidth = NuclearPhysicsResources.getInt( "int.minControlPanelWidth", 215 );

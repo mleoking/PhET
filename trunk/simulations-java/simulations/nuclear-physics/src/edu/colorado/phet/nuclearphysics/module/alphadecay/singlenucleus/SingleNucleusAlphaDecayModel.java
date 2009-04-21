@@ -11,12 +11,12 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeCompositeNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayCompositeNucleus;
-import edu.colorado.phet.nuclearphysics.model.AlphaDecayModelListener;
+import edu.colorado.phet.nuclearphysics.model.NuclearDecayModelListener;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.model.Polonium211CompositeNucleus;
-import edu.colorado.phet.nuclearphysics.module.alphadecay.AlphaDecayNucleusTypeControl;
+import edu.colorado.phet.nuclearphysics.module.alphadecay.NucleusTypeControl;
 
 /**
  * This class contains the Model portion of the Model-View-Controller 
@@ -25,7 +25,7 @@ import edu.colorado.phet.nuclearphysics.module.alphadecay.AlphaDecayNucleusTypeC
  *
  * @author John Blanco
  */
-public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl {
+public class SingleNucleusAlphaDecayModel implements NucleusTypeControl {
 
     //------------------------------------------------------------------------
     // Class data
@@ -173,7 +173,7 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
      * 
      * @param listener
      */
-    public void addListener(AlphaDecayModelListener listener)
+    public void addListener(NuclearDecayModelListener listener)
     {
         assert !_listeners.contains( listener );
         
@@ -284,7 +284,7 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
      */
     private void notifyModelElementRemoved(Object removedElement){
         for (int i = 0; i < _listeners.size(); i++){
-            ((AlphaDecayModelListener)_listeners.get(i)).modelElementRemoved( removedElement );
+            ((NuclearDecayModelListener)_listeners.get(i)).modelElementRemoved( removedElement );
         }
     }
     
@@ -294,7 +294,7 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
      */
     private void notifyModelElementAdded(Object addedElement){
         for (int i = 0; i < _listeners.size(); i++){
-            ((AlphaDecayModelListener)_listeners.get(i)).modelElementAdded( addedElement );
+            ((NuclearDecayModelListener)_listeners.get(i)).modelElementAdded( addedElement );
         }
     }
 
@@ -304,7 +304,7 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
      */
     private void notifyNucleusTypeChanged(){
         for (int i = 0; i < _listeners.size(); i++){
-            ((AlphaDecayModelListener)_listeners.get(i)).nucleusTypeChanged();
+            ((NuclearDecayModelListener)_listeners.get(i)).nucleusTypeChanged();
         }
     }
 
@@ -314,7 +314,7 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
      */
     private void notifyHalfLifeChanged(){
         for (int i = 0; i < _listeners.size(); i++){
-            ((AlphaDecayModelListener)_listeners.get(i)).halfLifeChanged();
+            ((NuclearDecayModelListener)_listeners.get(i)).halfLifeChanged();
         }
     }
     
