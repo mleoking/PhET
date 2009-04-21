@@ -29,8 +29,7 @@
         $timestamp = file_get_contents( CREATION_TIMESTAMP_FILE_NAME );
 
         // Execute the PHP script that inserts the value into the DB.
-        //exec( "/web/htdocs/phet/cl_utils/add-installer-timestamp.php $TIMESTAMP" );
-        flushing_echo( "!!!!! Timestamp insertion stubbed, would execute: /web/htdocs/phet/cl_utils/add-installer-timestamp.php $timestamp" );
+        exec( "/web/htdocs/phet/cl_utils/add-installer-timestamp.php $timestamp" );
     }
 
     //--------------------------------------------------------------------------
