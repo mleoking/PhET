@@ -1,3 +1,5 @@
+# 1.05.00 (30589) Apr 20, 2009
+4/20/09 Batch deploy as part of IOM milestone with revision 30588
 # 1.04.04 (30218) Apr 2, 2009
 4/2/09 Deploying to test ticket #1487
 # 1.04.03 (29629) Mar 22, 2009
