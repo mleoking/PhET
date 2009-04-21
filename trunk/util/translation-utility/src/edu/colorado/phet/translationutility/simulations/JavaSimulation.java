@@ -1,4 +1,4 @@
-/* Copyright 2008, University of Colorado */
+/* Copyright 2008-2009, University of Colorado */
 
 package edu.colorado.phet.translationutility.simulations;
 
@@ -7,12 +7,10 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.jar.*;
 
-import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.application.JARLauncher;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.view.util.StringUtil;
 import edu.colorado.phet.translationutility.TUConstants;
-import edu.colorado.phet.translationutility.TUResources;
 import edu.colorado.phet.translationutility.util.Command;
 import edu.colorado.phet.translationutility.util.PropertiesIO;
 import edu.colorado.phet.translationutility.util.TULogger;
@@ -32,14 +30,9 @@ public class JavaSimulation extends AbstractSimulation {
     // Class data
     //----------------------------------------------------------------------------
     
-    // regular expression that matches localization string files
-    private static final String REGEX_LOCALIZATION_FILES = ".*-strings.*\\.properties";
-    
-    // project properties file and properties
-    private static final String PROJECT_NAME_PROPERTY = "project.name"; //TODO: #1249, delete after IOM
-    
     private static final String COMMON_STRINGS_PROJECT = "java-common-strings";
     private static final String COMMON_STRINGS_BASENAME = "phetcommon";
+    private static final String PROJECT_NAME_PROPERTY = "project.name";
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -55,13 +48,8 @@ public class JavaSimulation extends AbstractSimulation {
     
     public void testStrings( Properties properties, Locale locale ) throws SimulationException {
         String testJarFileName = createTestJar( properties, locale );
-        String localeString = LocaleUtils.localeToString( locale );
         try {
-            String[] cmdArray = { "java", 
-                    "-D" + PhetCommonConstants.PROPERTY_PHET_LANGUAGE + "=" + localeString, /* TODO: #1249, delete after IOM */
-                    "-Djavaws.phet.locale=" + localeString, /* TODO: #1249, delete after IOM */
-                    "-Duser.language=" + localeString, /* TODO: #1249, delete after IOM */
-                    "-jar", testJarFileName };
+            String[] cmdArray = { "java", "-jar", testJarFileName };
             Command.run( cmdArray, false /* waitForCompletion */ );
         }
         catch ( CommandException e ) {
@@ -114,34 +102,15 @@ public class JavaSimulation extends AbstractSimulation {
     
     /*
      * Gets the project name for the simulation.
+     * The project name is identified in the properties file read by JARLauncher.
+     * Returns null if the project name wasn't found.
      */
     protected String getProjectName( String jarFileName ) throws SimulationException {
-        
         String projectName = null;
-        Properties projectProperties = null;
-
-        //TODO: #1249, delete after IOM
-        projectProperties = readPropertiesFromJar( jarFileName, "project.properties" );
-        if ( projectProperties != null ) {
-            projectName = projectProperties.getProperty( PROJECT_NAME_PROPERTY );
+        Properties jarLauncherProperties = readPropertiesFromJar( jarFileName, JARLauncher.PROPERTIES_FILE_NAME );
+        if ( jarLauncherProperties != null ) {
+            projectName = jarLauncherProperties.getProperty( PROJECT_NAME_PROPERTY );
         }
-
-        // The project name is identified in the properties file read by JARLauncher
-        projectProperties = readPropertiesFromJar( jarFileName, JARLauncher.PROPERTIES_FILE_NAME );
-        if ( projectProperties != null ) {
-            projectName = projectProperties.getProperty( PROJECT_NAME_PROPERTY );
-        }
-        
-        //TODO: #1249, delete after IOM
-        if ( projectName == null ) {
-            // For older sims (or if PROJECT_NAME_PROPERTY is missing), discover the project name
-            projectName = discoverProjectName( jarFileName );
-        }
-        
-        if ( projectName == null ) {
-            throw new SimulationException( "could not determine this simulation's project name: " + jarFileName );
-        }
-        
         return projectName;
     }
     
@@ -212,62 +181,6 @@ public class JavaSimulation extends AbstractSimulation {
     }
     
     /*
-     * Discovers the name of the project that was used to build the JAR file.
-     * We search for localization files in the JAR file.
-     * The first localization file that does not belong to a common project is assumed
-     * to belong to the simulation, and we extract the project name from the localization file name.
-     */
-    private static String discoverProjectName( String jarFileName ) throws SimulationException {
-        
-        String[] commonProjectNames = TUResources.getCommonProjectNames();
-        
-        String projectName = null;
-        
-        InputStream inputStream = null;
-        try {
-            inputStream = new FileInputStream( jarFileName );
-        }
-        catch ( FileNotFoundException e ) {
-            e.printStackTrace();
-            throw new SimulationException( "jar file not found: " + jarFileName, e );
-        }
-        
-        JarInputStream jarInputStream = null;
-        try {
-            jarInputStream = new JarInputStream( inputStream );
-            
-            // look for the properties files
-            JarEntry jarEntry = jarInputStream.getNextJarEntry();
-            while ( jarEntry != null ) {
-                String jarEntryName = jarEntry.getName();
-                if ( jarEntryName.matches( REGEX_LOCALIZATION_FILES ) ) {
-                    boolean commonMatch = false;
-                    for ( int i = 0; i < commonProjectNames.length; i++ ) {
-                        String commonProjectFileName = ".*" + commonProjectNames[i] + "-strings.*\\.properties";
-                        if ( jarEntryName.matches( commonProjectFileName ) ) {
-                            commonMatch = true;
-                            break;
-                        }
-                    }
-                    if ( !commonMatch ) {
-                        int index = jarEntryName.indexOf( '/' );
-                        projectName = jarEntryName.substring( 0, index );
-                        break;
-                    }
-                }
-                jarEntry = jarInputStream.getNextJarEntry();
-            }
-            
-            jarInputStream.close();
-        }
-        catch ( IOException e ) {
-            throw new SimulationException( "error reading jar file: " + jarFileName, e );
-        }
-        
-        return projectName;
-    }
-    
-    /*
      * Creates a test JAR by doing the following:
      * 1. copies the original JAR file
      * 2. adds or replaces a properties file containing localized strings
@@ -285,20 +198,13 @@ public class JavaSimulation extends AbstractSimulation {
             throw new IllegalArgumentException( "originalJarFileName and newJarFileName must be different" );
         }
         
-        // read the JARLaucher properties file from the original JAR
-        Properties jarLauncherProperties = null;
-        try {
-            jarLauncherProperties = readPropertiesFromJar( originalJarFileName, JARLauncher.PROPERTIES_FILE_NAME );
-        }
-        catch ( SimulationException e ) {  //TODO: #1249, delete after IOM, all JARs must contain jar-launcher.properties
-            System.err.println( "WARNING: old-style simulation does not contain " + JARLauncher.PROPERTIES_FILE_NAME );
-        }
-        //TODO: #1249, delete this block after IOM
+        // read JARLaucher properties from JAR
+        Properties jarLauncherProperties = readPropertiesFromJar( originalJarFileName, JARLauncher.PROPERTIES_FILE_NAME );
         if ( jarLauncherProperties == null ) {
-            jarLauncherProperties = new Properties();
+            throw new SimulationException( "Cannot read " + JARLauncher.PROPERTIES_FILE_NAME + ". Are you using the most current simulation JAR from the PhET website?" );
         }
         
-        // set the properties related to locale
+        // change the properties related to locale
         jarLauncherProperties.setProperty( "language", locale.getLanguage() );
         String country = locale.getCountry();
         if ( country != null && country.length() > 0 ) {
@@ -322,8 +228,7 @@ public class JavaSimulation extends AbstractSimulation {
                 JarFile.MANIFEST_NAME,
                 "META-INF/.*\\.SF", "META-INF/.*\\.RSA", "META-INF/.*\\.DSA", /* signing information */
                 propertiesFileName,
-                JARLauncher.PROPERTIES_FILE_NAME,
-                "locale.properties", "options.properties" /*TODO: #1249, delete after IOM */
+                JARLauncher.PROPERTIES_FILE_NAME
         };
         
         // create the test JAR file
@@ -370,27 +275,6 @@ public class JavaSimulation extends AbstractSimulation {
             jarLauncherProperties.store( testOutputStream, "created by " + JavaSimulation.class.getName() );
             testOutputStream.closeEntry();
             
-            //TODO: #1249, delete after IOM
-            {
-                String localeString = LocaleUtils.localeToString( locale );
-                
-                // backward compatibility for locale.properties
-                Properties localeProperties = new Properties();
-                localeProperties.setProperty( "language", localeString );
-                jarEntry = new JarEntry( "locale.properties" );
-                testOutputStream.putNextEntry( jarEntry );
-                localeProperties.store( testOutputStream, "created by " + JavaSimulation.class.getName() );
-                testOutputStream.closeEntry();
-                
-                // backward compatibility for options.properties
-                Properties optionsProperties = new Properties();
-                optionsProperties.setProperty( "locale", localeString );
-                jarEntry = new JarEntry( "options.properties" );
-                testOutputStream.putNextEntry( jarEntry );
-                optionsProperties.store( testOutputStream, "created by " + JavaSimulation.class.getName() );
-                testOutputStream.closeEntry();
-            }
-
             // close the streams
             jarInputStream.close();
             testOutputStream.close();

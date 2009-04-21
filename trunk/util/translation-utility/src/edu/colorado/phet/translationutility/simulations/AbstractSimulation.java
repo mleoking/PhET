@@ -1,4 +1,4 @@
-/* Copyright 2008, University of Colorado */
+/* Copyright 2008-2009, University of Colorado */
 
 package edu.colorado.phet.translationutility.simulations;
 
@@ -48,6 +48,9 @@ public abstract class AbstractSimulation implements ISimulation {
         _jarFileName = jarFileName;
         _manifest = getManifest( jarFileName );
         _projectName = getProjectName( jarFileName );
+        if ( _projectName == null ) {
+            throw new SimulationException( "Cannot determine project name. Are you using the most current simulation JAR from the PhET website?" );
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -87,6 +90,7 @@ public abstract class AbstractSimulation implements ISimulation {
     
     /**
      * Subclasses must implement this to determine the project name from the jar file.
+     * Returns null if the project name wasn't found.
      * 
      * @param jarFileName
      * @return String
