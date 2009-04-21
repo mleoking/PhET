@@ -112,7 +112,8 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.NaturalS
             BunnyNode bunnyNode = (BunnyNode) iter.next();
             removeChild( bunnyNode );
         }
-        onClimateChange( NaturalSelectionModel.CLIMATE_EQUATOR );
+        onClimateChange( NaturalSelectionDefaults.DEFAULT_CLIMATE );
+        onSelectionFactorChange( NaturalSelectionDefaults.DEFAULT_SELECTION_FACTOR );
         sprites.clear();
     }
 
