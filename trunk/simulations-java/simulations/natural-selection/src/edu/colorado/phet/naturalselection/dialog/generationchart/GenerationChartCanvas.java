@@ -77,6 +77,9 @@ public class GenerationChartCanvas extends PhetPCanvas {
         }
     }
 
+    /**
+     * Used to reset the last generation chart type when no instance is available
+     */
     public static void resetType() {
         lastType = NaturalSelectionDefaults.DEFAULT_GENERATION_CHART;
     }
