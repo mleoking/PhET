@@ -19,6 +19,7 @@ public class GenerationBunnyNode extends DisplayBunnyNode implements Bunny.Bunny
 
     /**
      * Constructor
+     *
      * @param bunny The bunny we are referencing
      */
     public GenerationBunnyNode( Bunny bunny ) {
