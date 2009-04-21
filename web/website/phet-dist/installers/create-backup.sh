@@ -41,7 +41,7 @@ fi
 
 echo ""
 cp -v $ROOT_DIR*Installer* $BACKUP_DIR
-cp -v $ROOT_DIR*CD* $BACKUP_DIR
+cp -v $ROOT_DIR*cdrom* $BACKUP_DIR
 echo ""
 
 if [ "$?" -ne "0" ]; then
