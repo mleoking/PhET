@@ -110,8 +110,6 @@ public class SwingLayoutNode extends PNode {
      * is expecting to receive constraints.
      * 
      * @param index
-     * @param child
-     * @param constraints
      */
     public void addChild( int index, PNode node ) {
         super.addChild( index, node  );
@@ -169,6 +167,7 @@ public class SwingLayoutNode extends PNode {
     }
     
     private void updateLayout() {
+        container.invalidate();//necessary for layouts like BoxLayout that would otherwise use stale state 
         container.doLayout();
     }
 
@@ -245,12 +244,12 @@ public class SwingLayoutNode extends PNode {
         rootNode.addChild( horizontalLayoutNode );
       
         //TODO why does BoxLayout throw an exception?
-//        SwingLayoutNode boxLayoutNode = new SwingLayoutNode();
-//        boxLayoutNode.setLayout( new BoxLayout( boxLayoutNode.getContainer(), BoxLayout.Y_AXIS ) );
-//        boxLayoutNode.addChild( new PPath( new Rectangle2D.Double( 0, 0, 50, 50 ) ) );
-//        boxLayoutNode.addChild( new PPath( new Rectangle2D.Double( 0, 0, 100, 50 ) ) );
-//        boxLayoutNode.setOffset( 300, 300 );
-//        rootNode.addChild( boxLayoutNode );
+        SwingLayoutNode boxLayoutNode = new SwingLayoutNode();
+        boxLayoutNode.setLayout( new BoxLayout( boxLayoutNode.getContainer(), BoxLayout.Y_AXIS ) );
+        boxLayoutNode.addChild( new PPath( new Rectangle2D.Double( 0, 0, 50, 50 ) ) );
+        boxLayoutNode.addChild( new PPath( new Rectangle2D.Double( 0, 0, 100, 50 ) ) );
+        boxLayoutNode.setOffset( 300, 300 );
+        rootNode.addChild( boxLayoutNode );
         
         JFrame frame = new JFrame();
         frame.setContentPane( canvas );
