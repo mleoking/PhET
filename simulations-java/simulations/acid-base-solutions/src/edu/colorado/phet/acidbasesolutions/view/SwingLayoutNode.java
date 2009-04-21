@@ -243,13 +243,14 @@ public class SwingLayoutNode extends PNode {
         horizontalLayoutNode.addChild( htmlNode );
         horizontalLayoutNode.setOffset( 100, 400 );
         rootNode.addChild( horizontalLayoutNode );
-        
-        SwingLayoutNode boxLayoutNode = new SwingLayoutNode();
-        boxLayoutNode.setLayout( new BoxLayout( boxLayoutNode.getContainer(), BoxLayout.Y_AXIS ) );
-        boxLayoutNode.addChild( new PPath( new Rectangle2D.Double( 0, 0, 50, 50 ) ) );
-        boxLayoutNode.addChild( new PPath( new Rectangle2D.Double( 0, 0, 100, 50 ) ) );
-        boxLayoutNode.setOffset( 300, 300 );
-        rootNode.addChild( boxLayoutNode );
+      
+        //TODO why does BoxLayout throw an exception?
+//        SwingLayoutNode boxLayoutNode = new SwingLayoutNode();
+//        boxLayoutNode.setLayout( new BoxLayout( boxLayoutNode.getContainer(), BoxLayout.Y_AXIS ) );
+//        boxLayoutNode.addChild( new PPath( new Rectangle2D.Double( 0, 0, 50, 50 ) ) );
+//        boxLayoutNode.addChild( new PPath( new Rectangle2D.Double( 0, 0, 100, 50 ) ) );
+//        boxLayoutNode.setOffset( 300, 300 );
+//        rootNode.addChild( boxLayoutNode );
         
         JFrame frame = new JFrame();
         frame.setContentPane( canvas );
