@@ -1,3 +1,5 @@
+/* Copyright 2009, University of Colorado */
+
 package edu.colorado.phet.naturalselection.control;
 
 import java.awt.*;
@@ -12,21 +14,33 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
+/**
+ * Part of the control panel that allows the user to add mutations, select dominant traits and see the trait distributions
+ *
+ * @author Jonathan Olson
+ */
 public class TraitCanvas extends PhetPCanvas {
+    // size of the canvas
+    public static Dimension CANVAS_SIZE = new Dimension( 460, 300 );
 
-    private PNode rootNode;
-
-    public static Dimension canvasSize = new Dimension( 460, 300 );
-    private BigVanillaBunny bunny;
+    // piccolo nodes for each trait that the user can modify
     public TraitControlNode tailTraitNode;
     public TraitControlNode teethTraitNode;
     public TraitControlNode colorTraitNode;
 
+    private PNode rootNode;
+    private BigVanillaBunny bunny; // bunny used without scaling that is the "vanilla" bunny
+
+    /**
+     * Constructor
+     */
     public TraitCanvas() {
-        super( canvasSize );
+        super( CANVAS_SIZE );
 
         rootNode = new PNode();
         addWorldChild( rootNode );
+
+        // manually positioned the trait nodes and bunny
 
         bunny = new BigVanillaBunny();
         bunny.translate( 180, 150 );
@@ -52,8 +66,9 @@ public class TraitCanvas extends PhetPCanvas {
         drawConnectingLine( colorTraitNode );
         rootNode.addChild( colorTraitNode );
 
-        setPreferredSize( canvasSize );
+        setPreferredSize( CANVAS_SIZE );
 
+        // don't display the default PhetPCanvas border
         setBorder( null );
 
         setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
@@ -65,6 +80,13 @@ public class TraitCanvas extends PhetPCanvas {
         colorTraitNode.reset();
     }
 
+    /**
+     * Draws a connecting line from the center of the TraitControlNode to the associated part of the bunny.
+     * The associated part of the bunny is found through getBunnyLocation( BigVanillaBunny bunny ), and should
+     * ask the bunny for that information
+     *
+     * @param traitNode The trait control node to which we draw the line to.
+     */
     private void drawConnectingLine( TraitControlNode traitNode ) {
         PPath node = new PPath();
 
@@ -80,9 +102,5 @@ public class TraitCanvas extends PhetPCanvas {
         node.setPathTo( path.getGeneralPath() );
 
         rootNode.addChild( node );
-    }
-
-    public void updateLayout() {
-
     }
 }
