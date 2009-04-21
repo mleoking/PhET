@@ -24,4 +24,6 @@ public class NaturalSelectionDefaults {
     public static final int DEFAULT_SELECTION_FACTOR = NaturalSelectionModel.SELECTION_NONE;
     public static final int DEFAULT_NUMBER_OF_BUNNIES = 2;
 
+    public static final int START_MONTH = 0; // January
+
 }
