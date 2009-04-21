@@ -9,6 +9,8 @@ import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 
 /**
  * The control node for the tail trait
+ *
+ * @author Jonathan Olson
  */
 public class TailTraitNode extends TraitControlNode {
 
