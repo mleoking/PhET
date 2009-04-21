@@ -100,6 +100,7 @@ public class FlashSimulation extends AbstractSimulation {
      * Gets the project name, based on the JAR file name.
      * The JAR file name may or may not contain a language code.
      * For example, acceptable file names for the "curve-fit" project are curve-fit.jar and curve-fit_fr.jar.
+     * Returns null if the project name wasn't found.
      */
     protected String getProjectName( String jarFileName ) throws SimulationException {
         String projectName = null;
@@ -115,9 +116,6 @@ public class FlashSimulation extends AbstractSimulation {
             index = name.indexOf( "." );
             if ( index != -1 ) {
                 projectName = name.substring( 0, index );
-            }
-            else {
-                throw new SimulationException( "cannot determine project name" );
             }
         }
         return projectName;

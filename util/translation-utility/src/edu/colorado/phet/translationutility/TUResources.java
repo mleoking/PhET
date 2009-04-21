@@ -23,7 +23,6 @@ import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 public class TUResources {
     
     private static final PhetResources RESOURCES = new PhetResources( "translation-utility" );
-    private static final Properties COMMON_PROJECTS = RESOURCES.getProperties( "common-projects.properties" );
     
     /* not intended for instantiation */
     private TUResources() {}
@@ -88,27 +87,6 @@ public class TUResources {
         return RESOURCES.getProjectProperty( key );
     }
 
-    /**
-     * Gets the names of all common projects in the PhET source code repository.
-     * This includes any common projects that are used to build simulations, and that 
-     * may contain localized strings.
-     * 
-     * @return String[]
-     */
-    public static String[] getCommonProjectNames() {
-        
-        // get the list of common project names
-        String allNames = COMMON_PROJECTS.getProperty( "common.projects" );
-        
-        // remove all whitespace
-        allNames = allNames.replaceAll( "\\s+", "" );
-        
-        // parse
-        String[] names = allNames.split( "," );
-        
-        return names;
-    }
-    
     /**
      * Gets the names of the preferred fonts for a specified language code.
      * 
