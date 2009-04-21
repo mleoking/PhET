@@ -78,7 +78,7 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
         // Create the listener that will be registered for model events.
         _atomicNucleusAdapter = new AtomicNucleus.Adapter(){
             
-            public void atomicWeightChanged(AtomicNucleus nucleus, int numProtons, int numNeutrons, 
+            public void nucleusChangeEvent(AtomicNucleus nucleus, int numProtons, int numNeutrons, 
                     ArrayList byProducts){
                 
                 if (byProducts != null){

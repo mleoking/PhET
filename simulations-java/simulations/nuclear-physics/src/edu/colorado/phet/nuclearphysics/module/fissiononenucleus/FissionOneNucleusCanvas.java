@@ -104,7 +104,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
         // model so that we know when decay has occurred.
         _fissionOneNucleusModel.getAtomicNucleus().addListener( new AtomicNucleus.Adapter(){
         	
-            public void atomicWeightChanged(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
+            public void nucleusChangeEvent(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
                     ArrayList byProducts){
             	if (byProducts != null){
             		// This was a decay event, so start the timer that will

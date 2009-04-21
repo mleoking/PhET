@@ -265,7 +265,7 @@ public abstract class AtomicNucleus {
         
         // Do the notification.
         for (int i = 0; i < _listeners.size(); i++){
-            ((Listener)_listeners.get( i )).atomicWeightChanged( this, _numProtons, _numNeutrons, byProducts);
+            ((Listener)_listeners.get( i )).nucleusChangeEvent( this, _numProtons, _numNeutrons, byProducts);
         }
     }
     
@@ -293,8 +293,8 @@ public abstract class AtomicNucleus {
         void positionChanged();
         
         /**
-         * Inform listeners that the atomic weight (i.e. the total number of
-         * protons and neutrons that comprise this nucleus) has changed.
+         * Inform listeners that the nucleus has changed in some why, which
+         * generally indicates a decay event of some kind.
          * 
          * @param numProtons - New number of protons in the nucleus.
          * @param numNeutrons - New number of neutrons in the nucleus.
@@ -302,7 +302,7 @@ public abstract class AtomicNucleus {
          * protons, neutrons, alpha particles, or daughter nuclei.  May be
          * null if no byproducts were produced.
          */
-        void atomicWeightChanged(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, ArrayList byProducts);
+        void nucleusChangeEvent(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, ArrayList byProducts);
         
         /**
          * Inform listeners that the tunneling region radius had changed.
@@ -312,7 +312,7 @@ public abstract class AtomicNucleus {
     
     public static class Adapter implements Listener {
         public void positionChanged(){}
-        public void atomicWeightChanged(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
+        public void nucleusChangeEvent(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
                 ArrayList byProducts){}
         public void tunnelingRadiusChanged(){};
     }
