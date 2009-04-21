@@ -197,7 +197,7 @@
     function deploy_installers() {
 
         // Verify that the installer files exist.
-        flushing_echo("Attemping to deploy the installers.");
+        flushing_echo("Attempting to deploy the installers.");
         if ( !file_exists( file_cleanup_local_filename( OUTPUT_DIR ) ) ) {
             flushing_echo("Error: Directory containing installers not found, aborting deployment.");
             return;
@@ -210,7 +210,7 @@
         // Note: This invokes an existing shell script.  At some point, it may
         // make sense to incorporate the functionality of this script into the
         // PHP code.
-        exec( DEPLOY_DIR."create-backup.sh", $output, $return );
+        exec( DEPLOY_DIR."create-backup.sh ".DEPLOY_DIR, $output, $return );
         flushing_echo( $output[1] );
         if ( $return == 0 ){
             flushing_echo( "Backup of previous installers succeeded." );
