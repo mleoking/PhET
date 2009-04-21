@@ -296,7 +296,7 @@ public class SwingLayoutNode extends PNode {
         rootNode.addChild( horizontalLayoutNode );
 
         SwingLayoutNode boxLayoutNode = new SwingLayoutNode();
-        boxLayoutNode.setAnchorStrategy( new NodeAnchorStrategy.NortWest() );
+        boxLayoutNode.setAnchorStrategy( new NodeAnchorStrategy.Northwest() );
         boxLayoutNode.setLayout( new BoxLayout( boxLayoutNode.getContainer(), BoxLayout.Y_AXIS ) );
         boxLayoutNode.addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 50, 50 ), Color.yellow, new BasicStroke( 2 ), Color.red ) );
         boxLayoutNode.addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 100, 50 ), Color.orange, new BasicStroke( 2 ), Color.blue ) );
