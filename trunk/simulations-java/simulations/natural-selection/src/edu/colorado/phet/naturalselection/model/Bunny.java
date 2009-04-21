@@ -263,9 +263,9 @@ public class Bunny {
         // TODO: add for other traits
     }
 
-    /*
-     * Static methods
-     */
+    //----------------------------------------------------------------------------
+    // Static methods
+    //----------------------------------------------------------------------------
 
     /**
      * Combines the DNA of each parent to get the DNA for the child. getRandomAllele should introduce mutations if
@@ -314,9 +314,9 @@ public class Bunny {
     }
 
 
-    /*
-     * Notifications
-     */
+    //----------------------------------------------------------------------------
+    // Notifications
+    //----------------------------------------------------------------------------
 
     private void notifyInit() {
         System.out.println( "Bunny Born: " + this );
@@ -356,9 +356,9 @@ public class Bunny {
         }
     }
 
-    /*
-     * Listeners
-     */
+    //----------------------------------------------------------------------------
+    // Listeners
+    //----------------------------------------------------------------------------
 
     public void addListener( BunnyListener listener ) {
         listeners.add( listener );

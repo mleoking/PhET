@@ -33,7 +33,7 @@ public class ColorGene extends Gene {
     /**
      * Mutation probability
      *
-     * @return The fraction of bunnies that have a mutation when enabled.
+     * @return The fraction of alleles that have a mutation when enabled.
      */
     public double getMutationFraction() {
         return 0.2;
