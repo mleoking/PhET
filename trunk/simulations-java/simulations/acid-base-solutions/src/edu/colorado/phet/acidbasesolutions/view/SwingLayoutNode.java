@@ -28,14 +28,14 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Sam Reid
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SwingLayoutNode extends PNode implements NodeLayoutStrategy {
+public class SwingLayoutNode extends PNode {
 
     private final JPanel container;
     private final PropertyChangeListener propertyChangeListener;
-    private NodeLayoutStrategy nodeLayoutStrategy;
+    private NodeAnchorStrategy anchorStrategy;
 
-    //By default a Node is centered in its allocated area
-    private static final NodeLayoutStrategy DEFAULT_NODE_LAYOUT_STRATEGY = new Centered();
+    // By default, a node is put in the center of its allocated area.
+    private static final NodeAnchorStrategy DEFAULT_ANCHORED_STRATEGY = new NodeAnchorStrategy.Center();
 
     /**
      * Uses a default FlowLayout.
@@ -57,12 +57,20 @@ public class SwingLayoutNode extends PNode implements NodeLayoutStrategy {
                 }
             }
         };
-        this.nodeLayoutStrategy = DEFAULT_NODE_LAYOUT_STRATEGY;
+        this.anchorStrategy = DEFAULT_ANCHORED_STRATEGY;
     }
 
-    protected void setNodeLayoutStrategy( NodeLayoutStrategy nodeLayoutStrategy ) {
-        this.nodeLayoutStrategy = nodeLayoutStrategy;
+    /**
+     * Sets the strategy used to anchor the node in the space provided by the layout manager.
+     * @param anchorStrategy
+     */
+    public void setAnchorStrategy( NodeAnchorStrategy anchorStrategy ) {
+        this.anchorStrategy = anchorStrategy;
         updateLayout();
+    }
+    
+    public NodeAnchorStrategy getAnchorStrategey() {
+        return anchorStrategy;
     }
 
     /**
@@ -149,7 +157,7 @@ public class SwingLayoutNode extends PNode implements NodeLayoutStrategy {
      * Adds a proxy component for a node.
      */
     private void addNodeComponent( PNode node, Object constraints ) {
-        NodeComponent component = new NodeComponent( node, this );
+        NodeComponent component = new NodeComponent( node, anchorStrategy );
         if ( constraints == null ) {
             container.add( component );
         }
@@ -208,10 +216,6 @@ public class SwingLayoutNode extends PNode implements NodeLayoutStrategy {
         container.doLayout();
     }
 
-    public void layoutNode( PNode node, double x, double y, double w, double h ) {
-        nodeLayoutStrategy.layoutNode( node, x, y, w, h );
-    }
-
     /*
      * JComponent that acts as a proxy for a PNode.
      * Supplies a Swing layout manager with the PNode's layout info.
@@ -219,11 +223,11 @@ public class SwingLayoutNode extends PNode implements NodeLayoutStrategy {
     private static class NodeComponent extends JComponent {
 
         private final PNode node;
-        private final NodeLayoutStrategy nodeLayoutStrategy;
+        private final NodeAnchorStrategy anchorStrategy;
 
-        public NodeComponent( PNode node, NodeLayoutStrategy nodeLayoutStrategy ) {
+        public NodeComponent( PNode node, NodeAnchorStrategy anchorStrategy ) {
             this.node = node;
-            this.nodeLayoutStrategy = nodeLayoutStrategy;
+            this.anchorStrategy = anchorStrategy;
         }
         
         public PNode getNode() {
@@ -251,10 +255,10 @@ public class SwingLayoutNode extends PNode implements NodeLayoutStrategy {
 
         public void setBounds( int x, int y, int width, int height ) {
             super.setBounds( x, y, width, height );
-            nodeLayoutStrategy.layoutNode( node, x, y, width, height );
+            anchorStrategy.layoutNode( node, x, y, width, height );
         }
     }
-
+    
     // test cases
     public static void main( String[] args ) {
 
@@ -306,7 +310,7 @@ public class SwingLayoutNode extends PNode implements NodeLayoutStrategy {
         rootNode.addChild( horizontalLayoutNode );
 
         SwingLayoutNode boxLayoutNode = new SwingLayoutNode();
-        boxLayoutNode.setNodeLayoutStrategy( new TopLeft() );
+        boxLayoutNode.setAnchorStrategy( new NodeAnchorStrategy.NortWest() );
         boxLayoutNode.setLayout( new BoxLayout( boxLayoutNode.getContainer(), BoxLayout.Y_AXIS ) );
         boxLayoutNode.addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 50, 50 ), Color.yellow, new BasicStroke( 2 ), Color.red ) );
         boxLayoutNode.addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 100, 50 ), Color.orange, new BasicStroke( 2 ), Color.blue ) );
@@ -320,7 +324,7 @@ public class SwingLayoutNode extends PNode implements NodeLayoutStrategy {
         /*---- column of values, right justified ---*/
         constraints.gridy = 0; // row
         constraints.gridx = 0; // column
-        constraints.anchor = GridBagConstraints.EAST; //TODO why isn't this anchor respected when dynamicNode is updated?
+        constraints.anchor = GridBagConstraints.EAST;
         final PText dynamicNode = new PText( "0" ); // will be controlled by dynamicSlider
         gridNode.addChild( dynamicNode, constraints );
         constraints.gridy++;
