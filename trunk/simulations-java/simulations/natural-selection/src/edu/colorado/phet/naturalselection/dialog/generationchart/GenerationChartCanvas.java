@@ -50,10 +50,11 @@ public class GenerationChartCanvas extends PhetPCanvas {
     public void select( int lastType ) {
         this.lastType = lastType;
 
-        if( lastType == TYPE_HEREDITY ) {
+        if ( lastType == TYPE_HEREDITY ) {
             heredityChartNode.setVisible( true );
             generationChartNode.setVisible( false );
-        } else {
+        }
+        else {
             generationChartNode.setVisible( true );
             heredityChartNode.setVisible( false );
         }
