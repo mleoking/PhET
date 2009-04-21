@@ -1,3 +1,5 @@
+# 1.06.00 (30610) Apr 20, 2009
+4/20/09 Batch deploy as part of IOM milestone with revision 30609
 # 1.05.00 (30589) Apr 20, 2009
 4/20/09 Batch deploy as part of IOM milestone with revision 30588
 # 1.04.04 (29987) Mar 27, 2009
