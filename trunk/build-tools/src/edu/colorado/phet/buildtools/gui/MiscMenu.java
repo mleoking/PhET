@@ -140,6 +140,7 @@ public class MiscMenu extends JMenu {
         }
     }
     private void batchDeploy( PhetProject[] projects,DeployStrategy deployStrategy ) {
+        PhetServer.showReminder=false;
         int svnVersion = new BuildScript( trunk, projects[0] ).getRevisionOnTrunkREADME();
         String message = JOptionPane.showInputDialog( "Deploying all sims to dev/.  Make sure you've update your working copy.\n" +
                                                       "Assuming you've updated already, the revision number will be: " + svnVersion + "\n" +

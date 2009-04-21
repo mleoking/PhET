@@ -80,6 +80,7 @@ public abstract class PhetServer {
     private boolean developmentServer;
     private String buildLocalPropertiesFile;
     private String stagingArea;
+    public static boolean showReminder=true;
 
     public PhetServer( String serverHost, String webHost, String serverDeployPath, String webDeployPath, String cacheClearUrl, String cacheClearFile, String localizationCommand, boolean developmentServer, String buildLocalPropertiesFile,String stagingArea ) {
         this.serverHost = serverHost;
@@ -203,9 +204,11 @@ public abstract class PhetServer {
 
         public void deployFinished() {
             super.deployFinished();
+            if (PhetServer.showReminder){
             JOptionPane.showMessageDialog( null, "Reminder:\n" +
                                                  "Document this release in trunk/website/about/changes.txt.\n" +
                                                  "Copy to tigercat:/web/htdocs/phet/about/changes.txt." );
+            }
         }
 
         public String getJavaCommand() {
