@@ -24,6 +24,7 @@ public class NaturalSelectionControlPanel extends JPanel implements ActionListen
     private NaturalSelectionModule module;
     private PopulationCanvas popCanvas;
     private PiccoloClockControlPanel clockControlPanel;
+    public JButton generationChartButton;
 
     public NaturalSelectionControlPanel( NaturalSelectionModule _module, NaturalSelectionModel _model ) {
         model = _model;
@@ -62,7 +63,8 @@ public class NaturalSelectionControlPanel extends JPanel implements ActionListen
         rightPanel.add( Box.createRigidArea( new Dimension( 0, 10 ) ) );
         rightPanel.add( selectionPanel );
         rightPanel.add( Box.createRigidArea( new Dimension( 0, 10 ) ) );
-        rightPanel.add( new JButton( "Generation Chart" ) );
+        generationChartButton = new JButton( "Generation Chart" );
+        rightPanel.add( generationChartButton );
         rightPanel.add( Box.createRigidArea( new Dimension( 0, 10 ) ) );
         rightPanel.add( resetAllButton );
 

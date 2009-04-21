@@ -24,6 +24,7 @@ public class Bunny {
     private ArrayList listeners;
 
     private int age; // +1 each generation
+    private int generation;
 
     public static int bunnyCount = 0;
 
@@ -33,12 +34,13 @@ public class Bunny {
     private Allele cachedTeethPhenotype;
     private Allele cachedTailPhenotype;
 
-    public Bunny( Bunny _father, Bunny _mother ) {
+    public Bunny( Bunny _father, Bunny _mother, int generation ) {
 
         bunnyId = bunnyCount++;
 
         father = _father;
         mother = _mother;
+        this.generation = generation;
 
         alive = true;
         children = new ArrayList();
@@ -74,7 +76,7 @@ public class Bunny {
     }
 
     public void die() {
-        if ( isAlive() ) {
+        if ( !isAlive() ) {
             return;
         }
 
@@ -87,18 +89,18 @@ public class Bunny {
         return age;
     }
 
-    public void setAge( int _age ) {
-        age = _age;
-        if ( isAlive() && age >= NaturalSelectionConstants.BUNNIES_DIE_WHEN_THEY_ARE_THIS_OLD ) {
+    public void setAge( int age ) {
+        this.age = age;
+        if ( isAlive() && this.age >= NaturalSelectionConstants.BUNNIES_DIE_WHEN_THEY_ARE_THIS_OLD ) {
             die();
         }
     }
 
-    public void ageMe() {
-        if ( !isAlive() ) {
-            return;
-        }
+    public int getGeneration() {
+        return generation;
+    }
 
+    public void ageMe() {
         setAge( getAge() + 1 );
 
         if ( isAlive() ) {
@@ -171,10 +173,10 @@ public class Bunny {
 
     public static Bunny[] mateBunnies( Bunny father, Bunny mother ) {
         System.out.println( "Mating " + father + " and " + mother );
-        Bunny a = new Bunny( father, mother );
-        Bunny b = new Bunny( father, mother );
-        Bunny c = new Bunny( father, mother );
-        Bunny d = new Bunny( father, mother );
+        Bunny a = new Bunny( father, mother, father.getGeneration() + 1 );
+        Bunny b = new Bunny( father, mother, father.getGeneration() + 1 );
+        Bunny c = new Bunny( father, mother, father.getGeneration() + 1 );
+        Bunny d = new Bunny( father, mother, father.getGeneration() + 1 );
         a.setPotentialMate( b );
         b.setPotentialMate( a );
         c.setPotentialMate( d );

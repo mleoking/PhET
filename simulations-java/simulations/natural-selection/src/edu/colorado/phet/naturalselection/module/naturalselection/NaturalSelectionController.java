@@ -10,7 +10,7 @@ import edu.colorado.phet.naturalselection.model.TeethGene;
 
 public class NaturalSelectionController {
 
-    public NaturalSelectionController( final NaturalSelectionModel model, final NaturalSelectionCanvas canvas, final NaturalSelectionControlPanel controlPanel ) {
+    public NaturalSelectionController( final NaturalSelectionModel model, final NaturalSelectionCanvas canvas, final NaturalSelectionControlPanel controlPanel, final NaturalSelectionModule module ) {
 
         model.addListener( canvas.bunnies );
         model.addListener( canvas.backgroundNode );
@@ -51,6 +51,12 @@ public class NaturalSelectionController {
         controlPanel.wolvesButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
                 model.setSelectionFactor( NaturalSelectionModel.SELECTION_WOLVES );
+            }
+        } );
+
+        controlPanel.generationChartButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent actionEvent ) {
+                module.showGenerationChart();
             }
         } );
     }

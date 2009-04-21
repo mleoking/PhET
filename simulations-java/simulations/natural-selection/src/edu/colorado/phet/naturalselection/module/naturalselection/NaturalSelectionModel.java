@@ -47,8 +47,8 @@ public class NaturalSelectionModel extends ClockAdapter {
         TeethGene.getInstance().setModel( this );
         TailGene.getInstance().setModel( this );
 
-        rootFather = new Bunny( null, null );
-        rootMother = new Bunny( null, null );
+        rootFather = new Bunny( null, null, 0 );
+        rootMother = new Bunny( null, null, 0 );
         rootFather.setPotentialMate( rootMother );
         rootMother.setPotentialMate( rootFather );
         bunnies.add( rootFather );
@@ -72,8 +72,8 @@ public class NaturalSelectionModel extends ClockAdapter {
         TailGene.getInstance().reset();
         TeethGene.getInstance().reset();
 
-        rootFather = new Bunny( null, null );
-        rootMother = new Bunny( null, null );
+        rootFather = new Bunny( null, null, 0 );
+        rootMother = new Bunny( null, null, 0 );
         rootFather.setPotentialMate( rootMother );
         rootMother.setPotentialMate( rootFather );
         bunnies.add( rootFather );
@@ -103,6 +103,10 @@ public class NaturalSelectionModel extends ClockAdapter {
             }
         }
         return ret;
+    }
+
+    public int getGeneration() {
+        return generation;
     }
 
     private void nextGeneration() {
@@ -186,6 +190,18 @@ public class NaturalSelectionModel extends ClockAdapter {
         while ( iter.hasNext() ) {
             Bunny bunny = (Bunny) iter.next();
             if ( bunny.isAlive() ) {
+                ret.add( bunny );
+            }
+        }
+        return ret;
+    }
+
+    public ArrayList getBunnyGenerationList( int desiredGeneration ) {
+        ArrayList ret = new ArrayList();
+        Iterator iter = bunnies.iterator();
+        while ( iter.hasNext() ) {
+            Bunny bunny = (Bunny) iter.next();
+            if ( bunny.getGeneration() == desiredGeneration ) {
                 ret.add( bunny );
             }
         }
