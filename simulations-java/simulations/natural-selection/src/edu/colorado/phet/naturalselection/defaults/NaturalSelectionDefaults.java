@@ -4,14 +4,14 @@ package edu.colorado.phet.naturalselection.defaults;
 
 import java.awt.*;
 
-import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.dialog.generationchart.GenerationChartCanvas;
+import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 
 /**
  * Defaults for the simulation
  */
 public class NaturalSelectionDefaults {
-    
+
     /* Not intended for instantiation */
     private NaturalSelectionDefaults() {
     }
