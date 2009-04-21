@@ -28,13 +28,16 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Sam Reid
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SwingLayoutNode extends PNode {
+public class SwingLayoutNode extends PNode implements NodeLayoutStrategy {
     
     private final JPanel container;
     //TODO: Since PNode doesn't correctly override equals or hashcode, it shouldn't be used as a key in a HashMap like this
     private final HashMap nodeComponentMap; // PNode -> NodeComponent
     private final PropertyChangeListener propertyChangeListener;
+    private NodeLayoutStrategy nodeLayoutStrategy;
 
+    //By default a Node is centered in its allocated area
+    private static final NodeLayoutStrategy DEFAULT_NODE_LAYOUT_STRATEGY=new Centered(); 
     /**
      * Uses a default FlowLayout.
      */
@@ -56,8 +59,18 @@ public class SwingLayoutNode extends PNode {
                 }
             }
         };
+        this.nodeLayoutStrategy=DEFAULT_NODE_LAYOUT_STRATEGY;
     }
-    
+
+    public NodeLayoutStrategy getNodeLayoutStrategy() {
+        return nodeLayoutStrategy;
+    }
+
+    public void setNodeLayoutStrategy( NodeLayoutStrategy nodeLayoutStrategy ) {
+        this.nodeLayoutStrategy = nodeLayoutStrategy;
+        updateLayout();
+    }
+
     public Container getContainer() {
         return container;
     }
@@ -138,7 +151,7 @@ public class SwingLayoutNode extends PNode {
      * Adds a proxy component for a node.
      */
     private void addNodeComponent( PNode node, Object constraints ) {
-        NodeComponent component = new NodeComponent( node );
+        NodeComponent component = new NodeComponent( node,this );
         if ( constraints == null ) {
             container.add( component );
         }
@@ -181,6 +194,10 @@ public class SwingLayoutNode extends PNode {
         container.doLayout();
     }
 
+    public void layoutNode( PNode node, double x, double y, double w, double h ) {
+        nodeLayoutStrategy.layoutNode( node, x,y,w,h);
+    }
+
     /*
      * JComponent that acts as a proxy for a PNode.
      * Supplies a Swing layout manager with the PNode's layout info.
@@ -188,9 +205,11 @@ public class SwingLayoutNode extends PNode {
     private static class NodeComponent extends JComponent {
 
         private final PNode node;
+        private final NodeLayoutStrategy nodeLayoutStrategy;
 
-        public NodeComponent( PNode node ) {
+        public NodeComponent( PNode node ,NodeLayoutStrategy nodeLayoutStrategy) {
             this.node = node;
+            this.nodeLayoutStrategy = nodeLayoutStrategy;
         }
 
         private int round(double val){
@@ -214,7 +233,7 @@ public class SwingLayoutNode extends PNode {
 
         public void setBounds( int x, int y, int width, int height ) {
             super.setBounds( x, y, width, height );
-            node.setOffset( x, y );
+            nodeLayoutStrategy.layoutNode( node,x,y,width,height );
         }
     }
 
@@ -269,6 +288,7 @@ public class SwingLayoutNode extends PNode {
         rootNode.addChild( horizontalLayoutNode );
       
         SwingLayoutNode boxLayoutNode = new SwingLayoutNode();
+        boxLayoutNode.setNodeLayoutStrategy( new TopLeft() );
         boxLayoutNode.setLayout( new BoxLayout( boxLayoutNode.getContainer(), BoxLayout.Y_AXIS ) );
         boxLayoutNode.addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 50, 50 ) ,Color.yellow,new BasicStroke(2),Color.red) );
         boxLayoutNode.addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 100, 50 ) ,Color.orange, new BasicStroke(2),Color.blue) );
