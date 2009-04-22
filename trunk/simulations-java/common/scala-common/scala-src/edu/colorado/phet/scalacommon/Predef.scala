@@ -38,11 +38,11 @@ object Predef {
   object debug {
     def eval[T](a: => T) = {
       val result = a
-      println("obtained: " + a)
+      println(a)
       result
     }
 
-    def evals[R](block: => Tuple2[String, R]) = {
+    def evals[T](block: => Tuple2[String, T]) = {
       val blockResult = block
       val name = blockResult._1
       val value = blockResult._2

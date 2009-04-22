@@ -23,9 +23,13 @@ class AxisNode(val transform: ModelViewTransform2D, x0: Double, y0: Double, x1: 
   addChild(axisNode)
   val text = new PText(label)
   text.setFont(new PhetFont(16, true))
-  val viewDst = transform.modelToViewDouble(x1, y1)
-  text.setOffset(viewDst.x - text.getFullBounds.getWidth * 1.5, viewDst.y)
   addChild(text)
+
+  updateTextNodeLocation()
+  def updateTextNodeLocation() = {
+    val viewDst = axisNode.getTipLocation
+    text.setOffset(viewDst.x - text.getFullBounds.getWidth * 1.5, viewDst.y)
+  }
 }
 class AxisModel(var angle: Double, val length: Double) extends Observable {
   def getEndPoint = new Vector2D(angle) * length
@@ -35,6 +39,7 @@ class AxisNodeWithModel(transform: ModelViewTransform2D, label: String, val axis
         extends AxisNode(transform, 0, 0, transform.modelToViewDouble(axisModel.getEndPoint).x, transform.modelToViewDouble(axisModel.getEndPoint).y, label) {
   defineInvokeAndPass(axisModel.addListenerByName) {
     axisNode.setTipAndTailLocations(debug evals "tipLocation" -> transform.modelToViewDouble(axisModel.getEndPoint), debug evals "tailLocation" -> transform.modelToViewDouble(0, 0))
+    updateTextNodeLocation()
   }
 }
 
