@@ -235,12 +235,7 @@ public class SwingLayoutNode extends PNode {
      */
     private void addProxyComponent( PNode node, Object constraints, Anchor anchor ) {
         ProxyComponent component = new ProxyComponent( node, anchor );
-        if ( constraints == null ) {
-            container.add( component );
-        }
-        else {
-            container.add( component, constraints );
-        }
+        container.add( component, constraints );
         node.addPropertyChangeListener( propertyChangeListener );
         updateContainerLayout();
     }
@@ -556,8 +551,8 @@ public class SwingLayoutNode extends PNode {
 
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout( new BoxLayout( controlPanel, BoxLayout.Y_AXIS ) );
-        final JSlider dynamicSlider = new JSlider( 0, 1000000 ); // controls dynamicNode
-        dynamicSlider.setMajorTickSpacing( 1000000 );
+        final JSlider dynamicSlider = new JSlider( 0, 1000, 0 ); // controls dynamicNode
+        dynamicSlider.setMajorTickSpacing( dynamicSlider.getMaximum() );
         dynamicSlider.setPaintTicks( true );
         dynamicSlider.setPaintLabels( true );
         dynamicSlider.addChangeListener( new ChangeListener() {
