@@ -49,6 +49,7 @@ public abstract class TraitControlNode extends PNode implements ActionListener, 
 
     /**
      * Constructor, that uses one icon for both traits
+     *
      * @param iconImage Image to be used for both traits
      */
     public TraitControlNode( BufferedImage iconImage ) {
@@ -57,7 +58,8 @@ public abstract class TraitControlNode extends PNode implements ActionListener, 
 
     /**
      * Constructor, uses two different icons for the different traits
-     * @param iconImage Primary trait icon
+     *
+     * @param iconImage          Primary trait icon
      * @param alternateIconImage Secondary trait icon
      */
     public TraitControlNode( BufferedImage iconImage, BufferedImage alternateIconImage ) {
@@ -100,7 +102,7 @@ public abstract class TraitControlNode extends PNode implements ActionListener, 
     public void showMutationDialog() {
         if ( !mutated ) {
             // hide the add mutation button
-            
+
             addMutationButton.setVisible( false );
             removeChild( addMutationButtonHolder );
             mutated = true;
@@ -177,6 +179,7 @@ public abstract class TraitControlNode extends PNode implements ActionListener, 
 
     /**
      * Returns the center of this control node
+     *
      * @return The center of this control node
      */
     public Point2D getCenter() {
@@ -185,6 +188,7 @@ public abstract class TraitControlNode extends PNode implements ActionListener, 
 
     /**
      * Should be overridden by each subclass to identify the 2D point of the vanilla bunny that the trait refers to
+     *
      * @param bunny The vanilla bunny
      * @return The point to draw the line to
      */
@@ -218,6 +222,7 @@ public abstract class TraitControlNode extends PNode implements ActionListener, 
 
     /**
      * Display the correct trait distribution
+     *
      * @param primary   Number of bunnies with the primary phenotype
      * @param secondary Number of bunnies with the second phenotype
      */
@@ -273,6 +278,7 @@ public abstract class TraitControlNode extends PNode implements ActionListener, 
 
         /**
          * Called when the dominant trait changes
+         *
          * @param primary Whether the new dominant trait is the primary trait
          */
         public void onChangeDominance( boolean primary );

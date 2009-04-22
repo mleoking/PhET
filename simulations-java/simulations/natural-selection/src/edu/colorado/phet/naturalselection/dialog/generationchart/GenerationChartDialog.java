@@ -10,8 +10,8 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
+import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 
 /**
  * Dialog that displays a summary of the generations (either through a genetic hierarchy or grouping of generations)

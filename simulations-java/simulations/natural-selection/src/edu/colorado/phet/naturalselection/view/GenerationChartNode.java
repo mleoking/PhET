@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.PNode;
 /**
  * Displays a generation chart where each generation is separated out in a compact way (maximizes overall bunny size
  * compared to the heredity version)
- *
+ * <p/>
  * Only shows the latest generations (up to and including the last generation to die of old age)
  *
  * @author Jonathan Olson
@@ -39,6 +39,7 @@ public class GenerationChartNode extends PNode implements NaturalSelectionModel.
 
     /**
      * Constructor
+     *
      * @param model The natural selection model
      */
     public GenerationChartNode( NaturalSelectionModel model ) {
@@ -76,6 +77,7 @@ public class GenerationChartNode extends PNode implements NaturalSelectionModel.
 
     /**
      * Append a generation visual onto the bottom
+     *
      * @param generation The generation number to fetch and display
      */
     public void addGeneration( int generation ) {

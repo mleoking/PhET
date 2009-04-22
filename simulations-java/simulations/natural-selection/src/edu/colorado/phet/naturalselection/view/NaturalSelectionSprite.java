@@ -60,6 +60,7 @@ public abstract class NaturalSelectionSprite extends PNode implements Comparable
 
     /**
      * Layout function to determine 2D position from the 3D coordinates
+     *
      * @return 2D canvas position
      */
     public Point2D getCanvasLocation() {
@@ -70,6 +71,7 @@ public abstract class NaturalSelectionSprite extends PNode implements Comparable
 
     /**
      * Compute the necessary Z depth for a particular canvas height y (used for placing trees and shrubbery!)
+     *
      * @param y The canvas location y
      * @return The necessary spriteZ depth that with spriteY == 0 will return the canvas location y
      */
@@ -79,6 +81,7 @@ public abstract class NaturalSelectionSprite extends PNode implements Comparable
 
     /**
      * Determine the scale that should be applied
+     *
      * @return The scale
      */
     public double getCanvasScale() {
@@ -87,6 +90,7 @@ public abstract class NaturalSelectionSprite extends PNode implements Comparable
 
     /**
      * Allow the sprites to be sorted quickly for display depth
+     *
      * @param otherObject Another sprite to be compared to
      * @return The usual compare function return values
      */
