@@ -141,6 +141,7 @@ public class NuclearPhysicsConstants {
             -NUCLEON_DIAMETER/6, NEUTRON_HILITE_COLOR, new Point2D.Double( NUCLEON_DIAMETER/4, NUCLEON_DIAMETER/4 ),
             NEUTRON_COLOR );
     public static final int NUCLEUS_ID_POLONIUM = 1;
-	public static final int NUCLEUS_ID_CUSTOM = 2;
+    public static final int NUCLEUS_ID_CARBON_14 = 2;
+	public static final int NUCLEUS_ID_CUSTOM = 3;
 
 }
