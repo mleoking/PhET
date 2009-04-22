@@ -36,7 +36,7 @@ public class ColorGene extends Gene {
      * @return The fraction of alleles that have a mutation when enabled.
      */
     public double getMutationFraction() {
-        return 0.2;
+        return 0.07;
     }
 
     /**

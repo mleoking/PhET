@@ -60,4 +60,12 @@ public class GenerationBunnyNode extends DisplayBunnyNode implements Bunny.Bunny
     public void onBunnyChangeColor( Allele allele ) {
         setColor( allele );
     }
+
+    public void onBunnyChangeTeeth( Allele allele ) {
+        setTeeth( allele );
+    }
+
+    public void onBunnyChangeTail( Allele allele ) {
+        setTail( allele );
+    }
 }

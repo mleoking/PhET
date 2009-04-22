@@ -228,6 +228,62 @@ public class NaturalSelectionModel extends ClockAdapter {
         }
     }
 
+    /**
+     * Bunnies will run out of food if the selection factor is food
+     */
+    private void bunnyFamine() {
+        Iterator iter = bunnies.iterator();
+
+        double baseFraction = ( Math.sqrt( (double) getPopulation() ) - 3 ) / ( 12 * NaturalSelectionDefaults.TICKS_PER_MONTH * 15 );
+
+        while ( iter.hasNext() ) {
+            Bunny bunny = (Bunny) iter.next();
+
+            if ( !bunny.isAlive() ) {
+                continue;
+            }
+
+            double actualFraction = baseFraction;
+
+            if ( bunny.getTeethGenotype().getPhenotype() == TeethGene.TEETH_HUGE_ALLELE ) {
+                actualFraction /= 2;
+            }
+
+            if ( Math.random() < actualFraction ) {
+                bunny.die();
+            }
+
+        }
+    }
+
+    private void invisibleWolfAttack() {
+        Iterator iter = bunnies.iterator();
+
+        double baseFraction = ( Math.sqrt( (double) getPopulation() ) - 3 ) / ( 12 * NaturalSelectionDefaults.TICKS_PER_MONTH * 10 );
+
+        while ( iter.hasNext() ) {
+            Bunny bunny = (Bunny) iter.next();
+
+            if ( !bunny.isAlive() ) {
+                continue;
+            }
+
+            double actualFraction = baseFraction;
+
+            if (
+                    ( bunny.getColorGenotype().getPhenotype() == ColorGene.WHITE_ALLELE && climate == CLIMATE_ARCTIC )
+                    || ( bunny.getColorGenotype().getPhenotype() == ColorGene.BROWN_ALLELE && climate == CLIMATE_EQUATOR )
+                    ) {
+                actualFraction /= 4;
+            }
+
+            if ( Math.random() < actualFraction ) {
+                bunny.die();
+            }
+
+        }
+    }
+
     //----------------------------------------------------------------------------
     // Getters and setters
     //----------------------------------------------------------------------------
@@ -325,6 +381,14 @@ public class NaturalSelectionModel extends ClockAdapter {
     //----------------------------------------------------------------------------
 
     public void simulationTimeChanged( ClockEvent event ) {
+        if ( selectionFactor == SELECTION_FOOD ) {
+            bunnyFamine();
+        }
+
+        if ( selectionFactor == SELECTION_WOLVES ) {
+            invisibleWolfAttack();
+        }
+
         while ( event.getSimulationTime() - lastMonthTick > NaturalSelectionDefaults.TICKS_PER_MONTH ) {
             lastMonthTick += NaturalSelectionDefaults.TICKS_PER_MONTH;
             nextMonth();

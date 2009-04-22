@@ -260,7 +260,15 @@ public class Bunny {
             notifyChangeColor();
         }
 
-        // TODO: add for other traits
+        if ( cachedTeethPhenotype != getTeethGenotype().getPhenotype() ) {
+            cachedTeethPhenotype = getTeethGenotype().getPhenotype();
+            notifyChangeTeeth();
+        }
+
+        if ( cachedTailPhenotype != getTailGenotype().getPhenotype() ) {
+            cachedTailPhenotype = getTailGenotype().getPhenotype();
+            notifyChangeTail();
+        }
     }
 
     //----------------------------------------------------------------------------
@@ -356,6 +364,20 @@ public class Bunny {
         }
     }
 
+    private void notifyChangeTeeth() {
+        Iterator iter = listeners.iterator();
+        while ( iter.hasNext() ) {
+            ( (BunnyListener) iter.next() ).onBunnyChangeTeeth( getTeethGenotype().getPhenotype() );
+        }
+    }
+
+    private void notifyChangeTail() {
+        Iterator iter = listeners.iterator();
+        while ( iter.hasNext() ) {
+            ( (BunnyListener) iter.next() ).onBunnyChangeTail( getTailGenotype().getPhenotype() );
+        }
+    }
+
     //----------------------------------------------------------------------------
     // Listeners
     //----------------------------------------------------------------------------
@@ -406,6 +428,20 @@ public class Bunny {
          * @param allele The color (Either ColorGene.WHITE_ALLELE or ColorGene.BROWN_ALLELE)
          */
         public void onBunnyChangeColor( Allele allele );
+
+        /**
+         * Called when the bunny changes teeth phenotype
+         *
+         * @param allele The allele
+         */
+        public void onBunnyChangeTeeth( Allele allele );
+
+        /**
+         * Called when the bunny changes tail phenotype
+         *
+         * @param allele The allele
+         */
+        public void onBunnyChangeTail( Allele allele );
     }
 
 
