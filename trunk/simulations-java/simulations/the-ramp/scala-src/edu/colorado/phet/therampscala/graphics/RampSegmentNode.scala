@@ -29,16 +29,16 @@ trait Rotatable {
 
   def length: Double
 
-  def getUnitVector:Vector2D
+  def getUnitVector: Vector2D
 
-  def endPoint:Vector2D
+  def endPoint: Vector2D
 
 }
-class RotationHandler(val mytransform: ModelViewTransform2D, val line: PNode, val rampSegment: Rotatable) extends PBasicInputEventHandler {
+class RotationHandler(val mytransform: ModelViewTransform2D, val node: PNode, val rampSegment: Rotatable) extends PBasicInputEventHandler {
   override def mouseDragged(event: PInputEvent) = {
-    val modelPt = mytransform.viewToModel(event.getPositionRelativeTo(line.getParent))
+    val modelPt = mytransform.viewToModel(event.getPositionRelativeTo(node.getParent))
 
-    val deltaView = event.getDeltaRelativeTo(line.getParent)
+    val deltaView = event.getDeltaRelativeTo(node.getParent)
     val deltaModel = mytransform.viewToModelDifferential(deltaView.width, deltaView.height)
 
     val oldPtModel = modelPt - deltaModel
