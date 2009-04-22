@@ -92,7 +92,7 @@ public class Uranium235CompositeNucleus extends CompositeAtomicNucleus{
             updateAgitationFactor();
 
             // Let the listeners know that the atomic weight has changed.
-            notifyAtomicWeightChanged(null);
+            notifyNucleusChangeEvent(null);
             
             // Start a timer to kick off fission.
             _fissionTime = _clock.getSimulationTime() + _fissionInterval;
@@ -198,7 +198,7 @@ public class Uranium235CompositeNucleus extends CompositeAtomicNucleus{
         notifyPositionChanged();        
         
         // Notify all listeners of the change to our atomic weight.
-        notifyAtomicWeightChanged(null);
+        notifyNucleusChangeEvent(null);
     }
     
     //------------------------------------------------------------------------
@@ -279,7 +279,7 @@ public class Uranium235CompositeNucleus extends CompositeAtomicNucleus{
             byProducts.add( daughterNucleus );
             
             // Send out the decay event to all listeners.
-            notifyAtomicWeightChanged(byProducts);
+            notifyNucleusChangeEvent(byProducts);
             
             // Set the fission time to 0 to indicate that no more fissioning
             // should occur.

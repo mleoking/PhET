@@ -56,7 +56,7 @@ public class Uranium238Nucleus extends AtomicNucleus {
             _numNeutrons++;
             
             // Let the listeners know that the atomic weight has changed.
-            notifyAtomicWeightChanged(null);
+            notifyNucleusChangeEvent(null);
             
             // Indicate that the nucleus was captured.
             retval = true;
@@ -77,7 +77,7 @@ public class Uranium238Nucleus extends AtomicNucleus {
             _numProtons = ORIGINAL_NUM_PROTONS;
             
             // Notify all listeners of the change to our atomic weight.
-            notifyAtomicWeightChanged(null);
+            notifyNucleusChangeEvent(null);
         }
     }
 }

@@ -90,7 +90,7 @@ public abstract class AlphaDecayCompositeNucleus extends CompositeAtomicNucleus 
 	        updateAgitationFactor();
 	        
 	        // Let the listeners know that the atomic weight has changed.
-	        notifyAtomicWeightChanged(null);
+	        notifyNucleusChangeEvent(null);
 	    }
 	}
 	
@@ -125,7 +125,7 @@ public abstract class AlphaDecayCompositeNucleus extends CompositeAtomicNucleus 
 		                // Notify listeners of the change of atomic weight.
 		                ArrayList byProducts = new ArrayList(1);
 		                byProducts.add( tunnelingParticle );
-		                notifyAtomicWeightChanged(byProducts);
+		                notifyNucleusChangeEvent(byProducts);
 		                break;
 		            }
 		        }

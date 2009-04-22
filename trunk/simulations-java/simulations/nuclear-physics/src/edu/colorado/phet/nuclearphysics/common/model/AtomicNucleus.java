@@ -259,7 +259,7 @@ public abstract class AtomicNucleus {
     /**
      * Notify all listeners that our atomic weight has changed.
      */
-    protected void notifyAtomicWeightChanged(ArrayList byProducts){
+    protected void notifyNucleusChangeEvent(ArrayList byProducts){
         
         // First recalculate the diameter, since it likely has changed.
         updateDiameter();
