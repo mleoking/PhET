@@ -30,6 +30,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode.PieValue;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.AbstractAlphaDecayNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
@@ -647,11 +648,11 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     		// At least for now, it is expected that all nuclei added to this
     		// chart are alpha decayers that are not moving towards decay yet.
     		assert (modelElement instanceof AbstractAlphaDecayNucleus);
-    		assert (((AbstractAlphaDecayNucleus)modelElement).isDecayActive() == false);
+    		assert (((AbstractDecayNucleus)modelElement).isDecayActive() == false);
     		
     		// Create a data set for this nucleus and add it to the internal
     		// map.
-    		_mapNucleiToNucleiData.put(modelElement, new NucleusData((AbstractAlphaDecayNucleus)modelElement));
+    		_mapNucleiToNucleiData.put(modelElement, new NucleusData((AbstractDecayNucleus)modelElement));
     	}
 	}
 
@@ -800,7 +801,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     	private static final int STATE_PRE_DECAY = 2;
     	private static final int STATE_POST_DECAY = 3;
     	
-    	private AbstractAlphaDecayNucleus _nucleus;
+    	private AbstractDecayNucleus _nucleus;
 		private LabeledNucleusNode _nucleusNode;
     	private int _fallCount;
     	private double _fallTarget;
@@ -808,7 +809,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     	private int _decayBucket;
     	private Point2D _bunchingOffset;
     	
-    	public NucleusData(AbstractAlphaDecayNucleus nucleus){
+    	public NucleusData(AbstractDecayNucleus nucleus){
     		_nucleus = nucleus;
     		_fallCount = 0;
     		_fallTarget = 0;
