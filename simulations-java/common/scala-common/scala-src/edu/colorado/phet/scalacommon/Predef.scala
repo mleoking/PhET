@@ -29,4 +29,25 @@ object Predef {
     m(block)
     block _
   }
+
+  /* This allows to put debug statements in-line with calls instead of separately
+  Sample usage:
+  model.setValue(debug eval computeModelValue());
+  //
+   */
+  object debug {
+    def eval[T](a: => T) = {
+      val result = a
+      println("obtained: " + a)
+      result
+    }
+
+    def evals[R](block: => Tuple2[String, R]) = {
+      val blockResult = block
+      val name = blockResult._1
+      val value = blockResult._2
+      println(name + " = " + value)
+      value
+    }
+  }
 }

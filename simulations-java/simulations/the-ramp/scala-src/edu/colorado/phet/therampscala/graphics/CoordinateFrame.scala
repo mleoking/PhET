@@ -7,13 +7,18 @@ import java.awt.{BasicStroke, Color}
 import model.RampModel
 import umd.cs.piccolo.nodes.PText
 import umd.cs.piccolo.PNode
+import java.lang.Math._
 
 class CoordinateFrame(val model: RampModel, val transform: ModelViewTransform2D) extends PNode {
   addChild(new PText("Coordinate Frame"))
-  val path = new PhetPPath(new BasicStroke(2), Color.black)
-
   def update() = {
-    path.setPathTo(new Line2D.Double(transform.modelToView(0, 0), transform.modelToView(0, 10)))
   }
   update()
+
+  val yAxisModel = new AxisModel(PI/2, 7)
+  val yAxis = new AxisNodeWithModel(transform,  "y", yAxisModel)
+  addChild(yAxis)
+
+  val xAxis = new AxisNode(transform, 0, 0, 7, 0, "x")
+  addChild(xAxis)
 }
