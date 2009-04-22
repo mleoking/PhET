@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--ohms-law-strings_pl.xml created Wed Apr 22 09:54:21 CEST 2009 using: ohms-law 1.00.00 (22498), translation-utility 1.12.00 (29256)-->
+<SimStrings>
+<string key="currentEq" value="Natężenie prądu"/>
+<string key="resistance" value="opór"/>
+<string key="sound" value="efekt dzwiękowy"/>
+<string key="voltage" value="napięcie"/>
+</SimStrings>
