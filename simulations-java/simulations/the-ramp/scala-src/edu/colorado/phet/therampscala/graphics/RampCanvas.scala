@@ -3,6 +3,7 @@ package edu.colorado.phet.therampscala.graphics
 
 import java.awt.Color
 import model.RampModel
+import scalacommon.math.Vector2D
 
 class RampCanvas(model: RampModel) extends DefaultCanvas(22, 20) {
   setBackground(new Color(200, 255, 240))
@@ -29,5 +30,18 @@ class RampCanvas(model: RampModel) extends DefaultCanvas(22, 20) {
 
   addNode(new ObjectSelectionNode(transform, model))
 
-  addNode(new CoordinateFrame(model,transform))
+  addNode(new CoordinateFrame(model, transform))
+
+  val fbdNode = new FreeBodyDiagramNode(200, 200, 10, 10)
+  val vector = new Vector() {
+    def getValue = {
+      println("applied force="+model.beads(0).appliedForce)
+      model.beads(0).appliedForce
+    }
+
+    def getColor = Color.blue
+  }
+  fbdNode.addVector(vector)
+  model.beads(0).addListenerByName{vector.notifyListeners()}
+  addNode(fbdNode)
 }
