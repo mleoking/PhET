@@ -60,7 +60,6 @@ public class RadiometricElementDecayModel extends MultiNucleusDecayModel {
 		return BUCKET_RECT;
 	}
     
-	@Override
 	protected void addMaxNuclei() {
 		
 		// Create a new nucleus, positioning it in the bucket.

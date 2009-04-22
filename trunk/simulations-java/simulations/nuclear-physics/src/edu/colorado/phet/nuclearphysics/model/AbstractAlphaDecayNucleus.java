@@ -25,7 +25,6 @@ public abstract class AbstractAlphaDecayNucleus extends AbstractDecayNucleus {
 	/**
 	 * Take the actions that simulate alpha decay.
 	 */
-	@Override
 	protected void decay( ClockEvent clockEvent ){
         ArrayList byProducts = new ArrayList();
         byProducts.add( new AlphaParticle(_position.getX(), _position.getY()));

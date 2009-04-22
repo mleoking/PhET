@@ -148,7 +148,6 @@ public class Carbon14Nucleus extends AbstractDecayNucleus {
         frame.setVisible( true );
     }
 
-	@Override
 	protected void decay(ClockEvent clockEvent) {
 		
 		// Decay into N14.
