@@ -9,7 +9,7 @@ import swing.{MyCheckBox, ScalaValueControl}
 import edu.colorado.phet.scalacommon.Predef._
 
 class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                      coordinateSystemModel: CoordinateSystemModel, vectorViewModel: VectorViewModel) extends VerticalLayoutPanel {
+                       coordinateSystemModel: CoordinateSystemModel, vectorViewModel: VectorViewModel) extends VerticalLayoutPanel {
   //  setLayout(new BoxLayout(this, BoxLayout.Y_AXIS))
 
   add(new MyRadioButton("Physics words", wordModel.physicsWords = true, wordModel.physicsWords, wordModel.addListener))

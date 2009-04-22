@@ -33,7 +33,7 @@ class MutableRampObject(name: String, _mass: Double, imageFilename: String, cust
     notifyListeners()
   }
 
-//  def height = m_mass / 100.0
+  //  def height = m_mass / 100.0
 }
 
 object RampDefaults {
