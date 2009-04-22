@@ -9,7 +9,20 @@ import scalacommon.util.Observable
 import scalacommon.record.RecordModel
 import java.lang.Math._
 
+class CoordinateFrameModel extends Observable {
+  private var _angle = 0.0
+
+  def angle = _angle
+
+  def angle_=(ang: Double) = {
+    _angle = ang
+    notifyListeners()
+  }
+}
+
 class RampModel extends RecordModel[String] with ObjectModel {
+  val coordinateFrameModel = new CoordinateFrameModel
+
   def setPlaybackState(state: String) {}
 
   def handleRecordStartedDuringPlayback() {}
