@@ -7,6 +7,7 @@ import java.util.Random;
 
 import javax.swing.JFrame;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
@@ -91,7 +92,7 @@ public class Carbon14Nucleus extends AbstractDecayNucleus {
     	
     	// Only allow activation if the nucleus hasn't already decayed.
     	if (_numNeutrons == ORIGINAL_NUM_NEUTRONS){
-    		_decayTime = _clock.getSimulationTime() + calcPolonium211DecayTime();
+    		_decayTime = _clock.getSimulationTime() + calcDecayTime();
     	}
     }
     
@@ -99,7 +100,8 @@ public class Carbon14Nucleus extends AbstractDecayNucleus {
      * Return a value indicating whether or not the nucleus has decayed.
      */
     public boolean hasDecayed(){
-    	if (_numProtons < ORIGINAL_NUM_PROTONS){
+    	
+    	if (_numProtons != ORIGINAL_NUM_PROTONS){
     		return true;
     	}
     	else{
@@ -112,21 +114,20 @@ public class Carbon14Nucleus extends AbstractDecayNucleus {
     //------------------------------------------------------------------------
 
     /**
-     * This method generates a value indicating the number of milliseconds for
-     * a Polonium 211 nucleus to decay.  This calculation is based on the 
-     * exponential decay formula and uses the decay constant for Polonium 211.
+     * Caculate a random decay time based on the decay constant for this
+     * type of nucleus.
      * 
      * @return
      */
-    private double calcPolonium211DecayTime(){
+    private double calcDecayTime(){
         double randomValue = RAND.nextDouble();
         if (randomValue > 0.999){
             // Limit the maximum time for decay so that the user isn't waiting
             // around forever.
             randomValue = 0.999;
         }
-        double tunnelOutMilliseconds = (-(Math.log( 1 - randomValue ) / (0.693 / HALF_LIFE)));
-        return tunnelOutMilliseconds;
+        double decayMilliseconds = (-(Math.log( 1 - randomValue ) / (0.693 / HALF_LIFE)));
+        return decayMilliseconds;
     }
     
     /**
@@ -146,4 +147,23 @@ public class Carbon14Nucleus extends AbstractDecayNucleus {
         frame.setSize( 800, 600 );
         frame.setVisible( true );
     }
+
+	@Override
+	protected void decay(ClockEvent clockEvent) {
+		
+		// Decay into N14.
+        _numNeutrons -= 1;
+        _numProtons += 1;
+
+        // Set the final value of the time that this nucleus existed prior to
+        // decaying.
+        _activatedLifetime += clockEvent.getSimulationTimeChange();
+        
+        // Send out the decay event to all listeners.
+        notifyNucleusChangeEvent(null);
+        
+        // Set the decay time to 0 to indicate that decay has occurred and
+        // should not occur again.
+        _decayTime = 0;
+	}
 }

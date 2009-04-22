@@ -21,46 +21,26 @@ public abstract class AbstractAlphaDecayNucleus extends AbstractDecayNucleus {
 			int numProtons, int numNeutrons) {
 		super(clock, position, numProtons, numNeutrons);
 	}
-
+	
 	/**
-	 * This method lets this model element know that the clock has ticked.  In
-	 * response we check if it is time to decay.
+	 * Take the actions that simulate alpha decay.
 	 */
-	protected void handleClockTicked(ClockEvent clockEvent) {
-	    super.handleClockTicked( clockEvent );
-	    
-	    // See if this nucleus is active, i.e. moving towards decay.
-	    if (_decayTime != 0){
-	     
-	    	if (!_paused){
-	        	// See if alpha decay should occur.
-		        if (clockEvent.getSimulationTime() >= _decayTime ) {
-		            // It is time to decay.  Cause alpha decay by generating an
-		        	// alpha particle and reducing our atomic weight.
-		            ArrayList byProducts = new ArrayList();
-		            byProducts.add( new AlphaParticle(_position.getX(), _position.getY()));
-		            _numNeutrons -= 2;
-		            _numProtons -= 2;
-		
-		            // Set the final value for the activation time.
-		            _activatedLifetime += clockEvent.getSimulationTimeChange();
-		            
-		            // Send out the decay event to all listeners.
-		            notifyNucleusChangeEvent(byProducts);
-		            
-		            // Set the decay time to 0 to indicate that decay has occurred and
-		            // should not occur again.
-		            _decayTime = 0;
-		        }
-		        else{
-		        	// Not decaying yet, so updated the activated lifetime.
-		        	_activatedLifetime += clockEvent.getSimulationTimeChange();
-		        }
-	    	}
-	    	else{
-	    		// This atom is currently paused, so extend the decay time.
-	    		_decayTime += clockEvent.getSimulationTimeChange();
-	    	}
-	    }
+	@Override
+	protected void decay( ClockEvent clockEvent ){
+        ArrayList byProducts = new ArrayList();
+        byProducts.add( new AlphaParticle(_position.getX(), _position.getY()));
+        _numNeutrons -= 2;
+        _numProtons -= 2;
+
+        // Set the final value of the time that this nucleus existed prior to
+        // decaying.
+        _activatedLifetime += clockEvent.getSimulationTimeChange();
+        
+        // Send out the decay event to all listeners.
+        notifyNucleusChangeEvent(byProducts);
+        
+        // Set the decay time to 0 to indicate that decay has occurred and
+        // should not occur again.
+        _decayTime = 0;
 	}
 }
