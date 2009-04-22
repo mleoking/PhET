@@ -2,8 +2,8 @@
 
 package edu.colorado.phet.naturalselection.view;
 
-import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
+import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.model.Bunny;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.umd.cs.piccolo.PNode;
@@ -22,6 +22,7 @@ public class NaturalSelectionBackgroundNode extends PNode implements NaturalSele
 
     /**
      * Constructor
+     *
      * @param initialClimate The initial climate value
      */
     public NaturalSelectionBackgroundNode( int initialClimate ) {

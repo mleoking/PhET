@@ -3,11 +3,11 @@
 package edu.colorado.phet.naturalselection.view;
 
 import java.awt.*;
-import java.awt.geom.GeneralPath;
 
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
+import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -112,10 +112,10 @@ public class PopulationGraphNode extends PNode {
         axis.setStroke( new BasicStroke( AXIS_STROKE_WIDTH ) );
         axis.setStrokePaint( Color.BLACK );
 
-        GeneralPath path = new GeneralPath();
+        DoubleGeneralPath path = new DoubleGeneralPath();
         path.moveTo( AXIS_LEFT, BASELINE );
         path.lineTo( AXIS_RIGHT, BASELINE );
-        axis.setPathTo( path );
+        axis.setPathTo( path.getGeneralPath() );
 
         conditionalAdd( axis );
     }
@@ -143,7 +143,7 @@ public class PopulationGraphNode extends PNode {
 
         float top = getTopPosition();
 
-        GeneralPath path = new GeneralPath();
+        DoubleGeneralPath path = new DoubleGeneralPath();
         path.moveTo( BAR_LEFT, top );
         path.lineTo( BAR_LEFT, BASELINE );
         path.lineTo( BAR_RIGHT, BASELINE );
@@ -155,7 +155,7 @@ public class PopulationGraphNode extends PNode {
         }
 
         path.closePath();
-        bar.setPathTo( path );
+        bar.setPathTo( path.getGeneralPath() );
 
         conditionalAdd( bar );
     }

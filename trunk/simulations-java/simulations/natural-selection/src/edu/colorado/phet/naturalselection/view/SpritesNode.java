@@ -147,6 +147,7 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.NaturalS
 
     /**
      * Called from the model when a new bunny occurs. Used here to create the bunny sprite, and to randomly position it
+     *
      * @param bunny The bunny
      */
     public void onNewBunny( Bunny bunny ) {
@@ -168,7 +169,8 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.NaturalS
     }
 
     /**
-     * Add a sprite. Inserted into the correct Z depth 
+     * Add a sprite. Inserted into the correct Z depth
+     *
      * @param sprite The sprite to add
      */
     public void addChildSprite( NaturalSelectionSprite sprite ) {

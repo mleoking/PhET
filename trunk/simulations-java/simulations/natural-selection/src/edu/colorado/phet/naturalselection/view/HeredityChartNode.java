@@ -3,17 +3,16 @@
 package edu.colorado.phet.naturalselection.view;
 
 import java.awt.*;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.model.Bunny;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
-import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -46,6 +45,7 @@ public class HeredityChartNode extends PNode implements NaturalSelectionModel.Na
 
     /**
      * Constructor
+     *
      * @param model The natural selection model
      */
     public HeredityChartNode( NaturalSelectionModel model ) {
@@ -84,6 +84,7 @@ public class HeredityChartNode extends PNode implements NaturalSelectionModel.Na
 
     /**
      * Add a generation onto the bottom
+     *
      * @param genNumber The generation number to fetch and display
      */
     private void addGeneration( int genNumber ) {
@@ -220,6 +221,7 @@ public class HeredityChartNode extends PNode implements NaturalSelectionModel.Na
 
         /**
          * Constructor
+         *
          * @param generation The generation number to fetch and display
          */
         public Generation( int generation ) {
@@ -301,6 +303,7 @@ public class HeredityChartNode extends PNode implements NaturalSelectionModel.Na
 
         /**
          * Find the piccolo bunny node corresponding to the bunny model
+         *
          * @param bunny The bunny model
          * @return The corresponding GenerationBunnyNode
          */
@@ -320,6 +323,7 @@ public class HeredityChartNode extends PNode implements NaturalSelectionModel.Na
 
         /**
          * Return the position of the upper-left of the piccolo node corresponding to the model bunny
+         *
          * @param bunny The bunny model
          * @return Upper-left position relative to this generation
          */
@@ -330,6 +334,7 @@ public class HeredityChartNode extends PNode implements NaturalSelectionModel.Na
 
         /**
          * Return the size of the piccolo bunny node corresponding to the model bunny
+         *
          * @param bunny The bunny model
          * @return The scaled size of the GenerationBunnyNode
          */
@@ -348,6 +353,7 @@ public class HeredityChartNode extends PNode implements NaturalSelectionModel.Na
          * Draw hierarchical genetic lines between this generation and the one below it.
          * Lines are stored in the top generation, so when the older generations disappear the lines
          * will disappear at the same time.
+         *
          * @param nextGeneration The next generation that we will draw lines to
          */
         public void drawChildLines( Generation nextGeneration ) {
@@ -511,6 +517,7 @@ public class HeredityChartNode extends PNode implements NaturalSelectionModel.Na
 
         /**
          * Helper function to draw lines cleanly
+         *
          * @param a From this point
          * @param b To this point
          */
