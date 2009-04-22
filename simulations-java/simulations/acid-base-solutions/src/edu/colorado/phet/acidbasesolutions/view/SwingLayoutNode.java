@@ -32,11 +32,11 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class SwingLayoutNode extends PNode {
 
-    private static final AnchorStrategy DEFAULT_ANCHOR_STRATEGY = AnchorStrategy.WEST;
+    private static final Anchor DEFAULT_ANCHOR = Anchor.WEST;
     
     private final JPanel container;
     private final PropertyChangeListener propertyChangeListener;
-    private AnchorStrategy anchorStrategy;
+    private Anchor anchor;
 
     /**
      * Uses a default FlowLayout.
@@ -58,22 +58,22 @@ public class SwingLayoutNode extends PNode {
                 }
             }
         };
-        this.anchorStrategy = DEFAULT_ANCHOR_STRATEGY;
+        this.anchor = DEFAULT_ANCHOR;
     }
     
     /**
-     * Sets the default anchor strategy.
-     * If no anchor strategy is specified when a node is added, then
-     * the default strategy determines where the node is positioned
+     * Sets the default anchor.
+     * If no anchor is specified when a node is added, then
+     * the default anchor determines where the node is positioned
      * in the space allocated by the Swing layout manager.
-     * @param anchorStrategy
+     * @param anchor
      */
-    public void setAnchorStrategy( AnchorStrategy anchorStrategy ) {
-        this.anchorStrategy = anchorStrategy;
+    public void setAnchor( Anchor anchor ) {
+        this.anchor = anchor;
     }
     
-    public AnchorStrategy getAnchorStrategy() {
-        return anchorStrategy;
+    public Anchor getAnchor() {
+        return anchor;
     }
 
     /**
@@ -103,9 +103,9 @@ public class SwingLayoutNode extends PNode {
      * @param index
      * @param child
      * @param constraints
-     * @param anchorStrategy
+     * @param anchor
      */
-    public void addChild( int index, PNode child, Object constraints, AnchorStrategy anchorStrategy ) {
+    public void addChild( int index, PNode child, Object constraints, Anchor anchor ) {
         /* 
          * NOTE: 
          * This must be the only super.addChild call that we make in our entire implementation,
@@ -114,73 +114,73 @@ public class SwingLayoutNode extends PNode {
          * resulting in StackOverflowException.
          */
         super.addChild( index, child );
-        addNodeComponent( child, constraints, anchorStrategy );
+        addNodeComponent( child, constraints, anchor );
     }
 
     public void addChild( int index, PNode child ) {
-        addChild( index, child, null, this.anchorStrategy );
+        addChild( index, child, null, this.anchor );
     }
     
     public void addChild( int index, PNode child, Object constraints ) {
-        addChild( index, child, constraints, this.anchorStrategy );
+        addChild( index, child, constraints, this.anchor );
     }
     
-    public void addChild( int index, PNode child,AnchorStrategy anchorStrategy ) {
-        addChild( index, child, null, anchorStrategy );
+    public void addChild( int index, PNode child,Anchor anchor ) {
+        addChild( index, child, null, anchor );
     }
 
     /**
      * Adds a child to the end of the node list.
      * @param child
      * @param constraints
-     * @param anchorStrategy
+     * @param anchor
      */
-    public void addChild( PNode child, Object constraints, AnchorStrategy anchorStrategy ) {
+    public void addChild( PNode child, Object constraints, Anchor anchor ) {
         // NOTE: since PNode.addChild(PNode) is implemented in terms of PNode.addChild(int index), we must do the same.
         int index = getChildrenCount();
         // workaround a flaw in PNode.addChild(PNode), they should have handled this in PNode.addChild(int index).
         if ( child.getParent() == this ) {
             index--; 
         }
-        addChild( index, child, constraints, anchorStrategy );
+        addChild( index, child, constraints, anchor );
     }
 
     public void addChild( PNode child ) {
-        addChild( child, null, this.anchorStrategy );
+        addChild( child, null, this.anchor );
     }
     
     public void addChild( PNode child, Object constraints ) {
-        addChild( child, constraints, this.anchorStrategy );
+        addChild( child, constraints, this.anchor );
     }
     
-    public void addChild( PNode child, AnchorStrategy anchorStrategy ) {
-        addChild( child, null, anchorStrategy );
+    public void addChild( PNode child, Anchor anchor ) {
+        addChild( child, null, anchor );
     }
     
     /**
      * Adds a collection of nodes to the end of the list.
      * @param nodes
      * @param constraints
-     * @param anchorStrategy
+     * @param anchor
      */
-    public void addChildren( Collection nodes, Object constraints, AnchorStrategy anchor ) {
+    public void addChildren( Collection nodes, Object constraints, Anchor anchor ) {
         Iterator i = nodes.iterator();
         while ( i.hasNext() ) {
             PNode each = (PNode) i.next();
-            addChild( each, constraints, anchorStrategy );
+            addChild( each, constraints, anchor );
         }
     }
     
     public void addChildren( Collection nodes ) {
-        addChildren( nodes, null, this.anchorStrategy );
+        addChildren( nodes, null, this.anchor );
     }
     
     public void addChildren( Collection nodes, Object constraints ) {
-        addChildren( nodes, constraints, this.anchorStrategy );
+        addChildren( nodes, constraints, this.anchor );
     }
     
-    public void addChildren( Collection nodes, AnchorStrategy anchorStrategy ) {
-        addChildren( nodes, null, anchorStrategy );
+    public void addChildren( Collection nodes, Anchor anchor ) {
+        addChildren( nodes, null, anchor );
     }
     
     /**
@@ -220,8 +220,8 @@ public class SwingLayoutNode extends PNode {
     /*
      * Adds a proxy component for a node.
      */
-    private void addNodeComponent( PNode node, Object constraints, AnchorStrategy anchorStrategy ) {
-        NodeComponent component = new NodeComponent( node, anchorStrategy );
+    private void addNodeComponent( PNode node, Object constraints, Anchor anchor ) {
+        NodeComponent component = new NodeComponent( node, anchor );
         if ( constraints == null ) {
             container.add( component );
         }
@@ -248,7 +248,7 @@ public class SwingLayoutNode extends PNode {
     }
     
     /*
-     * Find the component that is serving as the proxy for a specific node.
+     * Finds the component that is serving as the proxy for a specific node.
      * Returns null if not found.
      */
     private NodeComponent getComponentForNode( PNode node ) {
@@ -287,11 +287,11 @@ public class SwingLayoutNode extends PNode {
     private static class NodeComponent extends JComponent {
 
         private final PNode node;
-        private final AnchorStrategy anchorStrategy;
+        private final Anchor anchor;
 
-        public NodeComponent( PNode node, AnchorStrategy anchorStrategy ) {
+        public NodeComponent( PNode node, Anchor anchor ) {
             this.node = node;
-            this.anchorStrategy = anchorStrategy;
+            this.anchor = anchor;
         }
         
         public PNode getNode() {
@@ -326,7 +326,7 @@ public class SwingLayoutNode extends PNode {
          */
         public void setBounds( int x, int y, int w, int h ) {
             super.setBounds( x, y, w, h );
-            anchorStrategy.positionNode( node, x, y, w, h );
+            anchor.positionNode( node, x, y, w, h );
         }
     }
     
@@ -334,7 +334,7 @@ public class SwingLayoutNode extends PNode {
     * Determines where nodes are anchored in the area allocated by the Swing layout manager.
     * Predefined anchor names are similar to GridBagConstraint anchors and have the same semantics.
     */
-    public interface AnchorStrategy {
+    public interface Anchor {
         
         /**
          * Positions the node in the bounds defined by (x,y,w,h).
@@ -344,7 +344,7 @@ public class SwingLayoutNode extends PNode {
         /**
          * Base class that provides utilities for computing common anchor points.
          */
-        public static abstract class AbstractAnchorStrategy implements AnchorStrategy {
+        public static abstract class AbstractAnchor implements Anchor {
 
             public static double centerX( PNode node, double x, double w ) {
                 return x + ( w - node.getFullBoundsReference().getWidth() ) / 2;
@@ -372,43 +372,43 @@ public class SwingLayoutNode extends PNode {
 
         };
         
-        public static final AnchorStrategy CENTER = new AbstractAnchorStrategy() {
+        public static final Anchor CENTER = new AbstractAnchor() {
             public void positionNode( PNode node, double x, double y, double w, double h ) {
                 node.setOffset( centerX( node, x, w ), centerY( node, y, h ) );
             }
         };
         
-        public static final AnchorStrategy NORTH = new AbstractAnchorStrategy() {
+        public static final Anchor NORTH = new AbstractAnchor() {
             public void positionNode( PNode node, double x, double y, double w, double h ) {
                 node.setOffset( centerX( node, x, w ), north( node, y, h )  );
             }
         };
         
-        public static final AnchorStrategy NORTHEAST = new AbstractAnchorStrategy() {
+        public static final Anchor NORTHEAST = new AbstractAnchor() {
             public void positionNode( PNode node, double x, double y, double w, double h ) {
                 node.setOffset( east( node, x, w ), north( node, y, h )  );
             }
         };
         
-        public static final AnchorStrategy EAST = new AbstractAnchorStrategy() {
+        public static final Anchor EAST = new AbstractAnchor() {
             public void positionNode( PNode node, double x, double y, double w, double h ) {
                 node.setOffset( east( node, x, w ), centerY( node, y, h ) );
             }
         };
         
-        public static final AnchorStrategy SOUTHEAST = new AbstractAnchorStrategy() {
+        public static final Anchor SOUTHEAST = new AbstractAnchor() {
             public void positionNode( PNode node, double x, double y, double w, double h ) {
                 node.setOffset( east( node, x, w ), south( node, y, h ) );
             }
         };
         
-        public static final AnchorStrategy SOUTH = new AbstractAnchorStrategy() {
+        public static final Anchor SOUTH = new AbstractAnchor() {
             public void positionNode( PNode node, double x, double y, double w, double h ) {
                 node.setOffset( centerX( node, x, w ), south( node, y, h )  );
             }
         };
         
-        public static final AnchorStrategy SOUTHWEST = new AbstractAnchorStrategy() {
+        public static final Anchor SOUTHWEST = new AbstractAnchor() {
             public void positionNode( PNode node, double x, double y, double w, double h ) {
                 node.setOffset( west( node, x, w ), south( node, y, h ) );
             }
@@ -416,13 +416,13 @@ public class SwingLayoutNode extends PNode {
         
         // West corresponds to how a default JLabel uses the space allocated by the Swing layout manager.
         // That is, the node will be left justified and vertically centered.
-        public static final AnchorStrategy WEST = new AbstractAnchorStrategy() {
+        public static final Anchor WEST = new AbstractAnchor() {
             public void positionNode( PNode node, double x, double y, double w, double h ) {
                 node.setOffset( west( node, x, w ), centerY( node, y, h ) );
             }
         };
         
-        public static final AnchorStrategy NORTHWEST = new AbstractAnchorStrategy() {
+        public static final Anchor NORTHWEST = new AbstractAnchor() {
             public void positionNode( PNode node, double x, double y, double w, double h ) {
                 node.setOffset( west( node, x, w ), north( node, y, h ) );
             }
@@ -453,9 +453,9 @@ public class SwingLayoutNode extends PNode {
         borderLayout.setVgap( 5 );
         SwingLayoutNode borderLayoutNode = new SwingLayoutNode( borderLayout );
         borderLayoutNode.addChild( new PText( "North" ), BorderLayout.NORTH );
-        borderLayoutNode.setAnchorStrategy( AnchorStrategy.CENTER );
+        borderLayoutNode.setAnchor( Anchor.CENTER );
         borderLayoutNode.addChild( new PText( "South" ), BorderLayout.SOUTH );
-        borderLayoutNode.setAnchorStrategy( AnchorStrategy.WEST );
+        borderLayoutNode.setAnchor( Anchor.WEST );
         borderLayoutNode.addChild( new PText( "East" ), BorderLayout.EAST ); 
         borderLayoutNode.addChild( new PText( "West" ), BorderLayout.WEST );
         borderLayoutNode.addChild( new PText( "CENTER" ), BorderLayout.CENTER );
