@@ -111,7 +111,7 @@
       <sourceFolder url="file://$MODULE_DIR$/util/phet-updater/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/testing/contrib/opencsv/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/testing/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/util/translation-strings-diff" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/util/translation-strings-diff/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/translation-utility/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/unfuddle/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.manager" />
