@@ -30,9 +30,14 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class SwingLayoutNode extends PNode {
 
+    /*
+     * How the space allocated by the Swing layout manager is used differs depending
+     * on Swing component type.  The behavior of a default JLabel (Anchors.WEST)
+     * seems to make the most sense for PNodes.
+     */
     private static final Anchor DEFAULT_ANCHOR = Anchor.WEST;
     
-    private final JPanel container;
+    private final JPanel container; // container for ProxyComponents
     private final PropertyChangeListener propertyChangeListener;
     private Anchor anchor;
 
@@ -44,7 +49,7 @@ public class SwingLayoutNode extends PNode {
     }
 
     /**
-     * Uses a specific layout.
+     * Uses a specific Swing layout manager.
      * @param layoutManager
      */
     public SwingLayoutNode( LayoutManager layoutManager ) {
@@ -52,7 +57,7 @@ public class SwingLayoutNode extends PNode {
         this.propertyChangeListener = new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent event ) {
                 if ( isLayoutProperty( event.getPropertyName() ) ) {
-                    updateLayout();
+                    updateContainerLayout();
                 }
             }
         };
@@ -75,7 +80,12 @@ public class SwingLayoutNode extends PNode {
     }
 
     /**
-     * Some Swing layouts (like BoxLayout) require a reference to the container.
+     * Some Swing layout managers (like BoxLayout) require a reference to the proxy Container. 
+     * For example:
+     * <code>
+     * SwingLayoutNode layoutNode = new SwingLayoutNode();
+     * layoutNode.setLayout( new BoxLayout( layoutNode.getContainer(), BoxLayout.Y_AXIS ) );
+     * </code>
      * @return
      */
     public Container getContainer() {
@@ -83,14 +93,18 @@ public class SwingLayoutNode extends PNode {
     }
 
     /**
-     * Sets the layout. Like Swing, if you call this after adding nodes,
-     * the results can sometimes be a bit unpredictable.
+     * Sets the layout manager. 
+     * <p>
+     * It's recommended that you avoid using this method, it's a can of worms.
+     * Like Swing, if you call this after adding nodes, the results may be unpredictable.
+     * You'll also have problems if the constraints that you specified to addChild aren't
+     * compatible with the new layout manager, or if the new layout manager requires constraints. 
      * 
      * @param layoutManager
      */
     public void setLayout( LayoutManager layoutManager ) {
         container.setLayout( layoutManager );
-        updateLayout();
+        updateContainerLayout();
     }
     
     /**
@@ -112,7 +126,7 @@ public class SwingLayoutNode extends PNode {
          * resulting in StackOverflowException.
          */
         super.addChild( index, child );
-        addNodeComponent( child, constraints, anchor );
+        addProxyComponent( child, constraints, anchor );
     }
 
     public void addChild( int index, PNode child ) {
@@ -182,7 +196,8 @@ public class SwingLayoutNode extends PNode {
     }
     
     /**
-     * Removes a node.
+     * Removes a node at a specified index.
+     * @param index
      */
     public PNode removeChild( int index ) {
         /* 
@@ -193,7 +208,7 @@ public class SwingLayoutNode extends PNode {
          * resulting in StackOverflowException.
          */
         PNode node = super.removeChild( index );
-        removeNodeComponent( node );
+        removeProxyComponent( node );
         return node;
     }
     
@@ -218,8 +233,8 @@ public class SwingLayoutNode extends PNode {
     /*
      * Adds a proxy component for a node.
      */
-    private void addNodeComponent( PNode node, Object constraints, Anchor anchor ) {
-        NodeComponent component = new NodeComponent( node, anchor );
+    private void addProxyComponent( PNode node, Object constraints, Anchor anchor ) {
+        ProxyComponent component = new ProxyComponent( node, anchor );
         if ( constraints == null ) {
             container.add( component );
         }
@@ -227,20 +242,20 @@ public class SwingLayoutNode extends PNode {
             container.add( component, constraints );
         }
         node.addPropertyChangeListener( propertyChangeListener );
-        updateLayout();
+        updateContainerLayout();
     }
 
     /*
      * Removes a proxy component for a node.
      * Does nothing if the node is not a child of the layout.
      */
-    private void removeNodeComponent( PNode node ) {
+    private void removeProxyComponent( PNode node ) {
         if ( node != null ) {
-            NodeComponent component = getComponentForNode( node );
+            ProxyComponent component = getComponentForNode( node );
             if ( component != null ) {
                 container.remove( component );
                 node.removePropertyChangeListener( propertyChangeListener );
-                updateLayout();
+                updateContainerLayout();
             }
         }
     }
@@ -249,13 +264,13 @@ public class SwingLayoutNode extends PNode {
      * Finds the component that is serving as the proxy for a specific node.
      * Returns null if not found.
      */
-    private NodeComponent getComponentForNode( PNode node ) {
-        NodeComponent nodeComponent = null;
+    private ProxyComponent getComponentForNode( PNode node ) {
+        ProxyComponent nodeComponent = null;
         Component[] components = container.getComponents();
         if ( components != null ) {
             for ( int i = 0; i < components.length && nodeComponent == null; i++ ) {
-                if ( components[i] instanceof NodeComponent ) {
-                    NodeComponent n = (NodeComponent)components[i];
+                if ( components[i] instanceof ProxyComponent ) {
+                    ProxyComponent n = (ProxyComponent)components[i];
                     if ( n.getNode() == node ) {
                         nodeComponent = n;
                     }
@@ -272,7 +287,10 @@ public class SwingLayoutNode extends PNode {
         return ( p.equals( PNode.PROPERTY_VISIBLE ) || p.equals( PNode.PROPERTY_FULL_BOUNDS ) );
     }
 
-    private void updateLayout() {
+    /*
+     * Updates the proxy Container's layout.
+     */
+    private void updateContainerLayout() {
         container.invalidate(); // necessary for layouts like BoxLayout that would otherwise use stale state
         container.setSize( container.getPreferredSize() );
         container.doLayout();
@@ -280,14 +298,14 @@ public class SwingLayoutNode extends PNode {
 
     /*
      * JComponent that acts as a proxy for a PNode.
-     * Supplies a Swing layout manager with the PNode's layout info.
+     * Provides the PNode's bounds info for all bounds-related requests.
      */
-    private static class NodeComponent extends JComponent {
+    private static class ProxyComponent extends JComponent {
 
         private final PNode node;
         private final Anchor anchor;
 
-        public NodeComponent( PNode node, Anchor anchor ) {
+        public ProxyComponent( PNode node, Anchor anchor ) {
             this.node = node;
             this.anchor = anchor;
         }
@@ -412,8 +430,10 @@ public class SwingLayoutNode extends PNode {
             }
         };
         
-        // West corresponds to how a default JLabel uses the space allocated by the Swing layout manager.
-        // That is, the node will be left justified and vertically centered.
+        /* 
+         * West corresponds to how a default JLabel uses the space allocated by the Swing layout manager.
+         * That is, the node will be left justified and vertically centered.
+         */
         public static final Anchor WEST = new AbstractAnchor() {
             public void positionNode( PNode node, double x, double y, double w, double h ) {
                 node.setOffset( west( node, x, w ), centerY( node, y, h ) );
