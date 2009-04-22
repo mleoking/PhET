@@ -95,6 +95,12 @@ public class NuclearPhysicsConstants {
     public static final Color DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR = Color.BLACK;
     
     // Color for label used for the Uranium 235 nucleus.
+    public static final Color CARBON_14_LABEL_COLOR = Color.YELLOW;
+    
+    // Color for label used for the Uranium 235 nucleus.
+    public static final Color NITROGEN_14_LABEL_COLOR = Color.ORANGE;
+    
+    // Color for label used for the Uranium 235 nucleus.
     public static final Color URANIUM_235_LABEL_COLOR = Color.GREEN;
     
     // Color for label used for the Uranium 236 nucleus.

@@ -28,6 +28,14 @@ public class NuclearPhysicsStrings {
     public static final String PROTON_LEGEND_LABEL = NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.ProtonLabel" );
     public static final String ALPHA_PARTICLE_LEGEND_LABEL = NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.AlphaParticleLabel" );
 
+    public static final String CARBON_14_CHEMICAL_SYMBOL = NuclearPhysicsResources.getString( "Carbon14Graphic.Symbol" );
+    public static final String CARBON_14_ISOTOPE_NUMBER = NuclearPhysicsResources.getString( "Carbon14Graphic.Number" );
+    public static final String CARBON_14_LEGEND_LABEL = NuclearPhysicsResources.getString( "Carbon14Label" );
+
+    public static final String NITROGEN_14_CHEMICAL_SYMBOL = NuclearPhysicsResources.getString( "Nitrogen14Graphic.Symbol" );
+    public static final String NITROGEN_14_ISOTOPE_NUMBER = NuclearPhysicsResources.getString( "Nitrogen14Graphic.Number" );
+    public static final String NITROGEN_14_LEGEND_LABEL = NuclearPhysicsResources.getString( "Nitrogen14Label" );
+
     public static final String URANIUM_235_CHEMICAL_SYMBOL = NuclearPhysicsResources.getString( "Uranium235Graphic.Symbol" );
     public static final String URANIUM_235_ISOTOPE_NUMBER = NuclearPhysicsResources.getString( "Uranium235Graphic.Number" );
     public static final String URANIUM_235_LEGEND_LABEL = NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.Uranium235Label" );
