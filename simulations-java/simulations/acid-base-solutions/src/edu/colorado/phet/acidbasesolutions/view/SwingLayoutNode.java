@@ -6,6 +6,8 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Collection;
+import java.util.Iterator;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -60,7 +62,9 @@ public class SwingLayoutNode extends PNode {
     }
     
     /**
-     * Sets the strategy that determines where the node is positioned
+     * Sets the default anchor strategy.
+     * If no anchor strategy is specified when a node is added, then
+     * the default strategy determines where the node is positioned
      * in the space allocated by the Swing layout manager.
      * @param anchorStrategy
      */
@@ -90,24 +94,7 @@ public class SwingLayoutNode extends PNode {
         container.setLayout( layoutManager );
         updateLayout();
     }
-
-    /**
-     * Adds a child to the end of the node list.
-     * Like Swing, bad things can happen if the type of the constraints
-     * isn't compatible with the layout manager.
-     * 
-     * @param child
-     * @param constraints
-     */
-    public void addChild( PNode child, Object constraints ) {
-        super.addChild( child );
-        addNodeComponent( child, constraints );
-    }
-
-    public void addChild( PNode child ) {
-        addChild( child, null );
-    }
-
+    
     /**
      * Adds a child at the specified index.
      * Like Swing, bad things can happen if the type of the constraints
@@ -116,32 +103,110 @@ public class SwingLayoutNode extends PNode {
      * @param index
      * @param child
      * @param constraints
+     * @param anchorStrategy
      */
-    public void addChild( int index, PNode child, Object constraints ) {
+    public void addChild( int index, PNode child, Object constraints, AnchorStrategy anchorStrategy ) {
+        /* 
+         * NOTE: 
+         * This must be the only super.addChild call that we make in our entire implementation,
+         * because all PNode.addChild methods are implemented in terms of this one.
+         * Calling other variants of super.addChild will incorrectly invoke our overrides,
+         * resulting in StackOverflowException.
+         */
         super.addChild( index, child );
-        addNodeComponent( child, constraints );
+        addNodeComponent( child, constraints, anchorStrategy );
     }
 
-    public void addChild( int index, PNode node ) {
-        super.addChild( index, node );
+    public void addChild( int index, PNode child ) {
+        addChild( index, child, null, this.anchorStrategy );
+    }
+    
+    public void addChild( int index, PNode child, Object constraints ) {
+        addChild( index, child, constraints, this.anchorStrategy );
+    }
+    
+    public void addChild( int index, PNode child,AnchorStrategy anchorStrategy ) {
+        addChild( index, child, null, anchorStrategy );
     }
 
-    public PNode removeChild( PNode child ) {
-        PNode node = super.removeChild( child );
-        removeNodeComponent( node );
-        return node;
+    /**
+     * Adds a child to the end of the node list.
+     * @param child
+     * @param constraints
+     * @param anchorStrategy
+     */
+    public void addChild( PNode child, Object constraints, AnchorStrategy anchorStrategy ) {
+        // NOTE: since PNode.addChild(PNode) is implemented in terms of PNode.addChild(int index), we must do the same.
+        int index = getChildrenCount();
+        // workaround a flaw in PNode.addChild(PNode), they should have handled this in PNode.addChild(int index).
+        if ( child.getParent() == this ) {
+            index--; 
+        }
+        addChild( index, child, constraints, anchorStrategy );
     }
 
+    public void addChild( PNode child ) {
+        addChild( child, null, this.anchorStrategy );
+    }
+    
+    public void addChild( PNode child, Object constraints ) {
+        addChild( child, constraints, this.anchorStrategy );
+    }
+    
+    public void addChild( PNode child, AnchorStrategy anchorStrategy ) {
+        addChild( child, null, anchorStrategy );
+    }
+    
+    /**
+     * Adds a collection of nodes to the end of the list.
+     * @param nodes
+     * @param constraints
+     * @param anchorStrategy
+     */
+    public void addChildren( Collection nodes, Object constraints, AnchorStrategy anchor ) {
+        Iterator i = nodes.iterator();
+        while ( i.hasNext() ) {
+            PNode each = (PNode) i.next();
+            addChild( each, constraints, anchorStrategy );
+        }
+    }
+    
+    public void addChildren( Collection nodes ) {
+        addChildren( nodes, null, this.anchorStrategy );
+    }
+    
+    public void addChildren( Collection nodes, Object constraints ) {
+        addChildren( nodes, constraints, this.anchorStrategy );
+    }
+    
+    public void addChildren( Collection nodes, AnchorStrategy anchorStrategy ) {
+        addChildren( nodes, null, anchorStrategy );
+    }
+    
+    /**
+     * Removes a node.
+     */
     public PNode removeChild( int index ) {
+        /* 
+         * NOTE: 
+         * This must be the only super.removeChild call that we make in our entire implementation,
+         * because all PNode.removeChild methods are implemented in terms of this one.
+         * Calling other variants of super.removeChild will incorrectly invoke our overrides,
+         * resulting in StackOverflowException.
+         */
         PNode node = super.removeChild( index );
         removeNodeComponent( node );
         return node;
+    }
+    
+    public PNode removeChild( PNode child ) {
+        return removeChild( indexOfChild( child ) );
     }
 
     /*
      * Adds a proxy component for a node.
      */
-    private void addNodeComponent( PNode node, Object constraints ) {
+    private void addNodeComponent( PNode node, Object constraints, AnchorStrategy anchorStrategy ) {
         NodeComponent component = new NodeComponent( node, anchorStrategy );
         if ( constraints == null ) {
             container.add( component );
@@ -219,8 +284,11 @@ public class SwingLayoutNode extends PNode {
             return node;
         }
 
+        /**
+         * Report the node's dimensions as the proxy component's preferred size.
+         */
         public Dimension getPreferredSize() {
-            //round up fractional part instead of rounding down; better to include the whole node than to chop off part
+            // Round up fractional part instead of rounding down; better to include the whole node than to chop off part.
             double w = node.getFullBoundsReference().getWidth();
             double h = node.getFullBoundsReference().getHeight();
             return new Dimension( roundUp( w ), roundUp( h ) );
@@ -238,9 +306,13 @@ public class SwingLayoutNode extends PNode {
             return getPreferredSize();
         }
 
-        public void setBounds( int x, int y, int width, int height ) {
-            super.setBounds( x, y, width, height );
-            anchorStrategy.positionNode( node, x, y, width, height );
+        /**
+         * Sets the bounds of the proxy component and positions the node
+         * in the area (x,y,w,h) allocated by the layout manager.
+         */
+        public void setBounds( int x, int y, int w, int h ) {
+            super.setBounds( x, y, w, h );
+            anchorStrategy.positionNode( node, x, y, w, h );
         }
     }
     
