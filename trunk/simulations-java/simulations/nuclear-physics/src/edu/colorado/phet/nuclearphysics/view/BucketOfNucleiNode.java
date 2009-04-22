@@ -403,6 +403,10 @@ public class BucketOfNucleiNode extends PNode {
 			_bucketLabel.setHTML(NuclearPhysicsStrings.BUCKET_LABEL_ATOMS);
 		    break;
 		    
+		case NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14:
+			_bucketLabel.setHTML(NuclearPhysicsStrings.BUCKET_LABEL_ATOMS);
+		    break;
+		    
 		default:
 			System.err.println("Error: Unrecognized nucleus type when adding label to bucket.");
 		    _bucketLabel.setHTML("");

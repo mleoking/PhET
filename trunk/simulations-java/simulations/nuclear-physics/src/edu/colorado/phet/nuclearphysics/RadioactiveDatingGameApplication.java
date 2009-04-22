@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.nuclearphysics.module.chainreaction.ChainReactionModule;
 import edu.colorado.phet.nuclearphysics.module.fissiononenucleus.FissionOneNucleusModule;
 import edu.colorado.phet.nuclearphysics.module.nuclearreactor.NuclearReactorModule;
+import edu.colorado.phet.nuclearphysics.module.radioactivedatinggame.RadiometricElementDecayModule;
 
 /**
  * RadioactiveDatingGameApplication is the main application class for the
@@ -27,7 +28,7 @@ public class RadioactiveDatingGameApplication extends AbstractNuclearPhysicsAppl
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    private FissionOneNucleusModule _fissionOneNucleusModule;
+    private RadiometricElementDecayModule _radioactiveElementDecayModule;
     private ChainReactionModule _chainReactionModule;
     private NuclearReactorModule _nuclearReactorModule;
 
@@ -43,8 +44,8 @@ public class RadioactiveDatingGameApplication extends AbstractNuclearPhysicsAppl
         
         Frame parentFrame = getPhetFrame();
 
-        _fissionOneNucleusModule = new FissionOneNucleusModule( parentFrame );
-        addModule( _fissionOneNucleusModule );
+        _radioactiveElementDecayModule = new RadiometricElementDecayModule( parentFrame );
+        addModule( _radioactiveElementDecayModule );
     
         _chainReactionModule = new ChainReactionModule( parentFrame );
         addModule( _chainReactionModule );
