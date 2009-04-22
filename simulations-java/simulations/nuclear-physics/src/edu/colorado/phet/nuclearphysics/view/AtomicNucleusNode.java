@@ -201,6 +201,28 @@ public class AtomicNucleusNode extends PNode {
         Color labelColor = Color.GRAY;
         
         switch (numProtons){
+        case 6:
+        	// Carbon
+            if (numNeutrons == 8){
+                // Carbon 14
+                isotopeNumber = NuclearPhysicsStrings.CARBON_14_ISOTOPE_NUMBER;
+                chemSymbol = NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL;
+                labelColor = NuclearPhysicsConstants.CARBON_14_LABEL_COLOR;
+            }
+            
+            break;
+        	
+        case 7:
+        	// Nitrogen
+            if (numNeutrons == 7){
+                // Nitrogen 14
+                isotopeNumber = NuclearPhysicsStrings.NITROGEN_14_ISOTOPE_NUMBER;
+                chemSymbol = NuclearPhysicsStrings.NITROGEN_14_CHEMICAL_SYMBOL;
+                labelColor = NuclearPhysicsConstants.NITROGEN_14_LABEL_COLOR;
+            }
+            
+            break;
+        	
         case 92:
             // Uranium
             if (numNeutrons == 143){
