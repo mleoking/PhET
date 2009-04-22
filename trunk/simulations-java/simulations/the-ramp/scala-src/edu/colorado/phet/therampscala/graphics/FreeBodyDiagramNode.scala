@@ -2,10 +2,11 @@ package edu.colorado.phet.therampscala.graphics
 
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.util.PhetFont
+import common.piccolophet.event.CursorHandler
 import common.piccolophet.nodes.{HTMLNode, PhetPPath, ArrowNode}
 import common.piccolophet.PhetPCanvas
 import java.awt.geom.{Point2D, Rectangle2D}
-import java.awt.{BasicStroke, Color}
+import java.awt.{Cursor, BasicStroke, Color}
 import javax.swing.JFrame
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
@@ -41,6 +42,8 @@ class AxisNodeWithModel(transform: ModelViewTransform2D, label: String, val axis
     axisNode.setTipAndTailLocations(debug evals "tipLocation" -> transform.modelToViewDouble(axisModel.getEndPoint), debug evals "tailLocation" -> transform.modelToViewDouble(0, 0))
     updateTextNodeLocation()
   }
+  axisNode.addInputEventListener(new CursorHandler(Cursor.E_RESIZE_CURSOR))
+//  axisNode.addInputEventListener()
 }
 
 class FreeBodyDiagramNode(val width: Int, val height: Int, val modelWidth: Double, val modelHeight: Double, vectors: Vector*) extends PNode {
