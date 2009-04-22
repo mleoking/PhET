@@ -8,9 +8,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.*;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -26,18 +23,18 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
- * Uses Swing layout facilities to position PNodes.
+ * Uses Swing layout managers to position PNodes.
  * 
  * @author Sam Reid
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class SwingLayoutNode extends PNode {
 
-    private static final NodeAnchorStrategy DEFAULT_ANCHOR_STRATEGY = new NodeAnchorStrategy.West();
+    private static final AnchorStrategy DEFAULT_ANCHOR_STRATEGY = AnchorStrategy.WEST;
     
     private final JPanel container;
     private final PropertyChangeListener propertyChangeListener;
-    private NodeAnchorStrategy anchorStrategy;
+    private AnchorStrategy anchorStrategy;
 
     /**
      * Uses a default FlowLayout.
@@ -62,11 +59,16 @@ public class SwingLayoutNode extends PNode {
         this.anchorStrategy = DEFAULT_ANCHOR_STRATEGY;
     }
     
-    public void setAnchorStrategy( NodeAnchorStrategy anchorStrategy ) {
+    /**
+     * Sets the strategy that determines where the node is positioned
+     * in the space allocated by the Swing layout manager.
+     * @param anchorStrategy
+     */
+    public void setAnchorStrategy( AnchorStrategy anchorStrategy ) {
         this.anchorStrategy = anchorStrategy;
     }
     
-    public NodeAnchorStrategy getAnchorStrategy() {
+    public AnchorStrategy getAnchorStrategy() {
         return anchorStrategy;
     }
 
@@ -206,9 +208,9 @@ public class SwingLayoutNode extends PNode {
     private static class NodeComponent extends JComponent {
 
         private final PNode node;
-        private final NodeAnchorStrategy anchorStrategy;
+        private final AnchorStrategy anchorStrategy;
 
-        public NodeComponent( PNode node, NodeAnchorStrategy anchorStrategy ) {
+        public NodeComponent( PNode node, AnchorStrategy anchorStrategy ) {
             this.node = node;
             this.anchorStrategy = anchorStrategy;
         }
@@ -242,30 +244,103 @@ public class SwingLayoutNode extends PNode {
         }
     }
     
-    //TODO consider fleshing this out and making it public if needed in the future.
-    /*
-    * Determines where nodes are anchored in the area allocated by the Swing LayoutManager.
-    * Anchor names are similar to GridBagConstraint anchor values and have the same semantics.
-    * Used solely by SwingLayoutNode.
+    /**
+    * Determines where nodes are anchored in the area allocated by the Swing layout manager.
+    * Predefined anchor names are similar to GridBagConstraint anchors and have the same semantics.
     */
-    public interface NodeAnchorStrategy {
+    public interface AnchorStrategy {
         
+        /**
+         * Positions the node in the bounds defined by (x,y,w,h).
+         */
         void positionNode( PNode node, double x, double y, double w, double h );
+        
+        /**
+         * Base class that provides utilities for computing common anchor points.
+         */
+        public static abstract class AbstractAnchorStrategy implements AnchorStrategy {
 
+            public static double centerX( PNode node, double x, double w ) {
+                return x + ( w - node.getFullBoundsReference().getWidth() ) / 2;
+            }
+
+            public static double centerY( PNode node, double y, double h ) {
+                return y + ( h - node.getFullBoundsReference().getHeight() ) / 2;
+            }
+
+            public static double north( PNode node, double y, double h ) {
+                return y;
+            }
+
+            public static double south( PNode node, double y, double h ) {
+                return y + h - node.getFullBoundsReference().getHeight();
+            }
+
+            public static double east( PNode node, double x, double w ) {
+                return x + w - node.getFullBoundsReference().getWidth();
+            }
+
+            public static double west( PNode node, double x, double w ) {
+                return x;
+            }
+
+        };
+        
+        public static final AnchorStrategy CENTER = new AbstractAnchorStrategy() {
+            public void positionNode( PNode node, double x, double y, double w, double h ) {
+                node.setOffset( centerX( node, x, w ), centerY( node, y, h ) );
+            }
+        };
+        
+        public static final AnchorStrategy NORTH = new AbstractAnchorStrategy() {
+            public void positionNode( PNode node, double x, double y, double w, double h ) {
+                node.setOffset( centerX( node, x, w ), north( node, y, h )  );
+            }
+        };
+        
+        public static final AnchorStrategy NORTHEAST = new AbstractAnchorStrategy() {
+            public void positionNode( PNode node, double x, double y, double w, double h ) {
+                node.setOffset( east( node, x, w ), north( node, y, h )  );
+            }
+        };
+        
+        public static final AnchorStrategy EAST = new AbstractAnchorStrategy() {
+            public void positionNode( PNode node, double x, double y, double w, double h ) {
+                node.setOffset( east( node, x, w ), centerY( node, y, h ) );
+            }
+        };
+        
+        public static final AnchorStrategy SOUTHEAST = new AbstractAnchorStrategy() {
+            public void positionNode( PNode node, double x, double y, double w, double h ) {
+                node.setOffset( east( node, x, w ), south( node, y, h ) );
+            }
+        };
+        
+        public static final AnchorStrategy SOUTH = new AbstractAnchorStrategy() {
+            public void positionNode( PNode node, double x, double y, double w, double h ) {
+                node.setOffset( centerX( node, x, w ), south( node, y, h )  );
+            }
+        };
+        
+        public static final AnchorStrategy SOUTHWEST = new AbstractAnchorStrategy() {
+            public void positionNode( PNode node, double x, double y, double w, double h ) {
+                node.setOffset( west( node, x, w ), south( node, y, h ) );
+            }
+        };
+        
         // West corresponds to how a default JLabel uses the space allocated by the Swing layout manager.
         // That is, the node will be left justified and vertically centered.
-        public static class West implements NodeAnchorStrategy {
+        public static final AnchorStrategy WEST = new AbstractAnchorStrategy() {
             public void positionNode( PNode node, double x, double y, double w, double h ) {
-                node.setOffset( x, y + ( h - node.getFullBoundsReference().getHeight() ) / 2 );
+                node.setOffset( west( node, x, w ), centerY( node, y, h ) );
             }
-        }
+        };
         
-        public static class Center implements NodeAnchorStrategy {
+        public static final AnchorStrategy NORTHWEST = new AbstractAnchorStrategy() {
             public void positionNode( PNode node, double x, double y, double w, double h ) {
-                node.setOffset( x + ( w - node.getFullBoundsReference().getWidth() ) / 2,
-                                y + ( h - node.getFullBoundsReference().getHeight() ) / 2 );
+                node.setOffset( west( node, x, w ), north( node, y, h ) );
             }
-        }
+        };
     }
     
     // test cases
@@ -292,10 +367,10 @@ public class SwingLayoutNode extends PNode {
         borderLayout.setVgap( 5 );
         SwingLayoutNode borderLayoutNode = new SwingLayoutNode( borderLayout );
         borderLayoutNode.addChild( new PText( "North" ), BorderLayout.NORTH );
-        borderLayoutNode.setAnchorStrategy( new NodeAnchorStrategy.Center() );
+        borderLayoutNode.setAnchorStrategy( AnchorStrategy.CENTER );
         borderLayoutNode.addChild( new PText( "South" ), BorderLayout.SOUTH );
-        borderLayoutNode.setAnchorStrategy( new NodeAnchorStrategy.West() );
-        borderLayoutNode.addChild( new PText( "East" ), BorderLayout.EAST );
+        borderLayoutNode.setAnchorStrategy( AnchorStrategy.WEST );
+        borderLayoutNode.addChild( new PText( "East" ), BorderLayout.EAST ); 
         borderLayoutNode.addChild( new PText( "West" ), BorderLayout.WEST );
         borderLayoutNode.addChild( new PText( "CENTER" ), BorderLayout.CENTER );
         borderLayoutNode.setOffset( 100, 100 );
@@ -394,41 +469,5 @@ public class SwingLayoutNode extends PNode {
         frame.pack();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setVisible( true );
-        
-        /*--- pure Swing layouts, for comparison of anchor behavior ---*/
-        
-        BorderLayout layout1 = new BorderLayout();
-        layout1.setHgap( 10 );
-        layout1.setVgap( 5 );
-        JPanel panel1 = new JPanel( layout1 );
-        panel1.setBorder( new CompoundBorder( new EmptyBorder( 10, 10, 10, 10 ), new LineBorder( Color.BLACK ) ) );
-        panel1.add( new JLabel( "North" ), BorderLayout.NORTH );
-        panel1.add( new JLabel( "South" ), BorderLayout.PAGE_END );
-        panel1.add( new JLabel( "East" ), BorderLayout.EAST );
-        panel1.add( new JLabel( "West" ), BorderLayout.WEST );
-        panel1.add( new JLabel( "CENTER" ), BorderLayout.CENTER );
-        JFrame frame1 = new JFrame( "BorderLayout" );
-        frame1.setContentPane( panel1 );
-        frame1.pack();
-        frame1.setVisible( true );
-        
-        JPanel panel2 = new JPanel();
-        panel2.setLayout( new BoxLayout( panel2, BoxLayout.Y_AXIS ) );
-        panel2.add( new JLabel( "xxxxxxxxxxxx" ) );
-        panel2.add( new JLabel( "y" ) );
-        JFrame frame2 = new JFrame( "BoxLayout" );
-        frame2.setContentPane( panel2 );
-        frame2.pack();
-        frame2.setVisible( true );
-        
-        JPanel panel3 = new JPanel( new FlowLayout() );
-        panel3.add( new JLabel( "left" ) );
-        JLabel label1 = new JLabel( "right" );
-        label1.setFont( new Font( "Lucida Sans", Font.PLAIN, 48 ) );
-        panel3.add( label1 );
-        JFrame frame3 = new JFrame( "FlowLayout" );
-        frame3.setContentPane( panel3 );
-        frame3.pack();
-        frame3.setVisible( true );
     }
 }
