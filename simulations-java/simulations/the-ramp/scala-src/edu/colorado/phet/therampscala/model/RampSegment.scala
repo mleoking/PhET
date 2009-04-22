@@ -1,7 +1,6 @@
 package edu.colorado.phet.therampscala.model
 
 
-
 import java.awt.geom.{Point2D, Line2D}
 import scalacommon.util.Observable
 import scalacommon.math.Vector2D

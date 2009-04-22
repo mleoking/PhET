@@ -18,7 +18,7 @@ trait Vector extends Observable {
 
   def getColor: Color
 }
-class FreeBodyDiagramNode(val width: Int, val height: Int, val modelWidth: Double, val modelHeight: Double,vectors:Vector*) extends PNode {
+class FreeBodyDiagramNode(val width: Int, val height: Int, val modelWidth: Double, val modelHeight: Double, vectors: Vector*) extends PNode {
   val transformT = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight),
     new Rectangle2D.Double(0, 0, width, height), true)
   val background = new PhetPPath(new Rectangle2D.Double(0, 0, width, height), Color.white, new BasicStroke(2), Color.darkGray)
@@ -41,7 +41,7 @@ class FreeBodyDiagramNode(val width: Int, val height: Int, val modelWidth: Doubl
 
   class VectorNode(val vector: Vector) extends PNode {
     val arrowNode = new ArrowNode(transformT.modelToViewDouble(0, 0), transformT.modelToViewDouble(vector.getValue), 20, 20, 10)
-    vector.addListenerByName(arrowNode.setTipAndTailLocations(transformT.modelToViewDouble(vector.getValue),transformT.modelToViewDouble(0, 0)))
+    vector.addListenerByName(arrowNode.setTipAndTailLocations(transformT.modelToViewDouble(vector.getValue), transformT.modelToViewDouble(0, 0)))
     arrowNode.setPaint(vector.getColor)
     addChild(arrowNode)
   }

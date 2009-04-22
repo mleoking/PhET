@@ -30,11 +30,11 @@ class RampModel extends RecordModel[String] with ObjectModel {
     beads(0).height = _selectedObject.height
 
     //todo: remove listeners on object selection change
-    _selectedObject match{
-      case o:MutableRampObject => o.addListenerByName(beads(0).height = o.height)
-      case _ =>{}
+    _selectedObject match {
+      case o: MutableRampObject => o.addListenerByName(beads(0).height = o.height)
+      case _ => {}
     }
-    println("height="+_selectedObject.height)
+    println("height=" + _selectedObject.height)
     notifyListeners()
   }
 
@@ -85,7 +85,7 @@ class RampModel extends RecordModel[String] with ObjectModel {
   }
 
   case class WorkEnergyState(appliedWork: Double, gravityWork: Double, frictionWork: Double,
-                            potentialEnergy: Double, kineticEnergy: Double, totalEnergy: Double)
+                             potentialEnergy: Double, kineticEnergy: Double, totalEnergy: Double)
 
   def newStepCode(b: Bead, dt: Double) = {
     val origState = b.state
