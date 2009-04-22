@@ -46,7 +46,7 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
     // Instance Data
     //------------------------------------------------------------------------
     
-    NucleusTypeControl _alphaDecayModel;
+    private NucleusTypeControl _alphaDecayModel;
     private JRadioButton _poloniumRadioButton;
     private JRadioButton _customNucleusRadioButton;
 

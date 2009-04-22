@@ -35,7 +35,7 @@ import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.AbstractAlphaDecayNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayCanvas;
-import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayModel;
+import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -119,7 +119,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     //------------------------------------------------------------------------
 
     // Reference to the model containing the nuclei that are being plotted.
-    MultiNucleusAlphaDecayModel _model;
+    MultiNucleusDecayModel _model;
     
     // Reference to the canvas on which this chart resides.  Needed for
     // certain interactions.
@@ -180,7 +180,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     // Constructor
     //------------------------------------------------------------------------
 
-    public MultiNucleusAlphaDecayTimeChart( MultiNucleusAlphaDecayModel model, MultiNucleusAlphaDecayCanvas canvas ) {
+    public MultiNucleusAlphaDecayTimeChart( MultiNucleusDecayModel model, MultiNucleusAlphaDecayCanvas canvas ) {
 
         _clock = model.getClock();
         _model = model;
@@ -329,7 +329,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         
         // Add the pie chart.
         _pieChartValues = new PieValue[]{
-                new PieChartNode.PieValue( MultiNucleusAlphaDecayModel.MAX_NUCLEI, NuclearPhysicsConstants.POLONIUM_LABEL_COLOR ),
+                new PieChartNode.PieValue( _model.getNumNuclei(), NuclearPhysicsConstants.POLONIUM_LABEL_COLOR ),
                 new PieChartNode.PieValue( 0, NuclearPhysicsConstants.LEAD_LABEL_COLOR )};
         _pieChart = new PieChartNode(_pieChartValues, new Rectangle(20, 20));  // Arbitrary initial size, resized later.
         _nonPickableChartNode.addChild( _pieChart );
