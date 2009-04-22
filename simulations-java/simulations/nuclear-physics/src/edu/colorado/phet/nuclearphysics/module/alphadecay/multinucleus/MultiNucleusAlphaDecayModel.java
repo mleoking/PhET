@@ -65,7 +65,6 @@ public class MultiNucleusAlphaDecayModel extends MultiNucleusDecayModel {
 		return BUCKET_RECT;
 	}
     
-	@Override
 	protected void handleClockTicked(ClockEvent clockEvent) {
 
 		super.handleClockTicked(clockEvent);
@@ -77,7 +76,6 @@ public class MultiNucleusAlphaDecayModel extends MultiNucleusDecayModel {
 		}
 	}
 
-	@Override
 	protected void addMaxNuclei() {
 		
 		// Create a new nucleus, positioning it in the bucket.
@@ -107,7 +105,6 @@ public class MultiNucleusAlphaDecayModel extends MultiNucleusDecayModel {
 		
 	}
 
-	@Override
 	protected void initializeNucleusListener() {
 		// Create the object that will listen for nucleus events, such as decays.
         _nucleusListener = new AtomicNucleus.Adapter(){
@@ -141,7 +138,6 @@ public class MultiNucleusAlphaDecayModel extends MultiNucleusDecayModel {
         };
 	}
 
-	@Override
 	protected void removeAllNuclei() {
 
 		super.removeAllNuclei();
