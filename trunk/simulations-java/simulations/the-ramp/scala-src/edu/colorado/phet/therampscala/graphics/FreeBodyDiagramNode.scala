@@ -43,9 +43,6 @@ class FreeBodyDiagramNode(val width: Int, val height: Int, val modelWidth: Doubl
     addChild(node)
   }
   class VectorNode(val vector: Vector) extends PNode {
-    println("vector value=" + vector.getValue + ", tx=" + transformT.modelToView(vector.getValue))
-    println("model bounds=" + transformT.getModelBounds + " viewBounds=" + transformT.getViewBounds)
-    println("zero translates to " + transformT.modelToViewDouble(0, 0))
     val arrowNode = new ArrowNode(transformT.modelToViewDouble(0, 0), transformT.modelToViewDouble(vector.getValue), 20, 20, 10)
     arrowNode.setPaint(vector.getColor)
     addChild(arrowNode)
