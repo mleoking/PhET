@@ -33,13 +33,8 @@ class RampCanvas(model: RampModel) extends DefaultCanvas(22, 20) {
   addNode(new CoordinateFrame(model, transform))
 
   val fbdNode = new FreeBodyDiagramNode(200, 200, 10, 10)
-  val vector = new Vector() {
-    def getValue = {
-      println("applied force=" + model.beads(0).appliedForce)
-      model.beads(0).appliedForce
-    }
-
-    def getColor = Color.blue
+  val vector = new Vector(Color.blue, "Applied Force", "<html>F<sub>a</sub></html>") {
+    def getValue = model.beads(0).appliedForce
   }
   fbdNode.addVector(vector)
   model.beads(0).addListenerByName {vector.notifyListeners()}
