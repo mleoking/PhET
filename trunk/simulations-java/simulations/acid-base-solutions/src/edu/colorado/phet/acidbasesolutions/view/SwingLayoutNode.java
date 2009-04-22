@@ -33,13 +33,12 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class SwingLayoutNode extends PNode {
 
+    private static final NodeAnchorStrategy DEFAULT_ANCHOR_STRATEGY = new NodeAnchorStrategy.West();
+    
     private final JPanel container;
     private final PropertyChangeListener propertyChangeListener;
     private NodeAnchorStrategy anchorStrategy;
 
-    // By default, a node is put in the center of its allocated area.
-    private static final NodeAnchorStrategy DEFAULT_ANCHORED_STRATEGY = new NodeAnchorStrategy.West();
-    
     /**
      * Uses a default FlowLayout.
      */
@@ -60,7 +59,15 @@ public class SwingLayoutNode extends PNode {
                 }
             }
         };
-        this.anchorStrategy = DEFAULT_ANCHORED_STRATEGY;
+        this.anchorStrategy = DEFAULT_ANCHOR_STRATEGY;
+    }
+    
+    public void setAnchorStrategy( NodeAnchorStrategy anchorStrategy ) {
+        this.anchorStrategy = anchorStrategy;
+    }
+    
+    public NodeAnchorStrategy getAnchorStrategy() {
+        return anchorStrategy;
     }
 
     /**
@@ -241,17 +248,22 @@ public class SwingLayoutNode extends PNode {
     * Anchor names are similar to GridBagConstraint anchor values and have the same semantics.
     * Used solely by SwingLayoutNode.
     */
-    private interface NodeAnchorStrategy {
+    public interface NodeAnchorStrategy {
         
         void positionNode( PNode node, double x, double y, double w, double h );
 
-        // West is the anchor policy that provides behavior similar to Swing layout managers.
-        // BorderLayout, BoxLayout, FlowLayout match this behavior.
-        // GridBagLayout has its own mechanism (GridBagConstraints) for specifying anchors.
-        // Did not compare to GridLayout, GroupLayout, SpringLayout.
+        // West corresponds to how a default JLabel uses the space allocated by the Swing layout manager.
+        // That is, the node will be left justified and vertically centered.
         public static class West implements NodeAnchorStrategy {
             public void positionNode( PNode node, double x, double y, double w, double h ) {
                 node.setOffset( x, y + ( h - node.getFullBoundsReference().getHeight() ) / 2 );
+            }
+        }
+        
+        public static class Center implements NodeAnchorStrategy {
+            public void positionNode( PNode node, double x, double y, double w, double h ) {
+                node.setOffset( x + ( w - node.getFullBoundsReference().getWidth() ) / 2,
+                                y + ( h - node.getFullBoundsReference().getHeight() ) / 2 );
             }
         }
     }
@@ -280,7 +292,9 @@ public class SwingLayoutNode extends PNode {
         borderLayout.setVgap( 5 );
         SwingLayoutNode borderLayoutNode = new SwingLayoutNode( borderLayout );
         borderLayoutNode.addChild( new PText( "North" ), BorderLayout.NORTH );
+        borderLayoutNode.setAnchorStrategy( new NodeAnchorStrategy.Center() );
         borderLayoutNode.addChild( new PText( "South" ), BorderLayout.SOUTH );
+        borderLayoutNode.setAnchorStrategy( new NodeAnchorStrategy.West() );
         borderLayoutNode.addChild( new PText( "East" ), BorderLayout.EAST );
         borderLayoutNode.addChild( new PText( "West" ), BorderLayout.WEST );
         borderLayoutNode.addChild( new PText( "CENTER" ), BorderLayout.CENTER );
