@@ -19,8 +19,8 @@ trait Vector extends Observable {
   def getColor: Color
 }
 class FreeBodyDiagramNode(val width: Int, val height: Int, val modelWidth: Double, val modelHeight: Double, val vectors: Vector*) extends PNode {
-  val transformT = new ModelViewTransform2D(new Rectangle2D.Double(-width / 2, -height / 2, width, height),
-    new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight))
+  val transformT = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight),
+    new Rectangle2D.Double(0, 0, width, height), true)
   val background = new PPath(new Rectangle2D.Double(0, 0, width, height))
   addChild(background)
   val arrowInset = 4
@@ -43,13 +43,12 @@ class FreeBodyDiagramNode(val width: Int, val height: Int, val modelWidth: Doubl
     addChild(node)
   }
   class VectorNode(val vector: Vector) extends PNode {
-    def anode() = {
-
-      val arrowNode = new ArrowNode(new Point2D.Double(width / 2, height / 2), transformT.modelToView(vector.getValue), 20, 20, 10)
-      arrowNode.setPaint(vector.getColor)
-      addChild(arrowNode)
-    }
-    anode()
+    println("vector value=" + vector.getValue + ", tx=" + transformT.modelToView(vector.getValue))
+    println("model bounds=" + transformT.getModelBounds + " viewBounds=" + transformT.getViewBounds)
+    println("zero translates to " + transformT.modelToViewDouble(0, 0))
+    val arrowNode = new ArrowNode(transformT.modelToViewDouble(0, 0), transformT.modelToViewDouble(vector.getValue), 20, 20, 10)
+    arrowNode.setPaint(vector.getColor)
+    addChild(arrowNode)
   }
 }
 
@@ -57,7 +56,7 @@ object TestFBD extends Application {
   val frame = new JFrame
   val canvas = new PhetPCanvas
   canvas.addScreenChild(new FreeBodyDiagramNode(200, 200, 20, 20, new Vector() {
-    def getValue = new Vector2D(10, 10)
+    def getValue = new Vector2D(5, 5)
 
     def getColor = Color.blue
   }))
