@@ -2,7 +2,7 @@ package edu.colorado.phet.therampscala.graphics
 
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.util.PhetFont
-import common.piccolophet.nodes.{PhetPPath, ArrowNode}
+import common.piccolophet.nodes.{HTMLNode, PhetPPath, ArrowNode}
 import common.piccolophet.PhetPCanvas
 import java.awt.geom.{Point2D, Rectangle2D}
 import java.awt.{BasicStroke, Color}
@@ -13,10 +13,8 @@ import umd.cs.piccolo.nodes.{PText, PPath}
 import umd.cs.piccolo.PNode
 import scalacommon.Predef._
 
-trait Vector extends Observable {
+abstract class Vector(val color: Color, val name: String, val abbreviation: String) extends Observable {
   def getValue: Vector2D
-
-  def getColor: Color
 }
 class FreeBodyDiagramNode(val width: Int, val height: Int, val modelWidth: Double, val modelHeight: Double, vectors: Vector*) extends PNode {
   val transformT = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight),
@@ -40,10 +38,17 @@ class FreeBodyDiagramNode(val width: Int, val height: Int, val modelWidth: Doubl
   for (vector <- vectors) addVector(vector)
 
   class VectorNode(val vector: Vector) extends PNode {
-    val arrowNode = new ArrowNode(transformT.modelToViewDouble(0, 0), transformT.modelToViewDouble(vector.getValue), 20, 20, 10)
-    vector.addListenerByName(arrowNode.setTipAndTailLocations(transformT.modelToViewDouble(vector.getValue), transformT.modelToViewDouble(0, 0)))
-    arrowNode.setPaint(vector.getColor)
+    val arrowNode = new ArrowNode(transformT.modelToViewDouble(0, 0), transformT.modelToViewDouble(vector.getValue), 20, 20, 10, 0.5, true)
+    arrowNode.setPaint(vector.color)
     addChild(arrowNode)
+    val abbreviatonTextNode = new HTMLNode(vector.abbreviation, vector.color)
+    addChild(abbreviatonTextNode)
+    defineInvokeAndPass(vector.addListenerByName) {
+      val viewTipLoc = transformT.modelToViewDouble(vector.getValue)
+      arrowNode.setTipAndTailLocations(viewTipLoc, transformT.modelToViewDouble(0, 0))
+      abbreviatonTextNode.setOffset(viewTipLoc)
+      abbreviatonTextNode.setVisible(vector.getValue.magnitude > 1E-2)
+    }
   }
   def addVector(vector: Vector) = addChild(new VectorNode(vector))
 }
@@ -51,10 +56,8 @@ class FreeBodyDiagramNode(val width: Int, val height: Int, val modelWidth: Doubl
 object TestFBD extends Application {
   val frame = new JFrame
   val canvas = new PhetPCanvas
-  canvas.addScreenChild(new FreeBodyDiagramNode(200, 200, 20, 20, new Vector() {
+  canvas.addScreenChild(new FreeBodyDiagramNode(200, 200, 20, 20, new Vector(Color.blue, "Test Vector", "Fv") {
     def getValue = new Vector2D(5, 5)
-
-    def getColor = Color.blue
   }))
   frame.setContentPane(canvas)
   frame.setSize(800, 600)
