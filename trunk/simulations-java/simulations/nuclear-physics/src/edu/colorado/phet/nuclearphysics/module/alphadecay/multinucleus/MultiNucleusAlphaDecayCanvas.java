@@ -21,6 +21,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayControl;
 import edu.colorado.phet.nuclearphysics.model.AbstractAlphaDecayNucleus;
@@ -450,7 +451,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     	else{
     		// Pause this nucleus while it is being manipulated.
     		if (grabbedNode.getNucleusRef() instanceof AbstractAlphaDecayNucleus){
-    			((AbstractAlphaDecayNucleus)grabbedNode.getNucleusRef()).setPaused(true);
+    			((AbstractDecayNucleus)grabbedNode.getNucleusRef()).setPaused(true);
     		}
     	}
     }
@@ -471,7 +472,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     	else{
 	    	AtomicNucleus nucleus = releasedNode.getNucleusRef();
 	    	if (nucleus instanceof AbstractAlphaDecayNucleus){
-	    		AbstractAlphaDecayNucleus alphaDecayNucleus = (AbstractAlphaDecayNucleus)nucleus;
+	    		AbstractDecayNucleus alphaDecayNucleus = (AbstractDecayNucleus)nucleus;
 	    		if (alphaDecayNucleus.isPaused()){
 	    			// Unpause this nucleus so that it continues towards decay.
 	    			alphaDecayNucleus.setPaused(false);

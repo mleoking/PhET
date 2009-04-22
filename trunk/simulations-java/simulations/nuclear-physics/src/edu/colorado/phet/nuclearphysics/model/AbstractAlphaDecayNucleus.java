@@ -7,8 +7,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
-import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
-import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayControl;
+import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 
 /**
  * This class contains much of the behavior that is common to all nuclei that
@@ -16,74 +15,11 @@ import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayControl;
  * 
  * @author John Blanco
  */
-public abstract class AbstractAlphaDecayNucleus extends AtomicNucleus implements NuclearDecayControl {
-
-	protected double _decayTime = 0;
-	protected double _activatedLifetime = 0;
-	protected double _halfLife = 0;
-	protected boolean _paused = false;
+public abstract class AbstractAlphaDecayNucleus extends AbstractDecayNucleus {
 
 	public AbstractAlphaDecayNucleus(NuclearPhysicsClock clock, Point2D position,
 			int numProtons, int numNeutrons) {
 		super(clock, position, numProtons, numNeutrons);
-	}
-
-	public double getDecayTime() {
-	    return _decayTime;
-	}
-
-	public double getHalfLife() {
-	    return _halfLife;
-	}
-
-	/**
-	 * Set the half life for this nucleus.
-	 * 
-	 * @param halfLife - Half life in milliseconds.
-	 */
-	public void setHalfLife(double halfLife) {
-	    _halfLife = halfLife;
-	}
-	
-	public void reset(){
-        // Reset the decay time to 0, indicating that it shouldn't occur
-        // until something changes.
-        _decayTime = 0;
-        _activatedLifetime = 0;
-
-        // Make sure we are not paused.
-		_paused = false;
-	}
-
-	public boolean isPaused() {
-		return _paused;
-	}
-
-	public void setPaused(boolean paused) {
-		_paused = paused;
-	}
-	
-	public abstract void activateDecay();
-	public abstract boolean hasDecayed();
-
-	/**
-	 * Return true if decay is currently active and false if not.
-	 */
-	public boolean isDecayActive() {
-		if (_decayTime != 0){
-			return true;
-		}
-		else{
-			return false;
-		}
-	}
-
-	/**
-	 * Returns a value indicating how long the nucleus has been active without
-	 * having decayed.
-	 */
-	public double getActivatedTime() {
-		return _activatedLifetime;
 	}
 
 	/**

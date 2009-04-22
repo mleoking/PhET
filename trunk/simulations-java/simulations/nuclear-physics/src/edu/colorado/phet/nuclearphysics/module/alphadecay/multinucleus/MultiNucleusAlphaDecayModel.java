@@ -12,10 +12,10 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
+import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayControl;
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayModelListener;
-import edu.colorado.phet.nuclearphysics.model.AbstractAlphaDecayNucleus;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
@@ -54,7 +54,7 @@ public class MultiNucleusAlphaDecayModel implements NucleusTypeControl {
     
     private NuclearPhysicsClock _clock;
     private ArrayList _listeners = new ArrayList();
-    private AbstractAlphaDecayNucleus [] _atomicNuclei;
+    private AbstractDecayNucleus [] _atomicNuclei;
     private ArrayList _alphaParticles = new ArrayList();
     private int _nucleusType;
     private AtomicNucleus.Adapter _nucleusListener;
@@ -69,7 +69,7 @@ public class MultiNucleusAlphaDecayModel implements NucleusTypeControl {
     public MultiNucleusAlphaDecayModel(NuclearPhysicsClock clock)
     {
         _clock = clock;
-        _atomicNuclei = new AbstractAlphaDecayNucleus[MAX_NUCLEI];
+        _atomicNuclei = new AbstractDecayNucleus[MAX_NUCLEI];
         _jitterOffsets = new Point2D[MAX_NUCLEI];
         _nucleusType = NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM;
 
@@ -163,7 +163,7 @@ public class MultiNucleusAlphaDecayModel implements NucleusTypeControl {
 		
 		// Set the new half life value.
 		for (int i = 0; i < _atomicNuclei.length; i++){
-			AbstractAlphaDecayNucleus nucleus = (AbstractAlphaDecayNucleus)_atomicNuclei[i];
+			AbstractDecayNucleus nucleus = (AbstractDecayNucleus)_atomicNuclei[i];
 			if (nucleus != null){
 				nucleus.setHalfLife(halfLife);
 			}
@@ -313,7 +313,7 @@ public class MultiNucleusAlphaDecayModel implements NucleusTypeControl {
 		// Create a new nucleus, positioning it in the bucket.
 		double inBucketPosX = BUCKET_ORIGIN_X + BUCKET_WIDTH / 2;
 		double inBucketPosY = BUCKET_ORIGIN_Y + BUCKET_HEIGHT / 2;
-		AbstractAlphaDecayNucleus newNucleus;
+		AbstractDecayNucleus newNucleus;
 			
 		for (int i = 0; i < MAX_NUCLEI; i++){
 			if (_nucleusType == NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM){
