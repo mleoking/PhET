@@ -199,8 +199,22 @@ public class SwingLayoutNode extends PNode {
         return node;
     }
     
-    public PNode removeChild( PNode child ) {
-        return removeChild( indexOfChild( child ) );
+    /*
+     * NOTE We don't need to override removeChild(PNode) or removeChildren,
+     * because they call removeChild(int index).  If their implementation
+     * ever changes, then we'll need to override them.
+     */
+    
+    /**
+     * PNode.removeAllChildren does not call removeChild, it manipulates
+     * an internal data structure.  So we must override this in a more 
+     * careful (and less efficient) manner.
+     */
+    public void removeAllChildren() {
+        Iterator i = getChildrenIterator();
+        while ( i.hasNext() ) {
+            removeChild( (PNode) i.next() );
+        }
     }
 
     /*
