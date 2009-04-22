@@ -8,6 +8,8 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
+import edu.colorado.phet.naturalselection.model.Allele;
+import edu.colorado.phet.naturalselection.model.Bunny;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -17,7 +19,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author Jonathan Olson
  */
-public class PopulationGraphNode extends PNode {
+public class PopulationGraphNode extends PNode implements Bunny.BunnyListener {
 
     // piccolo nodes used for display
     private PPath bar;
@@ -169,5 +171,37 @@ public class PopulationGraphNode extends PNode {
         if ( node.getParent() == null ) {
             addChild( node );
         }
+    }
+
+    //----------------------------------------------------------------------------
+    // Event listeners
+    //----------------------------------------------------------------------------
+
+    public void onBunnyInit( Bunny bunny ) {
+
+    }
+
+    public void onBunnyDeath( Bunny bunny ) {
+        updatePopulation( population - 1 );
+    }
+
+    public void onBunnyReproduces( Bunny bunny ) {
+
+    }
+
+    public void onBunnyAging( Bunny bunny ) {
+
+    }
+
+    public void onBunnyChangeColor( Allele allele ) {
+
+    }
+
+    public void onBunnyChangeTeeth( Allele allele ) {
+
+    }
+
+    public void onBunnyChangeTail( Allele allele ) {
+
     }
 }

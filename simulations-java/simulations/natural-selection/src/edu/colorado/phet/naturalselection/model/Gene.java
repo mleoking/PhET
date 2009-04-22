@@ -259,6 +259,14 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
 
     }
 
+    public void onBunnyChangeTeeth( Allele allele ) {
+
+    }
+
+    public void onBunnyChangeTail( Allele allele ) {
+
+    }
+
     public void onChangeDominance( boolean primary ) {
         if ( primary ) {
             setDominantAllele( primaryAllele );

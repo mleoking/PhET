@@ -74,6 +74,7 @@ public class PopulationCanvas extends PhetPCanvas implements NaturalSelectionMod
 
     public void onNewBunny( Bunny bunny ) {
         // when a new bunny arrives, let the piccolo node know. it will keep track of the deaths
+        bunny.addListener( populationGraphNode );
         populationGraphNode.updatePopulation( model.getPopulation() );
     }
 

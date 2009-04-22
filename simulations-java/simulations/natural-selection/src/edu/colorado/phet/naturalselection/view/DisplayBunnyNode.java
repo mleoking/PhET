@@ -9,6 +9,7 @@ import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.model.Allele;
 import edu.colorado.phet.naturalselection.model.ColorGene;
+import edu.colorado.phet.naturalselection.model.TeethGene;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -26,6 +27,9 @@ public class DisplayBunnyNode extends PNode {
 
     // red X
     private PPath deadX;
+
+    // temporary teeth node
+    private PPath tempTeeth;
 
     // alleles
     private Allele color;
@@ -46,8 +50,10 @@ public class DisplayBunnyNode extends PNode {
         whiteImage = NaturalSelectionResources.getImageNode( NaturalSelectionConstants.IMAGE_DISPLAY_BUNNY_WHITE );
         brownImage = NaturalSelectionResources.getImageNode( NaturalSelectionConstants.IMAGE_DISPLAY_BUNNY_BROWN );
         initDeadX();
+        initTempTeeth();
 
         // add children
+        addChild( tempTeeth );
         addChild( whiteImage );
         addChild( brownImage );
         addChild( deadX );
@@ -57,6 +63,15 @@ public class DisplayBunnyNode extends PNode {
         setTeeth( teeth );
         setTail( tail );
         setDead( false );
+    }
+
+    private void initTempTeeth() {
+        //tempTeeth = new PPath();
+        tempTeeth = PPath.createEllipse( 140, 100, 70, 70 );
+
+        //tempTeeth.setStroke( new BasicStroke( 20 ) );
+        //tempTeeth.setStrokePaint( Color.RED );
+        tempTeeth.setPaint( new Color( 0xFF, 0x00, 0x00, 0x66 ) );
     }
 
     /**
@@ -105,6 +120,13 @@ public class DisplayBunnyNode extends PNode {
 
     public void setTeeth( Allele teeth ) {
         this.teeth = teeth;
+
+        if ( teeth == TeethGene.TEETH_REGULAR_ALLELE ) {
+            tempTeeth.setVisible( false );
+        }
+        else if ( teeth == TeethGene.TEETH_HUGE_ALLELE ) {
+            tempTeeth.setVisible( true );
+        }
     }
 
     public void setTail( Allele tail ) {
