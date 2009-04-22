@@ -2,10 +2,10 @@ package edu.colorado.phet.therampscala.graphics
 
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.util.PhetFont
-import common.piccolophet.nodes.ArrowNode
+import common.piccolophet.nodes.{PhetPPath, ArrowNode}
 import common.piccolophet.PhetPCanvas
-import java.awt.Color
 import java.awt.geom.{Point2D, Rectangle2D}
+import java.awt.{BasicStroke, Color}
 import javax.swing.JFrame
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
@@ -18,10 +18,10 @@ trait Vector extends Observable {
 
   def getColor: Color
 }
-class FreeBodyDiagramNode(val width: Int, val height: Int, val modelWidth: Double, val modelHeight: Double, val vectors: Vector*) extends PNode {
+class FreeBodyDiagramNode(val width: Int, val height: Int, val modelWidth: Double, val modelHeight: Double,vectors:Vector*) extends PNode {
   val transformT = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight),
     new Rectangle2D.Double(0, 0, width, height), true)
-  val background = new PPath(new Rectangle2D.Double(0, 0, width, height))
+  val background = new PhetPPath(new Rectangle2D.Double(0, 0, width, height), Color.white, new BasicStroke(2), Color.darkGray)
   addChild(background)
   val arrowInset = 4
 
@@ -37,16 +37,15 @@ class FreeBodyDiagramNode(val width: Int, val height: Int, val modelWidth: Doubl
   }
   addChild(new AxisNode(0 + arrowInset, height / 2, width - arrowInset, height / 2, "x"))
   addChild(new AxisNode(width / 2, height - arrowInset, width / 2, 0 + arrowInset, "y"))
+  for (vector <- vectors) addVector(vector)
 
-  for (vector <- vectors) {
-    val node = new VectorNode(vector)
-    addChild(node)
-  }
   class VectorNode(val vector: Vector) extends PNode {
     val arrowNode = new ArrowNode(transformT.modelToViewDouble(0, 0), transformT.modelToViewDouble(vector.getValue), 20, 20, 10)
+    vector.addListenerByName(arrowNode.setTipAndTailLocations(transformT.modelToViewDouble(vector.getValue),transformT.modelToViewDouble(0, 0)))
     arrowNode.setPaint(vector.getColor)
     addChild(arrowNode)
   }
+  def addVector(vector: Vector) = addChild(new VectorNode(vector))
 }
 
 object TestFBD extends Application {
