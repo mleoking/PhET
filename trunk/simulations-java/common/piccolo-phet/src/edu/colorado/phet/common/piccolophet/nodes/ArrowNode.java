@@ -69,4 +69,8 @@ public class ArrowNode extends PPath {
         arrow.setTipAndTailLocations( newTipLocation, newTailLocation );
         setPathTo( arrow.getShape() );
     }
+
+    public Point2D getTipLocation(){
+        return arrow.getTipLocation();
+    }
 }
