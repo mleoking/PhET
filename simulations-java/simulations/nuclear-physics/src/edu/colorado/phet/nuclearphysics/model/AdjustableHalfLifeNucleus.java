@@ -72,7 +72,7 @@ public class AdjustableHalfLifeNucleus extends AbstractAlphaDecayNucleus {
             _numProtons = ORIGINAL_NUM_PROTONS;
             
             // Notify all listeners of the change to our atomic weight.
-            notifyAtomicWeightChanged(null);
+            notifyNucleusChangeEvent(null);
         }
 
         // Notify all listeners of the potential position change.

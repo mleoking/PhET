@@ -49,7 +49,7 @@ public class DaughterCompositeNucleus extends CompositeAtomicNucleus {
         _numNeutrons = 0;
         _numProtons = 0;
         
-        notifyAtomicWeightChanged(null);
+        notifyNucleusChangeEvent(null);
     }
     
     //------------------------------------------------------------------------

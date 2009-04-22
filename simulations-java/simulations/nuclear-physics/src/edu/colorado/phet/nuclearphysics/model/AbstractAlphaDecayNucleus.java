@@ -46,7 +46,7 @@ public abstract class AbstractAlphaDecayNucleus extends AbstractDecayNucleus {
 		            _activatedLifetime += clockEvent.getSimulationTimeChange();
 		            
 		            // Send out the decay event to all listeners.
-		            notifyAtomicWeightChanged(byProducts);
+		            notifyNucleusChangeEvent(byProducts);
 		            
 		            // Set the decay time to 0 to indicate that decay has occurred and
 		            // should not occur again.
