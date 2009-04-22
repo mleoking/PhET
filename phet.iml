@@ -121,7 +121,6 @@
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/ant_output" />
     </content>
     <content url="file://$MODULE_DIR$/../../../svn-working-copy/trunk/projects/phet" />
-    <orderEntry type="library" name="scala-2.7.3.final" level="application" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
@@ -1190,6 +1189,24 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/simulations-java/simulations/scala-sim-template/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/build-tools/contrib/scala/scala-library.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/build-tools/contrib/scala/scala-compiler.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
