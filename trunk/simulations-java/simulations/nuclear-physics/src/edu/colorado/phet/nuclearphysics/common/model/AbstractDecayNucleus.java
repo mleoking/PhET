@@ -4,6 +4,7 @@ package edu.colorado.phet.nuclearphysics.common.model;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 
 /**
@@ -40,7 +41,42 @@ public abstract class AbstractDecayNucleus extends AtomicNucleus implements Nucl
 	public void setHalfLife(double halfLife) {
 	    _halfLife = halfLife;
 	}
-
+	
+	/**
+	 * This method lets this model element know that the clock has ticked.  In
+	 * response we check if it is time to decay.
+	 */
+	protected void handleClockTicked( ClockEvent clockEvent ) {
+	    super.handleClockTicked( clockEvent );
+	    
+	    // See if this nucleus is active, i.e. moving toward decay.
+	    if (_decayTime != 0){
+	     
+	    	if (!_paused){
+	        	// See if alpha decay should occur.
+		        if (clockEvent.getSimulationTime() >= _decayTime ) {
+		            // It is time to decay.  Cause alpha decay by generating an
+		        	// alpha particle and reducing our atomic weight.
+		        	decay( clockEvent );
+		        }
+		        else{
+		        	// Not decaying yet, so updated the activated lifetime.
+		        	_activatedLifetime += clockEvent.getSimulationTimeChange();
+		        }
+	    	}
+	    	else{
+	    		// This atom is currently paused, so extend the decay time.
+	    		_decayTime += clockEvent.getSimulationTimeChange();
+	    	}
+	    }
+	}
+	
+	/**
+	 * This method is called when decay occurs, and must be implemented by all
+	 * subclasses.
+	 */
+	protected abstract void decay( ClockEvent clockEvent );
+	
 	public boolean isPaused() {
 		return _paused;
 	}
