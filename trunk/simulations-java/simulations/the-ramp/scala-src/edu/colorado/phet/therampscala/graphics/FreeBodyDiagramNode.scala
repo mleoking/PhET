@@ -16,6 +16,28 @@ import scalacommon.Predef._
 abstract class Vector(val color: Color, val name: String, val abbreviation: String) extends Observable {
   def getValue: Vector2D
 }
+class AxisNode(val transform: ModelViewTransform2D, x0: Double, y0: Double, x1: Double, y1: Double, label: String) extends PNode {
+  val axisNode = new ArrowNode(transform.modelToViewDouble(x0, y0), transform.modelToViewDouble(x1, y1), 5, 5, 2)
+  axisNode.setStroke(null)
+  axisNode.setPaint(Color.black)
+  addChild(axisNode)
+  val text = new PText(label)
+  text.setFont(new PhetFont(16, true))
+  val viewDst = transform.modelToViewDouble(x1, y1)
+  text.setOffset(viewDst.x - text.getFullBounds.getWidth * 1.5, viewDst.y)
+  addChild(text)
+}
+class AxisModel(var angle: Double, val length: Double) extends Observable {
+  def getEndPoint = new Vector2D(angle) * length
+}
+
+class AxisNodeWithModel(transform: ModelViewTransform2D, label: String, val axisModel: AxisModel)
+        extends AxisNode(transform, 0, 0, transform.modelToViewDouble(axisModel.getEndPoint).x, transform.modelToViewDouble(axisModel.getEndPoint).y, label) {
+  defineInvokeAndPass(axisModel.addListenerByName) {
+    axisNode.setTipAndTailLocations(debug evals "tipLocation" -> transform.modelToViewDouble(axisModel.getEndPoint), debug evals "tailLocation" -> transform.modelToViewDouble(0, 0))
+  }
+}
+
 class FreeBodyDiagramNode(val width: Int, val height: Int, val modelWidth: Double, val modelHeight: Double, vectors: Vector*) extends PNode {
   val transformT = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight),
     new Rectangle2D.Double(0, 0, width, height), true)
@@ -23,18 +45,8 @@ class FreeBodyDiagramNode(val width: Int, val height: Int, val modelWidth: Doubl
   addChild(background)
   val arrowInset = 4
 
-  class AxisNode(x0: Double, y0: Double, x1: Double, y1: Double, label: String) extends PNode {
-    val axisNode = new ArrowNode(new Point2D.Double(x0, y0), new Point2D.Double(x1, y1), 5, 5, 2)
-    axisNode.setStroke(null)
-    axisNode.setPaint(Color.black)
-    addChild(axisNode)
-    val text = new PText(label)
-    text.setFont(new PhetFont(16, true))
-    text.setOffset(x1 - text.getFullBounds.getWidth * 1.5, y1)
-    addChild(text)
-  }
-  addChild(new AxisNode(0 + arrowInset, height / 2, width - arrowInset, height / 2, "x"))
-  addChild(new AxisNode(width / 2, height - arrowInset, width / 2, 0 + arrowInset, "y"))
+  addChild(new AxisNode(transformT, -modelWidth / 2, 0, modelWidth / 2, 0, "x"))
+  addChild(new AxisNode(transformT, 0, -modelHeight / 2, 0, modelHeight / 2, "y"))
   for (vector <- vectors) addVector(vector)
 
   class VectorNode(val vector: Vector) extends PNode {
