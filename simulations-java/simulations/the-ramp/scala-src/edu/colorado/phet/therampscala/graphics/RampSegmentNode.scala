@@ -34,7 +34,7 @@ trait Rotatable {
   def endPoint: Vector2D
 
 }
-class RotationHandler(val mytransform: ModelViewTransform2D, val node: PNode, val rampSegment: Rotatable) extends PBasicInputEventHandler {
+class RotationHandler(val mytransform: ModelViewTransform2D, val node: PNode, val rampSegment: Rotatable, min: Double, max: Double) extends PBasicInputEventHandler {
   override def mouseDragged(event: PInputEvent) = {
     val modelPt = mytransform.viewToModel(event.getPositionRelativeTo(node.getParent))
 
@@ -51,8 +51,8 @@ class RotationHandler(val mytransform: ModelViewTransform2D, val node: PNode, va
     //draw a ray from start point to new mouse point
     val newPt = new Vector2D(rampSegment.getUnitVector.getAngle + deltaAngle) * rampSegment.length
     val clamped =
-    if (newPt.getAngle < 0) new Vector2D(0) * rampSegment.length
-    else if (newPt.getAngle > PI / 2) new Vector2D(PI / 2) * rampSegment.length
+    if (newPt.getAngle < min) new Vector2D(min) * rampSegment.length
+    else if (newPt.getAngle > max) new Vector2D(max) * rampSegment.length
     else newPt
     rampSegment.endPoint = clamped
   }
@@ -60,5 +60,5 @@ class RotationHandler(val mytransform: ModelViewTransform2D, val node: PNode, va
 
 class RotatableSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D) extends RampSegmentNode(rampSegment, mytransform) {
   line.addInputEventListener(new CursorHandler(Cursor.N_RESIZE_CURSOR))
-  line.addInputEventListener(new RotationHandler(mytransform, line, rampSegment))
+  line.addInputEventListener(new RotationHandler(mytransform, line, rampSegment,0,PI/2))
 }

@@ -8,11 +8,13 @@ import common.piccolophet.PhetPCanvas
 import java.awt.geom.{Point2D, Rectangle2D}
 import java.awt.{Cursor, BasicStroke, Color}
 import javax.swing.JFrame
+import model.CoordinateFrameModel
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
 import umd.cs.piccolo.nodes.{PText, PPath}
 import umd.cs.piccolo.PNode
 import scalacommon.Predef._
+import java.lang.Math._
 
 abstract class Vector(val color: Color, val name: String, val abbreviation: String) extends Observable {
   def getValue: Vector2D
@@ -32,29 +34,51 @@ class AxisNode(val transform: ModelViewTransform2D, x0: Double, y0: Double, x1: 
     text.setOffset(viewDst.x - text.getFullBounds.getWidth * 1.5, viewDst.y)
   }
 }
-class AxisModel(var angle: Double, val length: Double) extends Observable {
+class AxisModel(private var _angle: Double, val length: Double) extends Observable with Rotatable {
+  def angle = _angle
+
   def getEndPoint = new Vector2D(angle) * length
+
+  def startPoint = new Vector2D(0, 0)
+
+  def endPoint = getEndPoint
+
+  def getUnitVector = (getEndPoint - startPoint).normalize
+
+  def endPoint_=(newPt: Vector2D) = {
+    angle = newPt.getAngle
+    notifyListeners()
+  }
+
+  def angle_=(a: Double) = {
+    if (this._angle != a) {
+      this._angle = a
+      notifyListeners()
+    }
+  }
 }
 
 class AxisNodeWithModel(transform: ModelViewTransform2D, label: String, val axisModel: AxisModel)
         extends AxisNode(transform, 0, 0, transform.modelToViewDouble(axisModel.getEndPoint).x, transform.modelToViewDouble(axisModel.getEndPoint).y, label) {
   defineInvokeAndPass(axisModel.addListenerByName) {
-    axisNode.setTipAndTailLocations(debug evals "tipLocation" -> transform.modelToViewDouble(axisModel.getEndPoint), debug evals "tailLocation" -> transform.modelToViewDouble(0, 0))
+    axisNode.setTipAndTailLocations(transform.modelToViewDouble(axisModel.getEndPoint), transform.modelToViewDouble(0, 0))
     updateTextNodeLocation()
   }
   axisNode.addInputEventListener(new CursorHandler(Cursor.E_RESIZE_CURSOR))
-//  axisNode.addInputEventListener()
+  axisNode.addInputEventListener(new RotationHandler(transform, axisNode, axisModel, -1000, 1000))
 }
 
-class FreeBodyDiagramNode(val width: Int, val height: Int, val modelWidth: Double, val modelHeight: Double, vectors: Vector*) extends PNode {
+class FreeBodyDiagramNode(val width: Int, val height: Int, val modelWidth: Double, val modelHeight: Double, coordinateFrameModel: CoordinateFrameModel, vectors: Vector*) extends PNode {
   val transformT = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight),
     new Rectangle2D.Double(0, 0, width, height), true)
   val background = new PhetPPath(new Rectangle2D.Double(0, 0, width, height), Color.white, new BasicStroke(2), Color.darkGray)
   addChild(background)
   val arrowInset = 4
 
-  addChild(new AxisNode(transformT, -modelWidth / 2, 0, modelWidth / 2, 0, "x"))
-  addChild(new AxisNode(transformT, 0, -modelHeight / 2, 0, modelHeight / 2, "y"))
+  val xAxisModel = new SynchronizedAxisModel(0, 7, coordinateFrameModel)
+  val yAxisModel = new SynchronizedAxisModel(PI / 2, 7, coordinateFrameModel)
+  addChild(new AxisNodeWithModel(transformT, "x", xAxisModel))
+  addChild(new AxisNodeWithModel(transformT, "y", yAxisModel))
   for (vector <- vectors) addVector(vector)
 
   class VectorNode(val vector: Vector) extends PNode {
@@ -76,7 +100,7 @@ class FreeBodyDiagramNode(val width: Int, val height: Int, val modelWidth: Doubl
 object TestFBD extends Application {
   val frame = new JFrame
   val canvas = new PhetPCanvas
-  canvas.addScreenChild(new FreeBodyDiagramNode(200, 200, 20, 20, new Vector(Color.blue, "Test Vector", "Fv") {
+  canvas.addScreenChild(new FreeBodyDiagramNode(200, 200, 20, 20, new CoordinateFrameModel, new Vector(Color.blue, "Test Vector", "Fv") {
     def getValue = new Vector2D(5, 5)
   }))
   frame.setContentPane(canvas)
