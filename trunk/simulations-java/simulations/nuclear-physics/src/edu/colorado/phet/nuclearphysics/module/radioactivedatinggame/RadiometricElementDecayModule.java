@@ -32,7 +32,7 @@ public class RadiometricElementDecayModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public RadiometricElementDecayModule( Frame parentFrame ) {
-        super( NuclearPhysicsStrings.TITLE_MULTI_ATOM_ALPHA_DECAY_MODULE,
+        super( NuclearPhysicsStrings.TITLE_RADIOMETRIC_ELEMENT_HALF_LIFE,
                new NuclearPhysicsClock( SingleNucleusAlphaDecayDefaults.CLOCK_FRAME_RATE, SingleNucleusAlphaDecayDefaults.CLOCK_DT ));
  
         // Model
