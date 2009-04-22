@@ -1,6 +1,7 @@
 package edu.colorado.phet.therampscala.model
 
 
+import graphics.Rotatable
 import java.awt.geom.{Point2D, Line2D}
 import scalacommon.util.Observable
 import scalacommon.math.Vector2D
@@ -15,7 +16,7 @@ case class RampSegmentState(startPoint: Vector2D, endPoint: Vector2D) { //don't 
 
   def setAngle(angle: Double) = new RampSegmentState(startPoint, new Vector2D(angle) * (endPoint - startPoint).magnitude)
 }
-class RampSegment(_state: RampSegmentState) extends Observable {
+class RampSegment(_state: RampSegmentState) extends Observable with Rotatable{
   var state = _state;
   def this(startPt: Point2D, endPt: Point2D) = this (new RampSegmentState(startPt, endPt))
 
