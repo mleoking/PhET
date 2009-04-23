@@ -1,0 +1,2 @@
+javac -classpath src -sourcepath src -d build-output -source 1.6 -target 1.6 src/edu/colorado/phet/unfuddletool/*.java src/edu/colorado/phet/unfuddletool/data/*.java src/edu/colorado/phet/unfuddletool/gui/*.java src/edu/colorado/phet/unfuddletool/util/*.java
+jar -cfm deploy/unfuddletool.jar MANIFEST.MF -C build-output .
