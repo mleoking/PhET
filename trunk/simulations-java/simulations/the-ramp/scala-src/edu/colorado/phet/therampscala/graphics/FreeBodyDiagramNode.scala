@@ -34,12 +34,12 @@ class AxisNode(val transform: ModelViewTransform2D, x0: Double, y0: Double, x1: 
     text.setOffset(viewDst.x - text.getFullBounds.getWidth * 1.5, viewDst.y)
   }
 }
-class AxisModel(private var _angle: Double, val length: Double) extends Observable with Rotatable {
+class AxisModel(private var _angle: Double, val length: Double, tail: Boolean) extends Observable with Rotatable {
   def angle = _angle
 
   def getEndPoint = new Vector2D(angle) * length
 
-  def startPoint = new Vector2D(0, 0)
+  def startPoint = if (tail) getEndPoint * -1 else new Vector2D
 
   def endPoint = getEndPoint
 
@@ -59,9 +59,11 @@ class AxisModel(private var _angle: Double, val length: Double) extends Observab
 }
 
 class AxisNodeWithModel(transform: ModelViewTransform2D, label: String, val axisModel: AxisModel)
-        extends AxisNode(transform, 0, 0, transform.modelToViewDouble(axisModel.getEndPoint).x, transform.modelToViewDouble(axisModel.getEndPoint).y, label) {
+        extends AxisNode(transform,
+          transform.modelToViewDouble(axisModel.startPoint).x, transform.modelToViewDouble(axisModel.startPoint).y,
+          transform.modelToViewDouble(axisModel.getEndPoint).x, transform.modelToViewDouble(axisModel.getEndPoint).y, label) {
   defineInvokeAndPass(axisModel.addListenerByName) {
-    axisNode.setTipAndTailLocations(transform.modelToViewDouble(axisModel.getEndPoint), transform.modelToViewDouble(0, 0))
+    axisNode.setTipAndTailLocations(transform.modelToViewDouble(axisModel.getEndPoint), transform.modelToViewDouble(axisModel.startPoint))
     updateTextNodeLocation()
   }
   axisNode.addInputEventListener(new CursorHandler(Cursor.E_RESIZE_CURSOR))
@@ -75,8 +77,8 @@ class FreeBodyDiagramNode(val width: Int, val height: Int, val modelWidth: Doubl
   addChild(background)
   val arrowInset = 4
 
-  val xAxisModel = new SynchronizedAxisModel(0, 7, coordinateFrameModel)
-  val yAxisModel = new SynchronizedAxisModel(PI / 2, 7, coordinateFrameModel)
+  val xAxisModel = new SynchronizedAxisModel(0, modelWidth/2*0.9, true, coordinateFrameModel)
+  val yAxisModel = new SynchronizedAxisModel(PI / 2, modelWidth/2*0.9, true, coordinateFrameModel)
   addChild(new AxisNodeWithModel(transformT, "x", xAxisModel))
   addChild(new AxisNodeWithModel(transformT, "y", yAxisModel))
   for (vector <- vectors) addVector(vector)
