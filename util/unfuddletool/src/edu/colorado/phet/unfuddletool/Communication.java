@@ -173,7 +173,11 @@ public class Communication {
         return ret;
         */
 
-        return rawHTTPRequest( xmlString, location, auth );
+        System.out.println( "Requesting: " + location );
+        String ret = rawHTTPRequest( xmlString, location, auth );
+        System.out.println( "Received:" );
+        System.out.println( ret );
+        return ret;
         
         //return persistentHTTPRequest( xmlString, location, auth );
     }
