@@ -31,6 +31,11 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * filled with nuclei.  The user can grab nuclei from the bucket and drag then
  * onto the canvas.
  * 
+ * NOTE: As of this writing (April 2009), there is an assumption that all the
+ * nuclei in the bucket are the same.  Nuclei of different sizes are not
+ * handled well, and this would need to be modified if that functionality is
+ * needed.
+ * 
  * @author John Blanco
  */
 public class BucketOfNucleiNode extends PNode {
@@ -39,13 +44,11 @@ public class BucketOfNucleiNode extends PNode {
     // Class Data
     //------------------------------------------------------------------------
 
-	public static final Stroke LINE_STROKE = new BasicStroke( 0.5f );
-	public static final Color OUTER_COLOR_DARK = new Color (0xAA7700);
-	public static final Color OUTER_COLOR_LIGHT = new Color (0xFF9933);
-	public static final Color INNER_COLOR_DARK = new Color (0xAA7700);
-	public static final Color INNER_COLOR_LIGHT = new Color (0xCC9933);
-	public static final double PROTOTYPICAL_NUCLEUS_WIDTH = 
-		10 * MultiNucleusAlphaDecayCanvas.SCALING_FACTOR_FOR_NUCLEUS_NODES_IN_BUCKET;
+	private static final Stroke LINE_STROKE = new BasicStroke( 0.5f );
+	private static final Color OUTER_COLOR_DARK = new Color (0xAA7700);
+	private static final Color OUTER_COLOR_LIGHT = new Color (0xFF9933);
+	private static final Color INNER_COLOR_DARK = new Color (0xAA7700);
+	private static final Color INNER_COLOR_LIGHT = new Color (0xCC9933);
 	
     //------------------------------------------------------------------------
     // Instance Data
@@ -68,6 +71,7 @@ public class BucketOfNucleiNode extends PNode {
     PNode _nodeBeingDragged;
     ArrayList _shrinkAnimationTimers;
 	private int _nucleusType;
+	private double _nucleusWidth = 0;
 	
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -92,14 +96,6 @@ public class BucketOfNucleiNode extends PNode {
 		
 		GradientPaint innerPaint = new GradientPaint(0, (float)height/2, INNER_COLOR_LIGHT, 
         		(float)width, (float)height/2, INNER_COLOR_DARK);
-		
-		/*
-		// TODO: JPB TBD - A basic rect for guidance, remove when this node is done.
-		PhetPPath outerRect = new PhetPPath(new Rectangle2D.Double( 0, 0, width, height ));
-		outerRect.setStroke( new BasicStroke( 0.25f ) );
-		outerRect.setStrokePaint(Color.red);
-		addChild(outerRect);
-		*/
 		
 		// Create a layering effect using PNodes so that we can create the
 		// illusion of three dimensions.
@@ -151,12 +147,6 @@ public class BucketOfNucleiNode extends PNode {
 				_ellipseVerticalSpan * 1.3, width, _ellipseVerticalSpan / 2) );
 		bucketHandle.setStroke( LINE_STROKE );
 		_frontOfBucketLayer.addChild(bucketHandle);
-		
-		// Set up some values that will be used when filling the bucket with
-		// nuclei.
-		_numVisibleNucleiInMiddleLayer = (int)(_bucketWidth / PROTOTYPICAL_NUCLEUS_WIDTH);
-		_numVisibleNucleiInOuterLayers = (int)((double)_numVisibleNucleiInMiddleLayer * 0.75);
-		_visibleNucleusNodes = new AtomicNucleusNode[((2 * _numVisibleNucleiInOuterLayers) + _numVisibleNucleiInMiddleLayer)];
 	}
 	
     //------------------------------------------------------------------------
@@ -170,6 +160,17 @@ public class BucketOfNucleiNode extends PNode {
 	 */
 	public void addNucleus( AtomicNucleusNode nucleusNode ){
 		
+		if ( isEmpty() ){
+			// This is the first nucleus being added, so now we know the
+			// width of nuclei that will be kept here and we can calculate how
+			// many will fit.
+			_nucleusWidth = nucleusNode.getFullBoundsReference().getWidth();
+			_numVisibleNucleiInMiddleLayer = (int)(_bucketWidth / _nucleusWidth);
+			_numVisibleNucleiInOuterLayers = (int)((double)_numVisibleNucleiInMiddleLayer * 0.75);
+			_visibleNucleusNodes = new AtomicNucleusNode[((2 * _numVisibleNucleiInOuterLayers) + 
+					_numVisibleNucleiInMiddleLayer)];
+		}
+		
 		// See if there are any slots open in the list of visible nuclei.
 		boolean openSpotFound = false;
 		for (int i = 0; i < _visibleNucleusNodes.length; i++){
@@ -177,7 +178,7 @@ public class BucketOfNucleiNode extends PNode {
 				// This spot is available, so add this nucleus.
 				nucleusNode.setVisible(true);
 				_visibleNucleusNodes[i] = nucleusNode;
-				addAndPositionVisibleNucleus(i);
+				positionVisibleNucleus(i);
 				openSpotFound = true;
 				break;
 			}
@@ -335,7 +336,7 @@ public class BucketOfNucleiNode extends PNode {
 	 * 
 	 * @param nucleusIndex
 	 */
-	private void addAndPositionVisibleNucleus(int nucleusIndex){
+	private void positionVisibleNucleus(int nucleusIndex){
 
 		double xPos, yPos;
 		
@@ -344,21 +345,20 @@ public class BucketOfNucleiNode extends PNode {
 		if (nucleusIndex < _numVisibleNucleiInOuterLayers){
 			// This nucleus is in the back row.
 			_backInteriorLayer.addChild(nucleus);
-			xPos = PROTOTYPICAL_NUCLEUS_WIDTH * 1.3 + PROTOTYPICAL_NUCLEUS_WIDTH * nucleusIndex * 1.1;
+			xPos = _nucleusWidth * 1.3 + _nucleusWidth * nucleusIndex * 1.1;
 			yPos = _ellipseVerticalSpan * 0.25;
 		}
 		else if (nucleusIndex < _numVisibleNucleiInMiddleLayer + _numVisibleNucleiInOuterLayers){
 			// This nucleus is in the middle row.
 			_middleInteriorLayer.addChild(nucleus);
-			xPos = PROTOTYPICAL_NUCLEUS_WIDTH * 0.8 + 
-			    PROTOTYPICAL_NUCLEUS_WIDTH * (nucleusIndex - _numVisibleNucleiInOuterLayers);
+			xPos = _nucleusWidth * 0.8 + _nucleusWidth * (nucleusIndex - _numVisibleNucleiInOuterLayers);
 			yPos = _ellipseVerticalSpan * 0.55;
 		}
 		else{
 			// This nucleus is in the front row.
 			_frontInteriorLayer.addChild(nucleus);
-			xPos = PROTOTYPICAL_NUCLEUS_WIDTH * 1.7 + 
-			    PROTOTYPICAL_NUCLEUS_WIDTH * (nucleusIndex - _numVisibleNucleiInOuterLayers - _numVisibleNucleiInMiddleLayer) * 1.1;
+			xPos = _nucleusWidth * 1.7 + _nucleusWidth *
+			    (nucleusIndex - _numVisibleNucleiInOuterLayers - _numVisibleNucleiInMiddleLayer) * 1.1;
 			yPos = _ellipseVerticalSpan * 0.85;
 		}
 		
@@ -381,12 +381,31 @@ public class BucketOfNucleiNode extends PNode {
 						// Add this to the list of visible nuclei.
 						childNode.setVisible(true);
 						_visibleNucleusNodes[i] = (AtomicNucleusNode)childNode;
-						addAndPositionVisibleNucleus(i);
+						positionVisibleNucleus(i);
 						break;
 					}
 				}
 			}
 		}
+	}
+	
+	private boolean isEmpty(){
+
+		boolean isEmpty = true;
+		
+		// See if there are any nodes.  Note that this relies on the idea that
+		// if there are any nodes in the bucket, they will be visible.
+		if ( _visibleNucleusNodes != null ){
+			for ( int i = 0; i < _visibleNucleusNodes.length; i++ ){
+				if ( _visibleNucleusNodes[i] != null ){
+					// Bucket is not empty.
+					isEmpty = false;
+					break;
+				}
+			}
+		}
+		
+		return isEmpty;
 	}
 
 	/**
