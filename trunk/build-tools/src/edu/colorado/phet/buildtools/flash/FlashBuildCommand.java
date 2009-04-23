@@ -2,10 +2,13 @@ package edu.colorado.phet.buildtools.flash;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 
+import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.util.FileUtils;
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 
 /**
  * Created by IntelliJ IDEA.
@@ -37,7 +40,7 @@ public class FlashBuildCommand {
         System.out.print( "Building the SWF, please wait" );
         while ( !outputFile.exists() && System.currentTimeMillis() - startTime < timeout ) {
             try {
-                Thread.sleep( 50 );
+                Thread.sleep( 2000 );
                 System.out.print( '.' );
             }
             catch( InterruptedException e ) {
@@ -113,9 +116,23 @@ public class FlashBuildCommand {
             } );
         }
         else {
-            p = Runtime.getRuntime().exec( new String[]{cmd, outputFile.getAbsolutePath()} );
+            if ( PhetUtilities.isMacintosh() ) {
+                String flashName = BuildLocalProperties.getInstance().getMacFlashName();
+                String volume = BuildLocalProperties.getInstance().getMacTrunkVolume();
+                String macPath = unixToMacPath( outputFile.getAbsolutePath() );
+                Object[] args = { flashName, volume, macPath  };
+                String pattern = "tell application \"{0}\" to open alias \"{1}:{2}\"";
+                String actionScript = MessageFormat.format( pattern, args );
+                p = Runtime.getRuntime().exec( new String[] { "osascript", "-e", actionScript } );
+            }
+            else {
+                p = Runtime.getRuntime().exec( new String[] { cmd, outputFile.getAbsolutePath() } );
+            }
         }
-
+    }
+    
+    private static String unixToMacPath( String path ) {
+        return path.replace( '/', ':' );
     }
 
     private static String toSimsString( String[] sims ) {
