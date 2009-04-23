@@ -100,83 +100,12 @@ public class Communication {
         //return s;
     }
 
-    /*
-    public static class Cache {
-        private File cacheDir = new File( System.getProperty( "java.io.tmpdir" ), "unfuddletool-cache" );
-
-        public Cache() {
-            cacheDir.mkdirs();
-            System.out.println( "cacheDir.getAbsolute = " + cacheDir.getAbsolutePath() );
-        }
-
-        public boolean containsKey( String key ) {
-            return new File( cacheDir, key + ".txt" ).exists();
-        }
-
-        public String get( String key ) {
-            try {
-                return FileUtils.loadFileAsString( new File( cacheDir, key + ".txt" ) );
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-                return "-1";
-            }
-        }
-
-        public void store( String key, String value ) {
-            try {
-                FileUtils.writeString( new File( cacheDir, key + ".txt" ), value );
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    //private static Cache cache = new Cache();
-    private static Cache cache = null;
-
-    private static String reduce( String k ) {
-        k = k.replace( '/', '_' );
-        k = k.replace( '<', '_' );
-        k = k.replace( '>', '_' );
-        k = k.replace( ';', '_' );
-        k = k.replace( ':', '_' );
-        return k;
-    }
-    */
-
     public static String getXMLResponse( String xmlString, String location, String auth ) {
-        /*
-        String key = location + "-" + xmlString;
-        key = reduce( key );
 
-        if ( cache != null && cache.containsKey( key ) ) {
-            return cache.get( key );
-        }
-        String ret = null;
-        try {
-            String[] cmd = {"curl", "-i", "-u", auth, "-X", "GET", "-H", "Accept: application/xml", "-d", "\"" + xmlString + "\"", "http://" + Configuration.getAccountName() + ".unfuddle.com/api/v1/" + location};
-            System.out.println( "Running command\n" + toCommand( cmd ) );
-            ret = execCommand( cmd );
-            System.out.println( "Received data from unfuddle." );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-        catch( InterruptedException e ) {
-            e.printStackTrace();
-        }
-        if ( cache != null ) {
-            cache.store( key, ret );
-        }
-        return ret;
-        */
-
-        System.out.println( "Requesting: " + location );
+        System.out.println( "Requesting " + location );
         String ret = rawHTTPRequest( xmlString, location, auth );
-        System.out.println( "Received:" );
-        System.out.println( ret );
+        System.out.println( "Received " + location );
+        //System.out.println( ret );
         return ret;
         
         //return persistentHTTPRequest( xmlString, location, auth );

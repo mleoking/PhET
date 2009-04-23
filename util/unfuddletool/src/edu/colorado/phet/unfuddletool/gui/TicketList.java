@@ -9,13 +9,12 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import edu.colorado.phet.unfuddletool.TicketHandler;
+import edu.colorado.phet.unfuddletool.TicketListModel;
 import edu.colorado.phet.unfuddletool.data.Ticket;
 
 public class TicketList extends JList implements ListSelectionListener {
 
-    public DefaultListModel model;
-
-    public List<Ticket> tickets;
+    public TicketListModel model;
 
     public UnfuddleToolGUI gui;
 
@@ -24,8 +23,9 @@ public class TicketList extends JList implements ListSelectionListener {
 
         gui = ggui;
 
-        model = new DefaultListModel();
+        model = new TicketListModel();
 
+        /*
         tickets = TicketHandler.getTicketHandler().getTicketListByUpdate();
 
         Iterator<Ticket> iter = tickets.iterator();
@@ -35,6 +35,7 @@ public class TicketList extends JList implements ListSelectionListener {
 
             model.addElement( ticket );
         }
+        */
 
         setModel( model );
 
@@ -46,7 +47,7 @@ public class TicketList extends JList implements ListSelectionListener {
     public void valueChanged( ListSelectionEvent event ) {
         if ( !event.getValueIsAdjusting() ) {
             if ( getSelectedIndex() != -1 ) {
-                Ticket ticket = tickets.get( getSelectedIndex() );
+                Ticket ticket = (Ticket) model.getElementAt( getSelectedIndex() );
                 gui.displayArea.setText( ticket.toHTMLString() );
             }
         }

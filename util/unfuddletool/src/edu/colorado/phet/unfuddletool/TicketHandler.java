@@ -13,8 +13,21 @@ public class TicketHandler {
 
     public Set<Ticket> tickets;
 
+    private TicketListModel model;
+
     private TicketHandler() {
         tickets = new HashSet<Ticket>();
+    }
+
+    public void setModel( TicketListModel model ) {
+        this.model = model;
+
+        if( tickets.size() > 0 ) {
+            Iterator<Ticket> iter = tickets.iterator();
+            while( iter.hasNext() ) {
+                model.addTicket( iter.next() );
+            }
+        }
     }
 
     private static TicketHandler ticketHandler;
@@ -33,6 +46,9 @@ public class TicketHandler {
             Ticket ticket = new Ticket( (Element) Communication.toDocument( xmlString ).getFirstChild() );
 
             tickets.add( ticket );
+            if( model != null ) {
+                model.addTicket( ticket );
+            }
 
             return ticket;
         }
