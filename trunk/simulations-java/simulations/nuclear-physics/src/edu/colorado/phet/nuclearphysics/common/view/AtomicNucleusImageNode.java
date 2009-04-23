@@ -50,11 +50,12 @@ public class AtomicNucleusImageNode extends AtomicNucleusNode {
 	        // Scale the image to the appropriate size.  Note that this is tweaked
 	        // a little bit in order to make it look better.
 	        _displayImage.scale( (atomicNucleus.getDiameter()/1.2)/((_displayImage.getWidth() + _displayImage.getHeight()) / 2));
+	        _displayImage.setOffset( -atomicNucleus.getDiameter() / 2, -atomicNucleus.getDiameter() / 2 );
 		}
 		else if ( imageType == AtomicNucleusImageType.GRADIENT_SPHERE ){
 			double radius = atomicNucleus.getDiameter() / 2;
     		Paint spherePaint = new RoundGradientPaint( radius, -radius, Color.WHITE,
-                    new Point2D.Double( -radius, radius ), Color.RED );
+                    new Point2D.Double( -radius, radius ), new Color(200, 0, 0) );
 
 	        _displayImage = new SphericalNode( atomicNucleus.getDiameter(), spherePaint, false );
 		}
@@ -62,8 +63,8 @@ public class AtomicNucleusImageNode extends AtomicNucleusNode {
 	        _displayImage = new PPath( new Ellipse2D.Double( 0, 0, atomicNucleus.getDiameter(),
 	        		-atomicNucleus.getDiameter() / 2 ) );
 	        _displayImage.setPaint( Color.red );
+	        _displayImage.setOffset( -atomicNucleus.getDiameter() / 2, -atomicNucleus.getDiameter() / 2 );
 		}
-        _displayImage.setOffset( -atomicNucleus.getDiameter() / 2, -atomicNucleus.getDiameter() / 2 );
 	}
     
     protected void handleAtomicWeightChanged(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 

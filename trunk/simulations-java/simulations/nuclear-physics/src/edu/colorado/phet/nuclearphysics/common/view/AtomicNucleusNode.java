@@ -320,19 +320,39 @@ public class AtomicNucleusNode extends PNode {
         _isotopeChemSymbolShadow.setText( chemSymbol );
         _isotopeNumber.setText( isotopeNumber );
         _isotopeNumberShadow.setText( isotopeNumber );
-        
+
+        // Scale the label so that it fits roughly within the nucleus.
+    	_isotopeChemSymbol.setScale( 1 );
+    	_isotopeChemSymbolShadow.setScale( 1 );
+    	_isotopeNumber.setScale( 1 );
+    	_isotopeNumberShadow.setScale( 1 );
+    	double scale;
         if (isotopeNumber == ""){
-        	// Set the scale larger if there is no isotope number, since there
-        	// will be unused space in this case.
-        	_isotopeChemSymbol.setScale(LARGE_LABEL_SCALING_FACTOR);
-        	_isotopeChemSymbolShadow.setScale(LARGE_LABEL_SCALING_FACTOR);
+        	// Set the scall a little smaller if there is no isotope number so
+        	// that the label doesn't dominate the image.
+        	scale = _atomicNucleus.getDiameter() / (_isotopeChemSymbol.getFullBoundsReference().width * 1.5); 
         }
         else{
-        	_isotopeChemSymbol.setScale(NORMAL_LABEL_SCALING_FACTOR);
-        	_isotopeChemSymbolShadow.setScale(NORMAL_LABEL_SCALING_FACTOR);
-        	_isotopeNumber.setScale(NORMAL_LABEL_SCALING_FACTOR);
-        	_isotopeNumberShadow.setScale(NORMAL_LABEL_SCALING_FACTOR);
+        	scale = _atomicNucleus.getDiameter() / ( _isotopeChemSymbol.getFullBoundsReference().width + 
+        			_isotopeNumber.getFullBoundsReference().width );
         }
+    	_isotopeChemSymbol.setScale( scale );
+    	_isotopeChemSymbolShadow.setScale( scale );
+    	_isotopeNumber.setScale( scale );
+    	_isotopeNumberShadow.setScale( scale );
+        
+//        if (isotopeNumber == ""){
+//        	// Set the scale larger if there is no isotope number, since there
+//        	// will be unused space in this case.
+//        	_isotopeChemSymbol.setScale(LARGE_LABEL_SCALING_FACTOR);
+//        	_isotopeChemSymbolShadow.setScale(LARGE_LABEL_SCALING_FACTOR);
+//        }
+//        else{
+//        	_isotopeChemSymbol.setScale(NORMAL_LABEL_SCALING_FACTOR);
+//        	_isotopeChemSymbolShadow.setScale(NORMAL_LABEL_SCALING_FACTOR);
+//        	_isotopeNumber.setScale(NORMAL_LABEL_SCALING_FACTOR);
+//        	_isotopeNumberShadow.setScale(NORMAL_LABEL_SCALING_FACTOR);
+//        }
     }
     
     /**
