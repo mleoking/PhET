@@ -20,7 +20,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import edu.colorado.phet.buildtools.util.FileUtils;
+//import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.unfuddletool.data.DateTime;
 
 public class Communication {
@@ -100,6 +100,7 @@ public class Communication {
         //return s;
     }
 
+    /*
     public static class Cache {
         private File cacheDir = new File( System.getProperty( "java.io.tmpdir" ), "unfuddletool-cache" );
 
@@ -143,6 +144,7 @@ public class Communication {
         k = k.replace( ':', '_' );
         return k;
     }
+    */
 
     public static String getXMLResponse( String xmlString, String location, String auth ) {
         /*
