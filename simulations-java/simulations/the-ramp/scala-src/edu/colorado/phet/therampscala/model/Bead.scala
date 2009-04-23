@@ -15,9 +15,8 @@ case class BeadState(position: Double, velocity: Double, mass: Double, staticFri
 
   def thermalEnergy = 0
 }
-class Bead(_state: BeadState, positionMapper: Double => Vector2D, rampSegmentAccessor: Double => RampSegment, model: Observable) extends Observable {
+class Bead(_state: BeadState, private var _height: Double, positionMapper: Double => Vector2D, rampSegmentAccessor: Double => RampSegment, model: Observable) extends Observable {
   val gravity = -9.8
-  private var _height = 1.0
   var state = _state
   var _appliedForce = new Vector2D
 

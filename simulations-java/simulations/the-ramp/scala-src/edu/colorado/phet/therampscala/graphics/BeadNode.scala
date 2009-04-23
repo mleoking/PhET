@@ -32,13 +32,12 @@ class DraggableBeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: 
 
 class BeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: String) extends PNode {
   val shapeNode = new PhetPPath(Color.green)
-  //  addChild(shapeNode)//TODO remove after debug done
-
-  val cabinetImage = RampResources.getImage(imageName)
-  val imageNode = new PImage(cabinetImage)
+  val image = RampResources.getImage(imageName)
+  val imageNode = new PImage(image)
 
   def setImage(im: BufferedImage) = imageNode.setImage(im)
   addChild(imageNode)
+  addChild(shapeNode)//TODO remove after debug done
 
   defineInvokeAndPass(bead.addListenerByName) {
     shapeNode.setPathTo(transform.createTransformedShape(new Circle(bead.position2D, 0.3)))
@@ -51,9 +50,9 @@ class BeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: String) e
     val delta = new Vector2D(imageNode.getImage.getWidth(null), imageNode.getImage.getHeight(null))
 
     //    todo: why is scale factor 4 here?
-    //    val scale = transform.modelToViewDifferentialXDouble(1 * 4) / cabinetImage.getWidth
     val modelHeight = bead.height
-    val scale = -transform.modelToViewDifferentialYDouble(modelHeight) / cabinetImage.getHeight
+//    println("modelheight="+modelHeight)
+    val scale = - transform.modelToViewDifferentialYDouble(modelHeight) / image.getHeight
 
     imageNode.translate(viewPosition.x - delta.x / 2 * scale, viewPosition.y - delta.y * scale)
     imageNode.scale(scale)

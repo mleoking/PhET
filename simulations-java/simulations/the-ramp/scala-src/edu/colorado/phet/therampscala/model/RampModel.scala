@@ -65,9 +65,9 @@ class RampModel extends RecordModel[String] with ObjectModel {
     notifyListeners()
   }
 
-  val rampLength=10
+  val rampLength = 10
   rampSegments += new RampSegment(new Point2D.Double(-rampLength, 0), new Point2D.Double(0, 0))
-  val initialAngle=30.0.toRadians
+  val initialAngle = 30.0.toRadians
   rampSegments += new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(rampLength * cos(initialAngle), rampLength * sin(initialAngle)))
 
   def setRampAngle(angle: Double) = {
@@ -88,12 +88,12 @@ class RampModel extends RecordModel[String] with ObjectModel {
   object rampChangeAdapter extends Observable //todo: perhaps we should just pass the addListener method to the beads
   rampSegments(0).addListenerByName {rampChangeAdapter.notifyListeners}
   rampSegments(1).addListenerByName {rampChangeAdapter.notifyListeners}
-  beads += new Bead(new BeadState(5, 0, 10, 0, 0), positionMapper, rampSegmentAccessor, rampChangeAdapter)
-  val tree = new Bead(new BeadState(-9, 0, 10, 0, 0), positionMapper, rampSegmentAccessor, rampChangeAdapter)
-  val leftWall = new Bead(new BeadState(-10, 0, 10, 0, 0), positionMapper, rampSegmentAccessor, rampChangeAdapter)
-  val rightWall = new Bead(new BeadState(10, 0, 10, 0, 0), positionMapper, rampSegmentAccessor, rampChangeAdapter)
+  beads += new Bead(new BeadState(5, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter)
+  val tree = new Bead(new BeadState(-9, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter)
+  val leftWall = new Bead(new BeadState(-10, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter)
+  val rightWall = new Bead(new BeadState(10, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter)
 
-  val manBead = new Bead(new BeadState(2, 0, 10, 0, 0), positionMapper, rampSegmentAccessor, rampChangeAdapter)
+  val manBead = new Bead(new BeadState(2, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter)
 
   def update(dt: Double) = {
     beads.foreach(b => newStepCode(b, dt))

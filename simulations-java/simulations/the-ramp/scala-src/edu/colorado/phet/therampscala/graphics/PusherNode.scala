@@ -22,11 +22,11 @@ class PusherNode(transform: ModelViewTransform2D, targetBead: Bead, manBead: Bea
         textStr = "0" + textStr
       val im = RampResources.getImage("pusher-leaner-png/pusher-leaning-2_00" + textStr + ".png")
       val realIm = if (dx > 0) BufferedImageUtils.flipX(im) else im //todo: cache instead of flipping each time
-      setImage(BufferedImageUtils.rescaleXMaintainAspectRatio(realIm,2))
+      setImage(realIm)
     }
     else {
       val image = RampResources.getImage("standing-man.png")
-      setImage(BufferedImageUtils.rescaleXMaintainAspectRatio(image,2))
+      setImage(image)
     }
   }
   setPickable(false)
