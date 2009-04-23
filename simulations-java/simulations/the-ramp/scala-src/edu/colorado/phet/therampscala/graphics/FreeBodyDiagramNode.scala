@@ -11,6 +11,8 @@ import javax.swing.JFrame
 import model.CoordinateFrameModel
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
+import umd.cs.piccolo.event.{PInputEventListener, PInputEvent}
+
 import umd.cs.piccolo.nodes.{PText, PPath}
 import umd.cs.piccolo.PNode
 import scalacommon.Predef._
@@ -58,7 +60,15 @@ class AxisModel(private var _angle: Double, val length: Double, tail: Boolean) e
   }
 }
 
-class AxisNodeWithModel(transform: ModelViewTransform2D, label: String, val axisModel: AxisModel)
+//todo: coalesce with duplicates after code freeze
+class ToggleListener(listener: PInputEventListener, isInteractive: => Boolean) extends PInputEventListener {
+  def processEvent(aEvent: PInputEvent, t: Int) = {
+    if (isInteractive) {
+      listener.processEvent(aEvent, t)
+    }
+  }
+}
+class AxisNodeWithModel(transform: ModelViewTransform2D, label: String, val axisModel: AxisModel,isInteractive: => Boolean)
         extends AxisNode(transform,
           transform.modelToViewDouble(axisModel.startPoint).x, transform.modelToViewDouble(axisModel.startPoint).y,
           transform.modelToViewDouble(axisModel.getEndPoint).x, transform.modelToViewDouble(axisModel.getEndPoint).y, label) {
@@ -66,21 +76,21 @@ class AxisNodeWithModel(transform: ModelViewTransform2D, label: String, val axis
     axisNode.setTipAndTailLocations(transform.modelToViewDouble(axisModel.getEndPoint), transform.modelToViewDouble(axisModel.startPoint))
     updateTextNodeLocation()
   }
-  axisNode.addInputEventListener(new CursorHandler(Cursor.E_RESIZE_CURSOR))
-  axisNode.addInputEventListener(new RotationHandler(transform, axisNode, axisModel, -1000, 1000))
+  axisNode.addInputEventListener(new ToggleListener(new CursorHandler(Cursor.E_RESIZE_CURSOR),isInteractive))
+  axisNode.addInputEventListener(new ToggleListener(new RotationHandler(transform, axisNode, axisModel, -1000, 1000),isInteractive))
 }
 
-class FreeBodyDiagramNode(val width: Int, val height: Int, val modelWidth: Double, val modelHeight: Double, coordinateFrameModel: CoordinateFrameModel, vectors: Vector*) extends PNode {
+class FreeBodyDiagramNode(val width: Int, val height: Int, val modelWidth: Double, val modelHeight: Double, coordinateFrameModel: CoordinateFrameModel, isInteractive: => Boolean,vectors: Vector*) extends PNode {
   val transformT = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight),
     new Rectangle2D.Double(0, 0, width, height), true)
   val background = new PhetPPath(new Rectangle2D.Double(0, 0, width, height), Color.white, new BasicStroke(2), Color.darkGray)
   addChild(background)
   val arrowInset = 4
 
-  val xAxisModel = new SynchronizedAxisModel(0, modelWidth/2*0.9, true, coordinateFrameModel)
-  val yAxisModel = new SynchronizedAxisModel(PI / 2, modelWidth/2*0.9, true, coordinateFrameModel)
-  addChild(new AxisNodeWithModel(transformT, "x", xAxisModel))
-  addChild(new AxisNodeWithModel(transformT, "y", yAxisModel))
+  val xAxisModel = new SynchronizedAxisModel(0, modelWidth / 2 * 0.9, true, coordinateFrameModel)
+  val yAxisModel = new SynchronizedAxisModel(PI / 2, modelWidth / 2 * 0.9, true, coordinateFrameModel)
+  addChild(new AxisNodeWithModel(transformT, "x", xAxisModel,isInteractive))
+  addChild(new AxisNodeWithModel(transformT, "y", yAxisModel,isInteractive))
   for (vector <- vectors) addVector(vector)
 
   class VectorNode(val vector: Vector) extends PNode {
@@ -102,7 +112,7 @@ class FreeBodyDiagramNode(val width: Int, val height: Int, val modelWidth: Doubl
 object TestFBD extends Application {
   val frame = new JFrame
   val canvas = new PhetPCanvas
-  canvas.addScreenChild(new FreeBodyDiagramNode(200, 200, 20, 20, new CoordinateFrameModel, new Vector(Color.blue, "Test Vector", "Fv") {
+  canvas.addScreenChild(new FreeBodyDiagramNode(200, 200, 20, 20, new CoordinateFrameModel, true, new Vector(Color.blue, "Test Vector", "Fv") {
     def getValue = new Vector2D(5, 5)
   }))
   frame.setContentPane(canvas)
