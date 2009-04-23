@@ -234,15 +234,11 @@ public class FlashSimulationProject extends PhetProject {
         //copy software agreement HTM to AS for compilation into SWF
         copySoftwareAgreement();
 
-        String exe = BuildLocalProperties.getInstance().getFlash();
-
-        boolean useWine = BuildLocalProperties.getInstance().getWine();
-
         File trunk = getProjectDir().getParentFile() // simulations
                 .getParentFile() // simulations-flash
                 .getParentFile(); // trunk
 
-        boolean success = FlashBuildCommand.build( exe, getName(), trunk, useWine );
+        boolean success = FlashBuildCommand.build( getName(), trunk );
 
         return success;
     }
