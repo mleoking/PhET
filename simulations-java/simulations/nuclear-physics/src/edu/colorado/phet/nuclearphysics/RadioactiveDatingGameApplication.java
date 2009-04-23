@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.nuclearphysics.module.chainreaction.ChainReactionModule;
+import edu.colorado.phet.nuclearphysics.module.radioactivedatinggame.DecayRatesModule;
 import edu.colorado.phet.nuclearphysics.module.radioactivedatinggame.RadioactiveDatingGameModule;
 import edu.colorado.phet.nuclearphysics.module.radioactivedatinggame.RadiometricElementDecayModule;
 
@@ -27,7 +28,7 @@ public class RadioactiveDatingGameApplication extends AbstractNuclearPhysicsAppl
     // Instance data
     //----------------------------------------------------------------------------
     private RadiometricElementDecayModule _radioactiveElementDecayModule;
-    private ChainReactionModule _chainReactionModule;
+    private DecayRatesModule _decayRatesModule;
     private RadioactiveDatingGameModule _radioactiveDatingGameModule;
 
     /**
@@ -45,8 +46,8 @@ public class RadioactiveDatingGameApplication extends AbstractNuclearPhysicsAppl
         _radioactiveElementDecayModule = new RadiometricElementDecayModule( parentFrame );
         addModule( _radioactiveElementDecayModule );
     
-        _chainReactionModule = new ChainReactionModule( parentFrame );
-        addModule( _chainReactionModule );
+        _decayRatesModule = new DecayRatesModule( parentFrame );
+        addModule( _decayRatesModule );
     
         _radioactiveDatingGameModule = new RadioactiveDatingGameModule( parentFrame );
         addModule( _radioactiveDatingGameModule );
