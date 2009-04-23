@@ -145,6 +145,7 @@ public class Communication {
     }
 
     public static String getXMLResponse( String xmlString, String location, String auth ) {
+        /*
         String key = location + "-" + xmlString;
         key = reduce( key );
 
@@ -168,8 +169,10 @@ public class Communication {
             cache.store( key, ret );
         }
         return ret;
+        */
 
-        // return rawHTTPRequest( xmlString, location, auth );
+        return rawHTTPRequest( xmlString, location, auth );
+        
         //return persistentHTTPRequest( xmlString, location, auth );
     }
 
