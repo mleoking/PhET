@@ -189,6 +189,24 @@ public class BuildLocalProperties {
     public boolean getDebugSkipCommit() {
         return getBoolean( "debug.skip-commit", false );
     }
+    
+    
+    /**
+     * Gets the name of the Flash application on Mac, as it appears in the Finder.
+     * For example, "Flash 8".
+     * @return
+     */
+    public String getMacFlashName() {
+        return getRequiredString( "mac.flash.name", "name of the Flash application (Mac)" );
+    }
+    
+    /**
+     * Gets the name of the Mac volume on which your trunk directory resides.
+     * @return
+     */
+    public String getMacTrunkVolume() {
+        return getRequiredString( "mac.trunk.volume", "name of the volume where your trunk directory resides (Mac)" );
+    }
 
     private String getDevUsername() {
         return getRequiredString( "dev.username", "Development server username" );
