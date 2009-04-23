@@ -35,7 +35,9 @@ public class UnfuddleToolGUI extends JFrame {
 
         startupStatus.setText( startupStatus.getText() + "\nLoading tickets..." );
 
+        System.out.println( "***A" );
         ticketList = new TicketList( this );
+        System.out.println( "***B" );
 
         remove( startupStatus );
 
