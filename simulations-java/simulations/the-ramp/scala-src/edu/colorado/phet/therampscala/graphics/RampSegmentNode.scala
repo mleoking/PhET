@@ -33,8 +33,10 @@ trait Rotatable {
 
   def endPoint: Vector2D
 
+  def getPivot=new Vector2D
+
 }
-class RotationHandler(val mytransform: ModelViewTransform2D, val node: PNode, val rampSegment: Rotatable, min: Double, max: Double) extends PBasicInputEventHandler {
+class RotationHandler(val mytransform: ModelViewTransform2D, val node: PNode, val rotatable: Rotatable, min: Double, max: Double) extends PBasicInputEventHandler {
   override def mouseDragged(event: PInputEvent) = {
     val modelPt = mytransform.viewToModel(event.getPositionRelativeTo(node.getParent))
 
@@ -43,18 +45,18 @@ class RotationHandler(val mytransform: ModelViewTransform2D, val node: PNode, va
 
     val oldPtModel = modelPt - deltaModel
 
-    val oldAngle = (rampSegment.startPoint - oldPtModel).getAngle
-    val newAngle = (rampSegment.startPoint - modelPt).getAngle
+    val oldAngle = (rotatable.getPivot - oldPtModel).getAngle
+    val newAngle = (rotatable.getPivot - modelPt).getAngle
 
     val deltaAngle = newAngle - oldAngle
 
     //draw a ray from start point to new mouse point
-    val newPt = new Vector2D(rampSegment.getUnitVector.getAngle + deltaAngle) * rampSegment.length
+    val newPt = new Vector2D(rotatable.getUnitVector.getAngle + deltaAngle) * rotatable.length
     val clamped =
-    if (newPt.getAngle < min) new Vector2D(min) * rampSegment.length
-    else if (newPt.getAngle > max) new Vector2D(max) * rampSegment.length
+    if (newPt.getAngle < min) new Vector2D(min) * rotatable.length
+    else if (newPt.getAngle > max) new Vector2D(max) * rotatable.length
     else newPt
-    rampSegment.endPoint = clamped
+    rotatable.endPoint = clamped
   }
 }
 
