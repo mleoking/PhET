@@ -1,5 +1,7 @@
 package edu.colorado.phet.unfuddletool.data;
 
+import java.util.Date;
+
 import org.w3c.dom.Element;
 
 import edu.colorado.phet.unfuddletool.Communication;
@@ -43,7 +45,13 @@ public class Comment extends Record {
 
         Person person = PersonHandler.getPersonHandler().getPersonById( rawAuthorId );
 
-        ret += "<b>" + person.getName() + "</b> said at " + DateUtils.compactDate( rawCreatedAt.getDate() ) + ":\n\n";
+        String name = null;
+        if( person != null) {
+            name = person.getName();
+        }
+        Date creationDate = rawCreatedAt.getDate();
+        String dateString = DateUtils.compactDate( creationDate );
+        ret += "<b>" + name + "</b> said at " + dateString + ":\n\n";
 
         String body = rawBody.replaceAll( "\n", "ABRACADABRAX" );
 

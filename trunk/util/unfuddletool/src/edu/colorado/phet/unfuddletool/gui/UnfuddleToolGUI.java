@@ -10,9 +10,6 @@ import javax.swing.text.html.HTMLDocument;
 import edu.colorado.phet.unfuddletool.*;
 
 public class UnfuddleToolGUI extends JFrame {
-
-    private TicketHandler ticketHandler;
-
     public JEditorPane displayArea;
     public TicketList ticketList;
 
@@ -20,26 +17,7 @@ public class UnfuddleToolGUI extends JFrame {
         setTitle( "Unfuddle Tool" );
         setSize( 900, 700 );
 
-        JTextArea startupStatus = new JTextArea();
-        startupStatus.setText( "Loading activity..." );
-        add( startupStatus );
-
-        setVisible( true );
-
-        ticketHandler = TicketHandler.getTicketHandler();
-
-        Activity activity = new Activity();
-
-        // downloads component list
-        ComponentHandler.getComponentHandler();
-
-        startupStatus.setText( startupStatus.getText() + "\nLoading tickets..." );
-
-        System.out.println( "***A" );
         ticketList = new TicketList( this );
-        System.out.println( "***B" );
-
-        remove( startupStatus );
 
         JScrollPane ticketScrollPane = new JScrollPane( ticketList );
 
