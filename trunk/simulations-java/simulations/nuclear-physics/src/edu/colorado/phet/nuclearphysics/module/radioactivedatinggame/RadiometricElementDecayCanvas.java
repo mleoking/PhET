@@ -34,7 +34,6 @@ import edu.colorado.phet.nuclearphysics.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.view.AutoPressGradientButtonNode;
 import edu.colorado.phet.nuclearphysics.view.BucketOfNucleiNode;
 import edu.colorado.phet.nuclearphysics.view.GrabbableNucleusImageNode;
-import edu.colorado.phet.nuclearphysics.view.MultiNucleusAlphaDecayTimeChart;
 import edu.colorado.phet.nuclearphysics.view.NucleusImageFactory;
 import edu.colorado.phet.nuclearphysics.view.RadiometricElementDecayTimeChart;
 import edu.umd.cs.piccolo.PNode;

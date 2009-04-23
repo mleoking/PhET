@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.nuclearphysics.module.chainreaction.ChainReactionModule;
-import edu.colorado.phet.nuclearphysics.module.nuclearreactor.NuclearReactorModule;
+import edu.colorado.phet.nuclearphysics.module.radioactivedatinggame.RadioactiveDatingGameModule;
 import edu.colorado.phet.nuclearphysics.module.radioactivedatinggame.RadiometricElementDecayModule;
 
 
@@ -28,7 +28,7 @@ public class RadioactiveDatingGameApplication extends AbstractNuclearPhysicsAppl
     //----------------------------------------------------------------------------
     private RadiometricElementDecayModule _radioactiveElementDecayModule;
     private ChainReactionModule _chainReactionModule;
-    private NuclearReactorModule _nuclearReactorModule;
+    private RadioactiveDatingGameModule _radioactiveDatingGameModule;
 
     /**
      * Sole constructor.
@@ -48,8 +48,8 @@ public class RadioactiveDatingGameApplication extends AbstractNuclearPhysicsAppl
         _chainReactionModule = new ChainReactionModule( parentFrame );
         addModule( _chainReactionModule );
     
-        _nuclearReactorModule = new NuclearReactorModule( parentFrame );
-        addModule( _nuclearReactorModule );
+        _radioactiveDatingGameModule = new RadioactiveDatingGameModule( parentFrame );
+        addModule( _radioactiveDatingGameModule );
 
         initMenubar( config.getCommandLineArgs() );
     }
