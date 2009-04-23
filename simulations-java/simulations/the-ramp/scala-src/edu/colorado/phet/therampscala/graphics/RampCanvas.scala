@@ -5,7 +5,7 @@ import java.awt.Color
 import model.RampModel
 import scalacommon.math.Vector2D
 
-class RampCanvas(model: RampModel) extends DefaultCanvas(22, 20) {
+class RampCanvas(model: RampModel,coordinateSystemModel:CoordinateSystemModel) extends DefaultCanvas(22, 20) {
   setBackground(new Color(200, 255, 240))
 
   addNode(new SkyNode(transform))
@@ -30,9 +30,10 @@ class RampCanvas(model: RampModel) extends DefaultCanvas(22, 20) {
 
   addNode(new ObjectSelectionNode(transform, model))
 
-  addNode(new CoordinateFrame(model, transform))
+  addNode(new CoordinateFrameNode(model, coordinateSystemModel,transform))
 
-  val fbdNode = new FreeBodyDiagramNode(200, 200, 10, 10,model.coordinateFrameModel)
+  val fbdNode = new FreeBodyDiagramNode(200, 200, 10, 10, model.coordinateFrameModel)
+  fbdNode.setOffset(10, 10)
   val vector = new Vector(Color.blue, "Applied Force", "<html>F<sub>a</sub></html>") {
     def getValue = model.beads(0).appliedForce
   }
