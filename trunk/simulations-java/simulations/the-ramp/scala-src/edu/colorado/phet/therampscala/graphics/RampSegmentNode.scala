@@ -33,7 +33,7 @@ trait Rotatable {
 
   def endPoint: Vector2D
 
-  def getPivot=new Vector2D
+  def getPivot = new Vector2D
 
 }
 class RotationHandler(val mytransform: ModelViewTransform2D, val node: PNode, val rotatable: Rotatable, min: Double, max: Double) extends PBasicInputEventHandler {
@@ -62,5 +62,5 @@ class RotationHandler(val mytransform: ModelViewTransform2D, val node: PNode, va
 
 class RotatableSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D) extends RampSegmentNode(rampSegment, mytransform) {
   line.addInputEventListener(new CursorHandler(Cursor.N_RESIZE_CURSOR))
-  line.addInputEventListener(new RotationHandler(mytransform, line, rampSegment,0,PI/2))
+  line.addInputEventListener(new RotationHandler(mytransform, line, rampSegment, 0, PI / 2))
 }
