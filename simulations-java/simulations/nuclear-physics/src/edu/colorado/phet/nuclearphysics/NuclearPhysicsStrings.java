@@ -19,6 +19,7 @@ public class NuclearPhysicsStrings {
     public static final String TITLE_CHAIN_REACTION_MODULE = NuclearPhysicsResources.getString( "ModuleTitle.MultipleNucleusFissionModule" );
     public static final String TITLE_NUCLEAR_REACTOR_MODULE = NuclearPhysicsResources.getString( "ModuleTitle.ControlledReaction" );
     public static final String TITLE_RADIOMETRIC_ELEMENT_HALF_LIFE = NuclearPhysicsResources.getString( "ModuleTitle.RadiometricElementHalfLife" );
+    public static final String TITLE_RADIOACTIVE_DATING_GAME = NuclearPhysicsResources.getString( "ModuleTitle.RadioactiveDatingGame" );
 
     public static final String MENU_OPTIONS = NuclearPhysicsResources.getString( "menu.options" );
 
