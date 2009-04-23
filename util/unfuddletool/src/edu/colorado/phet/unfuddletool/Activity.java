@@ -1,8 +1,8 @@
 package edu.colorado.phet.unfuddletool;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -58,15 +58,12 @@ public class Activity {
     }
 
 
-
-
-
     public static String getDateXMLString( String startDateString, String endDateString ) {
         return Communication.getXMLResponse( "<request></request>", "projects/" + Configuration.getProjectIdString() + "/activity?start_date=" + startDateString + "&end_date=" + endDateString, Authentication.auth );
     }
 
     public static String stringFromCalendar( Calendar cal ) {
-        return String.valueOf( cal.get( Calendar.YEAR ) ) + "/" + String.valueOf( cal.get( Calendar.MONTH) + 1 ) + "/" + String.valueOf( cal.get( Calendar.DAY_OF_MONTH ) );
+        return String.valueOf( cal.get( Calendar.YEAR ) ) + "/" + String.valueOf( cal.get( Calendar.MONTH ) + 1 ) + "/" + String.valueOf( cal.get( Calendar.DAY_OF_MONTH ) );
     }
 
     public static void parseEvents( String str ) {
@@ -104,7 +101,7 @@ public class Activity {
 
         String oldString = stringFromCalendar( cal );
 
-        while( days-- > 0 ) {
+        while ( days-- > 0 ) {
             cal.roll( Calendar.DATE, false );
             String newString = stringFromCalendar( cal );
 
@@ -114,5 +111,5 @@ public class Activity {
         }
     }
 
-    
+
 }

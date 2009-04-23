@@ -4,10 +4,11 @@ import java.awt.*;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.html.HTMLEditorKit;
 
-import edu.colorado.phet.unfuddletool.*;
+import edu.colorado.phet.unfuddletool.Authentication;
+import edu.colorado.phet.unfuddletool.LinkHandler;
 
 public class UnfuddleToolGUI extends JFrame {
     public JEditorPane displayArea;
@@ -43,11 +44,10 @@ public class UnfuddleToolGUI extends JFrame {
 
         // add a CSS rule to force body tags to use the default label font
         // instead of the value in javax.swing.text.html.default.csss
-        Font font = UIManager.getFont("Label.font");
+        Font font = UIManager.getFont( "Label.font" );
         String bodyRule = "body { font-family: " + font.getFamily() + "; " +
-                "font-size: " + font.getSize() + "pt; }";
-        ((HTMLDocument) displayArea.getDocument()).getStyleSheet().addRule(bodyRule);
-
+                          "font-size: " + font.getSize() + "pt; }";
+        ( (HTMLDocument) displayArea.getDocument() ).getStyleSheet().addRule( bodyRule );
 
 
         JScrollPane areaScrollPane = new JScrollPane( displayArea );

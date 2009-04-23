@@ -20,7 +20,7 @@ public class TicketListModel implements ListModel {
     }
 
     public void addTicket( Ticket ticket ) {
-        if( tickets.size() == 0 ) {
+        if ( tickets.size() == 0 ) {
             tickets.add( ticket );
             notifyContentsChanged();
             return;
@@ -29,11 +29,11 @@ public class TicketListModel implements ListModel {
         ListIterator<Ticket> iter = tickets.listIterator();
         Date ticketDate = ticket.lastUpdateTime();
 
-        while( iter.hasNext() ) {
+        while ( iter.hasNext() ) {
             Ticket otherTicket = iter.next();
 
             // if ticket is more recent than the one in the list, insert it before
-            if( ticketDate.compareTo( otherTicket.lastUpdateTime() ) > 0 ) {
+            if ( ticketDate.compareTo( otherTicket.lastUpdateTime() ) > 0 ) {
                 iter.previous();
                 iter.add( ticket );
                 notifyAddedIndex( iter.previousIndex() );
@@ -57,7 +57,6 @@ public class TicketListModel implements ListModel {
         removeTicket( ticket );
         addTicket( ticket );
     }
-
 
 
     public int getSize() {

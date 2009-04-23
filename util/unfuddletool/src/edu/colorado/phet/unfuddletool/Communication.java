@@ -20,7 +20,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-//import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.unfuddletool.data.DateTime;
 
 public class Communication {
@@ -107,7 +106,7 @@ public class Communication {
         System.out.println( "Received " + location );
         //System.out.println( ret );
         return ret;
-        
+
         //return persistentHTTPRequest( xmlString, location, auth );
     }
 

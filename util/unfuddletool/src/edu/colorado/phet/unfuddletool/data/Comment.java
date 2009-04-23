@@ -46,7 +46,7 @@ public class Comment extends Record {
         Person person = PersonHandler.getPersonHandler().getPersonById( rawAuthorId );
 
         String name = null;
-        if( person != null) {
+        if ( person != null ) {
             name = person.getName();
         }
         Date creationDate = rawCreatedAt.getDate();

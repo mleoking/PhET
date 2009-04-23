@@ -22,9 +22,9 @@ public class TicketHandler {
     public void setModel( TicketListModel model ) {
         this.model = model;
 
-        if( tickets.size() > 0 ) {
+        if ( tickets.size() > 0 ) {
             Iterator<Ticket> iter = tickets.iterator();
-            while( iter.hasNext() ) {
+            while ( iter.hasNext() ) {
                 model.addTicket( iter.next() );
             }
         }
@@ -46,7 +46,7 @@ public class TicketHandler {
             Ticket ticket = new Ticket( (Element) Communication.toDocument( xmlString ).getFirstChild() );
 
             tickets.add( ticket );
-            if( model != null ) {
+            if ( model != null ) {
                 model.addTicket( ticket );
             }
 

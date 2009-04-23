@@ -1,14 +1,11 @@
 package edu.colorado.phet.unfuddletool.gui;
 
 import java.awt.*;
-import java.util.Iterator;
-import java.util.List;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import edu.colorado.phet.unfuddletool.TicketHandler;
 import edu.colorado.phet.unfuddletool.TicketListModel;
 import edu.colorado.phet.unfuddletool.data.Ticket;
 
