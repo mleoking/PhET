@@ -24,16 +24,17 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayControl;
+import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
+import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
+import edu.colorado.phet.nuclearphysics.common.view.GrabbableNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.model.AbstractAlphaDecayNucleus;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
 import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
-import edu.colorado.phet.nuclearphysics.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.view.AutoPressGradientButtonNode;
 import edu.colorado.phet.nuclearphysics.view.BucketOfNucleiNode;
-import edu.colorado.phet.nuclearphysics.view.GrabbableNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.view.MultiNucleusAlphaDecayTimeChart;
 import edu.colorado.phet.nuclearphysics.view.NucleusImageFactory;
 import edu.umd.cs.piccolo.PNode;
@@ -289,7 +290,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     		// A new nucleus has been added to the model.  Create a
     		// node for it and add it to the nucleus-to-node map.
     		GrabbableNucleusImageNode atomicNucleusNode = 
-    			new GrabbableNucleusImageNode((AtomicNucleus)modelElement);
+    			new GrabbableNucleusImageNode( (AtomicNucleus)modelElement, AtomicNucleusImageType.NUCLEONS_VISIBLE );
     		
     		// Map this node and nucleus together.
     		_mapNucleiToNodes.put(modelElement, atomicNucleusNode);

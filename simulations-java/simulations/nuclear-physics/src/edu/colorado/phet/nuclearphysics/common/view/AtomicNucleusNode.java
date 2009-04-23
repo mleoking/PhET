@@ -1,6 +1,6 @@
-/* Copyright 2007-2008, University of Colorado */
+/* Copyright 2007-2009, University of Colorado */
 
-package edu.colorado.phet.nuclearphysics.view;
+package edu.colorado.phet.nuclearphysics.common.view;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -46,9 +46,6 @@ public class AtomicNucleusNode extends PNode {
     private static final Color EXPLOSION_STROKE_COLOR = new Color(0xffff33);
     private static final Color EXPLOSION_FILL_COLOR = new Color(0xffff33);
     private static final float EXPLOSION_MIN_TRANSPARENCY = 0.4f;
-    
-    // Constants that control the range of nuclei for which labels are created.
-    private static final int MIN_PROTONS_OF_LABELED_NUCLEUS = 80;
     
     // Amount that shadow should be offset from the main text.
     private static final double SHADOW_OFFSET = 0.2;
@@ -116,28 +113,26 @@ public class AtomicNucleusNode extends PNode {
         // that not all nuclei get a label allocated for them.  This is an
         // optimization, since it was found that the allocation and cleanup of
         // these nodes was expensive in terms of memory usage.
-        if (_atomicNucleus.getNumProtons() >= MIN_PROTONS_OF_LABELED_NUCLEUS){
             
-            _isotopeNumberShadow = new PText();
-            _isotopeNumberShadow.setFont( ISOTOPE_NUMBER_FONT );
-            _isotopeNumberShadow.setScale( NORMAL_LABEL_SCALING_FACTOR );
-            addChild(_isotopeNumberShadow);
-            
-            _isotopeNumber = new PText();
-            _isotopeNumber.setFont( ISOTOPE_NUMBER_FONT );
-            _isotopeNumber.setScale( NORMAL_LABEL_SCALING_FACTOR );
-            addChild(_isotopeNumber);
-            
-            _isotopeChemSymbolShadow = new PText();
-            _isotopeChemSymbolShadow.setFont( ISOTOPE_CHEM_SYMBOL_FONT );
-            _isotopeChemSymbolShadow.setScale( NORMAL_LABEL_SCALING_FACTOR );
-            addChild(_isotopeChemSymbolShadow);
-            
-            _isotopeChemSymbol = new PText();
-            _isotopeChemSymbol.setFont( ISOTOPE_CHEM_SYMBOL_FONT );
-            _isotopeChemSymbol.setScale( NORMAL_LABEL_SCALING_FACTOR );
-            addChild(_isotopeChemSymbol);
-        }
+        _isotopeNumberShadow = new PText();
+        _isotopeNumberShadow.setFont( ISOTOPE_NUMBER_FONT );
+        _isotopeNumberShadow.setScale( NORMAL_LABEL_SCALING_FACTOR );
+        addChild(_isotopeNumberShadow);
+        
+        _isotopeNumber = new PText();
+        _isotopeNumber.setFont( ISOTOPE_NUMBER_FONT );
+        _isotopeNumber.setScale( NORMAL_LABEL_SCALING_FACTOR );
+        addChild(_isotopeNumber);
+        
+        _isotopeChemSymbolShadow = new PText();
+        _isotopeChemSymbolShadow.setFont( ISOTOPE_CHEM_SYMBOL_FONT );
+        _isotopeChemSymbolShadow.setScale( NORMAL_LABEL_SCALING_FACTOR );
+        addChild(_isotopeChemSymbolShadow);
+        
+        _isotopeChemSymbol = new PText();
+        _isotopeChemSymbol.setFont( ISOTOPE_CHEM_SYMBOL_FONT );
+        _isotopeChemSymbol.setScale( NORMAL_LABEL_SCALING_FACTOR );
+        addChild(_isotopeChemSymbol);
         
         // Set the label based on the configuration of the nucleus.
         setLabel(_atomicNucleus.getNumProtons(), _atomicNucleus.getNumNeutrons());

@@ -24,16 +24,17 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayControl;
+import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
+import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
+import edu.colorado.phet.nuclearphysics.common.view.GrabbableNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.model.AbstractAlphaDecayNucleus;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
 import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
-import edu.colorado.phet.nuclearphysics.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.view.AutoPressGradientButtonNode;
 import edu.colorado.phet.nuclearphysics.view.BucketOfNucleiNode;
-import edu.colorado.phet.nuclearphysics.view.GrabbableNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.view.NucleusImageFactory;
 import edu.colorado.phet.nuclearphysics.view.RadiometricElementDecayTimeChart;
 import edu.umd.cs.piccolo.PNode;
@@ -52,7 +53,7 @@ public class RadiometricElementDecayCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
 
     // Canvas size in femto meters.  Assumes a 4:3 aspect ratio.
-    private final double CANVAS_WIDTH = 200;
+    private final double CANVAS_WIDTH = 100;
     private final double CANVAS_HEIGHT = CANVAS_WIDTH * (3.0d/4.0d);
     
     // Translation factors, used to set origin of canvas area.
@@ -289,7 +290,7 @@ public class RadiometricElementDecayCanvas extends PhetPCanvas {
     		// A new nucleus has been added to the model.  Create a
     		// node for it and add it to the nucleus-to-node map.
     		GrabbableNucleusImageNode atomicNucleusNode = 
-    			new GrabbableNucleusImageNode((AtomicNucleus)modelElement);
+    			new GrabbableNucleusImageNode( (AtomicNucleus)modelElement, AtomicNucleusImageType.GRADIENT_SPHERE );
     		
     		// Map this node and nucleus together.
     		_mapNucleiToNodes.put(modelElement, atomicNucleusNode);

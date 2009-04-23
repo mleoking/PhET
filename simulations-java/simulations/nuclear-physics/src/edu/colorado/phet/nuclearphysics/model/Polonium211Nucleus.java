@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
-import edu.colorado.phet.nuclearphysics.view.AtomicNucleusNode;
+import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
 
 /**
  * This class represents a non-composite Polonium 211 nucleus.  In other words,

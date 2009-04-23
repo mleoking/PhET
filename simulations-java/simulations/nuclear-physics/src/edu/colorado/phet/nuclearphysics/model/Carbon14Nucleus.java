@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
-import edu.colorado.phet.nuclearphysics.view.AtomicNucleusNode;
+import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
 
 /**
  * This class represents a non-composite Carbon 14 nucleus.  Because it is

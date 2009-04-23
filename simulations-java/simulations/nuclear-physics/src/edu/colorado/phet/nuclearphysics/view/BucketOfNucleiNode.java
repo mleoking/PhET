@@ -21,6 +21,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
