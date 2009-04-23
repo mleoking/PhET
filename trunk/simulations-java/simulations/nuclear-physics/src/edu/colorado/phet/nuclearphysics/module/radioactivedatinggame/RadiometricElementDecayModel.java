@@ -33,9 +33,9 @@ public class RadiometricElementDecayModel extends MultiNucleusDecayModel {
 	
 	// Size and position of the bucket of nuclei which the user uses to add
 	// nuclei to the simulation.
-	static final double BUCKET_ORIGIN_X = 43;
-	static final double BUCKET_ORIGIN_Y = 45;
-	static final double BUCKET_WIDTH = 45;
+	static final double BUCKET_ORIGIN_X = 21;
+	static final double BUCKET_ORIGIN_Y = 22;
+	static final double BUCKET_WIDTH = 22;
 	static final double BUCKET_HEIGHT = BUCKET_WIDTH * 0.65;
 	private static final Rectangle2D BUCKET_RECT = new Rectangle2D.Double(BUCKET_ORIGIN_X, BUCKET_ORIGIN_Y, 
 			BUCKET_WIDTH, BUCKET_HEIGHT);
@@ -70,7 +70,7 @@ public class RadiometricElementDecayModel extends MultiNucleusDecayModel {
 		AbstractDecayNucleus newNucleus;
 		
 		for (int i = 0; i < _maxNuclei; i++){
-			if (_currentNucleusType == NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM){
+			if (_currentNucleusType == NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14){
 				newNucleus = new Carbon14Nucleus(_clock);
 			}
 			else{

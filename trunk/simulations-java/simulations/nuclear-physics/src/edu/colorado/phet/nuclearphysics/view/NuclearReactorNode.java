@@ -26,6 +26,9 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.Neutron;
+import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageNode;
+import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
+import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.model.Uranium235Nucleus;
 import edu.colorado.phet.nuclearphysics.model.Uranium238Nucleus;
 import edu.colorado.phet.nuclearphysics.module.nuclearreactor.ControlRod;
@@ -248,7 +251,7 @@ public class NuclearReactorNode extends PNode {
             // the reaction, but the educators have specified that these not
             // be shown since it makes the view too cluttered.
             if (nucleus instanceof Uranium235Nucleus){
-                AtomicNucleusImageNode atomNode = new AtomicNucleusImageNode(nucleus);
+                AtomicNucleusImageNode atomNode = new AtomicNucleusImageNode( nucleus, AtomicNucleusImageType.NUCLEONS_VISIBLE );
                 _nucleiAndFreeParticleNode.addChild( atomNode );
                 _modelElementToNodeMap.put( nucleus, atomNode );
             }
@@ -263,7 +266,7 @@ public class NuclearReactorNode extends PNode {
         
         if ((modelElement instanceof AtomicNucleus)){
             // Add an atom node for this guy.
-            PNode atomNode = new AtomicNucleusImageNode((AtomicNucleus)modelElement);
+            PNode atomNode = new AtomicNucleusImageNode( (AtomicNucleus)modelElement, AtomicNucleusImageType.NUCLEONS_VISIBLE );
             _nucleiAndFreeParticleNode.addChild( atomNode );
             _modelElementToNodeMap.put( modelElement, atomNode );
         }

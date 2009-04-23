@@ -21,15 +21,16 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayControl;
+import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
+import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
+import edu.colorado.phet.nuclearphysics.common.view.GrabbableNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.model.AbstractAlphaDecayNucleus;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
 import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
-import edu.colorado.phet.nuclearphysics.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.view.AutoPressGradientButtonNode;
 import edu.colorado.phet.nuclearphysics.view.BucketOfNucleiNode;
-import edu.colorado.phet.nuclearphysics.view.GrabbableNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.view.NucleusImageFactory;
 import edu.colorado.phet.nuclearphysics.view.RadiometricElementDecayTimeChart;
 import edu.umd.cs.piccolo.PNode;
@@ -158,55 +159,6 @@ public class DecayRatesCanvas extends PhetPCanvas {
 		
 		super.update();
 		
-		// Redraw the time chart.
-        _decayTimeChart.componentResized( new Rectangle2D.Double( 0, 0, getWidth(),
-                getHeight() * TIME_CHART_FRACTION));
-        
-        // Position the time chart.
-        _decayTimeChart.setOffset( 0, 0 );
-        
-        // Position the reset button.
-        _resetButtonNode.setOffset( (0.82 * getWidth()) - (_resetButtonNode.getFullBoundsReference().width / 2),
-                0.30 * getHeight() );
-        
-        // Update the rectangle that defines the outer boundary where
-        // randomly placed nuclei can be put.
-        Dimension2D chartSize = new PDimension(_decayTimeChart.getFullBoundsReference().width,
-        		_decayTimeChart.getFullBoundsReference().height);
-        getPhetRootNode().screenToWorld(chartSize);
-        
-        Dimension2D worldSize = getWorldSize();
-        double x = -worldSize.getWidth() * WIDTH_TRANSLATION_FACTOR + MIN_NUCLEUS_TO_OBSTACLE_DISTANCE;
-        double width = worldSize.getWidth() - (MIN_NUCLEUS_TO_OBSTACLE_DISTANCE * 2);
-        double y = -worldSize.getHeight() * HEIGHT_TRANSLATION_FACTOR + chartSize.getHeight()
-      		+ MIN_NUCLEUS_TO_OBSTACLE_DISTANCE;
-        double height = worldSize.getHeight() - chartSize.getHeight() - (MIN_NUCLEUS_TO_OBSTACLE_DISTANCE * 2);
-        _nucleusPlacementAreaRect.setRect(x, y, width, height);
-        
-        // Update the rectangle that is used to prevent nuclei from being
-        // placed where the reset button resides.
-        Dimension2D resetButtonSize = new PDimension(_resetButtonNode.getFullBoundsReference().width,
-        		_resetButtonNode.getFullBoundsReference().height);
-        getPhetRootNode().screenToWorld(resetButtonSize);
-        Point2D resetButtonLocation = _resetButtonNode.getOffset();
-        getPhetRootNode().screenToWorld(resetButtonLocation);
-        
-        x = resetButtonLocation.getX() - MIN_NUCLEUS_TO_OBSTACLE_DISTANCE;
-        width = resetButtonSize.getWidth() + (MIN_NUCLEUS_TO_OBSTACLE_DISTANCE * 2);
-        y = resetButtonLocation.getY() - MIN_NUCLEUS_TO_OBSTACLE_DISTANCE;
-        height = resetButtonSize.getHeight() + (MIN_NUCLEUS_TO_OBSTACLE_DISTANCE * 2);
-        _paddedResetButtonRect.setRect(x, y, width, height);
-        
-        // Update the rectangle that is used to prevent nuclei from being
-        // placed where the bucket resides.  NOTE: Since the bucket is a
-        // world child, this could actually be done in the constructor and
-        // never updated, but it is done here for consistency.
-        x = _bucketRect.getX() - MIN_NUCLEUS_TO_OBSTACLE_DISTANCE;
-        width = _bucketRect.getWidth() + (MIN_NUCLEUS_TO_OBSTACLE_DISTANCE * 2);
-        y = _bucketRect.getY() - MIN_NUCLEUS_TO_OBSTACLE_DISTANCE;
-        height = _bucketRect.getHeight() + (MIN_NUCLEUS_TO_OBSTACLE_DISTANCE * 3); // Add a little extra to account for
-                                                                                   // the button below the bucket.
-        _paddedBucketRect.setRect(x, y, width, height);
 	}
 	
 	/**
@@ -223,7 +175,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
     		// A new nucleus has been added to the model.  Create a
     		// node for it and add it to the nucleus-to-node map.
     		GrabbableNucleusImageNode atomicNucleusNode = 
-    			new GrabbableNucleusImageNode((AtomicNucleus)modelElement);
+    			new GrabbableNucleusImageNode( (AtomicNucleus)modelElement, AtomicNucleusImageType.CIRCLE_WITH_HIGHLIGHT );
     		
     		// Map this node and nucleus together.
     		_mapNucleiToNodes.put(modelElement, atomicNucleusNode);

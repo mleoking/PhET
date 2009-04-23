@@ -1,8 +1,7 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.nuclearphysics.view;
+package edu.colorado.phet.nuclearphysics.common.view;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -30,8 +29,8 @@ public class GrabbableNucleusImageNode extends AtomicNucleusImageNode {
     // Constructor
     //------------------------------------------------------------------------
 
-	public GrabbableNucleusImageNode(AtomicNucleus atomicNucleus) {
-		super(atomicNucleus);
+	public GrabbableNucleusImageNode( AtomicNucleus atomicNucleus, AtomicNucleusImageType imageType ) {
+		super( atomicNucleus, imageType );
 		
 		setPickable(true);
 		setChildrenPickable(true);
