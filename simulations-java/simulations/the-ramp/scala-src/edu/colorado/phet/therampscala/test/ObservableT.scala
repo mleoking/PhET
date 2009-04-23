@@ -20,14 +20,14 @@ class ObservableT[T](private var _value: T) extends Observable {
   }
 }
 
-object TestMain{
+object TestMain {
   def main(args: Array[String]) {
     object model extends ObservableT(1.4)
     model.addListenerByName(println(model.value))
-    model.value=5
+    model.value = 5
 
     object modelString extends ObservableT("Hello")
     modelString.addListenerByName(println(modelString.value))
-    modelString.value="Testing"
+    modelString.value = "Testing"
   }
 }
