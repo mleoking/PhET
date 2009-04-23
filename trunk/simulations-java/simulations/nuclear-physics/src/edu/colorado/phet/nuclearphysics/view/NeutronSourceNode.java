@@ -14,7 +14,6 @@ import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.model.NeutronSource;
@@ -24,7 +23,6 @@ import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * This class acts as the visual representation of a neutron source.
@@ -66,8 +64,6 @@ public class NeutronSourceNode extends PNode{
     private PNode         _displayImage;
     private PNode         _fireButtonUp;
     private PNode         _fireButtonDown;
-    private PText         _fireButtonUpText;
-    private PText         _fireButtonDownText;
     private double        _relativeRotationPointX;
     private double        _relativeRotationPointY;
     private double        _absoluteRotationPointX;
