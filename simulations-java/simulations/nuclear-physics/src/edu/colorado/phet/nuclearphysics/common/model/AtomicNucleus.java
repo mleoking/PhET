@@ -148,7 +148,7 @@ public abstract class AtomicNucleus {
      * and neutrons that comprise it.
      */
     protected void updateDiameter(){
-        // This calculation is based on an empirically derived formulat that
+        // This calculation is based on an empirically derived formula that
         // seems to give pretty reasonable values.
         _diameter = (1.6 * Math.pow( (double)getAtomicWeight(), 0.362));        
     }
