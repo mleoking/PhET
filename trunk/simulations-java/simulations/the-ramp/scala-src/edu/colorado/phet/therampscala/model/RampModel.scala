@@ -65,8 +65,10 @@ class RampModel extends RecordModel[String] with ObjectModel {
     notifyListeners()
   }
 
-  rampSegments += new RampSegment(new Point2D.Double(-10, 0), new Point2D.Double(0, 0))
-  rampSegments += new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(10 * sin(PI / 4), 10 * sin(PI / 4)))
+  val rampLength=10
+  rampSegments += new RampSegment(new Point2D.Double(-rampLength, 0), new Point2D.Double(0, 0))
+  val initialAngle=30.0.toRadians
+  rampSegments += new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(rampLength * cos(initialAngle), rampLength * sin(initialAngle)))
 
   def setRampAngle(angle: Double) = {
     rampSegments(1).setAngle(angle)
