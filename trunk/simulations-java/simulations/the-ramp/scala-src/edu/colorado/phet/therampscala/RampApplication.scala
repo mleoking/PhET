@@ -129,7 +129,10 @@ class RampModule(clock: ScalaClock) extends Module("Ramp", clock) {
   val fbdModel = new FreeBodyDiagramModel
   val coordinateSystemModel = new CoordinateSystemModel
   val vectorViewModel = new VectorViewModel
-  val canvas = new RampCanvas(model,coordinateSystemModel,fbdModel)
+  val canvas = new RampCanvas(model, coordinateSystemModel, fbdModel)
+
+  coordinateSystemModel.addListenerByName(if (coordinateSystemModel.fixed) model.coordinateFrameModel.angle = 0)
+
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
   setControlPanel(new RampControlPanel(model, wordModel, fbdModel, coordinateSystemModel, vectorViewModel))
