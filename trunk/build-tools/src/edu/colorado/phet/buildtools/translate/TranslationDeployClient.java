@@ -115,11 +115,16 @@ public class TranslationDeployClient {
 
         invokeTranslationDeployServer( translationDir, authenticationInfo, server );
 
-        showMessage( "<html>Deployed localization files to " +
-                     "http://phet.colorado.edu/sims/translations/" + deployDirName +
-                     "<br>  Please wait for finished.txt to appear, then test the simulations, " +
-                     "then you can deploy them to the sims/ directory.<br><br>" +
-                     "For future reference, the work is being done in this directory: " + deployDirName, translationDir, authenticationInfo, server );
+        showMessage( "<html>Translated sims are being deployed to a staging directory at" +
+                     "<br>http://phet.colorado.edu/sims/translations/" + deployDirName +
+                     "<br>" +
+                     "<br>This URL should now be visible in a web browser window." +
+                     "<br>Refresh your web browser window repeatedly until finished.txt appears." +
+                     "<br>Then test the translations by downloading and running each JAR." +
+                     "<br>After this tedious, manual process has been completed," +
+                     "<br>it's safe to deploy the translations to the PhET website" +
+                     "<br>by pressing the Publish button below." +
+                     "</html>" + deployDirName, translationDir, authenticationInfo, server );
 
         //launch remote TranslationDeployServer
     }
@@ -271,7 +276,7 @@ public class TranslationDeployClient {
 
         final JFrame frame = new JFrame( "Message" );
         JPanel buttonPanel = new JPanel();
-        JButton jButton = new JButton( "Finished testing, copy them to sims/" );
+        JButton jButton = new JButton( "Publish" );
         buttonPanel.add( jButton );
         jButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
