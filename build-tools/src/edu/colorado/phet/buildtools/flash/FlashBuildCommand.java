@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
  */
 public class FlashBuildCommand {
     // returns boolean success of whether the sim was built without errors
-    public static boolean build( String cmd, String sim, File trunk, boolean useWine ) throws IOException {
+    public static boolean build( String sim, File trunk ) throws IOException {
 
         boolean success;
 
@@ -34,7 +34,7 @@ public class FlashBuildCommand {
         }
 
         // run the JSFL
-        build( cmd, new String[]{sim}, trunk, useWine );
+        build( new String[]{sim}, trunk );
         long timeout = 1000 * 60 * 5;
         long startTime = System.currentTimeMillis();
         System.out.print( "Building the SWF, please wait" );
@@ -85,11 +85,12 @@ public class FlashBuildCommand {
         return success;
     }
 
-    public static void build( String cmd, String[] sims, File trunk, boolean useWine ) throws IOException {
+    public static void build( String[] sims, File trunk ) throws IOException {
         String template = FileUtils.loadFileAsString( new File( trunk, "build-tools/data/flash/build-template.jsfl" ) );
         String out = template;
 
         String trunkPipe;
+        final boolean useWine = BuildLocalProperties.getInstance().getWine();
         if ( useWine ) {
             trunkPipe = "C|/svn/trunk";
         }
@@ -117,6 +118,7 @@ public class FlashBuildCommand {
         }
         else {
             if ( PhetUtilities.isMacintosh() ) {
+                // see #1446
                 String flashName = BuildLocalProperties.getInstance().getMacFlashName();
                 String volume = BuildLocalProperties.getInstance().getMacTrunkVolume();
                 String macPath = unixToMacPath( outputFile.getAbsolutePath() );
@@ -126,6 +128,7 @@ public class FlashBuildCommand {
                 p = Runtime.getRuntime().exec( new String[] { "osascript", "-e", actionScript } );
             }
             else {
+                String cmd = BuildLocalProperties.getInstance().getFlash();
                 p = Runtime.getRuntime().exec( new String[] { cmd, outputFile.getAbsolutePath() } );
             }
         }
