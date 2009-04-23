@@ -346,20 +346,20 @@ public class BucketOfNucleiNode extends PNode {
 			// This nucleus is in the back row.
 			_backInteriorLayer.addChild(nucleus);
 			xPos = _nucleusWidth * 1.3 + _nucleusWidth * nucleusIndex * 1.1;
-			yPos = _ellipseVerticalSpan * 0.25;
+			yPos = _ellipseVerticalSpan * 0.20;
 		}
 		else if (nucleusIndex < _numVisibleNucleiInMiddleLayer + _numVisibleNucleiInOuterLayers){
 			// This nucleus is in the middle row.
 			_middleInteriorLayer.addChild(nucleus);
 			xPos = _nucleusWidth * 0.8 + _nucleusWidth * (nucleusIndex - _numVisibleNucleiInOuterLayers);
-			yPos = _ellipseVerticalSpan * 0.55;
+			yPos = _ellipseVerticalSpan * 0.50;
 		}
 		else{
 			// This nucleus is in the front row.
 			_frontInteriorLayer.addChild(nucleus);
 			xPos = _nucleusWidth * 1.7 + _nucleusWidth *
 			    (nucleusIndex - _numVisibleNucleiInOuterLayers - _numVisibleNucleiInMiddleLayer) * 1.1;
-			yPos = _ellipseVerticalSpan * 0.85;
+			yPos = _ellipseVerticalSpan * 0.80;
 		}
 		
 		// Position the nucleus within the model, which will then be sent as
