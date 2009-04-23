@@ -14,10 +14,20 @@ import scalacommon.util.Observable
 class ObservableT[T](private var _value: T) extends Observable {
   def value = _value
 
-  def value_(_val: T) = {
+  def value_=(_val: T) = {
     _value = _val
     notifyListeners()
   }
 }
 
-object CFM extends ObservableT[Double](1.4)
+object TestMain{
+  def main(args: Array[String]) {
+    object model extends ObservableT(1.4)
+    model.addListenerByName(println(model.value))
+    model.value=5
+
+    object modelString extends ObservableT("Hello")
+    modelString.addListenerByName(println(modelString.value))
+    modelString.value="Testing"
+  }
+}
