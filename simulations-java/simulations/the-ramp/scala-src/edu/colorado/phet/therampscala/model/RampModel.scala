@@ -90,7 +90,7 @@ class RampModel extends RecordModel[String] with ObjectModel {
   object rampChangeAdapter extends Observable //todo: perhaps we should just pass the addListener method to the beads
   rampSegments(0).addListenerByName {rampChangeAdapter.notifyListeners}
   rampSegments(1).addListenerByName {rampChangeAdapter.notifyListeners}
-  beads += new Bead(new BeadState(5, 0, _selectedObject.mass, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter)
+  beads += new Bead(new BeadState(5, 0, _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter)
   val tree = new Bead(new BeadState(-9, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter)
   val leftWall = new Bead(new BeadState(-10, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter)
   val rightWall = new Bead(new BeadState(10, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter)
@@ -102,11 +102,10 @@ class RampModel extends RecordModel[String] with ObjectModel {
 
   case class WorkEnergyState(appliedWork: Double, gravityWork: Double, frictionWork: Double,
                              potentialEnergy: Double, kineticEnergy: Double, totalEnergy: Double)
-
   def newStepCode(b: Bead, dt: Double) = {
     val origState = b.state
     val netForce = b.totalForceVector.getValue
-    val parallelForce = netForce.dot(b.getRampUnitVector)
+    val parallelForce = netForce dot b.getRampUnitVector
     val parallelAccel = parallelForce / b.mass
     b.setVelocity(b.velocity + parallelAccel * dt)
 

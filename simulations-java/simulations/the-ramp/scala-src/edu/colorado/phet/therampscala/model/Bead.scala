@@ -1,6 +1,7 @@
 package edu.colorado.phet.therampscala.model
 
 
+import common.phetcommon.math.MathUtil
 import graphics.Vector
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
@@ -35,15 +36,30 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
   val appliedForceVector = new Vector(RampDefaults.appliedForceColor, "Applied Force", "<html>F<sub>a</sub></html>") {
     def getValue = appliedForce
   }
+  val frictionForceVector = new Vector(RampDefaults.frictionForceColor, "Friction Force", "<html>F<sub>f</sub></html>") {
+    def getValue = frictionForce
+  }
+
+  //chain listeners
+  normalForceVector.addListenerByName(frictionForceVector.notifyListeners())
+  //todo: add normalForceVector notification when changing friction coefficients
+
   appliedForceVector.addListenerByName(totalForceVector.notifyListeners())
   gravityForceVector.addListenerByName(totalForceVector.notifyListeners())
   normalForceVector.addListenerByName(totalForceVector.notifyListeners())
-  //  frictionForceVector.addListener(totalForceVector.notifyListeners())
+  frictionForceVector.addListenerByName(totalForceVector.notifyListeners())
 
   addListenerByName(appliedForceVector.notifyListeners()) //todo: just listen for changes to applied force parallel component
 
-  def totalForce = {
-    gravityForceVector.getValue + normalForceVector.getValue + appliedForceVector.getValue
+  def totalForce = gravityForceVector.getValue + normalForceVector.getValue + appliedForceVector.getValue + frictionForceVector.getValue
+
+  //todo: notify friction force changed when ramp angle changes or velocity changes
+  def frictionForce = {
+    val frictionCoefficient = if (velocity > 1E-6) getKineticFriction else getStaticFriction
+    val magnitude = normalForceVector.getValue.magnitude * frictionCoefficient
+    val vel=(positionMapper(position)-positionMapper(position-velocity*1E-6))
+    val angle = (vel * -1).getAngle
+    new Vector2D(angle) * magnitude
   }
 
   def normalForce = {
@@ -93,6 +109,7 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
 
   def setVelocity(velocity: Double) = {
     state = state.setVelocity(velocity)
+    frictionForceVector.notifyListeners()
     notifyListeners()
   }
 
@@ -105,6 +122,7 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
   def setPosition(position: Double) = {
     state = state.setPosition(position)
     normalForceVector.notifyListeners() //since ramp segment might have changed; could improve performance on this by only sending notifications when we are sure the ramp segment has changed
+    frictionForceVector.notifyListeners()//todo: omit this call since it's probably covered by the normal force call above
     notifyListeners()
   }
 
