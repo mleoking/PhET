@@ -40,6 +40,7 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
   fbdNode.addVector(model.beads(0).gravityForceVector)
   fbdNode.addVector(model.beads(0).normalForceVector)
   fbdNode.addVector(model.beads(0).frictionForceVector)
+  fbdNode.addVector(model.beads(0).wallForceVector)
   fbdNode.addVector(model.beads(0).totalForceVector, new Vector2D(0, fbdWidth / 4))
   addNode(fbdNode)
   defineInvokeAndPass(freeBodyDiagramModel.addListenerByName) {fbdNode.setVisible(freeBodyDiagramModel.visible)}
