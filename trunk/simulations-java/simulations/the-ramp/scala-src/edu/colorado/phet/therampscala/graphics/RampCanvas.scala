@@ -1,10 +1,14 @@
 package edu.colorado.phet.therampscala.graphics
 
 
+import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import java.awt.Color
-import model.RampModel
+import java.awt.geom.Rectangle2D
+import model.{Bead, RampModel}
 import scalacommon.math.Vector2D
 import scalacommon.Predef._
+import umd.cs.piccolo.PNode
+import java.lang.Math._
 
 class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel) extends DefaultCanvas(22, 20) {
   setBackground(new Color(200, 255, 240))
@@ -36,14 +40,44 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
   val fbdWidth = RampDefaults.freeBodyDiagramWidth
   val fbdNode = new FreeBodyDiagramNode(200, 200, fbdWidth, fbdWidth, model.coordinateFrameModel, coordinateSystemModel.adjustable)
   fbdNode.setOffset(10, 10)
-  fbdNode.addVector(model.beads(0).appliedForceVector)
-  fbdNode.addVector(model.beads(0).gravityForceVector)
-  fbdNode.addVector(model.beads(0).normalForceVector)
-  fbdNode.addVector(model.beads(0).frictionForceVector)
-  fbdNode.addVector(model.beads(0).wallForceVector)
-  fbdNode.addVector(model.beads(0).totalForceVector, new Vector2D(0, fbdWidth / 4))
   addNode(fbdNode)
   defineInvokeAndPass(freeBodyDiagramModel.addListenerByName) {fbdNode.setVisible(freeBodyDiagramModel.visible)}
 
+  class VectorSetNode(transform: ModelViewTransform2D, bead: Bead) extends PNode {
+    def addVector(a: Vector, offset: VectorValue) = {
+      val node = new BodyVectorNode(transform, a, offset)
+      addChild(node)
+    }
+  }
 
+  class BodyVectorNode(transform: ModelViewTransform2D, vector: Vector, offset: VectorValue) extends VectorNode(transform, vector, offset) {
+    model.beads(0).addListenerByName {
+      setOffset(model.beads(0).position2D)
+      update
+    }
+  }
+
+  val vectorNode = new VectorSetNode(transform, model.beads(0))
+  addNode(vectorNode)
+
+  def addVector(a: Vector, offsetFBD: VectorValue, offsetPlayArea: VectorValue) = {
+    fbdNode.addVector(a, offsetFBD)
+    val tailLocationInPlayArea = new VectorValue() {
+      def addListenerByName(listener: => Unit) = model.beads(0).addListenerByName(listener)
+
+      def getValue = model.beads(0).position2D + new Vector2D(model.beads(0).getAngle + PI / 2) * offsetPlayArea.getValue.magnitude
+    }
+    val playAreaAdapter = new Vector(a.color, a.name, a.abbreviation) {
+      def getValue = a.getValue * RampDefaults.PLAY_AREA_VECTOR_SCALE
+    }
+    vectorNode.addVector(playAreaAdapter, tailLocationInPlayArea)
+  }
+
+  def addVector(a: Vector): Unit = addVector(a, new ConstantVectorValue, new ConstantVectorValue)
+  addVector(model.beads(0).appliedForceVector)
+  addVector(model.beads(0).gravityForceVector)
+  addVector(model.beads(0).normalForceVector)
+  addVector(model.beads(0).frictionForceVector)
+  addVector(model.beads(0).wallForceVector)
+  addVector(model.beads(0).totalForceVector, new ConstantVectorValue(new Vector2D(0, fbdWidth / 4)), new ConstantVectorValue(new Vector2D(0, 2)))
 }

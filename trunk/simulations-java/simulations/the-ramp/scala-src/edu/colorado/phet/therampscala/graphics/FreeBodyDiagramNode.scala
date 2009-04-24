@@ -18,7 +18,7 @@ import umd.cs.piccolo.PNode
 import scalacommon.Predef._
 import java.lang.Math._
 
-abstract class Vector(val color: Color, val name: String, val abbreviation: String) extends Observable {
+abstract class Vector(val color: Color, val name: String, val abbreviation: String) extends Observable with VectorValue{
   def getValue: Vector2D
 }
 class AxisNode(val transform: ModelViewTransform2D, x0: Double, y0: Double, x1: Double, y1: Double, label: String) extends PNode {
@@ -93,23 +93,37 @@ class FreeBodyDiagramNode(val width: Int, val height: Int, val modelWidth: Doubl
   addChild(new AxisNodeWithModel(transformT, "y", yAxisModel, isInteractive))
   for (vector <- vectors) addVector(vector)
 
-  class VectorNode(val vector: Vector, val offset: Vector2D) extends PNode {
-    val arrowNode = new ArrowNode(transformT.modelToViewDouble(offset), transformT.modelToViewDouble(vector.getValue + offset), 20, 20, 10, 0.5, true)
-    arrowNode.setPaint(vector.color)
-    addChild(arrowNode)
-    val abbreviatonTextNode = new ShadowHTMLNode(vector.abbreviation, vector.color)
-    abbreviatonTextNode.setFont(new PhetFont(18))
-    addChild(abbreviatonTextNode)
-    defineInvokeAndPass(vector.addListenerByName) {
-      val viewTipLoc = transformT.modelToViewDouble(vector.getValue + offset)
-      arrowNode.setTipAndTailLocations(viewTipLoc, transformT.modelToViewDouble(offset))
-      abbreviatonTextNode.setOffset(viewTipLoc)
-      abbreviatonTextNode.setVisible(vector.getValue.magnitude > 1E-2)
-    }
-  }
-  def addVector(vector: Vector): Unit = addVector(vector, new Vector2D)
+  def addVector(vector: Vector): Unit = addVector(vector, new ConstantVectorValue)
 
-  def addVector(vector: Vector, offset: Vector2D) = addChild(new VectorNode(vector, offset))
+  def addVector(vector: Vector, offset: VectorValue) = addChild(new VectorNode(transformT, vector, offset))
+}
+
+class ConstantVectorValue(val getValue: Vector2D) extends VectorValue {
+  def this() = this (new Vector2D)
+
+  def addListenerByName(listener: => Unit) = {}
+}
+
+trait VectorValue {
+  def getValue: Vector2D
+
+  def addListenerByName(listener: => Unit): Unit
+}
+
+class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val tailLocation: VectorValue) extends PNode {
+  val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(0, 1), 20, 20, 10, 0.5, true)
+  arrowNode.setPaint(vector.color)
+  addChild(arrowNode)
+  val abbreviatonTextNode = new ShadowHTMLNode(vector.abbreviation, vector.color)
+  abbreviatonTextNode.setFont(new PhetFont(18))
+  addChild(abbreviatonTextNode)
+  val update = defineInvokeAndPass(vector.addListenerByName) {
+    val viewTip = transform.modelToViewDouble(vector.getValue + tailLocation.getValue)
+    arrowNode.setTipAndTailLocations(viewTip, transform.modelToViewDouble(tailLocation.getValue))
+    abbreviatonTextNode.setOffset(viewTip)
+    abbreviatonTextNode.setVisible(vector.getValue.magnitude > 1E-2)
+  }
+  tailLocation.addListenerByName( update())
 }
 
 object TestFBD extends Application {

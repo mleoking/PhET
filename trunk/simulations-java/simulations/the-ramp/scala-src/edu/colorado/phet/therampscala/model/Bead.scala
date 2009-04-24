@@ -171,6 +171,8 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
 
   def getKineticEnergy = 1 / 2 * mass * velocity * velocity
 
+  def getAngle = rampSegmentAccessor(position).getUnitVector.getAngle
+
   def getAngleInvertY = {
     val vector = rampSegmentAccessor(position).getUnitVector
     val vectorInvertY = new Vector2D(vector.x, -vector.y)
