@@ -82,9 +82,7 @@ class RampModel extends RecordModel[String] with ObjectModel {
     else rampSegments(1).getUnitVector * (particleLocation) + rampSegments(1).startPoint
   }
 
-  def rampSegmentAccessor(particleLocation: Double) = {
-    if (particleLocation <= 0) rampSegments(0) else rampSegments(1)
-  }
+  def rampSegmentAccessor(particleLocation: Double) = if (particleLocation <= 0) rampSegments(0) else rampSegments(1)
 
   //Sends notification when any ramp segment changes
   object rampChangeAdapter extends Observable //todo: perhaps we should just pass the addListener method to the beads
@@ -96,69 +94,8 @@ class RampModel extends RecordModel[String] with ObjectModel {
   val rightWall = new Bead(new BeadState(10, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter)
   val manBead = new Bead(new BeadState(2, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter)
 
-  def update(dt: Double) = {
-    beads.foreach(b => newStepCode(b, dt))
-  }
-
-  case class WorkEnergyState(appliedWork: Double, gravityWork: Double, frictionWork: Double,
-                             potentialEnergy: Double, kineticEnergy: Double, totalEnergy: Double)
-  def newStepCode(b: Bead, dt: Double) = {
-    val origState = b.state
-
-    //todo: friction is not allowed to turn the object around; if friction would reverse the object's velocity
-    //then instead choose a friction vector that will bring the object to rest.
-
-    val netForce = b.totalForceVector.getValue
-    def getNewVelocity(f: Vector2D) = {
-      val parallelForce = f dot b.getRampUnitVector
-      val parallelAccel = parallelForce / b.mass
-      b.velocity + parallelAccel * dt
-    }
-
-    val origVel = b.velocity
-    val velWithNetForce = getNewVelocity(b.totalForceVector.getValue)
-    val velWithNetForceIgnoreFriction = getNewVelocity(b.totalForceVector.getValue - b.frictionForceVector.getValue)
-    //    println("origVel = "+b.velocity+", velWithNetForce="+velWithNetForce)
-    if (velWithNetForce * velWithNetForceIgnoreFriction < 0)
-      b.setVelocity(0)
-    else
-      b.setVelocity(velWithNetForce)
-
-    val requestedPosition = b.position + b.velocity * dt
-
-    //TODO: generalize boundary code
-    if (requestedPosition <= RampDefaults.MIN_X) {
-      b.setVelocity(0)
-      b.setPosition(RampDefaults.MIN_X)
-    }
-    else if (requestedPosition >= RampDefaults.MAX_X) {
-      b.setVelocity(0)
-      b.setPosition(RampDefaults.MAX_X)
-    }
-    else {
-      b.setPosition(requestedPosition)
-    }
-    val justCollided = false
-
-    if (b.getStaticFriction == 0 && b.getKineticFriction == 0) {
-      val appliedWork = b.getTotalEnergy
-      val gravityWork = -b.getPotentialEnergy
-      val thermalEnergy = origState.thermalEnergy
-      if (justCollided) {
-        //        thermalEnergy += origState.kineticEnergy
-      }
-      val frictionWork = -thermalEnergy
-      frictionWork
-      new WorkEnergyState(appliedWork, gravityWork, frictionWork,
-        b.getPotentialEnergy, b.getKineticEnergy, b.getTotalEnergy)
-    } else {
-      //      val dW=getAppliedWorkDifferential
-      //      val appliedWork=origState.appliedWork
-      //      val gravityWork=-getPotentialEnergy
-      //      val etot=appliedWork
-      //      val thermalEnergy=etot-kineticEnergy-potentialEnergy
-      //      val frictionWork=-thermalEnergy
-
-    }
-  }
+  def update(dt: Double) = beads.foreach(_.newStepCode(dt))
 }
+
+case class WorkEnergyState(appliedWork: Double, gravityWork: Double, frictionWork: Double,
+                           potentialEnergy: Double, kineticEnergy: Double, totalEnergy: Double)
