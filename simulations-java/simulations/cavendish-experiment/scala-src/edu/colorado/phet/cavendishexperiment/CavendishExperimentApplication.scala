@@ -69,7 +69,7 @@ class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D) extends Mas
   pushPinNode.setPickable(false)
   pushPinNode.setChildrenPickable(false)
   mass.addListenerByName(
-      pushPinNode.setOffset(transform.modelToView(mass.position) - new Vector2D(pushPinNode.getFullBounds.getWidth * 0.8, pushPinNode.getFullBounds.getHeight * 0.8))
+    pushPinNode.setOffset(transform.modelToView(mass.position) - new Vector2D(pushPinNode.getFullBounds.getWidth * 0.8, pushPinNode.getFullBounds.getHeight * 0.8))
     )
 
   addInputEventListener(new PBasicInputEventHandler {
@@ -92,19 +92,15 @@ class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D) extends Mas
   addInputEventListener(new CursorHandler)
 
   draggingChanged()
-  def draggingChanged() = {
-    pushPinNode.setVisible(initialDrag && !dragging)
-  }
+  def draggingChanged() = pushPinNode.setVisible(initialDrag && !dragging)
 }
 
 class CavendishExperimentCanvas(model: CavendishExperimentModel) extends DefaultCanvas(10, 10) {
-  def newRulerNode() = {
+  val rulerNode = {
     val maj = for (i <- 0 to 5) yield i.toString
     val dx = transform.modelToViewDifferentialX(5)
     new RulerNode(dx, 14, 40, maj.toArray, new PhetFont(Font.PLAIN, 14), "m", new PhetFont(Font.PLAIN, 10), 4, 10, 6);
   }
-
-  val rulerNode = newRulerNode()
   rulerNode.setOffset(150, 500)
 
   addNode(new MassNode(model.m1, transform))
@@ -170,7 +166,7 @@ class Mass(private var _mass: Double, private var _position: Vector2D, val name:
   def radius = mass / 30
 }
 class Spring {
-  var k = 1E-8
+  val k = 1E-8
   val restingLength = 1
 }
 class CavendishExperimentModel extends Observable {
