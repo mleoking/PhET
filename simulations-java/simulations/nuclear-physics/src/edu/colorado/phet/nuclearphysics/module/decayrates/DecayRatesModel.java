@@ -1,6 +1,6 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
+package edu.colorado.phet.nuclearphysics.module.decayrates;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;

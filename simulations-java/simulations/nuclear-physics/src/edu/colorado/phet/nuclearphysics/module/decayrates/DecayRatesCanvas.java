@@ -1,10 +1,8 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
+package edu.colorado.phet.nuclearphysics.module.decayrates;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
@@ -20,7 +18,6 @@ import java.util.Set;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
-import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayControl;
@@ -29,7 +26,6 @@ import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.common.view.GrabbableNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.model.AbstractAlphaDecayNucleus;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
-import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
 import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
@@ -46,14 +42,14 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author John Blanco
  */
-public class RadiometricElementDecayCanvas extends PhetPCanvas {
+public class DecayRatesCanvas extends PhetPCanvas {
     
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
 
     // Canvas size in femto meters.  Assumes a 4:3 aspect ratio.
-    private final double CANVAS_WIDTH = 100;
+    private final double CANVAS_WIDTH = 200;
     private final double CANVAS_HEIGHT = CANVAS_WIDTH * (3.0d/4.0d);
     
     // Translation factors, used to set origin of canvas area.
@@ -76,7 +72,7 @@ public class RadiometricElementDecayCanvas extends PhetPCanvas {
     private static final double MIN_NUCLEUS_TO_OBSTACLE_DISTANCE = 10;  // In femtometers.
     
     // Scaling factor for nucleus nodes that are in the bucket.
-    public static final double SCALING_FACTOR_FOR_NUCLEUS_NODES_IN_BUCKET = 0.75;
+    public static final double SCALING_FACTOR_FOR_NUCLEUS_NODES_IN_BUCKET = 0.6;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -85,7 +81,7 @@ public class RadiometricElementDecayCanvas extends PhetPCanvas {
     private RadiometricElementDecayTimeChart _decayTimeChart;
     private AutoPressGradientButtonNode _resetButtonNode;
     private GradientButtonNode _addTenButtonNode;
-    private RadiometricElementDecayModel _model;
+    private DecayRatesModel _model;
 	private Rectangle2D _bucketRect;
 	private BucketOfNucleiNode _bucketNode;
     private HashMap _mapAlphaParticlesToNodes = new HashMap();
@@ -106,7 +102,7 @@ public class RadiometricElementDecayCanvas extends PhetPCanvas {
     // Constructor
     //----------------------------------------------------------------------------
     
-    public RadiometricElementDecayCanvas( RadiometricElementDecayModel radiometricNucleusDecayModel ) {
+    public DecayRatesCanvas( DecayRatesModel radiometricNucleusDecayModel ) {
 
     	_model = radiometricNucleusDecayModel;
     	
@@ -123,68 +119,6 @@ public class RadiometricElementDecayCanvas extends PhetPCanvas {
         // Set the background color.
         setBackground( NuclearPhysicsConstants.CANVAS_BACKGROUND );
         
-        // Register with the model for notifications of nuclei and alpha
-        // particles coming and going.
-        _model.addListener( new AlphaDecayAdapter(){
-            public void modelElementAdded(Object modelElement){
-            	handleModelElementAdded(modelElement);
-            };
-
-            public void modelElementRemoved(Object modelElement){
-            	handleModelElementRemoved(modelElement);
-            };
-            
-            public void nucleusTypeChanged(){
-            	handleNucleusTypeChanged();
-            }
-        });
-        
-        // Add the nodes that will be used to control what is drawn over whom.
-        _nucleiLayer = new PNode();
-        addWorldChild(_nucleiLayer);
-        _chartLayer = new PNode();
-        addScreenChild(_chartLayer);
-        
-        // Add the button for resetting the nuclei to the canvas.
-        _resetButtonNode = new AutoPressGradientButtonNode(NuclearPhysicsStrings.RESET_ALL_NUCLEI, 22, 
-        		CANVAS_BUTTON_COLOR);
-        _chartLayer.addChild(_resetButtonNode);
-        
-        // Register to receive button pushes.
-        _resetButtonNode.addActionListener( new ActionListener(){
-            public void actionPerformed(ActionEvent event){
-            	resetAllNuclei();
-            }
-        });
-
-        // Add the chart that shows the decay time.
-        _decayTimeChart = new RadiometricElementDecayTimeChart(_model, this);
-        _chartLayer.addChild( _decayTimeChart );
-        
-        // Create and add the node the represents the bucket from which nuclei
-        // can be extracted and added to the play area.
-        _bucketRect = _model.getBucketRectRef();
-        _bucketNode = new BucketOfNucleiNode( _bucketRect.getWidth(), _bucketRect.getHeight() );
-        _nucleiLayer.addChild(_bucketNode);
-        _bucketNode.setOffset( _bucketRect.getX(), _bucketRect.getY() );
-        
-        // Add the button that allows the user to add multiple nuclei at once.
-        // Position it just under the bucket and scale it so that its size is
-        // proportionate to the bucket.
-        _addTenButtonNode = new GradientButtonNode(NuclearPhysicsStrings.ADD_TEN, 12, CANVAS_BUTTON_COLOR);
-        double addTenButtonScale = (_bucketRect.getWidth() / _addTenButtonNode.getFullBoundsReference().width) * 0.4;
-        _addTenButtonNode.scale(addTenButtonScale);
-        _addTenButtonNode.setOffset(_bucketRect.getCenterX() - _addTenButtonNode.getFullBoundsReference().width / 2, 
-        		_bucketRect.getMaxY());
-        _nucleiLayer.addChild(_addTenButtonNode);
-
-        // Register to receive button pushes.
-        _addTenButtonNode.addActionListener( new ActionListener(){
-            public void actionPerformed(ActionEvent event){
-            	addMultipleNucleiFromBucket( 10 );
-            }
-        });
-
         // Add a listener for when the canvas is resized.
         addComponentListener( new ComponentAdapter() {
             
@@ -225,55 +159,6 @@ public class RadiometricElementDecayCanvas extends PhetPCanvas {
 		
 		super.update();
 		
-		// Redraw the time chart.
-        _decayTimeChart.componentResized( new Rectangle2D.Double( 0, 0, getWidth(),
-                getHeight() * TIME_CHART_FRACTION));
-        
-        // Position the time chart.
-        _decayTimeChart.setOffset( 0, 0 );
-        
-        // Position the reset button.
-        _resetButtonNode.setOffset( (0.82 * getWidth()) - (_resetButtonNode.getFullBoundsReference().width / 2),
-                0.30 * getHeight() );
-        
-        // Update the rectangle that defines the outer boundary where
-        // randomly placed nuclei can be put.
-        Dimension2D chartSize = new PDimension(_decayTimeChart.getFullBoundsReference().width,
-        		_decayTimeChart.getFullBoundsReference().height);
-        getPhetRootNode().screenToWorld(chartSize);
-        
-        Dimension2D worldSize = getWorldSize();
-        double x = -worldSize.getWidth() * WIDTH_TRANSLATION_FACTOR + MIN_NUCLEUS_TO_OBSTACLE_DISTANCE;
-        double width = worldSize.getWidth() - (MIN_NUCLEUS_TO_OBSTACLE_DISTANCE * 2);
-        double y = -worldSize.getHeight() * HEIGHT_TRANSLATION_FACTOR + chartSize.getHeight()
-      		+ MIN_NUCLEUS_TO_OBSTACLE_DISTANCE;
-        double height = worldSize.getHeight() - chartSize.getHeight() - (MIN_NUCLEUS_TO_OBSTACLE_DISTANCE * 2);
-        _nucleusPlacementAreaRect.setRect(x, y, width, height);
-        
-        // Update the rectangle that is used to prevent nuclei from being
-        // placed where the reset button resides.
-        Dimension2D resetButtonSize = new PDimension(_resetButtonNode.getFullBoundsReference().width,
-        		_resetButtonNode.getFullBoundsReference().height);
-        getPhetRootNode().screenToWorld(resetButtonSize);
-        Point2D resetButtonLocation = _resetButtonNode.getOffset();
-        getPhetRootNode().screenToWorld(resetButtonLocation);
-        
-        x = resetButtonLocation.getX() - MIN_NUCLEUS_TO_OBSTACLE_DISTANCE;
-        width = resetButtonSize.getWidth() + (MIN_NUCLEUS_TO_OBSTACLE_DISTANCE * 2);
-        y = resetButtonLocation.getY() - MIN_NUCLEUS_TO_OBSTACLE_DISTANCE;
-        height = resetButtonSize.getHeight() + (MIN_NUCLEUS_TO_OBSTACLE_DISTANCE * 2);
-        _paddedResetButtonRect.setRect(x, y, width, height);
-        
-        // Update the rectangle that is used to prevent nuclei from being
-        // placed where the bucket resides.  NOTE: Since the bucket is a
-        // world child, this could actually be done in the constructor and
-        // never updated, but it is done here for consistency.
-        x = _bucketRect.getX() - MIN_NUCLEUS_TO_OBSTACLE_DISTANCE;
-        width = _bucketRect.getWidth() + (MIN_NUCLEUS_TO_OBSTACLE_DISTANCE * 2);
-        y = _bucketRect.getY() - MIN_NUCLEUS_TO_OBSTACLE_DISTANCE;
-        height = _bucketRect.getHeight() + (MIN_NUCLEUS_TO_OBSTACLE_DISTANCE * 3); // Add a little extra to account for
-                                                                                   // the button below the bucket.
-        _paddedBucketRect.setRect(x, y, width, height);
 	}
 	
 	/**
@@ -290,7 +175,7 @@ public class RadiometricElementDecayCanvas extends PhetPCanvas {
     		// A new nucleus has been added to the model.  Create a
     		// node for it and add it to the nucleus-to-node map.
     		GrabbableNucleusImageNode atomicNucleusNode = 
-    			new GrabbableNucleusImageNode( (AtomicNucleus)modelElement, AtomicNucleusImageType.GRADIENT_SPHERE );
+    			new GrabbableNucleusImageNode( (AtomicNucleus)modelElement, AtomicNucleusImageType.CIRCLE_WITH_HIGHLIGHT );
     		
     		// Map this node and nucleus together.
     		_mapNucleiToNodes.put(modelElement, atomicNucleusNode);
@@ -392,7 +277,6 @@ public class RadiometricElementDecayCanvas extends PhetPCanvas {
      * Sets the view back to the original state when sim was first started.
      */
     public void reset(){
-        _decayTimeChart.reset();
     }
     
     /**
@@ -472,11 +356,11 @@ public class RadiometricElementDecayCanvas extends PhetPCanvas {
     	}
     	else{
 	    	AtomicNucleus nucleus = releasedNode.getNucleusRef();
-	    	if (nucleus instanceof AbstractDecayNucleus){
-	    		AbstractDecayNucleus decayNucleus = (AbstractDecayNucleus)nucleus;
-	    		if (decayNucleus.isPaused()){
+	    	if (nucleus instanceof AbstractAlphaDecayNucleus){
+	    		AbstractDecayNucleus alphaDecayNucleus = (AbstractDecayNucleus)nucleus;
+	    		if (alphaDecayNucleus.isPaused()){
 	    			// Unpause this nucleus so that it continues towards decay.
-	    			decayNucleus.setPaused(false);
+	    			alphaDecayNucleus.setPaused(false);
 	    		}
 	    		else{
 		    		// Cause this node to start moving towards fissioning.
