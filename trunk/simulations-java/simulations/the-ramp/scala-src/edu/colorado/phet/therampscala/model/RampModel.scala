@@ -50,7 +50,6 @@ class RampModel extends RecordModel[String] with ObjectModel {
       }
       case _ => {}
     }
-    println("height=" + _selectedObject.height)
     notifyListeners()
   }
 
@@ -91,7 +90,7 @@ class RampModel extends RecordModel[String] with ObjectModel {
   object rampChangeAdapter extends Observable //todo: perhaps we should just pass the addListener method to the beads
   rampSegments(0).addListenerByName {rampChangeAdapter.notifyListeners}
   rampSegments(1).addListenerByName {rampChangeAdapter.notifyListeners}
-  beads += new Bead(new BeadState(5, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter)
+  beads += new Bead(new BeadState(5, 0, _selectedObject.mass, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter)
   val tree = new Bead(new BeadState(-9, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter)
   val leftWall = new Bead(new BeadState(-10, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter)
   val rightWall = new Bead(new BeadState(10, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter)
@@ -150,12 +149,12 @@ class RampModel extends RecordModel[String] with ObjectModel {
     }
   }
 
-  def getForces(b: Bead) = {
+  def getForces(b: Bead) = {         //todo: add other forces or use values as defined in Bead
     getGravityForce(b) :: b.appliedForce :: Nil
     //    getGravity :: getFriction(b) :: getWallForce(b) :: getNormalForce(b) :: Nil
     //    val netForce=getGravity+getFriction(b)+getNormal
   }
-
+//
   def getGravityForce(b: Bead) = {
     new Vector2D(0, -9.8) * b.mass
   }
