@@ -29,12 +29,28 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
   val normalForceVector = new Vector(RampDefaults.normalForceColor, "Normal Force", "<html>F<sub>N</sub></html>") {
     def getValue = normalForce
   }
+  val totalForceVector = new Vector(RampDefaults.totalForceColor, "Total Force (sum of forces)", "<html>F<sub>total</sub></html>") {
+    def getValue = totalForce
+  }
+  val appliedForceVector = new Vector(RampDefaults.appliedForceColor, "Applied Force", "<html>F<sub>a</sub></html>") {
+    def getValue = appliedForce
+  }
+  appliedForceVector.addListenerByName(totalForceVector.notifyListeners())
+  gravityForceVector.addListenerByName(totalForceVector.notifyListeners())
+  normalForceVector.addListenerByName(totalForceVector.notifyListeners())
+  //  frictionForceVector.addListener(totalForceVector.notifyListeners())
+
+  addListenerByName(appliedForceVector.notifyListeners())//todo: just listen for changes to applied force parallel component
+
+  def totalForce = {
+    gravityForceVector.getValue + normalForceVector.getValue + appliedForceVector.getValue
+  }
 
   def normalForce = {
-    val magnitude = (gravityForce * -1) dot getRampUnitVector.rotate(PI/2)
+    val magnitude = (gravityForce * -1) dot getRampUnitVector.rotate(PI / 2)
     val angle = getRampUnitVector.getAngle + PI / 2
-//    debug eval "angle" -> angle
-//    debug eval "magnitude" -> magnitude
+    //    debug eval "angle" -> angle
+    //    debug eval "magnitude" -> magnitude
     new Vector2D(angle) * (magnitude)
   }
 
