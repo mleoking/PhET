@@ -114,13 +114,13 @@ class RampModel extends RecordModel[String] with ObjectModel {
     val requestedPosition = b.position + b.velocity * dt
 
     //TODO: generalize boundary code
-    if (requestedPosition <= -10) {
+    if (requestedPosition <= RampDefaults.MIN_X) {
       b.setVelocity(0)
-      b.setPosition(-10)
+      b.setPosition(RampDefaults.MIN_X)
     }
-    else if (requestedPosition >= 10) {
+    else if (requestedPosition >= RampDefaults.MAX_X) {
       b.setVelocity(0)
-      b.setPosition(10)
+      b.setPosition(RampDefaults.MAX_X)
     }
     else {
       b.setPosition(requestedPosition)
