@@ -5,6 +5,7 @@ import java.awt.Color
 object RampDefaults {
   val MIN_X = -10
   val MAX_X = 10
+  //ScalaRampObject(name,mass,kineticFriction,staticFriction,image)
   val objects = new ScalaRampObject("File Cabinet", 5.0, 0.5, 0.5, "cabinet.gif") ::
           new ScalaRampObject("Sleepy Dog", 25.0, 0.5, 0.5, "ollie.gif") ::
           new ScalaRampObject("Small Crate", 150, 0.5, 0.5, "crate.gif") ::
@@ -21,5 +22,4 @@ object RampDefaults {
   val normalForceColor = Color.yellow
   val frictionForceColor = Color.red
   val totalForceColor = Color.pink
-
 }
