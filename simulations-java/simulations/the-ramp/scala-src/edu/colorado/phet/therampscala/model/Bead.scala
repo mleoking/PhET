@@ -137,4 +137,64 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
     val vectorInvertY = new Vector2D(vector.x, -vector.y)
     vectorInvertY.getAngle
   }
+  def newStepCode(dt: Double) = {
+    val origState = state
+
+    //todo: friction is not allowed to turn the object around or accelerate the object from rest
+    //if friction would reverse the object's velocity
+    //then instead choose a friction vector that will bring the object to rest.
+
+    val netForce = totalForceVector.getValue
+    def getNewVelocity(f: Vector2D) = {
+      val parallelForce = f dot getRampUnitVector
+      val parallelAccel = parallelForce / mass
+      velocity + parallelAccel * dt
+    }
+
+    val origVel = velocity
+    val velWithNetForce = getNewVelocity(totalForceVector.getValue)
+    val velWithNetForceIgnoreFriction = getNewVelocity(totalForceVector.getValue - frictionForceVector.getValue)
+    //    println("origVel = "+velocity+", velWithNetForce="+velWithNetForce)
+    if (velWithNetForce * velWithNetForceIgnoreFriction < 0)
+      setVelocity(0)
+    else
+      setVelocity(velWithNetForce)
+
+    val requestedPosition = position + velocity * dt
+
+    //TODO: generalize boundary code
+    if (requestedPosition <= RampDefaults.MIN_X) {
+      setVelocity(0)
+      setPosition(RampDefaults.MIN_X)
+    }
+    else if (requestedPosition >= RampDefaults.MAX_X) {
+      setVelocity(0)
+      setPosition(RampDefaults.MAX_X)
+    }
+    else {
+      setPosition(requestedPosition)
+    }
+    val justCollided = false
+
+    if (getStaticFriction == 0 && getKineticFriction == 0) {
+      val appliedWork = getTotalEnergy
+      val gravityWork = -getPotentialEnergy
+      val thermalEnergy = origState.thermalEnergy
+      if (justCollided) {
+        //        thermalEnergy += origState.kineticEnergy
+      }
+      val frictionWork = -thermalEnergy
+      frictionWork
+      new WorkEnergyState(appliedWork, gravityWork, frictionWork,
+        getPotentialEnergy, getKineticEnergy, getTotalEnergy)
+    } else {
+      //      val dW=getAppliedWorkDifferential
+      //      val appliedWork=origState.appliedWork
+      //      val gravityWork=-getPotentialEnergy
+      //      val etot=appliedWork
+      //      val thermalEnergy=etot-kineticEnergy-potentialEnergy
+      //      val frictionWork=-thermalEnergy
+
+    }
+  }
 }
