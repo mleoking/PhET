@@ -12,6 +12,37 @@ class IndividualSimulationPage extends SitePage {
 
     const MAX_TITLE_CHARS = 80;
 
+    function find_close_sims($sim_encoding) {
+        $close_sims = array();
+        $close_sims1 = SimFactory::inst()->getCloseWebEncodings($sim_encoding, 1);
+        
+        // Search the database, changing the underscores '_' to spaces ' ' and
+        // removing small words that match too liberally
+        $split_search = array();
+        foreach (explode('_', $sim_encoding) as $term) {
+            if (!in_array($term, array('and', 'or', 'in', 'as', 'of', 'as', 'the', 'a', 'on'))) {
+                $split_search[] = $term;
+            }
+        }
+        $close_sims2 = SimUtils::inst()->searchForSims(implode(' ', $split_search), TRUE);
+        
+        foreach ($close_sims1 as $sim) {
+            $sim_id = $sim['sim_id'];
+            if (isset($close_sims[$sim_id])) continue;
+            $close_sims[$sim_id] = $sim;
+        }
+
+        foreach ($close_sims2 as $sim) {
+            $sim_id = $sim['sim_id'];
+            if (isset($close_sims[$sim_id])) continue;
+            $close_sims[$sim_id] = $sim;
+        }
+
+        $this->close_sims = $close_sims;
+        
+        return $close_sims;
+    }
+    
     function update() {
         $result = parent::update();
         if (!$result) {
@@ -33,7 +64,13 @@ class IndividualSimulationPage extends SitePage {
 
         $sim_encoding = $_REQUEST['sim'];
 
-        $this->sim = SimFactory::inst()->getByWebEncodedName($sim_encoding);
+        try {
+            $this->sim = SimFactory::inst()->getByExactWebEncodedName($sim_encoding);
+        }
+        catch (PhetSimException $e) {
+            $this->close_sims = $this->find_close_sims($sim_encoding);
+            return;
+        }
 
         $this->addKeywordsToTitle();
 
@@ -81,6 +118,45 @@ EOT;
         // ' <-- That aprostrophe makes Emacs highlighting back to normal
     }
 
+    function get_sim_not_found_html() {
+        $html = '';
+        if (is_null($this->sim)) {
+            $html .= "<div class=\"error-box\"><p>Specified simulation not found</p></div>";
+
+            if (isset($this->close_sims) && (!empty($this->close_sims))) {
+                $html .= "<h2>Perhaps you are looking for:</h2>\n";
+                $html .= '<div class="productList" style="display: inline;">';
+                foreach ($this->close_sims as $sim_id => $sim_info) {
+                    $sim = SimFactory::inst()->getById($sim_id);
+                $html .= "<div class=\"productEntry\">\n";
+
+                $link_to_sim = "<a href=\"{$sim->getPageUrl()}\">";
+
+                $sim_thumbnail_link = $sim->getThumbnailUrl();
+
+                $html .= <<<EOT
+                        <a href="{$sim->getPageUrl()}">
+                            <img src="$sim_thumbnail_link"
+                                 width="130"
+                                 alt="Screenshot of {$sim->getName()} Simulation"
+                                 title="Clear here to view the {$sim->getName()} simulation"
+                             />
+                        </a>
+
+EOT;
+
+                $html .= "<p>$link_to_sim{$sim->getName()}</a></p>\n";
+
+                // Close product:
+                $html .= "</div>\n";
+                //                    print "<img src=\"{$sim->getThumbnailUrl()}\" /><strong><a href=\"{$sim->getPageUrl()}\">{$sim->getName()}</a></strong><br/>\n";
+                }
+                $html .= "</div>\n";
+            }
+            return $html;
+        }
+    }
+
     function addKeywordsToTitle() {
         // Add keywords to title
         $new_title = "PhET {$this->sim->getName()} - ";
@@ -108,14 +184,13 @@ EOT;
             return $result;
         }
 
-        // Will need this later
-        $simobj = $this->sim->getWrapped();
-
         if (is_null($this->sim)) {
-            print "<p>There is no simulation by the specified id.</p>";
-
+            print $this->get_sim_not_found_html();
             return;
         }
+
+        // Will need this later
+        $simobj = $this->sim->getWrapped();
 
         $guidance_html = '';
         if ($this->sim->getGuidanceRecommended()) {

@@ -209,7 +209,7 @@
         return $rows;
     }
 
-    function db_search_for($table_name, $search_for, $fields_to_search) {
+    function db_search_for($table_name, $search_for, $fields_to_search, $liberal_match = FALSE) {
         // Get the database connection, start it if if this is the first call
         global $connection;
         if (!isset($connection)) {
@@ -226,12 +226,13 @@
         $is_first = true;
 
         $safe_search_for = mysql_real_escape_string($search_for, $connection);
-        foreach(preg_split('/( *, *)|( +)/i', $safe_search_for) as $word) {
+        $search_split = preg_split('/( *, *)|( +)/i', $safe_search_for);
+        foreach($search_split as $word) {
             if ($is_first) {
                 $is_first = false;
             }
             else {
-                $st .= " AND ";
+                $st .= ($liberal_match) ?  " OR " : " AND ";
             }
 
             if (count($fields_to_search) > 0) {

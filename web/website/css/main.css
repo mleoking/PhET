@@ -1966,3 +1966,13 @@ img.getflashbutton {
     margin-left: 2em;
     padding-left: 0;
 }
+
+.error-box {
+    background-color: #ffeeee;
+    border: 3px solid red;
+}
+
+.error-box p {
+    font-weight: bold;
+    font-size: 16px;
+}
