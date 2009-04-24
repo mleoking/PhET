@@ -472,11 +472,11 @@ public class RadiometricElementDecayCanvas extends PhetPCanvas {
     	}
     	else{
 	    	AtomicNucleus nucleus = releasedNode.getNucleusRef();
-	    	if (nucleus instanceof AbstractAlphaDecayNucleus){
-	    		AbstractDecayNucleus alphaDecayNucleus = (AbstractDecayNucleus)nucleus;
-	    		if (alphaDecayNucleus.isPaused()){
+	    	if (nucleus instanceof AbstractDecayNucleus){
+	    		AbstractDecayNucleus decayNucleus = (AbstractDecayNucleus)nucleus;
+	    		if (decayNucleus.isPaused()){
 	    			// Unpause this nucleus so that it continues towards decay.
-	    			alphaDecayNucleus.setPaused(false);
+	    			decayNucleus.setPaused(false);
 	    		}
 	    		else{
 		    		// Cause this node to start moving towards fissioning.
