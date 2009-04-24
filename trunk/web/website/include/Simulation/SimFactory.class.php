@@ -243,6 +243,38 @@ class SimFactory {
         return $this->getById($best_sim['sim_id']);
     }
 
+    public function getByExactWebEncodedName($sim_encoding, $pre_iom = self::PRE_IOM_COMPATIBLE) {
+        $map = $this->getWebEncodedNameToIdMap();
+
+        // Straight exact match with web encoded name
+        foreach($map as $encoding => $sim) {
+            if ($encoding == $sim_encoding) {
+                return $this->getById($sim['sim_id'], $pre_iom);
+            }
+        }
+
+        throw new PhetSimException("Simulation encoding '{$sim_encoding}' not found");
+    }
+
+    public function getCloseWebEncodings($sim_encoding, $close_enough_distance = 4, $pre_iom = self::PRE_IOM_COMPATIBLE) {
+        $map = $this->getWebEncodedNameToIdMap();
+
+        // Look for best match using Levenshtein distance function:
+        $close_enough = array();
+        foreach($map as $encoding => $sim) {
+            // Doing it straight
+            //$distance = levenshtein(strtolower($sim_encoding), strtolower($encoding));
+            // Original math:
+            $distance = levenshtein(strtolower($sim_encoding), strtolower($encoding), 0, 2, 1);
+
+            if ($distance < $close_enough_distance) {
+                $close_enough[] =$sim;
+            }
+        }
+
+        return $close_enough;
+    }
+
     public function getById($sim_id, $pre_iom = self::PRE_IOM_COMPATIBLE) {
         if (!empty($this->idMap) && isset($this->idMap[$sim_id])) {
             return $this->idMap[$sim_id];

@@ -208,11 +208,12 @@ class SimUtils {
         }
     }
 
-    public function searchForSims($search_for) {
+    public function searchForSims($search_for, $liberal_match = FALSE) {
         return db_search_for(
             'simulation',
             $search_for,
-            array('sim_name', 'sim_desc', 'sim_keywords', 'sim_main_topics', 'sim_sample_goals')
+            array('sim_name', 'sim_desc', 'sim_keywords', 'sim_main_topics', 'sim_sample_goals'),
+            $liberal_match
         );
     }
 
