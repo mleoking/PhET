@@ -27,19 +27,8 @@ import scalacommon.Predef._
 import umd.cs.piccolo.util.PDimension
 import java.lang.Math._
 
-//TODO: move to scalacommon
-class ScalaValueControl(min: Double, max: Double, name: String, decimalFormat: String, units: String,
-                        getter: => Double, setter: Double => Unit, addListener: (() => Unit) => Unit) extends LinearValueControl(min, max, name, decimalFormat, units) {
-  addListener(update)
-  update()
-  addChangeListener(new ChangeListener {
-    def stateChanged(e: ChangeEvent) = setter(getValue)
-  });
-  def update() = setValue(getter)
-}
 class ForceLabelNode(mass: Mass, transform: ModelViewTransform2D, model: CavendishExperimentModel) extends PNode {
   val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(1, 1), 20, 20, 8, 0.5, true)
-  addChild(arrowNode)
   val label = new PText
   label.setFont(new PhetFont(18, true))
 
@@ -50,6 +39,7 @@ class ForceLabelNode(mass: Mass, transform: ModelViewTransform2D, model: Cavendi
     arrowNode.setTipAndTailLocations(label.getOffset + new Vector2D(model.getForce.magnitude * scale, -20), label.getOffset + new Vector2D(0, -20))
   }
 
+  addChild(arrowNode)
   addChild(label)
 }
 class MassNode(mass: Mass, transform: ModelViewTransform2D) extends PNode {
@@ -79,9 +69,8 @@ class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D) extends Mas
   pushPinNode.setPickable(false)
   pushPinNode.setChildrenPickable(false)
   mass.addListenerByName(
-    {
       pushPinNode.setOffset(transform.modelToView(mass.position) - new Vector2D(pushPinNode.getFullBounds.getWidth * 0.8, pushPinNode.getFullBounds.getHeight * 0.8))
-    })
+    )
 
   addInputEventListener(new PBasicInputEventHandler {
     override def mouseDragged(event: PInputEvent) = {
@@ -110,7 +99,7 @@ class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D) extends Mas
 
 class CavendishExperimentCanvas(model: CavendishExperimentModel) extends DefaultCanvas(10, 10) {
   def newRulerNode() = {
-    val maj = for (i <- 0 to 5) yield "" + i
+    val maj = for (i <- 0 to 5) yield i.toString
     val dx = transform.modelToViewDifferentialX(5)
     new RulerNode(dx, 14, 40, maj.toArray, new PhetFont(Font.PLAIN, 14), "m", new PhetFont(Font.PLAIN, 10), 4, 10, 6);
   }
@@ -131,7 +120,6 @@ class CavendishExperimentCanvas(model: CavendishExperimentModel) extends Default
   rulerNode.addInputEventListener(new CursorHandler)
 
   addNode(new WallNode(model.wall, transform))
-
 }
 
 class MyDoubleGeneralPath(pt: Point2D) extends DoubleGeneralPath(pt) {
@@ -169,16 +157,6 @@ class WallNode(wall: Wall, transform: ModelViewTransform2D) extends PNode {
 class CavendishExperimentControlPanel(model: CavendishExperimentModel) extends ControlPanel {
   add(new ScalaValueControl(0.01, 100, "m1", "0.00", "kg", model.m1.mass, model.m1.mass = _, model.m1.addListener))
   add(new ScalaValueControl(0.01, 100, "m2", "0.00", "kg", model.m2.mass, model.m2.mass = _, model.m2.addListener))
-//  val button = new JButton("Sun-Earth System")
-//  button.addActionListener(new ActionListener {
-//    def actionPerformed(e: ActionEvent) = {
-//      model.m1.mass=5.9742E24//earth
-//      model.m2.mass=1.9891E30//sun
-//      model.spring.k=1E30
-//      println("actionperformed")
-//    }
-//  })
-//  add(button)
 }
 class Mass(private var _mass: Double, private var _position: Vector2D, val name: String) extends Observable {
   def mass = _mass
@@ -200,8 +178,9 @@ class CavendishExperimentModel extends Observable {
   val m1 = new Mass(10, new Vector2D(0, 0), "m1")
   val m2 = new Mass(25, new Vector2D(1, 0), "m2")
   val spring = new Spring
-  m1.addListenerByName(notifyListeners)
-  m2.addListenerByName(notifyListeners)
+  val G = 6.67E-11
+  m1.addListenerByName(notifyListeners())
+  m2.addListenerByName(notifyListeners())
 
   //causes dynamical problems, e.g. oscillations if you use the full model
   def rFake = m2.position - new Vector2D(wall.maxX + spring.restingLength, 0)
@@ -210,18 +189,16 @@ class CavendishExperimentModel extends Observable {
 
   def r = rFull
 
-  val G = 6.67E-11
-
   def rMin = if (m1.position.x + m1.radius < m2.position.x - m2.radius) r else m2.position - new Vector2D(m2.radius, 0)
 
   def getForce = r * G * m1.mass * m2.mass / pow(r.magnitude, 3)
 
   def update(dt: Double) = {
     val xDesired = wall.maxX + spring.restingLength + getForce.magnitude / spring.k
-    val x = if (xDesired + m1.radius > m2.position.x - m2.radius) {
-      //      println("xd=" + xD + ", m1.rad=" + m1.radius + ", m2.x=" + m2.position.x + ", m2.rad=" + m2.radius)
+    val x = if (xDesired + m1.radius > m2.position.x - m2.radius)
       m2.position.x - m2.radius - m1.radius
-    } else xDesired
+    else
+      xDesired
     m1.position = new Vector2D(x, 0)
   }
 }
