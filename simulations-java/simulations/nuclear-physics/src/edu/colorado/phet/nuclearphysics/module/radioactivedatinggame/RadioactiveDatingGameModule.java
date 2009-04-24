@@ -7,8 +7,7 @@ import java.awt.Frame;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
-import edu.colorado.phet.nuclearphysics.defaults.SingleNucleusAlphaDecayDefaults;
-import edu.colorado.phet.nuclearphysics.module.alphadecay.AlphaDecayControlPanel;
+import edu.colorado.phet.nuclearphysics.defaults.RadiometricDecayDefaults;
 
 /**
  * This class is where the model and view classes are created and connected
@@ -32,7 +31,7 @@ public class RadioactiveDatingGameModule extends PiccoloModule {
 
     public RadioactiveDatingGameModule( Frame parentFrame ) {
         super( NuclearPhysicsStrings.TITLE_RADIOACTIVE_DATING_GAME,
-               new NuclearPhysicsClock( SingleNucleusAlphaDecayDefaults.CLOCK_FRAME_RATE, SingleNucleusAlphaDecayDefaults.CLOCK_DT ));
+               new NuclearPhysicsClock( RadiometricDecayDefaults.CLOCK_FRAME_RATE, RadiometricDecayDefaults.CLOCK_DT ));
  
         // Model
         NuclearPhysicsClock clock = (NuclearPhysicsClock) getClock();
@@ -62,6 +61,6 @@ public class RadioactiveDatingGameModule extends PiccoloModule {
 
         // Reset the clock, which ultimately resets the model too.
         _model.getClock().resetSimulationTime();
-        setClockRunningWhenActive( SingleNucleusAlphaDecayDefaults.CLOCK_RUNNING );
+        setClockRunningWhenActive( RadiometricDecayDefaults.CLOCK_RUNNING );
     }
 }

@@ -31,7 +31,11 @@ public class Carbon14Nucleus extends AbstractDecayNucleus {
     public static final int ORIGINAL_NUM_NEUTRONS = 8;
     
     // Half life for Carbon 14.
-    public static double HALF_LIFE = 31.536E9; // 5,730 years, converted into milliseconds.
+    private static double HALF_LIFE = 31.536E9; // 5,730 years, converted into milliseconds.
+    
+    // Time scaling factor - scales the rate at which decay occurs so that we
+    // don't really have to wait around thousands of years.
+    private static double DECAY_TIME_SCALING_FACTOR = 2500 / HALF_LIFE;
     
     // Random number generator used for calculating decay time based on decay constant.
     private static final Random RAND = new Random();
@@ -46,7 +50,7 @@ public class Carbon14Nucleus extends AbstractDecayNucleus {
     
     public Carbon14Nucleus(NuclearPhysicsClock clock, Point2D position){
 
-        super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS);
+        super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS, DECAY_TIME_SCALING_FACTOR);
     }
     
     public Carbon14Nucleus(NuclearPhysicsClock clock){
@@ -92,7 +96,7 @@ public class Carbon14Nucleus extends AbstractDecayNucleus {
     	
     	// Only allow activation if the nucleus hasn't already decayed.
     	if (_numNeutrons == ORIGINAL_NUM_NEUTRONS){
-    		_decayTime = _clock.getSimulationTime() + calcDecayTime();
+    		_decayTime = _clock.getSimulationTime() + (calcDecayTime() * _decayTimeScalingFactor);
     	}
     }
     
@@ -130,24 +134,6 @@ public class Carbon14Nucleus extends AbstractDecayNucleus {
         return decayMilliseconds;
     }
     
-    /**
-     * This main function is used to provide stand-alone testing of the class.
-     * 
-     * @param args - Unused.
-     */
-    public static void main(String [] args){
-        Carbon14Nucleus nucleus = new Carbon14Nucleus(new NuclearPhysicsClock(24, 10));
-        AtomicNucleusNode nucleusNode = new AtomicNucleusNode(nucleus);
-        nucleus.setPosition(400, 300);
-        
-        JFrame frame = new JFrame();
-        PhetPCanvas canvas = new PhetPCanvas();
-        frame.setContentPane( canvas );
-        canvas.addWorldChild( nucleusNode );
-        frame.setSize( 800, 600 );
-        frame.setVisible( true );
-    }
-
 	protected void decay(ClockEvent clockEvent) {
 		
 		// Decay into N14.

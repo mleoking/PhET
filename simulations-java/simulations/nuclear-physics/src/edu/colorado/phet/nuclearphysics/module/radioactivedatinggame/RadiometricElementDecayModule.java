@@ -7,7 +7,7 @@ import java.awt.Frame;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
-import edu.colorado.phet.nuclearphysics.defaults.SingleNucleusAlphaDecayDefaults;
+import edu.colorado.phet.nuclearphysics.defaults.RadiometricDecayDefaults;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.AlphaDecayControlPanel;
 
 /**
@@ -33,7 +33,7 @@ public class RadiometricElementDecayModule extends PiccoloModule {
 
     public RadiometricElementDecayModule( Frame parentFrame ) {
         super( NuclearPhysicsStrings.TITLE_RADIOMETRIC_ELEMENT_HALF_LIFE,
-               new NuclearPhysicsClock( SingleNucleusAlphaDecayDefaults.CLOCK_FRAME_RATE, SingleNucleusAlphaDecayDefaults.CLOCK_DT ));
+               new NuclearPhysicsClock( RadiometricDecayDefaults.CLOCK_FRAME_RATE, RadiometricDecayDefaults.CLOCK_DT ));
  
         // Model
         NuclearPhysicsClock clock = (NuclearPhysicsClock) getClock();
@@ -67,7 +67,7 @@ public class RadiometricElementDecayModule extends PiccoloModule {
 
         // Reset the clock, which ultimately resets the model too.
         _model.getClock().resetSimulationTime();
-        setClockRunningWhenActive( SingleNucleusAlphaDecayDefaults.CLOCK_RUNNING );
+        setClockRunningWhenActive( RadiometricDecayDefaults.CLOCK_RUNNING );
         
         // Reset the canvas and its sub-nodes.
         _canvas.reset();

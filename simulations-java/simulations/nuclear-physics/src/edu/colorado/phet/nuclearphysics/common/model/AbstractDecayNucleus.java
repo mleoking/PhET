@@ -19,10 +19,28 @@ public abstract class AbstractDecayNucleus extends AtomicNucleus implements Nucl
 	protected double _activatedLifetime = 0;
 	protected double _halfLife = 0;
 	protected boolean _paused = false;
+	protected final double _decayTimeScalingFactor;
 
+	/**
+	 * This constructor includes a decay time scaling factor that can be used
+	 * to make the atom decay in a reasonable amount of time for a user,
+	 * instead of forcing them to wait around for like thousands of years.
+	 * 
+	 * @param clock
+	 * @param position
+	 * @param numProtons
+	 * @param numNeutrons
+	 * @param decayTimeScalingFactor - smaller means sooner decay, larger means longer.
+	 */
+	public AbstractDecayNucleus(NuclearPhysicsClock clock, Point2D position, int numProtons, int numNeutrons,
+			double decayTimeScalingFactor) {
+		super(clock, position, numProtons, numNeutrons);
+		_decayTimeScalingFactor = decayTimeScalingFactor;
+	}
+	
 	public AbstractDecayNucleus(NuclearPhysicsClock clock, Point2D position,
 			int numProtons, int numNeutrons) {
-		super(clock, position, numProtons, numNeutrons);
+		this(clock, position, numProtons, numNeutrons, 1);  // Use default decay time scaling factor.
 	}
 
 	public double getDecayTime() {
@@ -53,7 +71,7 @@ public abstract class AbstractDecayNucleus extends AtomicNucleus implements Nucl
 	    if (_decayTime != 0){
 	     
 	    	if (!_paused){
-	        	// See if alpha decay should occur.
+	        	// See if decay should occur.
 		        if (clockEvent.getSimulationTime() >= _decayTime ) {
 		            // It is time to decay.  Cause alpha decay by generating an
 		        	// alpha particle and reducing our atomic weight.
