@@ -149,12 +149,12 @@ class RampModel extends RecordModel[String] with ObjectModel {
     }
   }
 
-  def getForces(b: Bead) = {         //todo: add other forces or use values as defined in Bead
+  def getForces(b: Bead) = { //todo: add other forces or use values as defined in Bead
     getGravityForce(b) :: b.appliedForce :: Nil
     //    getGravity :: getFriction(b) :: getWallForce(b) :: getNormalForce(b) :: Nil
     //    val netForce=getGravity+getFriction(b)+getNormal
   }
-//
+  //
   def getGravityForce(b: Bead) = {
     new Vector2D(0, -9.8) * b.mass
   }
