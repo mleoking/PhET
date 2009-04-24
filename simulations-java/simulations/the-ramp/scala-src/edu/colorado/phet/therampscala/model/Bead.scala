@@ -8,6 +8,7 @@ import scalacommon.util.Observable
 import java.lang.Math._
 import scalacommon.Predef._
 
+/**Immutable memento for recording*/
 case class BeadState(position: Double, velocity: Double, mass: Double, staticFriction: Double, kineticFriction: Double) {
   def translate(dx: Double) = setPosition(position + dx)
 
@@ -19,6 +20,7 @@ case class BeadState(position: Double, velocity: Double, mass: Double, staticFri
 
   def thermalEnergy = 0
 }
+
 class Bead(_state: BeadState, private var _height: Double, positionMapper: Double => Vector2D, rampSegmentAccessor: Double => RampSegment, model: Observable) extends Observable {
   val gravity = -9.8
   var state = _state
@@ -57,7 +59,7 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
   def frictionForce = {
     val frictionCoefficient = if (velocity > 1E-6) getKineticFriction else getStaticFriction
     val magnitude = normalForceVector.getValue.magnitude * frictionCoefficient
-    val vel=(positionMapper(position)-positionMapper(position-velocity*1E-6))
+    val vel = (positionMapper(position) - positionMapper(position - velocity * 1E-6))
     val angle = (vel * -1).getAngle
     new Vector2D(angle) * magnitude
   }
@@ -122,7 +124,7 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
   def setPosition(position: Double) = {
     state = state.setPosition(position)
     normalForceVector.notifyListeners() //since ramp segment might have changed; could improve performance on this by only sending notifications when we are sure the ramp segment has changed
-    frictionForceVector.notifyListeners()//todo: omit this call since it's probably covered by the normal force call above
+    frictionForceVector.notifyListeners() //todo: omit this call since it's probably covered by the normal force call above
     notifyListeners()
   }
 
@@ -137,6 +139,7 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
     val vectorInvertY = new Vector2D(vector.x, -vector.y)
     vectorInvertY.getAngle
   }
+
   def newStepCode(dt: Double) = {
     val origState = state
 
