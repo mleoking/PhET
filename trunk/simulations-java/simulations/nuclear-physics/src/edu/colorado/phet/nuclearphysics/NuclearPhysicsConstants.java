@@ -112,6 +112,12 @@ public class NuclearPhysicsConstants {
     // Color for label used for the Uranium 239 nucleus.
     public static final Color URANIUM_239_LABEL_COLOR = Color.WHITE;
     
+    // Color for carbon when represented as a circle or sphere.
+    public static final Color CARBON_COLOR = new Color( 200, 0, 0 );
+    
+    // Color for nitrogen when represented as a circle or sphere.
+    public static final Color NITROGEN_COLOR = new Color( 0, 0, 200 );
+    
     // Color of the chart background for the alpha decay application.
 	public static final Color  ALPHA_DECAY_CHART_COLOR = new Color( 246, 242, 175 );
 	
