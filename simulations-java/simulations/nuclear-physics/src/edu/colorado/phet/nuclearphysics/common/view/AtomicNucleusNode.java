@@ -80,7 +80,7 @@ public class AtomicNucleusNode extends PNode {
         public void nucleusChangeEvent(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
                 ArrayList byProducts){
             
-            handleAtomicWeightChanged( atomicNucleus, numProtons, numNeutrons, byProducts );
+            handleNucleusChangedEvent( atomicNucleus, numProtons, numNeutrons, byProducts );
         }
     };
     
@@ -415,7 +415,7 @@ public class AtomicNucleusNode extends PNode {
      * @param numNeutrons
      * @param byProducts
      */
-    protected void handleAtomicWeightChanged(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
+    protected void handleNucleusChangedEvent(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
                     ArrayList byProducts){
         
         int newAtomicWeight = numProtons + numNeutrons;
