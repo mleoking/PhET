@@ -16,7 +16,6 @@ import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayControl;
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayModelListener;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
-import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.NucleusTypeControl;
 
@@ -33,7 +32,7 @@ import edu.colorado.phet.nuclearphysics.module.alphadecay.NucleusTypeControl;
  *  
  * @author John Blanco
  */
-public class MultiNucleusDecayModel implements NucleusTypeControl{
+public class MultiNucleusDecayModel implements NucleusTypeControl {
 
     //------------------------------------------------------------------------
     // Class data
