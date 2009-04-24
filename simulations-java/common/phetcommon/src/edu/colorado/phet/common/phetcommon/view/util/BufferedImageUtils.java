@@ -52,6 +52,14 @@ public class BufferedImageUtils {
         return rescaleFractional( im, dx, dx );
     }
 
+    /**
+     * Rescale an image based on scale factors for with width and height.
+     * 
+     * @param in - original buffered image.
+     * @param dx - multiplier for the width (x direction)
+     * @param dy - multiplier for the height (y direction)
+     * @return - scaled buffered image
+     */
     public static BufferedImage rescaleFractional( BufferedImage in, double dx, double dy ) {
         int width = (int) ( in.getWidth() * dx );
         int height = (int) ( in.getHeight() * dy );
@@ -288,6 +296,9 @@ public class BufferedImageUtils {
      * see also SwingLabs GraphicsUtilities
      * <p/>
      * Convenience method that returns a scaled instance of the provided {@code BufferedImage}.
+     * <p/>
+     * IMPORTANT: This method does not scale up - consider other methods in this class if you
+     * need upscaling.
      *
      * @param img                    the original image to be scaled
      * @param targetWidth            the desired width of the scaled instance,
