@@ -5,7 +5,9 @@ import collection.mutable.ArrayBuffer
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
 import common.phetcommon.view.VerticalLayoutPanel
+import common.piccolophet.nodes.{ToolTipNode, PhetPPath}
 import java.awt.{Rectangle, BasicStroke, Color}
+import java.text.MessageFormat
 import javax.swing.{JButton, Timer}
 import scalacommon.util.Observable
 import swing.ScalaValueControl
@@ -14,7 +16,6 @@ import umd.cs.piccolox.pswing.PSwing
 import umd.cs.piccolo.PNode
 import umd.cs.piccolo.nodes.{PText, PImage}
 
-import common.piccolophet.nodes.PhetPPath
 import java.awt.geom.Rectangle2D
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 
@@ -64,6 +65,22 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
         model.selectedObject = o
       }
     })
+
+    //todo: what is the right scala way to do this?
+    val objectList = new ArrayBuffer[Object]
+    objectList += o.kineticFriction.asInstanceOf[Object]
+    objectList += o.staticFriction.asInstanceOf[Object]
+    objectList += o.mass.asInstanceOf[Object]
+
+    val getTooltipText = MessageFormat.format("<html>" +
+            "\u03BC<sub>k</sub>={0}<br>" +
+            "\u03BC<sub>s</sub>={1}<br>" +
+            "mass={2} kg<br>" +
+            "</html>", objectList.toArray
+      )
+    val tipNode = new ToolTipNode(getTooltipText, this)
+    tipNode.setFont(new PhetFont(18))
+    addChild(tipNode)
   }
   class CustomObjectSelectionIcon(o: MutableRampObject) extends ObjectSelectionIcon(o) {
     override def update() = {
