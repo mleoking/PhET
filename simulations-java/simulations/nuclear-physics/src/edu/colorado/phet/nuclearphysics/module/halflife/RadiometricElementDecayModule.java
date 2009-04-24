@@ -8,7 +8,6 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.defaults.RadiometricDecayDefaults;
-import edu.colorado.phet.nuclearphysics.module.alphadecay.AlphaDecayControlPanel;
 
 /**
  * This class is where the model and view classes are created and connected
@@ -25,7 +24,7 @@ public class RadiometricElementDecayModule extends PiccoloModule {
 
     private RadiometricElementDecayModel _model;
     private RadiometricElementDecayCanvas _canvas;
-    private AlphaDecayControlPanel _controlPanel;
+    private IsotopeSelectionPanel _controlPanel;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -44,7 +43,7 @@ public class RadiometricElementDecayModule extends PiccoloModule {
         setSimulationPanel( _canvas );
 
         // Control Panel
-        _controlPanel = new AlphaDecayControlPanel( this, parentFrame, _model );
+        _controlPanel = new IsotopeSelectionPanel( this, parentFrame, _model );
         setControlPanel( _controlPanel );
         
         // Help
