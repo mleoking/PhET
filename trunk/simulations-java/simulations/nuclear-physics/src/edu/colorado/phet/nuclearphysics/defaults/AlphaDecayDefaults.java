@@ -10,10 +10,10 @@ import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
  *
  * @author John Blanco
  */
-public class SingleNucleusAlphaDecayDefaults {
+public class AlphaDecayDefaults {
 
     /* Not intended for instantiation */
-    private SingleNucleusAlphaDecayDefaults() {}
+    private AlphaDecayDefaults() {}
     
     // Clock
     public static final boolean CLOCK_RUNNING = GlobalDefaults.CLOCK_RUNNING;
