@@ -42,6 +42,10 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
     def getValue = frictionForce
   }
 
+  val wallForceVector = new Vector(RampDefaults.wallForceColor, "Wall Force", "<html>F<sub>w</sub></html>") {
+    def getValue = wallForce
+  }
+
   //chain listeners
   normalForceVector.addListenerByName(frictionForceVector.notifyListeners())
   //todo: add normalForceVector notification when changing friction coefficients
@@ -53,10 +57,38 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
 
   addListenerByName(appliedForceVector.notifyListeners()) //todo: just listen for changes to applied force parallel component
 
-  def totalForce = gravityForceVector.getValue + normalForceVector.getValue + appliedForceVector.getValue + frictionForceVector.getValue
+  def totalForce = gravityForceVector.getValue + normalForceVector.getValue + appliedForceVector.getValue + frictionForceVector.getValue + wallForceVector.getValue
+
+  def wallForce = {
+    if (position <= RampDefaults.MIN_X) {
+      appliedForceVector.getValue * -1
+    }
+    else if (position >= RampDefaults.MAX_X) {
+      appliedForceVector.getValue * -1
+    } else {
+      new Vector2D
+    }
+  }
 
   //todo: notify friction force changed when ramp angle changes or velocity changes
   def frictionForce = {
+    val canonicalFrictionForce = getCanonicalFrictionForce
+    val partialSum = appliedForceVector.getValue + gravityForceVector.getValue +
+            normalForceVector.getValue + wallForceVector.getValue + canonicalFrictionForce
+
+    //todo: friction is not allowed to turn the object around or accelerate the object from rest
+    //if friction would reverse the object's velocity (or increase its velocity)
+    //then instead choose a friction vector that will bring instead the object to rest.
+
+    val velWithNetForce = netForceToParallelVelocity(partialSum, _dt)
+    val velWithNetForceIgnoreFriction = netForceToParallelVelocity(partialSum - canonicalFrictionForce, _dt)
+    if (velWithNetForce * velWithNetForceIgnoreFriction < 0)
+      new Vector2D
+    else
+      canonicalFrictionForce
+  }
+
+  def getCanonicalFrictionForce = {
     val frictionCoefficient = if (velocity > 1E-6) getKineticFriction else getStaticFriction
     val magnitude = normalForceVector.getValue.magnitude * frictionCoefficient
     val vel = (positionMapper(position) - positionMapper(position - velocity * 1E-6))
@@ -125,6 +157,7 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
     state = state.setPosition(position)
     normalForceVector.notifyListeners() //since ramp segment might have changed; could improve performance on this by only sending notifications when we are sure the ramp segment has changed
     frictionForceVector.notifyListeners() //todo: omit this call since it's probably covered by the normal force call above
+    wallForceVector.notifyListeners()
     notifyListeners()
   }
 
@@ -140,28 +173,19 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
     vectorInvertY.getAngle
   }
 
+  def netForceToParallelAcceleration(f: Vector2D) = (f dot getRampUnitVector) / mass
+
+  def netForceToParallelVelocity(f: Vector2D, dt: Double) = velocity + netForceToParallelAcceleration(f) * dt
+
+  private var _dt = 1E-6
+
   def newStepCode(dt: Double) = {
+    _dt = dt
     val origState = state
 
-    //todo: friction is not allowed to turn the object around or accelerate the object from rest
-    //if friction would reverse the object's velocity
-    //then instead choose a friction vector that will bring the object to rest.
-
     val netForce = totalForceVector.getValue
-    def getNewVelocity(f: Vector2D) = {
-      val parallelForce = f dot getRampUnitVector
-      val parallelAccel = parallelForce / mass
-      velocity + parallelAccel * dt
-    }
 
-    val origVel = velocity
-    val velWithNetForce = getNewVelocity(totalForceVector.getValue)
-    val velWithNetForceIgnoreFriction = getNewVelocity(totalForceVector.getValue - frictionForceVector.getValue)
-    //    println("origVel = "+velocity+", velWithNetForce="+velWithNetForce)
-    if (velWithNetForce * velWithNetForceIgnoreFriction < 0)
-      setVelocity(0)
-    else
-      setVelocity(velWithNetForce)
+    setVelocity(netForceToParallelVelocity(totalForceVector.getValue, dt))
 
     val requestedPosition = position + velocity * dt
 
