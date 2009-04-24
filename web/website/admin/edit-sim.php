@@ -232,7 +232,7 @@ EOT;
         print "</p>\n";
 
 
-        print "<p><span class=\"fieldtitle\">Enter the main topics***</span><br />\n";
+        print "<p><span class=\"fieldtitle\">Enter the sample learning goals***</span><br />\n";
         print <<<EOT
 <span class="fieldentryhelp">***Separated by commas or asterisks. Asterisk separation has precedence over comma separation.  Newlines are removed.</span></p>
 
