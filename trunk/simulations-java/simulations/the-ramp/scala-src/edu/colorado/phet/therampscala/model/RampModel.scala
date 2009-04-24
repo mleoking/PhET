@@ -104,10 +104,25 @@ class RampModel extends RecordModel[String] with ObjectModel {
                              potentialEnergy: Double, kineticEnergy: Double, totalEnergy: Double)
   def newStepCode(b: Bead, dt: Double) = {
     val origState = b.state
+
+    //todo: friction is not allowed to turn the object around; if friction would reverse the object's velocity
+    //then instead choose a friction vector that will bring the object to rest.
+
     val netForce = b.totalForceVector.getValue
-    val parallelForce = netForce dot b.getRampUnitVector
-    val parallelAccel = parallelForce / b.mass
-    b.setVelocity(b.velocity + parallelAccel * dt)
+    def getNewVelocity(f: Vector2D) = {
+      val parallelForce = f dot b.getRampUnitVector
+      val parallelAccel = parallelForce / b.mass
+      b.velocity + parallelAccel * dt
+    }
+
+    val origVel = b.velocity
+    val velWithNetForce = getNewVelocity(b.totalForceVector.getValue)
+    val velWithNetForceIgnoreFriction = getNewVelocity(b.totalForceVector.getValue - b.frictionForceVector.getValue)
+    //    println("origVel = "+b.velocity+", velWithNetForce="+velWithNetForce)
+    if (velWithNetForce * velWithNetForceIgnoreFriction < 0)
+      b.setVelocity(0)
+    else
+      b.setVelocity(velWithNetForce)
 
     val requestedPosition = b.position + b.velocity * dt
 
