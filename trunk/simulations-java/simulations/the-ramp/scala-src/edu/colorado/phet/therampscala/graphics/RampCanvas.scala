@@ -33,13 +33,15 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
 
   addNode(new CoordinateFrameNode(model, coordinateSystemModel, transform))
 
-  val fbdNode = new FreeBodyDiagramNode(200, 200, 10, 10, model.coordinateFrameModel, coordinateSystemModel.adjustable)
+  val fbdNode = new FreeBodyDiagramNode(200, 200, 100, 100, model.coordinateFrameModel, coordinateSystemModel.adjustable)
   fbdNode.setOffset(10, 10)
-  val vector = new Vector(Color.blue, "Applied Force", "<html>F<sub>a</sub></html>") {
+  val appliedForceVector = new Vector(RampDefaults.appliedForceColor, "Applied Force", "<html>F<sub>a</sub></html>") {
     def getValue = model.beads(0).appliedForce
   }
-  fbdNode.addVector(vector)
-  model.beads(0).addListenerByName {vector.notifyListeners()}
+
+  fbdNode.addVector(appliedForceVector)
+  fbdNode.addVector(model.beads(0).gravityForceVector)
+  model.beads(0).addListenerByName(appliedForceVector.notifyListeners())
   addNode(fbdNode)
   defineInvokeAndPass(freeBodyDiagramModel.addListenerByName) {fbdNode.setVisible(freeBodyDiagramModel.visible)}
 

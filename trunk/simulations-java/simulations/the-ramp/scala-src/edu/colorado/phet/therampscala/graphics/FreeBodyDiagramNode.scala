@@ -3,7 +3,7 @@ package edu.colorado.phet.therampscala.graphics
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.util.PhetFont
 import common.piccolophet.event.CursorHandler
-import common.piccolophet.nodes.{HTMLNode, PhetPPath, ArrowNode}
+import common.piccolophet.nodes.{ShadowHTMLNode, HTMLNode, PhetPPath, ArrowNode}
 import common.piccolophet.PhetPCanvas
 import java.awt.geom.{Point2D, Rectangle2D}
 import java.awt.{Cursor, BasicStroke, Color}
@@ -97,7 +97,8 @@ class FreeBodyDiagramNode(val width: Int, val height: Int, val modelWidth: Doubl
     val arrowNode = new ArrowNode(transformT.modelToViewDouble(0, 0), transformT.modelToViewDouble(vector.getValue), 20, 20, 10, 0.5, true)
     arrowNode.setPaint(vector.color)
     addChild(arrowNode)
-    val abbreviatonTextNode = new HTMLNode(vector.abbreviation, vector.color)
+    val abbreviatonTextNode = new ShadowHTMLNode(vector.abbreviation, vector.color)
+    abbreviatonTextNode.setFont(new PhetFont(18))
     addChild(abbreviatonTextNode)
     defineInvokeAndPass(vector.addListenerByName) {
       val viewTipLoc = transformT.modelToViewDouble(vector.getValue)
