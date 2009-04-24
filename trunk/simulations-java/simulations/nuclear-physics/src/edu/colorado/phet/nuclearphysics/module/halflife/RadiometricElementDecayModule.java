@@ -1,6 +1,6 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
+package edu.colorado.phet.nuclearphysics.module.halflife;
 
 import java.awt.Frame;
 
