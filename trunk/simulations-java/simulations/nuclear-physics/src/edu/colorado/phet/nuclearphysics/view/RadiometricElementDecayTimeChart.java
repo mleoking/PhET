@@ -1025,6 +1025,22 @@ public class RadiometricElementDecayTimeChart extends PNode {
         	LabeledNucleusNode nucleusNode;
 
         	switch (_nucleus.getNumProtons()){
+        	case 6:
+        		// Create a labeled nucleus representing Polonium.
+        		nucleusNode = new LabeledNucleusNode("Polonium Nucleus Small.png",
+                        NuclearPhysicsStrings.CARBON_14_ISOTOPE_NUMBER, 
+                        NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL, 
+                        NuclearPhysicsConstants.CARBON_14_LABEL_COLOR );
+        		break;
+        		
+        	case 7:
+        		// Create a labeled nucleus representing Polonium.
+        		nucleusNode = new LabeledNucleusNode("Polonium Nucleus Small.png",
+                        NuclearPhysicsStrings.NITROGEN_14_ISOTOPE_NUMBER, 
+                        NuclearPhysicsStrings.NITROGEN_14_CHEMICAL_SYMBOL, 
+                        NuclearPhysicsConstants.NITROGEN_14_LABEL_COLOR );
+        		break;
+        		
         	case 84:
         		// Create a labeled nucleus representing Polonium.
         		nucleusNode = new LabeledNucleusNode("Polonium Nucleus Small.png",
