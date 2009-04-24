@@ -2,16 +2,24 @@ package edu.colorado.phet.therampscala.controls
 
 
 import common.phetcommon.view.util.PhetFont
-import common.phetcommon.view.{VerticalLayoutPanel, ResetAllButton}
-import java.awt.{RenderingHints, Graphics2D, Graphics}
+import common.phetcommon.view.{ControlPanel, VerticalLayoutPanel, ResetAllButton}
+import java.awt._
 import javax.swing._
 import model.RampModel
 import scalacommon.swing.MyRadioButton
+import scalacommon.util.Observable
 import swing.{MyCheckBox, ScalaValueControl}
 import edu.colorado.phet.scalacommon.Predef._
 
 class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                       coordinateSystemModel: CoordinateSystemModel, vectorViewModel: VectorViewModel) extends VerticalLayoutPanel {
+                       coordinateSystemModel: CoordinateSystemModel, vectorViewModel: VectorViewModel) extends ControlPanel {
+  getContentPanel.setAnchor(GridBagConstraints.WEST)
+  getContentPanel.setFill(GridBagConstraints.HORIZONTAL)
+  override def add(comp: Component) = {
+    addControl(comp)
+    comp
+  }
+
   add(new MyRadioButton("Physics words", wordModel.physicsWords = true, wordModel.physicsWords, wordModel.addListener))
   add(new MyRadioButton("Everyday words", wordModel.everydayWords = true, wordModel.everydayWords, wordModel.addListener))
 
@@ -52,6 +60,9 @@ class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramMo
   }
 
   val vectorPanel = new SubControlPanel("Vectors")
+  vectorPanel.add(new MyRadioButton("Centered", vectorViewModel.centered = true, vectorViewModel.centered, vectorViewModel.addListener))
+  vectorPanel.add(new MyRadioButton("Point of Origin", vectorViewModel.centered = false, !vectorViewModel.centered, vectorViewModel.addListener))
+  vectorPanel.add(Box.createRigidArea(new Dimension(10, 10)))
   vectorPanel.add(new MyCheckBox("Original", vectorViewModel.originalVectors_=, vectorViewModel.originalVectors, vectorViewModel.addListener))
   vectorPanel.add(new MyCheckBox("Parallel Components", vectorViewModel.parallelComponents_=, vectorViewModel.parallelComponents, vectorViewModel.addListener))
   vectorPanel.add(new MyCheckBox("X-Y Components", vectorViewModel.xyComponents_=, vectorViewModel.xyComponents, vectorViewModel.addListener))
@@ -74,6 +85,8 @@ class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramMo
 
   add(rampPanel)
 
+  getContentPanel.setAnchor(GridBagConstraints.SOUTH) //todo: make reset appear at the bottom
+  getContentPanel.setFill(GridBagConstraints.NONE)
   val resetButton = new ResetAllButton(this)
   add(resetButton)
 }

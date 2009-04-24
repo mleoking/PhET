@@ -90,10 +90,18 @@ class CoordinateSystemModel extends Observable {
 }
 
 class VectorViewModel extends Observable {
+  private var _centered = true
   private var _originalVectors = true
   private var _parallelComponents = false
   private var _xyComponents = false
   private var _sumOfForcesVector = false
+
+  def centered = _centered
+
+  def centered_=(__centered: Boolean) = {
+    _centered = __centered;
+    notifyListeners()
+  }
 
   def originalVectors = _originalVectors
 
@@ -129,7 +137,7 @@ class RampModule(clock: ScalaClock) extends Module("Ramp", clock) {
   val fbdModel = new FreeBodyDiagramModel
   val coordinateSystemModel = new CoordinateSystemModel
   val vectorViewModel = new VectorViewModel
-  val canvas = new RampCanvas(model, coordinateSystemModel, fbdModel)
+  val canvas = new RampCanvas(model, coordinateSystemModel, fbdModel,vectorViewModel)
 
   coordinateSystemModel.addListenerByName(if (coordinateSystemModel.fixed) model.coordinateFrameModel.angle = 0)
 

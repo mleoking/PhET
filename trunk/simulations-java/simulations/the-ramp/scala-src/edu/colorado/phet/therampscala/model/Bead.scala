@@ -2,7 +2,8 @@ package edu.colorado.phet.therampscala.model
 
 
 import common.phetcommon.math.MathUtil
-import graphics.Vector
+import graphics.{PointOfOriginVector, Vector}
+import java.awt.Color
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
 import java.lang.Math._
@@ -21,28 +22,33 @@ case class BeadState(position: Double, velocity: Double, mass: Double, staticFri
   def thermalEnergy = 0
 }
 
+abstract class BeadVector(color: Color, name: String, abbreviation: String, bottomPO: Boolean //shows point of origin at the bottom when in that mode
+        ) extends Vector(color, name, abbreviation) with PointOfOriginVector {
+  def getPointOfOriginOffset(defaultCenter: Double) = if (bottomPO) 0.0 else defaultCenter
+}
+
 class Bead(_state: BeadState, private var _height: Double, positionMapper: Double => Vector2D, rampSegmentAccessor: Double => RampSegment, model: Observable) extends Observable {
   val gravity = -9.8
   var state = _state
   var _parallelAppliedForce = 0.0
 
-  val gravityForceVector = new Vector(RampDefaults.gravityForceColor, "Gravity Force", "<html>F<sub>g</sub></html>") {
+  val gravityForceVector = new BeadVector(RampDefaults.gravityForceColor, "Gravity Force", "<html>F<sub>g</sub></html>", false) {
     def getValue = gravityForce
   }
-  val normalForceVector = new Vector(RampDefaults.normalForceColor, "Normal Force", "<html>F<sub>N</sub></html>") {
+  val normalForceVector = new BeadVector(RampDefaults.normalForceColor, "Normal Force", "<html>F<sub>N</sub></html>", true) {
     def getValue = normalForce
   }
-  val totalForceVector = new Vector(RampDefaults.totalForceColor, "Total Force (sum of forces)", "<html>F<sub>total</sub></html>") {
+  val totalForceVector = new BeadVector(RampDefaults.totalForceColor, "Total Force (sum of forces)", "<html>F<sub>total</sub></html>", false) {
     def getValue = totalForce
   }
-  val appliedForceVector = new Vector(RampDefaults.appliedForceColor, "Applied Force", "<html>F<sub>a</sub></html>") {
+  val appliedForceVector = new BeadVector(RampDefaults.appliedForceColor, "Applied Force", "<html>F<sub>a</sub></html>", false) {
     def getValue = appliedForce
   }
-  val frictionForceVector = new Vector(RampDefaults.frictionForceColor, "Friction Force", "<html>F<sub>f</sub></html>") {
+  val frictionForceVector = new BeadVector(RampDefaults.frictionForceColor, "Friction Force", "<html>F<sub>f</sub></html>", true) {
     def getValue = frictionForce
   }
 
-  val wallForceVector = new Vector(RampDefaults.wallForceColor, "Wall Force", "<html>F<sub>w</sub></html>") {
+  val wallForceVector = new BeadVector(RampDefaults.wallForceColor, "Wall Force", "<html>F<sub>w</sub></html>", false) {
     def getValue = wallForce
   }
 
