@@ -44,7 +44,10 @@ class RampModel extends RecordModel[String] with ObjectModel {
 
     //todo: remove listeners on object selection change
     _selectedObject match {
-      case o: MutableRampObject => o.addListenerByName(beads(0).height = o.height)
+      case o: MutableRampObject => {
+        o.addListenerByName(beads(0).height = o.height)
+        o.addListenerByName(beads(0).mass = o.mass)
+      }
       case _ => {}
     }
     println("height=" + _selectedObject.height)

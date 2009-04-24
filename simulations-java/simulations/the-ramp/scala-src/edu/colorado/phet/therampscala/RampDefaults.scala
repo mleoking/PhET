@@ -1,6 +1,7 @@
 package edu.colorado.phet.therampscala
 
 
+import java.awt.Color
 import scalacommon.util.Observable
 
 class ScalaRampObject(_name: String, _mass: Double, val kineticFriction: Double, val staticFriction: Double, _imageFilename: String, _customizable: Boolean) {
@@ -49,5 +50,11 @@ object RampDefaults {
           new CustomTextRampObject("Mystery Object", 300, 0.5, 0.5, "mystery-box.png", false) ::
           Nil
   val objectsPerRow = 4
+
+  val appliedForceColor = Color.orange
+  val gravityForceColor = Color.blue
+  val normalForceColor = Color.yellow
+  val frictionForceColor = Color.red
+  val totalForceColor = Color.pink
 
 }

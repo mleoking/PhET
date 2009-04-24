@@ -1,6 +1,7 @@
 package edu.colorado.phet.therampscala.model
 
 
+import graphics.Vector
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
 
@@ -18,8 +19,13 @@ case class BeadState(position: Double, velocity: Double, mass: Double, staticFri
 class Bead(_state: BeadState, private var _height: Double, positionMapper: Double => Vector2D, rampSegmentAccessor: Double => RampSegment, model: Observable) extends Observable {
   val gravity = -9.8
   var state = _state
-  //  var _appliedForce = new Vector2D
   var _parallelAppliedForce = 0.0
+
+  val gravityForceVector = new Vector(RampDefaults.gravityForceColor, "Gravity Force", "<html>F<sub>g</sub></html>") {
+    def getValue = gravityForce
+  }
+
+  def gravityForce = new Vector2D(0, gravity * mass)
 
   def parallelAppliedForce = _parallelAppliedForce
 
@@ -70,6 +76,8 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
 
   def mass_=(mass: Double) = {
     state = state.setMass(mass)
+    println("mass changed to: "+mass)
+    gravityForceVector.notifyListeners()
     notifyListeners()
   }
 
