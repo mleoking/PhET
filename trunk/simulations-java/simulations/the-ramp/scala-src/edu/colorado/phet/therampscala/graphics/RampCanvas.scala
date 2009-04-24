@@ -60,12 +60,12 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
   val vectorNode = new VectorSetNode(transform, model.beads(0))
   addNode(vectorNode)
 
-  def addVector(a: Vector, offsetFBD: VectorValue, offsetPlayArea: VectorValue) = {
+  def addVector(a: Vector, offsetFBD: VectorValue, offsetPlayArea: Double) = {
     fbdNode.addVector(a, offsetFBD)
     val tailLocationInPlayArea = new VectorValue() {
       def addListenerByName(listener: => Unit) = model.beads(0).addListenerByName(listener)
 
-      def getValue = model.beads(0).position2D + new Vector2D(model.beads(0).getAngle + PI / 2) * offsetPlayArea.getValue.magnitude
+      def getValue = model.beads(0).position2D + new Vector2D(model.beads(0).getAngle + PI / 2) * (offsetPlayArea + model.beads(0).height / 3)
     }
     val playAreaAdapter = new Vector(a.color, a.name, a.abbreviation) {
       def getValue = a.getValue * RampDefaults.PLAY_AREA_VECTOR_SCALE
@@ -73,11 +73,11 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
     vectorNode.addVector(playAreaAdapter, tailLocationInPlayArea)
   }
 
-  def addVector(a: Vector): Unit = addVector(a, new ConstantVectorValue, new ConstantVectorValue)
+  def addVector(a: Vector): Unit = addVector(a, new ConstantVectorValue, 0)
   addVector(model.beads(0).appliedForceVector)
   addVector(model.beads(0).gravityForceVector)
   addVector(model.beads(0).normalForceVector)
   addVector(model.beads(0).frictionForceVector)
   addVector(model.beads(0).wallForceVector)
-  addVector(model.beads(0).totalForceVector, new ConstantVectorValue(new Vector2D(0, fbdWidth / 4)), new ConstantVectorValue(new Vector2D(0, 2)))
+  addVector(model.beads(0).totalForceVector, new ConstantVectorValue(new Vector2D(0, fbdWidth / 4)), 2)
 }
