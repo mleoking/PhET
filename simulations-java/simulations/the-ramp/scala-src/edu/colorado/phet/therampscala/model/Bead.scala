@@ -19,7 +19,6 @@ case class BeadState(position: Double, velocity: Double, mass: Double, staticFri
   def thermalEnergy = 0
 }
 class Bead(_state: BeadState, private var _height: Double, positionMapper: Double => Vector2D, rampSegmentAccessor: Double => RampSegment, model: Observable) extends Observable {
-
   val gravity = -9.8
   var state = _state
   var _parallelAppliedForce = 0.0
@@ -41,7 +40,7 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
   normalForceVector.addListenerByName(totalForceVector.notifyListeners())
   //  frictionForceVector.addListener(totalForceVector.notifyListeners())
 
-  addListenerByName(appliedForceVector.notifyListeners())//todo: just listen for changes to applied force parallel component
+  addListenerByName(appliedForceVector.notifyListeners()) //todo: just listen for changes to applied force parallel component
 
   def totalForce = {
     gravityForceVector.getValue + normalForceVector.getValue + appliedForceVector.getValue

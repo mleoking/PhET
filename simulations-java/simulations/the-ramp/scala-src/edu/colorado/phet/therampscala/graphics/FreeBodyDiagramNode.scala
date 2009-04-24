@@ -94,20 +94,20 @@ class FreeBodyDiagramNode(val width: Int, val height: Int, val modelWidth: Doubl
   for (vector <- vectors) addVector(vector)
 
   class VectorNode(val vector: Vector, val offset: Vector2D) extends PNode {
-    val arrowNode = new ArrowNode(transformT.modelToViewDouble(offset), transformT.modelToViewDouble(vector.getValue+offset), 20, 20, 10, 0.5, true)
+    val arrowNode = new ArrowNode(transformT.modelToViewDouble(offset), transformT.modelToViewDouble(vector.getValue + offset), 20, 20, 10, 0.5, true)
     arrowNode.setPaint(vector.color)
     addChild(arrowNode)
     val abbreviatonTextNode = new ShadowHTMLNode(vector.abbreviation, vector.color)
     abbreviatonTextNode.setFont(new PhetFont(18))
     addChild(abbreviatonTextNode)
     defineInvokeAndPass(vector.addListenerByName) {
-      val viewTipLoc = transformT.modelToViewDouble(vector.getValue+offset)
+      val viewTipLoc = transformT.modelToViewDouble(vector.getValue + offset)
       arrowNode.setTipAndTailLocations(viewTipLoc, transformT.modelToViewDouble(offset))
       abbreviatonTextNode.setOffset(viewTipLoc)
       abbreviatonTextNode.setVisible(vector.getValue.magnitude > 1E-2)
     }
   }
-  def addVector(vector: Vector):Unit = addVector(vector, new Vector2D)
+  def addVector(vector: Vector): Unit = addVector(vector, new Vector2D)
 
   def addVector(vector: Vector, offset: Vector2D) = addChild(new VectorNode(vector, offset))
 }

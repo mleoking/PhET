@@ -16,7 +16,7 @@ case class RampSegmentState(startPoint: Vector2D, endPoint: Vector2D) { //don't 
 
   def setAngle(angle: Double) = new RampSegmentState(startPoint, new Vector2D(angle) * (endPoint - startPoint).magnitude)
 
-  def angle=(endPoint-startPoint).getAngle
+  def angle = (endPoint - startPoint).getAngle
 }
 class RampSegment(_state: RampSegmentState) extends Observable with Rotatable {
   var state = _state;
@@ -47,5 +47,5 @@ class RampSegment(_state: RampSegmentState) extends Observable with Rotatable {
     notifyListeners()
   }
 
-  def angle=state.angle
+  def angle = state.angle
 }

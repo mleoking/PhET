@@ -25,7 +25,7 @@ class DraggableBeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: 
     }
 
     override def mouseReleased(event: PInputEvent) = {
-      bead.parallelAppliedForce=0.0
+      bead.parallelAppliedForce = 0.0
     }
   })
 }
