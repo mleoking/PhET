@@ -33,7 +33,7 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
 
   addNode(new CoordinateFrameNode(model, coordinateSystemModel, transform))
 
-  val fbdWidth = 100
+  val fbdWidth = RampDefaults.freeBodyDiagramWidth
   val fbdNode = new FreeBodyDiagramNode(200, 200, fbdWidth, fbdWidth, model.coordinateFrameModel, coordinateSystemModel.adjustable)
   fbdNode.setOffset(10, 10)
   fbdNode.addVector(model.beads(0).appliedForceVector)
