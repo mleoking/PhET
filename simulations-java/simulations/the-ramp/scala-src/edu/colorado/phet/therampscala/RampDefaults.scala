@@ -40,7 +40,7 @@ class MutableRampObject(name: String, _mass: Double, kineticFriction: Double, st
 object RampDefaults {
   val MIN_X = -10
   val MAX_X = 10
-  val objects = new ScalaRampObject("File Cabinet", 200.0, 0.5, 0.5, "cabinet.gif") ::
+  val objects = new ScalaRampObject("File Cabinet", 5.0, 0.5, 0.5, "cabinet.gif") ::
           new ScalaRampObject("Sleepy Dog", 25.0, 0.5, 0.5, "ollie.gif") ::
           new ScalaRampObject("Small Crate", 150, 0.5, 0.5, "crate.gif") ::
           new MutableRampObject("Custom Crate", 150, 0.5, 0.5, "crate.gif", true) ::

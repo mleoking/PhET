@@ -19,6 +19,7 @@ case class BeadState(position: Double, velocity: Double, mass: Double, staticFri
   def thermalEnergy = 0
 }
 class Bead(_state: BeadState, private var _height: Double, positionMapper: Double => Vector2D, rampSegmentAccessor: Double => RampSegment, model: Observable) extends Observable {
+
   val gravity = -9.8
   var state = _state
   var _parallelAppliedForce = 0.0
@@ -49,8 +50,6 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
   def normalForce = {
     val magnitude = (gravityForce * -1) dot getRampUnitVector.rotate(PI / 2)
     val angle = getRampUnitVector.getAngle + PI / 2
-    //    debug eval "angle" -> angle
-    //    debug eval "magnitude" -> magnitude
     new Vector2D(angle) * (magnitude)
   }
 
@@ -60,17 +59,11 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
 
   def parallelAppliedForce_=(value: Double) = {
     _parallelAppliedForce = value
-    //    _appliedForce = new Vector2D(value, 0)
+    appliedForceVector.notifyListeners()
     notifyListeners()
   }
-  //  def getRampUnitVector=new Vector2D(rampSegmentAccessor(position).angle)
 
   def appliedForce = getRampUnitVector * _parallelAppliedForce
-
-  //  def appliedForce_=(force: Vector2D) = {
-  //    _appliedForce = force
-  //    notifyListeners()
-  //  }
 
   def position2D = positionMapper(position)
 
