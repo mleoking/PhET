@@ -1,8 +1,11 @@
 package edu.colorado.phet.cavendishexperiment
 
+import common.phetcommon.view.controls.valuecontrol.LinearValueControl
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.piccolophet.PhetPCanvas
 import java.awt.{Dimension, Rectangle}
+import javax.swing.event.{ChangeListener, ChangeEvent}
+
 import scalacommon.CenteredBoxStrategy
 import java.awt.geom.Rectangle2D
 
@@ -18,4 +21,16 @@ class DefaultCanvas(modelWidth: Double, modelHeight: Double) extends PhetPCanvas
   def addNode(node: PNode) = worldNode.addChild(node)
 
   def addNode(index: Int, node: PNode) = worldNode.addChild(index, node)
+}
+
+//TODO: move to scalacommon
+class ScalaValueControl(min: Double, max: Double, name: String, decimalFormat: String, units: String,
+                        getter: => Double, setter: Double => Unit, addListener: (() => Unit) => Unit)
+        extends LinearValueControl(min, max, name, decimalFormat, units) {
+  addListener(update)
+  update()
+  addChangeListener(new ChangeListener {
+    def stateChanged(e: ChangeEvent) = setter(getValue)
+  });
+  def update() = setValue(getter)
 }
