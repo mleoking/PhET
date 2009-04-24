@@ -4,6 +4,8 @@ package edu.colorado.phet.therampscala.model
 import graphics.Vector
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
+import java.lang.Math._
+import scalacommon.Predef._
 
 case class BeadState(position: Double, velocity: Double, mass: Double, staticFriction: Double, kineticFriction: Double) {
   def translate(dx: Double) = setPosition(position + dx)
@@ -24,6 +26,17 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
   val gravityForceVector = new Vector(RampDefaults.gravityForceColor, "Gravity Force", "<html>F<sub>g</sub></html>") {
     def getValue = gravityForce
   }
+  val normalForceVector = new Vector(RampDefaults.normalForceColor, "Normal Force", "<html>F<sub>N</sub></html>") {
+    def getValue = normalForce
+  }
+
+  def normalForce = {
+    val magnitude = (gravityForce * -1) dot getRampUnitVector.rotate(PI/2)
+    val angle = getRampUnitVector.getAngle + PI / 2
+//    debug eval "angle" -> angle
+//    debug eval "magnitude" -> magnitude
+    new Vector2D(angle) * (magnitude)
+  }
 
   def gravityForce = new Vector2D(0, gravity * mass)
 
@@ -34,8 +47,9 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
     //    _appliedForce = new Vector2D(value, 0)
     notifyListeners()
   }
+  //  def getRampUnitVector=new Vector2D(rampSegmentAccessor(position).angle)
 
-  def appliedForce = new Vector2D(rampSegmentAccessor(position).angle) * _parallelAppliedForce
+  def appliedForce = getRampUnitVector * _parallelAppliedForce
 
   //  def appliedForce_=(force: Vector2D) = {
   //    _appliedForce = force
@@ -76,13 +90,13 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
 
   def mass_=(mass: Double) = {
     state = state.setMass(mass)
-    println("mass changed to: "+mass)
     gravityForceVector.notifyListeners()
     notifyListeners()
   }
 
   def setPosition(position: Double) = {
     state = state.setPosition(position)
+    normalForceVector.notifyListeners() //since ramp segment might have changed; could improve performance on this by only sending notifications when we are sure the ramp segment has changed
     notifyListeners()
   }
 
