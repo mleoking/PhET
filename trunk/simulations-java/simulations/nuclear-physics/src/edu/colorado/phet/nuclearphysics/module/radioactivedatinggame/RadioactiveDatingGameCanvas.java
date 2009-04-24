@@ -2,10 +2,14 @@
 
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.RenderingHints;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Dimension2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -14,6 +18,7 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -50,6 +55,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     private RadioactiveDatingGameModel _model;
     private PNode _backgroundImageLayer;
     private PNode _backgroundImage;
+    private PPath _screenSizeRect;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -59,42 +65,23 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         
         _model = radioactiveDatingGameModel;
         
-        // Set the transform strategy in such a way that the center of the
-        // visible canvas will be at 0,0.
-        setWorldTransformStrategy( new RenderingSizeStrategy(this, 
-                new PDimension(CANVAS_WIDTH, CANVAS_HEIGHT) ){
-            protected AffineTransform getPreprocessedTransform(){
-                return AffineTransform.getTranslateInstance( getWidth() * WIDTH_TRANSLATION_FACTOR, 
-                        getHeight() * HEIGHT_TRANSLATION_FACTOR );
-            }
-        });
-        
-        // Create the layer where the background will be placed.
-//        _backgroundImageLayer = new PNode();
-//        addWorldChild(_backgroundImageLayer);
-        
-        // Load the background image.
-        BufferedImage bufferedImage = NuclearPhysicsResources.getImage( "dating-game-background.png" );
-        bufferedImage = BufferedImageUtils.multiScale( bufferedImage, 0.7 );
-        _backgroundImage = new PImage( bufferedImage );
-        addScreenChild(_backgroundImage);
-        
         // Set the background color.
         setBackground( NuclearPhysicsConstants.CANVAS_BACKGROUND );
         
-        // Add a listener for when the canvas is resized.
-        addComponentListener( new ComponentAdapter() {
-            
-            /**
-             * This method is called when the canvas is resized.  In response,
-             * we generally pass this event on to child nodes that need to be
-             * aware of it.
-             */
-            public void componentResized( ComponentEvent e ) {
-            	// TODO: Fill this in.
-                
-            }
-        } );
+        // Create the layer where the background will be placed.
+        _backgroundImageLayer = new PNode();
+        addScreenChild(_backgroundImageLayer);
+        
+        // Load the background image.
+        BufferedImage bufferedImage = NuclearPhysicsResources.getImage( "dating-game-background.png" );
+        _backgroundImage = new PImage( bufferedImage );
+        _backgroundImageLayer.addChild( _backgroundImage );
+        
+        // TODO: Temp thing for getting sizes worked out.
+        _screenSizeRect = new PPath( new Rectangle2D.Double( 0, 0, 20, 20 ) );
+        _screenSizeRect.setStroke( new BasicStroke( 3 ) );
+        _screenSizeRect.setStrokePaint( Color.RED );
+        addScreenChild( _screenSizeRect );
     }
 
     //------------------------------------------------------------------------
@@ -105,4 +92,20 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     // Private Methods
     //------------------------------------------------------------------------
 
+    protected void updateLayout(){
+    	// Determine the overall size of the canvas.
+    	_screenSizeRect.setPathToRectangle(0, 0, (float)(getWidth()*0.999), (float)(getHeight()*0.66));
+    	
+        // Reload and scale the background image.  This is necessary (I think)
+    	// because PNodes can't be scaled differently in the x and y
+    	// dimensions, and we want to be able to handle the case where the
+    	// user changes the aspect ratio.
+    	_backgroundImageLayer.removeChild( _backgroundImage );
+    	BufferedImage bufferedImage = NuclearPhysicsResources.getImage( "dating-game-background.png" );
+        double xScale = (double)getWidth() / (double)bufferedImage.getWidth();
+        double yScale = (0.75) * (double)getHeight() / (double)bufferedImage.getHeight();
+        bufferedImage = BufferedImageUtils.rescaleFractional(bufferedImage, xScale, yScale);
+        _backgroundImage = new PImage( bufferedImage );
+        _backgroundImageLayer.addChild( _backgroundImage );
+    }
 }
