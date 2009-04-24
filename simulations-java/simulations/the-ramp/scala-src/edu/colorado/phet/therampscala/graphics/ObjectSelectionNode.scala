@@ -172,8 +172,8 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
   val modelCellDimPt = transform.viewToModelDifferential(cellDim.width, cellDim.height)
   //y is down, so modelCellDimPt.y is negative
   for (i <- 0 until nodes.length) {
-    val row = i / RampDefaults.objectsPerRow
-    val column = i % RampDefaults.objectsPerRow
+    val row = i / RampDefaults.iconsPerRow
+    val column = i % RampDefaults.iconsPerRow
 
     val n = nodes(i)
     n.backgroundNode.setPathTo(new Rectangle2D.Double(0, 0, cellDim.width, cellDim.height))
