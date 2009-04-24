@@ -69,16 +69,16 @@ public class RadiometricElementDecayModel extends MultiNucleusDecayModel {
 
 		AbstractDecayNucleus newNucleus;
 		
-		for (int i = 0; i < _maxNuclei; i++){
-			if (_currentNucleusType == NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14){
-				newNucleus = new Carbon14Nucleus(_clock);
+		for ( int i = 0; i < _maxNuclei; i++ ){
+			if ( _currentNucleusType == NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14 ){
+				newNucleus = new Carbon14Nucleus( _clock );
 			}
 			else{
-				newNucleus = new AdjustableHalfLifeNucleus(_clock);
+				newNucleus = new AdjustableHalfLifeNucleus( _clock );
 			}
 			_atomicNuclei[i] = newNucleus;
-			newNucleus.setPosition(inBucketPosX, inBucketPosY);
-			notifyModelElementAdded(newNucleus);
+			newNucleus.setPosition( inBucketPosX, inBucketPosY );
+			notifyModelElementAdded( newNucleus );
 			_jitterOffsets[i] = new Point2D.Double();
 	        
 			// Register as a listener for the nucleus so we can handle the
