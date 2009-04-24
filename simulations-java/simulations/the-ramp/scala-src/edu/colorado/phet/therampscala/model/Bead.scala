@@ -60,10 +60,10 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
   def totalForce = gravityForceVector.getValue + normalForceVector.getValue + appliedForceVector.getValue + frictionForceVector.getValue + wallForceVector.getValue
 
   def wallForce = {
-    if (position <= RampDefaults.MIN_X) {
+    if (position <= RampDefaults.MIN_X && forceToParallelAcceleration(appliedForceVector.getValue) < 0) {
       appliedForceVector.getValue * -1
     }
-    else if (position >= RampDefaults.MAX_X) {
+    else if (position >= RampDefaults.MAX_X && forceToParallelAcceleration(appliedForceVector.getValue) > 0) {
       appliedForceVector.getValue * -1
     } else {
       new Vector2D
@@ -72,20 +72,24 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
 
   //todo: notify friction force changed when ramp angle changes or velocity changes
   def frictionForce = {
-    val canonicalFrictionForce = getCanonicalFrictionForce
-    val partialSum = appliedForceVector.getValue + gravityForceVector.getValue +
-            normalForceVector.getValue + wallForceVector.getValue + canonicalFrictionForce
-
-    //todo: friction is not allowed to turn the object around or accelerate the object from rest
-    //if friction would reverse the object's velocity (or increase its velocity)
-    //then instead choose a friction vector that will bring instead the object to rest.
-
-    val velWithNetForce = netForceToParallelVelocity(partialSum, _dt)
-    val velWithNetForceIgnoreFriction = netForceToParallelVelocity(partialSum - canonicalFrictionForce, _dt)
-    if (velWithNetForce * velWithNetForceIgnoreFriction < 0)
+    if (wallForce.magnitude > 0)
       new Vector2D
-    else
-      canonicalFrictionForce
+    else {
+      val canonicalFrictionForce = getCanonicalFrictionForce
+      val partialSum = appliedForceVector.getValue + gravityForceVector.getValue +
+              normalForceVector.getValue + wallForceVector.getValue + canonicalFrictionForce
+
+      //todo: friction is not allowed to turn the object around or accelerate the object from rest
+      //if friction would reverse the object's velocity (or increase its velocity)
+      //then instead choose a friction vector that will bring instead the object to rest.
+
+      val velWithNetForce = netForceToParallelVelocity(partialSum, _dt)
+      val velWithNetForceIgnoreFriction = netForceToParallelVelocity(partialSum - canonicalFrictionForce, _dt)
+      if (velWithNetForce * velWithNetForceIgnoreFriction < 0)
+        new Vector2D
+      else
+        canonicalFrictionForce
+    }
   }
 
   def getCanonicalFrictionForce = {
@@ -173,9 +177,9 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
     vectorInvertY.getAngle
   }
 
-  def netForceToParallelAcceleration(f: Vector2D) = (f dot getRampUnitVector) / mass
+  def forceToParallelAcceleration(f: Vector2D) = (f dot getRampUnitVector) / mass
 
-  def netForceToParallelVelocity(f: Vector2D, dt: Double) = velocity + netForceToParallelAcceleration(f) * dt
+  def netForceToParallelVelocity(f: Vector2D, dt: Double) = velocity + forceToParallelAcceleration(f) * dt
 
   private var _dt = 1E-6
 
