@@ -59,6 +59,7 @@ class AxisModel(private var _angle: Double, val length: Double, tail: Boolean) e
       notifyListeners()
     }
   }
+  def dropped()={}
 }
 
 //todo: coalesce with duplicates after code freeze
@@ -79,6 +80,9 @@ class AxisNodeWithModel(transform: ModelViewTransform2D, label: String, val axis
   }
   axisNode.addInputEventListener(new ToggleListener(new CursorHandler(Cursor.E_RESIZE_CURSOR), isInteractive))
   axisNode.addInputEventListener(new ToggleListener(new RotationHandler(transform, axisNode, axisModel, -1000, 1000), isInteractive))
+  axisNode.addInputEventListener(new ToggleListener(new PBasicInputEventHandler{
+    override def mouseReleased(event: PInputEvent) = axisModel.dropped()
+  }, isInteractive))
 }
 
 class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private var _width: Double, private var _height: Double, val modelWidth: Double, val modelHeight: Double,

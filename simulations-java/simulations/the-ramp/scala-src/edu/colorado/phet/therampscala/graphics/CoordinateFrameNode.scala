@@ -17,6 +17,10 @@ class SynchronizedAxisModel(_ang: Double, length: Double, tail: Boolean, coordin
   //adapters for going between local and global models
   coordinateFrameModel.addListenerByName(angle = coordinateFrameModel.angle + offset)
   addListenerByName(coordinateFrameModel.angle = angle - offset)
+
+  override def dropped()={
+    coordinateFrameModel.dropped()
+  }
 }
 
 class CoordinateFrameNode(val model: RampModel, coordinateSystemModel: CoordinateSystemModel, val transform: ModelViewTransform2D) extends PNode {
