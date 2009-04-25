@@ -96,7 +96,7 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
       if (canonicalFrictionForce.magnitude > (appliedForce + gravityForce + normalForce).magnitude) {
         //choose friction so net force will just slow the object down
 
-        val alpha = 0.9 //reduction scale factor, v_f= v0 * alpha
+        val alpha = 0.95 //reduction scale factor, v_f= v0 * alpha
         var desiredSumForcesMagnitude = abs(velocity * (alpha - 1) * mass / _dt)
         if (desiredSumForcesMagnitude < 1E-12)
           desiredSumForcesMagnitude = 1E-12

@@ -2,7 +2,7 @@ package edu.colorado.phet.therampscala
 
 import _root_.scala.collection.mutable.ArrayBuffer
 import _root_.scala.swing.CheckBox
-import common.phetcommon.application.Module
+import common.phetcommon.application.{PhetApplicationConfig, PhetApplicationLauncher, Module}
 import common.phetcommon.math.MathUtil
 import common.phetcommon.model.BaseModel
 import common.phetcommon.view.controls.valuecontrol.LinearValueControl
@@ -11,7 +11,7 @@ import common.phetcommon.view.util.{PhetFont, BufferedImageUtils}
 import common.phetcommon.view.{VerticalLayoutPanel, ResetAllButton}
 import common.piccolophet.event.CursorHandler
 import common.piccolophet.nodes.PhetPPath
-import common.piccolophet.PhetPCanvas
+import common.piccolophet.{PiccoloPhetApplication, PhetPCanvas}
 import controls.RampControlPanel
 import graphics.{RampCanvas, BeadNode, SkyNode, EarthNode}
 
@@ -61,12 +61,20 @@ class WordModel extends Observable {
   }
 }
 class FreeBodyDiagramModel extends Observable {
+  private var _windowed = false
   private var _visible = false
 
   def visible = _visible
 
+  def windowed = _windowed
+
   def visible_=(value: Boolean) = {
     _visible = value;
+    notifyListeners()
+  }
+
+  def windowed_=(value: Boolean) = {
+    _windowed = value
     notifyListeners()
   }
 
@@ -131,13 +139,13 @@ class VectorViewModel extends Observable {
     notifyListeners()
   }
 }
-class RampModule(clock: ScalaClock) extends Module("Ramp", clock) {
+class RampModule(frame: JFrame, clock: ScalaClock) extends Module("Ramp", clock) {
   val model = new RampModel
   val wordModel = new WordModel
   val fbdModel = new FreeBodyDiagramModel
   val coordinateSystemModel = new CoordinateSystemModel
   val vectorViewModel = new VectorViewModel
-  val canvas = new RampCanvas(model, coordinateSystemModel, fbdModel,vectorViewModel)
+  val canvas = new RampCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame)
 
   coordinateSystemModel.addListenerByName(if (coordinateSystemModel.fixed) model.coordinateFrameModel.angle = 0)
 
@@ -147,8 +155,12 @@ class RampModule(clock: ScalaClock) extends Module("Ramp", clock) {
   setClockControlPanel(new RecordModelControlPanel(model, canvas, () => new PlaybackSpeedSlider(model), Color.blue, 20))
 }
 
+class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
+  addModule(new RampModule(getPhetFrame, new ScalaClock(30, RampDefaults.DT_DEFAULT)))
+}
+
 object RampApplication {
   def main(args: Array[String]) = {
-    ScalaApplicationLauncher.launchApplication(args, "the-ramp", "the-ramp", () => new RampModule(new ScalaClock(30, RampDefaults.DT_DEFAULT)))
+    new PhetApplicationLauncher().launchSim(args, "the-ramp", classOf[RampApplication])
   }
 }

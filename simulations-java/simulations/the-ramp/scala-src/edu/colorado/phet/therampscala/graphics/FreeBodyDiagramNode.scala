@@ -3,7 +3,7 @@ package edu.colorado.phet.therampscala.graphics
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.util.PhetFont
 import common.piccolophet.event.CursorHandler
-import common.piccolophet.nodes.{ShadowHTMLNode, HTMLNode, PhetPPath, ArrowNode}
+import common.piccolophet.nodes._
 import common.piccolophet.PhetPCanvas
 import java.awt.geom.{Point2D, Rectangle2D}
 import java.awt.{Cursor, BasicStroke, Color}
@@ -11,14 +11,13 @@ import javax.swing.JFrame
 import model.CoordinateFrameModel
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
-import umd.cs.piccolo.event.{PInputEventListener, PInputEvent}
-
+import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEventListener, PInputEvent}
 import umd.cs.piccolo.nodes.{PText, PPath}
 import umd.cs.piccolo.PNode
 import scalacommon.Predef._
 import java.lang.Math._
 
-abstract class Vector(val color: Color, val name: String, val abbreviation: String) extends Observable with VectorValue{
+abstract class Vector(val color: Color, val name: String, val abbreviation: String) extends Observable with VectorValue {
   def getValue: Vector2D
 }
 class AxisNode(val transform: ModelViewTransform2D, x0: Double, y0: Double, x1: Double, y1: Double, label: String) extends PNode {
@@ -80,11 +79,38 @@ class AxisNodeWithModel(transform: ModelViewTransform2D, label: String, val axis
   axisNode.addInputEventListener(new ToggleListener(new RotationHandler(transform, axisNode, axisModel, -1000, 1000), isInteractive))
 }
 
-class FreeBodyDiagramNode(val width: Int, val height: Int, val modelWidth: Double, val modelHeight: Double, coordinateFrameModel: CoordinateFrameModel, isInteractive: => Boolean, vectors: Vector*) extends PNode {
+class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, val width: Int, val height: Int, val modelWidth: Double, val modelHeight: Double,
+                          coordinateFrameModel: CoordinateFrameModel, isInteractive: => Boolean, vectors: Vector*) extends PNode {
   val transformT = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight),
     new Rectangle2D.Double(0, 0, width, height), true)
+
   val background = new PhetPPath(new Rectangle2D.Double(0, 0, width, height), Color.white, new BasicStroke(2), Color.darkGray)
   addChild(background)
+
+  val closeButton=new PText("X")
+  closeButton.setFont(new PhetFont(16,true))
+  closeButton.setOffset(background.getFullBounds.getMaxX-closeButton.getFullBounds.getWidth,background.getFullBounds.getY)
+  closeButton.addInputEventListener(new CursorHandler)
+  closeButton.addInputEventListener(new PBasicInputEventHandler{
+    override def mousePressed(event: PInputEvent) = {
+      freeBodyDiagramModel.visible=false
+    }
+  })
+  addChild(closeButton)
+
+  val windowedButton=new PText("Windowed")
+  windowedButton.setFont(new PhetFont(16,true))
+  windowedButton.setOffset(background.getFullBounds.getMaxX-windowedButton.getFullBounds.getWidth,background.getFullBounds.getY)
+  windowedButton.addInputEventListener(new CursorHandler)
+  windowedButton.addInputEventListener(new PBasicInputEventHandler{
+    override def mousePressed(event: PInputEvent) = {
+      freeBodyDiagramModel.windowed=true
+    }
+  })
+  addChild(windowedButton)
+
+  val sln=new SwingLayoutNode()
+  
   val arrowInset = 4
 
   val xAxisModel = new SynchronizedAxisModel(0, modelWidth / 2 * 0.9, true, coordinateFrameModel)
@@ -123,13 +149,13 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
     abbreviatonTextNode.setOffset(viewTip)
     abbreviatonTextNode.setVisible(vector.getValue.magnitude > 1E-2)
   }
-  tailLocation.addListenerByName( update())
+  tailLocation.addListenerByName(update())
 }
 
 object TestFBD extends Application {
   val frame = new JFrame
   val canvas = new PhetPCanvas
-  canvas.addScreenChild(new FreeBodyDiagramNode(200, 200, 20, 20, new CoordinateFrameModel, true, new Vector(Color.blue, "Test Vector", "Fv") {
+  canvas.addScreenChild(new FreeBodyDiagramNode(new FreeBodyDiagramModel,200, 200, 20, 20, new CoordinateFrameModel, true, new Vector(Color.blue, "Test Vector", "Fv") {
     def getValue = new Vector2D(5, 5)
   }))
   frame.setContentPane(canvas)

@@ -4,6 +4,7 @@ package edu.colorado.phet.therampscala.graphics
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import java.awt.Color
 import java.awt.geom.Rectangle2D
+import javax.swing.{JFrame, JDialog}
 import model.{BeadVector, Bead, RampModel}
 import scalacommon.math.Vector2D
 import scalacommon.Predef._
@@ -11,7 +12,7 @@ import umd.cs.piccolo.PNode
 import java.lang.Math._
 
 class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                 vectorViewModel: VectorViewModel) extends DefaultCanvas(22, 20) {
+                 vectorViewModel: VectorViewModel, frame: JFrame) extends DefaultCanvas(22, 20) {
   setBackground(new Color(200, 255, 240))
 
   addNode(new SkyNode(transform))
@@ -39,10 +40,17 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
   addNode(new CoordinateFrameNode(model, coordinateSystemModel, transform))
 
   val fbdWidth = RampDefaults.freeBodyDiagramWidth
-  val fbdNode = new FreeBodyDiagramNode(200, 200, fbdWidth, fbdWidth, model.coordinateFrameModel, coordinateSystemModel.adjustable)
+  val fbdNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 200, 200, fbdWidth, fbdWidth, model.coordinateFrameModel, coordinateSystemModel.adjustable)
   fbdNode.setOffset(10, 10)
   addNode(fbdNode)
-  defineInvokeAndPass(freeBodyDiagramModel.addListenerByName) {fbdNode.setVisible(freeBodyDiagramModel.visible)}
+  defineInvokeAndPass(freeBodyDiagramModel.addListenerByName) {
+    fbdNode.setVisible(freeBodyDiagramModel.visible && !freeBodyDiagramModel.windowed)
+  }
+
+  val fbdWindow = new JDialog(frame, "Free Body Diagram", false)
+  defineInvokeAndPass(freeBodyDiagramModel.addListenerByName) {
+    fbdWindow.setVisible(freeBodyDiagramModel.visible && freeBodyDiagramModel.windowed)
+  }
 
   class VectorSetNode(transform: ModelViewTransform2D, bead: Bead) extends PNode {
     def addVector(a: Vector, offset: VectorValue) = {
@@ -94,5 +102,5 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
 
 }
 trait PointOfOriginVector {
-    def getPointOfOriginOffset(defaultCenter:Double):Double
-  }
+  def getPointOfOriginOffset(defaultCenter: Double): Double
+}
