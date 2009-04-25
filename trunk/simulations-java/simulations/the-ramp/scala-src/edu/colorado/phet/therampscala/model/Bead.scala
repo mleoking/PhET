@@ -4,6 +4,7 @@ package edu.colorado.phet.therampscala.model
 import common.phetcommon.math.MathUtil
 import graphics.{PointOfOriginVector, Vector}
 import java.awt.Color
+import java.util.Date
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
 import java.lang.Math._
@@ -90,26 +91,32 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
 
       val velWithNetForce = netForceToParallelVelocity(partialSum, _dt)
       val velWithNetForceIgnoreFriction = netForceToParallelVelocity(partialSum - canonicalFrictionForce, _dt)
-      //todo: improve criterion for when to reduce friction
-      if (velWithNetForce * velWithNetForceIgnoreFriction <= 0) {
-        //choose friction so net force will be zero, or just slowing the object down
-//        val frictionToGiveZeroForce = new Vector2D - appliedForceVector.getValue - gravityForceVector.getValue - normalForceVector.getValue
+
+      //      reduce friction if its magnitude is greater than magnitude of sum of other forces
+      if (canonicalFrictionForce.magnitude > (appliedForce + gravityForce + normalForce).magnitude) {
+        //choose friction so net force will just slow the object down
 
         val alpha = 0.9 //reduction scale factor, v_f= v0 * alpha
-        val desiredSumForcesMagnitude = abs(velocity * (alpha - 1) * mass / _dt)
-        val desiredSumForces = new Vector2D(getVelocityVectorDirection) * desiredSumForcesMagnitude
-        val desiredFrictionForce = desiredSumForces - appliedForceVector.getValue - gravityForceVector.getValue - normalForceVector.getValue
+        var desiredSumForcesMagnitude = abs(velocity * (alpha - 1) * mass / _dt)
+        if (desiredSumForcesMagnitude < 1E-12)
+          desiredSumForcesMagnitude = 1E-12
 
-        //        frictionToGiveZeroForce
-        if (desiredFrictionForce.magnitude > 1E-16)
-          desiredFrictionForce
-        else {
-          setVelocity(0)
-          new Vector2D
-        }
+        val desiredSumForces = new Vector2D(getVelocityVectorDirection) * desiredSumForcesMagnitude
+        val desiredFrictionForce = desiredSumForces - appliedForce - gravityForce - normalForce
+
+        desiredFrictionForce
+
+        //        if (desiredFrictionForce.magnitude > 1E-16)
+        //          desiredFrictionForce
+        //        else {
+        //          setVelocity(0)
+        //          new Vector2D
+        //        }
       }
-      else
+      else {
+        println("canonical at "+System.currentTimeMillis)
         canonicalFrictionForce
+      }
     }
   }
 
@@ -117,7 +124,7 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
 
   def getCanonicalFrictionForce = {
     val frictionCoefficient = if (velocity > 1E-6) getKineticFriction else getStaticFriction
-    val magnitude = normalForceVector.getValue.magnitude * frictionCoefficient
+    val magnitude = normalForce.magnitude * frictionCoefficient
     val vel = (positionMapper(position) - positionMapper(position - velocity * 1E-6))
     val angle = (vel * -1).getAngle
     new Vector2D(angle) * magnitude
@@ -212,9 +219,9 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
     _dt = dt
     val origState = state
 
-    val netForce = totalForceVector.getValue
+    val netForce = totalForce
 
-    setVelocity(netForceToParallelVelocity(totalForceVector.getValue, dt))
+    setVelocity(netForceToParallelVelocity(totalForce, dt))
 
     val requestedPosition = position + velocity * dt
 
