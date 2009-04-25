@@ -3,7 +3,9 @@ package edu.colorado.phet.therampscala.model
 
 import common.phetcommon.math.MathUtil
 import graphics.{PointOfOriginVector, Vector}
-import java.awt.Color
+import java.awt.geom.Rectangle2D
+import java.awt.image.BufferedImage
+import java.awt.{Graphics2D, TexturePaint, Paint, Color}
 import java.util.Date
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
@@ -24,37 +26,68 @@ case class BeadState(position: Double, velocity: Double, mass: Double, staticFri
 }
 
 class BeadVector(color: Color, name: String, abbreviation: String, val bottomPO: Boolean, //shows point of origin at the bottom when in that mode
-                 getValue: () => Vector2D)
-        extends Vector(color, name, abbreviation, getValue) with PointOfOriginVector {
+                 getValue: () => Vector2D, painter: (Vector2D, Color) => Paint)
+        extends Vector(color, name, abbreviation, getValue, painter) with PointOfOriginVector {
   def getPointOfOriginOffset(defaultCenter: Double) = if (bottomPO) 0.0 else defaultCenter
 }
 
-class VectorComponent(target: BeadVector, bead: Bead, getComponentUnitVector: () => Vector2D) extends BeadVector(target.color, target.name, target.abbreviation, target.bottomPO, target.valueAccessor) {
+class VectorComponent(target: BeadVector, bead: Bead, getComponentUnitVector: () => Vector2D, painter: (Vector2D, Color) => Paint) extends BeadVector(target.color, target.name, target.abbreviation, target.bottomPO, target.valueAccessor, painter) {
   override def getValue = {
     val d = getComponentUnitVector()
     d * (super.getValue dot d)
   }
 }
 
-class AngleBasedComponent(target: BeadVector, bead: Bead, getComponentUnitVector: () => Vector2D) extends VectorComponent(target, bead, getComponentUnitVector) {
+object Paints {
+  def generateTemplate(painter: (Graphics2D, Int, Int) => Unit) = {
+    val imageWidth = 6
+    val imageHeight = 6
+    val texture = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB)
+    val graphics2D = texture.createGraphics
+    val background = new Color(255, 255, 255)
+
+    graphics2D.setColor(background)
+    graphics2D.fillRect(0, 0, imageWidth, imageHeight)
+
+    painter(graphics2D, imageWidth, imageHeight)
+    new TexturePaint(texture, new Rectangle2D.Double(0, 0, texture.getWidth, texture.getHeight))
+  }
+
+  def horizontalStripes(a: Vector2D, color: Color) = {
+    generateTemplate((g: Graphics2D, imageWidth: Int, imageHeight: Int) => {
+      g.setColor(color)
+      val stripeSize = 2
+      g.fillRect(0, 0, imageWidth, stripeSize)
+    })
+  }
+
+  def verticalStripes(a: Vector2D, color: Color) = {
+    generateTemplate((g: Graphics2D, imageWidth: Int, imageHeight: Int) => {
+      g.setColor(color)
+      val stripeSize = 2
+      g.fillRect(0, 0, stripeSize, imageHeight)
+    })
+  }
+}
+class AngleBasedComponent(target: BeadVector, bead: Bead, getComponentUnitVector: () => Vector2D, painter: (Vector2D, Color) => Paint) extends VectorComponent(target, bead, getComponentUnitVector, painter) {
   bead.addListenerByName(notifyListeners()) //since this value depends on getAngle, which depends on getPosition
 }
-class ParallelComponent(target: BeadVector, bead: Bead) extends AngleBasedComponent(target, bead, () => new Vector2D(bead.getAngle))
-class PerpendicularComponent(target: BeadVector, bead: Bead) extends AngleBasedComponent(target, bead, () => new Vector2D(bead.getAngle + PI / 2))
-class XComponent(target: BeadVector, bead: Bead) extends VectorComponent(target, bead, () => new Vector2D(1, 0))
-class YComponent(target: BeadVector, bead: Bead) extends VectorComponent(target, bead, () => new Vector2D(0, 1))
+class ParallelComponent(target: BeadVector, bead: Bead) extends AngleBasedComponent(target, bead, () => new Vector2D(bead.getAngle), (a, b) => b)
+class PerpendicularComponent(target: BeadVector, bead: Bead) extends AngleBasedComponent(target, bead, () => new Vector2D(bead.getAngle + PI / 2), (a, b) => b)
+class XComponent(target: BeadVector, bead: Bead) extends VectorComponent(target, bead, () => new Vector2D(1, 0), Paints.horizontalStripes)
+class YComponent(target: BeadVector, bead: Bead) extends VectorComponent(target, bead, () => new Vector2D(0, 1), Paints.verticalStripes)
 
 class Bead(_state: BeadState, private var _height: Double, positionMapper: Double => Vector2D, rampSegmentAccessor: Double => RampSegment, model: Observable) extends Observable {
   val gravity = -9.8
   var state = _state
   var _parallelAppliedForce = 0.0
 
-  val gravityForceVector = new BeadVector(RampDefaults.gravityForceColor, "Gravity Force", "<html>F<sub>g</sub></html>", false, () => gravityForce)
-  val normalForceVector = new BeadVector(RampDefaults.normalForceColor, "Normal Force", "<html>F<sub>N</sub></html>", true, () => normalForce)
-  val totalForceVector = new BeadVector(RampDefaults.totalForceColor, "Total Force (sum of forces)", "<html>F<sub>total</sub></html>", false, () => totalForce)
-  val appliedForceVector = new BeadVector(RampDefaults.appliedForceColor, "Applied Force", "<html>F<sub>a</sub></html>", false, () => appliedForce)
-  val frictionForceVector: BeadVector = new BeadVector(RampDefaults.frictionForceColor, "Friction Force", "<html>F<sub>f</sub></html>", true, () => frictionForce)
-  val wallForceVector = new BeadVector(RampDefaults.wallForceColor, "Wall Force", "<html>F<sub>w</sub></html>", false, () => wallForce)
+  val gravityForceVector = new BeadVector(RampDefaults.gravityForceColor, "Gravity Force", "<html>F<sub>g</sub></html>", false, () => gravityForce, (a, b) => b)
+  val normalForceVector = new BeadVector(RampDefaults.normalForceColor, "Normal Force", "<html>F<sub>N</sub></html>", true, () => normalForce, (a, b) => b)
+  val totalForceVector = new BeadVector(RampDefaults.totalForceColor, "Total Force (sum of forces)", "<html>F<sub>total</sub></html>", false, () => totalForce, (a, b) => b)
+  val appliedForceVector = new BeadVector(RampDefaults.appliedForceColor, "Applied Force", "<html>F<sub>a</sub></html>", false, () => appliedForce, (a, b) => b)
+  val frictionForceVector: BeadVector = new BeadVector(RampDefaults.frictionForceColor, "Friction Force", "<html>F<sub>f</sub></html>", true, () => frictionForce, (a, b) => b)
+  val wallForceVector = new BeadVector(RampDefaults.wallForceColor, "Wall Force", "<html>F<sub>w</sub></html>", false, () => wallForce, (a, b) => b)
   //chain listeners
   normalForceVector.addListenerByName(frictionForceVector.notifyListeners())
   //todo: add normalForceVector notification when changing friction coefficients

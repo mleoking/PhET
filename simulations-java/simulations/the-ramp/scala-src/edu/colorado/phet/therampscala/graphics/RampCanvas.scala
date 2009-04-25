@@ -145,7 +145,7 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
 
     }
     //todo: make sure this adapter overrides other methods as well, such as getPaint
-    val playAreaAdapter = new Vector(vector.color, vector.name, vector.abbreviation, () => vector.getValue * RampDefaults.PLAY_AREA_VECTOR_SCALE) {
+    val playAreaAdapter = new Vector(vector.color, vector.name, vector.abbreviation, () => vector.getValue * RampDefaults.PLAY_AREA_VECTOR_SCALE,vector.painter) {
       override def visible = vector.visible
 
       override def visible_=(vis: Boolean) = vector.visible = vis
