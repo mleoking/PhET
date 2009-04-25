@@ -101,7 +101,7 @@ class VectorViewModel extends Observable {
   private var _centered = true
   private var _originalVectors = true
   private var _parallelComponents = false
-  private var _xyComponents = false
+  private var _xyComponentsVisible = false
   private var _sumOfForcesVector = false
 
   def centered = _centered
@@ -115,7 +115,7 @@ class VectorViewModel extends Observable {
 
   def parallelComponents = _parallelComponents
 
-  def xyComponents = _xyComponents
+  def xyComponentsVisible = _xyComponentsVisible
 
   def sumOfForcesVector = _sumOfForcesVector
 
@@ -129,8 +129,9 @@ class VectorViewModel extends Observable {
     notifyListeners()
   }
 
-  def xyComponents_=(b: Boolean) = {
-    _xyComponents = b
+  def xyComponentsVisible_=(b: Boolean) = {
+    _xyComponentsVisible = b
+    println("changed xyvis="+b)
     notifyListeners()
   }
 

@@ -106,9 +106,21 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
   addNode(vectorNode)
   def addVectorAllComponents(beadVector: BeadVector with PointOfOriginVector, offsetFBD: VectorValue, offsetPlayArea: Double) = {
     addVector(beadVector, offsetFBD, offsetPlayArea)
-    addVector(new ParallelComponent(beadVector, model.beads(0)), offsetFBD, offsetPlayArea)
-    addVector(new XComponent(beadVector, model.beads(0)), offsetFBD, offsetPlayArea)
-    addVector(new YComponent(beadVector, model.beads(0)), offsetFBD, offsetPlayArea)
+    val parallelComponent = new ParallelComponent(beadVector, model.beads(0))
+    val xComponent = new XComponent(beadVector, model.beads(0))
+    val yComponent = new YComponent(beadVector, model.beads(0))
+    def update() = {
+      yComponent.visible = vectorViewModel.xyComponentsVisible
+      xComponent.visible = vectorViewModel.xyComponentsVisible
+      beadVector.visible = vectorViewModel.originalVectors
+      parallelComponent.visible = vectorViewModel.parallelComponents
+    }
+    vectorViewModel.addListenerByName(update())
+    update()
+
+    addVector(xComponent, offsetFBD, offsetPlayArea)
+    addVector(yComponent, offsetFBD, offsetPlayArea)
+    addVector(parallelComponent, offsetFBD, offsetPlayArea)
   }
 
   def addVector(vector: Vector with PointOfOriginVector, offsetFBD: VectorValue, offsetPlayArea: Double) = {
@@ -126,8 +138,13 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
         model.beads(0).position2D + new Vector2D(model.beads(0).getAngle + PI / 2) *
                 (offsetPlayArea + (if (vectorViewModel.centered) defaultCenter else vector.getPointOfOriginOffset(defaultCenter)))
       }
+
     }
-    val playAreaAdapter = new Vector(vector.color, vector.name, vector.abbreviation, () => vector.getValue * RampDefaults.PLAY_AREA_VECTOR_SCALE)
+    val playAreaAdapter = new Vector(vector.color, vector.name, vector.abbreviation, () => vector.getValue * RampDefaults.PLAY_AREA_VECTOR_SCALE) {
+      override def visible = vector.visible
+
+      override def visible_=(vis: Boolean) = vector.visible = vis
+    }
     vectorNode.addVector(playAreaAdapter, tailLocationInPlayArea)
   }
 

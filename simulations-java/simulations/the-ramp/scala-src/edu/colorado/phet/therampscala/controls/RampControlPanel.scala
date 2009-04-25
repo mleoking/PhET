@@ -65,7 +65,7 @@ class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramMo
   vectorPanel.add(Box.createRigidArea(new Dimension(10, 10)))
   vectorPanel.add(new MyCheckBox("Original", vectorViewModel.originalVectors_=, vectorViewModel.originalVectors, vectorViewModel.addListener))
   vectorPanel.add(new MyCheckBox("Parallel Components", vectorViewModel.parallelComponents_=, vectorViewModel.parallelComponents, vectorViewModel.addListener))
-  vectorPanel.add(new MyCheckBox("X-Y Components", vectorViewModel.xyComponents_=, vectorViewModel.xyComponents, vectorViewModel.addListener))
+  vectorPanel.add(new MyCheckBox("X-Y Components", vectorViewModel.xyComponentsVisible = _, vectorViewModel.xyComponentsVisible, vectorViewModel.addListener))
   vectorPanel.add(Box.createRigidArea(new Dimension(10, 10)))
   vectorPanel.add(new MyCheckBox("Sum of Forces", vectorViewModel.sumOfForcesVector_=, vectorViewModel.sumOfForcesVector, vectorViewModel.addListener))
 
