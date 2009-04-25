@@ -1,18 +1,19 @@
 package edu.colorado.phet.therampscala.graphics
 
+import common.phetcommon.resources.PhetCommonResources
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.util.PhetFont
 import common.piccolophet.event.CursorHandler
 import common.piccolophet.nodes._
 import common.piccolophet.PhetPCanvas
 import java.awt.geom.{Point2D, Rectangle2D}
-import java.awt.{Cursor, BasicStroke, Color}
+import java.awt.{Image, Cursor, BasicStroke, Color}
 import javax.swing.JFrame
 import model.CoordinateFrameModel
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEventListener, PInputEvent}
-import umd.cs.piccolo.nodes.{PText, PPath}
+import umd.cs.piccolo.nodes.{PImage, PText, PPath}
 import umd.cs.piccolo.PNode
 import scalacommon.Predef._
 import java.lang.Math._
@@ -80,15 +81,14 @@ class AxisNodeWithModel(transform: ModelViewTransform2D, label: String, val axis
 }
 
 class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private var _width: Double, private var _height: Double, val modelWidth: Double, val modelHeight: Double,
-                          coordinateFrameModel: CoordinateFrameModel, isInteractive: => Boolean, vectors: Vector*) extends PNode {
+                          coordinateFrameModel: CoordinateFrameModel, isInteractive: => Boolean, toggleWindowedButton: Image, vectors: Vector*) extends PNode {
   val transform = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight),
     new Rectangle2D.Double(0, 0, _width, _height), true)
 
   val background = new PhetPPath(Color.white, new BasicStroke(2), Color.darkGray)
   addChild(background)
 
-  val closeButton = new PText("X")
-  closeButton.setFont(new PhetFont(16, true))
+  val closeButton = new PImage(PhetCommonResources.getImage("buttons/closeButton.png"))
   closeButton.addInputEventListener(new CursorHandler)
   closeButton.addInputEventListener(new PBasicInputEventHandler {
     override def mousePressed(event: PInputEvent) = {
@@ -96,8 +96,9 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private va
     }
   })
 
-  val windowedButton = new PText("Windowed")
-  windowedButton.setFont(new PhetFont(16, true))
+  //  val windowedButton = new PText("Windowed")
+  // windowedButton.setFont(new PhetFont(16, true))
+  val windowedButton = new PImage(toggleWindowedButton)
   windowedButton.addInputEventListener(new CursorHandler)
   windowedButton.addInputEventListener(new PBasicInputEventHandler {
     override def mousePressed(event: PInputEvent) = {
@@ -142,7 +143,7 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private va
         case _ => {}
       }
     }
-    buttonPanel.setOffset(background.getFullBounds.getMaxX - buttonPanel.getFullBounds.getWidth-10, background.getFullBounds.getY)
+    buttonPanel.setOffset(background.getFullBounds.getMaxX - buttonPanel.getFullBounds.getWidth - 10, background.getFullBounds.getY)
   }
 }
 
@@ -177,7 +178,7 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
 object TestFBD extends Application {
   val frame = new JFrame
   val canvas = new PhetPCanvas
-  canvas.addScreenChild(new FreeBodyDiagramNode(new FreeBodyDiagramModel, 200, 200, 20, 20, new CoordinateFrameModel, true, new Vector(Color.blue, "Test Vector", "Fv") {
+  canvas.addScreenChild(new FreeBodyDiagramNode(new FreeBodyDiagramModel, 200, 200, 20, 20, new CoordinateFrameModel, true, PhetCommonResources.getImage("buttons/maximizeButton.png"),new Vector(Color.blue, "Test Vector", "Fv") {
     def getValue = new Vector2D(5, 5)
   }))
   frame.setContentPane(canvas)
