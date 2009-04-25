@@ -12,4 +12,5 @@ class ScalaValueControl(min: Double, max: Double, name: String, decimalFormat: S
     def stateChanged(e: ChangeEvent) = setter(getValue)
   });
   def update() = setValue(getter)
+  setSignifyOutOfBounds(false)
 }

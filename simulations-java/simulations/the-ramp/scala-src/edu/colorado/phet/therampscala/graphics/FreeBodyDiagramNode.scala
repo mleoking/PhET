@@ -1,5 +1,6 @@
 package edu.colorado.phet.therampscala.graphics
 
+import collection.mutable.ArrayBuffer
 import common.phetcommon.resources.PhetCommonResources
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.util.PhetFont
@@ -96,8 +97,6 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private va
     }
   })
 
-  //  val windowedButton = new PText("Windowed")
-  // windowedButton.setFont(new PhetFont(16, true))
   val windowedButton = new PImage(toggleWindowedButton)
   windowedButton.addInputEventListener(new CursorHandler)
   windowedButton.addInputEventListener(new PBasicInputEventHandler {
@@ -111,7 +110,23 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private va
   buttonPanel.addChild(closeButton)
   addChild(buttonPanel)
 
-  val arrowInset = 4
+  private val listeners = new ArrayBuffer[Point2D => Unit]
+
+  def addListener(listener: Point2D => Unit) = {listeners += listener}
+
+  background.addInputEventListener(new PBasicInputEventHandler {
+    def sendEvent(event: PInputEvent) = {
+      val viewPt = event.getPositionRelativeTo(background.getParent.getParent) //todo: do FreeBodyDiagramNode.this instead of background.getParent
+      val modelPt = transform.viewToModel(viewPt)
+      listeners.foreach(_(modelPt))
+    }
+
+    override def mouseDragged(event: PInputEvent) = sendEvent(event)
+
+    override def mousePressed(event: PInputEvent) = sendEvent(event)
+
+    override def mouseReleased(event: PInputEvent) = listeners.foreach(_(new Point2D.Double(0, 0)))
+  })
 
   val xAxisModel = new SynchronizedAxisModel(0, modelWidth / 2 * 0.9, true, coordinateFrameModel)
   val yAxisModel = new SynchronizedAxisModel(PI / 2, modelWidth / 2 * 0.9, true, coordinateFrameModel)
@@ -173,12 +188,15 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
     abbreviatonTextNode.setVisible(vector.getValue.magnitude > 1E-2)
   }
   tailLocation.addListenerByName(update())
+
+  setPickable(false)
+  setChildrenPickable(false)
 }
 
 object TestFBD extends Application {
   val frame = new JFrame
   val canvas = new PhetPCanvas
-  canvas.addScreenChild(new FreeBodyDiagramNode(new FreeBodyDiagramModel, 200, 200, 20, 20, new CoordinateFrameModel, true, PhetCommonResources.getImage("buttons/maximizeButton.png"),new Vector(Color.blue, "Test Vector", "Fv") {
+  canvas.addScreenChild(new FreeBodyDiagramNode(new FreeBodyDiagramModel, 200, 200, 20, 20, new CoordinateFrameModel, true, PhetCommonResources.getImage("buttons/maximizeButton.png"), new Vector(Color.blue, "Test Vector", "Fv") {
     def getValue = new Vector2D(5, 5)
   }))
   frame.setContentPane(canvas)

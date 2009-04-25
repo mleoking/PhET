@@ -8,7 +8,7 @@ import common.piccolophet.PhetPCanvas
 import java.awt.Color
 import java.awt.event._
 
-import java.awt.geom.Rectangle2D
+import java.awt.geom.{Point2D, Rectangle2D}
 import javax.swing.{JFrame, JDialog}
 import model.{BeadVector, Bead, RampModel}
 import scalacommon.math.Vector2D
@@ -45,7 +45,9 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
   addNode(new CoordinateFrameNode(model, coordinateSystemModel, transform))
 
   val fbdWidth = RampDefaults.freeBodyDiagramWidth
-  val fbdNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 200, 200, fbdWidth, fbdWidth, model.coordinateFrameModel, coordinateSystemModel.adjustable,PhetCommonResources.getImage("buttons/maximizeButton.png"))
+  val fbdNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 200, 200, fbdWidth, fbdWidth, model.coordinateFrameModel, coordinateSystemModel.adjustable, PhetCommonResources.getImage("buttons/maximizeButton.png"))
+  val fbdListener = (pt: Point2D) => {model.beads(0).parallelAppliedForce = pt.getX}
+  fbdNode.addListener(fbdListener)
   fbdNode.setOffset(10, 10)
   addNode(fbdNode)
   defineInvokeAndPass(freeBodyDiagramModel.addListenerByName) {
@@ -55,7 +57,8 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
   val fbdWindow = new JDialog(frame, "Free Body Diagram", false)
   fbdWindow.setSize(600, 600)
   val canvas = new PhetPCanvas
-  val windowFBDNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 600, 600, fbdWidth, fbdWidth, model.coordinateFrameModel, coordinateSystemModel.adjustable,PhetCommonResources.getImage("buttons/minimizeButton.png"))
+  val windowFBDNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 600, 600, fbdWidth, fbdWidth, model.coordinateFrameModel, coordinateSystemModel.adjustable, PhetCommonResources.getImage("buttons/minimizeButton.png"))
+  windowFBDNode.addListener(fbdListener)
   canvas.addComponentListener(new ComponentAdapter {
     override def componentResized(e: ComponentEvent) = updateNodeSize()
   })
@@ -64,24 +67,24 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
     if (canvas.getWidth > 0 && canvas.getHeight > 0) {
       val w = Math.min(canvas.getWidth, canvas.getHeight)
       val inset = 40
-      windowFBDNode.setSize(w - inset*2, w - inset*2)
-      windowFBDNode.setOffset(inset,inset)
+      windowFBDNode.setSize(w - inset * 2, w - inset * 2)
+      windowFBDNode.setOffset(inset, inset)
     }
   }
   canvas.addScreenChild(windowFBDNode)
   fbdWindow.setContentPane(canvas)
-  var initted=false
+  var initted = false
   defineInvokeAndPass(freeBodyDiagramModel.addListenerByName) {
     val wasVisible = fbdWindow.isVisible
     fbdWindow.setVisible(freeBodyDiagramModel.visible && freeBodyDiagramModel.windowed)
-    if (fbdWindow.isVisible && !wasVisible  && !initted) {
-      initted=true
+    if (fbdWindow.isVisible && !wasVisible && !initted) {
+      initted = true
       SwingUtils.centerDialogInParent(fbdWindow)
     }
     updateNodeSize()
   }
-  fbdWindow.addWindowListener(new WindowAdapter{
-    override def windowClosing(e: WindowEvent) = freeBodyDiagramModel.visible=false
+  fbdWindow.addWindowListener(new WindowAdapter {
+    override def windowClosing(e: WindowEvent) = freeBodyDiagramModel.visible = false
   })
 
   class VectorSetNode(transform: ModelViewTransform2D, bead: Bead) extends PNode {
