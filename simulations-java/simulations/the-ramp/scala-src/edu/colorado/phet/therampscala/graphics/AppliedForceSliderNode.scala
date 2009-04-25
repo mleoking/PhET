@@ -11,7 +11,8 @@ import scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.Predef._
 
 class AppliedForceSliderNode(bead: Bead, transform: ModelViewTransform2D) extends PNode {
-  val control = new ScalaValueControl(-1000, 1000, "Applied Force X", "0.0", "N",
+  val max = 500
+  val control = new ScalaValueControl(-max, max, "Applied Force X", "0.0", "N",
     bead.parallelAppliedForce, value => bead.parallelAppliedForce = value, bead.addListener)
 
   val pswing = new PSwing(control)
