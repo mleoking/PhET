@@ -11,6 +11,7 @@ import java.text.MessageFormat
 import javax.swing.{JButton, Timer}
 import scalacommon.util.Observable
 import swing.ScalaValueControl
+import umd.cs.piccolo.util.{PBounds, PDimension}
 import umd.cs.piccolox.nodes.PClip
 import umd.cs.piccolox.pswing.PSwing
 import umd.cs.piccolo.PNode
@@ -19,7 +20,6 @@ import umd.cs.piccolo.nodes.{PText, PImage}
 import java.awt.geom.Rectangle2D
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 
-import umd.cs.piccolo.util.PDimension
 import edu.colorado.phet.scalacommon.Predef._
 import java.lang.Math._
 
@@ -44,10 +44,20 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
 
     val backgroundNode = new PhetPPath(new BasicStroke(1f), new Color(0, 0, 0, 0))
 
-    addChild(backgroundNode)
+    //    addChild(backgroundNode)
     addChild(imageNode)
     addChild(textNode)
 
+
+    def getLayoutBounds = {
+      var b = imageNode.getGlobalFullBounds
+      globalToLocal(b)
+
+      var c = textNode.getGlobalFullBounds
+      globalToLocal(c)
+
+      new PBounds(c.createUnion(b))
+    }
     defineInvokeAndPass(model.addListenerByName) {
       update()
     }
@@ -78,9 +88,9 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
             "mass={2} kg<br>" +
             "</html>", objectList.toArray
       )
-    val tipNode = new ToolTipNode(getTooltipText, this)
-    tipNode.setFont(new PhetFont(18))
-    addChild(tipNode)
+    val tooltipNode = new ToolTipNode(getTooltipText, this)
+    tooltipNode.setFont(new PhetFont(18))
+    addChild(tooltipNode)
   }
   class CustomObjectSelectionIcon(o: MutableRampObject) extends ObjectSelectionIcon(o) {
     override def update() = {
@@ -167,7 +177,7 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
   }
   //    if (o.customizable) new CustomObjectSelectionIcon(o) else new ObjectSelectionIcon(o)
 
-  val cellDim = nodes.foldLeft(new PDimension)((a, b) => new PDimension(max(a.width, b.getFullBounds.width), max(a.height, b.getFullBounds.height)))
+  val cellDim = nodes.foldLeft(new PDimension)((a, b) => new PDimension(max(a.width, b.getLayoutBounds.width), max(a.height, b.getLayoutBounds.height)))
 
   val modelCellDimPt = transform.viewToModelDifferential(cellDim.width, cellDim.height)
   //y is down, so modelCellDimPt.y is negative
