@@ -19,8 +19,17 @@ import umd.cs.piccolo.PNode
 import scalacommon.Predef._
 import java.lang.Math._
 
-class Vector(val color: Color, val name: String, val abbreviation: String,val a: ()=>Vector2D) extends Observable with VectorValue{
-  def getValue=a()
+class Vector(val color: Color, val name: String, val abbreviation: String, val valueAccessor: () => Vector2D) extends Observable with VectorValue {
+  private var _visible = true
+
+  def getValue = valueAccessor()
+
+  def visible = _visible
+
+  def visible_=(vis: Boolean) = {
+    _visible = vis
+    notifyListeners()
+  }
 }
 
 class AxisNode(val transform: ModelViewTransform2D, x0: Double, y0: Double, x1: Double, y1: Double, label: String) extends PNode {
@@ -60,7 +69,8 @@ class AxisModel(private var _angle: Double, val length: Double, tail: Boolean) e
       notifyListeners()
     }
   }
-  def dropped()={}
+
+  def dropped() = {}
 }
 
 //todo: coalesce with duplicates after code freeze
@@ -81,7 +91,7 @@ class AxisNodeWithModel(transform: ModelViewTransform2D, label: String, val axis
   }
   axisNode.addInputEventListener(new ToggleListener(new CursorHandler(Cursor.E_RESIZE_CURSOR), isInteractive))
   axisNode.addInputEventListener(new ToggleListener(new RotationHandler(transform, axisNode, axisModel, -1000, 1000), isInteractive))
-  axisNode.addInputEventListener(new ToggleListener(new PBasicInputEventHandler{
+  axisNode.addInputEventListener(new ToggleListener(new PBasicInputEventHandler {
     override def mouseReleased(event: PInputEvent) = axisModel.dropped()
   }, isInteractive))
 }
@@ -186,23 +196,32 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
   val abbreviatonTextNode = new ShadowHTMLNode(vector.abbreviation, vector.color)
   abbreviatonTextNode.setFont(new PhetFont(18))
   addChild(abbreviatonTextNode)
-  val update = defineInvokeAndPass(vector.addListenerByName) {
+
+  def update() = {
     val viewTip = transform.modelToViewDouble(vector.getValue + tailLocation.getValue)
     arrowNode.setTipAndTailLocations(viewTip, transform.modelToViewDouble(tailLocation.getValue))
     abbreviatonTextNode.setOffset(viewTip)
     abbreviatonTextNode.setVisible(vector.getValue.magnitude > 1E-2)
+    setVisible(vector.visible)
   }
+  update()
+  vector.addListenerByName(update())
   tailLocation.addListenerByName(update())
 
   setPickable(false)
   setChildrenPickable(false)
+
+  override def setVisible(isVisible: Boolean) = {
+    super.setVisible(isVisible)
+  }
 }
 
 object TestFBD extends Application {
   val frame = new JFrame
   val canvas = new PhetPCanvas
+  val vector = new Vector(Color.blue, "Test Vector", "Fv", () => new Vector2D(5, 5))
   canvas.addScreenChild(new FreeBodyDiagramNode(new FreeBodyDiagramModel, 200, 200, 20, 20, new CoordinateFrameModel(Nil), true,
-    PhetCommonResources.getImage("buttons/maximizeButton.png"), new Vector(Color.blue, "Test Vector", "Fv",()=>new Vector2D(5, 5))))
+    PhetCommonResources.getImage("buttons/maximizeButton.png"), vector))
   frame.setContentPane(canvas)
   frame.setSize(800, 600)
   frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)

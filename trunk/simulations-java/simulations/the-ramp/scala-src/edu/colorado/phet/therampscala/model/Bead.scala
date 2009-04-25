@@ -24,11 +24,12 @@ case class BeadState(position: Double, velocity: Double, mass: Double, staticFri
 }
 
 class BeadVector(color: Color, name: String, abbreviation: String, val bottomPO: Boolean, //shows point of origin at the bottom when in that mode
-                 getValue: () => Vector2D) extends Vector(color, name, abbreviation, getValue) with PointOfOriginVector {
+                 getValue: () => Vector2D)
+        extends Vector(color, name, abbreviation, getValue) with PointOfOriginVector {
   def getPointOfOriginOffset(defaultCenter: Double) = if (bottomPO) 0.0 else defaultCenter
 }
 
-class VectorComponent(target: BeadVector, bead: Bead, getComponentUnitVector: () => Vector2D) extends BeadVector(target.color, target.name, target.abbreviation, target.bottomPO, target.a) {
+class VectorComponent(target: BeadVector, bead: Bead, getComponentUnitVector: () => Vector2D) extends BeadVector(target.color, target.name, target.abbreviation, target.bottomPO, target.valueAccessor) {
   override def getValue = {
     val d = getComponentUnitVector()
     d * (super.getValue dot d)
