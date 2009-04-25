@@ -48,6 +48,7 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
   }
 
   val fbdWindow = new JDialog(frame, "Free Body Diagram", false)
+  fbdWindow.setSize(800,600)
   defineInvokeAndPass(freeBodyDiagramModel.addListenerByName) {
     fbdWindow.setVisible(freeBodyDiagramModel.visible && freeBodyDiagramModel.windowed)
   }

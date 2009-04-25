@@ -159,7 +159,7 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
   addModule(new RampModule(getPhetFrame, new ScalaClock(30, RampDefaults.DT_DEFAULT)))
 }
 
-object RampApplication {
+object RampApplicationMain {
   def main(args: Array[String]) = {
     new PhetApplicationLauncher().launchSim(args, "the-ramp", classOf[RampApplication])
   }
