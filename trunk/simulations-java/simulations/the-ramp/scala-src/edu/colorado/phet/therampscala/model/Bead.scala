@@ -77,52 +77,30 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
     }
   }
 
-  //todo: notify friction force changed when ramp angle changes or velocity changes
   def frictionForce = {
-    if (wallForce.magnitude > 0)
-      new Vector2D
-    else {
-      //todo: friction is not allowed to turn the object around or accelerate the object from rest
-      //if friction would reverse the object's velocity (or increase its velocity)
-      //then instead choose a friction vector that will bring instead the object to rest.
-      val canonicalFrictionForce = getCanonicalFrictionForce
-      val partialSum = appliedForceVector.getValue + gravityForceVector.getValue +
-              normalForceVector.getValue + wallForceVector.getValue + canonicalFrictionForce
+    //stepInTime samples at least one value less than 1E-12 on direction change to handle static friction
+    if (abs(velocity) < 1E-12) {
 
-      val velWithNetForce = netForceToParallelVelocity(partialSum, _dt)
-      val velWithNetForceIgnoreFriction = netForceToParallelVelocity(partialSum - canonicalFrictionForce, _dt)
+      //use up to fMax in preventing the object from moving
+      //see static friction discussion here: http://en.wikipedia.org/wiki/Friction
+      val fMax = abs(getStaticFriction * normalForce.magnitude)
+      val netForceWithoutFriction = appliedForce + gravityForce + normalForce + wallForce
 
-      //      reduce friction if its magnitude is greater than magnitude of sum of other forces
-      if (canonicalFrictionForce.magnitude > (appliedForce + gravityForce + normalForce).magnitude) {
-        //choose friction so net force will just slow the object down
-
-        val alpha = 0.95 //reduction scale factor, v_f= v0 * alpha
-        var desiredSumForcesMagnitude = abs(velocity * (alpha - 1) * mass / _dt)
-        if (desiredSumForcesMagnitude < 1E-12)
-          desiredSumForcesMagnitude = 1E-12
-
-        //        println("velocityVector=" + getVelocityVectorDirection.toDegrees + " degrees")
-        val desiredSumForces = new Vector2D(getVelocityVectorDirection + PI) * desiredSumForcesMagnitude
-        val desiredFrictionForce = desiredSumForces - appliedForce - gravityForce - normalForce
-
-        desiredFrictionForce
+      if (netForceWithoutFriction.magnitude >= fMax) {
+        new Vector2D(netForceWithoutFriction.getAngle + PI) * fMax
       }
       else {
-        //        println("canonical at " + System.currentTimeMillis)
-        canonicalFrictionForce
+        new Vector2D(netForceWithoutFriction.getAngle + PI) * netForceWithoutFriction.magnitude
       }
+    }
+    else {
+      //object is moving, just use kinetic friction
+      val vel = (positionMapper(position) - positionMapper(position - velocity * 1E-6))
+      new Vector2D(vel.getAngle + PI) * normalForce.magnitude * getKineticFriction
     }
   }
 
   def getVelocityVectorDirection = (positionMapper(position + velocity * 1E-6) - positionMapper(position - velocity * 1E-6)).getAngle
-
-  def getCanonicalFrictionForce = {
-    val frictionCoefficient = if (velocity > 1E-6) getKineticFriction else getStaticFriction
-    val magnitude = normalForce.magnitude * frictionCoefficient
-    val vel = (positionMapper(position) - positionMapper(position - velocity * 1E-6))
-    val angle = (vel * -1).getAngle
-    new Vector2D(angle) * magnitude
-  }
 
   def normalForce = {
     val magnitude = (gravityForce * -1) dot getRampUnitVector.rotate(PI / 2)
@@ -207,15 +185,16 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
 
   def netForceToParallelVelocity(f: Vector2D, dt: Double) = velocity + forceToParallelAcceleration(f) * dt
 
-  private var _dt = 1E-6
-
-  def newStepCode(dt: Double) = {
-    _dt = dt
+  def stepInTime(dt: Double) = {
     val origState = state
 
-    val netForce = totalForce
-
     setVelocity(netForceToParallelVelocity(totalForce, dt))
+
+    //stepInTime samples at least one value less than 1E-12 on direction change to handle static friction
+    if ((origState.velocity < 0 && velocity > 0) || (origState.velocity > 0 && velocity < 0)) {
+      //see docs in static friction computation
+      setVelocity(0)
+    }
 
     val requestedPosition = position + velocity * dt
 
