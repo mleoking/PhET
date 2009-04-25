@@ -22,7 +22,7 @@ class DraggableBeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: 
       val delta = event.getCanvasDelta
       val modelDelta = transform.viewToModelDifferential(delta.width, delta.height)
       val sign = modelDelta dot bead.getRampUnitVector
-      bead.parallelAppliedForce_=(bead.parallelAppliedForce + sign/RampDefaults.PLAY_AREA_VECTOR_SCALE)
+      bead.parallelAppliedForce_=(bead.parallelAppliedForce + sign / RampDefaults.PLAY_AREA_VECTOR_SCALE)
     }
 
     override def mouseReleased(event: PInputEvent) = {
@@ -50,9 +50,7 @@ class BeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: String) e
     val viewPosition = transform.modelToView(modelPosition)
     val delta = new Vector2D(imageNode.getImage.getWidth(null), imageNode.getImage.getHeight(null))
 
-    //    todo: why is scale factor 4 here?
     val modelHeight = bead.height
-    //    println("modelheight="+modelHeight)
     val scale = -transform.modelToViewDifferentialYDouble(modelHeight) / image.getHeight
 
     imageNode.translate(viewPosition.x - delta.x / 2 * scale, viewPosition.y - delta.y * scale)
