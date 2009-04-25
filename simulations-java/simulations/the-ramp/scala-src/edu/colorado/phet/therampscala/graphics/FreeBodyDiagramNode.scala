@@ -19,9 +19,10 @@ import umd.cs.piccolo.PNode
 import scalacommon.Predef._
 import java.lang.Math._
 
-abstract class Vector(val color: Color, val name: String, val abbreviation: String) extends Observable with VectorValue {
-  def getValue: Vector2D
+class Vector(val color: Color, val name: String, val abbreviation: String,val a: ()=>Vector2D) extends Observable with VectorValue{
+  def getValue=a()
 }
+
 class AxisNode(val transform: ModelViewTransform2D, x0: Double, y0: Double, x1: Double, y1: Double, label: String) extends PNode {
   val axisNode = new ArrowNode(transform.modelToViewDouble(x0, y0), transform.modelToViewDouble(x1, y1), 5, 5, 2)
   axisNode.setStroke(null)
@@ -200,9 +201,8 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
 object TestFBD extends Application {
   val frame = new JFrame
   val canvas = new PhetPCanvas
-  canvas.addScreenChild(new FreeBodyDiagramNode(new FreeBodyDiagramModel, 200, 200, 20, 20, new CoordinateFrameModel(Nil), true, PhetCommonResources.getImage("buttons/maximizeButton.png"), new Vector(Color.blue, "Test Vector", "Fv") {
-    def getValue = new Vector2D(5, 5)
-  }))
+  canvas.addScreenChild(new FreeBodyDiagramNode(new FreeBodyDiagramModel, 200, 200, 20, 20, new CoordinateFrameModel(Nil), true,
+    PhetCommonResources.getImage("buttons/maximizeButton.png"), new Vector(Color.blue, "Test Vector", "Fv",()=>new Vector2D(5, 5))))
   frame.setContentPane(canvas)
   frame.setSize(800, 600)
   frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)

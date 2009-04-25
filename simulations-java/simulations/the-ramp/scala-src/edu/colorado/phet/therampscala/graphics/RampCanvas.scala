@@ -10,9 +10,10 @@ import java.awt.event._
 
 import java.awt.geom.{Point2D, Rectangle2D}
 import javax.swing.{JFrame, JDialog}
-import model.{BeadVector, Bead, RampModel}
+import model.{ParallelComponent, BeadVector, Bead, RampModel}
 import scalacommon.math.Vector2D
 import scalacommon.Predef._
+import theramp.model.ValueAccessor.ParallelForceAccessor
 import umd.cs.piccolo.PNode
 import java.lang.Math._
 
@@ -120,9 +121,7 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
                 (offsetPlayArea + (if (vectorViewModel.centered) defaultCenter else a.getPointOfOriginOffset(defaultCenter)))
       }
     }
-    val playAreaAdapter = new Vector(a.color, a.name, a.abbreviation) {
-      def getValue = a.getValue * RampDefaults.PLAY_AREA_VECTOR_SCALE
-    }
+    val playAreaAdapter = new Vector(a.color, a.name, a.abbreviation, () => a.getValue * RampDefaults.PLAY_AREA_VECTOR_SCALE)
     vectorNode.addVector(playAreaAdapter, tailLocationInPlayArea)
   }
 
@@ -133,6 +132,9 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
   addVector(model.beads(0).frictionForceVector)
   addVector(model.beads(0).wallForceVector)
   addVector(model.beads(0).totalForceVector, new ConstantVectorValue(new Vector2D(0, fbdWidth / 4)), 2)
+
+
+  addVector(new ParallelComponent(model.beads(0).gravityForceVector, model.beads(0)))
 
 
 }
