@@ -17,12 +17,12 @@ class CoordinateFrameModel(snapToAngles: List[() => Double]) extends Observable 
   def angle_=(ang: Double) = {
 
     var snapChoice = _angle
-//    for (a <- snapToAngles) {
-//      val snapToAngle = a()
-//      if (abs(snapToAngle - ang) < 5.0.toRadians) {
-//        snapChoice = snapToAngle
-//      }
-//    }
+    //    for (a <- snapToAngles) {
+    //      val snapToAngle = a()
+    //      if (abs(snapToAngle - ang) < 5.0.toRadians) {
+    //        snapChoice = snapToAngle
+    //      }
+    //    }
 
     _angle = snapChoice
     notifyListeners()
@@ -43,7 +43,7 @@ class RampModel extends RecordModel[String] with ObjectModel {
   val initialAngle = 30.0.toRadians
   rampSegments += new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(rampLength * cos(initialAngle), rampLength * sin(initialAngle)))
 
-  val coordinateFrameModel = new CoordinateFrameModel( (()=>0.0) :: Nil)
+  val coordinateFrameModel = new CoordinateFrameModel((() => 0.0) :: Nil)
 
   //Sends notification when any ramp segment changes
   object rampChangeAdapter extends Observable //todo: perhaps we should just pass the addListener method to the beads
