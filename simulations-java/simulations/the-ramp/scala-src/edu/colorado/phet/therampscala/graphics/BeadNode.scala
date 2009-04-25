@@ -21,7 +21,8 @@ class DraggableBeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: 
     override def mouseDragged(event: PInputEvent) = {
       val delta = event.getCanvasDelta
       val modelDelta = transform.viewToModelDifferential(delta.width, delta.height)
-      bead.parallelAppliedForce_=(bead.parallelAppliedForce + modelDelta.magnitude)
+      val sign = modelDelta dot bead.getRampUnitVector
+      bead.parallelAppliedForce_=(bead.parallelAppliedForce + sign/RampDefaults.PLAY_AREA_VECTOR_SCALE)
     }
 
     override def mouseReleased(event: PInputEvent) = {
