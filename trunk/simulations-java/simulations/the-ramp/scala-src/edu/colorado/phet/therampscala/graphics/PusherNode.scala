@@ -16,7 +16,8 @@ class PusherNode(transform: ModelViewTransform2D, targetBead: Bead, manBead: Bea
       manBead.setPosition(targetBead.position + dx)
 
       //images go 0 to 14
-      val leanAmount = (abs(targetBead.appliedForce.x) * 13.0 / 50.0).toInt + 1
+      var leanAmount = (abs(targetBead.appliedForce.x) * 13.0 / 50.0).toInt + 1
+      if (leanAmount > 14) leanAmount = 14
       var textStr = "" + leanAmount
       while (textStr.length < 2)
         textStr = "0" + textStr
