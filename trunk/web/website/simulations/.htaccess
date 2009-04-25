@@ -198,8 +198,3 @@ Redirect permanent /simulations/waveinterference/waveinterference_sp.jnlp       
 ##RedirectMatch permanent ^/simulations/(.*\.jnlp) http://phet.colorado.edu/sims/$1
 ##RedirectMatch permanent ^/simulations/(.*\.png) http://phet.colorado.edu/sims/$1
 ##RedirectMatch permanent ^/simulations/(.*\.swf) http://phet.colorado.edu/sims/$1
-
-# TEMP: see https://phet.unfuddle.com/projects/9404/tickets/by_number/1614
-RewriteEngine on
-RewriteCond %{QUERY_STRING} ^sim=Faraday$
-RewriteRule ^sims.php$ http://phet.colorado.edu/simulations/sims.php?sim=Faradays_Electromagnetic_Lab [R,L]
