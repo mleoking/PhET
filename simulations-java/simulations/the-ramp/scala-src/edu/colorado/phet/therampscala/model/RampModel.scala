@@ -110,12 +110,12 @@ class RampModel extends RecordModel[String] with ObjectModel {
 
   def update(dt: Double) = {
     if (!isPaused) {
-      beads.foreach(_.newStepCode(dt))
+      beads.foreach(_.stepInTime(dt))
     }
   }
 
   def stepRecord(dt: Double) = {
-    beads.foreach(_.newStepCode(dt))
+    beads.foreach(_.stepInTime(dt))
   }
 }
 
