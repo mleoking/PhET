@@ -149,6 +149,8 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
       override def visible = vector.visible
 
       override def visible_=(vis: Boolean) = vector.visible = vis
+
+      override def getPaint = vector.getPaint
     }
     vectorNode.addVector(playAreaAdapter, tailLocationInPlayArea)
   }

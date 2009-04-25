@@ -7,8 +7,9 @@ import common.phetcommon.view.util.PhetFont
 import common.piccolophet.event.CursorHandler
 import common.piccolophet.nodes._
 import common.piccolophet.PhetPCanvas
+import java.awt._
+import image.BufferedImage
 import java.awt.geom.{Point2D, Rectangle2D}
-import java.awt.{Image, Cursor, BasicStroke, Color}
 import javax.swing.JFrame
 import model.CoordinateFrameModel
 import scalacommon.math.Vector2D
@@ -29,6 +30,23 @@ class Vector(val color: Color, val name: String, val abbreviation: String, val v
   def visible_=(vis: Boolean) = {
     _visible = vis
     notifyListeners()
+  }
+
+  def getPaint = {
+    color
+
+    //    val imageWidth = 6
+    //    val imageHeight = 6
+    //    val texture = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB)
+    //    val graphics2D = texture.createGraphics
+    //    val background = new Color(255, 255, 255)
+    //
+    //    graphics2D.setColor(background)
+    //    graphics2D.fillRect(0, 0, imageWidth, imageHeight)
+    //    graphics2D.setColor(color)
+    //    val stripeSize = 2
+    //    graphics2D.fillRect(0, 0, stripeSize, imageHeight)
+    //    new TexturePaint(texture, new Rectangle2D.Double(0, 0, texture.getWidth, texture.getHeight))
   }
 }
 
@@ -191,7 +209,7 @@ trait VectorValue {
 
 class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val tailLocation: VectorValue) extends PNode {
   val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(0, 1), 20, 20, 10, 0.5, true)
-  arrowNode.setPaint(vector.color)
+  arrowNode.setPaint(vector.getPaint)
   addChild(arrowNode)
   val abbreviatonTextNode = new ShadowHTMLNode(vector.abbreviation, vector.color)
   abbreviatonTextNode.setFont(new PhetFont(18))
