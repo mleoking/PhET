@@ -23,36 +23,30 @@ case class BeadState(position: Double, velocity: Double, mass: Double, staticFri
   def thermalEnergy = 0
 }
 
-abstract class BeadVector(color: Color, name: String, abbreviation: String, bottomPO: Boolean //shows point of origin at the bottom when in that mode
-        ) extends Vector(color, name, abbreviation) with PointOfOriginVector {
+class BeadVector(color: Color, name: String, abbreviation: String, val bottomPO: Boolean, //shows point of origin at the bottom when in that mode
+                 getValue: () => Vector2D) extends Vector(color, name, abbreviation, getValue) with PointOfOriginVector {
   def getPointOfOriginOffset(defaultCenter: Double) = if (bottomPO) 0.0 else defaultCenter
 }
 
+class ParallelComponent(target: BeadVector, bead: Bead) extends BeadVector(target.color, target.name, target.abbreviation, target.bottomPO, target.a) {
+  bead.addListenerByName(notifyListeners()) //since this value depends on getAngle, which depends on getPosition
+
+  override def getValue = {
+    val magnitude=super.getValue dot new Vector2D(bead.getAngle)
+    new Vector2D(bead.getAngle)*magnitude
+  }
+}
 class Bead(_state: BeadState, private var _height: Double, positionMapper: Double => Vector2D, rampSegmentAccessor: Double => RampSegment, model: Observable) extends Observable {
   val gravity = -9.8
   var state = _state
   var _parallelAppliedForce = 0.0
 
-  val gravityForceVector = new BeadVector(RampDefaults.gravityForceColor, "Gravity Force", "<html>F<sub>g</sub></html>", false) {
-    def getValue = gravityForce
-  }
-  val normalForceVector = new BeadVector(RampDefaults.normalForceColor, "Normal Force", "<html>F<sub>N</sub></html>", true) {
-    def getValue = normalForce
-  }
-  val totalForceVector = new BeadVector(RampDefaults.totalForceColor, "Total Force (sum of forces)", "<html>F<sub>total</sub></html>", false) {
-    def getValue = totalForce
-  }
-  val appliedForceVector = new BeadVector(RampDefaults.appliedForceColor, "Applied Force", "<html>F<sub>a</sub></html>", false) {
-    def getValue = appliedForce
-  }
-  val frictionForceVector: BeadVector = new BeadVector(RampDefaults.frictionForceColor, "Friction Force", "<html>F<sub>f</sub></html>", true) {
-    def getValue = frictionForce
-  }
-
-  val wallForceVector = new BeadVector(RampDefaults.wallForceColor, "Wall Force", "<html>F<sub>w</sub></html>", false) {
-    def getValue = wallForce
-  }
-
+  val gravityForceVector = new BeadVector(RampDefaults.gravityForceColor, "Gravity Force", "<html>F<sub>g</sub></html>", false, () => gravityForce)
+  val normalForceVector = new BeadVector(RampDefaults.normalForceColor, "Normal Force", "<html>F<sub>N</sub></html>", true, () => normalForce)
+  val totalForceVector = new BeadVector(RampDefaults.totalForceColor, "Total Force (sum of forces)", "<html>F<sub>total</sub></html>", false, () => totalForce)
+  val appliedForceVector = new BeadVector(RampDefaults.appliedForceColor, "Applied Force", "<html>F<sub>a</sub></html>", false, () => appliedForce)
+  val frictionForceVector: BeadVector = new BeadVector(RampDefaults.frictionForceColor, "Friction Force", "<html>F<sub>f</sub></html>", true, () => frictionForce)
+  val wallForceVector = new BeadVector(RampDefaults.wallForceColor, "Wall Force", "<html>F<sub>w</sub></html>", false, () => wallForce)
   //chain listeners
   normalForceVector.addListenerByName(frictionForceVector.notifyListeners())
   //todo: add normalForceVector notification when changing friction coefficients
