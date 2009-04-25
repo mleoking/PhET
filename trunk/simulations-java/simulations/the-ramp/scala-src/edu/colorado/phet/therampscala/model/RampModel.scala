@@ -21,6 +21,7 @@ class CoordinateFrameModel extends Observable {
 }
 
 class RampModel extends RecordModel[String] with ObjectModel {
+  setPaused(false)
   val coordinateFrameModel = new CoordinateFrameModel
 
   def setPlaybackState(state: String) {}
@@ -94,7 +95,14 @@ class RampModel extends RecordModel[String] with ObjectModel {
   val rightWall = new Bead(new BeadState(10, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter)
   val manBead = new Bead(new BeadState(2, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter)
 
-  def update(dt: Double) = beads.foreach(_.newStepCode(dt))
+  def update(dt: Double) = {
+    if (!isPaused) {
+      beads.foreach(_.newStepCode(dt))
+    }
+  }
+  def stepRecord(dt:Double)={
+    beads.foreach(_.newStepCode(dt))
+  }
 }
 
 case class WorkEnergyState(appliedWork: Double, gravityWork: Double, frictionWork: Double,

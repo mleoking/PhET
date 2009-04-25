@@ -89,4 +89,8 @@ class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramMo
   getContentPanel.setFill(GridBagConstraints.NONE)
   val resetButton = new ResetAllButton(this)
   add(resetButton)
+
+  val stepButton=new JButton("Step")
+  stepButton.addActionListener(()=>model.stepRecord(RampDefaults.DT_DEFAULT))
+  add(stepButton)
 }
