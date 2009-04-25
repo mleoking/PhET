@@ -1,6 +1,7 @@
 package edu.colorado.phet.therampscala.graphics
 
 
+import common.phetcommon.resources.PhetCommonResources
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.util.SwingUtils
 import common.piccolophet.PhetPCanvas
@@ -44,7 +45,7 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
   addNode(new CoordinateFrameNode(model, coordinateSystemModel, transform))
 
   val fbdWidth = RampDefaults.freeBodyDiagramWidth
-  val fbdNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 200, 200, fbdWidth, fbdWidth, model.coordinateFrameModel, coordinateSystemModel.adjustable)
+  val fbdNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 200, 200, fbdWidth, fbdWidth, model.coordinateFrameModel, coordinateSystemModel.adjustable,PhetCommonResources.getImage("buttons/maximizeButton.png"))
   fbdNode.setOffset(10, 10)
   addNode(fbdNode)
   defineInvokeAndPass(freeBodyDiagramModel.addListenerByName) {
@@ -54,7 +55,7 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
   val fbdWindow = new JDialog(frame, "Free Body Diagram", false)
   fbdWindow.setSize(600, 600)
   val canvas = new PhetPCanvas
-  val windowFBDNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 600, 600, fbdWidth, fbdWidth, model.coordinateFrameModel, coordinateSystemModel.adjustable)
+  val windowFBDNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 600, 600, fbdWidth, fbdWidth, model.coordinateFrameModel, coordinateSystemModel.adjustable,PhetCommonResources.getImage("buttons/minimizeButton.png"))
   canvas.addComponentListener(new ComponentAdapter {
     override def componentResized(e: ComponentEvent) = updateNodeSize()
   })
