@@ -159,6 +159,7 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
   addModule(new RampModule(getPhetFrame, new ScalaClock(30, RampDefaults.DT_DEFAULT)))
 }
 
+//Current IntelliJ plugin has trouble finding main for classes with a compnation object, so we use a different name 
 object RampApplicationMain {
   def main(args: Array[String]) = {
     new PhetApplicationLauncher().launchSim(args, "the-ramp", classOf[RampApplication])
