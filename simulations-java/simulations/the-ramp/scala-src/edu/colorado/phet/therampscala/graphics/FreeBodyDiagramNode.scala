@@ -89,28 +89,28 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, val width:
 
   val closeButton=new PText("X")
   closeButton.setFont(new PhetFont(16,true))
-  closeButton.setOffset(background.getFullBounds.getMaxX-closeButton.getFullBounds.getWidth,background.getFullBounds.getY)
   closeButton.addInputEventListener(new CursorHandler)
   closeButton.addInputEventListener(new PBasicInputEventHandler{
     override def mousePressed(event: PInputEvent) = {
       freeBodyDiagramModel.visible=false
     }
   })
-  addChild(closeButton)
 
   val windowedButton=new PText("Windowed")
   windowedButton.setFont(new PhetFont(16,true))
-  windowedButton.setOffset(background.getFullBounds.getMaxX-windowedButton.getFullBounds.getWidth,background.getFullBounds.getY)
   windowedButton.addInputEventListener(new CursorHandler)
   windowedButton.addInputEventListener(new PBasicInputEventHandler{
     override def mousePressed(event: PInputEvent) = {
       freeBodyDiagramModel.windowed=true
     }
   })
-  addChild(windowedButton)
 
   val sln=new SwingLayoutNode()
-  
+  sln.addChild(windowedButton)
+  sln.addChild(closeButton)
+  sln.setOffset(background.getFullBounds.getMaxX-sln.getFullBounds.getWidth,background.getFullBounds.getY)
+  addChild(sln)
+
   val arrowInset = 4
 
   val xAxisModel = new SynchronizedAxisModel(0, modelWidth / 2 * 0.9, true, coordinateFrameModel)
