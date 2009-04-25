@@ -108,6 +108,7 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
                              selectedVectorVisible: () => Boolean) = {
     addVector(beadVector, offsetFBD, offsetPlayArea)
     val parallelComponent = new ParallelComponent(beadVector, model.beads(0))
+    val perpComponent = new PerpendicularComponent(beadVector, model.beads(0))
     val xComponent = new XComponent(beadVector, model.beads(0))
     val yComponent = new YComponent(beadVector, model.beads(0))
     def update() = {
@@ -115,6 +116,7 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
       xComponent.visible = vectorViewModel.xyComponentsVisible && selectedVectorVisible()
       beadVector.visible = vectorViewModel.originalVectors && selectedVectorVisible()
       parallelComponent.visible = vectorViewModel.parallelComponents && selectedVectorVisible()
+      perpComponent.visible = vectorViewModel.parallelComponents && selectedVectorVisible()
     }
     vectorViewModel.addListenerByName(update())
     update()
@@ -122,6 +124,7 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
     addVector(xComponent, offsetFBD, offsetPlayArea)
     addVector(yComponent, offsetFBD, offsetPlayArea)
     addVector(parallelComponent, offsetFBD, offsetPlayArea)
+    addVector(perpComponent, offsetFBD, offsetPlayArea)
   }
 
   def addVector(vector: Vector with PointOfOriginVector, offsetFBD: VectorValue, offsetPlayArea: Double) = {
