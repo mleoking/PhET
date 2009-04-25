@@ -79,49 +79,71 @@ class AxisNodeWithModel(transform: ModelViewTransform2D, label: String, val axis
   axisNode.addInputEventListener(new ToggleListener(new RotationHandler(transform, axisNode, axisModel, -1000, 1000), isInteractive))
 }
 
-class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, val width: Int, val height: Int, val modelWidth: Double, val modelHeight: Double,
+class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private var _width: Double, private var _height: Double, val modelWidth: Double, val modelHeight: Double,
                           coordinateFrameModel: CoordinateFrameModel, isInteractive: => Boolean, vectors: Vector*) extends PNode {
-  val transformT = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight),
-    new Rectangle2D.Double(0, 0, width, height), true)
+  val transform = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight),
+    new Rectangle2D.Double(0, 0, _width, _height), true)
 
-  val background = new PhetPPath(new Rectangle2D.Double(0, 0, width, height), Color.white, new BasicStroke(2), Color.darkGray)
+  val background = new PhetPPath(Color.white, new BasicStroke(2), Color.darkGray)
   addChild(background)
 
-  val closeButton=new PText("X")
-  closeButton.setFont(new PhetFont(16,true))
+  val closeButton = new PText("X")
+  closeButton.setFont(new PhetFont(16, true))
   closeButton.addInputEventListener(new CursorHandler)
-  closeButton.addInputEventListener(new PBasicInputEventHandler{
+  closeButton.addInputEventListener(new PBasicInputEventHandler {
     override def mousePressed(event: PInputEvent) = {
-      freeBodyDiagramModel.visible=false
+      freeBodyDiagramModel.visible = false
     }
   })
 
-  val windowedButton=new PText("Windowed")
-  windowedButton.setFont(new PhetFont(16,true))
+  val windowedButton = new PText("Windowed")
+  windowedButton.setFont(new PhetFont(16, true))
   windowedButton.addInputEventListener(new CursorHandler)
-  windowedButton.addInputEventListener(new PBasicInputEventHandler{
+  windowedButton.addInputEventListener(new PBasicInputEventHandler {
     override def mousePressed(event: PInputEvent) = {
-      freeBodyDiagramModel.windowed=true
+      freeBodyDiagramModel.windowed = !freeBodyDiagramModel.windowed
     }
   })
 
-  val sln=new SwingLayoutNode()
-  sln.addChild(windowedButton)
-  sln.addChild(closeButton)
-  sln.setOffset(background.getFullBounds.getMaxX-sln.getFullBounds.getWidth,background.getFullBounds.getY)
-  addChild(sln)
+  val buttonPanel = new SwingLayoutNode()
+  buttonPanel.addChild(windowedButton)
+  buttonPanel.addChild(closeButton)
+  addChild(buttonPanel)
 
   val arrowInset = 4
 
   val xAxisModel = new SynchronizedAxisModel(0, modelWidth / 2 * 0.9, true, coordinateFrameModel)
   val yAxisModel = new SynchronizedAxisModel(PI / 2, modelWidth / 2 * 0.9, true, coordinateFrameModel)
-  addChild(new AxisNodeWithModel(transformT, "x", xAxisModel, isInteractive))
-  addChild(new AxisNodeWithModel(transformT, "y", yAxisModel, isInteractive))
+  addChild(new AxisNodeWithModel(transform, "x", xAxisModel, isInteractive))
+  addChild(new AxisNodeWithModel(transform, "y", yAxisModel, isInteractive))
   for (vector <- vectors) addVector(vector)
+
+  updateSize()
 
   def addVector(vector: Vector): Unit = addVector(vector, new ConstantVectorValue)
 
-  def addVector(vector: Vector, offset: VectorValue) = addChild(new VectorNode(transformT, vector, offset))
+  def addVector(vector: Vector, offset: VectorValue) = addChild(new VectorNode(transform, vector, offset))
+
+  def setSize(width: Double, height: Double) = {
+    this._width = width
+    this._height = height
+    updateSize()
+  }
+
+  def updateSize() = {
+    background.setPathTo(new Rectangle2D.Double(0, 0, _width, _height))
+    transform.setViewBounds(new Rectangle2D.Double(0, 0, _width, _height))
+    xAxisModel.notifyListeners()
+    yAxisModel.notifyListeners()
+    for (i <- 0 until getChildrenCount) {
+      val node = getChild(i)
+      node match {
+        case a: VectorNode => a.update()
+        case _ => {}
+      }
+    }
+    buttonPanel.setOffset(background.getFullBounds.getMaxX - buttonPanel.getFullBounds.getWidth-10, background.getFullBounds.getY)
+  }
 }
 
 class ConstantVectorValue(val getValue: Vector2D) extends VectorValue {
@@ -155,7 +177,7 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
 object TestFBD extends Application {
   val frame = new JFrame
   val canvas = new PhetPCanvas
-  canvas.addScreenChild(new FreeBodyDiagramNode(new FreeBodyDiagramModel,200, 200, 20, 20, new CoordinateFrameModel, true, new Vector(Color.blue, "Test Vector", "Fv") {
+  canvas.addScreenChild(new FreeBodyDiagramNode(new FreeBodyDiagramModel, 200, 200, 20, 20, new CoordinateFrameModel, true, new Vector(Color.blue, "Test Vector", "Fv") {
     def getValue = new Vector2D(5, 5)
   }))
   frame.setContentPane(canvas)

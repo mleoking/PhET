@@ -2,7 +2,11 @@ package edu.colorado.phet.therampscala.graphics
 
 
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import common.phetcommon.view.util.SwingUtils
+import common.piccolophet.PhetPCanvas
 import java.awt.Color
+import java.awt.event._
+
 import java.awt.geom.Rectangle2D
 import javax.swing.{JFrame, JDialog}
 import model.{BeadVector, Bead, RampModel}
@@ -48,10 +52,36 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
   }
 
   val fbdWindow = new JDialog(frame, "Free Body Diagram", false)
-  fbdWindow.setSize(800,600)
-  defineInvokeAndPass(freeBodyDiagramModel.addListenerByName) {
-    fbdWindow.setVisible(freeBodyDiagramModel.visible && freeBodyDiagramModel.windowed)
+  fbdWindow.setSize(600, 600)
+  val canvas = new PhetPCanvas
+  val windowFBDNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 600, 600, fbdWidth, fbdWidth, model.coordinateFrameModel, coordinateSystemModel.adjustable)
+  canvas.addComponentListener(new ComponentAdapter {
+    override def componentResized(e: ComponentEvent) = updateNodeSize()
+  })
+  updateNodeSize()
+  def updateNodeSize() = {
+    if (canvas.getWidth > 0 && canvas.getHeight > 0) {
+      val w = Math.min(canvas.getWidth, canvas.getHeight)
+      val inset = 40
+      windowFBDNode.setSize(w - inset*2, w - inset*2)
+      windowFBDNode.setOffset(inset,inset)
+    }
   }
+  canvas.addScreenChild(windowFBDNode)
+  fbdWindow.setContentPane(canvas)
+  var initted=false
+  defineInvokeAndPass(freeBodyDiagramModel.addListenerByName) {
+    val wasVisible = fbdWindow.isVisible
+    fbdWindow.setVisible(freeBodyDiagramModel.visible && freeBodyDiagramModel.windowed)
+    if (fbdWindow.isVisible && !wasVisible  && !initted) {
+      initted=true
+      SwingUtils.centerDialogInParent(fbdWindow)
+    }
+    updateNodeSize()
+  }
+  fbdWindow.addWindowListener(new WindowAdapter{
+    override def windowClosing(e: WindowEvent) = freeBodyDiagramModel.visible=false
+  })
 
   class VectorSetNode(transform: ModelViewTransform2D, bead: Bead) extends PNode {
     def addVector(a: Vector, offset: VectorValue) = {
@@ -72,7 +102,7 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
 
   def addVector(a: Vector with PointOfOriginVector, offsetFBD: VectorValue, offsetPlayArea: Double) = {
     fbdNode.addVector(a, offsetFBD)
-
+    windowFBDNode.addVector(a, offsetFBD)
 
     val tailLocationInPlayArea = new VectorValue() {
       def addListenerByName(listener: => Unit) = {
