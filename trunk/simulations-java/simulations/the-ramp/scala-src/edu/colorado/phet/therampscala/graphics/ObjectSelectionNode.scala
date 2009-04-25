@@ -50,10 +50,10 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
 
 
     def getLayoutBounds = {
-      var b = imageNode.getGlobalFullBounds
+      val b = imageNode.getGlobalFullBounds
       globalToLocal(b)
 
-      var c = textNode.getGlobalFullBounds
+      val c = textNode.getGlobalFullBounds
       globalToLocal(c)
 
       new PBounds(c.createUnion(b))
