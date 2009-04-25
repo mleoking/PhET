@@ -32,16 +32,16 @@ class DraggableBeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: 
 }
 
 class BeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: String) extends PNode {
-  val shapeNode = new PhetPPath(Color.green)
+//  val shapeNode = new PhetPPath(Color.green)
   val image = RampResources.getImage(imageName)
   val imageNode = new PImage(image)
 
   def setImage(im: BufferedImage) = imageNode.setImage(im)
   addChild(imageNode)
-  addChild(shapeNode) //TODO remove after debug done
+//  addChild(shapeNode) //TODO remove after debug done
 
   defineInvokeAndPass(bead.addListenerByName) {
-    shapeNode.setPathTo(transform.createTransformedShape(new Circle(bead.position2D, 0.3)))
+//    shapeNode.setPathTo(transform.createTransformedShape(new Circle(bead.position2D, 0.3)))
 
     //TODO consolidate/refactor with BugNode, similar graphics transform code
     imageNode.setTransform(new AffineTransform)

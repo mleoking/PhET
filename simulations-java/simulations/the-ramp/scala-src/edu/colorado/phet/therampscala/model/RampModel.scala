@@ -57,6 +57,7 @@ class RampModel extends RecordModel[String] with ObjectModel {
   val leftWall = new Bead(new BeadState(-10, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter)
   val rightWall = new Bead(new BeadState(10, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter)
   val manBead = new Bead(new BeadState(2, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter)
+  selectedObject = _selectedObject//todo; fix this, it is currently here to do the update at the endof selected object method
 
   def setPlaybackState(state: String) {}
 

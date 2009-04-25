@@ -173,7 +173,7 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
 
   def height_=(height: Double) = {
     _height = height
-    notifyListeners
+    notifyListeners()
   }
 
   def height = _height
