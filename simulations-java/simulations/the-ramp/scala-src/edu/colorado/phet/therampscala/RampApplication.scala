@@ -131,7 +131,6 @@ class VectorViewModel extends Observable {
 
   def xyComponentsVisible_=(b: Boolean) = {
     _xyComponentsVisible = b
-    println("changed xyvis="+b)
     notifyListeners()
   }
 

@@ -104,16 +104,17 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
 
   val vectorNode = new VectorSetNode(transform, model.beads(0))
   addNode(vectorNode)
-  def addVectorAllComponents(beadVector: BeadVector with PointOfOriginVector, offsetFBD: VectorValue, offsetPlayArea: Double) = {
+  def addVectorAllComponents(beadVector: BeadVector with PointOfOriginVector, offsetFBD: VectorValue, offsetPlayArea: Double,
+                             selectedVectorVisible: () => Boolean) = {
     addVector(beadVector, offsetFBD, offsetPlayArea)
     val parallelComponent = new ParallelComponent(beadVector, model.beads(0))
     val xComponent = new XComponent(beadVector, model.beads(0))
     val yComponent = new YComponent(beadVector, model.beads(0))
     def update() = {
-      yComponent.visible = vectorViewModel.xyComponentsVisible
-      xComponent.visible = vectorViewModel.xyComponentsVisible
-      beadVector.visible = vectorViewModel.originalVectors
-      parallelComponent.visible = vectorViewModel.parallelComponents
+      yComponent.visible = vectorViewModel.xyComponentsVisible && selectedVectorVisible()
+      xComponent.visible = vectorViewModel.xyComponentsVisible && selectedVectorVisible()
+      beadVector.visible = vectorViewModel.originalVectors && selectedVectorVisible()
+      parallelComponent.visible = vectorViewModel.parallelComponents && selectedVectorVisible()
     }
     vectorViewModel.addListenerByName(update())
     update()
@@ -140,6 +141,7 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
       }
 
     }
+    //todo: make sure this adapter overrides other methods as well, such as getPaint
     val playAreaAdapter = new Vector(vector.color, vector.name, vector.abbreviation, () => vector.getValue * RampDefaults.PLAY_AREA_VECTOR_SCALE) {
       override def visible = vector.visible
 
@@ -148,13 +150,13 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
     vectorNode.addVector(playAreaAdapter, tailLocationInPlayArea)
   }
 
-  def addVectorAllComponents(a: BeadVector): Unit = addVectorAllComponents(a, new ConstantVectorValue, 0)
+  def addVectorAllComponents(a: BeadVector): Unit = addVectorAllComponents(a, new ConstantVectorValue, 0, () => true)
   addVectorAllComponents(model.beads(0).appliedForceVector)
   addVectorAllComponents(model.beads(0).gravityForceVector)
   addVectorAllComponents(model.beads(0).normalForceVector)
   addVectorAllComponents(model.beads(0).frictionForceVector)
   addVectorAllComponents(model.beads(0).wallForceVector)
-  addVectorAllComponents(model.beads(0).totalForceVector, new ConstantVectorValue(new Vector2D(0, fbdWidth / 4)), 2)
+  addVectorAllComponents(model.beads(0).totalForceVector, new ConstantVectorValue(new Vector2D(0, fbdWidth / 4)), 2, () => vectorViewModel.sumOfForcesVector) //no need to add a separate listener, since it is already contained in vectorviewmodel
 }
 trait PointOfOriginVector {
   def getPointOfOriginOffset(defaultCenter: Double): Double
