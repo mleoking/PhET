@@ -106,14 +106,14 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
   addNode(vectorNode)
   def addVectorAllComponents(beadVector: BeadVector with PointOfOriginVector, offsetFBD: VectorValue, offsetPlayArea: Double) = {
     addVector(beadVector, offsetFBD, offsetPlayArea)
-    addVector(new ParallelComponent(beadVector,model.beads(0)), offsetFBD, offsetPlayArea)
-    addVector(new XComponent(beadVector,model.beads(0)), offsetFBD, offsetPlayArea)
-    addVector(new YComponent(beadVector,model.beads(0)), offsetFBD, offsetPlayArea)
+    addVector(new ParallelComponent(beadVector, model.beads(0)), offsetFBD, offsetPlayArea)
+    addVector(new XComponent(beadVector, model.beads(0)), offsetFBD, offsetPlayArea)
+    addVector(new YComponent(beadVector, model.beads(0)), offsetFBD, offsetPlayArea)
   }
 
-  def addVector(a: BeadVector with PointOfOriginVector, offsetFBD: VectorValue, offsetPlayArea: Double) = {
-    fbdNode.addVector(a, offsetFBD)
-    windowFBDNode.addVector(a, offsetFBD)
+  def addVector(vector: Vector with PointOfOriginVector, offsetFBD: VectorValue, offsetPlayArea: Double) = {
+    fbdNode.addVector(vector, offsetFBD)
+    windowFBDNode.addVector(vector, offsetFBD)
 
     val tailLocationInPlayArea = new VectorValue() {
       def addListenerByName(listener: => Unit) = {
@@ -124,10 +124,10 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
       def getValue = {
         val defaultCenter = model.beads(0).height / 2.0
         model.beads(0).position2D + new Vector2D(model.beads(0).getAngle + PI / 2) *
-                (offsetPlayArea + (if (vectorViewModel.centered) defaultCenter else a.getPointOfOriginOffset(defaultCenter)))
+                (offsetPlayArea + (if (vectorViewModel.centered) defaultCenter else vector.getPointOfOriginOffset(defaultCenter)))
       }
     }
-    val playAreaAdapter = new Vector(a.color, a.name, a.abbreviation, () => a.getValue * RampDefaults.PLAY_AREA_VECTOR_SCALE)
+    val playAreaAdapter = new Vector(vector.color, vector.name, vector.abbreviation, () => vector.getValue * RampDefaults.PLAY_AREA_VECTOR_SCALE)
     vectorNode.addVector(playAreaAdapter, tailLocationInPlayArea)
   }
 
@@ -138,8 +138,6 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
   addVectorAllComponents(model.beads(0).frictionForceVector)
   addVectorAllComponents(model.beads(0).wallForceVector)
   addVectorAllComponents(model.beads(0).totalForceVector, new ConstantVectorValue(new Vector2D(0, fbdWidth / 4)), 2)
-
-  addVectorAllComponents(new ParallelComponent(model.beads(0).gravityForceVector, model.beads(0)))
 }
 trait PointOfOriginVector {
   def getPointOfOriginOffset(defaultCenter: Double): Double
