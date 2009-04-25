@@ -36,9 +36,11 @@ class VectorComponent(target: BeadVector, bead: Bead, getComponentUnitVector: ()
   }
 }
 
-class ParallelComponent(target: BeadVector, bead: Bead) extends VectorComponent(target, bead, () => new Vector2D(bead.getAngle)) {
+class AngleBasedComponent(target: BeadVector, bead: Bead, getComponentUnitVector: () => Vector2D) extends VectorComponent(target, bead, getComponentUnitVector) {
   bead.addListenerByName(notifyListeners()) //since this value depends on getAngle, which depends on getPosition
 }
+class ParallelComponent(target: BeadVector, bead: Bead) extends AngleBasedComponent(target, bead, () => new Vector2D(bead.getAngle))
+class PerpendicularComponent(target: BeadVector, bead: Bead) extends AngleBasedComponent(target, bead, () => new Vector2D(bead.getAngle + PI / 2))
 class XComponent(target: BeadVector, bead: Bead) extends VectorComponent(target, bead, () => new Vector2D(1, 0))
 class YComponent(target: BeadVector, bead: Bead) extends VectorComponent(target, bead, () => new Vector2D(0, 1))
 
