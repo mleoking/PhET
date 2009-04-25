@@ -20,7 +20,7 @@ import umd.cs.piccolo.PNode
 import scalacommon.Predef._
 import java.lang.Math._
 
-class Vector(val color: Color, val name: String, val abbreviation: String, val valueAccessor: () => Vector2D) extends Observable with VectorValue {
+class Vector(val color: Color, val name: String, val abbreviation: String, val valueAccessor: () => Vector2D, val painter: (Vector2D, Color) => Paint) extends Observable with VectorValue {
   private var _visible = true
 
   def getValue = valueAccessor()
@@ -32,22 +32,7 @@ class Vector(val color: Color, val name: String, val abbreviation: String, val v
     notifyListeners()
   }
 
-  def getPaint = {
-    color
-
-    //    val imageWidth = 6
-    //    val imageHeight = 6
-    //    val texture = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB)
-    //    val graphics2D = texture.createGraphics
-    //    val background = new Color(255, 255, 255)
-    //
-    //    graphics2D.setColor(background)
-    //    graphics2D.fillRect(0, 0, imageWidth, imageHeight)
-    //    graphics2D.setColor(color)
-    //    val stripeSize = 2
-    //    graphics2D.fillRect(0, 0, stripeSize, imageHeight)
-    //    new TexturePaint(texture, new Rectangle2D.Double(0, 0, texture.getWidth, texture.getHeight))
-  }
+  def getPaint = painter(getValue, color)
 }
 
 class AxisNode(val transform: ModelViewTransform2D, x0: Double, y0: Double, x1: Double, y1: Double, label: String) extends PNode {
@@ -237,7 +222,7 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
 object TestFBD extends Application {
   val frame = new JFrame
   val canvas = new PhetPCanvas
-  val vector = new Vector(Color.blue, "Test Vector", "Fv", () => new Vector2D(5, 5))
+  val vector = new Vector(Color.blue, "Test Vector", "Fv", () => new Vector2D(5, 5), (a, b) => b)
   canvas.addScreenChild(new FreeBodyDiagramNode(new FreeBodyDiagramModel, 200, 200, 20, 20, new CoordinateFrameModel(Nil), true,
     PhetCommonResources.getImage("buttons/maximizeButton.png"), vector))
   frame.setContentPane(canvas)
