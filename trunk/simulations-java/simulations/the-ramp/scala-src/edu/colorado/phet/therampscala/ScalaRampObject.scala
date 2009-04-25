@@ -16,7 +16,7 @@ class ScalaRampObject(_name: String, _mass: Double, val kineticFriction: Double,
 
   def this(name: String, mass: Double, kineticFriction: Double, staticFriction: Double, imageFilename: String) = this (name, mass, kineticFriction, staticFriction, imageFilename, false)
 
-  def height = mass / 100.0
+  def height = mass / 2/4
 }
 
 class CustomTextRampObject(name: String, mass: Double, kineticFriction: Double, staticFriction: Double, imageFilename: String, customizable: Boolean) extends ScalaRampObject(name, mass, kineticFriction, staticFriction, imageFilename, customizable) {
