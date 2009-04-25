@@ -44,7 +44,7 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
   val appliedForceVector = new BeadVector(RampDefaults.appliedForceColor, "Applied Force", "<html>F<sub>a</sub></html>", false) {
     def getValue = appliedForce
   }
-  val frictionForceVector = new BeadVector(RampDefaults.frictionForceColor, "Friction Force", "<html>F<sub>f</sub></html>", true) {
+  val frictionForceVector: BeadVector = new BeadVector(RampDefaults.frictionForceColor, "Friction Force", "<html>F<sub>f</sub></html>", true) {
     def getValue = frictionForce
   }
 
@@ -81,22 +81,39 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
     if (wallForce.magnitude > 0)
       new Vector2D
     else {
+      //todo: friction is not allowed to turn the object around or accelerate the object from rest
+      //if friction would reverse the object's velocity (or increase its velocity)
+      //then instead choose a friction vector that will bring instead the object to rest.
       val canonicalFrictionForce = getCanonicalFrictionForce
       val partialSum = appliedForceVector.getValue + gravityForceVector.getValue +
               normalForceVector.getValue + wallForceVector.getValue + canonicalFrictionForce
 
-      //todo: friction is not allowed to turn the object around or accelerate the object from rest
-      //if friction would reverse the object's velocity (or increase its velocity)
-      //then instead choose a friction vector that will bring instead the object to rest.
-
       val velWithNetForce = netForceToParallelVelocity(partialSum, _dt)
       val velWithNetForceIgnoreFriction = netForceToParallelVelocity(partialSum - canonicalFrictionForce, _dt)
-      if (velWithNetForce * velWithNetForceIgnoreFriction < 0)
-        new Vector2D
+      //todo: improve criterion for when to reduce friction
+      if (velWithNetForce * velWithNetForceIgnoreFriction <= 0) {
+        //choose friction so net force will be zero, or just slowing the object down
+//        val frictionToGiveZeroForce = new Vector2D - appliedForceVector.getValue - gravityForceVector.getValue - normalForceVector.getValue
+
+        val alpha = 0.9 //reduction scale factor, v_f= v0 * alpha
+        val desiredSumForcesMagnitude = abs(velocity * (alpha - 1) * mass / _dt)
+        val desiredSumForces = new Vector2D(getVelocityVectorDirection) * desiredSumForcesMagnitude
+        val desiredFrictionForce = desiredSumForces - appliedForceVector.getValue - gravityForceVector.getValue - normalForceVector.getValue
+
+        //        frictionToGiveZeroForce
+        if (desiredFrictionForce.magnitude > 1E-16)
+          desiredFrictionForce
+        else {
+          setVelocity(0)
+          new Vector2D
+        }
+      }
       else
         canonicalFrictionForce
     }
   }
+
+  def getVelocityVectorDirection = (positionMapper(position) - positionMapper(position - 1E-6)).getAngle
 
   def getCanonicalFrictionForce = {
     val frictionCoefficient = if (velocity > 1E-6) getKineticFriction else getStaticFriction
