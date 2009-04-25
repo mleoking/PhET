@@ -28,14 +28,19 @@ class BeadVector(color: Color, name: String, abbreviation: String, val bottomPO:
   def getPointOfOriginOffset(defaultCenter: Double) = if (bottomPO) 0.0 else defaultCenter
 }
 
-class ParallelComponent(target: BeadVector, bead: Bead) extends BeadVector(target.color, target.name, target.abbreviation, target.bottomPO, target.a) {
-  bead.addListenerByName(notifyListeners()) //since this value depends on getAngle, which depends on getPosition
-
+class VectorComponent(target: BeadVector, bead: Bead, getComponentUnitVector: () => Vector2D) extends BeadVector(target.color, target.name, target.abbreviation, target.bottomPO, target.a) {
   override def getValue = {
-    val magnitude=super.getValue dot new Vector2D(bead.getAngle)
-    new Vector2D(bead.getAngle)*magnitude
+    val d = getComponentUnitVector()
+    d * (super.getValue dot d)
   }
 }
+
+class ParallelComponent(target: BeadVector, bead: Bead) extends VectorComponent(target, bead, () => new Vector2D(bead.getAngle)) {
+  bead.addListenerByName(notifyListeners()) //since this value depends on getAngle, which depends on getPosition
+}
+class XComponent(target: BeadVector, bead: Bead) extends VectorComponent(target, bead, () => new Vector2D(1, 0))
+class YComponent(target: BeadVector, bead: Bead) extends VectorComponent(target, bead, () => new Vector2D(0, 1))
+
 class Bead(_state: BeadState, private var _height: Double, positionMapper: Double => Vector2D, rampSegmentAccessor: Double => RampSegment, model: Observable) extends Observable {
   val gravity = -9.8
   var state = _state
