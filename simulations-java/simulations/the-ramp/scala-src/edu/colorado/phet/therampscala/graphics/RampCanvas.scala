@@ -10,7 +10,7 @@ import java.awt.event._
 
 import java.awt.geom.{Point2D, Rectangle2D}
 import javax.swing.{JFrame, JDialog}
-import model.{ParallelComponent, BeadVector, Bead, RampModel}
+import model._
 import scalacommon.math.Vector2D
 import scalacommon.Predef._
 import theramp.model.ValueAccessor.ParallelForceAccessor
@@ -104,8 +104,14 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
 
   val vectorNode = new VectorSetNode(transform, model.beads(0))
   addNode(vectorNode)
+  def addVectorAllComponents(beadVector: BeadVector with PointOfOriginVector, offsetFBD: VectorValue, offsetPlayArea: Double) = {
+    addVector(beadVector, offsetFBD, offsetPlayArea)
+    addVector(new ParallelComponent(beadVector,model.beads(0)), offsetFBD, offsetPlayArea)
+    addVector(new XComponent(beadVector,model.beads(0)), offsetFBD, offsetPlayArea)
+    addVector(new YComponent(beadVector,model.beads(0)), offsetFBD, offsetPlayArea)
+  }
 
-  def addVector(a: Vector with PointOfOriginVector, offsetFBD: VectorValue, offsetPlayArea: Double) = {
+  def addVector(a: BeadVector with PointOfOriginVector, offsetFBD: VectorValue, offsetPlayArea: Double) = {
     fbdNode.addVector(a, offsetFBD)
     windowFBDNode.addVector(a, offsetFBD)
 
@@ -125,18 +131,15 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
     vectorNode.addVector(playAreaAdapter, tailLocationInPlayArea)
   }
 
-  def addVector(a: BeadVector): Unit = addVector(a, new ConstantVectorValue, 0)
-  addVector(model.beads(0).appliedForceVector)
-  addVector(model.beads(0).gravityForceVector)
-  addVector(model.beads(0).normalForceVector)
-  addVector(model.beads(0).frictionForceVector)
-  addVector(model.beads(0).wallForceVector)
-  addVector(model.beads(0).totalForceVector, new ConstantVectorValue(new Vector2D(0, fbdWidth / 4)), 2)
+  def addVectorAllComponents(a: BeadVector): Unit = addVectorAllComponents(a, new ConstantVectorValue, 0)
+  addVectorAllComponents(model.beads(0).appliedForceVector)
+  addVectorAllComponents(model.beads(0).gravityForceVector)
+  addVectorAllComponents(model.beads(0).normalForceVector)
+  addVectorAllComponents(model.beads(0).frictionForceVector)
+  addVectorAllComponents(model.beads(0).wallForceVector)
+  addVectorAllComponents(model.beads(0).totalForceVector, new ConstantVectorValue(new Vector2D(0, fbdWidth / 4)), 2)
 
-
-  addVector(new ParallelComponent(model.beads(0).gravityForceVector, model.beads(0)))
-
-
+  addVectorAllComponents(new ParallelComponent(model.beads(0).gravityForceVector, model.beads(0)))
 }
 trait PointOfOriginVector {
   def getPointOfOriginOffset(defaultCenter: Double): Double
