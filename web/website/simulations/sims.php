@@ -29,12 +29,14 @@ class IndividualSimulationPage extends SitePage {
         foreach ($close_sims1 as $sim) {
             $sim_id = $sim['sim_id'];
             if (isset($close_sims[$sim_id])) continue;
+            if (!$sim['sim_is_real']) continue;
             $close_sims[$sim_id] = $sim;
         }
 
         foreach ($close_sims2 as $sim) {
             $sim_id = $sim['sim_id'];
             if (isset($close_sims[$sim_id])) continue;
+            if (!$sim['sim_is_real']) continue;
             $close_sims[$sim_id] = $sim;
         }
 
