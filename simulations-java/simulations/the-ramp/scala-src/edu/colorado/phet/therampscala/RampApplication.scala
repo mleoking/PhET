@@ -149,6 +149,6 @@ class RampModule(clock: ScalaClock) extends Module("Ramp", clock) {
 
 object RampApplication {
   def main(args: Array[String]) = {
-    ScalaApplicationLauncher.launchApplication(args, "the-ramp", "the-ramp", () => new RampModule(new ScalaClock(30, 30 / 1000.0)))
+    ScalaApplicationLauncher.launchApplication(args, "the-ramp", "the-ramp", () => new RampModule(new ScalaClock(30, RampDefaults.DT_DEFAULT)))
   }
 }

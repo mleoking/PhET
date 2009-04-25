@@ -101,26 +101,20 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
         if (desiredSumForcesMagnitude < 1E-12)
           desiredSumForcesMagnitude = 1E-12
 
-        val desiredSumForces = new Vector2D(getVelocityVectorDirection) * desiredSumForcesMagnitude
+        //        println("velocityVector=" + getVelocityVectorDirection.toDegrees + " degrees")
+        val desiredSumForces = new Vector2D(getVelocityVectorDirection + PI) * desiredSumForcesMagnitude
         val desiredFrictionForce = desiredSumForces - appliedForce - gravityForce - normalForce
 
         desiredFrictionForce
-
-        //        if (desiredFrictionForce.magnitude > 1E-16)
-        //          desiredFrictionForce
-        //        else {
-        //          setVelocity(0)
-        //          new Vector2D
-        //        }
       }
       else {
-        println("canonical at "+System.currentTimeMillis)
+        //        println("canonical at " + System.currentTimeMillis)
         canonicalFrictionForce
       }
     }
   }
 
-  def getVelocityVectorDirection = (positionMapper(position) - positionMapper(position - 1E-6)).getAngle
+  def getVelocityVectorDirection = (positionMapper(position + velocity * 1E-6) - positionMapper(position - velocity * 1E-6)).getAngle
 
   def getCanonicalFrictionForce = {
     val frictionCoefficient = if (velocity > 1E-6) getKineticFriction else getStaticFriction
