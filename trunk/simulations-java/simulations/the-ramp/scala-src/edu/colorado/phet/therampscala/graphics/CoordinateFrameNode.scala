@@ -18,7 +18,7 @@ class SynchronizedAxisModel(_ang: Double, length: Double, tail: Boolean, coordin
   coordinateFrameModel.addListenerByName(angle = coordinateFrameModel.angle + offset)
   addListenerByName(coordinateFrameModel.angle = angle - offset)
 
-  override def dropped()={
+  override def dropped() = {
     coordinateFrameModel.dropped()
   }
 }
