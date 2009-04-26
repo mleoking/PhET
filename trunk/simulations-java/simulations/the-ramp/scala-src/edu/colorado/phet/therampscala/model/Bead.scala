@@ -20,6 +20,10 @@ case class BeadState(position: Double, velocity: Double, mass: Double, staticFri
 
   def setVelocity(vel: Double) = new BeadState(position, vel, mass, staticFriction, kineticFriction)
 
+  def setStaticFriction(value: Double) = new BeadState(position, velocity, mass, value, kineticFriction)
+
+  def setKineticFriction(value: Double) = new BeadState(position, velocity, mass, staticFriction, value)
+
   def setMass(m: Double) = new BeadState(position, velocity, m, staticFriction, kineticFriction)
 
   def thermalEnergy = 0
@@ -98,6 +102,7 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
   frictionForceVector.addListenerByName(totalForceVector.notifyListeners())
 
   addListenerByName(appliedForceVector.notifyListeners()) //todo: just listen for changes to applied force parallel component
+  model.addListenerByName(notifyListeners)
 
   def totalForce = gravityForceVector.getValue + normalForceVector.getValue + appliedForceVector.getValue + frictionForceVector.getValue + wallForceVector.getValue
 
@@ -118,7 +123,7 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
 
       //use up to fMax in preventing the object from moving
       //see static friction discussion here: http://en.wikipedia.org/wiki/Friction
-      val fMax = abs(getStaticFriction * normalForce.magnitude)
+      val fMax = abs(staticFriction * normalForce.magnitude)
       val netForceWithoutFriction = appliedForce + gravityForce + normalForce + wallForce
 
       if (netForceWithoutFriction.magnitude >= fMax) {
@@ -131,7 +136,7 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
     else {
       //object is moving, just use kinetic friction
       val vel = (positionMapper(position) - positionMapper(position - velocity * 1E-6))
-      new Vector2D(vel.getAngle + PI) * normalForce.magnitude * getKineticFriction
+      new Vector2D(vel.getAngle + PI) * normalForce.magnitude * kineticFriction
     }
   }
 
@@ -159,7 +164,6 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
 
   def getRampUnitVector = rampSegmentAccessor(position).getUnitVector
 
-  model.addListenerByName(notifyListeners)
   def mass = state.mass
 
   def position = state.position
@@ -178,9 +182,19 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
 
   def height = _height
 
-  def getStaticFriction = state.staticFriction
+  def staticFriction = state.staticFriction
 
-  def getKineticFriction = state.kineticFriction
+  def kineticFriction = state.kineticFriction
+
+  def staticFriction_=(value: Double) = {
+    state = state.setStaticFriction(value)
+    notifyListeners()
+  }
+
+  def kineticFriction_=(value: Double) = {
+    state = state.setKineticFriction(value)
+    notifyListeners()
+  }
 
   def setVelocity(velocity: Double) = {
     state = state.setVelocity(velocity)
@@ -247,7 +261,7 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
     }
     val justCollided = false
 
-    if (getStaticFriction == 0 && getKineticFriction == 0) {
+    if (staticFriction == 0 && kineticFriction == 0) {
       val appliedWork = getTotalEnergy
       val gravityWork = -getPotentialEnergy
       val thermalEnergy = origState.thermalEnergy
