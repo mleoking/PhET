@@ -165,21 +165,15 @@ class VectorViewModel extends Observable {
     notifyListeners()
   }
 }
-class RampModule(frame: JFrame, clock: ScalaClock) extends Module("Ramp", clock) {
+
+class AbstractRampModule(frame: JFrame, clock: ScalaClock) extends Module("Ramp", clock) {
   val model = new RampModel
   val wordModel = new WordModel
   val fbdModel = new FreeBodyDiagramModel
   val coordinateSystemModel = new CoordinateSystemModel
   val vectorViewModel = new VectorViewModel
-  val canvas = new RampCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame)
-
   coordinateSystemModel.addListenerByName(if (coordinateSystemModel.fixed) model.coordinateFrameModel.angle = 0)
-
-  setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
-  setControlPanel(new RampControlPanel(model, wordModel, fbdModel, coordinateSystemModel, vectorViewModel, resetRampModule))
-  setClockControlPanel(new RecordModelControlPanel(model, canvas, () => new PlaybackSpeedSlider(model), Color.blue, 20))
-
   def resetRampModule(): Unit = {
     model.resetAll()
     wordModel.resetAll()
@@ -188,14 +182,36 @@ class RampModule(frame: JFrame, clock: ScalaClock) extends Module("Ramp", clock)
     vectorViewModel.resetAll()
   }
 }
+class RampModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock) {
+  val canvas = new RampCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame)
+  setSimulationPanel(canvas)
+  setControlPanel(new RampControlPanel(model, wordModel, fbdModel, coordinateSystemModel, vectorViewModel, resetRampModule))
+  setClockControlPanel(new RecordModelControlPanel(model, canvas, () => new PlaybackSpeedSlider(model), Color.blue, 20))
+}
 
 class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   addModule(new RampModule(getPhetFrame, new ScalaClock(30, RampDefaults.DT_DEFAULT)))
+}
+
+class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock) {
+  model.rampSegments(1).setAngle(0)
+  model.rampSegments(0).startPoint=new Vector2D(-10,0).rotate(-(30.0).toRadians)
+  val canvas = new RampCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame)
+  setSimulationPanel(canvas)
+}
+class RobotMovingCompanyApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
+  addModule(new RobotMovingCompanyModule(getPhetFrame, new ScalaClock(30, RampDefaults.DT_DEFAULT)))
 }
 
 //Current IntelliJ plugin has trouble finding main for classes with a compnation object, so we use a different name 
 object RampApplicationMain {
   def main(args: Array[String]) = {
     new PhetApplicationLauncher().launchSim(args, "the-ramp", classOf[RampApplication])
+  }
+}
+
+object RobotMovingCompanyApplicationMain {
+  def main(args: Array[String]) = {
+    new PhetApplicationLauncher().launchSim(args, "the-ramp", "robot-moving-company", classOf[RobotMovingCompanyApplication])
   }
 }
