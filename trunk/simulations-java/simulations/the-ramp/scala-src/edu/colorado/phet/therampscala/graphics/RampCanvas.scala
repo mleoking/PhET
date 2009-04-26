@@ -77,12 +77,12 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
   addNode(new BeadNode(model.rightWall, transform, "barrier2.jpg") with CloseButton)
   addNode(new BeadNode(model.tree, transform, "tree.gif"))
 
-  val cabinetNode = new DraggableBeadNode(model.beads(0), transform, "cabinet.gif")
+  val cabinetNode = new DraggableBeadNode(model.bead, transform, "cabinet.gif")
   model.addListenerByName(cabinetNode.setImage(RampResources.getImage(model.selectedObject.imageFilename)))
   addNode(cabinetNode)
 
-  addNode(new PusherNode(transform, model.beads(0), model.manBead))
-  addNode(new AppliedForceSliderNode(model.beads(0), transform))
+  addNode(new PusherNode(transform, model.bead, model.manBead))
+  addNode(new AppliedForceSliderNode(model.bead, transform))
 
   addNode(new ObjectSelectionNode(transform, model))
 
@@ -90,7 +90,7 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
 
   val fbdWidth = RampDefaults.freeBodyDiagramWidth
   val fbdNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 200, 200, fbdWidth, fbdWidth, model.coordinateFrameModel, coordinateSystemModel.adjustable, PhetCommonResources.getImage("buttons/maximizeButton.png"))
-  val fbdListener = (pt: Point2D) => {model.beads(0).parallelAppliedForce = pt.getX}
+  val fbdListener = (pt: Point2D) => {model.bead.parallelAppliedForce = pt.getX}
   fbdNode.addListener(fbdListener)
   fbdNode.setOffset(10, 10)
   addNode(fbdNode)
@@ -139,21 +139,21 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
   }
 
   class BodyVectorNode(transform: ModelViewTransform2D, vector: Vector, offset: VectorValue) extends VectorNode(transform, vector, offset) {
-    model.beads(0).addListenerByName {
-      setOffset(model.beads(0).position2D)
+    model.bead.addListenerByName {
+      setOffset(model.bead.position2D)
       update
     }
   }
 
-  val vectorNode = new VectorSetNode(transform, model.beads(0))
+  val vectorNode = new VectorSetNode(transform, model.bead)
   addNode(vectorNode)
   def addVectorAllComponents(beadVector: BeadVector with PointOfOriginVector, offsetFBD: VectorValue, offsetPlayArea: Double,
                              selectedVectorVisible: () => Boolean) = {
     addVector(beadVector, offsetFBD, offsetPlayArea)
-    val parallelComponent = new ParallelComponent(beadVector, model.beads(0))
-    val perpComponent = new PerpendicularComponent(beadVector, model.beads(0))
-    val xComponent = new XComponent(beadVector, model.beads(0))
-    val yComponent = new YComponent(beadVector, model.beads(0))
+    val parallelComponent = new ParallelComponent(beadVector, model.bead)
+    val perpComponent = new PerpendicularComponent(beadVector, model.bead)
+    val xComponent = new XComponent(beadVector, model.bead)
+    val yComponent = new YComponent(beadVector, model.bead)
     def update() = {
       yComponent.visible = vectorViewModel.xyComponentsVisible && selectedVectorVisible()
       xComponent.visible = vectorViewModel.xyComponentsVisible && selectedVectorVisible()
@@ -176,13 +176,13 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
 
     val tailLocationInPlayArea = new VectorValue() {
       def addListenerByName(listener: => Unit) = {
-        model.beads(0).addListenerByName(listener)
+        model.bead.addListenerByName(listener)
         vectorViewModel.addListenerByName(listener)
       }
 
       def getValue = {
-        val defaultCenter = model.beads(0).height / 2.0
-        model.beads(0).position2D + new Vector2D(model.beads(0).getAngle + PI / 2) *
+        val defaultCenter = model.bead.height / 2.0
+        model.bead.position2D + new Vector2D(model.bead.getAngle + PI / 2) *
                 (offsetPlayArea + (if (vectorViewModel.centered) defaultCenter else vector.getPointOfOriginOffset(defaultCenter)))
       }
 
@@ -199,12 +199,12 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
   }
 
   def addVectorAllComponents(a: BeadVector): Unit = addVectorAllComponents(a, new ConstantVectorValue, 0, () => true)
-  addVectorAllComponents(model.beads(0).appliedForceVector)
-  addVectorAllComponents(model.beads(0).gravityForceVector)
-  addVectorAllComponents(model.beads(0).normalForceVector)
-  addVectorAllComponents(model.beads(0).frictionForceVector)
-  addVectorAllComponents(model.beads(0).wallForceVector)
-  addVectorAllComponents(model.beads(0).totalForceVector, new ConstantVectorValue(new Vector2D(0, fbdWidth / 4)), 2, () => vectorViewModel.sumOfForcesVector) //no need to add a separate listener, since it is already contained in vectorviewmodel
+  addVectorAllComponents(model.bead.appliedForceVector)
+  addVectorAllComponents(model.bead.gravityForceVector)
+  addVectorAllComponents(model.bead.normalForceVector)
+  addVectorAllComponents(model.bead.frictionForceVector)
+  addVectorAllComponents(model.bead.wallForceVector)
+  addVectorAllComponents(model.bead.totalForceVector, new ConstantVectorValue(new Vector2D(0, fbdWidth / 4)), 2, () => vectorViewModel.sumOfForcesVector) //no need to add a separate listener, since it is already contained in vectorviewmodel
 }
 trait PointOfOriginVector {
   def getPointOfOriginOffset(defaultCenter: Double): Double

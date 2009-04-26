@@ -36,7 +36,8 @@ class RampModel extends RecordModel[String] with ObjectModel {
   setPaused(false)
 
   val rampSegments = new ArrayBuffer[RampSegment]
-  val beads = new ArrayBuffer[Bead]
+  //  val bead=new Bead
+  //  val beads = new ArrayBuffer[Bead]
   private var _walls = true
   private var _frictionless = false
   private var _selectedObject = RampDefaults.objects(0)
@@ -54,7 +55,7 @@ class RampModel extends RecordModel[String] with ObjectModel {
   rampSegments(1).addListenerByName {rampChangeAdapter.notifyListeners}
   val surfaceFriction = () => !frictionless
   val wallRange = () => if (walls) new Range(RampDefaults.MIN_X, RampDefaults.MAX_X) else new Range(-10000, RampDefaults.MAX_X)
-  beads += new Bead(new BeadState(5, 0, _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction),
+  val bead = new Bead(new BeadState(5, 0, _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction),
     3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, walls, wallRange)
   val tree = new Bead(new BeadState(-9, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, walls, wallRange)
   val leftWall = new Bead(new BeadState(-10, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, walls, wallRange)
@@ -66,9 +67,9 @@ class RampModel extends RecordModel[String] with ObjectModel {
     selectedObject = RampDefaults.objects(0)
     frictionless = false
     walls = true
-    beads(0).setPosition(5)
-    beads(0).parallelAppliedForce = 0
-    beads(0).setVelocity(0)
+    bead.setPosition(5)
+    bead.parallelAppliedForce = 0
+    bead.setVelocity(0)
     rampSegments(1).setAngle(initialAngle)
   }
 
@@ -86,17 +87,17 @@ class RampModel extends RecordModel[String] with ObjectModel {
   }
 
   def updateDueToObjectChange() = {
-    beads(0).mass = _selectedObject.mass
-    beads(0).height = _selectedObject.height
-    beads(0).staticFriction = _selectedObject.staticFriction
-    beads(0).kineticFriction = _selectedObject.kineticFriction
+    bead.mass = _selectedObject.mass
+    bead.height = _selectedObject.height
+    bead.staticFriction = _selectedObject.staticFriction
+    bead.kineticFriction = _selectedObject.kineticFriction
 
     //todo: remove listeners on object selection change
     _selectedObject match {
       case o: MutableRampObject => {
         o.addListenerByName {
-          beads(0).height = o.height
-          beads(0).mass = o.mass
+          bead.height = o.height
+          bead.mass = o.mass
         }
       }
       case _ => {}
@@ -145,12 +146,14 @@ class RampModel extends RecordModel[String] with ObjectModel {
 
   def update(dt: Double) = {
     if (!isPaused) {
-      beads.foreach(_.stepInTime(dt))
+//      beads.foreach(_.stepInTime(dt))
+      bead.stepInTime(dt)
     }
   }
 
   def stepRecord(dt: Double) = {
-    beads.foreach(_.stepInTime(dt))
+//    beads.foreach(_.stepInTime(dt))
+    bead.stepInTime(dt)
   }
 }
 

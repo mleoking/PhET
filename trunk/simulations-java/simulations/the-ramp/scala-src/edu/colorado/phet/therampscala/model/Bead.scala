@@ -83,7 +83,7 @@ class YComponent(target: BeadVector, bead: Bead) extends VectorComponent(target,
 
 case class Range(min: Double, max: Double)
 class Bead(_state: BeadState, private var _height: Double, positionMapper: Double => Vector2D,
-           rampSegmentAccessor: Double => RampSegment, model: Observable, surfaceFriction: () => Boolean, wallsExist:  => Boolean,
+           rampSegmentAccessor: Double => RampSegment, model: Observable, surfaceFriction: () => Boolean, wallsExist: => Boolean,
            wallRange: () => Range
         ) extends Observable {
   val gravity = -9.8
@@ -242,7 +242,7 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
 
   def netForceToParallelVelocity(f: Vector2D, dt: Double) = velocity + forceToParallelAcceleration(f) * dt
 
-  private var attachState:AttachState = new Grounded
+  private var attachState: AttachState = new Grounded
 
   abstract class AttachState {
     def stepInTime(dt: Double)
@@ -266,7 +266,7 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
 
       val requestedPosition = position + velocity * dt
 
-      println("walls="+wallsExist+", rp="+requestedPosition+", wallRangeMax="+wallRange().max)
+      println("walls=" + wallsExist + ", rp=" + requestedPosition + ", wallRangeMax=" + wallRange().max)
 
       //TODO: generalize boundary code
       if (requestedPosition <= wallRange().min) {
