@@ -52,13 +52,14 @@ class RampModel extends RecordModel[String] with ObjectModel {
   object rampChangeAdapter extends Observable //todo: perhaps we should just pass the addListener method to the beads
   rampSegments(0).addListenerByName {rampChangeAdapter.notifyListeners}
   rampSegments(1).addListenerByName {rampChangeAdapter.notifyListeners}
-  val surfaceFriction = () => {!frictionless}
+  val surfaceFriction = () => !frictionless
+  val wallRange= ()=> if (walls) new Range(RampDefaults.MIN_X,RampDefaults.MAX_X) else new Range(-10000,10000)
   beads += new Bead(new BeadState(5, 0, _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction),
-    3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction)
-  val tree = new Bead(new BeadState(-9, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction)
-  val leftWall = new Bead(new BeadState(-10, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction)
-  val rightWall = new Bead(new BeadState(10, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction)
-  val manBead = new Bead(new BeadState(2, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction)
+    3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction,wallRange)
+  val tree = new Bead(new BeadState(-9, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction,wallRange)
+  val leftWall = new Bead(new BeadState(-10, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction,wallRange)
+  val rightWall = new Bead(new BeadState(10, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction,wallRange)
+  val manBead = new Bead(new BeadState(2, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction,wallRange)
   updateDueToObjectChange()
 
   override def resetAll() = {

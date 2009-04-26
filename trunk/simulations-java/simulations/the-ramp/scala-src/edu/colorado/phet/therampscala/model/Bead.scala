@@ -81,7 +81,11 @@ class PerpendicularComponent(target: BeadVector, bead: Bead) extends AngleBasedC
 class XComponent(target: BeadVector, bead: Bead) extends VectorComponent(target, bead, () => new Vector2D(1, 0), Paints.horizontalStripes)
 class YComponent(target: BeadVector, bead: Bead) extends VectorComponent(target, bead, () => new Vector2D(0, 1), Paints.verticalStripes)
 
-class Bead(_state: BeadState, private var _height: Double, positionMapper: Double => Vector2D, rampSegmentAccessor: Double => RampSegment, model: Observable, surfaceFriction: () => Boolean) extends Observable {
+case class Range(min: Double, max: Double)
+class Bead(_state: BeadState, private var _height: Double, positionMapper: Double => Vector2D,
+           rampSegmentAccessor: Double => RampSegment, model: Observable, surfaceFriction: () => Boolean,
+           walls: () => Range
+        ) extends Observable {
   val gravity = -9.8
   var state = _state
   var _parallelAppliedForce = 0.0
@@ -108,10 +112,10 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
   def totalForce = gravityForceVector.getValue + normalForceVector.getValue + appliedForceVector.getValue + frictionForceVector.getValue + wallForceVector.getValue
 
   def wallForce = {
-    if (position <= RampDefaults.MIN_X && forceToParallelAcceleration(appliedForceVector.getValue) < 0) {
+    if (position <= walls().min && forceToParallelAcceleration(appliedForceVector.getValue) < 0) {
       appliedForceVector.getValue * -1
     }
-    else if (position >= RampDefaults.MAX_X && forceToParallelAcceleration(appliedForceVector.getValue) > 0) {
+    else if (position >= walls().max && forceToParallelAcceleration(appliedForceVector.getValue) > 0) {
       appliedForceVector.getValue * -1
     } else {
       new Vector2D
@@ -252,13 +256,13 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
     val requestedPosition = position + velocity * dt
 
     //TODO: generalize boundary code
-    if (requestedPosition <= RampDefaults.MIN_X) {
+    if (requestedPosition <= walls().min) {
       setVelocity(0)
-      setPosition(RampDefaults.MIN_X)
+      setPosition(walls().min)
     }
-    else if (requestedPosition >= RampDefaults.MAX_X) {
+    else if (requestedPosition >= walls().max) {
       setVelocity(0)
-      setPosition(RampDefaults.MAX_X)
+      setPosition(walls().max)
     }
     else {
       setPosition(requestedPosition)
