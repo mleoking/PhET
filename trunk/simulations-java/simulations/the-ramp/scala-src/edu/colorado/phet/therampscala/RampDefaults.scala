@@ -12,7 +12,7 @@ object RampDefaults {
   val DT_DEFAULT = 30 / 1000.0
 
   //ScalaRampObject(name,mass,kineticFriction,staticFriction,image)
-  val objects = new ScalaRampObject("File Cabinet", 75, 0.5, 0.5, 3, "cabinet.gif") ::
+  val objects = new ScalaRampObject("File Cabinet", 75, 0.2, 0.5, 3, "cabinet.gif") ::
           new ScalaRampObject("Sleepy Dog", 20, 0.5, 0.5, 2, "ollie.gif") ::
           new ScalaRampObject("Small Crate", 150, 0.5, 0.5, 2, "crate.gif") ::
           new MutableRampObject("Custom Crate", 50, 0.5, 0.5, "crate.gif", true) ::
