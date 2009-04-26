@@ -40,8 +40,12 @@ class BeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: String) e
   addChild(imageNode)
 //  addChild(shapeNode) //TODO remove after debug done
 
-  defineInvokeAndPass(bead.addListenerByName) {
-//    shapeNode.setPathTo(transform.createTransformedShape(new Circle(bead.position2D, 0.3)))
+//  defineInvokeAndPass(bead.addListenerByName) {
+//  }
+
+  //for use in inheritance
+  def update()={
+    //    shapeNode.setPathTo(transform.createTransformedShape(new Circle(bead.position2D, 0.3)))
 
     //TODO consolidate/refactor with BugNode, similar graphics transform code
     imageNode.setTransform(new AffineTransform)
@@ -58,6 +62,7 @@ class BeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: String) e
     imageNode.rotateAboutPoint(bead.getAngleInvertY,
       imageNode.getFullBounds.getCenter2D.getX - (viewPosition.x - delta.x / 2),
       imageNode.getFullBounds.getMaxY - (viewPosition.y - delta.y))
-
   }
+  bead.addListener(update)
+  update()
 }

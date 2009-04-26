@@ -101,10 +101,10 @@ class RampModel extends RecordModel[String] with ObjectModel {
     notifyListeners()
   }
 
-  def walls = _walls
-
   def frictionless = _frictionless
 
+  def walls = _walls
+  
   def walls_=(b: Boolean) = {
     _walls = b
     notifyListeners()
