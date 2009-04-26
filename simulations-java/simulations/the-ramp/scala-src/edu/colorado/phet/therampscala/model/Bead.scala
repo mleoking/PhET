@@ -59,7 +59,7 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
   model.addListenerByName(notifyListeners)
   model.addListenerByName(frictionForceVector.notifyListeners())
 
-  def attach()= attachState=new Grounded
+  def attach() = attachState = new Grounded
 
   def totalForce = gravityForce + normalForce + appliedForce + frictionForce + wallForce
 
@@ -145,13 +145,7 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
 
   def getKineticEnergy = 1 / 2 * mass * velocity * velocity
 
-  def getAngle = rampSegmentAccessor(position).getUnitVector.getAngle
-
-  def getAngleInvertY = {
-    val vector = rampSegmentAccessor(position).getUnitVector
-    val vectorInvertY = new Vector2D(vector.x, -vector.y)
-    vectorInvertY.getAngle
-  }
+  def getAngle = attachState.getAngle
 
   def forceToParallelAcceleration(f: Vector2D) = (f dot getRampUnitVector) / mass
 
@@ -167,14 +161,37 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
     def normalForce: Vector2D
 
     def position2D: Vector2D
+
+    def getAngle: Double
   }
-  class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vector2D) extends AttachState {
+
+  class Crashed(_position2D: Vector2D, _angle: Double) extends AttachState {
+    def stepInTime(dt: Double) = {}
+
+    def wallForce = new Vector2D
+
+    def frictionForce = new Vector2D
+
+    def normalForce = gravityForce * -1
+
+    def position2D = _position2D
+
+    def getAngle = _angle
+  }
+  class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vector2D, _angle: Double) extends AttachState {
+    def getAngle = _angle
+
     override def stepInTime(dt: Double) = {
       val tf = totalForce
       val accel = totalForce / mass
       _velocity2D = _velocity2D + accel * dt
       _position2D = _position2D + _velocity2D * dt
-      setPosition(0)
+      notifyListeners()
+      //      println("position2D="+_position2D)
+      if (_position2D.y <= 0) {
+        attachState = new Crashed(new Vector2D(_position2D.x, 0), _angle)
+        notifyListeners() //to get the new normalforce
+      }
     }
 
     override def wallForce = new Vector2D
@@ -187,6 +204,8 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
   }
   class Grounded extends AttachState {
     def position2D = positionMapper(position)
+
+    def getAngle = rampSegmentAccessor(position).getUnitVector.getAngle
 
     def normalForce = {
       val magnitude = (gravityForce * -1) dot getRampUnitVector.rotate(PI / 2)
@@ -254,7 +273,7 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
         setPosition(wallRange().max)
       }
       else if (requestedPosition > wallRange().max && !wallsExist) {
-        attachState = new Airborne(position2D, new Vector2D(getVelocityVectorDirection) * velocity)
+        attachState = new Airborne(position2D, new Vector2D(getVelocityVectorDirection) * velocity, getAngle)
         parallelAppliedForce = 0
       }
 

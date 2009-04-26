@@ -55,7 +55,12 @@ class BeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: String) e
 
     imageNode.translate(viewPosition.x - delta.x / 2 * scale, viewPosition.y - delta.y * scale)
     imageNode.scale(scale)
-    imageNode.rotateAboutPoint(bead.getAngleInvertY,
+
+    val angle = bead.getAngle
+    val vec = new Vector2D(angle)
+    val flipY = new Vector2D(vec.x, -vec.y)
+
+    imageNode.rotateAboutPoint(flipY.getAngle,
       imageNode.getFullBounds.getCenter2D.getX - (viewPosition.x - delta.x / 2),
       imageNode.getFullBounds.getMaxY - (viewPosition.y - delta.y))
   }
