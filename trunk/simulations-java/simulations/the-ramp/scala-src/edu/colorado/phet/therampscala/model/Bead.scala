@@ -35,7 +35,7 @@ class BeadVector(color: Color, name: String, abbreviation: String, val bottomPO:
   def getPointOfOriginOffset(defaultCenter: Double) = if (bottomPO) 0.0 else defaultCenter
 }
 
-class VectorComponent(target: BeadVector, bead: IBead, getComponentUnitVector: () => Vector2D, painter: (Vector2D, Color) => Paint) extends BeadVector(target.color, target.name, target.abbreviation, target.bottomPO, target.valueAccessor, painter) {
+class VectorComponent(target: BeadVector, bead: Bead, getComponentUnitVector: () => Vector2D, painter: (Vector2D, Color) => Paint) extends BeadVector(target.color, target.name, target.abbreviation, target.bottomPO, target.valueAccessor, painter) {
   override def getValue = {
     val d = getComponentUnitVector()
     d * (super.getValue dot d)
@@ -73,50 +73,24 @@ object Paints {
     })
   }
 }
-class AngleBasedComponent(target: BeadVector, bead: IBead, getComponentUnitVector: () => Vector2D, painter: (Vector2D, Color) => Paint) extends VectorComponent(target, bead, getComponentUnitVector, painter) {
+class AngleBasedComponent(target: BeadVector, bead: Bead, getComponentUnitVector: () => Vector2D, painter: (Vector2D, Color) => Paint) extends VectorComponent(target, bead, getComponentUnitVector, painter) {
   bead.addListenerByName(notifyListeners()) //since this value depends on getAngle, which depends on getPosition
 }
-class ParallelComponent(target: BeadVector, bead: IBead) extends AngleBasedComponent(target, bead, () => new Vector2D(bead.getAngle), (a, b) => b)
-class PerpendicularComponent(target: BeadVector, bead: IBead) extends AngleBasedComponent(target, bead, () => new Vector2D(bead.getAngle + PI / 2), (a, b) => b)
-class XComponent(target: BeadVector, bead: IBead) extends VectorComponent(target, bead, () => new Vector2D(1, 0), Paints.horizontalStripes)
-class YComponent(target: BeadVector, bead: IBead) extends VectorComponent(target, bead, () => new Vector2D(0, 1), Paints.verticalStripes)
+class ParallelComponent(target: BeadVector, bead: Bead) extends AngleBasedComponent(target, bead, () => new Vector2D(bead.getAngle), (a, b) => b)
+class PerpendicularComponent(target: BeadVector, bead: Bead) extends AngleBasedComponent(target, bead, () => new Vector2D(bead.getAngle + PI / 2), (a, b) => b)
+class XComponent(target: BeadVector, bead: Bead) extends VectorComponent(target, bead, () => new Vector2D(1, 0), Paints.horizontalStripes)
+class YComponent(target: BeadVector, bead: Bead) extends VectorComponent(target, bead, () => new Vector2D(0, 1), Paints.verticalStripes)
 
 case class Range(min: Double, max: Double)
 
-trait IBead extends Observable{
-  def mass:Double
-  def height:Double
-  def staticFriction:Double
-  def kineticFriction:Double
-  def parallelAppliedForce:Double
-  def setPosition(v:Double)
-  def mass_=(v:Double):Unit
-  def height_=(v:Double):Unit
-  def staticFriction_=(v:Double):Unit
-  def kineticFriction_=(v:Double):Unit
-  def parallelAppliedForce_=(v:Double):Unit
-  def setVelocity(v:Double):Unit
-  def stepInTime(dt:Double):Unit
-  def position:Double
-  def position2D:Vector2D
-  def appliedForce:Vector2D
-  def getRampUnitVector:Vector2D
-  def getAngleInvertY:Double
-  def appliedForceVector:BeadVector
-  def getAngle:Double
-  def gravityForceVector:BeadVector
-  def normalForceVector:BeadVector
-  def frictionForceVector:BeadVector
-  def wallForceVector:BeadVector
-  def totalForceVector:BeadVector
-}
 class Bead(_state: BeadState, private var _height: Double, positionMapper: Double => Vector2D,
            rampSegmentAccessor: Double => RampSegment, model: Observable, surfaceFriction: () => Boolean, wallsExist: => Boolean,
-           wallRange: () => Range
-        ) extends Observable with IBead {
+           wallRange: () => Range)
+        extends Observable {
   val gravity = -9.8
   var state = _state
   var _parallelAppliedForce = 0.0
+  private var attachState: AttachState = new Grounded
 
   val gravityForceVector = new BeadVector(RampDefaults.gravityForceColor, "Gravity Force", "<html>F<sub>g</sub></html>", false, () => gravityForce, (a, b) => b)
   val normalForceVector = new BeadVector(RampDefaults.normalForceColor, "Normal Force", "<html>F<sub>N</sub></html>", true, () => normalForce, (a, b) => b)
@@ -139,52 +113,15 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
 
   def totalForce = gravityForceVector.getValue + normalForceVector.getValue + appliedForceVector.getValue + frictionForceVector.getValue + wallForceVector.getValue
 
-  def wallForce = {
-    if (position <= wallRange().min && forceToParallelAcceleration(appliedForceVector.getValue) < 0) {
-      appliedForceVector.getValue * -1
-    }
-    else if (position >= wallRange().max && forceToParallelAcceleration(appliedForceVector.getValue) > 0) {
-      appliedForceVector.getValue * -1
-    } else {
-      new Vector2D
-    }
-  }
+  def wallForce = attachState.wallForce
 
-  def frictionForce = {
-    if (surfaceFriction()) {
-      //stepInTime samples at least one value less than 1E-12 on direction change to handle static friction
-      if (abs(velocity) < 1E-12) {
+  def frictionForce = attachState.frictionForce
 
-        //use up to fMax in preventing the object from moving
-        //see static friction discussion here: http://en.wikipedia.org/wiki/Friction
-        val fMax = abs(staticFriction * normalForce.magnitude)
-        val netForceWithoutFriction = appliedForce + gravityForce + normalForce + wallForce
-
-        if (netForceWithoutFriction.magnitude >= fMax) {
-          new Vector2D(netForceWithoutFriction.getAngle + PI) * fMax
-        }
-        else {
-          new Vector2D(netForceWithoutFriction.getAngle + PI) * netForceWithoutFriction.magnitude
-        }
-      }
-      else {
-        //object is moving, just use kinetic friction
-        val vel = (positionMapper(position) - positionMapper(position - velocity * 1E-6))
-        new Vector2D(vel.getAngle + PI) * normalForce.magnitude * kineticFriction
-      }
-    }
-    else new Vector2D
-  }
-
-  def getVelocityVectorDirection = (positionMapper(position + velocity * 1E-6) - positionMapper(position - velocity * 1E-6)).getAngle
-
-  def normalForce = {
-    val magnitude = (gravityForce * -1) dot getRampUnitVector.rotate(PI / 2)
-    val angle = getRampUnitVector.getAngle + PI / 2
-    new Vector2D(angle) * (magnitude)
-  }
+  def normalForce = attachState.normalForce
 
   def gravityForce = new Vector2D(0, gravity * mass)
+
+  def getVelocityVectorDirection = (positionMapper(position + velocity * 1E-6) - positionMapper(position - velocity * 1E-6)).getAngle
 
   def parallelAppliedForce = _parallelAppliedForce
 
@@ -270,17 +207,70 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
 
   def netForceToParallelVelocity(f: Vector2D, dt: Double) = velocity + forceToParallelAcceleration(f) * dt
 
-  private var attachState: AttachState = new Grounded
-
   abstract class AttachState {
     def stepInTime(dt: Double)
+
+    def wallForce: Vector2D
+
+    def frictionForce: Vector2D
+
+    def normalForce: Vector2D
   }
   class Airborne extends AttachState {
     override def stepInTime(dt: Double) = {
       setPosition(0)
     }
+
+    override def wallForce = new Vector2D
+
+    override def frictionForce = new Vector2D
+
+    override def normalForce = new Vector2D
   }
   class Grounded extends AttachState {
+    def normalForce = {
+      val magnitude = (gravityForce * -1) dot getRampUnitVector.rotate(PI / 2)
+      val angle = getRampUnitVector.getAngle + PI / 2
+      new Vector2D(angle) * (magnitude)
+    }
+
+    override def wallForce = {
+      if (position <= wallRange().min && forceToParallelAcceleration(appliedForceVector.getValue) < 0) {
+        appliedForceVector.getValue * -1
+      }
+      else if (position >= wallRange().max && forceToParallelAcceleration(appliedForceVector.getValue) > 0) {
+        appliedForceVector.getValue * -1
+      } else {
+        new Vector2D
+      }
+    }
+
+    override def frictionForce = {
+      if (surfaceFriction()) {
+        //stepInTime samples at least one value less than 1E-12 on direction change to handle static friction
+        if (abs(velocity) < 1E-12) {
+
+          //use up to fMax in preventing the object from moving
+          //see static friction discussion here: http://en.wikipedia.org/wiki/Friction
+          val fMax = abs(staticFriction * normalForce.magnitude)
+          val netForceWithoutFriction = appliedForce + gravityForce + normalForce + wallForce
+
+          if (netForceWithoutFriction.magnitude >= fMax) {
+            new Vector2D(netForceWithoutFriction.getAngle + PI) * fMax
+          }
+          else {
+            new Vector2D(netForceWithoutFriction.getAngle + PI) * netForceWithoutFriction.magnitude
+          }
+        }
+        else {
+          //object is moving, just use kinetic friction
+          val vel = (positionMapper(position) - positionMapper(position - velocity * 1E-6))
+          new Vector2D(vel.getAngle + PI) * normalForce.magnitude * kineticFriction
+        }
+      }
+      else new Vector2D
+    }
+
     override def stepInTime(dt: Double) = {
       val origState = state
 
@@ -293,8 +283,6 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
       }
 
       val requestedPosition = position + velocity * dt
-
-      println("walls=" + wallsExist + ", rp=" + requestedPosition + ", wallRangeMax=" + wallRange().max)
 
       //TODO: generalize boundary code
       if (requestedPosition <= wallRange().min) {
