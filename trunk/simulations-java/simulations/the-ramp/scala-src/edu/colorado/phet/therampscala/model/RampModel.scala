@@ -52,12 +52,14 @@ class RampModel extends RecordModel[String] with ObjectModel {
   object rampChangeAdapter extends Observable //todo: perhaps we should just pass the addListener method to the beads
   rampSegments(0).addListenerByName {rampChangeAdapter.notifyListeners}
   rampSegments(1).addListenerByName {rampChangeAdapter.notifyListeners}
-  beads += new Bead(new BeadState(5, 0, _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter)
-  val tree = new Bead(new BeadState(-9, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter)
-  val leftWall = new Bead(new BeadState(-10, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter)
-  val rightWall = new Bead(new BeadState(10, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter)
-  val manBead = new Bead(new BeadState(2, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter)
-  selectedObject = _selectedObject //todo; fix this, it is currently here to do the update at the endof selected object method
+  val surfaceFriction=()=>{!frictionless}
+  beads += new Bead(new BeadState(5, 0, _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction),
+    3, positionMapper, rampSegmentAccessor, rampChangeAdapter,surfaceFriction)
+  val tree = new Bead(new BeadState(-9, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter,surfaceFriction)
+  val leftWall = new Bead(new BeadState(-10, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter,surfaceFriction)
+  val rightWall = new Bead(new BeadState(10, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter,surfaceFriction)
+  val manBead = new Bead(new BeadState(2, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter,surfaceFriction)
+  updateDueToObjectChange()
 
   def setPlaybackState(state: String) {}
 
@@ -69,6 +71,10 @@ class RampModel extends RecordModel[String] with ObjectModel {
 
   def selectedObject_=(obj: ScalaRampObject) = {
     _selectedObject = obj
+    updateDueToObjectChange()
+  }
+
+  def updateDueToObjectChange() = {
     beads(0).mass = _selectedObject.mass
     beads(0).height = _selectedObject.height
     beads(0).staticFriction = _selectedObject.staticFriction
@@ -98,6 +104,7 @@ class RampModel extends RecordModel[String] with ObjectModel {
 
   def frictionless_=(b: Boolean) = {
     _frictionless = b
+    rampChangeAdapter.notifyListeners()
     notifyListeners()
   }
 

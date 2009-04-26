@@ -81,7 +81,7 @@ class PerpendicularComponent(target: BeadVector, bead: Bead) extends AngleBasedC
 class XComponent(target: BeadVector, bead: Bead) extends VectorComponent(target, bead, () => new Vector2D(1, 0), Paints.horizontalStripes)
 class YComponent(target: BeadVector, bead: Bead) extends VectorComponent(target, bead, () => new Vector2D(0, 1), Paints.verticalStripes)
 
-class Bead(_state: BeadState, private var _height: Double, positionMapper: Double => Vector2D, rampSegmentAccessor: Double => RampSegment, model: Observable) extends Observable {
+class Bead(_state: BeadState, private var _height: Double, positionMapper: Double => Vector2D, rampSegmentAccessor: Double => RampSegment, model: Observable, surfaceFriction: () => Boolean) extends Observable {
   val gravity = -9.8
   var state = _state
   var _parallelAppliedForce = 0.0
@@ -103,6 +103,7 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
 
   addListenerByName(appliedForceVector.notifyListeners()) //todo: just listen for changes to applied force parallel component
   model.addListenerByName(notifyListeners)
+  model.addListenerByName(frictionForceVector.notifyListeners())
 
   def totalForce = gravityForceVector.getValue + normalForceVector.getValue + appliedForceVector.getValue + frictionForceVector.getValue + wallForceVector.getValue
 
@@ -118,26 +119,29 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
   }
 
   def frictionForce = {
-    //stepInTime samples at least one value less than 1E-12 on direction change to handle static friction
-    if (abs(velocity) < 1E-12) {
+    if (surfaceFriction()) {
+      //stepInTime samples at least one value less than 1E-12 on direction change to handle static friction
+      if (abs(velocity) < 1E-12) {
 
-      //use up to fMax in preventing the object from moving
-      //see static friction discussion here: http://en.wikipedia.org/wiki/Friction
-      val fMax = abs(staticFriction * normalForce.magnitude)
-      val netForceWithoutFriction = appliedForce + gravityForce + normalForce + wallForce
+        //use up to fMax in preventing the object from moving
+        //see static friction discussion here: http://en.wikipedia.org/wiki/Friction
+        val fMax = abs(staticFriction * normalForce.magnitude)
+        val netForceWithoutFriction = appliedForce + gravityForce + normalForce + wallForce
 
-      if (netForceWithoutFriction.magnitude >= fMax) {
-        new Vector2D(netForceWithoutFriction.getAngle + PI) * fMax
+        if (netForceWithoutFriction.magnitude >= fMax) {
+          new Vector2D(netForceWithoutFriction.getAngle + PI) * fMax
+        }
+        else {
+          new Vector2D(netForceWithoutFriction.getAngle + PI) * netForceWithoutFriction.magnitude
+        }
       }
       else {
-        new Vector2D(netForceWithoutFriction.getAngle + PI) * netForceWithoutFriction.magnitude
+        //object is moving, just use kinetic friction
+        val vel = (positionMapper(position) - positionMapper(position - velocity * 1E-6))
+        new Vector2D(vel.getAngle + PI) * normalForce.magnitude * kineticFriction
       }
     }
-    else {
-      //object is moving, just use kinetic friction
-      val vel = (positionMapper(position) - positionMapper(position - velocity * 1E-6))
-      new Vector2D(vel.getAngle + PI) * normalForce.magnitude * kineticFriction
-    }
+    else new Vector2D
   }
 
   def getVelocityVectorDirection = (positionMapper(position + velocity * 1E-6) - positionMapper(position - velocity * 1E-6)).getAngle
