@@ -123,11 +123,11 @@ class VectorViewModel extends Observable {
 
   resetAll()
   def resetAll() = {
-    centered=true
-    originalVectors=true
-    parallelComponents=false
-    xyComponentsVisible=false
-    sumOfForcesVector=false
+    centered = true
+    originalVectors = true
+    parallelComponents = false
+    xyComponentsVisible = false
+    sumOfForcesVector = false
   }
 
   def centered = _centered
