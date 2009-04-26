@@ -59,7 +59,9 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
   model.addListenerByName(notifyListeners)
   model.addListenerByName(frictionForceVector.notifyListeners())
 
-  def totalForce = gravityForceVector.getValue + normalForceVector.getValue + appliedForceVector.getValue + frictionForceVector.getValue + wallForceVector.getValue
+  def attach()= attachState=new Grounded
+
+  def totalForce = gravityForce + normalForce + appliedForce + frictionForce + wallForce
 
   def wallForce = attachState.wallForce
 
@@ -81,7 +83,7 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
 
   def appliedForce = getRampUnitVector * _parallelAppliedForce
 
-  def position2D = positionMapper(position)
+  def position2D = attachState.position2D
 
   def getRampUnitVector = rampSegmentAccessor(position).getUnitVector
 
@@ -163,9 +165,15 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
     def frictionForce: Vector2D
 
     def normalForce: Vector2D
+
+    def position2D: Vector2D
   }
-  class Airborne extends AttachState {
+  class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vector2D) extends AttachState {
     override def stepInTime(dt: Double) = {
+      val tf = totalForce
+      val accel = totalForce / mass
+      _velocity2D = _velocity2D + accel * dt
+      _position2D = _position2D + _velocity2D * dt
       setPosition(0)
     }
 
@@ -174,8 +182,12 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
     override def frictionForce = new Vector2D
 
     override def normalForce = new Vector2D
+
+    override def position2D = _position2D
   }
   class Grounded extends AttachState {
+    def position2D = positionMapper(position)
+
     def normalForce = {
       val magnitude = (gravityForce * -1) dot getRampUnitVector.rotate(PI / 2)
       val angle = getRampUnitVector.getAngle + PI / 2
@@ -183,11 +195,11 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
     }
 
     override def wallForce = {
-      if (position <= wallRange().min && forceToParallelAcceleration(appliedForceVector.getValue) < 0) {
-        appliedForceVector.getValue * -1
+      if (position <= wallRange().min && forceToParallelAcceleration(appliedForce) < 0) {
+        appliedForce * -1
       }
-      else if (position >= wallRange().max && forceToParallelAcceleration(appliedForceVector.getValue) > 0) {
-        appliedForceVector.getValue * -1
+      else if (position >= wallRange().max && forceToParallelAcceleration(appliedForce) > 0) {
+        appliedForce * -1
       } else {
         new Vector2D
       }
@@ -242,7 +254,8 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
         setPosition(wallRange().max)
       }
       else if (requestedPosition > wallRange().max && !wallsExist) {
-        attachState = new Airborne
+        attachState = new Airborne(position2D, new Vector2D(getVelocityVectorDirection) * velocity)
+        parallelAppliedForce = 0
       }
 
       else {
