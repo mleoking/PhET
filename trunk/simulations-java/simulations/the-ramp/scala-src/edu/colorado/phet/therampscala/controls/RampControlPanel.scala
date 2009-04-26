@@ -1,6 +1,7 @@
 package edu.colorado.phet.therampscala.controls
 
 
+import common.phetcommon.model.Resettable
 import common.phetcommon.view.util.PhetFont
 import common.phetcommon.view.{ControlPanel, VerticalLayoutPanel, ResetAllButton}
 import java.awt._
@@ -12,7 +13,7 @@ import swing.{MyCheckBox, ScalaValueControl}
 import edu.colorado.phet.scalacommon.Predef._
 
 class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                       coordinateSystemModel: CoordinateSystemModel, vectorViewModel: VectorViewModel) extends ControlPanel {
+                       coordinateSystemModel: CoordinateSystemModel, vectorViewModel: VectorViewModel, resetHandler: () => Unit) extends ControlPanel {
   getContentPanel.setAnchor(GridBagConstraints.WEST)
   getContentPanel.setFill(GridBagConstraints.HORIZONTAL)
   override def add(comp: Component) = {
@@ -89,6 +90,7 @@ class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramMo
   getContentPanel.setAnchor(GridBagConstraints.SOUTH) //todo: make reset appear at the bottom
   getContentPanel.setFill(GridBagConstraints.NONE)
   val resetButton = new ResetAllButton(this)
+  resetButton.addResettable(new Resettable {def reset = resetHandler()})
   add(resetButton)
 
   val stepButton = new JButton("Step")
