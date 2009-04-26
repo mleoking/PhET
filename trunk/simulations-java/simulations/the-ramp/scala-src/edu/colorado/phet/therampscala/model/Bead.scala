@@ -35,7 +35,7 @@ class BeadVector(color: Color, name: String, abbreviation: String, val bottomPO:
   def getPointOfOriginOffset(defaultCenter: Double) = if (bottomPO) 0.0 else defaultCenter
 }
 
-class VectorComponent(target: BeadVector, bead: Bead, getComponentUnitVector: () => Vector2D, painter: (Vector2D, Color) => Paint) extends BeadVector(target.color, target.name, target.abbreviation, target.bottomPO, target.valueAccessor, painter) {
+class VectorComponent(target: BeadVector, bead: IBead, getComponentUnitVector: () => Vector2D, painter: (Vector2D, Color) => Paint) extends BeadVector(target.color, target.name, target.abbreviation, target.bottomPO, target.valueAccessor, painter) {
   override def getValue = {
     val d = getComponentUnitVector()
     d * (super.getValue dot d)
@@ -73,19 +73,47 @@ object Paints {
     })
   }
 }
-class AngleBasedComponent(target: BeadVector, bead: Bead, getComponentUnitVector: () => Vector2D, painter: (Vector2D, Color) => Paint) extends VectorComponent(target, bead, getComponentUnitVector, painter) {
+class AngleBasedComponent(target: BeadVector, bead: IBead, getComponentUnitVector: () => Vector2D, painter: (Vector2D, Color) => Paint) extends VectorComponent(target, bead, getComponentUnitVector, painter) {
   bead.addListenerByName(notifyListeners()) //since this value depends on getAngle, which depends on getPosition
 }
-class ParallelComponent(target: BeadVector, bead: Bead) extends AngleBasedComponent(target, bead, () => new Vector2D(bead.getAngle), (a, b) => b)
-class PerpendicularComponent(target: BeadVector, bead: Bead) extends AngleBasedComponent(target, bead, () => new Vector2D(bead.getAngle + PI / 2), (a, b) => b)
-class XComponent(target: BeadVector, bead: Bead) extends VectorComponent(target, bead, () => new Vector2D(1, 0), Paints.horizontalStripes)
-class YComponent(target: BeadVector, bead: Bead) extends VectorComponent(target, bead, () => new Vector2D(0, 1), Paints.verticalStripes)
+class ParallelComponent(target: BeadVector, bead: IBead) extends AngleBasedComponent(target, bead, () => new Vector2D(bead.getAngle), (a, b) => b)
+class PerpendicularComponent(target: BeadVector, bead: IBead) extends AngleBasedComponent(target, bead, () => new Vector2D(bead.getAngle + PI / 2), (a, b) => b)
+class XComponent(target: BeadVector, bead: IBead) extends VectorComponent(target, bead, () => new Vector2D(1, 0), Paints.horizontalStripes)
+class YComponent(target: BeadVector, bead: IBead) extends VectorComponent(target, bead, () => new Vector2D(0, 1), Paints.verticalStripes)
 
 case class Range(min: Double, max: Double)
+
+trait IBead extends Observable{
+  def mass:Double
+  def height:Double
+  def staticFriction:Double
+  def kineticFriction:Double
+  def parallelAppliedForce:Double
+  def setPosition(v:Double)
+  def mass_=(v:Double):Unit
+  def height_=(v:Double):Unit
+  def staticFriction_=(v:Double):Unit
+  def kineticFriction_=(v:Double):Unit
+  def parallelAppliedForce_=(v:Double):Unit
+  def setVelocity(v:Double):Unit
+  def stepInTime(dt:Double):Unit
+  def position:Double
+  def position2D:Vector2D
+  def appliedForce:Vector2D
+  def getRampUnitVector:Vector2D
+  def getAngleInvertY:Double
+  def appliedForceVector:BeadVector
+  def getAngle:Double
+  def gravityForceVector:BeadVector
+  def normalForceVector:BeadVector
+  def frictionForceVector:BeadVector
+  def wallForceVector:BeadVector
+  def totalForceVector:BeadVector
+}
 class Bead(_state: BeadState, private var _height: Double, positionMapper: Double => Vector2D,
            rampSegmentAccessor: Double => RampSegment, model: Observable, surfaceFriction: () => Boolean, wallsExist: => Boolean,
            wallRange: () => Range
-        ) extends Observable {
+        ) extends Observable with IBead {
   val gravity = -9.8
   var state = _state
   var _parallelAppliedForce = 0.0

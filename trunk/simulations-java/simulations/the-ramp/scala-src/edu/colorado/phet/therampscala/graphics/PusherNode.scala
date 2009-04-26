@@ -4,11 +4,11 @@ package edu.colorado.phet.therampscala.graphics
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.util.BufferedImageUtils
 import java.awt.image.BufferedImage
-import model.Bead
+import model.{IBead, Bead}
 import scalacommon.Predef._
 import java.lang.Math._
 
-class PusherNode(transform: ModelViewTransform2D, targetBead: Bead, manBead: Bead)
+class PusherNode(transform: ModelViewTransform2D, targetBead: IBead, manBead: Bead)
         extends BeadNode(manBead, transform, "standing-man.png") {
   defineInvokeAndPass(targetBead.addListenerByName) {
     if (targetBead.appliedForce.magnitude > 0) {
