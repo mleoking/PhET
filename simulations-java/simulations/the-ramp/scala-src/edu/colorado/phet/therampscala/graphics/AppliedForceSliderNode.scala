@@ -2,15 +2,15 @@ package edu.colorado.phet.therampscala.graphics
 
 
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import model.Bead
 import java.awt.geom.Point2D
+import model.{IBead, Bead}
 import umd.cs.piccolo.PNode
 import swing.ScalaValueControl
 import umd.cs.piccolox.pswing.PSwing
 import scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.Predef._
 
-class AppliedForceSliderNode(bead: Bead, transform: ModelViewTransform2D) extends PNode {
+class AppliedForceSliderNode(bead: IBead, transform: ModelViewTransform2D) extends PNode {
   val max = 500
   val control = new ScalaValueControl(-max, max, "Applied Force X", "0.0", "N",
     bead.parallelAppliedForce, value => bead.parallelAppliedForce = value, bead.addListener)

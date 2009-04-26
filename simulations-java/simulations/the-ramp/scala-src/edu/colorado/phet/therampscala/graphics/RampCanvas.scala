@@ -131,7 +131,7 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
     override def windowClosing(e: WindowEvent) = freeBodyDiagramModel.visible = false
   })
 
-  class VectorSetNode(transform: ModelViewTransform2D, bead: Bead) extends PNode {
+  class VectorSetNode(transform: ModelViewTransform2D, bead: IBead) extends PNode {
     def addVector(a: Vector, offset: VectorValue) = {
       val node = new BodyVectorNode(transform, a, offset)
       addChild(node)

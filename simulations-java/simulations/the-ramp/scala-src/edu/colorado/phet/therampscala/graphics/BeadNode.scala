@@ -3,9 +3,9 @@ package edu.colorado.phet.therampscala.graphics
 
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.piccolophet.event.CursorHandler
+import model.{IBead, Bead}
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 
-import model.Bead
 import common.piccolophet.nodes.PhetPPath
 import umd.cs.piccolo.PNode
 import java.awt.Color
@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage
 import scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.Predef._
 
-class DraggableBeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: String) extends BeadNode(bead, transform, imageName) {
+class DraggableBeadNode(bead: IBead, transform: ModelViewTransform2D, imageName: String) extends BeadNode(bead, transform, imageName) {
   addInputEventListener(new CursorHandler)
   addInputEventListener(new PBasicInputEventHandler() {
     override def mouseDragged(event: PInputEvent) = {
@@ -31,7 +31,7 @@ class DraggableBeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: 
   })
 }
 
-class BeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: String) extends PNode {
+class BeadNode(bead: IBead, transform: ModelViewTransform2D, imageName: String) extends PNode {
   //  val shapeNode = new PhetPPath(Color.green)
   val image = RampResources.getImage(imageName)
   val imageNode = new PImage(image)
