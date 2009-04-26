@@ -5,6 +5,7 @@ import collection.mutable.ArrayBuffer
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
 import common.phetcommon.view.VerticalLayoutPanel
+import common.piccolophet.event.CursorHandler
 import common.piccolophet.nodes.{ToolTipNode, PhetPPath}
 import java.awt.{Rectangle, BasicStroke, Color}
 import java.text.MessageFormat
@@ -48,6 +49,7 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
     addChild(imageNode)
     addChild(textNode)
 
+    addInputEventListener(new CursorHandler)
 
     def getLayoutBounds = {
       val b = imageNode.getGlobalFullBounds
@@ -88,9 +90,11 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
             "mass={2} kg<br>" +
             "</html>", objectList.toArray
       )
-    val tooltipNode = new ToolTipNode(getTooltipText, this)
-    tooltipNode.setFont(new PhetFont(18))
-    addChild(tooltipNode)
+    if (o.displayTooltip) {
+      val tooltipNode = new ToolTipNode(getTooltipText, this)
+      tooltipNode.setFont(new PhetFont(18))
+      addChild(tooltipNode)
+    }
   }
   class CustomObjectSelectionIcon(o: MutableRampObject) extends ObjectSelectionIcon(o) {
     override def update() = {
