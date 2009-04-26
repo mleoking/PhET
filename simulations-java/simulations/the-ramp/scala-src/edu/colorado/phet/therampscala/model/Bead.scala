@@ -83,8 +83,8 @@ class YComponent(target: BeadVector, bead: Bead) extends VectorComponent(target,
 
 case class Range(min: Double, max: Double)
 class Bead(_state: BeadState, private var _height: Double, positionMapper: Double => Vector2D,
-           rampSegmentAccessor: Double => RampSegment, model: Observable, surfaceFriction: () => Boolean,
-           walls: () => Range
+           rampSegmentAccessor: Double => RampSegment, model: Observable, surfaceFriction: () => Boolean, wallsExist:  => Boolean,
+           wallRange: () => Range
         ) extends Observable {
   val gravity = -9.8
   var state = _state
@@ -112,10 +112,10 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
   def totalForce = gravityForceVector.getValue + normalForceVector.getValue + appliedForceVector.getValue + frictionForceVector.getValue + wallForceVector.getValue
 
   def wallForce = {
-    if (position <= walls().min && forceToParallelAcceleration(appliedForceVector.getValue) < 0) {
+    if (position <= wallRange().min && forceToParallelAcceleration(appliedForceVector.getValue) < 0) {
       appliedForceVector.getValue * -1
     }
-    else if (position >= walls().max && forceToParallelAcceleration(appliedForceVector.getValue) > 0) {
+    else if (position >= wallRange().max && forceToParallelAcceleration(appliedForceVector.getValue) > 0) {
       appliedForceVector.getValue * -1
     } else {
       new Vector2D
@@ -242,52 +242,72 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
 
   def netForceToParallelVelocity(f: Vector2D, dt: Double) = velocity + forceToParallelAcceleration(f) * dt
 
-  def stepInTime(dt: Double) = {
-    val origState = state
+  private var attachState:AttachState = new Grounded
 
-    setVelocity(netForceToParallelVelocity(totalForce, dt))
-
-    //stepInTime samples at least one value less than 1E-12 on direction change to handle static friction
-    if ((origState.velocity < 0 && velocity > 0) || (origState.velocity > 0 && velocity < 0)) {
-      //see docs in static friction computation
-      setVelocity(0)
-    }
-
-    val requestedPosition = position + velocity * dt
-
-    //TODO: generalize boundary code
-    if (requestedPosition <= walls().min) {
-      setVelocity(0)
-      setPosition(walls().min)
-    }
-    else if (requestedPosition >= walls().max) {
-      setVelocity(0)
-      setPosition(walls().max)
-    }
-    else {
-      setPosition(requestedPosition)
-    }
-    val justCollided = false
-
-    if (staticFriction == 0 && kineticFriction == 0) {
-      val appliedWork = getTotalEnergy
-      val gravityWork = -getPotentialEnergy
-      val thermalEnergy = origState.thermalEnergy
-      if (justCollided) {
-        //        thermalEnergy += origState.kineticEnergy
-      }
-      val frictionWork = -thermalEnergy
-      frictionWork
-      new WorkEnergyState(appliedWork, gravityWork, frictionWork,
-        getPotentialEnergy, getKineticEnergy, getTotalEnergy)
-    } else {
-      //      val dW=getAppliedWorkDifferential
-      //      val appliedWork=origState.appliedWork
-      //      val gravityWork=-getPotentialEnergy
-      //      val etot=appliedWork
-      //      val thermalEnergy=etot-kineticEnergy-potentialEnergy
-      //      val frictionWork=-thermalEnergy
-
+  abstract class AttachState {
+    def stepInTime(dt: Double)
+  }
+  class Airborne extends AttachState {
+    override def stepInTime(dt: Double) = {
+      setPosition(0)
     }
   }
+  class Grounded extends AttachState {
+    override def stepInTime(dt: Double) = {
+      val origState = state
+
+      setVelocity(netForceToParallelVelocity(totalForce, dt))
+
+      //stepInTime samples at least one value less than 1E-12 on direction change to handle static friction
+      if ((origState.velocity < 0 && velocity > 0) || (origState.velocity > 0 && velocity < 0)) {
+        //see docs in static friction computation
+        setVelocity(0)
+      }
+
+      val requestedPosition = position + velocity * dt
+
+      println("walls="+wallsExist+", rp="+requestedPosition+", wallRangeMax="+wallRange().max)
+
+      //TODO: generalize boundary code
+      if (requestedPosition <= wallRange().min) {
+        setVelocity(0)
+        setPosition(wallRange().min)
+      }
+      else if (requestedPosition >= wallRange().max && wallsExist) {
+        setVelocity(0)
+        setPosition(wallRange().max)
+      }
+      else if (requestedPosition > wallRange().max && !wallsExist) {
+        attachState = new Airborne
+      }
+
+      else {
+        setPosition(requestedPosition)
+      }
+      val justCollided = false
+
+      if (staticFriction == 0 && kineticFriction == 0) {
+        val appliedWork = getTotalEnergy
+        val gravityWork = -getPotentialEnergy
+        val thermalEnergy = origState.thermalEnergy
+        if (justCollided) {
+          //        thermalEnergy += origState.kineticEnergy
+        }
+        val frictionWork = -thermalEnergy
+        frictionWork
+        new WorkEnergyState(appliedWork, gravityWork, frictionWork,
+          getPotentialEnergy, getKineticEnergy, getTotalEnergy)
+      } else {
+        //      val dW=getAppliedWorkDifferential
+        //      val appliedWork=origState.appliedWork
+        //      val gravityWork=-getPotentialEnergy
+        //      val etot=appliedWork
+        //      val thermalEnergy=etot-kineticEnergy-potentialEnergy
+        //      val frictionWork=-thermalEnergy
+
+      }
+    }
+  }
+
+  def stepInTime(dt: Double) = attachState.stepInTime(dt)
 }
