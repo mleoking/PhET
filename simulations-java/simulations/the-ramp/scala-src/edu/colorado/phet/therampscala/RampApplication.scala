@@ -43,6 +43,12 @@ class WordModel extends Observable {
   var _physicsWords = true
   var _everydayWords = false
 
+  resetAll()
+  def resetAll() = {
+    physicsWords = true
+    everydayWords = false
+  }
+
   def physicsWords_=(v: Boolean) = {
     _physicsWords = v
     _everydayWords = !_physicsWords
@@ -64,6 +70,12 @@ class FreeBodyDiagramModel extends Observable {
   private var _windowed = false
   private var _visible = false
 
+  resetAll()
+  def resetAll() = {
+    windowed = false
+    visible = false
+  }
+
   def visible = _visible
 
   def windowed = _windowed
@@ -81,6 +93,11 @@ class FreeBodyDiagramModel extends Observable {
 }
 class CoordinateSystemModel extends Observable {
   private var _fixed = true
+
+  resetAll()
+  def resetAll() = {
+    fixed = true
+  }
 
   def fixed = _fixed
 
@@ -103,6 +120,15 @@ class VectorViewModel extends Observable {
   private var _parallelComponents = false
   private var _xyComponentsVisible = false
   private var _sumOfForcesVector = false
+
+  resetAll()
+  def resetAll() = {
+    centered=true
+    originalVectors=true
+    parallelComponents=false
+    xyComponentsVisible=false
+    sumOfForcesVector=false
+  }
 
   def centered = _centered
 
@@ -151,8 +177,16 @@ class RampModule(frame: JFrame, clock: ScalaClock) extends Module("Ramp", clock)
 
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
-  setControlPanel(new RampControlPanel(model, wordModel, fbdModel, coordinateSystemModel, vectorViewModel))
+  setControlPanel(new RampControlPanel(model, wordModel, fbdModel, coordinateSystemModel, vectorViewModel, resetRampModule))
   setClockControlPanel(new RecordModelControlPanel(model, canvas, () => new PlaybackSpeedSlider(model), Color.blue, 20))
+
+  def resetRampModule(): Unit = {
+    model.resetAll()
+    wordModel.resetAll()
+    fbdModel.resetAll()
+    coordinateSystemModel.resetAll()
+    vectorViewModel.resetAll()
+  }
 }
 
 class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
