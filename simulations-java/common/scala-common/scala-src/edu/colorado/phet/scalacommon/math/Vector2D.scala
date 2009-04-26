@@ -30,7 +30,7 @@ class Vector2D(_x: Double, _y: Double) {
 
   def /(scale: Double) = new Vector2D(x / scale, y / scale)
 
-  def rotate(angle: Double) = new Vector2D(getAngle + angle)
+  def rotate(angle: Double) = new Vector2D(getAngle + angle)*magnitude
 
   def getAngle = java.lang.Math.atan2(y, x)
 
