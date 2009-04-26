@@ -67,6 +67,8 @@ class RampModel extends RecordModel[String] with ObjectModel {
     frictionless = false
     walls = true
     beads(0).setPosition(5)
+    beads(0).parallelAppliedForce=0
+    beads(0).setVelocity(0)
     rampSegments(1).setAngle(initialAngle)
   }
 
