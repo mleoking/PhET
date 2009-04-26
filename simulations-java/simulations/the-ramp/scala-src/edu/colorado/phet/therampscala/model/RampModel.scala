@@ -53,13 +53,13 @@ class RampModel extends RecordModel[String] with ObjectModel {
   rampSegments(0).addListenerByName {rampChangeAdapter.notifyListeners}
   rampSegments(1).addListenerByName {rampChangeAdapter.notifyListeners}
   val surfaceFriction = () => !frictionless
-  val wallRange= ()=> if (walls) new Range(RampDefaults.MIN_X,RampDefaults.MAX_X) else new Range(-10000,10000)
+  val wallRange = () => if (walls) new Range(RampDefaults.MIN_X, RampDefaults.MAX_X) else new Range(-10000, 10000)
   beads += new Bead(new BeadState(5, 0, _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction),
-    3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction,wallRange)
-  val tree = new Bead(new BeadState(-9, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction,wallRange)
-  val leftWall = new Bead(new BeadState(-10, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction,wallRange)
-  val rightWall = new Bead(new BeadState(10, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction,wallRange)
-  val manBead = new Bead(new BeadState(2, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction,wallRange)
+    3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, wallRange)
+  val tree = new Bead(new BeadState(-9, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, wallRange)
+  val leftWall = new Bead(new BeadState(-10, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, wallRange)
+  val rightWall = new Bead(new BeadState(10, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, wallRange)
+  val manBead = new Bead(new BeadState(2, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, wallRange)
   updateDueToObjectChange()
 
   override def resetAll() = {
@@ -105,9 +105,16 @@ class RampModel extends RecordModel[String] with ObjectModel {
   def frictionless = _frictionless
 
   def walls = _walls
-  
+
   def walls_=(b: Boolean) = {
     _walls = b
+
+    if (_walls) {
+      rampSegments(0).startPoint = new Vector2D(-rampLength, 0)
+    } else {
+      rampSegments(0).startPoint = new Vector2D(-10000, 0)
+    }
+
     notifyListeners()
   }
 
@@ -123,8 +130,13 @@ class RampModel extends RecordModel[String] with ObjectModel {
 
   //TODO: this may need to be more general
   def positionMapper(particleLocation: Double) = {
-    if (particleLocation <= 0) rampSegments(0).getUnitVector * (10 + particleLocation) + rampSegments(0).startPoint
-    else rampSegments(1).getUnitVector * (particleLocation) + rampSegments(1).startPoint
+    if (particleLocation <= 0) {
+      val backwardsUnitVector = rampSegments(0).getUnitVector * -1 //go backwards since position is measure from origin
+      backwardsUnitVector * (-particleLocation) + rampSegments(0).endPoint
+    }
+    else {
+      rampSegments(1).getUnitVector * (particleLocation) + rampSegments(1).startPoint
+    }
   }
 
   def rampSegmentAccessor(particleLocation: Double) = if (particleLocation <= 0) rampSegments(0) else rampSegments(1)

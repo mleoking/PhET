@@ -38,21 +38,38 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
     val closeButton = new PImage(PhetCommonResources.getImage("buttons/closeButton.png"))
     closeButton.addInputEventListener(new CursorHandler)
 
+    val openButton = new PImage(PhetCommonResources.getImage("buttons/maximizeButton.png"))
+    openButton.addInputEventListener(new CursorHandler)
+
     addChild(closeButton)
+    addChild(openButton)
     update()
 
     override def update() = {
       super.update()
-      if (closeButton != null)
-        closeButton.setOffset(imageNode.getFullBounds.getX,imageNode.getFullBounds.getY)
+      if (closeButton != null) {
+        closeButton.setOffset(imageNode.getFullBounds.getX, imageNode.getFullBounds.getY)
+        openButton.setOffset(imageNode.getFullBounds.getX, imageNode.getFullBounds.getY)
+      }
     }
-    addInputEventListener(new PBasicInputEventHandler {
+    closeButton.addInputEventListener(new PBasicInputEventHandler {
       override def mousePressed(event: PInputEvent) = model.walls = false
     })
+    openButton.addInputEventListener(new PBasicInputEventHandler {
+      override def mousePressed(event: PInputEvent) = model.walls = true
+    })
     defineInvokeAndPass(model.addListenerByName) {
-      setVisible(model.walls)
-      setPickable(model.walls)
-      setChildrenPickable(model.walls)
+      imageNode.setVisible(model.walls)
+      imageNode.setPickable(model.walls)
+      imageNode.setChildrenPickable(model.walls)
+
+      closeButton.setVisible(model.walls)
+      closeButton.setPickable(model.walls)
+      closeButton.setChildrenPickable(model.walls)
+
+      openButton.setVisible(!model.walls)
+      openButton.setPickable(!model.walls)
+      openButton.setChildrenPickable(!model.walls)
     }
   }
 
