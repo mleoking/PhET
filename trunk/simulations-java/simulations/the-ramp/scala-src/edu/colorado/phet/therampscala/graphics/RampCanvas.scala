@@ -4,6 +4,8 @@ package edu.colorado.phet.therampscala.graphics
 import common.phetcommon.resources.PhetCommonResources
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.util.SwingUtils
+import common.piccolophet.event.CursorHandler
+import umd.cs.piccolo.nodes.{PImage, PText}
 import common.piccolophet.PhetPCanvas
 import java.awt.Color
 import java.awt.event._
@@ -13,7 +15,9 @@ import javax.swing.{JFrame, JDialog}
 import model._
 import scalacommon.math.Vector2D
 import scalacommon.Predef._
+import scalacommon.util.Observable
 import theramp.model.ValueAccessor.ParallelForceAccessor
+import umd.cs.piccolo.event.{PInputEvent, PBasicInputEventHandler}
 import umd.cs.piccolo.PNode
 import java.lang.Math._
 
@@ -30,8 +34,30 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
   addNode(new RampHeightIndicator(model.rampSegments(1), transform))
   addNode(new RampAngleIndicator(model.rampSegments(1), transform))
 
-  addNode(new BeadNode(model.leftWall, transform, "barrier2.jpg"))
-  addNode(new BeadNode(model.rightWall, transform, "barrier2.jpg"))
+  trait CloseButton extends BeadNode {
+    val closeButton = new PImage(PhetCommonResources.getImage("buttons/closeButton.png"))
+    closeButton.addInputEventListener(new CursorHandler)
+
+    addChild(closeButton)
+    update()
+
+    override def update() = {
+      super.update()
+      if (closeButton != null)
+        closeButton.setOffset(imageNode.getFullBounds.getX,imageNode.getFullBounds.getY)
+    }
+    addInputEventListener(new PBasicInputEventHandler {
+      override def mousePressed(event: PInputEvent) = model.walls = false
+    })
+    defineInvokeAndPass(model.addListenerByName) {
+      setVisible(model.walls)
+      setPickable(model.walls)
+      setChildrenPickable(model.walls)
+    }
+  }
+
+  addNode(new BeadNode(model.leftWall, transform, "barrier2.jpg") with CloseButton)
+  addNode(new BeadNode(model.rightWall, transform, "barrier2.jpg") with CloseButton)
   addNode(new BeadNode(model.tree, transform, "tree.gif"))
 
   val cabinetNode = new DraggableBeadNode(model.beads(0), transform, "cabinet.gif")
@@ -145,7 +171,7 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
 
     }
     //todo: make sure this adapter overrides other methods as well, such as getPaint
-    val playAreaAdapter = new Vector(vector.color, vector.name, vector.abbreviation, () => vector.getValue * RampDefaults.PLAY_AREA_VECTOR_SCALE,vector.painter) {
+    val playAreaAdapter = new Vector(vector.color, vector.name, vector.abbreviation, () => vector.getValue * RampDefaults.PLAY_AREA_VECTOR_SCALE, vector.painter) {
       override def visible = vector.visible
 
       override def visible_=(vis: Boolean) = vector.visible = vis
