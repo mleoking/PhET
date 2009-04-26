@@ -32,7 +32,6 @@ trait ObjectModel {
 }
 
 class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) extends PNode {
-  val objects = RampDefaults.objects
   val rows = new ArrayBuffer[ArrayBuffer[PNode]]
 
   class ObjectSelectionIcon(o: ScalaRampObject) extends PNode {
@@ -42,9 +41,10 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
     textNode.scale(0.9f)
     textNode.setOffset(imageNode.getFullBounds.getWidth, 0)
 
+    //to capture any input, not just directly on the image or text
     val backgroundNode = new PhetPPath(new BasicStroke(1f), new Color(0, 0, 0, 0))
 
-    //    addChild(backgroundNode)
+    addChild(backgroundNode)
     addChild(imageNode)
     addChild(textNode)
 
@@ -95,7 +95,7 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
   class CustomObjectSelectionIcon(o: MutableRampObject) extends ObjectSelectionIcon(o) {
     override def update() = {
       if (model.selectedObject == o) {
-        backgroundNode.setPaint(ccp.getBackground)
+        backgroundNode.setPaint(customControlPanel.getBackground)
         textNode.setFont(new PhetFont(14, true))
       } else {
         backgroundNode.setPaint(new Color(0, 0, 0, 0))
@@ -114,8 +114,8 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
       add(new ScalaValueControl(0, 12, "Coefficient of Kinetic Friction", "0.0", "", 3, (x: Double) => {}, obj.addListener))
     }
 
-    val ccp = new CustomControlPanel
-    val controlPanel = new PSwing(ccp)
+    val customControlPanel = new CustomControlPanel
+    val controlPanel = new PSwing(customControlPanel)
     val clip = new PClip
     clip.setStrokePaint(null)
     clip.setPathTo(new Rectangle2D.Double(0, 0, controlPanel.getFullBounds.getWidth, controlPanel.getFullBounds.getHeight))
@@ -140,8 +140,6 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
       val speed = 14
       clip.setOffset(0, cur + (if (dy > 0) speed else -speed))
       clip.setPathTo(new Rectangle2D.Double(0, 0, controlPanel.getFullBounds.getWidth, -clip.getOffset.getY))
-
-
 
       if (abs(dy) <= speed * 2) {
         clip.setOffset(0, dst)
@@ -169,14 +167,12 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
     }
   }
 
-  val nodes = for (o <- objects) yield {
+  val nodes = for (o <- RampDefaults.objects) yield {
     o match {
       case jc: MutableRampObject => new CustomObjectSelectionIcon(jc)
       case m: ScalaRampObject => new ObjectSelectionIcon(o)
     }
   }
-  //    if (o.customizable) new CustomObjectSelectionIcon(o) else new ObjectSelectionIcon(o)
-
   val cellDim = nodes.foldLeft(new PDimension)((a, b) => new PDimension(max(a.width, b.getLayoutBounds.width), max(a.height, b.getLayoutBounds.height)))
 
   val modelCellDimPt = transform.viewToModelDifferential(cellDim.width, cellDim.height)
