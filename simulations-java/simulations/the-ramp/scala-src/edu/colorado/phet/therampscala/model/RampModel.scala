@@ -70,6 +70,7 @@ class RampModel extends RecordModel[String] with ObjectModel {
     bead.setPosition(5)
     bead.parallelAppliedForce = 0
     bead.setVelocity(0)
+    bead.attach()
     rampSegments(1).setAngle(initialAngle)
   }
 
