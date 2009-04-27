@@ -34,8 +34,8 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
   def getRightSegmentNode: PNode
   addNode(getRightSegmentNode)
 
-  addNode(new RampHeightIndicator(model.rampSegments(1), transform))
-  addNode(new RampAngleIndicator(model.rampSegments(1), transform))
+  def addHeightAndAngleIndicators()
+  addHeightAndAngleIndicators()
 
   trait CloseButton extends BeadNode {
     val closeButton = new PImage(PhetCommonResources.getImage("buttons/closeButton.png"))
@@ -220,6 +220,11 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
   def getLeftSegmentNode = new RampSegmentNode(model.rampSegments(0), transform)
 
   def getRightSegmentNode = new RotatableSegmentNode(model.rampSegments(1), transform)
+
+  def addHeightAndAngleIndicators() = {
+    addNode(new RampHeightIndicator(model.rampSegments(1), transform))
+    addNode(new RampAngleIndicator(model.rampSegments(1), transform))
+  }
 }
 
 class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
@@ -230,6 +235,11 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
 
   def getRightSegmentNode = new RampSegmentNode(model.rampSegments(1), transform)
   model.bead.parallelAppliedForce = 1E-16 //to move the pusher to the right spot//todo: fix this with view, not model
+
+  def addHeightAndAngleIndicators() = {
+    addNode(new RampHeightIndicator(model.rampSegments(0), transform))
+    addNode(new RampAngleIndicator(model.rampSegments(0), transform))
+  }
 }
 trait PointOfOriginVector {
   def getPointOfOriginOffset(defaultCenter: Double): Double
