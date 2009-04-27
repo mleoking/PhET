@@ -38,7 +38,7 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
   val gravity = -9.8
   var state = _state
   var _parallelAppliedForce = 0.0
-  private var attachState: AttachState = new Grounded
+  private var attachState: MotionStrategy = new Grounded
 
   val gravityForceVector = new BeadVector(RampDefaults.gravityForceColor, "Gravity Force", "<html>F<sub>g</sub></html>", false, () => gravityForce, (a, b) => b)
   val normalForceVector = new BeadVector(RampDefaults.normalForceColor, "Normal Force", "<html>F<sub>N</sub></html>", true, () => normalForce, (a, b) => b)
@@ -151,7 +151,7 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
 
   def netForceToParallelVelocity(f: Vector2D, dt: Double) = velocity + forceToParallelAcceleration(f) * dt
 
-  abstract class AttachState {
+  abstract class MotionStrategy {
     def stepInTime(dt: Double)
 
     def wallForce: Vector2D
@@ -165,7 +165,7 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
     def getAngle: Double
   }
 
-  class Crashed(_position2D: Vector2D, _angle: Double) extends AttachState {
+  class Crashed(_position2D: Vector2D, _angle: Double) extends MotionStrategy {
     def stepInTime(dt: Double) = {}
 
     def wallForce = new Vector2D
@@ -178,7 +178,7 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
 
     def getAngle = _angle
   }
-  class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vector2D, _angle: Double) extends AttachState {
+  class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vector2D, _angle: Double) extends MotionStrategy {
     def getAngle = _angle
 
     override def stepInTime(dt: Double) = {
@@ -202,7 +202,7 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
 
     override def position2D = _position2D
   }
-  class Grounded extends AttachState {
+  class Grounded extends MotionStrategy {
     def position2D = positionMapper(position)
 
     def getAngle = rampSegmentAccessor(position).getUnitVector.getAngle
