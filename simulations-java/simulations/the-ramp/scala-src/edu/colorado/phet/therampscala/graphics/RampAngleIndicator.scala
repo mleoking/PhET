@@ -3,6 +3,7 @@ package edu.colorado.phet.therampscala.graphics
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.util.PhetFont
 import model.RampSegment
+import scalacommon.util.Observable
 import umd.cs.piccolo.PNode
 import common.piccolophet.nodes.PhetPPath
 import java.awt.{BasicStroke, Color}
@@ -13,7 +14,7 @@ import java.text.DecimalFormat
 import edu.colorado.phet.scalacommon.Predef._
 
 //todo: consider coalescing with RampHeightIndicator
-class RampAngleIndicator(rampSegment: RampSegment, transform: ModelViewTransform2D) extends PNode {
+class RampAngleIndicator(rampSegment: Rotatable, transform: ModelViewTransform2D) extends PNode {
   val line = new PhetPPath(new BasicStroke(2f), Color.black)
   val readout = new PText
   readout.setFont(new PhetFont(24))

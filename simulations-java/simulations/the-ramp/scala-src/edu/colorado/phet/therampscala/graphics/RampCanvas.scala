@@ -237,8 +237,8 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
   model.bead.parallelAppliedForce = 1E-16 //to move the pusher to the right spot//todo: fix this with view, not model
 
   def addHeightAndAngleIndicators() = {
-    addNode(new RampHeightIndicator(model.rampSegments(0), transform))
-    addNode(new RampAngleIndicator(model.rampSegments(0), transform))
+    addNode(new RampHeightIndicator(new Reverse(model.rampSegments(0)).reverse, transform))
+    addNode(new RampAngleIndicator(new Reverse(model.rampSegments(0)).reverse, transform))
   }
 }
 trait PointOfOriginVector {
