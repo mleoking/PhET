@@ -122,14 +122,12 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
     public void setLHS( double count, Image image, String label ) {
         countLHS.setValue( count );
         iconLHS.setImage( image );
-        iconLHS.setOffset( iconLHS.getFullBoundsReference().getWidth() / 2, 0 ); // center justified
         labelLHS.setHTML( HTMLUtils.toHTMLString( label ) );
     }
     
     public void setRHS( double count, Image image, String label ) {
         countRHS.setValue( count );
         iconRHS.setImage( image );
-        iconRHS.setOffset( iconRHS.getFullBoundsReference().getWidth() / 2, 0 );// center justified
         labelRHS.setHTML( HTMLUtils.toHTMLString( label ) );
     }
     
@@ -231,6 +229,8 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
             canvas.setPreferredSize( canvasSize );
             
             final MoleculeCountsNode node = new MoleculeCountsNode();
+            node.setLHS( 0, ABSImages.HA_MOLECULE, ABSSymbols.HA );
+            node.setRHS( 0, ABSImages.A_MINUS_MOLECULE, ABSSymbols.A_MINUS );
             canvas.getLayer().addChild( node );
             node.setOffset( 100, 100 );
             node.adjustPinnedNode();
