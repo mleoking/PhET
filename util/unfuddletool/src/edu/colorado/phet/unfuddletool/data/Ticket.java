@@ -41,7 +41,27 @@ public class Ticket extends Record {
 
     public List<Comment> comments = null;
 
+    public List<TicketListener> listeners;
+
     public Ticket( Element element ) {
+        listeners = new LinkedList<TicketListener>();
+        
+        initialize( element );
+    }
+
+    public void update() {
+        Date beforeDate = lastUpdateTime();
+        initialize( Communication.getTicketElementFromServer( getId() ) );
+        refreshComments();
+        Date afterDate = lastUpdateTime();
+        if( beforeDate.compareTo(afterDate) < 0 ) {
+            notifyUpdatedTicket();
+        } else {
+            System.out.println( "Ticket " + this + " was already up to date" );
+        }
+    }
+
+    private void initialize( Element element ) {
         rawAssigneeId = Communication.getOptionalIntField( element, "assignee-id" );
         rawComponentId = Communication.getOptionalIntField( element, "component-id" );
         rawCreatedAt = Communication.getDateTimeField( element, "created-at" );
@@ -220,5 +240,25 @@ public class Ticket extends Record {
         catch( ParserConfigurationException e ) {
             e.printStackTrace();
         }
+    }
+        
+    private void notifyUpdatedTicket() {
+        System.out.println( "Ticket updated: " + this.toString() );
+        Iterator<TicketListener> iter = listeners.iterator();
+        while( iter.hasNext() ) {
+            iter.next().onTicketUpdate( this );
+        }
+    }
+
+    public void addListener( TicketListener listener ) {
+        listeners.add( listener );
+    }
+
+    public void removeListener( TicketListener listener ) {
+        listeners.remove( listener );
+    }
+
+    public interface TicketListener {
+        public void onTicketUpdate( Ticket ticket );
     }
 }

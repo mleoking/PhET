@@ -9,7 +9,7 @@ import javax.swing.event.ListSelectionListener;
 import edu.colorado.phet.unfuddletool.TicketListModel;
 import edu.colorado.phet.unfuddletool.data.Ticket;
 
-public class TicketList extends JList implements ListSelectionListener {
+public class TicketList extends JList implements ListSelectionListener, TicketListModel.TicketListDisplay {
 
     public TicketListModel model;
 
@@ -21,6 +21,8 @@ public class TicketList extends JList implements ListSelectionListener {
         gui = ggui;
 
         model = new TicketListModel();
+
+        model.addDisplay( this );
 
         /*
         tickets = TicketHandler.getTicketHandler().getTicketListByUpdate();
