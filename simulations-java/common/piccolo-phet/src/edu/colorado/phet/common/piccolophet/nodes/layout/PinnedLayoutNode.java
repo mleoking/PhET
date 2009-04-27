@@ -52,7 +52,7 @@ public class PinnedLayoutNode extends SwingLayoutNode {
     
     /**
      * Sets the node that will be pinned in place. 
-     * The layout's offset will be dynamically adjusted so that the pinned nodes 
+     * The layout's offset will be dynamically adjusted so that the pinned node 
      * appears to remain stationary.
      * <p>
      * Note that it's important to call this *after* you've applied any transforms
