@@ -27,8 +27,6 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 public class PinnedLayoutNode extends SwingLayoutNode {
     
-    private static final Class LAYOUT_TYPE = GridBagLayout.class; // change this to test with different layout managers
-    
     private PNode pinnedNode;
     private PBounds pinnedGlobalFullBounds;
     private final PropertyChangeListener pinnedNodePropertyChangeListener;
@@ -118,6 +116,8 @@ public class PinnedLayoutNode extends SwingLayoutNode {
     /* test */
     public static void main( String[] args ) {
         
+        final Class testLayoutClass = GridBagLayout.class; // change this to test with different layout managers
+        
         Dimension canvasSize = new Dimension( 600, 400 );
         PhetPCanvas canvas = new PhetPCanvas( canvasSize );
         canvas.setPreferredSize( canvasSize );
@@ -139,25 +139,25 @@ public class PinnedLayoutNode extends SwingLayoutNode {
         PPath redCircle = new PPath( new Ellipse2D.Double( 0, 0, 25, 25 ) );
         redCircle.setPaint( Color.RED );
         
-        // layout
+        // layout node
         PinnedLayoutNode layoutNode = null;
-        if ( LAYOUT_TYPE == BoxLayout.class ) {
+        if ( testLayoutClass == BoxLayout.class ) {
             layoutNode = new PinnedLayoutNode();
             layoutNode.setLayout( new BoxLayout( layoutNode.getContainer(), BoxLayout.X_AXIS ) );
             layoutNode.addChild( valueNode );
             layoutNode.addChild( redCircle );
         }
-        else if ( LAYOUT_TYPE == BorderLayout.class ) {
+        else if ( testLayoutClass == BorderLayout.class ) {
             layoutNode = new PinnedLayoutNode( new BorderLayout() );
             layoutNode.addChild( valueNode, BorderLayout.CENTER );
             layoutNode.addChild( redCircle, BorderLayout.EAST );
         }
-        else if ( LAYOUT_TYPE == FlowLayout.class ) {
+        else if ( testLayoutClass == FlowLayout.class ) {
             layoutNode = new PinnedLayoutNode( new FlowLayout() );
             layoutNode.addChild( valueNode );
             layoutNode.addChild( redCircle );
         }
-        else if ( LAYOUT_TYPE == GridBagLayout.class ) {
+        else if ( testLayoutClass == GridBagLayout.class ) {
             layoutNode = new PinnedLayoutNode( new GridBagLayout() );
             GridBagConstraints constraints = new GridBagConstraints();
             constraints.insets = new Insets( 5, 5, 5, 5 );
@@ -167,7 +167,7 @@ public class PinnedLayoutNode extends SwingLayoutNode {
             constraints.gridx++;
             layoutNode.addChild( redCircle, constraints );
         }
-        else if ( LAYOUT_TYPE == GridLayout.class ) {
+        else if ( testLayoutClass == GridLayout.class ) {
             layoutNode = new PinnedLayoutNode( new GridLayout( 0, 2 ) );
             layoutNode.addChild( valueNode );
             layoutNode.addChild( redCircle );
@@ -183,6 +183,7 @@ public class PinnedLayoutNode extends SwingLayoutNode {
         // pin
         layoutNode.setPinnedNode( redCircle );
 
+        // control panel with slider
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout( new BoxLayout( controlPanel, BoxLayout.Y_AXIS ) );
         final JSlider valueSlider = new JSlider( 0, 1000, 0 ); // controls dynamicNode
@@ -196,6 +197,7 @@ public class PinnedLayoutNode extends SwingLayoutNode {
         } );
         controlPanel.add( valueSlider );
         
+        // layout like a sim
         JPanel appPanel = new JPanel( new BorderLayout() );
         appPanel.add( canvas, BorderLayout.CENTER );
         appPanel.add( controlPanel, BorderLayout.EAST );
