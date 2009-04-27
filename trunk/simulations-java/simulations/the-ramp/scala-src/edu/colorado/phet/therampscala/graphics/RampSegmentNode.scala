@@ -53,9 +53,19 @@ class RotationHandler(val mytransform: ModelViewTransform2D, val node: PNode, va
     //draw a ray from start point to new mouse point
     val newPt = new Vector2D(rotatable.getUnitVector.getAngle + deltaAngle) * rotatable.length
     val clamped =
-    if (newPt.getAngle < min) new Vector2D(min) * rotatable.length
-    else if (newPt.getAngle > max) new Vector2D(max) * rotatable.length
+    if (newPt.getAngle +PI*2< min) {
+      val value= new Vector2D(min) * rotatable.length
+      println("ang was: "+newPt.getAngle+", value="+value)
+      value
+    }
+    else if (newPt.getAngle > max) {
+      val value=new Vector2D(max) * rotatable.length
+      println("over max: "+value)
+      value
+    }
     else newPt
+
+    println("endpt="+clamped)
     rotatable.endPoint = clamped
   }
 }
@@ -63,4 +73,23 @@ class RotationHandler(val mytransform: ModelViewTransform2D, val node: PNode, va
 class RotatableSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D) extends RampSegmentNode(rampSegment, mytransform) {
   line.addInputEventListener(new CursorHandler(Cursor.N_RESIZE_CURSOR))
   line.addInputEventListener(new RotationHandler(mytransform, line, rampSegment, 0, PI / 2))
+}
+
+class ReverseRotatableSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D) extends RampSegmentNode(rampSegment, mytransform) {
+  line.addInputEventListener(new CursorHandler(Cursor.N_RESIZE_CURSOR))
+
+  //this one rotates about the end point
+  object rev extends Rotatable{
+    def length = rampSegment.length
+
+    def startPoint = rampSegment.endPoint
+
+    def endPoint = rampSegment.startPoint
+
+    def getUnitVector = rampSegment.getUnitVector* -1
+
+    def endPoint_=(newPt: Vector2D) = rampSegment.startPoint=newPt
+  }
+
+  line.addInputEventListener(new RotationHandler(mytransform, line, rev, PI/2, PI))
 }
