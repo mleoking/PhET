@@ -1,5 +1,5 @@
 
-package edu.colorado.phet.common.piccolophet.nodes;
+package edu.colorado.phet.common.piccolophet.nodes.layout;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -15,6 +15,8 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;

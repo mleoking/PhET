@@ -1,4 +1,4 @@
-package edu.colorado.phet.acidbasesolutions.view;
+package edu.colorado.phet.common.piccolophet.nodes.layout;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -14,7 +14,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.SwingLayoutNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
