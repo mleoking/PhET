@@ -32,7 +32,7 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
     //TODO localize
     private static final String NEGLIGIBLE = "NEGLIGIBLE";
 
-    private static final Font NEGLIBIBLE_FONT = new PhetFont( Font.PLAIN, ABSConstants.CONTROL_FONT_SIZE - 2 );
+    private static final Font NEGLIGIBLE_FONT = new PhetFont( Font.PLAIN, ABSConstants.CONTROL_FONT_SIZE - 2 );
     private static final Font VALUE_FONT = new PhetFont( Font.BOLD, ABSConstants.CONTROL_FONT_SIZE );
     private static final Color VALUE_COLOR = Color.BLACK;
     private static final Color VALUE_BACKGROUND_COLOR = new Color( 255, 255, 255, 128 ); // translucent white
@@ -212,7 +212,7 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
             super( value, format );
             _negligibleValue = minValue;
             _textNode = new PText( NEGLIGIBLE );
-            _textNode.setFont( NEGLIBIBLE_FONT );
+            _textNode.setFont( NEGLIGIBLE_FONT );
             addChild( new RectangularBackgroundNode( _textNode, VALUE_INSETS, VALUE_BACKGROUND_COLOR ) );
             setValue( value );
         }
