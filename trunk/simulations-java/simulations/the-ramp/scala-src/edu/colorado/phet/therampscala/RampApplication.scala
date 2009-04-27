@@ -198,9 +198,10 @@ class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends Abstrac
   model.rampSegments(0).startPoint = new Vector2D(-10, 0).rotate(-(30.0).toRadians)
   model.setPaused(true) //wait for robot go
   model.bead.setPosition(-10) //top of the ramp
-  model.bead.airborneFloor_=(-9.0)
+  val airborneFloor= -9.0
+  model.bead.airborneFloor_=(airborneFloor)
 
-  val canvas = new RMCCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame)
+  val canvas = new RMCCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame,airborneFloor)
   setSimulationPanel(canvas)
 }
 class RobotMovingCompanyApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {

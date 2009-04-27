@@ -26,10 +26,12 @@ import umd.cs.piccolox.pswing.PSwing
 
 abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                                   vectorViewModel: VectorViewModel, frame: JFrame) extends DefaultCanvas(22, 20) {
-  setBackground(new Color(200, 255, 240))
+  setBackground(RampDefaults.SKY_GRADIENT_BOTTOM)
 
   addNode(new SkyNode(transform))
-  addNode(new EarthNode(transform))
+
+  def getEarthNode: PNode
+  addNode(getEarthNode)
 
   def getLeftSegmentNode: PNode
   addNode(getLeftSegmentNode)
@@ -193,10 +195,12 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
     addNode(new RampHeightIndicator(model.rampSegments(1), transform))
     addNode(new RampAngleIndicator(model.rampSegments(1), transform))
   }
+
+  def getEarthNode = new EarthNode(transform)
 }
 
 class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                vectorViewModel: VectorViewModel, frame: JFrame) extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame) {
+                vectorViewModel: VectorViewModel, frame: JFrame,airborneFloor:Double) extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame) {
   val controlPanel = new VerticalLayoutPanel
   controlPanel.setFillNone()
   val robotGoButton = new ScalaButton("Robot Go!", () => {
@@ -206,21 +210,21 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
   controlPanel.add(robotGoButton)
 
   def changeY(dy: Double) = {
-    val result=model.rampSegments(0).startPoint + new Vector2D(0, dy)
-    if (result.y<1E-8)
-      new Vector2D(result.x,1E-8)
+    val result = model.rampSegments(0).startPoint + new Vector2D(0, dy)
+    if (result.y < 1E-8)
+      new Vector2D(result.x, 1E-8)
     else
       result
   }
 
-  def updatePosition(dy:Double)={
+  def updatePosition(dy: Double) = {
     model.rampSegments(0).startPoint = changeY(dy)
     model.bead.setPosition(-model.rampSegments(0).length)
   }
 
   controlPanel.add(new ScalaButton("Raise Truck", () => updatePosition(0.2)))
   controlPanel.add(new ScalaButton("Lower Truck", () => updatePosition(-0.2)))
-  
+
   val pswingControlPanel = new PSwing(controlPanel)
   addNode(pswingControlPanel)
 
@@ -230,7 +234,7 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
 
   val house = model.createBead(8)
 
-  addNode(new BeadNode(house, transform, "cottage.gif"))
+  addNode(new BeadNode(house, transform, "robotmovingcompany/house.gif"))
   model.bead.parallelAppliedForce = 1E-16 //to move the pusher to the right spot//todo: fix this with view, not model
   model.bead.notifyListeners() //todo: not sure why this call is necessary; should be handled in previous line
 
@@ -245,6 +249,7 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
     addNode(new RampAngleIndicator(new Reverse(model.rampSegments(0)).reverse, transform))
   }
 
+  def getEarthNode = new EarthNodeWithCliff(transform, model.rampSegments(1).length,airborneFloor)
 }
 trait PointOfOriginVector {
   def getPointOfOriginOffset(defaultCenter: Double): Double

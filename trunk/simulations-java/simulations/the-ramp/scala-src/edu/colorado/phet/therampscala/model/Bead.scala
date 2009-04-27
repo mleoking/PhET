@@ -193,7 +193,7 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
       _velocity2D = _velocity2D + accel * dt
       _position2D = _position2D + _velocity2D * dt
       if (_position2D.y <= _airborneFloor)
-        attachState = new Crashed(new Vector2D(_position2D.x, 0), _angle)
+        attachState = new Crashed(new Vector2D(_position2D.x, _airborneFloor), _angle)
       notifyListeners() //to get the new normalforce
     }
 
