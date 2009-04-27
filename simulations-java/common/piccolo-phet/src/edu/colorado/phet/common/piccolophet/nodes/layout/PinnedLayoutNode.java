@@ -158,12 +158,12 @@ public class PinnedLayoutNode extends SwingLayoutNode {
             PText valueNode = new PText( "0" );
             valueNodes.add( valueNode );
             layoutNode.addChild( valueNode );
-            // label
-            PText labelNode = new PText( "BoxLayout" );
-            layoutNode.addChild( labelNode );
             // red circle
             PPath pathNode = new PhetPPath( new Ellipse2D.Double( 0, 0, 25, 25 ), Color.RED, new BasicStroke( 1f ), Color.BLACK );
             layoutNode.addChild( pathNode );
+            // label
+            PText labelNode = new PText( "BoxLayout" );
+            layoutNode.addChild( labelNode );
             // pin
             layoutNode.setPinnedNode( pathNode );
         }
@@ -179,12 +179,12 @@ public class PinnedLayoutNode extends SwingLayoutNode {
             PText valueNode = new PText( "0" );
             valueNodes.add( valueNode );
             layoutNode.addChild( valueNode, BorderLayout.WEST );
-            // label
-            PText labelNode = new PText( "BorderLayout" );
-            layoutNode.addChild( labelNode, BorderLayout.CENTER );
             // red circle
             PPath pathNode = new PhetPPath( new Ellipse2D.Double( 0, 0, 25, 25 ), Color.RED, new BasicStroke( 1f ), Color.BLACK );
-            layoutNode.addChild( pathNode, BorderLayout.EAST );
+            layoutNode.addChild( pathNode, BorderLayout.CENTER );
+            // label
+            PText labelNode = new PText( "BorderLayout" );
+            layoutNode.addChild( labelNode, BorderLayout.EAST );
             // pin
             layoutNode.setPinnedNode( pathNode );
         }
@@ -200,12 +200,12 @@ public class PinnedLayoutNode extends SwingLayoutNode {
             PText valueNode = new PText( "0" );
             valueNodes.add( valueNode );
             layoutNode.addChild( valueNode );
-            // label
-            PText labelNode = new PText( "FlowLayout" );
-            layoutNode.addChild( labelNode );
             // red circle
             PPath pathNode = new PhetPPath( new Ellipse2D.Double( 0, 0, 25, 25 ), Color.RED, new BasicStroke( 1f ), Color.BLACK );
             layoutNode.addChild( pathNode );
+            // label
+            PText labelNode = new PText( "FlowLayout" );
+            layoutNode.addChild( labelNode );
             // pin
             layoutNode.setPinnedNode( pathNode );
         }
@@ -225,14 +225,14 @@ public class PinnedLayoutNode extends SwingLayoutNode {
             PText valueNode = new PText( "0" );
             valueNodes.add( valueNode );
             layoutNode.addChild( valueNode, constraints );
-            // label
-            PText labelNode = new PText( "GridBagLayout" );
-            layoutNode.addChild( labelNode, constraints );
             // red circle
             PPath pathNode = new PhetPPath( new Ellipse2D.Double( 0, 0, 25, 25 ), Color.RED, new BasicStroke( 1f ), Color.BLACK );
             layoutNode.addChild( pathNode, constraints );
+            // label
+            PText labelNode = new PText( "GridBagLayout" );
+            layoutNode.addChild( labelNode, constraints );
             // pin
-            layoutNode.setPinnedNode( pathNode ); //TODO pathNode doesn't pin correctly, valueNode and labelNode pin correctly. why?
+            layoutNode.setPinnedNode( labelNode ); //TODO pathNode and labelNode don't pin correctly, valueNode does pin correctly. why?
         }
         
         // GridLayout
@@ -246,12 +246,12 @@ public class PinnedLayoutNode extends SwingLayoutNode {
             PText valueNode = new PText( "0" );
             valueNodes.add( valueNode );
             layoutNode.addChild( valueNode );
-            // label
-            PText labelNode = new PText( "GridLayout" );
-            layoutNode.addChild( labelNode );
             // red circle
             PPath pathNode = new PhetPPath( new Ellipse2D.Double( 0, 0, 25, 25 ), Color.RED, new BasicStroke( 1f ), Color.BLACK );
             layoutNode.addChild( pathNode );
+            // label
+            PText labelNode = new PText( "GridLayout" );
+            layoutNode.addChild( labelNode );
             // pin
             layoutNode.setPinnedNode( pathNode );
         }
