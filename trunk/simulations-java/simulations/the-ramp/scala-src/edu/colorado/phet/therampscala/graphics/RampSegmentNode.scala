@@ -68,7 +68,6 @@ class RotationHandler(val mytransform: ModelViewTransform2D, val node: PNode, va
     }
     else newPt
 
-    println("endpt=" + clamped)
     rotatable.endPoint = clamped
   }
 }
