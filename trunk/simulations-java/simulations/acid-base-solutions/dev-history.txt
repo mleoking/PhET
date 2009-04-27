@@ -1,3 +1,8 @@
+==================================================================================
+ acid-base-solutions : development history
+==================================================================================
+
+4/27/09 implement Molecule Counts using Swing layout node, wire up to checkbox
 4/15/09 add placeholder for Concentrations Graph, wire up to checkbox
 4/15/09 add empty dialogs for Equilibrium Expressions, Reaction Equations, wire up to checkboxes
 4/15/09 add Symbol Legend dialog, wire up to checkbox
@@ -16,3 +21,5 @@
 1/19/09 framework for all modules and persistence
 1/12/09 set up basic framework, based on sim-template
 1/12/09 changes log file created
+
+==================================================================================

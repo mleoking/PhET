@@ -2,6 +2,8 @@ package edu.colorado.phet.acidbasesolutions.control;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.MessageFormat;
 
 import javax.swing.JCheckBox;
@@ -12,6 +14,7 @@ import javax.swing.border.TitledBorder;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.umd.cs.piccolo.PNode;
 
 
 public class BeakerControls extends JPanel {
@@ -23,13 +26,17 @@ public class BeakerControls extends JPanel {
     private static final String MOLECULE_COUNTS = "Molecule Counts";
     private static final String BEAKER_LABEL = "Label";
     
+    private final PNode _moleculeCountsNode;
+    
     private final JCheckBox _dissociatedComponentsRatioCheckBox;
     private final JCheckBox _hyroniumHydroxideRatioCheckBox;
     private final JCheckBox _moleculeCountsCheckBox;
     private final JCheckBox _beakerLabelCheckBox;
     
-    public BeakerControls() {
+    public BeakerControls( PNode moleculeCountsNode ) {
         super();
+        
+        _moleculeCountsNode = moleculeCountsNode;
         
         // border
         TitledBorder border = new TitledBorder( new LineBorder( Color.BLACK, 2 ), TITLE );
@@ -43,7 +50,12 @@ public class BeakerControls extends JPanel {
         String text = MessageFormat.format( HYDRONIUM_HYDROXIDE_RATIO_PATTERN, args );
         _hyroniumHydroxideRatioCheckBox = new JCheckBox( text );
         
-        _moleculeCountsCheckBox = new JCheckBox( MOLECULE_COUNTS );
+        _moleculeCountsCheckBox = new JCheckBox( MOLECULE_COUNTS, _moleculeCountsNode.getVisible() );
+        _moleculeCountsCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                _moleculeCountsNode.setVisible( _moleculeCountsCheckBox.isSelected() );
+            }
+        });
         
         _beakerLabelCheckBox = new JCheckBox( BEAKER_LABEL );
 
