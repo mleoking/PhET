@@ -14,7 +14,7 @@ import java.text.DecimalFormat
 import scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.Predef._
 
-class RampHeightIndicator(rampSegment: RampSegment, transform: ModelViewTransform2D) extends PNode {
+class RampHeightIndicator(rampSegment: Rotatable, transform: ModelViewTransform2D) extends PNode {
   val line = new PhetPPath(new BasicStroke(2f), Color.black)
   addChild(line)
 
