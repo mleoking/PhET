@@ -74,6 +74,10 @@ class AxisModel(private var _angle: Double, val length: Double, tail: Boolean) e
   }
 
   def dropped() = {}
+
+  override def getPivot = new Vector2D
+
+  def startPoint_=(newPt: Vector2D) = {}
 }
 
 //todo: coalesce with duplicates after code freeze
