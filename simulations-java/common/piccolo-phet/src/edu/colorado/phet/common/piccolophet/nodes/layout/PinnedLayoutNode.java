@@ -242,20 +242,7 @@ public class PinnedLayoutNode extends SwingLayoutNode {
             final PText labelNode = new PText( "GridBagLayout" );
             layoutNode.addChild( labelNode, constraints );
             // pin
-            layoutNode.setPinnedNode( pathNode ); //TODO pathNode and labelNode don't pin correctly, valueNode does pin correctly. why?
-            
-            //DEBUG
-            System.out.println( "layoutNode : " + layoutNode.getGlobalFullBounds() );
-            System.out.println( "valueNode  : " + valueNode.getGlobalFullBounds() );
-            System.out.println( "pathNode   : " + pathNode.getGlobalFullBounds() ); //TODO this looks wrong
-            System.out.println( "labelNode  : " + labelNode.getGlobalFullBounds() ); //TODO this looks wrong
-            layoutNode.addPropertyChangeListener( new PropertyChangeListener() {
-                public void propertyChange( PropertyChangeEvent event ) {
-                    if ( event.getPropertyName().equals( PNode.PROPERTY_FULL_BOUNDS ) ) {
-                        System.out.println( "layoutNode:" + layoutNode.getGlobalFullBounds() + " pathNode:" + pathNode.getGlobalFullBounds() );
-                    }
-                }
-            } );
+            layoutNode.setPinnedNode( pathNode );
         }
         
         // GridLayout
@@ -289,7 +276,6 @@ public class PinnedLayoutNode extends SwingLayoutNode {
         valueSlider.setPaintTicks( true );
         valueSlider.setPaintLabels( true );
         valueSlider.addChangeListener( new ChangeListener() {
-
             public void stateChanged( ChangeEvent e ) {
                 Iterator i = valueNodes.iterator();
                 while ( i.hasNext() ) {
