@@ -139,6 +139,12 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
     notifyListeners()
   }
 
+  private var _airborneFloor = 0.0
+
+  def airborneFloor_=(airborneFloor: Double) = {
+    this._airborneFloor = airborneFloor
+  }
+
   def getTotalEnergy = getPotentialEnergy + getKineticEnergy
 
   def getPotentialEnergy = mass * gravity * position2D.y
@@ -186,12 +192,9 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
       val accel = totalForce / mass
       _velocity2D = _velocity2D + accel * dt
       _position2D = _position2D + _velocity2D * dt
-      notifyListeners()
-      //      println("position2D="+_position2D)
-      if (_position2D.y <= 0) {
+      if (_position2D.y <= _airborneFloor)
         attachState = new Crashed(new Vector2D(_position2D.x, 0), _angle)
-        notifyListeners() //to get the new normalforce
-      }
+      notifyListeners() //to get the new normalforce
     }
 
     override def wallForce = new Vector2D

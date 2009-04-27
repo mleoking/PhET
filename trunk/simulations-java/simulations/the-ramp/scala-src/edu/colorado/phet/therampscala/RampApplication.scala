@@ -198,6 +198,7 @@ class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends Abstrac
   model.rampSegments(0).startPoint = new Vector2D(-10, 0).rotate(-(30.0).toRadians)
   model.setPaused(true) //wait for robot go
   model.bead.setPosition(-10) //top of the ramp
+  model.bead.airborneFloor_=(-9.0)
 
   val canvas = new RMCCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame)
   setSimulationPanel(canvas)
