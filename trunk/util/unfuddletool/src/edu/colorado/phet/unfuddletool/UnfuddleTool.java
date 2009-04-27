@@ -16,6 +16,24 @@ public class UnfuddleTool {
             Authentication.auth = user + ":" + pass;
         }
 
+        /*
+        try {
+            UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
+        }
+        catch( ClassNotFoundException e ) {
+            e.printStackTrace();
+        }
+        catch( InstantiationException e ) {
+            e.printStackTrace();
+        }
+        catch( IllegalAccessException e ) {
+            e.printStackTrace();
+        }
+        catch( UnsupportedLookAndFeelException e ) {
+            e.printStackTrace();
+        }
+        */
+
         UnfuddleToolGUI gui = new UnfuddleToolGUI();
 
         TicketHandler ticketHandler = TicketHandler.getTicketHandler();

@@ -21,7 +21,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import edu.colorado.phet.unfuddletool.data.DateTime;
-import edu.colorado.phet.unfuddletool.data.Ticket;
 
 public class Communication {
     private Communication() {
@@ -280,7 +279,7 @@ public class Communication {
     }
 
     public static Element getTicketElementFromServer( int id ) {
-        String xmlString = Communication.getXMLResponse( "<request></request>", "projects/" + Configuration.getProjectIdString() + "/tickets/" + String.valueOf( id ), Authentication.auth );        
+        String xmlString = Communication.getXMLResponse( "<request></request>", "projects/" + Configuration.getProjectIdString() + "/tickets/" + String.valueOf( id ), Authentication.auth );
         try {
             return (Element) Communication.toDocument( xmlString ).getFirstChild();
         }

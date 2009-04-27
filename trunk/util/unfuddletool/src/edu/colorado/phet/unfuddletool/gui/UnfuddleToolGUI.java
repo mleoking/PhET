@@ -1,17 +1,17 @@
 package edu.colorado.phet.unfuddletool.gui;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 
+import edu.colorado.phet.unfuddletool.Activity;
 import edu.colorado.phet.unfuddletool.Authentication;
 import edu.colorado.phet.unfuddletool.LinkHandler;
-import edu.colorado.phet.unfuddletool.Activity;
 
 public class UnfuddleToolGUI extends JFrame {
     public JEditorPane displayArea;
@@ -59,7 +59,11 @@ public class UnfuddleToolGUI extends JFrame {
 
         JSplitPane splitPane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, ticketScrollPane, areaScrollPane );
 
-        add( splitPane );
+        JTabbedPane tabber = new JTabbedPane();
+        tabber.addTab( "Ticket List", splitPane );
+        add( tabber );
+
+        //add( splitPane );
 
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
@@ -67,7 +71,7 @@ public class UnfuddleToolGUI extends JFrame {
 
         setVisible( true );
         repaint( 0, 0, 0, 5000, 5000 );
-        
+
     }
 
     public JMenuBar createMenu() {

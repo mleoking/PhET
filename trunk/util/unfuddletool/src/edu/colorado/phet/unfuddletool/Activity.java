@@ -12,8 +12,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import edu.colorado.phet.unfuddletool.data.Event;
 import edu.colorado.phet.unfuddletool.data.Comment;
+import edu.colorado.phet.unfuddletool.data.Event;
 import edu.colorado.phet.unfuddletool.data.Ticket;
 
 public class Activity {
@@ -43,13 +43,13 @@ public class Activity {
                     if ( eventElement.getTagName().equals( "event" ) ) {
                         Event event = new Event( eventElement );
 
-                        if( event.getType() == Event.Type.COMMENT ) {
+                        if ( event.getType() == Event.Type.COMMENT ) {
                             Comment comment = event.getCommentRecord();
                             //TicketHandler.getTicketHandler().getTicketById( comment.rawParentId );
                             TicketHandler.getTicketHandler().requestTicketUpdate( comment.rawParentId, comment.rawUpdatedAt.getDate() );
                         }
 
-                        if( event.getType() == Event.Type.TICKET ) {
+                        if ( event.getType() == Event.Type.TICKET ) {
                             Ticket ticket = event.getTicketRecord();
                             //TicketHandler.getTicketHandler().getTicketById( event.getTicketRecord().getId() );
                             TicketHandler.getTicketHandler().requestTicketUpdate( ticket.getId(), ticket.rawUpdatedAt.getDate() );

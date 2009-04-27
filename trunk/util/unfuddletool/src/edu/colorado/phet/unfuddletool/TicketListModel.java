@@ -64,9 +64,9 @@ public class TicketListModel implements ListModel, Ticket.TicketListener {
         int oldIndex = getTicketIndex( ticket );
         LinkedList<TicketListDisplay> changedDisplays = new LinkedList<TicketListDisplay>();
         Iterator<TicketListDisplay> firstIter = displays.iterator();
-        while( firstIter.hasNext() ) {
+        while ( firstIter.hasNext() ) {
             TicketListDisplay display = firstIter.next();
-            if( display.getSelectedIndex() == oldIndex ) {
+            if ( display.getSelectedIndex() == oldIndex ) {
                 changedDisplays.add( display );
             }
         }
@@ -78,7 +78,7 @@ public class TicketListModel implements ListModel, Ticket.TicketListener {
         int newIndex = getTicketIndex( ticket );
 
         Iterator<TicketListDisplay> secondIter = changedDisplays.iterator();
-        while( secondIter.hasNext() ) {
+        while ( secondIter.hasNext() ) {
             System.out.println( "Updating display" );
             TicketListDisplay display = secondIter.next();
             display.clearSelection();
@@ -89,9 +89,9 @@ public class TicketListModel implements ListModel, Ticket.TicketListener {
     public int getTicketIndex( Ticket ticket ) {
         ListIterator<Ticket> iter = tickets.listIterator();
 
-        while( iter.hasNext() ) {
+        while ( iter.hasNext() ) {
             Ticket listedTicket = iter.next();
-            if( ticket == listedTicket ) {
+            if ( ticket == listedTicket ) {
                 return iter.previousIndex();
             }
         }
@@ -159,7 +159,9 @@ public class TicketListModel implements ListModel, Ticket.TicketListener {
 
     public interface TicketListDisplay {
         public int getSelectedIndex();
+
         public void setSelectedIndex( int index );
+
         public void clearSelection();
     }
 }

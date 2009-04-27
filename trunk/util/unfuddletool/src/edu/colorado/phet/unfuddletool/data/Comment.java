@@ -41,7 +41,7 @@ public class Comment extends Record {
     }
 
     public void updateFromServer() {
-        
+
     }
 
     public int recordType() {

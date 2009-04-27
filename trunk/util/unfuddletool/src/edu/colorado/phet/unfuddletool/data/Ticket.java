@@ -45,7 +45,7 @@ public class Ticket extends Record {
 
     public Ticket( Element element ) {
         listeners = new LinkedList<TicketListener>();
-        
+
         initialize( element );
     }
 
@@ -54,9 +54,10 @@ public class Ticket extends Record {
         initialize( Communication.getTicketElementFromServer( getId() ) );
         refreshComments();
         Date afterDate = lastUpdateTime();
-        if( beforeDate.compareTo(afterDate) < 0 ) {
+        if ( beforeDate.compareTo( afterDate ) < 0 ) {
             notifyUpdatedTicket();
-        } else {
+        }
+        else {
             System.out.println( "Ticket " + this + " was already up to date" );
         }
     }
@@ -99,7 +100,7 @@ public class Ticket extends Record {
 
     public String toHTMLString() {
 
-        String ret = "<html><h3><a href='" + externalLink() + "'>";
+        String ret = "<html><body bgcolor='#FFFFFF'><h3><a href='" + externalLink() + "'>";
         ret += toString() + "</a></h3>\n";
 
         ret += "Assignee: " + Person.getNameFromId( rawAssigneeId ) + "\n";
@@ -139,7 +140,7 @@ public class Ticket extends Record {
 
         ret += "<a href='" + externalLink() + "'>view in browser</a>";
 
-        ret += "</html>";
+        ret += "</body></html>";
 
         ret = ret.replaceAll( "\n", "<br/>" );
 
@@ -241,11 +242,11 @@ public class Ticket extends Record {
             e.printStackTrace();
         }
     }
-        
+
     private void notifyUpdatedTicket() {
         System.out.println( "Ticket updated: " + this.toString() );
         Iterator<TicketListener> iter = listeners.iterator();
-        while( iter.hasNext() ) {
+        while ( iter.hasNext() ) {
             iter.next().onTicketUpdate( this );
         }
     }

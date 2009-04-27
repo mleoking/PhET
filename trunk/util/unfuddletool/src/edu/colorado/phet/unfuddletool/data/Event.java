@@ -78,17 +78,19 @@ public class Event {
     }
 
     public Comment getCommentRecord() {
-        if( getType() == Type.COMMENT ) {
+        if ( getType() == Type.COMMENT ) {
             return (Comment) record;
-        } else {
+        }
+        else {
             throw new RuntimeException( "Record was not a comment" );
         }
     }
 
     public Ticket getTicketRecord() {
-        if( getType() == Type.TICKET ) {
+        if ( getType() == Type.TICKET ) {
             return (Ticket) record;
-        } else {
+        }
+        else {
             throw new RuntimeException( "Record was not a ticket" );
         }
     }
