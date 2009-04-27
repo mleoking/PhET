@@ -32,6 +32,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
     private final PHProbeNode _probeNode;
     private final SolutionNode _solutionNode;
     private final ConcentrationsGraphNode _concentrationsGraphNode;
+    private final MoleculeCountsNode _moleculeCountsNode;
     
     // Control
     private final BeakerControls _beakerControls;
@@ -57,7 +58,9 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         
         _concentrationsGraphNode = new ConcentrationsGraphNode();
         
-        _beakerControls = new BeakerControls();
+        _moleculeCountsNode = new MoleculeCountsNode();
+        
+        _beakerControls = new BeakerControls( _moleculeCountsNode );
         _beakerControls.setBackground( getBackground() );
         _beakerControlsWrapper = new PSwing( _beakerControls );
         _beakerControlsWrapper.scale( ABSConstants.PSWING_SCALE );
@@ -74,6 +77,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         addNode( _probeNode );
         addNode( _beakerNode );
         addNode( _concentrationsGraphNode );
+        addNode( _moleculeCountsNode );
     }
     
     //----------------------------------------------------------------------------
@@ -111,6 +115,11 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         
         // solution inside the beaker
         _solutionNode.setOffset( _beakerNode.getOffset() );
+        
+        // molecule counts inside the beaker
+        xOffset = _beakerNode.getXOffset() + 10;
+        yOffset = _beakerNode.getYOffset() + 10;
+        _moleculeCountsNode.setOffset( xOffset, yOffset );
         
         // probe horizontally centered in beaker, tip of probe at bottom of beaker
         xOffset = _beakerNode.getFullBoundsReference().getCenterX() - _probeNode.getFullBoundsReference().getWidth() / 2;
