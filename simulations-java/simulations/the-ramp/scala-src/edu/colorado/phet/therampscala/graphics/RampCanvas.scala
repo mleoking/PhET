@@ -7,6 +7,7 @@ import common.phetcommon.view.util.SwingUtils
 import common.phetcommon.view.VerticalLayoutPanel
 import common.piccolophet.event.CursorHandler
 import javax.swing.{JButton, JFrame, JDialog}
+import swing.ScalaButton
 import umd.cs.piccolo.nodes.{PImage, PText}
 import common.piccolophet.PhetPCanvas
 import java.awt.Color
@@ -198,22 +199,34 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
                 vectorViewModel: VectorViewModel, frame: JFrame) extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame) {
   val controlPanel = new VerticalLayoutPanel
   controlPanel.setFillNone()
-  val robotGoButton = new JButton("Robot Go!")
-  robotGoButton.addActionListener(() => {
+  val robotGoButton = new ScalaButton("Robot Go!", () => {
     model.bead.parallelAppliedForce = 0 //leave the pusher behind
     model.setPaused(false)
   })
   controlPanel.add(robotGoButton)
 
-  controlPanel.add(new JButton("Raise Truck"))
-  controlPanel.add(new JButton("Lower Truck"))
+  def changeY(dy: Double) = {
+    val result=model.rampSegments(0).startPoint + new Vector2D(0, dy)
+    if (result.y<1E-8)
+      new Vector2D(result.x,1E-8)
+    else
+      result
+  }
 
+  def updatePosition(dy:Double)={
+    model.rampSegments(0).startPoint = changeY(dy)
+    model.bead.setPosition(-model.rampSegments(0).length)
+  }
+
+  controlPanel.add(new ScalaButton("Raise Truck", () => updatePosition(0.2)))
+  controlPanel.add(new ScalaButton("Lower Truck", () => updatePosition(-0.2)))
+  
   val pswingControlPanel = new PSwing(controlPanel)
   addNode(pswingControlPanel)
 
   pswingControlPanel.setOffset(0, transform.modelToView(0, -1).y)
-  fbdNode.setOffset(pswingControlPanel.getFullBounds.getMaxX+10,pswingControlPanel.getFullBounds.getY)
-  freeBodyDiagramModel.visible=true
+  fbdNode.setOffset(pswingControlPanel.getFullBounds.getMaxX + 10, pswingControlPanel.getFullBounds.getY)
+  freeBodyDiagramModel.visible = true
 
   val house = model.createBead(8)
 
