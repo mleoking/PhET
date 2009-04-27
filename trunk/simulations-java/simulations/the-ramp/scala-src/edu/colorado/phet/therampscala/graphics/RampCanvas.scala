@@ -39,45 +39,6 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
   def addHeightAndAngleIndicators()
   addHeightAndAngleIndicators()
 
-  trait CloseButton extends BeadNode {
-    val closeButton = new PImage(PhetCommonResources.getImage("buttons/closeButton.png"))
-    closeButton.addInputEventListener(new CursorHandler)
-
-    val openButton = new PImage(PhetCommonResources.getImage("buttons/maximizeButton.png"))
-    openButton.addInputEventListener(new CursorHandler)
-
-    addChild(closeButton)
-    addChild(openButton)
-    update()
-
-    override def update() = {
-      super.update()
-      if (closeButton != null) {
-        closeButton.setOffset(imageNode.getFullBounds.getX, imageNode.getFullBounds.getY)
-        openButton.setOffset(imageNode.getFullBounds.getX, imageNode.getFullBounds.getY)
-      }
-    }
-    closeButton.addInputEventListener(new PBasicInputEventHandler {
-      override def mousePressed(event: PInputEvent) = model.walls = false
-    })
-    openButton.addInputEventListener(new PBasicInputEventHandler {
-      override def mousePressed(event: PInputEvent) = model.walls = true
-    })
-    defineInvokeAndPass(model.addListenerByName) {
-      imageNode.setVisible(model.walls)
-      imageNode.setPickable(model.walls)
-      imageNode.setChildrenPickable(model.walls)
-
-      closeButton.setVisible(model.walls)
-      closeButton.setPickable(model.walls)
-      closeButton.setChildrenPickable(model.walls)
-
-      openButton.setVisible(!model.walls)
-      openButton.setPickable(!model.walls)
-      openButton.setChildrenPickable(!model.walls)
-    }
-  }
-
   def addWalls()
   addWalls()
   addNode(new BeadNode(model.tree, transform, "tree.gif"))
@@ -215,8 +176,12 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
   addNode(new AppliedForceSliderNode(model.bead, transform))
 
   override def addWalls() = {
-    addNode(new BeadNode(model.leftWall, transform, "barrier2.jpg") with CloseButton)
-    addNode(new BeadNode(model.rightWall, transform, "barrier2.jpg") with CloseButton)
+    addNode(new BeadNode(model.leftWall, transform, "barrier2.jpg") with CloseButton {
+      def model = RampCanvas.this.model
+    })
+    addNode(new BeadNode(model.rightWall, transform, "barrier2.jpg") with CloseButton {
+      def model = RampCanvas.this.model
+    })
   }
 
   def getLeftSegmentNode = new RampSegmentNode(model.rampSegments(0), transform)
@@ -232,18 +197,25 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
 class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                 vectorViewModel: VectorViewModel, frame: JFrame) extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame) {
   val controlPanel = new VerticalLayoutPanel
+  controlPanel.setFillNone()
   val robotGoButton = new JButton("Robot Go!")
   robotGoButton.addActionListener(() => {
     model.bead.parallelAppliedForce = 0 //leave the pusher behind
     model.setPaused(false)
   })
   controlPanel.add(robotGoButton)
+
+  controlPanel.add(new JButton("Raise Truck"))
+  controlPanel.add(new JButton("Lower Truck"))
+
   val pswingControlPanel = new PSwing(controlPanel)
   addNode(pswingControlPanel)
 
-  pswingControlPanel.setOffset(0, transform.modelToView(0, 0).y)
+  pswingControlPanel.setOffset(0, transform.modelToView(0, -1).y)
+  fbdNode.setOffset(pswingControlPanel.getFullBounds.getMaxX+10,pswingControlPanel.getFullBounds.getY)
+  freeBodyDiagramModel.visible=true
 
-  val house= model.createBead(8)
+  val house = model.createBead(8)
 
   addNode(new BeadNode(house, transform, "cottage.gif"))
 
