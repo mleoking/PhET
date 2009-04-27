@@ -64,7 +64,6 @@ public class PinnedLayoutNode extends SwingLayoutNode {
         return pinNode;
     }
     
-    //TODO this is not correct
     private void updateOffset() {
         if ( pinNode != null ) {
             System.out.println( "previousPinNodeBounds=" + previousPinNodeBounds.toString() );
@@ -75,7 +74,8 @@ public class PinnedLayoutNode extends SwingLayoutNode {
             double yOffset = thisBounds.getY() + previousPinNodeBounds.getY() - currentPinNodeBounds.getY();
             Point2D globalOffset = new Point2D.Double( xOffset, yOffset );
             Point2D localOffset = globalToLocal( globalOffset );
-            setOffset( localToParent( localOffset ) );
+            Point2D parentOffset = localToParent( localOffset );
+            setOffset( getXOffset() + parentOffset.getX(), getYOffset() + parentOffset.getY() );
         }
     }
     
