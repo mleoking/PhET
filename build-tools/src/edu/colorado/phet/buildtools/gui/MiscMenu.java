@@ -11,6 +11,7 @@ import java.util.*;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JSeparator;
 
 import edu.colorado.phet.buildtools.*;
 import edu.colorado.phet.buildtools.flash.FlashCommonProject;
@@ -108,6 +109,26 @@ public class MiscMenu extends JMenu {
             }
         } );
         add( updateFlashAgreement );
+        
+        add( new JSeparator() );
+        
+        JMenuItem rebuildInstallers = new JMenuItem( "Rebuild Installers" );
+        rebuildInstallers.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                System.out.println( "Rebuild installers invoked" );
+                JOptionPane.showMessageDialog( null, "Rebuilding the installers is currently stubbed." );
+            }
+        } );
+        add( rebuildInstallers );
+        
+        JMenuItem deployInstallers = new JMenuItem( "Deploy Installers" );
+        deployInstallers.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                System.out.println( "Deploy installers invoked" );
+                JOptionPane.showMessageDialog( null, "Deployment of the installers is currently stubbed." );
+            }
+        } );
+        add( deployInstallers );
     }
 
     private PhetProject[] select( PhetProject[] allSimulations ) {
