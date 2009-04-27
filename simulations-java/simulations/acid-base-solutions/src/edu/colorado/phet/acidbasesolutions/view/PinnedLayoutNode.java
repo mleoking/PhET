@@ -22,18 +22,28 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 
-
+/**
+ * A layout node that can be "pinned" in place.  
+ * The pin point corresponds to the bounds of a specified child node.
+ * If no pin is specified, the pin point defaults to the layout's upper-left corner.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class PinnedLayoutNode extends SwingLayoutNode {
     
     private final PropertyChangeListener pinNodePropertyChangeListener;
     private PNode pinNode;
     private PBounds previousPinNodeBounds;
     
+    /**
+     * Uses a specific Swing layout manager.
+     * @param layoutManager
+     */
     public PinnedLayoutNode( LayoutManager layoutManager  ) {
         super( layoutManager );
         pinNodePropertyChangeListener = new PropertyChangeListener() {
+            // When the pinned node's full bounds change, update the layout node's offset.
             public void propertyChange( PropertyChangeEvent event ) {
-                System.out.println( "pinNodePropertyChangeListener.propertyChanged " + event.getPropertyName() );//XXX
                 if ( event.getPropertyName().equals( PNode.PROPERTY_FULL_BOUNDS ) ) {
                     updateOffset();
                 }
@@ -41,8 +51,15 @@ public class PinnedLayoutNode extends SwingLayoutNode {
         };
     }
     
-    //TODO test if there are dependencies on the order in which setPinNode is called
     /**
+     * Sets the node that will be pinned in place. 
+     * The layout's offset will be dynamically adjusted so that the pinned nodes 
+     * appears to remain stationary.
+     * <p>
+     * Note that it's important to call this *after* you've applied any transforms
+     * (offset, scale, rotation,...) to your layout node.  The alternative would
+     * be to override all methods related to transforms, and have them update the
+     * pinned node's bounds.  But that seems like an unnecessary maintenance headache.
      * 
      * @param node
      * @throws IllegalStateException if the pin node is not a child of this node
@@ -56,26 +73,37 @@ public class PinnedLayoutNode extends SwingLayoutNode {
         }
         pinNode = node;
         previousPinNodeBounds = pinNode.getGlobalFullBounds();
-        System.out.println( "setPinNode previousPinNodeBounds=" + previousPinNodeBounds );//XXX
-        pinNode.addPropertyChangeListener( pinNodePropertyChangeListener );  // do this last because requesting bounds may fire a PropertyChangeEvent
+        pinNode.addPropertyChangeListener( pinNodePropertyChangeListener );  // do this last, requesting bounds may fire a PropertyChangeEvent
     }
     
     public PNode getPinNode() {
         return pinNode;
     }
     
+    /**
+     * Adjusts the bounds used to pin the layout.
+     * Call this after applying transforms to the layout node.
+     * See setPinNode.
+     */
+    public void adjustPinNode() {
+        if ( pinNode != null ) {
+            previousPinNodeBounds = pinNode.getGlobalFullBounds();
+        }
+    }
+    
+    /*
+     * Update the layout node's offset so that the pinned node appears to be stationary.
+     */
     private void updateOffset() {
         if ( pinNode != null ) {
-            System.out.println( "previousPinNodeBounds=" + previousPinNodeBounds.toString() );
             PBounds currentPinNodeBounds = pinNode.getGlobalFullBounds();
-            System.out.println( "currentPinNodeBounds=" + currentPinNodeBounds.toString() );
             PBounds thisBounds = this.getGlobalBounds(); // not full bounds!
             double xOffset = thisBounds.getX() + previousPinNodeBounds.getX() - currentPinNodeBounds.getX();
             double yOffset = thisBounds.getY() + previousPinNodeBounds.getY() - currentPinNodeBounds.getY();
             Point2D globalOffset = new Point2D.Double( xOffset, yOffset );
             Point2D localOffset = globalToLocal( globalOffset );
             Point2D parentOffset = localToParent( localOffset );
-            setOffset( getXOffset() + parentOffset.getX(), getYOffset() + parentOffset.getY() );
+            super.setOffset( getXOffset() + parentOffset.getX(), getYOffset() + parentOffset.getY() );
         }
     }
     
@@ -105,19 +133,14 @@ public class PinnedLayoutNode extends SwingLayoutNode {
         
         // layout
         PinnedLayoutNode layoutNode = new PinnedLayoutNode( new FlowLayout() );
-        layoutNode.addPropertyChangeListener( new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent event ) {
-                System.out.println( "PinnedLayoutNode.propertyChanged " + event.getPropertyName() );
-                System.out.println( "redCircle.globalFullBounds=" + event.getPropertyName() );
-            }
-        } );
+        rootNode.addChild( layoutNode );
         layoutNode.addChild( valueNode );
         layoutNode.addChild( redCircle );
         layoutNode.scale( 2.0 );
-        rootNode.addChild( layoutNode );
-        layoutNode.setOffset( 200, 150 );
         layoutNode.setPinNode( redCircle );
-        
+        layoutNode.setOffset( 200, 150 );
+        layoutNode.adjustPinNode();
+
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout( new BoxLayout( controlPanel, BoxLayout.Y_AXIS ) );
         final JSlider valueSlider = new JSlider( 0, 1000, 0 ); // controls dynamicNode
