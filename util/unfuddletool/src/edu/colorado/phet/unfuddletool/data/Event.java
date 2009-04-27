@@ -14,7 +14,8 @@ public class Event {
         TICKET,
         TIME_ENTRY,
         CHANGESET,
-        COMMENT
+        COMMENT,
+        PAGE
     }
 
     public int rawProjectId;
@@ -68,6 +69,9 @@ public class Event {
         }
         else if ( rawRecordType.equals( "Comment" ) ) {
             return Type.COMMENT;
+        }
+        else if ( rawRecordType.equals( "Page" ) ) {
+            return Type.PAGE;
         }
 
         throw new RuntimeException( "record-type of '" + rawRecordType + "' is unknown" );
