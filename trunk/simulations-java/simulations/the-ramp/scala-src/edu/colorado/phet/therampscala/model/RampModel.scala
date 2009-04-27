@@ -57,10 +57,13 @@ class RampModel extends RecordModel[String] with ObjectModel {
   val wallRange = () => if (walls) new Range(RampDefaults.MIN_X, RampDefaults.MAX_X) else new Range(-10000, RampDefaults.MAX_X)
   val bead: Bead = new Bead(new BeadState(5, 0, _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction),
     3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, walls, wallRange)
-  val tree = new Bead(new BeadState(-9, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, walls, wallRange)
-  val leftWall = new Bead(new BeadState(-10, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, walls, wallRange)
-  val rightWall = new Bead(new BeadState(10, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, walls, wallRange)
-  val manBead = new Bead(new BeadState(2, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, walls, wallRange)
+
+  def createBead(x:Double)=new Bead(new BeadState(x, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, walls, wallRange)
+
+  val tree = createBead(-4)
+  val leftWall = createBead(-10)
+  val rightWall = createBead(10)
+  val manBead = createBead(2)
   updateDueToObjectChange()
 
   override def resetAll() = {
