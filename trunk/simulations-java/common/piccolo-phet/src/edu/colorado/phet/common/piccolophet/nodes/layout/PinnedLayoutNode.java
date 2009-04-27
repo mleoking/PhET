@@ -169,7 +169,7 @@ public class PinnedLayoutNode extends SwingLayoutNode {
             valueNodes.add( valueNode );
             layoutNode.addChild( valueNode );
             // red circle
-            final PPath pathNode = new PhetPPath( new Ellipse2D.Double( 0, 0, 25, 25 ), Color.RED, new BasicStroke( 1f ), Color.BLACK );
+            final PPath pathNode = new PhetPPath( new Ellipse2D.Double( 0, 0, 25, 25 ), Color.RED );
             layoutNode.addChild( pathNode );
             // label
             final PText labelNode = new PText( "BoxLayout" );
@@ -190,7 +190,7 @@ public class PinnedLayoutNode extends SwingLayoutNode {
             valueNodes.add( valueNode );
             layoutNode.addChild( valueNode, BorderLayout.WEST );
             // red circle
-            final PPath pathNode = new PhetPPath( new Ellipse2D.Double( 0, 0, 25, 25 ), Color.RED, new BasicStroke( 1f ), Color.BLACK );
+            final PPath pathNode = new PhetPPath( new Ellipse2D.Double( 0, 0, 25, 25 ), Color.RED );
             layoutNode.addChild( pathNode, BorderLayout.CENTER );
             // label
             final PText labelNode = new PText( "BorderLayout" );
@@ -211,7 +211,7 @@ public class PinnedLayoutNode extends SwingLayoutNode {
             valueNodes.add( valueNode );
             layoutNode.addChild( valueNode );
             // red circle
-            final PPath pathNode = new PhetPPath( new Ellipse2D.Double( 0, 0, 25, 25 ), Color.RED, new BasicStroke( 1f ), Color.BLACK );
+            final PPath pathNode = new PhetPPath( new Ellipse2D.Double( 0, 0, 25, 25 ), Color.RED );
             layoutNode.addChild( pathNode );
             // label
             final PText labelNode = new PText( "FlowLayout" );
@@ -236,7 +236,7 @@ public class PinnedLayoutNode extends SwingLayoutNode {
             valueNodes.add( valueNode );
             layoutNode.addChild( valueNode, constraints );
             // red circle
-            final PPath pathNode = new PhetPPath( new Ellipse2D.Double( 0, 0, 25, 25 ), Color.RED, new BasicStroke( 1f ), Color.BLACK );
+            final PPath pathNode = new PhetPPath( new Ellipse2D.Double( 0, 0, 25, 25 ), Color.RED );
             layoutNode.addChild( pathNode, constraints );
             // label
             final PText labelNode = new PText( "GridBagLayout" );
@@ -270,7 +270,7 @@ public class PinnedLayoutNode extends SwingLayoutNode {
             valueNodes.add( valueNode );
             layoutNode.addChild( valueNode );
             // red circle
-            final PPath pathNode = new PhetPPath( new Ellipse2D.Double( 0, 0, 25, 25 ), Color.RED, new BasicStroke( 1f ), Color.BLACK );
+            final PPath pathNode = new PhetPPath( new Ellipse2D.Double( 0, 0, 25, 25 ), Color.RED );
             layoutNode.addChild( pathNode );
             // label
             final PText labelNode = new PText( "GridLayout" );
