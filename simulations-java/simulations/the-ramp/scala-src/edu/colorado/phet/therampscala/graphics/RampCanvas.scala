@@ -21,15 +21,18 @@ import umd.cs.piccolo.event.{PInputEvent, PBasicInputEventHandler}
 import umd.cs.piccolo.PNode
 import java.lang.Math._
 
-class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                 vectorViewModel: VectorViewModel, frame: JFrame) extends DefaultCanvas(22, 20) {
+abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
+                                  vectorViewModel: VectorViewModel, frame: JFrame) extends DefaultCanvas(22, 20) {
   setBackground(new Color(200, 255, 240))
 
   addNode(new SkyNode(transform))
   addNode(new EarthNode(transform))
 
-  addNode(new ReverseRotatableSegmentNode(model.rampSegments(0), transform))
-  addNode(new RotatableSegmentNode(model.rampSegments(1), transform))
+  def getLeftSegmentNode: PNode
+  addNode(getLeftSegmentNode)
+
+  def getRightSegmentNode: PNode
+  addNode(getRightSegmentNode)
 
   addNode(new RampHeightIndicator(model.rampSegments(1), transform))
   addNode(new RampAngleIndicator(model.rampSegments(1), transform))
@@ -73,8 +76,8 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
     }
   }
 
-  addNode(new BeadNode(model.leftWall, transform, "barrier2.jpg") with CloseButton)
-  addNode(new BeadNode(model.rightWall, transform, "barrier2.jpg") with CloseButton)
+  def addWalls()
+  addWalls()
   addNode(new BeadNode(model.tree, transform, "tree.gif"))
 
   val cabinetNode = new DraggableBeadNode(model.bead, transform, "cabinet.gif")
@@ -82,9 +85,6 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
   addNode(cabinetNode)
 
   addNode(new PusherNode(transform, model.bead, model.manBead))
-  addNode(new AppliedForceSliderNode(model.bead, transform))
-
-  addNode(new ObjectSelectionNode(transform, model))
 
   addNode(new CoordinateFrameNode(model, coordinateSystemModel, transform))
 
@@ -205,6 +205,31 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
   addVectorAllComponents(model.bead.frictionForceVector)
   addVectorAllComponents(model.bead.wallForceVector)
   addVectorAllComponents(model.bead.totalForceVector, new ConstantVectorValue(new Vector2D(0, fbdWidth / 4)), 2, () => vectorViewModel.sumOfForcesVector) //no need to add a separate listener, since it is already contained in vectorviewmodel
+}
+
+class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
+                 vectorViewModel: VectorViewModel, frame: JFrame) extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame) {
+  addNode(new ObjectSelectionNode(transform, model))
+  addNode(new AppliedForceSliderNode(model.bead, transform))
+
+  override def addWalls() = {
+    addNode(new BeadNode(model.leftWall, transform, "barrier2.jpg") with CloseButton)
+    addNode(new BeadNode(model.rightWall, transform, "barrier2.jpg") with CloseButton)
+  }
+
+  def getLeftSegmentNode = new RampSegmentNode(model.rampSegments(0), transform)
+
+  def getRightSegmentNode = new RotatableSegmentNode(model.rampSegments(1), transform)
+}
+
+class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
+                vectorViewModel: VectorViewModel, frame: JFrame) extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame) {
+  override def addWalls() = {}
+
+  def getLeftSegmentNode = new ReverseRotatableSegmentNode(model.rampSegments(0), transform)
+
+  def getRightSegmentNode = new RampSegmentNode(model.rampSegments(1), transform)
+  model.bead.parallelAppliedForce = 1E-16 //to move the pusher to the right spot//todo: fix this with view, not model
 }
 trait PointOfOriginVector {
   def getPointOfOriginOffset(defaultCenter: Double): Double

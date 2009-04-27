@@ -13,9 +13,8 @@ import common.piccolophet.event.CursorHandler
 import common.piccolophet.nodes.PhetPPath
 import common.piccolophet.{PiccoloPhetApplication, PhetPCanvas}
 import controls.RampControlPanel
-import graphics.{RampCanvas, BeadNode, SkyNode, EarthNode}
-
 import edu.colorado.phet.scalacommon.Predef._
+import graphics._
 import java.awt._
 import java.awt.event.{ActionEvent, ActionListener}
 
@@ -195,10 +194,12 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
 
 class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock) {
   model.rampSegments(1).setAngle(0)
-  model.walls=false
-  model.rampSegments(0).startPoint=new Vector2D(-10,0).rotate(-(30.0).toRadians)
+  model.walls = false
+  model.rampSegments(0).startPoint = new Vector2D(-10, 0).rotate(-(30.0).toRadians)
+  model.setPaused(true) //wait for robot go
+  model.bead.setPosition(-10) //top of the ramp
 
-  val canvas = new RampCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame)
+  val canvas = new RMCCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame)
   setSimulationPanel(canvas)
 }
 class RobotMovingCompanyApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
