@@ -228,7 +228,7 @@ class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends Abstrac
     bead.airborneFloor_=(airborneFloor)
     val beadNode = new DraggableBeadNode(bead, canvas.transform, a.imageFilename)
     canvas.addNode(beadNode)
-    clock.addClockListener(bead.stepInTime(_))
+    clock.addClockListener(dt=>if (!model.isPaused) bead.stepInTime(dt))
   })
   val canvas = new RMCCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame, airborneFloor, gameModel)
   setSimulationPanel(canvas)
