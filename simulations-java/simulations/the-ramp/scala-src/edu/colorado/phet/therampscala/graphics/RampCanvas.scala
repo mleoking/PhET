@@ -30,14 +30,14 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
 
   addNode(new SkyNode(transform))
 
-  def getEarthNode: PNode
-  addNode(getEarthNode)
+  def createEarthNode: PNode
+  addNode(createEarthNode)
 
-  def getLeftSegmentNode: PNode
-  addNode(getLeftSegmentNode)
+  def createLeftSegmentNode: PNode
+  addNode(createLeftSegmentNode)
 
-  def getRightSegmentNode: PNode
-  addNode(getRightSegmentNode)
+  def createRightSegmentNode: PNode
+  addNode(createRightSegmentNode)
 
   def addHeightAndAngleIndicators()
   addHeightAndAngleIndicators()
@@ -46,11 +46,12 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
   addWalls()
   addNode(new BeadNode(model.tree, transform, "tree.gif"))
 
-  val cabinetNode = new DraggableBeadNode(model.bead, transform, "cabinet.gif")
-  model.addListenerByName(cabinetNode.setImage(RampResources.getImage(model.selectedObject.imageFilename)))
-  addNode(cabinetNode)
+  val beadNode = new DraggableBeadNode(model.bead, transform, "cabinet.gif")
+  model.addListenerByName(beadNode.setImage(RampResources.getImage(model.selectedObject.imageFilename)))
+  addNode(beadNode)
 
-  addNode(new PusherNode(transform, model.bead, model.manBead))
+  def createPusherNode: PNode
+  addNode(createPusherNode)
 
   addNode(new CoordinateFrameNode(model, coordinateSystemModel, transform))
 
@@ -187,20 +188,22 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
     })
   }
 
-  def getLeftSegmentNode = new RampSegmentNode(model.rampSegments(0), transform)
+  def createLeftSegmentNode = new RampSegmentNode(model.rampSegments(0), transform)
 
-  def getRightSegmentNode = new RotatableSegmentNode(model.rampSegments(1), transform)
+  def createRightSegmentNode = new RotatableSegmentNode(model.rampSegments(1), transform)
 
   def addHeightAndAngleIndicators() = {
     addNode(new RampHeightIndicator(model.rampSegments(1), transform))
     addNode(new RampAngleIndicator(model.rampSegments(1), transform))
   }
 
-  def getEarthNode = new EarthNode(transform)
+  def createEarthNode = new EarthNode(transform)
+
+  def createPusherNode = new PusherNode(transform, model.bead, model.manBead)
 }
 
 class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                vectorViewModel: VectorViewModel, frame: JFrame,airborneFloor:Double) extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame) {
+                vectorViewModel: VectorViewModel, frame: JFrame, airborneFloor: Double) extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame) {
   val controlPanel = new VerticalLayoutPanel
   controlPanel.setFillNone()
   val robotGoButton = new ScalaButton("Robot Go!", () => {
@@ -240,16 +243,18 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
 
   override def addWalls() = {}
 
-  def getLeftSegmentNode = new ReverseRotatableSegmentNode(model.rampSegments(0), transform)
+  def createLeftSegmentNode = new ReverseRotatableSegmentNode(model.rampSegments(0), transform)
 
-  def getRightSegmentNode = new RampSegmentNode(model.rampSegments(1), transform)
+  def createRightSegmentNode = new RampSegmentNode(model.rampSegments(1), transform)
 
   def addHeightAndAngleIndicators() = {
     addNode(new RampHeightIndicator(new Reverse(model.rampSegments(0)).reverse, transform))
     addNode(new RampAngleIndicator(new Reverse(model.rampSegments(0)).reverse, transform))
   }
 
-  def getEarthNode = new EarthNodeWithCliff(transform, model.rampSegments(1).length,airborneFloor)
+  def createEarthNode = new EarthNodeWithCliff(transform, model.rampSegments(1).length, airborneFloor)
+
+  def createPusherNode = new RobotPusherNode(transform, model.bead, model.manBead)
 }
 trait PointOfOriginVector {
   def getPointOfOriginOffset(defaultCenter: Double): Double
