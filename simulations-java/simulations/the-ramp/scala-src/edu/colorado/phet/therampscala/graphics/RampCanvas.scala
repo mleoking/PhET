@@ -28,7 +28,7 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
   addNode(new SkyNode(transform))
   addNode(new EarthNode(transform))
 
-  addNode(new RampSegmentNode(model.rampSegments(0), transform))
+  addNode(new ReverseRotatableSegmentNode(model.rampSegments(0), transform))
   addNode(new RotatableSegmentNode(model.rampSegments(1), transform))
 
   addNode(new RampHeightIndicator(model.rampSegments(1), transform))
