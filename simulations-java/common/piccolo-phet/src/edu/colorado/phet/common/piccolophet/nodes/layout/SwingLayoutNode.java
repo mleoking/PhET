@@ -58,7 +58,8 @@ public class SwingLayoutNode extends PNode {
         this.container = new JPanel( layoutManager );
         this.propertyChangeListener = new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent event ) {
-                if ( isLayoutProperty( event.getPropertyName() ) ) {
+                String propertyName = event.getPropertyName();
+                if ( isLayoutProperty( propertyName ) ) {
                     updateContainerLayout();
                 }
             }
@@ -281,7 +282,8 @@ public class SwingLayoutNode extends PNode {
      * True if p is a PNode property that is related to layout.
      */
     private boolean isLayoutProperty( String p ) {
-        return ( p.equals( PNode.PROPERTY_VISIBLE ) || p.equals( PNode.PROPERTY_FULL_BOUNDS ) );
+        return ( p.equals( PNode.PROPERTY_VISIBLE ) || p.equals( PNode.PROPERTY_FULL_BOUNDS ) || 
+                 p.equals( PNode.PROPERTY_BOUNDS ) || p.equals( PNode.PROPERTY_TRANSFORM ) );
     }
 
     /*
@@ -338,8 +340,11 @@ public class SwingLayoutNode extends PNode {
          * in the area (x,y,w,h) allocated by the layout manager.
          */
         public void setBounds( int x, int y, int w, int h ) {
-            super.setBounds( x, y, w, h );
-            anchor.positionNode( node, x, y, w, h );
+            // important to check that the bounds have really changed, or we'll cause StackOverflowException
+            if ( x != getX() || y != getY() || w != getWidth() || h != getHeight() ) {
+                super.setBounds( x, y, w, h );
+                anchor.positionNode( node, x, y, w, h );
+            }
         }
     }
     
