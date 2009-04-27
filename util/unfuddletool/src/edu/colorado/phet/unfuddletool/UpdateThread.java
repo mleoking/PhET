@@ -15,7 +15,7 @@ public class UpdateThread extends Thread {
                     public void run() {
                         Activity.requestRecentActivity( 3 );
                     }
-                });                
+                } );
             }
         }
         catch( InterruptedException e ) {
