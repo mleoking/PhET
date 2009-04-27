@@ -21,6 +21,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import edu.colorado.phet.unfuddletool.data.DateTime;
+import edu.colorado.phet.unfuddletool.data.Ticket;
 
 public class Communication {
     private Communication() {
@@ -276,6 +277,21 @@ public class Communication {
         }
 
         return buf.toString();
+    }
+
+    public static Element getTicketElementFromServer( int id ) {
+        String xmlString = Communication.getXMLResponse( "<request></request>", "projects/" + Configuration.getProjectIdString() + "/tickets/" + String.valueOf( id ), Authentication.auth );        
+        try {
+            return (Element) Communication.toDocument( xmlString ).getFirstChild();
+        }
+        catch( TransformerException e ) {
+            e.printStackTrace();
+        }
+        catch( ParserConfigurationException e ) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public static void main( String[] args ) {

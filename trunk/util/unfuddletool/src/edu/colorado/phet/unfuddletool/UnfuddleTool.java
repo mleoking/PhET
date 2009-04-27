@@ -21,16 +21,12 @@ public class UnfuddleTool {
         TicketHandler ticketHandler = TicketHandler.getTicketHandler();
         ticketHandler.setModel( gui.ticketList.model );
 
-        //gui.ticketList.model.addTicket( TicketHandler.getTicketHandler().getTicketById( 553393 ) );
-
-        //Ticket ticket = ticketHandler.getTicketById( 553393 );
-
-
         PersonHandler.getPersonHandler();
 
-        //Activity activity = new Activity();
-
         Activity.requestRecentActivity( 8 );
+
+        Thread updateThread = new UpdateThread();
+        updateThread.start();
 
     }
 

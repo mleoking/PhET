@@ -2,9 +2,6 @@ package edu.colorado.phet.unfuddletool;
 
 import java.util.*;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-
 import org.w3c.dom.Element;
 
 import edu.colorado.phet.unfuddletool.data.Ticket;
@@ -41,25 +38,16 @@ public class TicketHandler {
     }
 
     public Ticket requestNewTicketById( int id ) {
-        String xmlString = Communication.getXMLResponse( "<request></request>", "projects/" + Configuration.getProjectIdString() + "/tickets/" + String.valueOf( id ), Authentication.auth );
-        try {
-            Ticket ticket = new Ticket( (Element) Communication.toDocument( xmlString ).getFirstChild() );
-
+        Element element = Communication.getTicketElementFromServer( id );
+        Ticket ticket = null;
+        if ( element != null ) {
+            ticket = new Ticket( element );
             tickets.add( ticket );
             if ( model != null ) {
                 model.addTicket( ticket );
             }
-
-            return ticket;
         }
-        catch( TransformerException e ) {
-            e.printStackTrace();
-        }
-        catch( ParserConfigurationException e ) {
-            e.printStackTrace();
-        }
-
-        return null;
+        return ticket;
     }
 
     public Ticket getTicketById( int id ) {
@@ -74,6 +62,15 @@ public class TicketHandler {
         }
 
         return requestNewTicketById( id );
+    }
+
+    public void requestTicketUpdate( int id, Date latestDate ) {
+        System.out.println( "Ticket update requested for " + id + " if older than " + latestDate );
+        Ticket ticket = getTicketById( id );
+        if( ticket.lastUpdateTime().compareTo( latestDate ) < 0 ) {
+            System.out.println( "Ticket " + ticket + " out of date, updating" );
+            ticket.update();
+        }
     }
 
     public Ticket getTicketByNumber( int number ) {

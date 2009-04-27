@@ -22,6 +22,10 @@ public class Comment extends Record {
     public int ticketNumber = -1;
 
     public Comment( Element element ) {
+        initialize( element );
+    }
+
+    private void initialize( Element element ) {
         rawAuthorId = Communication.getIntField( element, "author-id" );
         rawBody = Communication.getStringField( element, "body" );
         rawCreatedAt = Communication.getDateTimeField( element, "created-at" );
@@ -34,6 +38,10 @@ public class Comment extends Record {
             TicketHandler handler = TicketHandler.getTicketHandler();
             ticketNumber = handler.getTicketById( rawParentId ).getNumber();
         }
+    }
+
+    public void updateFromServer() {
+        
     }
 
     public int recordType() {

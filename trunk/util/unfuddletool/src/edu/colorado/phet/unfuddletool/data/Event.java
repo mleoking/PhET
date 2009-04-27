@@ -7,6 +7,16 @@ import org.w3c.dom.NodeList;
 import edu.colorado.phet.unfuddletool.Communication;
 
 public class Event {
+
+    public enum Type {
+        MESSAGE,
+        MILESTONE,
+        TICKET,
+        TIME_ENTRY,
+        CHANGESET,
+        COMMENT
+    }
+
     public int rawProjectId;
     public DateTime rawCreatedAt;
     public String rawRecordType;
@@ -28,19 +38,58 @@ public class Event {
         rawPersonId = Communication.getIntField( element, "person-id" );
         rawSummary = Communication.getStringField( element, "summary" );
 
-        //record = Record.fromElement( (Element) ((Element) Communication.getFirstNodeByName( element, "record" )).getFirstChild() );
-
         Element recordElement = (Element) Communication.getFirstNodeByName( element, "record" );
-        //System.out.println( "***Record: " + Communication.toString( record ) );
 
         NodeList list = recordElement.getChildNodes();
 
         for ( int i = 0; i < list.getLength(); i++ ) {
             Node node = list.item( i );
             if ( node.getNodeType() == Node.ELEMENT_NODE ) {
-                //System.out.println( "***Node: " + Communication.toString( node ) );
                 record = Record.fromElement( (Element) node );
             }
+        }
+    }
+
+    public Type getType() {
+        if ( rawRecordType.equals( "Message" ) ) {
+            return Type.MESSAGE;
+        }
+        else if ( rawRecordType.equals( "Milestone" ) ) {
+            return Type.MILESTONE;
+        }
+        else if ( rawRecordType.equals( "Ticket" ) ) {
+            return Type.TICKET;
+        }
+        else if ( rawRecordType.equals( "TimeEntry" ) ) {
+            return Type.TIME_ENTRY;
+        }
+        else if ( rawRecordType.equals( "Changeset" ) ) {
+            return Type.CHANGESET;
+        }
+        else if ( rawRecordType.equals( "Comment" ) ) {
+            return Type.COMMENT;
+        }
+
+        throw new RuntimeException( "record-type of '" + rawRecordType + "' is unknown" );
+    }
+
+    public Record getRecord() {
+        return record;
+    }
+
+    public Comment getCommentRecord() {
+        if( getType() == Type.COMMENT ) {
+            return (Comment) record;
+        } else {
+            throw new RuntimeException( "Record was not a comment" );
+        }
+    }
+
+    public Ticket getTicketRecord() {
+        if( getType() == Type.TICKET ) {
+            return (Ticket) record;
+        } else {
+            throw new RuntimeException( "Record was not a ticket" );
         }
     }
 

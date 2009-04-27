@@ -1,6 +1,8 @@
 package edu.colorado.phet.unfuddletool.gui;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -9,6 +11,7 @@ import javax.swing.text.html.HTMLEditorKit;
 
 import edu.colorado.phet.unfuddletool.Authentication;
 import edu.colorado.phet.unfuddletool.LinkHandler;
+import edu.colorado.phet.unfuddletool.Activity;
 
 public class UnfuddleToolGUI extends JFrame {
     public JEditorPane displayArea;
@@ -60,8 +63,31 @@ public class UnfuddleToolGUI extends JFrame {
 
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
+        setJMenuBar( createMenu() );
+
         setVisible( true );
         repaint( 0, 0, 0, 5000, 5000 );
+        
+    }
+
+    public JMenuBar createMenu() {
+        JMenuBar bar = new JMenuBar();
+
+        JMenu developmentMenu = new JMenu( "Development" );
+
+        JMenuItem updateItem = new JMenuItem( "Update" );
+
+        updateItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent actionEvent ) {
+                Activity.requestRecentActivity( 3 );
+            }
+        } );
+
+        developmentMenu.add( updateItem );
+
+        bar.add( developmentMenu );
+
+        return bar;
     }
 
     public static void main( String[] args ) {
