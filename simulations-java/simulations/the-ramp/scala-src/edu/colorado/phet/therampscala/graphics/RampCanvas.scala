@@ -231,13 +231,14 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
   val house = model.createBead(8)
 
   addNode(new BeadNode(house, transform, "cottage.gif"))
+  model.bead.parallelAppliedForce = 1E-16 //to move the pusher to the right spot//todo: fix this with view, not model
+  model.bead.notifyListeners() //todo: not sure why this call is necessary; should be handled in previous line
 
   override def addWalls() = {}
 
   def getLeftSegmentNode = new ReverseRotatableSegmentNode(model.rampSegments(0), transform)
 
   def getRightSegmentNode = new RampSegmentNode(model.rampSegments(1), transform)
-  model.bead.parallelAppliedForce = 1E-16 //to move the pusher to the right spot//todo: fix this with view, not model
 
   def addHeightAndAngleIndicators() = {
     addNode(new RampHeightIndicator(new Reverse(model.rampSegments(0)).reverse, transform))
