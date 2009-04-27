@@ -6,10 +6,7 @@ import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.BoxLayout;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -30,9 +27,18 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 public class PinnedLayoutNode extends SwingLayoutNode {
     
+    private static final Class LAYOUT_TYPE = GridBagLayout.class; // change this to test with different layout managers
+    
     private PNode pinnedNode;
     private PBounds pinnedGlobalFullBounds;
     private final PropertyChangeListener pinnedNodePropertyChangeListener;
+    
+    /**
+     * Uses a default FlowLayout.
+     */
+    public PinnedLayoutNode() {
+        this( new FlowLayout() );
+    }
     
     /**
      * Uses a specific Swing layout manager.
@@ -130,18 +136,52 @@ public class PinnedLayoutNode extends SwingLayoutNode {
         
         // nodes
         final PText valueNode = new PText( "0" ); // text will be set by valueSlider
-        final PPath redCircle = new PPath( new Ellipse2D.Double( 0, 0, 25, 25 ) );
+        PPath redCircle = new PPath( new Ellipse2D.Double( 0, 0, 25, 25 ) );
         redCircle.setPaint( Color.RED );
         
         // layout
-        PinnedLayoutNode layoutNode = new PinnedLayoutNode( new FlowLayout() );
+        PinnedLayoutNode layoutNode = null;
+        if ( LAYOUT_TYPE == BoxLayout.class ) {
+            layoutNode = new PinnedLayoutNode();
+            layoutNode.setLayout( new BoxLayout( layoutNode.getContainer(), BoxLayout.X_AXIS ) );
+            layoutNode.addChild( valueNode );
+            layoutNode.addChild( redCircle );
+        }
+        else if ( LAYOUT_TYPE == BorderLayout.class ) {
+            layoutNode = new PinnedLayoutNode( new BorderLayout() );
+            layoutNode.addChild( valueNode, BorderLayout.CENTER );
+            layoutNode.addChild( redCircle, BorderLayout.EAST );
+        }
+        else if ( LAYOUT_TYPE == FlowLayout.class ) {
+            layoutNode = new PinnedLayoutNode( new FlowLayout() );
+            layoutNode.addChild( valueNode );
+            layoutNode.addChild( redCircle );
+        }
+        else if ( LAYOUT_TYPE == GridBagLayout.class ) {
+            layoutNode = new PinnedLayoutNode( new GridBagLayout() );
+            GridBagConstraints constraints = new GridBagConstraints();
+            constraints.insets = new Insets( 5, 5, 5, 5 );
+            constraints.gridx = 0;
+            constraints.gridy = 0;
+            layoutNode.addChild( valueNode, constraints );
+            constraints.gridx++;
+            layoutNode.addChild( redCircle, constraints );
+        }
+        else if ( LAYOUT_TYPE == GridLayout.class ) {
+            layoutNode = new PinnedLayoutNode( new GridLayout( 0, 2 ) );
+            layoutNode.addChild( valueNode );
+            layoutNode.addChild( redCircle );
+        }
+        else {
+            System.out.println( "no test case for this type of layout manager" );
+            System.exit( 1 );
+        }
         rootNode.addChild( layoutNode );
-        layoutNode.addChild( valueNode );
-        layoutNode.addChild( redCircle );
         layoutNode.scale( 2.0 );
-        layoutNode.setPinnedNode( redCircle );
         layoutNode.setOffset( 200, 150 );
-        layoutNode.adjustPinnedNode();
+
+        // pin
+        layoutNode.setPinnedNode( redCircle );
 
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout( new BoxLayout( controlPanel, BoxLayout.Y_AXIS ) );
