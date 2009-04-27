@@ -4,14 +4,15 @@ package edu.colorado.phet.therampscala.graphics
 import common.phetcommon.resources.PhetCommonResources
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.util.SwingUtils
+import common.phetcommon.view.VerticalLayoutPanel
 import common.piccolophet.event.CursorHandler
+import javax.swing.{JButton, JFrame, JDialog}
 import umd.cs.piccolo.nodes.{PImage, PText}
 import common.piccolophet.PhetPCanvas
 import java.awt.Color
 import java.awt.event._
 
 import java.awt.geom.{Point2D, Rectangle2D}
-import javax.swing.{JFrame, JDialog}
 import model._
 import scalacommon.math.Vector2D
 import scalacommon.Predef._
@@ -20,6 +21,7 @@ import theramp.model.ValueAccessor.ParallelForceAccessor
 import umd.cs.piccolo.event.{PInputEvent, PBasicInputEventHandler}
 import umd.cs.piccolo.PNode
 import java.lang.Math._
+import umd.cs.piccolox.pswing.PSwing
 
 abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                                   vectorViewModel: VectorViewModel, frame: JFrame) extends DefaultCanvas(22, 20) {
@@ -229,6 +231,22 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
 
 class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                 vectorViewModel: VectorViewModel, frame: JFrame) extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame) {
+  val controlPanel = new VerticalLayoutPanel
+  val robotGoButton = new JButton("Robot Go!")
+  robotGoButton.addActionListener(() => {
+    model.bead.parallelAppliedForce = 0 //leave the pusher behind
+    model.setPaused(false)
+  })
+  controlPanel.add(robotGoButton)
+  val pswingControlPanel = new PSwing(controlPanel)
+  addNode(pswingControlPanel)
+
+  pswingControlPanel.setOffset(0, transform.modelToView(0, 0).y)
+
+  val house= model.createBead(8)
+
+  addNode(new BeadNode(house, transform, "cottage.gif"))
+
   override def addWalls() = {}
 
   def getLeftSegmentNode = new ReverseRotatableSegmentNode(model.rampSegments(0), transform)
@@ -240,6 +258,7 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
     addNode(new RampHeightIndicator(new Reverse(model.rampSegments(0)).reverse, transform))
     addNode(new RampAngleIndicator(new Reverse(model.rampSegments(0)).reverse, transform))
   }
+
 }
 trait PointOfOriginVector {
   def getPointOfOriginOffset(defaultCenter: Double): Double

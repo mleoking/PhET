@@ -34,7 +34,7 @@ trait Rotatable extends Observable {
 
   def endPoint: Vector2D
 
-  def startPoint_=(newPt: Vector2D) 
+  def startPoint_=(newPt: Vector2D)
 
   def getPivot = new Vector2D
 
@@ -84,7 +84,7 @@ class ReverseRotatableSegmentNode(rampSegment: RampSegment, mytransform: ModelVi
 }
 
 class Reverse(target: Rotatable) {
-  //this one rotates about the end point, allows reuse of some view classes while still allowing generalized model objects
+  //this one rotates about the end point, facilitates reuse of some view classes while still allowing generalized model objects
   object reverse extends Rotatable {
     def length = target.length
 
@@ -98,7 +98,7 @@ class Reverse(target: Rotatable) {
 
     def startPoint_=(newPt: Vector2D) = target.endPoint = newPt
 
-    override def addListenerByName(listener: =>Unit) = target.addListenerByName(listener)
+    override def addListenerByName(listener: => Unit) = target.addListenerByName(listener)
 
     override def notifyListeners() = target.notifyListeners()
 
