@@ -32,6 +32,7 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
     //TODO localize
     private static final String NEGLIGIBLE = "NEGLIGIBLE";
 
+    private static final Font NEGLIBIBLE_FONT = new PhetFont( Font.PLAIN, ABSConstants.CONTROL_FONT_SIZE - 2 );
     private static final Font VALUE_FONT = new PhetFont( Font.BOLD, ABSConstants.CONTROL_FONT_SIZE );
     private static final Color VALUE_COLOR = Color.BLACK;
     private static final Color VALUE_BACKGROUND_COLOR = new Color( 255, 255, 255, 128 ); // translucent white
@@ -39,7 +40,6 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
     private static final TimesTenNumberFormat VALUE_FORMAT_DEFAULT = new TimesTenNumberFormat( "0.00" );
     private static final ConstantPowerOfTenNumberFormat VALUE_FORMAT_H2O = new ConstantPowerOfTenNumberFormat( "0.0", 25 );
     
-    private final PText neglibibleNode;
     private final ValueNode countLHS, countRHS, countH3OPlus, countOHMinus, countH2O;
     private final IconNode iconLHS, iconRHS, iconH3OPlus, iconOHMinus, iconH2O;
     private final HTMLNode labelLHS, labelRHS, labelH3OPlus, labelOHMinus, labelH2O;
@@ -52,9 +52,7 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
         setChildrenPickable( false );
         
         // values
-        neglibibleNode = new PText( NEGLIGIBLE );
-        neglibibleNode.setFont( VALUE_FONT );
-        countLHS = new ValueNode( 0 );
+        countLHS = new NegligibleValueNode( 0, 0 );
         countRHS = new ValueNode( 0 );
         countH3OPlus = new ValueNode( 0 );
         countOHMinus = new ValueNode( 0 );
@@ -194,6 +192,35 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
         
         public void setValue( double value ) {
             _numberNode.setValue( value );
+        }
+        
+        protected PNode getNumberNode() {
+            return _numberNode;
+        }
+    }
+    
+    private static class NegligibleValueNode extends ValueNode {
+
+        private final PText _textNode;
+        private final double _negligibleValue;
+        
+        public NegligibleValueNode( double value, double negligibleValue ) {
+            this( value, negligibleValue, VALUE_FORMAT_DEFAULT );
+        }
+        
+        public NegligibleValueNode( double value, double minValue, NumberFormat format ) {
+            super( value, format );
+            _negligibleValue = minValue;
+            _textNode = new PText( NEGLIGIBLE );
+            _textNode.setFont( NEGLIBIBLE_FONT );
+            addChild( new RectangularBackgroundNode( _textNode, VALUE_INSETS, VALUE_BACKGROUND_COLOR ) );
+            setValue( value );
+        }
+        
+        public void setValue( double value ) {
+            super.setValue( value );
+            getNumberNode().setVisible( value > _negligibleValue );
+            _textNode.setVisible( value <= _negligibleValue );
         }
     }
     
