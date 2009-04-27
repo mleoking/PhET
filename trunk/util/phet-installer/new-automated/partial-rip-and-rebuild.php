@@ -22,6 +22,7 @@
     // Print usage string for this script.
     //-------------------------------------------------------------------------
     function print_usage() {
+        $args = $_SERVER['argv'];
         flushing_echo("Usage: $args[0] <simulation project name> [--deploy]");
     }
 
@@ -37,7 +38,7 @@
         if ( ( count( $args ) == 1) || ( count( $args ) > 3 ) ) {
             // Incorrect number of arguments.
             print_usage();
-            return;
+            exit( 1 );
         }
 
         // Figure out if the user wants to deploy.
@@ -49,7 +50,7 @@
             else {
                 // There is a second argument, but it appears incorrect.
                 print_usage();
-                return;
+                exit( 1 );
             }
         }
 
@@ -94,7 +95,7 @@
 
         // Output the time of completion.
         $end_time = exec("date");
-        flushing_echo("\nCompleted refresh at time $end_time");
+        flushing_echo("\nCompleted partial rip and rebuild at time $end_time");
     }
 
     //--------------------------------------------------------------------------
