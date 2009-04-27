@@ -192,16 +192,45 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
   addModule(new RampModule(getPhetFrame, new ScalaClock(30, RampDefaults.DT_DEFAULT)))
 }
 
+class RobotMovingCompanyGameModel extends Observable {
+  private var _launched = false
+  private var _objectIndex = 0
+  val objectListeners = new ArrayBuffer[ScalaRampObject => Unit]
+  val objectList = RampDefaults.objects
+
+  def launched_=(b: Boolean) = {_launched = b; notifyListeners()}
+
+  def launched = _launched
+
+  def nextObject() = {
+    _objectIndex = _objectIndex + 1
+    objectListeners.foreach(_(selectedObject))
+
+    launched = false
+  }
+
+  def selectedObject = objectList(_objectIndex)
+}
 class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock) {
   model.rampSegments(1).setAngle(0)
   model.walls = false
   model.rampSegments(0).startPoint = new Vector2D(-10, 0).rotate(-(30.0).toRadians)
   model.setPaused(true) //wait for robot go
   model.bead.setPosition(-10) //top of the ramp
-  val airborneFloor= -9.0
+  val airborneFloor = -9.0
   model.bead.airborneFloor_=(airborneFloor)
 
-  val canvas = new RMCCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame,airborneFloor)
+  val gameModel = new RobotMovingCompanyGameModel
+  gameModel.objectListeners += ((a: ScalaRampObject) => {
+    model.setPaused(true)
+    val bead = model.createBead(-model.rampSegments(0).length)
+    bead.height = a.height
+    bead.airborneFloor_=(airborneFloor)
+    val beadNode = new DraggableBeadNode(bead, canvas.transform, a.imageFilename)
+    canvas.addNode(beadNode)
+    clock.addClockListener(bead.stepInTime(_))
+  })
+  val canvas = new RMCCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame, airborneFloor, gameModel)
   setSimulationPanel(canvas)
 }
 class RobotMovingCompanyApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {

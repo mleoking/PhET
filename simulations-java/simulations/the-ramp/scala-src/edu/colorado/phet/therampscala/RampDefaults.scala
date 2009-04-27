@@ -11,7 +11,7 @@ object RampDefaults {
 
   val DT_DEFAULT = 30 / 1000.0
 
-  val SKY_GRADIENT_BOTTOM=new Color(250, 250, 255)
+  val SKY_GRADIENT_BOTTOM = new Color(250, 250, 255)
 
   //ScalaRampObject(name,mass (kg) ,kineticFriction,staticFriction,height (meters) image)
   val objects = new ScalaRampObject("File Cabinet", 75, 0.2, 0.5, 3, "cabinet.gif") ::

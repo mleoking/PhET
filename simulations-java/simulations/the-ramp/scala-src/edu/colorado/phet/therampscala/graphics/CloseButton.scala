@@ -27,7 +27,7 @@ trait CloseButton extends BeadNode {
   addChild(openButton)
   update()
 
-  def model:RampModel
+  def model: RampModel
 
   override def update() = {
     super.update()

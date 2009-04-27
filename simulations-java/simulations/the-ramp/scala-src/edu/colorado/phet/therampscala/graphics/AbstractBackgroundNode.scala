@@ -27,7 +27,7 @@ class SkyNode(transform: ModelViewTransform2D) extends AbstractBackgroundNode(ne
 class EarthNode(transform: ModelViewTransform2D) extends AbstractBackgroundNode(new Color(200, 240, 200), new Rectangle2D.Double(-100, -200, 200, 200), transform)
 
 object EarthNodeWithCliff {
-  def getArea(maxX: Double,lowerGroundY:Double) = {
+  def getArea(maxX: Double, lowerGroundY: Double) = {
     val area = new Area
     area.add(new Area(new Rectangle2D.Double(-100, -200, 100 + maxX, 200)))
     area.add(new Area(new Rectangle2D.Double(-100, -200, 200, 200 + lowerGroundY)))
@@ -35,4 +35,4 @@ object EarthNodeWithCliff {
   }
 }
 class EarthNodeWithCliff(transform: ModelViewTransform2D, maxX: Double, lowerGroundY: Double)
-        extends AbstractBackgroundNode(new Color(200, 240, 200), EarthNodeWithCliff.getArea(maxX,lowerGroundY), transform)
+        extends AbstractBackgroundNode(new Color(200, 240, 200), EarthNodeWithCliff.getArea(maxX, lowerGroundY), transform)

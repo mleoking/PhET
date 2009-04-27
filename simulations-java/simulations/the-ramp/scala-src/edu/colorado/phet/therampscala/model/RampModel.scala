@@ -36,8 +36,6 @@ class RampModel extends RecordModel[String] with ObjectModel {
   setPaused(false)
 
   val rampSegments = new ArrayBuffer[RampSegment]
-  //  val bead=new Bead
-  //  val beads = new ArrayBuffer[Bead]
   private var _walls = true
   private var _frictionless = false
   private var _selectedObject = RampDefaults.objects(0)
@@ -58,9 +56,8 @@ class RampModel extends RecordModel[String] with ObjectModel {
   val bead: Bead = new Bead(new BeadState(5, 0, _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction),
     3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, walls, wallRange)
 
-  def createBead(x:Double)=new Bead(new BeadState(x, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, walls, wallRange)
+  def createBead(x: Double) = new Bead(new BeadState(x, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, walls, wallRange)
 
-  val tree = createBead(-4)
   val leftWall = createBead(-10)
   val rightWall = createBead(10)
   val manBead = createBead(2)

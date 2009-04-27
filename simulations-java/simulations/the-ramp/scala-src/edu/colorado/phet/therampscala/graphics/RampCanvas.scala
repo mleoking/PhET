@@ -6,11 +6,11 @@ import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.util.SwingUtils
 import common.phetcommon.view.VerticalLayoutPanel
 import common.piccolophet.event.CursorHandler
-import javax.swing.{JButton, JFrame, JDialog}
+import java.awt.{Dimension, Color}
+import javax.swing.{Box, JButton, JFrame, JDialog}
 import swing.ScalaButton
 import umd.cs.piccolo.nodes.{PImage, PText}
 import common.piccolophet.PhetPCanvas
-import java.awt.Color
 import java.awt.event._
 
 import java.awt.geom.{Point2D, Rectangle2D}
@@ -42,9 +42,8 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
   def addHeightAndAngleIndicators()
   addHeightAndAngleIndicators()
 
-  def addWalls()
-  addWalls()
-  addNode(new BeadNode(model.tree, transform, "tree.gif"))
+  def addWallsAndDecorations()
+  addWallsAndDecorations()
 
   val beadNode = new DraggableBeadNode(model.bead, transform, "cabinet.gif")
   model.addListenerByName(beadNode.setImage(RampResources.getImage(model.selectedObject.imageFilename)))
@@ -179,13 +178,14 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
   addNode(new ObjectSelectionNode(transform, model))
   addNode(new AppliedForceSliderNode(model.bead, transform))
 
-  override def addWalls() = {
+  override def addWallsAndDecorations() = {
     addNode(new BeadNode(model.leftWall, transform, "barrier2.jpg") with CloseButton {
       def model = RampCanvas.this.model
     })
     addNode(new BeadNode(model.rightWall, transform, "barrier2.jpg") with CloseButton {
       def model = RampCanvas.this.model
     })
+    addNode(new BeadNode(model.createBead(-4), transform, "tree.gif"))
   }
 
   def createLeftSegmentNode = new RampSegmentNode(model.rampSegments(0), transform)
@@ -203,13 +203,15 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
 }
 
 class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                vectorViewModel: VectorViewModel, frame: JFrame, airborneFloor: Double) extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame) {
+                vectorViewModel: VectorViewModel, frame: JFrame, airborneFloor: Double, gameModel: RobotMovingCompanyGameModel) extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame) {
   val controlPanel = new VerticalLayoutPanel
   controlPanel.setFillNone()
   val robotGoButton = new ScalaButton("Robot Go!", () => {
+    gameModel.launched = true
     model.bead.parallelAppliedForce = 0 //leave the pusher behind
     model.setPaused(false)
   })
+  gameModel.addListener(() => {robotGoButton.setEnabled(!gameModel.launched)})
   controlPanel.add(robotGoButton)
 
   def changeY(dy: Double) = {
@@ -227,6 +229,8 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
 
   controlPanel.add(new ScalaButton("Raise Truck", () => updatePosition(0.2)))
   controlPanel.add(new ScalaButton("Lower Truck", () => updatePosition(-0.2)))
+  controlPanel.add(Box.createRigidArea(new Dimension(10, 10)))
+  controlPanel.add(new ScalaButton("Next Object", () => gameModel.nextObject()))
 
   val pswingControlPanel = new PSwing(controlPanel)
   addNode(pswingControlPanel)
@@ -241,7 +245,7 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
   model.bead.parallelAppliedForce = 1E-16 //to move the pusher to the right spot//todo: fix this with view, not model
   model.bead.notifyListeners() //todo: not sure why this call is necessary; should be handled in previous line
 
-  override def addWalls() = {}
+  override def addWallsAndDecorations() = {}
 
   def createLeftSegmentNode = new ReverseRotatableSegmentNode(model.rampSegments(0), transform)
 
