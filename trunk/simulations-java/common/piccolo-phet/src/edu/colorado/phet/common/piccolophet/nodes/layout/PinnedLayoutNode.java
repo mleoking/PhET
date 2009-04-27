@@ -26,10 +26,11 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 
-/*
- * * A layout node that can be "pinned" in place. The pin point corresponds to
- * the bounds of a specified child node. If no pin is specified, the pin point
- * defaults to the layout's upper-left corner.
+/** 
+ * A layout node that can be "pinned" in place. 
+ * The node is pinned to the global full bounds of a specified child node.
+ * The layout node's offset is dynamically adjusted so that the child node 
+ * appears to remain stationary.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -89,6 +90,7 @@ public class PinnedLayoutNode extends SwingLayoutNode {
             pinnedGlobalFullBounds = pinnedNode.getGlobalFullBounds();
             pinnedNode.addPropertyChangeListener( pinnedNodePropertyChangeListener ); // do this last, requesting bounds may fire a PropertyChangeEvent
         }
+        updateOffset();
     }
 
     public PNode getPinnedNode() {
@@ -240,10 +242,13 @@ public class PinnedLayoutNode extends SwingLayoutNode {
             final PText labelNode = new PText( "GridBagLayout" );
             layoutNode.addChild( labelNode, constraints );
             // pin
-            layoutNode.setPinnedNode( labelNode ); //TODO pathNode and labelNode don't pin correctly, valueNode does pin correctly. why?
+            layoutNode.setPinnedNode( pathNode ); //TODO pathNode and labelNode don't pin correctly, valueNode does pin correctly. why?
             
-            //TODO: initial bounds of pathNode look wrong, save offsets as layoutNode
-            System.out.println( "layoutNode:" + layoutNode.getGlobalFullBounds() + " pathNode:" + pathNode.getGlobalFullBounds() );
+            //DEBUG
+            System.out.println( "layoutNode : " + layoutNode.getGlobalFullBounds() );
+            System.out.println( "valueNode  : " + valueNode.getGlobalFullBounds() );
+            System.out.println( "pathNode   : " + pathNode.getGlobalFullBounds() ); //TODO this looks wrong
+            System.out.println( "labelNode  : " + labelNode.getGlobalFullBounds() ); //TODO this looks wrong
             layoutNode.addPropertyChangeListener( new PropertyChangeListener() {
                 public void propertyChange( PropertyChangeEvent event ) {
                     if ( event.getPropertyName().equals( PNode.PROPERTY_FULL_BOUNDS ) ) {
@@ -293,7 +298,7 @@ public class PinnedLayoutNode extends SwingLayoutNode {
             }
         } );
         controlPanel.add( valueSlider );
-
+        
         // layout like a sim
         JPanel appPanel = new JPanel( new BorderLayout() );
         appPanel.add( canvas, BorderLayout.CENTER );
