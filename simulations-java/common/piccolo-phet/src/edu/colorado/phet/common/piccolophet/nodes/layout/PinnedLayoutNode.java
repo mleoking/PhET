@@ -1,3 +1,4 @@
+
 package edu.colorado.phet.common.piccolophet.nodes.layout;
 
 import java.awt.*;
@@ -5,12 +6,18 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Iterator;
 
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -18,33 +25,34 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 
-/**
- * A layout node that can be "pinned" in place.  
- * The pin point corresponds to the bounds of a specified child node.
- * If no pin is specified, the pin point defaults to the layout's upper-left corner.
- *
+/*
+ * * A layout node that can be "pinned" in place. The pin point corresponds to
+ * the bounds of a specified child node. If no pin is specified, the pin point
+ * defaults to the layout's upper-left corner.
+ * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PinnedLayoutNode extends SwingLayoutNode {
-    
+
     private PNode pinnedNode;
     private PBounds pinnedGlobalFullBounds;
     private final PropertyChangeListener pinnedNodePropertyChangeListener;
-    
+
     /**
      * Uses a default FlowLayout.
      */
     public PinnedLayoutNode() {
         this( new FlowLayout() );
     }
-    
+
     /**
      * Uses a specific Swing layout manager.
      * @param layoutManager
      */
-    public PinnedLayoutNode( LayoutManager layoutManager  ) {
+    public PinnedLayoutNode( LayoutManager layoutManager ) {
         super( layoutManager );
         pinnedNodePropertyChangeListener = new PropertyChangeListener() {
+
             // When the pinned node's full bounds change, update the layout node's offset.
             public void propertyChange( PropertyChangeEvent event ) {
                 if ( event.getPropertyName().equals( PNode.PROPERTY_FULL_BOUNDS ) ) {
@@ -53,7 +61,7 @@ public class PinnedLayoutNode extends SwingLayoutNode {
             }
         };
     }
-    
+
     /**
      * Sets the node that will be pinned in place. 
      * The layout's offset will be dynamically adjusted so that the pinned node 
@@ -81,11 +89,11 @@ public class PinnedLayoutNode extends SwingLayoutNode {
             pinnedNode.addPropertyChangeListener( pinnedNodePropertyChangeListener ); // do this last, requesting bounds may fire a PropertyChangeEvent
         }
     }
-    
+
     public PNode getPinnedNode() {
         return pinnedNode;
     }
-    
+
     /**
      * Adjusts the bounds used to pin the layout.
      * Call this after applying transforms to the layout node.
@@ -96,7 +104,7 @@ public class PinnedLayoutNode extends SwingLayoutNode {
             pinnedGlobalFullBounds = pinnedNode.getGlobalFullBounds();
         }
     }
-    
+
     /*
      * Update the layout node's offset so that the pinned node appears to be stationary.
      */
@@ -112,19 +120,18 @@ public class PinnedLayoutNode extends SwingLayoutNode {
             super.setOffset( getXOffset() + delta.getX(), getYOffset() + delta.getY() );
         }
     }
-    
+
     /* test */
     public static void main( String[] args ) {
-        
-        final Class testLayoutClass = GridBagLayout.class; // change this to test with different layout managers
-        
+
         Dimension canvasSize = new Dimension( 600, 400 );
         PhetPCanvas canvas = new PhetPCanvas( canvasSize );
         canvas.setPreferredSize( canvasSize );
-        
+
         PNode rootNode = new PNode();
         canvas.getLayer().addChild( rootNode );
         rootNode.addInputEventListener( new PBasicInputEventHandler() {
+
             // Shift+Drag up/down will scale the node up/down
             public void mouseDragged( PInputEvent event ) {
                 super.mouseDragged( event );
@@ -133,56 +140,124 @@ public class PinnedLayoutNode extends SwingLayoutNode {
                 }
             }
         } );
-        
-        // nodes
-        final PText valueNode = new PText( "0" ); // text will be set by valueSlider
-        PPath redCircle = new PPath( new Ellipse2D.Double( 0, 0, 25, 25 ) );
-        redCircle.setPaint( Color.RED );
-        
-        // layout node
-        PinnedLayoutNode layoutNode = null;
-        if ( testLayoutClass == BoxLayout.class ) {
-            layoutNode = new PinnedLayoutNode();
+
+        final ArrayList valueNodes = new ArrayList(); // array of PText
+        final double xOffset = 200;
+        double yOffset = 25;
+        final double ySpacing = 75;
+
+        // BoxLayout
+        {
+            PinnedLayoutNode layoutNode = new PinnedLayoutNode();
+            rootNode.addChild( layoutNode );
             layoutNode.setLayout( new BoxLayout( layoutNode.getContainer(), BoxLayout.X_AXIS ) );
+            layoutNode.scale( 1.5 );
+            layoutNode.setOffset( xOffset, yOffset );
+            yOffset += ySpacing;
+            // value
+            PText valueNode = new PText( "0" );
+            valueNodes.add( valueNode );
             layoutNode.addChild( valueNode );
-            layoutNode.addChild( redCircle );
+            // label
+            PText labelNode = new PText( "BoxLayout" );
+            layoutNode.addChild( labelNode );
+            // red circle
+            PPath pathNode = new PhetPPath( new Ellipse2D.Double( 0, 0, 25, 25 ), Color.RED, new BasicStroke( 1f ), Color.BLACK );
+            layoutNode.addChild( pathNode );
+            // pin
+            layoutNode.setPinnedNode( pathNode );
         }
-        else if ( testLayoutClass == BorderLayout.class ) {
-            layoutNode = new PinnedLayoutNode( new BorderLayout() );
-            layoutNode.addChild( valueNode, BorderLayout.CENTER );
-            layoutNode.addChild( redCircle, BorderLayout.EAST );
+        
+        // BorderLayout
+        {
+            PinnedLayoutNode layoutNode = new PinnedLayoutNode( new BorderLayout() );
+            rootNode.addChild( layoutNode );
+            layoutNode.scale( 1.5 );
+            layoutNode.setOffset( xOffset, yOffset );
+            yOffset += ySpacing;
+            // value
+            PText valueNode = new PText( "0" );
+            valueNodes.add( valueNode );
+            layoutNode.addChild( valueNode, BorderLayout.WEST );
+            // label
+            PText labelNode = new PText( "BorderLayout" );
+            layoutNode.addChild( labelNode, BorderLayout.CENTER );
+            // red circle
+            PPath pathNode = new PhetPPath( new Ellipse2D.Double( 0, 0, 25, 25 ), Color.RED, new BasicStroke( 1f ), Color.BLACK );
+            layoutNode.addChild( pathNode, BorderLayout.EAST );
+            // pin
+            layoutNode.setPinnedNode( pathNode );
         }
-        else if ( testLayoutClass == FlowLayout.class ) {
-            layoutNode = new PinnedLayoutNode( new FlowLayout() );
+        
+        // FlowLayout
+        {
+            PinnedLayoutNode layoutNode = new PinnedLayoutNode( new FlowLayout() );
+            rootNode.addChild( layoutNode );
+            layoutNode.scale( 1.5 );
+            layoutNode.setOffset( xOffset, yOffset );
+            yOffset += ySpacing;
+            // value
+            PText valueNode = new PText( "0" );
+            valueNodes.add( valueNode );
             layoutNode.addChild( valueNode );
-            layoutNode.addChild( redCircle );
+            // label
+            PText labelNode = new PText( "FlowLayout" );
+            layoutNode.addChild( labelNode );
+            // red circle
+            PPath pathNode = new PhetPPath( new Ellipse2D.Double( 0, 0, 25, 25 ), Color.RED, new BasicStroke( 1f ), Color.BLACK );
+            layoutNode.addChild( pathNode );
+            // pin
+            layoutNode.setPinnedNode( pathNode );
         }
-        else if ( testLayoutClass == GridBagLayout.class ) {
-            layoutNode = new PinnedLayoutNode( new GridBagLayout() );
+        
+        // GridBagLayout
+        {
+            PinnedLayoutNode layoutNode = new PinnedLayoutNode( new GridBagLayout() );
+            rootNode.addChild( layoutNode );
+            layoutNode.scale( 1.5 );
+            layoutNode.setOffset( xOffset, yOffset );
+            yOffset += ySpacing;
+            // constraints
             GridBagConstraints constraints = new GridBagConstraints();
-            constraints.insets = new Insets( 5, 5, 5, 5 );
-            constraints.gridx = 0;
+            constraints.gridx = GridBagConstraints.RELATIVE;
             constraints.gridy = 0;
+            // value
+            PText valueNode = new PText( "0" );
+            valueNodes.add( valueNode );
             layoutNode.addChild( valueNode, constraints );
-            constraints.gridx++;
-            layoutNode.addChild( redCircle, constraints );
+            // label
+            PText labelNode = new PText( "GridBagLayout" );
+            layoutNode.addChild( labelNode, constraints );
+            // red circle
+            PPath pathNode = new PhetPPath( new Ellipse2D.Double( 0, 0, 25, 25 ), Color.RED, new BasicStroke( 1f ), Color.BLACK );
+            layoutNode.addChild( pathNode, constraints );
+            // pin
+            layoutNode.setPinnedNode( pathNode ); //TODO pathNode doesn't pin correctly, valueNode and labelNode pin correctly. why?
         }
-        else if ( testLayoutClass == GridLayout.class ) {
-            layoutNode = new PinnedLayoutNode( new GridLayout( 0, 2 ) );
+        
+        // GridLayout
+        {
+            PinnedLayoutNode layoutNode = new PinnedLayoutNode( new GridLayout( 0, 3 ) );
+            rootNode.addChild( layoutNode );
+            layoutNode.scale( 1.5 );
+            layoutNode.setOffset( xOffset, yOffset );
+            yOffset += ySpacing;
+            // value
+            PText valueNode = new PText( "0" );
+            valueNodes.add( valueNode );
             layoutNode.addChild( valueNode );
-            layoutNode.addChild( redCircle );
+            // label
+            PText labelNode = new PText( "GridLayout" );
+            layoutNode.addChild( labelNode );
+            // red circle
+            PPath pathNode = new PhetPPath( new Ellipse2D.Double( 0, 0, 25, 25 ), Color.RED, new BasicStroke( 1f ), Color.BLACK );
+            layoutNode.addChild( pathNode );
+            // pin
+            layoutNode.setPinnedNode( pathNode );
         }
-        else {
-            System.out.println( "no test case for this type of layout manager" );
-            System.exit( 1 );
-        }
-        rootNode.addChild( layoutNode );
-        layoutNode.scale( 2.0 );
-        layoutNode.setOffset( 200, 150 );
 
-        // pin
-        layoutNode.setPinnedNode( redCircle );
-
+        //TODO add test cases for GroupLayout, SpringLayout
+        
         // control panel with slider
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout( new BoxLayout( controlPanel, BoxLayout.Y_AXIS ) );
@@ -191,12 +266,16 @@ public class PinnedLayoutNode extends SwingLayoutNode {
         valueSlider.setPaintTicks( true );
         valueSlider.setPaintLabels( true );
         valueSlider.addChangeListener( new ChangeListener() {
+
             public void stateChanged( ChangeEvent e ) {
-                valueNode.setText( String.valueOf( valueSlider.getValue() ) );
+                Iterator i = valueNodes.iterator();
+                while ( i.hasNext() ) {
+                    ( (PText) i.next() ).setText( String.valueOf( valueSlider.getValue() ) );
+                }
             }
         } );
         controlPanel.add( valueSlider );
-        
+
         // layout like a sim
         JPanel appPanel = new JPanel( new BorderLayout() );
         appPanel.add( canvas, BorderLayout.CENTER );
