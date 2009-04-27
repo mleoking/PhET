@@ -195,7 +195,9 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
 
 class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock) {
   model.rampSegments(1).setAngle(0)
+  model.walls=false
   model.rampSegments(0).startPoint=new Vector2D(-10,0).rotate(-(30.0).toRadians)
+
   val canvas = new RampCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame)
   setSimulationPanel(canvas)
 }
