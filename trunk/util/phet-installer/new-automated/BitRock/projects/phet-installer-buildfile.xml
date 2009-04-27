@@ -101,9 +101,6 @@
                         <distributionDirectory>
                             <origin>../../temp/website/phet.colorado.edu/tech_support</origin>
                         </distributionDirectory>
-                        <distributionDirectory>
-                            <origin>../../temp/website/phet.colorado.edu/webcache</origin>
-                        </distributionDirectory>
                         <distributionFile>
                             <origin>../../temp/website/phet.colorado.edu/index-2.html</origin>
                         </distributionFile>
