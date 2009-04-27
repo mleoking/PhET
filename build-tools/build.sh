@@ -16,7 +16,7 @@
 
 ROOT_DIR=`dirname $0`
 export ANT_HOME=${ROOT_DIR}/contrib/apache-ant
-export ANT_OPTS=-Xmx640m
+export ANT_OPTS="-Xmx640m -Xss1040K"
 PATH=${ANT_HOME}/bin:${PATH}
 
 cd ${ROOT_DIR}
