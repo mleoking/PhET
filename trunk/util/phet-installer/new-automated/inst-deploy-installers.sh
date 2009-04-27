@@ -32,11 +32,4 @@ echo "================================================================" | tee --
 
 /usr/local/php/bin/php deploy-installers.php $1 | tee --append $LOG
 
-if [ "$?" -ne "0" ]; then
-  echo "Error deploying installers" | tee --append $LOG
-  exit 1
-fi
-
-echo "Deployment complete." | tee --append $LOG
-echo ""
 
