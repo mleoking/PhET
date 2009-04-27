@@ -16,7 +16,6 @@ class ScalaRampObject(_name: String, _mass: Double, val kineticFriction: Double,
 
   def this(name: String, mass: Double, kineticFriction: Double, staticFriction: Double, height: Double, imageFilename: String) = this (name, mass, kineticFriction, staticFriction, height, imageFilename, false)
 
-  //  def height = mass / 2 / 4
   def height = _height
 
   def displayTooltip = true
