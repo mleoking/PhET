@@ -17,18 +17,17 @@ import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FormattedNumberNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.RectangularBackgroundNode;
-import edu.colorado.phet.common.piccolophet.nodes.layout.SwingLayoutNode;
+import edu.colorado.phet.common.piccolophet.nodes.layout.PinnedLayoutNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 
-public class MoleculeCountsNode extends PhetPNode {
+public class MoleculeCountsNode extends PinnedLayoutNode {
     
     //TODO localize
     private static final String NEGLIGIBLE = "NEGLIGIBLE";
@@ -44,7 +43,6 @@ public class MoleculeCountsNode extends PhetPNode {
     private final ValueNode countLHS, countRHS, countH3OPlus, countOHMinus, countH2O;
     private final IconNode iconLHS, iconRHS, iconH3OPlus, iconOHMinus, iconH2O;
     private final HTMLNode labelLHS, labelRHS, labelH3OPlus, labelOHMinus, labelH2O;
-    private final SwingLayoutNode layoutNode;
     
     public MoleculeCountsNode() {
         super();
@@ -61,6 +59,7 @@ public class MoleculeCountsNode extends PhetPNode {
         countH3OPlus = new ValueNode( 0 );
         countOHMinus = new ValueNode( 0 );
         countH2O = new ValueNode( 0, VALUE_FORMAT_H2O );
+        PNode[] countNodes = { countLHS, countRHS, countH3OPlus, countOHMinus, countH2O };
         
         // icons
         iconLHS = new IconNode( ABSImages.HA_MOLECULE );
@@ -68,6 +67,7 @@ public class MoleculeCountsNode extends PhetPNode {
         iconH3OPlus = new IconNode( ABSImages.H3O_PLUS_MOLECULE );
         iconOHMinus = new IconNode( ABSImages.OH_MINUS_MOLECULE );
         iconH2O = new IconNode( ABSImages.H2O_MOLECULE );
+        PNode[] iconNodes = { iconLHS, iconRHS, iconH3OPlus, iconOHMinus, iconH2O };
         
         // labels
         labelLHS = new HTMLNode( "?" );
@@ -75,36 +75,46 @@ public class MoleculeCountsNode extends PhetPNode {
         labelH3OPlus = new HTMLNode( HTMLUtils.toHTMLString( ABSSymbols.H3O_PLUS ) );
         labelOHMinus = new HTMLNode( HTMLUtils.toHTMLString( ABSSymbols.OH_MINUS ) );
         labelH2O = new HTMLNode( HTMLUtils.toHTMLString( ABSSymbols.H2O ) );
+        PNode[] labelNodes = { labelLHS, labelRHS, labelH3OPlus, labelOHMinus, labelH2O };
         
         // layout in a grid
-        layoutNode = new SwingLayoutNode( new GridBagLayout() );
-        addChild( layoutNode );
+        GridBagLayout layout = new GridBagLayout();
+        setLayout( layout );
+        // uniform minimum row height
+        layout.rowHeights = new int[countNodes.length];
+        for ( int i = 0; i < layout.rowHeights.length; i++ ) {
+            layout.rowHeights[i] = (int) ( 2 * countLHS.getFullBoundsReference().getHeight() + 1 );
+        }
+        // default constraints
         GridBagConstraints constraints = new GridBagConstraints();
-        constraints.insets = new Insets( 10, 10, 10, 10 );
-        constraints.gridy = 0; // row
-        constraints.gridx = 0; // column
-        constraints.anchor = GridBagConstraints.EAST;
-        PNode[] countNodes = { countLHS, countRHS, countH3OPlus, countOHMinus, countH2O };
-        for ( int i = 0; i < countNodes.length; i++ ) {
-            layoutNode.addChild( countNodes[i], constraints );
-            constraints.gridy++;
+        constraints.insets = new Insets( 5, 5, 5, 5 );
+        constraints.gridy = GridBagConstraints.RELATIVE; // row
+        // counts
+        {
+            constraints.gridx = 0; // column
+            constraints.anchor = GridBagConstraints.EAST;
+            for ( int i = 0; i < countNodes.length; i++ ) {
+                addChild( countNodes[i], constraints );
+            }
         }
-        constraints.gridy = 0; // row
-        constraints.gridx++; // column
-        constraints.anchor = GridBagConstraints.CENTER;
-        PNode[] iconNodes = { iconLHS, iconRHS, iconH3OPlus, iconOHMinus, iconH2O };
-        for ( int i = 0; i < iconNodes.length; i++ ) {
-            layoutNode.addChild( iconNodes[i], constraints );
-            constraints.gridy++;
+        // icons
+        {
+            constraints.gridx++; // column
+            constraints.anchor = GridBagConstraints.CENTER;
+            for ( int i = 0; i < iconNodes.length; i++ ) {
+                addChild( iconNodes[i], constraints );
+            }
         }
-        constraints.gridy = 0; // row
-        constraints.gridx++; // column
-        constraints.anchor = GridBagConstraints.WEST;
-        PNode[] labelNodes = { labelLHS, labelRHS, labelH3OPlus, labelOHMinus, labelH2O };
-        for ( int i = 0; i < labelNodes.length; i++ ) {
-            layoutNode.addChild( labelNodes[i], constraints );
-            constraints.gridy++;
+        // labels
+        {
+            constraints.gridx++; // column
+            constraints.anchor = GridBagConstraints.WEST;
+            for ( int i = 0; i < labelNodes.length; i++ ) {
+                addChild( labelNodes[i], constraints );
+            }
         }
+        
+        setPinnedNode( iconNodes[0] );
     }
     
     //----------------------------------------------------------------------------
@@ -196,6 +206,7 @@ public class MoleculeCountsNode extends PhetPNode {
             final MoleculeCountsNode node = new MoleculeCountsNode();
             canvas.getLayer().addChild( node );
             node.setOffset( 100, 100 );
+            node.adjustPinnedNode();
             
             JPanel controlPanel = new JPanel();
             final JSlider slider = new JSlider( 0, 100000 );
