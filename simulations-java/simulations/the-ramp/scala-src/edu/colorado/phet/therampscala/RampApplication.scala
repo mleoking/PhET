@@ -196,11 +196,11 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
 class RobotMovingCompanyGameModel extends Observable {
   private var _launched = false
   private var _objectIndex = 0
-  private var _lostItems = 0
-  private var _score = 0
-  private val resultMap = new HashMap[ScalaRampObject, Int]
-  val objectListeners = new ArrayBuffer[ScalaRampObject => Unit]
+  case class Result(success: Boolean, score: Int)
+  private val resultMap = new HashMap[ScalaRampObject, Result]
+  val objectListeners = new ArrayBuffer[() => Unit]
   val objectList = RampDefaults.objects
+  val housePosition = 8
 
   def launched_=(b: Boolean) = {_launched = b; notifyListeners()}
 
@@ -208,24 +208,39 @@ class RobotMovingCompanyGameModel extends Observable {
 
   def nextObject() = {
     _objectIndex = _objectIndex + 1
-    objectListeners.foreach(_(selectedObject))
+    objectListeners.foreach(_())
 
     launched = false //notifies listeners
   }
 
   def itemLost(o: ScalaRampObject) {
-    resultMap += o -> 0
-    _lostItems = _lostItems + 1
+    resultMap += o -> Result(false, 0)
     notifyListeners()
   }
 
-  def movedItems = 0
+  def itemMoved(o: ScalaRampObject) {
+    resultMap += o -> Result(true, 100)
+    notifyListeners()
+  }
+
+  def count(b: Boolean) = if (b) 1 else 0
+  //  def movedItems = resultMap.values.foldLeft(0)(count((_:Result).success) + count((_:Result).score))
+  def movedItems = {
+    val counts = for (v <- resultMap.values) yield count(v.success)
+    counts.foldLeft(0)(_ + _)
+  }
 
   def selectedObject = objectList(_objectIndex)
 
-  def lostItems = _lostItems
+  def lostItems = {
+    val counts = for (v <- resultMap.values) yield count(!v.success)
+    counts.foldLeft(0)(_ + _)
+  }
 
-  def score = _score
+  def score = {
+    val scores=for (v<-resultMap.values) yield v.score
+    scores.foldLeft(0)(_+_)
+  }
 }
 class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock) {
   model.rampSegments(1).setAngle(0)
@@ -233,7 +248,7 @@ class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends Abstrac
   model.rampSegments(0).startPoint = new Vector2D(-10, 0).rotate(-(30.0).toRadians)
   val airborneFloor = -9.0
   val gameModel = new RobotMovingCompanyGameModel
-  gameModel.objectListeners += ((a: ScalaRampObject) => setupObject())
+  gameModel.objectListeners += (() => setupObject())
   val canvas = new RMCCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame, airborneFloor, gameModel)
   setSimulationPanel(canvas)
 
@@ -243,9 +258,22 @@ class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends Abstrac
     val a = gameModel.selectedObject
     model.setPaused(true)
     val bead = model.createBead(-model.rampSegments(0).length)
+    bead.staticFriction = a.staticFriction
+    bead.kineticFriction = a.kineticFriction
     bead.crashListeners += (() => {
       RampResources.getAudioClip("smash0.wav").play()
       gameModel.itemLost(a)
+    })
+    bead.addListener(() => {
+      if (abs(bead.velocity) > 1) {
+        bead.stopListeners += (() => {
+          println("stopped after v>1")
+          val position = bead.position
+          if (abs(position - gameModel.housePosition) < 2) {
+            gameModel.itemMoved(a)
+          }
+        })
+      }
     })
     bead.height = a.height
     bead.airborneFloor_=(airborneFloor)
