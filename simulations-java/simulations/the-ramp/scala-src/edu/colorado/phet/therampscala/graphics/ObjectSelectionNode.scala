@@ -6,7 +6,7 @@ import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
 import common.phetcommon.view.VerticalLayoutPanel
 import common.piccolophet.event.CursorHandler
-import common.piccolophet.nodes.{ToolTipNode, PhetPPath}
+import common.piccolophet.nodes.{HTMLNode, ToolTipNode, PhetPPath}
 import java.awt.{Rectangle, BasicStroke, Color}
 import java.text.MessageFormat
 import javax.swing.{JButton, Timer}
@@ -36,10 +36,9 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
   val rows = new ArrayBuffer[ArrayBuffer[PNode]]
 
   class ObjectSelectionIcon(o: ScalaRampObject) extends PNode {
-    val textNode = new PText(o.getDisplayText)
+    val textNode = new HTMLNode(o.getDisplayTextHTML.toString)
     val imageNode = new PImage(BufferedImageUtils.multiScaleToHeight(RampResources.getImage(o.imageFilename), 100))
-    imageNode.scale(0.5f)
-    textNode.scale(0.9f)
+    imageNode.scale(0.7f)
     textNode.setOffset(imageNode.getFullBounds.getWidth, 0)
 
     //to capture any input, not just directly on the image or text
@@ -66,10 +65,10 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
     def update() {
       if (model.selectedObject == o) {
         backgroundNode.setPaint(new Color(0, 0, 255, 50))
-        textNode.setFont(new PhetFont(14, true))
+        textNode.setFont(new PhetFont(18, true))
       } else {
         backgroundNode.setPaint(new Color(0, 0, 0, 0))
-        textNode.setFont(new PhetFont(14, false))
+        textNode.setFont(new PhetFont(18, false))
       }
     }
     addInputEventListener(new PBasicInputEventHandler {
@@ -100,10 +99,10 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
     override def update() = {
       if (model.selectedObject == o) {
         backgroundNode.setPaint(customControlPanel.getBackground)
-        textNode.setFont(new PhetFont(14, true))
+        textNode.setFont(new PhetFont(12, true))
       } else {
         backgroundNode.setPaint(new Color(0, 0, 0, 0))
-        textNode.setFont(new PhetFont(14, false))
+        textNode.setFont(new PhetFont(12, false))
       }
     }
 

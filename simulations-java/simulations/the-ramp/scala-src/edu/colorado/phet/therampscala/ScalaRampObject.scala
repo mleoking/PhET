@@ -13,6 +13,7 @@ class ScalaRampObject(_name: String, _mass: Double, val kineticFriction: Double,
   val imageFilename = _imageFilename
 
   def getDisplayText = name + " (" + mass + " kg)"
+  def getDisplayTextHTML = <html>{name}<br></br>{mass} kg</html>
 
   def this(name: String, mass: Double, kineticFriction: Double, staticFriction: Double, height: Double, imageFilename: String) = this (name, mass, kineticFriction, staticFriction, height, imageFilename, false)
 
@@ -32,6 +33,7 @@ class ScalaRampObject(_name: String, _mass: Double, val kineticFriction: Double,
 
 class CustomTextRampObject(name: String, mass: Double, kineticFriction: Double, staticFriction: Double, imageFilename: String, customizable: Boolean) extends ScalaRampObject(name, mass, kineticFriction, staticFriction, 1, imageFilename, customizable) {
   override def getDisplayText = name
+  override def getDisplayTextHTML = <html>{name}</html>
 
   override def displayTooltip = false
 }
