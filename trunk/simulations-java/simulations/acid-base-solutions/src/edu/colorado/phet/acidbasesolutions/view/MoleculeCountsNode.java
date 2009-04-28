@@ -177,6 +177,7 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
     private static class ValueNode extends PComposite {
 
         private FormattedNumberNode _numberNode;
+        private PNode _backgroundNode;
         
         public ValueNode( double value ) {
             this( value, VALUE_FORMAT_DEFAULT );
@@ -184,23 +185,23 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
         
         public ValueNode( double value, NumberFormat format ) {
             _numberNode = new FormattedNumberNode( format, value, VALUE_FONT, VALUE_COLOR );
-            RectangularBackgroundNode backgroundNode = new RectangularBackgroundNode( _numberNode, VALUE_INSETS, VALUE_BACKGROUND_COLOR );
-            addChild( backgroundNode );
+            _backgroundNode = new RectangularBackgroundNode( _numberNode, VALUE_INSETS, VALUE_BACKGROUND_COLOR );
+            addChild( _backgroundNode );
         }
         
         public void setValue( double value ) {
             _numberNode.setValue( value );
         }
         
-        protected PNode getNumberNode() {
-            return _numberNode;
+        protected PNode getBackgroundNode() {
+            return _backgroundNode;
         }
     }
     
     private static class NegligibleValueNode extends ValueNode {
 
-        private final PText _textNode;
         private final double _negligibleValue;
+        private final PNode _negligibleBackground;
         
         public NegligibleValueNode( double value, double negligibleValue ) {
             this( value, negligibleValue, VALUE_FORMAT_DEFAULT );
@@ -209,16 +210,17 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
         public NegligibleValueNode( double value, double minValue, NumberFormat format ) {
             super( value, format );
             _negligibleValue = minValue;
-            _textNode = new PText( NEGLIGIBLE );
-            _textNode.setFont( NEGLIGIBLE_FONT );
-            addChild( new RectangularBackgroundNode( _textNode, VALUE_INSETS, VALUE_BACKGROUND_COLOR ) );
+            PText textNode = new PText( NEGLIGIBLE );
+            textNode.setFont( NEGLIGIBLE_FONT );
+            _negligibleBackground = new RectangularBackgroundNode( textNode, VALUE_INSETS, VALUE_BACKGROUND_COLOR );
+            addChild( _negligibleBackground );
             setValue( value );
         }
         
         public void setValue( double value ) {
             super.setValue( value );
-            getNumberNode().setVisible( value > _negligibleValue );
-            _textNode.setVisible( value <= _negligibleValue );
+            getBackgroundNode().setVisible( value > _negligibleValue );
+            _negligibleBackground.setVisible( value <= _negligibleValue );
         }
     }
     
@@ -227,6 +229,7 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
             Dimension canvasSize = new Dimension( 800, 600 );
             PhetPCanvas canvas = new PhetPCanvas( canvasSize );
             canvas.setPreferredSize( canvasSize );
+            canvas.setBackground( Color.LIGHT_GRAY );
             
             final MoleculeCountsNode node = new MoleculeCountsNode();
             canvas.getLayer().addChild( node );
