@@ -36,6 +36,7 @@ class Bead(_state: BeadState, private var _height: Double, private var _width:Do
            rampSegmentAccessor: Double => RampSegment, model: Observable, surfaceFriction: () => Boolean, wallsExist: => Boolean,
            wallRange: () => Range)
         extends Observable {
+  def width=_width
   def maxX = position + _width
 
   def minX = position - _width
@@ -95,6 +96,11 @@ class Bead(_state: BeadState, private var _height: Double, private var _width:Do
   def getRampUnitVector = rampSegmentAccessor(position).getUnitVector
 
   def mass = state.mass
+
+  def width_=(w:Double)={
+    _width=w
+    notifyListeners()
+  }
 
   def position = state.position
 

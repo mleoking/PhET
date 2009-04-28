@@ -257,7 +257,7 @@ class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends Abstrac
   def setupObject() = {
     val a = gameModel.selectedObject
     model.setPaused(true)
-    val bead = model.createBead(-model.rampSegments(0).length)
+    val bead = model.createBead(-model.rampSegments(0).length,a.width)
     bead.staticFriction = a.staticFriction
     bead.kineticFriction = a.kineticFriction
     bead.crashListeners += (() => {

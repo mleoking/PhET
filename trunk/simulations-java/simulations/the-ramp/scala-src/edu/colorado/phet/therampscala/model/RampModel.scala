@@ -95,6 +95,7 @@ class RampModel extends RecordModel[String] with ObjectModel {
 
   def updateDueToObjectChange() = {
     bead.mass = _selectedObject.mass
+    bead.width = _selectedObject.width
     bead.height = _selectedObject.height
     bead.staticFriction = _selectedObject.staticFriction
     bead.kineticFriction = _selectedObject.kineticFriction
