@@ -79,25 +79,25 @@ public class DeveloperMenu extends JMenu {
     }
     
     private void handleParticleControls() {
-        if ( _particlesControlsMenuItem.isSelected() ) {
-            Frame owner = _app.getPhetFrame();
-            _particleControlsDialog = new ParticleControlsDialog( owner, _app );
-            _particleControlsDialog.setVisible( true );
-            _particleControlsDialog.addWindowListener( new WindowAdapter() {
-                public void windowClosed( WindowEvent e ) {
-                    cleanup();
-                }
-                public void windowClosing( WindowEvent e ) {
-                    cleanup();
-                }
-                private void cleanup() {
-                    _particlesControlsMenuItem.setSelected( false );
-                    _particleControlsDialog = null;
-                }
-            } );
-        }
-        else {
-            _particleControlsDialog.dispose();
-        }
+//        if ( _particlesControlsMenuItem.isSelected() ) {
+//            Frame owner = _app.getPhetFrame();
+//            _particleControlsDialog = new ParticleControlsDialog( owner, _app );
+//            _particleControlsDialog.setVisible( true );
+//            _particleControlsDialog.addWindowListener( new WindowAdapter() {
+//                public void windowClosed( WindowEvent e ) {
+//                    cleanup();
+//                }
+//                public void windowClosing( WindowEvent e ) {
+//                    cleanup();
+//                }
+//                private void cleanup() {
+//                    _particlesControlsMenuItem.setSelected( false );
+//                    _particleControlsDialog = null;
+//                }
+//            } );
+//        }
+//        else {
+//            _particleControlsDialog.dispose();
+//        }
     }
 }
