@@ -40,7 +40,8 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
     private static final TimesTenNumberFormat VALUE_FORMAT_DEFAULT = new TimesTenNumberFormat( "0.00" );
     private static final ConstantPowerOfTenNumberFormat VALUE_FORMAT_H2O = new ConstantPowerOfTenNumberFormat( "0.0", 25 );
     
-    private final ValueNode countLHS, countRHS, countH3OPlus, countOHMinus, countH2O;
+    private final NegligibleValueNode countLHS;
+    private final ValueNode countRHS, countH3OPlus, countOHMinus, countH2O;
     private final IconNode iconLHS, iconRHS, iconH3OPlus, iconOHMinus, iconH2O;
     private final HTMLNode labelLHS, labelRHS, labelH3OPlus, labelOHMinus, labelH2O;
     
@@ -155,6 +156,9 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
     // Inner classes
     //----------------------------------------------------------------------------
     
+    /*
+     * Icons used in this view.
+     */
     private static class IconNode extends PComposite {
         
         private PImage imageNode;
@@ -198,28 +202,38 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
         }
     }
     
-    private static class NegligibleValueNode extends ValueNode {
+    /*
+     * Displays a formatted number on a background.
+     * If that number drops below some threshold, then "NEGLIGIBLE" is displayed.
+     */
+    private static class NegligibleValueNode extends PNode {
 
         private final double _negligibleValue;
         private final PNode _negligibleBackground;
+        private final ValueNode _valueNode;
         
         public NegligibleValueNode( double value, double negligibleValue ) {
             this( value, negligibleValue, VALUE_FORMAT_DEFAULT );
         }
         
-        public NegligibleValueNode( double value, double minValue, NumberFormat format ) {
-            super( value, format );
-            _negligibleValue = minValue;
+        public NegligibleValueNode( double negligibleValue, double value, NumberFormat format ) {
+            super();
+            _negligibleValue = negligibleValue;
+            // value
+            _valueNode = new ValueNode( value, format );
+            addChild( _valueNode );
+            // negligible
             PText textNode = new PText( NEGLIGIBLE );
             textNode.setFont( NEGLIGIBLE_FONT );
             _negligibleBackground = new RectangularBackgroundNode( textNode, VALUE_INSETS, VALUE_BACKGROUND_COLOR );
             addChild( _negligibleBackground );
+            // init
             setValue( value );
         }
         
         public void setValue( double value ) {
-            super.setValue( value );
-            getBackgroundNode().setVisible( value > _negligibleValue );
+            _valueNode.setValue( value );
+            _valueNode.setVisible( value > _negligibleValue );
             _negligibleBackground.setVisible( value <= _negligibleValue );
         }
     }
@@ -237,7 +251,10 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
             node.adjustPinnedNode();
             
             JPanel controlPanel = new JPanel();
-            final JSlider slider = new JSlider( 0, 100000 );
+            final JSlider slider = new JSlider( 0, 100000, 0 );
+            slider.setMajorTickSpacing( slider.getMaximum() );
+            slider.setPaintTicks( true );
+            slider.setPaintLabels( true );
             slider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     node.setLHS( slider.getValue() );
