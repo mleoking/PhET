@@ -302,11 +302,6 @@ class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends Abstrac
         canvas.removeNode(beadNode)
       }
     })
-//    gameModel.itemFinishedListeners += ((objectO: ScalaRampObject, b: Result) => {
-//      //      if (objectO == a) {
-//      //        canvas.removeNode(beadNode)
-//      //      }
-//    })
   }
 }
 class RobotMovingCompanyApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
