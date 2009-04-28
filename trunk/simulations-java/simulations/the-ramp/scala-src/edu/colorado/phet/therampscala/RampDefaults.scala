@@ -20,7 +20,7 @@ object RampDefaults {
           new MutableRampObject("Custom Crate", 150, 0.3, 0.5, "crate.gif", true) ::
           new ScalaRampObject("Refrigerator", 200, 0.2, 0.5, 4, "fridge.gif") ::
           new ScalaRampObject("Textbook", 10, 0.2, 0.4, 1, "phetbook.gif") ::
-          new ScalaRampObject("Big Crate", 400, 0.3, 0.5, 4, "crate.gif") ::
+          new ScalaRampObject("Piano", 400, 0.3, 0.5, 4, "piano.png") ::
           new CustomTextRampObject("Mystery Object", 300, 0.5, 0.5, "mystery-box.png", false) ::
           Nil
   val iconsPerRow = 4
