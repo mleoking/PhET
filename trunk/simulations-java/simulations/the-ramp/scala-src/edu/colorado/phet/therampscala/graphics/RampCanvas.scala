@@ -70,9 +70,11 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
 
   val fbdWindow = new JDialog(frame, "Free Body Diagram", false)
   fbdWindow.setSize(600, 600)
-  val canvas = new PhetPCanvas
+
+  //create FBD canvas
   val windowFBDNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 600, 600, fbdWidth, fbdWidth, model.coordinateFrameModel, coordinateSystemModel.adjustable, PhetCommonResources.getImage("buttons/minimizeButton.png"))
   windowFBDNode.addListener(fbdListener)
+  val canvas = new PhetPCanvas
   canvas.addComponentListener(new ComponentAdapter {
     override def componentResized(e: ComponentEvent) = updateNodeSize()
   })
@@ -87,6 +89,8 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
   }
   canvas.addScreenChild(windowFBDNode)
   fbdWindow.setContentPane(canvas)
+
+
   var initted = false
   defineInvokeAndPass(freeBodyDiagramModel.addListenerByName) {
     val wasVisible = fbdWindow.isVisible
@@ -206,7 +210,7 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
 }
 
 class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                vectorViewModel: VectorViewModel, frame: JFrame, airborneFloor: Double, gameModel: RobotMovingCompanyGameModel)
+                vectorViewModel: VectorViewModel, frame: JFrame, gameModel: RobotMovingCompanyGameModel)
         extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame) {
   beadNode.setVisible(false)
   vectorNode.setVisible(false)
@@ -245,6 +249,22 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
   val scoreboard = new ScoreboardNode(transform, gameModel)
   addNode(scoreboard)
 
+  gameModel.beadCreatedListeners += ((bead: Bead, a: ScalaRampObject) => {
+    init(bead, a)
+  })
+  init(gameModel.bead,gameModel.selectedObject)
+
+  def init(bead: Bead, a: ScalaRampObject) = {
+    val beadNode = new DraggableBeadNode(bead, transform, a.imageFilename)
+    addNode(beadNode)
+
+    gameModel.nextObjectListeners += ((oo: ScalaRampObject) => {
+      if (oo == a) {
+        removeNode(beadNode)
+      }
+    })
+  }
+
   def changeY(dy: Double) = {
     val result = model.rampSegments(0).startPoint + new Vector2D(0, dy)
     if (result.y < 1E-8)
@@ -269,7 +289,7 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
     addNode(new RampAngleIndicator(new Reverse(model.rampSegments(0)).reverse, transform))
   }
 
-  def createEarthNode = new EarthNodeWithCliff(transform, model.rampSegments(1).length, airborneFloor)
+  def createEarthNode = new EarthNodeWithCliff(transform, model.rampSegments(1).length, gameModel.airborneFloor)
 
   def createPusherNode = new RobotPusherNode(transform, model.bead, model.manBead)
 }
