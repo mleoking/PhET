@@ -74,7 +74,7 @@ public class RadiometricElementDecayModel extends MultiNucleusDecayModel {
 			if ( _currentNucleusType == NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14 ){
 				newNucleus = new Carbon14Nucleus( _clock );
 			}
-			else if ( _currentNucleusType == NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14 ){
+			else if ( _currentNucleusType == NuclearPhysicsConstants.NUCLEUS_ID_URANIUM_238 ){
 				newNucleus = new Uranium238Nucleus( _clock );
 			}
 			else{
