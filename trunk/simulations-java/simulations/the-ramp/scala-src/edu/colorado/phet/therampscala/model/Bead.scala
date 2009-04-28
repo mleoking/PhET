@@ -32,15 +32,10 @@ case class BeadState(position: Double, velocity: Double, mass: Double, staticFri
 
 case class Range(min: Double, max: Double)
 
-class Bead(_state: BeadState, private var _height: Double, private var _width:Double, positionMapper: Double => Vector2D,
+class Bead(_state: BeadState, private var _height: Double, private var _width: Double, positionMapper: Double => Vector2D,
            rampSegmentAccessor: Double => RampSegment, model: Observable, surfaceFriction: () => Boolean, wallsExist: => Boolean,
            wallRange: () => Range)
         extends Observable {
-  def width=_width
-  def maxX = position + _width
-
-  def minX = position - _width
-
   val crashListeners = new ArrayBuffer[() => Unit]
   val stopListeners = new ArrayBuffer[() => Unit]
   val gravity = -9.8
@@ -66,6 +61,12 @@ class Bead(_state: BeadState, private var _height: Double, private var _width:Do
   addListenerByName(appliedForceVector.notifyListeners()) //todo: just listen for changes to applied force parallel component
   model.addListenerByName(notifyListeners)
   model.addListenerByName(frictionForceVector.notifyListeners())
+
+  def width = _width
+
+  def maxX = position + _width / 2
+
+  def minX = position - _width / 2
 
   def attach() = attachState = new Grounded
 
@@ -97,8 +98,8 @@ class Bead(_state: BeadState, private var _height: Double, private var _width:Do
 
   def mass = state.mass
 
-  def width_=(w:Double)={
-    _width=w
+  def width_=(w: Double) = {
+    _width = w
     notifyListeners()
   }
 

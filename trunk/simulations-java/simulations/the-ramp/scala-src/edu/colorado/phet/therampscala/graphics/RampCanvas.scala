@@ -222,23 +222,14 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
   gameModel.addListener(() => {robotGoButton.setEnabled(!gameModel.launched)})
   controlPanel.add(robotGoButton)
 
-  def changeY(dy: Double) = {
-    val result = model.rampSegments(0).startPoint + new Vector2D(0, dy)
-    if (result.y < 1E-8)
-      new Vector2D(result.x, 1E-8)
-    else
-      result
-  }
-
-  def updatePosition(dy: Double) = {
-    model.rampSegments(0).startPoint = changeY(dy)
-    model.bead.setPosition(-model.rampSegments(0).length)
-  }
-
   controlPanel.add(new ScalaButton("Raise Truck", () => updatePosition(0.2)))
   controlPanel.add(new ScalaButton("Lower Truck", () => updatePosition(-0.2)))
   controlPanel.add(Box.createRigidArea(new Dimension(10, 10)))
-  controlPanel.add(new ScalaButton("Next Object", () => gameModel.nextObject()))
+  val nextObjectButton = new ScalaButton("Next Object", () => gameModel.nextObject())
+  val updateNextObjectButtonEnabled = () => {nextObjectButton.setEnabled(gameModel.readyForNext)}
+  updateNextObjectButtonEnabled()
+  gameModel.addListener(updateNextObjectButtonEnabled)
+  controlPanel.add(nextObjectButton)
 
   val pswingControlPanel = new PSwing(controlPanel)
   addNode(pswingControlPanel)
@@ -253,6 +244,19 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
 
   val scoreboard = new ScoreboardNode(transform, gameModel)
   addNode(scoreboard)
+
+  def changeY(dy: Double) = {
+    val result = model.rampSegments(0).startPoint + new Vector2D(0, dy)
+    if (result.y < 1E-8)
+      new Vector2D(result.x, 1E-8)
+    else
+      result
+  }
+
+  def updatePosition(dy: Double) = {
+    model.rampSegments(0).startPoint = changeY(dy)
+    model.bead.setPosition(-model.rampSegments(0).length)
+  }
 
   override def addWallsAndDecorations() = {}
 
