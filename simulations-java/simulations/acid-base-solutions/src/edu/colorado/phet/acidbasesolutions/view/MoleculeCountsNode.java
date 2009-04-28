@@ -61,15 +61,15 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
         
         // icons
         iconLHS = new IconNode( ABSImages.HA_MOLECULE );
-        iconRHS = new IconNode( ABSImages.OH_MINUS_MOLECULE );
+        iconRHS = new IconNode( ABSImages.A_MINUS_MOLECULE );
         iconH3OPlus = new IconNode( ABSImages.H3O_PLUS_MOLECULE );
         iconOHMinus = new IconNode( ABSImages.OH_MINUS_MOLECULE );
         iconH2O = new IconNode( ABSImages.H2O_MOLECULE );
         PNode[] iconNodes = { iconLHS, iconRHS, iconH3OPlus, iconOHMinus, iconH2O };
         
         // labels
-        labelLHS = new HTMLNode( "?" );
-        labelRHS = new HTMLNode( "?" );
+        labelLHS = new HTMLNode( ABSSymbols.HA );
+        labelRHS = new HTMLNode( ABSSymbols.A_MINUS );
         labelH3OPlus = new HTMLNode( HTMLUtils.toHTMLString( ABSSymbols.H3O_PLUS ) );
         labelOHMinus = new HTMLNode( HTMLUtils.toHTMLString( ABSSymbols.OH_MINUS ) );
         labelH2O = new HTMLNode( HTMLUtils.toHTMLString( ABSSymbols.H2O ) );
@@ -229,8 +229,6 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
             canvas.setPreferredSize( canvasSize );
             
             final MoleculeCountsNode node = new MoleculeCountsNode();
-            node.setLHS( 0, ABSImages.HA_MOLECULE, ABSSymbols.HA );
-            node.setRHS( 0, ABSImages.A_MINUS_MOLECULE, ABSSymbols.A_MINUS );
             canvas.getLayer().addChild( node );
             node.setOffset( 100, 100 );
             node.adjustPinnedNode();
