@@ -162,7 +162,7 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.NaturalS
      */
     public void onNewBunny( Bunny bunny ) {
         // create a bunny node with the correct visual appearance
-        BunnyNode bunnyNode = new BunnyNode( bunny.getColorGenotype().getPhenotype(), bunny.getTeethGenotype().getPhenotype(), bunny.getTailGenotype().getPhenotype() );
+        BunnyNode bunnyNode = new BunnyNode( bunny.getColorGenotype().getPhenotype(), bunny.getTeethGenotype().getPhenotype(), bunny.getTailGenotype().getPhenotype(), this );
 
         // randomly position the bunny
         bunnyNode.setSpriteLocation( bunny.getX(), bunny.getY(), bunny.getZ() );
@@ -208,6 +208,10 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.NaturalS
         }
 
         */
+    }
+
+    public void removeChildSprite( NaturalSelectionSprite sprite ) {
+        removeChild( sprite );
     }
 
 

@@ -19,6 +19,8 @@ public class BunnyNode extends NaturalSelectionSprite implements Bunny.BunnyList
      */
     private DisplayBunnyNode displayBunnyNode;
 
+    private SpritesNode handler;
+
     /**
      * Constructor
      *
@@ -26,7 +28,8 @@ public class BunnyNode extends NaturalSelectionSprite implements Bunny.BunnyList
      * @param teethPhenotype The teeth
      * @param tailPhenotype  The tail
      */
-    public BunnyNode( Allele colorPhenotype, Allele teethPhenotype, Allele tailPhenotype ) {
+    public BunnyNode( Allele colorPhenotype, Allele teethPhenotype, Allele tailPhenotype, SpritesNode handler ) {
+        this.handler = handler;
         displayBunnyNode = new DisplayBunnyNode( colorPhenotype, teethPhenotype, tailPhenotype );
         addChild( displayBunnyNode );
     }
@@ -79,7 +82,8 @@ public class BunnyNode extends NaturalSelectionSprite implements Bunny.BunnyList
     }
 
     public void onBunnyDeath( Bunny bunny ) {
-        setVisible( false );
+        //setVisible( false );
+        handler.removeChildSprite( this );
     }
 
     public void onBunnyReproduces( Bunny bunny ) {
