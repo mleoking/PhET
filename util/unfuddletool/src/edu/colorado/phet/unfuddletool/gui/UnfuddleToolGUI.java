@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 
@@ -14,8 +16,11 @@ import edu.colorado.phet.unfuddletool.Authentication;
 import edu.colorado.phet.unfuddletool.LinkHandler;
 
 public class UnfuddleToolGUI extends JFrame {
-    public JEditorPane displayArea;
+    public JEditorPane ticketListDisplay;
+    public JEditorPane ticketTableDisplay;
     public TicketList ticketList;
+    public TicketTableModel ticketTableModel;
+    public TicketTable ticketTable;
 
     public UnfuddleToolGUI() {
         setTitle( "Unfuddle Tool" );
@@ -23,44 +28,45 @@ public class UnfuddleToolGUI extends JFrame {
 
         ticketList = new TicketList( this );
 
-        JScrollPane ticketScrollPane = new JScrollPane( ticketList );
+        JScrollPane ticketListScrollPane = new JScrollPane( ticketList );
 
-        ticketScrollPane.setMinimumSize( new Dimension( 400, 0 ) );
+        ticketListScrollPane.setMinimumSize( new Dimension( 400, 0 ) );
 
-        displayArea = new JEditorPane() {
-            public void paintComponent( Graphics g ) {
-                Graphics2D g2d = (Graphics2D) g;
-                g2d.setRenderingHint( RenderingHints.KEY_ANTIALIASING,
-                                      RenderingHints.VALUE_ANTIALIAS_ON );
-                super.paintComponent( g );
+        ticketListDisplay = createDisplayPane();
+        ticketListDisplay.setText( "To the left are tickets sorted by when they were last modified." );
+        setPaneStyle( ticketListDisplay );
+        JScrollPane listAreaScrollPane = new JScrollPane( ticketListDisplay );
+        listAreaScrollPane.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+        JSplitPane listSplitPane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, ticketListScrollPane, listAreaScrollPane );
+
+        // NEW
+        ticketTableModel = new TicketTableModel();
+        ticketTable = new TicketTable( ticketTableModel );
+        JScrollPane ticketTableScrollPane = new JScrollPane( ticketTable );
+        ticketTable.setFillsViewportHeight( true );
+        ticketTableScrollPane.setMinimumSize( new Dimension( 600, 0 ) );
+        ticketTableDisplay = createDisplayPane();
+        ticketTableDisplay.setText( "Testing" );
+        setPaneStyle( ticketTableDisplay );
+        JScrollPane tableAreaScrollPane = new JScrollPane( ticketTableDisplay );
+        tableAreaScrollPane.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+        JSplitPane tableSplitPane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, ticketTableScrollPane, tableAreaScrollPane );
+        ticketTable.ticketSelectionModel.addListSelectionListener( new ListSelectionListener() {
+            public void valueChanged( ListSelectionEvent event ) {
+                if ( !event.getValueIsAdjusting() ) {
+                    int[] indices = ticketTable.getSelectedRows();
+                    if ( indices.length == 1 ) {
+                        //System.out.println( "Selected " + indices[0] );
+                        ticketTableDisplay.setText( ticketTableModel.getTicketAt( indices[0] ).toHTMLString() );
+                    }
+                }
             }
-        };
-
-        displayArea.setEditorKit( new HTMLEditorKit() );
-        displayArea.addHyperlinkListener( new LinkHandler() );
-        displayArea.setEditable( false );
-
-        displayArea.setText( "To the left are tickets sorted by when they were last modified." );
-
-        displayArea.setBorder( new EmptyBorder( new Insets( 0, 10, 10, 10 ) ) );
-
-
-        // add a CSS rule to force body tags to use the default label font
-        // instead of the value in javax.swing.text.html.default.csss
-        Font font = UIManager.getFont( "Label.font" );
-        String bodyRule = "body { font-family: " + font.getFamily() + "; " +
-                          "font-size: " + font.getSize() + "pt; }";
-        ( (HTMLDocument) displayArea.getDocument() ).getStyleSheet().addRule( bodyRule );
-
-
-        JScrollPane areaScrollPane = new JScrollPane( displayArea );
-
-        areaScrollPane.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
-        JSplitPane splitPane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, ticketScrollPane, areaScrollPane );
+        } );
+        // END NEW
 
         JTabbedPane tabber = new JTabbedPane();
-        tabber.addTab( "Ticket List", splitPane );
+        tabber.addTab( "Ticket List", listSplitPane );
+        tabber.addTab( "Ticket Table", tableSplitPane );
         add( tabber );
 
         //add( splitPane );
@@ -72,6 +78,33 @@ public class UnfuddleToolGUI extends JFrame {
         setVisible( true );
         repaint( 0, 0, 0, 5000, 5000 );
 
+    }
+
+    private JEditorPane createDisplayPane() {
+        JEditorPane pane = new JEditorPane() {
+            public void paintComponent( Graphics g ) {
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint( RenderingHints.KEY_ANTIALIASING,
+                                      RenderingHints.VALUE_ANTIALIAS_ON );
+                super.paintComponent( g );
+            }
+        };
+
+        pane.setEditorKit( new HTMLEditorKit() );
+        pane.addHyperlinkListener( new LinkHandler() );
+        pane.setEditable( false );
+        pane.setBorder( new EmptyBorder( new Insets( 0, 10, 10, 10 ) ) );
+
+        return pane;
+    }
+
+    private void setPaneStyle( JEditorPane pane ) {
+        // add a CSS rule to force body tags to use the default label font
+        // instead of the value in javax.swing.text.html.default.csss
+        Font font = UIManager.getFont( "Label.font" );
+        String bodyRule = "body { font-family: " + font.getFamily() + "; " +
+                          "font-size: " + font.getSize() + "pt; }";
+        ( (HTMLDocument) pane.getDocument() ).getStyleSheet().addRule( bodyRule );
     }
 
     public JMenuBar createMenu() {

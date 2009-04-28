@@ -1,5 +1,7 @@
 package edu.colorado.phet.unfuddletool;
 
+import java.util.Date;
+
 import javax.swing.*;
 
 public class UpdateThread extends Thread {
@@ -9,7 +11,7 @@ public class UpdateThread extends Thread {
                 // every minute
                 Thread.sleep( 1000 * 60 );
 
-                System.out.println( "Requesting latest activity from the server" );
+                System.out.println( "Requesting latest activity from the server at " + ( new Date() ) );
 
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {

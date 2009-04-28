@@ -101,10 +101,9 @@ public class Communication {
 
     public static String getXMLResponse( String xmlString, String location, String auth ) {
 
-        System.out.println( "Requesting " + location );
+        //System.out.println( "Requesting " + location );
         String ret = rawHTTPRequest( xmlString, location, auth );
-        System.out.println( "Received " + location );
-        //System.out.println( ret );
+        //System.out.println( "Received " + location );
         return ret;
 
         //return persistentHTTPRequest( xmlString, location, auth );
@@ -174,6 +173,11 @@ public class Communication {
 
 
     public static String HTMLPrepare( String str ) {
+
+        if ( str == null ) {
+            return str;
+        }
+
         String ret = str.replaceAll( "\n", "ABRACADABRAX" );
 
         ret = HTMLEntityEncode( ret );
