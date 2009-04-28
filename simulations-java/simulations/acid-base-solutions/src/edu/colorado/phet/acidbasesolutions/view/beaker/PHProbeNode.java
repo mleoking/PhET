@@ -1,6 +1,6 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.acidbasesolutions.view;
+package edu.colorado.phet.acidbasesolutions.view.beaker;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
