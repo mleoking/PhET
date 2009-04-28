@@ -33,17 +33,19 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
     private static final String NEGLIGIBLE = "NEGLIGIBLE";
 
     private static final Font NEGLIGIBLE_FONT = new PhetFont( Font.PLAIN, ABSConstants.CONTROL_FONT_SIZE - 2 );
-    private static final Font VALUE_FONT = new PhetFont( Font.BOLD, ABSConstants.CONTROL_FONT_SIZE );
+    private static final Font VALUE_FONT = new PhetFont( Font.PLAIN, ABSConstants.CONTROL_FONT_SIZE );
     private static final Color VALUE_COLOR = Color.BLACK;
     private static final Color VALUE_BACKGROUND_COLOR = new Color( 255, 255, 255, 128 ); // translucent white
-    private static final Insets VALUE_INSETS = new Insets( 4, 4, 4, 4 );
+    private static final Insets VALUE_INSETS = new Insets( 4, 4, 4, 4 ); // top, left, bottom, right
     private static final TimesTenNumberFormat VALUE_FORMAT_DEFAULT = new TimesTenNumberFormat( "0.00" );
     private static final ConstantPowerOfTenNumberFormat VALUE_FORMAT_H2O = new ConstantPowerOfTenNumberFormat( "0.0", 25 );
+    private static final Font LABEL_FONT = new PhetFont( Font.PLAIN, ABSConstants.CONTROL_FONT_SIZE );
+    private static final Color LABEL_COLOR = Color.BLACK;
     
     private final NegligibleValueNode countLHS;
     private final ValueNode countRHS, countH3OPlus, countOHMinus, countH2O;
     private final IconNode iconLHS, iconRHS, iconH3OPlus, iconOHMinus, iconH2O;
-    private final HTMLNode labelLHS, labelRHS, labelH3OPlus, labelOHMinus, labelH2O;
+    private final LabelNode labelLHS, labelRHS, labelH3OPlus, labelOHMinus, labelH2O;
     
     public MoleculeCountsNode() {
         super();
@@ -69,11 +71,11 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
         PNode[] iconNodes = { iconLHS, iconRHS, iconH3OPlus, iconOHMinus, iconH2O };
         
         // labels
-        labelLHS = new HTMLNode( ABSSymbols.HA );
-        labelRHS = new HTMLNode( ABSSymbols.A_MINUS );
-        labelH3OPlus = new HTMLNode( HTMLUtils.toHTMLString( ABSSymbols.H3O_PLUS ) );
-        labelOHMinus = new HTMLNode( HTMLUtils.toHTMLString( ABSSymbols.OH_MINUS ) );
-        labelH2O = new HTMLNode( HTMLUtils.toHTMLString( ABSSymbols.H2O ) );
+        labelLHS = new LabelNode( ABSSymbols.HA );
+        labelRHS = new LabelNode( ABSSymbols.A_MINUS );
+        labelH3OPlus = new LabelNode( ABSSymbols.H3O_PLUS );
+        labelOHMinus = new LabelNode( ABSSymbols.OH_MINUS );
+        labelH2O = new LabelNode( ABSSymbols.H2O );
         PNode[] labelNodes = { labelLHS, labelRHS, labelH3OPlus, labelOHMinus, labelH2O };
         
         // layout in a grid
@@ -86,7 +88,7 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
         }
         // default constraints
         GridBagConstraints constraints = new GridBagConstraints();
-        constraints.insets = new Insets( 5, 5, 5, 5 );
+        constraints.insets = new Insets( 5, 2, 5, 2 ); // top,left,bottom,right
         constraints.gridy = GridBagConstraints.RELATIVE; // row
         // counts
         {
@@ -123,13 +125,13 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
     public void setLHS( double count, Image image, String label ) {
         countLHS.setValue( count );
         iconLHS.setImage( image );
-        labelLHS.setHTML( HTMLUtils.toHTMLString( label ) );
+        labelLHS.setHTML( label );
     }
     
     public void setRHS( double count, Image image, String label ) {
         countRHS.setValue( count );
         iconRHS.setImage( image );
-        labelRHS.setHTML( HTMLUtils.toHTMLString( label ) );
+        labelRHS.setHTML( label );
     }
     
     public void setLHS( double count ) {
@@ -155,6 +157,22 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
     //----------------------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------------------
+    
+    /*
+     * Labels used in this view.
+     */
+    private static class LabelNode extends HTMLNode {
+        
+        public LabelNode( String html ) {
+            super( HTMLUtils.toHTMLString( html ) );
+            setFont( LABEL_FONT );
+            setHTMLColor( LABEL_COLOR );
+        }
+        
+        public void setHTML( String html ) {
+            setHTML( HTMLUtils.toHTMLString( html ) );
+        }
+    }
     
     /*
      * Icons used in this view.
