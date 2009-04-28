@@ -185,7 +185,6 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
     addNode(new BeadNode(model.rightWall, transform, "barrier2.jpg") with CloseButton {
       def model = RampCanvas.this.model
     })
-    addNode(new BeadNode(model.createBead(-4), transform, "tree.gif"))
   }
 
   def createLeftSegmentNode = new RampSegmentNode(model.rampSegments(0), transform)

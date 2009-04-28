@@ -358,4 +358,8 @@ public class ModelViewTransform2D {
             return new Rectangle( (int) r.getX(), (int) r.getY(), (int) r.getWidth(), (int) r.getHeight() );
         }
     }
+
+    public Rectangle2D getViewBounds() {
+        return new Rectangle2D.Double(viewBounds.getX(),viewBounds.getY(),viewBounds.getWidth(),viewBounds.getHeight());
+    }
 }
