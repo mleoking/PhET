@@ -16,8 +16,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.acidbasesolutions.dialog.EquilibriumExpressionsDialog;
-import edu.colorado.phet.acidbasesolutions.dialog.ReactionEquationsDialog;
 import edu.colorado.phet.acidbasesolutions.dialog.SymbolLegendDialog;
+import edu.colorado.phet.acidbasesolutions.view.reactionequations.ReactionEquationsDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
