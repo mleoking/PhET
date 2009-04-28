@@ -195,6 +195,7 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
 class RobotMovingCompanyGameModel extends Observable {
   private var _launched = false
   private var _objectIndex = 0
+  private var _lostItems = 0
   val objectListeners = new ArrayBuffer[ScalaRampObject => Unit]
   val objectList = RampDefaults.objects
 
@@ -203,13 +204,18 @@ class RobotMovingCompanyGameModel extends Observable {
   def launched = _launched
 
   def nextObject() = {
+    _lostItems = _lostItems + 1
     _objectIndex = _objectIndex + 1
     objectListeners.foreach(_(selectedObject))
 
-    launched = false
+    launched = false //notifies listeners
   }
 
+  def movedItems = 0
+
   def selectedObject = objectList(_objectIndex)
+
+  def lostItems = _lostItems
 }
 class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock) {
   model.rampSegments(1).setAngle(0)
@@ -228,7 +234,7 @@ class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends Abstrac
     bead.airborneFloor_=(airborneFloor)
     val beadNode = new DraggableBeadNode(bead, canvas.transform, a.imageFilename)
     canvas.addNode(beadNode)
-    clock.addClockListener(dt=>if (!model.isPaused) bead.stepInTime(dt))
+    clock.addClockListener(dt => if (!model.isPaused) bead.stepInTime(dt))
   })
   val canvas = new RMCCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame, airborneFloor, gameModel)
   setSimulationPanel(canvas)

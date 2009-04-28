@@ -3,9 +3,12 @@ package edu.colorado.phet.therampscala.graphics
 
 import common.phetcommon.resources.PhetCommonResources
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import common.phetcommon.view.util.SwingUtils
+import common.phetcommon.view.util.{PhetFont, SwingUtils}
 import common.phetcommon.view.VerticalLayoutPanel
 import common.piccolophet.event.CursorHandler
+import common.piccolophet.nodes.layout.SwingLayoutNode
+import common.piccolophet.nodes.PhetPPath
+import java.awt.geom.{RoundRectangle2D, Point2D, Rectangle2D}
 import java.awt.{Dimension, Color}
 import javax.swing.{Box, JButton, JFrame, JDialog}
 import swing.ScalaButton
@@ -13,7 +16,6 @@ import umd.cs.piccolo.nodes.{PImage, PText}
 import common.piccolophet.PhetPCanvas
 import java.awt.event._
 
-import java.awt.geom.{Point2D, Rectangle2D}
 import model._
 import scalacommon.math.Vector2D
 import scalacommon.Predef._
@@ -239,10 +241,14 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
   freeBodyDiagramModel.visible = true
 
   val house = model.createBead(8)
+  house.height = 5
 
   addNode(new BeadNode(house, transform, "robotmovingcompany/house.gif"))
   model.bead.parallelAppliedForce = 1E-16 //to move the pusher to the right spot//todo: fix this with view, not model
   model.bead.notifyListeners() //todo: not sure why this call is necessary; should be handled in previous line
+
+  val scoreboard = new ScoreboardNode(transform, gameModel)
+  addNode(scoreboard)
 
   override def addWallsAndDecorations() = {}
 
@@ -261,4 +267,41 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
 }
 trait PointOfOriginVector {
   def getPointOfOriginOffset(defaultCenter: Double): Double
+}
+
+class ItemReadout(text: String, gameModel: RobotMovingCompanyGameModel, counter: () => Int) extends PNode {
+  val textNode = new PText(text)
+  textNode.setFont(new PhetFont(18, true))
+  addChild(textNode)
+  gameModel.addListenerByName(update())
+  def update() = {
+    textNode.setText(text + ": " + counter())
+  }
+  update()
+}
+
+class ScoreboardNode(transform: ModelViewTransform2D, gameModel: RobotMovingCompanyGameModel) extends PNode {
+  val background = new PhetPPath(new RoundRectangle2D.Double(0, 0, 600, 100, 20, 20), Color.lightGray)
+  addChild(background)
+
+  val layoutNode = new SwingLayoutNode
+  val pText = new PText("Score 1050")
+  pText.setFont(new PhetFont(32, true))
+  layoutNode.addChild(new Spacer)
+  layoutNode.addChild(pText)
+  class Spacer extends PNode {
+    setBounds(0, 0, 20, 20)
+  }
+  layoutNode.addChild(new Spacer)
+  layoutNode.addChild(new Spacer)
+  layoutNode.addChild(new ItemReadout("Moved Items", gameModel, () => gameModel.movedItems))
+  layoutNode.addChild(new Spacer)
+  layoutNode.addChild(new ItemReadout("Lost Items", gameModel, () => gameModel.lostItems))
+  layoutNode.addChild(new Spacer)
+
+  addChild(layoutNode)
+  val insetX = 5
+  val insetY = 5
+  background.setPathTo(new RoundRectangle2D.Double(layoutNode.getFullBounds.x - insetX, layoutNode.getFullBounds.y - insetY, layoutNode.getFullBounds.width + insetX * 2, layoutNode.getFullBounds.height + insetY * 2, 20, 20))
+  setOffset(transform.getViewBounds.getCenterX - getFullBounds.getWidth / 2, 0)
 }
