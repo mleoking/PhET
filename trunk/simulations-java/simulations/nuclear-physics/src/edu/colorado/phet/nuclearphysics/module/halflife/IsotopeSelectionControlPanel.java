@@ -193,20 +193,20 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
             constraints.gridy = 1;
             add( new JLabel( createArrowIcon( Color.BLACK ) ), constraints );
             
-            // Create and add Lead image.
-            PNode labeledLeadNucleus = new LabeledNucleusNode("Polonium Nucleus Small.png",
-                    NuclearPhysicsStrings.LEAD_207_ISOTOPE_NUMBER, 
-                    NuclearPhysicsStrings.LEAD_207_CHEMICAL_SYMBOL,
-                    NuclearPhysicsConstants.LEAD_LABEL_COLOR );
-            Image leadImage = labeledLeadNucleus.toImage();
-            ImageIcon leadIconImage = new ImageIcon( leadImage );
+            // Create and add Nitrogen image.
+            PNode labeledNitrogenNucleus = new LabeledNucleusNode(NuclearPhysicsConstants.NITROGEN_COLOR,
+                    NuclearPhysicsStrings.NITROGEN_14_ISOTOPE_NUMBER, 
+                    NuclearPhysicsStrings.NITROGEN_14_CHEMICAL_SYMBOL,
+                    NuclearPhysicsConstants.NITROGEN_14_LABEL_COLOR );
+            Image nitrogenImage = labeledNitrogenNucleus.toImage();
+            ImageIcon nitrogenIconImage = new ImageIcon( nitrogenImage );
             constraints.anchor = GridBagConstraints.WEST;
             constraints.gridx = 1;
             constraints.gridy = 2;
-            add( new JLabel(leadIconImage), constraints );
+            add( new JLabel(nitrogenIconImage), constraints );
             
-            // Create and add the textual label for the Lead nucleus.
-            JLabel leadLabel = new JLabel( NuclearPhysicsStrings.LEAD_LEGEND_LABEL ) ;
+            // Create and add the textual label for the Nitrogen nucleus.
+            JLabel leadLabel = new JLabel( NuclearPhysicsStrings.NITROGEN_14_LEGEND_LABEL ) ;
             constraints.anchor = GridBagConstraints.WEST;
             constraints.gridx = 2;
             constraints.gridy = 2;
