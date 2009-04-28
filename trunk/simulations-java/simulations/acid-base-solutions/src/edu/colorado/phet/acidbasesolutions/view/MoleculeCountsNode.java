@@ -9,7 +9,6 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSImages;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.common.phetcommon.util.ConstantPowerOfTenNumberFormat;
@@ -32,14 +31,14 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
     //TODO localize
     private static final String NEGLIGIBLE = "NEGLIGIBLE";
 
-    private static final Font NEGLIGIBLE_FONT = new PhetFont( Font.PLAIN, ABSConstants.CONTROL_FONT_SIZE - 2 );
-    private static final Font VALUE_FONT = new PhetFont( Font.PLAIN, ABSConstants.CONTROL_FONT_SIZE );
+    private static final Font NEGLIGIBLE_FONT = new PhetFont( Font.PLAIN, 16 );
+    private static final Font VALUE_FONT = new PhetFont( Font.PLAIN, 16 );
     private static final Color VALUE_COLOR = Color.BLACK;
     private static final Color VALUE_BACKGROUND_COLOR = new Color( 255, 255, 255, 128 ); // translucent white
     private static final Insets VALUE_INSETS = new Insets( 4, 4, 4, 4 ); // top, left, bottom, right
     private static final TimesTenNumberFormat VALUE_FORMAT_DEFAULT = new TimesTenNumberFormat( "0.00" );
     private static final ConstantPowerOfTenNumberFormat VALUE_FORMAT_H2O = new ConstantPowerOfTenNumberFormat( "0.0", 25 );
-    private static final Font LABEL_FONT = new PhetFont( Font.PLAIN, ABSConstants.CONTROL_FONT_SIZE );
+    private static final Font LABEL_FONT = new PhetFont( Font.PLAIN, 16 );
     private static final Color LABEL_COLOR = Color.BLACK;
     
     private final NegligibleValueNode countLHS;
@@ -154,6 +153,10 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
         countH2O.setValue( count );
     }
     
+    public void setNegligibleEnabled( boolean enabled ) {
+        countLHS.setNegligibleEnabled( enabled );
+    }
+    
     //----------------------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------------------
@@ -215,6 +218,10 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
             _numberNode.setValue( value );
         }
         
+        public double getValue() {
+            return _numberNode.getValue();
+        }
+        
         protected PNode getBackgroundNode() {
             return _backgroundNode;
         }
@@ -223,12 +230,14 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
     /*
      * Displays a formatted number on a background.
      * If that number drops below some threshold, then "NEGLIGIBLE" is displayed.
+     * This behavior can also be disabled.
      */
     private static class NegligibleValueNode extends PNode {
 
         private final double _negligibleValue;
         private final PNode _negligibleBackground;
         private final ValueNode _valueNode;
+        private boolean _negligibleEnabled;
         
         public NegligibleValueNode( double value, double negligibleValue ) {
             this( value, negligibleValue, VALUE_FORMAT_DEFAULT );
@@ -246,13 +255,31 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
             _negligibleBackground = new RectangularBackgroundNode( textNode, VALUE_INSETS, VALUE_BACKGROUND_COLOR );
             addChild( _negligibleBackground );
             // init
+            _negligibleEnabled = true;
             setValue( value );
         }
         
         public void setValue( double value ) {
             _valueNode.setValue( value );
-            _valueNode.setVisible( value > _negligibleValue );
-            _negligibleBackground.setVisible( value <= _negligibleValue );
+            updateVisibility( value );
+        }
+        
+        public void setNegligibleEnabled( boolean enabled ) {
+            if ( enabled != _negligibleEnabled ) {
+                _negligibleEnabled = enabled;
+                updateVisibility( _valueNode.getValue() );
+            }
+        }
+        
+        private void updateVisibility( double value ) {
+            if ( _negligibleEnabled ) {
+                _valueNode.setVisible( value > _negligibleValue );
+                _negligibleBackground.setVisible( value <= _negligibleValue );
+            }
+            else {
+                _valueNode.setVisible( true );
+                _negligibleBackground.setVisible( false );
+            }
         }
     }
     
