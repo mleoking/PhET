@@ -37,6 +37,7 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
            wallRange: () => Range)
         extends Observable {
   val crashListeners = new ArrayBuffer[() => Unit]
+  val stopListeners = new ArrayBuffer[() => Unit]
   val gravity = -9.8
   var state = _state
   var _parallelAppliedForce = 0.0
@@ -266,6 +267,10 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
       if ((origState.velocity < 0 && velocity > 0) || (origState.velocity > 0 && velocity < 0)) {
         //see docs in static friction computation
         setVelocity(0)
+      }
+
+      if (origState.velocity!=0 && velocity==0){
+        stopListeners.foreach( _() )
       }
 
       val requestedPosition = position + velocity * dt

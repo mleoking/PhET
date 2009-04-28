@@ -246,7 +246,7 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
   fbdNode.setOffset(pswingControlPanel.getFullBounds.getMaxX + 10, pswingControlPanel.getFullBounds.getY)
   freeBodyDiagramModel.visible = true
 
-  val house = model.createBead(8)
+  val house = model.createBead(gameModel.housePosition)
   house.height = 5
 
   addNode(new BeadNode(house, transform, "robotmovingcompany/house.gif"))
@@ -313,6 +313,11 @@ class ScoreboardNode(transform: ModelViewTransform2D, gameModel: RobotMovingComp
   addChild(layoutNode)
   val insetX = 5
   val insetY = 5
-  background.setPathTo(new RoundRectangle2D.Double(layoutNode.getFullBounds.x - insetX, layoutNode.getFullBounds.y - insetY, layoutNode.getFullBounds.width + insetX * 2, layoutNode.getFullBounds.height + insetY * 2, 20, 20))
+  updateBackground()
+  def updateBackground()={
+    background.setPathTo(new RoundRectangle2D.Double(layoutNode.getFullBounds.x - insetX, layoutNode.getFullBounds.y - insetY, layoutNode.getFullBounds.width + insetX * 2, layoutNode.getFullBounds.height + insetY * 2, 20, 20))
+  }
+  gameModel.addListener(()=>updateBackground())
+
   setOffset(transform.getViewBounds.getCenterX - getFullBounds.getWidth / 2, 0)
 }
