@@ -32,10 +32,14 @@ case class BeadState(position: Double, velocity: Double, mass: Double, staticFri
 
 case class Range(min: Double, max: Double)
 
-class Bead(_state: BeadState, private var _height: Double, positionMapper: Double => Vector2D,
+class Bead(_state: BeadState, private var _height: Double, private var _width:Double, positionMapper: Double => Vector2D,
            rampSegmentAccessor: Double => RampSegment, model: Observable, surfaceFriction: () => Boolean, wallsExist: => Boolean,
            wallRange: () => Range)
         extends Observable {
+  def maxX = position + _width
+
+  def minX = position - _width
+
   val crashListeners = new ArrayBuffer[() => Unit]
   val stopListeners = new ArrayBuffer[() => Unit]
   val gravity = -9.8
@@ -269,8 +273,8 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
         setVelocity(0)
       }
 
-      if (origState.velocity!=0 && velocity==0){
-        stopListeners.foreach( _() )
+      if (origState.velocity != 0 && velocity == 0) {
+        stopListeners.foreach(_())
       }
 
       val requestedPosition = position + velocity * dt

@@ -52,15 +52,21 @@ class RampModel extends RecordModel[String] with ObjectModel {
   rampSegments(0).addListenerByName {rampChangeAdapter.notifyListeners}
   rampSegments(1).addListenerByName {rampChangeAdapter.notifyListeners}
   val surfaceFriction = () => !frictionless
-  val wallRange = () => if (walls) new Range(RampDefaults.MIN_X, RampDefaults.MAX_X) else new Range(-10000, RampDefaults.MAX_X)
+  //  val wallRange = () => if (walls) new Range(RampDefaults.MIN_X, RampDefaults.MAX_X) else new Range(-10000, RampDefaults.MAX_X)
+  val wallRange = () => {
+    if (walls)
+      new Range(leftWall.maxX, rightWall.minX)
+    else
+      new Range(-10000, RampDefaults.MAX_X)
+  }
   val bead: Bead = new Bead(new BeadState(5, 0, _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction),
-    3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, walls, wallRange)
+    _selectedObject.height, _selectedObject.width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, walls, wallRange)
 
-  def createBead(x: Double) = new Bead(new BeadState(x, 0, 10, 0, 0), 3, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, walls, wallRange)
+  def createBead(x: Double, width: Double) = new Bead(new BeadState(x, 0, 10, 0, 0), 3, width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, walls, wallRange)
 
-  val leftWall = createBead(-10)
-  val rightWall = createBead(10)
-  val manBead = createBead(2)
+  val leftWall: Bead = createBead(-10,RampDefaults.wallWidth)
+  val rightWall: Bead = createBead(10,RampDefaults.wallWidth)
+  val manBead = createBead(2,1)
   updateDueToObjectChange()
 
   override def resetAll() = {

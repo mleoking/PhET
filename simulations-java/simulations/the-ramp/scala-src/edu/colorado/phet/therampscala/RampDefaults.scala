@@ -25,6 +25,11 @@ object RampDefaults {
           Nil
   val iconsPerRow = 4
 
+  val wall = new ScalaRampObject("Wall", 1000, 1000, 1000, 3, "barrier2.jpg")
+  val house = new ScalaRampObject("Wall", 1000, 1000, 1000, 5, "robotmovingcompany/house.gif")
+
+  def wallWidth = wall.width
+
   val appliedForceColor = Color.orange
   val gravityForceColor = Color.blue
   val normalForceColor = Color.yellow

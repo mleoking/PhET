@@ -246,7 +246,7 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
   fbdNode.setOffset(pswingControlPanel.getFullBounds.getMaxX + 10, pswingControlPanel.getFullBounds.getY)
   freeBodyDiagramModel.visible = true
 
-  val house = model.createBead(gameModel.housePosition)
+  val house = model.createBead(gameModel.housePosition,RampDefaults.house.width)
   house.height = 5
 
   addNode(new BeadNode(house, transform, "robotmovingcompany/house.gif"))
