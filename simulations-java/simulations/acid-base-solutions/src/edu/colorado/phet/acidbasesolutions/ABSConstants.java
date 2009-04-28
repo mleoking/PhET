@@ -5,6 +5,7 @@ package edu.colorado.phet.acidbasesolutions;
 import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.umd.cs.piccolo.util.PDimension;
 
 
 /**
@@ -73,6 +74,12 @@ public class ABSConstants {
     public static final Color A_PARTICLES_COLOR = A_COLOR;
     public static final Color B_PARTICLES_COLOR = B_COLOR;
     public static final Color BH_PARTICLES_COLOR = BH_COLOR;
+    
+    //----------------------------------------------------------------------------
+    // Dimensions
+    //----------------------------------------------------------------------------
+    
+    public static final PDimension MIN_BEAKER_LABEL_SIZE = new PDimension( 275, 50 );
     
     //----------------------------------------------------------------------------
     // Images

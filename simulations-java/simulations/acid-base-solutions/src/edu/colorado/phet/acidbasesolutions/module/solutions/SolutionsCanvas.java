@@ -11,6 +11,7 @@ import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
 import edu.colorado.phet.acidbasesolutions.view.*;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -33,6 +34,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
     private final SolutionNode _solutionNode;
     private final ConcentrationsGraphNode _concentrationsGraphNode;
     private final MoleculeCountsNode _moleculeCountsNode;
+    private final BeakerLabelNode _beakerLabelNode;
     
     // Control
     private final BeakerControls _beakerControls;
@@ -60,7 +62,9 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         
         _moleculeCountsNode = new MoleculeCountsNode();
         
-        _beakerControls = new BeakerControls( _moleculeCountsNode );
+        _beakerLabelNode = new BeakerLabelNode( ABSConstants.MIN_BEAKER_LABEL_SIZE );
+        
+        _beakerControls = new BeakerControls( _moleculeCountsNode, _beakerLabelNode );
         _beakerControls.setBackground( getBackground() );
         _beakerControlsWrapper = new PSwing( _beakerControls );
         _beakerControlsWrapper.scale( ABSConstants.PSWING_SCALE );
@@ -78,6 +82,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         addNode( _beakerNode );
         addNode( _concentrationsGraphNode );
         addNode( _moleculeCountsNode );
+        addNode( _beakerLabelNode );
     }
     
     //----------------------------------------------------------------------------
@@ -107,6 +112,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         }
         
         double xOffset, yOffset = 0;
+        PBounds b1;
         
         // beaker
         xOffset = 50;
@@ -118,8 +124,14 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         
         // molecule counts inside the beaker
         xOffset = _beakerNode.getXOffset() + 10;
-        yOffset = _beakerNode.getYOffset() + 10;
+        yOffset = _beakerNode.getYOffset();
         _moleculeCountsNode.setOffset( xOffset, yOffset );
+        
+        // beaker label at bottom of beaker
+        b1 = _beakerNode.getFullBoundsReference();
+        xOffset = b1.getMinX() + ( b1.getWidth() - _beakerLabelNode.getFullBoundsReference().getWidth() ) / 2;
+        yOffset = b1.getMaxY() - _beakerLabelNode.getFullBoundsReference().getHeight() - 10;
+        _beakerLabelNode.setOffset( xOffset, yOffset );
         
         // probe horizontally centered in beaker, tip of probe at bottom of beaker
         xOffset = _beakerNode.getFullBoundsReference().getCenterX() - _probeNode.getFullBoundsReference().getWidth() / 2;
