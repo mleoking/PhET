@@ -75,10 +75,11 @@ public class ConcentrationXAxisNode extends SwingLayoutNode {
         addChild( labelOH );
         addChild( labelH2O );
         
+        //TODO this layout strategy isn't going to cut it, impossible to align with bars
         // layout
         setLayout( new GridBagLayout() );
         GridBagConstraints constraints = new GridBagConstraints();
-        constraints.insets = new Insets( 2, 2, 2, 2 ); // top,left,bottom,right
+        constraints.insets = new Insets( 0, 15, 0, 15 ); // top,left,bottom,right
         constraints.anchor = GridBagConstraints.CENTER;
         constraints.gridx = GridBagConstraints.RELATIVE; // column
         constraints.gridy = 0; // next row
