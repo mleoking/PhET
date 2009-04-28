@@ -7,6 +7,7 @@ import java.awt.geom.Dimension2D;
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * ComparingCanvas is the canvas for ComparingModule.
@@ -54,6 +55,12 @@ public class ComparingCanvas extends ABSAbstractCanvas {
             System.out.println( getClass().getName() + ".updateLayout worldSize=" + worldSize );
         }
         
-        //XXX lay out nodes
+        double xOffset, yOffset;
+        
+        // Reset All button at bottom center
+        PNode resetAllButton = getResetAllButton();
+        xOffset = ( worldSize.getWidth() / 2 ) - ( resetAllButton.getFullBoundsReference().getWidth() / 2 );
+        yOffset = worldSize.getHeight() - resetAllButton.getFullBounds().getHeight() - 20;
+        resetAllButton.setOffset( xOffset , yOffset );
     }
 }
