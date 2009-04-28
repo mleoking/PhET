@@ -36,7 +36,7 @@ public class LabeledNucleusNode extends PComposite {
     private static final double IMAGE_SCALING_FACTOR = 0.20;
     private static final double SMALLER_FONT_SCALING_FACTOR = IMAGE_SCALING_FACTOR * 9;
     private static final double LARGER_FONT_SCALING_FACTOR = IMAGE_SCALING_FACTOR * 12;
-    private static final double SPHERE_DIAMETER = 45;
+    private static final double SPHERE_DIAMETER = 50;
 
     //------------------------------------------------------------------------
     // Instance Data
