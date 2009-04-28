@@ -1,4 +1,4 @@
-package edu.colorado.phet.acidbasesolutions.view;
+package edu.colorado.phet.acidbasesolutions.view.beaker;
 
 import java.awt.*;
 import java.text.NumberFormat;

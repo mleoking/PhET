@@ -1,4 +1,4 @@
-package edu.colorado.phet.acidbasesolutions.view;
+package edu.colorado.phet.acidbasesolutions.view.graph;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

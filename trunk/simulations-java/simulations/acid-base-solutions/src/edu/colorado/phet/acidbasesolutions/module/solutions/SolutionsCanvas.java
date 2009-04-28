@@ -9,6 +9,8 @@ import edu.colorado.phet.acidbasesolutions.control.BeakerControls;
 import edu.colorado.phet.acidbasesolutions.control.MiscControls;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
 import edu.colorado.phet.acidbasesolutions.view.*;
+import edu.colorado.phet.acidbasesolutions.view.beaker.*;
+import edu.colorado.phet.acidbasesolutions.view.graph.ConcentrationsGraphNode;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
