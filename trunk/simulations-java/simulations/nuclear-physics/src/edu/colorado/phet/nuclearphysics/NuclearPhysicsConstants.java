@@ -118,6 +118,12 @@ public class NuclearPhysicsConstants {
     // Color for nitrogen when represented as a circle or sphere.
     public static final Color NITROGEN_COLOR = new Color( 0, 0, 200 );
     
+    // Color for U238 when represented as a circle or sphere.
+    public static final Color URANIUM_238_COLOR = new Color( 255, 215, 0 );
+    
+    // Color for Lead 206 when represented as a circle or sphere.
+    public static final Color LEAD_206_COLOR = Color.LIGHT_GRAY;
+    
     // Color of the chart background for the alpha decay application.
 	public static final Color  ALPHA_DECAY_CHART_COLOR = new Color( 246, 242, 175 );
 	

@@ -158,7 +158,7 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
         add( new JLabel(leadIconImage), constraints );
         
         // Create and add the textual label for the Lead nucleus.
-        JLabel leadLabel = new JLabel( NuclearPhysicsStrings.LEAD_LEGEND_LABEL ) ;
+        JLabel leadLabel = new JLabel( NuclearPhysicsStrings.LEAD_207_LEGEND_LABEL ) ;
         constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 2;
         constraints.gridy = 2;
