@@ -257,6 +257,11 @@ function setupRecentMessages() {
     str += commonConstraintString("Sim Dev Version", "sim_dev_version");
     str += commonConstraintString("Sim Revision", "sim_revision");
 
+    str += "<div class='constraint'>";
+	str += "Extra strings: <input type='text' name='extra_strings' size='50' maxlength='300' id='extra_strings' value=''>";
+	str += "</input>";
+	str += "</div>";
+
 	fid("query_options").innerHTML = str;
 }
 
@@ -294,6 +299,7 @@ function setupUniqueUsers() {
 	str += "<option value='none'>none</option>";
 	str += "<option value='first_seen'>First seen month</option>";
 	str += "<option value='last_seen'>Last seen month</option>";
+    str += "<option value='user_total_sessions'>User total sessions</option>";
 	str += "</select>";
 	str += "</div>";
 
@@ -483,6 +489,7 @@ function query_string() {
 		str += "&recent_sim_type=" + getValue('recent_sim_type');
 		str += "&count=" + getValue('count');
         str += constraints_query_string();
+        str += getValue('extra_strings');
 	} else if(getValue("query") == "unique_users") {
 		str += "&n_max=" + getValue("n_max");
 		str += "&alpha=" + getValue("alpha");

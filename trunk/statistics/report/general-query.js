@@ -294,6 +294,7 @@ function setupUniqueUsers() {
 	str += "<option value='none'>none</option>";
 	str += "<option value='first_seen'>First seen month</option>";
 	str += "<option value='last_seen'>Last seen month</option>";
+    str += "<option value='user_total_sessions'>User total sessions</option>";
 	str += "</select>";
 	str += "</div>";
 	

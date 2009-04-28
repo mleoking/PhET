@@ -3,6 +3,8 @@
 	include("../db-auth.php");
 	include("../db-stats.php");
 	$link = setup_mysql();
+
+	set_time_limit(60 * 30); // 30 minutes maximum cutoff
 	
 	$result = mysql_query("SELECT * FROM user");
 	

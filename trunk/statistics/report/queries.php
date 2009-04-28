@@ -650,10 +650,10 @@ JAV;
 				$delta = esc($arr, 'delta');
 				
 				// initialize variables
-				array_push($query, "SELECT (@n_max := {$n_max});");
-				array_push($query, "SELECT (@alpha := {$alpha});");
-				array_push($query, "SELECT (@beta := {$beta});");
-				array_push($query, "SELECT (@delta := {$delta});");
+				array_push($query, "SELECT (@n_max := {$n_max});"); // default 10
+				array_push($query, "SELECT (@alpha := {$alpha});"); // default 0.4
+				array_push($query, "SELECT (@beta := {$beta});"); // default 0.6
+				array_push($query, "SELECT (@delta := {$delta});"); // default 1.0
 				
 				if($arr['ceil'] == "true") {
 					$ceil = "CEIL";
@@ -678,6 +678,94 @@ JAV;
 					
 					// all of that jazz put together
 					array_push($query, "SELECT @estimated_unique_users AS estimated_unique_users, @total_installation_count AS unique_installations, @total_preferences_count AS unique_preferences_files;");
+			    } else if($arr['group_month'] == "user_total_sessions") {
+			        $querytext = <<<XAS
+SELECT
+	prefs.user_total_sessions as sessions, CEIL(uniq.estimated_unique_users) AS estimated_unique_users, installations.count AS unique_installations, prefs.count AS unique_preferences_files
+FROM
+	(	SELECT
+			user_total_sessions,
+			SUM(preferences_count) as count
+		FROM entity
+		GROUP BY user_total_sessions
+	) AS prefs,
+	(	SELECT
+			user_total_sessions,
+			SUM(installation_count) as count
+		FROM entity
+		GROUP BY user_total_sessions
+	) AS installations,
+	(	SELECT
+			toss.user_total_sessions, jeffco.count AS jeffco_count, linked.count AS linked_count, unlinked.count AS unlinked_count, ( (jeffco.count + linked.count + unlinked.count) * @delta ) AS estimated_unique_users
+		FROM
+			(SELECT user_total_sessions, COUNT(*) AS unused FROM entity GROUP BY user_total_sessions) AS toss,
+			(	SELECT
+					months.user_total_sessions, IF(data.count IS NULL, 0, data.count) AS count
+				FROM
+					((
+						SELECT DISTINCT user_total_sessions FROM entity
+					) AS months)
+					LEFT JOIN
+					((
+						SELECT
+							user_total_sessions,
+							(@beta * 0.5 * SUM(preferences_count) + (1.0 - @beta) * COUNT(*)) AS count
+						FROM entity
+						WHERE (preferences_count > @n_max)
+						GROUP BY user_total_sessions
+					) AS data)
+					ON (months.user_total_sessions = data.user_total_sessions)
+			) AS jeffco,
+			(	SELECT
+					months.user_total_sessions, IF(data.count IS NULL, 0, data.count) AS count
+				FROM
+					((
+						SELECT DISTINCT user_total_sessions FROM entity
+					) AS months)
+					LEFT JOIN
+					((
+						SELECT
+							user_total_sessions,
+							COUNT(*) AS COUNT
+						FROM entity
+						WHERE (preferences_count <= @n_max AND preferences_count > 1)
+						GROUP BY user_total_sessions
+					) AS data)
+					ON (months.user_total_sessions = data.user_total_sessions)
+			) AS linked,
+			(	SELECT
+					months.user_total_sessions, IF(data.count IS NULL, 0, data.count) AS count
+				FROM
+					((
+						SELECT DISTINCT user_total_sessions FROM entity
+					) AS months)
+					LEFT JOIN
+					((
+						SELECT
+							user_total_sessions,
+							(COUNT(*) / (@alpha + 1.0)) AS count
+						FROM entity
+						WHERE (preferences_count = 1)
+						GROUP BY user_total_sessions
+					) AS data)
+					ON (months.user_total_sessions = data.user_total_sessions)
+			) AS unlinked
+		WHERE (
+			toss.user_total_sessions = jeffco.user_total_sessions
+			AND toss.user_total_sessions = linked.user_total_sessions
+			AND toss.user_total_sessions = unlinked.user_total_sessions
+		)
+		GROUP BY toss.user_total_sessions
+	) AS uniq
+WHERE (
+	prefs.user_total_sessions = installations.user_total_sessions
+	AND prefs.user_total_sessions = uniq.user_total_sessions
+)
+GROUP BY prefs.user_total_sessions
+ORDER BY prefs.user_total_sessions DESC
+;			        
+XAS;
+					array_push($query, $querytext);
 				} else {
 					$groupMonth = $arr['group_month'];
 					if($groupMonth == "first_seen" || $groupMonth == "last_seen") {
