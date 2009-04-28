@@ -428,8 +428,7 @@ public class BucketOfNucleiNode extends PNode {
 		    break;
 		    
 		default:
-			System.err.println("Error: Unrecognized nucleus type when adding label to bucket.");
-		    _bucketLabel.setHTML("");
+			_bucketLabel.setHTML(NuclearPhysicsStrings.BUCKET_LABEL_ATOMS);
 		    break;
 		}
 		
