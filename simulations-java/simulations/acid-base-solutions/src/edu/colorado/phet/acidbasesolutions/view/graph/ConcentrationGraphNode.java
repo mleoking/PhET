@@ -34,7 +34,7 @@ public class ConcentrationGraphNode extends PNode {
     private static final Stroke OUTLINE_STROKE = new BasicStroke( 1f );
     private static final Color OUTLINE_STROKE_COLOR = Color.BLACK;
     private static final Color OUTLINE_FILL_COLOR = Color.WHITE;
-    private static final double DEFAULT_OUTLINE_WIDTH = 350;
+    private static final PDimension DEFAULT_OUTLINE_SIZE = new PDimension( 350, 550 );
     
     // bars
     private static final double BAR_WIDTH = 40;
@@ -64,7 +64,6 @@ public class ConcentrationGraphNode extends PNode {
     private static final int NUMBER_OF_TICKS = 19;
     private static final int BIGGEST_TICK_EXPONENT = 2;
     private static final int TICK_EXPONENT_SPACING = 2;
-    public static final double DEFAULT_TICKS_Y_SPACING = 24;
     
     // horizontal gridlines
     private static final Stroke GRIDLINE_STROKE = new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,3}, 0 ); // dashed
@@ -74,7 +73,7 @@ public class ConcentrationGraphNode extends PNode {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final double _graphOutlineHeight;
+    private final PDimension _outlineSize;
     private final ConcentrationBarNode _barLHS, _barRHS, _barH3O, _barOH, _barH2O;
     private final ValueNode _valueLHS, _valueRHS, _valueH3O, _valueOH, _valueH2O;
     private final ConcentrationXAxisNode _xAxisNode;
@@ -85,16 +84,16 @@ public class ConcentrationGraphNode extends PNode {
     //----------------------------------------------------------------------------
     
     public ConcentrationGraphNode() {
-        this( DEFAULT_OUTLINE_WIDTH, DEFAULT_TICKS_Y_SPACING );
+        this( DEFAULT_OUTLINE_SIZE );
     }
     
-    public ConcentrationGraphNode( double graphOutlineWidth, double ticksYSpacing ) {
+    public ConcentrationGraphNode( PDimension outlineSize ) {
         
-        _graphOutlineHeight = ( ( NUMBER_OF_TICKS - 1 ) * ticksYSpacing ) + TICKS_TOP_MARGIN;
+        _outlineSize = new PDimension( outlineSize );
         
         // graphOutlineNode is not instance data because we do NOT want to use its bounds for calculations.
         // It's stroke width will cause calculation errors.  Use _graphOutlineSize instead.
-        Rectangle2D r = new Rectangle2D.Double( 0, 0, graphOutlineWidth, _graphOutlineHeight );
+        Rectangle2D r = new Rectangle2D.Double( 0, 0, outlineSize.getWidth(), outlineSize.getHeight() );
         PPath graphOutlineNode = new PPath( r );
         graphOutlineNode.setStroke( OUTLINE_STROKE );
         graphOutlineNode.setStrokePaint( OUTLINE_STROKE_COLOR );
@@ -108,26 +107,26 @@ public class ConcentrationGraphNode extends PNode {
         addChild( _xAxisNode );
         
         // y axis
-        PDimension graphOutlineSize = new PDimension( graphOutlineWidth, _graphOutlineHeight );
-        _yAxisNode = new ConcentrationYAxisNode( graphOutlineSize, NUMBER_OF_TICKS, TICKS_TOP_MARGIN, 
+        _yAxisNode = new ConcentrationYAxisNode( _outlineSize, NUMBER_OF_TICKS, TICKS_TOP_MARGIN, 
                 BIGGEST_TICK_EXPONENT,  TICK_EXPONENT_SPACING, TICK_LENGTH,
                 TICK_STROKE, TICK_COLOR, TICK_LABEL_FONT, TICK_LABEL_COLOR, GRIDLINE_STROKE, GRIDLINE_COLOR );
         addChild( _yAxisNode );
         
         // bars
-        _barLHS = new ConcentrationBarNode( BAR_WIDTH, LHS_BAR_COLOR, _graphOutlineHeight );
+        final double outlineHeight = _outlineSize.getHeight();
+        _barLHS = new ConcentrationBarNode( BAR_WIDTH, LHS_BAR_COLOR, outlineHeight );
         addChild( _barLHS );
-        _barRHS = new ConcentrationBarNode( BAR_WIDTH, RHS_BAR_COLOR, _graphOutlineHeight );
+        _barRHS = new ConcentrationBarNode( BAR_WIDTH, RHS_BAR_COLOR, outlineHeight );
         addChild( _barRHS );
-        _barH3O = new ConcentrationBarNode( BAR_WIDTH, H3O_BAR_COLOR, _graphOutlineHeight );
+        _barH3O = new ConcentrationBarNode( BAR_WIDTH, H3O_BAR_COLOR, outlineHeight );
         addChild( _barH3O );
-        _barOH = new ConcentrationBarNode( BAR_WIDTH, OH_BAR_COLOR, _graphOutlineHeight );
+        _barOH = new ConcentrationBarNode( BAR_WIDTH, OH_BAR_COLOR, outlineHeight );
         addChild( _barOH );
-        _barH2O = new ConcentrationBarNode( BAR_WIDTH, H2O_BAR_COLOR, _graphOutlineHeight );
+        _barH2O = new ConcentrationBarNode( BAR_WIDTH, H2O_BAR_COLOR, outlineHeight );
         addChild( _barH2O );
         
         // line along the bottom of the graph, where bars overlap the outline
-        PPath bottomLineNode = new PPath( new Line2D.Double( 0, _graphOutlineHeight, graphOutlineWidth, _graphOutlineHeight ) );
+        PPath bottomLineNode = new PPath( new Line2D.Double( 0, _outlineSize.getHeight(), _outlineSize.getWidth(), _outlineSize.getHeight() ) );
         bottomLineNode.setStroke( OUTLINE_STROKE );
         bottomLineNode.setStrokePaint( OUTLINE_STROKE_COLOR );
         bottomLineNode.setPickable( false );
@@ -158,7 +157,7 @@ public class ConcentrationGraphNode extends PNode {
         assert( xSpacing > 0 );
         for ( int i = 0; i < bars.length; i++ ) {
             double xOffset = graphOutlineNode.getXOffset() + xSpacing + ( i * ( xSpacing + BAR_WIDTH ) ) + ( BAR_WIDTH / 2. );
-            double yOffset = graphOutlineSize.getHeight();
+            double yOffset = _outlineSize.getHeight();
             bars[i].setOffset( xOffset, yOffset );
         }
         // values, horizontally centered in bars
@@ -221,7 +220,7 @@ public class ConcentrationGraphNode extends PNode {
      * Calculates a bar height in view coordinates, given a model value.
      */
     private double calculateBarHeight( final double modelValue ) {
-        final double maxTickHeight = _graphOutlineHeight - TICKS_TOP_MARGIN;
+        final double maxTickHeight = _outlineSize.getHeight() - TICKS_TOP_MARGIN;
         final double maxExponent = BIGGEST_TICK_EXPONENT;
         final double minExponent = BIGGEST_TICK_EXPONENT - NUMBER_OF_TICKS + 1;
         final double modelValueExponent = MathUtil.log10( modelValue );
