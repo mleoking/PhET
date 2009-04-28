@@ -75,7 +75,7 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
         setMinimumWidth( minimumWidth );
         
         // Create sub-panel
-        _selectionPanel = new NucleusSelectionPanel();
+        _selectionPanel = new NucleusSelectionPanel( true );
         
         // Add the selection panel.
         addControlFullWidth( _selectionPanel );
@@ -102,13 +102,13 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
         private NucleusTypeControl _alphaDecayModel;
         private JRadioButton _carbon14RadioButton;
         private JRadioButton _uranium238RadioButton;
-        private JRadioButton _customRadioButton;
+        private JRadioButton _customNucleusRadioButton;
 
         //------------------------------------------------------------------------
         // Constructor
         //------------------------------------------------------------------------
         
-        public NucleusSelectionPanel() {
+        public NucleusSelectionPanel( boolean customNucleusSelectionEnabled ) {
             
         	// Register for notifications of nucleus type changes.
         	_model.addListener(new AlphaDecayAdapter(){
@@ -136,6 +136,7 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
             // Create the radio buttons.
             _carbon14RadioButton = new JRadioButton();
             _uranium238RadioButton = new JRadioButton();
+            _customNucleusRadioButton = new JRadioButton();
             
             // Register for button presses.
             _carbon14RadioButton.addActionListener( new ActionListener(){
@@ -148,12 +149,18 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
                 	_alphaDecayModel.setNucleusType(NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM);
                 }
             });
+            _customNucleusRadioButton.addActionListener( new ActionListener(){
+                public void actionPerformed(ActionEvent event){
+                	_alphaDecayModel.setNucleusType(NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM);
+                }
+            });
 
             
             // Group the radio buttons together logically and set initial state.
             ButtonGroup buttonGroup = new ButtonGroup();
             buttonGroup.add( _carbon14RadioButton );
             buttonGroup.add( _uranium238RadioButton );
+            buttonGroup.add( _customNucleusRadioButton );
             _carbon14RadioButton.setSelected( true );
             
             //--------------------------------------------------------------------
@@ -202,55 +209,35 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
             		NuclearPhysicsStrings.LEAD_206_LEGEND_LABEL );
             
             add( createIsotopeSelection( _uranium238RadioButton, uranium238Descriptor, lead206Descriptor ) );
-                        
+            
+            // Add the custom nucleus selection, but only if it is enabled.
+            if ( customNucleusSelectionEnabled ){
 
-            // Add the next selection panel.
-//            constraints.anchor = GridBagConstraints.WEST;
-//            constraints.gridx = 0;
-//            constraints.gridy = 4;
-//            add( _uranium238RadioButton, constraints  );
-//            
-//            // Create and add the icon for the non-decayed custom nucleus.
-//            PNode labeledCustomNucleus = new LabeledNucleusNode("Polonium Nucleus Small.png", "",
-//                    NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
-//                    NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR );
-//            Image customNucleusImage = labeledCustomNucleus.toImage();
-//            ImageIcon customNucleusIconImage = new ImageIcon(customNucleusImage);
-//            constraints.anchor = GridBagConstraints.WEST;
-//            constraints.gridx = 1;
-//            constraints.gridy = 4;
-//            add( new JLabel(customNucleusIconImage), constraints );
-//            
-//            // Create and add the textual label for the non-decayed custom nucleus.
-//            JLabel customNucleusLabel = new JLabel( NuclearPhysicsStrings.CUSTOM_NUCLEUS_LEGEND_LABEL ) ;
-//            constraints.anchor = GridBagConstraints.WEST;
-//            constraints.gridx = 2;
-//            constraints.gridy = 4;
-//            add( customNucleusLabel, constraints );
-//            
-//            // Create and add the arrow that signifies decay.
-//            constraints.anchor = GridBagConstraints.CENTER;
-//            constraints.gridx = 1;
-//            constraints.gridy = 5;
-//            add( new JLabel(createArrowIcon(Color.BLACK)), constraints );
-//            
-//            // Create and add the icon for the decayed custom nucleus.
-//            PNode labeledDecayedCustomNucleus = new LabeledNucleusNode("Polonium Nucleus Small.png", "",
-//                    NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
-//                    NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR );
-//            Image decayedCustomNucleusImage = labeledDecayedCustomNucleus.toImage();
-//            ImageIcon decayedCustomNucleusIconImage = new ImageIcon(decayedCustomNucleusImage);
-//            constraints.anchor = GridBagConstraints.WEST;
-//            constraints.gridx = 1;
-//            constraints.gridy = 6;
-//            add( new JLabel(decayedCustomNucleusIconImage), constraints );
-//            
-//            // Create and add the textual label for the decayed custom nucleus.
-//            JLabel decayedCustomNucleusLabel = new JLabel( NuclearPhysicsStrings.DECAYED_CUSTOM_NUCLEUS_LEGEND_LABEL ) ;
-//            constraints.anchor = GridBagConstraints.WEST;
-//            constraints.gridx = 2;
-//            constraints.gridy = 6;
-//            add( decayedCustomNucleusLabel, constraints );
+            	// Create spacing between selection panels.
+                add( createVerticalSpacingPanel( 20 ) );
+
+                // Add the selection for U238->Lead 206
+                
+                NucleusSelectionDescriptor preDecayCustomNucleusDescriptor = new NucleusSelectionDescriptor(
+                		AtomicNucleusImageType.GRADIENT_SPHERE,
+                		"",  // Custom nucleus has no isotope number.
+                		NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL,
+                		NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR,
+                		NuclearPhysicsConstants.CUSTOM_NUCLEUS_PRE_DECAY_COLOR,
+                		NuclearPhysicsStrings.CUSTOM_NUCLEUS_LEGEND_LABEL );
+
+                NucleusSelectionDescriptor postDecayCustomNucleusDescriptor = new NucleusSelectionDescriptor(
+                		AtomicNucleusImageType.GRADIENT_SPHERE,
+                		"",  // Custom nucleus has no isotope number.
+                		NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL,
+                		NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR,
+                		NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR,
+                		NuclearPhysicsStrings.CUSTOM_NUCLEUS_LEGEND_LABEL );
+                
+                add( createIsotopeSelection( _customNucleusRadioButton, preDecayCustomNucleusDescriptor, 
+                		postDecayCustomNucleusDescriptor ) );                        
+
+            }
         }
         
         /**
@@ -356,8 +343,6 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
      * control panel.  The description has little to do with the nature of the
      * nucleus itself and everything to do with how it is presented to the user.
      * 
-     * @author John
-     *
      */
     private class NucleusSelectionDescriptor {
     	private final AtomicNucleusImageType imageType;
