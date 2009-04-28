@@ -215,7 +215,7 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
                 NucleusSelectionDescriptor preDecayCustomNucleusDescriptor = new NucleusSelectionDescriptor(
                 		AtomicNucleusImageType.GRADIENT_SPHERE,
                 		"",  // Custom nucleus has no isotope number.
-                		NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL,
+                		"",  // Custom nucleus has no chemical symbol on this panel.
                 		NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR,
                 		NuclearPhysicsConstants.CUSTOM_NUCLEUS_PRE_DECAY_COLOR,
                 		NuclearPhysicsStrings.CUSTOM_NUCLEUS_LEGEND_LABEL );
@@ -223,7 +223,7 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
                 NucleusSelectionDescriptor postDecayCustomNucleusDescriptor = new NucleusSelectionDescriptor(
                 		AtomicNucleusImageType.GRADIENT_SPHERE,
                 		"",  // Custom nucleus has no isotope number.
-                		NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL,
+                		"",  // Custom nucleus has no chemical symbol on this panel.
                 		NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR,
                 		NuclearPhysicsConstants.CUSTOM_NUCLEUS_POST_DECAY_COLOR,
                 		NuclearPhysicsStrings.CUSTOM_NUCLEUS_LEGEND_LABEL );
