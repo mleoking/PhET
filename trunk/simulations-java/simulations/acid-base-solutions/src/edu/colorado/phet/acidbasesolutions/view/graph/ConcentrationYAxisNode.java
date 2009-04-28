@@ -7,8 +7,10 @@ import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.geom.Line2D;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -18,6 +20,13 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ConcentrationYAxisNode extends PComposite {
+    
+    //TODO localize
+    private static final String AXIS_LABEL_CONCENTRATION = "Equilibrium Concentration (mol/L)";
+    
+    private static final Font AXIS_LABEL_FONT = new PhetFont( 16 );
+    private static final Color AXIS_LABEL_COLOR = Color.BLACK;
+    private static final double AXIS_LABEL_X_MARGIN = 4;
     
     private final double _tickSpacing;
     
@@ -34,6 +43,8 @@ public class ConcentrationYAxisNode extends PComposite {
         
         double y = topMargin;
         int exponent = maxExponent;
+        PComposite axisNode = new PComposite();
+        addChild( axisNode );
         for ( int i = 0; i < numberOfTicks; i++ ) {
             
             if ( i % exponentSpacing == 0 ) {
@@ -50,17 +61,30 @@ public class ConcentrationYAxisNode extends PComposite {
                 double xOffset = leftTickNode.getFullBoundsReference().getMinX() - labelNode.getFullBoundsReference().getWidth() - 5;
                 double yOffset = leftTickNode.getFullBoundsReference().getCenterY() - ( labelNode.getFullBoundsReference().getHeight() / 2 );
                 labelNode.setOffset( xOffset, yOffset );
-                addChild( labelNode );
+                axisNode.addChild( labelNode );
             }
 
             PPath gridlineNode = new PPath( new Line2D.Double( +( tickLength / 2 ), y, graphOutlineSize.getWidth() - ( tickLength / 2 ), y ) );
             gridlineNode.setStroke( gridlineStroke );
             gridlineNode.setStrokePaint( gridlineColor );
-            addChild( gridlineNode );
+            axisNode.addChild( gridlineNode );
 
             y += _tickSpacing;
             exponent--;
         }
+        
+        // y-axis label
+        PText labelNode = new PText( AXIS_LABEL_CONCENTRATION );
+        labelNode.rotate( -Math.PI / 2 );
+        labelNode.setFont( AXIS_LABEL_FONT );
+        labelNode.setTextPaint( AXIS_LABEL_COLOR );
+        labelNode.setPickable( false );
+        addChild( labelNode );
+        
+        // center the label on the axis
+        double xOffset = axisNode.getFullBoundsReference().getX() - labelNode.getFullBoundsReference().getWidth() - AXIS_LABEL_X_MARGIN;
+        double yOffset = axisNode.getFullBoundsReference().getCenterY() + ( labelNode.getFullBoundsReference().getHeight() / 2 );
+        labelNode.setOffset( xOffset, yOffset );
     }
     
     public double getTickSpacing() {

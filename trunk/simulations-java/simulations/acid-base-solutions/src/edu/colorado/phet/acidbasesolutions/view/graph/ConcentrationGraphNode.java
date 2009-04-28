@@ -16,7 +16,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.FormattedNumberNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -32,17 +31,14 @@ public class ConcentrationGraphNode extends PNode {
     // Class data
     //----------------------------------------------------------------------------
     
-    //TODO localize
-    private static final String AXIS_LABEL_CONCENTRATION = "Equilibrium Concentration (mol/L)";
-    
     // graph outline
     private static final Stroke OUTLINE_STROKE = new BasicStroke( 1f );
     private static final Color OUTLINE_STROKE_COLOR = Color.BLACK;
     private static final Color OUTLINE_FILL_COLOR = Color.WHITE;
-    private static final double DEFAULT_OUTLINE_WIDTH = 225;
+    private static final double DEFAULT_OUTLINE_WIDTH = 350;
     
     // bars
-    private static final double BAR_WIDTH = 50;
+    private static final double BAR_WIDTH = 40;
     private static final Color LHS_BAR_COLOR = ABSConstants.HA_COLOR;
     private static final Color RHS_BAR_COLOR = ABSConstants.A_COLOR;
     private static final Color H3O_BAR_COLOR = ABSConstants.H3O_COLOR;
@@ -58,11 +54,6 @@ public class ConcentrationGraphNode extends PNode {
     private static final TimesTenNumberFormat H3O_FORMAT = new TimesTenNumberFormat( "0.00" );
     private static final TimesTenNumberFormat OH_FORMAT = new TimesTenNumberFormat( "0.00" );
     private static final DecimalFormat H2O_FORMAT = new DefaultDecimalFormat( "#0" );
-    
-    // axis label
-    private static final Font AXIS_LABEL_FONT = new PhetFont( 14 );
-    private static final Color AXIS_LABEL_COLOR = Color.BLACK;
-    private static final double AXIS_LABEL_X_MARGIN = 4;
     
     // y ticks
     private static final double TICK_LENGTH = 6;
@@ -89,7 +80,6 @@ public class ConcentrationGraphNode extends PNode {
     private final ValueNode _lhsNumberNode, _rhsNumberNode, _h3oNumberNode, _ohNumberNode, _h2oNumberNode;
     private final ConcentrationXAxisNode _xAxisNode;
     private final ConcentrationYAxisNode _yAxisNode;
-    private final PText _yAxisLabel;//TODO move this into ConcentrationYAxisNode
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -116,21 +106,14 @@ public class ConcentrationGraphNode extends PNode {
         
         // x axis
         _xAxisNode = new ConcentrationXAxisNode();
+        addChild( _xAxisNode );
         
-        // log y axis
+        // y axis
         PDimension graphOutlineSize = new PDimension( graphOutlineWidth, _graphOutlineHeight );
         _yAxisNode = new ConcentrationYAxisNode( graphOutlineSize, NUMBER_OF_TICKS, TICKS_TOP_MARGIN, 
                 BIGGEST_TICK_EXPONENT,  TICK_EXPONENT_SPACING, TICK_LENGTH,
                 TICK_STROKE, TICK_COLOR, TICK_LABEL_FONT, TICK_LABEL_COLOR, GRIDLINE_STROKE, GRIDLINE_COLOR );
         addChild( _yAxisNode );
-        
-        // y-axis label
-        _yAxisLabel = new PText( AXIS_LABEL_CONCENTRATION );
-        _yAxisLabel.rotate( -Math.PI / 2 );
-        _yAxisLabel.setFont( AXIS_LABEL_FONT );
-        _yAxisLabel.setTextPaint( AXIS_LABEL_COLOR );
-        _yAxisLabel.setPickable( false );
-        addChild( _yAxisLabel );
         
         // bars
         _lhsBarNode = new ConcentrationBarNode( BAR_WIDTH, LHS_BAR_COLOR, _graphOutlineHeight );
@@ -168,10 +151,6 @@ public class ConcentrationGraphNode extends PNode {
         graphOutlineNode.setOffset( 0, 0 );
         PBounds gob = graphOutlineNode.getFullBoundsReference();
         _yAxisNode.setOffset( graphOutlineNode.getOffset() );
-        // center the label on the y axis
-        double xOffset = _yAxisNode.getFullBoundsReference().getX() - _yAxisLabel.getFullBoundsReference().getWidth() - AXIS_LABEL_X_MARGIN;
-        double yOffset = _yAxisNode.getFullBoundsReference().getCenterY() + ( _yAxisLabel.getFullBoundsReference().getHeight() / 2 );
-        _yAxisLabel.setOffset( xOffset, yOffset );
         final double xMargin = ( graphOutlineNode.getWidth() - ( 3 * BAR_WIDTH ) ) / 12;
         assert( xMargin > 0 );
         final double xH3O = ( 1./6.) * gob.getWidth() + xMargin;
