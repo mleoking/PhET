@@ -204,8 +204,8 @@ public class ConcentrationGraphNode extends PNode {
         // labels, centered below icons
         assert( labels.length == icons.length );
         for ( int i = 0; i < labels.length; i++ ) {
-            double xOffset = 0; //XXX
-            double yOffset = 0; //XXX
+            double xOffset = icons[i].getXOffset() + ( icons[i].getFullBoundsReference().getWidth() - labels[i].getFullBoundsReference().getWidth() ) / 2;
+            double yOffset = icons[i].getFullBoundsReference().getMaxY() + 5;
             labels[i].setOffset( xOffset, yOffset );
         }
 
@@ -222,12 +222,14 @@ public class ConcentrationGraphNode extends PNode {
     //----------------------------------------------------------------------------
     
     public void setMoleculeLHS( Image image, String text, Color barColor ) {
+        //TODO adjust offsets of icon and label
         _iconLHS.setImage( image );
         _labelLHS.setText( text );
         _barLHS.setPaint( barColor );
     }
     
     public void setMoleculeRHS( Image image, String text, Color barColor ) {
+        //TODO adjust offsets of icon and label
         _iconRHS.setImage( image );
         _labelRHS.setText( text );
         _barLHS.setPaint( barColor );
