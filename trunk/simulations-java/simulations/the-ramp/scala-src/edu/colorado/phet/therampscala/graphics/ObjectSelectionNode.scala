@@ -89,16 +89,6 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
     }
   }
   class CustomObjectSelectionIcon(o: MutableRampObject) extends ObjectSelectionIcon(o) {
-    override def update() = {
-      if (model.selectedObject == o) {
-        backgroundNode.setPaint(customControlPanel.getBackground)
-        textNode.setFont(new PhetFont(12, true))
-      } else {
-        backgroundNode.setPaint(new Color(0, 0, 0, 0))
-        textNode.setFont(new PhetFont(12, false))
-      }
-    }
-
     private var expand = false
     private val timer = new Timer(20, () => {})
     private var added = false
@@ -133,17 +123,26 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
       val cur = clip.getOffset.getY
 
       val dy = dst - cur
-      val speed = 14
+      val speed = 500
       clip.setOffset(0, cur + (if (dy > 0) speed else -speed))
       clip.setPathTo(new Rectangle2D.Double(0, 0, controlPanel.getFullBounds.getWidth, -clip.getOffset.getY))
 
       if (abs(dy) <= speed * 2) {
         clip.setOffset(0, dst)
         setClipVisible(expand)
-
         timer.stop()
       }
     })
+
+        override def update() = {
+      if (model.selectedObject == o) {
+        backgroundNode.setPaint(customControlPanel.getBackground)
+        textNode.setFont(new PhetFont(12, true))
+      } else {
+        backgroundNode.setPaint(new Color(0, 0, 0, 0))
+        textNode.setFont(new PhetFont(12, false))
+      }
+    }
     defineInvokeAndPass(model.addListenerByName) {
       if (model.selectedObject == o)
         expandControls()
