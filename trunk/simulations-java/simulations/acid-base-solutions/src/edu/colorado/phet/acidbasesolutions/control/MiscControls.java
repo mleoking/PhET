@@ -16,6 +16,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.acidbasesolutions.dialog.EquilibriumExpressionsDialog;
+import edu.colorado.phet.acidbasesolutions.dialog.ReactionEquationsDialog;
 import edu.colorado.phet.acidbasesolutions.dialog.SymbolLegendDialog;
 import edu.colorado.phet.acidbasesolutions.view.ConcentrationsGraphNode;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
@@ -177,7 +178,7 @@ public class MiscControls extends JPanel {
     
     private void openReactionEquationsDialog() {
         
-        _reactionEquationsDialog = new EquilibriumExpressionsDialog( _parentFrame );
+        _reactionEquationsDialog = new ReactionEquationsDialog( _parentFrame );
         _reactionEquationsDialog.addWindowListener( new WindowAdapter() {
 
             // called when the close button in the dialog's window dressing is clicked
