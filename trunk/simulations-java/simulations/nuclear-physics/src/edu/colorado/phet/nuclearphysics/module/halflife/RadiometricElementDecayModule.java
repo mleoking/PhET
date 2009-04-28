@@ -24,7 +24,7 @@ public class RadiometricElementDecayModule extends PiccoloModule {
 
     private RadiometricElementDecayModel _model;
     private RadiometricElementDecayCanvas _canvas;
-    private IsotopeSelectionPanel _controlPanel;
+    private IsotopeSelectionControlPanel _controlPanel;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -43,7 +43,7 @@ public class RadiometricElementDecayModule extends PiccoloModule {
         setSimulationPanel( _canvas );
 
         // Control Panel
-        _controlPanel = new IsotopeSelectionPanel( this, parentFrame, _model );
+        _controlPanel = new IsotopeSelectionControlPanel( this, parentFrame, _model );
         setControlPanel( _controlPanel );
         
         // Help
