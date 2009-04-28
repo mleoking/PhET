@@ -183,10 +183,10 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
   addNode(new AppliedForceSliderNode(model.bead, transform))
 
   override def addWallsAndDecorations() = {
-    addNode(new BeadNode(model.leftWall, transform, "barrier2.jpg") with CloseButton {
+    addNode(new BeadNode(model.leftWall, transform, "wall.jpg") with CloseButton {
       def model = RampCanvas.this.model
     })
-    addNode(new BeadNode(model.rightWall, transform, "barrier2.jpg") with CloseButton {
+    addNode(new BeadNode(model.rightWall, transform, "wall.jpg") with CloseButton {
       def model = RampCanvas.this.model
     })
   }

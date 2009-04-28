@@ -25,7 +25,7 @@ object RampDefaults {
           Nil
   val iconsPerRow = 4
 
-  val wall = new ScalaRampObject("Wall", 1000, 1000, 1000, 3, "barrier2.jpg")
+  val wall = new ScalaRampObject("Wall", 1000, 1000, 1000, 5.5, "wall.jpg")
   val house = new ScalaRampObject("Wall", 1000, 1000, 1000, 5, "robotmovingcompany/house.gif")
 
   def wallWidth = wall.width
