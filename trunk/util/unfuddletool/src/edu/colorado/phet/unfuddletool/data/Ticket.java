@@ -94,6 +94,10 @@ public class Ticket extends Record {
         return getComponentName() + " #" + String.valueOf( rawNumber ) + " " + rawSummary;
     }
 
+    public String getSummary() {
+        return rawSummary;
+    }
+
     public String externalLink() {
         return "http://" + Configuration.getAccountName() + ".unfuddle.com/projects/" + Configuration.getProjectIdString() + "/tickets/by_number/" + String.valueOf( getNumber() );
     }
@@ -245,9 +249,15 @@ public class Ticket extends Record {
 
     private void notifyUpdatedTicket() {
         System.out.println( "Ticket updated: " + this.toString() );
+        /*
         Iterator<TicketListener> iter = listeners.iterator();
         while ( iter.hasNext() ) {
             iter.next().onTicketUpdate( this );
+        }
+        */
+        TicketListener[] listenerArray = listeners.toArray( new TicketListener[]{} );
+        for ( int i = 0; i < listenerArray.length; i++ ) {
+            listenerArray[i].onTicketUpdate( this );
         }
     }
 

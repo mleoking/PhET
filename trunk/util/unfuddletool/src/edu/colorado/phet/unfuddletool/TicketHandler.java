@@ -10,21 +10,11 @@ public class TicketHandler {
 
     public Set<Ticket> tickets;
 
-    private TicketListModel model;
+    private List<TicketAddListener> addListeners;
 
     private TicketHandler() {
         tickets = new HashSet<Ticket>();
-    }
-
-    public void setModel( TicketListModel model ) {
-        this.model = model;
-
-        if ( tickets.size() > 0 ) {
-            Iterator<Ticket> iter = tickets.iterator();
-            while ( iter.hasNext() ) {
-                model.addTicket( iter.next() );
-            }
-        }
+        addListeners = new LinkedList<TicketAddListener>();
     }
 
     private static TicketHandler ticketHandler;
@@ -43,9 +33,7 @@ public class TicketHandler {
         if ( element != null ) {
             ticket = new Ticket( element );
             tickets.add( ticket );
-            if ( model != null ) {
-                model.addTicket( ticket );
-            }
+            notifyAddTicket( ticket );
         }
         return ticket;
     }
@@ -65,7 +53,7 @@ public class TicketHandler {
     }
 
     public void requestTicketUpdate( int id, Date latestDate ) {
-        System.out.println( "Ticket update requested for " + id + " if older than " + latestDate );
+        //System.out.println( "Ticket update requested for " + id + " if older than " + latestDate );
         Ticket ticket = getTicketById( id );
         if ( ticket.lastUpdateTime().compareTo( latestDate ) < 0 ) {
             System.out.println( "Ticket " + ticket + " out of date, updating" );
@@ -127,6 +115,40 @@ public class TicketHandler {
         return ret;
     }
 
+    //----------------------------------------------------------------------------
+    // Listeners and notifiers
+    //----------------------------------------------------------------------------
+
+    private void notifyAddTicket( Ticket ticket ) {
+        Iterator<TicketAddListener> iter = addListeners.iterator();
+        while ( iter.hasNext() ) {
+            iter.next().onTicketAdded( ticket );
+        }
+    }
+
+    public void notifyCurrentTickets( TicketAddListener listener ) {
+        Iterator<Ticket> iter = tickets.iterator();
+        while ( iter.hasNext() ) {
+            listener.onTicketAdded( iter.next() );
+        }
+    }
+
+    public void addTicketAddListener( TicketAddListener listener ) {
+        addListeners.add( listener );
+    }
+
+    public void removeTicketAddListener( TicketAddListener listener ) {
+        addListeners.remove( listener );
+    }
+
+    public interface TicketAddListener {
+        public void onTicketAdded( Ticket ticket );
+    }
+
+    //----------------------------------------------------------------------------
+    // Ticket comparison
+    //----------------------------------------------------------------------------
+
     private class RecentTicketComparator implements Comparator<Ticket> {
         public int compare( Ticket a, Ticket b ) {
             // Faster:
@@ -136,4 +158,6 @@ public class TicketHandler {
             return a.lastUpdateTime().compareTo( b.lastUpdateTime() );
         }
     }
+
+
 }

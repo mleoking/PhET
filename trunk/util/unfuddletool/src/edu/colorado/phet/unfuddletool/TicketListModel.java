@@ -8,7 +8,7 @@ import javax.swing.event.ListDataListener;
 
 import edu.colorado.phet.unfuddletool.data.Ticket;
 
-public class TicketListModel implements ListModel, Ticket.TicketListener {
+public class TicketListModel implements ListModel, Ticket.TicketListener, TicketHandler.TicketAddListener {
 
     private List<Ticket> tickets;
 
@@ -60,7 +60,6 @@ public class TicketListModel implements ListModel, Ticket.TicketListener {
     }
 
     public void changeTicket( Ticket ticket ) {
-        // TODO: if the ticket is selected, there is more we should do!
         int oldIndex = getTicketIndex( ticket );
         LinkedList<TicketListDisplay> changedDisplays = new LinkedList<TicketListDisplay>();
         Iterator<TicketListDisplay> firstIter = displays.iterator();
@@ -155,6 +154,10 @@ public class TicketListModel implements ListModel, Ticket.TicketListener {
 
     public void removeDisplay( TicketListDisplay display ) {
         displays.remove( display );
+    }
+
+    public void onTicketAdded( Ticket ticket ) {
+        addTicket( ticket );
     }
 
     public interface TicketListDisplay {

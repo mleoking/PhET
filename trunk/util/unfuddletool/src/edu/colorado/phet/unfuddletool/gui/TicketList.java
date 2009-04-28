@@ -24,18 +24,6 @@ public class TicketList extends JList implements ListSelectionListener, TicketLi
 
         model.addDisplay( this );
 
-        /*
-        tickets = TicketHandler.getTicketHandler().getTicketListByUpdate();
-
-        Iterator<Ticket> iter = tickets.iterator();
-
-        while ( iter.hasNext() ) {
-            Ticket ticket = iter.next();
-
-            model.addElement( ticket );
-        }
-        */
-
         setModel( model );
 
         addListSelectionListener( this );
@@ -47,7 +35,7 @@ public class TicketList extends JList implements ListSelectionListener, TicketLi
         if ( !event.getValueIsAdjusting() ) {
             if ( getSelectedIndex() != -1 ) {
                 Ticket ticket = (Ticket) model.getElementAt( getSelectedIndex() );
-                gui.displayArea.setText( ticket.toHTMLString() );
+                gui.ticketListDisplay.setText( ticket.toHTMLString() );
             }
         }
     }
