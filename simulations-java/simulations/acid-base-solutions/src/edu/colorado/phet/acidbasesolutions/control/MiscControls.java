@@ -18,11 +18,11 @@ import javax.swing.border.TitledBorder;
 import edu.colorado.phet.acidbasesolutions.dialog.EquilibriumExpressionsDialog;
 import edu.colorado.phet.acidbasesolutions.dialog.ReactionEquationsDialog;
 import edu.colorado.phet.acidbasesolutions.dialog.SymbolLegendDialog;
-import edu.colorado.phet.acidbasesolutions.view.graph.ConcentrationsGraphNode;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.umd.cs.piccolo.PNode;
 
 
 public class MiscControls extends JPanel {
@@ -48,7 +48,7 @@ public class MiscControls extends JPanel {
     private JDialog _reactionEquationsDialog;
     private Point _reactionEquationsDialogLocation;
     
-    public MiscControls( final ConcentrationsGraphNode concentrationsGraphNode ) {
+    public MiscControls( final PNode concentrationGraphNode ) {
         super();
         _parentFrame = PhetApplication.getInstance().getPhetFrame();
         
@@ -58,10 +58,10 @@ public class MiscControls extends JPanel {
         setBorder( border );
         
         _concentrationGraphCheckBox = new JCheckBox( CONCENTRATION_GRAPH );
-        _concentrationGraphCheckBox.setSelected( concentrationsGraphNode.isVisible() );
+        _concentrationGraphCheckBox.setSelected( concentrationGraphNode.getVisible() );
         _concentrationGraphCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                concentrationsGraphNode.setVisible( _concentrationGraphCheckBox.isSelected() );
+                concentrationGraphNode.setVisible( _concentrationGraphCheckBox.isSelected() );
             }
         } );
         

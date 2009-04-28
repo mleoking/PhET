@@ -91,7 +91,7 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
         constraints.gridy = GridBagConstraints.RELATIVE; // row
         // counts
         {
-            constraints.gridx = 0; // column
+            constraints.gridx = 0; // next column
             constraints.anchor = GridBagConstraints.EAST;
             for ( int i = 0; i < countNodes.length; i++ ) {
                 addChild( countNodes[i], constraints );
@@ -99,7 +99,7 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
         }
         // icons
         {
-            constraints.gridx++; // column
+            constraints.gridx++; // next column
             constraints.anchor = GridBagConstraints.CENTER;
             for ( int i = 0; i < iconNodes.length; i++ ) {
                 addChild( iconNodes[i], constraints );
@@ -107,7 +107,7 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
         }
         // labels
         {
-            constraints.gridx++; // column
+            constraints.gridx++; // next column
             constraints.anchor = GridBagConstraints.WEST;
             for ( int i = 0; i < labelNodes.length; i++ ) {
                 addChild( labelNodes[i], constraints );
@@ -121,35 +121,33 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
     // Setters and getters
     //----------------------------------------------------------------------------
     
-    public void setLHS( double count, Image image, String label ) {
-        countLHS.setValue( count );
+    public void setMoleculeLHS( Image image, String label ) {
         iconLHS.setImage( image );
         labelLHS.setHTML( label );
     }
     
-    public void setRHS( double count, Image image, String label ) {
-        countRHS.setValue( count );
+    public void setMoleculeRHS( Image image, String label ) {
         iconRHS.setImage( image );
         labelRHS.setHTML( label );
     }
     
-    public void setLHS( double count ) {
+    public void setCountLHS( double count ) {
         countLHS.setValue( count );
     }
     
-    public void setRHS( double count ) {
+    public void setCountRHS( double count ) {
         countRHS.setValue( count );
     }
     
-    public void setH3OPlus( double count ) {
+    public void setCountH3O( double count ) {
         countH3OPlus.setValue( count );
     }
     
-    public void setOHMinus( double count ) {
+    public void setCountOH( double count ) {
         countOHMinus.setValue( count );
     }
     
-    public void setH2O( double count ) {
+    public void setCountH2O( double count ) {
         countH2O.setValue( count );
     }
     
@@ -302,7 +300,7 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
             slider.setPaintLabels( true );
             slider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    node.setLHS( slider.getValue() );
+                    node.setCountLHS( slider.getValue() );
                 }
             });
             controlPanel.add( slider );
