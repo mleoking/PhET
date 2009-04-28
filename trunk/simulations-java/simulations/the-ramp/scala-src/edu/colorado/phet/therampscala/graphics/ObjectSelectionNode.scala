@@ -77,18 +77,11 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
       }
     })
 
-    //todo: what is the right scala way to do this?
-    val objectList = new ArrayBuffer[Object]
-    objectList += o.kineticFriction.asInstanceOf[Object]
-    objectList += o.staticFriction.asInstanceOf[Object]
-    objectList += o.mass.asInstanceOf[Object]
+    val getTooltipText= <html>
+    \u03BC<sub>k</sub>={o.kineticFriction}<br></br>
+    \u03BC<sub>s</sub>={o.staticFriction}<br></br>
+    </html>.toString
 
-    val getTooltipText = MessageFormat.format("<html>" +
-            "\u03BC<sub>k</sub>={0}<br>" +
-            "\u03BC<sub>s</sub>={1}<br>" +
-            "mass={2} kg<br>" +
-            "</html>", objectList.toArray
-      )
     if (o.displayTooltip) {
       val tooltipNode = new ToolTipNode(getTooltipText, this)
       tooltipNode.setFont(new PhetFont(18))
