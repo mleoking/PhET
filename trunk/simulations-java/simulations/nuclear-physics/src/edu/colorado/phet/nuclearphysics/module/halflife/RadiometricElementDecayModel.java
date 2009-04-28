@@ -34,9 +34,9 @@ public class RadiometricElementDecayModel extends MultiNucleusDecayModel {
 	
 	// Size and position of the bucket of nuclei which the user uses to add
 	// nuclei to the simulation.
-	static final double BUCKET_ORIGIN_X = 21;
-	static final double BUCKET_ORIGIN_Y = 22;
-	static final double BUCKET_WIDTH = 22;
+	static final double BUCKET_ORIGIN_X = 40;
+	static final double BUCKET_ORIGIN_Y = 40;
+	static final double BUCKET_WIDTH = 45;
 	static final double BUCKET_HEIGHT = BUCKET_WIDTH * 0.65;
 	private static final Rectangle2D BUCKET_RECT = new Rectangle2D.Double(BUCKET_ORIGIN_X, BUCKET_ORIGIN_Y, 
 			BUCKET_WIDTH, BUCKET_HEIGHT);
