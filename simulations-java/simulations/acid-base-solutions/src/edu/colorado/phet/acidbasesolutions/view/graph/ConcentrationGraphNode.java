@@ -158,7 +158,7 @@ public class ConcentrationGraphNode extends PNode {
         final double xSpacing = ( gob.getWidth() - ( bars.length * BAR_WIDTH ) ) / ( bars.length + 1 );
         assert( xSpacing > 0 );
         for ( int i = 0; i < bars.length; i++ ) {
-            double xOffset = graphOutlineNode.getXOffset() + ( i * ( xSpacing + BAR_WIDTH ) ) + ( BAR_WIDTH / 2. );
+            double xOffset = graphOutlineNode.getXOffset() + xSpacing + ( i * ( xSpacing + BAR_WIDTH ) ) + ( BAR_WIDTH / 2. );
             double yOffset = graphOutlineSize.getHeight();
             bars[i].setOffset( xOffset, yOffset );
         }
@@ -166,7 +166,7 @@ public class ConcentrationGraphNode extends PNode {
         PNode[] values = { _valueLHS, _valueRHS, _valueH3O, _valueOH, _valueH2O }; // left-to-right layout order
         assert( values.length == bars.length );
         for ( int i = 0; i < values.length; i++ ) {
-            double xOffset = bars[i].getXOffset() + ( bars[i].getFullBoundsReference().getWidth() - values[i].getFullBoundsReference().getWidth() ) / 2;
+            double xOffset = bars[i].getXOffset() + ( ( bars[i].getFullBoundsReference().getWidth() - values[i].getFullBoundsReference().getWidth() ) / 2 ) - ( BAR_WIDTH / 2 );
             double yOffset = gob.getMaxY() - values[i].getFullBoundsReference().getHeight() - VALUE_Y_MARGIN;
             values[i].setOffset( xOffset, yOffset );
         }
