@@ -193,7 +193,7 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
   addModule(new RampModule(getPhetFrame, new ScalaClock(30, RampDefaults.DT_DEFAULT)))
 }
 
-class RobotMovingCompanyGameModel extends Observable {
+class RobotMovingCompanyGameModel(beadFactory: (Double, Double, Double) => Bead) extends Observable {
   private var _launched = false
   private var _objectIndex = 0
   case class Result(success: Boolean, score: Int)
@@ -201,6 +201,8 @@ class RobotMovingCompanyGameModel extends Observable {
   val objectListeners = new ArrayBuffer[() => Unit]
   val objectList = RampDefaults.objects
   val housePosition = 8
+
+  val house = beadFactory(housePosition, RampDefaults.house.width, RampDefaults.house.height)
 
   def launched_=(b: Boolean) = {_launched = b; notifyListeners()}
 
@@ -238,8 +240,8 @@ class RobotMovingCompanyGameModel extends Observable {
   }
 
   def score = {
-    val scores=for (v<-resultMap.values) yield v.score
-    scores.foldLeft(0)(_+_)
+    val scores = for (v <- resultMap.values) yield v.score
+    scores.foldLeft(0)(_ + _)
   }
 }
 class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock) {
@@ -247,7 +249,7 @@ class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends Abstrac
   model.walls = false
   model.rampSegments(0).startPoint = new Vector2D(-10, 0).rotate(-(30.0).toRadians)
   val airborneFloor = -9.0
-  val gameModel = new RobotMovingCompanyGameModel
+  val gameModel = new RobotMovingCompanyGameModel(model.createBead)
   gameModel.objectListeners += (() => setupObject())
   val canvas = new RMCCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame, airborneFloor, gameModel)
   setSimulationPanel(canvas)
@@ -257,7 +259,7 @@ class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends Abstrac
   def setupObject() = {
     val a = gameModel.selectedObject
     model.setPaused(true)
-    val bead = model.createBead(-model.rampSegments(0).length,a.width)
+    val bead = model.createBead(-model.rampSegments(0).length, a.width)
     bead.staticFriction = a.staticFriction
     bead.kineticFriction = a.kineticFriction
     bead.crashListeners += (() => {
@@ -265,12 +267,15 @@ class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends Abstrac
       gameModel.itemLost(a)
     })
     bead.addListener(() => {
-      if (abs(bead.velocity) > 1) {
+      if (bead.position > 0) {
         bead.stopListeners += (() => {
-          println("stopped after v>1")
+          println("stopped after x>0")
           val position = bead.position
-          if (abs(position - gameModel.housePosition) < 2) {
+          if (position >= gameModel.house.minX && position <= gameModel.house.maxX) {
             gameModel.itemMoved(a)
+          }
+          else {
+            gameModel.itemLost(a)
           }
         })
       }

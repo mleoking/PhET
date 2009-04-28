@@ -206,7 +206,8 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
 }
 
 class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                vectorViewModel: VectorViewModel, frame: JFrame, airborneFloor: Double, gameModel: RobotMovingCompanyGameModel) extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame) {
+                vectorViewModel: VectorViewModel, frame: JFrame, airborneFloor: Double, gameModel: RobotMovingCompanyGameModel)
+        extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame) {
   beadNode.setVisible(false)
   vectorNode.setVisible(false)
   pusherNode.setVisible(false)
@@ -246,10 +247,7 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
   fbdNode.setOffset(pswingControlPanel.getFullBounds.getMaxX + 10, pswingControlPanel.getFullBounds.getY)
   freeBodyDiagramModel.visible = true
 
-  val house = model.createBead(gameModel.housePosition,RampDefaults.house.width)
-  house.height = 5
-
-  addNode(new BeadNode(house, transform, "robotmovingcompany/house.gif"))
+  addNode(new BeadNode(gameModel.house, transform, RampDefaults.house.imageFilename))
   model.bead.parallelAppliedForce = 1E-16 //to move the pusher to the right spot//todo: fix this with view, not model
   model.bead.notifyListeners() //todo: not sure why this call is necessary; should be handled in previous line
 
@@ -314,10 +312,10 @@ class ScoreboardNode(transform: ModelViewTransform2D, gameModel: RobotMovingComp
   val insetX = 5
   val insetY = 5
   updateBackground()
-  def updateBackground()={
+  def updateBackground() = {
     background.setPathTo(new RoundRectangle2D.Double(layoutNode.getFullBounds.x - insetX, layoutNode.getFullBounds.y - insetY, layoutNode.getFullBounds.width + insetX * 2, layoutNode.getFullBounds.height + insetY * 2, 20, 20))
   }
-  gameModel.addListener(()=>updateBackground())
+  gameModel.addListener(() => updateBackground())
 
   setOffset(transform.getViewBounds.getCenterX - getFullBounds.getWidth / 2, 0)
 }
