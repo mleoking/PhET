@@ -9,6 +9,7 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.defaults.RadiometricDecayDefaults;
 import edu.colorado.phet.nuclearphysics.defaults.AlphaDecayDefaults;
+import edu.colorado.phet.nuclearphysics.module.halflife.IsotopeSelectionControlPanel;
 
 /**
  * This class is where the model and view classes are created and connected
@@ -25,6 +26,7 @@ public class DecayRatesModule extends PiccoloModule {
 
     private DecayRatesModel _model;
     private DecayRatesCanvas _canvas;
+    private IsotopeSelectionControlPanel _controlPanel;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -43,8 +45,8 @@ public class DecayRatesModule extends PiccoloModule {
         setSimulationPanel( _canvas );
 
         // Control Panel
-//        _controlPanel = new AlphaDecayControlPanel( this, parentFrame, _model );
-//        setControlPanel( _controlPanel );
+        _controlPanel = new IsotopeSelectionControlPanel( this, parentFrame, _model, false );
+        setControlPanel( _controlPanel );
         
         // Help
         if ( hasHelp() ) {

@@ -61,10 +61,11 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
      * 
      * @param piccoloModule
      * @param parentFrame parent frame, for creating dialogs
+     * @param customNucleusEnabled TODO
      * @param alphaDecayModel 
      */
     public IsotopeSelectionControlPanel( PiccoloModule piccoloModule, Frame parentFrame, 
-    		NucleusTypeControl model ) {
+    		NucleusTypeControl model, boolean customNucleusEnabled ) {
         
     	_model = model;
     	
@@ -73,7 +74,7 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
         setMinimumWidth( minimumWidth );
         
         // Create sub-panel
-        _selectionPanel = new NucleusSelectionPanel( true );
+        _selectionPanel = new NucleusSelectionPanel( customNucleusEnabled );
         
         // Add the selection panel.
         addControlFullWidth( _selectionPanel );
