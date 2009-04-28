@@ -20,8 +20,7 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * GraphNode is the bar graph.
- * The y-axis is log, in units of moles/L.
+ * The Concentration graph, y-axis is log moles/L.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
