@@ -352,6 +352,9 @@ public class Bunny extends ClockAdapter {
         }
     }
 
+    /**
+     * Causes the bunny to move around physically
+     */
     private void moveAround() {
         sinceHopTime++;
         if ( sinceHopTime > BETWEEN_HOP_TIME + HOP_TIME ) {
@@ -385,7 +388,13 @@ public class Bunny extends ClockAdapter {
     //----------------------------------------------------------------------------
 
     public void simulationTimeChanged( ClockEvent clockEvent ) {
-        moveAround();
+        if ( isAlive() ) {
+            moveAround();
+        }
+        else {
+            // stop listening
+            clockEvent.getClock().removeClockListener( this );
+        }
     }
 
     //----------------------------------------------------------------------------

@@ -79,14 +79,8 @@ public class NaturalSelectionControlPanel extends JPanel {
         traitCanvasConstraints.gridy = 0;
         traitCanvasConstraints.anchor = GridBagConstraints.WEST;
         traitCanvasConstraints.insets = new Insets( 10, 10, 10, 10 );
+        traitCanvasConstraints.weightx = 1.0;
         add( traitCanvas, traitCanvasConstraints );
-
-        // space will be padded equally on each side of the clock
-        GridBagConstraints clockPanelConstraints = new GridBagConstraints();
-        clockPanelConstraints.gridx = column++;
-        clockPanelConstraints.gridy = 0;
-        clockPanelConstraints.weightx = 1.0;
-        add( clockControlPanel, clockPanelConstraints );
 
         GridBagConstraints popConstraints = new GridBagConstraints();
         popConstraints.gridx = column++;
@@ -105,6 +99,15 @@ public class NaturalSelectionControlPanel extends JPanel {
         rightConstraints.anchor = GridBagConstraints.EAST;
         rightConstraints.insets = new Insets( 10, 10, 10, 10 );
         add( rightPanel, rightConstraints );
+
+        // space will be padded equally on each side of the clock
+        GridBagConstraints clockPanelConstraints = new GridBagConstraints();
+        clockPanelConstraints.gridx = 0;
+        clockPanelConstraints.gridy = 1;
+        clockPanelConstraints.weightx = 1.0;
+        clockPanelConstraints.gridwidth = column; // should be counted up by now
+        clockPanelConstraints.anchor = GridBagConstraints.CENTER;
+        add( clockControlPanel, clockPanelConstraints );
 
         // color everything with the control panel's background color
         setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
