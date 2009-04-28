@@ -26,6 +26,7 @@ public class NuclearPhysicsStrings {
 
     public static final String LEGEND_BORDER_LABEL = NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.LegendBorder" );
     public static final String NUCLEUS_SELECTION_BORDER_LABEL = NuclearPhysicsResources.getString( "AlphaDecayControlPanel.NucleusSelectionBorder" );
+    public static final String ISOTOPE_SELECTION_BORDER_LABEL = NuclearPhysicsResources.getString( "HalfLifeControlPanel.IsotopeSelectionBorder" );
 
     public static final String NEUTRON_LEGEND_LABEL = NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.NeutronLabel" );
     public static final String PROTON_LEGEND_LABEL = NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.ProtonLabel" );
@@ -61,7 +62,11 @@ public class NuclearPhysicsStrings {
 
     public static final String LEAD_207_CHEMICAL_SYMBOL = NuclearPhysicsResources.getString( "Lead207Graphic.Symbol" );
     public static final String LEAD_207_ISOTOPE_NUMBER = NuclearPhysicsResources.getString( "Lead207Graphic.Number" );
-    public static final String LEAD_LEGEND_LABEL = NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.Lead207Label" );
+    public static final String LEAD_207_LEGEND_LABEL = NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.Lead207Label" );
+
+    public static final String LEAD_206_CHEMICAL_SYMBOL = NuclearPhysicsResources.getString( "Lead207Graphic.Symbol" );
+    public static final String LEAD_206_ISOTOPE_NUMBER = NuclearPhysicsResources.getString( "Lead207Graphic.Number" );
+    public static final String LEAD_206_LEGEND_LABEL = NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.Lead207Label" );
 
     public static final String CUSTOM_NUCLEUS_CHEMICAL_SYMBOL = NuclearPhysicsResources.getString( "AlphaDecayControlPanel.CustomNucleusSymbol" );
     public static final String CUSTOM_NUCLEUS_LEGEND_LABEL = NuclearPhysicsResources.getString( "AlphaDecayControlPanel.CustomNucleusLabel" );
