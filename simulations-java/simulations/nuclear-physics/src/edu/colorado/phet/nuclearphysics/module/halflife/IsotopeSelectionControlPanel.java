@@ -111,11 +111,14 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
         	// Register for notifications of nucleus type changes.
         	_model.addListener(new NuclearDecayListenerAdapter(){
         		public void nucleusTypeChanged() {
-        			if (_model.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
+        			if (_model.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14){
+        				_carbon14RadioButton.setSelected(true);
+        			}
+        			else if (_model.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_URANIUM_238){
         				_uranium238RadioButton.setSelected(true);
         			}
-        			else{
-        				_carbon14RadioButton.setSelected(true);
+        			else {
+        				_customNucleusRadioButton.setSelected(true);
         			}
         		}
         	});
