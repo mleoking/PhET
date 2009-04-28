@@ -160,6 +160,7 @@ public class NuclearPhysicsConstants {
             NEUTRON_COLOR );
     public static final int NUCLEUS_ID_POLONIUM = 1;
     public static final int NUCLEUS_ID_CARBON_14 = 2;
-	public static final int NUCLEUS_ID_CUSTOM = 3;
+    public static final int NUCLEUS_ID_URANIUM_238 = 3;
+	public static final int NUCLEUS_ID_CUSTOM = 4;
 
 }

@@ -21,7 +21,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResizeArrowNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
-import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
+import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.CompositeAtomicNucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus.SingleNucleusAlphaDecayCanvas;
@@ -180,7 +180,7 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
         _energyWellBottom = PRE_DECAY_ENERGY_WELL_BOTTOM;
         
         // Register for significant events from the model.
-        _model.addListener(new AlphaDecayAdapter(){
+        _model.addListener(new NuclearDecayListenerAdapter(){
         	public void nucleusTypeChanged(){
         		if (_model.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
         			_interactivityEnabled = true;
