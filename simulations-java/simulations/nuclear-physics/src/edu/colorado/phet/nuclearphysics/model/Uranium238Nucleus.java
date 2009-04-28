@@ -4,13 +4,14 @@ package edu.colorado.phet.nuclearphysics.model;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
-import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.Neutron;
 import edu.colorado.phet.nuclearphysics.common.model.Nucleon;
 
 
-public class Uranium238Nucleus extends AtomicNucleus {
+public class Uranium238Nucleus extends AbstractDecayNucleus {
     //------------------------------------------------------------------------
     // Class Data
     //------------------------------------------------------------------------
@@ -31,6 +32,11 @@ public class Uranium238Nucleus extends AtomicNucleus {
     public Uranium238Nucleus(NuclearPhysicsClock clock, Point2D position){
 
         super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS);
+    }
+    
+    public Uranium238Nucleus(NuclearPhysicsClock clock){
+
+        super(clock, new Point2D.Double(0, 0), ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS);
     }
     
     //------------------------------------------------------------------------
@@ -80,4 +86,19 @@ public class Uranium238Nucleus extends AtomicNucleus {
             notifyNucleusChangeEvent(null);
         }
     }
+
+	public void activateDecay() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	protected void decay(ClockEvent clockEvent) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean hasDecayed() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
