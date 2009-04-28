@@ -76,8 +76,8 @@ public class ConcentrationGraphNode extends PNode {
     //----------------------------------------------------------------------------
     
     private final double _graphOutlineHeight;
-    private final ConcentrationBarNode _lhsBarNode, _rhsBarNode, _h3oBarNode, _ohBarNode, _h2oBarNode;
-    private final ValueNode _lhsNumberNode, _rhsNumberNode, _h3oNumberNode, _ohNumberNode, _h2oNumberNode;
+    private final ConcentrationBarNode _barLHS, _barRHS, _barH3O, _barOH, _barH2O;
+    private final ValueNode _valueLHS, _valueRHS, _valueH3O, _valueOH, _valueH2O;
     private final ConcentrationXAxisNode _xAxisNode;
     private final ConcentrationYAxisNode _yAxisNode;
     
@@ -116,16 +116,16 @@ public class ConcentrationGraphNode extends PNode {
         addChild( _yAxisNode );
         
         // bars
-        _lhsBarNode = new ConcentrationBarNode( BAR_WIDTH, LHS_BAR_COLOR, _graphOutlineHeight );
-        addChild( _lhsBarNode );
-        _rhsBarNode = new ConcentrationBarNode( BAR_WIDTH, RHS_BAR_COLOR, _graphOutlineHeight );
-        addChild( _rhsBarNode );
-        _h3oBarNode = new ConcentrationBarNode( BAR_WIDTH, H3O_BAR_COLOR, _graphOutlineHeight );
-        addChild( _h3oBarNode );
-        _ohBarNode = new ConcentrationBarNode( BAR_WIDTH, OH_BAR_COLOR, _graphOutlineHeight );
-        addChild( _ohBarNode );
-        _h2oBarNode = new ConcentrationBarNode( BAR_WIDTH, H2O_BAR_COLOR, _graphOutlineHeight );
-        addChild( _h2oBarNode );
+        _barLHS = new ConcentrationBarNode( BAR_WIDTH, LHS_BAR_COLOR, _graphOutlineHeight );
+        addChild( _barLHS );
+        _barRHS = new ConcentrationBarNode( BAR_WIDTH, RHS_BAR_COLOR, _graphOutlineHeight );
+        addChild( _barRHS );
+        _barH3O = new ConcentrationBarNode( BAR_WIDTH, H3O_BAR_COLOR, _graphOutlineHeight );
+        addChild( _barH3O );
+        _barOH = new ConcentrationBarNode( BAR_WIDTH, OH_BAR_COLOR, _graphOutlineHeight );
+        addChild( _barOH );
+        _barH2O = new ConcentrationBarNode( BAR_WIDTH, H2O_BAR_COLOR, _graphOutlineHeight );
+        addChild( _barH2O );
         
         // line along the bottom of the graph, where bars overlap the outline
         PPath bottomLineNode = new PPath( new Line2D.Double( 0, _graphOutlineHeight, graphOutlineWidth, _graphOutlineHeight ) );
@@ -135,33 +135,48 @@ public class ConcentrationGraphNode extends PNode {
         addChild( bottomLineNode );
         
         // numbers
-        _lhsNumberNode = new ValueNode( LHS_FORMAT );
-        addChild( _lhsNumberNode );
-        _rhsNumberNode = new ValueNode( RHS_FORMAT );
-        addChild( _rhsNumberNode );
-        _h3oNumberNode = new ValueNode( H3O_FORMAT );
-        addChild( _h3oNumberNode );
-        _ohNumberNode = new ValueNode( OH_FORMAT );
-        addChild( _ohNumberNode );
-        _h2oNumberNode = new ValueNode( H2O_FORMAT );
-        addChild( _h2oNumberNode );
+        _valueLHS = new ValueNode( LHS_FORMAT );
+        addChild( _valueLHS );
+        _valueRHS = new ValueNode( RHS_FORMAT );
+        addChild( _valueRHS );
+        _valueH3O = new ValueNode( H3O_FORMAT );
+        addChild( _valueH3O );
+        _valueOH = new ValueNode( OH_FORMAT );
+        addChild( _valueOH );
+        _valueH2O = new ValueNode( H2O_FORMAT );
+        addChild( _valueH2O );
         
         // layout
-        //TODO: fix this
         graphOutlineNode.setOffset( 0, 0 );
         PBounds gob = graphOutlineNode.getFullBoundsReference();
+        // x axis, centered below graph
+        _xAxisNode.setOffset( gob.getX() + ( gob.getWidth() - _xAxisNode.getFullBoundsReference().getWidth() ) / 2, gob.getMaxY() + 10 );
+        // y axis, to left of graph
         _yAxisNode.setOffset( graphOutlineNode.getOffset() );
-        final double xMargin = ( graphOutlineNode.getWidth() - ( 3 * BAR_WIDTH ) ) / 12;
-        assert( xMargin > 0 );
-        final double xH3O = ( 1./6.) * gob.getWidth() + xMargin;
-        final double xOH = ( 3./6. ) * gob.getWidth();
-        final double xH2O = ( 5./6.) * gob.getWidth() - xMargin;
-        _h3oNumberNode.setOffset( xH3O - _h3oNumberNode.getFullBoundsReference().getWidth()/2, gob.getMaxY() - _h3oNumberNode.getFullBoundsReference().getHeight() - VALUE_Y_MARGIN );
-        _ohNumberNode.setOffset( xOH - _ohNumberNode.getFullBoundsReference().getWidth()/2, gob.getMaxY() - _ohNumberNode.getFullBoundsReference().getHeight() - VALUE_Y_MARGIN );
-        _h2oNumberNode.setOffset( xH2O - _h2oNumberNode.getFullBoundsReference().getWidth()/2, gob.getMaxY() - _h2oNumberNode.getFullBoundsReference().getHeight() - VALUE_Y_MARGIN );
-        _h3oBarNode.setOffset( xH3O, graphOutlineSize.getHeight() );
-        _ohBarNode.setOffset( xOH, graphOutlineSize.getHeight() );
-        _h2oBarNode.setOffset( xH2O, graphOutlineSize.getHeight() );
+        // bars, evenly distributed across graph width
+        PNode[] bars = { _barLHS, _barRHS, _barH3O, _barOH, _barH2O }; // left-to-right layout order
+        final double xSpacing = ( gob.getWidth() - ( bars.length * BAR_WIDTH ) ) / ( bars.length + 1 );
+        assert( xSpacing > 0 );
+        for ( int i = 0; i < bars.length; i++ ) {
+            double xOffset = graphOutlineNode.getXOffset() + ( i * ( xSpacing + BAR_WIDTH ) ) + ( BAR_WIDTH / 2. );
+            double yOffset = graphOutlineSize.getHeight();
+            bars[i].setOffset( xOffset, yOffset );
+        }
+        // values, horizontally centered in bars
+        PNode[] values = { _valueLHS, _valueRHS, _valueH3O, _valueOH, _valueH2O }; // left-to-right layout order
+        assert( values.length == bars.length );
+        for ( int i = 0; i < values.length; i++ ) {
+            double xOffset = bars[i].getXOffset() + ( bars[i].getFullBoundsReference().getWidth() - values[i].getFullBoundsReference().getWidth() ) / 2;
+            double yOffset = gob.getMaxY() - values[i].getFullBoundsReference().getHeight() - VALUE_Y_MARGIN;
+            values[i].setOffset( xOffset, yOffset );
+        }
+
+        //XXX remove this
+        setConcentrationLHS( 1E1 );
+        setConcentrationRHS( 1E0 );
+        setConcentrationH3O( 1E-1 );
+        setConcentrationOH( 1E-2 );
+        setConcentrationH2O( 1E-3 );
     }
 
     //----------------------------------------------------------------------------
@@ -170,37 +185,37 @@ public class ConcentrationGraphNode extends PNode {
     
     public void setMoleculeLHS( Image image, String text, Color barColor ) {
         _xAxisNode.setMoleculeLHS( image, text );
-        _lhsBarNode.setPaint( barColor );
+        _barLHS.setPaint( barColor );
     }
     
     public void setMoleculeRHS( Image image, String text, Color barColor ) {
         _xAxisNode.setMoleculeRHS( image, text );
-        _lhsBarNode.setPaint( barColor );
+        _barLHS.setPaint( barColor );
     }
     
     public void setConcentrationLHS( double value ) {
-        _lhsNumberNode.setValue( value );
-        _lhsBarNode.setBarHeight( calculateBarHeight( value ) );
+        _valueLHS.setValue( value );
+        _barLHS.setBarHeight( calculateBarHeight( value ) );
     }
     
     public void setConcentrationRHS( double value ) {
-        _rhsNumberNode.setValue( value );
-        _rhsBarNode.setBarHeight( calculateBarHeight( value ) );
+        _valueRHS.setValue( value );
+        _barRHS.setBarHeight( calculateBarHeight( value ) );
     }
     
     public void setConcentrationH3O( double value ) {
-        _h3oNumberNode.setValue( value );
-        _h3oBarNode.setBarHeight( calculateBarHeight( value ) );
+        _valueH3O.setValue( value );
+        _barH3O.setBarHeight( calculateBarHeight( value ) );
     }
     
     public void setConcentrationH2O( double value ) {
-        _h2oNumberNode.setValue( value );
-        _h2oBarNode.setBarHeight( calculateBarHeight( value ) );
+        _valueH2O.setValue( value );
+        _barH2O.setBarHeight( calculateBarHeight( value ) );
     }
     
     public void setConcentrationOH( double value ) {
-        _ohNumberNode.setValue( value );
-        _ohBarNode.setBarHeight( calculateBarHeight( value ) );
+        _valueOH.setValue( value );
+        _barOH.setBarHeight( calculateBarHeight( value ) );
     }
     
     /*
