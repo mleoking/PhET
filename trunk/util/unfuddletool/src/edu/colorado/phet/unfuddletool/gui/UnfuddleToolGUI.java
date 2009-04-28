@@ -14,6 +14,7 @@ import javax.swing.text.html.HTMLEditorKit;
 import edu.colorado.phet.unfuddletool.Activity;
 import edu.colorado.phet.unfuddletool.Authentication;
 import edu.colorado.phet.unfuddletool.LinkHandler;
+import edu.colorado.phet.unfuddletool.data.Ticket;
 
 public class UnfuddleToolGUI extends JFrame {
     public JEditorPane ticketListDisplay;
@@ -21,6 +22,7 @@ public class UnfuddleToolGUI extends JFrame {
     public TicketList ticketList;
     public TicketTableModel ticketTableModel;
     public TicketTable ticketTable;
+    private JEditorPane ticketTableHeader;
 
     public UnfuddleToolGUI() {
         setTitle( "Unfuddle Tool" );
@@ -50,14 +52,22 @@ public class UnfuddleToolGUI extends JFrame {
         setPaneStyle( ticketTableDisplay );
         JScrollPane tableAreaScrollPane = new JScrollPane( ticketTableDisplay );
         tableAreaScrollPane.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-        JSplitPane tableSplitPane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, ticketTableScrollPane, tableAreaScrollPane );
+        ticketTableHeader = createDisplayPane();
+        ticketTableHeader.setText( "Ticket Header" );
+        setPaneStyle( ticketTableHeader );
+        final JSplitPane rightSplitPane = new JSplitPane( JSplitPane.VERTICAL_SPLIT, ticketTableHeader, tableAreaScrollPane );
+        rightSplitPane.setOneTouchExpandable( true );
+        JSplitPane tableSplitPane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, ticketTableScrollPane, rightSplitPane );
         ticketTable.ticketSelectionModel.addListSelectionListener( new ListSelectionListener() {
             public void valueChanged( ListSelectionEvent event ) {
                 if ( !event.getValueIsAdjusting() ) {
                     int[] indices = ticketTable.getSelectedRows();
                     if ( indices.length == 1 ) {
                         //System.out.println( "Selected " + indices[0] );
-                        ticketTableDisplay.setText( ticketTableModel.getTicketAt( indices[0] ).toHTMLString() );
+                        Ticket ticket = ticketTableModel.getTicketAt( indices[0] );
+                        ticketTableDisplay.setText( ticket.getHTMLComments() );
+                        ticketTableHeader.setText( ticket.getHTMLHeader() );
+                        rightSplitPane.setDividerLocation( -1 );
                     }
                 }
             }
@@ -125,6 +135,23 @@ public class UnfuddleToolGUI extends JFrame {
         bar.add( developmentMenu );
 
         return bar;
+    }
+
+    public static Color priorityColor( int priority ) {
+        switch( priority ) {
+            case 1:
+                return new Color( 0xAA, 0xAA, 0xFF );
+            case 2:
+                return new Color( 0xDD, 0xDD, 0xFF );
+            case 3:
+                return new Color( 0xFF, 0xFF, 0xFF );
+            case 4:
+                return new Color( 0xFF, 0xDD, 0xDD );
+            case 5:
+                return new Color( 0xFF, 0xAA, 0xAA );
+        }
+
+        return new Color( 0xFF, 0xFF, 0xFF );
     }
 
     public static void main( String[] args ) {

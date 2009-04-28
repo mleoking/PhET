@@ -102,6 +102,90 @@ public class Ticket extends Record {
         return "http://" + Configuration.getAccountName() + ".unfuddle.com/projects/" + Configuration.getProjectIdString() + "/tickets/by_number/" + String.valueOf( getNumber() );
     }
 
+    public String getPrettyPriority() {
+        switch( getPriority() ) {
+            case 1:
+                return "Lowest";
+            case 2:
+                return "Low";
+            case 3:
+                return "Normal";
+            case 4:
+                return "High";
+            case 5:
+                return "Highest";
+        }
+
+        return "Unknown: " + getPriority();
+    }
+
+    public String getHTMLHeader() {
+        String ret = "<html><body bgcolor='#FFFFFF'><h3><a href='" + externalLink() + "'>";
+
+        ret += toString() + "</a></h3>\n";
+
+        ret += "Component: <b>" + getComponentName() + "</b>&nbsp;&nbsp;&nbsp;&nbsp;";
+        ret += "Assignee: <b>" + Person.getNameFromId( rawAssigneeId ) + "</b>&nbsp;&nbsp;&nbsp;&nbsp;";
+        ret += "Reporter: <b>" + Person.getNameFromId( rawReporterId ) + "</b>\n";
+
+        ret += "Created: " + DateUtils.compactDate( rawCreatedAt.getDate() ) + "&nbsp;&nbsp;&nbsp;&nbsp;";
+        ret += "Updated: " + DateUtils.compactDate( rawUpdatedAt.getDate() ) + "\n";
+
+        // TODO: milestone
+
+        ret += "Priority: <b>" + getPrettyPriority() + "</b>&nbsp;&nbsp;&nbsp;&nbsp;";
+        ret += "Status: <b>" + rawStatus + "</b>\n";
+
+        // TODO: severity
+
+
+        ret += "<hr/>" + Communication.HTMLPrepare( rawDescription );
+
+        if ( rawResolution != null ) {
+            ret += "<hr/>";
+            ret += "Resolution: <b>" + rawResolution + "</b>\n";
+            ret += rawResolutionDescription;
+        }
+
+        ret += "</body></html>";
+
+        ret = ret.replaceAll( "\n", "<br/>" );
+
+        return ret;
+    }
+
+    public String getHTMLComments() {
+
+        String ret = "<html><body bgcolor='#FFFFFF'><br/>";
+
+        setupComments();
+
+        Iterator<Comment> iter = comments.iterator();
+
+        int commentNumber = 1;
+
+        while ( iter.hasNext() ) {
+            Comment comment = iter.next();
+
+            if ( commentNumber != 1 ) {
+                ret += "<hr/>";
+            }
+            ret += "<b>" + String.valueOf( commentNumber++ ) + ". </b>";
+            ret += comment.toString();
+
+        }
+
+        ret += "<hr/>";
+
+        //ret += "<a href='" + externalLink() + "'>view in browser</a>";
+
+        ret += "</body></html>";
+
+        ret = ret.replaceAll( "\n", "<br/>" );
+
+        return ret;
+    }
+
     public String toHTMLString() {
 
         String ret = "<html><body bgcolor='#FFFFFF'><h3><a href='" + externalLink() + "'>";

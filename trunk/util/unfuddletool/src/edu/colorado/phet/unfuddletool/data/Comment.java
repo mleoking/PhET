@@ -59,9 +59,9 @@ public class Comment extends Record {
         }
         Date creationDate = rawCreatedAt.getDate();
         String dateString = DateUtils.compactDate( creationDate );
-        ret += "<b>" + name + "</b> said at " + dateString + ":\n\n";
+        ret += "<b>" + name + "</b> said " + dateString + ":\n\n";
 
-        String body = rawBody.replaceAll( "\n", "ABRACADABRAX" );
+        String body = rawBody.trim().replaceAll( "\n", "ABRACADABRAX" );
 
         body = Communication.HTMLPrepare( body );
 
