@@ -15,8 +15,6 @@ import java.text.DecimalFormat;
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.PHValue;
-import edu.colorado.phet.acidbasesolutions.model.Solution;
-import edu.colorado.phet.acidbasesolutions.model.Solution.SolutionListener;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -48,26 +46,16 @@ public class PHProbeNode extends PComposite {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final Solution _solution;
-    private final SolutionListener _solutionListener;
     private final DisplayNode _displayNode;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public PHProbeNode( Solution solution, double height ) {
+    public PHProbeNode( double height ) {
         super();
         setPickable( false );
         setChildrenPickable( false );
-        
-        _solution = solution;
-        _solutionListener = new SolutionListener() {
-            public void stateChanged() {
-                update();
-            }
-        };
-        _solution.addSolutionListener( _solutionListener );
         
         _displayNode = new DisplayNode();
         
@@ -88,23 +76,17 @@ public class PHProbeNode extends PComposite {
         sb = shaftNode.getFullBoundsReference();
         PBounds tb = tipNode.getFullBoundsReference();
         tipNode.setOffset( sb.getX() + ( sb.getWidth() - tb.getWidth() ) / 2, sb.getY() + sb.getHeight() );
-        
-        update();
-    }
-    
-    public void cleanup() {
-        _solution.removeSolutionListener( _solutionListener );
     }
     
     //----------------------------------------------------------------------------
-    // Updaters
+    // Setters and getters
     //----------------------------------------------------------------------------
     
     /*
      * Updates the display to show the solution's pH value.
      */
-    private void update() {
-        _displayNode.setValue( _solution.getPH() );
+    public void setValue( PHValue value ) {
+        _displayNode.setValue( value );
     }
     
     //----------------------------------------------------------------------------

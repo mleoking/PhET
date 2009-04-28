@@ -53,10 +53,9 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         
         _beakerNode = new BeakerNode( SolutionsDefaults.BEAKER_SIZE, 1 );
         
-        _probeNode = new PHProbeNode( _model.getSolution(), SolutionsDefaults.PH_PROBE_HEIGHT );
+        _probeNode = new PHProbeNode( SolutionsDefaults.PH_PROBE_HEIGHT );
 
-        _solutionNode = new SolutionNode( _model.getSolution(), SolutionsDefaults.BEAKER_SIZE );
-        _solutionNode.setParticlesVisible( true );
+        _solutionNode = new SolutionNode( SolutionsDefaults.BEAKER_SIZE );
         
         _concentrationsGraphNode = new ConcentrationsGraphNode();
         
@@ -83,14 +82,6 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         addNode( _concentrationsGraphNode );
         addNode( _moleculeCountsNode );
         addNode( _beakerLabelNode );
-    }
-    
-    //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
-    
-    public ParticlesNode dev_getParticlesNode() {
-        return _solutionNode.getParticlesNode();
     }
     
     //----------------------------------------------------------------------------

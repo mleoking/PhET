@@ -9,7 +9,6 @@ import edu.colorado.phet.acidbasesolutions.AcidBaseSolutionsApplication;
 import edu.colorado.phet.acidbasesolutions.model.ABSClock;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractModule;
 import edu.colorado.phet.acidbasesolutions.persistence.SolutionsConfig;
-import edu.colorado.phet.acidbasesolutions.view.ParticlesNode;
 
 /**
  * SolutionsModule is the "Solutions" module.
@@ -61,14 +60,6 @@ public class SolutionsModule extends ABSAbstractModule {
         reset();
     }
     
-    //----------------------------------------------------------------------------
-    // Setters and getters
-    //----------------------------------------------------------------------------
-    
-    public ParticlesNode dev_getParticlesNode() {
-        return _canvas.dev_getParticlesNode();
-    }
-
     //----------------------------------------------------------------------------
     // Module overrides
     //----------------------------------------------------------------------------

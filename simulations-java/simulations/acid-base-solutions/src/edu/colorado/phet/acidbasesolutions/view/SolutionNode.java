@@ -6,16 +6,12 @@ import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
-import edu.colorado.phet.acidbasesolutions.model.Solution;
-import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PClip;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * SolutionNode represents the solution in the beaker.
- * It plays a secondary role, used as a clipping path for the particles shown
- * in the ratio views.
+ * SolutionNode is the macroscopic view of the solution in the beaker.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -28,16 +24,10 @@ public class SolutionNode extends PComposite {
     private static final Color COLOR = ABSConstants.H2O_COLOR;
     
     //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-    
-    private final ParticlesNode _particlesNode;
-    
-    //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public SolutionNode( Solution solution, PDimension size ) {
+    public SolutionNode( PDimension size ) {
         super();
         setPickable( false );
         setChildrenPickable( false );
@@ -47,30 +37,5 @@ public class SolutionNode extends PComposite {
         solutionNode.setStroke( null );
         solutionNode.setPaint( COLOR );
         addChild( solutionNode );
-        
-        PBounds containerBounds = new PBounds( 0, 0, size.getWidth(), size.getHeight() );
-        _particlesNode = new ParticlesNode( solution, containerBounds );
-        solutionNode.addChild( _particlesNode ); // clip particles to liquid
-    }
-    
-    public void cleanup() {
-        _particlesNode.cleanup();
-    }
-    
-    //----------------------------------------------------------------------------
-    // Setters and getters
-    //----------------------------------------------------------------------------
-    
-    public void setParticlesVisible( boolean visible ) {
-        _particlesNode.setVisible( visible );
-    }
-    
-    public boolean isParticlesVisible() {
-        return _particlesNode.getVisible();
-    }
-    
-    // for attaching developer control panel
-    public ParticlesNode getParticlesNode() {
-        return _particlesNode;
     }
 }
