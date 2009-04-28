@@ -32,7 +32,7 @@ import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
 import edu.colorado.phet.nuclearphysics.view.AutoPressGradientButtonNode;
 import edu.colorado.phet.nuclearphysics.view.BucketOfNucleiNode;
 import edu.colorado.phet.nuclearphysics.view.NucleusImageFactory;
-import edu.colorado.phet.nuclearphysics.view.RadiometricElementDecayTimeChart;
+import edu.colorado.phet.nuclearphysics.view.MultiNucleusDecayLinearTimeChart;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -78,7 +78,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private RadiometricElementDecayTimeChart _decayTimeChart;
+    private MultiNucleusDecayLinearTimeChart _decayTimeChart;
     private AutoPressGradientButtonNode _resetButtonNode;
     private GradientButtonNode _addTenButtonNode;
     private DecayRatesModel _model;

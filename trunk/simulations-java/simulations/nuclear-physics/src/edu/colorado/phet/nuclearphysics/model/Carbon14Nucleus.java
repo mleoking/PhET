@@ -27,7 +27,7 @@ public class Carbon14Nucleus extends AbstractDecayNucleus {
     public static final int ORIGINAL_NUM_NEUTRONS = 8;
     
     // Half life for Carbon 14.
-    private static double HALF_LIFE = 31.536E9; // 5,730 years, converted into milliseconds.
+    private static double HALF_LIFE = 1.81E14; // 5,730 years, converted into milliseconds.
     
     // Time scaling factor - scales the rate at which decay occurs so that we
     // don't really have to wait around thousands of years.
