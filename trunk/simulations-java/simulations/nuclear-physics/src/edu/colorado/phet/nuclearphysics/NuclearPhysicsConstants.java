@@ -113,22 +113,22 @@ public class NuclearPhysicsConstants {
     public static final Color URANIUM_239_LABEL_COLOR = Color.WHITE;
     
     // Color for carbon when represented as a circle or sphere.
-    public static final Color CARBON_COLOR = new Color( 200, 0, 0 );
+    public static final Color CARBON_COLOR = new Color( 146, 24, 30 );
     
     // Color for nitrogen when represented as a circle or sphere.
-    public static final Color NITROGEN_COLOR = new Color( 0, 0, 200 );
+    public static final Color NITROGEN_COLOR = new Color( 14, 86, 121 );
     
     // Color for U238 when represented as a circle or sphere.
-    public static final Color URANIUM_238_COLOR = new Color( 255, 246, 143 );
+    public static final Color URANIUM_238_COLOR = new Color( 165, 158, 53 );
     
     // Color for Lead 206 when represented as a circle or sphere.
-    public static final Color LEAD_206_COLOR = Color.LIGHT_GRAY;
+    public static final Color LEAD_206_COLOR = new Color( 97, 117, 126 );
     
     // Color for pre-decay custom nucleus when represented as a circle or sphere.
-    public static final Color CUSTOM_NUCLEUS_PRE_DECAY_COLOR = new Color( 238, 201, 0 );
+    public static final Color CUSTOM_NUCLEUS_PRE_DECAY_COLOR = new Color( 155, 97, 42 );
     
     // Color for post-decay custom nucleus when represented as a circle or sphere.
-    public static final Color CUSTOM_NUCLEUS_POST_DECAY_COLOR = new Color( 0, 139, 0 );
+    public static final Color CUSTOM_NUCLEUS_POST_DECAY_COLOR = new Color( 54, 130, 55 );
     
     // Color of the chart background for the alpha decay application.
 	public static final Color  ALPHA_DECAY_CHART_COLOR = new Color( 246, 242, 175 );

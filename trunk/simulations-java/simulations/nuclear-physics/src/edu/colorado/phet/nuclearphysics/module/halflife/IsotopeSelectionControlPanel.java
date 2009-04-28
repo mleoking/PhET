@@ -185,7 +185,7 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
             		NuclearPhysicsConstants.NITROGEN_COLOR,
             		NuclearPhysicsStrings.NITROGEN_14_LEGEND_LABEL );
             
-            addIsotopeSelection( _carbon14RadioButton, carbon14Descriptor, nitrogen14Descriptor, 0 );
+            addIsotopeSelection( _carbon14RadioButton, carbon14Descriptor, nitrogen14Descriptor );
                         
             // Add the selection for U238->Lead 206
             
@@ -205,7 +205,7 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
             		NuclearPhysicsConstants.LEAD_206_COLOR,
             		NuclearPhysicsStrings.LEAD_206_LEGEND_LABEL );
             
-            addIsotopeSelection( _uranium238RadioButton, uranium238Descriptor, lead206Descriptor, 1 );
+            addIsotopeSelection( _uranium238RadioButton, uranium238Descriptor, lead206Descriptor );
             
             // Add the custom nucleus selection, but only if it is enabled.
             if ( customNucleusSelectionEnabled ){
@@ -225,11 +225,11 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
                 		"",  // Custom nucleus has no isotope number.
                 		NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL,
                 		NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR,
-                		NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR,
+                		NuclearPhysicsConstants.CUSTOM_NUCLEUS_POST_DECAY_COLOR,
                 		NuclearPhysicsStrings.CUSTOM_NUCLEUS_LEGEND_LABEL );
                 
                 addIsotopeSelection( _customNucleusRadioButton, preDecayCustomNucleusDescriptor, 
-                		postDecayCustomNucleusDescriptor, 2 );                        
+                		postDecayCustomNucleusDescriptor );                        
             }
         }
         
@@ -261,15 +261,16 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
          * @param postDecayNucleus
          * @return
          */
+        private int _isotopeSelectorCount = 0;
         private void addIsotopeSelection( JRadioButton button, NucleusSelectionDescriptor preDecayNucleus,
-        		NucleusSelectionDescriptor postDecayNucleus, int position ){
+        		NucleusSelectionDescriptor postDecayNucleus ){
         	
             GridBagConstraints constraints = new GridBagConstraints();
         	
             // Add the radio button.
             constraints.anchor = GridBagConstraints.WEST;
             constraints.gridx = 0;
-            constraints.gridy = position * 4;
+            constraints.gridy = _isotopeSelectorCount * 4;
             constraints.ipadx = 25;
             add( button, constraints );
             constraints.ipadx = 0; // Remove padding.
@@ -285,7 +286,7 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
             ImageIcon predecayIconImage = new ImageIcon(preDecayImage);
             constraints.anchor = GridBagConstraints.WEST;
             constraints.gridx = 1;
-            constraints.gridy = position * 4;
+            constraints.gridy = _isotopeSelectorCount * 4;
             constraints.ipadx = 10;
             add( new JLabel(predecayIconImage), constraints );
             constraints.ipadx = 0; // Remove the padding.
@@ -294,13 +295,13 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
             JLabel preDecayNucleusLabel = new JLabel( preDecayNucleus.getLegendLabel() ) ;
             constraints.anchor = GridBagConstraints.WEST;
             constraints.gridx = 2;
-            constraints.gridy = position * 4;
+            constraints.gridy = _isotopeSelectorCount * 4;
             add( preDecayNucleusLabel, constraints );
             
             // Create and add the arrow that signifies decay.
             constraints.anchor = GridBagConstraints.CENTER;
             constraints.gridx = 1;
-            constraints.gridy = position * 4 + 1;
+            constraints.gridy = _isotopeSelectorCount * 4 + 1;
             add( new JLabel( createArrowIcon( Color.BLACK ) ), constraints );
             
             // Create and add post-decay nucleus.
@@ -313,7 +314,7 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
             ImageIcon postDecayIconImage = new ImageIcon( postDecayNucleusImage );
             constraints.anchor = GridBagConstraints.WEST;
             constraints.gridx = 1;
-            constraints.gridy = position * 4 + 2;
+            constraints.gridy = _isotopeSelectorCount * 4 + 2;
             constraints.ipadx = 10;
             add( new JLabel(postDecayIconImage), constraints );
             constraints.ipadx = 0; // Remove the padding.
@@ -322,14 +323,15 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
             JLabel postDecayNucleusLabel = new JLabel( postDecayNucleus.getLegendLabel() ) ;
             constraints.anchor = GridBagConstraints.WEST;
             constraints.gridx = 2;
-            constraints.gridy = position * 4 + 2;
+            constraints.gridy = _isotopeSelectorCount * 4 + 2;
             add( postDecayNucleusLabel, constraints );
             
             // Create spacing between the two main selections.
             constraints.gridx = 1;
-            constraints.gridy = position * 4 + 3;
+            constraints.gridy = _isotopeSelectorCount * 4 + 3;
             add( createVerticalSpacingPanel( 20 ), constraints );
-
+            
+            _isotopeSelectorCount++;
         }
         
         private ImageIcon createArrowIcon( Color color ) {
