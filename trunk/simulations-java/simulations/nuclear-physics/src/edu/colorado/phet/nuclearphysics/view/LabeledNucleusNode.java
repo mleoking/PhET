@@ -38,7 +38,7 @@ public class LabeledNucleusNode extends PComposite {
     private static final double IMAGE_SCALING_FACTOR = 0.20;
     private static final double SMALLER_FONT_SCALING_FACTOR = IMAGE_SCALING_FACTOR * 9;
     private static final double LARGER_FONT_SCALING_FACTOR = IMAGE_SCALING_FACTOR * 12;
-    private static final double SPHERE_DIAMETER = 50;
+    private static final double SPHERE_DIAMETER = 45;
 
     //------------------------------------------------------------------------
     // Instance Data
@@ -104,8 +104,9 @@ public class LabeledNucleusNode extends PComposite {
     public LabeledNucleusNode( Color sphereColor, String isotopeNumber, String chemicalSymbol, Color labelColor ){
 
     	// Create the gradient paint for the sphere in order to give it a 3D look.
-		Paint spherePaint = new RoundGradientPaint( SPHERE_DIAMETER / 4, -SPHERE_DIAMETER / 4, Color.WHITE,
-                new Point2D.Double( SPHERE_DIAMETER / 2, SPHERE_DIAMETER / 2 ), sphereColor );
+		Paint spherePaint = new RoundGradientPaint( SPHERE_DIAMETER / 4, -SPHERE_DIAMETER / 4, 
+				getHighlightColor( sphereColor ), new Point2D.Double( SPHERE_DIAMETER / 2, SPHERE_DIAMETER / 2 ),
+				sphereColor );
 
     	// Create and add the sphere node.
     	SphericalNode sphere = new SphericalNode(SPHERE_DIAMETER, spherePaint, false);
@@ -131,6 +132,31 @@ public class LabeledNucleusNode extends PComposite {
         setChildrenPickable(false);
     }
     
+    /**
+     * Get a color for the highlight for use on a sphere.  
+     * @param baseColor
+     * @return
+     */
+    private Color getHighlightColor( Color baseColor ){
+    	
+    	Color highlightColor;
+    	
+    	int maxIntensity = Math.max( Math.max( baseColor.getRed(), baseColor.getGreen() ), baseColor.getBlue() );
+    	if ( maxIntensity > 225 ){
+    		// Just go with white if the color is already pretty bright.
+    		highlightColor = Color.WHITE;
+    	}
+    	else {
+    		int red = baseColor.getRed() + ((255 - baseColor.getRed()) * 3 / 4);
+    		int green = baseColor.getGreen() + ((255 - baseColor.getGreen()) * 3 / 4);
+    		int blue = baseColor.getBlue() + ((255 - baseColor.getBlue()) * 3 / 4);
+    		highlightColor = new Color( red, green, blue );
+    	}
+    	
+    	return highlightColor;
+    	
+    }
+    
     //------------------------------------------------------------------------
     // Public Methods
     //------------------------------------------------------------------------
@@ -144,9 +170,9 @@ public class LabeledNucleusNode extends PComposite {
         LabeledNucleusNode imageTestNode = new LabeledNucleusNode("Uranium Nucleus Small.png",
                 NuclearPhysicsStrings.URANIUM_235_ISOTOPE_NUMBER, NuclearPhysicsStrings.URANIUM_235_CHEMICAL_SYMBOL, 
                 NuclearPhysicsConstants.URANIUM_235_LABEL_COLOR );
-        LabeledNucleusNode sphereTestNode = new LabeledNucleusNode(Color.DARK_GRAY,
-                NuclearPhysicsStrings.URANIUM_235_ISOTOPE_NUMBER, NuclearPhysicsStrings.URANIUM_235_CHEMICAL_SYMBOL, 
-                NuclearPhysicsConstants.URANIUM_235_LABEL_COLOR );
+        LabeledNucleusNode sphereTestNode = new LabeledNucleusNode(Color.RED,
+                NuclearPhysicsStrings.CARBON_14_ISOTOPE_NUMBER, NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL, 
+                NuclearPhysicsConstants.CARBON_14_LABEL_COLOR );
         
         JFrame frame = new JFrame();
         PhetPCanvas canvas = new PhetPCanvas();
