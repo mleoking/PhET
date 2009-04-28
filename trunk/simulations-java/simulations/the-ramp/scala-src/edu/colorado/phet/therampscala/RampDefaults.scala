@@ -35,6 +35,5 @@ object RampDefaults {
   val normalForceColor = Color.yellow
   val frictionForceColor = Color.red
   val totalForceColor = Color.pink
-//  val wallForceColor = Color.green
   val wallForceColor = new Color( 190, 190, 0 )
 }
