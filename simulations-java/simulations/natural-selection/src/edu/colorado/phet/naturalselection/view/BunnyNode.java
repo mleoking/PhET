@@ -39,9 +39,19 @@ public class BunnyNode extends NaturalSelectionSprite implements Bunny.BunnyList
      * @param z z coordinate
      */
     public void setSpriteLocation( double x, double y, double z ) {
+        if ( x > getSpriteX() ) {
+            displayBunnyNode.setFlipped( false );
+        }
+        else if ( x < getSpriteX() ) {
+            displayBunnyNode.setFlipped( true );
+        }
         super.setSpriteLocation( x, y, z );
 
         reposition();
+    }
+
+    public void setFlipped( boolean flipped ) {
+        displayBunnyNode.setFlipped( flipped );
     }
 
     /**
@@ -90,5 +100,9 @@ public class BunnyNode extends NaturalSelectionSprite implements Bunny.BunnyList
 
     public void onBunnyChangeTail( Allele allele ) {
         displayBunnyNode.setTail( allele );
+    }
+
+    public void onBunnyChangePosition( double x, double y, double z ) {
+        setSpriteLocation( x, y, z );
     }
 }

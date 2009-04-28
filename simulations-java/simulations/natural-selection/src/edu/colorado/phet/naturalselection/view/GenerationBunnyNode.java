@@ -68,4 +68,8 @@ public class GenerationBunnyNode extends DisplayBunnyNode implements Bunny.Bunny
     public void onBunnyChangeTail( Allele allele ) {
         setTail( allele );
     }
+
+    public void onBunnyChangePosition( double x, double y, double z ) {
+
+    }
 }

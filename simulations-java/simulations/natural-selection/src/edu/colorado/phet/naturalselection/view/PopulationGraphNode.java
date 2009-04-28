@@ -204,4 +204,8 @@ public class PopulationGraphNode extends PNode implements Bunny.BunnyListener {
     public void onBunnyChangeTail( Allele allele ) {
 
     }
+
+    public void onBunnyChangePosition( double x, double y, double z ) {
+
+    }
 }

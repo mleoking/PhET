@@ -4,15 +4,19 @@ package edu.colorado.phet.naturalselection.model;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
+import edu.colorado.phet.naturalselection.view.SpritesNode;
 
 /**
  * Represents a bunny in the Natural Selection model
  *
  * @author Jonathan Olson
  */
-public class Bunny {
+public class Bunny extends ClockAdapter {
     // parents (although currently the gender of bunnies is ignored)
     private Bunny father;
     private Bunny mother;
@@ -65,6 +69,22 @@ public class Bunny {
     private Allele cachedTeethPhenotype;
     private Allele cachedTailPhenotype;
 
+    // random number generator
+    private static final Random random = new Random( System.currentTimeMillis() );
+
+    // 3d coordinates
+    private double x, y, z;
+
+    // time since the last hop
+    private int sinceHopTime = 0;
+
+    private boolean movingRight;
+
+    public static final int BETWEEN_HOP_TIME = 40;
+    public static final int HOP_TIME = 10;
+    public static final int HOP_HEIGHT = 50;
+    public static final double HOP_HORIZONTAL_STEP = 2.0;
+
     private ArrayList listeners;
 
     /**
@@ -77,6 +97,13 @@ public class Bunny {
     public Bunny( Bunny father, Bunny mother, int generation ) {
 
         bunnyId = bunnyCount++;
+
+        sinceHopTime = random.nextInt( BETWEEN_HOP_TIME + HOP_TIME );
+
+        movingRight = true;
+        if ( random.nextInt( 2 ) == 0 ) {
+            movingRight = false;
+        }
 
         this.father = father;
         this.mother = mother;
@@ -112,9 +139,27 @@ public class Bunny {
         addListener( TeethGene.getInstance() );
         addListener( TailGene.getInstance() );
 
+        setInitialPosition();
+
         // bunny is set up, notify various things that the bunny has been created and is ready to use
         notifyInit();
 
+    }
+
+    public boolean isMovingRight() {
+        return movingRight;
+    }
+
+    /**
+     * Sets the initial bunny position (3d coordinates)
+     */
+    private void setInitialPosition() {
+        x = Math.random() * ( SpritesNode.MAX_X - SpritesNode.MIN_X ) + SpritesNode.MIN_X;
+
+        // start on the ground
+        y = SpritesNode.MIN_Y;
+
+        z = Math.random() * ( SpritesNode.MAX_Z - SpritesNode.MIN_Z ) + SpritesNode.MIN_Z;
     }
 
     public boolean isAlive() {
@@ -203,6 +248,42 @@ public class Bunny {
         return mated;
     }
 
+    public double getX() {
+        return x;
+    }
+
+    public void setX( double x ) {
+        double old = this.x;
+        this.x = x;
+        if ( old != x ) {
+            notifyChangePosition();
+        }
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setY( double y ) {
+        double old = this.y;
+        this.y = y;
+        if ( old != y ) {
+            notifyChangePosition();
+        }
+    }
+
+    public double getZ() {
+        return z;
+    }
+
+    public void setZ( double z ) {
+        double old = this.z;
+        this.z = z;
+        if ( old != z ) {
+            notifyChangePosition();
+        }
+    }
+
     /**
      * Determines whether this bunny can reproduce or not.
      *
@@ -269,6 +350,42 @@ public class Bunny {
             cachedTailPhenotype = getTailGenotype().getPhenotype();
             notifyChangeTail();
         }
+    }
+
+    private void moveAround() {
+        sinceHopTime++;
+        if ( sinceHopTime > BETWEEN_HOP_TIME + HOP_TIME ) {
+            sinceHopTime = 0;
+        }
+        if ( sinceHopTime > BETWEEN_HOP_TIME ) {
+            // move in the "hop"
+            int hopProgress = sinceHopTime - BETWEEN_HOP_TIME;
+            double hopFraction = ( (double) hopProgress ) / ( (double) HOP_TIME );
+
+            setY( HOP_HEIGHT * 2 * ( -hopFraction * hopFraction + hopFraction ) );
+
+            if ( movingRight ) {
+                setX( getX() + HOP_HORIZONTAL_STEP );
+                if ( getX() >= SpritesNode.MAX_X ) {
+                    movingRight = false;
+                }
+            }
+            else {
+                setX( getX() - HOP_HORIZONTAL_STEP );
+                if ( getX() <= SpritesNode.MIN_X ) {
+                    movingRight = true;
+                }
+            }
+        }
+
+    }
+
+    //----------------------------------------------------------------------------
+    // Event handlers
+    //----------------------------------------------------------------------------
+
+    public void simulationTimeChanged( ClockEvent clockEvent ) {
+        moveAround();
     }
 
     //----------------------------------------------------------------------------
@@ -378,6 +495,13 @@ public class Bunny {
         }
     }
 
+    private void notifyChangePosition() {
+        Iterator iter = listeners.iterator();
+        while ( iter.hasNext() ) {
+            ( (BunnyListener) iter.next() ).onBunnyChangePosition( getX(), getY(), getZ() );
+        }
+    }
+
     //----------------------------------------------------------------------------
     // Listeners
     //----------------------------------------------------------------------------
@@ -442,6 +566,15 @@ public class Bunny {
          * @param allele The allele
          */
         public void onBunnyChangeTail( Allele allele );
+
+        /**
+         * Called when the bunny changes its 3D position
+         *
+         * @param x new X coordinate
+         * @param y new Y coordinate
+         * @param z new Z coordinate
+         */
+        public void onBunnyChangePosition( double x, double y, double z );
     }
 
 

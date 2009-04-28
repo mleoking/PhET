@@ -162,10 +162,10 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
             bunny.checkPhenotypes();
         }
 
-        System.out.println( "\tDistribution for Gene " + getName() + ": " + primaryCount + ", " + secondaryCount );
+        //System.out.println( "\tDistribution for Gene " + getName() + ": " + primaryCount + ", " + secondaryCount );
 
         if ( oldPrimary != primaryCount || oldSecondary != secondaryCount ) {
-            System.out.println( "\tDistribution changed!" );
+            //System.out.println( "\tDistribution changed!" );
             notifyChangeDistribution();
         }
     }
@@ -267,6 +267,10 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
 
     }
 
+    public void onBunnyChangePosition( double x, double y, double z ) {
+
+    }
+
     public void onChangeDominance( boolean primary ) {
         if ( primary ) {
             setDominantAllele( primaryAllele );
@@ -285,7 +289,7 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
     //----------------------------------------------------------------------------
 
     private void notifyChangeDistribution() {
-        System.out.println( "\tGene distribution changed for " + getName() );
+        //System.out.println( "\tGene distribution changed for " + getName() );
         Iterator iter = listeners.iterator();
 
         while ( iter.hasNext() ) {
@@ -294,7 +298,7 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
     }
 
     private void notifyChangeDominantAllele() {
-        System.out.println( "Gene dominant allele changed for " + getName() );
+        //System.out.println( "Gene dominant allele changed for " + getName() );
         Iterator iter = listeners.iterator();
 
         while ( iter.hasNext() ) {

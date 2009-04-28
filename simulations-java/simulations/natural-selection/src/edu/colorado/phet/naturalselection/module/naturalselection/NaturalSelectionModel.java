@@ -109,6 +109,9 @@ public class NaturalSelectionModel extends ClockAdapter {
         bunnies.add( rootFather );
         bunnies.add( rootMother );
 
+        clock.addClockListener( rootFather );
+        clock.addClockListener( rootMother );
+
         this.clock.addClockListener( this );
     }
 
@@ -140,6 +143,9 @@ public class NaturalSelectionModel extends ClockAdapter {
         rootMother.setPotentialMate( rootFather );
         bunnies.add( rootFather );
         bunnies.add( rootMother );
+
+        clock.addClockListener( rootFather );
+        clock.addClockListener( rootMother );
 
         clock.resetSimulationTime();
         clock.start();
@@ -199,6 +205,7 @@ public class NaturalSelectionModel extends ClockAdapter {
         while ( newIter.hasNext() ) {
             Bunny bunny = (Bunny) newIter.next();
             bunnies.add( bunny );
+            clock.addClockListener( bunny );
             // TODO: possibly notify at the end for potential performance issues?
             notifyNewBunny( bunny );
         }
@@ -287,6 +294,10 @@ public class NaturalSelectionModel extends ClockAdapter {
     //----------------------------------------------------------------------------
     // Getters and setters
     //----------------------------------------------------------------------------
+
+    public NaturalSelectionClock getClock() {
+        return clock;
+    }
 
     public int getPopulation() {
         // TODO: easier way? maybe count a filtered ArrayList?
