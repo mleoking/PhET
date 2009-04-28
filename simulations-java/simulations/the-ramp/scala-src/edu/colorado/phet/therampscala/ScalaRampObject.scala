@@ -4,9 +4,19 @@ package edu.colorado.phet.therampscala
 import java.awt.Color
 import scalacommon.util.Observable
 
-class ScalaRampObject(_name: String, _mass: Double, val kineticFriction: Double, val staticFriction: Double, _height: Double, _imageFilename: String, _customizable: Boolean) {
+class ScalaRampObject(_name: String,
+                      protected var _mass: Double,
+                      protected var _kineticFriction: Double,
+                      protected var _staticFriction: Double,
+                      _height: Double,
+                      _imageFilename: String,
+                      _customizable: Boolean) {
   val customizable = _customizable
   val name = _name
+
+  def kineticFriction = _kineticFriction
+
+  def staticFriction = _staticFriction
 
   def mass: Double = _mass
 
@@ -36,7 +46,8 @@ class ScalaRampObject(_name: String, _mass: Double, val kineticFriction: Double,
   override def hashCode = mass.hashCode + name.hashCode * 17
 }
 
-class CustomTextRampObject(name: String, mass: Double, kineticFriction: Double, staticFriction: Double, imageFilename: String, customizable: Boolean) extends ScalaRampObject(name, mass, kineticFriction, staticFriction, 1, imageFilename, customizable) {
+class CustomTextRampObject(name: String, mass: Double, kineticFriction: Double, staticFriction: Double, height:Double,imageFilename: String, customizable: Boolean)
+        extends ScalaRampObject(name, mass, kineticFriction, staticFriction, height, imageFilename, customizable) {
   override def getDisplayText = name
 
   override def getDisplayTextHTML = <html>{name}</html>
@@ -44,16 +55,23 @@ class CustomTextRampObject(name: String, mass: Double, kineticFriction: Double, 
   override def displayTooltip = false
 }
 
-class MutableRampObject(name: String, _mass: Double, kineticFriction: Double, staticFriction: Double, imageFilename: String, customizable: Boolean)
-        extends CustomTextRampObject(name, _mass, kineticFriction, staticFriction, imageFilename, customizable) with Observable {
-  private var m_mass = _mass
-
-  override def mass = m_mass
+class MutableRampObject(name: String, __mass: Double, kineticFriction: Double, staticFriction: Double, height:Double,imageFilename: String, customizable: Boolean)
+        extends CustomTextRampObject(name, __mass, kineticFriction, staticFriction, height,imageFilename, customizable) with Observable {
 
   def mass_=(m: Double) = {
-    m_mass = m
+    _mass = m
     notifyListeners()
   }
 
-  override def height = m_mass / 2 / 10
+  override def height = mass / 20 / 2
+
+  def kineticFriction_=(k: Double) = {
+    _kineticFriction = k
+    notifyListeners()
+  }
+
+  def staticFriction_=(s: Double) = {
+    _staticFriction = s
+    notifyListeners()
+  }
 }

@@ -106,6 +106,8 @@ class RampModel extends RecordModel[String] with ObjectModel {
         o.addListenerByName {
           bead.height = o.height
           bead.mass = o.mass
+          bead.staticFriction = _selectedObject.staticFriction
+          bead.kineticFriction = _selectedObject.kineticFriction
         }
       }
       case _ => {}
