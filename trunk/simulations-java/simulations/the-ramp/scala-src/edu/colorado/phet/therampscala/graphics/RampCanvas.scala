@@ -52,7 +52,9 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
   addNode(beadNode)
 
   def createPusherNode: PNode
-  addNode(createPusherNode)
+
+  val pusherNode = createPusherNode
+  addNode(pusherNode)
 
   addNode(new CoordinateFrameNode(model, coordinateSystemModel, transform))
 
@@ -205,6 +207,10 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
 
 class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                 vectorViewModel: VectorViewModel, frame: JFrame, airborneFloor: Double, gameModel: RobotMovingCompanyGameModel) extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame) {
+  beadNode.setVisible(false)
+  vectorNode.setVisible(false)
+  pusherNode.setVisible(false)
+
   val controlPanel = new VerticalLayoutPanel
   controlPanel.setFillNone()
   val robotGoButton = new ScalaButton("Robot Go!", () => {
@@ -285,7 +291,12 @@ class ScoreboardNode(transform: ModelViewTransform2D, gameModel: RobotMovingComp
   addChild(background)
 
   val layoutNode = new SwingLayoutNode
-  val pText = new PText("Score 1050")
+  val pText = new PText()
+
+  def update = pText.setText("Score: " + gameModel.score)
+  gameModel.addListenerByName(update)
+  update
+
   pText.setFont(new PhetFont(32, true))
   layoutNode.addChild(new Spacer)
   layoutNode.addChild(pText)

@@ -1,7 +1,7 @@
 package edu.colorado.phet.therampscala
 
-import _root_.scala.collection.mutable.ArrayBuffer
 import _root_.scala.swing.CheckBox
+import collection.mutable.{HashMap, ArrayBuffer}
 import common.phetcommon.application.{PhetApplicationConfig, PhetApplicationLauncher, Module}
 import common.phetcommon.math.MathUtil
 import common.phetcommon.model.BaseModel
@@ -21,6 +21,7 @@ import java.awt.event.{ActionEvent, ActionListener}
 import java.awt.geom._
 import java.awt.image.BufferedImage
 import java.text.DecimalFormat
+import javax.sound.sampled.AudioSystem
 import javax.swing._
 import javax.swing.event.{ChangeListener, ChangeEvent}
 
@@ -196,6 +197,8 @@ class RobotMovingCompanyGameModel extends Observable {
   private var _launched = false
   private var _objectIndex = 0
   private var _lostItems = 0
+  private var _score = 0
+  private val resultMap = new HashMap[ScalaRampObject, Int]
   val objectListeners = new ArrayBuffer[ScalaRampObject => Unit]
   val objectList = RampDefaults.objects
 
@@ -204,11 +207,16 @@ class RobotMovingCompanyGameModel extends Observable {
   def launched = _launched
 
   def nextObject() = {
-    _lostItems = _lostItems + 1
     _objectIndex = _objectIndex + 1
     objectListeners.foreach(_(selectedObject))
 
     launched = false //notifies listeners
+  }
+
+  def itemLost(o: ScalaRampObject) {
+    resultMap += o -> 0
+    _lostItems = _lostItems + 1
+    notifyListeners()
   }
 
   def movedItems = 0
@@ -216,28 +224,35 @@ class RobotMovingCompanyGameModel extends Observable {
   def selectedObject = objectList(_objectIndex)
 
   def lostItems = _lostItems
+
+  def score = _score
 }
 class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock) {
   model.rampSegments(1).setAngle(0)
   model.walls = false
   model.rampSegments(0).startPoint = new Vector2D(-10, 0).rotate(-(30.0).toRadians)
-  model.setPaused(true) //wait for robot go
-  model.bead.setPosition(-10) //top of the ramp
   val airborneFloor = -9.0
-  model.bead.airborneFloor_=(airborneFloor)
-
   val gameModel = new RobotMovingCompanyGameModel
-  gameModel.objectListeners += ((a: ScalaRampObject) => {
+  gameModel.objectListeners += ((a: ScalaRampObject) => setupObject())
+  val canvas = new RMCCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame, airborneFloor, gameModel)
+  setSimulationPanel(canvas)
+
+  setupObject()
+
+  def setupObject() = {
+    val a = gameModel.selectedObject
     model.setPaused(true)
     val bead = model.createBead(-model.rampSegments(0).length)
+    bead.crashListeners += (() => {
+      RampResources.getAudioClip("smash0.wav").play()
+      gameModel.itemLost(a)
+    })
     bead.height = a.height
     bead.airborneFloor_=(airborneFloor)
     val beadNode = new DraggableBeadNode(bead, canvas.transform, a.imageFilename)
     canvas.addNode(beadNode)
     clock.addClockListener(dt => if (!model.isPaused) bead.stepInTime(dt))
-  })
-  val canvas = new RMCCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame, airborneFloor, gameModel)
-  setSimulationPanel(canvas)
+  }
 }
 class RobotMovingCompanyApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   addModule(new RobotMovingCompanyModule(getPhetFrame, new ScalaClock(30, RampDefaults.DT_DEFAULT)))
