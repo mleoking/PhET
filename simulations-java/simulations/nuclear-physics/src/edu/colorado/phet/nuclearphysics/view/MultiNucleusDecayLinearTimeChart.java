@@ -49,18 +49,16 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * This class displays a "strip chart" of the decay time for multiple nuclei,
  * and also allows the user to adjust the half life for some types of nuclei.
  *
- * TODO: Need to refactor to get common elements with other time chart(s).
- *  
  * @author John Blanco
  */
-public class RadiometricElementDecayTimeChart extends PNode {
+public class MultiNucleusDecayLinearTimeChart extends PNode {
 
     //------------------------------------------------------------------------
     // Class Data
     //------------------------------------------------------------------------
 
     // Total amount of time in milliseconds represented by this chart.
-    private static final double TIME_SPAN = 3200;
+    private static final double DEFAULT_TIME_SPAN = 3200;
     
     // Minimum allowable half life.
     private static final double MIN_HALF_LIFE = 10; // In milliseconds.
@@ -112,10 +110,6 @@ public class RadiometricElementDecayTimeChart extends PNode {
 		new Point2D.Double(-0.02, -0.025), new Point2D.Double(0.025, -0.02), new Point2D.Double(0.015, 0.025), 
 		new Point2D.Double(-0.015, 0.015)};
 	
-	// Counter used when offsetting nucleus positions in order to make them
-	// look like a bunch.
-	private int _bunchingCounter = 0;
-
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
@@ -127,7 +121,15 @@ public class RadiometricElementDecayTimeChart extends PNode {
     // certain interactions.
     RadiometricElementDecayCanvas _canvas;
     
-    // Variable for tracking information about the nuclei.
+    // Time span covered by this chart, in milliseconds.
+    private double _timeSpan = DEFAULT_TIME_SPAN;
+    
+    // Time adjustment factor - used to make elements move on the graph
+    // either faster or slower than real time.  A value of 1 indicates real
+    // wall time, above 1 is faster and below is slower.
+    private double _timeAdjustmentFactor = 1;
+    
+    // Variables for tracking information about the nuclei.
     private HashMap _mapNucleiToNucleiData = new HashMap();
     private int _preDecayCount;
     private int _postDecayCount;
@@ -178,11 +180,15 @@ public class RadiometricElementDecayTimeChart extends PNode {
     // Clock that we listen to for moving the nuclei.
     ConstantDtClock _clock;
 
+    // Counter used when offsetting nucleus positions in order to make them
+	// look like a bunch.
+	private int _bunchingCounter = 0;
+
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
 
-    public RadiometricElementDecayTimeChart( MultiNucleusDecayModel model, RadiometricElementDecayCanvas canvas ) {
+    public MultiNucleusDecayLinearTimeChart( MultiNucleusDecayModel model, RadiometricElementDecayCanvas canvas ) {
 
         _clock = model.getClock();
         _model = model;
@@ -268,7 +274,7 @@ public class RadiometricElementDecayTimeChart extends PNode {
         _nonPickableChartNode.addChild( _xAxisOfGraph );
 
         // Add the tick marks and their labels to the X axis.
-        int numTicksOnX = (int) Math.round( ( TIME_SPAN / 1000 ) + 1 );
+        int numTicksOnX = (int) Math.round( ( _timeSpan / 1000 ) + 1 );
         _xAxisTickMarks = new ArrayList( numTicksOnX );
         _xAxisTickMarkLabels = new ArrayList( numTicksOnX );
         DecimalFormat formatter = new DecimalFormat( "0.0" );
@@ -386,7 +392,7 @@ public class RadiometricElementDecayTimeChart extends PNode {
                 PDimension d = event.getDeltaRelativeTo(draggedNode);
                 draggedNode.localToParent(d);
                 double newHalfLife = _model.getHalfLife() + (d.width / _msToPixelsFactor);
-                if (newHalfLife >= MIN_HALF_LIFE && newHalfLife <= (TIME_SPAN * 0.95)){
+                if (newHalfLife >= MIN_HALF_LIFE && newHalfLife <= (_timeSpan * 0.95)){
 	                _model.setHalfLife(newHalfLife);
 	        		halfLifeChanged = true;
                 }
@@ -406,6 +412,11 @@ public class RadiometricElementDecayTimeChart extends PNode {
 	//------------------------------------------------------------------------
     // Methods
     //------------------------------------------------------------------------
+    
+    public void setTimeSpan( double timeSpan ){
+    	_timeSpan = timeSpan;
+    	update();
+    }
 
     /**
      * This method is called to re-scale the chart, which generally occurs
@@ -427,7 +438,7 @@ public class RadiometricElementDecayTimeChart extends PNode {
 
         // Update the multiplier used for converting from pixels to
         // milliseconds.  Use the multiplier to tweak the span of the x axis.
-        _msToPixelsFactor = ((_usableWidth - _graphOriginX) * 0.98) / TIME_SPAN;
+        _msToPixelsFactor = ((_usableWidth - _graphOriginX) * 0.98) / _timeSpan;
         
         // Update the radius value used to position nucleus nodes so that they
         // are centered at the desired location.
@@ -447,7 +458,7 @@ public class RadiometricElementDecayTimeChart extends PNode {
 
         // Position the x and y axes.
         _xAxisOfGraph.setTipAndTailLocations( 
-        		new Point2D.Double( _graphOriginX + ( TIME_SPAN * _msToPixelsFactor ) + 10, _graphOriginY ), 
+        		new Point2D.Double( _graphOriginX + ( _timeSpan * _msToPixelsFactor ) + 10, _graphOriginY ), 
         		new Point2D.Double( _graphOriginX, _graphOriginY ) );
 
         // Position the tick marks and their labels on the X axis.
@@ -764,13 +775,13 @@ public class RadiometricElementDecayTimeChart extends PNode {
      */
     private int mapDecayTimeToHistogramBucket(double decayTime){
     	
-    	if (decayTime > TIME_SPAN){
+    	if (decayTime > _timeSpan){
     		// This decay is off the chart and doesn't go in a bucket.  Return
     		// the largest integer in order to signal this to the caller.
     		return Integer.MAX_VALUE;
     	}
     	
-    	return (int)Math.floor(decayTime / (TIME_SPAN / NUM_HISTOGRAM_BUCKETS));
+    	return (int)Math.floor(decayTime / (_timeSpan / NUM_HISTOGRAM_BUCKETS));
     }
     
     /**
@@ -1010,7 +1021,7 @@ public class RadiometricElementDecayTimeChart extends PNode {
         		}
         	}
         	
-        	xPos = _graphOriginX + (_nucleus.getActivatedTime() + TIME_ZERO_OFFSET) * _msToPixelsFactor 
+        	xPos = _graphOriginX + (_nucleus.getAdjustedActivatedTime() + TIME_ZERO_OFFSET) * _msToPixelsFactor 
         	        - _nucleusNodeRadius + (_bunchingOffset.getX() * _usableHeight);
         	_nucleusNode.setOffset(xPos, yPos);
     	}

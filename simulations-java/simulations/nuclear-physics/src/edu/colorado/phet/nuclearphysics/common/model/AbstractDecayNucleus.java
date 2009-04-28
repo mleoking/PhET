@@ -120,11 +120,29 @@ public abstract class AbstractDecayNucleus extends AtomicNucleus implements Nucl
 	}
 
 	/**
-	 * Returns a value indicating how long the nucleus has been active without
-	 * having decayed.
+	 * Returns a value indicating how long in terms of simulation time the
+	 * nucleus has been active without having decayed.
+	 * 
+	 * @return Simulation time for which this nucleus has been activated, i.e.
+	 * progressing towards decay.
 	 */
 	public double getActivatedTime() {
 		return _activatedLifetime;
+	}
+	
+	/**
+	 * Returns a value indicating the amount of adjusted time that the nucleus
+	 * has been active without decaying.  Adjusted time is based on the time
+	 * adjustment factor that is used to scale the amount of time that a model
+	 * element has experienced such that it will generally decay in a
+	 * reasonable time frame (so that users aren't waiting around for
+	 * thousands of years for decay to occur).
+	 * 
+	 * @return Adjusted time in milliseconds for which this nucleus has been
+	 * activated, i.e. progressing towards decay.
+	 */
+	public double getAdjustedActivatedTime() {
+		return _activatedLifetime / _decayTimeScalingFactor;
 	}
 
 	public void reset() {

@@ -36,7 +36,7 @@ import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
 import edu.colorado.phet.nuclearphysics.view.AutoPressGradientButtonNode;
 import edu.colorado.phet.nuclearphysics.view.BucketOfNucleiNode;
 import edu.colorado.phet.nuclearphysics.view.NucleusImageFactory;
-import edu.colorado.phet.nuclearphysics.view.RadiometricElementDecayTimeChart;
+import edu.colorado.phet.nuclearphysics.view.MultiNucleusDecayLinearTimeChart;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -82,7 +82,7 @@ public class RadiometricElementDecayCanvas extends PhetPCanvas {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private RadiometricElementDecayTimeChart _decayTimeChart;
+    private MultiNucleusDecayLinearTimeChart _decayTimeChart;
     private AutoPressGradientButtonNode _resetButtonNode;
     private GradientButtonNode _addTenButtonNode;
     private RadiometricElementDecayModel _model;
@@ -158,7 +158,8 @@ public class RadiometricElementDecayCanvas extends PhetPCanvas {
         });
 
         // Add the chart that shows the decay time.
-        _decayTimeChart = new RadiometricElementDecayTimeChart(_model, this);
+        _decayTimeChart = new MultiNucleusDecayLinearTimeChart(_model, this);
+        _decayTimeChart.setTimeSpan( 4E14 ); // TODO: Arbitrary for testing, move somewhere reasonable.
         _chartLayer.addChild( _decayTimeChart );
         
         // Create and add the node the represents the bucket from which nuclei
