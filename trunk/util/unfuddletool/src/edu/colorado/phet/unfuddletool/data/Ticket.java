@@ -122,7 +122,7 @@ public class Ticket extends Record {
     public String getHTMLHeader() {
         String ret = "<html><body bgcolor='#FFFFFF'><h3><a href='" + externalLink() + "'>";
 
-        ret += toString() + "</a></h3>\n";
+        ret += "#" + getNumber() + " " + getSummary() + "</a></h3>\n";
 
         ret += "Component: <b>" + getComponentName() + "</b>&nbsp;&nbsp;&nbsp;&nbsp;";
         ret += "Assignee: <b>" + Person.getNameFromId( rawAssigneeId ) + "</b>&nbsp;&nbsp;&nbsp;&nbsp;";
