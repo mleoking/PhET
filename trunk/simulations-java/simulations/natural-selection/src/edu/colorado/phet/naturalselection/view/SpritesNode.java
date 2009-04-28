@@ -19,6 +19,16 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class SpritesNode extends PNode implements NaturalSelectionModel.NaturalSelectionModelListener {
 
+    // display properties
+    public static final double BUNNY_SIDE_SPACER = 25.0;
+
+    // Bunny coordinate limits
+    public static final double MIN_X = BUNNY_SIDE_SPACER;
+    public static final double MAX_X = NaturalSelectionDefaults.VIEW_SIZE.getWidth() - BUNNY_SIDE_SPACER;
+    public static final double MIN_Y = 0.0;
+    public static final double MIN_Z = 1.0;
+    public static final double MAX_Z = 2.5;
+
     /**
      * A list of the variable (bunny and wolf) sprites
      */
@@ -155,12 +165,8 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.NaturalS
         BunnyNode bunnyNode = new BunnyNode( bunny.getColorGenotype().getPhenotype(), bunny.getTeethGenotype().getPhenotype(), bunny.getTailGenotype().getPhenotype() );
 
         // randomly position the bunny
-        double bunnyDepth = Math.random();
-        double sidePadding = 25;
-        double locationX = ( NaturalSelectionDefaults.VIEW_SIZE.getWidth() - sidePadding * 2 ) * Math.random() + sidePadding;
-        double locationY = 0;
-        double locationZ = 1 + bunnyDepth * 1.5;
-        bunnyNode.setSpriteLocation( locationX, locationY, locationZ );
+        bunnyNode.setSpriteLocation( bunny.getX(), bunny.getY(), bunny.getZ() );
+        bunnyNode.setFlipped( !bunny.isMovingRight() );
 
         // add the bunny
         addChildSprite( bunnyNode );

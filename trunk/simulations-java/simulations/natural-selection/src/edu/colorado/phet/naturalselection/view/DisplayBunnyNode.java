@@ -13,6 +13,7 @@ import edu.colorado.phet.naturalselection.model.TeethGene;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PAffineTransform;
 
 /**
  * Piccolo node that displays a bunny with various traits (or a red X if dead)
@@ -38,6 +39,9 @@ public class DisplayBunnyNode extends PNode {
 
     // whether dead or alive
     private boolean dead;
+
+    // whether we are flipped visually left-to-right
+    private boolean flipped;
 
     /**
      * Constructor
@@ -94,6 +98,27 @@ public class DisplayBunnyNode extends PNode {
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
+
+    public boolean isFlipped() {
+        return flipped;
+    }
+
+    public void setFlipped( boolean flipped ) {
+        if ( flipped != this.flipped ) {
+            if ( flipped ) {
+                //setScale( -1.0 );
+                //PAffineTransform trans = getTransform();
+                setTransform( new PAffineTransform( -1, 0, 0, 1, getBunnyWidth(), 0 ) );
+                //setOffset( new Point2D.Double( getBunnyWidth(), 0 ) );
+            }
+            else {
+                setTransform( new PAffineTransform( 1, 0, 0, 1, 0, 0 ) );
+                //setScale( 1.0 );
+                //setOffset( new Point2D.Double( 0, 0 ) );
+            }
+        }
+        this.flipped = flipped;
+    }
 
     public void setDead( boolean dead ) {
         this.dead = dead;
