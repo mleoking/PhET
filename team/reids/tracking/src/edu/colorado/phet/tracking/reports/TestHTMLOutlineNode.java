@@ -26,10 +26,18 @@ public class TestHTMLOutlineNode extends PNode {
         this.font = font;
         this.fill = fill;
         this.outline = outline;
-        addChild(outline, -1, -1);
-        addChild(outline, -1, 1);
-        addChild(outline, 1, 1);
-        addChild(outline, 1, -1);
+
+        double dtheta = Math.PI * 2 / 10;
+        double r=2;
+        for (double theta = 0; theta < Math.PI * 2; theta += dtheta) {
+            addChild(outline, r*Math.sin(theta), r*Math.cos(theta));
+        }
+
+
+//        addChild(outline, -1, -1);
+//        addChild(outline, -1, 1);
+//        addChild(outline, 1, 1);
+//        addChild(outline, 1, -1);
 
         addChild(fill, 0, 0);
     }
