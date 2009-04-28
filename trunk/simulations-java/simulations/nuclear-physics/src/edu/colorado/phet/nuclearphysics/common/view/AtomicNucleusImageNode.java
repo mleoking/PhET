@@ -109,6 +109,16 @@ public class AtomicNucleusImageNode extends AtomicNucleusNode {
     		color = NuclearPhysicsConstants.NITROGEN_COLOR;
     		break;
     		
+    	case 92:
+    		// Uranium
+    		color = NuclearPhysicsConstants.URANIUM_238_COLOR;
+    		break;
+    		
+    	case 83:
+    		// Bismuth, which by internal convention is the custom nucleus.
+    		color = NuclearPhysicsConstants.CUSTOM_NUCLEUS_PRE_DECAY_COLOR;
+    		break;
+    		
     	default:
     		// Unknown
     		System.out.println("Warning: Don't have a color assignment for this element.");
