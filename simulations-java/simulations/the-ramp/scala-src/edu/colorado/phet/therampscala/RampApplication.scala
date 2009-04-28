@@ -194,15 +194,58 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
 }
 
 case class Result(success: Boolean, cliff: Boolean, score: Int)
-class RobotMovingCompanyGameModel(beadFactory: (Double, Double, Double) => Bead) extends Observable {
+class RobotMovingCompanyGameModel(model: RampModel, clock: ScalaClock) extends Observable {
+  model.rampSegments(1).setAngle(0)
+  model.walls = false
+  model.rampSegments(0).startPoint = new Vector2D(-10, 0).rotate(-(30.0).toRadians)
+
+  val airborneFloor = -9.0
+
   private var _launched = false
   private var _objectIndex = 0
   private val resultMap = new HashMap[ScalaRampObject, Result]
   val nextObjectListeners = new ArrayBuffer[(ScalaRampObject) => Unit]
   val itemFinishedListeners = new ArrayBuffer[(ScalaRampObject, Result) => Unit]
+  val beadCreatedListeners = new ArrayBuffer[(Bead, ScalaRampObject) => Unit]
   val objectList = RampDefaults.objects
   val housePosition = 8
-  val house = beadFactory(housePosition, RampDefaults.house.width, RampDefaults.house.height)
+  val house = model.createBead(housePosition, RampDefaults.house.width, RampDefaults.house.height)
+  private var _bead: Bead = null
+
+  nextObjectListeners += (x => setupObject())
+
+  setupObject()
+  def bead = _bead
+
+  def setupObject() = {
+    val a = selectedObject
+    model.setPaused(true)
+    _bead = model.createBead(-model.rampSegments(0).length, a.width)
+    val beadRef = _bead
+    bead.staticFriction = a.staticFriction
+    bead.kineticFriction = a.kineticFriction
+    bead.crashListeners += (() => {
+      RampResources.getAudioClip("smash0.wav").play()
+      itemLostOffCliff(a)
+    })
+    bead.addListener(() => {
+      //      println("houseMinX=" + gameModel.house.minX + ", particle: " + bead.position + ", maxX: " + gameModel.house.maxX)
+      if (beadRef.position > 0 && abs(beadRef.velocity) < 1E-6 && !containsKey(a)) {
+        if (beadRef.position >= house.minX && beadRef.position <= house.maxX) {
+          RampResources.getAudioClip("tintagel/DIAMOND.WAV").play()
+          itemMoved(a)
+        }
+        else {
+          itemLost(a)
+        }
+      }
+    })
+    bead.height = a.height
+    bead.airborneFloor_=(airborneFloor)
+
+    clock.addClockListener(dt => if (!model.isPaused) beadRef.stepInTime(dt))
+    beadCreatedListeners.foreach(_(bead, a))
+  }
 
   def containsKey(a: ScalaRampObject) = resultMap.contains(a)
 
@@ -258,51 +301,9 @@ class RobotMovingCompanyGameModel(beadFactory: (Double, Double, Double) => Bead)
   }
 }
 class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock) {
-  model.rampSegments(1).setAngle(0)
-  model.walls = false
-  model.rampSegments(0).startPoint = new Vector2D(-10, 0).rotate(-(30.0).toRadians)
-  val airborneFloor = -9.0
-  val gameModel = new RobotMovingCompanyGameModel(model.createBead)
-  gameModel.nextObjectListeners += (x => setupObject())
-  val canvas = new RMCCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame, airborneFloor, gameModel)
+  val gameModel = new RobotMovingCompanyGameModel(model, clock)
+  val canvas = new RMCCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame, gameModel)
   setSimulationPanel(canvas)
-
-  setupObject()
-
-  def setupObject() = {
-    val a = gameModel.selectedObject
-    model.setPaused(true)
-    val bead = model.createBead(-model.rampSegments(0).length, a.width)
-    bead.staticFriction = a.staticFriction
-    bead.kineticFriction = a.kineticFriction
-    bead.crashListeners += (() => {
-      RampResources.getAudioClip("smash0.wav").play()
-      gameModel.itemLostOffCliff(a)
-    })
-    bead.addListener(() => {
-      //      println("houseMinX=" + gameModel.house.minX + ", particle: " + bead.position + ", maxX: " + gameModel.house.maxX)
-      if (bead.position > 0 && abs(bead.velocity) < 1E-6 && !gameModel.containsKey(a)) {
-        if (bead.position >= gameModel.house.minX && bead.position <= gameModel.house.maxX) {
-          gameModel.itemMoved(a)
-        }
-        else {
-          gameModel.itemLost(a)
-        }
-      }
-    })
-    bead.height = a.height
-    bead.airborneFloor_=(airborneFloor)
-
-    val beadNode = new DraggableBeadNode(bead, canvas.transform, a.imageFilename)
-    canvas.addNode(beadNode) //todo: move to canvas subclass
-    clock.addClockListener(dt => if (!model.isPaused) bead.stepInTime(dt))
-
-    gameModel.nextObjectListeners += ((oo: ScalaRampObject) => {
-      if (oo == a) {
-        canvas.removeNode(beadNode)
-      }
-    })
-  }
 }
 class RobotMovingCompanyApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   addModule(new RobotMovingCompanyModule(getPhetFrame, new ScalaClock(30, RampDefaults.DT_DEFAULT)))
