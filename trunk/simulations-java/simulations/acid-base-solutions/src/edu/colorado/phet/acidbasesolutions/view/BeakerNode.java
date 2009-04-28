@@ -5,7 +5,6 @@ package edu.colorado.phet.acidbasesolutions.view;
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -41,7 +40,7 @@ public class BeakerNode extends PComposite {
     private static final Color OUTLINE_COLOR = Color.BLACK;
     
     private static final double SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK = 10;
-    private static final Point2D BEAKER_LIP_OFFSET = new Point2D.Double( 20, 20 );
+    private static final PDimension BEAKER_LIP_SIZE = new PDimension( 20, 20 );
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -65,12 +64,12 @@ public class BeakerNode extends PComposite {
         
         _beakerPath = new GeneralPath();
         _beakerPath.reset();
-        _beakerPath.moveTo( (float) -BEAKER_LIP_OFFSET.getX(), (float)-( BEAKER_LIP_OFFSET.getY() + SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK ) );
+        _beakerPath.moveTo( (float) -BEAKER_LIP_SIZE.getWidth(), (float)-( BEAKER_LIP_SIZE.getHeight() + SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK ) );
         _beakerPath.lineTo( 0f, (float) -SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK );
         _beakerPath.lineTo( 0f, height );
         _beakerPath.lineTo( width, height );
         _beakerPath.lineTo( width, (float) -SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK );
-        _beakerPath.lineTo( (float) ( width + BEAKER_LIP_OFFSET.getX() ), (float)-( BEAKER_LIP_OFFSET.getY() + SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK ) );
+        _beakerPath.lineTo( (float) ( width + BEAKER_LIP_SIZE.getWidth() ), (float)-( BEAKER_LIP_SIZE.getHeight() + SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK ) );
         
         _beakerNode = new PPath( _beakerPath );
         _beakerNode.setPaint( null );
@@ -118,7 +117,7 @@ public class BeakerNode extends PComposite {
         }
     }
     
-    public static Point2D getLipOffset() {
-        return BEAKER_LIP_OFFSET;
+    public PDimension getLipSize() {
+        return BEAKER_LIP_SIZE;
     }
 }

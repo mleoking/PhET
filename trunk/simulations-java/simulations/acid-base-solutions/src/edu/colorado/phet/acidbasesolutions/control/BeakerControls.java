@@ -27,16 +27,18 @@ public class BeakerControls extends JPanel {
     private static final String BEAKER_LABEL = "Label";
     
     private final PNode _moleculeCountsNode;
+    private final PNode _beakerLabelNode;
     
     private final JCheckBox _dissociatedComponentsRatioCheckBox;
     private final JCheckBox _hyroniumHydroxideRatioCheckBox;
     private final JCheckBox _moleculeCountsCheckBox;
     private final JCheckBox _beakerLabelCheckBox;
     
-    public BeakerControls( PNode moleculeCountsNode ) {
+    public BeakerControls( PNode moleculeCountsNode, PNode beakerLabelNode ) {
         super();
         
         _moleculeCountsNode = moleculeCountsNode;
+        _beakerLabelNode = beakerLabelNode;
         
         // border
         TitledBorder border = new TitledBorder( new LineBorder( Color.BLACK, 2 ), TITLE );
@@ -57,7 +59,12 @@ public class BeakerControls extends JPanel {
             }
         });
         
-        _beakerLabelCheckBox = new JCheckBox( BEAKER_LABEL );
+        _beakerLabelCheckBox = new JCheckBox( BEAKER_LABEL, _beakerLabelNode.getVisible() );
+        _beakerLabelCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                _beakerLabelNode.setVisible( _beakerLabelCheckBox.isSelected() );
+            }
+        });
 
         // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );

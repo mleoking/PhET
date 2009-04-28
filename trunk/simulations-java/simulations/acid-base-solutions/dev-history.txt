@@ -2,6 +2,7 @@
  acid-base-solutions : development history
 ==================================================================================
 
+4/27/09 add beaker label, wire up to checkbox
 4/27/09 implement Molecule Counts using Swing layout node, wire up to checkbox
 4/15/09 add placeholder for Concentrations Graph, wire up to checkbox
 4/15/09 add empty dialogs for Equilibrium Expressions, Reaction Equations, wire up to checkboxes
