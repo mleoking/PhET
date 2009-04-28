@@ -8,9 +8,8 @@ import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.control.BeakerControls;
 import edu.colorado.phet.acidbasesolutions.control.MiscControls;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
-import edu.colorado.phet.acidbasesolutions.view.*;
 import edu.colorado.phet.acidbasesolutions.view.beaker.*;
-import edu.colorado.phet.acidbasesolutions.view.graph.ConcentrationsGraphNode;
+import edu.colorado.phet.acidbasesolutions.view.graph.ConcentrationGraphNode;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -34,7 +33,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
     private final BeakerNode _beakerNode;
     private final PHProbeNode _probeNode;
     private final SolutionNode _solutionNode;
-    private final ConcentrationsGraphNode _concentrationsGraphNode;
+    private final ConcentrationGraphNode _concentrationGraphNode;
     private final MoleculeCountsNode _moleculeCountsNode;
     private final BeakerLabelNode _beakerLabelNode;
     
@@ -59,7 +58,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
 
         _solutionNode = new SolutionNode( SolutionsDefaults.BEAKER_SIZE );
         
-        _concentrationsGraphNode = new ConcentrationsGraphNode();
+        _concentrationGraphNode = new ConcentrationGraphNode();
         
         _moleculeCountsNode = new MoleculeCountsNode();
         
@@ -70,7 +69,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         _beakerControlsWrapper = new PSwing( _beakerControls );
         _beakerControlsWrapper.scale( ABSConstants.PSWING_SCALE );
         
-        _miscControls = new MiscControls( _concentrationsGraphNode );
+        _miscControls = new MiscControls( _concentrationGraphNode );
         _miscControls.setBackground( getBackground() );
         _miscControlsWrapper = new PSwing( _miscControls );
         _miscControlsWrapper.scale( ABSConstants.PSWING_SCALE );
@@ -81,7 +80,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         addNode( _solutionNode );
         addNode( _probeNode );
         addNode( _beakerNode );
-        addNode( _concentrationsGraphNode );
+        addNode( _concentrationGraphNode );
         addNode( _moleculeCountsNode );
         addNode( _beakerLabelNode );
     }
@@ -137,9 +136,9 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         _beakerControlsWrapper.setOffset( xOffset, yOffset );
         
         // concentration graph at upper right
-        xOffset = worldSize.getWidth() - _concentrationsGraphNode.getFullBoundsReference().getWidth() - 15;
+        xOffset = worldSize.getWidth() - _concentrationGraphNode.getFullBoundsReference().getWidth() - 15;
         yOffset = 15;
-        _concentrationsGraphNode.setOffset( xOffset, yOffset );
+        _concentrationGraphNode.setOffset( xOffset, yOffset );
         
         // misc controls at bottom right
         xOffset = worldSize.getWidth() - _miscControlsWrapper.getFullBoundsReference().getWidth() - 5;
