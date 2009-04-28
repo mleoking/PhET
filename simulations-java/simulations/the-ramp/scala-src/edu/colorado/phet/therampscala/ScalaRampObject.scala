@@ -19,6 +19,15 @@ class ScalaRampObject(_name: String, _mass: Double, val kineticFriction: Double,
   def height = _height
 
   def displayTooltip = true
+
+  override def equals(obj: Any) = {
+    obj match {
+      case a: ScalaRampObject => a.name == name && a.mass == mass && a.height == height && a.kineticFriction == kineticFriction
+      case _ => false
+    }
+  }
+
+  override def hashCode = mass.hashCode + name.hashCode * 17
 }
 
 class CustomTextRampObject(name: String, mass: Double, kineticFriction: Double, staticFriction: Double, imageFilename: String, customizable: Boolean) extends ScalaRampObject(name, mass, kineticFriction, staticFriction, 1, imageFilename, customizable) {

@@ -1,6 +1,7 @@
 package edu.colorado.phet.therampscala.model
 
 
+import collection.mutable.ArrayBuffer
 import common.phetcommon.math.MathUtil
 import graphics.{PointOfOriginVector, Vector}
 import java.awt.geom.Rectangle2D
@@ -35,6 +36,7 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
            rampSegmentAccessor: Double => RampSegment, model: Observable, surfaceFriction: () => Boolean, wallsExist: => Boolean,
            wallRange: () => Range)
         extends Observable {
+  val crashListeners = new ArrayBuffer[() => Unit]
   val gravity = -9.8
   var state = _state
   var _parallelAppliedForce = 0.0
@@ -192,8 +194,10 @@ class Bead(_state: BeadState, private var _height: Double, positionMapper: Doubl
       val accel = totalForce / mass
       _velocity2D = _velocity2D + accel * dt
       _position2D = _position2D + _velocity2D * dt
-      if (_position2D.y <= _airborneFloor)
+      if (_position2D.y <= _airborneFloor) {
         attachState = new Crashed(new Vector2D(_position2D.x, _airborneFloor), _angle)
+        crashListeners.foreach(_())
+      }
       notifyListeners() //to get the new normalforce
     }
 
