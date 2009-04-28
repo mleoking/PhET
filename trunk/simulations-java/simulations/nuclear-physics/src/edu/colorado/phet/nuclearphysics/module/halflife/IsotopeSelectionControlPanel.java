@@ -50,6 +50,7 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
     
     private NucleusSelectionPanel _selectionPanel;
     private NucleusTypeControl _model;
+    private static final Font LABEL_FONT = new PhetFont( Font.BOLD, 14 ); 
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -214,19 +215,19 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
                 
                 NucleusSelectionDescriptor preDecayCustomNucleusDescriptor = new NucleusSelectionDescriptor(
                 		AtomicNucleusImageType.GRADIENT_SPHERE,
-                		"",  // Custom nucleus has no isotope number.
+                		"",  // Custom nucleus has no isotope number on this panel.
                 		"",  // Custom nucleus has no chemical symbol on this panel.
                 		NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR,
                 		NuclearPhysicsConstants.CUSTOM_NUCLEUS_PRE_DECAY_COLOR,
-                		NuclearPhysicsStrings.CUSTOM_NUCLEUS_LEGEND_LABEL );
+                		NuclearPhysicsStrings.CUSTOM_PARENT_NUCLEUS_LABEL );
 
                 NucleusSelectionDescriptor postDecayCustomNucleusDescriptor = new NucleusSelectionDescriptor(
                 		AtomicNucleusImageType.GRADIENT_SPHERE,
-                		"",  // Custom nucleus has no isotope number.
+                		"",  // Custom nucleus has no isotope number on this panel.
                 		"",  // Custom nucleus has no chemical symbol on this panel.
                 		NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR,
                 		NuclearPhysicsConstants.CUSTOM_NUCLEUS_POST_DECAY_COLOR,
-                		NuclearPhysicsStrings.CUSTOM_NUCLEUS_LEGEND_LABEL );
+                		NuclearPhysicsStrings.CUSTOM_DAUGHTER_NUCLEUS_LABEL );
                 
                 addIsotopeSelection( _customNucleusRadioButton, preDecayCustomNucleusDescriptor, 
                 		postDecayCustomNucleusDescriptor );                        
@@ -293,6 +294,7 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
             
             // Create and add the textual label for the pre-decay nucleus.
             JLabel preDecayNucleusLabel = new JLabel( preDecayNucleus.getLegendLabel() ) ;
+            preDecayNucleusLabel.setFont( LABEL_FONT );
             constraints.anchor = GridBagConstraints.WEST;
             constraints.gridx = 2;
             constraints.gridy = _isotopeSelectorCount * 4;
@@ -319,8 +321,9 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
             add( new JLabel(postDecayIconImage), constraints );
             constraints.ipadx = 0; // Remove the padding.
             
-            // Create and add the textual label for the Nitrogen nucleus.
+            // Create and add the textual label for the post-decay nucleus.
             JLabel postDecayNucleusLabel = new JLabel( postDecayNucleus.getLegendLabel() ) ;
+            postDecayNucleusLabel.setFont( LABEL_FONT );
             constraints.anchor = GridBagConstraints.WEST;
             constraints.gridx = 2;
             constraints.gridy = _isotopeSelectorCount * 4 + 2;
