@@ -33,7 +33,7 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.AbstractAlphaDecayNucleus;
-import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
+import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayCanvas;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
 import edu.umd.cs.piccolo.PNode;
@@ -199,7 +199,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         } );
         
         // Listen to the model for notifications of relevant events.
-        _model.addListener( new AlphaDecayAdapter(){
+        _model.addListener( new NuclearDecayListenerAdapter(){
             public void modelElementAdded(Object modelElement){
             	handleModelElementAdded(modelElement);
             };

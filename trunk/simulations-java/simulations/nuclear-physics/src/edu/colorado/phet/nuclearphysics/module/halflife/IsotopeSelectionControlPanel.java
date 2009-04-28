@@ -31,7 +31,7 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
-import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
+import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.NucleusTypeControl;
 import edu.colorado.phet.nuclearphysics.view.LabeledNucleusNode;
 import edu.umd.cs.piccolo.PNode;
@@ -48,7 +48,7 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private NucleusSelectionPanel _selectionPanel;
+    private IsotopeSelectionPanel _selectionPanel;
     private NucleusTypeControl _model;
     private static final Font LABEL_FONT = new PhetFont( Font.BOLD, 14 ); 
     
@@ -74,7 +74,7 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
         setMinimumWidth( minimumWidth );
         
         // Create sub-panel
-        _selectionPanel = new NucleusSelectionPanel( customNucleusEnabled );
+        _selectionPanel = new IsotopeSelectionPanel( customNucleusEnabled );
         
         // Add the selection panel.
         addControlFullWidth( _selectionPanel );
@@ -88,7 +88,7 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
     // Inner classes
     //----------------------------------------------------------------------------
     
-    private class NucleusSelectionPanel extends JPanel {
+    private class IsotopeSelectionPanel extends JPanel {
     	
         //------------------------------------------------------------------------
         // Class Data
@@ -98,7 +98,6 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
         // Instance Data
         //------------------------------------------------------------------------
         
-        private NucleusTypeControl _alphaDecayModel;
         private JRadioButton _carbon14RadioButton;
         private JRadioButton _uranium238RadioButton;
         private JRadioButton _customNucleusRadioButton;
@@ -107,10 +106,10 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
         // Constructor
         //------------------------------------------------------------------------
         
-        public NucleusSelectionPanel( boolean customNucleusSelectionEnabled ) {
+        public IsotopeSelectionPanel( boolean customNucleusSelectionEnabled ) {
             
         	// Register for notifications of nucleus type changes.
-        	_model.addListener(new AlphaDecayAdapter(){
+        	_model.addListener(new NuclearDecayListenerAdapter(){
         		public void nucleusTypeChanged() {
         			if (_model.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
         				_uranium238RadioButton.setSelected(true);
@@ -143,17 +142,17 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
             // Register for button presses.
             _carbon14RadioButton.addActionListener( new ActionListener(){
                 public void actionPerformed(ActionEvent event){
-                	_alphaDecayModel.setNucleusType(NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM);
+                	_model.setNucleusType(NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14);
                 }
             });
             _uranium238RadioButton.addActionListener( new ActionListener(){
                 public void actionPerformed(ActionEvent event){
-                	_alphaDecayModel.setNucleusType(NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM);
+                	_model.setNucleusType(NuclearPhysicsConstants.NUCLEUS_ID_URANIUM_238);
                 }
             });
             _customNucleusRadioButton.addActionListener( new ActionListener(){
                 public void actionPerformed(ActionEvent event){
-                	_alphaDecayModel.setNucleusType(NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM);
+                	_model.setNucleusType(NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM);
                 }
             });
 
@@ -241,10 +240,10 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
          * change in the model.
          */
         public void updateButtonState(){
-        	if (_alphaDecayModel.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM){
+        	if (_model.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM){
         		_carbon14RadioButton.setSelected(true);
         	}
-        	else if (_alphaDecayModel.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
+        	else if (_model.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
         		_uranium238RadioButton.setSelected(true);
         	}
         	else{

@@ -26,7 +26,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
-import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
+import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.view.LabeledNucleusNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -59,7 +59,7 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
     	_alphaDecayModel = alphaDecayModel;
     	
     	// Register for notifications of nucleus type changes.
-    	alphaDecayModel.addListener(new AlphaDecayAdapter(){
+    	alphaDecayModel.addListener(new NuclearDecayListenerAdapter(){
     		public void nucleusTypeChanged() {
     			if (_alphaDecayModel.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
     				_customNucleusRadioButton.setSelected(true);

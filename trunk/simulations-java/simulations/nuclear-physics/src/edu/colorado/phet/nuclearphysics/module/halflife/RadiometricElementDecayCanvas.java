@@ -29,7 +29,7 @@ import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.common.view.GrabbableNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.model.AbstractAlphaDecayNucleus;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
-import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
+import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
 import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
@@ -125,7 +125,7 @@ public class RadiometricElementDecayCanvas extends PhetPCanvas {
         
         // Register with the model for notifications of nuclei and alpha
         // particles coming and going.
-        _model.addListener( new AlphaDecayAdapter(){
+        _model.addListener( new NuclearDecayListenerAdapter(){
             public void modelElementAdded(Object modelElement){
             	handleModelElementAdded(modelElement);
             };

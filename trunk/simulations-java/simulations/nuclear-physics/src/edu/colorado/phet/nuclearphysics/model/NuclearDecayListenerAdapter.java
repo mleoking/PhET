@@ -7,7 +7,7 @@ import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayModelListener;
  * 
  * @author John Blanco
  */
-public class AlphaDecayAdapter implements NuclearDecayModelListener {
+public class NuclearDecayListenerAdapter implements NuclearDecayModelListener {
     public void modelElementAdded(Object modelElement){}
     public void modelElementRemoved(Object modelElement){}
     public void nucleusTypeChanged(){}

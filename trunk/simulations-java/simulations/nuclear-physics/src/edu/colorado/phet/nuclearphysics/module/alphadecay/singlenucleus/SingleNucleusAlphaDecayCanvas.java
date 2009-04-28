@@ -24,7 +24,7 @@ import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.Neutron;
 import edu.colorado.phet.nuclearphysics.common.model.Proton;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
-import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
+import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayCompositeNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.CompositeAtomicNucleus;
@@ -100,7 +100,7 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
         });
         
         // Register for alpha decay events from the model.
-        _singleNucleusAlphaDecayModel.addListener(new AlphaDecayAdapter(){
+        _singleNucleusAlphaDecayModel.addListener(new NuclearDecayListenerAdapter(){
             public void modelElementAdded(Object modelElement){
             	createNucleusNodes();
             	positionTunnelingMarkers();
