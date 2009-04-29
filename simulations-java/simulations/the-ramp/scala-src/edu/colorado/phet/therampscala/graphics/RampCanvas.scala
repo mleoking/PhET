@@ -121,13 +121,13 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
 
   val vectorNode = new VectorSetNode(transform, model.bead)
   addNode(vectorNode)
-  def addVectorAllComponents(beadVector: BeadVector with PointOfOriginVector, offsetFBD: VectorValue, offsetPlayArea: Double,
+  def addVectorAllComponents(bead: Bead, beadVector: BeadVector with PointOfOriginVector, offsetFBD: VectorValue, offsetPlayArea: Double,
                              selectedVectorVisible: () => Boolean) = {
-    addVector(beadVector, offsetFBD, offsetPlayArea)
-    val parallelComponent = new ParallelComponent(beadVector, model.bead)
-    val perpComponent = new PerpendicularComponent(beadVector, model.bead)
-    val xComponent = new XComponent(beadVector, model.bead)
-    val yComponent = new YComponent(beadVector, model.bead)
+    addVector(bead, beadVector, offsetFBD, offsetPlayArea)
+    val parallelComponent = new ParallelComponent(beadVector, bead)
+    val perpComponent = new PerpendicularComponent(beadVector, bead)
+    val xComponent = new XComponent(beadVector, bead)
+    val yComponent = new YComponent(beadVector, bead)
     def update() = {
       yComponent.visible = vectorViewModel.xyComponentsVisible && selectedVectorVisible()
       xComponent.visible = vectorViewModel.xyComponentsVisible && selectedVectorVisible()
@@ -138,25 +138,25 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
     vectorViewModel.addListenerByName(update())
     update()
 
-    addVector(xComponent, offsetFBD, offsetPlayArea)
-    addVector(yComponent, offsetFBD, offsetPlayArea)
-    addVector(parallelComponent, offsetFBD, offsetPlayArea)
-    addVector(perpComponent, offsetFBD, offsetPlayArea)
+    addVector(bead, xComponent, offsetFBD, offsetPlayArea)
+    addVector(bead, yComponent, offsetFBD, offsetPlayArea)
+    addVector(bead, parallelComponent, offsetFBD, offsetPlayArea)
+    addVector(bead, perpComponent, offsetFBD, offsetPlayArea)
   }
 
-  def addVector(vector: Vector with PointOfOriginVector, offsetFBD: VectorValue, offsetPlayArea: Double) = {
+  def addVector(bead: Bead, vector: Vector with PointOfOriginVector, offsetFBD: VectorValue, offsetPlayArea: Double) = {
     fbdNode.addVector(vector, offsetFBD)
     windowFBDNode.addVector(vector, offsetFBD)
 
     val tailLocationInPlayArea = new VectorValue() {
       def addListenerByName(listener: => Unit) = {
-        model.bead.addListenerByName(listener)
+        bead.addListenerByName(listener)
         vectorViewModel.addListenerByName(listener)
       }
 
       def getValue = {
-        val defaultCenter = model.bead.height / 2.0
-        model.bead.position2D + new Vector2D(model.bead.getAngle + PI / 2) *
+        val defaultCenter = bead.height / 2.0
+        bead.position2D + new Vector2D(bead.getAngle + PI / 2) *
                 (offsetPlayArea + (if (vectorViewModel.centered) defaultCenter else vector.getPointOfOriginOffset(defaultCenter)))
       }
 
@@ -172,13 +172,17 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
     vectorNode.addVector(playAreaAdapter, tailLocationInPlayArea)
   }
 
-  def addVectorAllComponents(a: BeadVector): Unit = addVectorAllComponents(a, new ConstantVectorValue, 0, () => true)
-  addVectorAllComponents(model.bead.appliedForceVector)
-  addVectorAllComponents(model.bead.gravityForceVector)
-  addVectorAllComponents(model.bead.normalForceVector)
-  addVectorAllComponents(model.bead.frictionForceVector)
-  addVectorAllComponents(model.bead.wallForceVector)
-  addVectorAllComponents(model.bead.totalForceVector, new ConstantVectorValue(new Vector2D(0, fbdWidth / 4)), 2, () => vectorViewModel.sumOfForcesVector) //no need to add a separate listener, since it is already contained in vectorviewmodel
+  def addVectorAllComponents(bead: Bead, a: BeadVector): Unit = addVectorAllComponents(bead, a, new ConstantVectorValue, 0, () => true)
+
+  def addAllVectors(bead: Bead) = {
+    addVectorAllComponents(bead, bead.appliedForceVector)
+    addVectorAllComponents(bead, bead.gravityForceVector)
+    addVectorAllComponents(bead, bead.normalForceVector)
+    addVectorAllComponents(bead, bead.frictionForceVector)
+    addVectorAllComponents(bead, bead.wallForceVector)
+    addVectorAllComponents(bead, bead.totalForceVector, new ConstantVectorValue(new Vector2D(0, fbdWidth / 4)), 2, () => vectorViewModel.sumOfForcesVector) //no need to add a separate listener, since it is already contained in vectorviewmodel
+  }
+  addAllVectors(model.bead)
 }
 
 class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
@@ -249,10 +253,10 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
   val scoreboard = new ScoreboardNode(transform, gameModel)
   addNode(scoreboard)
 
-  gameModel.beadCreatedListeners += ((bead: Bead, a: ScalaRampObject) => {
-    init(bead, a)
+  gameModel.beadCreatedListeners += ((bead: Bead, selectedObject: ScalaRampObject) => {
+    init(bead, selectedObject)
   })
-  init(gameModel.bead,gameModel.selectedObject)
+  init(gameModel.bead, gameModel.selectedObject)
 
   def init(bead: Bead, a: ScalaRampObject) = {
     val beadNode = new DraggableBeadNode(bead, transform, a.imageFilename)
@@ -263,6 +267,9 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
         removeNode(beadNode)
       }
     })
+    fbdNode.clearVectors()
+    //todo: clear other vectors such as play area and windowed vectors as well
+    addAllVectors(bead)
   }
 
   def changeY(dy: Double) = {
