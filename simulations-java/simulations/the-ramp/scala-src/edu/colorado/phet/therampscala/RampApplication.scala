@@ -222,6 +222,7 @@ class RobotMovingCompanyGameModel(model: RampModel, clock: ScalaClock) extends O
     model.setPaused(true)
     _bead = model.createBead(-model.rampSegments(0).length, a.width)
     val beadRef = _bead
+    bead.mass = a.mass
     bead.staticFriction = a.staticFriction
     bead.kineticFriction = a.kineticFriction
     bead.crashListeners += (() => {
