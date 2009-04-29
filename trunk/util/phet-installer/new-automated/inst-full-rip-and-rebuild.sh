@@ -32,9 +32,7 @@ function send_email_notification {
 
 echo "================================================================" | tee --append $LOG
 echo " Full rip and rebuild operation performed by `whoami` on: " | tee --append $LOG
-date  | tee --append $LOG
-echo " Initiated in directory: " | tee --append $LOG
-pwd  | tee --append $LOG
+echo " `date`" | tee --append $LOG
 echo "================================================================" | tee --append $LOG
 
 /usr/local/php/bin/php full-rip-and-rebuild.php | tee --append $LOG

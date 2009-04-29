@@ -198,7 +198,6 @@
                 flushing_echo("Downloading resource $resource_num of ".count($hrefs)."...");
 
                 if (!web_is_absolute_url($href)) {
-                    flushing_echo("TOP");
                     $absolute_url = file_get_real_path($codebase.$href);
                 }
                 else {
