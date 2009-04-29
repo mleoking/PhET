@@ -38,7 +38,7 @@ public class ABSResources {
         return RESOURCES.getLocalizedInt( name, defaultValue );
     }
     
-    public static final BufferedImage getImage( String name ) {
+    public static final BufferedImage getBufferedImage( String name ) {
         return RESOURCES.getImage( name );
     }
     

@@ -2,6 +2,9 @@
  acid-base-solutions : development history
 ==================================================================================
 
+4/29/09 add icons to Symbol Legend dialog
+4/29/09 standardize text style for A, B, M
+4/29/09 check in Lewis Structure images
 4/28/09 first pass at Concentration graph, adapted many pieces from ph-scale
 4/27/09 add beaker label, wire up to checkbox
 4/27/09 implement Molecule Counts using Swing layout node, wire up to checkbox

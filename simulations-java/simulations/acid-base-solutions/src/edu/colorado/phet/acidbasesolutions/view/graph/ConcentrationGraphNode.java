@@ -62,6 +62,7 @@ public class ConcentrationGraphNode extends PNode {
     
     // molecule icons and labels
     private static final Font MOLECULE_LABEL_FONT = new PhetFont( 18 );
+    private static final double MOLECULE_ICON_SCALE = 0.25; //TODO: scale image files so that this is 1.0
     
     // y ticks
     private static final double TICK_LENGTH = 6;
@@ -320,7 +321,7 @@ public class ConcentrationGraphNode extends PNode {
             super();
             imageNode = new PImage( image );
             addChild( imageNode );
-            scale( 0.25 );//TODO scale image files
+            scale( MOLECULE_ICON_SCALE );
         }
         
         public void setImage( Image image ) {
