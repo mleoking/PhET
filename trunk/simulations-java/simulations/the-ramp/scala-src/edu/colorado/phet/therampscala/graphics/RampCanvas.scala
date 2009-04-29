@@ -90,7 +90,6 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
   canvas.addScreenChild(windowFBDNode)
   fbdWindow.setContentPane(canvas)
 
-
   var initted = false
   defineInvokeAndPass(freeBodyDiagramModel.addListenerByName) {
     val wasVisible = fbdWindow.isVisible
@@ -102,7 +101,13 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
     updateNodeSize()
   }
   fbdWindow.addWindowListener(new WindowAdapter {
-    override def windowClosing(e: WindowEvent) = freeBodyDiagramModel.visible = false
+    override def windowClosing(e: WindowEvent) = {
+      if (!freeBodyDiagramModel.closable) {
+        freeBodyDiagramModel.windowed = false
+      } else {
+        freeBodyDiagramModel.visible = false
+      }
+    }
   })
 
   class VectorSetNode(transform: ModelViewTransform2D, bead: Bead) extends PNode {
@@ -245,6 +250,8 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
   pswingControlPanel.setOffset(0, transform.modelToView(0, -1).y)
   fbdNode.setOffset(pswingControlPanel.getFullBounds.getMaxX + 10, pswingControlPanel.getFullBounds.getY)
   freeBodyDiagramModel.visible = true
+  freeBodyDiagramModel.closable = false
+
 
   addNode(new BeadNode(gameModel.house, transform, RampDefaults.house.imageFilename))
   model.bead.parallelAppliedForce = 1E-16 //to move the pusher to the right spot//todo: fix this with view, not model
@@ -261,14 +268,14 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
     addNode(beadNode)
 
     gameModel.nextObjectListeners += ((prevObject: ScalaRampObject) => {
-      if (prevObject == a) {//todo: get rid of this lookup
+      if (prevObject == a) { //todo: get rid of this lookup
         removeNode(beadNode)
       }
     })
     fbdNode.clearVectors()
     windowFBDNode.clearVectors()
     //todo: clear play area vectors (or never add them in the first place)
-//    println("adding vectors for bead: " + bead + ", a=" + a)
+    //    println("adding vectors for bead: " + bead + ", a=" + a)
     addAllVectors(bead)
   }
 
