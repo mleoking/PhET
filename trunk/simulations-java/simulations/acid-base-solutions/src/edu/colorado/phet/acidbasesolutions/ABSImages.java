@@ -28,6 +28,9 @@ public class ABSImages {
     public static final BufferedImage MOH_PLUS_STRUCTURE = getBufferedImage( "lewis_structures/MOH.png" );
     public static final BufferedImage OH_MINUS_STRUCTURE = getBufferedImage( "lewis_structures/OH_minus.png" );
     
+    public static final BufferedImage ARROW_DOUBLE = getBufferedImage( "arrow_double.png" );
+    public static final BufferedImage ARROW_SINGLE = getBufferedImage( "arrow_single.png" );
+    
     private static final BufferedImage getBufferedImage( String resourceName ) {
         return ABSResources.getBufferedImage( resourceName );
     }
