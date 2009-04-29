@@ -70,6 +70,9 @@
     // Command-line args of the ripper:
     define("RIPPER_ARGS", '"'.PHET_WEBSITE_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER.' -j %q0 -%e0');
 
+    // File used for preventing simultaneous builds.
+    define("LOCK_FILE_STEM_NAME", "installer-builder");
+
     // *****************************************************************************
     // BitRock Configuration
 
