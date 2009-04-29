@@ -123,8 +123,8 @@ public class RadiometricElementDecayCanvas extends PhetPCanvas {
         // Set the background color.
         setBackground( NuclearPhysicsConstants.CANVAS_BACKGROUND );
         
-        // Register with the model for notifications of nuclei and alpha
-        // particles coming and going.
+        // Register with the model for notifications of nuclei coming and
+        // going.
         _model.addListener( new NuclearDecayListenerAdapter(){
             public void modelElementAdded(Object modelElement){
             	handleModelElementAdded(modelElement);
@@ -209,14 +209,6 @@ public class RadiometricElementDecayCanvas extends PhetPCanvas {
             	handleNodeReleased(node);
             };
         };
-        
-        // Pre-generate the images for the custom nuclei and lead nuclei,
-        // because otherwise there are noticeable pauses at various times
-        // when the nuclei need to be generated.
-        NucleusImageFactory.getInstance().preGenerateNucleusImages(AdjustableHalfLifeNucleus.ORIGINAL_NUM_PROTONS,
-        		AdjustableHalfLifeNucleus.ORIGINAL_NUM_NEUTRONS, 25 );
-        NucleusImageFactory.getInstance().preGenerateNucleusImages(Polonium211Nucleus.ORIGINAL_NUM_PROTONS - 2,
-        		Polonium211Nucleus.ORIGINAL_NUM_NEUTRONS - 2, 25 );
     }
     
     /**
