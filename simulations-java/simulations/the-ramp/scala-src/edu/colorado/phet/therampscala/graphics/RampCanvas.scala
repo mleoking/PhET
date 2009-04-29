@@ -58,6 +58,14 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
 
   addNode(new CoordinateFrameNode(model, coordinateSystemModel, transform))
 
+  def compositeListener(listener: () => Unit) = {
+    model.rampSegments(0).addListener(listener)
+    model.rampSegments(1).addListener(listener)
+  }
+
+  val tickMarkSet = new TickMarkSet(transform, model.positionMapper, compositeListener) //todo: listen to both segments for game
+  addNode(tickMarkSet)
+
   val fbdWidth = RampDefaults.freeBodyDiagramWidth
   val fbdNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 200, 200, fbdWidth, fbdWidth, model.coordinateFrameModel, coordinateSystemModel.adjustable, PhetCommonResources.getImage("buttons/maximizeButton.png"))
   val fbdListener = (pt: Point2D) => {model.bead.parallelAppliedForce = pt.getX}
@@ -262,7 +270,7 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
   addNode(scoreboard)
 
   val robotGraphics = new RobotGraphics(transform, gameModel)
-  addNode(2,robotGraphics)//behind ramp
+  addNode(2, robotGraphics) //behind ramp
 
   gameModel.beadCreatedListeners += init
   init(gameModel.bead, gameModel.selectedObject)
