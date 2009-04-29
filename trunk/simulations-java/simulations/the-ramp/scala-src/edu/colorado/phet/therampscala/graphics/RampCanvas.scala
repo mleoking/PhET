@@ -58,7 +58,7 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
 
   addNode(new CoordinateFrameNode(model, coordinateSystemModel, transform))
 
-  def compositeListener(listener: () => Unit) = {
+  private def compositeListener(listener: () => Unit) = {
     model.rampSegments(0).addListener(listener)
     model.rampSegments(1).addListener(listener)
   }
