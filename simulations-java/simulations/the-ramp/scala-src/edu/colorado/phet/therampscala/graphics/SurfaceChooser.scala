@@ -2,7 +2,6 @@ package edu.colorado.phet.therampscala.graphics
 
 
 import common.phetcommon.view.controls.valuecontrol.LinearValueControl
-import eatingandexercise.view.SliderNode
 import java.awt.Dimension
 import java.util.{Hashtable, Dictionary}
 import javax.swing.{SwingConstants, ImageIcon, JLabel, JSlider}
