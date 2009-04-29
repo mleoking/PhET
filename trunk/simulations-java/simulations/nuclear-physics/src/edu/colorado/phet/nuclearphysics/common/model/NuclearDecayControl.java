@@ -60,7 +60,7 @@ public interface NuclearDecayControl {
 	 * @return - time, in milliseconds of simulation time, since the nucleus
 	 * was activated prior to decay.
 	 */
-	public double getActivatedTime();
+	public double getActivatedSimTime();
 	
 	/**
 	 * Returns a value representing the half life for this nucleus.  Should
