@@ -142,6 +142,12 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private va
 
   def addListener(listener: Point2D => Unit) = {listeners += listener}
 
+  override def setVisible(isVisible: Boolean) = {
+    super.setVisible(isVisible)
+    setPickable(isVisible)
+    setChildrenPickable(isVisible)
+  }
+
   background.addInputEventListener(new PBasicInputEventHandler {
     def sendEvent(event: PInputEvent) = {
       val viewPt = event.getPositionRelativeTo(background.getParent.getParent) //todo: do FreeBodyDiagramNode.this instead of background.getParent
