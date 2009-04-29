@@ -203,7 +203,15 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
 }
 
 case class Result(success: Boolean, cliff: Boolean, score: Int)
-class SurfaceModel {
+class SurfaceModel extends Observable {
+  private var _friction = 0.2
+
+  def friction_=(f: Double) = {
+    _friction = f
+    notifyListeners()
+  }
+
+  def friction = _friction
 }
 class RobotMovingCompanyGameModel(model: RampModel, clock: ScalaClock) extends Observable {
   val surfaceModel = new SurfaceModel
@@ -317,7 +325,9 @@ class RobotMovingCompanyGameModel(model: RampModel, clock: ScalaClock) extends O
 class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock) {
   val gameModel = new RobotMovingCompanyGameModel(model, clock)
   val canvas = new RMCCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame, gameModel)
+
   setSimulationPanel(canvas)
+  setLogoPanelVisible(false)
 }
 class RobotMovingCompanyApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   addModule(new RobotMovingCompanyModule(getPhetFrame, new ScalaClock(30, RampDefaults.DT_DEFAULT)))
