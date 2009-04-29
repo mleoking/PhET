@@ -17,11 +17,11 @@ object RampDefaults {
   val objects = new ScalaRampObject("File Cabinet", 50, 0.2, 0.5, 3, "cabinet.gif") ::
           new ScalaRampObject("Sleepy Dog", 25, 0.5, 0.5, 2, "ollie.gif") ::
           new ScalaRampObject("Small Crate", 100, 0.3, 0.5, 2, "crate.gif") ::
-          new MutableRampObject("Custom Crate", 150, 0.3, 0.5, -1,"crate.gif", true) :: //height is determined dynamically in MutableRampObject
+          new MutableRampObject("Custom Crate", 150, 0.3, 0.5, -1, "crate.gif", true) :: //height is determined dynamically in MutableRampObject
           new ScalaRampObject("Refrigerator", 200, 0.2, 0.5, 4, "fridge.gif") ::
           new ScalaRampObject("Textbook", 10, 0.2, 0.4, 1, "phetbook.gif") ::
           new ScalaRampObject("Piano", 400, 0.3, 0.5, 4, "piano.png") ::
-          new CustomTextRampObject("Mystery Object", 300, 0.5, 0.5, 2,"mystery-box.png", false) ::
+          new CustomTextRampObject("Mystery Object", 300, 0.5, 0.5, 2, "mystery-box.png", false) ::
           Nil
   val iconsPerRow = 4
 
@@ -35,5 +35,5 @@ object RampDefaults {
   val normalForceColor = Color.yellow
   val frictionForceColor = Color.red
   val totalForceColor = Color.pink
-  val wallForceColor = new Color( 190, 190, 0 )
+  val wallForceColor = new Color(190, 190, 0)
 }

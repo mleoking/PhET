@@ -64,10 +64,10 @@ class RampModel extends RecordModel[String] with ObjectModel {
 
   def createBead(x: Double, width: Double, height: Double) = new Bead(new BeadState(x, 0, 10, 0, 0), height, width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, walls, wallRange)
 
-  def createBead(x: Double, width: Double):Bead = createBead(x, width, 3)
+  def createBead(x: Double, width: Double): Bead = createBead(x, width, 3)
 
-  val leftWall: Bead = createBead(-10, RampDefaults.wall.width,RampDefaults.wall.height)
-  val rightWall: Bead = createBead(10, RampDefaults.wall.width,RampDefaults.wall.height)
+  val leftWall: Bead = createBead(-10, RampDefaults.wall.width, RampDefaults.wall.height)
+  val rightWall: Bead = createBead(10, RampDefaults.wall.width, RampDefaults.wall.height)
   val manBead = createBead(2, 1)
   updateDueToObjectChange()
 

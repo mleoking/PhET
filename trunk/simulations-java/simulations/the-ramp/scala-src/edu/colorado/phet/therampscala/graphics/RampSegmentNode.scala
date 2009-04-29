@@ -58,12 +58,12 @@ class RotationHandler(val mytransform: ModelViewTransform2D, val node: PNode, va
     val clamped =
     if (newPt.getAngle < min) {
       val value = new Vector2D(min) * rotatable.length
-//      println("ang was: " + newPt.getAngle + ", value=" + value)
+      //      println("ang was: " + newPt.getAngle + ", value=" + value)
       value
     }
     else if (newPt.getAngle > max) {
       val value = new Vector2D(max) * rotatable.length
-//      println("over max: " + value)
+      //      println("over max: " + value)
       value
     }
     else newPt

@@ -21,8 +21,8 @@ class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramMo
     comp
   }
 
-//  add(new MyRadioButton("Physics words", wordModel.physicsWords = true, wordModel.physicsWords, wordModel.addListener))
-//  add(new MyRadioButton("Everyday words", wordModel.everydayWords = true, wordModel.everydayWords, wordModel.addListener))
+  //  add(new MyRadioButton("Physics words", wordModel.physicsWords = true, wordModel.physicsWords, wordModel.addListener))
+  //  add(new MyRadioButton("Everyday words", wordModel.everydayWords = true, wordModel.everydayWords, wordModel.addListener))
 
   class TitleLabel(label: String) extends JLabel(label) {
     setFont(new PhetFont(15, true))
