@@ -66,7 +66,7 @@ public class MutationPanel extends JPanel {
         teethButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
                 TeethGene.getInstance().setMutatable( true );
-                tailButton.setEnabled( false );
+                teethButton.setEnabled( false );
             }
         } );
 
