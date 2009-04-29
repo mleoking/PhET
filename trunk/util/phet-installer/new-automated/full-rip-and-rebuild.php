@@ -79,7 +79,7 @@
         flushing_echo("\nCompleted rebuild at time $end_time");
 
         // Release the lock.
-        file_unlock("install-builder");
+        file_unlock( LOCK_FILE_STEM_NAME );
     }
 
     //--------------------------------------------------------------------------
