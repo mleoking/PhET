@@ -8,7 +8,6 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
-import edu.colorado.phet.naturalselection.model.Allele;
 import edu.colorado.phet.naturalselection.model.Bunny;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -190,18 +189,6 @@ public class PopulationGraphNode extends PNode implements Bunny.BunnyListener {
     }
 
     public void onBunnyAging( Bunny bunny ) {
-
-    }
-
-    public void onBunnyChangeColor( Allele allele ) {
-
-    }
-
-    public void onBunnyChangeTeeth( Allele allele ) {
-
-    }
-
-    public void onBunnyChangeTail( Allele allele ) {
 
     }
 

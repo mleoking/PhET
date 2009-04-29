@@ -49,6 +49,10 @@ public class ColorGene extends Gene {
         return bunny.getColorGenotype();
     }
 
+    public Allele getBunnyPhenotype( Bunny bunny ) {
+        return bunny.getColorPhenotype();
+    }
+
     /**
      * The name of the gene
      *

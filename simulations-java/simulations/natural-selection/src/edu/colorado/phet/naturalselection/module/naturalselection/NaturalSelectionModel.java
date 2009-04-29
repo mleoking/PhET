@@ -252,7 +252,7 @@ public class NaturalSelectionModel extends ClockAdapter {
 
             double actualFraction = baseFraction;
 
-            if ( bunny.getTeethGenotype().getPhenotype() == TeethGene.TEETH_HUGE_ALLELE ) {
+            if ( bunny.getTeethPhenotype() == TeethGene.TEETH_HUGE_ALLELE ) {
                 actualFraction /= 2;
             }
 
@@ -278,8 +278,8 @@ public class NaturalSelectionModel extends ClockAdapter {
             double actualFraction = baseFraction;
 
             if (
-                    ( bunny.getColorGenotype().getPhenotype() == ColorGene.WHITE_ALLELE && climate == CLIMATE_ARCTIC )
-                    || ( bunny.getColorGenotype().getPhenotype() == ColorGene.BROWN_ALLELE && climate == CLIMATE_EQUATOR )
+                    ( bunny.getColorPhenotype() == ColorGene.WHITE_ALLELE && climate == CLIMATE_ARCTIC )
+                    || ( bunny.getColorPhenotype() == ColorGene.BROWN_ALLELE && climate == CLIMATE_EQUATOR )
                     ) {
                 actualFraction /= 4;
             }

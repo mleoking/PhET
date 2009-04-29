@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.naturalselection.view;
 
-import edu.colorado.phet.naturalselection.model.Allele;
 import edu.colorado.phet.naturalselection.model.Bunny;
 
 /**
@@ -23,7 +22,7 @@ public class GenerationBunnyNode extends DisplayBunnyNode implements Bunny.Bunny
      * @param bunny The bunny we are referencing
      */
     public GenerationBunnyNode( Bunny bunny ) {
-        super( bunny.getColorGenotype().getPhenotype(), bunny.getTeethGenotype().getPhenotype(), bunny.getTailGenotype().getPhenotype() );
+        super( bunny.getColorPhenotype(), bunny.getTeethPhenotype(), bunny.getTailPhenotype() );
         myBunny = bunny;
         setDead( !bunny.isAlive() );
         bunny.addListener( this );
@@ -55,18 +54,6 @@ public class GenerationBunnyNode extends DisplayBunnyNode implements Bunny.Bunny
 
     public void onBunnyAging( Bunny bunny ) {
 
-    }
-
-    public void onBunnyChangeColor( Allele allele ) {
-        setColor( allele );
-    }
-
-    public void onBunnyChangeTeeth( Allele allele ) {
-        setTeeth( allele );
-    }
-
-    public void onBunnyChangeTail( Allele allele ) {
-        setTail( allele );
     }
 
     public void onBunnyChangePosition( double x, double y, double z ) {

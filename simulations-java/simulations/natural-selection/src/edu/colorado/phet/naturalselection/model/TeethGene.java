@@ -49,6 +49,10 @@ public class TeethGene extends Gene {
         return bunny.getTeethGenotype();
     }
 
+    public Allele getBunnyPhenotype( Bunny bunny ) {
+        return bunny.getTeethPhenotype();
+    }
+
     /**
      * The name of the gene
      *

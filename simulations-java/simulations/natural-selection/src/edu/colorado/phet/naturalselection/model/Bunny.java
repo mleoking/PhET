@@ -65,9 +65,9 @@ public class Bunny extends ClockAdapter {
     public static int bunnyCount = 0;
 
     // old genetic data. If the new data is different, listeners will be notified of the changes
-    private Allele cachedColorPhenotype;
-    private Allele cachedTeethPhenotype;
-    private Allele cachedTailPhenotype;
+    private Allele colorPhenotype;
+    private Allele teethPhenotype;
+    private Allele tailPhenotype;
 
     // random number generator
     private static final Random random = new Random( System.currentTimeMillis() );
@@ -130,9 +130,9 @@ public class Bunny extends ClockAdapter {
         }
 
         // set the "cached" phenotypes so that if they change we can notify listeners
-        cachedColorPhenotype = colorGenotype.getPhenotype();
-        cachedTeethPhenotype = teethGenotype.getPhenotype();
-        cachedTailPhenotype = tailGenotype.getPhenotype();
+        colorPhenotype = colorGenotype.getPhenotype();
+        teethPhenotype = teethGenotype.getPhenotype();
+        tailPhenotype = tailGenotype.getPhenotype();
 
         // let each Gene keep track of this bunny for trait distribution purposes
         addListener( ColorGene.getInstance() );
@@ -232,6 +232,17 @@ public class Bunny extends ClockAdapter {
         return tailGenotype;
     }
 
+    public Allele getColorPhenotype() {
+        return colorPhenotype;
+    }
+
+    public Allele getTeethPhenotype() {
+        return teethPhenotype;
+    }
+
+    public Allele getTailPhenotype() {
+        return tailPhenotype;
+    }
 
     public Bunny getPotentialMate() {
         return potentialMate;
@@ -329,27 +340,6 @@ public class Bunny extends ClockAdapter {
         }
         mated = true;
         notifyReproduces();
-    }
-
-    /**
-     * When a trait is changed to be dominant, the bunny's phenotype (whether the trait appears) can change.
-     * Call this when trait dominance is changed so that if the bunny needs to change, it can.
-     */
-    public void checkPhenotypes() {
-        if ( cachedColorPhenotype != getColorGenotype().getPhenotype() ) {
-            cachedColorPhenotype = getColorGenotype().getPhenotype();
-            notifyChangeColor();
-        }
-
-        if ( cachedTeethPhenotype != getTeethGenotype().getPhenotype() ) {
-            cachedTeethPhenotype = getTeethGenotype().getPhenotype();
-            notifyChangeTeeth();
-        }
-
-        if ( cachedTailPhenotype != getTailGenotype().getPhenotype() ) {
-            cachedTailPhenotype = getTailGenotype().getPhenotype();
-            notifyChangeTail();
-        }
     }
 
     /**
@@ -483,27 +473,6 @@ public class Bunny extends ClockAdapter {
         }
     }
 
-    private void notifyChangeColor() {
-        Iterator iter = listeners.iterator();
-        while ( iter.hasNext() ) {
-            ( (BunnyListener) iter.next() ).onBunnyChangeColor( getColorGenotype().getPhenotype() );
-        }
-    }
-
-    private void notifyChangeTeeth() {
-        Iterator iter = listeners.iterator();
-        while ( iter.hasNext() ) {
-            ( (BunnyListener) iter.next() ).onBunnyChangeTeeth( getTeethGenotype().getPhenotype() );
-        }
-    }
-
-    private void notifyChangeTail() {
-        Iterator iter = listeners.iterator();
-        while ( iter.hasNext() ) {
-            ( (BunnyListener) iter.next() ).onBunnyChangeTail( getTailGenotype().getPhenotype() );
-        }
-    }
-
     private void notifyChangePosition() {
         Iterator iter = listeners.iterator();
         while ( iter.hasNext() ) {
@@ -556,27 +525,6 @@ public class Bunny extends ClockAdapter {
         public void onBunnyAging( Bunny bunny );
 
         /**
-         * Called when the bunny changes color
-         *
-         * @param allele The color (Either ColorGene.WHITE_ALLELE or ColorGene.BROWN_ALLELE)
-         */
-        public void onBunnyChangeColor( Allele allele );
-
-        /**
-         * Called when the bunny changes teeth phenotype
-         *
-         * @param allele The allele
-         */
-        public void onBunnyChangeTeeth( Allele allele );
-
-        /**
-         * Called when the bunny changes tail phenotype
-         *
-         * @param allele The allele
-         */
-        public void onBunnyChangeTail( Allele allele );
-
-        /**
          * Called when the bunny changes its 3D position
          *
          * @param x new X coordinate
@@ -595,9 +543,9 @@ public class Bunny extends ClockAdapter {
      */
     public String toString() {
         String ret = "#" + String.valueOf( bunnyId ) + "[ " + colorGenotype + " " + teethGenotype + " " + tailGenotype + " (";
-        ret += colorGenotype.getPhenotype().toString();
-        ret += teethGenotype.getPhenotype().toString();
-        ret += tailGenotype.getPhenotype().toString();
+        ret += colorPhenotype.toString();
+        ret += teethPhenotype.toString();
+        ret += tailPhenotype.toString();
         ret += ")]";
 
         return ret;

@@ -94,18 +94,6 @@ public class BunnyNode extends NaturalSelectionSprite implements Bunny.BunnyList
 
     }
 
-    public void onBunnyChangeColor( Allele allele ) {
-        displayBunnyNode.setColor( allele );
-    }
-
-    public void onBunnyChangeTeeth( Allele allele ) {
-        displayBunnyNode.setTeeth( allele );
-    }
-
-    public void onBunnyChangeTail( Allele allele ) {
-        displayBunnyNode.setTail( allele );
-    }
-
     public void onBunnyChangePosition( double x, double y, double z ) {
         setSpriteLocation( x, y, z );
     }
