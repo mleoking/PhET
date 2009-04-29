@@ -121,8 +121,8 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
 
   val vectorNode = new VectorSetNode(transform, model.bead)
   addNode(vectorNode)
-  def addVectorAllComponents(bead: Bead, beadVector: BeadVector with PointOfOriginVector, offsetFBD: VectorValue, offsetPlayArea: Double,
-                             selectedVectorVisible: () => Boolean) = {
+  def addVectorAllComponents(bead: Bead, beadVector: BeadVector with PointOfOriginVector, offsetFBD: VectorValue,
+                             offsetPlayArea: Double, selectedVectorVisible: () => Boolean) = {
     addVector(bead, beadVector, offsetFBD, offsetPlayArea)
     val parallelComponent = new ParallelComponent(beadVector, bead)
     val perpComponent = new PerpendicularComponent(beadVector, bead)
@@ -253,23 +253,24 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
   val scoreboard = new ScoreboardNode(transform, gameModel)
   addNode(scoreboard)
 
-  gameModel.beadCreatedListeners += ((bead: Bead, selectedObject: ScalaRampObject) => {
-    init(bead, selectedObject)
-  })
+  gameModel.beadCreatedListeners += init
   init(gameModel.bead, gameModel.selectedObject)
 
   def init(bead: Bead, a: ScalaRampObject) = {
     val beadNode = new DraggableBeadNode(bead, transform, a.imageFilename)
     addNode(beadNode)
 
-    gameModel.nextObjectListeners += ((oo: ScalaRampObject) => {
-      if (oo == a) {
+    gameModel.nextObjectListeners += ((prevObject: ScalaRampObject) => {
+      if (prevObject == a) {
         removeNode(beadNode)
       }
     })
     fbdNode.clearVectors()
+    windowFBDNode.clearVectors()
     //todo: clear other vectors such as play area and windowed vectors as well
+    println("adding vectors for bead: " + bead + ", a=" + a)
     addAllVectors(bead)
+
   }
 
   def changeY(dy: Double) = {

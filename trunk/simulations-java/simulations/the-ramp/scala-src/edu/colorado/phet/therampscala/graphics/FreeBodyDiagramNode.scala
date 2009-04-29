@@ -161,7 +161,10 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private va
 
   def addVector(vector: Vector): Unit = addVector(vector, new ConstantVectorValue)
 
-  def addVector(vector: Vector, offset: VectorValue) = addChild(new VectorNode(transform, vector, offset))
+  def addVector(vector: Vector, offset: VectorValue) = {
+    addChild(new VectorNode(transform, vector, offset))
+//    println("Added: child count="+getChildrenCount)
+  }
 
   def clearVectors() = {
     val removeList = new ArrayBuffer[PNode]
@@ -174,6 +177,7 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private va
     for (node <- removeList) {
       removeChild(node)
     }
+//    println("Cleared: child count="+getChildrenCount)
   }
 
   def setSize(width: Double, height: Double) = {
@@ -231,10 +235,6 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
 
   setPickable(false)
   setChildrenPickable(false)
-
-  override def setVisible(isVisible: Boolean) = {
-    super.setVisible(isVisible)
-  }
 }
 
 object TestFBD extends Application {
