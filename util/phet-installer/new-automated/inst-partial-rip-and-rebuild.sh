@@ -16,8 +16,6 @@ LOG=./installer-builder-log.txt
 echo "================================================================" | tee --append $LOG
 echo " Partial rip and rebuild operation performed by `whoami` on: " | tee --append $LOG
 echo " `date`"  | tee --append $LOG
-echo " Initiated in directory: " | tee --append $LOG
-echo " `pwd`"  | tee --append $LOG
 echo "================================================================" | tee --append $LOG
 
 /usr/local/php/bin/php partial-rip-and-rebuild.php $1 $2 | tee --append $LOG
