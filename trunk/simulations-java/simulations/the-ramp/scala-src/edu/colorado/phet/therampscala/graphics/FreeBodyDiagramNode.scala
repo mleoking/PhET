@@ -163,6 +163,19 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private va
 
   def addVector(vector: Vector, offset: VectorValue) = addChild(new VectorNode(transform, vector, offset))
 
+  def clearVectors() = {
+    val removeList = new ArrayBuffer[PNode]
+    for (i <- 0 until getChildrenCount) {
+      getChild(i) match {
+        case x: VectorNode => removeList += x
+        case _ => {}
+      }
+    }
+    for (node <- removeList) {
+      removeChild(node)
+    }
+  }
+
   def setSize(width: Double, height: Double) = {
     this._width = width
     this._height = height
