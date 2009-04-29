@@ -56,7 +56,7 @@ public class AtomicNucleusImageNode extends AtomicNucleusNode {
 	                atomicNucleus.getNumProtons(), 25 );
 	        // Scale the image to the appropriate size.  Note that this is tweaked
 	        // a little bit in order to make it look better.
-			newImage.scale( (atomicNucleus.getDiameter()/1.2)/((_displayNode.getWidth() + _displayNode.getHeight()) / 2));
+			newImage.scale( (atomicNucleus.getDiameter()/1.2)/((newImage.getWidth() + newImage.getHeight()) / 2));
 			newImage.setOffset( -atomicNucleus.getDiameter() / 2, -atomicNucleus.getDiameter() / 2 );
 		}
 		else if ( _imageType == AtomicNucleusImageType.GRADIENT_SPHERE ){

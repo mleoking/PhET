@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
-import edu.colorado.phet.nuclearphysics.view.LabeledNucleusNode;
+import edu.colorado.phet.nuclearphysics.view.LabeledNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.view.NeutronNode;
 import edu.colorado.phet.nuclearphysics.view.ProtonNode;
 import edu.umd.cs.piccolo.PNode;
@@ -72,7 +72,7 @@ public class ChainReactionLegendPanel extends JPanel {
         addLegendItem( proton.toImage(), NuclearPhysicsStrings.PROTON_LEGEND_LABEL ); 
         
         // Add the Uranium 235 nucleus to the legend.
-        PNode labeledU235Nucleus = new LabeledNucleusNode("Uranium Nucleus Small.png",
+        PNode labeledU235Nucleus = new LabeledNucleusImageNode("Uranium Nucleus Small.png",
                 NuclearPhysicsStrings.URANIUM_235_ISOTOPE_NUMBER, 
                 NuclearPhysicsStrings.URANIUM_235_CHEMICAL_SYMBOL, 
                 NuclearPhysicsConstants.URANIUM_235_LABEL_COLOR );
@@ -83,7 +83,7 @@ public class ChainReactionLegendPanel extends JPanel {
         add(new JLabel( NuclearPhysicsStrings.URANIUM_235_LEGEND_LABEL ) );
         
         // Add the Uranium 238 nucleus to the legend.
-        PNode labeledU238Nucleus = new LabeledNucleusNode("Uranium Nucleus Small.png",
+        PNode labeledU238Nucleus = new LabeledNucleusImageNode("Uranium Nucleus Small.png",
                 NuclearPhysicsStrings.URANIUM_238_ISOTOPE_NUMBER, 
                 NuclearPhysicsStrings.URANIUM_238_CHEMICAL_SYMBOL, 
                 NuclearPhysicsConstants.URANIUM_238_LABEL_COLOR );
@@ -94,7 +94,7 @@ public class ChainReactionLegendPanel extends JPanel {
         add(new JLabel( NuclearPhysicsStrings.URANIUM_238_LEGEND_LABEL ) );
         
         // Add the Uranium 238 nucleus to the legend.
-        PNode labeledU239Nucleus = new LabeledNucleusNode("Uranium Nucleus Small.png",
+        PNode labeledU239Nucleus = new LabeledNucleusImageNode("Uranium Nucleus Small.png",
                 NuclearPhysicsStrings.URANIUM_239_ISOTOPE_NUMBER, 
                 NuclearPhysicsStrings.URANIUM_239_CHEMICAL_SYMBOL, 
                 NuclearPhysicsConstants.URANIUM_239_LABEL_COLOR );

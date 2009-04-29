@@ -27,7 +27,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
-import edu.colorado.phet.nuclearphysics.view.LabeledNucleusNode;
+import edu.colorado.phet.nuclearphysics.view.LabeledNucleusImageNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -121,7 +121,7 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
         constraints.ipadx = 0; // Remove padding.
         
         // Create and add the Polonium image.
-        PNode labeledPoloniumNucleus = new LabeledNucleusNode("Polonium Nucleus Small.png",
+        PNode labeledPoloniumNucleus = new LabeledNucleusImageNode("Polonium Nucleus Small.png",
                 NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER, 
                 NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL, 
                 NuclearPhysicsConstants.POLONIUM_LABEL_COLOR );
@@ -146,7 +146,7 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
         add( new JLabel(createArrowIcon(Color.BLACK)), constraints );
         
         // Create and add Lead image.
-        PNode labeledLeadNucleus = new LabeledNucleusNode("Polonium Nucleus Small.png",
+        PNode labeledLeadNucleus = new LabeledNucleusImageNode("Polonium Nucleus Small.png",
                 NuclearPhysicsStrings.LEAD_207_ISOTOPE_NUMBER, 
                 NuclearPhysicsStrings.LEAD_207_CHEMICAL_SYMBOL,
                 NuclearPhysicsConstants.LEAD_LABEL_COLOR );
@@ -176,7 +176,7 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
         add( _customNucleusRadioButton, constraints  );
         
         // Create and add the icon for the non-decayed custom nucleus.
-        PNode labeledCustomNucleus = new LabeledNucleusNode("Polonium Nucleus Small.png", "",
+        PNode labeledCustomNucleus = new LabeledNucleusImageNode("Polonium Nucleus Small.png", "",
                 NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
                 NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR );
         Image customNucleusImage = labeledCustomNucleus.toImage();
@@ -200,7 +200,7 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
         add( new JLabel(createArrowIcon(Color.BLACK)), constraints );
         
         // Create and add the icon for the decayed custom nucleus.
-        PNode labeledDecayedCustomNucleus = new LabeledNucleusNode("Polonium Nucleus Small.png", "",
+        PNode labeledDecayedCustomNucleus = new LabeledNucleusImageNode("Polonium Nucleus Small.png", "",
                 NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
                 NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR );
         Image decayedCustomNucleusImage = labeledDecayedCustomNucleus.toImage();

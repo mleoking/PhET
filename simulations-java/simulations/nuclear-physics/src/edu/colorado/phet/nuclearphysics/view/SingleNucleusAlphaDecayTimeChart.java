@@ -1064,7 +1064,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
      * This class extends the LabeledNucleusNode such that it has a few pieces
      * of information that will make it easier to manage on the chart.
      */
-    private class EnhancedLabeledNucleusNode extends LabeledNucleusNode {
+    private class EnhancedLabeledNucleusNode extends LabeledNucleusImageNode {
 
     	private int _fallCount;     // Counter used for making nucleus node fall incrementally from upper
     	                            // to lower position on the graph.
