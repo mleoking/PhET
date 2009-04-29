@@ -113,10 +113,10 @@ public class NuclearPhysicsConstants {
     public static final Color URANIUM_239_LABEL_COLOR = Color.WHITE;
     
     // Color for carbon when represented as a circle or sphere.
-    public static final Color CARBON_COLOR = new Color( 146, 0, 0 );
+    public static final Color CARBON_COLOR = new Color( 200, 0, 0 );
     
     // Color for nitrogen when represented as a circle or sphere.
-    public static final Color NITROGEN_COLOR = new Color( 14, 86, 121 );
+    public static final Color NITROGEN_COLOR = new Color( 14, 86, 200 );
     
     // Color for U238 when represented as a circle or sphere.
     public static final Color URANIUM_238_COLOR = new Color( 128, 128, 0 );
