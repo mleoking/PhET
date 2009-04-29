@@ -119,94 +119,61 @@ public class AbstractReactionEquationNode extends PComposite {
         super.addChild( term.getStructureNode() );
     }
     
-    //TODO generalize duplicated sections of layout code
     private void updateLayout() {
         
         final double maxSymbolHeight = getMaxSymbolHeight();
         final double structureYOffset = ( maxSymbolHeight / 2 ) + Y_SPACING;
         double xOffset = 0;
         double yOffset = 0;
-        Term term;
-        SymbolNode symbolNode;
-        StructureNode structureNode;
+        int termIndex = 0;
         
-        term = terms[0];
-        if ( term.isVisible() ) {
+        // term 0 is optional
+        if ( terms[termIndex].isVisible() ) {
             
-            /* term0 */
-            // symbol
-            symbolNode = term.getSymbolNode();
-            xOffset = 0;
-            yOffset = -symbolNode.getFullBoundsReference().getHeight() / 2;
-            symbolNode.setOffset( xOffset, yOffset );
-            // structure
-            structureNode = term.getStructureNode();
-            xOffset = symbolNode.getXOffset() + ( symbolNode.getFullBoundsReference().getWidth() - structureNode.getFullBoundsReference().getWidth() ) / 2;
-            yOffset = structureYOffset;
-            structureNode.setOffset( xOffset, yOffset );
-            // next x offset 
-            xOffset = symbolNode.getFullBoundsReference().getMaxX() + X_SPACING;
+            // term 0
+            xOffset = layoutTerm( termIndex++, xOffset, structureYOffset );
             
-            /* plus sign */
+            // plus sign
             yOffset = -plusLHS.getFullBoundsReference().getHeight() / 2;
             plusLHS.setOffset( xOffset, yOffset );
-            // next x offset
             xOffset = plusLHS.getFullBoundsReference().getMaxX() + X_SPACING;
         }
         
-        /* term1 */
-        term = terms[1];
-        // symbol
-        symbolNode = term.getSymbolNode();
-        yOffset = -symbolNode.getFullBoundsReference().getHeight() / 2;
-        symbolNode.setOffset( xOffset, yOffset );
-        // structure
-        structureNode = term.getStructureNode();
-        xOffset = symbolNode.getXOffset() + ( symbolNode.getFullBoundsReference().getWidth() - structureNode.getFullBoundsReference().getWidth() ) / 2;
-        yOffset = structureYOffset;
-        structureNode.setOffset( xOffset, yOffset );
-        // next x offset
-        xOffset = symbolNode.getFullBoundsReference().getMaxX() + X_SPACING;
+        // term 1
+        xOffset = layoutTerm( termIndex++, xOffset, structureYOffset );
         
-        /* arrow */
+        // arrow
         yOffset = -arrow.getFullBoundsReference().getHeight() / 2;
         arrow.setOffset( xOffset, yOffset );
-        // next x offset
         xOffset = arrow.getFullBoundsReference().getMaxX() + X_SPACING;
         
-        /* term2 */
-        term = terms[2];
-        // symbol
-        symbolNode = term.getSymbolNode();
-        yOffset = -symbolNode.getFullBoundsReference().getHeight() / 2;
-        symbolNode.setOffset( xOffset, yOffset );
-        // structure
-        structureNode = term.getStructureNode();
-        xOffset = symbolNode.getXOffset() + ( symbolNode.getFullBoundsReference().getWidth() - structureNode.getFullBoundsReference().getWidth() ) / 2;
-        yOffset = structureYOffset;
-        structureNode.setOffset( xOffset, yOffset );
-        // next x offset
-        xOffset = symbolNode.getFullBoundsReference().getMaxX() + X_SPACING;
+        // term 2
+        xOffset = layoutTerm( termIndex++, xOffset, structureYOffset );
         
         /* plus sign */
         yOffset = -plusRHS.getFullBoundsReference().getHeight() / 2;
         plusRHS.setOffset( xOffset, yOffset );
-        // next x offset
         xOffset = plusRHS.getFullBoundsReference().getMaxX() + X_SPACING;
         
-        /* term3 */
-        term = terms[3];
+        // term 3
+        xOffset = layoutTerm( termIndex++, xOffset, structureYOffset );
+    }
+    
+    private double layoutTerm( int index, double xStart, double structureYOffset ) {
+        double xOffset, yOffset;
+        Term term = terms[index];
         // symbol
-        symbolNode = term.getSymbolNode();
+        SymbolNode symbolNode = term.getSymbolNode();
+        xOffset = xStart;
         yOffset = -symbolNode.getFullBoundsReference().getHeight() / 2;
         symbolNode.setOffset( xOffset, yOffset );
         // structure
-        structureNode = term.getStructureNode();
+        StructureNode structureNode = term.getStructureNode();
         xOffset = symbolNode.getXOffset() + ( symbolNode.getFullBoundsReference().getWidth() - structureNode.getFullBoundsReference().getWidth() ) / 2;
         yOffset = structureYOffset;
         structureNode.setOffset( xOffset, yOffset );
-        // next x offset
-        xOffset = symbolNode.getFullBoundsReference().getMaxX() + X_SPACING;
+        // next x offset 
+        return symbolNode.getFullBoundsReference().getMaxX() + X_SPACING;
     }
     
     private double getMaxSymbolHeight() {
