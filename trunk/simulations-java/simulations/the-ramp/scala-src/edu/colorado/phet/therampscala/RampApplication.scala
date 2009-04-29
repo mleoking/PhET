@@ -213,7 +213,7 @@ class SurfaceModel extends Observable {
 
   def friction = _friction
 }
-class RobotMovingCompanyGameModel(model: RampModel, clock: ScalaClock) extends Observable {
+class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) extends Observable {
   val surfaceModel = new SurfaceModel
   model.rampSegments(1).setAngle(0)
   model.walls = false
