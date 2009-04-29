@@ -287,7 +287,7 @@ class Bead(_state: BeadState, private var _height: Double, private var _width: D
 
       val requestedPosition = position + velocity * dt
 
-//      println("requested position=" + requestedPosition + ", minRange=" + wallRange().min)
+      //      println("requested position=" + requestedPosition + ", minRange=" + wallRange().min)
 
       //TODO: generalize boundary code
       if (requestedPosition <= wallRange().min + width / 2) {

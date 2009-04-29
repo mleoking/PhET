@@ -10,7 +10,7 @@ class ScalaRampObject(_name: String,
                       protected var _staticFriction: Double,
                       _height: Double,
                       _imageFilename: String,
-                      val iconFilename:String,
+                      val iconFilename: String,
                       _customizable: Boolean) {
   val customizable = _customizable
   val name = _name
@@ -27,7 +27,7 @@ class ScalaRampObject(_name: String,
 
   def getDisplayTextHTML = <html>{name}<br> </br>{mass}kg</html>
 
-  def this(name: String, mass: Double, kineticFriction: Double, staticFriction: Double, height: Double, imageFilename: String) = this (name, mass, kineticFriction, staticFriction, height, imageFilename, imageFilename,false)
+  def this(name: String, mass: Double, kineticFriction: Double, staticFriction: Double, height: Double, imageFilename: String) = this (name, mass, kineticFriction, staticFriction, height, imageFilename, imageFilename, false)
 
   def height = _height
 
@@ -47,8 +47,8 @@ class ScalaRampObject(_name: String,
   override def hashCode = mass.hashCode + name.hashCode * 17
 }
 
-class CustomTextRampObject(name: String, mass: Double, kineticFriction: Double, staticFriction: Double, height: Double, imageFilename: String, iconFilename:String,customizable: Boolean)
-        extends ScalaRampObject(name, mass, kineticFriction, staticFriction, height, imageFilename, iconFilename,customizable) {
+class CustomTextRampObject(name: String, mass: Double, kineticFriction: Double, staticFriction: Double, height: Double, imageFilename: String, iconFilename: String, customizable: Boolean)
+        extends ScalaRampObject(name, mass, kineticFriction, staticFriction, height, imageFilename, iconFilename, customizable) {
   override def getDisplayText = name
 
   override def getDisplayTextHTML = <html>{name}</html>
@@ -56,8 +56,8 @@ class CustomTextRampObject(name: String, mass: Double, kineticFriction: Double, 
   override def displayTooltip = false
 }
 
-class MutableRampObject(name: String, __mass: Double, kineticFriction: Double, staticFriction: Double, height: Double, imageFilename: String, iconFilename:String,customizable: Boolean)
-        extends CustomTextRampObject(name, __mass, kineticFriction, staticFriction, height, imageFilename, iconFilename,customizable) with Observable {
+class MutableRampObject(name: String, __mass: Double, kineticFriction: Double, staticFriction: Double, height: Double, imageFilename: String, iconFilename: String, customizable: Boolean)
+        extends CustomTextRampObject(name, __mass, kineticFriction, staticFriction, height, imageFilename, iconFilename, customizable) with Observable {
   def mass_=(m: Double) = {
     _mass = m
     notifyListeners()
