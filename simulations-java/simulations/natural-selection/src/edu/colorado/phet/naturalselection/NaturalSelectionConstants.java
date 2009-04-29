@@ -94,8 +94,16 @@ public class NaturalSelectionConstants {
     public static final String IMAGE_BUNNY_COLOR_BROWN = "bunny_color_brown.png";
     public static final String IMAGE_BUNNY_TEETH = "bunny_teeth.png";
     public static final String IMAGE_BUNNY_TAIL = "bunny_tail.png";
-    public static final String IMAGE_DISPLAY_BUNNY_WHITE = "bunny_2_white.png";
-    public static final String IMAGE_DISPLAY_BUNNY_BROWN = "bunny_2_brown.png";
+
+    public static final String IMAGE_DISPLAY_BUNNY_WHITE = "bunny_white.gif";
+    public static final String IMAGE_DISPLAY_BUNNY_BROWN = "bunny_brown.gif";
+    public static final String IMAGE_DISPLAY_BUNNY_WHITE_BIG_TAIL = "bunny_white_big_tail.gif";
+    public static final String IMAGE_DISPLAY_BUNNY_BROWN_BIG_TAIL = "bunny_brown_big_tail.gif";
+    public static final String IMAGE_DISPLAY_BUNNY_WHITE_LONG_TEETH = "bunny_white_long_teeth.gif";
+    public static final String IMAGE_DISPLAY_BUNNY_BROWN_LONG_TEETH = "bunny_brown_long_teeth.gif";
+    public static final String IMAGE_DISPLAY_BUNNY_WHITE_BIG_TAIL_LONG_TEETH = "bunny_white_big_tail_long_teeth.gif";
+    public static final String IMAGE_DISPLAY_BUNNY_BROWN_BIG_TAIL_LONG_TEETH = "bunny_brown_big_tail_long_teeth.gif";
+
     public static final String IMAGE_BACKGROUND_EQUATOR = "natural_selection_background_equator_2.png";
     public static final String IMAGE_BACKGROUND_ARCTIC = "natural_selection_background_arctic_2.png";
     public static final String IMAGE_SHRUB = "shrub.png";

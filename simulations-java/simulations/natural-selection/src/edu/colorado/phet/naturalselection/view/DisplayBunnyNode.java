@@ -10,6 +10,7 @@ import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.model.Allele;
 import edu.colorado.phet.naturalselection.model.ColorGene;
 import edu.colorado.phet.naturalselection.model.TeethGene;
+import edu.colorado.phet.naturalselection.model.TailGene;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -23,14 +24,15 @@ import edu.umd.cs.piccolo.util.PAffineTransform;
 public class DisplayBunnyNode extends PNode {
 
     // images
-    private PImage whiteImage;
-    private PImage brownImage;
+    private PImage image;
+    //private PImage whiteImage;
+    //private PImage brownImage;
 
     // red X
     private PPath deadX;
 
     // temporary teeth node
-    private PPath tempTeeth;
+    //private PPath tempTeeth;
 
     // alleles
     private Allele color;
@@ -51,24 +53,54 @@ public class DisplayBunnyNode extends PNode {
      * @param tail  Tail allele
      */
     public DisplayBunnyNode( Allele color, Allele teeth, Allele tail ) {
-        whiteImage = NaturalSelectionResources.getImageNode( NaturalSelectionConstants.IMAGE_DISPLAY_BUNNY_WHITE );
-        brownImage = NaturalSelectionResources.getImageNode( NaturalSelectionConstants.IMAGE_DISPLAY_BUNNY_BROWN );
-        initDeadX();
-        initTempTeeth();
+        this.color = color;
+        this.teeth = teeth;
+        this.tail = tail;
+
+        //whiteImage = NaturalSelectionResources.getImageNode( NaturalSelectionConstants.IMAGE_DISPLAY_BUNNY_WHITE );
+        //brownImage = NaturalSelectionResources.getImageNode( NaturalSelectionConstants.IMAGE_DISPLAY_BUNNY_BROWN );
+
+        //initTempTeeth();
 
         // add children
-        addChild( tempTeeth );
-        addChild( whiteImage );
-        addChild( brownImage );
+        //addChild( tempTeeth );
+        //addChild( whiteImage );
+        //addChild( brownImage );
+
+        String imageName = "bunny";
+        
+        if( color == ColorGene.WHITE_ALLELE ) {
+            imageName += "_white";
+        } else {
+            imageName += "_brown";
+        }
+
+        if( tail == TailGene.TAIL_LONG_ALLELE ) {
+            imageName += "_big_tail";
+        }
+
+        if( teeth == TeethGene.TEETH_HUGE_ALLELE ) {
+            imageName += "_long_teeth";
+        }
+
+        imageName += ".gif";
+
+        image = NaturalSelectionResources.getImageNode( imageName );
+
+        addChild( image );
+
+        initDeadX();
+
         addChild( deadX );
 
         // set up the bunny
-        setColor( color );
-        setTeeth( teeth );
-        setTail( tail );
+        //setColor( color );
+        //setTeeth( teeth );
+        //setTail( tail );
         setDead( false );
     }
 
+    /*
     private void initTempTeeth() {
         //tempTeeth = new PPath();
         tempTeeth = PPath.createEllipse( 140, 100, 70, 70 );
@@ -77,6 +109,7 @@ public class DisplayBunnyNode extends PNode {
         //tempTeeth.setStrokePaint( Color.RED );
         tempTeeth.setPaint( new Color( 0xFF, 0x00, 0x00, 0x66 ) );
     }
+    */
 
     /**
      * Draw the red X
@@ -120,16 +153,19 @@ public class DisplayBunnyNode extends PNode {
         this.flipped = flipped;
     }
 
+
     public void setDead( boolean dead ) {
         this.dead = dead;
 
         deadX.setVisible( dead );
     }
 
+
     public boolean isDead() {
         return dead;
     }
 
+    /*
     public void setColor( Allele color ) {
         this.color = color;
 
@@ -157,7 +193,7 @@ public class DisplayBunnyNode extends PNode {
     public void setTail( Allele tail ) {
         this.tail = tail;
     }
-
+    */
 
     public Allele getColor() {
         return color;
@@ -172,11 +208,11 @@ public class DisplayBunnyNode extends PNode {
     }
 
     public double getBunnyWidth() {
-        return whiteImage.getWidth();
+        return image.getWidth();
     }
 
     public double getBunnyHeight() {
-        return whiteImage.getHeight();
+        return image.getHeight();
     }
 
 }
