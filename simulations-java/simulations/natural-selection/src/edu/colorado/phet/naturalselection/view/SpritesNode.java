@@ -211,6 +211,7 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.NaturalS
     }
 
     public void removeChildSprite( NaturalSelectionSprite sprite ) {
+        sprites.remove( sprite );
         removeChild( sprite );
     }
 

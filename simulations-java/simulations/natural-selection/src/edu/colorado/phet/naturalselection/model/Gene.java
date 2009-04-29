@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
-import edu.colorado.phet.naturalselection.view.TraitControlNode;
 
 /**
  * Represents a Gene using Mendelian genetics that contains only two traits.
@@ -16,7 +15,7 @@ import edu.colorado.phet.naturalselection.view.TraitControlNode;
  *
  * @author Jonathan Olson
  */
-public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.TraitControlNodeListener {
+public abstract class Gene implements Bunny.BunnyListener {
 
     /**
      * The primary allele (usually the default)
@@ -174,8 +173,17 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
     }
 
     public void setMutatable( boolean maybe ) {
-        System.out.println( "Gene " + getName() + " will now start mutating" );
+        if ( maybe ) {
+            System.out.println( "Gene " + getName() + " will now start mutating" );
+        }
+        else if ( mutatable ) {
+            System.out.println( "Gene " + getName() + " will not mutate anymore" );
+        }
+        boolean old = mutatable;
         mutatable = maybe;
+        if ( old != mutatable ) {
+            notifyChangeMutatable();
+        }
     }
 
     /**
@@ -233,7 +241,7 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
         // not in bunnies array yet, don't refresh the phenotype count
         // here we manually increment the counts
 
-        if ( getBunnyGenotype( bunny ).getPhenotype() == primaryAllele ) {
+        if ( getBunnyPhenotype( bunny ) == primaryAllele ) {
             primaryCount++;
         }
         else {
@@ -268,10 +276,6 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
         }
     }
 
-    public void onAddMutation() {
-        setMutatable( true );
-    }
-
     //----------------------------------------------------------------------------
     // Notifiers
     //----------------------------------------------------------------------------
@@ -291,6 +295,14 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
 
         while ( iter.hasNext() ) {
             ( (GeneListener) iter.next() ).onChangeDominantAllele( primaryAllele == dominantAllele );
+        }
+    }
+
+    private void notifyChangeMutatable() {
+        Iterator iter = listeners.iterator();
+
+        while ( iter.hasNext() ) {
+            ( (GeneListener) iter.next() ).onChangeMutatable( getMutatable() );
         }
     }
 

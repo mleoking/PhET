@@ -59,6 +59,6 @@ public class ColorGene extends Gene {
      * @return The name of the gene
      */
     public String getName() {
-        return "Color";
+        return "Fur";
     }
 }
