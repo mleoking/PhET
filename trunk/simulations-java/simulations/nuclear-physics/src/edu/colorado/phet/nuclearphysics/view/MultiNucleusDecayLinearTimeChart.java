@@ -596,12 +596,20 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     }
     
     private void updateNucleusGraphLabels(){
-    	if (_model.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM){
-    		_numUndecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL);
-    		_numUndecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.POLONIUM_LABEL_COLOR);
+    	if (_model.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14){
+    		_numUndecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL);
+    		_numUndecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.CARBON_COLOR);
     		_numUndecayedNucleiLabel.setShadowColor(Color.BLACK);
-    		_numDecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.LEAD_207_CHEMICAL_SYMBOL);
-    		_numDecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.LEAD_LABEL_COLOR);
+    		_numDecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.NITROGEN_14_CHEMICAL_SYMBOL);
+    		_numDecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.NITROGEN_COLOR);
+    		_numDecayedNucleiLabel.setShadowColor(Color.WHITE);
+    	}
+    	else if (_model.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_URANIUM_238){
+    		_numUndecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.URANIUM_238_CHEMICAL_SYMBOL);
+    		_numUndecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.URANIUM_238_COLOR);
+    		_numUndecayedNucleiLabel.setShadowColor(Color.BLACK);
+    		_numDecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.LEAD_206_CHEMICAL_SYMBOL);
+    		_numDecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.LEAD_206_COLOR);
     		_numDecayedNucleiLabel.setShadowColor(Color.WHITE);
     	}
     	else {
