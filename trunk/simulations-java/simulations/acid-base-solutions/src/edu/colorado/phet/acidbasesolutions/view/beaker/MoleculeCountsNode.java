@@ -40,6 +40,7 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
     private static final ConstantPowerOfTenNumberFormat VALUE_FORMAT_H2O = new ConstantPowerOfTenNumberFormat( "0.0", 25 );
     private static final Font LABEL_FONT = new PhetFont( Font.PLAIN, 16 );
     private static final Color LABEL_COLOR = Color.BLACK;
+    private static final double ICON_SCALE = 0.25; //TODO: scale image files so that this is 1.0
     
     private final NegligibleValueNode countLHS;
     private final ValueNode countRHS, countH3OPlus, countOHMinus, countH2O;
@@ -186,7 +187,7 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
             super();
             imageNode = new PImage( image );
             addChild( imageNode );
-            scale( 0.25 );//TODO scale image files
+            scale( ICON_SCALE );
         }
         
         public void setImage( Image image ) {
