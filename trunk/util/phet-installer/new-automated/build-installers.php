@@ -25,18 +25,10 @@
     require_once("ripper-util.php");
 
     //--------------------------------------------------------------------------
-    // Main routine - interprets command line options and executes the
-    // indicated requests.
+    // Main routine for this file.
     //--------------------------------------------------------------------------
     function build_installers() {
-        if (file_lock("install-builder")) {
-            installer_build_all();
-        }
-        else {
-            flushing_echo("The PhET AutoInstallBuilder appears to be completing a previous build.");
-            flushing_echo("Refresh this page to ignore this warning and build anyway.");
-        }
-        file_unlock("install-builder");
+        installer_build_all();
     }
 
     //--------------------------------------------------------------------------
