@@ -37,7 +37,7 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
 
   class ObjectSelectionIcon(o: ScalaRampObject) extends PNode {
     val textNode = new HTMLNode(o.getDisplayTextHTML.toString)
-    val imageNode = new PImage(BufferedImageUtils.multiScaleToHeight(RampResources.getImage(o.imageFilename), 100))
+    val imageNode = new PImage(BufferedImageUtils.multiScaleToHeight(RampResources.getImage(o.iconFilename), 100))
     imageNode.scale(0.7f)
     textNode.setOffset(imageNode.getFullBounds.getWidth, 0)
 
