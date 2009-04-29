@@ -203,7 +203,10 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
 }
 
 case class Result(success: Boolean, cliff: Boolean, score: Int)
+class SurfaceModel {
+}
 class RobotMovingCompanyGameModel(model: RampModel, clock: ScalaClock) extends Observable {
+  val surfaceModel = new SurfaceModel
   model.rampSegments(1).setAngle(0)
   model.walls = false
   model.rampSegments(0).startPoint = new Vector2D(-10, 0).rotate(-(30.0).toRadians)
