@@ -25,6 +25,10 @@ public class OutlinedHTMLNode extends PComposite {
     private Color fill;
     private Color outline;
 
+    public OutlinedHTMLNode( String html ) {
+        this( html, new PhetFont(), Color.WHITE, Color.BLACK );
+    }
+    
     public OutlinedHTMLNode( String html, Font font, Color fill, Color outline ) {
         this.html = html;
         this.font = font;
