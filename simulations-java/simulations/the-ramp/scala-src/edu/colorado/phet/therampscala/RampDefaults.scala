@@ -14,14 +14,14 @@ object RampDefaults {
   val SKY_GRADIENT_BOTTOM = new Color(250, 250, 255)
 
   //ScalaRampObject(name,mass,kineticFriction,staticFriction,image)
-  val objects = new ScalaRampObject("File Cabinet", 50, 0.2, 0.5, 3, "cabinet.gif") ::
+  val objects = new ScalaRampObject("File Cabinet", 50, 0.2, 0.5, 2, "cabinet.gif") ::
           new ScalaRampObject("Sleepy Dog", 25, 0.5, 0.5, 2, "ollie.gif") ::
           new ScalaRampObject("Small Crate", 100, 0.3, 0.5, 2, "crate.gif") ::
           new MutableRampObject("Custom Crate", 150, 0.3, 0.5, -1, "crate.gif", true) :: //height is determined dynamically in MutableRampObject
-          new ScalaRampObject("Refrigerator", 200, 0.2, 0.5, 4, "fridge.gif") ::
+          new ScalaRampObject("Refrigerator", 200, 0.2, 0.5, 3, "fridge.gif") ::
           new ScalaRampObject("Textbook", 10, 0.2, 0.4, 1, "phetbook.gif") ::
-          new ScalaRampObject("Piano", 400, 0.3, 0.5, 4, "piano.png") ::
-          new CustomTextRampObject("Mystery Object", 300, 0.5, 0.5, 2, "mystery-box.png", false) ::
+          new ScalaRampObject("Piano", 400, 0.3, 0.5, 6, "piano.png") ::
+          new CustomTextRampObject("Mystery Object", 300, 0.5, 0.5, 4, "mystery-box.png", false) ::
           Nil
   val iconsPerRow = 4
 
