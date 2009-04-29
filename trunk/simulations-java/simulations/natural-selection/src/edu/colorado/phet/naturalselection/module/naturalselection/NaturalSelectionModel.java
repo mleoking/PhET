@@ -176,6 +176,11 @@ public class NaturalSelectionModel extends ClockAdapter {
 
         notifyGenerationChange();
 
+        // make sure genes won't mutate anymore
+        ColorGene.getInstance().setMutatable( false );
+        TailGene.getInstance().setMutatable( false );
+        TeethGene.getInstance().setMutatable( false );
+
         System.out.println( "***** End mating season, stats to follow:" );
 
         System.out.println( "\tPopulation: " + getPopulation() );

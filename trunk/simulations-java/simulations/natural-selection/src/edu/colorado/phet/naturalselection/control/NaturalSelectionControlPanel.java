@@ -28,14 +28,12 @@ import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelecti
 public class NaturalSelectionControlPanel extends JPanel {
 
     // main panels
-    public TraitCanvas traitCanvas;
-    private TimeDisplayPanel timePanel;
-    private JPanel timePopulationPanel;
     private JPanel rightPanel;
+    private GenerationChartCanvas generationCanvas;
+    private LeftPanel leftPanel;
 
     // subpanels
     public ClimatePanel climatePanel;
-    private PopulationCanvas popCanvas;
     private JPanel selectionPanel;
 
     // buttons
@@ -43,11 +41,11 @@ public class NaturalSelectionControlPanel extends JPanel {
     public JRadioButton foodButton;
     public JRadioButton noneButton;
     public JButton resetAllButton;
-    public JButton generationChartButton;
 
     // private variables
     private NaturalSelectionModel model;
     private NaturalSelectionModule module;
+
 
     /**
      * Constructor
@@ -63,81 +61,57 @@ public class NaturalSelectionControlPanel extends JPanel {
         this.setLayout( layout );
 
         // build all of the panels
-        traitCanvas = new TraitCanvas();
         climatePanel = new ClimatePanel( this.model );
         PiccoloClockControlPanel clockControlPanel = new PiccoloClockControlPanel( this.module.getClock() );
         createSelectionPanel();
         createRightPanel();
-        createTimePopulationPanel();
+        leftPanel = new LeftPanel( this.model );
+        generationCanvas = new GenerationChartCanvas( this.model );
+
 
         // keep track of the column for the gridbaglayout
         int column = 0;
 
         // the uglier layout code
-        GridBagConstraints traitCanvasConstraints = new GridBagConstraints();
-        traitCanvasConstraints.gridx = column++;
-        traitCanvasConstraints.gridy = 0;
-        traitCanvasConstraints.anchor = GridBagConstraints.WEST;
-        traitCanvasConstraints.insets = new Insets( 10, 10, 10, 10 );
-        traitCanvasConstraints.weightx = 1.0;
-        add( traitCanvas, traitCanvasConstraints );
+        GridBagConstraints geneConstraints = new GridBagConstraints();
+        geneConstraints.gridx = column++;
+        geneConstraints.gridy = 0;
+        geneConstraints.gridheight = 2;
+        geneConstraints.anchor = GridBagConstraints.NORTHWEST;
+        add( leftPanel, geneConstraints );
 
-        GridBagConstraints popConstraints = new GridBagConstraints();
-        popConstraints.gridx = column++;
-        popConstraints.gridy = 0;
-        add( timePopulationPanel, popConstraints );
-
-        GridBagConstraints spacerConstraints2 = new GridBagConstraints();
-        spacerConstraints2.gridx = column++;
-        spacerConstraints2.gridy = 0;
-        Component spacer2 = Box.createRigidArea( new Dimension( 40, 0 ) );
-        add( spacer2, spacerConstraints2 );
+        GridBagConstraints generationConstraints = new GridBagConstraints();
+        generationConstraints.gridx = column++;
+        generationConstraints.gridy = 0;
+        //generationConstraints.fill = GridBagConstraints.BOTH;
+        generationConstraints.anchor = GridBagConstraints.NORTH;
+        generationConstraints.weightx = 1.0;
+        add( generationCanvas, generationConstraints );
 
         GridBagConstraints rightConstraints = new GridBagConstraints();
         rightConstraints.gridx = column++;
         rightConstraints.gridy = 0;
-        rightConstraints.anchor = GridBagConstraints.EAST;
+        rightConstraints.anchor = GridBagConstraints.NORTHEAST;
+        rightConstraints.gridheight = 2;
         rightConstraints.insets = new Insets( 10, 10, 10, 10 );
         add( rightPanel, rightConstraints );
 
         // space will be padded equally on each side of the clock
         GridBagConstraints clockPanelConstraints = new GridBagConstraints();
-        clockPanelConstraints.gridx = 0;
+        clockPanelConstraints.gridx = 1;
         clockPanelConstraints.gridy = 1;
         clockPanelConstraints.weightx = 1.0;
-        clockPanelConstraints.gridwidth = column; // should be counted up by now
-        clockPanelConstraints.anchor = GridBagConstraints.CENTER;
+        clockPanelConstraints.weighty = 1.0;
+        clockPanelConstraints.anchor = GridBagConstraints.NORTH;
         add( clockControlPanel, clockPanelConstraints );
 
         // color everything with the control panel's background color
         setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
-        spacer2.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
-        traitCanvas.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         rightPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         selectionPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         wolvesButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         foodButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         noneButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
-        timePopulationPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
-
-    }
-
-    /**
-     * Create the panel that shows the population, current month and current generation
-     */
-    private void createTimePopulationPanel() {
-        timePanel = new TimeDisplayPanel( model );
-        popCanvas = new PopulationCanvas( model );
-        timePopulationPanel = new JPanel();
-        timePopulationPanel.setLayout( new GridBagLayout() );
-        GridBagConstraints simpleConstraint = new GridBagConstraints();
-        simpleConstraint.gridx = 0;
-        simpleConstraint.gridy = 0;
-        timePopulationPanel.add( timePanel, simpleConstraint );
-        simpleConstraint.gridx = 0;
-        simpleConstraint.gridy = 1;
-        simpleConstraint.anchor = GridBagConstraints.SOUTHEAST;
-        timePopulationPanel.add( popCanvas, simpleConstraint );
     }
 
     /**
@@ -189,21 +163,16 @@ public class NaturalSelectionControlPanel extends JPanel {
         rightPanel.add( selectionPanel );
         rightPanel.add( Box.createRigidArea( new Dimension( 0, 10 ) ) );
 
-        generationChartButton = new JButton( NaturalSelectionStrings.GENERATION_CHART );
-
-        rightPanel.add( generationChartButton );
-        rightPanel.add( Box.createRigidArea( new Dimension( 0, 10 ) ) );
-
         resetAllButton = new JButton( NaturalSelectionStrings.RESET_ALL );
 
         rightPanel.add( resetAllButton );
     }
 
     public void reset() {
-        traitCanvas.reset();
         climatePanel.reset();
-        popCanvas.reset();
         selectDefaultSelectionFactor();
+        generationCanvas.reset();
+        leftPanel.reset();
     }
 
     /**

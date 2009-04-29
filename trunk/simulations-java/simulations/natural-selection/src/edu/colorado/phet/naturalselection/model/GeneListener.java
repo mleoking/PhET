@@ -22,4 +22,11 @@ public interface GeneListener {
      * @param secondary Number of bunnies with the second phenotype
      */
     public void onChangeDistribution( int primary, int secondary );
+
+    /**
+     * Event sent when the mutatability of the gene changes
+     *
+     * @param mutatable Whether the gene will mutate or not
+     */
+    public void onChangeMutatable( boolean mutatable );
 }

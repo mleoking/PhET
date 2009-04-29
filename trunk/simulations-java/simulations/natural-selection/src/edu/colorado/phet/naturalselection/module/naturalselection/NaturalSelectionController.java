@@ -6,9 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import edu.colorado.phet.naturalselection.control.NaturalSelectionControlPanel;
-import edu.colorado.phet.naturalselection.model.ColorGene;
-import edu.colorado.phet.naturalselection.model.TailGene;
-import edu.colorado.phet.naturalselection.model.TeethGene;
 
 /**
  * Wires up parts of the control panel, model and views
@@ -33,16 +30,6 @@ public class NaturalSelectionController {
 
         // if the environment changes, we need to modify the background
         model.addListener( canvas.backgroundNode );
-
-        // hook up the trait control nodes with their corresponding genes
-        controlPanel.traitCanvas.colorTraitNode.addListener( ColorGene.getInstance() );
-        controlPanel.traitCanvas.teethTraitNode.addListener( TeethGene.getInstance() );
-        controlPanel.traitCanvas.tailTraitNode.addListener( TailGene.getInstance() );
-
-        // and vica versa
-        ColorGene.getInstance().addListener( controlPanel.traitCanvas.colorTraitNode );
-        TeethGene.getInstance().addListener( controlPanel.traitCanvas.teethTraitNode );
-        TailGene.getInstance().addListener( controlPanel.traitCanvas.tailTraitNode );
 
         //----------------------------------------------------------------------------
         // Control panel buttons
@@ -75,12 +62,6 @@ public class NaturalSelectionController {
         controlPanel.wolvesButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
                 model.setSelectionFactor( NaturalSelectionModel.SELECTION_WOLVES );
-            }
-        } );
-
-        controlPanel.generationChartButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent actionEvent ) {
-                module.showGenerationChart();
             }
         } );
 

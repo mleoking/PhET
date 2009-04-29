@@ -23,7 +23,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author Jonathan Olson
  */
-public class HeredityChartNode extends PNode implements NaturalSelectionModel.NaturalSelectionModelListener {
+public class PedigreeNode extends PNode implements NaturalSelectionModel.NaturalSelectionModelListener {
 
     // model reference
     private NaturalSelectionModel model;
@@ -35,7 +35,7 @@ public class HeredityChartNode extends PNode implements NaturalSelectionModel.Na
     private double availableWidth = NaturalSelectionDefaults.GENERATION_CHART_SIZE.getWidth();
 
     // vertical space between generations
-    private static final double GENERATION_VERTICAL_SPACER = 50.0;
+    private static final double GENERATION_VERTICAL_SPACER = 15.0;
 
     // initial offset at the top
     private static final double INITIAL_Y_OFFSET = 0;
@@ -48,7 +48,7 @@ public class HeredityChartNode extends PNode implements NaturalSelectionModel.Na
      *
      * @param model The natural selection model
      */
-    public HeredityChartNode( NaturalSelectionModel model ) {
+    public PedigreeNode( NaturalSelectionModel model ) {
         this.model = model;
 
         generations = new LinkedList();
@@ -147,6 +147,11 @@ public class HeredityChartNode extends PNode implements NaturalSelectionModel.Na
     }
 
     public void onGenerationChange( int generation ) {
+        if( generation == 0 ) {
+            // we just reset, don't need this "fake" event
+            return;
+        }
+
         if ( generation > NaturalSelectionConstants.BUNNIES_DIE_WHEN_THEY_ARE_THIS_OLD ) {
             popGeneration();
         }
@@ -182,22 +187,24 @@ public class HeredityChartNode extends PNode implements NaturalSelectionModel.Na
          * The maximum bunny width. If bunnies would be above this width, they are capped and the bunnies are
          * centered horizontally
          */
-        private static final double MAX_BUNNY_WIDTH = 40.0;
+        private static final double MAX_BUNNY_WIDTH = 30.0;
+
+        private static final double MAX_SECONDARY_BUNNY_WIDTH = 25.0;
 
         /**
          * The length of the line pointing to each individual child bunny
          */
-        private static final double LINE_TAIL_LENGTH = 15.0;
+        private static final double LINE_TAIL_LENGTH = 6.0;
 
         /**
          * Space between the above referenced line and the top of each bunny
          */
-        private static final double BUNNY_TOP_PADDING = 4.0;
+        private static final double BUNNY_TOP_PADDING = 3.0;
 
         /**
          * Vertical distance above the child horizontal bar that is perfectly vertical
          */
-        private static final double ABOVE_BUNNY_STRAIGHT = 10.0;
+        private static final double ABOVE_BUNNY_STRAIGHT = 5.0;
 
         /**
          * Generation number
@@ -251,9 +258,11 @@ public class HeredityChartNode extends PNode implements NaturalSelectionModel.Na
             // left padding if needed
             double leftOffset = 0;
 
+            double maxBunnyWidth = ( generation == 0 ? MAX_BUNNY_WIDTH : MAX_SECONDARY_BUNNY_WIDTH );
+
             // if bunnies would be way too large, just center all of it
-            if ( bunnyWidth > MAX_BUNNY_WIDTH ) {
-                bunnyWidth = MAX_BUNNY_WIDTH;
+            if ( bunnyWidth > maxBunnyWidth ) {
+                bunnyWidth = maxBunnyWidth;
 
                 // calculate how much would be filled with bunnies and padding
                 double filledWidth = bunnyWidth * ( numBunnies + BUNNY_SPACER_FRACTION * ( numBunnies + 1 ) );
