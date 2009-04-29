@@ -94,7 +94,7 @@ public class NuclearPhysicsConstants {
     // Color for label used for the Decayed Custom nucleus.
     public static final Color DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR = Color.BLACK;
     
-    // Color for label used for the Uranium 235 nucleus.
+    // Color for label used for the Carbon 14 nucleus.
     public static final Color CARBON_14_LABEL_COLOR = Color.YELLOW;
     
     // Color for label used for the Uranium 235 nucleus.
@@ -119,7 +119,7 @@ public class NuclearPhysicsConstants {
     public static final Color NITROGEN_COLOR = new Color( 14, 86, 121 );
     
     // Color for U238 when represented as a circle or sphere.
-    public static final Color URANIUM_238_COLOR = new Color( 165, 158, 53 );
+    public static final Color URANIUM_238_COLOR = new Color( 128, 128, 0 );
     
     // Color for Lead 206 when represented as a circle or sphere.
     public static final Color LEAD_206_COLOR = new Color( 97, 117, 126 );
