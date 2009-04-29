@@ -891,7 +891,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     				// Calculate the final position where this nucleus should end
         			// up based how many other nuclei have already decayed at
         			// approximately this time.
-        			_decayBucket = mapDecayTimeToHistogramBucket(_nucleus.getActivatedTime());
+        			_decayBucket = mapDecayTimeToHistogramBucket(_nucleus.getAdjustedActivatedTime());
         			if (_decayBucket < _decaysPerHistogramBucket.length){
         				_fallTarget = calculateFallTarget(_decaysPerHistogramBucket[_decayBucket]);
         				_decaysPerHistogramBucket[_decayBucket]++;
