@@ -163,7 +163,7 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private va
 
   def addVector(vector: Vector, offset: VectorValue) = {
     addChild(new VectorNode(transform, vector, offset))
-    println("Added: child count=" + getVectorCount)
+//    println("Added: child count=" + getVectorCount)
   }
 
   def getVectorCount = {
