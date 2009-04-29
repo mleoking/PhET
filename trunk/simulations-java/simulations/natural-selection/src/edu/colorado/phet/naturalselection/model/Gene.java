@@ -148,7 +148,7 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
         Iterator iter = bunnies.iterator();
         while ( iter.hasNext() ) {
             Bunny bunny = (Bunny) iter.next();
-            Allele allele = getBunnyGenotype( bunny ).getPhenotype();
+            Allele allele = getBunnyPhenotype( bunny );
             if ( allele == primaryAllele ) {
                 primaryCount++;
             }
@@ -158,8 +158,6 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
             else {
                 throw new RuntimeException( "Cannot get a count for unrelated allele" );
             }
-
-            bunny.checkPhenotypes();
         }
 
         //System.out.println( "\tDistribution for Gene " + getName() + ": " + primaryCount + ", " + secondaryCount );
@@ -225,6 +223,8 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
      */
     public abstract Genotype getBunnyGenotype( Bunny bunny );
 
+    public abstract Allele getBunnyPhenotype( Bunny bunny );
+
     //----------------------------------------------------------------------------
     // Event handlers
     //----------------------------------------------------------------------------
@@ -252,18 +252,6 @@ public abstract class Gene implements Bunny.BunnyListener, TraitControlNode.Trai
     }
 
     public void onBunnyAging( Bunny bunny ) {
-
-    }
-
-    public void onBunnyChangeColor( Allele allele ) {
-
-    }
-
-    public void onBunnyChangeTeeth( Allele allele ) {
-
-    }
-
-    public void onBunnyChangeTail( Allele allele ) {
 
     }
 

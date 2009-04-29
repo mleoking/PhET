@@ -49,6 +49,10 @@ public class TailGene extends Gene {
         return bunny.getTailGenotype();
     }
 
+    public Allele getBunnyPhenotype( Bunny bunny ) {
+        return bunny.getTailPhenotype();
+    }
+
     /**
      * The name of the gene
      *
