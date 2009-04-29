@@ -46,7 +46,7 @@ class Struts extends PNode {
 
   def getBottomRightWithInsets(bounds: PBounds, insetX: Double, insetY: Double) = new Point2D.Double(bounds.getMaxX - insetX, bounds.getMaxY - insetY)
 
-  def getBottomLeftWithInsets(bounds: PBounds, insetX: Double, insetY: Double) = new Point2D.Double(bounds.getMinX+insetX, bounds.getMaxY-insetY)
+  def getBottomLeftWithInsets(bounds: PBounds, insetX: Double, insetY: Double) = new Point2D.Double(bounds.getMinX + insetX, bounds.getMaxY - insetY)
 
   def getMidArea(bottom: PBounds, top: PBounds) = {
     val dst = new PBounds
