@@ -24,14 +24,14 @@ public class SymbolLegendDialog extends PaintImmediateDialog {
     private static final String TITLE = "Symbol Legend";
     private static final String HA_DESCRIPTION = 
         "<html>" + 
-        "A generic acid. The symbol \"<i>A</i>\" refers to <br>" + 
+        "A generic acid. The symbol <i>A</i> refers to <br>" + 
         "the part of the acid that remains after <br>" +
-        " dissociation. For example, \"<i>A</i>\" refers to <br>" + 
+        " dissociation. For example, <i>A</i> refers to <br>" + 
         "the chlorine atom in the acid HCl." + 
         "</html>";
     private static final String B_DESCRIPTION = 
         "<html>" +
-        "A generic weak base. The symbol \"<i>B</i>\" <br>" + 
+        "A generic weak base. The symbol <i>B</i> <br>" + 
         "refers to the part of the molecule that <br>" + 
         "can accept a hydrogen atom. For example, <br>" + 
         "<i>B</i> refers to the ammonium molecule, NH<sub>3</sub>, <br>" + 
@@ -40,9 +40,9 @@ public class SymbolLegendDialog extends PaintImmediateDialog {
     private static final String MOH_DESCRIPTION = 
         "<html>" +
         "A generic strong base, or metal hydroxide. <br>" +
-        "The symbol \"<i>M</i>\" refers to the metal part <br>" + 
+        "The symbol <i>M</i> refers to the metal part <br>" + 
         "of the base that remains after dissociation <br>" + 
-        "in water. For example, in NaOH, the \"<i>M</i>\" <br>" + 
+        "in water. For example, in NaOH, the <i>M</i> <br>" + 
         "refers to the sodium atom." +
         "</html>";
     
@@ -50,14 +50,14 @@ public class SymbolLegendDialog extends PaintImmediateDialog {
         super( owner, TITLE );
         setResizable( false );
         
-        JLabel labelHA = new JLabel( HTMLUtils.toHTMLString( ABSSymbols.HA_EMPHASIS ) );
-        JLabel descriptionHA = new JLabel( HTMLUtils.toHTMLString( HA_DESCRIPTION ) );
+        JLabel labelHA = new HTMLLabel( ABSSymbols.HA );
+        JLabel descriptionHA = new HTMLLabel( HA_DESCRIPTION );
         
-        JLabel labelB = new JLabel( HTMLUtils.toHTMLString( ABSSymbols.B_EMPHASIS ) );
-        JLabel descriptionB = new JLabel( HTMLUtils.toHTMLString( B_DESCRIPTION ) );
+        JLabel labelB = new HTMLLabel( ABSSymbols.B );
+        JLabel descriptionB = new HTMLLabel( B_DESCRIPTION );
         
-        JLabel labelMOH = new JLabel( HTMLUtils.toHTMLString( ABSSymbols.MOH_EMPHASIS ) );
-        JLabel descriptionMOH = new JLabel( HTMLUtils.toHTMLString( MOH_DESCRIPTION ) );
+        JLabel labelMOH = new HTMLLabel( ABSSymbols.MOH );
+        JLabel descriptionMOH = new HTMLLabel( MOH_DESCRIPTION );
         
         // layout
         JPanel panel = new JPanel();
@@ -83,6 +83,17 @@ public class SymbolLegendDialog extends PaintImmediateDialog {
         
         getContentPane().add( panel );
         pack();
+    }
+    
+    private static class HTMLLabel extends JLabel {
+
+        public HTMLLabel( String text ) {
+            super( HTMLUtils.toHTMLString( text ) );
+        }
+
+        public void setText( String text ) {
+            super.setText( HTMLUtils.toHTMLString( text ) );
+        }
     }
     
     public static void main( String[] args ) {
