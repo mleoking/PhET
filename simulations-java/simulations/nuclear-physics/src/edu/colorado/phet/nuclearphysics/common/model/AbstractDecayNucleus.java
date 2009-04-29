@@ -126,7 +126,7 @@ public abstract class AbstractDecayNucleus extends AtomicNucleus implements Nucl
 	 * @return Simulation time for which this nucleus has been activated, i.e.
 	 * progressing towards decay.
 	 */
-	public double getActivatedTime() {
+	public double getActivatedSimTime() {
 		return _activatedLifetime;
 	}
 	

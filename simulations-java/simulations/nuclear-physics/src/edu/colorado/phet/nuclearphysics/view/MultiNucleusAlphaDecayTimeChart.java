@@ -872,7 +872,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     				// Calculate the final position where this nucleus should end
         			// up based how many other nuclei have already decayed at
         			// approximately this time.
-        			_decayBucket = mapDecayTimeToHistogramBucket(_nucleus.getActivatedTime());
+        			_decayBucket = mapDecayTimeToHistogramBucket(_nucleus.getActivatedSimTime());
         			if (_decayBucket < _decaysPerHistogramBucket.length){
         				_fallTarget = calculateFallTarget(_decaysPerHistogramBucket[_decayBucket]);
         				_decaysPerHistogramBucket[_decayBucket]++;
@@ -1008,7 +1008,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         		}
         	}
         	
-        	xPos = _graphOriginX + (_nucleus.getActivatedTime() + TIME_ZERO_OFFSET) * _msToPixelsFactor 
+        	xPos = _graphOriginX + (_nucleus.getActivatedSimTime() + TIME_ZERO_OFFSET) * _msToPixelsFactor 
         	        - _nucleusNodeRadius + (_bunchingOffset.getX() * _usableHeight);
         	_nucleusNode.setOffset(xPos, yPos);
     	}
