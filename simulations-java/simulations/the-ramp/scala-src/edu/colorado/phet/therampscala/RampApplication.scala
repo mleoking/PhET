@@ -175,7 +175,7 @@ class VectorViewModel extends Observable {
   }
 }
 
-class AbstractRampModule(frame: JFrame, clock: ScalaClock,name:String) extends Module(name, clock) {
+class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String) extends Module(name, clock) {
   val model = new RampModel
   val wordModel = new WordModel
   val fbdModel = new FreeBodyDiagramModel
@@ -191,7 +191,7 @@ class AbstractRampModule(frame: JFrame, clock: ScalaClock,name:String) extends M
     vectorViewModel.resetAll()
   }
 }
-class RampModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock,"The Ramp") {
+class RampModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock, "The Ramp") {
   val canvas = new RampCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame)
   setSimulationPanel(canvas)
   setControlPanel(new RampControlPanel(model, wordModel, fbdModel, coordinateSystemModel, vectorViewModel, resetRampModule))
@@ -199,8 +199,21 @@ class RampModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(fr
 }
 
 case class Result(success: Boolean, cliff: Boolean, score: Int)
+
+case class SurfaceType(name: String, imageFilename: String)
 class SurfaceModel extends Observable {
+  val surfaceTypes = SurfaceType("Ice", "robotmovingcompany/ice.gif") ::
+          SurfaceType("Concrete", "robotmovingcompany/concrete.gif") ::
+          SurfaceType("Carpet", "robotmovingcompany/carpet.gif") :: Nil
   private var _friction = 0.2
+  private var _surfaceType = surfaceTypes(0)
+
+  def surfaceType = _surfaceType
+
+  def surfaceType_=(x: SurfaceType) = {
+    _surfaceType = x
+    notifyListeners()
+  }
 
   def friction_=(f: Double) = {
     _friction = f
@@ -318,7 +331,7 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
     scores.foldLeft(0)(_ + _)
   }
 }
-class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock,"Robot Moving Company") {
+class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock, "Robot Moving Company") {
   val gameModel = new RobotMovingCompanyGameModel(model, clock)
   val canvas = new RMCCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame, gameModel)
 
