@@ -103,7 +103,7 @@ public class LabeledNucleusNode extends PComposite {
 
     	// Create the gradient paint for the sphere in order to give it a 3D look.
 		Paint spherePaint = new RoundGradientPaint( SPHERE_DIAMETER / 8, -SPHERE_DIAMETER / 8, 
-				getHighlightColor( sphereColor ), new Point2D.Double( SPHERE_DIAMETER / 2, SPHERE_DIAMETER / 2 ),
+				getHighlightColor( sphereColor ), new Point2D.Double( SPHERE_DIAMETER / 4, SPHERE_DIAMETER / 4 ),
 				sphereColor );
 
     	// Create and add the sphere node.
