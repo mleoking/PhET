@@ -119,6 +119,11 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private va
       freeBodyDiagramModel.visible = false
     }
   })
+  defineInvokeAndPass(freeBodyDiagramModel.addListenerByName) {
+    closeButton.setVisible(freeBodyDiagramModel.closable)
+    closeButton.setPickable(freeBodyDiagramModel.closable)
+    closeButton.setChildrenPickable(freeBodyDiagramModel.closable)
+  }
 
   val windowedButton = new PImage(toggleWindowedButton)
   windowedButton.addInputEventListener(new CursorHandler)
@@ -163,14 +168,14 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private va
 
   def addVector(vector: Vector, offset: VectorValue) = {
     addChild(new VectorNode(transform, vector, offset))
-//    println("Added: child count=" + getVectorCount)
+    //    println("Added: child count=" + getVectorCount)
   }
 
   def getVectorCount = {
-    var count=0
+    var count = 0
     for (i <- 0 until getChildrenCount) {
       getChild(i) match {
-        case x: VectorNode => count = count +1
+        case x: VectorNode => count = count + 1
         case _ => {}
       }
     }
@@ -245,7 +250,7 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
   addChild(abbreviatonTextNode)
 
   def update() = {
-//    println("vector: " + vector.abbreviation + ", mag=" + vector.getValue.magnitude)
+    //    println("vector: " + vector.abbreviation + ", mag=" + vector.getValue.magnitude)
     val viewTip = transform.modelToViewDouble(vector.getValue + tailLocation.getValue)
     arrowNode.setTipAndTailLocations(viewTip, transform.modelToViewDouble(tailLocation.getValue))
     abbreviatonTextNode.setOffset(viewTip)

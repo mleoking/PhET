@@ -69,11 +69,20 @@ class WordModel extends Observable {
 class FreeBodyDiagramModel extends Observable {
   private var _windowed = false
   private var _visible = false
+  private var _closable = true
 
   resetAll()
   def resetAll() = {
     windowed = false
     visible = false
+    closable = true
+  }
+
+  def closable = _closable
+
+  def closable_=(b: Boolean) = {
+    _closable = b
+    notifyListeners()
   }
 
   def visible = _visible
