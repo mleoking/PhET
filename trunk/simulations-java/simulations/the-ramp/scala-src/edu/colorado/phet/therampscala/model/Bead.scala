@@ -287,16 +287,18 @@ class Bead(_state: BeadState, private var _height: Double, private var _width: D
 
       val requestedPosition = position + velocity * dt
 
+//      println("requested position=" + requestedPosition + ", minRange=" + wallRange().min)
+
       //TODO: generalize boundary code
-      if (requestedPosition <= wallRange().min) {
+      if (requestedPosition <= wallRange().min + width / 2) {
         setVelocity(0)
-        setPosition(wallRange().min)
+        setPosition(wallRange().min + width / 2)
       }
-      else if (requestedPosition >= wallRange().max && wallsExist) {
+      else if (requestedPosition >= wallRange().max - width / 2 && wallsExist) {
         setVelocity(0)
-        setPosition(wallRange().max)
+        setPosition(wallRange().max - width / 2)
       }
-      else if (requestedPosition > wallRange().max && !wallsExist) {
+      else if (requestedPosition > wallRange().max - width / 2 && !wallsExist) {
         attachState = new Airborne(position2D, new Vector2D(getVelocityVectorDirection) * velocity, getAngle)
         parallelAppliedForce = 0
       }

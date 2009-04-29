@@ -256,10 +256,7 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
   surfaceChooser.setOffset(fbdNode.getFullBounds.getMaxX + 10, fbdNode.getFullBounds.getY)
   addNode(surfaceChooser)
 
-
   addNode(new BeadNode(gameModel.house, transform, RampDefaults.house.imageFilename))
-  model.bead.parallelAppliedForce = 1E-16 //to move the pusher to the right spot//todo: fix this with view, not model
-  model.bead.notifyListeners() //todo: not sure why this call is necessary; should be handled in previous line
 
   val scoreboard = new ScoreboardNode(transform, gameModel)
   addNode(scoreboard)
