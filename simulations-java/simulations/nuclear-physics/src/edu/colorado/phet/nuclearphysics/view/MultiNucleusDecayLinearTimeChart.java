@@ -221,18 +221,18 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
             
             public void nucleusTypeChanged(){
         		switch (_model.getNucleusType()){
-        		case NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM:
-        			_pieChartValues[0].setColor(NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR);
-        			_pieChartValues[1].setColor(NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR);
+        		case NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14:
+        			_pieChartValues[0].setColor(NuclearPhysicsConstants.CARBON_COLOR);
+        			_pieChartValues[1].setColor(NuclearPhysicsConstants.NITROGEN_COLOR);
         			break;
         			
-        		case NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM:
-        			_pieChartValues[0].setColor(NuclearPhysicsConstants.POLONIUM_LABEL_COLOR);
-        			_pieChartValues[1].setColor(NuclearPhysicsConstants.LEAD_LABEL_COLOR);
+        		case NuclearPhysicsConstants.NUCLEUS_ID_URANIUM_238:
+        			_pieChartValues[0].setColor(NuclearPhysicsConstants.URANIUM_238_COLOR);
+        			_pieChartValues[1].setColor(NuclearPhysicsConstants.LEAD_206_COLOR);
         			break;
         			
         		default:
-        			// If these ever show up, someone will notice (and
+        			// If these colors ever show up, someone will notice (and
         			// presumably fix the problem).
         			_pieChartValues[0].setColor(Color.PINK);
          			_pieChartValues[1].setColor(Color.ORANGE);
