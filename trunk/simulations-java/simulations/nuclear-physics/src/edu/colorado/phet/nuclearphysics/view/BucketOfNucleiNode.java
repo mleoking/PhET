@@ -45,10 +45,7 @@ public class BucketOfNucleiNode extends PNode {
     //------------------------------------------------------------------------
 
 	private static final Stroke LINE_STROKE = new BasicStroke( 0.5f );
-	private static final Color OUTER_COLOR_DARK = new Color (0xAA7700);
-	private static final Color OUTER_COLOR_LIGHT = new Color (0xFF9933);
-	private static final Color INNER_COLOR_DARK = new Color (0xAA7700);
-	private static final Color INNER_COLOR_LIGHT = new Color (0xCC9933);
+	private static final Color DEFAULT_COLOR = new Color (0xffaa00);
 	
     //------------------------------------------------------------------------
     // Instance Data
@@ -78,10 +75,10 @@ public class BucketOfNucleiNode extends PNode {
     //------------------------------------------------------------------------
 	
 	/**
-	 * Constructor - This takes a width and height in world coordinates and
-	 * creates a bucket of corresponding size.
+	 * Constructor - This takes a width and height in world coordinates as
+	 * well as a base color value and creates a bucket of corresponding size.
 	 */
-	public BucketOfNucleiNode(double width, double height){
+	public BucketOfNucleiNode( double width, double height, Color baseColor ){
 		
 		// Local allocation and initialization.
 		_bucketHeight = height;
@@ -91,11 +88,15 @@ public class BucketOfNucleiNode extends PNode {
 		_nucleusType = NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM;
 		
 		// Create the gradient paints that will be used to paint the bucket.
-		GradientPaint outerPaint = new GradientPaint(0, (float)height/2, OUTER_COLOR_DARK, 
-        		(float)width, (float)height/2, OUTER_COLOR_LIGHT);
+		Color outerColorLight = baseColor;
+		Color outerColorDark = darkenColor( baseColor );
+		Color innerColorDark = darkenColor( outerColorDark );
+		Color innerColorLight = outerColorDark;
+		GradientPaint outerPaint = new GradientPaint(0, (float)height/2, outerColorDark, 
+        		(float)width, (float)height/2, outerColorLight);
 		
-		GradientPaint innerPaint = new GradientPaint(0, (float)height/2, INNER_COLOR_LIGHT, 
-        		(float)width, (float)height/2, INNER_COLOR_DARK);
+		GradientPaint innerPaint = new GradientPaint(0, (float)height/2, innerColorLight, 
+        		(float)width, (float)height/2, innerColorDark);
 		
 		// Create a layering effect using PNodes so that we can create the
 		// illusion of three dimensions.
@@ -148,7 +149,18 @@ public class BucketOfNucleiNode extends PNode {
 		bucketHandle.setStroke( LINE_STROKE );
 		_frontOfBucketLayer.addChild(bucketHandle);
 	}
-	
+
+	/**
+	 * Constructor that uses default color.
+	 * 
+	 * @param width
+	 * @param height
+	 * @param baseColor
+	 */
+	public BucketOfNucleiNode( double width, double height ){
+		this( width, height, DEFAULT_COLOR );
+	}
+
     //------------------------------------------------------------------------
     // Public Methods
     //------------------------------------------------------------------------
@@ -515,5 +527,29 @@ public class BucketOfNucleiNode extends PNode {
 			stop();  // Make sure that the time is stopped.
 			_shrinkingNode = null;
 		}
+    }
+    
+    private Color lightenColor( Color originalColor ){
+        	
+    	Color lighterColor;
+    	
+   		int red = originalColor.getRed() + ((255 - originalColor.getRed()) * 3 / 4);
+   		int green = originalColor.getGreen() + ((255 - originalColor.getGreen()) * 3 / 4);
+   		int blue = originalColor.getBlue() + ((255 - originalColor.getBlue()) * 3 / 4);
+   		lighterColor = new Color( red, green, blue );
+    	
+    	return lighterColor;
+    }
+
+    private Color darkenColor( Color originalColor ){
+    	
+    	Color darkerColor;
+    	
+   		int red = originalColor.getRed() - (originalColor.getRed() / 2);
+   		int green = originalColor.getGreen() - (originalColor.getGreen() / 2);
+   		int blue = originalColor.getBlue() - (originalColor.getBlue() / 2);
+   		darkerColor = new Color( red, green, blue );
+    	
+    	return darkerColor;
     }
 }
