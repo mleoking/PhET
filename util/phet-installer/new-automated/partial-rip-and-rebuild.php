@@ -96,7 +96,7 @@
         installer_build_all();
 
         // Release the lock.
-        file_unlock("install-builder");
+        file_unlock( LOCK_FILE_STEM_NAME );
 
         // Output the time of completion.
         $end_time = exec("date");
