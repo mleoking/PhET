@@ -159,7 +159,9 @@
 	function file_unlock($text) {
 	    $file_source = ROOT_DIR.$text."_lock";
     
-	    unlink($file_source);
+        if (file_exists($file_source)){
+	        unlink($file_source);
+        }
 	}
 
 	function file_list_in_directory($directory, $all_patterns = "*") {
