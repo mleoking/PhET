@@ -57,8 +57,13 @@
         // Get the name of the sim project to be ripped.
         $sim_name = $args[1];
 
-        // Grab the lock to prevent multiple simultaneous executions.
-        file_lock("install-builder");
+        // Grab a file lock to prevent multiple simultaneous executions.
+        if ( !file_lock( LOCK_FILE_STEM_NAME ) ){
+            flushing_echo("ERROR: The PhET installer builder appears to be completing another build.");
+            flushing_echo("If you believe this to be incorrect, use the appropriate script to force");
+            flushing_echo("an unlock (something like \"force-unlock.sh\") and try again.");
+            return;
+        }
 
         // Log the start time of this operation.
         $start_time = exec( "date" );
