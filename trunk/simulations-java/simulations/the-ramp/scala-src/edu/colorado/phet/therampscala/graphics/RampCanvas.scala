@@ -115,7 +115,7 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
   class BodyVectorNode(transform: ModelViewTransform2D, vector: Vector, offset: VectorValue) extends VectorNode(transform, vector, offset) {
     model.bead.addListenerByName {
       setOffset(model.bead.position2D)
-      update
+      update()
     }
   }
 
@@ -261,16 +261,15 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
     addNode(beadNode)
 
     gameModel.nextObjectListeners += ((prevObject: ScalaRampObject) => {
-      if (prevObject == a) {
+      if (prevObject == a) {//todo: get rid of this lookup
         removeNode(beadNode)
       }
     })
     fbdNode.clearVectors()
     windowFBDNode.clearVectors()
-    //todo: clear other vectors such as play area and windowed vectors as well
-    println("adding vectors for bead: " + bead + ", a=" + a)
+    //todo: clear play area vectors (or never add them in the first place)
+//    println("adding vectors for bead: " + bead + ", a=" + a)
     addAllVectors(bead)
-
   }
 
   def changeY(dy: Double) = {

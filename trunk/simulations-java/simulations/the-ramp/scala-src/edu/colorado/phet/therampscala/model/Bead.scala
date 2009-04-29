@@ -147,7 +147,7 @@ class Bead(_state: BeadState, private var _height: Double, private var _width: D
 
   def setPosition(position: Double) = {
     state = state.setPosition(position)
-    normalForceVector.notifyListeners() //since ramp segment might have changed; could improve performance on this by only sending notifications when we are sure the ramp segment has changed
+    normalForceVector.notifyListeners() //since ramp segment or motion state might have changed; could improve performance on this by only sending notifications when we are sure the ramp segment has changed
     frictionForceVector.notifyListeners() //todo: omit this call since it's probably covered by the normal force call above
     wallForceVector.notifyListeners()
     notifyListeners()
@@ -210,6 +210,7 @@ class Bead(_state: BeadState, private var _height: Double, private var _width: D
         attachState = new Crashed(new Vector2D(_position2D.x, _airborneFloor), _angle)
         crashListeners.foreach(_())
       }
+      normalForceVector.notifyListeners() //since ramp segment or motion state might have changed; could improve performance on this by only sending notifications when we are sure the ramp segment has changed
       notifyListeners() //to get the new normalforce
     }
 
