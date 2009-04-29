@@ -32,8 +32,13 @@ case class BeadState(position: Double, velocity: Double, mass: Double, staticFri
 
 case class Range(min: Double, max: Double)
 
-class Bead(_state: BeadState, private var _height: Double, private var _width: Double, positionMapper: Double => Vector2D,
-           rampSegmentAccessor: Double => RampSegment, model: Observable, surfaceFriction: () => Boolean, wallsExist: => Boolean,
+class Bead(_state: BeadState,
+           private var _height: Double,
+           private var _width: Double,
+           positionMapper: Double => Vector2D,
+           rampSegmentAccessor: Double => RampSegment,
+           model: Observable, surfaceFriction: () => Boolean,
+           wallsExist: => Boolean,
            wallRange: () => Range)
         extends Observable {
   val crashListeners = new ArrayBuffer[() => Unit]

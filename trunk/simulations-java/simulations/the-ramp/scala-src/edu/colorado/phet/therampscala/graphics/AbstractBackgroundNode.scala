@@ -24,7 +24,7 @@ class AbstractBackgroundNode(getPaint: => Paint, getModelShape: => Shape, transf
   })
 }
 class SkyNode(transform: ModelViewTransform2D) extends AbstractBackgroundNode(new GradientPaint(transform.modelToView(0, 0), RampDefaults.SKY_GRADIENT_BOTTOM, transform.modelToView(0, 10), new Color(202, 187, 255)), new Rectangle2D.Double(-100, 0, 200, 200), transform)
-class EarthNode(transform: ModelViewTransform2D) extends AbstractBackgroundNode(new Color(200, 240, 200), new Rectangle2D.Double(-100, -200, 200, 200), transform)
+class EarthNode(transform: ModelViewTransform2D) extends AbstractBackgroundNode(RampDefaults.EARTH_COLOR, new Rectangle2D.Double(-100, -200, 200, 200), transform)
 
 object EarthNodeWithCliff {
   def getArea(maxX: Double, lowerGroundY: Double) = {
