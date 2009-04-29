@@ -663,11 +663,6 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     		// Verify that this nucleus wasn't already added.
     		assert !_mapNucleiToNucleiData.containsKey(modelElement);
     		
-    		// At least for now, it is expected that all nuclei added to this
-    		// chart are alpha decayers that are not moving towards decay yet.
-    		assert (modelElement instanceof AbstractAlphaDecayNucleus);
-    		assert (((AbstractDecayNucleus)modelElement).isDecayActive() == false);
-    		
     		// Create a data set for this nucleus and add it to the internal
     		// map.
     		_mapNucleiToNucleiData.put(modelElement, new NucleusData((AbstractDecayNucleus)modelElement));
@@ -886,6 +881,12 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     				_postDecayCount++;
         	    	updateNucleiNumberText();
         	    	updatePieChartProportions();
+        	    	
+        	    	// Update the nucleus image, since it may now be a different element.
+        	    	_nonPickableChartNode.removeChild(_nucleusNode);
+        	    	_nucleusNode = createNucleusNode();
+        	    	_nucleusNode.setScale((_nucleusNodeRadius * 2) / _nucleusNode.getFullBoundsReference().height);
+        	    	_nonPickableChartNode.addChild(_nucleusNode);
 
     				// Calculate the final position where this nucleus should end
         			// up based how many other nuclei have already decayed at
@@ -1043,51 +1044,51 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         	switch (_nucleus.getNumProtons()){
         	case 6:
         		// Create a labeled nucleus representing Carbon.
-//        		nucleusNode = new LabeledNucleusNode(AtomicNucleusImageType.CIRCLE_WITH_HIGHLIGHT,
-//                        NuclearPhysicsStrings.CARBON_14_ISOTOPE_NUMBER, 
-//                        NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL, 
-//                        NuclearPhysicsConstants.CARBON_14_LABEL_COLOR );
+        		nucleusNode = new LabeledNucleusSphereNode( NuclearPhysicsConstants.CARBON_COLOR,
+                        NuclearPhysicsStrings.CARBON_14_ISOTOPE_NUMBER, 
+                        NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL, 
+                        NuclearPhysicsConstants.CARBON_14_LABEL_COLOR );
         		break;
         		
         	case 7:
-        		// Create a labeled nucleus representing Polonium.
-//        		nucleusNode = new LabeledNucleusNode("Polonium Nucleus Small.png",
-//                        NuclearPhysicsStrings.NITROGEN_14_ISOTOPE_NUMBER, 
-//                        NuclearPhysicsStrings.NITROGEN_14_CHEMICAL_SYMBOL, 
-//                        NuclearPhysicsConstants.NITROGEN_14_LABEL_COLOR );
+        		// Create a labeled nucleus representing Nitrogen.
+        		nucleusNode = new LabeledNucleusSphereNode( NuclearPhysicsConstants.NITROGEN_COLOR,
+                        NuclearPhysicsStrings.NITROGEN_14_ISOTOPE_NUMBER, 
+                        NuclearPhysicsStrings.NITROGEN_14_CHEMICAL_SYMBOL, 
+                        NuclearPhysicsConstants.NITROGEN_14_LABEL_COLOR );
         		break;
         		
         	case 84:
         		// Create a labeled nucleus representing Polonium.
-//        		nucleusNode = new LabeledNucleusNode("Polonium Nucleus Small.png",
-//                        NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER, 
-//                        NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL, 
-//                        NuclearPhysicsConstants.POLONIUM_LABEL_COLOR );
+        		nucleusNode = new LabeledNucleusImageNode("Polonium Nucleus Small.png",
+                        NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER, 
+                        NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL, 
+                        NuclearPhysicsConstants.POLONIUM_LABEL_COLOR );
         		break;
         		
         	case 83:
         		// This nucleus is bismuth, which we use as the pre-decay custom
         		// nucleus.
-//        		nucleusNode = new LabeledNucleusNode("Polonium Nucleus Small.png", 
-//        				"", // No isotope number.
-//                        NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
-//                        NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR );
+        		nucleusNode = new LabeledNucleusImageNode("Polonium Nucleus Small.png", 
+        				"", // No isotope number.
+                        NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
+                        NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR );
         		break;
         		
         	case 82:
         		// Create a labeled nucleus representing Lead.
-//        		nucleusNode = new LabeledNucleusNode("Lead Nucleus Small.png",
-//                        NuclearPhysicsStrings.LEAD_207_ISOTOPE_NUMBER, 
-//                        NuclearPhysicsStrings.LEAD_207_CHEMICAL_SYMBOL, 
-//                        NuclearPhysicsConstants.LEAD_LABEL_COLOR );
+        		nucleusNode = new LabeledNucleusSphereNode( NuclearPhysicsConstants.LEAD_206_COLOR,
+                        NuclearPhysicsStrings.LEAD_206_ISOTOPE_NUMBER, 
+                        NuclearPhysicsStrings.LEAD_206_CHEMICAL_SYMBOL, 
+                        NuclearPhysicsConstants.LEAD_206_COLOR );
         		break;
         		
         	case 81:
         		// This is thallium, which we use as the post-decay custom nucleus.
-//        		nucleusNode = new LabeledNucleusNode("Lead Nucleus Small.png",
-//        				"", // No isotope number.
-//                        NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
-//                        NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR );
+        		nucleusNode = new LabeledNucleusImageNode("Lead Nucleus Small.png",
+        				"", // No isotope number.
+                        NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
+                        NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR );
         		break;
         		
         	default:
@@ -1095,8 +1096,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         		throw new InvalidParameterException("Unrecognized nucleus type.");
         	}
         	
-//        	return nucleusNode;
-        	return null;
+        	return nucleusNode;
     	}
     }
 }
