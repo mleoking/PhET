@@ -261,6 +261,9 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
   val scoreboard = new ScoreboardNode(transform, gameModel)
   addNode(scoreboard)
 
+  val robotGraphics = new RobotGraphics(transform, gameModel)
+  addNode(2,robotGraphics)//behind ramp
+
   gameModel.beadCreatedListeners += init
   init(gameModel.bead, gameModel.selectedObject)
 
