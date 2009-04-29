@@ -122,7 +122,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         // beaker label at bottom of beaker
         b1 = _beakerNode.getFullBoundsReference();
         xOffset = b1.getMinX() + ( b1.getWidth() - _beakerLabelNode.getFullBoundsReference().getWidth() ) / 2;
-        yOffset = b1.getMaxY() - _beakerLabelNode.getFullBoundsReference().getHeight() - 10;
+        yOffset = b1.getMaxY() - _beakerLabelNode.getFullBoundsReference().getHeight() - 20;
         _beakerLabelNode.setOffset( xOffset, yOffset );
         
         // probe horizontally centered in beaker, tip of probe at bottom of beaker
