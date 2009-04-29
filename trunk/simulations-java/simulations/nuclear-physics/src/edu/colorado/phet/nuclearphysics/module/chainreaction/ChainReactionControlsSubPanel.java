@@ -30,7 +30,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValu
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
-import edu.colorado.phet.nuclearphysics.view.LabeledNucleusNode;
+import edu.colorado.phet.nuclearphysics.view.LabeledNucleusImageNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -144,7 +144,7 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
             }
         });
         
-        PNode labeledU235Nucleus = new LabeledNucleusNode("Uranium Nucleus Small.png",
+        PNode labeledU235Nucleus = new LabeledNucleusImageNode("Uranium Nucleus Small.png",
                 NuclearPhysicsStrings.URANIUM_235_ISOTOPE_NUMBER, 
                 NuclearPhysicsStrings.URANIUM_235_CHEMICAL_SYMBOL, 
                 NuclearPhysicsConstants.URANIUM_235_LABEL_COLOR );
@@ -195,7 +195,7 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
             }
         } );
 
-        PNode labeledU238Nucleus = new LabeledNucleusNode("Uranium Nucleus Small.png",
+        PNode labeledU238Nucleus = new LabeledNucleusImageNode("Uranium Nucleus Small.png",
                 NuclearPhysicsStrings.URANIUM_238_ISOTOPE_NUMBER, 
                 NuclearPhysicsStrings.URANIUM_238_CHEMICAL_SYMBOL, 
                 NuclearPhysicsConstants.URANIUM_238_LABEL_COLOR );

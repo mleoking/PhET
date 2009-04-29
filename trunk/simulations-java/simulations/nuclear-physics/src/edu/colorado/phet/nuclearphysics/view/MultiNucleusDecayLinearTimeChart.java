@@ -32,6 +32,7 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
 import edu.colorado.phet.nuclearphysics.model.AbstractAlphaDecayNucleus;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
@@ -133,6 +134,8 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     private HashMap _mapNucleiToNucleiData = new HashMap();
     private int _preDecayCount;
     private int _postDecayCount;
+    
+    // Variables for controlling the appearance of the chart.
     
     // Data structure for the histogram-ish placement of decayed nuclei.
     private int [] _decaysPerHistogramBucket = new int[NUM_HISTOGRAM_BUCKETS];
@@ -417,6 +420,8 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     	_timeSpan = timeSpan;
     	update();
     }
+    
+    
 
     /**
      * This method is called to re-scale the chart, which generally occurs
@@ -1037,52 +1042,52 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
 
         	switch (_nucleus.getNumProtons()){
         	case 6:
-        		// Create a labeled nucleus representing Polonium.
-        		nucleusNode = new LabeledNucleusNode("Polonium Nucleus Small.png",
-                        NuclearPhysicsStrings.CARBON_14_ISOTOPE_NUMBER, 
-                        NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL, 
-                        NuclearPhysicsConstants.CARBON_14_LABEL_COLOR );
+        		// Create a labeled nucleus representing Carbon.
+//        		nucleusNode = new LabeledNucleusNode(AtomicNucleusImageType.CIRCLE_WITH_HIGHLIGHT,
+//                        NuclearPhysicsStrings.CARBON_14_ISOTOPE_NUMBER, 
+//                        NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL, 
+//                        NuclearPhysicsConstants.CARBON_14_LABEL_COLOR );
         		break;
         		
         	case 7:
         		// Create a labeled nucleus representing Polonium.
-        		nucleusNode = new LabeledNucleusNode("Polonium Nucleus Small.png",
-                        NuclearPhysicsStrings.NITROGEN_14_ISOTOPE_NUMBER, 
-                        NuclearPhysicsStrings.NITROGEN_14_CHEMICAL_SYMBOL, 
-                        NuclearPhysicsConstants.NITROGEN_14_LABEL_COLOR );
+//        		nucleusNode = new LabeledNucleusNode("Polonium Nucleus Small.png",
+//                        NuclearPhysicsStrings.NITROGEN_14_ISOTOPE_NUMBER, 
+//                        NuclearPhysicsStrings.NITROGEN_14_CHEMICAL_SYMBOL, 
+//                        NuclearPhysicsConstants.NITROGEN_14_LABEL_COLOR );
         		break;
         		
         	case 84:
         		// Create a labeled nucleus representing Polonium.
-        		nucleusNode = new LabeledNucleusNode("Polonium Nucleus Small.png",
-                        NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER, 
-                        NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL, 
-                        NuclearPhysicsConstants.POLONIUM_LABEL_COLOR );
+//        		nucleusNode = new LabeledNucleusNode("Polonium Nucleus Small.png",
+//                        NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER, 
+//                        NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL, 
+//                        NuclearPhysicsConstants.POLONIUM_LABEL_COLOR );
         		break;
         		
         	case 83:
         		// This nucleus is bismuth, which we use as the pre-decay custom
         		// nucleus.
-        		nucleusNode = new LabeledNucleusNode("Polonium Nucleus Small.png", 
-        				"", // No isotope number.
-                        NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
-                        NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR );
+//        		nucleusNode = new LabeledNucleusNode("Polonium Nucleus Small.png", 
+//        				"", // No isotope number.
+//                        NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
+//                        NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR );
         		break;
         		
         	case 82:
         		// Create a labeled nucleus representing Lead.
-        		nucleusNode = new LabeledNucleusNode("Lead Nucleus Small.png",
-                        NuclearPhysicsStrings.LEAD_207_ISOTOPE_NUMBER, 
-                        NuclearPhysicsStrings.LEAD_207_CHEMICAL_SYMBOL, 
-                        NuclearPhysicsConstants.LEAD_LABEL_COLOR );
+//        		nucleusNode = new LabeledNucleusNode("Lead Nucleus Small.png",
+//                        NuclearPhysicsStrings.LEAD_207_ISOTOPE_NUMBER, 
+//                        NuclearPhysicsStrings.LEAD_207_CHEMICAL_SYMBOL, 
+//                        NuclearPhysicsConstants.LEAD_LABEL_COLOR );
         		break;
         		
         	case 81:
         		// This is thallium, which we use as the post-decay custom nucleus.
-        		nucleusNode = new LabeledNucleusNode("Lead Nucleus Small.png",
-        				"", // No isotope number.
-                        NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
-                        NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR );
+//        		nucleusNode = new LabeledNucleusNode("Lead Nucleus Small.png",
+//        				"", // No isotope number.
+//                        NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
+//                        NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR );
         		break;
         		
         	default:
@@ -1090,7 +1095,8 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         		throw new InvalidParameterException("Unrecognized nucleus type.");
         	}
         	
-        	return nucleusNode;
+//        	return nucleusNode;
+        	return null;
     	}
     }
 }

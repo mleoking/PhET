@@ -33,7 +33,7 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.NucleusTypeControl;
-import edu.colorado.phet.nuclearphysics.view.LabeledNucleusNode;
+import edu.colorado.phet.nuclearphysics.view.LabeledNucleusSphereNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -281,7 +281,7 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
             
             // Create and add the pre-decay nucleus.  It is created as a
             // sphere and not a nucleus image.
-            PNode labeledPreDecayNucleus = new LabeledNucleusNode(
+            PNode labeledPreDecayNucleus = new LabeledNucleusSphereNode(
             		preDecayNucleus.getSphereColor(),
                     preDecayNucleus.getIsotopeNumberString(), 
                     preDecayNucleus.getChemicalSymbol(), 
@@ -310,7 +310,7 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
             add( new JLabel( createArrowIcon( Color.BLACK ) ), constraints );
             
             // Create and add post-decay nucleus.
-            PNode labeledPostDecayNucleus = new LabeledNucleusNode(
+            PNode labeledPostDecayNucleus = new LabeledNucleusSphereNode(
             		postDecayNucleus.getSphereColor(),
             		postDecayNucleus.getIsotopeNumberString(), 
             		postDecayNucleus.getChemicalSymbol(), 

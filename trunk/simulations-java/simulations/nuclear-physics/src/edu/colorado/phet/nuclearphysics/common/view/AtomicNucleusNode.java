@@ -326,33 +326,20 @@ public class AtomicNucleusNode extends PNode {
     	_isotopeChemSymbolShadow.setScale( 1 );
     	_isotopeNumber.setScale( 1 );
     	_isotopeNumberShadow.setScale( 1 );
-    	double scale;
-        if (isotopeNumber == ""){
-        	// Set the scall a little smaller if there is no isotope number so
+    	double scale = 1;
+        if (isotopeNumber == "" && chemSymbol != ""){
+        	// Set the scale a little smaller if there is no isotope number so
         	// that the label doesn't dominate the image.
-        	scale = _atomicNucleus.getDiameter() / (_isotopeChemSymbol.getFullBoundsReference().width * 1.5); 
+        	scale = _atomicNucleus.getDiameter() / (_isotopeChemSymbol.getFullBoundsReference().getWidth() * 1.5); 
         }
-        else{
-        	scale = _atomicNucleus.getDiameter() / ( _isotopeChemSymbol.getFullBoundsReference().width + 
-        			_isotopeNumber.getFullBoundsReference().width );
+        else if (chemSymbol != ""){
+        	scale = _atomicNucleus.getDiameter() / ( _isotopeChemSymbol.getFullBoundsReference().getWidth() + 
+        			_isotopeNumber.getFullBoundsReference().getWidth() );
         }
     	_isotopeChemSymbol.setScale( scale );
     	_isotopeChemSymbolShadow.setScale( scale );
     	_isotopeNumber.setScale( scale );
     	_isotopeNumberShadow.setScale( scale );
-        
-//        if (isotopeNumber == ""){
-//        	// Set the scale larger if there is no isotope number, since there
-//        	// will be unused space in this case.
-//        	_isotopeChemSymbol.setScale(LARGE_LABEL_SCALING_FACTOR);
-//        	_isotopeChemSymbolShadow.setScale(LARGE_LABEL_SCALING_FACTOR);
-//        }
-//        else{
-//        	_isotopeChemSymbol.setScale(NORMAL_LABEL_SCALING_FACTOR);
-//        	_isotopeChemSymbolShadow.setScale(NORMAL_LABEL_SCALING_FACTOR);
-//        	_isotopeNumber.setScale(NORMAL_LABEL_SCALING_FACTOR);
-//        	_isotopeNumberShadow.setScale(NORMAL_LABEL_SCALING_FACTOR);
-//        }
     }
     
     /**

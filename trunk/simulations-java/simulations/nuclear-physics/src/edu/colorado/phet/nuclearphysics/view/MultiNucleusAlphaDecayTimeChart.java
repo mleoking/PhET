@@ -1025,7 +1025,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         	switch (_nucleus.getNumProtons()){
         	case 84:
         		// Create a labeled nucleus representing Polonium.
-        		nucleusNode = new LabeledNucleusNode("Polonium Nucleus Small.png",
+        		nucleusNode = new LabeledNucleusImageNode("Polonium Nucleus Small.png",
                         NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER, 
                         NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL, 
                         NuclearPhysicsConstants.POLONIUM_LABEL_COLOR );
@@ -1034,7 +1034,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         	case 83:
         		// This nucleus is bismuth, which we use as the pre-decay custom
         		// nucleus.
-        		nucleusNode = new LabeledNucleusNode("Polonium Nucleus Small.png", 
+        		nucleusNode = new LabeledNucleusImageNode("Polonium Nucleus Small.png", 
         				"", // No isotope number.
                         NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
                         NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR );
@@ -1042,7 +1042,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         		
         	case 82:
         		// Create a labeled nucleus representing Lead.
-        		nucleusNode = new LabeledNucleusNode("Lead Nucleus Small.png",
+        		nucleusNode = new LabeledNucleusImageNode("Lead Nucleus Small.png",
                         NuclearPhysicsStrings.LEAD_207_ISOTOPE_NUMBER, 
                         NuclearPhysicsStrings.LEAD_207_CHEMICAL_SYMBOL, 
                         NuclearPhysicsConstants.LEAD_LABEL_COLOR );
@@ -1050,7 +1050,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         		
         	case 81:
         		// This is thallium, which we use as the post-decay custom nucleus.
-        		nucleusNode = new LabeledNucleusNode("Lead Nucleus Small.png",
+        		nucleusNode = new LabeledNucleusImageNode("Lead Nucleus Small.png",
         				"", // No isotope number.
                         NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
                         NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR );
