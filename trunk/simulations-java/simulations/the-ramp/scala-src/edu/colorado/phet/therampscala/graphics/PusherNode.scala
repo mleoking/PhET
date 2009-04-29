@@ -12,6 +12,8 @@ class PusherNode(transform: ModelViewTransform2D, targetBead: Bead, manBead: Bea
         extends BeadNode(manBead, transform, "standing-man.png") {
   defineInvokeAndPass(targetBead.addListenerByName) {
     if (targetBead.appliedForce.magnitude > 0) {
+
+      //todo: use actual bead widths here
       val dx = 2.2 * (if (targetBead.appliedForce.x > 0) -1 else 1)
       manBead.setPosition(targetBead.position + dx)
 
