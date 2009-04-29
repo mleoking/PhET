@@ -237,6 +237,7 @@ class RobotMovingCompanyGameModel(model: RampModel, clock: ScalaClock) extends O
           itemMoved(a)
         }
         else {
+          RampResources.getAudioClip("tintagel/PERSONAL.WAV").play()
           itemLost(a)
         }
       }
