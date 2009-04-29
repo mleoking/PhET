@@ -77,9 +77,7 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
       }
     })
 
-    val getTooltipText= <html>
-    \u03BC<sub>k</sub>={o.kineticFriction}<br></br>
-    \u03BC<sub>s</sub>={o.staticFriction}<br></br>
+    val getTooltipText = <html>\u03BC<sub>k</sub>={o.kineticFriction}<br> </br>\u03BC<sub>s</sub>={o.staticFriction}<br> </br>
     </html>.toString
 
     if (o.displayTooltip) {
@@ -134,7 +132,7 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
       }
     })
 
-        override def update() = {
+    override def update() = {
       if (model.selectedObject == o) {
         backgroundNode.setPaint(customControlPanel.getBackground)
         textNode.setFont(new PhetFont(12, true))
