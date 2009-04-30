@@ -12,7 +12,7 @@ import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.view.OutlinedHTMLNode;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -256,7 +256,7 @@ public abstract class AbstractReactionEquationNode extends PComposite {
     
     public static class StrongAcidReactionEquationNode extends AbstractAcidReactionEquationNode {
         public StrongAcidReactionEquationNode() {
-            setArrow( ABSImages.ARROW_DOUBLE );
+            setArrow( ABSImages.ARROW_SINGLE );
         }
     }
     
@@ -276,23 +276,31 @@ public abstract class AbstractReactionEquationNode extends PComposite {
             setTerm( 1, ABSSymbols.MOH, ABSConstants.MOH_COLOR, Color.BLACK, ABSImages.MOH_STRUCTURE );
             setTerm( 2, ABSSymbols.M_PLUS, ABSConstants.M_COLOR, Color.BLACK, ABSImages.M_PLUS_STRUCTURE );
             setTerm( 3, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, Color.BLACK, ABSImages.OH_MINUS_STRUCTURE );
-            setArrow( ABSImages.ARROW_DOUBLE );
+            setArrow( ABSImages.ARROW_SINGLE );
         }
     }
 
     public static void main( String[] args ) {
         
-        Dimension canvasSize = new Dimension( 800, 600 );
-        PhetPCanvas canvas = new PhetPCanvas( canvasSize );
+        Dimension canvasSize = new Dimension( 1024, 768 );
+        PCanvas canvas = new PCanvas();
         canvas.setPreferredSize( canvasSize );
         
-        PNode e1 = new WaterReactionEquationNode();
-        canvas.getLayer().addChild( e1 );
-        e1.setOffset( 50, 50 );
+        PNode[] equations = {
+                new WaterReactionEquationNode(),
+                new WeakAcidReactionEquationNode(),
+                new StrongAcidReactionEquationNode(),
+                new WeakBaseReactionEquationNode(),
+                new StrongBaseReactionEquationNode()
+        };
         
-        PNode e2 = new WeakAcidReactionEquationNode();
-        canvas.getLayer().addChild( e2 );
-        e2.setOffset( 50, 200 );
+        double xOffset = 50;
+        double yOffset = 50;
+        for ( int i = 0; i < equations.length; i++ ) {
+            canvas.getLayer().addChild( equations[i] );
+            equations[i].setOffset( xOffset, yOffset );
+            yOffset = equations[i].getFullBoundsReference().getMaxY() + 40;
+        }
         
         JPanel panel = new JPanel( new BorderLayout() );
         panel.add( canvas, BorderLayout.CENTER );
@@ -302,5 +310,5 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         frame.pack();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setVisible( true );
-}
+    }
 }
