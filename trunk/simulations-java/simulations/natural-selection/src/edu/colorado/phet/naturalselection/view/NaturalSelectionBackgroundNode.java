@@ -65,10 +65,6 @@ public class NaturalSelectionBackgroundNode extends PNode implements NaturalSele
     // Event handlers
     //----------------------------------------------------------------------------
 
-    public void onMonthChange( String monthName ) {
-
-    }
-
     public void onGenerationChange( int generation ) {
 
     }

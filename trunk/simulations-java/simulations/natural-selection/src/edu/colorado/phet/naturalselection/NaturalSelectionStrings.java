@@ -24,19 +24,6 @@ public class NaturalSelectionStrings {
     public static final String DOMINANT_TRAIT = NaturalSelectionResources.getString( "natural-selection.traitPanel.dominantTrait" );
     public static final String PERCENT_WITH_TRAIT = NaturalSelectionResources.getString( "natural-selection.traitPanel.percentWithTrait" );
 
-    public static final String MONTH = NaturalSelectionResources.getString( "natural-selection.month" );
-    public static final String MONTH_JANUARY = NaturalSelectionResources.getString( "natural-selection.monthJanuary" );
-    public static final String MONTH_FEBRUARY = NaturalSelectionResources.getString( "natural-selection.monthFebruary" );
-    public static final String MONTH_MARCH = NaturalSelectionResources.getString( "natural-selection.monthMarch" );
-    public static final String MONTH_APRIL = NaturalSelectionResources.getString( "natural-selection.monthApril" );
-    public static final String MONTH_MAY = NaturalSelectionResources.getString( "natural-selection.monthMay" );
-    public static final String MONTH_JUNE = NaturalSelectionResources.getString( "natural-selection.monthJune" );
-    public static final String MONTH_JULY = NaturalSelectionResources.getString( "natural-selection.monthJuly" );
-    public static final String MONTH_AUGUST = NaturalSelectionResources.getString( "natural-selection.monthAugust" );
-    public static final String MONTH_SEPTEMBER = NaturalSelectionResources.getString( "natural-selection.monthSeptember" );
-    public static final String MONTH_OCTOBER = NaturalSelectionResources.getString( "natural-selection.monthOctober" );
-    public static final String MONTH_NOVEMBER = NaturalSelectionResources.getString( "natural-selection.monthNovember" );
-    public static final String MONTH_DECEMBER = NaturalSelectionResources.getString( "natural-selection.monthDecember" );
     public static final String GENERATION = NaturalSelectionResources.getString( "natural-selection.generation" );
     public static final String NUMBER_OF_RABBITS = NaturalSelectionResources.getString( "natural-selection.numberOfRabbits" );
     public static final String ENVIRONMENT = NaturalSelectionResources.getString( "natural-selection.environment" );

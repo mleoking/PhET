@@ -142,10 +142,6 @@ public class PedigreeNode extends PNode implements NaturalSelectionModel.Natural
     // Event handlers
     //----------------------------------------------------------------------------
 
-    public void onMonthChange( String monthName ) {
-
-    }
-
     public void onGenerationChange( int generation ) {
         if ( generation == 0 ) {
             // we just reset, don't need this "fake" event

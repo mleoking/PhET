@@ -15,13 +15,6 @@ import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelecti
 
 /**
  * Main control panel for Natural Selection
- * <p/>
- * Main panels are in the following order:
- * <p/>
- * trait panel: allows the user to add mutations, select the dominant trait, and view trait distributions
- * time panel: allows the user to start / stop the clock
- * time / population panel: shows the month and generation on top, and a bar chart of the number of bunnies below
- * right panel: contains the climate panel, selection panel, generation chart button and reset all button
  *
  * @author Jonathan Olson
  */

@@ -355,6 +355,7 @@ public class Bunny extends ClockAdapter {
      * Causes the bunny to move around physically
      */
     private void moveAround() {
+        // TODO: add randomness to inbetween-jumping time?
         sinceHopTime++;
         if ( sinceHopTime > BETWEEN_HOP_TIME + HOP_TIME ) {
             sinceHopTime = 0;
