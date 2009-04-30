@@ -8,7 +8,6 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.model.*;
 
@@ -46,29 +45,10 @@ public class NaturalSelectionModel extends ClockAdapter {
     private ArrayList listeners;
 
     /**
-     * the last tick at which a month changed. When the difference between this and the actual tick is large enough,
-     * another month will change
+     * the last tick at which a year changed. When the difference between this and the actual tick is large enough,
+     * another year will change
      */
-    private double lastMonthTick = 0;
-
-    /**
-     * The current month name, as an index into MONTH_NAMES
-     */
-    private int currentMonth = 0;
-    public static final String[] MONTH_NAMES = {
-            NaturalSelectionStrings.MONTH_JANUARY,
-            NaturalSelectionStrings.MONTH_FEBRUARY,
-            NaturalSelectionStrings.MONTH_MARCH,
-            NaturalSelectionStrings.MONTH_APRIL,
-            NaturalSelectionStrings.MONTH_MAY,
-            NaturalSelectionStrings.MONTH_JUNE,
-            NaturalSelectionStrings.MONTH_JULY,
-            NaturalSelectionStrings.MONTH_AUGUST,
-            NaturalSelectionStrings.MONTH_SEPTEMBER,
-            NaturalSelectionStrings.MONTH_OCTOBER,
-            NaturalSelectionStrings.MONTH_NOVEMBER,
-            NaturalSelectionStrings.MONTH_DECEMBER
-    };
+    private double lastYearTick = 0;
 
     /**
      * The current generation
@@ -125,10 +105,9 @@ public class NaturalSelectionModel extends ClockAdapter {
 
         climate = CLIMATE_EQUATOR;
 
-        currentMonth = 0;
         generation = 0;
 
-        lastMonthTick = 0;
+        lastYearTick = 0;
 
         bunnies = new ArrayList();
 
@@ -153,7 +132,6 @@ public class NaturalSelectionModel extends ClockAdapter {
         clock.resetSimulationTime();
         clock.start();
 
-        notifyMonthChange();
         notifyGenerationChange();
 
         initialize();
@@ -236,26 +214,12 @@ public class NaturalSelectionModel extends ClockAdapter {
     }
 
     /**
-     * Increment a month. If applicable, start a new generation.
-     */
-    private void nextMonth() {
-        currentMonth++;
-        if ( currentMonth >= 12 ) {
-            currentMonth = 0;
-        }
-        notifyMonthChange();
-        if ( currentMonth == NaturalSelectionDefaults.GENERATION_MONTH ) {
-            nextGeneration();
-        }
-    }
-
-    /**
      * Bunnies will run out of food if the selection factor is food
      */
     private void bunnyFamine() {
         Iterator iter = bunnies.iterator();
 
-        double baseFraction = ( Math.sqrt( (double) getPopulation() ) - 3 ) / ( 12 * NaturalSelectionDefaults.TICKS_PER_MONTH * 15 );
+        double baseFraction = ( Math.sqrt( (double) getPopulation() ) - 3 ) / ( 12 * NaturalSelectionDefaults.TICKS_PER_YEAR * 15 );
 
         while ( iter.hasNext() ) {
             Bunny bunny = (Bunny) iter.next();
@@ -280,7 +244,7 @@ public class NaturalSelectionModel extends ClockAdapter {
     private void invisibleWolfAttack() {
         Iterator iter = bunnies.iterator();
 
-        double baseFraction = ( Math.sqrt( (double) getPopulation() ) - 3 ) / ( 12 * NaturalSelectionDefaults.TICKS_PER_MONTH * 10 );
+        double baseFraction = ( Math.sqrt( (double) getPopulation() ) - 3 ) / ( 12 * NaturalSelectionDefaults.TICKS_PER_YEAR * 10 );
 
         while ( iter.hasNext() ) {
             Bunny bunny = (Bunny) iter.next();
@@ -327,10 +291,6 @@ public class NaturalSelectionModel extends ClockAdapter {
 
     public int getGeneration() {
         return generation;
-    }
-
-    public String getCurrentMonth() {
-        return MONTH_NAMES[currentMonth];
     }
 
     public ArrayList getBunnyList() {
@@ -414,9 +374,9 @@ public class NaturalSelectionModel extends ClockAdapter {
             invisibleWolfAttack();
         }
 
-        while ( event.getSimulationTime() - lastMonthTick > NaturalSelectionDefaults.TICKS_PER_MONTH ) {
-            lastMonthTick += NaturalSelectionDefaults.TICKS_PER_MONTH;
-            nextMonth();
+        while ( event.getSimulationTime() - lastYearTick > NaturalSelectionDefaults.TICKS_PER_YEAR ) {
+            lastYearTick += NaturalSelectionDefaults.TICKS_PER_YEAR;
+            nextGeneration();
         }
     }
 
@@ -424,13 +384,6 @@ public class NaturalSelectionModel extends ClockAdapter {
     //----------------------------------------------------------------------------
     // Notifications
     //----------------------------------------------------------------------------
-
-    private void notifyMonthChange() {
-        Iterator iter = listeners.iterator();
-        while ( iter.hasNext() ) {
-            ( (NaturalSelectionModelListener) iter.next() ).onMonthChange( MONTH_NAMES[currentMonth] );
-        }
-    }
 
     private void notifyGenerationChange() {
         Iterator iter = listeners.iterator();
@@ -477,13 +430,6 @@ public class NaturalSelectionModel extends ClockAdapter {
      */
     public interface NaturalSelectionModelListener {
         // shortcut: implemented in PopulationCanvas, TimeDisplayPanel, SpritesNode, NaturalSelectionBackgroundNode
-
-        /**
-         * Called when the month changes
-         *
-         * @param monthName The new month name
-         */
-        public void onMonthChange( String monthName );
 
         /**
          * Called when the generation changes

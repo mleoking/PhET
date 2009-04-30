@@ -92,10 +92,6 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.NaturalS
     // Event handlers
     //----------------------------------------------------------------------------
 
-    public void onMonthChange( String monthName ) {
-
-    }
-
     public void onGenerationChange( int generation ) {
 
     }
