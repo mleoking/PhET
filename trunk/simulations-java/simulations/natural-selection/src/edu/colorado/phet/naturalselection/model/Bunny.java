@@ -38,6 +38,11 @@ public class Bunny extends ClockAdapter {
     private boolean mated = false;
 
     /**
+     * Whether on not the bunny has mutated
+     */
+    private boolean mutated = false;
+
+    /**
      * Whether the bunny is alive or not. Instances should not disappear after bunnies die, but should stay around
      * so that the family tree can be viewed or analyzed.
      */
@@ -295,6 +300,10 @@ public class Bunny extends ClockAdapter {
         }
     }
 
+    public boolean isMutated() {
+        return mutated;
+    }
+
     /**
      * Determines whether this bunny can reproduce or not.
      *
@@ -375,14 +384,17 @@ public class Bunny extends ClockAdapter {
 
     public void mutateMe() {
         if ( ColorGene.getInstance().getMutatable() ) {
+            mutated = true;
             colorPhenotype = ColorGene.BROWN_ALLELE;
             colorGenotype = new Genotype( ColorGene.getInstance(), ColorGene.BROWN_ALLELE, ColorGene.BROWN_ALLELE );
         }
         if ( TailGene.getInstance().getMutatable() ) {
+            mutated = true;
             tailPhenotype = TailGene.TAIL_LONG_ALLELE;
             tailGenotype = new Genotype( TailGene.getInstance(), TailGene.TAIL_LONG_ALLELE, TailGene.TAIL_LONG_ALLELE );
         }
         if ( TeethGene.getInstance().getMutatable() ) {
+            mutated = true;
             teethPhenotype = TeethGene.TEETH_HUGE_ALLELE;
             teethGenotype = new Genotype( TeethGene.getInstance(), TeethGene.TEETH_HUGE_ALLELE, TeethGene.TEETH_HUGE_ALLELE );
         }

@@ -5,10 +5,10 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 public class LeftPanel extends JPanel {
     private MutationPanel mutationPanel;
