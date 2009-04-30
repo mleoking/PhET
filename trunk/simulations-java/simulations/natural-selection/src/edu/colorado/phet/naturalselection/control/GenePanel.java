@@ -92,7 +92,7 @@ public class GenePanel extends JPanel {
         c.gridwidth = 1;
         c.gridheight = 1;
         JLabel dominantLabel = new JLabel( "Dominant" );
-        dominantLabel.setBorder( new EmptyBorder( new Insets( 0, 0, 0, 10 ) ) );
+        dominantLabel.setBorder( new EmptyBorder( new Insets( 0, 10, 0, 10 ) ) );
         add( dominantLabel, c );
 
         c.gridx = 3;
