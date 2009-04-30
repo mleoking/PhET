@@ -18,7 +18,15 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
+/**
+ * Base class for all acid/base/water reaction equations.
+ * Reaction equations are composed of at most 4 terms, numbered 0-3.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public abstract class AbstractReactionEquationNode extends PComposite {
+    
+    private static final int MAX_TERMS = 4; // don't attempt to change this
     
     private static final double X_SPACING = 20;
     private static final double Y_SPACING = 10;
@@ -31,10 +39,14 @@ public abstract class AbstractReactionEquationNode extends PComposite {
     private final PlusNode plusLHS, plusRHS;
     private PImage arrow;
     
+    /*
+     * Sets up a default reaction equation that looks like: S0 + S1 -> S2 + S3
+     * and has no Lewis Structure diagrams.
+     */
     public AbstractReactionEquationNode() {
         super();
         
-        terms = new Term[4];
+        terms = new Term[MAX_TERMS];
         for ( int i = 0; i < terms.length; i++ ) {
             terms[i] = new Term( new SymbolNode( "S" + i ) );
             addTerm( terms[i] );
@@ -52,6 +64,9 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         updateLayout();
     }
     
+    /*
+     * Sets the image for the arrow between the left and right parts of the equation.
+     */
     protected void setArrow( BufferedImage arrowImage ) {
         removeChild( arrow );
         arrow = new PImage( arrowImage );
@@ -59,21 +74,25 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         updateLayout();
     }
     
-    protected void setTerm0Visible( boolean visible ) {
-        setTermVisible( 0, visible );
-        plusLHS.setVisible( visible );
-    }
-    
-    private void setTermVisible( int index, boolean visible ) {
+    /*
+     * Changes the visibility of a term.
+     */
+    protected void setTermVisible( int index, boolean visible ) {
         terms[index].setVisible( visible );
         updateLayout();
     }
     
-    public void setTerm( int index, String text, Color fill, Color outline ) {
+    /*
+     * Sets the mutable properties of a term.
+     */
+    protected void setTerm( int index, String text, Color fill, Color outline ) {
         setTerm( index, text, fill, outline, null );
     }
     
-    public void setTerm( int index, String text, Color fill, Color outline, BufferedImage structureImage ) {
+    /*
+     * Sets the mutable properties of a Term.
+     */
+    protected void setTerm( int index, String text, Color fill, Color outline, BufferedImage structureImage ) {
         Term term = terms[index];
         // symbol
         SymbolNode symbolNode = term.getSymbolNode();
@@ -87,11 +106,17 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         updateLayout();
     }
     
+    /*
+     * Adds a term, by adding its nodes to the scenegraph.
+     */
     private void addTerm( Term term ) {
         super.addChild( term.getSymbolNode() );
         super.addChild( term.getStructureNode() );
     }
     
+    /*
+     * Sets the position of all nodes.
+     */
     private void updateLayout() {
         
         final double maxSymbolHeight = getMaxSymbolHeight();
@@ -135,6 +160,12 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         xOffset = layoutTerm( termIndex++, xOffset, structureYOffset );
     }
     
+    /*
+     * Handles the positioning of a term.
+     * @param index the index of the term
+     * @param xStart the starting location of the xOffset
+     * @param yOffset the y offset of the Lewis Structure diagram
+     */
     private double layoutTerm( int index, double xStart, double structureYOffset ) {
         double xOffset, yOffset;
         Term term = terms[index];
@@ -152,6 +183,10 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         return symbolNode.getFullBoundsReference().getMaxX() + X_SPACING;
     }
     
+    /*
+     * Gets the maximum height of all the symbols.
+     * Used to determine the offset of the Lewis Structure diagrams.
+     */
     private double getMaxSymbolHeight() {
         double maxHeight = 0;
         for ( int i = 0; i < terms.length; i++ ) {
@@ -163,6 +198,9 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         return maxHeight;
     }
     
+    /*
+     * Each term in the equation has a symbol and optional Lewis Structure diagram.
+     */
     private static class Term {
 
         public final SymbolNode symbolNode;
@@ -195,6 +233,10 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         }
     }
     
+    //TODO use of OutlinedHTMLNode is very slow
+    /*
+     * A symbol is the formula for a molecule.
+     */
     private static class SymbolNode extends OutlinedHTMLNode {
         
         public SymbolNode( String text ) {
@@ -213,6 +255,9 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         }
     }
     
+    /*
+     * Lewis Structure diagram.
+     */
     private static class StructureNode extends PImage {
         
         public StructureNode() {
@@ -224,6 +269,9 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         }
     }
     
+    /*
+     * Plus signs between terms.
+     */
     private static class PlusNode extends PText {
         public PlusNode() {
             super( "+" );
@@ -232,6 +280,9 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         }
     }
     
+    /**
+     * Water reaction equation: H2O + H2O <-> H3O+ + OH-
+     */
     public static class WaterReactionEquationNode extends AbstractReactionEquationNode {
         public WaterReactionEquationNode() {
             setTerm( 0, ABSSymbols.H2O, ABSConstants.H2O_COLOR, Color.BLACK, ABSImages.H2O_STRUCTURE );
@@ -251,18 +302,27 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         }
     }
     
+    /**
+     * Weak acid reaction equation: HA + H2O <-> H3O+ + A-
+     */
     public static class WeakAcidReactionEquationNode extends AbstractAcidReactionEquationNode {
         public WeakAcidReactionEquationNode() {
             setArrow( ABSImages.ARROW_DOUBLE );
         }
     }
     
+    /**
+     * Strong acid reaction equation: HA + H2O -> H3O+ + A-
+     */
     public static class StrongAcidReactionEquationNode extends AbstractAcidReactionEquationNode {
         public StrongAcidReactionEquationNode() {
             setArrow( ABSImages.ARROW_SINGLE );
         }
     }
     
+    /**
+     * Weak base reaction equation: B + H2O <-> BH+ + OH-
+     */
     public static class WeakBaseReactionEquationNode extends AbstractReactionEquationNode {
         public WeakBaseReactionEquationNode() {
             setTerm( 0, ABSSymbols.B, ABSConstants.B_COLOR, Color.BLACK, ABSImages.B_STRUCTURE );
@@ -273,9 +333,12 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         }
     }
     
+    /**
+     * Strong base reaction equation: MOH <-> M+ + OH-
+     */
     public static class StrongBaseReactionEquationNode extends AbstractReactionEquationNode {
         public StrongBaseReactionEquationNode() {
-            setTerm0Visible( false );
+            setTermVisible( 0, false );
             setTerm( 1, ABSSymbols.MOH, ABSConstants.MOH_COLOR, Color.BLACK, ABSImages.MOH_STRUCTURE );
             setTerm( 2, ABSSymbols.M_PLUS, ABSConstants.M_COLOR, Color.BLACK, ABSImages.M_PLUS_STRUCTURE );
             setTerm( 3, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, Color.BLACK, ABSImages.OH_MINUS_STRUCTURE );
@@ -283,6 +346,7 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         }
     }
 
+    /* tests */
     public static void main( String[] args ) {
         
         Dimension canvasSize = new Dimension( 1024, 768 );
