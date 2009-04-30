@@ -128,6 +128,8 @@ public class GenerationChartCanvas extends PhetPCanvas {
 
     public void reset() {
         pedigreeNode.reset();
+        rootNode.removeChild( mutationPendingNode );
+        mutationPendingNode = null;
     }
 
 }
