@@ -79,6 +79,12 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         symbolNode.setOffset( xOffset, yOffset );
     }
     
+    public void setAllTermScale( double scale ) {
+        for ( int i = 0; i < terms.length; i++ ) {
+            setTermScale( i, scale );
+        }
+    }
+    
     /*
      * Sets the image for the arrow between the left and right parts of the equation.
      */
@@ -388,7 +394,6 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         }
         
         public WeakBaseReactionEquationNode( String symbolLHS, String symbolRHS ) {
-            this();
             setTerm( 0, symbolLHS, ABSConstants.B_COLOR, ABSConstants.B_OUTLINE );
             setTerm( 1, ABSSymbols.H2O, ABSConstants.H2O_COLOR, ABSConstants.H2O_OUTLINE );
             setTerm( 2, ABSSymbols.BH_PLUS, ABSConstants.BH_COLOR, ABSConstants.BH_OUTLINE );
