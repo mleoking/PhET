@@ -5,12 +5,11 @@ package edu.colorado.phet.naturalselection.view;
 import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
-import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.model.Allele;
 import edu.colorado.phet.naturalselection.model.ColorGene;
-import edu.colorado.phet.naturalselection.model.TeethGene;
 import edu.colorado.phet.naturalselection.model.TailGene;
+import edu.colorado.phet.naturalselection.model.TeethGene;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -68,18 +67,19 @@ public class DisplayBunnyNode extends PNode {
         //addChild( brownImage );
 
         String imageName = "bunny";
-        
-        if( color == ColorGene.WHITE_ALLELE ) {
+
+        if ( color == ColorGene.WHITE_ALLELE ) {
             imageName += "_white";
-        } else {
+        }
+        else {
             imageName += "_brown";
         }
 
-        if( tail == TailGene.TAIL_LONG_ALLELE ) {
+        if ( tail == TailGene.TAIL_LONG_ALLELE ) {
             imageName += "_big_tail";
         }
 
-        if( teeth == TeethGene.TEETH_HUGE_ALLELE ) {
+        if ( teeth == TeethGene.TEETH_HUGE_ALLELE ) {
             imageName += "_long_teeth";
         }
 

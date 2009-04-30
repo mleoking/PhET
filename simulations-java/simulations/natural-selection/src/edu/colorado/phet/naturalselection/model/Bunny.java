@@ -373,6 +373,21 @@ public class Bunny extends ClockAdapter {
 
     }
 
+    public void mutateMe() {
+        if ( ColorGene.getInstance().getMutatable() ) {
+            colorPhenotype = ColorGene.BROWN_ALLELE;
+            colorGenotype = new Genotype( ColorGene.getInstance(), ColorGene.BROWN_ALLELE, ColorGene.BROWN_ALLELE );
+        }
+        if ( TailGene.getInstance().getMutatable() ) {
+            tailPhenotype = TailGene.TAIL_LONG_ALLELE;
+            tailGenotype = new Genotype( TailGene.getInstance(), TailGene.TAIL_LONG_ALLELE, TailGene.TAIL_LONG_ALLELE );
+        }
+        if ( TeethGene.getInstance().getMutatable() ) {
+            teethPhenotype = TeethGene.TEETH_HUGE_ALLELE;
+            teethGenotype = new Genotype( TeethGene.getInstance(), TeethGene.TEETH_HUGE_ALLELE, TeethGene.TEETH_HUGE_ALLELE );
+        }
+    }
+
     //----------------------------------------------------------------------------
     // Event handlers
     //----------------------------------------------------------------------------
@@ -405,7 +420,7 @@ public class Bunny extends ClockAdapter {
             throw new RuntimeException( "Genotype mismatch" );
         }
 
-        return new Genotype( fatherGenotype.getGene(), fatherGenotype.getRandomAllele(), motherGenotype.getRandomAllele() );
+        return new Genotype( fatherGenotype.getGene(), fatherGenotype.getNextChildAllele(), motherGenotype.getNextChildAllele() );
     }
 
     /**

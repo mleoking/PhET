@@ -199,6 +199,7 @@ public abstract class Gene implements Bunny.BunnyListener {
      * @param base The starting allele
      * @return A possibly mutated allele
      */
+    /*
     public Allele mutatedAllele( Allele base ) {
         if ( !getMutatable() ) {
             return base;
@@ -215,6 +216,7 @@ public abstract class Gene implements Bunny.BunnyListener {
 
         return base;
     }
+    */
 
     /**
      * The name of the gene

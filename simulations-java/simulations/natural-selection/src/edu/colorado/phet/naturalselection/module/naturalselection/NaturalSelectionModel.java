@@ -4,6 +4,7 @@ package edu.colorado.phet.naturalselection.module.naturalselection;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -83,6 +84,8 @@ public class NaturalSelectionModel extends ClockAdapter {
      * The current selection factor (SELECTION_NONE, SELECTION_FOOD, or SELECTION_WOLVES)
      */
     private int selectionFactor = SELECTION_NONE;
+
+    private static final Random random = new Random( System.currentTimeMillis() );
 
     /**
      * Constructor
@@ -204,6 +207,12 @@ public class NaturalSelectionModel extends ClockAdapter {
                     newBunnies.add( offspring[i] );
                 }
             }
+        }
+
+        // attempt to mutate a single bunny
+        if ( newBunnies.size() != 0 ) {
+            Bunny mutant = (Bunny) newBunnies.get( random.nextInt( newBunnies.size() ) );
+            mutant.mutateMe();
         }
 
         Iterator newIter = newBunnies.iterator();

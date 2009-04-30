@@ -2,6 +2,9 @@
 
 package edu.colorado.phet.naturalselection.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 /**
  * Stores an individual bunny's DNA for a particular gene for simple Mendelian genetics.
  * IE: Only stores two alleles, one from the father and one from the mother
@@ -26,6 +29,12 @@ public class Genotype {
     private Allele motherAllele;
 
     /**
+     * Returns the next allele to give to a child
+     */
+    private ArrayList childAlleleOrder;
+    private int childAlleleIndex = 0;
+
+    /**
      * Constructor
      *
      * @param gene         The gene
@@ -36,6 +45,13 @@ public class Genotype {
         this.gene = gene;
         this.fatherAllele = fatherAllele;
         this.motherAllele = motherAllele;
+
+        childAlleleOrder = new ArrayList();
+        childAlleleOrder.add( fatherAllele );
+        childAlleleOrder.add( fatherAllele );
+        childAlleleOrder.add( motherAllele );
+        childAlleleOrder.add( motherAllele );
+        Collections.shuffle( childAlleleOrder );
     }
 
     /**
@@ -56,13 +72,11 @@ public class Genotype {
      *
      * @return One of the bunny's possibly mutated alleles
      */
-    public Allele getRandomAllele() {
-        if ( Math.random() < 0.5 ) {
-            return gene.mutatedAllele( fatherAllele );
+    public Allele getNextChildAllele() {
+        if ( childAlleleIndex > 3 ) {
+            childAlleleIndex = 0;
         }
-        else {
-            return gene.mutatedAllele( motherAllele );
-        }
+        return (Allele) childAlleleOrder.get( childAlleleIndex++ );
     }
 
     public Gene getGene() {
