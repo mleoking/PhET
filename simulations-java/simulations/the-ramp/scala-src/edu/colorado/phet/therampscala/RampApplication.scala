@@ -200,11 +200,18 @@ class RampModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(fr
 
 case class Result(success: Boolean, cliff: Boolean, score: Int)
 
-case class SurfaceType(name: String, imageFilename: String)
-class SurfaceModel extends Observable {
-  val surfaceTypes = SurfaceType("Ice", "robotmovingcompany/ice.gif") ::
-          SurfaceType("Concrete", "robotmovingcompany/concrete.gif") ::
-          SurfaceType("Carpet", "robotmovingcompany/carpet.gif") :: Nil
+case class SurfaceType(name: String, imageFilename: String, strategy: Double => Double) extends SurfaceFrictionStrategy {
+  def getTotalFriction(objectFriction: Double) = strategy(objectFriction)
+}
+
+trait SurfaceFrictionStrategy {
+  def getTotalFriction(objectFriction: Double):Double
+}
+
+class SurfaceModel extends Observable with SurfaceFrictionStrategy {
+  val surfaceTypes = SurfaceType("Ice", "robotmovingcompany/ice.gif", x => 0.0) ::
+          SurfaceType("Concrete", "robotmovingcompany/concrete.gif", x => x) ::
+          SurfaceType("Carpet", "robotmovingcompany/carpet.gif", x => x * 1.5) :: Nil
   private var _friction = 0.2
   private var _surfaceType = surfaceTypes(0)
 
@@ -221,6 +228,8 @@ class SurfaceModel extends Observable {
   }
 
   def friction = _friction
+
+  def getTotalFriction(objectFriction: Double) = _surfaceType.getTotalFriction(objectFriction)
 }
 class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) extends Observable {
   val surfaceModel = new SurfaceModel
@@ -258,6 +267,7 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
       RampResources.getAudioClip("smash0.wav").play()
       itemLostOffCliff(a)
     })
+    bead.surfaceFrictionStrategy = surfaceModel
     bead.addListener(() => {
       //      println("houseMinX=" + gameModel.house.minX + ", particle: " + bead.position + ", maxX: " + gameModel.house.maxX)
       if (beadRef.position > 0 && abs(beadRef.velocity) < 1E-6 && !containsKey(a)) {
