@@ -69,7 +69,6 @@ public class PedigreeNode extends PNode implements NaturalSelectionModel.Natural
     }
 
     public void reset() {
-        System.out.println( "Pedigree RESET" );
         Iterator iter = generations.iterator();
 
         while ( iter.hasNext() ) {
@@ -89,7 +88,6 @@ public class PedigreeNode extends PNode implements NaturalSelectionModel.Natural
      * @param genNumber The generation number to fetch and display
      */
     private void addGeneration( int genNumber ) {
-        System.out.println( "Pedigree addGeneration" );
         // create a Generation display node
         Generation gen = new Generation( genNumber );
 
@@ -115,7 +113,6 @@ public class PedigreeNode extends PNode implements NaturalSelectionModel.Natural
      * Gets rid of the oldest generation (visually), and moves the rest up vertically
      */
     public void popGeneration() {
-        System.out.println( "Pedigree popGeneration" );
         PNode oldGen = (PNode) generations.get( 0 );
 
         generations.remove( 0 );
@@ -146,7 +143,6 @@ public class PedigreeNode extends PNode implements NaturalSelectionModel.Natural
     //----------------------------------------------------------------------------
 
     public void onGenerationChange( int generation ) {
-        System.out.println( "Pedigree onGenerationChange" );
         if ( generation == 0 ) {
             // we need to reset this again, since the model has changed!
             reset();
@@ -160,7 +156,6 @@ public class PedigreeNode extends PNode implements NaturalSelectionModel.Natural
     }
 
     public void onNewBunny( Bunny bunny ) {
-        System.out.println( "Pedigree onNewBunny" );
         if ( bunny == model.getRootMother() ) {
             reset();
         }
