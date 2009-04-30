@@ -345,6 +345,8 @@ public abstract class AbstractReactionEquationNode extends PComposite {
             setArrow( ABSImages.ARROW_SINGLE );
         }
     }
+    
+    //TODO add class or setters for specific acids and bases (weak and strong)
 
     /* tests */
     public static void main( String[] args ) {
