@@ -4,14 +4,14 @@ package edu.colorado.phet.statesofmatter.defaults;
 
 
 /**
- * This class contains the default settings for the "Interaction Potential" Module.
+ * This class contains the default settings for the "Atomic Interactions" Module.
  *
  * @author John Blanco
  */
-public class InteractionPotentialDefaults {
+public class AtomicInteractionDefaults {
     
     /* Not intended for instantiation */
-    private InteractionPotentialDefaults() {}
+    private AtomicInteractionDefaults() {}
     
     // Clock
     public static final boolean CLOCK_RUNNING = GlobalDefaults.CLOCK_RUNNING;

@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.statesofmatter.developer.DeveloperMenu;
-import edu.colorado.phet.statesofmatter.module.interactionpotential.InteractionPotentialModule;
+import edu.colorado.phet.statesofmatter.module.atomicinteractions.AtomicInteractionsModule;
 import edu.colorado.phet.statesofmatter.module.phasechanges.PhaseChangesModule;
 import edu.colorado.phet.statesofmatter.module.solidliquidgas.SolidLiquidGasModule;
 
@@ -38,7 +38,7 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
 
     private SolidLiquidGasModule m_solidLiquidGasModule;
     private PhaseChangesModule   m_phaseChangesModule;
-    private InteractionPotentialModule   m_interactionPotentialModule;
+    private AtomicInteractionsModule   m_interactionPotentialModule;
     private static TabbedModulePanePiccolo m_tabbedModulePane;
     
     //----------------------------------------------------------------------------
@@ -84,7 +84,7 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
         m_phaseChangesModule = new PhaseChangesModule( parentFrame );
         addModule( m_phaseChangesModule );
 
-        m_interactionPotentialModule = new InteractionPotentialModule( parentFrame, false );
+        m_interactionPotentialModule = new AtomicInteractionsModule( parentFrame, false );
         addModule( m_interactionPotentialModule );
     }
 
