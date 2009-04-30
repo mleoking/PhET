@@ -158,7 +158,7 @@ public class NaturalSelectionModel extends ClockAdapter {
             return;
         }
 
-        System.out.println( "***** Mating season, creating next generation" );
+        //System.out.println( "***** Mating season, creating next generation" );
 
         generation++;
 
@@ -171,9 +171,9 @@ public class NaturalSelectionModel extends ClockAdapter {
         TailGene.getInstance().setMutatable( false );
         TeethGene.getInstance().setMutatable( false );
 
-        System.out.println( "***** End mating season, stats to follow:" );
+        //System.out.println( "***** End mating season, stats to follow:" );
 
-        System.out.println( "\tPopulation: " + getPopulation() );
+        //System.out.println( "\tPopulation: " + getPopulation() );
     }
 
     /**

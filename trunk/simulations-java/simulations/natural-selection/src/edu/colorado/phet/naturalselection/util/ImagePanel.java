@@ -19,6 +19,8 @@ public class ImagePanel extends JPanel {
 
     private BufferedImage image;
 
+    private boolean enabled = true;
+
     /**
      * Constructor
      *
@@ -39,10 +41,25 @@ public class ImagePanel extends JPanel {
         setPreferredSize( new Dimension( image.getWidth(), image.getHeight() ) );
     }
 
+    public void setEnabled( boolean enabled ) {
+        if ( enabled != this.enabled ) {
+            this.enabled = enabled;
+
+            invalidate();
+        }
+    }
+
     public void paintComponent( Graphics g ) {
-        g.setColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
-        g.fillRect( 0, 0, image.getWidth(), image.getHeight() );
-        g.drawImage( image, 0, 0, null );
+        if ( enabled ) {
+            g.drawImage( image, 0, 0, NaturalSelectionConstants.COLOR_CONTROL_PANEL, null );
+        }
+        else {
+            g.drawImage( image, 0, 0, NaturalSelectionConstants.COLOR_CONTROL_PANEL, null );
+            Color backColor = NaturalSelectionConstants.COLOR_CONTROL_PANEL;
+            Color alphaColor = new Color( backColor.getRed(), backColor.getGreen(), backColor.getBlue(), 175 );
+            g.setColor( alphaColor );
+            g.fillRect( 0, 0, image.getWidth(), image.getHeight() );
+        }
     }
 
 }

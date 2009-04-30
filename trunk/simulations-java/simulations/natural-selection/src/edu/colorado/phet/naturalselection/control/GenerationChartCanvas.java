@@ -36,7 +36,7 @@ public class GenerationChartCanvas extends PhetPCanvas {
 
         this.model = model;
 
-        setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        setBackground( NaturalSelectionConstants.COLOR_GENERATION_CHART );
 
         PNode rootNode = new PNode();
         addWorldChild( rootNode );

@@ -16,9 +16,9 @@ import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelecti
 import edu.colorado.phet.naturalselection.util.ImagePanel;
 
 public class MutationPanel extends JPanel {
-    private JButton colorButton;
-    private JButton tailButton;
-    private JButton teethButton;
+    public JButton colorButton;
+    public JButton tailButton;
+    public JButton teethButton;
     private ImagePanel colorMutationIndicator;
     private ImagePanel tailMutationIndicator;
     private ImagePanel teethMutationIndicator;
@@ -198,5 +198,9 @@ public class MutationPanel extends JPanel {
         colorButton.setEnabled( true );
         tailButton.setEnabled( true );
         teethButton.setEnabled( true );
+
+        colorMutationIndicator.setVisible( false );
+        tailMutationIndicator.setVisible( false );
+        teethMutationIndicator.setVisible( false );
     }
 }
