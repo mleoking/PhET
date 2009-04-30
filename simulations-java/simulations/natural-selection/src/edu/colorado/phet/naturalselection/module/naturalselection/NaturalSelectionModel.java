@@ -90,7 +90,7 @@ public class NaturalSelectionModel extends ClockAdapter {
         TailGene.getInstance().setModel( this );
 
         // create the starting bunnies
-        rootFather = new Bunny( null, null, 0 );
+        rootFather = new Bunny( this, null, null, 0 );
         bunnies.add( rootFather );
         clock.addClockListener( rootFather );
 
@@ -120,7 +120,7 @@ public class NaturalSelectionModel extends ClockAdapter {
             throw new RuntimeException( "Number of starting bunnies must be 1, or this part should be changed" );
         }
 
-        rootFather = new Bunny( null, null, 0 );
+        rootFather = new Bunny( this, null, null, 0 );
         bunnies.add( rootFather );
         clock.addClockListener( rootFather );
 
@@ -138,7 +138,7 @@ public class NaturalSelectionModel extends ClockAdapter {
 
     public void addFriend() {
         friendAdded = true;
-        rootMother = new Bunny( null, null, 0 );
+        rootMother = new Bunny( this, null, null, 0 );
         rootFather.setPotentialMate( rootMother );
         rootMother.setPotentialMate( rootFather );
         bunnies.add( rootMother );
@@ -375,6 +375,10 @@ public class NaturalSelectionModel extends ClockAdapter {
 
     public Bunny getRootMother() {
         return rootMother;
+    }
+
+    public boolean isFriendAdded() {
+        return friendAdded;
     }
 
     //----------------------------------------------------------------------------

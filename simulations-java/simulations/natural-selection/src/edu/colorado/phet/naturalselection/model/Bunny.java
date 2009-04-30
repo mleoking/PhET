@@ -9,6 +9,7 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
+import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.view.SpritesNode;
 
 /**
@@ -90,6 +91,8 @@ public class Bunny extends ClockAdapter {
     public static final int HOP_HEIGHT = 50;
     public static final double HOP_HORIZONTAL_STEP = 2.0;
 
+    private NaturalSelectionModel model;
+
     private ArrayList listeners;
 
     /**
@@ -99,7 +102,8 @@ public class Bunny extends ClockAdapter {
      * @param mother     The mother of the bunny (or null if there is none)
      * @param generation The generation the bunny is being born into
      */
-    public Bunny( Bunny father, Bunny mother, int generation ) {
+    public Bunny( NaturalSelectionModel model, Bunny father, Bunny mother, int generation ) {
+        this.model = model;
 
         bunnyId = bunnyCount++;
 
@@ -326,9 +330,11 @@ public class Bunny extends ClockAdapter {
             return false;
         }
 
-        if ( getAge() >= NaturalSelectionConstants.BUNNIES_STERILE_WHEN_THIS_OLD || potentialMate.getAge() >= NaturalSelectionConstants.BUNNIES_STERILE_WHEN_THIS_OLD ) {
-            // too old
-            return false;
+        if ( this != model.getRootFather() && this != model.getRootMother() && model.getGeneration() != 0 ) {
+            if ( getAge() >= NaturalSelectionConstants.BUNNIES_STERILE_WHEN_THIS_OLD || potentialMate.getAge() >= NaturalSelectionConstants.BUNNIES_STERILE_WHEN_THIS_OLD ) {
+                // too old
+                return false;
+            }
         }
 
         return true;
@@ -336,6 +342,10 @@ public class Bunny extends ClockAdapter {
 
     public int getId() {
         return bunnyId;
+    }
+
+    public NaturalSelectionModel getModel() {
+        return model;
     }
 
     /**
@@ -444,13 +454,13 @@ public class Bunny extends ClockAdapter {
      * @return An array of the children
      */
     public static Bunny[] mateBunnies( Bunny father, Bunny mother ) {
-        System.out.println( "Mating " + father + " and " + mother );
+        //System.out.println( "Mating " + father + " and " + mother );
 
         // create the bunnies
-        Bunny a = new Bunny( father, mother, father.getGeneration() + 1 );
-        Bunny b = new Bunny( father, mother, father.getGeneration() + 1 );
-        Bunny c = new Bunny( father, mother, father.getGeneration() + 1 );
-        Bunny d = new Bunny( father, mother, father.getGeneration() + 1 );
+        Bunny a = new Bunny( father.getModel(), father, mother, father.getGeneration() + 1 );
+        Bunny b = new Bunny( father.getModel(), father, mother, father.getGeneration() + 1 );
+        Bunny c = new Bunny( father.getModel(), father, mother, father.getGeneration() + 1 );
+        Bunny d = new Bunny( father.getModel(), father, mother, father.getGeneration() + 1 );
 
         // pair them up with their potential mates
         a.setPotentialMate( b );
@@ -471,7 +481,7 @@ public class Bunny extends ClockAdapter {
     //----------------------------------------------------------------------------
 
     private void notifyInit() {
-        System.out.println( "Bunny Born: " + this );
+        //System.out.println( "Bunny Born: " + this );
         Iterator iter = listeners.iterator();
         while ( iter.hasNext() ) {
             ( (BunnyListener) iter.next() ).onBunnyInit( this );
@@ -479,7 +489,7 @@ public class Bunny extends ClockAdapter {
     }
 
     private void notifyDeath() {
-        System.out.println( "Bunny Died: " + this );
+        //System.out.println( "Bunny Died: " + this );
         Iterator iter = listeners.iterator();
         while ( iter.hasNext() ) {
             ( (BunnyListener) iter.next() ).onBunnyDeath( this );
@@ -487,7 +497,7 @@ public class Bunny extends ClockAdapter {
     }
 
     private void notifyReproduces() {
-        System.out.println( "Bunny Reproduced: " + this );
+        //System.out.println( "Bunny Reproduced: " + this );
         Iterator iter = listeners.iterator();
         while ( iter.hasNext() ) {
             ( (BunnyListener) iter.next() ).onBunnyReproduces( this );
