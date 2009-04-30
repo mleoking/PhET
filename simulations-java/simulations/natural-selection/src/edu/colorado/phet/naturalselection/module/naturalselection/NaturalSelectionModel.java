@@ -56,6 +56,11 @@ public class NaturalSelectionModel extends ClockAdapter {
     private int generation = 0;
 
     /**
+     * Whether the user has pressed "Add a friend" yet
+     */
+    private boolean friendAdded = false;
+
+    /**
      * The current climate (CLIMATE_EQUATOR or CLIMATE_ARCTIC)
      */
     private int climate = CLIMATE_EQUATOR;
@@ -86,14 +91,8 @@ public class NaturalSelectionModel extends ClockAdapter {
 
         // create the starting bunnies
         rootFather = new Bunny( null, null, 0 );
-        rootMother = new Bunny( null, null, 0 );
-        rootFather.setPotentialMate( rootMother );
-        rootMother.setPotentialMate( rootFather );
         bunnies.add( rootFather );
-        bunnies.add( rootMother );
-
         clock.addClockListener( rootFather );
-        clock.addClockListener( rootMother );
 
         this.clock.addClockListener( this );
     }
@@ -105,6 +104,8 @@ public class NaturalSelectionModel extends ClockAdapter {
 
         climate = CLIMATE_EQUATOR;
 
+        friendAdded = false;
+
         generation = 0;
 
         lastYearTick = 0;
@@ -115,19 +116,13 @@ public class NaturalSelectionModel extends ClockAdapter {
         TailGene.getInstance().reset();
         TeethGene.getInstance().reset();
 
-        if ( NaturalSelectionDefaults.DEFAULT_NUMBER_OF_BUNNIES != 2 ) {
-            throw new RuntimeException( "Number of starting bunnies must be 2, or this part should be changed" );
+        if ( NaturalSelectionDefaults.DEFAULT_NUMBER_OF_BUNNIES != 1 ) {
+            throw new RuntimeException( "Number of starting bunnies must be 1, or this part should be changed" );
         }
 
         rootFather = new Bunny( null, null, 0 );
-        rootMother = new Bunny( null, null, 0 );
-        rootFather.setPotentialMate( rootMother );
-        rootMother.setPotentialMate( rootFather );
         bunnies.add( rootFather );
-        bunnies.add( rootMother );
-
         clock.addClockListener( rootFather );
-        clock.addClockListener( rootMother );
 
         clock.resetSimulationTime();
         clock.start();
@@ -139,19 +134,33 @@ public class NaturalSelectionModel extends ClockAdapter {
 
     public void initialize() {
         notifyNewBunny( rootFather );
-        notifyNewBunny( rootMother );
     }
 
+    public void addFriend() {
+        friendAdded = true;
+        rootMother = new Bunny( null, null, 0 );
+        rootFather.setPotentialMate( rootMother );
+        rootMother.setPotentialMate( rootFather );
+        bunnies.add( rootMother );
+        clock.addClockListener( rootMother );
+        notifyNewBunny( rootMother );
+    }
 
     /**
      * Causes another generation to be born (and everything else that happens when a new generation occurs)
      */
     private void nextGeneration() {
+
+        ageBunnies();
+
+        if ( !friendAdded ) {
+            System.out.println( "Nothing to do, friend has not been added" );
+            return;
+        }
+
         System.out.println( "***** Mating season, creating next generation" );
 
         generation++;
-
-        ageBunnies();
 
         mateBunnies();
 
@@ -360,6 +369,13 @@ public class NaturalSelectionModel extends ClockAdapter {
         notifySelectionFactorChange();
     }
 
+    public Bunny getRootFather() {
+        return rootFather;
+    }
+
+    public Bunny getRootMother() {
+        return rootMother;
+    }
 
     //----------------------------------------------------------------------------
     // Event handlers
@@ -429,7 +445,7 @@ public class NaturalSelectionModel extends ClockAdapter {
      * The interface for objects that wish to receive model change events
      */
     public interface NaturalSelectionModelListener {
-        // shortcut: implemented in PopulationCanvas, TimeDisplayPanel, SpritesNode, NaturalSelectionBackgroundNode
+        // shortcut: implemented in SpritesNode, NaturalSelectionBackgroundNode, PedigreeNode
 
         /**
          * Called when the generation changes

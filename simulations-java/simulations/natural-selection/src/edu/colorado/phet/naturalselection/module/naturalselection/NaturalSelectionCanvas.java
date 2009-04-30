@@ -7,6 +7,7 @@ import java.awt.geom.Dimension2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
+import edu.colorado.phet.naturalselection.view.AddFriendNode;
 import edu.colorado.phet.naturalselection.view.NaturalSelectionBackgroundNode;
 import edu.colorado.phet.naturalselection.view.SpritesNode;
 import edu.umd.cs.piccolo.PNode;
@@ -37,6 +38,9 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
      */
     public NaturalSelectionBackgroundNode backgroundNode;
 
+
+    private AddFriendNode addFriendNode;
+
     /**
      * Constructor
      *
@@ -60,11 +64,16 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
         bunnies = new SpritesNode();
         rootNode.addChild( bunnies );
 
+        addFriendNode = new AddFriendNode( model );
+        addFriendNode.setOffset( 75, 250 );
+        rootNode.addChild( addFriendNode );
+
     }
 
     public void reset() {
         bunnies.reset();
         backgroundNode.reset();
+        addFriendNode.setVisible( true );
     }
 
     protected void updateLayout() {

@@ -28,7 +28,7 @@ public class NaturalSelectionDefaults {
     // constants specific to the natural selection module
     public static final int DEFAULT_CLIMATE = NaturalSelectionModel.CLIMATE_EQUATOR;
     public static final int DEFAULT_SELECTION_FACTOR = NaturalSelectionModel.SELECTION_NONE;
-    public static final int DEFAULT_NUMBER_OF_BUNNIES = 2;
+    public static final int DEFAULT_NUMBER_OF_BUNNIES = 1;
 
     public static final Dimension GENERATION_CHART_SIZE = new Dimension( 600, 300 );
 
