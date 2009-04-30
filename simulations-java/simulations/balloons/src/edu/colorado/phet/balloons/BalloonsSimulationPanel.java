@@ -36,6 +36,7 @@ public class BalloonsSimulationPanel extends JPanel {
     private BufferedImage sweaterImage;
     private int wallWidth;
     private JPanel controlPanel;
+	private Wall wall;
 
     static final int CHARGE_LEVEL = 1;
 
@@ -123,8 +124,16 @@ public class BalloonsSimulationPanel extends JPanel {
         painterPanel = new PainterPanel( db );
 
         wallWidth = 80;
+        int wallInset = 10;
+        JCheckBox showWall = new JCheckBox( BalloonsResources.getString( "BalloonApplet.Wall" ), true );
+        Rectangle wallBounds = new Rectangle( PANEL_WIDTH - wallWidth, 0, wallWidth, PANEL_HEIGHT );
+        Rectangle wallChargeBounds = new Rectangle( PANEL_WIDTH - wallWidth + wallInset, 0, wallWidth - wallInset * 2, PANEL_HEIGHT );
+        Painter wallBack = new FilledRectanglePainter( wallBounds.x, wallBounds.y, wallBounds.width, wallBounds.height, Color.yellow );
+        Random r = new Random();
+        wall = new Wall( showWall, wallChargeBounds, wallBack, plusPainter, minusPainter, blueBalloon, yellowBalloon );
+
         Rectangle dragBounds = new Rectangle( 0, 0, PANEL_WIDTH - balloon.getWidth() - wallWidth, PANEL_HEIGHT - balloon.getHeight() - 55 );
-        BalloonDragger bd = new BalloonDragger( new BalloonPainter[]{blueBalloon, yellowBalloon}, painterPanel, dragBounds );
+        BalloonDragger bd = new BalloonDragger( new BalloonPainter[]{blueBalloon, yellowBalloon}, painterPanel, dragBounds, wall );
         painterPanel.addMouseListener( bd );
         painterPanel.addMouseMotionListener( bd );
 
@@ -204,7 +213,6 @@ public class BalloonsSimulationPanel extends JPanel {
         twoBtn.add( chargedBalloonBtn );
         controlPanel.add( twoBtn );
 
-        JCheckBox showWall = new JCheckBox( BalloonsResources.getString( "BalloonApplet.Wall" ), true );
         controlPanel.add( showWall );
 
         HelpPanel helpPanel = new HelpPanel( balloonsModule );
@@ -219,13 +227,7 @@ public class BalloonsSimulationPanel extends JPanel {
 //        } );
 //        controlPanel.add( about );
 
-        int wallInset = 10;
-        Rectangle wallBounds = new Rectangle( PANEL_WIDTH - wallWidth, 0, wallWidth, PANEL_HEIGHT );
-        Rectangle wallChargeBounds = new Rectangle( PANEL_WIDTH - wallWidth + wallInset, 0, wallWidth - wallInset * 2, PANEL_HEIGHT );
-        Painter wallBack = new FilledRectanglePainter( wallBounds.x, wallBounds.y, wallBounds.width, wallBounds.height, Color.yellow );
-        Random r = new Random();
-        Wall w = new Wall( showWall, wallChargeBounds, wallBack, plusPainter, minusPainter, blueBalloon, yellowBalloon );
-        layeredPainter.addPainter( w, 10 );
+        layeredPainter.addPainter( wall, 10 );
 
         int numSweaterCharges = 100;
         int minX = 50;
@@ -278,8 +280,8 @@ public class BalloonsSimulationPanel extends JPanel {
         int widdie = x - sweaterImage.getWidth() / 2;
         Rectangle bounds = new Rectangle( sweaterImage.getWidth() / 2, 0, widdie + 143, PANEL_HEIGHT - 50 );
 //        System.err.println( "bounds=" + bounds );
-        sys.addLaw( new BalloonForces( blueBalloon, yellowBalloon, wool, bounds, wallBounds.x, w ) );
-        sys.addLaw( w );
+        sys.addLaw( new BalloonForces( blueBalloon, yellowBalloon, wool, bounds, wallBounds.x, wall ) );
+        sys.addLaw( wall );
         sys.addLaw( ( new Repaint( painterPanel ) ) );
 //        final double dt = 1.2;
 

@@ -118,10 +118,6 @@ public class BalloonForces implements Law {
         return getForce( meC, oC, kqq );
     }
 
-    public Point makeLegal( Point p ) {
-        return BalloonDragger.getInsideBounds( p, bounds );
-    }
-
     public void applyForce( double dt, DoublePoint f, BalloonPainter bp ) {
         DoublePoint v0 = bp.getVelocity();
         DoublePoint v = v0.add( f.multiply( dt ) );
@@ -130,8 +126,7 @@ public class BalloonForces implements Law {
         DoublePoint xnew = x00.add( v.multiply( dt ) );
         Point newPt = new Point( (int) xnew.getX(), (int) xnew.getY() );
         Point newRhs = new Point( newPt.x + w2 * 2, newPt.y + h2 * 2 );
-        Point newpt = makeLegal( newPt );
-        if ( bounds.contains( newPt ) && bounds.contains( newRhs ) ) {
+        if ( ( bounds.contains( newPt ) && bounds.contains( newRhs ) ) || ( !wall.isVisible() && newRhs.x > 300 ) ) {
             bp.setVelocity( v );
             bp.getFixedPainter().setPosition( newPt );
         }
