@@ -7,6 +7,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -14,6 +15,7 @@ import java.util.Set;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
@@ -23,6 +25,7 @@ import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
 import edu.colorado.phet.nuclearphysics.view.MultiNucleusDecayLinearTimeChart;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -69,6 +72,9 @@ public class DecayRatesCanvas extends PhetPCanvas {
     private HashMap _mapAlphaParticlesToNodes = new HashMap();
     private HashMap _mapNucleiToNodes = new HashMap();
     private AtomicNucleus.Listener _listenerAdapter;
+    private PNode _graphImage;
+    private PNode _particleLayer;
+    private PNode _graphLayer;
     
     //----------------------------------------------------------------------------
     // Constructor
@@ -90,6 +96,20 @@ public class DecayRatesCanvas extends PhetPCanvas {
         
         // Set the background color.
         setBackground( NuclearPhysicsConstants.CANVAS_BACKGROUND );
+        
+        // Add the PNodes that will act as layers for the particles and graphs.
+        _particleLayer = new PNode();
+        addWorldChild(_particleLayer);
+        _graphLayer = new PNode();
+        addScreenChild(_graphLayer);
+        
+        // Add the diagram that will depict the relative concentration of
+        // pre- and post-decay nuclei.
+        // TODO: This is stubbed with a static picture for demo purposes.
+        BufferedImage bufferedImage = NuclearPhysicsResources.getImage( "relationship-chart-static-image.png" );
+        _graphImage = new PImage( bufferedImage );
+        _graphImage.setScale(0.8);
+        _graphLayer.addChild(_graphImage);
         
         // Register with the model for notifications of nuclei coming and
         // going.
@@ -124,6 +144,8 @@ public class DecayRatesCanvas extends PhetPCanvas {
 		
 		super.update();
 		
+		_graphImage.setOffset(3, getHeight() - _graphImage.getFullBoundsReference().height);
+		
 	}
 	
 	private void handleModelElementAdded(Object modelElement) {
@@ -140,7 +162,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
     		
     		// Set the position and add the node to the canvas.
     		atomicNucleusNode.setOffset( ((AtomicNucleus)modelElement).getPositionReference() );
-    		addWorldChild( atomicNucleusNode );
+    		_particleLayer.addChild( atomicNucleusNode );
     	}
     	else {
     		System.err.println("WARNING: Unrecognized model element added, unable to create node for canvas.");

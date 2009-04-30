@@ -64,6 +64,7 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
 			_atomicNuclei[i] = newNucleus;
 			newNucleus.setPosition( (rand.nextDouble() - 0.5) * MODEL_WIDTH, (rand.nextDouble() - 0.5) * MODEL_HEIGHT );
 			notifyModelElementAdded( newNucleus );
+			newNucleus.activateDecay();
 			_jitterOffsets[i] = new Point2D.Double();
 	        
 			// Register as a listener for the nucleus so we can handle the

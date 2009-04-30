@@ -159,7 +159,7 @@ public class RadiometricElementDecayCanvas extends PhetPCanvas {
 
         // Add the chart that shows the decay time.
         _decayTimeChart = new MultiNucleusDecayLinearTimeChart(_model, this);
-        _decayTimeChart.setTimeSpan( 4E14 ); // TODO: Arbitrary for testing, move somewhere reasonable.
+        _decayTimeChart.setTimeSpan( 6E14 ); // TODO: Arbitrary for testing, move somewhere reasonable.
         _chartLayer.addChild( _decayTimeChart );
         
         // Create and add the node the represents the bucket from which nuclei
