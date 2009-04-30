@@ -9,6 +9,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
+import edu.colorado.phet.naturalselection.view.GenerationCountNode;
 import edu.colorado.phet.naturalselection.view.PedigreeNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -52,6 +53,10 @@ public class GenerationChartCanvas extends PhetPCanvas {
         title.setFont( new PhetFont( 16, true ) );
         title.translate( ( getPreferredSize().getWidth() - title.getWidth() ) / 2, 5 );
         rootNode.addChild( title );
+
+        GenerationCountNode generationCount = new GenerationCountNode( model );
+        generationCount.translate( getPreferredSize().getWidth() - generationCount.getTextWidth() - 20, 5 );
+        rootNode.addChild( generationCount );
     }
 
     public void reset() {
