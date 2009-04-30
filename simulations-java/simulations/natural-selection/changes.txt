@@ -1,3 +1,5 @@
+# 0.01.04 (31167) Apr 30, 2009
+4/30/09 Significant redesign of interface and other sim changes
 # 0.01.03 (30821) Apr 23, 2009
 4/23/09 Testing Selection II
 # 0.01.02 (30820) Apr 23, 2009
