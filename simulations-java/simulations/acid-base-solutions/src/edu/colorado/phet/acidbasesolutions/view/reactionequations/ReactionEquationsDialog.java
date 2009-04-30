@@ -42,10 +42,10 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
     private final EquationComboBox equationComboBox;
     
     public ReactionEquationsDialog( Frame owner ) {
-        this( owner, true );
+        this( owner, true ); //XXX default should be dev=false
     }
     
-    public ReactionEquationsDialog( Frame owner, boolean debug ) {
+    public ReactionEquationsDialog( Frame owner, boolean dev ) {
         super( owner, TITLE );
         setResizable( false );
         
@@ -145,7 +145,7 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         panel.add( scaleOnOffPanel, constraints );
         panel.add( topCanvas, constraints );
         panel.add( bottomCanvas, constraints );
-        if ( debug ) {
+        if ( dev ) {
             constraints.gridx = 1; // column
             panel.add( equationComboBox, constraints );
             panel.add( topSliderPanel, constraints );
