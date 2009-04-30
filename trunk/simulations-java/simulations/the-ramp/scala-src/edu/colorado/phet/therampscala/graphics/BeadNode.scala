@@ -38,7 +38,7 @@ class BeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: String) e
 
   def setImage(im: BufferedImage) = imageNode.setImage(im)
   addChild(imageNode)
-//  addChild(shapeNode) //TODO remove after debug done
+  //  addChild(shapeNode) //TODO remove after debug done
 
   def update() = {
 

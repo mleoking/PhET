@@ -107,7 +107,8 @@ class Bead(_state: BeadState,
     _width = w
     notifyListeners()
   }
-  private var _surfaceFrictionStrategy=new SurfaceFrictionStrategy{
+
+  private var _surfaceFrictionStrategy = new SurfaceFrictionStrategy {
     def getTotalFriction(objectFriction: Double) = objectFriction
   }
 
@@ -260,8 +261,8 @@ class Bead(_state: BeadState,
       }
     }
 
-    def multiBodyFriction(f:Double)={
-        _surfaceFrictionStrategy.getTotalFriction(f)
+    def multiBodyFriction(f: Double) = {
+      _surfaceFrictionStrategy.getTotalFriction(f)
     }
 
     override def frictionForce = {

@@ -205,7 +205,7 @@ case class SurfaceType(name: String, imageFilename: String, strategy: Double => 
 }
 
 trait SurfaceFrictionStrategy {
-  def getTotalFriction(objectFriction: Double):Double
+  def getTotalFriction(objectFriction: Double): Double
 }
 
 class SurfaceModel extends Observable with SurfaceFrictionStrategy {
@@ -213,7 +213,7 @@ class SurfaceModel extends Observable with SurfaceFrictionStrategy {
           SurfaceType("Concrete", "robotmovingcompany/concrete.gif", x => x) ::
           SurfaceType("Carpet", "robotmovingcompany/carpet.gif", x => x * 1.5) :: Nil
   private var _friction = 0.2
-  private var _surfaceType = surfaceTypes(0)
+  private var _surfaceType = surfaceTypes(1)
 
   def surfaceType = _surfaceType
 
