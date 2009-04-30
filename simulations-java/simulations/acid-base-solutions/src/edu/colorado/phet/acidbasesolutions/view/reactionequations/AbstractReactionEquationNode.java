@@ -61,6 +61,7 @@ public abstract class AbstractReactionEquationNode extends PComposite {
     
     protected void setTerm0Visible( boolean visible ) {
         setTermVisible( 0, visible );
+        plusLHS.setVisible( visible );
     }
     
     private void setTermVisible( int index, boolean visible ) {
@@ -110,6 +111,9 @@ public abstract class AbstractReactionEquationNode extends PComposite {
             plusLHS.setOffset( xOffset, yOffset );
             xOffset = plusLHS.getFullBoundsReference().getMaxX() + X_SPACING;
         }
+        else {
+            termIndex++;
+        }
         
         // term 1
         xOffset = layoutTerm( termIndex++, xOffset, structureYOffset );
@@ -122,7 +126,7 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         // term 2
         xOffset = layoutTerm( termIndex++, xOffset, structureYOffset );
         
-        /* plus sign */
+        // plus sign
         yOffset = -plusRHS.getFullBoundsReference().getHeight() / 2;
         plusRHS.setOffset( xOffset, yOffset );
         xOffset = plusRHS.getFullBoundsReference().getMaxX() + X_SPACING;
@@ -191,7 +195,6 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         }
     }
     
-    //TODO handle outline, OutlineHTMLNode?
     private static class SymbolNode extends OutlinedHTMLNode {
         
         public SymbolNode( String text ) {
@@ -286,6 +289,7 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         PCanvas canvas = new PCanvas();
         canvas.setPreferredSize( canvasSize );
         
+        // one instance of each type
         PNode[] equations = {
                 new WaterReactionEquationNode(),
                 new WeakAcidReactionEquationNode(),
@@ -294,6 +298,7 @@ public abstract class AbstractReactionEquationNode extends PComposite {
                 new StrongBaseReactionEquationNode()
         };
         
+        // layout in a left-justified column
         double xOffset = 50;
         double yOffset = 50;
         for ( int i = 0; i < equations.length; i++ ) {
