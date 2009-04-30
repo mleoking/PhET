@@ -228,7 +228,7 @@ public class NaturalSelectionModel extends ClockAdapter {
     private void bunnyFamine() {
         Iterator iter = bunnies.iterator();
 
-        double baseFraction = ( Math.sqrt( (double) getPopulation() ) - 3 ) / ( 12 * NaturalSelectionDefaults.TICKS_PER_YEAR * 15 );
+        double baseFraction = ( Math.sqrt( (double) getPopulation() ) - 3 ) / ( NaturalSelectionDefaults.TICKS_PER_YEAR * 15 );
 
         while ( iter.hasNext() ) {
             Bunny bunny = (Bunny) iter.next();
@@ -253,7 +253,7 @@ public class NaturalSelectionModel extends ClockAdapter {
     private void invisibleWolfAttack() {
         Iterator iter = bunnies.iterator();
 
-        double baseFraction = ( Math.sqrt( (double) getPopulation() ) - 3 ) / ( 12 * NaturalSelectionDefaults.TICKS_PER_YEAR * 10 );
+        double baseFraction = ( Math.sqrt( (double) getPopulation() ) - 3 ) / ( NaturalSelectionDefaults.TICKS_PER_YEAR * 10 );
 
         while ( iter.hasNext() ) {
             Bunny bunny = (Bunny) iter.next();
