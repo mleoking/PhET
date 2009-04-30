@@ -18,15 +18,20 @@ public class BalloonDragger implements MouseMotionListener, MouseListener, Paint
     BalloonPainter sel;
     Vector list = new Vector();
     Rectangle bounds;
+    Wall wall;
 
     public void addBalloonDragListener( BalloonDragListener bdl ) {
         list.add( bdl );
     }
 
-    public BalloonDragger( BalloonPainter[] p, Component paintMe, Rectangle bounds ) {
+    public BalloonDragger( BalloonPainter[] p, Component paintMe, Rectangle bounds, Wall wall ) {
         this.bounds = bounds;
         this.p = p;
         this.paintMe = paintMe;
+        if (wall == null){
+        	throw new IllegalArgumentException();
+        }
+        this.wall = wall;
     }
 
     public void paint( Graphics2D g ) {
@@ -40,11 +45,16 @@ public class BalloonDragger implements MouseMotionListener, MouseListener, Paint
         }
     }
 
-    public static Point getInsideBounds( Point a, Rectangle bounds ) {
+    public static Point getInsideBounds( Point a, Rectangle bounds, Wall wall ) {
         int x = 0;
         int y = 0;
-        if ( a.x > bounds.x + bounds.width ) {
-            x = bounds.x + bounds.width;
+        int extension = 0;
+        if (!wall.isVisible()){
+        	// If the wall is invisible, the bounds is larger.
+        	extension = wall.w / 2;
+        }
+        if ( a.x > bounds.x + bounds.width + extension) {
+            x = bounds.x + bounds.width + extension;
         }
         else if ( a.x < bounds.x ) {
             x = bounds.x;
@@ -72,7 +82,7 @@ public class BalloonDragger implements MouseMotionListener, MouseListener, Paint
             Point newPt = me.getPoint();
             Point diff = new Point( newPt.x - mouseStart.x, newPt.y - mouseStart.y );
             Point newBallonPos = new Point( balloonStart.x + diff.x, balloonStart.y + diff.y );
-            newBallonPos = getInsideBounds( newBallonPos, bounds );
+            newBallonPos = getInsideBounds( newBallonPos, bounds, wall );
             sel.getFixedPainter().setPosition( newBallonPos );
             sel.setIsHeld( true );
             for ( int i = 0; i < list.size(); i++ ) {
