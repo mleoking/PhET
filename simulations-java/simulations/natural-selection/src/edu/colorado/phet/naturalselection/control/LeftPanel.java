@@ -33,7 +33,7 @@ public class LeftPanel extends JPanel {
         add( new JSeparator() );
         add( Box.createRigidArea( new Dimension( 0, 10 ) ) );
 
-        genePanel = new GenePanel( model );
+        genePanel = new GenePanel( model, mutationPanel );
         add( genePanel );
 
         setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );

@@ -20,38 +20,87 @@ public class GenePanel extends JPanel {
 
     // TODO: handle reset, possibly set up listening to gene changes
 
-    public GenePanel( NaturalSelectionModel model ) {
+    private static final int ROW_TITLE = 0;
+    private static final int ROW_FIELDS = 1;
+    private static final int ROW_COLOR_TOP = 2;
+    private static final int ROW_COLOR_BOTTOM = 3;
+    private static final int ROW_HIGH_SEPARATOR = 4;
+    private static final int ROW_TAIL_TOP = 5;
+    private static final int ROW_TAIL_BOTTOM = 6;
+    private static final int ROW_LOW_SEPARATOR = 7;
+    private static final int ROW_TEETH_TOP = 8;
+    private static final int ROW_TEETH_BOTTOM = 9;
+
+    private static final int COLUMN_FIRST = 0; // duplicate in case labels change
+    private static final int COLUMN_LABELS = 0;
+    private static final int COLUMN_SWATCHES = 1;
+    private static final int COLUMN_DOMINANT = 2;
+    private static final int COLUMN_RECESSIVE = 3;
+
+    private JLabel colorLabel;
+    private ImagePanel colorWhite;
+    private ImagePanel colorBrown;
+    private JRadioButton colorPD;
+    private JRadioButton colorPR;
+    private JRadioButton colorSD;
+    private JRadioButton colorSR;
+
+    private JLabel tailLabel;
+    private ImagePanel tailRegular;
+    private ImagePanel tailBig;
+    private JRadioButton tailPD;
+    private JRadioButton tailPR;
+    private JRadioButton tailSD;
+    private JRadioButton tailSR;
+
+    private JLabel teethLabel;
+    private ImagePanel teethRegular;
+    private ImagePanel teethLong;
+    private JRadioButton teethPD;
+    private JRadioButton teethPR;
+    private JRadioButton teethSD;
+    private JRadioButton teethSR;
+
+
+    public GenePanel( NaturalSelectionModel model, MutationPanel mutationPanel ) {
 
         setLayout( new GridBagLayout() );
         GridBagConstraints c = new GridBagConstraints();
 
-        ImagePanel colorWhite = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_COLOR );
-        ImagePanel colorBrown = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_COLOR_BROWN );
-        JRadioButton colorPD = createButton( true );
-        JRadioButton colorPR = createButton( false );
-        JRadioButton colorSD = createButton( false );
-        JRadioButton colorSR = createButton( true );
+        colorWhite = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_COLOR );
+        colorBrown = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_COLOR_BROWN );
+        colorPD = createButton( true );
+        colorPR = createButton( false );
+        colorSD = createButton( false );
+        colorSR = createButton( true );
         createFourGroup( ColorGene.getInstance(), colorPD, colorPR, colorSD, colorSR );
 
-        ImagePanel tailRegular = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_TAIL );
-        ImagePanel tailBig = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_TAIL_BIG );
-        JRadioButton tailPD = createButton( true );
-        JRadioButton tailPR = createButton( false );
-        JRadioButton tailSD = createButton( false );
-        JRadioButton tailSR = createButton( true );
+        tailRegular = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_TAIL );
+        tailBig = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_TAIL_BIG );
+        tailPD = createButton( true );
+        tailPR = createButton( false );
+        tailSD = createButton( false );
+        tailSR = createButton( true );
         createFourGroup( TailGene.getInstance(), tailPD, tailPR, tailSD, tailSR );
 
-        ImagePanel teethRegular = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_TEETH );
-        ImagePanel teethLong = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_TEETH_LONG );
-        JRadioButton teethPD = createButton( true );
-        JRadioButton teethPR = createButton( false );
-        JRadioButton teethSD = createButton( false );
-        JRadioButton teethSR = createButton( true );
+        teethRegular = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_TEETH );
+        teethLong = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_TEETH_LONG );
+        teethPD = createButton( true );
+        teethPR = createButton( false );
+        teethSD = createButton( false );
+        teethSR = createButton( true );
         createFourGroup( TeethGene.getInstance(), teethPD, teethPR, teethSD, teethSR );
 
+        colorLabel = new JLabel( "Fur" );
+        tailLabel = new JLabel( "Tail" );
+        teethLabel = new JLabel( "Teeth" );
 
-        c.gridx = 0;
-        c.gridy = 0;
+        setColorEnabled( false );
+        setTailEnabled( false );
+        setTeethEnabled( false );
+
+        c.gridx = COLUMN_FIRST;
+        c.gridy = ROW_TITLE;
         c.gridwidth = 4;
         c.gridheight = 1;
         JLabel label = new JLabel( "Edit Genes" );
@@ -63,40 +112,37 @@ public class GenePanel extends JPanel {
         // Labels
         //----------------------------------------------------------------------------
 
-        c.gridx = 0;
-        c.gridy = 2;
+        c.gridx = COLUMN_LABELS;
+        c.gridy = ROW_COLOR_TOP;
         c.gridwidth = 1;
         c.gridheight = 2;
-        JLabel colorLabel = new JLabel( "Fur" );
         colorLabel.setBorder( new EmptyBorder( new Insets( 0, 0, 0, 10 ) ) );
         add( colorLabel, c );
 
-        c.gridx = 0;
-        c.gridy = 4;
+        c.gridx = COLUMN_LABELS;
+        c.gridy = ROW_TAIL_TOP;
         c.gridwidth = 1;
         c.gridheight = 2;
-        JLabel tailLabel = new JLabel( "Tail" );
         tailLabel.setBorder( new EmptyBorder( new Insets( 0, 0, 0, 10 ) ) );
         add( tailLabel, c );
 
-        c.gridx = 0;
-        c.gridy = 6;
+        c.gridx = COLUMN_LABELS;
+        c.gridy = ROW_TEETH_TOP;
         c.gridwidth = 1;
         c.gridheight = 2;
-        JLabel teethLabel = new JLabel( "Teeth" );
         teethLabel.setBorder( new EmptyBorder( new Insets( 0, 0, 0, 10 ) ) );
         add( teethLabel, c );
 
-        c.gridx = 2;
-        c.gridy = 1;
+        c.gridx = COLUMN_DOMINANT;
+        c.gridy = ROW_FIELDS;
         c.gridwidth = 1;
         c.gridheight = 1;
         JLabel dominantLabel = new JLabel( "Dominant" );
         dominantLabel.setBorder( new EmptyBorder( new Insets( 0, 10, 0, 10 ) ) );
         add( dominantLabel, c );
 
-        c.gridx = 3;
-        c.gridy = 1;
+        c.gridx = COLUMN_RECESSIVE;
+        c.gridy = ROW_FIELDS;
         c.gridwidth = 1;
         c.gridheight = 1;
         add( new JLabel( "Recessive" ), c );
@@ -105,139 +151,186 @@ public class GenePanel extends JPanel {
         // Fur Color
         //----------------------------------------------------------------------------
 
-        c.gridx = 1;
-        c.gridy = 2;
+        c.gridx = COLUMN_SWATCHES;
+        c.gridy = ROW_COLOR_TOP;
         c.gridwidth = 1;
         c.gridheight = 1;
 
         add( colorWhite, c );
 
-        c.gridx = 1;
-        c.gridy = 3;
+        c.gridx = COLUMN_SWATCHES;
+        c.gridy = ROW_COLOR_BOTTOM;
         c.gridwidth = 1;
         c.gridheight = 1;
 
         add( colorBrown, c );
 
-        c.gridx = 2;
-        c.gridy = 2;
+        c.gridx = COLUMN_DOMINANT;
+        c.gridy = ROW_COLOR_TOP;
         c.gridwidth = 1;
         c.gridheight = 1;
 
         add( colorPD, c );
 
-        c.gridx = 3;
-        c.gridy = 2;
+        c.gridx = COLUMN_RECESSIVE;
+        c.gridy = ROW_COLOR_TOP;
         c.gridwidth = 1;
         c.gridheight = 1;
 
         add( colorPR, c );
 
-        c.gridx = 2;
-        c.gridy = 3;
+        c.gridx = COLUMN_DOMINANT;
+        c.gridy = ROW_COLOR_BOTTOM;
         c.gridwidth = 1;
         c.gridheight = 1;
 
         add( colorSD, c );
 
-        c.gridx = 3;
-        c.gridy = 3;
+        c.gridx = COLUMN_RECESSIVE;
+        c.gridy = ROW_COLOR_BOTTOM;
         c.gridwidth = 1;
         c.gridheight = 1;
 
         add( colorSR, c );
 
         //----------------------------------------------------------------------------
+        // Separator
+        //----------------------------------------------------------------------------
+
+        c.gridx = COLUMN_FIRST;
+        c.gridy = ROW_HIGH_SEPARATOR;
+        c.gridwidth = 4;
+        c.gridheight = 1;
+        c.fill = GridBagConstraints.HORIZONTAL;
+
+        add( new JSeparator(), c );
+
+        c.fill = GridBagConstraints.NONE;
+
+        //----------------------------------------------------------------------------
         // Tail
         //----------------------------------------------------------------------------
 
-        c.gridx = 1;
-        c.gridy = 4;
+        c.gridx = COLUMN_SWATCHES;
+        c.gridy = ROW_TAIL_TOP;
         c.gridwidth = 1;
         c.gridheight = 1;
 
         add( tailRegular, c );
 
-        c.gridx = 1;
-        c.gridy = 5;
+        c.gridx = COLUMN_SWATCHES;
+        c.gridy = ROW_TAIL_BOTTOM;
         c.gridwidth = 1;
         c.gridheight = 1;
 
         add( tailBig, c );
 
-        c.gridx = 2;
-        c.gridy = 4;
+        c.gridx = COLUMN_DOMINANT;
+        c.gridy = ROW_TAIL_TOP;
         c.gridwidth = 1;
         c.gridheight = 1;
 
         add( tailPD, c );
 
-        c.gridx = 3;
-        c.gridy = 4;
+        c.gridx = COLUMN_RECESSIVE;
+        c.gridy = ROW_TAIL_TOP;
         c.gridwidth = 1;
         c.gridheight = 1;
 
         add( tailPR, c );
 
-        c.gridx = 2;
-        c.gridy = 5;
+        c.gridx = COLUMN_DOMINANT;
+        c.gridy = ROW_TAIL_BOTTOM;
         c.gridwidth = 1;
         c.gridheight = 1;
 
         add( tailSD, c );
 
-        c.gridx = 3;
-        c.gridy = 5;
+        c.gridx = COLUMN_RECESSIVE;
+        c.gridy = ROW_TAIL_BOTTOM;
         c.gridwidth = 1;
         c.gridheight = 1;
 
         add( tailSR, c );
 
         //----------------------------------------------------------------------------
+        // Separator
+        //----------------------------------------------------------------------------
+
+        c.gridx = COLUMN_FIRST;
+        c.gridy = ROW_LOW_SEPARATOR;
+        c.gridwidth = 4;
+        c.gridheight = 1;
+        c.fill = GridBagConstraints.HORIZONTAL;
+
+        add( new JSeparator(), c );
+
+        c.fill = GridBagConstraints.NONE;
+
+        //----------------------------------------------------------------------------
         // Teeth
         //----------------------------------------------------------------------------
 
-        c.gridx = 1;
-        c.gridy = 6;
+        c.gridx = COLUMN_SWATCHES;
+        c.gridy = ROW_TEETH_TOP;
         c.gridwidth = 1;
         c.gridheight = 1;
 
         add( teethRegular, c );
 
-        c.gridx = 1;
-        c.gridy = 7;
+        c.gridx = COLUMN_SWATCHES;
+        c.gridy = ROW_TEETH_BOTTOM;
         c.gridwidth = 1;
         c.gridheight = 1;
 
         add( teethLong, c );
 
-        c.gridx = 2;
-        c.gridy = 6;
+        c.gridx = COLUMN_DOMINANT;
+        c.gridy = ROW_TEETH_TOP;
         c.gridwidth = 1;
         c.gridheight = 1;
 
         add( teethPD, c );
 
-        c.gridx = 3;
-        c.gridy = 6;
+        c.gridx = COLUMN_RECESSIVE;
+        c.gridy = ROW_TEETH_TOP;
         c.gridwidth = 1;
         c.gridheight = 1;
 
         add( teethPR, c );
 
-        c.gridx = 2;
-        c.gridy = 7;
+        c.gridx = COLUMN_DOMINANT;
+        c.gridy = ROW_TEETH_BOTTOM;
         c.gridwidth = 1;
         c.gridheight = 1;
 
         add( teethSD, c );
 
-        c.gridx = 3;
-        c.gridy = 7;
+        c.gridx = COLUMN_RECESSIVE;
+        c.gridy = ROW_TEETH_BOTTOM;
         c.gridwidth = 1;
         c.gridheight = 1;
 
         add( teethSR, c );
+
+
+        mutationPanel.colorButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent actionEvent ) {
+                setColorEnabled( true );
+            }
+        } );
+
+        mutationPanel.tailButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent actionEvent ) {
+                setTailEnabled( true );
+            }
+        } );
+
+        mutationPanel.teethButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent actionEvent ) {
+                setTeethEnabled( true );
+            }
+        } );
 
 
         setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
@@ -297,6 +390,36 @@ public class GenePanel extends JPanel {
 
     }
 
+    public void setColorEnabled( boolean enabled ) {
+        colorLabel.setEnabled( enabled );
+        colorWhite.setEnabled( enabled );
+        colorBrown.setEnabled( enabled );
+        colorPD.setEnabled( enabled );
+        colorPR.setEnabled( enabled );
+        colorSD.setEnabled( enabled );
+        colorSR.setEnabled( enabled );
+    }
+
+    public void setTailEnabled( boolean enabled ) {
+        tailLabel.setEnabled( enabled );
+        tailRegular.setEnabled( enabled );
+        tailBig.setEnabled( enabled );
+        tailPD.setEnabled( enabled );
+        tailPR.setEnabled( enabled );
+        tailSD.setEnabled( enabled );
+        tailSR.setEnabled( enabled );
+    }
+
+    public void setTeethEnabled( boolean enabled ) {
+        teethLabel.setEnabled( enabled );
+        teethRegular.setEnabled( enabled );
+        teethLong.setEnabled( enabled );
+        teethPD.setEnabled( enabled );
+        teethPR.setEnabled( enabled );
+        teethSD.setEnabled( enabled );
+        teethSR.setEnabled( enabled );
+    }
+
     private void notifyChangeDominance( Gene gene, boolean primary ) {
         // temporary hack, will refactor to permanent if listeners not necessary
         if ( primary ) {
@@ -308,7 +431,9 @@ public class GenePanel extends JPanel {
     }
 
     public void reset() {
-
+        setColorEnabled( false );
+        setTailEnabled( false );
+        setTeethEnabled( false );
     }
 
 }

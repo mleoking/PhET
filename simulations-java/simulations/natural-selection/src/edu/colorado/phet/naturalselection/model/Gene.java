@@ -174,10 +174,10 @@ public abstract class Gene implements Bunny.BunnyListener {
 
     public void setMutatable( boolean maybe ) {
         if ( maybe ) {
-            System.out.println( "Gene " + getName() + " will now start mutating" );
+            //System.out.println( "Gene " + getName() + " will now start mutating" );
         }
         else if ( mutatable ) {
-            System.out.println( "Gene " + getName() + " will not mutate anymore" );
+            //System.out.println( "Gene " + getName() + " will not mutate anymore" );
         }
         boolean old = mutatable;
         mutatable = maybe;
