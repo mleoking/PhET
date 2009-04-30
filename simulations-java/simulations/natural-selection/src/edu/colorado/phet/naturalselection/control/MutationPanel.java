@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.model.ColorGene;
@@ -14,50 +13,85 @@ import edu.colorado.phet.naturalselection.model.GeneListener;
 import edu.colorado.phet.naturalselection.model.TailGene;
 import edu.colorado.phet.naturalselection.model.TeethGene;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
+import edu.colorado.phet.naturalselection.util.ImagePanel;
 
 public class MutationPanel extends JPanel {
     private JButton colorButton;
     private JButton tailButton;
     private JButton teethButton;
+    private ImagePanel colorMutationIndicator;
+    private ImagePanel tailMutationIndicator;
+    private ImagePanel teethMutationIndicator;
 
     public MutationPanel( NaturalSelectionModel model ) {
-        //setLayout( new GridBagLayout() );
-        setLayout( new GridLayout( 4, 1, 0, 3 ) );
+        setLayout( new GridBagLayout() );
 
-        //GridBagConstraints c = new GridBagConstraints();
+        colorMutationIndicator = new ImagePanel( NaturalSelectionConstants.IMAGE_MUTATION_PANEL_SMALL );
+        tailMutationIndicator = new ImagePanel( NaturalSelectionConstants.IMAGE_MUTATION_PANEL_SMALL );
+        teethMutationIndicator = new ImagePanel( NaturalSelectionConstants.IMAGE_MUTATION_PANEL_SMALL );
 
-        //c.gridx = 0;
-        //c.gridy = 0;
-        JLabel label = new JLabel( "Add Mutation", new ImageIcon( NaturalSelectionResources.getImage( NaturalSelectionConstants.IMAGE_MUTATION_PANEL_BIG ) ), SwingConstants.RIGHT );
-        label.setFont( new PhetFont( 18 ) );
-        JPanel labelPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
-        labelPanel.add( label );
-        //add( label, c );
+        colorMutationIndicator.setVisible( false );
+        tailMutationIndicator.setVisible( false );
+        teethMutationIndicator.setVisible( false );
 
-        //c.gridy = 1;
         colorButton = new JButton( "Brown Fur", new ImageIcon( NaturalSelectionResources.getImage( NaturalSelectionConstants.IMAGE_BUNNY_COLOR_BROWN ) ) );
         colorButton.setHorizontalTextPosition( SwingConstants.LEFT );
-        //add( colorButton, c );
 
-        //c.gridy = 2;
         tailButton = new JButton( "Fuzzy Tail", new ImageIcon( NaturalSelectionResources.getImage( NaturalSelectionConstants.IMAGE_BUNNY_TAIL ) ) );
         tailButton.setHorizontalTextPosition( SwingConstants.LEFT );
-        //add( tailButton, c );
 
-        //c.gridy = 3;
         teethButton = new JButton( "Long Teeth", new ImageIcon( NaturalSelectionResources.getImage( NaturalSelectionConstants.IMAGE_BUNNY_TEETH ) ) );
         teethButton.setHorizontalTextPosition( SwingConstants.LEFT );
-        //add( teethButton, c );
 
-        add( labelPanel );
-        add( colorButton );
-        add( tailButton );
-        add( teethButton );
+        GridBagConstraints c = new GridBagConstraints();
 
+        c.gridx = 0;
+        c.gridy = 0;
+        c.fill = GridBagConstraints.BOTH;
+        c.insets = new Insets( 2, 0, 2, 10 );
+        add( colorButton, c );
+
+        c.gridx = 1;
+        c.gridy = 0;
+        c.fill = GridBagConstraints.NONE;
+        c.insets = new Insets( 0, 0, 0, 0 );
+        add( colorMutationIndicator, c );
+
+        c.gridx = 0;
+        c.gridy = 1;
+        c.fill = GridBagConstraints.BOTH;
+        c.insets = new Insets( 2, 0, 2, 10 );
+        add( tailButton, c );
+
+        c.gridx = 1;
+        c.gridy = 1;
+        c.fill = GridBagConstraints.NONE;
+        c.insets = new Insets( 0, 0, 0, 0 );
+        add( tailMutationIndicator, c );
+
+        c.gridx = 0;
+        c.gridy = 2;
+        c.fill = GridBagConstraints.BOTH;
+        c.insets = new Insets( 2, 0, 2, 10 );
+        add( teethButton, c );
+
+        c.gridx = 1;
+        c.gridy = 2;
+        c.fill = GridBagConstraints.NONE;
+        c.insets = new Insets( 0, 0, 0, 0 );
+        add( teethMutationIndicator, c );
+
+        c.gridx = 1;
+        c.gridy = 3;
+        c.fill = GridBagConstraints.NONE;
+        c.insets = new Insets( 0, colorMutationIndicator.getPreferredSize().width, 0, 0 );
+        add( Box.createRigidArea( new Dimension( 0, 0 ) ), c );
 
         colorButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
                 ColorGene.getInstance().setMutatable( true );
+                colorMutationIndicator.setVisible( true );
+
                 colorButton.setEnabled( false );
                 tailButton.setEnabled( false );
                 teethButton.setEnabled( false );
@@ -67,6 +101,8 @@ public class MutationPanel extends JPanel {
         tailButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
                 TailGene.getInstance().setMutatable( true );
+                tailMutationIndicator.setVisible( true );
+
                 colorButton.setEnabled( false );
                 tailButton.setEnabled( false );
                 teethButton.setEnabled( false );
@@ -76,6 +112,8 @@ public class MutationPanel extends JPanel {
         teethButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
                 TeethGene.getInstance().setMutatable( true );
+                teethMutationIndicator.setVisible( true );
+
                 colorButton.setEnabled( false );
                 tailButton.setEnabled( false );
                 teethButton.setEnabled( false );
@@ -96,6 +134,10 @@ public class MutationPanel extends JPanel {
                     colorButton.setEnabled( true );
                     tailButton.setEnabled( true );
                     teethButton.setEnabled( true );
+
+                    colorMutationIndicator.setVisible( false );
+                    tailMutationIndicator.setVisible( false ); // unneeded, TODO: refactor all of these to one listener
+                    teethMutationIndicator.setVisible( false ); // unneeded
                 }
             }
         } );
@@ -114,6 +156,10 @@ public class MutationPanel extends JPanel {
                     colorButton.setEnabled( true );
                     tailButton.setEnabled( true );
                     teethButton.setEnabled( true );
+
+                    colorMutationIndicator.setVisible( false ); // unneeded
+                    tailMutationIndicator.setVisible( false );
+                    teethMutationIndicator.setVisible( false ); // unneeded
                 }
             }
         } );
@@ -132,13 +178,20 @@ public class MutationPanel extends JPanel {
                     colorButton.setEnabled( true );
                     tailButton.setEnabled( true );
                     teethButton.setEnabled( true );
+
+                    colorMutationIndicator.setVisible( false ); // unneeded
+                    tailMutationIndicator.setVisible( false ); // unneeded
+                    teethMutationIndicator.setVisible( false );
                 }
             }
         } );
 
 
         setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
-        labelPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        colorMutationIndicator.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        tailMutationIndicator.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        teethMutationIndicator.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+
     }
 
     public void reset() {

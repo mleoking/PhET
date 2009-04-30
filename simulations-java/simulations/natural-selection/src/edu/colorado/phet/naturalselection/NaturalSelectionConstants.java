@@ -111,7 +111,8 @@ public class NaturalSelectionConstants {
     public static final String IMAGE_SHRUB = "shrub.png";
     public static final String IMAGE_TREE = "tree.png";
 
-    public static final String IMAGE_MUTATION_PANEL_BIG = "mutation_large.png";
+    public static final String IMAGE_MUTATION_PANEL_LARGE = "mutation_large.png";
+    public static final String IMAGE_MUTATION_PANEL_SMALL = "mutation_small.png";
 
     public static final Point2D IMAGE_SHRUB_OFFSET = new Point2D.Double( 0, 15 );
     public static final Point2D IMAGE_TREE_OFFSET = new Point2D.Double( 0, 20 );
