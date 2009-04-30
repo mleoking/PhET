@@ -16,6 +16,7 @@ import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -69,7 +70,13 @@ public abstract class AbstractReactionEquationNode extends PComposite {
     }
     
     public void setTermScale( int index, double scale ) {
-        terms[index].getSymbolNode().setScale( scale );
+        SymbolNode symbolNode = terms[index].getSymbolNode();
+        PBounds boundsBefore = symbolNode.getFullBounds();
+        symbolNode.setScale( scale );
+        PBounds boundsAfter = symbolNode.getFullBounds();
+        double xOffset = symbolNode.getXOffset() - ( boundsAfter.getWidth() - boundsBefore.getWidth() ) / 2;
+        double yOffset = symbolNode.getYOffset() - ( boundsAfter.getHeight() - boundsBefore.getHeight() ) / 2;
+        symbolNode.setOffset( xOffset, yOffset );
     }
     
     /*
@@ -80,12 +87,6 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         arrow = new PImage( arrowImage );
         addChild( arrow );
         updateLayout();
-    }
-    
-    protected void setStructuresVisible( boolean visible ) {
-        for ( int i = 0; i < terms.length; i++ ) {
-            terms[i].getStructureNode().setVisible( false );
-        }
     }
     
     /*
@@ -308,10 +309,10 @@ public abstract class AbstractReactionEquationNode extends PComposite {
      */
     public static class WaterReactionEquationNode extends AbstractReactionEquationNode {
         public WaterReactionEquationNode() {
-            setTerm( 0, ABSSymbols.H2O, ABSConstants.H2O_COLOR, Color.BLACK, ABSImages.H2O_STRUCTURE );
-            setTerm( 1, ABSSymbols.H2O, ABSConstants.H2O_COLOR, Color.BLACK, ABSImages.H2O_STRUCTURE );
-            setTerm( 2, ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR, Color.BLACK, ABSImages.H3O_PLUS_STRUCTURE );
-            setTerm( 3, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, Color.BLACK, ABSImages.OH_MINUS_STRUCTURE );
+            setTerm( 0, ABSSymbols.H2O, ABSConstants.H2O_COLOR, ABSConstants.H2O_OUTLINE, ABSImages.H2O_STRUCTURE );
+            setTerm( 1, ABSSymbols.H2O, ABSConstants.H2O_COLOR, ABSConstants.H2O_OUTLINE, ABSImages.H2O_STRUCTURE );
+            setTerm( 2, ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR, ABSConstants.H3O_OUTLINE, ABSImages.H3O_PLUS_STRUCTURE );
+            setTerm( 3, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, ABSConstants.OH_OUTLINE, ABSImages.OH_MINUS_STRUCTURE );
             setArrow( ABSImages.ARROW_DOUBLE );
         }
     }
@@ -319,17 +320,17 @@ public abstract class AbstractReactionEquationNode extends PComposite {
     protected static abstract class AbstractAcidReactionEquationNode extends AbstractReactionEquationNode {
         
         public AbstractAcidReactionEquationNode() {
-            setTerm( 0, ABSSymbols.HA, ABSConstants.HA_COLOR, Color.BLACK, ABSImages.HA_STRUCTURE );
-            setTerm( 1, ABSSymbols.H2O, ABSConstants.H2O_COLOR, Color.BLACK, ABSImages.H2O_STRUCTURE );
-            setTerm( 2, ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR, Color.BLACK, ABSImages.H3O_PLUS_STRUCTURE );
-            setTerm( 3, ABSSymbols.A_MINUS, ABSConstants.A_COLOR, Color.BLACK, ABSImages.A_MINUS_STRUCTURE );
+            setTerm( 0, ABSSymbols.HA, ABSConstants.HA_COLOR, ABSConstants.HA_OUTLINE, ABSImages.HA_STRUCTURE );
+            setTerm( 1, ABSSymbols.H2O, ABSConstants.H2O_COLOR, ABSConstants.H2O_OUTLINE, ABSImages.H2O_STRUCTURE );
+            setTerm( 2, ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR, ABSConstants.H3O_OUTLINE, ABSImages.H3O_PLUS_STRUCTURE );
+            setTerm( 3, ABSSymbols.A_MINUS, ABSConstants.A_COLOR, ABSConstants.A_OUTLINE, ABSImages.A_MINUS_STRUCTURE );
         }
         
         public AbstractAcidReactionEquationNode( String symbolLHS, String symbolRHS ) {
-            this();
-            setTerm( 0, symbolLHS, ABSConstants.HA_COLOR, Color.BLACK );
-            setTerm( 3, symbolRHS, ABSConstants.A_COLOR, Color.BLACK );
-            setStructuresVisible( false );
+            setTerm( 0, symbolLHS, ABSConstants.HA_COLOR, ABSConstants.HA_OUTLINE );
+            setTerm( 1, ABSSymbols.H2O, ABSConstants.H2O_COLOR, ABSConstants.H2O_OUTLINE );
+            setTerm( 2, ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR, ABSConstants.H3O_OUTLINE );
+            setTerm( 3, symbolRHS, ABSConstants.A_COLOR, ABSConstants.A_OUTLINE );
         }
     }
     
@@ -369,7 +370,7 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         }
         
         private void init() {
-            setArrow( ABSImages.ARROW_DOUBLE );
+            setArrow( ABSImages.ARROW_SINGLE );
         }
     }
     
@@ -379,18 +380,20 @@ public abstract class AbstractReactionEquationNode extends PComposite {
     public static class WeakBaseReactionEquationNode extends AbstractReactionEquationNode {
         
         public WeakBaseReactionEquationNode() {
-            setTerm( 0, ABSSymbols.B, ABSConstants.B_COLOR, Color.BLACK, ABSImages.B_STRUCTURE );
-            setTerm( 1, ABSSymbols.H2O, ABSConstants.H2O_COLOR, Color.BLACK, ABSImages.H2O_STRUCTURE );
-            setTerm( 2, ABSSymbols.BH_PLUS, ABSConstants.BH_COLOR, Color.BLACK, ABSImages.BH_PLUS_STRUCTURE );
-            setTerm( 3, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, Color.BLACK, ABSImages.OH_MINUS_STRUCTURE );
+            setTerm( 0, ABSSymbols.B, ABSConstants.B_COLOR, ABSConstants.B_OUTLINE, ABSImages.B_STRUCTURE );
+            setTerm( 1, ABSSymbols.H2O, ABSConstants.H2O_COLOR, ABSConstants.H2O_OUTLINE, ABSImages.H2O_STRUCTURE );
+            setTerm( 2, ABSSymbols.BH_PLUS, ABSConstants.BH_COLOR, ABSConstants.BH_OUTLINE, ABSImages.BH_PLUS_STRUCTURE );
+            setTerm( 3, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, ABSConstants.OH_OUTLINE, ABSImages.OH_MINUS_STRUCTURE );
             setArrow( ABSImages.ARROW_DOUBLE );
         }
         
         public WeakBaseReactionEquationNode( String symbolLHS, String symbolRHS ) {
             this();
-            setTerm( 0, symbolLHS, ABSConstants.B_COLOR, Color.BLACK );
-            setTerm( 2, symbolRHS, ABSConstants.BH_COLOR, Color.BLACK );
-            setStructuresVisible( false );
+            setTerm( 0, symbolLHS, ABSConstants.B_COLOR, ABSConstants.B_OUTLINE );
+            setTerm( 1, ABSSymbols.H2O, ABSConstants.H2O_COLOR, ABSConstants.H2O_OUTLINE );
+            setTerm( 2, ABSSymbols.BH_PLUS, ABSConstants.BH_COLOR, ABSConstants.BH_OUTLINE );
+            setTerm( 3, symbolRHS, ABSConstants.OH_COLOR, ABSConstants.OH_OUTLINE );
+            setArrow( ABSImages.ARROW_DOUBLE );
         }
     }
     
@@ -401,22 +404,21 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         
         public StrongBaseReactionEquationNode() {
             setTerm0Visible( false );
-            setTerm( 1, ABSSymbols.MOH, ABSConstants.MOH_COLOR, Color.BLACK, ABSImages.MOH_STRUCTURE );
-            setTerm( 2, ABSSymbols.M_PLUS, ABSConstants.M_COLOR, Color.BLACK, ABSImages.M_PLUS_STRUCTURE );
-            setTerm( 3, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, Color.BLACK, ABSImages.OH_MINUS_STRUCTURE );
+            setTerm( 1, ABSSymbols.MOH, ABSConstants.MOH_COLOR, ABSConstants.MOH_OUTLINE, ABSImages.MOH_STRUCTURE );
+            setTerm( 2, ABSSymbols.M_PLUS, ABSConstants.M_COLOR, ABSConstants.M_OUTLINE, ABSImages.M_PLUS_STRUCTURE );
+            setTerm( 3, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, ABSConstants.OH_OUTLINE, ABSImages.OH_MINUS_STRUCTURE );
             setArrow( ABSImages.ARROW_SINGLE );
         }
         
         public StrongBaseReactionEquationNode( String symbolLHS, String symbolRHS ) {
-            this();
-            setTerm( 1, ABSSymbols.MOH, ABSConstants.MOH_COLOR, Color.BLACK );
-            setTerm( 2, ABSSymbols.M_PLUS, ABSConstants.M_COLOR, Color.BLACK );
-            setStructuresVisible( false );
+            setTerm0Visible( false );
+            setTerm( 1, symbolLHS, ABSConstants.MOH_COLOR, ABSConstants.MOH_OUTLINE );
+            setTerm( 2, symbolRHS, ABSConstants.M_COLOR, ABSConstants.M_OUTLINE );
+            setTerm( 3, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, ABSConstants.OH_OUTLINE );
+            setArrow( ABSImages.ARROW_SINGLE );
         }
     }
     
-    //TODO add class or setters for specific acids and bases (weak and strong)
-
     /* tests */
     public static void main( String[] args ) {
         
