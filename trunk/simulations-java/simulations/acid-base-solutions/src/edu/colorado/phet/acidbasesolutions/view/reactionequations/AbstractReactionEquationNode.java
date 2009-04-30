@@ -6,19 +6,19 @@ import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSImages;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
+import edu.colorado.phet.acidbasesolutions.view.OutlinedHTMLNode;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-//TODO make this class abstract
-public class AbstractReactionEquationNode extends PComposite {
+public abstract class AbstractReactionEquationNode extends PComposite {
     
     private static final double X_SPACING = 20;
     private static final double Y_SPACING = 10;
@@ -68,43 +68,15 @@ public class AbstractReactionEquationNode extends PComposite {
         updateLayout();
     }
     
-    protected void setTerm0( String symbol, Color fill, Color outline ) {
-        setTerm0( symbol, fill, outline, null );
+    public void setTerm( int index, String text, Color fill, Color outline ) {
+        setTerm( index, text, fill, outline, null );
     }
     
-    protected void setTerm0( String symbol, Color fill, Color outline, BufferedImage structureImage ) {
-        updateTerm( 0, symbol, fill, outline, structureImage );
-    }
-    
-    protected void setTerm1( String symbol, Color fill, Color outline ) {
-        setTerm1( symbol, fill, outline, null );
-    }
-    
-    protected void setTerm1( String symbol, Color fill, Color outline, BufferedImage structureImage ) {
-        updateTerm( 1, symbol, fill, outline, structureImage );
-    }
-    
-    protected void setTerm2( String symbol, Color fill, Color outline ) {
-        setTerm2( symbol, fill, outline, null );
-    }
-    
-    protected void setTerm2( String symbol, Color fill, Color outline, BufferedImage structureImage ) {
-        updateTerm( 2, symbol, fill, outline, structureImage );
-    }
-    
-    protected void setTerm3( String symbol, Color fill, Color outline ) {
-        setTerm3( symbol, fill, outline, null );
-    }
-    
-    protected void setTerm3( String symbol, Color fill, Color outline, BufferedImage structureImage ) {
-        updateTerm( 3, symbol, fill, outline, structureImage );
-    }
-    
-    private void updateTerm( int index, String symbol, Color fill, Color outline, BufferedImage structureImage ) {
+    public void setTerm( int index, String text, Color fill, Color outline, BufferedImage structureImage ) {
         Term term = terms[index];
         // symbol
         SymbolNode symbolNode = term.getSymbolNode();
-        symbolNode.setText( symbol );
+        symbolNode.setHTML( text );
         symbolNode.setFillColor( fill );
         symbolNode.setOutlineColor( outline );
         // structure
@@ -220,7 +192,7 @@ public class AbstractReactionEquationNode extends PComposite {
     }
     
     //TODO handle outline, OutlineHTMLNode?
-    private static class SymbolNode extends HTMLNode {
+    private static class SymbolNode extends OutlinedHTMLNode {
         
         public SymbolNode( String text ) {
             this( HTMLUtils.toHTMLString( text ), Color.BLACK, Color.RED );
@@ -229,19 +201,12 @@ public class AbstractReactionEquationNode extends PComposite {
         public SymbolNode( String text, Color fill, Color outline ) {
             super( HTMLUtils.toHTMLString( text ) );
             setFont( SYMBOL_FONT );
-            setHTMLColor( fill );
+            setFillColor( fill );
+            setOutlineColor( outline );
         }
         
-        public void setText( String text ) {
-            setHTML( HTMLUtils.toHTMLString( text ) );
-        }
-        
-        public void setFillColor( Color color ) {
-            setHTMLColor( color );
-        }
-        
-        public void setOutlineColor( Color color ) {
-            //TODO add support for this
+        public void setHTML( String text ) {
+            super.setHTML( HTMLUtils.toHTMLString( text ) );
         }
     }
     
@@ -263,21 +228,71 @@ public class AbstractReactionEquationNode extends PComposite {
             setTextPaint( PLUS_COLOR );
         }
     }
+    
+    public static class WaterReactionEquationNode extends AbstractReactionEquationNode {
+        public WaterReactionEquationNode() {
+            setTerm( 0, ABSSymbols.H2O, ABSConstants.H2O_COLOR, Color.BLACK, ABSImages.H2O_STRUCTURE );
+            setTerm( 1, ABSSymbols.H2O, ABSConstants.H2O_COLOR, Color.BLACK, ABSImages.H2O_STRUCTURE );
+            setTerm( 2, ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR, Color.BLACK, ABSImages.H3O_PLUS_STRUCTURE );
+            setTerm( 3, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, Color.BLACK, ABSImages.OH_MINUS_STRUCTURE );
+            setArrow( ABSImages.ARROW_DOUBLE );
+        }
+    }
+    
+    protected static abstract class AbstractAcidReactionEquationNode extends AbstractReactionEquationNode {
+        public AbstractAcidReactionEquationNode() {
+            setTerm( 0, ABSSymbols.HA, ABSConstants.HA_COLOR, Color.BLACK, ABSImages.HA_STRUCTURE );
+            setTerm( 1, ABSSymbols.H2O, ABSConstants.H2O_COLOR, Color.BLACK, ABSImages.H2O_STRUCTURE );
+            setTerm( 2, ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR, Color.BLACK, ABSImages.H3O_PLUS_STRUCTURE );
+            setTerm( 3, ABSSymbols.A_MINUS, ABSConstants.A_COLOR, Color.BLACK, ABSImages.A_MINUS_STRUCTURE );
+        }
+    }
+    
+    public static class WeakAcidReactionEquationNode extends AbstractAcidReactionEquationNode {
+        public WeakAcidReactionEquationNode() {
+            setArrow( ABSImages.ARROW_DOUBLE );
+        }
+    }
+    
+    public static class StrongAcidReactionEquationNode extends AbstractAcidReactionEquationNode {
+        public StrongAcidReactionEquationNode() {
+            setArrow( ABSImages.ARROW_DOUBLE );
+        }
+    }
+    
+    public static class WeakBaseReactionEquationNode extends AbstractReactionEquationNode {
+        public WeakBaseReactionEquationNode() {
+            setTerm( 0, ABSSymbols.B, ABSConstants.B_COLOR, Color.BLACK, ABSImages.B_STRUCTURE );
+            setTerm( 1, ABSSymbols.H2O, ABSConstants.H2O_COLOR, Color.BLACK, ABSImages.H2O_STRUCTURE );
+            setTerm( 2, ABSSymbols.BH_PLUS, ABSConstants.BH_COLOR, Color.BLACK, ABSImages.BH_PLUS_STRUCTURE );
+            setTerm( 3, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, Color.BLACK, ABSImages.OH_MINUS_STRUCTURE );
+            setArrow( ABSImages.ARROW_DOUBLE );
+        }
+    }
+    
+    public static class StrongBaseReactionEquationNode extends AbstractReactionEquationNode {
+        public StrongBaseReactionEquationNode() {
+            setTerm0Visible( false );
+            setTerm( 1, ABSSymbols.MOH, ABSConstants.MOH_COLOR, Color.BLACK, ABSImages.MOH_STRUCTURE );
+            setTerm( 2, ABSSymbols.M_PLUS, ABSConstants.M_COLOR, Color.BLACK, ABSImages.M_PLUS_STRUCTURE );
+            setTerm( 3, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, Color.BLACK, ABSImages.OH_MINUS_STRUCTURE );
+            setArrow( ABSImages.ARROW_DOUBLE );
+        }
+    }
 
     public static void main( String[] args ) {
         
         Dimension canvasSize = new Dimension( 800, 600 );
         PhetPCanvas canvas = new PhetPCanvas( canvasSize );
         canvas.setPreferredSize( canvasSize );
-        canvas.setBackground( Color.LIGHT_GRAY );
         
-        final AbstractReactionEquationNode node = new AbstractReactionEquationNode();
-        node.setTerm0( ABSSymbols.H2O, Color.BLUE, Color.BLACK, ABSImages.H2O_STRUCTURE );
-        node.setTerm1( ABSSymbols.H2O, Color.BLUE, Color.BLACK, ABSImages.H2O_STRUCTURE );
-        node.setTerm2( ABSSymbols.H3O_PLUS, Color.BLUE, Color.BLACK, ABSImages.H3O_PLUS_STRUCTURE );
-        node.setTerm3( ABSSymbols.OH_MINUS, Color.BLUE, Color.BLACK, ABSImages.OH_MINUS_STRUCTURE );
-        canvas.getLayer().addChild( node );
-        node.setOffset( 100, 100 );
+        PNode e1 = new WaterReactionEquationNode();
+        canvas.getLayer().addChild( e1 );
+        e1.setOffset( 50, 50 );
+        
+        PNode e2 = new WeakAcidReactionEquationNode();
+        canvas.getLayer().addChild( e2 );
+        e2.setOffset( 50, 200 );
         
         JPanel panel = new JPanel( new BorderLayout() );
         panel.add( canvas, BorderLayout.CENTER );

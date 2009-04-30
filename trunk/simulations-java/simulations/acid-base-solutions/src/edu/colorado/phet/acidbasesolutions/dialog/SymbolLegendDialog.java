@@ -71,7 +71,7 @@ public class SymbolLegendDialog extends PaintImmediateDialog {
             JLabel labelB = new MoleculeLabel( ABSSymbols.B, ABSImages.B_MOLECULE );
             JLabel descriptionB = new DescriptionLabel( B_DESCRIPTION );
             
-            JLabel labelMOH = new MoleculeLabel( ABSSymbols.MOH, ABSImages.MOH_PLUS_MOLECULE );
+            JLabel labelMOH = new MoleculeLabel( ABSSymbols.MOH, ABSImages.MOH_MOLECULE );
             JLabel descriptionMOH = new DescriptionLabel( MOH_DESCRIPTION );
             
             // layout
