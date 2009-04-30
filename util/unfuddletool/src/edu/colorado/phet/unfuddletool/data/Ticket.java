@@ -54,7 +54,7 @@ public class Ticket extends Record {
         initialize( Communication.getTicketElementFromServer( getId() ) );
         refreshComments();
         Date afterDate = lastUpdateTime();
-        if ( beforeDate.compareTo( afterDate ) < 0 ) {
+        if ( beforeDate.getTime() < afterDate.getTime() ) {
             notifyUpdatedTicket();
         }
         else {
@@ -299,6 +299,21 @@ public class Ticket extends Record {
         }
 
         return best;
+    }
+
+    public static int compare( Ticket a, Ticket b ) {
+        Date at = a.lastUpdateTime();
+        Date bt = b.lastUpdateTime();
+        long as = at.getTime();
+        long bs = bt.getTime();
+
+        if( as == bs ) {
+            return 0;
+        } else if( as < bs ) {
+            return -1;
+        } else {
+            return 1;
+        }
     }
 
     public void refreshComments() {
