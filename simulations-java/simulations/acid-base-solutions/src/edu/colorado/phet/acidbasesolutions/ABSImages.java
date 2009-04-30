@@ -15,7 +15,7 @@ public class ABSImages {
     public static final BufferedImage H3O_PLUS_MOLECULE = getBufferedImage( "molecules/H3O_plus.png" );
     public static final BufferedImage HA_MOLECULE = getBufferedImage( "molecules/HA.png" );
     public static final BufferedImage M_PLUS_MOLECULE = getBufferedImage( "molecules/M_plus.png" );
-    public static final BufferedImage MOH_PLUS_MOLECULE = getBufferedImage( "molecules/MOH.png" );
+    public static final BufferedImage MOH_MOLECULE = getBufferedImage( "molecules/MOH.png" );
     public static final BufferedImage OH_MINUS_MOLECULE = getBufferedImage( "molecules/OH_minus.png" );
     
     public static final BufferedImage A_MINUS_STRUCTURE = getBufferedImage( "lewis_structures/A_minus.png" );
@@ -25,7 +25,7 @@ public class ABSImages {
     public static final BufferedImage H3O_PLUS_STRUCTURE = getBufferedImage( "lewis_structures/H3O_plus.png" );
     public static final BufferedImage HA_STRUCTURE = getBufferedImage( "lewis_structures/HA.png" );
     public static final BufferedImage M_PLUS_STRUCTURE = getBufferedImage( "lewis_structures/M_plus.png" );
-    public static final BufferedImage MOH_PLUS_STRUCTURE = getBufferedImage( "lewis_structures/MOH.png" );
+    public static final BufferedImage MOH_STRUCTURE = getBufferedImage( "lewis_structures/MOH.png" );
     public static final BufferedImage OH_MINUS_STRUCTURE = getBufferedImage( "lewis_structures/OH_minus.png" );
     
     public static final BufferedImage ARROW_DOUBLE = getBufferedImage( "arrow_double.png" );

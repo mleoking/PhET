@@ -66,6 +66,8 @@ public class ABSConstants {
     public static final Color A_COLOR = new Color( 235, 145, 5 );
     public static final Color B_COLOR = new Color( 136, 40, 99 );
     public static final Color BH_COLOR = new Color( 169, 155, 23 );
+    public static final Color MOH_COLOR = new Color( 169, 155, 23 );//XXX fix
+    public static final Color M_COLOR = new Color( 169, 155, 23 );//XXX fix
     
     // particle colors may be tweaked so that they stand out better
     public static final Color H3O_PARTICLES_COLOR = H3O_COLOR;
@@ -74,6 +76,8 @@ public class ABSConstants {
     public static final Color A_PARTICLES_COLOR = A_COLOR;
     public static final Color B_PARTICLES_COLOR = B_COLOR;
     public static final Color BH_PARTICLES_COLOR = BH_COLOR;
+    public static final Color MOH_PARTICLES_COLOR = BH_COLOR;//XXX fix
+    public static final Color M_PARTICLES_COLOR = BH_COLOR;//XXX fix
     
     //----------------------------------------------------------------------------
     // Dimensions
