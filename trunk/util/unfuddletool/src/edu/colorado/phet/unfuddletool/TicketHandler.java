@@ -55,7 +55,8 @@ public class TicketHandler {
     public void requestTicketUpdate( int id, Date latestDate ) {
         //System.out.println( "Ticket update requested for " + id + " if older than " + latestDate );
         Ticket ticket = getTicketById( id );
-        if ( ticket.lastUpdateTime().compareTo( latestDate ) < 0 ) {
+        //if ( ticket.lastUpdateTime().compareTo( latestDate ) < 0 ) {
+        if( ticket.lastUpdateTime().getTime() < latestDate.getTime() ) {
             System.out.println( "Ticket " + ticket + " out of date, updating" );
             ticket.update();
         }
@@ -155,7 +156,8 @@ public class TicketHandler {
             //return a.getUpdatedAt().compareTo( b.getUpdatedAt() );
 
             // Slower (has to download all of the comments first):
-            return a.lastUpdateTime().compareTo( b.lastUpdateTime() );
+            //return a.lastUpdateTime().compareTo( b.lastUpdateTime() );
+            return Ticket.compare( a, b );
         }
     }
 
