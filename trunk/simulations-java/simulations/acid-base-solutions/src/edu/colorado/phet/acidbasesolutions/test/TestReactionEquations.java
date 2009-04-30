@@ -5,6 +5,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -27,7 +29,7 @@ public class TestReactionEquations extends JFrame {
     private static final Dimension TOP_CANVAS_SIZE = new Dimension( 600, 175 );
     private static final Dimension BOTTOM_CANVAS_SIZE = TOP_CANVAS_SIZE;
     
-    private final PhetPCanvas topCanvas;
+    private final PhetPCanvas topCanvas, bottomCanvas;
     private AbstractReactionEquationNode topEquation;
     private final AbstractReactionEquationNode bottomEquation;
     private final ScaleSlider[] topSliders, bottomSliders;
@@ -46,15 +48,22 @@ public class TestReactionEquations extends JFrame {
             }
         });
         
-        topCanvas = new PhetPCanvas();
+        topCanvas = new PhetPCanvas() {
+            protected void updateLayout() {
+                updateTopLayout();
+            }
+        };
         topCanvas.setPreferredSize( TOP_CANVAS_SIZE );
         topEquation = equationComboBox.getSelectedNode();
         topCanvas.getLayer().addChild( topEquation );
         
-        PhetPCanvas bottomCanvas = new PhetPCanvas();
+        bottomCanvas = new PhetPCanvas() {
+            protected void updateLayout() {
+                updateBottomLayout();
+            }
+        };
         bottomCanvas.setPreferredSize( BOTTOM_CANVAS_SIZE );
         bottomEquation = new WaterReactionEquationNode();
-        bottomEquation.setOffset( 50, 50 );
         bottomCanvas.getLayer().addChild( bottomEquation );
         
         // scale on/off
@@ -137,6 +146,18 @@ public class TestReactionEquations extends JFrame {
         pack();
     }
     
+    private void updateTopLayout() {
+        double xOffset = ( topCanvas.getWidth() - topEquation.getFullBoundsReference().getWidth() ) / 2;
+        double yOffset = 20 + ( topCanvas.getHeight() - topEquation.getFullBoundsReference().getHeight() ) / 2;
+        topEquation.setOffset( xOffset, yOffset );
+    }
+    
+    private void updateBottomLayout() {
+        double xOffset = ( bottomCanvas.getWidth() - bottomEquation.getFullBoundsReference().getWidth() ) / 2;
+        double yOffset = 20 + ( bottomCanvas.getHeight() - bottomEquation.getFullBoundsReference().getHeight() ) / 2;
+        bottomEquation.setOffset( xOffset, yOffset );
+    }
+    
     private boolean isScaleEnabled() {
         return scaleOnRadioButton.isSelected();
     }
@@ -161,8 +182,9 @@ public class TestReactionEquations extends JFrame {
             topCanvas.getLayer().removeChild( topEquation );
         }
         topEquation = equationComboBox.getSelectedNode();
+        topEquation.setAllTermScale( 1 );
         topCanvas.getLayer().addChild( topEquation );
-        topEquation.setOffset( 20, 50 );
+        updateTopLayout();
         updateScale( topEquation, topSliders );
     }
     
