@@ -2,11 +2,10 @@ package edu.colorado.phet.therampscala.graphics
 
 
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import java.awt.{Paint, Color, BasicStroke, Cursor}
 import scalacommon.util.Observable
 import umd.cs.piccolo.PNode
 import common.piccolophet.nodes.PhetPPath
-import java.awt.{Color, BasicStroke, Cursor}
-
 import model.RampSegment
 import common.piccolophet.event.CursorHandler
 
@@ -15,12 +14,22 @@ import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import scalacommon.Predef._
 import java.lang.Math._
 
-class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D) extends PNode {
+trait HasPaint extends PNode {
+  def paint_=(p: Paint): Unit
+
+  def paint: Paint
+}
+
+class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D) extends PNode with HasPaint {
   val line = new PhetPPath(new Color(184, 131, 24), new BasicStroke(2f), new Color(91, 78, 49))
   addChild(line)
   defineInvokeAndPass(rampSegment.addListenerByName) {
     line.setPathTo(mytransform.createTransformedShape(new BasicStroke(0.4f).createStrokedShape(rampSegment.toLine2D)))
   }
+
+  def paint_=(p: Paint) = line.setPaint(p)
+
+  def paint = line.getPaint
 }
 
 trait Rotatable extends Observable {

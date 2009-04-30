@@ -35,11 +35,15 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
   def createEarthNode: PNode
   addNode(createEarthNode)
 
-  def createLeftSegmentNode: PNode
-  addNode(createLeftSegmentNode)
+  def createLeftSegmentNode: HasPaint
 
-  def createRightSegmentNode: PNode
-  addNode(createRightSegmentNode)
+  val leftSegmentNode = createLeftSegmentNode
+  addNode(leftSegmentNode)
+
+  def createRightSegmentNode: HasPaint
+
+  val rightSegmentNode = createRightSegmentNode
+  addNode(rightSegmentNode)
 
   def addHeightAndAngleIndicators()
   addHeightAndAngleIndicators()
@@ -274,6 +278,13 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
 
   gameModel.beadCreatedListeners += init
   init(gameModel.bead, gameModel.selectedObject)
+
+  gameModel.surfaceModel.addListener(updateRampColor)
+  def updateRampColor() = {
+    rightSegmentNode.paint = gameModel.surfaceModel.surfaceType.color
+    leftSegmentNode.paint = gameModel.surfaceModel.surfaceType.color
+  }
+  updateRampColor()
 
   def init(bead: Bead, a: ScalaRampObject) = {
     val beadNode = new DraggableBeadNode(bead, transform, a.imageFilename)

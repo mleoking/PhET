@@ -200,7 +200,7 @@ class RampModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(fr
 
 case class Result(success: Boolean, cliff: Boolean, score: Int)
 
-case class SurfaceType(name: String, imageFilename: String, strategy: Double => Double) extends SurfaceFrictionStrategy {
+case class SurfaceType(name: String, imageFilename: String, strategy: Double => Double, color: Color) extends SurfaceFrictionStrategy {
   def getTotalFriction(objectFriction: Double) = strategy(objectFriction)
 }
 
@@ -209,9 +209,9 @@ trait SurfaceFrictionStrategy {
 }
 
 class SurfaceModel extends Observable with SurfaceFrictionStrategy {
-  val surfaceTypes = SurfaceType("Ice", "robotmovingcompany/ice.gif", x => 0.0) ::
-          SurfaceType("Concrete", "robotmovingcompany/concrete.gif", x => x) ::
-          SurfaceType("Carpet", "robotmovingcompany/carpet.gif", x => x * 1.5) :: Nil
+  val surfaceTypes = SurfaceType("Ice", "robotmovingcompany/ice.gif", x => 0.0, new Color(154, 183, 205)) ::
+          SurfaceType("Concrete", "robotmovingcompany/concrete.gif", x => x, new Color(146, 154, 160)) ::
+          SurfaceType("Carpet", "robotmovingcompany/carpet.gif", x => x * 1.5, new Color(200, 50, 60)) :: Nil
   private var _friction = 0.2
   private var _surfaceType = surfaceTypes(1)
 
@@ -246,7 +246,7 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
   val itemFinishedListeners = new ArrayBuffer[(ScalaRampObject, Result) => Unit]
   val beadCreatedListeners = new ArrayBuffer[(Bead, ScalaRampObject) => Unit]
   val objectList = RampDefaults.objects
-  val housePosition = 8
+  val housePosition = 6
   val house = model.createBead(housePosition, RampDefaults.house.width, RampDefaults.house.height)
   private var _bead: Bead = null
 
