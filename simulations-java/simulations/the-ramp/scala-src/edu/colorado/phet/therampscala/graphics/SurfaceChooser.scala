@@ -22,12 +22,12 @@ import umd.cs.piccolox.pswing.PSwing
 class SurfaceChooser(surfaceModel: SurfaceModel) extends PNode {
   addChild(new PText("Choose Surface"))
 
-  val panel=new JPanel
-  panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS))
-  for (surfaceType <- surfaceModel.surfaceTypes){
-    val myRadioButton: MyRadioButton = new MyRadioButton(surfaceType.name, surfaceModel.surfaceType=surfaceType, surfaceModel.surfaceType == surfaceType, surfaceModel.addListener)
-//    myRadioButton.peer.setIcon(new ImageIcon(RampResources.getImage(surfaceType.imageFilename)))
-    val component=new JPanel
+  val panel = new JPanel
+  panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS))
+  for (surfaceType <- surfaceModel.surfaceTypes) {
+    val myRadioButton: MyRadioButton = new MyRadioButton(surfaceType.name, surfaceModel.surfaceType = surfaceType, surfaceModel.surfaceType == surfaceType, surfaceModel.addListener)
+    //    myRadioButton.peer.setIcon(new ImageIcon(RampResources.getImage(surfaceType.imageFilename)))
+    val component = new JPanel
     component.add(myRadioButton.peer)
     myRadioButton.peer.setBackground(RampDefaults.EARTH_COLOR)
     val jLabel = new JLabel(new ImageIcon(RampResources.getImage(surfaceType.imageFilename)))
