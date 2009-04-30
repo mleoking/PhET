@@ -23,8 +23,8 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 public class TestReactionEquations extends JFrame {
     
     private static final int DEFAULT_SCALE = 100; // percent
-    private static final int MAX_SCALE = 200; // percent
-    private static final Dimension TOP_CANVAS_SIZE = new Dimension( 525, 175 );
+    private static final int MAX_SCALE = 500; // percent
+    private static final Dimension TOP_CANVAS_SIZE = new Dimension( 600, 175 );
     private static final Dimension BOTTOM_CANVAS_SIZE = TOP_CANVAS_SIZE;
     
     private final PhetPCanvas topCanvas;
@@ -162,7 +162,7 @@ public class TestReactionEquations extends JFrame {
         }
         topEquation = equationComboBox.getSelectedNode();
         topCanvas.getLayer().addChild( topEquation );
-        topEquation.setOffset( 50, 50 );
+        topEquation.setOffset( 20, 50 );
         updateScale( topEquation, topSliders );
     }
     
@@ -192,9 +192,9 @@ public class TestReactionEquations extends JFrame {
             addItem( new EquationChoice( "strong acid", new StrongAcidReactionEquationNode() ) );
             addItem( new EquationChoice( "weak base", new WeakBaseReactionEquationNode() ) );
             addItem( new EquationChoice( "strong base", new StrongBaseReactionEquationNode() ) );
-            addItem( new EquationChoice( "chlorous acid", new WeakAcidReactionEquationNode( "HClO<sub>2</sub>", "ClO<sub>2</sub><sup>-</sup>" ) ) );
+            addItem( new EquationChoice( "acetic acid", new WeakAcidReactionEquationNode( "CH<sub>3</sub>COOH", "CH<sub>3</sub>COO<sup>-</sup>" ) ) );
             addItem( new EquationChoice( "hydrochloric acid", new StrongAcidReactionEquationNode( "HCl", "Cl<sup>-</sup>" ) ) );
-            addItem( new EquationChoice( "ammonia", new WeakBaseReactionEquationNode( "NH<sub>3</sub>", "NH<sub>4</sub><sup>+</sup>" ) ) );
+            addItem( new EquationChoice( "pyridine", new WeakBaseReactionEquationNode( "C<sub>5</sub>H<sub>5</sub>N", "C<sub>5</sub>H<sub>5</sub>NH<sup>+</sup>" ) ) );
             addItem( new EquationChoice( "sodium hydroxide", new StrongBaseReactionEquationNode( "NaOH", "Na<sup>+</sup>" ) ) );
         }
         
