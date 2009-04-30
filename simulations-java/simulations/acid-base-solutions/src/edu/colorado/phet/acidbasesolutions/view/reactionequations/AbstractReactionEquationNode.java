@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSImages;
@@ -64,6 +65,10 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         updateLayout();
     }
     
+    public void scaleTerm( int index, double scale ) {
+        terms[index].getSymbolNode().setScale( scale );
+    }
+    
     /*
      * Sets the image for the arrow between the left and right parts of the equation.
      */
@@ -72,6 +77,12 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         arrow = new PImage( arrowImage );
         addChild( arrow );
         updateLayout();
+    }
+    
+    protected void setStructuresVisible( boolean visible ) {
+        for ( int i = 0; i < terms.length; i++ ) {
+            terms[i].getStructureNode().setVisible( false );
+        }
     }
     
     /*
@@ -303,11 +314,19 @@ public abstract class AbstractReactionEquationNode extends PComposite {
     }
     
     protected static abstract class AbstractAcidReactionEquationNode extends AbstractReactionEquationNode {
+        
         public AbstractAcidReactionEquationNode() {
             setTerm( 0, ABSSymbols.HA, ABSConstants.HA_COLOR, Color.BLACK, ABSImages.HA_STRUCTURE );
             setTerm( 1, ABSSymbols.H2O, ABSConstants.H2O_COLOR, Color.BLACK, ABSImages.H2O_STRUCTURE );
             setTerm( 2, ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR, Color.BLACK, ABSImages.H3O_PLUS_STRUCTURE );
             setTerm( 3, ABSSymbols.A_MINUS, ABSConstants.A_COLOR, Color.BLACK, ABSImages.A_MINUS_STRUCTURE );
+        }
+        
+        public AbstractAcidReactionEquationNode( String symbolLHS, String symbolRHS ) {
+            this();
+            setTerm( 0, symbolLHS, ABSConstants.HA_COLOR, Color.BLACK );
+            setTerm( 3, symbolRHS, ABSConstants.A_COLOR, Color.BLACK );
+            setStructuresVisible( false );
         }
     }
     
@@ -315,7 +334,18 @@ public abstract class AbstractReactionEquationNode extends PComposite {
      * Weak acid reaction equation: HA + H2O <-> H3O+ + A-
      */
     public static class WeakAcidReactionEquationNode extends AbstractAcidReactionEquationNode {
+        
         public WeakAcidReactionEquationNode() {
+            super();
+            init();
+        }
+        
+        public WeakAcidReactionEquationNode( String symbolLHS, String symbolRHS ) {
+            super( symbolLHS, symbolRHS );
+            init();
+        }
+        
+        private void init() {
             setArrow( ABSImages.ARROW_DOUBLE );
         }
     }
@@ -324,8 +354,19 @@ public abstract class AbstractReactionEquationNode extends PComposite {
      * Strong acid reaction equation: HA + H2O -> H3O+ + A-
      */
     public static class StrongAcidReactionEquationNode extends AbstractAcidReactionEquationNode {
+        
         public StrongAcidReactionEquationNode() {
-            setArrow( ABSImages.ARROW_SINGLE );
+            super();
+            init();
+        }
+        
+        public StrongAcidReactionEquationNode( String symbolLHS, String symbolRHS ) {
+            super( symbolLHS, symbolRHS );
+            init();
+        }
+        
+        private void init() {
+            setArrow( ABSImages.ARROW_DOUBLE );
         }
     }
     
@@ -333,6 +374,7 @@ public abstract class AbstractReactionEquationNode extends PComposite {
      * Weak base reaction equation: B + H2O <-> BH+ + OH-
      */
     public static class WeakBaseReactionEquationNode extends AbstractReactionEquationNode {
+        
         public WeakBaseReactionEquationNode() {
             setTerm( 0, ABSSymbols.B, ABSConstants.B_COLOR, Color.BLACK, ABSImages.B_STRUCTURE );
             setTerm( 1, ABSSymbols.H2O, ABSConstants.H2O_COLOR, Color.BLACK, ABSImages.H2O_STRUCTURE );
@@ -340,18 +382,33 @@ public abstract class AbstractReactionEquationNode extends PComposite {
             setTerm( 3, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, Color.BLACK, ABSImages.OH_MINUS_STRUCTURE );
             setArrow( ABSImages.ARROW_DOUBLE );
         }
+        
+        public WeakBaseReactionEquationNode( String symbolLHS, String symbolRHS ) {
+            this();
+            setTerm( 0, symbolLHS, ABSConstants.B_COLOR, Color.BLACK );
+            setTerm( 2, symbolRHS, ABSConstants.BH_COLOR, Color.BLACK );
+            setStructuresVisible( false );
+        }
     }
     
     /**
      * Strong base reaction equation: MOH <-> M+ + OH-
      */
     public static class StrongBaseReactionEquationNode extends AbstractReactionEquationNode {
+        
         public StrongBaseReactionEquationNode() {
             setTerm0Visible( false );
             setTerm( 1, ABSSymbols.MOH, ABSConstants.MOH_COLOR, Color.BLACK, ABSImages.MOH_STRUCTURE );
             setTerm( 2, ABSSymbols.M_PLUS, ABSConstants.M_COLOR, Color.BLACK, ABSImages.M_PLUS_STRUCTURE );
             setTerm( 3, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, Color.BLACK, ABSImages.OH_MINUS_STRUCTURE );
             setArrow( ABSImages.ARROW_SINGLE );
+        }
+        
+        public StrongBaseReactionEquationNode( String symbolLHS, String symbolRHS ) {
+            this();
+            setTerm( 1, ABSSymbols.MOH, ABSConstants.MOH_COLOR, Color.BLACK );
+            setTerm( 2, ABSSymbols.M_PLUS, ABSConstants.M_COLOR, Color.BLACK );
+            setStructuresVisible( false );
         }
     }
     
@@ -366,11 +423,18 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         
         // one instance of each type
         PNode[] equations = {
+                // water
                 new WaterReactionEquationNode(),
+                // generics
                 new WeakAcidReactionEquationNode(),
                 new StrongAcidReactionEquationNode(),
                 new WeakBaseReactionEquationNode(),
-                new StrongBaseReactionEquationNode()
+                new StrongBaseReactionEquationNode(),
+                // specifics
+                new WeakAcidReactionEquationNode( "HClO<sub>2</sub>", "ClO<sub>2</sub><sup>-</sup>" ),
+                new StrongAcidReactionEquationNode( "HCl", "Cl<sup>-</sup>" ),
+                new WeakBaseReactionEquationNode( "NH<sub>3</sub>", "NH<sub>4</sub><sup>+</sup>" ),
+                new StrongBaseReactionEquationNode( "NaOH", "Na<sup>+</sup>" ),
         };
         
         // layout in a left-justified column
