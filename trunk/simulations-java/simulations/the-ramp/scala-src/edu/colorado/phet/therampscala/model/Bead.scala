@@ -107,6 +107,17 @@ class Bead(_state: BeadState,
     _width = w
     notifyListeners()
   }
+  private var _surfaceFrictionStrategy=new SurfaceFrictionStrategy{
+    def getTotalFriction(objectFriction: Double) = objectFriction
+  }
+
+  def surfaceFrictionStrategy = _surfaceFrictionStrategy
+
+  def surfaceFrictionStrategy_=(x: SurfaceFrictionStrategy) = {
+    _surfaceFrictionStrategy = x
+    frictionForceVector.notifyListeners()
+    notifyListeners()
+  }
 
   def position = state.position
 
@@ -249,6 +260,10 @@ class Bead(_state: BeadState,
       }
     }
 
+    def multiBodyFriction(f:Double)={
+        _surfaceFrictionStrategy.getTotalFriction(f)
+    }
+
     override def frictionForce = {
       if (surfaceFriction()) {
         //stepInTime samples at least one value less than 1E-12 on direction change to handle static friction
@@ -256,7 +271,7 @@ class Bead(_state: BeadState,
 
           //use up to fMax in preventing the object from moving
           //see static friction discussion here: http://en.wikipedia.org/wiki/Friction
-          val fMax = abs(staticFriction * normalForce.magnitude)
+          val fMax = abs(multiBodyFriction(staticFriction) * normalForce.magnitude)
           val netForceWithoutFriction = appliedForce + gravityForce + normalForce + wallForce
 
           if (netForceWithoutFriction.magnitude >= fMax) {
@@ -269,7 +284,7 @@ class Bead(_state: BeadState,
         else {
           //object is moving, just use kinetic friction
           val vel = (positionMapper(position) - positionMapper(position - velocity * 1E-6))
-          new Vector2D(vel.getAngle + PI) * normalForce.magnitude * kineticFriction
+          new Vector2D(vel.getAngle + PI) * normalForce.magnitude * multiBodyFriction(kineticFriction)
         }
       }
       else new Vector2D
@@ -313,7 +328,7 @@ class Bead(_state: BeadState,
       }
       val justCollided = false
 
-      if (staticFriction == 0 && kineticFriction == 0) {
+      if (multiBodyFriction(staticFriction) == 0 && multiBodyFriction(kineticFriction) == 0) {
         val appliedWork = getTotalEnergy
         val gravityWork = -getPotentialEnergy
         val thermalEnergy = origState.thermalEnergy
