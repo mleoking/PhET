@@ -1,3 +1,5 @@
+# 1.03.06 (31153) Apr 29, 2009
+4/29/09 Improvements for game mode.
 # 1.03.05 (31088) Apr 28, 2009
 4/28/09 Improvements to main and game modules
 # 1.03.04 (31085) Apr 28, 2009
