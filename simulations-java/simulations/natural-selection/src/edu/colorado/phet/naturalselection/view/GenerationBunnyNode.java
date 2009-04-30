@@ -25,6 +25,9 @@ public class GenerationBunnyNode extends DisplayBunnyNode implements Bunny.Bunny
         super( bunny.getColorPhenotype(), bunny.getTeethPhenotype(), bunny.getTailPhenotype() );
         myBunny = bunny;
         setDead( !bunny.isAlive() );
+        if ( bunny.isMutated() ) {
+            setMutated();
+        }
         bunny.addListener( this );
     }
 

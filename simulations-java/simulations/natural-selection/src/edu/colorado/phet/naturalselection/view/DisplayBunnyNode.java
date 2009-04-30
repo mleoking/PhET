@@ -5,6 +5,7 @@ package edu.colorado.phet.naturalselection.view;
 import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.model.Allele;
 import edu.colorado.phet.naturalselection.model.ColorGene;
@@ -24,14 +25,10 @@ public class DisplayBunnyNode extends PNode {
 
     // images
     private PImage image;
-    //private PImage whiteImage;
-    //private PImage brownImage;
 
     // red X
     private PPath deadX;
-
-    // temporary teeth node
-    //private PPath tempTeeth;
+    private PImage mutatedImage;
 
     // alleles
     private Allele color;
@@ -55,16 +52,6 @@ public class DisplayBunnyNode extends PNode {
         this.color = color;
         this.teeth = teeth;
         this.tail = tail;
-
-        //whiteImage = NaturalSelectionResources.getImageNode( NaturalSelectionConstants.IMAGE_DISPLAY_BUNNY_WHITE );
-        //brownImage = NaturalSelectionResources.getImageNode( NaturalSelectionConstants.IMAGE_DISPLAY_BUNNY_BROWN );
-
-        //initTempTeeth();
-
-        // add children
-        //addChild( tempTeeth );
-        //addChild( whiteImage );
-        //addChild( brownImage );
 
         String imageName = "bunny";
 
@@ -93,23 +80,8 @@ public class DisplayBunnyNode extends PNode {
 
         addChild( deadX );
 
-        // set up the bunny
-        //setColor( color );
-        //setTeeth( teeth );
-        //setTail( tail );
         setDead( false );
     }
-
-    /*
-    private void initTempTeeth() {
-        //tempTeeth = new PPath();
-        tempTeeth = PPath.createEllipse( 140, 100, 70, 70 );
-
-        //tempTeeth.setStroke( new BasicStroke( 20 ) );
-        //tempTeeth.setStrokePaint( Color.RED );
-        tempTeeth.setPaint( new Color( 0xFF, 0x00, 0x00, 0x66 ) );
-    }
-    */
 
     /**
      * Draw the red X
@@ -132,6 +104,13 @@ public class DisplayBunnyNode extends PNode {
     // Setters and getters
     //----------------------------------------------------------------------------
 
+    public void setMutated() {
+        mutatedImage = NaturalSelectionResources.getImageNode( NaturalSelectionConstants.IMAGE_MUTATION_BUNNY );
+        mutatedImage.setOffset( getBunnyWidth() / 2, -getBunnyHeight() / 5 );
+        mutatedImage.setScale( 1.3 );
+        addChild( mutatedImage );
+    }
+
     public boolean isFlipped() {
         return flipped;
     }
@@ -139,15 +118,10 @@ public class DisplayBunnyNode extends PNode {
     public void setFlipped( boolean flipped ) {
         if ( flipped != this.flipped ) {
             if ( flipped ) {
-                //setScale( -1.0 );
-                //PAffineTransform trans = getTransform();
                 setTransform( new PAffineTransform( -1, 0, 0, 1, getBunnyWidth(), 0 ) );
-                //setOffset( new Point2D.Double( getBunnyWidth(), 0 ) );
             }
             else {
                 setTransform( new PAffineTransform( 1, 0, 0, 1, 0, 0 ) );
-                //setScale( 1.0 );
-                //setOffset( new Point2D.Double( 0, 0 ) );
             }
         }
         this.flipped = flipped;
@@ -164,36 +138,6 @@ public class DisplayBunnyNode extends PNode {
     public boolean isDead() {
         return dead;
     }
-
-    /*
-    public void setColor( Allele color ) {
-        this.color = color;
-
-        if ( color == ColorGene.WHITE_ALLELE ) {
-            whiteImage.setVisible( true );
-            brownImage.setVisible( false );
-        }
-        else if ( color == ColorGene.BROWN_ALLELE ) {
-            whiteImage.setVisible( false );
-            brownImage.setVisible( true );
-        }
-    }
-
-    public void setTeeth( Allele teeth ) {
-        this.teeth = teeth;
-
-        if ( teeth == TeethGene.TEETH_REGULAR_ALLELE ) {
-            tempTeeth.setVisible( false );
-        }
-        else if ( teeth == TeethGene.TEETH_HUGE_ALLELE ) {
-            tempTeeth.setVisible( true );
-        }
-    }
-
-    public void setTail( Allele tail ) {
-        this.tail = tail;
-    }
-    */
 
     public Allele getColor() {
         return color;

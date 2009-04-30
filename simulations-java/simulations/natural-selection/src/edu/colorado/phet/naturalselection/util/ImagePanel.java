@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 
+import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 
 /**
@@ -39,8 +40,9 @@ public class ImagePanel extends JPanel {
     }
 
     public void paintComponent( Graphics g ) {
+        g.setColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        g.fillRect( 0, 0, image.getWidth(), image.getHeight() );
         g.drawImage( image, 0, 0, null );
-
     }
 
 }
