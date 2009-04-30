@@ -41,20 +41,36 @@ public class OutlinedHTMLNode extends PComposite {
         this.html = html;
         update();
     }
+    
+    public String getHTML() {
+        return html;
+    }
 
     public void setFont( Font font ) {
         this.font = font;
         update();
+    }
+    
+    public Font getFont() {
+        return font;
     }
 
     public void setFillColor( Color fill ) {
         this.fill = fill;
         update();
     }
+    
+    public Color getFillColor() {
+        return fill;
+    }
 
     public void setOutlineColor( Color outline ) {
         this.outline = outline;
         update();
+    }
+    
+    public Color getOutlineColor() {
+        return outline;
     }
 
     private void update() {
