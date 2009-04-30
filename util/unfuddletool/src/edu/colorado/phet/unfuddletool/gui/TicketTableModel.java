@@ -44,7 +44,7 @@ public class TicketTableModel extends AbstractTableModel implements Ticket.Ticke
             // if ticket is more recent than the one in the list, insert it before
             //if ( ticketDate.compareTo( otherTicket.lastUpdateTime() ) > 0 ) {
             //if ( Ticket.compare( ticket, otherTicket ) > 0 ) {
-            if( ticketDate.getTime() > otherTicket.lastUpdateTime().getTime() ) {    
+            if ( ticketDate.getTime() > otherTicket.lastUpdateTime().getTime() ) {
                 iter.previous();
                 iter.add( ticket );
                 fireTableRowsInserted( iter.previousIndex(), iter.previousIndex() );

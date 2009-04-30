@@ -67,22 +67,30 @@ public class Activity {
         }
     }
 
+    public static void dayRoll( Calendar cal, boolean dir ) {
+        cal.setTimeInMillis( cal.getTimeInMillis() + ( ( dir ? 1 : -1 ) * 1000 * 60 * 60 * 24 ) );
+    }
+
     public static void requestRecentActivity( int days ) {
         Calendar cal = new GregorianCalendar();
         cal.setTime( new Date() );
-        cal.roll( Calendar.DATE, true );
-        cal.roll( Calendar.DATE, true );
+        dayRoll( cal, true );
+        //cal.roll( Calendar.DATE, true );
+        //cal.roll( Calendar.DATE, true );
 
         String oldString = stringFromCalendar( cal );
 
         while ( days-- > 0 ) {
-            cal.roll( Calendar.DATE, false );
+            dayRoll( cal, false );
+            //cal.roll( Calendar.DATE, false );
 
             if ( lastUpdateDate != null && cal.getTime().getTime() < lastUpdateDate.getTime() - ( 1000 * 60 * 60 * 24 ) ) {
                 continue;
             }
 
             String newString = stringFromCalendar( cal );
+
+            System.out.println( "Downloading activity from " + newString + " to " + oldString );
 
             parseEvents( getDateXMLString( newString, oldString ) );
 

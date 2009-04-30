@@ -307,11 +307,13 @@ public class Ticket extends Record {
         long as = at.getTime();
         long bs = bt.getTime();
 
-        if( as == bs ) {
+        if ( as == bs ) {
             return 0;
-        } else if( as < bs ) {
+        }
+        else if ( as < bs ) {
             return -1;
-        } else {
+        }
+        else {
             return 1;
         }
     }
