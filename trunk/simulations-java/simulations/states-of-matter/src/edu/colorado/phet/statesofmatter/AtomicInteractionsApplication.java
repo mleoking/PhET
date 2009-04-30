@@ -15,14 +15,14 @@ import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
-import edu.colorado.phet.statesofmatter.module.interactionpotential.InteractionPotentialModule;
+import edu.colorado.phet.statesofmatter.module.atomicinteractions.AtomicInteractionsModule;
 
 /**
- * Main application class for the Interaction Potential simulation flavor.
+ * Main application class for the Atomic Interactions simulation flavor.
  *
  * @author John Blanco
  */
-public class InteractionPotentialApplication extends PiccoloPhetApplication implements IProguardKeepClass {
+public class AtomicInteractionsApplication extends PiccoloPhetApplication implements IProguardKeepClass {
 
     //----------------------------------------------------------------------------
     // Class Data
@@ -32,14 +32,14 @@ public class InteractionPotentialApplication extends PiccoloPhetApplication impl
     // Instance Data
     //----------------------------------------------------------------------------
 
-    private InteractionPotentialModule   m_interactionPotentialModule;
+    private AtomicInteractionsModule   m_interactionPotentialModule;
     private static TabbedModulePanePiccolo m_tabbedModulePane;
     
     //----------------------------------------------------------------------------
     // Sole Constructor
     //----------------------------------------------------------------------------
     
-    public InteractionPotentialApplication( PhetApplicationConfig config ) {
+    public AtomicInteractionsApplication( PhetApplicationConfig config ) {
         super( config );
         initTabbedPane();
         initModules();
@@ -72,7 +72,7 @@ public class InteractionPotentialApplication extends PiccoloPhetApplication impl
         
         Frame parentFrame = getPhetFrame();
 
-        m_interactionPotentialModule = new InteractionPotentialModule( parentFrame, true );
+        m_interactionPotentialModule = new AtomicInteractionsModule( parentFrame, true );
         addModule( m_interactionPotentialModule );
     }
 
@@ -123,7 +123,7 @@ public class InteractionPotentialApplication extends PiccoloPhetApplication impl
         ApplicationConstructor applicationConstructor = new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 // Create the application.
-                return( new InteractionPotentialApplication( config ) );
+                return( new AtomicInteractionsApplication( config ) );
             }
         };
         PhetApplicationConfig config = new PhetApplicationConfig( args, StatesOfMatterConstants.PROJECT_NAME, StatesOfMatterConstants.FLAVOR_INTERACTION_POTENTIAL );

@@ -93,7 +93,7 @@ public class StatesOfMatterConstants {
     // sim has been cleaned up, so remember to remove them.
     public static final String PROJECT_NAME = "states-of-matter";
     public static final String FLAVOR_STATES_OF_MATTER = "states-of-matter";
-    public static final String FLAVOR_INTERACTION_POTENTIAL = "interaction-potential";
+    public static final String FLAVOR_INTERACTION_POTENTIAL = "atomic-interactions";
     
     // Identifiers for the various supported molecules.
     public static final int NEON = 1;

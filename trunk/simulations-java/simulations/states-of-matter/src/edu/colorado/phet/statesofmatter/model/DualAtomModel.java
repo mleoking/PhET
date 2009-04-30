@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
-import edu.colorado.phet.statesofmatter.defaults.InteractionPotentialDefaults;
+import edu.colorado.phet.statesofmatter.defaults.AtomicInteractionDefaults;
 import edu.colorado.phet.statesofmatter.model.particle.ConfigurableStatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 
@@ -34,7 +34,7 @@ public class DualAtomModel {
     private static final int CALCULATIONS_PER_TICK = 8;
     private static final double THRESHOLD_VELOCITY = 100;  // Used to distinguish small oscillations from real movement. 
     private static final int VIBRATION_DURATION = 1200;  // In milliseconds. 
-    private static final int VIBRATION_COUNTER_RESET_VALUE = VIBRATION_DURATION / InteractionPotentialDefaults.CLOCK_FRAME_DELAY;
+    private static final int VIBRATION_COUNTER_RESET_VALUE = VIBRATION_DURATION / AtomicInteractionDefaults.CLOCK_FRAME_DELAY;
     private static final double BONDED_OSCILLATION_PROPORTION = 0.06; // Proportion of atom radius.
     
     //----------------------------------------------------------------------------
@@ -66,7 +66,7 @@ public class DualAtomModel {
     
     public DualAtomModel(IClock clock) {
         
-        m_timeStep = InteractionPotentialDefaults.CLOCK_DT / 1000 / CALCULATIONS_PER_TICK;
+        m_timeStep = AtomicInteractionDefaults.CLOCK_DT / 1000 / CALCULATIONS_PER_TICK;
         m_motionPaused = false;
         m_ljPotentialCalculator = new LjPotentialCalculator( StatesOfMatterConstants.MIN_SIGMA, 
         		StatesOfMatterConstants.MIN_EPSILON ); // Initial values arbitrary, will be set during reset.
