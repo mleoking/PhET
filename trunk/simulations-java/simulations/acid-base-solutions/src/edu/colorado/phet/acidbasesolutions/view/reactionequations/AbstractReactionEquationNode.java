@@ -5,7 +5,6 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSImages;
@@ -65,7 +64,11 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         updateLayout();
     }
     
-    public void scaleTerm( int index, double scale ) {
+    public int getNumberOfTerms() {
+        return terms.length;
+    }
+    
+    public void setTermScale( int index, double scale ) {
         terms[index].getSymbolNode().setScale( scale );
     }
     
