@@ -147,7 +147,7 @@ public class PedigreeNode extends PNode implements NaturalSelectionModel.Natural
     }
 
     public void onGenerationChange( int generation ) {
-        if( generation == 0 ) {
+        if ( generation == 0 ) {
             // we just reset, don't need this "fake" event
             return;
         }

@@ -93,7 +93,9 @@ public class NaturalSelectionConstants {
     public static final String IMAGE_BUNNY_COLOR = "bunny_color.png";
     public static final String IMAGE_BUNNY_COLOR_BROWN = "bunny_color_brown.png";
     public static final String IMAGE_BUNNY_TEETH = "bunny_teeth.png";
+    public static final String IMAGE_BUNNY_TEETH_LONG = "bunny_teeth.png";
     public static final String IMAGE_BUNNY_TAIL = "bunny_tail.png";
+    public static final String IMAGE_BUNNY_TAIL_BIG = "bunny_tail.png";
 
     public static final String IMAGE_DISPLAY_BUNNY_WHITE = "bunny_white.gif";
     public static final String IMAGE_DISPLAY_BUNNY_BROWN = "bunny_brown.gif";
@@ -108,6 +110,8 @@ public class NaturalSelectionConstants {
     public static final String IMAGE_BACKGROUND_ARCTIC = "natural_selection_background_arctic_2.png";
     public static final String IMAGE_SHRUB = "shrub.png";
     public static final String IMAGE_TREE = "tree.png";
+
+    public static final String IMAGE_MUTATION_PANEL_BIG = "mutation_large.png";
 
     public static final Point2D IMAGE_SHRUB_OFFSET = new Point2D.Double( 0, 15 );
     public static final Point2D IMAGE_TREE_OFFSET = new Point2D.Double( 0, 20 );

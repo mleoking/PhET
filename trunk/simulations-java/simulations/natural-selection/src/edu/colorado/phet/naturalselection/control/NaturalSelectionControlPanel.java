@@ -102,7 +102,7 @@ public class NaturalSelectionControlPanel extends JPanel {
         clockPanelConstraints.gridy = 1;
         clockPanelConstraints.weightx = 1.0;
         clockPanelConstraints.weighty = 1.0;
-        clockPanelConstraints.anchor = GridBagConstraints.NORTH;
+        clockPanelConstraints.anchor = GridBagConstraints.SOUTH;
         add( clockControlPanel, clockPanelConstraints );
 
         // color everything with the control panel's background color

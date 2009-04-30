@@ -30,7 +30,7 @@ public class NaturalSelectionDefaults {
     public static final int DEFAULT_SELECTION_FACTOR = NaturalSelectionModel.SELECTION_NONE;
     public static final int DEFAULT_NUMBER_OF_BUNNIES = 2;
 
-    public static final Dimension GENERATION_CHART_SIZE = new Dimension( 500, 275 );
+    public static final Dimension GENERATION_CHART_SIZE = new Dimension( 600, 300 );
 
     public static final int START_MONTH = 0; // January
     public static final int GENERATION_MONTH = 7; // August
