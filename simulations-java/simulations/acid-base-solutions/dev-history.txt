@@ -2,6 +2,7 @@
  acid-base-solutions : development history
 ==================================================================================
 
+4/29/09 reaction equation nodes for acids, bases, water
 4/29/09 add icons to Symbol Legend dialog
 4/29/09 standardize text style for A, B, M
 4/29/09 check in Lewis Structure images
