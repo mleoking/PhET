@@ -102,7 +102,9 @@ public class NaturalSelectionModel extends ClockAdapter {
      */
     public void reset() {
 
-        climate = CLIMATE_EQUATOR;
+        climate = NaturalSelectionDefaults.DEFAULT_CLIMATE;
+
+        selectionFactor = NaturalSelectionDefaults.DEFAULT_SELECTION_FACTOR;
 
         friendAdded = false;
 

@@ -17,4 +17,8 @@ public class MutationPendingNode extends PNode {
     public double getPlacementWidth() {
         return label.getWidth();
     }
+
+    public double getPlacementHeight() {
+        return label.getHeight();
+    }
 }
