@@ -56,7 +56,7 @@ public class TicketHandler {
         //System.out.println( "Ticket update requested for " + id + " if older than " + latestDate );
         Ticket ticket = getTicketById( id );
         //if ( ticket.lastUpdateTime().compareTo( latestDate ) < 0 ) {
-        if( ticket.lastUpdateTime().getTime() < latestDate.getTime() ) {
+        if ( ticket.lastUpdateTime().getTime() < latestDate.getTime() ) {
             System.out.println( "Ticket " + ticket + " out of date, updating" );
             ticket.update();
         }
