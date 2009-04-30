@@ -75,9 +75,18 @@ public abstract class AbstractReactionEquationNode extends PComposite {
     }
     
     /*
+     * Changes the visibility of term 0.
+     */
+    protected void setTerm0Visible( boolean visible ) {
+        setTermVisible( 0, visible );
+        plusLHS.setVisible( visible );
+        updateLayout();
+    }
+    
+    /*
      * Changes the visibility of a term.
      */
-    protected void setTermVisible( int index, boolean visible ) {
+    private void setTermVisible( int index, boolean visible ) {
         terms[index].setVisible( visible );
         updateLayout();
     }
@@ -338,7 +347,7 @@ public abstract class AbstractReactionEquationNode extends PComposite {
      */
     public static class StrongBaseReactionEquationNode extends AbstractReactionEquationNode {
         public StrongBaseReactionEquationNode() {
-            setTermVisible( 0, false );
+            setTerm0Visible( false );
             setTerm( 1, ABSSymbols.MOH, ABSConstants.MOH_COLOR, Color.BLACK, ABSImages.MOH_STRUCTURE );
             setTerm( 2, ABSSymbols.M_PLUS, ABSConstants.M_COLOR, Color.BLACK, ABSImages.M_PLUS_STRUCTURE );
             setTerm( 3, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, Color.BLACK, ABSImages.OH_MINUS_STRUCTURE );
