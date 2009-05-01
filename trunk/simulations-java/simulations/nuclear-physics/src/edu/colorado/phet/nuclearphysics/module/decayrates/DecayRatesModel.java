@@ -29,7 +29,7 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
 	private static final int MAX_NUCLEI = 500;
 	private static final int NUCLEUS_TYPE = NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14;
 	private static final double INITIAL_WORLD_WIDTH = 800;  // Femtometers
-	private static final double INITIAL_WORLD_HEIGHT = INITIAL_WORLD_WIDTH * 0.66;  // Femtometers
+	private static final double INITIAL_WORLD_HEIGHT = INITIAL_WORLD_WIDTH * 0.4;  // Femtometers
 	
 	private static final int PLACEMENT_LOCATION_SEARCH_COUNT = 100;
 	private static final double DEFAULT_MIN_INTER_NUCLEUS_DISTANCE = 20;
@@ -37,6 +37,7 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
     //------------------------------------------------------------------------
     // Instance data
     //------------------------------------------------------------------------
+	
 	private static final Random _rand = new Random();
 	private double _worldSizeX = INITIAL_WORLD_WIDTH;
 	private double _worldSizeY = INITIAL_WORLD_HEIGHT;
@@ -79,6 +80,37 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
 		}
 	}
 	
+	/**
+	 * Set the world size.  This will expand or contract the locations of the
+	 * particles that exist in the world.
+	 */
+	public void setWorldSize( double newWorldSizeX, double newWorldSizeY ){
+		// Ignore values that are way to small or too large.
+		if ( ( newWorldSizeX < INITIAL_WORLD_WIDTH / 10 ) ||
+			 ( newWorldSizeY < INITIAL_WORLD_HEIGHT / 10 ) ||
+			 ( newWorldSizeY > INITIAL_WORLD_HEIGHT * 10 ) ||
+			 ( newWorldSizeY > INITIAL_WORLD_HEIGHT * 10 ) ||
+			 ( newWorldSizeX / newWorldSizeY > 5 ) ||
+			 ( newWorldSizeY / newWorldSizeX > 5 ) ) {
+			
+			System.err.println("Warning: Ignoring unreasonable world resizing attempt.");
+			return;
+		}
+		
+		double xScaleFactor = newWorldSizeX / _worldSizeX;
+		double yScaleFactor = newWorldSizeY / _worldSizeY;
+		
+        for (int i = 0; i < _atomicNuclei.size(); i++) {
+        	AbstractDecayNucleus nucleus = (AbstractDecayNucleus)_atomicNuclei.get(i);
+        	double newPosX = nucleus.getPositionReference().getX() * xScaleFactor;
+        	double newPosY = nucleus.getPositionReference().getY() * yScaleFactor;
+        	nucleus.setPosition( newPosX, newPosY );
+        }
+        
+        _worldSizeX = newWorldSizeX;
+        _worldSizeY = newWorldSizeY;
+	}
+	
     /**
      * Search for a location that is not already occupied by another nucleus.
      * 
@@ -94,15 +126,15 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
     	if ( _atomicNuclei.size() > 0 ) {
     		// Calculate a minimum distance between nuclei based on the
     		// diameter of the current nucleus.
-    		minInterNucleusDistance = ((AbstractDecayNucleus)_atomicNuclei.get(0)).getDiameter() * 2;
+    		minInterNucleusDistance = ((AbstractDecayNucleus)_atomicNuclei.get(0)).getDiameter() * 1.5;
     	}
     	
     	// Pick random locations until one is found that works or until we've
     	// tried the maximum number of times.
         for (int i = 0; i < PLACEMENT_LOCATION_SEARCH_COUNT; i++){
             // Randomly select an x & y position
-            double xPos = (_worldSizeX / 2) * (_rand.nextDouble() - 0.5);
-            double yPos = (_worldSizeY / 2) * (_rand.nextDouble() - 0.5);
+            double xPos = _worldSizeX * (_rand.nextDouble() - 0.5);
+            double yPos = _worldSizeY * (_rand.nextDouble() - 0.5);
             openLocation = new Point2D.Double(xPos, yPos);
             
             // Check if this point is available.
@@ -122,8 +154,41 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
         }
         
         if ( !pointAvailable ){
-        	// The random algorithm failed to find an open location, so just
-        	// live with the most recent one.
+        	// The random algorithm failed to find an open location, so try a
+        	// more methodical algorithm that starts from the current random spot.
+
+            for (int i = 0; i < PLACEMENT_LOCATION_SEARCH_COUNT; i++){
+                
+                // Check if this point is available.
+                pointAvailable = true;
+                for (int j = 0; (j < _atomicNuclei.size()) && (pointAvailable == true); j++){
+                	AbstractDecayNucleus nucleus = (AbstractDecayNucleus)_atomicNuclei.get(j);
+                    if (openLocation.distance( nucleus.getPositionReference()) < minInterNucleusDistance){
+                        // This point is taken.
+                        pointAvailable = false;
+                    }
+                }
+                
+                if (pointAvailable == true){
+                    // We have found a usable location.
+                    break;
+                }
+                else{
+                	double newX = openLocation.getX() + minInterNucleusDistance;
+                	double newY = openLocation.getY();
+                	if (newX > _worldSizeX / 2){
+                		newX = -_worldSizeX / 2;
+                		newY += minInterNucleusDistance;
+                		if (newY > _worldSizeY / 2){
+                			newY = -_worldSizeY / 2;
+                		}
+                	}
+                	openLocation.setLocation(newX, newY);
+                }
+            }
+        }
+        
+        if (!pointAvailable){
         	// TODO: Remove the debug statement below once it is being seen infrequently enough.
         	System.out.println("Warning: Didn't find open location, choosing one arbitrarily.");
         }

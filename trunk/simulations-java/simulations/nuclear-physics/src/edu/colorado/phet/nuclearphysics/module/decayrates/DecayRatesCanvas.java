@@ -46,22 +46,10 @@ public class DecayRatesCanvas extends PhetPCanvas {
     
     // Translation factors, used to set origin of canvas area.
     private final double WIDTH_TRANSLATION_FACTOR = 0.5;   // 0 = all the way left, 1 = all the way right.
-    private final double HEIGHT_TRANSLATION_FACTOR = 0.45; // 0 = all the way up, 1 = all the way down.
+    private final double HEIGHT_TRANSLATION_FACTOR = 0.3; // 0 = all the way up, 1 = all the way down.
     
     // Constants that control where the charts are placed.
-    private final double TIME_CHART_FRACTION = 0.21;   // Fraction of canvas for time chart.
-    
-    // Base color for the buttons on the canvas.
-    private final static Color CANVAS_BUTTON_COLOR = new Color(255, 100, 0);
-    
-    // Number of tries for finding open nucleus location.
-    private final static int MAX_PLACEMENT_ATTEMPTS = 100;
-    
-    // Preferred distance between nucleus centers when placing them on the canvas.
-    private static final double PREFERRED_INTER_NUCLEUS_DISTANCE = 15;  // In femtometers.
-    
-    // Minimum distance between the center of a nucleus and a wall or other obstacle.
-    private static final double MIN_NUCLEUS_TO_OBSTACLE_DISTANCE = 10;  // In femtometers.
+    private final double PROPORTION_CHART_FRACTION = 0.4;   // Fraction of canvas for proportion chart.
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -143,6 +131,13 @@ public class DecayRatesCanvas extends PhetPCanvas {
 	public void update() {
 		
 		super.update();
+		
+		// Resize the world in the model so that it can spread the particles
+		// out over the entire visible area.
+		if (getWidth() > 0 && getHeight() > 0){
+//			_model.setWorldSize( getWidth(), getHeight() * (1 - PROPORTION_CHART_FRACTION) );
+			_model.setWorldSize( getWidth() * 0.8, (getHeight() * (1 - PROPORTION_CHART_FRACTION) ) * 0.8);
+		}
 		
 		_graphImage.setOffset(3, getHeight() - _graphImage.getFullBoundsReference().height);
 		
