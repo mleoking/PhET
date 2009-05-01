@@ -1,3 +1,5 @@
+# 1.03.10 (31217) May 1, 2009
+5/1/09 bugfixes for rotation
 # 1.03.09 (31213) May 1, 2009
 5/1/09 Improvements for game model and coordinate frames 
 # 1.03.08 (31211) May 1, 2009
