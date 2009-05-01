@@ -80,11 +80,11 @@ class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramMo
   rampPanel.add(new MyCheckBox("Frictionless", model.frictionless_=, model.frictionless, model.addListener))
 
   val positionSlider = new ScalaValueControl(RampDefaults.MIN_X, RampDefaults.MAX_X, "Object Position", "0.0", "meters",
-    model.bead.position, model.bead.setPosition, model.bead.addListener)
+    ()=>model.bead.position, model.bead.setPosition, model.bead.addListener)
   rampPanel.add(positionSlider)
 
   val angleSlider = new ScalaValueControl(0, 90, "Ramp Angle", "0.0", "degrees",
-    model.rampSegments(1).getUnitVector.getAngle.toDegrees, value => model.setRampAngle(value.toRadians), model.rampSegments(1).addListener)
+    ()=>model.rampSegments(1).getUnitVector.getAngle.toDegrees, value => model.setRampAngle(value.toRadians), model.rampSegments(1).addListener)
 
   rampPanel.add(angleSlider)
 
