@@ -17,7 +17,7 @@ class ScalaValueControl(min: Double, max: Double, name: String, decimalFormat: S
   setSignifyOutOfBounds(false)
 
   //make the valuecontrol watch and control another object
-  def setModel(getter: ()=> Double, setter: Double => Unit, removeListener: (() => Unit) => Unit, addListener: (() => Unit) => Unit) {
+  def setModel(getter: () => Double, setter: Double => Unit, removeListener: (() => Unit) => Unit, addListener: (() => Unit) => Unit) {
     _getter = getter
     _setter = setter
     removeListener(update)

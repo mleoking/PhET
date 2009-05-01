@@ -232,6 +232,7 @@ class SurfaceModel extends Observable with SurfaceFrictionStrategy {
   def getTotalFriction(objectFriction: Double) = _surfaceType.getTotalFriction(objectFriction)
 }
 class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) extends Observable {
+  private var _robotEnergy = 3000.0
   val surfaceModel = new SurfaceModel
   model.rampSegments(1).setAngle(0)
   model.walls = false
@@ -253,12 +254,29 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
   nextObjectListeners += (x => setupObject())
 
   setupObject()
+
   def bead = _bead
+
+  def robotEnergy = _robotEnergy
 
   def setupObject() = {
     val a = selectedObject
     model.setPaused(true)
+
+    if (_bead != null) {
+      //todo: remove applied force listener
+    }
+
     _bead = model.createBead(-model.rampSegments(0).length, a.width)
+    _bead.workListeners += (x => {
+      _robotEnergy = _robotEnergy - (if (x > 0.0) x else 0.0)
+      if (_robotEnergy <= 0) {
+        _robotEnergy = 0
+        _bead.parallelAppliedForce = 0
+      }
+      notifyListeners()
+    })
+
     val beadRef = _bead
     bead.mass = a.mass
     bead.staticFriction = a.staticFriction

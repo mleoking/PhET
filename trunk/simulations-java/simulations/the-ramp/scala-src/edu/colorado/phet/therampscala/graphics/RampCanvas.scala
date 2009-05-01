@@ -244,7 +244,7 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
   gameModel.addListener(() => {robotGoButton.setEnabled(!gameModel.launched)})
 
   val appliedForceControl = new ScalaValueControl(-RampDefaults.MAX_APPLIED_FORCE, RampDefaults.MAX_APPLIED_FORCE, "Applied Force X", "0.0", "N",
-    ()=>0, value => 0, gameModel.addListener) //todo: last param is a dummy
+    () => 0, value => 0, gameModel.addListener) //todo: last param is a dummy
   controlPanel.add(appliedForceControl)
   controlPanel.add(robotGoButton)
 
@@ -274,6 +274,10 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
   val scoreboard = new ScoreboardNode(transform, gameModel)
   addNode(scoreboard)
 
+  val energyMeter = new RobotEnergyMeter(transform, gameModel)
+  energyMeter.setOffset(scoreboard.getFullBounds.getX + 5, scoreboard.getFullBounds.getMaxY + 5)
+  addNode(energyMeter)
+
   val robotGraphics = new RobotGraphics(transform, gameModel)
   addNode(2, robotGraphics) //behind ramp
 
@@ -287,7 +291,7 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
   }
   updateRampColor()
 
-  private var _currentBead:Bead = null
+  private var _currentBead: Bead = null
 
   def init(bead: Bead, a: ScalaRampObject) = {
     val lastBead = _currentBead
@@ -311,8 +315,9 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
     val pusherNode = new RobotPusherNode(transform, bead, roboBead)
     addNode(pusherNode)
 
-    val removeListenerM=if (lastBead==null) gameModel.removeListener _ else lastBead.removeListener _
-    appliedForceControl.setModel(()=>bead.parallelAppliedForce, bead.parallelAppliedForce_=, removeListenerM, bead.addListener)
+    val removeListenerM = if (lastBead == null) gameModel.removeListener _ else lastBead.removeListener _
+    def setter(x: Double) = if (gameModel.robotEnergy > 0) bead.parallelAppliedForce = x else {}
+    appliedForceControl.setModel(() => bead.parallelAppliedForce, setter, removeListenerM, bead.addListener)
 
     addAllVectors(bead)
   }
@@ -357,6 +362,19 @@ class ItemReadout(text: String, gameModel: RobotMovingCompanyGameModel, counter:
     textNode.setText(text + ": " + counter())
   }
   update()
+}
+
+class RobotEnergyMeter(transform: ModelViewTransform2D, gameModel: RobotMovingCompanyGameModel) extends PNode {
+  val barNode = new PhetPPath(Color.blue)
+  addChild(barNode)
+  val label = new PText("Robot Energy")
+  label.setFont(new PhetFont(24, true))
+  addChild(label)
+
+  defineInvokeAndPass(gameModel.addListenerByName) {
+    barNode.setPathTo(new RoundRectangle2D.Double(0, 0, gameModel.robotEnergy / 10, 25, 10, 10))
+    label.setOffset(barNode.getFullBounds.getX, barNode.getFullBounds.getMaxY)
+  }
 }
 
 class ScoreboardNode(transform: ModelViewTransform2D, gameModel: RobotMovingCompanyGameModel) extends PNode {
