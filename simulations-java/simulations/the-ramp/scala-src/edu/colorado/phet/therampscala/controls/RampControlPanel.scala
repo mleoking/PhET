@@ -1,6 +1,7 @@
 package edu.colorado.phet.therampscala.controls
 
 import common.phetcommon.model.Resettable
+import common.phetcommon.util.IProguardKeepClass
 import common.phetcommon.view.util.PhetFont
 import common.phetcommon.view.{ControlPanel, VerticalLayoutPanel, ResetAllButton}
 import java.awt._
@@ -62,7 +63,7 @@ class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramMo
     add(new JLabel(new ImageIcon(RampResources.getImage(iconFilename))), BorderLayout.EAST)
   }
 
-  val vectorPanel = new SubControlPanel("Vectors") {
+  val vectorPanel = new SubControlPanel("Vectors") with IProguardKeepClass{
     def addWithIcon(iconFilename: String, component: JComponent) = add(new IconPanel(component, iconFilename))
   }
   vectorPanel.add(new MyRadioButton("Centered", vectorViewModel.centered = true, vectorViewModel.centered, vectorViewModel.addListener))
