@@ -60,24 +60,36 @@ class RotationHandler(val mytransform: ModelViewTransform2D, val node: PNode, va
     val oldAngle = (rotatable.getPivot - oldPtModel).getAngle
     val newAngle = (rotatable.getPivot - modelPt).getAngle
 
-    val deltaAngle = newAngle - oldAngle
+    //should be a small delta
+    var deltaAngle = newAngle - oldAngle
+    while (deltaAngle > PI) deltaAngle = deltaAngle-PI*2
+    while (deltaAngle < -PI) deltaAngle = deltaAngle+PI*2
 
-    //draw a ray from start point to new mouse point
-    val newPt = new Vector2D(rotatable.getUnitVector.getAngle + deltaAngle) * rotatable.length
-    val clamped =
-    if (newPt.getAngle < min) {
-      val value = new Vector2D(min) * rotatable.length
-      //      println("ang was: " + newPt.getAngle + ", value=" + value)
-      value
-    }
-    else if (newPt.getAngle > max) {
-      val value = new Vector2D(max) * rotatable.length
-      //      println("over max: " + value)
-      value
-    }
-    else newPt
+    totalDelta += deltaAngle
+    val proposedAngle = origAngle + totalDelta
 
-    rotatable.endPoint = clamped
+    val angle = if (proposedAngle > max) max else if (proposedAngle < min) min else proposedAngle
+//    println("origAngle="+origAngle+", delta="+deltaAngle+", totalDelta="+totalDelta+", proposedAngle="+proposedAngle+" angle="+angle)
+
+    val newPt = new Vector2D(angle) * rotatable.length
+    rotatable.endPoint = newPt
+  }
+
+  var totalDelta = 0.0
+  var origAngle = 0.0
+
+  override def mousePressed(event: PInputEvent) = {
+    totalDelta = 0
+
+    val modelPt = mytransform.viewToModel(event.getPositionRelativeTo(node.getParent))
+
+    val deltaView = event.getDeltaRelativeTo(node.getParent)
+    val deltaModel = mytransform.viewToModelDifferential(deltaView.width, deltaView.height)
+
+    val oldPtModel = modelPt - deltaModel
+
+    val oldAngle = (rotatable.getPivot - oldPtModel).getAngle
+    origAngle = oldAngle + PI
   }
 }
 
