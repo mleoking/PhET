@@ -74,7 +74,7 @@ class RotationHandler(val mytransform: ModelViewTransform2D,
     val proposedAngle = origAngle + totalDelta
 
     val angle = if (proposedAngle > max) max else if (proposedAngle < min) min else proposedAngle
-    //    println("origAngle="+origAngle+", delta="+deltaAngle+", totalDelta="+totalDelta+", proposedAngle="+proposedAngle+" angle="+angle)
+    //        println("origAngle="+origAngle+", delta="+deltaAngle+", totalDelta="+totalDelta+", proposedAngle="+proposedAngle+" min="+min+", max="+max+", angle="+angle)
 
     val newPt = new Vector2D(angle) * rotatable.length
     rotatable.endPoint = newPt
@@ -87,9 +87,9 @@ class RotationHandler(val mytransform: ModelViewTransform2D,
     totalDelta = 0
 
     val modelPt = mytransform.viewToModel(event.getPositionRelativeTo(node.getParent))
-    val oldAngle = (modelPt-rotatable.getPivot).getAngle
-//    println("model pt="+modelPt+", pivot="+rotatable.getPivot+", oldAngle="+oldAngle)
-    origAngle = oldAngle 
+    val oldAngle = (modelPt - rotatable.getPivot).getAngle
+    //    println("model pt="+modelPt+", pivot="+rotatable.getPivot+", oldAngle="+oldAngle)
+    origAngle = oldAngle
   }
 }
 

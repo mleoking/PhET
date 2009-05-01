@@ -164,8 +164,8 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private va
 
   val xAxisModel = new SynchronizedAxisModel(0, modelWidth / 2 * 0.9, true, coordinateFrameModel)
   val yAxisModel = new SynchronizedAxisModel(PI / 2, modelWidth / 2 * 0.9, true, coordinateFrameModel)
-  addChild(new AxisNodeWithModel(transform, "x", xAxisModel, isInteractive, 0, 0))
-  addChild(new AxisNodeWithModel(transform, "y", yAxisModel, isInteractive, 0, 0))
+  addChild(new AxisNodeWithModel(transform, "x", xAxisModel, isInteractive, 0, PI / 2))
+  addChild(new AxisNodeWithModel(transform, "y", yAxisModel, isInteractive, PI / 2, PI))
   for (vector <- vectors) addVector(vector)
 
   updateSize()
