@@ -1,6 +1,5 @@
 package edu.colorado.phet.therampscala.controls
 
-
 import common.phetcommon.model.Resettable
 import common.phetcommon.view.util.PhetFont
 import common.phetcommon.view.{ControlPanel, VerticalLayoutPanel, ResetAllButton}
@@ -20,9 +19,6 @@ class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramMo
     addControl(comp)
     comp
   }
-
-  //  add(new MyRadioButton("Physics words", wordModel.physicsWords = true, wordModel.physicsWords, wordModel.addListener))
-  //  add(new MyRadioButton("Everyday words", wordModel.everydayWords = true, wordModel.everydayWords, wordModel.addListener))
 
   class TitleLabel(label: String) extends JLabel(label) {
     setFont(new PhetFont(15, true))
@@ -59,13 +55,11 @@ class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramMo
     add(new TitleLabel(title))
     setBorder(BorderFactory.createRaisedBevelBorder)
   }
-  //
+
   class IconPanel(component: JComponent, iconFilename: String) extends JPanel {
-//    setLayout(new BoxLayout(this,BoxLayout.X_AXIS))
     setLayout(new BorderLayout)
-    add(component,BorderLayout.WEST)
-    add(new JLabel(new ImageIcon(RampResources.getImage(iconFilename))),BorderLayout.EAST)
-//    add(Box.createRigidArea(new Dimension(50,50)))
+    add(component, BorderLayout.WEST)
+    add(new JLabel(new ImageIcon(RampResources.getImage(iconFilename))), BorderLayout.EAST)
   }
 
   val vectorPanel = new SubControlPanel("Vectors") {
@@ -83,7 +77,6 @@ class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramMo
   add(vectorPanel)
 
   val rampPanel = new SubControlPanel("Ramp Controls")
-  //  rampPanel.add(new MyCheckBox("Walls", model.walls_=, model.walls, model.addListener))
   rampPanel.add(new MyCheckBox("Frictionless", model.frictionless_=, model.frictionless, model.addListener))
 
   val positionSlider = new ScalaValueControl(RampDefaults.MIN_X, RampDefaults.MAX_X, "Object Position", "0.0", "meters",
