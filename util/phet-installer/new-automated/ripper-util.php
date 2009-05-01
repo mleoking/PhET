@@ -234,14 +234,8 @@
             // Replace any remaining 'http' href links with macro:
             $jnlp = jnlp_replace_absolute_links_with_local_file_macro($jnlp, PHET_WEBSITE_ROOT_PARTIAL_PATTERN, BITROCK_INSTALLDIR_MACRO);
 
-            // If this is a post-IOM simulation, add the permissions request.
-            if ( installer_is_post_iom_sim( $jnlp_filename ) ){
-                flushing_echo("Sim is post-IOM, adding permissions request to file: ".$jnlp_filename);
-                $jnlp = jnlp_add_permissions_request( $jnlp );
-            }
-            else {
-                flushing_echo("Sim is pre-IOM, not adding permissions request to file: ".$jnlp_filename);
-            }
+            // Add the permissions request to the JNLP files.
+            jnlp_add_permissions_request( $jnlp );
 
             // Output the new JNLP file:
             file_put_contents($jnlp_filename, $jnlp); 

@@ -19,46 +19,6 @@
     require_once("xml-util.php");
     require_once("zip.lib.php");
 
-    //-------------------------------------------------------------------------
-    // Function to determine if this Java simulation is a post-IOM sim, which
-    // means that it contains features that require system resources such as
-    // disk and network access.  IMPORTANT NOTE: This is meant to be a
-    // temporary function that should be removed once all the simulations
-    // contain the IOM features and following the IOM naming and signing
-    // conventions.
-    //-------------------------------------------------------------------------
-    function installer_is_post_iom_sim( $jnlp_filename ) {
-    
-        // Determine the directory in which this sim resides.
-        $sim_directory = substr( $jnlp_filename, 0, strripos( $jnlp_filename, "/", 0 ) );
-
-        // Locate the main JAR file for this sim.  The function returns a
-        // list, but there should only be one file on it.
-        $jar_files = file_list_in_directory( $sim_directory, "*_all.jar" );
-
-        // See if we found one and only one file.
-        if ( count( $jar_files ) == 0 ) {
-            // File with this name doesn't exist, must be a pre-IOM sim.
-            echo "!!!!!!! No _all.jar file found in this directory\n";
-            return false;
-        }
-        else if ( count( $jar_files ) > 1 ) {
-            // This shouldn't happen, so log an error and force an exit.
-            flushing_echo("Error: Multiple _all.jar files found in directory - this is unexpected - aborting.");
-            exit(1);
-        }
-        else {
-            // We found the one main JAR file.  Now see if it is signed.
-            $primary_jar_file = $jar_files[0];
-            if ( is_jar_signed( $primary_jar_file ) ){
-                return true;
-            }
-            else{
-                return false;
-            }
-        }
-    }
-
     //--------------------------------------------------------------------------
     // Function for building installers for all of the supported platforms.
     //--------------------------------------------------------------------------
