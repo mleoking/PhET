@@ -131,13 +131,6 @@ public class DecayRatesCanvas extends PhetPCanvas {
 		
 		super.update();
 		
-		// Resize the world in the model so that it can spread the particles
-		// out over the entire visible area.
-		if (getWidth() > 0 && getHeight() > 0){
-//			_model.setWorldSize( getWidth(), getHeight() * (1 - PROPORTION_CHART_FRACTION) );
-			_model.setWorldSize( getWidth() * 0.8, (getHeight() * (1 - PROPORTION_CHART_FRACTION) ) * 0.8);
-		}
-	
 		_proportionsChart.componentResized(new Rectangle2D.Double( 0, 0, getWidth(), getHeight() * PROPORTION_CHART_FRACTION ) );
 		_proportionsChart.setOffset(0, getHeight() - _proportionsChart.getFullBoundsReference().height);
 		

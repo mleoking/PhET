@@ -80,37 +80,6 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
 		}
 	}
 	
-	/**
-	 * Set the world size.  This will expand or contract the locations of the
-	 * particles that exist in the world.
-	 */
-	public void setWorldSize( double newWorldSizeX, double newWorldSizeY ){
-		// Ignore values that are way to small or too large.
-		if ( ( newWorldSizeX < INITIAL_WORLD_WIDTH / 10 ) ||
-			 ( newWorldSizeY < INITIAL_WORLD_HEIGHT / 10 ) ||
-			 ( newWorldSizeY > INITIAL_WORLD_HEIGHT * 10 ) ||
-			 ( newWorldSizeY > INITIAL_WORLD_HEIGHT * 10 ) ||
-			 ( newWorldSizeX / newWorldSizeY > 5 ) ||
-			 ( newWorldSizeY / newWorldSizeX > 5 ) ) {
-			
-			System.err.println("Warning: Ignoring unreasonable world resizing attempt.");
-			return;
-		}
-		
-		double xScaleFactor = newWorldSizeX / _worldSizeX;
-		double yScaleFactor = newWorldSizeY / _worldSizeY;
-		
-        for (int i = 0; i < _atomicNuclei.size(); i++) {
-        	AbstractDecayNucleus nucleus = (AbstractDecayNucleus)_atomicNuclei.get(i);
-        	double newPosX = nucleus.getPositionReference().getX() * xScaleFactor;
-        	double newPosY = nucleus.getPositionReference().getY() * yScaleFactor;
-        	nucleus.setPosition( newPosX, newPosY );
-        }
-        
-        _worldSizeX = newWorldSizeX;
-        _worldSizeY = newWorldSizeY;
-	}
-	
     /**
      * Search for a location that is not already occupied by another nucleus.
      * 
