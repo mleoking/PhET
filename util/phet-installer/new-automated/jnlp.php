@@ -76,14 +76,6 @@ EOT;
         return $jnlp_xmls;
     }
 
-    // This is a refactoring of the previous jnlp_get_all_in_directory, which
-    // also performed the UTF16 to UTF8 conversion.  This is being broken into
-    // two steps (assuming I can get it to work).
-    function jnlp_get_all_in_directory2($directory) {
-        $jnlp_files = file_list_in_directory($directory, "*.jnlp");
-        return $jnlp_files;
-    }
-
     function jnlp_convert_to_utf8($jnlp_file){
 
         // Convert to UTF-8:
