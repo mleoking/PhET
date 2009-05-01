@@ -59,16 +59,26 @@ class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramMo
     add(new TitleLabel(title))
     setBorder(BorderFactory.createRaisedBevelBorder)
   }
+  //
+  class IconPanel(component: JComponent, iconFilename: String) extends JPanel {
+//    setLayout(new BoxLayout(this,BoxLayout.X_AXIS))
+    setLayout(new BorderLayout)
+    add(component,BorderLayout.WEST)
+    add(new JLabel(new ImageIcon(RampResources.getImage(iconFilename))),BorderLayout.EAST)
+//    add(Box.createRigidArea(new Dimension(50,50)))
+  }
 
-  val vectorPanel = new SubControlPanel("Vectors")
+  val vectorPanel = new SubControlPanel("Vectors") {
+    def addWithIcon(iconFilename: String, component: JComponent) = add(new IconPanel(component, iconFilename))
+  }
   vectorPanel.add(new MyRadioButton("Centered", vectorViewModel.centered = true, vectorViewModel.centered, vectorViewModel.addListener))
   vectorPanel.add(new MyRadioButton("Point of Origin", vectorViewModel.centered = false, !vectorViewModel.centered, vectorViewModel.addListener))
   vectorPanel.add(Box.createRigidArea(new Dimension(10, 10)))
   vectorPanel.add(new MyCheckBox("Original", vectorViewModel.originalVectors_=, vectorViewModel.originalVectors, vectorViewModel.addListener))
-  vectorPanel.add(new MyCheckBox("Parallel Components", vectorViewModel.parallelComponents_=, vectorViewModel.parallelComponents, vectorViewModel.addListener))
-  vectorPanel.add(new MyCheckBox("X-Y Components", vectorViewModel.xyComponentsVisible = _, vectorViewModel.xyComponentsVisible, vectorViewModel.addListener))
+  vectorPanel.addWithIcon("parallel_components_icon.gif", new MyCheckBox("Parallel Components", vectorViewModel.parallelComponents_=, vectorViewModel.parallelComponents, vectorViewModel.addListener))
+  vectorPanel.addWithIcon("xy_components_icon.gif", new MyCheckBox("X-Y Components", vectorViewModel.xyComponentsVisible = _, vectorViewModel.xyComponentsVisible, vectorViewModel.addListener))
   vectorPanel.add(Box.createRigidArea(new Dimension(10, 10)))
-  vectorPanel.add(new MyCheckBox("Sum of Forces", vectorViewModel.sumOfForcesVector_=, vectorViewModel.sumOfForcesVector, vectorViewModel.addListener))
+  vectorPanel.addWithIcon("sum_of_forces_icon.gif", new MyCheckBox("Sum of Forces", vectorViewModel.sumOfForcesVector_=, vectorViewModel.sumOfForcesVector, vectorViewModel.addListener))
 
   add(vectorPanel)
 
