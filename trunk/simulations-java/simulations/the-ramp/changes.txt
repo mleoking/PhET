@@ -1,3 +1,5 @@
+# 1.03.08 (31211) May 1, 2009
+5/1/09 Improvements for game model and coordinate frames
 # 1.03.07 (31209) May 1, 2009
 5/1/09 improvements for rotatable components and added energy model for game mode
 # 1.03.06 (31153) Apr 29, 2009
