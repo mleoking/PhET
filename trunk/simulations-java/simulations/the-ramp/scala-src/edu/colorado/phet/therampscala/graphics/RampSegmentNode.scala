@@ -94,12 +94,12 @@ class RotationHandler(val mytransform: ModelViewTransform2D, val node: PNode, va
 }
 
 class RotatableSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D) extends RampSegmentNode(rampSegment, mytransform) {
-  line.addInputEventListener(new CursorHandler(Cursor.N_RESIZE_CURSOR))
+  line.addInputEventListener(new CursorHandler)
   line.addInputEventListener(new RotationHandler(mytransform, line, rampSegment, 0, PI / 2))
 }
 
 class ReverseRotatableSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D) extends RampSegmentNode(rampSegment, mytransform) {
-  line.addInputEventListener(new CursorHandler(Cursor.N_RESIZE_CURSOR))
+  line.addInputEventListener(new CursorHandler)
   line.addInputEventListener(new RotationHandler(mytransform, line, new Reverse(rampSegment).reverse, PI / 2 + 1E-6, PI - (1E-6))) //todo: atan2 returns angle between -pi and +pi, so end behavior is incorrect
 }
 

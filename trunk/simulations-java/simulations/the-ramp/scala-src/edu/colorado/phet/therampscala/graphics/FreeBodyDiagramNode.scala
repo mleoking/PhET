@@ -97,7 +97,7 @@ class AxisNodeWithModel(transform: ModelViewTransform2D, label: String, val axis
     axisNode.setTipAndTailLocations(transform.modelToViewDouble(axisModel.getEndPoint), transform.modelToViewDouble(axisModel.startPoint))
     updateTextNodeLocation()
   }
-  axisNode.addInputEventListener(new ToggleListener(new CursorHandler(Cursor.E_RESIZE_CURSOR), isInteractive))
+  axisNode.addInputEventListener(new ToggleListener(new CursorHandler, isInteractive))
   axisNode.addInputEventListener(new ToggleListener(new RotationHandler(transform, axisNode, axisModel, minAngle,maxAngle), isInteractive))
   axisNode.addInputEventListener(new ToggleListener(new PBasicInputEventHandler {
     override def mouseReleased(event: PInputEvent) = axisModel.dropped()
