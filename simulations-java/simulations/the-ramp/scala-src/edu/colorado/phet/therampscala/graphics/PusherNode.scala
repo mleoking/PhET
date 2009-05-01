@@ -40,8 +40,12 @@ class RobotPusherNode(transform: ModelViewTransform2D, targetBead: Bead, manBead
         extends BeadNode(manBead, transform, "robotmovingcompany/robot.gif") {
   defineInvokeAndPass(targetBead.addListenerByName) {
     if (targetBead.appliedForce.magnitude > 0) {
-      val dx = 2.2 * (if (targetBead.appliedForce.x > 0) -1 else 1)
+      val dx = 1.3 * (if (targetBead.appliedForce.x > 0) -1 else 1)
       manBead.setPosition(targetBead.position + dx)
+
+      val im = RampResources.getImage("robotmovingcompany/robot.gif")
+      val realIm = if (dx > 0) BufferedImageUtils.flipX(im) else im //todo: cache instead of flipping each time
+      setImage(realIm)
     }
   }
   setPickable(false)
