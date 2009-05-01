@@ -13,7 +13,6 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
-import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayControl;
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayModelListener;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
@@ -48,7 +47,7 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 	
 	protected NuclearPhysicsClock _clock;
 	ArrayList _listeners = new ArrayList();
-	protected AbstractDecayNucleus [] _atomicNuclei;
+	protected ArrayList _atomicNuclei;
 	protected int _currentNucleusType;
 	protected int _initialNucleusType;
 	protected AtomicNucleus.Adapter _nucleusListener;
@@ -66,7 +65,7 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
         _initialNucleusType = initialNucleusType;
         _currentNucleusType = initialNucleusType;
         _maxNuclei = maxNuclei;
-        _atomicNuclei = new AbstractDecayNucleus[_maxNuclei];
+        _atomicNuclei = new ArrayList();
         _jitterOffsets = new Point2D[_maxNuclei];
 
         // Register as a listener to the clock.
@@ -127,8 +126,8 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 
 	public void setPaused(boolean paused) {
 		// Pause the decay and movement of all nuclei.
-		for (int i = 0; i < _atomicNuclei.length; i++){
-			_atomicNuclei[i].setPaused(paused);
+		for (int i = 0; i < _atomicNuclei.size(); i++){
+			((AbstractDecayNucleus)_atomicNuclei.get(i)).setPaused(paused);
 		}
 	}
 
@@ -140,10 +139,11 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 	 */
 	public int resetActiveAndDecayedNuclei() {
 		int resetCount = 0;
-		for (int i = 0; i < _atomicNuclei.length; i++){
-			if (_atomicNuclei[i].isDecayActive() || _atomicNuclei[i].hasDecayed()){
-				_atomicNuclei[i].reset();
-				_atomicNuclei[i].activateDecay();
+		for (int i = 0; i < _atomicNuclei.size(); i++){
+			AbstractDecayNucleus nucleus = (AbstractDecayNucleus)_atomicNuclei.get(i);
+			if (nucleus.isDecayActive() || nucleus.hasDecayed()){
+				nucleus.reset();
+				nucleus.activateDecay();
 				resetCount++;
 			}
 		}
@@ -153,20 +153,21 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 	protected void handleClockTicked(ClockEvent clockEvent) {
 		// Cause the active nuclei to "jitter".  For efficiency, not every
 		// active nucleus is moved every time.
-		for (int i = _jitterOffsetCount; i < _atomicNuclei.length; i = i + CLOCKS_PER_JITTER){
-			if (_atomicNuclei[i].isDecayActive() && !_atomicNuclei[i].isPaused()){
+		for (int i = _jitterOffsetCount; i < _atomicNuclei.size(); i = i + CLOCKS_PER_JITTER){
+			AbstractDecayNucleus nucleus = (AbstractDecayNucleus)_atomicNuclei.get(i);
+			if (nucleus.isDecayActive() && !nucleus.isPaused()){
 				// This nucleus is active, so it should be jittered.
 				Point2D jitterOffset = _jitterOffsets[i];
-				Point2D currentLocation = _atomicNuclei[i].getPositionReference();
+				Point2D currentLocation = nucleus.getPositionReference();
 				if (jitterOffset.getX() == 0 && jitterOffset.getY() == 0){
 					// Move this nucleus away from its center location.
 					generateJitterOffset( jitterOffset );
-					_atomicNuclei[i].setPosition( currentLocation.getX() + jitterOffset.getX(),
+					nucleus.setPosition( currentLocation.getX() + jitterOffset.getX(),
 							currentLocation.getY() + jitterOffset.getY());
 				}
 				else{
 					// Move back to original location.
-					_atomicNuclei[i].setPosition( currentLocation.getX() - jitterOffset.getX(),
+					nucleus.setPosition( currentLocation.getX() - jitterOffset.getX(),
 							currentLocation.getY() - jitterOffset.getY());
 					_jitterOffsets[i].setLocation(0, 0);
 				}
@@ -199,12 +200,11 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 	 */
 	protected void removeAllNuclei() {
 		// Remove any existing nuclei and let the listeners know of their demise.
-		for (int i = 0; i < _atomicNuclei.length; i++){
-			if (_atomicNuclei[i] != null){
-				_atomicNuclei[i].removeListener(_nucleusListener);
-				notifyModelElementRemoved( _atomicNuclei[i] );
-				_atomicNuclei[i] = null;
-			}
+		for (int i = 0; i < _atomicNuclei.size(); i++){
+			AbstractDecayNucleus nucleus = (AbstractDecayNucleus)_atomicNuclei.get(i);
+			nucleus.removeListener(_nucleusListener);
+			notifyModelElementRemoved( nucleus );
+			_atomicNuclei.remove(i);
 		}
 	}
 
@@ -223,7 +223,7 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 			else{
 				newNucleus = new AdjustableHalfLifeNucleus(_clock);
 			}
-			_atomicNuclei[i] = newNucleus;
+			_atomicNuclei.add( newNucleus );
 			_jitterOffsets[i] = new Point2D.Double();
 			notifyModelElementAdded(newNucleus);
 	        
@@ -308,11 +308,8 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 		}
 		
 		// Set the new half life value.
-		for (int i = 0; i < _atomicNuclei.length; i++){
-			AbstractDecayNucleus nucleus = (AbstractDecayNucleus)_atomicNuclei[i];
-			if (nucleus != null){
-				nucleus.setHalfLife(halfLife);
-			}
+		for (int i = 0; i < _atomicNuclei.size(); i++){
+			((AbstractDecayNucleus)_atomicNuclei.get(i)).setHalfLife(halfLife);
 		}
 		
 		// Inform any listeners of the change.
@@ -321,33 +318,19 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 
 	public double getHalfLife() {
 		
-		double halfLife = 0;
-		
-		if (_atomicNuclei.length == 0){
+		if (_atomicNuclei.size() == 0){
 			return 0;
 		}
 		
-		// Get the first nucleus in the list, and assume that all nuclei are
-		// the same in terms of half life.
-		AtomicNucleus nucleus = _atomicNuclei[0];
-		
-		if (nucleus instanceof NuclearDecayControl){
-			halfLife = ((NuclearDecayControl)nucleus).getHalfLife();
-		}
-		
-		return halfLife;
+		// Get the half life from the first nucleus in the list, and assume
+		// that all nuclei are the same.
+		return ((AbstractDecayNucleus)_atomicNuclei.get(0)).getHalfLife();
 	}
 	
 	/**
 	 * Get the current total number of nuclei in the model.
 	 */
 	public int getNumNuclei(){
-		int count = 0;
-		for (int i = 0; i < _atomicNuclei.length; i++){
-			if (_atomicNuclei[i] != null){
-				count++;
-			}
-		}
-		return count;
+		return _atomicNuclei.size();
 	}
 }

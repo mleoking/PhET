@@ -28,13 +28,18 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
 	
 	private static final int MAX_NUCLEI = 500;
 	private static final int NUCLEUS_TYPE = NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14;
-	private static final double MODEL_WIDTH = 800;  // Femtometers
-	private static final double MODEL_HEIGHT = MODEL_WIDTH * 0.66;  // Femtometers
+	private static final double INITIAL_WORLD_WIDTH = 800;  // Femtometers
+	private static final double INITIAL_WORLD_HEIGHT = INITIAL_WORLD_WIDTH * 0.66;  // Femtometers
+	
+	private static final int PLACEMENT_LOCATION_SEARCH_COUNT = 100;
+	private static final double DEFAULT_MIN_INTER_NUCLEUS_DISTANCE = 20;
 	
     //------------------------------------------------------------------------
     // Instance data
     //------------------------------------------------------------------------
-	private static final Random rand = new Random();
+	private static final Random _rand = new Random();
+	private double _worldSizeX = INITIAL_WORLD_WIDTH;
+	private double _worldSizeY = INITIAL_WORLD_HEIGHT;
 
     /**
      * @param clock
@@ -61,8 +66,8 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
 			else{
 				newNucleus = new AdjustableHalfLifeNucleus( _clock );
 			}
-			_atomicNuclei[i] = newNucleus;
-			newNucleus.setPosition( (rand.nextDouble() - 0.5) * MODEL_WIDTH, (rand.nextDouble() - 0.5) * MODEL_HEIGHT );
+			_atomicNuclei.add( newNucleus );
+			newNucleus.setPosition( findOpenNucleusLocation() );
 			notifyModelElementAdded( newNucleus );
 			newNucleus.activateDecay();
 			_jitterOffsets[i] = new Point2D.Double();
@@ -73,4 +78,56 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
 	        newNucleus.addListener( _nucleusListener );
 		}
 	}
+	
+    /**
+     * Search for a location that is not already occupied by another nucleus.
+     * 
+     * @return
+     */
+    private Point2D findOpenNucleusLocation(){
+    	
+    	Point2D.Double openLocation = null;
+    	boolean pointAvailable = false;
+    	
+    	// Determine the minimum placement distance between nuclei.
+    	double minInterNucleusDistance = DEFAULT_MIN_INTER_NUCLEUS_DISTANCE;
+    	if ( _atomicNuclei.size() > 0 ) {
+    		// Calculate a minimum distance between nuclei based on the
+    		// diameter of the current nucleus.
+    		minInterNucleusDistance = ((AbstractDecayNucleus)_atomicNuclei.get(0)).getDiameter() * 2;
+    	}
+    	
+    	// Pick random locations until one is found that works or until we've
+    	// tried the maximum number of times.
+        for (int i = 0; i < PLACEMENT_LOCATION_SEARCH_COUNT; i++){
+            // Randomly select an x & y position
+            double xPos = (_worldSizeX / 2) * (_rand.nextDouble() - 0.5);
+            double yPos = (_worldSizeY / 2) * (_rand.nextDouble() - 0.5);
+            openLocation = new Point2D.Double(xPos, yPos);
+            
+            // Check if this point is available.
+            pointAvailable = true;
+            for (int j = 0; (j < _atomicNuclei.size()) && (pointAvailable == true); j++){
+            	AbstractDecayNucleus nucleus = (AbstractDecayNucleus)_atomicNuclei.get(j);
+                if (openLocation.distance( nucleus.getPositionReference()) < minInterNucleusDistance){
+                    // This point is taken.
+                    pointAvailable = false;
+                }
+            }
+            
+            if (pointAvailable == true){
+                // We have found a usable location.
+                break;
+            }
+        }
+        
+        if ( !pointAvailable ){
+        	// The random algorithm failed to find an open location, so just
+        	// live with the most recent one.
+        	// TODO: Remove the debug statement below once it is being seen infrequently enough.
+        	System.out.println("Warning: Didn't find open location, choosing one arbitrarily.");
+        }
+        
+        return openLocation;
+    }
 }

@@ -80,7 +80,7 @@ public class RadiometricElementDecayModel extends MultiNucleusDecayModel {
 			else{
 				newNucleus = new AdjustableHalfLifeNucleus( _clock );
 			}
-			_atomicNuclei[i] = newNucleus;
+			_atomicNuclei.add( newNucleus );
 			newNucleus.setPosition( inBucketPosX, inBucketPosY );
 			notifyModelElementAdded( newNucleus );
 			_jitterOffsets[i] = new Point2D.Double();
