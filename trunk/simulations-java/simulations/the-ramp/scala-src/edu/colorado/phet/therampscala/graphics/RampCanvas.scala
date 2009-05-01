@@ -141,8 +141,8 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
     addVector(bead, beadVector, offsetFBD, offsetPlayArea)
     val parallelComponent = new ParallelComponent(beadVector, bead)
     val perpComponent = new PerpendicularComponent(beadVector, bead)
-    val xComponent = new XComponent(beadVector, bead,model.coordinateFrameModel)
-    val yComponent = new YComponent(beadVector, bead,model.coordinateFrameModel)
+    val xComponent = new XComponent(beadVector, bead, model.coordinateFrameModel)
+    val yComponent = new YComponent(beadVector, bead, model.coordinateFrameModel)
     def update() = {
       yComponent.visible = vectorViewModel.xyComponentsVisible && selectedVectorVisible()
       xComponent.visible = vectorViewModel.xyComponentsVisible && selectedVectorVisible()

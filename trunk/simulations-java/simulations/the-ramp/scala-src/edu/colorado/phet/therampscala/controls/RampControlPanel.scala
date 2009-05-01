@@ -63,7 +63,7 @@ class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramMo
     add(new JLabel(new ImageIcon(RampResources.getImage(iconFilename))), BorderLayout.EAST)
   }
 
-  val vectorPanel = new SubControlPanel("Vectors") with IProguardKeepClass{
+  val vectorPanel = new SubControlPanel("Vectors") with IProguardKeepClass {
     def addWithIcon(iconFilename: String, component: JComponent) = add(new IconPanel(component, iconFilename))
   }
   vectorPanel.add(new MyRadioButton("Centered", vectorViewModel.centered = true, vectorViewModel.centered, vectorViewModel.addListener))
@@ -81,11 +81,11 @@ class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramMo
   rampPanel.add(new MyCheckBox("Frictionless", model.frictionless_=, model.frictionless, model.addListener))
 
   val positionSlider = new ScalaValueControl(RampDefaults.MIN_X, RampDefaults.MAX_X, "Object Position", "0.0", "meters",
-    ()=>model.bead.position, model.bead.setPosition, model.bead.addListener)
+    () => model.bead.position, model.bead.setPosition, model.bead.addListener)
   rampPanel.add(positionSlider)
 
   val angleSlider = new ScalaValueControl(0, 90, "Ramp Angle", "0.0", "degrees",
-    ()=>model.rampSegments(1).getUnitVector.getAngle.toDegrees, value => model.setRampAngle(value.toRadians), model.rampSegments(1).addListener)
+    () => model.rampSegments(1).getUnitVector.getAngle.toDegrees, value => model.setRampAngle(value.toRadians), model.rampSegments(1).addListener)
 
   rampPanel.add(angleSlider)
 
