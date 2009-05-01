@@ -89,7 +89,7 @@ class ToggleListener(listener: PInputEventListener, isInteractive: => Boolean) e
     }
   }
 }
-class AxisNodeWithModel(transform: ModelViewTransform2D, label: String, val axisModel: AxisModel, isInteractive: => Boolean)
+class AxisNodeWithModel(transform: ModelViewTransform2D, label: String, val axisModel: AxisModel, isInteractive: => Boolean,minAngle:Double,maxAngle:Double)
         extends AxisNode(transform,
           transform.modelToViewDouble(axisModel.startPoint).x, transform.modelToViewDouble(axisModel.startPoint).y,
           transform.modelToViewDouble(axisModel.getEndPoint).x, transform.modelToViewDouble(axisModel.getEndPoint).y, label) {
@@ -98,7 +98,7 @@ class AxisNodeWithModel(transform: ModelViewTransform2D, label: String, val axis
     updateTextNodeLocation()
   }
   axisNode.addInputEventListener(new ToggleListener(new CursorHandler(Cursor.E_RESIZE_CURSOR), isInteractive))
-  axisNode.addInputEventListener(new ToggleListener(new RotationHandler(transform, axisNode, axisModel, -1000, 1000), isInteractive))
+  axisNode.addInputEventListener(new ToggleListener(new RotationHandler(transform, axisNode, axisModel, minAngle,maxAngle), isInteractive))
   axisNode.addInputEventListener(new ToggleListener(new PBasicInputEventHandler {
     override def mouseReleased(event: PInputEvent) = axisModel.dropped()
   }, isInteractive))
@@ -164,8 +164,8 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private va
 
   val xAxisModel = new SynchronizedAxisModel(0, modelWidth / 2 * 0.9, true, coordinateFrameModel)
   val yAxisModel = new SynchronizedAxisModel(PI / 2, modelWidth / 2 * 0.9, true, coordinateFrameModel)
-  addChild(new AxisNodeWithModel(transform, "x", xAxisModel, isInteractive))
-  addChild(new AxisNodeWithModel(transform, "y", yAxisModel, isInteractive))
+  addChild(new AxisNodeWithModel(transform, "x", xAxisModel, isInteractive,0,0))
+  addChild(new AxisNodeWithModel(transform, "y", yAxisModel, isInteractive,0,0))
   for (vector <- vectors) addVector(vector)
 
   updateSize()
