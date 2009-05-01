@@ -87,14 +87,9 @@ class RotationHandler(val mytransform: ModelViewTransform2D,
     totalDelta = 0
 
     val modelPt = mytransform.viewToModel(event.getPositionRelativeTo(node.getParent))
-
-    val deltaView = event.getDeltaRelativeTo(node.getParent)
-    val deltaModel = mytransform.viewToModelDifferential(deltaView.width, deltaView.height)
-
-    val oldPtModel = modelPt - deltaModel
-
-    val oldAngle = (rotatable.getPivot - oldPtModel).getAngle
-    origAngle = oldAngle + PI
+    val oldAngle = (modelPt-rotatable.getPivot).getAngle
+//    println("model pt="+modelPt+", pivot="+rotatable.getPivot+", oldAngle="+oldAngle)
+    origAngle = oldAngle 
   }
 }
 
