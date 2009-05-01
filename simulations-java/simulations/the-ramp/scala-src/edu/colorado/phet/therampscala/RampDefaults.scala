@@ -6,6 +6,8 @@ object RampDefaults {
   val MIN_X = -10
   val MAX_X = 10
 
+  val MAX_APPLIED_FORCE = 500.0
+
   val freeBodyDiagramWidth = 2000 // Full width (not distance from origin to edge) in Newtons
   val PLAY_AREA_VECTOR_SCALE = 0.005 //scale factor when converting from Newtons to meters in the play area
 

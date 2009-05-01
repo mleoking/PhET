@@ -11,7 +11,7 @@ import common.piccolophet.nodes.PhetPPath
 import java.awt.geom.{RoundRectangle2D, Point2D, Rectangle2D}
 import java.awt.{Dimension, Color}
 import javax.swing.{Box, JButton, JFrame, JDialog}
-import swing.ScalaButton
+import swing.{ScalaValueControl, ScalaButton}
 import umd.cs.piccolo.nodes.{PImage, PText}
 import common.piccolophet.PhetPCanvas
 import java.awt.event._
@@ -242,10 +242,14 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
     model.setPaused(false)
   })
   gameModel.addListener(() => {robotGoButton.setEnabled(!gameModel.launched)})
+
+  val appliedForceControl = new ScalaValueControl(-RampDefaults.MAX_APPLIED_FORCE, RampDefaults.MAX_APPLIED_FORCE, "Applied Force X", "0.0", "N",
+    ()=>0, value => 0, gameModel.addListener) //todo: last param is a dummy
+  controlPanel.add(appliedForceControl)
   controlPanel.add(robotGoButton)
 
-  controlPanel.add(new ScalaButton("Raise Truck", () => updatePosition(0.2)))
-  controlPanel.add(new ScalaButton("Lower Truck", () => updatePosition(-0.2)))
+  //  controlPanel.add(new ScalaButton("Raise Truck", () => updatePosition(0.2)))
+  //  controlPanel.add(new ScalaButton("Lower Truck", () => updatePosition(-0.2)))
   controlPanel.add(Box.createRigidArea(new Dimension(10, 10)))
   val nextObjectButton = new ScalaButton("Next Object", () => gameModel.nextObject())
   val updateNextObjectButtonEnabled = () => {nextObjectButton.setEnabled(gameModel.readyForNext)}
@@ -283,7 +287,12 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
   }
   updateRampColor()
 
+  private var _currentBead:Bead = null
+
   def init(bead: Bead, a: ScalaRampObject) = {
+    val lastBead = _currentBead
+    _currentBead = bead
+
     val beadNode = new DraggableBeadNode(bead, transform, a.imageFilename)
     addNode(beadNode)
 
@@ -297,10 +306,13 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
     //todo: clear play area vectors (or never add them in the first place)
     //    println("adding vectors for bead: " + bead + ", a=" + a)
 
-    val roboBead = model.createBead(-10-a.width/2, 1)
+    val roboBead = model.createBead(-10 - a.width / 2, 1)
 
     val pusherNode = new RobotPusherNode(transform, bead, roboBead)
     addNode(pusherNode)
+
+    val removeListenerM=if (lastBead==null) gameModel.removeListener _ else lastBead.removeListener _
+    appliedForceControl.setModel(()=>bead.parallelAppliedForce, bead.parallelAppliedForce_=, removeListenerM, bead.addListener)
 
     addAllVectors(bead)
   }
