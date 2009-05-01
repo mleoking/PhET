@@ -55,9 +55,7 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
   model.addListenerByName(beadNode.setImage(RampResources.getImage(model.selectedObject.imageFilename)))
   addNode(beadNode)
 
-  def createPusherNode: PNode
-
-  val pusherNode = createPusherNode
+  val pusherNode = new PusherNode(transform, model.bead, model.manBead)
   addNode(pusherNode)
 
   addNode(new CoordinateFrameNode(model, coordinateSystemModel, transform))
@@ -227,7 +225,6 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
 
   def createEarthNode = new EarthNode(transform)
 
-  def createPusherNode = new PusherNode(transform, model.bead, model.manBead)
 }
 
 class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
@@ -299,6 +296,12 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
     windowFBDNode.clearVectors()
     //todo: clear play area vectors (or never add them in the first place)
     //    println("adding vectors for bead: " + bead + ", a=" + a)
+
+    val roboBead = model.createBead(-10-a.width/2, 1)
+
+    val pusherNode = new RobotPusherNode(transform, bead, roboBead)
+    addNode(pusherNode)
+
     addAllVectors(bead)
   }
 
@@ -328,7 +331,6 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
 
   def createEarthNode = new EarthNodeWithCliff(transform, model.rampSegments(1).length, gameModel.airborneFloor)
 
-  def createPusherNode = new RobotPusherNode(transform, model.bead, model.manBead)
 }
 trait PointOfOriginVector {
   def getPointOfOriginOffset(defaultCenter: Double): Double
