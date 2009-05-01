@@ -349,8 +349,13 @@ class Bead(_state: BeadState,
         //      val frictionWork=-thermalEnergy
 
       }
+      val distanceVector = positionMapper(origState.position) - positionMapper(position)
+      val work = appliedForce dot distanceVector
+      workListeners.foreach(_(work))
     }
   }
+  val workListeners = new ArrayBuffer[Double => Unit]
+
 
   def stepInTime(dt: Double) = attachState.stepInTime(dt)
 }
