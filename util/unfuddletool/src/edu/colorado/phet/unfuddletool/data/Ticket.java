@@ -1,9 +1,6 @@
 package edu.colorado.phet.unfuddletool.data;
 
-import java.util.Date;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -103,7 +100,11 @@ public class Ticket extends Record {
     }
 
     public String getPrettyPriority() {
-        switch( getPriority() ) {
+        return getPrettyPriorityOf( getPriority() );
+    }
+
+    public static String getPrettyPriorityOf( int value ) {
+        switch( value ) {
             case 1:
                 return "Lowest";
             case 2:
@@ -116,7 +117,15 @@ public class Ticket extends Record {
                 return "Highest";
         }
 
-        return "Unknown: " + getPriority();
+        return "Unknown: " + value;
+    }
+
+    public String getAssigneeName() {
+        return Person.getNameFromId( rawAssigneeId );
+    }
+
+    public String getReporterName() {
+        return Person.getNameFromId( rawReporterId );
     }
 
     public String getHTMLHeader() {
@@ -125,8 +134,8 @@ public class Ticket extends Record {
         ret += "#" + getNumber() + " " + getSummary() + "</a></h3>\n";
 
         ret += "Component: <b>" + getComponentName() + "</b>&nbsp;&nbsp;&nbsp;&nbsp;";
-        ret += "Assignee: <b>" + Person.getNameFromId( rawAssigneeId ) + "</b>&nbsp;&nbsp;&nbsp;&nbsp;";
-        ret += "Reporter: <b>" + Person.getNameFromId( rawReporterId ) + "</b>\n";
+        ret += "Assignee: <b>" + getAssigneeName() + "</b>&nbsp;&nbsp;&nbsp;&nbsp;";
+        ret += "Reporter: <b>" + getReporterName() + "</b>\n";
 
         ret += "Created: " + DateUtils.compactDate( rawCreatedAt.getDate() ) + "&nbsp;&nbsp;&nbsp;&nbsp;";
         ret += "Updated: " + DateUtils.compactDate( rawUpdatedAt.getDate() ) + "\n";
@@ -372,5 +381,31 @@ public class Ticket extends Record {
 
     public interface TicketListener {
         public void onTicketUpdate( Ticket ticket );
+    }
+
+    public static class RecentTicketComparator implements Comparator<Ticket> {
+        public int compare( Ticket a, Ticket b ) {
+            return Ticket.compare( a, b );
+        }
+    }
+
+    public static class RecentTicketReverseComparator implements Comparator<Ticket> {
+        public int compare( Ticket a, Ticket b ) {
+            return -Ticket.compare( a, b );
+        }
+    }
+
+    public static class DateReverseComparator implements Comparator<Date> {
+        public int compare( Date a, Date b ) {
+            if ( a.getTime() == b.getTime() ) {
+                return 0;
+            }
+            if ( a.getTime() < b.getTime() ) {
+                return 1;
+            }
+            else {
+                return -1;
+            }
+        }
     }
 }

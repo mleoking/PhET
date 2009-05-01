@@ -6,14 +6,26 @@ import javax.swing.table.AbstractTableModel;
 
 import edu.colorado.phet.unfuddletool.TicketHandler;
 import edu.colorado.phet.unfuddletool.data.Ticket;
-import edu.colorado.phet.unfuddletool.util.DateUtils;
 
 public class TicketTableModel extends AbstractTableModel implements Ticket.TicketListener, TicketHandler.TicketAddListener {
 
     public static final int INDEX_LAST_MODIFIED = 0;
-    public static final int INDEX_SUMMARY = 2;
     public static final int INDEX_NUMBER = 1;
+    public static final int INDEX_SUMMARY = 2;
     public static final int INDEX_COMPONENT = 3;
+    public static final int INDEX_STATUS = 4;
+    public static final int INDEX_ASSIGNEE = 5;
+    public static final int INDEX_REPORTER = 6;
+    public static final int INDEX_PRIORITY = 7;
+
+    public static String ID_LAST_MODIFIED = "Last Modified";
+    public static String ID_NUMBER = "Number";
+    public static String ID_SUMMARY = "Summary";
+    public static String ID_COMPONENT = "Component";
+    public static String ID_STATUS = "Status";
+    public static String ID_ASSIGNEE = "Assignee";
+    public static String ID_REPORTER = "Reporter";
+    public static String ID_PRIORITY = "Priority";
 
     private List<Ticket> tickets;
 
@@ -112,19 +124,27 @@ public class TicketTableModel extends AbstractTableModel implements Ticket.Ticke
     }
 
     public int getColumnCount() {
-        return 4;
+        return 8;
     }
 
     public String getColumnName( int column ) {
         switch( column ) {
             case INDEX_LAST_MODIFIED:
-                return "Last Modified";
+                return ID_LAST_MODIFIED;
             case INDEX_SUMMARY:
-                return "Summary";
+                return ID_SUMMARY;
             case INDEX_NUMBER:
-                return "Number";
+                return ID_NUMBER;
             case INDEX_COMPONENT:
-                return "Component";
+                return ID_COMPONENT;
+            case INDEX_STATUS:
+                return ID_STATUS;
+            case INDEX_ASSIGNEE:
+                return ID_ASSIGNEE;
+            case INDEX_REPORTER:
+                return ID_REPORTER;
+            case INDEX_PRIORITY:
+                return ID_PRIORITY;
         }
 
         return "Unknown";
@@ -132,6 +152,8 @@ public class TicketTableModel extends AbstractTableModel implements Ticket.Ticke
 
     public Class getColumnClass( int column ) {
         switch( column ) {
+            case INDEX_LAST_MODIFIED:
+                return Date.class;
             case INDEX_SUMMARY:
                 return Ticket.class;
         }
@@ -144,14 +166,22 @@ public class TicketTableModel extends AbstractTableModel implements Ticket.Ticke
 
         switch( j ) {
             case INDEX_LAST_MODIFIED:
-                return DateUtils.compactDate( ticket.lastUpdateTime() );
+                return ticket.lastUpdateTime();
             case INDEX_SUMMARY:
                 //return ticket.getSummary();
                 return ticket;
             case INDEX_NUMBER:
-                return "#" + ticket.getNumber();
+                return Integer.valueOf( ticket.getNumber() );
             case INDEX_COMPONENT:
                 return ticket.getComponentName();
+            case INDEX_STATUS:
+                return ticket.getStatus();
+            case INDEX_ASSIGNEE:
+                return ticket.getAssigneeName();
+            case INDEX_REPORTER:
+                return ticket.getReporterName();
+            case INDEX_PRIORITY:
+                return Integer.valueOf( ticket.getPriority() );
         }
 
         return null;

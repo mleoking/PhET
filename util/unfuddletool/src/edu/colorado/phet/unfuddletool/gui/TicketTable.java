@@ -1,8 +1,18 @@
 package edu.colorado.phet.unfuddletool.gui;
 
+import java.util.Comparator;
+
 import javax.swing.*;
 
-public class TicketTable extends JTable implements TicketTableModel.TicketTableDisplay {
+import org.jdesktop.swingx.JXTable;
+
+import edu.colorado.phet.unfuddletool.data.Ticket;
+import edu.colorado.phet.unfuddletool.gui.cell.DateCellRenderer;
+import edu.colorado.phet.unfuddletool.gui.cell.TicketNumberCellRenderer;
+import edu.colorado.phet.unfuddletool.gui.cell.TicketPriorityCellRenderer;
+import edu.colorado.phet.unfuddletool.gui.cell.TicketSummaryCellRenderer;
+
+public class TicketTable extends JXTable implements TicketTableModel.TicketTableDisplay {
 
     public TicketTableModel model;
     public ListSelectionModel ticketSelectionModel;
@@ -11,25 +21,39 @@ public class TicketTable extends JTable implements TicketTableModel.TicketTableD
         super( model );
 
         this.model = model;
-
         model.addDisplay( this );
 
-        //setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-
         ticketSelectionModel = new DefaultListSelectionModel();
-
         ticketSelectionModel.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-
         setSelectionModel( ticketSelectionModel );
 
+        getColumnModel().getColumn( TicketTableModel.INDEX_LAST_MODIFIED ).setCellRenderer( new DateCellRenderer() );
+        getColumnModel().getColumn( TicketTableModel.INDEX_NUMBER ).setCellRenderer( new TicketNumberCellRenderer() );
         getColumnModel().getColumn( TicketTableModel.INDEX_SUMMARY ).setCellRenderer( new TicketSummaryCellRenderer() );
-
-        //setDefaultRenderer( Ticket.class, new TicketSummaryCellRenderer() );
+        getColumnModel().getColumn( TicketTableModel.INDEX_PRIORITY ).setCellRenderer( new TicketPriorityCellRenderer() );
 
         getColumnModel().getColumn( TicketTableModel.INDEX_LAST_MODIFIED ).setPreferredWidth( 120 );
         getColumnModel().getColumn( TicketTableModel.INDEX_NUMBER ).setPreferredWidth( 60 );
         getColumnModel().getColumn( TicketTableModel.INDEX_COMPONENT ).setPreferredWidth( 130 );
         getColumnModel().getColumn( TicketTableModel.INDEX_SUMMARY ).setPreferredWidth( 290 );
+
+        setColumnControlVisible( true );
+
+        getColumnExt( TicketTableModel.ID_STATUS ).setVisible( false );
+        getColumnExt( TicketTableModel.ID_ASSIGNEE ).setVisible( false );
+        getColumnExt( TicketTableModel.ID_REPORTER ).setVisible( false );
+        getColumnExt( TicketTableModel.ID_PRIORITY ).setVisible( false );
+
+        getColumnExt( TicketTableModel.ID_LAST_MODIFIED ).setComparator( new Ticket.DateReverseComparator() );
+        getColumnExt( TicketTableModel.ID_PRIORITY ).setComparator( new Comparator<Integer>() {
+            public int compare( Integer a, Integer b ) {
+                return -a.compareTo( b );
+            }
+        } );
+
+        getColumnExt( TicketTableModel.ID_SUMMARY ).setSortable( false );
+
+        addHighlighter( new TicketHighlighter() );
 
     }
 

@@ -28,6 +28,7 @@ public class UnfuddleToolGUI extends JFrame {
         setTitle( "Unfuddle Tool" );
         setSize( 900, 700 );
 
+        // OLD (Ticket List)
         ticketList = new TicketList( this );
 
         JScrollPane ticketListScrollPane = new JScrollPane( ticketList );
@@ -40,8 +41,9 @@ public class UnfuddleToolGUI extends JFrame {
         JScrollPane listAreaScrollPane = new JScrollPane( ticketListDisplay );
         listAreaScrollPane.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
         JSplitPane listSplitPane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, ticketListScrollPane, listAreaScrollPane );
+        // END OLD
 
-        // NEW
+        // NEW (Ticket Table)
         ticketTableModel = new TicketTableModel();
         ticketTable = new TicketTable( ticketTableModel );
         JScrollPane ticketTableScrollPane = new JScrollPane( ticketTable );
@@ -63,8 +65,8 @@ public class UnfuddleToolGUI extends JFrame {
                 if ( !event.getValueIsAdjusting() ) {
                     int[] indices = ticketTable.getSelectedRows();
                     if ( indices.length == 1 ) {
-                        //System.out.println( "Selected " + indices[0] );
-                        Ticket ticket = ticketTableModel.getTicketAt( indices[0] );
+                        int index = ticketTable.convertRowIndexToModel( indices[0] );
+                        Ticket ticket = ticketTableModel.getTicketAt( index );
                         ticketTableDisplay.setText( ticket.getHTMLComments() );
                         ticketTableHeader.setText( ticket.getHTMLHeader() );
                         rightSplitPane.setDividerLocation( -1 );
