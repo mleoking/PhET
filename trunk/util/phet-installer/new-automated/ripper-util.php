@@ -235,7 +235,7 @@
             $jnlp = jnlp_replace_absolute_links_with_local_file_macro($jnlp, PHET_WEBSITE_ROOT_PARTIAL_PATTERN, BITROCK_INSTALLDIR_MACRO);
 
             // Add the permissions request to the JNLP files.
-            jnlp_add_permissions_request( $jnlp );
+            $jnlp = jnlp_add_permissions_request( $jnlp );
 
             // Output the new JNLP file:
             file_put_contents($jnlp_filename, $jnlp); 
