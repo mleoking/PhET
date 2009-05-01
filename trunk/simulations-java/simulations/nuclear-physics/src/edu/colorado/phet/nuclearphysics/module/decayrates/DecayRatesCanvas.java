@@ -24,6 +24,7 @@ import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
 import edu.colorado.phet.nuclearphysics.view.MultiNucleusDecayLinearTimeChart;
+import edu.colorado.phet.nuclearphysics.view.NucleusProportionsChart;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -46,10 +47,10 @@ public class DecayRatesCanvas extends PhetPCanvas {
     
     // Translation factors, used to set origin of canvas area.
     private final double WIDTH_TRANSLATION_FACTOR = 0.5;   // 0 = all the way left, 1 = all the way right.
-    private final double HEIGHT_TRANSLATION_FACTOR = 0.3; // 0 = all the way up, 1 = all the way down.
+    private final double HEIGHT_TRANSLATION_FACTOR = 0.29; // 0 = all the way up, 1 = all the way down.
     
     // Constants that control where the charts are placed.
-    private final double PROPORTION_CHART_FRACTION = 0.4;   // Fraction of canvas for proportion chart.
+    private final double PROPORTION_CHART_FRACTION = 0.45;   // Fraction of canvas for proportion chart.
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -60,7 +61,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
     private HashMap _mapAlphaParticlesToNodes = new HashMap();
     private HashMap _mapNucleiToNodes = new HashMap();
     private AtomicNucleus.Listener _listenerAdapter;
-    private PNode _graphImage;
+    private NucleusProportionsChart _proportionsChart;
     private PNode _particleLayer;
     private PNode _graphLayer;
     
@@ -94,10 +95,8 @@ public class DecayRatesCanvas extends PhetPCanvas {
         // Add the diagram that will depict the relative concentration of
         // pre- and post-decay nuclei.
         // TODO: This is stubbed with a static picture for demo purposes.
-        BufferedImage bufferedImage = NuclearPhysicsResources.getImage( "relationship-chart-static-image.png" );
-        _graphImage = new PImage( bufferedImage );
-        _graphImage.setScale(0.8);
-        _graphLayer.addChild(_graphImage);
+        _proportionsChart = new NucleusProportionsChart( _model );
+        _graphLayer.addChild(_proportionsChart);
         
         // Register with the model for notifications of nuclei coming and
         // going.
@@ -138,8 +137,9 @@ public class DecayRatesCanvas extends PhetPCanvas {
 //			_model.setWorldSize( getWidth(), getHeight() * (1 - PROPORTION_CHART_FRACTION) );
 			_model.setWorldSize( getWidth() * 0.8, (getHeight() * (1 - PROPORTION_CHART_FRACTION) ) * 0.8);
 		}
-		
-		_graphImage.setOffset(3, getHeight() - _graphImage.getFullBoundsReference().height);
+	
+		_proportionsChart.componentResized(new Rectangle2D.Double( 0, 0, getWidth(), getHeight() * PROPORTION_CHART_FRACTION ) );
+		_proportionsChart.setOffset(0, getHeight() - _proportionsChart.getFullBoundsReference().height);
 		
 	}
 	
