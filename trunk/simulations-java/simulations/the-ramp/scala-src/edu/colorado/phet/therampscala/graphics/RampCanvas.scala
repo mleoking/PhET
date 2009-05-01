@@ -176,7 +176,7 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
       }
 
     }
-    //todo: make sure this adapter overrides other methods as well, such as getPaint
+    //todo: make sure this adapter overrides other methods as well, such as getPaint and addListener
     val playAreaAdapter = new Vector(vector.color, vector.name, vector.abbreviation, () => vector.getValue * RampDefaults.PLAY_AREA_VECTOR_SCALE, vector.painter) {
       override def visible = vector.visible
 

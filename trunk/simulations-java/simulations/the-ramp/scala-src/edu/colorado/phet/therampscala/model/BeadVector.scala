@@ -59,5 +59,13 @@ class AngleBasedComponent(target: BeadVector, bead: Bead, getComponentUnitVector
 }
 class ParallelComponent(target: BeadVector, bead: Bead) extends AngleBasedComponent(target, bead, () => new Vector2D(bead.getAngle), (a, b) => b)
 class PerpendicularComponent(target: BeadVector, bead: Bead) extends AngleBasedComponent(target, bead, () => new Vector2D(bead.getAngle + PI / 2), (a, b) => b)
-class XComponent(target: BeadVector, bead: Bead,coordinateFrame:CoordinateFrameModel) extends VectorComponent(target, bead, () => new Vector2D(1, 0).rotate(coordinateFrame.angle), Paints.horizontalStripes)
-class YComponent(target: BeadVector, bead: Bead,coordinateFrame:CoordinateFrameModel) extends VectorComponent(target, bead, () => new Vector2D(0, 1).rotate(coordinateFrame.angle), Paints.verticalStripes)
+class XComponent(target: BeadVector, bead: Bead, coordinateFrame: CoordinateFrameModel) extends VectorComponent(target, bead, () => new Vector2D(1, 0).rotate(coordinateFrame.angle), Paints.horizontalStripes) {
+  coordinateFrame.addListenerByName {
+    notifyListeners()
+  }
+}
+class YComponent(target: BeadVector, bead: Bead, coordinateFrame: CoordinateFrameModel) extends VectorComponent(target, bead, () => new Vector2D(0, 1).rotate(coordinateFrame.angle), Paints.verticalStripes) {
+  coordinateFrame.addListenerByName {
+    notifyListeners()
+  }
+}
