@@ -92,7 +92,7 @@ public class TicketHandler {
 
     public List<Ticket> getTicketListByUpdate() {
         List<Ticket> list = getTicketList();
-        Collections.sort( list, new RecentTicketComparator() );
+        Collections.sort( list, new Ticket.RecentTicketComparator() );
         Collections.reverse( list );
         return list;
     }
@@ -145,21 +145,5 @@ public class TicketHandler {
     public interface TicketAddListener {
         public void onTicketAdded( Ticket ticket );
     }
-
-    //----------------------------------------------------------------------------
-    // Ticket comparison
-    //----------------------------------------------------------------------------
-
-    private class RecentTicketComparator implements Comparator<Ticket> {
-        public int compare( Ticket a, Ticket b ) {
-            // Faster:
-            //return a.getUpdatedAt().compareTo( b.getUpdatedAt() );
-
-            // Slower (has to download all of the comments first):
-            //return a.lastUpdateTime().compareTo( b.lastUpdateTime() );
-            return Ticket.compare( a, b );
-        }
-    }
-
 
 }
