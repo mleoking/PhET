@@ -116,7 +116,14 @@ public class MiscMenu extends JMenu {
         rebuildInstallers.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 System.out.println( "Rebuild installers invoked" );
-                JOptionPane.showMessageDialog( null, "Rebuilding the installers is currently stubbed." );
+                String rebuildMsg = new String(
+                		"Rebuilding of the installers is not yet fully integrated into the build\n" +
+                		"process.  For information on how to rebuild the installers manually,\n" +
+                		"please see the \"User Guide to the Installer Builder\" in the Unfuddle\n" +
+                		"notebook that can be found at the URL:\n" +
+                		"https://phet.unfuddle.com/projects/9404/notebooks/3771"
+                		);
+                JOptionPane.showMessageDialog( null, rebuildMsg );
             }
         } );
         add( rebuildInstallers );
@@ -125,7 +132,14 @@ public class MiscMenu extends JMenu {
         deployInstallers.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 System.out.println( "Deploy installers invoked" );
-                JOptionPane.showMessageDialog( null, "Deployment of the installers is currently stubbed." );
+                String deployInstallersMsg = new String(
+                		"Deployment of the installers is not yet fully integrated into the build\n" +
+                		"process.  For information on how to redeploy the installers manually,\n" +
+                		"please see the \"User Guide to the Installer Builder\" in the Unfuddle\n" +
+                		"notebook that can be found at the URL:\n" +
+                		"https://phet.unfuddle.com/projects/9404/notebooks/3771"
+                		);
+                JOptionPane.showMessageDialog( null, deployInstallersMsg );
             }
         } );
         add( deployInstallers );
