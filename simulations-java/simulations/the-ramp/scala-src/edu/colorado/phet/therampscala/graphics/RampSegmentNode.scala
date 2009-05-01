@@ -48,7 +48,12 @@ trait Rotatable extends Observable {
   def getPivot = new Vector2D
 
 }
-class RotationHandler(val mytransform: ModelViewTransform2D, val node: PNode, val rotatable: Rotatable, min: Double, max: Double) extends PBasicInputEventHandler {
+class RotationHandler(val mytransform: ModelViewTransform2D,
+                      val node: PNode,
+                      val rotatable: Rotatable,
+                      min: Double,
+                      max: Double)
+        extends PBasicInputEventHandler {
   override def mouseDragged(event: PInputEvent) = {
     val modelPt = mytransform.viewToModel(event.getPositionRelativeTo(node.getParent))
 
@@ -62,14 +67,14 @@ class RotationHandler(val mytransform: ModelViewTransform2D, val node: PNode, va
 
     //should be a small delta
     var deltaAngle = newAngle - oldAngle
-    while (deltaAngle > PI) deltaAngle = deltaAngle-PI*2
-    while (deltaAngle < -PI) deltaAngle = deltaAngle+PI*2
+    while (deltaAngle > PI) deltaAngle = deltaAngle - PI * 2
+    while (deltaAngle < -PI) deltaAngle = deltaAngle + PI * 2
 
     totalDelta += deltaAngle
     val proposedAngle = origAngle + totalDelta
 
     val angle = if (proposedAngle > max) max else if (proposedAngle < min) min else proposedAngle
-//    println("origAngle="+origAngle+", delta="+deltaAngle+", totalDelta="+totalDelta+", proposedAngle="+proposedAngle+" angle="+angle)
+    //    println("origAngle="+origAngle+", delta="+deltaAngle+", totalDelta="+totalDelta+", proposedAngle="+proposedAngle+" angle="+angle)
 
     val newPt = new Vector2D(angle) * rotatable.length
     rotatable.endPoint = newPt

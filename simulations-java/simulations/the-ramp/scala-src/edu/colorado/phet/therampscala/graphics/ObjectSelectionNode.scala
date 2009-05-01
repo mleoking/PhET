@@ -93,9 +93,9 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
 
     val obj = new Object with Observable
     class CustomControlPanel extends VerticalLayoutPanel {
-      add(new ScalaValueControl(10, 150, "mass", "0.0", "kg",()=> o.mass, o.mass_=, o.addListener))
-      add(new ScalaValueControl(0, 3, "Coefficient of Static Friction", "0.0", "",()=> o.staticFriction, o.staticFriction = _, obj.addListener))
-      add(new ScalaValueControl(0, 3, "Coefficient of Kinetic Friction", "0.0", "", ()=>o.kineticFriction, o.kineticFriction = _, obj.addListener))
+      add(new ScalaValueControl(10, 150, "mass", "0.0", "kg", () => o.mass, o.mass_=, o.addListener))
+      add(new ScalaValueControl(0, 3, "Coefficient of Static Friction", "0.0", "", () => o.staticFriction, o.staticFriction = _, obj.addListener))
+      add(new ScalaValueControl(0, 3, "Coefficient of Kinetic Friction", "0.0", "", () => o.kineticFriction, o.kineticFriction = _, obj.addListener))
     }
 
     val customControlPanel = new CustomControlPanel
