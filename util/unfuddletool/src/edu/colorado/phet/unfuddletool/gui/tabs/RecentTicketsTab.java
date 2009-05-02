@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import edu.colorado.phet.unfuddletool.TicketHandler;
 import edu.colorado.phet.unfuddletool.data.Ticket;
 import edu.colorado.phet.unfuddletool.gui.TicketDisplayPane;
 import edu.colorado.phet.unfuddletool.gui.TicketTable;
@@ -15,13 +16,15 @@ public class RecentTicketsTab extends JSplitPane {
 
     private static TicketTableModel model;
 
-
     public TicketTable ticketTable;
     public TicketDisplayPane ticketTableDisplay;
     public TicketDisplayPane ticketTableHeader;
 
-    public RecentTicketsTab( final TicketTableModel model ) {
-        this.model = model;
+    public RecentTicketsTab() {
+        // set up the model
+        model = new TicketTableModel();
+        TicketHandler.getTicketHandler().addTicketAddListener( model );
+
         ticketTable = new TicketTable( model );
         JScrollPane ticketTableScrollPane = new JScrollPane( ticketTable );
         ticketTable.setFillsViewportHeight( true );
