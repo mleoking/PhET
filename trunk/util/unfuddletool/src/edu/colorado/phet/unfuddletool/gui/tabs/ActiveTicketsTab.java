@@ -1,6 +1,9 @@
 package edu.colorado.phet.unfuddletool.gui.tabs;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -10,6 +13,7 @@ import edu.colorado.phet.unfuddletool.data.Ticket;
 import edu.colorado.phet.unfuddletool.gui.TicketDisplayPane;
 import edu.colorado.phet.unfuddletool.gui.TicketTable;
 import edu.colorado.phet.unfuddletool.gui.TicketTableModel;
+import edu.colorado.phet.unfuddletool.util.SimpleTicketReport;
 
 public class ActiveTicketsTab extends JSplitPane {
 
@@ -51,7 +55,23 @@ public class ActiveTicketsTab extends JSplitPane {
             }
         } );
 
-        setLeftComponent( ticketTableScrollPane );
+        JPanel leftPanel = new JPanel( new BorderLayout() );
+        JButton generateReportButton = new JButton( "Generate Report" );
+        leftPanel.add( generateReportButton, BorderLayout.NORTH );
+        leftPanel.add( ticketTableScrollPane, BorderLayout.CENTER );
+
+        setLeftComponent( leftPanel );
         setRightComponent( rightSplitPane );
+
+
+        generateReportButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent actionEvent ) {
+                model.clear();
+                List<Ticket> ticketList = SimpleTicketReport.getMyActiveTickets();
+                System.out.println( "Report found " + ticketList.size() + " tickets" );
+                model.addTicketList( ticketList );
+            }
+        } );
+
     }
 }
