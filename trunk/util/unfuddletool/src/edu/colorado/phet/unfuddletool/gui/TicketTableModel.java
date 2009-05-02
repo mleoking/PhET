@@ -17,6 +17,7 @@ public class TicketTableModel extends AbstractTableModel implements Ticket.Ticke
     public static final int INDEX_ASSIGNEE = 5;
     public static final int INDEX_REPORTER = 6;
     public static final int INDEX_PRIORITY = 7;
+    public static final int INDEX_MILESTONE = 8;
 
     public static String ID_LAST_MODIFIED = "Last Modified";
     public static String ID_NUMBER = "Number";
@@ -26,6 +27,7 @@ public class TicketTableModel extends AbstractTableModel implements Ticket.Ticke
     public static String ID_ASSIGNEE = "Assignee";
     public static String ID_REPORTER = "Reporter";
     public static String ID_PRIORITY = "Priority";
+    public static String ID_MILESTONE = "Milestone";
 
     private List<Ticket> tickets;
 
@@ -151,7 +153,7 @@ public class TicketTableModel extends AbstractTableModel implements Ticket.Ticke
     }
 
     public int getColumnCount() {
-        return 8;
+        return 9;
     }
 
     public String getColumnName( int column ) {
@@ -172,6 +174,8 @@ public class TicketTableModel extends AbstractTableModel implements Ticket.Ticke
                 return ID_REPORTER;
             case INDEX_PRIORITY:
                 return ID_PRIORITY;
+            case INDEX_MILESTONE:
+                return ID_MILESTONE;
         }
 
         return "Unknown";
@@ -209,6 +213,8 @@ public class TicketTableModel extends AbstractTableModel implements Ticket.Ticke
                 return ticket.getReporterName();
             case INDEX_PRIORITY:
                 return Integer.valueOf( ticket.getPriority() );
+            case INDEX_MILESTONE:
+                return ticket.getMilestoneTitle();
         }
 
         return null;

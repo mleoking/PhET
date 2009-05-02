@@ -43,6 +43,7 @@ public class TicketTable extends JXTable implements TicketTableModel.TicketTable
         getColumnExt( TicketTableModel.ID_ASSIGNEE ).setVisible( false );
         getColumnExt( TicketTableModel.ID_REPORTER ).setVisible( false );
         getColumnExt( TicketTableModel.ID_PRIORITY ).setVisible( false );
+        getColumnExt( TicketTableModel.ID_MILESTONE ).setVisible( false );
 
         getColumnExt( TicketTableModel.ID_LAST_MODIFIED ).setComparator( new Ticket.DateReverseComparator() );
         getColumnExt( TicketTableModel.ID_PRIORITY ).setComparator( new Comparator<Integer>() {
