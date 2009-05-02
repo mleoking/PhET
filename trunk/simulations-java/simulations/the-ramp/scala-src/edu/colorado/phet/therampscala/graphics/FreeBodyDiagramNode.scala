@@ -41,10 +41,20 @@ class Vector(val color: Color,
 }
 
 class AxisNode(val transform: ModelViewTransform2D, x0: Double, y0: Double, x1: Double, y1: Double, label: String) extends PNode {
-  val axisNode = new ArrowNode(transform.modelToViewDouble(x0, y0), transform.modelToViewDouble(x1, y1), 5, 5, 2)
+  private val axisNode = new ArrowNode(transform.modelToViewDouble(x0, y0), transform.modelToViewDouble(x1, y1), 5, 5, 2)
   axisNode.setStroke(null)
   axisNode.setPaint(Color.black)
+
+  //use an invisible wider hit region for mouse events
+  protected val hitNode = new ArrowNode(transform.modelToViewDouble(x0, y0), transform.modelToViewDouble(x1, y1), 10, 10, 10)
+  hitNode.setStroke(null)
+  hitNode.setPaint(new Color(0,0,0,0))
+  axisNode.setPickable(false)
+  axisNode.setChildrenPickable(false)
+
+  addChild(hitNode)
   addChild(axisNode)
+  
   val text = new PText(label)
   text.setFont(new PhetFont(16, true))
   addChild(text)
@@ -53,6 +63,11 @@ class AxisNode(val transform: ModelViewTransform2D, x0: Double, y0: Double, x1: 
   def updateTextNodeLocation() = {
     val viewDst = axisNode.getTipLocation
     text.setOffset(viewDst.x - text.getFullBounds.getWidth * 1.5, viewDst.y)
+  }
+
+  def setTipAndTailLocations(tip:Point2D,tail:Point2D)={
+    axisNode.setTipAndTailLocations(tip,tail)
+    hitNode.setTipAndTailLocations(tip,tail)
   }
 }
 class AxisModel(private var _angle: Double, val length: Double, tail: Boolean) extends Observable with Rotatable {
@@ -98,12 +113,12 @@ class AxisNodeWithModel(transform: ModelViewTransform2D, label: String, val axis
           transform.modelToViewDouble(axisModel.startPoint).x, transform.modelToViewDouble(axisModel.startPoint).y,
           transform.modelToViewDouble(axisModel.getEndPoint).x, transform.modelToViewDouble(axisModel.getEndPoint).y, label) {
   defineInvokeAndPass(axisModel.addListenerByName) {
-    axisNode.setTipAndTailLocations(transform.modelToViewDouble(axisModel.getEndPoint), transform.modelToViewDouble(axisModel.startPoint))
+    setTipAndTailLocations(transform.modelToViewDouble(axisModel.getEndPoint), transform.modelToViewDouble(axisModel.startPoint))
     updateTextNodeLocation()
   }
-  axisNode.addInputEventListener(new ToggleListener(new CursorHandler, isInteractive))
-  axisNode.addInputEventListener(new ToggleListener(new RotationHandler(transform, axisNode, axisModel, minAngle, maxAngle), isInteractive))
-  axisNode.addInputEventListener(new ToggleListener(new PBasicInputEventHandler {
+  hitNode.addInputEventListener(new ToggleListener(new CursorHandler, isInteractive))
+  hitNode.addInputEventListener(new ToggleListener(new RotationHandler(transform, hitNode, axisModel, minAngle, maxAngle), isInteractive))
+  hitNode.addInputEventListener(new ToggleListener(new PBasicInputEventHandler {
     override def mouseReleased(event: PInputEvent) = axisModel.dropped()
   }, isInteractive))
 }
