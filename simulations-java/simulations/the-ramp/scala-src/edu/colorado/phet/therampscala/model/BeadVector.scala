@@ -12,7 +12,7 @@ import scalacommon.math.Vector2D
 
 class BeadVector(color: Color,
                  name: String,
-                 abbreviation: String,
+                 override val abbreviation: String,
                  val bottomPO: Boolean, //shows point of origin at the bottom when in that mode
                  getValue: () => Vector2D,
                  painter: (Vector2D, Color) => Paint)
@@ -23,8 +23,9 @@ class BeadVector(color: Color,
 class VectorComponent(target: BeadVector,
                       bead: Bead,
                       getComponentUnitVector: () => Vector2D,
-                      painter: (Vector2D, Color) => Paint)
-        extends BeadVector(target.color, target.name, target.abbreviation, target.bottomPO, target.valueAccessor, painter) {
+                      painter: (Vector2D, Color) => Paint,
+                      modifier: String)
+        extends BeadVector(target.color, target.name, target.abbreviation + modifier, target.bottomPO, target.valueAccessor, painter) {
   override def getValue = {
     val d = getComponentUnitVector()
     d * (super.getValue dot d)
@@ -62,17 +63,21 @@ object Paints {
     })
   }
 }
-class AngleBasedComponent(target: BeadVector, bead: Bead, getComponentUnitVector: () => Vector2D, painter: (Vector2D, Color) => Paint) extends VectorComponent(target, bead, getComponentUnitVector, painter) {
+class AngleBasedComponent(target: BeadVector,
+                          bead: Bead,
+                          getComponentUnitVector: () => Vector2D,
+                          painter: (Vector2D, Color) => Paint,
+                          modifier: String) extends VectorComponent(target, bead, getComponentUnitVector, painter, modifier) {
   bead.addListenerByName(notifyListeners()) //since this value depends on getAngle, which depends on getPosition
 }
-class ParallelComponent(target: BeadVector, bead: Bead) extends AngleBasedComponent(target, bead, () => new Vector2D(bead.getAngle), (a, b) => b)
-class PerpendicularComponent(target: BeadVector, bead: Bead) extends AngleBasedComponent(target, bead, () => new Vector2D(bead.getAngle + PI / 2), (a, b) => b)
-class XComponent(target: BeadVector, bead: Bead, coordinateFrame: CoordinateFrameModel) extends VectorComponent(target, bead, () => new Vector2D(1, 0).rotate(coordinateFrame.angle), Paints.horizontalStripes) {
+class ParallelComponent(target: BeadVector, bead: Bead) extends AngleBasedComponent(target, bead, () => new Vector2D(bead.getAngle), (a, b) => b, "\u2225") //http://www.fileformat.info/info/unicode/char/2225/index.htm
+class PerpendicularComponent(target: BeadVector, bead: Bead) extends AngleBasedComponent(target, bead, () => new Vector2D(bead.getAngle + PI / 2), (a, b) => b, "\u22A5") //http://www.fileformat.info/info/unicode/char/22a5/index.htm
+class XComponent(target: BeadVector, bead: Bead, coordinateFrame: CoordinateFrameModel) extends VectorComponent(target, bead, () => new Vector2D(1, 0).rotate(coordinateFrame.angle), Paints.horizontalStripes, "x") {
   coordinateFrame.addListenerByName {
     notifyListeners()
   }
 }
-class YComponent(target: BeadVector, bead: Bead, coordinateFrame: CoordinateFrameModel) extends VectorComponent(target, bead, () => new Vector2D(0, 1).rotate(coordinateFrame.angle), Paints.verticalStripes) {
+class YComponent(target: BeadVector, bead: Bead, coordinateFrame: CoordinateFrameModel) extends VectorComponent(target, bead, () => new Vector2D(0, 1).rotate(coordinateFrame.angle), Paints.verticalStripes, "y") {
   coordinateFrame.addListenerByName {
     notifyListeners()
   }

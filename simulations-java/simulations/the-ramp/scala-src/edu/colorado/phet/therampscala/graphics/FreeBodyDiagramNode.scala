@@ -21,7 +21,9 @@ import umd.cs.piccolo.PNode
 import scalacommon.Predef._
 import java.lang.Math._
 
-class Vector(val color: Color, val name: String, val abbreviation: String, val valueAccessor: () => Vector2D, val painter: (Vector2D, Color) => Paint) extends Observable with VectorValue {
+class Vector(val color: Color,
+             val name: String,
+             val abbreviation: String, val valueAccessor: () => Vector2D, val painter: (Vector2D, Color) => Paint) extends Observable with VectorValue {
   private var _visible = true
 
   def getValue = valueAccessor()
@@ -34,6 +36,8 @@ class Vector(val color: Color, val name: String, val abbreviation: String, val v
   }
 
   def getPaint = painter(getValue, color)
+
+  def html = <html>F<sub>{abbreviation}</sub> </html>.toString
 }
 
 class AxisNode(val transform: ModelViewTransform2D, x0: Double, y0: Double, x1: Double, y1: Double, label: String) extends PNode {
@@ -251,7 +255,7 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
   val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(0, 1), 20, 20, 10, 0.5, true)
   arrowNode.setPaint(vector.getPaint)
   addChild(arrowNode)
-  val abbreviatonTextNode = new ShadowHTMLNode(vector.abbreviation, vector.color)
+  val abbreviatonTextNode = new ShadowHTMLNode(vector.html, vector.color)
   abbreviatonTextNode.setFont(new PhetFont(18))
   addChild(abbreviatonTextNode)
 

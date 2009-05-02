@@ -48,12 +48,12 @@ class Bead(_state: BeadState,
   var _parallelAppliedForce = 0.0
   private var attachState: MotionStrategy = new Grounded
 
-  val gravityForceVector = new BeadVector(RampDefaults.gravityForceColor, "Gravity Force", "<html>F<sub>g</sub></html>", false, () => gravityForce, (a, b) => b)
-  val normalForceVector = new BeadVector(RampDefaults.normalForceColor, "Normal Force", "<html>F<sub>N</sub></html>", true, () => normalForce, (a, b) => b)
-  val totalForceVector = new BeadVector(RampDefaults.totalForceColor, "Total Force (sum of forces)", "<html>F<sub>total</sub></html>", false, () => totalForce, (a, b) => b)
-  val appliedForceVector = new BeadVector(RampDefaults.appliedForceColor, "Applied Force", "<html>F<sub>a</sub></html>", false, () => appliedForce, (a, b) => b)
-  val frictionForceVector: BeadVector = new BeadVector(RampDefaults.frictionForceColor, "Friction Force", "<html>F<sub>f</sub></html>", true, () => frictionForce, (a, b) => b)
-  val wallForceVector = new BeadVector(RampDefaults.wallForceColor, "Wall Force", "<html>F<sub>w</sub></html>", false, () => wallForce, (a, b) => b)
+  val gravityForceVector = new BeadVector(RampDefaults.gravityForceColor, "Gravity Force", "g", false, () => gravityForce, (a, b) => b)
+  val normalForceVector = new BeadVector(RampDefaults.normalForceColor, "Normal Force", "N", true, () => normalForce, (a, b) => b)
+  val totalForceVector = new BeadVector(RampDefaults.totalForceColor, "Total Force (sum of forces)", "total", false, () => totalForce, (a, b) => b)
+  val appliedForceVector = new BeadVector(RampDefaults.appliedForceColor, "Applied Force", "a", false, () => appliedForce, (a, b) => b)
+  val frictionForceVector = new BeadVector(RampDefaults.frictionForceColor, "Friction Force", "f", true, () => frictionForce, (a, b) => b)
+  val wallForceVector = new BeadVector(RampDefaults.wallForceColor, "Wall Force", "w", false, () => wallForce, (a, b) => b)
   //chain listeners
   normalForceVector.addListenerByName(frictionForceVector.notifyListeners())
   //todo: add normalForceVector notification when changing friction coefficients
