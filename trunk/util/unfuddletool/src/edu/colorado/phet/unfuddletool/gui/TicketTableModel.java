@@ -38,7 +38,7 @@ public class TicketTableModel extends AbstractTableModel implements Ticket.Ticke
     }
 
 
-    public void addTicket( Ticket ticket ) {
+    public synchronized void addTicket( Ticket ticket ) {
         ticket.addListener( this );
 
         if ( tickets.size() == 0 ) {
@@ -69,7 +69,7 @@ public class TicketTableModel extends AbstractTableModel implements Ticket.Ticke
         fireTableRowsInserted( iter.previousIndex(), iter.previousIndex() );
     }
 
-    public void removeTicket( Ticket ticket ) {
+    public synchronized void removeTicket( Ticket ticket ) {
         ticket.removeListener( this );
 
         int index = tickets.indexOf( ticket );
@@ -77,7 +77,7 @@ public class TicketTableModel extends AbstractTableModel implements Ticket.Ticke
         fireTableRowsDeleted( index, index );
     }
 
-    public void changeTicket( Ticket ticket ) {
+    public synchronized void changeTicket( Ticket ticket ) {
         int oldIndex = getTicketIndex( ticket );
         LinkedList<TicketTableDisplay> changedDisplays = new LinkedList<TicketTableDisplay>();
         Iterator<TicketTableDisplay> firstIter = displays.iterator();
@@ -102,7 +102,7 @@ public class TicketTableModel extends AbstractTableModel implements Ticket.Ticke
         }
     }
 
-    public void clear() {
+    public synchronized void clear() {
         Object[] ticketArray = tickets.toArray();
         for ( int i = 0; i < ticketArray.length; i++ ) {
             if ( ticketArray[i] instanceof Ticket ) {
@@ -115,6 +115,16 @@ public class TicketTableModel extends AbstractTableModel implements Ticket.Ticke
         Iterator<Ticket> iter = ticketList.iterator();
         while ( iter.hasNext() ) {
             addTicket( iter.next() );
+        }
+    }
+
+    public void addTicketIDList( List<Integer> ticketIDList ) {
+        Iterator<Integer> iter = ticketIDList.iterator();
+
+        TicketHandler handler = TicketHandler.getTicketHandler();
+
+        while ( iter.hasNext() ) {
+            addTicket( handler.getTicketById( iter.next() ) );
         }
     }
 

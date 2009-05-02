@@ -7,7 +7,8 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.colorado.phet.unfuddletool.Authentication;
-import edu.colorado.phet.unfuddletool.gui.tabs.ActiveTicketsTab;
+import edu.colorado.phet.unfuddletool.gui.tabs.AllActiveTicketsTab;
+import edu.colorado.phet.unfuddletool.gui.tabs.MyActiveTicketsTab;
 import edu.colorado.phet.unfuddletool.gui.tabs.RecentTicketsTab;
 import edu.colorado.phet.unfuddletool.util.Activity;
 
@@ -19,7 +20,8 @@ public class UnfuddleToolGUI extends JFrame {
 
         JTabbedPane tabber = new JTabbedPane();
         tabber.addTab( "Recent Tickets", new RecentTicketsTab() );
-        tabber.addTab( "My Active Tickets", new ActiveTicketsTab() );
+        tabber.addTab( "My Active Tickets", new MyActiveTicketsTab() );
+        tabber.addTab( "All Active Tickets", new AllActiveTicketsTab() );
         add( tabber );
 
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );

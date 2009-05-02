@@ -5,6 +5,7 @@ import javax.swing.*;
 import edu.colorado.phet.unfuddletool.gui.UnfuddleToolGUI;
 import edu.colorado.phet.unfuddletool.handlers.PersonHandler;
 import edu.colorado.phet.unfuddletool.util.Activity;
+import edu.colorado.phet.unfuddletool.util.UpdateThread;
 
 public class UnfuddleTool {
 

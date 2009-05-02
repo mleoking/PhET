@@ -14,8 +14,9 @@ import edu.colorado.phet.unfuddletool.gui.TicketDisplayPane;
 import edu.colorado.phet.unfuddletool.gui.TicketTable;
 import edu.colorado.phet.unfuddletool.gui.TicketTableModel;
 import edu.colorado.phet.unfuddletool.util.SimpleTicketReport;
+import edu.colorado.phet.unfuddletool.util.TicketLoader;
 
-public class ActiveTicketsTab extends JSplitPane {
+public class MyActiveTicketsTab extends JSplitPane {
 
     private static TicketTableModel model;
 
@@ -23,7 +24,7 @@ public class ActiveTicketsTab extends JSplitPane {
     public TicketDisplayPane ticketTableDisplay;
     public TicketDisplayPane ticketTableHeader;
 
-    public ActiveTicketsTab() {
+    public MyActiveTicketsTab() {
         // set up the model
         model = new TicketTableModel();
         //TicketHandler.getTicketHandler().addTicketAddListener( model );
@@ -67,9 +68,10 @@ public class ActiveTicketsTab extends JSplitPane {
         generateReportButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
                 model.clear();
-                List<Ticket> ticketList = SimpleTicketReport.getMyActiveTickets();
+                List<Integer> ticketList = SimpleTicketReport.getMyActiveTicketIDs();
                 System.out.println( "Report found " + ticketList.size() + " tickets" );
-                model.addTicketList( ticketList );
+                //model.addTicketIDList( ticketList );
+                new TicketLoader( ticketList, model ).start();
             }
         } );
 
