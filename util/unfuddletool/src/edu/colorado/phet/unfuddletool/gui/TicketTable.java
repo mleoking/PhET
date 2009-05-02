@@ -50,8 +50,11 @@ public class TicketTable extends JXTable implements TicketTableModel.TicketTable
                 return -a.compareTo( b );
             }
         } );
-
-        getColumnExt( TicketTableModel.ID_SUMMARY ).setSortable( false );
+        getColumnExt( TicketTableModel.ID_SUMMARY ).setComparator( new Comparator<Ticket>() {
+            public int compare( Ticket a, Ticket b ) {
+                return -( Integer.valueOf( a.getPriority() ) ).compareTo( Integer.valueOf( b.getPriority() ) );
+            }
+        } );
 
         addHighlighter( new TicketHighlighter() );
 
