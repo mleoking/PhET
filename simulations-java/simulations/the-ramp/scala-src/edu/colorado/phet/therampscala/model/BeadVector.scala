@@ -10,13 +10,21 @@ import java.lang.Math._
 
 import scalacommon.math.Vector2D
 
-class BeadVector(color: Color, name: String, abbreviation: String, val bottomPO: Boolean, //shows point of origin at the bottom when in that mode
-                 getValue: () => Vector2D, painter: (Vector2D, Color) => Paint)
+class BeadVector(color: Color,
+                 name: String,
+                 abbreviation: String,
+                 val bottomPO: Boolean, //shows point of origin at the bottom when in that mode
+                 getValue: () => Vector2D,
+                 painter: (Vector2D, Color) => Paint)
         extends Vector(color, name, abbreviation, getValue, painter) with PointOfOriginVector {
   def getPointOfOriginOffset(defaultCenter: Double) = if (bottomPO) 0.0 else defaultCenter
 }
 
-class VectorComponent(target: BeadVector, bead: Bead, getComponentUnitVector: () => Vector2D, painter: (Vector2D, Color) => Paint) extends BeadVector(target.color, target.name, target.abbreviation, target.bottomPO, target.valueAccessor, painter) {
+class VectorComponent(target: BeadVector,
+                      bead: Bead,
+                      getComponentUnitVector: () => Vector2D,
+                      painter: (Vector2D, Color) => Paint)
+        extends BeadVector(target.color, target.name, target.abbreviation, target.bottomPO, target.valueAccessor, painter) {
   override def getValue = {
     val d = getComponentUnitVector()
     d * (super.getValue dot d)
