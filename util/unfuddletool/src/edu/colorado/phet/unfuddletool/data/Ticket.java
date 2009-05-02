@@ -129,9 +129,17 @@ public class Ticket extends Record {
     }
 
     public String getHTMLHeader() {
-        String ret = "<html><body bgcolor='#FFFFFF'><h3><a href='" + externalLink() + "'>";
+        String ret = "<html><body bgcolor='#FFFFFF'>";
 
-        ret += "#" + getNumber() + " " + getSummary() + "</a></h3>\n";
+        ret += "<table width='100%'><tr><td align='left'>";
+
+        ret += "<h3><a href='" + externalLink() + "'>#" + getNumber() + " " + getSummary() + "</a></h3>";
+
+        ret += "</td><td align='right'>";
+
+        ret += "<a href='update:" + getId() + "'>update</a>";
+
+        ret += "</td></tr></table>";
 
         ret += "Component: <b>" + getComponentName() + "</b>&nbsp;&nbsp;&nbsp;&nbsp;";
         ret += "Assignee: <b>" + getAssigneeName() + "</b>&nbsp;&nbsp;&nbsp;&nbsp;";
