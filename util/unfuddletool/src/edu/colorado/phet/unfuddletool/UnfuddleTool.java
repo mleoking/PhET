@@ -3,6 +3,7 @@ package edu.colorado.phet.unfuddletool;
 import javax.swing.*;
 
 import edu.colorado.phet.unfuddletool.gui.UnfuddleToolGUI;
+import edu.colorado.phet.unfuddletool.handlers.MilestoneHandler;
 import edu.colorado.phet.unfuddletool.handlers.PersonHandler;
 import edu.colorado.phet.unfuddletool.util.Activity;
 import edu.colorado.phet.unfuddletool.util.UpdateThread;
@@ -21,7 +22,9 @@ public class UnfuddleTool {
 
         UnfuddleToolGUI gui = new UnfuddleToolGUI();
 
+        // load a few things first (not required, but happens on first ticket load anyways)
         PersonHandler.getPersonHandler();
+        MilestoneHandler.getMilestoneHandler();
 
         Activity.requestRecentActivity( 8 );
 

@@ -10,6 +10,7 @@ import org.w3c.dom.NodeList;
 
 import edu.colorado.phet.unfuddletool.Authentication;
 import edu.colorado.phet.unfuddletool.Configuration;
+import edu.colorado.phet.unfuddletool.handlers.MilestoneHandler;
 import edu.colorado.phet.unfuddletool.util.Communication;
 import edu.colorado.phet.unfuddletool.util.DateUtils;
 
@@ -128,6 +129,18 @@ public class Ticket extends Record {
         return Person.getNameFromId( rawReporterId );
     }
 
+    public int getMilestoneId() {
+        return rawMilestoneId;
+    }
+
+    public Milestone getMilestone() {
+        return MilestoneHandler.getMilestoneHandler().getMilestoneById( getMilestoneId() );
+    }
+
+    public String getMilestoneTitle() {
+        return MilestoneHandler.getMilestoneHandler().getMilestoneTitleById( getMilestoneId() );
+    }
+
     public String getHTMLHeader() {
         String ret = "<html><body bgcolor='#FFFFFF'>";
 
@@ -146,7 +159,8 @@ public class Ticket extends Record {
         ret += "Reporter: <b>" + getReporterName() + "</b>\n";
 
         ret += "Created: " + DateUtils.compactDate( rawCreatedAt.getDate() ) + "&nbsp;&nbsp;&nbsp;&nbsp;";
-        ret += "Updated: " + DateUtils.compactDate( rawUpdatedAt.getDate() ) + "\n";
+        ret += "Updated: " + DateUtils.compactDate( rawUpdatedAt.getDate() ) + "&nbsp;&nbsp;&nbsp;&nbsp;";
+        ret += "Milestone: " + getMilestoneTitle() + "\n";
 
         // TODO: milestone
 
