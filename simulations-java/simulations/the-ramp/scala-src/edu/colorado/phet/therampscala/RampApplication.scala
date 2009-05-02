@@ -182,7 +182,6 @@ class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String) extends
   val coordinateSystemModel = new CoordinateSystemModel
   val vectorViewModel = new VectorViewModel
   coordinateSystemModel.addListenerByName(if (coordinateSystemModel.fixed) model.coordinateFrameModel.angle = 0)
-  clock.addClockListener(model.update(_))
   def resetRampModule(): Unit = {
     model.resetAll()
     wordModel.resetAll()
@@ -196,6 +195,7 @@ class RampModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(fr
   setSimulationPanel(canvas)
   setControlPanel(new RampControlPanel(model, wordModel, fbdModel, coordinateSystemModel, vectorViewModel, resetRampModule))
   setClockControlPanel(new RecordModelControlPanel(model, canvas, () => new PlaybackSpeedSlider(model), Color.blue, 20))
+  clock.addClockListener(model.update(_))
 }
 
 case class Result(success: Boolean, cliff: Boolean, score: Int)
