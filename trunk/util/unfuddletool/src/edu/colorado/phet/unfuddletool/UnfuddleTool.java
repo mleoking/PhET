@@ -18,10 +18,6 @@ public class UnfuddleTool {
 
         UnfuddleToolGUI gui = new UnfuddleToolGUI();
 
-        TicketHandler ticketHandler = TicketHandler.getTicketHandler();
-        ticketHandler.addTicketAddListener( gui.ticketList.model );
-        ticketHandler.addTicketAddListener( gui.ticketTableModel );
-
         PersonHandler.getPersonHandler();
 
         Activity.requestRecentActivity( 8 );
