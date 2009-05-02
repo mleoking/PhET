@@ -300,20 +300,22 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
     val beadNode = new DraggableBeadNode(bead, transform, a.imageFilename)
     addNode(beadNode)
 
+    val roboBead = model.createBead(-10 - a.width / 2, 1)
+
+    val pusherNode = new RobotPusherNode(transform, bead, roboBead)
+    addNode(pusherNode)
+
     gameModel.nextObjectListeners += ((prevObject: ScalaRampObject) => {
       if (prevObject == a) { //todo: get rid of this lookup
         removeNode(beadNode)
+        removeNode(pusherNode)
       }
     })
     fbdNode.clearVectors()
     windowFBDNode.clearVectors()
     //todo: clear play area vectors (or never add them in the first place)
     //    println("adding vectors for bead: " + bead + ", a=" + a)
-
-    val roboBead = model.createBead(-10 - a.width / 2, 1)
-
-    val pusherNode = new RobotPusherNode(transform, bead, roboBead)
-    addNode(pusherNode)
+    //
 
     val removeListenerM = if (lastBead == null) gameModel.removeListener _ else lastBead.removeListener _
     def setter(x: Double) = if (gameModel.robotEnergy > 0) bead.parallelAppliedForce = x else {}
