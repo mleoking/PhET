@@ -5,8 +5,8 @@ import java.util.Date;
 import org.w3c.dom.Element;
 
 import edu.colorado.phet.unfuddletool.Communication;
-import edu.colorado.phet.unfuddletool.PersonHandler;
-import edu.colorado.phet.unfuddletool.TicketHandler;
+import edu.colorado.phet.unfuddletool.handlers.PersonHandler;
+import edu.colorado.phet.unfuddletool.handlers.TicketHandler;
 import edu.colorado.phet.unfuddletool.util.DateUtils;
 
 public class Comment extends Record {

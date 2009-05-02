@@ -1,9 +1,10 @@
-package edu.colorado.phet.unfuddletool;
+package edu.colorado.phet.unfuddletool.handlers;
 
 import java.util.*;
 
 import org.w3c.dom.Element;
 
+import edu.colorado.phet.unfuddletool.Communication;
 import edu.colorado.phet.unfuddletool.data.Ticket;
 
 public class TicketHandler {

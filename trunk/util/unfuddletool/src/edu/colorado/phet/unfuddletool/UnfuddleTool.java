@@ -3,6 +3,7 @@ package edu.colorado.phet.unfuddletool;
 import javax.swing.*;
 
 import edu.colorado.phet.unfuddletool.gui.UnfuddleToolGUI;
+import edu.colorado.phet.unfuddletool.handlers.PersonHandler;
 
 public class UnfuddleTool {
 

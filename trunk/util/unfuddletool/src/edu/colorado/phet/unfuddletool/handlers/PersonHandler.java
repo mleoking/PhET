@@ -1,4 +1,4 @@
-package edu.colorado.phet.unfuddletool;
+package edu.colorado.phet.unfuddletool.handlers;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -10,6 +10,8 @@ import javax.xml.transform.TransformerException;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import edu.colorado.phet.unfuddletool.Authentication;
+import edu.colorado.phet.unfuddletool.Communication;
 import edu.colorado.phet.unfuddletool.data.Person;
 
 public class PersonHandler {

@@ -8,20 +8,18 @@ import javax.swing.*;
 
 import edu.colorado.phet.unfuddletool.Activity;
 import edu.colorado.phet.unfuddletool.Authentication;
+import edu.colorado.phet.unfuddletool.gui.tabs.ActiveTicketsTab;
 import edu.colorado.phet.unfuddletool.gui.tabs.RecentTicketsTab;
 
 public class UnfuddleToolGUI extends JFrame {
-
-    public RecentTicketsTab recentTicketsTab;
 
     public UnfuddleToolGUI() {
         setTitle( "Unfuddle Tool" );
         setSize( 900, 700 );
 
-        recentTicketsTab = new RecentTicketsTab();
-
         JTabbedPane tabber = new JTabbedPane();
-        tabber.addTab( "Recent Tickets", recentTicketsTab );
+        tabber.addTab( "Recent Tickets", new RecentTicketsTab() );
+        tabber.addTab( "My Active Tickets", new ActiveTicketsTab() );
         add( tabber );
 
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
