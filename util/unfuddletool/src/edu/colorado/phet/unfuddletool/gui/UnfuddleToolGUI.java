@@ -14,6 +14,8 @@ import javax.swing.text.html.HTMLEditorKit;
 import edu.colorado.phet.unfuddletool.Activity;
 import edu.colorado.phet.unfuddletool.Authentication;
 import edu.colorado.phet.unfuddletool.LinkHandler;
+import edu.colorado.phet.unfuddletool.TicketHandler;
+import edu.colorado.phet.unfuddletool.gui.tabs.RecentTicketsTab;
 import edu.colorado.phet.unfuddletool.data.Ticket;
 
 public class UnfuddleToolGUI extends JFrame {
@@ -24,11 +26,36 @@ public class UnfuddleToolGUI extends JFrame {
     public TicketTable ticketTable;
     private JEditorPane ticketTableHeader;
 
+    public TicketTableModel recentTicketsModel;
+    public RecentTicketsTab recentTicketsTab;
+
     public UnfuddleToolGUI() {
         setTitle( "Unfuddle Tool" );
         setSize( 900, 700 );
 
-        // OLD (Ticket List)
+        JSplitPane listSplitPane = createTicketList();
+        JSplitPane tableSplitPane = createTicketTable();
+
+        recentTicketsModel = new TicketTableModel();
+        TicketHandler.getTicketHandler().addTicketAddListener( recentTicketsModel );
+        recentTicketsTab = new RecentTicketsTab( recentTicketsModel );
+
+        JTabbedPane tabber = new JTabbedPane();
+        tabber.addTab( "Ticket List", listSplitPane );
+        tabber.addTab( "Ticket Table", tableSplitPane );
+        tabber.addTab( "Recent Tickets", recentTicketsTab );
+        add( tabber );
+
+        setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+
+        setJMenuBar( createMenu() );
+
+        setVisible( true );
+        repaint( 0, 0, 0, 5000, 5000 );
+
+    }
+
+    private JSplitPane createTicketList() {
         ticketList = new TicketList( this );
 
         JScrollPane ticketListScrollPane = new JScrollPane( ticketList );
@@ -37,13 +64,13 @@ public class UnfuddleToolGUI extends JFrame {
 
         ticketListDisplay = createDisplayPane();
         ticketListDisplay.setText( "To the left are tickets sorted by when they were last modified." );
-        setPaneStyle( ticketListDisplay );
         JScrollPane listAreaScrollPane = new JScrollPane( ticketListDisplay );
         listAreaScrollPane.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
         JSplitPane listSplitPane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, ticketListScrollPane, listAreaScrollPane );
-        // END OLD
+        return listSplitPane;
+    }
 
-        // NEW (Ticket Table)
+    private JSplitPane createTicketTable() {
         ticketTableModel = new TicketTableModel();
         ticketTable = new TicketTable( ticketTableModel );
         JScrollPane ticketTableScrollPane = new JScrollPane( ticketTable );
@@ -56,7 +83,6 @@ public class UnfuddleToolGUI extends JFrame {
         tableAreaScrollPane.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
         ticketTableHeader = createDisplayPane();
         ticketTableHeader.setText( "Ticket Header" );
-        setPaneStyle( ticketTableHeader );
         final JSplitPane rightSplitPane = new JSplitPane( JSplitPane.VERTICAL_SPLIT, ticketTableHeader, tableAreaScrollPane );
         rightSplitPane.setOneTouchExpandable( true );
         JSplitPane tableSplitPane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, ticketTableScrollPane, rightSplitPane );
@@ -74,22 +100,7 @@ public class UnfuddleToolGUI extends JFrame {
                 }
             }
         } );
-        // END NEW
-
-        JTabbedPane tabber = new JTabbedPane();
-        tabber.addTab( "Ticket List", listSplitPane );
-        tabber.addTab( "Ticket Table", tableSplitPane );
-        add( tabber );
-
-        //add( splitPane );
-
-        setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-
-        setJMenuBar( createMenu() );
-
-        setVisible( true );
-        repaint( 0, 0, 0, 5000, 5000 );
-
+        return tableSplitPane;
     }
 
     private JEditorPane createDisplayPane() {
@@ -106,6 +117,8 @@ public class UnfuddleToolGUI extends JFrame {
         pane.addHyperlinkListener( new LinkHandler() );
         pane.setEditable( false );
         pane.setBorder( new EmptyBorder( new Insets( 0, 10, 10, 10 ) ) );
+
+        setPaneStyle( pane );
 
         return pane;
     }

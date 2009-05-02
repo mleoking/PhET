@@ -45,13 +45,11 @@ public class Activity {
 
                         if ( event.getType() == Event.Type.COMMENT ) {
                             Comment comment = event.getCommentRecord();
-                            //TicketHandler.getTicketHandler().getTicketById( comment.rawParentId );
                             TicketHandler.getTicketHandler().requestTicketUpdate( comment.rawParentId, comment.rawUpdatedAt.getDate() );
                         }
 
                         if ( event.getType() == Event.Type.TICKET ) {
                             Ticket ticket = event.getTicketRecord();
-                            //TicketHandler.getTicketHandler().getTicketById( event.getTicketRecord().getId() );
                             TicketHandler.getTicketHandler().requestTicketUpdate( ticket.getId(), ticket.rawUpdatedAt.getDate() );
                         }
                     }
@@ -75,8 +73,6 @@ public class Activity {
         Calendar cal = new GregorianCalendar();
         cal.setTime( new Date() );
         dayRoll( cal, true );
-        //cal.roll( Calendar.DATE, true );
-        //cal.roll( Calendar.DATE, true );
 
         String oldString = stringFromCalendar( cal );
 
