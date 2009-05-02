@@ -6,10 +6,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import edu.colorado.phet.unfuddletool.Activity;
 import edu.colorado.phet.unfuddletool.Authentication;
 import edu.colorado.phet.unfuddletool.gui.tabs.ActiveTicketsTab;
 import edu.colorado.phet.unfuddletool.gui.tabs.RecentTicketsTab;
+import edu.colorado.phet.unfuddletool.util.Activity;
 
 public class UnfuddleToolGUI extends JFrame {
 

@@ -4,8 +4,8 @@ import java.util.*;
 
 import org.w3c.dom.Element;
 
-import edu.colorado.phet.unfuddletool.Communication;
 import edu.colorado.phet.unfuddletool.data.Ticket;
+import edu.colorado.phet.unfuddletool.util.Communication;
 
 public class TicketHandler {
 
