@@ -248,8 +248,6 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
   controlPanel.add(appliedForceControl)
   controlPanel.add(robotGoButton)
 
-  //  controlPanel.add(new ScalaButton("Raise Truck", () => updatePosition(0.2)))
-  //  controlPanel.add(new ScalaButton("Lower Truck", () => updatePosition(-0.2)))
   controlPanel.add(Box.createRigidArea(new Dimension(10, 10)))
   val nextObjectButton = new ScalaButton("Next Object", () => gameModel.nextObject())
   val updateNextObjectButtonEnabled = () => {nextObjectButton.setEnabled(gameModel.readyForNext)}
