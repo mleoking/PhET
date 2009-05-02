@@ -4,7 +4,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import edu.colorado.phet.unfuddletool.Communication;
+import edu.colorado.phet.unfuddletool.util.Communication;
 
 public class Event {
 

@@ -9,8 +9,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import edu.colorado.phet.unfuddletool.Authentication;
-import edu.colorado.phet.unfuddletool.Communication;
 import edu.colorado.phet.unfuddletool.Configuration;
+import edu.colorado.phet.unfuddletool.util.Communication;
 import edu.colorado.phet.unfuddletool.util.DateUtils;
 
 public class Ticket extends Record {

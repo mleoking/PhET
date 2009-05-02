@@ -1,4 +1,4 @@
-package edu.colorado.phet.unfuddletool;
+package edu.colorado.phet.unfuddletool.util;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -20,6 +20,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import edu.colorado.phet.unfuddletool.Authentication;
+import edu.colorado.phet.unfuddletool.Configuration;
 import edu.colorado.phet.unfuddletool.data.DateTime;
 
 public class Communication {
