@@ -12,7 +12,11 @@
 		this.pendulum.registerGraphView(this);
 		this.pixelsPerJoule = 100;
 		this.clip = _root.attachMovie("energyGraph", "energyGraph"+pendulumNbr+"_mc", _root.getNextHighestDepth());
-		Util.setXYPosition(this.clip, 0.7*Util.STAGEW, 0.85*Util.STAGEH);
+		if( _level0.languageCode == "en" ) {
+			Util.setXYPosition(this.clip, 0.7*Util.STAGEW, 0.85*Util.STAGEH);
+		} else {
+			Util.setXYPosition(this.clip, 0.7*Util.STAGEW, 0.75*Util.STAGEH);
+		}
 		this.clip.yAxis_txt.text = "energy of " + pendulumNbr;
 	}//end of constructor
 	
