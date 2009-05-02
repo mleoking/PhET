@@ -7,7 +7,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 
-import edu.colorado.phet.unfuddletool.LinkHandler;
+import edu.colorado.phet.unfuddletool.handlers.LinkHandler;
 
 public class TicketDisplayPane extends JEditorPane {
 

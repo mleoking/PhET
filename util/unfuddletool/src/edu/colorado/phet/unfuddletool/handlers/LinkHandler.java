@@ -1,4 +1,4 @@
-package edu.colorado.phet.unfuddletool;
+package edu.colorado.phet.unfuddletool.handlers;
 
 import java.awt.*;
 import java.io.IOException;

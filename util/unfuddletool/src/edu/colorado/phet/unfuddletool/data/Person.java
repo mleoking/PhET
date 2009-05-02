@@ -3,7 +3,7 @@ package edu.colorado.phet.unfuddletool.data;
 import org.w3c.dom.Element;
 
 import edu.colorado.phet.unfuddletool.Communication;
-import edu.colorado.phet.unfuddletool.PersonHandler;
+import edu.colorado.phet.unfuddletool.handlers.PersonHandler;
 
 public class Person {
 

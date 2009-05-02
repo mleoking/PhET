@@ -10,9 +10,8 @@ import edu.colorado.phet.unfuddletool.data.Ticket;
 import edu.colorado.phet.unfuddletool.gui.TicketDisplayPane;
 import edu.colorado.phet.unfuddletool.gui.TicketTable;
 import edu.colorado.phet.unfuddletool.gui.TicketTableModel;
-import edu.colorado.phet.unfuddletool.handlers.TicketHandler;
 
-public class RecentTicketsTab extends JSplitPane {
+public class ActiveTicketsTab extends JSplitPane {
 
     private static TicketTableModel model;
 
@@ -20,10 +19,10 @@ public class RecentTicketsTab extends JSplitPane {
     public TicketDisplayPane ticketTableDisplay;
     public TicketDisplayPane ticketTableHeader;
 
-    public RecentTicketsTab() {
+    public ActiveTicketsTab() {
         // set up the model
         model = new TicketTableModel();
-        TicketHandler.getTicketHandler().addTicketAddListener( model );
+        //TicketHandler.getTicketHandler().addTicketAddListener( model );
 
         ticketTable = new TicketTable( model );
         JScrollPane ticketTableScrollPane = new JScrollPane( ticketTable );

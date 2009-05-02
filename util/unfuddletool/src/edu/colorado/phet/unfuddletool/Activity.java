@@ -15,6 +15,7 @@ import org.w3c.dom.NodeList;
 import edu.colorado.phet.unfuddletool.data.Comment;
 import edu.colorado.phet.unfuddletool.data.Event;
 import edu.colorado.phet.unfuddletool.data.Ticket;
+import edu.colorado.phet.unfuddletool.handlers.TicketHandler;
 
 public class Activity {
 

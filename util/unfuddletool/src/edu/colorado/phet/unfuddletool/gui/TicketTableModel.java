@@ -4,8 +4,8 @@ import java.util.*;
 
 import javax.swing.table.AbstractTableModel;
 
-import edu.colorado.phet.unfuddletool.TicketHandler;
 import edu.colorado.phet.unfuddletool.data.Ticket;
+import edu.colorado.phet.unfuddletool.handlers.TicketHandler;
 
 public class TicketTableModel extends AbstractTableModel implements Ticket.TicketListener, TicketHandler.TicketAddListener {
 
