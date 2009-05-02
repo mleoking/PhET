@@ -1,10 +1,8 @@
-package edu.colorado.phet.unfuddletool;
+package edu.colorado.phet.unfuddletool.util;
 
 import java.util.Date;
 
 import javax.swing.*;
-
-import edu.colorado.phet.unfuddletool.util.Activity;
 
 public class UpdateThread extends Thread {
     public void run() {
