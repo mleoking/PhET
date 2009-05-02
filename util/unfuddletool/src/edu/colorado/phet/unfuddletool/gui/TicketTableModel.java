@@ -103,9 +103,18 @@ public class TicketTableModel extends AbstractTableModel implements Ticket.Ticke
     }
 
     public void clear() {
-        Ticket[] ticketArray = (Ticket[]) tickets.toArray();
+        Object[] ticketArray = tickets.toArray();
         for ( int i = 0; i < ticketArray.length; i++ ) {
-            removeTicket( ticketArray[i] );
+            if ( ticketArray[i] instanceof Ticket ) {
+                removeTicket( (Ticket) ticketArray[i] );
+            }
+        }
+    }
+
+    public void addTicketList( List<Ticket> ticketList ) {
+        Iterator<Ticket> iter = ticketList.iterator();
+        while ( iter.hasNext() ) {
+            addTicket( iter.next() );
         }
     }
 
