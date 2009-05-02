@@ -2,6 +2,7 @@ package edu.colorado.phet.unfuddletool.handlers;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.Date;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
@@ -14,8 +15,19 @@ public class LinkHandler implements HyperlinkListener {
             return;
         }
 
-        System.out.println( "Opening " + hyperlinkEvent.getDescription() );
+        String link = hyperlinkEvent.getDescription();
 
+        if ( link.startsWith( "update:" ) ) {
+            int ticketId = Integer.valueOf( link.substring( 7 ) );
+
+            System.out.println( "Manually attempting to update ticket " + ticketId );
+
+            TicketHandler.getTicketHandler().requestTicketUpdate( ticketId, new Date() );
+
+            return;
+        }
+
+        System.out.println( "Opening " + link );
         showInBrowser( hyperlinkEvent.getDescription(), null );
     }
 
