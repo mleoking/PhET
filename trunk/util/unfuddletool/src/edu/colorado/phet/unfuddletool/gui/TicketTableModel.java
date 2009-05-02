@@ -78,6 +78,7 @@ public class TicketTableModel extends AbstractTableModel implements Ticket.Ticke
     }
 
     public synchronized void changeTicket( Ticket ticket ) {
+        // TODO: fix when table rows are sorted differently?
         int oldIndex = getTicketIndex( ticket );
         LinkedList<TicketTableDisplay> changedDisplays = new LinkedList<TicketTableDisplay>();
         Iterator<TicketTableDisplay> firstIter = displays.iterator();

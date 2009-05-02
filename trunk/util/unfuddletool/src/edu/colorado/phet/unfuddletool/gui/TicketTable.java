@@ -63,13 +63,14 @@ public class TicketTable extends JXTable implements TicketTableModel.TicketTable
     public int getSelectedIndex() {
         int[] indices = getSelectedRows();
         if ( indices.length == 1 ) {
-            return indices[0];
+            return convertRowIndexToModel( indices[0] );
         }
 
         return -1;
     }
 
     public void setSelectedIndex( int index ) {
-        ticketSelectionModel.setSelectionInterval( index, index );
+        int newIndex = convertRowIndexToView( index );
+        ticketSelectionModel.setSelectionInterval( newIndex, newIndex );
     }
 }
