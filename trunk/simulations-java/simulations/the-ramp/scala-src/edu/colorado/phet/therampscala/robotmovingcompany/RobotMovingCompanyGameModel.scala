@@ -10,7 +10,8 @@ import scalacommon.math.Vector2D
 import java.lang.Math._
 
 class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) extends Observable {
-  private var _robotEnergy = 3000.0
+  private val DEFAULT_ROBOT_ENERGY = 3000.0
+  private var _robotEnergy = DEFAULT_ROBOT_ENERGY
   val surfaceModel = new SurfaceModel
   model.rampSegments(1).setAngle(0)
   model.walls = false
@@ -40,6 +41,9 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
   def robotEnergy = _robotEnergy
 
   def setupObject() = {
+    _robotEnergy = DEFAULT_ROBOT_ENERGY
+    notifyListeners()
+    
     val a = selectedObject
     model.setPaused(true)
 
