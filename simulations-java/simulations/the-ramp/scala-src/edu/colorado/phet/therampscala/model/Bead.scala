@@ -32,11 +32,12 @@ case class BeadState(position: Double, velocity: Double, mass: Double, staticFri
 
 case class Range(min: Double, max: Double)
 
-object Bead{
-  private var index=0
-  def nextIndex()={
-    val nextInd=index
-    index=index+1
+object Bead {
+  private var index = 0
+
+  def nextIndex() = {
+    val nextInd = index
+    index = index + 1
     nextInd
   }
 }
@@ -49,7 +50,7 @@ class Bead(_state: BeadState,
            wallsExist: => Boolean,
            wallRange: () => Range)
         extends Observable {
-  val id=Bead.nextIndex()
+  val id = Bead.nextIndex()
   val crashListeners = new ArrayBuffer[() => Unit]
   val stopListeners = new ArrayBuffer[() => Unit]
   val gravity = -9.8
@@ -77,9 +78,10 @@ class Bead(_state: BeadState,
   model.addListenerByName(frictionForceVector.notifyListeners())
 
   //notified when the bead is being removed
-  val removalListeners =new ArrayBuffer[()=>Unit]
-  def remove()={
-//    model.removeListener()
+  val removalListeners = new ArrayBuffer[() => Unit]
+
+  def remove() = {
+    //    model.removeListener()
     removalListeners.foreach(_())
   }
 
@@ -308,7 +310,7 @@ class Bead(_state: BeadState,
     }
 
     override def stepInTime(dt: Double) = {
-//      println("grounded.step for "+id)
+      //      println("grounded.step for "+id)
       val origState = state
 
       setVelocity(netForceToParallelVelocity(totalForce, dt))

@@ -381,13 +381,9 @@ class RobotMovingCompanyApplication(config: PhetApplicationConfig) extends Picco
 
 //Current IntelliJ plugin has trouble finding main for classes with a companion object, so we use a different name 
 object RampApplicationMain {
-  def main(args: Array[String]) = {
-    new PhetApplicationLauncher().launchSim(args, "the-ramp", classOf[RampApplication])
-  }
+  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "the-ramp", classOf[RampApplication])
 }
 
 object RobotMovingCompanyApplicationMain {
-  def main(args: Array[String]) = {
-    new PhetApplicationLauncher().launchSim(args, "the-ramp", "robot-moving-company", classOf[RobotMovingCompanyApplication])
-  }
+  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "the-ramp", "robot-moving-company", classOf[RobotMovingCompanyApplication])
 }
