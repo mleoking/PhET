@@ -27,7 +27,6 @@ import javax.swing.event.{ChangeListener, ChangeEvent}
 import model._
 
 
-import robotmovingcompany.RobotMovingCompanyGameModel
 import scalacommon.math.Vector2D
 import scalacommon.record.{PlaybackSpeedSlider, RecordModel, RecordModelControlPanel}
 import scalacommon.swing.MyRadioButton
@@ -65,7 +64,7 @@ class RampModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(fr
 }
 
 class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock, "Robot Moving Company") {
-  val gameModel = new RobotMovingCompanyGameModel(model, clock)
+  val gameModel = new robotmovingcompany.RobotMovingCompanyGameModel(model, clock)//todo: fix this with imports
   val canvas = new RMCCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame, gameModel)
 
   setSimulationPanel(canvas)
