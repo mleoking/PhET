@@ -12,7 +12,7 @@ import image.BufferedImage
 import java.awt.geom.{Point2D, Rectangle2D}
 import javax.swing.JFrame
 import layout.SwingLayoutNode
-import model.CoordinateFrameModel
+import model.{FreeBodyDiagramModel, CoordinateFrameModel}
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEventListener, PInputEvent}

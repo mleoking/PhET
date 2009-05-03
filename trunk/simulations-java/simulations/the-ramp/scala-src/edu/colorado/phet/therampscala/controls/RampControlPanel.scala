@@ -6,7 +6,9 @@ import common.phetcommon.view.util.PhetFont
 import common.phetcommon.view.{ControlPanel, VerticalLayoutPanel, ResetAllButton}
 import java.awt._
 import javax.swing._
-import model.RampModel
+import model._
+
+
 import scalacommon.swing.MyRadioButton
 import scalacommon.util.Observable
 import swing.{MyCheckBox, ScalaValueControl}
