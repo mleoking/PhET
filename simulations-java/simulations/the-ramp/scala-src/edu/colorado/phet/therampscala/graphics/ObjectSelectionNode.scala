@@ -38,7 +38,7 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
   class ObjectSelectionIcon(o: ScalaRampObject) extends PNode {
     val textNode = new HTMLNode(o.getDisplayTextHTML.toString)
     val imageNode = new PImage(BufferedImageUtils.multiScaleToHeight(RampResources.getImage(o.iconFilename), 100))
-    imageNode.scale(0.7f)
+    imageNode.scale(0.65f)
     textNode.setOffset(imageNode.getFullBounds.getWidth, 0)
 
     //to capture any input, not just directly on the image or text
@@ -57,7 +57,10 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
       val c = textNode.getGlobalFullBounds
       globalToLocal(c)
 
-      new PBounds(c.createUnion(b))
+      val union = c.createUnion(b)
+      val insetX = 8
+      val insetY = 5
+      new PBounds(new Rectangle2D.Double(union.getX, union.getY, union.getWidth + insetX, union.getHeight + insetY))
     }
     defineInvokeAndPass(model.addListenerByName) {
       update()
@@ -68,7 +71,7 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
         textNode.setFont(new PhetFont(18, true))
       } else {
         backgroundNode.setPaint(new Color(0, 0, 0, 0))
-        textNode.setFont(new PhetFont(18, false))
+        textNode.setFont(new PhetFont(18, true))
       }
     }
     addInputEventListener(new PBasicInputEventHandler {
