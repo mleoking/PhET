@@ -1,13 +1,13 @@
 package edu.colorado.phet.scalasimtemplate
 
 import _root_.scala.collection.mutable.ArrayBuffer
-import common.phetcommon.application.Module
+import common.phetcommon.application.{PhetApplicationLauncher, PhetApplicationConfig, Module}
 import common.phetcommon.model.BaseModel
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.util.PhetFont
 import common.phetcommon.view.VerticalLayoutPanel
 import common.piccolophet.event.CursorHandler
-import common.piccolophet.PhetPCanvas
+import common.piccolophet.{PiccoloPhetApplication, PhetPCanvas}
 import java.awt.geom.Rectangle2D
 import java.awt.{Rectangle, Dimension, Color}
 import edu.colorado.phet.scalacommon.Predef._
@@ -25,6 +25,7 @@ class BlockState(val position: Vector2D, val velocity: Vector2D) {
 object MyRandom extends scala.util.Random
 
 class Block extends Observable {
+  val removalListeners = new ArrayBuffer[() => Unit]
   var state = new BlockState(new Vector2D(200, 200), new Vector2D(MyRandom.nextDouble() * 30 + 10, MyRandom.nextDouble() * 30 + 10))
 
   def translate(delta: Vector2D) = {
@@ -35,39 +36,59 @@ class Block extends Observable {
   def position = state.position
 
   def velocity = state.velocity
+
+  def x = position.x
+
+  def remove() = removalListeners.foreach(_())
 }
 
 class TestModel {
   val blocks = new ArrayBuffer[Block]
 
   blocks += new Block
-  val blockListeners = new ArrayBuffer[Block => Unit]
+  val blockAddListeners = new ArrayBuffer[Block => Unit]
 
   def update(dt: Double) = {
-    blocks.foreach(b => b.translate(b.velocity * dt))
+    blocks.foreach(b => {
+      b.translate(b.velocity * dt)
+      if (b.x > 500) {
+        remove(b)
+      }
+    })
+  }
+
+  def remove(b: Block) {
+    b.remove()
+    blocks -= b
   }
 
   def addRandomBlock() = {
     val block = new Block
     blocks += block
-    blockListeners.foreach(_(block))
+    blockAddListeners.foreach(_(block))
   }
 }
 
 class BlockNode(b: Block, transform: ModelViewTransform2D) extends PText("Block") {
   addInputEventListener(new CursorHandler)
   setFont(new PhetFont(24, true))
-  defineInvokeAndPass(b.addListenerByName){
+  defineInvokeAndPass(b.addListenerByName) {
     setOffset(b.position)
   }
 }
 
 class TestCanvas(model: TestModel) extends DefaultCanvas(20, 20) {
   setBackground(new Color(200, 255, 240))
-  val blockNode = new BlockNode(model.blocks(0), transform)
-  addNode(blockNode)
+  createNodeForBlock(model.blocks(0))
 
-  model.blockListeners += (b => addNode(new BlockNode(b, transform)))
+  def createNodeForBlock(b: Block) = {
+    val newNode = new BlockNode(b, transform)
+    addNode(newNode)
+    b.removalListeners += (() => {
+      removeNode(newNode)
+    })
+  }
+  model.blockAddListeners += createNodeForBlock
 }
 
 class TestControlPanel(model: TestModel) extends JPanel {
@@ -84,8 +105,13 @@ class TestModule(clock: ScalaClock) extends Module("Scala Sim Template", clock) 
   setControlPanel(new TestControlPanel(model))
 }
 
-object TestApplication {
+class TestApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
+  addModule(new TestModule(new ScalaClock(30, 30 / 1000.0)))
+}
+
+//Current IntelliJ plugin has trouble finding main for classes with a companion object, so we use a different name
+object TestApplicationMain {
   def main(args: Array[String]) = {
-    ScalaApplicationLauncher.launchApplication(args, "scala-sim-template", "scala-sim-template", () => new TestModule(new ScalaClock(30, 30 / 1000.0)))
+    new PhetApplicationLauncher().launchSim(args, "scala-sim-template", classOf[TestApplication])
   }
 }
