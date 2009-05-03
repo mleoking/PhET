@@ -18,10 +18,14 @@ class AppliedForceSlider(getter: () => Double,
                          addListener: (() => Unit) => Unit)
         extends ScalaValueControl(-RampDefaults.MAX_APPLIED_FORCE, RampDefaults.MAX_APPLIED_FORCE, "Applied Force X", "0.0", "N", getter, setter, addListener) {
 
+  setTextFieldColumns(5)
   //set applied force to zero on slider mouse release
   getSlider.addMouseListener(new MouseAdapter {
     override def mouseReleased(e: MouseEvent) = setModelValue(0)
   })
+
+  //allow showing values outside the settable range
+  protected override def isValueInRange(value: Double) = true
 }
 
 class AppliedForceSliderNode(bead: Bead, transform: ModelViewTransform2D) extends PNode {
