@@ -197,7 +197,7 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private va
   }
 
   def removeVector(vector: Vector) = {
-    clearVectors( vector eq _)
+    clearVectors(vector eq _)
   }
 
   def getVectorCount = {

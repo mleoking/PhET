@@ -195,7 +195,7 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
     bead.removalListeners += (() => {
       fbdNode.removeVector(vector)
       windowFBDNode.removeVector(vector)
-//      vectorNode.removeVector(playAreaAdapter) //todo: don't use vectorNode for game module but remove it if non-game module
+      //      vectorNode.removeVector(playAreaAdapter) //todo: don't use vectorNode for game module but remove it if non-game module
     })
 
   }
