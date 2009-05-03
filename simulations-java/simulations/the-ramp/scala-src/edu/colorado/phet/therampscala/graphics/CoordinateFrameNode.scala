@@ -4,7 +4,7 @@ import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.piccolophet.nodes.PhetPPath
 import java.awt.geom.Line2D
 import java.awt.{BasicStroke, Color}
-import model.{CoordinateFrameModel, RampModel}
+import model.{CoordinateSystemModel, CoordinateFrameModel, RampModel}
 import scalacommon.math.Vector2D
 import umd.cs.piccolo.nodes.PText
 import umd.cs.piccolo.PNode
