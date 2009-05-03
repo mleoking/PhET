@@ -18,7 +18,7 @@ import umd.cs.piccolox.pswing.PSwing
 import scalacommon.Predef._
 
 class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                vectorViewModel: VectorViewModel, frame: JFrame, gameModel: RobotMovingCompanyGameModel)
+                               vectorViewModel: VectorViewModel, frame: JFrame, gameModel: RobotMovingCompanyGameModel)
         extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame) {
   beadNode.setVisible(false)
   vectorNode.setVisible(false)
@@ -108,9 +108,9 @@ class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: Coordina
     //    println("adding vectors for bead: " + bead + ", a=" + a)
     //
 
-    val removeListenerM = if (lastBead == null) gameModel.removeListener _ else lastBead.removeListener _
+    val removeListenerFunction = if (lastBead == null) gameModel.removeListener _ else lastBead.removeListener _
     def setter(x: Double) = if (gameModel.robotEnergy > 0) bead.parallelAppliedForce = x else {}
-    appliedForceControl.setModel(() => bead.parallelAppliedForce, setter, removeListenerM, bead.addListener)
+    appliedForceControl.setModel(() => bead.parallelAppliedForce, setter, removeListenerFunction, bead.addListener)
 
     addAllVectors(bead)
     //todo: remove vector nodes when bead is removed
