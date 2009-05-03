@@ -185,6 +185,13 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
       override def getPaint = vector.getPaint
     }
     vectorNode.addVector(playAreaAdapter, tailLocationInPlayArea)
+//todo: switch to removalListeners paradigm
+//    bead.removalListeners += (()=>{
+//      fbdNode.removeVector(vector)
+//      windowFBDNode.removeVector(vector)
+//      vectorNode.removeVector(playAreaAdapter)
+//    })
+
   }
 
   def addVectorAllComponents(bead: Bead, a: BeadVector): Unit = addVectorAllComponents(bead, a, new ConstantVectorValue, 0, () => true)
@@ -307,6 +314,7 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
       if (prevObject == a) { //todo: get rid of this lookup
         removeNode(beadNode)
         removeNode(pusherNode)
+//        removeAllVectors(bead)  //todo: switch to removalListeners paradigm
       }
     })
     fbdNode.clearVectors()
@@ -320,6 +328,8 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
     appliedForceControl.setModel(() => bead.parallelAppliedForce, setter, removeListenerM, bead.addListener)
 
     addAllVectors(bead)
+    //todo: remove vector nodes when bead is removed
+    //todo: switch to removalListeners paradigm
   }
 
   def changeY(dy: Double) = {

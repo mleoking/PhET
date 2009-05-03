@@ -253,6 +253,8 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
 
   nextObjectListeners += (x => setupObject())
 
+  clock.addClockListener(dt => if (!model.isPaused && _bead != null) _bead.stepInTime(dt))
+
   setupObject()
 
   def bead = _bead
@@ -265,6 +267,8 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
 
     if (_bead != null) {
       //todo: remove applied force listener
+      //todo: switch to removalListeners paradigm
+      _bead.remove()
     }
 
     _bead = model.createBead(-model.rampSegments(0).length, a.width)
@@ -302,7 +306,6 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
     bead.height = a.height
     bead.airborneFloor_=(airborneFloor)
 
-    clock.addClockListener(dt => if (!model.isPaused) beadRef.stepInTime(dt))
     beadCreatedListeners.foreach(_(bead, a))
   }
 
