@@ -2,6 +2,7 @@ Make "custom crate" text label match font for other labels.
 Layout fixes for object selection panel.
 fixed: Original forces checkbox should update when sim is paused.
 robot energy refills after each object
+for game tab, set applied force to zero on slider mouse release
 # 1.03.12 (31256) May 3, 2009
 5/3/09 Performance fixes for the game tab
 # 1.03.11 (31234) May 1, 2009

@@ -2,6 +2,7 @@ package edu.colorado.phet.therampscala.robotmovingcompany
 
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.piccolophet.nodes.layout.SwingLayoutNode
+import java.awt.event.{MouseEvent, MouseAdapter}
 import umd.cs.piccolo.nodes.PText
 import common.phetcommon.view.util.PhetFont
 import common.phetcommon.view.VerticalLayoutPanel
@@ -35,6 +36,11 @@ class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: Coordina
 
   val appliedForceControl = new ScalaValueControl(-RampDefaults.MAX_APPLIED_FORCE, RampDefaults.MAX_APPLIED_FORCE, "Applied Force X", "0.0", "N",
     () => 0, value => 0, gameModel.addListener) //todo: last param is a dummy
+
+  //for game tab, set applied force to zero on slider mouse release
+  appliedForceControl.getSlider.addMouseListener(new MouseAdapter {
+    override def mouseReleased(e: MouseEvent) = gameModel.bead.parallelAppliedForce = 0 
+  })
   controlPanel.add(appliedForceControl)
   controlPanel.add(robotGoButton)
 
@@ -83,7 +89,7 @@ class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: Coordina
 
   override def useVectorNodeInPlayArea = false
 
-  def init(bead: Bead, a: ScalaRampObject) = {
+  def init(bead: Bead, a: ScalaRampObject) = {         //todo: this bead is null on init
     val lastBead = _currentBead
     _currentBead = bead
 
