@@ -20,7 +20,7 @@ import model._
 import scalacommon.math.Vector2D
 import scalacommon.Predef._
 import scalacommon.util.Observable
-import theramp.model.ValueAccessor.ParallelForceAccessor
+
 import umd.cs.piccolo.event.{PInputEvent, PBasicInputEventHandler}
 import umd.cs.piccolo.PNode
 import java.lang.Math._
@@ -297,8 +297,8 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
 
   gameModel.surfaceModel.addListener(updateRampColor)
   def updateRampColor() = {
-    rightSegmentNode.paint = gameModel.surfaceModel.surfaceType.color
-    leftSegmentNode.paint = gameModel.surfaceModel.surfaceType.color
+    rightSegmentNode.paint_=(gameModel.surfaceModel.surfaceType.color)
+    leftSegmentNode.paint_=(gameModel.surfaceModel.surfaceType.color)
   }
   updateRampColor()
 
