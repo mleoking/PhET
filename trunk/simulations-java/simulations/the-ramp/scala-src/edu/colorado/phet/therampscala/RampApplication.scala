@@ -1,9 +1,10 @@
 package edu.colorado.phet.therampscala
 
 import common.phetcommon.application.{PhetApplicationLauncher, Module, PhetApplicationConfig}
+import graphics.RampCanvas
 import model._
-import graphics.{RampCanvas, RMCCanvas}
 import controls.RampControlPanel
+import robotmovingcompany.RobotMovingCompanyCanvas
 import scalacommon.record.{RecordModelControlPanel, PlaybackSpeedSlider}
 
 import java.awt.Color
@@ -37,7 +38,7 @@ class RampModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(fr
 
 class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock, "Robot Moving Company") {
   val gameModel = new robotmovingcompany.RobotMovingCompanyGameModel(model, clock) //todo: fix this with imports
-  val canvas = new RMCCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame, gameModel)
+  val canvas = new RobotMovingCompanyCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame, gameModel)
 
   setSimulationPanel(canvas)
   setLogoPanelVisible(false)
