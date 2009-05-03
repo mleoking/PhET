@@ -54,8 +54,8 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
     }
 
     _bead = model.createBead(-model.rampSegments(0).length, a.width)
-    _bead.workListeners += (x => {
-      _robotEnergy = _robotEnergy - (if (x > 0.0) x else 0.0)
+    _bead.workListeners += (work => {
+      _robotEnergy = _robotEnergy - (if (work > 0.0) work else 0.0)
       if (_robotEnergy <= 0) {
         _robotEnergy = 0
         _bead.parallelAppliedForce = 0

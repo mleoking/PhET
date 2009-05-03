@@ -368,8 +368,9 @@ class Bead(_state: BeadState,
         //      val frictionWork=-thermalEnergy
 
       }
-      val distanceVector = positionMapper(origState.position) - positionMapper(position)
+      val distanceVector = positionMapper(position) - positionMapper(origState.position)
       val work = appliedForce dot distanceVector
+//      println("work done on particle by applied force: "+work)
       workListeners.foreach(_(work))
     }
   }
