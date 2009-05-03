@@ -67,6 +67,13 @@ class Bead(_state: BeadState,
   model.addListenerByName(notifyListeners)
   model.addListenerByName(frictionForceVector.notifyListeners())
 
+  //notified when the bead is being removed
+  val removalListeners =new ArrayBuffer[()=>Unit]
+  def remove()={
+//    model.removeListener()
+    removalListeners.foreach(_())
+  }
+
   def width = _width
 
   def maxX = position + _width / 2
