@@ -48,13 +48,13 @@ class AxisNode(val transform: ModelViewTransform2D, x0: Double, y0: Double, x1: 
   //use an invisible wider hit region for mouse events
   protected val hitNode = new ArrowNode(transform.modelToViewDouble(x0, y0), transform.modelToViewDouble(x1, y1), 10, 10, 10)
   hitNode.setStroke(null)
-  hitNode.setPaint(new Color(0,0,0,0))
+  hitNode.setPaint(new Color(0, 0, 0, 0))
   axisNode.setPickable(false)
   axisNode.setChildrenPickable(false)
 
   addChild(hitNode)
   addChild(axisNode)
-  
+
   val text = new PText(label)
   text.setFont(new PhetFont(16, true))
   addChild(text)
@@ -65,9 +65,9 @@ class AxisNode(val transform: ModelViewTransform2D, x0: Double, y0: Double, x1: 
     text.setOffset(viewDst.x - text.getFullBounds.getWidth * 1.5, viewDst.y)
   }
 
-  def setTipAndTailLocations(tip:Point2D,tail:Point2D)={
-    axisNode.setTipAndTailLocations(tip,tail)
-    hitNode.setTipAndTailLocations(tip,tail)
+  def setTipAndTailLocations(tip: Point2D, tail: Point2D) = {
+    axisNode.setTipAndTailLocations(tip, tail)
+    hitNode.setTipAndTailLocations(tip, tail)
   }
 }
 class AxisModel(private var _angle: Double, val length: Double, tail: Boolean) extends Observable with Rotatable {
@@ -196,6 +196,10 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private va
     //    println("Added: child count=" + getVectorCount)
   }
 
+  def removeVector(vector: Vector) = {
+    clearVectors( vector eq _)
+  }
+
   def getVectorCount = {
     var count = 0
     for (i <- 0 until getChildrenCount) {
@@ -208,7 +212,11 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private va
     //    println("Cleared: child count="+getChildrenCount)
   }
 
-  def clearVectors() = {
+  def clearVectors() {
+    clearVectors(x => true)
+  }
+
+  def clearVectors(query: Vector => Boolean) = {
     val removeList = new ArrayBuffer[PNode]
     for (i <- 0 until getChildrenCount) {
       getChild(i) match {
