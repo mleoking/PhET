@@ -27,6 +27,7 @@ import javax.swing.event.{ChangeListener, ChangeEvent}
 import model._
 
 
+import robotmovingcompany.RobotMovingCompanyGameModel
 import scalacommon.math.Vector2D
 import scalacommon.record.{PlaybackSpeedSlider, RecordModel, RecordModelControlPanel}
 import scalacommon.swing.MyRadioButton
