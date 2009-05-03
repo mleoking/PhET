@@ -7,6 +7,7 @@ trait Observable {
 
   def notifyListeners() = listeners.foreach(_())
 
+  //TODO: consider calling the callback function immediately, to avoid the need for things like defineAndInvoke
   def addListener(listener: () => Unit): Unit = listeners += listener
 
   def addListenerByName(listener: => Unit): Unit = {
