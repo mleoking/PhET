@@ -1,3 +1,4 @@
+set applied force to zero on slider mouse release for all tabs
 # 1.03.13 (31267) May 3, 2009
 Make "custom crate" text label match font for other labels.
 Layout fixes for object selection panel.

@@ -3,6 +3,8 @@ package edu.colorado.phet.therampscala.graphics
 
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import java.awt.Dimension
+import java.awt.event.{MouseAdapter, MouseEvent}
+
 import java.awt.geom.Point2D
 import model.{Bead}
 import umd.cs.piccolo.PNode
@@ -11,10 +13,20 @@ import umd.cs.piccolox.pswing.PSwing
 import scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.Predef._
 
+class AppliedForceSlider(getter: () => Double,
+                         setter: Double => Unit,
+                         addListener: (() => Unit) => Unit)
+        extends ScalaValueControl(-RampDefaults.MAX_APPLIED_FORCE, RampDefaults.MAX_APPLIED_FORCE, "Applied Force X", "0.0", "N", getter, setter, addListener) {
+
+  //set applied force to zero on slider mouse release
+  getSlider.addMouseListener(new MouseAdapter {
+    override def mouseReleased(e: MouseEvent) = setModelValue(0)
+  })
+}
+
 class AppliedForceSliderNode(bead: Bead, transform: ModelViewTransform2D) extends PNode {
   val max = RampDefaults.MAX_APPLIED_FORCE
-  val control = new ScalaValueControl(-max, max, "Applied Force X", "0.0", "N",
-    () => bead.parallelAppliedForce, value => bead.parallelAppliedForce = value, bead.addListener)
+  val control = new AppliedForceSlider(() => bead.parallelAppliedForce, value => bead.parallelAppliedForce = value, bead.addListener)
   control.setSize(new Dimension(control.getPreferredSize.width, (control.getPreferredSize.height * 1.45).toInt))
   val pswing = new PSwing(control)
   addChild(pswing)
