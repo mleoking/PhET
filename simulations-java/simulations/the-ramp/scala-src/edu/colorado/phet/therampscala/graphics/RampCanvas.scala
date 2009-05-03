@@ -32,6 +32,9 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
 
   addNode(new SkyNode(transform))
 
+
+  def useVectorNodeInPlayArea = true
+
   def createEarthNode: PNode
   addNode(createEarthNode)
 
@@ -184,13 +187,16 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
 
       override def getPaint = vector.getPaint
     }
-    vectorNode.addVector(playAreaAdapter, tailLocationInPlayArea)
-//todo: switch to removalListeners paradigm
-//    bead.removalListeners += (()=>{
-//      fbdNode.removeVector(vector)
-//      windowFBDNode.removeVector(vector)
-//      vectorNode.removeVector(playAreaAdapter)
-//    })
+
+    if (useVectorNodeInPlayArea) {
+      vectorNode.addVector(playAreaAdapter, tailLocationInPlayArea)
+    }
+    //todo: switch to removalListeners paradigm
+    bead.removalListeners += (() => {
+      fbdNode.removeVector(vector)
+      windowFBDNode.removeVector(vector)
+//      vectorNode.removeVector(playAreaAdapter) //todo: don't use vectorNode for game module but remove it if non-game module
+    })
 
   }
 
@@ -298,6 +304,8 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
 
   private var _currentBead: Bead = null
 
+  override def useVectorNodeInPlayArea = false
+
   def init(bead: Bead, a: ScalaRampObject) = {
     val lastBead = _currentBead
     _currentBead = bead
@@ -314,7 +322,7 @@ class RMCCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, 
       if (prevObject == a) { //todo: get rid of this lookup
         removeNode(beadNode)
         removeNode(pusherNode)
-//        removeAllVectors(bead)  //todo: switch to removalListeners paradigm
+        //        removeAllVectors(bead)  //todo: switch to removalListeners paradigm
       }
     })
     fbdNode.clearVectors()
