@@ -153,7 +153,7 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
       parallelComponent.visible = vectorViewModel.parallelComponents && selectedVectorVisible()
       perpComponent.visible = vectorViewModel.parallelComponents && selectedVectorVisible()
     }
-    vectorViewModel.addListenerByName(update())
+    vectorViewModel.addListener(update)
     update()
 
     addVector(bead, xComponent, offsetFBD, offsetPlayArea)
@@ -181,11 +181,15 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
     }
     //todo: make sure this adapter overrides other methods as well, such as getPaint and addListener
     val playAreaAdapter = new Vector(vector.color, vector.name, vector.abbreviation, () => vector.getValue * RampDefaults.PLAY_AREA_VECTOR_SCALE, vector.painter) {
+      vector.addListenerByName{
+        notifyListeners()
+      }
       override def visible = vector.visible
 
       override def visible_=(vis: Boolean) = vector.visible = vis
 
       override def getPaint = vector.getPaint
+
     }
 
     if (useVectorNodeInPlayArea) {
