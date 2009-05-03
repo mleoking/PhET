@@ -24,4 +24,7 @@ class ScalaValueControl(min: Double, max: Double, name: String, decimalFormat: S
     addListener(update)
     update()
   }
+  protected def setModelValue(d:Double)={
+    _setter(d)
+  }
 }

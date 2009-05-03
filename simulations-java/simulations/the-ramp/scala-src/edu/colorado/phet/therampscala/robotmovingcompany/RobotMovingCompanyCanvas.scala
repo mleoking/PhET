@@ -34,13 +34,7 @@ class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: Coordina
   })
   gameModel.addListener(() => {robotGoButton.setEnabled(!gameModel.launched)})
 
-  val appliedForceControl = new ScalaValueControl(-RampDefaults.MAX_APPLIED_FORCE, RampDefaults.MAX_APPLIED_FORCE, "Applied Force X", "0.0", "N",
-    () => 0, value => 0, gameModel.addListener) //todo: last param is a dummy
-
-  //for game tab, set applied force to zero on slider mouse release
-  appliedForceControl.getSlider.addMouseListener(new MouseAdapter {
-    override def mouseReleased(e: MouseEvent) = gameModel.bead.parallelAppliedForce = 0 
-  })
+  val appliedForceControl = new AppliedForceSlider(() => 0, value => 0, gameModel.addListener) //todo: last param is a dummy
   controlPanel.add(appliedForceControl)
   controlPanel.add(robotGoButton)
 
@@ -89,7 +83,7 @@ class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: Coordina
 
   override def useVectorNodeInPlayArea = false
 
-  def init(bead: Bead, a: ScalaRampObject) = {         //todo: this bead is null on init
+  def init(bead: Bead, a: ScalaRampObject) = { //todo: this bead is null on init
     val lastBead = _currentBead
     _currentBead = bead
 
