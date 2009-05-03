@@ -1,6 +1,6 @@
 package edu.colorado.phet.therampscala.graphics
 
-
+import robotmovingcompany.RobotMovingCompanyGameModel
 import common.phetcommon.resources.PhetCommonResources
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.util.{PhetFont, SwingUtils}
