@@ -1,9 +1,9 @@
-package edu.colorado.phet.therampscala
+package edu.colorado.phet.therampscala.robotmovingcompany
 
 
 import collection.mutable.{HashMap, ArrayBuffer}
 import java.awt.Color
-import model.{RampModel, Bead}
+import model.{SurfaceFrictionStrategy, RampModel, Bead}
 import scalacommon.ScalaClock
 import scalacommon.util.Observable
 import scalacommon.math.Vector2D
@@ -145,10 +145,6 @@ case class Result(success: Boolean, cliff: Boolean, score: Int)
 
 case class SurfaceType(name: String, imageFilename: String, strategy: Double => Double, color: Color) extends SurfaceFrictionStrategy {
   def getTotalFriction(objectFriction: Double) = strategy(objectFriction)
-}
-
-trait SurfaceFrictionStrategy {
-  def getTotalFriction(objectFriction: Double): Double
 }
 
 class SurfaceModel extends Observable with SurfaceFrictionStrategy {
