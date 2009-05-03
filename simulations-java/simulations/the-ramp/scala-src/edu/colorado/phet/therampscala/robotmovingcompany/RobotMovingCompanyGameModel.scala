@@ -43,7 +43,7 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
   def setupObject() = {
     _robotEnergy = DEFAULT_ROBOT_ENERGY
     notifyListeners()
-    
+
     val a = selectedObject
     model.setPaused(true)
 
@@ -123,7 +123,7 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
 
   def itemLost(o: ScalaRampObject) = itemFinished(o, Result(false, false, 0))
 
-  def itemMoved(o: ScalaRampObject) = itemFinished(o, Result(true, false, 100))
+  def itemMoved(o: ScalaRampObject) = itemFinished(o, Result(true, false, 100 + (_robotEnergy / DEFAULT_ROBOT_ENERGY * 100).toInt))
 
   def count(b: Boolean) = if (b) 1 else 0
 
