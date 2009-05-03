@@ -39,7 +39,8 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
     val textNode = new HTMLNode(o.getDisplayTextHTML.toString)
     val imageNode = new PImage(BufferedImageUtils.multiScaleToHeight(RampResources.getImage(o.iconFilename), 100))
     imageNode.scale(0.65f)
-    textNode.setOffset(imageNode.getFullBounds.getWidth, 0)
+    textNode.setOffset(imageNode.getFullBounds.getWidth + 3, 0)
+    textNode.setFont(new PhetFont(18, true))
 
     //to capture any input, not just directly on the image or text
     val backgroundNode = new PhetPPath(new BasicStroke(1f), new Color(0, 0, 0, 0))
@@ -65,23 +66,14 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
     defineInvokeAndPass(model.addListenerByName) {
       update()
     }
-    def update() {
-      if (model.selectedObject == o) {
-        backgroundNode.setPaint(new Color(0, 0, 255, 50))
-        textNode.setFont(new PhetFont(18, true))
-      } else {
-        backgroundNode.setPaint(new Color(0, 0, 0, 0))
-        textNode.setFont(new PhetFont(18, true))
-      }
-    }
+    def update() = backgroundNode.setPaint(if (model.selectedObject == o) new Color(0, 0, 255, 50) else new Color(0, 0, 0, 0))
     addInputEventListener(new PBasicInputEventHandler {
       override def mousePressed(event: PInputEvent) = {
         model.selectedObject = o
       }
     })
 
-    val getTooltipText = <html>\u03BC<sub>k</sub>={o.kineticFriction}<br> </br>\u03BC<sub>s</sub>={o.staticFriction}<br> </br>
-    </html>.toString
+    val getTooltipText = <html>\u03BC<sub>k</sub>={o.kineticFriction}<br> </br>\u03BC<sub>s</sub>={o.staticFriction}<br> </br> </html>.toString
 
     if (o.displayTooltip) {
       val tooltipNode = new ToolTipNode(getTooltipText, this)
@@ -136,12 +128,11 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
     })
 
     override def update() = {
+      super.update()
       if (model.selectedObject == o) {
         backgroundNode.setPaint(customControlPanel.getBackground)
-        textNode.setFont(new PhetFont(12, true))
       } else {
         backgroundNode.setPaint(new Color(0, 0, 0, 0))
-        textNode.setFont(new PhetFont(12, false))
       }
     }
     defineInvokeAndPass(model.addListenerByName) {
