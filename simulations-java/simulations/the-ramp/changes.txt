@@ -3,6 +3,7 @@ allow showing values outside the settable range for the applied force slider
 bugfix in work calculation
 robotmovingcompany: it looks like robot energy is only used up when the robot is pushing to the left.
 robotmovingcompany: additional points (up to 100) for having battery left over
+robotmovingcompany: add detection of game over and new game
 # 1.03.13 (31267) May 3, 2009
 Make "custom crate" text label match font for other labels.
 Layout fixes for object selection panel.

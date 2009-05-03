@@ -3,6 +3,7 @@ package edu.colorado.phet.therampscala.robotmovingcompany
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.piccolophet.nodes.layout.SwingLayoutNode
 import java.awt.event.{MouseEvent, MouseAdapter}
+import javax.swing.{JOptionPane, JFrame, Box}
 import umd.cs.piccolo.nodes.PText
 import common.phetcommon.view.util.PhetFont
 import common.phetcommon.view.VerticalLayoutPanel
@@ -13,7 +14,6 @@ import java.awt.{Color, Dimension}
 import scalacommon.math.Vector2D
 import graphics._
 import model._
-import javax.swing.{JFrame, Box}
 import swing.{ScalaValueControl, ScalaButton}
 import umd.cs.piccolox.pswing.PSwing
 import scalacommon.Predef._
@@ -44,6 +44,12 @@ class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: Coordina
   updateNextObjectButtonEnabled()
   gameModel.addListener(updateNextObjectButtonEnabled)
   controlPanel.add(nextObjectButton)
+
+  gameModel.gameFinishListeners += (() => {
+    JOptionPane.showMessageDialog(RobotMovingCompanyCanvas.this, "That was the last object to move.  \nYour score is: " + gameModel.score + ".")
+    gameModel.resetAll()
+  })
+
 
   val pswingControlPanel = new PSwing(controlPanel)
   addNode(pswingControlPanel)
@@ -83,7 +89,7 @@ class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: Coordina
 
   override def useVectorNodeInPlayArea = false
 
-  def init(bead: Bead, a: ScalaRampObject) = { //todo: this bead is null on init
+  def init(bead: Bead, a: ScalaRampObject) = {
     val lastBead = _currentBead
     _currentBead = bead
 
@@ -95,18 +101,13 @@ class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: Coordina
     val pusherNode = new RobotPusherNode(transform, bead, roboBead)
     addNode(pusherNode)
 
-    gameModel.nextObjectListeners += ((prevObject: ScalaRampObject) => {
-      if (prevObject == a) { //todo: get rid of this lookup
-        removeNode(beadNode)
-        removeNode(pusherNode)
-        //        removeAllVectors(bead)  //todo: switch to removalListeners paradigm
-      }
+    bead.removalListeners += (() => {
+      removeNode(beadNode)
+      removeNode(pusherNode)
     })
+
     fbdNode.clearVectors()
     windowFBDNode.clearVectors()
-    //todo: clear play area vectors (or never add them in the first place)
-    //    println("adding vectors for bead: " + bead + ", a=" + a)
-    //
 
     val removeListenerFunction = if (lastBead == null) gameModel.removeListener _ else lastBead.removeListener _
     def setter(x: Double) = if (gameModel.robotEnergy > 0) bead.parallelAppliedForce = x else {}
