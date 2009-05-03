@@ -81,6 +81,7 @@ class Bead(_state: BeadState,
   val removalListeners = new ArrayBuffer[() => Unit]
 
   def remove() = {
+    println("called remove")
     //    model.removeListener()
     removalListeners.foreach(_())
   }

@@ -36,21 +36,33 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
 
   setupObject()
 
+  def resetAll() = {
+    model.rampSegments(0).startPoint = new Vector2D(-10, 0).rotate(-(30.0).toRadians)
+    _launched = false
+    _objectIndex = 0
+    resultMap.clear()
+    if (_bead != null) _bead.remove()
+    _bead = null //so it's not removed again
+    setupObject()
+  }
+
   def bead = _bead
 
   def robotEnergy = _robotEnergy
 
   def setupObject() = {
+    println("setup object")
     _robotEnergy = DEFAULT_ROBOT_ENERGY
     notifyListeners()
 
     val a = selectedObject
     model.setPaused(true)
 
-    if (_bead != null) {
+    val previousBead = _bead
+    if (previousBead != null) {
       //todo: remove applied force listener
       //todo: switch to removalListeners paradigm
-      _bead.remove()
+      previousBead.remove()
     }
 
     _bead = model.createBead(-model.rampSegments(0).length, a.width)
@@ -112,10 +124,13 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
     launched = false //notifies listeners
   }
 
+  val gameFinishListeners = new ArrayBuffer[() => Unit]
+
   def itemFinished(o: ScalaRampObject, r: Result) = {
     resultMap += o -> r
     itemFinishedListeners.foreach(_(o, r))
-
+    if (resultMap.size == objectList.length)
+      gameFinishListeners.foreach(_())
     notifyListeners()
   }
 
