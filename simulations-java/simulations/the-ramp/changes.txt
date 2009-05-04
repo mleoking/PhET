@@ -1,3 +1,4 @@
+# 1.03.14 (31275) May 3, 2009
 set applied force to zero on slider mouse release for all tabs
 allow showing values outside the settable range for the applied force slider
 bugfix in work calculation
