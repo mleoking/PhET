@@ -36,9 +36,6 @@ public class NuclearDecayProportionChart extends PNode {
     // Class Data
     //------------------------------------------------------------------------
 
-    // Total amount of time in milliseconds represented by this chart.
-    private static final double DEFAULT_TIME_SPAN = 3200;
-    
     // Constants for controlling the appearance of the chart.
     private static final Color  BORDER_COLOR = Color.DARK_GRAY;
     private static final float  BORDER_STROKE_WIDTH = 6f;
@@ -68,9 +65,21 @@ public class NuclearDecayProportionChart extends PNode {
     //------------------------------------------------------------------------
 
     // Time span covered by this chart, in milliseconds.
-    private double _timeSpan = DEFAULT_TIME_SPAN;
+    private double _timeSpan;
     
-    // References to the various components of the chart.
+    // Half life of primary (i.e. decaying) element.
+	private double _halfLife; // Half life of decaying element, in milliseconds.
+
+	// Variables that control chart appearance.
+	private String _preDecayElementLabel;
+	private Color _preDecayLabelColor;
+	private String _postDecayElementLabel;
+	private Color _postDecayLabelColor;
+	private boolean _pieChartEnabled;
+	private boolean _showPostDecayCurve;
+	private boolean _timeMarkerLabelEnabled;
+
+	// References to the various components of the chart.
     private PPath _borderNode;
     private PPath _halfLifeMarkerLine;
     private PText _halfLifeLabel;
@@ -110,10 +119,73 @@ public class NuclearDecayProportionChart extends PNode {
     double _msToPixelsFactor = 1; // Arbitrary init val, updated later.
 
     //------------------------------------------------------------------------
-    // Constructor
+    // Builder + Constructor
     //------------------------------------------------------------------------
 
-    public NuclearDecayProportionChart() {
+    /**
+     * Builder pattern used to construct this chart.  This is from "Effective
+     * Java", 2nd edition, pgs 11-16.
+     */
+    public static class Builder {
+    	// Required parameters.
+    	private double timeSpan;  // Span of time covered by this chart, in milliseconds.
+    	private double halfLife; // Half life of decaying element, in milliseconds.
+    	private String preDecayElementLabel;
+    	private Color preDecayLabelColor;
+    	
+    	// Optional parameters - initialized to default values.
+    	private boolean pieChartEnabled = false;
+    	private boolean showPostDecayCurve = false;
+    	private String postDecayElementLabel = NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL;
+    	private Color postDecayLabelColor = NuclearPhysicsConstants.CUSTOM_NUCLEUS_POST_DECAY_COLOR;
+    	private boolean timeMarkerLabelEnabled = false;
+    	
+    	public Builder( double timeSpan, double halfLife, String preDecayElementLabel, Color preDecayLabelColor) {
+    		this.timeSpan = timeSpan;
+    		this.halfLife = halfLife;
+    		this.preDecayElementLabel = preDecayElementLabel;
+    		this.preDecayLabelColor = preDecayLabelColor;
+    	}
+    	
+    	public Builder pieChartEnabled( boolean val ) {
+    		pieChartEnabled = val;
+    		return this;
+    	}
+    	public Builder showPostDecayCurve( boolean val ) {
+    		showPostDecayCurve = val;
+    		return this;
+    	}
+    	public Builder postDecayElementLabel( String val ) {
+    		postDecayElementLabel = val;
+    		return this;
+    	}
+    	public Builder postDecayLabelColor( Color val ) {
+    		postDecayLabelColor = val;
+    		return this;
+    	}
+    	public Builder timeMarkerLabelEnabled( boolean val ) {
+    		timeMarkerLabelEnabled = val;
+    		return this;
+    	}
+    	public NuclearDecayProportionChart build(){
+    		return new NuclearDecayProportionChart( this );
+    	}
+    }
+
+    /**
+     * Constructor - Instantiate using the Builder defined in this file.
+     */
+    private NuclearDecayProportionChart( Builder builder ) {
+    	
+        _timeSpan = builder.timeSpan;
+    	_halfLife = builder.halfLife;
+    	_preDecayElementLabel = builder.preDecayElementLabel;
+    	_preDecayLabelColor = builder.preDecayLabelColor;
+    	_postDecayElementLabel = builder.postDecayElementLabel;
+    	_postDecayLabelColor = builder.postDecayLabelColor;
+    	_pieChartEnabled = builder.pieChartEnabled;
+    	_showPostDecayCurve = builder.showPostDecayCurve;
+    	_timeMarkerLabelEnabled = builder.timeMarkerLabelEnabled;
 
         // Set up the parent node that will contain the non-interactive
         // portions of the chart.
@@ -143,55 +215,6 @@ public class NuclearDecayProportionChart extends PNode {
         _xAxisOfGraph.setStrokePaint( AXES_LINE_COLOR );
         _xAxisOfGraph.setPaint( AXES_LINE_COLOR );
         _nonPickableChartNode.addChild( _xAxisOfGraph );
-
-        // Add the tick marks and their labels to the X axis.
-        int numTicksOnX = (int) Math.round( ( _timeSpan / 1000 ) + 1 );
-        _xAxisTickMarks = new ArrayList( numTicksOnX );
-        _xAxisTickMarkLabels = new ArrayList( numTicksOnX );
-        DecimalFormat formatter = new DecimalFormat( "0.0" );
-        for ( int i = 0; i < numTicksOnX; i++ ) {
-            // Create the tick mark.  It will be positioned later.
-            PPath tickMark = new PPath();
-            tickMark.setStroke( TICK_MARK_STROKE );
-            tickMark.setStrokePaint( TICK_MARK_COLOR );
-            _xAxisTickMarks.add( tickMark );
-            _nonPickableChartNode.addChild( tickMark );
-
-            // Create the label for the tick mark.
-            PText tickMarkLabel = new PText( formatter.format( i ) );
-            tickMarkLabel.setFont( TICK_MARK_LABEL_FONT );
-            _xAxisTickMarkLabels.add( tickMarkLabel );
-            _nonPickableChartNode.addChild( tickMarkLabel );
-        }
-
-        // Add the tick marks and their labels to the Y axis.  There are only
-        // two, one for the weight of Polonium and one for the weight of Lead.
-
-        _yAxisTickMarks = new ArrayList( 2 );
-
-        PPath yTickMark1 = new PPath();
-        yTickMark1.setStroke( TICK_MARK_STROKE );
-        yTickMark1.setStrokePaint( TICK_MARK_COLOR );
-        _yAxisTickMarks.add( yTickMark1 );
-        _nonPickableChartNode.addChild( yTickMark1 );
-
-        PPath yTickMark2 = new PPath();
-        yTickMark2.setStroke( TICK_MARK_STROKE );
-        yTickMark2.setStrokePaint( TICK_MARK_COLOR );
-        _yAxisTickMarks.add( yTickMark2 );
-        _nonPickableChartNode.addChild( yTickMark2 );
-
-        _yAxisTickMarkLabels = new ArrayList( 2 );
-
-        PText yTickMarkLabel1 = new PText();
-        yTickMarkLabel1.setFont( TICK_MARK_LABEL_FONT );
-        _yAxisTickMarkLabels.add( yTickMarkLabel1 );
-        _nonPickableChartNode.addChild( yTickMarkLabel1 );
-
-        PText yTickMarkLabel2 = new PText();
-        yTickMarkLabel2.setFont( TICK_MARK_LABEL_FONT );
-        _yAxisTickMarkLabels.add( yTickMarkLabel2 );
-        _nonPickableChartNode.addChild( yTickMarkLabel2 );
 
         // Add the text for the X & Y axes.
         _xAxisLabel = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_X_AXIS_LABEL + " (" + NuclearPhysicsStrings.DECAY_TIME_UNITS + ")" );
@@ -302,19 +325,7 @@ public class NuclearDecayProportionChart extends PNode {
         		new Point2D.Double( _graphOriginX, _graphOriginY ) );
 
         // Position the tick marks and their labels on the X axis.
-        for ( int i = 0; i < _xAxisTickMarks.size(); i++ ) {
-
-            // Position the tick mark itself.
-            PPath tickMark = (PPath) _xAxisTickMarks.get( i );
-            double tickMarkPosX = _graphOriginX + (_msToPixelsFactor) 
-                    + ( i * 1000 * _msToPixelsFactor );
-            tickMark.setPathTo( new Line2D.Double( tickMarkPosX, _graphOriginY, tickMarkPosX, _graphOriginY - TICK_MARK_LENGTH ) );
-
-            // Position the label for the tick mark.
-            PText tickMarkLabel = (PText) _xAxisTickMarkLabels.get( i );
-            double tickMarkLabelPosX = tickMarkPosX - ( tickMarkLabel.getWidth() / 2 );
-            tickMarkLabel.setOffset( tickMarkLabelPosX, _graphOriginY );
-        }
+        // TODO: Position tick marks and labels.
 
         // Update the text for the Y axis labels.
         // Set text for Y axis.
