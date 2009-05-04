@@ -16,11 +16,13 @@ import java.util.Set;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
+import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
 import edu.colorado.phet.nuclearphysics.view.MultiNucleusDecayLinearTimeChart;
@@ -66,7 +68,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
     private PNode _graphLayer;
     
     //----------------------------------------------------------------------------
-    // Constructor
+    // Builder + Constructor
     //----------------------------------------------------------------------------
     
     public DecayRatesCanvas( DecayRatesModel decayRatesModel ) {
@@ -94,8 +96,10 @@ public class DecayRatesCanvas extends PhetPCanvas {
         
         // Add the diagram that will depict the relative concentration of
         // pre- and post-decay nuclei.
-        // TODO: This is stubbed with a static picture for demo purposes.
-        _proportionsChart = new NuclearDecayProportionChart();
+        _proportionsChart = new NuclearDecayProportionChart.Builder(Carbon14Nucleus.HALF_LIFE * 3.2, 
+        		Carbon14Nucleus.HALF_LIFE, NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL, 
+        		NuclearPhysicsConstants.CARBON_COLOR).pieChartEnabled(false).
+        		showPostDecayCurve(false).timeMarkerLabelEnabled(true).build();
         _graphLayer.addChild(_proportionsChart);
         
         // Register with the model for notifications of nuclei coming and
@@ -123,7 +127,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
             }
         } );
     }
-    
+
     /**
      * Update the layout on the canvas.
      */
