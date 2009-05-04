@@ -71,7 +71,7 @@ class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramMo
   vectorPanel.add(new MyRadioButton("Centered", vectorViewModel.centered = true, vectorViewModel.centered, vectorViewModel.addListener))
   vectorPanel.add(new MyRadioButton("Point of Origin", vectorViewModel.centered = false, !vectorViewModel.centered, vectorViewModel.addListener))
   vectorPanel.add(Box.createRigidArea(new Dimension(10, 10)))
-  vectorPanel.add(new MyCheckBox("Original", vectorViewModel.originalVectors_=, vectorViewModel.originalVectors, vectorViewModel.addListener))
+  vectorPanel.add(new MyCheckBox("Whole Vectors", vectorViewModel.originalVectors_=, vectorViewModel.originalVectors, vectorViewModel.addListener))
   vectorPanel.addWithIcon("parallel_components_icon.gif", new MyCheckBox("Parallel Components", vectorViewModel.parallelComponents_=, vectorViewModel.parallelComponents, vectorViewModel.addListener))
   vectorPanel.addWithIcon("xy_components_icon.gif", new MyCheckBox("X-Y Components", vectorViewModel.xyComponentsVisible = _, vectorViewModel.xyComponentsVisible, vectorViewModel.addListener))
   vectorPanel.add(Box.createRigidArea(new Dimension(10, 10)))

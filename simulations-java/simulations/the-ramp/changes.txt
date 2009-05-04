@@ -1,4 +1,5 @@
 Removed tick marks from applied force slider to make slider knob appear on mac.
+Renamed "original" vectors to "whole vectors"
 # 1.03.14 (31275) May 3, 2009
 set applied force to zero on slider mouse release for all tabs
 allow showing values outside the settable range for the applied force slider
