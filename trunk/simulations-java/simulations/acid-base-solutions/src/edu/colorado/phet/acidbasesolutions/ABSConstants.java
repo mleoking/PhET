@@ -68,16 +68,18 @@ public class ABSConstants {
     public static final Color BH_COLOR = new Color( 169, 155, 23 );
     public static final Color MOH_COLOR = new Color( 147, 44, 187 );
     public static final Color M_COLOR = new Color( 236, 216, 42 );
+    public static final Color K_COLOR = Color.LIGHT_GRAY;
     
-    public static final Color H2O_OUTLINE = Color.BLACK;
-    public static final Color H3O_OUTLINE = Color.BLACK;
-    public static final Color OH_OUTLINE = Color.BLACK;
-    public static final Color HA_OUTLINE = Color.BLACK;
-    public static final Color A_OUTLINE = Color.BLACK;
-    public static final Color B_OUTLINE = Color.BLACK;
-    public static final Color BH_OUTLINE = Color.BLACK;
-    public static final Color MOH_OUTLINE = Color.BLACK;
-    public static final Color M_OUTLINE = Color.BLACK;
+    public static final Color H2O_OUTLINE = H2O_COLOR.darker();
+    public static final Color H3O_OUTLINE = H3O_COLOR.darker();
+    public static final Color OH_OUTLINE = OH_COLOR.darker();
+    public static final Color HA_OUTLINE = HA_COLOR.darker();
+    public static final Color A_OUTLINE = A_COLOR.darker();
+    public static final Color B_OUTLINE = B_COLOR.darker();
+    public static final Color BH_OUTLINE = BH_COLOR.darker();
+    public static final Color MOH_OUTLINE = MOH_COLOR.darker();
+    public static final Color M_OUTLINE = M_COLOR.darker();
+    public static final Color K_OUTLINE = K_COLOR.darker();
     
     // particle colors may be tweaked so that they stand out better
     public static final Color H3O_PARTICLES_COLOR = H3O_COLOR;
