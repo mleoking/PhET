@@ -80,7 +80,7 @@ class Bead(_state: BeadState,
   //notified when the bead is being removed
   val removalListeners = new ArrayBuffer[() => Unit]
 
-  def remove() = removalListeners.foreach(_()) 
+  def remove() = removalListeners.foreach(_())
 
   def width = _width
 

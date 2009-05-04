@@ -281,7 +281,7 @@ trait VectorValue {
 
   def addListener(listener: () => Unit): Unit
 
-  def removeListener(listener: ()=>Unit): Unit
+  def removeListener(listener: () => Unit): Unit
 }
 
 class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val tailLocation: VectorValue) extends PNode {
@@ -293,7 +293,7 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
   addChild(abbreviatonTextNode)
 
   //can't use def since eta-expansion makes == and array -= impossible
-  val update = ()=>{
+  val update = () => {
     //    println("vector: " + vector.abbreviation + ", mag=" + vector.getValue.magnitude)
     val viewTip = transform.modelToViewDouble(vector.getValue + tailLocation.getValue)
     arrowNode.setTipAndTailLocations(viewTip, transform.modelToViewDouble(tailLocation.getValue))
