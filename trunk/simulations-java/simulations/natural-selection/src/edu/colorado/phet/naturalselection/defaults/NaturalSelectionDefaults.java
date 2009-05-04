@@ -31,5 +31,6 @@ public class NaturalSelectionDefaults {
     public static final int DEFAULT_NUMBER_OF_BUNNIES = 1;
 
     public static final Dimension GENERATION_CHART_SIZE = new Dimension( 600, 300 );
+    public static final Dimension BUNNY_STATS_SIZE = new Dimension( 700, 250 );
 
 }

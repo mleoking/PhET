@@ -91,6 +91,7 @@ public class NaturalSelectionModel extends ClockAdapter {
 
         // create the starting bunnies
         rootFather = new Bunny( this, null, null, 0 );
+        rootFather.notifyInit();
         bunnies.add( rootFather );
         clock.addClockListener( rootFather );
 
@@ -123,6 +124,7 @@ public class NaturalSelectionModel extends ClockAdapter {
         }
 
         rootFather = new Bunny( this, null, null, 0 );
+        rootFather.notifyInit();
         bunnies.add( rootFather );
         clock.addClockListener( rootFather );
 
@@ -141,6 +143,7 @@ public class NaturalSelectionModel extends ClockAdapter {
     public void addFriend() {
         friendAdded = true;
         rootMother = new Bunny( this, null, null, 0 );
+        rootMother.notifyInit();
         rootFather.setPotentialMate( rootMother );
         rootMother.setPotentialMate( rootFather );
         bunnies.add( rootMother );
@@ -207,6 +210,7 @@ public class NaturalSelectionModel extends ClockAdapter {
         Iterator newIter = newBunnies.iterator();
         while ( newIter.hasNext() ) {
             Bunny bunny = (Bunny) newIter.next();
+            bunny.notifyInit();
             bunnies.add( bunny );
             clock.addClockListener( bunny );
             // TODO: possibly notify at the end for potential performance issues?

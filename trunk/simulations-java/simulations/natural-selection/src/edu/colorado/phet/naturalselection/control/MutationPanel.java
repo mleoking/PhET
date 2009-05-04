@@ -8,10 +8,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
-import edu.colorado.phet.naturalselection.model.ColorGene;
-import edu.colorado.phet.naturalselection.model.GeneListener;
-import edu.colorado.phet.naturalselection.model.TailGene;
-import edu.colorado.phet.naturalselection.model.TeethGene;
+import edu.colorado.phet.naturalselection.model.*;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.util.ImagePanel;
 
@@ -121,15 +118,15 @@ public class MutationPanel extends JPanel {
         } );
 
         ColorGene.getInstance().addListener( new GeneListener() {
-            public void onChangeDominantAllele( boolean primary ) {
+            public void onChangeDominantAllele( Gene gene, boolean primary ) {
 
             }
 
-            public void onChangeDistribution( int primary, int secondary ) {
+            public void onChangeDistribution( Gene gene, int primary, int secondary ) {
 
             }
 
-            public void onChangeMutatable( boolean mutatable ) {
+            public void onChangeMutatable( Gene gene, boolean mutatable ) {
                 if ( !mutatable ) {
                     colorButton.setEnabled( true );
                     tailButton.setEnabled( true );
@@ -143,15 +140,15 @@ public class MutationPanel extends JPanel {
         } );
 
         TailGene.getInstance().addListener( new GeneListener() {
-            public void onChangeDominantAllele( boolean primary ) {
+            public void onChangeDominantAllele( Gene gene, boolean primary ) {
 
             }
 
-            public void onChangeDistribution( int primary, int secondary ) {
+            public void onChangeDistribution( Gene gene, int primary, int secondary ) {
 
             }
 
-            public void onChangeMutatable( boolean mutatable ) {
+            public void onChangeMutatable( Gene gene, boolean mutatable ) {
                 if ( !mutatable ) {
                     colorButton.setEnabled( true );
                     tailButton.setEnabled( true );
@@ -165,15 +162,15 @@ public class MutationPanel extends JPanel {
         } );
 
         TeethGene.getInstance().addListener( new GeneListener() {
-            public void onChangeDominantAllele( boolean primary ) {
+            public void onChangeDominantAllele( Gene gene, boolean primary ) {
 
             }
 
-            public void onChangeDistribution( int primary, int secondary ) {
+            public void onChangeDistribution( Gene gene, int primary, int secondary ) {
 
             }
 
-            public void onChangeMutatable( boolean mutatable ) {
+            public void onChangeMutatable( Gene gene, boolean mutatable ) {
                 if ( !mutatable ) {
                     colorButton.setEnabled( true );
                     tailButton.setEnabled( true );

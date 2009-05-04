@@ -70,6 +70,12 @@ public class NaturalSelectionController {
                 module.reset();
             }
         } );
+
+        controlPanel.generationCanvas.statsButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent actionEvent ) {
+                module.showGenerationChart();
+            }
+        } );
     }
 
 }

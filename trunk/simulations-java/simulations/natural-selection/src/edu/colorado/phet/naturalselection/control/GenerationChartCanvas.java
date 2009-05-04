@@ -4,6 +4,8 @@ package edu.colorado.phet.naturalselection.control;
 
 import java.awt.geom.Point2D;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
@@ -15,6 +17,7 @@ import edu.colorado.phet.naturalselection.view.MutationPendingNode;
 import edu.colorado.phet.naturalselection.view.PedigreeNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * The piccolo canvas where the generation charts are drawn in. Allows changing between the charts
@@ -28,6 +31,9 @@ public class GenerationChartCanvas extends PhetPCanvas {
 
     private MutationPendingNode mutationPendingNode;
     private PNode rootNode;
+
+    private static final double TOP_PADDING = 5.0;
+    public JButton statsButton;
 
     /**
      * Constructor
@@ -56,57 +62,67 @@ public class GenerationChartCanvas extends PhetPCanvas {
 
         PText title = new PText( "Generation Chart" );
         title.setFont( new PhetFont( 16, true ) );
-        title.translate( ( getPreferredSize().getWidth() - title.getWidth() ) / 2, 5 );
+        title.translate( ( getPreferredSize().getWidth() - title.getWidth() ) / 2, TOP_PADDING );
         rootNode.addChild( title );
 
         GenerationCountNode generationCount = new GenerationCountNode( model );
-        generationCount.translate( getPreferredSize().getWidth() - generationCount.getTextWidth() - 20, 5 );
+        generationCount.translate( getPreferredSize().getWidth() - generationCount.getTextWidth() - 20, TOP_PADDING );
         rootNode.addChild( generationCount );
+
+        statsButton = new JButton( "Bunny Stats" );
+        PSwing statsHolder = new PSwing( statsButton );
+        statsHolder.setOffset( 5, 5 );
+        rootNode.addChild( statsHolder );
 
         mutationPendingNode = null;
 
+        setupHandlers();
+
+    }
+
+    private void setupHandlers() {
+        // TODO: merge into one!!!
         ColorGene.getInstance().addListener( new GeneListener() {
-            public void onChangeDominantAllele( boolean primary ) {
+            public void onChangeDominantAllele( Gene gene, boolean primary ) {
 
             }
 
-            public void onChangeDistribution( int primary, int secondary ) {
+            public void onChangeDistribution( Gene gene, int primary, int secondary ) {
 
             }
 
-            public void onChangeMutatable( boolean mutatable ) {
+            public void onChangeMutatable( Gene gene, boolean mutatable ) {
                 handleMutationChange( ColorGene.getInstance(), mutatable );
             }
         } );
 
         TailGene.getInstance().addListener( new GeneListener() {
-            public void onChangeDominantAllele( boolean primary ) {
+            public void onChangeDominantAllele( Gene gene, boolean primary ) {
 
             }
 
-            public void onChangeDistribution( int primary, int secondary ) {
+            public void onChangeDistribution( Gene gene, int primary, int secondary ) {
 
             }
 
-            public void onChangeMutatable( boolean mutatable ) {
+            public void onChangeMutatable( Gene gene, boolean mutatable ) {
                 handleMutationChange( TailGene.getInstance(), mutatable );
             }
         } );
 
         TeethGene.getInstance().addListener( new GeneListener() {
-            public void onChangeDominantAllele( boolean primary ) {
+            public void onChangeDominantAllele( Gene gene, boolean primary ) {
 
             }
 
-            public void onChangeDistribution( int primary, int secondary ) {
+            public void onChangeDistribution( Gene gene, int primary, int secondary ) {
 
             }
 
-            public void onChangeMutatable( boolean mutatable ) {
+            public void onChangeMutatable( Gene gene, boolean mutatable ) {
                 handleMutationChange( TeethGene.getInstance(), mutatable );
             }
         } );
-
     }
 
     public void handleMutationChange( Gene gene, boolean mutatable ) {
@@ -128,7 +144,7 @@ public class GenerationChartCanvas extends PhetPCanvas {
 
     public void reset() {
         pedigreeNode.reset();
-        if( mutationPendingNode != null ) {
+        if ( mutationPendingNode != null ) {
             rootNode.removeChild( mutationPendingNode );
         }
         mutationPendingNode = null;
