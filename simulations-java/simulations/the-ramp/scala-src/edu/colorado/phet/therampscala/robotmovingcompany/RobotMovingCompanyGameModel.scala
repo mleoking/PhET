@@ -51,7 +51,6 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
   def robotEnergy = _robotEnergy
 
   def setupObject() = {
-    println("setup object")
     _robotEnergy = DEFAULT_ROBOT_ENERGY
     notifyListeners()
 
