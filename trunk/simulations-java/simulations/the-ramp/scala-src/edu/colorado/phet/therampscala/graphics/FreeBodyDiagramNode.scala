@@ -272,31 +272,33 @@ class ConstantVectorValue(val getValue: Vector2D) extends VectorValue {
   def this() = this (new Vector2D)
 
   def addListener(listener: () => Unit) = {}
+
+  def removeListener(listener: () => Unit) = {}
 }
 
 trait VectorValue {
   def getValue: Vector2D
 
   def addListener(listener: () => Unit): Unit
+
+  def removeListener(listener: ()=>Unit): Unit
 }
 
 class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val tailLocation: VectorValue) extends PNode {
   val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(0, 1), 20, 20, 10, 0.5, true)
   arrowNode.setPaint(vector.getPaint)
   addChild(arrowNode)
-  private var abbreviatonTextNode = new ShadowHTMLNode(vector.html, vector.color)
+  private val abbreviatonTextNode = new ShadowHTMLNode(vector.html, vector.color)
   abbreviatonTextNode.setFont(new PhetFont(18))
   addChild(abbreviatonTextNode)
 
-  def update() = {
+  //can't use def since eta-expansion makes == and array -= impossible
+  val update = ()=>{
     //    println("vector: " + vector.abbreviation + ", mag=" + vector.getValue.magnitude)
     val viewTip = transform.modelToViewDouble(vector.getValue + tailLocation.getValue)
     arrowNode.setTipAndTailLocations(viewTip, transform.modelToViewDouble(tailLocation.getValue))
-    //todo: better garbage collection
-    if (abbreviatonTextNode != null) {
-      abbreviatonTextNode.setOffset(viewTip)
-      abbreviatonTextNode.setVisible(vector.getValue.magnitude > 1E-2)
-    }
+    abbreviatonTextNode.setOffset(viewTip)
+    abbreviatonTextNode.setVisible(vector.getValue.magnitude > 1E-2)
     setVisible(vector.visible)
   }
   update()
@@ -307,7 +309,8 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
   setChildrenPickable(false)
 
   def deleting() {
-    abbreviatonTextNode = null
+    vector.removeListener(update)
+    tailLocation.removeListener(update)
   }
 }
 
