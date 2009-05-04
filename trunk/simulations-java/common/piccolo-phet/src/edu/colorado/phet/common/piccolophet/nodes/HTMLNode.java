@@ -47,7 +47,7 @@ public class HTMLNode extends PNode {
     private String html;
     private Font font;
     private Color htmlColor;
-    private JLabel htmlLabel;
+    private JLabel htmlLabel;//todo: consider making this static, seemed to work properly under preliminary tests
     private View htmlView;
     private final Rectangle htmlBounds; // BasicHTML$Renderer.paint requires a Rectangle
 
