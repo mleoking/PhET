@@ -52,7 +52,7 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         super( owner, TITLE );
         setResizable( dev ); // resizable only if in dev mode
         
-        JPanel devControlPanel = createDevControlPanel();
+        JComponent devControls = createDevControls();
         
         // scale on/off
         JLabel scaleOnOffLabel = new JLabel( SYMBOL_SIZES_CHANGE );
@@ -115,7 +115,7 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         JPanel mainPanel = new JPanel( new BorderLayout() );
         mainPanel.add( userPanel, BorderLayout.CENTER );
         if ( dev ) {
-            mainPanel.add( devControlPanel, BorderLayout.EAST );
+            mainPanel.add( devControls, BorderLayout.EAST );
         }
             
         updateTopEquation();
@@ -123,15 +123,7 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         pack();
     }
     
-    private JPanel createDevControlPanel() {
-        
-        // equation combo box
-        equationComboBox = new EquationComboBox();
-        equationComboBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                updateTopEquation();
-            }
-        });
+    private JComponent createDevControls() {
         
         // global scale slider
         globalScaleSlider = new GlobalScaleSlider( "global scale:" );
@@ -141,56 +133,73 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
             }
         });
         
-        // scale sliders for top equations
-        ChangeListener topChangeListener = new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                if ( topEquation != null & e.getSource() instanceof TermScaleSlider && isScaleEnabled() ) {
-                    TermScaleSlider slider = (TermScaleSlider) e.getSource();
-                    topEquation.setTermScale( slider.getTermIndex(), slider.getValue() / 100.0 );
+        // top equations controls
+        JPanel topControls = new JPanel();
+        {
+            topControls.setLayout( new BoxLayout( topControls, BoxLayout.Y_AXIS ) );
+            topControls.setBorder( new TitledBorder( "top equation" ) );
+            
+            // equation combo box
+            equationComboBox = new EquationComboBox();
+            topControls.add( equationComboBox );
+            equationComboBox.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    updateTopEquation();
                 }
+            } );
+            
+            // sliders
+            ChangeListener topChangeListener = new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    if ( topEquation != null & e.getSource() instanceof TermScaleSlider && isScaleEnabled() ) {
+                        TermScaleSlider slider = (TermScaleSlider) e.getSource();
+                        topEquation.setTermScale( slider.getTermIndex(), slider.getValue() / 100.0 );
+                    }
+                }
+            };
+            topSliders = new TermScaleSlider[4];
+            for ( int i = 0; i < topSliders.length; i++ ) {
+                TermScaleSlider slider = new TermScaleSlider( i );
+                slider.addChangeListener( topChangeListener );
+                topSliders[i] = slider;
+                topControls.add( slider );
             }
-        };
-        JPanel topSliderPanel = new JPanel();
-        topSliderPanel.setLayout( new BoxLayout( topSliderPanel, BoxLayout.Y_AXIS ) );
-        topSliderPanel.setBorder( new TitledBorder( "top equation scale" ) );
-        topSliders = new TermScaleSlider[ 4 ];
-        for ( int i = 0; i < topSliders.length; i++ ) {
-            TermScaleSlider slider = new TermScaleSlider( i );
-            slider.addChangeListener( topChangeListener );
-            topSliders[i] = slider;
-            topSliderPanel.add( slider );
         }
-        
-        // scale sliders for bottom equation
-        ChangeListener bottomChangeListener = new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                if ( bottomEquation != null & e.getSource() instanceof TermScaleSlider && isScaleEnabled() ) {
-                    TermScaleSlider slider = (TermScaleSlider) e.getSource();
-                    bottomEquation.setTermScale( slider.getTermIndex(), slider.getValue() / 100.0 );
+
+        // bottom equation controls
+        JPanel bottomControls = new JPanel();
+        {
+            bottomControls.setLayout( new BoxLayout( bottomControls, BoxLayout.Y_AXIS ) );
+            bottomControls.setBorder( new TitledBorder( "bottom equation" ) );
+            
+            // sliders
+            ChangeListener bottomChangeListener = new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    if ( bottomEquation != null & e.getSource() instanceof TermScaleSlider && isScaleEnabled() ) {
+                        TermScaleSlider slider = (TermScaleSlider) e.getSource();
+                        bottomEquation.setTermScale( slider.getTermIndex(), slider.getValue() / 100.0 );
+                    }
                 }
+            };
+            bottomSliders = new TermScaleSlider[4];
+            for ( int i = 0; i < bottomSliders.length; i++ ) {
+                TermScaleSlider slider = new TermScaleSlider( i );
+                slider.addChangeListener( bottomChangeListener );
+                bottomSliders[i] = slider;
+                bottomControls.add( slider );
             }
-        };
-        JPanel bottomSliderPanel = new JPanel();
-        bottomSliderPanel.setLayout( new BoxLayout( bottomSliderPanel, BoxLayout.Y_AXIS ) );
-        bottomSliderPanel.setBorder( new TitledBorder( "bottom equation scale" ) );
-        bottomSliders = new TermScaleSlider[ 4 ];
-        for ( int i = 0; i < bottomSliders.length; i++ ) {
-            TermScaleSlider slider = new TermScaleSlider( i );
-            slider.addChangeListener( bottomChangeListener );
-            bottomSliders[i] = slider;
-            bottomSliderPanel.add( slider );
         }
         
         // layout
         JPanel panel = new JPanel();
         panel.setLayout( new BoxLayout( panel, BoxLayout.Y_AXIS ) );
         panel.setBorder( new TitledBorder( "Developer Controls" ) );
-        panel.add( equationComboBox );
         panel.add( globalScaleSlider );
-        panel.add( topSliderPanel );
-        panel.add( bottomSliderPanel );
+        panel.add( topControls );
+        panel.add( bottomControls );
+        JScrollPane scrollPane = new JScrollPane( panel );
         
-        return panel;
+        return scrollPane;
     }
     
     private void updateTopLayout() {
