@@ -19,6 +19,12 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
+/**
+ * Base class for all acid/base/water reaction equations.
+ * Reaction equations are composed of at most 4 terms, numbered 0-3.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public abstract class AbstractReactionEquationNode extends PComposite {
     
     private static final int MAX_TERMS = 4; // don't attempt to change this
