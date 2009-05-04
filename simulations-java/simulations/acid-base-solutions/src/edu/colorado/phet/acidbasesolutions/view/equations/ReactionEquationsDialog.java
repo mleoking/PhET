@@ -1,4 +1,4 @@
-package edu.colorado.phet.acidbasesolutions.view.reactionequations;
+package edu.colorado.phet.acidbasesolutions.view.equations;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,7 +10,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.acidbasesolutions.view.reactionequations.AbstractReactionEquationNode.*;
+import edu.colorado.phet.acidbasesolutions.view.equations.AbstractReactionEquationNode.*;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStrategy;
