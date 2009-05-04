@@ -24,6 +24,8 @@ class AppliedForceSlider(getter: () => Double,
     override def mouseReleased(e: MouseEvent) = setModelValue(0)
   })
 
+  getSlider.setPaintTicks(false) //CM indicated that the without-ticks knob renders properly on Mac, see #689
+
   //allow showing values outside the settable range
   protected override def isValueInRange(value: Double) = true
 }
