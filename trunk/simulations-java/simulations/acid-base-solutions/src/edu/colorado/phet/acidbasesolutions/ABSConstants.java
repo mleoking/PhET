@@ -108,6 +108,7 @@ public class ABSConstants {
     //----------------------------------------------------------------------------
     
     public static final double WATER_CONCENTRATION = 55; // mol/L
+    public static final double Kw = 1E-14;
     
     public static final double MIN_CONCENTRATION = 1E-3;
     public static final double MAX_CONCENTRATION = 1;
