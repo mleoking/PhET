@@ -177,6 +177,11 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
                 (offsetPlayArea + (if (vectorViewModel.centered) defaultCenter else vector.getPointOfOriginOffset(defaultCenter)))
       }
 
+
+      def removeListener(listener: () => Unit) = {
+        bead.removeListener(listener)
+        vectorViewModel.removeListener(listener)
+      }
     }
     //todo: make sure this adapter overrides other methods as well, such as getPaint and addListener
     val playAreaAdapter = new Vector(vector.color, vector.name, vector.abbreviation, () => vector.getValue * RampDefaults.PLAY_AREA_VECTOR_SCALE, vector.painter) {
