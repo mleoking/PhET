@@ -3,9 +3,9 @@
 package edu.colorado.phet.naturalselection.view;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.model.Bunny;
@@ -176,15 +176,10 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.NaturalS
      * @param sprite The sprite to add
      */
     public void addChildSprite( NaturalSelectionSprite sprite ) {
+
         List displayList = getChildrenReference();
 
-        addChild( sprite );
-
-        Collections.sort( displayList );
-
-        /* TODO: don't sort the entire list, do something like this (but damn you piccolo for not supporting insertChild)
-
-        if( displayList.size() == 0 ) {
+        if ( displayList.size() == 0 ) {
             //displayList.add( sprite );
             addChild( sprite );
             return;
@@ -193,17 +188,20 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.NaturalS
         //ListIterator iter = displayList.listIterator();
         ListIterator iter = getChildrenIterator();
 
-        while( iter.hasNext() ) {
+        while ( iter.hasNext() ) {
             NaturalSelectionSprite nextSprite = (NaturalSelectionSprite) iter.next();
-            if( nextSprite.getSpriteZ() > sprite.getSpriteZ() ) {
-                //addChild( iter.previousIndex(), sprite );
-                iter.previous();
-                iter.add( sprite );
+            if ( nextSprite.getSpriteZ() > sprite.getSpriteZ() ) {
+                addChild( iter.previousIndex(), sprite );
+                //iter.previous();
+                //iter.add( sprite );
                 return;
             }
         }
 
-        */
+        // ahah! wasn't adding if it was behind all of the others!
+        addChild( sprite );
+
+
     }
 
     public void removeChildSprite( NaturalSelectionSprite sprite ) {
