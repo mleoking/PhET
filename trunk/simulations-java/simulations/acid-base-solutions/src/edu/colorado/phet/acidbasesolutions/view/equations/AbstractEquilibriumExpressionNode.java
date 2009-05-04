@@ -23,6 +23,9 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 public abstract class AbstractEquilibriumExpressionNode extends PComposite {
     
+    //TODO localize
+    private static final String LARGE = "Large";
+    
     private static final double X_SPACING = 20;
     private static final double Y_SPACING = 10;
     
@@ -44,13 +47,14 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
     private static final double BRACKET_X_MARGIN = 10;
     
     private static final Color DIVIDED_COLOR = Color.BLACK;
-    private static final Stroke DIVIDED_STROKE = new BasicStroke( 1f );
+    private static final Stroke DIVIDED_STROKE = new BasicStroke( 2f );
     
     private final KNode kNode;
     private final TermNode leftNumeratorNode, rightNumeratorNode, denominatorNode;
     private final EqualsNode leftEqualsNode, rightEqualsNode;
     private final DividedNode dividedNode;
     private final ValueNode valueNode;
+    private final LargeValueNode largeValueNode;
     
     public AbstractEquilibriumExpressionNode() {
         super();
@@ -73,35 +77,46 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
         addChild( dividedNode );
         valueNode = new ValueNode();
         addChild( valueNode );
+        largeValueNode = new LargeValueNode();
+        addChild( largeValueNode );
+        
+        // default state
+        setLargeValue( false );
+    }
+    
+    protected void setLargeValue( boolean b ) {
+        largeValueNode.setVisible( b );
+        valueNode.setVisible( !b );
     }
     
     public void setValue( double value ) {
         valueNode.setValue( value );
     }
     
-    public void setLeftNumeratorProperties( String text, Color fill, Color outline ) {
+    protected void setLeftNumeratorProperties( String text, Color fill, Color outline ) {
         setTermProperties( leftNumeratorNode, text, fill, outline );
     }
     
-    public void setRightNumeratorProperties( String text, Color fill, Color outline ) {
+    protected void setRightNumeratorProperties( String text, Color fill, Color outline ) {
         setTermProperties( rightNumeratorNode, text, fill, outline );
     }
     
-    public void setDenominatorProperties( String text, Color fill, Color outline ) {
+    protected void setDenominatorProperties( String text, Color fill, Color outline ) {
         setTermProperties( denominatorNode, text, fill, outline );
     }
     
-    private void setTermProperties( TermNode node, String text, Color fill, Color outline ) {
+    protected void setTermProperties( TermNode node, String text, Color fill, Color outline ) {
         node.setTermProperties( text, fill, outline );
         updateLayout();
     }
     
-    public void setDenominatorVisible( boolean visible ) {
+    protected void setDenominatorVisible( boolean visible ) {
         denominatorNode.setVisible( visible );
         dividedNode.setVisible( visible );
+        updateLayout();
     }
     
-    public void setLeftNumeratorScale( double scale ) {
+    protected void setLeftNumeratorScale( double scale ) {
         setTermScale( leftNumeratorNode, scale );
     }
     
@@ -113,6 +128,7 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
         setTermScale( denominatorNode, scale );
     }
     
+    // scale about the center
     private void setTermScale( TermNode node, double scale ) {
         PBounds boundsBefore = node.getFullBounds();
         node.setScale( scale );
@@ -132,7 +148,7 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
         setDenominatorScale( scale );
     }
     
-    public void setKLabel( String text ) {
+    protected void setKLabel( String text ) {
         kNode.setHTML( text );
         updateLayout();
     }
@@ -155,8 +171,9 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
         kNode.setOffset( xOffset, yOffset );
         // left equals
         xOffset = kNode.getFullBoundsReference().getMaxX() + X_SPACING;
-        yOffset = kNode.getFullBoundsReference().getX() + ( ( kNode.getFullBoundsReference().getHeight() - leftEqualsNode.getFullBoundsReference().getHeight() ) / 2 );
+        yOffset = kNode.getFullBoundsReference().getCenterY() - ( leftEqualsNode.getFullBoundsReference().getHeight() / 2 );
         leftEqualsNode.setOffset( xOffset, yOffset );
+        // terms
         if ( denominatorNode.getVisible() ) {
             // left numerator
             xOffset = leftEqualsNode.getFullBoundsReference().getMaxX() + X_SPACING;
@@ -195,6 +212,10 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
         xOffset = rightEqualsNode.getFullBoundsReference().getMaxX() + X_SPACING;
         yOffset = rightEqualsNode.getFullBoundsReference().getCenterY() - ( valueNode.getFullBoundsReference().getHeight() / 2 );
         valueNode.setOffset( xOffset, yOffset );
+        // large value
+        xOffset = rightEqualsNode.getFullBoundsReference().getMaxX() + X_SPACING;
+        yOffset = rightEqualsNode.getFullBoundsReference().getCenterY() - ( largeValueNode.getFullBoundsReference().getHeight() / 2 );
+        largeValueNode.setOffset( xOffset, yOffset );
         // restore scales
         setKScale( kScale );
         setLeftNumeratorScale( leftNumeratorScale );
@@ -255,7 +276,7 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
             // right bracket
             xOffset = symbolNode.getFullBoundsReference().getMaxX() + BRACKET_X_MARGIN;
             yOffset = leftBracketNode.getYOffset();
-            rightBracketNode.setOffset( xOffset, yOffset );;
+            rightBracketNode.setOffset( xOffset, yOffset );
         }
     }
     
@@ -268,6 +289,14 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
 
         public ValueNode() {
             super( VALUE_FORMAT, DEFAULT_VALUE, VALUE_FONT, VALUE_COLOR );
+        }
+    }
+    
+    private static class LargeValueNode extends PText {
+        public LargeValueNode() {
+            super( LARGE );
+            setFont( VALUE_FONT );
+            setTextPaint( VALUE_COLOR );
         }
     }
     
@@ -330,17 +359,80 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
         }
     }
     
-    public static class AcidEquilibriumExpressionNode extends AbstractEquilibriumExpressionNode {
+    public static class AbstractAcidEquilibriumExpressionNode extends AbstractEquilibriumExpressionNode {
         
-        public AcidEquilibriumExpressionNode() {
+        public AbstractAcidEquilibriumExpressionNode() {
+            this( ABSSymbols.A_MINUS, ABSSymbols.HA );
+        }
+        
+        public AbstractAcidEquilibriumExpressionNode( String rightNumerator, String denominator ) {
             super();
             setKLabel( ABSSymbols.Ka );
             setLeftNumeratorProperties( ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR, ABSConstants.H3O_OUTLINE );
-            setRightNumeratorProperties( ABSSymbols.A_MINUS, ABSConstants.A_COLOR, ABSConstants.A_OUTLINE );
-            setDenominatorProperties( ABSSymbols.HA, ABSConstants.HA_COLOR, ABSConstants.HA_OUTLINE );
+            setRightNumeratorProperties( rightNumerator, ABSConstants.A_COLOR, ABSConstants.A_OUTLINE );
+            setDenominatorProperties( denominator, ABSConstants.HA_COLOR, ABSConstants.HA_OUTLINE );
             setValue( 0 );
         }
     }
+    
+    public static class WeakAcidEquilibriumExpressionNode extends AbstractAcidEquilibriumExpressionNode {
+        public WeakAcidEquilibriumExpressionNode() {
+            super();
+        }
+        
+        public WeakAcidEquilibriumExpressionNode( String rightNumerator, String denominator ) {
+            super( rightNumerator, denominator );
+        }
+    }
+    
+    public static class StrongAcidEquilibriumExpressionNode extends AbstractAcidEquilibriumExpressionNode {
+        public StrongAcidEquilibriumExpressionNode() {
+            super();
+            setLargeValue( true );
+        }
+        public StrongAcidEquilibriumExpressionNode( String rightNumerator, String denominator ) {
+            super( rightNumerator, denominator );
+            setLargeValue( true );
+        }
+    }
+    
+    public static class AbstractBaseEquilibriumExpressionNode extends AbstractEquilibriumExpressionNode {
+        public AbstractBaseEquilibriumExpressionNode() {
+            super();
+            setKLabel( ABSSymbols.Kb );
+            setValue( 0 );
+        }
+    }
+    
+    public static class WeakBaseEquilibriumExpressionNode extends AbstractBaseEquilibriumExpressionNode {
+        
+        public WeakBaseEquilibriumExpressionNode() {
+            this( ABSSymbols.BH_PLUS, ABSSymbols.B );
+        }
+        
+        public WeakBaseEquilibriumExpressionNode( String leftNumerator, String denominator ) {
+            super();
+            setLeftNumeratorProperties( leftNumerator, ABSConstants.BH_COLOR, ABSConstants.BH_OUTLINE );
+            setRightNumeratorProperties( ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, ABSConstants.OH_OUTLINE );
+            setDenominatorProperties( denominator, ABSConstants.B_COLOR, ABSConstants.B_OUTLINE );
+        }
+    }
+    
+    public static class StrongBaseEquilibriumExpressionNode extends AbstractBaseEquilibriumExpressionNode {
+        
+        public StrongBaseEquilibriumExpressionNode() {
+            this( ABSSymbols.M_PLUS, ABSSymbols.MOH );
+        }
+        
+        public StrongBaseEquilibriumExpressionNode( String leftNumerator, String denominator ) {
+            super();
+            setLeftNumeratorProperties( leftNumerator, ABSConstants.M_COLOR, ABSConstants.M_OUTLINE );
+            setRightNumeratorProperties( ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, ABSConstants.OH_OUTLINE );
+            setDenominatorProperties( denominator, ABSConstants.MOH_COLOR, ABSConstants.MOH_OUTLINE );
+            setLargeValue( true );
+        }
+    }
+    
     
     /* tests */
     public static void main( String[] args ) {
@@ -354,8 +446,15 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
                 // water
                 new WaterEquilibriumExpressionNode(),
                 // generics
-                new AcidEquilibriumExpressionNode(),
+                new WeakAcidEquilibriumExpressionNode(),
+                new StrongAcidEquilibriumExpressionNode(),
+                new WeakBaseEquilibriumExpressionNode(),
+                new StrongBaseEquilibriumExpressionNode(),
                 // specifics
+                new WeakAcidEquilibriumExpressionNode( "ClO<sub>2</sub><sup>-</sup>", "HClO<sub>2</sub>" ),
+                new StrongAcidEquilibriumExpressionNode( "Cl<sup>-</sup>", "HCl" ),
+                new WeakBaseEquilibriumExpressionNode( "NH<sub>4</sub><sup>+</sup>", "NH<sub>3</sub>" ),
+                new StrongBaseEquilibriumExpressionNode( "Na<sup>+</sup>", "NaOH" ),
         };
         
         // layout in a left-justified column
