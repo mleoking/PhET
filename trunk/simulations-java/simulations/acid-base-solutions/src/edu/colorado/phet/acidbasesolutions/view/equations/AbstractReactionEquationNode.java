@@ -69,6 +69,7 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         return terms.length;
     }
     
+    // scale about center
     public void setTermScale( int index, double scale ) {
         SymbolNode symbolNode = terms[index].getSymbolNode();
         PBounds boundsBefore = symbolNode.getFullBounds();
