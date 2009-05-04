@@ -47,12 +47,12 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * This class displays a "strip chart" of the decay time for multiple nuclei,
- * and also allows the user to adjust the half life for some types of nuclei.
+ * This class represents a chart that shows the proportion of nuclei that have
+ * decayed versus time.  This is essentially the exponential display curve.
  *
  * @author John Blanco
  */
-public class NucleusProportionsChart extends PNode {
+public class NuclearDecayProportionChart extends PNode {
 
     //------------------------------------------------------------------------
     // Class Data
@@ -191,7 +191,7 @@ public class NucleusProportionsChart extends PNode {
     // Constructor
     //------------------------------------------------------------------------
 
-    public NucleusProportionsChart( MultiNucleusDecayModel model ) {
+    public NuclearDecayProportionChart( MultiNucleusDecayModel model ) {
 
         _clock = model.getClock();
         _model = model;

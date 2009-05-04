@@ -24,7 +24,7 @@ import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
 import edu.colorado.phet.nuclearphysics.view.MultiNucleusDecayLinearTimeChart;
-import edu.colorado.phet.nuclearphysics.view.NucleusProportionsChart;
+import edu.colorado.phet.nuclearphysics.view.NuclearDecayProportionChart;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -61,7 +61,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
     private HashMap _mapAlphaParticlesToNodes = new HashMap();
     private HashMap _mapNucleiToNodes = new HashMap();
     private AtomicNucleus.Listener _listenerAdapter;
-    private NucleusProportionsChart _proportionsChart;
+    private NuclearDecayProportionChart _proportionsChart;
     private PNode _particleLayer;
     private PNode _graphLayer;
     
@@ -95,7 +95,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
         // Add the diagram that will depict the relative concentration of
         // pre- and post-decay nuclei.
         // TODO: This is stubbed with a static picture for demo purposes.
-        _proportionsChart = new NucleusProportionsChart( _model );
+        _proportionsChart = new NuclearDecayProportionChart( _model );
         _graphLayer.addChild(_proportionsChart);
         
         // Register with the model for notifications of nuclei coming and
