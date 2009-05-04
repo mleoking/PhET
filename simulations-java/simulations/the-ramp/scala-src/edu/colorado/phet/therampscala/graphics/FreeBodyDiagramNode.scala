@@ -237,10 +237,10 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private va
         toRemove += i
       }
     }
-    val nodeToRemove=getChild(toRemove(0))
+    val nodeToRemove = getChild(toRemove(0))
     nodeToRemove.removeAllChildren()
     nodeToRemove match {
-      case a:VectorNode => a.deleting()
+      case a: VectorNode => a.deleting()
       case _ => {}
     }
     removeChild(toRemove(0))
@@ -271,13 +271,13 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private va
 class ConstantVectorValue(val getValue: Vector2D) extends VectorValue {
   def this() = this (new Vector2D)
 
-  def addListener(listener: ()=> Unit) = {}
+  def addListener(listener: () => Unit) = {}
 }
 
 trait VectorValue {
   def getValue: Vector2D
 
-  def addListener(listener: ()=> Unit): Unit
+  def addListener(listener: () => Unit): Unit
 }
 
 class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val tailLocation: VectorValue) extends PNode {
@@ -306,7 +306,7 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
   setPickable(false)
   setChildrenPickable(false)
 
-  def deleting(){
+  def deleting() {
     abbreviatonTextNode = null
   }
 }

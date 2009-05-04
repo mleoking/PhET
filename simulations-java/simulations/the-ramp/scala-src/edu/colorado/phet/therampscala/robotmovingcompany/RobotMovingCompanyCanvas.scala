@@ -37,9 +37,9 @@ class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: Coordina
   gameModel.addListener(() => {robotGoButton.setEnabled(!gameModel.launched)})
 
   val appliedForceControl = new AppliedForceSlider(() => 0, value => 0, gameModel.addListener) //todo: last param is a dummy
-  appliedForceControl.addChangeListener(new ChangeListener(){
+  appliedForceControl.addChangeListener(new ChangeListener() {
     def stateChanged(e: ChangeEvent) = {
-      gameModel.launched=true
+      gameModel.launched = true
       model.setPaused(false)
     }
   })
