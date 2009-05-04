@@ -22,7 +22,7 @@ public class NaturalSelectionControlPanel extends JPanel {
 
     // main panels
     private JPanel rightPanel;
-    private GenerationChartCanvas generationCanvas;
+    public GenerationChartCanvas generationCanvas;
     private LeftPanel leftPanel;
 
     // subpanels

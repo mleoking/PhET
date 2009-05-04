@@ -151,7 +151,7 @@ public class Bunny extends ClockAdapter {
         setInitialPosition();
 
         // bunny is set up, notify various things that the bunny has been created and is ready to use
-        notifyInit();
+        //notifyInit();
 
     }
 
@@ -480,7 +480,7 @@ public class Bunny extends ClockAdapter {
     // Notifications
     //----------------------------------------------------------------------------
 
-    private void notifyInit() {
+    public void notifyInit() {
         //System.out.println( "Bunny Born: " + this );
         Iterator iter = listeners.iterator();
         while ( iter.hasNext() ) {

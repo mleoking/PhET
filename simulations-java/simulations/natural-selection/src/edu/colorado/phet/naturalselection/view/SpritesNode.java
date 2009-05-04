@@ -190,7 +190,7 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.NaturalS
 
         while ( iter.hasNext() ) {
             NaturalSelectionSprite nextSprite = (NaturalSelectionSprite) iter.next();
-            if ( nextSprite.getSpriteZ() > sprite.getSpriteZ() ) {
+            if ( nextSprite.getSpriteZ() < sprite.getSpriteZ() ) {
                 addChild( iter.previousIndex(), sprite );
                 //iter.previous();
                 //iter.add( sprite );

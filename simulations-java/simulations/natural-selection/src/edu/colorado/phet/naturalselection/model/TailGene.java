@@ -9,8 +9,8 @@ package edu.colorado.phet.naturalselection.model;
  */
 public class TailGene extends Gene {
     // tail alleles (also used for phenotypes)
-    public static final Allele TAIL_SHORT_ALLELE = new Allele( "Short Tail" );
-    public static final Allele TAIL_LONG_ALLELE = new Allele( "Long Tail" );
+    public static final Allele TAIL_SHORT_ALLELE = new Allele( "Smooth Tail" );
+    public static final Allele TAIL_LONG_ALLELE = new Allele( "Fuzzy Tail" );
 
     private TailGene() {
         super( TAIL_SHORT_ALLELE, TAIL_LONG_ALLELE );

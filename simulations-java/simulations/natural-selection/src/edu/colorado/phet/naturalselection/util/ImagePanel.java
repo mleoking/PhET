@@ -45,7 +45,7 @@ public class ImagePanel extends JPanel {
         if ( enabled != this.enabled ) {
             this.enabled = enabled;
 
-            invalidate();
+            repaint();
         }
     }
 

@@ -287,7 +287,7 @@ public abstract class Gene implements Bunny.BunnyListener {
         Iterator iter = listeners.iterator();
 
         while ( iter.hasNext() ) {
-            ( (GeneListener) iter.next() ).onChangeDistribution( getPrimaryPhenotypeCount(), getSecondaryPhenotypeCount() );
+            ( (GeneListener) iter.next() ).onChangeDistribution( this, getPrimaryPhenotypeCount(), getSecondaryPhenotypeCount() );
         }
     }
 
@@ -296,7 +296,7 @@ public abstract class Gene implements Bunny.BunnyListener {
         Iterator iter = listeners.iterator();
 
         while ( iter.hasNext() ) {
-            ( (GeneListener) iter.next() ).onChangeDominantAllele( primaryAllele == dominantAllele );
+            ( (GeneListener) iter.next() ).onChangeDominantAllele( this, primaryAllele == dominantAllele );
         }
     }
 
@@ -304,7 +304,7 @@ public abstract class Gene implements Bunny.BunnyListener {
         Iterator iter = listeners.iterator();
 
         while ( iter.hasNext() ) {
-            ( (GeneListener) iter.next() ).onChangeMutatable( getMutatable() );
+            ( (GeneListener) iter.next() ).onChangeMutatable( this, getMutatable() );
         }
     }
 

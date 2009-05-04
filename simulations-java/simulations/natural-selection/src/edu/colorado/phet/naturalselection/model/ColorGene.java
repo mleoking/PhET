@@ -9,8 +9,8 @@ package edu.colorado.phet.naturalselection.model;
  */
 public class ColorGene extends Gene {
     // fur alleles (also used for phenotypes)
-    public static final Allele WHITE_ALLELE = new Allele( "White-Colored Fur" );
-    public static final Allele BROWN_ALLELE = new Allele( "Brown-Colored Fur" );
+    public static final Allele WHITE_ALLELE = new Allele( "White Fur" );
+    public static final Allele BROWN_ALLELE = new Allele( "Brown Fur" );
 
     private ColorGene() {
         super( WHITE_ALLELE, BROWN_ALLELE );
