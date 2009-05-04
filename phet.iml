@@ -830,17 +830,6 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/simulations-java/contrib/scala/scala-swing.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$MODULE_DIR$/../../../../install/scala-2.7.3.final/src/scala-swing-src.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="jar://$MODULE_DIR$/build-tools/contrib/apache-ant/lib/ant-apache-resolver.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -1153,11 +1142,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="flex_sdk_3" level="application" />
-    <orderEntry type="library" name="" level="application" />
-    <orderEntry type="library" name="" level="application" />
-    <orderEntry type="library" name="" level="application" />
-    <orderEntry type="library" name="flex3" level="project" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -1197,7 +1181,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/build-tools/contrib/scala/scala-library.jar!/" />
+          <root url="jar://$MODULE_DIR$/build-tools/contrib/scala/scala-compiler.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1206,10 +1190,23 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/build-tools/contrib/scala/scala-compiler.jar!/" />
+          <root url="jar://$MODULE_DIR$/simulations-java/contrib/scala/scala-library.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/simulations-java/contrib/scala/scala-library-src.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/simulations-java/contrib/scala/scala-swing.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/../../../../install/scala-2.7.3.final/src/scala-swing-src.jar!/" />
+        </SOURCES>
       </library>
     </orderEntry>
   </component>
