@@ -95,7 +95,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
         // Add the diagram that will depict the relative concentration of
         // pre- and post-decay nuclei.
         // TODO: This is stubbed with a static picture for demo purposes.
-        _proportionsChart = new NuclearDecayProportionChart( _model );
+        _proportionsChart = new NuclearDecayProportionChart();
         _graphLayer.addChild(_proportionsChart);
         
         // Register with the model for notifications of nuclei coming and
