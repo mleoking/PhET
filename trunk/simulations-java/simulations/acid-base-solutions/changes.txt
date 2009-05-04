@@ -1,3 +1,5 @@
+# 0.01.03 (31315) May 4, 2009
+5/4/09 dev version to demonstrate Equilibrium Expressions feature
 # 0.01.02 (31294) May 4, 2009
 5/4/09 more dev controls for Reaction Equations dialog
 # 0.01.01 (31188) Apr 30, 2009
