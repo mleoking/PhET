@@ -23,7 +23,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
     
     //TODO localize
-    private static final String TITLE = "Reaction Equations";
+    private static final String TITLE = "Equilibrium Expressions";
     private static final String ON = "on";
     private static final String OFF = "off";
     private static final String SYMBOL_SIZES_CHANGE = "<html>Symbol sizes change<br>with concentration:";
