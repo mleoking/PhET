@@ -1,3 +1,4 @@
+removed slider labels as recommended by CM to see if this fixes the applied force slider knob problem
 # 1.03.15 (31283) May 4, 2009
 5/4/09 workaround for memory problems (not in svn)
 Removed tick marks from applied force slider to make slider knob appear on mac.
