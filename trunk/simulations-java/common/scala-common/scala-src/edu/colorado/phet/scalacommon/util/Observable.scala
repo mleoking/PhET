@@ -8,6 +8,8 @@ trait Observable {
   def notifyListeners() = listeners.foreach(_())
 
   //TODO: consider calling the callback function immediately, to avoid the need for things like defineAndInvoke
+  //TODO: this would only work for state based (idempotent) notifications, not event based notifications, so maybe shouldn't add callbacks
+  //TODO: or maybe should only use this class for idempotent notifications
   def addListener(listener: () => Unit): Unit = listeners += listener
 
   def addListenerByName(listener: => Unit): Unit = {
