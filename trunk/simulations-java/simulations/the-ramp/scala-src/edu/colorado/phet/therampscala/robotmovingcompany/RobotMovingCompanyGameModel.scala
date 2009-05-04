@@ -131,6 +131,8 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
     itemFinishedListeners.foreach(_(o, r))
     if (resultMap.size == objectList.length)
       gameFinishListeners.foreach(_())
+    else //  automatically go to next object when you score or lose the object (instead of hitting "next object" button)
+      nextObject()
     notifyListeners()
   }
 

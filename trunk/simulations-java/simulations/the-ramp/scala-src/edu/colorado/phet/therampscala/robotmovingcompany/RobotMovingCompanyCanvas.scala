@@ -38,18 +38,17 @@ class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: Coordina
   controlPanel.add(appliedForceControl)
   controlPanel.add(robotGoButton)
 
-  controlPanel.add(Box.createRigidArea(new Dimension(10, 10)))
-  val nextObjectButton = new ScalaButton("Next Object", () => gameModel.nextObject())
-  val updateNextObjectButtonEnabled = () => {nextObjectButton.setEnabled(gameModel.readyForNext)}
-  updateNextObjectButtonEnabled()
-  gameModel.addListener(updateNextObjectButtonEnabled)
-  controlPanel.add(nextObjectButton)
+//  controlPanel.add(Box.createRigidArea(new Dimension(10, 10)))
+//  val nextObjectButton = new ScalaButton("Next Object", () => gameModel.nextObject())
+//  val updateNextObjectButtonEnabled = () => {nextObjectButton.setEnabled(gameModel.readyForNext)}
+//  updateNextObjectButtonEnabled()
+//  gameModel.addListener(updateNextObjectButtonEnabled)
+//  controlPanel.add(nextObjectButton)
 
   gameModel.gameFinishListeners += (() => {
     JOptionPane.showMessageDialog(RobotMovingCompanyCanvas.this, "That was the last object to move.  \nYour score is: " + gameModel.score + ".")
     gameModel.resetAll()
   })
-
 
   val pswingControlPanel = new PSwing(controlPanel)
   addNode(pswingControlPanel)
