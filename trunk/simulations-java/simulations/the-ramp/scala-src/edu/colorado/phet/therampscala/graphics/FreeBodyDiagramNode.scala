@@ -237,6 +237,12 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private va
         toRemove += i
       }
     }
+    val nodeToRemove=getChild(toRemove(0))
+    nodeToRemove.removeAllChildren()
+    nodeToRemove match {
+      case a:VectorNode => a.deleting()
+      case _ => {}
+    }
     removeChild(toRemove(0))
   }
 
@@ -265,20 +271,20 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private va
 class ConstantVectorValue(val getValue: Vector2D) extends VectorValue {
   def this() = this (new Vector2D)
 
-  def addListenerByName(listener: => Unit) = {}
+  def addListener(listener: ()=> Unit) = {}
 }
 
 trait VectorValue {
   def getValue: Vector2D
 
-  def addListenerByName(listener: => Unit): Unit
+  def addListener(listener: ()=> Unit): Unit
 }
 
 class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val tailLocation: VectorValue) extends PNode {
   val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(0, 1), 20, 20, 10, 0.5, true)
   arrowNode.setPaint(vector.getPaint)
   addChild(arrowNode)
-  val abbreviatonTextNode = new ShadowHTMLNode(vector.html, vector.color)
+  private var abbreviatonTextNode = new ShadowHTMLNode(vector.html, vector.color)
   abbreviatonTextNode.setFont(new PhetFont(18))
   addChild(abbreviatonTextNode)
 
@@ -286,16 +292,23 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
     //    println("vector: " + vector.abbreviation + ", mag=" + vector.getValue.magnitude)
     val viewTip = transform.modelToViewDouble(vector.getValue + tailLocation.getValue)
     arrowNode.setTipAndTailLocations(viewTip, transform.modelToViewDouble(tailLocation.getValue))
-    abbreviatonTextNode.setOffset(viewTip)
-    abbreviatonTextNode.setVisible(vector.getValue.magnitude > 1E-2)
+    //todo: better garbage collection
+    if (abbreviatonTextNode != null) {
+      abbreviatonTextNode.setOffset(viewTip)
+      abbreviatonTextNode.setVisible(vector.getValue.magnitude > 1E-2)
+    }
     setVisible(vector.visible)
   }
   update()
-  vector.addListenerByName(update())
-  tailLocation.addListenerByName(update())
+  vector.addListener(update)
+  tailLocation.addListener(update)
 
   setPickable(false)
   setChildrenPickable(false)
+
+  def deleting(){
+    abbreviatonTextNode = null
+  }
 }
 
 object TestFBD extends Application {

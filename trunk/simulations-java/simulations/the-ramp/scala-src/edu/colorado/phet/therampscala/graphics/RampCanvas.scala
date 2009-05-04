@@ -166,9 +166,9 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
     windowFBDNode.addVector(vector, offsetFBD)
 
     val tailLocationInPlayArea = new VectorValue() {
-      def addListenerByName(listener: => Unit) = {
-        bead.addListenerByName(listener)
-        vectorViewModel.addListenerByName(listener)
+      def addListener(listener: ()=> Unit) = {
+        bead.addListener(listener)
+        vectorViewModel.addListener(listener)
       }
 
       def getValue = {
