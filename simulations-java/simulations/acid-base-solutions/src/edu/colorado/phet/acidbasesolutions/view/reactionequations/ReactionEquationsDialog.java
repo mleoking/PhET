@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -34,10 +35,10 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
     private final PhetPCanvas topCanvas, bottomCanvas;
     private AbstractReactionEquationNode topEquation;
     private final AbstractReactionEquationNode bottomEquation;
-    private final TermScaleSlider[] topSliders, bottomSliders;
+    private TermScaleSlider[] topSliders, bottomSliders;
     private final JRadioButton scaleOnRadioButton, scaleOffRadioButton;
-    private final EquationComboBox equationComboBox;
-    private final BaseScaleSlider baseScaleSlider;
+    private EquationComboBox equationComboBox;
+    private BaseScaleSlider baseScaleSlider;
     
     public ReactionEquationsDialog( Frame owner ) {
         this( owner, true ); //XXX default should be dev=false
@@ -46,6 +47,69 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
     public ReactionEquationsDialog( Frame owner, boolean dev ) {
         super( owner, TITLE );
         setResizable( dev ); // resizable only if in dev mode
+        
+        JPanel devControlPanel = createDevControlPanel();
+        
+        // scale on/off
+        JLabel scaleOnOffLabel = new JLabel( SYMBOL_SIZES_CHANGE );
+        ActionListener scaleOnOffActionListener = new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                updateScale();
+            }
+        };
+        scaleOnRadioButton = new JRadioButton( ON );
+        scaleOnRadioButton.addActionListener( scaleOnOffActionListener );
+        scaleOffRadioButton = new JRadioButton( OFF );
+        scaleOffRadioButton.addActionListener( scaleOnOffActionListener );
+        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add( scaleOffRadioButton );
+        buttonGroup.add( scaleOnRadioButton );
+        scaleOnRadioButton.setSelected( true );
+        JPanel scaleOnOffPanel = new JPanel( new GridBagLayout() );
+        scaleOnOffPanel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridx = GridBagConstraints.RELATIVE;
+        scaleOnOffPanel.add( scaleOnOffLabel );
+        scaleOnOffPanel.add( scaleOnRadioButton );
+        scaleOnOffPanel.add( scaleOffRadioButton );
+        
+        // top canvas
+        topCanvas = new PhetPCanvas() {
+            protected void updateLayout() {
+                updateTopLayout();
+            }
+        };
+        topCanvas.setPreferredSize( TOP_CANVAS_SIZE );
+        
+        // bottom canvas
+        bottomCanvas = new PhetPCanvas() {
+            protected void updateLayout() {
+                updateBottomLayout();
+            }
+        };
+        bottomCanvas.setPreferredSize( BOTTOM_CANVAS_SIZE );
+        bottomEquation = new WaterReactionEquationNode();
+        bottomCanvas.getLayer().addChild( bottomEquation );
+        
+        // layout
+        JPanel canvasPanel = new JPanel( new GridLayout( 0, 1 ) );
+        canvasPanel.add( topCanvas );
+        canvasPanel.add( bottomCanvas);
+        JPanel userPanel = new JPanel( new BorderLayout() );
+        userPanel.add( scaleOnOffPanel, BorderLayout.NORTH );
+        userPanel.add( canvasPanel, BorderLayout.CENTER );
+        JPanel mainPanel = new JPanel( new BorderLayout() );
+        mainPanel.add( userPanel, BorderLayout.CENTER );
+        if ( dev ) {
+            mainPanel.add( devControlPanel, BorderLayout.EAST );
+        }
+            
+        updateTopEquation();
+        getContentPane().add( mainPanel, BorderLayout.CENTER );
+        pack();
+    }
+    
+    private JPanel createDevControlPanel() {
         
         // equation combo box
         equationComboBox = new EquationComboBox();
@@ -63,51 +127,6 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
             }
         });
         
-        JPanel globalControlPanel = new JPanel();
-        globalControlPanel.setLayout( new BoxLayout( globalControlPanel, BoxLayout.Y_AXIS ) );
-        globalControlPanel.add( equationComboBox );
-        globalControlPanel.add( baseScaleSlider );
-        
-        topCanvas = new PhetPCanvas() {
-            protected void updateLayout() {
-                updateTopLayout();
-            }
-        };
-        topCanvas.setPreferredSize( TOP_CANVAS_SIZE );
-        topEquation = equationComboBox.getSelectedNode();
-        topCanvas.getLayer().addChild( topEquation );
-        
-        bottomCanvas = new PhetPCanvas() {
-            protected void updateLayout() {
-                updateBottomLayout();
-            }
-        };
-        bottomCanvas.setPreferredSize( BOTTOM_CANVAS_SIZE );
-        bottomEquation = new WaterReactionEquationNode();
-        bottomCanvas.getLayer().addChild( bottomEquation );
-        
-        // scale on/off
-        JLabel scaleOnOffLabel = new JLabel( SYMBOL_SIZES_CHANGE );
-        ActionListener scaleOnOffActionListener = new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                updateScale();
-            }
-        };
-        scaleOnRadioButton = new JRadioButton( ON );
-        scaleOnRadioButton.addActionListener( scaleOnOffActionListener );
-        scaleOffRadioButton = new JRadioButton( OFF );
-        scaleOffRadioButton.addActionListener( scaleOnOffActionListener );
-        ButtonGroup buttonGroup = new ButtonGroup();
-        buttonGroup.add( scaleOffRadioButton );
-        buttonGroup.add( scaleOnRadioButton );
-        scaleOnRadioButton.setSelected( true );
-        JPanel scaleOnOffPanel = new JPanel();
-        scaleOnOffPanel.setLayout( new BoxLayout( scaleOnOffPanel, BoxLayout.X_AXIS ) );
-        scaleOnOffPanel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
-        scaleOnOffPanel.add( scaleOnOffLabel );
-        scaleOnOffPanel.add( scaleOnRadioButton );
-        scaleOnOffPanel.add( scaleOffRadioButton );
-        
         // scale sliders for top equations
         ChangeListener topChangeListener = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -119,8 +138,8 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         };
         JPanel topSliderPanel = new JPanel();
         topSliderPanel.setLayout( new BoxLayout( topSliderPanel, BoxLayout.Y_AXIS ) );
-        topSliderPanel.setBorder( new EmptyBorder( 0, 5, 0, 5 ) );
-        topSliders = new TermScaleSlider[ topEquation.getNumberOfTerms() ];
+        topSliderPanel.setBorder( new TitledBorder( "top equation" ) );
+        topSliders = new TermScaleSlider[ 4 ];
         for ( int i = 0; i < topSliders.length; i++ ) {
             TermScaleSlider slider = new TermScaleSlider( i );
             slider.addChangeListener( topChangeListener );
@@ -139,8 +158,8 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         };
         JPanel bottomSliderPanel = new JPanel();
         bottomSliderPanel.setLayout( new BoxLayout( bottomSliderPanel, BoxLayout.Y_AXIS ) );
-        bottomSliderPanel.setBorder( new EmptyBorder( 0, 5, 0, 5 ) );
-        bottomSliders = new TermScaleSlider[ bottomEquation.getNumberOfTerms() ];
+        bottomSliderPanel.setBorder( new TitledBorder( "bottom equation" ) );
+        bottomSliders = new TermScaleSlider[ 4 ];
         for ( int i = 0; i < bottomSliders.length; i++ ) {
             TermScaleSlider slider = new TermScaleSlider( i );
             slider.addChangeListener( bottomChangeListener );
@@ -148,24 +167,16 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
             bottomSliderPanel.add( slider );
         }
         
-        // main panel
-        JPanel panel = new JPanel( new GridBagLayout() );
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.gridx = 0; // column
-        constraints.gridy = GridBagConstraints.RELATIVE; // row
-        panel.add( scaleOnOffPanel, constraints );
-        panel.add( topCanvas, constraints );
-        panel.add( bottomCanvas, constraints );
-        if ( dev ) {
-            constraints.gridx = 1; // column
-            panel.add( globalControlPanel, constraints );
-            panel.add( topSliderPanel, constraints );
-            panel.add( bottomSliderPanel, constraints );
-        }
-            
-        updateTopEquation();
-        getContentPane().add( panel, BorderLayout.CENTER );
-        pack();
+        // layout
+        JPanel panel = new JPanel();
+        panel.setLayout( new BoxLayout( panel, BoxLayout.Y_AXIS ) );
+        panel.setBorder( new TitledBorder( "dev controls" ) );
+        panel.add( equationComboBox );
+        panel.add( baseScaleSlider );
+        panel.add( topSliderPanel );
+        panel.add( bottomSliderPanel );
+        
+        return panel;
     }
     
     private void updateTopLayout() {
@@ -186,7 +197,9 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
     
     private void updateNominalScale() {
         topEquation.setScale( baseScaleSlider.getValue() / 100.0 );
+        updateTopLayout();
         bottomEquation.setScale( baseScaleSlider.getValue() / 100.0 );
+        updateBottomLayout();
     }
     
     private void updateScale() {
