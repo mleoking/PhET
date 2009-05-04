@@ -34,7 +34,7 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
 
   clock.addClockListener(dt => if (!model.isPaused && _bead != null) _bead.stepInTime(dt))
 
-  setupObject()
+  resetAll()
 
   def resetAll() = {
     model.rampSegments(0).startPoint = new Vector2D(-10, 0).rotate(-(30.0).toRadians)
