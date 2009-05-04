@@ -1,9 +1,6 @@
 package edu.colorado.phet.acidbasesolutions.view.reactionequations;
 
-import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -37,9 +34,10 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
     private final PhetPCanvas topCanvas, bottomCanvas;
     private AbstractReactionEquationNode topEquation;
     private final AbstractReactionEquationNode bottomEquation;
-    private final ScaleSlider[] topSliders, bottomSliders;
+    private final TermScaleSlider[] topSliders, bottomSliders;
     private final JRadioButton scaleOnRadioButton, scaleOffRadioButton;
     private final EquationComboBox equationComboBox;
+    private final BaseScaleSlider baseScaleSlider;
     
     public ReactionEquationsDialog( Frame owner ) {
         this( owner, true ); //XXX default should be dev=false
@@ -47,7 +45,7 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
     
     public ReactionEquationsDialog( Frame owner, boolean dev ) {
         super( owner, TITLE );
-        setResizable( false );
+        setResizable( dev ); // resizable only if in dev mode
         
         // equation combo box
         equationComboBox = new EquationComboBox();
@@ -56,6 +54,19 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
                 updateTopEquation();
             }
         });
+        
+        // base scale slider
+        baseScaleSlider = new BaseScaleSlider( "base:" );
+        baseScaleSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                updateNominalScale();
+            }
+        });
+        
+        JPanel globalControlPanel = new JPanel();
+        globalControlPanel.setLayout( new BoxLayout( globalControlPanel, BoxLayout.Y_AXIS ) );
+        globalControlPanel.add( equationComboBox );
+        globalControlPanel.add( baseScaleSlider );
         
         topCanvas = new PhetPCanvas() {
             protected void updateLayout() {
@@ -100,8 +111,8 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         // scale sliders for top equations
         ChangeListener topChangeListener = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                if ( topEquation != null & e.getSource() instanceof ScaleSlider && isScaleEnabled() ) {
-                    ScaleSlider slider = (ScaleSlider) e.getSource();
+                if ( topEquation != null & e.getSource() instanceof TermScaleSlider && isScaleEnabled() ) {
+                    TermScaleSlider slider = (TermScaleSlider) e.getSource();
                     topEquation.setTermScale( slider.getTermIndex(), slider.getValue() / 100.0 );
                 }
             }
@@ -109,9 +120,9 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         JPanel topSliderPanel = new JPanel();
         topSliderPanel.setLayout( new BoxLayout( topSliderPanel, BoxLayout.Y_AXIS ) );
         topSliderPanel.setBorder( new EmptyBorder( 0, 5, 0, 5 ) );
-        topSliders = new ScaleSlider[ topEquation.getNumberOfTerms() ];
+        topSliders = new TermScaleSlider[ topEquation.getNumberOfTerms() ];
         for ( int i = 0; i < topSliders.length; i++ ) {
-            ScaleSlider slider = new ScaleSlider( i );
+            TermScaleSlider slider = new TermScaleSlider( i );
             slider.addChangeListener( topChangeListener );
             topSliders[i] = slider;
             topSliderPanel.add( slider );
@@ -120,8 +131,8 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         // scale sliders for bottom equation
         ChangeListener bottomChangeListener = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                if ( bottomEquation != null & e.getSource() instanceof ScaleSlider && isScaleEnabled() ) {
-                    ScaleSlider slider = (ScaleSlider) e.getSource();
+                if ( bottomEquation != null & e.getSource() instanceof TermScaleSlider && isScaleEnabled() ) {
+                    TermScaleSlider slider = (TermScaleSlider) e.getSource();
                     bottomEquation.setTermScale( slider.getTermIndex(), slider.getValue() / 100.0 );
                 }
             }
@@ -129,9 +140,9 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         JPanel bottomSliderPanel = new JPanel();
         bottomSliderPanel.setLayout( new BoxLayout( bottomSliderPanel, BoxLayout.Y_AXIS ) );
         bottomSliderPanel.setBorder( new EmptyBorder( 0, 5, 0, 5 ) );
-        bottomSliders = new ScaleSlider[ bottomEquation.getNumberOfTerms() ];
+        bottomSliders = new TermScaleSlider[ bottomEquation.getNumberOfTerms() ];
         for ( int i = 0; i < bottomSliders.length; i++ ) {
-            ScaleSlider slider = new ScaleSlider( i );
+            TermScaleSlider slider = new TermScaleSlider( i );
             slider.addChangeListener( bottomChangeListener );
             bottomSliders[i] = slider;
             bottomSliderPanel.add( slider );
@@ -147,13 +158,13 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         panel.add( bottomCanvas, constraints );
         if ( dev ) {
             constraints.gridx = 1; // column
-            panel.add( equationComboBox, constraints );
+            panel.add( globalControlPanel, constraints );
             panel.add( topSliderPanel, constraints );
             panel.add( bottomSliderPanel, constraints );
         }
             
         updateTopEquation();
-        setContentPane( panel );
+        getContentPane().add( panel, BorderLayout.CENTER );
         pack();
     }
     
@@ -173,14 +184,19 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         return scaleOnRadioButton.isSelected();
     }
     
+    private void updateNominalScale() {
+        topEquation.setScale( baseScaleSlider.getValue() / 100.0 );
+        bottomEquation.setScale( baseScaleSlider.getValue() / 100.0 );
+    }
+    
     private void updateScale() {
         updateScale( topEquation, topSliders );
         updateScale( bottomEquation, bottomSliders );
     }
     
-    private void updateScale( AbstractReactionEquationNode equation, ScaleSlider[] sliders ) {
+    private void updateScale( AbstractReactionEquationNode equation, TermScaleSlider[] sliders ) {
         for ( int i = 0; i < sliders.length; i++ ) {
-            ScaleSlider slider = sliders[i];
+            TermScaleSlider slider = sliders[i];
             slider.setEnabled( isScaleEnabled() );
             double scale = ( isScaleEnabled() ? slider.getValue() / 100.0 : 1.0 );
             equation.setTermScale( i, scale );
@@ -258,11 +274,21 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         }
     }
     
-    private static class ScaleSlider extends LinearValueControl {
+    private static class BaseScaleSlider extends LinearValueControl {
+
+        public BaseScaleSlider( String label ) {
+            super( 50, 200, label, "##0", "%", new HorizontalLayoutStrategy() );
+            setValue( DEFAULT_SCALE );
+            getSlider().setPaintTicks( false );
+            getSlider().setPaintLabels( false );
+        }
+    }
+    
+    private static class TermScaleSlider extends LinearValueControl {
 
         private final int termIndex;
 
-        public ScaleSlider( int termIndex ) {
+        public TermScaleSlider( int termIndex ) {
             super( 1, MAX_SCALE, "Term " + (termIndex+1) + ":", "##0", "%", new HorizontalLayoutStrategy() );
             this.termIndex = termIndex;
             setValue( DEFAULT_SCALE );
