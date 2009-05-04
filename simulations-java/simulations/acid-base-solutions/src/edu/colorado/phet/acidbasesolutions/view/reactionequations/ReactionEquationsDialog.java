@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStr
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.umd.cs.piccolo.nodes.PText;
 
 
 public class ReactionEquationsDialog extends PaintImmediateDialog {
@@ -35,10 +36,13 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
     private final PhetPCanvas topCanvas, bottomCanvas;
     private AbstractReactionEquationNode topEquation;
     private final AbstractReactionEquationNode bottomEquation;
-    private TermScaleSlider[] topSliders, bottomSliders;
-    private final JRadioButton scaleOnRadioButton, scaleOffRadioButton;
+    
+    // developer controls
     private EquationComboBox equationComboBox;
     private BaseScaleSlider baseScaleSlider;
+    private TermScaleSlider[] topSliders, bottomSliders;
+    private final JRadioButton scaleOnRadioButton, scaleOffRadioButton;
+    private final PText topCanvasSizeNode, bottomCanvasSizeNode;
     
     public ReactionEquationsDialog( Frame owner ) {
         this( owner, true ); //XXX default should be dev=false
@@ -80,6 +84,11 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
             }
         };
         topCanvas.setPreferredSize( TOP_CANVAS_SIZE );
+        topCanvasSizeNode = new PText();
+        topCanvasSizeNode.setOffset( 5, 5 );
+        if ( dev ) {
+            topCanvas.getLayer().addChild( topCanvasSizeNode );
+        }
         
         // bottom canvas
         bottomCanvas = new PhetPCanvas() {
@@ -90,6 +99,11 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         bottomCanvas.setPreferredSize( BOTTOM_CANVAS_SIZE );
         bottomEquation = new WaterReactionEquationNode();
         bottomCanvas.getLayer().addChild( bottomEquation );
+        bottomCanvasSizeNode = new PText();
+        bottomCanvasSizeNode.setOffset( 5, 5 );
+        if ( dev ) {
+            bottomCanvas.getLayer().addChild( bottomCanvasSizeNode );
+        }
         
         // layout
         JPanel canvasPanel = new JPanel( new GridLayout( 0, 1 ) );
@@ -170,7 +184,7 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         // layout
         JPanel panel = new JPanel();
         panel.setLayout( new BoxLayout( panel, BoxLayout.Y_AXIS ) );
-        panel.setBorder( new TitledBorder( "dev controls" ) );
+        panel.setBorder( new TitledBorder( "Developer Controls" ) );
         panel.add( equationComboBox );
         panel.add( baseScaleSlider );
         panel.add( topSliderPanel );
@@ -183,12 +197,16 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         double xOffset = ( topCanvas.getWidth() - topEquation.getFullBoundsReference().getWidth() ) / 2;
         double yOffset = 20 + ( topCanvas.getHeight() - topEquation.getFullBoundsReference().getHeight() ) / 2;
         topEquation.setOffset( xOffset, yOffset );
+        Dimension canvasSize = topCanvas.getSize();
+        topCanvasSizeNode.setText( "canvas size: " + canvasSize.width + "x" + canvasSize.height );
     }
     
     private void updateBottomLayout() {
         double xOffset = ( bottomCanvas.getWidth() - bottomEquation.getFullBoundsReference().getWidth() ) / 2;
         double yOffset = 20 + ( bottomCanvas.getHeight() - bottomEquation.getFullBoundsReference().getHeight() ) / 2;
         bottomEquation.setOffset( xOffset, yOffset );
+        Dimension canvasSize = bottomCanvas.getSize();
+        bottomCanvasSizeNode.setText( "canvas size: " + canvasSize.width + "x" + canvasSize.height );
     }
     
     private boolean isScaleEnabled() {
@@ -218,10 +236,13 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
     }
     
     private void updateTopEquation() {
+        double scale = 1.0;
         if ( topEquation != null ) {
+            scale = topEquation.getScale();
             topCanvas.getLayer().removeChild( topEquation );
         }
         topEquation = equationComboBox.getSelectedNode();
+        topEquation.setScale( scale );
         topEquation.setAllTermScale( 1 );
         topCanvas.getLayer().addChild( topEquation );
         updateTopLayout();
