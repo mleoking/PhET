@@ -17,7 +17,6 @@ class AppliedForceSlider(getter: () => Double,
                          setter: Double => Unit,
                          addListener: (() => Unit) => Unit)
         extends ScalaValueControl(-RampDefaults.MAX_APPLIED_FORCE, RampDefaults.MAX_APPLIED_FORCE, "Applied Force X", "0.0", "N", getter, setter, addListener) {
-
   setTextFieldColumns(5)
   //set applied force to zero on slider mouse release
   getSlider.addMouseListener(new MouseAdapter {

@@ -371,7 +371,7 @@ class Bead(_state: BeadState,
       }
       val distanceVector = positionMapper(position) - positionMapper(origState.position)
       val work = appliedForce dot distanceVector
-//      println("work done on particle by applied force: "+work)
+      //      println("work done on particle by applied force: "+work)
       workListeners.foreach(_(work))
     }
   }

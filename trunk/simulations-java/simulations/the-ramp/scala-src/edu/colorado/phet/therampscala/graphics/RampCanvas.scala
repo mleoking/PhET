@@ -166,7 +166,7 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
     windowFBDNode.addVector(vector, offsetFBD)
 
     val tailLocationInPlayArea = new VectorValue() {
-      def addListener(listener: ()=> Unit) = {
+      def addListener(listener: () => Unit) = {
         bead.addListener(listener)
         vectorViewModel.addListener(listener)
       }
@@ -180,7 +180,7 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
     }
     //todo: make sure this adapter overrides other methods as well, such as getPaint and addListener
     val playAreaAdapter = new Vector(vector.color, vector.name, vector.abbreviation, () => vector.getValue * RampDefaults.PLAY_AREA_VECTOR_SCALE, vector.painter) {
-      vector.addListenerByName{
+      vector.addListenerByName {
         notifyListeners()
       }
       override def visible = vector.visible
