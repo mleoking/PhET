@@ -3,6 +3,8 @@ package edu.colorado.phet.therampscala.robotmovingcompany
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.piccolophet.nodes.layout.SwingLayoutNode
 import java.awt.event.{MouseEvent, MouseAdapter}
+import javax.swing.event.{ChangeEvent, ChangeListener}
+
 import javax.swing.{JOptionPane, JFrame, Box}
 import umd.cs.piccolo.nodes.PText
 import common.phetcommon.view.util.PhetFont
@@ -27,23 +29,30 @@ class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: Coordina
 
   val controlPanel = new VerticalLayoutPanel
   controlPanel.setFillNone()
-  val robotGoButton = new ScalaButton("Robot Go!", () => {
+  val robotGoButton = new ScalaButton("Let Go", () => {
     gameModel.launched = true
-    model.bead.parallelAppliedForce = 0 //leave the pusher behind
+    model.bead.parallelAppliedForce = 0
     model.setPaused(false)
   })
   gameModel.addListener(() => {robotGoButton.setEnabled(!gameModel.launched)})
 
   val appliedForceControl = new AppliedForceSlider(() => 0, value => 0, gameModel.addListener) //todo: last param is a dummy
+  appliedForceControl.addChangeListener(new ChangeListener(){
+    def stateChanged(e: ChangeEvent) = {
+      gameModel.launched=true
+      model.setPaused(false)
+    }
+  })
   controlPanel.add(appliedForceControl)
   controlPanel.add(robotGoButton)
 
-//  controlPanel.add(Box.createRigidArea(new Dimension(10, 10)))
-//  val nextObjectButton = new ScalaButton("Next Object", () => gameModel.nextObject())
-//  val updateNextObjectButtonEnabled = () => {nextObjectButton.setEnabled(gameModel.readyForNext)}
-//  updateNextObjectButtonEnabled()
-//  gameModel.addListener(updateNextObjectButtonEnabled)
-//  controlPanel.add(nextObjectButton)
+  //removed for robotmovingcompany: automatically go to next object when you score or lose the object (instead of hitting "next object" button)
+  //  controlPanel.add(Box.createRigidArea(new Dimension(10, 10)))
+  //  val nextObjectButton = new ScalaButton("Next Object", () => gameModel.nextObject())
+  //  val updateNextObjectButtonEnabled = () => {nextObjectButton.setEnabled(gameModel.readyForNext)}
+  //  updateNextObjectButtonEnabled()
+  //  gameModel.addListener(updateNextObjectButtonEnabled)
+  //  controlPanel.add(nextObjectButton)
 
   gameModel.gameFinishListeners += (() => {
     JOptionPane.showMessageDialog(RobotMovingCompanyCanvas.this, "That was the last object to move.  \nYour score is: " + gameModel.score + ".")
