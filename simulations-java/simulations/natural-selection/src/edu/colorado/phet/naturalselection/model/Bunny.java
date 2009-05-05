@@ -200,6 +200,10 @@ public class Bunny extends ClockAdapter {
     public void setAge( int age ) {
         this.age = age;
         if ( isAlive() && this.age >= NaturalSelectionConstants.BUNNIES_DIE_WHEN_THEY_ARE_THIS_OLD ) {
+            if ( model.isFriendAdded() && model.getGeneration() == 0 ) {
+                // in this case, we don't want the bunny to die! just want them to get older
+                return;
+            }
             die();
         }
     }

@@ -155,30 +155,23 @@ public class NaturalSelectionModel extends ClockAdapter {
      * Causes another generation to be born (and everything else that happens when a new generation occurs)
      */
     private void nextGeneration() {
-
         ageBunnies();
 
         if ( !friendAdded ) {
             System.out.println( "Nothing to do, friend has not been added" );
+
             return;
         }
 
-        //System.out.println( "***** Mating season, creating next generation" );
-
-        generation++;
-
         mateBunnies();
 
+        generation++;
         notifyGenerationChange();
 
         // make sure genes won't mutate anymore
         ColorGene.getInstance().setMutatable( false );
         TailGene.getInstance().setMutatable( false );
         TeethGene.getInstance().setMutatable( false );
-
-        //System.out.println( "***** End mating season, stats to follow:" );
-
-        //System.out.println( "\tPopulation: " + getPopulation() );
     }
 
     /**

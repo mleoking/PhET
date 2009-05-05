@@ -124,7 +124,7 @@ public class PedigreeNode extends PNode implements NaturalSelectionModel.Natural
         // the space to move the newer generations up
         double space = ( (PNode) generations.get( 0 ) ).getOffset().getY();
 
-        System.out.println( "Space: " + space );
+        //System.out.println( "Space: " + space );
 
         yoffset -= space;
 
