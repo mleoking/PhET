@@ -128,7 +128,7 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         globalScaleSlider = new GlobalScaleSlider( "global scale:" );
         globalScaleSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                updateNominalScale();
+                updateGlobalScale();
             }
         });
         
@@ -224,7 +224,7 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         return scaleOnRadioButton.isSelected();
     }
     
-    private void updateNominalScale() {
+    private void updateGlobalScale() {
         topEquation.setScale( globalScaleSlider.getValue() / 100.0 );
         updateTopLayout();
         bottomEquation.setScale( globalScaleSlider.getValue() / 100.0 );

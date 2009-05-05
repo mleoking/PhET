@@ -129,7 +129,7 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
         globalScaleSlider = new GlobalScaleSlider( "global scale:" );
         globalScaleSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                updateNominalScale();
+                updateGlobalScale();
             }
         });
         
@@ -243,7 +243,7 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
         bottomCanvasSizeNode.setText( "canvas size: " + canvasSize.width + "x" + canvasSize.height );
     }
     
-    private void updateNominalScale() {
+    private void updateGlobalScale() {
         topExpression.setScale( globalScaleSlider.getValue() / 100.0 );
         updateTopLayout();
         bottomExpression.setScale( globalScaleSlider.getValue() / 100.0 );
