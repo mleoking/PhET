@@ -17,7 +17,9 @@ TODO:
 - Reset All
 
 DONE:
-4/29/09 reaction equation nodes for acids, bases, water
+5/4/09 Equilibrium Expressions dialog + dev controls
+5/4/09 more dev controls for Reaction Equations
+4/29/09 Reaction Equations for acids, bases, water
 4/29/09 add icons to Symbol Legend dialog
 4/29/09 standardize text style for A, B, M
 4/29/09 check in Lewis Structure images
