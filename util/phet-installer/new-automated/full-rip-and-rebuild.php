@@ -61,6 +61,9 @@
         ripper_rip_website();
         ripper_download_sims();
 
+        // Make sure permissions of the ripped website are correct.
+        file_chmod_recursive( RIPPED_WEBSITE_ROOT, 0664, 0774 );
+
         // Incorporate the timestamp information that indicates when this
         // version of the installer was created.
         installer_create_marker_file();
