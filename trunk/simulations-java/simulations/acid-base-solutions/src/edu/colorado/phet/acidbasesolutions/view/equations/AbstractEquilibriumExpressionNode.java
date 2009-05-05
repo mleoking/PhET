@@ -55,9 +55,9 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
     private static final Font EQUALS_FONT = new PhetFont( Font.BOLD, 22 );
     private static final Color EQUALS_COLOR = Color.BLACK;
     
-    private static final Font BRACKET_FONT = new PhetFont( Font.BOLD, 22 );
+    private static final Font BRACKET_FONT = new PhetFont( Font.PLAIN, 22 );
     private static final Color BRACKET_COLOR = Color.BLACK;
-    private static final double BRACKET_X_MARGIN = 10;
+    private static final double BRACKET_X_MARGIN = 2;
     
     private static final Color DIVIDED_COLOR = Color.BLACK;
     private static final Stroke DIVIDED_STROKE = new BasicStroke( 2f );
