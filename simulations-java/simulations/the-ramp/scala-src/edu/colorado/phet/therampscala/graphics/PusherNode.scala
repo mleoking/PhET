@@ -11,6 +11,7 @@ import java.lang.Math._
 class PusherNode(transform: ModelViewTransform2D, targetBead: Bead, manBead: Bead)
         extends BeadNode(manBead, transform, "standing-man.png") {
   defineInvokeAndPass(targetBead.addListenerByName) {
+    println("updating pusher, manbeadx="+manBead.position)
     if (targetBead.appliedForce.magnitude > 0) {
 
       //todo: use actual bead widths here
@@ -26,10 +27,13 @@ class PusherNode(transform: ModelViewTransform2D, targetBead: Bead, manBead: Bea
       val im = RampResources.getImage("pusher-leaner-png/pusher-leaning-2_00" + textStr + ".png")
       val realIm = if (dx > 0) BufferedImageUtils.flipX(im) else im //todo: cache instead of flipping each time
       setImage(realIm)
+      super.update()
     }
     else {
       val image = RampResources.getImage("standing-man.png")
+      println("loade and set image")
       setImage(image)
+      super.update()
     }
   }
   setPickable(false)
