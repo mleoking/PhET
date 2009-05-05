@@ -42,7 +42,7 @@ public class NuclearDecayProportionChart extends PNode {
     private static final Stroke BORDER_STROKE = new BasicStroke( BORDER_STROKE_WIDTH );
     private static final float  THICK_AXIS_LINE_WIDTH = 2.5f;
     private static final Stroke THICK_AXIS_STROKE = new BasicStroke( THICK_AXIS_LINE_WIDTH );
-    private static final float  THIN_AXIS_LINE_WIDTH = 0.5f;
+    private static final float  THIN_AXIS_LINE_WIDTH = 0.75f;
     private static final Stroke THIN_AXIS_STROKE = new BasicStroke( THIN_AXIS_LINE_WIDTH );
     private static final Color  AXES_LINE_COLOR = Color.BLACK;
     private static final double TICK_MARK_LENGTH = 3;
@@ -91,6 +91,7 @@ public class NuclearDecayProportionChart extends PNode {
     private PPath _halfLifeMarkerLine;
     private PText _halfLifeLabel;
     private PPath _lowerXAxisOfGraph;
+    private PPath _upperXAxisOfGraph;
     private PPath _yAxisOfGraph;
     private ArrayList _xAxisTickMarks;
     private ArrayList _xAxisTickMarkLabels;
@@ -212,12 +213,19 @@ public class NuclearDecayProportionChart extends PNode {
         _borderNode.setPaint( NuclearPhysicsConstants.ALPHA_DECAY_CHART_COLOR );
         _nonPickableChartNode.addChild( _borderNode );
 
-        // Create the x axis of the graph.
+        // Create the lower x axis of the graph.
         _lowerXAxisOfGraph = new PPath();
         _lowerXAxisOfGraph.setStroke( THICK_AXIS_STROKE );
         _lowerXAxisOfGraph.setStrokePaint( AXES_LINE_COLOR );
         _lowerXAxisOfGraph.setPaint( AXES_LINE_COLOR );
         _nonPickableChartNode.addChild( _lowerXAxisOfGraph );
+
+        // Create the upper x axis of the graph.
+        _upperXAxisOfGraph = new PPath();
+        _upperXAxisOfGraph.setStroke( THIN_AXIS_STROKE );
+        _upperXAxisOfGraph.setStrokePaint( AXES_LINE_COLOR );
+        _upperXAxisOfGraph.setPaint( AXES_LINE_COLOR );
+        _nonPickableChartNode.addChild( _upperXAxisOfGraph );
 
         // Create the x axis of the graph.
         _yAxisOfGraph = new PPath();
@@ -345,6 +353,9 @@ public class NuclearDecayProportionChart extends PNode {
         // Position the x and y axes.
         _lowerXAxisOfGraph.setPathTo( new Line2D.Double(_graphRect.getX(), _graphRect.getMaxY(), 
         		_graphRect.getMaxX(), _graphRect.getMaxY() ) );
+        
+        _upperXAxisOfGraph.setPathTo( new Line2D.Double(_graphRect.getX(), _graphRect.getY(), 
+        		_graphRect.getMaxX(), _graphRect.getY() ) );
         
         _yAxisOfGraph.setPathTo( new Line2D.Double(_graphRect.getX(), _graphRect.getY(), 
         		_graphRect.getX(), _graphRect.getMaxY() ) ); 
