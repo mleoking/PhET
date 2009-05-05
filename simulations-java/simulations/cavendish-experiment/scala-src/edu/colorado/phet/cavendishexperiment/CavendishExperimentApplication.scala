@@ -248,7 +248,9 @@ class SolarCavendishModule(clock: ScalaClock) extends Module("Sun-Planet System"
     sunEarthDist / 2,
     mass => earthRadius * 1.6E3, //latter term is a fudge factor to make things visible on the same scale
     mass => sunRadius * 5E1,
-    1.5E14, sunEarthDist / 2,
+//    1.5E14, sunEarthDist / 2, // this version puts the spring resting length so that default position is distEarthSun
+//    0.98E12, sunEarthDist / 4,  //this requires the sun to tug on the earth to put it in the right spot
+    1.42E12, sunEarthDist / 3,  //this one too
     1E13,
     1E12,
     -sunEarthDist, "Earth", "Sun"
