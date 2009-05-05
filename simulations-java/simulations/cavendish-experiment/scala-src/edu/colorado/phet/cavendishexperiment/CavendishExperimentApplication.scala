@@ -3,31 +3,25 @@ package edu.colorado.phet.cavendishexperiment
 
 import collection.mutable.ArrayBuffer
 import common.phetcommon.application.{PhetApplicationConfig, PhetApplicationLauncher, Module}
-import common.phetcommon.view.controls.valuecontrol.LinearValueControl
-import common.phetcommon.view.graphics.RoundGradientPaint
-import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import common.phetcommon.view.util.{DoubleGeneralPath, PhetFont}
-import common.phetcommon.view.{ControlPanel, VerticalLayoutPanel}
-import common.piccolophet.nodes.{PhetPPath, ArrowNode, SphericalNode, RulerNode}
-import common.piccolophet.{PiccoloPhetApplication, PhetPCanvas}
-import java.awt._
-import event.{ComponentEvent, ComponentAdapter, ActionEvent, ActionListener}
-
-import common.piccolophet.event.CursorHandler
-import geom.{Ellipse2D, Point2D, Rectangle2D}
-import java.text.{NumberFormat, DecimalFormat}
-import javax.swing.event.{ChangeListener, ChangeEvent}
-
-import javax.swing.JButton
-import scalacommon.math.Vector2D
+import common.piccolophet.PiccoloPhetApplication
+import java.awt.event.{ComponentAdapter, ComponentEvent}
+import java.awt.geom.{Ellipse2D, Rectangle2D, Point2D}
+import java.text.{DecimalFormat, NumberFormat}
+import scalacommon.ScalaClock
+import common.phetcommon.view.ControlPanel
 import scalacommon.util.Observable
-import scalacommon.{CenteredBoxStrategy, ScalaApplicationLauncher, ScalaClock}
-import umd.cs.piccolo.event.{PInputEvent, PBasicInputEventHandler}
+import common.phetcommon.view.util.{DoubleGeneralPath, PhetFont}
+import common.piccolophet.nodes.{PhetPPath, RulerNode, ArrowNode, SphericalNode}
+import java.awt.{BasicStroke, Font, Color}
+import common.phetcommon.view.graphics.RoundGradientPaint
 import umd.cs.piccolo.nodes.{PImage, PText}
-import umd.cs.piccolo.PNode
-import scalacommon.Predef._
+import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.util.PDimension
-import java.lang.Math._
+import common.piccolophet.event.CursorHandler
+import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import umd.cs.piccolo.PNode
+
+import scalacommon.math.Vector2D
 
 class ForceLabelNode(mass: Mass, transform: ModelViewTransform2D, model: CavendishExperimentModel, color: Color, scale: Double, format: NumberFormat) extends PNode {
   val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(1, 1), 20, 20, 8, 0.5, true)
