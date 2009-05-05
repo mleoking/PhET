@@ -8,11 +8,11 @@ import javax.swing.JPanel;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
-import edu.colorado.phet.acidbasesolutions.view.OutlinedHTMLNode;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.FormattedNumberNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -44,18 +44,18 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
     private static final double X_SPACING = 10;
     private static final double Y_SPACING = 5;
     
-    private static final Font K_FONT = new PhetFont( Font.PLAIN, 24 );
+    private static final Font K_FONT = new PhetFont( Font.BOLD, 24 );
     
-    private static final Font TERM_FONT = new PhetFont( Font.PLAIN, 24 );
+    private static final Font SYMBOL_FONT = new PhetFont( Font.BOLD, 24 );
     
     private static final Font VALUE_FONT = new PhetFont( Font.PLAIN, 24 );
     private static final Color VALUE_COLOR = Color.BLACK;
     private static final TimesTenNumberFormat VALUE_FORMAT = new TimesTenNumberFormat( "0.00" );
     
-    private static final Font EQUALS_FONT = new PhetFont( Font.PLAIN, 22 );
+    private static final Font EQUALS_FONT = new PhetFont( Font.BOLD, 22 );
     private static final Color EQUALS_COLOR = Color.BLACK;
     
-    private static final Font BRACKET_FONT = new PhetFont( Font.PLAIN, 22 );
+    private static final Font BRACKET_FONT = new PhetFont( Font.BOLD, 22 );
     private static final Color BRACKET_COLOR = Color.BLACK;
     private static final double BRACKET_X_MARGIN = 10;
     
@@ -171,20 +171,20 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
     // Non-public interface
     //----------------------------------------------------------------------------
     
-    protected void setLeftNumeratorProperties( String text, Color fill, Color outline ) {
-        setTermProperties( leftNumeratorNode, text, fill, outline );
+    protected void setLeftNumeratorProperties( String text, Color color ) {
+        setTermProperties( leftNumeratorNode, text, color );
     }
     
-    protected void setRightNumeratorProperties( String text, Color fill, Color outline ) {
-        setTermProperties( rightNumeratorNode, text, fill, outline );
+    protected void setRightNumeratorProperties( String text, Color color ) {
+        setTermProperties( rightNumeratorNode, text, color );
     }
     
-    protected void setDenominatorProperties( String text, Color fill, Color outline ) {
-        setTermProperties( denominatorNode, text, fill, outline );
+    protected void setDenominatorProperties( String text, Color color ) {
+        setTermProperties( denominatorNode, text, color );
     }
     
-    protected void setTermProperties( TermNode node, String text, Color fill, Color outline ) {
-        node.setTermProperties( text, fill, outline );
+    protected void setTermProperties( TermNode node, String text, Color fill ) {
+        node.setTermProperties( text, fill );
         updateLayout();
     }
     
@@ -309,13 +309,12 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
     /*
      * Symbol for K.
      */
-    private static class KNode extends OutlinedHTMLNode {
+    private static class KNode extends HTMLNode {
         
         public KNode( String text ) {
             super( HTMLUtils.toHTMLString( text ) );
             setFont( K_FONT );
-            setFillColor( ABSConstants.K_COLOR );
-            setOutlineColor( ABSConstants.K_OUTLINE );
+            setHTMLColor( ABSConstants.K_COLOR );
         }
         
         public void setHTML( String text ) {
@@ -328,21 +327,32 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
     //----------------------------------------------------------------------------
     
     /*
+     * A symbol is the formula for a molecule.
+     */
+    private static class SymbolNode extends HTMLNode {
+        
+        public SymbolNode( String text ) {
+            super( HTMLUtils.toHTMLString( text ) );
+            setFont( SYMBOL_FONT );
+        }
+        
+        public void setHTML( String text ) {
+            super.setHTML( HTMLUtils.toHTMLString( text ) );
+        }
+    }
+    
+    /*
      * A term in the expression denoting concentration.
      * This is a symbol surrounded by square brackets.
      */
     private static class TermNode extends PComposite {
         
-        private final OutlinedHTMLNode symbolNode;
+        private final SymbolNode symbolNode;
         private final BracketNode leftBracketNode, rightBracketNode;
         
         public TermNode( String text ) {
-            this( HTMLUtils.toHTMLString( text ), Color.BLACK, Color.RED );
-        }
-        
-        public TermNode( String text, Color fill, Color outline ) {
             super();
-            symbolNode= new OutlinedHTMLNode( HTMLUtils.toHTMLString( text ), TERM_FONT, fill, outline );
+            symbolNode= new SymbolNode( text );
             addChild( symbolNode );
             leftBracketNode = new LeftBracketNode();
             addChild( leftBracketNode );
@@ -350,10 +360,9 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
             addChild( rightBracketNode );
         }
         
-        public void setTermProperties( String text, Color fill, Color outline ) {
+        public void setTermProperties( String text, Color color ) {
             symbolNode.setHTML( HTMLUtils.toHTMLString( text ) );
-            symbolNode.setFillColor( fill );
-            symbolNode.setOutlineColor( outline );
+            symbolNode.setHTMLColor( color );
             updateLayout();
         }
         
@@ -461,8 +470,8 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
         public WaterEquilibriumExpressionNode() {
             super();
             setKLabel( ABSSymbols.Kw );
-            setLeftNumeratorProperties( ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR, ABSConstants.H3O_OUTLINE );
-            setRightNumeratorProperties( ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, ABSConstants.OH_OUTLINE );
+            setLeftNumeratorProperties( ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR );
+            setRightNumeratorProperties( ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR );
             setDenominatorVisible( false );
             setKValue( ABSConstants.Kw );
         }
@@ -480,9 +489,9 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
         public AbstractAcidEquilibriumExpressionNode( String rightNumerator, String denominator ) {
             super();
             setKLabel( ABSSymbols.Ka );
-            setLeftNumeratorProperties( ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR, ABSConstants.H3O_OUTLINE );
-            setRightNumeratorProperties( rightNumerator, ABSConstants.A_COLOR, ABSConstants.A_OUTLINE );
-            setDenominatorProperties( denominator, ABSConstants.HA_COLOR, ABSConstants.HA_OUTLINE );
+            setLeftNumeratorProperties( ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR );
+            setRightNumeratorProperties( rightNumerator, ABSConstants.A_COLOR );
+            setDenominatorProperties( denominator, ABSConstants.HA_COLOR );
             setKValue( 0 );
         }
     }
@@ -536,9 +545,9 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
         
         public WeakBaseEquilibriumExpressionNode( String leftNumerator, String denominator ) {
             super();
-            setLeftNumeratorProperties( leftNumerator, ABSConstants.BH_COLOR, ABSConstants.BH_OUTLINE );
-            setRightNumeratorProperties( ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, ABSConstants.OH_OUTLINE );
-            setDenominatorProperties( denominator, ABSConstants.B_COLOR, ABSConstants.B_OUTLINE );
+            setLeftNumeratorProperties( leftNumerator, ABSConstants.BH_COLOR );
+            setRightNumeratorProperties( ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR );
+            setDenominatorProperties( denominator, ABSConstants.B_COLOR );
         }
     }
     
@@ -553,9 +562,9 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
         
         public StrongBaseEquilibriumExpressionNode( String leftNumerator, String denominator ) {
             super();
-            setLeftNumeratorProperties( leftNumerator, ABSConstants.M_COLOR, ABSConstants.M_OUTLINE );
-            setRightNumeratorProperties( ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, ABSConstants.OH_OUTLINE );
-            setDenominatorProperties( denominator, ABSConstants.MOH_COLOR, ABSConstants.MOH_OUTLINE );
+            setLeftNumeratorProperties( leftNumerator, ABSConstants.M_COLOR );
+            setRightNumeratorProperties( ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR );
+            setDenominatorProperties( denominator, ABSConstants.MOH_COLOR );
             setLargeValueVisible( true );
         }
     }

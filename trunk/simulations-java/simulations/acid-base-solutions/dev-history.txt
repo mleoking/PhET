@@ -9,7 +9,6 @@ TODO:
 - model
 - connect model and view
 - "Negligible" in Concentrations graph
-- localization
 - developer controls?
 - lighten pH probe shaft so that molecule count symbols are visible when they overlap
 - revisit implementation of equations
@@ -17,6 +16,7 @@ TODO:
 - Reset All
 
 DONE:
+5/5/09 remove outlined text from equations, not required, performance/memory issues
 5/4/09 Equilibrium Expressions dialog + dev controls
 5/4/09 more dev controls for Reaction Equations
 4/29/09 Reaction Equations for acids, bases, water
