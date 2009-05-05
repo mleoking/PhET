@@ -5,7 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -191,7 +193,10 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         // layout
         JPanel panel = new JPanel();
         panel.setLayout( new BoxLayout( panel, BoxLayout.Y_AXIS ) );
-        panel.setBorder( new TitledBorder( "Developer Controls" ) );
+        TitledBorder border = new TitledBorder( "Developer Controls" );
+        border.setTitleColor( Color.RED );
+        border.setBorder( new LineBorder( Color.RED, 2 ) );
+        panel.setBorder( border );
         panel.add( globalScaleSlider );
         panel.add( topControls );
         panel.add( bottomControls );
