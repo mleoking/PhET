@@ -20,6 +20,7 @@ class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String) extends
   val coordinateSystemModel = new CoordinateSystemModel
   val vectorViewModel = new VectorViewModel
   coordinateSystemModel.addListenerByName(if (coordinateSystemModel.fixed) model.coordinateFrameModel.angle = 0)
+  clock.addClockListener(model.update(_))
   def resetRampModule(): Unit = {
     model.resetAll()
     wordModel.resetAll()
@@ -28,13 +29,17 @@ class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String) extends
     vectorViewModel.resetAll()
   }
 }
-class RampModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock, "The Ramp") {
+
+class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String, coordinateSystemFeaturesEnabled: Boolean) extends AbstractRampModule(frame, clock, name) {
   val canvas = new RampCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame)
   setSimulationPanel(canvas)
-  setControlPanel(new RampControlPanel(model, wordModel, fbdModel, coordinateSystemModel, vectorViewModel, resetRampModule))
+  setControlPanel(new RampControlPanel(model, wordModel, fbdModel, coordinateSystemModel, vectorViewModel, resetRampModule,coordinateSystemFeaturesEnabled))
   setClockControlPanel(new RecordModelControlPanel(model, canvas, () => new PlaybackSpeedSlider(model), Color.blue, 20))
-  clock.addClockListener(model.update(_))
 }
+
+class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "Intro", false)
+
+class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "Coordinates", true)
 
 class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock, "Robot Moving Company") {
   val gameModel = new robotmovingcompany.RobotMovingCompanyGameModel(model, clock) //todo: fix this with imports
@@ -45,7 +50,8 @@ class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends Abstrac
 }
 
 class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
-  addModule(new RampModule(getPhetFrame, new ScalaClock(30, RampDefaults.DT_DEFAULT)))
+  addModule(new IntroRampModule(getPhetFrame, new ScalaClock(30, RampDefaults.DT_DEFAULT)))
+  addModule(new CoordinatesRampModule(getPhetFrame, new ScalaClock(30, RampDefaults.DT_DEFAULT)))
   addModule(new RobotMovingCompanyModule(getPhetFrame, new ScalaClock(30, RampDefaults.DT_DEFAULT)))
 }
 
