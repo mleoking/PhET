@@ -144,13 +144,15 @@ class SpringNode(model: CavendishExperimentModel, transform: ModelViewTransform2
     path.setPathTo(p.getGeneralPath)
   }
 }
-class Wall {
-  def getShape = new Rectangle2D.Double(-50, -50, 46, 100)
+class Wall(width: Double, height: Double, _maxX: Double) {
+  def getShape = new Rectangle2D.Double(-width + _maxX, -height / 2, width, height)
 
-  def maxX = getShape.getBounds2D.getMaxX
+  def maxX: Double = getShape.getBounds2D.getMaxX
 }
 class WallNode(wall: Wall, transform: ModelViewTransform2D) extends PNode {
-  addChild(new PhetPPath(transform.createTransformedShape(wall.getShape), Color.black, new BasicStroke(2f), Color.gray))
+  val wallPath = new PhetPPath(transform.createTransformedShape(wall.getShape), Color.black, new BasicStroke(2f), Color.gray)
+  addChild(wallPath)
+  //  println("wallpathbounds=" + wallPath.getGlobalFullBounds)
 }
 class CavendishExperimentControlPanel(model: CavendishExperimentModel) extends ControlPanel {
   add(new ScalaValueControl(0.01, 100, "m1", "0.00", "kg", model.m1.mass, model.m1.mass = _, model.m1.addListener))
@@ -168,10 +170,13 @@ class Mass(private var _mass: Double, private var _position: Vector2D, val name:
   def radius = massToRadius(_mass)
 }
 class Spring(val k: Double, val restingLength: Double)
-class CavendishExperimentModel(mass1: Double, mass2: Double, mass2Position: Double, mass1Radius: Double => Double, mass2Radius: Double => Double,
-                               k: Double, springRestingLength: Double) extends Observable {
-  val wall = new Wall
-  val m1 = new Mass(mass1, new Vector2D(0, 0), "m1", mass1Radius)
+class CavendishExperimentModel(mass1: Double, mass2: Double,
+                               mass1Position: Double, mass2Position: Double,
+                               mass1Radius: Double => Double, mass2Radius: Double => Double,
+                               k: Double, springRestingLength: Double,
+                               wallWidth: Double, wallHeight: Double, wallMaxX: Double) extends Observable {
+  val wall = new Wall(wallWidth, wallHeight, wallMaxX)
+  val m1 = new Mass(mass1, new Vector2D(mass1Position, 0), "m1", mass1Radius)
   val m2 = new Mass(mass2, new Vector2D(mass2Position, 0), "m2", mass2Radius)
   val spring = new Spring(k, springRestingLength)
   val G = 6.67E-11
@@ -190,7 +195,7 @@ class CavendishExperimentModel(mass1: Double, mass2: Double, mass2Position: Doub
   def getForce = r * G * m1.mass * m2.mass / pow(r.magnitude, 3)
 
   def update(dt: Double) = {
-//    println("force magnitude=" + getForce.magnitude)
+    //    println("force magnitude=" + getForce.magnitude + ", from r=" + r + ", m1.x=" + m1.position.x + ", m2.position.x=" + m2.position.x)
     val xDesired = wall.maxX + spring.restingLength + getForce.magnitude / spring.k
     val x = if (xDesired + m1.radius > m2.position.x - m2.radius)
       m2.position.x - m2.radius - m1.radius
@@ -200,7 +205,7 @@ class CavendishExperimentModel(mass1: Double, mass2: Double, mass2Position: Doub
   }
 }
 class CavendishExperimentModule(clock: ScalaClock) extends Module("Cavendish Experiment", clock) {
-  val model = new CavendishExperimentModel(10, 25, 1, mass => mass / 30, mass => mass / 30, 1E-8, 1)
+  val model = new CavendishExperimentModel(10, 25, 0, 1, mass => mass / 30, mass => mass / 30, 1E-8, 1, 50, 50, -4)
   val canvas = new CavendishExperimentCanvas(model, 10)
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
@@ -211,13 +216,17 @@ class CavendishExperimentModule(clock: ScalaClock) extends Module("Cavendish Exp
 class SolarCavendishModule(clock: ScalaClock) extends Module("Sun-Planet System", clock) {
   val sunEarthDist = 1.496E11 //  sun earth distace in m
   val model = new CavendishExperimentModel(5.9742E24, //earth mass in kg
-    1.9891E30, // sun mass in kg 
-    sunEarthDist,
+    1.9891E30, // sun mass in kg
+    -sunEarthDist / 2,
+    sunEarthDist / 2,
     mass => 6.371E6 * 1E3, //latter term is a fudge factor to make things visible on the same scale
     mass => 6.955E8 * 1E1,
-    1.5E13, 0
+    1.5E1, sunEarthDist / 8,
+    1E13,
+    1E12,
+    -7 * sunEarthDist / 8
     )
-  val canvas = new CavendishExperimentCanvas(model, sunEarthDist * 2.5)
+  val canvas = new CavendishExperimentCanvas(model, sunEarthDist * 2)
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
   //  setControlPanel(new CavendishExperimentControlPanel(model))
