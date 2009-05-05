@@ -397,6 +397,10 @@ public class Bunny extends ClockAdapter {
 
     }
 
+
+    /**
+     * Cause a bunny to mutate for all mutatable genes
+     */
     public void mutateMe() {
         if ( ColorGene.getInstance().getMutatable() ) {
             mutated = true;
@@ -413,6 +417,31 @@ public class Bunny extends ClockAdapter {
             teethPhenotype = TeethGene.TEETH_HUGE_ALLELE;
             teethGenotype = new Genotype( TeethGene.getInstance(), TeethGene.TEETH_HUGE_ALLELE, TeethGene.TEETH_HUGE_ALLELE );
         }
+    }
+
+    /**
+     * Cause a bunny to mutate with the specified gene and allele
+     *
+     * @param gene   The gene to mutate
+     * @param allele The allele to mutate to
+     */
+    public void mutateGene( Gene gene, Allele allele ) {
+        mutated = true;
+
+        if ( gene == ColorGene.getInstance() ) {
+            colorPhenotype = allele;
+            colorGenotype = new Genotype( gene, allele, allele );
+        }
+        else if ( gene == TailGene.getInstance() ) {
+            tailPhenotype = allele;
+            tailGenotype = new Genotype( gene, allele, allele );
+        }
+        else if ( gene == TeethGene.getInstance() ) {
+            teethPhenotype = allele;
+            teethGenotype = new Genotype( gene, allele, allele );
+        }
+
+
     }
 
     //----------------------------------------------------------------------------
