@@ -3,25 +3,27 @@ package edu.colorado.phet.cavendishexperiment
 
 import collection.mutable.ArrayBuffer
 import common.phetcommon.application.{PhetApplicationConfig, PhetApplicationLauncher, Module}
+import common.piccolophet.nodes.layout.SwingLayoutNode
 import common.piccolophet.PiccoloPhetApplication
-import java.awt.event.{ComponentAdapter, ComponentEvent}
-import java.awt.geom.{Ellipse2D, Rectangle2D, Point2D}
-import java.text.{DecimalFormat, NumberFormat}
-import scalacommon.ScalaClock
 import common.phetcommon.view.ControlPanel
-import scalacommon.util.Observable
 import common.phetcommon.view.util.{DoubleGeneralPath, PhetFont}
 import common.piccolophet.nodes.{PhetPPath, RulerNode, ArrowNode, SphericalNode}
-import java.awt.{BasicStroke, Font, Color}
 import common.phetcommon.view.graphics.RoundGradientPaint
+import common.piccolophet.event.CursorHandler
+import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import java.awt._
+import umd.cs.piccolo.PNode
 import umd.cs.piccolo.nodes.{PImage, PText}
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.util.PDimension
-import common.piccolophet.event.CursorHandler
-import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import umd.cs.piccolo.PNode
-
+import java.awt.event.{ComponentAdapter, ComponentEvent}
+import java.awt.geom.{Ellipse2D, Rectangle2D, Point2D}
+import java.text.{DecimalFormat, NumberFormat}
 import scalacommon.math.Vector2D
+import scalacommon.Predef._
+import scalacommon.ScalaClock
+import scalacommon.util.Observable
+import java.lang.Math._
 
 class ForceLabelNode(mass: Mass, transform: ModelViewTransform2D, model: CavendishExperimentModel, color: Color, scale: Double, format: NumberFormat) extends PNode {
   val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(1, 1), 20, 20, 8, 0.5, true)
@@ -261,7 +263,7 @@ class SolarCavendishModule(clock: ScalaClock) extends Module("Sun-Planet System"
     override def componentResized(e: ComponentEvent) = updateDisclaimerLocation()
   })
   updateDisclaimerLocation()
-  def updateDisclaimerLocation() = disclaimerNode.setOffset(canvas.canonicalBounds.width / 2 - disclaimerNode.getFullBounds.getWidth / 2, canvas.canonicalBounds.height - disclaimerNode.getFullBounds.getHeight)
+  def updateDisclaimerLocation() = disclaimerNode.setOffset(canvas.canonicalBounds.width / 2 - disclaimerNode.getFullBounds.getWidth / 2, canvas.canonicalBounds.height - disclaimerNode.getFullBounds.getHeight*3)
   canvas.addNode(disclaimerNode)
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
@@ -270,18 +272,24 @@ class SolarCavendishModule(clock: ScalaClock) extends Module("Sun-Planet System"
 
 class Circle(center: Vector2D, radius: Double) extends Ellipse2D.Double(center.x - radius, center.y - radius, radius * 2, radius * 2)
 class ScaleDisclaimerNode(model: CavendishExperimentModel, transform: ModelViewTransform2D) extends PNode {
-  val text = new PText("* Radii not to scale.  If they were to scale they'd be this big:")
-  text.setFont(new PhetFont(18))
+  val text = new PText("* Radii not to scale.  If they were to scale the sun would be this big ")
+  text.setFont(new PhetFont(16))
   text.setTextPaint(Color.lightGray)
-  addChild(text)
   import CavendishExperimentDefaults._
-  val m1Icon = new PhetPPath(new Circle(new Vector2D, transform.modelToViewDifferentialXDouble(earthRadius)), Color.blue)
-  val m2Icon = new PhetPPath(new Circle(new Vector2D, transform.modelToViewDifferentialXDouble(sunRadius)), Color.red)
+  val earthIcon = new PhetPPath(new Circle(new Vector2D, transform.modelToViewDifferentialXDouble(earthRadius)), Color.blue)
+  val sunIcon = new PhetPPath(new Circle(new Vector2D, transform.modelToViewDifferentialXDouble(sunRadius)), Color.red)
 
-  addChild(m1Icon)
-  addChild(m2Icon)
-  m1Icon.setOffset(text.getFullBounds.getMaxX + 5, text.getFullBounds.getCenterY - m1Icon.getFullBounds.getHeight / 2)
-  m2Icon.setOffset(m1Icon.getFullBounds.getMaxX + 5, text.getFullBounds.getCenterY - m2Icon.getFullBounds.getHeight / 2)
+  val text2=new PText("and the Earth would be this big ")
+  text2.setFont(new PhetFont(16))
+  text2.setTextPaint(Color.lightGray)
+
+  val node=new SwingLayoutNode
+  node.addChild(text)
+  node.addChild(sunIcon)
+  node.addChild(text2)
+  node.addChild(earthIcon)
+
+  addChild(node)
 
 }
 
