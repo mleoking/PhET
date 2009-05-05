@@ -10,6 +10,8 @@ import javax.sound.sampled.*;
  * Reason why PhetAudioClip exists:
  * <p/>
  * http://www.javaworld.com/javaworld/javatips/jw-javatip24.html
+ *
+ * TODO: why not use Applet.newAudioClip instead of this implementation?
  */
 public class PhetAudioClip {
     private static final int EXTERNAL_BUFFER_SIZE = 4000;
