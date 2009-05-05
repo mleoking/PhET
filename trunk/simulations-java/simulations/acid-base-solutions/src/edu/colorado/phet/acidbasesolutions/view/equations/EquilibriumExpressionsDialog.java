@@ -12,10 +12,8 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.view.equations.AbstractEquilibriumExpressionNode.*;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStrategy;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.HorizontalLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
-import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -325,28 +323,6 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
         
         public AbstractEquilibriumExpressionNode getSelectedNode() {
             return ((EquationChoice) getSelectedItem()).getNode();
-        }
-    }
-    
-    private static class HorizontalLayoutStrategy implements ILayoutStrategy {
-
-        public HorizontalLayoutStrategy() {}
-        
-        public void doLayout( AbstractValueControl valueControl ) {
-
-            // Get the components that will be part of the layout
-            JComponent slider = valueControl.getSlider();
-            JComponent textField = valueControl.getTextField();
-            JComponent valueLabel = valueControl.getValueLabel();
-            JComponent unitsLabel = valueControl.getUnitsLabel();
-
-            // Label - slider - textfield - units.
-            EasyGridBagLayout layout = new EasyGridBagLayout( valueControl );
-            valueControl.setLayout( layout );
-            layout.addComponent( valueLabel, 0, 0 );
-            layout.addFilledComponent( slider, 0, 1, GridBagConstraints.HORIZONTAL );
-            layout.addFilledComponent( textField, 0, 2, GridBagConstraints.HORIZONTAL );
-            layout.addComponent( unitsLabel, 0, 3 );
         }
     }
     
