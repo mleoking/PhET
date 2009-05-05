@@ -11,9 +11,10 @@ import common.phetcommon.view.{ControlPanel, VerticalLayoutPanel}
 import common.piccolophet.nodes.{PhetPPath, ArrowNode, SphericalNode, RulerNode}
 import common.piccolophet.{PiccoloPhetApplication, PhetPCanvas}
 import java.awt._
-import event.{ActionEvent, ActionListener}
-import java.awt.geom.{Point2D, Rectangle2D}
+import event.{ComponentEvent, ComponentAdapter, ActionEvent, ActionListener}
+
 import common.piccolophet.event.CursorHandler
+import geom.{Ellipse2D, Point2D, Rectangle2D}
 import java.text.{NumberFormat, DecimalFormat}
 import javax.swing.event.{ChangeListener, ChangeEvent}
 
@@ -28,7 +29,7 @@ import scalacommon.Predef._
 import umd.cs.piccolo.util.PDimension
 import java.lang.Math._
 
-class ForceLabelNode(mass: Mass, transform: ModelViewTransform2D, model: CavendishExperimentModel, color: Color, scale: Double,format:NumberFormat) extends PNode {
+class ForceLabelNode(mass: Mass, transform: ModelViewTransform2D, model: CavendishExperimentModel, color: Color, scale: Double, format: NumberFormat) extends PNode {
   val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(1, 1), 20, 20, 8, 0.5, true)
   arrowNode.setPaint(color)
   val label = new PText
@@ -41,8 +42,6 @@ class ForceLabelNode(mass: Mass, transform: ModelViewTransform2D, model: Cavendi
     val tip = label.getOffset + new Vector2D(model.getForce.magnitude * scale, -20)
     val tail = label.getOffset + new Vector2D(0, -20)
     arrowNode.setTipAndTailLocations(tip, tail)
-
-    println("arrow bounds=" + arrowNode.getGlobalFullBounds + ", tip=" + tip + ", tail=" + tail)
   }
 
   addChild(arrowNode)
@@ -105,7 +104,7 @@ class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D, color: Colo
 
 class CavendishExperimentCanvas(model: CavendishExperimentModel, modelWidth: Double, mass1Color: Color, mass2Color: Color, backgroundColor: Color,
                                 rulerLength: Long, numTicks: Long, rulerLabel: String, tickToString: Long => String,
-                                forceLabelScale: Double,forceArrowNumberFormat:NumberFormat) extends DefaultCanvas(modelWidth, modelWidth) {
+                                forceLabelScale: Double, forceArrowNumberFormat: NumberFormat) extends DefaultCanvas(modelWidth, modelWidth) {
   setBackground(backgroundColor)
 
   val tickIncrement = rulerLength / numTicks
@@ -128,7 +127,7 @@ class CavendishExperimentCanvas(model: CavendishExperimentModel, modelWidth: Dou
   addNode(new MassNode(model.m1, transform, mass1Color))
   addNode(new SpringNode(model, transform, opposite(backgroundColor)))
   addNode(new DraggableMassNode(model.m2, transform, mass2Color))
-  addNode(new ForceLabelNode(model.m1, transform, model, opposite(backgroundColor), forceLabelScale,forceArrowNumberFormat))
+  addNode(new ForceLabelNode(model.m1, transform, model, opposite(backgroundColor), forceLabelScale, forceArrowNumberFormat))
   addNode(rulerNode)
   rulerNode.addInputEventListener(new PBasicInputEventHandler {
     override def mouseDragged(event: PInputEvent) = {
@@ -228,7 +227,7 @@ class CavendishExperimentModel(mass1: Double, mass2: Double,
 }
 class CavendishExperimentModule(clock: ScalaClock) extends Module("Cavendish Experiment", clock) {
   val model = new CavendishExperimentModel(10, 25, 0, 1, mass => mass / 30, mass => mass / 30, 1E-8, 1, 50, 50, -4, "m1", "m2")
-  val canvas = new CavendishExperimentCanvas(model, 10, Color.blue, Color.blue, Color.white, 5, 5, "m", _.toString, 1E10,new DecimalFormat("0.000000000000"))
+  val canvas = new CavendishExperimentCanvas(model, 10, Color.blue, Color.blue, Color.white, 5, 5, "m", _.toString, 1E10, new DecimalFormat("0.000000000000"))
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
   setControlPanel(new CavendishExperimentControlPanel(model))
@@ -237,16 +236,18 @@ class CavendishExperimentModule(clock: ScalaClock) extends Module("Cavendish Exp
 
 object CavendishExperimentDefaults {
   val sunEarthDist = 1.496E11 //  sun earth distace in m
+  val earthRadius = 6.371E6
+  val sunRadius = 6.955E8
 }
 
 class SolarCavendishModule(clock: ScalaClock) extends Module("Sun-Planet System", clock) {
-  val sunEarthDist = CavendishExperimentDefaults.sunEarthDist
+  import CavendishExperimentDefaults._
   val model = new CavendishExperimentModel(5.9742E24, //earth mass in kg
     1.9891E30, // sun mass in kg
     -sunEarthDist / 2,
     sunEarthDist / 2,
-    mass => 6.371E6 * 1.6E3, //latter term is a fudge factor to make things visible on the same scale
-    mass => 6.955E8 * 5E1,
+    mass => earthRadius * 1.6E3, //latter term is a fudge factor to make things visible on the same scale
+    mass => sunRadius * 5E1,
     1.5E14, sunEarthDist / 2,
     1E13,
     1E12,
@@ -258,11 +259,34 @@ class SolarCavendishModule(clock: ScalaClock) extends Module("Sun-Planet System"
   val canvas = new CavendishExperimentCanvas(model, sunEarthDist * 2.05, Color.blue, Color.red, Color.black,
     CavendishExperimentDefaults.sunEarthDist.toLong, 4, "light minutes", dist => {
       new DecimalFormat("0.0").format(metersToLightMinutes(dist.toDouble))
-    }, 3.2E-22*10,new DecimalFormat("0.0"))
+    }, 3.2E-22 * 10, new DecimalFormat("0.0"))
+  val disclaimerNode = new ScaleDisclaimerNode(model, canvas.transform)
+  canvas.addComponentListener(new ComponentAdapter() {
+    override def componentResized(e: ComponentEvent) = updateDisclaimerLocation()
+  })
+  updateDisclaimerLocation()
+  def updateDisclaimerLocation() = disclaimerNode.setOffset(canvas.canonicalBounds.width / 2 - disclaimerNode.getFullBounds.getWidth / 2, canvas.canonicalBounds.height- disclaimerNode.getFullBounds.getHeight)
+  canvas.addNode(disclaimerNode)
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
-  //  setControlPanel(new CavendishExperimentControlPanel(model))
   setClockControlPanel(null)
+}
+
+class Circle(center: Vector2D, radius: Double) extends Ellipse2D.Double(center.x - radius, center.y - radius, radius * 2, radius * 2)
+class ScaleDisclaimerNode(model: CavendishExperimentModel, transform: ModelViewTransform2D) extends PNode {
+  val text = new PText("* Radii not to scale.  If they were to scale they'd be this big:")
+  text.setFont(new PhetFont(18))
+  text.setTextPaint(Color.lightGray)
+  addChild(text)
+  import CavendishExperimentDefaults._
+  val m1Icon = new PhetPPath(new Circle(new Vector2D, transform.modelToViewDifferentialXDouble(earthRadius)), Color.blue)
+  val m2Icon = new PhetPPath(new Circle(new Vector2D, transform.modelToViewDifferentialXDouble(sunRadius)), Color.red)
+
+  addChild(m1Icon)
+  addChild(m2Icon)
+  m1Icon.setOffset(text.getFullBounds.getMaxX + 5, text.getFullBounds.getCenterY - m1Icon.getFullBounds.getHeight / 2)
+  m2Icon.setOffset(m1Icon.getFullBounds.getMaxX + 5, text.getFullBounds.getCenterY - m2Icon.getFullBounds.getHeight / 2)
+
 }
 
 class CavendishExperimentApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
