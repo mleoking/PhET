@@ -57,7 +57,7 @@ class MassNode(mass: Mass, transform: ModelViewTransform2D) extends PNode {
       new Point2D.Double(-viewRadius, viewRadius), Color.blue))
     label.setOffset(transform.modelToView(mass.position) - new Vector2D(label.getFullBounds.getWidth / 2, label.getFullBounds.getHeight / 2))
 
-//    println("updated mass node, radius=" + mass.radius + ", viewRadius=" + viewRadius + ", globalfullbounds=" + image.getGlobalFullBounds)
+    //    println("updated mass node, radius=" + mass.radius + ", viewRadius=" + viewRadius + ", globalfullbounds=" + image.getGlobalFullBounds)
   }
 
   addChild(image)
@@ -213,11 +213,11 @@ class SolarCavendishModule(clock: ScalaClock) extends Module("Sun-Planet System"
   val model = new CavendishExperimentModel(5.9742E24, //earth mass in kg
     1.9891E30, // sun mass in kg 
     sunEarthDist,
-    mass => 6371E3 * 1E4, //latter term is a fudge factor to make things visible on the same scale
-    mass => 6.955E8 * 1E2,
-    1E10, 0
+    mass => 6.371E6 * 1E3, //latter term is a fudge factor to make things visible on the same scale
+    mass => 6.955E8 * 1E1,
+    1.5E13, 0
     )
-  val canvas = new CavendishExperimentCanvas(model, sunEarthDist * 20)
+  val canvas = new CavendishExperimentCanvas(model, sunEarthDist * 2.5)
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
   //  setControlPanel(new CavendishExperimentControlPanel(model))
