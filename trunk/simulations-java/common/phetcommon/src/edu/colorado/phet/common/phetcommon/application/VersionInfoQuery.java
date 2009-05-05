@@ -284,7 +284,7 @@ public class VersionInfoQuery {
             String versionRevision = getAttribute( document, elementName, "version_revision" );
             String versionTimestamp = getAttribute( document, elementName, "version_timestamp" );
             if ( versionMajor == null || versionMinor == null || versionDev == null || versionRevision == null || versionTimestamp == null ) {
-                notifyException( new VersionInfoQueryException( "missing one or more attribututes related to sim version" ) );
+                notifyException( new VersionInfoQueryException( "missing one or more attributes related to sim version" ) );
                 return null;
             }
             version = new PhetVersion( versionMajor, versionMinor, versionDev, versionRevision, versionTimestamp );
