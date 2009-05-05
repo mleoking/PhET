@@ -35,11 +35,15 @@ public class TicketSearchTab extends JSplitPane {
         ticketTableScrollPane.setMinimumSize( new Dimension( 600, 0 ) );
         ticketTableDisplay = new TicketDisplayPane();
         ticketTableDisplay.setText( "Testing" );
-        JScrollPane tableAreaScrollPane = new JScrollPane( ticketTableDisplay );
+        final JScrollPane tableAreaScrollPane = new JScrollPane( ticketTableDisplay );
         tableAreaScrollPane.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+        //tableAreaScrollPane.setMinimumSize( new Dimension( 0, 200 ) );
         ticketTableHeader = new TicketDisplayPane();
         ticketTableHeader.setText( "Ticket Header" );
-        final JSplitPane rightSplitPane = new JSplitPane( JSplitPane.VERTICAL_SPLIT, ticketTableHeader, tableAreaScrollPane );
+        final JScrollPane tableHeaderScrollPane = new JScrollPane( ticketTableHeader );
+        tableHeaderScrollPane.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+        //tableHeaderScrollPane.setMinimumSize( new Dimension( 0, 200 ) );
+        final JSplitPane rightSplitPane = new JSplitPane( JSplitPane.VERTICAL_SPLIT, tableHeaderScrollPane, tableAreaScrollPane );
         rightSplitPane.setOneTouchExpandable( true );
         ticketTable.ticketSelectionModel.addListSelectionListener( new ListSelectionListener() {
             public void valueChanged( ListSelectionEvent event ) {
@@ -50,7 +54,100 @@ public class TicketSearchTab extends JSplitPane {
                         Ticket ticket = model.getTicketAt( index );
                         ticketTableDisplay.setText( ticket.getHTMLComments() );
                         ticketTableHeader.setText( ticket.getHTMLHeader() );
-                        rightSplitPane.setDividerLocation( -1 );
+
+                        SwingUtilities.invokeLater( new Runnable() {
+                            public void run() {
+                                int sizeAvailable = rightSplitPane.getHeight();
+                                System.out.println( "Size avail: " + sizeAvailable );
+
+                                int sizeTop = (int) ticketTableHeader.getPreferredScrollableViewportSize().getHeight();
+                                System.out.println( "Size top: " + sizeTop );
+
+                                int sizeBottom = (int) ticketTableDisplay.getPreferredScrollableViewportSize().getHeight();
+                                System.out.println( "Size bottom: " + sizeBottom );
+
+                                int extraPadding = 5;
+
+                                if ( sizeAvailable >= sizeTop + extraPadding * 2 + sizeBottom + rightSplitPane.getDividerSize() ) {
+                                    // if we have room for everything
+                                    rightSplitPane.setDividerLocation( sizeTop + extraPadding );
+                                }
+                                else {
+                                    int minTop = 200;
+                                    int minBottom = 200;
+                                    int maxTop = sizeAvailable - minBottom - extraPadding - rightSplitPane.getDividerSize();
+
+                                    if ( sizeBottom < minBottom ) {
+                                        rightSplitPane.setDividerLocation( sizeAvailable - sizeBottom - extraPadding - rightSplitPane.getDividerSize() );
+                                    }
+                                    else if ( sizeTop < minTop ) {
+                                        rightSplitPane.setDividerLocation( sizeTop + extraPadding );
+                                    }
+                                    else {
+                                        rightSplitPane.setDividerLocation( minTop + extraPadding );
+                                    }
+                                }
+                                ticketTableHeader.setSelectionStart( 0 );
+                                ticketTableHeader.setSelectionEnd( 0 );
+                            }
+                        } );
+
+
+                        /*
+                        int sizeAvailable = rightSplitPane.getHeight();
+                        System.out.println( "Size avail: " + sizeAvailable );
+
+                        int sizeTop = (int) ticketTableHeader.getPreferredScrollableViewportSize().getHeight();
+                        System.out.println( "Size top: " + sizeTop );
+
+                        int sizeBottom = (int) ticketTableDisplay.getPreferredScrollableViewportSize().getHeight();
+                        System.out.println( "Size bottom: " + sizeBottom );
+
+                        int extraPadding = 5;
+
+                        if( sizeAvailable >= sizeTop + extraPadding * 2 + sizeBottom + rightSplitPane.getDividerSize() ) {
+                            // if we have room for everything
+                            rightSplitPane.setDividerLocation( sizeTop + extraPadding );
+                        } else {
+                            int minTop = 200;
+                            int minBottom = 200;
+                            int maxTop = sizeAvailable - minBottom - extraPadding - rightSplitPane.getDividerSize();
+
+                            if( sizeBottom < minBottom ) {
+                                rightSplitPane.setDividerLocation( sizeAvailable - sizeBottom - extraPadding - rightSplitPane.getDividerSize() );
+                            } else if( sizeTop < minTop ) {
+                                rightSplitPane.setDividerLocation( sizeTop + extraPadding );
+                            } else {
+                                rightSplitPane.setDividerLocation( minTop + extraPadding );
+                            }
+                        }
+
+
+                        ticketTableHeader.setSelectionStart( 0 );
+                        ticketTableHeader.setSelectionEnd( 0 );
+                        */
+
+                        /*
+
+                        tableHeaderScrollPane.validate();
+                        tableAreaScrollPane.validate();
+
+                        tableHeaderScrollPane.getVerticalScrollBar().setValue( 0 );
+                        */
+
+                        SwingUtilities.invokeLater( new Runnable() {
+                            public void run() {
+                                //tableHeaderScrollPane.getVerticalScrollBar().setValue( 0 );
+                                tableAreaScrollPane.getVerticalScrollBar().setValue( tableAreaScrollPane.getVerticalScrollBar().getMaximum() );
+                            }
+                        } );
+
+                        //tableHeaderScrollPane.getViewport().setViewPosition( new Point( 0, 0 ) );
+
+                        //int prefDisplayHeight = (int) ticketTableDisplay.getPreferredScrollableViewportSize().getHeight();
+                        //tableAreaScrollPane.getViewport().setViewPosition( new Point( 0, (int) (prefDisplayHeight - tableAreaScrollPane.getViewport().getViewSize().getHeight()) ) );
+
+                        //rightSplitPane.setDividerLocation( -1 );
                     }
                 }
             }
