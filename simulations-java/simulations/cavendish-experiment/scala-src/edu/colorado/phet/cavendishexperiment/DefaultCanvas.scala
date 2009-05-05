@@ -14,7 +14,8 @@ import umd.cs.piccolo.PNode
 //TODO: factor out common DefaultCanvas class for scalacommon
 class DefaultCanvas(modelWidth: Double, modelHeight: Double) extends PhetPCanvas(new Dimension(1024, 768)) {
   setWorldTransformStrategy(new CenteredBoxStrategy(768, 768, this))
-  val transform: ModelViewTransform2D = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight), new Rectangle(0, 0, 768, 768), true)
+  val canonicalBounds = new Rectangle(0, 0, 768, 768)
+  val transform: ModelViewTransform2D = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight), canonicalBounds, true)
 
   val worldNode = new PNode
   addWorldChild(worldNode)
