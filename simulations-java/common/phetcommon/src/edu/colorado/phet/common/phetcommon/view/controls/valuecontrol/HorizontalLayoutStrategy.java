@@ -1,13 +1,11 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.glaciers.control;
+package edu.colorado.phet.common.phetcommon.view.controls.valuecontrol;
 
 import java.awt.GridBagConstraints;
 
 import javax.swing.JComponent;
 
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 /**
