@@ -32,7 +32,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class AbstractEquilibriumExpressionNode extends PComposite {
+public abstract class EquilibriumExpressionNode extends PComposite {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -77,7 +77,7 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public AbstractEquilibriumExpressionNode() {
+    public EquilibriumExpressionNode() {
         super();
         setPickable( false );
         setChildrenPickable( false );
@@ -465,7 +465,7 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
     /**
      * Water equilibrium expression: Kw = [H3O+][OH-] = 1.0 x 10^-14
      */
-    public static class WaterEquilibriumExpressionNode extends AbstractEquilibriumExpressionNode {
+    public static class WaterEquilibriumExpressionNode extends EquilibriumExpressionNode {
         
         public WaterEquilibriumExpressionNode() {
             super();
@@ -480,7 +480,7 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
     /*
      * Base class for acid equilibrium expressions.
      */
-    public static class AbstractAcidEquilibriumExpressionNode extends AbstractEquilibriumExpressionNode {
+    public static class AbstractAcidEquilibriumExpressionNode extends EquilibriumExpressionNode {
         
         public AbstractAcidEquilibriumExpressionNode() {
             this( ABSSymbols.A_MINUS, ABSSymbols.HA );
@@ -526,7 +526,7 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
     /*
      * Base class for base equilibrium expressions.
      */
-    public static class AbstractBaseEquilibriumExpressionNode extends AbstractEquilibriumExpressionNode {
+    public static class AbstractBaseEquilibriumExpressionNode extends EquilibriumExpressionNode {
         public AbstractBaseEquilibriumExpressionNode() {
             super();
             setKLabel( ABSSymbols.Kb );

@@ -11,7 +11,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.acidbasesolutions.view.equations.AbstractReactionEquationNode.*;
+import edu.colorado.phet.acidbasesolutions.view.equations.ReactionEquationNode.*;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.HorizontalLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
@@ -33,8 +33,8 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
     private static final Dimension BOTTOM_CANVAS_SIZE = TOP_CANVAS_SIZE;
     
     private final PhetPCanvas topCanvas, bottomCanvas;
-    private AbstractReactionEquationNode topEquation;
-    private final AbstractReactionEquationNode bottomEquation;
+    private ReactionEquationNode topEquation;
+    private final ReactionEquationNode bottomEquation;
     
     // developer controls
     private EquationComboBox equationComboBox;
@@ -236,7 +236,7 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         updateScale( bottomEquation, bottomSliders );
     }
     
-    private void updateScale( AbstractReactionEquationNode equation, TermScaleSlider[] sliders ) {
+    private void updateScale( ReactionEquationNode equation, TermScaleSlider[] sliders ) {
         for ( int i = 0; i < sliders.length; i++ ) {
             TermScaleSlider slider = sliders[i];
             slider.setEnabled( isScaleEnabled() );
@@ -267,9 +267,9 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
     private static class EquationChoice {
 
         private final String name;
-        private final AbstractReactionEquationNode node;
+        private final ReactionEquationNode node;
         
-        public EquationChoice( String name, AbstractReactionEquationNode node ) {
+        public EquationChoice( String name, ReactionEquationNode node ) {
             this.name = name;
             this.node = node;
         }
@@ -278,7 +278,7 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
             return name;
         }
         
-        public AbstractReactionEquationNode getNode() {
+        public ReactionEquationNode getNode() {
             return node;
         }
     }
@@ -296,7 +296,7 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
             addItem( new EquationChoice( "sodium hydroxide", new StrongBaseReactionEquationNode( "NaOH", "Na<sup>+</sup>" ) ) );
         }
         
-        public AbstractReactionEquationNode getSelectedNode() {
+        public ReactionEquationNode getSelectedNode() {
             return ((EquationChoice) getSelectedItem()).getNode();
         }
     }
