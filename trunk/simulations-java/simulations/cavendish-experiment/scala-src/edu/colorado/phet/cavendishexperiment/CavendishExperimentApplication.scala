@@ -14,7 +14,7 @@ import java.awt._
 import event.{ActionEvent, ActionListener}
 import java.awt.geom.{Point2D, Rectangle2D}
 import common.piccolophet.event.CursorHandler
-import java.text.DecimalFormat
+import java.text.{NumberFormat, DecimalFormat}
 import javax.swing.event.{ChangeListener, ChangeEvent}
 
 import javax.swing.JButton
@@ -28,7 +28,7 @@ import scalacommon.Predef._
 import umd.cs.piccolo.util.PDimension
 import java.lang.Math._
 
-class ForceLabelNode(mass: Mass, transform: ModelViewTransform2D, model: CavendishExperimentModel, color: Color, scale: Double) extends PNode {
+class ForceLabelNode(mass: Mass, transform: ModelViewTransform2D, model: CavendishExperimentModel, color: Color, scale: Double,format:NumberFormat) extends PNode {
   val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(1, 1), 20, 20, 8, 0.5, true)
   arrowNode.setPaint(color)
   val label = new PText
@@ -37,7 +37,7 @@ class ForceLabelNode(mass: Mass, transform: ModelViewTransform2D, model: Cavendi
 
   defineInvokeAndPass(model.addListenerByName) {
     label.setOffset(transform.modelToView(mass.position) - new Vector2D(0, label.getFullBounds.getHeight + 100))
-    label.setText("Force on " + model.m1.name + " by " + model.m2.name + " = " + new DecimalFormat("0.000000000000").format(model.getForce.magnitude) + " N")
+    label.setText("Force on " + model.m1.name + " by " + model.m2.name + " = " + format.format(model.getForce.magnitude) + " N")
     val tip = label.getOffset + new Vector2D(model.getForce.magnitude * scale, -20)
     val tail = label.getOffset + new Vector2D(0, -20)
     arrowNode.setTipAndTailLocations(tip, tail)
@@ -105,7 +105,7 @@ class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D, color: Colo
 
 class CavendishExperimentCanvas(model: CavendishExperimentModel, modelWidth: Double, mass1Color: Color, mass2Color: Color, backgroundColor: Color,
                                 rulerLength: Long, numTicks: Long, rulerLabel: String, tickToString: Long => String,
-                                forceLabelScale: Double) extends DefaultCanvas(modelWidth, modelWidth) {
+                                forceLabelScale: Double,forceArrowNumberFormat:NumberFormat) extends DefaultCanvas(modelWidth, modelWidth) {
   setBackground(backgroundColor)
 
   val tickIncrement = rulerLength / numTicks
@@ -128,7 +128,7 @@ class CavendishExperimentCanvas(model: CavendishExperimentModel, modelWidth: Dou
   addNode(new MassNode(model.m1, transform, mass1Color))
   addNode(new SpringNode(model, transform, opposite(backgroundColor)))
   addNode(new DraggableMassNode(model.m2, transform, mass2Color))
-  addNode(new ForceLabelNode(model.m1, transform, model, opposite(backgroundColor), forceLabelScale))
+  addNode(new ForceLabelNode(model.m1, transform, model, opposite(backgroundColor), forceLabelScale,forceArrowNumberFormat))
   addNode(rulerNode)
   rulerNode.addInputEventListener(new PBasicInputEventHandler {
     override def mouseDragged(event: PInputEvent) = {
@@ -228,7 +228,7 @@ class CavendishExperimentModel(mass1: Double, mass2: Double,
 }
 class CavendishExperimentModule(clock: ScalaClock) extends Module("Cavendish Experiment", clock) {
   val model = new CavendishExperimentModel(10, 25, 0, 1, mass => mass / 30, mass => mass / 30, 1E-8, 1, 50, 50, -4, "m1", "m2")
-  val canvas = new CavendishExperimentCanvas(model, 10, Color.blue, Color.blue, Color.white, 5, 5, "m", _.toString, 1E10)
+  val canvas = new CavendishExperimentCanvas(model, 10, Color.blue, Color.blue, Color.white, 5, 5, "m", _.toString, 1E10,new DecimalFormat("0.000000000000"))
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
   setControlPanel(new CavendishExperimentControlPanel(model))
@@ -258,7 +258,7 @@ class SolarCavendishModule(clock: ScalaClock) extends Module("Sun-Planet System"
   val canvas = new CavendishExperimentCanvas(model, sunEarthDist * 2.05, Color.blue, Color.red, Color.black,
     CavendishExperimentDefaults.sunEarthDist.toLong, 4, "light minutes", dist => {
       new DecimalFormat("0.0").format(metersToLightMinutes(dist.toDouble))
-    }, 3.2E-22*10)
+    }, 3.2E-22*10,new DecimalFormat("0.0"))
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
   //  setControlPanel(new CavendishExperimentControlPanel(model))
