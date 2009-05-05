@@ -56,6 +56,8 @@ class MassNode(mass: Mass, transform: ModelViewTransform2D) extends PNode {
     image.setPaint(new RoundGradientPaint(viewRadius, -viewRadius, Color.WHITE,
       new Point2D.Double(-viewRadius, viewRadius), Color.blue))
     label.setOffset(transform.modelToView(mass.position) - new Vector2D(label.getFullBounds.getWidth / 2, label.getFullBounds.getHeight / 2))
+
+//    println("updated mass node, radius=" + mass.radius + ", viewRadius=" + viewRadius + ", globalfullbounds=" + image.getGlobalFullBounds)
   }
 
   addChild(image)
@@ -95,7 +97,7 @@ class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D) extends Mas
   def draggingChanged() = pushPinNode.setVisible(initialDrag && !dragging)
 }
 
-class CavendishExperimentCanvas(model: CavendishExperimentModel) extends DefaultCanvas(10, 10) {
+class CavendishExperimentCanvas(model: CavendishExperimentModel, modelWidth: Double) extends DefaultCanvas(modelWidth, modelWidth) {
   val rulerNode = {
     val maj = for (i <- 0 to 5) yield i.toString
     val dx = transform.modelToViewDifferentialX(5)
@@ -154,7 +156,7 @@ class CavendishExperimentControlPanel(model: CavendishExperimentModel) extends C
   add(new ScalaValueControl(0.01, 100, "m1", "0.00", "kg", model.m1.mass, model.m1.mass = _, model.m1.addListener))
   add(new ScalaValueControl(0.01, 100, "m2", "0.00", "kg", model.m2.mass, model.m2.mass = _, model.m2.addListener))
 }
-class Mass(private var _mass: Double, private var _position: Vector2D, val name: String) extends Observable {
+class Mass(private var _mass: Double, private var _position: Vector2D, val name: String, massToRadius: Double => Double) extends Observable {
   def mass = _mass
 
   def mass_=(m: Double) = {_mass = m; notifyListeners()}
@@ -163,17 +165,15 @@ class Mass(private var _mass: Double, private var _position: Vector2D, val name:
 
   def position_=(p: Vector2D) = {_position = p; notifyListeners()}
 
-  def radius = mass / 30
+  def radius = massToRadius(_mass)
 }
-class Spring {
-  val k = 1E-8
-  val restingLength = 1
-}
-class CavendishExperimentModel extends Observable {
+class Spring(val k: Double, val restingLength: Double)
+class CavendishExperimentModel(mass1: Double, mass2: Double, mass2Position: Double, mass1Radius: Double => Double, mass2Radius: Double => Double,
+                               k: Double, springRestingLength: Double) extends Observable {
   val wall = new Wall
-  val m1 = new Mass(10, new Vector2D(0, 0), "m1")
-  val m2 = new Mass(25, new Vector2D(1, 0), "m2")
-  val spring = new Spring
+  val m1 = new Mass(mass1, new Vector2D(0, 0), "m1", mass1Radius)
+  val m2 = new Mass(mass2, new Vector2D(mass2Position, 0), "m2", mass2Radius)
+  val spring = new Spring(k, springRestingLength)
   val G = 6.67E-11
   m1.addListenerByName(notifyListeners())
   m2.addListenerByName(notifyListeners())
@@ -190,6 +190,7 @@ class CavendishExperimentModel extends Observable {
   def getForce = r * G * m1.mass * m2.mass / pow(r.magnitude, 3)
 
   def update(dt: Double) = {
+//    println("force magnitude=" + getForce.magnitude)
     val xDesired = wall.maxX + spring.restingLength + getForce.magnitude / spring.k
     val x = if (xDesired + m1.radius > m2.position.x - m2.radius)
       m2.position.x - m2.radius - m1.radius
@@ -199,16 +200,33 @@ class CavendishExperimentModel extends Observable {
   }
 }
 class CavendishExperimentModule(clock: ScalaClock) extends Module("Cavendish Experiment", clock) {
-  val model = new CavendishExperimentModel
-  val canvas = new CavendishExperimentCanvas(model)
+  val model = new CavendishExperimentModel(10, 25, 1, mass => mass / 30, mass => mass / 30, 1E-8, 1)
+  val canvas = new CavendishExperimentCanvas(model, 10)
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
   setControlPanel(new CavendishExperimentControlPanel(model))
   setClockControlPanel(null)
 }
 
+class SolarCavendishModule(clock: ScalaClock) extends Module("Sun-Planet System", clock) {
+  val sunEarthDist = 1.496E11 //  sun earth distace in m
+  val model = new CavendishExperimentModel(5.9742E24, //earth mass in kg
+    1.9891E30, // sun mass in kg 
+    sunEarthDist,
+    mass => 6371E3 * 1E4, //latter term is a fudge factor to make things visible on the same scale
+    mass => 6.955E8 * 1E2,
+    1E10, 0
+    )
+  val canvas = new CavendishExperimentCanvas(model, sunEarthDist * 20)
+  setSimulationPanel(canvas)
+  clock.addClockListener(model.update(_))
+  //  setControlPanel(new CavendishExperimentControlPanel(model))
+  setClockControlPanel(null)
+}
+
 class CavendishExperimentApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   addModule(new CavendishExperimentModule(new ScalaClock(30, 30 / 1000.0)))
+  addModule(new SolarCavendishModule(new ScalaClock(30, 30 / 1000.0)))
 }
 
 object CavendishExperimentApplicationMain {
