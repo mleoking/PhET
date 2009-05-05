@@ -242,9 +242,9 @@ class SolarCavendishModule(clock: ScalaClock) extends Module("Sun-Planet System"
     sunEarthDist / 2,
     mass => earthRadius * 1.6E3, //latter term is a fudge factor to make things visible on the same scale
     mass => sunRadius * 5E1,
-//    1.5E14, sunEarthDist / 2, // this version puts the spring resting length so that default position is distEarthSun
-//    0.98E12, sunEarthDist / 4,  //this requires the sun to tug on the earth to put it in the right spot
-    1.42E12, sunEarthDist / 3,  //this one too
+    //    1.5E14, sunEarthDist / 2, // this version puts the spring resting length so that default position is distEarthSun
+    //    0.98E12, sunEarthDist / 4,  //this requires the sun to tug on the earth to put it in the right spot
+    1.42E12, sunEarthDist / 3, //this one too
     1E13,
     1E12,
     -sunEarthDist, "Earth", "Sun"
@@ -261,7 +261,7 @@ class SolarCavendishModule(clock: ScalaClock) extends Module("Sun-Planet System"
     override def componentResized(e: ComponentEvent) = updateDisclaimerLocation()
   })
   updateDisclaimerLocation()
-  def updateDisclaimerLocation() = disclaimerNode.setOffset(canvas.canonicalBounds.width / 2 - disclaimerNode.getFullBounds.getWidth / 2, canvas.canonicalBounds.height- disclaimerNode.getFullBounds.getHeight)
+  def updateDisclaimerLocation() = disclaimerNode.setOffset(canvas.canonicalBounds.width / 2 - disclaimerNode.getFullBounds.getWidth / 2, canvas.canonicalBounds.height - disclaimerNode.getFullBounds.getHeight)
   canvas.addNode(disclaimerNode)
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
