@@ -4,6 +4,7 @@ package edu.colorado.phet.naturalselection.module.naturalselection;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -194,11 +195,14 @@ public class NaturalSelectionModel extends ClockAdapter {
             }
         }
 
+        mutateSomeBunny( newBunnies );
+        /*
         // attempt to mutate a single bunny
         if ( newBunnies.size() != 0 ) {
             Bunny mutant = (Bunny) newBunnies.get( random.nextInt( newBunnies.size() ) );
             mutant.mutateMe();
         }
+        */
 
         Iterator newIter = newBunnies.iterator();
         while ( newIter.hasNext() ) {
@@ -209,6 +213,50 @@ public class NaturalSelectionModel extends ClockAdapter {
             // TODO: possibly notify at the end for potential performance issues?
             notifyNewBunny( bunny );
         }
+    }
+
+    private void mutateSomeBunny( List newBunnies ) {
+        Gene gene = null;
+        Allele allele = null;
+
+        if ( ColorGene.getInstance().getMutatable() ) {
+            gene = ColorGene.getInstance();
+            allele = ColorGene.BROWN_ALLELE;
+        }
+        else if ( TailGene.getInstance().getMutatable() ) {
+            gene = TailGene.getInstance();
+            allele = TailGene.TAIL_LONG_ALLELE;
+        }
+        else if ( TeethGene.getInstance().getMutatable() ) {
+            gene = TeethGene.getInstance();
+            allele = TeethGene.TEETH_HUGE_ALLELE;
+        }
+        else {
+            throw new RuntimeException( "Unknown gene type for mutation" );
+        }
+
+        // we only want to check bunnes that haven't mutated already
+        ArrayList possibleBunnies = new ArrayList();
+
+        Iterator iter = newBunnies.iterator();
+
+        while ( iter.hasNext() ) {
+            Bunny bunny = (Bunny) iter.next();
+
+            if ( gene.getBunnyPhenotype( bunny ) != allele ) {
+                possibleBunnies.add( bunny );
+            }
+        }
+
+        if ( possibleBunnies.size() == 0 ) {
+            // they are all mutated to that already (but may carry.... hrmm!)
+            return;
+        }
+
+        Bunny mutant = (Bunny) possibleBunnies.get( random.nextInt( possibleBunnies.size() ) );
+
+        mutant.mutateGene( gene, allele );
+
     }
 
     /**
