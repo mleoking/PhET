@@ -2,6 +2,21 @@
  acid-base-solutions : development history
 ==================================================================================
 
+TODO:
+- opening Reaction Equations while Equilibrium Expressions are visible causes OutOfMemoryException
+- solution control panel
+- particle views
+- model
+- connect model and view
+- "Negligible" in Concentrations graph
+- localization
+- developer controls?
+- lighten pH probe shaft so that molecule count symbols are visible when they overlap
+- revisit implementation of equations
+- scale image files
+- Reset All
+
+DONE:
 4/29/09 reaction equation nodes for acids, bases, water
 4/29/09 add icons to Symbol Legend dialog
 4/29/09 standardize text style for A, B, M
