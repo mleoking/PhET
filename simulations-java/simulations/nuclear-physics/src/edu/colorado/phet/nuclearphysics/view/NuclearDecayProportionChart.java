@@ -66,6 +66,9 @@ public class NuclearDecayProportionChart extends PNode {
     private static final double Y_ORIGIN_PROPORTION = 0.80;
     private static final double GRAPH_WIDTH_PROPORTION_WITHOUT_CHECKBOXES = 0.85;
     private static final double GRAPH_WIDTH_PROPORTION_WITH_CHECKBOXES = 0.6;
+    
+    // Constants that control other proportionate aspects of the graph.
+    private static final double GRAPH_TEXT_HEIGHT_PROPORTION = 0.06;
 
     //------------------------------------------------------------------------
     // Instance Data
@@ -233,6 +236,14 @@ public class NuclearDecayProportionChart extends PNode {
         _yAxisOfGraph.setStrokePaint( AXES_LINE_COLOR );
         _yAxisOfGraph.setPaint( AXES_LINE_COLOR );
         _nonPickableChartNode.addChild( _yAxisOfGraph );
+        
+        // Add the text for the Y axis.
+        _yAxisLabel1 = new PText( NuclearPhysicsStrings.FIFTY_PER_CENT );
+        _yAxisLabel1.setFont( SMALL_LABEL_FONT );
+        _nonPickableChartNode.addChild( _yAxisLabel1 );
+        _yAxisLabel2 = new PText( NuclearPhysicsStrings.ONE_HUNDRED_PER_CENT );
+        _yAxisLabel2.setFont( SMALL_LABEL_FONT );
+        _nonPickableChartNode.addChild( _yAxisLabel2 );
 
         // Add the text for the X & Y axes.
 //        _xAxisLabel = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_X_AXIS_LABEL + " (" + NuclearPhysicsStrings.DECAY_TIME_UNITS + ")" );
@@ -360,6 +371,18 @@ public class NuclearDecayProportionChart extends PNode {
         _yAxisOfGraph.setPathTo( new Line2D.Double(_graphRect.getX(), _graphRect.getY(), 
         		_graphRect.getX(), _graphRect.getMaxY() ) ); 
 
+        // Position and size labels for the Y axis.
+        double graphLabelHeight = _usableAreaRect.getHeight() * GRAPH_TEXT_HEIGHT_PROPORTION;
+        _yAxisLabel1.setScale( 1 );
+        _yAxisLabel2.setScale( 2 );
+        double scale = graphLabelHeight / _yAxisLabel1.getFullBoundsReference().getHeight();
+        _yAxisLabel1.setScale( scale );
+        _yAxisLabel2.setScale( scale );
+        _yAxisLabel1.setOffset( _graphRect.getX() - _yAxisLabel1.getFullBoundsReference().getWidth() - 5,
+        		_graphRect.getCenterY() - ( graphLabelHeight / 2 ) );
+        _yAxisLabel2.setOffset( _graphRect.getX() - _yAxisLabel2.getFullBoundsReference().getWidth() - 5,
+        		_graphRect.getY() - ( graphLabelHeight / 2 ) );
+        
         // Position the tick marks and their labels on the X axis.
         // TODO: Position tick marks and labels.
 
