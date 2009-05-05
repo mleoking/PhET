@@ -6,6 +6,7 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.view.LogoPanel;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
@@ -60,6 +61,8 @@ public class NaturalSelectionControlPanel extends JPanel {
         createRightPanel();
         leftPanel = new LeftPanel( this.model );
         generationCanvas = new GenerationChartCanvas( this.model );
+        LogoPanel logoPanel = new LogoPanel();
+        logoPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
 
 
         // keep track of the column for the gridbaglayout
@@ -85,9 +88,17 @@ public class NaturalSelectionControlPanel extends JPanel {
         rightConstraints.gridx = column++;
         rightConstraints.gridy = 0;
         rightConstraints.anchor = GridBagConstraints.NORTHEAST;
-        rightConstraints.gridheight = 2;
+        rightConstraints.gridheight = 1;
         rightConstraints.insets = new Insets( 10, 10, 10, 10 );
         add( rightPanel, rightConstraints );
+
+        GridBagConstraints logoConstraints = new GridBagConstraints();
+        logoConstraints.gridx = column - 1;
+        logoConstraints.gridy = 1;
+        logoConstraints.anchor = GridBagConstraints.SOUTHEAST;
+        logoConstraints.gridheight = 2;
+        logoConstraints.insets = new Insets( 5, 5, 5, 5 );
+        add( logoPanel, logoConstraints );
 
         // space will be padded equally on each side of the clock
         GridBagConstraints clockPanelConstraints = new GridBagConstraints();
