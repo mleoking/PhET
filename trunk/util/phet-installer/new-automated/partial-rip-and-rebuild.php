@@ -85,6 +85,10 @@
             return;
         }
 
+        // Adjust the permissions of the ripped files so that they can be
+        // removed or overwritten by other users.
+        file_chmod_recursive( SINGLE_SIM_RIP_DIR, 0664, 0774 );
+
         // Copy the ripped files into the pre-existing full mirror.
         ripper_copy_sim_into_full_mirror( $sim_name );
 
