@@ -62,7 +62,7 @@ public class NuclearDecayProportionChart extends PNode {
     // all the other components are positioned.
     private static final double X_ORIGIN_PROPORTION_WITHOUT_PIE_CHART = 0.1;
     private static final double X_ORIGIN_PROPORTION_WITH_PIE_CHART = 0.25;
-    private static final double GRAPH_HEIGHT_PROPORTION = 0.8;
+    private static final double GRAPH_HEIGHT_PROPORTION = 0.6;
     private static final double Y_ORIGIN_PROPORTION = 0.80;
     private static final double GRAPH_WIDTH_PROPORTION_WITHOUT_CHECKBOXES = 0.85;
     private static final double GRAPH_WIDTH_PROPORTION_WITH_CHECKBOXES = 0.6;
@@ -91,6 +91,7 @@ public class NuclearDecayProportionChart extends PNode {
     private PPath _halfLifeMarkerLine;
     private PText _halfLifeLabel;
     private PPath _lowerXAxisOfGraph;
+    private PPath _yAxisOfGraph;
     private ArrayList _xAxisTickMarks;
     private ArrayList _xAxisTickMarkLabels;
     private ArrayList _yAxisTickMarks;
@@ -211,13 +212,19 @@ public class NuclearDecayProportionChart extends PNode {
         _borderNode.setPaint( NuclearPhysicsConstants.ALPHA_DECAY_CHART_COLOR );
         _nonPickableChartNode.addChild( _borderNode );
 
-        // Create the x axis of the graph.  The initial position is arbitrary
-        // and the actual positioning will be done by the update function(s).
+        // Create the x axis of the graph.
         _lowerXAxisOfGraph = new PPath();
         _lowerXAxisOfGraph.setStroke( THICK_AXIS_STROKE );
         _lowerXAxisOfGraph.setStrokePaint( AXES_LINE_COLOR );
         _lowerXAxisOfGraph.setPaint( AXES_LINE_COLOR );
         _nonPickableChartNode.addChild( _lowerXAxisOfGraph );
+
+        // Create the x axis of the graph.
+        _yAxisOfGraph = new PPath();
+        _yAxisOfGraph.setStroke( THIN_AXIS_STROKE );
+        _yAxisOfGraph.setStrokePaint( AXES_LINE_COLOR );
+        _yAxisOfGraph.setPaint( AXES_LINE_COLOR );
+        _nonPickableChartNode.addChild( _yAxisOfGraph );
 
         // Add the text for the X & Y axes.
 //        _xAxisLabel = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_X_AXIS_LABEL + " (" + NuclearPhysicsStrings.DECAY_TIME_UNITS + ")" );
@@ -305,17 +312,18 @@ public class NuclearDecayProportionChart extends PNode {
 
         // Decide where the data graph, around which all other components are
         // positioned, is located.
-        double graphOriginX, graphOriginY, graphWidth, graphHeight;
+        double graphRectX, graphRectY, graphWidth, graphHeight;
         if ( _pieChartEnabled ){
-            graphOriginX = _usableAreaRect.getX() + ( X_ORIGIN_PROPORTION_WITH_PIE_CHART * _usableAreaRect.getWidth() );
+            graphRectX = _usableAreaRect.getX() + ( X_ORIGIN_PROPORTION_WITH_PIE_CHART * _usableAreaRect.getWidth() );
         }
         else{
-            graphOriginX = _usableAreaRect.getX() + ( X_ORIGIN_PROPORTION_WITHOUT_PIE_CHART * _usableAreaRect.getWidth() );
+            graphRectX = _usableAreaRect.getX() + ( X_ORIGIN_PROPORTION_WITHOUT_PIE_CHART * _usableAreaRect.getWidth() );
         }
         graphWidth = _usableAreaRect.getWidth() * GRAPH_WIDTH_PROPORTION_WITHOUT_CHECKBOXES;
-        graphOriginY = _usableAreaRect.getY() + ( Y_ORIGIN_PROPORTION * _usableAreaRect.getHeight() );
+        graphRectY = _usableAreaRect.getY() + _usableAreaRect.getHeight() - 
+            ( Y_ORIGIN_PROPORTION * _usableAreaRect.getHeight() );
         graphHeight = _usableAreaRect.getHeight() * GRAPH_HEIGHT_PROPORTION;
-        _graphRect.setRect(graphOriginX, graphOriginY, graphWidth, graphHeight);
+        _graphRect.setRect(graphRectX, graphRectY, graphWidth, graphHeight);
 
         // Update the multiplier used for converting from pixels to
         // milliseconds.  Use the multiplier to tweak the span of the x axis.
@@ -335,10 +343,11 @@ public class NuclearDecayProportionChart extends PNode {
         		_usableAreaRect.getWidth(), _usableAreaRect.getHeight(), 20, 20 ) );
 
         // Position the x and y axes.
-        _lowerXAxisOfGraph.setPathTo( new Line2D.Double(_graphRect.getX(), _graphRect.getY(), 
-        		_graphRect.getMaxX(), _graphRect.getY() ) ); 
-//        		new Point2D.Double( _graphOriginX + ( _timeSpan * _msToPixelsFactor ) + 10, _graphOriginY ), 
-//        		new Point2D.Double( _graphOriginX, _graphOriginY ) );
+        _lowerXAxisOfGraph.setPathTo( new Line2D.Double(_graphRect.getX(), _graphRect.getMaxY(), 
+        		_graphRect.getMaxX(), _graphRect.getMaxY() ) );
+        
+        _yAxisOfGraph.setPathTo( new Line2D.Double(_graphRect.getX(), _graphRect.getY(), 
+        		_graphRect.getX(), _graphRect.getMaxY() ) ); 
 
         // Position the tick marks and their labels on the X axis.
         // TODO: Position tick marks and labels.
