@@ -11,10 +11,12 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.view.equations.EquilibriumExpressionNode.*;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.HorizontalLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -172,7 +174,7 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
                 }
             });
             
-            topDenominatorSlider = new TermScaleSlider( "denominator" );
+            topDenominatorSlider = new TermScaleSlider( "denominator:" );
             topControls.add( topDenominatorSlider );
             topDenominatorSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
@@ -187,7 +189,7 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
             bottomControls.setLayout( new BoxLayout( bottomControls, BoxLayout.Y_AXIS ) );
             bottomControls.setBorder( new TitledBorder( "bottom equation" ) );
             
-            bottomKSlider = new TermScaleSlider( "K:" );
+            bottomKSlider = new TermScaleSlider( ABSSymbols.Kw + ":" );
             bottomControls.add( bottomKSlider );
             bottomKSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
@@ -195,7 +197,7 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
                 }
             });
             
-            bottomLeftNumeratorSlider = new TermScaleSlider( "numerator left:" );
+            bottomLeftNumeratorSlider = new TermScaleSlider( ABSSymbols.H3O_PLUS + ":" );
             bottomControls.add( bottomLeftNumeratorSlider );
             bottomLeftNumeratorSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
@@ -203,7 +205,7 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
                 }
             });
             
-            bottomRightNumeratorSlider = new TermScaleSlider( "numerator right:" );
+            bottomRightNumeratorSlider = new TermScaleSlider( ABSSymbols.OH_MINUS + ":" );
             bottomControls.add( bottomRightNumeratorSlider );
             bottomRightNumeratorSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
@@ -343,7 +345,7 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
     private static class TermScaleSlider extends LinearValueControl {
 
         public TermScaleSlider( String label ) {
-            super( 1, MAX_SCALE, label, "##0", "%", new HorizontalLayoutStrategy() );
+            super( 1, MAX_SCALE, HTMLUtils.toHTMLString( label ), "##0", "%", new HorizontalLayoutStrategy() );
             setValue( DEFAULT_SCALE );
             getSlider().setPaintTicks( false );
             getSlider().setPaintLabels( false );
