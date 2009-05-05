@@ -11,7 +11,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.acidbasesolutions.view.equations.AbstractEquilibriumExpressionNode.*;
+import edu.colorado.phet.acidbasesolutions.view.equations.EquilibriumExpressionNode.*;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.HorizontalLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
@@ -33,8 +33,8 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
     private static final Dimension BOTTOM_CANVAS_SIZE = TOP_CANVAS_SIZE;
     
     private final PhetPCanvas topCanvas, bottomCanvas;
-    private AbstractEquilibriumExpressionNode topExpression;
-    private final AbstractEquilibriumExpressionNode bottomExpression;
+    private EquilibriumExpressionNode topExpression;
+    private final EquilibriumExpressionNode bottomExpression;
     
     // developer controls
     private EquationComboBox equationComboBox;
@@ -296,9 +296,9 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
     private static class EquationChoice {
 
         private final String name;
-        private final AbstractEquilibriumExpressionNode node;
+        private final EquilibriumExpressionNode node;
         
-        public EquationChoice( String name, AbstractEquilibriumExpressionNode node ) {
+        public EquationChoice( String name, EquilibriumExpressionNode node ) {
             this.name = name;
             this.node = node;
         }
@@ -307,7 +307,7 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
             return name;
         }
         
-        public AbstractEquilibriumExpressionNode getNode() {
+        public EquilibriumExpressionNode getNode() {
             return node;
         }
     }
@@ -325,7 +325,7 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
             addItem( new EquationChoice( "sodium hydroxide", new StrongBaseEquilibriumExpressionNode( "Na<sup>+</sup>", "NaOH" ) ) );
         }
         
-        public AbstractEquilibriumExpressionNode getSelectedNode() {
+        public EquilibriumExpressionNode getSelectedNode() {
             return ((EquationChoice) getSelectedItem()).getNode();
         }
     }
