@@ -8,6 +8,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.view.AddFriendNode;
+import edu.colorado.phet.naturalselection.view.FrenzyNode;
 import edu.colorado.phet.naturalselection.view.NaturalSelectionBackgroundNode;
 import edu.colorado.phet.naturalselection.view.SpritesNode;
 import edu.umd.cs.piccolo.PNode;
@@ -40,6 +41,8 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
 
 
     private AddFriendNode addFriendNode;
+
+    private FrenzyNode frenzyNode;
 
     /**
      * Constructor
@@ -88,5 +91,18 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
         }
 
         //XXX lay out nodes
+    }
+
+    public void showFrenzy( double time ) {
+        hideFrenzy();
+        frenzyNode = new FrenzyNode( model, time );
+        frenzyNode.setOffset( ( NaturalSelectionDefaults.VIEW_SIZE.getWidth() - frenzyNode.getPlacementWidth() ) / 2, 10 );
+        rootNode.addChild( frenzyNode );
+    }
+
+    public void hideFrenzy() {
+        if ( frenzyNode != null ) {
+            rootNode.removeChild( frenzyNode );
+        }
     }
 }

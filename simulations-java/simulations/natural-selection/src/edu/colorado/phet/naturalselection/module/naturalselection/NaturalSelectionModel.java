@@ -196,13 +196,6 @@ public class NaturalSelectionModel extends ClockAdapter {
         }
 
         mutateSomeBunny( newBunnies );
-        /*
-        // attempt to mutate a single bunny
-        if ( newBunnies.size() != 0 ) {
-            Bunny mutant = (Bunny) newBunnies.get( random.nextInt( newBunnies.size() ) );
-            mutant.mutateMe();
-        }
-        */
 
         Iterator newIter = newBunnies.iterator();
         while ( newIter.hasNext() ) {
