@@ -2,12 +2,10 @@
 
 package edu.colorado.phet.nuclearphysics.module.decayrates;
 
-import java.awt.Color;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -15,7 +13,6 @@ import java.util.Set;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
-import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageNode;
@@ -28,7 +25,6 @@ import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
 import edu.colorado.phet.nuclearphysics.view.MultiNucleusDecayLinearTimeChart;
 import edu.colorado.phet.nuclearphysics.view.NuclearDecayProportionChart;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -136,7 +132,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
 		super.update();
 		
 		_proportionsChart.componentResized(new Rectangle2D.Double( 0, 0, getWidth(), getHeight() * PROPORTION_CHART_FRACTION ) );
-		_proportionsChart.setOffset(0, getHeight() - _proportionsChart.getFullBoundsReference().height);
+		_proportionsChart.setOffset(0, getHeight() - _proportionsChart.getFullBoundsReference().height * 1.02);
 		
 	}
 	
