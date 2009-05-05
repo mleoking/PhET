@@ -1,18 +1,18 @@
 package edu.colorado.phet.cavendishexperiment
 
 
-import common.phetcommon.application.Module
+import common.phetcommon.application.{PhetApplicationConfig, PhetApplicationLauncher, Module}
 import common.phetcommon.view.controls.valuecontrol.LinearValueControl
 import common.phetcommon.view.graphics.RoundGradientPaint
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.util.{DoubleGeneralPath, PhetFont}
 import common.phetcommon.view.{ControlPanel, VerticalLayoutPanel}
 import common.piccolophet.nodes.{PhetPPath, ArrowNode, SphericalNode, RulerNode}
+import common.piccolophet.{PiccoloPhetApplication, PhetPCanvas}
 import java.awt._
 import event.{ActionEvent, ActionListener}
 import java.awt.geom.{Point2D, Rectangle2D}
 import common.piccolophet.event.CursorHandler
-import common.piccolophet.PhetPCanvas
 import java.text.DecimalFormat
 import javax.swing.event.{ChangeListener, ChangeEvent}
 
@@ -207,8 +207,10 @@ class CavendishExperimentModule(clock: ScalaClock) extends Module("Cavendish Exp
   setClockControlPanel(null)
 }
 
-object CavendishExperimentApplication {
-  def main(args: Array[String]) = {
-    ScalaApplicationLauncher.launchApplication(args, "cavendish-experiment", "cavendish-experiment", () => new CavendishExperimentModule(new ScalaClock(30, 30 / 1000.0)))
-  }
+class CavendishExperimentApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
+  addModule(new CavendishExperimentModule(new ScalaClock(30, 30 / 1000.0)))
+}
+
+object CavendishExperimentApplicationMain {
+  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "cavendish-experiment", classOf[CavendishExperimentApplication])
 }
