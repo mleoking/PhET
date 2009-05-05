@@ -11,6 +11,7 @@ import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelecti
  */
 public class NaturalSelectionDefaults {
     public static double TICKS_PER_YEAR = 300.0;
+    public static final double FRENZY_MILLISECONDS = 4000;
 
     /* Not intended for instantiation */
     private NaturalSelectionDefaults() {

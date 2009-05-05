@@ -49,6 +49,8 @@ public class NaturalSelectionModule extends PiccoloModule {
         NaturalSelectionController controller = new NaturalSelectionController( model, canvas, controlPanel, this );
 
         model.initialize();
+
+        //canvas.showFrenzy( 4000 );
     }
 
     /**
