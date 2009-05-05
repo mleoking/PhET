@@ -275,7 +275,13 @@
 									echo "Copying '$srcfile' to '$dstfile'...";
 								}
 								if (copy($srcfile, $dstfile)) {
-									touch($dstfile, filemtime($srcfile)); 
+                                    // Commenting out this touch operation for
+                                    // now, since it seems to cause issues
+                                    // when other users try to run this
+                                    // routine.  Remove permanently if this
+                                    // doesn't introduce any other problems.
+                                    // JP Blanco, May 5 2009.
+									// touch($dstfile, filemtime($srcfile)); 
 									
 									$num++;
 									
