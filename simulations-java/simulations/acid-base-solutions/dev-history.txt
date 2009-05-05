@@ -3,17 +3,18 @@
 ==================================================================================
 
 TODO:
+- revisit implementation of Reaction Equations and Equilibrium Expressions
 - H2O should not be scalable in Reaction Equations, should change to Color.BLACK when scaling is enabled
 - solution control panel
 - particle views
 - model
 - connect model and view
 - "Negligible" in Concentrations graph
-- developer controls?
-- lighten pH probe shaft so that molecule count symbols are visible when they overlap
-- revisit implementation of equations
+- additional developer controls?
+- lighten pH probe shaft so that molecule count symbols are visible when they overlap the probe
 - scale image files
 - Reset All
+- fix offsets in SolutionsCanvas.updateLayout using EquilibriumExpression.getOriginXOffset/getOriginYOffset approach
 
 DONE:
 5/5/09 remove outlined text from equations, not required, performance/memory issues
