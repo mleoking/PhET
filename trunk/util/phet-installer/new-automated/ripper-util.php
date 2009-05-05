@@ -82,11 +82,11 @@
     //-------------------------------------------------------------------------
     function ripper_rip_java_sim( $sim_name ) {
         $java_rip_command = RIPPER_EXE." ".'"'.PHET_WEBSITE_URL.PHET_SIMS_SUBDIR.$sim_name.'"'.' -I0 -q -v'." -O ".SINGLE_SIM_RIP_DIR.' \'-*\''.' \'+*.jnlp\''.' \'+*screenshot*\''.' \'+*thumbnail*\'';
-        // The command below doesn't seem to save much time - maybe a minute -
-        // in the process of ripping the web site.
-        //$java_rip_command = RIPPER_EXE." ".RIPPER_ARGS.' --update -v';
         flushing_echo("Ripping files for sim ".$sim_name." with command: ".$java_rip_command);
         system( $java_rip_command );
+
+        // Make sure the directory where the rip exists has the correct permissions.
+        chmod( SINGLE_SIM_RIP_DIR, 0774 );
 
         // Download the additional resources that are needed by this sim but
         // that are not directory obtained through a rip of the web site.
