@@ -106,7 +106,8 @@ public class FrenzyNode extends PNode {
     }
 
     private String timeString( double time ) {
-        return String.format( "%1$.2f sec", time / 1000 );
+        //return String.format( "%1$.2f sec", time / 1000 ); // requires Java 1.5
+        return null;
     }
 
     public void setTimeLeft( double time ) {
