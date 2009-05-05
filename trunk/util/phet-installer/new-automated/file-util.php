@@ -149,7 +149,7 @@
 	    if (($wh = fopen($file_source, 'x+')) !== FALSE) {
 	        fflush($wh);
 	        fclose($wh);
-        
+            chmod($file_source, 664);
 	        return true;
 	    }
     
