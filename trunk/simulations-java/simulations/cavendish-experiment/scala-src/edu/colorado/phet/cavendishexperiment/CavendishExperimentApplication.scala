@@ -27,14 +27,15 @@ import scalacommon.Predef._
 import umd.cs.piccolo.util.PDimension
 import java.lang.Math._
 
-class ForceLabelNode(mass: Mass, transform: ModelViewTransform2D, model: CavendishExperimentModel) extends PNode {
+class ForceLabelNode(mass: Mass, transform: ModelViewTransform2D, model: CavendishExperimentModel, color: Color) extends PNode {
   val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(1, 1), 20, 20, 8, 0.5, true)
   val label = new PText
+  label.setTextPaint(color)
   label.setFont(new PhetFont(18, true))
 
   defineInvokeAndPass(model.addListenerByName) {
     label.setOffset(transform.modelToView(mass.position) - new Vector2D(0, label.getFullBounds.getHeight + 100))
-    label.setText("Force on m1 = " + new DecimalFormat("0.000000000000").format(model.getForce.magnitude) + " N")
+    label.setText("Force on " + model.m1.name + " by " + model.m2.name + " = " + new DecimalFormat("0.000000000000").format(model.getForce.magnitude) + " N")
     val scale = 1E10
     arrowNode.setTipAndTailLocations(label.getOffset + new Vector2D(model.getForce.magnitude * scale, -20), label.getOffset + new Vector2D(0, -20))
   }
@@ -42,8 +43,8 @@ class ForceLabelNode(mass: Mass, transform: ModelViewTransform2D, model: Cavendi
   addChild(arrowNode)
   addChild(label)
 }
-class MassNode(mass: Mass, transform: ModelViewTransform2D) extends PNode {
-  val image = new SphericalNode(mass.radius * 2, Color.blue, false)
+class MassNode(mass: Mass, transform: ModelViewTransform2D, color: Color) extends PNode {
+  val image = new SphericalNode(mass.radius * 2, color, false)
 
   val label = new PText(mass.name)
   label.setTextPaint(Color.white)
@@ -54,7 +55,7 @@ class MassNode(mass: Mass, transform: ModelViewTransform2D) extends PNode {
     val viewRadius = transform.modelToViewDifferentialXDouble(mass.radius)
     image.setDiameter(viewRadius * 2)
     image.setPaint(new RoundGradientPaint(viewRadius, -viewRadius, Color.WHITE,
-      new Point2D.Double(-viewRadius, viewRadius), Color.blue))
+      new Point2D.Double(-viewRadius, viewRadius), color))
     label.setOffset(transform.modelToView(mass.position) - new Vector2D(label.getFullBounds.getWidth / 2, label.getFullBounds.getHeight / 2))
 
     //    println("updated mass node, radius=" + mass.radius + ", viewRadius=" + viewRadius + ", globalfullbounds=" + image.getGlobalFullBounds)
@@ -63,7 +64,7 @@ class MassNode(mass: Mass, transform: ModelViewTransform2D) extends PNode {
   addChild(image)
   addChild(label)
 }
-class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D) extends MassNode(mass, transform) {
+class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D, color: Color) extends MassNode(mass, transform, color) {
   var dragging = false
   var initialDrag = false //don't show a pushpin on startup
   val pushPinNode = new PImage(CavendishExperimentResources.getImage("push-pin.png"))
@@ -97,7 +98,8 @@ class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D) extends Mas
   def draggingChanged() = pushPinNode.setVisible(initialDrag && !dragging)
 }
 
-class CavendishExperimentCanvas(model: CavendishExperimentModel, modelWidth: Double) extends DefaultCanvas(modelWidth, modelWidth) {
+class CavendishExperimentCanvas(model: CavendishExperimentModel, modelWidth: Double, mass1Color: Color, mass2Color: Color, backgroundColor: Color) extends DefaultCanvas(modelWidth, modelWidth) {
+  setBackground(backgroundColor)
   val rulerNode = {
     val maj = for (i <- 0 to 5) yield i.toString
     val dx = transform.modelToViewDifferentialX(5)
@@ -105,10 +107,11 @@ class CavendishExperimentCanvas(model: CavendishExperimentModel, modelWidth: Dou
   }
   rulerNode.setOffset(150, 500)
 
-  addNode(new MassNode(model.m1, transform))
-  addNode(new SpringNode(model, transform))
-  addNode(new DraggableMassNode(model.m2, transform))
-  addNode(new ForceLabelNode(model.m1, transform, model))
+  def opposite(c: Color) = new Color(255 - c.getRed, 255 - c.getGreen, 255 - c.getBlue)
+  addNode(new MassNode(model.m1, transform, mass1Color))
+  addNode(new SpringNode(model, transform, opposite(backgroundColor)))
+  addNode(new DraggableMassNode(model.m2, transform, mass2Color))
+  addNode(new ForceLabelNode(model.m1, transform, model, opposite(backgroundColor)))
   addNode(rulerNode)
   rulerNode.addInputEventListener(new PBasicInputEventHandler {
     override def mouseDragged(event: PInputEvent) = {
@@ -117,15 +120,15 @@ class CavendishExperimentCanvas(model: CavendishExperimentModel, modelWidth: Dou
   })
   rulerNode.addInputEventListener(new CursorHandler)
 
-  addNode(new WallNode(model.wall, transform))
+  addNode(new WallNode(model.wall, transform, opposite(backgroundColor)))
 }
 
 class MyDoubleGeneralPath(pt: Point2D) extends DoubleGeneralPath(pt) {
   def curveTo(control1: Vector2D, control2: Vector2D, dest: Vector2D) = super.curveTo(control1.x, control1.y, control2.x, control2.y, dest.x, dest.y)
 }
 
-class SpringNode(model: CavendishExperimentModel, transform: ModelViewTransform2D) extends PNode {
-  val path = new PhetPPath(new BasicStroke(2), Color.black)
+class SpringNode(model: CavendishExperimentModel, transform: ModelViewTransform2D, color: Color) extends PNode {
+  val path = new PhetPPath(new BasicStroke(2), color)
   addChild(path)
   defineInvokeAndPass(model.addListenerByName) {
     val startPt = transform.modelToView(model.wall.maxX, 0)
@@ -149,8 +152,8 @@ class Wall(width: Double, height: Double, _maxX: Double) {
 
   def maxX: Double = getShape.getBounds2D.getMaxX
 }
-class WallNode(wall: Wall, transform: ModelViewTransform2D) extends PNode {
-  val wallPath = new PhetPPath(transform.createTransformedShape(wall.getShape), Color.black, new BasicStroke(2f), Color.gray)
+class WallNode(wall: Wall, transform: ModelViewTransform2D, color: Color) extends PNode {
+  val wallPath = new PhetPPath(transform.createTransformedShape(wall.getShape), color, new BasicStroke(2f), Color.gray)
   addChild(wallPath)
   //  println("wallpathbounds=" + wallPath.getGlobalFullBounds)
 }
@@ -174,10 +177,12 @@ class CavendishExperimentModel(mass1: Double, mass2: Double,
                                mass1Position: Double, mass2Position: Double,
                                mass1Radius: Double => Double, mass2Radius: Double => Double,
                                k: Double, springRestingLength: Double,
-                               wallWidth: Double, wallHeight: Double, wallMaxX: Double) extends Observable {
+                               wallWidth: Double, wallHeight: Double, wallMaxX: Double,
+                               mass1Name: String, mass2Name: String
+        ) extends Observable {
   val wall = new Wall(wallWidth, wallHeight, wallMaxX)
-  val m1 = new Mass(mass1, new Vector2D(mass1Position, 0), "m1", mass1Radius)
-  val m2 = new Mass(mass2, new Vector2D(mass2Position, 0), "m2", mass2Radius)
+  val m1 = new Mass(mass1, new Vector2D(mass1Position, 0), mass1Name, mass1Radius)
+  val m2 = new Mass(mass2, new Vector2D(mass2Position, 0), mass2Name, mass2Radius)
   val spring = new Spring(k, springRestingLength)
   val G = 6.67E-11
   m1.addListenerByName(notifyListeners())
@@ -205,8 +210,8 @@ class CavendishExperimentModel(mass1: Double, mass2: Double,
   }
 }
 class CavendishExperimentModule(clock: ScalaClock) extends Module("Cavendish Experiment", clock) {
-  val model = new CavendishExperimentModel(10, 25, 0, 1, mass => mass / 30, mass => mass / 30, 1E-8, 1, 50, 50, -4)
-  val canvas = new CavendishExperimentCanvas(model, 10)
+  val model = new CavendishExperimentModel(10, 25, 0, 1, mass => mass / 30, mass => mass / 30, 1E-8, 1, 50, 50, -4, "m1", "m2")
+  val canvas = new CavendishExperimentCanvas(model, 10, Color.blue, Color.blue, Color.white)
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
   setControlPanel(new CavendishExperimentControlPanel(model))
@@ -219,14 +224,14 @@ class SolarCavendishModule(clock: ScalaClock) extends Module("Sun-Planet System"
     1.9891E30, // sun mass in kg
     -sunEarthDist / 2,
     sunEarthDist / 2,
-    mass => 6.371E6 * 1E3, //latter term is a fudge factor to make things visible on the same scale
+    mass => 6.371E6 * 1.6E3, //latter term is a fudge factor to make things visible on the same scale
     mass => 6.955E8 * 5E1,
     1.5E14, sunEarthDist / 2,
     1E13,
     1E12,
-    -sunEarthDist
+    -sunEarthDist, "Earth", "Sun"
     )
-  val canvas = new CavendishExperimentCanvas(model, sunEarthDist * 2.1)
+  val canvas = new CavendishExperimentCanvas(model, sunEarthDist * 2.1, Color.blue, Color.red, Color.black)
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
   //  setControlPanel(new CavendishExperimentControlPanel(model))
