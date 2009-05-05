@@ -103,6 +103,7 @@ public class NuclearDecayProportionChart extends PNode {
     private PText _xAxisLabel;
     private PText _yAxisLabel1;
     private PText _yAxisLabel2;
+    private PText _upperXAxisLabel;
     private ShadowPText _numUndecayedNucleiLabel;
     private PText _numUndecayedNucleiText;
     private ShadowPText _numDecayedNucleiLabel;
@@ -244,6 +245,11 @@ public class NuclearDecayProportionChart extends PNode {
         _yAxisLabel2 = new PText( NuclearPhysicsStrings.ONE_HUNDRED_PER_CENT );
         _yAxisLabel2.setFont( SMALL_LABEL_FONT );
         _nonPickableChartNode.addChild( _yAxisLabel2 );
+        
+        // Add the label for the upper X axis.
+        _upperXAxisLabel = new PText( NuclearPhysicsStrings.HALF_LIVES_LABEL );
+        _upperXAxisLabel.setFont( SMALL_LABEL_FONT );
+        _nonPickableChartNode.addChild( _upperXAxisLabel );
 
         // Add the text for the X & Y axes.
 //        _xAxisLabel = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_X_AXIS_LABEL + " (" + NuclearPhysicsStrings.DECAY_TIME_UNITS + ")" );
@@ -382,6 +388,13 @@ public class NuclearDecayProportionChart extends PNode {
         		_graphRect.getCenterY() - ( graphLabelHeight / 2 ) );
         _yAxisLabel2.setOffset( _graphRect.getX() - _yAxisLabel2.getFullBoundsReference().getWidth() - 5,
         		_graphRect.getY() - ( graphLabelHeight / 2 ) );
+        
+        // Position and size labels for the upper X axis.
+        _upperXAxisLabel.setScale( 1 );
+        scale = graphLabelHeight / _upperXAxisLabel.getFullBoundsReference().getHeight();
+        _upperXAxisLabel.setScale(scale);
+        _upperXAxisLabel.setOffset(_graphRect.getX() + 5, _graphRect.getY() - 
+        		_upperXAxisLabel.getFullBoundsReference().height - 5 );
         
         // Position the tick marks and their labels on the X axis.
         // TODO: Position tick marks and labels.

@@ -91,7 +91,8 @@ public class NuclearPhysicsStrings {
     public static final String DECAY_TIME_CLEAR_CHART = NuclearPhysicsResources.getString( "DecayTimeChart.ClearChart" );
     public static final String DECAY_EVENT = NuclearPhysicsResources.getString( "DecayTimeChart.DecayEvent" );
 
-    public static final String DECAY_TIME_CHART_HALF_LIFE = NuclearPhysicsResources.getString( "DecayTimeChart.HalfLife" );
+    public static final String HALF_LIFE_LABEL = NuclearPhysicsResources.getString( "HalfLife" );
+    public static final String HALF_LIVES_LABEL = NuclearPhysicsResources.getString( "HalfLives" );
 
     public static final String RESET_NUCLEUS = NuclearPhysicsResources.getString( "SharedLabels.ResetNucleus" );
     public static final String RESET_NUCLEI = NuclearPhysicsResources.getString( "SharedLabels.ResetNuclei" );
