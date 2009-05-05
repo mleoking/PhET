@@ -9,8 +9,8 @@ import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.JARGenerator;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.PhetJarSigner;
-import edu.colorado.phet.common.phetcommon.util.StreamReaderThread;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.common.phetcommon.util.StreamReaderThread;
 
 /**
  * Created by IntelliJ IDEA.
@@ -81,7 +81,7 @@ public class TranslationDeployServer {
 
     private void createFlashJARs( File translationDir, String project, File JAR ) throws IOException, InterruptedException {
         String[] locales = getFlashTranslatedLocales( translationDir, project );
-        for( int i = 0; i < locales.length; i++ ) {
+        for ( int i = 0; i < locales.length; i++ ) {
             String localeString = locales[i];
             Locale locale = LocaleUtils.stringToLocale( localeString );
 
@@ -166,7 +166,8 @@ public class TranslationDeployServer {
     public static String[] getTranslatedLocales( File translationDir, final String project, String endString ) {
         File[] f = translationDir.listFiles( new FilenameFilter() {
             public boolean accept( File dir, String name ) {
-                return name.startsWith( project + "-strings" );
+                // for now, ignore default translations like test-project-strings.properties
+                return name.startsWith( project + "-strings" ) && name.indexOf( "_" ) != -1;
             }
         } );
         String[] locales = new String[f.length];
