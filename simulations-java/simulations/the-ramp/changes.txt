@@ -1,4 +1,5 @@
 Renamed "whole vectors" to "Force vectors"
+Made the current 1st tab into the 2nd tab - called it "Coordinates". Made a new first tab, called "Intro" with the following controls removed: Coordinate System, Parallel Components, X-Y Components.
 # 1.03.16 (31291) May 4, 2009
 removed slider labels as recommended by CM to see if this fixes the applied force slider knob problem
 # 1.03.15 (31283) May 4, 2009

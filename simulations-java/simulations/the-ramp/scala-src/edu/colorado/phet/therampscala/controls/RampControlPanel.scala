@@ -15,7 +15,8 @@ import swing.{MyCheckBox, ScalaValueControl}
 import edu.colorado.phet.scalacommon.Predef._
 
 class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                       coordinateSystemModel: CoordinateSystemModel, vectorViewModel: VectorViewModel, resetHandler: () => Unit) extends ControlPanel {
+                       coordinateSystemModel: CoordinateSystemModel, vectorViewModel: VectorViewModel, resetHandler: () => Unit,
+                       coordinateSystemFeaturesEnabled: Boolean) extends ControlPanel {
   getContentPanel.setAnchor(GridBagConstraints.WEST)
   getContentPanel.setFill(GridBagConstraints.HORIZONTAL)
   override def add(comp: Component) = {
@@ -48,11 +49,13 @@ class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramMo
     new MyRadioButton("Hide", freeBodyDiagramModel.visible = false, !freeBodyDiagramModel.visible, freeBodyDiagramModel.addListener)
     ))
 
-  add(new TitleLabel("Coordinate System"))
-  add(boxLayout(
-    new MyRadioButton("Fixed", coordinateSystemModel.fixed = true, coordinateSystemModel.fixed, coordinateSystemModel.addListener),
-    new MyRadioButton("Adjustable", coordinateSystemModel.adjustable = true, coordinateSystemModel.adjustable, coordinateSystemModel.addListener)
-    ))
+  if (coordinateSystemFeaturesEnabled) {
+    add(new TitleLabel("Coordinate System"))
+    add(boxLayout(
+      new MyRadioButton("Fixed", coordinateSystemModel.fixed = true, coordinateSystemModel.fixed, coordinateSystemModel.addListener),
+      new MyRadioButton("Adjustable", coordinateSystemModel.adjustable = true, coordinateSystemModel.adjustable, coordinateSystemModel.addListener)
+      ))
+  }
 
   class SubControlPanel(title: String) extends VerticalLayoutPanel {
     add(new TitleLabel(title))
@@ -72,8 +75,10 @@ class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramMo
   vectorPanel.add(new MyRadioButton("Point of Origin", vectorViewModel.centered = false, !vectorViewModel.centered, vectorViewModel.addListener))
   vectorPanel.add(Box.createRigidArea(new Dimension(10, 10)))
   vectorPanel.add(new MyCheckBox("Force Vectors", vectorViewModel.originalVectors_=, vectorViewModel.originalVectors, vectorViewModel.addListener))
-  vectorPanel.addWithIcon("parallel_components_icon.gif", new MyCheckBox("Parallel Components", vectorViewModel.parallelComponents_=, vectorViewModel.parallelComponents, vectorViewModel.addListener))
-  vectorPanel.addWithIcon("xy_components_icon.gif", new MyCheckBox("X-Y Components", vectorViewModel.xyComponentsVisible = _, vectorViewModel.xyComponentsVisible, vectorViewModel.addListener))
+  if (coordinateSystemFeaturesEnabled) {
+    vectorPanel.addWithIcon("parallel_components_icon.gif", new MyCheckBox("Parallel Components", vectorViewModel.parallelComponents_=, vectorViewModel.parallelComponents, vectorViewModel.addListener))
+    vectorPanel.addWithIcon("xy_components_icon.gif", new MyCheckBox("X-Y Components", vectorViewModel.xyComponentsVisible = _, vectorViewModel.xyComponentsVisible, vectorViewModel.addListener))
+  }
   vectorPanel.add(Box.createRigidArea(new Dimension(10, 10)))
   vectorPanel.addWithIcon("sum_of_forces_icon.gif", new MyCheckBox("Sum of Forces", vectorViewModel.sumOfForcesVector_=, vectorViewModel.sumOfForcesVector, vectorViewModel.addListener))
 
