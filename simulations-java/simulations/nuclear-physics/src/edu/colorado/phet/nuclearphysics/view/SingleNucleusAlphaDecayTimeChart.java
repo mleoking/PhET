@@ -316,7 +316,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
         _nonPickableChartNode.addChild( _halfLifeMarkerLine );
 
         // Create the label for the half life line.
-        _halfLifeLabel = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_HALF_LIFE );
+        _halfLifeLabel = new PText( NuclearPhysicsStrings.HALF_LIFE_LABEL );
         _halfLifeLabel.setFont( HALF_LIFE_FONT );
         _halfLifeLabel.setTextPaint( HALF_LIFE_TEXT_COLOR );
         _nonPickableChartNode.addChild( _halfLifeLabel );
