@@ -221,12 +221,12 @@ class SolarCavendishModule(clock: ScalaClock) extends Module("Sun-Planet System"
     sunEarthDist / 2,
     mass => 6.371E6 * 1E3, //latter term is a fudge factor to make things visible on the same scale
     mass => 6.955E8 * 1E1,
-    1.5E1, sunEarthDist / 8,
+    1.5E14, sunEarthDist / 2,
     1E13,
     1E12,
-    -7 * sunEarthDist / 8
+    -sunEarthDist
     )
-  val canvas = new CavendishExperimentCanvas(model, sunEarthDist * 2)
+  val canvas = new CavendishExperimentCanvas(model, sunEarthDist * 2.1)
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
   //  setControlPanel(new CavendishExperimentControlPanel(model))
