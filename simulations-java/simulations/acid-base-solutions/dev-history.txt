@@ -3,7 +3,7 @@
 ==================================================================================
 
 TODO:
-- opening Reaction Equations while Equilibrium Expressions are visible causes OutOfMemoryException
+- H2O should not be scalable in Reaction Equations, should change to Color.BLACK when scaling is enabled
 - solution control panel
 - particle views
 - model
