@@ -25,7 +25,7 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
     private static final String TITLE = "Equilibrium Expressions";
     private static final String ON = "on";
     private static final String OFF = "off";
-    private static final String SYMBOL_SIZES_CHANGE = "<html>Symbol sizes change<br>with concentration:";
+    private static final String SYMBOL_SIZES_CHANGE = "<html>Symbol sizes change<br>with concentration:</html>";
     
     private static final int DEFAULT_SCALE = 100; // percent
     private static final int MAX_SCALE = 500; // percent
