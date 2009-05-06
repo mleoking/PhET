@@ -11,8 +11,12 @@ import java.util.Iterator;
 
 import javax.swing.*;
 
-
-public class PrintUIManagerProperties {
+/**
+ * Shows all UIManager properties and default values, sorted by property name.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
+public class ShowUIManagerProperties {
 
     private static final boolean PRINT_TO_STDOUT = false;
 
@@ -44,7 +48,7 @@ public class PrintUIManagerProperties {
         }
 
         // table in a scroll pane
-        String[] colName = { "Key", "Value" };
+        String[] colName = { "Property", "Value" };
         JTable table = new JTable( rowData, colName );
         JScrollPane pane = new JScrollPane( table );
 
