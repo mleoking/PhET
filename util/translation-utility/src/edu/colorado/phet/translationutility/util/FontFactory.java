@@ -54,7 +54,7 @@ public class FontFactory {
                 ArrayList fonts = new ArrayList( Arrays.asList( GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts() ) );
                 for ( int j = 0; j < fonts.size(); j++ ) {
                     Font o = (Font) fonts.get( j );
-                    if ( o.getName().equals( fontName ) ) {
+                    if ( o.getFontName().equals( fontName ) ) {
                         font = new Font( o.getName(), style, size );
                     }
                 }
