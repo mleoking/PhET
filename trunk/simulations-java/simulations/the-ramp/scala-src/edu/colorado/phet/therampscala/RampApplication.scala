@@ -48,9 +48,9 @@ class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends Abstrac
 
   gameModel.itemFinishedListeners += ((scalaRampObject, result) => {
     val audioClip = result match {
-      case Result(_, true, _) => Some("smash0.wav")
-      case Result(true, false, _) => Some("tintagel/DIAMOND.WAV")
-      case Result(false, false, _) => Some("tintagel/PERSONAL.WAV")
+      case Result(_, true, _, _) => Some("smash0.wav")
+      case Result(true, false, _, _) => Some("tintagel/DIAMOND.WAV")
+      case Result(false, false, _, _) => Some("tintagel/PERSONAL.WAV")
       case _ => None
     }
     if (!audioClip.isEmpty) RampResources.getAudioClip(audioClip.get).play()
