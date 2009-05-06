@@ -168,7 +168,8 @@ public class TranslationDeployServer {
     }
 
     private void copyTranslationSubDir( File translationDir, String project, String locale ) throws IOException {
-        File translation = new File( propertiesFilename( project, locale ) );
+        File translation = new File( translationDir, propertiesFilename( project, locale ) );
+        System.out.println( "Translation file copy for: " + translation.getAbsolutePath() );
         FileUtils.copyToDir( translation, new File( translationDir, project + "/localization" ) );
     }
 
