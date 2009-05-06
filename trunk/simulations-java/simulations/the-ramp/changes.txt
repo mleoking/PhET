@@ -1,3 +1,4 @@
+Made coordinate system adjustable by default in coordinate frame module
 # 1.03.17 (31391) May 6, 2009
 robotmovingcompany: Improve scoring and score dialogs
 Renamed "whole vectors" to "Force vectors"
