@@ -48,11 +48,24 @@ public class TranslationDeployServer {
     }
 
     private void integrateJavaTranslations( File translationDir, String project ) throws IOException, InterruptedException {
+        System.out.println( "**********************************" );
+        System.out.println( "**** Integrating java translations for: " + project );
+        System.out.println( "**********************************" );
+
+        System.out.println( "Copying sim JAR" );
         copySimJAR( translationDir, project );
+
+        System.out.println( "Creating backup of JAR" );
         createBackupOfJAR( getLocalCopyOfAllJAR( translationDir, project ) );
+
+        System.out.println( "Updating sim JAR" );
         updateSimJAR( translationDir, project );
+
+        System.out.println( "Signing JAR" );
         signJAR( translationDir, project );
 //        createTestJNLPFiles( translationDir, project );//todo: implement optional JNLP test
+
+        System.out.println( "Creating offline JARs" );
         createOfflineJARFiles( translationDir, project );//todo: only create JARs for new submissions
         //todo: clean up JARs when done testing
     }
