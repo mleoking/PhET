@@ -1,3 +1,5 @@
+# 00.26.00 (31405) May 6, 2009
+5/6/09 Small locale fix for translation server
 # 00.25.00 (31402) May 6, 2009
 5/6/09 Translation fixes
 # 00.24.00 (30321) Apr 8, 2009
