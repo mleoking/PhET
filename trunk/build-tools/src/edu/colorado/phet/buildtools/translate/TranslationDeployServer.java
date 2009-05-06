@@ -152,6 +152,9 @@ public class TranslationDeployServer {
 
     private void copyTranslationSubDir( File translationDir, String project, String locale ) throws IOException {
         File translation = new File( translationDir, project + "-strings_" + locale + ".properties" );
+        if ( locale.equals( "en" ) ) {
+            translation = new File( translationDir, project + "-strings.properties" );
+        }
         FileUtils.copyToDir( translation, new File( translationDir, project + "/localization" ) );
     }
 
@@ -166,8 +169,7 @@ public class TranslationDeployServer {
     public static String[] getTranslatedLocales( File translationDir, final String project, String endString ) {
         File[] f = translationDir.listFiles( new FilenameFilter() {
             public boolean accept( File dir, String name ) {
-                // for now, ignore default translations like test-project-strings.properties
-                return name.startsWith( project + "-strings" ) && name.indexOf( "_" ) != -1;
+                return name.startsWith( project + "-strings" );
             }
         } );
         String[] locales = new String[f.length];
@@ -176,7 +178,12 @@ public class TranslationDeployServer {
             String name = file.getName();
             int startIndex = name.indexOf( '_' ) + 1;
             int endIndex = name.indexOf( endString );
-            locales[i] = name.substring( startIndex, endIndex );
+            if ( startIndex == 0 ) {
+                locales[i] = "en";
+            }
+            else {
+                locales[i] = name.substring( startIndex, endIndex );
+            }
         }
         return locales;
     }
