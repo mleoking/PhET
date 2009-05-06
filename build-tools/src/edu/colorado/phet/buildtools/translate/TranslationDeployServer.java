@@ -146,15 +146,16 @@ public class TranslationDeployServer {
 
     private void updateSimJAR( File translationDir, String project ) throws IOException, InterruptedException {
         //integrate translations with jar -uf
-        System.out.println( "Getting translated locales" );
+        //System.out.println( "Getting translated locales" );
         String[] locales = getJavaTranslatedLocales( translationDir, project );
         for ( int i = 0; i < locales.length; i++ ) {
-            System.out.println( "Updating sim JAR for locale: " + locales[i] );
+            //System.out.println( "Updating sim JAR for locale: " + locales[i] );
             copyTranslationSubDir( translationDir, project, locales[i] );
-            System.out.println( "Copied translation sub dir" );
+            //System.out.println( "Copied translation sub dir" );
             File dst = getLocalCopyOfAllJAR( translationDir, project );
 
             String command = jarCommand + " uf " + dst.getAbsolutePath() + " -C " + translationDir.getAbsolutePath() + " " + project + "/localization/" + propertiesFilename( project, locales[i] );
+            System.out.println( "Updating sim JAR for " + project + " (" + locales[i] + ")" );
             runStringCommand( command );
         }
     }
@@ -169,7 +170,7 @@ public class TranslationDeployServer {
 
     private void copyTranslationSubDir( File translationDir, String project, String locale ) throws IOException {
         File translation = new File( translationDir, propertiesFilename( project, locale ) );
-        System.out.println( "Translation file copy for: " + translation.getAbsolutePath() );
+        //System.out.println( "Translation file copy for: " + translation.getAbsolutePath() );
         FileUtils.copyToDir( translation, new File( translationDir, project + "/localization" ) );
     }
 
