@@ -2,17 +2,19 @@ package edu.colorado.phet.therampscala.robotmovingcompany
 
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.piccolophet.nodes.layout.SwingLayoutNode
+import common.piccolophet.PhetPCanvas
 import java.awt.event.{MouseEvent, MouseAdapter}
+import java.awt.{BasicStroke, Color, Dimension}
 import javax.swing.event.{ChangeEvent, ChangeListener}
 
-import javax.swing.{JOptionPane, JFrame, Box}
+import javax.swing.{JButton, JOptionPane, JFrame, Box}
+import scalacommon.ScalaClock
 import umd.cs.piccolo.nodes.PText
 import common.phetcommon.view.util.PhetFont
 import common.phetcommon.view.VerticalLayoutPanel
 import umd.cs.piccolo.PNode
 import common.piccolophet.nodes.PhetPPath
 import java.awt.geom.RoundRectangle2D
-import java.awt.{Color, Dimension}
 import scalacommon.math.Vector2D
 import graphics._
 import model._
@@ -47,12 +49,22 @@ class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: Coordina
   controlPanel.add(robotGoButton)
 
   //removed for robotmovingcompany: automatically go to next object when you score or lose the object (instead of hitting "next object" button)
-  controlPanel.add(Box.createRigidArea(new Dimension(10, 10)))
-  val nextObjectButton = new ScalaButton("Next Object", () => gameModel.nextObject())
-  val updateNextObjectButtonEnabled = () => {nextObjectButton.setEnabled(gameModel.readyForNext)}
-  updateNextObjectButtonEnabled()
-  gameModel.addListener(updateNextObjectButtonEnabled)
-  controlPanel.add(nextObjectButton)
+  //  controlPanel.add(Box.createRigidArea(new Dimension(10, 10)))
+  //  val nextObjectButton = new ScalaButton("Next Object", () => gameModel.nextObject())
+  //  val updateNextObjectButtonEnabled = () => {nextObjectButton.setEnabled(gameModel.readyForNext)}
+  //  updateNextObjectButtonEnabled()
+  //  gameModel.addListener(updateNextObjectButtonEnabled)
+  //  controlPanel.add(nextObjectButton)
+
+  gameModel.itemFinishedListeners += ((scalaRampObject: ScalaRampObject, result: Result) => {
+    val summaryScreen = new SummaryScreenNode(gameModel, scalaRampObject, result, node => {
+      removeNode(node)
+      gameModel.nextObject()
+    })
+    summaryScreen.setOffset(canonicalBounds.getCenterX - summaryScreen.getFullBounds.width / 2,
+      canonicalBounds.getCenterY - summaryScreen.getFullBounds.height / 2)
+    addNode(summaryScreen)
+  })
 
   gameModel.gameFinishListeners += (() => {
     JOptionPane.showMessageDialog(RobotMovingCompanyCanvas.this, "That was the last object to move.  \nYour score is: " + gameModel.score + ".")
@@ -212,4 +224,40 @@ class ScoreboardNode(transform: ModelViewTransform2D, gameModel: RobotMovingComp
   gameModel.addListener(() => updateBackground())
 
   setOffset(transform.getViewBounds.getCenterX - getFullBounds.getWidth / 2, 0)
+}
+
+class SummaryScreenNode(gm: RobotMovingCompanyGameModel, scalaRampObject: ScalaRampObject, result: Result, okPressed: SummaryScreenNode => Unit) extends PNode {
+  val background = new PhetPPath(new RoundRectangle2D.Double(0, 0, 400, 400, 20, 20), new Color(192, 192, 192, 245), new BasicStroke(2), Color.darkGray)
+  addChild(background)
+  val text = result match {
+    case Result(_, true, _) => "Crashed"
+    case Result(true, false, _) => "Delivered Successfully"
+    case Result(false, false, _) => "Missed the House"
+    case _ => "Disappeared?"
+  }
+  val pText = new PText(scalaRampObject.name + " " + text)
+  pText.setFont(new PhetFont(22, true))
+  addChild(pText)
+  pText.setOffset(background.getFullBounds.getCenterX - pText.getFullBounds.width / 2, 20)
+
+  val doneButton = new JButton("Ok")
+  val donePSwing = new PSwing(doneButton)
+  donePSwing.setOffset(background.getFullBounds.getCenterX - donePSwing.getFullBounds.width / 2, background.getFullBounds.getMaxY - donePSwing.getFullBounds.height - 20)
+  doneButton.addActionListener(() => {okPressed(this)})
+  addChild(donePSwing)
+}
+
+object TestSummaryScreen {
+  def main(args: Array[String]) {
+    val summaryScreenNode = new SummaryScreenNode(new RobotMovingCompanyGameModel(new RampModel, new ScalaClock(30, 30 / 1000.0)), RampDefaults.objects(0), new Result(true, false, 100), a => {
+      a.setVisible(false)
+    })
+    val frame = new JFrame
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
+    frame.setSize(800, 600)
+    val canvas = new PhetPCanvas()
+    canvas.addScreenChild(summaryScreenNode)
+    frame.setContentPane(canvas)
+    frame.setVisible(true)
+  }
 }
