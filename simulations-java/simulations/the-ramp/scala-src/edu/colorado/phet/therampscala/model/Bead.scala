@@ -187,6 +187,8 @@ class Bead(_state: BeadState,
 
   private var _airborneFloor = 0.0
 
+  def airborneFloor = _airborneFloor
+
   def airborneFloor_=(airborneFloor: Double) = {
     this._airborneFloor = airborneFloor
   }

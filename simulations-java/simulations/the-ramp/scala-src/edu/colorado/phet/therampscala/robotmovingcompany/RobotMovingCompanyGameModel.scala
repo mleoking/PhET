@@ -67,7 +67,7 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
     bead.staticFriction = sel.staticFriction
     bead.kineticFriction = sel.kineticFriction
     bead.height = sel.height
-    bead.airborneFloor_=(airborneFloor)
+    bead.airborneFloor = airborneFloor
     bead.surfaceFrictionStrategy = surfaceModel
     bead.crashListeners += (() => itemLostOffCliff(sel))
     val beadRef = _bead //use a reference for closures below
