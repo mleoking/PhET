@@ -25,13 +25,12 @@ public class ShowAvailableFonts {
         String[][] rowData = new String[ fonts.length ][3];
         for ( int i = 0; i < fonts.length; i++ ) {
             rowData[i][0] = fonts[i].getFontName();
-            rowData[i][1] = fonts[i].getName();
-            rowData[i][2] = fonts[i].getFamily();
+            rowData[i][1] = fonts[i].getFamily();
         }
         Arrays.sort( rowData, new MutidimensionalArrayComparator() );
 
         // table in a scroll pane
-        String[] colName = { "Face name", "Logical name", "Family name" };
+        String[] colName = { "Face name", "Family name" };
         JTable table = new JTable( rowData, colName );
         JScrollPane pane = new JScrollPane( table );
 
