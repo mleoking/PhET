@@ -157,17 +157,17 @@ public class JavaBuildCommand {
         PhetBuildUtils.antEcho( antTaskRunner, "Compiling java version checker for " + project.getName() + ".", getClass() );
 
         Javac javac = new Javac();
-        javac.setSource( "1.4" );
-        javac.setTarget( "1.4" );
-        javac.setClasspath( new Path( antTaskRunner.getProject(), "contrib/javaws/jnlp.jar" ) );
-        javac.setSrcdir( new Path( antTaskRunner.getProject(), "common/java-version-checker/src" ) );
+        javac.setSource( "1.4" );//Java version checker must be compiled in 1.4
+        javac.setTarget( "1.4" );//so it can run in 1.4 jvms
+        javac.setClasspath( new Path( antTaskRunner.getProject(), "../simulations-java/contrib/javaws/jnlp.jar" ) );
+        javac.setSrcdir( new Path( antTaskRunner.getProject(), "../simulations-java/common/java-version-checker/src" ) );
         javac.setDestdir( project.getClassesDirectory() );
         javac.setDebugLevel( "lines,source" );
         javac.setDebug( true );
 
         antTaskRunner.runTask( javac );
 
-        PhetBuildUtils.antEcho( antTaskRunner, "Finished compiling java version checker for" + project.getName() + ".", getClass() );
+        PhetBuildUtils.antEcho( antTaskRunner, "Finished compiling java version checker for " + project.getName() + ".", getClass() );
     }
 
     private void jar() throws ManifestException {
