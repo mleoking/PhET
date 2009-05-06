@@ -3,6 +3,7 @@
 package edu.colorado.phet.nuclearphysics.module.decayrates;
 
 import java.awt.geom.Point2D;
+import java.util.Iterator;
 import java.util.Random;
 
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
@@ -50,8 +51,19 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
     }
     
     //------------------------------------------------------------------------
-    // Accessor Methods
+    // Methods
     //------------------------------------------------------------------------
+    
+    public double getPercentageDecayed(){
+    	double decayedCount = 0;
+    	for (Iterator it = _atomicNuclei.iterator(); it.hasNext(); ){
+    		if (((AbstractDecayNucleus)it.next()).hasDecayed()){
+    			decayedCount++;
+    		}
+    	}
+    	
+    	return ( decayedCount / (double)_atomicNuclei.size() ) * 100;
+    }
 
 	protected void addMaxNuclei() {
 		

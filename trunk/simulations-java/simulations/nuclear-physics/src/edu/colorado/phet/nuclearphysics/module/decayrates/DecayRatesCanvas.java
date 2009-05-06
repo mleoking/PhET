@@ -6,6 +6,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -14,6 +15,7 @@ import java.util.Set;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
@@ -58,7 +60,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
     private DecayRatesModel _model;
     private HashMap _mapAlphaParticlesToNodes = new HashMap();
     private HashMap _mapNucleiToNodes = new HashMap();
-    private AtomicNucleus.Listener _listenerAdapter;
+    private AtomicNucleus.Listener _decayEventListener;
     private NuclearDecayProportionChart _proportionsChart;
     private PNode _particleLayer;
     private PNode _graphLayer;
@@ -110,6 +112,22 @@ public class DecayRatesCanvas extends PhetPCanvas {
             };
         });
         
+        // Create a listener for decay events so the chart can be informed.
+        _decayEventListener = new AtomicNucleus.Adapter(){
+            public void nucleusChangeEvent(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
+                    ArrayList byProducts){
+
+            	if (atomicNucleus instanceof AbstractDecayNucleus){
+            		AbstractDecayNucleus nucleus = (AbstractDecayNucleus)atomicNucleus;
+            		if (nucleus.hasDecayed()){
+            			// This was a decay event.  Inform the chart.
+            			_proportionsChart.addDecayEvent(nucleus.getAdjustedActivatedTime(), 
+            					_model.getPercentageDecayed());
+            		}
+            	}
+            }
+        };
+        
         // Add a listener for when the canvas is resized.
         addComponentListener( new ComponentAdapter() {
             
@@ -151,6 +169,9 @@ public class DecayRatesCanvas extends PhetPCanvas {
     		// Set the position and add the node to the canvas.
     		atomicNucleusNode.setOffset( ((AtomicNucleus)modelElement).getPositionReference() );
     		_particleLayer.addChild( atomicNucleusNode );
+    		
+    		// Listen to the nucleus for decay events.
+    		((AtomicNucleus)modelElement).addListener(_decayEventListener);
     	}
     	else {
     		System.err.println("WARNING: Unrecognized model element added, unable to create node for canvas.");
@@ -172,7 +193,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
     			System.err.println("Error: Could not find node for removed model element.");
     		}
     		else {
-    			((AtomicNucleus)modelElement).removeListener(_listenerAdapter);
+    			((AtomicNucleus)modelElement).removeListener(_decayEventListener);
     			
     			// Remove the node from the canvas.
     			removeWorldChild( nucleusNode );
