@@ -1,3 +1,4 @@
+robotmovingcompany: Improve scoring and score dialogs
 Renamed "whole vectors" to "Force vectors"
 Made the current 1st tab into the 2nd tab - called it "Coordinates". Made a new first tab, called "Intro" with the following controls removed: Coordinate System, Parallel Components, X-Y Components.
 Fixed: Pusher graphic doesn't always update properly, for example after the block goes airborne; he updates location after the ramp is rotated.
