@@ -137,7 +137,8 @@ public class TranslationDeployServer {
         for ( int i = 0; i < locales.length; i++ ) {
             copyTranslationSubDir( translationDir, project, locales[i] );
             File dst = getLocalCopyOfAllJAR( translationDir, project );
-            String command = jarCommand + " uf " + dst.getAbsolutePath() + " -C " + translationDir.getAbsolutePath() + " " + project + "/localization/" + project + "-strings_" + locales[i] + ".properties";
+
+            String command = jarCommand + " uf " + dst.getAbsolutePath() + " -C " + translationDir.getAbsolutePath() + " " + project + "/localization/" + propertiesFilename( project, locales[i] );
             runStringCommand( command );
         }
     }
@@ -151,11 +152,17 @@ public class TranslationDeployServer {
     }
 
     private void copyTranslationSubDir( File translationDir, String project, String locale ) throws IOException {
-        File translation = new File( translationDir, project + "-strings_" + locale + ".properties" );
-        if ( locale.equals( "en" ) ) {
-            translation = new File( translationDir, project + "-strings.properties" );
-        }
+        File translation = new File( propertiesFilename( project, locale ) );
         FileUtils.copyToDir( translation, new File( translationDir, project + "/localization" ) );
+    }
+
+    private String propertiesFilename( String project, String locale ) {
+        if ( locale.equals( "en" ) ) {
+            return project + "-strings.properties";
+        }
+        else {
+            return project + "-strings_" + locale + ".properties";
+        }
     }
 
     public static String[] getJavaTranslatedLocales( File translationDir, final String project ) {
