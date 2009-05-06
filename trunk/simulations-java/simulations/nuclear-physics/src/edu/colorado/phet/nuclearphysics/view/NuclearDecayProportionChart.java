@@ -430,6 +430,9 @@ public class NuclearDecayProportionChart extends PNode {
         // Update the half life lines.
         updateHalfLifeLines();
         
+        // Reposition the data curve(s)
+        updateDecayCurves();
+        
         // Position the tick marks and their labels on the X axis.
         // TODO: Position tick marks and labels.
 
@@ -492,24 +495,31 @@ public class NuclearDecayProportionChart extends PNode {
    		decayEventNode.setStrokePaint(_preDecayLabelColor);
    		decayEventNode.setPaint(_preDecayLabelColor);
     	decayEventNode.setOffset( _msToPixelsFactor * location.getX() + _graphRect.getX(),
-    			_graphRect.getMaxY() - ( ( location.getY() / 100 ) * _graphRect.getHeight() ) );
+    			_graphRect.getMaxY() - ( ( ( 100 - location.getY() ) / 100 ) * _graphRect.getHeight() ) );
     	_dataPointsNode.addChild(decayEventNode);
     	
     	if (_showPostDecayCurve){
     		// Add a point that represents the proportion of the daughter nucleus.
-        	decayEventNode = new PPath( new Rectangle2D.Double(-decayEventNodeSize/2, -decayEventNodeSize/2,
-        			decayEventNodeSize/2, decayEventNodeSize/2));
+        	decayEventNode = new PPath( new Ellipse2D.Double(-decayEventNodeSize/2, -decayEventNodeSize/2,
+        			decayEventNodeSize, decayEventNodeSize));
         	decayEventNode.setStroke( DATA_POINT_STROKE );
        		decayEventNode.setStrokePaint(_postDecayLabelColor);
        		decayEventNode.setPaint(_postDecayLabelColor);
         	decayEventNode.setOffset( _msToPixelsFactor * location.getX() + _graphRect.getX(),
-        			_graphRect.getMaxY() - ( ( ( 100 - location.getY() ) / 100 ) * _graphRect.getHeight() ) );
+        			_graphRect.getMaxY() - ( ( location.getY() / 100 ) * _graphRect.getHeight() ) );
         	_dataPointsNode.addChild(decayEventNode);
     	}
     }
     
-    private void removeAllDataPointNodes(){
+    private void updateDecayCurves(){
+    	
+    	// Get rid of the existing nodes.
     	_dataPointsNode.removeAllChildren();
+    	
+    	// Add new nodes in the correct positions.
+    	for ( Iterator it = _decayEvents.iterator(); it.hasNext();){
+    		addDecayEventNode((Point2D)it.next());
+    	}
     }
     
     /**
