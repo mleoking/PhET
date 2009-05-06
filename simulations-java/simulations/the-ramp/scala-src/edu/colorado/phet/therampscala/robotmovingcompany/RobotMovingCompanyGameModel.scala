@@ -41,6 +41,7 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
     _launched = false
     resultMap.clear()
     setObjectIndex(0)
+    surfaceModel.resetAll()
   }
 
   def bead = _bead
@@ -73,7 +74,7 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
     val beadRef = _bead //use a reference for closures below
     bead.addListener(() => {
       //      println("houseMinX=" + gameModel.house.minX + ", particle: " + bead.position + ", maxX: " + gameModel.house.maxX)
-//      println("paf=" + beadRef.parallelAppliedForce)
+      //      println("paf=" + beadRef.parallelAppliedForce)
       if (beadRef.position > 0 && abs(beadRef.velocity) < 1E-6 && !containsKey(sel) && abs(beadRef.parallelAppliedForce) < 50) {
         if (beadRef.position >= house.minX && beadRef.position <= house.maxX)
           itemMoved(sel)
@@ -93,6 +94,7 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
 
     launched = false
     beadCreatedListeners.foreach(_(bead, sel))
+    bead.parallelAppliedForce = 0 //make sure applied force slider sets to zero, have to do this after listeners are attached
   }
 
   def containsKey(a: ScalaRampObject) = resultMap.contains(a)
@@ -166,7 +168,6 @@ class SurfaceModel extends Observable with SurfaceFrictionStrategy {
   val surfaceTypes = SurfaceType("Ice", "robotmovingcompany/ice.gif", x => 0.0, new Color(154, 183, 205)) ::
           SurfaceType("Concrete", "robotmovingcompany/concrete.gif", x => x, new Color(146, 154, 160)) ::
           SurfaceType("Carpet", "robotmovingcompany/carpet.gif", x => x * 1.5, new Color(200, 50, 60)) :: Nil
-  private var _friction = 0.2
   private var _surfaceType = surfaceTypes(1)
 
   def surfaceType = _surfaceType
@@ -176,12 +177,7 @@ class SurfaceModel extends Observable with SurfaceFrictionStrategy {
     notifyListeners()
   }
 
-  def friction_=(f: Double) = {
-    _friction = f
-    notifyListeners()
-  }
-
-  def friction = _friction
-
   def getTotalFriction(objectFriction: Double) = _surfaceType.getTotalFriction(objectFriction)
+
+  def resetAll() = surfaceType = surfaceTypes(1)
 }
