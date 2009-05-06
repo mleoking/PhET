@@ -15,13 +15,11 @@ import javax.swing.JTable;
 
 
 /**
- * PrintSystemProperties prints the System properties (sorted) to System.out.
- * The properties are alphabetically sorted by key.
+ * Shows all System properties and values, sorted by property name.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
-public class PrintSystemProperties {
+public class ShowSystemProperties {
 
     private static final boolean PRINT_TO_STDOUT = false;
     
@@ -51,7 +49,7 @@ public class PrintSystemProperties {
         }
         
         // table in a scroll pane
-        String[] colName = { "Key", "Value" };
+        String[] colName = { "Property", "Value" };
         JTable table = new JTable( rowData, colName );
         JScrollPane pane = new JScrollPane( table );
 
