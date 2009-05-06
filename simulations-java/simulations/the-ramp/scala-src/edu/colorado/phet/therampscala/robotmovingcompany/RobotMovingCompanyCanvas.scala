@@ -48,27 +48,22 @@ class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: Coordina
   controlPanel.add(appliedForceControl)
   controlPanel.add(robotGoButton)
 
-  //removed for robotmovingcompany: automatically go to next object when you score or lose the object (instead of hitting "next object" button)
-  //  controlPanel.add(Box.createRigidArea(new Dimension(10, 10)))
-  //  val nextObjectButton = new ScalaButton("Next Object", () => gameModel.nextObject())
-  //  val updateNextObjectButtonEnabled = () => {nextObjectButton.setEnabled(gameModel.readyForNext)}
-  //  updateNextObjectButtonEnabled()
-  //  gameModel.addListener(updateNextObjectButtonEnabled)
-  //  controlPanel.add(nextObjectButton)
+  def showGameSummary() = {
+    JOptionPane.showMessageDialog(RobotMovingCompanyCanvas.this, "That was the last object to move.  \nYour score is: " + gameModel.score + ".")
+    gameModel.resetAll()
+  }
 
   gameModel.itemFinishedListeners += ((scalaRampObject: ScalaRampObject, result: Result) => {
     val summaryScreen = new SummaryScreenNode(gameModel, scalaRampObject, result, node => {
       removeNode(node)
-      gameModel.nextObject()
-    })
+      if (gameModel.isLastObject(scalaRampObject))
+        showGameSummary()
+      else
+        gameModel.nextObject()
+    }, if (gameModel.isLastObject(scalaRampObject)) "Show Summary" else "Ok")
     summaryScreen.setOffset(canonicalBounds.getCenterX - summaryScreen.getFullBounds.width / 2,
       canonicalBounds.getCenterY - summaryScreen.getFullBounds.height / 2)
     addNode(summaryScreen)
-  })
-
-  gameModel.gameFinishListeners += (() => {
-    JOptionPane.showMessageDialog(RobotMovingCompanyCanvas.this, "That was the last object to move.  \nYour score is: " + gameModel.score + ".")
-    gameModel.resetAll()
   })
 
   val pswingControlPanel = new PSwing(controlPanel)
@@ -226,7 +221,7 @@ class ScoreboardNode(transform: ModelViewTransform2D, gameModel: RobotMovingComp
   setOffset(transform.getViewBounds.getCenterX - getFullBounds.getWidth / 2, 0)
 }
 
-class SummaryScreenNode(gm: RobotMovingCompanyGameModel, scalaRampObject: ScalaRampObject, result: Result, okPressed: SummaryScreenNode => Unit) extends PNode {
+class SummaryScreenNode(gm: RobotMovingCompanyGameModel, scalaRampObject: ScalaRampObject, result: Result, okPressed: SummaryScreenNode => Unit, okButtonText: String) extends PNode {
   val background = new PhetPPath(new RoundRectangle2D.Double(0, 0, 400, 400, 20, 20), new Color(192, 192, 192, 245), new BasicStroke(2), Color.darkGray)
   addChild(background)
   val text = result match {
@@ -240,13 +235,11 @@ class SummaryScreenNode(gm: RobotMovingCompanyGameModel, scalaRampObject: ScalaR
   addChild(pText)
   pText.setOffset(background.getFullBounds.getCenterX - pText.getFullBounds.width / 2, 20)
 
-
   val image = new PImage(BufferedImageUtils.rescaleYMaintainAspectRatio(RampResources.getImage(scalaRampObject.imageFilename), 150))
   image.setOffset(background.getFullBounds.getCenterX - image.getFullBounds.width / 2, pText.getFullBounds.getMaxY + 20)
   addChild(image)
 
-
-  val doneButton = new JButton("Ok")
+  val doneButton = new JButton(okButtonText)
   val donePSwing = new PSwing(doneButton)
   donePSwing.setOffset(background.getFullBounds.getCenterX - donePSwing.getFullBounds.width / 2, background.getFullBounds.getMaxY - donePSwing.getFullBounds.height - 20)
   doneButton.addActionListener(() => {okPressed(this)})
@@ -275,7 +268,7 @@ object TestSummaryScreen {
   def main(args: Array[String]) {
     val summaryScreenNode = new SummaryScreenNode(new RobotMovingCompanyGameModel(new RampModel, new ScalaClock(30, 30 / 1000.0)), RampDefaults.objects(0), new Result(true, false, 64, 100), a => {
       a.setVisible(false)
-    })
+    }, "Ok")
     val frame = new JFrame
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
     frame.setSize(800, 600)

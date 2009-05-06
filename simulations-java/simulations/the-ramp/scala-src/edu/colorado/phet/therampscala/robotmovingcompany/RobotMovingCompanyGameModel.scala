@@ -119,6 +119,8 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
     notifyListeners()
   }
 
+  def isLastObject(o: ScalaRampObject) = objectList(objectList.length - 1) eq o
+
   def itemLostOffCliff(o: ScalaRampObject) = itemFinished(o, Result(false, true, o.points, robotEnergy.toInt))
 
   def itemLost(o: ScalaRampObject) = itemFinished(o, Result(false, false, o.points, robotEnergy.toInt))
