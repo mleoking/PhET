@@ -1,10 +1,9 @@
 package edu.colorado.phet.scalacommon.math
 
-import java.awt.geom.Line2D
 
-class Vector2D(_x: Double, _y: Double) {
-  val x = _x
-  val y = _y
+import java.awt.geom.{Point2D, Line2D}
+
+class Vector2D(val x: Double, val y: Double) {
 
   override def toString = "x=" + x + ", y=" + y
 
@@ -40,7 +39,7 @@ class Vector2D(_x: Double, _y: Double) {
 
   def normalize = this / this.magnitude
 
-  override def hashCode = ((x+y*123456L)*1000).toInt
+  override def hashCode = new Point2D.Double(x,y).hashCode
 
   override def equals(obj: Any) = {
     obj match {
