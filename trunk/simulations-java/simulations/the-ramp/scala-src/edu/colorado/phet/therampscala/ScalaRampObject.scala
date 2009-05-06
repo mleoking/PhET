@@ -47,8 +47,8 @@ class ScalaRampObject(_name: String,
   override def hashCode = mass.hashCode + name.hashCode * 17
 }
 
-class CustomTextRampObject(name: String, mass: Double, kineticFriction: Double, staticFriction: Double, height: Double, imageFilename: String, points:Int,iconFilename: String, customizable: Boolean)
-        extends ScalaRampObject(name, mass, kineticFriction, staticFriction, height, imageFilename, iconFilename, customizable,points) {
+class CustomTextRampObject(name: String, mass: Double, kineticFriction: Double, staticFriction: Double, height: Double, imageFilename: String, points: Int, iconFilename: String, customizable: Boolean)
+        extends ScalaRampObject(name, mass, kineticFriction, staticFriction, height, imageFilename, iconFilename, customizable, points) {
   override def getDisplayText = name
 
   override def getDisplayTextHTML = <html>{name}</html>
@@ -56,8 +56,8 @@ class CustomTextRampObject(name: String, mass: Double, kineticFriction: Double, 
   override def displayTooltip = false
 }
 
-class MutableRampObject(name: String, __mass: Double, kineticFriction: Double, staticFriction: Double, height: Double, imageFilename: String, points:Int,iconFilename: String, customizable: Boolean)
-        extends CustomTextRampObject(name, __mass, kineticFriction, staticFriction, height, imageFilename, points,iconFilename, customizable) with Observable {
+class MutableRampObject(name: String, __mass: Double, kineticFriction: Double, staticFriction: Double, height: Double, imageFilename: String, points: Int, iconFilename: String, customizable: Boolean)
+        extends CustomTextRampObject(name, __mass, kineticFriction, staticFriction, height, imageFilename, points, iconFilename, customizable) with Observable {
   def mass_=(m: Double) = {
     _mass = m
     notifyListeners()
