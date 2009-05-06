@@ -6,6 +6,9 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -14,12 +17,19 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javax.swing.JFrame;
+
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
+import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
+import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
+import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -36,6 +46,10 @@ public class NuclearDecayProportionChart extends PNode {
     //------------------------------------------------------------------------
     // Class Data
     //------------------------------------------------------------------------
+	
+	// Constants used in API for this class.
+	public static final int PARENT_NUCLEUS = 0;
+	public static final int DAUGHTER_NUCLEUS = 1;
 
     // Constants for controlling the appearance of the chart.
     private static final Color  BORDER_COLOR = Color.DARK_GRAY;
@@ -45,6 +59,8 @@ public class NuclearDecayProportionChart extends PNode {
     private static final Stroke THICK_AXIS_STROKE = new BasicStroke( THICK_AXIS_LINE_WIDTH );
     private static final float  THIN_AXIS_LINE_WIDTH = 0.75f;
     private static final Stroke THIN_AXIS_STROKE = new BasicStroke( THIN_AXIS_LINE_WIDTH );
+    private static final float  DATA_POINT_LINE_WIDTH = 0.5f;
+    private static final Stroke DATA_POINT_STROKE = new BasicStroke( DATA_POINT_LINE_WIDTH );
     private static final Color  AXES_LINE_COLOR = Color.BLACK;
     private static final double TICK_MARK_LENGTH = 3;
     private static final float  TICK_MARK_WIDTH = 2;
@@ -58,6 +74,7 @@ public class NuclearDecayProportionChart extends PNode {
     private static final Color  HALF_LIFE_LINE_COLOR = new Color (238, 0, 0);
     private static final Color  HALF_LIFE_TEXT_COLOR = HALF_LIFE_LINE_COLOR;
     private static final Font   HALF_LIFE_FONT = new PhetFont( Font.BOLD, 16 );
+    private static final double DATA_POINT_SIZE_PROPORTION = 0.02;
 
     // Constants that control the location and size of the graph, around which
     // all the other components are positioned.
@@ -114,12 +131,18 @@ public class NuclearDecayProportionChart extends PNode {
     private PieChartNode.PieValue[] _pieChartValues;
     private ArrayList _halfLifeLines = new ArrayList();
 
+    // Decay events that are represented on the graph.
+    ArrayList _decayEvents = new ArrayList();
+    
     // Parent node that will be non-pickable and will contain all of the
     // non-interactive portions of the chart.
     private PComposite _nonPickableChartNode;
     
     // Parent node that will have interactive portions of the chart.
     private PNode _pickableChartNode;
+    
+    // Parent node that will contain the data points.
+    private PNode _dataPointsNode;
 
     // Variables that define the usable area for all nodes on the chart as
     // well as the location of the actual graph.
@@ -184,7 +207,7 @@ public class NuclearDecayProportionChart extends PNode {
     }
 
     /**
-     * Constructor - Instantiate using the Builder defined in this file.
+     * Constructor - Instantiate using the Builder class defined in this file.
      */
     private NuclearDecayProportionChart( Builder builder ) {
     	
@@ -204,6 +227,12 @@ public class NuclearDecayProportionChart extends PNode {
         _nonPickableChartNode.setPickable( false );
         _nonPickableChartNode.setChildrenPickable( false );
         addChild( _nonPickableChartNode );
+        
+        // Set up the parent node that will contain the data points.
+        _dataPointsNode = new PNode();
+        _dataPointsNode.setPickable( false );
+        _dataPointsNode.setChildrenPickable( false );
+        addChild( _dataPointsNode );
 
         // Set up the parent node that will contain the interactive portions
         // of the chart.
@@ -433,6 +462,57 @@ public class NuclearDecayProportionChart extends PNode {
     }
     
     /**
+     * Add a decay event to the graph.  IMPORTANT: It is assumed that these
+     * events are added in order of increasing time.
+     * 
+     * @param time - time that event occurred
+     * @param percentage - percentage of this nucleus remaining after decay
+     * occurred.
+     */
+    public void addDecayEvent( double time, double percentage ){
+    	
+    	// Validate arguments.
+    	if ((time < 0) || (percentage < 0) || (percentage > 100)){
+    		throw ( new IllegalArgumentException(this.getClass().getName() + 
+    				": Invalid argument for data point addition."));
+    	}
+    	
+    	Point2D decayEvent = new Point2D.Double( time, percentage );
+		_decayEvents.add( decayEvent );
+		addDecayEventNode( decayEvent );
+    }
+    
+    private void addDecayEventNode( Point2D location ){
+    	
+    	// Create and position the node(s) that will represent this data point.
+    	double decayEventNodeSize = _usableAreaRect.getHeight() * DATA_POINT_SIZE_PROPORTION;
+    	PPath decayEventNode = new PPath( new Ellipse2D.Double(-decayEventNodeSize/2, -decayEventNodeSize/2,
+    			decayEventNodeSize, decayEventNodeSize));
+    	decayEventNode.setStroke( DATA_POINT_STROKE );
+   		decayEventNode.setStrokePaint(_preDecayLabelColor);
+   		decayEventNode.setPaint(_preDecayLabelColor);
+    	decayEventNode.setOffset( _msToPixelsFactor * location.getX() + _graphRect.getX(),
+    			_graphRect.getMaxY() - ( ( location.getY() / 100 ) * _graphRect.getHeight() ) );
+    	_dataPointsNode.addChild(decayEventNode);
+    	
+    	if (_showPostDecayCurve){
+    		// Add a point that represents the proportion of the daughter nucleus.
+        	decayEventNode = new PPath( new Rectangle2D.Double(-decayEventNodeSize/2, -decayEventNodeSize/2,
+        			decayEventNodeSize/2, decayEventNodeSize/2));
+        	decayEventNode.setStroke( DATA_POINT_STROKE );
+       		decayEventNode.setStrokePaint(_postDecayLabelColor);
+       		decayEventNode.setPaint(_postDecayLabelColor);
+        	decayEventNode.setOffset( _msToPixelsFactor * location.getX() + _graphRect.getX(),
+        			_graphRect.getMaxY() - ( ( ( 100 - location.getY() ) / 100 ) * _graphRect.getHeight() ) );
+        	_dataPointsNode.addChild(decayEventNode);
+    	}
+    }
+    
+    private void removeAllDataPointNodes(){
+    	_dataPointsNode.removeAllChildren();
+    }
+    
+    /**
      * Add the vertical lines to the chart that represent a half life, one for
      * each half life duration.  This does some sanity testing to make sure
      * that there isn't a ridiculous number of half life lines on the graph.
@@ -467,5 +547,49 @@ public class NuclearDecayProportionChart extends PNode {
 			halfLifeLine.setPathTo( new Line2D.Double(0, 0, 0, _graphRect.getHeight() ) );
 			halfLifeLine.setOffset( (i + 1) * _halfLife * _msToPixelsFactor, _graphRect.getY() );
 		}
+    }
+
+    /**
+     * Main routine for standalong testing.
+     * 
+     * @param args
+     */
+    public static void main(String [] args){
+    	
+        final NuclearDecayProportionChart proportionsChart = 
+        	new NuclearDecayProportionChart.Builder(Carbon14Nucleus.HALF_LIFE * 3.2, 
+        		Carbon14Nucleus.HALF_LIFE, NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL, 
+        		NuclearPhysicsConstants.CARBON_COLOR).pieChartEnabled(false).
+        		showPostDecayCurve(false).timeMarkerLabelEnabled(true).build();
+        
+        JFrame frame = new JFrame();
+        PhetPCanvas canvas = new PhetPCanvas();
+        frame.setContentPane( canvas );
+        canvas.addScreenChild( proportionsChart );
+        frame.setSize( 800, 400 );
+        proportionsChart.componentResized(frame.getBounds());
+        frame.setVisible( true );
+        
+        for (int i = 0; i < 5; i++){
+        	// Put some data points on the chart to test its behavior.
+        	proportionsChart.addDecayEvent(Carbon14Nucleus.HALF_LIFE / 5 * i, i * 10);
+        }
+        
+        canvas.addComponentListener( new ComponentListener(){
+
+			public void componentHidden(ComponentEvent e) {
+			}
+
+			public void componentMoved(ComponentEvent e) {
+			}
+
+			public void componentResized(ComponentEvent e) {
+				proportionsChart.componentResized(e.getComponent().getBounds());
+			}
+
+			public void componentShown(ComponentEvent e) {
+			}
+        	
+        });
     }
 }
