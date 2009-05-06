@@ -4,7 +4,7 @@ import common.phetcommon.application.{PhetApplicationLauncher, Module, PhetAppli
 import graphics.RampCanvas
 import model._
 import controls.RampControlPanel
-import robotmovingcompany.RobotMovingCompanyCanvas
+import robotmovingcompany.{RobotMovingCompanyGameModel, Result, RobotMovingCompanyCanvas}
 import scalacommon.record.{RecordModelControlPanel, PlaybackSpeedSlider}
 
 import java.awt.Color
@@ -44,7 +44,17 @@ class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(
 class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "Coordinates", true)
 
 class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock, "Robot Moving Company") {
-  val gameModel = new robotmovingcompany.RobotMovingCompanyGameModel(model, clock) //todo: fix this with imports
+  val gameModel = new RobotMovingCompanyGameModel(model, clock)
+
+  gameModel.itemFinishedListeners += ((scalaRampObject, result) => {
+    result match {
+      case Result(_, true, _) => RampResources.getAudioClip("smash0.wav").play()
+      case Result(true, false, _) => RampResources.getAudioClip("tintagel/DIAMOND.WAV").play()
+      case Result(false, false, _) => RampResources.getAudioClip("tintagel/PERSONAL.WAV").play()
+      case _ => {}
+    }
+  })
+
   val canvas = new RobotMovingCompanyCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame, gameModel)
 
   setSimulationPanel(canvas)
