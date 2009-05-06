@@ -229,11 +229,11 @@ class ScoreboardNode(transform: ModelViewTransform2D, gameModel: RobotMovingComp
 class SummaryScreenNode(gm: RobotMovingCompanyGameModel, scalaRampObject: ScalaRampObject, result: Result, okPressed: SummaryScreenNode => Unit) extends PNode {
   val background = new PhetPPath(new RoundRectangle2D.Double(0, 0, 400, 400, 20, 20), new Color(192, 192, 192, 245), new BasicStroke(2), Color.darkGray)
   addChild(background)
-  val (text, multiplier) = result match {
-    case Result(_, true, _) => ("Crashed", 0)
-    case Result(true, false, _) => ("Delivered Successfully", 1)
-    case Result(false, false, _) => ("Missed the House", 0)
-    case _ => ("Disappeared?", 0)
+  val text = result match {
+    case Result(_, true, _, _) => "Crashed"
+    case Result(true, false, _, _) => "Delivered Successfully"
+    case Result(false, false, _, _) => "Missed the House"
+    case _ => "Disappeared?"
   }
   val pText = new PText(scalaRampObject.name + " " + text)
   pText.setFont(new PhetFont(22, true))
@@ -257,17 +257,14 @@ class SummaryScreenNode(gm: RobotMovingCompanyGameModel, scalaRampObject: ScalaR
   class SummaryText(text: String) extends PText(text) {
     setFont(new PhetFont(14, true))
   }
-  val pointsPerJoule = multiplier * 0.1
-  val objectPoints = scalaRampObject.points * multiplier
-  val energyPoints = (gm.robotEnergy * pointsPerJoule).toInt
-  val totalPoints = objectPoints + energyPoints
-  layoutNode.addChild(new SummaryText(scalaRampObject.points + " points x " + multiplier), constraints(0, 0, 2))
-  layoutNode.addChild(new SummaryText(gm.robotEnergy.toInt + " Joules x " + pointsPerJoule + " points/Joule"), constraints(0, 1, 2))
-  layoutNode.addChild(new SummaryText("= " + objectPoints + " points"), constraints(2, 0, 1))
-  layoutNode.addChild(new SummaryText("= " + energyPoints + " points"), constraints(2, 1, 1))
+
+  layoutNode.addChild(new SummaryText(result.objectPoints + " points x " + result.scoreMultiplier), constraints(0, 0, 2))
+  layoutNode.addChild(new SummaryText(result.robotEnergy + " Joules x " + result.pointsPerJoule + " points/Joule"), constraints(0, 1, 2))
+  layoutNode.addChild(new SummaryText("= " + result.totalObjectPoints + " points"), constraints(2, 0, 1))
+  layoutNode.addChild(new SummaryText("= " + result.totalEnergyPoints + " points"), constraints(2, 1, 1))
   layoutNode.addChild(new PhetPPath(new Line2D.Double(0, 0, 100, 0), new BasicStroke(2), Color.black), constraints(2, 2, 1))
   layoutNode.addChild(new SummaryText("Total"), constraints(0, 3, 2))
-  layoutNode.addChild(new SummaryText("= " + totalPoints + " points"), constraints(2, 3, 1))
+  layoutNode.addChild(new SummaryText("= " + result.score + " points"), constraints(2, 3, 1))
   layoutNode.setOffset(background.getFullBounds.getCenterX - layoutNode.getFullBounds.width / 2, image.getFullBounds.getMaxY + 10)
   addChild(layoutNode)
 
@@ -276,7 +273,7 @@ class SummaryScreenNode(gm: RobotMovingCompanyGameModel, scalaRampObject: ScalaR
 
 object TestSummaryScreen {
   def main(args: Array[String]) {
-    val summaryScreenNode = new SummaryScreenNode(new RobotMovingCompanyGameModel(new RampModel, new ScalaClock(30, 30 / 1000.0)), RampDefaults.objects(0), new Result(true, false, 100), a => {
+    val summaryScreenNode = new SummaryScreenNode(new RobotMovingCompanyGameModel(new RampModel, new ScalaClock(30, 30 / 1000.0)), RampDefaults.objects(0), new Result(true, false, 64,100), a => {
       a.setVisible(false)
     })
     val frame = new JFrame
