@@ -73,7 +73,8 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
     val beadRef = _bead //use a reference for closures below
     bead.addListener(() => {
       //      println("houseMinX=" + gameModel.house.minX + ", particle: " + bead.position + ", maxX: " + gameModel.house.maxX)
-      if (beadRef.position > 0 && abs(beadRef.velocity) < 1E-6 && !containsKey(sel)) {
+//      println("paf=" + beadRef.parallelAppliedForce)
+      if (beadRef.position > 0 && abs(beadRef.velocity) < 1E-6 && !containsKey(sel) && abs(beadRef.parallelAppliedForce) < 50) {
         if (beadRef.position >= house.minX && beadRef.position <= house.maxX)
           itemMoved(sel)
         else
