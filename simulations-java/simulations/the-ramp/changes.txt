@@ -1,3 +1,4 @@
+# 1.03.17 (31391) May 6, 2009
 robotmovingcompany: Improve scoring and score dialogs
 Renamed "whole vectors" to "Force vectors"
 Made the current 1st tab into the 2nd tab - called it "Coordinates". Made a new first tab, called "Intro" with the following controls removed: Coordinate System, Parallel Components, X-Y Components.
