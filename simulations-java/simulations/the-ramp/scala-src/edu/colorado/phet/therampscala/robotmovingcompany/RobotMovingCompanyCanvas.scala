@@ -1,20 +1,20 @@
 package edu.colorado.phet.therampscala.robotmovingcompany
 
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
 import common.piccolophet.nodes.layout.SwingLayoutNode
 import common.piccolophet.PhetPCanvas
+import java.awt._
+import geom.{Line2D, RoundRectangle2D}
 import java.awt.event.{MouseEvent, MouseAdapter}
-import java.awt.{BasicStroke, Color, Dimension}
 import javax.swing.event.{ChangeEvent, ChangeListener}
 
 import javax.swing.{JButton, JOptionPane, JFrame, Box}
 import scalacommon.ScalaClock
-import umd.cs.piccolo.nodes.PText
-import common.phetcommon.view.util.PhetFont
 import common.phetcommon.view.VerticalLayoutPanel
+import umd.cs.piccolo.nodes.{PImage, PText}
 import umd.cs.piccolo.PNode
 import common.piccolophet.nodes.PhetPPath
-import java.awt.geom.RoundRectangle2D
 import scalacommon.math.Vector2D
 import graphics._
 import model._
@@ -229,21 +229,44 @@ class ScoreboardNode(transform: ModelViewTransform2D, gameModel: RobotMovingComp
 class SummaryScreenNode(gm: RobotMovingCompanyGameModel, scalaRampObject: ScalaRampObject, result: Result, okPressed: SummaryScreenNode => Unit) extends PNode {
   val background = new PhetPPath(new RoundRectangle2D.Double(0, 0, 400, 400, 20, 20), new Color(192, 192, 192, 245), new BasicStroke(2), Color.darkGray)
   addChild(background)
-  val text = result match {
-    case Result(_, true, _) => "Crashed"
-    case Result(true, false, _) => "Delivered Successfully"
-    case Result(false, false, _) => "Missed the House"
-    case _ => "Disappeared?"
+  val (text, multiplier) = result match {
+    case Result(_, true, _) => ("Crashed", 0)
+    case Result(true, false, _) => ("Delivered Successfully", 1)
+    case Result(false, false, _) => ("Missed the House", 0)
+    case _ => ("Disappeared?", 0)
   }
   val pText = new PText(scalaRampObject.name + " " + text)
   pText.setFont(new PhetFont(22, true))
   addChild(pText)
   pText.setOffset(background.getFullBounds.getCenterX - pText.getFullBounds.width / 2, 20)
 
+
+  val image = new PImage(BufferedImageUtils.rescaleYMaintainAspectRatio(RampResources.getImage(scalaRampObject.imageFilename),150))
+  image.setOffset(background.getFullBounds.getCenterX - image.getFullBounds.width / 2, pText.getFullBounds.getMaxY + 20)
+  addChild(image)
+
+
   val doneButton = new JButton("Ok")
   val donePSwing = new PSwing(doneButton)
   donePSwing.setOffset(background.getFullBounds.getCenterX - donePSwing.getFullBounds.width / 2, background.getFullBounds.getMaxY - donePSwing.getFullBounds.height - 20)
   doneButton.addActionListener(() => {okPressed(this)})
+
+  val layoutNode = new SwingLayoutNode(new GridBagLayout)
+
+  def constraints(gridX: Int, gridY: Int, gridWidth: Int) = new GridBagConstraints(gridX, gridY, gridWidth, 1, 0.5, 0.5, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 2, 2)
+  class SummaryText(text: String) extends PText(text) {
+    setFont(new PhetFont(14, true))
+  }
+  layoutNode.addChild(new SummaryText(scalaRampObject.points + " points x " + multiplier), constraints(0, 0, 2))
+  layoutNode.addChild(new SummaryText("1000 Joules x 234 points/Joule"), constraints(0, 1, 2))
+  layoutNode.addChild(new SummaryText("= 0 points"), constraints(2, 0, 1))
+  layoutNode.addChild(new SummaryText("= 234,000 points"), constraints(2, 1, 1))
+  layoutNode.addChild(new PhetPPath(new Line2D.Double(0, 0, 100, 0), new BasicStroke(2), Color.black), constraints(2, 2, 1))
+  layoutNode.addChild(new SummaryText("Total"), constraints(0, 3, 2))
+  layoutNode.addChild(new SummaryText("= 234,000 points"), constraints(2, 3, 1))
+  layoutNode.setOffset(background.getFullBounds.getCenterX - layoutNode.getFullBounds.width / 2, image.getFullBounds.getMaxY + 10)
+  addChild(layoutNode)
+
   addChild(donePSwing)
 }
 
