@@ -12,6 +12,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
@@ -111,6 +112,7 @@ public class NuclearDecayProportionChart extends PNode {
     private PText _dummyNumberText;
     private PieChartNode _pieChart;
     private PieChartNode.PieValue[] _pieChartValues;
+    private ArrayList _halfLifeLines = new ArrayList();
 
     // Parent node that will be non-pickable and will contain all of the
     // non-interactive portions of the chart.
@@ -126,7 +128,7 @@ public class NuclearDecayProportionChart extends PNode {
 
     // Factor for converting milliseconds to pixels.
     double _msToPixelsFactor = 1; // Arbitrary init val, updated later.
-
+    
     //------------------------------------------------------------------------
     // Builder + Constructor
     //------------------------------------------------------------------------
@@ -352,7 +354,7 @@ public class NuclearDecayProportionChart extends PNode {
 
         // Update the multiplier used for converting from pixels to
         // milliseconds.  Use the multiplier to tweak the span of the x axis.
-//        _msToPixelsFactor = ((_usableWidth - _graphOriginX) * 0.98) / _timeSpan;
+        _msToPixelsFactor = _graphRect.getWidth() / _timeSpan;
         
         // Redraw the chart based on these recalculated values.
         update();
@@ -396,6 +398,9 @@ public class NuclearDecayProportionChart extends PNode {
         _upperXAxisLabel.setOffset(_graphRect.getX() + 5, _graphRect.getY() - 
         		_upperXAxisLabel.getFullBoundsReference().height - 5 );
         
+        // Update the half life lines.
+        updateHalfLifeLines();
+        
         // Position the tick marks and their labels on the X axis.
         // TODO: Position tick marks and labels.
 
@@ -425,5 +430,42 @@ public class NuclearDecayProportionChart extends PNode {
     public void reset() {
         // Redraw the chart.
         update();
+    }
+    
+    /**
+     * Add the vertical lines to the chart that represent a half life, one for
+     * each half life duration.  This does some sanity testing to make sure
+     * that there isn't a ridiculous number of half life lines on the graph.
+     */
+    private void updateHalfLifeLines(){
+    	
+    	int numHalfLifeLines = (int)Math.floor( _timeSpan / _halfLife );
+    	
+    	if ( numHalfLifeLines != _halfLifeLines.size() ){
+    		// Either this is the first time through, or something has changed
+    		// that requires the half life lines to be reallocated.  First,
+    		// remove the existing lines.
+    		for ( Iterator it = _halfLifeLines.iterator(); it.hasNext(); ){
+    			PNode halfLifeLine = (PNode)it.next();
+    			_nonPickableChartNode.removeChild( halfLifeLine );
+    			it.remove();
+    		}
+    		
+    		// Allocate the correct number of new lines.
+    		for ( int i = 0; i < numHalfLifeLines; i++ ){
+    			PPath halfLifeLine = new PPath();
+    			halfLifeLine.setStroke(HALF_LIFE_LINE_STROKE);
+    			halfLifeLine.setStrokePaint(HALF_LIFE_LINE_COLOR);
+    			_nonPickableChartNode.addChild( halfLifeLine );
+    			_halfLifeLines.add( halfLifeLine );
+    		}
+    	}
+    	
+    	// Set the size and location for each of the half life lines.
+		for ( int i = 0; i < _halfLifeLines.size(); i++ ){
+			PPath halfLifeLine = (PPath)_halfLifeLines.get(i);
+			halfLifeLine.setPathTo( new Line2D.Double(0, 0, 0, _graphRect.getHeight() ) );
+			halfLifeLine.setOffset( (i + 1) * _halfLife * _msToPixelsFactor, _graphRect.getY() );
+		}
     }
 }
