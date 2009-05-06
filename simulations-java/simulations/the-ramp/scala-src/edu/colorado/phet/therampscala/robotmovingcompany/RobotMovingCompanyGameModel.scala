@@ -119,11 +119,11 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
     notifyListeners()
   }
 
-  def itemLostOffCliff(o: ScalaRampObject) = itemFinished(o, Result(false, true, 0))
+  def itemLostOffCliff(o: ScalaRampObject) = itemFinished(o, Result(false, true, o.points, robotEnergy.toInt))
 
-  def itemLost(o: ScalaRampObject) = itemFinished(o, Result(false, false, 0))
+  def itemLost(o: ScalaRampObject) = itemFinished(o, Result(false, false, o.points, robotEnergy.toInt))
 
-  def itemMoved(o: ScalaRampObject) = itemFinished(o, Result(true, false, 100 + (_robotEnergy / DEFAULT_ROBOT_ENERGY * 100).toInt))
+  def itemMoved(o: ScalaRampObject) = itemFinished(o, Result(true, false, o.points, robotEnergy.toInt))
 
   def count(b: Boolean) = if (b) 1 else 0
 
@@ -145,7 +145,15 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
   }
 }
 
-case class Result(success: Boolean, cliff: Boolean, score: Int)
+case class Result(success: Boolean, cliff: Boolean, objectPoints: Int, robotEnergy: Int) {
+  def score = totalObjectPoints + totalEnergyPoints
+
+  def scoreMultiplier = if (success) 1 else 0
+
+  val pointsPerJoule = scoreMultiplier * 0.1
+  val totalObjectPoints = objectPoints * scoreMultiplier
+  val totalEnergyPoints = (robotEnergy * pointsPerJoule).toInt
+}
 
 case class SurfaceType(name: String, imageFilename: String, strategy: Double => Double, color: Color) extends SurfaceFrictionStrategy {
   def getTotalFriction(objectFriction: Double) = strategy(objectFriction)
