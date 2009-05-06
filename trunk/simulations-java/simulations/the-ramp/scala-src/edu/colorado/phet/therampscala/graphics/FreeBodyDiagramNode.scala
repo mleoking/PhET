@@ -284,6 +284,7 @@ trait VectorValue {
   def removeListener(listener: () => Unit): Unit
 }
 
+//todo: could improve performance by passing isContainerVisible:()=>Boolean and addContainerVisibleListener:(()=>Unit)=>Unit
 class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val tailLocation: VectorValue) extends PNode {
   val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(0, 1), 20, 20, 10, 0.5, true)
   arrowNode.setPaint(vector.getPaint)
