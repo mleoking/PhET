@@ -294,12 +294,14 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
 
   //can't use def since eta-expansion makes == and array -= impossible
   val update = () => {
-    //    println("vector: " + vector.abbreviation + ", mag=" + vector.getValue.magnitude)
-    val viewTip = transform.modelToViewDouble(vector.getValue + tailLocation.getValue)
-    arrowNode.setTipAndTailLocations(viewTip, transform.modelToViewDouble(tailLocation.getValue))
-    abbreviatonTextNode.setOffset(viewTip)
-    abbreviatonTextNode.setVisible(vector.getValue.magnitude > 1E-2)
     setVisible(vector.visible)
+    if (vector.visible) {//skip expensive updates if not visible
+      //    println("vector: " + vector.abbreviation + ", mag=" + vector.getValue.magnitude)
+      val viewTip = transform.modelToViewDouble(vector.getValue + tailLocation.getValue)
+      arrowNode.setTipAndTailLocations(viewTip, transform.modelToViewDouble(tailLocation.getValue))
+      abbreviatonTextNode.setOffset(viewTip)
+      abbreviatonTextNode.setVisible(vector.getValue.magnitude > 1E-2)
+    }
   }
   update()
   vector.addListener(update)
