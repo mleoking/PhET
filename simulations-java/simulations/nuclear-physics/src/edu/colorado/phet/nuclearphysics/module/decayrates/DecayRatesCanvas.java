@@ -96,8 +96,13 @@ public class DecayRatesCanvas extends PhetPCanvas {
         // pre- and post-decay nuclei.
         _proportionsChart = new NuclearDecayProportionChart.Builder(Carbon14Nucleus.HALF_LIFE * 3.2, 
         		Carbon14Nucleus.HALF_LIFE, NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL, 
-        		NuclearPhysicsConstants.CARBON_COLOR).pieChartEnabled(false).
-        		showPostDecayCurve(false).timeMarkerLabelEnabled(true).build();
+        		NuclearPhysicsConstants.CARBON_COLOR).
+        		postDecayElementLabel(NuclearPhysicsStrings.NITROGEN_14_CHEMICAL_SYMBOL).
+        		postDecayLabelColor(NuclearPhysicsConstants.NITROGEN_COLOR).
+        		pieChartEnabled(false).
+        		showPostDecayCurve(true).
+        		timeMarkerLabelEnabled(true).
+        		build();
         _graphLayer.addChild(_proportionsChart);
         
         // Register with the model for notifications of nuclei coming and
