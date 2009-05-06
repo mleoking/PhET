@@ -47,12 +47,12 @@ class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: Coordina
   controlPanel.add(robotGoButton)
 
   //removed for robotmovingcompany: automatically go to next object when you score or lose the object (instead of hitting "next object" button)
-  //  controlPanel.add(Box.createRigidArea(new Dimension(10, 10)))
-  //  val nextObjectButton = new ScalaButton("Next Object", () => gameModel.nextObject())
-  //  val updateNextObjectButtonEnabled = () => {nextObjectButton.setEnabled(gameModel.readyForNext)}
-  //  updateNextObjectButtonEnabled()
-  //  gameModel.addListener(updateNextObjectButtonEnabled)
-  //  controlPanel.add(nextObjectButton)
+  controlPanel.add(Box.createRigidArea(new Dimension(10, 10)))
+  val nextObjectButton = new ScalaButton("Next Object", () => gameModel.nextObject())
+  val updateNextObjectButtonEnabled = () => {nextObjectButton.setEnabled(gameModel.readyForNext)}
+  updateNextObjectButtonEnabled()
+  gameModel.addListener(updateNextObjectButtonEnabled)
+  controlPanel.add(nextObjectButton)
 
   gameModel.gameFinishListeners += (() => {
     JOptionPane.showMessageDialog(RobotMovingCompanyCanvas.this, "That was the last object to move.  \nYour score is: " + gameModel.score + ".")
