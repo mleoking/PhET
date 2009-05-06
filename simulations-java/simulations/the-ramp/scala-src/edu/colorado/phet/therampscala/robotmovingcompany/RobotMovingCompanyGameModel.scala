@@ -39,54 +39,45 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
     model.rampSegments(0).startPoint = new Vector2D(-10, 0).rotate(-(30.0).toRadians)
     model.rampSegments(0).startPoint = new Vector2D(-10, 0).rotate(-(30.0).toRadians)
     _launched = false
-    _objectIndex = 0
     resultMap.clear()
-    if (_bead != null) _bead.remove()
-    _bead = null //so it's not removed again in setupObject
-    initObject()
+    setObjectIndex(0)
   }
 
   def bead = _bead
 
   def robotEnergy = _robotEnergy
 
-  def initObject() = {
+  def setObjectIndex(newIndex: Int) = {
+    if (_bead != null) {
+      //todo: use remove listener paradigm
+      //todo: remove applied force listener
+      _bead.remove()
+    }
+
+    _objectIndex = newIndex
     _robotEnergy = DEFAULT_ROBOT_ENERGY
     notifyListeners()
 
     val sel = selectedObject
     model.setPaused(true)
 
-    val previousBead = _bead
-    if (previousBead != null) {
-      //todo: remove applied force listener
-      previousBead.remove()
-    }
-
     _bead = model.createBead(-model.rampSegments(0).length, sel.width)
 
-    val beadRef = _bead //use a reference for closures below
     bead.mass = sel.mass
     bead.staticFriction = sel.staticFriction
     bead.kineticFriction = sel.kineticFriction
     bead.height = sel.height
     bead.airborneFloor_=(airborneFloor)
     bead.surfaceFrictionStrategy = surfaceModel
-    bead.crashListeners += (() => {
-      RampResources.getAudioClip("smash0.wav").play()
-      itemLostOffCliff(sel)
-    })
+    bead.crashListeners += (() => itemLostOffCliff(sel))
+    val beadRef = _bead //use a reference for closures below
     bead.addListener(() => {
       //      println("houseMinX=" + gameModel.house.minX + ", particle: " + bead.position + ", maxX: " + gameModel.house.maxX)
       if (beadRef.position > 0 && abs(beadRef.velocity) < 1E-6 && !containsKey(sel)) {
-        if (beadRef.position >= house.minX && beadRef.position <= house.maxX) {
-          RampResources.getAudioClip("tintagel/DIAMOND.WAV").play()
+        if (beadRef.position >= house.minX && beadRef.position <= house.maxX)
           itemMoved(sel)
-        }
-        else {
-          RampResources.getAudioClip("tintagel/PERSONAL.WAV").play()
+        else
           itemLost(sel)
-        }
       }
     })
 
@@ -99,6 +90,7 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
       notifyListeners()
     })
 
+    launched = false
     beadCreatedListeners.foreach(_(bead, sel))
   }
 
@@ -115,12 +107,7 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
     scored >= itemsPrepared
   }
 
-  def nextObject() = {
-    _objectIndex = _objectIndex + 1
-    initObject()
-
-    launched = false //notifies listeners
-  }
+  def nextObject() = setObjectIndex(_objectIndex + 1)
 
   def itemFinished(o: ScalaRampObject, r: Result) = {
     resultMap += o -> r
