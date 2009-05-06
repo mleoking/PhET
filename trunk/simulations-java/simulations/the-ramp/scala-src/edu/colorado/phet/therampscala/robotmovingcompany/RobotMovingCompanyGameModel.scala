@@ -22,15 +22,15 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
   private var _launched = false
   private var _objectIndex = 0
   private val resultMap = new HashMap[ScalaRampObject, Result]
-  val nextObjectListeners = new ArrayBuffer[(ScalaRampObject) => Unit]
-  val itemFinishedListeners = new ArrayBuffer[(ScalaRampObject, Result) => Unit]
+
+  //Event notifications
   val beadCreatedListeners = new ArrayBuffer[(Bead, ScalaRampObject) => Unit]
+  val itemFinishedListeners = new ArrayBuffer[(ScalaRampObject, Result) => Unit]
+
   val objectList = RampDefaults.objects
   val housePosition = 6
   val house = model.createBead(housePosition, RampDefaults.house.width, RampDefaults.house.height)
   private var _bead: Bead = null
-
-  nextObjectListeners += (x => setupObject())
 
   clock.addClockListener(dt => if (!model.isPaused && _bead != null) _bead.stepInTime(dt))
 
@@ -118,7 +118,7 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
   def nextObject() = {
     val lastObject = selectedObject
     _objectIndex = _objectIndex + 1
-    nextObjectListeners.foreach(_(lastObject))
+    setupObject()
 
     launched = false //notifies listeners
   }
@@ -130,8 +130,8 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
     itemFinishedListeners.foreach(_(o, r))
     if (resultMap.size == objectList.length)
       gameFinishListeners.foreach(_())
-    else //  automatically go to next object when you score or lose the object (instead of hitting "next object" button)
-      nextObject()
+    //    else //  automatically go to next object when you score or lose the object (instead of hitting "next object" button)
+    //      nextObject()
     notifyListeners()
   }
 
