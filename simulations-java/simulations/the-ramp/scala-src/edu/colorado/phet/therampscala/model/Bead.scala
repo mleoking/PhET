@@ -165,11 +165,15 @@ class Bead(_state: BeadState,
     notifyListeners()
   }
 
-  def setVelocity(velocity: Double) = {
-    state = state.setVelocity(velocity)
-    frictionForceVector.notifyListeners()
-    notifyListeners()
+  private def setVelocityWithNotify(velocity: Double, notify: Boolean) = {
+    if (velocity != state.velocity) {
+      state = state.setVelocity(velocity)
+      frictionForceVector.notifyListeners()
+      if (notify) notifyListeners()
+    }
   }
+
+  def setVelocity(velocity: Double) = setVelocityWithNotify(velocity, true)
 
   def mass_=(mass: Double) = {
     state = state.setMass(mass)
@@ -177,13 +181,17 @@ class Bead(_state: BeadState,
     notifyListeners()
   }
 
-  def setPosition(position: Double) = {
-    state = state.setPosition(position)
-    normalForceVector.notifyListeners() //since ramp segment or motion state might have changed; could improve performance on this by only sending notifications when we are sure the ramp segment has changed
-    frictionForceVector.notifyListeners() //todo: omit this call since it's probably covered by the normal force call above
-    wallForceVector.notifyListeners()
-    notifyListeners()
+  def setPositionWithNotify(position: Double, notify: Boolean) = {
+    if (position != state.position) {
+      state = state.setPosition(position)
+      normalForceVector.notifyListeners() //since ramp segment or motion state might have changed; could improve performance on this by only sending notifications when we are sure the ramp segment has changed
+      frictionForceVector.notifyListeners() //todo: omit this call since it's probably covered by the normal force call above
+      wallForceVector.notifyListeners()
+      if (notify) notifyListeners()
+    }
   }
+
+  def setPosition(position: Double) = setPositionWithNotify(position, true)
 
   private var _airborneFloor = 0.0
 
@@ -312,7 +320,7 @@ class Bead(_state: BeadState,
       //      println("grounded.step for "+id)
       val origState = state
 
-      setVelocity(netForceToParallelVelocity(totalForce, dt))
+      setVelocityWithNotify(netForceToParallelVelocity(totalForce, dt), false)
 
       //stepInTime samples at least one value less than 1E-12 on direction change to handle static friction
       if ((origState.velocity < 0 && velocity > 0) || (origState.velocity > 0 && velocity < 0)) {
@@ -343,7 +351,7 @@ class Bead(_state: BeadState,
       }
 
       else {
-        setPosition(requestedPosition)
+        setPositionWithNotify(requestedPosition, false)
       }
       val justCollided = false
 
@@ -355,9 +363,7 @@ class Bead(_state: BeadState,
           //        thermalEnergy += origState.kineticEnergy
         }
         val frictionWork = -thermalEnergy
-        frictionWork
-        new WorkEnergyState(appliedWork, gravityWork, frictionWork,
-          getPotentialEnergy, getKineticEnergy, getTotalEnergy)
+        new WorkEnergyState(appliedWork, gravityWork, frictionWork, getPotentialEnergy, getKineticEnergy, getTotalEnergy)
       } else {
         //      val dW=getAppliedWorkDifferential
         //      val appliedWork=origState.appliedWork
@@ -371,6 +377,7 @@ class Bead(_state: BeadState,
       val work = appliedForce dot distanceVector
       //      println("work done on particle by applied force: "+work)
       workListeners.foreach(_(work))
+      notifyListeners() //do as a batch, since it's a performance problem to do this several times in this method call
     }
   }
   val workListeners = new ArrayBuffer[Double => Unit]
