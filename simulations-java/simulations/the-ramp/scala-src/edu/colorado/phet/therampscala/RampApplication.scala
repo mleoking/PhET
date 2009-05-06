@@ -30,10 +30,12 @@ class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String) extends
   }
 }
 
-class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String, coordinateSystemFeaturesEnabled: Boolean) extends AbstractRampModule(frame, clock, name) {
+class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String, coordinateSystemFeaturesEnabled: Boolean)
+        extends AbstractRampModule(frame, clock, name) {
   val canvas = new RampCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame)
   setSimulationPanel(canvas)
-  setControlPanel(new RampControlPanel(model, wordModel, fbdModel, coordinateSystemModel, vectorViewModel, resetRampModule,coordinateSystemFeaturesEnabled))
+  setControlPanel(new RampControlPanel(model, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
+    resetRampModule, coordinateSystemFeaturesEnabled))
   setClockControlPanel(new RecordModelControlPanel(model, canvas, () => new PlaybackSpeedSlider(model), Color.blue, 20))
 }
 
@@ -50,13 +52,14 @@ class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends Abstrac
 }
 
 class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
-  addModule(new IntroRampModule(getPhetFrame, new ScalaClock(30, RampDefaults.DT_DEFAULT)))
-  addModule(new CoordinatesRampModule(getPhetFrame, new ScalaClock(30, RampDefaults.DT_DEFAULT)))
-  addModule(new RobotMovingCompanyModule(getPhetFrame, new ScalaClock(30, RampDefaults.DT_DEFAULT)))
+  def newClock = new ScalaClock(RampDefaults.DELAY, RampDefaults.DT_DEFAULT)
+  addModule(new IntroRampModule(getPhetFrame, newClock))
+  addModule(new CoordinatesRampModule(getPhetFrame, newClock))
+  addModule(new RobotMovingCompanyModule(getPhetFrame, newClock))
 }
 
 class RobotMovingCompanyApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
-  addModule(new RobotMovingCompanyModule(getPhetFrame, new ScalaClock(30, RampDefaults.DT_DEFAULT)))
+  addModule(new RobotMovingCompanyModule(getPhetFrame, new ScalaClock(RampDefaults.DELAY, RampDefaults.DT_DEFAULT)))
 }
 
 //Current IntelliJ plugin has trouble finding main for classes with a companion object, so we use a different name 
