@@ -43,7 +43,8 @@ public class ConcentrationSliderNode extends PhetPNode {
     
     // Thumb
     private static final PDimension THUMB_SIZE = new PDimension( 13, 18 );
-    private static final Color THUMB_FILL_COLOR = Color.WHITE;
+    private static final Color THUMB_FILL_COLOR = new Color( 203, 255, 243 );
+    private static final Color THUMB_HILITE_COLOR = new Color( 106, 237, 255 );
     private static final Color THUMB_STROKE_COLOR = Color.BLACK;
     private static final Stroke THUMB_STROKE = new BasicStroke( 1f );
 
@@ -109,6 +110,15 @@ public class ConcentrationSliderNode extends PhetPNode {
         addChild( thumbNode );
         thumbNode.addInputEventListener( new CursorHandler() );
         thumbNode.addInputEventListener( new ThumbDragHandler( this ) );
+        thumbNode.addInputEventListener( new PBasicInputEventHandler() {
+            public void mouseEntered(PInputEvent event) {
+                thumbNode.setThumbPaint( THUMB_HILITE_COLOR );
+            }
+
+            public void mouseExited(PInputEvent event) {
+                thumbNode.setThumbPaint( THUMB_FILL_COLOR );
+            }
+        });
         
         // initial state
         updateThumb();
@@ -152,7 +162,7 @@ public class ConcentrationSliderNode extends PhetPNode {
         double dx = MINOR_TICKS_CLOSEST_X_SPACING;
         double xOffset = majorTickRight - dx;
         final double yOffset = trackNode.getFullBoundsReference().getMaxY();
-        while ( xOffset >= majorTickLeft + dx ) {
+        while ( xOffset >= majorTickLeft ) {
             MinorTickNode minorTickNode = new MinorTickNode();
             addChild( minorTickNode );
             minorTickNode.setOffset( xOffset, yOffset );
