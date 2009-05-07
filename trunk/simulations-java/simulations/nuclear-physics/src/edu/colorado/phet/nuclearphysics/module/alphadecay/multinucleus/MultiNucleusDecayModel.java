@@ -4,6 +4,7 @@ package edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -200,11 +201,11 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 	 */
 	protected void removeAllNuclei() {
 		// Remove any existing nuclei and let the listeners know of their demise.
-		for (int i = 0; i < _atomicNuclei.size(); i++){
-			AbstractDecayNucleus nucleus = (AbstractDecayNucleus)_atomicNuclei.get(i);
+		for (Iterator it = _atomicNuclei.iterator(); it.hasNext(); ){
+			AbstractDecayNucleus nucleus = (AbstractDecayNucleus)it.next();
 			nucleus.removeListener(_nucleusListener);
 			notifyModelElementRemoved( nucleus );
-			_atomicNuclei.remove(i);
+			it.remove();
 		}
 	}
 
