@@ -104,10 +104,50 @@ public class StrengthSliderNode extends PhetPNode {
         // track
         trackNode = new TrackNode();
         addChild( trackNode );
+        trackNode.setOffset( 0, 0 );
+        
+        // weak range label
+        PNode weakRangeLabelNode = new RangeLabelNode( TRACK_WEAK_WIDTH, WEAK_LABEL, WEAKER_LABEL, STRONGER_LABEL );
+        addChild( weakRangeLabelNode );
+        double xOffset = 0;
+        double yOffset = ( weakRangeLabelNode.getYOffset() - weakRangeLabelNode.getY() ) - 20;
+        weakRangeLabelNode.setOffset( xOffset, yOffset );
+        
+        // strong range label
+        PNode strongRangeLabelNode = new RangeLabelNode( TRACK_STRONG_WIDTH, STRONG_LABEL );
+        addChild( strongRangeLabelNode );
+        xOffset = TRACK_WEAK_WIDTH + TRACK_INTERMEDIATE_WIDTH;
+        yOffset = ( strongRangeLabelNode.getYOffset() - strongRangeLabelNode.getY() ) - 20;
+        strongRangeLabelNode.setOffset( xOffset, yOffset );
+        
+        //  minor ticks, intermediate track
+        double dx = MINOR_TICKS_CLOSEST_X_SPACING;
+        xOffset = TRACK_WEAK_WIDTH + TRACK_INTERMEDIATE_WIDTH - dx;
+        yOffset = 0;
+        while ( xOffset - dx > TRACK_WEAK_WIDTH ) {
+            MinorTickNode minorTickNode = new MinorTickNode();
+            addChild( minorTickNode );
+            minorTickNode.setOffset( xOffset, yOffset );
+            dx *= MINOR_TICK_X_SPACING_MULTIPLIER;
+            xOffset = xOffset - dx;
+        }
+        
+        //  minor ticks, weak track
+        dx = MINOR_TICKS_CLOSEST_X_SPACING;
+        xOffset = TRACK_WEAK_WIDTH - dx;
+        yOffset = 0;
+        while ( xOffset > 0 ) {
+            MinorTickNode minorTickNode = new MinorTickNode();
+            addChild( minorTickNode );
+            minorTickNode.setOffset( xOffset, yOffset );
+            dx *= MINOR_TICK_X_SPACING_MULTIPLIER;
+            xOffset = xOffset - dx;
+        }
 
         // thumb
         thumbNode = new SliderThumbArrowNode( THUMB_SIZE, THUMB_FILL_COLOR, THUMB_STROKE_COLOR, THUMB_STROKE );
         addChild( thumbNode );
+        thumbNode.setOffset( 0, trackNode.getFullBoundsReference().getCenterY() );
         thumbNode.addInputEventListener( new CursorHandler() );
         //        thumbNode.addInputEventListener( new ThumbDragHandler( this ) );
     }
@@ -192,14 +232,6 @@ public class StrengthSliderNode extends PhetPNode {
             strongTrackNode.setStrokePaint( TRACK_STROKE_COLOR );
             addChild( strongTrackNode );
             
-            // weak range label
-            PNode weakRangeLabelNode = new RangeLabelNode( TRACK_WEAK_WIDTH, WEAK_LABEL, WEAKER_LABEL, STRONGER_LABEL );
-            addChild( weakRangeLabelNode );
-            
-            // strong range label
-            PNode strongRangeLabelNode = new RangeLabelNode( TRACK_STRONG_WIDTH, STRONG_LABEL );
-            addChild( strongRangeLabelNode );
-            
             // layout
             weakTrackNode.setOffset( 0, 0 );
             double xOffset = TRACK_WEAK_WIDTH;
@@ -207,36 +239,6 @@ public class StrengthSliderNode extends PhetPNode {
             intermediateTrackNode.setOffset( xOffset, yOffset );
             xOffset = TRACK_WEAK_WIDTH + TRACK_INTERMEDIATE_WIDTH;
             strongTrackNode.setOffset( xOffset, yOffset );
-            xOffset = 0;
-            yOffset = ( weakRangeLabelNode.getYOffset() - weakRangeLabelNode.getY() ) - 20;
-            weakRangeLabelNode.setOffset( xOffset, yOffset );
-            xOffset = TRACK_WEAK_WIDTH + TRACK_INTERMEDIATE_WIDTH;
-            yOffset = ( strongRangeLabelNode.getYOffset() - strongRangeLabelNode.getY() ) - 20;
-            strongRangeLabelNode.setOffset( xOffset, yOffset );
-            
-            //  minor ticks, intermediate track
-            double dx = MINOR_TICKS_CLOSEST_X_SPACING;
-            xOffset = TRACK_WEAK_WIDTH + TRACK_INTERMEDIATE_WIDTH - dx;
-            yOffset = 0;
-            while ( xOffset - dx > TRACK_WEAK_WIDTH ) {
-                MinorTickNode minorTickNode = new MinorTickNode();
-                addChild( minorTickNode );
-                minorTickNode.setOffset( xOffset, yOffset );
-                dx *= MINOR_TICK_X_SPACING_MULTIPLIER;
-                xOffset = xOffset - dx;
-            }
-            
-            //  minor ticks, weak track
-            dx = MINOR_TICKS_CLOSEST_X_SPACING;
-            xOffset = TRACK_WEAK_WIDTH - dx;
-            yOffset = 0;
-            while ( xOffset > 0 ) {
-                MinorTickNode minorTickNode = new MinorTickNode();
-                addChild( minorTickNode );
-                minorTickNode.setOffset( xOffset, yOffset );
-                dx *= MINOR_TICK_X_SPACING_MULTIPLIER;
-                xOffset = xOffset - dx;
-            }
         }
     }
     
