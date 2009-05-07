@@ -271,6 +271,7 @@ public class NuclearDecayProportionChart extends PNode {
     public void clear() {
         _decayEvents.clear();
         _graph.clearData();
+        _pieChart.resetPie();
     }
     
     /**
@@ -339,6 +340,18 @@ public class NuclearDecayProportionChart extends PNode {
 	                new PieChartNode.PieValue( percentageDecayed, _postDecayLabelColor )};
 			
 			_pieChartNode.setPieValues(pieChartValues);
+		}
+		
+		/**
+		 * Reset the pie, meaning that it goes back to being 100% undecayed.
+		 */
+		public void resetPie(){
+			PieChartNode.PieValue[] pieChartValues = new PieValue[]{
+	                new PieChartNode.PieValue( 100, _preDecayLabelColor ),
+	                new PieChartNode.PieValue( 0, _postDecayLabelColor )};
+			
+			_pieChartNode.setPieValues(pieChartValues);
+
 		}
     }
     
