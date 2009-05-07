@@ -107,15 +107,26 @@ public class ConcentrationSliderNode extends PNode {
 
     /*
      * Create major and minor ticks.
+     * Major ticks are labeled with 10^N.
      */
     private void createTicks( double min, double max ) {
+        
         int minExponent = (int) Math.floor( MathUtil.log10( min ) );
         int maxExponent = (int) Math.ceil( MathUtil.log10( max ) );
+        
+        // this algorithm assumes that we're dealing powers of 10
+        assert( Math.pow( 10, minExponent ) == min );
+        assert( Math.pow( 10, maxExponent ) == max );
+        
         final double dx = TRACK_SIZE.getWidth() / ( maxExponent - minExponent );
         double xOffset = 0;
         final double yOffset = trackNode.getFullBoundsReference().getMaxY();
         for ( int i = minExponent; i <= maxExponent; i++ ) {
-            MajorTick majorTick = new MajorTick( "10<sup>" + i + "</sup>" );
+            String label = "10<sup>" + i + "</sup>";
+            if ( i == 0 ) {
+                label = "1";
+            }
+            MajorTick majorTick = new MajorTick( label );
             addChild( majorTick );
             majorTick.setOffset( xOffset, yOffset );
             if ( xOffset != 0 ) {
