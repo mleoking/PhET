@@ -4,8 +4,6 @@ package edu.colorado.phet.common.phetcommon.view.util;
 
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Locale;
 
 import javax.swing.JTextField;
@@ -104,41 +102,49 @@ public class PhetFont extends Font {
      * Creates the font that will be used to create all instances of PhetFont.
      */
     private static Font createDefaultFont() {
-        Font defaultFont = FALLBACK_FONT;
-        Locale locale = PhetResources.readLocale();
-        String[] preferredFonts = PhetCommonResources.getPreferredFontNames( locale );
-        if ( preferredFonts != null ) {
-            defaultFont = getPreferredFont( preferredFonts, FALLBACK_FONT );
-        }
-        return defaultFont;
+        return getPreferredFont( PhetResources.readLocale() );
     }
     
-    /*
-     * Looks through a list of preferred physical font names, ordered by decreasing preference.
-     * The first match with a font installed on the system is returned.
-     * If there is no match, then the defaultFont is returned.
+    /**
+     * Gets the preferred font for a specified locale.
+     * <p>
+     * If the locale has a list of preferred fonts, look through that list 
+     * and return the first match with a font installed on the system.
+     * If there is no match, then return the default font.
      */
-    private static Font getPreferredFont( String[] preferredFontNames, Font defaultFont ) {
-        
-        Font preferredFont = null;
+    public static Font getPreferredFont( Locale locale, int style, int size ) {
 
-        for ( int i = 0; preferredFont == null && i < preferredFontNames.length; i++ ) {
-            String preferredFontName = preferredFontNames[i];
-            ArrayList fonts = new ArrayList( Arrays.asList( GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts() ) );
-//            System.out.println( "PhetFont.getPreferredFont fonts=" + fonts );
-            for ( int k = 0; preferredFont == null && k < fonts.size(); k++ ) {
-                Font o = (Font) fonts.get( k );
-                if ( o.getFontName().equals( preferredFontName ) ) {
-                    preferredFont = o.deriveFont( defaultFont.getStyle(), defaultFont.getSize2D() );
+        Font preferredFont = null;
+        
+        String[] preferredFontNames = PhetCommonResources.getPreferredFontNames( locale );
+        if ( preferredFontNames != null ) {
+            
+            // this is expensive, so do it once.
+            Font[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
+
+            // return the first preferred font found on the system
+            for ( int i = 0; preferredFont == null && i < preferredFontNames.length; i++ ) {
+                String preferredFontName = preferredFontNames[i];
+                for ( int k = 0; preferredFont == null && k < fonts.length; k++ ) {
+                    Font font = fonts[k];
+                    if ( font.getFontName().equals( preferredFontName ) ) {
+                        preferredFont = font.deriveFont( style, size );
+                    }
                 }
             }
         }
         
+        // if no preferred font was found, return the fallback font
         if ( preferredFont == null ) {
-            preferredFont = defaultFont;
+            preferredFont = FALLBACK_FONT.deriveFont( style, size );
         }
-
+        
+        System.out.println( "PhetFont.getPreferredFont preferredFont=" + preferredFont );
         return preferredFont;
+    }
+    
+    public static Font getPreferredFont( Locale locale ) {
+        return getPreferredFont( locale, FALLBACK_FONT.getStyle(), FALLBACK_FONT.getSize() );
     }
     
     public static void main( String[] args ) {
