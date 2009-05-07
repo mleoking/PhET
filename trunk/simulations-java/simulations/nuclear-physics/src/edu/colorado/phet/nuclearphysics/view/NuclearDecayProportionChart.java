@@ -192,103 +192,6 @@ public class NuclearDecayProportionChart extends PNode {
         	_pieChart = new ProportionsPieChartNode();
         	_nonPickableChartNode.addChild( _pieChart );
         }
-
-        /*
-        // Create the lower x axis of the graph.
-        _lowerXAxisOfGraph = new PPath();
-        _lowerXAxisOfGraph.setStroke( THICK_AXIS_STROKE );
-        _lowerXAxisOfGraph.setStrokePaint( AXES_LINE_COLOR );
-        _lowerXAxisOfGraph.setPaint( AXES_LINE_COLOR );
-        _nonPickableChartNode.addChild( _lowerXAxisOfGraph );
-
-        // Create the upper x axis of the graph.
-        _upperXAxisOfGraph = new PPath();
-        _upperXAxisOfGraph.setStroke( THIN_AXIS_STROKE );
-        _upperXAxisOfGraph.setStrokePaint( AXES_LINE_COLOR );
-        _upperXAxisOfGraph.setPaint( AXES_LINE_COLOR );
-        _nonPickableChartNode.addChild( _upperXAxisOfGraph );
-
-        // Create the x axis of the graph.
-        _yAxisOfGraph = new PPath();
-        _yAxisOfGraph.setStroke( THIN_AXIS_STROKE );
-        _yAxisOfGraph.setStrokePaint( AXES_LINE_COLOR );
-        _yAxisOfGraph.setPaint( AXES_LINE_COLOR );
-        _nonPickableChartNode.addChild( _yAxisOfGraph );
-        
-        // Add the text for the Y axis.
-        _yAxisLabel1 = new PText( NuclearPhysicsStrings.FIFTY_PER_CENT );
-        _yAxisLabel1.setFont( SMALL_LABEL_FONT );
-        _nonPickableChartNode.addChild( _yAxisLabel1 );
-        _yAxisLabel2 = new PText( NuclearPhysicsStrings.ONE_HUNDRED_PER_CENT );
-        _yAxisLabel2.setFont( SMALL_LABEL_FONT );
-        _nonPickableChartNode.addChild( _yAxisLabel2 );
-        
-        // Add the label for the upper X axis.
-        _upperXAxisLabel = new PText( NuclearPhysicsStrings.HALF_LIVES_LABEL );
-        _upperXAxisLabel.setFont( SMALL_LABEL_FONT );
-        _nonPickableChartNode.addChild( _upperXAxisLabel );
-        
-        // Add the pie chart (if enabled).
-        if ( _pieChartEnabled ){
-        	_pieChart = new ProportionsPieChartNode();
-        	_nonPickableChartNode.addChild( _pieChart );
-        }
-
-        // Add the text for the X & Y axes.
-//        _xAxisLabel = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_X_AXIS_LABEL + " (" + NuclearPhysicsStrings.DECAY_TIME_UNITS + ")" );
-//        _xAxisLabel.setFont( SMALL_LABEL_FONT );
-//        _nonPickableChartNode.addChild( _xAxisLabel );
-//        _yAxisLabel1 = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_Y_AXIS_LABEL1 );
-//        _yAxisLabel1.setFont( SMALL_LABEL_FONT );
-//        _yAxisLabel1.rotate( 1.5 * Math.PI );
-//        _nonPickableChartNode.addChild( _yAxisLabel1 );
-//        _yAxisLabel2 = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_Y_AXIS_LABEL2 );
-//        _yAxisLabel2.setFont( SMALL_LABEL_FONT );
-//        _yAxisLabel2.rotate( 1.5 * Math.PI );
-//        _nonPickableChartNode.addChild( _yAxisLabel2 );
-        
-        // Add the pie chart.
-//        _pieChartValues = new PieValue[]{
-//                new PieChartNode.PieValue( _model.getNumNuclei(), NuclearPhysicsConstants.POLONIUM_LABEL_COLOR ),
-//                new PieChartNode.PieValue( 0, NuclearPhysicsConstants.LEAD_LABEL_COLOR )};
-//        _pieChart = new PieChartNode(_pieChartValues, new Rectangle(20, 20));  // Arbitrary initial size, resized later.
-//        _nonPickableChartNode.addChild( _pieChart );
-        
-        // Add the text for labeling the pre- and post-decay quantities of the
-        // nuclei.
-//        _numUndecayedNucleiLabel = new ShadowPText();
-//        _numUndecayedNucleiLabel.setFont(LARGE_LABEL_FONT);
-//        _numUndecayedNucleiLabel.setTextPaint(Color.YELLOW);
-//        _nonPickableChartNode.addChild(_numUndecayedNucleiLabel);
-//        _numUndecayedNucleiText = new PText("0");
-//        _numUndecayedNucleiText.setFont(LARGE_LABEL_FONT);
-//        _nonPickableChartNode.addChild(_numUndecayedNucleiText);
-//        _numDecayedNucleiLabel = new ShadowPText();
-//        _numDecayedNucleiLabel.setFont(LARGE_LABEL_FONT);
-//        _nonPickableChartNode.addChild(_numDecayedNucleiLabel);
-//        _numDecayedNucleiText = new PText("0");
-//        _numDecayedNucleiText.setFont(LARGE_LABEL_FONT);
-//        _nonPickableChartNode.addChild(_numDecayedNucleiText);
-        
-        // Create a dummy text value for consistent positioning of the real
-        // numerical values.
-//        _dummyNumberText = new PText("00");
-//        _dummyNumberText.setFont(LARGE_LABEL_FONT);
-
-        // Create the line that will illustrate where the half life is.
-//        _halfLifeMarkerLine = new PPath();
-//        _halfLifeMarkerLine.setStroke( HALF_LIFE_LINE_STROKE );
-//        _halfLifeMarkerLine.setStrokePaint( HALF_LIFE_LINE_COLOR );
-//        _halfLifeMarkerLine.setPaint( NuclearPhysicsConstants.ALPHA_DECAY_CHART_COLOR );
-//        _nonPickableChartNode.addChild( _halfLifeMarkerLine );
-        
-        // Create the label for the half life line.
-//        _halfLifeLabel = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_HALF_LIFE );
-//        _halfLifeLabel.setFont( HALF_LIFE_FONT );
-//        _halfLifeLabel.setTextPaint( HALF_LIFE_TEXT_COLOR );
-//        _nonPickableChartNode.addChild( _halfLifeLabel );
- * 
- */
     }
 
 	//------------------------------------------------------------------------
@@ -299,8 +202,6 @@ public class NuclearDecayProportionChart extends PNode {
     	_timeSpan = timeSpan;
     	update();
     }
-    
-    
 
     /**
      * This method is called to re-scale the chart, which generally occurs
@@ -352,58 +253,6 @@ public class NuclearDecayProportionChart extends PNode {
         // Position the graph.
         _graph.update( (_usableAreaRect.getWidth() - graphLeftEdge) * 0.95, _usableAreaRect.getHeight() * 0.9 );
         _graph.setOffset( graphLeftEdge + 5, _usableAreaRect.getCenterY() - (_graph.getFullBoundsReference().height / 2 ) );
-        
-        /*
-
-        // Position the x and y axes.
-        _lowerXAxisOfGraph.setPathTo( new Line2D.Double(_graphRect.getX(), _graphRect.getMaxY(), 
-        		_graphRect.getMaxX(), _graphRect.getMaxY() ) );
-        
-        _upperXAxisOfGraph.setPathTo( new Line2D.Double(_graphRect.getX(), _graphRect.getY(), 
-        		_graphRect.getMaxX(), _graphRect.getY() ) );
-        
-        _yAxisOfGraph.setPathTo( new Line2D.Double(_graphRect.getX(), _graphRect.getY(), 
-        		_graphRect.getX(), _graphRect.getMaxY() ) ); 
-
-        // Position and size labels for the Y axis.
-        double graphLabelHeight = _usableAreaRect.getHeight() * GRAPH_TEXT_HEIGHT_PROPORTION;
-        _yAxisLabel1.setScale( 1 );
-        _yAxisLabel2.setScale( 2 );
-        double scale = graphLabelHeight / _yAxisLabel1.getFullBoundsReference().getHeight();
-        _yAxisLabel1.setScale( scale );
-        _yAxisLabel2.setScale( scale );
-        _yAxisLabel1.setOffset( _graphRect.getX() - _yAxisLabel1.getFullBoundsReference().getWidth() - 5,
-        		_graphRect.getCenterY() - ( graphLabelHeight / 2 ) );
-        _yAxisLabel2.setOffset( _graphRect.getX() - _yAxisLabel2.getFullBoundsReference().getWidth() - 5,
-        		_graphRect.getY() - ( graphLabelHeight / 2 ) );
-        
-        // Position and size labels for the upper X axis.
-        _upperXAxisLabel.setScale( 1 );
-        scale = graphLabelHeight / _upperXAxisLabel.getFullBoundsReference().getHeight();
-        _upperXAxisLabel.setScale(scale);
-        _upperXAxisLabel.setOffset(_graphRect.getX() + 5, _graphRect.getY() - 
-        		_upperXAxisLabel.getFullBoundsReference().height - 5 );
-        
-        // Update the half life lines.
-        updateHalfLifeLines();
-        
-        // Reposition the data curve(s)
-        updateDecayCurves();
-        
-        // Position the tick marks and their labels on the X axis.
-        // TODO: Position tick marks and labels.
-
-        // Update the text for the Y axis labels.
-        // Set text for Y axis.
-        
-        // Position the labels for the axes.
-        // TODO: Lower X axis label
-        // TODO: Y axis label
-        // TODO: Upper axis label
-         * 
-         * 
-         */
-        
     }
 
     /**
