@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
@@ -537,47 +538,37 @@ public class Bunny extends ClockAdapter {
     //----------------------------------------------------------------------------
 
     public void notifyInit() {
-        //System.out.println( "Bunny Born: " + this );
-        Iterator iter = listeners.iterator();
-        while ( iter.hasNext() ) {
-            ( (BunnyListener) iter.next() ).onBunnyInit( this );
-        }
+        notifyListenersOfEvent( new Event( this, Event.TYPE_INIT ) );
     }
 
     private void notifyDeath() {
-        //System.out.println( "Bunny Died: " + this );
-        Iterator iter = listeners.iterator();
-        while ( iter.hasNext() ) {
-            ( (BunnyListener) iter.next() ).onBunnyDeath( this );
-        }
+        notifyListenersOfEvent( new Event( this, Event.TYPE_DIED ) );
     }
 
     private void notifyReproduces() {
-        //System.out.println( "Bunny Reproduced: " + this );
-        Iterator iter = listeners.iterator();
-        while ( iter.hasNext() ) {
-            ( (BunnyListener) iter.next() ).onBunnyReproduces( this );
-        }
+        notifyListenersOfEvent( new Event( this, Event.TYPE_REPRODUCED ) );
     }
 
     private void notifyAging() {
-        Iterator iter = listeners.iterator();
-        while ( iter.hasNext() ) {
-            ( (BunnyListener) iter.next() ).onBunnyAging( this );
-        }
+        notifyListenersOfEvent( new Event( this, Event.TYPE_AGE_CHANGED ) );
     }
 
     private void notifyChangePosition() {
-        Iterator iter = listeners.iterator();
-        while ( iter.hasNext() ) {
-            ( (BunnyListener) iter.next() ).onBunnyChangePosition( getX(), getY(), getZ() );
-        }
+        Event event = new Event( this, Event.TYPE_POSITION_CHANGED );
+        event.setPosition( getX(), getY(), getZ() );
+        notifyListenersOfEvent( event );
     }
 
     private void notifyChangeTargeted() {
+        Event event = new Event( this, Event.TYPE_TARGETED_CHANGED );
+        event.setTargeted( targeted );
+        notifyListenersOfEvent( event );
+    }
+
+    private void notifyListenersOfEvent( Event event ) {
         Iterator iter = listeners.iterator();
         while ( iter.hasNext() ) {
-            ( (BunnyListener) iter.next() ).onBunnyChangeTargeted( targeted );
+            ( (BunnyListener) iter.next() ).onEvent( event );
         }
     }
 
@@ -597,49 +588,61 @@ public class Bunny extends ClockAdapter {
      * Interface for objects that want to get events from a bunny
      */
     public interface BunnyListener {
-        /**
-         * Called when a bunny initialized
-         *
-         * @param bunny The initialized bunny
-         */
-        public void onBunnyInit( Bunny bunny );
+        public void onEvent( Event event );
+    }
 
-        /**
-         * Called when the bunny dies
-         *
-         * @param bunny The bunny
-         */
-        public void onBunnyDeath( Bunny bunny );
+    /**
+     * Events sent to bunny listeners
+     */
+    public class Event {
+        public static final int TYPE_INIT = 0;
+        public static final int TYPE_DIED = 1;
+        public static final int TYPE_REPRODUCED = 2;
+        public static final int TYPE_AGE_CHANGED = 3;
+        public static final int TYPE_POSITION_CHANGED = 4;
+        public static final int TYPE_TARGETED_CHANGED = 5;
 
-        /**
-         * Called when the bunny reproduces
-         *
-         * @param bunny The bunny
-         */
-        public void onBunnyReproduces( Bunny bunny );
+        public final int type;
+        public final Bunny bunny;
+        private boolean targeted;
+        private Point3D position;
 
-        /**
-         * Called when the bunny ages
-         *
-         * @param bunny The bunny
-         */
-        public void onBunnyAging( Bunny bunny );
+        public Event( Bunny bunny, int type ) {
+            this.bunny = bunny;
+            this.type = type;
+        }
 
-        /**
-         * Called when the bunny changes its 3D position
-         *
-         * @param x new X coordinate
-         * @param y new Y coordinate
-         * @param z new Z coordinate
-         */
-        public void onBunnyChangePosition( double x, double y, double z );
+        //----------------------------------------------------------------------------
+        // Getters
+        //----------------------------------------------------------------------------
 
-        /**
-         * Called when the bunny is targeted or is not targeted anymore
-         *
-         * @param targeted Whether the bunny is now targeted
-         */
-        public void onBunnyChangeTargeted( boolean targeted );
+        public int getType() {
+            return type;
+        }
+
+        public Bunny getBunny() {
+            return bunny;
+        }
+
+        public boolean isTargeted() {
+            return targeted;
+        }
+
+        public Point3D getPosition() {
+            return position;
+        }
+
+        //----------------------------------------------------------------------------
+        // Setters
+        //----------------------------------------------------------------------------
+
+        private void setTargeted( boolean targeted ) {
+            this.targeted = targeted;
+        }
+
+        private void setPosition( double x, double y, double z ) {
+            position = new Point3D.Double( x, y, z );
+        }
     }
 
 

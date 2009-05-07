@@ -43,27 +43,9 @@ public class GenerationBunnyNode extends DisplayBunnyNode implements Bunny.Bunny
     // Event handlers
     //----------------------------------------------------------------------------
 
-    public void onBunnyInit( Bunny bunny ) {
-
-    }
-
-    public void onBunnyDeath( Bunny bunny ) {
-        setDead( true );
-    }
-
-    public void onBunnyReproduces( Bunny bunny ) {
-
-    }
-
-    public void onBunnyAging( Bunny bunny ) {
-
-    }
-
-    public void onBunnyChangePosition( double x, double y, double z ) {
-
-    }
-
-    public void onBunnyChangeTargeted( boolean targeted ) {
-
+    public void onEvent( Bunny.Event event ) {
+        if( event.type == Bunny.Event.TYPE_DIED ) {
+            setDead( true );
+        }
     }
 }
