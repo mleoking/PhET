@@ -17,6 +17,8 @@ TODO:
 - fix offsets in SolutionsCanvas.updateLayout using EquilibriumExpression.getOriginXOffset/getOriginYOffset approach
 
 DONE:
+5/7/09 strength slider
+5/7/09 concentration controls
 5/5/09 remove outlined text from equations, not required, performance/memory issues
 5/4/09 Equilibrium Expressions dialog + dev controls
 5/4/09 more dev controls for Reaction Equations
