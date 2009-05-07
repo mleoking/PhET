@@ -19,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
@@ -35,17 +36,17 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ConcentrationSliderNode extends PNode {
-
+public class ConcentrationSliderNode extends PhetPNode {
+    
     // Thumb
-    private static final PDimension THUMB_SIZE = new PDimension( 15, 20 );
-    private static final Color THUMB_FILL_COLOR = new Color( 255, 255, 255, 200 ); // translucent white
+    private static final PDimension THUMB_SIZE = new PDimension( 13, 18 );
+    private static final Color THUMB_FILL_COLOR = Color.WHITE;
     private static final Color THUMB_STROKE_COLOR = Color.BLACK;
     private static final float THUMB_STROKE_WIDTH = 1f;
     private static final Stroke THUMB_STROKE = new BasicStroke( THUMB_STROKE_WIDTH );
 
     // Track
-    private static final PDimension TRACK_SIZE = new PDimension( 300, 5 );
+    private static final PDimension TRACK_SIZE = new PDimension( 250, 5 );
     private static final Color TRACK_FILL_COLOR = Color.LIGHT_GRAY;
     private static final Color TRACK_STROKE_COLOR = Color.BLACK;
     private static final float TRACK_STROKE_WIDTH = 1f;
@@ -59,7 +60,7 @@ public class ConcentrationSliderNode extends PNode {
     private static final double MAJOR_TICK_LABEL_Y_SPACING = 2;
 
     // Major tick labels
-    private static final Font MAJOR_TICK_LABEL_FONT = new PhetFont( 16 );
+    private static final Font MAJOR_TICK_LABEL_FONT = new PhetFont( 12 );
     private static final Color MAJOR_TICK_LABEL_COLOR = Color.BLACK;
     
     // Minor ticks
@@ -77,13 +78,13 @@ public class ConcentrationSliderNode extends PNode {
     private double value;
     private final IScalarTransform transform;
 
-    public ConcentrationSliderNode( double min, double max, double value ) {
+    public ConcentrationSliderNode( double min, double max ) {
         assert ( min < max );
         assert ( value >= min && value <= max );
         
         this.min = min;
         this.max = max;
-        this.value = value;
+        this.value = min;
         transform = new LogLinearTransform( min, max, 0, TRACK_SIZE.getWidth() );
         changeListeners = new ArrayList();
         
@@ -408,7 +409,7 @@ public class ConcentrationSliderNode extends PNode {
         PhetPCanvas canvas = new PhetPCanvas();
         canvas.setPreferredSize( canvasSize );
         
-        ConcentrationSliderNode sliderNode = new ConcentrationSliderNode( 1E-3, 1, 1 );
+        ConcentrationSliderNode sliderNode = new ConcentrationSliderNode( 1E-3, 1 );
         canvas.getLayer().addChild( sliderNode );
         sliderNode.setOffset( 100, 100 );
         
