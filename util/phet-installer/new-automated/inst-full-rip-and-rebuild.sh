@@ -30,6 +30,9 @@ function send_email_notification {
 # Main body of this script.
 #----------------------------------------------------------------------------
 
+# Make sure we are starting from the correct directory.
+cd /web/htdocs/phet/installer-builder
+
 echo "================================================================" | tee --append $LOG
 echo " Full rip and rebuild operation performed by `whoami` on: " | tee --append $LOG
 echo " `date`" | tee --append $LOG
