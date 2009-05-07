@@ -192,11 +192,11 @@ public class ControlGraph extends PNode {
         updateSliderValue();
     }
 
-    public static JFreeChart createDefaultChart( String title ) {
+    public static JFreeChartDecorator createDefaultChart( String title ) {
         return createXYLineChart( title, null, null, new XYSeriesCollection( new XYSeries( "dummy series", false ) ), PlotOrientation.VERTICAL );
     }
 
-    public static JFreeChart createXYLineChart( String title, String xAxisLabel, String yAxisLabel, XYDataset dataset,
+    public static JFreeChartDecorator createXYLineChart( String title, String xAxisLabel, String yAxisLabel, XYDataset dataset,
                                                 PlotOrientation orientation ) {
         NumberAxis xAxis = new NumberAxis( xAxisLabel );
         xAxis.setAutoRangeIncludesZero( false );
