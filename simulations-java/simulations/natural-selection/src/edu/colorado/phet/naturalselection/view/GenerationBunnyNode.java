@@ -9,7 +9,7 @@ import edu.colorado.phet.naturalselection.model.Bunny;
  *
  * @author Jonathan Olson
  */
-public class GenerationBunnyNode extends DisplayBunnyNode implements Bunny.BunnyListener {
+public class GenerationBunnyNode extends DisplayBunnyNode implements Bunny.Listener {
 
     /**
      * Bunny reference
@@ -44,7 +44,7 @@ public class GenerationBunnyNode extends DisplayBunnyNode implements Bunny.Bunny
     //----------------------------------------------------------------------------
 
     public void onEvent( Bunny.Event event ) {
-        if( event.type == Bunny.Event.TYPE_DIED ) {
+        if ( event.type == Bunny.Event.TYPE_DIED ) {
             setDead( true );
         }
     }

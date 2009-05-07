@@ -15,7 +15,7 @@ import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelecti
  *
  * @author Jonathan Olson
  */
-public abstract class Gene implements Bunny.BunnyListener {
+public abstract class Gene implements Bunny.Listener {
 
     /**
      * The primary allele (usually the default)
@@ -266,7 +266,7 @@ public abstract class Gene implements Bunny.BunnyListener {
                 break;
             case Bunny.Event.TYPE_DIED:
                 refreshPhenotypeCount();
-                break;            
+                break;
         }
     }
 

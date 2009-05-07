@@ -568,7 +568,7 @@ public class Bunny extends ClockAdapter {
     private void notifyListenersOfEvent( Event event ) {
         Iterator iter = listeners.iterator();
         while ( iter.hasNext() ) {
-            ( (BunnyListener) iter.next() ).onEvent( event );
+            ( (Listener) iter.next() ).onEvent( event );
         }
     }
 
@@ -576,18 +576,18 @@ public class Bunny extends ClockAdapter {
     // Listeners
     //----------------------------------------------------------------------------
 
-    public void addListener( BunnyListener listener ) {
+    public void addListener( Listener listener ) {
         listeners.add( listener );
     }
 
-    public void removeListener( BunnyListener listener ) {
+    public void removeListener( Listener listener ) {
         listeners.remove( listener );
     }
 
     /**
      * Interface for objects that want to get events from a bunny
      */
-    public interface BunnyListener {
+    public interface Listener {
         public void onEvent( Event event );
     }
 
