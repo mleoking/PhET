@@ -14,7 +14,7 @@ import edu.colorado.phet.naturalselection.model.*;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.view.GenerationCountNode;
 import edu.colorado.phet.naturalselection.view.MutationPendingNode;
-import edu.colorado.phet.naturalselection.view.PedigreeNode;
+import edu.colorado.phet.naturalselection.view.pedigree.PedigreeNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
