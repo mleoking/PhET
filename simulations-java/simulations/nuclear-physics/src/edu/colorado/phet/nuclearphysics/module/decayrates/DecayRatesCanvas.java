@@ -12,6 +12,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
@@ -149,6 +151,17 @@ public class DecayRatesCanvas extends PhetPCanvas {
                 update();
             }
         } );
+        
+        // Add a listener for when the clock gets reset.
+        _model.getClock().addClockListener( new ClockAdapter() {
+            
+            public void simulationTimeReset(ClockEvent clockEvent){
+                // When the simulation time is reset, clear the chart.
+            	_proportionsChart.clear();
+            }
+        });
+        
+
     }
 
     /**
