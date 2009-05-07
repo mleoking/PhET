@@ -2,6 +2,7 @@
 package edu.colorado.phet.acidbasesolutions.control;
 
 import java.awt.Color;
+import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
 
@@ -15,6 +16,8 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class SliderThumbArrowNode extends PhetPNode {
 
+    private final PPath pathNode;
+    
     public SliderThumbArrowNode( PDimension size, Color fillColor, Color strokeColor, Stroke stroke ) {
         super();
 
@@ -31,11 +34,15 @@ public class SliderThumbArrowNode extends PhetPNode {
         knobPath.lineTo( w / 2, ( h / 2f ) - hTip );
         knobPath.closePath();
 
-        PPath pathNode = new PPath();
+        pathNode = new PPath();
         pathNode.setPathTo( knobPath );
         pathNode.setPaint( fillColor );
         pathNode.setStroke( stroke );
         pathNode.setStrokePaint( strokeColor );
         addChild( pathNode );
+    }
+    
+    public void setThumbPaint( Paint paint ) {
+        pathNode.setPaint( paint );
     }
 }
