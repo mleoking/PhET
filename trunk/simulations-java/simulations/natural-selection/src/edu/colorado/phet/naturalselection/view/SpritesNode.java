@@ -221,7 +221,6 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.Listener
         sprites.add( bunnyNode );
 
         bunnyNode.addInputEventListener( new PBasicInputEventHandler() {
-            @Override
             public void mousePressed( PInputEvent event ) {
                 super.mousePressed( event );
                 //System.out.println( "Bunny clicked: " + bunny.getId() );
