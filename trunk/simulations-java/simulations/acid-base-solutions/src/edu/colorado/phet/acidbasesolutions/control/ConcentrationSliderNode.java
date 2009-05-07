@@ -89,7 +89,6 @@ public class ConcentrationSliderNode extends PhetPNode {
     
     public ConcentrationSliderNode( double min, double max ) {
         assert ( min < max );
-        assert ( value >= min && value <= max );
         
         this.min = min;
         this.max = max;

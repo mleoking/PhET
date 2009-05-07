@@ -7,6 +7,7 @@ import java.awt.geom.Dimension2D;
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.control.BeakerControls;
 import edu.colorado.phet.acidbasesolutions.control.MiscControls;
+import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
 import edu.colorado.phet.acidbasesolutions.view.beaker.*;
 import edu.colorado.phet.acidbasesolutions.view.graph.ConcentrationGraphNode;
@@ -38,6 +39,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
     private final BeakerLabelNode _beakerLabelNode;
     
     // Control
+    private final SolutionControlsNode _solutionsControlsNode;
     private final BeakerControls _beakerControls;
     private final PSwing _beakerControlsWrapper;
     private final MiscControls _miscControls;
@@ -64,6 +66,8 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         
         _beakerLabelNode = new BeakerLabelNode( ABSConstants.MIN_BEAKER_LABEL_SIZE );
         
+        _solutionsControlsNode = new SolutionControlsNode();
+        
         _beakerControls = new BeakerControls( _moleculeCountsNode, _beakerLabelNode );
         _beakerControls.setBackground( getBackground() );
         _beakerControlsWrapper = new PSwing( _beakerControls );
@@ -75,6 +79,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         _miscControlsWrapper.scale( ABSConstants.PSWING_SCALE );
         
         // rendering order
+        addNode( _solutionsControlsNode );
         addNode( _beakerControlsWrapper );
         addNode( _miscControlsWrapper );
         addNode( _solutionNode );
@@ -105,6 +110,11 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         
         double xOffset, yOffset = 0;
         PBounds b1;
+        
+        // solution controls in upper left
+        xOffset = _solutionsControlsNode.getXOffset() - _solutionsControlsNode.getFullBoundsReference().getX() + 20;
+        yOffset = _solutionsControlsNode.getYOffset() - _solutionsControlsNode.getFullBoundsReference().getY() + 20;
+        _solutionsControlsNode.setOffset( xOffset, yOffset );
         
         // beaker
         xOffset = 50;
