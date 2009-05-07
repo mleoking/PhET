@@ -13,7 +13,7 @@ public interface IScalarTransform {
     public double viewToModel( double viewValue );
 
     /**
-     * Linear transform between linear model and linear view values.
+     * Transform between linear model and linear view values.
      */
     public static class LinearLinearTransform implements IScalarTransform {
 
@@ -39,7 +39,7 @@ public interface IScalarTransform {
     }
 
     /**
-     * Log transform between log model and linear view values.
+     * Transform between log model and linear view values.
      */
     public static class LogLinearTransform implements IScalarTransform {
 
