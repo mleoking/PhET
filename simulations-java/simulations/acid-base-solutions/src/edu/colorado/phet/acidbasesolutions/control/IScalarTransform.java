@@ -13,14 +13,14 @@ public interface IScalarTransform {
     public double viewToModel( double viewValue );
 
     /**
-     * Linear transform between model and view values.
+     * Linear transform between linear model and linear view values.
      */
-    public static class LinearTransform implements IScalarTransform {
+    public static class LinearLinearTransform implements IScalarTransform {
 
         private final double modelMin, modelMax;
         private final double viewMin, viewMax;
 
-        public LinearTransform( double modelMin, double modelMax, double viewMin, double viewMax ) {
+        public LinearLinearTransform( double modelMin, double modelMax, double viewMin, double viewMax ) {
             this.modelMin = modelMin;
             this.modelMax = modelMax;
             this.viewMin = viewMin;
@@ -39,9 +39,9 @@ public interface IScalarTransform {
     }
 
     /**
-     * Log transform between model and view values.
+     * Log transform between log model and linear view values.
      */
-    public static class LogTransform implements IScalarTransform {
+    public static class LogLinearTransform implements IScalarTransform {
 
         private final double viewMin, viewMax;
         private final double modelMin, modelMax;
@@ -51,7 +51,7 @@ public interface IScalarTransform {
          * Constructor.
          * @throws IllegalArgumentException if modelMin and modelMax have different signs
          */
-        public LogTransform( double modelMin, double modelMax, double viewMin, double viewMax ) {
+        public LogLinearTransform( double modelMin, double modelMax, double viewMin, double viewMax ) {
 
             if ( modelMin < 0 && modelMax > 0 || modelMin > 0 && modelMax < 0 ) {
                 throw new IllegalArgumentException( "modelMin and modelMax must have the same sign" );

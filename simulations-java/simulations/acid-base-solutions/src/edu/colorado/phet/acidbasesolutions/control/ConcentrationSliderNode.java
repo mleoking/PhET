@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.acidbasesolutions.control.IScalarTransform.LogTransform;
+import edu.colorado.phet.acidbasesolutions.control.IScalarTransform.LogLinearTransform;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -80,7 +80,7 @@ public class ConcentrationSliderNode extends PNode {
         this.min = min;
         this.max = max;
         this.value = value;
-        transform = new LogTransform( min, max, 0, TRACK_SIZE.getWidth() );
+        transform = new LogLinearTransform( min, max, 0, TRACK_SIZE.getWidth() );
         changeListeners = new ArrayList();
         
         // track
@@ -109,7 +109,7 @@ public class ConcentrationSliderNode extends PNode {
             throw new IllegalArgumentException( "value out of range: " + value );
         }
         if ( value != getValue() ) {
-            System.out.println( "ConcentrationSliderNode.setValue value=" + value );
+            System.out.println( "ConcentrationSliderNode.setValue value=" + value );//XXX
             this.value = value;
             updateThumb();
             fireStateChanged();
