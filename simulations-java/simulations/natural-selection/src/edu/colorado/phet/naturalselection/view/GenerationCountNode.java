@@ -1,13 +1,11 @@
 package edu.colorado.phet.naturalselection.view;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.naturalselection.model.Bunny;
-import edu.colorado.phet.naturalselection.model.Frenzy;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
-public class GenerationCountNode extends PNode implements NaturalSelectionModel.NaturalSelectionModelListener {
+public class GenerationCountNode extends PNode implements NaturalSelectionModel.Listener {
     private PText label;
 
     public GenerationCountNode( NaturalSelectionModel model ) {
@@ -21,23 +19,9 @@ public class GenerationCountNode extends PNode implements NaturalSelectionModel.
         return label.getWidth();
     }
 
-    public void onGenerationChange( int generation ) {
-        label.setText( "Generations: " + String.valueOf( generation + 1 ) );
-    }
-
-    public void onNewBunny( Bunny bunny ) {
-
-    }
-
-    public void onClimateChange( int climate ) {
-
-    }
-
-    public void onSelectionFactorChange( int selectionFactor ) {
-
-    }
-
-    public void onFrenzyStart( Frenzy frenzy ) {
-
+    public void onEvent( NaturalSelectionModel.Event event ) {
+        if ( event.getType() == NaturalSelectionModel.Event.TYPE_NEW_GENERATION ) {
+            label.setText( "Generations: " + String.valueOf( event.getNewGeneration() + 1 ) );
+        }
     }
 }

@@ -9,7 +9,6 @@ import java.util.ListIterator;
 
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.model.Bunny;
-import edu.colorado.phet.naturalselection.model.Frenzy;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -20,7 +19,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  *
  * @author Jonathan Olson
  */
-public class SpritesNode extends PNode implements NaturalSelectionModel.NaturalSelectionModelListener {
+public class SpritesNode extends PNode implements NaturalSelectionModel.Listener {
 
     // display properties
     public static final double BUNNY_SIDE_SPACER = 25.0;
@@ -91,15 +90,19 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.NaturalS
 
     }
 
-    //----------------------------------------------------------------------------
-    // Event handlers
-    //----------------------------------------------------------------------------
-
-    public void onGenerationChange( int generation ) {
-
+    public void onEvent( NaturalSelectionModel.Event event ) {
+        if ( event.getType() == NaturalSelectionModel.Event.TYPE_CLIMATE_CHANGE ) {
+            onClimateChange( event.getNewClimate() );
+        }
+        if ( event.getType() == NaturalSelectionModel.Event.TYPE_SELECTION_CHANGE ) {
+            onSelectionFactorChange( event.getNewSelectionFactor() );
+        }
+        if ( event.getType() == NaturalSelectionModel.Event.TYPE_NEW_BUNNY ) {
+            onNewBunny( event.getNewBunny() );
+        }
     }
 
-    public void onClimateChange( int climate ) {
+    private void onClimateChange( int climate ) {
         // turn the trees on and off
 
         if ( climate == oldClimate ) {
@@ -121,7 +124,7 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.NaturalS
         }
     }
 
-    public void onSelectionFactorChange( int selectionFactor ) {
+    private void onSelectionFactorChange( int selectionFactor ) {
         // turn the shrubs on and off
 
         if ( selectionFactor == oldSelection ) {
@@ -143,10 +146,6 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.NaturalS
         }
     }
 
-    public void onFrenzyStart( Frenzy frenzy ) {
-
-    }
-
     public void reset() {
         Iterator iter = sprites.iterator();
         while ( iter.hasNext() ) {
@@ -159,7 +158,7 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.NaturalS
     }
 
     /**
-     * Called from the model when a new bunny occurs. Used here to create the bunny sprite, and to randomly position it
+     * Handles a new bunny
      *
      * @param bunny The bunny
      */

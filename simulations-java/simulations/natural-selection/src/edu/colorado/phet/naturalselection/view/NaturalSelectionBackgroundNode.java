@@ -4,8 +4,6 @@ package edu.colorado.phet.naturalselection.view;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
-import edu.colorado.phet.naturalselection.model.Bunny;
-import edu.colorado.phet.naturalselection.model.Frenzy;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -15,7 +13,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  *
  * @author Jonathan Olson
  */
-public class NaturalSelectionBackgroundNode extends PNode implements NaturalSelectionModel.NaturalSelectionModelListener {
+public class NaturalSelectionBackgroundNode extends PNode implements NaturalSelectionModel.Listener {
 
     private int climate;
     private PImage equatorImage;
@@ -66,23 +64,9 @@ public class NaturalSelectionBackgroundNode extends PNode implements NaturalSele
     // Event handlers
     //----------------------------------------------------------------------------
 
-    public void onGenerationChange( int generation ) {
-
-    }
-
-    public void onNewBunny( Bunny bunny ) {
-
-    }
-
-    public void onClimateChange( int climate ) {
-        setClimate( climate );
-    }
-
-    public void onSelectionFactorChange( int selectionFactor ) {
-
-    }
-
-    public void onFrenzyStart( Frenzy frenzy ) {
-
+    public void onEvent( NaturalSelectionModel.Event event ) {
+        if ( event.getType() == NaturalSelectionModel.Event.TYPE_CLIMATE_CHANGE ) {
+            setClimate( event.getNewClimate() );
+        }
     }
 }

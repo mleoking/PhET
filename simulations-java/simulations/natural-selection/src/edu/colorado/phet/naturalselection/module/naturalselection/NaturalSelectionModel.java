@@ -504,37 +504,40 @@ public class NaturalSelectionModel extends ClockAdapter {
     //----------------------------------------------------------------------------
 
     private void notifyGenerationChange() {
-        Iterator iter = listeners.iterator();
-        while ( iter.hasNext() ) {
-            ( (NaturalSelectionModelListener) iter.next() ).onGenerationChange( generation );
-        }
+        Event event = new Event( this, Event.TYPE_NEW_GENERATION );
+        event.setNewGeneration( generation );
+        notifyListenersOfEvent( event );
     }
 
     private void notifyNewBunny( Bunny bunny ) {
-        Iterator iter = listeners.iterator();
-        while ( iter.hasNext() ) {
-            ( (NaturalSelectionModelListener) iter.next() ).onNewBunny( bunny );
-        }
+        Event event = new Event( this, Event.TYPE_NEW_BUNNY );
+        event.setNewBunny( bunny );
+        notifyListenersOfEvent( event );
     }
 
     private void notifyClimateChange() {
-        Iterator iter = listeners.iterator();
-        while ( iter.hasNext() ) {
-            ( (NaturalSelectionModelListener) iter.next() ).onClimateChange( climate );
-        }
+        Event event = new Event( this, Event.TYPE_CLIMATE_CHANGE );
+        event.setNewClimate( climate );
+        notifyListenersOfEvent( event );
     }
 
     private void notifySelectionFactorChange() {
-        Iterator iter = listeners.iterator();
-        while ( iter.hasNext() ) {
-            ( (NaturalSelectionModelListener) iter.next() ).onSelectionFactorChange( selectionFactor );
-        }
+        Event event = new Event( this, Event.TYPE_SELECTION_CHANGE );
+        event.setNewSelectionFactor( selectionFactor );
+        notifyListenersOfEvent( event );
     }
 
     private void notifyFrenzyStart( Frenzy frenzy ) {
+        Event event = new Event( this, Event.TYPE_FRENZY_START );
+        event.setFrenzy( frenzy );
+        notifyListenersOfEvent( event );
+    }
+
+    private void notifyListenersOfEvent( Event event ) {
         Iterator iter = listeners.iterator();
+        event.setFrenzy( frenzy );
         while ( iter.hasNext() ) {
-            ( (NaturalSelectionModelListener) iter.next() ).onFrenzyStart( frenzy );
+            ( (Listener) iter.next() ).onEvent( event );
         }
     }
 
@@ -542,54 +545,98 @@ public class NaturalSelectionModel extends ClockAdapter {
     // Listeners
     //----------------------------------------------------------------------------
 
-    public void addListener( NaturalSelectionModelListener listener ) {
+    public void addListener( Listener listener ) {
         listeners.add( listener );
     }
 
-    public void removeListener( NaturalSelectionModelListener listener ) {
+    public void removeListener( Listener listener ) {
         listeners.remove( listener );
     }
 
     /**
      * The interface for objects that wish to receive model change events
      */
-    public interface NaturalSelectionModelListener {
-        // shortcut: implemented in SpritesNode, NaturalSelectionBackgroundNode, PedigreeNode
+    public interface Listener {
+        public void onEvent( Event event );
+    }
 
-        /**
-         * Called when the generation changes
-         *
-         * @param generation The new generation number
-         */
-        public void onGenerationChange( int generation );
+    public class Event {
+        public static final int TYPE_NEW_GENERATION = 0;
+        public static final int TYPE_NEW_BUNNY = 1;
+        public static final int TYPE_CLIMATE_CHANGE = 2;
+        public static final int TYPE_SELECTION_CHANGE = 3;
+        public static final int TYPE_FRENZY_START = 4;
 
-        /**
-         * Called when a new bunny is born
-         *
-         * @param bunny The bunny
-         */
-        public void onNewBunny( Bunny bunny );
+        private NaturalSelectionModel model;
+        private int type;
 
-        /**
-         * Called when the climate changes
-         *
-         * @param climate The new climate
-         */
-        public void onClimateChange( int climate );
+        private int newGeneration;
+        private int newSelectionFactor;
+        private int newClimate;
+        private Bunny newBunny;
+        private Frenzy frenzy;
 
-        /**
-         * Called when the selection factor changes
-         *
-         * @param selectionFactor The new selection factor
-         */
-        public void onSelectionFactorChange( int selectionFactor );
+        public Event( NaturalSelectionModel model, int type ) {
+            this.model = model;
+            this.type = type;
+        }
 
-        /**
-         * Called when a frenzy starts
-         *
-         * @param frenzy The associated frenzy object
-         */
-        public void onFrenzyStart( Frenzy frenzy );
+
+        //----------------------------------------------------------------------------
+        // Getters
+        //----------------------------------------------------------------------------
+
+        public NaturalSelectionModel getModel() {
+            return model;
+        }
+
+        public int getType() {
+            return type;
+        }
+
+        public Bunny getNewBunny() {
+            return newBunny;
+        }
+
+        public int getNewGeneration() {
+            return newGeneration;
+        }
+
+        public int getNewSelectionFactor() {
+            return newSelectionFactor;
+        }
+
+        public int getNewClimate() {
+            return newClimate;
+        }
+
+        public Frenzy getFrenzy() {
+            return frenzy;
+        }
+
+        //----------------------------------------------------------------------------
+        // Setters
+        //----------------------------------------------------------------------------
+
+        private void setNewBunny( Bunny bunny ) {
+            newBunny = bunny;
+        }
+
+        private void setNewGeneration( int newGeneration ) {
+            this.newGeneration = newGeneration;
+        }
+
+        private void setNewSelectionFactor( int newSelectionFactor ) {
+            this.newSelectionFactor = newSelectionFactor;
+        }
+
+        private void setNewClimate( int newClimate ) {
+            this.newClimate = newClimate;
+        }
+
+        private void setFrenzy( Frenzy frenzy ) {
+            this.frenzy = frenzy;
+        }
     }
 
 }
