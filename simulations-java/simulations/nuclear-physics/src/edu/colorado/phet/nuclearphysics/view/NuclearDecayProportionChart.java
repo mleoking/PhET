@@ -54,8 +54,6 @@ public class NuclearDecayProportionChart extends PNode {
     private static final Stroke THICK_AXIS_STROKE = new BasicStroke( THICK_AXIS_LINE_WIDTH );
     private static final float  THIN_AXIS_LINE_WIDTH = 0.75f;
     private static final Stroke THIN_AXIS_STROKE = new BasicStroke( THIN_AXIS_LINE_WIDTH );
-    private static final float  DATA_CURVE_LINE_WIDTH = 3.0f;
-    private static final Stroke DATA_CURVE_STROKE = new BasicStroke( DATA_CURVE_LINE_WIDTH );
     private static final Color  AXES_LINE_COLOR = Color.BLACK;
     private static final double TICK_MARK_LENGTH = 3;
     private static final float  TICK_MARK_WIDTH = 2;
@@ -69,7 +67,7 @@ public class NuclearDecayProportionChart extends PNode {
     private static final Color  HALF_LIFE_LINE_COLOR = new Color (238, 0, 0);
     private static final Color  HALF_LIFE_TEXT_COLOR = HALF_LIFE_LINE_COLOR;
     private static final Font   HALF_LIFE_FONT = new PhetFont( Font.BOLD, 16 );
-    private static final double DATA_POINT_SIZE_PROPORTION = 0.02;
+    private static final float  DATA_CURVE_LINE_WIDTH_PROPORTION = 0.015f;
 
     // Constants that control the location and size of the graph, around which
     // all the other components are positioned.
@@ -127,6 +125,7 @@ public class NuclearDecayProportionChart extends PNode {
     private ArrayList _halfLifeLines = new ArrayList();
     private PPath _preDecayProportionCurve;
     private PPath _postDecayProportionCurve;
+    private Stroke _dataCurveStroke = new BasicStroke();
 
     // Decay events that are represented on the graph.
     ArrayList _decayEvents = new ArrayList();
@@ -382,6 +381,10 @@ public class NuclearDecayProportionChart extends PNode {
         // milliseconds.  Use the multiplier to tweak the span of the x axis.
         _msToPixelsFactor = _graphRect.getWidth() / _timeSpan;
         
+        // Update other variables that depend on the size of the chart.
+        _dataCurveStroke = new BasicStroke( (float)(_graphRect.getHeight() * DATA_CURVE_LINE_WIDTH_PROPORTION ),
+        		BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
+        
         // Redraw the chart based on these recalculated values.
         update();
     }
@@ -501,7 +504,7 @@ public class NuclearDecayProportionChart extends PNode {
     		// Curve doesn't exist - create it.
     		_preDecayProportionCurve = new PPath();
     		_preDecayProportionCurve.moveTo( xPos, yPosPreDecay );
-    		_preDecayProportionCurve.setStroke( DATA_CURVE_STROKE );
+    		_preDecayProportionCurve.setStroke( _dataCurveStroke );
     		_preDecayProportionCurve.setStrokePaint( _preDecayLabelColor );
         	_dataPointsNode.addChild( _preDecayProportionCurve );
     	}
@@ -514,7 +517,7 @@ public class NuclearDecayProportionChart extends PNode {
     		// Curve doesn't exist - create it.
     		_postDecayProportionCurve = new PPath();
     		_postDecayProportionCurve.moveTo( xPos, yPosPostDecay );
-    		_postDecayProportionCurve.setStroke( DATA_CURVE_STROKE );
+    		_postDecayProportionCurve.setStroke( _dataCurveStroke );
     		_postDecayProportionCurve.setStrokePaint( _postDecayLabelColor );
         	_dataPointsNode.addChild( _postDecayProportionCurve );
         	_postDecayProportionCurve.setVisible(_showPostDecayCurve);
