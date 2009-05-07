@@ -38,6 +38,10 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class ConcentrationSliderNode extends PhetPNode {
     
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     // Thumb
     private static final PDimension THUMB_SIZE = new PDimension( 13, 18 );
     private static final Color THUMB_FILL_COLOR = Color.WHITE;
@@ -71,6 +75,10 @@ public class ConcentrationSliderNode extends PhetPNode {
     private static final double MINOR_TICKS_CLOSEST_X_SPACING = 2;
     private static final double MINOR_TICK_X_SPACING_MULTIPLIER = 1.5;
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private final ArrayList changeListeners;
     private final ThumbNode thumbNode;
     private final TrackNode trackNode;
@@ -78,6 +86,10 @@ public class ConcentrationSliderNode extends PhetPNode {
     private double value;
     private final IScalarTransform transform;
 
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
     public ConcentrationSliderNode( double min, double max ) {
         assert ( min < max );
         assert ( value >= min && value <= max );

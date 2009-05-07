@@ -10,6 +10,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -22,10 +24,15 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Concentration control, slider and editable text field.
+ * The slider is consider to be the ultimate source of the value.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ConcentrationControlNode extends PNode {
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
     
     //TODO localize
     private static final String UNITS_MOLES_PER_LITER = "mol/L";
@@ -44,11 +51,22 @@ public class ConcentrationControlNode extends PNode {
     
     private static final Font UNITS_FONT = new PhetFont( DEFAULT_FONT_SIZE );
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private final ConcentrationSliderNode sliderNode;
     private final JFormattedTextField textField;
+    private final ArrayList changeListeners;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public ConcentrationControlNode( double min, double max ) {
         super();
+        
+        changeListeners = new ArrayList();
         
         JLabel concentrationLabel = new JLabel( CONCENTRATION );
         concentrationLabel.setFont( LABEL_FONT );
@@ -91,6 +109,24 @@ public class ConcentrationControlNode extends PNode {
         panelWrapper.setOffset( xOffset, yOffset );
     }
     
+    public void setValue( double value ) {
+        if ( value != sliderNode.getValue() ) {
+            sliderNode.setValue( value );
+        }
+    }
+    
+    public double getValue() {
+        return sliderNode.getValue();
+    }
+    
+    public double getMin() {
+        return sliderNode.getMin();
+    }
+    
+    public double getMax() {
+        return sliderNode.getMax();
+    }
+    
     public void setSliderVisible( boolean visible ) {
         sliderNode.setVisible( visible );
     }
@@ -107,6 +143,22 @@ public class ConcentrationControlNode extends PNode {
         return value;
     }
     
+    public void addChangeListener( ChangeListener listener ) {
+        changeListeners.add( listener );
+    }
+    
+    public void removeChangeListener( ChangeListener listener ) {
+        changeListeners.remove( listener );
+    }
+    
+    private void fireStateChanged() {
+        ChangeEvent event = new ChangeEvent( this );
+        Iterator i = changeListeners.iterator();
+        while ( i.hasNext() ) {
+            ( (ChangeListener) i.next() ).stateChanged( event );
+        }
+    }
+    
     private void revertTextField() {
         Toolkit.getDefaultToolkit().beep();
         textField.setValue( new Double( sliderNode.getValue() ) );
@@ -119,6 +171,7 @@ public class ConcentrationControlNode extends PNode {
         // slider changed, update the text field
         public void stateChanged( ChangeEvent e ) {
             textField.setValue( new Double( sliderNode.getValue() ) );
+            fireStateChanged();
         } 
     }
 
@@ -157,8 +210,8 @@ public class ConcentrationControlNode extends PNode {
         // updates the slider to match the text field
         private void sync() {
             double value = getTextFieldValue();
-            if ( value >= sliderNode.getMin() && value <= sliderNode.getMax() ) {
-                sliderNode.setValue( value );
+            if ( value >= getMin() && value <= getMax() ) {
+                setValue( value );
             }
             else {
                 revertTextField();
@@ -173,9 +226,14 @@ public class ConcentrationControlNode extends PNode {
         PhetPCanvas canvas = new PhetPCanvas();
         canvas.setPreferredSize( canvasSize );
 
-        ConcentrationControlNode controlNode = new ConcentrationControlNode( 1E-3, 1 );
+        final ConcentrationControlNode controlNode = new ConcentrationControlNode( 1E-3, 1 );
         canvas.getLayer().addChild( controlNode );
         controlNode.setOffset( 100, 100 );
+        controlNode.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                System.out.println( "stateChanged value=" + controlNode.getValue() );
+            }
+        });
 
         JPanel panel = new JPanel( new BorderLayout() );
         panel.add( canvas, BorderLayout.CENTER );
