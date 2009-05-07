@@ -48,6 +48,7 @@ public class FrenzyNode extends PNode {
         timeLeftDisplay = new PText( timeString( timeLeft ) );
         timeLeftDisplay.setFont( new PhetFont( 18, true ) );
         timeLeftDisplay.setTextPaint( Color.BLACK );
+        timeLeftDisplay.setJustification( 1f );
 
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = 0;
@@ -106,8 +107,22 @@ public class FrenzyNode extends PNode {
     }
 
     private String timeString( double time ) {
-        //return String.format( "%1$.2f sec", time / 1000 ); // requires Java 1.5
-        return null;
+        String valueString = String.valueOf( time / 1000 );
+        // TODO: does valueOf use commas for different locales?
+        int decimalIndex = valueString.indexOf( "." );
+        if ( decimalIndex == -1 ) {
+            valueString += ".00";
+        }
+        else {
+            int precision = valueString.length() - ( decimalIndex + 1 );
+            if ( precision == 1 ) {
+                valueString += "0";
+            }
+            else if ( precision > 2 ) {
+                valueString = valueString.substring( 0, decimalIndex + 3 );
+            }
+        }
+        return valueString + " sec";
     }
 
     public void setTimeLeft( double time ) {

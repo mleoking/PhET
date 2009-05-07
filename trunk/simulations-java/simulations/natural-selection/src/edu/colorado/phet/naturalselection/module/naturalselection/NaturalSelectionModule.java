@@ -85,4 +85,19 @@ public class NaturalSelectionModule extends PiccoloModule {
         }
     }
 
+    public NaturalSelectionModel getMyModel() {
+        return model;
+    }
+
+    public NaturalSelectionCanvas getMyCanvas() {
+        return canvas;
+    }
+
+    public NaturalSelectionControlPanel getMyControlPanel() {
+        return controlPanel;
+    }
+
+    public BunnyStatsDialog getMyBunnyStatsDialog() {
+        return bunnyStatsDialog;
+    }
 }

@@ -269,6 +269,10 @@ public abstract class Gene implements Bunny.BunnyListener {
 
     }
 
+    public void onBunnyChangeTargeted( boolean targeted ) {
+
+    }
+
     public void onChangeDominance( boolean primary ) {
         if ( primary ) {
             setDominantAllele( primaryAllele );

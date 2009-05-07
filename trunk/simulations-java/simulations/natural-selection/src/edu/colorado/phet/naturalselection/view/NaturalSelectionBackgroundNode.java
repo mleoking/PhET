@@ -5,6 +5,7 @@ package edu.colorado.phet.naturalselection.view;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.model.Bunny;
+import edu.colorado.phet.naturalselection.model.Frenzy;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -78,6 +79,10 @@ public class NaturalSelectionBackgroundNode extends PNode implements NaturalSele
     }
 
     public void onSelectionFactorChange( int selectionFactor ) {
+
+    }
+
+    public void onFrenzyStart( Frenzy frenzy ) {
 
     }
 }

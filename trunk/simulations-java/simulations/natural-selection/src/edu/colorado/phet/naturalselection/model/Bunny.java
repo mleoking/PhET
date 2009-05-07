@@ -86,6 +86,8 @@ public class Bunny extends ClockAdapter {
 
     private boolean movingRight;
 
+    private boolean targeted = false;
+
     public static final int BETWEEN_HOP_TIME = 40;
     public static final int HOP_TIME = 10;
     public static final int HOP_HEIGHT = 50;
@@ -153,6 +155,27 @@ public class Bunny extends ClockAdapter {
         // bunny is set up, notify various things that the bunny has been created and is ready to use
         //notifyInit();
 
+    }
+
+    public boolean isTargeted() {
+        return targeted;
+    }
+
+    public void setTargeted( boolean targeted ) {
+        boolean changed = targeted != this.targeted;
+        this.targeted = targeted;
+
+        if ( changed ) {
+            notifyChangeTargeted();
+        }
+
+        if ( model.isDuringFrenzy() ) {
+            model.getFrenzy().addTargetBunny( this );
+        }
+    }
+
+    public boolean canBeTargeted() {
+        return ( isTargeted() == false && model.isDuringFrenzy() );
     }
 
     public boolean isMovingRight() {
@@ -551,6 +574,13 @@ public class Bunny extends ClockAdapter {
         }
     }
 
+    private void notifyChangeTargeted() {
+        Iterator iter = listeners.iterator();
+        while ( iter.hasNext() ) {
+            ( (BunnyListener) iter.next() ).onBunnyChangeTargeted( targeted );
+        }
+    }
+
     //----------------------------------------------------------------------------
     // Listeners
     //----------------------------------------------------------------------------
@@ -603,6 +633,13 @@ public class Bunny extends ClockAdapter {
          * @param z new Z coordinate
          */
         public void onBunnyChangePosition( double x, double y, double z );
+
+        /**
+         * Called when the bunny is targeted or is not targeted anymore
+         *
+         * @param targeted Whether the bunny is now targeted
+         */
+        public void onBunnyChangeTargeted( boolean targeted );
     }
 
 

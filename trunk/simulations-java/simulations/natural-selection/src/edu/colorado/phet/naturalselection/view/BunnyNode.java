@@ -32,6 +32,7 @@ public class BunnyNode extends NaturalSelectionSprite implements Bunny.BunnyList
         this.handler = handler;
         displayBunnyNode = new DisplayBunnyNode( colorPhenotype, teethPhenotype, tailPhenotype );
         addChild( displayBunnyNode );
+        //displayBunnyNode.setTargeted( true );
     }
 
     /**
@@ -96,5 +97,9 @@ public class BunnyNode extends NaturalSelectionSprite implements Bunny.BunnyList
 
     public void onBunnyChangePosition( double x, double y, double z ) {
         setSpriteLocation( x, y, z );
+    }
+
+    public void onBunnyChangeTargeted( boolean targeted ) {
+        displayBunnyNode.setTargeted( targeted );
     }
 }

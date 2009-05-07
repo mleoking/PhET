@@ -34,6 +34,11 @@ public class NaturalSelectionModel extends ClockAdapter {
     private NaturalSelectionClock clock;
 
     /**
+     * Frenzy object
+     */
+    private Frenzy frenzy;
+
+    /**
      * A list of all of the (model) bunnies.
      * WARNING: do NOT change the order of this list
      */
@@ -50,6 +55,8 @@ public class NaturalSelectionModel extends ClockAdapter {
      * another year will change
      */
     private double lastYearTick = 0;
+
+    private double lastFrenzyTick = NaturalSelectionDefaults.TICKS_PER_YEAR / 4;
 
     /**
      * The current generation
@@ -103,6 +110,10 @@ public class NaturalSelectionModel extends ClockAdapter {
      * Reset the entire model
      */
     public void reset() {
+
+        if ( isDuringFrenzy() ) {
+            prematureEndFrenzy();
+        }
 
         climate = NaturalSelectionDefaults.DEFAULT_CLIMATE;
 
@@ -225,7 +236,8 @@ public class NaturalSelectionModel extends ClockAdapter {
             allele = TeethGene.TEETH_HUGE_ALLELE;
         }
         else {
-            throw new RuntimeException( "Unknown gene type for mutation" );
+            // don't mutate anything!
+            return;
         }
 
         // we only want to check bunnes that haven't mutated already
@@ -291,14 +303,19 @@ public class NaturalSelectionModel extends ClockAdapter {
     }
 
     private void invisibleWolfAttack() {
+
+        if ( !isDuringFrenzy() ) {
+            return;
+        }
+
         Iterator iter = bunnies.iterator();
 
-        double baseFraction = ( Math.sqrt( (double) getPopulation() ) - 3 ) / ( NaturalSelectionDefaults.TICKS_PER_YEAR * 10 );
+        double baseFraction = ( Math.sqrt( (double) getPopulation() ) - 3 ) / ( NaturalSelectionDefaults.TICKS_PER_YEAR );
 
         while ( iter.hasNext() ) {
             Bunny bunny = (Bunny) iter.next();
 
-            if ( !bunny.isAlive() ) {
+            if ( !bunny.isAlive() || !bunny.isTargeted() ) {
                 continue;
             }
 
@@ -308,7 +325,7 @@ public class NaturalSelectionModel extends ClockAdapter {
                     ( bunny.getColorPhenotype() == ColorGene.WHITE_ALLELE && climate == CLIMATE_ARCTIC )
                     || ( bunny.getColorPhenotype() == ColorGene.BROWN_ALLELE && climate == CLIMATE_EQUATOR )
                     ) {
-                actualFraction /= 4;
+                actualFraction /= 8;
             }
 
             if ( Math.random() < actualFraction ) {
@@ -318,12 +335,45 @@ public class NaturalSelectionModel extends ClockAdapter {
         }
     }
 
+    public void startFrenzy() {
+        System.out.println( "Starting frenzy" );
+        if ( isDuringFrenzy() ) {
+            throw new RuntimeException( "Already frenzying" );
+        }
+
+        frenzy = new Frenzy( this, 4 * NaturalSelectionDefaults.CLOCK_FRAME_RATE ); // TODO: work on time stuff!
+
+        notifyFrenzyStart( frenzy );
+    }
+
+    public void prematureEndFrenzy() {
+        if ( frenzy != null && frenzy.isRunning() ) {
+            frenzy.endFrenzy();
+        }
+
+        // sanity check, Frenzy should call this endFrenzy below.
+        frenzy = null;
+    }
+
+    public void endFrenzy() {
+        System.out.println( "Ending frenzy" );
+        frenzy = null;
+    }
+
+    public boolean isDuringFrenzy() {
+        return frenzy != null;
+    }
+
     //----------------------------------------------------------------------------
     // Getters and setters
     //----------------------------------------------------------------------------
 
     public NaturalSelectionClock getClock() {
         return clock;
+    }
+
+    public Frenzy getFrenzy() {
+        return frenzy;
     }
 
     public int getPopulation() {
@@ -438,6 +488,14 @@ public class NaturalSelectionModel extends ClockAdapter {
             lastYearTick += NaturalSelectionDefaults.TICKS_PER_YEAR;
             nextGeneration();
         }
+
+        while ( event.getSimulationTime() - lastFrenzyTick > NaturalSelectionDefaults.TICKS_PER_YEAR ) {
+            lastFrenzyTick += NaturalSelectionDefaults.TICKS_PER_YEAR;
+
+            if ( selectionFactor == SELECTION_WOLVES ) {
+                startFrenzy();
+            }
+        }
     }
 
 
@@ -470,6 +528,13 @@ public class NaturalSelectionModel extends ClockAdapter {
         Iterator iter = listeners.iterator();
         while ( iter.hasNext() ) {
             ( (NaturalSelectionModelListener) iter.next() ).onSelectionFactorChange( selectionFactor );
+        }
+    }
+
+    private void notifyFrenzyStart( Frenzy frenzy ) {
+        Iterator iter = listeners.iterator();
+        while ( iter.hasNext() ) {
+            ( (NaturalSelectionModelListener) iter.next() ).onFrenzyStart( frenzy );
         }
     }
 
@@ -518,6 +583,13 @@ public class NaturalSelectionModel extends ClockAdapter {
          * @param selectionFactor The new selection factor
          */
         public void onSelectionFactorChange( int selectionFactor );
+
+        /**
+         * Called when a frenzy starts
+         *
+         * @param frenzy The associated frenzy object
+         */
+        public void onFrenzyStart( Frenzy frenzy );
     }
 
 }
