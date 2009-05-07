@@ -279,20 +279,26 @@ public class NuclearDecayProportionChart extends PNode {
      * are added in order of increasing time.
      * 
      * @param time - time that event occurred
-     * @param percentage - percentage of this nucleus remaining after decay
-     * occurred.
+     * @param percentageDecayed - percentage of decayed nuclei existing 
+     * after this decay occurred.
      */
-    public void addDecayEvent( double time, double percentage ){
+    public void addDecayEvent( double time, double percentageDecayed ){
     	
     	// Validate arguments.
-    	if ((time < 0) || (percentage < 0) || (percentage > 100)){
+    	if ((time < 0) || (percentageDecayed < 0) || (percentageDecayed > 100)){
     		throw ( new IllegalArgumentException(this.getClass().getName() + 
     				": Invalid argument for data point addition."));
     	}
     	
-    	Point2D decayEvent = new Point2D.Double( time, percentage );
+    	// Graph this event.
+    	Point2D decayEvent = new Point2D.Double( time, percentageDecayed );
 		_decayEvents.add( decayEvent );
 		_graph.graphDecayEvent( decayEvent );
+		
+		// Update the pie chart if it is present.
+		if ( _pickableChartNode != null ){
+			_pieChart.setDecayedPercentage(percentageDecayed);
+		}
     }
     
     /**
@@ -303,20 +309,36 @@ public class NuclearDecayProportionChart extends PNode {
      */
     private class ProportionsPieChartNode extends PNode {
 
-    	private final double INITIAL_WIDTH = 100;
-    	private final double INITIAL_HEIGHT = INITIAL_WIDTH * 1.5;
-    	private final double PIE_CHART_WIDTH_PROPORTION = 0.9;
-    	private final int INITIAL_PIE_CHART_WIDTH = (int)(Math.round(INITIAL_WIDTH * PIE_CHART_WIDTH_PROPORTION));
+    	private static final double INITIAL_OVERALL_WIDTH = 100;
+    	private static final double PIE_CHART_WIDTH_PROPORTION = 0.9;
+    	private final int INITIAL_PIE_CHART_WIDTH = (int)(Math.round(INITIAL_OVERALL_WIDTH * PIE_CHART_WIDTH_PROPORTION));
     	
     	private PieChartNode _pieChartNode;
-        private PieChartNode.PieValue[] _pieChartValues;
     	
 		public ProportionsPieChartNode() {
-	        _pieChartValues = new PieValue[]{
-	                new PieChartNode.PieValue( 1, _preDecayLabelColor ),
+			PieChartNode.PieValue[] pieChartValues = new PieValue[]{
+	                new PieChartNode.PieValue( 100, _preDecayLabelColor ),
 	                new PieChartNode.PieValue( 0, _postDecayLabelColor )};
-	        _pieChartNode = new PieChartNode(_pieChartValues, new Rectangle(INITIAL_PIE_CHART_WIDTH, INITIAL_PIE_CHART_WIDTH));
+	        _pieChartNode = new PieChartNode( pieChartValues, new Rectangle(INITIAL_PIE_CHART_WIDTH, INITIAL_PIE_CHART_WIDTH) );
 	        addChild( _pieChartNode );
+		}
+	
+		/**
+		 * The the percentage of undecayed vs decayed nuclei.
+		 * 
+		 * @param percentageDecayed
+		 */
+		public void setDecayedPercentage( double percentageDecayed ){
+			// Validate input.
+			if ((percentageDecayed < 0) || (percentageDecayed > 100)){
+				throw new IllegalArgumentException("Error: Percentage must be between 0 and 100.");
+			}
+			
+			PieChartNode.PieValue[] pieChartValues = new PieValue[]{
+	                new PieChartNode.PieValue( 100 - percentageDecayed, _preDecayLabelColor ),
+	                new PieChartNode.PieValue( percentageDecayed, _postDecayLabelColor )};
+			
+			_pieChartNode.setPieValues(pieChartValues);
 		}
     }
     
