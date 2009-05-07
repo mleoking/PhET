@@ -10,10 +10,10 @@ import javax.swing.*;
 import javax.swing.border.Border;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.translationutility.TULocales;
 import edu.colorado.phet.translationutility.TUResources;
 import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListener;
-import edu.colorado.phet.translationutility.util.FontFactory;
 
 /**
  * TranslationPanel is a panel that consists of 3 columns for localizing strings.
@@ -179,8 +179,8 @@ public class TranslationPanel extends JPanel implements FindListener {
         }
         
         // create the table
-        Font sourceFont = FontFactory.createFont( sourceLocale );
-        Font targetFont = FontFactory.createFont( targetLocale );
+        Font sourceFont = PhetFont.getPreferredFont( sourceLocale );
+        Font targetFont = PhetFont.getPreferredFont( targetLocale );
         Iterator i = sortedSet.iterator();
         while ( i.hasNext() ) {
 

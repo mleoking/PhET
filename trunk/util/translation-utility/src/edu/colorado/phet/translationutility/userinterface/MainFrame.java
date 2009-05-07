@@ -17,6 +17,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.html.HTMLEditorKit;
 
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.translationutility.TUResources;
 import edu.colorado.phet.translationutility.simulations.ISimulation;
@@ -24,7 +25,6 @@ import edu.colorado.phet.translationutility.simulations.ISimulation.SimulationEx
 import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListener;
 import edu.colorado.phet.translationutility.userinterface.ToolBar.ToolBarListener;
 import edu.colorado.phet.translationutility.util.ExceptionHandler;
-import edu.colorado.phet.translationutility.util.FontFactory;
 import edu.colorado.phet.translationutility.util.TULogger;
 
 /**
@@ -256,7 +256,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
      */
     public void handleFind() {
         if ( _findDialog == null ) {
-            _findDialog = new FindDialog( this, _previousFindText, FontFactory.createFont( _targetLocale ) );
+            _findDialog = new FindDialog( this, _previousFindText, PhetFont.getPreferredFont( _targetLocale ) );
             _findDialog.addFindListener( this );
             _findDialog.addWindowListener( new WindowAdapter() {
 
