@@ -21,7 +21,7 @@ import javax.swing.JTable;
  */
 public class ShowSystemProperties {
 
-    private static final boolean PRINT_TO_STDOUT = false;
+    private static final boolean PRINT_TO_STDOUT = true;
     
     public static void main( String[] args ) {
         
@@ -34,18 +34,18 @@ public class ShowSystemProperties {
         Collections.sort( keys );
 
         // table data
+        if ( PRINT_TO_STDOUT ) {
+            System.out.println( "property,value" );
+        }
         String[][] rowData = new String[keys.size()][2];
         for( int i = 0; i < keys.size(); i++ ) {
             Object key = keys.get( i );
             Object value = properties.get( key );
             if ( PRINT_TO_STDOUT ) {
-                System.out.println( key + ": " + value );
+                System.out.println( key + "," + value );
             }
             rowData[i][0] = key.toString();
             rowData[i][1] = "" + value.toString();
-            if ( PRINT_TO_STDOUT ) {
-                System.out.println( rowData[i][0] + "=" + rowData[i][1] );
-            }
         }
         
         // table in a scroll pane

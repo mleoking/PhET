@@ -18,7 +18,7 @@ import javax.swing.*;
  */
 public class ShowUIManagerProperties {
 
-    private static final boolean PRINT_TO_STDOUT = false;
+    private static final boolean PRINT_TO_STDOUT = true;
 
     public static void main( String[] args ) {
 
@@ -34,6 +34,9 @@ public class ShowUIManagerProperties {
         Collections.sort( sortedKeyList );
 
         // create table data
+        if ( PRINT_TO_STDOUT ) {
+            System.out.println( "property,value" );
+        }
         String[][] rowData = new String[defaults.size()][2];
         Iterator it = sortedKeyList.iterator();
         int row = 0;
@@ -42,7 +45,7 @@ public class ShowUIManagerProperties {
             rowData[row][0] = key.toString();
             rowData[row][1] = "" + defaults.get( key );
             if ( PRINT_TO_STDOUT ) {
-                System.out.println( rowData[row][0] + "=" + rowData[row][1] );
+                System.out.println( rowData[row][0] + "," + rowData[row][1] );
             }
             row++;
         }
