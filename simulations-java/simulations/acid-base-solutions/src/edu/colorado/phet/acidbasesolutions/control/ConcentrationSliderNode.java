@@ -2,7 +2,6 @@
 package edu.colorado.phet.acidbasesolutions.control;
 
 import java.awt.*;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -46,8 +45,7 @@ public class ConcentrationSliderNode extends PhetPNode {
     private static final PDimension THUMB_SIZE = new PDimension( 13, 18 );
     private static final Color THUMB_FILL_COLOR = Color.WHITE;
     private static final Color THUMB_STROKE_COLOR = Color.BLACK;
-    private static final float THUMB_STROKE_WIDTH = 1f;
-    private static final Stroke THUMB_STROKE = new BasicStroke( THUMB_STROKE_WIDTH );
+    private static final Stroke THUMB_STROKE = new BasicStroke( 1f );
 
     // Track
     private static final PDimension TRACK_SIZE = new PDimension( 250, 5 );
@@ -59,8 +57,7 @@ public class ConcentrationSliderNode extends PhetPNode {
     // Major ticks
     private static final double MAJOR_TICK_LENGTH = 10;
     private static final Color MAJOR_TICK_COLOR = Color.BLACK;
-    private static final float MAJOR_TICK_STROKE_WIDTH = 1f;
-    private static final Stroke MAJOR_TICK_STROKE = new BasicStroke( MAJOR_TICK_STROKE_WIDTH );
+    private static final Stroke MAJOR_TICK_STROKE = new BasicStroke( 1f );
     private static final double MAJOR_TICK_LABEL_Y_SPACING = 2;
 
     // Major tick labels
@@ -70,8 +67,7 @@ public class ConcentrationSliderNode extends PhetPNode {
     // Minor ticks
     private static final double MINOR_TICK_LENGTH = 0.6 * MAJOR_TICK_LENGTH;
     private static final Color MINOR_TICK_COLOR = Color.GRAY;
-    private static final float MINOR_TICK_STROKE_WIDTH = 1f;
-    private static final Stroke MINOR_TICK_STROKE = new BasicStroke( MINOR_TICK_STROKE_WIDTH );
+    private static final Stroke MINOR_TICK_STROKE = new BasicStroke( 1f );
     private static final double MINOR_TICKS_CLOSEST_X_SPACING = 2;
     private static final double MINOR_TICK_X_SPACING_MULTIPLIER = 1.5;
 
@@ -80,7 +76,7 @@ public class ConcentrationSliderNode extends PhetPNode {
     //----------------------------------------------------------------------------
     
     private final ArrayList changeListeners;
-    private final ThumbNode thumbNode;
+    private final SliderThumbArrowNode thumbNode;
     private final TrackNode trackNode;
     private final double min, max;
     private double value;
@@ -109,7 +105,7 @@ public class ConcentrationSliderNode extends PhetPNode {
         createTicks( min, max );
         
         // thumb
-        thumbNode = new ThumbNode();
+        thumbNode = new SliderThumbArrowNode( THUMB_SIZE, THUMB_FILL_COLOR, THUMB_STROKE_COLOR, THUMB_STROKE );
         addChild( thumbNode );
         thumbNode.addInputEventListener( new CursorHandler() );
         thumbNode.addInputEventListener( new ThumbDragHandler( this ) );
@@ -139,9 +135,9 @@ public class ConcentrationSliderNode extends PhetPNode {
             if ( i == 0 ) {
                 label = "1";
             }
-            MajorTick majorTick = new MajorTick( label );
-            addChild( majorTick );
-            majorTick.setOffset( xOffset, yOffset );
+            MajorTickNode majorTickNode = new MajorTickNode( label );
+            addChild( majorTickNode );
+            majorTickNode.setOffset( xOffset, yOffset );
             if ( xOffset != 0 ) {
                 createMinorTicks( xOffset - dx, xOffset );
             }
@@ -157,9 +153,9 @@ public class ConcentrationSliderNode extends PhetPNode {
         double xOffset = majorTickRight - dx;
         final double yOffset = trackNode.getFullBoundsReference().getMaxY();
         while ( xOffset >= majorTickLeft + dx ) {
-            MinorTick minorTick = new MinorTick();
-            addChild( minorTick );
-            minorTick.setOffset( xOffset, yOffset );
+            MinorTickNode minorTickNode = new MinorTickNode();
+            addChild( minorTickNode );
+            minorTickNode.setOffset( xOffset, yOffset );
             dx *= MINOR_TICK_X_SPACING_MULTIPLIER;
             xOffset = xOffset - dx;
         }
@@ -193,7 +189,7 @@ public class ConcentrationSliderNode extends PhetPNode {
        return trackNode; 
     }
     
-    protected ThumbNode getThumbNode() {
+    protected SliderThumbArrowNode getThumbNode() {
         return thumbNode;
     }
     
@@ -224,38 +220,6 @@ public class ConcentrationSliderNode extends PhetPNode {
     }
 
     /*
-     * The thumb has an arrow tip that points down.
-     * Origin is at the geometric center.
-     * The thumb is interactive.
-     */
-    private static class ThumbNode extends PNode {
-
-        public ThumbNode() {
-            super();
-
-            float w = (float) THUMB_SIZE.getWidth();
-            float h = (float) THUMB_SIZE.getHeight();
-            float hTip = 0.35f * h;
-
-            // start at the tip, move clockwise
-            GeneralPath knobPath = new GeneralPath();
-            knobPath.moveTo( 0f, h / 2f );
-            knobPath.lineTo( -w / 2f, ( h / 2f ) - hTip );
-            knobPath.lineTo( -w / 2f, -h / 2f );
-            knobPath.lineTo( w / 2, -h / 2f );
-            knobPath.lineTo( w / 2, ( h / 2f ) - hTip );
-            knobPath.closePath();
-
-            PPath pathNode = new PPath();
-            pathNode.setPathTo( knobPath );
-            pathNode.setPaint( THUMB_FILL_COLOR );
-            pathNode.setStroke( THUMB_STROKE );
-            pathNode.setStrokePaint( THUMB_STROKE_COLOR );
-            addChild( pathNode );
-        }
-    }
-
-    /*
      * The track is a rectangular region, oriented horizontally.
      * Origin is at the upper-left corner.
      * The track is interactive.
@@ -276,9 +240,9 @@ public class ConcentrationSliderNode extends PhetPNode {
      * Origin is at the top center.
      * They have no label, and are not interactive.
      */
-    private static class MinorTick extends PPath {
+    private static class MinorTickNode extends PPath {
 
-        public MinorTick() {
+        public MinorTickNode() {
             super();
             // not interactive
             setPickable( false );
@@ -296,9 +260,9 @@ public class ConcentrationSliderNode extends PhetPNode {
      * They are labeled, and the label is centered below the tick line.
      * They are not interactive.
      */
-    private static class MajorTick extends PComposite {
+    private static class MajorTickNode extends PComposite {
 
-        public MajorTick( String label ) {
+        public MajorTickNode( String label ) {
             super();
             // not interactive
             setPickable( false );
@@ -310,7 +274,7 @@ public class ConcentrationSliderNode extends PhetPNode {
             tickNode.setStrokePaint( MAJOR_TICK_COLOR );
             addChild( tickNode );
             // label
-            PNode labelNode = new MajorTickLabel( label );
+            PNode labelNode = new MajorTickLabelNode( label );
             addChild( labelNode );
             // layout, label centered below tick
             tickNode.setOffset( 0, 0 );
@@ -325,9 +289,9 @@ public class ConcentrationSliderNode extends PhetPNode {
      * They are not interactive.
      * Origin is at upper-left corner.
      */
-    private static class MajorTickLabel extends HTMLNode {
+    private static class MajorTickLabelNode extends HTMLNode {
 
-        public MajorTickLabel( String label ) {
+        public MajorTickLabelNode( String label ) {
             super();
             // not interactive
             setPickable( false );
