@@ -48,7 +48,7 @@ public class StrengthSliderNode extends PhetPNode {
     private static final String STRONGER_LABEL = "stronger";
     
     // Control label
-    private static final Font LABEL_FONT = new PhetFont( 16 );
+    private static final Font LABEL_FONT = new PhetFont( 14 );
     private static final Color LABEL_COLOR = Color.BLACK;
 
     // Thumb
