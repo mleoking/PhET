@@ -160,8 +160,6 @@ public class DecayRatesCanvas extends PhetPCanvas {
             	_proportionsChart.clear();
             }
         });
-        
-
     }
 
     /**
@@ -185,7 +183,6 @@ public class DecayRatesCanvas extends PhetPCanvas {
     			new AtomicNucleusImageNode( (AtomicNucleus)modelElement, AtomicNucleusImageType.GRADIENT_SPHERE );
     		
     		// Map this node and nucleus together.
-    		// TODO: Do I need this map?
     		_mapNucleiToNodes.put(modelElement, atomicNucleusNode);
     		
     		// Set the position and add the node to the canvas.
@@ -212,25 +209,18 @@ public class DecayRatesCanvas extends PhetPCanvas {
     	if (modelElement instanceof AtomicNucleus){
     		AtomicNucleusNode nucleusNode = (AtomicNucleusNode)_mapNucleiToNodes.get(modelElement);
     		if (nucleusNode == null){
-    			System.err.println("Error: Could not find node for removed model element.");
+    			System.err.println(this.getClass().getName() + ": Error - Could not find node for removed model element.");
     		}
     		else {
     			((AtomicNucleus)modelElement).removeListener(_decayEventListener);
     			
     			// Remove the node from the canvas.
-    			removeWorldChild( nucleusNode );
+    			PNode child = _particleLayer.removeChild( nucleusNode );
+    			if (child == null){
+        			System.err.println(this.getClass().getName() + ": Error - Could not remove nucleus from canvas.");
+    			}
     		}
     		_mapNucleiToNodes.remove( modelElement );
-    	}
-    	else if (modelElement instanceof AlphaParticle){
-    		AlphaParticleModelNode alphaNode = (AlphaParticleModelNode)_mapAlphaParticlesToNodes.get(modelElement);
-    		if (alphaNode == null){
-    			System.err.println("Error: Could not find node for removed alpha particle.");
-    		}
-    		else{
-    			removeWorldChild( alphaNode );
-    		}
-    		_mapAlphaParticlesToNodes.remove( modelElement );
     	}
 	}
     
