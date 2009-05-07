@@ -271,7 +271,9 @@ public class NuclearDecayProportionChart extends PNode {
     public void clear() {
         _decayEvents.clear();
         _graph.clearData();
-        _pieChart.resetPie();
+        if ( _pieChart != null ){
+        	_pieChart.resetPie();
+        }
     }
     
     /**
@@ -297,7 +299,7 @@ public class NuclearDecayProportionChart extends PNode {
 		_graph.graphDecayEvent( decayEvent );
 		
 		// Update the pie chart if it is present.
-		if ( _pickableChartNode != null ){
+		if ( _pieChart != null ){
 			_pieChart.setDecayedPercentage(percentageDecayed);
 		}
     }
