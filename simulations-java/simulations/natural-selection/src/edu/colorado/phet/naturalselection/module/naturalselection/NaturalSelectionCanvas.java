@@ -10,6 +10,7 @@ import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.model.Frenzy;
+import edu.colorado.phet.naturalselection.model.Wolf;
 import edu.colorado.phet.naturalselection.view.AddFriendNode;
 import edu.colorado.phet.naturalselection.view.FrenzyNode;
 import edu.colorado.phet.naturalselection.view.NaturalSelectionBackgroundNode;
@@ -91,6 +92,10 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
 
                         public void onFrenzyTimeLeft( double timeLeft ) {
                             frenzyNode.setTimeLeft( timeLeft );
+                        }
+
+                        public void onWolfCreate( Wolf wolf ) {
+
                         }
                     } );
                 }

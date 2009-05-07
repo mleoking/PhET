@@ -131,10 +131,6 @@ public class NaturalSelectionModel extends ClockAdapter {
         TailGene.getInstance().reset();
         TeethGene.getInstance().reset();
 
-        if ( NaturalSelectionDefaults.DEFAULT_NUMBER_OF_BUNNIES != 1 ) {
-            throw new RuntimeException( "Number of starting bunnies must be 1, or this part should be changed" );
-        }
-
         rootFather = new Bunny( this, null, null, 0 );
         rootFather.notifyInit();
         bunnies.add( rootFather );
@@ -213,7 +209,7 @@ public class NaturalSelectionModel extends ClockAdapter {
             Bunny bunny = (Bunny) newIter.next();
             bunny.notifyInit();
             bunnies.add( bunny );
-            clock.addClockListener( bunny );
+            //clock.addClockListener( bunny );
             // TODO: possibly notify at the end for potential performance issues?
             notifyNewBunny( bunny );
         }
@@ -343,7 +339,11 @@ public class NaturalSelectionModel extends ClockAdapter {
 
         frenzy = new Frenzy( this, 4 * NaturalSelectionDefaults.CLOCK_FRAME_RATE ); // TODO: work on time stuff!
 
+        // so listeners can listen to the frenzy
         notifyFrenzyStart( frenzy );
+
+        // now create wolves, so all listeners hear the wolf creations
+        frenzy.init();
     }
 
     public void prematureEndFrenzy() {

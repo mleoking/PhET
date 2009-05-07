@@ -31,15 +31,22 @@ public class Frenzy extends ClockAdapter {
         startTime = clock.getSimulationTime();
         clock.addClockListener( this );
 
-        int numWolves = 1 + model.getPopulation() / 6;
-        wolves = new ArrayList();
-        for ( int i = 0; i < numWolves; i++ ) {
-            wolves.add( new Wolf( model, this ) );
-        }
-
         targetedBunnies = new ArrayList();
 
+    }
 
+    public void init() {
+        int numWolves = 4 + model.getPopulation() / 6;
+        wolves = new ArrayList();
+        for ( int i = 0; i < numWolves; i++ ) {
+            Wolf wolf = new Wolf( model, this );
+            wolves.add( wolf );
+            notifyWolfCreate( wolf );
+        }
+    }
+
+    public ArrayList getWolves() {
+        return wolves;
     }
 
     /**
@@ -82,8 +89,17 @@ public class Frenzy extends ClockAdapter {
             ( (Bunny) bunnyIter.next() ).setTargeted( false );
         }
 
+        for ( Iterator iterator = wolves.iterator(); iterator.hasNext(); ) {
+            Wolf wolf = (Wolf) iterator.next();
+            wolf.disable();
+        }
+
         notifyFrenzyStop();
     }
+
+    //----------------------------------------------------------------------------
+    // Notifiers
+    //----------------------------------------------------------------------------
 
     private void notifyFrenzyStop() {
         Iterator iter = listeners.iterator();
@@ -100,9 +116,21 @@ public class Frenzy extends ClockAdapter {
         }
     }
 
+    private void notifyWolfCreate( Wolf wolf ) {
+        Iterator iter = listeners.iterator();
+        while ( iter.hasNext() ) {
+            ( (Listener) iter.next() ).onWolfCreate( wolf );
+        }
+    }
+
+
     public void addTargetBunny( Bunny bunny ) {
         targetedBunnies.add( bunny );
     }
+
+    //----------------------------------------------------------------------------
+    // Listeners
+    //----------------------------------------------------------------------------
 
     public void addListener( Listener listener ) {
         listeners.add( listener );
@@ -116,5 +144,8 @@ public class Frenzy extends ClockAdapter {
         public void onFrenzyStop( Frenzy frenzy );
 
         public void onFrenzyTimeLeft( double timeLeft );
+
+        public void onWolfCreate( Wolf wolf );
     }
+
 }
