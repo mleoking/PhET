@@ -14,7 +14,8 @@ import javax.swing.JTable;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ShowAvailableFonts {
-    
+
+    private static boolean enableConsoleOutput=true;
     public static void main( String[] args ) {
 
         // get a set of all available fonts
@@ -23,9 +24,13 @@ public class ShowAvailableFonts {
         
         // table data
         String[][] rowData = new String[ fonts.length ][3];
+        if (enableConsoleOutput)
+            System.out.println("font name\tfamily");
         for ( int i = 0; i < fonts.length; i++ ) {
             rowData[i][0] = fonts[i].getFontName();
             rowData[i][1] = fonts[i].getFamily();
+            if (enableConsoleOutput)
+                System.out.println(fonts[i].getFontName() + "\t" + fonts[i].getFamily());
         }
         Arrays.sort( rowData, new MutidimensionalArrayComparator() );
 
