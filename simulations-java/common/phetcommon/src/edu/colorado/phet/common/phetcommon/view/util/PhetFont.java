@@ -139,7 +139,7 @@ public class PhetFont extends Font {
             preferredFont = FALLBACK_FONT.deriveFont( style, size );
         }
         
-        System.out.println( "PhetFont.getPreferredFont preferredFont=" + preferredFont );
+//        System.out.println( "PhetFont.getPreferredFont preferredFont=" + preferredFont );
         return preferredFont;
     }
     
