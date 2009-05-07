@@ -4,6 +4,7 @@ package edu.colorado.phet.acidbasesolutions.control;
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -13,12 +14,16 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.acidbasesolutions.control.IScalarTransform.LogLinearTransform;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -36,11 +41,15 @@ public class StrengthSliderNode extends PhetPNode {
     //----------------------------------------------------------------------------
 
     //TODO localize
-    private static final String STRENGTH_LABEL = "Strength";
+    private static final String STRENGTH_LABEL = "Strength:";
     private static final String WEAK_LABEL = "Weak";
     private static final String WEAKER_LABEL = "weaker";
     private static final String STRONG_LABEL = "Strong";
     private static final String STRONGER_LABEL = "stronger";
+    
+    // Control label
+    private static final Font LABEL_FONT = new PhetFont( 16 );
+    private static final Color LABEL_COLOR = Color.BLACK;
 
     // Thumb
     private static final PDimension THUMB_SIZE = new PDimension( 13, 18 );
@@ -87,6 +96,7 @@ public class StrengthSliderNode extends PhetPNode {
     private double value;
     private final TrackNode trackNode;
     private final SliderThumbArrowNode thumbNode;
+    private final IScalarTransform transform;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -100,11 +110,13 @@ public class StrengthSliderNode extends PhetPNode {
         this.strongRange = strongRange;
         value = weakRange.getMin();
         changeListeners = new ArrayList();
+        transform = new LogLinearTransform( weakRange.getMin(), strongRange.getMax(), 0, TRACK_WIDTH );
 
         // track
         trackNode = new TrackNode();
         addChild( trackNode );
         trackNode.setOffset( 0, 0 );
+        trackNode.addInputEventListener( new TrackClickHandler( this ) );
         
         // weak range label
         PNode weakRangeLabelNode = new RangeLabelNode( TRACK_WEAK_WIDTH, WEAK_LABEL, WEAKER_LABEL, STRONGER_LABEL );
@@ -119,6 +131,15 @@ public class StrengthSliderNode extends PhetPNode {
         xOffset = TRACK_WEAK_WIDTH + TRACK_INTERMEDIATE_WIDTH;
         yOffset = ( strongRangeLabelNode.getYOffset() - strongRangeLabelNode.getY() ) - 20;
         strongRangeLabelNode.setOffset( xOffset, yOffset );
+        
+        // strength label
+        PText labelNode = new PText( STRENGTH_LABEL );
+        labelNode.setFont( LABEL_FONT );
+        labelNode.setTextPaint( LABEL_COLOR );
+        addChild( labelNode );
+        xOffset = 0;
+        yOffset = weakRangeLabelNode.getFullBoundsReference().getMinY() - labelNode.getFullBoundsReference().getHeight() - 2;
+        labelNode.setOffset( xOffset, yOffset );
         
         //  minor ticks, intermediate track
         double dx = MINOR_TICKS_CLOSEST_X_SPACING;
@@ -149,18 +170,45 @@ public class StrengthSliderNode extends PhetPNode {
         addChild( thumbNode );
         thumbNode.setOffset( 0, trackNode.getFullBoundsReference().getCenterY() );
         thumbNode.addInputEventListener( new CursorHandler() );
-        //        thumbNode.addInputEventListener( new ThumbDragHandler( this ) );
+        thumbNode.addInputEventListener( new ThumbDragHandler( this ) );
     }
 
     public void setValue( double value ) {
+        if ( !( value >= getMin() && value <= getMax() ) ) {
+            throw new IllegalArgumentException( "value out of range: " + value );
+        }
         if ( value != getValue() ) {
+            System.out.println( "StrengthSliderNode.setValue value=" + value );//XXX
             this.value = value;
+            updateThumb();
             fireStateChanged();
         }
     }
 
     public double getValue() {
         return value;
+    }
+    
+    private void updateThumb() {
+        double xOffset = transform.modelToView( value );
+        double yOffset = trackNode.getFullBoundsReference().getCenterY();
+        thumbNode.setOffset( xOffset, yOffset );
+    }
+    
+    protected double getMin() {
+        return weakRange.getMin();
+    }
+    
+    protected double getMax() {
+        return strongRange.getMax();
+    }
+    
+    protected SliderThumbArrowNode getThumbNode() {
+        return thumbNode;
+    }
+    
+    protected IScalarTransform getScalarTransform() {
+        return transform;
     }
 
     public void addChangeListener( ChangeListener listener ) {
@@ -253,6 +301,10 @@ public class StrengthSliderNode extends PhetPNode {
         }
         
         public RangeLabelNode( double length, String label, String minLabel, String maxLabel ) {
+            super();
+            // not interactive
+            setPickable( false );
+            setChildrenPickable( false );
             
             // label
             PText labelNode = new PText( label );
@@ -296,6 +348,81 @@ public class StrengthSliderNode extends PhetPNode {
             xOffset = length - maxLabelNode.getFullBoundsReference().getWidth() - RANGE_MIN_MAX_X_SPACING;
             yOffset = RANGE_MIN_MAX_Y_SPACING;
             maxLabelNode.setOffset( xOffset, yOffset );
+        }
+    }
+    
+    /*
+     * Dragging the thumb changes the slider value.
+     */
+    private static class ThumbDragHandler extends PDragEventHandler {
+
+        private final StrengthSliderNode sliderNode;
+        private double _globalClickXOffset; // X offset of mouse click from knob's origin, in global coordinates
+
+        public ThumbDragHandler( StrengthSliderNode sliderNode ) {
+            super();
+            this.sliderNode = sliderNode;
+        }
+
+        protected void startDrag( PInputEvent event ) {
+            super.startDrag( event );
+            // note the offset between the mouse click and the knob's origin
+            Point2D pMouseLocal = event.getPositionRelativeTo( sliderNode );
+            Point2D pMouseGlobal = sliderNode.localToGlobal( pMouseLocal );
+            Point2D pThumbGlobal = sliderNode.localToGlobal( sliderNode.getThumbNode().getOffset() );
+            _globalClickXOffset = pMouseGlobal.getX() - pThumbGlobal.getX();
+        }
+
+        protected void drag( PInputEvent event ) {
+
+            // determine the thumb's new offset
+            Point2D pMouseLocal = event.getPositionRelativeTo( sliderNode );
+            Point2D pMouseGlobal = sliderNode.localToGlobal( pMouseLocal );
+            Point2D pThumbGlobal = new Point2D.Double( pMouseGlobal.getX() - _globalClickXOffset, pMouseGlobal.getY() );
+            Point2D pThumbLocal = sliderNode.globalToLocal( pThumbGlobal );
+
+            // transform offset to a slider value
+            double value = sliderNode.getScalarTransform().viewToModel( pThumbLocal.getX() );
+            if ( value < sliderNode.getMin() ) {
+                value = sliderNode.getMin();
+            }
+            else if ( value > sliderNode.getMax() ) {
+                value = sliderNode.getMax();
+            }
+            
+            sliderNode.setValue( value );
+        }
+    }
+    
+    /*
+     * Clicking in the slider track changes the slider value.
+     */
+    private static class TrackClickHandler extends PBasicInputEventHandler {
+        
+        private final StrengthSliderNode sliderNode;
+        
+        public TrackClickHandler( StrengthSliderNode sliderNode ) {
+            super();
+            this.sliderNode = sliderNode;
+        }
+        
+        public void mousePressed( PInputEvent event ) {
+            
+            // determine the offset of the mouse click
+            Point2D pMouseLocal = event.getPositionRelativeTo( sliderNode );
+            Point2D pMouseGlobal = sliderNode.localToGlobal( pMouseLocal );
+            Point2D pTrackLocal = sliderNode.globalToLocal( pMouseGlobal );
+
+            // transform offset to a slider value
+            double value = sliderNode.getScalarTransform().viewToModel( pTrackLocal.getX() );
+            if ( value < sliderNode.getMin() ) {
+                value = sliderNode.getMin();
+            }
+            else if ( value > sliderNode.getMax() ) {
+                value = sliderNode.getMax();
+            }
+            
+            sliderNode.setValue( value );
         }
     }
 
