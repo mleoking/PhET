@@ -9,7 +9,6 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
-import edu.colorado.phet.naturalselection.model.Bunny;
 import edu.colorado.phet.naturalselection.model.Frenzy;
 import edu.colorado.phet.naturalselection.view.AddFriendNode;
 import edu.colorado.phet.naturalselection.view.FrenzyNode;
@@ -75,38 +74,26 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
         addFriendNode.setOffset( 75, 250 );
         rootNode.addChild( addFriendNode );
 
-        model.addListener( new NaturalSelectionModel.NaturalSelectionModelListener() {
-            public void onGenerationChange( int generation ) {
+        model.addListener( new NaturalSelectionModel.Listener() {
+            public void onEvent( NaturalSelectionModel.Event event ) {
+                if ( event.getType() == NaturalSelectionModel.Event.TYPE_FRENZY_START ) {
+                    Frenzy frenzy = event.getFrenzy();
 
-            }
+                    showFrenzy( 4.0 );
 
-            public void onNewBunny( Bunny bunny ) {
+                    NaturalSelectionCanvas.this.setCursor( Toolkit.getDefaultToolkit().createCustomCursor( NaturalSelectionResources.getImage( NaturalSelectionConstants.IMAGE_CROSSHAIR ), new Point( 25, 25 ), "NaturalSelectionCrosshair" ) );
 
-            }
+                    frenzy.addListener( new Frenzy.Listener() {
+                        public void onFrenzyStop( Frenzy frenzy ) {
+                            hideFrenzy();
+                            NaturalSelectionCanvas.this.setCursor( null );
+                        }
 
-            public void onClimateChange( int climate ) {
-
-            }
-
-            public void onSelectionFactorChange( int selectionFactor ) {
-
-            }
-
-            public void onFrenzyStart( Frenzy frenzy ) {
-                showFrenzy( 4.0 );
-
-                NaturalSelectionCanvas.this.setCursor( Toolkit.getDefaultToolkit().createCustomCursor( NaturalSelectionResources.getImage( NaturalSelectionConstants.IMAGE_CROSSHAIR ), new Point( 25, 25 ), "NaturalSelectionCrosshair" ) );
-
-                frenzy.addListener( new Frenzy.Listener() {
-                    public void onFrenzyStop( Frenzy frenzy ) {
-                        hideFrenzy();
-                        NaturalSelectionCanvas.this.setCursor( null );
-                    }
-
-                    public void onFrenzyTimeLeft( double timeLeft ) {
-                        frenzyNode.setTimeLeft( timeLeft );
-                    }
-                } );
+                        public void onFrenzyTimeLeft( double timeLeft ) {
+                            frenzyNode.setTimeLeft( timeLeft );
+                        }
+                    } );
+                }
             }
         } );
 

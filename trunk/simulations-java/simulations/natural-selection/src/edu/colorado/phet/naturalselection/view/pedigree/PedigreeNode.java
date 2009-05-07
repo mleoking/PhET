@@ -8,8 +8,6 @@ import java.util.LinkedList;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
-import edu.colorado.phet.naturalselection.model.Bunny;
-import edu.colorado.phet.naturalselection.model.Frenzy;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.umd.cs.piccolo.PNode;
 
@@ -20,7 +18,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Jonathan Olson
  */
-public class PedigreeNode extends PNode implements NaturalSelectionModel.NaturalSelectionModelListener {
+public class PedigreeNode extends PNode implements NaturalSelectionModel.Listener {
 
     // model reference
     private NaturalSelectionModel model;
@@ -139,35 +137,26 @@ public class PedigreeNode extends PNode implements NaturalSelectionModel.Natural
     // Event handlers
     //----------------------------------------------------------------------------
 
-    public void onGenerationChange( int generation ) {
-        if ( generation == 0 ) {
-            // we need to reset this again, since the model has changed!
-            reset();
-            return;
+    public void onEvent( NaturalSelectionModel.Event event ) {
+        if ( event.getType() == NaturalSelectionModel.Event.TYPE_NEW_GENERATION ) {
+            //int generation = event.getModel().getGeneration();
+            int generation = event.getNewGeneration();
+            if ( generation == 0 ) {
+                // we need to reset this again, since the model has changed!
+                reset();
+                return;
+            }
+
+            if ( generation > NaturalSelectionConstants.BUNNIES_DIE_WHEN_THEY_ARE_THIS_OLD ) {
+                popGeneration();
+            }
+            addGeneration( generation );
         }
-
-        if ( generation > NaturalSelectionConstants.BUNNIES_DIE_WHEN_THEY_ARE_THIS_OLD ) {
-            popGeneration();
+        if ( event.getType() == NaturalSelectionModel.Event.TYPE_NEW_BUNNY ) {
+            if ( event.getNewBunny() == model.getRootMother() ) {
+                reset();
+            }
         }
-        addGeneration( generation );
-    }
-
-    public void onNewBunny( Bunny bunny ) {
-        if ( bunny == model.getRootMother() ) {
-            reset();
-        }
-    }
-
-    public void onClimateChange( int climate ) {
-
-    }
-
-    public void onSelectionFactorChange( int selectionFactor ) {
-
-    }
-
-    public void onFrenzyStart( Frenzy frenzy ) {
-
     }
 
 }
