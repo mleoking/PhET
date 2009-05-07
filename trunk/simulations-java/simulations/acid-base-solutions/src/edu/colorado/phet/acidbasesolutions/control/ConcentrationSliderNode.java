@@ -193,7 +193,7 @@ public class ConcentrationSliderNode extends PhetPNode {
         return thumbNode;
     }
     
-    protected IScalarTransform getMVTransform() {
+    protected IScalarTransform getScalarTransform() {
         return transform;
     }
     
@@ -334,7 +334,7 @@ public class ConcentrationSliderNode extends PhetPNode {
             Point2D pThumbLocal = sliderNode.globalToLocal( pThumbGlobal );
 
             // transform offset to a slider value
-            double value = sliderNode.getMVTransform().viewToModel( pThumbLocal.getX() );
+            double value = sliderNode.getScalarTransform().viewToModel( pThumbLocal.getX() );
             if ( value < sliderNode.getMin() ) {
                 value = sliderNode.getMin();
             }
@@ -366,7 +366,7 @@ public class ConcentrationSliderNode extends PhetPNode {
             Point2D pTrackLocal = sliderNode.globalToLocal( pMouseGlobal );
 
             // transform offset to a slider value
-            double value = sliderNode.getMVTransform().viewToModel( pTrackLocal.getX() );
+            double value = sliderNode.getScalarTransform().viewToModel( pTrackLocal.getX() );
             if ( value < sliderNode.getMin() ) {
                 value = sliderNode.getMin();
             }
