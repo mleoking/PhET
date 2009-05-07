@@ -337,7 +337,7 @@ public class NaturalSelectionModel extends ClockAdapter {
             throw new RuntimeException( "Already frenzying" );
         }
 
-        frenzy = new Frenzy( this, 4 * NaturalSelectionDefaults.CLOCK_FRAME_RATE ); // TODO: work on time stuff!
+        frenzy = new Frenzy( this, 5 * NaturalSelectionDefaults.CLOCK_FRAME_RATE ); // TODO: work on time stuff!
 
         // so listeners can listen to the frenzy
         notifyFrenzyStart( frenzy );
