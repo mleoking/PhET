@@ -15,9 +15,11 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.control.IScalarTransform.LogLinearTransform;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -43,20 +45,14 @@ public class ConcentrationSliderNode extends PNode {
     private static final Stroke THUMB_STROKE = new BasicStroke( THUMB_STROKE_WIDTH );
 
     // Track
-    private static final PDimension TRACK_SIZE = new PDimension( 300, 10 );
-    private static final Color TRACK_FILL_COLOR = Color.YELLOW;
+    private static final PDimension TRACK_SIZE = new PDimension( 300, 5 );
+    private static final Color TRACK_FILL_COLOR = Color.LIGHT_GRAY;
     private static final Color TRACK_STROKE_COLOR = Color.BLACK;
     private static final float TRACK_STROKE_WIDTH = 1f;
     private static final Stroke TRACK_STROKE = new BasicStroke( TRACK_STROKE_WIDTH );
 
-    // Minor ticks
-    private static final double MINOR_TICK_LENGTH = TRACK_SIZE.getHeight();
-    private static final Color MINOR_TICK_COLOR = Color.GRAY;
-    private static final float MINOR_TICK_STROKE_WIDTH = 1f;
-    private static final Stroke MINOR_TICK_STROKE = new BasicStroke( MINOR_TICK_STROKE_WIDTH );
-
     // Major ticks
-    private static final double MAJOR_TICK_LENGTH = TRACK_SIZE.getHeight() + 10;
+    private static final double MAJOR_TICK_LENGTH = 10;
     private static final Color MAJOR_TICK_COLOR = Color.BLACK;
     private static final float MAJOR_TICK_STROKE_WIDTH = 1f;
     private static final Stroke MAJOR_TICK_STROKE = new BasicStroke( MAJOR_TICK_STROKE_WIDTH );
@@ -65,6 +61,14 @@ public class ConcentrationSliderNode extends PNode {
     // Major tick labels
     private static final Font MAJOR_TICK_LABEL_FONT = new PhetFont( 16 );
     private static final Color MAJOR_TICK_LABEL_COLOR = Color.BLACK;
+    
+    // Minor ticks
+    private static final double MINOR_TICK_LENGTH = 0.6 * MAJOR_TICK_LENGTH;
+    private static final Color MINOR_TICK_COLOR = Color.GRAY;
+    private static final float MINOR_TICK_STROKE_WIDTH = 1f;
+    private static final Stroke MINOR_TICK_STROKE = new BasicStroke( MINOR_TICK_STROKE_WIDTH );
+    private static final double MINOR_TICKS_CLOSEST_X_SPACING = 2;
+    private static final double MINOR_TICK_X_SPACING_MULTIPLIER = 1.5;
 
     private final ArrayList changeListeners;
     private final ThumbNode thumbNode;
@@ -94,14 +98,47 @@ public class ConcentrationSliderNode extends PNode {
         // thumb
         thumbNode = new ThumbNode();
         addChild( thumbNode );
+        thumbNode.addInputEventListener( new CursorHandler() );
         thumbNode.addInputEventListener( new ThumbDragHandler( this ) );
         
         // initial state
         updateThumb();
     }
 
+    /*
+     * Create major and minor ticks.
+     */
     private void createTicks( double min, double max ) {
-        //XXX
+        int minExponent = (int) Math.floor( MathUtil.log10( min ) );
+        int maxExponent = (int) Math.ceil( MathUtil.log10( max ) );
+        final double dx = TRACK_SIZE.getWidth() / ( maxExponent - minExponent );
+        double xOffset = 0;
+        final double yOffset = trackNode.getFullBoundsReference().getMaxY();
+        for ( int i = minExponent; i <= maxExponent; i++ ) {
+            MajorTick majorTick = new MajorTick( "10<sup>" + i + "</sup>" );
+            addChild( majorTick );
+            majorTick.setOffset( xOffset, yOffset );
+            if ( xOffset != 0 ) {
+                createMinorTicks( xOffset - dx, xOffset );
+            }
+            xOffset += dx;
+        }
+    }
+    
+    /*
+     * Creates minor ticks between 2 major ticks, moving right-to-left, log spacing.
+     */
+    private void createMinorTicks( double majorTickLeft, double majorTickRight ) {
+        double dx = MINOR_TICKS_CLOSEST_X_SPACING;
+        double xOffset = majorTickRight - dx;
+        final double yOffset = trackNode.getFullBoundsReference().getMaxY();
+        while ( xOffset >= majorTickLeft + dx ) {
+            MinorTick minorTick = new MinorTick();
+            addChild( minorTick );
+            minorTick.setOffset( xOffset, yOffset );
+            dx *= MINOR_TICK_X_SPACING_MULTIPLIER;
+            xOffset = xOffset - dx;
+        }
     }
 
     public void setValue( double value ) {
@@ -109,7 +146,7 @@ public class ConcentrationSliderNode extends PNode {
             throw new IllegalArgumentException( "value out of range: " + value );
         }
         if ( value != getValue() ) {
-            System.out.println( "ConcentrationSliderNode.setValue value=" + value );//XXX
+//            System.out.println( "ConcentrationSliderNode.setValue value=" + value );//XXX
             this.value = value;
             updateThumb();
             fireStateChanged();
@@ -211,7 +248,7 @@ public class ConcentrationSliderNode extends PNode {
     }
 
     /*
-     * Minor ticks are vertical lines that appear in the interior of the track.
+     * Minor ticks are vertical lines that appear below the track.
      * Origin is at the top center.
      * They have no label, and are not interactive.
      */
@@ -230,7 +267,7 @@ public class ConcentrationSliderNode extends PNode {
     }
 
     /*
-     * Major ticks are vertical lines that extend below the track.
+     * Major ticks are vertical lines that appear below the track.
      * Origin is at the top center.
      * They are labeled, and the label is centered below the tick line.
      * They are not interactive.
