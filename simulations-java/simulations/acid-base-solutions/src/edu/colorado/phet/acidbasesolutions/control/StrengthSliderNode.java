@@ -96,7 +96,7 @@ public class StrengthSliderNode extends PhetPNode {
     private double value;
     private final TrackNode trackNode;
     private final SliderThumbArrowNode thumbNode;
-    private final IScalarTransform transform;
+    private final IScalarTransform weakTransform, intermediateTransform, strongTransform;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -110,7 +110,11 @@ public class StrengthSliderNode extends PhetPNode {
         this.strongRange = strongRange;
         value = weakRange.getMin();
         changeListeners = new ArrayList();
-        transform = new LogLinearTransform( weakRange.getMin(), strongRange.getMax(), 0, TRACK_WIDTH );
+        
+        // scalar transforms
+        weakTransform = new LogLinearTransform( weakRange.getMin(), weakRange.getMax(), 0, TRACK_WEAK_WIDTH );
+        intermediateTransform = new LogLinearTransform( weakRange.getMax(), strongRange.getMin(), TRACK_WEAK_WIDTH, TRACK_WEAK_WIDTH + TRACK_INTERMEDIATE_WIDTH );
+        strongTransform = new LogLinearTransform( strongRange.getMin(), strongRange.getMax(), TRACK_WEAK_WIDTH + TRACK_INTERMEDIATE_WIDTH, TRACK_WIDTH );
 
         // track
         trackNode = new TrackNode();
@@ -190,7 +194,7 @@ public class StrengthSliderNode extends PhetPNode {
     }
     
     private void updateThumb() {
-        double xOffset = transform.modelToView( value );
+        double xOffset = modelToView( value );
         double yOffset = trackNode.getFullBoundsReference().getCenterY();
         thumbNode.setOffset( xOffset, yOffset );
     }
@@ -207,8 +211,16 @@ public class StrengthSliderNode extends PhetPNode {
         return thumbNode;
     }
     
-    protected IScalarTransform getScalarTransform() {
-        return transform;
+    protected IScalarTransform getWeakTransform() {
+        return weakTransform;
+    }
+    
+    protected IScalarTransform getIntermediateTransform() {
+        return intermediateTransform;
+    }
+    
+    protected IScalarTransform getStrongTransform() {
+        return strongTransform;
     }
 
     public void addChangeListener( ChangeListener listener ) {
@@ -227,6 +239,49 @@ public class StrengthSliderNode extends PhetPNode {
         }
     }
 
+    protected double viewToModel( double viewValue ) {
+        double modelValue = 0;
+        if ( viewValue <= TRACK_WEAK_WIDTH ) {
+            // weak
+            modelValue = getWeakTransform().viewToModel( viewValue );
+        }
+        else if ( viewValue <= TRACK_WEAK_WIDTH + TRACK_INTERMEDIATE_WIDTH ) {
+            // intermediate
+            modelValue = getIntermediateTransform().viewToModel( viewValue );
+        }
+        else { 
+            // strong
+            modelValue = getStrongTransform().viewToModel( viewValue );
+        }
+        
+        // adjust
+        if ( modelValue < getMin() ) {
+            modelValue = getMin();
+        }
+        else if ( modelValue > getMax() ) {
+            modelValue = getMax();
+        }
+        
+        return modelValue;
+    }
+    
+    private double modelToView( double modelValue ) {
+        double viewValue = 0;
+        if ( modelValue < weakRange.getMax() ) {
+            // weak
+            viewValue = getWeakTransform().modelToView( modelValue );
+        }
+        else if ( modelValue < strongRange.getMin() ) {
+            // intermediate
+            viewValue = getIntermediateTransform().modelToView( modelValue );
+        }
+        else { 
+            // strong 
+            viewValue = getStrongTransform().modelToView( modelValue );
+        }
+        return viewValue;
+    }
+    
     /*
      * Minor ticks are vertical lines that appear in the track.
      * Origin is at the top center.
@@ -380,16 +435,10 @@ public class StrengthSliderNode extends PhetPNode {
             Point2D pMouseGlobal = sliderNode.localToGlobal( pMouseLocal );
             Point2D pThumbGlobal = new Point2D.Double( pMouseGlobal.getX() - _globalClickXOffset, pMouseGlobal.getY() );
             Point2D pThumbLocal = sliderNode.globalToLocal( pThumbGlobal );
+            final double xOffset = pThumbLocal.getX();
 
             // transform offset to a slider value
-            double value = sliderNode.getScalarTransform().viewToModel( pThumbLocal.getX() );
-            if ( value < sliderNode.getMin() ) {
-                value = sliderNode.getMin();
-            }
-            else if ( value > sliderNode.getMax() ) {
-                value = sliderNode.getMax();
-            }
-            
+            double value = sliderNode.viewToModel( xOffset );
             sliderNode.setValue( value );
         }
     }
@@ -412,20 +461,14 @@ public class StrengthSliderNode extends PhetPNode {
             Point2D pMouseLocal = event.getPositionRelativeTo( sliderNode );
             Point2D pMouseGlobal = sliderNode.localToGlobal( pMouseLocal );
             Point2D pTrackLocal = sliderNode.globalToLocal( pMouseGlobal );
+            final double xOffset = pTrackLocal.getX();
 
             // transform offset to a slider value
-            double value = sliderNode.getScalarTransform().viewToModel( pTrackLocal.getX() );
-            if ( value < sliderNode.getMin() ) {
-                value = sliderNode.getMin();
-            }
-            else if ( value > sliderNode.getMax() ) {
-                value = sliderNode.getMax();
-            }
-            
+            double value = sliderNode.viewToModel( xOffset );
             sliderNode.setValue( value );
         }
     }
-
+    
     // test
     public static void main( String[] args ) {
 
