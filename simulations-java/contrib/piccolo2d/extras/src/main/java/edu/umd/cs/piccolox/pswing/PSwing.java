@@ -380,9 +380,28 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
         component.paint( bufferedGraphics );
 
         // Draw the buffer to g2's associated drawing surface
-        g2.drawRenderedImage( buffer, IDENTITY_TRANSFORM );
+        if (useBuffer()){
+            g2.drawRenderedImage( buffer, IDENTITY_TRANSFORM );
+
+        }else{
+            component.paint(g2);
+        }
 
         manager.unlockRepaint( component );
+    }
+
+    private boolean useBuffer(){
+        return true;
+        //todo: enable the next line to unbuffer problematic scenarios, see #689
+//        return !(PhetUtilities.isMacintosh()&&containsJSlider(component));
+    }
+
+    private static boolean containsJSlider(Container component){
+        for (int i=0;i<component.getComponentCount();i++){
+            if (component.getComponent(i) instanceof JSlider) return true;
+            else if (component.getComponent(i) instanceof Container && containsJSlider((Container)component.getComponent(i))) return true;
+        }
+        return false;
     }
 
     /**
