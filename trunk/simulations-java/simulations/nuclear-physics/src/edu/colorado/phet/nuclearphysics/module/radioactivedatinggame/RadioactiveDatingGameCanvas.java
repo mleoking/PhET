@@ -49,9 +49,6 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     private final double BACKGROUND_HEIGHT_PROPORTION = 0.7;     // Vertical fraction of canvas for background.
     private final double PROPORTIONS_CHART_WIDTH_FRACTION = 0.5; // Fraction of canvas for proportions chart.
     
-    // Other constants that affect the appearance of the chart.
-    private final Color TUNNELING_MARKERS_COLOR = new Color(150, 0, 150);
-    
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -59,7 +56,6 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     private RadioactiveDatingGameModel _model;
     private PNode _backgroundImageLayer;
     private PNode _backgroundImage;
-    private PPath _backgroundSizeRect;
     private NuclearDecayProportionChart _proportionsChart;
 
     //----------------------------------------------------------------------------
@@ -94,11 +90,8 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         		build();
         addScreenChild(_proportionsChart);
         
-        // TODO: Temp thing for getting sizes worked out.
-        _backgroundSizeRect = new PPath( new Rectangle2D.Double( 0, 0, 20, 20 ) );
-        _backgroundSizeRect.setStroke( new BasicStroke( 3 ) );
-        _backgroundSizeRect.setStrokePaint( Color.RED );
-        addScreenChild( _backgroundSizeRect );
+        // Add decay curve to chart.
+        drawDecayCurveOnChart();
     }
 
     //------------------------------------------------------------------------
@@ -106,8 +99,18 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     //------------------------------------------------------------------------
 
     protected void updateLayout(){
-    	// Determine the overall size of the canvas.
-    	_backgroundSizeRect.setPathToRectangle(0, 0, (float)(getWidth()*0.999), (float)(getHeight()* BACKGROUND_HEIGHT_PROPORTION));
+
+    	if ( getWidth() > 0 && getHeight() > 0){
+    		resizeAndPositionNodes( getWidth(), getHeight() );
+    	}
+    }
+    
+    private void resizeAndPositionNodes( double newWidth, double newHeight ){
+    	
+    	// TODO: Really crude workaround for a resizing issue.  Get rid of this soon.
+    	if (newWidth == 919){
+    		return;
+    	}
     	
         // Reload and scale the background image.  This is necessary (I think)
     	// because PNodes can't be scaled differently in the x and y
@@ -115,17 +118,32 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     	// user changes the aspect ratio.
     	_backgroundImageLayer.removeChild( _backgroundImage );
     	BufferedImage bufferedImage = NuclearPhysicsResources.getImage( "dating-game-background.png" );
-        double xScale = (double)getWidth() / (double)bufferedImage.getWidth();
-        double yScale = BACKGROUND_HEIGHT_PROPORTION * (double)getHeight() / (double)bufferedImage.getHeight();
+        double xScale = newWidth / (double)bufferedImage.getWidth();
+        double yScale = BACKGROUND_HEIGHT_PROPORTION * newHeight / (double)bufferedImage.getHeight();
         bufferedImage = BufferedImageUtils.rescaleFractional(bufferedImage, xScale, yScale);
         _backgroundImage = new PImage( bufferedImage );
         _backgroundImageLayer.addChild( _backgroundImage );
         
         // Size and locate the proportions chart.
-        _proportionsChart.componentResized( new Rectangle2D.Double( 0, 0, getWidth() * PROPORTIONS_CHART_WIDTH_FRACTION,
-        		( getHeight() - _backgroundImage.getFullBoundsReference().height ) * 0.95 ) );
+        _proportionsChart.componentResized( new Rectangle2D.Double( 0, 0, newWidth * PROPORTIONS_CHART_WIDTH_FRACTION,
+        		( newHeight - _backgroundImage.getFullBoundsReference().height ) * 0.95 ) );
         
-        _proportionsChart.setOffset(getWidth() / 2 - _proportionsChart.getFullBoundsReference().width / 2,
+        _proportionsChart.setOffset(newWidth / 2 - _proportionsChart.getFullBoundsReference().width / 2,
         		_backgroundImage.getFullBoundsReference().height + 3);
+    }
+    
+    /**
+     * Set up the chart to show the appropriate decay curve.
+     */
+    private void drawDecayCurveOnChart(){
+    	_proportionsChart.clear();
+    	double timeSpan = Carbon14Nucleus.HALF_LIFE * 3;
+    	double timeIncrement = timeSpan / 500;
+    	double lambda = Math.log(2)/Carbon14Nucleus.HALF_LIFE;
+    	for ( double time = 0; time < timeSpan; time += timeIncrement ){
+    		// Calculate the proportion of carbon that should be decayed at this point in time.
+    		double percentageDecayed = 100 - (100 * Math.exp(-time*lambda));
+    		_proportionsChart.addDecayEvent(time, percentageDecayed);
+    	}
     }
 }
