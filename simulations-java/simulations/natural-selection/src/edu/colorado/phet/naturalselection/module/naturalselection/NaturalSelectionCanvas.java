@@ -2,11 +2,15 @@
 
 package edu.colorado.phet.naturalselection.module.naturalselection;
 
+import java.awt.*;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
+import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
+import edu.colorado.phet.naturalselection.model.Bunny;
+import edu.colorado.phet.naturalselection.model.Frenzy;
 import edu.colorado.phet.naturalselection.view.AddFriendNode;
 import edu.colorado.phet.naturalselection.view.FrenzyNode;
 import edu.colorado.phet.naturalselection.view.NaturalSelectionBackgroundNode;
@@ -71,6 +75,41 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
         addFriendNode.setOffset( 75, 250 );
         rootNode.addChild( addFriendNode );
 
+        model.addListener( new NaturalSelectionModel.NaturalSelectionModelListener() {
+            public void onGenerationChange( int generation ) {
+
+            }
+
+            public void onNewBunny( Bunny bunny ) {
+
+            }
+
+            public void onClimateChange( int climate ) {
+
+            }
+
+            public void onSelectionFactorChange( int selectionFactor ) {
+
+            }
+
+            public void onFrenzyStart( Frenzy frenzy ) {
+                showFrenzy( 4.0 );
+
+                NaturalSelectionCanvas.this.setCursor( Toolkit.getDefaultToolkit().createCustomCursor( NaturalSelectionResources.getImage( NaturalSelectionConstants.IMAGE_CROSSHAIR ), new Point( 25, 25 ), "NaturalSelectionCrosshair" ) );
+
+                frenzy.addListener( new Frenzy.Listener() {
+                    public void onFrenzyStop( Frenzy frenzy ) {
+                        hideFrenzy();
+                        NaturalSelectionCanvas.this.setCursor( null );
+                    }
+
+                    public void onFrenzyTimeLeft( double timeLeft ) {
+                        frenzyNode.setTimeLeft( timeLeft );
+                    }
+                } );
+            }
+        } );
+
     }
 
     public void reset() {
@@ -104,5 +143,7 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
         if ( frenzyNode != null ) {
             rootNode.removeChild( frenzyNode );
         }
+
+        frenzyNode = null;
     }
 }

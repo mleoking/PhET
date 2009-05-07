@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.model.Bunny;
+import edu.colorado.phet.naturalselection.model.Frenzy;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -166,6 +167,10 @@ public class PedigreeNode extends PNode implements NaturalSelectionModel.Natural
     }
 
     public void onSelectionFactorChange( int selectionFactor ) {
+
+    }
+
+    public void onFrenzyStart( Frenzy frenzy ) {
 
     }
 

@@ -9,8 +9,11 @@ import java.util.ListIterator;
 
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.model.Bunny;
+import edu.colorado.phet.naturalselection.model.Frenzy;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * Handles all of the sprites on the simulation canvas (bunnies, wolves, trees, shrubs, etc.)
@@ -140,6 +143,10 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.NaturalS
         }
     }
 
+    public void onFrenzyStart( Frenzy frenzy ) {
+
+    }
+
     public void reset() {
         Iterator iter = sprites.iterator();
         while ( iter.hasNext() ) {
@@ -156,7 +163,7 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.NaturalS
      *
      * @param bunny The bunny
      */
-    public void onNewBunny( Bunny bunny ) {
+    public void onNewBunny( final Bunny bunny ) {
         // create a bunny node with the correct visual appearance
         BunnyNode bunnyNode = new BunnyNode( bunny.getColorPhenotype(), bunny.getTeethPhenotype(), bunny.getTailPhenotype(), this );
 
@@ -168,6 +175,18 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.NaturalS
         addChildSprite( bunnyNode );
         bunny.addListener( bunnyNode );
         sprites.add( bunnyNode );
+
+        bunnyNode.addInputEventListener( new PBasicInputEventHandler() {
+            @Override
+            public void mousePressed( PInputEvent event ) {
+                super.mousePressed( event );
+                //System.out.println( "Bunny clicked: " + bunny.getId() );
+
+                if ( bunny.canBeTargeted() ) {
+                    bunny.setTargeted( true );
+                }
+            }
+        } );
     }
 
     /**

@@ -62,4 +62,8 @@ public class GenerationBunnyNode extends DisplayBunnyNode implements Bunny.Bunny
     public void onBunnyChangePosition( double x, double y, double z ) {
 
     }
+
+    public void onBunnyChangeTargeted( boolean targeted ) {
+
+    }
 }
