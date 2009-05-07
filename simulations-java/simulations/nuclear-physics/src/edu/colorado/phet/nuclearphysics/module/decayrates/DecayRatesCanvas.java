@@ -115,6 +115,10 @@ public class DecayRatesCanvas extends PhetPCanvas {
             public void modelElementRemoved(Object modelElement){
             	handleModelElementRemoved(modelElement);
             };
+            
+            public void nucleusTypeChanged(){
+            	_proportionsChart.clear();
+            }
         });
         
         // Create a listener for decay events so the chart can be informed.
