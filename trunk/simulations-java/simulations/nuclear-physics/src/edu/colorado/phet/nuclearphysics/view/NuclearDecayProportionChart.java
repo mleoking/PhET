@@ -13,7 +13,6 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -21,15 +20,11 @@ import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
-import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
-import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
-import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -457,11 +452,11 @@ public class NuclearDecayProportionChart extends PNode {
     }
 
     /**
-     * Reset the chart.
+     * Clear the chart.
      */
-    public void reset() {
-        // Redraw the chart.
-        update();
+    public void clear() {
+        _dataPointsNode.removeAllChildren();
+        _decayEvents.clear();
     }
     
     /**
@@ -555,7 +550,7 @@ public class NuclearDecayProportionChart extends PNode {
 		for ( int i = 0; i < _halfLifeLines.size(); i++ ){
 			PPath halfLifeLine = (PPath)_halfLifeLines.get(i);
 			halfLifeLine.setPathTo( new Line2D.Double(0, 0, 0, _graphRect.getHeight() ) );
-			halfLifeLine.setOffset( (i + 1) * _halfLife * _msToPixelsFactor, _graphRect.getY() );
+			halfLifeLine.setOffset( (i + 1) * _halfLife * _msToPixelsFactor + _graphRect.getX(), _graphRect.getY() );
 		}
     }
 
