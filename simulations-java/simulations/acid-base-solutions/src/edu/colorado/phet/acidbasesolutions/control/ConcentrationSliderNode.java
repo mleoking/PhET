@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.acidbasesolutions.control.MVTransform.LogTransform;
+import edu.colorado.phet.acidbasesolutions.control.IScalarTransform.LogTransform;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -71,7 +71,7 @@ public class ConcentrationSliderNode extends PNode {
     private final TrackNode trackNode;
     private final double min, max;
     private double value;
-    private final MVTransform transform;
+    private final IScalarTransform transform;
 
     public ConcentrationSliderNode( double min, double max, double value ) {
         assert ( min < max );
@@ -136,7 +136,7 @@ public class ConcentrationSliderNode extends PNode {
         return thumbNode;
     }
     
-    protected MVTransform getMVTransform() {
+    protected IScalarTransform getMVTransform() {
         return transform;
     }
     
