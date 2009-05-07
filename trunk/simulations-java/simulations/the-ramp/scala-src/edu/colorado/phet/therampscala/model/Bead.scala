@@ -345,7 +345,7 @@ class Bead(_state: BeadState,
         setVelocity(0)
         setPosition(wallRange().max - width / 2)
       }
-      else if (requestedPosition > wallRange().max - width / 2 && !wallsExist) {
+      else if (requestedPosition > wallRange().max + width / 2 && !wallsExist) {
         attachState = new Airborne(position2D, new Vector2D(getVelocityVectorDirection) * velocity, getAngle)
         parallelAppliedForce = 0
       }
