@@ -461,6 +461,8 @@ public class NuclearDecayProportionChart extends PNode {
      */
     public void clear() {
         _dataPointsNode.removeAllChildren();
+        _preDecayProportionCurve = null;
+        _postDecayProportionCurve = null;
         _decayEvents.clear();
     }
     
