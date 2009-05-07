@@ -535,7 +535,6 @@ public class NaturalSelectionModel extends ClockAdapter {
 
     private void notifyListenersOfEvent( Event event ) {
         Iterator iter = listeners.iterator();
-        event.setFrenzy( frenzy );
         while ( iter.hasNext() ) {
             ( (Listener) iter.next() ).onEvent( event );
         }

@@ -239,46 +239,34 @@ public abstract class Gene implements Bunny.BunnyListener {
     // Event handlers
     //----------------------------------------------------------------------------
 
-    public void onBunnyInit( Bunny bunny ) {
-        // not in bunnies array yet, don't refresh the phenotype count
-        // here we manually increment the counts
-
-        if ( getBunnyPhenotype( bunny ) == primaryAllele ) {
-            primaryCount++;
-        }
-        else {
-            secondaryCount++;
-        }
-
-        notifyChangeDistribution();
-    }
-
-    public void onBunnyDeath( Bunny bunny ) {
-        refreshPhenotypeCount();
-    }
-
-    public void onBunnyReproduces( Bunny bunny ) {
-
-    }
-
-    public void onBunnyAging( Bunny bunny ) {
-
-    }
-
-    public void onBunnyChangePosition( double x, double y, double z ) {
-
-    }
-
-    public void onBunnyChangeTargeted( boolean targeted ) {
-
-    }
-
     public void onChangeDominance( boolean primary ) {
         if ( primary ) {
             setDominantAllele( primaryAllele );
         }
         else {
             setDominantAllele( secondaryAllele );
+        }
+    }
+
+    public void onEvent( Bunny.Event event ) {
+        Bunny bunny = event.getBunny();
+        switch( event.type ) {
+            case Bunny.Event.TYPE_INIT:
+                // not in bunnies array yet, don't refresh the phenotype count
+                // here we manually increment the counts
+
+                if ( getBunnyPhenotype( bunny ) == primaryAllele ) {
+                    primaryCount++;
+                }
+                else {
+                    secondaryCount++;
+                }
+
+                notifyChangeDistribution();
+                break;
+            case Bunny.Event.TYPE_DIED:
+                refreshPhenotypeCount();
+                break;            
         }
     }
 

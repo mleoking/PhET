@@ -78,28 +78,18 @@ public class BunnyNode extends NaturalSelectionSprite implements Bunny.BunnyList
         setOffset( location );
     }
 
-    public void onBunnyInit( Bunny bunny ) {
-
-    }
-
-    public void onBunnyDeath( Bunny bunny ) {
-        //setVisible( false );
-        handler.removeChildSprite( this );
-    }
-
-    public void onBunnyReproduces( Bunny bunny ) {
-
-    }
-
-    public void onBunnyAging( Bunny bunny ) {
-
-    }
-
-    public void onBunnyChangePosition( double x, double y, double z ) {
-        setSpriteLocation( x, y, z );
-    }
-
-    public void onBunnyChangeTargeted( boolean targeted ) {
-        displayBunnyNode.setTargeted( targeted );
+    public void onEvent( Bunny.Event event ) {
+        switch( event.type ) {
+            case Bunny.Event.TYPE_DIED:
+                handler.removeChildSprite( this );
+                break;
+            case Bunny.Event.TYPE_POSITION_CHANGED:
+                // TODO: refactor setSpriteLocation to Point3D?
+                setSpriteLocation( event.getPosition().getX(), event.getPosition().getY(), event.getPosition().getZ() );
+                break;
+            case Bunny.Event.TYPE_TARGETED_CHANGED:
+                displayBunnyNode.setTargeted( event.isTargeted() );
+                break;
+        }
     }
 }
