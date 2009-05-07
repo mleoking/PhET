@@ -5,6 +5,7 @@ package edu.colorado.phet.nuclearphysics.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Rectangle;
 import java.awt.Stroke;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -22,6 +23,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
+import edu.colorado.phet.common.piccolophet.nodes.PieChartNode.PieValue;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
@@ -77,6 +79,7 @@ public class NuclearDecayProportionChart extends PNode {
     private static final double Y_ORIGIN_PROPORTION = 0.80;
     private static final double GRAPH_WIDTH_PROPORTION_WITHOUT_CHECKBOXES = 0.85;
     private static final double GRAPH_WIDTH_PROPORTION_WITH_CHECKBOXES = 0.6;
+    private static final double PIE_CHART_WIDTH_PROPORTION = 0.2;
     
     // Constants that control other proportionate aspects of the graph.
     private static final double GRAPH_TEXT_HEIGHT_PROPORTION = 0.06;
@@ -102,8 +105,6 @@ public class NuclearDecayProportionChart extends PNode {
 
 	// References to the various components of the chart.
     private PPath _borderNode;
-    private PPath _halfLifeMarkerLine;
-    private PText _halfLifeLabel;
     private PPath _lowerXAxisOfGraph;
     private PPath _upperXAxisOfGraph;
     private PPath _yAxisOfGraph;
@@ -120,12 +121,11 @@ public class NuclearDecayProportionChart extends PNode {
     private ShadowPText _numDecayedNucleiLabel;
     private PText _numDecayedNucleiText;
     private PText _dummyNumberText;
-    private PieChartNode _pieChart;
-    private PieChartNode.PieValue[] _pieChartValues;
     private ArrayList _halfLifeLines = new ArrayList();
     private PPath _preDecayProportionCurve;
     private PPath _postDecayProportionCurve;
     private Stroke _dataCurveStroke = new BasicStroke();
+    private ProportionsPieChartNode _pieChart;
 
     // Decay events that are represented on the graph.
     ArrayList _decayEvents = new ArrayList();
@@ -277,6 +277,12 @@ public class NuclearDecayProportionChart extends PNode {
         _upperXAxisLabel = new PText( NuclearPhysicsStrings.HALF_LIVES_LABEL );
         _upperXAxisLabel.setFont( SMALL_LABEL_FONT );
         _nonPickableChartNode.addChild( _upperXAxisLabel );
+        
+        // Add the pie chart (if enabled).
+        if ( _pieChartEnabled ){
+        	_pieChart = new ProportionsPieChartNode();
+        	_nonPickableChartNode.addChild( _pieChart );
+        }
 
         // Add the text for the X & Y axes.
 //        _xAxisLabel = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_X_AXIS_LABEL + " (" + NuclearPhysicsStrings.DECAY_TIME_UNITS + ")" );
@@ -397,6 +403,19 @@ public class NuclearDecayProportionChart extends PNode {
         // Set up the border for the chart.
         _borderNode.setPathTo( new RoundRectangle2D.Double( _usableAreaRect.getX(), _usableAreaRect.getY(), 
         		_usableAreaRect.getWidth(), _usableAreaRect.getHeight(), 20, 20 ) );
+        
+        // Position the pie chart if enabled.
+        double pieChartWidth = 0;
+        if ( _pieChartEnabled ){
+        	_pieChart.scale( 1 );
+        	pieChartWidth = _usableAreaRect.getWidth() * PIE_CHART_WIDTH_PROPORTION;
+        	_pieChart.scale( pieChartWidth / _pieChart.getFullBoundsReference().getWidth() );
+        	
+        	// Position the pie chart so that it is a little ways in from the
+        	// left of the chart and vertically centered.
+        	_pieChart.setOffset( BORDER_STROKE_WIDTH * 2, _usableAreaRect.getCenterY() 
+        			- (_pieChart.getFullBoundsReference().getHeight() / 2));
+        }
 
         // Position the x and y axes.
         _lowerXAxisOfGraph.setPathTo( new Line2D.Double(_graphRect.getX(), _graphRect.getMaxY(), 
@@ -579,9 +598,34 @@ public class NuclearDecayProportionChart extends PNode {
 			halfLifeLine.setOffset( (i + 1) * _halfLife * _msToPixelsFactor + _graphRect.getX(), _graphRect.getY() );
 		}
     }
+    
+    /**
+     * This class defines a node that consists of a pie chart and the various
+     * labels needed for this chart.  It assumes only two sections exist, one
+     * for the amount of pre-decay element and one for the amount of post-
+     * decay.
+     */
+    private class ProportionsPieChartNode extends PNode {
+
+    	private final double INITIAL_WIDTH = 100;
+    	private final double INITIAL_HEIGHT = INITIAL_WIDTH * 1.5;
+    	private final double PIE_CHART_WIDTH_PROPORTION = 0.9;
+    	private final int INITIAL_PIE_CHART_WIDTH = (int)(Math.round(INITIAL_WIDTH * PIE_CHART_WIDTH_PROPORTION));
+    	
+    	private PieChartNode _pieChartNode;
+        private PieChartNode.PieValue[] _pieChartValues;
+    	
+		public ProportionsPieChartNode() {
+	        _pieChartValues = new PieValue[]{
+	                new PieChartNode.PieValue( 1, _preDecayLabelColor ),
+	                new PieChartNode.PieValue( 0, _postDecayLabelColor )};
+	        _pieChartNode = new PieChartNode(_pieChartValues, new Rectangle(INITIAL_PIE_CHART_WIDTH, INITIAL_PIE_CHART_WIDTH));
+	        addChild( _pieChartNode );
+		}
+    }
 
     /**
-     * Main routine for standalong testing.
+     * Main routine for stand alone testing.
      * 
      * @param args
      */
@@ -590,7 +634,7 @@ public class NuclearDecayProportionChart extends PNode {
         final NuclearDecayProportionChart proportionsChart = 
         	new NuclearDecayProportionChart.Builder(Carbon14Nucleus.HALF_LIFE * 3.2, 
         		Carbon14Nucleus.HALF_LIFE, NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL, 
-        		NuclearPhysicsConstants.CARBON_COLOR).pieChartEnabled(false).
+        		NuclearPhysicsConstants.CARBON_COLOR).pieChartEnabled(true).
         		showPostDecayCurve(false).timeMarkerLabelEnabled(true).build();
         
         JFrame frame = new JFrame();
