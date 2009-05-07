@@ -12,7 +12,7 @@ import edu.colorado.phet.naturalselection.model.Bunny;
  *
  * @author Jonathan Olson
  */
-public class BunnyNode extends NaturalSelectionSprite implements Bunny.BunnyListener {
+public class BunnyNode extends NaturalSelectionSprite implements Bunny.Listener {
 
     /**
      * The graphical representation of the bunny
