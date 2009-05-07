@@ -367,10 +367,10 @@ public class NuclearDecayProportionChart extends PNode {
         private final Color  HALF_LIFE_LINE_COLOR = new Color (238, 0, 0);
         private final Color  HALF_LIFE_TEXT_COLOR = HALF_LIFE_LINE_COLOR;
         private final Font   HALF_LIFE_FONT = new PhetFont( Font.BOLD, 16 );
-        private static final float  DATA_CURVE_LINE_WIDTH_PROPORTION = 0.015f;
+        private static final float  DATA_CURVE_LINE_WIDTH_PROPORTION = 0.02f;
 
         // Constants that control other proportionate aspects of the graph.
-        private static final double GRAPH_TEXT_HEIGHT_PROPORTION = 0.06;
+        private static final double GRAPH_TEXT_HEIGHT_PROPORTION = 0.1;
         
         // For enabling/disabling the sizing rectangle.
         private static final boolean SIZING_RECT_VISIBLE = false;
