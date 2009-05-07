@@ -101,7 +101,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
         		NuclearPhysicsConstants.CARBON_COLOR).
         		postDecayElementLabel(NuclearPhysicsStrings.NITROGEN_14_CHEMICAL_SYMBOL).
         		postDecayLabelColor(NuclearPhysicsConstants.NITROGEN_COLOR).
-        		pieChartEnabled(false).
+        		pieChartEnabled(true).
         		showPostDecayCurve(true).
         		timeMarkerLabelEnabled(true).
         		build();
