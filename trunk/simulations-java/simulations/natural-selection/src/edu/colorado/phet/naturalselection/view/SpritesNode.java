@@ -9,6 +9,8 @@ import java.util.ListIterator;
 
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.model.Bunny;
+import edu.colorado.phet.naturalselection.model.Frenzy;
+import edu.colorado.phet.naturalselection.model.Wolf;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -36,6 +38,11 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.Listener
      */
     private ArrayList sprites;
 
+    /**
+     * Stores a copy for wolf nodes (not wolves)
+     */
+    private ArrayList wolves;
+
     // trees and shrubs lists
     private ArrayList trees;
     private ArrayList shrubs;
@@ -51,6 +58,7 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.Listener
         sprites = new ArrayList();
         trees = new ArrayList();
         shrubs = new ArrayList();
+        wolves = new ArrayList();
 
         oldClimate = NaturalSelectionModel.CLIMATE_EQUATOR;
         oldSelection = NaturalSelectionModel.SELECTION_NONE;
@@ -100,6 +108,42 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.Listener
         if ( event.getType() == NaturalSelectionModel.Event.TYPE_NEW_BUNNY ) {
             onNewBunny( event.getNewBunny() );
         }
+        if ( event.getType() == NaturalSelectionModel.Event.TYPE_FRENZY_START ) {
+            event.getFrenzy().addListener( new Frenzy.Listener() {
+                public void onFrenzyStop( Frenzy frenzy ) {
+                    for ( Iterator iterator = wolves.iterator(); iterator.hasNext(); ) {
+                        WolfNode wolfNode = (WolfNode) iterator.next();
+                        removeChildSprite( wolfNode );
+                    }
+                    wolves.clear();
+                }
+
+                public void onFrenzyTimeLeft( double timeLeft ) {
+
+                }
+
+                public void onWolfCreate( Wolf wolf ) {
+                    onNewWolf( wolf );
+                }
+            } );
+        }
+
+    }
+
+    private void onNewWolf( Wolf wolf ) {
+        // create a bunny node with the correct visual appearance
+        WolfNode wolfNode = new WolfNode( this );
+
+        // randomly position the bunny
+        wolfNode.setSpriteLocation( wolf.getX(), wolf.getY(), wolf.getZ() );
+        wolfNode.setFlipped( wolf.isMovingRight() );
+
+        // add the bunny
+        addChildSprite( wolfNode );
+        wolf.addListener( wolfNode );
+        wolves.add( wolfNode );
+        sprites.add( wolfNode );
+
     }
 
     private void onClimateChange( int climate ) {
@@ -149,12 +193,13 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.Listener
     public void reset() {
         Iterator iter = sprites.iterator();
         while ( iter.hasNext() ) {
-            BunnyNode bunnyNode = (BunnyNode) iter.next();
-            removeChild( bunnyNode );
+            NaturalSelectionSprite spriteNode = (NaturalSelectionSprite) iter.next();
+            removeChild( spriteNode );
         }
         onClimateChange( NaturalSelectionDefaults.DEFAULT_CLIMATE );
         onSelectionFactorChange( NaturalSelectionDefaults.DEFAULT_SELECTION_FACTOR );
         sprites.clear();
+        wolves.clear();
     }
 
     /**

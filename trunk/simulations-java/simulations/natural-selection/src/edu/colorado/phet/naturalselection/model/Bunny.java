@@ -153,10 +153,13 @@ public class Bunny extends ClockAdapter {
 
         setInitialPosition();
 
+        model.getClock().addClockListener( this );
+
         // bunny is set up, notify various things that the bunny has been created and is ready to use
         //notifyInit();
 
     }
+
 
     public boolean isTargeted() {
         return targeted;
