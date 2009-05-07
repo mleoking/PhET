@@ -9,7 +9,6 @@ import java.awt.Rectangle;
 import java.awt.Stroke;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -48,34 +47,9 @@ public class NuclearDecayProportionChart extends PNode {
     private static final Color  BORDER_COLOR = Color.DARK_GRAY;
     private static final float  BORDER_STROKE_WIDTH = 6f;
     private static final Stroke BORDER_STROKE = new BasicStroke( BORDER_STROKE_WIDTH );
-    private static final float  THICK_AXIS_LINE_WIDTH = 2.5f;
-    private static final Stroke THICK_AXIS_STROKE = new BasicStroke( THICK_AXIS_LINE_WIDTH );
-    private static final float  THIN_AXIS_LINE_WIDTH = 0.75f;
-    private static final Stroke THIN_AXIS_STROKE = new BasicStroke( THIN_AXIS_LINE_WIDTH );
-    private static final Color  AXES_LINE_COLOR = Color.BLACK;
-    private static final double TICK_MARK_LENGTH = 3;
-    private static final float  TICK_MARK_WIDTH = 2;
-    private static final Stroke TICK_MARK_STROKE = new BasicStroke( TICK_MARK_WIDTH );
-    private static final Font   TICK_MARK_LABEL_FONT = new PhetFont( Font.PLAIN, 12 );
-    private static final Color  TICK_MARK_COLOR = AXES_LINE_COLOR;
-    private static final Font   SMALL_LABEL_FONT = new PhetFont( Font.PLAIN, 14 );
-    private static final Font   LARGE_LABEL_FONT = new PhetFont( Font.BOLD, 18 );
-    private static final float  HALF_LIFE_LINE_STROKE_WIDTH = 2.0f;
-    private static final Stroke HALF_LIFE_LINE_STROKE = new BasicStroke( HALF_LIFE_LINE_STROKE_WIDTH, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 3.0f, 3.0f }, 0 );
-    private static final Color  HALF_LIFE_LINE_COLOR = new Color (238, 0, 0);
-    private static final Color  HALF_LIFE_TEXT_COLOR = HALF_LIFE_LINE_COLOR;
-    private static final Font   HALF_LIFE_FONT = new PhetFont( Font.BOLD, 16 );
-    private static final float  DATA_CURVE_LINE_WIDTH_PROPORTION = 0.015f;
 
-    // Constants that control the location and size of the graph, around which
-    // all the other components are positioned.
-    private static final double X_ORIGIN_PROPORTION_WITHOUT_PIE_CHART = 0.1;
-    private static final double X_ORIGIN_PROPORTION_WITH_PIE_CHART = 0.25;
-    private static final double GRAPH_HEIGHT_PROPORTION = 0.6;
-    private static final double Y_ORIGIN_PROPORTION = 0.80;
-    private static final double GRAPH_WIDTH_PROPORTION_WITHOUT_CHECKBOXES = 0.85;
-    private static final double GRAPH_WIDTH_PROPORTION_WITH_CHECKBOXES = 0.6;
-    private static final double PIE_CHART_WIDTH_PROPORTION = 0.2;
+    // Constants that control the proportions of the main components of the chart.
+    private static final double PIE_CHART_WIDTH_PROPORTION = 0.1;
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -103,8 +77,6 @@ public class NuclearDecayProportionChart extends PNode {
     private ShadowPText _numDecayedNucleiLabel;
     private PText _numDecayedNucleiText;
     private PText _dummyNumberText;
-    private ArrayList _halfLifeLines = new ArrayList();
-    private Stroke _dataCurveStroke = new BasicStroke();
     private ProportionsPieChartNode _pieChart;
     private GraphNode _graph;
 
@@ -118,10 +90,8 @@ public class NuclearDecayProportionChart extends PNode {
     // Parent node that will have interactive portions of the chart.
     private PNode _pickableChartNode;
     
-    // Variables that define the usable area for all nodes on the chart as
-    // well as the location of the actual graph.
+    // Rect that is used to keep track of the overall usable area for the chart.
     Rectangle2D _usableAreaRect = new Rectangle2D.Double();
-    Rectangle2D _graphRect = new Rectangle2D.Double();
 
     //------------------------------------------------------------------------
     // Builder + Constructor
@@ -350,25 +320,6 @@ public class NuclearDecayProportionChart extends PNode {
         _usableAreaRect.setRect( rect.getX() + BORDER_STROKE_WIDTH, rect.getY() + BORDER_STROKE_WIDTH,
         		rect.getWidth() - ( BORDER_STROKE_WIDTH * 2 ), rect.getHeight() - ( BORDER_STROKE_WIDTH * 2 ) );
 
-        // Decide where the data graph, around which all other components are
-        // positioned, is located.
-        double graphRectX, graphRectY, graphWidth, graphHeight;
-        if ( _pieChartEnabled ){
-            graphRectX = _usableAreaRect.getX() + ( X_ORIGIN_PROPORTION_WITH_PIE_CHART * _usableAreaRect.getWidth() );
-        }
-        else{
-            graphRectX = _usableAreaRect.getX() + ( X_ORIGIN_PROPORTION_WITHOUT_PIE_CHART * _usableAreaRect.getWidth() );
-        }
-        graphWidth = _usableAreaRect.getWidth() * GRAPH_WIDTH_PROPORTION_WITHOUT_CHECKBOXES;
-        graphRectY = _usableAreaRect.getY() + _usableAreaRect.getHeight() - 
-            ( Y_ORIGIN_PROPORTION * _usableAreaRect.getHeight() );
-        graphHeight = _usableAreaRect.getHeight() * GRAPH_HEIGHT_PROPORTION;
-        _graphRect.setRect(graphRectX, graphRectY, graphWidth, graphHeight);
-
-        // Update other variables that depend on the size of the chart.
-        _dataCurveStroke = new BasicStroke( (float)(_graphRect.getHeight() * DATA_CURVE_LINE_WIDTH_PROPORTION ),
-        		BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
-        
         // Redraw the chart based on these recalculated values.
         update();
     }
@@ -526,12 +477,36 @@ public class NuclearDecayProportionChart extends PNode {
      * 
      */
     private class GraphNode extends PNode {
-    	
+
+    	// Constants that control the appearance of the graph.
+        private static final float  THICK_AXIS_LINE_WIDTH = 2.5f;
+        private final Stroke THICK_AXIS_STROKE = new BasicStroke( THICK_AXIS_LINE_WIDTH );
+        private static final float  THIN_AXIS_LINE_WIDTH = 0.75f;
+        private final Stroke THIN_AXIS_STROKE = new BasicStroke( THIN_AXIS_LINE_WIDTH );
+        private final  Color  AXES_LINE_COLOR = Color.BLACK;
+        private static final double TICK_MARK_LENGTH = 3;
+        private static final float  TICK_MARK_WIDTH = 2;
+        private final Stroke TICK_MARK_STROKE = new BasicStroke( TICK_MARK_WIDTH );
+        private final Font   TICK_MARK_LABEL_FONT = new PhetFont( Font.PLAIN, 12 );
+        private final Color  TICK_MARK_COLOR = AXES_LINE_COLOR;
+        private final Font   SMALL_LABEL_FONT = new PhetFont( Font.PLAIN, 14 );
+        private final Font   LARGE_LABEL_FONT = new PhetFont( Font.BOLD, 18 );
+        private static final float  HALF_LIFE_LINE_STROKE_WIDTH = 2.0f;
+        private final Stroke HALF_LIFE_LINE_STROKE = new BasicStroke( HALF_LIFE_LINE_STROKE_WIDTH, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 3.0f, 3.0f }, 0 );
+        private final Color  HALF_LIFE_LINE_COLOR = new Color (238, 0, 0);
+        private final Color  HALF_LIFE_TEXT_COLOR = HALF_LIFE_LINE_COLOR;
+        private final Font   HALF_LIFE_FONT = new PhetFont( Font.BOLD, 16 );
+        private static final float  DATA_CURVE_LINE_WIDTH_PROPORTION = 0.015f;
+
         // Constants that control other proportionate aspects of the graph.
         private static final double GRAPH_TEXT_HEIGHT_PROPORTION = 0.06;
+        
+        // For enabling/disabling the sizing rectangle.
+        private static final boolean SIZING_RECT_VISIBLE = false;
 
         // Various components that make up the graph.
     	private PPath _sizingRect;
+        private ArrayList _halfLifeLines = new ArrayList();
         private final PPath _lowerXAxisOfGraph;
         private final PPath _upperXAxisOfGraph;
         private final PPath _yAxisOfGraph;
@@ -547,10 +522,11 @@ public class NuclearDecayProportionChart extends PNode {
         private final PNode _dataPresentationLayer;
         private PPath _preDecayProportionCurve;
         private PPath _postDecayProportionCurve;
-        
+        private Stroke _dataCurveStroke = new BasicStroke();
+
         // Factor for converting milliseconds to pixels.
         double _msToPixelsFactor = 1; // Arbitrary init val, updated later.
-        
+
         // TODO: Fix this name when refactoring is complete.
         private final Rectangle2D _graphRectFixThis = new Rectangle2D.Double();
 
@@ -614,11 +590,17 @@ public class NuclearDecayProportionChart extends PNode {
 			_sizingRect.setStroke(THICK_AXIS_STROKE);
 			_sizingRect.setStrokePaint(Color.red);
 			addChild(_sizingRect);
+			_sizingRect.setVisible(SIZING_RECT_VISIBLE);
 		}
 		
 		public void update( double newWidth, double newHeight ){
 			
 			_sizingRect.setPathTo( new Rectangle2D.Double(0, 0, newWidth, newHeight ) );
+
+			// Set the needed vars that are based proprotionately on the size
+			// of the graph.
+	        _dataCurveStroke = new BasicStroke( (float)(newHeight * DATA_CURVE_LINE_WIDTH_PROPORTION ),
+	        		BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
 
 	        // Position and size labels for the Y axis, since they will affect
 			// the location of the graph's origin.
