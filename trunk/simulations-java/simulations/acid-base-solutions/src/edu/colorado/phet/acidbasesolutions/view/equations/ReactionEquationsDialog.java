@@ -329,7 +329,7 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
     }
     
     public static void main( String[] args ) {
-        JDialog frame = new ReactionEquationsDialog( null, true );
-        frame.setVisible( true );
+        JDialog dialog = new ReactionEquationsDialog( null, true );
+        dialog.setVisible( true );
     }
 }

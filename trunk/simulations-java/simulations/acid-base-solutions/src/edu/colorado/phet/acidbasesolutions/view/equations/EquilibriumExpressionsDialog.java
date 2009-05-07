@@ -353,7 +353,7 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
     }
     
     public static void main( String[] args ) {
-        JDialog frame = new EquilibriumExpressionsDialog( null, true );
-        frame.setVisible( true );
+        JDialog dialog = new EquilibriumExpressionsDialog( null, true );
+        dialog.setVisible( true );
     }
 }
