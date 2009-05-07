@@ -54,8 +54,8 @@ public class NuclearDecayProportionChart extends PNode {
     private static final Stroke THICK_AXIS_STROKE = new BasicStroke( THICK_AXIS_LINE_WIDTH );
     private static final float  THIN_AXIS_LINE_WIDTH = 0.75f;
     private static final Stroke THIN_AXIS_STROKE = new BasicStroke( THIN_AXIS_LINE_WIDTH );
-    private static final float  DATA_POINT_LINE_WIDTH = 0.5f;
-    private static final Stroke DATA_POINT_STROKE = new BasicStroke( DATA_POINT_LINE_WIDTH );
+    private static final float  DATA_CURVE_LINE_WIDTH = 3.0f;
+    private static final Stroke DATA_CURVE_STROKE = new BasicStroke( DATA_CURVE_LINE_WIDTH );
     private static final Color  AXES_LINE_COLOR = Color.BLACK;
     private static final double TICK_MARK_LENGTH = 3;
     private static final float  TICK_MARK_WIDTH = 2;
@@ -125,6 +125,8 @@ public class NuclearDecayProportionChart extends PNode {
     private PieChartNode _pieChart;
     private PieChartNode.PieValue[] _pieChartValues;
     private ArrayList _halfLifeLines = new ArrayList();
+    private PPath _preDecayProportionCurve;
+    private PPath _postDecayProportionCurve;
 
     // Decay events that are represented on the graph.
     ArrayList _decayEvents = new ArrayList();
@@ -460,8 +462,9 @@ public class NuclearDecayProportionChart extends PNode {
     }
     
     /**
-     * Add a decay event to the graph.  IMPORTANT: It is assumed that these
-     * events are added in order of increasing time.
+     * Add a decay event to the graph, which will be represented as a point
+     * on the proportion curve.  IMPORTANT: It is assumed that these events
+     * are added in order of increasing time.
      * 
      * @param time - time that event occurred
      * @param percentage - percentage of this nucleus remaining after decay
@@ -477,43 +480,61 @@ public class NuclearDecayProportionChart extends PNode {
     	
     	Point2D decayEvent = new Point2D.Double( time, percentage );
 		_decayEvents.add( decayEvent );
-		addDecayEventNode( decayEvent );
+		graphDecayEvent( decayEvent );
     }
     
-    private void addDecayEventNode( Point2D location ){
+    /**
+     * Add the specified location to the graph of decay events.
+     *
+     * @param decayEventLocation - x represents time, y represents percentage
+     * of element remaining after this event.
+     */
+    private void graphDecayEvent( Point2D decayEventLocation ){
     	
-    	// Create and position the node(s) that will represent this data point.
-    	double decayEventNodeSize = _usableAreaRect.getHeight() * DATA_POINT_SIZE_PROPORTION;
-    	PPath decayEventNode = new PPath( new Ellipse2D.Double(-decayEventNodeSize/2, -decayEventNodeSize/2,
-    			decayEventNodeSize, decayEventNodeSize));
-    	decayEventNode.setStroke( DATA_POINT_STROKE );
-   		decayEventNode.setStrokePaint(_preDecayLabelColor);
-   		decayEventNode.setPaint(_preDecayLabelColor);
-    	decayEventNode.setOffset( _msToPixelsFactor * location.getX() + _graphRect.getX(),
-    			_graphRect.getMaxY() - ( ( ( 100 - location.getY() ) / 100 ) * _graphRect.getHeight() ) );
-    	_dataPointsNode.addChild(decayEventNode);
+    	float xPos = (float)(_msToPixelsFactor * decayEventLocation.getX() + _graphRect.getX());
+    	float yPosPreDecay = (float)( _graphRect.getMaxY() - ( ( ( 100 - decayEventLocation.getY() ) / 100 ) 
+    			* _graphRect.getHeight() ) );
+    	float yPosPostDecay = (float)( _graphRect.getMaxY() - ( ( decayEventLocation.getY() / 100 ) 
+    			* _graphRect.getHeight() ) );
     	
-    	if (_showPostDecayCurve){
-    		// Add a point that represents the proportion of the daughter nucleus.
-        	decayEventNode = new PPath( new Ellipse2D.Double(-decayEventNodeSize/2, -decayEventNodeSize/2,
-        			decayEventNodeSize, decayEventNodeSize));
-        	decayEventNode.setStroke( DATA_POINT_STROKE );
-       		decayEventNode.setStrokePaint(_postDecayLabelColor);
-       		decayEventNode.setPaint(_postDecayLabelColor);
-        	decayEventNode.setOffset( _msToPixelsFactor * location.getX() + _graphRect.getX(),
-        			_graphRect.getMaxY() - ( ( location.getY() / 100 ) * _graphRect.getHeight() ) );
-        	_dataPointsNode.addChild(decayEventNode);
+    	if ( _preDecayProportionCurve == null ){
+    		// Curve doesn't exist - create it.
+    		_preDecayProportionCurve = new PPath();
+    		_preDecayProportionCurve.moveTo( xPos, yPosPreDecay );
+    		_preDecayProportionCurve.setStroke( DATA_CURVE_STROKE );
+    		_preDecayProportionCurve.setStrokePaint( _preDecayLabelColor );
+        	_dataPointsNode.addChild( _preDecayProportionCurve );
+    	}
+    	else{
+    		// Add the next segment to the curve.
+    		_preDecayProportionCurve.lineTo(xPos, yPosPreDecay);
+    	}
+    	
+    	if ( _postDecayProportionCurve == null ){
+    		// Curve doesn't exist - create it.
+    		_postDecayProportionCurve = new PPath();
+    		_postDecayProportionCurve.moveTo( xPos, yPosPostDecay );
+    		_postDecayProportionCurve.setStroke( DATA_CURVE_STROKE );
+    		_postDecayProportionCurve.setStrokePaint( _postDecayLabelColor );
+        	_dataPointsNode.addChild( _postDecayProportionCurve );
+        	_postDecayProportionCurve.setVisible(_showPostDecayCurve);
+    	}
+    	else{
+    		// Add the next segment to the curve.
+    		_postDecayProportionCurve.lineTo(xPos, yPosPostDecay);
     	}
     }
     
     private void updateDecayCurves(){
     	
-    	// Get rid of the existing nodes.
+    	// Get rid of the existing curves.
     	_dataPointsNode.removeAllChildren();
+    	_preDecayProportionCurve = null;
+    	_postDecayProportionCurve = null;
     	
     	// Add new nodes in the correct positions.
     	for ( Iterator it = _decayEvents.iterator(); it.hasNext();){
-    		addDecayEventNode((Point2D)it.next());
+    		graphDecayEvent((Point2D)it.next());
     	}
     }
     
