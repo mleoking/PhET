@@ -1,6 +1,8 @@
 
 package edu.colorado.phet.acidbasesolutions.control;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
+
 /**
  * Strategies for transforming scalar values between model and view coordinates.
  *
@@ -90,17 +92,12 @@ public interface IScalarTransform {
         private static double adjustedLog10( double d ) {
             double value = 0;
             if ( d > 0 ) {
-                value = log10( d );
+                value = MathUtil.log10( d );
             }
             else if ( d < 0 ) {
-                value = -log10( -d );
+                value = -MathUtil.log10( -d );
             }
             return value;
-        }
-
-        /* Log base 10 */
-        private static double log10( double d ) {
-            return Math.log( d ) / Math.log( 10.0 );
         }
     }
 
