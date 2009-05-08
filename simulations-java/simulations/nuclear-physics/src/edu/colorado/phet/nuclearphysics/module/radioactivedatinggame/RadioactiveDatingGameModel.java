@@ -37,7 +37,8 @@ public class RadioactiveDatingGameModel {
     //------------------------------------------------------------------------
 
 	ArrayList<RadioactiveDatingGameObject> artifacts = new ArrayList<RadioactiveDatingGameObject>();
-	
+	ArrayList<Layer> layers= new ArrayList<Layer>();
+
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
@@ -45,10 +46,16 @@ public class RadioactiveDatingGameModel {
     public RadioactiveDatingGameModel()
     {
     	artifacts.add(new RadioactiveDatingGameObject("Trilobyte", "trilobyte_fossil.png", new Point2D.Double(0, 0), 0.5, 1E11));
-    	artifacts.add(new RadioactiveDatingGameObject("Animal Skull", "skull_animal.png", new Point2D.Double(5, 6), 0.7, 1E11));
-    	artifacts.add(new RadioactiveDatingGameObject("Living Tree", "tree_1.png", new Point2D.Double(3, 1), 3, 1E11));
-    	artifacts.add(new RadioactiveDatingGameObject("House", "house.png", new Point2D.Double(5, 1), 2, 1E11));
-    	artifacts.add(new RadioactiveDatingGameObject("Fish Fossil", "fish_fossil.png", new Point2D.Double(4, 4), 1, 1E11));
+    	artifacts.add(new RadioactiveDatingGameObject("Animal Skull", "skull_animal.png", new Point2D.Double(5, -6), 0.7, 1E11));
+    	artifacts.add(new RadioactiveDatingGameObject("Living Tree", "tree_1.png", new Point2D.Double(3, -1), 3, 1E11));
+    	artifacts.add(new RadioactiveDatingGameObject("House", "house.png", new Point2D.Double(5, -1), 2, 1E11));
+    	artifacts.add(new RadioactiveDatingGameObject("Fish Fossil", "fish_fossil.png", new Point2D.Double(4, -4), 1, 1E11));
+
+        layers.add(new Layer(-10,2));
+        layers.add(new Layer(-8,2));
+        layers.add(new Layer(-6,2));
+        layers.add(new Layer(-4,2));
+        layers.add(new Layer(-2,2));
     }
 
     //------------------------------------------------------------------------
@@ -57,5 +64,16 @@ public class RadioactiveDatingGameModel {
     
     public Iterable<RadioactiveDatingGameObject> getItemIterable(){
     	return artifacts;
+    }
+    public Iterable<Layer> getLayerIterable(){
+        return layers;
+    }
+
+    public int getLayerCount() {
+        return layers.size();
+    }
+
+    public Layer getLayer( int i ) {
+        return layers.get(i);
     }
 }

@@ -2,14 +2,14 @@
 
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
-import java.awt.Dimension;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Double;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -33,65 +33,80 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author John Blanco
  */
 public class RadioactiveDatingGameCanvas extends PhetPCanvas {
-    
+
     //----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
 
     // Canvas size.  Assumes a 4:3 aspect ratio.
     private final double CANVAS_WIDTH = 100;
-    private final double CANVAS_HEIGHT = CANVAS_WIDTH * (3.0d/4.0d);
-    
-    // Translation factors, used to set origin of canvas area.
-    private final double WIDTH_TRANSLATION_FACTOR = 0.5;   // 0 = all the way left, 1 = all the way right.
-    private final double HEIGHT_TRANSLATION_FACTOR = 0.45; // 0 = all the way up, 1 = all the way down.
-    
-    // Constants that control relative sizes and placements of major items on
-    // the canvas.
-    private final double BACKGROUND_HEIGHT_PROPORTION = 0.7;     // Vertical fraction of canvas for background.
+//    private final double CANVAS_HEIGHT = CANVAS_WIDTH * (3.0d/4.0d);
+//
+//    // Translation factors, used to set origin of canvas area.
+//    private final double WIDTH_TRANSLATION_FACTOR = 0.5;   // 0 = all the way left, 1 = all the way right.
+//    private final double HEIGHT_TRANSLATION_FACTOR = 0.45; // 0 = all the way up, 1 = all the way down.
+//
+//    // Constants that control relative sizes and placements of major items on
+//    // the canvas.
+//    private final double BACKGROUND_HEIGHT_PROPORTION = 0.7;     // Vertical fraction of canvas for background.
     private final double PROPORTIONS_CHART_WIDTH_FRACTION = 0.5; // Fraction of canvas for proportions chart.
-    
+
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
-    
+
     private ModelViewTransform2D _mvt;
     private RadioactiveDatingGameModel _model;
-    private PNode _backgroundImageLayer;
+//    private PNode _backgroundImageLayer;
     private PNode _backgroundImage;
-    private PNode _datableArtifactsLayer;
+//    private PNode _datableArtifactsLayer;
     private NuclearDecayProportionChart _proportionsChart;
 
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
-    
+
     public RadioactiveDatingGameCanvas(RadioactiveDatingGameModel radioactiveDatingGameModel) {
-        
+
 		setWorldTransformStrategy(new PhetPCanvas.RenderingSizeStrategy(this, new Dimension(768,768)));
         _model = radioactiveDatingGameModel;
-        _mvt = new ModelViewTransform2D(new Point2D.Double(0, 0), new Point2D.Double(10, 10),
-        		new Point(768 / 2, 200), new Point(768, 394));
-        
+        _mvt = new ModelViewTransform2D(new Point2D.Double(0, 0), new Point2D.Double(10, -10),
+        		new Point(768 / 2, 200), new Point(768, 394),true);
+        System.out.println( "0,10 => "+_mvt.modelToView(0,10 ));
+
+
         // Set the background color.
         setBackground( NuclearPhysicsConstants.CANVAS_BACKGROUND );
-        
+
         // Create the layer where the background will be placed.
-        _backgroundImageLayer = new PNode();
-        addScreenChild(_backgroundImageLayer);
-        
+//        _backgroundImageLayer = new PNode();
+//        addScreenChild(_backgroundImageLayer);
+
         // Create the layer where the datable items will be located.
-        _datableArtifactsLayer = new PNode();
-        addScreenChild(_datableArtifactsLayer);
-        
+//        _datableArtifactsLayer = new PNode();
+//        addScreenChild(_datableArtifactsLayer);
+
         // Load the background image.
         BufferedImage bufferedImage = NuclearPhysicsResources.getImage( "dating-game-background.png" );
         _backgroundImage = new PImage( bufferedImage );
-        _backgroundImageLayer.addChild( _backgroundImage );
-        
+//        _backgroundImageLayer.addChild( _backgroundImage );
+
+//        PNode layers=new PNode();
+                // Add the nodes that the user the user can date.
+        ArrayList<Color> colors=new ArrayList<Color>( );
+        colors.add( Color.blue );
+        colors.add( Color.red );
+        colors.add( Color.green );
+        colors.add( Color.gray );
+        colors.add( Color.yellow );
+        colors.add( Color.orange );
+        for (int i=0;i<_model.getLayerCount();i++){
+            addWorldChild(new RadioactiveDatingGameLayerNode(_model.getLayer(i), _mvt,colors.get(  i%colors.size())));
+        }
+
         // Create the chart that will display relative decay proportions.
-        _proportionsChart = new NuclearDecayProportionChart.Builder(Carbon14Nucleus.HALF_LIFE * 3.2, 
-        		Carbon14Nucleus.HALF_LIFE, NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL, 
+        _proportionsChart = new NuclearDecayProportionChart.Builder(Carbon14Nucleus.HALF_LIFE * 3.2,
+        		Carbon14Nucleus.HALF_LIFE, NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL,
         		NuclearPhysicsConstants.CARBON_COLOR).
         		postDecayElementLabel(NuclearPhysicsStrings.NITROGEN_14_CHEMICAL_SYMBOL).
         		postDecayLabelColor(NuclearPhysicsConstants.NITROGEN_COLOR).
@@ -100,7 +115,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         		timeMarkerLabelEnabled(true).
         		build();
         addScreenChild(_proportionsChart);
-        
+
         // Add decay curve to chart.
         drawDecayCurveOnChart();
 
@@ -120,34 +135,34 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     		resizeAndPositionNodes( getWidth(), getHeight() );
     	}
     }
-    
+
     private void resizeAndPositionNodes( double newWidth, double newHeight ){
-    	
+
     	// TODO: Really crude workaround for a resizing issue.  Get rid of this soon.
     	if (newWidth == 919){
     		return;
     	}
-    	
+
         // Reload and scale the background image.  This is necessary (I think)
     	// because PNodes can't be scaled differently in the x and y
     	// dimensions, and we want to be able to handle the case where the
     	// user changes the aspect ratio.
-    	_backgroundImageLayer.removeChild( _backgroundImage );
-    	BufferedImage bufferedImage = NuclearPhysicsResources.getImage( "dating-game-background.png" );
-        double xScale = newWidth / (double)bufferedImage.getWidth();
-        double yScale = BACKGROUND_HEIGHT_PROPORTION * newHeight / (double)bufferedImage.getHeight();
-        bufferedImage = BufferedImageUtils.rescaleFractional(bufferedImage, xScale, yScale);
-        _backgroundImage = new PImage( bufferedImage );
-        _backgroundImageLayer.addChild( _backgroundImage );
-        
+//    	_backgroundImageLayer.removeChild( _backgroundImage );
+//    	BufferedImage bufferedImage = NuclearPhysicsResources.getImage( "dating-game-background.png" );
+//        double xScale = newWidth / (double)bufferedImage.getWidth();
+//        double yScale = BACKGROUND_HEIGHT_PROPORTION * newHeight / (double)bufferedImage.getHeight();
+//        bufferedImage = BufferedImageUtils.rescaleFractional(bufferedImage, xScale, yScale);
+//        _backgroundImage = new PImage( bufferedImage );
+//        _backgroundImageLayer.addChild( _backgroundImage );
+
         // Size and locate the proportions chart.
         _proportionsChart.componentResized( new Rectangle2D.Double( 0, 0, newWidth * PROPORTIONS_CHART_WIDTH_FRACTION,
         		( newHeight - _backgroundImage.getFullBoundsReference().height ) * 0.95 ) );
-        
+
         _proportionsChart.setOffset(newWidth / 2 - _proportionsChart.getFullBoundsReference().width / 2,
         		_backgroundImage.getFullBoundsReference().height + 3);
     }
-    
+
     /**
      * Set up the chart to show the appropriate decay curve.
      */
