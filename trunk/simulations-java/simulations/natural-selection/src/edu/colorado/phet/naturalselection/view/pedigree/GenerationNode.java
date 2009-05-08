@@ -97,6 +97,7 @@ public class GenerationNode extends PNode {
      * If they would be larger than the maximum size, they will be padded and fitted into the middle horizontally
      */
     private void layoutBunnies() {
+        /*
         int numBunnies = bunnyNodes.size();
 
         // ideal with that would precisely fit all of the bunnies with padding between each one and the sides
@@ -136,6 +137,23 @@ public class GenerationNode extends PNode {
 
             // position horizontally
             bunnyNode.setOffset( bunnySpacer + leftOffset + ( bunnyWidth + bunnySpacer ) * ( bunnyCounter++ ), 0 );
+        }
+        */
+        int numBunnies = bunnyNodes.size();
+
+        double bunnyWidth = MAX_BUNNY_WIDTH;
+        double bunnySpacer = bunnyWidth * BUNNY_SPACER_FRACTION;
+
+        double totalWidth = numBunnies * bunnyWidth + ( numBunnies + 1 ) * bunnySpacer;
+
+        double count = 0;
+
+        for ( Iterator iterator = bunnyNodes.iterator(); iterator.hasNext(); count++ ) {
+            GenerationBunnyNode bunnyNode = (GenerationBunnyNode) iterator.next();
+            double bunnyScale = bunnyWidth / bunnyNode.getBunnyWidth();
+            cachedGenerationHeight = bunnyScale * bunnyNode.getBunnyHeight();
+            bunnyNode.scale( bunnyScale );
+            bunnyNode.setOffset( bunnySpacer + count * ( bunnySpacer + bunnyWidth ) - totalWidth / 2, 0 );
         }
     }
 

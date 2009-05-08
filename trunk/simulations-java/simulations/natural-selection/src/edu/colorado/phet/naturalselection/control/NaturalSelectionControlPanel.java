@@ -23,7 +23,8 @@ public class NaturalSelectionControlPanel extends JPanel {
 
     // main panels
     private JPanel rightPanel;
-    public GenerationChartCanvas generationCanvas;
+    //public GenerationChartCanvas generationCanvas;
+    public GenerationChartPanel generationPanel;
     private LeftPanel leftPanel;
 
     // subpanels
@@ -60,7 +61,8 @@ public class NaturalSelectionControlPanel extends JPanel {
         createSelectionPanel();
         createRightPanel();
         leftPanel = new LeftPanel( this.model );
-        generationCanvas = new GenerationChartCanvas( this.model );
+        //generationCanvas = new GenerationChartCanvas( this.model );
+        generationPanel = new GenerationChartPanel( this.model );
         LogoPanel logoPanel = new LogoPanel();
         logoPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
 
@@ -82,7 +84,7 @@ public class NaturalSelectionControlPanel extends JPanel {
         //generationConstraints.fill = GridBagConstraints.BOTH;
         generationConstraints.anchor = GridBagConstraints.NORTH;
         generationConstraints.weightx = 1.0;
-        add( generationCanvas, generationConstraints );
+        add( generationPanel, generationConstraints );
 
         GridBagConstraints rightConstraints = new GridBagConstraints();
         rightConstraints.gridx = column++;
@@ -175,7 +177,7 @@ public class NaturalSelectionControlPanel extends JPanel {
     public void reset() {
         climatePanel.reset();
         selectDefaultSelectionFactor();
-        generationCanvas.reset();
+        generationPanel.reset();
         leftPanel.reset();
     }
 
