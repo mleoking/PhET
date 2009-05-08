@@ -67,6 +67,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         _beakerLabelNode = new BeakerLabelNode( ABSConstants.MIN_BEAKER_LABEL_SIZE );
         
         _solutionsControlsNode = new SolutionControlsNode();
+        _solutionsControlsNode.scale( 1.25 );//XXX
         
         _beakerControls = new BeakerControls( _moleculeCountsNode, _beakerLabelNode );
         _beakerControls.setBackground( getBackground() );
@@ -118,7 +119,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         
         // beaker
         xOffset = 50;
-        yOffset = 325;
+        yOffset = 375;
         _beakerNode.setOffset( xOffset, yOffset );
         
         // solution inside the beaker
