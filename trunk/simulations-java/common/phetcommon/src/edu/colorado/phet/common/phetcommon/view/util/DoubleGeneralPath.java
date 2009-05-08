@@ -12,14 +12,14 @@ package edu.colorado.phet.common.phetcommon.view.util;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
-import java.awt.geom.Arc2D;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 
 /**
  * This adapter class for GeneralPath allows provides an interface in double coordinates.
- *
+ * <p/>
  * A better design would be to extend GeneralPath, but this is impossible since the GeneralPath is final in Java API.
  *
  * @author ?
@@ -120,7 +120,11 @@ public class DoubleGeneralPath {
         path.closePath();
     }
 
-    public void append( Arc2D.Double arc ,boolean connect) {
-        path.append( arc,connect );
+    public void append( Shape shape, boolean connect ) {
+        path.append( shape, connect );
+    }
+
+    public void append( PathIterator pathIterator, boolean connect ) {
+        path.append( pathIterator, connect );
     }
 }
