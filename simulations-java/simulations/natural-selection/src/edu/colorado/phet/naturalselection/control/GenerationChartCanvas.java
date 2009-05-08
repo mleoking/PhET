@@ -35,6 +35,8 @@ public class GenerationChartCanvas extends PhetPCanvas {
     private static final double TOP_PADDING = 5.0;
     public JButton statsButton;
 
+    private static final double PEDIGREE_TOP_PADDING = 30.0;
+
     /**
      * Constructor
      *
@@ -58,7 +60,7 @@ public class GenerationChartCanvas extends PhetPCanvas {
 
         rootNode.addChild( pedigreeNode );
 
-        pedigreeNode.setOffset( new Point2D.Double( 0, 30 ) );
+        pedigreeNode.setOffset( new Point2D.Double( 0, PEDIGREE_TOP_PADDING ) );
 
         PText title = new PText( "Generation Chart" );
         title.setFont( new PhetFont( 16, true ) );
@@ -78,6 +80,12 @@ public class GenerationChartCanvas extends PhetPCanvas {
 
         setupHandlers();
 
+        setCenterPoint( 0 );
+
+    }
+
+    public void setCenterPoint( double x ) {
+        pedigreeNode.setOffset( new Point2D.Double( NaturalSelectionDefaults.GENERATION_CHART_SIZE.getWidth() / 2 - x, PEDIGREE_TOP_PADDING ) );
     }
 
     private void setupHandlers() {

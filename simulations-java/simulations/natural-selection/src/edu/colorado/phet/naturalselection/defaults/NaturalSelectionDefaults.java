@@ -31,7 +31,7 @@ public class NaturalSelectionDefaults {
     public static final int DEFAULT_SELECTION_FACTOR = NaturalSelectionModel.SELECTION_NONE;
     public static final int DEFAULT_NUMBER_OF_BUNNIES = 1;
 
-    public static final Dimension GENERATION_CHART_SIZE = new Dimension( 550, 300 );
+    public static final Dimension GENERATION_CHART_SIZE = new Dimension( 550, 350 );
     public static final Dimension BUNNY_STATS_SIZE = new Dimension( 700, 250 );
 
 }
