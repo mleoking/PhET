@@ -41,7 +41,7 @@ public class BeakerControls extends JPanel {
         _beakerLabelNode = beakerLabelNode;
         
         // border
-        TitledBorder border = new TitledBorder( new LineBorder( Color.BLACK, 2 ), TITLE );
+        TitledBorder border = new TitledBorder( new LineBorder( Color.BLACK, 1 ), TITLE );
         border.setTitleFont( new PhetFont( Font.BOLD, 16 ) );
         setBorder( border );
         
