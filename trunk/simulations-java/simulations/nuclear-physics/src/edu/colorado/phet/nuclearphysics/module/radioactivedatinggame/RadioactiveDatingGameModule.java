@@ -34,8 +34,7 @@ public class RadioactiveDatingGameModule extends PiccoloModule {
                new NuclearPhysicsClock( RadiometricDecayDefaults.CLOCK_FRAME_RATE, RadiometricDecayDefaults.CLOCK_DT ));
  
         // Model
-        NuclearPhysicsClock clock = (NuclearPhysicsClock) getClock();
-        _model = new RadioactiveDatingGameModel(clock);
+        _model = new RadioactiveDatingGameModel();
 
         // Canvas
         _canvas = new RadioactiveDatingGameCanvas( _model );
@@ -54,13 +53,4 @@ public class RadioactiveDatingGameModule extends PiccoloModule {
     // Module overrides
     //----------------------------------------------------------------------------
 
-    /**
-     * Resets the module.
-     */
-    public void reset() {
-
-        // Reset the clock, which ultimately resets the model too.
-        _model.getClock().resetSimulationTime();
-        setClockRunningWhenActive( RadiometricDecayDefaults.CLOCK_RUNNING );
-    }
 }

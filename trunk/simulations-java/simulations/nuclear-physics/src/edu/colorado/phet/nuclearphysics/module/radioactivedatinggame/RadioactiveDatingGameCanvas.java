@@ -2,26 +2,28 @@
 
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.RenderingHints;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Rectangle2D.Double;
 import java.awt.image.BufferedImage;
 
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas.RenderingSizeStrategy;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas.TransformStrategy;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
 import edu.colorado.phet.nuclearphysics.view.NuclearDecayProportionChart;
+import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -44,7 +46,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     private final double WIDTH_TRANSLATION_FACTOR = 0.5;   // 0 = all the way left, 1 = all the way right.
     private final double HEIGHT_TRANSLATION_FACTOR = 0.45; // 0 = all the way up, 1 = all the way down.
     
-    // Constants that control relative sizes and placements of major items on\
+    // Constants that control relative sizes and placements of major items on
     // the canvas.
     private final double BACKGROUND_HEIGHT_PROPORTION = 0.7;     // Vertical fraction of canvas for background.
     private final double PROPORTIONS_CHART_WIDTH_FRACTION = 0.5; // Fraction of canvas for proportions chart.
@@ -53,9 +55,11 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     // Instance Data
     //----------------------------------------------------------------------------
     
+    private ModelViewTransform2D _mvt;
     private RadioactiveDatingGameModel _model;
     private PNode _backgroundImageLayer;
     private PNode _backgroundImage;
+    private PNode _datableArtifactsLayer;
     private NuclearDecayProportionChart _proportionsChart;
 
     //----------------------------------------------------------------------------
@@ -64,7 +68,10 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     
     public RadioactiveDatingGameCanvas(RadioactiveDatingGameModel radioactiveDatingGameModel) {
         
+		setWorldTransformStrategy(new PhetPCanvas.RenderingSizeStrategy(this, new Dimension(768,768)));
         _model = radioactiveDatingGameModel;
+        _mvt = new ModelViewTransform2D(new Point2D.Double(0, 0), new Point2D.Double(10, 10),
+        		new Point(768 / 2, 200), new Point(768, 394));
         
         // Set the background color.
         setBackground( NuclearPhysicsConstants.CANVAS_BACKGROUND );
@@ -72,6 +79,10 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         // Create the layer where the background will be placed.
         _backgroundImageLayer = new PNode();
         addScreenChild(_backgroundImageLayer);
+        
+        // Create the layer where the datable items will be located.
+        _datableArtifactsLayer = new PNode();
+        addScreenChild(_datableArtifactsLayer);
         
         // Load the background image.
         BufferedImage bufferedImage = NuclearPhysicsResources.getImage( "dating-game-background.png" );
@@ -92,6 +103,11 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         
         // Add decay curve to chart.
         drawDecayCurveOnChart();
+
+        // Add the nodes that the user the user can date.
+        for (RadioactiveDatingGameObject item : _model.getItemIterable()){
+        	addWorldChild(new RadioactiveDatingGameObjectNode(item, _mvt));
+        }
     }
 
     //------------------------------------------------------------------------
