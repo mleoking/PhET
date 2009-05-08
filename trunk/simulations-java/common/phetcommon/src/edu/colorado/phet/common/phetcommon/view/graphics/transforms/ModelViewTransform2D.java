@@ -84,6 +84,11 @@ public class ModelViewTransform2D {
         setViewBounds( vr );
     }
 
+    public ModelViewTransform2D( Point2D mp1, Point2D mp2, Point vp1, Point vp2,boolean invertY ) {
+        this(mp1,mp2,vp1,vp2);
+        this.invertY=invertY;
+    }
+
     //----------------------------------------------------------------------------
     // Bounds methods
     //----------------------------------------------------------------------------
