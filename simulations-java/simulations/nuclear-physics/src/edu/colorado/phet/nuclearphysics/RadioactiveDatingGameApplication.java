@@ -43,15 +43,15 @@ public class RadioactiveDatingGameApplication extends AbstractNuclearPhysicsAppl
         
         Frame parentFrame = getPhetFrame();
 
+        _radioactiveDatingGameModule = new RadioactiveDatingGameModule( parentFrame );
+        addModule( _radioactiveDatingGameModule );
+
         _radioactiveElementDecayModule = new RadiometricElementDecayModule( parentFrame );
         addModule( _radioactiveElementDecayModule );
     
         _decayRatesModule = new DecayRatesModule( parentFrame );
         addModule( _decayRatesModule );
     
-        _radioactiveDatingGameModule = new RadioactiveDatingGameModule( parentFrame );
-        addModule( _radioactiveDatingGameModule );
-
         initMenubar( config.getCommandLineArgs() );
     }
 
