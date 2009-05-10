@@ -2,6 +2,8 @@ package edu.colorado.phet.unfuddletool.handlers;
 
 import java.util.*;
 
+import javax.swing.*;
+
 import org.w3c.dom.Element;
 
 import edu.colorado.phet.unfuddletool.data.Ticket;
@@ -121,18 +123,26 @@ public class TicketHandler {
     // Listeners and notifiers
     //----------------------------------------------------------------------------
 
-    private void notifyAddTicket( Ticket ticket ) {
-        Iterator<TicketAddListener> iter = addListeners.iterator();
-        while ( iter.hasNext() ) {
-            iter.next().onTicketAdded( ticket );
-        }
+    private void notifyAddTicket( final Ticket ticket ) {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                Iterator<TicketAddListener> iter = addListeners.iterator();
+                while ( iter.hasNext() ) {
+                    iter.next().onTicketAdded( ticket );
+                }
+            }
+        } );
     }
 
-    public void notifyCurrentTickets( TicketAddListener listener ) {
-        Iterator<Ticket> iter = tickets.iterator();
-        while ( iter.hasNext() ) {
-            listener.onTicketAdded( iter.next() );
-        }
+    public void notifyCurrentTickets( final TicketAddListener listener ) {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                Iterator<Ticket> iter = tickets.iterator();
+                while ( iter.hasNext() ) {
+                    listener.onTicketAdded( iter.next() );
+                }
+            }
+        } );
     }
 
     public void addTicketAddListener( TicketAddListener listener ) {

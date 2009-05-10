@@ -4,6 +4,7 @@ import java.util.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
+import javax.swing.*;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -381,16 +382,14 @@ public class Ticket extends Record {
 
     private void notifyUpdatedTicket() {
         System.out.println( "Ticket updated: " + this.toString() );
-        /*
-        Iterator<TicketListener> iter = listeners.iterator();
-        while ( iter.hasNext() ) {
-            iter.next().onTicketUpdate( this );
-        }
-        */
-        TicketListener[] listenerArray = listeners.toArray( new TicketListener[]{} );
-        for ( int i = 0; i < listenerArray.length; i++ ) {
-            listenerArray[i].onTicketUpdate( this );
-        }
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                TicketListener[] listenerArray = listeners.toArray( new TicketListener[]{} );
+                for ( int i = 0; i < listenerArray.length; i++ ) {
+                    listenerArray[i].onTicketUpdate( Ticket.this );
+                }
+            }
+        } );
     }
 
     public void addListener( TicketListener listener ) {
