@@ -1,6 +1,7 @@
 package edu.colorado.phet.unfuddletool.gui.tabs;
 
 import java.awt.*;
+import java.util.Date;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -23,7 +24,21 @@ public class RecentTicketsTab extends JSplitPane {
     public RecentTicketsTab() {
         // set up the model
         model = new TicketTableModel();
-        TicketHandler.getTicketHandler().addTicketAddListener( model );
+        //TicketHandler.getTicketHandler().addTicketAddListener( model );
+        TicketHandler.getTicketHandler().addTicketAddListener( new TicketHandler.TicketAddListener() {
+            public void onTicketAdded( Ticket ticket ) {
+                Date ticketDate = ticket.lastUpdateTime();
+                Date now = new Date();
+
+                long ticketTime = ticketDate.getTime();
+                long nowTime = now.getTime();
+
+                // if ticket is from within a week, add it!
+                if ( nowTime - 1000 * 60 * 60 * 24 * 7 < ticketTime ) {
+                    model.onTicketAdded( ticket );
+                }
+            }
+        } );
 
         ticketTable = new TicketTable( model );
         JScrollPane ticketTableScrollPane = new JScrollPane( ticketTable );
