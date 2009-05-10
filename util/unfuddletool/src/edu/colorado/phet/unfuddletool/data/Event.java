@@ -104,7 +104,7 @@ public class Event {
 
         ret += "Event\n";
         ret += "\tevent: " + rawEvent + "\n";
-        ret += "\tcreated-at: " + rawCreatedAt.toString() + "\n";
+        ret += "\tcreated-at: " + rawCreatedAt.toString() + " ( raw: " + rawCreatedAt.rawString + " )\n";
         ret += "\tdescription: " + rawDescription + "\n";
         ret += "\trecord-type: " + rawRecordType + "\n";
         ret += "\tsummary: " + rawSummary + "\n";

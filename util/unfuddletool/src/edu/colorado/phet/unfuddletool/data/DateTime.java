@@ -10,19 +10,22 @@ public class DateTime {
 
     public DateTime( String raw ) {
         rawString = raw;
-
+        //System.out.println( "Reading date: " + raw );
 
         if ( raw.endsWith( "Z" ) ) {
-            SimpleDateFormat format = new SimpleDateFormat( "z yyyy-MM-dd-hh:mm:ss" );
+            SimpleDateFormat format = new SimpleDateFormat( "z yyyy-MM-dd-HH:mm:ss" );
             date = format.parse( "GMT " + raw.replace( 'T', '-' ), new ParsePosition( 0 ) );
         }
         else {
-            SimpleDateFormat format = new SimpleDateFormat( "yyyy-MM-dd-hh:mm:ss-z" );
+            SimpleDateFormat format = new SimpleDateFormat( "yyyy-MM-dd-HH:mm:ss-z" );
             String tmp = raw.replace( 'T', '-' );
             int lastIdx = tmp.lastIndexOf( '-' );
             tmp = tmp.substring( 0, lastIdx ) + "-GMT" + tmp.substring( lastIdx );
+            //System.out.println( "Date tmp: " + tmp );
             date = format.parse( tmp, new ParsePosition( 0 ) );
         }
+
+        //System.out.println( "Writing date: " + date );
     }
 
     public String toString() {
@@ -38,7 +41,7 @@ public class DateTime {
     }
 
     public static void main( String[] args ) {
-        String[] tests = new String[]{"2009-05-10T11:43:15Z", "2009-05-10T11:43:15Z", "2009-05-10T04:43:15-07:00"};
+        String[] tests = new String[]{"2009-05-10T11:43:15Z", "2009-05-10T11:43:15Z", "2009-05-10T04:43:15-07:00", "2009-05-10T12:10:21Z"};
 
         for ( int i = 0; i < tests.length; i++ ) {
             String test = tests[i];
