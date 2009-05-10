@@ -6,6 +6,7 @@ import javax.swing.*;
 
 import org.jdesktop.swingx.JXTable;
 
+import edu.colorado.phet.unfuddletool.data.DateReverseComparator;
 import edu.colorado.phet.unfuddletool.data.Ticket;
 import edu.colorado.phet.unfuddletool.gui.cell.DateCellRenderer;
 import edu.colorado.phet.unfuddletool.gui.cell.TicketNumberCellRenderer;
@@ -45,7 +46,7 @@ public class TicketTable extends JXTable implements TicketTableModel.TicketTable
         getColumnExt( TicketTableModel.ID_PRIORITY ).setVisible( false );
         getColumnExt( TicketTableModel.ID_MILESTONE ).setVisible( false );
 
-        getColumnExt( TicketTableModel.ID_LAST_MODIFIED ).setComparator( new Ticket.DateReverseComparator() );
+        getColumnExt( TicketTableModel.ID_LAST_MODIFIED ).setComparator( new DateReverseComparator() );
         getColumnExt( TicketTableModel.ID_PRIORITY ).setComparator( new Comparator<Integer>() {
             public int compare( Integer a, Integer b ) {
                 return -a.compareTo( b );

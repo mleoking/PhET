@@ -1,9 +1,12 @@
 package edu.colorado.phet.unfuddletool.data;
 
+import java.util.Date;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import edu.colorado.phet.unfuddletool.handlers.PersonHandler;
 import edu.colorado.phet.unfuddletool.util.Communication;
 
 public class Event {
@@ -118,5 +121,29 @@ public class Event {
 
     public long getId() {
         return ( rawRecordId << 32 ) + rawCreatedAt.getDate().getTime();
+    }
+
+    public Date getCreatedAt() {
+        return rawCreatedAt.getDate();
+    }
+
+    public String getEventString() {
+        return rawEvent;
+    }
+
+    public String getSummary() {
+        return rawSummary;
+    }
+
+    public String getDescription() {
+        return rawDescription;
+    }
+
+    public Person getPerson() {
+        return PersonHandler.getPersonHandler().getPersonById( rawPersonId );
+    }
+
+    public String getPersonName() {
+        return getPerson().getName();
     }
 }
