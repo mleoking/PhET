@@ -52,82 +52,57 @@ public class TicketSearchTab extends JSplitPane {
                     if ( indices.length == 1 ) {
                         int index = ticketTable.convertRowIndexToModel( indices[0] );
                         Ticket ticket = model.getTicketAt( index );
+
+                        System.out.println( "Before setText status: " );
+                        TicketSearchTab.this.printStatus();
+
                         ticketTableDisplay.setText( ticket.getHTMLComments() );
                         ticketTableHeader.setText( ticket.getHTMLHeader() );
 
+                        System.out.println( "After setText status: " );
+                        TicketSearchTab.this.printStatus();
+                        
+
+                        //int sizeAvailable = rightSplitPane.getHeight();
+                        //int sizeTop = (int) ticketTableHeader.getPreferredScrollableViewportSize().getHeight();
+                        //int sizeBottom = (int) ticketTableDisplay.getPreferredScrollableViewportSize().getHeight();
+                        //rightSplitPane.setDividerLocation( getTicketDividerLocation( sizeAvailable, sizeTop, sizeBottom, rightSplitPane.getDividerSize() ) );
+
+                        rightSplitPane.setDividerLocation( getTicketDividerLocation( rightSplitPane.getHeight(), (int) ticketTableHeader.getPreferredScrollableViewportSize().getHeight(), (int) ticketTableDisplay.getPreferredScrollableViewportSize().getHeight(), rightSplitPane.getDividerSize() ) );
+                        rightSplitPane.setDividerLocation( getTicketDividerLocation( rightSplitPane.getHeight(), (int) ticketTableHeader.getPreferredScrollableViewportSize().getHeight(), (int) ticketTableDisplay.getPreferredScrollableViewportSize().getHeight(), rightSplitPane.getDividerSize() ) );
+
+                        ticketTableHeader.setSelectionStart( 0 );
+                        ticketTableHeader.setSelectionEnd( 0 );
+
+                        //tableAreaScrollPane.getVerticalScrollBar().setValue( tableAreaScrollPane.getVerticalScrollBar().getMaximum() );
+
+                        //ticketTableDisplay.revalidate();
+                        //ticketTableHeader.revalidate();
+
+                        // try:
+                        // revalidate()
+                        // repaint() // immediately maybe?
+                        // revalidate?
+
+                        /* WAS WORKING WITH FLICKER
                         SwingUtilities.invokeLater( new Runnable() {
                             public void run() {
+
+                                System.out.println( "during runnable status: " );
+                                TicketSearchTab.this.printStatus();
+
                                 int sizeAvailable = rightSplitPane.getHeight();
-                                System.out.println( "Size avail: " + sizeAvailable );
-
                                 int sizeTop = (int) ticketTableHeader.getPreferredScrollableViewportSize().getHeight();
-                                System.out.println( "Size top: " + sizeTop );
-
                                 int sizeBottom = (int) ticketTableDisplay.getPreferredScrollableViewportSize().getHeight();
-                                System.out.println( "Size bottom: " + sizeBottom );
+                                rightSplitPane.setDividerLocation( getTicketDividerLocation( sizeAvailable, sizeTop, sizeBottom, rightSplitPane.getDividerSize() ) );
 
-                                int extraPadding = 5;
-
-                                if ( sizeAvailable >= sizeTop + extraPadding * 2 + sizeBottom + rightSplitPane.getDividerSize() ) {
-                                    // if we have room for everything
-                                    rightSplitPane.setDividerLocation( sizeTop + extraPadding );
-                                }
-                                else {
-                                    int minTop = 200;
-                                    int minBottom = 200;
-                                    int maxTop = sizeAvailable - minBottom - extraPadding - rightSplitPane.getDividerSize();
-
-                                    if ( sizeBottom < minBottom ) {
-                                        rightSplitPane.setDividerLocation( sizeAvailable - sizeBottom - extraPadding - rightSplitPane.getDividerSize() );
-                                    }
-                                    else if ( sizeTop < minTop ) {
-                                        rightSplitPane.setDividerLocation( sizeTop + extraPadding );
-                                    }
-                                    else {
-                                        rightSplitPane.setDividerLocation( minTop + extraPadding );
-                                    }
-                                }
                                 ticketTableHeader.setSelectionStart( 0 );
                                 ticketTableHeader.setSelectionEnd( 0 );
                             }
                         } );
-
-
-                        /*
-                        int sizeAvailable = rightSplitPane.getHeight();
-                        System.out.println( "Size avail: " + sizeAvailable );
-
-                        int sizeTop = (int) ticketTableHeader.getPreferredScrollableViewportSize().getHeight();
-                        System.out.println( "Size top: " + sizeTop );
-
-                        int sizeBottom = (int) ticketTableDisplay.getPreferredScrollableViewportSize().getHeight();
-                        System.out.println( "Size bottom: " + sizeBottom );
-
-                        int extraPadding = 5;
-
-                        if( sizeAvailable >= sizeTop + extraPadding * 2 + sizeBottom + rightSplitPane.getDividerSize() ) {
-                            // if we have room for everything
-                            rightSplitPane.setDividerLocation( sizeTop + extraPadding );
-                        } else {
-                            int minTop = 200;
-                            int minBottom = 200;
-                            int maxTop = sizeAvailable - minBottom - extraPadding - rightSplitPane.getDividerSize();
-
-                            if( sizeBottom < minBottom ) {
-                                rightSplitPane.setDividerLocation( sizeAvailable - sizeBottom - extraPadding - rightSplitPane.getDividerSize() );
-                            } else if( sizeTop < minTop ) {
-                                rightSplitPane.setDividerLocation( sizeTop + extraPadding );
-                            } else {
-                                rightSplitPane.setDividerLocation( minTop + extraPadding );
-                            }
-                        }
-
-
-                        ticketTableHeader.setSelectionStart( 0 );
-                        ticketTableHeader.setSelectionEnd( 0 );
                         */
 
-                        /*
+                        /* UNSURE IF THIS IS HELPFUL?
 
                         tableHeaderScrollPane.validate();
                         tableAreaScrollPane.validate();
@@ -135,12 +110,14 @@ public class TicketSearchTab extends JSplitPane {
                         tableHeaderScrollPane.getVerticalScrollBar().setValue( 0 );
                         */
 
+                        /* WAS WORKING WITH FLICKER
                         SwingUtilities.invokeLater( new Runnable() {
                             public void run() {
                                 //tableHeaderScrollPane.getVerticalScrollBar().setValue( 0 );
                                 tableAreaScrollPane.getVerticalScrollBar().setValue( tableAreaScrollPane.getVerticalScrollBar().getMaximum() );
                             }
                         } );
+                        */
 
                         //tableHeaderScrollPane.getViewport().setViewPosition( new Point( 0, 0 ) );
 
@@ -186,6 +163,47 @@ public class TicketSearchTab extends JSplitPane {
                 new TicketLoader( ticketList, model ).start();
             }
         } );
+
+    }
+
+    public void printStatus() {
+        System.out.println( "header getPreferredSize: " + ticketTableHeader.getPreferredSize() );
+        System.out.println( "header getPreferredScrollableViewportSize: " + ticketTableHeader.getPreferredScrollableViewportSize() );
+
+        System.out.println( "display getPreferredSize: " + ticketTableDisplay.getPreferredSize() );
+        System.out.println( "display getPreferredScrollableViewportSize: " + ticketTableDisplay.getPreferredScrollableViewportSize() );
+    }
+
+    public static int getTicketDividerLocation( int sizeAvailable, int sizeTop, int sizeBottom, int dividerSize ) {
+        System.out.println( "Size avail: " + sizeAvailable );
+        System.out.println( "Size top: " + sizeTop );
+        System.out.println( "Size bottom: " + sizeBottom );
+
+        int extraPadding = 5;
+
+        int ret;
+
+        if ( sizeAvailable >= sizeTop + extraPadding * 2 + sizeBottom + dividerSize ) {
+            // if we have room for everything
+            ret = sizeTop + extraPadding;
+        }
+        else {
+            int minTop = 400;
+            int minBottom = 200;
+            int maxTop = sizeAvailable - minBottom - extraPadding - dividerSize;
+
+            if ( sizeBottom < minBottom ) {
+                ret = sizeAvailable - sizeBottom - extraPadding - dividerSize;
+            }
+            else if ( sizeTop < minTop ) {
+                ret = sizeTop + extraPadding;
+            }
+            else {
+                ret = minTop + extraPadding;
+            }
+        }
+
+        return ret;
 
     }
 }
