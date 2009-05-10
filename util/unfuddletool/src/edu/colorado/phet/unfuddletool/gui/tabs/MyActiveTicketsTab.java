@@ -10,7 +10,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import edu.colorado.phet.unfuddletool.data.Ticket;
-import edu.colorado.phet.unfuddletool.gui.HTMLDisplayPane;
+import edu.colorado.phet.unfuddletool.gui.TicketDisplayPane;
 import edu.colorado.phet.unfuddletool.gui.TicketTable;
 import edu.colorado.phet.unfuddletool.gui.TicketTableModel;
 import edu.colorado.phet.unfuddletool.util.SimpleTicketReport;
@@ -21,8 +21,7 @@ public class MyActiveTicketsTab extends JSplitPane {
     private static TicketTableModel model;
 
     public TicketTable ticketTable;
-    public HTMLDisplayPane ticketTableDisplay;
-    public HTMLDisplayPane ticketTableHeader;
+    public TicketDisplayPane ticketDisplayPane;
 
     public MyActiveTicketsTab() {
         // set up the model
@@ -33,14 +32,9 @@ public class MyActiveTicketsTab extends JSplitPane {
         JScrollPane ticketTableScrollPane = new JScrollPane( ticketTable );
         ticketTable.setFillsViewportHeight( true );
         ticketTableScrollPane.setMinimumSize( new Dimension( 600, 0 ) );
-        ticketTableDisplay = new HTMLDisplayPane();
-        ticketTableDisplay.setText( "Testing" );
-        JScrollPane tableAreaScrollPane = new JScrollPane( ticketTableDisplay );
-        tableAreaScrollPane.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-        ticketTableHeader = new HTMLDisplayPane();
-        ticketTableHeader.setText( "Ticket Header" );
-        final JSplitPane rightSplitPane = new JSplitPane( JSplitPane.VERTICAL_SPLIT, ticketTableHeader, tableAreaScrollPane );
-        rightSplitPane.setOneTouchExpandable( true );
+
+        ticketDisplayPane = new TicketDisplayPane();
+
         ticketTable.ticketSelectionModel.addListSelectionListener( new ListSelectionListener() {
             public void valueChanged( ListSelectionEvent event ) {
                 if ( !event.getValueIsAdjusting() ) {
@@ -48,9 +42,8 @@ public class MyActiveTicketsTab extends JSplitPane {
                     if ( indices.length == 1 ) {
                         int index = ticketTable.convertRowIndexToModel( indices[0] );
                         Ticket ticket = model.getTicketAt( index );
-                        ticketTableDisplay.setText( ticket.getHTMLComments() );
-                        ticketTableHeader.setText( ticket.getHTMLHeader() );
-                        rightSplitPane.setDividerLocation( -1 );
+
+                        ticketDisplayPane.showTicket( ticket );
                     }
                 }
             }
@@ -62,7 +55,7 @@ public class MyActiveTicketsTab extends JSplitPane {
         leftPanel.add( ticketTableScrollPane, BorderLayout.CENTER );
 
         setLeftComponent( leftPanel );
-        setRightComponent( rightSplitPane );
+        setRightComponent( ticketDisplayPane );
 
 
         generateReportButton.addActionListener( new ActionListener() {
