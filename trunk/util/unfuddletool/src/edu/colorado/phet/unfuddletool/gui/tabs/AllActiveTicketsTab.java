@@ -10,7 +10,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import edu.colorado.phet.unfuddletool.data.Ticket;
-import edu.colorado.phet.unfuddletool.gui.TicketDisplayPane;
+import edu.colorado.phet.unfuddletool.gui.HTMLDisplayPane;
 import edu.colorado.phet.unfuddletool.gui.TicketTable;
 import edu.colorado.phet.unfuddletool.gui.TicketTableModel;
 import edu.colorado.phet.unfuddletool.util.SimpleTicketReport;
@@ -21,8 +21,8 @@ public class AllActiveTicketsTab extends JSplitPane {
     private static TicketTableModel model;
 
     public TicketTable ticketTable;
-    public TicketDisplayPane ticketTableDisplay;
-    public TicketDisplayPane ticketTableHeader;
+    public HTMLDisplayPane ticketTableDisplay;
+    public HTMLDisplayPane ticketTableHeader;
 
     public AllActiveTicketsTab() {
         // set up the model
@@ -33,11 +33,11 @@ public class AllActiveTicketsTab extends JSplitPane {
         JScrollPane ticketTableScrollPane = new JScrollPane( ticketTable );
         ticketTable.setFillsViewportHeight( true );
         ticketTableScrollPane.setMinimumSize( new Dimension( 600, 0 ) );
-        ticketTableDisplay = new TicketDisplayPane();
+        ticketTableDisplay = new HTMLDisplayPane();
         ticketTableDisplay.setText( "Testing" );
         JScrollPane tableAreaScrollPane = new JScrollPane( ticketTableDisplay );
         tableAreaScrollPane.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-        ticketTableHeader = new TicketDisplayPane();
+        ticketTableHeader = new HTMLDisplayPane();
         ticketTableHeader.setText( "Ticket Header" );
         final JSplitPane rightSplitPane = new JSplitPane( JSplitPane.VERTICAL_SPLIT, ticketTableHeader, tableAreaScrollPane );
         rightSplitPane.setOneTouchExpandable( true );
