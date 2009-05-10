@@ -13,11 +13,11 @@ public class UpdateThread extends Thread {
 
                 System.out.println( "Requesting latest activity from the server at " + ( new Date() ) );
 
-                SwingUtilities.invokeLater( new Runnable() {
-                    public void run() {
+                //SwingUtilities.invokeLater( new Runnable() {
+                //    public void run() {
                         Activity.requestRecentActivity( 3 );
-                    }
-                } );
+                //    }
+                //} );
             }
         }
         catch( InterruptedException e ) {
