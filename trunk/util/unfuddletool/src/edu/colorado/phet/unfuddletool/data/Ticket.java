@@ -350,7 +350,7 @@ public class Ticket extends Record {
         }
     }
 
-    public void refreshComments() {
+    public synchronized void refreshComments() {
 
 
         String xmlString = Communication.getXMLResponse( "<request></request>", "projects/" + Configuration.getProjectIdString() + "/tickets/" + String.valueOf( rawId ) + "/comments", Authentication.auth );
@@ -416,17 +416,4 @@ public class Ticket extends Record {
         }
     }
 
-    public static class DateReverseComparator implements Comparator<Date> {
-        public int compare( Date a, Date b ) {
-            if ( a.getTime() == b.getTime() ) {
-                return 0;
-            }
-            if ( a.getTime() < b.getTime() ) {
-                return 1;
-            }
-            else {
-                return -1;
-            }
-        }
-    }
 }

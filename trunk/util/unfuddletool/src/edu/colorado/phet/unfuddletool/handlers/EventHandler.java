@@ -61,7 +61,7 @@ public class EventHandler {
     //----------------------------------------------------------------------------
 
     private void notifyAddEvent( final Event event ) {
-        System.out.println( "New event: " + event );
+        //System.out.println( "New event: " + event );
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 Iterator<EventAddListener> iter = listeners.iterator();
@@ -83,11 +83,11 @@ public class EventHandler {
         } );
     }
 
-    public void addTicketAddListener( EventAddListener listener ) {
+    public void addEventAddListener( EventAddListener listener ) {
         listeners.add( listener );
     }
 
-    public void removeTicketAddListener( EventAddListener listener ) {
+    public void removeEventAddListener( EventAddListener listener ) {
         listeners.remove( listener );
     }
 
