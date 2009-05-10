@@ -53,26 +53,32 @@ public class TicketSearchTab extends JSplitPane {
                         int index = ticketTable.convertRowIndexToModel( indices[0] );
                         Ticket ticket = model.getTicketAt( index );
 
-                        System.out.println( "Before setText status: " );
-                        TicketSearchTab.this.printStatus();
+                        String htmlComments = ticket.getHTMLComments();
+                        String htmlHeader = ticket.getHTMLHeader();
 
-                        ticketTableDisplay.setText( ticket.getHTMLComments() );
-                        ticketTableHeader.setText( ticket.getHTMLHeader() );
+                        ticketTableDisplay.setText( htmlComments );
+                        ticketTableHeader.setText( htmlHeader );
 
-                        System.out.println( "After setText status: " );
-                        TicketSearchTab.this.printStatus();
-                        
+                        // size everything
+                        int sizeAvailable = rightSplitPane.getHeight();
+                        int sizeTop = (int) ticketTableHeader.getPreferredScrollableViewportSize().getHeight();
+                        int sizeBottom = (int) ticketTableDisplay.getPreferredScrollableViewportSize().getHeight();
+                        rightSplitPane.setDividerLocation( getTicketDividerLocation( sizeAvailable, sizeTop, sizeBottom, rightSplitPane.getDividerSize() ) );
 
-                        //int sizeAvailable = rightSplitPane.getHeight();
-                        //int sizeTop = (int) ticketTableHeader.getPreferredScrollableViewportSize().getHeight();
-                        //int sizeBottom = (int) ticketTableDisplay.getPreferredScrollableViewportSize().getHeight();
-                        //rightSplitPane.setDividerLocation( getTicketDividerLocation( sizeAvailable, sizeTop, sizeBottom, rightSplitPane.getDividerSize() ) );
+                        // size it again (for if scrollbars were added after sizing)
+                        sizeAvailable = rightSplitPane.getHeight();
+                        sizeTop = (int) ticketTableHeader.getPreferredScrollableViewportSize().getHeight();
+                        sizeBottom = (int) ticketTableDisplay.getPreferredScrollableViewportSize().getHeight();
+                        rightSplitPane.setDividerLocation( getTicketDividerLocation( sizeAvailable, sizeTop, sizeBottom, rightSplitPane.getDividerSize() ) );
 
-                        rightSplitPane.setDividerLocation( getTicketDividerLocation( rightSplitPane.getHeight(), (int) ticketTableHeader.getPreferredScrollableViewportSize().getHeight(), (int) ticketTableDisplay.getPreferredScrollableViewportSize().getHeight(), rightSplitPane.getDividerSize() ) );
-                        rightSplitPane.setDividerLocation( getTicketDividerLocation( rightSplitPane.getHeight(), (int) ticketTableHeader.getPreferredScrollableViewportSize().getHeight(), (int) ticketTableDisplay.getPreferredScrollableViewportSize().getHeight(), rightSplitPane.getDividerSize() ) );
-
+                        // make sure the header is set to the top
                         ticketTableHeader.setSelectionStart( 0 );
                         ticketTableHeader.setSelectionEnd( 0 );
+
+                        ticketTableDisplay.scrollRectToVisible( new Rectangle( 0, ticketTableDisplay.getBounds( null ).height, 1, 1 ) );
+
+                        //ticketTableDisplay.setSelectionStart( htmlComments.length() );
+                        //ticketTableDisplay.setSelectionEnd( htmlComments.length() );
 
                         //tableAreaScrollPane.getVerticalScrollBar().setValue( tableAreaScrollPane.getVerticalScrollBar().getMaximum() );
 
@@ -166,19 +172,7 @@ public class TicketSearchTab extends JSplitPane {
 
     }
 
-    public void printStatus() {
-        System.out.println( "header getPreferredSize: " + ticketTableHeader.getPreferredSize() );
-        System.out.println( "header getPreferredScrollableViewportSize: " + ticketTableHeader.getPreferredScrollableViewportSize() );
-
-        System.out.println( "display getPreferredSize: " + ticketTableDisplay.getPreferredSize() );
-        System.out.println( "display getPreferredScrollableViewportSize: " + ticketTableDisplay.getPreferredScrollableViewportSize() );
-    }
-
     public static int getTicketDividerLocation( int sizeAvailable, int sizeTop, int sizeBottom, int dividerSize ) {
-        System.out.println( "Size avail: " + sizeAvailable );
-        System.out.println( "Size top: " + sizeTop );
-        System.out.println( "Size bottom: " + sizeBottom );
-
         int extraPadding = 5;
 
         int ret;
