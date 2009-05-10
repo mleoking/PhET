@@ -3,8 +3,6 @@ package edu.colorado.phet.unfuddletool.gui;
 import java.awt.*;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import edu.colorado.phet.unfuddletool.data.Ticket;
 
@@ -14,12 +12,12 @@ public class TicketDisplayPane extends JSplitPane {
 
     public TicketDisplayPane() {
         ticketTableDisplay = new HTMLDisplayPane();
-        ticketTableDisplay.setText( "" );
+        ticketTableDisplay.setText( "Please select a ticket to display here" );
         final JScrollPane tableAreaScrollPane = new JScrollPane( ticketTableDisplay );
         tableAreaScrollPane.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
         ticketTableHeader = new HTMLDisplayPane();
-        ticketTableHeader.setText( "" );
+        ticketTableHeader.setText( "Please select a ticket to display here" );
         final JScrollPane tableHeaderScrollPane = new JScrollPane( ticketTableHeader );
         tableHeaderScrollPane.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
@@ -108,11 +106,12 @@ public class TicketDisplayPane extends JSplitPane {
         //int prefDisplayHeight = (int) ticketTableDisplay.getPreferredScrollableViewportSize().getHeight();
         //tableAreaScrollPane.getViewport().setViewPosition( new Point( 0, (int) (prefDisplayHeight - tableAreaScrollPane.getViewport().getViewSize().getHeight()) ) );
 
+        // REALLY OLD solution
         //rightSplitPane.setDividerLocation( -1 );
     }
 
     private static int getTicketDividerLocation( int sizeAvailable, int sizeTop, int sizeBottom, int dividerSize ) {
-        int extraPadding = 5;
+        int extraPadding = 25;
 
         int ret;
 
