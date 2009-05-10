@@ -2,8 +2,6 @@ package edu.colorado.phet.unfuddletool.util;
 
 import java.util.Date;
 
-import javax.swing.*;
-
 public class UpdateThread extends Thread {
     public void run() {
         try {
@@ -15,7 +13,7 @@ public class UpdateThread extends Thread {
 
                 //SwingUtilities.invokeLater( new Runnable() {
                 //    public void run() {
-                        Activity.requestRecentActivity( 3 );
+                Activity.requestRecentActivity( 3 );
                 //    }
                 //} );
             }

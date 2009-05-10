@@ -17,6 +17,7 @@ import edu.colorado.phet.unfuddletool.Configuration;
 import edu.colorado.phet.unfuddletool.data.Comment;
 import edu.colorado.phet.unfuddletool.data.Event;
 import edu.colorado.phet.unfuddletool.data.Ticket;
+import edu.colorado.phet.unfuddletool.handlers.EventHandler;
 import edu.colorado.phet.unfuddletool.handlers.TicketHandler;
 
 public class Activity {
@@ -38,6 +39,9 @@ public class Activity {
 
             System.out.println( "Found " + String.valueOf( events.getLength() ) + " events." );
 
+            EventHandler eventHandler = EventHandler.getEventHandler();
+            TicketHandler ticketHandler = TicketHandler.getTicketHandler();
+
             for ( int i = 0; i < events.getLength(); i++ ) {
                 Node node = events.item( i );
 
@@ -46,14 +50,16 @@ public class Activity {
                     if ( eventElement.getTagName().equals( "event" ) ) {
                         Event event = new Event( eventElement );
 
+                        eventHandler.checkEvent( event );
+
                         if ( event.getType() == Event.Type.COMMENT ) {
                             Comment comment = event.getCommentRecord();
-                            TicketHandler.getTicketHandler().requestTicketUpdate( comment.rawParentId, comment.rawUpdatedAt.getDate() );
+                            ticketHandler.requestTicketUpdate( comment.rawParentId, comment.rawUpdatedAt.getDate() );
                         }
 
                         if ( event.getType() == Event.Type.TICKET ) {
                             Ticket ticket = event.getTicketRecord();
-                            TicketHandler.getTicketHandler().requestTicketUpdate( ticket.getId(), ticket.rawUpdatedAt.getDate() );
+                            ticketHandler.requestTicketUpdate( ticket.getId(), ticket.rawUpdatedAt.getDate() );
                         }
                     }
                 }

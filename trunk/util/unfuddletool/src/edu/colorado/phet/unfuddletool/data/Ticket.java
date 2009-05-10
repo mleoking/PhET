@@ -2,9 +2,9 @@ package edu.colorado.phet.unfuddletool.data;
 
 import java.util.*;
 
+import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
-import javax.swing.*;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;

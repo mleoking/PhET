@@ -115,4 +115,8 @@ public class Event {
 
         return ret;
     }
+
+    public long getId() {
+        return ( rawRecordId << 32 ) + rawCreatedAt.getDate().getTime();
+    }
 }

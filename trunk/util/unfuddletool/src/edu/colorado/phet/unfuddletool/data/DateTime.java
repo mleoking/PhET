@@ -20,7 +20,7 @@ public class DateTime {
             SimpleDateFormat format = new SimpleDateFormat( "yyyy-MM-dd-hh:mm:ss-z" );
             String tmp = raw.replace( 'T', '-' );
             int lastIdx = tmp.lastIndexOf( '-' );
-            tmp = tmp.substring(0, lastIdx) + "-GMT" + tmp.substring( lastIdx ); 
+            tmp = tmp.substring( 0, lastIdx ) + "-GMT" + tmp.substring( lastIdx );
             date = format.parse( tmp, new ParsePosition( 0 ) );
         }
     }
