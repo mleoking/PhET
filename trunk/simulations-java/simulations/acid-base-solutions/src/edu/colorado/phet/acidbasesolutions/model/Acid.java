@@ -11,10 +11,14 @@ import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 public abstract class Acid {
     
     // specific strong acids
-    public static final StrongAcid HYDROCHLORIC_ACID = new StrongAcid( ABSStrings.HYDORCHLORIC_ACID, ABSSymbols.HCl, ABSSymbols.Cl_MINUS, 10E7 );
+    public static final StrongAcid HYDROCHLORIC_ACID = new StrongAcid( ABSStrings.HYDORCHLORIC_ACID, ABSSymbols.HCl, ABSSymbols.Cl_MINUS, 1E7 );
+    public static final StrongAcid PERCHLORIC_ACID = new StrongAcid( ABSStrings.PERCHLORIC_ACID, ABSSymbols.HClO4, ABSSymbols.ClO4_MINUS, 40 );
     
     // specific weak acids
+    public static final WeakAcid CHLORUS_ACID = new WeakAcid( ABSStrings.CHLOROUS_ACID, ABSSymbols.HClO2, ABSSymbols.ClO2_MINUS, 1E-2 );
     public static final WeakAcid HYPOCHLORUS_ACID = new WeakAcid( ABSStrings.HYPOCHLOROUS_ACID, ABSSymbols.HClO, ABSSymbols.ClO_MINUS, 2.9E-8 );
+    public static final WeakAcid HYDROFLUORIC_ACID = new WeakAcid( ABSStrings.HYDROFLUORIC_ACID, ABSSymbols.HF, ABSSymbols.F_MINUS, 6.8E-4 );
+    public static final WeakAcid ACETIC_ACID = new WeakAcid( ABSStrings.ACETIC_ACID, ABSSymbols.CH3COOH, ABSSymbols.CH3COO_MINUS, 1.8E-5 );
     
     private final String name;
     private final String symbol;
@@ -26,6 +30,9 @@ public abstract class Acid {
         this.name = name;
         this.symbol = symbol;
         this.conjugateSymbol = conjugateSymbol;
+        if ( !isValidStrength( strength ) ) {
+            throw new IllegalArgumentException( "strength is invalid: " + strength );
+        }
         this.strength = strength;
         this.listeners = new ArrayList<AcidListener>();
     }
@@ -43,6 +50,9 @@ public abstract class Acid {
     }
     
     protected void setStrength( double strength ) {
+        if ( !isValidStrength( strength ) ) {
+            throw new IllegalArgumentException( "strength is invalid: " + strength );
+        }
         if ( strength != this.strength ) {
             this.strength = strength;
             notifyStrengthChanged();
@@ -52,6 +62,8 @@ public abstract class Acid {
     public double getStrength() {
         return strength;
     }
+    
+    protected abstract boolean isValidStrength( double strength );
     
     public interface AcidListener {
         public void strengthChanged();
@@ -78,11 +90,8 @@ public abstract class Acid {
             super( name, symbol, conjugateSymbol, strength );
         }
         
-        protected void setStrength( double strength ) {
-            if ( !( ABSConstants.STRONG_STRENGTH_RANGE.contains( strength ) ) ) {
-                throw new IllegalArgumentException( "strength out of range: " + strength );
-            }
-            super.setStrength( strength );
+        protected boolean isValidStrength( double strength ) {
+            return ABSConstants.STRONG_STRENGTH_RANGE.contains( strength );
         }
     }
 
@@ -105,11 +114,8 @@ public abstract class Acid {
             super( name, symbol, conjugateSymbol, strength );
         }
         
-        protected void setStrength( double strength ) {
-            if ( !( ABSConstants.WEAK_STRENGTH_RANGE.contains( strength ) ) ) {
-                throw new IllegalArgumentException( "strength out of range: " + strength );
-            }
-            super.setStrength( strength );
+        protected boolean isValidStrength( double strength ) {
+            return ABSConstants.WEAK_STRENGTH_RANGE.contains( strength );
         }
     }
     
@@ -132,12 +138,9 @@ public abstract class Acid {
             super( name, symbol, conjugateSymbol, strength );
         }
         
-        protected void setStrength( double strength ) {
+        protected boolean isValidStrength( double strength ) {
             // exclusive of intermediate range bounds!
-            if ( !( strength > ABSConstants.INTERMEDIATE_STRENGTH_RANGE.getMin() && strength < ABSConstants.INTERMEDIATE_STRENGTH_RANGE.getMax() ) ) {
-                throw new IllegalArgumentException( "strength out of range: " + strength );
-            }
-            super.setStrength( strength );
+            return ( strength > ABSConstants.INTERMEDIATE_STRENGTH_RANGE.getMin() && strength < ABSConstants.INTERMEDIATE_STRENGTH_RANGE.getMax() );
         }
     }
 

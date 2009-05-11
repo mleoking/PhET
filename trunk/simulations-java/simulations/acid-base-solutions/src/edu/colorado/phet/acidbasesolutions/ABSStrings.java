@@ -43,7 +43,11 @@ public class ABSStrings {
     public static final String CUSTOM_INTERMEDIATE_ACID = ABSResources.getString( "acid.customIntermediateAcid" );
     public static final String CUSTOM_WEAK_ACID = ABSResources.getString( "acid.customWeakAcid" );
     public static final String HYDORCHLORIC_ACID = ABSResources.getString( "acid.hydrochloricAcid" );
+    public static final String PERCHLORIC_ACID = ABSResources.getString( "acid.perchloridAcid" );
+    public static final String CHLOROUS_ACID = ABSResources.getString( "acid.chlorousAcid" );
     public static final String HYPOCHLOROUS_ACID = ABSResources.getString( "acid.hypochlorousAcid" );
+    public static final String HYDROFLUORIC_ACID = ABSResources.getString( "acid.hydrofluoricAcid" );
+    public static final String ACETIC_ACID = ABSResources.getString( "acid.aceticAcid" );
     
     // bases
     public static final String CUSTOM_STRONG_BASE = ABSResources.getString( "base.customStrongBase" );

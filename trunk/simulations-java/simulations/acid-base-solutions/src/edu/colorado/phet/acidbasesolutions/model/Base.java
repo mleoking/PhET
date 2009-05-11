@@ -25,6 +25,9 @@ public abstract class Base {
     private Base( String name, String symbol, double strength ) {
         this.name = name;
         this.symbol = symbol;
+        if ( !isValidStrength( strength ) ) {
+            throw new IllegalArgumentException( "strength is invalid: " + strength );
+        }
         this.strength = strength;
         this.listeners = new ArrayList<BaseListener>();
     }
@@ -38,6 +41,9 @@ public abstract class Base {
     }
     
     protected void setStrength( double strength ) {
+        if ( !isValidStrength( strength ) ) {
+            throw new IllegalArgumentException( "strength is invalid: " + strength );
+        }
         if ( strength != this.strength ) {
             this.strength = strength;
             notifyStrengthChanged();
@@ -47,6 +53,8 @@ public abstract class Base {
     public double getStrength() {
         return strength;
     }
+    
+    protected abstract boolean isValidStrength( double strength );
     
     public interface BaseListener {
         public void strengthChanged();
@@ -80,11 +88,8 @@ public abstract class Base {
             return metalSymbol;
         }
         
-        protected void setStrength( double strength ) {
-            if ( !( ABSConstants.STRONG_STRENGTH_RANGE.contains( strength ) ) ) {
-                throw new IllegalArgumentException( "strength out of range: " + strength );
-            }
-            super.setStrength( strength );
+        protected boolean isValidStrength( double strength ) {
+            return ABSConstants.STRONG_STRENGTH_RANGE.contains( strength );
         }
     }
 
@@ -114,11 +119,8 @@ public abstract class Base {
             return conjugateSymbol;
         }
         
-        protected void setStrength( double strength ) {
-            if ( !( ABSConstants.WEAK_STRENGTH_RANGE.contains( strength ) ) ) {
-                throw new IllegalArgumentException( "strength out of range: " + strength );
-            }
-            super.setStrength( strength );
+        protected boolean isValidStrength( double strength ) {
+            return ABSConstants.WEAK_STRENGTH_RANGE.contains( strength );
         }
     }
 
@@ -148,12 +150,9 @@ public abstract class Base {
             return conjugateSymbol;
         }
 
-        protected void setStrength( double strength ) {
+        protected boolean isValidStrength( double strength ) {
             // exclusive of intermediate range bounds!
-            if ( !( strength > ABSConstants.INTERMEDIATE_STRENGTH_RANGE.getMin() && strength < ABSConstants.INTERMEDIATE_STRENGTH_RANGE.getMax() ) ) {
-                throw new IllegalArgumentException( "strength out of range: " + strength );
-            }
-            super.setStrength( strength );
+            return ( strength > ABSConstants.INTERMEDIATE_STRENGTH_RANGE.getMin() && strength < ABSConstants.INTERMEDIATE_STRENGTH_RANGE.getMax() );
         }
     }
     
