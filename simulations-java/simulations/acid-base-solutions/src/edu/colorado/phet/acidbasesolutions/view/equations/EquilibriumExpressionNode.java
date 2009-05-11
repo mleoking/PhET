@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.PureWater;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
@@ -38,9 +39,6 @@ public abstract class EquilibriumExpressionNode extends PComposite {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
-    //TODO localize
-    private static final String LARGE = "Large";
     
     private static final double X_SPACING = 10;
     private static final double Y_SPACING = 5;
@@ -401,7 +399,7 @@ public abstract class EquilibriumExpressionNode extends PComposite {
      */
     private static class LargeValueNode extends PText {
         public LargeValueNode() {
-            super( LARGE );
+            super( ABSStrings.K_VALUE_LARGE );
             setFont( VALUE_FONT );
             setTextPaint( VALUE_COLOR );
         }

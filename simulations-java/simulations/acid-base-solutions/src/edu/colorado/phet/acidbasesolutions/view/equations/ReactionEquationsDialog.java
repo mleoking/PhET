@@ -11,6 +11,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.view.equations.ReactionEquationNode.*;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.HorizontalLayoutStrategy;
@@ -20,12 +21,6 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 
 public class ReactionEquationsDialog extends PaintImmediateDialog {
-    
-    //TODO localize
-    private static final String TITLE = "Reaction Equations";
-    private static final String ON = "on";
-    private static final String OFF = "off";
-    private static final String SYMBOL_SIZES_CHANGE = "<html>Symbol sizes change<br>with concentration:</html>";
     
     private static final int DEFAULT_SCALE = 100; // percent
     private static final int MAX_SCALE = 500; // percent
@@ -48,21 +43,21 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
     }
     
     public ReactionEquationsDialog( Frame owner, boolean dev ) {
-        super( owner, TITLE );
+        super( owner, ABSStrings.TITLE_REACTION_EQUATIONS );
         setResizable( dev ); // resizable only if in dev mode
         
         JComponent devControls = createDevControls();
         
         // scale on/off
-        JLabel scaleOnOffLabel = new JLabel( SYMBOL_SIZES_CHANGE );
+        JLabel scaleOnOffLabel = new JLabel( ABSStrings.LABEL_EQUATION_SCALING );
         ActionListener scaleOnOffActionListener = new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 updateScale();
             }
         };
-        scaleOnRadioButton = new JRadioButton( ON );
+        scaleOnRadioButton = new JRadioButton( ABSStrings.RADIO_BUTTON_EQUATION_SCALING_ON );
         scaleOnRadioButton.addActionListener( scaleOnOffActionListener );
-        scaleOffRadioButton = new JRadioButton( OFF );
+        scaleOffRadioButton = new JRadioButton( ABSStrings.RADIO_BUTTON_EQUATION_SCALING_OFF );
         scaleOffRadioButton.addActionListener( scaleOnOffActionListener );
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add( scaleOffRadioButton );

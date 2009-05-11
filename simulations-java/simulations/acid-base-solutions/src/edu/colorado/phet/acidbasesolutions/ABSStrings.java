@@ -23,12 +23,26 @@ public class ABSStrings {
     public static final String TITLE_ERROR = PhetCommonResources.getString( "Common.title.error" );
     public static final String TITLE_STRENGTH = ABSResources.getString( "title.strength" );
     public static final String TITLE_SOLUTION = ABSResources.getString( "title.solution" );
+    public static final String TITLE_EQUILIBRIUM_EXPRESSIONS = ABSResources.getString( "title.equilibriumExpressions" );
+    public static final String TITLE_REACTION_EQUATIONS = ABSResources.getString( "title.reactionEquations" );
+    public static final String TITLE_MISC_CONTROLS = ABSResources.getString( "title.miscControls" );
     
     public static final String MESSAGE_NOT_A_CONFIG = ABSResources.getString( "message.notAConfigFile" );
     
     // labels
     public static final String LABEL_CONCENTRATION = ABSResources.getString( "label.concentration" );
     public static final String LABEL_PH = ABSResources.getString( "label.pH" );
+    public static final String LABEL_EQUATION_SCALING = ABSResources.getString( "label.equationScaling" );
+    
+    // check boxes
+    public static final String CHECK_BOX_EQUILIBRIUM_EXPRESSIONS = ABSResources.getString( "checkBox.equilibriumExpressions" );
+    public static final String CHECK_BOX_REACTION_EQUATIONS = ABSResources.getString( "checkBox.reactionEquations" );
+    public static final String CHECK_BOX_SYMBOL_LEGEND = ABSResources.getString( "checkBox.symbolLegend" );
+    public static final String CHECK_BOX_CONCENTRATIONS_GRAPH = ABSResources.getString( "checkBox.concentrationsGraph" );
+    
+    // radio buttons
+    public static final String RADIO_BUTTON_EQUATION_SCALING_OFF = ABSResources.getString( "radioButton.equationScaling.off" );
+    public static final String RADIO_BUTTON_EQUATION_SCALING_ON = ABSResources.getString( "radioButton.equationScaling.on" );
     
     // units
     public static final String UNITS_LITERS = ABSResources.getString( "units.liters" );
@@ -56,4 +70,7 @@ public class ABSStrings {
     public static final String SODIUM_HYDROXIDE = ABSResources.getString( "base.sodiumHydroxide" );
     public static final String AMMONIA = ABSResources.getString( "base.ammonia" );
     public static final String PYRIDINE = ABSResources.getString( "base.pyridine" );
+    
+    // values
+    public static final String K_VALUE_LARGE = "Large";
 }
