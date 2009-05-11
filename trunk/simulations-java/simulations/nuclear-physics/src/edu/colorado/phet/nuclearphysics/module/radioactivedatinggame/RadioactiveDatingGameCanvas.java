@@ -112,7 +112,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         		showPostDecayCurve(false).
         		timeMarkerLabelEnabled(true).
         		build();
-        addScreenChild(_proportionsChart);
+        addWorldChild(_proportionsChart);
 
         // Add decay curve to chart.
         drawDecayCurveOnChart();
@@ -154,12 +154,12 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 //        _backgroundImageLayer.addChild( _backgroundImage );
     	
     	// Find the bottom of the strata.
-    	
-    	
+    	double bottomOfStrata = _model.getBottomOfStrata();
+    	bottomOfStrata = _mvt.modelToViewYDouble(bottomOfStrata);
 
         // Size and locate the proportions chart.
         _proportionsChart.componentResized( new Rectangle2D.Double( 0, 0, newWidth * PROPORTIONS_CHART_WIDTH_FRACTION,
-        		( newHeight - _backgroundImage.getFullBoundsReference().height ) * 0.95 ) );
+        		( newHeight - bottomOfStrata ) * 0.95 ) );
 
         _proportionsChart.setOffset(newWidth / 2 - _proportionsChart.getFullBoundsReference().width / 2,
         		_backgroundImage.getFullBoundsReference().height + 3);
