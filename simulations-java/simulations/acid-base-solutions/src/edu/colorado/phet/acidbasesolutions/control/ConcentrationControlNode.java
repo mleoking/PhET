@@ -17,6 +17,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -35,10 +36,6 @@ public class ConcentrationControlNode extends PNode {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
-    //TODO localize
-    private static final String UNITS_MOLES_PER_LITER = "mol/L";
-    private static final String CONCENTRATION = "Concentration:";
     
     private static final double X_SPACING = 3;
     private static final double Y_SPACING = 3;
@@ -73,7 +70,7 @@ public class ConcentrationControlNode extends PNode {
         
         changeListeners = new ArrayList<ChangeListener>();
         
-        PText labelNode = new PText( CONCENTRATION );
+        PText labelNode = new PText( ABSStrings.LABEL_CONCENTRATION );
         labelNode.setFont( LABEL_FONT );
         addChild( labelNode );
         
@@ -90,7 +87,7 @@ public class ConcentrationControlNode extends PNode {
         textField.addActionListener( textFieldListener );
         textField.addFocusListener( textFieldListener );
         
-        JLabel unitsLabel = new JLabel( UNITS_MOLES_PER_LITER );
+        JLabel unitsLabel = new JLabel( ABSStrings.UNITS_MOLES_PER_LITER );
         unitsLabel.setFont( UNITS_FONT );
         
         JPanel panel = new JPanel();

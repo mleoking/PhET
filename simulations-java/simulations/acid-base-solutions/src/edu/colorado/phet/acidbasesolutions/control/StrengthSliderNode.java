@@ -15,6 +15,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.control.IScalarTransform.LogLinearTransform;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -41,13 +42,6 @@ public class StrengthSliderNode extends PhetPNode {
     // Class data
     //----------------------------------------------------------------------------
 
-    //TODO localize
-    private static final String STRENGTH_LABEL = "Strength:";
-    private static final String WEAK_LABEL = "Weak";
-    private static final String WEAKER_LABEL = "weaker";
-    private static final String STRONG_LABEL = "Strong";
-    private static final String STRONGER_LABEL = "stronger";
-    
     // Control label
     private static final Font LABEL_FONT = new PhetFont( 14 );
     private static final Color LABEL_COLOR = Color.BLACK;
@@ -125,21 +119,21 @@ public class StrengthSliderNode extends PhetPNode {
         trackNode.addInputEventListener( new TrackClickHandler( this ) );
         
         // weak range label
-        PNode weakRangeLabelNode = new RangeLabelNode( TRACK_WEAK_WIDTH, WEAK_LABEL, WEAKER_LABEL, STRONGER_LABEL );
+        PNode weakRangeLabelNode = new RangeLabelNode( TRACK_WEAK_WIDTH, ABSStrings.LABEL_WEAK, ABSStrings.LABEL_WEAKER, ABSStrings.LABEL_STRONGER );
         addChild( weakRangeLabelNode );
         double xOffset = 0;
         double yOffset = ( weakRangeLabelNode.getYOffset() - weakRangeLabelNode.getY() ) - 20;
         weakRangeLabelNode.setOffset( xOffset, yOffset );
         
         // strong range label
-        PNode strongRangeLabelNode = new RangeLabelNode( TRACK_STRONG_WIDTH, STRONG_LABEL );
+        PNode strongRangeLabelNode = new RangeLabelNode( TRACK_STRONG_WIDTH, ABSStrings.LABEL_STRONG );
         addChild( strongRangeLabelNode );
         xOffset = TRACK_WEAK_WIDTH + TRACK_INTERMEDIATE_WIDTH;
         yOffset = ( strongRangeLabelNode.getYOffset() - strongRangeLabelNode.getY() ) - 20;
         strongRangeLabelNode.setOffset( xOffset, yOffset );
         
         // strength label
-        PText labelNode = new PText( STRENGTH_LABEL );
+        PText labelNode = new PText( ABSStrings.LABEL_STRENGTH );
         labelNode.setFont( LABEL_FONT );
         labelNode.setTextPaint( LABEL_COLOR );
         addChild( labelNode );
