@@ -17,14 +17,14 @@ public class SimTemplateConfig implements IProguardKeepClass {
     //----------------------------------------------------------------------------
     
     // Global config
-    private String _versionString;
-    private String _versionMajor;
-    private String _versionMinor;
-    private String _versionDev;
-    private String _versionRevision;
+    private String versionString;
+    private String versionMajor;
+    private String versionMinor;
+    private String versionDev;
+    private String versionRevision;
     
     // Modules
-    private ExampleConfig _exampleConfig;
+    private ExampleConfig exampleConfig;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -34,7 +34,7 @@ public class SimTemplateConfig implements IProguardKeepClass {
      * Zero-argument constructor for Java Bean compliance, required by XMLEncoder.
      */
     public SimTemplateConfig() {
-        _exampleConfig = new ExampleConfig();
+        exampleConfig = new ExampleConfig();
     }
 
     //----------------------------------------------------------------------------
@@ -42,43 +42,43 @@ public class SimTemplateConfig implements IProguardKeepClass {
     //----------------------------------------------------------------------------
     
     public String getVersionString() {
-        return _versionString;
+        return versionString;
     }
     
     public void setVersionString( String versionString ) {
-        _versionString = versionString;
+        this.versionString = versionString;
     }
     
     public String getVersionMajor() {
-        return _versionMajor;
+        return versionMajor;
     }
     
     public void setVersionMajor( String versionMajor ) {
-        _versionMajor = versionMajor;
+        this.versionMajor = versionMajor;
     }
 
     public String getVersionMinor() {
-        return _versionMinor;
+        return versionMinor;
     }
     
     public void setVersionMinor( String versionMinor ) {
-        _versionMinor = versionMinor;
+        this.versionMinor = versionMinor;
     }
     
     public String getVersionDev() {
-        return _versionDev;
+        return versionDev;
     }
 
     public void setVersionDev( String versionDev ) {
-        _versionDev = versionDev;
+        this.versionDev = versionDev;
     }
     
     public String getVersionRevision() {
-        return _versionRevision;
+        return versionRevision;
     }
     
     public void setVersionRevision( String versionRevision ) {
-        _versionRevision = versionRevision;
+        this.versionRevision = versionRevision;
     }
     
     //----------------------------------------------------------------------------
@@ -86,10 +86,10 @@ public class SimTemplateConfig implements IProguardKeepClass {
     //----------------------------------------------------------------------------
     
     public void setExampleConfig( ExampleConfig exampleConfig ) {
-        _exampleConfig = exampleConfig;
+        this.exampleConfig = exampleConfig;
     }
     
     public ExampleConfig getExampleConfig() {
-        return _exampleConfig;
+        return exampleConfig;
     }
 }

@@ -31,7 +31,7 @@ public class DeveloperControlsDialog extends JDialog {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private SimTemplateApplication _app;
+    private SimTemplateApplication app;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -42,7 +42,7 @@ public class DeveloperControlsDialog extends JDialog {
         setResizable( false );
         setModal( false );
 
-        _app = app;
+        this.app = app;
 
         JPanel inputPanel = createInputPanel();
 
@@ -57,13 +57,13 @@ public class DeveloperControlsDialog extends JDialog {
 
     private JPanel createInputPanel() {
 
-        Frame parentFrame = PhetApplication.instance().getPhetFrame();
+        Frame parentFrame = PhetApplication.getInstance().getPhetFrame();
 
-        Color controlPanelBackground = _app.getControlPanelBackground();
+        Color controlPanelBackground = app.getControlPanelBackground();
         final ColorControl controlPanelColorControl = new ColorControl( parentFrame, "control panel background color: ", controlPanelBackground );
         controlPanelColorControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
-                _app.setControlPanelBackground( controlPanelColorControl.getColor() );
+                app.setControlPanelBackground( controlPanelColorControl.getColor() );
             }
         } );
         

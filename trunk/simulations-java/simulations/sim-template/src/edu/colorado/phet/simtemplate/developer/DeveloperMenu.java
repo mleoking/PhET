@@ -24,28 +24,28 @@ import edu.colorado.phet.simtemplate.SimTemplateApplication;
  */
 public class DeveloperMenu extends JMenu {
 
-    private SimTemplateApplication _app;
-    private JCheckBoxMenuItem _developerControlsItem;
-    private JCheckBoxMenuItem _tabPropertiesItem;
-    private JDialog _developerControlsDialog;
-    private JDialog _tabPropertiesDialog;
+    private SimTemplateApplication app;
+    private JCheckBoxMenuItem developerControlsItem;
+    private JCheckBoxMenuItem tabPropertiesItem;
+    private JDialog developerControlsDialog;
+    private JDialog tabPropertiesDialog;
 
     public DeveloperMenu( SimTemplateApplication app ) {
         super( "Developer" );
 
-        _app = app;
+        this.app = app;
 
-        _developerControlsItem = new JCheckBoxMenuItem( "Developer Controls..." );
-        add( _developerControlsItem );
-        _developerControlsItem.addActionListener( new ActionListener() {
+        developerControlsItem = new JCheckBoxMenuItem( "Developer Controls..." );
+        add( developerControlsItem );
+        developerControlsItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 handleDeveloperControls();
             }
         });
         
-        _tabPropertiesItem = new JCheckBoxMenuItem( "Tabbed Pane properties..." );
-        add( _tabPropertiesItem );
-        _tabPropertiesItem.addActionListener( new ActionListener() {
+        tabPropertiesItem = new JCheckBoxMenuItem( "Tabbed Pane properties..." );
+        add( tabPropertiesItem );
+        tabPropertiesItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 handleTabProperties();
             }
@@ -53,11 +53,11 @@ public class DeveloperMenu extends JMenu {
     }
 
     private void handleDeveloperControls() {
-        if ( _developerControlsItem.isSelected() ) {
-            Frame owner = PhetApplication.instance().getPhetFrame();
-            _developerControlsDialog = new DeveloperControlsDialog( owner, _app );
-            _developerControlsDialog.setVisible( true );
-            _developerControlsDialog.addWindowListener( new WindowAdapter() {
+        if ( developerControlsItem.isSelected() ) {
+            Frame owner = PhetApplication.getInstance().getPhetFrame();
+            developerControlsDialog = new DeveloperControlsDialog( owner, app );
+            developerControlsDialog.setVisible( true );
+            developerControlsDialog.addWindowListener( new WindowAdapter() {
 
                 public void windowClosed( WindowEvent e ) {
                     cleanup();
@@ -68,22 +68,22 @@ public class DeveloperMenu extends JMenu {
                 }
 
                 private void cleanup() {
-                    _developerControlsItem.setSelected( false );
-                    _developerControlsDialog = null;
+                    developerControlsItem.setSelected( false );
+                    developerControlsDialog = null;
                 }
             } );
         }
         else {
-            _developerControlsDialog.dispose();
+            developerControlsDialog.dispose();
         }
     }
     
     private void handleTabProperties() {
-        if ( _tabPropertiesItem.isSelected() ) {
-            Frame owner = PhetApplication.instance().getPhetFrame();
-            _tabPropertiesDialog = new TabbedPanePropertiesDialog( owner, _app.getTabbedPane() );
-            _tabPropertiesDialog.setVisible( true );
-            _tabPropertiesDialog.addWindowListener( new WindowAdapter() {
+        if ( tabPropertiesItem.isSelected() ) {
+            Frame owner = PhetApplication.getInstance().getPhetFrame();
+            tabPropertiesDialog = new TabbedPanePropertiesDialog( owner, app.getTabbedPane() );
+            tabPropertiesDialog.setVisible( true );
+            tabPropertiesDialog.addWindowListener( new WindowAdapter() {
 
                 public void windowClosed( WindowEvent e ) {
                     cleanup();
@@ -94,13 +94,13 @@ public class DeveloperMenu extends JMenu {
                 }
 
                 private void cleanup() {
-                    _tabPropertiesItem.setSelected( false );
-                    _tabPropertiesDialog = null;
+                    tabPropertiesItem.setSelected( false );
+                    tabPropertiesDialog = null;
                 }
             } );
         }
         else {
-            _tabPropertiesDialog.dispose();
+            tabPropertiesDialog.dispose();
         }
     }
 }

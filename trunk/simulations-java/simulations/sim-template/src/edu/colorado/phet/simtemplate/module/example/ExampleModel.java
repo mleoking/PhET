@@ -17,8 +17,8 @@ public class ExampleModel {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final SimTemplateClock _clock;
-    private final ExampleModelElement _exampleModelElement;
+    private final SimTemplateClock clock;
+    private final ExampleModelElement exampleModelElement;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -27,14 +27,14 @@ public class ExampleModel {
     public ExampleModel( SimTemplateClock clock ) {
         super();
         
-        _clock = clock;
+        this.clock = clock;
         
-        _exampleModelElement = new ExampleModelElement( 
+        exampleModelElement = new ExampleModelElement( 
                 ExampleDefaults.EXAMPLE_MODEL_ELEMENT_WIDTH,
                 ExampleDefaults.EXAMPLE_MODEL_ELEMENT_HEIGHT,
                 ExampleDefaults.EXAMPLE_MODEL_ELEMENT_POSITION, 
                 ExampleDefaults.EXAMPLE_MODEL_ELEMENT_ORIENTATION );
-        _clock.addClockListener( _exampleModelElement );
+        this.clock.addClockListener( exampleModelElement );
     }
     
     //----------------------------------------------------------------------------
@@ -42,10 +42,10 @@ public class ExampleModel {
     //----------------------------------------------------------------------------
     
     public SimTemplateClock getClock() {
-        return _clock;
+        return clock;
     }
     
     public ExampleModelElement getExampleModelElement() {
-        return _exampleModelElement;
+        return exampleModelElement;
     }
 }

@@ -4,7 +4,6 @@ package edu.colorado.phet.simtemplate.module.example;
 
 import java.awt.Frame;
 
-import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.simtemplate.SimTemplateApplication;
@@ -26,10 +25,10 @@ public class ExampleModule extends PiccoloModule {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private ExampleModel _model;
-    private ExampleCanvas _canvas;
-    private ExampleControlPanel _controlPanel;
-    private PiccoloClockControlPanel _clockControlPanel;
+    private ExampleModel model;
+    private ExampleCanvas canvas;
+    private ExampleControlPanel controlPanel;
+    private PiccoloClockControlPanel clockControlPanel;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -40,26 +39,26 @@ public class ExampleModule extends PiccoloModule {
 
         // Model
         SimTemplateClock clock = (SimTemplateClock) getClock();
-        _model = new ExampleModel( clock );
+        model = new ExampleModel( clock );
 
         // Canvas
-        _canvas = new ExampleCanvas( _model );
-        setSimulationPanel( _canvas );
+        canvas = new ExampleCanvas( model );
+        setSimulationPanel( canvas );
 
         // Control Panel
-        _controlPanel = new ExampleControlPanel( this, parentFrame );
-        setControlPanel( _controlPanel );
+        controlPanel = new ExampleControlPanel( this, parentFrame );
+        setControlPanel( controlPanel );
         
         // Clock controls
-        _clockControlPanel = new PiccoloClockControlPanel( getClock() );
-        _clockControlPanel.setRewindButtonVisible( true );
-        _clockControlPanel.setTimeDisplayVisible( true );
-        _clockControlPanel.setUnits( SimTemplateStrings.UNITS_TIME );
-        _clockControlPanel.setTimeColumns( ExampleDefaults.CLOCK_TIME_COLUMNS );
-        setClockControlPanel( _clockControlPanel );
+        clockControlPanel = new PiccoloClockControlPanel( getClock() );
+        clockControlPanel.setRewindButtonVisible( true );
+        clockControlPanel.setTimeDisplayVisible( true );
+        clockControlPanel.setUnits( SimTemplateStrings.UNITS_TIME );
+        clockControlPanel.setTimeColumns( ExampleDefaults.CLOCK_TIME_COLUMNS );
+        setClockControlPanel( clockControlPanel );
 
         // Controller
-        ExampleController controller = new ExampleController( _model, _canvas, _controlPanel );
+        ExampleController controller = new ExampleController( model, canvas, controlPanel );
         
         // Help
         if ( hasHelp() ) {
@@ -80,18 +79,18 @@ public class ExampleModule extends PiccoloModule {
     public void reset() {
 
         // Clock
-        SimTemplateClock clock = _model.getClock();
+        SimTemplateClock clock = model.getClock();
         clock.resetSimulationTime();
         clock.setDt( ExampleDefaults.CLOCK_DT );
         setClockRunningWhenActive( ExampleDefaults.CLOCK_RUNNING );
 
         // ExampleModelElement
-        ExampleModelElement exampleModelElement = _model.getExampleModelElement();
+        ExampleModelElement exampleModelElement = model.getExampleModelElement();
         exampleModelElement.setPosition( ExampleDefaults.EXAMPLE_MODEL_ELEMENT_POSITION );
         exampleModelElement.setOrientation( ExampleDefaults.EXAMPLE_MODEL_ELEMENT_ORIENTATION );
         
         // ExampleNode
-        ExampleNode exampleNode = _canvas.getExampleNode();
+        ExampleNode exampleNode = canvas.getExampleNode();
         exampleNode.setSize( exampleModelElement.getWidth(), exampleModelElement.getHeight() );
         exampleNode.setPosition( exampleModelElement.getPosition() );
         exampleNode.setOrientation( exampleModelElement.getOrientation() );
@@ -109,12 +108,12 @@ public class ExampleModule extends PiccoloModule {
         config.setActive( isActive() );
 
         // Clock
-        SimTemplateClock clock = _model.getClock();
+        SimTemplateClock clock = model.getClock();
         config.setClockDt( clock.getDt() );
         config.setClockRunning( getClockRunningWhenActive() );
 
         // ExampleModelElement
-        ExampleModelElement exampleModelElement = _model.getExampleModelElement();
+        ExampleModelElement exampleModelElement = model.getExampleModelElement();
         config.setExampleModelElementPosition( exampleModelElement.getPositionReference() );
         config.setExampleModelElementOrientation( exampleModelElement.getOrientation() );
 
@@ -132,12 +131,12 @@ public class ExampleModule extends PiccoloModule {
         }
 
         // Clock
-        SimTemplateClock clock = _model.getClock();
+        SimTemplateClock clock = model.getClock();
         clock.setDt( config.getClockDt() );
         setClockRunningWhenActive( config.isClockRunning() );
 
         // ExampleModelElement
-        ExampleModelElement exampleModelElement = _model.getExampleModelElement();
+        ExampleModelElement exampleModelElement = model.getExampleModelElement();
         exampleModelElement.setPosition( config.getExampleModelElementPosition() );
         exampleModelElement.setOrientation( config.getExampleModelElementOrientation() );
 

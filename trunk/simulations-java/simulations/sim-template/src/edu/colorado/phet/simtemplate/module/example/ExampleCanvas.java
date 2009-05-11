@@ -22,7 +22,7 @@ public class ExampleCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
 
     // Model
-    private ExampleModel _model;
+    private ExampleModel model;
     
     // View 
     private PNode _rootNode;
@@ -35,7 +35,7 @@ public class ExampleCanvas extends PhetPCanvas {
     public ExampleCanvas( ExampleModel model ) {
         super( ExampleDefaults.VIEW_SIZE );
         
-        _model = model;
+        this.model = model;
         
         setBackground( SimTemplateConstants.CANVAS_BACKGROUND );
         

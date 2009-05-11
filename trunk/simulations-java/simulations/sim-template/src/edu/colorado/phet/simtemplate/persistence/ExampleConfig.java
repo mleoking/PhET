@@ -18,15 +18,15 @@ public class ExampleConfig implements IProguardKeepClass {
     //----------------------------------------------------------------------------
     
     // Module
-    private boolean _active; // is the module active?
+    private boolean active; // is the module active?
     
     // Clock
-    private boolean _clockRunning;
-    private double _clockDt;
+    private boolean clockRunning;
+    private double clockDt;
     
     // Model
-    private double _exampleModelElementPositionX, _exampleModelElementPositionY;
-    private double _exampleModelElementOrientation;
+    private double exampleModelElementPositionX, exampleModelElementPositionY;
+    private double exampleModelElementOrientation;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -42,60 +42,60 @@ public class ExampleConfig implements IProguardKeepClass {
     //----------------------------------------------------------------------------
     
     public boolean isActive() {
-        return _active;
+        return active;
     }
 
     
     public void setActive( boolean active ) {
-        _active = active;
+        this.active = active;
     }
     
     
     public boolean isClockRunning() {
-        return _clockRunning;
+        return clockRunning;
     }
 
     
     public void setClockRunning( boolean clockRunning ) {
-        _clockRunning = clockRunning;
+        this.clockRunning = clockRunning;
     }
     
     public double getClockDt() {
-        return _clockDt;
+        return clockDt;
     }
 
     
     public void setClockDt( double clockDt ) {
-        _clockDt = clockDt;
+        this.clockDt = clockDt;
     }
 
     public double getExampleModelElementPositionX() {
-        return _exampleModelElementPositionX;
+        return exampleModelElementPositionX;
     }
 
     
     public void setExampleModelElementPositionX( double examplePositionX ) {
-        _exampleModelElementPositionX = examplePositionX;
+        this.exampleModelElementPositionX = examplePositionX;
     }
 
     
     public double getExampleModelElementPositionY() {
-        return _exampleModelElementPositionY;
+        return exampleModelElementPositionY;
     }
 
     
     public void setExampleModelElementPositionY( double examplePositionY ) {
-        _exampleModelElementPositionY = examplePositionY;
+        this.exampleModelElementPositionY = examplePositionY;
     }
     
     
     public double getExampleModelElementOrientation() {
-        return _exampleModelElementOrientation;
+        return exampleModelElementOrientation;
     }
 
     
     public void setExampleModelElementOrientation( double exampleOrientation ) {
-        _exampleModelElementOrientation = exampleOrientation;
+        this.exampleModelElementOrientation = exampleOrientation;
     }
     
     //----------------------------------------------------------------------------
@@ -103,12 +103,12 @@ public class ExampleConfig implements IProguardKeepClass {
     //----------------------------------------------------------------------------
     
     public Point2D getExampleModelElementPosition() {
-        return new Point2D.Double( _exampleModelElementPositionX, _exampleModelElementPositionY );
+        return new Point2D.Double( exampleModelElementPositionX, exampleModelElementPositionY );
     }
     
     
     public void setExampleModelElementPosition( Point2D p ) {
-        _exampleModelElementPositionX = p.getX();
-        _exampleModelElementPositionY = p.getY();
+        exampleModelElementPositionX = p.getX();
+        exampleModelElementPositionY = p.getY();
     }
 }
