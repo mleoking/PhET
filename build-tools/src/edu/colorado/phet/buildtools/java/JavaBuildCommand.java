@@ -36,7 +36,7 @@ public class JavaBuildCommand {
     private static String JAR_LAUNCHER_PROPERTIES_FILE_HEADER = "created by " + JavaBuildCommand.class.getName();
 
     //select whether you want to use the java version checker for launching JAR files
-    private static boolean useJavaVersionChecker = false;
+    private static boolean useJavaVersionChecker = true;
 
     public static final String JAVA_VERSION_CHECKER_CLASS_NAME = "edu.colorado.phet.javaversionchecker.JavaVersionChecker";
     public static final String JAR_LAUNCHER_CLASS_NAME = JARLauncher.class.getName();
