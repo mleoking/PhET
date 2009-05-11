@@ -22,11 +22,11 @@ public class WeakAcidSolution extends Solution {
         return getInitialConcentration() - getConjugateBaseConcentration();
     }
     
-    // [A-]
+    // [A-] = (-Ka + sqrt( Ka*Ka + 4*Ka*c ) )/2 
     public double getConjugateBaseConcentration() {
         final double Ka = acid.getStrength();
         final double c = getInitialConcentration();
-        return -Ka + Math.sqrt( ( Ka * Ka ) + ( 4 * Ka * c ) );
+        return ( -Ka + Math.sqrt( ( Ka * Ka ) + ( 4 * Ka * c ) ) ) / 2;
     }
     
     // [H3O+] = [A-]

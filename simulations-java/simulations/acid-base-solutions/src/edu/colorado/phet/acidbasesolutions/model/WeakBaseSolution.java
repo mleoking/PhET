@@ -22,11 +22,11 @@ public class WeakBaseSolution extends Solution {
         return getInitialConcentration() - getConjugateAcidConcentration();
     }
     
-    // [BH+]
+    // [BH+] = (-Kb + sqrt( Kb*Kb + 4*Kb*c ) )/2 
     public double getConjugateAcidConcentration() {
         final double Kb = base.getStrength();
         final double c = getInitialConcentration();
-        return -Kb + Math.sqrt( ( Kb * Kb ) + ( 4 * Kb * c ) );
+        return (-Kb + Math.sqrt( ( Kb * Kb ) + ( 4 * Kb * c ) ) ) / 2;
     }
     
     // [H3O+] = Kw / [OH-]
