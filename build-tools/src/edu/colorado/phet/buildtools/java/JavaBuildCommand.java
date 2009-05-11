@@ -154,8 +154,8 @@ public class JavaBuildCommand {
         Javac javac = new Javac();
         javac.setSource(BuildToolsConstants.BOOTSTRAP_JAVA_VERSION );//Java version checker must be compiled in lowest language version
         javac.setTarget(BuildToolsConstants.BOOTSTRAP_JAVA_VERSION );//so it can run in lowest language version jvms
-        javac.setClasspath( new Path( antTaskRunner.getProject(), "../simulations-java/contrib/javaws/jnlp.jar" ) );
-        javac.setSrcdir( new Path( antTaskRunner.getProject(), "../simulations-java/common/java-version-checker/src" ) );
+        javac.setClasspath( new Path( antTaskRunner.getProject(), new File(project.getTrunk(),"simulations-java/contrib/javaws/jnlp.jar" ).getAbsolutePath()) );
+        javac.setSrcdir( new Path( antTaskRunner.getProject(), new File(project.getTrunk(), "simulations-java/common/java-version-checker/src" ).getAbsolutePath()) );
         javac.setDestdir( project.getClassesDirectory() );
         javac.setDebugLevel( "lines,source" );
         javac.setDebug( true );
