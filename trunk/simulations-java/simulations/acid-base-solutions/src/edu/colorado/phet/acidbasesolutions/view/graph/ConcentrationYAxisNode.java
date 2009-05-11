@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.geom.Line2D;
 
+import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -20,9 +21,6 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ConcentrationYAxisNode extends PComposite {
-    
-    //TODO localize
-    private static final String AXIS_LABEL_CONCENTRATION = "Equilibrium Concentration (mol/L)";
     
     private static final Font AXIS_LABEL_FONT = new PhetFont( 16 );
     private static final Color AXIS_LABEL_COLOR = Color.BLACK;
@@ -74,7 +72,7 @@ public class ConcentrationYAxisNode extends PComposite {
         }
         
         // y-axis label
-        PText labelNode = new PText( AXIS_LABEL_CONCENTRATION );
+        PText labelNode = new PText( ABSStrings.LABEL_CONCENTRATION_GRAPH_Y_AXIS );
         labelNode.rotate( -Math.PI / 2 );
         labelNode.setFont( AXIS_LABEL_FONT );
         labelNode.setTextPaint( AXIS_LABEL_COLOR );

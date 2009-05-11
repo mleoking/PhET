@@ -33,6 +33,12 @@ public class ABSStrings {
     public static final String LABEL_CONCENTRATION = ABSResources.getString( "label.concentration" );
     public static final String LABEL_PH = ABSResources.getString( "label.pH" );
     public static final String LABEL_EQUATION_SCALING = ABSResources.getString( "label.equationScaling" );
+    public static final String LABEL_STRENGTH = ABSResources.getString( "label.strength" );
+    public static final String LABEL_WEAK = ABSResources.getString( "label.weak" );
+    public static final String LABEL_WEAKER = ABSResources.getString( "label.weak" );
+    public static final String LABEL_STRONG = ABSResources.getString( "label.strong" );
+    public static final String LABEL_STRONGER = ABSResources.getString( "label.stronger" );
+    public static final String LABEL_CONCENTRATION_GRAPH_Y_AXIS = ABSResources.getString("label.concentrationGraph.yAxis" );
     
     // check boxes
     public static final String CHECK_BOX_EQUILIBRIUM_EXPRESSIONS = ABSResources.getString( "checkBox.equilibriumExpressions" );
