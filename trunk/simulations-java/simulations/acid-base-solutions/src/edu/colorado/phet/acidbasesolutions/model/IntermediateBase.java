@@ -5,18 +5,14 @@ import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 
 
-public class WeakBase {
+public class IntermediateBase {
     
-    // specific weak bases
-    public static final WeakBase AMMONIA = new WeakBase( ABSStrings.AMMONIA, ABSSymbols.NH3, ABSSymbols.NH4_PLUS, 1.8E-5 );
-    public static final WeakBase PYRIDINE = new WeakBase( ABSStrings.PYRIDINE, ABSSymbols.C5H5N, ABSSymbols.C5H5NH_PLUS, 1.7E-9 );
-
     private final String name;
     private final String symbol;
     private final String conjugateAcidSymbol;
     private double strength;
     
-    private WeakBase( String name, String symbol, String conjugateAcidSymbol, double strength ) {
+    private IntermediateBase( String name, String symbol, String conjugateAcidSymbol, double strength ) {
         this.name = name;
         this.symbol = symbol;
         this.conjugateAcidSymbol = conjugateAcidSymbol;
@@ -36,7 +32,7 @@ public class WeakBase {
     }
     
     protected void setStrength( double strength ) {
-        if ( !( ABSConstants.WEAK_STRENGTH_RANGE.contains( strength ) ) ) {
+        if ( !( strength > ABSConstants.WEAK_STRENGTH_RANGE.getMax() && strength < ABSConstants.STRONG_STRENGTH_RANGE.getMin() ) ) {
             throw new IllegalArgumentException( "strength out of range: " + strength );
         }
         if ( strength != this.strength ) {
@@ -49,11 +45,11 @@ public class WeakBase {
         return strength;
     }
     
-    public static class CustomWeakBase extends WeakBase {
+    public static class CustomIntermediateBase extends IntermediateBase {
         
-        private static final double DEFAULT_STRENGTH = ABSConstants.WEAK_STRENGTH_RANGE.getMin();
+        private static final double DEFAULT_STRENGTH = ABSConstants.WEAK_STRENGTH_RANGE.getMax() + 1;
         
-        public CustomWeakBase() {
+        public CustomIntermediateBase() {
             super( ABSStrings.CUSTOM_WEAK_BASE, ABSSymbols.B, ABSSymbols.BH_PLUS, DEFAULT_STRENGTH );
         }
         

@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.control.IScalarTransform.LogLinearTransform;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -486,10 +487,7 @@ public class StrengthSliderNode extends PhetPNode {
         PhetPCanvas canvas = new PhetPCanvas();
         canvas.setPreferredSize( canvasSize );
 
-        DoubleRange weakRange = new DoubleRange( 10E-10, 1 );
-        DoubleRange strongRange = new DoubleRange( 20, 10E7 );
-        
-        StrengthSliderNode sliderNode = new StrengthSliderNode( weakRange, strongRange );
+        StrengthSliderNode sliderNode = new StrengthSliderNode( ABSConstants.WEAK_STRENGTH_RANGE, ABSConstants.STRONG_STRENGTH_RANGE );
         canvas.getLayer().addChild( sliderNode );
         sliderNode.setOffset( 100, 100 );
 

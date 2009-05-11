@@ -5,20 +5,20 @@ import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 
 
-public class StrongBase {
+public class StrongAcid {
     
-    // specific strong bases
-    public static final StrongBase SODIUM_HYDROXIDE = new StrongBase( ABSStrings.SODIUM_HYDROXIDE, ABSSymbols.NaOH, ABSSymbols.Na_PLUS, 1.8E-5 );
+    // specific acids
+    public static final StrongAcid HYDROCHLORIC_ACID = new StrongAcid( ABSStrings.HYDORCHLORIC_ACID, ABSSymbols.HCl, ABSSymbols.Cl_MINUS, 10E7 );
 
     private final String name;
     private final String symbol;
-    private final String metalSymbol;
+    private final String conjugateBaseSymbol;
     private double strength;
     
-    private StrongBase( String name, String symbol, String metalSymbol, double strength ) {
+    private StrongAcid( String name, String symbol, String conjugateBaseSymbol, double strength ) {
         this.name = name;
         this.symbol = symbol;
-        this.metalSymbol = metalSymbol;
+        this.conjugateBaseSymbol = conjugateBaseSymbol;
         this.strength = strength;
     }
     
@@ -30,8 +30,8 @@ public class StrongBase {
         return symbol;
     }
     
-    public String getMetalSymbol() {
-        return metalSymbol;
+    public String getConjugateBaseSymbol() {
+        return conjugateBaseSymbol;
     }
     
     public double getStrength() {
@@ -48,12 +48,12 @@ public class StrongBase {
         }
     }
     
-    public static class CustomStrongBase extends StrongBase {
+    public static class CustomStrongAcid extends StrongAcid {
         
         private static final double DEFAULT_STRENGTH = ABSConstants.STRONG_STRENGTH_RANGE.getMin();
         
-        public CustomStrongBase() {
-            super( ABSStrings.CUSTOM_STRONG_BASE, ABSSymbols.MOH, ABSSymbols.M_PLUS, DEFAULT_STRENGTH );
+        public CustomStrongAcid() {
+            super( ABSStrings.CUSTOM_STRONG_ACID, ABSSymbols.HA, ABSSymbols.A_MINUS, DEFAULT_STRENGTH );
         }
         
         public void setStrength( double strength ) {

@@ -1,18 +1,18 @@
 package edu.colorado.phet.acidbasesolutions.model;
 
 
+//TODO rewrite this model based on design doc
+public class IntermediateAcidSolution {
 
-public class WeakAcidSolution {
-
-    private final WeakAcid acid;
+    private final IntermediateAcid acid;
     private double initialConcentration;
     
-    public WeakAcidSolution( WeakAcid acid, double initialConcentration ) {
+    public IntermediateAcidSolution( IntermediateAcid acid, double initialConcentration ) {
         this.acid = acid;
         this.initialConcentration = initialConcentration;
     }
     
-    public WeakAcid getAcid() {
+    public IntermediateAcid getAcid() {
         return acid;
     }
     

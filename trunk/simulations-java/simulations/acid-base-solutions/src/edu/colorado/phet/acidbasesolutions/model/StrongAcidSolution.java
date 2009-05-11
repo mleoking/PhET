@@ -5,15 +5,15 @@ package edu.colorado.phet.acidbasesolutions.model;
 
 public class StrongAcidSolution {
     
-    private final Acid acid;
+    private final StrongAcid acid;
     private double initialConcentration;
     
-    public StrongAcidSolution( Acid acid, double initialConcentration ) {
+    public StrongAcidSolution( StrongAcid acid, double initialConcentration ) {
         this.acid = acid;
         this.initialConcentration = initialConcentration;
     }
     
-    public Acid getAcid() {
+    public StrongAcid getAcid() {
         return acid;
     }
     
