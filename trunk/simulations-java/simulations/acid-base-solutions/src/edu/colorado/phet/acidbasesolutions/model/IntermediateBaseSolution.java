@@ -4,30 +4,19 @@ import edu.colorado.phet.acidbasesolutions.model.Base.IntermediateBase;
 
 
 //TODO rewrite this model based on design doc
-public class IntermediateBaseSolution {
+public class IntermediateBaseSolution extends Solution {
 
     private final IntermediateBase base;
-    private double initialConcentration;
     
     public IntermediateBaseSolution( IntermediateBase base, double initialConcentration ) {
+        super( initialConcentration );
         this.base = base;
-        this.initialConcentration = initialConcentration;
     }
     
     public IntermediateBase getBase() {
         return base;
     }
     
-    // c
-    public void setInitialAcidConcentration( double initialConcentration ) {
-        if ( initialConcentration != this.initialConcentration ) {
-            this.initialConcentration = initialConcentration;
-        }
-    }
-    
-    public double getInitialConcentration() {
-        return initialConcentration;
-    }
     // [B] = c - [BH+]
     public double getBaseConcentration() {
         return getInitialConcentration() - getConjugateAcidConcentration();

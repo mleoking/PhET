@@ -4,29 +4,17 @@ import edu.colorado.phet.acidbasesolutions.model.Acid.WeakAcid;
 
 
 
-public class WeakAcidSolution {
+public class WeakAcidSolution extends Solution {
 
     private final WeakAcid acid;
-    private double initialConcentration;
     
     public WeakAcidSolution( WeakAcid acid, double initialConcentration ) {
+        super( initialConcentration );
         this.acid = acid;
-        this.initialConcentration = initialConcentration;
     }
     
     public WeakAcid getAcid() {
         return acid;
-    }
-    
-    // c
-    public void setInitialAcidConcentration( double initialConcentration ) {
-        if ( initialConcentration != this.initialConcentration ) {
-            this.initialConcentration = initialConcentration;
-        }
-    }
-    
-    public double getInitialConcentration() {
-        return initialConcentration;
     }
     
     // [HA] = c - [A-]

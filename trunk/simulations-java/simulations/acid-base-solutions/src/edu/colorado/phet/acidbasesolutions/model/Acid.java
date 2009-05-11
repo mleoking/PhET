@@ -45,7 +45,7 @@ public abstract class Acid {
     protected void setStrength( double strength ) {
         if ( strength != this.strength ) {
             this.strength = strength;
-            notifyListeners();
+            notifyStrengthChanged();
         }
     }
     
@@ -54,7 +54,7 @@ public abstract class Acid {
     }
     
     public interface AcidListener {
-        public void stateChanged();
+        public void strengthChanged();
     }
     
     public void addAcidListener( AcidListener listener ) {
@@ -65,10 +65,10 @@ public abstract class Acid {
         listeners.remove( listener );
     }
     
-    private void notifyListeners() {
+    private void notifyStrengthChanged() {
         Iterator<AcidListener> i = listeners.iterator();
         while ( i.hasNext() ) {
-            i.next().stateChanged();
+            i.next().strengthChanged();
         }
     }
     
