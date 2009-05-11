@@ -2,8 +2,9 @@
 
 package edu.colorado.phet.naturalselection.model;
 
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 
@@ -42,7 +43,7 @@ public abstract class Gene implements Bunny.Listener {
     private boolean mutatable;
 
     private NaturalSelectionModel model;
-    private ArrayList listeners;
+    private List<GeneListener> listeners;
 
     /**
      * Constructor, builds a gene from two alleles
@@ -57,7 +58,7 @@ public abstract class Gene implements Bunny.Listener {
 
         dominantAllele = this.primaryAllele;
 
-        listeners = new ArrayList();
+        listeners = new LinkedList<GeneListener>();
 
     }
 
@@ -143,10 +144,8 @@ public abstract class Gene implements Bunny.Listener {
         secondaryCount = 0;
 
         // only count alive bunnies
-        ArrayList bunnies = model.getAliveBunnyList();
-        Iterator iter = bunnies.iterator();
-        while ( iter.hasNext() ) {
-            Bunny bunny = (Bunny) iter.next();
+        List<Bunny> bunnies = model.getAliveBunnyList();
+        for ( Bunny bunny : bunnies ) {
             Allele allele = getBunnyPhenotype( bunny );
             if ( allele == primaryAllele ) {
                 primaryCount++;
@@ -159,10 +158,7 @@ public abstract class Gene implements Bunny.Listener {
             }
         }
 
-        //System.out.println( "\tDistribution for Gene " + getName() + ": " + primaryCount + ", " + secondaryCount );
-
         if ( oldPrimary != primaryCount || oldSecondary != secondaryCount ) {
-            //System.out.println( "\tDistribution changed!" );
             notifyChangeDistribution();
         }
     }
@@ -192,31 +188,6 @@ public abstract class Gene implements Bunny.Listener {
      * @return
      */
     public abstract double getMutationFraction();
-
-    /**
-     * Return a (possibly) mutated allele
-     *
-     * @param base The starting allele
-     * @return A possibly mutated allele
-     */
-    /*
-    public Allele mutatedAllele( Allele base ) {
-        if ( !getMutatable() ) {
-            return base;
-        }
-
-        if ( Math.random() < getMutationFraction() ) {
-            if ( base == primaryAllele ) {
-                return secondaryAllele;
-            }
-            else {
-                return primaryAllele;
-            }
-        }
-
-        return base;
-    }
-    */
 
     /**
      * The name of the gene
@@ -276,27 +247,27 @@ public abstract class Gene implements Bunny.Listener {
 
     private void notifyChangeDistribution() {
         //System.out.println( "\tGene distribution changed for " + getName() );
-        Iterator iter = listeners.iterator();
+        Iterator<GeneListener> iter = listeners.iterator();
 
         while ( iter.hasNext() ) {
-            ( (GeneListener) iter.next() ).onChangeDistribution( this, getPrimaryPhenotypeCount(), getSecondaryPhenotypeCount() );
+            ( iter.next() ).onChangeDistribution( this, getPrimaryPhenotypeCount(), getSecondaryPhenotypeCount() );
         }
     }
 
     private void notifyChangeDominantAllele() {
         //System.out.println( "Gene dominant allele changed for " + getName() );
-        Iterator iter = listeners.iterator();
+        Iterator<GeneListener> iter = listeners.iterator();
 
         while ( iter.hasNext() ) {
-            ( (GeneListener) iter.next() ).onChangeDominantAllele( this, primaryAllele == dominantAllele );
+            ( iter.next() ).onChangeDominantAllele( this, primaryAllele == dominantAllele );
         }
     }
 
     private void notifyChangeMutatable() {
-        Iterator iter = listeners.iterator();
+        Iterator<GeneListener> iter = listeners.iterator();
 
         while ( iter.hasNext() ) {
-            ( (GeneListener) iter.next() ).onChangeMutatable( this, getMutatable() );
+            ( iter.next() ).onChangeMutatable( this, getMutatable() );
         }
     }
 

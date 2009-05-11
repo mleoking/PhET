@@ -2,8 +2,8 @@
 
 package edu.colorado.phet.naturalselection.view;
 
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -36,16 +36,16 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.Listener
     /**
      * A list of the variable (bunny and wolf) sprites
      */
-    private ArrayList sprites;
+    private List<NaturalSelectionSprite> sprites;
 
     /**
      * Stores a copy for wolf nodes (not wolves)
      */
-    private ArrayList wolves;
+    private List<WolfNode> wolves;
 
     // trees and shrubs lists
-    private ArrayList trees;
-    private ArrayList shrubs;
+    private List<TreeNode> trees;
+    private List<ShrubNode> shrubs;
 
     // cached climate and selection factor
     private int oldClimate;
@@ -55,10 +55,10 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.Listener
      * Constructor
      */
     public SpritesNode() {
-        sprites = new ArrayList();
-        trees = new ArrayList();
-        shrubs = new ArrayList();
-        wolves = new ArrayList();
+        sprites = new LinkedList<NaturalSelectionSprite>();
+        trees = new LinkedList<TreeNode>();
+        shrubs = new LinkedList<ShrubNode>();
+        wolves = new LinkedList<WolfNode>();
 
         oldClimate = NaturalSelectionModel.CLIMATE_EQUATOR;
         oldSelection = NaturalSelectionModel.SELECTION_NONE;
@@ -111,8 +111,8 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.Listener
         if ( event.getType() == NaturalSelectionModel.Event.TYPE_FRENZY_START ) {
             event.getFrenzy().addListener( new Frenzy.Listener() {
                 public void onFrenzyStop( Frenzy frenzy ) {
-                    for ( Iterator iterator = wolves.iterator(); iterator.hasNext(); ) {
-                        WolfNode wolfNode = (WolfNode) iterator.next();
+                    for ( Iterator<WolfNode> iterator = wolves.iterator(); iterator.hasNext(); ) {
+                        WolfNode wolfNode = iterator.next();
                         removeChildSprite( wolfNode );
                     }
                     wolves.clear();
@@ -155,15 +155,15 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.Listener
         oldClimate = climate;
 
         if ( climate == NaturalSelectionModel.CLIMATE_EQUATOR ) {
-            Iterator iter = trees.iterator();
+            Iterator<TreeNode> iter = trees.iterator();
             while ( iter.hasNext() ) {
-                ( (TreeNode) iter.next() ).setVisible( true );
+                ( iter.next() ).setVisible( true );
             }
         }
         else if ( climate == NaturalSelectionModel.CLIMATE_ARCTIC ) {
-            Iterator iter = trees.iterator();
+            Iterator<TreeNode> iter = trees.iterator();
             while ( iter.hasNext() ) {
-                ( (TreeNode) iter.next() ).setVisible( false );
+                ( iter.next() ).setVisible( false );
             }
         }
     }
@@ -177,24 +177,22 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.Listener
         oldSelection = selectionFactor;
 
         if ( selectionFactor == NaturalSelectionModel.SELECTION_FOOD ) {
-            Iterator iter = shrubs.iterator();
+            Iterator<ShrubNode> iter = shrubs.iterator();
             while ( iter.hasNext() ) {
-                ( (ShrubNode) iter.next() ).setVisible( true );
+                ( iter.next() ).setVisible( true );
             }
         }
         else {
-            Iterator iter = shrubs.iterator();
+            Iterator<ShrubNode> iter = shrubs.iterator();
             while ( iter.hasNext() ) {
-                ( (ShrubNode) iter.next() ).setVisible( false );
+                ( iter.next() ).setVisible( false );
             }
         }
     }
 
     public void reset() {
-        Iterator iter = sprites.iterator();
-        while ( iter.hasNext() ) {
-            NaturalSelectionSprite spriteNode = (NaturalSelectionSprite) iter.next();
-            removeChild( spriteNode );
+        for ( NaturalSelectionSprite sprite : sprites ) {
+            removeChild( sprite );
         }
         onClimateChange( NaturalSelectionDefaults.DEFAULT_CLIMATE );
         onSelectionFactorChange( NaturalSelectionDefaults.DEFAULT_SELECTION_FACTOR );
