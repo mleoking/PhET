@@ -120,6 +120,17 @@ class edu.colorado.phet.flashcommon.AboutDialog {
 		// center the window
 		window.setLocation((Stage.width - window.getWidth()) / 2, (Stage.height - window.getHeight()) / 2);
 		window.show();
+		
+		var handler : TabHandler = new TabHandler( false );
+		handler.insertControl(agreementButton.trigger_mc, 0);
+		handler.registerButton(agreementButton.trigger_mc);
+		handler.insertControl(creditsButton.trigger_mc, 1);
+		handler.registerButton(creditsButton.trigger_mc);
+		handler.insertControl(okButton.trigger_mc, 2);
+		handler.registerButton(okButton.trigger_mc);
+		common.keyboardHandler.addTabHandler( handler );
+		common.keyboardHandler.setTabHandler( handler );
+		
 	}
 	
 	public function agreementClicked(src : JButton) {

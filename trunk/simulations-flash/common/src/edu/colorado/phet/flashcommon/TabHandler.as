@@ -41,15 +41,17 @@ class edu.colorado.phet.flashcommon.TabHandler {
 	}
 	
 	// constructor
-	public function TabHandler() {
+	public function TabHandler( main : Boolean ) {
 		//debug("Initializing TabHandler\n");
 		
 		// shortcut to FlashCommon, but now with type-checking!
 		common = _level0.common;
 		
 		// make this accessible by _level0.tabHandler
-		_level0.tabHandler = this;
-		common.tabHandler = this;
+		if( main ) {
+			_level0.tabHandler = this;
+			common.tabHandler = this;
+		}
 		
 		// disable default keyboard accessibility
 		_root.tabIndex = 1;
@@ -57,7 +59,9 @@ class edu.colorado.phet.flashcommon.TabHandler {
 		MovieClip.prototype.tabEnabled = false;
 		
 		// catch key events to this object
-		Key.addListener(this);
+		if( main ) {
+			Key.addListener(this);
+		}
 		
 		// default variables
 		active = false;
@@ -310,6 +314,26 @@ class edu.colorado.phet.flashcommon.TabHandler {
 			active = true;
 			currentIndex = (currentIndex - 1 + entries.length) % entries.length;
 			addFocus(currentEntry());
+		}
+	}
+	
+	public function onAddFocus() {
+		if( active ) {
+			return;
+		}
+		
+		if(entries.length > 0) {
+			Key.addListener(this);
+			active = true;
+			addFocus(currentEntry());
+		}
+	}
+	
+	public function onRemoveFocus() {
+		if( active ) {
+			Key.removeListener(this);
+			removeFocus( currentEntry() );
+			active = false;
 		}
 	}
 }
