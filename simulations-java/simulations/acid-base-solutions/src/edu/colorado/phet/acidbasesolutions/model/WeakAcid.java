@@ -1,21 +1,21 @@
 package edu.colorado.phet.acidbasesolutions.model;
 
+import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 
 
-public class Acid {
+public class WeakAcid {
     
     // specific acids
-    public static final Acid HYDROCHLORIC_ACID = new Acid( ABSStrings.HYDORCHLORIC_ACID, ABSSymbols.HCl, ABSSymbols.Cl_MINUS, 10E7 );
-    public static final Acid HYPOCHLORUS_ACID = new Acid( ABSStrings.HYPOCHLOROUS_ACID, ABSSymbols.HClO, ABSSymbols.ClO_MINUS, 2.9E-8 );
+    public static final WeakAcid HYPOCHLORUS_ACID = new WeakAcid( ABSStrings.HYPOCHLOROUS_ACID, ABSSymbols.HClO, ABSSymbols.ClO_MINUS, 2.9E-8 );
 
     private final String name;
     private final String symbol;
     private final String conjugateBaseSymbol;
     private double strength;
     
-    protected Acid( String name, String symbol, String conjugateBaseSymbol, double strength ) {
+    private WeakAcid( String name, String symbol, String conjugateBaseSymbol, double strength ) {
         this.name = name;
         this.symbol = symbol;
         this.conjugateBaseSymbol = conjugateBaseSymbol;
@@ -39,22 +39,21 @@ public class Acid {
     }
     
     protected void setStrength( double strength ) {
+        if ( !( ABSConstants.WEAK_STRENGTH_RANGE.contains( strength ) ) ) {
+            throw new IllegalArgumentException( "strength out of range: " + strength );
+        }
         if ( strength != this.strength ) {
             this.strength = strength;
             //XXX notify
         }
     }
     
-    public boolean isStrong() {
-        return strength >= 20; //XXX
-    }
-    
-    public static class CustomAcid extends Acid {
+    public static class CustomAcid extends WeakAcid {
         
-        private static final double DEFAULT_STRENGTH = 10E-10; //XXX
+        private static final double DEFAULT_STRENGTH = ABSConstants.WEAK_STRENGTH_RANGE.getMin();
         
         public CustomAcid() {
-            super( ABSStrings.CUSTOM_ACID, ABSSymbols.HA, ABSSymbols.A_MINUS, DEFAULT_STRENGTH );
+            super( ABSStrings.CUSTOM_WEAK_ACID, ABSSymbols.HA, ABSSymbols.A_MINUS, DEFAULT_STRENGTH );
         }
         
         public void setStrength( double strength ) {

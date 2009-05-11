@@ -4,6 +4,7 @@ package edu.colorado.phet.acidbasesolutions;
 
 import java.awt.*;
 
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -98,17 +99,8 @@ public class ABSConstants {
     // Model
     //----------------------------------------------------------------------------
     
-    public static final double WATER_CONCENTRATION = 55; // mol/L
-    public static final double Kw = 1E-14;
-    
-    public static final double MIN_CONCENTRATION = 1E-3;
-    public static final double MAX_CONCENTRATION = 1;
-    public static final double DEFAULT_CONCENTRATION = 1E-1;
-    
-    public static final double MIN_WEAK_STRENGTH = 1E-12;
-    public static final double MAX_WEAK_STRENGTH = 1E2;
-    public static final double DEFAULT_WEAK_STRENGTH = 1E-5;
-    
-    public static final double STRENGTH_STRONG = 10;//XXX
+    public static final DoubleRange CONCENTRATION_RANGE = new DoubleRange( 1E-3, 1 );
+    public static final DoubleRange WEAK_STRENGTH_RANGE = new DoubleRange( 10E-10, 1 );
+    public static final DoubleRange STRONG_STRENGTH_RANGE = new DoubleRange( 20, 10E7 );
     
 }

@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
+import edu.colorado.phet.acidbasesolutions.model.PureWater;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -473,7 +474,7 @@ public abstract class EquilibriumExpressionNode extends PComposite {
             setLeftNumeratorProperties( ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR );
             setRightNumeratorProperties( ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR );
             setDenominatorVisible( false );
-            setKValue( ABSConstants.Kw );
+            setKValue( PureWater.getInstance().getEquilibriumConstant() );
         }
     }
     

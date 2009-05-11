@@ -5,20 +5,17 @@ import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 
 
-public class StrongBase {
+public class IntermediateAcid {
     
-    // specific strong bases
-    public static final StrongBase SODIUM_HYDROXIDE = new StrongBase( ABSStrings.SODIUM_HYDROXIDE, ABSSymbols.NaOH, ABSSymbols.Na_PLUS, 1.8E-5 );
-
     private final String name;
     private final String symbol;
-    private final String metalSymbol;
+    private final String conjugateBaseSymbol;
     private double strength;
     
-    private StrongBase( String name, String symbol, String metalSymbol, double strength ) {
+    private IntermediateAcid( String name, String symbol, String conjugateBaseSymbol, double strength ) {
         this.name = name;
         this.symbol = symbol;
-        this.metalSymbol = metalSymbol;
+        this.conjugateBaseSymbol = conjugateBaseSymbol;
         this.strength = strength;
     }
     
@@ -30,8 +27,8 @@ public class StrongBase {
         return symbol;
     }
     
-    public String getMetalSymbol() {
-        return metalSymbol;
+    public String getConjugateBaseSymbol() {
+        return conjugateBaseSymbol;
     }
     
     public double getStrength() {
@@ -39,7 +36,7 @@ public class StrongBase {
     }
     
     protected void setStrength( double strength ) {
-        if ( !( ABSConstants.STRONG_STRENGTH_RANGE.contains( strength ) ) ) {
+        if ( !( strength > ABSConstants.WEAK_STRENGTH_RANGE.getMax() && strength < ABSConstants.STRONG_STRENGTH_RANGE.getMin() ) ) {
             throw new IllegalArgumentException( "strength out of range: " + strength );
         }
         if ( strength != this.strength ) {
@@ -48,12 +45,12 @@ public class StrongBase {
         }
     }
     
-    public static class CustomStrongBase extends StrongBase {
+    public static class CustomIntermediateAcid extends IntermediateAcid {
         
-        private static final double DEFAULT_STRENGTH = ABSConstants.STRONG_STRENGTH_RANGE.getMin();
+        private static final double DEFAULT_STRENGTH = ABSConstants.WEAK_STRENGTH_RANGE.getMax() + 1;
         
-        public CustomStrongBase() {
-            super( ABSStrings.CUSTOM_STRONG_BASE, ABSSymbols.MOH, ABSSymbols.M_PLUS, DEFAULT_STRENGTH );
+        public CustomIntermediateAcid() {
+            super( ABSStrings.CUSTOM_INTERMEDIATE_ACID, ABSSymbols.HA, ABSSymbols.A_MINUS, DEFAULT_STRENGTH );
         }
         
         public void setStrength( double strength ) {

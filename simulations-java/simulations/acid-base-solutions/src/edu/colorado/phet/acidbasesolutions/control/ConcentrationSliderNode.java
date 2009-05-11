@@ -13,8 +13,10 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.control.IScalarTransform.LogLinearTransform;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -86,6 +88,10 @@ public class ConcentrationSliderNode extends PhetPNode {
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
+    
+    public ConcentrationSliderNode( DoubleRange range ) {
+        this( range.getMin(), range.getMax() );
+    }
     
     public ConcentrationSliderNode( double min, double max ) {
         assert ( min < max );
@@ -394,7 +400,7 @@ public class ConcentrationSliderNode extends PhetPNode {
         PhetPCanvas canvas = new PhetPCanvas();
         canvas.setPreferredSize( canvasSize );
         
-        ConcentrationSliderNode sliderNode = new ConcentrationSliderNode( 1E-3, 1 );
+        ConcentrationSliderNode sliderNode = new ConcentrationSliderNode( ABSConstants.CONCENTRATION_RANGE );
         canvas.getLayer().addChild( sliderNode );
         sliderNode.setOffset( 100, 100 );
         
