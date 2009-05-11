@@ -12,8 +12,16 @@ public class PureWater {
     
     private static final double W = 55.6; // concentration, mol/L
     private static final double Kw = 1E-14; // equilibrium constant
+    private static final double H3O_CONCENTRATION = 1E-7;
+    private static final double OH_CONCENTRATION = 1E-7;
 
-    public PureWater() {}
+    private static final PureWater INSTANCE = new PureWater();
+    
+    public static PureWater getInstance() {
+        return INSTANCE;
+    }
+    
+    private PureWater() {}
     
     public String getName() {
         return ABSStrings.PURE_WATER;
@@ -31,11 +39,11 @@ public class PureWater {
         return Kw;
     }
     
-    public double getHydroniumConcentration() {
-        return 1E-7;
+    public double getH3OConcentration() {
+        return H3O_CONCENTRATION;
     }
 
-    public double getHydroxideConcentration() {
-        return 1E-7;
+    public double getOHConcentration() {
+        return OH_CONCENTRATION;
     }
 }
