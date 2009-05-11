@@ -3,14 +3,12 @@
 ==================================================================================
 
 TODO:
-- revisit implementation of Reaction Equations and Equilibrium Expressions
 - H2O should not be scalable in Reaction Equations, should change to Color.BLACK when scaling is enabled
 - solution control panel
-- particle views
-- model
 - connect model and view
+- revisit implementation of Reaction Equations and Equilibrium Expressions
+- particle views
 - "Negligible" in Concentrations graph
-- additional developer controls?
 - scale image files
 - Reset All
 - rewrite SolutionsCanvas.updateLayout
