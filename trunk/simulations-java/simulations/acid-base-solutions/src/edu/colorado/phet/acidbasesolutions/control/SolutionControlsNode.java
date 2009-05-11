@@ -9,7 +9,6 @@ import javax.swing.JPanel;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 
 public class SolutionControlsNode extends PhetPNode {
@@ -21,16 +20,11 @@ public class SolutionControlsNode extends PhetPNode {
     
     private static final double Y_SPACING = 10;
     
-    private final SoluteComboBox soluteComboBox;
     private final ConcentrationControlNode concentrationControlNode;
     private final StrengthSliderNode strengthSliderNode;
 
     public SolutionControlsNode() {
         super();
-        
-        soluteComboBox = new SoluteComboBox();
-        PSwing soluteComboBoxWrapper = new PSwing( soluteComboBox );
-        addChild( soluteComboBoxWrapper );
         
         concentrationControlNode = new ConcentrationControlNode( CONCENTRATION_RANGE.getMin(), CONCENTRATION_RANGE.getMax() );
         addChild( concentrationControlNode );
@@ -41,11 +35,8 @@ public class SolutionControlsNode extends PhetPNode {
         // layout
         double xOffset, yOffset;
         
-        xOffset = 0;
-        yOffset = 0;
-        soluteComboBoxWrapper.setOffset( xOffset, yOffset );
         xOffset = concentrationControlNode.getXOffset() - concentrationControlNode.getFullBoundsReference().getX();
-        yOffset = soluteComboBoxWrapper.getFullBoundsReference().getMaxY() + Y_SPACING + ( concentrationControlNode.getYOffset() - concentrationControlNode.getFullBoundsReference().getY() );
+        yOffset = concentrationControlNode.getYOffset() - concentrationControlNode.getFullBoundsReference().getY();
         concentrationControlNode.setOffset( xOffset, yOffset );
         xOffset = strengthSliderNode.getXOffset() - strengthSliderNode.getFullBoundsReference().getX();
         yOffset = concentrationControlNode.getFullBoundsReference().getMaxY() + Y_SPACING + ( strengthSliderNode.getYOffset() - strengthSliderNode.getFullBoundsReference().getY() );

@@ -37,9 +37,13 @@ public class ABSSymbols {
     public static final String HClO = "HClO";
     public static final String ClO_MINUS = "ClO<sup>-</sup>";
     
-    // symbols for specific bases and their conjugate acids, HTML fragments
-    public static final String CH3NH2 = "CH<sub>3</sub>NH<sub>2</sub>";
-    public static final String CH3NH3 = "CH<sub>3</sub>NH<sub>3</sub>";
+    // symbols for specific weak bases and their conjugate acids, HTML fragments
     public static final String NaOH = "NaOH";
     public static final String Na_PLUS = "Na<sup>+</sup>";
+    public static final String NH3 = "NH<sub>3</sub>";
+    public static final String NH4_PLUS = "NH<sub>4</sub><sup>+</sup>";
+    public static final String C5H5N = "C<sub>5</sub>H<sub>5</sub>N";
+    public static final String C5H5NH_PLUS = "C<sub>5</sub>H<sub>5</sub>NH<sup>+</sup>";
+    
+   // symbols for specific strong bases and their metals, HTML fragments
 }
