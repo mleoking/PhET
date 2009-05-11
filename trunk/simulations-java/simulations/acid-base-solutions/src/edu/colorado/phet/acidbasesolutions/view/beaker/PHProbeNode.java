@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.acidbasesolutions.view.beaker;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
@@ -28,12 +25,14 @@ public class PHProbeNode extends PComposite {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final Color SHAFT_COLOR = Color.DARK_GRAY;
+    private static final Color SHAFT_COLOR = Color.LIGHT_GRAY;
+    private static final Color SHAFT_STROKE_COLOR = Color.BLACK;
+    private static final Stroke SHAFT_STROKE = new BasicStroke( 0.25f );
     private static final double SHAFT_WIDTH = 10;
     
     private static final Color TIP_COLOR = Color.BLACK;
     
-    private static final Color DISPLAY_BORDER_COLOR = SHAFT_COLOR;
+    private static final Color DISPLAY_BORDER_COLOR = Color.DARK_GRAY;
     private static final double DISPLAY_BORDER_WIDTH = 3;
     private static final double DISPLAY_BORDER_MARGIN = 8;
     
@@ -147,7 +146,8 @@ public class PHProbeNode extends PComposite {
             super();
             setPathTo( new Rectangle2D.Double( 0, 0, width, height ) );
             setPaint( SHAFT_COLOR );
-            setStroke( null );
+            setStroke( SHAFT_STROKE );
+            setStrokePaint( SHAFT_STROKE_COLOR );
         }
     }
     
