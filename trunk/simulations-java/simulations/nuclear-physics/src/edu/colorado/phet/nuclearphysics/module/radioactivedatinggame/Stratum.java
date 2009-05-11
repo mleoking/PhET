@@ -1,20 +1,20 @@
+/* Copyright 2009, University of Colorado */
+
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
-import java.awt.geom.GeneralPath;
+import java.awt.Shape;
 import java.awt.geom.Line2D;
-import java.awt.*;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sam
- * Date: May 8, 2009
- * Time: 4:42:03 PM
+ * This class represents a "stratum" in the model, which means a layer of rock
+ * and/or soil with internally consistent characteristics that distinguishes 
+ * it from contiguous layers (definition obtained from wikipedia).
  */
-public class Layer {
+public class Stratum {
     private double bottomOfLayerY;
     private double height;
 
-    public Layer( double bottomOfLayerY, double height ) {
+    public Stratum( double bottomOfLayerY, double height ) {
         this.bottomOfLayerY = bottomOfLayerY;
         this.height = height;
     }

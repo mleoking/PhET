@@ -1,3 +1,5 @@
+/* Copyright 2009, University of Colorado */
+
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
 import java.awt.*;
@@ -6,15 +8,15 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.umd.cs.piccolo.PNode;
 
 public class RadioactiveDatingGameLayerNode extends PNode {
-    private Layer layer;
+    private Stratum layer;
     private ModelViewTransform2D mvt;
 
-    public RadioactiveDatingGameLayerNode( Layer layer, ModelViewTransform2D mvt,Color color ) {
-        this.layer = layer;
+    public RadioactiveDatingGameLayerNode( Stratum stratum, ModelViewTransform2D mvt, Color color ) {
+        this.layer = stratum;
         this.mvt = mvt;
-        Shape transformedShape = mvt.createTransformedShape( layer.getTopLine() );
-        LayerNode layerNode = new LayerNode( transformedShape,
-                                             mvt.createTransformedShape( layer.getBottomLine() ), color );
+        StratumNode layerNode = new StratumNode( mvt.createTransformedShape( stratum.getTopLine() ),
+                                                 mvt.createTransformedShape( stratum.getBottomLine() ),
+                                                 color );
         addChild( layerNode );
     }
 }
