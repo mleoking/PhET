@@ -149,7 +149,8 @@ public abstract class Base {
         }
 
         protected void setStrength( double strength ) {
-            if ( !( strength > ABSConstants.WEAK_STRENGTH_RANGE.getMax() && strength < ABSConstants.STRONG_STRENGTH_RANGE.getMin() ) ) {
+            // exclusive of intermediate range bounds!
+            if ( !( strength > ABSConstants.INTERMEDIATE_STRENGTH_RANGE.getMin() && strength < ABSConstants.INTERMEDIATE_STRENGTH_RANGE.getMax() ) ) {
                 throw new IllegalArgumentException( "strength out of range: " + strength );
             }
             super.setStrength( strength );
