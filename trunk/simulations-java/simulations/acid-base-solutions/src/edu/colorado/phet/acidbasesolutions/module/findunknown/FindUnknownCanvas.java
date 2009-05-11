@@ -21,7 +21,7 @@ public class FindUnknownCanvas extends ABSAbstractCanvas {
     //----------------------------------------------------------------------------
 
     // Model
-    private FindUnknownModel _model;
+    private FindUnknownModel model;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -29,7 +29,7 @@ public class FindUnknownCanvas extends ABSAbstractCanvas {
     
     public FindUnknownCanvas( FindUnknownModel model, Resettable resettable ) {
         super( resettable );
-        _model = model;
+        this.model = model;
     }
     
     //----------------------------------------------------------------------------

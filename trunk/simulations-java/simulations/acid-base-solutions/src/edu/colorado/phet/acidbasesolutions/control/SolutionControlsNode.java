@@ -6,17 +6,12 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 
 
 public class SolutionControlsNode extends PhetPNode {
-    
-    //XXX move to ABSConstants
-    private static final DoubleRange STRENGTH_WEAK_RANGE = new DoubleRange( 10E-10, 1 );
-    private static final DoubleRange STRENGTH_STRONG_RANGE = new DoubleRange( 20, 10E7 );
-    private static final DoubleRange CONCENTRATION_RANGE = new DoubleRange( 10E-3, 1 );
     
     private static final double Y_SPACING = 10;
     
@@ -26,10 +21,10 @@ public class SolutionControlsNode extends PhetPNode {
     public SolutionControlsNode() {
         super();
         
-        concentrationControlNode = new ConcentrationControlNode( CONCENTRATION_RANGE.getMin(), CONCENTRATION_RANGE.getMax() );
+        concentrationControlNode = new ConcentrationControlNode( ABSConstants.CONCENTRATION_RANGE );
         addChild( concentrationControlNode );
         
-        strengthSliderNode = new StrengthSliderNode( STRENGTH_WEAK_RANGE, STRENGTH_STRONG_RANGE );
+        strengthSliderNode = new StrengthSliderNode( ABSConstants.WEAK_STRENGTH_RANGE, ABSConstants.STRONG_STRENGTH_RANGE );
         addChild( strengthSliderNode );
         
         // layout

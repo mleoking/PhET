@@ -31,10 +31,10 @@ public class ConcentrationBarNode extends PPath {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final double _barWidth;
-    private final double _graphHeight;
-    private final double _arrowHeadWidth;
-    private final GeneralPath _barShape;
+    private final double barWidth;
+    private final double graphHeight;
+    private final double arrowHeadWidth;
+    private final GeneralPath barShape;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -45,11 +45,11 @@ public class ConcentrationBarNode extends PPath {
         setPickable( false );
         setChildrenPickable( false );
         
-        _barWidth = barWidth;
-        _graphHeight = graphHeight;
-        _arrowHeadWidth = barWidth + 15;
+        this.barWidth = barWidth;
+        this.graphHeight = graphHeight;
+        this.arrowHeadWidth = barWidth + 15;
         
-        _barShape = new GeneralPath();
+        barShape = new GeneralPath();
         
         setPaint( color );
         setStroke( STROKE );
@@ -64,29 +64,29 @@ public class ConcentrationBarNode extends PPath {
     
     public void setBarHeight( final double barHeight ) {
         
-        _barShape.reset();
+        barShape.reset();
         
-        if ( barHeight > _graphHeight ) {
+        if ( barHeight > graphHeight ) {
             // rectangle with arrowhead at the top, origin at bottom center
-            final double adjustedBarLength = _graphHeight - ( ( 1 - ARROW_PERCENT_ABOVE_GRAPH ) * ARROW_HEAD_HEIGHT );
-            _barShape.moveTo( (float) -( _barWidth / 2 ), 0f );
-            _barShape.lineTo( (float) ( _barWidth / 2 ), 0f );
-            _barShape.lineTo( (float) ( _barWidth / 2 ), (float) -adjustedBarLength );
-            _barShape.lineTo( (float) ( _arrowHeadWidth / 2 ), (float) -adjustedBarLength );
-            _barShape.lineTo( 0f, (float) -( adjustedBarLength + ARROW_HEAD_HEIGHT ) );
-            _barShape.lineTo( (float) -( _arrowHeadWidth / 2 ), (float) -adjustedBarLength );
-            _barShape.lineTo( (float) -( _barWidth / 2 ), (float) -adjustedBarLength );
-            _barShape.closePath();
+            final double adjustedBarLength = graphHeight - ( ( 1 - ARROW_PERCENT_ABOVE_GRAPH ) * ARROW_HEAD_HEIGHT );
+            barShape.moveTo( (float) -( barWidth / 2 ), 0f );
+            barShape.lineTo( (float) ( barWidth / 2 ), 0f );
+            barShape.lineTo( (float) ( barWidth / 2 ), (float) -adjustedBarLength );
+            barShape.lineTo( (float) ( arrowHeadWidth / 2 ), (float) -adjustedBarLength );
+            barShape.lineTo( 0f, (float) -( adjustedBarLength + ARROW_HEAD_HEIGHT ) );
+            barShape.lineTo( (float) -( arrowHeadWidth / 2 ), (float) -adjustedBarLength );
+            barShape.lineTo( (float) -( barWidth / 2 ), (float) -adjustedBarLength );
+            barShape.closePath();
         }
         else if ( barHeight > 0 ) {
             // rectangle, origin at bottom center
-            _barShape.moveTo( (float) -( _barWidth / 2 ), 0f );
-            _barShape.lineTo( (float) ( _barWidth / 2 ), 0f );
-            _barShape.lineTo( (float) ( _barWidth / 2 ), (float) -barHeight );
-            _barShape.lineTo( (float) -( _barWidth / 2 ), (float) -barHeight );
-            _barShape.closePath();
+            barShape.moveTo( (float) -( barWidth / 2 ), 0f );
+            barShape.lineTo( (float) ( barWidth / 2 ), 0f );
+            barShape.lineTo( (float) ( barWidth / 2 ), (float) -barHeight );
+            barShape.lineTo( (float) -( barWidth / 2 ), (float) -barHeight );
+            barShape.closePath();
         }
         
-        setPathTo( _barShape );
+        setPathTo( barShape );
     }
 }

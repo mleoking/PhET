@@ -16,14 +16,14 @@ public class ABSModel {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final ABSClock _clock;
+    private final ABSClock clock;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
     public ABSModel( ABSClock clock ) {
-        _clock = clock;
+        this.clock = clock;
     }
     
     //----------------------------------------------------------------------------
@@ -31,7 +31,7 @@ public class ABSModel {
     //----------------------------------------------------------------------------
     
     public ABSClock getClock() {
-        return _clock;
+        return clock;
     }
     
     //----------------------------------------------------------------------------
@@ -39,10 +39,10 @@ public class ABSModel {
     //----------------------------------------------------------------------------
     
     public void addClockListener( ClockListener clockListener ) {
-        _clock.addClockListener( clockListener );
+        clock.addClockListener( clockListener );
     }
     
     public void removeClockListener( ClockListener clockListener ) {
-        _clock.removeClockListener( clockListener );
+        clock.removeClockListener( clockListener );
     }
 }

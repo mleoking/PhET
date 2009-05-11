@@ -28,7 +28,7 @@ public class ConcentrationYAxisNode extends PComposite {
     private static final Color AXIS_LABEL_COLOR = Color.BLACK;
     private static final double AXIS_LABEL_X_MARGIN = 4;
     
-    private final double _tickSpacing;
+    private final double tickSpacing;
     
     public ConcentrationYAxisNode( PDimension graphOutlineSize, int numberOfTicks, 
             double topMargin, int maxExponent, int exponentSpacing, double tickLength, 
@@ -39,7 +39,7 @@ public class ConcentrationYAxisNode extends PComposite {
         setChildrenPickable( false );
         
         final double usableHeight = graphOutlineSize.getHeight() - topMargin;
-        _tickSpacing = usableHeight / ( numberOfTicks - 1 );
+        tickSpacing = usableHeight / ( numberOfTicks - 1 );
         
         double y = topMargin;
         int exponent = maxExponent;
@@ -69,7 +69,7 @@ public class ConcentrationYAxisNode extends PComposite {
             gridlineNode.setStrokePaint( gridlineColor );
             axisNode.addChild( gridlineNode );
 
-            y += _tickSpacing;
+            y += tickSpacing;
             exponent--;
         }
         
@@ -88,6 +88,6 @@ public class ConcentrationYAxisNode extends PComposite {
     }
     
     public double getTickSpacing() {
-        return _tickSpacing;
+        return tickSpacing;
     }
 }

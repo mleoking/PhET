@@ -28,22 +28,22 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
     //----------------------------------------------------------------------------
 
     // Model
-    private SolutionsModel _model;
+    private SolutionsModel model;
     
     // View 
-    private final BeakerNode _beakerNode;
-    private final PHProbeNode _probeNode;
-    private final SolutionNode _solutionNode;
-    private final ConcentrationGraphNode _concentrationGraphNode;
-    private final MoleculeCountsNode _moleculeCountsNode;
-    private final BeakerLabelNode _beakerLabelNode;
+    private final BeakerNode beakerNode;
+    private final PHProbeNode probeNode;
+    private final SolutionNode solutionNode;
+    private final ConcentrationGraphNode concentrationGraphNode;
+    private final MoleculeCountsNode moleculeCountsNode;
+    private final BeakerLabelNode beakerLabelNode;
     
     // Control
-    private final SolutionControlsNode _solutionsControlsNode;
-    private final BeakerControls _beakerControls;
-    private final PSwing _beakerControlsWrapper;
-    private final MiscControls _miscControls;
-    private final PSwing _miscControlsWrapper;
+    private final SolutionControlsNode solutionsControlsNode;
+    private final BeakerControls beakerControls;
+    private final PSwing beakerControlsWrapper;
+    private final MiscControls miscControls;
+    private final PSwing miscControlsWrapper;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -52,43 +52,43 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
     public SolutionsCanvas( SolutionsModel model, Resettable resettable ) {
         super( resettable );
         
-        _model = model;
+        this.model = model;
         
-        _beakerNode = new BeakerNode( SolutionsDefaults.BEAKER_SIZE, 1 );
+        beakerNode = new BeakerNode( SolutionsDefaults.BEAKER_SIZE, 1 );
         
-        _probeNode = new PHProbeNode( SolutionsDefaults.PH_PROBE_HEIGHT );
+        probeNode = new PHProbeNode( SolutionsDefaults.PH_PROBE_HEIGHT );
 
-        _solutionNode = new SolutionNode( SolutionsDefaults.BEAKER_SIZE );
+        solutionNode = new SolutionNode( SolutionsDefaults.BEAKER_SIZE );
         
-        _concentrationGraphNode = new ConcentrationGraphNode();
+        concentrationGraphNode = new ConcentrationGraphNode();
         
-        _moleculeCountsNode = new MoleculeCountsNode();
+        moleculeCountsNode = new MoleculeCountsNode();
         
-        _beakerLabelNode = new BeakerLabelNode( ABSConstants.MIN_BEAKER_LABEL_SIZE );
+        beakerLabelNode = new BeakerLabelNode( ABSConstants.MIN_BEAKER_LABEL_SIZE );
         
-        _solutionsControlsNode = new SolutionControlsNode();
-        _solutionsControlsNode.scale( ABSConstants.PSWING_SCALE );
+        solutionsControlsNode = new SolutionControlsNode();
+        solutionsControlsNode.scale( ABSConstants.PSWING_SCALE );
         
-        _beakerControls = new BeakerControls( _moleculeCountsNode, _beakerLabelNode );
-        _beakerControls.setBackground( getBackground() );
-        _beakerControlsWrapper = new PSwing( _beakerControls );
-        _beakerControlsWrapper.scale( ABSConstants.PSWING_SCALE );
+        beakerControls = new BeakerControls( moleculeCountsNode, beakerLabelNode );
+        beakerControls.setBackground( getBackground() );
+        beakerControlsWrapper = new PSwing( beakerControls );
+        beakerControlsWrapper.scale( ABSConstants.PSWING_SCALE );
         
-        _miscControls = new MiscControls( _concentrationGraphNode );
-        _miscControls.setBackground( getBackground() );
-        _miscControlsWrapper = new PSwing( _miscControls );
-        _miscControlsWrapper.scale( ABSConstants.PSWING_SCALE );
+        miscControls = new MiscControls( concentrationGraphNode );
+        miscControls.setBackground( getBackground() );
+        miscControlsWrapper = new PSwing( miscControls );
+        miscControlsWrapper.scale( ABSConstants.PSWING_SCALE );
         
         // rendering order
-        addNode( _solutionsControlsNode );
-        addNode( _beakerControlsWrapper );
-        addNode( _miscControlsWrapper );
-        addNode( _solutionNode );
-        addNode( _probeNode );
-        addNode( _beakerNode );
-        addNode( _concentrationGraphNode );
-        addNode( _moleculeCountsNode );
-        addNode( _beakerLabelNode );
+        addNode( solutionsControlsNode );
+        addNode( beakerControlsWrapper );
+        addNode( miscControlsWrapper );
+        addNode( solutionNode );
+        addNode( probeNode );
+        addNode( beakerNode );
+        addNode( concentrationGraphNode );
+        addNode( moleculeCountsNode );
+        addNode( beakerLabelNode );
     }
     
     //----------------------------------------------------------------------------
@@ -113,48 +113,48 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         PBounds b1;
         
         // solution controls in upper left
-        xOffset = _solutionsControlsNode.getXOffset() - _solutionsControlsNode.getFullBoundsReference().getX() + 20;
-        yOffset = _solutionsControlsNode.getYOffset() - _solutionsControlsNode.getFullBoundsReference().getY() + 20;
-        _solutionsControlsNode.setOffset( xOffset, yOffset );
+        xOffset = solutionsControlsNode.getXOffset() - solutionsControlsNode.getFullBoundsReference().getX() + 20;
+        yOffset = solutionsControlsNode.getYOffset() - solutionsControlsNode.getFullBoundsReference().getY() + 20;
+        solutionsControlsNode.setOffset( xOffset, yOffset );
         
         // beaker
         xOffset = 50;
         yOffset = 375;
-        _beakerNode.setOffset( xOffset, yOffset );
+        beakerNode.setOffset( xOffset, yOffset );
         
         // solution inside the beaker
-        _solutionNode.setOffset( _beakerNode.getOffset() );
+        solutionNode.setOffset( beakerNode.getOffset() );
         
         // molecule counts inside the beaker
-        xOffset = _beakerNode.getXOffset() + 10;
-        yOffset = _beakerNode.getYOffset();
-        _moleculeCountsNode.setOffset( xOffset, yOffset );
+        xOffset = beakerNode.getXOffset() + 10;
+        yOffset = beakerNode.getYOffset();
+        moleculeCountsNode.setOffset( xOffset, yOffset );
         
         // beaker label at bottom of beaker
-        b1 = _beakerNode.getFullBoundsReference();
-        xOffset = b1.getMinX() + ( b1.getWidth() - _beakerLabelNode.getFullBoundsReference().getWidth() ) / 2;
-        yOffset = b1.getMaxY() - _beakerLabelNode.getFullBoundsReference().getHeight() - 20;
-        _beakerLabelNode.setOffset( xOffset, yOffset );
+        b1 = beakerNode.getFullBoundsReference();
+        xOffset = b1.getMinX() + ( b1.getWidth() - beakerLabelNode.getFullBoundsReference().getWidth() ) / 2;
+        yOffset = b1.getMaxY() - beakerLabelNode.getFullBoundsReference().getHeight() - 20;
+        beakerLabelNode.setOffset( xOffset, yOffset );
         
         // probe horizontally centered in beaker, tip of probe at bottom of beaker
-        xOffset = _beakerNode.getFullBoundsReference().getCenterX() - _probeNode.getFullBoundsReference().getWidth() / 2;
-        yOffset = _beakerNode.getFullBoundsReference().getMaxY() - _probeNode.getFullBoundsReference().getHeight();
-        _probeNode.setOffset( xOffset, yOffset );
+        xOffset = beakerNode.getFullBoundsReference().getCenterX() - probeNode.getFullBoundsReference().getWidth() / 2;
+        yOffset = beakerNode.getFullBoundsReference().getMaxY() - probeNode.getFullBoundsReference().getHeight();
+        probeNode.setOffset( xOffset, yOffset );
         
         // beaker controls attached to right edge of beaker
-        xOffset = _beakerNode.getFullBoundsReference().getMaxX() - 25;
-        yOffset = _beakerNode.getFullBoundsReference().getCenterY() - ( _beakerControlsWrapper.getFullBoundsReference().getHeight() / 2 );
-        _beakerControlsWrapper.setOffset( xOffset, yOffset );
+        xOffset = beakerNode.getFullBoundsReference().getMaxX() - 25;
+        yOffset = beakerNode.getFullBoundsReference().getCenterY() - ( beakerControlsWrapper.getFullBoundsReference().getHeight() / 2 );
+        beakerControlsWrapper.setOffset( xOffset, yOffset );
         
         // concentration graph at upper right
-        xOffset = worldSize.getWidth() - _concentrationGraphNode.getFullBoundsReference().getWidth() - 15;
+        xOffset = worldSize.getWidth() - concentrationGraphNode.getFullBoundsReference().getWidth() - 15;
         yOffset = 15;
-        _concentrationGraphNode.setOffset( xOffset, yOffset );
+        concentrationGraphNode.setOffset( xOffset, yOffset );
         
         // misc controls at bottom right
-        xOffset = worldSize.getWidth() - _miscControlsWrapper.getFullBoundsReference().getWidth() - 5;
-        yOffset = worldSize.getHeight() - _miscControlsWrapper.getFullBoundsReference().getHeight() - 5;
-        _miscControlsWrapper.setOffset( xOffset, yOffset );
+        xOffset = worldSize.getWidth() - miscControlsWrapper.getFullBoundsReference().getWidth() - 5;
+        yOffset = worldSize.getHeight() - miscControlsWrapper.getFullBoundsReference().getHeight() - 5;
+        miscControlsWrapper.setOffset( xOffset, yOffset );
         
         // Reset All button at bottom center
         PNode resetAllButton = getResetAllButton();

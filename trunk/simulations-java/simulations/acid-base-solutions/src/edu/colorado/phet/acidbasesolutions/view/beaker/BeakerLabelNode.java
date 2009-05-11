@@ -30,8 +30,8 @@ public class BeakerLabelNode extends PNode {
     
     private static final double MARGIN = 10;
     
-    private final PPath _backgroundNode;
-    private final HTMLNode _htmlNode;
+    private final PPath backgroundNode;
+    private final HTMLNode htmlNode;
     
     public BeakerLabelNode( PDimension size ) {
         super();
@@ -39,40 +39,40 @@ public class BeakerLabelNode extends PNode {
         setChildrenPickable( false );
         
         // background
-        _backgroundNode = new PPath();
-        _backgroundNode.setPathTo( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ) );
-        _backgroundNode.setPaint( BACKGROUND_COLOR );
-        _backgroundNode.setStroke( BACKGROUND_STROKE );
-        _backgroundNode.setStrokePaint( BACKGROUND_STROKE_COLOR );
-        addChild( _backgroundNode );
+        backgroundNode = new PPath();
+        backgroundNode.setPathTo( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ) );
+        backgroundNode.setPaint( BACKGROUND_COLOR );
+        backgroundNode.setStroke( BACKGROUND_STROKE );
+        backgroundNode.setStrokePaint( BACKGROUND_STROKE_COLOR );
+        addChild( backgroundNode );
         
         // text
-        _htmlNode = new HTMLNode( "<html>default label name</html>" );
-        _htmlNode.setFont( HTML_FONT );
-        _htmlNode.setHTMLColor( HTML_COLOR );
-        addChild( _htmlNode );
+        htmlNode = new HTMLNode( "<html>default label name</html>" );
+        htmlNode.setFont( HTML_FONT );
+        htmlNode.setHTMLColor( HTML_COLOR );
+        addChild( htmlNode );
         
         updateLayout();
     }
     
     public void setHTML( String html ) {
-        _htmlNode.setHTML( HTMLUtils.toHTMLString( html ) );
+        htmlNode.setHTML( HTMLUtils.toHTMLString( html ) );
         updateLayout();
     }
     
     private void updateLayout() {
         // scale the html, if necessary
-        PBounds bb = _backgroundNode.getFullBoundsReference();
-        PBounds hb = _htmlNode.getFullBoundsReference();
+        PBounds bb = backgroundNode.getFullBoundsReference();
+        PBounds hb = htmlNode.getFullBoundsReference();
         double scaleX = Math.min( 1.0, ( bb.getWidth() - 2 * MARGIN ) / hb.getWidth() );
         double scaleY = Math.min( 1.0, ( bb.getHeight() - 2 * MARGIN ) / hb.getHeight() );
         double scale = Math.min( scaleX, scaleY );
-        _htmlNode.scale( scale );
+        htmlNode.scale( scale );
         // center html in background
-        hb = _htmlNode.getFullBoundsReference();
+        hb = htmlNode.getFullBoundsReference();
         double xOffset = ( bb.getWidth() - hb.getWidth() ) / 2;
         double yOffset = ( bb.getHeight() - hb.getHeight() ) / 2;
-        _htmlNode.setOffset( xOffset, yOffset );
+        htmlNode.setOffset( xOffset, yOffset );
     }
 
 }

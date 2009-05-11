@@ -94,7 +94,7 @@ public class StrengthSliderNode extends PhetPNode {
     //----------------------------------------------------------------------------
 
     private final DoubleRange weakRange, strongRange;
-    private final ArrayList changeListeners;
+    private final ArrayList<ChangeListener> changeListeners;
     private double value;
     private final TrackNode trackNode;
     private final SliderThumbArrowNode thumbNode;
@@ -111,7 +111,7 @@ public class StrengthSliderNode extends PhetPNode {
         this.weakRange = weakRange;
         this.strongRange = strongRange;
         value = weakRange.getMin();
-        changeListeners = new ArrayList();
+        changeListeners = new ArrayList<ChangeListener>();
         
         // scalar transforms
         weakTransform = new LogLinearTransform( weakRange.getMin(), weakRange.getMax(), 0, TRACK_WEAK_WIDTH );
@@ -244,9 +244,9 @@ public class StrengthSliderNode extends PhetPNode {
 
     private void fireStateChanged() {
         ChangeEvent event = new ChangeEvent( this );
-        Iterator i = changeListeners.iterator();
+        Iterator<ChangeListener> i = changeListeners.iterator();
         while ( i.hasNext() ) {
-            ( (ChangeListener) i.next() ).stateChanged( event );
+            i.next().stateChanged( event );
         }
     }
 

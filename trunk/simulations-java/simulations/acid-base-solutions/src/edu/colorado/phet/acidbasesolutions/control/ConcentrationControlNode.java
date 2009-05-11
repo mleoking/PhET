@@ -17,6 +17,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -57,16 +58,20 @@ public class ConcentrationControlNode extends PNode {
     
     private final ConcentrationSliderNode sliderNode;
     private final JFormattedTextField textField;
-    private final ArrayList changeListeners;
+    private final ArrayList<ChangeListener> changeListeners;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
+    public ConcentrationControlNode( DoubleRange range ) {
+        this( range.getMin(), range.getMax() );
+    }
+    
     public ConcentrationControlNode( double min, double max ) {
         super();
         
-        changeListeners = new ArrayList();
+        changeListeners = new ArrayList<ChangeListener>();
         
         PText labelNode = new PText( CONCENTRATION );
         labelNode.setFont( LABEL_FONT );
@@ -152,9 +157,9 @@ public class ConcentrationControlNode extends PNode {
     
     private void fireStateChanged() {
         ChangeEvent event = new ChangeEvent( this );
-        Iterator i = changeListeners.iterator();
+        Iterator<ChangeListener> i = changeListeners.iterator();
         while ( i.hasNext() ) {
-            ( (ChangeListener) i.next() ).stateChanged( event );
+            i.next().stateChanged( event );
         }
     }
     

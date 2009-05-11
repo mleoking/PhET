@@ -28,8 +28,8 @@ public class ComparingModule extends ABSAbstractModule {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private ComparingModel _model;
-    private ComparingCanvas _canvas;
+    private ComparingModel model;
+    private ComparingCanvas canvas;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -39,11 +39,11 @@ public class ComparingModule extends ABSAbstractModule {
         super( TITLE, CLOCK );
 
         // Model
-        _model = new ComparingModel( CLOCK );
+        model = new ComparingModel( CLOCK );
 
         // Canvas
-        _canvas = new ComparingCanvas( _model, this );
-        setSimulationPanel( _canvas );
+        canvas = new ComparingCanvas( model, this );
+        setSimulationPanel( canvas );
 
         // No control Panel
         setControlPanel( null );

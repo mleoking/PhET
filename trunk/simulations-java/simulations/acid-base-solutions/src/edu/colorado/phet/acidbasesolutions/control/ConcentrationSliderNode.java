@@ -78,7 +78,7 @@ public class ConcentrationSliderNode extends PhetPNode {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final ArrayList changeListeners;
+    private final ArrayList<ChangeListener> changeListeners;
     private final SliderThumbArrowNode thumbNode;
     private final TrackNode trackNode;
     private final double min, max;
@@ -100,7 +100,7 @@ public class ConcentrationSliderNode extends PhetPNode {
         this.max = max;
         this.value = min;
         transform = new LogLinearTransform( min, max, 0, TRACK_SIZE.getWidth() );
-        changeListeners = new ArrayList();
+        changeListeners = new ArrayList<ChangeListener>();
         
         // track
         trackNode = new TrackNode();
@@ -228,9 +228,9 @@ public class ConcentrationSliderNode extends PhetPNode {
 
     private void fireStateChanged() {
         ChangeEvent event = new ChangeEvent( this );
-        Iterator i = changeListeners.iterator();
+        Iterator<ChangeListener> i = changeListeners.iterator();
         while ( i.hasNext() ) {
-            ( (ChangeListener) i.next() ).stateChanged( event );
+            i.next().stateChanged( event );
         }
     }
 

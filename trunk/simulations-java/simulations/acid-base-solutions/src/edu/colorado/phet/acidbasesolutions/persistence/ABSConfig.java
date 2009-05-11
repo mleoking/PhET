@@ -17,17 +17,17 @@ public class ABSConfig implements IProguardKeepClass {
     //----------------------------------------------------------------------------
     
     // Global config
-    private String _versionString;
-    private String _versionMajor;
-    private String _versionMinor;
-    private String _versionDev;
-    private String _versionRevision;
+    private String versionString;
+    private String versionMajor;
+    private String versionMinor;
+    private String versionDev;
+    private String versionRevision;
     
     // Modules
-    private SolutionsConfig _solutionsConfig;
-    private ComparingConfig _comparingConfig;
-    private MatchingGameConfig _matchGameConfig;
-    private FindUnknownConfig _findUnknownConfig;
+    private SolutionsConfig solutionsConfig;
+    private ComparingConfig comparingConfig;
+    private MatchingGameConfig matchGameConfig;
+    private FindUnknownConfig findUnknownConfig;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -37,10 +37,10 @@ public class ABSConfig implements IProguardKeepClass {
      * Zero-argument constructor for Java Bean compliance, required by XMLEncoder.
      */
     public ABSConfig() {
-        _solutionsConfig = new SolutionsConfig();
-        _comparingConfig = new ComparingConfig();
-        _matchGameConfig = new MatchingGameConfig();
-        _findUnknownConfig = new FindUnknownConfig();
+        solutionsConfig = new SolutionsConfig();
+        comparingConfig = new ComparingConfig();
+        matchGameConfig = new MatchingGameConfig();
+        findUnknownConfig = new FindUnknownConfig();
     }
 
     //----------------------------------------------------------------------------
@@ -48,43 +48,43 @@ public class ABSConfig implements IProguardKeepClass {
     //----------------------------------------------------------------------------
     
     public String getVersionString() {
-        return _versionString;
+        return versionString;
     }
     
     public void setVersionString( String versionString ) {
-        _versionString = versionString;
+        this.versionString = versionString;
     }
     
     public String getVersionMajor() {
-        return _versionMajor;
+        return versionMajor;
     }
     
     public void setVersionMajor( String versionMajor ) {
-        _versionMajor = versionMajor;
+        this.versionMajor = versionMajor;
     }
 
     public String getVersionMinor() {
-        return _versionMinor;
+        return versionMinor;
     }
     
     public void setVersionMinor( String versionMinor ) {
-        _versionMinor = versionMinor;
+        this.versionMinor = versionMinor;
     }
     
     public String getVersionDev() {
-        return _versionDev;
+        return versionDev;
     }
 
     public void setVersionDev( String versionDev ) {
-        _versionDev = versionDev;
+        this.versionDev = versionDev;
     }
     
     public String getVersionRevision() {
-        return _versionRevision;
+        return versionRevision;
     }
     
     public void setVersionRevision( String versionRevision ) {
-        _versionRevision = versionRevision;
+        this.versionRevision = versionRevision;
     }
     
     //----------------------------------------------------------------------------
@@ -92,34 +92,34 @@ public class ABSConfig implements IProguardKeepClass {
     //----------------------------------------------------------------------------
     
     public SolutionsConfig getSolutionsConfig() {
-        return _solutionsConfig;
+        return solutionsConfig;
     }
     
     public void setSolutionsConfig( SolutionsConfig exampleConfig ) {
-        _solutionsConfig = exampleConfig;
+        solutionsConfig = exampleConfig;
     }
     
     public ComparingConfig getComparingConfig() {
-        return _comparingConfig;
+        return comparingConfig;
     }
 
     public void setComparingConfig( ComparingConfig config ) {
-        _comparingConfig = config;
+        comparingConfig = config;
     }
 
     public MatchingGameConfig getMatchGameConfig() {
-        return _matchGameConfig;
+        return matchGameConfig;
     }
 
     public void setMatchGameConfig( MatchingGameConfig gameConfig ) {
-        _matchGameConfig = gameConfig;
+        matchGameConfig = gameConfig;
     }
 
     public FindUnknownConfig getFindUnknownConfig() {
-        return _findUnknownConfig;
+        return findUnknownConfig;
     }
     
     public void setFindUnknownConfig( FindUnknownConfig unknownConfig ) {
-        _findUnknownConfig = unknownConfig;
+        findUnknownConfig = unknownConfig;
     }
 }
