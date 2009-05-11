@@ -5,29 +5,17 @@ import edu.colorado.phet.acidbasesolutions.model.Base.StrongBase;
 
 
 
-public class StrongBaseSolution {
+public class StrongBaseSolution extends Solution {
     
     private final StrongBase base;
-    private double initialConcentration;
     
     public StrongBaseSolution( StrongBase base, double initialConcentration ) {
+        super( initialConcentration );
         this.base = base;
-        this.initialConcentration = initialConcentration;
     }
     
     public StrongBase getBase() {
         return base;
-    }
-    
-    // c
-    public void setInitialAcidConcentration( double initialConcentration ) {
-        if ( initialConcentration != this.initialConcentration ) {
-            this.initialConcentration = initialConcentration;
-        }
-    }
-    
-    public double getInitialConcentration() {
-        return initialConcentration;
     }
     
     // [MOH] = 0

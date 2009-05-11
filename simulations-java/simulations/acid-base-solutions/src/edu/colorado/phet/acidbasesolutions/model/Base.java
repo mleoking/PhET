@@ -40,7 +40,7 @@ public abstract class Base {
     protected void setStrength( double strength ) {
         if ( strength != this.strength ) {
             this.strength = strength;
-            notifyListeners();
+            notifyStrengthChanged();
         }
     }
     
@@ -49,7 +49,7 @@ public abstract class Base {
     }
     
     public interface BaseListener {
-        public void stateChanged();
+        public void strengthChanged();
     }
     
     public void addBaseListener( BaseListener listener ) {
@@ -60,10 +60,10 @@ public abstract class Base {
         listeners.remove( listener );
     }
     
-    private void notifyListeners() {
+    private void notifyStrengthChanged() {
         Iterator<BaseListener> i = listeners.iterator();
         while ( i.hasNext() ) {
-            i.next().stateChanged();
+            i.next().strengthChanged();
         }
     }
     
