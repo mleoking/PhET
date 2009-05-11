@@ -20,9 +20,9 @@ import edu.colorado.phet.nuclearphysics.model.Polonium211CompositeNucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.NucleusTypeControl;
 
 /**
- * This class contains the Model portion of the Model-View-Controller 
- * architecture that is used to demonstrate Alpha Decay for a single atomic
- * nucleus.
+ * This class defines a model (in the model-view-controller paradigm) that
+ * defines a set a geological strata (or layers) containing objects that can
+ * be dated using radiometric means.
  *
  * @author John Blanco
  */
@@ -37,7 +37,7 @@ public class RadioactiveDatingGameModel {
     //------------------------------------------------------------------------
 
 	ArrayList<DatableObject> _datableObjects = new ArrayList<DatableObject>();
-	ArrayList<Stratum> _layers= new ArrayList<Stratum>();
+	ArrayList<Stratum> _strata = new ArrayList<Stratum>();
 
     //------------------------------------------------------------------------
     // Constructor
@@ -45,17 +45,17 @@ public class RadioactiveDatingGameModel {
     
     public RadioactiveDatingGameModel()
     {
-    	_datableObjects.add(new DatableObject("Trilobyte", "trilobyte_fossil.png", new Point2D.Double(0, 0), 0.5, 1E11));
+        _strata.add( new Stratum( -3, 3 ) );
+        _strata.add( new Stratum( -6, 3 ) );
+        _strata.add( new Stratum( -9, 3 ) );
+        _strata.add( new Stratum( -12, 3 ) );
+        _strata.add( new Stratum( -16, 4 ) );
+
+        _datableObjects.add(new DatableObject("Trilobyte", "trilobyte_fossil.png", new Point2D.Double(0, 0), 0.5, 1E11));
     	_datableObjects.add(new DatableObject("Animal Skull", "skull_animal.png", new Point2D.Double(5, -6), 0.7, 1E11));
     	_datableObjects.add(new DatableObject("Living Tree", "tree_1.png", new Point2D.Double(3, -1), 3, 1E11));
     	_datableObjects.add(new DatableObject("House", "house.png", new Point2D.Double(5, -1), 2, 1E11));
-    	_datableObjects.add(new DatableObject("Fish Fossil", "fish_fossil.png", new Point2D.Double(4, -4), 1, 1E11));
-
-        _layers.add( new Stratum( -3, 3 ) );
-        _layers.add( new Stratum( -6, 3 ) );
-        _layers.add( new Stratum( -9, 3 ) );
-        _layers.add( new Stratum( -12, 3 ) );
-        _layers.add( new Stratum( -16, 4 ) );
+    	_datableObjects.add(new DatableObject("Fish Fossil", "fish_fossil.png", new Point2D.Double(4, getBottomOfStrata()), 1, 1E11));
     }
 
     //------------------------------------------------------------------------
@@ -66,14 +66,30 @@ public class RadioactiveDatingGameModel {
     	return _datableObjects;
     }
     public Iterable<Stratum> getLayerIterable(){
-        return _layers;
+        return _strata;
     }
 
     public int getLayerCount() {
-        return _layers.size();
+        return _strata.size();
     }
 
     public Stratum getLayer( int i ) {
-        return _layers.get(i);
+        return _strata.get(i);
+    }
+    
+    /**
+     * Get the lowest point of the model for which a stratum (a.k.a. a layer
+     * of sediment) is found.
+     * 
+     * @return
+     */
+    public double getBottomOfStrata(){
+    	double bottom = 0;
+    	for ( Stratum stratum : _strata ){
+    		if ( stratum.getBottomOfStratumY() < bottom ){
+    			bottom = stratum.getBottomOfStratumY();
+    		}
+    	}
+    	return bottom;
     }
 }

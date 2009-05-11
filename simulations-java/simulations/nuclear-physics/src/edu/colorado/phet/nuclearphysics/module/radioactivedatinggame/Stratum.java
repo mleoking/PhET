@@ -11,16 +11,16 @@ import java.awt.geom.Line2D;
  * it from contiguous layers (definition obtained from wikipedia).
  */
 public class Stratum {
-    private double bottomOfLayerY;
+    private double bottomOfStratumY;
     private double height;
 
-    public Stratum( double bottomOfLayerY, double height ) {
-        this.bottomOfLayerY = bottomOfLayerY;
+    public Stratum( double bottomOfStratumY, double height ) {
+        this.bottomOfStratumY = bottomOfStratumY;
         this.height = height;
     }
 
-    public double getBottomOfLayerY() {
-        return bottomOfLayerY;
+    public double getBottomOfStratumY() {
+        return bottomOfStratumY;
     }
 
     public double getHeight() {
@@ -28,10 +28,10 @@ public class Stratum {
     }
 
     public Shape getTopLine() {
-        return new Line2D.Double(-1000,bottomOfLayerY+height,1000,bottomOfLayerY+height);
+        return new Line2D.Double(-1000,bottomOfStratumY+height,1000,bottomOfStratumY+height);
     }
 
     public Shape getBottomLine() {
-        return new Line2D.Double(-1000,bottomOfLayerY,1000,bottomOfLayerY);
+        return new Line2D.Double(-1000,bottomOfStratumY,1000,bottomOfStratumY);
     }
 }
