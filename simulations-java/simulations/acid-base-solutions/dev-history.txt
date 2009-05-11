@@ -11,15 +11,15 @@ TODO:
 - connect model and view
 - "Negligible" in Concentrations graph
 - additional developer controls?
-- lighten pH probe shaft so that molecule count symbols are visible when they overlap the probe
 - scale image files
 - Reset All
 - rewrite SolutionsCanvas.updateLayout
 - add ability to restrict Strength slider to one section of the range
 
 DONE:
-5/11/08 rewrite model, including fictitious "intermediate" acids and bases
-5/11/08 start using Java 5
+5/11/09 lighten pH probe shaft so that molecule count symbols are visible when they overlap the probe
+5/11/09 rewrite model, including fictitious "intermediate" acids and bases
+5/11/09 start using Java 5
 5/7/09 strength slider
 5/7/09 concentration controls
 5/5/09 remove outlined text from equations, not required, performance/memory issues
