@@ -11,9 +11,9 @@ package edu.colorado.phet.acidbasesolutions.util;
  */
 public class PrecisionDecimal {
     
-    private final int _numberOfDecimalPlaces;
-    private double _preciseValue; // the precise value
-    private double _value;
+    private final int numberOfDecimalPlaces;
+    private double preciseValue; // the precise value
+    private double value;
     
     /**
      * Constructor
@@ -25,7 +25,7 @@ public class PrecisionDecimal {
         if ( numberOfDecimalPlaces < 0 ) {
             throw new IllegalArgumentException( "numberOfDecimalPlaces must be >= 0" );
         }
-        _numberOfDecimalPlaces = numberOfDecimalPlaces;
+        this.numberOfDecimalPlaces = numberOfDecimalPlaces;
         setValue( preciseValue );
     }
     
@@ -57,7 +57,7 @@ public class PrecisionDecimal {
      * @return
      */
     public int getNumberOfDecimalPlaces() {
-        return _numberOfDecimalPlaces;
+        return numberOfDecimalPlaces;
     }
     
     /**
@@ -66,8 +66,8 @@ public class PrecisionDecimal {
      * @param value
      */
     public void setValue( double value ) {
-        _preciseValue = value;
-        _value = adjustPrecision( value, _numberOfDecimalPlaces );
+        preciseValue = value;
+        this.value = adjustPrecision( value, numberOfDecimalPlaces );
     }
     
     /**
@@ -77,7 +77,7 @@ public class PrecisionDecimal {
      * @return
      */
     public double getValue() {
-        return _value;
+        return value;
     }
     
     /**
@@ -85,7 +85,7 @@ public class PrecisionDecimal {
      * @return
      */
     public double getPreciseValue() {
-        return _preciseValue;
+        return preciseValue;
     }
     
     /**

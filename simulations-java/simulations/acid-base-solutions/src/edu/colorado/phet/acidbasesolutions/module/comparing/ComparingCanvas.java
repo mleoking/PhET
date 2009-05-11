@@ -21,7 +21,7 @@ public class ComparingCanvas extends ABSAbstractCanvas {
     //----------------------------------------------------------------------------
 
     // Model
-    private final ComparingModel _model;
+    private final ComparingModel model;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -29,7 +29,7 @@ public class ComparingCanvas extends ABSAbstractCanvas {
     
     public ComparingCanvas( ComparingModel model, Resettable resettable ) {
         super( resettable );
-        _model = model;
+        this.model = model;
     }
     
     //----------------------------------------------------------------------------

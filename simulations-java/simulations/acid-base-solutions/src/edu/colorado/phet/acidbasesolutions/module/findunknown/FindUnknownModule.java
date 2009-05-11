@@ -9,7 +9,6 @@ import edu.colorado.phet.acidbasesolutions.AcidBaseSolutionsApplication;
 import edu.colorado.phet.acidbasesolutions.model.ABSClock;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractModule;
 import edu.colorado.phet.acidbasesolutions.persistence.FindUnknownConfig;
-import edu.colorado.phet.common.piccolophet.PiccoloModule;
 
 /**
  * FindUnknownModule is the "Find The Unknown" module.
@@ -29,8 +28,8 @@ public class FindUnknownModule extends ABSAbstractModule {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private FindUnknownModel _model;
-    private FindUnknownCanvas _canvas;
+    private FindUnknownModel model;
+    private FindUnknownCanvas canvas;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -40,11 +39,11 @@ public class FindUnknownModule extends ABSAbstractModule {
         super( TITLE, CLOCK );
 
         // Model
-        _model = new FindUnknownModel( CLOCK );
+        model = new FindUnknownModel( CLOCK );
 
         // Canvas
-        _canvas = new FindUnknownCanvas( _model, this );
-        setSimulationPanel( _canvas );
+        canvas = new FindUnknownCanvas( model, this );
+        setSimulationPanel( canvas );
 
         // No control Panel
         setControlPanel( null );

@@ -21,7 +21,7 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
     //----------------------------------------------------------------------------
 
     // Model
-    private MatchingGameModel _model;
+    private MatchingGameModel model;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -29,7 +29,7 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
     
     public MatchingGameCanvas( MatchingGameModel model, Resettable resettable ) {
         super( resettable );
-        _model = model;
+        this.model = model;
     }
     
     //----------------------------------------------------------------------------

@@ -46,8 +46,8 @@ public class BeakerNode extends PComposite {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final GeneralPath _beakerPath;
-    private final PPath _beakerNode;
+    private final GeneralPath beakerPath;
+    private final PPath beakerNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -62,20 +62,20 @@ public class BeakerNode extends PComposite {
         final float width = (float) size.getWidth();
         final float height = (float) size.getHeight();
         
-        _beakerPath = new GeneralPath();
-        _beakerPath.reset();
-        _beakerPath.moveTo( (float) -BEAKER_LIP_SIZE.getWidth(), (float)-( BEAKER_LIP_SIZE.getHeight() + SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK ) );
-        _beakerPath.lineTo( 0f, (float) -SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK );
-        _beakerPath.lineTo( 0f, height );
-        _beakerPath.lineTo( width, height );
-        _beakerPath.lineTo( width, (float) -SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK );
-        _beakerPath.lineTo( (float) ( width + BEAKER_LIP_SIZE.getWidth() ), (float)-( BEAKER_LIP_SIZE.getHeight() + SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK ) );
+        beakerPath = new GeneralPath();
+        beakerPath.reset();
+        beakerPath.moveTo( (float) -BEAKER_LIP_SIZE.getWidth(), (float)-( BEAKER_LIP_SIZE.getHeight() + SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK ) );
+        beakerPath.lineTo( 0f, (float) -SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK );
+        beakerPath.lineTo( 0f, height );
+        beakerPath.lineTo( width, height );
+        beakerPath.lineTo( width, (float) -SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK );
+        beakerPath.lineTo( (float) ( width + BEAKER_LIP_SIZE.getWidth() ), (float)-( BEAKER_LIP_SIZE.getHeight() + SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK ) );
         
-        _beakerNode = new PPath( _beakerPath );
-        _beakerNode.setPaint( null );
-        _beakerNode.setStroke( OUTLINE_STROKE );
-        _beakerNode.setStrokePaint( OUTLINE_COLOR );
-        addChild( _beakerNode );
+        beakerNode = new PPath( beakerPath );
+        beakerNode.setPaint( null );
+        beakerNode.setStroke( OUTLINE_STROKE );
+        beakerNode.setStrokePaint( OUTLINE_COLOR );
+        addChild( beakerNode );
         
         // tick marks
         PComposite ticksNode = new PComposite();

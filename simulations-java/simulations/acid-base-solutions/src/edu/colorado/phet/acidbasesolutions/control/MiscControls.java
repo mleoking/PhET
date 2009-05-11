@@ -34,41 +34,41 @@ public class MiscControls extends JPanel {
     private static final String EQUILIBRIUM_EXPRESSIONS = "Equilibrium Expressions";
     private static final String REACTION_EQUATIONS = "Reaction Equations";
 
-    private final Frame _parentFrame;
+    private final Frame parentFrame;
     
-    private final JCheckBox _concentrationGraphCheckBox;
-    private final JCheckBox _symbolLegendCheckBox;
-    private final JCheckBox _equilibriumExpressionsCheckBox;
-    private final JCheckBox _reactionEquationsCheckBox;
+    private final JCheckBox concentrationGraphCheckBox;
+    private final JCheckBox symbolLegendCheckBox;
+    private final JCheckBox equilibriumExpressionsCheckBox;
+    private final JCheckBox reactionEquationsCheckBox;
     
-    private JDialog _symbolLegendDialog;
-    private Point _symbolLegendDialogLocation;
-    private JDialog _equilibriumExpressionsDialog;
-    private Point _equilibriumExpressionsDialogLocation;
-    private JDialog _reactionEquationsDialog;
-    private Point _reactionEquationsDialogLocation;
+    private JDialog symbolLegendDialog;
+    private Point symbolLegendDialogLocation;
+    private JDialog equilibriumExpressionsDialog;
+    private Point equilibriumExpressionsDialogLocation;
+    private JDialog reactionEquationsDialog;
+    private Point reactionEquationsDialogLocation;
     
     public MiscControls( final PNode concentrationGraphNode ) {
         super();
-        _parentFrame = PhetApplication.getInstance().getPhetFrame();
+        parentFrame = PhetApplication.getInstance().getPhetFrame();
         
         // border
         TitledBorder border = new TitledBorder( new LineBorder( Color.BLACK, 1 ), TITLE );
         border.setTitleFont( new PhetFont( Font.BOLD, 16 ) );
         setBorder( border );
         
-        _concentrationGraphCheckBox = new JCheckBox( CONCENTRATION_GRAPH );
-        _concentrationGraphCheckBox.setSelected( concentrationGraphNode.getVisible() );
-        _concentrationGraphCheckBox.addActionListener( new ActionListener() {
+        concentrationGraphCheckBox = new JCheckBox( CONCENTRATION_GRAPH );
+        concentrationGraphCheckBox.setSelected( concentrationGraphNode.getVisible() );
+        concentrationGraphCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                concentrationGraphNode.setVisible( _concentrationGraphCheckBox.isSelected() );
+                concentrationGraphNode.setVisible( concentrationGraphCheckBox.isSelected() );
             }
         } );
         
-        _symbolLegendCheckBox = new JCheckBox( SYMBOL_LEGEND );
-        _symbolLegendCheckBox.addActionListener( new ActionListener() {
+        symbolLegendCheckBox = new JCheckBox( SYMBOL_LEGEND );
+        symbolLegendCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if ( _symbolLegendCheckBox.isSelected() ) {
+                if ( symbolLegendCheckBox.isSelected() ) {
                     openSymbolLegendDialog();
                 }
                 else {
@@ -77,10 +77,10 @@ public class MiscControls extends JPanel {
             }
         });
         
-        _equilibriumExpressionsCheckBox = new JCheckBox( EQUILIBRIUM_EXPRESSIONS );
-        _equilibriumExpressionsCheckBox.addActionListener( new ActionListener() {
+        equilibriumExpressionsCheckBox = new JCheckBox( EQUILIBRIUM_EXPRESSIONS );
+        equilibriumExpressionsCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if ( _equilibriumExpressionsCheckBox.isSelected() ) {
+                if ( equilibriumExpressionsCheckBox.isSelected() ) {
                     openEquilibriumExpressionsDialog();
                 }
                 else {
@@ -89,10 +89,10 @@ public class MiscControls extends JPanel {
             }
         });
         
-        _reactionEquationsCheckBox = new JCheckBox( REACTION_EQUATIONS );
-        _reactionEquationsCheckBox.addActionListener( new ActionListener() {
+        reactionEquationsCheckBox = new JCheckBox( REACTION_EQUATIONS );
+        reactionEquationsCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if ( _reactionEquationsCheckBox.isSelected() ) {
+                if ( reactionEquationsCheckBox.isSelected() ) {
                     openReactionEquationsDialog();
                 }
                 else {
@@ -106,18 +106,18 @@ public class MiscControls extends JPanel {
         this.setLayout( layout );
         int row = 0;
         int column = 0;
-        layout.addComponent( _concentrationGraphCheckBox, row++, column );
-        layout.addComponent( _symbolLegendCheckBox, row++, column );
+        layout.addComponent( concentrationGraphCheckBox, row++, column );
+        layout.addComponent( symbolLegendCheckBox, row++, column );
         row = 0;
         column++;
-        layout.addComponent( _equilibriumExpressionsCheckBox, row++, column );
-        layout.addComponent( _reactionEquationsCheckBox, row++, column );
+        layout.addComponent( equilibriumExpressionsCheckBox, row++, column );
+        layout.addComponent( reactionEquationsCheckBox, row++, column );
     }
     
     private void openSymbolLegendDialog() {
         
-        _symbolLegendDialog = new SymbolLegendDialog( _parentFrame );
-        _symbolLegendDialog.addWindowListener( new WindowAdapter() {
+        symbolLegendDialog = new SymbolLegendDialog( parentFrame );
+        symbolLegendDialog.addWindowListener( new WindowAdapter() {
 
             // called when the close button in the dialog's window dressing is clicked
             public void windowClosing( WindowEvent e ) {
@@ -126,29 +126,29 @@ public class MiscControls extends JPanel {
 
             // called by JDialog.dispose
             public void windowClosed( WindowEvent e ) {
-                _symbolLegendDialog = null;
-                _symbolLegendCheckBox.setSelected( false );
+                symbolLegendDialog = null;
+                symbolLegendCheckBox.setSelected( false );
             }
         } );
         
-        if ( _symbolLegendDialogLocation == null ) {
-            SwingUtils.centerDialogInParent( _symbolLegendDialog );
+        if ( symbolLegendDialogLocation == null ) {
+            SwingUtils.centerDialogInParent( symbolLegendDialog );
         }
         else {
-            _symbolLegendDialog.setLocation( _symbolLegendDialogLocation );
+            symbolLegendDialog.setLocation( symbolLegendDialogLocation );
         }
-        _symbolLegendDialog.setVisible( true );
+        symbolLegendDialog.setVisible( true );
     }
     
     private void closeSymbolLegendDialog() {
-        _symbolLegendDialogLocation = closeDialog( _symbolLegendDialog );
-        _symbolLegendDialog = null;
+        symbolLegendDialogLocation = closeDialog( symbolLegendDialog );
+        symbolLegendDialog = null;
     }
     
     private void openEquilibriumExpressionsDialog() {
         
-        _equilibriumExpressionsDialog = new EquilibriumExpressionsDialog( _parentFrame );
-        _equilibriumExpressionsDialog.addWindowListener( new WindowAdapter() {
+        equilibriumExpressionsDialog = new EquilibriumExpressionsDialog( parentFrame );
+        equilibriumExpressionsDialog.addWindowListener( new WindowAdapter() {
 
             // called when the close button in the dialog's window dressing is clicked
             public void windowClosing( WindowEvent e ) {
@@ -157,29 +157,29 @@ public class MiscControls extends JPanel {
 
             // called by JDialog.dispose
             public void windowClosed( WindowEvent e ) {
-                _equilibriumExpressionsDialog = null;
-                _equilibriumExpressionsCheckBox.setSelected( false );
+                equilibriumExpressionsDialog = null;
+                equilibriumExpressionsCheckBox.setSelected( false );
             }
         } );
         
-        if ( _equilibriumExpressionsDialogLocation == null ) {
-            SwingUtils.centerDialogInParent( _equilibriumExpressionsDialog );
+        if ( equilibriumExpressionsDialogLocation == null ) {
+            SwingUtils.centerDialogInParent( equilibriumExpressionsDialog );
         }
         else {
-            _equilibriumExpressionsDialog.setLocation( _equilibriumExpressionsDialogLocation );
+            equilibriumExpressionsDialog.setLocation( equilibriumExpressionsDialogLocation );
         }
-        _equilibriumExpressionsDialog.setVisible( true );
+        equilibriumExpressionsDialog.setVisible( true );
     }
     
     private void closeEquilibriumExpressionsDialog() {
-        _equilibriumExpressionsDialogLocation = closeDialog( _equilibriumExpressionsDialog );
-        _equilibriumExpressionsDialog = null;
+        equilibriumExpressionsDialogLocation = closeDialog( equilibriumExpressionsDialog );
+        equilibriumExpressionsDialog = null;
     }
     
     private void openReactionEquationsDialog() {
         
-        _reactionEquationsDialog = new ReactionEquationsDialog( _parentFrame );
-        _reactionEquationsDialog.addWindowListener( new WindowAdapter() {
+        reactionEquationsDialog = new ReactionEquationsDialog( parentFrame );
+        reactionEquationsDialog.addWindowListener( new WindowAdapter() {
 
             // called when the close button in the dialog's window dressing is clicked
             public void windowClosing( WindowEvent e ) {
@@ -188,23 +188,23 @@ public class MiscControls extends JPanel {
 
             // called by JDialog.dispose
             public void windowClosed( WindowEvent e ) {
-                _reactionEquationsDialog = null;
-                _reactionEquationsCheckBox.setSelected( false );
+                reactionEquationsDialog = null;
+                reactionEquationsCheckBox.setSelected( false );
             }
         } );
         
-        if ( _reactionEquationsDialogLocation == null ) {
-            SwingUtils.centerDialogInParent( _reactionEquationsDialog );
+        if ( reactionEquationsDialogLocation == null ) {
+            SwingUtils.centerDialogInParent( reactionEquationsDialog );
         }
         else {
-            _reactionEquationsDialog.setLocation( _reactionEquationsDialogLocation );
+            reactionEquationsDialog.setLocation( reactionEquationsDialogLocation );
         }
-        _reactionEquationsDialog.setVisible( true );
+        reactionEquationsDialog.setVisible( true );
     }
     
     private void closeReactionEquationsDialog() {
-        _reactionEquationsDialogLocation = closeDialog( _reactionEquationsDialog );
-        _reactionEquationsDialog = null;
+        reactionEquationsDialogLocation = closeDialog( reactionEquationsDialog );
+        reactionEquationsDialog = null;
     }
     
     private static Point closeDialog( JDialog dialog ) {

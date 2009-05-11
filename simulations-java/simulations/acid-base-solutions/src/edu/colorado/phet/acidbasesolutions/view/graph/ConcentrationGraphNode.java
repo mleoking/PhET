@@ -83,12 +83,12 @@ public class ConcentrationGraphNode extends PNode {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final PDimension _outlineSize;
-    private final ConcentrationBarNode _barLHS, _barRHS, _barH3O, _barOH, _barH2O;
-    private final ValueNode _valueLHS, _valueRHS, _valueH3O, _valueOH, _valueH2O;
-    private final IconNode _iconLHS, _iconRHS;
-    private final LabelNode _labelLHS, _labelRHS;
-    private final ConcentrationYAxisNode _yAxisNode;
+    private final PDimension outlineSize;
+    private final ConcentrationBarNode barLHS, barRHS, barH3O, barOH, barH2O;
+    private final ValueNode valueLHS, valueRHS, valueH3O, valueOH, valueH2O;
+    private final IconNode iconLHS, iconRHS;
+    private final LabelNode labelLHS, labelRHS;
+    private final ConcentrationYAxisNode yAxisNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -100,7 +100,7 @@ public class ConcentrationGraphNode extends PNode {
     
     public ConcentrationGraphNode( PDimension outlineSize ) {
         
-        _outlineSize = new PDimension( outlineSize );
+        this.outlineSize = new PDimension( outlineSize );
         
         // graphOutlineNode is not instance data because we do NOT want to use its bounds for calculations.
         // It's stroke width will cause calculation errors.  Use _graphOutlineSize instead.
@@ -114,59 +114,59 @@ public class ConcentrationGraphNode extends PNode {
         addChild( graphOutlineNode );
         
         // y axis
-        _yAxisNode = new ConcentrationYAxisNode( _outlineSize, NUMBER_OF_TICKS, TICKS_TOP_MARGIN, 
+        yAxisNode = new ConcentrationYAxisNode( outlineSize, NUMBER_OF_TICKS, TICKS_TOP_MARGIN, 
                 BIGGEST_TICK_EXPONENT,  TICK_EXPONENT_SPACING, TICK_LENGTH,
                 TICK_STROKE, TICK_COLOR, TICK_LABEL_FONT, TICK_LABEL_COLOR, GRIDLINE_STROKE, GRIDLINE_COLOR );
-        addChild( _yAxisNode );
+        addChild( yAxisNode );
         
         // bars
-        final double outlineHeight = _outlineSize.getHeight();
-        _barLHS = new ConcentrationBarNode( BAR_WIDTH, LHS_BAR_COLOR, outlineHeight );
-        _barRHS = new ConcentrationBarNode( BAR_WIDTH, RHS_BAR_COLOR, outlineHeight );
-        _barH3O = new ConcentrationBarNode( BAR_WIDTH, H3O_BAR_COLOR, outlineHeight );
-        _barOH = new ConcentrationBarNode( BAR_WIDTH, OH_BAR_COLOR, outlineHeight );
-        _barH2O = new ConcentrationBarNode( BAR_WIDTH, H2O_BAR_COLOR, outlineHeight );
-        PNode[] bars = { _barLHS, _barRHS, _barH3O, _barOH, _barH2O }; // left-to-right layout order
+        final double outlineHeight = outlineSize.getHeight();
+        barLHS = new ConcentrationBarNode( BAR_WIDTH, LHS_BAR_COLOR, outlineHeight );
+        barRHS = new ConcentrationBarNode( BAR_WIDTH, RHS_BAR_COLOR, outlineHeight );
+        barH3O = new ConcentrationBarNode( BAR_WIDTH, H3O_BAR_COLOR, outlineHeight );
+        barOH = new ConcentrationBarNode( BAR_WIDTH, OH_BAR_COLOR, outlineHeight );
+        barH2O = new ConcentrationBarNode( BAR_WIDTH, H2O_BAR_COLOR, outlineHeight );
+        PNode[] bars = { barLHS, barRHS, barH3O, barOH, barH2O }; // left-to-right layout order
         for ( int i = 0; i < bars.length; i++ ) {
             addChild( bars[i] );
         }
         
         // line along the bottom of the graph, where bars overlap the outline
-        PPath bottomLineNode = new PPath( new Line2D.Double( 0, _outlineSize.getHeight(), _outlineSize.getWidth(), _outlineSize.getHeight() ) );
+        PPath bottomLineNode = new PPath( new Line2D.Double( 0, outlineSize.getHeight(), outlineSize.getWidth(), outlineSize.getHeight() ) );
         bottomLineNode.setStroke( OUTLINE_STROKE );
         bottomLineNode.setStrokePaint( OUTLINE_STROKE_COLOR );
         bottomLineNode.setPickable( false );
         addChild( bottomLineNode );
         
         // values
-        _valueLHS = new ValueNode( LHS_FORMAT );
-        _valueRHS = new ValueNode( RHS_FORMAT );
-        _valueH3O = new ValueNode( H3O_FORMAT );
-        _valueOH = new ValueNode( OH_FORMAT );
-        _valueH2O = new ValueNode( H2O_FORMAT );
-        PNode[] values = { _valueLHS, _valueRHS, _valueH3O, _valueOH, _valueH2O }; // left-to-right layout order
+        valueLHS = new ValueNode( LHS_FORMAT );
+        valueRHS = new ValueNode( RHS_FORMAT );
+        valueH3O = new ValueNode( H3O_FORMAT );
+        valueOH = new ValueNode( OH_FORMAT );
+        valueH2O = new ValueNode( H2O_FORMAT );
+        PNode[] values = { valueLHS, valueRHS, valueH3O, valueOH, valueH2O }; // left-to-right layout order
         for ( int i = 0; i < values.length; i++ ) {
             addChild( values[i] );
         }
         
         // icons
-        _iconLHS = new IconNode( ABSImages.HA_MOLECULE );
-        _iconRHS = new IconNode( ABSImages.A_MINUS_MOLECULE );
+        iconLHS = new IconNode( ABSImages.HA_MOLECULE );
+        iconRHS = new IconNode( ABSImages.A_MINUS_MOLECULE );
         IconNode iconH3O = new IconNode( ABSImages.H3O_PLUS_MOLECULE );
         IconNode iconOH = new IconNode( ABSImages.OH_MINUS_MOLECULE );
         IconNode iconH2O = new IconNode( ABSImages.H2O_MOLECULE );
-        PNode[] icons = { _iconLHS, _iconRHS, iconH3O, iconOH, iconH2O };
+        PNode[] icons = { iconLHS, iconRHS, iconH3O, iconOH, iconH2O };
         for ( int i = 0; i < icons.length; i++ ) {
             addChild( icons[i] );
         }
         
         // labels
-        _labelLHS = new LabelNode( ABSSymbols.HA );
-        _labelRHS = new LabelNode( ABSSymbols.A_MINUS );
+        labelLHS = new LabelNode( ABSSymbols.HA );
+        labelRHS = new LabelNode( ABSSymbols.A_MINUS );
         LabelNode labelH3O = new LabelNode( ABSSymbols.H3O_PLUS );
         LabelNode labelOH = new LabelNode( ABSSymbols.OH_MINUS );
         LabelNode labelH2O = new LabelNode( ABSSymbols.H2O );
-        PNode[] labels = { _labelLHS, _labelRHS, labelH3O, labelOH, labelH2O };
+        PNode[] labels = { labelLHS, labelRHS, labelH3O, labelOH, labelH2O };
         for ( int i = 0; i < labels.length; i++ ) {
             addChild( labels[i] );
         }
@@ -175,13 +175,13 @@ public class ConcentrationGraphNode extends PNode {
         graphOutlineNode.setOffset( 0, 0 );
         PBounds gob = graphOutlineNode.getFullBoundsReference();
         // y axis, to left of graph
-        _yAxisNode.setOffset( graphOutlineNode.getOffset() );
+        yAxisNode.setOffset( graphOutlineNode.getOffset() );
         // bars, evenly distributed across graph width
         final double xSpacing = ( gob.getWidth() - ( bars.length * BAR_WIDTH ) ) / ( bars.length + 1 );
         assert( xSpacing > 0 );
         for ( int i = 0; i < bars.length; i++ ) {
             double xOffset = graphOutlineNode.getXOffset() + xSpacing + ( i * ( xSpacing + BAR_WIDTH ) ) + ( BAR_WIDTH / 2. );
-            double yOffset = _outlineSize.getHeight();
+            double yOffset = outlineSize.getHeight();
             bars[i].setOffset( xOffset, yOffset );
         }
         // values, horizontally centered in bars
@@ -224,48 +224,48 @@ public class ConcentrationGraphNode extends PNode {
     
     public void setMoleculeLHS( Image image, String text, Color barColor ) {
         //TODO adjust offsets of icon and label
-        _iconLHS.setImage( image );
-        _labelLHS.setText( text );
-        _barLHS.setPaint( barColor );
+        iconLHS.setImage( image );
+        labelLHS.setText( text );
+        barLHS.setPaint( barColor );
     }
     
     public void setMoleculeRHS( Image image, String text, Color barColor ) {
         //TODO adjust offsets of icon and label
-        _iconRHS.setImage( image );
-        _labelRHS.setText( text );
-        _barLHS.setPaint( barColor );
+        iconRHS.setImage( image );
+        labelRHS.setText( text );
+        barLHS.setPaint( barColor );
     }
     
     public void setConcentrationLHS( double value ) {
-        _valueLHS.setValue( value );
-        _barLHS.setBarHeight( calculateBarHeight( value ) );
+        valueLHS.setValue( value );
+        barLHS.setBarHeight( calculateBarHeight( value ) );
     }
     
     public void setConcentrationRHS( double value ) {
-        _valueRHS.setValue( value );
-        _barRHS.setBarHeight( calculateBarHeight( value ) );
+        valueRHS.setValue( value );
+        barRHS.setBarHeight( calculateBarHeight( value ) );
     }
     
     public void setConcentrationH3O( double value ) {
-        _valueH3O.setValue( value );
-        _barH3O.setBarHeight( calculateBarHeight( value ) );
+        valueH3O.setValue( value );
+        barH3O.setBarHeight( calculateBarHeight( value ) );
     }
     
     public void setConcentrationH2O( double value ) {
-        _valueH2O.setValue( value );
-        _barH2O.setBarHeight( calculateBarHeight( value ) );
+        valueH2O.setValue( value );
+        barH2O.setBarHeight( calculateBarHeight( value ) );
     }
     
     public void setConcentrationOH( double value ) {
-        _valueOH.setValue( value );
-        _barOH.setBarHeight( calculateBarHeight( value ) );
+        valueOH.setValue( value );
+        barOH.setBarHeight( calculateBarHeight( value ) );
     }
     
     /*
      * Calculates a bar height in view coordinates, given a model value.
      */
     private double calculateBarHeight( final double modelValue ) {
-        final double maxTickHeight = _outlineSize.getHeight() - TICKS_TOP_MARGIN;
+        final double maxTickHeight = outlineSize.getHeight() - TICKS_TOP_MARGIN;
         final double maxExponent = BIGGEST_TICK_EXPONENT;
         final double minExponent = BIGGEST_TICK_EXPONENT - NUMBER_OF_TICKS + 1;
         final double modelValueExponent = MathUtil.log10( modelValue );

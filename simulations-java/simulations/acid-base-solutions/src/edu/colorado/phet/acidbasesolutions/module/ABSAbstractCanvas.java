@@ -18,27 +18,27 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class ABSAbstractCanvas extends PhetPCanvas {
 
-    private final PNode _rootNode;
-    private final PNode _resetAllButtonWrapper;
+    private final PNode rootNode;
+    private final PNode resetAllButtonWrapper;
     
     public ABSAbstractCanvas( Resettable resettable ) {
         super( ABSConstants.CANVAS_RENDERING_SIZE );
         setBackground( ABSConstants.CANVAS_BACKGROUND );
         
         // Root of our scene graph
-        _rootNode = new PNode();
-        addWorldChild( _rootNode );
+        rootNode = new PNode();
+        addWorldChild( rootNode );
         
         JComponent resetAllButton = new ABSResetAllButton( resettable, this );
-        _resetAllButtonWrapper = new PSwing( resetAllButton );
-        _rootNode.addChild( _resetAllButtonWrapper );
+        resetAllButtonWrapper = new PSwing( resetAllButton );
+        rootNode.addChild( resetAllButtonWrapper );
     }    
     
     protected void addNode( PNode node ) {
-        _rootNode.addChild( node );
+        rootNode.addChild( node );
     }
     
     protected PNode getResetAllButton() {
-        return _resetAllButtonWrapper;
+        return resetAllButtonWrapper;
     }
 }

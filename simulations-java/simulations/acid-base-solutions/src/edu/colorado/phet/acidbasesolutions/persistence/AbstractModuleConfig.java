@@ -16,7 +16,7 @@ public class AbstractModuleConfig implements IProguardKeepClass {
     //----------------------------------------------------------------------------
     
     // Module
-    private boolean _active; // is the module active?
+    private boolean active; // is the module active?
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -32,11 +32,11 @@ public class AbstractModuleConfig implements IProguardKeepClass {
     //----------------------------------------------------------------------------
     
     public boolean isActive() {
-        return _active;
+        return active;
     }
 
     
     public void setActive( boolean active ) {
-        _active = active;
+        this.active = active;
     }
 }

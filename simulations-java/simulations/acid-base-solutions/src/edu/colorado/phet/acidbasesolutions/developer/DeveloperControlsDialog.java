@@ -27,7 +27,7 @@ public class DeveloperControlsDialog extends JDialog {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private AcidBaseSolutionsApplication _app;
+    private AcidBaseSolutionsApplication app;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -38,7 +38,7 @@ public class DeveloperControlsDialog extends JDialog {
         setResizable( false );
         setModal( false );
 
-        _app = app;
+        this.app = app;
 
         JPanel inputPanel = createInputPanel();
 

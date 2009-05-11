@@ -46,7 +46,7 @@ public class PHProbeNode extends PComposite {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final DisplayNode _displayNode;
+    private final DisplayNode displayNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -57,21 +57,21 @@ public class PHProbeNode extends PComposite {
         setPickable( false );
         setChildrenPickable( false );
         
-        _displayNode = new DisplayNode();
+        displayNode = new DisplayNode();
         
         TipNode tipNode = new TipNode();
         tipNode.scale( 25 );
         
-        final double shaftHeight = height - _displayNode.getFullBoundsReference().getHeight() - tipNode.getFullBoundsReference().getHeight();
+        final double shaftHeight = height - displayNode.getFullBoundsReference().getHeight() - tipNode.getFullBoundsReference().getHeight();
         ShaftNode shaftNode = new ShaftNode( SHAFT_WIDTH, shaftHeight );
 
         addChild( shaftNode );
         addChild( tipNode );
-        addChild( _displayNode );
+        addChild( displayNode );
         
-        PBounds db = _displayNode.getFullBoundsReference();
+        PBounds db = displayNode.getFullBoundsReference();
         PBounds sb = shaftNode.getFullBoundsReference();
-        _displayNode.setOffset( 0, 0 );
+        displayNode.setOffset( 0, 0 );
         shaftNode.setOffset( 0.85 * ( db.getWidth() - sb.getWidth() ), db.getHeight() - 0.5 * DISPLAY_BORDER_WIDTH );
         sb = shaftNode.getFullBoundsReference();
         PBounds tb = tipNode.getFullBoundsReference();
@@ -86,7 +86,7 @@ public class PHProbeNode extends PComposite {
      * Updates the display to show the solution's pH value.
      */
     public void setValue( PHValue value ) {
-        _displayNode.setValue( value );
+        displayNode.setValue( value );
     }
     
     //----------------------------------------------------------------------------

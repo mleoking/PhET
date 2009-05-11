@@ -28,8 +28,8 @@ public class MatchingGameModule extends ABSAbstractModule {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private MatchingGameModel _model;
-    private MatchingGameCanvas _canvas;
+    private MatchingGameModel model;
+    private MatchingGameCanvas canvas;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -39,11 +39,11 @@ public class MatchingGameModule extends ABSAbstractModule {
         super( TITLE, CLOCK );
 
         // Model
-        _model = new MatchingGameModel( CLOCK );
+        model = new MatchingGameModel( CLOCK );
 
         // Canvas
-        _canvas = new MatchingGameCanvas( _model, this );
-        setSimulationPanel( _canvas );
+        canvas = new MatchingGameCanvas( model, this );
+        setSimulationPanel( canvas );
 
         // No control Panel
         setControlPanel( null );

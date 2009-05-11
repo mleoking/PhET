@@ -39,15 +39,15 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private SolutionsModule _solutionsModule;
-    private ComparingModule _comparingModule;
-    private MatchingGameModule _matchingGameModule;
-    private FindUnknownModule _findUnknownModule;
+    private SolutionsModule solutionsModule;
+    private ComparingModule comparingModule;
+    private MatchingGameModule matchingGameModule;
+    private FindUnknownModule findUnknownModule;
 
     // PersistanceManager is used to save/load simulation configurations.
-    private XMLPersistenceManager _persistenceManager;
+    private XMLPersistenceManager persistenceManager;
 
-    private static TabbedModulePanePiccolo _tabbedModulePane;
+    private static TabbedModulePanePiccolo tabbedModulePane;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -78,9 +78,9 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
         // Create our own tabbed pane type so we can set the tab color
         TabbedPaneType tabbedPaneType = new TabbedPaneType(){
             public ITabbedModulePane createTabbedPane() {
-                _tabbedModulePane = new TabbedModulePanePiccolo();
-                _tabbedModulePane.setLogoVisible( false );
-                return _tabbedModulePane;
+                tabbedModulePane = new TabbedModulePanePiccolo();
+                tabbedModulePane.setLogoVisible( false );
+                return tabbedModulePane;
             }
         };
         setTabbedPaneType( tabbedPaneType );
@@ -93,17 +93,17 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
         
         Frame parentFrame = getPhetFrame();
 
-        _solutionsModule = new SolutionsModule( parentFrame );
-        addModule( _solutionsModule );
+        solutionsModule = new SolutionsModule( parentFrame );
+        addModule( solutionsModule );
         
-        _comparingModule = new ComparingModule( parentFrame );
-        addModule( _comparingModule );
+        comparingModule = new ComparingModule( parentFrame );
+        addModule( comparingModule );
         
-        _matchingGameModule = new MatchingGameModule( parentFrame );
-        addModule( _matchingGameModule );
+        matchingGameModule = new MatchingGameModule( parentFrame );
+        addModule( matchingGameModule );
         
-        _findUnknownModule = new FindUnknownModule( parentFrame );
-        addModule( _findUnknownModule );
+        findUnknownModule = new FindUnknownModule( parentFrame );
+        addModule( findUnknownModule );
     }
 
     /*
@@ -113,8 +113,8 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
 
         final PhetFrame frame = getPhetFrame();
 
-        if ( _persistenceManager == null ) {
-            _persistenceManager = new XMLPersistenceManager( frame );
+        if ( persistenceManager == null ) {
+            persistenceManager = new XMLPersistenceManager( frame );
         }
 
         // File menu
@@ -167,11 +167,11 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
     }
 
     public PhetTabbedPane getTabbedPane() {
-        return _tabbedModulePane;
+        return tabbedModulePane;
     }
     
     public SolutionsModule dev_getSolutionsModule() {
-        return _solutionsModule;
+        return solutionsModule;
     }
     
     //----------------------------------------------------------------------------
@@ -191,19 +191,19 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
         appConfig.setVersionDev( getSimInfo().getVersion().getDev() );
         appConfig.setVersionRevision( getSimInfo().getVersion().getRevision() );
         
-        SolutionsConfig solutionsConfig = _solutionsModule.save();
+        SolutionsConfig solutionsConfig = solutionsModule.save();
         appConfig.setSolutionsConfig( solutionsConfig );
         
-        ComparingConfig comparingConfig = _comparingModule.save();
+        ComparingConfig comparingConfig = comparingModule.save();
         appConfig.setComparingConfig( comparingConfig );
         
-        MatchingGameConfig matchingGameConfig = _matchingGameModule.save();
+        MatchingGameConfig matchingGameConfig = matchingGameModule.save();
         appConfig.setMatchGameConfig( matchingGameConfig );
         
-        FindUnknownConfig findUnknownConfig = _findUnknownModule.save();
+        FindUnknownConfig findUnknownConfig = findUnknownModule.save();
         appConfig.setFindUnknownConfig( findUnknownConfig );
         
-        _persistenceManager.save( appConfig );
+        persistenceManager.save( appConfig );
     }
 
     /*
@@ -211,16 +211,16 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
      */
     private void load() {
         
-        Object object = _persistenceManager.load();
+        Object object = persistenceManager.load();
         if ( object != null ) {
             
             if ( object instanceof ABSConfig ) {
                 ABSConfig appConfig = (ABSConfig) object;
                 
-                _solutionsModule.load( appConfig.getSolutionsConfig() );
-                _comparingModule.load( appConfig.getComparingConfig() );
-                _matchingGameModule.load( appConfig.getMatchGameConfig() );
-                _findUnknownModule.load( appConfig.getFindUnknownConfig() );
+                solutionsModule.load( appConfig.getSolutionsConfig() );
+                comparingModule.load( appConfig.getComparingConfig() );
+                matchingGameModule.load( appConfig.getMatchGameConfig() );
+                findUnknownModule.load( appConfig.getFindUnknownConfig() );
             }
             else {
                 String message = ABSStrings.MESSAGE_NOT_A_CONFIG;

@@ -23,29 +23,29 @@ import edu.colorado.phet.common.piccolophet.TabbedPanePropertiesDialog;
  */
 public class DeveloperMenu extends JMenu {
 
-    private final AcidBaseSolutionsApplication _app;
-    private final JCheckBoxMenuItem _tabPropertiesItem;
-    private final JCheckBoxMenuItem _particlesControlsMenuItem;
+    private final AcidBaseSolutionsApplication app;
+    private final JCheckBoxMenuItem tabPropertiesItem;
+    private final JCheckBoxMenuItem particlesControlsMenuItem;
     
-    private JDialog _tabPropertiesDialog;
-    private JDialog _particleControlsDialog;
+    private JDialog tabPropertiesDialog;
+    private JDialog particleControlsDialog;
 
     public DeveloperMenu( AcidBaseSolutionsApplication app ) {
         super( "Developer" );
 
-        _app = app;
+        this.app = app;
 
-        _tabPropertiesItem = new JCheckBoxMenuItem( "Tabbed Pane properties..." );
-        add( _tabPropertiesItem );
-        _tabPropertiesItem.addActionListener( new ActionListener() {
+        tabPropertiesItem = new JCheckBoxMenuItem( "Tabbed Pane properties..." );
+        add( tabPropertiesItem );
+        tabPropertiesItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 handleTabProperties();
             }
         });
         
-        _particlesControlsMenuItem = new JCheckBoxMenuItem( "Particle controls..." );
-        add( _particlesControlsMenuItem );
-        _particlesControlsMenuItem.addActionListener( new ActionListener() {
+        particlesControlsMenuItem = new JCheckBoxMenuItem( "Particle controls..." );
+        add( particlesControlsMenuItem );
+        particlesControlsMenuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 handleParticleControls();
             }
@@ -53,11 +53,11 @@ public class DeveloperMenu extends JMenu {
     }
 
     private void handleTabProperties() {
-        if ( _tabPropertiesItem.isSelected() ) {
-            Frame owner = _app.getPhetFrame();
-            _tabPropertiesDialog = new TabbedPanePropertiesDialog( owner, _app.getTabbedPane() );
-            _tabPropertiesDialog.setVisible( true );
-            _tabPropertiesDialog.addWindowListener( new WindowAdapter() {
+        if ( tabPropertiesItem.isSelected() ) {
+            Frame owner = app.getPhetFrame();
+            tabPropertiesDialog = new TabbedPanePropertiesDialog( owner, app.getTabbedPane() );
+            tabPropertiesDialog.setVisible( true );
+            tabPropertiesDialog.addWindowListener( new WindowAdapter() {
 
                 public void windowClosed( WindowEvent e ) {
                     cleanup();
@@ -68,13 +68,13 @@ public class DeveloperMenu extends JMenu {
                 }
 
                 private void cleanup() {
-                    _tabPropertiesItem.setSelected( false );
-                    _tabPropertiesDialog = null;
+                    tabPropertiesItem.setSelected( false );
+                    tabPropertiesDialog = null;
                 }
             } );
         }
         else {
-            _tabPropertiesDialog.dispose();
+            tabPropertiesDialog.dispose();
         }
     }
     

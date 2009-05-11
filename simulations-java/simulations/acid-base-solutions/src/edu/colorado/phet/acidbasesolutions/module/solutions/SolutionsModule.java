@@ -28,8 +28,8 @@ public class SolutionsModule extends ABSAbstractModule {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private SolutionsModel _model;
-    private SolutionsCanvas _canvas;
+    private SolutionsModel model;
+    private SolutionsCanvas canvas;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -39,11 +39,11 @@ public class SolutionsModule extends ABSAbstractModule {
         super( TITLE, CLOCK );
 
         // Model
-        _model = new SolutionsModel( CLOCK );
+        model = new SolutionsModel( CLOCK );
 
         // Canvas
-        _canvas = new SolutionsCanvas( _model, this );
-        setSimulationPanel( _canvas );
+        canvas = new SolutionsCanvas( model, this );
+        setSimulationPanel( canvas );
 
         // No control Panel
         setControlPanel( null );
