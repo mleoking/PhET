@@ -17,6 +17,7 @@ TODO:
 - add ability to restrict Strength slider to one section of the range
 
 DONE:
+5/11/09 create static instances of all specific acids and bases
 5/11/09 lighten pH probe shaft so that molecule count symbols are visible when they overlap the probe
 5/11/09 rewrite model, including fictitious "intermediate" acids and bases
 5/11/09 start using Java 5
