@@ -17,10 +17,15 @@ public class PureWater {
 
     private static final PureWater INSTANCE = new PureWater();
     
+    /**
+     * Gets the singleton instance.
+     * @return
+     */
     public static PureWater getInstance() {
         return INSTANCE;
     }
     
+    /* singleton */
     private PureWater() {}
     
     public String getName() {
