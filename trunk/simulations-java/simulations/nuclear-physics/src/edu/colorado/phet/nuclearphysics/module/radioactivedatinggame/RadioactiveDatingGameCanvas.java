@@ -94,12 +94,11 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 //        PNode layers=new PNode();
                 // Add the nodes that the user the user can date.
         ArrayList<Color> colors=new ArrayList<Color>( );
-        colors.add( Color.blue );
-        colors.add( Color.red );
-        colors.add( Color.green );
-        colors.add( Color.gray );
-        colors.add( Color.yellow );
-        colors.add( Color.orange );
+        colors.add( new Color( 111, 131, 151 ) );
+        colors.add( new Color( 153, 185, 216 ) );
+        colors.add( new Color( 216, 175, 208 ) );
+        colors.add( new Color( 198, 218, 119 ) );
+        colors.add( new Color( 179, 179, 179 ) );
         for (int i=0;i<_model.getLayerCount();i++){
             addWorldChild(new RadioactiveDatingGameLayerNode(_model.getLayer(i), _mvt,colors.get(  i%colors.size())));
         }

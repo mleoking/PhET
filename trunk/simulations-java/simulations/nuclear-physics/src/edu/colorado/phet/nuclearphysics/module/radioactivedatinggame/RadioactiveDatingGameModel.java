@@ -51,11 +51,11 @@ public class RadioactiveDatingGameModel {
     	artifacts.add(new RadioactiveDatingGameObject("House", "house.png", new Point2D.Double(5, -1), 2, 1E11));
     	artifacts.add(new RadioactiveDatingGameObject("Fish Fossil", "fish_fossil.png", new Point2D.Double(4, -4), 1, 1E11));
 
-        layers.add(new Layer(-10,2));
-        layers.add(new Layer(-8,2));
-        layers.add(new Layer(-6,2));
-        layers.add(new Layer(-4,2));
-        layers.add(new Layer(-2,2));
+        layers.add( new Layer( -3, 3 ) );
+        layers.add( new Layer( -6, 3 ) );
+        layers.add( new Layer( -9, 3 ) );
+        layers.add( new Layer( -12, 3 ) );
+        layers.add( new Layer( -15, 3 ) );
     }
 
     //------------------------------------------------------------------------
