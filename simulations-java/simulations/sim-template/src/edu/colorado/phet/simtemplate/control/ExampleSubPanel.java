@@ -29,9 +29,9 @@ public class ExampleSubPanel extends JPanel {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private JLabel _positionDisplay;
-    private LinearValueControl _orientationControl; // in degrees
-    private ArrayList _listeners;
+    private JLabel positionDisplay;
+    private LinearValueControl orientationControl; // in degrees
+    private ArrayList<ExampleSubPanelListener> listeners;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -40,13 +40,13 @@ public class ExampleSubPanel extends JPanel {
     public ExampleSubPanel() {
         super();
         
-        _listeners = new ArrayList();
+        listeners = new ArrayList<ExampleSubPanelListener>();
         
         // Title
         JLabel titleLabel = new JLabel( SimTemplateStrings.TITLE_EXAMPLE_CONTROL_PANEL );
         
         // Position display
-        _positionDisplay = new JLabel();
+        positionDisplay = new JLabel();
         
         // Orientation control
         double min = 0;
@@ -54,13 +54,13 @@ public class ExampleSubPanel extends JPanel {
         String label = SimTemplateStrings.LABEL_ORIENTATION;
         String valuePattern = "##0";
         String units = SimTemplateStrings.UNITS_ORIENTATION;
-        _orientationControl = new LinearValueControl( min, max, label, valuePattern, units );
-        _orientationControl.setTextFieldEditable( true );
-        _orientationControl.setUpDownArrowDelta( 1 );
-        _orientationControl.setTickPattern( "0" );
-        _orientationControl.setMajorTickSpacing( 90 );
-        _orientationControl.setMinorTickSpacing( 45 );
-        _orientationControl.addChangeListener( new ChangeListener() {
+        orientationControl = new LinearValueControl( min, max, label, valuePattern, units );
+        orientationControl.setTextFieldEditable( true );
+        orientationControl.setUpDownArrowDelta( 1 );
+        orientationControl.setTickPattern( "0" );
+        orientationControl.setMajorTickSpacing( 90 );
+        orientationControl.setMinorTickSpacing( 45 );
+        orientationControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 notifyOrientationChanged();
             }
@@ -74,8 +74,8 @@ public class ExampleSubPanel extends JPanel {
         int row = 0;
         int column = 0;
         layout.addComponent( titleLabel, row++, column );
-        layout.addComponent( _positionDisplay, row++, column );
-        layout.addComponent( _orientationControl, row++, column );
+        layout.addComponent( positionDisplay, row++, column );
+        layout.addComponent( orientationControl, row++, column );
     }
     
     public void cleanup() {}
@@ -85,18 +85,18 @@ public class ExampleSubPanel extends JPanel {
     //----------------------------------------------------------------------------
     
     public double getOrientation() {
-        return _orientationControl.getValue();
+        return orientationControl.getValue();
     }
     
     public void setOrientation( double orientation ) {
         if ( orientation != getOrientation() ) {
-            _orientationControl.setValue( orientation );
+            orientationControl.setValue( orientation );
         }
     }
     
     public void setPosition( Point2D p ) {
         String s = SimTemplateStrings.LABEL_POSITION + " (" + (int) p.getX() + "," + (int) p.getY() + ")";
-        _positionDisplay.setText( s );
+        positionDisplay.setText( s );
     }
     
     //----------------------------------------------------------------------------
@@ -104,9 +104,9 @@ public class ExampleSubPanel extends JPanel {
     //----------------------------------------------------------------------------
     
     private void notifyOrientationChanged() {
-        Iterator i = _listeners.iterator();
+        Iterator<ExampleSubPanelListener> i = listeners.iterator();
         while ( i.hasNext() ) {
-            ( (ExampleSubPanelListener) i.next() ).orientationChanged();
+            i.next().orientationChanged();
         }
     }
     
@@ -123,10 +123,10 @@ public class ExampleSubPanel extends JPanel {
     }
     
     public void addExampleSubPanelListener( ExampleSubPanelListener listener ) {
-        _listeners.add( listener );
+        listeners.add( listener );
     }
    
     public void removeExampleSubPanelListener( ExampleSubPanelListener listener ) {
-        _listeners.remove( listener );
+        listeners.remove( listener );
     }
 }

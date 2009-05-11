@@ -37,12 +37,12 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private ExampleModule _exampleModule;
+    private ExampleModule exampleModule;
 
     // PersistanceManager is used to save/load simulation configurations.
-    private XMLPersistenceManager _persistenceManager;
+    private XMLPersistenceManager persistenceManager;
 
-    private static TabbedModulePanePiccolo _tabbedModulePane;
+    private static TabbedModulePanePiccolo tabbedModulePane;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -73,8 +73,8 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
         // Create our own tabbed pane type so we can set the tab color
         TabbedPaneType tabbedPaneType = new TabbedPaneType(){
             public ITabbedModulePane createTabbedPane() {
-                _tabbedModulePane = new TabbedModulePanePiccolo();
-                return _tabbedModulePane;
+                tabbedModulePane = new TabbedModulePanePiccolo();
+                return tabbedModulePane;
             }
         };
         setTabbedPaneType( tabbedPaneType );
@@ -87,8 +87,8 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
         
         Frame parentFrame = getPhetFrame();
 
-        _exampleModule = getFirstModule(parentFrame);
-        addModule( _exampleModule );
+        exampleModule = getFirstModule(parentFrame);
+        addModule( exampleModule );
         
         Module secondModule = new ExampleModule( parentFrame );
         secondModule.setName( "Another Example" );
@@ -106,8 +106,8 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
 
         final PhetFrame frame = getPhetFrame();
 
-        if ( _persistenceManager == null ) {
-            _persistenceManager = new XMLPersistenceManager( frame );
+        if ( persistenceManager == null ) {
+            persistenceManager = new XMLPersistenceManager( frame );
         }
 
         // File menu
@@ -164,7 +164,7 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
     }
 
     public PhetTabbedPane getTabbedPane() {
-        return _tabbedModulePane;
+        return tabbedModulePane;
     }
     
     //----------------------------------------------------------------------------
@@ -184,10 +184,10 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
         appConfig.setVersionDev( getSimInfo().getVersion().getDev() );
         appConfig.setVersionRevision( getSimInfo().getVersion().getRevision() );
         
-        ExampleConfig exampleConfig = _exampleModule.save();
+        ExampleConfig exampleConfig = exampleModule.save();
         appConfig.setExampleConfig( exampleConfig );
         
-        _persistenceManager.save( appConfig );
+        persistenceManager.save( appConfig );
     }
 
     /*
@@ -195,14 +195,14 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
      */
     private void load() {
         
-        Object object = _persistenceManager.load();
+        Object object = persistenceManager.load();
         if ( object != null ) {
             
             if ( object instanceof SimTemplateConfig ) {
                 SimTemplateConfig appConfig = (SimTemplateConfig) object;
                 
                 ExampleConfig exampleConfig = appConfig.getExampleConfig();
-                _exampleModule.load( exampleConfig );
+                exampleModule.load( exampleConfig );
             }
             else {
                 String message = SimTemplateResources.getString( "message.notAConfigFile" );
