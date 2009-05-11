@@ -10,6 +10,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.ABSImages;
+import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.common.phetcommon.util.ConstantPowerOfTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
@@ -28,9 +29,6 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 public class MoleculeCountsNode extends PinnedLayoutNode {
     
-    //TODO localize
-    private static final String NEGLIGIBLE = "NEGLIGIBLE";
-
     private static final Font NEGLIGIBLE_FONT = new PhetFont( Font.PLAIN, 16 );
     private static final Font VALUE_FONT = new PhetFont( Font.PLAIN, 16 );
     private static final Color VALUE_COLOR = Color.BLACK;
@@ -249,7 +247,7 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
             _valueNode = new ValueNode( value, format );
             addChild( _valueNode );
             // negligible
-            PText textNode = new PText( NEGLIGIBLE );
+            PText textNode = new PText( ABSStrings.VALUE_NEGLIGIBLE );
             textNode.setFont( NEGLIGIBLE_FONT );
             _negligibleBackground = new RectangularBackgroundNode( textNode, VALUE_INSETS, VALUE_BACKGROUND_COLOR );
             addChild( _negligibleBackground );

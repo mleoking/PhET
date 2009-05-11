@@ -399,7 +399,7 @@ public abstract class EquilibriumExpressionNode extends PComposite {
      */
     private static class LargeValueNode extends PText {
         public LargeValueNode() {
-            super( ABSStrings.K_VALUE_LARGE );
+            super( ABSStrings.VALUE_LARGE );
             setFont( VALUE_FONT );
             setTextPaint( VALUE_COLOR );
         }
