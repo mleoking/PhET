@@ -18,6 +18,8 @@ TODO:
 - add ability to restrict Strength slider to one section of the range
 
 DONE:
+5/11/08 rewrite model, including fictitious "intermediate" acids and bases
+5/11/08 start using Java 5
 5/7/09 strength slider
 5/7/09 concentration controls
 5/5/09 remove outlined text from equations, not required, performance/memory issues
