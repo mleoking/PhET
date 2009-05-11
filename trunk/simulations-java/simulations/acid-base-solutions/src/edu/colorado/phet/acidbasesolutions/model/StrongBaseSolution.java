@@ -1,5 +1,7 @@
 package edu.colorado.phet.acidbasesolutions.model;
 
+import edu.colorado.phet.acidbasesolutions.model.Base.StrongBase;
+
 
 
 
