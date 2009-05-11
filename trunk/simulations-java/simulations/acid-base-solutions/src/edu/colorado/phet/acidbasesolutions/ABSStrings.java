@@ -78,5 +78,6 @@ public class ABSStrings {
     public static final String PYRIDINE = ABSResources.getString( "base.pyridine" );
     
     // values
-    public static final String K_VALUE_LARGE = "Large";
+    public static final String VALUE_LARGE = ABSResources.getString( "value.large" );
+    public static final String VALUE_NEGLIGIBLE = ABSResources.getString( "value.negligible" );
 }
