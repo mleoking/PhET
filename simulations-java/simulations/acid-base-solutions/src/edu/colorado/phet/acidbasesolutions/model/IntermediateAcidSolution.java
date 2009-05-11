@@ -1,5 +1,7 @@
 package edu.colorado.phet.acidbasesolutions.model;
 
+import edu.colorado.phet.acidbasesolutions.model.Acid.IntermediateAcid;
+
 
 //TODO rewrite this model based on design doc
 public class IntermediateAcidSolution {
