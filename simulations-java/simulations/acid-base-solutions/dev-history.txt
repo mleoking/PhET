@@ -14,7 +14,8 @@ TODO:
 - lighten pH probe shaft so that molecule count symbols are visible when they overlap the probe
 - scale image files
 - Reset All
-- fix offsets in SolutionsCanvas.updateLayout using EquilibriumExpression.getOriginXOffset/getOriginYOffset approach
+- rewrite SolutionsCanvas.updateLayout
+- add ability to restrict Strength slider to one section of the range
 
 DONE:
 5/7/09 strength slider
