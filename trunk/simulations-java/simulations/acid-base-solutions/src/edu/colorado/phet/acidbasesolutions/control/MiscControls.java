@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
+import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.dialog.SymbolLegendDialog;
 import edu.colorado.phet.acidbasesolutions.view.equations.EquilibriumExpressionsDialog;
 import edu.colorado.phet.acidbasesolutions.view.equations.ReactionEquationsDialog;
@@ -27,13 +28,6 @@ import edu.umd.cs.piccolo.PNode;
 
 public class MiscControls extends JPanel {
     
-    //TODO localize
-    private static final String TITLE = "View";
-    private static final String CONCENTRATION_GRAPH = "Concentration Graph";
-    private static final String SYMBOL_LEGEND = "Symbol Legend";
-    private static final String EQUILIBRIUM_EXPRESSIONS = "Equilibrium Expressions";
-    private static final String REACTION_EQUATIONS = "Reaction Equations";
-
     private final Frame parentFrame;
     
     private final JCheckBox concentrationGraphCheckBox;
@@ -53,11 +47,11 @@ public class MiscControls extends JPanel {
         parentFrame = PhetApplication.getInstance().getPhetFrame();
         
         // border
-        TitledBorder border = new TitledBorder( new LineBorder( Color.BLACK, 1 ), TITLE );
+        TitledBorder border = new TitledBorder( new LineBorder( Color.BLACK, 1 ), ABSStrings.TITLE_MISC_CONTROLS );
         border.setTitleFont( new PhetFont( Font.BOLD, 16 ) );
         setBorder( border );
         
-        concentrationGraphCheckBox = new JCheckBox( CONCENTRATION_GRAPH );
+        concentrationGraphCheckBox = new JCheckBox( ABSStrings.CHECK_BOX_CONCENTRATIONS_GRAPH );
         concentrationGraphCheckBox.setSelected( concentrationGraphNode.getVisible() );
         concentrationGraphCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -65,7 +59,7 @@ public class MiscControls extends JPanel {
             }
         } );
         
-        symbolLegendCheckBox = new JCheckBox( SYMBOL_LEGEND );
+        symbolLegendCheckBox = new JCheckBox( ABSStrings.CHECK_BOX_SYMBOL_LEGEND );
         symbolLegendCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( symbolLegendCheckBox.isSelected() ) {
@@ -77,7 +71,7 @@ public class MiscControls extends JPanel {
             }
         });
         
-        equilibriumExpressionsCheckBox = new JCheckBox( EQUILIBRIUM_EXPRESSIONS );
+        equilibriumExpressionsCheckBox = new JCheckBox( ABSStrings.CHECK_BOX_EQUILIBRIUM_EXPRESSIONS );
         equilibriumExpressionsCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( equilibriumExpressionsCheckBox.isSelected() ) {
@@ -89,7 +83,7 @@ public class MiscControls extends JPanel {
             }
         });
         
-        reactionEquationsCheckBox = new JCheckBox( REACTION_EQUATIONS );
+        reactionEquationsCheckBox = new JCheckBox( ABSStrings.CHECK_BOX_REACTION_EQUATIONS );
         reactionEquationsCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( reactionEquationsCheckBox.isSelected() ) {
