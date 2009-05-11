@@ -16,10 +16,7 @@ import org.apache.tools.ant.taskdefs.ManifestException;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
-import edu.colorado.phet.buildtools.AntTaskRunner;
-import edu.colorado.phet.buildtools.BuildLocalProperties;
-import edu.colorado.phet.buildtools.PhetCleanCommand;
-import edu.colorado.phet.buildtools.Simulation;
+import edu.colorado.phet.buildtools.*;
 import edu.colorado.phet.buildtools.proguard.PhetProguardConfigBuilder;
 import edu.colorado.phet.buildtools.proguard.ProguardCommand;
 import edu.colorado.phet.buildtools.util.FileUtils;
@@ -37,8 +34,6 @@ public class JavaBuildCommand {
     private final File outputJar;
 
     private static String JAR_LAUNCHER_PROPERTIES_FILE_HEADER = "created by " + JavaBuildCommand.class.getName();
-
-    private static String JAVA_SOURCE_VERSION = "1.4";//used for sims, not for bootstrap
 
     //select whether you want to use the java version checker for launching JAR files
     private static boolean useJavaVersionChecker = false;
@@ -121,7 +116,7 @@ public class JavaBuildCommand {
         System.out.println( "s = " + s );
         scalac.setClasspath( new Path( antTaskRunner.getProject(), toString( project.getAllJarFiles() ) + " : " + project.getClassesDirectory().getAbsolutePath() + " : " + s ) );
         scalac.setSrcdir( new Path( antTaskRunner.getProject(), toString( project.getAllScalaSourceRoots() ) ) );
-        scalac.setTarget( "jvm-1.4" );//see Scalac.Target
+        scalac.setTarget( BuildToolsConstants.SIM_SCALA_VERSION );//see Scalac.Target
         scalac.setDestdir( project.getClassesDirectory() );
         antTaskRunner.runTask( scalac );
         System.out.println( "Finished scala build." );
@@ -138,8 +133,8 @@ public class JavaBuildCommand {
         PhetBuildUtils.antEcho( antTaskRunner, "Compiling " + project.getName() + ".", getClass() );
 
         Javac javac = new Javac();
-        javac.setSource( JAVA_SOURCE_VERSION );
-        javac.setTarget( JAVA_SOURCE_VERSION );
+        javac.setSource(BuildToolsConstants.SIM_JAVA_VERSION);
+        javac.setTarget(BuildToolsConstants.SIM_JAVA_VERSION);
         javac.setSrcdir( new Path( antTaskRunner.getProject(), toString( src ) ) );
         javac.setDestdir( project.getClassesDirectory() );
         javac.setClasspath( new Path( antTaskRunner.getProject(), toString( classpath ) ) );
@@ -157,8 +152,8 @@ public class JavaBuildCommand {
         PhetBuildUtils.antEcho( antTaskRunner, "Compiling java version checker for " + project.getName() + ".", getClass() );
 
         Javac javac = new Javac();
-        javac.setSource( "1.4" );//Java version checker must be compiled in 1.4
-        javac.setTarget( "1.4" );//so it can run in 1.4 jvms
+        javac.setSource(BuildToolsConstants.BOOTSTRAP_JAVA_VERSION );//Java version checker must be compiled in lowest language version
+        javac.setTarget(BuildToolsConstants.BOOTSTRAP_JAVA_VERSION );//so it can run in lowest language version jvms
         javac.setClasspath( new Path( antTaskRunner.getProject(), "../simulations-java/contrib/javaws/jnlp.jar" ) );
         javac.setSrcdir( new Path( antTaskRunner.getProject(), "../simulations-java/common/java-version-checker/src" ) );
         javac.setDestdir( project.getClassesDirectory() );
