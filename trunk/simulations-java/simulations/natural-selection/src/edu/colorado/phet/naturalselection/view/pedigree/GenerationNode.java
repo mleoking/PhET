@@ -2,8 +2,9 @@ package edu.colorado.phet.naturalselection.view.pedigree;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.naturalselection.model.Bunny;
@@ -56,12 +57,12 @@ public class GenerationNode extends PNode {
     /**
      * List of bunny nodes
      */
-    public ArrayList bunnies;
+    public List<Bunny> bunnies;
 
     /**
      * List of the corresponding visual GenerationBunnyNodes
      */
-    public ArrayList bunnyNodes;
+    public List<GenerationBunnyNode> bunnyNodes;
 
     /**
      * Height of bunnies if there are any
@@ -74,7 +75,9 @@ public class GenerationNode extends PNode {
     /**
      * Constructor
      *
-     * @param generation The generation number to fetch and display
+     * @param model        The model
+     * @param pedigreeNode The "parent" pedigree node
+     * @param generation   The generation number to fetch and display
      */
     public GenerationNode( NaturalSelectionModel model, PedigreeNode pedigreeNode, int generation ) {
         this.model = model;
@@ -82,8 +85,8 @@ public class GenerationNode extends PNode {
         this.generation = generation;
 
         // get all bunnies of this generation
-        this.bunnies = model.getBunnyGenerationList( generation );
-        bunnyNodes = new ArrayList();
+        bunnies = model.getBunnyGenerationList( generation );
+        bunnyNodes = new LinkedList<GenerationBunnyNode>();
 
         // add the bunny nodes to this node
         addBunnies();
@@ -160,11 +163,9 @@ public class GenerationNode extends PNode {
     /**
      * Add all bunny nodes to this piccolo node
      */
-    private void addBunnies() {
-        Iterator iter = bunnies.iterator();
 
-        while ( iter.hasNext() ) {
-            Bunny bunny = (Bunny) iter.next();
+    private void addBunnies() {
+        for ( Bunny bunny : bunnies ) {
             GenerationBunnyNode bunnyNode = new GenerationBunnyNode( bunny );
             bunnyNodes.add( bunnyNode );
             addChild( bunnyNode );
@@ -182,11 +183,7 @@ public class GenerationNode extends PNode {
      * @return The corresponding GenerationBunnyNode
      */
     public GenerationBunnyNode getBunnyNodeFromBunny( Bunny bunny ) {
-        Iterator iter = bunnyNodes.iterator();
-
-        while ( iter.hasNext() ) {
-            GenerationBunnyNode bunnyNode = (GenerationBunnyNode) iter.next();
-
+        for ( GenerationBunnyNode bunnyNode : bunnyNodes ) {
             if ( bunnyNode.getBunny() == bunny ) {
                 return bunnyNode;
             }
@@ -231,10 +228,10 @@ public class GenerationNode extends PNode {
      * @param nextGenerationNode The next generation that we will draw lines to
      */
     public void drawChildLines( GenerationNode nextGenerationNode ) {
-        Iterator iter = bunnyNodes.iterator();
+        Iterator<GenerationBunnyNode> iter = bunnyNodes.iterator();
 
         while ( iter.hasNext() ) {
-            GenerationBunnyNode nodeA = (GenerationBunnyNode) iter.next();
+            GenerationBunnyNode nodeA = iter.next();
             Bunny bunnyA = nodeA.getBunny();
             Bunny bunnyB = bunnyA.getPotentialMate();
             GenerationBunnyNode nodeB = getBunnyNodeFromBunny( bunnyB );
@@ -301,7 +298,7 @@ public class GenerationNode extends PNode {
             // horizontal children line
             double minChildX = Double.POSITIVE_INFINITY, maxChildX = Double.NEGATIVE_INFINITY;
 
-            Iterator childIter = bunnyA.getChildren().iterator();
+            Iterator<Bunny> childIter = bunnyA.getChildren().iterator();
 
             //----------------------------------------------------------------------------
             // Draw lines and calculate positions for each child
@@ -309,7 +306,7 @@ public class GenerationNode extends PNode {
 
             // for each child, draw the vertical line pointing to it, and record its position
             while ( childIter.hasNext() ) {
-                Bunny child = (Bunny) childIter.next();
+                Bunny child = childIter.next();
 
                 // location of child
                 Point2D childOffset = nextGenerationNode.getBunnyLocalOffset( child );

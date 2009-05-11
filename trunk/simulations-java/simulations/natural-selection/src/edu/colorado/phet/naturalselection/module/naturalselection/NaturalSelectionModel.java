@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.naturalselection.module.naturalselection;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -42,13 +39,13 @@ public class NaturalSelectionModel extends ClockAdapter {
      * A list of all of the (model) bunnies.
      * WARNING: do NOT change the order of this list
      */
-    private ArrayList bunnies;
+    private ArrayList<Bunny> bunnies;
 
     // starting bunnies
     private Bunny rootFather;
     private Bunny rootMother;
 
-    private ArrayList listeners;
+    private ArrayList<Listener> listeners;
 
     /**
      * the last tick at which a year changed. When the difference between this and the actual tick is large enough,
@@ -89,8 +86,8 @@ public class NaturalSelectionModel extends ClockAdapter {
 
         this.clock = clock;
 
-        bunnies = new ArrayList();
-        listeners = new ArrayList();
+        bunnies = new ArrayList<Bunny>();
+        listeners = new ArrayList<Listener>();
 
         // set up the genes to this module
         ColorGene.getInstance().setModel( this );
@@ -125,7 +122,7 @@ public class NaturalSelectionModel extends ClockAdapter {
 
         lastYearTick = 0;
 
-        bunnies = new ArrayList();
+        bunnies = new ArrayList<Bunny>();
 
         ColorGene.getInstance().reset();
         TailGene.getInstance().reset();
@@ -186,13 +183,13 @@ public class NaturalSelectionModel extends ClockAdapter {
      * Causes all bunnies that can reproduce to do so
      */
     private void mateBunnies() {
-        Iterator iter = bunnies.iterator();
+        Iterator<Bunny> iter = bunnies.iterator();
 
         // temporarily store the new bunnies that we are creating
-        ArrayList newBunnies = new ArrayList();
+        ArrayList<Bunny> newBunnies = new ArrayList<Bunny>();
 
         while ( iter.hasNext() ) {
-            Bunny bunny = (Bunny) iter.next();
+            Bunny bunny = iter.next();
 
             if ( bunny.canMate() ) {
                 Bunny[] offspring = Bunny.mateBunnies( bunny, bunny.getPotentialMate() );
@@ -204,9 +201,9 @@ public class NaturalSelectionModel extends ClockAdapter {
 
         mutateSomeBunny( newBunnies );
 
-        Iterator newIter = newBunnies.iterator();
+        Iterator<Bunny> newIter = newBunnies.iterator();
         while ( newIter.hasNext() ) {
-            Bunny bunny = (Bunny) newIter.next();
+            Bunny bunny = newIter.next();
             bunny.notifyInit();
             bunnies.add( bunny );
             //clock.addClockListener( bunny );
@@ -215,7 +212,7 @@ public class NaturalSelectionModel extends ClockAdapter {
         }
     }
 
-    private void mutateSomeBunny( List newBunnies ) {
+    private void mutateSomeBunny( List<Bunny> newBunnies ) {
         Gene gene = null;
         Allele allele = null;
 
@@ -237,12 +234,12 @@ public class NaturalSelectionModel extends ClockAdapter {
         }
 
         // we only want to check bunnes that haven't mutated already
-        ArrayList possibleBunnies = new ArrayList();
+        ArrayList<Bunny> possibleBunnies = new ArrayList<Bunny>();
 
-        Iterator iter = newBunnies.iterator();
+        Iterator<Bunny> iter = newBunnies.iterator();
 
         while ( iter.hasNext() ) {
-            Bunny bunny = (Bunny) iter.next();
+            Bunny bunny = iter.next();
 
             if ( gene.getBunnyPhenotype( bunny ) != allele ) {
                 possibleBunnies.add( bunny );
@@ -254,7 +251,7 @@ public class NaturalSelectionModel extends ClockAdapter {
             return;
         }
 
-        Bunny mutant = (Bunny) possibleBunnies.get( random.nextInt( possibleBunnies.size() ) );
+        Bunny mutant = possibleBunnies.get( random.nextInt( possibleBunnies.size() ) );
 
         mutant.mutateGene( gene, allele );
 
@@ -264,9 +261,9 @@ public class NaturalSelectionModel extends ClockAdapter {
      * Make all of the bunnies older
      */
     private void ageBunnies() {
-        Iterator iter = bunnies.iterator();
+        Iterator<Bunny> iter = bunnies.iterator();
         while ( iter.hasNext() ) {
-            ( (Bunny) iter.next() ).ageMe();
+            ( iter.next() ).ageMe();
         }
     }
 
@@ -274,12 +271,12 @@ public class NaturalSelectionModel extends ClockAdapter {
      * Bunnies will run out of food if the selection factor is food
      */
     private void bunnyFamine() {
-        Iterator iter = bunnies.iterator();
+        Iterator<Bunny> iter = bunnies.iterator();
 
         double baseFraction = ( Math.sqrt( (double) getPopulation() ) - 3 ) / ( NaturalSelectionDefaults.TICKS_PER_YEAR * 15 );
 
         while ( iter.hasNext() ) {
-            Bunny bunny = (Bunny) iter.next();
+            Bunny bunny = iter.next();
 
             if ( !bunny.isAlive() ) {
                 continue;
@@ -304,12 +301,12 @@ public class NaturalSelectionModel extends ClockAdapter {
             return;
         }
 
-        Iterator iter = bunnies.iterator();
+        Iterator<Bunny> iter = bunnies.iterator();
 
         double baseFraction = ( Math.sqrt( (double) getPopulation() ) - 3 ) / ( NaturalSelectionDefaults.TICKS_PER_YEAR );
 
         while ( iter.hasNext() ) {
-            Bunny bunny = (Bunny) iter.next();
+            Bunny bunny = iter.next();
 
             if ( !bunny.isAlive() || !bunny.isTargeted() ) {
                 continue;
@@ -380,7 +377,7 @@ public class NaturalSelectionModel extends ClockAdapter {
         // TODO: easier way? maybe count a filtered ArrayList?
         int ret = 0;
         for ( int i = 0; i < bunnies.size(); i++ ) {
-            Bunny bunny = (Bunny) bunnies.get( i );
+            Bunny bunny = bunnies.get( i );
             if ( bunny.isAlive() ) {
                 ret++;
             }
@@ -392,7 +389,7 @@ public class NaturalSelectionModel extends ClockAdapter {
         return generation;
     }
 
-    public ArrayList getBunnyList() {
+    public ArrayList<Bunny> getBunnyList() {
         return bunnies;
     }
 
@@ -401,11 +398,11 @@ public class NaturalSelectionModel extends ClockAdapter {
      *
      * @return A list of bunnies that are alive
      */
-    public ArrayList getAliveBunnyList() {
-        ArrayList ret = new ArrayList();
-        Iterator iter = bunnies.iterator();
+    public List<Bunny> getAliveBunnyList() {
+        LinkedList<Bunny> ret = new LinkedList<Bunny>();
+        Iterator<Bunny> iter = bunnies.iterator();
         while ( iter.hasNext() ) {
-            Bunny bunny = (Bunny) iter.next();
+            Bunny bunny = iter.next();
             if ( bunny.isAlive() ) {
                 ret.add( bunny );
             }
@@ -419,11 +416,11 @@ public class NaturalSelectionModel extends ClockAdapter {
      * @param desiredGeneration The generation that bunnies were born in.
      * @return A list of all bunnies (alive or dead) born in desiredGeneration
      */
-    public ArrayList getBunnyGenerationList( int desiredGeneration ) {
-        ArrayList ret = new ArrayList();
-        Iterator iter = bunnies.iterator();
+    public ArrayList<Bunny> getBunnyGenerationList( int desiredGeneration ) {
+        ArrayList<Bunny> ret = new ArrayList<Bunny>();
+        Iterator<Bunny> iter = bunnies.iterator();
         while ( iter.hasNext() ) {
-            Bunny bunny = (Bunny) iter.next();
+            Bunny bunny = iter.next();
             if ( bunny.getGeneration() == desiredGeneration ) {
                 ret.add( bunny );
             }
@@ -534,9 +531,9 @@ public class NaturalSelectionModel extends ClockAdapter {
     }
 
     private void notifyListenersOfEvent( Event event ) {
-        Iterator iter = listeners.iterator();
+        Iterator<Listener> iter = listeners.iterator();
         while ( iter.hasNext() ) {
-            ( (Listener) iter.next() ).onEvent( event );
+            ( iter.next() ).onEvent( event );
         }
     }
 

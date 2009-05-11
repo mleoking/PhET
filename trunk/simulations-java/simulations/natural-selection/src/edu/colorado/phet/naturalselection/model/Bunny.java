@@ -53,7 +53,7 @@ public class Bunny extends ClockAdapter {
     /**
      * A list of the bunny's children. Currently only 0 or 4 children.
      */
-    private ArrayList children;
+    private ArrayList<Bunny> children;
 
     /**
      * The bunny's age (in years). starts at 0, counts up 1 each generation
@@ -96,11 +96,12 @@ public class Bunny extends ClockAdapter {
 
     private NaturalSelectionModel model;
 
-    private ArrayList listeners;
+    private ArrayList<Listener> listeners;
 
     /**
      * Constructor
      *
+     * @param model      The natural selection model
      * @param father     The father of the bunny (or null if there is none)
      * @param mother     The mother of the bunny (or null if there is none)
      * @param generation The generation the bunny is being born into
@@ -122,8 +123,8 @@ public class Bunny extends ClockAdapter {
         this.generation = generation;
 
         alive = true;
-        children = new ArrayList();
-        listeners = new ArrayList();
+        children = new ArrayList<Bunny>();
+        listeners = new ArrayList<Listener>();
 
         setAge( 0 );
 
@@ -239,7 +240,7 @@ public class Bunny extends ClockAdapter {
         return generation;
     }
 
-    public ArrayList getChildren() {
+    public ArrayList<Bunny> getChildren() {
         return children;
     }
 
@@ -382,7 +383,7 @@ public class Bunny extends ClockAdapter {
     /**
      * Helper function that signals that this bunny has reproduced, and adds children at the same time.
      *
-     * @param bunnyArray
+     * @param bunnyArray The array of this bunny's new children
      */
     public void reproduce( Bunny[] bunnyArray ) {
         for ( int i = 0; i < bunnyArray.length; i++ ) {
@@ -569,9 +570,9 @@ public class Bunny extends ClockAdapter {
     }
 
     private void notifyListenersOfEvent( Event event ) {
-        Iterator iter = listeners.iterator();
+        Iterator<Listener> iter = listeners.iterator();
         while ( iter.hasNext() ) {
-            ( (Listener) iter.next() ).onEvent( event );
+            ( iter.next() ).onEvent( event );
         }
     }
 

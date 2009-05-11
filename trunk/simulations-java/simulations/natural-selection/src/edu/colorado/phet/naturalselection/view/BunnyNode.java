@@ -27,6 +27,7 @@ public class BunnyNode extends NaturalSelectionSprite implements Bunny.Listener 
      * @param colorPhenotype The color
      * @param teethPhenotype The teeth
      * @param tailPhenotype  The tail
+     * @param handler        The 3-D coordinates handler for this bunnynode
      */
     public BunnyNode( Allele colorPhenotype, Allele teethPhenotype, Allele tailPhenotype, SpritesNode handler ) {
         this.handler = handler;

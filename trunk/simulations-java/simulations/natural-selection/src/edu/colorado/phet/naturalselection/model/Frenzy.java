@@ -14,30 +14,30 @@ public class Frenzy extends ClockAdapter {
     private double duration;
     private NaturalSelectionClock clock;
     private NaturalSelectionModel model;
-    private ArrayList wolves;
-    private ArrayList targetedBunnies;
+    private ArrayList<Wolf> wolves;
+    private ArrayList<Bunny> targetedBunnies;
 
     private boolean running = true;
 
-    private ArrayList listeners;
+    private ArrayList<Listener> listeners;
 
     public Frenzy( NaturalSelectionModel model, double duration ) {
         this.model = model;
         this.duration = duration;
 
-        listeners = new ArrayList();
+        listeners = new ArrayList<Listener>();
 
         clock = model.getClock();
         startTime = clock.getSimulationTime();
         clock.addClockListener( this );
 
-        targetedBunnies = new ArrayList();
+        targetedBunnies = new ArrayList<Bunny>();
 
     }
 
     public void init() {
         int numWolves = 4 + model.getPopulation() / 6;
-        wolves = new ArrayList();
+        wolves = new ArrayList<Wolf>();
         for ( int i = 0; i < numWolves; i++ ) {
             Wolf wolf = new Wolf( model, this );
             wolves.add( wolf );
@@ -45,7 +45,7 @@ public class Frenzy extends ClockAdapter {
         }
     }
 
-    public ArrayList getWolves() {
+    public ArrayList<Wolf> getWolves() {
         return wolves;
     }
 
@@ -84,13 +84,13 @@ public class Frenzy extends ClockAdapter {
 
         running = false;
 
-        Iterator bunnyIter = targetedBunnies.iterator();
+        Iterator<Bunny> bunnyIter = targetedBunnies.iterator();
         while ( bunnyIter.hasNext() ) {
-            ( (Bunny) bunnyIter.next() ).setTargeted( false );
+            ( bunnyIter.next() ).setTargeted( false );
         }
 
-        for ( Iterator iterator = wolves.iterator(); iterator.hasNext(); ) {
-            Wolf wolf = (Wolf) iterator.next();
+        for ( Iterator<Wolf> iterator = wolves.iterator(); iterator.hasNext(); ) {
+            Wolf wolf = iterator.next();
             wolf.disable();
         }
 
@@ -102,24 +102,24 @@ public class Frenzy extends ClockAdapter {
     //----------------------------------------------------------------------------
 
     private void notifyFrenzyStop() {
-        Iterator iter = listeners.iterator();
+        Iterator<Listener> iter = listeners.iterator();
         while ( iter.hasNext() ) {
-            ( (Listener) iter.next() ).onFrenzyStop( this );
+            ( iter.next() ).onFrenzyStop( this );
         }
     }
 
     private void notifyFrenzyTimeLeft() {
-        Iterator iter = listeners.iterator();
+        Iterator<Listener> iter = listeners.iterator();
         double timeLeft = getTimeLeft();
         while ( iter.hasNext() ) {
-            ( (Listener) iter.next() ).onFrenzyTimeLeft( timeLeft );
+            ( iter.next() ).onFrenzyTimeLeft( timeLeft );
         }
     }
 
     private void notifyWolfCreate( Wolf wolf ) {
-        Iterator iter = listeners.iterator();
+        Iterator<Listener> iter = listeners.iterator();
         while ( iter.hasNext() ) {
-            ( (Listener) iter.next() ).onWolfCreate( wolf );
+            ( iter.next() ).onWolfCreate( wolf );
         }
     }
 
