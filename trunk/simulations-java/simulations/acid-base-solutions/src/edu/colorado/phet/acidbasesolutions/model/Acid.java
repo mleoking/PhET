@@ -1,4 +1,4 @@
-package edu.colorado.phet.acidbasesolutions.model.acids;
+package edu.colorado.phet.acidbasesolutions.model;
 
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;

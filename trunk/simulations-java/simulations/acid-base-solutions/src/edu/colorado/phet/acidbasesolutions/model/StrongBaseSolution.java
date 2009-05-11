@@ -1,6 +1,5 @@
-package edu.colorado.phet.acidbasesolutions.model.bases;
+package edu.colorado.phet.acidbasesolutions.model;
 
-import edu.colorado.phet.acidbasesolutions.model.PureWater;
 
 
 
