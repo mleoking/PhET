@@ -1,5 +1,8 @@
 package edu.colorado.phet.acidbasesolutions.model;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
@@ -7,22 +10,24 @@ import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 
 public abstract class Acid {
     
-    // strong acids
+    // specific strong acids
     public static final StrongAcid HYDROCHLORIC_ACID = new StrongAcid( ABSStrings.HYDORCHLORIC_ACID, ABSSymbols.HCl, ABSSymbols.Cl_MINUS, 10E7 );
     
-    // weak acids
+    // specific weak acids
     public static final WeakAcid HYPOCHLORUS_ACID = new WeakAcid( ABSStrings.HYPOCHLOROUS_ACID, ABSSymbols.HClO, ABSSymbols.ClO_MINUS, 2.9E-8 );
     
     private final String name;
     private final String symbol;
     private final String conjugateSymbol;
     private double strength;
+    private final ArrayList<AcidListener> listeners;
     
     protected Acid( String name, String symbol, String conjugateSymbol, double strength ) {
         this.name = name;
         this.symbol = symbol;
         this.conjugateSymbol = conjugateSymbol;
         this.strength = strength;
+        this.listeners = new ArrayList<AcidListener>();
     }
     
     public String getName() {
@@ -40,12 +45,31 @@ public abstract class Acid {
     protected void setStrength( double strength ) {
         if ( strength != this.strength ) {
             this.strength = strength;
-            //XXX notify
+            notifyListeners();
         }
     }
     
     public double getStrength() {
         return strength;
+    }
+    
+    public interface AcidListener {
+        public void stateChanged();
+    }
+    
+    public void addAcidListener( AcidListener listener ) {
+        listeners.add( listener );
+    }
+    
+    public void removeAcidListener( AcidListener listener ) {
+        listeners.remove( listener );
+    }
+    
+    private void notifyListeners() {
+        Iterator<AcidListener> i = listeners.iterator();
+        while ( i.hasNext() ) {
+            i.next().stateChanged();
+        }
     }
     
     public static class StrongAcid extends Acid {

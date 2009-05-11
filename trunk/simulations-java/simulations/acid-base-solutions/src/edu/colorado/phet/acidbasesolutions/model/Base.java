@@ -1,9 +1,11 @@
 package edu.colorado.phet.acidbasesolutions.model;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
-
 
 
 public abstract class Base {
@@ -18,11 +20,13 @@ public abstract class Base {
     private final String name;
     private final String symbol;
     private double strength;
+    private final ArrayList<BaseListener> listeners;
     
     private Base( String name, String symbol, double strength ) {
         this.name = name;
         this.symbol = symbol;
         this.strength = strength;
+        this.listeners = new ArrayList<BaseListener>();
     }
     
     public String getName() {
@@ -36,12 +40,31 @@ public abstract class Base {
     protected void setStrength( double strength ) {
         if ( strength != this.strength ) {
             this.strength = strength;
-            //XXX notify
+            notifyListeners();
         }
     }
     
     public double getStrength() {
         return strength;
+    }
+    
+    public interface BaseListener {
+        public void stateChanged();
+    }
+    
+    public void addBaseListener( BaseListener listener ) {
+        listeners.add( listener );
+    }
+    
+    public void removeBaseListener( BaseListener listener ) {
+        listeners.remove( listener );
+    }
+    
+    private void notifyListeners() {
+        Iterator<BaseListener> i = listeners.iterator();
+        while ( i.hasNext() ) {
+            i.next().stateChanged();
+        }
     }
     
     public static class StrongBase extends Base {
