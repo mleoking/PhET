@@ -1,9 +1,9 @@
 package edu.colorado.phet.acidbasesolutions.model;
 
+import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.model.Base.IntermediateBase;
 
 
-//TODO rewrite this model based on design doc
 public class IntermediateBaseSolution extends Solution {
 
     private final IntermediateBase base;
@@ -17,16 +17,25 @@ public class IntermediateBaseSolution extends Solution {
         return base;
     }
     
-    // [B] = c - [BH+]
+    // [B] = [B for weak acid with Kb=Kmin]*10^(4*(K-Kmin)/(K-Kmax))
     public double getBaseConcentration() {
-        return getInitialConcentration() - getConjugateAcidConcentration();
+        final double Kb = ABSConstants.INTERMEDIATE_STRENGTH_RANGE.getMin();
+        final double c = getInitialConcentration();
+        final double acidConcentration = ( -Kb + Math.sqrt( ( Kb * Kb ) + ( 4 * Kb * c ) ) ) / 2;
+        final double baseConcentration = c - acidConcentration;
+        return baseConcentration * Math.pow( 10, -4 * getKScale() );
     }
     
-    // [BH+]
-    public double getConjugateAcidConcentration() {
-        final double Kb = base.getStrength();
-        final double c = getInitialConcentration();
-        return -Kb + Math.sqrt( ( Kb * Kb ) + ( 4 * Kb * c ) );
+    private double getKScale() {
+        final double K = base.getStrength();
+        final double Kmin = ABSConstants.INTERMEDIATE_STRENGTH_RANGE.getMin();
+        final double Kmax = ABSConstants.INTERMEDIATE_STRENGTH_RANGE.getMax();
+        return ( K - Kmin ) / ( Kmax - Kmin );
+    }
+    
+    // [BH+] = c -[B]
+    public double getAcidConcentration() {
+        return getInitialConcentration() - getBaseConcentration();
     }
     
     // [H3O+] = Kw / [OH-]
@@ -36,11 +45,11 @@ public class IntermediateBaseSolution extends Solution {
     
     // [OH-] = [BH+]
     public double getOHConcentration() {
-        return getConjugateAcidConcentration();
+        return getAcidConcentration();
     }
     
     // [H2O] = W - [BH+]
     public double getH2OConcentration() {
-        return PureWater.getInstance().getConcentration() - getConjugateAcidConcentration();
+        return PureWater.getInstance().getConcentration() - getAcidConcentration();
     }
 }

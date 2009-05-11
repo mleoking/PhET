@@ -19,11 +19,11 @@ public class WeakBaseSolution extends Solution {
     
     // [B] = c - [BH+]
     public double getBaseConcentration() {
-        return getInitialConcentration() - getConjugateAcidConcentration();
+        return getInitialConcentration() - getAcidConcentration();
     }
     
-    // [BH+] = (-Kb + sqrt( Kb*Kb + 4*Kb*c ) )/2 
-    public double getConjugateAcidConcentration() {
+    // [BH+] = ( -Kb + sqrt( Kb*Kb + 4*Kb*c ) ) / 2 
+    public double getAcidConcentration() {
         final double Kb = base.getStrength();
         final double c = getInitialConcentration();
         return (-Kb + Math.sqrt( ( Kb * Kb ) + ( 4 * Kb * c ) ) ) / 2;
@@ -36,11 +36,11 @@ public class WeakBaseSolution extends Solution {
     
     // [OH-] = [BH+]
     public double getOHConcentration() {
-        return getConjugateAcidConcentration();
+        return getAcidConcentration();
     }
     
     // [H2O] = W - [BH+]
     public double getH2OConcentration() {
-        return PureWater.getInstance().getConcentration() - getConjugateAcidConcentration();
+        return PureWater.getInstance().getConcentration() - getAcidConcentration();
     }
 }

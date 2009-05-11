@@ -24,7 +24,7 @@ public class StrongAcidSolution extends Solution {
     }
     
     // [A-] = c
-    public double getConjugateBaseConcentration() {
+    public double getBaseConcentration() {
         return getInitialConcentration();
     }
     
