@@ -1,4 +1,4 @@
-// FlashCommon.as
+﻿// FlashCommon.as
 //
 // coordinates all common flash code, including the updates and statistics
 //
@@ -42,6 +42,7 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 	
 	// handles keyboard accessibility (tab traversal)
 	public var tabHandler : TabHandler;
+	public var keyboardHandler : KeyboardHandler;
 	
 	//public static var allowedSystemFonts : Array = ["_sans", "_serif", "_typewriter", "Times New Roman", "Arial"];
 	
@@ -106,7 +107,8 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 		strings = new CommonStrings();
 		
 		// initializes the TabHandler
-		tabHandler = new TabHandler();
+		//tabHandler = new TabHandler();
+		keyboardHandler = new KeyboardHandler();
 		
 		// load the statistics handler, but do not send the session-start message!!!
 		statistics = new Statistics();

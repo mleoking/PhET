@@ -246,10 +246,10 @@ class org.aswing.Component extends EventDispatcher{
 	private var focusable:Boolean;
 	//-------------
 	
-	private var root_mc:MovieClip; //the component mc's root
-	private var clip_mc:MovieClip; //the component's clip(mask rect) mc
-	private var trigger_mc:MovieClip; //the trigger for the press/roll... events
-	private var target_mc:MovieClip; //the component's content primary mc
+	public var root_mc:MovieClip; //the component mc's root
+	public var clip_mc:MovieClip; //the component's clip(mask rect) mc
+	public var trigger_mc:MovieClip; //the trigger for the press/roll... events
+	public var target_mc:MovieClip; //the component's content primary mc
 	
 	private var clipBounds:Rectangle;
 	
