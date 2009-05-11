@@ -8,11 +8,11 @@ import java.awt.image.BufferedImage;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 
 /**
- * This class represents an artifact, such as a skull or a fossil or a tree,
- * that can be dated using radiometric dating.
+ * This class represents a physical object that can be dated using radiometric
+ * measurements, such as a skull or a fossil or a tree.
  * 
  */
-public class RadioactiveDatingGameObject {
+public class DatableObject {
 
 	private final Point2D center;
 	private final double width;
@@ -22,7 +22,7 @@ public class RadioactiveDatingGameObject {
 	private final String resourceImageName;
 	private final BufferedImage image;
 	
-	public RadioactiveDatingGameObject(String name, String resourceImageName, Point2D center, double width, double age) {
+	public DatableObject(String name, String resourceImageName, Point2D center, double width, double age) {
 		super();
 		this.name = name;
 		this.center = new Point2D.Double(center.getX(), center.getY());
@@ -61,4 +61,8 @@ public class RadioactiveDatingGameObject {
 		return image;
 	}
 
+	@Override
+	public String toString() {
+		return super.toString() + ": " + name;
+	}
 }

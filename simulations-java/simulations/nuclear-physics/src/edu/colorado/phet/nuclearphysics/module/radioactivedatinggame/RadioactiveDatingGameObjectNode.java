@@ -15,10 +15,10 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class RadioactiveDatingGameObjectNode extends PNode {
 	
-	private final RadioactiveDatingGameObject rdgObject;
+	private final DatableObject rdgObject;
 	private final PImage image;
 
-	public RadioactiveDatingGameObjectNode(RadioactiveDatingGameObject rdgObject, ModelViewTransform2D mvt) {
+	public RadioactiveDatingGameObjectNode(DatableObject rdgObject, ModelViewTransform2D mvt) {
 		this.rdgObject = rdgObject;
 		image = new PImage( rdgObject.getImage() ); 
 		Point2D viewLocation = mvt.modelToView( rdgObject.getCenter() );

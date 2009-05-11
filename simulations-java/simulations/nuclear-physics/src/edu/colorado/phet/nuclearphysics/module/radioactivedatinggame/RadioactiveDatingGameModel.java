@@ -36,8 +36,8 @@ public class RadioactiveDatingGameModel {
     // Instance data
     //------------------------------------------------------------------------
 
-	ArrayList<RadioactiveDatingGameObject> artifacts = new ArrayList<RadioactiveDatingGameObject>();
-	ArrayList<Layer> layers= new ArrayList<Layer>();
+	ArrayList<DatableObject> _datableObjects = new ArrayList<DatableObject>();
+	ArrayList<Stratum> _layers= new ArrayList<Stratum>();
 
     //------------------------------------------------------------------------
     // Constructor
@@ -45,35 +45,35 @@ public class RadioactiveDatingGameModel {
     
     public RadioactiveDatingGameModel()
     {
-    	artifacts.add(new RadioactiveDatingGameObject("Trilobyte", "trilobyte_fossil.png", new Point2D.Double(0, 0), 0.5, 1E11));
-    	artifacts.add(new RadioactiveDatingGameObject("Animal Skull", "skull_animal.png", new Point2D.Double(5, -6), 0.7, 1E11));
-    	artifacts.add(new RadioactiveDatingGameObject("Living Tree", "tree_1.png", new Point2D.Double(3, -1), 3, 1E11));
-    	artifacts.add(new RadioactiveDatingGameObject("House", "house.png", new Point2D.Double(5, -1), 2, 1E11));
-    	artifacts.add(new RadioactiveDatingGameObject("Fish Fossil", "fish_fossil.png", new Point2D.Double(4, -4), 1, 1E11));
+    	_datableObjects.add(new DatableObject("Trilobyte", "trilobyte_fossil.png", new Point2D.Double(0, 0), 0.5, 1E11));
+    	_datableObjects.add(new DatableObject("Animal Skull", "skull_animal.png", new Point2D.Double(5, -6), 0.7, 1E11));
+    	_datableObjects.add(new DatableObject("Living Tree", "tree_1.png", new Point2D.Double(3, -1), 3, 1E11));
+    	_datableObjects.add(new DatableObject("House", "house.png", new Point2D.Double(5, -1), 2, 1E11));
+    	_datableObjects.add(new DatableObject("Fish Fossil", "fish_fossil.png", new Point2D.Double(4, -4), 1, 1E11));
 
-        layers.add( new Layer( -3, 3 ) );
-        layers.add( new Layer( -6, 3 ) );
-        layers.add( new Layer( -9, 3 ) );
-        layers.add( new Layer( -12, 3 ) );
-        layers.add( new Layer( -15, 3 ) );
+        _layers.add( new Stratum( -3, 3 ) );
+        _layers.add( new Stratum( -6, 3 ) );
+        _layers.add( new Stratum( -9, 3 ) );
+        _layers.add( new Stratum( -12, 3 ) );
+        _layers.add( new Stratum( -16, 4 ) );
     }
 
     //------------------------------------------------------------------------
     // Accessor Methods
     //------------------------------------------------------------------------
     
-    public Iterable<RadioactiveDatingGameObject> getItemIterable(){
-    	return artifacts;
+    public Iterable<DatableObject> getItemIterable(){
+    	return _datableObjects;
     }
-    public Iterable<Layer> getLayerIterable(){
-        return layers;
+    public Iterable<Stratum> getLayerIterable(){
+        return _layers;
     }
 
     public int getLayerCount() {
-        return layers.size();
+        return _layers.size();
     }
 
-    public Layer getLayer( int i ) {
-        return layers.get(i);
+    public Stratum getLayer( int i ) {
+        return _layers.get(i);
     }
 }

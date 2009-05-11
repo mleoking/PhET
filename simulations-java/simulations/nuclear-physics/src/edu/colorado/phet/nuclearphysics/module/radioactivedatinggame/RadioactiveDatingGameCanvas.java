@@ -49,7 +49,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 //    // Constants that control relative sizes and placements of major items on
 //    // the canvas.
 //    private final double BACKGROUND_HEIGHT_PROPORTION = 0.7;     // Vertical fraction of canvas for background.
-    private final double PROPORTIONS_CHART_WIDTH_FRACTION = 0.5; // Fraction of canvas for proportions chart.
+    private final double PROPORTIONS_CHART_WIDTH_FRACTION = 0.5; // Fraction of canvas width for proportions chart.
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -68,12 +68,11 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 
     public RadioactiveDatingGameCanvas(RadioactiveDatingGameModel radioactiveDatingGameModel) {
 
-		setWorldTransformStrategy(new PhetPCanvas.RenderingSizeStrategy(this, new Dimension(768,768)));
-        _model = radioactiveDatingGameModel;
+    	_model = radioactiveDatingGameModel;
+
+    	setWorldTransformStrategy(new PhetPCanvas.RenderingSizeStrategy(this, new Dimension(768,768)));
         _mvt = new ModelViewTransform2D(new Point2D.Double(0, 0), new Point2D.Double(10, -10),
         		new Point(768 / 2, 200), new Point(768, 394),true);
-        System.out.println( "0,10 => "+_mvt.modelToView(0,10 ));
-
 
         // Set the background color.
         setBackground( NuclearPhysicsConstants.CANVAS_BACKGROUND );
@@ -100,7 +99,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         colors.add( new Color( 198, 218, 119 ) );
         colors.add( new Color( 179, 179, 179 ) );
         for (int i=0;i<_model.getLayerCount();i++){
-            addWorldChild(new RadioactiveDatingGameLayerNode(_model.getLayer(i), _mvt,colors.get(  i%colors.size())));
+            addWorldChild(new RadioactiveDatingGameLayerNode(_model.getLayer(i), _mvt,colors.get(i % colors.size())));
         }
 
         // Create the chart that will display relative decay proportions.
@@ -119,7 +118,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         drawDecayCurveOnChart();
 
         // Add the nodes that the user the user can date.
-        for (RadioactiveDatingGameObject item : _model.getItemIterable()){
+        for (DatableObject item : _model.getItemIterable()){
         	addWorldChild(new RadioactiveDatingGameObjectNode(item, _mvt));
         }
     }
@@ -153,6 +152,10 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 //        bufferedImage = BufferedImageUtils.rescaleFractional(bufferedImage, xScale, yScale);
 //        _backgroundImage = new PImage( bufferedImage );
 //        _backgroundImageLayer.addChild( _backgroundImage );
+    	
+    	// Find the bottom of the strata.
+    	
+    	
 
         // Size and locate the proportions chart.
         _proportionsChart.componentResized( new Rectangle2D.Double( 0, 0, newWidth * PROPORTIONS_CHART_WIDTH_FRACTION,
