@@ -5,6 +5,7 @@ import com.jme.image.Texture;
 import com.jme.input.InputHandler;
 import com.jme.input.KeyInput;
 import com.jme.input.MouseInput;
+import com.jme.input.FirstPersonHandler;
 import com.jme.intersection.PickData;
 import com.jme.intersection.TrianglePickResults;
 import com.jme.math.*;
@@ -159,14 +160,17 @@ public class DensityApplication extends PiccoloPhetApplication {
 ////        log("Starting updater bootstrap with cmdArray=" + Arrays.asList(cmdArray).toString());
 //            Runtime.getRuntime().exec(cmdArray);
 //        } else {
-        File codeSource = FileUtils.getCodeSource();
-        File copy = new File(System.getProperty("java.io.tmpdir"), codeSource.getName());
-        copyTo(codeSource, copy);
-        File dir = new File(copy.getParentFile(), "phet-unzipped");
-        unzip(copy, dir);
-        System.out.println("DensityApplication.main, unzip dir=" + dir.getAbsolutePath());
+        if (FileUtils.isJarCodeSource()) {
+            //add natives to path
+            File codeSource = FileUtils.getCodeSource();
+            File copy = new File(System.getProperty("java.io.tmpdir"), codeSource.getName());
+            copyTo(codeSource, copy);
+            File dir = new File(copy.getParentFile(), "phet-unzipped");
+            unzip(copy, dir);
+            System.out.println("DensityApplication.main, unzip dir=" + dir.getAbsolutePath());
 
-        addDir(new File(dir, "natives").getAbsolutePath());
+            addDir(new File(dir, "natives").getAbsolutePath());
+        }
         new PhetApplicationLauncher().launchSim(args, "density", DensityApplication.class);
 //        }
     }
@@ -222,7 +226,7 @@ public class DensityApplication extends PiccoloPhetApplication {
             AWTMouseInput.setup(canvas, false);
 
             // Important! Here is where we add the guts to the panel:
-            impl = new MyImplementor(width, height, display);
+            impl = new MyImplementor(width, height, display,(Component)canvas);
             canvas.setImplementor(impl);
 
             // -----------END OF GL STUFF-------------
@@ -292,6 +296,8 @@ public class DensityApplication extends PiccoloPhetApplication {
             scrollPane.setViewportView(jTree1);
             canvas.setBounds(0, 0, width, height);
             contentPane.add(canvas, BorderLayout.CENTER);
+
+            doResize();
         }
 
         protected void doResize() {
@@ -322,15 +328,17 @@ public class DensityApplication extends PiccoloPhetApplication {
         private InputHandler input;
         private SRRMouse am;
         private DisplaySystem display;
+        private Component canvas;
 
         boolean inited = false;
         private com.jme.scene.Point pointSelection;
         Spatial maggie;
         private com.jme.scene.Line[] selection;
 
-        public MyImplementor(int width, int height, DisplaySystem display) {
+        public MyImplementor(int width, int height, DisplaySystem display,Component canvas) {
             super(width, height);
             this.display = display;
+            this.canvas = canvas;
         }
 
         @Override
@@ -371,6 +379,7 @@ public class DensityApplication extends PiccoloPhetApplication {
             startTime = System.currentTimeMillis() + 5000;
 
             input = new InputHandler();
+//            input = new FirstPersonHandler(cam, 50,1);
         }
 
         private void createSelectionTriangles(int number) {
@@ -464,7 +473,7 @@ public class DensityApplication extends PiccoloPhetApplication {
                 inited = true;
 
                 // Create a new mouse. Restrict its movements to the display screen.
-                am = new SRRMouse("The Mouse", display.getWidth() * 2, display.getHeight() * 2);
+                am = new SRRMouse("The Mouse", display.getWidth() , display.getHeight() );
 //                am.setSpeed(-1);
 
                 // Get a picture for my mouse.
@@ -509,6 +518,8 @@ public class DensityApplication extends PiccoloPhetApplication {
 
 
             input.update(tpf);
+            if (am != null)
+                am.setLimit(canvas.getWidth(), canvas.getHeight());
 
             // Code for rotating the box... no surprises here.
             if (tpf < 1) {

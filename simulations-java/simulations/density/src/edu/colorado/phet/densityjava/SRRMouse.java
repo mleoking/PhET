@@ -40,6 +40,7 @@ package edu.colorado.phet.densityjava;
 
 import com.jme.input.InputHandler;
 import com.jme.input.Mouse;
+import com.jme.input.MouseInput;
 import com.jme.input.action.InputAction;
 import com.jme.input.action.InputActionEvent;
 
@@ -80,10 +81,15 @@ public class SRRMouse extends Mouse {
     //position
     private InputAction xUpdateAction = new InputAction() {
         public void performAction(InputActionEvent evt) {
+            int absolute = MouseInput.get().getXAbsolute();
+            double position = absolute / (float) limitWidth;
+//            System.out.println("absolute = " + absolute + ", limitHeight=" + limitHeight + ", position=" + position + ", trigPos=" + evt.getTriggerPosition());
+//            System.out.println("limitHeight = " + limitHeight);
+            float triggerPosition = (float) position;
             if (isUsingDelta()) {
                 localTranslation.x += evt.getTriggerDelta() * limitWidth * speed; //speed of the action!
             } else {
-                localTranslation.x = evt.getTriggerPosition() * limitWidth * speed - hotSpotOffset.x;
+                localTranslation.x = triggerPosition * limitWidth * speed - hotSpotOffset.x;
             }
 
             if (localTranslation.x + hotSpotOffset.x < 0) {
@@ -97,11 +103,26 @@ public class SRRMouse extends Mouse {
     };
     private InputAction yUpdateAction = new InputAction() {
         public void performAction(InputActionEvent evt) {
-            System.out.println("evt.getTriggerPosition() = " + evt.getTriggerPosition());
+//            System.out.println("evt.getTriggerPosition() = " + evt.getTriggerPosition());
+
+            //see MouseInputHandlerDevice
+
+//                            if ( axis == 0 ) {
+//                    position = MouseInput.get().getXAbsolute() / (float) DisplaySystem.getDisplaySystem().getWidth();
+//                } else if ( axis == 1 ) {
+            int absolute = MouseInput.get().getYAbsolute();
+            double position = absolute / (float) limitHeight;
+//            System.out.println("absolute = " + absolute + ", limitHeight=" + limitHeight + ", position=" + position + ", trigPos=" + evt.getTriggerPosition());
+//            System.out.println("limitHeight = " + limitHeight);
+            float triggerPosition = 1 - (float) position;
+//            double triggerPosition=evt.getTriggerPosition();
+//                }
+
+
             if (isUsingDelta()) {
                 localTranslation.y += evt.getTriggerDelta() * limitHeight * speed;  //speed of the action!
             } else {
-                localTranslation.y = (1.0f - evt.getTriggerPosition()) * limitHeight * speed - hotSpotOffset.y;
+                localTranslation.y = triggerPosition * limitHeight * speed - hotSpotOffset.y;
             }
 
             if (localTranslation.y + hotSpotOffset.y < 0 /*- imageHeight*/) {
@@ -128,8 +149,8 @@ public class SRRMouse extends Mouse {
         super(name);
         this.limitWidth = limitWidth;
         this.limitHeight = limitHeight;
-        getXUpdateAction().setSpeed(0.5f);
-        getYUpdateAction().setSpeed(0.5f);
+        getXUpdateAction().setSpeed(1f);
+        getYUpdateAction().setSpeed(1f);
     }
 
     /**
