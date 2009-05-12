@@ -63,7 +63,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 
     private ModelViewTransform2D _mvt;
     private RadioactiveDatingGameModel _model;
-//    private PNode _backgroundImageLayer;
+    private PNode _backgroundImageLayer;
     private PNode _backgroundImage;
 //    private PNode _datableArtifactsLayer;
     private NuclearDecayProportionChart _proportionsChart;
@@ -91,8 +91,8 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         setBackground( NuclearPhysicsConstants.CANVAS_BACKGROUND );
 
         // Create the layer where the background will be placed.
-//        _backgroundImageLayer = new PNode();
-//        addScreenChild(_backgroundImageLayer);
+        _backgroundImageLayer = new PNode();
+        addWorldChild(_backgroundImageLayer);
 
         // Create the layer where the datable items will be located.
 //        _datableArtifactsLayer = new PNode();
@@ -101,10 +101,9 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         // Load the background image.
         BufferedImage bufferedImage = NuclearPhysicsResources.getImage( "dating-game-background.png" );
         _backgroundImage = new PImage( bufferedImage );
-//        _backgroundImageLayer.addChild( _backgroundImage );
+        _backgroundImageLayer.addChild( _backgroundImage );
 
-//        PNode layers=new PNode();
-                // Add the nodes that the user the user can date.
+        // Add the strata that will contain the datable items.
         ArrayList<Color> colors=new ArrayList<Color>( );
         colors.add( new Color( 111, 131, 151 ) );
         colors.add( new Color( 153, 185, 216 ) );
@@ -115,6 +114,12 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
             addWorldChild(new RadioactiveDatingGameLayerNode(_model.getLayer(i), _mvt,colors.get(i % colors.size())));
         }
 
+        // Add the nodes that represent the items on which the user can
+        // perform radiometric dating.
+        for (DatableObject item : _model.getItemIterable()){
+        	addWorldChild(new RadioactiveDatingGameObjectNode(item, _mvt));
+        }
+        
         // Create the chart that will display relative decay proportions.
         _proportionsChart = new NuclearDecayProportionChart.Builder(Carbon14Nucleus.HALF_LIFE * 3.2,
         		Carbon14Nucleus.HALF_LIFE, NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL,
@@ -144,11 +149,6 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         _testShape.setStrokePaint(Color.red);
         _testShape.setPaint(Color.red);
         addScreenChild(_testShape);
-
-        // Add the nodes that the user the user can date.
-        for (DatableObject item : _model.getItemIterable()){
-        	addWorldChild(new RadioactiveDatingGameObjectNode(item, _mvt));
-        }
     }
 
     //------------------------------------------------------------------------
@@ -171,39 +171,12 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
      */
     private void resizeAndPositionNodes( double newWidth, double newHeight ){
 
-    	// TODO: Really crude workaround for a resizing issue.  Get rid of this soon.
-    	if (newWidth == 919){
-    		return;
-    	}
-
-        // Reload and scale the background image.  This is necessary (I think)
-    	// because PNodes can't be scaled differently in the x and y
-    	// dimensions, and we want to be able to handle the case where the
-    	// user changes the aspect ratio.
-//    	_backgroundImageLayer.removeChild( _backgroundImage );
-//    	BufferedImage bufferedImage = NuclearPhysicsResources.getImage( "dating-game-background.png" );
-//        double xScale = newWidth / (double)bufferedImage.getWidth();
-//        double yScale = BACKGROUND_HEIGHT_PROPORTION * newHeight / (double)bufferedImage.getHeight();
-//        bufferedImage = BufferedImageUtils.rescaleFractional(bufferedImage, xScale, yScale);
-//        _backgroundImage = new PImage( bufferedImage );
-//        _backgroundImageLayer.addChild( _backgroundImage );
-    	
-    	// Find the bottom of the strata.
-    	double bottomOfStrata = _model.getBottomOfStrata();
-    	bottomOfStrata = _mvt.modelToViewYDouble(bottomOfStrata);
-    	Point2D pt = new Point2D.Double(0, bottomOfStrata);
-    	pt = _referenceNode.localToGlobal(pt);
-    	bottomOfStrata = pt.getY();
-
-        // Size and locate the proportions chart.
-//        _proportionsChart.componentResized( new Rectangle2D.Double( 0, 0, newWidth * PROPORTIONS_CHART_WIDTH_FRACTION,
-//        		CHART_HEIGHT ));
-//
-//        _proportionsChart.setOffset(newWidth / 2 - _proportionsChart.getFullBoundsReference().width / 2,
-//        		newHeight - _proportionsChart.getFullBoundsReference().height);
-        
-        // Locate the test node.
-//       _testShape.setOffset(10, bottomOfStrata);
+    	// TODO: I (jblanco) started down a path where some nodes were being
+    	// explicitly repositioned when the window was resized, but then
+    	// created a new transform in the canvas that seems (at least
+    	// initially) to do what is needed automatically.  So, this method
+    	// can probably go at some point, but keep it for a while just in case
+    	// the whole transform thing doesn't work out.
     }
 
     /**
