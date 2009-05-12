@@ -3,47 +3,53 @@ package edu.colorado.phet.acidbasesolutions.model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import edu.colorado.phet.acidbasesolutions.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.model.Solute.SoluteListener;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
 /**
- * Base class for all aqueous solutions.
+ * In chemistry, a solution is a homogeneous mixture composed of two or more substances.
+ * In such a mixture, a solute is dissolved in another substance, known as a solvent.
+ * In an aqueous solution, the solvent is water. 
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class AqueousSolution {
+public class AqueousSolution {
 
-    private final Solute solute;
-    private final Water water;
-    private double initialConcentration;
+    private Solute solute;
+    private ConcentrationModel concentrationModel;
     private final ArrayList<SolutionListener> listeners;
+    private final SoluteListener soluteListener;
     
-    protected AqueousSolution( Solute solute ) {
-        this.solute = solute;
-        this.water = new Water();
-        this.initialConcentration = ABSConstants.CONCENTRATION_RANGE.getMin();
+    public AqueousSolution( Solute solute ) {
         this.listeners = new ArrayList<SolutionListener>();
+        this.soluteListener = new SoluteListener() {
+            public void concentrationChanged() {
+                notifyConcentrationChanged();
+            }
+
+            public void strengthChanged() {
+                notifyStrengthChanged();
+            }
+        };
+        setSolute( solute );
+    }
+    
+    public void setSolute( Solute solute ) {
+        if ( this.solute != null ) {
+            this.solute.removeSoluteListener( soluteListener );
+        }
+        this.solute = solute;
+        this.solute.addSoluteListener( soluteListener );
+        this.concentrationModel = ConcentrationModelFactory.getModel( this.solute );
+        notifySoluteChanged();
     }
     
     public Solute getSolute() {
         return solute;
     }
     
-    public Water getWater() {
-        return water;
-    }
-    
-    // c
-    public void setInitialConcentration( double initialConcentration ) {
-        if ( initialConcentration != this.initialConcentration ) {
-            this.initialConcentration = initialConcentration;
-            notifyConcentrationChanged();
-        }
-    }
-    
-    // c
-    public double getInitialConcentration() {
-        return initialConcentration;
+    public ConcentrationModel getConcentrationModel() {
+        return concentrationModel;
     }
     
     public void setStrength( double strength ) {
@@ -54,12 +60,22 @@ public abstract class AqueousSolution {
         return solute.getStrength();
     }
     
+    public void setInitialConcentration( double initialConcentration ) {
+        solute.setInitialConcentration( initialConcentration );
+    }
+    
+    public double getInitialConcentration() {
+        return solute.getInitialConcentration();
+    }
+    
     public String toString() {
         return HTMLUtils.toHTMLString( solute.getName() + " (" + solute.getSymbol() + ")" );
     }
     
     public interface SolutionListener {
+        public void soluteChanged();
         public void concentrationChanged();
+        public void strengthChanged();
     }
     
     public void addSolutionListener( SolutionListener listener ) {
@@ -70,10 +86,24 @@ public abstract class AqueousSolution {
         listeners.remove( listener );
     }
     
+    private void notifySoluteChanged() {
+        Iterator<SolutionListener> i = listeners.iterator();
+        while ( i.hasNext() ) {
+            i.next().soluteChanged();
+        }
+    }
+    
     private void notifyConcentrationChanged() {
         Iterator<SolutionListener> i = listeners.iterator();
         while ( i.hasNext() ) {
             i.next().concentrationChanged();
+        }
+    }
+    
+    private void notifyStrengthChanged() {
+        Iterator<SolutionListener> i = listeners.iterator();
+        while ( i.hasNext() ) {
+            i.next().strengthChanged();
         }
     }
 }

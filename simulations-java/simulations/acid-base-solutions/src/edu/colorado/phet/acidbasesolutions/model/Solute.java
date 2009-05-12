@@ -3,14 +3,18 @@ package edu.colorado.phet.acidbasesolutions.model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import edu.colorado.phet.acidbasesolutions.ABSConstants;
+
 
 public abstract class Solute extends Molecule {
     
+    private double initialConcentration;
     private double strength;
     private final ArrayList<SoluteListener> listeners;
     
     protected Solute( String name, String symbol, double strength ) {
         super( name, symbol );
+        this.initialConcentration = ABSConstants.CONCENTRATION_RANGE.getMin();
         if ( !isValidStrength( strength ) ) {
             throw new IllegalArgumentException( "strength is invalid: " + strength );
         }
@@ -34,8 +38,22 @@ public abstract class Solute extends Molecule {
         return strength;
     }
     
+    // c
+    public void setInitialConcentration( double initialConcentration ) {
+        if ( initialConcentration != this.initialConcentration ) {
+            this.initialConcentration = initialConcentration;
+            notifyConcentrationChanged();
+        }
+    }
+    
+    // c
+    public double getInitialConcentration() {
+        return initialConcentration;
+    }
+    
     public interface SoluteListener {
         public void strengthChanged();
+        public void concentrationChanged();
     }
     
     public void addSoluteListener( SoluteListener listener ) {
@@ -50,6 +68,13 @@ public abstract class Solute extends Molecule {
         Iterator<SoluteListener> i = listeners.iterator();
         while ( i.hasNext() ) {
             i.next().strengthChanged();
+        }
+    }
+    
+    private void notifyConcentrationChanged() {
+        Iterator<SoluteListener> i = listeners.iterator();
+        while ( i.hasNext() ) {
+            i.next().concentrationChanged();
         }
     }
 }
