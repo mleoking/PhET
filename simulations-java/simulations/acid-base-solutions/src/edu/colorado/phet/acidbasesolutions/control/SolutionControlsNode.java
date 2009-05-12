@@ -1,11 +1,17 @@
 package edu.colorado.phet.acidbasesolutions.control;
 
 import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.geom.Line2D;
 import java.awt.geom.RoundRectangle2D;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
@@ -36,14 +42,24 @@ public class SolutionControlsNode extends PhetPNode {
     private final SoluteComboBox soluteComboBox;
     private final ConcentrationControlNode concentrationControlNode;
     private final StrengthSliderNode strengthSliderNode;
+    private final ArrayList<SolutionControlsListener> listeners;
 
     public SolutionControlsNode() {
         super();
+        
+        listeners = new ArrayList<SolutionControlsListener>();
         
         PNode soluteLabel = new LabelNode( ABSStrings.LABEL_SOLUTE );
         addChild( soluteLabel );
         
         soluteComboBox = new SoluteComboBox();
+        soluteComboBox.addItemListener( new ItemListener() {
+            public void itemStateChanged( ItemEvent e ) {
+                if ( e.getStateChange() == ItemEvent.SELECTED ) {
+                    notifySoluteChanged();
+                }
+            }
+        } );
         PSwing soluteComboBoxWrapper = new PSwing( soluteComboBox );
         addChild( soluteComboBoxWrapper );
         
@@ -51,12 +67,22 @@ public class SolutionControlsNode extends PhetPNode {
         addChild( concentrationLabel );
         
         concentrationControlNode = new ConcentrationControlNode( ABSConstants.CONCENTRATION_RANGE );
+        concentrationControlNode.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                notifyConcentrationChanged();
+            }
+        });
         addChild( concentrationControlNode );
         
         PNode strengthLabel = new LabelNode( ABSStrings.LABEL_STRENGTH );
         addChild( strengthLabel );
         
         strengthSliderNode = new StrengthSliderNode( ABSConstants.WEAK_STRENGTH_RANGE, ABSConstants.STRONG_STRENGTH_RANGE );
+        strengthSliderNode.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                notifyStrengthChanged();
+            }
+        });
         addChild( strengthSliderNode );
         
         // layout
@@ -99,6 +125,32 @@ public class SolutionControlsNode extends PhetPNode {
         addChild( 0, backgroundNode );
     }
     
+    public void setConcentration( double concentration ) {
+        concentrationControlNode.setValue( concentration );
+    }
+    
+    //XXX
+    public Object getSolute() {
+        return soluteComboBox.getSelectedItem();
+    }
+    
+    //XXX
+    public void resetSolute() {
+        soluteComboBox.reset();
+    }
+    
+    public double getConcentration() {
+        return concentrationControlNode.getValue();
+    }
+    
+    public void setStrength( double strength ) {
+        strengthSliderNode.setValue( strength );
+    }
+    
+    public double getStrength() {
+        return strengthSliderNode.getValue();
+    }
+    
     private static class LabelNode extends PText {
         
         public LabelNode( String text ) {
@@ -132,6 +184,41 @@ public class SolutionControlsNode extends PhetPNode {
         }
     }
     
+    public interface SolutionControlsListener {
+        public void soluteChanged();
+        public void concentrationChanged();
+        public void strengthChanged();
+    }
+    
+    public void addSolutionControlsListener( SolutionControlsListener listener ) {
+        listeners.add( listener );
+    }
+    
+    public void removeSolutionControlsListener( SolutionControlsListener listener ) {
+        listeners.remove( listener );
+    }
+    
+    private void notifySoluteChanged() {
+        Iterator<SolutionControlsListener> i = listeners.iterator();
+        while ( i.hasNext() ) {
+            i.next().soluteChanged();
+        }
+    }
+    
+    private void notifyConcentrationChanged() {
+        Iterator<SolutionControlsListener> i = listeners.iterator();
+        while ( i.hasNext() ) {
+            i.next().concentrationChanged();
+        }
+    }
+    
+    private void notifyStrengthChanged() {
+        Iterator<SolutionControlsListener> i = listeners.iterator();
+        while ( i.hasNext() ) {
+            i.next().strengthChanged();
+        }
+    }
+    
     // test
     public static void main( String[] args ) {
 
@@ -141,7 +228,7 @@ public class SolutionControlsNode extends PhetPNode {
 
         SolutionControlsNode controlsNode = new SolutionControlsNode();
         canvas.getLayer().addChild( controlsNode );
-        controlsNode.setOffset( 100, 100 );
+        controlsNode.setOffset( 50, 50 );
 
         JPanel panel = new JPanel( new BorderLayout() );
         panel.add( canvas, BorderLayout.CENTER );
