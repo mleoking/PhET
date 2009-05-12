@@ -1,4 +1,4 @@
-﻿// PreferencesDialog.as
+// PreferencesDialog.as
 //
 // Shows a dialog which allows the user to change their
 // preferences that deal with updates and privacy.
@@ -49,6 +49,7 @@ class edu.colorado.phet.flashcommon.PreferencesDialog {
 	
 	public function PreferencesDialog() {
 		//debug("PreferencesDialog initializing\n");
+        _level0.preferencesDialog = this;
 		
 		// shortcut to FlashCommon, but now with type-checking!
 		common = _level0.common;

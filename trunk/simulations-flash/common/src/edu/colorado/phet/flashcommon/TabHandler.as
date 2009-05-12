@@ -1,4 +1,4 @@
-﻿// TabHandler.as
+// TabHandler.as
 //
 // Handles keyboard accessibility by use of the TAB key
 //
@@ -36,6 +36,10 @@ class edu.colorado.phet.flashcommon.TabHandler {
 	public var common : FlashCommon;
 	
 	private var debugMain : Boolean;
+
+    private static var handlerCount : Number = 0;
+
+    private var handlerId : Number;
 	
 	// shorthand for debugging function
 	public function debug(str : String) : Void {
@@ -46,6 +50,7 @@ class edu.colorado.phet.flashcommon.TabHandler {
 	public function TabHandler( main : Boolean ) {
 		//debug("Initializing TabHandler\n");
 		debugMain = main;
+        handlerId = handlerCount++;
 		
 		// shortcut to FlashCommon, but now with type-checking!
 		common = _level0.common;
@@ -128,7 +133,7 @@ class edu.colorado.phet.flashcommon.TabHandler {
 	}
 	
 	// register a callback to be called when obj is in focus and key is pressed
-	public function registerKey(obj : Object, key : Number, callback : Function) : Void {
+	public function registerKey(obj : Object, key : Number, callback : Function) {
 		//throw new Error("TabHandler.registerKey not implemented yet");
 		var idx : Number = findIndex(obj);
 		if(idx == -1) {
@@ -142,7 +147,7 @@ class edu.colorado.phet.flashcommon.TabHandler {
 	// make a specific object in the tab-order act like a button. this will
 	// cause space/enter keyboard events to fire specific events within the
 	// control to simulate a button-press and release.
-	public function registerButton(obj : Object) : Void {
+	public function registerButton(obj : Object) {
 		var idx : Number = findIndex(obj);
 		if(idx == -1) { return; }
 		entries[idx].buttonlike = true;
@@ -202,7 +207,7 @@ class edu.colorado.phet.flashcommon.TabHandler {
 	
 	// used to set an entry to be the one in focus
 	public function addFocus(entry : TabEntry) {
-		
+		_level0.debug( "TabHandler AddFocus() " + toString() + "\n" );
 		
 		//debug("TabHandler: Adding focus to:\n" + entry.toString());
 		
@@ -287,6 +292,7 @@ class edu.colorado.phet.flashcommon.TabHandler {
 	
 	// used to remove an entry from focus. done before a new entry is focused
 	public function removeFocus(entry : TabEntry) {
+        _level0.debug( "TabHandler removeFocus() " + toString() + "\n" );
 		//debug("TabHandler: Removing focus from:\n" + entry.toString());
 		entry.control.removeFocus();
 		Selection.setFocus(dummyText);
@@ -298,7 +304,7 @@ class edu.colorado.phet.flashcommon.TabHandler {
 	}
 	
 	// called from objects when they are somehow selected (for instance, with the mouse)
-	public function setFocus(obj : Object) : Void {
+	public function setFocus(obj : Object) {
 		// if we are already focused on this control, ignore
 		if(obj == currentControl()) { return; }
 		
@@ -349,16 +355,27 @@ class edu.colorado.phet.flashcommon.TabHandler {
 	}
 	
 	public function onAddFocus() {
+        _level0.debug( "TabHandler onAddFocus() " + toString() + "\n" );
 		if(entries.length > 0 && active) {
-			active = true;
-			addFocus(currentEntry());
+            if( debugMain ) {
+                active = true;
+                addFocus(currentEntry());
+            } else {
+                active = false;
+                currentIndex = -1;
+            }
 		}
 	}
 	
 	public function onRemoveFocus() {
+        _level0.debug( "TabHandler onRemoveFocus() " + toString() + "\n" );
 		if( active ) {
 			removeFocus( currentEntry() );
 		}
 	}
+
+    public function toString() : String {
+        return "#" + String( handlerId ) + " active:" + String( active ) + " entries:" + String( entries.length ); 
+    }
 }
 
