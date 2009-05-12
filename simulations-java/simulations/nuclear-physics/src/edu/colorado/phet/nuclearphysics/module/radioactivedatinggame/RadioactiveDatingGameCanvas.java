@@ -24,6 +24,7 @@ import edu.colorado.phet.nuclearphysics.view.NuclearDecayProportionChart;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -49,7 +50,12 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 //    // Constants that control relative sizes and placements of major items on
 //    // the canvas.
 //    private final double BACKGROUND_HEIGHT_PROPORTION = 0.7;     // Vertical fraction of canvas for background.
-    private final double PROPORTIONS_CHART_WIDTH_FRACTION = 0.5; // Fraction of canvas width for proportions chart.
+    private final int INITIAL_INTERMEDIATE_COORD_WIDTH = 1016;
+    private final int INITIAL_INTERMEDIATE_COORD_HEIGHT = 593;
+    private final Dimension INITIAL_INTERMEDIATE_DIMENSION = new Dimension( INITIAL_INTERMEDIATE_COORD_WIDTH,
+    		INITIAL_INTERMEDIATE_COORD_HEIGHT );
+    private final double PROPORTIONS_CHART_WIDTH_FRACTION = 0.7; // Fraction of canvas width for proportions chart.
+    private final double CHART_HEIGHT = 200; // Chart height in screen coordinates
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -61,6 +67,8 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     private PNode _backgroundImage;
 //    private PNode _datableArtifactsLayer;
     private NuclearDecayProportionChart _proportionsChart;
+    private PPath _testShape;
+    private PNode _referenceNode; // For positioning other nodes.
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -70,10 +78,15 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 
     	_model = radioactiveDatingGameModel;
 
-    	setWorldTransformStrategy(new PhetPCanvas.RenderingSizeStrategy(this, new Dimension(768,768)));
-        _mvt = new ModelViewTransform2D(new Point2D.Double(0, 0), new Point2D.Double(10, -10),
-        		new Point(768 / 2, 200), new Point(768, 394),true);
+    	setWorldTransformStrategy(new PhetPCanvas.CenterWidthScaleHeight(this, INITIAL_INTERMEDIATE_DIMENSION));
+        _mvt = new ModelViewTransform2D(new Point2D.Double(0, 0), new Point2D.Double(10, -30),
+        		new Point(INITIAL_INTERMEDIATE_COORD_WIDTH / 2, INITIAL_INTERMEDIATE_COORD_HEIGHT / 4),
+        		new Point(INITIAL_INTERMEDIATE_COORD_WIDTH, INITIAL_INTERMEDIATE_COORD_HEIGHT),true);
 
+        // Add a reference node that will be used when positioning other nodes later.
+        _referenceNode = new PNode();
+        addWorldChild(_referenceNode);
+        
         // Set the background color.
         setBackground( NuclearPhysicsConstants.CANVAS_BACKGROUND );
 
@@ -113,9 +126,24 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         		timeMarkerLabelEnabled(true).
         		build();
         addWorldChild(_proportionsChart);
+        
+        // TODO: If I end up leaving this as a world child, I need to change this
+        // resizing call to be a part of the constructor for the chart (I think).
+        _proportionsChart.componentResized( new Rectangle2D.Double( 0, 0, 
+        		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_CHART_WIDTH_FRACTION,
+        		INITIAL_INTERMEDIATE_COORD_HEIGHT - _mvt.modelToViewYDouble(_model.getBottomOfStrata())));
+        _proportionsChart.setOffset(
+        		INITIAL_INTERMEDIATE_COORD_WIDTH / 2 - _proportionsChart.getFullBoundsReference().width / 2,
+        		_mvt.modelToViewYDouble(_model.getBottomOfStrata()));
 
         // Add decay curve to chart.
         drawDecayCurveOnChart();
+        
+        // Draw a test shape.  TODO: This should eventually be removed.
+        _testShape = new PPath( new Rectangle2D.Double(0, 0, 10, 10));
+        _testShape.setStrokePaint(Color.red);
+        _testShape.setPaint(Color.red);
+        addScreenChild(_testShape);
 
         // Add the nodes that the user the user can date.
         for (DatableObject item : _model.getItemIterable()){
@@ -134,6 +162,13 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     	}
     }
 
+    /**
+     * Resize and position the nodes that need to have this done explicitly,
+     * as opposed to the nodes where the canvas takes care of it for us.
+     * 
+     * @param newWidth
+     * @param newHeight
+     */
     private void resizeAndPositionNodes( double newWidth, double newHeight ){
 
     	// TODO: Really crude workaround for a resizing issue.  Get rid of this soon.
@@ -156,13 +191,19 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     	// Find the bottom of the strata.
     	double bottomOfStrata = _model.getBottomOfStrata();
     	bottomOfStrata = _mvt.modelToViewYDouble(bottomOfStrata);
+    	Point2D pt = new Point2D.Double(0, bottomOfStrata);
+    	pt = _referenceNode.localToGlobal(pt);
+    	bottomOfStrata = pt.getY();
 
         // Size and locate the proportions chart.
-        _proportionsChart.componentResized( new Rectangle2D.Double( 0, 0, newWidth * PROPORTIONS_CHART_WIDTH_FRACTION,
-        		( newHeight - bottomOfStrata ) * 0.95 ) );
-
-        _proportionsChart.setOffset(newWidth / 2 - _proportionsChart.getFullBoundsReference().width / 2,
-        		_backgroundImage.getFullBoundsReference().height + 3);
+//        _proportionsChart.componentResized( new Rectangle2D.Double( 0, 0, newWidth * PROPORTIONS_CHART_WIDTH_FRACTION,
+//        		CHART_HEIGHT ));
+//
+//        _proportionsChart.setOffset(newWidth / 2 - _proportionsChart.getFullBoundsReference().width / 2,
+//        		newHeight - _proportionsChart.getFullBoundsReference().height);
+        
+        // Locate the test node.
+//       _testShape.setOffset(10, bottomOfStrata);
     }
 
     /**
