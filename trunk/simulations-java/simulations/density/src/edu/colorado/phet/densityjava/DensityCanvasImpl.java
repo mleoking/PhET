@@ -247,22 +247,23 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
         }
 
 
+        Vector2f screenPos = new Vector2f();
+        // Get the position that the mouse is pointing to
+        screenPos.set(am.getHotSpotPosition().x, am.getHotSpotPosition().y);
+        // Get the world location of that X,Y value
+        Vector3f worldCoords = display.getWorldCoordinates(screenPos, 1.0f);
+        // Create a ray starting from the camera, and going in the direction
+        // of the mouse's location
+        final Ray mouseRay = new Ray(cam.getLocation(), worldCoords.subtractLocal(cam.getLocation()));
+        mouseRay.getDirection().normalizeLocal();
+
         // Is button 0 down? Button 0 is left click
         if (MouseInput.get().isButtonDown(0)) {
-            Vector2f screenPos = new Vector2f();
-            // Get the position that the mouse is pointing to
-            screenPos.set(am.getHotSpotPosition().x, am.getHotSpotPosition().y);
-            // Get the world location of that X,Y value
-            Vector3f worldCoords = display.getWorldCoordinates(screenPos, 1.0f);
-            // Create a ray starting from the camera, and going in the direction
-            // of the mouse's location
-            final Ray mouseRay = new Ray(cam.getLocation(), worldCoords.subtractLocal(cam.getLocation()));
-            mouseRay.getDirection().normalizeLocal();
             results.clear();
-
             box.calculatePick(mouseRay, results);
-
         }
-
+        Vector3f newV = new Vector3f(worldCoords.x, worldCoords.y, -10);
+        box.setLocalTranslation(newV);
+        System.out.println("box=" + box.getLocalTranslation() + ", am=" + am.getHotSpotPosition() + ", am.world=" + worldCoords);
     }
 }
