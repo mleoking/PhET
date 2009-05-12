@@ -2,11 +2,11 @@ package edu.colorado.phet.densityjava;
 
 import com.jme.input.KeyInput;
 import com.jme.system.DisplaySystem;
+import com.jme.system.canvas.JMECanvas;
 import com.jme.system.lwjgl.LWJGLSystemProvider;
 import com.jme.util.GameTaskQueueManager;
 import com.jmex.awt.input.AWTMouseInput;
 import com.jmex.awt.lwjgl.LWJGLAWTCanvasConstructor;
-import com.jmex.awt.lwjgl.LWJGLCanvas;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,7 +23,7 @@ import java.util.concurrent.Callable;
 class TestJMEPanel extends JPanel {
     int width = 640, height = 480;
     JPanel mainPanel = new JPanel();
-    LWJGLCanvas canvas = null;
+    JMECanvas canvas = null;
     JButton coolButton = new JButton();
     JButton uncoolButton = new JButton();
     JPanel spPanel = new JPanel();
@@ -51,13 +51,13 @@ class TestJMEPanel extends JPanel {
         // make the canvas:
         DisplaySystem display = DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER);
         display.registerCanvasConstructor("AWT", LWJGLAWTCanvasConstructor.class);
-        canvas = (LWJGLCanvas) display.createCanvas(width, height);
+        canvas = display.createCanvas(width, height);
         canvas.setUpdateInput(true);
         canvas.setTargetRate(60);
 
         // add a listener... if window is resized, we can do something about
         // it.
-        canvas.addComponentListener(new ComponentAdapter() {
+        ((Component) canvas).addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent ce) {
                 doResize();
             }
@@ -66,8 +66,8 @@ class TestJMEPanel extends JPanel {
         // Setup key and mouse input
         KeyInput.setProvider(KeyInput.INPUT_AWT);
         KeyListener kl = (KeyListener) KeyInput.get();
-        canvas.addKeyListener(kl);
-        AWTMouseInput.setup(canvas, false);
+        ((Component) canvas).addKeyListener(kl);
+        AWTMouseInput.setup((Canvas) canvas, false);
 
         // Important! Here is where we add the guts to the panel:
         impl = new DensityCanvasImpl(width, height, display, (Component) canvas);
@@ -90,7 +90,7 @@ class TestJMEPanel extends JPanel {
                 colorPanel.setBackground(color);
                 Callable<?> call = new Callable<Object>() {
                     public Object call() throws Exception {
-                        canvas.setBackground(color);
+                        ((Component) canvas).setBackground(color);
                         return null;
                     }
                 };
@@ -138,15 +138,15 @@ class TestJMEPanel extends JPanel {
         spPanel.add(scrollPane, BorderLayout.CENTER);
 
         scrollPane.setViewportView(jTree1);
-        canvas.setBounds(0, 0, width, height);
-        add(canvas, BorderLayout.CENTER);
+        ((Component) canvas).setBounds(0, 0, width, height);
+        add((Component) canvas, BorderLayout.CENTER);
 
         doResize();
     }
 
     protected void doResize() {
         if (scaleBox != null && scaleBox.isSelected()) {
-            impl.resizeCanvas(canvas.getWidth(), canvas.getHeight());
+            impl.resizeCanvas(((Component) canvas).getWidth(), ((Component) canvas).getHeight());
         } else {
             impl.resizeCanvas(width, height);
         }
