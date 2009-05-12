@@ -1,4 +1,6 @@
-package edu.colorado.phet.acidbasesolutions.model;
+package edu.colorado.phet.acidbasesolutions.model.concentration;
+
+import edu.colorado.phet.acidbasesolutions.model.Solute;
 
 
 public abstract class ConcentrationModel {

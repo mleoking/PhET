@@ -1,6 +1,8 @@
-package edu.colorado.phet.acidbasesolutions.model;
+package edu.colorado.phet.acidbasesolutions.model.concentration;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.model.Acid;
+import edu.colorado.phet.acidbasesolutions.model.Water;
 import edu.colorado.phet.acidbasesolutions.model.Acid.IntermediateAcid;
 
 

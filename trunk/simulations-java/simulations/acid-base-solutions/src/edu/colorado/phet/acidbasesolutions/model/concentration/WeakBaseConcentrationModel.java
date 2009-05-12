@@ -1,5 +1,7 @@
-package edu.colorado.phet.acidbasesolutions.model;
+package edu.colorado.phet.acidbasesolutions.model.concentration;
 
+import edu.colorado.phet.acidbasesolutions.model.Base;
+import edu.colorado.phet.acidbasesolutions.model.Water;
 import edu.colorado.phet.acidbasesolutions.model.Base.WeakBase;
 
 
