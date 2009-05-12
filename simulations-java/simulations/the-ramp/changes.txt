@@ -1,3 +1,4 @@
+Centered the object selection panel
 Fixed: Object falls off edge at wrong spot
 # 1.03.19 (31397) May 6, 2009
 Performance improvements
