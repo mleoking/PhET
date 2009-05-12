@@ -98,7 +98,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 //        addScreenChild(_datableArtifactsLayer);
 
         // Load the background image.
-        BufferedImage bufferedImage = NuclearPhysicsResources.getImage( "dating-game-background.png" );
+        BufferedImage bufferedImage = NuclearPhysicsResources.getImage( "green-hills-and-sky.png" );
         _backgroundImage = new PImage( bufferedImage );
         _backgroundImageLayer.addChild( _backgroundImage );
 
