@@ -8,25 +8,14 @@ import edu.colorado.phet.acidbasesolutions.ABSSymbols;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PureWater {
+public class Water {
     
     private static final double W = 55.6; // concentration, mol/L
     private static final double Kw = 1E-14; // equilibrium constant
     private static final double H3O_CONCENTRATION = 1E-7;
     private static final double OH_CONCENTRATION = 1E-7;
 
-    private static final PureWater INSTANCE = new PureWater();
-    
-    /**
-     * Gets the singleton instance.
-     * @return
-     */
-    public static PureWater getInstance() {
-        return INSTANCE;
-    }
-    
-    /* singleton */
-    private PureWater() {}
+    public Water() {}
     
     public String getName() {
         return ABSStrings.PURE_WATER;
@@ -40,7 +29,7 @@ public class PureWater {
         return W;
     }
     
-    public double getEquilibriumConstant() {
+    public static double getEquilibriumConstant() {
         return Kw;
     }
     

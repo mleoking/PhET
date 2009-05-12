@@ -4,7 +4,7 @@ import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.model.Base.IntermediateBase;
 
 
-public class IntermediateBaseSolution extends Solution {
+public class IntermediateBaseSolution extends AqueousSolution {
 
     private final IntermediateBase base;
     
@@ -40,7 +40,7 @@ public class IntermediateBaseSolution extends Solution {
     
     // [H3O+] = Kw / [OH-]
     public double getH3OConcentration() {
-        return PureWater.getInstance().getEquilibriumConstant() / getOHConcentration();
+        return Water.getEquilibriumConstant() / getOHConcentration();
     }
     
     // [OH-] = [BH+]
@@ -50,6 +50,6 @@ public class IntermediateBaseSolution extends Solution {
     
     // [H2O] = W - [BH+]
     public double getH2OConcentration() {
-        return PureWater.getInstance().getConcentration() - getAcidConcentration();
+        return getWater().getConcentration() - getAcidConcentration();
     }
 }

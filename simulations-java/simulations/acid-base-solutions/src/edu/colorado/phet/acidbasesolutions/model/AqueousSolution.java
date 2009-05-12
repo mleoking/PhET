@@ -8,14 +8,20 @@ import java.util.Iterator;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class Solution {
+public abstract class AqueousSolution {
 
+    private final Water water;
     private double initialConcentration;
     private final ArrayList<SolutionListener> listeners;
     
-    protected Solution( double initialConcentration ) {
+    protected AqueousSolution( double initialConcentration ) {
+        this.water = new Water();
         this.initialConcentration = initialConcentration;
         this.listeners = new ArrayList<SolutionListener>();
+    }
+    
+    public Water getWater() {
+        return water;
     }
     
     // c
