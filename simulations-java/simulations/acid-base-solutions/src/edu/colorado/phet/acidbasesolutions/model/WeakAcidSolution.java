@@ -1,7 +1,6 @@
 package edu.colorado.phet.acidbasesolutions.model;
 
-import edu.colorado.phet.acidbasesolutions.model.Acid.CustomWeakAcid;
-import edu.colorado.phet.acidbasesolutions.model.Acid.WeakAcid;
+import edu.colorado.phet.acidbasesolutions.model.Acid.*;
 
 
 
@@ -9,7 +8,7 @@ public class WeakAcidSolution extends AqueousSolution {
 
     private final WeakAcid acid;
     
-    public WeakAcidSolution( WeakAcid acid ) {
+    protected WeakAcidSolution( WeakAcid acid ) {
         super( acid );
         this.acid = acid;
     }
@@ -43,6 +42,30 @@ public class WeakAcidSolution extends AqueousSolution {
     // [H2O] = W - [A-]
     public double getH2OConcentration() {
         return getWater().getConcentration() - getBaseConcentration();
+    }
+    
+    public static class AceticAcidSolution extends WeakAcidSolution {
+        public AceticAcidSolution() {
+            super( new AceticAcid() );
+        }
+    }
+    
+    public static class ChlorousAcidSolution extends WeakAcidSolution {
+        public ChlorousAcidSolution() {
+            super( new ChlorousAcid() );
+        }
+    }
+    
+    public static class HydrofluoricAcidSolution extends WeakAcidSolution {
+        public HydrofluoricAcidSolution() {
+            super( new HydrofluoricAcid() );
+        }
+    }
+    
+    public static class HypochlorusAcidSolution extends WeakAcidSolution {
+        public HypochlorusAcidSolution() {
+            super( new HypochlorusAcid() );
+        }
     }
 
     public static class CustomWeakAcidSolution extends WeakAcidSolution {

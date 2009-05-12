@@ -1,6 +1,8 @@
 package edu.colorado.phet.acidbasesolutions.model;
 
 import edu.colorado.phet.acidbasesolutions.model.Acid.CustomStrongAcid;
+import edu.colorado.phet.acidbasesolutions.model.Acid.HydrochloricAcid;
+import edu.colorado.phet.acidbasesolutions.model.Acid.PerchloricAcid;
 import edu.colorado.phet.acidbasesolutions.model.Acid.StrongAcid;
 
 
@@ -10,7 +12,7 @@ public class StrongAcidSolution extends AqueousSolution {
     
     private final StrongAcid acid;
     
-    public StrongAcidSolution( StrongAcid acid ) {
+    protected StrongAcidSolution( StrongAcid acid ) {
         super( acid );
         this.acid = acid;
     }
@@ -42,6 +44,18 @@ public class StrongAcidSolution extends AqueousSolution {
     // [H2O] = W - c
     public double getH2OConcentration() {
         return getWater().getConcentration() - getInitialConcentration();
+    }
+    
+    public static class HydrochloricAcidSolution extends StrongAcidSolution {
+        public HydrochloricAcidSolution() {
+            super( new HydrochloricAcid() );
+        }
+    }
+    
+    public static class PerchloricAcidSolution extends StrongAcidSolution {
+        public PerchloricAcidSolution() {
+            super( new PerchloricAcid() );
+        }
     }
     
     public static class CustomStrongAcidSolution extends StrongAcidSolution {

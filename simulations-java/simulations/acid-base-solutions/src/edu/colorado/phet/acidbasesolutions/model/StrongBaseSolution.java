@@ -1,6 +1,7 @@
 package edu.colorado.phet.acidbasesolutions.model;
 
 import edu.colorado.phet.acidbasesolutions.model.Base.CustomStrongBase;
+import edu.colorado.phet.acidbasesolutions.model.Base.SodiumHydroxide;
 import edu.colorado.phet.acidbasesolutions.model.Base.StrongBase;
 
 
@@ -10,7 +11,7 @@ public class StrongBaseSolution extends AqueousSolution {
     
     private final StrongBase base;
     
-    public StrongBaseSolution( StrongBase base ) {
+    protected StrongBaseSolution( StrongBase base ) {
         super( base );
         this.base = base;
     }
@@ -42,6 +43,12 @@ public class StrongBaseSolution extends AqueousSolution {
     // [H2O] = W
     public double getH2OConcentration() {
         return getWater().getConcentration();
+    }
+    
+    public static class SodiumHydroxideSolution extends StrongBaseSolution {
+        public SodiumHydroxideSolution() {
+            super( new SodiumHydroxide() );
+        }
     }
     
     public static class CustomStrongBaseSolution extends StrongBaseSolution {
