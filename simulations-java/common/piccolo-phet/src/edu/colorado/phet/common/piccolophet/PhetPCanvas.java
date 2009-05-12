@@ -529,7 +529,7 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
                 			phetPCanvas.getWidth(), phetPCanvas.getWidth() );
                 }
                 else{
-                	outputBox = new Rectangle2D.Double( 0, (phetPCanvas.getWidth() - phetPCanvas.getHeight()) / 2,
+                	outputBox = new Rectangle2D.Double( (phetPCanvas.getWidth() - phetPCanvas.getHeight()) / 2,0,
                 			phetPCanvas.getHeight(), phetPCanvas.getHeight() );
                 }
                 transform = new ModelViewTransform2D(new Rectangle2D.Double(0, 0, renderingSize.getWidth(), renderingSize.getHeight()), 
