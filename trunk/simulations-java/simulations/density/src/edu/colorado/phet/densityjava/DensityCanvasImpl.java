@@ -44,7 +44,6 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
     private DisplaySystem display;
     private Component canvas;
 
-    boolean inited = false;
     private com.jme.scene.Point pointSelection;
     Spatial maggie;
     private com.jme.scene.Line[] selection;
@@ -93,7 +92,49 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
         startTime = System.currentTimeMillis() + 5000;
 
         input = new InputHandler();
-//            input = new FirstPersonHandler(cam, 50,1);
+
+        // Create a new mouse. Restrict its movements to the display screen.
+        am = new SRRMouse("The Mouse", display.getWidth(), display.getHeight());
+
+        // Get a picture for my mouse.
+        TextureState mouseTextureState = display.getRenderer().createTextureState();
+        URL cursorLoc = TestTrianglePick.class.getClassLoader().getResource(
+                "jmetest/data/cursor/cursor1.png");
+        Texture t = TextureManager.loadTexture(cursorLoc, Texture.MinificationFilter.NearestNeighborNoMipMaps,
+                Texture.MagnificationFilter.Bilinear);
+        mouseTextureState.setTexture(t);
+        am.setRenderState(mouseTextureState);
+
+        // Make the mouse's background blend with what's already there
+        BlendState as = display.getRenderer().createBlendState();
+        as.setBlendEnabled(true);
+        as.setSourceFunction(BlendState.SourceFunction.SourceAlpha);
+        as.setDestinationFunction(BlendState.DestinationFunction.OneMinusSourceAlpha);
+        as.setTestEnabled(true);
+        as.setTestFunction(BlendState.TestFunction.GreaterThan);
+        am.setRenderState(as);
+
+        // Move the mouse to the middle of the screen to start with
+        am.setLocalTranslation(new Vector3f(display.getWidth() / 2, display
+                .getHeight() / 2, 0));
+        // Assign the mouse to an input handler
+        am.registerWithInputHandler(input);
+
+        rootNode.attachChild(am);
+        results.setCheckDistance(true);
+
+        pointSelection = new com.jme.scene.Point("selected triangle", new Vector3f[1], null,
+                new ColorRGBA[1], null);
+        pointSelection.setSolidColor(new ColorRGBA(1, 0, 0, 1));
+        pointSelection.setPointSize(10);
+        pointSelection.setAntialiased(true);
+        ZBufferState zbs = display.getRenderer().createZBufferState();
+        zbs.setFunction(ZBufferState.TestFunction.Always);
+        pointSelection.setRenderState(zbs);
+        pointSelection.setLightCombineMode(Spatial.LightCombineMode.Off);
+
+        rootNode.attachChild(pointSelection);
+
     }
 
     private void createSelectionTriangles(int number) {
@@ -183,54 +224,6 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
     };
 
     public void simpleUpdate() {
-        if (!inited) {
-            inited = true;
-
-            // Create a new mouse. Restrict its movements to the display screen.
-            am = new SRRMouse("The Mouse", display.getWidth(), display.getHeight());
-//                am.setSpeed(-1);
-
-            // Get a picture for my mouse.
-            TextureState ts = display.getRenderer().createTextureState();
-            URL cursorLoc = TestTrianglePick.class.getClassLoader().getResource(
-                    "jmetest/data/cursor/cursor1.png");
-            Texture t = TextureManager.loadTexture(cursorLoc, Texture.MinificationFilter.NearestNeighborNoMipMaps,
-                    Texture.MagnificationFilter.Bilinear);
-            ts.setTexture(t);
-            am.setRenderState(ts);
-
-            // Make the mouse's background blend with what's already there
-            BlendState as = display.getRenderer().createBlendState();
-            as.setBlendEnabled(true);
-            as.setSourceFunction(BlendState.SourceFunction.SourceAlpha);
-            as.setDestinationFunction(BlendState.DestinationFunction.OneMinusSourceAlpha);
-            as.setTestEnabled(true);
-            as.setTestFunction(BlendState.TestFunction.GreaterThan);
-            am.setRenderState(as);
-
-            // Move the mouse to the middle of the screen to start with
-            am.setLocalTranslation(new Vector3f(display.getWidth() / 2, display
-                    .getHeight() / 2, 0));
-            // Assign the mouse to an input handler
-            am.registerWithInputHandler(input);
-
-            rootNode.attachChild(am);
-            results.setCheckDistance(true);
-
-            pointSelection = new com.jme.scene.Point("selected triangle", new Vector3f[1], null,
-                    new ColorRGBA[1], null);
-            pointSelection.setSolidColor(new ColorRGBA(1, 0, 0, 1));
-            pointSelection.setPointSize(10);
-            pointSelection.setAntialiased(true);
-            ZBufferState zbs = display.getRenderer().createZBufferState();
-            zbs.setFunction(ZBufferState.TestFunction.Always);
-            pointSelection.setRenderState(zbs);
-            pointSelection.setLightCombineMode(Spatial.LightCombineMode.Off);
-
-            rootNode.attachChild(pointSelection);
-        }
-
-
         input.update(tpf);
         if (am != null)
             am.setLimit(canvas.getWidth(), canvas.getHeight());
