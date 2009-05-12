@@ -35,6 +35,28 @@ trait ObjectModel {
 class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) extends PNode {
   val rows = new ArrayBuffer[ArrayBuffer[PNode]]
 
+  val nodes = for (o <- RampDefaults.objects) yield {
+    o match {
+      case jc: MutableRampObject => new CustomObjectSelectionIcon(jc)
+      case m: ScalaRampObject => new ObjectSelectionIcon(o)
+    }
+  }
+  val cellDim = nodes.foldLeft(new PDimension)((a, b) => new PDimension(max(a.width, b.getLayoutBounds.width), max(a.height, b.getLayoutBounds.height)))
+
+  val modelCellDimPt = transform.viewToModelDifferential(cellDim.width, cellDim.height)
+  //y is down, so modelCellDimPt.y is negative
+  for (i <- 0 until nodes.length) {
+    val row = i / RampDefaults.iconsPerRow
+    val column = i % RampDefaults.iconsPerRow
+
+    val n = nodes(i)
+    n.backgroundNode.setPathTo(new Rectangle2D.Double(0, 0, cellDim.width, cellDim.height))
+    n.setOffset(transform.modelToView(column * modelCellDimPt.x - 11, -10 + row * modelCellDimPt.y - 2 * modelCellDimPt.y + 0.5))
+    addChild(n)
+  }
+  setOffset(transform.getViewBounds.getCenterX-getFullBounds.getCenterX,
+    transform.getViewBounds.getMaxY-getFullBounds.getMaxY-2)
+
   class ObjectSelectionIcon(o: ScalaRampObject) extends PNode {
     val textNode = new HTMLNode(o.getDisplayTextHTML.toString)
     val imageNode = new PImage(BufferedImageUtils.multiScaleToHeight(RampResources.getImage(o.iconFilename), 100))
@@ -152,26 +174,6 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
       expand = false
       timer.start()
     }
-  }
-
-  val nodes = for (o <- RampDefaults.objects) yield {
-    o match {
-      case jc: MutableRampObject => new CustomObjectSelectionIcon(jc)
-      case m: ScalaRampObject => new ObjectSelectionIcon(o)
-    }
-  }
-  val cellDim = nodes.foldLeft(new PDimension)((a, b) => new PDimension(max(a.width, b.getLayoutBounds.width), max(a.height, b.getLayoutBounds.height)))
-
-  val modelCellDimPt = transform.viewToModelDifferential(cellDim.width, cellDim.height)
-  //y is down, so modelCellDimPt.y is negative
-  for (i <- 0 until nodes.length) {
-    val row = i / RampDefaults.iconsPerRow
-    val column = i % RampDefaults.iconsPerRow
-
-    val n = nodes(i)
-    n.backgroundNode.setPathTo(new Rectangle2D.Double(0, 0, cellDim.width, cellDim.height))
-    n.setOffset(transform.modelToView(column * modelCellDimPt.x - 11, -10 + row * modelCellDimPt.y - 2 * modelCellDimPt.y + 0.5))
-    addChild(n)
   }
 
 }
