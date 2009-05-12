@@ -19,6 +19,7 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
 import edu.colorado.phet.common.phetcommon.patterns.Updatable;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.util.PDebug;
@@ -476,6 +477,203 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
     }
 
     /**
+     * CenteringBoxStrategy implements a transform strategy that varies with
+     * the canvas size and that keeps center of the world in the middle of the
+     * canvas.  This is as opposed to other transform strategies that may keep
+     * the relative distance from an edge of the canvas to items in the canvas
+     * as a constant.
+     * 
+     * NOTE: This should be implemented as an extension of ViewportStrategy,
+     * with viewport (x,y)=(0,0). It's not implemented that way because 
+     * the current implementation of ViewportStrategy flips the y axis,
+     * and this may break some sims.
+     */
+    public static class CenteringBoxStrategy implements TransformStrategy {
+        private PhetPCanvas phetPCanvas;
+        private Dimension2D renderingSize;
+
+        public CenteringBoxStrategy( PhetPCanvas phetPCanvas, Dimension2D renderingSize ) {
+            this.phetPCanvas = phetPCanvas;
+            this.renderingSize = renderingSize;
+            phetPCanvas.addComponentListener( new ComponentAdapter() {
+                public void componentShown( ComponentEvent e ) {
+                    if ( CenteringBoxStrategy.this.renderingSize == null ) {
+                        setRenderingSize();
+                    }
+                }
+            } );
+        }
+
+        public void setPhetPCanvas( PhetPCanvas phetPCanvas ) {
+            this.phetPCanvas = phetPCanvas;
+        }
+
+        public AffineTransform getTransform() {
+        	AffineTransform transform;
+            if ( renderingSize == null && phetPCanvas.isVisible() ) {
+                setRenderingSize();
+            }
+            if (phetPCanvas.getWidth() > 0 && phetPCanvas.getHeight() > 0){
+            	
+                double sx = getScaleX();
+                double sy = getScaleY();
+
+                //use the smaller
+                double scale = sx < sy ? sx : sy;
+                scale = scale <= 0 ? 1.0 : scale;//if scale is negative or zero, just use scale=1
+
+                Rectangle2D outputBox;
+                
+                if (scale == sx){
+                	outputBox = new Rectangle2D.Double( 0, (phetPCanvas.getHeight() - phetPCanvas.getWidth()) / 2,
+                			phetPCanvas.getWidth(), phetPCanvas.getWidth() );
+                }
+                else{
+                	outputBox = new Rectangle2D.Double( 0, (phetPCanvas.getWidth() - phetPCanvas.getHeight()) / 2,
+                			phetPCanvas.getHeight(), phetPCanvas.getHeight() );
+                }
+                transform = new ModelViewTransform2D(new Rectangle2D.Double(0, 0, renderingSize.getWidth(), renderingSize.getHeight()), 
+                		outputBox, false).getAffineTransform();
+            }
+            else{
+            	// Use a basic 1 to 1 transform in this case.
+            	transform = new AffineTransform();
+            }
+            
+            return transform;
+        }
+        
+        /**
+         * This method returns the transform for this canvas, and is intended
+         * to be overridden in subclasses that need to perform transforms other
+         * than straight scaling.
+         * 
+         * @return The current affine transform.
+         */
+        protected AffineTransform getPreprocessedTransform() {
+            return new AffineTransform();
+        }
+
+        private void setRenderingSize() {
+            setRenderingSize( phetPCanvas.getSize() );
+        }
+
+        public void setRenderingSize( Dimension dim ) {
+            this.renderingSize = new Dimension( dim );
+        }
+
+        public void setRenderingSize( int width, int height ) {
+            setRenderingSize( new Dimension( width, height ) );
+        }
+
+        private double getScaleY() {
+            return ( (double) phetPCanvas.getHeight() ) / renderingSize.getHeight();
+        }
+
+        private double getScaleX() {
+            return ( (double) phetPCanvas.getWidth() ) / renderingSize.getWidth();
+        }
+    }
+
+    /**
+     * CenterWidthScaleHeight implements a transform strategy that varies with
+     * the canvas size and that keeps center of the world in the middle of the
+     * canvas, makes things get bigger when the world is enlarged height-wise,
+     * and maintains the aspect ratio of items on the canvas.  This means that
+     * if the user enlarges the window in the x direction only, they will see
+     * more of the world and no sizes will change.  If they enlarge only the y
+     * dimension, things will grow in both dimensions (in order to maintain
+     * the aspect ratio).
+     * 
+     * NOTE: This should be implemented as an extension of ViewportStrategy,
+     * with viewport (x,y)=(0,0). It's not implemented that way because 
+     * the current implementation of ViewportStrategy flips the y axis,
+     * and this may break some sims.
+     */
+    public static class CenterWidthScaleHeight implements TransformStrategy {
+        private PhetPCanvas phetPCanvas;
+        private Dimension2D renderingSize;
+
+        public CenterWidthScaleHeight( PhetPCanvas phetPCanvas, Dimension2D renderingSize ) {
+            this.phetPCanvas = phetPCanvas;
+            this.renderingSize = renderingSize;
+            phetPCanvas.addComponentListener( new ComponentAdapter() {
+                public void componentShown( ComponentEvent e ) {
+                    if ( CenterWidthScaleHeight.this.renderingSize == null ) {
+                        setRenderingSize();
+                    }
+                }
+            } );
+        }
+
+        public void setPhetPCanvas( PhetPCanvas phetPCanvas ) {
+            this.phetPCanvas = phetPCanvas;
+        }
+
+        public AffineTransform getTransform() {
+        	AffineTransform transform;
+            if ( renderingSize == null && phetPCanvas.isVisible() ) {
+                setRenderingSize();
+            }
+            if (phetPCanvas.getWidth() > 0 && phetPCanvas.getHeight() > 0){
+            	
+            	// We scale based only on growth/shrinkage in the y dimension,
+            	// i.e. height.
+                double scale = getScaleY();
+
+                // Translate in order to keep things centered in the x direction.
+                double translationX = (phetPCanvas.getWidth() / 2) - ((renderingSize.getWidth() * scale) / 2);
+
+                // Create the target rectangle.
+                Rectangle2D outputBox;
+                outputBox = new Rectangle2D.Double(translationX, 0, renderingSize.getWidth() * scale, renderingSize.getHeight() * scale);
+                
+                // Create the transform from the rendering size to the
+                // (presumably new) canvas size.
+                transform = new ModelViewTransform2D(new Rectangle2D.Double(0, 0, renderingSize.getWidth(), renderingSize.getHeight()), 
+                		outputBox, false).getAffineTransform();
+            }
+            else{
+            	// Use a basic 1 to 1 transform in this case.
+            	transform = new AffineTransform();
+            }
+            
+            return transform;
+        }
+        
+        /**
+         * This method returns the transform for this canvas, and is intended
+         * to be overridden in subclasses that need to perform transforms other
+         * than straight scaling.
+         * 
+         * @return The current affine transform.
+         */
+        protected AffineTransform getPreprocessedTransform() {
+            return new AffineTransform();
+        }
+
+        private void setRenderingSize() {
+            setRenderingSize( phetPCanvas.getSize() );
+        }
+
+        public void setRenderingSize( Dimension dim ) {
+            this.renderingSize = new Dimension( dim );
+        }
+
+        public void setRenderingSize( int width, int height ) {
+            setRenderingSize( new Dimension( width, height ) );
+        }
+
+        private double getScaleY() {
+            return ( (double) phetPCanvas.getHeight() ) / renderingSize.getHeight();
+        }
+
+        private double getScaleX() {
+            return ( (double) phetPCanvas.getWidth() ) / renderingSize.getWidth();
+        }
+    }
+
+    /**
      * ViewportStrategy implements a transform strategy that varies 
      * with the canvas size.  As the canvas is resized, the transform is
      * varied based on a reference viewport.
@@ -509,7 +707,7 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
             //use the smaller
             double scale = sx < sy ? sx : sy;
             if ( scale < 0 ) {
-                System.err.println( this.getClass().getName() + ": Warning: Sometimes in 1.5, sometimes getWidth() and getHeight() return negative values, causing troubles for this layout code." );
+                System.err.println( this.getClass().getName() + ": Warning: Sometimes in 1.5, getWidth() and getHeight() return negative values, causing troubles for this layout code." );
             }
             if ( scale != 0.0 ) {
                 AffineTransform worldTransform = new AffineTransform();
