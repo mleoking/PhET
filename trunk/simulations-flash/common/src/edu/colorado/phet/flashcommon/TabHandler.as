@@ -95,6 +95,11 @@ class edu.colorado.phet.flashcommon.TabHandler {
 		insertEntry( entry, entries.length );
 	}
 	
+	public function addAsWingButton( obj : Object ) : Void {
+		addEntry( TabEntry.createASwingEntry( obj ) );
+		registerButton( obj.trigger_mc );
+	}
+	
 	// insert obj into controls at the specified index
 	public function insertControl(obj : Object, idx : Number, highlight : String) : Void {
 		entries.splice(idx, 0, new TabEntry(obj, highlight));
@@ -182,12 +187,17 @@ class edu.colorado.phet.flashcommon.TabHandler {
 		high.beginFill(0xFF0000);
 		high.endFill();
 		
+		var xa : Number = bounds.xMin + 1;
+		var xb : Number = bounds.xMax - 1;
+		var ya : Number = bounds.yMin + 1;
+		var yb : Number = bounds.yMax - 1;
+		
 		high.lineStyle(2, 0x0000FF);
-		high.moveTo(bounds.xMin, bounds.yMin);
-		high.lineTo(bounds.xMax, bounds.yMin);
-		high.lineTo(bounds.xMax, bounds.yMax);
-		high.lineTo(bounds.xMin, bounds.yMax);
-		high.lineTo(bounds.xMin, bounds.yMin);
+		high.moveTo(xa, ya);
+		high.lineTo(xb, ya);
+		high.lineTo(xb, yb);
+		high.lineTo(xa, yb);
+		high.lineTo(xa, ya);
 	}
 	
 	// used to set an entry to be the one in focus

@@ -54,7 +54,7 @@ class edu.colorado.phet.flashcommon.KeyboardHandler {
 			return;
 		}
 		tabHandlers.splice( idx, 1 );
-		if( currentIndex > idx ) {
+		if( currentIndex >= idx ) {
 			currentIndex--;
 		}
 	}
