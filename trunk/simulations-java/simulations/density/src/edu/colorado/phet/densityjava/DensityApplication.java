@@ -162,7 +162,7 @@ public class DensityApplication extends PiccoloPhetApplication {
         File codeSource = FileUtils.getCodeSource();
         File copy = new File(System.getProperty("java.io.tmpdir"), codeSource.getName());
         copyTo(codeSource, copy);
-        File dir = new File(copy.getParentFile(), "unzipped");
+        File dir = new File(copy.getParentFile(), "phet-unzipped");
         unzip(copy, dir);
         System.out.println("DensityApplication.main, unzip dir=" + dir.getAbsolutePath());
 
