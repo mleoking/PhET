@@ -51,11 +51,27 @@ public class RadioactiveDatingGameModel {
         _strata.add( new Stratum( -13, 4 ) );
         _strata.add( new Stratum( -17, 4 ) );
 
-        _datableObjects.add(new DatableObject("Trilobyte", "trilobyte_fossil.png", new Point2D.Double(0, 0), 0.5, 1E11));
-    	_datableObjects.add(new DatableObject("Animal Skull", "skull_animal.png", new Point2D.Double(5, -6), 0.7, 1E11));
-    	_datableObjects.add(new DatableObject("Living Tree", "tree_1.png", new Point2D.Double(3, -1), 3, 1E11));
-    	_datableObjects.add(new DatableObject("House", "house.png", new Point2D.Double(5, -1), 2, 1E11));
-    	_datableObjects.add(new DatableObject("Fish Fossil", "fish_fossil.png", new Point2D.Double(4, getBottomOfStrata()), 1, 1E11));
+        _datableObjects.add(new DatableObject("House", "house.png", new Point2D.Double(3, 5), 2.2, 1E11));
+        _datableObjects.add(new DatableObject("Trilobyte", "trilobyte_fossil.png", new Point2D.Double(0, -11), 0.8, 1E11));
+    	_datableObjects.add(new DatableObject("Animal Skull", "skull_animal.png", new Point2D.Double(-5, 2), 0.7, 1E11));
+    	_datableObjects.add(new DatableObject("Living Tree", "tree_1.png", new Point2D.Double(-7, 8), 2.5, 1E11));
+    	_datableObjects.add(new DatableObject("Distant Living Tree", "tree_1.png", new Point2D.Double(0, 6), 1, 1E11));
+    	_datableObjects.add(new DatableObject("Fish Fossil", "fish_fossil.png", new Point2D.Double(-3, -8), 1, 1E11));
+    	_datableObjects.add(new DatableObject("Dead Tree", "dead_tree.png", new Point2D.Double(8, 4), 1, 1E11));
+    	_datableObjects.add(new DatableObject("Fish Bones", "fish_bones.png", new Point2D.Double(-4, -1.5), 1, 1E11));
+    	_datableObjects.add(new DatableObject("Pottery", "pottery.png", new Point2D.Double(-7, -4.5), 0.5, 1E11));
+    	_datableObjects.add(new DatableObject("Rock 1", "rock.png", new Point2D.Double(-3.0, 4.5), 1.2, 1E11));
+    	_datableObjects.add(new DatableObject("Rock 2", "rock.png", new Point2D.Double(-2, -1.5), 0.5, 1E11));
+    	_datableObjects.add(new DatableObject("Rock 3", "rock.png", new Point2D.Double(-8, -15), 0.3, 1E11));
+    	_datableObjects.add(new DatableObject("Rock 4", "rock.png", new Point2D.Double(-2, -15), 0.6, 1E11));
+    	_datableObjects.add(new DatableObject("Rock 5", "rock.png", new Point2D.Double(3, -4.5), 0.7, 1E11));
+    	_datableObjects.add(new DatableObject("Rock 6", "rock.png", new Point2D.Double(2, -7.5), 0.25, 1E11));
+    	_datableObjects.add(new DatableObject("Rock 7", "rock.png", new Point2D.Double(3, -15), 0.4, 1E11));
+    	_datableObjects.add(new DatableObject("Rock 8", "rock.png", new Point2D.Double(5, -11), 0.3, 1E11));
+    	_datableObjects.add(new DatableObject("Animal Skull 2", "skull_animal_2.png", new Point2D.Double(-4, -15.2), 1, 1E11));
+    	_datableObjects.add(new DatableObject("Human Skull", "skull_human.png", new Point2D.Double(4, -1.5), 0.6, 1E11));
+    	_datableObjects.add(new DatableObject("Gold Star", "gold_star.png", new Point2D.Double(-1, -4.5), 0.6, 1E11));
+
     }
 
     //------------------------------------------------------------------------

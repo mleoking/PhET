@@ -39,21 +39,15 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     // Class Data
     //----------------------------------------------------------------------------
 
-    // Canvas size.  Assumes a 4:3 aspect ratio.
-    private final double CANVAS_WIDTH = 100;
-//    private final double CANVAS_HEIGHT = CANVAS_WIDTH * (3.0d/4.0d);
-//
-//    // Translation factors, used to set origin of canvas area.
-//    private final double WIDTH_TRANSLATION_FACTOR = 0.5;   // 0 = all the way left, 1 = all the way right.
-//    private final double HEIGHT_TRANSLATION_FACTOR = 0.45; // 0 = all the way up, 1 = all the way down.
-//
-//    // Constants that control relative sizes and placements of major items on
-//    // the canvas.
-//    private final double BACKGROUND_HEIGHT_PROPORTION = 0.7;     // Vertical fraction of canvas for background.
+	// Initial size of the reference coordinates that are used when setting up
+	// the canvas transform strategy.  These were empirically determined to
+	// match the expected initial size of the canvas.
     private final int INITIAL_INTERMEDIATE_COORD_WIDTH = 1016;
     private final int INITIAL_INTERMEDIATE_COORD_HEIGHT = 593;
     private final Dimension INITIAL_INTERMEDIATE_DIMENSION = new Dimension( INITIAL_INTERMEDIATE_COORD_WIDTH,
     		INITIAL_INTERMEDIATE_COORD_HEIGHT );
+    
+    // Constants for positioning/size some of the nodes.
     private final double PROPORTIONS_CHART_WIDTH_FRACTION = 0.7; // Fraction of canvas width for proportions chart.
 
     //----------------------------------------------------------------------------
@@ -116,7 +110,9 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         // Add the nodes that represent the items on which the user can
         // perform radiometric dating.
         for (DatableObject item : _model.getItemIterable()){
-        	addWorldChild(new RadioactiveDatingGameObjectNode(item, _mvt));
+        	PNode datableItemNode = new RadioactiveDatingGameObjectNode(item, _mvt);
+        	datableItemNode.setOffset(_mvt.modelToViewDouble(item.getCenter()));
+        	addWorldChild(datableItemNode);
         }
         
         // Create the chart that will display relative decay proportions.
