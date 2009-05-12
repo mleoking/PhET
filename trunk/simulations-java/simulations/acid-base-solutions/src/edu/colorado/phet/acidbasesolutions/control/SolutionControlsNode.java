@@ -27,7 +27,7 @@ public class SolutionControlsNode extends PhetPNode {
     private static final Color LABEL_COLOR = Color.BLACK;
     private static final double BACKGROUND_MARGIN = 10;
     private static final double BACKGROUND_CORNER_RADIUS = 25;
-    private static final Color BACKGROUND_COLOR = new Color( 247, 246, 188 );
+    private static final Color BACKGROUND_COLOR = new Color( 255, 255, 220 );
     private static final Color BACKGROUND_STROKE_COLOR = Color.BLACK;
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color SEPARATOR_COLOR = BACKGROUND_COLOR.darker();
