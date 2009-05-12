@@ -21,6 +21,13 @@ public class Uranium238Nucleus extends AbstractDecayNucleus {
     public static final int ORIGINAL_NUM_PROTONS = 92;
     public static final int ORIGINAL_NUM_NEUTRONS = 146;
     
+    // Half life for this nucleus.
+    public static double HALF_LIFE = 1.41E20; // 4.46 billion years, converted into milliseconds.
+    
+    // Time scaling factor - scales the rate at which decay occurs so that we
+    // don't really have to wait around thousands of years.
+    private static double DECAY_TIME_SCALING_FACTOR = 2500 / HALF_LIFE;
+    
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
@@ -31,12 +38,12 @@ public class Uranium238Nucleus extends AbstractDecayNucleus {
     
     public Uranium238Nucleus(NuclearPhysicsClock clock, Point2D position){
 
-        super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS);
+        super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS, DECAY_TIME_SCALING_FACTOR);
     }
     
     public Uranium238Nucleus(NuclearPhysicsClock clock){
 
-        super(clock, new Point2D.Double(0, 0), ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS);
+        this(clock, new Point2D.Double(0, 0));
     }
     
     //------------------------------------------------------------------------
