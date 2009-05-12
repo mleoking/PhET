@@ -2,6 +2,7 @@ package edu.colorado.phet.densityjava;
 
 import com.jme.bounding.BoundingBox;
 import com.jme.image.Texture;
+import com.jme.input.AbsoluteMouse;
 import com.jme.input.InputHandler;
 import com.jme.input.KeyInput;
 import com.jme.input.action.InputAction;
@@ -9,10 +10,10 @@ import com.jme.input.action.InputActionEvent;
 import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
+import com.jme.scene.state.BlendState;
 import com.jme.scene.state.TextureState;
 import com.jme.system.DisplaySystem;
 import com.jme.system.canvas.JMECanvas;
-import com.jme.system.canvas.JMECanvasImplementor;
 import com.jme.system.canvas.SimpleCanvasImpl;
 import com.jme.system.lwjgl.LWJGLSystemProvider;
 import com.jme.util.GameTaskQueueManager;
@@ -30,6 +31,7 @@ import jmetest.util.JMESwingTest;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.net.URL;
 import java.util.concurrent.Callable;
 import java.util.logging.Logger;
 
@@ -57,7 +59,7 @@ public class DensityApplication extends PiccoloPhetApplication {
         new PhetApplicationLauncher().launchSim(args, "density", DensityApplication.class);
     }
 
-    class SwingFrame extends JFrame {
+    class SwingFrame {
         private static final long serialVersionUID = 1L;
 
         JPanel contentPane;
@@ -71,28 +73,21 @@ public class DensityApplication extends PiccoloPhetApplication {
         JCheckBox scaleBox = new JCheckBox("Scale GL Image");
         JPanel colorPanel = new JPanel();
         JLabel colorLabel = new JLabel("BG Color:");
-        JMECanvasImplementor impl;
+        MyImplementor impl;
+        private AbsoluteMouse am;
 
         // Construct the frame
         public SwingFrame() {
-            addWindowListener(new WindowAdapter() {
-                public void windowClosing(WindowEvent e) {
-                    dispose();
-                }
-            });
-
             init();
-            pack();
         }
 
         // Component initialization
         private void init() {
+
             contentPane = new JPanel();
             contentPane.setLayout(new BorderLayout());
 
             mainPanel.setLayout(new GridBagLayout());
-
-            setTitle("JME - SWING INTEGRATION TEST");
 
             // -------------GL STUFF------------------
 
@@ -118,7 +113,7 @@ public class DensityApplication extends PiccoloPhetApplication {
             AWTMouseInput.setup(canvas, false);
 
             // Important! Here is where we add the guts to the panel:
-            impl = new MyImplementor(width, height);
+            impl = new MyImplementor(width, height, display);
             canvas.setImplementor(impl);
 
             // -----------END OF GL STUFF-------------
@@ -131,8 +126,7 @@ public class DensityApplication extends PiccoloPhetApplication {
             colorPanel.setBorder(BorderFactory.createRaisedBevelBorder());
             colorPanel.addMouseListener(new java.awt.event.MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
-                    final java.awt.Color color = JColorChooser.showDialog(
-                            SwingFrame.this, "Choose new background color:",
+                    final java.awt.Color color = JColorChooser.showDialog(null, "Choose new background color:",
                             colorPanel.getBackground());
                     if (color == null)
                         return;
@@ -202,7 +196,6 @@ public class DensityApplication extends PiccoloPhetApplication {
 
         // Overridden so we can exit when window is closed
         protected void processWindowEvent(WindowEvent e) {
-            super.processWindowEvent(e);
             if (e.getID() == WindowEvent.WINDOW_CLOSING) {
                 System.exit(0);
             }
@@ -218,9 +211,12 @@ public class DensityApplication extends PiccoloPhetApplication {
         long startTime = 0;
         long fps = 0;
         private InputHandler input;
+        private AbsoluteMouse am;
+        private DisplaySystem display;
 
-        public MyImplementor(int width, int height) {
+        public MyImplementor(int width, int height, DisplaySystem display) {
             super(width, height);
+            this.display = display;
         }
 
         public void simpleSetup() {
@@ -269,7 +265,45 @@ public class DensityApplication extends PiccoloPhetApplication {
                     InputHandler.AXIS_NONE, false);
         }
 
+        boolean inited = false;
+
         public void simpleUpdate() {
+            if (!inited) {
+                inited = true;
+
+                // Create a new mouse. Restrict its movements to the display screen.
+                am = new AbsoluteMouse("The Mouse", display.getWidth(), display
+                        .getHeight());
+
+                // Get a picture for my mouse.
+                TextureState ts = display.getRenderer().createTextureState();
+                URL cursorLoc = TestTrianglePick.class.getClassLoader().getResource(
+                        "jmetest/data/cursor/cursor1.png");
+                Texture t = TextureManager.loadTexture(cursorLoc, Texture.MinificationFilter.NearestNeighborNoMipMaps,
+                        Texture.MagnificationFilter.Bilinear);
+                ts.setTexture(t);
+                am.setRenderState(ts);
+
+                // Make the mouse's background blend with what's already there
+                BlendState as = display.getRenderer().createBlendState();
+                as.setBlendEnabled(true);
+                as.setSourceFunction(BlendState.SourceFunction.SourceAlpha);
+                as.setDestinationFunction(BlendState.DestinationFunction.OneMinusSourceAlpha);
+                as.setTestEnabled(true);
+                as.setTestFunction(BlendState.TestFunction.GreaterThan);
+                am.setRenderState(as);
+
+                // Move the mouse to the middle of the screen to start with
+                am.setLocalTranslation(new Vector3f(display.getWidth() / 2, display
+                        .getHeight() / 2, 0));
+                // Assign the mouse to an input handler
+                am.registerWithInputHandler(input);
+
+                rootNode.attachChild(am);
+                cam.setUp(cam.getUp().mult(-1));
+            }
+
+
             input.update(tpf);
 
             // Code for rotating the box... no surprises here.
