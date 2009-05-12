@@ -1,13 +1,10 @@
 package edu.colorado.phet.densityjava;
 
 import com.jme.bounding.BoundingBox;
-import com.jme.bounding.BoundingSphere;
 import com.jme.image.Texture;
 import com.jme.input.InputHandler;
 import com.jme.input.KeyInput;
 import com.jme.input.MouseInput;
-import com.jme.input.action.InputAction;
-import com.jme.input.action.InputActionEvent;
 import com.jme.intersection.PickData;
 import com.jme.intersection.TrianglePickResults;
 import com.jme.math.*;
@@ -18,18 +15,14 @@ import com.jme.scene.state.BlendState;
 import com.jme.scene.state.TextureState;
 import com.jme.scene.state.ZBufferState;
 import com.jme.system.DisplaySystem;
-import com.jme.system.canvas.JMECanvas;
 import com.jme.system.canvas.SimpleCanvasImpl;
 import com.jme.system.lwjgl.LWJGLSystemProvider;
 import com.jme.util.GameTaskQueueManager;
 import com.jme.util.TextureManager;
-import com.jme.util.export.binary.BinaryImporter;
 import com.jme.util.geom.BufferUtils;
 import com.jmex.awt.input.AWTMouseInput;
 import com.jmex.awt.lwjgl.LWJGLAWTCanvasConstructor;
 import com.jmex.awt.lwjgl.LWJGLCanvas;
-import com.jmex.model.converters.FormatConverter;
-import com.jmex.model.converters.ObjToJme;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
@@ -41,13 +34,9 @@ import jmetest.util.JMESwingTest;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.net.URL;
 import java.nio.FloatBuffer;
 import java.util.concurrent.Callable;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DensityApplication extends PiccoloPhetApplication {
@@ -75,8 +64,6 @@ public class DensityApplication extends PiccoloPhetApplication {
     }
 
     class SwingFrame {
-        private static final long serialVersionUID = 1L;
-
         JPanel contentPane;
         JPanel mainPanel = new JPanel();
         LWJGLCanvas canvas = null;
@@ -205,7 +192,7 @@ public class DensityApplication extends PiccoloPhetApplication {
             } else {
                 impl.resizeCanvas(width, height);
             }
-            ((JMECanvas) canvas).makeDirty();
+            canvas.makeDirty();
         }
 
         // Overridden so we can exit when window is closed
@@ -216,7 +203,7 @@ public class DensityApplication extends PiccoloPhetApplication {
         }
     }
 
-    class MyImplementor extends SimpleCanvasImpl {
+    static class MyImplementor extends SimpleCanvasImpl {
 
         private Quaternion rotQuat;
         private float angle = 0;
@@ -228,9 +215,21 @@ public class DensityApplication extends PiccoloPhetApplication {
         private SRRMouse am;
         private DisplaySystem display;
 
+        boolean inited = false;
+        private com.jme.scene.Point pointSelection;
+        Spatial maggie;
+        private com.jme.scene.Line[] selection;
+
         public MyImplementor(int width, int height, DisplaySystem display) {
             super(width, height);
             this.display = display;
+        }
+
+        @Override
+        public void resizeCanvas(int newWidth, int newHeight) {
+            super.resizeCanvas(newWidth, newHeight);    //To change body of overridden methods use File | Settings | File Templates.
+            if (am != null)
+                am.setLimit(newWidth, newHeight);
         }
 
         public void simpleSetup() {
@@ -264,29 +263,7 @@ public class DensityApplication extends PiccoloPhetApplication {
             startTime = System.currentTimeMillis() + 5000;
 
             input = new InputHandler();
-            input.addAction(new InputAction() {
-                public void performAction(InputActionEvent evt) {
-                    logger.info(evt.getTriggerName());
-                }
-            }, InputHandler.DEVICE_MOUSE, InputHandler.BUTTON_ALL,
-                    InputHandler.AXIS_NONE, false);
-
-            input.addAction(new InputAction() {
-                public void performAction(InputActionEvent evt) {
-                    logger.info(evt.getTriggerName());
-                }
-            }, InputHandler.DEVICE_KEYBOARD, InputHandler.BUTTON_ALL,
-                    InputHandler.AXIS_NONE, false);
         }
-
-        boolean inited = false;
-
-        private com.jme.scene.Point pointSelection;
-
-        Spatial maggie;
-
-        private com.jme.scene.Line[] selection;
-
 
         private void createSelectionTriangles(int number) {
             clearPreviousSelections();
@@ -379,7 +356,7 @@ public class DensityApplication extends PiccoloPhetApplication {
                 inited = true;
 
                 // Create a new mouse. Restrict its movements to the display screen.
-                am = new SRRMouse("The Mouse", display.getWidth(), display.getHeight());
+                am = new SRRMouse("The Mouse", display.getWidth() * 2, display.getHeight() * 2);
 //                am.setSpeed(-1);
 
                 // Get a picture for my mouse.
@@ -407,39 +384,6 @@ public class DensityApplication extends PiccoloPhetApplication {
                 am.registerWithInputHandler(input);
 
                 rootNode.attachChild(am);
-
-
-                // Create the box in the middle. Give it a bounds
-                URL model = TestTrianglePick.class.getClassLoader().getResource(
-                        "jmetest/data/model/maggie.obj");
-                try {
-                    FormatConverter converter = new ObjToJme();
-                    converter.setProperty("mtllib", model);
-                    ByteArrayOutputStream BO = new ByteArrayOutputStream();
-                    converter.convert(model.openStream(), BO);
-                    maggie = (Spatial) BinaryImporter.getInstance().load(
-                            new ByteArrayInputStream(BO.toByteArray()));
-                    // scale rotate and translate to confirm that world transforms are
-                    // handled
-                    // correctly.
-                    maggie.setLocalScale(.1f);
-                    maggie.setLocalTranslation(new Vector3f(3, 1, -5));
-                    Quaternion q = new Quaternion();
-                    q.fromAngleAxis(0.5f, new Vector3f(0, 1, 0));
-                    maggie.setLocalRotation(q);
-                } catch (IOException e) { // Just in case anything happens
-                    logger.logp(Level.SEVERE, this.getClass().toString(),
-                            "simpleInitGame()", "Exception", e);
-                    System.exit(0);
-                }
-
-                maggie.setModelBound(new BoundingSphere());
-                maggie.updateModelBound();
-                // Attach Children
-                rootNode.attachChild(maggie);
-
-                maggie.lockBounds();
-                maggie.lockTransforms();
                 results.setCheckDistance(true);
 
                 pointSelection = new com.jme.scene.Point("selected triangle", new Vector3f[1], null,
@@ -489,12 +433,10 @@ public class DensityApplication extends PiccoloPhetApplication {
                 Vector3f worldCoords = display.getWorldCoordinates(screenPos, 1.0f);
                 // Create a ray starting from the camera, and going in the direction
                 // of the mouse's location
-                final Ray mouseRay = new Ray(cam.getLocation(), worldCoords
-                        .subtractLocal(cam.getLocation()));
+                final Ray mouseRay = new Ray(cam.getLocation(), worldCoords.subtractLocal(cam.getLocation()));
                 mouseRay.getDirection().normalizeLocal();
                 results.clear();
 
-//                maggie.calculatePick(mouseRay, results);
                 box.calculatePick(mouseRay, results);
 
             }
