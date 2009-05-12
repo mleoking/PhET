@@ -1,4 +1,4 @@
-﻿// AboutDialog.as
+// AboutDialog.as
 //
 // Handles creating and displaying the about dialog
 //
@@ -32,6 +32,7 @@ class edu.colorado.phet.flashcommon.AboutDialog {
 	
 	public function AboutDialog() {
 		//debug("AboutDialog initializing\n");
+        _level0.aboutDialog = this;
 		
 		// shortcut to FlashCommon, but now with type-checking!
 		common = _level0.common;
@@ -147,9 +148,7 @@ class edu.colorado.phet.flashcommon.AboutDialog {
 	}
 	
 	public function okClicked(src : JButton) {
-		// hide this window
-		_level0.aboutWindow.setVisible(false);
-		onClose();
+		manualClose();
 	}
 	
 	public function creditsClicked(src : JButton) {
@@ -163,6 +162,17 @@ class edu.colorado.phet.flashcommon.AboutDialog {
 			_level0.creditsDialog = new CreditsDialog();
 		}
 	}
+
+    public function manualClose() {
+        //_level0.aboutWindow.setVisible( false );
+        _level0.aboutWindow.hide();
+        onClose();
+    }
+
+    public function manualOpen() {
+        _level0.aboutWindow.show();
+        onOpen();
+    }
 	
 	public function closeClicked( src : Object ) {
 		onClose();
@@ -172,6 +182,10 @@ class edu.colorado.phet.flashcommon.AboutDialog {
 	public function onClose() {
 		_level0.keyboardHandler.removeTabHandler( handler );
 	}
+    public function onOpen() {
+        _level0.keyboardHandler.addTabHandler( handler );
+        _level0.keyboardHandler.setTabHandler( handler );
+    }
 	public function hide() {
 		_level0.debug("About window hidden");
 		super.hide();

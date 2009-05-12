@@ -1,4 +1,4 @@
-﻿
+
 import edu.colorado.phet.flashcommon.*;
 
 class edu.colorado.phet.flashcommon.KeyboardHandler {
@@ -45,21 +45,35 @@ class edu.colorado.phet.flashcommon.KeyboardHandler {
 	}
 	
 	public function addTabHandler( handler : TabHandler ) {
+        _level0.debug( "KeyboardHandler addTabHandler( " + handler.toString() + " )\n" );
 		tabHandlers.push( handler );
 	}
 	
 	public function removeTabHandler( handler : TabHandler ) {
+        _level0.debug( "KeyboardHandler removeTabHandler( " + handler.toString() + " )\n" );
 		var idx : Number = getTabHandlerIndex( handler );
 		if( idx == -1 ) {
 			return;
 		}
+
+        var changeHandler : Boolean = getCurrentTabHandler() == handler;
+
+        if( changeHandler ) {
+            handler.onRemoveFocus();
+        }
+
 		tabHandlers.splice( idx, 1 );
 		if( currentIndex >= idx ) {
 			currentIndex--;
 		}
+
+        if( changeHandler ) {
+            getCurrentTabHandler().onAddFocus();
+        }
 	}
 	
 	public function setTabHandler( newHandler : TabHandler ) {
+        _level0.debug( "KeyboardHandler setTabHandler( " + newHandler.toString() + " )\n" );
 		if( newHandler == getCurrentTabHandler() ) {
 			return;
 		}
