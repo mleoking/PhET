@@ -3,7 +3,6 @@ package edu.colorado.phet.densityjava;
 import com.jme.bounding.BoundingBox;
 import com.jme.bounding.BoundingSphere;
 import com.jme.image.Texture;
-import com.jme.input.AbsoluteMouse;
 import com.jme.input.InputHandler;
 import com.jme.input.KeyInput;
 import com.jme.input.MouseInput;
@@ -90,7 +89,6 @@ public class DensityApplication extends PiccoloPhetApplication {
         JPanel colorPanel = new JPanel();
         JLabel colorLabel = new JLabel("BG Color:");
         MyImplementor impl;
-        private AbsoluteMouse am;
 
         // Construct the frame
         public SwingFrame() {
@@ -227,7 +225,7 @@ public class DensityApplication extends PiccoloPhetApplication {
         long startTime = 0;
         long fps = 0;
         private InputHandler input;
-        private AbsoluteMouse am;
+        private SRRMouse am;
         private DisplaySystem display;
 
         public MyImplementor(int width, int height, DisplaySystem display) {
@@ -381,8 +379,8 @@ public class DensityApplication extends PiccoloPhetApplication {
                 inited = true;
 
                 // Create a new mouse. Restrict its movements to the display screen.
-                am = new AbsoluteMouse("The Mouse", display.getWidth(), display
-                        .getHeight());
+                am = new SRRMouse("The Mouse", display.getWidth(), display.getHeight());
+//                am.setSpeed(-1);
 
                 // Get a picture for my mouse.
                 TextureState ts = display.getRenderer().createTextureState();
