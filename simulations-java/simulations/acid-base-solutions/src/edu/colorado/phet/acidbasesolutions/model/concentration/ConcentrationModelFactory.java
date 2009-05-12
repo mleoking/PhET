@@ -1,11 +1,16 @@
-package edu.colorado.phet.acidbasesolutions.model;
+package edu.colorado.phet.acidbasesolutions.model.concentration;
 
+import edu.colorado.phet.acidbasesolutions.model.Acid;
+import edu.colorado.phet.acidbasesolutions.model.Base;
+import edu.colorado.phet.acidbasesolutions.model.NullSolute;
+import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.Acid.IntermediateAcid;
 import edu.colorado.phet.acidbasesolutions.model.Acid.StrongAcid;
 import edu.colorado.phet.acidbasesolutions.model.Acid.WeakAcid;
 import edu.colorado.phet.acidbasesolutions.model.Base.IntermediateBase;
 import edu.colorado.phet.acidbasesolutions.model.Base.StrongBase;
 import edu.colorado.phet.acidbasesolutions.model.Base.WeakBase;
+import edu.colorado.phet.acidbasesolutions.model.concentration.*;
 
 
 public class ConcentrationModelFactory {

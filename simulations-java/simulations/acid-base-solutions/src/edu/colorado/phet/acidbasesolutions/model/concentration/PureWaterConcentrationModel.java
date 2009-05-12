@@ -1,4 +1,7 @@
-package edu.colorado.phet.acidbasesolutions.model;
+package edu.colorado.phet.acidbasesolutions.model.concentration;
+
+import edu.colorado.phet.acidbasesolutions.model.NullSolute;
+import edu.colorado.phet.acidbasesolutions.model.Water;
 
 
 public class PureWaterConcentrationModel extends ConcentrationModel {
