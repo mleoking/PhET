@@ -42,6 +42,10 @@ class edu.colorado.phet.flashcommon.TabEntry {
 		buttonlike = false;
 	}
 	
+	public static function createASwingEntry( obj : Object ) : TabEntry {
+		return new TabEntry( obj.trigger_mc, TabHandler.HIGHLIGHT_LOCAL, obj.root_mc );
+	}
+	
 	public function getHighlightObject() : Object {
 		if( highlightObject ) {
 			return highlightObject;

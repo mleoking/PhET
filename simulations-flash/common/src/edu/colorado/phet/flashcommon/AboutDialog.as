@@ -23,6 +23,8 @@ class edu.colorado.phet.flashcommon.AboutDialog {
 	
 	public var common : FlashCommon;
 	
+	public var handler : TabHandler;
+	
 	// shorthand for debugging function
 	public function debug(str : String) : Void {
 		_level0.debug(str);
@@ -121,22 +123,15 @@ class edu.colorado.phet.flashcommon.AboutDialog {
 		window.setLocation((Stage.width - window.getWidth()) / 2, (Stage.height - window.getHeight()) / 2);
 		window.show();
 		
-		var handler : TabHandler = new TabHandler( false );
-		handler.insertControl(agreementButton.trigger_mc, 0);
-		handler.registerButton(agreementButton.trigger_mc);
-		
-		//handler.insertControl(creditsButton.trigger_mc, 1, TabHandler.HIGHLIGHT_LOCAL);
-		//handler.registerButton(creditsButton.trigger_mc);
-		var entry : TabEntry = new TabEntry( creditsButton.trigger_mc, TabHandler.HIGHLIGHT_LOCAL, creditsButton.root_mc );
-		handler.insertEntry( entry, 1 );
-		handler.registerButton( creditsButton.trigger_mc );
-		
-		handler.insertControl(okButton.trigger_mc, 2);
-		handler.registerButton(okButton.trigger_mc);
+		handler = new TabHandler( false );
+		handler.addAsWingButton( agreementButton );
+		handler.addAsWingButton( creditsButton );
+		handler.addAsWingButton( okButton );
 		
 		common.keyboardHandler.addTabHandler( handler );
 		common.keyboardHandler.setTabHandler( handler );
 		
+		window.addEventListener( JFrame.ON_WINDOW_CLOSING, Delegate.create( this, closeClicked ) );
 	}
 	
 	public function agreementClicked(src : JButton) {
@@ -154,6 +149,7 @@ class edu.colorado.phet.flashcommon.AboutDialog {
 	public function okClicked(src : JButton) {
 		// hide this window
 		_level0.aboutWindow.setVisible(false);
+		onClose();
 	}
 	
 	public function creditsClicked(src : JButton) {
@@ -168,7 +164,14 @@ class edu.colorado.phet.flashcommon.AboutDialog {
 		}
 	}
 	
+	public function closeClicked( src : Object ) {
+		onClose();
+	}
+	
 	// debugging
+	public function onClose() {
+		_level0.keyboardHandler.removeTabHandler( handler );
+	}
 	public function hide() {
 		_level0.debug("About window hidden");
 		super.hide();

@@ -38,6 +38,8 @@ class edu.colorado.phet.flashcommon.PreferencesDialog {
 	var updatesSimButton : JButton;
 	var updatesInstallationButton : JButton;
 	
+	public var handler : TabHandler;
+	
 	var common : FlashCommon;
 	
 	// shorthand for debugging function
@@ -213,6 +215,20 @@ class edu.colorado.phet.flashcommon.PreferencesDialog {
 		
 		// release the preferences shared object
 		_level0.preferences.unload();
+		
+		handler = new TabHandler( false );
+		handler.addAsWingButton( updatesSimButton );
+		if( updatesInstallationButton ) {
+			handler.addAsWingButton( updatesInstallationButton );
+		}
+		handler.addAsWingButton( detailsButton );
+		handler.addAsWingButton( okButton );
+		handler.addAsWingButton( cancelButton );
+		
+		common.keyboardHandler.addTabHandler( handler );
+		common.keyboardHandler.setTabHandler( handler );
+		
+		window.addEventListener( JFrame.ON_WINDOW_CLOSING, Delegate.create( this, closeClicked ) );
 	}
 	
 	// called when the window is re-shown. it sets the check boxes to the
@@ -228,6 +244,10 @@ class edu.colorado.phet.flashcommon.PreferencesDialog {
 			statisticsCheck.click();
 		}
 		common.preferences.unload();
+	}
+	
+	public function closeClicked( src : Object ) {
+		onClose();
 	}
 	
 	// toggle potential update state
@@ -277,6 +297,7 @@ class edu.colorado.phet.flashcommon.PreferencesDialog {
 	public function cancelClicked(src : JButton) : Void {
 		// hide the window
 		_level0.preferencesWindow.setVisible(false);
+		onClose();
 	}
 	
 	public function okClicked(src : JButton) : Void {
@@ -285,6 +306,12 @@ class edu.colorado.phet.flashcommon.PreferencesDialog {
 		
 		// hide the window
 		_level0.preferencesWindow.setVisible(false);
+		onClose();
+	}
+	
+	// debugging
+	public function onClose() {
+		_level0.keyboardHandler.removeTabHandler( handler );
 	}
 	
 }
