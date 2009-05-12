@@ -101,7 +101,7 @@ public class SRRMouse extends Mouse {
             if (isUsingDelta()) {
                 localTranslation.y += evt.getTriggerDelta() * limitHeight * speed;  //speed of the action!
             } else {
-                localTranslation.y = (1.3f - evt.getTriggerPosition()) * limitHeight * speed - hotSpotOffset.y;
+                localTranslation.y = (1.0f - evt.getTriggerPosition()) * limitHeight * speed - hotSpotOffset.y;
             }
 
             if (localTranslation.y + hotSpotOffset.y < 0 /*- imageHeight*/) {
@@ -128,8 +128,8 @@ public class SRRMouse extends Mouse {
         super(name);
         this.limitWidth = limitWidth;
         this.limitHeight = limitHeight;
-        getXUpdateAction().setSpeed(1);
-        getYUpdateAction().setSpeed(1);
+        getXUpdateAction().setSpeed(0.5f);
+        getYUpdateAction().setSpeed(0.5f);
     }
 
     /**
