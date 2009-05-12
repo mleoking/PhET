@@ -51,7 +51,7 @@ public class ConcentrationSliderNode extends PhetPNode {
     private static final Stroke THUMB_STROKE = new BasicStroke( 1f );
 
     // Track
-    private static final PDimension TRACK_SIZE = new PDimension( 250, 5 );
+    private static final PDimension TRACK_SIZE = new PDimension( 180, 5 );
     private static final Color TRACK_FILL_COLOR = Color.LIGHT_GRAY;
     private static final Color TRACK_STROKE_COLOR = Color.BLACK;
     private static final float TRACK_STROKE_WIDTH = 1f;
