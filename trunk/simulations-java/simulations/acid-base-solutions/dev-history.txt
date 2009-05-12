@@ -15,6 +15,9 @@ TODO:
 - add ability to restrict Strength slider to one section of the range
 
 DONE:
+5/12/09 revise model
+5/12/09 solution controls
+5/12/09 more localization
 5/11/09 localization
 5/11/09 create static instances of all specific acids and bases
 5/11/09 lighten pH probe shaft so that molecule count symbols are visible when they overlap the probe
