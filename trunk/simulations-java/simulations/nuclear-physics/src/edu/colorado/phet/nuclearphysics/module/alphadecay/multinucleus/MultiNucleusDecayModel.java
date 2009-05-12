@@ -204,6 +204,7 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 		for (Iterator it = _atomicNuclei.iterator(); it.hasNext(); ){
 			AbstractDecayNucleus nucleus = (AbstractDecayNucleus)it.next();
 			nucleus.removeListener(_nucleusListener);
+			nucleus.removedFromModel();
 			notifyModelElementRemoved( nucleus );
 			it.remove();
 		}
