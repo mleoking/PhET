@@ -1,7 +1,7 @@
 package edu.colorado.phet.acidbasesolutions.control;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JFrame;
@@ -30,6 +30,8 @@ public class SolutionControlsNode extends PhetPNode {
     private static final Color BACKGROUND_COLOR = new Color( 247, 246, 188 );
     private static final Color BACKGROUND_STROKE_COLOR = Color.BLACK;
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
+    private static final Color SEPARATOR_COLOR = BACKGROUND_COLOR.darker();
+    private static final Stroke SEPARATOR_STROKE = new BasicStroke( 1f );
     
     private final SoluteComboBox soluteComboBox;
     private final ConcentrationControlNode concentrationControlNode;
@@ -65,7 +67,7 @@ public class SolutionControlsNode extends PhetPNode {
         yOffset = soluteLabel.getFullBoundsReference().getCenterY() - ( soluteComboBoxWrapper.getFullBoundsReference().getHeight() / 2 );
         soluteComboBoxWrapper.setOffset( xOffset, yOffset );
         xOffset = soluteLabel.getXOffset();
-        yOffset = soluteLabel.getFullBoundsReference().getMaxY() + Y_SPACING;
+        yOffset = soluteComboBoxWrapper.getFullBoundsReference().getMaxY() + Y_SPACING;
         concentrationLabel.setOffset( xOffset, yOffset );
         xOffset = concentrationLabel.getXOffset() + 15;
         yOffset = concentrationLabel.getFullBoundsReference().getMaxY() - ( concentrationControlNode.getFullBoundsReference().getY() - concentrationControlNode.getYOffset() ) + 5;
@@ -77,14 +79,23 @@ public class SolutionControlsNode extends PhetPNode {
         yOffset = strengthLabel.getFullBoundsReference().getMaxY() - ( strengthSliderNode.getFullBoundsReference().getY() - strengthSliderNode.getYOffset() );
         strengthSliderNode.setOffset( xOffset, yOffset );
         
+        // separator
+        final double sepWidth = this.getFullBoundsReference().getWidth();
+        PNode sepNode1 = new SeparatorNode( sepWidth );
+        addChild( sepNode1 );
+        xOffset = 0;
+        yOffset = concentrationLabel.getFullBoundsReference().getMinY() - 3;
+        sepNode1.setOffset( xOffset, yOffset );
+        
+        // separator
+        PNode sepNode2 = new SeparatorNode( sepWidth );
+        addChild( sepNode2 );
+        xOffset = 0;
+        yOffset = strengthLabel.getFullBoundsReference().getMinY() - 3;
+        sepNode2.setOffset( xOffset, yOffset );
+        
         // put a background behind the entire panel
-        final double m = BACKGROUND_MARGIN;
-        final double r = BACKGROUND_CORNER_RADIUS;
-        PBounds b = getFullBounds();
-        PPath backgroundNode = new PPath( new RoundRectangle2D.Double( b.getX() - m, b.getY() - m, b.getWidth() + ( 2 * m ), b.getHeight() + ( 2 * m ), r, r ) );
-        backgroundNode.setStroke( BACKGROUND_STROKE );
-        backgroundNode.setStrokePaint( BACKGROUND_STROKE_COLOR );
-        backgroundNode.setPaint( BACKGROUND_COLOR );
+        PNode backgroundNode = new BackgroundNode( this );
         addChild( 0, backgroundNode );
     }
     
@@ -92,8 +103,32 @@ public class SolutionControlsNode extends PhetPNode {
         
         public LabelNode( String text ) {
             super( text );
+            setPickable( false );
             setFont( LABEL_FONT );
             setTextPaint( LABEL_COLOR );
+        }
+    }
+    
+    private static class BackgroundNode extends PPath {
+        public BackgroundNode( PNode node ) {
+            super();
+            setPickable( false );
+            final double m = BACKGROUND_MARGIN;
+            final double r = BACKGROUND_CORNER_RADIUS;
+            PBounds b = node.getFullBounds();
+            setPathTo( new RoundRectangle2D.Double( b.getX() - m, b.getY() - m, b.getWidth() + ( 2 * m ), b.getHeight() + ( 2 * m ), r, r ) );
+            setStroke( BACKGROUND_STROKE );
+            setStrokePaint( BACKGROUND_STROKE_COLOR );
+            setPaint( BACKGROUND_COLOR );
+        }
+    }
+    
+    private static class SeparatorNode extends PPath {
+        public SeparatorNode( double length ) {
+            super( new Line2D.Double( 0, 0, length, 0 ) );
+            setPickable( false );
+            setStrokePaint( SEPARATOR_COLOR );
+            setStroke( SEPARATOR_STROKE );
         }
     }
     
