@@ -3,9 +3,10 @@
 ==================================================================================
 
 TODO:
-- H2O should not be scalable in Reaction Equations, should change to Color.BLACK when scaling is enabled
-- solution control panel
+- CustomAcid, CustomBase solutes
+- custom options in solute combo box
 - connect model and view
+- H2O should not be scalable in Reaction Equations, should change to Color.BLACK when scaling is enabled
 - revisit implementation of Reaction Equations and Equilibrium Expressions
 - particle views
 - "Negligible" in Concentrations graph 
