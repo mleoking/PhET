@@ -262,8 +262,11 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
             results.clear();
             box.calculatePick(mouseRay, results);
         }
-        Vector3f newV = new Vector3f(worldCoords.x, worldCoords.y, -10);
-        box.setLocalTranslation(newV);
         System.out.println("box=" + box.getLocalTranslation() + ", am=" + am.getHotSpotPosition() + ", am.world=" + worldCoords);
+
+        mouseRay.setDirection(mouseRay.getDirection().mult(10.0f));//so z=-10
+        Vector3f dst = mouseRay.getOrigin().add(mouseRay.getDirection());
+        Vector3f newV = new Vector3f(dst.x, dst.y, -10);
+        box.setLocalTranslation(newV);
     }
 }
