@@ -1,38 +1,54 @@
 package edu.colorado.phet.densityjava;
 
 import com.jme.bounding.BoundingBox;
+import com.jme.bounding.BoundingSphere;
 import com.jme.image.Texture;
 import com.jme.input.AbsoluteMouse;
 import com.jme.input.InputHandler;
 import com.jme.input.KeyInput;
+import com.jme.input.MouseInput;
 import com.jme.input.action.InputAction;
 import com.jme.input.action.InputActionEvent;
-import com.jme.math.FastMath;
-import com.jme.math.Quaternion;
-import com.jme.math.Vector3f;
+import com.jme.intersection.PickData;
+import com.jme.intersection.TrianglePickResults;
+import com.jme.math.*;
+import com.jme.renderer.ColorRGBA;
+import com.jme.scene.Spatial;
+import com.jme.scene.TriMesh;
 import com.jme.scene.state.BlendState;
 import com.jme.scene.state.TextureState;
+import com.jme.scene.state.ZBufferState;
 import com.jme.system.DisplaySystem;
 import com.jme.system.canvas.JMECanvas;
 import com.jme.system.canvas.SimpleCanvasImpl;
 import com.jme.system.lwjgl.LWJGLSystemProvider;
 import com.jme.util.GameTaskQueueManager;
 import com.jme.util.TextureManager;
+import com.jme.util.export.binary.BinaryImporter;
+import com.jme.util.geom.BufferUtils;
 import com.jmex.awt.input.AWTMouseInput;
 import com.jmex.awt.lwjgl.LWJGLAWTCanvasConstructor;
 import com.jmex.awt.lwjgl.LWJGLCanvas;
+import com.jmex.model.converters.FormatConverter;
+import com.jmex.model.converters.ObjToJme;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import jmetest.intersection.TestTrianglePick;
 import jmetest.util.JMESwingTest;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.FloatBuffer;
 import java.util.concurrent.Callable;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DensityApplication extends PiccoloPhetApplication {
@@ -267,6 +283,99 @@ public class DensityApplication extends PiccoloPhetApplication {
 
         boolean inited = false;
 
+        private com.jme.scene.Point pointSelection;
+
+        Spatial maggie;
+
+        private com.jme.scene.Line[] selection;
+
+
+        private void createSelectionTriangles(int number) {
+            clearPreviousSelections();
+            selection = new com.jme.scene.Line[number];
+            for (int i = 0; i < selection.length; i++) {
+                selection[i] = new com.jme.scene.Line("selected triangle" + i, new Vector3f[4],
+                        null, new ColorRGBA[4], null);
+                selection[i].setSolidColor(new ColorRGBA(0, 1, 0, 1));
+                selection[i].setLineWidth(5);
+                selection[i].setAntialiased(true);
+                selection[i].setMode(com.jme.scene.Line.Mode.Connected);
+
+                ZBufferState zbs = display.getRenderer().createZBufferState();
+                zbs.setFunction(ZBufferState.TestFunction.Always);
+                selection[i].setRenderState(zbs);
+                selection[i].setLightCombineMode(Spatial.LightCombineMode.Off);
+
+                rootNode.attachChild(selection[i]);
+            }
+
+            rootNode.updateGeometricState(0, true);
+            rootNode.updateRenderState();
+        }
+
+        private void clearPreviousSelections() {
+            if (selection != null) {
+                for (com.jme.scene.Line line : selection) {
+                    rootNode.detachChild(line);
+                }
+            }
+        }
+
+
+        TrianglePickResults results = new TrianglePickResults() {
+
+            public void processPick() {
+
+                // initialize selection triangles, this can go across multiple
+                // target
+                // meshes.
+                int total = 0;
+                for (int i = 0; i < getNumber(); i++) {
+                    total += getPickData(i).getTargetTris().size();
+                }
+                createSelectionTriangles(total);
+                if (getNumber() > 0) {
+                    int previous = 0;
+                    for (int num = 0; num < getNumber(); num++) {
+                        PickData pData = getPickData(num);
+                        java.util.List<Integer> tris = pData.getTargetTris();
+                        TriMesh mesh = (TriMesh) pData.getTargetMesh();
+
+                        for (int i = 0; i < tris.size(); i++) {
+                            int triIndex = tris.get(i);
+                            Vector3f[] vec = new Vector3f[3];
+                            mesh.getTriangle(triIndex, vec);
+                            FloatBuffer buff = selection[i + previous]
+                                    .getVertexBuffer();
+
+                            for (Vector3f v : vec) {
+                                v.multLocal(mesh.getWorldScale());
+                                mesh.getWorldRotation().mult(v, v);
+                                v.addLocal(mesh.getWorldTranslation());
+                            }
+
+                            BufferUtils.setInBuffer(vec[0], buff, 0);
+                            BufferUtils.setInBuffer(vec[1], buff, 1);
+                            BufferUtils.setInBuffer(vec[2], buff, 2);
+                            BufferUtils.setInBuffer(vec[0], buff, 3);
+
+                            if (num == 0 && i == 0) {
+                                selection[i + previous]
+                                        .setSolidColor(new ColorRGBA(1, 0, 0, 1));
+                                Vector3f loc = new Vector3f();
+                                pData.getRay().intersectWhere(vec[0], vec[1],
+                                        vec[2], loc);
+                                BufferUtils.setInBuffer(loc, pointSelection
+                                        .getVertexBuffer(), 0);
+                            }
+                        }
+
+                        previous = tris.size();
+                    }
+                }
+            }
+        };
+
         public void simpleUpdate() {
             if (!inited) {
                 inited = true;
@@ -300,7 +409,52 @@ public class DensityApplication extends PiccoloPhetApplication {
                 am.registerWithInputHandler(input);
 
                 rootNode.attachChild(am);
-                cam.setUp(cam.getUp().mult(-1));
+
+
+                // Create the box in the middle. Give it a bounds
+                URL model = TestTrianglePick.class.getClassLoader().getResource(
+                        "jmetest/data/model/maggie.obj");
+                try {
+                    FormatConverter converter = new ObjToJme();
+                    converter.setProperty("mtllib", model);
+                    ByteArrayOutputStream BO = new ByteArrayOutputStream();
+                    converter.convert(model.openStream(), BO);
+                    maggie = (Spatial) BinaryImporter.getInstance().load(
+                            new ByteArrayInputStream(BO.toByteArray()));
+                    // scale rotate and translate to confirm that world transforms are
+                    // handled
+                    // correctly.
+                    maggie.setLocalScale(.1f);
+                    maggie.setLocalTranslation(new Vector3f(3, 1, -5));
+                    Quaternion q = new Quaternion();
+                    q.fromAngleAxis(0.5f, new Vector3f(0, 1, 0));
+                    maggie.setLocalRotation(q);
+                } catch (IOException e) { // Just in case anything happens
+                    logger.logp(Level.SEVERE, this.getClass().toString(),
+                            "simpleInitGame()", "Exception", e);
+                    System.exit(0);
+                }
+
+                maggie.setModelBound(new BoundingSphere());
+                maggie.updateModelBound();
+                // Attach Children
+                rootNode.attachChild(maggie);
+
+                maggie.lockBounds();
+                maggie.lockTransforms();
+                results.setCheckDistance(true);
+
+                pointSelection = new com.jme.scene.Point("selected triangle", new Vector3f[1], null,
+                        new ColorRGBA[1], null);
+                pointSelection.setSolidColor(new ColorRGBA(1, 0, 0, 1));
+                pointSelection.setPointSize(10);
+                pointSelection.setAntialiased(true);
+                ZBufferState zbs = display.getRenderer().createZBufferState();
+                zbs.setFunction(ZBufferState.TestFunction.Always);
+                pointSelection.setRenderState(zbs);
+                pointSelection.setLightCombineMode(Spatial.LightCombineMode.Off);
+
+                rootNode.attachChild(pointSelection);
             }
 
 
@@ -326,6 +480,27 @@ public class DensityApplication extends PiccoloPhetApplication {
                         + " FPS (average)");
                 fps = 0;
             }
+
+
+            // Is button 0 down? Button 0 is left click
+            if (MouseInput.get().isButtonDown(0)) {
+                Vector2f screenPos = new Vector2f();
+                // Get the position that the mouse is pointing to
+                screenPos.set(am.getHotSpotPosition().x, am.getHotSpotPosition().y);
+                // Get the world location of that X,Y value
+                Vector3f worldCoords = display.getWorldCoordinates(screenPos, 1.0f);
+                // Create a ray starting from the camera, and going in the direction
+                // of the mouse's location
+                final Ray mouseRay = new Ray(cam.getLocation(), worldCoords
+                        .subtractLocal(cam.getLocation()));
+                mouseRay.getDirection().normalizeLocal();
+                results.clear();
+
+//                maggie.calculatePick(mouseRay, results);
+                box.calculatePick(mouseRay, results);
+
+            }
+
         }
     }
 
