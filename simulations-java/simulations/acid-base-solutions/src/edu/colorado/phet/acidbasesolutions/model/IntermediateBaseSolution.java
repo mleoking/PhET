@@ -8,8 +8,8 @@ public class IntermediateBaseSolution extends AqueousSolution {
 
     private final IntermediateBase base;
     
-    public IntermediateBaseSolution( IntermediateBase base, double initialConcentration ) {
-        super( initialConcentration );
+    public IntermediateBaseSolution( IntermediateBase base ) {
+        super( base );
         this.base = base;
     }
     

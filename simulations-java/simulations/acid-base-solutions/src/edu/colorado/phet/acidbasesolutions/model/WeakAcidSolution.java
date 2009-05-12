@@ -8,8 +8,8 @@ public class WeakAcidSolution extends AqueousSolution {
 
     private final WeakAcid acid;
     
-    public WeakAcidSolution( WeakAcid acid, double initialConcentration ) {
-        super( initialConcentration );
+    public WeakAcidSolution( WeakAcid acid ) {
+        super( acid );
         this.acid = acid;
     }
     

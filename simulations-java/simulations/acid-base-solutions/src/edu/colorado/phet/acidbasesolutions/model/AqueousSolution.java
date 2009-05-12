@@ -3,6 +3,9 @@ package edu.colorado.phet.acidbasesolutions.model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import edu.colorado.phet.acidbasesolutions.ABSConstants;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
+
 /**
  * Base class for all aqueous solutions.
  *
@@ -10,14 +13,20 @@ import java.util.Iterator;
  */
 public abstract class AqueousSolution {
 
+    private final Solute solute;
     private final Water water;
     private double initialConcentration;
     private final ArrayList<SolutionListener> listeners;
     
-    protected AqueousSolution( double initialConcentration ) {
+    protected AqueousSolution( Solute solute ) {
+        this.solute = solute;
         this.water = new Water();
-        this.initialConcentration = initialConcentration;
+        this.initialConcentration = ABSConstants.CONCENTRATION_RANGE.getMin();
         this.listeners = new ArrayList<SolutionListener>();
+    }
+    
+    public Solute getSolute() {
+        return solute;
     }
     
     public Water getWater() {
@@ -35,6 +44,10 @@ public abstract class AqueousSolution {
     // c
     public double getInitialConcentration() {
         return initialConcentration;
+    }
+    
+    public String toString() {
+        return HTMLUtils.toHTMLString( solute.getName() + " (" + solute.getSymbol() + ")" );
     }
     
     public interface SolutionListener {

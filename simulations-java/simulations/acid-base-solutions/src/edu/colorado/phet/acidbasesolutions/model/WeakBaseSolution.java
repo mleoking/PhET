@@ -8,8 +8,8 @@ public class WeakBaseSolution extends AqueousSolution {
 
     private final WeakBase base;
     
-    public WeakBaseSolution( WeakBase base, double initialConcentration ) {
-        super( initialConcentration );
+    public WeakBaseSolution( WeakBase base ) {
+        super( base );
         this.base = base;
     }
     

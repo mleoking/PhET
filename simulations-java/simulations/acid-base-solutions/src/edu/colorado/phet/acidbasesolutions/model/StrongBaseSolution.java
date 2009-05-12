@@ -9,8 +9,8 @@ public class StrongBaseSolution extends AqueousSolution {
     
     private final StrongBase base;
     
-    public StrongBaseSolution( StrongBase base, double initialConcentration ) {
-        super( initialConcentration );
+    public StrongBaseSolution( StrongBase base ) {
+        super( base );
         this.base = base;
     }
     
