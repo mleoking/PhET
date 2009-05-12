@@ -94,6 +94,8 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         // Load the background image.
         BufferedImage bufferedImage = NuclearPhysicsResources.getImage( "green-hills-and-sky.png" );
         _backgroundImage = new PImage( bufferedImage );
+        _backgroundImage.setOffset(
+        		INITIAL_INTERMEDIATE_COORD_WIDTH / 2 - _backgroundImage.getFullBoundsReference().width / 2, 0);
         _backgroundImageLayer.addChild( _backgroundImage );
 
         // Add the strata that will contain the datable items.
