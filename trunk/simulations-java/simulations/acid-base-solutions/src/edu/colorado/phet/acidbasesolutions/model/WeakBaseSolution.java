@@ -4,7 +4,7 @@ import edu.colorado.phet.acidbasesolutions.model.Base.WeakBase;
 
 
 
-public class WeakBaseSolution extends Solution {
+public class WeakBaseSolution extends AqueousSolution {
 
     private final WeakBase base;
     
@@ -31,7 +31,7 @@ public class WeakBaseSolution extends Solution {
     
     // [H3O+] = Kw / [OH-]
     public double getH3OConcentration() {
-        return PureWater.getInstance().getEquilibriumConstant() / getOHConcentration();
+        return Water.getEquilibriumConstant() / getOHConcentration();
     }
     
     // [OH-] = [BH+]
@@ -41,6 +41,6 @@ public class WeakBaseSolution extends Solution {
     
     // [H2O] = W - [BH+]
     public double getH2OConcentration() {
-        return PureWater.getInstance().getConcentration() - getAcidConcentration();
+        return getWater().getConcentration() - getAcidConcentration();
     }
 }
