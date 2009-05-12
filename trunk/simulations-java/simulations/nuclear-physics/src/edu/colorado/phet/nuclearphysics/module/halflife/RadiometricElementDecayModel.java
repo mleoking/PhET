@@ -16,8 +16,8 @@ import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucl
 
 /**
  * This class contains the Model portion of the Model-View-Controller 
- * architecture that is used to demonstrate Alpha Decay for a single atomic
- * nucleus.
+ * architecture that is used to demonstrate the decay of nuclei that
+ * are used in radiometric dating.
  *
  * @author John Blanco
  */
