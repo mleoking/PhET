@@ -48,8 +48,8 @@ public class RadioactiveDatingGameModel {
         _strata.add( new Stratum( -3, 3 ) );
         _strata.add( new Stratum( -6, 3 ) );
         _strata.add( new Stratum( -9, 3 ) );
-        _strata.add( new Stratum( -12, 3 ) );
-        _strata.add( new Stratum( -16, 4 ) );
+        _strata.add( new Stratum( -13, 4 ) );
+        _strata.add( new Stratum( -17, 4 ) );
 
         _datableObjects.add(new DatableObject("Trilobyte", "trilobyte_fossil.png", new Point2D.Double(0, 0), 0.5, 1E11));
     	_datableObjects.add(new DatableObject("Animal Skull", "skull_animal.png", new Point2D.Double(5, -6), 0.7, 1E11));

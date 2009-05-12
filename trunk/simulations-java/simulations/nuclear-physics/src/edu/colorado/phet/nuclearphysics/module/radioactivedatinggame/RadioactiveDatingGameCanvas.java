@@ -55,7 +55,6 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     private final Dimension INITIAL_INTERMEDIATE_DIMENSION = new Dimension( INITIAL_INTERMEDIATE_COORD_WIDTH,
     		INITIAL_INTERMEDIATE_COORD_HEIGHT );
     private final double PROPORTIONS_CHART_WIDTH_FRACTION = 0.7; // Fraction of canvas width for proportions chart.
-    private final double CHART_HEIGHT = 200; // Chart height in screen coordinates
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -80,7 +79,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 
     	setWorldTransformStrategy(new PhetPCanvas.CenterWidthScaleHeight(this, INITIAL_INTERMEDIATE_DIMENSION));
         _mvt = new ModelViewTransform2D(new Point2D.Double(0, 0), new Point2D.Double(10, -30),
-        		new Point(INITIAL_INTERMEDIATE_COORD_WIDTH / 2, INITIAL_INTERMEDIATE_COORD_HEIGHT / 4),
+        		new Point(INITIAL_INTERMEDIATE_COORD_WIDTH / 2, (int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.33)),
         		new Point(INITIAL_INTERMEDIATE_COORD_WIDTH, INITIAL_INTERMEDIATE_COORD_HEIGHT),true);
 
         // Add a reference node that will be used when positioning other nodes later.
