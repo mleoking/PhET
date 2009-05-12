@@ -1,4 +1,4 @@
-﻿class ControlPanel{
+class ControlPanel{
 	var view_arr:Array;
 	//private var activePendulum:Number;		//0 for pendulum 1 to be adjusted, 1 for pendulum 2
 	private var periodPendulum:Number;		//0 for pendulum 1 to have period measured, 1 for pendulum 2
@@ -174,7 +174,7 @@
 		
 		myKeyListener.onKeyDown = function(){
 			var pressedKeyCode:Number = Key.getCode();
-			if(pressedKeyCode == Key.SPACE && _level0.common.getDev()){
+			if(pressedKeyCode == Key.SPACE && _level0.common.getDev() && Key.isDown(Key.SHIFT)){
 				controllerRef.view_arr[0].pendulum.dtMax = 0;
 				controllerRef.view_arr[0].pendulum.dtMin = 1000;
 				controllerRef.view_arr[0].pendulum.dtAvg = 0;

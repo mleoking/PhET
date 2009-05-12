@@ -22,7 +22,7 @@ class edu.colorado.phet.flashcommon.TabHandler {
 	
 	// text field that takes focus when focus is removed from a text field
 	// this makes old text fields so that they do not have keyboard focus
-	public var dummyText : TextField;
+	public static var dummyText : TextField;
 	
 	// stores the most recent highlight movieclip (where graphics are drawn
 	// to highlight the control currently in focus)
@@ -35,6 +35,8 @@ class edu.colorado.phet.flashcommon.TabHandler {
 	
 	public var common : FlashCommon;
 	
+	private var debugMain : Boolean;
+	
 	// shorthand for debugging function
 	public function debug(str : String) : Void {
 		_level0.debug(str);
@@ -43,6 +45,7 @@ class edu.colorado.phet.flashcommon.TabHandler {
 	// constructor
 	public function TabHandler( main : Boolean ) {
 		//debug("Initializing TabHandler\n");
+		debugMain = main;
 		
 		// shortcut to FlashCommon, but now with type-checking!
 		common = _level0.common;
@@ -51,29 +54,27 @@ class edu.colorado.phet.flashcommon.TabHandler {
 		if( main ) {
 			_level0.tabHandler = this;
 			common.tabHandler = this;
-		}
-		
-		// disable default keyboard accessibility
-		_root.tabIndex = 1;
-		_root.tabEnabled = false;
-		MovieClip.prototype.tabEnabled = false;
-		
-		// catch key events to this object
-		if( main ) {
-			Key.addListener(this);
+			
+			// disable default keyboard accessibility
+			_root.tabIndex = 1;
+			_root.tabEnabled = false;
+			MovieClip.prototype.tabEnabled = false;
+			
+			// catch key events to this object
+			//Key.addListener(this);
+			
+			// create dummy text field
+			dummyText = _root.createTextField("dummyTxt", 9092, 0, 0, 0, 0);
+			dummyText._visible = false;
+			dummyText.type = "input";
+			dummyText.tabIndex = 3524534;
+			dummyText.tabEnabled = false;
 		}
 		
 		// default variables
 		active = false;
 		entries = new Array();
 		currentIndex = -1;
-		
-		// create dummy text field
-		dummyText = _root.createTextField("dummyTxt", 9092, 0, 0, 0, 0);
-		dummyText._visible = false;
-		dummyText.type = "input";
-		dummyText.tabIndex = 3524534;
-		dummyText.tabEnabled = false;
 	}
 	
 	// return the currently selected entry
@@ -84,6 +85,14 @@ class edu.colorado.phet.flashcommon.TabHandler {
 	// return the currently selected control
 	public function currentControl() : Object {
 		return entries[currentIndex].control;
+	}
+	
+	public function insertEntry( entry : TabEntry, idx : Number) : Void {
+		entries.splice(idx, 0, entry);
+	}
+	
+	public function addEntry( entry : TabEntry ) : Void {
+		insertEntry( entry, entries.length );
 	}
 	
 	// insert obj into controls at the specified index
@@ -141,7 +150,7 @@ class edu.colorado.phet.flashcommon.TabHandler {
 			_level0.aswing_focusFrontHolderMC.removeMovieClip();
 		}
 		
-		if(Key.getCode() == Key.TAB) {
+		if(Key.getCode() == Key.TAB || Key.getCode() == 106) {
 			//debug("Old focus: " + Selection.getFocus() + "\n");
 			if(Key.isDown(Key.SHIFT)) {
 				previous();
@@ -190,6 +199,8 @@ class edu.colorado.phet.flashcommon.TabHandler {
 		Selection.setFocus(entry.control);
 		entry.control.addFocus();
 		
+		
+		
 		var bounds : Object;
 		switch(entry.highlight) {
 			case HIGHLIGHT_NONE:
@@ -207,7 +218,11 @@ class edu.colorado.phet.flashcommon.TabHandler {
 				}
 				
 				// global, so we create a movieclip on _root, storing it in 'lastHighlight'
-				lastHighlight = _root.createEmptyMovieClip("lastHighlight", 29545000);
+				// TODO: remove hack that overwrites locations randomly. AS2 to blame!
+				//lastHighlight = _root.createEmptyMovieClip("lastHighlight", 1000000 + Math.round(Math.random() * 5000));
+				lastHighlight = _root.createEmptyMovieClip("lastHighlight", _root.getNextHighestDepth());
+				
+				//if( !debugMain ) { throw new Error( "Boo" ); }
 				
 				if(typeof(entry.control) == "movieclip") {
 					// if it is a movieclip, we can get the exact bounding box from the root perspective.
@@ -246,11 +261,13 @@ class edu.colorado.phet.flashcommon.TabHandler {
 				drawHighlights(entry, lastHighlight, bounds);
 				break;
 			case HIGHLIGHT_LOCAL:
+				var mc : MovieClip = MovieClip(entry.getHighlightObject());
+				
 				// create a child movieclip on our target
-				lastHighlight = entry.control.createEmptyMovieClip("lastHighlight", entry.control.getNextHighestDepth());
+				lastHighlight = mc.createEmptyMovieClip("lastHighlight", mc.getNextHighestDepth());
 				
 				// must be a movieclip, so bounds calculation is simple
-				bounds = entry.control.getBounds(entry.control);
+				bounds = mc.getBounds(mc);
 				
 				// draw the highlights around the control
 				drawHighlights(entry, lastHighlight, bounds);
@@ -293,6 +310,8 @@ class edu.colorado.phet.flashcommon.TabHandler {
 	
 	// called when tab is pressed
 	public function next() {
+		
+		//_level0.debug("---\nactive: " + active + "\nentries.length:" + entries.length + "\n");
 		if(active) {
 			removeFocus(currentEntry());
 		}
@@ -300,7 +319,9 @@ class edu.colorado.phet.flashcommon.TabHandler {
 		if(entries.length > 0) {
 			active = true;
 			currentIndex = (currentIndex + 1) % entries.length;
+			
 			addFocus(currentEntry());
+			
 		}
 	}
 	
@@ -318,12 +339,7 @@ class edu.colorado.phet.flashcommon.TabHandler {
 	}
 	
 	public function onAddFocus() {
-		if( active ) {
-			return;
-		}
-		
-		if(entries.length > 0) {
-			Key.addListener(this);
+		if(entries.length > 0 && active) {
 			active = true;
 			addFocus(currentEntry());
 		}
@@ -331,9 +347,7 @@ class edu.colorado.phet.flashcommon.TabHandler {
 	
 	public function onRemoveFocus() {
 		if( active ) {
-			Key.removeListener(this);
 			removeFocus( currentEntry() );
-			active = false;
 		}
 	}
 }
