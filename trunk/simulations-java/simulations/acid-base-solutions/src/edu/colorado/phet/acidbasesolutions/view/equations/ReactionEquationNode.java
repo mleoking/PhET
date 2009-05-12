@@ -59,7 +59,7 @@ public abstract class ReactionEquationNode extends PComposite {
         plusRHS = new PlusNode();
         addChild( plusRHS );
         
-        arrow = new PImage( ABSImages.ARROW_SINGLE );
+        arrow = new PImage( getArrowImage() );
         addChild( arrow );
         
         updateLayout();
@@ -86,30 +86,15 @@ public abstract class ReactionEquationNode extends PComposite {
         }
     }
     
-    /*
-     * Sets the image for the arrow between the left and right parts of the equation.
-     */
-    protected void setArrow( BufferedImage arrowImage ) {
-        removeChild( arrow );
-        arrow = new PImage( arrowImage );
-        addChild( arrow );
-        updateLayout();
-    }
+    protected abstract BufferedImage getArrowImage();
     
     /*
-     * Changes the visibility of term 0.
+     * Changes the visibility of term 1.
+     * Term 1 is typically H2O, which is not shown in the reaction equation for strong bases.
      */
-    protected void setTerm0Visible( boolean visible ) {
-        setTermVisible( 0, visible );
+    protected void setTerm1Visible( boolean visible ) {
+        terms[1].setVisible( visible );
         plusLHS.setVisible( visible );
-        updateLayout();
-    }
-    
-    /*
-     * Changes the visibility of a term.
-     */
-    private void setTermVisible( int index, boolean visible ) {
-        terms[index].setVisible( visible );
         updateLayout();
     }
     
@@ -155,23 +140,23 @@ public abstract class ReactionEquationNode extends PComposite {
         double yOffset = 0;
         int termIndex = 0;
         
-        // term 0 is optional
+        // term 0
+        xOffset = layoutTerm( termIndex++, xOffset, structureYOffset );
+        
+        // term 1 is optional
         if ( terms[termIndex].isVisible() ) {
-            
-            // term 0
-            xOffset = layoutTerm( termIndex++, xOffset, structureYOffset );
             
             // plus sign
             yOffset = -plusLHS.getFullBoundsReference().getHeight() / 2;
             plusLHS.setOffset( xOffset, yOffset );
             xOffset = plusLHS.getFullBoundsReference().getMaxX() + X_SPACING;
+            
+            // term 1
+            xOffset = layoutTerm( termIndex++, xOffset, structureYOffset );
         }
         else {
             termIndex++;
         }
-        
-        // term 1
-        xOffset = layoutTerm( termIndex++, xOffset, structureYOffset );
         
         // arrow
         yOffset = -arrow.getFullBoundsReference().getHeight() / 2;
@@ -312,7 +297,10 @@ public abstract class ReactionEquationNode extends PComposite {
             setTerm( 1, ABSSymbols.H2O, ABSConstants.H2O_COLOR, ABSImages.H2O_STRUCTURE );
             setTerm( 2, ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR, ABSImages.H3O_PLUS_STRUCTURE );
             setTerm( 3, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, ABSImages.OH_MINUS_STRUCTURE );
-            setArrow( ABSImages.ARROW_DOUBLE );
+        }
+        
+        protected BufferedImage getArrowImage() {
+            return ABSImages.ARROW_DOUBLE;
         }
     }
     
@@ -340,16 +328,14 @@ public abstract class ReactionEquationNode extends PComposite {
         
         public WeakAcidReactionEquationNode() {
             super();
-            init();
         }
         
         public WeakAcidReactionEquationNode( String symbolLHS, String symbolRHS ) {
             super( symbolLHS, symbolRHS );
-            init();
         }
         
-        private void init() {
-            setArrow( ABSImages.ARROW_DOUBLE );
+        protected BufferedImage getArrowImage() {
+            return ABSImages.ARROW_DOUBLE;
         }
     }
     
@@ -360,16 +346,14 @@ public abstract class ReactionEquationNode extends PComposite {
         
         public StrongAcidReactionEquationNode() {
             super();
-            init();
         }
         
         public StrongAcidReactionEquationNode( String symbolLHS, String symbolRHS ) {
             super( symbolLHS, symbolRHS );
-            init();
         }
         
-        private void init() {
-            setArrow( ABSImages.ARROW_SINGLE );
+        protected BufferedImage getArrowImage() {
+            return ABSImages.ARROW_SINGLE;
         }
     }
     
@@ -383,7 +367,6 @@ public abstract class ReactionEquationNode extends PComposite {
             setTerm( 1, ABSSymbols.H2O, ABSConstants.H2O_COLOR, ABSImages.H2O_STRUCTURE );
             setTerm( 2, ABSSymbols.BH_PLUS, ABSConstants.BH_COLOR, ABSImages.BH_PLUS_STRUCTURE );
             setTerm( 3, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, ABSImages.OH_MINUS_STRUCTURE );
-            setArrow( ABSImages.ARROW_DOUBLE );
         }
         
         public WeakBaseReactionEquationNode( String symbolLHS, String symbolRHS ) {
@@ -391,7 +374,10 @@ public abstract class ReactionEquationNode extends PComposite {
             setTerm( 1, ABSSymbols.H2O, ABSConstants.H2O_COLOR );
             setTerm( 2, ABSSymbols.BH_PLUS, ABSConstants.BH_COLOR );
             setTerm( 3, symbolRHS, ABSConstants.OH_COLOR );
-            setArrow( ABSImages.ARROW_DOUBLE );
+        }
+        
+        protected BufferedImage getArrowImage() {
+            return ABSImages.ARROW_DOUBLE;
         }
     }
     
@@ -401,19 +387,21 @@ public abstract class ReactionEquationNode extends PComposite {
     public static class StrongBaseReactionEquationNode extends ReactionEquationNode {
         
         public StrongBaseReactionEquationNode() {
-            setTerm0Visible( false );
-            setTerm( 1, ABSSymbols.MOH, ABSConstants.MOH_COLOR, ABSImages.MOH_STRUCTURE );
+            setTerm( 0, ABSSymbols.MOH, ABSConstants.MOH_COLOR, ABSImages.MOH_STRUCTURE );
+            setTerm1Visible( false );
             setTerm( 2, ABSSymbols.M_PLUS, ABSConstants.M_COLOR, ABSImages.M_PLUS_STRUCTURE );
             setTerm( 3, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, ABSImages.OH_MINUS_STRUCTURE );
-            setArrow( ABSImages.ARROW_SINGLE );
         }
         
         public StrongBaseReactionEquationNode( String symbolLHS, String symbolRHS ) {
-            setTerm0Visible( false );
-            setTerm( 1, symbolLHS, ABSConstants.MOH_COLOR );
+            setTerm( 0, symbolLHS, ABSConstants.MOH_COLOR );
+            setTerm1Visible( false );
             setTerm( 2, symbolRHS, ABSConstants.M_COLOR );
             setTerm( 3, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR );
-            setArrow( ABSImages.ARROW_SINGLE );
+        }
+        
+        protected BufferedImage getArrowImage() {
+            return ABSImages.ARROW_SINGLE;
         }
     }
     

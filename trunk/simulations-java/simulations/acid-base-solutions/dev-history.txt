@@ -8,7 +8,7 @@ TODO:
 - connect model and view
 - revisit implementation of Reaction Equations and Equilibrium Expressions
 - particle views
-- "Negligible" in Concentrations graph
+- "Negligible" in Concentrations graph 
 - scale image files
 - Reset All
 - rewrite SolutionsCanvas.updateLayout

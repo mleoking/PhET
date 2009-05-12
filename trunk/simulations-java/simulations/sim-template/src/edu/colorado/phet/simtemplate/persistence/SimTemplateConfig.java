@@ -21,7 +21,7 @@ public class SimTemplateConfig implements IProguardKeepClass {
     private String versionMajor;
     private String versionMinor;
     private String versionDev;
-    private String versionRevision;
+    private String _versionRevision;
     
     // Modules
     private ExampleConfig exampleConfig;
@@ -74,11 +74,11 @@ public class SimTemplateConfig implements IProguardKeepClass {
     }
     
     public String getVersionRevision() {
-        return versionRevision;
+        return _versionRevision;
     }
     
     public void setVersionRevision( String versionRevision ) {
-        this.versionRevision = versionRevision;
+        this._versionRevision = versionRevision;
     }
     
     //----------------------------------------------------------------------------
