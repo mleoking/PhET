@@ -124,10 +124,16 @@ class edu.colorado.phet.flashcommon.AboutDialog {
 		var handler : TabHandler = new TabHandler( false );
 		handler.insertControl(agreementButton.trigger_mc, 0);
 		handler.registerButton(agreementButton.trigger_mc);
-		handler.insertControl(creditsButton.trigger_mc, 1);
-		handler.registerButton(creditsButton.trigger_mc);
+		
+		//handler.insertControl(creditsButton.trigger_mc, 1, TabHandler.HIGHLIGHT_LOCAL);
+		//handler.registerButton(creditsButton.trigger_mc);
+		var entry : TabEntry = new TabEntry( creditsButton.trigger_mc, TabHandler.HIGHLIGHT_LOCAL, creditsButton.root_mc );
+		handler.insertEntry( entry, 1 );
+		handler.registerButton( creditsButton.trigger_mc );
+		
 		handler.insertControl(okButton.trigger_mc, 2);
 		handler.registerButton(okButton.trigger_mc);
+		
 		common.keyboardHandler.addTabHandler( handler );
 		common.keyboardHandler.setTabHandler( handler );
 		
@@ -160,6 +166,16 @@ class edu.colorado.phet.flashcommon.AboutDialog {
 			debug("Creating Dialog\n");
 			_level0.creditsDialog = new CreditsDialog();
 		}
+	}
+	
+	// debugging
+	public function hide() {
+		_level0.debug("About window hidden");
+		super.hide();
+	}
+	public function dispose() {
+		_level0.debug("About window disposed");
+		super.dispose();
 	}
 	
 }

@@ -26,6 +26,8 @@ class edu.colorado.phet.flashcommon.KeyboardHandler {
 		currentIndex = 0;
 		
 		_level0.keyboardHandler = this;
+		
+		Key.addListener( this );
 	}
 	
 	public function getCurrentTabHandler() : TabHandler {
@@ -71,7 +73,20 @@ class edu.colorado.phet.flashcommon.KeyboardHandler {
 			idx = getTabHandlerIndex( newHandler );
 		}
 		
+		currentIndex = idx;
+		
 		newHandler.onAddFocus();
+	}
+	
+	
+	public function onKeyDown() {
+		//if( currentIndex != 0 ) { return; }
+		getCurrentTabHandler().onKeyDown();
+	}
+	
+	public function onKeyUp() {
+		//if( currentIndex != 0 ) { return; }
+		getCurrentTabHandler().onKeyUp();
 	}
 	
 }

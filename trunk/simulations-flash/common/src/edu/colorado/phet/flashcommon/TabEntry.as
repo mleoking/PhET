@@ -17,6 +17,8 @@ class edu.colorado.phet.flashcommon.TabEntry {
 	// TabHandler.HIGHLIGHT_GLOBAL or TabHandler.HIGHLIGHT_LOCAL
 	public var highlight : String;
 	
+	public var highlightObject : Object;
+	
 	// which keypresses to handle and pass to callbacks. this is stored
 	// by creating attributes (properties) in the keys object with the
 	// name equal to the Key code (Key.getCode()), and the value equal to
@@ -29,14 +31,23 @@ class edu.colorado.phet.flashcommon.TabEntry {
 	public var buttonlike : Boolean;
 	
 	// constructor
-	public function TabEntry(obj : Object, high : String) {
+	public function TabEntry(obj : Object, high : String, highobj : Object) {
 		control = obj;
 		highlight = high;
+		highlightObject = highobj;
 		if(highlight == undefined) {
 			highlight = TabHandler.HIGHLIGHT_GLOBAL;
 		}
 		keys = new Object();
 		buttonlike = false;
+	}
+	
+	public function getHighlightObject() : Object {
+		if( highlightObject ) {
+			return highlightObject;
+		} else {
+			return control;
+		}
 	}
 	
 	public function toString() : String {
@@ -49,11 +60,6 @@ class edu.colorado.phet.flashcommon.TabEntry {
 			str += i + " ";
 		}
 		str += "\n";
-		/*
-		for(var i : String in control) {
-			str += "\t\t\t" + i + " : " + String(control[i]) + "\n";
-		}
-		*/
 		str += "\t\tbuttonlike: " + String(buttonlike) + "\n";
 		return str;
 	}
