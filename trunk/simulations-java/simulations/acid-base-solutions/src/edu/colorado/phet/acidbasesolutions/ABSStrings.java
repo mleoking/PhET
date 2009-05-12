@@ -26,6 +26,7 @@ public class ABSStrings {
     public static final String TITLE_EQUILIBRIUM_EXPRESSIONS = ABSResources.getString( "title.equilibriumExpressions" );
     public static final String TITLE_REACTION_EQUATIONS = ABSResources.getString( "title.reactionEquations" );
     public static final String TITLE_MISC_CONTROLS = ABSResources.getString( "title.miscControls" );
+    public static final String TITLE_BEAKER_CONTROLS = ABSResources.getString( "title.beakerControls" );
     
     public static final String MESSAGE_NOT_A_CONFIG = ABSResources.getString( "message.notAConfigFile" );
     
@@ -42,6 +43,9 @@ public class ABSStrings {
     public static final String LABEL_SOLUTE = ABSResources.getString( "label.solute" );
     
     // check boxes
+    public static final String CHECK_BOX_MOLECULE_COUNTS = ABSResources.getString( "checkBox.moleculeCounts" );
+    public static final String CHECK_BOX_BEAKER_LABEL = ABSResources.getString( "checkBox.beakerLabel" );
+    public static final String CHECK_BOX_RATIO = ABSResources.getString( "checkBox.ratio" );
     public static final String CHECK_BOX_EQUILIBRIUM_EXPRESSIONS = ABSResources.getString( "checkBox.equilibriumExpressions" );
     public static final String CHECK_BOX_REACTION_EQUATIONS = ABSResources.getString( "checkBox.reactionEquations" );
     public static final String CHECK_BOX_SYMBOL_LEGEND = ABSResources.getString( "checkBox.symbolLegend" );
