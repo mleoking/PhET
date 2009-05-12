@@ -1,6 +1,7 @@
 package edu.colorado.phet.acidbasesolutions.model;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.model.Acid.CustomIntermediateAcid;
 import edu.colorado.phet.acidbasesolutions.model.Acid.IntermediateAcid;
 
 
@@ -52,5 +53,17 @@ public class IntermediateAcidSolution extends AqueousSolution {
     // [H2O] = W - [A-]
     public double getH2OConcentration() {
         return getWater().getConcentration() - getBaseConcentration();
+    }
+    
+    public static class CustomIntermediateAcidSolution extends IntermediateAcidSolution {
+        
+        public CustomIntermediateAcidSolution() {
+            super( new CustomIntermediateAcid() );
+        }
+        
+        // public for custom
+        public void setStrength( double strength ) {
+            super.setStrength( strength );
+        }
     }
 }

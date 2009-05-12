@@ -4,29 +4,18 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 
-public abstract class Solute {
+public abstract class Solute extends Molecule {
     
-    private final String name;
-    private final String symbol;
     private double strength;
     private final ArrayList<SoluteListener> listeners;
     
     protected Solute( String name, String symbol, double strength ) {
-        this.name = name;
-        this.symbol = symbol;
+        super( name, symbol );
         if ( !isValidStrength( strength ) ) {
             throw new IllegalArgumentException( "strength is invalid: " + strength );
         }
         this.strength = strength;
         listeners = new ArrayList<SoluteListener>();
-    }
-    
-    public String getName() {
-        return name;
-    }
-    
-    public String getSymbol() {
-        return symbol;
     }
     
     protected abstract boolean isValidStrength( double strength );

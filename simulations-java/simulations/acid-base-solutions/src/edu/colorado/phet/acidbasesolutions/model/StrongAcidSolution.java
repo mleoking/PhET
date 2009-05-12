@@ -1,5 +1,6 @@
 package edu.colorado.phet.acidbasesolutions.model;
 
+import edu.colorado.phet.acidbasesolutions.model.Acid.CustomStrongAcid;
 import edu.colorado.phet.acidbasesolutions.model.Acid.StrongAcid;
 
 
@@ -29,17 +30,29 @@ public class StrongAcidSolution extends AqueousSolution {
     }
     
     // [H3O+] = c
-    public double getHydroniumConcentration() {
+    public double getH3OConcentration() {
         return getInitialConcentration();
     }
     
     // [OH-] = Kw / [H3O+]
-    public double getHydroxideConcentration() {
-        return Water.getEquilibriumConstant() / getHydroniumConcentration();
+    public double getOHConcentration() {
+        return Water.getEquilibriumConstant() / getH3OConcentration();
     }
     
     // [H2O] = W - c
-    public double getWaterConcentration() {
+    public double getH2OConcentration() {
         return getWater().getConcentration() - getInitialConcentration();
+    }
+    
+    public static class CustomStrongAcidSolution extends StrongAcidSolution {
+        
+        public CustomStrongAcidSolution() {
+            super( new CustomStrongAcid() );
+        }
+        
+        // public for custom
+        public void setStrength( double strength ) {
+            super.setStrength( strength );
+        }
     }
 }

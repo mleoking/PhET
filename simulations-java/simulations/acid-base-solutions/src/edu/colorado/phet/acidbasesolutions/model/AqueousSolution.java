@@ -46,6 +46,14 @@ public abstract class AqueousSolution {
         return initialConcentration;
     }
     
+    public void setStrength( double strength ) {
+        solute.setStrength( strength );
+    }
+    
+    public double getStrength() {
+        return solute.getStrength();
+    }
+    
     public String toString() {
         return HTMLUtils.toHTMLString( solute.getName() + " (" + solute.getSymbol() + ")" );
     }

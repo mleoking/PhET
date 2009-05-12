@@ -1,5 +1,6 @@
 package edu.colorado.phet.acidbasesolutions.model;
 
+import edu.colorado.phet.acidbasesolutions.model.Acid.CustomWeakAcid;
 import edu.colorado.phet.acidbasesolutions.model.Acid.WeakAcid;
 
 
@@ -42,5 +43,17 @@ public class WeakAcidSolution extends AqueousSolution {
     // [H2O] = W - [A-]
     public double getH2OConcentration() {
         return getWater().getConcentration() - getBaseConcentration();
+    }
+
+    public static class CustomWeakAcidSolution extends WeakAcidSolution {
+
+        public CustomWeakAcidSolution() {
+            super( new CustomWeakAcid() );
+        }
+
+        // public for custom
+        public void setStrength( double strength ) {
+            super.setStrength( strength );
+        }
     }
 }
