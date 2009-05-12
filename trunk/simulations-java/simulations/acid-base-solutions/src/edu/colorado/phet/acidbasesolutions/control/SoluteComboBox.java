@@ -6,16 +6,11 @@ import javax.swing.JFrame;
 
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
-import edu.colorado.phet.acidbasesolutions.model.PureWater;
-import edu.colorado.phet.acidbasesolutions.model.StrongAcidSolution.HydrochloricAcidSolution;
-import edu.colorado.phet.acidbasesolutions.model.StrongAcidSolution.PerchloricAcidSolution;
-import edu.colorado.phet.acidbasesolutions.model.StrongBaseSolution.SodiumHydroxideSolution;
-import edu.colorado.phet.acidbasesolutions.model.WeakAcidSolution.AceticAcidSolution;
-import edu.colorado.phet.acidbasesolutions.model.WeakAcidSolution.ChlorousAcidSolution;
-import edu.colorado.phet.acidbasesolutions.model.WeakAcidSolution.HydrofluoricAcidSolution;
-import edu.colorado.phet.acidbasesolutions.model.WeakAcidSolution.HypochlorusAcidSolution;
-import edu.colorado.phet.acidbasesolutions.model.WeakBaseSolution.AmmoniaSolution;
-import edu.colorado.phet.acidbasesolutions.model.WeakBaseSolution.PyridineSolution;
+import edu.colorado.phet.acidbasesolutions.model.NullSolute;
+import edu.colorado.phet.acidbasesolutions.model.Acid.*;
+import edu.colorado.phet.acidbasesolutions.model.Base.Ammonia;
+import edu.colorado.phet.acidbasesolutions.model.Base.Pyridine;
+import edu.colorado.phet.acidbasesolutions.model.Base.SodiumHydroxide;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
 
@@ -55,19 +50,21 @@ public class SoluteComboBox extends JComboBox {
         
         defaultChoice = new CustomAcidChoice();
         
-        // pure water
-        addItem( new PureWater() );
-        // specific solutions, English alphabetical order
-        addItem( new AceticAcidSolution() );
-        addItem( new AmmoniaSolution() );
-        addItem( new ChlorousAcidSolution() );
-        addItem( new HydrochloricAcidSolution() );
-        addItem( new HydrofluoricAcidSolution() );
-        addItem( new HypochlorusAcidSolution() );
-        addItem( new PerchloricAcidSolution() );
-        addItem( new PyridineSolution() );
-        addItem( new SodiumHydroxideSolution() );
-        // custom
+        // no solute
+        addItem( new NullSolute() );
+        
+        // specific solutes, English alphabetical order
+        addItem( new AceticAcid() );
+        addItem( new Ammonia() );
+        addItem( new ChlorousAcid() );
+        addItem( new HydrochloricAcid() );
+        addItem( new HydrofluoricAcid() );
+        addItem( new HypochlorusAcid() );
+        addItem( new PerchloricAcid() );
+        addItem( new Pyridine() );
+        addItem( new SodiumHydroxide() );
+        
+        // custom solutes
         addItem( defaultChoice );
         addItem( new CustomBaseChoice() );
         

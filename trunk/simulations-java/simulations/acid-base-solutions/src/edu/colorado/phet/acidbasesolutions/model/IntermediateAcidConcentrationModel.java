@@ -1,22 +1,14 @@
 package edu.colorado.phet.acidbasesolutions.model;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
-import edu.colorado.phet.acidbasesolutions.model.Acid.CustomIntermediateAcid;
 import edu.colorado.phet.acidbasesolutions.model.Acid.IntermediateAcid;
 
 
 
-public class IntermediateAcidSolution extends AqueousSolution {
+public class IntermediateAcidConcentrationModel extends ConcentrationModel {
 
-    private final IntermediateAcid acid;
-    
-    public IntermediateAcidSolution( IntermediateAcid acid ) {
+    public IntermediateAcidConcentrationModel( IntermediateAcid acid ) {
         super( acid );
-        this.acid = acid;
-    }
-    
-    public IntermediateAcid getAcid() {
-        return acid;
     }
     
     // [HA] = [HA for weak acid with Ka=Kmin]*10^(4*(K-Kmin)/(K-Kmax))
@@ -29,7 +21,7 @@ public class IntermediateAcidSolution extends AqueousSolution {
     }
     
     private double getKScale() {
-        final double K = acid.getStrength();
+        final double K = getSolute().getStrength();
         final double Kmin = ABSConstants.INTERMEDIATE_STRENGTH_RANGE.getMin();
         final double Kmax = ABSConstants.INTERMEDIATE_STRENGTH_RANGE.getMax();
         return ( K - Kmin ) / ( Kmax - Kmin );
@@ -52,18 +44,6 @@ public class IntermediateAcidSolution extends AqueousSolution {
     
     // [H2O] = W - [A-]
     public double getH2OConcentration() {
-        return getWater().getConcentration() - getBaseConcentration();
-    }
-    
-    public static class CustomIntermediateAcidSolution extends IntermediateAcidSolution {
-        
-        public CustomIntermediateAcidSolution() {
-            super( new CustomIntermediateAcid() );
-        }
-        
-        // public for custom
-        public void setStrength( double strength ) {
-            super.setStrength( strength );
-        }
+        return Water.getConcentration() - getBaseConcentration();
     }
 }

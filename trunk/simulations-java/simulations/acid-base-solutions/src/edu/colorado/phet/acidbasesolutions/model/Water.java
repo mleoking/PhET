@@ -17,7 +17,7 @@ public class Water extends Molecule {
         super( ABSStrings.WATER, ABSSymbols.H2O );
     }
     
-    public double getConcentration() {
+    public static double getConcentration() {
         return W;
     }
     
