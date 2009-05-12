@@ -74,8 +74,8 @@ public abstract class Acid extends Solute {
         }
     }
     
-    public static class ChlorusAcid extends WeakAcid {
-        public ChlorusAcid() {
+    public static class ChlorousAcid extends WeakAcid {
+        public ChlorousAcid() {
             super( ABSStrings.CHLOROUS_ACID, ABSSymbols.HClO2, 1E-2, ABSSymbols.ClO2_MINUS );
         }
     }

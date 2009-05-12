@@ -1,6 +1,8 @@
 package edu.colorado.phet.acidbasesolutions.model;
 
+import edu.colorado.phet.acidbasesolutions.model.Base.Ammonia;
 import edu.colorado.phet.acidbasesolutions.model.Base.CustomWeakBase;
+import edu.colorado.phet.acidbasesolutions.model.Base.Pyridine;
 import edu.colorado.phet.acidbasesolutions.model.Base.WeakBase;
 
 
@@ -9,7 +11,7 @@ public class WeakBaseSolution extends AqueousSolution {
 
     private final WeakBase base;
     
-    public WeakBaseSolution( WeakBase base ) {
+    protected WeakBaseSolution( WeakBase base ) {
         super( base );
         this.base = base;
     }
@@ -43,6 +45,18 @@ public class WeakBaseSolution extends AqueousSolution {
     // [H2O] = W - [BH+]
     public double getH2OConcentration() {
         return getWater().getConcentration() - getAcidConcentration();
+    }
+    
+    public static class AmmoniaSolution extends WeakBaseSolution {
+        public AmmoniaSolution() {
+            super( new Ammonia() );
+        }
+    }
+    
+    public static class PyridineSolution extends WeakBaseSolution {
+        public PyridineSolution() {
+            super( new Pyridine() );
+        }
     }
     
     public static class CustomWeakBaseSolution extends WeakBaseSolution {
