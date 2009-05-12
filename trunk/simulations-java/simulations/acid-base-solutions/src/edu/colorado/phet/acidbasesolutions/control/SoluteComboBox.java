@@ -48,10 +48,12 @@ public class SoluteComboBox extends JComboBox {
         }
     }
     
+    private final Object defaultChoice;
+    
     public SoluteComboBox() {
         super();
         
-        Object defaultChoice = new CustomAcidChoice();
+        defaultChoice = new CustomAcidChoice();
         
         // pure water
         addItem( new PureWater() );
@@ -74,6 +76,10 @@ public class SoluteComboBox extends JComboBox {
         
         // make all items visible (no vertical scroll bar)
         setMaximumRowCount( getItemCount() );
+    }
+    
+    public void reset() {
+        setSelectedItem( defaultChoice );
     }
 
     public static void main( String[] args ) {

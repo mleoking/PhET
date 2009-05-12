@@ -42,10 +42,6 @@ public class StrengthSliderNode extends PhetPNode {
     // Class data
     //----------------------------------------------------------------------------
 
-    // Control label
-    private static final Font LABEL_FONT = new PhetFont( 14 );
-    private static final Color LABEL_COLOR = Color.BLACK;
-
     // Thumb
     private static final PDimension THUMB_SIZE = new PDimension( 13, 18 );
     private static final Color THUMB_FILL_COLOR = new Color( 203, 255, 243 );
@@ -59,7 +55,7 @@ public class StrengthSliderNode extends PhetPNode {
     private static final Color TRACK_STRONG_COLOR = Color.GRAY;
     private static final double TRACK_WEAK_WIDTH = 200;
     private static final double TRACK_INTERMEDIATE_WIDTH = 30;
-    private static final double TRACK_STRONG_WIDTH = 50;
+    private static final double TRACK_STRONG_WIDTH = 80;
     private static final double TRACK_WIDTH = TRACK_WEAK_WIDTH + TRACK_INTERMEDIATE_WIDTH + TRACK_STRONG_WIDTH;
     private static final double TRACK_HEIGHT = 10;
     private static final Stroke TRACK_STROKE = new BasicStroke( 1f );
@@ -131,15 +127,6 @@ public class StrengthSliderNode extends PhetPNode {
         xOffset = TRACK_WEAK_WIDTH + TRACK_INTERMEDIATE_WIDTH;
         yOffset = ( strongRangeLabelNode.getYOffset() - strongRangeLabelNode.getY() ) - 20;
         strongRangeLabelNode.setOffset( xOffset, yOffset );
-        
-        // strength label
-        PText labelNode = new PText( ABSStrings.LABEL_STRENGTH );
-        labelNode.setFont( LABEL_FONT );
-        labelNode.setTextPaint( LABEL_COLOR );
-        addChild( labelNode );
-        xOffset = 0;
-        yOffset = weakRangeLabelNode.getFullBoundsReference().getMinY() - labelNode.getFullBoundsReference().getHeight() - 2;
-        labelNode.setOffset( xOffset, yOffset );
         
         //  minor ticks, intermediate track
         double dx = MINOR_TICKS_CLOSEST_X_SPACING;

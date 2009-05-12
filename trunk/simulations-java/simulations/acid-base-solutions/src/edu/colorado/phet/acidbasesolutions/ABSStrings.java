@@ -39,6 +39,7 @@ public class ABSStrings {
     public static final String LABEL_STRONG = ABSResources.getString( "label.strong" );
     public static final String LABEL_STRONGER = ABSResources.getString( "label.stronger" );
     public static final String LABEL_CONCENTRATION_GRAPH_Y_AXIS = ABSResources.getString("label.concentrationGraph.yAxis" );
+    public static final String LABEL_SOLUTE = ABSResources.getString( "label.solute" );
     
     // check boxes
     public static final String CHECK_BOX_EQUILIBRIUM_EXPRESSIONS = ABSResources.getString( "checkBox.equilibriumExpressions" );

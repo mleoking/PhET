@@ -70,10 +70,6 @@ public class ConcentrationControlNode extends PNode {
         
         changeListeners = new ArrayList<ChangeListener>();
         
-        PText labelNode = new PText( ABSStrings.LABEL_CONCENTRATION );
-        labelNode.setFont( LABEL_FONT );
-        addChild( labelNode );
-        
         sliderNode = new ConcentrationSliderNode( min, max );
         addChild( sliderNode );
         sliderNode.addChangeListener( new SliderListener() );
@@ -98,11 +94,9 @@ public class ConcentrationControlNode extends PNode {
         PSwing panelWrapper = new PSwing( panel );
         addChild( panelWrapper );
         
-        // layout
-        labelNode.setOffset( 0, 0 );
-        // slider below label, left justified
-        double xOffset = labelNode.getXOffset();
-        double yOffset = labelNode.getFullBoundsReference().getMaxY() + Y_SPACING - ( sliderNode.getFullBoundsReference().getY() - sliderNode.getYOffset() );
+        // slider
+        double xOffset = 0;
+        double yOffset = 0;
         sliderNode.setOffset( xOffset, yOffset );
         // text field to the right of slider, vertically centered
         xOffset = sliderNode.getFullBoundsReference().getMaxX() + X_SPACING;
