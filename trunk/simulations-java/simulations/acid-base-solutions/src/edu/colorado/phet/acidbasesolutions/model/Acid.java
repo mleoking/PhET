@@ -1,97 +1,47 @@
 package edu.colorado.phet.acidbasesolutions.model;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 
 
-public abstract class Acid {
+public abstract class Acid extends Solute {
     
-    // specific strong acids
-    public static final StrongAcid HYDROCHLORIC_ACID = new StrongAcid( ABSStrings.HYDORCHLORIC_ACID, ABSSymbols.HCl, ABSSymbols.Cl_MINUS, 1E7 );
-    public static final StrongAcid PERCHLORIC_ACID = new StrongAcid( ABSStrings.PERCHLORIC_ACID, ABSSymbols.HClO4, ABSSymbols.ClO4_MINUS, 40 );
-    
-    // specific weak acids
-    public static final WeakAcid CHLORUS_ACID = new WeakAcid( ABSStrings.CHLOROUS_ACID, ABSSymbols.HClO2, ABSSymbols.ClO2_MINUS, 1E-2 );
-    public static final WeakAcid HYPOCHLORUS_ACID = new WeakAcid( ABSStrings.HYPOCHLOROUS_ACID, ABSSymbols.HClO, ABSSymbols.ClO_MINUS, 2.9E-8 );
-    public static final WeakAcid HYDROFLUORIC_ACID = new WeakAcid( ABSStrings.HYDROFLUORIC_ACID, ABSSymbols.HF, ABSSymbols.F_MINUS, 6.8E-4 );
-    public static final WeakAcid ACETIC_ACID = new WeakAcid( ABSStrings.ACETIC_ACID, ABSSymbols.CH3COOH, ABSSymbols.CH3COO_MINUS, 1.8E-5 );
-    
-    private final String name;
-    private final String symbol;
     private final String conjugateSymbol;
-    private double strength;
-    private final ArrayList<AcidListener> listeners;
     
-    protected Acid( String name, String symbol, String conjugateSymbol, double strength ) {
-        this.name = name;
-        this.symbol = symbol;
+    protected Acid( String name, String symbol, double strength, String conjugateSymbol ) {
+        super( name, symbol, strength );
         this.conjugateSymbol = conjugateSymbol;
-        if ( !isValidStrength( strength ) ) {
-            throw new IllegalArgumentException( "strength is invalid: " + strength );
-        }
-        this.strength = strength;
-        this.listeners = new ArrayList<AcidListener>();
-    }
-    
-    public String getName() {
-        return name;
-    }
-    
-    public String getSymbol() {
-        return symbol;
     }
     
     public String getConjugateSymbol() {
         return conjugateSymbol;
     }
     
-    protected void setStrength( double strength ) {
-        if ( !isValidStrength( strength ) ) {
-            throw new IllegalArgumentException( "strength is invalid: " + strength );
-        }
-        if ( strength != this.strength ) {
-            this.strength = strength;
-            notifyStrengthChanged();
-        }
-    }
+    //----------------------------------------------------------------------------
+    // Strong acids
+    //----------------------------------------------------------------------------
     
-    public double getStrength() {
-        return strength;
-    }
-    
-    protected abstract boolean isValidStrength( double strength );
-    
-    public interface AcidListener {
-        public void strengthChanged();
-    }
-    
-    public void addAcidListener( AcidListener listener ) {
-        listeners.add( listener );
-    }
-    
-    public void removeAcidListener( AcidListener listener ) {
-        listeners.remove( listener );
-    }
-    
-    private void notifyStrengthChanged() {
-        Iterator<AcidListener> i = listeners.iterator();
-        while ( i.hasNext() ) {
-            i.next().strengthChanged();
-        }
-    }
-    
-    public static class StrongAcid extends Acid {
+    public abstract static class StrongAcid extends Acid {
         
-        protected StrongAcid( String name, String symbol, String conjugateSymbol, double strength ) {
-            super( name, symbol, conjugateSymbol, strength );
+        private StrongAcid( String name, String symbol, double strength, String conjugateSymbol ) {
+            super( name, symbol, strength, conjugateSymbol );
         }
         
         protected boolean isValidStrength( double strength ) {
             return ABSConstants.STRONG_STRENGTH_RANGE.contains( strength );
+        }
+    }
+    
+    public static class HydrochloricAcid extends StrongAcid {
+        public HydrochloricAcid() {
+            super( ABSStrings.HYDROCHLORIC_ACID, ABSSymbols.HCl, 1E7, ABSSymbols.Cl_MINUS );
+        }
+    }
+    
+    public static class PerchloricAcid extends StrongAcid {
+        public PerchloricAcid() {
+            super( ABSStrings.PERCHLORIC_ACID, ABSSymbols.HClO4, 40, ABSSymbols.ClO4_MINUS );
         }
     }
 
@@ -100,18 +50,23 @@ public abstract class Acid {
         private static final double DEFAULT_STRENGTH = ABSConstants.STRONG_STRENGTH_RANGE.getMin();
 
         public CustomStrongAcid() {
-            super( ABSStrings.CUSTOM_STRONG_ACID, ABSSymbols.HA, ABSSymbols.A_MINUS, DEFAULT_STRENGTH );
+            super( ABSStrings.CUSTOM_STRONG_ACID, ABSSymbols.HA, DEFAULT_STRENGTH, ABSSymbols.A_MINUS );
         }
 
+        // public setter for custom
         public void setStrength( double strength ) {
             super.setStrength( strength );
         }
     }
     
-    public static class WeakAcid extends Acid {
+    //----------------------------------------------------------------------------
+    // Weak acids
+    //----------------------------------------------------------------------------
+    
+    public abstract static class WeakAcid extends Acid {
         
-        protected WeakAcid( String name, String symbol, String conjugateSymbol, double strength ) {
-            super( name, symbol, conjugateSymbol, strength );
+        private WeakAcid( String name, String symbol, double strength, String conjugateSymbol ) {
+            super( name, symbol, strength, conjugateSymbol );
         }
         
         protected boolean isValidStrength( double strength ) {
@@ -119,23 +74,52 @@ public abstract class Acid {
         }
     }
     
+    public static class ChlorusAcid extends WeakAcid {
+        public ChlorusAcid() {
+            super( ABSStrings.CHLOROUS_ACID, ABSSymbols.HClO2, 1E-2, ABSSymbols.ClO2_MINUS );
+        }
+    }
+    
+    public static class HypochlorusAcid extends WeakAcid {
+        public HypochlorusAcid() {
+            super( ABSStrings.HYPOCHLOROUS_ACID, ABSSymbols.HClO, 2.9E-8, ABSSymbols.ClO_MINUS );
+        }
+    }
+    
+    public static class HydrofluoricAcid extends WeakAcid {
+        public HydrofluoricAcid() {
+            super( ABSStrings.HYDROFLUORIC_ACID, ABSSymbols.HF, 6.8E-4, ABSSymbols.F_MINUS );
+        }
+    }
+    
+    public static class AceticAcid extends WeakAcid {
+        public AceticAcid() {
+            super( ABSStrings.ACETIC_ACID, ABSSymbols.CH3COOH, 1.8E-5, ABSSymbols.CH3COO_MINUS );
+        }
+    }
+    
     public static class CustomWeakAcid extends WeakAcid {
         
         private static final double DEFAULT_STRENGTH = ABSConstants.WEAK_STRENGTH_RANGE.getMin();
-        
+
         public CustomWeakAcid() {
-            super( ABSStrings.CUSTOM_WEAK_ACID, ABSSymbols.HA, ABSSymbols.A_MINUS, DEFAULT_STRENGTH );
+            super( ABSStrings.CUSTOM_WEAK_ACID, ABSSymbols.HA, DEFAULT_STRENGTH, ABSSymbols.A_MINUS );
         }
-        
+
+        // public setter for custom
         public void setStrength( double strength ) {
             super.setStrength( strength );
         }
     }
     
-    public static class IntermediateAcid extends Acid {
+    //----------------------------------------------------------------------------
+    // Intermediate acids
+    //----------------------------------------------------------------------------
+    
+    public abstract static class IntermediateAcid extends Acid {
         
-        protected IntermediateAcid( String name, String symbol, String conjugateSymbol, double strength ) {
-            super( name, symbol, conjugateSymbol, strength );
+        private IntermediateAcid( String name, String symbol, double strength, String conjugateSymbol ) {
+            super( name, symbol, strength, conjugateSymbol );
         }
         
         protected boolean isValidStrength( double strength ) {
@@ -149,9 +133,10 @@ public abstract class Acid {
         private static final double DEFAULT_STRENGTH = ABSConstants.WEAK_STRENGTH_RANGE.getMin();
 
         public CustomIntermediateAcid() {
-            super( ABSStrings.CUSTOM_INTERMEDIATE_ACID, ABSSymbols.HA, ABSSymbols.A_MINUS, DEFAULT_STRENGTH );
+            super( ABSStrings.CUSTOM_INTERMEDIATE_ACID, ABSSymbols.HA, DEFAULT_STRENGTH, ABSSymbols.A_MINUS );
         }
 
+        // public setter for custom
         public void setStrength( double strength ) {
             super.setStrength( strength );
         }

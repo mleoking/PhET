@@ -9,8 +9,8 @@ public class StrongAcidSolution extends AqueousSolution {
     
     private final StrongAcid acid;
     
-    public StrongAcidSolution( StrongAcid acid, double initialConcentration ) {
-        super( initialConcentration );
+    public StrongAcidSolution( StrongAcid acid ) {
+        super( acid );
         this.acid = acid;
     }
     

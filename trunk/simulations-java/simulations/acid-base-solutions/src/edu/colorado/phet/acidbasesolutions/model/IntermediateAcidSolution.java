@@ -9,8 +9,8 @@ public class IntermediateAcidSolution extends AqueousSolution {
 
     private final IntermediateAcid acid;
     
-    public IntermediateAcidSolution( IntermediateAcid acid, double initialConcentration ) {
-        super( initialConcentration );
+    public IntermediateAcidSolution( IntermediateAcid acid ) {
+        super( acid );
         this.acid = acid;
     }
     
