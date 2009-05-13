@@ -4,6 +4,9 @@
 //
 // Author: Jonathan Olson
 
+import org.aswing.JButton;
+import org.aswing.util.Delegate;
+
 import edu.colorado.phet.flashcommon.*;
 
 class edu.colorado.phet.flashcommon.TabHandler {
@@ -103,6 +106,7 @@ class edu.colorado.phet.flashcommon.TabHandler {
 	public function addAsWingButton( obj : Object ) : Void {
 		addEntry( TabEntry.createASwingEntry( obj ) );
 		registerButton( obj.trigger_mc );
+        //obj.addEventListener( JButton.ON_PRESS, Delegate.create( this, aswingButtonPressed ) );
 	}
 	
 	// insert obj into controls at the specified index
@@ -387,6 +391,10 @@ class edu.colorado.phet.flashcommon.TabHandler {
 
     public function giveMeFocus() {
         _level0.keyboardHandler.setTabHandler( this );
+    }
+
+    public function aswingButtonPressed( src : Object ) {
+        giveMeFocus();
     }
 
     public function toString() : String {

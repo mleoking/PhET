@@ -88,15 +88,7 @@ class edu.colorado.phet.flashcommon.AboutDialog extends edu.colorado.phet.flashc
     }
 
     public function agreementClicked(src : JButton) {
-		if(_level0.agreementWindow) {
-			// agreement window exists, just show it
-			debug("Showing dialog again\n");
-			_level0.agreementWindow.show();
-		} else {
-			// agreement window doesn't exist, we must create it
-			debug("Creating Dialog\n");
-			_level0.agreementDialog = new AgreementDialog();
-		}
+		CommonDialog.openAgreementDialog();
 	}
 
 	public function okClicked(src : JButton) {
