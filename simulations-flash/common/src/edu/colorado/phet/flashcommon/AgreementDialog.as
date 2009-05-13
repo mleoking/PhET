@@ -5,12 +5,10 @@
 // Author: Jonathan Olson
 
 import org.aswing.ASColor;
-import org.aswing.ASWingUtils;
 import org.aswing.BoxLayout;
 import org.aswing.CenterLayout;
 import org.aswing.Insets;
 import org.aswing.JButton;
-import org.aswing.JFrame;
 import org.aswing.JPanel;
 import org.aswing.JScrollPane;
 import org.aswing.JSpacer;
@@ -19,12 +17,15 @@ import org.aswing.SoftBoxLayout
 import org.aswing.util.Delegate;
 import org.aswing.border.EmptyBorder;
 import org.aswing.border.LineBorder;
+import org.aswing.Viewportable;
 
 import edu.colorado.phet.flashcommon.*;
 
 class edu.colorado.phet.flashcommon.AgreementDialog extends edu.colorado.phet.flashcommon.CommonDialog {
 
     public var closeButton : JButton;
+    public var agreementScroll : JScrollPane;
+    public var textArea : JTextArea;
 	
 	public function AgreementDialog() {
         super( "agreement", _level0.common.strings.get( "PhetSoftwareAgreement", "PhET Software Agreement" ) );
@@ -39,7 +40,7 @@ class edu.colorado.phet.flashcommon.AgreementDialog extends edu.colorado.phet.fl
 		str += common.getAgreementText();
 		str += "\n\n";
 		
-		var textArea = new JTextArea(str, 0, 40);
+		textArea = new JTextArea(str, 0, 40);
 		textArea.setHtml(true);
 		textArea.setEditable(false);
 		textArea.setCSS( FlashCommon.LINK_STYLE_SHEET );
@@ -49,7 +50,7 @@ class edu.colorado.phet.flashcommon.AgreementDialog extends edu.colorado.phet.fl
 		// add padding around the text
 		textArea.setBorder(new EmptyBorder(null, new Insets(5, 5, 0, 5)));
 				
-		var agreementScroll = new JScrollPane(textArea, JScrollPane.SCROLLBAR_AS_NEEDED, JScrollPane.SCROLLBAR_AS_NEEDED);
+		agreementScroll = new JScrollPane(textArea, JScrollPane.SCROLLBAR_AS_NEEDED, JScrollPane.SCROLLBAR_AS_NEEDED);
 		agreementScroll.setPreferredSize(400, 300);
 		agreementScroll.setBorder(new EmptyBorder(new LineBorder(null, ASColor.GRAY, 1, 0), new Insets(5, 5, 5, 5)));
 		window.getContentPane().append(agreementScroll);		
@@ -73,7 +74,28 @@ class edu.colorado.phet.flashcommon.AgreementDialog extends edu.colorado.phet.fl
 	}
 
     public function setupTabHandler() {
+        var areaEntry = new TabEntry( textArea.trigger_mc, TabHandler.HIGHLIGHT_LOCAL, agreementScroll.getVerticalScrollBar().target_mc );
+        tabHandler.addEntry( areaEntry );
+
+        // Page Down
+        tabHandler.registerKey( textArea.trigger_mc, 34, function() { _level0.agreementDialog.scroll( 10 ); } )
+
+        // Page Up
+        tabHandler.registerKey( textArea.trigger_mc, 33, function() { _level0.agreementDialog.scroll( -10 ); } )
+
+        // up key
+        tabHandler.registerKey( textArea.trigger_mc, 38, function() { _level0.agreementDialog.scroll( -2 ); } )
+
+        // down key
+        tabHandler.registerKey( textArea.trigger_mc, 40, function() { _level0.agreementDialog.scroll( 2 ); } )
+
+        
         tabHandler.addAsWingButton( closeButton );
+    }
+
+    public function scroll( amount : Number ) {
+        var view : Viewportable = agreementScroll.getViewport();
+        view.setViewPosition( view.getViewPosition().move( 0, amount ) );
     }
 	
 	public function closeClicked( src : JButton ) {
