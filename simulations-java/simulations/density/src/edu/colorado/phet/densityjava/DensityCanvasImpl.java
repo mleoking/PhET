@@ -27,8 +27,6 @@ import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.physics.geometry.PhysicsMesh;
 import com.jmex.physics.geometry.PhysicsSphere;
 import com.jmex.physics.util.PhysicsPicker;
-import jmetest.intersection.TestTrianglePick;
-import jmetest.util.JMESwingTest;
 
 import java.awt.*;
 import java.net.URL;
@@ -84,7 +82,7 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
 
         TextureState ts = renderer.createTextureState();
         ts.setEnabled(true);
-        ts.setTexture(TextureManager.loadTexture(JMESwingTest.class
+        ts.setTexture(TextureManager.loadTexture(DensityCanvasImpl.class
                 .getClassLoader().getResource(
 //                "jmetest/data/images/Monkey.jpg"),
                 "phetcommon/images/logos/phet-logo-120x50.jpg"),
@@ -101,7 +99,7 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
 
         // Get a picture for my mouse.
         TextureState mouseTextureState = display.getRenderer().createTextureState();
-        URL cursorLoc = TestTrianglePick.class.getClassLoader().getResource(
+        URL cursorLoc = DensityCanvasImpl.class.getClassLoader().getResource(
                 "jmetest/data/cursor/cursor1.png");
         Texture t = TextureManager.loadTexture(cursorLoc, Texture.MinificationFilter.NearestNeighborNoMipMaps,
                 Texture.MagnificationFilter.Bilinear);
