@@ -101,6 +101,14 @@ class edu.colorado.phet.flashcommon.CommonDialog {
 		}
     }
 
+    public static function openAgreementDialog() {
+        if(_level0.agreementWindow) {
+            _level0.agreementDialog.manualOpen();
+		} else {
+            new AgreementDialog();
+		}
+    }
+
     public static function openPreferencesDialog() {
         if(_level0.preferencesWindow) {
             _level0.preferencesDialog.manualOpen();
