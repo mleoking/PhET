@@ -45,7 +45,18 @@ public class BuildJNLPTask {
         map.put( "PROJECT.ARGS", toJNLPArgs( getArgs( simulation, dev ) ) );
         map.put( "PROJECT.PROPERTIES", getJNLPProperties( locale ) );
         map.put( "PROJECT.DEPLOY.PATH", codebase );
+        map.put( "SECURITY", getSecurity(phetProject));
         return map;
+    }
+
+    private String getSecurity(PhetProject phetProject) {
+        if (phetProject.requestAllPermissions()) {
+            return "<security>\n" +
+                    "      <all-permissions/>\n" +
+                    "</security>";
+        } else {
+            return "";
+        }
     }
 
     private String[] getArgs( Simulation simulation, boolean dev ) {
