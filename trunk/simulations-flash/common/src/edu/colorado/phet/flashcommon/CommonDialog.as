@@ -40,6 +40,7 @@ class edu.colorado.phet.flashcommon.CommonDialog {
         tabHandler = new TabHandler( false );
 
         window.addEventListener( JFrame.ON_WINDOW_CLOSING, Delegate.create( this, closeClicked ) );
+        window.addEventListener( JFrame.ON_FOCUS_GAINED, Delegate.create( this, windowClicked ) );
     }
 
     // only call this the first time
@@ -67,6 +68,7 @@ class edu.colorado.phet.flashcommon.CommonDialog {
     }
 
     public function manualOpen() {
+        tabHandler.reset();
         window.show();
         onOpen();
     }
@@ -74,6 +76,11 @@ class edu.colorado.phet.flashcommon.CommonDialog {
     public function closeClicked( src : Object ) {
 		onClose();
 	}
+
+    public function windowClicked( src : Object ) {
+        debug( "Focus changed!!!" );
+        tabHandler.giveMeFocus();
+    }
 
     public function onClose() {
 		_level0.keyboardHandler.removeTabHandler( tabHandler );
