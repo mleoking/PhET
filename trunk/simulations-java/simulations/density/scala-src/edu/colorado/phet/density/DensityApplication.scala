@@ -26,8 +26,6 @@ import common.piccolophet.PiccoloPhetApplication
 import java.awt.{Canvas, BorderLayout, Component}
 import java.net.URL
 import javax.swing.{JComponent, JPanel}
-import jmetest.intersection.MousePick
-import jmetest.TutorialGuide.HelloMousePick
 import jmetest.util.JMESwingTest
 import scalacommon.ScalaClock
 
