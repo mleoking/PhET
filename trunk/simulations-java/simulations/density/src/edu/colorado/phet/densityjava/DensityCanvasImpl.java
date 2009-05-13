@@ -86,7 +86,8 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
         ts.setEnabled(true);
         ts.setTexture(TextureManager.loadTexture(JMESwingTest.class
                 .getClassLoader().getResource(
-                "jmetest/data/images/Monkey.jpg"),
+//                "jmetest/data/images/Monkey.jpg"),
+                "phetcommon/images/logos/phet-logo-120x50.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear));
 
