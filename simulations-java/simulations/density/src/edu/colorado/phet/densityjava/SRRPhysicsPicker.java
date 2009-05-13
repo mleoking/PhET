@@ -29,7 +29,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jmex.physics.util;
+package edu.colorado.phet.densityjava;
 
 import com.jme.input.InputHandler;
 import com.jme.input.action.InputAction;
@@ -37,7 +37,6 @@ import com.jme.input.action.InputActionEvent;
 import com.jme.intersection.PickData;
 import com.jme.intersection.TrianglePickResults;
 import com.jme.math.Ray;
-import com.jme.math.Vector2f;
 import com.jme.math.Vector3f;
 import com.jme.scene.Node;
 import com.jme.scene.Spatial;
@@ -52,7 +51,7 @@ import edu.colorado.phet.densityjava.DensityCanvasImpl;
  *
  * @author Irrisor
  */
-public class PhysicsPicker {
+public class SRRPhysicsPicker {
     /**
      * root node of the scene - used for picking.
      */
@@ -69,8 +68,8 @@ public class PhysicsPicker {
      * joint to fix myNode in the world.
      */
     private final Joint worldJoint;
-    private PhysicsPicker.PickAction pickAction;
-    private PhysicsPicker.MoveAction moveAction;
+    private SRRPhysicsPicker.PickAction pickAction;
+    private SRRPhysicsPicker.MoveAction moveAction;
     private InputHandler pickHandler;
     private DensityCanvasImpl densityCanvas;
 
@@ -81,7 +80,7 @@ public class PhysicsPicker {
      * @param rootNode     root node of the scene - used for picking
      * @param physicsSpace physics space to create joints in (picked nodes must reside in there)
      */
-    public PhysicsPicker(InputHandler input, Node rootNode, PhysicsSpace physicsSpace) {
+    public SRRPhysicsPicker(InputHandler input, Node rootNode, PhysicsSpace physicsSpace) {
         this(input, rootNode, physicsSpace, false);
     }
 
@@ -93,7 +92,7 @@ public class PhysicsPicker {
      * @param physicsSpace  physics space to create joints in (picked nodes must reside in there)
      * @param allowRotation true to allow rotation of the picked object
      */
-    public PhysicsPicker(InputHandler input, Node rootNode, PhysicsSpace physicsSpace, boolean allowRotation) {
+    public SRRPhysicsPicker(InputHandler input, Node rootNode, PhysicsSpace physicsSpace, boolean allowRotation) {
         this.inputHandler = new InputHandler();
         input.addToAttachedHandlers(this.inputHandler);
         this.rootNode = rootNode;
@@ -111,7 +110,7 @@ public class PhysicsPicker {
         activatePhysicsPicker();
     }
 
-    public PhysicsPicker(InputHandler input, Node rootNode, PhysicsSpace physicsSpace, boolean b, DensityCanvasImpl am) {
+    public SRRPhysicsPicker(InputHandler input, Node rootNode, PhysicsSpace physicsSpace, boolean b, DensityCanvasImpl am) {
         this(input, rootNode, physicsSpace, b);
         this.densityCanvas = am;
     }

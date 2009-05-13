@@ -221,7 +221,7 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
         input.addAction(removeAction, InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_DELETE, InputHandler.AXIS_NONE, false);
 
         cameraInputHandler.setEnabled(false);
-        new PhysicsPicker(input, rootNode, getPhysicsSpace(), false, this);
+        new SRRPhysicsPicker(input, rootNode, getPhysicsSpace(), false, this);
         MouseInput.get().setCursorVisible(true);
 
         Text label = Text.createDefaultTextLabel("instructions", "[r] to reset. Hold [ins] to attach second sphere.");
