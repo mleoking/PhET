@@ -130,8 +130,12 @@ public class Uranium238Nucleus extends AbstractDecayNucleus {
 	}
 
 	public boolean hasDecayed() {
-		// TODO Auto-generated method stub
-		return false;
+    	if (_numProtons != ORIGINAL_NUM_PROTONS){
+    		return true;
+    	}
+    	else{
+    		return false;
+    	}
 	}
 	
     /**

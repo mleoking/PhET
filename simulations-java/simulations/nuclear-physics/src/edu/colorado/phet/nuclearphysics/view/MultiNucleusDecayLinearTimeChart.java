@@ -418,6 +418,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     
     public void setTimeSpan( double timeSpan ){
     	_timeSpan = timeSpan;
+    	_msToPixelsFactor = ((_usableWidth - _graphOriginX) * 0.98) / _timeSpan;
     	update();
     }
     
@@ -1100,11 +1101,20 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         		break;
         		
         	case 92:
-        		// Create a labeled nucleus representing Uranium.
-        		nucleusNode = new LabeledNucleusSphereNode( NuclearPhysicsConstants.NITROGEN_COLOR,
-                        "", 
-                        NuclearPhysicsStrings.URANIUM_238_CHEMICAL_SYMBOL, 
-                        NuclearPhysicsConstants.URANIUM_238_LABEL_COLOR );
+        		if (_nucleus.getNumNeutrons() == 146){
+            		// Create a labeled nucleus representing Uranium 238.
+            		nucleusNode = new LabeledNucleusSphereNode( NuclearPhysicsConstants.URANIUM_238_COLOR,
+                            NuclearPhysicsStrings.URANIUM_238_ISOTOPE_NUMBER, 
+                            NuclearPhysicsStrings.URANIUM_238_CHEMICAL_SYMBOL, 
+                            NuclearPhysicsConstants.URANIUM_238_LABEL_COLOR);
+        		}
+        		else{
+            		// Create a labeled nucleus representing generic Uranium.
+            		nucleusNode = new LabeledNucleusSphereNode( NuclearPhysicsConstants.NITROGEN_COLOR,
+                            "", 
+                            NuclearPhysicsStrings.URANIUM_238_CHEMICAL_SYMBOL, 
+                            NuclearPhysicsConstants.URANIUM_238_COLOR );
+        		}
         		break;
         		
         	default:
