@@ -15,6 +15,12 @@
 -keep class * extends javax.swing.plaf.ComponentUI {
     public static javax.swing.plaf.ComponentUI createUI(javax.swing.JComponent);
 }
+
+#JMonkeyengine dependencies
+#TODO: factor out to project properties files
+-keep class com.jmex.awt.input.AWTKeyInput
+-keep class com.jmex.physics.impl.ode.OdePhysicsSpace$OdeFactory
+
 # Also keep - Enumerations. Keep a method that is required in enumeration
 # classes.
 -keepclassmembers class * extends java.lang.Enum {
