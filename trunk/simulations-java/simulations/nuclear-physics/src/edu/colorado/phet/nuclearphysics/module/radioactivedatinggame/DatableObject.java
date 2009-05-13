@@ -49,6 +49,9 @@ public class DatableObject {
 		return height;
 	}
 	
+	/**
+	 * Get the age of the item in milliseconds.
+	 */
 	public double getAge() {
 		return age;
 	}

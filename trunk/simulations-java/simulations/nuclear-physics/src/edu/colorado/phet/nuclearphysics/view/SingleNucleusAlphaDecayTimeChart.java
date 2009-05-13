@@ -856,7 +856,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     //------------------------------------------------------------------------
     
     /**
-     * Class the represents the time display.
+     * Class that represents the time display readout.
      */
     private class TimeDisplayNode extends PNode{
     	
