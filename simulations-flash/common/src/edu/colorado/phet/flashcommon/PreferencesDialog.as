@@ -25,7 +25,7 @@ import org.aswing.border.TitledBorder;
 
 import edu.colorado.phet.flashcommon.*;
 
-class edu.colorado.phet.flashcommon.PreferencesDialog {
+class edu.colorado.phet.flashcommon.PreferencesDialog extends edu.colorado.phet.flashcommon.CommonDialog {
 	
 	// keep track of what states would be if the user clicks OK
 	public var updateState : Boolean;
@@ -37,25 +37,12 @@ class edu.colorado.phet.flashcommon.PreferencesDialog {
 	
 	var updatesSimButton : JButton;
 	var updatesInstallationButton : JButton;
-	
-	public var handler : TabHandler;
-	
-	var common : FlashCommon;
-	
-	// shorthand for debugging function
-	public function debug(str : String) : Void {
-		_level0.debug(str);
-	}
+    var detailsButton : JButton;
+    var okButton : JButton;
+    var cancelButton : JButton;
 	
 	public function PreferencesDialog() {
-		//debug("PreferencesDialog initializing\n");
-        _level0.preferencesDialog = this;
-		
-		// shortcut to FlashCommon, but now with type-checking!
-		common = _level0.common;
-		
-		// make sure we can access this class from anywhere
-		_level0.preferencesDialog = this;
+        super( "preferences", _level0.common.strings.get( "PhETPreferences", "PhET Preferences" ) );
 		
 		// load the shared object so we can pull data from it
 		common.preferences.load();
@@ -63,25 +50,6 @@ class edu.colorado.phet.flashcommon.PreferencesDialog {
 		// initialize to false. this will be changed later if either should be true
 		this.updateState = false;
 		this.statisticsState = false;
-		
-		// mysterious fix since "this" does not evaluate to a MovieClip or Component
-		ASWingUtils.getRootMovieClip();
-		
-		// create a window
-		var window : JFrame = new JFrame(_level0, common.strings.get("PhETPreferences", "PhET Preferences"));
-		
-		// the window shouldn't be resizable
-		window.setResizable(false);
-		
-		// make the window accessible to the "Preferences" button.
-		// thus we don't have to reconstruct the window again, but just show it
-		_level0.preferencesWindow = window;
-		
-		// set the background to white
-		//window.setBackground(ASColor(0xFFFFFF));
-		
-		// set the background color to the common color
-		window.setBackground(_level0.common.backgroundColor);
 		
 		// SoftBoxLayout vertical, but allows different sized components
 		window.getContentPane().setLayout(new SoftBoxLayout(SoftBoxLayout.Y_AXIS));
@@ -137,20 +105,12 @@ class edu.colorado.phet.flashcommon.PreferencesDialog {
 		defaultStr += "of PhET sims and to better serve our users' update needs.";
 		str += common.strings.get("PrivacyRequirement", defaultStr, ["asfunction:_level0.common.openExternalLink,http://phet.colorado.edu"]);
 
-		
-		// CSS so that the blue link will display properly
-		var css : TextField.StyleSheet = new TextField.StyleSheet();
-		css.parseCSS("a:link{color:#0000FF;font-weight:bold;}" +
-			"a:visited{color:#0000FF;font-weight:bold;}" +
-			"a:hover{color:#0000FF;text-decoration:underline;font-weight:bold;}" +
-			"a:active{color:#0000FF;font-weight:bold;}"); 
 		var textArea = new JTextArea(str, 0, 20);
 		textArea.setHtml(true);
 		textArea.setEditable(false);
-		textArea.setCSS(css);
+		textArea.setCSS( FlashCommon.LINK_STYLE_SHEET );
 		textArea.setWordWrap(true);
 		textArea.setWidth(50);
-		//textArea.setBackground(null); // give it the background color of its parent instead of the default
 		textArea.setBackground(common.backgroundColor);
 		
 		var textFormat : ASTextFormat = ASTextFormat.getDefaultASTextFormat();
@@ -173,7 +133,7 @@ class edu.colorado.phet.flashcommon.PreferencesDialog {
 		privacyPanel.append(new JSpacer(5, 5));
 		
 		// button to show details about the privacy information
-		var detailsButton = new JButton(common.strings.get("Details", "Details") + "...");
+		detailsButton = new JButton(common.strings.get("Details", "Details") + "...");
 		detailsButton.addEventListener(JButton.ON_RELEASE, Delegate.create(this, detailsClicked));
 		CommonButtons.padButtonAdd(detailsButton, privacyPanel);
 		
@@ -187,11 +147,11 @@ class edu.colorado.phet.flashcommon.PreferencesDialog {
 		// holds OK and Cancel buttons
 		var buttonPanel : JPanel = new JPanel(new BoxLayout());
 		
-		var okButton : JButton = new JButton(common.strings.get("OK", "OK"));
+		okButton = new JButton(common.strings.get("OK", "OK"));
 		okButton.addEventListener(JButton.ON_RELEASE, Delegate.create(this, okClicked));
 		CommonButtons.padButtonAdd(okButton, buttonPanel);
 		
-		var cancelButton : JButton = new JButton(common.strings.get("Cancel", "Cancel"));
+		cancelButton = new JButton(common.strings.get("Cancel", "Cancel"));
 		cancelButton.addEventListener(JButton.ON_RELEASE, Delegate.create(this, cancelClicked));
 		CommonButtons.padButtonAdd(cancelButton, buttonPanel);
 		
@@ -204,33 +164,22 @@ class edu.colorado.phet.flashcommon.PreferencesDialog {
 		
 		window.getContentPane().append(new JSpacer(5, 5));
 		
-		// size the window to its ideal size
-		window.setSize(window.getPreferredSize());
-		
-		// center the window
-		window.setLocation((Stage.width - window.getWidth()) / 2, (Stage.height - window.getHeight()) / 2);
-		window.show();
-		
-		// attempt to focus the window for keboard accessibility. not working yet.
-		window.toFront();
+		displayMe();
 		
 		// release the preferences shared object
 		_level0.preferences.unload();
-		
-		handler = new TabHandler( false );
-		handler.addAsWingButton( updatesSimButton );
-		if( updatesInstallationButton ) {
-			handler.addAsWingButton( updatesInstallationButton );
-		}
-		handler.addAsWingButton( detailsButton );
-		handler.addAsWingButton( okButton );
-		handler.addAsWingButton( cancelButton );
-		
-		common.keyboardHandler.addTabHandler( handler );
-		common.keyboardHandler.setTabHandler( handler );
-		
-		window.addEventListener( JFrame.ON_WINDOW_CLOSING, Delegate.create( this, closeClicked ) );
+        
 	}
+
+    public function setupTabHandler() {
+        tabHandler.addAsWingButton( updatesSimButton );
+		if( updatesInstallationButton ) {
+			tabHandler.addAsWingButton( updatesInstallationButton );
+		}
+		tabHandler.addAsWingButton( detailsButton );
+		tabHandler.addAsWingButton( okButton );
+		tabHandler.addAsWingButton( cancelButton );
+    }
 	
 	// called when the window is re-shown. it sets the check boxes to the
 	// current values of the preferences information. this is needed to handle
@@ -297,8 +246,7 @@ class edu.colorado.phet.flashcommon.PreferencesDialog {
 	
 	public function cancelClicked(src : JButton) : Void {
 		// hide the window
-		_level0.preferencesWindow.setVisible(false);
-		onClose();
+		manualClose();
 	}
 	
 	public function okClicked(src : JButton) : Void {
@@ -306,13 +254,12 @@ class edu.colorado.phet.flashcommon.PreferencesDialog {
 		common.preferences.setPrivacy(_level0.preferencesDialog.updateState, _level0.preferencesDialog.statisticsState);
 		
 		// hide the window
-		_level0.preferencesWindow.setVisible(false);
-		onClose();
+		manualClose();
 	}
-	
-	// debugging
-	public function onClose() {
-		_level0.keyboardHandler.removeTabHandler( handler );
-	}
+
+    public function manualOpen() {
+        super.manualOpen();
+        reCheck();
+    }
 	
 }

@@ -103,26 +103,11 @@ class edu.colorado.phet.flashcommon.CommonButtons {
 	}
 	
 	public function aboutButtonClicked(src : JButton) {
-		if(_level0.aboutWindow) {
-            _level0.aboutDialog.manualOpen();
-		} else {
-            new AboutDialog();
-		}
+		CommonDialog.openAboutDialog();
 	}
 	
 	public function preferencesButtonClicked(src : JButton) {
-		if(_level0.preferencesWindow) {
-			// window already exists, we just need to show it
-			debug("Showing dialog again\n");
-			_level0.preferencesWindow.show();
-			
-			// make sure the check-boxes are set correctly inside the window
-			_level0.preferencesDialog.reCheck();
-		} else {
-			// window doesn't exist, we must create it
-			debug("Creating Dialog\n");
-			_level0.preferencesDialog = new PreferencesDialog();
-		}
+		CommonDialog.openPreferencesDialog();
 	}
 	
 	// creates padding around the text inside a button, and allows the button
