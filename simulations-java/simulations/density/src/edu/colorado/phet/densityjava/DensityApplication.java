@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 
 public class DensityApplication extends PiccoloPhetApplication {
@@ -34,13 +35,23 @@ public class DensityApplication extends PiccoloPhetApplication {
 ////        log("Starting updater bootstrap with cmdArray=" + Arrays.asList(cmdArray).toString());
 //            Runtime.getRuntime().exec(cmdArray);
 //        } else {
-        if (FileUtils.isJarCodeSource()) {
+        System.out.println(System.getProperty("java.io.tmpdir"));
+        boolean testLocal = true;
+        if (FileUtils.isJarCodeSource() || testLocal) {
             //add natives to path
             File codeSource = FileUtils.getCodeSource();
+            if (testLocal) {
+                codeSource = new File("C:\\workingcopy\\phet\\svn\\trunk\\simulations-java\\simulations\\density\\deploy\\density_all.jar");
+            }
             File copy = new File(System.getProperty("java.io.tmpdir"), codeSource.getName());
             DensityUtils.copyTo(codeSource, copy);
             File dir = new File(copy.getParentFile(), "phet-unzipped");
-            DensityUtils.unzip(copy, dir);
+            DensityUtils.unzip(copy, dir, new FileFilter() {
+                public boolean accept(File pathname) {
+                    return pathname.getAbsolutePath().indexOf("natives") >= 0;//TODO: ignore spurious "natives" elsewhere in the jar
+                }
+            });
+            //TODO: clear old jar or unzip dir?
             System.out.println("DensityApplication.main, unzip dir=" + dir.getAbsolutePath());
             DensityUtils.addDir(new File(dir, "natives").getAbsolutePath());
         }
