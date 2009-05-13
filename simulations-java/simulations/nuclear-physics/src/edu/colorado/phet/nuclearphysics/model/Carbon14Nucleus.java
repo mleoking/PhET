@@ -98,8 +98,8 @@ public class Carbon14Nucleus extends AbstractDecayNucleus {
 
     /**
      * This override is for "hollywooding" purposes - it provides a diameter
-     * that is the same as Uranium so that we don't have to scale atoms of
-     * very different scales appearing on the same canvas.
+     * that is nearly the same as Uranium so that we don't have to scale atoms
+     * of very different scales appearing on the same canvas.
      */
     public double getDiameter() {
 		return (1.6 * Math.pow( 100, 0.362));
@@ -123,7 +123,7 @@ public class Carbon14Nucleus extends AbstractDecayNucleus {
     //------------------------------------------------------------------------
 
     /**
-     * Caculate a random decay time based on the decay constant for this
+     * Calculate a random decay time based on the decay constant for this
      * type of nucleus.
      * 
      * @return
