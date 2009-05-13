@@ -872,6 +872,10 @@ public abstract class PhetProject {
         FileUtils.copyToDir( getChangesFile(), getDeployDir() );
     }
 
+    public boolean requestAllPermissions() {
+        return getBuildPropertiesFileObject().requestAllPermissions();
+    }
+
     public static interface Listener {
         public void changesTextChanged();
     }
