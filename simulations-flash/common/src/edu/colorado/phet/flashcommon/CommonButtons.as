@@ -111,7 +111,8 @@ class edu.colorado.phet.flashcommon.CommonButtons {
 		} else {
 			// window doesn't exist, we must create it
 			debug("Creating Dialog\n");
-			_level0.aboutDialog = new AboutDialog();
+			//_level0.aboutDialog = new AboutDialog();
+            new TestAboutDialog();
 		}
 	}
 	

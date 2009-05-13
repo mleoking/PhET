@@ -186,13 +186,4 @@ class edu.colorado.phet.flashcommon.AboutDialog {
         _level0.keyboardHandler.addTabHandler( handler );
         _level0.keyboardHandler.setTabHandler( handler );
     }
-	public function hide() {
-		_level0.debug("About window hidden");
-		super.hide();
-	}
-	public function dispose() {
-		_level0.debug("About window disposed");
-		super.dispose();
-	}
-	
 }
