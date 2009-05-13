@@ -100,7 +100,7 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
         // Get a picture for my mouse.
         TextureState mouseTextureState = display.getRenderer().createTextureState();
         URL cursorLoc = DensityCanvasImpl.class.getClassLoader().getResource(
-                "jmetest/data/cursor/cursor1.png");
+                "density/images/cursor1.png");
         Texture t = TextureManager.loadTexture(cursorLoc, Texture.MinificationFilter.NearestNeighborNoMipMaps,
                 Texture.MagnificationFilter.Bilinear);
         mouseTextureState.setTexture(t);

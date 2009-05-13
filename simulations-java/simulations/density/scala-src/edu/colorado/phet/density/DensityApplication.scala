@@ -26,7 +26,6 @@ import common.piccolophet.PiccoloPhetApplication
 import java.awt.{Canvas, BorderLayout, Component}
 import java.net.URL
 import javax.swing.{JComponent, JPanel}
-import jmetest.util.JMESwingTest
 import scalacommon.ScalaClock
 
 class DensityModule extends Module("Density", new ScalaClock(30, 30 / 1000.0)) {
@@ -82,7 +81,7 @@ class MyImplementor(val display: DisplaySystem, canvas: JMECanvas) extends Simpl
     val ts = renderer.createTextureState()
     ts.setEnabled(true)
     //    ts.setTexture(TextureManager.loadTexture(classOf[JMESwingTest].getClassLoader().getResource("jmetest/data/images/Monkey.jpg"),
-    ts.setTexture(TextureManager.loadTexture(classOf[JMESwingTest].getClassLoader().getResource("phetcommon/images/logos/phet-logo-120x50.jpg"),
+    ts.setTexture(TextureManager.loadTexture(classOf[DensityApplication].getClassLoader().getResource("phetcommon/images/logos/phet-logo-120x50.jpg"),
       Texture.MinificationFilter.Trilinear,
       Texture.MagnificationFilter.Bilinear))
 
