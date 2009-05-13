@@ -1231,17 +1231,6 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../../Users/Owner/Desktop/jME_2.0_Complete_(r4093)/jME_2.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$MODULE_DIR$/../../../../Users/Owner/Desktop/jME_2.0_Complete_(r4093)/jME_2.0.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="jar://$MODULE_DIR$/../../../../Users/Owner/Desktop/jmephysics-read-only/impl/ode/lib/odejava-jni.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -1279,6 +1268,15 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/simulations-java/contrib/jmonkeyengine/lib" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/simulations-java/contrib/jmonkeyengine/jME_2.0-pared.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
