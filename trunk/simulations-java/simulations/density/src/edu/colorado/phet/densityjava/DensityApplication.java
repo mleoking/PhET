@@ -37,6 +37,8 @@ public class DensityApplication extends PiccoloPhetApplication {
 //        } else {
         System.out.println(System.getProperty("java.io.tmpdir"));
         boolean testLocal = false;
+        System.out.println("FileUtils.isJarCodeSource() = " + FileUtils.isJarCodeSource());
+        System.out.println("CodeSource=" + FileUtils.getCodeSource());
         if (FileUtils.isJarCodeSource() || testLocal) {
             //add natives to path
             File codeSource = FileUtils.getCodeSource();
@@ -45,6 +47,7 @@ public class DensityApplication extends PiccoloPhetApplication {
             }
             File copy = new File(System.getProperty("java.io.tmpdir"), codeSource.getName());
             DensityUtils.copyTo(codeSource, copy);
+            System.out.println("copy = " + copy.getAbsolutePath());
             File dir = new File(copy.getParentFile(), "phet-unzipped");
             DensityUtils.unzip(copy, dir, new FileFilter() {
                 public boolean accept(File pathname) {
@@ -54,6 +57,7 @@ public class DensityApplication extends PiccoloPhetApplication {
             //TODO: clear old jar or unzip dir?
             System.out.println("DensityApplication.main, unzip dir=" + dir.getAbsolutePath());
             DensityUtils.addDir(new File(dir, "natives").getAbsolutePath());
+            System.out.println("added natives to system path");
         }
         new PhetApplicationLauncher().launchSim(args, "density", DensityApplication.class);
 //        }
