@@ -379,8 +379,8 @@ public class RadiometricElementDecayCanvas extends PhetPCanvas {
     		break;
     		
     	case NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM:
-    		// TODO: Need to decide what to use here.
-    		_decayTimeChart.setTimeSpan(Carbon14Nucleus.HALF_LIFE * 3);
+    		// Use real time here.
+    		_decayTimeChart.setTimeSpan(5000);
     		break;
     		
     	default:
