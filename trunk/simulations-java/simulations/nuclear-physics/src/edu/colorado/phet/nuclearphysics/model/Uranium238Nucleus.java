@@ -54,6 +54,10 @@ public class Uranium238Nucleus extends AbstractDecayNucleus {
     // Public Methods
     //------------------------------------------------------------------------
     
+    public double getHalfLife(){
+    	return HALF_LIFE;
+    }
+    
     /**
      * Returns true if the particle can be captured by this nucleus, false if
      * not.  Note that the particle itself is unaffected, and it is up to the
