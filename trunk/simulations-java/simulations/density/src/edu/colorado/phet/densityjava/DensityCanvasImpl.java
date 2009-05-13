@@ -57,7 +57,7 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
     long startTime = 0;
     long fps = 0;
     private InputHandler input;
-    private SRRMouse am;
+    private SRRMouse srrMouse;
     private DisplaySystem display;
     private Component canvas;
 
@@ -86,8 +86,8 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
     @Override
     public void resizeCanvas(int newWidth, int newHeight) {
         super.resizeCanvas(newWidth, newHeight);    //To change body of overridden methods use File | Settings | File Templates.
-        if (am != null)
-            am.setLimit(newWidth, newHeight);
+        if (srrMouse != null)
+            srrMouse.setLimit(newWidth, newHeight);
     }
 
     public void simpleSetup() {
@@ -107,8 +107,6 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
         box.setRenderQueueMode(com.jme.renderer.Renderer.QUEUE_SKIP);
         rootNode.attachChild(box);
 
-        box.setRandomColors();
-
         TextureState ts = renderer.createTextureState();
         ts.setEnabled(true);
         ts.setTexture(TextureManager.loadTexture(JMESwingTest.class
@@ -123,7 +121,7 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
         input = new InputHandler();
 
         // Create a new mouse. Restrict its movements to the display screen.
-        am = new SRRMouse("The Mouse", display.getWidth(), display.getHeight());
+        srrMouse = new SRRMouse("The Mouse", display.getWidth(), display.getHeight());
 
         // Get a picture for my mouse.
         TextureState mouseTextureState = display.getRenderer().createTextureState();
@@ -132,7 +130,7 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
         Texture t = TextureManager.loadTexture(cursorLoc, Texture.MinificationFilter.NearestNeighborNoMipMaps,
                 Texture.MagnificationFilter.Bilinear);
         mouseTextureState.setTexture(t);
-        am.setRenderState(mouseTextureState);
+        srrMouse.setRenderState(mouseTextureState);
 
         // Make the mouse's background blend with what's already there
         BlendState as = display.getRenderer().createBlendState();
@@ -141,15 +139,15 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
         as.setDestinationFunction(BlendState.DestinationFunction.OneMinusSourceAlpha);
         as.setTestEnabled(true);
         as.setTestFunction(BlendState.TestFunction.GreaterThan);
-        am.setRenderState(as);
+        srrMouse.setRenderState(as);
 
         // Move the mouse to the middle of the screen to start with
-        am.setLocalTranslation(new Vector3f(display.getWidth() / 2, display
+        srrMouse.setLocalTranslation(new Vector3f(display.getWidth() / 2, display
                 .getHeight() / 2, 0));
         // Assign the mouse to an input handler
-        am.registerWithInputHandler(input);
+        srrMouse.registerWithInputHandler(input);
 
-        rootNode.attachChild(am);
+        rootNode.attachChild(srrMouse);
         results.setCheckDistance(true);
 
         pointSelection = new com.jme.scene.Point("selected triangle", new Vector3f[1], null,
@@ -358,9 +356,13 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
 
     public void simpleUpdate() {
         input.update(tpf);
-        if (am != null)
-            am.setLimit(canvas.getWidth(), canvas.getHeight());
+        if (srrMouse != null)
+            srrMouse.setLimit(canvas.getWidth(), canvas.getHeight());
+        updateBox();
+        updatePhysics();
+    }
 
+    private void updateBox() {
         // Code for rotating the box... no surprises here.
         if (tpf < 1) {
             angle = angle + (tpf * 25);
@@ -387,21 +389,18 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
             results.clear();
             box.calculatePick(mouseRay, results);
         }
-//        System.out.println("box=" + box.getLocalTranslation() + ", am=" + am.getHotSpotPosition() + ", am.world=" + worldCoords);
+//        System.out.println("box=" + box.getLocalTranslation() + ", srrMouse=" + srrMouse.getHotSpotPosition() + ", srrMouse.world=" + worldCoords);
 
         mouseRay.setDirection(mouseRay.getDirection().mult(10.0f));//so z=-10
         Vector3f dst = mouseRay.getOrigin().add(mouseRay.getDirection());
         Vector3f newV = new Vector3f(dst.x, dst.y, -10);
         box.setLocalTranslation(newV);
-
-
-        updatePhysics();
     }
 
     public Ray getMouseRay() {
         Vector2f screenPos = new Vector2f();
         // Get the position that the mouse is pointing to
-        screenPos.set(am.getHotSpotPosition().x, am.getHotSpotPosition().y);
+        screenPos.set(srrMouse.getHotSpotPosition().x, srrMouse.getHotSpotPosition().y);
         // Get the world location of that X,Y value
         Vector3f worldCoords = display.getWorldCoordinates(screenPos, 1.0f);
         // Create a ray starting from the camera, and going in the direction
@@ -444,7 +443,7 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
     public Vector2f getMouseScreenPosition() {
         Vector2f screenPos = new Vector2f();
         // Get the position that the mouse is pointing to
-        screenPos.set(am.getHotSpotPosition().x, am.getHotSpotPosition().y);
+        screenPos.set(srrMouse.getHotSpotPosition().x, srrMouse.getHotSpotPosition().y);
         return screenPos;
     }
 }
