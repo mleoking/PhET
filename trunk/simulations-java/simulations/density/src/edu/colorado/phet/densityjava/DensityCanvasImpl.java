@@ -1,28 +1,45 @@
 package edu.colorado.phet.densityjava;
 
 import com.jme.bounding.BoundingBox;
+import com.jme.bounding.BoundingSphere;
 import com.jme.image.Texture;
+import com.jme.input.FirstPersonHandler;
 import com.jme.input.InputHandler;
+import com.jme.input.KeyInput;
 import com.jme.input.MouseInput;
+import com.jme.input.action.InputAction;
+import com.jme.input.action.InputActionEvent;
 import com.jme.intersection.PickData;
 import com.jme.intersection.TrianglePickResults;
 import com.jme.math.*;
 import com.jme.renderer.ColorRGBA;
 import com.jme.scene.Spatial;
+import com.jme.scene.Text;
 import com.jme.scene.TriMesh;
+import com.jme.scene.shape.Box;
+import com.jme.scene.shape.Sphere;
+import com.jme.scene.shape.Torus;
 import com.jme.scene.state.BlendState;
+import com.jme.scene.state.CullState;
 import com.jme.scene.state.TextureState;
 import com.jme.scene.state.ZBufferState;
 import com.jme.system.DisplaySystem;
 import com.jme.system.canvas.SimpleCanvasImpl;
 import com.jme.util.TextureManager;
 import com.jme.util.geom.BufferUtils;
+import com.jmex.physics.DynamicPhysicsNode;
+import com.jmex.physics.PhysicsSpace;
+import com.jmex.physics.StaticPhysicsNode;
+import com.jmex.physics.geometry.PhysicsMesh;
+import com.jmex.physics.geometry.PhysicsSphere;
+import com.jmex.physics.util.PhysicsPicker;
 import jmetest.intersection.TestTrianglePick;
 import jmetest.util.JMESwingTest;
 
 import java.awt.*;
 import java.net.URL;
 import java.nio.FloatBuffer;
+import java.util.logging.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -47,6 +64,18 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
     private com.jme.scene.Point pointSelection;
     Spatial maggie;
     private com.jme.scene.Line[] selection;
+
+    //Physics
+    private PhysicsSpace physicsSpace;
+    protected InputHandler cameraInputHandler;
+    protected boolean showPhysics;
+    private float physicsSpeed = 1 / 2.0f;
+    protected StaticPhysicsNode staticNode;
+    boolean firstFrame = true;
+
+    public PhysicsSpace getPhysicsSpace() {
+        return physicsSpace;
+    }
 
     public DensityCanvasImpl(int width, int height, DisplaySystem display, Component canvas) {
         super(width, height);
@@ -135,6 +164,110 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
 
         rootNode.attachChild(pointSelection);
 
+
+        initPhysics();
+
+    }
+
+    private void initPhysics() {
+        /** Create a basic input controller. */
+        cameraInputHandler = new FirstPersonHandler(cam, 50, 1);
+//        input = new InputHandler();
+        input.addToAttachedHandlers(cameraInputHandler);
+
+        physicsSpace = PhysicsSpace.create();
+
+//        input.addAction(new InputAction() {
+//            public void performAction(InputActionEvent evt) {
+//                if (evt.getTriggerPressed()) {
+//                    showPhysics = !showPhysics;
+//                }
+//            }
+//        }, InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_V, InputHandler.AXIS_NONE, false);
+
+
+        staticNode = getPhysicsSpace().createStaticNode();
+        TriMesh trimesh = new Box("trimesh", new Vector3f(), 15, 0.5f, 15);
+        trimesh.setModelBound(new BoundingBox());
+        trimesh.updateModelBound();
+//        PhysicsMesh mesh = staticNode.createMesh( "mesh" );
+//        mesh.copyFrom( trimesh );
+        staticNode.attachChild(trimesh);
+        staticNode.generatePhysicsGeometry(false);
+
+        staticNode.getLocalTranslation().set(0, -5, 0);
+        rootNode.attachChild(staticNode);
+
+        final DynamicPhysicsNode dynamicNode1 = getPhysicsSpace().createDynamicNode();
+        TriMesh mesh1 = new Sphere("meshsphere", 10, 10, 2);
+        mesh1.setModelBound(new BoundingSphere());
+        mesh1.updateModelBound();
+        PhysicsMesh sphere = dynamicNode1.createMesh("sphere mesh");
+        sphere.getLocalTranslation().set(-1, 0, 0);
+        mesh1.getLocalTranslation().set(-1, 0, 0);
+        sphere.copyFrom(mesh1);
+        dynamicNode1.attachChild(mesh1);
+        final PhysicsSphere sphere2 = dynamicNode1.createSphere("sphere physics");
+        sphere2.getLocalTranslation().set(0.3f, 0, 0);
+        dynamicNode1.detachChild(sphere2);
+        rootNode.attachChild(dynamicNode1);
+        dynamicNode1.computeMass();
+
+        final DynamicPhysicsNode dynamicNode2 = getPhysicsSpace().createDynamicNode();
+        TriMesh mesh2 = new Torus("torus", 15, 10, 1, 4);
+        mesh2.setModelBound(new BoundingSphere());
+        mesh2.updateModelBound();
+        PhysicsMesh physicsMesh2 = dynamicNode2.createMesh("torus phyics geometry");
+        physicsMesh2.copyFrom(mesh2);
+        dynamicNode2.attachChild(mesh2);
+        CullState cs = display.getRenderer().createCullState();
+        cs.setCullFace(CullState.Face.Back);
+        mesh2.setRenderState(cs);
+
+        rootNode.attachChild(dynamicNode2);
+        dynamicNode2.computeMass();
+
+        final InputAction resetAction = new InputAction() {
+            public void performAction(InputActionEvent evt) {
+                if (evt == null || evt.getTriggerPressed()) {
+                    dynamicNode1.getLocalTranslation().set(0, 3, 0);
+                    dynamicNode1.getLocalRotation().set(0, 0, 0, 1);
+                    dynamicNode1.clearDynamics();
+
+                    dynamicNode2.getLocalTranslation().set(0, 5f, 0);
+                    dynamicNode2.getLocalRotation().fromAngleNormalAxis(FastMath.PI / 2 - 0.2f, new Vector3f(1, 0, 0));
+                    dynamicNode2.clearDynamics();
+                }
+            }
+        };
+        input.addAction(resetAction, InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_R, InputHandler.AXIS_NONE, false);
+        resetAction.performAction(null);
+
+        InputAction detachAction = new InputAction() {
+            public void performAction(InputActionEvent evt) {
+                if (sphere2.getParent() != null) {
+                    dynamicNode1.detachChild(sphere2);
+                } else {
+                    dynamicNode1.attachChild(sphere2);
+                }
+            }
+        };
+        input.addAction(detachAction, InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_INSERT, InputHandler.AXIS_NONE, false);
+
+        InputAction removeAction = new InputAction() {
+            public void performAction(InputActionEvent evt) {
+                staticNode.setActive(!staticNode.isActive());
+            }
+        };
+        input.addAction(removeAction, InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_DELETE, InputHandler.AXIS_NONE, false);
+
+        cameraInputHandler.setEnabled(false);
+        new PhysicsPicker(input, rootNode, getPhysicsSpace());
+        MouseInput.get().setCursorVisible(true);
+
+        Text label = Text.createDefaultTextLabel("instructions", "[r] to reset. Hold [ins] to attach second sphere.");
+        label.setLocalTranslation(0, 20, 0);
+//        statNode.attachChild( label );
     }
 
     private void createSelectionTriangles(int number) {
@@ -268,5 +401,38 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
         Vector3f dst = mouseRay.getOrigin().add(mouseRay.getDirection());
         Vector3f newV = new Vector3f(dst.x, dst.y, -10);
         box.setLocalTranslation(newV);
+
+
+        updatePhysics();
+    }
+
+    private void updatePhysics() {
+        boolean pause = false;
+        if (!pause) {
+            float tpf = this.tpf;
+            if (tpf > 0.2 || Float.isNaN(tpf)) {
+                Logger.getLogger(PhysicsSpace.LOGGER_NAME).warning("Maximum physics update interval is 0.2 seconds - capped.");
+                tpf = 0.2f;
+            }
+            physicsSpace.update(tpf * physicsSpeed);
+        }
+
+//        input.update(tpf);
+
+        if (!pause) {
+            /** Call simpleUpdate in any derived classes of SimpleGame. */
+//            simpleUpdate();
+
+            /** Update controllers/render states/transforms/bounds for rootNode. */
+            rootNode.updateGeometricState(tpf, true);
+//            statNode.updateGeometricState(tpf, true);
+        }
+
+        if (firstFrame) {
+            // drawing and calculating the first frame usually takes longer than the rest
+            // to avoid a rushing simulation we reset the timer
+            timer.reset();
+            firstFrame = false;
+        }
     }
 }
