@@ -38,6 +38,7 @@ public class RadioactiveDatingGameModel {
 
 	ArrayList<DatableObject> _datableObjects = new ArrayList<DatableObject>();
 	ArrayList<Stratum> _strata = new ArrayList<Stratum>();
+	RadiometricDatingMeter _meter;
 
     //------------------------------------------------------------------------
     // Constructor
@@ -74,6 +75,7 @@ public class RadioactiveDatingGameModel {
     	_datableObjects.add(new DatableObject("Cup", "cup.png", new Point2D.Double(2, -2), 0.4, 1E11));
     	_datableObjects.add(new DatableObject("Bone", "bone.png", new Point2D.Double(1, -15), 1, 1E11));
 
+    	_meter = new RadiometricDatingMeter();
     }
 
     //------------------------------------------------------------------------
@@ -93,6 +95,10 @@ public class RadioactiveDatingGameModel {
 
     public Stratum getLayer( int i ) {
         return _strata.get(i);
+    }
+    
+    public RadiometricDatingMeter getMeter(){
+    	return _meter;
     }
     
     /**
