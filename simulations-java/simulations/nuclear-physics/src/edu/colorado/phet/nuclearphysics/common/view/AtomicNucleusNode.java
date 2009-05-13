@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -399,8 +400,8 @@ public class AtomicNucleusNode extends PNode {
     }
 
     /**
-     * Handle the notification that says that the atomic nucleus that this
-     * node represents has changed its atomic weight.
+     * Handle the notification that says that the atomic nucleus has undergone
+     * some sort of change event, such as a decay.
      * 
      * @param atomicNucleus
      * @param numProtons
@@ -410,16 +411,26 @@ public class AtomicNucleusNode extends PNode {
     protected void handleNucleusChangedEvent(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
                     ArrayList byProducts){
         
-        int newAtomicWeight = numProtons + numNeutrons;
-        if ((newAtomicWeight < _currentAtomicWeight) && (newAtomicWeight != 0) && (byProducts != null)){
-            // This was a decay event, so kick off the explosion graphic.
-            _explosionCounter = EXPLOSION_COUNTER_RESET_VAL;
-            _explosion.setVisible( true );
-            _explosion.setPickable(false);
+    	if ( atomicNucleus instanceof AbstractDecayNucleus ){
+    		if (((AbstractDecayNucleus)atomicNucleus).hasDecayed()){
+    			// Kick off the explosion graphic.
+                _explosionCounter = EXPLOSION_COUNTER_RESET_VAL;
+                _explosion.setVisible( true );
+                _explosion.setPickable(false);
+    		}
+    	}
+    	else {
+            int newAtomicWeight = numProtons + numNeutrons;
+            if ((newAtomicWeight < _currentAtomicWeight) && (newAtomicWeight != 0) && (byProducts != null)){
+                // This was a decay event, so kick off the explosion graphic.
+                _explosionCounter = EXPLOSION_COUNTER_RESET_VAL;
+                _explosion.setVisible( true );
+                _explosion.setPickable(false);
+            }
         }
         
         // Save the new weight.
-        _currentAtomicWeight = newAtomicWeight;
+        _currentAtomicWeight = numProtons + numNeutrons;
         
         // Update the label to reflect the new element.
         setLabel(numProtons, numNeutrons);
