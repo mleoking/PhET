@@ -58,7 +58,6 @@ public class DecayRatesCanvas extends PhetPCanvas {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private MultiNucleusDecayLinearTimeChart _decayTimeChart;
     private DecayRatesModel _model;
     private HashMap _mapAlphaParticlesToNodes = new HashMap();
     private HashMap _mapNucleiToNodes = new HashMap();
