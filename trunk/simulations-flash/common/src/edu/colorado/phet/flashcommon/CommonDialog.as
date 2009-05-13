@@ -83,4 +83,22 @@ class edu.colorado.phet.flashcommon.CommonDialog {
         _level0.keyboardHandler.addTabHandler( tabHandler );
         _level0.keyboardHandler.setTabHandler( tabHandler );
     }
+
+
+    
+    public static function openAboutDialog() {
+        if(_level0.aboutWindow) {
+            _level0.aboutDialog.manualOpen();
+		} else {
+            new AboutDialog();
+		}
+    }
+
+    public static function openPreferencesDialog() {
+        if(_level0.preferencesWindow) {
+            _level0.preferencesDialog.manualOpen();
+		} else {
+            new PreferencesDialog();
+		}
+    }
 }
