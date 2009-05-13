@@ -69,7 +69,7 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
     private PhysicsSpace physicsSpace;
     protected InputHandler cameraInputHandler;
     protected boolean showPhysics;
-    private float physicsSpeed = 1 / 2.0f;
+    private float physicsSpeed = 1f;
     protected StaticPhysicsNode staticNode;
     boolean firstFrame = true;
 
@@ -262,7 +262,7 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
         input.addAction(removeAction, InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_DELETE, InputHandler.AXIS_NONE, false);
 
         cameraInputHandler.setEnabled(false);
-        new PhysicsPicker(input, rootNode, getPhysicsSpace());
+        new PhysicsPicker(input, rootNode, getPhysicsSpace(), false, this);
         MouseInput.get().setCursorVisible(true);
 
         Text label = Text.createDefaultTextLabel("instructions", "[r] to reset. Hold [ins] to attach second sphere.");
@@ -380,6 +380,25 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
         }
 
 
+        final Ray mouseRay = getMouseRay();
+
+        // Is button 0 down? Button 0 is left click
+        if (MouseInput.get().isButtonDown(0)) {
+            results.clear();
+            box.calculatePick(mouseRay, results);
+        }
+//        System.out.println("box=" + box.getLocalTranslation() + ", am=" + am.getHotSpotPosition() + ", am.world=" + worldCoords);
+
+        mouseRay.setDirection(mouseRay.getDirection().mult(10.0f));//so z=-10
+        Vector3f dst = mouseRay.getOrigin().add(mouseRay.getDirection());
+        Vector3f newV = new Vector3f(dst.x, dst.y, -10);
+        box.setLocalTranslation(newV);
+
+
+        updatePhysics();
+    }
+
+    public Ray getMouseRay() {
         Vector2f screenPos = new Vector2f();
         // Get the position that the mouse is pointing to
         screenPos.set(am.getHotSpotPosition().x, am.getHotSpotPosition().y);
@@ -389,21 +408,7 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
         // of the mouse's location
         final Ray mouseRay = new Ray(cam.getLocation(), worldCoords.subtractLocal(cam.getLocation()));
         mouseRay.getDirection().normalizeLocal();
-
-        // Is button 0 down? Button 0 is left click
-        if (MouseInput.get().isButtonDown(0)) {
-            results.clear();
-            box.calculatePick(mouseRay, results);
-        }
-        System.out.println("box=" + box.getLocalTranslation() + ", am=" + am.getHotSpotPosition() + ", am.world=" + worldCoords);
-
-        mouseRay.setDirection(mouseRay.getDirection().mult(10.0f));//so z=-10
-        Vector3f dst = mouseRay.getOrigin().add(mouseRay.getDirection());
-        Vector3f newV = new Vector3f(dst.x, dst.y, -10);
-        box.setLocalTranslation(newV);
-
-
-        updatePhysics();
+        return mouseRay;
     }
 
     private void updatePhysics() {
@@ -434,5 +439,12 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
             timer.reset();
             firstFrame = false;
         }
+    }
+
+    public Vector2f getMouseScreenPosition() {
+        Vector2f screenPos = new Vector2f();
+        // Get the position that the mouse is pointing to
+        screenPos.set(am.getHotSpotPosition().x, am.getHotSpotPosition().y);
+        return screenPos;
     }
 }
