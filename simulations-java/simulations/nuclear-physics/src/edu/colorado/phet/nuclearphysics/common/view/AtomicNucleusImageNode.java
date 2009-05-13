@@ -115,13 +115,18 @@ public class AtomicNucleusImageNode extends AtomicNucleusNode {
     		break;
     		
     	case 83:
-    		// Bismuth, which by internal convention is the custom nucleus.
+    		// Bismuth, which by internal convention is the pre-decay custom nucleus.
     		color = NuclearPhysicsConstants.CUSTOM_NUCLEUS_PRE_DECAY_COLOR;
     		break;
     		
     	case 82:
     		// Lead
     		color = NuclearPhysicsConstants.LEAD_206_COLOR;
+    		break;
+    		
+    	case 81:
+    		// Thallium, which by internal convention is the post-decay custom nucleus.
+    		color = NuclearPhysicsConstants.CUSTOM_NUCLEUS_POST_DECAY_COLOR;
     		break;
     		
     	default:
