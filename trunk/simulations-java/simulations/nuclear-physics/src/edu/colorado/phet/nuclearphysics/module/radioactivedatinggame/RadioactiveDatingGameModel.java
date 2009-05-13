@@ -71,6 +71,8 @@ public class RadioactiveDatingGameModel {
     	_datableObjects.add(new DatableObject("Animal Skull 2", "skull_animal_2.png", new Point2D.Double(-4, -15.2), 1, 1E11));
     	_datableObjects.add(new DatableObject("Human Skull", "skull_human.png", new Point2D.Double(4, -1.5), 0.6, 1E11));
     	_datableObjects.add(new DatableObject("Gold Star", "gold_star.png", new Point2D.Double(-1, -4.5), 0.6, 1E11));
+    	_datableObjects.add(new DatableObject("Cup", "cup.png", new Point2D.Double(2, -2), 0.4, 1E11));
+    	_datableObjects.add(new DatableObject("Bone", "bone.png", new Point2D.Double(1, -15), 1, 1E11));
 
     }
 
