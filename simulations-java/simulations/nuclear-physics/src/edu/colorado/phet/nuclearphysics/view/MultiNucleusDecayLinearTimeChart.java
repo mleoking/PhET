@@ -32,8 +32,6 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
-import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
-import edu.colorado.phet.nuclearphysics.model.AbstractAlphaDecayNucleus;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
 import edu.colorado.phet.nuclearphysics.module.halflife.RadiometricElementDecayCanvas;
@@ -229,6 +227,11 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         		case NuclearPhysicsConstants.NUCLEUS_ID_URANIUM_238:
         			_pieChartValues[0].setColor(NuclearPhysicsConstants.URANIUM_238_COLOR);
         			_pieChartValues[1].setColor(NuclearPhysicsConstants.LEAD_206_COLOR);
+        			break;
+        			
+        		case NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM:
+        			_pieChartValues[0].setColor(NuclearPhysicsConstants.CUSTOM_NUCLEUS_PRE_DECAY_COLOR);
+        			_pieChartValues[1].setColor(NuclearPhysicsConstants.CUSTOM_NUCLEUS_POST_DECAY_COLOR);
         			break;
         			
         		default:
