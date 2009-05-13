@@ -96,14 +96,6 @@ class edu.colorado.phet.flashcommon.AboutDialog extends edu.colorado.phet.flashc
 	}
 
 	public function creditsClicked(src : JButton) {
-		if(_level0.creditsWindow) {
-			// credits window exists, just show it
-			debug("Showing dialog again\n");
-			_level0.creditsWindow.show();
-		} else {
-			// credits window doesn't exist, we must create it
-			debug("Creating Dialog\n");
-			_level0.creditsDialog = new CreditsDialog();
-		}
+		CommonDialog.openCreditsDialog();
 	}
 }
