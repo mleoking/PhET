@@ -1066,12 +1066,20 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
                         NuclearPhysicsConstants.NITROGEN_14_LABEL_COLOR );
         		break;
         		
-        	case 84:
-        		// Create a labeled nucleus representing Polonium.
-        		nucleusNode = new LabeledNucleusImageNode("Polonium Nucleus Small.png",
-                        NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER, 
-                        NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL, 
-                        NuclearPhysicsConstants.POLONIUM_LABEL_COLOR );
+        	case 81:
+        		// This is thallium, which we use as the post-decay custom nucleus.
+        		nucleusNode = new LabeledNucleusImageNode("Lead Nucleus Small.png",
+        				"", // No isotope number.
+                        NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
+                        NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR );
+        		break;
+        		
+        	case 82:
+        		// Create a labeled nucleus representing Lead.
+        		nucleusNode = new LabeledNucleusSphereNode( NuclearPhysicsConstants.LEAD_206_COLOR,
+                        NuclearPhysicsStrings.LEAD_206_ISOTOPE_NUMBER, 
+                        NuclearPhysicsStrings.LEAD_206_CHEMICAL_SYMBOL, 
+                        NuclearPhysicsConstants.LEAD_206_COLOR );
         		break;
         		
         	case 83:
@@ -1083,20 +1091,20 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
                         NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR );
         		break;
         		
-        	case 82:
-        		// Create a labeled nucleus representing Lead.
-        		nucleusNode = new LabeledNucleusSphereNode( NuclearPhysicsConstants.LEAD_206_COLOR,
-                        NuclearPhysicsStrings.LEAD_206_ISOTOPE_NUMBER, 
-                        NuclearPhysicsStrings.LEAD_206_CHEMICAL_SYMBOL, 
-                        NuclearPhysicsConstants.LEAD_206_COLOR );
+        	case 84:
+        		// Create a labeled nucleus representing Polonium.
+        		nucleusNode = new LabeledNucleusImageNode("Polonium Nucleus Small.png",
+                        NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER, 
+                        NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL, 
+                        NuclearPhysicsConstants.POLONIUM_LABEL_COLOR );
         		break;
         		
-        	case 81:
-        		// This is thallium, which we use as the post-decay custom nucleus.
-        		nucleusNode = new LabeledNucleusImageNode("Lead Nucleus Small.png",
-        				"", // No isotope number.
-                        NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
-                        NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR );
+        	case 92:
+        		// Create a labeled nucleus representing Uranium.
+        		nucleusNode = new LabeledNucleusSphereNode( NuclearPhysicsConstants.NITROGEN_COLOR,
+                        "", 
+                        NuclearPhysicsStrings.URANIUM_238_CHEMICAL_SYMBOL, 
+                        NuclearPhysicsConstants.URANIUM_238_LABEL_COLOR );
         		break;
         		
         	default:

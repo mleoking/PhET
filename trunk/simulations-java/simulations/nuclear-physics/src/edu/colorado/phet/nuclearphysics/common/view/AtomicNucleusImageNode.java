@@ -119,10 +119,15 @@ public class AtomicNucleusImageNode extends AtomicNucleusNode {
     		color = NuclearPhysicsConstants.CUSTOM_NUCLEUS_PRE_DECAY_COLOR;
     		break;
     		
+    	case 82:
+    		// Lead
+    		color = NuclearPhysicsConstants.LEAD_206_COLOR;
+    		break;
+    		
     	default:
     		// Unknown
     		System.out.println("Warning: Don't have a color assignment for this element.");
-    		color = Color.WHITE;
+    		color = Color.BLACK;
     	    break;
     	}
     		

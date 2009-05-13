@@ -276,6 +276,11 @@ public class AtomicNucleusNode extends PNode {
                 chemSymbol = NuclearPhysicsStrings.LEAD_207_CHEMICAL_SYMBOL;
                 labelColor = NuclearPhysicsConstants.LEAD_LABEL_COLOR;
             }
+            else if (numNeutrons == 124){
+                isotopeNumber = NuclearPhysicsStrings.LEAD_206_ISOTOPE_NUMBER;
+                chemSymbol = NuclearPhysicsStrings.LEAD_206_CHEMICAL_SYMBOL;
+                labelColor = NuclearPhysicsConstants.LEAD_LABEL_COLOR;
+            }
             
             break;
             
