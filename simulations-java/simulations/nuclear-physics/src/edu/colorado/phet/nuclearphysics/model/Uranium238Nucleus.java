@@ -3,6 +3,7 @@
 package edu.colorado.phet.nuclearphysics.model;
 
 import java.awt.geom.Point2D;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
@@ -27,6 +28,9 @@ public class Uranium238Nucleus extends AbstractDecayNucleus {
     // Time scaling factor - scales the rate at which decay occurs so that we
     // don't really have to wait around thousands of years.
     private static double DECAY_TIME_SCALING_FACTOR = 2500 / HALF_LIFE;
+    
+    // Random number generator used for calculating decay time based on decay constant.
+    private static final Random RAND = new Random();
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -94,18 +98,56 @@ public class Uranium238Nucleus extends AbstractDecayNucleus {
         }
     }
 
-	public void activateDecay() {
-		// TODO Auto-generated method stub
-		
-	}
+    /**
+     * Activate the nucleus, meaning that it will now decay after some amount
+     * of time.
+     */
+    public void activateDecay(){
+    	
+    	// Only allow activation if the nucleus hasn't already decayed.
+    	if (_numNeutrons == ORIGINAL_NUM_NEUTRONS){
+    		_decayTime = _clock.getSimulationTime() + (calcDecayTime() * _decayTimeScalingFactor);
+    	}
+    }
+
 
 	protected void decay(ClockEvent clockEvent) {
-		// TODO Auto-generated method stub
 		
+		// Decay into Lead 206.
+        _numNeutrons -= 22;
+        _numProtons -= 10;
+
+        // Set the final value of the time that this nucleus existed prior to
+        // decaying.
+        _activatedLifetime += clockEvent.getSimulationTimeChange();
+        
+        // Send out the decay event to all listeners.
+        notifyNucleusChangeEvent(null);
+        
+        // Set the decay time to 0 to indicate that decay has occurred and
+        // should not occur again.
+        _decayTime = 0;
 	}
 
 	public boolean hasDecayed() {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+    /**
+     * Calculate a random decay time based on the decay constant for this
+     * type of nucleus.
+     * 
+     * @return
+     */
+    private double calcDecayTime(){
+        double randomValue = RAND.nextDouble();
+        if (randomValue > 0.999){
+            // Limit the maximum time for decay so that the user isn't waiting
+            // around forever.
+            randomValue = 0.999;
+        }
+        double decayMilliseconds = (-(Math.log( 1 - randomValue ) / (0.693 / HALF_LIFE)));
+        return decayMilliseconds;
+    }
 }
