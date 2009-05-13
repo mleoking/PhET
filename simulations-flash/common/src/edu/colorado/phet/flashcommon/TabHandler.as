@@ -62,14 +62,15 @@ class edu.colorado.phet.flashcommon.TabHandler {
 		if( main ) {
 			_level0.tabHandler = this;
 			common.tabHandler = this;
+        }
+
+        // if we are the first tabhandler active, prepare everything
+        if( handlerId == 0 ) {
 			
 			// disable default keyboard accessibility
 			_root.tabIndex = 1;
 			_root.tabEnabled = false;
 			MovieClip.prototype.tabEnabled = false;
-			
-			// catch key events to this object
-			//Key.addListener(this);
 			
 			// create dummy text field
 			dummyText = _root.createTextField("dummyTxt", 9092, 0, 0, 0, 0);
