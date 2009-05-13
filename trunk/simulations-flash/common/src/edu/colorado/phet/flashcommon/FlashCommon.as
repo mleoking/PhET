@@ -1,4 +1,4 @@
-﻿// FlashCommon.as
+// FlashCommon.as
 //
 // coordinates all common flash code, including the updates and statistics
 //
@@ -43,6 +43,14 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 	// handles keyboard accessibility (tab traversal)
 	public var tabHandler : TabHandler;
 	public var keyboardHandler : KeyboardHandler;
+
+    public static var DISPLAY_CSS : String =
+            "a:link{color:#0000FF;font-weight:bold;}" +
+			"a:visited{color:#0000FF;font-weight:bold;}" +
+			"a:hover{color:#0000FF;text-decoration:underline;font-weight:bold;}" +
+			"a:active{color:#0000FF;font-weight:bold;}";
+
+    public static var LINK_STYLE_SHEET : TextField.StyleSheet;
 	
 	//public static var allowedSystemFonts : Array = ["_sans", "_serif", "_typewriter", "Times New Roman", "Arial"];
 	
@@ -90,6 +98,9 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 		
 		// set the default background color
 		backgroundColor = ASColor.getASColor(230, 230, 230);
+
+        LINK_STYLE_SHEET = new TextField.StyleSheet();
+        LINK_STYLE_SHEET.parseCSS( DISPLAY_CSS );
 		
 		// TODO: Possibly extend this to run from other domains?
 		System.security.allowDomain("phet.colorado.edu");

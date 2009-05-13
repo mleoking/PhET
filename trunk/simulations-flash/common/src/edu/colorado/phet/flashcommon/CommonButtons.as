@@ -104,15 +104,9 @@ class edu.colorado.phet.flashcommon.CommonButtons {
 	
 	public function aboutButtonClicked(src : JButton) {
 		if(_level0.aboutWindow) {
-			// window already exists, we just need to show it
-			debug("Showing dialog again\n");
-			//_level0.aboutWindow.show();
             _level0.aboutDialog.manualOpen();
 		} else {
-			// window doesn't exist, we must create it
-			debug("Creating Dialog\n");
-			//_level0.aboutDialog = new AboutDialog();
-            new TestAboutDialog();
+            new AboutDialog();
 		}
 	}
 	
