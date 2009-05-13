@@ -141,7 +141,8 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         		_mvt.modelToViewYDouble(_model.getBottomOfStrata()));
 
         // Create the radiometric measuring device.
-        _meter = new RadiometricDatingMeterNode(INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION,
+        _meter = new RadiometricDatingMeterNode(_model.getMeter(), 
+        		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION,
         		(INITIAL_INTERMEDIATE_COORD_HEIGHT - _mvt.modelToViewYDouble(_model.getBottomOfStrata())) * 0.95 );
         _meter.setOffset(
         		_proportionsChart.getFullBoundsReference().getMinX() - _meter.getFullBoundsReference().height,
