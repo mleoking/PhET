@@ -36,7 +36,7 @@ public class DensityApplication extends PiccoloPhetApplication {
 //            Runtime.getRuntime().exec(cmdArray);
 //        } else {
         System.out.println(System.getProperty("java.io.tmpdir"));
-        boolean testLocal = true;
+        boolean testLocal = false;
         if (FileUtils.isJarCodeSource() || testLocal) {
             //add natives to path
             File codeSource = FileUtils.getCodeSource();
