@@ -109,6 +109,14 @@ class edu.colorado.phet.flashcommon.CommonDialog {
 		}
     }
 
+    public static function openCreditsDialog() {
+        if(_level0.creditsWindow) {
+            _level0.creditsDialog.manualOpen();
+		} else {
+            new CreditsDialog();
+		}
+    }
+
     public static function openPreferencesDialog() {
         if(_level0.preferencesWindow) {
             _level0.preferencesDialog.manualOpen();
