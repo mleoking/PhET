@@ -178,6 +178,10 @@ class edu.colorado.phet.flashcommon.TabHandler {
 				currentControl().onPress();
 			}
 		}
+
+        if( Key.getCode() == Key.ESCAPE ) {
+            onEscape();
+        }
 	}
 	
 	// called when ANY key is released, anytime
@@ -353,17 +357,24 @@ class edu.colorado.phet.flashcommon.TabHandler {
 			addFocus(currentEntry());
 		}
 	}
+
+    public function reset() {
+        active = false;
+        currentIndex = -1;
+    }
+
+    public function onEscape() {
+        if( active ) {
+            active = false;
+            removeFocus( currentEntry() );
+        }
+    }
 	
 	public function onAddFocus() {
         _level0.debug( "TabHandler onAddFocus() " + toString() + "\n" );
 		if(entries.length > 0 && active) {
-            if( debugMain ) {
-                active = true;
-                addFocus(currentEntry());
-            } else {
-                active = false;
-                currentIndex = -1;
-            }
+            active = true;
+            addFocus(currentEntry());
 		}
 	}
 	
@@ -373,6 +384,10 @@ class edu.colorado.phet.flashcommon.TabHandler {
 			removeFocus( currentEntry() );
 		}
 	}
+
+    public function giveMeFocus() {
+        _level0.keyboardHandler.setTabHandler( this );
+    }
 
     public function toString() : String {
         return "#" + String( handlerId ) + " active:" + String( active ) + " entries:" + String( entries.length ); 
