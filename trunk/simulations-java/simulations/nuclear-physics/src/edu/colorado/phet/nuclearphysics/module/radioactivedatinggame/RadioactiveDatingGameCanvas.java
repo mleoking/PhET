@@ -48,7 +48,8 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     		INITIAL_INTERMEDIATE_COORD_HEIGHT );
     
     // Constants for positioning/size some of the nodes.
-    private final double PROPORTIONS_CHART_WIDTH_FRACTION = 0.7; // Fraction of canvas width for proportions chart.
+    private final double PROPORTIONS_CHART_WIDTH_FRACTION = 0.6; // Fraction of canvas width for proportions chart.
+    private final double PROPORTIONS_METER_WIDTH_FRACTION = 0.15; // Fraction of canvas width for proportions chart.
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -60,6 +61,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     private PNode _backgroundImage;
 //    private PNode _datableArtifactsLayer;
     private NuclearDecayProportionChart _proportionsChart;
+    private RadiometricDatingMeterNode _meter;
     private PPath _testShape;
     private PNode _referenceNode; // For positioning other nodes.
 
@@ -135,9 +137,17 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_CHART_WIDTH_FRACTION,
         		INITIAL_INTERMEDIATE_COORD_HEIGHT - _mvt.modelToViewYDouble(_model.getBottomOfStrata())));
         _proportionsChart.setOffset(
-        		INITIAL_INTERMEDIATE_COORD_WIDTH / 2 - _proportionsChart.getFullBoundsReference().width / 2,
+        		INITIAL_INTERMEDIATE_COORD_WIDTH * 0.6 - _proportionsChart.getFullBoundsReference().width / 2,
         		_mvt.modelToViewYDouble(_model.getBottomOfStrata()));
 
+        // Create the radiometric measuring device.
+        _meter = new RadiometricDatingMeterNode(INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION,
+        		(INITIAL_INTERMEDIATE_COORD_HEIGHT - _mvt.modelToViewYDouble(_model.getBottomOfStrata())) * 0.95 );
+        _meter.setOffset(
+        		_proportionsChart.getFullBoundsReference().getMinX() - _meter.getFullBoundsReference().height,
+        		_mvt.modelToViewYDouble(_model.getBottomOfStrata()) + 4);
+        addWorldChild( _meter );
+        
         // Add decay curve to chart.
         drawDecayCurveOnChart();
         
