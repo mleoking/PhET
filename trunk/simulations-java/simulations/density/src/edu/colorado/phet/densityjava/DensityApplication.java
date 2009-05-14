@@ -6,6 +6,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,9 +21,21 @@ public class DensityApplication extends PiccoloPhetApplication {
     }
 
     class DensityModule extends Module {
+        private final TestJMEPanel panel;
+
         public DensityModule() {
             super("density", new ConstantDtClock(30, 30 / 1000.0));
-            setSimulationPanel(new TestJMEPanel());
+            panel = new TestJMEPanel();
+            setSimulationPanel(panel);
+        }
+
+        public void activate() {
+            super.activate();    //To change body of overridden methods use File | Settings | File Templates.
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    panel.getCanvas().requestFocus();
+                }
+            });
         }
     }
 

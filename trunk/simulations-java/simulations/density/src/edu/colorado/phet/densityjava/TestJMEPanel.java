@@ -13,6 +13,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.concurrent.Callable;
 
+import sun.awt.windows.WPrintDialogPeer;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Owner
@@ -158,5 +160,9 @@ class TestJMEPanel extends JPanel {
         if (e.getID() == WindowEvent.WINDOW_CLOSING) {
             System.exit(0);
         }
+    }
+
+    public Component getCanvas() {
+        return (Component) canvas;
     }
 }

@@ -13,16 +13,18 @@ import com.jme.math.FastMath;
 import com.jme.math.Ray;
 import com.jme.math.Vector2f;
 import com.jme.math.Vector3f;
+import com.jme.renderer.ColorRGBA;
+import com.jme.scene.Spatial;
 import com.jme.scene.Text;
 import com.jme.scene.TriMesh;
 import com.jme.scene.shape.Box;
+import com.jme.scene.shape.MultiFaceBox;
 import com.jme.scene.shape.Sphere;
 import com.jme.scene.shape.Torus;
-import com.jme.scene.state.BlendState;
-import com.jme.scene.state.CullState;
-import com.jme.scene.state.TextureState;
+import com.jme.scene.state.*;
 import com.jme.system.DisplaySystem;
 import com.jme.system.canvas.SimpleCanvasImpl;
+import com.jme.util.GameTaskQueueManager;
 import com.jme.util.TextureManager;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.PhysicsSpace;
@@ -30,8 +32,14 @@ import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.physics.geometry.PhysicsMesh;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.net.URL;
+import java.util.ConcurrentModificationException;
+import java.util.Random;
+import java.util.concurrent.Callable;
 import java.util.logging.Logger;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
  * Created by IntelliJ IDEA.
@@ -204,9 +212,10 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
 //        statNode.attachChild( label );
     }
 
+    Random random=new Random();
     private DynamicPhysicsNode createBox() {
         DynamicPhysicsNode node = getPhysicsSpace().createDynamicNode();
-        TriMesh mesh = new Box("meshsphere", new Vector3f(0, 0, 0), 2, 2, 2);
+        TriMesh mesh = new MultiFaceBox("meshsphere", new Vector3f(0, random.nextFloat()*20, 0), 2, 2, 2);
         mesh.setModelBound(new BoundingSphere());
         mesh.updateModelBound();
         PhysicsMesh physMesh = node.createMesh("box mesh");
@@ -215,7 +224,62 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
         physMesh.copyFrom(mesh);
         node.attachChild(mesh);
         node.computeMass();
+//        MaterialState renderState=display.getRenderer().createMaterialState();
+//        renderState.setMaterialFace(MaterialState.MaterialFace.FrontAndBack);
+//        renderState.setColorMaterial(MaterialState.ColorMaterial.Specular);
+//        renderState.setSpecular(new ColorRGBA(1,0,0,0.5f));
+//        renderState.setEnabled(true);
+////        renderState.set
+//        node.setRenderState(renderState);
+        MaterialState ms = DisplaySystem.getDisplaySystem().getRenderer()
+                .createMaterialState();
+        ms.setEmissive(ColorRGBA.white.clone());
+        node.setRenderState(ms);
+        setTexture(node);
         return node;
+    }
+
+
+    private static final Font FONT = new PhetFont(17);
+    private Color[] colors = new Color[]{Color.red, Color.green, Color.blue,
+            Color.yellow, Color.white, Color.orange};
+
+    private void setTexture(final Spatial s) {
+        final BufferedImage bi = new BufferedImage(64, 512,
+                BufferedImage.TYPE_INT_ARGB);
+        Graphics2D bg = (Graphics2D) bi.getGraphics();
+        bg.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        bg.setFont(FONT);
+        for (int i = 0; i < 6; i++) {
+            bg.setColor(colors[i]);
+            bg.fillRect(0, i * 64, 64, (i + 1) * 64);
+            bg.setColor(Color.black);
+            bg.drawString("100 kg", 5, 64 * i + 38);
+        }
+        bg.dispose();
+        GameTaskQueueManager.getManager().update(new Callable<Object>() {
+            public Object call() throws Exception {
+                try {
+                    TextureState ts = DisplaySystem.getDisplaySystem()
+                            .getRenderer().createTextureState();
+                    Texture t = TextureManager.loadTexture(bi,
+                            Texture.MinificationFilter.BilinearNearestMipMap, Texture.MagnificationFilter.Bilinear, 1, false);
+                    ts.setTexture(t);
+                    TextureState oldTs = (TextureState) s
+                            .getRenderState(RenderState.StateType.Texture);
+                    if (oldTs != null) {
+                        TextureManager.releaseTexture(oldTs.getTexture());
+                        oldTs.deleteAll(true);
+                    }
+                    s.setRenderState(ts);
+                    s.updateRenderState();
+                } catch (ConcurrentModificationException ex) {
+                    ex.printStackTrace();
+                }
+                return null;
+            }
+        });
     }
 
     private DynamicPhysicsNode createSphere() {
