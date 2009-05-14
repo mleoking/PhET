@@ -16,6 +16,7 @@ TODO:
 - add ability to restrict Strength slider to one section of the range
 
 DONE:
+5/14/09 add pH model
 5/12/09 revise model
 5/12/09 solution controls
 5/12/09 more localization
