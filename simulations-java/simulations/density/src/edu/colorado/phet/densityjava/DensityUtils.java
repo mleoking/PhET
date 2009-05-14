@@ -14,7 +14,8 @@ import java.util.zip.ZipFile;
  * To change this template use File | Settings | File Templates.
  */
 public class DensityUtils {
-    public static void addDir(String s) throws IOException {
+    public static void addDir(final File f) throws IOException {
+        final String s = f.getAbsolutePath();
         try {
             Field field = ClassLoader.class.getDeclaredField("usr_paths");
             field.setAccessible(true);
