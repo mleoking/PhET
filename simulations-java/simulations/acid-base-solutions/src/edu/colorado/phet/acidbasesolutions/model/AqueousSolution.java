@@ -54,6 +54,10 @@ public class AqueousSolution {
         return concentrationModel;
     }
     
+    public PHValue getPH() {
+        return concentrationModel.getPH();
+    }
+    
     public void setStrength( double strength ) {
         solute.setStrength( strength );
     }
