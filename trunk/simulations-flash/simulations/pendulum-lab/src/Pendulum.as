@@ -1,4 +1,4 @@
-﻿
+
 class Pendulum{
 	private var labelNbr;			//1 for 1st pendulum, 2 for second pendulum, etc.
 	private var mass:Number;		//mass of pendulum
@@ -52,7 +52,7 @@ class Pendulum{
 	}//end of constructor
 	
 	
-	function setAngleInDeg(newAngleInDeg:Number):Void{
+	public function setAngleInDeg(newAngleInDeg:Number):Void{
 		//trace("setAngleInDeg called for "+this.labelNbr);
 		this.theta = newAngleInDeg*Math.PI/180;
 		this.omega = 0;
@@ -64,18 +64,18 @@ class Pendulum{
 		this.updateGraph();
 	}
 	
-	function getAngleInDeg():Number{
+	public function getAngleInDeg():Number{
 		return this.theta*180/Math.PI;
 	}
 	
-	function startMotion():Void{
+	public function startMotion():Void{
 		this.t = 0;
 		this.updateCount = 0;
 		this.lastTime = getTimer();
 		this.intervalID = setInterval(this, "evolve", 2); //dt/1000);
 	}//end of startMotion()
 	
-	function stopMotion():Void{
+	public function stopMotion():Void{
 		clearInterval(this.intervalID);
 	}//end of endMotion()
 	

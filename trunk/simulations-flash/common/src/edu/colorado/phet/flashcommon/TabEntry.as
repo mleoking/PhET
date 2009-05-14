@@ -24,6 +24,8 @@ class edu.colorado.phet.flashcommon.TabEntry {
 	// name equal to the Key code (Key.getCode()), and the value equal to
 	// the callback which should be called
 	public var keys : Object;
+
+    public var keyups : Object;
 	
 	// stores whether this tab entry should act like a button. this connects
 	// enter/space to certain events that are used with movieclips acting like
@@ -57,6 +59,28 @@ class edu.colorado.phet.flashcommon.TabEntry {
 			return control;
 		}
 	}
+
+    public function onKeyDown( keyCode : Number ) {
+        var f : Function = keys[ keyCode ];
+        if(f != undefined) {
+            f();
+        }
+
+        if( buttonlike && ( keyCode == Key.SPACE || keyCode == Key.ENTER ) ) {
+		    control.onPress();
+		}
+    }
+
+    public function onKeyUp( keyCode : Number ) {
+        var f : Function = keyups[ keyCode ];
+        if(f != undefined) {
+            f();
+        }
+
+        if( buttonlike && ( keyCode == Key.SPACE || keyCode == Key.ENTER ) ) {
+		    control.onRelease();
+		}
+    }
 
     // draw the highlight on the movieclip with the specified bounds
 	public function drawHighlights( high : MovieClip, bounds : Object ) {
