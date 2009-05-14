@@ -223,25 +223,11 @@ class edu.colorado.phet.flashcommon.PreferencesDialog extends edu.colorado.phet.
 	}
 	
 	public function detailsClicked(src : JButton) : Void {
-		if(_level0.statisticsDetailsWindow) {
-			debug("Showing dialog again\n");
-			_level0.statisticsDetailsWindow.show();
-		} else {
-			debug("Creating Dialog\n");
-			_level0.statisticsDetailsDialog = new StatisticsDetailsDialog();
-		}
+		CommonDialog.openStatisticsDetailsDialog();
 	}
 	
 	public function agreementClicked(src : JButton) {
-		if(_level0.agreementWindow) {
-			// agreement window exists, just show it
-			debug("Showing dialog again\n");
-			_level0.agreementWindow.show();
-		} else {
-			// agreement window doesn't exist, we must create it
-			debug("Creating Dialog\n");
-			_level0.agreementDialog = new AgreementDialog();
-		}
+		CommonDialog.openAgreementDialog();
 	}
 	
 	public function cancelClicked(src : JButton) : Void {

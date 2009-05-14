@@ -148,23 +148,11 @@ class edu.colorado.phet.flashcommon.PrivacyDialog {
 	}
 	
 	public function infoClicked() : Void {
-		if(_level0.statisticsDetailsWindow) {
-			debug("Showing dialog again\n");
-			_level0.statisticsDetailsWindow.show();
-		} else {
-			debug("Creating Dialog\n");
-			_level0.statisticsDetailsDialog = new StatisticsDetailsDialog();
-		}
+		CommonDialog.openStatisticsDetailsDialog();
 	}
 	
 	public function detailsClicked() : Void {
-		if(_level0.agreementWindow) {
-			debug("Showing dialog again\n");
-			_level0.agreementWindow.show();
-		} else {
-			debug("Creating Dialog\n");
-			_level0.agreementDialog = new AgreementDialog();
-		}
+		CommonDialog.openAgreementDialog();
 	}
 
     public function onKeyDown() {

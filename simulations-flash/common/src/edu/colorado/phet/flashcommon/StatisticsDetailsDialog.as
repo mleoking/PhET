@@ -1,15 +1,13 @@
-﻿// StatisticsDetailsDialog.as
+// StatisticsDetailsDialog.as
 //
 // Shows the session-start statistics message, with other text
 //
 // Author: Jonathan Olson
 
 import org.aswing.ASColor;
-import org.aswing.ASWingUtils;
 import org.aswing.BoxLayout;
 import org.aswing.Insets;
 import org.aswing.JButton;
-import org.aswing.JFrame;
 import org.aswing.JPanel;
 import org.aswing.JScrollPane;
 import org.aswing.JSpacer;
@@ -18,38 +16,18 @@ import org.aswing.SoftBoxLayout
 import org.aswing.util.Delegate;
 import org.aswing.border.EmptyBorder;
 import org.aswing.border.LineBorder;
+import org.aswing.Viewportable;
 
 import edu.colorado.phet.flashcommon.*;
 
-class edu.colorado.phet.flashcommon.StatisticsDetailsDialog {
-	
-	public var common : FlashCommon;
-	
-	// shorthand for debugging function
-	public function debug(str : String) : Void {
-		_level0.debug(str);
-	}
+class edu.colorado.phet.flashcommon.StatisticsDetailsDialog extends edu.colorado.phet.flashcommon.CommonDialog {
+
+    public var okButton : JButton;
+    public var textArea : JTextArea;
+    public var detailsScroll : JScrollPane;
 	
 	public function StatisticsDetailsDialog() {
-		//debug("StatisticsDetailsDialog initializing\n");
-		
-		// shortcut to FlashCommon, but now with type-checking!
-		common = _level0.common;
-		
-		// somehow this line allows us to create these windows/buttons from
-		// code that isn't part of a MovieClip.
-		ASWingUtils.getRootMovieClip();
-		
-		// create a window
-		var window : JFrame = new JFrame(_level0, common.strings.get("PrivacyDetails", "Privacy Details"));
-		
-		// make it accessible from anywhere
-		_level0.statisticsDetailsWindow = window;
-		
-		// set the background color to default
-		window.setBackground(common.backgroundColor);
-		
-		window.setResizable(false);
+        super( "statisticsDetails", _level0.common.strings.get( "PrivacyDetails", "Privacy Details" ) )
 		
 		// layout the window vertically
 		window.getContentPane().setLayout(new SoftBoxLayout(SoftBoxLayout.Y_AXIS));
@@ -63,27 +41,18 @@ class edu.colorado.phet.flashcommon.StatisticsDetailsDialog {
 		str += common.statistics.sessionStartMessage(true);
 		str += "</font>"
 		
-		// CSS will make links blue
-		var css : TextField.StyleSheet = new TextField.StyleSheet();
-		css.parseCSS("a:link{color:#0000FF;font-weight:bold;}" +
-			"a:visited{color:#0000FF;font-weight:bold;}" +
-			"a:hover{color:#0000FF;text-decoration:underline;font-weight:bold;}" +
-			"a:active{color:#0000FF;font-weight:bold;}"); 
-		
-		var textArea = new JTextArea(str, 0, 40);
+		textArea = new JTextArea(str, 0, 40);
 		textArea.setHtml(true);
 		textArea.setEditable(false);
-		textArea.setCSS(css);
+		textArea.setCSS( FlashCommon.LINK_STYLE_SHEET );
 		textArea.setWordWrap(true);
 		textArea.setWidth(300);
 		textArea.setBackground(common.backgroundColor);
 		
 		// add padding around the text
 		textArea.setBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)));
-		
-		//window.getContentPane().append(textArea);
-		
-		var detailsScroll = new JScrollPane(textArea, JScrollPane.SCROLLBAR_AS_NEEDED, JScrollPane.SCROLLBAR_AS_NEEDED);
+				
+		detailsScroll = new JScrollPane(textArea, JScrollPane.SCROLLBAR_AS_NEEDED, JScrollPane.SCROLLBAR_AS_NEEDED);
 		detailsScroll.setPreferredSize(400, 300);
 		detailsScroll.setBorder(new EmptyBorder(new LineBorder(null, ASColor.GRAY, 1, 0), new Insets(5, 5, 5, 5)));
 		window.getContentPane().append(detailsScroll);
@@ -92,23 +61,41 @@ class edu.colorado.phet.flashcommon.StatisticsDetailsDialog {
 		
 		// add the OK button
 		var panel : JPanel = new JPanel(new BoxLayout());
-		var okButton : JButton = new JButton(common.strings.get("OK", "OK"));
+		okButton = new JButton(common.strings.get("OK", "OK"));
 		okButton.addEventListener(JButton.ON_RELEASE, Delegate.create(this, okClicked));
 		CommonButtons.padButtonAdd(okButton, panel);		
 		window.getContentPane().append(panel);
 		
 		window.getContentPane().append(new JSpacer(5, 5));
 		
-		// scale the window to fit
-		window.setSize(window.getPreferredSize());
-		
-		// center the window
-		window.setLocation((Stage.width - window.getWidth()) / 2, (Stage.height - window.getHeight()) / 2);
-		window.show();
+		displayMe();
 	}
+
+    public function setupTabHandler() {
+        var areaEntry = new TabEntry( textArea.trigger_mc, TabHandler.HIGHLIGHT_LOCAL, detailsScroll.getVerticalScrollBar().target_mc );
+        tabHandler.addEntry( areaEntry );
+
+        // Page Down
+        tabHandler.registerKey( textArea.trigger_mc, 34, function() { _level0.statisticsDetailsDialog.scroll( 10 ); } )
+
+        // Page Up
+        tabHandler.registerKey( textArea.trigger_mc, 33, function() { _level0.statisticsDetailsDialog.scroll( -10 ); } )
+
+        // up key
+        tabHandler.registerKey( textArea.trigger_mc, 38, function() { _level0.statisticsDetailsDialog.scroll( -2 ); } )
+
+        // down key
+        tabHandler.registerKey( textArea.trigger_mc, 40, function() { _level0.statisticsDetailsDialog.scroll( 2 ); } )
+        
+        tabHandler.addAsWingButton( okButton );
+    }
+
+    public function scroll( amount : Number ) {
+        var view : Viewportable = detailsScroll.getViewport();
+        view.setViewPosition( view.getViewPosition().move( 0, amount ) );
+    }
 	
 	public function okClicked(src : JButton) {
-		// make the window invisible
-		_level0.statisticsDetailsWindow.setVisible(false);
+		manualClose();
 	}
 }
