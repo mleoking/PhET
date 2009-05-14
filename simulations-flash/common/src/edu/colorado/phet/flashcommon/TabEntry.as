@@ -1,4 +1,4 @@
-﻿// TabEntry.as
+// TabEntry.as
 //
 // Used in TabHandler. Stores all of the information
 // necessary for an object in the tab order.
