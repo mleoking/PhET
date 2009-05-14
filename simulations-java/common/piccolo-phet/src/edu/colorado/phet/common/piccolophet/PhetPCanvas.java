@@ -592,18 +592,11 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
      */
     public static class CenterWidthScaleHeight implements TransformStrategy {
         private PhetPCanvas phetPCanvas;
-        private Dimension2D renderingSize;
+        private final Dimension2D renderingSize;
 
         public CenterWidthScaleHeight( PhetPCanvas phetPCanvas, Dimension2D renderingSize ) {
             this.phetPCanvas = phetPCanvas;
             this.renderingSize = renderingSize;
-            phetPCanvas.addComponentListener( new ComponentAdapter() {
-                public void componentShown( ComponentEvent e ) {
-                    if ( CenterWidthScaleHeight.this.renderingSize == null ) {
-                        setRenderingSize();
-                    }
-                }
-            } );
         }
 
         public void setPhetPCanvas( PhetPCanvas phetPCanvas ) {
@@ -612,12 +605,9 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
 
         public AffineTransform getTransform() {
         	AffineTransform transform;
-            if ( renderingSize == null && phetPCanvas.isVisible() ) {
-                setRenderingSize();
-            }
             if (phetPCanvas.getWidth() > 0 && phetPCanvas.getHeight() > 0){
             	
-            	// We scale based only on growth/shrinkage in the y dimension,
+            	// Scale based only on growth/shrinkage in the y dimension,
             	// i.e. height.
                 double scale = getScaleY();
 
@@ -650,18 +640,6 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
          */
         protected AffineTransform getPreprocessedTransform() {
             return new AffineTransform();
-        }
-
-        private void setRenderingSize() {
-            setRenderingSize( phetPCanvas.getSize() );
-        }
-
-        public void setRenderingSize( Dimension dim ) {
-            this.renderingSize = new Dimension( dim );
-        }
-
-        public void setRenderingSize( int width, int height ) {
-            setRenderingSize( new Dimension( width, height ) );
         }
 
         private double getScaleY() {
