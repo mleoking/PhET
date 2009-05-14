@@ -1,4 +1,4 @@
-﻿// UpdateInstallationDetailsDialog.as
+// UpdateInstallationDetailsDialog.as
 //
 // Show details about updating an installation
 //
@@ -19,38 +19,14 @@ import org.aswing.border.EmptyBorder;
 
 import edu.colorado.phet.flashcommon.*;
 
-class edu.colorado.phet.flashcommon.UpdateInstallationDetailsDialog {
-	
-	public var common : FlashCommon;
-	
+class edu.colorado.phet.flashcommon.UpdateInstallationDetailsDialog extends edu.colorado.phet.flashcommon.CommonDialog {
+
 	public var textArea : JTextArea;
-	
-	// shorthand for debugging function
-	public function debug(str : String) : Void {
-		_level0.debug(str);
-	}
+    public var okButton : JButton;
 	
 	public function UpdateInstallationDetailsDialog() {
-		//debug("UpdateInstallationDetailsDialog initializing\n");
-		
-		// shortcut to FlashCommon, but now with type-checking!
-		common = _level0.common;
-		
-		// mysterious fix since "this" does not refer to a MovieClip or Component
-		ASWingUtils.getRootMovieClip();
-		
-		// create a window
-		var window : JFrame = new JFrame(_level0, common.strings.get("NewVersionAvailable", "New Version Available"));
-		
-		// the window shouldn't be resizable
-		window.setResizable(false);
-		
-		// make sure we can access it from anywhere
-		_level0.updateInstallationDetailsWindow = window;
-		
-		// set the background to default
-		window.setBackground(common.backgroundColor);
-		
+        super( "updateInstallationDetails", _level0.common.strings.get( "NewVersionAvailable", "New Version Available") );
+
 		// layout things vertically
 		window.getContentPane().setLayout(new SoftBoxLayout(SoftBoxLayout.Y_AXIS));
 		
@@ -60,18 +36,10 @@ class edu.colorado.phet.flashcommon.UpdateInstallationDetailsDialog {
 		str += common.strings.get("InstallerInfo1", "Keeping your PhET Offline Website Installation up-to-date ensures that you have access to the newest PhET simulations and supplemental materials.") + "\n\n";
 		str += common.strings.get("InstallerInfo2", "If you choose to get the newest version, a web browser will open to the PhET website, where you can download the PhET Offline Website Installer.");
 		
-		// create CSS to make links blue
-		var css : TextField.StyleSheet = new TextField.StyleSheet();
-		css.parseCSS("a:link{color:#0000FF;font-weight:bold;}" +
-			"a:visited{color:#0000FF;font-weight:bold;}" +
-			"a:hover{color:#0000FF;text-decoration:underline;font-weight:bold;}" +
-			"a:active{color:#0000FF;font-weight:bold;}"); 
-		
 		var textArea = new JTextArea(str, 0, 0);
-		//textArea = new JTextArea(str, 0, 0);
 		textArea.setHtml(true);
 		textArea.setEditable(false);
-		textArea.setCSS(css);
+		textArea.setCSS( FlashCommon.LINK_STYLE_SHEET );
 		textArea.setMultiline(true);
 		textArea.setBackground(common.backgroundColor);
 		textArea.setBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)));
@@ -85,38 +53,23 @@ class edu.colorado.phet.flashcommon.UpdateInstallationDetailsDialog {
 		// panel to lay the buttons in
 		var panel : JPanel = new JPanel(new FlowLayout());
 		
-		var okButton : JButton = new JButton(common.strings.get("Close", "Close"));
+		okButton = new JButton(common.strings.get("Close", "Close"));
 		okButton.addEventListener(JButton.ON_RELEASE, Delegate.create(this, closeClicked));
 		CommonButtons.padButtonAdd(okButton, panel);
 		
-		//window.getContentPane().append(panel);
 		var centerPanel : JPanel = new JPanel(new CenterLayout()); //SoftBoxLayout.X_AXIS, 0, SoftBoxLayout.CENTER
 		centerPanel.append(panel);
 		window.getContentPane().append(centerPanel);
 		
-		// fit the window to its contents
-		window.setSize(window.getPreferredSize());
-		
-		// center the window
-		window.setLocation((Stage.width - window.getWidth()) / 2, (Stage.height - window.getHeight()) / 2);
-		window.show();
-		
-		debug("UID::: " + String(textArea.getVisibleRows()) + "\n");
-		
-		var tex : TextField = textArea.getTextField();
-		
-		debug("_height " + String(tex._height) + "\n");
-		debug("_width " + String(tex._width) + "\n");
-		debug("textHeight " + String(tex.textHeight) + "\n");
-		debug("textWidth " + String(tex.textWidth) + "\n");
-		
-		_level0.debugTextArea = tex;
-		
+		displayMe();
 	}
+
+    public function setupTabHandler() {
+        tabHandler.addAsWingButton( okButton );
+    }
 	
 	public function closeClicked(src : JButton) {
-		// hide this window
-		_level0.updateInstallationDetailsWindow.setVisible(false);
+		manualClose();
 	}
 	
 }

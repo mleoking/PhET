@@ -95,7 +95,7 @@ class edu.colorado.phet.flashcommon.UpdateHandler {
 		return str;
 	}
 	
-	public function sendStartupQuery(query : String) : Void {
+	public function sendStartupQuery(query : String) {
 		
 		if(query === undefined) {
 			// must not be querying for anything, don't do anything
@@ -210,7 +210,7 @@ class edu.colorado.phet.flashcommon.UpdateHandler {
 		queryXML.sendAndLoad("http://phet.colorado.edu/services/phet-info", xml);
 	}
 	
-	public function manualCheckSim() : Void {
+	public function manualCheckSim() {
 		debug("UpdateHandler: checking manually for sim");
 		manual = true;
 		sendStartupQuery(startupQueryString(true, false));
@@ -222,7 +222,7 @@ class edu.colorado.phet.flashcommon.UpdateHandler {
 		sendStartupQuery(startupQueryString(false, true));
 	}
 	
-	public function handleResponse() : Void {
+	public function handleResponse() {
 		//debug("UpdateHandler: handleResponse()\n");
 		
 		var installShown = false;
@@ -295,31 +295,15 @@ class edu.colorado.phet.flashcommon.UpdateHandler {
 	// called if a newer version is available online
 	public function simUpdatesAvailable(versionMajor : Number, versionMinor : Number, versionDev : Number, versionRevision : Number, simAskLaterDays : Number) : Void {
 		debug("UpdateHandler: Sim Updates Available (dialog)!\n");
-		
-		if(_level0.updateSimWindow) {
-			// update window exists, just show it
-			debug("Showing dialog again\n");
-			_level0.updateSimWindow.show();
-		} else {
-			// update window doesn't exist, we must create it
-			debug("Creating Dialog\n");
-			_level0.updateSimDialog = new UpdateSimDialog(versionMajor, versionMinor, versionDev, versionRevision, simAskLaterDays);
-		}
+
+        CommonDialog.openUpdateSimDialog( versionMajor, versionMinor, versionDev, versionRevision, simAskLaterDays );
 	}
 	
 	// called if a newer version is available online
 	public function installationUpdatesAvailable(installerTimestamp : Number, installerAskLaterDays : Number) : Void {
 		debug("UpdateHandler: Installation Updates Available (dialog)!\n");
-		
-		if(_level0.updateInstallationWindow) {
-			// update window exists, just show it
-			debug("Showing dialog again\n");
-			_level0.updateInstallationWindow.show();
-		} else {
-			// update window doesn't exist, we must create it
-			debug("Creating Dialog\n");
-			_level0.updateInstallationDialog = new UpdateInstallationDialog(installerTimestamp, installerAskLaterDays);
-		}
+
+        CommonDialog.openUpdateInstallationDialog( installerTimestamp, installerAskLaterDays );
 	}
 	
 	public function showUpdateError() {

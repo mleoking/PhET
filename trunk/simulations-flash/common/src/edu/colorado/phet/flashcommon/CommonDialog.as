@@ -136,4 +136,28 @@ class edu.colorado.phet.flashcommon.CommonDialog {
             new StatisticsDetailsDialog();
 		}
     }
+
+    public static function openUpdateInstallationDetailsDialog() {
+        if(_level0.updateInstallationDetailsWindow) {
+            _level0.updateInstallationDetailsDialog.manualOpen();
+		} else {
+            new UpdateInstallationDetailsDialog();
+		}
+    }
+
+    public static function openUpdateInstallationDialog( installerTimestamp : Number, installerAskLaterDays : Number ) {
+        if(_level0.updateInstallationWindow) {
+            _level0.updateInstallationDialog.manualOpen();
+		} else {
+            new UpdateInstallationDialog( installerTimestamp, installerAskLaterDays );
+		}
+    }
+
+    public static function openUpdateSimDialog( versionMajor : Number, versionMinor : Number, versionDev : Number, versionRevision : Number, simAskLaterDays : Number ) {
+        if(_level0.updateSimWindow) {
+            _level0.updateSimDialog.manualOpen();
+		} else {
+            new UpdateSimDialog( versionMajor, versionMinor, versionDev, versionRevision, simAskLaterDays );
+		}
+    }
 }
