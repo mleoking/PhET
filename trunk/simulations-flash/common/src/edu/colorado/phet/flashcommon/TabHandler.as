@@ -98,6 +98,9 @@ class edu.colorado.phet.flashcommon.TabHandler {
 	
 	public function insertEntry( entry : TabEntry, idx : Number) : Void {
 		entries.splice(idx, 0, entry);
+        if( currentIndex >= idx ) {
+            currentIndex++;
+        }
 	}
 	
 	public function addEntry( entry : TabEntry ) : Void {
@@ -120,6 +123,9 @@ class edu.colorado.phet.flashcommon.TabHandler {
 	// insert obj into controls at the specified index
 	public function insertControl(obj : Object, idx : Number, highlight : String) : Void {
 		entries.splice(idx, 0, new TabEntry(obj, highlight));
+        if( currentIndex >= idx ) {
+            currentIndex++;
+        }
 	}
 	
 	// add the control to the end of the tab order
@@ -141,8 +147,24 @@ class edu.colorado.phet.flashcommon.TabHandler {
 	
 	// remove a control from the tab order
 	public function removeControl(obj : Object) : Void {
-		throw new Error("TabHandler.removeControl not implemented yet");
+		var idx : Number = findIndex( obj );
+        if( currentIndex == idx ) {
+            if( entries.length > 1 ) {
+                next();
+            } else {
+                removeFocus( currentEntry() );
+                reset();
+            }
+        }
+        entries.splice( idx, 1 );
+        if( currentIndex >= idx ) {
+            currentIndex--;
+        }
 	}
+
+    public function removeEntry( entry : TabEntry ) {
+        removeControl( entry.control );
+    }
 	
 	// register a callback to be called when obj is in focus and key is pressed
 	public function registerKey(obj : Object, key : Number, callback : Function) {
