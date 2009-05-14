@@ -18,8 +18,7 @@ public abstract class ConcentrationModel {
     }
 
     public PHValue getPH() {
-        double c = getH3OConcentration();
-        return new PHValue( -MathUtil.log10( c ) );
+        return new PHValue( -MathUtil.log10( getH3OConcentration() ) );
     }
     
     // c
