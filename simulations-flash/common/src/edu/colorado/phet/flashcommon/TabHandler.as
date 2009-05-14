@@ -225,24 +225,6 @@ class edu.colorado.phet.flashcommon.TabHandler {
 		}
 	}
 	
-	// draw the highlight on the movieclip with the specified bounds
-	public function drawHighlights(entry : TabEntry, high : MovieClip, bounds : Object) {
-		high.beginFill(0xFF0000);
-		high.endFill();
-		
-		var xa : Number = bounds.xMin + 1;
-		var xb : Number = bounds.xMax - 1;
-		var ya : Number = bounds.yMin + 1;
-		var yb : Number = bounds.yMax - 1;
-		
-		high.lineStyle(2, 0x0000FF);
-		high.moveTo(xa, ya);
-		high.lineTo(xb, ya);
-		high.lineTo(xb, yb);
-		high.lineTo(xa, yb);
-		high.lineTo(xa, ya);
-	}
-	
 	// used to set an entry to be the one in focus
 	public function addFocus(entry : TabEntry) {
 		_level0.debug( "TabHandler AddFocus() " + toString() + "\n" );
@@ -311,7 +293,7 @@ class edu.colorado.phet.flashcommon.TabHandler {
 				}
 				
 				// draw the highlights around the control
-				drawHighlights(entry, lastHighlight, bounds);
+				entry.drawHighlights(lastHighlight, bounds);
 				break;
 			case HIGHLIGHT_LOCAL:
 				var mc : MovieClip = MovieClip(entry.getHighlightObject());
@@ -323,7 +305,7 @@ class edu.colorado.phet.flashcommon.TabHandler {
 				bounds = mc.getBounds(mc);
 				
 				// draw the highlights around the control
-				drawHighlights(entry, lastHighlight, bounds);
+				entry.drawHighlights(lastHighlight, bounds);
 				break;
 		}
 	}

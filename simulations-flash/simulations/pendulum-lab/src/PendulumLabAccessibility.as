@@ -25,7 +25,14 @@ class PendulumLabAccessibility {
         tab = _level0.tabHandler;
 
         pendulum1 = new TabEntry( _level0.pendulum1.pendulum_mc.mass_mc, TabHandler.HIGHLIGHT_LOCAL );
+        pendulum1.highlightColor = 0xFF00FF;
+        pendulum1.highlightWidth = 5;
+        pendulum1.highlightInset = -5;
+
         pendulum2 = new TabEntry( _level0.pendulum2.pendulum_mc.mass_mc, TabHandler.HIGHLIGHT_LOCAL );
+        pendulum2.highlightColor = 0xFF00FF;
+        pendulum2.highlightWidth = 5;
+        pendulum2.highlightInset = -5;
 
         length1Text = new TabEntry(_root.panel_mc.length1Slider.value_txt);
         length1Slider = new TabEntry(_root.panel_mc.length1Slider.puck_mc, TabHandler.HIGHLIGHT_LOCAL);
