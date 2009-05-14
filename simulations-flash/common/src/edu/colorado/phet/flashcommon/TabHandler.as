@@ -203,6 +203,7 @@ class edu.colorado.phet.flashcommon.TabHandler {
 			}
 			//debug("Current focus: " + Selection.getFocus() + "\n");
 		} else if(active) {
+            /*
 			var f : Function = currentEntry().keys[Key.getCode()];
 			if(f != undefined) {
 				//debug("TabHandler: keypress!\n");
@@ -211,6 +212,8 @@ class edu.colorado.phet.flashcommon.TabHandler {
 			if(currentEntry().buttonlike && (Key.getCode() == Key.SPACE || Key.getCode() == Key.ENTER)) {
 				currentControl().onPress();
 			}
+			*/
+            currentEntry().onKeyDown( Key.getCode() );
 		}
 
         if( Key.getCode() == Key.ESCAPE ) {
@@ -220,9 +223,12 @@ class edu.colorado.phet.flashcommon.TabHandler {
 	
 	// called when ANY key is released, anytime
 	public function onKeyUp() {
+        /*
 		if(active && currentEntry().buttonlike && (Key.getCode() == Key.SPACE || Key.getCode() == Key.ENTER)) {
 			currentControl().onRelease();
 		}
+		*/
+        currentEntry().onKeyUp( Key.getCode() );
 	}
 	
 	// used to set an entry to be the one in focus
