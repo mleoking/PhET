@@ -8,7 +8,6 @@ import java.util.Properties;
 import java.util.jar.*;
 
 import edu.colorado.phet.common.phetcommon.application.JARLauncher;
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.view.util.StringUtil;
 import edu.colorado.phet.translationutility.TUConstants;
