@@ -1,15 +1,14 @@
 package edu.colorado.phet.acidbasesolutions.model.concentration;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
-import edu.colorado.phet.acidbasesolutions.model.Base;
+import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.Water;
-import edu.colorado.phet.acidbasesolutions.model.Base.IntermediateBase;
 
 
 public class IntermediateBaseConcentrationModel extends ConcentrationModel {
 
-    public IntermediateBaseConcentrationModel( IntermediateBase base ) {
-        super( base );
+    public IntermediateBaseConcentrationModel( Solute solute ) {
+        super( solute );
     }
     
     // [B] = [B for weak acid with Kb=Kmin]*10^(4*(K-Kmin)/(K-Kmax))

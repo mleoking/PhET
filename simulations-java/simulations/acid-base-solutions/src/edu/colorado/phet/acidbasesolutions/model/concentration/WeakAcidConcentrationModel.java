@@ -1,15 +1,14 @@
 package edu.colorado.phet.acidbasesolutions.model.concentration;
 
-import edu.colorado.phet.acidbasesolutions.model.Acid;
+import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.Water;
-import edu.colorado.phet.acidbasesolutions.model.Acid.WeakAcid;
 
 
 
 public class WeakAcidConcentrationModel extends ConcentrationModel {
 
-    protected WeakAcidConcentrationModel( WeakAcid acid ) {
-        super( acid );
+    protected WeakAcidConcentrationModel( Solute solute ) {
+        super( solute );
     }
     
     // [HA] = c - [A-]

@@ -66,9 +66,6 @@ public class ABSStrings {
     
     // acids
     public static final String CUSTOM_ACID = ABSResources.getString( "acid.customAcid" );
-    public static final String CUSTOM_STRONG_ACID = ABSResources.getString( "acid.customStrongAcid" );
-    public static final String CUSTOM_INTERMEDIATE_ACID = ABSResources.getString( "acid.customIntermediateAcid" );
-    public static final String CUSTOM_WEAK_ACID = ABSResources.getString( "acid.customWeakAcid" );
     public static final String HYDROCHLORIC_ACID = ABSResources.getString( "acid.hydrochloricAcid" );
     public static final String PERCHLORIC_ACID = ABSResources.getString( "acid.perchloridAcid" );
     public static final String CHLOROUS_ACID = ABSResources.getString( "acid.chlorousAcid" );
@@ -78,9 +75,6 @@ public class ABSStrings {
     
     // bases
     public static final String CUSTOM_BASE = ABSResources.getString( "base.customBase" );
-    public static final String CUSTOM_STRONG_BASE = ABSResources.getString( "base.customStrongBase" );
-    public static final String CUSTOM_INTERMEDIATE_BASE = ABSResources.getString( "base.customIntermediateBase" );
-    public static final String CUSTOM_WEAK_BASE = ABSResources.getString( "base.customWeakBase" );
     public static final String SODIUM_HYDROXIDE = ABSResources.getString( "base.sodiumHydroxide" );
     public static final String AMMONIA = ABSResources.getString( "base.ammonia" );
     public static final String PYRIDINE = ABSResources.getString( "base.pyridine" );

@@ -45,20 +45,6 @@ public abstract class Acid extends Solute {
         }
     }
 
-    public static class CustomStrongAcid extends StrongAcid {
-
-        private static final double DEFAULT_STRENGTH = ABSConstants.STRONG_STRENGTH_RANGE.getMin();
-
-        public CustomStrongAcid() {
-            super( ABSStrings.CUSTOM_STRONG_ACID, ABSSymbols.HA, DEFAULT_STRENGTH, ABSSymbols.A_MINUS );
-        }
-
-        // public setter for custom
-        public void setStrength( double strength ) {
-            super.setStrength( strength );
-        }
-    }
-    
     //----------------------------------------------------------------------------
     // Weak acids
     //----------------------------------------------------------------------------
@@ -98,47 +84,37 @@ public abstract class Acid extends Solute {
         }
     }
     
-    public static class CustomWeakAcid extends WeakAcid {
+    //----------------------------------------------------------------------------
+    // Custom acid (strong, weak, or intermediate)
+    //----------------------------------------------------------------------------
+    
+    public static class CustomAcid extends Acid {
         
         private static final double DEFAULT_STRENGTH = ABSConstants.WEAK_STRENGTH_RANGE.getMin();
-
-        public CustomWeakAcid() {
-            super( ABSStrings.CUSTOM_WEAK_ACID, ABSSymbols.HA, DEFAULT_STRENGTH, ABSSymbols.A_MINUS );
+        
+        public CustomAcid() {
+            super( ABSStrings.CUSTOM_ACID, ABSSymbols.HA, DEFAULT_STRENGTH, ABSSymbols.A_MINUS );
         }
 
-        // public setter for custom
+        // public, so that custom acid strength is mutable
         public void setStrength( double strength ) {
             super.setStrength( strength );
-        }
-    }
-    
-    //----------------------------------------------------------------------------
-    // Intermediate acids
-    //----------------------------------------------------------------------------
-    
-    public abstract static class IntermediateAcid extends Acid {
-        
-        private IntermediateAcid( String name, String symbol, double strength, String conjugateSymbol ) {
-            super( name, symbol, strength, conjugateSymbol );
         }
         
         protected boolean isValidStrength( double strength ) {
-            // exclusive of intermediate range bounds!
-            return ( strength > ABSConstants.INTERMEDIATE_STRENGTH_RANGE.getMin() && strength < ABSConstants.INTERMEDIATE_STRENGTH_RANGE.getMax() );
+            return ABSConstants.CUSTOM_STRENGTH_RANGE.contains( strength );
         }
-    }
-
-    public static class CustomIntermediateAcid extends IntermediateAcid {
-
-        private static final double DEFAULT_STRENGTH = ABSConstants.WEAK_STRENGTH_RANGE.getMin();
-
-        public CustomIntermediateAcid() {
-            super( ABSStrings.CUSTOM_INTERMEDIATE_ACID, ABSSymbols.HA, DEFAULT_STRENGTH, ABSSymbols.A_MINUS );
+        
+        public boolean isWeak() {
+            return ABSConstants.WEAK_STRENGTH_RANGE.contains( getStrength() );
         }
-
-        // public setter for custom
-        public void setStrength( double strength ) {
-            super.setStrength( strength );
+        
+        public boolean isStrong() {
+            return ABSConstants.STRONG_STRENGTH_RANGE.contains( getStrength() );
+        }
+        
+        public boolean isIntermediate() {
+            return ABSConstants.WEAK_STRENGTH_RANGE.containsExclusive( getStrength() );
         }
     }
 

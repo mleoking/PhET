@@ -6,7 +6,6 @@ import java.util.Iterator;
 import edu.colorado.phet.acidbasesolutions.model.Solute.SoluteListener;
 import edu.colorado.phet.acidbasesolutions.model.concentration.ConcentrationModel;
 import edu.colorado.phet.acidbasesolutions.model.concentration.ConcentrationModelFactory;
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
 /**
@@ -31,6 +30,7 @@ public class AqueousSolution {
             }
 
             public void strengthChanged() {
+                updateConcentrationModel();
                 notifyStrengthChanged();
             }
         };
@@ -43,7 +43,7 @@ public class AqueousSolution {
         }
         this.solute = solute;
         this.solute.addSoluteListener( soluteListener );
-        this.concentrationModel = ConcentrationModelFactory.getModel( this.solute );
+        updateConcentrationModel();
         notifySoluteChanged();
     }
     
@@ -55,24 +55,12 @@ public class AqueousSolution {
         return concentrationModel;
     }
     
+    private void updateConcentrationModel() {
+        concentrationModel = ConcentrationModelFactory.getModel( solute );
+    }
+    
     public PHValue getPH() {
         return concentrationModel.getPH();
-    }
-    
-    public void setStrength( double strength ) {
-        solute.setStrength( strength );
-    }
-    
-    public double getStrength() {
-        return solute.getStrength();
-    }
-    
-    public void setInitialConcentration( double initialConcentration ) {
-        solute.setInitialConcentration( initialConcentration );
-    }
-    
-    public double getInitialConcentration() {
-        return solute.getInitialConcentration();
     }
     
     public String toString() {

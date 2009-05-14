@@ -9,6 +9,7 @@ import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.NullSolute;
 import edu.colorado.phet.acidbasesolutions.model.Acid.*;
 import edu.colorado.phet.acidbasesolutions.model.Base.Ammonia;
+import edu.colorado.phet.acidbasesolutions.model.Base.CustomBase;
 import edu.colorado.phet.acidbasesolutions.model.Base.Pyridine;
 import edu.colorado.phet.acidbasesolutions.model.Base.SodiumHydroxide;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
@@ -48,7 +49,7 @@ public class SoluteComboBox extends JComboBox {
     public SoluteComboBox() {
         super();
         
-        defaultChoice = new CustomAcidChoice();
+        defaultChoice = new CustomAcid();
         
         // no solute
         addItem( new NullSolute() );
@@ -66,7 +67,7 @@ public class SoluteComboBox extends JComboBox {
         
         // custom solutes
         addItem( defaultChoice );
-        addItem( new CustomBaseChoice() );
+        addItem( new CustomBase() );
         
         // default selection
         setSelectedItem( defaultChoice );
