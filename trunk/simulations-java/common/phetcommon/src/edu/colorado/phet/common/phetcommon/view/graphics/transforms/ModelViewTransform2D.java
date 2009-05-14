@@ -75,7 +75,7 @@ public class ModelViewTransform2D {
      * @param vp1 The point in the view frame that corresponds to mp1 in the model reference frame
      * @param vp2 The point in the view frame that corresponds to mp2 in the model reference frame
      */
-    public ModelViewTransform2D( Point2D mp1, Point2D mp2, Point vp1, Point vp2 ) {
+    public ModelViewTransform2D( Point2D mp1, Point2D mp2, Point2D vp1, Point2D vp2 ) {
         Rectangle2D.Double mr = new Rectangle2D.Double( mp1.getX(), mp1.getY(), 0, 0 );
         mr.add( mp2 );
         Rectangle2D vr = new Rectangle2D.Double( vp1.getX(), vp1.getY(), 0, 0 );
@@ -84,9 +84,25 @@ public class ModelViewTransform2D {
         setViewBounds( vr );
     }
 
-    public ModelViewTransform2D( Point2D mp1, Point2D mp2, Point vp1, Point vp2,boolean invertY ) {
+    public ModelViewTransform2D( Point2D mp1, Point2D mp2, Point2D vp1, Point2D vp2, boolean invertY ) {
         this(mp1,mp2,vp1,vp2);
         this.invertY=invertY;
+    }
+    
+    /**
+     * Somewhat simplified constructor that assumes that the aspect ratio is
+     * maintained in all cases.
+     * 
+     * @param mp1 - Point in the model
+     * @param vp1 - Corresponding point in the view
+     * @param scale - Scale from model to view
+     * @param invertY - To invert Y or not to invert Y, that is the question
+     */
+    public ModelViewTransform2D( Point2D mp1, Point2D vp1, double scale, boolean invertY ){
+
+    	this(mp1, new Point2D.Double(mp1.getX() + 1, mp1.getY() + 1), vp1,
+    			new Point2D.Double(vp1.getX() + 1 * scale, vp1.getY() + 1 * scale));
+    	this.invertY=invertY;
     }
 
     //----------------------------------------------------------------------------
