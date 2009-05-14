@@ -30,18 +30,21 @@ class edu.colorado.phet.flashcommon.PreferencesDialog extends edu.colorado.phet.
 	// keep track of what states would be if the user clicks OK
 	public var updateState : Boolean;
 	public var statisticsState : Boolean;
-	
-	// need references to the checkboxes
-	public var updatesCheck : JCheckBox;
-	public var statisticsCheck : JCheckBox;
-	
-	var updatesSimButton : JButton;
-	var updatesInstallationButton : JButton;
+    public var highContrastState : Boolean;
+
+    // need references to the checkboxes
+    public var updatesCheck : JCheckBox;
+    public var statisticsCheck : JCheckBox;
+    public var highContrastCheck:JCheckBox;
+
+    var updatesSimButton : JButton;
+    var updatesInstallationButton : JButton;
     var detailsButton : JButton;
     var okButton : JButton;
     var cancelButton : JButton;
-	
-	public function PreferencesDialog() {
+
+
+    public function PreferencesDialog() {
         super( "preferences", _level0.common.strings.get( "PhETPreferences", "PhET Preferences" ) );
 		
 		// load the shared object so we can pull data from it
@@ -50,6 +53,7 @@ class edu.colorado.phet.flashcommon.PreferencesDialog extends edu.colorado.phet.
 		// initialize to false. this will be changed later if either should be true
 		this.updateState = false;
 		this.statisticsState = false;
+        this.highContrastState = false;
 		
 		// SoftBoxLayout vertical, but allows different sized components
 		window.getContentPane().setLayout(new SoftBoxLayout(SoftBoxLayout.Y_AXIS));
@@ -138,9 +142,22 @@ class edu.colorado.phet.flashcommon.PreferencesDialog extends edu.colorado.phet.
 		CommonButtons.padButtonAdd(detailsButton, privacyPanel);
 		
 		privacyPanel.append(new JSpacer(5, 5));
+
+        var accessibilityPanel = new JPanel( new SoftBoxLayout( SoftBoxLayout.Y_AXIS ) );
+        //accessibilityPanel.setName( common.strings.get( "Accessibility", "Accessibility" ) );
+        //accessibilityPanel.setBorder(new TitledBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)), common.strings.get("Accessibility", "Accessibility")));
+        accessibilityPanel.append( new JSpacer( 5, 5 ) );
+        highContrastCheck = new JCheckBox( common.strings.get( "HighContrast", "High Contrast Colors" ) );
+        highContrastCheck.addEventListener(JCheckBox.ON_CLICKED, Delegate.create(this, highContrastToggle));
+        if( _level0.highContrast ) {
+            highContrastCheck.click();
+        }
+        accessibilityPanel.append( highContrastCheck );
+        accessibilityPanel.append( new JSpacer( 5, 5 ) );
 		
 		bigPanel.append(updatesPanel);
 		bigPanel.append(privacyPanel);
+        bigPanel.append( accessibilityPanel );
 		
 		window.getContentPane().append(bigPanel);
 		
@@ -181,6 +198,7 @@ class edu.colorado.phet.flashcommon.PreferencesDialog extends edu.colorado.phet.
 		}
         tabHandler.addAsWingCheckBox( statisticsCheck );
 		tabHandler.addAsWingButton( detailsButton );
+        tabHandler.addAsWingCheckBox( highContrastCheck );
 		tabHandler.addAsWingButton( okButton );
 		tabHandler.addAsWingButton( cancelButton );
     }
@@ -197,6 +215,9 @@ class edu.colorado.phet.flashcommon.PreferencesDialog extends edu.colorado.phet.
 		if(statisticsState != _level0.preferences.userAllowsStatistics()) {
 			statisticsCheck.click();
 		}
+        if( highContrastState != _level0.highContrast ) {
+            highContrastCheck.click();
+        }
 		common.preferences.unload();
 	}
 	
@@ -216,6 +237,13 @@ class edu.colorado.phet.flashcommon.PreferencesDialog extends edu.colorado.phet.
 		_level0.preferencesDialog.statisticsState = !_level0.preferencesDialog.statisticsState;
         statisticsCheck.setSelected( _level0.preferencesDialog.statisticsState );
 		debug("statisticsState toggled to " + _level0.preferencesDialog.statisticsState.toString() + "\n");
+	}
+
+    // toggle potential high contrast state
+	public function highContrastToggle(src : JCheckBox) : Void {
+		highContrastState = !highContrastState;
+        highContrastCheck.setSelected( highContrastState );
+		debug("highContrastState toggled to " + highContrastState.toString() + "\n");
 	}
 	
 	// manually check for sim updates
@@ -244,6 +272,10 @@ class edu.colorado.phet.flashcommon.PreferencesDialog extends edu.colorado.phet.
 	public function okClicked(src : JButton) : Void {
 		// set the potential state (updates and privacy) to the preferences
 		common.preferences.setPrivacy(_level0.preferencesDialog.updateState, _level0.preferencesDialog.statisticsState);
+
+        if( highContrastState != _level0.highContrast ) {
+            _level0.highContrastFunction( highContrastState );
+        }
 		
 		// hide the window
 		manualClose();
