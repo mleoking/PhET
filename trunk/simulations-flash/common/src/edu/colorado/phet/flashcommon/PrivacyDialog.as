@@ -1,4 +1,4 @@
-﻿// PrivacyDialog.as
+// PrivacyDialog.as
 //
 // Handles creating and displaying the privacy dialog
 //
@@ -129,6 +129,8 @@ class edu.colorado.phet.flashcommon.PrivacyDialog {
 		// center the window
 		window.setLocation((Stage.width - window.getWidth()) / 2, (Stage.height - window.getHeight()) / 2);
 		window.show();
+
+        Key.addListener( this );
 	}
 	
 	public function continueClicked(src : JButton) {
@@ -162,6 +164,13 @@ class edu.colorado.phet.flashcommon.PrivacyDialog {
 		} else {
 			debug("Creating Dialog\n");
 			_level0.agreementDialog = new AgreementDialog();
+		}
+	}
+
+    public function onKeyDown() {
+		if( Key.getCode() == Key.SPACE || Key.getCode() == Key.ENTER ) {
+			continueClicked( null );
+            Key.removeListener( this );
 		}
 	}
 }
