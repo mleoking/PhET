@@ -212,10 +212,10 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
 //        statNode.attachChild( label );
     }
 
-    Random random=new Random();
+    Random random=new Random(3);
     private DynamicPhysicsNode createBox() {
         DynamicPhysicsNode node = getPhysicsSpace().createDynamicNode();
-        TriMesh mesh = new MultiFaceBox("meshsphere", new Vector3f(0, random.nextFloat()*20, 0), 2, 2, 2);
+        TriMesh mesh = new MultiFaceBox("meshsphere", new Vector3f(0, random.nextFloat()*20+3, 0), 2, 2, 2);
         mesh.setModelBound(new BoundingSphere());
         mesh.updateModelBound();
         PhysicsMesh physMesh = node.createMesh("box mesh");
