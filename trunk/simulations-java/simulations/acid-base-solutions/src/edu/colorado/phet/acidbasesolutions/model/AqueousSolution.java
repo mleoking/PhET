@@ -6,6 +6,7 @@ import java.util.Iterator;
 import edu.colorado.phet.acidbasesolutions.model.Solute.SoluteListener;
 import edu.colorado.phet.acidbasesolutions.model.concentration.ConcentrationModel;
 import edu.colorado.phet.acidbasesolutions.model.concentration.ConcentrationModelFactory;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
 /**
