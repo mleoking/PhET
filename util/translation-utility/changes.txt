@@ -1,3 +1,4 @@
+5/14/09 #1653, when testing translations use phetcommon-fonts.properties from translation-utility.jar
 # 2.00.00 (31012) Apr 28, 2009
 4/28/09 deploy 2.00 to tigercat after IOM release
 4/21/09 #1249, delete backward compatibility after IOM release
