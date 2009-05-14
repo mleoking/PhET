@@ -39,20 +39,6 @@ public abstract class Base extends Solute {
         }
     }
 
-    public static class CustomStrongBase extends StrongBase {
-
-        private static final double DEFAULT_STRENGTH = ABSConstants.STRONG_STRENGTH_RANGE.getMin();
-
-        public CustomStrongBase() {
-            super( ABSStrings.CUSTOM_STRONG_BASE, ABSSymbols.MOH, DEFAULT_STRENGTH, ABSSymbols.M_PLUS );
-        }
-
-        // public setter for custom
-        public void setStrength( double strength ) {
-            super.setStrength( strength );
-        }
-    }
-    
     //----------------------------------------------------------------------------
     // Weak bases
     //----------------------------------------------------------------------------
@@ -87,54 +73,56 @@ public abstract class Base extends Solute {
         }
     }
     
-    public static class CustomWeakBase extends WeakBase {
-
-        private static final double DEFAULT_STRENGTH = ABSConstants.WEAK_STRENGTH_RANGE.getMin();
-
-        public CustomWeakBase() {
-            super( ABSStrings.CUSTOM_WEAK_BASE, ABSSymbols.B, DEFAULT_STRENGTH, ABSSymbols.BH_PLUS );
-        }
-
-        // public setter for custom
-        public void setStrength( double strength ) {
-            super.setStrength( strength );
-        }
-    }
-    
     //----------------------------------------------------------------------------
-    // Intermediate bases
+    // Custom base (strong, weak, or intermediate)
     //----------------------------------------------------------------------------
 
-    public abstract static class IntermediateBase extends Base {
-
-        private final String conjugateSymbol;
-
-        private IntermediateBase( String name, String symbol, String conjugateSymbol, double strength ) {
-            super( name, symbol, strength );
-            this.conjugateSymbol = conjugateSymbol;
-        }
-
-        public String getConjugateSymbolSymbol() {
-            return conjugateSymbol;
-        }
-
-        protected boolean isValidStrength( double strength ) {
-            // exclusive of intermediate range bounds!
-            return ( strength > ABSConstants.INTERMEDIATE_STRENGTH_RANGE.getMin() && strength < ABSConstants.INTERMEDIATE_STRENGTH_RANGE.getMax() );
-        }
-    }
-    
-    public static class CustomIntermediateBase extends IntermediateBase {
+    public static class CustomBase extends Base {
         
-        private static final double DEFAULT_STRENGTH = ABSConstants.WEAK_STRENGTH_RANGE.getMax() + 1;
-
-        public CustomIntermediateBase() {
-            super( ABSStrings.CUSTOM_INTERMEDIATE_BASE, ABSSymbols.B, ABSSymbols.BH_PLUS, DEFAULT_STRENGTH );
+        private static final double DEFAULT_STRENGTH = ABSConstants.WEAK_STRENGTH_RANGE.getMin();
+        
+        public CustomBase() {
+            super( ABSStrings.CUSTOM_BASE, "" /* symbol depends on strength */, DEFAULT_STRENGTH );
+            updateSymbol( getStrength() );
         }
-
-        // public setter for custom
+        
+        public String getConjugateSymbol() {
+            return ABSSymbols.BH_PLUS;
+        }
+        
+        public String getMetalSymbol() {
+            return ABSSymbols.M_PLUS;
+        }
+        
+        // public, so that custom base strength is mutable
         public void setStrength( double strength ) {
+            updateSymbol( strength );
             super.setStrength( strength );
+        }
+        
+        private void updateSymbol( double strength ) {
+            if ( ABSConstants.STRONG_STRENGTH_RANGE.contains( strength ) ) {
+                setSymbol( ABSSymbols.MOH );
+            }
+            else {
+                setSymbol( ABSSymbols.B );
+            }
+        }
+        
+        protected boolean isValidStrength( double strength ) {
+            return ABSConstants.CUSTOM_STRENGTH_RANGE.contains( strength );
+        }
+        
+        public boolean isWeak() {
+            return ABSConstants.WEAK_STRENGTH_RANGE.contains( getStrength() );
+        }
+        
+        public boolean isStrong() {
+            return ABSConstants.STRONG_STRENGTH_RANGE.contains( getStrength() );
+        }
+        
+        public boolean isIntermediate() {
+            return ABSConstants.WEAK_STRENGTH_RANGE.containsExclusive( getStrength() );
         }
     }
 }
