@@ -22,7 +22,7 @@ public class StrongBaseConcentrationModel extends ConcentrationModel {
     
     // [H3O+] = Kw / [OH-]
     public double getH3OConcentration() {
-        return Water.getEquilibriumConstant() / getH3OConcentration();
+        return Water.getEquilibriumConstant() / getOHConcentration();
     }
     
     // [OH-] = c
