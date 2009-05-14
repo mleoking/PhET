@@ -21,7 +21,7 @@ public class RadioactiveDatingGameObjectNode extends PNode {
 	private final PImage image;
 	
 	// For debugging of placement, turns on a name so users can tell what's what.
-	private final boolean SHOW_NAME = true;
+	private final boolean SHOW_NAME = false;
 
 	public RadioactiveDatingGameObjectNode(DatableObject rdgObject, ModelViewTransform2D mvt) {
 		this.rdgObject = rdgObject;
