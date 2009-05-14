@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas.RenderingSizeStrategy;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas.TransformStrategy;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
@@ -42,8 +43,8 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 	// Initial size of the reference coordinates that are used when setting up
 	// the canvas transform strategy.  These were empirically determined to
 	// match the expected initial size of the canvas.
-    private final int INITIAL_INTERMEDIATE_COORD_WIDTH = 1016;
-    private final int INITIAL_INTERMEDIATE_COORD_HEIGHT = 593;
+    private final int INITIAL_INTERMEDIATE_COORD_WIDTH = 786;
+    private final int INITIAL_INTERMEDIATE_COORD_HEIGHT = 786;
     private final Dimension INITIAL_INTERMEDIATE_DIMENSION = new Dimension( INITIAL_INTERMEDIATE_COORD_WIDTH,
     		INITIAL_INTERMEDIATE_COORD_HEIGHT );
     
@@ -74,9 +75,9 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     	_model = radioactiveDatingGameModel;
 
     	setWorldTransformStrategy(new PhetPCanvas.CenterWidthScaleHeight(this, INITIAL_INTERMEDIATE_DIMENSION));
-        _mvt = new ModelViewTransform2D(new Point2D.Double(0, 0), new Point2D.Double(10, -30),
-        		new Point(INITIAL_INTERMEDIATE_COORD_WIDTH / 2, (int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.33)),
-        		new Point(INITIAL_INTERMEDIATE_COORD_WIDTH, INITIAL_INTERMEDIATE_COORD_HEIGHT),true);
+        _mvt = new ModelViewTransform2D(new Point2D.Double(0, 0), 
+        		new Point(INITIAL_INTERMEDIATE_COORD_WIDTH / 2, (int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.25)),
+        		20, true);
 
         // Add a reference node that will be used when positioning other nodes later.
         _referenceNode = new PNode();
@@ -117,6 +118,11 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         	PNode datableItemNode = new RadioactiveDatingGameObjectNode(item, _mvt);
         	datableItemNode.setOffset(_mvt.modelToViewDouble(item.getCenter()));
         	addWorldChild(datableItemNode);
+        	
+        	// TODO: Temp for debug, should eventually go.
+        	PPath boundingNode = new PhetPPath( _mvt.createTransformedShape(item.getBoundingRect()), 
+        			new BasicStroke( 2 ), Color.RED );
+        	addWorldChild(boundingNode);
         }
         
         // Create the chart that will display relative decay proportions.
@@ -143,9 +149,9 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         // Create the radiometric measuring device.
         _meter = new RadiometricDatingMeterNode(_model.getMeter(), 
         		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION,
-        		(INITIAL_INTERMEDIATE_COORD_HEIGHT - _mvt.modelToViewYDouble(_model.getBottomOfStrata())) * 0.95 );
-        _meter.setOffset(
-        		_proportionsChart.getFullBoundsReference().getMinX() - _meter.getFullBoundsReference().height,
+        		(INITIAL_INTERMEDIATE_COORD_HEIGHT - _mvt.modelToViewYDouble(_model.getBottomOfStrata())) * 0.95, _mvt );
+        _meter.setMeterBodyOffset(
+        		_proportionsChart.getFullBoundsReference().getMinX() - _meter.getMeterBodyWidth(),
         		_mvt.modelToViewYDouble(_model.getBottomOfStrata()) + 4);
         addWorldChild( _meter );
         

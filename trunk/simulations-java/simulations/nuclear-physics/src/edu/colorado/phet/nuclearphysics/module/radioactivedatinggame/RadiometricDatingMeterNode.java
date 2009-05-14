@@ -5,9 +5,11 @@ package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -35,31 +37,52 @@ public class RadiometricDatingMeterNode extends PNode {
 	private static final double PROBE_SIZE_SCALE_FACTOR = 0.75;  // Adjust in order to change size of probe.
 	
 	RadiometricDatingMeter _meterModel;
+	ModelViewTransform2D _mvt;
+	PNode _meterBody;
+	private PPath _tipLocatorNode;
 	
-	public RadiometricDatingMeterNode(RadiometricDatingMeter meterModel, double width, double height) {
+	public RadiometricDatingMeterNode(RadiometricDatingMeter meterModel, double width, double height, ModelViewTransform2D mvt) {
 		
 		_meterModel = meterModel;
+		_mvt = mvt;
+		
+		
+		_meterBody = new PNode();
+		addChild(_meterBody);
 		
 		// Create the main body of the meter.
 		PPath mainBody = new PPath(new RoundRectangle2D.Double(0, 0, width, height, width/5, width/5));
 		mainBody.setPaint(BODY_COLOR);
-		addChild(mainBody);
+		_meterBody.addChild(mainBody);
 		
 		// Create the percentage readout.
 		PercentageDisplayNode percentageDisplay = new PercentageDisplayNode(width * READOUT_WIDTH_PROPORTION,
 				height * READOUT_HEIGHT_PROPORTION);
 		percentageDisplay.setOffset(mainBody.getFullBounds().width / 2 - percentageDisplay.getFullBounds().width / 2,
 				mainBody.getHeight() * 0.1 );
-		addChild(percentageDisplay);
+		_meterBody.addChild(percentageDisplay);
 		percentageDisplay.setPercentage(100);
 		
 		// Create the probe.
-		ProbeNode probe = new ProbeNode( _meterModel.getProbeModel() );
+		ProbeNode probe = new ProbeNode( _meterModel.getProbeModel(), _mvt, this );
 		addChild(probe);
-		probe.setOffset(0,0);
+		
+		_tipLocatorNode = new PhetPPath( new Rectangle2D.Double(0, 0, 10, 10), Color.BLUE );
+		addChild(_tipLocatorNode);
+		
+		updateTipLocatorNode();
+		_meterModel.getProbeModel().addListener( new RadiometricDatingMeter.ProbeModel.Listener(){
+			public void probeModelChanged() {
+				updateTipLocatorNode();
+			}
+		});
 	}
 	
-    /**
+    private void updateTipLocatorNode() {
+    	_tipLocatorNode.setOffset(_mvt.modelToViewDouble(_meterModel.getProbeModel().getTipLocation()));
+	}
+
+	/**
      * Class that represents the percentage display readout.
      */
     private class PercentageDisplayNode extends PNode{
@@ -97,13 +120,17 @@ public class RadiometricDatingMeterNode extends PNode {
     	}
     }
     
-    private class ProbeNode extends PhetPNode {
+    static private class ProbeNode extends PhetPNode {
         private RadiometricDatingMeter.ProbeModel _probeModel;
         private PImage imageNode;
         private PhetPPath tipPath;
+        private ModelViewTransform2D _mvt;
+        private PNode _parent;
 
-        public ProbeNode( RadiometricDatingMeter.ProbeModel probeModel ) {
+        public ProbeNode( RadiometricDatingMeter.ProbeModel probeModel, ModelViewTransform2D mvt, PNode parent ) {
             _probeModel = probeModel;
+            _mvt = mvt;
+            _parent = parent;
 
             imageNode = NuclearPhysicsResources.getImageNode( "probeBlack.gif" );
             imageNode.rotateAboutPoint( probeModel.getAngle(), 0.1, 0.1 );
@@ -111,14 +138,15 @@ public class RadiometricDatingMeterNode extends PNode {
             addChild( imageNode );
             probeModel.addListener( new RadiometricDatingMeter.ProbeModel.Listener() {
                 public void probeModelChanged() {
-                    updateLead();
+                    updateProbe();
                 }
             } );
 
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mouseDragged( PInputEvent event ) {
                     PDimension pt = event.getDeltaRelativeTo( ProbeNode.this.getParent() );
-                    _probeModel.translate( pt.width, pt.height );
+                    _probeModel.translate( _mvt.viewToModelDifferentialX(pt.width),
+                    		_mvt.viewToModelDifferentialY(pt.height) );
                 }
             } );
             addInputEventListener( new CursorHandler() );
@@ -126,13 +154,14 @@ public class RadiometricDatingMeterNode extends PNode {
             tipPath = new PhetPPath( Color.lightGray );
             addChild( tipPath );
 
-            updateLead();
+            updateProbe();
         }
 
-        private void updateLead() {
+        private void updateProbe() {
             double dx = imageNode.getImage().getWidth( null ) * PROBE_SIZE_SCALE_FACTOR * Math.cos( _probeModel.getAngle() ) / 2;
             double dy = imageNode.getImage().getWidth( null ) * PROBE_SIZE_SCALE_FACTOR * Math.sin( _probeModel.getAngle() ) / 2;
-            imageNode.setOffset( _probeModel.getTipLocation().getX() - dx, _probeModel.getTipLocation().getY() - dy );
+            imageNode.setOffset( _mvt.modelToViewXDouble(_probeModel.getTipLocation().getX()) - dx, 
+            		_mvt.modelToViewYDouble(_probeModel.getTipLocation().getY()) - dy);
 
             tipPath.setPathTo( _probeModel.getTipShape() );
         }
@@ -144,4 +173,12 @@ public class RadiometricDatingMeterNode extends PNode {
             return new Point2D.Double( pt.getX(), pt.getY() );
         }
     }
+
+	public void setMeterBodyOffset(double x, double y) {
+		_meterBody.setOffset(x, y);
+	}
+	
+	public double getMeterBodyWidth(){
+		return _meterBody.getFullBounds().width;
+	}
 }

@@ -3,6 +3,7 @@
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
@@ -71,5 +72,15 @@ public class DatableObject {
 	@Override
 	public String toString() {
 		return super.toString() + ": " + name;
+	}
+	
+	public boolean contains(Point2D pt){
+		
+		return getBoundingRect().contains(pt);
+		
+	}
+	
+	public Rectangle2D getBoundingRect(){
+		return new Rectangle2D.Double( center.getX() - width /2, center.getY() - height/2, width, height );
 	}
 }
