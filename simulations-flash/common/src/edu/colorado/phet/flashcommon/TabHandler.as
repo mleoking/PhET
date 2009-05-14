@@ -113,6 +113,8 @@ class edu.colorado.phet.flashcommon.TabHandler {
     public function addAsWingCheckBox( obj : Object ) : Void {
 		addEntry( TabEntry.createASwingEntry( obj ) );
 		registerButton( obj.trigger_mc );
+        // TODO: possibly add listener for keys to automatically switch the checkbox?
+        // downside: wouldn't send modified events to listeners
 	}
 	
 	// insert obj into controls at the specified index
