@@ -8,6 +8,7 @@ import java.util.Properties;
 import java.util.jar.*;
 
 import edu.colorado.phet.common.phetcommon.application.JARLauncher;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.view.util.StringUtil;
 import edu.colorado.phet.translationutility.TUConstants;
@@ -33,6 +34,7 @@ public class JavaSimulation extends AbstractSimulation {
     private static final String COMMON_STRINGS_PROJECT = "java-common-strings";
     private static final String COMMON_STRINGS_BASENAME = "phetcommon";
     private static final String PROJECT_NAME_PROPERTY = "project.name";
+    private static final String PREFERRED_FONTS = "phetcommon/localization/phetcommon-fonts.properties";
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -228,7 +230,8 @@ public class JavaSimulation extends AbstractSimulation {
                 JarFile.MANIFEST_NAME,
                 "META-INF/.*\\.SF", "META-INF/.*\\.RSA", "META-INF/.*\\.DSA", /* signing information */
                 propertiesFileName,
-                JARLauncher.PROPERTIES_FILE_NAME
+                JARLauncher.PROPERTIES_FILE_NAME,
+                PREFERRED_FONTS
         };
         
         // create the test JAR file
@@ -275,6 +278,13 @@ public class JavaSimulation extends AbstractSimulation {
             jarLauncherProperties.store( testOutputStream, "created by " + JavaSimulation.class.getName() );
             testOutputStream.closeEntry();
             
+            // use Translation Utility's preferred fonts, #1653
+            Properties preferredFonts = loadProperties( PREFERRED_FONTS );
+            jarEntry = new JarEntry( PREFERRED_FONTS );
+            testOutputStream.putNextEntry( jarEntry );
+            preferredFonts.store( testOutputStream, "created by " + JavaSimulation.class.getName() );
+            testOutputStream.closeEntry();
+            
             // close the streams
             jarInputStream.close();
             testOutputStream.close();
@@ -286,5 +296,17 @@ public class JavaSimulation extends AbstractSimulation {
         }
         
         return testJarFileName;
+    }
+    
+    /*
+     * Loads properties from a resource in the translation utility jar.
+     */
+    private Properties loadProperties( String resourceName ) throws IOException {
+        Properties properties = new Properties();
+        InputStream inStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( resourceName );
+        if ( inStream != null ) {
+            properties.load( inStream );
+        }
+        return properties;
     }
 }
