@@ -159,6 +159,18 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
         final DynamicPhysicsNode torus = createTorus();
         rootNode.attachChild(torus);
 
+        final DynamicPhysicsNode box = createBox();
+        rootNode.attachChild(box);
+
+        input.addAction(new InputAction() {
+            public void performAction(InputActionEvent inputActionEvent) {
+                if (inputActionEvent.getTriggerPressed()) {
+                    final DynamicPhysicsNode box = createBox();
+                    rootNode.attachChild(box);
+                }
+            }
+        }, InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_SPACE, InputHandler.AXIS_NONE, false);
+
         final InputAction resetAction = new InputAction() {
             public void performAction(InputActionEvent evt) {
                 if (evt == null || evt.getTriggerPressed()) {
@@ -190,6 +202,20 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
         Text label = Text.createDefaultTextLabel("instructions", "[r] to reset. Hold [ins] to attach second sphere.");
         label.setLocalTranslation(0, 20, 0);
 //        statNode.attachChild( label );
+    }
+
+    private DynamicPhysicsNode createBox() {
+        DynamicPhysicsNode node = getPhysicsSpace().createDynamicNode();
+        TriMesh mesh = new Box("meshsphere", new Vector3f(0, 0, 0), 2, 2, 2);
+        mesh.setModelBound(new BoundingSphere());
+        mesh.updateModelBound();
+        PhysicsMesh physMesh = node.createMesh("box mesh");
+        physMesh.getLocalTranslation().set(-1, 0, 0);
+        mesh.getLocalTranslation().set(-1, 0, 0);
+        physMesh.copyFrom(mesh);
+        node.attachChild(mesh);
+        node.computeMass();
+        return node;
     }
 
     private DynamicPhysicsNode createSphere() {
