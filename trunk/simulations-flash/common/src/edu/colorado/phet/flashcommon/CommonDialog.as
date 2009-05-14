@@ -128,4 +128,12 @@ class edu.colorado.phet.flashcommon.CommonDialog {
             new PreferencesDialog();
 		}
     }
+
+    public static function openStatisticsDetailsDialog() {
+        if(_level0.statisticsDetailsWindow) {
+            _level0.statisticsDetailsDialog.manualOpen();
+		} else {
+            new StatisticsDetailsDialog();
+		}
+    }
 }
