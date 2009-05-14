@@ -122,7 +122,7 @@ public abstract class Base extends Solute {
         }
         
         public boolean isIntermediate() {
-            return ABSConstants.WEAK_STRENGTH_RANGE.containsExclusive( getStrength() );
+            return ABSConstants.INTERMEDIATE_STRENGTH_RANGE.containsExclusive( getStrength() );
         }
     }
 }
