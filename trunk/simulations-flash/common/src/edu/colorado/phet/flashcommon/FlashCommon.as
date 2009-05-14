@@ -101,6 +101,9 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 
         LINK_STYLE_SHEET = new TextField.StyleSheet();
         LINK_STYLE_SHEET.parseCSS( DISPLAY_CSS );
+
+        _level0.highContrastFunction = defaultHighContrastFunction;
+        _level0.highContrast = false;
 		
 		// TODO: Possibly extend this to run from other domains?
 		System.security.allowDomain("phet.colorado.edu");
@@ -451,4 +454,17 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 	public function openExternalLink(str : String) {
 		getURL(str, "_blank");
 	}
+
+    public function defaultHighContrastFunction( contrast : Boolean ) {
+        _level0.highContrast = contrast;
+        _level0.debug( "Contrast changing to: " + contrast + "\n" );
+        if( contrast ) {
+            var stretch : Number = 3.0;
+            var newCenter : Number = 64;
+            var offset = newCenter - 128 * stretch;
+            _level0.transform.colorTransform = new flash.geom.ColorTransform( stretch, stretch, stretch, 1, offset, offset, offset, 1 );
+        } else {
+            _level0.transform.colorTransform = new flash.geom.ColorTransform( 1, 1, 1, 1, 0, 0, 0, 0 );
+        }
+    }
 }
