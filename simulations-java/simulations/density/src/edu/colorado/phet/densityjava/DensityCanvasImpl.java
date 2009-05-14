@@ -28,7 +28,6 @@ import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.PhysicsSpace;
 import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.physics.geometry.PhysicsMesh;
-import com.jmex.physics.geometry.PhysicsSphere;
 
 import java.awt.*;
 import java.net.URL;
@@ -78,15 +77,10 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
     }
 
     public void simpleSetup() {
-
-//        boxState = new BoxState(display, rootNode);
-//        boxState.init(rootNode);
-
         TextureState ts = renderer.createTextureState();
         ts.setEnabled(true);
         ts.setTexture(TextureManager.loadTexture(DensityCanvasImpl.class
                 .getClassLoader().getResource(
-//                "jmetest/data/images/Monkey.jpg"),
                 "phetcommon/images/logos/phet-logo-120x50.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear));
@@ -97,7 +91,14 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
         input = new InputHandler();
 
         // Create a new mouse. Restrict its movements to the display screen.
-        srrMouse = new SRRMouse("The Mouse", display.getWidth(), display.getHeight());
+        srrMouse = createMouse();
+        rootNode.attachChild(srrMouse);
+
+        initPhysics();
+    }
+
+    private SRRMouse createMouse() {
+        SRRMouse m = new SRRMouse("The Mouse", display.getWidth(), display.getHeight());
 
         // Get a picture for my mouse.
         TextureState mouseTextureState = display.getRenderer().createTextureState();
@@ -106,7 +107,7 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
         Texture t = TextureManager.loadTexture(cursorLoc, Texture.MinificationFilter.NearestNeighborNoMipMaps,
                 Texture.MagnificationFilter.Bilinear);
         mouseTextureState.setTexture(t);
-        srrMouse.setRenderState(mouseTextureState);
+        m.setRenderState(mouseTextureState);
 
         // Make the mouse's background blend with what's already there
         BlendState as = display.getRenderer().createBlendState();
@@ -115,19 +116,14 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
         as.setDestinationFunction(BlendState.DestinationFunction.OneMinusSourceAlpha);
         as.setTestEnabled(true);
         as.setTestFunction(BlendState.TestFunction.GreaterThan);
-        srrMouse.setRenderState(as);
+        m.setRenderState(as);
 
         // Move the mouse to the middle of the screen to start with
-        srrMouse.setLocalTranslation(new Vector3f(display.getWidth() / 2, display
+        m.setLocalTranslation(new Vector3f(display.getWidth() / 2, display
                 .getHeight() / 2, 0));
         // Assign the mouse to an input handler
-        srrMouse.registerWithInputHandler(input);
-
-        rootNode.attachChild(srrMouse);
-
-
-        initPhysics();
-
+        m.registerWithInputHandler(input);
+        return m;
     }
 
     private void initPhysics() {
@@ -151,69 +147,34 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
         TriMesh trimesh = new Box("trimesh", new Vector3f(), 15, 0.5f, 15);
         trimesh.setModelBound(new BoundingBox());
         trimesh.updateModelBound();
-//        PhysicsMesh mesh = staticNode.createMesh( "mesh" );
-//        mesh.copyFrom( trimesh );
         staticNode.attachChild(trimesh);
         staticNode.generatePhysicsGeometry(false);
 
         staticNode.getLocalTranslation().set(0, -5, 0);
         rootNode.attachChild(staticNode);
 
-        final DynamicPhysicsNode dynamicNode1 = getPhysicsSpace().createDynamicNode();
-        TriMesh mesh1 = new Sphere("meshsphere", 10, 10, 2);
-        mesh1.setModelBound(new BoundingSphere());
-        mesh1.updateModelBound();
-        PhysicsMesh sphere = dynamicNode1.createMesh("sphere mesh");
-        sphere.getLocalTranslation().set(-1, 0, 0);
-        mesh1.getLocalTranslation().set(-1, 0, 0);
-        sphere.copyFrom(mesh1);
-        dynamicNode1.attachChild(mesh1);
-        final PhysicsSphere sphere2 = dynamicNode1.createSphere("sphere physics");
-        sphere2.getLocalTranslation().set(0.3f, 0, 0);
-        dynamicNode1.detachChild(sphere2);
-        rootNode.attachChild(dynamicNode1);
-        dynamicNode1.computeMass();
+        final DynamicPhysicsNode sphere = createSphere();
+        rootNode.attachChild(sphere);
 
-        final DynamicPhysicsNode dynamicNode2 = getPhysicsSpace().createDynamicNode();
-        TriMesh mesh2 = new Torus("torus", 15, 10, 1, 4);
-        mesh2.setModelBound(new BoundingSphere());
-        mesh2.updateModelBound();
-        PhysicsMesh physicsMesh2 = dynamicNode2.createMesh("torus phyics geometry");
-        physicsMesh2.copyFrom(mesh2);
-        dynamicNode2.attachChild(mesh2);
-        CullState cs = display.getRenderer().createCullState();
-        cs.setCullFace(CullState.Face.Back);
-        mesh2.setRenderState(cs);
-
-        rootNode.attachChild(dynamicNode2);
-        dynamicNode2.computeMass();
+        final DynamicPhysicsNode torus = createTorus();
+        rootNode.attachChild(torus);
 
         final InputAction resetAction = new InputAction() {
             public void performAction(InputActionEvent evt) {
                 if (evt == null || evt.getTriggerPressed()) {
-                    dynamicNode1.getLocalTranslation().set(0, 3, 0);
-                    dynamicNode1.getLocalRotation().set(0, 0, 0, 1);
-                    dynamicNode1.clearDynamics();
+                    System.out.println("DensityCanvasImpl.performAction");
+                    sphere.getLocalTranslation().set(0, 3, 0);
+                    sphere.getLocalRotation().set(0, 0, 0, 1);
+                    sphere.clearDynamics();
 
-                    dynamicNode2.getLocalTranslation().set(0, 5f, 0);
-                    dynamicNode2.getLocalRotation().fromAngleNormalAxis(FastMath.PI / 2 - 0.2f, new Vector3f(1, 0, 0));
-                    dynamicNode2.clearDynamics();
+                    torus.getLocalTranslation().set(0, 5f, 0);
+                    torus.getLocalRotation().fromAngleNormalAxis(FastMath.PI / 2 - 0.2f, new Vector3f(1, 0, 0));
+                    torus.clearDynamics();
                 }
             }
         };
         input.addAction(resetAction, InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_R, InputHandler.AXIS_NONE, false);
         resetAction.performAction(null);
-
-        InputAction detachAction = new InputAction() {
-            public void performAction(InputActionEvent evt) {
-                if (sphere2.getParent() != null) {
-                    dynamicNode1.detachChild(sphere2);
-                } else {
-                    dynamicNode1.attachChild(sphere2);
-                }
-            }
-        };
-        input.addAction(detachAction, InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_INSERT, InputHandler.AXIS_NONE, false);
 
         InputAction removeAction = new InputAction() {
             public void performAction(InputActionEvent evt) {
@@ -231,12 +192,40 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
 //        statNode.attachChild( label );
     }
 
+    private DynamicPhysicsNode createSphere() {
+        DynamicPhysicsNode node = getPhysicsSpace().createDynamicNode();
+        TriMesh mesh = new Sphere("meshsphere", 10, 10, 2);
+        mesh.setModelBound(new BoundingSphere());
+        mesh.updateModelBound();
+        PhysicsMesh physMesh = node.createMesh("sphere mesh");
+        physMesh.getLocalTranslation().set(-1, 0, 0);
+        mesh.getLocalTranslation().set(-1, 0, 0);
+        physMesh.copyFrom(mesh);
+        node.attachChild(mesh);
+        node.computeMass();
+        return node;
+    }
+
+    private DynamicPhysicsNode createTorus() {
+        final DynamicPhysicsNode node = getPhysicsSpace().createDynamicNode();
+        TriMesh mesh = new Torus("torus", 15, 10, 1, 4);
+        mesh.setModelBound(new BoundingSphere());
+        mesh.updateModelBound();
+        PhysicsMesh physMesh = node.createMesh("torus phyics geometry");
+        physMesh.copyFrom(mesh);
+        node.attachChild(mesh);
+        CullState cs = display.getRenderer().createCullState();
+        cs.setCullFace(CullState.Face.Back);
+        mesh.setRenderState(cs);
+        node.computeMass();
+        return node;
+    }
+
 
     public void simpleUpdate() {
         input.update(tpf);
         if (srrMouse != null)
             srrMouse.setLimit(canvas.getWidth(), canvas.getHeight());
-//        boxState.update(tpf, getMouseRay());
         updatePhysics();
     }
 
@@ -264,12 +253,7 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
             physicsSpace.update(tpf * physicsSpeed);
         }
 
-//        input.update(tpf);
-
         if (!pause) {
-            /** Call simpleUpdate in any derived classes of SimpleGame. */
-//            simpleUpdate();
-
             /** Update controllers/render states/transforms/bounds for rootNode. */
             rootNode.updateGeometricState(tpf, true);
 //            statNode.updateGeometricState(tpf, true);
