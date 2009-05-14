@@ -117,6 +117,10 @@ class edu.colorado.phet.flashcommon.CommonDialog {
 		}
     }
 
+    public static function openMessageDialog( title : String, message : String, ok : Boolean ) {
+        new MessageDialog( title, message, ok );
+    }
+
     public static function openPreferencesDialog() {
         if(_level0.preferencesWindow) {
             _level0.preferencesDialog.manualOpen();

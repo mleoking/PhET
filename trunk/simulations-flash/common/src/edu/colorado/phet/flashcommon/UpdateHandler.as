@@ -1,4 +1,4 @@
-﻿
+
 // UpdateHandler.as
 //
 // Handles checking for a newer version of the simulation
@@ -322,26 +322,26 @@ class edu.colorado.phet.flashcommon.UpdateHandler {
 		}
 	}
 	
-	public function showUpdateError() : Void {
+	public function showUpdateError() {
 		if(!manual) { return; }
 		var str : String = "";
 		str += common.strings.get("VersionError1", "An error was encountered while trying to obtain version information.") + "\n";
 		str += common.strings.get("VersionError2", "Please try again later, or visit <a href='{0}'>http://phet.colorado.edu</a>", ["asfunction:_level0.common.openExternalLink,http://phet.colorado.edu"]);
-		_level0.messageDialog = new MessageDialog(common.strings.get("Error", "Error"), str, false);
+		CommonDialog.openMessageDialog( common.strings.get("Error", "Error"), str, false );
 	}
 	
-	public function showSimUpToDate() : Void {
+	public function showSimUpToDate() {
 		if(!manual) { return; }
 		var str : String = "";
 		str += common.strings.get("MostCurrentVersion", "You have the most current version ({0}) of {1}.", [common.getVersionString(), common.getSimTitle()]);
-		_level0.messageDialog = new MessageDialog(common.strings.get("UpToDate", "Up To Date"), str, true);
+		CommonDialog.openMessageDialog( common.strings.get("UpToDate", "Up To Date"), str, true );
 	}
 	
-	public function showInstallationUpToDate() : Void {
+	public function showInstallationUpToDate() {
 		if(!manual) { return; }
 		var str : String = "";
 		str += common.strings.get("MostCurrentVersion", "You have the most current version ({0}) of {1}.", [FlashCommon.dateString(FlashCommon.dateOfSeconds(common.getInstallerCreationTimestamp())), "PhET Offline Website Installer"]);
-		_level0.messageDialog = new MessageDialog(common.strings.get("UpToDate", "Up To Date"), str, true);
+		CommonDialog.openMessageDialog( common.strings.get("UpToDate", "Up To Date"), str, true );
 	}
 	
 }
