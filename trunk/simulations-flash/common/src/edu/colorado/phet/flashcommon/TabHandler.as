@@ -109,6 +109,11 @@ class edu.colorado.phet.flashcommon.TabHandler {
 		registerButton( obj.trigger_mc );
         //obj.addEventListener( JButton.ON_PRESS, Delegate.create( this, aswingButtonPressed ) );
 	}
+
+    public function addAsWingCheckBox( obj : Object ) : Void {
+		addEntry( TabEntry.createASwingEntry( obj ) );
+		registerButton( obj.trigger_mc );
+	}
 	
 	// insert obj into controls at the specified index
 	public function insertControl(obj : Object, idx : Number, highlight : String) : Void {

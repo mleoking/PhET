@@ -168,14 +168,18 @@ class edu.colorado.phet.flashcommon.PreferencesDialog extends edu.colorado.phet.
 		
 		// release the preferences shared object
 		_level0.preferences.unload();
+
+        // TODO: remove after development:
         
 	}
 
     public function setupTabHandler() {
+        tabHandler.addAsWingCheckBox( updatesCheck );
         tabHandler.addAsWingButton( updatesSimButton );
 		if( updatesInstallationButton ) {
 			tabHandler.addAsWingButton( updatesInstallationButton );
 		}
+        tabHandler.addAsWingCheckBox( statisticsCheck );
 		tabHandler.addAsWingButton( detailsButton );
 		tabHandler.addAsWingButton( okButton );
 		tabHandler.addAsWingButton( cancelButton );
@@ -203,12 +207,14 @@ class edu.colorado.phet.flashcommon.PreferencesDialog extends edu.colorado.phet.
 	// toggle potential update state
 	public function updateToggle(src : JCheckBox) : Void {
 		_level0.preferencesDialog.updateState = !_level0.preferencesDialog.updateState;
+        updatesCheck.setSelected( _level0.preferencesDialog.updateState );
 		debug("updateState toggled to " + _level0.preferencesDialog.updateState.toString() + "\n");
 	}
 	
 	// toggle potential statistics state
 	public function statisticsToggle(src : JCheckBox) : Void {
 		_level0.preferencesDialog.statisticsState = !_level0.preferencesDialog.statisticsState;
+        statisticsCheck.setSelected( _level0.preferencesDialog.statisticsState );
 		debug("statisticsState toggled to " + _level0.preferencesDialog.statisticsState.toString() + "\n");
 	}
 	
