@@ -29,6 +29,10 @@ class edu.colorado.phet.flashcommon.TabEntry {
 	// enter/space to certain events that are used with movieclips acting like
 	// a button
 	public var buttonlike : Boolean;
+
+    public var highlightWidth : Number = 2.0;
+    public var highlightInset : Number = 1.0;
+    public var highlightColor : Number = 0x0000FF;
 	
 	// constructor
 	public function TabEntry(obj : Object, high : String, highobj : Object) {
@@ -52,6 +56,22 @@ class edu.colorado.phet.flashcommon.TabEntry {
 		} else {
 			return control;
 		}
+	}
+
+    // draw the highlight on the movieclip with the specified bounds
+	public function drawHighlights( high : MovieClip, bounds : Object ) {
+
+		var xa : Number = bounds.xMin + highlightInset;
+		var xb : Number = bounds.xMax - highlightInset;
+		var ya : Number = bounds.yMin + highlightInset;
+		var yb : Number = bounds.yMax - highlightInset;
+
+		high.lineStyle( highlightWidth, highlightColor );
+		high.moveTo(xa, ya);
+		high.lineTo(xb, ya);
+		high.lineTo(xb, yb);
+		high.lineTo(xa, yb);
+		high.lineTo(xa, ya);
 	}
 	
 	public function toString() : String {
