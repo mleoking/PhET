@@ -97,6 +97,8 @@ import com.jmex.awt.input.AWTKeyInput;
 import com.jmex.awt.input.AWTMouseInput;
 import com.jmex.awt.swingui.dnd.JMEDragAndDrop;
 import com.jmex.awt.swingui.ImageGraphics;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
  * A quad that displays a {@link javax.swing.JDesktopPane} as texture. It also converts jME mouse and keyboard events to Swing
@@ -118,24 +120,25 @@ public class PiccoloNode extends Quad {
 
     private static final long serialVersionUID = 1L;
     private ImageGraphics graphics;
-    private JDesktopPane desktop;
+//    private JDesktopPane desktop;
     private Texture texture;
     private boolean initialized;
     private int width;
     private int height;
 
     private boolean showingJFrame = false;
-    private final Frame awtWindow;
+//    private final Frame awtWindow;
     private int desktopWidth;
     private int desktopHeight;
     private static final int DOUBLE_CLICK_TIME = 300;
-    private final InputHandler inputHandler;
+    private InputHandler inputHandler;
     private PiccoloNode.XUpdateAction xUpdateAction;
     private PiccoloNode.YUpdateAction yUpdateAction;
     private WheelUpdateAction wheelUpdateAction;
     private PiccoloNode.ButtonAction allButtonsUpdateAction;
     private InputAction keyUpdateAction;
     private JMEDragAndDrop dragAndDropSupport;
+    private PNode node;
 
     /**
      * @return JMEDragAndDrop used for this desktop
@@ -152,23 +155,23 @@ public class PiccoloNode extends Quad {
         this.dragAndDropSupport = dragAndDropSupport;
     }
 
-    /**
-     * @see #setShowingJFrame
-     * @return true if frame is displayed
-     */
-    public boolean isShowingJFrame() {
-        return showingJFrame;
-    }
+//    /**
+//     * @see #setShowingJFrame
+//     * @return true if frame is displayed
+//     */
+//    public boolean isShowingJFrame() {
+//        return showingJFrame;
+//    }
 
     /**
      * @param showingJFrame true to display the desktop in a JFrame instead on this quad.
      * @deprecated for debuggin only
      */
-    public void setShowingJFrame( boolean showingJFrame ) {
-        this.showingJFrame = showingJFrame;
-        awtWindow.setVisible( showingJFrame );
-        awtWindow.repaint();
-    }
+//    public void setShowingJFrame( boolean showingJFrame ) {
+//        this.showingJFrame = showingJFrame;
+//        awtWindow.setVisible( showingJFrame );
+//        awtWindow.repaint();
+//    }
 
     /**
      * Allows to disable input for the whole desktop and to add custom input actions.
@@ -190,99 +193,100 @@ public class PiccoloNode extends Quad {
      *
      * @param name name of this desktop
      */
-    public PiccoloNode( String name ) {
+    public PiccoloNode( String name, PNode node ) {
         super( name );
+        this.node = node;
 
         inputHandler = new InputHandler();
 
-        awtWindow = new Frame() {
-            private static final long serialVersionUID = 1L;
-            public boolean isShowing() {
-                return true;
-            }
-
-            public boolean isVisible() {
-//                if ( new Throwable().getStackTrace()[1].getMethodName().startsWith( "requestFocus" ) ) {
-//                    logger.info( "requestFocus" );
+//        awtWindow = new Frame() {
+//            private static final long serialVersionUID = 1L;
+//            public boolean isShowing() {
+//                return true;
+//            }
+//
+//            public boolean isVisible() {
+////                if ( new Throwable().getStackTrace()[1].getMethodName().startsWith( "requestFocus" ) ) {
+////                    logger.info( "requestFocus" );
+////                }
+//
+//                if ( awtWindow.isFocusableWindow()
+//                        && new Throwable().getStackTrace()[1].getMethodName().startsWith( "requestFocus" ) ) {
+//                    return false;
 //                }
-
-                if ( awtWindow.isFocusableWindow()
-                        && new Throwable().getStackTrace()[1].getMethodName().startsWith( "requestFocus" ) ) {
-                    return false;
-                }
-                return initialized || super.isVisible();
-            }
-
-            public Graphics getGraphics() {
-                if ( !showingJFrame ) {
-                    return graphics == null ? super.getGraphics() : graphics.create();
-                }
-
-                return super.getGraphics();
-            }
-
-            public boolean isFocused() {
-                if (isMac())
-                    return super.isFocused();//returning true here causes mac problems regarding mouse control, so we skip it.
-                                             //This probably causes other problems on mac such as keyboard-mismanagement.
-                else
-                    return true;
-            }
-        };
-        awtWindow.setFocusableWindowState( false );
-        Container contentPane = awtWindow;
-        awtWindow.setUndecorated( true );
-        dontDrawBackground( contentPane );
+//                return initialized || super.isVisible();
+//            }
+//
+//            public Graphics getGraphics() {
+//                if ( !showingJFrame ) {
+//                    return graphics == null ? super.getGraphics() : graphics.create();
+//                }
+//
+//                return super.getGraphics();
+//            }
+//
+//            public boolean isFocused() {
+//                if (isMac())
+//                    return super.isFocused();//returning true here causes mac problems regarding mouse control, so we skip it.
+//                                             //This probably causes other problems on mac such as keyboard-mismanagement.
+//                else
+//                    return true;
+//            }
+//        };
+//        awtWindow.setFocusableWindowState( false );
+//        Container contentPane = awtWindow;
+//        awtWindow.setUndecorated( true );
+//        dontDrawBackground( contentPane );
 //            ( (JComponent) contentPane ).setOpaque( false );
 
-        desktop = new JDesktopPane() {
-            private static final long serialVersionUID = 1L;
-            public void paint( Graphics g ) {
-                if ( !isShowingJFrame() ) {
-                    g.clearRect( 0, 0, getWidth(), getHeight() );
-                }
-                super.paint( g );
-            }
-
-            public boolean isOptimizedDrawingEnabled() {
-                return false;
-            }
-        };
-
-        new ScrollPaneRepaintFixListener().addTo( desktop );
-
-
-        final Color transparent = new Color( 0, 0, 0, 0 );
-        desktop.setBackground( transparent );
-        desktop.setFocusable( true );
-        desktop.addMouseListener( new MouseAdapter() {
-            public void mousePressed( MouseEvent e ) {
-                desktop.requestFocusInWindow();
-            }
-        } );
+//        desktop = new JDesktopPane() {
+//            private static final long serialVersionUID = 1L;
+//            public void paint( Graphics g ) {
+//                if ( !isShowingJFrame() ) {
+//                    g.clearRect( 0, 0, getWidth(), getHeight() );
+//                }
+//                super.paint( g );
+//            }
+//
+//            public boolean isOptimizedDrawingEnabled() {
+//                return false;
+//            }
+//        };
+//
+//        new ScrollPaneRepaintFixListener().addTo( desktop );
+//
+//
+//        final Color transparent = new Color( 0, 0, 0, 0 );
+//        desktop.setBackground( transparent );
+//        desktop.setFocusable( true );
+//        desktop.addMouseListener( new MouseAdapter() {
+//            public void mousePressed( MouseEvent e ) {
+//                desktop.requestFocusInWindow();
+//            }
+//        } );
 
         // this internal frame is a workaround for key binding problems in JDK1.5
         // todo: this workaround does not seem to work on mac
-        if ( !isMac() ) {
-            final JInternalFrame internalFrame = new JInternalFrame();
-            internalFrame.setUI( new BasicInternalFrameUI( internalFrame ) {
-                protected void installComponents() {
-                }
-            } );
-            internalFrame.setOpaque( false );
-            internalFrame.setBackground( null );
-            internalFrame.getContentPane().setLayout( new BorderLayout() );
-            internalFrame.getContentPane().add( desktop, BorderLayout.CENTER );
-            internalFrame.setVisible( true );
-            internalFrame.setBorder( null );
-            contentPane.add( internalFrame );
-        }
-        else {
-            // this would have suited for JDK1.4:
-            contentPane.add( desktop, BorderLayout.CENTER );
-        }
-
-        awtWindow.pack();
+//        if ( !isMac() ) {
+//            final JInternalFrame internalFrame = new JInternalFrame();
+//            internalFrame.setUI( new BasicInternalFrameUI( internalFrame ) {
+//                protected void installComponents() {
+//                }
+//            } );
+//            internalFrame.setOpaque( false );
+//            internalFrame.setBackground( null );
+//            internalFrame.getContentPane().setLayout( new BorderLayout() );
+//            internalFrame.getContentPane().add( desktop, BorderLayout.CENTER );
+//            internalFrame.setVisible( true );
+//            internalFrame.setBorder( null );
+//            contentPane.add( internalFrame );
+//        }
+//        else {
+//            // this would have suited for JDK1.4:
+//            contentPane.add( desktop, BorderLayout.CENTER );
+//        }
+//
+//        awtWindow.pack();
 
         RepaintManager.currentManager( null ).setDoubleBufferingEnabled( false );
     }
@@ -305,8 +309,8 @@ public class PiccoloNode extends Quad {
      *                           may be null to provide custom input handling or later adding of InputHandler(s)
      * @see #getInputHandler()
      */
-    public PiccoloNode( String name, final int width, final int height, InputHandler inputHandlerParent ) {
-        this( name, width, height, false, inputHandlerParent );
+    public PiccoloNode( String name, final int width, final int height, InputHandler inputHandlerParent,PNode node ) {
+        this( name, width, height, false, inputHandlerParent ,node);
     }
 
     /**
@@ -324,8 +328,8 @@ public class PiccoloNode extends Quad {
      *                           may be null to provide custom input handling or later adding of InputHandler(s)
      * @see #getInputHandler()
      */
-    public PiccoloNode( String name, final int width, final int height, boolean mipMapping, InputHandler inputHandlerParent ) {
-        this( name );
+    public PiccoloNode( String name, final int width, final int height, boolean mipMapping, InputHandler inputHandlerParent ,PNode pnode) {
+        this( name,pnode );
 
         setup( width, height, mipMapping, inputHandlerParent );
     }
@@ -360,10 +364,10 @@ public class PiccoloNode extends Quad {
         setModelBound( new OrientedBoundingBox() );
         updateModelBound();
 
-        desktop.setPreferredSize( new Dimension( width, height ) );
+//        desktop.setPreferredSize( new Dimension( width, height ) );
         desktopWidth = width;
         desktopHeight = height;
-        awtWindow.pack();
+//        awtWindow.pack();
 
         TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
         ts.setCorrectionType( TextureState.CorrectionType.Perspective );
@@ -412,11 +416,11 @@ public class PiccoloNode extends Quad {
         }
         desktopsUsed++;
 
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                PiccoloNode.this.setFocusOwner( desktop );
-            }
-        } );
+//        SwingUtilities.invokeLater( new Runnable() {
+//            public void run() {
+//                PiccoloNode.this.setFocusOwner( desktop );
+//            }
+//        } );
 
         initialized = true;
 
@@ -624,53 +628,53 @@ public class PiccoloNode extends Quad {
     }
 
     private void sendAWTKeyEvent( int keyCode, boolean pressed, char character ) {
-        keyCode = AWTKeyInput.toAWTCode( keyCode );
-        if ( keyCode != 0 ) {
-            Component focusOwner = getFocusOwner();
-            if ( focusOwner == null ) {
-                focusOwner = desktop;
-            }
-            if ( character == '\0' ) {
-                character = KeyEvent.CHAR_UNDEFINED;
-            }
-            if ( focusOwner != null ) {
-                if ( pressed ) {
-                    KeyEvent event = new KeyEvent( focusOwner, KeyEvent.KEY_PRESSED,
-                            System.currentTimeMillis(), getCurrentModifiers( -1 ),
-                            keyCode, character );
-                    dispatchEvent( focusOwner, event );
-                    anInt.value = keyCode;
-                    Char c = characters.get( anInt );
-                    if ( c == null ) {
-                        characters.put( new Int( keyCode ), new Char( character ) );
-                    }
-                    else {
-                        c.value = character;
-                    }
-                    if ( character != KeyEvent.CHAR_UNDEFINED ) {
-                        dispatchEvent( focusOwner, new KeyEvent( focusOwner, KeyEvent.KEY_TYPED,
-                                System.currentTimeMillis(), getCurrentModifiers( -1 ),
-                                0, character ) );
-                    }
-                }
-                if ( !pressed ) {
-                    anInt.value = keyCode;
-                    Char c = characters.get( anInt );
-                    if ( c != null ) {
-                        character = c.value;
-                        //TODO: repeat input
-//                        if ( character != KeyEvent.CHAR_UNDEFINED ) {
-//                            dispatchEvent( focusOwner, new KeyEvent( focusOwner, KeyEvent.KEY_TYPED,
-//                                    System.currentTimeMillis(), getCurrentModifiers( -1 ),
-//                                    0, character ) );
-//                        }
-                    }
-                    dispatchEvent( focusOwner, new KeyEvent( focusOwner, KeyEvent.KEY_RELEASED,
-                            System.currentTimeMillis(), getCurrentModifiers( -1 ),
-                            keyCode, character ) );
-                }
-            }
-        }
+//        keyCode = AWTKeyInput.toAWTCode( keyCode );
+//        if ( keyCode != 0 ) {
+//            Component focusOwner = getFocusOwner();
+//            if ( focusOwner == null ) {
+//                focusOwner = desktop;
+//            }
+//            if ( character == '\0' ) {
+//                character = KeyEvent.CHAR_UNDEFINED;
+//            }
+//            if ( focusOwner != null ) {
+//                if ( pressed ) {
+//                    KeyEvent event = new KeyEvent( focusOwner, KeyEvent.KEY_PRESSED,
+//                            System.currentTimeMillis(), getCurrentModifiers( -1 ),
+//                            keyCode, character );
+//                    dispatchEvent( focusOwner, event );
+//                    anInt.value = keyCode;
+//                    Char c = characters.get( anInt );
+//                    if ( c == null ) {
+//                        characters.put( new Int( keyCode ), new Char( character ) );
+//                    }
+//                    else {
+//                        c.value = character;
+//                    }
+//                    if ( character != KeyEvent.CHAR_UNDEFINED ) {
+//                        dispatchEvent( focusOwner, new KeyEvent( focusOwner, KeyEvent.KEY_TYPED,
+//                                System.currentTimeMillis(), getCurrentModifiers( -1 ),
+//                                0, character ) );
+//                    }
+//                }
+//                if ( !pressed ) {
+//                    anInt.value = keyCode;
+//                    Char c = characters.get( anInt );
+//                    if ( c != null ) {
+//                        character = c.value;
+//                        //TODO: repeat input
+////                        if ( character != KeyEvent.CHAR_UNDEFINED ) {
+////                            dispatchEvent( focusOwner, new KeyEvent( focusOwner, KeyEvent.KEY_TYPED,
+////                                    System.currentTimeMillis(), getCurrentModifiers( -1 ),
+////                                    0, character ) );
+////                        }
+//                    }
+//                    dispatchEvent( focusOwner, new KeyEvent( focusOwner, KeyEvent.KEY_RELEASED,
+//                            System.currentTimeMillis(), getCurrentModifiers( -1 ),
+//                            keyCode, character ) );
+//                }
+//            }
+//        }
     }
 
     private void dispatchEvent( final Component receiver, final AWTEvent event ) {
@@ -749,17 +753,17 @@ public class PiccoloNode extends Quad {
     private Vector2f location = new Vector2f();
 
     private void sendAWTWheelEvent( int wheelDelta, int x, int y ) {
-        Component comp = lastComponent != null ? lastComponent : componentAt( x, y, desktop, false );
-        if ( comp == null ) {
-            comp = desktop;
-        }
-        final Point pos = convertPoint( desktop, x, y, comp );
-        final MouseWheelEvent event = new MouseWheelEvent( comp,
-                MouseEvent.MOUSE_WHEEL,
-                System.currentTimeMillis(), getCurrentModifiers( -1 ), pos.x, pos.y, 1, false,
-                MouseWheelEvent.WHEEL_UNIT_SCROLL,
-                Math.abs( wheelDelta ), wheelDelta > 0 ? -1 : 1 );
-        dispatchEvent( comp, event );
+//        Component comp = lastComponent != null ? lastComponent : componentAt( x, y, desktop, false );
+//        if ( comp == null ) {
+//            comp = desktop;
+//        }
+//        final Point pos = convertPoint( desktop, x, y, comp );
+//        final MouseWheelEvent event = new MouseWheelEvent( comp,
+//                MouseEvent.MOUSE_WHEEL,
+//                System.currentTimeMillis(), getCurrentModifiers( -1 ), pos.x, pos.y, 1, false,
+//                MouseWheelEvent.WHEEL_UNIT_SCROLL,
+//                Math.abs( wheelDelta ), wheelDelta > 0 ? -1 : 1 );
+//        dispatchEvent( comp, event );
     }
 
     private boolean useConvertPoint = true;
@@ -786,128 +790,128 @@ public class PiccoloNode extends Quad {
     }
 
     private void sendAWTMouseEvent( int x, int y, boolean pressed, int swingButton ) {
-        Component comp = componentAt( x, y, desktop, false );
-
-        final int eventType;
-        if ( swingButton > MouseEvent.NOBUTTON ) {
-            eventType = pressed ? MouseEvent.MOUSE_PRESSED : MouseEvent.MOUSE_RELEASED;
-        }
-        else {
-            eventType = getButtonMask( MouseEvent.NOBUTTON ) == 0 ? MouseEvent.MOUSE_MOVED : MouseEvent.MOUSE_DRAGGED;
-        }
-
-        final long time = System.currentTimeMillis();
-        if ( lastComponent != comp ) {
-            //enter/leave events
-            while ( lastComponent != null && ( comp == null || !SwingUtilities.isDescendingFrom( comp, lastComponent ) ) )
-            {
-                final Point pos = convertPoint( desktop, x, y, lastComponent );
-                sendExitedEvent( lastComponent, getCurrentModifiers( swingButton ), pos );
-                lastComponent = lastComponent.getParent();
-            }
-            final Point pos = convertPoint( desktop, x, y, lastComponent );
-            if ( lastComponent == null ) {
-                lastComponent = desktop;
-            }
-            sendEnteredEvent( comp, lastComponent, getCurrentModifiers( swingButton ), pos );
-            lastComponent = comp;
-            downX = Integer.MIN_VALUE;
-            downY = Integer.MIN_VALUE;
-            lastClickTime = 0;
-        }
-
-        if ( comp != null ) {
-            boolean clicked = false;
-            if ( swingButton > MouseEvent.NOBUTTON ) {
-                if ( pressed ) {
-                    grabbedMouse = comp;
-                    grabbedMouseButton = swingButton;
-                    downX = x;
-                    downY = y;
-                    setFocusOwner( componentAt( x, y, desktop, true ) );
-                }
-                else if ( grabbedMouseButton == swingButton && grabbedMouse != null ) {
-                    comp = grabbedMouse;
-                    grabbedMouse = null;
-                    if ( Math.abs( downX - x ) <= MAX_CLICKED_OFFSET && Math.abs( downY - y ) < MAX_CLICKED_OFFSET ) {
-                        if ( lastClickTime + DOUBLE_CLICK_TIME > time ) {
-                            clickCount++;
-                        }
-                        else {
-                            clickCount = 1;
-                        }
-                        clicked = true;
-                        lastClickTime = time;
-                    }
-                    downX = Integer.MIN_VALUE;
-                    downY = Integer.MIN_VALUE;
-                }
-            }
-            else if ( grabbedMouse != null ) {
-                comp = grabbedMouse;
-            }
-
-            final Point pos = convertPoint( desktop, x, y, comp );
-            final MouseEvent event = new MouseEvent( comp,
-                    eventType,
-                    time, getCurrentModifiers( swingButton ), pos.x, pos.y, clickCount,
-                    swingButton == MouseEvent.BUTTON2 && pressed, // todo: should this be platform dependent? (e.g. mac)
-                    swingButton >= 0 ? swingButton : 0 );
-            dispatchEvent( comp, event );
-            if ( clicked ) {
-                // CLICKED seems to need special glass pane handling o_O
-                comp = componentAt( x, y, desktop, true );
-                final Point clickedPos = convertPoint( desktop, x, y, comp );
-
-                final MouseEvent clickedEvent = new MouseEvent( comp,
-                        MouseEvent.MOUSE_CLICKED,
-                        time, getCurrentModifiers( swingButton ), clickedPos.x, clickedPos.y, clickCount,
-                        false, swingButton );
-                dispatchEvent( comp, clickedEvent );
-            }
-        }
-        else if ( pressed ) {
-            // clicked no component at all
-            setFocusOwner( null );
-        }
+//        Component comp = componentAt( x, y, desktop, false );
+//
+//        final int eventType;
+//        if ( swingButton > MouseEvent.NOBUTTON ) {
+//            eventType = pressed ? MouseEvent.MOUSE_PRESSED : MouseEvent.MOUSE_RELEASED;
+//        }
+//        else {
+//            eventType = getButtonMask( MouseEvent.NOBUTTON ) == 0 ? MouseEvent.MOUSE_MOVED : MouseEvent.MOUSE_DRAGGED;
+//        }
+//
+//        final long time = System.currentTimeMillis();
+//        if ( lastComponent != comp ) {
+//            //enter/leave events
+//            while ( lastComponent != null && ( comp == null || !SwingUtilities.isDescendingFrom( comp, lastComponent ) ) )
+//            {
+//                final Point pos = convertPoint( desktop, x, y, lastComponent );
+//                sendExitedEvent( lastComponent, getCurrentModifiers( swingButton ), pos );
+//                lastComponent = lastComponent.getParent();
+//            }
+//            final Point pos = convertPoint( desktop, x, y, lastComponent );
+//            if ( lastComponent == null ) {
+//                lastComponent = desktop;
+//            }
+//            sendEnteredEvent( comp, lastComponent, getCurrentModifiers( swingButton ), pos );
+//            lastComponent = comp;
+//            downX = Integer.MIN_VALUE;
+//            downY = Integer.MIN_VALUE;
+//            lastClickTime = 0;
+//        }
+//
+//        if ( comp != null ) {
+//            boolean clicked = false;
+//            if ( swingButton > MouseEvent.NOBUTTON ) {
+//                if ( pressed ) {
+//                    grabbedMouse = comp;
+//                    grabbedMouseButton = swingButton;
+//                    downX = x;
+//                    downY = y;
+//                    setFocusOwner( componentAt( x, y, desktop, true ) );
+//                }
+//                else if ( grabbedMouseButton == swingButton && grabbedMouse != null ) {
+//                    comp = grabbedMouse;
+//                    grabbedMouse = null;
+//                    if ( Math.abs( downX - x ) <= MAX_CLICKED_OFFSET && Math.abs( downY - y ) < MAX_CLICKED_OFFSET ) {
+//                        if ( lastClickTime + DOUBLE_CLICK_TIME > time ) {
+//                            clickCount++;
+//                        }
+//                        else {
+//                            clickCount = 1;
+//                        }
+//                        clicked = true;
+//                        lastClickTime = time;
+//                    }
+//                    downX = Integer.MIN_VALUE;
+//                    downY = Integer.MIN_VALUE;
+//                }
+//            }
+//            else if ( grabbedMouse != null ) {
+//                comp = grabbedMouse;
+//            }
+//
+//            final Point pos = convertPoint( desktop, x, y, comp );
+//            final MouseEvent event = new MouseEvent( comp,
+//                    eventType,
+//                    time, getCurrentModifiers( swingButton ), pos.x, pos.y, clickCount,
+//                    swingButton == MouseEvent.BUTTON2 && pressed, // todo: should this be platform dependent? (e.g. mac)
+//                    swingButton >= 0 ? swingButton : 0 );
+//            dispatchEvent( comp, event );
+//            if ( clicked ) {
+//                // CLICKED seems to need special glass pane handling o_O
+//                comp = componentAt( x, y, desktop, true );
+//                final Point clickedPos = convertPoint( desktop, x, y, comp );
+//
+//                final MouseEvent clickedEvent = new MouseEvent( comp,
+//                        MouseEvent.MOUSE_CLICKED,
+//                        time, getCurrentModifiers( swingButton ), clickedPos.x, clickedPos.y, clickCount,
+//                        false, swingButton );
+//                dispatchEvent( comp, clickedEvent );
+//            }
+//        }
+//        else if ( pressed ) {
+//            // clicked no component at all
+//            setFocusOwner( null );
+//        }
     }
 
     private boolean focusCleared = false;
 
     public void setFocusOwner( Component comp ) {
-        if ( comp == null || comp.isFocusable() ) {
-            for ( Component p = comp; p != null; p = p.getParent() ) {
-                if ( p instanceof JInternalFrame ) {
-                    try {
-                        ( (JInternalFrame) p ).setSelected( true );
-                    } catch ( PropertyVetoException e ) {
-                        logger.logp(Level.SEVERE, this.getClass().toString(),
-                                "setFocusOwner(Component comp)", "Exception", e);
-                    }
-                }
-            }
-            //Setfocusablewindowstate causes a problem on Macs in which the cursor is no longer under control.
-            if (!isMac()){
-                awtWindow.setFocusableWindowState( true );
-            }
-            Component oldFocusOwner = getFocusOwner();
-            if ( comp == desktop ) {
-                comp = null;
-            }
-            if ( oldFocusOwner != comp ) {
-                if ( oldFocusOwner != null ) {
-                    dispatchEvent( oldFocusOwner, new FocusEvent( oldFocusOwner,
-                            FocusEvent.FOCUS_LOST, false, comp ) );
-                }
-                KeyboardFocusManager.getCurrentKeyboardFocusManager().clearGlobalFocusOwner();
-                if ( comp != null ) {
-                    dispatchEvent( comp, new FocusEvent( comp,
-                            FocusEvent.FOCUS_GAINED, false, oldFocusOwner ) );
-                }
-            }
-            awtWindow.setFocusableWindowState( false );
-        }
-        focusCleared = comp == null;
+//        if ( comp == null || comp.isFocusable() ) {
+//            for ( Component p = comp; p != null; p = p.getParent() ) {
+//                if ( p instanceof JInternalFrame ) {
+//                    try {
+//                        ( (JInternalFrame) p ).setSelected( true );
+//                    } catch ( PropertyVetoException e ) {
+//                        logger.logp(Level.SEVERE, this.getClass().toString(),
+//                                "setFocusOwner(Component comp)", "Exception", e);
+//                    }
+//                }
+//            }
+//            //Setfocusablewindowstate causes a problem on Macs in which the cursor is no longer under control.
+//            if (!isMac()){
+//                awtWindow.setFocusableWindowState( true );
+//            }
+//            Component oldFocusOwner = getFocusOwner();
+//            if ( comp == desktop ) {
+//                comp = null;
+//            }
+//            if ( oldFocusOwner != comp ) {
+//                if ( oldFocusOwner != null ) {
+//                    dispatchEvent( oldFocusOwner, new FocusEvent( oldFocusOwner,
+//                            FocusEvent.FOCUS_LOST, false, comp ) );
+//                }
+//                KeyboardFocusManager.getCurrentKeyboardFocusManager().clearGlobalFocusOwner();
+//                if ( comp != null ) {
+//                    dispatchEvent( comp, new FocusEvent( comp,
+//                            FocusEvent.FOCUS_GAINED, false, oldFocusOwner ) );
+//                }
+//            }
+//            awtWindow.setFocusableWindowState( false );
+//        }
+//        focusCleared = comp == null;
     }
 
     private int getCurrentModifiers( int swingBtton ) {
@@ -1013,21 +1017,21 @@ public class PiccoloNode extends Quad {
         getWorldRotation().multLocal( point.multLocal( getWorldScale() ) ).addLocal( getWorldTranslation() );
     }
 
-    /**
-     * Find a component at specified desktop position.
-     *
-     * @param x x coordinate in Swing coordinate space
-     * @param y y coordinate in Swing coordinate space
-     * @return the top most component at specified location, null if no child component is found at that location
-     */
-    public Component componentAt( int x, int y ) {
-        Component component = componentAt( x, y, desktop, true );
-        if ( component != desktop ) {
-            return component;
-        }
-
-        return null;
-    }
+//    /**
+//     * Find a component at specified desktop position.
+//     *
+//     * @param x x coordinate in Swing coordinate space
+//     * @param y y coordinate in Swing coordinate space
+//     * @return the top most component at specified location, null if no child component is found at that location
+//     */
+//    public Component componentAt( int x, int y ) {
+//        Component component = componentAt( x, y, desktop, true );
+//        if ( component != desktop ) {
+//            return component;
+//        }
+//
+//        return null;
+//    }
 
     private Component componentAt( int x, int y, Component parent, boolean scanRootPanes ) {
         if ( scanRootPanes && parent instanceof JRootPane ) {
@@ -1090,7 +1094,13 @@ public class PiccoloNode extends Quad {
 
     private final LockRunnable paintLockRunnable = new LockRunnable();
 
+    Graphics mg=null;
     public void draw( Renderer r ) {
+        if (mg==null){
+        mg=graphics.create();
+        }
+        if (mg!=null)
+            node.fullPaint(new PPaintContext((Graphics2D) mg));
         if ( graphics.isDirty() ) {
             final boolean synchronizingThreadsOnUpdate = this.synchronizingThreadsOnUpdate;
             if ( synchronizingThreadsOnUpdate ) {
@@ -1120,17 +1130,17 @@ public class PiccoloNode extends Quad {
         super.draw( r );
     }
 
-    public JDesktopPane getJDesktop() {
-        return desktop;
-    }
-
-    public Component getFocusOwner() {
-        if ( !focusCleared ) {
-            return this.awtWindow.getFocusOwner();
-        }
-
-        return null;
-    }
+//    public JDesktopPane getJDesktop() {
+//        return desktop;
+//    }
+//
+//    public Component getFocusOwner() {
+//        if ( !focusCleared ) {
+//            return this.awtWindow.getFocusOwner();
+//        }
+//
+//        return null;
+//    }
 
     private class LockRunnable implements Runnable {
         private boolean wait = false;
@@ -1261,46 +1271,46 @@ public class PiccoloNode extends Quad {
         this.modalComponent = value;
     }
 
-    protected void setParent( Node parent ) {
-        if ( desktop != null ) {
-            super.setParent( parent );
-        }
-        else {
-            throw new IllegalStateException( "already disposed" );
-        }
-    }
+//    protected void setParent( Node parent ) {
+//        if ( desktop != null ) {
+//            super.setParent( parent );
+//        }
+//        else {
+//            throw new IllegalStateException( "already disposed" );
+//        }
+//    }
 
     /**
      * Call this method of the desktop is no longer needed. Removes this from the scenegraph, later use is not
      * possible any more.
      */
     public void dispose() {
-        if ( desktop != null ) {
-            if ( getParent() != null ) {
-                getParent().detachChild( this );
-            }
-            inputHandler.removeAllActions();
-            if ( inputHandler.getParent() != null ) {
-                inputHandler.getParent().removeFromAttachedHandlers( inputHandler );
-            }
-            try {
-                SwingUtilities.invokeAndWait( new Runnable() {
-                    public void run() {
-                        desktop.removeAll();
-                        awtWindow.dispose();
-                    }
-                } );
-            } catch ( InterruptedException e ) {
-                logger.logp(Level.SEVERE, this.getClass().toString(), "dispose()", "Exception", e);
-            } catch ( InvocationTargetException e ) {
-                logger.logp(Level.SEVERE, this.getClass().toString(), "dispose()", "Exception", e);
-            }
-            desktop = null;
-            desktopsUsed--;
-            if ( desktopsUsed == 0 ) {
-                PopupFactory.setSharedInstance( new PopupFactory() );
-            }
-        }
+//        if ( desktop != null ) {
+//            if ( getParent() != null ) {
+//                getParent().detachChild( this );
+//            }
+//            inputHandler.removeAllActions();
+//            if ( inputHandler.getParent() != null ) {
+//                inputHandler.getParent().removeFromAttachedHandlers( inputHandler );
+//            }
+//            try {
+//                SwingUtilities.invokeAndWait( new Runnable() {
+//                    public void run() {
+//                        desktop.removeAll();
+//                        awtWindow.dispose();
+//                    }
+//                } );
+//            } catch ( InterruptedException e ) {
+//                logger.logp(Level.SEVERE, this.getClass().toString(), "dispose()", "Exception", e);
+//            } catch ( InvocationTargetException e ) {
+//                logger.logp(Level.SEVERE, this.getClass().toString(), "dispose()", "Exception", e);
+//            }
+//            desktop = null;
+//            desktopsUsed--;
+//            if ( desktopsUsed == 0 ) {
+//                PopupFactory.setSharedInstance( new PopupFactory() );
+//            }
+//        }
     }
 
     private static class ScrollPaneRepaintFixListener implements ContainerListener {

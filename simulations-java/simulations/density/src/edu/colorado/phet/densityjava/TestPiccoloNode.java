@@ -45,25 +45,7 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JDesktopPane;
-import javax.swing.JEditorPane;
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JSlider;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.plaf.metal.MetalLookAndFeel;
@@ -91,6 +73,11 @@ import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
 import com.jmex.awt.swingui.JMEAction;
 import com.jmex.awt.swingui.JMEDesktop;
+import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwingRepaintManager;
+import edu.umd.cs.piccolox.pswing.PSwingEventHandler;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 
 /**
  * Example for using Swing within a jME game: Some frames, buttons and textfields are shown above
@@ -110,11 +97,11 @@ public class TestPiccoloNode extends SimpleGame {
     }
 
     protected void simpleUpdate() {
-        if ( PiccoloNode.getFocusOwner() == null ) {
-            lookHandler.setEnabled( true );
-        } else {
-            lookHandler.setEnabled( false );
-        }
+//        if ( PiccoloNode.getFocusOwner() == null ) {
+//            lookHandler.setEnabled( true );
+//        } else {
+//            lookHandler.setEnabled( false );
+//        }
     }
 
     public static void main( String[] args ) throws Exception {
@@ -143,7 +130,25 @@ public class TestPiccoloNode extends SimpleGame {
         // and nest it
         input.addToAttachedHandlers( lookHandler );
 
-        PiccoloNode = new PiccoloNode( "test internalFrame" );
+//        PiccoloNode = new PiccoloNode( "test internalFrame",new PText("Hello") );
+//        PiccoloNode = new PiccoloNode( "test internalFrame",new HTMLNode("<html>test html<br>so there</html>") );
+        PiccoloNode = new PiccoloNode( "test internalFrame",new PSwing(new JButton("hello")) );
+
+
+            PSwingRepaintManager pSwingRepaintManager = new PSwingRepaintManager();
+
+//SwingWrapper swingWrapper;
+ PSwingEventHandler swingEventHandler;
+
+    /**
+     * Construct a new PSwingCanvas.
+     */
+//    public PSwingCanvas() {
+//        swingWrapper = new SwingWrapper(this);
+//        add(swingWrapper);
+        RepaintManager.setCurrentManager(pSwingRepaintManager);
+//        pSwingRepaintManager.addPSwingCanvas(this);
+
         PiccoloNode.setup( display.getWidth(), display.getHeight(), false, input );
         PiccoloNode.setLightCombineMode( Spatial.LightCombineMode.Off );
         desktopNode = new Node( "desktop node" );
@@ -155,7 +160,7 @@ public class TestPiccoloNode extends SimpleGame {
         perspective();
 //        fullScreen();
 
-        PiccoloNode.getJDesktop().setBackground( new Color( 1, 1, 1, 0.2f ) );
+//        PiccoloNode.getJDesktop().setBackground( new Color( 1, 1, 1, 0.2f ) );
 
         try {
             SwingUtilities.invokeAndWait( new Runnable() {
@@ -216,7 +221,7 @@ public class TestPiccoloNode extends SimpleGame {
         internalFrame.setSize( 200, 80 );
         internalFrame.getContentPane().add( editor, BorderLayout.CENTER );
         internalFrame.setVisible( true );
-        PiccoloNode.getJDesktop().add( internalFrame );
+//        PiccoloNode.getJDesktop().add( internalFrame );
     }
 
     private void createCustomCursor() {
@@ -257,8 +262,8 @@ public class TestPiccoloNode extends SimpleGame {
         //create a border from boxes around the desktop
         float borderSize = 10;
         float halfBorderSize = borderSize / 2;
-        int halfDesktopWidth = PiccoloNode.getJDesktop().getWidth() / 2;
-        int halfDesktopHeight = PiccoloNode.getJDesktop().getHeight() / 2;
+        int halfDesktopWidth = 500;
+        int halfDesktopHeight = 500;
 
         Box top = new Box( "top border", new Vector3f(),
                 halfDesktopWidth + halfBorderSize,
@@ -297,7 +302,7 @@ public class TestPiccoloNode extends SimpleGame {
 
     private void perspective() {
         desktopNode.getLocalRotation().fromAngleNormalAxis( -0.7f, new Vector3f( 1, 0, 0 ) );
-        desktopNode.setLocalScale( 24f / PiccoloNode.getJDesktop().getWidth() );
+        desktopNode.setLocalScale( 24f / 500 );
         desktopNode.getLocalTranslation().set( 0, 0, 0 );
         desktopNode.setRenderQueueMode( Renderer.QUEUE_TRANSPARENT );
         desktopNode.setCullHint( Spatial.CullHint.Dynamic );
@@ -318,96 +323,96 @@ public class TestPiccoloNode extends SimpleGame {
     private AbsoluteMouse cursor;
 
     protected void createSwingStuff() {
-        final JDesktopPane desktopPane = PiccoloNode.getJDesktop();
-        desktopPane.removeAll();
-
-        createSwingInternalFrame( desktopPane, "My Frame 1", 10, 150 );
-        createSwingInternalFrame( desktopPane, "My Frame 2", 20, 300 );
-        createSwingInternalFrame( desktopPane, null, 400, 350 );
-
-        final JButton button3 = new JButton( "more stuff" );
-        button3.setLocation( 300, 100 );
-        button3.setSize( button3.getPreferredSize() );
-        desktopPane.add( button3 );
-        button3.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                createMoreSwingStuff();
-                button3.setVisible( false );
-            }
-        } );
-
-        final JButton buttonToggleMouse = new JButton( "toggle system/custom cursor" );
-        buttonToggleMouse.setLocation( 300, 70 );
-        buttonToggleMouse.setSize( buttonToggleMouse.getPreferredSize() );
-        desktopPane.add( buttonToggleMouse );
-        buttonToggleMouse.addActionListener( new JMEAction( "toggle mouse", input ) {
-            public void performAction( InputActionEvent evt ) {
-                if ( MouseInput.get().isCursorVisible() ) {
-                    // switch to custom mouse
-
-                    // hide system cursor
-                    MouseInput.get().setCursorVisible( false );
-
-                    // show custom cursor
-                    cursor.setCullHint( Spatial.CullHint.Never );
-                } else {
-                    // switch to system mouse
-
-                    // hide custom cursor
-                    cursor.setCullHint( Spatial.CullHint.Always );
-
-                    // show system cursor
-                    MouseInput.get().setCursorVisible( true );
-                }
-            }
-        } );
-        buttonToggleMouse.setMnemonic( 'm' );
-
-        final JLabel label = new JLabel( "click scene to steer view (WASD+Arrows)" );
-        label.setSize( label.getPreferredSize() );
-        label.setLocation( display.getWidth() - (int) label.getSize().getWidth() - 10, 10 );
-        desktopPane.add( label );
-
-        moreStuffCreated = false;
-
-        final JButton themeButton = new JButton( "change l&f" );
-        themeButton.setLocation( 10, 400 );
-        themeButton.setSize( themeButton.getPreferredSize() );
-        desktopPane.add( themeButton );
-        themeButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                PiccoloNode.getJDesktop().removeAll();
-                switchLookAndFeel( theme + 1 );
-                createSwingStuff();
-            }
-        } );
-
-        JButton fullScreenButton = new JButton( "<html><big>toggle fullscreen</big></html>" );
-        fullScreenButton.setSize( fullScreenButton.getPreferredSize() );
-        fullScreenButton.setLocation( ( display.getWidth() - fullScreenButton.getWidth() ) / 2,
-                display.getHeight() - 40 - fullScreenButton.getHeight() / 2 );
-        desktopPane.add( fullScreenButton );
-        fullScreenButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                if ( desktopNode.getRenderQueueMode() == Renderer.QUEUE_ORTHO ) {
-                    perspective();
-                } else {
-                    fullScreen();
-                }
-            }
-        } );
-
-        createRotateButton( desktopPane, 0.25f );
-        createRotateButton( desktopPane, -0.25f );
-        createRotateButton( desktopPane, 0.15f );
-        createRotateButton( desktopPane, -0.15f );
-        createRotateButton( desktopPane, 0.45f );
-        createRotateButton( desktopPane, -0.45f );
-
-        createEditorPane();
-
-        desktopPane.repaint();
-        desktopPane.revalidate();
+//        final JDesktopPane desktopPane = PiccoloNode.getJDesktop();
+//        desktopPane.removeAll();
+//
+//        createSwingInternalFrame( desktopPane, "My Frame 1", 10, 150 );
+//        createSwingInternalFrame( desktopPane, "My Frame 2", 20, 300 );
+//        createSwingInternalFrame( desktopPane, null, 400, 350 );
+//
+//        final JButton button3 = new JButton( "more stuff" );
+//        button3.setLocation( 300, 100 );
+//        button3.setSize( button3.getPreferredSize() );
+//        desktopPane.add( button3 );
+//        button3.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                createMoreSwingStuff();
+//                button3.setVisible( false );
+//            }
+//        } );
+//
+//        final JButton buttonToggleMouse = new JButton( "toggle system/custom cursor" );
+//        buttonToggleMouse.setLocation( 300, 70 );
+//        buttonToggleMouse.setSize( buttonToggleMouse.getPreferredSize() );
+//        desktopPane.add( buttonToggleMouse );
+//        buttonToggleMouse.addActionListener( new JMEAction( "toggle mouse", input ) {
+//            public void performAction( InputActionEvent evt ) {
+//                if ( MouseInput.get().isCursorVisible() ) {
+//                    // switch to custom mouse
+//
+//                    // hide system cursor
+//                    MouseInput.get().setCursorVisible( false );
+//
+//                    // show custom cursor
+//                    cursor.setCullHint( Spatial.CullHint.Never );
+//                } else {
+//                    // switch to system mouse
+//
+//                    // hide custom cursor
+//                    cursor.setCullHint( Spatial.CullHint.Always );
+//
+//                    // show system cursor
+//                    MouseInput.get().setCursorVisible( true );
+//                }
+//            }
+//        } );
+//        buttonToggleMouse.setMnemonic( 'm' );
+//
+//        final JLabel label = new JLabel( "click scene to steer view (WASD+Arrows)" );
+//        label.setSize( label.getPreferredSize() );
+//        label.setLocation( display.getWidth() - (int) label.getSize().getWidth() - 10, 10 );
+//        desktopPane.add( label );
+//
+//        moreStuffCreated = false;
+//
+//        final JButton themeButton = new JButton( "change l&f" );
+//        themeButton.setLocation( 10, 400 );
+//        themeButton.setSize( themeButton.getPreferredSize() );
+//        desktopPane.add( themeButton );
+//        themeButton.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                PiccoloNode.getJDesktop().removeAll();
+//                switchLookAndFeel( theme + 1 );
+//                createSwingStuff();
+//            }
+//        } );
+//
+//        JButton fullScreenButton = new JButton( "<html><big>toggle fullscreen</big></html>" );
+//        fullScreenButton.setSize( fullScreenButton.getPreferredSize() );
+//        fullScreenButton.setLocation( ( display.getWidth() - fullScreenButton.getWidth() ) / 2,
+//                display.getHeight() - 40 - fullScreenButton.getHeight() / 2 );
+//        desktopPane.add( fullScreenButton );
+//        fullScreenButton.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                if ( desktopNode.getRenderQueueMode() == Renderer.QUEUE_ORTHO ) {
+//                    perspective();
+//                } else {
+//                    fullScreen();
+//                }
+//            }
+//        } );
+//
+//        createRotateButton( desktopPane, 0.25f );
+//        createRotateButton( desktopPane, -0.25f );
+//        createRotateButton( desktopPane, 0.15f );
+//        createRotateButton( desktopPane, -0.15f );
+//        createRotateButton( desktopPane, 0.45f );
+//        createRotateButton( desktopPane, -0.45f );
+//
+//        createEditorPane();
+//
+//        desktopPane.repaint();
+//        desktopPane.revalidate();
     }
 
     private void createRotateButton( JDesktopPane parent, final float direction ) {
@@ -443,53 +448,53 @@ public class TestPiccoloNode extends SimpleGame {
     }
 
     private void createMoreSwingStuff() {
-        if ( moreStuffCreated ) {
-            return;
-        }
-        moreStuffCreated = true;
-
-        JDesktopPane desktopPane = PiccoloNode.getJDesktop();
-        JPanel stuffPanel = new JPanel();
-        stuffPanel.setLayout( new GridLayout( 0, 1 ) );
-        final JScrollPane scrollPane = new JScrollPane( stuffPanel,
-                ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER );
-        scrollPane.setLocation( 400, 100 );
-        desktopPane.add( scrollPane );
-
-        stuffPanel.add( new JCheckBox( "check" ) );
-        JComboBox comboBox = new JComboBox( new Object[]{"Item 1", "Item 2", "Item 3", "4", "5", "6", "7", "8", "9"} );
-        comboBox.setEditable( true );
-        stuffPanel.add( comboBox );
-        JProgressBar progress = new JProgressBar( 0, 100 );
-        stuffPanel.add( progress );
-        progress.setValue( 30 );
-
-        JSlider slider = new JSlider( 0, 100 );
-        slider.setValue( 75 );
-        stuffPanel.add( slider );
-        stuffPanel.setDoubleBuffered( false );
-        stuffPanel.setOpaque( false );
-
-        ButtonGroup rGroup = new ButtonGroup();
-        for ( int i = 0; i < 10; i++ ) {
-            JRadioButton radio = new JRadioButton( "radio " + i );
-            stuffPanel.add( radio );
-            rGroup.add( radio );
-        }
-
-        scrollPane.setSize( (int) scrollPane.getPreferredSize().getWidth(), 200 );
-        scrollPane.revalidate();
-
-        JTabbedPane tabbedPane = new JTabbedPane();
-        desktopPane.add( tabbedPane );
-        tabbedPane.add( "a", new JButton( "abc" ) );
-        tabbedPane.add( "d", new JButton( "def" ) );
-        tabbedPane.add( "g", new JButton( "ghi" ) );
-        tabbedPane.setLocation( 10, 30 );
-        tabbedPane.setSize( 150, 100 );
-        tabbedPane.revalidate();
-
-        desktopPane.repaint();
+//        if ( moreStuffCreated ) {
+//            return;
+//        }
+//        moreStuffCreated = true;
+//
+//        JDesktopPane desktopPane = PiccoloNode.getJDesktop();
+//        JPanel stuffPanel = new JPanel();
+//        stuffPanel.setLayout( new GridLayout( 0, 1 ) );
+//        final JScrollPane scrollPane = new JScrollPane( stuffPanel,
+//                ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER );
+//        scrollPane.setLocation( 400, 100 );
+//        desktopPane.add( scrollPane );
+//
+//        stuffPanel.add( new JCheckBox( "check" ) );
+//        JComboBox comboBox = new JComboBox( new Object[]{"Item 1", "Item 2", "Item 3", "4", "5", "6", "7", "8", "9"} );
+//        comboBox.setEditable( true );
+//        stuffPanel.add( comboBox );
+//        JProgressBar progress = new JProgressBar( 0, 100 );
+//        stuffPanel.add( progress );
+//        progress.setValue( 30 );
+//
+//        JSlider slider = new JSlider( 0, 100 );
+//        slider.setValue( 75 );
+//        stuffPanel.add( slider );
+//        stuffPanel.setDoubleBuffered( false );
+//        stuffPanel.setOpaque( false );
+//
+//        ButtonGroup rGroup = new ButtonGroup();
+//        for ( int i = 0; i < 10; i++ ) {
+//            JRadioButton radio = new JRadioButton( "radio " + i );
+//            stuffPanel.add( radio );
+//            rGroup.add( radio );
+//        }
+//
+//        scrollPane.setSize( (int) scrollPane.getPreferredSize().getWidth(), 200 );
+//        scrollPane.revalidate();
+//
+//        JTabbedPane tabbedPane = new JTabbedPane();
+//        desktopPane.add( tabbedPane );
+//        tabbedPane.add( "a", new JButton( "abc" ) );
+//        tabbedPane.add( "d", new JButton( "def" ) );
+//        tabbedPane.add( "g", new JButton( "ghi" ) );
+//        tabbedPane.setLocation( 10, 30 );
+//        tabbedPane.setSize( 150, 100 );
+//        tabbedPane.revalidate();
+//
+//        desktopPane.repaint();
     }
 
     int theme;
@@ -522,26 +527,26 @@ public class TestPiccoloNode extends SimpleGame {
     }
 
     private void showDialog() {
-        final JDesktopPane desktopPane = PiccoloNode.getJDesktop();
-        final JInternalFrame modalDialog = new JInternalFrame( "Dialog" );
-
-        JOptionPane optionPane = new JOptionPane( "This is a message box!" );
-        modalDialog.getContentPane().add( optionPane );
-        PiccoloNode.setModalComponent( modalDialog );
-        desktopPane.add( modalDialog, 0 );
-        modalDialog.setVisible( true );
-        modalDialog.setSize( modalDialog.getPreferredSize() );
-        modalDialog.setLocation( ( desktopPane.getWidth() - modalDialog.getWidth() ) / 2,
-                ( desktopPane.getHeight() - modalDialog.getHeight() ) / 2 );
-        PiccoloNode.setFocusOwner( optionPane );
-
-        optionPane.addPropertyChangeListener( JOptionPane.VALUE_PROPERTY, new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent evt ) {
-                modalDialog.setVisible( false );
-                PiccoloNode.setModalComponent( null );
-                desktopPane.remove( modalDialog );
-            }
-        } );
+//        final JDesktopPane desktopPane = PiccoloNode.getJDesktop();
+//        final JInternalFrame modalDialog = new JInternalFrame( "Dialog" );
+//
+//        JOptionPane optionPane = new JOptionPane( "This is a message box!" );
+//        modalDialog.getContentPane().add( optionPane );
+//        PiccoloNode.setModalComponent( modalDialog );
+//        desktopPane.add( modalDialog, 0 );
+//        modalDialog.setVisible( true );
+//        modalDialog.setSize( modalDialog.getPreferredSize() );
+//        modalDialog.setLocation( ( desktopPane.getWidth() - modalDialog.getWidth() ) / 2,
+//                ( desktopPane.getHeight() - modalDialog.getHeight() ) / 2 );
+//        PiccoloNode.setFocusOwner( optionPane );
+//
+//        optionPane.addPropertyChangeListener( JOptionPane.VALUE_PROPERTY, new PropertyChangeListener() {
+//            public void propertyChange( PropertyChangeEvent evt ) {
+//                modalDialog.setVisible( false );
+//                PiccoloNode.setModalComponent( null );
+//                desktopPane.remove( modalDialog );
+//            }
+//        } );
     }
 
     private void switchLookAndFeel( int theme ) {
