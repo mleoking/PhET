@@ -22,7 +22,7 @@ public class RadiometricDatingMeter {
 	private final ProbeModel _probe;
 	
 	public RadiometricDatingMeter() {
-		_probe = new ProbeModel(new Point2D.Double(0, 0), 0.7);
+		_probe = new ProbeModel(new Point2D.Double(-20, -8), -0.3);
 	}
 
 	public static double getPercentageCarbon14Remaining( DatableObject item ){
