@@ -59,10 +59,12 @@ public class ABSStrings {
     public static final String UNITS_LITERS = ABSResources.getString( "units.liters" );
     public static final String UNITS_MOLES = ABSResources.getString( "units.moles" );
     public static final String UNITS_MOLES_PER_LITER = ABSResources.getString( "units.molesPerLiter" );
+    public static final String UNITS_MOLAR = ABSResources.getString( "units.molar" );
     
     // water
     public static final String WATER = ABSResources.getString( "water" );
     public static final String PURE_WATER = ABSResources.getString( "pureWater" );
+    public static final String NO_SOLUTE = ABSResources.getString( "noSolute" );
     
     // acids
     public static final String CUSTOM_ACID = ABSResources.getString( "acid.customAcid" );

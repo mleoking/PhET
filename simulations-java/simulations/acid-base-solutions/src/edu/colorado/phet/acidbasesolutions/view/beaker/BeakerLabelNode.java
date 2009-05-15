@@ -5,7 +5,13 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
+import java.text.DecimalFormat;
 
+import edu.colorado.phet.acidbasesolutions.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
+import edu.colorado.phet.acidbasesolutions.model.NullSolute;
+import edu.colorado.phet.acidbasesolutions.model.Solute;
+import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionAdapter;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -25,15 +31,22 @@ public class BeakerLabelNode extends PNode {
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 2f );
     private static final Color BACKGROUND_STROKE_COLOR = BACKGROUND_COLOR.darker();
     
-    private static final Font HTML_FONT = new PhetFont( Font.BOLD, 18 );
+    private static final Font HTML_FONT = new PhetFont( Font.PLAIN, 16 );
     private static final Color HTML_COLOR = Color.BLACK;
     
     private static final double MARGIN = 10;
     
+    private static final DecimalFormat CONCENTRATION_FORMAT = new DecimalFormat( "0.000" );
+    
     private final PPath backgroundNode;
     private final HTMLNode htmlNode;
     
-    public BeakerLabelNode( PDimension size ) {
+    public BeakerLabelNode( PDimension size, AqueousSolution solution ) {
+        this( size );
+        solution.addSolutionListener( new ModelViewController( solution, this ) );
+    }
+    
+    private BeakerLabelNode( PDimension size ) {
         super();
         setPickable( false );
         setChildrenPickable( false );
@@ -73,6 +86,39 @@ public class BeakerLabelNode extends PNode {
         double xOffset = ( bb.getWidth() - hb.getWidth() ) / 2;
         double yOffset = ( bb.getHeight() - hb.getHeight() ) / 2;
         htmlNode.setOffset( xOffset, yOffset );
+    }
+    
+    private static class ModelViewController extends SolutionAdapter {
+        
+        private final AqueousSolution solution;
+        private final BeakerLabelNode labelNode;
+        
+        public ModelViewController( AqueousSolution solution, BeakerLabelNode labelNode ) {
+            this.solution = solution;
+            this.labelNode = labelNode;
+            updateLabel();
+        }
+
+        public void concentrationChanged() {
+            updateLabel();
+        }
+
+        public void soluteChanged() {
+            updateLabel();
+        }
+        
+        private void updateLabel() {
+            Solute solute = solution.getSolute();
+            if ( solute instanceof NullSolute ) {
+                String text = ABSStrings.PURE_WATER + ", 0.00 " + ABSStrings.UNITS_MOLAR;
+                labelNode.setHTML( text );
+            }
+            else {
+                String cString = CONCENTRATION_FORMAT.format( solute.getConcentration() );
+                String text = solute.getName() + ", " + cString + " " + ABSStrings.UNITS_MOLAR;
+                labelNode.setHTML( text );
+            }
+        }
     }
 
 }

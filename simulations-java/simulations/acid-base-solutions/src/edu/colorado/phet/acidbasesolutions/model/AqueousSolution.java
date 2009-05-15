@@ -77,6 +77,12 @@ public class AqueousSolution {
         public void strengthChanged();
     }
     
+    public static class SolutionAdapter implements SolutionListener {
+        public void soluteChanged() {}
+        public void concentrationChanged() {}
+        public void strengthChanged() {}
+    }
+    
     public void addSolutionListener( SolutionListener listener ) {
         listeners.add( listener );
     }

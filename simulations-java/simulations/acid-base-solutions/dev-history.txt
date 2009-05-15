@@ -14,8 +14,10 @@ TODO:
 - scale image files
 - rewrite SolutionsCanvas.updateLayout
 - add ability to restrict Strength slider to one section of the range
+- support arrow keys in concentration text field
 
 DONE:
+5/14/09 connect beaker label to model
 5/14/09 use molecule counts model from ph-scale
 5/14/09 show Concentration=0.0, not editable, when no solute selected
 5/14/09 consolidate slider thumb colors
