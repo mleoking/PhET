@@ -13,13 +13,13 @@ public class WeakAcidConcentrationModel extends AcidConcentrationModel {
     
     // [HA] = c - [A-]
     public double getAcidConcentration() {
-        return getInitialConcentration() - getBaseConcentration();
+        return getSolute().getConcentration() - getBaseConcentration();
     }
     
     // [A-] = ( -Ka + sqrt( Ka*Ka + 4*Ka*c ) ) / 2 
     public double getBaseConcentration() {
         final double Ka = getSolute().getStrength();
-        final double c = getInitialConcentration();
+        final double c = getSolute().getConcentration();
         return ( -Ka + Math.sqrt( ( Ka * Ka ) + ( 4 * Ka * c ) ) ) / 2;
     }
     

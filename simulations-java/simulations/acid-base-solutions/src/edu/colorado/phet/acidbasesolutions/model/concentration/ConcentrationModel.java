@@ -22,30 +22,26 @@ public abstract class ConcentrationModel {
         return new PHValue( -MathUtil.log10( getH3OConcentration() ) );
     }
     
-    // c
-    public double getInitialConcentration() {
-        return solute.getConcentration();
-    }
-    
     public abstract double getH3OConcentration();
     
     public abstract double getOHConcentration();
     
     public abstract double getH2OConcentration();
     
-    public double getH3OMoleculeCount() {
+    public int getH3OMoleculeCount() {
         return getMoleculeCount( getH3OConcentration() ); 
     }
     
-    public double getOHMoleculeCount() {
+    public int getOHMoleculeCount() {
         return getMoleculeCount( getOHConcentration() ); 
     }
     
-    public double getH2OMoleculeCount() {
+    public int getH2OMoleculeCount() {
         return getMoleculeCount( getH2OConcentration() ); 
     }
     
-    protected double getMoleculeCount( double concentration ) {
-        return concentration * ABSConstants.AVOGADROS_NUMBER * ABSConstants.SOLUTION_VOLUME;
+    protected int getMoleculeCount( double concentration ) {
+        System.out.println( "ConcentrationModel.getMoleculeCount concentration=" + concentration );//XXX
+        return (int)( concentration * ABSConstants.AVOGADROS_NUMBER * ABSConstants.SOLUTION_VOLUME );
     }
 }

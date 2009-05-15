@@ -11,6 +11,7 @@ public class PureWaterConcentrationModel extends ConcentrationModel {
 
     public PureWaterConcentrationModel( Solute solute ) {
         super( solute );
+        System.out.print( "****" + getH2OMoleculeCount() );//XXX
     }
     
     public double getH3OConcentration() {
