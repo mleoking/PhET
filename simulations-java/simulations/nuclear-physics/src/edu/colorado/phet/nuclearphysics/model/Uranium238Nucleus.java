@@ -27,7 +27,7 @@ public class Uranium238Nucleus extends AbstractDecayNucleus {
     
     // Time scaling factor - scales the rate at which decay occurs so that we
     // don't really have to wait around thousands of years.
-    private static double DECAY_TIME_SCALING_FACTOR = 2500 / HALF_LIFE;
+    private static double DECAY_TIME_SCALING_FACTOR = 4000 / HALF_LIFE;
     
     // Random number generator used for calculating decay time based on decay constant.
     private static final Random RAND = new Random();
