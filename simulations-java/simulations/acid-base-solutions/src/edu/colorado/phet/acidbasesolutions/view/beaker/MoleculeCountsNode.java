@@ -27,7 +27,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 
-public class MoleculeCountsNode extends PinnedLayoutNode {
+public abstract class MoleculeCountsNode extends PinnedLayoutNode {
     
     private static final Font NEGLIGIBLE_FONT = new PhetFont( Font.PLAIN, 16 );
     private static final Font VALUE_FONT = new PhetFont( Font.PLAIN, 16 );
@@ -45,7 +45,7 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
     private final IconNode iconLHS, iconRHS, iconH3OPlus, iconOHMinus, iconH2O;
     private final LabelNode labelLHS, labelRHS, labelH3OPlus, labelOHMinus, labelH2O;
     
-    public MoleculeCountsNode() {
+    public MoleculeCountsNode( Image imageLHS, String textLHS, Image imageRHS, String textRHS ) {
         super();
         
         // this node is not interactive
@@ -61,16 +61,16 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
         PNode[] countNodes = { countLHS, countRHS, countH3OPlus, countOHMinus, countH2O };
         
         // icons
-        iconLHS = new IconNode( ABSImages.HA_MOLECULE );
-        iconRHS = new IconNode( ABSImages.A_MINUS_MOLECULE );
+        iconLHS = new IconNode( imageLHS );
+        iconRHS = new IconNode( imageRHS );
         iconH3OPlus = new IconNode( ABSImages.H3O_PLUS_MOLECULE );
         iconOHMinus = new IconNode( ABSImages.OH_MINUS_MOLECULE );
         iconH2O = new IconNode( ABSImages.H2O_MOLECULE );
         PNode[] iconNodes = { iconLHS, iconRHS, iconH3OPlus, iconOHMinus, iconH2O };
         
         // labels
-        labelLHS = new LabelNode( ABSSymbols.HA );
-        labelRHS = new LabelNode( ABSSymbols.A_MINUS );
+        labelLHS = new LabelNode( textLHS );
+        labelRHS = new LabelNode( textRHS );
         labelH3OPlus = new LabelNode( ABSSymbols.H3O_PLUS );
         labelOHMinus = new LabelNode( ABSSymbols.OH_MINUS );
         labelH2O = new LabelNode( ABSSymbols.H2O );
@@ -120,21 +120,11 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
     // Setters and getters
     //----------------------------------------------------------------------------
     
-    public void setMoleculeLHS( Image image, String label ) {
-        iconLHS.setImage( image );
-        labelLHS.setHTML( label );
-    }
-    
-    public void setMoleculeRHS( Image image, String label ) {
-        iconRHS.setImage( image );
-        labelRHS.setHTML( label );
-    }
-    
-    public void setCountLHS( double count ) {
+    protected void setCountLHS( double count ) {
         countLHS.setValue( count );
     }
     
-    public void setCountRHS( double count ) {
+    protected void setCountRHS( double count ) {
         countRHS.setValue( count );
     }
     
@@ -150,7 +140,7 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
         countH2O.setValue( count );
     }
     
-    public void setNegligibleEnabled( boolean enabled ) {
+    protected void setNegligibleEnabled( boolean enabled ) {
         countLHS.setNegligibleEnabled( enabled );
     }
     
@@ -280,38 +270,84 @@ public class MoleculeCountsNode extends PinnedLayoutNode {
         }
     }
     
-    public static void main( String[] args ) {
+    public static class AcidMoleculeCountsNode extends MoleculeCountsNode {
+
+        public AcidMoleculeCountsNode() {
+            super( ABSImages.HA_MOLECULE, ABSSymbols.HA, ABSImages.A_MINUS_MOLECULE, ABSSymbols.A_MINUS );
+        }
         
-            Dimension canvasSize = new Dimension( 800, 600 );
-            PhetPCanvas canvas = new PhetPCanvas( canvasSize );
-            canvas.setPreferredSize( canvasSize );
-            canvas.setBackground( Color.LIGHT_GRAY );
-            
-            final MoleculeCountsNode node = new MoleculeCountsNode();
-            canvas.getLayer().addChild( node );
-            node.setOffset( 100, 100 );
-            node.adjustPinnedNode();
-            
-            JPanel controlPanel = new JPanel();
-            final JSlider slider = new JSlider( 0, 100000, 0 );
-            slider.setMajorTickSpacing( slider.getMaximum() );
-            slider.setPaintTicks( true );
-            slider.setPaintLabels( true );
-            slider.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    node.setCountLHS( slider.getValue() );
-                }
-            });
-            controlPanel.add( slider );
-            
-            JPanel panel = new JPanel( new BorderLayout() );
-            panel.add( canvas, BorderLayout.CENTER );
-            panel.add( controlPanel, BorderLayout.EAST );
-            
-            JFrame frame = new JFrame();
-            frame.setContentPane( panel );
-            frame.pack();
-            frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-            frame.setVisible( true );
+        public void setAcidCount( int count ) {
+            setCountLHS( count );
+        }
+        
+        public void setBaseCount( int count ) {
+            setCountRHS( count );
+        }
+    }
+    
+    public static class WeakBaseMoleculeCountsNode extends MoleculeCountsNode {
+
+        public WeakBaseMoleculeCountsNode() {
+            super( ABSImages.B_MOLECULE, ABSSymbols.B, ABSImages.BH_PLUS_MOLECULE, ABSSymbols.BH_PLUS );
+        }
+
+        public void setBaseCount( int count ) {
+            setCountLHS( count );
+        }
+
+        public void setAcidCount( int count ) {
+            setCountRHS( count );
+        }
+    }
+
+    public static class StrongBaseMoleculeCountsNode extends MoleculeCountsNode {
+
+        public StrongBaseMoleculeCountsNode() {
+            super( ABSImages.MOH_MOLECULE, ABSSymbols.MOH, ABSImages.M_PLUS_MOLECULE, ABSSymbols.M_PLUS );
+        }
+
+        public void setBaseCount( int count ) {
+            setCountLHS( count );
+        }
+
+        public void setMetalCount( int count ) {
+            setCountRHS( count );
+        }
+    }
+
+    public static void main( String[] args ) {
+
+        Dimension canvasSize = new Dimension( 800, 600 );
+        PhetPCanvas canvas = new PhetPCanvas( canvasSize );
+        canvas.setPreferredSize( canvasSize );
+        canvas.setBackground( Color.LIGHT_GRAY );
+
+        final MoleculeCountsNode node = new StrongBaseMoleculeCountsNode();
+        canvas.getLayer().addChild( node );
+        node.setOffset( 100, 100 );
+        node.adjustPinnedNode();
+
+        JPanel controlPanel = new JPanel();
+        final JSlider slider = new JSlider( 0, 100000, 0 );
+        slider.setMajorTickSpacing( slider.getMaximum() );
+        slider.setPaintTicks( true );
+        slider.setPaintLabels( true );
+        slider.addChangeListener( new ChangeListener() {
+
+            public void stateChanged( ChangeEvent e ) {
+                node.setCountLHS( slider.getValue() );
+            }
+        } );
+        controlPanel.add( slider );
+
+        JPanel panel = new JPanel( new BorderLayout() );
+        panel.add( canvas, BorderLayout.CENTER );
+        panel.add( controlPanel, BorderLayout.EAST );
+
+        JFrame frame = new JFrame();
+        frame.setContentPane( panel );
+        frame.pack();
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        frame.setVisible( true );
     }
 }
