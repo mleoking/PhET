@@ -1,3 +1,5 @@
+# 2.05.02 (31740) May 15, 2009
+5/15/09 another dev version for testing Arabic, this time with locale-specific JARs
 # 2.05.01 (31739) May 15, 2009
 5/15/09 dev version requested by Kathy to review Arabic translation
 # 2.05.00 (30610) Apr 20, 2009
