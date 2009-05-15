@@ -11,11 +11,11 @@ import java.io.File;
  */
 public class NativeUtil {
     public static void main(String[] args) {
-        File dir=new File("C:\\workingcopy\\phet\\svn\\trunk\\simulations-java\\contrib\\jmonkeyengine\\lib\\natives");
-        File[]f=dir.listFiles();
+        File dir = new File("C:\\workingcopy\\phet\\svn\\trunk\\simulations-java\\contrib\\jmonkeyengine\\lib\\natives");
+        File[] f = dir.listFiles();
         for (int i = 0; i < f.length; i++) {
             File file = f[i];
-            System.out.print(file.getName()+", ");
+            System.out.print(file.getName() + ", ");
         }
         System.out.println("");
     }

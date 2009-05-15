@@ -32,24 +32,6 @@
 
 package edu.colorado.phet.densityjava;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.swing.*;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
-import javax.swing.plaf.metal.MetalLookAndFeel;
-
 import com.jme.app.SimpleGame;
 import com.jme.bounding.BoundingBox;
 import com.jme.image.Image;
@@ -57,8 +39,6 @@ import com.jme.image.Texture;
 import com.jme.input.AbsoluteMouse;
 import com.jme.input.InputHandler;
 import com.jme.input.KeyboardLookHandler;
-import com.jme.input.MouseInput;
-import com.jme.input.action.InputActionEvent;
 import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
@@ -71,13 +51,21 @@ import com.jme.scene.state.BlendState;
 import com.jme.scene.state.TextureState;
 import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
-import com.jmex.awt.swingui.JMEAction;
-import com.jmex.awt.swingui.JMEDesktop;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
-import edu.umd.cs.piccolox.pswing.PSwingRepaintManager;
 import edu.umd.cs.piccolox.pswing.PSwingEventHandler;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.umd.cs.piccolox.pswing.PSwingRepaintManager;
+
+import javax.swing.*;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
+import javax.swing.plaf.metal.MetalLookAndFeel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Example for using Swing within a jME game: Some frames, buttons and textfields are shown above
@@ -88,7 +76,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 public class TestPiccoloNode extends SimpleGame {
     private static final Logger logger = Logger.getLogger(TestPiccoloNode.class
             .getName());
-    
+
     private PiccoloNode PiccoloNode;
     private Node desktopNode;
     private KeyboardLookHandler lookHandler;
@@ -104,9 +92,9 @@ public class TestPiccoloNode extends SimpleGame {
 //        }
     }
 
-    public static void main( String[] args ) throws Exception {
+    public static void main(String[] args) throws Exception {
         TestPiccoloNode testPiccoloNode = new TestPiccoloNode();
-        testPiccoloNode.setConfigShowMode( ConfigShowMode.AlwaysShow );
+        testPiccoloNode.setConfigShowMode(ConfigShowMode.AlwaysShow);
         testPiccoloNode.start();
     }
 
@@ -114,8 +102,8 @@ public class TestPiccoloNode extends SimpleGame {
      * Called near end of initGame(). Must be defined by derived classes.
      */
     protected void simpleInitGame() {
-        display.setTitle( "jME-Desktop test" );
-        display.getRenderer().setBackgroundColor( ColorRGBA.blue.clone() );
+        display.setTitle("jME-Desktop test");
+        display.getRenderer().setBackgroundColor(ColorRGBA.blue.clone());
 
         // move the 'default' keys (debug normals, toggle lighting, etc.) to a separated input handler
         InputHandler handlerForDefaultKeyActions = input;
@@ -124,37 +112,37 @@ public class TestPiccoloNode extends SimpleGame {
         // create a new handler for our input
         input = new InputHandler();
         // add the default handler as a child
-        input.addToAttachedHandlers( handlerForDefaultKeyActions );
+        input.addToAttachedHandlers(handlerForDefaultKeyActions);
         // create another look handler
-        lookHandler = new KeyboardLookHandler( cam, 50, 1 );
+        lookHandler = new KeyboardLookHandler(cam, 50, 1);
         // and nest it
-        input.addToAttachedHandlers( lookHandler );
+        input.addToAttachedHandlers(lookHandler);
 
 //        PiccoloNode = new PiccoloNode( "test internalFrame",new PText("Hello") );
 //        PiccoloNode = new PiccoloNode( "test internalFrame",new HTMLNode("<html>test html<br>so there</html>") );
-        PiccoloNode = new PiccoloNode( "test internalFrame",new PSwing(new JButton("hello")) );
+        PiccoloNode = new PiccoloNode("test internalFrame", new PSwing(new JButton("hello")));
 
 
-            PSwingRepaintManager pSwingRepaintManager = new PSwingRepaintManager();
+        PSwingRepaintManager pSwingRepaintManager = new PSwingRepaintManager();
 
 //SwingWrapper swingWrapper;
- PSwingEventHandler swingEventHandler;
+        PSwingEventHandler swingEventHandler;
 
-    /**
-     * Construct a new PSwingCanvas.
-     */
+        /**
+         * Construct a new PSwingCanvas.
+         */
 //    public PSwingCanvas() {
 //        swingWrapper = new SwingWrapper(this);
 //        add(swingWrapper);
         RepaintManager.setCurrentManager(pSwingRepaintManager);
 //        pSwingRepaintManager.addPSwingCanvas(this);
 
-        PiccoloNode.setup( display.getWidth(), display.getHeight(), false, input );
-        PiccoloNode.setLightCombineMode( Spatial.LightCombineMode.Off );
-        desktopNode = new Node( "desktop node" );
-        desktopNode.attachChild( PiccoloNode );
-        rootNode.attachChild( desktopNode );
-        rootNode.setCullHint( Spatial.CullHint.Never );
+        PiccoloNode.setup(display.getWidth(), display.getHeight(), false, input);
+        PiccoloNode.setLightCombineMode(Spatial.LightCombineMode.Off);
+        desktopNode = new Node("desktop node");
+        desktopNode.attachChild(PiccoloNode);
+        rootNode.attachChild(desktopNode);
+        rootNode.setCullHint(Spatial.CullHint.Never);
         createBoxBorder();
 
         perspective();
@@ -163,19 +151,19 @@ public class TestPiccoloNode extends SimpleGame {
 //        PiccoloNode.getJDesktop().setBackground( new Color( 1, 1, 1, 0.2f ) );
 
         try {
-            SwingUtilities.invokeAndWait( new Runnable() {
+            SwingUtilities.invokeAndWait(new Runnable() {
                 public void run() {
                     // Only access the Swing UI from the Swing event dispatch thread!
                     // See SwingUtilities.invokeLater()
                     // and http://java.sun.com/docs/books/tutorial/uiswing/concurrency/index.html for details.
                     createSwingStuff();
                 }
-            } );
-        } catch ( InterruptedException e ) {
+            });
+        } catch (InterruptedException e) {
             // ok - just leave
             return;
-        } catch ( InvocationTargetException e ) {
-            throw new RuntimeException( e );
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
         }
 
         create3DStuff();
@@ -203,59 +191,59 @@ public class TestPiccoloNode extends SimpleGame {
     }
 
     private void createEditorPane() {
-        JInternalFrame internalFrame = new JInternalFrame( "html test" );
-        final JEditorPane editor = new JEditorPane( "text/html", "<a href=\"test\">test</a>" );
-        editor.addHyperlinkListener( new HyperlinkListener() {
-            public void hyperlinkUpdate( HyperlinkEvent e ) {
-                if ( e.getEventType().equals( HyperlinkEvent.EventType.ACTIVATED ) ) {
-                    if ( !Color.green.equals( editor.getBackground() ) ) {
-                        editor.setBackground( Color.GREEN );
+        JInternalFrame internalFrame = new JInternalFrame("html test");
+        final JEditorPane editor = new JEditorPane("text/html", "<a href=\"test\">test</a>");
+        editor.addHyperlinkListener(new HyperlinkListener() {
+            public void hyperlinkUpdate(HyperlinkEvent e) {
+                if (e.getEventType().equals(HyperlinkEvent.EventType.ACTIVATED)) {
+                    if (!Color.green.equals(editor.getBackground())) {
+                        editor.setBackground(Color.GREEN);
                     } else {
-                        editor.setBackground( Color.WHITE );
+                        editor.setBackground(Color.WHITE);
                     }
                 }
             }
-        } );
-        editor.setEditable( false );
-        internalFrame.setLocation( 350, 420 );
-        internalFrame.setSize( 200, 80 );
-        internalFrame.getContentPane().add( editor, BorderLayout.CENTER );
-        internalFrame.setVisible( true );
+        });
+        editor.setEditable(false);
+        internalFrame.setLocation(350, 420);
+        internalFrame.setSize(200, 80);
+        internalFrame.getContentPane().add(editor, BorderLayout.CENTER);
+        internalFrame.setVisible(true);
 //        PiccoloNode.getJDesktop().add( internalFrame );
     }
 
     private void createCustomCursor() {
-        cursor = new AbsoluteMouse( "cursor", display.getWidth(), display.getHeight() );
+        cursor = new AbsoluteMouse("cursor", display.getWidth(), display.getHeight());
 
         // Get a picture for my mouse.
         TextureState ts = display.getRenderer().createTextureState();
         URL cursorLoc = TestPiccoloNode.class.getClassLoader().getResource(
-                "jmetest/data/cursor/cursor1.png" );
-        Texture t = TextureManager.loadTexture( cursorLoc, Texture.MinificationFilter.NearestNeighborNoMipMaps,
-                Texture.MagnificationFilter.Bilinear, Image.Format.GuessNoCompression, 1, true );
-        ts.setTexture( t );
-        cursor.setRenderState( ts );
+                "jmetest/data/cursor/cursor1.png");
+        Texture t = TextureManager.loadTexture(cursorLoc, Texture.MinificationFilter.NearestNeighborNoMipMaps,
+                Texture.MagnificationFilter.Bilinear, Image.Format.GuessNoCompression, 1, true);
+        ts.setTexture(t);
+        cursor.setRenderState(ts);
 
         // Make the mouse's background blend with what's already there
         BlendState as = display.getRenderer().createBlendState();
-        as.setBlendEnabled( true );
-        as.setSourceFunction( BlendState.SourceFunction.SourceAlpha );
-        as.setDestinationFunction( BlendState.DestinationFunction.OneMinusSourceAlpha );
-        as.setTestEnabled( true );
-        as.setTestFunction( BlendState.TestFunction.GreaterThan );
-        cursor.setRenderState( as );
+        as.setBlendEnabled(true);
+        as.setSourceFunction(BlendState.SourceFunction.SourceAlpha);
+        as.setDestinationFunction(BlendState.DestinationFunction.OneMinusSourceAlpha);
+        as.setTestEnabled(true);
+        as.setTestFunction(BlendState.TestFunction.GreaterThan);
+        cursor.setRenderState(as);
 
         // Assign the mouse to an input handler
-        cursor.registerWithInputHandler( input );
+        cursor.registerWithInputHandler(input);
 
-        statNode.attachChild( cursor );
+        statNode.attachChild(cursor);
 
         // important for PiccoloNode: use system coordinates
-        cursor.setUsingDelta( false );
-        cursor.getXUpdateAction().setSpeed( 1 );
-        cursor.getYUpdateAction().setSpeed( 1 );
+        cursor.setUsingDelta(false);
+        cursor.getXUpdateAction().setSpeed(1);
+        cursor.getYUpdateAction().setSpeed(1);
 
-        cursor.setCullHint( Spatial.CullHint.Never );
+        cursor.setCullHint(Spatial.CullHint.Never);
     }
 
     private void createBoxBorder() {
@@ -265,57 +253,57 @@ public class TestPiccoloNode extends SimpleGame {
         int halfDesktopWidth = 500;
         int halfDesktopHeight = 500;
 
-        Box top = new Box( "top border", new Vector3f(),
+        Box top = new Box("top border", new Vector3f(),
                 halfDesktopWidth + halfBorderSize,
-                halfBorderSize, halfBorderSize );
-        top.getLocalTranslation().set( 0, -halfDesktopHeight, 0 );
-        top.setModelBound( new BoundingBox() );
+                halfBorderSize, halfBorderSize);
+        top.getLocalTranslation().set(0, -halfDesktopHeight, 0);
+        top.setModelBound(new BoundingBox());
         top.updateModelBound();
-        desktopNode.attachChild( top );
+        desktopNode.attachChild(top);
 
-        Box bottom = new Box( "bottom border", new Vector3f(),
+        Box bottom = new Box("bottom border", new Vector3f(),
                 halfDesktopWidth + halfBorderSize,
-                halfBorderSize, halfBorderSize );
-        bottom.getLocalTranslation().set( 0, halfDesktopHeight, 0 );
-        bottom.setModelBound( new BoundingBox() );
+                halfBorderSize, halfBorderSize);
+        bottom.getLocalTranslation().set(0, halfDesktopHeight, 0);
+        bottom.setModelBound(new BoundingBox());
         bottom.updateModelBound();
-        desktopNode.attachChild( bottom );
+        desktopNode.attachChild(bottom);
 
-        Box left = new Box( "left border", new Vector3f(),
+        Box left = new Box("left border", new Vector3f(),
                 halfBorderSize,
                 halfDesktopHeight + halfBorderSize,
-                halfBorderSize );
-        left.getLocalTranslation().set( -halfDesktopWidth, 0, 0 );
-        left.setModelBound( new BoundingBox() );
+                halfBorderSize);
+        left.getLocalTranslation().set(-halfDesktopWidth, 0, 0);
+        left.setModelBound(new BoundingBox());
         left.updateModelBound();
-        desktopNode.attachChild( left );
+        desktopNode.attachChild(left);
 
-        Box right = new Box( "right border", new Vector3f(),
+        Box right = new Box("right border", new Vector3f(),
                 halfBorderSize,
                 halfDesktopHeight + halfBorderSize,
-                halfBorderSize );
-        right.getLocalTranslation().set( halfDesktopWidth, 0, 0 );
-        right.setModelBound( new BoundingBox() );
+                halfBorderSize);
+        right.getLocalTranslation().set(halfDesktopWidth, 0, 0);
+        right.setModelBound(new BoundingBox());
         right.updateModelBound();
-        desktopNode.attachChild( right );
+        desktopNode.attachChild(right);
     }
 
     private void perspective() {
-        desktopNode.getLocalRotation().fromAngleNormalAxis( -0.7f, new Vector3f( 1, 0, 0 ) );
-        desktopNode.setLocalScale( 24f / 500 );
-        desktopNode.getLocalTranslation().set( 0, 0, 0 );
-        desktopNode.setRenderQueueMode( Renderer.QUEUE_TRANSPARENT );
-        desktopNode.setCullHint( Spatial.CullHint.Dynamic );
+        desktopNode.getLocalRotation().fromAngleNormalAxis(-0.7f, new Vector3f(1, 0, 0));
+        desktopNode.setLocalScale(24f / 500);
+        desktopNode.getLocalTranslation().set(0, 0, 0);
+        desktopNode.setRenderQueueMode(Renderer.QUEUE_TRANSPARENT);
+        desktopNode.setCullHint(Spatial.CullHint.Dynamic);
     }
 
     private void fullScreen() {
         final DisplaySystem display = DisplaySystem.getDisplaySystem();
 
-        desktopNode.getLocalRotation().set( 0, 0, 0, 1 );
-        desktopNode.getLocalTranslation().set( display.getWidth() / 2, display.getHeight() / 2, 0 );
-        desktopNode.getLocalScale().set( 1, 1, 1 );
-        desktopNode.setRenderQueueMode( Renderer.QUEUE_ORTHO );
-        desktopNode.setCullHint( Spatial.CullHint.Never );
+        desktopNode.getLocalRotation().set(0, 0, 0, 1);
+        desktopNode.getLocalTranslation().set(display.getWidth() / 2, display.getHeight() / 2, 0);
+        desktopNode.getLocalScale().set(1, 1, 1);
+        desktopNode.setRenderQueueMode(Renderer.QUEUE_ORTHO);
+        desktopNode.setCullHint(Spatial.CullHint.Never);
     }
 
     private boolean moreStuffCreated;
@@ -415,36 +403,36 @@ public class TestPiccoloNode extends SimpleGame {
 //        desktopPane.revalidate();
     }
 
-    private void createRotateButton( JDesktopPane parent, final float direction ) {
-        JButton button = new JButton( direction < 0 ? "<" : ">" );
-        button.setSize( button.getPreferredSize() );
-        button.setLocation( (int) ( ( display.getWidth() - button.getWidth() ) / 2
-                + direction * display.getWidth() ), display.getHeight() - 40 - button.getHeight() / 2 );
-        parent.add( button );
-        button.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                if ( desktopNode.getRenderQueueMode() != Renderer.QUEUE_ORTHO ) {
-                    desktopNode.addController( new Controller() {
+    private void createRotateButton(JDesktopPane parent, final float direction) {
+        JButton button = new JButton(direction < 0 ? "<" : ">");
+        button.setSize(button.getPreferredSize());
+        button.setLocation((int) ((display.getWidth() - button.getWidth()) / 2
+                + direction * display.getWidth()), display.getHeight() - 40 - button.getHeight() / 2);
+        parent.add(button);
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (desktopNode.getRenderQueueMode() != Renderer.QUEUE_ORTHO) {
+                    desktopNode.addController(new Controller() {
                         private static final long serialVersionUID = 1L;
 
                         float length = 1;
                         float endTime = timer.getTimeInSeconds() + length;
-                        Quaternion start = new Quaternion().set( desktopNode.getLocalRotation() );
-                        Quaternion finish = new Quaternion().set( desktopNode.getLocalRotation() ).multLocal(
-                                new Quaternion().fromAngleNormalAxis( direction, new Vector3f( 0, 1, 0 ) ) );
+                        Quaternion start = new Quaternion().set(desktopNode.getLocalRotation());
+                        Quaternion finish = new Quaternion().set(desktopNode.getLocalRotation()).multLocal(
+                                new Quaternion().fromAngleNormalAxis(direction, new Vector3f(0, 1, 0)));
 
-                        public void update( float time ) {
-                            if ( timer.getTimeInSeconds() > endTime ) {
-                                desktopNode.removeController( this );
+                        public void update(float time) {
+                            if (timer.getTimeInSeconds() > endTime) {
+                                desktopNode.removeController(this);
                             } else {
-                                desktopNode.getLocalRotation().slerp( finish, start, ( endTime - timer.getTimeInSeconds() ) / length );
+                                desktopNode.getLocalRotation().slerp(finish, start, (endTime - timer.getTimeInSeconds()) / length);
                                 desktopNode.getLocalRotation().normalize();
                             }
                         }
-                    } );
+                    });
                 }
             }
-        } );
+        });
     }
 
     private void createMoreSwingStuff() {
@@ -499,31 +487,31 @@ public class TestPiccoloNode extends SimpleGame {
 
     int theme;
 
-    private void createSwingInternalFrame( final JDesktopPane desktopPane, final String title, int x, int y ) {
-        final JInternalFrame internalFrame = new JInternalFrame( title );
-        if ( title == null ) {
-            internalFrame.putClientProperty( "JInternalFrame.isPalette", Boolean.TRUE );
+    private void createSwingInternalFrame(final JDesktopPane desktopPane, final String title, int x, int y) {
+        final JInternalFrame internalFrame = new JInternalFrame(title);
+        if (title == null) {
+            internalFrame.putClientProperty("JInternalFrame.isPalette", Boolean.TRUE);
         }
-        internalFrame.setLocation( x, y );
-        internalFrame.setResizable( true );
+        internalFrame.setLocation(x, y);
+        internalFrame.setResizable(true);
 
-        internalFrame.getContentPane().setLayout( new FlowLayout() );
-        JButton button1 = new JButton( "button in " + title );
-        button1.setMnemonic( 'u' );
-        internalFrame.getContentPane().add( button1 );
-        internalFrame.getContentPane().add( new JButton( "<html><i>test</i> <big>2</big></html>" ) );
-        internalFrame.setVisible( true );
+        internalFrame.getContentPane().setLayout(new FlowLayout());
+        JButton button1 = new JButton("button in " + title);
+        button1.setMnemonic('u');
+        internalFrame.getContentPane().add(button1);
+        internalFrame.getContentPane().add(new JButton("<html><i>test</i> <big>2</big></html>"));
+        internalFrame.setVisible(true);
         internalFrame.pack();
-        button1.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
+        button1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 showDialog();
             }
-        } );
+        });
 
-        final JTextField textField = new JTextField( "type in here" );
-        internalFrame.getContentPane().add( textField );
+        final JTextField textField = new JTextField("type in here");
+        internalFrame.getContentPane().add(textField);
         internalFrame.pack();
-        desktopPane.add( internalFrame );
+        desktopPane.add(internalFrame);
     }
 
     private void showDialog() {
@@ -549,12 +537,12 @@ public class TestPiccoloNode extends SimpleGame {
 //        } );
     }
 
-    private void switchLookAndFeel( int theme ) {
+    private void switchLookAndFeel(int theme) {
         try {
             this.theme = theme;
-            switch ( theme ) {
+            switch (theme) {
                 case 1:
-                    UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
                     break;
 //                case 2:
 //                    UIManager.setLookAndFeel( new OaLookAndFeel() );
@@ -565,10 +553,10 @@ public class TestPiccoloNode extends SimpleGame {
 //                    UIManager.setLookAndFeel( laf );
 //                    break;
                 default:
-                    UIManager.setLookAndFeel( new MetalLookAndFeel() );
+                    UIManager.setLookAndFeel(new MetalLookAndFeel());
                     this.theme = 0;
             }
-        } catch ( Exception e ) {
+        } catch (Exception e) {
             logger.logp(Level.SEVERE, this.getClass().toString(),
                     "switchLookAndFeel(int theme)", "Exception", e);
         }
@@ -576,37 +564,37 @@ public class TestPiccoloNode extends SimpleGame {
 
     private void create3DStuff() {
         // Normal Scene setup stuff...
-        final Vector3f axis = new Vector3f( 1, 1, 0.5f ).normalizeLocal();
+        final Vector3f axis = new Vector3f(1, 1, 0.5f).normalizeLocal();
 
-        final Box box = new Box( "Box", new Vector3f( -5, -5, -5 ), new Vector3f( 5, 5, 5 ) );
-        box.setModelBound( new BoundingBox() );
+        final Box box = new Box("Box", new Vector3f(-5, -5, -5), new Vector3f(5, 5, 5));
+        box.setModelBound(new BoundingBox());
         box.updateModelBound();
-        box.setLocalTranslation( new Vector3f( 0, 0, -10 ) );
+        box.setLocalTranslation(new Vector3f(0, 0, -10));
         box.setRandomColors();
-        box.setLightCombineMode( Spatial.LightCombineMode.Off );
+        box.setLightCombineMode(Spatial.LightCombineMode.Off);
 
         TextureState ts = display.getRenderer().createTextureState();
-        ts.setEnabled( true );
-        ts.setTexture( TextureManager.loadTexture( TestPiccoloNode.class
+        ts.setEnabled(true);
+        ts.setTexture(TextureManager.loadTexture(TestPiccoloNode.class
                 .getClassLoader().getResource(
-                "jmetest/data/images/Monkey.jpg" ),
-                Texture.MinificationFilter.BilinearNearestMipMap, Texture.MagnificationFilter.Bilinear ) );
-        box.setRenderState( ts );
+                "jmetest/data/images/Monkey.jpg"),
+                Texture.MinificationFilter.BilinearNearestMipMap, Texture.MagnificationFilter.Bilinear));
+        box.setRenderState(ts);
 
         //let the box rotate
-        box.addController( new Controller() {
+        box.addController(new Controller() {
             private static final long serialVersionUID = 1L;
 
-            public void update( float time ) {
-                box.getLocalRotation().fromAngleNormalAxis( timer.getTimeInSeconds(), axis );
+            public void update(float time) {
+                box.getLocalRotation().fromAngleNormalAxis(timer.getTimeInSeconds(), axis);
             }
-        } );
+        });
 
-        rootNode.attachChild( box );
+        rootNode.attachChild(box);
     }
 
     protected void cleanup() {
-        if ( PiccoloNode != null ) {
+        if (PiccoloNode != null) {
             PiccoloNode.dispose();
         }
         super.cleanup();
