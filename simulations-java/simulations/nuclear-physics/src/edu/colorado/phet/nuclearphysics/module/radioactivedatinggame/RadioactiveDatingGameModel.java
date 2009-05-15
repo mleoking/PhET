@@ -40,28 +40,28 @@ public class RadioactiveDatingGameModel {
 
         // Add the datable object.
         // Params:                             name, image file, location(x, y), size, age (ms), rotation angle
-        _datableObjects.add(new DatableObject("House", "house.png", new Point2D.Double(9, 5), 5, 0, 1E11));
-        _datableObjects.add(new DatableObject("Trilobyte", "trilobyte_fossil.png", new Point2D.Double(0, -11), 2, 0, 1E11));
-    	_datableObjects.add(new DatableObject("Animal Skull", "skull_animal.png", new Point2D.Double(-20, 2), 1.75, 0, 1E11));
-    	_datableObjects.add(new DatableObject("Living Tree", "tree_1.png", new Point2D.Double(-14, 8), 5.5, 0, 1E11));
-    	_datableObjects.add(new DatableObject("Distant Living Tree", "tree_1.png", new Point2D.Double(0, 6), 2.5, 0, 1E11));
-    	_datableObjects.add(new DatableObject("Fish Fossil", "fish_fossil.png", new Point2D.Double(-6, -8), 2.5, 0, 1E11));
-    	_datableObjects.add(new DatableObject("Dead Tree", "dead_tree.png", new Point2D.Double(16, 4), 2.5, 0, 1E11));
-    	_datableObjects.add(new DatableObject("Fish Bones", "fish_bones.png", new Point2D.Double(-8, -1.5), 2.5, 0, 1E11));
-    	_datableObjects.add(new DatableObject("Pottery", "pottery.png", new Point2D.Double(-14, -4.5), 1.2, 0, 1E11));
-    	_datableObjects.add(new DatableObject("Rock 1", "rock.png", new Point2D.Double(-6.0, 4.5), 3, 0, 1E11));
-    	_datableObjects.add(new DatableObject("Rock 2", "rock.png", new Point2D.Double(-4, -1.5), 1.2, 0, 1E11));
-    	_datableObjects.add(new DatableObject("Rock 3", "rock.png", new Point2D.Double(-16, -15), 0.8, 0, 1E11));
+        _datableObjects.add(new DatableObject("House", "house.png", new Point2D.Double(8, 4), 6.5, 0, 1E11));
+        _datableObjects.add(new DatableObject("Trilobyte", "trilobyte_fossil.png", new Point2D.Double(0, -11), 3.5, 0, 1E11));
+    	_datableObjects.add(new DatableObject("Animal Skull", "skull_animal.png", new Point2D.Double(-21, 2), 3, Math.PI/4, 1E11));
+    	_datableObjects.add(new DatableObject("Living Tree", "tree_1.png", new Point2D.Double(-16, 7), 5.5, 0, 1E11));
+    	_datableObjects.add(new DatableObject("Distant Living Tree", "tree_1.png", new Point2D.Double(0, 4.5), 2, 0, 1E11));
+    	_datableObjects.add(new DatableObject("Fish Fossil", "fish_fossil.png", new Point2D.Double(-15, -8), 7, 0, 1E11));
+    	_datableObjects.add(new DatableObject("Dead Tree", "dead_tree.png", new Point2D.Double(23, 3), 6, Math.PI/2, 1E11));
+    	_datableObjects.add(new DatableObject("Fish Bones", "fish_bones.png", new Point2D.Double(-20, -1.5), 5, 0, 1E11));
+    	_datableObjects.add(new DatableObject("Pottery", "pottery.png", new Point2D.Double(-10, -4.5), 3.8, Math.PI/2, 1E11));
+    	_datableObjects.add(new DatableObject("Rock 1", "rock.png", new Point2D.Double(-7.0, 4.5), 3, 0, 1E11));
+    	_datableObjects.add(new DatableObject("Rock 2", "rock.png", new Point2D.Double(-4, -1.5), 2, 0, 1E11));
+    	_datableObjects.add(new DatableObject("Rock 3", "rock.png", new Point2D.Double(-22, -15), 2.5, 0, 1E11));
     	_datableObjects.add(new DatableObject("Rock 4", "rock.png", new Point2D.Double(-4, -15), 1.5, 0, 1E11));
     	_datableObjects.add(new DatableObject("Rock 5", "rock.png", new Point2D.Double(6, -4.5), 2, 0, 1E11));
-    	_datableObjects.add(new DatableObject("Rock 6", "rock.png", new Point2D.Double(4, -7.5), .7, 0, 1E11));
-    	_datableObjects.add(new DatableObject("Rock 7", "rock.png", new Point2D.Double(6, -15), 1, 0, 1E11));
-    	_datableObjects.add(new DatableObject("Rock 8", "rock.png", new Point2D.Double(10, -11), 0.8, 0, 1E11));
-    	_datableObjects.add(new DatableObject("Animal Skull 2", "skull_animal_2.png", new Point2D.Double(-8, -15.2), 2.3, 0, 1E11));
-    	_datableObjects.add(new DatableObject("Human Skull", "skull_human.png", new Point2D.Double(8, -1.5), 1.5, 0, 1E11));
-    	_datableObjects.add(new DatableObject("Gold Star", "gold_star.png", new Point2D.Double(-2, -4.5), 1.5, 0, 1E11));
-    	_datableObjects.add(new DatableObject("Cup", "cup.png", new Point2D.Double(4, -2), 2,  Math.PI / 3, 1E11));
-    	_datableObjects.add(new DatableObject("Bone", "bone.png", new Point2D.Double(2, -15), 2.2, 0, 1E11));
+    	_datableObjects.add(new DatableObject("Rock 6", "rock.png", new Point2D.Double(15, -7.5), 1.5, 0, 1E11));
+    	_datableObjects.add(new DatableObject("Rock 7", "rock.png", new Point2D.Double(12, -15), 2.5, 0, 1E11));
+    	_datableObjects.add(new DatableObject("Rock 8", "rock.png", new Point2D.Double(20, -11), 2, 0, 1E11));
+    	_datableObjects.add(new DatableObject("Animal Skull 2", "skull_animal_2.png", new Point2D.Double(-8, -15.2), 4.5, 0, 1E11));
+    	_datableObjects.add(new DatableObject("Human Skull", "skull_human.png", new Point2D.Double(13, -1.5), 2.4, 0, 1E11));
+    	_datableObjects.add(new DatableObject("Gold Star", "gold_star.png", new Point2D.Double(-2, -4.5), 2.5, 0, 1E11));
+    	_datableObjects.add(new DatableObject("Cup", "cup.png", new Point2D.Double(4, -2), 3.2,  -Math.PI / 3, 1E11));
+    	_datableObjects.add(new DatableObject("Bone", "bone.png", new Point2D.Double(4, -15), 4.5, 0, 1E11));
 
     	_meter = new RadiometricDatingMeter();
     	
