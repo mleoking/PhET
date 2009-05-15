@@ -21,11 +21,11 @@ public class DensityApplication extends PiccoloPhetApplication {
     }
 
     class DensityModule extends Module {
-        private final TestJMEPanel panel;
+        private final DensityJMECanvas panel;
 
         public DensityModule() {
             super("density", new ConstantDtClock(30, 30 / 1000.0));
-            panel = new TestJMEPanel();
+            panel = new DensityJMECanvas();
             setSimulationPanel(panel);
         }
 
