@@ -10,6 +10,9 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
 
 import javax.swing.BorderFactory;
@@ -266,7 +269,7 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
          * @return
          */
         private int _isotopeSelectorCount = 0;
-        private void addIsotopeSelection( JRadioButton button, NucleusSelectionDescriptor preDecayNucleus,
+        private void addIsotopeSelection( final JRadioButton button, NucleusSelectionDescriptor preDecayNucleus,
         		NucleusSelectionDescriptor postDecayNucleus ){
         	
             GridBagConstraints constraints = new GridBagConstraints();
@@ -292,8 +295,17 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
             constraints.gridx = 1;
             constraints.gridy = _isotopeSelectorCount * 4;
             constraints.ipadx = 10;
-            add( new JLabel(predecayIconImage), constraints );
+            JLabel predecayLabel = new JLabel(predecayIconImage);
+            add( predecayLabel, constraints );
             constraints.ipadx = 0; // Remove the padding.
+            
+            // Add a handler so that if the user clicks on this nucleus image,
+            // the corresponding nucleus type will be set.
+            predecayLabel.addMouseListener( new MouseAdapter(){
+            	public void mouseClicked(java.awt.event.MouseEvent arg0){
+            		button.doClick();
+            	}
+            });
             
             // Create and add the textual label for the pre-decay nucleus.
             JLabel preDecayNucleusLabel = new JLabel( preDecayNucleus.getLegendLabel() ) ;
