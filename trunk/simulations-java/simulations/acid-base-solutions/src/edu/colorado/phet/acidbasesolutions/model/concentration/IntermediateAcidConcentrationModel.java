@@ -15,7 +15,7 @@ public class IntermediateAcidConcentrationModel extends AcidConcentrationModel {
     // [HA] = [HA for weak acid with Ka=Kmin]*10^(4*(K-Kmin)/(K-Kmax))
     public double getAcidConcentration() {
         final double Ka = ABSConstants.INTERMEDIATE_STRENGTH_RANGE.getMin();
-        final double c = getInitialConcentration();
+        final double c = getSolute().getConcentration();
         final double baseConcentration = ( -Ka + Math.sqrt( ( Ka * Ka ) + ( 4 * Ka * c ) ) ) / 2;
         final double acidConcentration = c - baseConcentration;
         return acidConcentration * Math.pow( 10, -4 * getKScale() );
@@ -30,7 +30,7 @@ public class IntermediateAcidConcentrationModel extends AcidConcentrationModel {
     
     // [A-] = c -[HA]
     public double getBaseConcentration() {
-        return getInitialConcentration() - getAcidConcentration();
+        return getSolute().getConcentration() - getAcidConcentration();
     }
     
     // [H3O+] = [A-]

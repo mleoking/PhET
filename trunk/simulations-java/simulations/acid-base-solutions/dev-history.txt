@@ -3,6 +3,7 @@
 ==================================================================================
 
 TODO:
+- molecule counts are wrong, always 2.14E9, which are the counts for pure water
 - should SoluteComboBox be providing solute instances?
 - model initialization issues
 - Reset All
@@ -18,12 +19,13 @@ TODO:
 - smooth, curved lip on beaker
 
 DONE:
-5/14/09 connect beaker label to model
-5/14/09 use molecule counts model from ph-scale
-5/14/09 show Concentration=0.0, not editable, when no solute selected
-5/14/09 consolidate slider thumb colors
-5/14/09 implement StrengthSliderNode.setEnabled
-5/14/09 rename Solute.initialConcentration to Solute.concentration
+5/15/09 first pass at connecting molecule counts to model
+5/15/09 connect beaker label to model
+5/15/09 use molecule counts model from ph-scale
+5/15/09 show Concentration=0.0, not editable, when no solute selected
+5/15/09 consolidate slider thumb colors
+5/15/09 implement StrengthSliderNode.setEnabled
+5/15/09 rename Solute.initialConcentration to Solute.concentration
 5/14/09 flesh out SolutionControlsNode.setSolute
 5/14/09 connect solution controls to model
 5/14/09 connect pH probe to model

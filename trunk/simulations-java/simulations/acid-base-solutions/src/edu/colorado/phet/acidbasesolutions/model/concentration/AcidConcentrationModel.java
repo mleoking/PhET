@@ -13,11 +13,11 @@ public abstract class AcidConcentrationModel extends ConcentrationModel {
     
     public abstract double getBaseConcentration();
     
-    public double getAcidMoleculeCount() {
+    public int getAcidMoleculeCount() {
         return getMoleculeCount( getAcidConcentration() );
     }
     
-    public double getBaseMoleculeCount() {
+    public int getBaseMoleculeCount() {
         return getMoleculeCount( getBaseConcentration() );
     }
 }

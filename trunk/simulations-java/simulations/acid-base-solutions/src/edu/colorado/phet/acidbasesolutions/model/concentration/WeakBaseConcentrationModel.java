@@ -13,13 +13,13 @@ public class WeakBaseConcentrationModel extends BaseConcentrationModel {
     
     // [B] = c - [BH+]
     public double getBaseConcentration() {
-        return getInitialConcentration() - getAcidConcentration();
+        return getSolute().getConcentration() - getAcidConcentration();
     }
     
     // [BH+] = ( -Kb + sqrt( Kb*Kb + 4*Kb*c ) ) / 2 
     public double getAcidConcentration() {
         final double Kb = getSolute().getStrength();
-        final double c = getInitialConcentration();
+        final double c = getSolute().getConcentration();
         return (-Kb + Math.sqrt( ( Kb * Kb ) + ( 4 * Kb * c ) ) ) / 2;
     }
     
@@ -36,5 +36,9 @@ public class WeakBaseConcentrationModel extends BaseConcentrationModel {
     // [H2O] = W - [BH+]
     public double getH2OConcentration() {
         return Water.getConcentration() - getAcidConcentration();
+    }
+    
+    public int getAcidMoleculeCount() {
+        return getMoleculeCount( getAcidConcentration() );
     }
 }

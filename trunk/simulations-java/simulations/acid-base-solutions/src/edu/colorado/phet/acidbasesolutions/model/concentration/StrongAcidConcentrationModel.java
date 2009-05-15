@@ -16,12 +16,12 @@ public class StrongAcidConcentrationModel extends AcidConcentrationModel {
     
     // [A-] = c
     public double getBaseConcentration() {
-        return getInitialConcentration();
+        return getSolute().getConcentration();
     }
     
     // [H3O+] = c
     public double getH3OConcentration() {
-        return getInitialConcentration();
+        return getSolute().getConcentration();
     }
     
     // [OH-] = Kw / [H3O+]
@@ -31,6 +31,6 @@ public class StrongAcidConcentrationModel extends AcidConcentrationModel {
     
     // [H2O] = W - c
     public double getH2OConcentration() {
-        return Water.getConcentration() - getInitialConcentration();
+        return Water.getConcentration() - getSolute().getConcentration();
     }
 }

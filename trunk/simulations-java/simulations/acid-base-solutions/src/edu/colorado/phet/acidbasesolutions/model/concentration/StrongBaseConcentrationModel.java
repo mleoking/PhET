@@ -17,7 +17,7 @@ public class StrongBaseConcentrationModel extends BaseConcentrationModel {
     
     // [M+] = c
     public double getMetalConcentration() {
-        return getInitialConcentration();
+        return getSolute().getConcentration();
     }
     
     // [H3O+] = Kw / [OH-]
@@ -27,11 +27,15 @@ public class StrongBaseConcentrationModel extends BaseConcentrationModel {
     
     // [OH-] = c
     public double getOHConcentration() {
-        return getInitialConcentration();
+        return getSolute().getConcentration();
     }
     
     // [H2O] = W
     public double getH2OConcentration() {
         return Water.getConcentration();
+    }
+    
+    public int getMetalMoleculeCount() {
+        return getMoleculeCount( getMetalConcentration() );
     }
 }
