@@ -70,7 +70,7 @@ public class SRRPhysicsPicker {
     private SRRPhysicsPicker.PickAction pickAction;
     private SRRPhysicsPicker.MoveAction moveAction;
     private InputHandler pickHandler;
-    private DensityCanvasImpl densityCanvas;
+    private BasicCanvasImpl densityCanvas;
 
     /**
      * Constructor of the class.
@@ -109,7 +109,7 @@ public class SRRPhysicsPicker {
         activatePhysicsPicker();
     }
 
-    public SRRPhysicsPicker(InputHandler input, Node rootNode, PhysicsSpace physicsSpace, boolean b, DensityCanvasImpl am) {
+    public SRRPhysicsPicker(InputHandler input, Node rootNode, PhysicsSpace physicsSpace, boolean b, BasicCanvasImpl am) {
         this(input, rootNode, physicsSpace, b);
         this.densityCanvas = am;
     }
