@@ -14,7 +14,7 @@ public class NullSolute extends Solute {
     }
     
     public String toString() {
-        return ABSStrings.PURE_WATER;
+        return ABSStrings.NO_SOLUTE;
     }
 
 }

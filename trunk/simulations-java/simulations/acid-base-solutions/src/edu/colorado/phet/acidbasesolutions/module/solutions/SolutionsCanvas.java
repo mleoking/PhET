@@ -66,7 +66,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         
         moleculeCountsNode = new MoleculeCountsNode();
         
-        beakerLabelNode = new BeakerLabelNode( ABSConstants.MIN_BEAKER_LABEL_SIZE );
+        beakerLabelNode = new BeakerLabelNode( ABSConstants.MIN_BEAKER_LABEL_SIZE, solution );
         
         solutionsControlsNode = new SolutionControlsNode( solution );
         solutionsControlsNode.scale( ABSConstants.PSWING_SCALE );

@@ -90,7 +90,7 @@ public class ABSConstants {
     // Dimensions
     //----------------------------------------------------------------------------
     
-    public static final PDimension MIN_BEAKER_LABEL_SIZE = new PDimension( 275, 50 );
+    public static final PDimension MIN_BEAKER_LABEL_SIZE = new PDimension( 315, 40 );
     
     //----------------------------------------------------------------------------
     // Images
