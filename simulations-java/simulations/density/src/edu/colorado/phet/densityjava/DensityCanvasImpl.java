@@ -42,28 +42,24 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
     public void simpleSetup() {
         super.simpleSetup();    //To change body of overridden methods use File | Settings | File Templates.
         cam.setLocation(cam.getLocation().add(0, 5, +10));
-//        rootNode.attachChild(new RectNode(model.getSwimmingPool()));
+        rootNode.attachChild(getPoolNode(model.getSwimmingPool()));
         rootNode.attachChild(new RectNode(model.getBlock1()));
         rootNode.attachChild(new RectNode(model.getBlock2()));
 
         setupLight();
 
-        // our sphere
-        final TriMesh pool = getPoolNode(model.getSwimmingPool());
-        rootNode.attachChild(pool);
+        addMouseHandling();
+    }
 
+    private void addMouseHandling() {
         component.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
-                System.out.println("DensityCanvasImpl.mousePressed");
-
                 PickResults pickResults = getPickResults();
                 for (int i = 0; i < pickResults.getNumber(); i++) {
                     if (i == 0) {
                         picked = pickResults.getPickData(i);
-                        ObjectBox ob = (ObjectBox) picked.getTargetMesh();
-                        pickPt = ob.getObject().getPoint2D();
+                        pickPt = ((ObjectBox) picked.getTargetMesh()).getObject().getPoint2D();
                     }
-                    System.out.println("pickResults.getPickData(i).getTargetMesh().getName() = " + pickResults.getPickData(i).getTargetMesh().getName());
                 }
             }
 
@@ -83,7 +79,6 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
             public void mouseDragged(MouseEvent e) {
                 //To change body of implemented methods use File | Settings | File Templates.
                 if (picked != null) {
-                    System.out.println("DensityCanvasImpl.mouseDragged on: " + picked);
                     double dist = picked.getDistance();
                     Ray initRay = picked.getRay();
                     Ray finalRay = getMouseRay();
@@ -99,7 +94,6 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
                     double dy = finalPt.getY() - initPt.getY();
                     if (picked.getTargetMesh() instanceof ObjectBox) {
                         ObjectBox ob = (ObjectBox) picked.getTargetMesh();
-//                    System.out.println("pickRay=" + initRay + ", finalRay=" + finalRay + ", dx = " + dx + ", dy=" + dy);
                         ob.getObject().setPosition2D(pickPt.getX() + dx, pickPt.getY() + dy);
                     }
                 }
