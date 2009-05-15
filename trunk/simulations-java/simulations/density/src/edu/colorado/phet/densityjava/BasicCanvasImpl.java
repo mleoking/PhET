@@ -61,7 +61,7 @@ public class BasicCanvasImpl extends SimpleCanvasImpl {
     protected InputHandler cameraInputHandler;
     protected boolean showPhysics;
     private float physicsSpeed = 1f;
-    protected StaticPhysicsNode staticNode;
+//    protected StaticPhysicsNode staticNode;
     boolean firstFrame = true;
 
     public PhysicsSpace getPhysicsSpace() {
@@ -140,15 +140,15 @@ public class BasicCanvasImpl extends SimpleCanvasImpl {
         physicsSpace = PhysicsSpace.create();
         physicsSpace.setDirectionalGravity(new Vector3f(0,0,0));
 
-        staticNode = getPhysicsSpace().createStaticNode();
-        TriMesh trimesh = new Box("trimesh", new Vector3f(), 15, 0.5f, 15);
-        trimesh.setModelBound(new BoundingBox());
-        trimesh.updateModelBound();
-        staticNode.attachChild(trimesh);
-        staticNode.generatePhysicsGeometry(false);
-
-        staticNode.getLocalTranslation().set(0, -5, 0);
-        rootNode.attachChild(staticNode);
+//        staticNode = getPhysicsSpace().createStaticNode();
+//        TriMesh trimesh = new Box("trimesh", new Vector3f(), 15, 0.5f, 15);
+//        trimesh.setModelBound(new BoundingBox());
+//        trimesh.updateModelBound();
+//        staticNode.attachChild(trimesh);
+//        staticNode.generatePhysicsGeometry(false);
+//
+//        staticNode.getLocalTranslation().set(0, -5, 0);
+//        rootNode.attachChild(staticNode);
 
         input.addAction(new InputAction() {
             public void performAction(InputActionEvent inputActionEvent) {
@@ -159,12 +159,12 @@ public class BasicCanvasImpl extends SimpleCanvasImpl {
             }
         }, InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_SPACE, InputHandler.AXIS_NONE, false);
 
-        InputAction removeAction = new InputAction() {
-            public void performAction(InputActionEvent evt) {
-                staticNode.setActive(!staticNode.isActive());
-            }
-        };
-        input.addAction(removeAction, InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_DELETE, InputHandler.AXIS_NONE, false);
+//        InputAction removeAction = new InputAction() {
+//            public void performAction(InputActionEvent evt) {
+//                staticNode.setActive(!staticNode.isActive());
+//            }
+//        };
+//        input.addAction(removeAction, InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_DELETE, InputHandler.AXIS_NONE, false);
 
         cameraInputHandler.setEnabled(false);
         new SRRPhysicsPicker(input, rootNode, getPhysicsSpace(), false, this);
