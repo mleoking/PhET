@@ -9,7 +9,7 @@ import java.text.DecimalFormat;
 
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
-import edu.colorado.phet.acidbasesolutions.model.NullSolute;
+import edu.colorado.phet.acidbasesolutions.model.NoSolute;
 import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionAdapter;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
@@ -109,7 +109,7 @@ public class BeakerLabelNode extends PNode {
         
         private void updateLabel() {
             Solute solute = solution.getSolute();
-            if ( solute instanceof NullSolute ) {
+            if ( solute instanceof NoSolute ) {
                 String text = ABSStrings.PURE_WATER + ", 0.00 " + ABSStrings.UNITS_MOLAR;
                 labelNode.setHTML( text );
             }

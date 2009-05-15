@@ -1,6 +1,6 @@
 package edu.colorado.phet.acidbasesolutions.model.concentration;
 
-import edu.colorado.phet.acidbasesolutions.model.NullSolute;
+import edu.colorado.phet.acidbasesolutions.model.NoSolute;
 import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.Acid.CustomAcid;
 import edu.colorado.phet.acidbasesolutions.model.Acid.StrongAcid;
@@ -22,7 +22,7 @@ public class ConcentrationModelFactory {
      */
     public static ConcentrationModel getModel( Solute solute ) {
         ConcentrationModel model = null;
-        if ( solute instanceof NullSolute ) {
+        if ( solute instanceof NoSolute ) {
             model = new PureWaterConcentrationModel( solute );
         }
         else if ( solute instanceof StrongAcid ) {
