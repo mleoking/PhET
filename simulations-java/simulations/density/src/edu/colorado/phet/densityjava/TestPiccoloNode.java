@@ -120,7 +120,7 @@ public class TestPiccoloNode extends SimpleGame {
 
 //        PiccoloNode = new PiccoloNode( "test internalFrame",new PText("Hello") );
 //        PiccoloNode = new PiccoloNode( "test internalFrame",new HTMLNode("<html>test html<br>so there</html>") );
-        PiccoloNode = new PiccoloNode("test internalFrame", new PSwing(new JButton("hello")));
+        PiccoloNode = new PiccoloNode("test internalFrame");
 
 
         PSwingRepaintManager pSwingRepaintManager = new PSwingRepaintManager();

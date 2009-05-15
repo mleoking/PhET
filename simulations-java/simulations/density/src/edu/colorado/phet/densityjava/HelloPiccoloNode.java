@@ -35,7 +35,7 @@ public class HelloPiccoloNode extends SimpleGame {
         guiNode.setRenderQueueMode(Renderer.QUEUE_ORTHO);
 
         // create the desktop Quad
-        final PiccoloNode desktop = new PiccoloNode("desktop", 500, 400, input, new PText("hello"));
+        final PiccoloNode desktop = new PiccoloNode("desktop", 500, 400, input);
         // and attach it to the gui node
         guiNode.attachChild(desktop);
         // center it on screen
