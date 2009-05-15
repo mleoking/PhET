@@ -11,11 +11,12 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * A node that represents an artifact in the view.
+ * A node that represents an item that can be dated through radiometric
+ * method, i.e. and item that is "datable".
  * 
  * @author John Blanco
  */
-public class RadioactiveDatingGameObjectNode extends PNode {
+public class DatableItemNode extends PNode {
 	
 	private final DatableObject rdgObject;
 	private final PImage image;
@@ -23,7 +24,7 @@ public class RadioactiveDatingGameObjectNode extends PNode {
 	// For debugging of placement, turns on a name so users can tell what's what.
 	private final boolean SHOW_NAME = false;
 
-	public RadioactiveDatingGameObjectNode(DatableObject rdgObject, ModelViewTransform2D mvt) {
+	public DatableItemNode(DatableObject rdgObject, ModelViewTransform2D mvt) {
 		this.rdgObject = rdgObject;
 		image = new PImage( rdgObject.getImage() );
 		Point2D desiredSize = mvt.modelToViewDifferentialDouble(rdgObject.getWidth(), rdgObject.getHeight());

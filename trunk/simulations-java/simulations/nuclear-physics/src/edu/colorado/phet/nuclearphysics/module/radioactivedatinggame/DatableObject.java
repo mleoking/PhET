@@ -25,7 +25,8 @@ public class DatableObject {
 	private final double rotationAngle; // In radians.
 	private BufferedImage image;
 	
-	public DatableObject(String name, String resourceImageName, Point2D center, double width, double age, double rotationAngle) {
+	public DatableObject(String name, String resourceImageName, Point2D center, double width, 
+			double rotationAngle, double age) {
 		super();
 		this.name = name;
 		this.center = new Point2D.Double(center.getX(), center.getY());
