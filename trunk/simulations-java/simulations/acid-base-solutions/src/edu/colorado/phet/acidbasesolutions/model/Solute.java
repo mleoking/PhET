@@ -12,13 +12,13 @@ public abstract class Solute extends Molecule {
         public void setStrength( double strength );
     }
     
-    private double initialConcentration;
+    private double concentration; // initial concentration!
     private double strength;
     private final ArrayList<SoluteListener> listeners;
     
     protected Solute( String name, String symbol, double strength ) {
         super( name, symbol );
-        this.initialConcentration = ABSConstants.CONCENTRATION_RANGE.getMin();
+        this.concentration = ABSConstants.CONCENTRATION_RANGE.getMin();
         if ( !isValidStrength( strength ) ) {
             throw new IllegalArgumentException( "strength is invalid: " + strength );
         }
@@ -43,16 +43,16 @@ public abstract class Solute extends Molecule {
     }
     
     // c
-    public void setInitialConcentration( double initialConcentration ) {
-        if ( initialConcentration != this.initialConcentration ) {
-            this.initialConcentration = initialConcentration;
+    public void setConcentration( double concentration ) {
+        if ( concentration != this.concentration ) {
+            this.concentration = concentration;
             notifyConcentrationChanged();
         }
     }
     
     // c
-    public double getInitialConcentration() {
-        return initialConcentration;
+    public double getConcentration() {
+        return concentration;
     }
     
     public interface SoluteListener {

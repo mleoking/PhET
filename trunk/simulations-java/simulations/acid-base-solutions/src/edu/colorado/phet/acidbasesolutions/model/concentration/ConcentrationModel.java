@@ -23,7 +23,7 @@ public abstract class ConcentrationModel {
     
     // c
     public double getInitialConcentration() {
-        return solute.getInitialConcentration();
+        return solute.getConcentration();
     }
     
     public abstract double getH3OConcentration();

@@ -168,6 +168,10 @@ public class StrengthSliderNode extends PhetPNode {
             }
         });
     }
+    
+    public void setEnabled( boolean enabled ) {
+        //XXX
+    }
 
     public void setValue( double value ) {
         if ( !( value >= getMin() && value <= getMax() ) ) {
