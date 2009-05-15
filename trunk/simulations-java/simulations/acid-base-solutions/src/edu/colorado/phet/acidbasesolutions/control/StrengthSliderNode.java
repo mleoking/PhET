@@ -174,7 +174,6 @@ public class StrengthSliderNode extends PhetPNode {
             throw new IllegalArgumentException( "value out of range: " + value );
         }
         if ( value != getValue() ) {
-            System.out.println( "StrengthSliderNode.setValue value=" + value );//XXX
             this.value = value;
             updateThumb();
             fireStateChanged();
