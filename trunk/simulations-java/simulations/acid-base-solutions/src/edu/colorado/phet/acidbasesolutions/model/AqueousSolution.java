@@ -23,7 +23,7 @@ public class AqueousSolution {
     private final SoluteListener soluteListener;
     
     public AqueousSolution() {
-        this( new NullSolute() );
+        this( new NoSolute() );
     }
     
     public AqueousSolution( Solute solute ) {

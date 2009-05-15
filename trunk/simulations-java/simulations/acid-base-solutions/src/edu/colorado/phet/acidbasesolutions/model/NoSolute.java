@@ -3,9 +3,9 @@ package edu.colorado.phet.acidbasesolutions.model;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 
 
-public class NullSolute extends Solute {
+public class NoSolute extends Solute {
     
-    public NullSolute() {
+    public NoSolute() {
         super( null, null, 0 );
     }
 

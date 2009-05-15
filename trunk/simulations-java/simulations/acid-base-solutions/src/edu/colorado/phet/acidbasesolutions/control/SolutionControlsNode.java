@@ -16,7 +16,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
-import edu.colorado.phet.acidbasesolutions.model.NullSolute;
+import edu.colorado.phet.acidbasesolutions.model.NoSolute;
 import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
 import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
@@ -146,16 +146,16 @@ public class SolutionControlsNode extends PhetPNode {
         soluteComboBox.setSolute( solute );
         
         // concentration slider is hidden and reads "zero" for no solute
-        setConcentrationControlZero( solute instanceof NullSolute );
+        setConcentrationControlZero( solute instanceof NoSolute );
         
         // strength slider is hidden for no solute
-        setStrengthControlVisible( ! ( solute instanceof NullSolute ) );
+        setStrengthControlVisible( ! ( solute instanceof NoSolute ) );
         
         // strength control is enabled only for custom solutes
         strengthSliderNode.setEnabled( solute instanceof ICustomSolute );
         
         // for specific (immutable) solutes, set strength control
-        if ( !( solute instanceof ICustomSolute || solute instanceof NullSolute ) ) {
+        if ( !( solute instanceof ICustomSolute || solute instanceof NoSolute ) ) {
             setStrength( solute.getStrength() );
         }
         

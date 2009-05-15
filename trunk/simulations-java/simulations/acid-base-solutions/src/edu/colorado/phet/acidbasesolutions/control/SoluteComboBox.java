@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
-import edu.colorado.phet.acidbasesolutions.model.NullSolute;
+import edu.colorado.phet.acidbasesolutions.model.NoSolute;
 import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.Acid.*;
 import edu.colorado.phet.acidbasesolutions.model.Base.Ammonia;
@@ -53,7 +53,7 @@ public class SoluteComboBox extends JComboBox {
         defaultChoice = new CustomAcid();
         
         // no solute
-        addItem( new NullSolute() );
+        addItem( new NoSolute() );
         
         // specific solutes, English alphabetical order
         addItem( new AceticAcid() );
