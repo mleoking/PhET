@@ -49,11 +49,19 @@ public class RadiometricDatingMeterNode extends PNode {
 	ModelViewTransform2D _mvt;
 	PNode _meterBody;
 	private ProbeNode _probeNode;
+	private PercentageDisplayNode _percentageDisplay;
 	
 	public RadiometricDatingMeterNode(RadiometricDatingMeter meterModel, double width, double height, ModelViewTransform2D mvt) {
 		
 		_meterModel = meterModel;
 		_mvt = mvt;
+		
+		// Register with the model to find out when something new is being touched.
+		_meterModel.addListener(new RadiometricDatingMeter.Listener(){
+			public void touchedItemChanged() {
+				updateMeterReading();
+			}
+		});
 		
 		_meterBody = new PNode();
 		addChild(_meterBody);
@@ -63,13 +71,12 @@ public class RadiometricDatingMeterNode extends PNode {
 		mainBody.setPaint(BODY_COLOR);
 		_meterBody.addChild(mainBody);
 		
-		// Create the percentage readout.
-		PercentageDisplayNode percentageDisplay = new PercentageDisplayNode(width * READOUT_WIDTH_PROPORTION,
+		_percentageDisplay = new PercentageDisplayNode(width * READOUT_WIDTH_PROPORTION,
 				height * READOUT_HEIGHT_PROPORTION);
-		percentageDisplay.setOffset(mainBody.getFullBounds().width / 2 - percentageDisplay.getFullBounds().width / 2,
+		_percentageDisplay.setOffset(mainBody.getFullBounds().width / 2 - _percentageDisplay.getFullBounds().width / 2,
 				mainBody.getHeight() * 0.1 );
-		_meterBody.addChild(percentageDisplay);
-		percentageDisplay.setPercentage(100);
+		_meterBody.addChild(_percentageDisplay);
+		_percentageDisplay.setPercentage(100);
 		
 		_probeNode = new ProbeNode( _meterModel.getProbeModel(), _mvt );
 		addChild(_probeNode);
@@ -94,6 +101,17 @@ public class RadiometricDatingMeterNode extends PNode {
 	
 	private ProbeNode getProbeNode() {
 		return _probeNode;
+	}
+	
+	private void updateMeterReading(){
+		DatableObject datableItem = _meterModel.getItemBeingTouched();
+		if (datableItem == null){
+			_percentageDisplay.setBlank();
+		}
+		else{
+			// TODO: Need to add code to handle different setting of radiometric material.
+			_percentageDisplay.setPercentage(datableItem.getPercentageCarbon14Remaining(datableItem));
+		}
 	}
 
 	/**
@@ -126,6 +144,18 @@ public class RadiometricDatingMeterNode extends PNode {
     		
     		_percentageText.setText(_percentageFormatterOneDecimal.format(_currentPercentage) + " %");
     		
+    		scaleAndCenterText();
+    	}
+    	
+    	/**
+    	 * Set the display to indicate that the meter is not probing anything.
+    	 */
+    	public void setBlank(){
+    		_percentageText.setText(" --- ");
+    		scaleAndCenterText();
+    	}
+    	
+    	private void scaleAndCenterText(){
     		_percentageText.setScale(1);
     		_percentageText.setScale(_backgroundShape.getWidth() * 0.9 / _percentageText.getFullBoundsReference().width);
     		_percentageText.setOffset(

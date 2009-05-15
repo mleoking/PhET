@@ -63,11 +63,11 @@ public class RadioactiveDatingGameModel {
     	_datableObjects.add(new DatableObject("Cup", "cup.png", new Point2D.Double(4, -2), 3.2,  -Math.PI / 3, 1E11));
     	_datableObjects.add(new DatableObject("Bone", "bone.png", new Point2D.Double(4, -15), 4.5, 0, 1E11));
 
-    	_meter = new RadiometricDatingMeter();
+    	_meter = new RadiometricDatingMeter( this );
     	
     	_meter.getProbeModel().addListener(new RadiometricDatingMeter.ProbeModel.Listener(){
     		public void probeModelChanged(){
-    			updateReading( _meter.getProbeModel().getTipLocation() );
+    			getDatableItemAtLocation( _meter.getProbeModel().getTipLocation() );
     		}
     	});
     }
@@ -110,19 +110,25 @@ public class RadioactiveDatingGameModel {
     	}
     	return bottom;
     }
-
+    
     //------------------------------------------------------------------------
     // Other Methods
     //------------------------------------------------------------------------
-    
+
     /**
-     * Update the current reading based on the input probe location.
+     * Get the datable item at the specified model location, or null if there
+     * isn't anything there.
      */
-    private void updateReading( Point2D probeLocation ){
+    public DatableObject getDatableItemAtLocation( Point2D probeLocation ){
+
+    	DatableObject datableItem = null;
+    	
     	for ( DatableObject datableObject : _datableObjects ){
     		if (datableObject.contains(probeLocation)){
-    			System.out.println("I'm touching " + datableObject);
+    			datableItem = datableObject;
     		}
     	}
+    	
+    	return datableItem;
     }
 }
