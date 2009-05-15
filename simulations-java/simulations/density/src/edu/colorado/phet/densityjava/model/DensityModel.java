@@ -134,7 +134,7 @@ public class DensityModel {
         }
 
         public double getCenterZ() {
-            return 0 + depth / 2;
+            return 0 - depth / 2;
         }
 
         public double getWidth() {
@@ -177,7 +177,7 @@ public class DensityModel {
 
     public static class SwimmingPool extends RectangularObject {
         public SwimmingPool() {
-            super("Pool", 0, 0, 10, 4, 3, new Color(144, 207, 206, 128));
+            super("Pool", 0, 0, 10, 5, 5, new Color(144, 207, 206, 128));
         }
     }
 }
