@@ -77,7 +77,7 @@ public abstract class Base extends Solute {
     // Custom base (strong, weak, or intermediate)
     //----------------------------------------------------------------------------
 
-    public static class CustomBase extends Base {
+    public static class CustomBase extends Base implements ICustomSolute {
         
         private static final double DEFAULT_STRENGTH = ABSConstants.WEAK_STRENGTH_RANGE.getMin();
         

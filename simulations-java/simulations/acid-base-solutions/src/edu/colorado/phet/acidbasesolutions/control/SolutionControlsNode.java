@@ -15,6 +15,11 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
+import edu.colorado.phet.acidbasesolutions.model.NullSolute;
+import edu.colorado.phet.acidbasesolutions.model.Solute;
+import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
+import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -41,10 +46,17 @@ public class SolutionControlsNode extends PhetPNode {
     
     private final SoluteComboBox soluteComboBox;
     private final ConcentrationControlNode concentrationControlNode;
+    private final PNode strengthLabelNode;
     private final StrengthSliderNode strengthSliderNode;
     private final ArrayList<SolutionControlsListener> listeners;
+    
+    public SolutionControlsNode( AqueousSolution solution ) {
+        this();
+        solution.addSolutionListener( new ModelViewController( solution, this ) );
+        this.addSolutionControlsListener( new ViewModelController( this, solution ) );
+    }
 
-    public SolutionControlsNode() {
+    private SolutionControlsNode() {
         super();
         
         listeners = new ArrayList<SolutionControlsListener>();
@@ -74,8 +86,8 @@ public class SolutionControlsNode extends PhetPNode {
         });
         addChild( concentrationControlNode );
         
-        PNode strengthLabel = new LabelNode( ABSStrings.LABEL_STRENGTH );
-        addChild( strengthLabel );
+        strengthLabelNode = new LabelNode( ABSStrings.LABEL_STRENGTH );
+        addChild( strengthLabelNode );
         
         strengthSliderNode = new StrengthSliderNode( ABSConstants.WEAK_STRENGTH_RANGE, ABSConstants.STRONG_STRENGTH_RANGE );
         strengthSliderNode.addChangeListener( new ChangeListener() {
@@ -100,9 +112,9 @@ public class SolutionControlsNode extends PhetPNode {
         concentrationControlNode.setOffset( xOffset, yOffset );
         xOffset = concentrationLabel.getXOffset();
         yOffset = concentrationControlNode.getFullBoundsReference().getMaxY() + Y_SPACING;
-        strengthLabel.setOffset( xOffset, yOffset );
-        xOffset = strengthLabel.getXOffset() + 15;
-        yOffset = strengthLabel.getFullBoundsReference().getMaxY() - ( strengthSliderNode.getFullBoundsReference().getY() - strengthSliderNode.getYOffset() );
+        strengthLabelNode.setOffset( xOffset, yOffset );
+        xOffset = strengthLabelNode.getXOffset() + 15;
+        yOffset = strengthLabelNode.getFullBoundsReference().getMaxY() - ( strengthSliderNode.getFullBoundsReference().getY() - strengthSliderNode.getYOffset() );
         strengthSliderNode.setOffset( xOffset, yOffset );
         
         // separator
@@ -117,7 +129,7 @@ public class SolutionControlsNode extends PhetPNode {
         PNode sepNode2 = new SeparatorNode( sepWidth );
         addChild( sepNode2 );
         xOffset = 0;
-        yOffset = strengthLabel.getFullBoundsReference().getMinY() - 3;
+        yOffset = strengthLabelNode.getFullBoundsReference().getMinY() - 3;
         sepNode2.setOffset( xOffset, yOffset );
         
         // put a background behind the entire panel
@@ -129,9 +141,12 @@ public class SolutionControlsNode extends PhetPNode {
         concentrationControlNode.setValue( concentration );
     }
     
-    //XXX
-    public Object getSolute() {
-        return soluteComboBox.getSelectedItem();
+    public void setSolute( Solute solute ) {
+        soluteComboBox.setSolute( solute );
+    }
+    
+    public Solute getSolute() {
+        return soluteComboBox.getSolute();
     }
     
     //XXX
@@ -149,6 +164,20 @@ public class SolutionControlsNode extends PhetPNode {
     
     public double getStrength() {
         return strengthSliderNode.getValue();
+    }
+    
+    public void setConcentrationControlVisible( boolean visible ) {
+        concentrationControlNode.setVisible( visible );
+    }
+    
+    public void setStrengthControlVisible( boolean visible ) {
+        strengthLabelNode.setVisible( visible );
+        strengthSliderNode.setVisible( visible );
+    }
+    
+    public void setStrengthControlEnabled( boolean enabled ) {
+        //TODO implement this
+//        strengthSliderNode.setEnabled( enabled );
     }
     
     private static class LabelNode extends PText {
@@ -217,6 +246,70 @@ public class SolutionControlsNode extends PhetPNode {
         while ( i.hasNext() ) {
             i.next().strengthChanged();
         }
+    }
+    
+    /*
+     * View changes are propagated to the model.
+     */
+    private static class ViewModelController implements SolutionControlsListener {
+        
+        private final SolutionControlsNode solutionControls;
+        private final AqueousSolution solution;
+        
+        public ViewModelController( SolutionControlsNode solutionControls, AqueousSolution solution ) {
+            this.solutionControls = solutionControls;
+            this.solution = solution;
+        }
+
+        public void concentrationChanged() {
+            solution.getSolute().setInitialConcentration( solutionControls.getConcentration() );
+        }
+
+        public void soluteChanged() {
+            solution.setSolute( solutionControls.getSolute() );
+        }
+
+        public void strengthChanged() {
+            Solute solute = solution.getSolute();
+            if ( solute instanceof ICustomSolute ) {
+                ( (ICustomSolute) solute ).setStrength( solutionControls.getStrength() );
+            }
+        }
+    }
+    
+    /*
+     * Model changes are propagated to the view.
+     */
+    private static class ModelViewController implements SolutionListener {
+        
+        private final AqueousSolution solution;
+        private final SolutionControlsNode solutionControls;
+        
+        public ModelViewController( AqueousSolution solution, SolutionControlsNode solutionControls ) {
+            this.solution = solution;
+            this.solutionControls = solutionControls;
+        }
+
+        public void concentrationChanged() {
+            solutionControls.setConcentration( solution.getSolute().getInitialConcentration() );
+        }
+
+        public void soluteChanged() {
+            Solute solute = solution.getSolute();
+            solutionControls.setSolute( solute );
+            solutionControls.setStrengthControlEnabled( solute instanceof ICustomSolute );
+            solutionControls.setConcentrationControlVisible( ! (solute instanceof NullSolute ) );
+            solutionControls.setStrengthControlVisible( ! ( solute instanceof NullSolute ) );
+            if ( ! (solute instanceof NullSolute) ) {
+                solutionControls.setConcentration( solute.getInitialConcentration() );
+                solutionControls.setStrength( solute.getStrength() );
+            }
+        }
+
+        public void strengthChanged() {
+            solutionControls.setStrength( solution.getSolute().getStrength() );
+        }
+        
     }
     
     // test

@@ -7,6 +7,8 @@ import java.awt.Frame;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.AcidBaseSolutionsApplication;
 import edu.colorado.phet.acidbasesolutions.model.ABSClock;
+import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
+import edu.colorado.phet.acidbasesolutions.model.Base.SodiumHydroxide;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractModule;
 import edu.colorado.phet.acidbasesolutions.persistence.SolutionsConfig;
 
@@ -39,7 +41,8 @@ public class SolutionsModule extends ABSAbstractModule {
         super( TITLE, CLOCK );
 
         // Model
-        model = new SolutionsModel( CLOCK );
+        AqueousSolution solution = new AqueousSolution( new SodiumHydroxide() );
+        model = new SolutionsModel( CLOCK, solution );
 
         // Canvas
         canvas = new SolutionsCanvas( model, this );

@@ -88,7 +88,7 @@ public abstract class Acid extends Solute {
     // Custom acid (strong, weak, or intermediate)
     //----------------------------------------------------------------------------
     
-    public static class CustomAcid extends Acid {
+    public static class CustomAcid extends Acid implements ICustomSolute {
         
         private static final double DEFAULT_STRENGTH = ABSConstants.WEAK_STRENGTH_RANGE.getMin();
         

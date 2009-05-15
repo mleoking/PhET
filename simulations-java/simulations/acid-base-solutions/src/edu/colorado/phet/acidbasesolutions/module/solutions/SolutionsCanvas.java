@@ -8,6 +8,7 @@ import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.control.BeakerControls;
 import edu.colorado.phet.acidbasesolutions.control.MiscControls;
 import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
+import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
 import edu.colorado.phet.acidbasesolutions.view.beaker.*;
 import edu.colorado.phet.acidbasesolutions.view.graph.ConcentrationGraphNode;
@@ -53,10 +54,11 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         super( resettable );
         
         this.model = model;
+        AqueousSolution solution = model.getSolution();
         
         beakerNode = new BeakerNode( SolutionsDefaults.BEAKER_SIZE, 1 );
         
-        probeNode = new PHProbeNode( SolutionsDefaults.PH_PROBE_HEIGHT );
+        probeNode = new PHProbeNode( SolutionsDefaults.PH_PROBE_HEIGHT, solution );
 
         solutionNode = new SolutionNode( SolutionsDefaults.BEAKER_SIZE );
         
@@ -66,7 +68,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         
         beakerLabelNode = new BeakerLabelNode( ABSConstants.MIN_BEAKER_LABEL_SIZE );
         
-        solutionsControlsNode = new SolutionControlsNode();
+        solutionsControlsNode = new SolutionControlsNode( solution );
         solutionsControlsNode.scale( ABSConstants.PSWING_SCALE );
         
         beakerControls = new BeakerControls( moleculeCountsNode, beakerLabelNode );
