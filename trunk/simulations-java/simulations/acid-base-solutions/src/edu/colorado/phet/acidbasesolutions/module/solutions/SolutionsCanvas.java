@@ -11,6 +11,7 @@ import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
 import edu.colorado.phet.acidbasesolutions.view.beaker.*;
+import edu.colorado.phet.acidbasesolutions.view.beaker.MoleculeCountsNode.AcidMoleculeCountsNode;
 import edu.colorado.phet.acidbasesolutions.view.graph.ConcentrationGraphNode;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.umd.cs.piccolo.PNode;
@@ -64,7 +65,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         
         concentrationGraphNode = new ConcentrationGraphNode();
         
-        moleculeCountsNode = new MoleculeCountsNode();
+        moleculeCountsNode = new AcidMoleculeCountsNode();//XXX
         
         beakerLabelNode = new BeakerLabelNode( ABSConstants.MIN_BEAKER_LABEL_SIZE, solution );
         
