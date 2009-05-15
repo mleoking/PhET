@@ -1,7 +1,6 @@
 package edu.colorado.phet.densityjava;
 
 import com.jme.bounding.BoundingSphere;
-import com.jme.image.Texture;
 import com.jme.intersection.BoundingPickResults;
 import com.jme.intersection.PickData;
 import com.jme.intersection.PickResults;
@@ -11,14 +10,12 @@ import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
 import com.jme.scene.Node;
-import com.jme.scene.Spatial;
 import com.jme.scene.TriMesh;
 import com.jme.scene.shape.Box;
-import com.jme.scene.state.*;
+import com.jme.scene.state.BlendState;
+import com.jme.scene.state.LightState;
+import com.jme.scene.state.MaterialState;
 import com.jme.system.DisplaySystem;
-import com.jme.util.GameTaskQueueManager;
-import com.jme.util.TextureManager;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.densityjava.model.DensityModel;
 
 import java.awt.*;
@@ -26,9 +23,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
-import java.util.ConcurrentModificationException;
-import java.util.concurrent.Callable;
 
 public class DensityCanvasImpl extends BasicCanvasImpl {
     private DensityModel model;
@@ -103,9 +97,11 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
                             finalRay.getOrigin().getZ() + finalDir.getZ());
                     double dx = finalPt.getX() - initPt.getX();
                     double dy = finalPt.getY() - initPt.getY();
-                    ObjectBox ob = (ObjectBox) picked.getTargetMesh();
-                    System.out.println("pickRay=" + initRay + ", finalRay=" + finalRay + ", dx = " + dx + ", dy=" + dy);
-                    ob.getObject().setPosition2D(pickPt.getX() + dx, pickPt.getY() + dy);
+                    if (picked.getTargetMesh() instanceof ObjectBox) {
+                        ObjectBox ob = (ObjectBox) picked.getTargetMesh();
+//                    System.out.println("pickRay=" + initRay + ", finalRay=" + finalRay + ", dx = " + dx + ", dy=" + dy);
+                        ob.getObject().setPosition2D(pickPt.getX() + dx, pickPt.getY() + dy);
+                    }
                 }
             }
         });
@@ -202,11 +198,16 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
             mesh.getLocalTranslation().set(-1, 0, 0);
             mesh.updateModelBound();
 
-            MaterialState ms = DisplaySystem.getDisplaySystem().getRenderer().createMaterialState();
-            ms.setEmissive(ColorRGBA.white.clone());
+            MaterialState materialState = display.getRenderer().createMaterialState();
+            float opacityAmount = 0.8f;
+            materialState.setAmbient(new ColorRGBA(0.2f, 0.2f, 0.1f, opacityAmount));
+            materialState.setDiffuse(new ColorRGBA(0.1f, 0.5f, 0.8f, opacityAmount));
+            materialState.setSpecular(new ColorRGBA(1.0f, 1.0f, 1.0f, opacityAmount));
+            materialState.setShininess(128.0f);
+            materialState.setEmissive(new ColorRGBA(0.0f, 0.0f, 0.1f, opacityAmount));
+            materialState.setEnabled(true);
 
-            mesh.setRenderState(ms);
-            initTexture(object, mesh);
+            mesh.setRenderState(materialState);
             attachChild(mesh);
 
             object.addListener(new DensityModel.RectangularObject.Listener() {
@@ -214,44 +215,10 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
                     mesh.setCenter(new Vector3f((float) object.getCenterX(), (float) object.getCenterY(), (float) object.getCenterZ()));
                     mesh.updateGeometry();
                     mesh.updateModelBound();
-                    //todo update dim
+                    //todo update dimensions
                 }
             });
 
         }
     }
-
-    public static void initTexture(DensityModel.RectangularObject rectangularObject, final Spatial s) {
-        final BufferedImage bi = new BufferedImage(64, 512, BufferedImage.TYPE_INT_RGB);
-        Graphics2D bg = (Graphics2D) bi.getGraphics();
-        bg.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        bg.setFont(new PhetFont(20));
-        for (int i = 0; i < 6; i++) {
-            bg.setColor(rectangularObject.getFaceColor());
-            bg.fillRect(0, i * 64, 64, (i + 1) * 64);
-            bg.setColor(Color.black);
-            bg.drawString("100 kg", 5, 64 * i + 38);
-        }
-        bg.dispose();
-        GameTaskQueueManager.getManager().update(new Callable<Object>() {
-            public Object call() throws Exception {
-                try {
-                    TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-                    Texture t = TextureManager.loadTexture(bi, Texture.MinificationFilter.BilinearNearestMipMap, Texture.MagnificationFilter.Bilinear, 1, false);
-                    ts.setTexture(t);
-                    TextureState oldTs = (TextureState) s.getRenderState(RenderState.StateType.Texture);
-                    if (oldTs != null) {
-                        TextureManager.releaseTexture(oldTs.getTexture());
-                        oldTs.deleteAll(true);
-                    }
-                    s.setRenderState(ts);
-                    s.updateRenderState();
-                } catch (ConcurrentModificationException ex) {
-                    ex.printStackTrace();
-                }
-                return null;
-            }
-        });
-    }
-
 }
