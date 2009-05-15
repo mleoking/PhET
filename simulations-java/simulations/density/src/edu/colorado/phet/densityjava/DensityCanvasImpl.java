@@ -41,7 +41,12 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
 
     public void simpleSetup() {
         super.simpleSetup();    //To change body of overridden methods use File | Settings | File Templates.
-        cam.setLocation(cam.getLocation().add(0, 5, +10));
+        cam.setLocation(cam.getLocation().add(0, 5, 5));
+
+        cam.setLocation(new Vector3f(5, 5.5f, 25));
+        cam.setDirection(new Vector3f(-0.03f, -0.018f, -0.99f).normalize());
+        cam.setUp(new Vector3f(0, 1, 0));
+
         rootNode.attachChild(getPoolNode(model.getSwimmingPool()));
         rootNode.attachChild(new RectNode(model.getBlock1()));
         rootNode.attachChild(new RectNode(model.getBlock2()));
@@ -101,6 +106,12 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
         });
     }
 
+    @Override
+    public void simpleUpdate() {
+        super.simpleUpdate();    //To change body of overridden methods use File | Settings | File Templates.
+//        System.out.println("cam.getLocation() = " + cam.getLocation()+", dir="+cam.getDirection()+", up="+cam.getUp());
+    }
+
     private PickResults getPickResults() {
         PickResults pickResults = new BoundingPickResults();
         pickResults.setCheckDistance(true);
@@ -119,7 +130,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
         final PointLight light = new PointLight();
         light.setDiffuse(ColorRGBA.white);
         light.setSpecular(ColorRGBA.white);
-        light.setLocation(new Vector3f(100.0f, 100.0f, 100.0f));
+        light.setLocation(new Vector3f(20.0f, 20.0f, 30.0f));
         light.setEnabled(true);
 
         // attach the light to a lightState
