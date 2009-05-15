@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 
 /**
@@ -21,17 +22,22 @@ public class DatableObject {
 	private final double age;
 	private final String name;
 	private final String resourceImageName;
-	private final BufferedImage image;
+	private final double rotationAngle; // In radians.
+	private BufferedImage image;
 	
-	public DatableObject(String name, String resourceImageName, Point2D center, double width, double age) {
+	public DatableObject(String name, String resourceImageName, Point2D center, double width, double age, double rotationAngle) {
 		super();
 		this.name = name;
 		this.center = new Point2D.Double(center.getX(), center.getY());
 		this.width = width;
 		this.age = age;
 		this.resourceImageName = resourceImageName;
+		this.rotationAngle = rotationAngle;
 		
 		image = NuclearPhysicsResources.getImage(resourceImageName);
+		if (rotationAngle != 0){
+			image = BufferedImageUtils.getRotatedImage(image, rotationAngle);
+		}
 		
 		// The height is defined by a combination of the width of the artifact
 		// and the aspect ratio of the image.
@@ -82,5 +88,9 @@ public class DatableObject {
 	
 	public Rectangle2D getBoundingRect(){
 		return new Rectangle2D.Double( center.getX() - width /2, center.getY() - height/2, width, height );
+	}
+
+	public double getRotationAngle() {
+		return rotationAngle;
 	}
 }
