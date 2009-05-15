@@ -3,7 +3,7 @@ package edu.colorado.phet.acidbasesolutions.model.concentration;
 import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.Water;
 
-public class StrongAcidConcentrationModel extends ConcentrationModel {
+public class StrongAcidConcentrationModel extends AcidConcentrationModel {
     
     protected StrongAcidConcentrationModel( Solute acid ) {
         super( acid );

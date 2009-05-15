@@ -16,6 +16,7 @@ TODO:
 - add ability to restrict Strength slider to one section of the range
 
 DONE:
+5/14/09 use molecule counts model from ph-scale
 5/14/09 show Concentration=0.0, not editable, when no solute selected
 5/14/09 consolidate slider thumb colors
 5/14/09 implement StrengthSliderNode.setEnabled
