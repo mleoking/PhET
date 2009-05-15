@@ -97,7 +97,6 @@ import com.jmex.awt.input.AWTKeyInput;
 import com.jmex.awt.input.AWTMouseInput;
 import com.jmex.awt.swingui.dnd.JMEDragAndDrop;
 import com.jmex.awt.swingui.ImageGraphics;
-import com.jmex.awt.swingui.JMEDesktop;
 
 /**
  * A quad that displays a {@link javax.swing.JDesktopPane} as texture. It also converts jME mouse and keyboard events to Swing
@@ -147,7 +146,7 @@ public class PiccoloNode extends Quad {
 
     /**
      * @param dragAndDropSupport JMEDragAndDrop to be used for this desktop
-     * @see com.jmex.awt.swingui.dnd.JMEDragAndDrop#setDesktop(PiccoloNode)
+     * @see
      */
     public void setDragAndDropSupport( JMEDragAndDrop dragAndDropSupport ) {
         this.dragAndDropSupport = dragAndDropSupport;
