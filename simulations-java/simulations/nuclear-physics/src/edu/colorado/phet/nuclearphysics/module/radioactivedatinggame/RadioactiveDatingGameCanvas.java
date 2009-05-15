@@ -2,31 +2,23 @@
 
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Dimension2D;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Double;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas.RenderingSizeStrategy;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas.TransformStrategy;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
 import edu.colorado.phet.nuclearphysics.view.NuclearDecayProportionChart;
-import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * This class represents the canvas upon which the view of the model is
@@ -60,10 +52,9 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     private RadioactiveDatingGameModel _model;
     private PNode _backgroundImageLayer;
     private PNode _backgroundImage;
-//    private PNode _datableArtifactsLayer;
+//    private PNode _datableItemsLayer;
     private NuclearDecayProportionChart _proportionsChart;
     private RadiometricDatingMeterNode _meter;
-    private PPath _testShape;
     private PNode _referenceNode; // For positioning other nodes.
 
     //----------------------------------------------------------------------------
@@ -119,10 +110,10 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         	datableItemNode.setOffset(_mvt.modelToViewDouble(item.getCenter()));
         	addWorldChild(datableItemNode);
         	
-        	// TODO: Temp for debug, should eventually go.
-        	PPath boundingNode = new PhetPPath( _mvt.createTransformedShape(item.getBoundingRect()), 
-        			new BasicStroke( 2 ), Color.RED );
-        	addWorldChild(boundingNode);
+        	// TODO: Temp for debug, should eventually be permanently removed.
+//        	PPath boundingNode = new PhetPPath( _mvt.createTransformedShape(item.getBoundingRect()), 
+//        			new BasicStroke( 2 ), Color.RED );
+//        	addWorldChild(boundingNode);
         }
         
         // Create the chart that will display relative decay proportions.
@@ -157,12 +148,6 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         
         // Add decay curve to chart.
         drawDecayCurveOnChart();
-        
-        // Draw a test shape.  TODO: This should eventually be removed.
-        _testShape = new PPath( new Rectangle2D.Double(0, 0, 10, 10));
-        _testShape.setStrokePaint(Color.red);
-        _testShape.setPaint(Color.red);
-        addScreenChild(_testShape);
     }
 
     //------------------------------------------------------------------------

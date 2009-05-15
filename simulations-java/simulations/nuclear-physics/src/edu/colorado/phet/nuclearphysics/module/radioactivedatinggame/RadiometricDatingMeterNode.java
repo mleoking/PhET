@@ -39,7 +39,6 @@ public class RadiometricDatingMeterNode extends PNode {
 	RadiometricDatingMeter _meterModel;
 	ModelViewTransform2D _mvt;
 	PNode _meterBody;
-	private PPath _tipLocatorNode;
 	
 	public RadiometricDatingMeterNode(RadiometricDatingMeter meterModel, double width, double height, ModelViewTransform2D mvt) {
 		
@@ -64,24 +63,16 @@ public class RadiometricDatingMeterNode extends PNode {
 		percentageDisplay.setPercentage(100);
 		
 		// Create the probe.
-		ProbeNode probe = new ProbeNode( _meterModel.getProbeModel(), _mvt, this );
+		ProbeNode probe = new ProbeNode( _meterModel.getProbeModel(), _mvt );
 		addChild(probe);
 		
-		_tipLocatorNode = new PhetPPath( new Rectangle2D.Double(0, 0, 10, 10), Color.BLUE );
-		addChild(_tipLocatorNode);
-		
-		updateTipLocatorNode();
 		_meterModel.getProbeModel().addListener( new RadiometricDatingMeter.ProbeModel.Listener(){
 			public void probeModelChanged() {
-				updateTipLocatorNode();
+				// TODO: Update the reading.
 			}
 		});
 	}
 	
-    private void updateTipLocatorNode() {
-    	_tipLocatorNode.setOffset(_mvt.modelToViewDouble(_meterModel.getProbeModel().getTipLocation()));
-	}
-
 	/**
      * Class that represents the percentage display readout.
      */
@@ -125,12 +116,10 @@ public class RadiometricDatingMeterNode extends PNode {
         private PImage imageNode;
         private PhetPPath tipPath;
         private ModelViewTransform2D _mvt;
-        private PNode _parent;
 
-        public ProbeNode( RadiometricDatingMeter.ProbeModel probeModel, ModelViewTransform2D mvt, PNode parent ) {
+        public ProbeNode( RadiometricDatingMeter.ProbeModel probeModel, ModelViewTransform2D mvt ) {
             _probeModel = probeModel;
             _mvt = mvt;
-            _parent = parent;
 
             imageNode = NuclearPhysicsResources.getImageNode( "probeBlack.gif" );
             imageNode.rotateAboutPoint( probeModel.getAngle(), 0.1, 0.1 );
