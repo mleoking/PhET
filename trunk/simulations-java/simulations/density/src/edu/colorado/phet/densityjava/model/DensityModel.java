@@ -7,22 +7,15 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Owner
- * Date: May 15, 2009
- * Time: 9:07:40 AM
- * To change this template use File | Settings | File Templates.
- */
 public class DensityModel {
     private SwimmingPool swimmingPool = new SwimmingPool();
-    private Block block1 = new Block();
-    private Block block2 = new Block();
+    private Block block1 = new Block("Block 1");
+    private Block block2 = new Block("Block 2");
     private Sphere sphere = new Sphere();
     private Scale scale = new Scale();
 
     public DensityModel() {
-        block2.translate(new Point2D.Double(5,-1));
+        block2.translate(new Point2D.Double(5, -1));
     }
 
     public SwimmingPool getSwimmingPool() {
@@ -46,8 +39,8 @@ public class DensityModel {
     }
 
     static class Block extends RectangularObject {
-        Block() {
-            super(2.7, 2.6, 2, 2, 2, new Color(123, 81, 237));
+        Block(String name) {
+            super(name, 2.7, 4, 2, 2, 2, new Color(123, 81, 237));
         }
     }
 
@@ -60,6 +53,7 @@ public class DensityModel {
     }
 
     public static class RectangularObject {
+        private String name;
         private double x;
         private double y;
         private double width;
@@ -67,7 +61,8 @@ public class DensityModel {
         private double depth;
         private Color faceColor;
 
-        RectangularObject(double x, double y, double width, double height, double depth, Color faceColor) {
+        RectangularObject(String name, double x, double y, double width, double height, double depth, Color faceColor) {
+            this.name = name;
             this.x = x;
             this.y = y;
             this.width = width;
@@ -80,7 +75,7 @@ public class DensityModel {
             return new Rectangle2D.Double(x, y, width, height);
         }
 
-        public Paint getFaceColor() {
+        public Color getFaceColor() {
             return faceColor;
         }
 
@@ -124,7 +119,45 @@ public class DensityModel {
             notifyListeners();
         }
 
+        public Point2D getPoint2D() {
+            return new Point2D.Double(x, y);
+        }
+
         private ArrayList<Listener> listeners = new ArrayList<Listener>();
+
+        public double getCenterX() {
+            return x + width / 2;
+        }
+
+        public double getCenterY() {
+            return y + height / 2;
+        }
+
+        public double getCenterZ() {
+            return 0 + depth / 2;
+        }
+
+        public double getWidth() {
+            return width;
+        }
+
+        public double getHeight() {
+            return height;
+        }
+
+        public double getDepth() {
+            return depth;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setPosition2D(double x, double y) {
+            this.x = x;
+            this.y = y;
+            notifyListeners();
+        }
 
         public static interface Listener {
 
@@ -142,9 +175,9 @@ public class DensityModel {
         }
     }
 
-    static class SwimmingPool extends RectangularObject {
+    public static class SwimmingPool extends RectangularObject {
         public SwimmingPool() {
-            super(0, 0, 10, 4, 3, new Color(144, 207, 206, 128));
+            super("Pool", 0, 0, 10, 4, 3, new Color(144, 207, 206, 128));
         }
     }
 }
