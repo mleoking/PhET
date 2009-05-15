@@ -2,14 +2,23 @@
 
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Rectangle;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.awt.geom.Rectangle2D.Double;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -39,12 +48,12 @@ public class RadiometricDatingMeterNode extends PNode {
 	RadiometricDatingMeter _meterModel;
 	ModelViewTransform2D _mvt;
 	PNode _meterBody;
+	private ProbeNode _probeNode;
 	
 	public RadiometricDatingMeterNode(RadiometricDatingMeter meterModel, double width, double height, ModelViewTransform2D mvt) {
 		
 		_meterModel = meterModel;
 		_mvt = mvt;
-		
 		
 		_meterBody = new PNode();
 		addChild(_meterBody);
@@ -62,17 +71,31 @@ public class RadiometricDatingMeterNode extends PNode {
 		_meterBody.addChild(percentageDisplay);
 		percentageDisplay.setPercentage(100);
 		
-		// Create the probe.
-		ProbeNode probe = new ProbeNode( _meterModel.getProbeModel(), _mvt );
-		addChild(probe);
+		_probeNode = new ProbeNode( _meterModel.getProbeModel(), _mvt );
+		addChild(_probeNode);
 		
 		_meterModel.getProbeModel().addListener( new RadiometricDatingMeter.ProbeModel.Listener(){
 			public void probeModelChanged() {
 				// TODO: Update the reading.
 			}
 		});
+		
+		// Create the cable that visually attaches the probe to the meter.
+		addChild(new ProbeCableNode(this));
+		
+		// TODO: Test thingy that should be removed when no longer needed.
+		PPath testNode = new PhetPPath(new Rectangle2D.Double(0, 0, 10, 10), Color.green);
+		addChild(testNode);
 	}
 	
+	public Point2D getProbeTailLocation(){
+		return (_meterBody.localToParent(_probeNode.getTailLocation()));
+	}
+	
+	private ProbeNode getProbeNode() {
+		return _probeNode;
+	}
+
 	/**
      * Class that represents the percentage display readout.
      */
@@ -111,7 +134,7 @@ public class RadiometricDatingMeterNode extends PNode {
     	}
     }
     
-    static private class ProbeNode extends PhetPNode {
+    static class ProbeNode extends PhetPNode {
         private RadiometricDatingMeter.ProbeModel _probeModel;
         private PImage imageNode;
         private PhetPPath tipPath;
@@ -155,6 +178,13 @@ public class RadiometricDatingMeterNode extends PNode {
             tipPath.setPathTo( _probeModel.getTipShape() );
         }
 
+        /**
+         * Get the location of the tail of the probe.  Note that this WILL NOT
+         * WORK for all orientations of the probe, so if a more general
+         * implementation is needed, feel free to expand on this.
+         * 
+         * @return
+         */
         public Point2D getTailLocation() {
             Point2D pt = new Point2D.Double( imageNode.getWidth() / 2, imageNode.getHeight() );
             imageNode.localToParent( pt );
@@ -167,7 +197,88 @@ public class RadiometricDatingMeterNode extends PNode {
 		_meterBody.setOffset(x, y);
 	}
 	
+	private PNode getMeterBodyNode() {
+		return _meterBody;
+	}
+	
 	public double getMeterBodyWidth(){
 		return _meterBody.getFullBounds().width;
+	}
+	
+	/**
+	 * This class represents a node that visually depicts the cable or cord that
+	 * connects the body of the meter to the probe.  This is highly leveraged
+	 * from a class that was found in the Wave Interference sim.
+	 */
+	private static class ProbeCableNode extends PhetPNode {
+	    private final ProbeNode _probeNode;
+	    private final PNode _meterBodyNode;
+	    private PPath _cable;
+
+	    public ProbeCableNode( RadiometricDatingMeterNode meterNode ) {
+	        _probeNode = meterNode.getProbeNode();
+	        _meterBodyNode = meterNode.getMeterBodyNode();
+	        
+	        // Create the path that represents the cord.
+	        _cable = new PPath();
+	        _cable.setStroke( new BasicStroke( 3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ) );
+	        addChild( _cable );
+	        
+	        // Register for changes in location or size of the two nodes that
+	        // the cable connects together.
+	        _probeNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
+	            public void propertyChange( PropertyChangeEvent evt ) {
+	                update();
+	            }
+	        } );
+	        _meterBodyNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
+	            public void propertyChange( PropertyChangeEvent evt ) {
+	                update();
+	            }
+	        } );
+	        update();
+	    }
+
+	    private void update() {
+	        Point2D dstLoc = new Point2D.Double( _probeNode.getTailLocation().getX(), 
+	        		_probeNode.getTailLocation().getY() );
+	        Point2D srcLoc = new Point2D.Double(_meterBodyNode.getFullBoundsReference().getCenterX(),
+	        		_meterBodyNode.getFullBoundsReference().getMinY());
+	        double dist = srcLoc.distance( dstLoc );
+	        if ( dist > 0 ) {
+	            DoubleGeneralPath path = new DoubleGeneralPath( srcLoc );
+	            AbstractVector2D parallel = new Vector2D.Double( srcLoc, dstLoc ).getNormalizedInstance();
+	            AbstractVector2D perp = parallel.getRotatedInstance( Math.PI / 2 ).getNormalizedInstance();
+	            lineToDst( path, parallel, perp, dist / 5 );
+	            curveToDst( path, parallel, perp, dist / 5 );
+	            lineToDst( path, parallel, perp, dist / 5 );
+	            curveToDst( path, parallel, perp, dist / 5 );
+	            path.lineTo( dstLoc );
+	            _cable.setPathTo( path.getGeneralPath() );
+	        }
+	        else {
+	        	_cable.setPathTo( new Rectangle() );
+	        }
+	    }
+
+	    private void curveToDst( DoubleGeneralPath path, AbstractVector2D par, AbstractVector2D perp, double segmentLength ) {
+	        double pegDist = segmentLength;
+	        if ( pegDist < 7 ) {
+	            pegDist = 7;
+	        }
+	        if ( pegDist > 20 ) {
+	            pegDist = 20;
+	        }
+	        double width = 15;
+	        Point2D peg1 = path.getCurrentPoint();
+	        Point2D peg2 = par.getInstanceOfMagnitude( pegDist ).getDestination( peg1 );
+	        Point2D dst = par.getInstanceOfMagnitude( pegDist / 2 ).getAddedInstance( perp.getInstanceOfMagnitude( width ) ).getDestination( peg1 );
+	        path.quadTo( peg2.getX(), peg2.getY(), dst.getX(), dst.getY() );
+	        path.quadTo( peg1.getX(), peg1.getY(), peg2.getX(), peg2.getY() );
+	    }
+
+	    private void lineToDst( DoubleGeneralPath path, AbstractVector2D a, AbstractVector2D b, double segmentLength ) {
+	        path.lineToRelative( a.getInstanceOfMagnitude( segmentLength ) );
+	    }
 	}
 }
