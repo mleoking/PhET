@@ -22,6 +22,10 @@ public class AqueousSolution {
     private final ArrayList<SolutionListener> listeners;
     private final SoluteListener soluteListener;
     
+    public AqueousSolution() {
+        this( new NullSolute() );
+    }
+    
     public AqueousSolution( Solute solute ) {
         this.listeners = new ArrayList<SolutionListener>();
         this.soluteListener = new SoluteListener() {
