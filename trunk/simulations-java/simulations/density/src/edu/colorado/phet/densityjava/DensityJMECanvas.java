@@ -14,6 +14,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 
+import edu.colorado.phet.densityjava.model.DensityModel;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Owner
@@ -28,13 +30,7 @@ class DensityJMECanvas extends JPanel {
     DensityCanvasImpl impl;
 
     // Construct the frame
-    public DensityJMECanvas() {
-        init();
-    }
-
-    // Component initialization
-    private void init() {
-
+    public DensityJMECanvas(DensityModel model) {
         setLayout(new BorderLayout());
 
         mainPanel.setLayout(new GridBagLayout());
@@ -63,7 +59,7 @@ class DensityJMECanvas extends JPanel {
         AWTMouseInput.setup((Canvas) canvas, false);
 
         // Important! Here is where we add the guts to the panel:
-        impl = new DensityCanvasImpl(width, height, display, (Component) canvas);
+        impl = new DensityCanvasImpl(width, height, display, (Component) canvas,model);
         canvas.setImplementor(impl);
 
         // -----------END OF GL STUFF-------------

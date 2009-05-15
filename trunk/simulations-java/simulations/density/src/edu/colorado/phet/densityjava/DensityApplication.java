@@ -5,6 +5,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.densityjava.model.DensityModel;
 
 import javax.swing.*;
 import java.io.File;
@@ -21,11 +22,11 @@ public class DensityApplication extends PiccoloPhetApplication {
     }
 
     class DensityModule extends Module {
-        private final DensityJMECanvas panel;
+        private final DensityModel model = new DensityModel();
+        private final DensityJMECanvas panel = new DensityJMECanvas(model);
 
         public DensityModule() {
             super("density", new ConstantDtClock(30, 30 / 1000.0));
-            panel = new DensityJMECanvas();
             setSimulationPanel(panel);
         }
 
