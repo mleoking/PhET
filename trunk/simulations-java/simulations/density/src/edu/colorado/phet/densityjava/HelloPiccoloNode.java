@@ -17,6 +17,8 @@ import java.awt.event.ActionListener;
 import java.util.logging.Logger;
 import java.lang.reflect.InvocationTargetException;
 
+import edu.umd.cs.piccolo.nodes.PText;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Owner
@@ -36,7 +38,7 @@ public class HelloPiccoloNode extends SimpleGame {
         guiNode.setRenderQueueMode(Renderer.QUEUE_ORTHO);
 
         // create the desktop Quad
-        final PiccoloNode desktop = new PiccoloNode("desktop", 500, 400, input);
+        final PiccoloNode desktop = new PiccoloNode("desktop", 500, 400, input,new PText("hello"));
         // and attach it to the gui node
         guiNode.attachChild(desktop);
         // center it on screen
@@ -50,12 +52,12 @@ public class HelloPiccoloNode extends SimpleGame {
             SwingUtilities.invokeAndWait(new Runnable() {
                 public void run() {
                     // make it transparent blue
-                    desktop.getJDesktop().setBackground(new Color(0, 0, 1, 0.2f));
+//                    desktop.getJDesktop().setBackground(new Color(0, 0, 1, 0.2f));
 
                     // create a swing button
                     final JButton button = new JButton("click me");
                     // and put it directly on the desktop
-                    desktop.getJDesktop().add(button);
+//                    desktop.getJDesktop().add(button);
                     // desktop has no layout - we layout ourselfes (could assign a layout to desktop here instead)
                     button.setLocation(200, 200);
                     button.setSize(button.getPreferredSize());
