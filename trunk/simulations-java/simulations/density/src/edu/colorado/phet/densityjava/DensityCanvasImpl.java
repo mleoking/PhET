@@ -1,6 +1,7 @@
 package edu.colorado.phet.densityjava;
 
 import com.jme.bounding.BoundingBox;
+import com.jme.image.Texture;
 import com.jme.input.FirstPersonHandler;
 import com.jme.intersection.BoundingPickResults;
 import com.jme.intersection.PickData;
@@ -18,7 +19,9 @@ import com.jme.scene.shape.Quad;
 import com.jme.scene.state.BlendState;
 import com.jme.scene.state.LightState;
 import com.jme.scene.state.MaterialState;
+import com.jme.scene.state.TextureState;
 import com.jme.system.DisplaySystem;
+import com.jme.util.TextureManager;
 import edu.colorado.phet.densityjava.model.DensityModel;
 
 import java.awt.*;
@@ -223,16 +226,16 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
 
             mesh.updateModelBound();
 
-            MaterialState materialState = display.getRenderer().createMaterialState();
-            float opacityAmount = 0.8f;
-            materialState.setAmbient(new ColorRGBA(0.2f, 0.2f, 0.1f, opacityAmount));
-            materialState.setDiffuse(new ColorRGBA(0.1f, 0.5f, 0.8f, opacityAmount));
-            materialState.setSpecular(new ColorRGBA(1.0f, 1.0f, 1.0f, opacityAmount));
-            materialState.setShininess(128.0f);
-            materialState.setEmissive(new ColorRGBA(0.0f, 0.0f, 0.1f, opacityAmount));
-            materialState.setEnabled(true);
-
-            mesh.setRenderState(materialState);
+//            MaterialState materialState = display.getRenderer().createMaterialState();
+//            float opacityAmount = 0.8f;
+//            materialState.setAmbient(new ColorRGBA(0.2f, 0.2f, 0.1f, opacityAmount));
+//            materialState.setDiffuse(new ColorRGBA(0.1f, 0.5f, 0.8f, opacityAmount));
+//            materialState.setSpecular(new ColorRGBA(1.0f, 1.0f, 1.0f, opacityAmount));
+//            materialState.setShininess(128.0f);
+//            materialState.setEmissive(new ColorRGBA(0.0f, 0.0f, 0.1f, opacityAmount));
+//            materialState.setEnabled(true);
+//
+////            mesh.setRenderState(materialState);
             attachChild(mesh);
 
             object.addListener(new DensityModel.RectangularObject.Listener() {
@@ -243,6 +246,19 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
                     //todo update dimensions
                 }
             });
+
+            TextureState ts = display.getRenderer().createTextureState();
+            Texture t0 = TextureManager.loadTexture(
+                    getClass().getClassLoader().getResource(
+                            "jmetest/data/texture/wall.jpg"),
+                    Texture.MinificationFilter.Trilinear,
+                    Texture.MagnificationFilter.Bilinear);
+            t0.setWrap(Texture.WrapMode.Repeat);
+            ts.setTexture(t0);
+
+            setRenderState(ts);
+            updateRenderState();
+//            attachChild(box);
         }
     }
 
@@ -316,7 +332,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
                 Matrix3f m = new Matrix3f();
                 m.fromAngleAxis((float) (Math.PI / 2), new Vector3f(1, 0, 0));
 
-                quad.setLocalTranslation(-quadWidth / 2 , poolHeight, -quadHeight / 2);
+                quad.setLocalTranslation(-quadWidth / 2, poolHeight, -quadHeight / 2);
                 quad.setLocalRotation(m);
                 attachChild(quad);
             }
