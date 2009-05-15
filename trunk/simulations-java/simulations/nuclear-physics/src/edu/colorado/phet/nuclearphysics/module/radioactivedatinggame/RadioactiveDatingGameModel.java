@@ -40,15 +40,15 @@ public class RadioactiveDatingGameModel {
 
         // Add the datable object.
         // Params:                             name, image file, location(x, y), size, age (ms), rotation angle
-        _datableObjects.add(new DatableObject("House", "house.png", new Point2D.Double(8, 4), 6.5, 0, 1E11));
-        _datableObjects.add(new DatableObject("Trilobyte", "trilobyte_fossil.png", new Point2D.Double(0, -11), 3.5, 0, 1E11));
+        _datableObjects.add(new DatableObject("House", "house.png", new Point2D.Double(8, 4), 6.5, 0, 3.2E12));
+        _datableObjects.add(new DatableObject("Trilobyte", "trilobyte_fossil.png", new Point2D.Double(0, -11), 3.5, 0, 1.6E19));
     	_datableObjects.add(new DatableObject("Animal Skull", "skull_animal.png", new Point2D.Double(-21, 2), 3, Math.PI/4, 1E11));
     	_datableObjects.add(new DatableObject("Living Tree", "tree_1.png", new Point2D.Double(-16, 7), 5.5, 0, 1E11));
     	_datableObjects.add(new DatableObject("Distant Living Tree", "tree_1.png", new Point2D.Double(0, 4.5), 2, 0, 1E11));
     	_datableObjects.add(new DatableObject("Fish Fossil", "fish_fossil.png", new Point2D.Double(-15, -8), 7, 0, 1E11));
     	_datableObjects.add(new DatableObject("Dead Tree", "dead_tree.png", new Point2D.Double(23, 3), 6, Math.PI/2, 1E11));
     	_datableObjects.add(new DatableObject("Fish Bones", "fish_bones.png", new Point2D.Double(-20, -1.5), 5, 0, 1E11));
-    	_datableObjects.add(new DatableObject("Pottery", "pottery.png", new Point2D.Double(-10, -4.5), 3.8, Math.PI/2, 1E11));
+    	_datableObjects.add(new DatableObject("Pottery", "pottery.png", new Point2D.Double(-10, -4.5), 3.8, Math.PI/2, 6.3E13));
     	_datableObjects.add(new DatableObject("Rock 1", "rock.png", new Point2D.Double(-7.0, 4.5), 3, 0, 1E11));
     	_datableObjects.add(new DatableObject("Rock 2", "rock.png", new Point2D.Double(-4, -1.5), 2, 0, 1E11));
     	_datableObjects.add(new DatableObject("Rock 3", "rock.png", new Point2D.Double(-22, -15), 2.5, 0, 1E11));
