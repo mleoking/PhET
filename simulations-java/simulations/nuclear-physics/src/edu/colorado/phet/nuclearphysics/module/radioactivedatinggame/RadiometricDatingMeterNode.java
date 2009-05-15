@@ -89,10 +89,9 @@ public class RadiometricDatingMeterNode extends PNode {
 		
 		// Create the cable that visually attaches the probe to the meter.
 		addChild(new ProbeCableNode(this));
-		
-		// TODO: Test thingy that should be removed when no longer needed.
-		PPath testNode = new PhetPPath(new Rectangle2D.Double(0, 0, 10, 10), Color.green);
-		addChild(testNode);
+
+		// Set the initial meter reading.
+		updateMeterReading();
 	}
 	
 	public Point2D getProbeTailLocation(){
