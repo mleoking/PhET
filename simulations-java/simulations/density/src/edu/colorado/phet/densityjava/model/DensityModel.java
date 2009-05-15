@@ -17,10 +17,12 @@ import java.util.ArrayList;
 public class DensityModel {
     private SwimmingPool swimmingPool = new SwimmingPool();
     private Block block1 = new Block();
+    private Block block2 = new Block();
     private Sphere sphere = new Sphere();
     private Scale scale = new Scale();
 
     public DensityModel() {
+        block2.translate(new Point2D.Double(5,-1));
     }
 
     public SwimmingPool getSwimmingPool() {
@@ -37,6 +39,10 @@ public class DensityModel {
 
     public Scale getScale() {
         return scale;
+    }
+
+    public Block getBlock2() {
+        return block2;
     }
 
     static class Block extends RectangularObject {

@@ -78,6 +78,7 @@ public class DensityCanvas2D extends PhetPCanvas {
 
 
         addWorldChild(new DraggableBlockNode(model.getBlock1(), modelViewTransform2D));
+        addWorldChild(new DraggableBlockNode(model.getBlock2(), modelViewTransform2D));
         addWorldChild(new UndraggableBlockNode(model.getSwimmingPool(), modelViewTransform2D));
     }
 
