@@ -11,7 +11,9 @@ import java.text.DecimalFormat;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.PHValue;
+import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -51,12 +53,17 @@ public class PHProbeNode extends PComposite {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public PHProbeNode( double height ) {
+    public PHProbeNode( double height, AqueousSolution solution ) {
+        this( height );
+        solution.addSolutionListener( new ModelViewController( solution, this ) );
+    }
+    
+    private PHProbeNode( double height ) {
         super();
         setPickable( false );
         setChildrenPickable( false );
         
-        displayNode = new DisplayNode();
+        this.displayNode = new DisplayNode();
         
         TipNode tipNode = new TipNode();
         tipNode.scale( 25 );
@@ -181,6 +188,37 @@ public class PHProbeNode extends PComposite {
             setPathTo( area );
             setPaint( TIP_COLOR );
             setStroke( null );
+        }
+    }
+    
+    /*
+     * Model changes are propagated to the view.
+     */
+    private static class ModelViewController implements SolutionListener {
+        
+        private final AqueousSolution solution;
+        private final PHProbeNode probeNode;
+
+        public ModelViewController( AqueousSolution solution, PHProbeNode probeNode ) {
+            this.solution = solution;
+            this.probeNode = probeNode;
+            updateView();
+        }
+        
+        public void concentrationChanged() {
+            updateView();
+        }
+
+        public void soluteChanged() {
+            updateView();
+        }
+
+        public void strengthChanged() {
+            updateView();
+        }
+        
+        private void updateView() {
+            probeNode.setValue( solution.getConcentrationModel().getPH() );
         }
     }
 }

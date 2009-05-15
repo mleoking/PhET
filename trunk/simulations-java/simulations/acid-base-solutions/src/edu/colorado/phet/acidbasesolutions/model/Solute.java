@@ -8,6 +8,10 @@ import edu.colorado.phet.acidbasesolutions.ABSConstants;
 
 public abstract class Solute extends Molecule {
     
+    public interface ICustomSolute {
+        public void setStrength( double strength );
+    }
+    
     private double initialConcentration;
     private double strength;
     private final ArrayList<SoluteListener> listeners;

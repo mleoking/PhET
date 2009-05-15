@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.NullSolute;
+import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.Acid.*;
 import edu.colorado.phet.acidbasesolutions.model.Base.Ammonia;
 import edu.colorado.phet.acidbasesolutions.model.Base.CustomBase;
@@ -74,6 +75,17 @@ public class SoluteComboBox extends JComboBox {
         
         // make all items visible (no vertical scroll bar)
         setMaximumRowCount( getItemCount() );
+    }
+    
+    public void setSolute( Solute solute ) {
+        setSelectedItem( solute );
+        if ( getSelectedItem() != solute ) {
+            throw new IllegalArgumentException( "solute is not in the list: " + solute.toString() );
+        }
+    }
+    
+    public Solute getSolute() {
+        return (Solute)getSelectedItem();
     }
     
     public void reset() {

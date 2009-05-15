@@ -3,8 +3,8 @@
 ==================================================================================
 
 TODO:
-- CustomAcid, CustomBase solutes
-- custom options in solute combo box
+- implement ConcentrationControlsNode.setEnabled
+- implement StrengthSliderNode.setEnabled
 - connect model and view
 - H2O should not be scalable in Reaction Equations, should change to Color.BLACK when scaling is enabled
 - revisit implementation of Reaction Equations and Equilibrium Expressions
@@ -16,6 +16,10 @@ TODO:
 - add ability to restrict Strength slider to one section of the range
 
 DONE:
+5/14/09 connect solution controls to model
+5/14/09 connect pH probe to model
+5/14/09 custom options in solute combo box
+5/14/09 model for CustomAcid, CustomBase
 5/14/09 add pH model
 5/12/09 revise model
 5/12/09 solution controls
