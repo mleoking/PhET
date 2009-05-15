@@ -3,13 +3,15 @@
 ==================================================================================
 
 TODO:
+- should SoluteComboBox be providing solute instances?
+- model initialization issues
+- Reset All
 - connect model and view
 - H2O should not be scalable in Reaction Equations, should change to Color.BLACK when scaling is enabled
 - revisit implementation of Reaction Equations and Equilibrium Expressions
 - particle views
 - "Negligible" in Concentrations graph 
 - scale image files
-- Reset All
 - rewrite SolutionsCanvas.updateLayout
 - add ability to restrict Strength slider to one section of the range
 
