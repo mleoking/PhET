@@ -38,6 +38,8 @@ public class RadiometricDatingMeter {
 				updateReading();
 			}
 		});
+		
+		updateReading();
 	}
 
 	//----------------------------------------------------------------------------
