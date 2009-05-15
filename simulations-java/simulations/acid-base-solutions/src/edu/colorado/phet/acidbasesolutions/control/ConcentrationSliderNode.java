@@ -45,8 +45,8 @@ public class ConcentrationSliderNode extends PhetPNode {
     
     // Thumb
     private static final PDimension THUMB_SIZE = new PDimension( 13, 18 );
-    private static final Color THUMB_FILL_COLOR = new Color( 203, 255, 243 );
-    private static final Color THUMB_HILITE_COLOR = new Color( 106, 237, 255 );
+    private static final Color THUMB_ENABLED_COLOR = ABSConstants.THUMB_ENABLED_COLOR;
+    private static final Color THUMB_HILITE_COLOR = ABSConstants.THUMB_HILITE_COLOR;
     private static final Color THUMB_STROKE_COLOR = Color.BLACK;
     private static final Stroke THUMB_STROKE = new BasicStroke( 1f );
 
@@ -111,7 +111,7 @@ public class ConcentrationSliderNode extends PhetPNode {
         createTicks( min, max );
         
         // thumb
-        thumbNode = new SliderThumbArrowNode( THUMB_SIZE, THUMB_FILL_COLOR, THUMB_STROKE_COLOR, THUMB_STROKE );
+        thumbNode = new SliderThumbArrowNode( THUMB_SIZE, THUMB_ENABLED_COLOR, THUMB_STROKE_COLOR, THUMB_STROKE );
         addChild( thumbNode );
         thumbNode.addInputEventListener( new CursorHandler() );
         thumbNode.addInputEventListener( new ThumbDragHandler( this ) );
@@ -121,7 +121,7 @@ public class ConcentrationSliderNode extends PhetPNode {
             }
 
             public void mouseExited(PInputEvent event) {
-                thumbNode.setThumbPaint( THUMB_FILL_COLOR );
+                thumbNode.setThumbPaint( THUMB_ENABLED_COLOR );
             }
         });
         
