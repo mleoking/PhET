@@ -3,7 +3,6 @@
 ==================================================================================
 
 TODO:
-- show Concentration=0.0, not editable, when no solute selected
 - connect model and view
 - H2O should not be scalable in Reaction Equations, should change to Color.BLACK when scaling is enabled
 - revisit implementation of Reaction Equations and Equilibrium Expressions
@@ -15,6 +14,7 @@ TODO:
 - add ability to restrict Strength slider to one section of the range
 
 DONE:
+5/14/09 show Concentration=0.0, not editable, when no solute selected
 5/14/09 consolidate slider thumb colors
 5/14/09 implement StrengthSliderNode.setEnabled
 5/14/09 rename Solute.initialConcentration to Solute.concentration
