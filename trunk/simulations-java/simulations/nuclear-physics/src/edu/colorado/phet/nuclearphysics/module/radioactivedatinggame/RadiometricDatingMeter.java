@@ -8,9 +8,6 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
-import edu.colorado.phet.nuclearphysics.model.Uranium238Nucleus;
-
 /**
  * This class encapsulates a meter that supplies information about the amount
  * of a radiometric substance that has decayed in a given sample.
@@ -19,45 +16,75 @@ import edu.colorado.phet.nuclearphysics.model.Uranium238Nucleus;
  */
 public class RadiometricDatingMeter {
 
+	//----------------------------------------------------------------------------
+    // Instance Data
+    //----------------------------------------------------------------------------
+
 	private final ProbeModel _probe;
+	private ArrayList<Listener> listeners = new ArrayList<Listener>();
+	private DatableObject _itemBeingTouched = null;
+	private RadioactiveDatingGameModel _model;
 	
-	public RadiometricDatingMeter() {
+	//----------------------------------------------------------------------------
+    // Constructor(s)
+    //----------------------------------------------------------------------------
+	
+	public RadiometricDatingMeter( RadioactiveDatingGameModel model ) {
+		_model = model;
 		_probe = new ProbeModel(new Point2D.Double(-20, -8), -0.3);
+		_probe.addListener(new ProbeModel.Listener(){
+
+			public void probeModelChanged() {
+				updateReading();
+			}
+		});
 	}
 
-	public static double getPercentageCarbon14Remaining( DatableObject item ){
-		return calculatePercentageRemaining(item.getAge(), Carbon14Nucleus.HALF_LIFE);
-	}
-	
-	public static double getPercentageUranium238Remaining( DatableObject item ){
-		return calculatePercentageRemaining(item.getAge(), Uranium238Nucleus.HALF_LIFE);
-	}
-	
+	//----------------------------------------------------------------------------
+    // Methods
+    //----------------------------------------------------------------------------
+
 	public ProbeModel getProbeModel(){
 		return _probe;
 	}
 	
 	/**
-	 * Get the amount of a substance that would be left based on the age of an
-	 * item and the half life of the nucleus of the radiometric material being
-	 * tested.
+	 * Get the item that is currently being touched by the meter's probe, if
+	 * there is one.
 	 * 
-	 * @param item
-	 * @param customNucleusHalfLife
-	 * @return
+	 * @return item being touched if there is one, null if not
 	 */
-	public static double getPercentageCustomNucleusRemaining( DatableObject item, double customNucleusHalfLife ){
-		return calculatePercentageRemaining(item.getAge(), customNucleusHalfLife);
+	public DatableObject getItemBeingTouched(){
+		return _itemBeingTouched;
 	}
 	
-	private static double calculatePercentageRemaining( double age, double halfLife ){
-		if ( age <= 0 ){
-			return 100;
-		}
-		else{
-			return 100 * Math.exp( -0.693 * age / halfLife );
-		}
-	}
+    /**
+     * Update the current reading based on the input probe location.
+     */
+    private void updateReading(){
+
+    	DatableObject newTouchedItem = _model.getDatableItemAtLocation(_probe.getTipLocation());
+    	
+    	if (_itemBeingTouched != newTouchedItem){
+    		_itemBeingTouched = newTouchedItem;
+    		notifyListeners();
+    	}
+    }
+	
+    static interface Listener {
+        void touchedItemChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    private void notifyListeners() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
+            listener.touchedItemChanged();
+        }
+    }
 	
 	/**
 	 * This class represents the probe that moves around and comes in contact
