@@ -104,6 +104,9 @@ public class ABSConstants {
     // Model
     //----------------------------------------------------------------------------
     
+    public static final double AVOGADROS_NUMBER = 6.023E23;
+    public static final double SOLUTION_VOLUME = 1.0; // liters
+    
     public static final DoubleRange CONCENTRATION_RANGE = new DoubleRange( 1E-3, 1 );
     public static final DoubleRange WEAK_STRENGTH_RANGE = new DoubleRange( 10E-10, 1 );
     public static final DoubleRange STRONG_STRENGTH_RANGE = new DoubleRange( 20, 10E7 );
