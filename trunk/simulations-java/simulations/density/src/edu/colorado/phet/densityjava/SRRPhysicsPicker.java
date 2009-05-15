@@ -44,7 +44,6 @@ import com.jme.system.DisplaySystem;
 import com.jmex.physics.*;
 import com.jmex.physics.contact.ContactInfo;
 import com.jmex.physics.geometry.PhysicsRay;
-import edu.colorado.phet.densityjava.DensityCanvasImpl;
 
 /**
  * A small tool to be able to pick the visual of physics nodes and move them around with the mouse.

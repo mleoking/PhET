@@ -1,30 +1,30 @@
 package edu.colorado.phet.densityjava;
 
-import com.jme.math.Quaternion;
-import com.jme.math.Vector3f;
-import com.jme.math.Ray;
+import com.jme.bounding.BoundingBox;
+import com.jme.input.MouseInput;
+import com.jme.intersection.PickData;
+import com.jme.intersection.TrianglePickResults;
 import com.jme.math.FastMath;
-import com.jme.scene.Spatial;
+import com.jme.math.Quaternion;
+import com.jme.math.Ray;
+import com.jme.math.Vector3f;
+import com.jme.renderer.ColorRGBA;
 import com.jme.scene.Node;
+import com.jme.scene.Spatial;
 import com.jme.scene.TriMesh;
 import com.jme.scene.state.ZBufferState;
 import com.jme.system.DisplaySystem;
-import com.jme.renderer.ColorRGBA;
-import com.jme.intersection.TrianglePickResults;
-import com.jme.intersection.PickData;
 import com.jme.util.geom.BufferUtils;
-import com.jme.bounding.BoundingBox;
-import com.jme.input.MouseInput;
 
 import java.nio.FloatBuffer;
 
 /**
  * Created by IntelliJ IDEA.
-* User: Owner
-* Date: May 12, 2009
-* Time: 9:32:27 PM
-* To change this template use File | Settings | File Templates.
-*/
+ * User: Owner
+ * Date: May 12, 2009
+ * Time: 9:32:27 PM
+ * To change this template use File | Settings | File Templates.
+ */
 class BoxState {
 
     private Quaternion rotQuat;

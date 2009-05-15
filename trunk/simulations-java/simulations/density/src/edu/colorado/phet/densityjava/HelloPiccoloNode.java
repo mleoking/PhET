@@ -8,16 +8,13 @@ import com.jme.renderer.Renderer;
 import com.jme.scene.Node;
 import com.jme.scene.Spatial;
 import com.jmex.awt.swingui.JMEAction;
-import com.jmex.awt.swingui.JMEDesktop;
+import edu.umd.cs.piccolo.nodes.PText;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.logging.Logger;
 import java.lang.reflect.InvocationTargetException;
-
-import edu.umd.cs.piccolo.nodes.PText;
+import java.util.logging.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -38,7 +35,7 @@ public class HelloPiccoloNode extends SimpleGame {
         guiNode.setRenderQueueMode(Renderer.QUEUE_ORTHO);
 
         // create the desktop Quad
-        final PiccoloNode desktop = new PiccoloNode("desktop", 500, 400, input,new PText("hello"));
+        final PiccoloNode desktop = new PiccoloNode("desktop", 500, 400, input, new PText("hello"));
         // and attach it to the gui node
         guiNode.attachChild(desktop);
         // center it on screen

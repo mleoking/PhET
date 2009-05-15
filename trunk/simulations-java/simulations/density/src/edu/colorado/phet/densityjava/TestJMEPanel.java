@@ -13,8 +13,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.concurrent.Callable;
 
-import sun.awt.windows.WPrintDialogPeer;
-
 /**
  * Created by IntelliJ IDEA.
  * User: Owner

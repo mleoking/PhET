@@ -32,50 +32,6 @@
 
 package edu.colorado.phet.densityjava;
 
-import java.awt.AWTEvent;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.KeyboardFocusManager;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.event.ContainerEvent;
-import java.awt.event.ContainerListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
-import java.beans.PropertyVetoException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.swing.JComponent;
-import javax.swing.JDesktopPane;
-import javax.swing.JInternalFrame;
-import javax.swing.JPanel;
-import javax.swing.JRootPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JViewport;
-import javax.swing.Popup;
-import javax.swing.PopupFactory;
-import javax.swing.RepaintManager;
-import javax.swing.SwingUtilities;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.plaf.basic.BasicInternalFrameUI;
-
 import com.jme.bounding.OrientedBoundingBox;
 import com.jme.image.Texture;
 import com.jme.image.Texture2D;
@@ -88,22 +44,34 @@ import com.jme.math.Ray;
 import com.jme.math.Vector2f;
 import com.jme.math.Vector3f;
 import com.jme.renderer.Renderer;
-import com.jme.scene.Node;
 import com.jme.scene.shape.Quad;
 import com.jme.scene.state.BlendState;
 import com.jme.scene.state.TextureState;
 import com.jme.system.DisplaySystem;
-import com.jmex.awt.input.AWTKeyInput;
 import com.jmex.awt.input.AWTMouseInput;
-import com.jmex.awt.swingui.dnd.JMEDragAndDrop;
 import com.jmex.awt.swingui.ImageGraphics;
+import com.jmex.awt.swingui.dnd.JMEDragAndDrop;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PPaintContext;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
+import java.awt.event.InputEvent;
+import java.awt.event.MouseEvent;
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A quad that displays a {@link javax.swing.JDesktopPane} as texture. It also converts jME mouse and keyboard events to Swing
  * events. The latter does work for ortho mode only. There are some issues with using multiple of this desktops.
- * <p>
+ * <p/>
  * Notes
  * <ul>
  * <li> Only access the Swing UI from the Swing event dispatch thread! See {@link javax.swing.SwingUtilities#invokeLater}
@@ -120,14 +88,14 @@ public class PiccoloNode extends Quad {
 
     private static final long serialVersionUID = 1L;
     private ImageGraphics graphics;
-//    private JDesktopPane desktop;
+    //    private JDesktopPane desktop;
     private Texture texture;
     private boolean initialized;
     private int width;
     private int height;
 
     private boolean showingJFrame = false;
-//    private final Frame awtWindow;
+    //    private final Frame awtWindow;
     private int desktopWidth;
     private int desktopHeight;
     private static final int DOUBLE_CLICK_TIME = 300;
@@ -151,7 +119,7 @@ public class PiccoloNode extends Quad {
      * @param dragAndDropSupport JMEDragAndDrop to be used for this desktop
      * @see
      */
-    public void setDragAndDropSupport( JMEDragAndDrop dragAndDropSupport ) {
+    public void setDragAndDropSupport(JMEDragAndDrop dragAndDropSupport) {
         this.dragAndDropSupport = dragAndDropSupport;
     }
 
@@ -193,8 +161,8 @@ public class PiccoloNode extends Quad {
      *
      * @param name name of this desktop
      */
-    public PiccoloNode( String name, PNode node ) {
-        super( name );
+    public PiccoloNode(String name, PNode node) {
+        super(name);
         this.node = node;
 
         inputHandler = new InputHandler();
@@ -288,12 +256,12 @@ public class PiccoloNode extends Quad {
 //
 //        awtWindow.pack();
 
-        RepaintManager.currentManager( null ).setDoubleBufferingEnabled( false );
+        RepaintManager.currentManager(null).setDoubleBufferingEnabled(false);
     }
 
     //Several behaviors are working incorrectly on a mac, mainly regarding focus, mouse events, key events and aqua rendering (though metal rendering looks good).
     private boolean isMac() {
-        return System.getProperty( "os.name" ).toLowerCase().indexOf( "mac" ) >=0;
+        return System.getProperty("os.name").toLowerCase().indexOf("mac") >= 0;
     }
 
     /**
@@ -309,8 +277,8 @@ public class PiccoloNode extends Quad {
      *                           may be null to provide custom input handling or later adding of InputHandler(s)
      * @see #getInputHandler()
      */
-    public PiccoloNode( String name, final int width, final int height, InputHandler inputHandlerParent,PNode node ) {
-        this( name, width, height, false, inputHandlerParent ,node);
+    public PiccoloNode(String name, final int width, final int height, InputHandler inputHandlerParent, PNode node) {
+        this(name, width, height, false, inputHandlerParent, node);
     }
 
     /**
@@ -328,10 +296,10 @@ public class PiccoloNode extends Quad {
      *                           may be null to provide custom input handling or later adding of InputHandler(s)
      * @see #getInputHandler()
      */
-    public PiccoloNode( String name, final int width, final int height, boolean mipMapping, InputHandler inputHandlerParent ,PNode pnode) {
-        this( name,pnode );
+    public PiccoloNode(String name, final int width, final int height, boolean mipMapping, InputHandler inputHandlerParent, PNode pnode) {
+        this(name, pnode);
 
-        setup( width, height, mipMapping, inputHandlerParent );
+        setup(width, height, mipMapping, inputHandlerParent);
     }
 
     /**
@@ -348,20 +316,20 @@ public class PiccoloNode extends Quad {
      *                           may be null to provide custom input handling or later adding of InputHandler(s)
      * @see #getInputHandler()
      */
-    public void setup( int width, int height, boolean mipMapping, InputHandler inputHandlerParent ) {
-        reconstruct( null, null, null, null );
-        if ( inputHandlerParent != null ) {
-            inputHandlerParent.addToAttachedHandlers( inputHandler );
+    public void setup(int width, int height, boolean mipMapping, InputHandler inputHandlerParent) {
+        reconstruct(null, null, null, null);
+        if (inputHandlerParent != null) {
+            inputHandlerParent.addToAttachedHandlers(inputHandler);
         }
 
-        if ( initialized ) {
-            throw new IllegalStateException( "may be called only once" );
+        if (initialized) {
+            throw new IllegalStateException("may be called only once");
         }
-        updateGeometry( powerOf2SizeIfNeeded( width, mipMapping ), powerOf2SizeIfNeeded( height, mipMapping ) );
+        updateGeometry(powerOf2SizeIfNeeded(width, mipMapping), powerOf2SizeIfNeeded(height, mipMapping));
 
-        this.width = powerOf2SizeIfNeeded( width, mipMapping );
-        this.height = powerOf2SizeIfNeeded( height, mipMapping );
-        setModelBound( new OrientedBoundingBox() );
+        this.width = powerOf2SizeIfNeeded(width, mipMapping);
+        this.height = powerOf2SizeIfNeeded(height, mipMapping);
+        setModelBound(new OrientedBoundingBox());
         updateModelBound();
 
 //        desktop.setPreferredSize( new Dimension( width, height ) );
@@ -370,29 +338,29 @@ public class PiccoloNode extends Quad {
 //        awtWindow.pack();
 
         TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-        ts.setCorrectionType( TextureState.CorrectionType.Perspective );
+        ts.setCorrectionType(TextureState.CorrectionType.Perspective);
         texture = new Texture2D();
-        texture.setMagnificationFilter( Texture.MagnificationFilter.Bilinear );
-        texture.setMinificationFilter( mipMapping ? Texture.MinificationFilter.Trilinear : Texture.MinificationFilter.BilinearNoMipMaps );
-        texture.setWrap( Texture.WrapMode.Repeat );
+        texture.setMagnificationFilter(Texture.MagnificationFilter.Bilinear);
+        texture.setMinificationFilter(mipMapping ? Texture.MinificationFilter.Trilinear : Texture.MinificationFilter.BilinearNoMipMaps);
+        texture.setWrap(Texture.WrapMode.Repeat);
 
-        graphics = ImageGraphics.createInstance( this.width, this.height, mipMapping ? 2 : 0 );
-        enableAntiAlias( graphics );
-        graphics.translate( ( this.width - width ) * 0.5f, ( this.height - height ) * 0.5f );
-        texture.setImage( graphics.getImage() );
+        graphics = ImageGraphics.createInstance(this.width, this.height, mipMapping ? 2 : 0);
+        enableAntiAlias(graphics);
+        graphics.translate((this.width - width) * 0.5f, (this.height - height) * 0.5f);
+        texture.setImage(graphics.getImage());
 
-        texture.setScale( new Vector3f( 1, -1, 1 ) );
-        ts.setTexture( texture );
-        this.setRenderState( ts );
+        texture.setScale(new Vector3f(1, -1, 1));
+        ts.setTexture(texture);
+        this.setRenderState(ts);
 
         BlendState alpha = DisplaySystem.getDisplaySystem().getRenderer().createBlendState();
-        alpha.setEnabled( true );
-        alpha.setBlendEnabled( true );
-        alpha.setSourceFunction( BlendState.SourceFunction.SourceAlpha );
-        alpha.setDestinationFunction( BlendState.DestinationFunction.OneMinusSourceAlpha );
-        alpha.setTestEnabled( true );
-        alpha.setTestFunction( BlendState.TestFunction.GreaterThan );
-        this.setRenderState( alpha );
+        alpha.setEnabled(true);
+        alpha.setBlendEnabled(true);
+        alpha.setSourceFunction(BlendState.SourceFunction.SourceAlpha);
+        alpha.setDestinationFunction(BlendState.DestinationFunction.OneMinusSourceAlpha);
+        alpha.setTestEnabled(true);
+        alpha.setTestFunction(BlendState.TestFunction.GreaterThan);
+        this.setRenderState(alpha);
 
 //        Toolkit.getDefaultToolkit().addAWTEventListener( new AWTEventListener() {
 //            public void eventDispatched( AWTEvent event ) {
@@ -405,14 +373,14 @@ public class PiccoloNode extends Quad {
         xUpdateAction = new XUpdateAction();
         yUpdateAction = new YUpdateAction();
         wheelUpdateAction = new WheelUpdateAction();
-        wheelUpdateAction.setSpeed( AWTMouseInput.WHEEL_AMP );
-        allButtonsUpdateAction = new ButtonAction( InputHandler.BUTTON_ALL );
+        wheelUpdateAction.setSpeed(AWTMouseInput.WHEEL_AMP);
+        allButtonsUpdateAction = new ButtonAction(InputHandler.BUTTON_ALL);
         keyUpdateAction = new KeyUpdateAction();
 
         setupDefaultInputBindings();
 
-        if ( desktopsUsed == 0 ) {
-            PopupFactory.setSharedInstance( new MyPopupFactory() );
+        if (desktopsUsed == 0) {
+            PopupFactory.setSharedInstance(new MyPopupFactory());
         }
         desktopsUsed++;
 
@@ -424,92 +392,92 @@ public class PiccoloNode extends Quad {
 
         initialized = true;
 
-        setSynchronizingThreadsOnUpdate( true );
+        setSynchronizingThreadsOnUpdate(true);
     }
 
     private static int desktopsUsed = 0;
 
     protected void setupDefaultInputBindings() {
-        getInputHandler().addAction( getButtonUpdateAction( InputHandler.BUTTON_ALL ), InputHandler.DEVICE_MOUSE, InputHandler.BUTTON_ALL,
-                InputHandler.AXIS_NONE, false );
-        getInputHandler().addAction( getXUpdateAction(), InputHandler.DEVICE_MOUSE, InputHandler.BUTTON_NONE, 0, false );
-        getInputHandler().addAction( getYUpdateAction(), InputHandler.DEVICE_MOUSE, InputHandler.BUTTON_NONE, 1, false );
-        getInputHandler().addAction( getWheelUpdateAction(), InputHandler.DEVICE_MOUSE, InputHandler.BUTTON_NONE, 2, false );
+        getInputHandler().addAction(getButtonUpdateAction(InputHandler.BUTTON_ALL), InputHandler.DEVICE_MOUSE, InputHandler.BUTTON_ALL,
+                InputHandler.AXIS_NONE, false);
+        getInputHandler().addAction(getXUpdateAction(), InputHandler.DEVICE_MOUSE, InputHandler.BUTTON_NONE, 0, false);
+        getInputHandler().addAction(getYUpdateAction(), InputHandler.DEVICE_MOUSE, InputHandler.BUTTON_NONE, 1, false);
+        getInputHandler().addAction(getWheelUpdateAction(), InputHandler.DEVICE_MOUSE, InputHandler.BUTTON_NONE, 2, false);
 
-        getInputHandler().addAction( getKeyUpdateAction(), InputHandler.DEVICE_KEYBOARD, InputHandler.BUTTON_ALL, InputHandler.AXIS_NONE, false );
+        getInputHandler().addAction(getKeyUpdateAction(), InputHandler.DEVICE_KEYBOARD, InputHandler.BUTTON_ALL, InputHandler.AXIS_NONE, false);
     }
 
     //todo: reuse the runnables
     //todo: possibly reuse events, too?
 
-    public void onKey( final char character, final int keyCode, final boolean pressed ) {
+    public void onKey(final char character, final int keyCode, final boolean pressed) {
         try {
-            SwingUtilities.invokeAndWait( new Runnable() {
+            SwingUtilities.invokeAndWait(new Runnable() {
                 public void run() {
-                    sendAWTKeyEvent( keyCode, pressed, character );
+                    sendAWTKeyEvent(keyCode, pressed, character);
                 }
-            } );
-        } catch ( InterruptedException e ) {
+            });
+        } catch (InterruptedException e) {
             logger.logp(Level.SEVERE, this.getClass().toString(),
                     "onKey(character, keyCode, pressed)", "Exception", e);
-        } catch ( InvocationTargetException e ) {
+        } catch (InvocationTargetException e) {
             logger.logp(Level.SEVERE, this.getClass().toString(),
                     "onKey(character, keyCode, pressed)", "Exception", e);
         }
     }
 
-    public void onButton( final int swingButton, final boolean pressed, final int x, final int y ) {
-        convert( x, y, location );
+    public void onButton(final int swingButton, final boolean pressed, final int x, final int y) {
+        convert(x, y, location);
         final int awtX = (int) location.x;
         final int awtY = (int) location.y;
         try {
-            SwingUtilities.invokeAndWait( new Runnable() {
+            SwingUtilities.invokeAndWait(new Runnable() {
                 public void run() {
-                    sendAWTMouseEvent( awtX, awtY, pressed, swingButton );
+                    sendAWTMouseEvent(awtX, awtY, pressed, swingButton);
                 }
-            } );
-        } catch ( InterruptedException e ) {
+            });
+        } catch (InterruptedException e) {
             logger.logp(Level.SEVERE, this.getClass().toString(),
                     "onButton(swingButton, pressed, x, y)", "Exception", e);
-        } catch ( InvocationTargetException e ) {
+        } catch (InvocationTargetException e) {
             logger.logp(Level.SEVERE, this.getClass().toString(),
                     "onButton(swingButton, pressed, x, y)", "Exception", e);
         }
     }
 
-    public void onWheel( final int wheelDelta, final int x, final int y ) {
-        convert( x, y, location );
+    public void onWheel(final int wheelDelta, final int x, final int y) {
+        convert(x, y, location);
         final int awtX = (int) location.x;
         final int awtY = (int) location.y;
         try {
-            SwingUtilities.invokeAndWait( new Runnable() {
+            SwingUtilities.invokeAndWait(new Runnable() {
                 public void run() {
-                    sendAWTWheelEvent( wheelDelta, awtX, awtY );
+                    sendAWTWheelEvent(wheelDelta, awtX, awtY);
                 }
-            } );
-        } catch ( InterruptedException e ) {
+            });
+        } catch (InterruptedException e) {
             logger.logp(Level.SEVERE, this.getClass().toString(),
                     "onWheel(wheelDelta, x, y)", "Exception", e);
-        } catch ( InvocationTargetException e ) {
+        } catch (InvocationTargetException e) {
             logger.logp(Level.SEVERE, this.getClass().toString(),
                     "onWheel(wheelDelta, x, y)", "Exception", e);
         }
     }
 
-    public void onMove( int xDelta, int yDelta, final int newX, final int newY ) {
-        convert( newX, newY, location );
+    public void onMove(int xDelta, int yDelta, final int newX, final int newY) {
+        convert(newX, newY, location);
         final int awtX = (int) location.x;
         final int awtY = (int) location.y;
         try {
-            SwingUtilities.invokeAndWait( new Runnable() {
+            SwingUtilities.invokeAndWait(new Runnable() {
                 public void run() {
-                    sendAWTMouseEvent( awtX, awtY, false, MouseEvent.NOBUTTON );
+                    sendAWTMouseEvent(awtX, awtY, false, MouseEvent.NOBUTTON);
                 }
-            } );
-        } catch ( InterruptedException e ) {
+            });
+        } catch (InterruptedException e) {
             logger.logp(Level.SEVERE, this.getClass().toString(),
                     "onMove(xDelta, yDelta, newX, newY)", "Exception", e);
-        } catch ( InvocationTargetException e ) {
+        } catch (InvocationTargetException e) {
             logger.logp(Level.SEVERE, this.getClass().toString(),
                     "onMove(xDelta, yDelta, newX, newY)", "Exception", e);
         }
@@ -529,21 +497,20 @@ public class PiccoloNode extends Quad {
      *
      * @param synchronizingThreadsOnUpdate true to synchronize
      */
-    public void setSynchronizingThreadsOnUpdate( boolean synchronizingThreadsOnUpdate ) {
-        if ( this.synchronizingThreadsOnUpdate != synchronizingThreadsOnUpdate ) {
+    public void setSynchronizingThreadsOnUpdate(boolean synchronizingThreadsOnUpdate) {
+        if (this.synchronizingThreadsOnUpdate != synchronizingThreadsOnUpdate) {
             this.synchronizingThreadsOnUpdate = synchronizingThreadsOnUpdate;
         }
     }
 
-    private void enableAntiAlias( Graphics2D graphics ) {
+    private void enableAntiAlias(Graphics2D graphics) {
         RenderingHints hints = graphics.getRenderingHints();
-        if ( hints == null ) {
-            hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+        if (hints == null) {
+            hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        } else {
+            hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         }
-        else {
-            hints.put( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-        }
-        graphics.setRenderingHints( hints );
+        graphics.setRenderingHints(hints);
     }
 
     /**
@@ -569,15 +536,15 @@ public class PiccoloNode extends Quad {
 
     /**
      * @param swingButtonIndex button index sent in generated swing event, InputHandler.BUTTON_ALL for using
-     * trigger index + 1
+     *                         trigger index + 1
      * @return an action that should be invoked to generate an awt event for a pressed/released mouse button
      */
-    public ButtonAction getButtonUpdateAction( int swingButtonIndex ) {
-        if ( swingButtonIndex == InputHandler.BUTTON_ALL ) {
+    public ButtonAction getButtonUpdateAction(int swingButtonIndex) {
+        if (swingButtonIndex == InputHandler.BUTTON_ALL) {
             return allButtonsUpdateAction;
         }
 
-        return new ButtonAction( swingButtonIndex );
+        return new ButtonAction(swingButtonIndex);
     }
 
     /**
@@ -590,44 +557,44 @@ public class PiccoloNode extends Quad {
     private static class LightWeightPopup extends Popup {
         private static final Integer INTEGER_MAX_VALUE = Integer.MAX_VALUE;
 
-        public LightWeightPopup( JComponent desktop ) {
+        public LightWeightPopup(JComponent desktop) {
             this.desktop = desktop;
-            new ScrollPaneRepaintFixListener().addTo( panel );
+            new ScrollPaneRepaintFixListener().addTo(panel);
         }
 
         private final JComponent desktop;
 
-        JPanel panel = new JPanel( new BorderLayout() );
+        JPanel panel = new JPanel(new BorderLayout());
 
-        public void adjust( Component owner, Component contents, int x, int y ) {
-            panel.setVisible( false );
-            desktop.add( panel, INTEGER_MAX_VALUE );
+        public void adjust(Component owner, Component contents, int x, int y) {
+            panel.setVisible(false);
+            desktop.add(panel, INTEGER_MAX_VALUE);
             panel.removeAll();
-            panel.add( contents, BorderLayout.CENTER );
-            if ( contents instanceof JComponent ) {
+            panel.add(contents, BorderLayout.CENTER);
+            if (contents instanceof JComponent) {
                 JComponent jComponent = (JComponent) contents;
-                jComponent.setDoubleBuffered( false );
+                jComponent.setDoubleBuffered(false);
             }
-            panel.setSize( panel.getPreferredSize() );
-            y = Math.min( y, desktop.getHeight() - panel.getHeight() );
-            x = Math.min( x, desktop.getWidth() - panel.getWidth() );
-            panel.setLocation( x, y );
+            panel.setSize(panel.getPreferredSize());
+            y = Math.min(y, desktop.getHeight() - panel.getHeight());
+            x = Math.min(x, desktop.getWidth() - panel.getWidth());
+            panel.setLocation(x, y);
             contents.invalidate();
             panel.validate();
         }
 
         public void show() {
-            panel.setVisible( true );
+            panel.setVisible(true);
         }
 
         public void hide() {
             Rectangle bounds = panel.getBounds();
-            desktop.remove( panel );
-            desktop.repaint( bounds );
+            desktop.remove(panel);
+            desktop.repaint(bounds);
         }
     }
 
-    private void sendAWTKeyEvent( int keyCode, boolean pressed, char character ) {
+    private void sendAWTKeyEvent(int keyCode, boolean pressed, char character) {
 //        keyCode = AWTKeyInput.toAWTCode( keyCode );
 //        if ( keyCode != 0 ) {
 //            Component focusOwner = getFocusOwner();
@@ -677,24 +644,24 @@ public class PiccoloNode extends Quad {
 //        }
     }
 
-    private void dispatchEvent( final Component receiver, final AWTEvent event ) {
-        if ( getModalComponent() == null || SwingUtilities.isDescendingFrom( receiver, getModalComponent() ) ) {
-            if ( !SwingUtilities.isEventDispatchThread() ) {
-                throw new IllegalStateException( "not in swing thread!" );
+    private void dispatchEvent(final Component receiver, final AWTEvent event) {
+        if (getModalComponent() == null || SwingUtilities.isDescendingFrom(receiver, getModalComponent())) {
+            if (!SwingUtilities.isEventDispatchThread()) {
+                throw new IllegalStateException("not in swing thread!");
             }
-            receiver.dispatchEvent( event );
+            receiver.dispatchEvent(event);
         }
     }
 
-    private static Int anInt = new Int( 0 );
+    private static Int anInt = new Int(0);
 
     private static class Int {
-        public Int( int value ) {
+        public Int(int value) {
             this.value = value;
         }
 
-        public boolean equals( Object obj ) {
-            return obj instanceof Int && ( (Int) obj ).value == value;
+        public boolean equals(Object obj) {
+            return obj instanceof Int && ((Int) obj).value == value;
 
         }
 
@@ -706,7 +673,7 @@ public class PiccoloNode extends Quad {
     }
 
     private static class Char {
-        public Char( char value ) {
+        public Char(char value) {
             this.value = value;
         }
 
@@ -716,23 +683,23 @@ public class PiccoloNode extends Quad {
     /**
      * From keyCode (Int) to character (Char)
      */
-    private Map<Int,Char> characters = new HashMap<Int,Char>();
+    private Map<Int, Char> characters = new HashMap<Int, Char>();
 
-    private static void dontDrawBackground( Container container ) {
-        if ( container != null ) {
-            container.setBackground( null );
-            if ( container instanceof JComponent ) {
-                final JComponent component = ( (JComponent) container );
-                component.setOpaque( false );
+    private static void dontDrawBackground(Container container) {
+        if (container != null) {
+            container.setBackground(null);
+            if (container instanceof JComponent) {
+                final JComponent component = ((JComponent) container);
+                component.setOpaque(false);
             }
-            dontDrawBackground( container.getParent() );
+            dontDrawBackground(container.getParent());
         }
     }
 
-    private static int powerOf2SizeIfNeeded( int size, boolean generateMipMaps ) {
-        if ( generateMipMaps || !TextureState.isNonPowerOfTwoTextureSupported() ) {
+    private static int powerOf2SizeIfNeeded(int size, boolean generateMipMaps) {
+        if (generateMipMaps || !TextureState.isNonPowerOfTwoTextureSupported()) {
             int powerOf2Size = 1;
-            while ( powerOf2Size < size ) {
+            while (powerOf2Size < size) {
                 powerOf2Size <<= 1;
             }
             return powerOf2Size;
@@ -752,7 +719,7 @@ public class PiccoloNode extends Quad {
 
     private Vector2f location = new Vector2f();
 
-    private void sendAWTWheelEvent( int wheelDelta, int x, int y ) {
+    private void sendAWTWheelEvent(int wheelDelta, int x, int y) {
 //        Component comp = lastComponent != null ? lastComponent : componentAt( x, y, desktop, false );
 //        if ( comp == null ) {
 //            comp = desktop;
@@ -768,28 +735,28 @@ public class PiccoloNode extends Quad {
 
     private boolean useConvertPoint = true;
 
-    private Point convertPoint( Component parent, int x, int y, Component comp ) {
-        if ( useConvertPoint ) {
+    private Point convertPoint(Component parent, int x, int y, Component comp) {
+        if (useConvertPoint) {
             try {
-                return SwingUtilities.convertPoint( parent, x, y, comp );
-            } catch ( InternalError e ) {
+                return SwingUtilities.convertPoint(parent, x, y, comp);
+            } catch (InternalError e) {
                 useConvertPoint = false;
             }
         }
-        if ( comp != null ) {
-            while ( comp != parent ) {
+        if (comp != null) {
+            while (comp != parent) {
                 x -= comp.getX();
                 y -= comp.getY();
-                if ( comp.getParent() == null ) {
+                if (comp.getParent() == null) {
                     break;
                 }
                 comp = comp.getParent();
             }
         }
-        return new Point( x, y );
+        return new Point(x, y);
     }
 
-    private void sendAWTMouseEvent( int x, int y, boolean pressed, int swingButton ) {
+    private void sendAWTMouseEvent(int x, int y, boolean pressed, int swingButton) {
 //        Component comp = componentAt( x, y, desktop, false );
 //
 //        final int eventType;
@@ -878,7 +845,7 @@ public class PiccoloNode extends Quad {
 
     private boolean focusCleared = false;
 
-    public void setFocusOwner( Component comp ) {
+    public void setFocusOwner(Component comp) {
 //        if ( comp == null || comp.isFocusable() ) {
 //            for ( Component p = comp; p != null; p = p.getParent() ) {
 //                if ( p instanceof JInternalFrame ) {
@@ -914,42 +881,42 @@ public class PiccoloNode extends Quad {
 //        focusCleared = comp == null;
     }
 
-    private int getCurrentModifiers( int swingBtton ) {
+    private int getCurrentModifiers(int swingBtton) {
         int modifiers = 0;
-        if ( isKeyDown( KeyInput.KEY_LMENU ) ) {
+        if (isKeyDown(KeyInput.KEY_LMENU)) {
             modifiers |= InputEvent.ALT_DOWN_MASK;
             modifiers |= InputEvent.ALT_MASK;
         }
-        if ( isKeyDown( KeyInput.KEY_RMENU ) ) {
+        if (isKeyDown(KeyInput.KEY_RMENU)) {
             modifiers |= InputEvent.ALT_GRAPH_DOWN_MASK;
             modifiers |= InputEvent.ALT_GRAPH_MASK;
         }
-        if ( isKeyDown( KeyInput.KEY_LCONTROL ) || isKeyDown( KeyInput.KEY_RCONTROL ) ) {
+        if (isKeyDown(KeyInput.KEY_LCONTROL) || isKeyDown(KeyInput.KEY_RCONTROL)) {
             modifiers |= InputEvent.CTRL_DOWN_MASK;
             modifiers |= InputEvent.CTRL_MASK;
         }
-        if ( isKeyDown( KeyInput.KEY_LSHIFT ) || isKeyDown( KeyInput.KEY_RSHIFT ) ) {
+        if (isKeyDown(KeyInput.KEY_LSHIFT) || isKeyDown(KeyInput.KEY_RSHIFT)) {
             modifiers |= InputEvent.SHIFT_DOWN_MASK;
             modifiers |= InputEvent.SHIFT_MASK;
         }
-        return modifiers | getButtonMask( swingBtton );
+        return modifiers | getButtonMask(swingBtton);
     }
 
-    private boolean isKeyDown( int key ) {
-        return KeyInput.get().isKeyDown( key );
+    private boolean isKeyDown(int key) {
+        return KeyInput.get().isKeyDown(key);
     }
 
-    private int getButtonMask( int swingButton ) {
+    private int getButtonMask(int swingButton) {
         int buttonMask = 0;
-        if ( MouseInput.get().isButtonDown( 0 ) || swingButton == MouseEvent.BUTTON1 ) {
+        if (MouseInput.get().isButtonDown(0) || swingButton == MouseEvent.BUTTON1) {
             buttonMask |= InputEvent.BUTTON1_MASK;
             buttonMask |= InputEvent.BUTTON1_DOWN_MASK;
         }
-        if ( MouseInput.get().isButtonDown( 1 ) || swingButton == MouseEvent.BUTTON2 ) {
+        if (MouseInput.get().isButtonDown(1) || swingButton == MouseEvent.BUTTON2) {
             buttonMask |= InputEvent.BUTTON2_MASK;
             buttonMask |= InputEvent.BUTTON2_DOWN_MASK;
         }
-        if ( MouseInput.get().isButtonDown( 2 ) || swingButton == MouseEvent.BUTTON3 ) {
+        if (MouseInput.get().isButtonDown(2) || swingButton == MouseEvent.BUTTON3) {
             buttonMask |= InputEvent.BUTTON3_MASK;
             buttonMask |= InputEvent.BUTTON3_DOWN_MASK;
         }
@@ -970,38 +937,36 @@ public class PiccoloNode extends Quad {
 
     /**
      * Convert mouse coordinates from jME screen to JMEDesktop coordinates (Swing).
-     * @param x jME x coordinate
-     * @param y jME y coordinate
+     *
+     * @param x     jME x coordinate
+     * @param y     jME y coordinate
      * @param store resulting JDesktop coordinates
      */
-    public void convert( int x, int y, Vector2f store ) {
-        if ( lastXin == x && lastYin == y ) {
+    public void convert(int x, int y, Vector2f store) {
+        if (lastXin == x && lastYin == y) {
             store.x = lastXout;
             store.y = lastYout;
-        }
-        else {
+        } else {
             lastXin = x;
             lastYin = y;
-            if ( getRenderQueueMode() == Renderer.QUEUE_ORTHO ) {
+            if (getRenderQueueMode() == Renderer.QUEUE_ORTHO) {
                 //TODO: occlusion by other quads (JMEFrames)
-                x = (int) ( x - getWorldTranslation().x + desktopWidth / 2 );
-                y = (int) ( desktopHeight / 2 - ( y - getWorldTranslation().y ) );
-            }
-            else {
-                store.set( x, y );
-                DisplaySystem.getDisplaySystem().getWorldCoordinates( store, 0, pickRay.origin );
-                DisplaySystem.getDisplaySystem().getWorldCoordinates( store, 0.3f, pickRay.direction ).subtractLocal( pickRay.origin ).normalizeLocal();
+                x = (int) (x - getWorldTranslation().x + desktopWidth / 2);
+                y = (int) (desktopHeight / 2 - (y - getWorldTranslation().y));
+            } else {
+                store.set(x, y);
+                DisplaySystem.getDisplaySystem().getWorldCoordinates(store, 0, pickRay.origin);
+                DisplaySystem.getDisplaySystem().getWorldCoordinates(store, 0.3f, pickRay.direction).subtractLocal(pickRay.origin).normalizeLocal();
 
-                applyWorld( bottomLeft.set( -width * 0.5f, -height * 0.5f, 0 ) );
-                applyWorld( topLeft.set( -width * 0.5f, height * 0.5f, 0 ) );
-                applyWorld( topRight.set( width * 0.5f, height * 0.5f, 0 ) );
-                applyWorld( bottomRight.set( width * 0.5f, -height * 0.5f, 0 ) );
+                applyWorld(bottomLeft.set(-width * 0.5f, -height * 0.5f, 0));
+                applyWorld(topLeft.set(-width * 0.5f, height * 0.5f, 0));
+                applyWorld(topRight.set(width * 0.5f, height * 0.5f, 0));
+                applyWorld(bottomRight.set(width * 0.5f, -height * 0.5f, 0));
 
-                if ( pickRay.intersectWherePlanarQuad( topLeft, topRight, bottomLeft, tuv ) ) {
-                    x = (int) ( ( tuv.y - 0.5f ) * width ) + desktopWidth / 2;
-                    y = (int) ( ( tuv.z - 0.5f ) * height ) + desktopHeight / 2;
-                }
-                else {
+                if (pickRay.intersectWherePlanarQuad(topLeft, topRight, bottomLeft, tuv)) {
+                    x = (int) ((tuv.y - 0.5f) * width) + desktopWidth / 2;
+                    y = (int) ((tuv.z - 0.5f) * height) + desktopHeight / 2;
+                } else {
                     x = -1;
                     y = -1;
                 }
@@ -1009,12 +974,12 @@ public class PiccoloNode extends Quad {
             lastYout = y;
             lastXout = x;
 
-            store.set( x, y );
+            store.set(x, y);
         }
     }
 
-    private void applyWorld( Vector3f point ) {
-        getWorldRotation().multLocal( point.multLocal( getWorldScale() ) ).addLocal( getWorldTranslation() );
+    private void applyWorld(Vector3f point) {
+        getWorldRotation().multLocal(point.multLocal(getWorldScale())).addLocal(getWorldTranslation());
     }
 
 //    /**
@@ -1033,27 +998,26 @@ public class PiccoloNode extends Quad {
 //        return null;
 //    }
 
-    private Component componentAt( int x, int y, Component parent, boolean scanRootPanes ) {
-        if ( scanRootPanes && parent instanceof JRootPane ) {
+    private Component componentAt(int x, int y, Component parent, boolean scanRootPanes) {
+        if (scanRootPanes && parent instanceof JRootPane) {
             JRootPane rootPane = (JRootPane) parent;
             parent = rootPane.getContentPane();
         }
 
         Component child = parent;
-        if ( !parent.contains( x, y ) ) {
+        if (!parent.contains(x, y)) {
             child = null;
-        }
-        else {
-            synchronized ( parent.getTreeLock() ) {
-                if ( parent instanceof Container ) {
+        } else {
+            synchronized (parent.getTreeLock()) {
+                if (parent instanceof Container) {
                     Container container = (Container) parent;
                     int ncomponents = container.getComponentCount();
-                    for ( int i = 0; i < ncomponents; i++ ) {
-                        Component comp = container.getComponent( i );
-                        if ( comp != null
+                    for (int i = 0; i < ncomponents; i++) {
+                        Component comp = container.getComponent(i);
+                        if (comp != null
                                 && comp.isVisible()
-                                && ( dragAndDropSupport == null || !dragAndDropSupport.isDragPanel(comp) )
-                                && comp.contains( x - comp.getX(), y - comp.getY() ) ) {
+                                && (dragAndDropSupport == null || !dragAndDropSupport.isDragPanel(comp))
+                                && comp.contains(x - comp.getX(), y - comp.getY())) {
                             child = comp;
                             break;
                         }
@@ -1062,72 +1026,73 @@ public class PiccoloNode extends Quad {
             }
         }
 
-        if ( child != null ) {
-            if ( parent instanceof JTabbedPane && child != parent ) {
-                child = ( (JTabbedPane) parent ).getSelectedComponent();
+        if (child != null) {
+            if (parent instanceof JTabbedPane && child != parent) {
+                child = ((JTabbedPane) parent).getSelectedComponent();
             }
             x -= child.getX();
             y -= child.getY();
         }
-        return child != parent && child != null ? componentAt( x, y, child, scanRootPanes ) : child;
+        return child != parent && child != null ? componentAt(x, y, child, scanRootPanes) : child;
     }
 
-    private void sendEnteredEvent( Component comp, Component lastComponent, int buttonMask, Point pos ) {
-        if ( comp != null && comp != lastComponent ) {
-            sendEnteredEvent( comp.getParent(), lastComponent, buttonMask, pos );
+    private void sendEnteredEvent(Component comp, Component lastComponent, int buttonMask, Point pos) {
+        if (comp != null && comp != lastComponent) {
+            sendEnteredEvent(comp.getParent(), lastComponent, buttonMask, pos);
 
-            pos = convertPoint( lastComponent, pos.x, pos.y, comp );
-            final MouseEvent event = new MouseEvent( comp,
+            pos = convertPoint(lastComponent, pos.x, pos.y, comp);
+            final MouseEvent event = new MouseEvent(comp,
                     MouseEvent.MOUSE_ENTERED,
-                    System.currentTimeMillis(), buttonMask, pos.x, pos.y, 0, false, 0 );
-            dispatchEvent( comp, event );
+                    System.currentTimeMillis(), buttonMask, pos.x, pos.y, 0, false, 0);
+            dispatchEvent(comp, event);
         }
 
     }
 
-    private void sendExitedEvent( Component lastComponent, int buttonMask, Point pos ) {
-        final MouseEvent event = new MouseEvent( lastComponent,
+    private void sendExitedEvent(Component lastComponent, int buttonMask, Point pos) {
+        final MouseEvent event = new MouseEvent(lastComponent,
                 MouseEvent.MOUSE_EXITED,
-                System.currentTimeMillis(), buttonMask, pos.x, pos.y, 1, false, 0 );
-        dispatchEvent( lastComponent, event );
+                System.currentTimeMillis(), buttonMask, pos.x, pos.y, 1, false, 0);
+        dispatchEvent(lastComponent, event);
     }
 
     private final LockRunnable paintLockRunnable = new LockRunnable();
 
-    Graphics mg=null;
-    public void draw( Renderer r ) {
-        if (mg==null){
-        mg=graphics.create();
+    Graphics mg = null;
+
+    public void draw(Renderer r) {
+        if (mg == null) {
+            mg = graphics.create();
         }
-        if (mg!=null)
+        if (mg != null)
             node.fullPaint(new PPaintContext((Graphics2D) mg));
-        if ( graphics.isDirty() ) {
+        if (graphics.isDirty()) {
             final boolean synchronizingThreadsOnUpdate = this.synchronizingThreadsOnUpdate;
-            if ( synchronizingThreadsOnUpdate ) {
-                synchronized ( paintLockRunnable ) {
+            if (synchronizingThreadsOnUpdate) {
+                synchronized (paintLockRunnable) {
                     try {
                         paintLockRunnable.wait = true;
-                        SwingUtilities.invokeLater( paintLockRunnable );
-                        paintLockRunnable.wait( 100 );
-                    } catch ( InterruptedException e ) {
+                        SwingUtilities.invokeLater(paintLockRunnable);
+                        paintLockRunnable.wait(100);
+                    } catch (InterruptedException e) {
                         logger.logp(Level.SEVERE, this.getClass().toString(), "draw(Renderer r)", "Exception", e);
                     }
                 }
             }
             try {
-                if ( graphics != null && texture.getTextureId() > 0) {
-                    graphics.update( texture );
+                if (graphics != null && texture.getTextureId() > 0) {
+                    graphics.update(texture);
                 }
             } finally {
 
-                if ( synchronizingThreadsOnUpdate ) {
-                    synchronized ( paintLockRunnable ) {
+                if (synchronizingThreadsOnUpdate) {
+                    synchronized (paintLockRunnable) {
                         paintLockRunnable.notifyAll();
                     }
                 }
             }
         }
-        super.draw( r );
+        super.draw(r);
     }
 
 //    public JDesktopPane getJDesktop() {
@@ -1146,14 +1111,14 @@ public class PiccoloNode extends Quad {
         private boolean wait = false;
 
         public void run() {
-            synchronized ( paintLockRunnable ) {
+            synchronized (paintLockRunnable) {
                 notifyAll();
-                if ( wait ) {
+                if (wait) {
                     try {
                         //wait for repaint to finish
                         wait = false;
-                        paintLockRunnable.wait( 200 );
-                    } catch ( InterruptedException e ) {
+                        paintLockRunnable.wait(200);
+                    } catch (InterruptedException e) {
                         logger.logp(Level.SEVERE, this.getClass().toString(),
                                 "run()", "Exception", e);
                     }
@@ -1165,17 +1130,17 @@ public class PiccoloNode extends Quad {
     private static class MyPopupFactory extends PopupFactory {
         private final PopupFactory defaultPopupFactory = new PopupFactory();
 
-        public Popup getPopup( Component owner, Component contents, int x, int y ) throws IllegalArgumentException {
-            while ( !( owner instanceof JDesktopPane ) ) {
+        public Popup getPopup(Component owner, Component contents, int x, int y) throws IllegalArgumentException {
+            while (!(owner instanceof JDesktopPane)) {
                 owner = owner.getParent();
-                if ( owner == null ) {
+                if (owner == null) {
                     logger.warning("jME Popup creation failed, default popup created - desktop not found in component hierarchy of "
-                                    + owner);
-                    return defaultPopupFactory.getPopup( owner, contents, x, y );
+                            + owner);
+                    return defaultPopupFactory.getPopup(owner, contents, x, y);
                 }
             }
-            PiccoloNode.LightWeightPopup popup = new PiccoloNode.LightWeightPopup( (JComponent) owner );
-            popup.adjust( owner, contents, x, y );
+            PiccoloNode.LightWeightPopup popup = new PiccoloNode.LightWeightPopup((JComponent) owner);
+            popup.adjust(owner, contents, x, y);
             return popup;
         }
     }
@@ -1185,65 +1150,69 @@ public class PiccoloNode extends Quad {
 
         /**
          * @param swingButtonIndex button index sent in generated swing event,
-         * InputHandler.BUTTON_ALL for mapping 0: MouseEvent.BUTTON1, 1: MouseEvent.BUTTON2, 2: MouseEvent.BUTTON3
+         *                         InputHandler.BUTTON_ALL for mapping 0: MouseEvent.BUTTON1, 1: MouseEvent.BUTTON2, 2: MouseEvent.BUTTON3
          */
-        public ButtonAction( int swingButtonIndex ) {
+        public ButtonAction(int swingButtonIndex) {
             this.swingButtonIndex = swingButtonIndex;
         }
 
-        public void performAction( InputActionEvent evt ) {
-            onButton( swingButtonIndex != InputHandler.BUTTON_ALL ?
-                    swingButtonIndex : getSwingButtonIndex( evt.getTriggerIndex() ),
-                    evt.getTriggerPressed(), lastXin, lastYin );
+        public void performAction(InputActionEvent evt) {
+            onButton(swingButtonIndex != InputHandler.BUTTON_ALL ?
+                    swingButtonIndex : getSwingButtonIndex(evt.getTriggerIndex()),
+                    evt.getTriggerPressed(), lastXin, lastYin);
         }
     }
 
-    private int getSwingButtonIndex( int jmeButtonIndex ) {
-        switch ( jmeButtonIndex ) {
-            case 0: return MouseEvent.BUTTON1;
-            case 1: return MouseEvent.BUTTON2;
-            case 2: return MouseEvent.BUTTON3;
-            default: return MouseEvent.NOBUTTON; //todo: warn here?
+    private int getSwingButtonIndex(int jmeButtonIndex) {
+        switch (jmeButtonIndex) {
+            case 0:
+                return MouseEvent.BUTTON1;
+            case 1:
+                return MouseEvent.BUTTON2;
+            case 2:
+                return MouseEvent.BUTTON3;
+            default:
+                return MouseEvent.NOBUTTON; //todo: warn here?
         }
     }
 
     private class XUpdateAction extends InputAction {
         public XUpdateAction() {
-            setSpeed( 1 );
+            setSpeed(1);
         }
 
-        public void performAction( InputActionEvent evt ) {
+        public void performAction(InputActionEvent evt) {
             int screenWidth = DisplaySystem.getDisplaySystem().getWidth();
-            onMove( (int) ( screenWidth * evt.getTriggerDelta() * getSpeed() ), 0,
-                    (int) ( screenWidth * evt.getTriggerPosition() * getSpeed() ), lastYin );
+            onMove((int) (screenWidth * evt.getTriggerDelta() * getSpeed()), 0,
+                    (int) (screenWidth * evt.getTriggerPosition() * getSpeed()), lastYin);
         }
     }
 
     private class YUpdateAction extends InputAction {
         public YUpdateAction() {
-            setSpeed( 1 );
+            setSpeed(1);
         }
 
-        public void performAction( InputActionEvent evt ) {
+        public void performAction(InputActionEvent evt) {
             int screenHeight = DisplaySystem.getDisplaySystem().getHeight();
-            onMove( 0, (int) ( screenHeight * evt.getTriggerDelta() * getSpeed() ), lastXin,
-                    (int) ( screenHeight * evt.getTriggerPosition() * getSpeed() ) );
+            onMove(0, (int) (screenHeight * evt.getTriggerDelta() * getSpeed()), lastXin,
+                    (int) (screenHeight * evt.getTriggerPosition() * getSpeed()));
         }
     }
 
     private class WheelUpdateAction extends InputAction {
         public WheelUpdateAction() {
-            setSpeed( 1 );
+            setSpeed(1);
         }
 
-        public void performAction( InputActionEvent evt ) {
-            onWheel( (int) ( evt.getTriggerDelta() * getSpeed() ), lastXin, lastYin );
+        public void performAction(InputActionEvent evt) {
+            onWheel((int) (evt.getTriggerDelta() * getSpeed()), lastXin, lastYin);
         }
     }
 
     private class KeyUpdateAction extends InputAction {
-        public void performAction( InputActionEvent evt ) {
-            onKey( evt.getTriggerCharacter(), evt.getTriggerIndex(), evt.getTriggerPressed() );
+        public void performAction(InputActionEvent evt) {
+            onKey(evt.getTriggerCharacter(), evt.getTriggerIndex(), evt.getTriggerPressed());
         }
     }
 
@@ -1267,7 +1236,7 @@ public class PiccoloNode extends Quad {
      *
      * @param value component that can be exclusively accessed (including children)
      */
-    public void setModalComponent( final Component value ) {
+    public void setModalComponent(final Component value) {
         this.modalComponent = value;
     }
 
@@ -1314,69 +1283,69 @@ public class PiccoloNode extends Quad {
     }
 
     private static class ScrollPaneRepaintFixListener implements ContainerListener {
-        public void componentAdded( ContainerEvent e ) {
+        public void componentAdded(ContainerEvent e) {
             Component child = e.getChild();
-            componentAdded( child );
+            componentAdded(child);
         }
 
-        private void componentAdded( Component child ) {
-            if ( child instanceof Container ) {
+        private void componentAdded(Component child) {
+            if (child instanceof Container) {
                 Container container = (Container) child;
-                addTo( container );
-                container.addContainerListener( this );
+                addTo(container);
+                container.addContainerListener(this);
             }
-            if ( child instanceof JScrollPane ) {
+            if (child instanceof JScrollPane) {
                 final JScrollPane scrollPane = (JScrollPane) child;
                 // note: the listener added here is only a fix for repaint problems with scrolling
-                subscribeRepaintListener( scrollPane.getViewport() );
+                subscribeRepaintListener(scrollPane.getViewport());
             }
         }
 
-        private void addTo( Container container ) {
-            container.addContainerListener( this );
-            for ( int i = 0; i < container.getComponentCount(); i++ ) {
-                componentAdded( container.getComponent( i ) );
+        private void addTo(Container container) {
+            container.addContainerListener(this);
+            for (int i = 0; i < container.getComponentCount(); i++) {
+                componentAdded(container.getComponent(i));
             }
         }
 
-        private void removeFrom( Container container ) {
-            container.removeContainerListener( this );
-            for ( int i = 0; i < container.getComponentCount(); i++ ) {
-                componentRemoved( container.getComponent( i ) );
+        private void removeFrom(Container container) {
+            container.removeContainerListener(this);
+            for (int i = 0; i < container.getComponentCount(); i++) {
+                componentRemoved(container.getComponent(i));
             }
         }
 
-        private void subscribeRepaintListener( JViewport viewport ) {
-            for ( int i = 0; i < viewport.getChangeListeners().length; i++ ) {
+        private void subscribeRepaintListener(JViewport viewport) {
+            for (int i = 0; i < viewport.getChangeListeners().length; i++) {
                 ChangeListener listener = viewport.getChangeListeners()[i];
-                if ( listener instanceof ScrollPaneRepaintChangeListener ) {
+                if (listener instanceof ScrollPaneRepaintChangeListener) {
                     // listener already subscribed
                     return;
                 }
             }
-            viewport.addChangeListener( new ScrollPaneRepaintChangeListener( viewport ) );
+            viewport.addChangeListener(new ScrollPaneRepaintChangeListener(viewport));
         }
 
-        public void componentRemoved( ContainerEvent e ) {
+        public void componentRemoved(ContainerEvent e) {
             Component child = e.getChild();
-            componentRemoved( child );
+            componentRemoved(child);
         }
 
-        private void componentRemoved( Component child ) {
-            if ( child instanceof Container ) {
+        private void componentRemoved(Component child) {
+            if (child instanceof Container) {
                 Container container = (Container) child;
-                removeFrom( container );
+                removeFrom(container);
             }
         }
 
         private static class ScrollPaneRepaintChangeListener implements ChangeListener {
             private final Component component;
 
-            public ScrollPaneRepaintChangeListener( Component component ) {
+            public ScrollPaneRepaintChangeListener(Component component) {
                 this.component = component;
             }
 
-            public void stateChanged( ChangeEvent e ) {
+            public void stateChanged(ChangeEvent e) {
                 component.repaint();
             }
         }
@@ -1384,11 +1353,12 @@ public class PiccoloNode extends Quad {
 
     /**
      * Resizing jMEDesktop is not supported.
-     * @param width -
+     *
+     * @param width  -
      * @param height -
      */
     @Deprecated
-    public void resize( float width, float height ) {
+    public void resize(float width, float height) {
         super.resize(width, height);
     }
 }

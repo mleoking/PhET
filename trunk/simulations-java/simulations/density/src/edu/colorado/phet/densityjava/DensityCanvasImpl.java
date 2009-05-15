@@ -30,6 +30,7 @@ import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.PhysicsSpace;
 import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.physics.geometry.PhysicsMesh;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -38,8 +39,6 @@ import java.util.ConcurrentModificationException;
 import java.util.Random;
 import java.util.concurrent.Callable;
 import java.util.logging.Logger;
-
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
  * Created by IntelliJ IDEA.
@@ -212,10 +211,11 @@ public class DensityCanvasImpl extends SimpleCanvasImpl {
 //        statNode.attachChild( label );
     }
 
-    Random random=new Random(3);
+    Random random = new Random(3);
+
     private DynamicPhysicsNode createBox() {
         DynamicPhysicsNode node = getPhysicsSpace().createDynamicNode();
-        TriMesh mesh = new MultiFaceBox("meshsphere", new Vector3f(0, random.nextFloat()*20+3, 0), 2, 2, 2);
+        TriMesh mesh = new MultiFaceBox("meshsphere", new Vector3f(0, random.nextFloat() * 20 + 3, 0), 2, 2, 2);
         mesh.setModelBound(new BoundingSphere());
         mesh.updateModelBound();
         PhysicsMesh physMesh = node.createMesh("box mesh");
