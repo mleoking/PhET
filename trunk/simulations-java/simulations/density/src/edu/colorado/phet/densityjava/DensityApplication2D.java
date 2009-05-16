@@ -29,7 +29,7 @@ public class DensityApplication2D extends PiccoloPhetApplication {
 
     public static void main(String[] args) throws IOException {
         //add natives to path
-        new PhetApplicationLauncher().launchSim(args, "density", DensityApplication2D.class);
+        new PhetApplicationLauncher().launchSim(args, "density", "density-2d",DensityApplication2D.class);
     }
 
 }

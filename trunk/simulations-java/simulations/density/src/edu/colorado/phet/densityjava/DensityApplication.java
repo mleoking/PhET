@@ -47,7 +47,7 @@ public class DensityApplication extends PiccoloPhetApplication {
         File nativesDir = extractNatives();
         DensityUtils.addDir(nativesDir);
 
-        new PhetApplicationLauncher().launchSim(args, "density", DensityApplication.class);
+        new PhetApplicationLauncher().launchSim(args, "density", "density", DensityApplication.class);
     }
 
     private static File extractNatives() throws IOException {
