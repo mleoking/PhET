@@ -47,20 +47,24 @@ public class DensityModel {
         }
     }
 
+    double floatHeight = 5;
+
     public void setFourBlocksSameMass() {
         clearBlocks();
-        addBlock(new Block("Block 1", 1, water, -1, swimmingPool.getMaxY() + 5,Color.red));
-        addBlock(new Block("Block 2", 1, water, 1, swimmingPool.getMaxY() + 5,Color.green));
-        addBlock(new Block("Block 3", 2, water, 4, swimmingPool.getMaxY() + 5,Color.blue));
-        addBlock(new Block("Block 4", 2, water, 7, swimmingPool.getMaxY() + 5,Color.yellow));
+        double sameMass=7;
+        addBlock(new Block("Block 1", 1, water, -1, swimmingPool.getMaxY() + floatHeight, Color.red, sameMass));
+        addBlock(new Block("Block 2", 1.5, water, 1, swimmingPool.getMaxY() + floatHeight, Color.green, sameMass));
+        addBlock(new Block("Block 3", 2, water, 4, swimmingPool.getMaxY() + floatHeight, Color.blue, sameMass));
+        addBlock(new Block("Block 4", 2.5, water, 7, swimmingPool.getMaxY() + floatHeight, Color.yellow, sameMass));
     }
 
     public void setFourBlocksSameVolume() {
         clearBlocks();
-        addBlock(new Block("Block 1", 1, water, -1, swimmingPool.getMaxY() + 5,Color.red));
-        addBlock(new Block("Block 2", 1, water, 1, swimmingPool.getMaxY() + 5,Color.green));
-        addBlock(new Block("Block 3", 2, water, 4, swimmingPool.getMaxY() + 5,Color.blue));
-        addBlock(new Block("Block 4", 2, water, 7, swimmingPool.getMaxY() + 5,Color.yellow));
+        double sameVolume=1;
+        addBlock(new Block("Block 1", sameVolume, water, -1, swimmingPool.getMaxY() + floatHeight, Color.red, 3));
+        addBlock(new Block("Block 2", sameVolume, water, 1, swimmingPool.getMaxY() + floatHeight, Color.green, 17));
+        addBlock(new Block("Block 3", sameVolume, water, 4, swimmingPool.getMaxY() + floatHeight, Color.blue, 2));
+        addBlock(new Block("Block 4", sameVolume, water, 7, swimmingPool.getMaxY() + floatHeight, Color.yellow, 1.5));
     }
 
     private void addBlock(Block block) {
@@ -132,14 +136,15 @@ public class DensityModel {
     }
 
     public static class Block extends RectangularObject {
-        private double mass = 5;
+        private double mass;
         private double velocity = 0;
         private Water water;
         private boolean dragging = false;
 
-        Block(String name, double dim, Water water, double x, double y,Color color) {
+        Block(String name, double dim, Water water, double x, double y, Color color, double mass) {
             super(name, x, y, dim, dim, dim, color);
             this.water = water;
+            this.mass = mass;
         }
 
         public void stepInTime(double simulationTimeChange) {
