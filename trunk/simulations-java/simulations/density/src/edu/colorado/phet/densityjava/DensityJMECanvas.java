@@ -86,7 +86,6 @@ class DensityJMECanvas extends JPanel {
         dialog.setUndecorated(true);
         dialog.pack();
         dialog.setVisible(true);
-        dialog.setBackground(new Color(0, 0, 0, 0.3f));
 
         parent.addComponentListener(new ComponentAdapter() {
             @Override
