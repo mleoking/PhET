@@ -98,10 +98,17 @@ class Internationalizer{
 		this.setString(_root.body1_mc.grams_txt, "mass1Label", "center");
 		this.setString(_root.body2_mc.grams_txt, "mass2Label", "center");
 		this.setString(_root.body3_mc.grams_txt, "mass3Label", "center");
+		
+		_root.body4_mc.grams_txt.text = "";
+		_root.body5_mc.grams_txt.text = "";
+		_root.body6_mc.grams_txt.text = "";
+		this.setString(_root.body7_mc.grams_txt, "mass7Label", "center");
+		/*
 		this.setString(_root.body4_mc.grams_txt, "mass4Label", "center");
 		this.setString(_root.body5_mc.grams_txt, "mass5Label", "center");
 		this.setString(_root.body6_mc.grams_txt, "mass6Label", "center");
 		this.setString(_root.body7_mc.grams_txt, "mass7Label", "center");
+		*/
 		
 		this.setString( _level0.myRuler_mc.rulerHelp_mc.label_txt, "help1", "center");
 		this.setString( _level0.myRefLine_mc.refLineHelp_mc.label_txt, "help2", "center");
