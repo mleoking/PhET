@@ -280,7 +280,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
             TextureState ts = display.getRenderer().createTextureState();
             Texture t0 = TextureManager.loadTexture(
                     getClass().getClassLoader().getResource(
-                            "jmetest/data/texture/wall.jpg"),
+                            "density/images/wall.jpg"),
                     Texture.MinificationFilter.Trilinear,
                     Texture.MagnificationFilter.Bilinear);
             t0.setWrap(Texture.WrapMode.Repeat);
