@@ -26,7 +26,7 @@ public class UnfuddleTool {
         PersonHandler.getPersonHandler();
         MilestoneHandler.getMilestoneHandler();
 
-        Activity.requestRecentActivity( 8 );
+        Activity.requestRecentActivity( 9 );
 
         Thread updateThread = new UpdateThread();
         updateThread.start();

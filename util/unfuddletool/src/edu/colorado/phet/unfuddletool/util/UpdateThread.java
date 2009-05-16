@@ -13,7 +13,7 @@ public class UpdateThread extends Thread {
 
                 //SwingUtilities.invokeLater( new Runnable() {
                 //    public void run() {
-                Activity.requestRecentActivity( 3 );
+                Activity.requestRecentActivity( 4 );
                 //    }
                 //} );
             }
