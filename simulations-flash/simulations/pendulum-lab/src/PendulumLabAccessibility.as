@@ -45,6 +45,11 @@ class PendulumLabAccessibility {
 
     public var playPause : TabEntry;
 
+    public var tapeMeasure : TabEntry;
+
+
+
+
     public var tab : TabHandler;
 
     public function PendulumLabAccessibility() {
@@ -111,11 +116,19 @@ class PendulumLabAccessibility {
 
         reset = new TabEntry( _level0.panel_mc.resetButton_mc );
         reset.buttonlike = true;
+        reset.highlightWidth = 4;
 
         playPause = new TabEntry( _level0.pausePlay_mc.button_mc, TabHandler.HIGHLIGHT_GLOBAL );
         playPause.buttonlike = true;
         playPause.highlightInset = -5;
         playPause.highlightWidth = 4;
+
+        tapeMeasure = new TabEntry( _level0.meterScale_mc, TabHandler.HIGHLIGHT_LOCAL );
+        tapeMeasure.keys[ Key.LEFT ] = function() { _level0.meterScale_mc._x -= 5; updateAfterEvent(); }
+        tapeMeasure.keys[ Key.RIGHT ] = function() { _level0.meterScale_mc._x += 5; updateAfterEvent(); }
+        tapeMeasure.keys[ Key.UP ] = function() { _level0.meterScale_mc._y -= 5; updateAfterEvent(); }
+        tapeMeasure.keys[ Key.DOWN ] = function() { _level0.meterScale_mc._y += 5; updateAfterEvent(); }
+        tapeMeasure.manualBounds = new Rectangle( -8.9, -175.9, 20, 400 );
 
         var idx : Number = 0;
         
@@ -153,6 +166,8 @@ class PendulumLabAccessibility {
         tab.insertEntry( otherTools, idx++ );
 
         tab.insertEntry( reset, idx++ );
+
+        tab.insertEntry( tapeMeasure, idx++ );
         
     }
 
