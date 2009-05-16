@@ -3,11 +3,13 @@ package edu.colorado.phet.densityjava;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.densityjava.common.MyRadioButton;
 import edu.colorado.phet.densityjava.model.DensityModel;
+import edu.colorado.phet.densityjava.model.MassVolumeModel;
 
 import javax.swing.*;
 import java.io.File;
@@ -25,15 +27,26 @@ public class DensityApplication extends PiccoloPhetApplication {
 
     class DensityModule extends Module {
         private final DensityModel model = new DensityModel();
+        private final MassVolumeModel massVolumeModel = new MassVolumeModel();
         private final DensityJMECanvas panel;
 
         public DensityModule(JFrame frame) {
             super("density", new ConstantDtClock(30, 30 / 1000.0));
-            panel = new DensityJMECanvas(frame, model);
+            panel = new DensityJMECanvas(frame, model,massVolumeModel);
             setSimulationPanel(panel);
-            getClock().addClockListener(new ClockAdapter(){
+            getClock().addClockListener(new ClockAdapter() {
                 public void simulationTimeChanged(ClockEvent clockEvent) {
                     model.stepInTime(clockEvent.getSimulationTimeChange());
+                }
+            });
+            massVolumeModel.addListener(new MyRadioButton.Unit() {
+                public void update() {
+                    System.out.println("DensityApplication$DensityModule.update");
+                    if (massVolumeModel.isSameMass()) {
+                        model.setFourBlocksSameMass();
+                    } else {
+                        model.setFourBlocksSameVolume();
+                    }
                 }
             });
         }

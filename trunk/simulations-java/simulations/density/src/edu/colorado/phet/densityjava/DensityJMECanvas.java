@@ -33,7 +33,7 @@ class DensityJMECanvas extends JPanel {
     private JDialog d2;
 
     // Construct the frame
-    public DensityJMECanvas(JFrame parent, DensityModel model) {
+    public DensityJMECanvas(JFrame parent, DensityModel model, MassVolumeModel massVolumeModel) {
         setLayout(new BorderLayout());
 
         mainPanel.setLayout(new GridBagLayout());
@@ -82,7 +82,7 @@ class DensityJMECanvas extends JPanel {
         */
 
         dialog = new JDialog(parent, false);
-        dialog.setContentPane(new MassVolumeChooser(new MassVolumeModel()));
+        dialog.setContentPane(new MassVolumeChooser(massVolumeModel));
         dialog.setUndecorated(true);
         dialog.pack();
         dialog.setVisible(true);

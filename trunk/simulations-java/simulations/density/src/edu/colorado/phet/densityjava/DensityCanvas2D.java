@@ -40,7 +40,7 @@ public class DensityCanvas2D extends PhetPCanvas {
             rightFace = new PhetPPath(rectangularObject.getRightFaceColor());
             addChild(rightFace);
 
-            rectangularObject.addListener(new DensityModel.RectangularObject.Listener() {
+            rectangularObject.addListener(new DensityModel.RectangularObject.Adapter() {
                 public void modelChanged() {
                     updateShapes();
                 }
