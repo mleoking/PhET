@@ -13,6 +13,7 @@ public class DensityModel {
     private Sphere sphere = new Sphere();
     private Scale scale = new Scale();
     private double waterVolume = swimmingPool.getVolume() * 0.8;
+    private ArrayList<Block> blocks = new ArrayList<Block>();
     private Water water = new Water(swimmingPool, waterVolume, new WaterHeightMapper() {
         public double getWaterHeight(double waterVolume) {
             double proposedHeight = waterVolume / swimmingPool.getWidth() / swimmingPool.getDepth();
@@ -23,40 +24,50 @@ public class DensityModel {
         }
 
         private double getEffectiveVolume(double proposedHeight) {
-            if (block1 == null) {
-                return waterVolume;
-            } else {
-                return waterVolume + block1.getSubmergedVolume(proposedHeight) + block2.getSubmergedVolume(proposedHeight);
-            }
+            double subVol = 0.0;
+            for (Block block : blocks) subVol += block.getSubmergedVolume(proposedHeight);
+            return waterVolume + subVol;
         }
     });
-    private Block block1 = new Block("Block 1", 1, water);
-    private Block block2 = new Block("Block 2", 2, water);
 
     public void stepInTime(double simulationTimeChange) {
         //update the blocks and the forces on the blocks
-        block1.stepInTime(simulationTimeChange);
-        block2.stepInTime(simulationTimeChange);
+        for (Block block : blocks) {
+            block.stepInTime(simulationTimeChange);
+        }
+    }
+
+    public int getBlockCount() {
+        return blocks.size();
+    }
+
+    public Block getBlock(int i) {
+        return blocks.get(i);
     }
 
     public static interface WaterHeightMapper {
         double getWaterHeight(double waterVolume);
     }
 
+    final RectangularObject.Listener listener = new RectangularObject.Listener() {
+        public void modelChanged() {
+            updateWaterHeight();
+        }
+    };
+
     public DensityModel() {
-        block2.translate(new Point2D.Double(5, -1));
+        addBlock("Block 1", 1, -1, 1);
+        addBlock("Block 2", 1, 1, 1);
+        addBlock("Block 3", 2, 4, 1);
+        addBlock("Block 4", 2, 7, 1);
         //as blocks go underwater, water level should rise
-        block1.addListener(new RectangularObject.Listener() {
-            public void modelChanged() {
-                updateWaterHeight();
-            }
-        });
-        block2.addListener(new RectangularObject.Listener() {
-            public void modelChanged() {
-                updateWaterHeight();
-            }
-        });
         water.updateWaterHeight();
+    }
+
+    private void addBlock(String name, double dim, double x, double y) {
+        Block block = new Block(name, dim, water);
+        block.translate(x, y);
+        blocks.add(block);
     }
 
     private void updateWaterHeight() {
@@ -71,20 +82,12 @@ public class DensityModel {
         return water;
     }
 
-    public Block getBlock1() {
-        return block1;
-    }
-
     public Sphere getSphere() {
         return sphere;
     }
 
     public Scale getScale() {
         return scale;
-    }
-
-    public Block getBlock2() {
-        return block2;
     }
 
     public static class Block extends RectangularObject {
@@ -94,7 +97,7 @@ public class DensityModel {
         private boolean dragging = false;
 
         Block(String name, double dim, Water water) {
-            super(name, 2.7, 4, dim, dim, dim, new Color(123, 81, 237));
+            super(name, 0, 0, dim, dim, dim, new Color(123, 81, 237));
             this.water = water;
         }
 
@@ -104,15 +107,24 @@ public class DensityModel {
                 double accel = force / mass;
                 velocity += accel * simulationTimeChange;
                 setPosition2D(getX(), getY() + velocity * simulationTimeChange);
-                if (getY() <= water.getBottomY()) {
-                    setPosition2D(getX(), water.getBottomY());
+                if (getY() <= getFloorY()) {
+                    setPosition2D(getX(), getFloorY());
                     velocity = 0;
                 }
             }
         }
 
+        //the bottom of the pool if over the pool, otherwise the ground level
+        //todo: generalize for block stacking
+        private double getFloorY() {
+            if (water.getWidthRange().contains(getWidthRange()))
+                return water.getBottomY();
+            else
+                return water.getSwimmingPoolSurfaceY();
+        }
+
         private double getNormalForce() {
-            if (getY() <= water.getBottomY()) {
+            if (getY() <= getFloorY()) {
                 return -getGravityForce() - getBuoyancyForce();
             } else return 0;
         }
@@ -179,6 +191,10 @@ public class DensityModel {
             return volume;
         }
 
+        public Range getWidthRange() {
+            return new Range(x, x + width);
+        }
+
         public double getSubmergedVolume(double proposedHeight) {
             return getWidth() * getDepth() * getHeightSubmerged(proposedHeight);
         }
@@ -233,14 +249,10 @@ public class DensityModel {
             Range a = new Range(a1, a2);
             Range b = new Range(b1, b2);
             return a.getOverlap(b);
-//            if (b1 > a1 && b1 < a2 && b2 > a1 && b2 < a2) {
-//                return b2 - b1;
-//            } else if (a1 > b1 && a1 < b2 && a2 > b1 && a2 < b2) {
-//                return a2 - a1;
-//            } else if ()
-//            else{
-//                return 0;
-//            }
+        }
+
+        public void translate(double dx, double dy) {
+            translate(new Point2D.Double(dx, dy));
         }
 
         public void setHeight(double height) {
@@ -403,5 +415,10 @@ public class DensityModel {
         public double getBottomY() {
             return container.getY();
         }
+
+        public double getSwimmingPoolSurfaceY() {
+            return container.getY() + container.getHeight();
+        }
+
     }
 }

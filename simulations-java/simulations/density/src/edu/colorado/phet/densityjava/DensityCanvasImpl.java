@@ -52,8 +52,10 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
 
         rootNode.attachChild(getPoolNode(model.getSwimmingPool()));
         rootNode.attachChild(getWaterNode(model.getWater()));
-        rootNode.attachChild(new RectNode(model.getBlock1()));
-        rootNode.attachChild(new RectNode(model.getBlock2()));
+        for (int i = 0; i < model.getBlockCount(); i++) {
+            rootNode.attachChild(new RectNode(model.getBlock(i)));
+        }
+
         rootNode.attachChild(new CutawayEarthNode(model));
         rootNode.attachChild(new GrassNode(model));
 //        rootNode.attachChild(new Sphere("sphere", 10, 10, 0.5f));
@@ -103,7 +105,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
             }
 
             public void mouseReleased(MouseEvent e) {
-                if (picked!=null&&picked.getTargetMesh() instanceof ObjectBox) {
+                if (picked != null && picked.getTargetMesh() instanceof ObjectBox) {
                     ObjectBox ob = (ObjectBox) picked.getTargetMesh();
                     ob.getObject().setDragging(false);
                 }

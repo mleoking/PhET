@@ -76,9 +76,9 @@ public class DensityCanvas2D extends PhetPCanvas {
         setWorldTransformStrategy(new CenteringBoxStrategy(this, new PDimension(800, 800)));
         ModelViewTransform2D modelViewTransform2D = new ModelViewTransform2D(new PBounds(-1, -1, 12, 12), new PBounds(0, 0, 800, 800), true);
 
-
-        addWorldChild(new DraggableBlockNode(model.getBlock1(), modelViewTransform2D));
-        addWorldChild(new DraggableBlockNode(model.getBlock2(), modelViewTransform2D));
+        for (int i = 0; i < model.getBlockCount(); i++) {
+            addWorldChild(new DraggableBlockNode(model.getBlock(i), modelViewTransform2D));
+        }
         addWorldChild(new UndraggableBlockNode(model.getWater(), modelViewTransform2D));
     }
 
