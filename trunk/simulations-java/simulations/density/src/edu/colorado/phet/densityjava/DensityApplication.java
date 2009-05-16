@@ -18,15 +18,16 @@ public class DensityApplication extends PiccoloPhetApplication {
 
     public DensityApplication(PhetApplicationConfig config) {
         super(config);
-        addModule(new DensityModule());
+        addModule(new DensityModule(getPhetFrame()));
     }
 
     class DensityModule extends Module {
         private final DensityModel model = new DensityModel();
-        private final DensityJMECanvas panel = new DensityJMECanvas(model);
+        private final DensityJMECanvas panel;
 
-        public DensityModule() {
+        public DensityModule(JFrame frame) {
             super("density", new ConstantDtClock(30, 30 / 1000.0));
+            panel = new DensityJMECanvas(frame, model);
             setSimulationPanel(panel);
         }
 
