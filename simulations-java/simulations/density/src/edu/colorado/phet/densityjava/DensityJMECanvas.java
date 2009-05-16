@@ -7,6 +7,8 @@ import com.jme.system.lwjgl.LWJGLSystemProvider;
 import com.jmex.awt.input.AWTMouseInput;
 import com.jmex.awt.lwjgl.LWJGLAWTCanvasConstructor;
 import edu.colorado.phet.densityjava.model.DensityModel;
+import edu.colorado.phet.densityjava.model.MassVolumeModel;
+import edu.colorado.phet.densityjava.view.MassVolumeChooser;
 
 import javax.swing.*;
 import java.awt.*;
@@ -80,7 +82,7 @@ class DensityJMECanvas extends JPanel {
         */
 
         dialog = new JDialog(parent, false);
-        dialog.setContentPane(new JButton("hello"));
+        dialog.setContentPane(new MassVolumeChooser(new MassVolumeModel()));
         dialog.setUndecorated(true);
         dialog.pack();
         dialog.setVisible(true);
