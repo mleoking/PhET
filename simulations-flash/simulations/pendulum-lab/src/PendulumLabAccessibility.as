@@ -83,6 +83,8 @@ class PendulumLabAccessibility {
         mass2Slider = new TabEntry(_root.panel_mc.mass2Slider.puck_mc, TabHandler.HIGHLIGHT_LOCAL);
 
         frictionSlider = new TabEntry( _level0.panel_mc.frictionSlider_mc, TabHandler.HIGHLIGHT_LOCAL, _level0.panel_mc.frictionSlider_mc.knob_mc );
+        frictionSlider.highlightWidth = 3;
+        frictionSlider.highlightInset = 0;
 
         realTimeRadio = new TabEntry( _level0.panel_mc.timeGroup_mc.radio1, TabHandler.HIGHLIGHT_GLOBAL, _level0.panel_mc.timeGroup_mc.label1_txt );
         initRadio( realTimeRadio );
@@ -157,7 +159,33 @@ class PendulumLabAccessibility {
         stopWatchStop.buttonlike = true;
         
         tapeMeasureBody = new TabEntry( _level0.tapeMeasure_mc.tapeMeasure_mc.tapeBody_mc, TabHandler.HIGHLIGHT_LOCAL );
+        tapeMeasureBody.keys[ Key.RIGHT ] = function() { _level0.tapeMeasure_mc._x += 5; updateAfterEvent(); }
+        tapeMeasureBody.keys[ Key.LEFT ] = function() { _level0.tapeMeasure_mc._x -= 5; updateAfterEvent(); }
+        tapeMeasureBody.keys[ Key.UP ] = function() { _level0.tapeMeasure_mc._y -= 5; updateAfterEvent(); }
+        tapeMeasureBody.keys[ Key.DOWN ] = function() { _level0.tapeMeasure_mc._y += 5; updateAfterEvent(); }
         tapeMeasureEnd = new TabEntry( _level0.tapeMeasure_mc.tapeMeasure_mc.tapeEnd_mc, TabHandler.HIGHLIGHT_LOCAL );
+        tapeMeasureEnd.keys[ Key.RIGHT ] = function() {
+            _level0.tapeMeasure_mc.tapeMeasure_mc._rotation += 200 / _level0.tapeMeasure_mc.tapeMeasure_mc.tapeEnd_mc._x;
+            updateAfterEvent();
+        }
+        tapeMeasureEnd.keys[ Key.LEFT ] = function() {
+            _level0.tapeMeasure_mc.tapeMeasure_mc._rotation -= 200 / _level0.tapeMeasure_mc.tapeMeasure_mc.tapeEnd_mc._x;
+            updateAfterEvent();
+        }
+        tapeMeasureEnd.keys[ Key.UP ] = function() {
+            var curLength = _level0.tapeMeasure_mc.tapeMeasure_mc.tapeEnd_mc._x;
+            curLength += 3;
+            _level0.tapeMeasure_mc.tapeMeasure_mc.tapeEnd_mc._x = curLength;
+            _level0.tapeMeasure_mc.tapeMeasure_mc.tapeLength_mc._width = curLength;
+            _level0.tapeMeasure_mc.updateReadout();
+        }
+        tapeMeasureEnd.keys[ Key.DOWN ] = function() {
+            var curLength = _level0.tapeMeasure_mc.tapeMeasure_mc.tapeEnd_mc._x;
+            curLength -= 3;
+            _level0.tapeMeasure_mc.tapeMeasure_mc.tapeEnd_mc._x = curLength;
+            _level0.tapeMeasure_mc.tapeMeasure_mc.tapeLength_mc._width = curLength;
+            _level0.tapeMeasure_mc.updateReadout();
+        }
 
 
 
