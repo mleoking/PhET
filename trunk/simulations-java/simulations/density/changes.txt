@@ -1,3 +1,5 @@
+Generalize block count
+Add collisions with ground
 # 0.00.07 (31774) May 16, 2009
 5/16/09 improve model and add 2d project
 # 0.00.06 (31768) May 16, 2009
