@@ -1,3 +1,4 @@
+# 0.00.08 (31784) May 16, 2009
 Generalize block count
 Add collisions with ground
 # 0.00.07 (31774) May 16, 2009
