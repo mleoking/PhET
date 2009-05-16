@@ -82,6 +82,7 @@ public class Activity {
         Calendar cal = new GregorianCalendar();
         cal.setTime( new Date() );
         dayRoll( cal, true );
+        dayRoll( cal, true );
 
         String oldString = stringFromCalendar( cal );
 
