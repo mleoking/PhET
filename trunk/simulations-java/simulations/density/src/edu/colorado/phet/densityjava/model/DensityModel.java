@@ -99,7 +99,6 @@ public class DensityModel {
             RectangularObject intersection = new RectangularObject("intersection", 0, 0,
                     Math.min(object.getWidth(), this.getWidth()), intersectHeight, Math.min(object.getDepth(), this.getDepth()), Color.black);
             final double volume = intersection.getVolume();
-            System.out.println("volume = " + volume);
             return volume;
         }
 
