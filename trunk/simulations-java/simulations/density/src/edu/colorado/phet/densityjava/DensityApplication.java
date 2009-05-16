@@ -36,6 +36,7 @@ public class DensityApplication extends PiccoloPhetApplication {
             SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
                     panel.getCanvas().requestFocus();
+                    panel.activate();
                 }
             });
         }

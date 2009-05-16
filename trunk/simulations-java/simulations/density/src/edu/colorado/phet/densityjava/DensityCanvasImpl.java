@@ -95,7 +95,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
             public void mousePressed(MouseEvent e) {
                 PickResults pickResults = getPickResults();
                 for (int i = 0; i < pickResults.getNumber(); i++) {
-                    if (i == 0) {
+                    if (i == 0 && pickResults.getPickData(i).getTargetMesh() instanceof ObjectBox) {
                         picked = pickResults.getPickData(i);
                         pickPt = ((ObjectBox) picked.getTargetMesh()).getObject().getPoint2D();
                     }
