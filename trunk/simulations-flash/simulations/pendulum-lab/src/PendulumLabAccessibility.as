@@ -45,7 +45,7 @@ class PendulumLabAccessibility {
 
     public var playPause : TabEntry;
 
-    public var tapeMeasure : TabEntry;
+    public var ruler : TabEntry;
 
     public var photogateRadio1 : TabEntry;
     public var photogateRadio2 : TabEntry;
@@ -125,12 +125,12 @@ class PendulumLabAccessibility {
         playPause.highlightInset = -5;
         playPause.highlightWidth = 4;
 
-        tapeMeasure = new TabEntry( _level0.meterScale_mc, TabHandler.HIGHLIGHT_LOCAL );
-        tapeMeasure.keys[ Key.LEFT ] = function() { _level0.meterScale_mc._x -= 5; updateAfterEvent(); }
-        tapeMeasure.keys[ Key.RIGHT ] = function() { _level0.meterScale_mc._x += 5; updateAfterEvent(); }
-        tapeMeasure.keys[ Key.UP ] = function() { _level0.meterScale_mc._y -= 5; updateAfterEvent(); }
-        tapeMeasure.keys[ Key.DOWN ] = function() { _level0.meterScale_mc._y += 5; updateAfterEvent(); }
-        tapeMeasure.manualBounds = new Rectangle( -8.9, -175.9, 20, 400 );
+        ruler = new TabEntry( _level0.meterScale_mc, TabHandler.HIGHLIGHT_LOCAL );
+        ruler.keys[ Key.LEFT ] = function() { _level0.meterScale_mc._x -= 5; updateAfterEvent(); }
+        ruler.keys[ Key.RIGHT ] = function() { _level0.meterScale_mc._x += 5; updateAfterEvent(); }
+        ruler.keys[ Key.UP ] = function() { _level0.meterScale_mc._y -= 5; updateAfterEvent(); }
+        ruler.keys[ Key.DOWN ] = function() { _level0.meterScale_mc._y += 5; updateAfterEvent(); }
+        ruler.manualBounds = new Rectangle( -8.9, -175.9, 20, 400 );
 
         photogateRadio1 = new TabEntry( _level0.photogate_mc.gateRadioGroup_mc.radio1, TabHandler.HIGHLIGHT_LOCAL );
         photogateRadio1.manualBounds = checkBounds;
@@ -185,7 +185,7 @@ class PendulumLabAccessibility {
 
         tab.insertEntry( reset, idx++ );
 
-        tab.insertEntry( tapeMeasure, idx++ );
+        tab.insertEntry( ruler, idx++ );
         
     }
 
@@ -216,7 +216,7 @@ class PendulumLabAccessibility {
     }
 
     public function showPhotogate() {
-        var tapeIndex : Number = tab.findEntryIndex( tapeMeasure );
+        var tapeIndex : Number = tab.findEntryIndex( ruler );
 
         if( tapeIndex == -1 ) {
             return;
