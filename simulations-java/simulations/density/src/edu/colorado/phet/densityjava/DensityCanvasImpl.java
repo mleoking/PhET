@@ -45,16 +45,11 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
         this.component = component;
     }
 
-
     public void simpleSetup() {
         super.simpleSetup();
         cam.setLocation(new Vector3f(5, 7f, 9.5f));
         cam.setDirection(new Vector3f(-0.0f, -0.3f, -1f).normalize());
         cam.setUp(new Vector3f(0, 0.9f, -0.3f));
-        //X=-0.0020647694, Y=0.94831604, Z=-0.31732062
-        //[X=4.9974375, Y=7.8010283, Z=9.459855], dir=com.jme.math.Vector3f [X=-0.006167505, Y=-0.31732586, Z=-0.94829655], up=com.jme.math.Vector3f [X=-0.0020647694, Y=0.94831604, Z=-0.31732062]
-//        [X=5.0, Y=3.3967884, Z=10.568076], dir=com.jme.math.Vector3f [X=-0.019998908, Y=-0.004354203, Z=-0.99979055],
-// up=com.jme.math.Vector3f [X=-8.700101E-5, Y=0.9999905, Z=-0.004353096]
 
         rootNode.attachChild(getPoolNode(model.getSwimmingPool()));
         rootNode.attachChild(getWaterNode(model.getWater()));
