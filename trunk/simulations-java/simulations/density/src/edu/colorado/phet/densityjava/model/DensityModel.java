@@ -9,16 +9,26 @@ import java.util.ArrayList;
 
 public class DensityModel {
     private SwimmingPool swimmingPool = new SwimmingPool();
-    private Block block1 = new Block("Block 1");
-    private Block block2 = new Block("Block 2");
+    private Block block1 = new Block("Block 1", 1);
+    private Block block2 = new Block("Block 2", 2);
     private Sphere sphere = new Sphere();
     private Scale scale = new Scale();
-    private Water water = new Water(swimmingPool, swimmingPool.getVolume() * 0.8, new WaterHeightMapper() {
+    private double waterVolume = swimmingPool.getVolume() * 0.8;
+    private Water water = new Water(swimmingPool, waterVolume, new WaterHeightMapper() {
         public double getWaterHeight(double waterVolume) {
             double proposedHeight = waterVolume / swimmingPool.getWidth() / swimmingPool.getDepth();
-            proposedHeight = proposedHeight + block1.getIntersectingVolume(new RectangularObject("temp", swimmingPool.getX(), swimmingPool.getY(), swimmingPool.getWidth(), proposedHeight, swimmingPool.getDepth(), Color.blue))/block1.getWidth()/block1.getDepth();
-            proposedHeight = proposedHeight + block2.getIntersectingVolume(new RectangularObject("temp", swimmingPool.getX(), swimmingPool.getY(), swimmingPool.getWidth(), proposedHeight, swimmingPool.getDepth(), Color.blue))/block2.getWidth()/block2.getDepth();;
+            for (int i = 0; i < 10; i++) {//use an iterative algorithm since I can't find any nice analytical solution
+                proposedHeight = getEffectiveVolume(proposedHeight) / swimmingPool.getWidth() / swimmingPool.getDepth();
+            }
             return proposedHeight;  //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+        private double getEffectiveVolume(double proposedHeight) {
+            if (block1 == null) {
+                return waterVolume;
+            } else {
+                return waterVolume + block1.getSubmergedVolume(proposedHeight) + block2.getSubmergedVolume(proposedHeight);
+            }
         }
     });
 
@@ -70,8 +80,8 @@ public class DensityModel {
     }
 
     static class Block extends RectangularObject {
-        Block(String name) {
-            super(name, 2.7, 4, 1, 1, 1, new Color(123, 81, 237));
+        Block(String name, double dim) {
+            super(name, 2.7, 4, dim, dim, dim, new Color(123, 81, 237));
         }
     }
 
@@ -100,6 +110,16 @@ public class DensityModel {
                     Math.min(object.getWidth(), this.getWidth()), intersectHeight, Math.min(object.getDepth(), this.getDepth()), Color.black);
             final double volume = intersection.getVolume();
             return volume;
+        }
+
+        public double getSubmergedVolume(double proposedHeight) {
+            return getWidth() * getDepth() * getHeightSubmerged(proposedHeight);
+        }
+
+        private double getHeightSubmerged(double waterLevelY) {
+            if (waterLevelY < y) return 0;
+            else if (waterLevelY > y + height) return height;
+            else return waterLevelY - y;
         }
 
         static class Range {
