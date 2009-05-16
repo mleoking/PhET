@@ -17,6 +17,8 @@ class PendulumLabAccessibility {
     public var mass2Text : TabEntry;
     public var mass2Slider : TabEntry;
 
+    public var frictionSlider : TabEntry;
+
     public var tab : TabHandler;
 
     public function PendulumLabAccessibility() {
@@ -40,6 +42,8 @@ class PendulumLabAccessibility {
         mass2Text = new TabEntry(_root.panel_mc.mass2Slider.value_txt);
         mass2Slider = new TabEntry(_root.panel_mc.mass2Slider.puck_mc, TabHandler.HIGHLIGHT_LOCAL);
 
+        frictionSlider = new TabEntry( _level0.panel_mc.frictionSlider_mc, TabHandler.HIGHLIGHT_LOCAL, _level0.panel_mc.frictionSlider_mc.knob_mc );
+
 
         tab.insertEntry( pendulum1, 0 );
         tab.insertEntry( length1Text, 1 );
@@ -47,6 +51,7 @@ class PendulumLabAccessibility {
         tab.insertEntry( mass1Text, 3 );
         tab.insertEntry( mass1Slider, 4 );
         tab.insertEntry( pendulum2Check, 5 );
+        tab.insertEntry( frictionSlider, 6 );
         
     }
 
@@ -88,5 +93,10 @@ class PendulumLabAccessibility {
 
         entry.keys[ 37 ] = slider.puck_mc.pressLeft;
         entry.keys[ 39 ] = slider.puck_mc.pressRight;
+    }
+
+    public function initializeFrictionSlider() {
+        frictionSlider.keys[ 37 ] = frictionSlider.control.pressLeft;
+        frictionSlider.keys[ 39 ] = frictionSlider.control.pressRight;
     }
 }
