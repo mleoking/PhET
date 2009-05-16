@@ -47,7 +47,9 @@ class PendulumLabAccessibility {
 
     public var tapeMeasure : TabEntry;
 
-
+    public var photogateRadio1 : TabEntry;
+    public var photogateRadio2 : TabEntry;
+    public var photogateButton : TabEntry;
 
 
     public var tab : TabHandler;
@@ -130,6 +132,22 @@ class PendulumLabAccessibility {
         tapeMeasure.keys[ Key.DOWN ] = function() { _level0.meterScale_mc._y += 5; updateAfterEvent(); }
         tapeMeasure.manualBounds = new Rectangle( -8.9, -175.9, 20, 400 );
 
+        photogateRadio1 = new TabEntry( _level0.photogate_mc.gateRadioGroup_mc.radio1, TabHandler.HIGHLIGHT_LOCAL );
+        photogateRadio1.manualBounds = checkBounds;
+        initRadio( photogateRadio1 );
+        photogateRadio2 = new TabEntry( _level0.photogate_mc.gateRadioGroup_mc.radio2, TabHandler.HIGHLIGHT_LOCAL );
+        photogateRadio2.manualBounds = checkBounds;
+        initRadio( photogateRadio2 );
+        photogateButton = new TabEntry( _level0.photogate_mc.periodButton_mc, TabHandler.HIGHLIGHT_LOCAL );
+        photogateButton.highlightWidth = 4;
+        photogateButton.buttonlike = true;
+
+
+
+
+
+
+
         var idx : Number = 0;
         
         tab.insertEntry( pendulum1, idx++ );
@@ -187,9 +205,6 @@ class PendulumLabAccessibility {
         tab.insertEntry( length2Slider, pendulum2CheckIndex + 2 );
         tab.insertEntry( mass2Text, pendulum2CheckIndex + 3 );
         tab.insertEntry( mass2Slider, pendulum2CheckIndex + 4 );
-
-
-
     }
 
     public function hidePendulum2() {
@@ -198,6 +213,23 @@ class PendulumLabAccessibility {
         tab.removeEntry( mass2Text );
         tab.removeEntry( mass2Slider );
         tab.removeEntry( pendulum2 );
+    }
+
+    public function showPhotogate() {
+        var tapeIndex : Number = tab.findEntryIndex( tapeMeasure );
+
+        if( tapeIndex == -1 ) {
+            return;
+        }
+        tab.insertEntry( photogateRadio1, tapeIndex + 1 );
+        tab.insertEntry( photogateRadio2, tapeIndex + 2 );
+        tab.insertEntry( photogateButton, tapeIndex + 3 );
+    }
+
+    public function hidePhotogate() {
+        tab.removeEntry( photogateRadio1 );
+        tab.removeEntry( photogateRadio2 );
+        tab.removeEntry( photogateButton );
     }
 
     public function initializeSlider( slider : MovieClip ) {

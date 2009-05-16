@@ -158,6 +158,9 @@ class edu.colorado.phet.flashcommon.TabHandler {
 	// remove a control from the tab order
 	public function removeControl(obj : Object) : Void {
 		var idx : Number = findIndex( obj );
+        if( idx == -1 ) {
+            return;
+        }
         if( currentIndex == idx ) {
             if( entries.length > 1 ) {
                 next();
