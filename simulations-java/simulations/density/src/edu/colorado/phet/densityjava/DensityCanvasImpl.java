@@ -91,7 +91,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
         materialState.setMaterialFace(MaterialState.MaterialFace.FrontAndBack);
         poolNode.setRenderState(materialState);
         Quad quad = new Quad("pool back", (float) swimmingPool.getWidth(), (float) swimmingPool.getHeight());
-        quad.setLocalTranslation((float) swimmingPool.getWidth() / 2, (float) swimmingPool.getHeight() / 2, (float) (-swimmingPool.getDepth() - 1E-6));
+        quad.setLocalTranslation((float) swimmingPool.getWidth() / 2, (float) swimmingPool.getHeight() / 2, (float) (-swimmingPool.getDepth() - 1E-2));
         poolNode.attachChild(quad);
         return poolNode;
     }
