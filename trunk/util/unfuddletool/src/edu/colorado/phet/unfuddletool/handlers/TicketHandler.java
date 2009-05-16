@@ -30,7 +30,7 @@ public class TicketHandler {
         return ticketHandler;
     }
 
-    public Ticket requestNewTicketById( int id ) {
+    public synchronized Ticket requestNewTicketById( int id ) {
         Element element = Communication.getTicketElementFromServer( id );
         Ticket ticket = null;
         if ( element != null ) {
@@ -41,7 +41,7 @@ public class TicketHandler {
         return ticket;
     }
 
-    public Ticket getTicketById( int id ) {
+    public synchronized Ticket getTicketById( int id ) {
         Iterator<Ticket> iter = tickets.iterator();
 
         while ( iter.hasNext() ) {
