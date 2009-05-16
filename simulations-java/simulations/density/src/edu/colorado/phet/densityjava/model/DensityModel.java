@@ -13,25 +13,36 @@ public class DensityModel {
     private Block block2 = new Block("Block 2");
     private Sphere sphere = new Sphere();
     private Scale scale = new Scale();
-    private Water water = new Water(swimmingPool, swimmingPool.getVolume() * 0.8);
+    private Water water = new Water(swimmingPool, swimmingPool.getVolume() * 0.8, new WaterHeightMapper() {
+        public double getWaterHeight(double waterVolume) {
+            double proposedHeight = waterVolume / swimmingPool.getWidth() / swimmingPool.getDepth();
+            proposedHeight = proposedHeight + block1.getIntersectingVolume(new RectangularObject("temp", swimmingPool.getX(), swimmingPool.getY(), swimmingPool.getWidth(), proposedHeight, swimmingPool.getDepth(), Color.blue))/block1.getWidth()/block1.getDepth();
+            proposedHeight = proposedHeight + block2.getIntersectingVolume(new RectangularObject("temp", swimmingPool.getX(), swimmingPool.getY(), swimmingPool.getWidth(), proposedHeight, swimmingPool.getDepth(), Color.blue))/block2.getWidth()/block2.getDepth();;
+            return proposedHeight;  //To change body of implemented methods use File | Settings | File Templates.
+        }
+    });
+
+    public static interface WaterHeightMapper {
+        double getWaterHeight(double waterVolume);
+    }
 
     public DensityModel() {
         block2.translate(new Point2D.Double(5, -1));
         //as blocks go underwater, water level should rise
         block1.addListener(new RectangularObject.Listener() {
             public void modelChanged() {
-                updateWaterDepth();
+                updateWaterHeight();
             }
         });
         block2.addListener(new RectangularObject.Listener() {
             public void modelChanged() {
-                updateWaterDepth();
+                updateWaterHeight();
             }
         });
     }
 
-    private void updateWaterDepth() {
-        double waterVolume = water.getWaterVolume();
+    private void updateWaterHeight() {
+        water.updateWaterHeight();
     }
 
     public SwimmingPool getSwimmingPool() {
@@ -80,6 +91,71 @@ public class DensityModel {
         private double height;
         private double depth;
         private Color faceColor;
+
+        //todo: generalize
+        public double getIntersectingVolume(RectangularObject object) {
+            double intersectHeight = getOverlapLengths(object.getY(), object.getY() + object.getHeight(),
+                    this.getY(), this.getY() + this.getHeight());
+            RectangularObject intersection = new RectangularObject("intersection", 0, 0,
+                    Math.min(object.getWidth(), this.getWidth()), intersectHeight, Math.min(object.getDepth(), this.getDepth()), Color.black);
+            final double volume = intersection.getVolume();
+            System.out.println("volume = " + volume);
+            return volume;
+        }
+
+        static class Range {
+            private double min;
+            private double max;
+
+            Range(double min, double max) {
+                this.min = min;
+                this.max = max;
+            }
+
+            public double getOverlap(Range b) {
+                if (this.contains(b)) {
+                    return b.range();
+                } else if (b.contains(this)) {
+                    return this.range();
+                } else if (this.contains(b.min)) {
+                    return new Range(b.min, this.max).range();
+                } else if (this.contains(b.max)) {
+                    return new Range(this.min, b.max).range();
+                } else if (b.contains(this.min)) {
+                    return new Range(this.min, b.max).range();
+                } else if (b.contains(this.max)) {
+                    return new Range(b.min, this.max).range();
+                } else {
+                    return 0;
+                }
+            }
+
+            private double range() {
+                return max - min;
+            }
+
+            private boolean contains(Range b) {
+                return contains(b.min) && contains(b.max);
+            }
+
+            private boolean contains(double x) {
+                return x >= min && x <= max;
+            }
+        }
+
+        private double getOverlapLengths(double a1, double a2, double b1, double b2) {
+            Range a = new Range(a1, a2);
+            Range b = new Range(b1, b2);
+            return a.getOverlap(b);
+//            if (b1 > a1 && b1 < a2 && b2 > a1 && b2 < a2) {
+//                return b2 - b1;
+//            } else if (a1 > b1 && a1 < b2 && a2 > b1 && a2 < b2) {
+//                return a2 - a1;
+//            } else if ()
+//            else{
+//                return 0;
+//            }
+        }
 
         RectangularObject(String name, double x, double y, double width, double height, double depth, Color faceColor) {
             this.name = name;
@@ -222,16 +298,18 @@ public class DensityModel {
     public static class Water extends RectangularObject {
         private SwimmingPool container;
         private double waterVolume;
+        private WaterHeightMapper waterHeightMapper;
 
-        public Water(SwimmingPool container, double waterVolume) {
+        public Water(SwimmingPool container, double waterVolume, WaterHeightMapper waterHeightMapper) {
             super("Water", container.getX(), container.getY(), container.getWidth(), 4, container.getDepth(), new Color(144, 207, 206, 128));
             this.container = container;
             this.waterVolume = waterVolume;
+            this.waterHeightMapper = waterHeightMapper;
             updateWaterHeight();
         }
 
         private void updateWaterHeight() {
-            setHeight(waterVolume / getWidth() / getHeight());
+            setHeight(waterHeightMapper.getWaterHeight(waterVolume));
         }
 
         public double getWaterVolume() {
