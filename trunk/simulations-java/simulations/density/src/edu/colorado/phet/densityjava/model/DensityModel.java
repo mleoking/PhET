@@ -49,6 +49,7 @@ public class DensityModel {
                 updateWaterHeight();
             }
         });
+        water.updateWaterHeight();
     }
 
     private void updateWaterHeight() {
