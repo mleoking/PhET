@@ -112,44 +112,48 @@ class PendulumLabAccessibility {
         reset = new TabEntry( _level0.panel_mc.resetButton_mc );
         reset.buttonlike = true;
 
-        playPause = new TabEntry( _level0.pausePlay_mc.button_mc, TabHandler.HIGHLIGHT_GLOBAL, _level0.pausePlay_mc.button_mc );
+        playPause = new TabEntry( _level0.pausePlay_mc.button_mc, TabHandler.HIGHLIGHT_GLOBAL );
         playPause.buttonlike = true;
+        playPause.highlightInset = -5;
+        playPause.highlightWidth = 4;
 
+        var idx : Number = 0;
+        
+        tab.insertEntry( pendulum1, idx++ );
 
-        tab.insertEntry( pendulum1, 0 );
+        tab.insertEntry( playPause, idx++ );
 
-        tab.insertEntry( length1Text, 1 );
-        tab.insertEntry( length1Slider, 2 );
-        tab.insertEntry( mass1Text, 3 );
-        tab.insertEntry( mass1Slider, 4 );
+        tab.insertEntry( length1Text, idx++ );
+        tab.insertEntry( length1Slider, idx++ );
+        tab.insertEntry( mass1Text, idx++ );
+        tab.insertEntry( mass1Slider, idx++ );
 
-        tab.insertEntry( pendulum2Check, 5 );
+        tab.insertEntry( pendulum2Check, idx++ );
 
-        tab.insertEntry( frictionSlider, 6 );
+        tab.insertEntry( frictionSlider, idx++ );
 
-        tab.insertEntry( realTimeRadio, 7 );
-        tab.insertEntry( quarterTimeRadio, 8 );
-        tab.insertEntry( sixteenthTimeRadio, 9 );
+        tab.insertEntry( realTimeRadio, idx++ );
+        tab.insertEntry( quarterTimeRadio, idx++ );
+        tab.insertEntry( sixteenthTimeRadio, idx++ );
 
-        tab.insertEntry( moonRadio, 10 );
-        tab.insertEntry( earthRadio, 11 );
-        tab.insertEntry( jupiterRadio, 12 );
-        tab.insertEntry( planetXRadio, 13 );
-        tab.insertEntry( noGravityRadio, 14 );
+        tab.insertEntry( moonRadio, idx++ );
+        tab.insertEntry( earthRadio, idx++ );
+        tab.insertEntry( jupiterRadio, idx++ );
+        tab.insertEntry( planetXRadio, idx++ );
+        tab.insertEntry( noGravityRadio, idx++ );
 
-        tab.insertEntry( velocityCheck, 15 );
-        tab.insertEntry( accelerationCheck, 16 );
+        tab.insertEntry( velocityCheck, idx++ );
+        tab.insertEntry( accelerationCheck, idx++ );
 
-        tab.insertEntry( energy1Radio, 17 );
-        tab.insertEntry( energy2Radio, 18 );
-        tab.insertEntry( energyNoneRadio, 19 );
+        tab.insertEntry( energy1Radio, idx++ );
+        tab.insertEntry( energy2Radio, idx++ );
+        tab.insertEntry( energyNoneRadio, idx++ );
 
-        tab.insertEntry( photoGate, 20 );
-        tab.insertEntry( otherTools, 21 );
+        tab.insertEntry( photoGate, idx++ );
+        tab.insertEntry( otherTools, idx++ );
 
-        tab.insertEntry( reset, 22 );
-
-        tab.insertEntry( playPause, 23 );
+        tab.insertEntry( reset, idx++ );
+        
     }
 
     public function initRadio( entry : TabEntry ) {
@@ -159,12 +163,17 @@ class PendulumLabAccessibility {
 
     public function showPendulum2() {
 
-        tab.insertEntry( length2Text, 6 );
-        tab.insertEntry( length2Slider, 7 );
-        tab.insertEntry( mass2Text, 8 );
-        tab.insertEntry( mass2Slider, 9 );
+        var pendulum1Index = tab.findEntryIndex( pendulum1 );
+        tab.insertEntry( pendulum2, pendulum1Index + 1 );
 
-        tab.insertEntry( pendulum2, 1 );
+        var pendulum2CheckIndex = tab.findEntryIndex( pendulum2Check );
+
+        tab.insertEntry( length2Text, pendulum2CheckIndex + 1 );
+        tab.insertEntry( length2Slider, pendulum2CheckIndex + 2 );
+        tab.insertEntry( mass2Text, pendulum2CheckIndex + 3 );
+        tab.insertEntry( mass2Slider, pendulum2CheckIndex + 4 );
+
+
 
     }
 

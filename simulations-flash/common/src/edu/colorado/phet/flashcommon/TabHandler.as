@@ -144,6 +144,16 @@ class edu.colorado.phet.flashcommon.TabHandler {
 		// signifies that it is not found
 		return -1;
 	}
+
+    public function findEntryIndex( entry : TabEntry ) : Number {
+        for( var i : Number = 0; i < entries.length; i++ ) {
+            if( entries[i] == entry ) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
 	
 	// remove a control from the tab order
 	public function removeControl(obj : Object) : Void {
