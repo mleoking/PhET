@@ -2,7 +2,6 @@ package edu.colorado.phet.densityjava;
 
 import com.jme.bounding.BoundingBox;
 import com.jme.image.Texture;
-import com.jme.input.FirstPersonHandler;
 import com.jme.intersection.BoundingPickResults;
 import com.jme.intersection.PickData;
 import com.jme.intersection.PickResults;
@@ -62,8 +61,8 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
 //        rootNode.attachChild(new Sphere("sphere", new Vector3f(10, 0, 0), 10, 10, 1));
 //        rootNode.attachChild(new Sphere("sphere", new Vector3f(10, 5, 0), 10, 10, 1));
 
-        FirstPersonHandler firstPersonHandler = new FirstPersonHandler(cam, 50, 1);
-        input.addToAttachedHandlers(firstPersonHandler);
+//        FirstPersonHandler firstPersonHandler = new FirstPersonHandler(cam, 50, 1);
+//        input.addToAttachedHandlers(firstPersonHandler);
 
         setupLight();
 

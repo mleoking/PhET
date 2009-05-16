@@ -51,13 +51,17 @@ public class DensityApplication extends PiccoloPhetApplication {
 
     private static File extractNatives() throws IOException {
         //TODO: clear old jar or unzip nativesDir?
-        String natives = "jinput-dx8.dll, jinput-raw.dll, libjinput-linux.so, libjinput-linux64.so, libjinput-osx.jnilib, liblwjgl.jnilib, liblwjgl.so, liblwjgl64.so, libodejava.jnilib, libodejava.so, libodejava64.so, libopenal.so, libopenal64.so, lwjgl.dll, odejava.dll, openal.dylib, OpenAL32.dll";
+        //skipping solaris
+        String natives = "windows/jinput-dx8.dll, windows/jinput-raw.dll, windows/lwjgl.dll, windows/lwjgl64.dll, " +
+                "macosx/libjinput-osx.jnilib, macosx/liblwjgl.jnilib, macosx/openal.dylib, " +
+                "linux/libjinput-linux.so, linux/liblwjgl.so, linux/libopenal.so, linux/libjinput-linux64.so, linux/liblwjgl64.so, linux/libopenal64.so";//, libjinput-linux.so, libjinput-linux64.so, libjinput-osx.jnilib, liblwjgl.jnilib, liblwjgl.so, liblwjgl64.so, libodejava.jnilib, libodejava.so, libodejava64.so, libopenal.so, libopenal64.so, lwjgl.dll, odejava.dll, openal.dylib, OpenAL32.dll";
         StringTokenizer stringTokenizer = new StringTokenizer(natives, ", ");
         File nativeParent = new File(System.getProperty("java.io.tmpdir"), "phet-natives");
         while (stringTokenizer.hasMoreTokens()) {
             String token = stringTokenizer.nextToken();
-            InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("natives/" + token);
-            File dest = new File(nativeParent, token);
+            InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(token);
+            String outputPath = token.substring(token.indexOf('/') + 1);
+            File dest = new File(nativeParent, outputPath);
             dest.getParentFile().mkdirs();
             DensityUtils.copyAndClose(inputStream, new FileOutputStream(dest), false);
             System.out.println("copied resource to " + dest.getAbsolutePath());

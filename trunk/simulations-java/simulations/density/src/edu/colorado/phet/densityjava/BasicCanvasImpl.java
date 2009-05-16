@@ -1,52 +1,26 @@
 package edu.colorado.phet.densityjava;
 
-import com.jme.bounding.BoundingBox;
-import com.jme.bounding.BoundingSphere;
 import com.jme.image.Texture;
-import com.jme.input.FirstPersonHandler;
 import com.jme.input.InputHandler;
-import com.jme.input.KeyInput;
-import com.jme.input.MouseInput;
-import com.jme.input.action.InputAction;
-import com.jme.input.action.InputActionEvent;
-import com.jme.math.FastMath;
 import com.jme.math.Ray;
 import com.jme.math.Vector2f;
 import com.jme.math.Vector3f;
-import com.jme.renderer.ColorRGBA;
 import com.jme.scene.Spatial;
-import com.jme.scene.Text;
-import com.jme.scene.TriMesh;
-import com.jme.scene.shape.Box;
-import com.jme.scene.shape.MultiFaceBox;
-import com.jme.scene.shape.Sphere;
-import com.jme.scene.shape.Torus;
-import com.jme.scene.state.*;
+import com.jme.scene.state.BlendState;
+import com.jme.scene.state.RenderState;
+import com.jme.scene.state.TextureState;
 import com.jme.system.DisplaySystem;
 import com.jme.system.canvas.SimpleCanvasImpl;
 import com.jme.util.GameTaskQueueManager;
 import com.jme.util.TextureManager;
-import com.jmex.physics.DynamicPhysicsNode;
-import com.jmex.physics.PhysicsSpace;
-import com.jmex.physics.StaticPhysicsNode;
-import com.jmex.physics.geometry.PhysicsMesh;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.ConcurrentModificationException;
-import java.util.Random;
 import java.util.concurrent.Callable;
-import java.util.logging.Logger;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Owner
- * Date: May 12, 2009
- * Time: 1:10:56 PM
- * To change this template use File | Settings | File Templates.
- */
 public class BasicCanvasImpl extends SimpleCanvasImpl {
 
     long startTime = 0;
@@ -55,18 +29,6 @@ public class BasicCanvasImpl extends SimpleCanvasImpl {
     private SRRMouse srrMouse;
     private DisplaySystem display;
     private Component canvas;
-
-    //Physics
-    private PhysicsSpace physicsSpace;
-    protected InputHandler cameraInputHandler;
-    protected boolean showPhysics;
-    private float physicsSpeed = 1f;
-//    protected StaticPhysicsNode staticNode;
-    boolean firstFrame = true;
-
-    public PhysicsSpace getPhysicsSpace() {
-        return physicsSpace;
-    }
 
     public BasicCanvasImpl(int width, int height, DisplaySystem display, Component canvas) {
         super(width, height);
@@ -82,15 +44,6 @@ public class BasicCanvasImpl extends SimpleCanvasImpl {
     }
 
     public void simpleSetup() {
-//        TextureState ts = renderer.createTextureState();
-//        ts.setEnabled(true);
-//        ts.setTexture(TextureManager.loadTexture(BasicCanvasImpl.class
-//                .getClassLoader().getResource(
-//                "phetcommon/images/logos/phet-logo-120x50.jpg"),
-//                Texture.MinificationFilter.BilinearNearestMipMap,
-//                Texture.MagnificationFilter.Bilinear));
-//
-//        rootNode.setRenderState(ts);
         startTime = System.currentTimeMillis() + 5000;
 
         input = new InputHandler();
@@ -98,8 +51,6 @@ public class BasicCanvasImpl extends SimpleCanvasImpl {
         // Create a new mouse. Restrict its movements to the display screen.
         srrMouse = createMouse();
         rootNode.attachChild(srrMouse);
-
-        initPhysics();
     }
 
     private SRRMouse createMouse() {
@@ -112,8 +63,7 @@ public class BasicCanvasImpl extends SimpleCanvasImpl {
         Texture t = TextureManager.loadTexture(cursorLoc, Texture.MinificationFilter.NearestNeighborNoMipMaps,
                 Texture.MagnificationFilter.Bilinear);
         mouseTextureState.setTexture(t);
-        //DEBUG: add cursor icon
-//        m.setRenderState(mouseTextureState);
+//        m.setRenderState(mouseTextureState);//DEBUG: add cursor icon
 
         // Make the mouse's background blend with what's already there
         BlendState as = display.getRenderer().createBlendState();
@@ -131,67 +81,6 @@ public class BasicCanvasImpl extends SimpleCanvasImpl {
         m.registerWithInputHandler(input);
         return m;
     }
-
-    private void initPhysics() {
-        /** Create a basic input controller. */
-        cameraInputHandler = new FirstPersonHandler(cam, 50, 1);
-        input.addToAttachedHandlers(cameraInputHandler);
-
-        physicsSpace = PhysicsSpace.create();
-        physicsSpace.setDirectionalGravity(new Vector3f(0,0,0));
-
-//        staticNode = getPhysicsSpace().createStaticNode();
-//        TriMesh trimesh = new Box("trimesh", new Vector3f(), 15, 0.5f, 15);
-//        trimesh.setModelBound(new BoundingBox());
-//        trimesh.updateModelBound();
-//        staticNode.attachChild(trimesh);
-//        staticNode.generatePhysicsGeometry(false);
-//
-//        staticNode.getLocalTranslation().set(0, -5, 0);
-//        rootNode.attachChild(staticNode);
-
-        input.addAction(new InputAction() {
-            public void performAction(InputActionEvent inputActionEvent) {
-                if (inputActionEvent.getTriggerPressed()) {
-                    final DynamicPhysicsNode box = createBox();
-                    rootNode.attachChild(box);
-                }
-            }
-        }, InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_SPACE, InputHandler.AXIS_NONE, false);
-
-//        InputAction removeAction = new InputAction() {
-//            public void performAction(InputActionEvent evt) {
-//                staticNode.setActive(!staticNode.isActive());
-//            }
-//        };
-//        input.addAction(removeAction, InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_DELETE, InputHandler.AXIS_NONE, false);
-
-        cameraInputHandler.setEnabled(false);
-        new SRRPhysicsPicker(input, rootNode, getPhysicsSpace(), false, this);
-        MouseInput.get().setCursorVisible(true);
-    }
-
-    Random random = new Random(3);
-
-    private DynamicPhysicsNode createBox() {
-        DynamicPhysicsNode node = getPhysicsSpace().createDynamicNode();
-        TriMesh mesh = new MultiFaceBox("meshsphere", new Vector3f(0, random.nextFloat() * 20 + 3, 0), 2, 2, 2);
-        mesh.setModelBound(new BoundingSphere());
-        mesh.updateModelBound();
-        PhysicsMesh physMesh = node.createMesh("box mesh");
-        physMesh.getLocalTranslation().set(-1, 0, 0);
-        mesh.getLocalTranslation().set(-1, 0, 0);
-        physMesh.copyFrom(mesh);
-        node.attachChild(mesh);
-        node.computeMass();
-        MaterialState ms = DisplaySystem.getDisplaySystem().getRenderer()
-                .createMaterialState();
-        ms.setEmissive(ColorRGBA.white.clone());
-        node.setRenderState(ms);
-        setTexture(node);
-        return node;
-    }
-
 
     private static final Font FONT = new PhetFont(17);
     private Color[] colors = new Color[]{Color.red, Color.green, Color.blue,
@@ -235,41 +124,10 @@ public class BasicCanvasImpl extends SimpleCanvasImpl {
         });
     }
 
-    private DynamicPhysicsNode createSphere() {
-        DynamicPhysicsNode node = getPhysicsSpace().createDynamicNode();
-        TriMesh mesh = new Sphere("meshsphere", 10, 10, 2);
-        mesh.setModelBound(new BoundingSphere());
-        mesh.updateModelBound();
-        PhysicsMesh physMesh = node.createMesh("sphere mesh");
-        physMesh.getLocalTranslation().set(-1, 0, 0);
-        mesh.getLocalTranslation().set(-1, 0, 0);
-        physMesh.copyFrom(mesh);
-        node.attachChild(mesh);
-        node.computeMass();
-        return node;
-    }
-
-    private DynamicPhysicsNode createTorus() {
-        final DynamicPhysicsNode node = getPhysicsSpace().createDynamicNode();
-        TriMesh mesh = new Torus("torus", 15, 10, 1, 4);
-        mesh.setModelBound(new BoundingSphere());
-        mesh.updateModelBound();
-        PhysicsMesh physMesh = node.createMesh("torus phyics geometry");
-        physMesh.copyFrom(mesh);
-        node.attachChild(mesh);
-        CullState cs = display.getRenderer().createCullState();
-        cs.setCullFace(CullState.Face.Back);
-        mesh.setRenderState(cs);
-        node.computeMass();
-        return node;
-    }
-
-
     public void simpleUpdate() {
         input.update(tpf);
         if (srrMouse != null)
             srrMouse.setLimit(canvas.getWidth(), canvas.getHeight());
-        updatePhysics();
     }
 
     public Ray getMouseRay() {
@@ -283,31 +141,6 @@ public class BasicCanvasImpl extends SimpleCanvasImpl {
         final Ray mouseRay = new Ray(cam.getLocation(), worldCoords.subtractLocal(cam.getLocation()));
         mouseRay.getDirection().normalizeLocal();
         return mouseRay;
-    }
-
-    private void updatePhysics() {
-        boolean pause = false;
-        if (!pause) {
-            float tpf = this.tpf;
-            if (tpf > 0.2 || Float.isNaN(tpf)) {
-                Logger.getLogger(PhysicsSpace.LOGGER_NAME).warning("Maximum physics update interval is 0.2 seconds - capped.");
-                tpf = 0.2f;
-            }
-            physicsSpace.update(tpf * physicsSpeed);
-        }
-
-        if (!pause) {
-            /** Update controllers/render states/transforms/bounds for rootNode. */
-            rootNode.updateGeometricState(tpf, true);
-//            statNode.updateGeometricState(tpf, true);
-        }
-
-        if (firstFrame) {
-            // drawing and calculating the first frame usually takes longer than the rest
-            // to avoid a rushing simulation we reset the timer
-            timer.reset();
-            firstFrame = false;
-        }
     }
 
     public Vector2f getMouseScreenPosition() {
