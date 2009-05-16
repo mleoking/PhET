@@ -273,23 +273,27 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
 
             mesh.updateModelBound();
 
-//            MaterialState materialState = display.getRenderer().createMaterialState();
-//            float opacityAmount = 0.8f;
-//            materialState.setAmbient(new ColorRGBA(0.2f, 0.2f, 0.1f, opacityAmount));
-//            materialState.setDiffuse(new ColorRGBA(0.1f, 0.5f, 0.8f, opacityAmount));
-//            materialState.setSpecular(new ColorRGBA(1.0f, 1.0f, 1.0f, opacityAmount));
-//            materialState.setShininess(128.0f);
-//            materialState.setEmissive(new ColorRGBA(0.0f, 0.0f, 0.1f, opacityAmount));
-//            materialState.setEnabled(true);
-//
-////            mesh.setRenderState(materialState);
-            attachChild(mesh);
+            MaterialState materialState = display.getRenderer().createMaterialState();
+            float opacityAmount = 0.7f;
+            float r=object.getFaceColor().getRed()/255f;
+            float g=object.getFaceColor().getGreen()/255f;
+            float b=object.getFaceColor().getBlue()/255f;
+            materialState.setAmbient(new ColorRGBA(0.2f, 0.2f, 0.1f, opacityAmount));
+            materialState.setDiffuse(new ColorRGBA(r, g, b, opacityAmount));
+            materialState.setSpecular(new ColorRGBA(1.0f, 1.0f, 1.0f, opacityAmount));
+            materialState.setShininess(128.0f);
+            materialState.setEmissive(new ColorRGBA(0.0f, 0.0f, 0.1f, opacityAmount));
+            materialState.setEnabled(true);
+
+            setRenderState(materialState);
+
 
             object.addListener(new DensityModel.RectangularObject.Adapter() {
                 public void modelChanged() {
                     mesh.setCenter(new Vector3f((float) object.getCenterX(), (float) object.getCenterY(), (float) object.getCenterZ()));
                     mesh.updateGeometry();
                     mesh.updateModelBound();
+                    mesh.updateRenderState();
                     //todo update dimensions
                 }
             });
@@ -301,12 +305,9 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
                     Texture.MagnificationFilter.Bilinear);
             t0.setWrap(Texture.WrapMode.Repeat);
             ts.setTexture(t0);
-//            ts.setMaterialFace(MaterialState.MaterialFace.FrontAndBack);
-
-
+            
             setRenderState(ts);
-            updateRenderState();
-//            attachChild(box);
+            attachChild(mesh);//order matters for this call?
         }
     }
 
