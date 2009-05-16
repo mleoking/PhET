@@ -51,6 +51,13 @@ class PendulumLabAccessibility {
     public var photogateRadio2 : TabEntry;
     public var photogateButton : TabEntry;
 
+    public var stopWatchPlay : TabEntry;
+    public var stopWatchStop : TabEntry;
+
+    public var tapeMeasureBody : TabEntry;
+    public var tapeMeasureEnd : TabEntry;
+
+
 
     public var tab : TabHandler;
 
@@ -142,6 +149,14 @@ class PendulumLabAccessibility {
         photogateButton.highlightWidth = 4;
         photogateButton.buttonlike = true;
 
+        stopWatchPlay = new TabEntry( _level0.stopWatch_mc.play_btn, TabHandler.HIGHLIGHT_LOCAL );
+        stopWatchPlay.buttonlike = true;
+        stopWatchStop = new TabEntry( _level0.stopWatch_mc.stop_btn, TabHandler.HIGHLIGHT_LOCAL );
+        stopWatchStop.buttonlike = true;
+        
+        tapeMeasureBody = new TabEntry( _level0.tapeMeasure_mc.tapeMeasure_mc.tapeBody_mc, TabHandler.HIGHLIGHT_LOCAL );
+        tapeMeasureEnd = new TabEntry( _level0.tapeMeasure_mc.tapeMeasure_mc.tapeEnd_mc, TabHandler.HIGHLIGHT_LOCAL );
+
 
 
 
@@ -216,20 +231,39 @@ class PendulumLabAccessibility {
     }
 
     public function showPhotogate() {
-        var tapeIndex : Number = tab.findEntryIndex( ruler );
+        var rulerIndex : Number = tab.findEntryIndex( ruler );
 
-        if( tapeIndex == -1 ) {
+        if( rulerIndex == -1 ) {
             return;
         }
-        tab.insertEntry( photogateRadio1, tapeIndex + 1 );
-        tab.insertEntry( photogateRadio2, tapeIndex + 2 );
-        tab.insertEntry( photogateButton, tapeIndex + 3 );
+        tab.insertEntry( photogateRadio1, rulerIndex + 1 );
+        tab.insertEntry( photogateRadio2, rulerIndex + 2 );
+        tab.insertEntry( photogateButton, rulerIndex + 3 );
     }
 
     public function hidePhotogate() {
         tab.removeEntry( photogateRadio1 );
         tab.removeEntry( photogateRadio2 );
         tab.removeEntry( photogateButton );
+    }
+
+    public function showTools() {
+        var rulerIndex : Number = tab.findEntryIndex( ruler );
+
+        if( rulerIndex == -1 ) {
+            return;
+        }
+        tab.insertEntry( stopWatchPlay, rulerIndex + 1 );
+        tab.insertEntry( stopWatchStop, rulerIndex + 2 );
+        tab.insertEntry( tapeMeasureBody, rulerIndex + 3 );
+        tab.insertEntry( tapeMeasureEnd, rulerIndex + 4 );
+    }
+
+    public function hideTools() {
+        tab.removeEntry( stopWatchPlay );
+        tab.removeEntry( stopWatchStop );
+        tab.removeEntry( tapeMeasureBody );
+        tab.removeEntry( tapeMeasureEnd );
     }
 
     public function initializeSlider( slider : MovieClip ) {
