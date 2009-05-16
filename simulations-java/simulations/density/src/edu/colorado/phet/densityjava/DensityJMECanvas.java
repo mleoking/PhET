@@ -101,7 +101,9 @@ class DensityJMECanvas extends JPanel {
         //workaround for file menu lightweight mixing
         d2 = new JDialog(parent, false);
         d2.setUndecorated(true);
-        d2.setContentPane(new JButton());
+        JPanel pane = new JPanel();
+        pane.setPreferredSize(new Dimension(100,1));
+        d2.setContentPane(pane);
         d2.pack();
         d2.setVisible(true);
 
@@ -133,5 +135,9 @@ class DensityJMECanvas extends JPanel {
 
     public Component getCanvas() {
         return (Component) canvas;
+    }
+
+    public void activate() {
+        updateDialogLocation();
     }
 }
