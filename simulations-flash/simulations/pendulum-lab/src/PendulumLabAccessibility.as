@@ -149,9 +149,11 @@ class PendulumLabAccessibility {
         photogateButton.highlightWidth = 4;
         photogateButton.buttonlike = true;
 
-        stopWatchPlay = new TabEntry( _level0.stopWatch_mc.play_btn, TabHandler.HIGHLIGHT_LOCAL );
+        stopWatchPlay = new TabEntry( _level0.stopWatch_mc.play_btn, TabHandler.HIGHLIGHT_LOCAL, _level0.stopWatch_mc );
+        stopWatchPlay.manualBounds = new Rectangle( 13.9, 0.7, 19.4, 19.4 );
         stopWatchPlay.buttonlike = true;
-        stopWatchStop = new TabEntry( _level0.stopWatch_mc.stop_btn, TabHandler.HIGHLIGHT_LOCAL );
+        stopWatchStop = new TabEntry( _level0.stopWatch_mc.stop_btn, TabHandler.HIGHLIGHT_LOCAL, _level0.stopWatch_mc );
+        stopWatchStop.manualBounds = new Rectangle( -36.0, -0.1, 21.0, 21.0 );
         stopWatchStop.buttonlike = true;
         
         tapeMeasureBody = new TabEntry( _level0.tapeMeasure_mc.tapeMeasure_mc.tapeBody_mc, TabHandler.HIGHLIGHT_LOCAL );
@@ -253,8 +255,8 @@ class PendulumLabAccessibility {
         if( rulerIndex == -1 ) {
             return;
         }
-        tab.insertEntry( stopWatchPlay, rulerIndex + 1 );
-        tab.insertEntry( stopWatchStop, rulerIndex + 2 );
+        tab.insertEntry( stopWatchStop, rulerIndex + 1 );
+        tab.insertEntry( stopWatchPlay, rulerIndex + 2 );        
         tab.insertEntry( tapeMeasureBody, rulerIndex + 3 );
         tab.insertEntry( tapeMeasureEnd, rulerIndex + 4 );
     }
