@@ -5,6 +5,8 @@
 //
 // Author: Jonathan Olson
 
+import flash.geom.Rectangle;
+
 import edu.colorado.phet.flashcommon.*;
 
 class edu.colorado.phet.flashcommon.TabEntry {
@@ -35,6 +37,8 @@ class edu.colorado.phet.flashcommon.TabEntry {
     public var highlightWidth : Number = 2.0;
     public var highlightInset : Number = 1.0;
     public var highlightColor : Number = 0x0000FF;
+
+    public var manualBounds : Rectangle;
 	
 	// constructor
 	public function TabEntry(obj : Object, high : String, highobj : Object) {
@@ -89,6 +93,13 @@ class edu.colorado.phet.flashcommon.TabEntry {
 		var xb : Number = bounds.xMax - highlightInset;
 		var ya : Number = bounds.yMin + highlightInset;
 		var yb : Number = bounds.yMax - highlightInset;
+
+        if( manualBounds ) {
+            xa = manualBounds.left;
+            xb = manualBounds.right;
+            ya = manualBounds.top;
+            yb = manualBounds.bottom;
+        }
 
 		high.lineStyle( highlightWidth, highlightColor );
 		high.moveTo(xa, ya);
