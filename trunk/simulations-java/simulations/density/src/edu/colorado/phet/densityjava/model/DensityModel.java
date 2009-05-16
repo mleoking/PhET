@@ -13,13 +13,33 @@ public class DensityModel {
     private Block block2 = new Block("Block 2");
     private Sphere sphere = new Sphere();
     private Scale scale = new Scale();
+    private Water water = new Water(swimmingPool, swimmingPool.getVolume() * 0.8);
 
     public DensityModel() {
         block2.translate(new Point2D.Double(5, -1));
+        //as blocks go underwater, water level should rise
+        block1.addListener(new RectangularObject.Listener() {
+            public void modelChanged() {
+                updateWaterDepth();
+            }
+        });
+        block2.addListener(new RectangularObject.Listener() {
+            public void modelChanged() {
+                updateWaterDepth();
+            }
+        });
+    }
+
+    private void updateWaterDepth() {
+        double waterVolume = water.getWaterVolume();
     }
 
     public SwimmingPool getSwimmingPool() {
         return swimmingPool;
+    }
+
+    public Water getWater() {
+        return water;
     }
 
     public Block getBlock1() {
@@ -40,7 +60,7 @@ public class DensityModel {
 
     static class Block extends RectangularObject {
         Block(String name) {
-            super(name, 2.7, 4, 2, 2, 2, new Color(123, 81, 237));
+            super(name, 2.7, 4, 1, 1, 1, new Color(123, 81, 237));
         }
     }
 
@@ -69,6 +89,23 @@ public class DensityModel {
             this.height = height;
             this.depth = depth;
             this.faceColor = faceColor;
+        }
+
+        public void setHeight(double height) {
+            this.height = height;
+            notifyListeners();
+        }
+
+        public double getX() {
+            return x;
+        }
+
+        public double getY() {
+            return y;
+        }
+
+        public double getVolume() {
+            return width * height * depth;
         }
 
         public Shape getFrontFace() {
@@ -177,7 +214,32 @@ public class DensityModel {
 
     public static class SwimmingPool extends RectangularObject {
         public SwimmingPool() {
-            super("Pool", 0, 0, 10, 5, 5, new Color(144, 207, 206, 128));
+            super("Pool", 0, 0, 10, 5, 5, new Color(255, 255, 255));
+        }
+
+    }
+
+    public static class Water extends RectangularObject {
+        private SwimmingPool container;
+        private double waterVolume;
+
+        public Water(SwimmingPool container, double waterVolume) {
+            super("Water", container.getX(), container.getY(), container.getWidth(), 4, container.getDepth(), new Color(144, 207, 206, 128));
+            this.container = container;
+            this.waterVolume = waterVolume;
+            updateWaterHeight();
+        }
+
+        private void updateWaterHeight() {
+            setHeight(waterVolume / getWidth() / getHeight());
+        }
+
+        public double getWaterVolume() {
+            return waterVolume;
+        }
+
+        public double getDistanceToTopOfPool() {
+            return container.getHeight() - getHeight();
         }
     }
 }

@@ -13,6 +13,7 @@ import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
 import com.jme.scene.Node;
+import com.jme.scene.Spatial;
 import com.jme.scene.TriMesh;
 import com.jme.scene.shape.Box;
 import com.jme.scene.shape.Quad;
@@ -56,6 +57,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
 // up=com.jme.math.Vector3f [X=-8.700101E-5, Y=0.9999905, Z=-0.004353096]
 
         rootNode.attachChild(getPoolNode(model.getSwimmingPool()));
+        rootNode.attachChild(getWaterNode(model.getWater()));
         rootNode.attachChild(new RectNode(model.getBlock1()));
         rootNode.attachChild(new RectNode(model.getBlock2()));
         rootNode.attachChild(new CutawayEarthNode(model));
@@ -71,6 +73,27 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
         setupLight();
 
         addMouseHandling();
+    }
+
+    private Spatial getPoolNode(DensityModel.SwimmingPool swimmingPool) {
+        Node poolNode = new Node();
+        float r = (float) (255 / 255.0);
+        float g = (float) (255 / 255.0);
+        float b = (float) (255 / 255.0);
+        MaterialState materialState = display.getRenderer().createMaterialState();
+        float opacityAmount = 0.5f;
+        materialState.setAmbient(new ColorRGBA(0, 0, 0, opacityAmount));
+        materialState.setDiffuse(new ColorRGBA(r, g, b, opacityAmount));
+        materialState.setSpecular(new ColorRGBA(1.0f, 1.0f, 1.0f, opacityAmount));
+        materialState.setShininess(128.0f);
+        materialState.setEmissive(new ColorRGBA(0.0f, 0.0f, 0.1f, opacityAmount));
+        materialState.setEnabled(true);
+        materialState.setMaterialFace(MaterialState.MaterialFace.FrontAndBack);
+        poolNode.setRenderState(materialState);
+        Quad quad = new Quad("pool back", (float) swimmingPool.getWidth(), (float) swimmingPool.getHeight());
+        quad.setLocalTranslation((float) swimmingPool.getWidth() / 2, (float) swimmingPool.getHeight() / 2, (float) (-swimmingPool.getDepth() - 1E-6));
+        poolNode.attachChild(quad);
+        return poolNode;
     }
 
     private void addMouseHandling() {
@@ -156,9 +179,22 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
         lightState.attach(light);
     }
 
-    private TriMesh getPoolNode(DensityModel.SwimmingPool object) {
-        final TriMesh pool = new Box("pool", new Vector3f((float) model.getSwimmingPool().getCenterX(), (float) model.getSwimmingPool().getCenterY(), (float) model.getSwimmingPool().getCenterZ()),
+    private TriMesh getWaterNode(final DensityModel.Water object) {
+        final Box water = new Box("pool", new Vector3f((float) model.getSwimmingPool().getCenterX(), (float) model.getSwimmingPool().getCenterY(), (float) model.getSwimmingPool().getCenterZ()),
                 (float) object.getWidth() / 2, (float) object.getHeight() / 2, (float) object.getDepth() / 2);
+        double a = object.getDistanceToTopOfPool() / 2;
+        water.setLocalTranslation(0, -(float) a, 0);
+        water.updateModelBound();
+        object.addListener(new DensityModel.RectangularObject.Listener() {
+            public void modelChanged() {
+                water.updateGeometry(new Vector3f((float) model.getSwimmingPool().getCenterX(), (float) model.getSwimmingPool().getCenterY(), (float) model.getSwimmingPool().getCenterZ()),
+                        (float) object.getWidth() / 2, (float) object.getHeight() / 2, (float) object.getDepth() / 2);
+                double a = object.getDistanceToTopOfPool() / 2;
+                water.setLocalTranslation(0, -(float) a, 0);
+                water.updateModelBound();
+            }
+        });
+
 //        pool.setLocalTranslation(pool.getLocalTranslation().add((float) object.getWidth() / 2, (float) object.getHeight() / 2, -(float) object.getDepth()));
 
         // the sphere material taht will be modified to make the sphere
@@ -177,8 +213,8 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
         // happens
         materialState.setMaterialFace(MaterialState.MaterialFace.FrontAndBack);
 
-        pool.setRenderState(materialState);
-        pool.updateRenderState();
+        water.setRenderState(materialState);
+        water.updateRenderState();
 
         // to handle transparency: a BlendState
         // an other tutorial will be made to deal with the possibilities of this
@@ -191,13 +227,13 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
         alphaState.setTestFunction(BlendState.TestFunction.GreaterThan);
         alphaState.setEnabled(true);
 
-        pool.setRenderState(alphaState);
-        pool.updateRenderState();
+        water.setRenderState(alphaState);
+        water.updateRenderState();
 
         // IMPORTANT: since the sphere will be transparent, place it
         // in the transparent render queue!
-        pool.setRenderQueueMode(Renderer.QUEUE_TRANSPARENT);
-        return pool;
+        water.setRenderQueueMode(Renderer.QUEUE_TRANSPARENT);
+        return water;
     }
 
     class ObjectBox extends Box {
