@@ -9,8 +9,7 @@ import java.util.ArrayList;
 
 public class DensityModel {
     private SwimmingPool swimmingPool = new SwimmingPool();
-    private Block block1 = new Block("Block 1", 1);
-    private Block block2 = new Block("Block 2", 2);
+
     private Sphere sphere = new Sphere();
     private Scale scale = new Scale();
     private double waterVolume = swimmingPool.getVolume() * 0.8;
@@ -31,6 +30,14 @@ public class DensityModel {
             }
         }
     });
+    private Block block1 = new Block("Block 1", 1, water);
+    private Block block2 = new Block("Block 2", 2, water);
+
+    public void stepInTime(double simulationTimeChange) {
+        //update the blocks and the forces on the blocks
+        block1.stepInTime(simulationTimeChange);
+        block2.stepInTime(simulationTimeChange);
+    }
 
     public static interface WaterHeightMapper {
         double getWaterHeight(double waterVolume);
@@ -80,9 +87,58 @@ public class DensityModel {
         return block2;
     }
 
-    static class Block extends RectangularObject {
-        Block(String name, double dim) {
+    public static class Block extends RectangularObject {
+        private double mass = 5;
+        private double velocity = 0;
+        private Water water;
+        private boolean dragging = false;
+
+        Block(String name, double dim, Water water) {
             super(name, 2.7, 4, dim, dim, dim, new Color(123, 81, 237));
+            this.water = water;
+        }
+
+        public void stepInTime(double simulationTimeChange) {
+            if (!dragging) {
+                double force = getGravityForce() + getBuoyancyForce() + getNormalForce();
+                double accel = force / mass;
+                velocity += accel * simulationTimeChange;
+                setPosition2D(getX(), getY() + velocity * simulationTimeChange);
+                if (getY() <= water.getBottomY()) {
+                    setPosition2D(getX(), water.getBottomY());
+                    velocity = 0;
+                }
+            }
+        }
+
+        private double getNormalForce() {
+            if (getY() <= water.getBottomY()) {
+                return -getGravityForce() - getBuoyancyForce();
+            } else return 0;
+        }
+
+
+        public void setVelocity(double v) {
+            this.velocity = v;
+            notifyListeners();
+        }
+
+        //According to Archimedes' principle,
+        // "Any object, wholly or partly immersed in a fluid,
+        // is buoyed up by a force equal to the weight of the fluid displaced by the object."
+        private double getBuoyancyForce() {
+            double volumeDisplaced = getSubmergedVolume(water.getHeight());
+            double massDisplaced = water.getDensity() * volumeDisplaced / 500;
+            double weightDisplaced = massDisplaced * 9.8;
+            return weightDisplaced;
+        }
+
+        private double getGravityForce() {
+            return -9.8 * mass;
+        }
+
+        public void setDragging(boolean b) {
+            dragging = b;
         }
     }
 
@@ -102,6 +158,16 @@ public class DensityModel {
         private double height;
         private double depth;
         private Color faceColor;
+
+        RectangularObject(String name, double x, double y, double width, double height, double depth, Color faceColor) {
+            this.name = name;
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+            this.depth = depth;
+            this.faceColor = faceColor;
+        }
 
         //todo: generalize
         public double getIntersectingVolume(RectangularObject object) {
@@ -175,16 +241,6 @@ public class DensityModel {
 //            else{
 //                return 0;
 //            }
-        }
-
-        RectangularObject(String name, double x, double y, double width, double height, double depth, Color faceColor) {
-            this.name = name;
-            this.x = x;
-            this.y = y;
-            this.width = width;
-            this.height = height;
-            this.depth = depth;
-            this.faceColor = faceColor;
         }
 
         public void setHeight(double height) {
@@ -301,7 +357,7 @@ public class DensityModel {
             listeners.add(listener);
         }
 
-        private void notifyListeners() {
+        protected void notifyListeners() {
             for (Listener listener : listeners) {
                 listener.modelChanged();
             }
@@ -338,6 +394,14 @@ public class DensityModel {
 
         public double getDistanceToTopOfPool() {
             return container.getHeight() - getHeight();
+        }
+
+        public double getDensity() {
+            return 1000;
+        }
+
+        public double getBottomY() {
+            return container.getY();
         }
     }
 }

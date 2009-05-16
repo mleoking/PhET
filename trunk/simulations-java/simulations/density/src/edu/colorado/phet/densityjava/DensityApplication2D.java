@@ -4,6 +4,8 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.densityjava.model.DensityModel;
 
@@ -24,6 +26,11 @@ public class DensityApplication2D extends PiccoloPhetApplication {
             super("density", new ConstantDtClock(30, 30 / 1000.0));
 
             setSimulationPanel(panel);
+            getClock().addClockListener(new ClockAdapter(){
+                public void simulationTimeChanged(ClockEvent clockEvent) {
+                    model.stepInTime(clockEvent.getSimulationTimeChange());
+                }
+            });
         }
     }
 

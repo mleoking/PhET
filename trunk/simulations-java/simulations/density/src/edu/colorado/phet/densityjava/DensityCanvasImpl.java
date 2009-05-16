@@ -103,6 +103,10 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
             }
 
             public void mouseReleased(MouseEvent e) {
+                if (picked!=null&&picked.getTargetMesh() instanceof ObjectBox) {
+                    ObjectBox ob = (ObjectBox) picked.getTargetMesh();
+                    ob.getObject().setDragging(false);
+                }
                 picked = null;
             }
         });
@@ -134,6 +138,8 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
                     if (picked.getTargetMesh() instanceof ObjectBox) {
                         ObjectBox ob = (ObjectBox) picked.getTargetMesh();
                         ob.getObject().setPosition2D(pickPt.getX() + dx, pickPt.getY() + dy);
+                        ob.getObject().setVelocity(0);
+                        ob.getObject().setDragging(true);
                     }
                 }
             }
@@ -231,14 +237,14 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
     }
 
     class ObjectBox extends Box {
-        private DensityModel.RectangularObject object;
+        private DensityModel.Block object;
 
-        public ObjectBox(DensityModel.RectangularObject object, String name, Vector3f vector3f, float v, float v1, float v2) {
+        public ObjectBox(DensityModel.Block object, String name, Vector3f vector3f, float v, float v1, float v2) {
             super(name, vector3f, v, v1, v2);
             this.object = object;
         }
 
-        public DensityModel.RectangularObject getObject() {
+        public DensityModel.Block getObject() {
             return object;
         }
     }
@@ -246,7 +252,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
     private class RectNode extends Node {
         private DensityModel.RectangularObject object;
 
-        private RectNode(final DensityModel.RectangularObject object) {
+        private RectNode(final DensityModel.Block object) {
             this.object = object;
 
             final ObjectBox mesh = new ObjectBox(object, object.getName(), new Vector3f((float) object.getCenterX(), (float) object.getCenterY(), (float) object.getCenterZ()),
