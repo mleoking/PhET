@@ -49,18 +49,18 @@ public class DensityModel {
 
     public void setFourBlocksSameMass() {
         clearBlocks();
-        addBlock(new Block("Block 1", 1, water, -1, swimmingPool.getMaxY() + 5));
-        addBlock(new Block("Block 2", 1, water, 1, swimmingPool.getMaxY() + 5));
-        addBlock(new Block("Block 3", 2, water, 4, swimmingPool.getMaxY() + 5));
-        addBlock(new Block("Block 4", 2, water, 7, swimmingPool.getMaxY() + 5));
+        addBlock(new Block("Block 1", 1, water, -1, swimmingPool.getMaxY() + 5,Color.red));
+        addBlock(new Block("Block 2", 1, water, 1, swimmingPool.getMaxY() + 5,Color.green));
+        addBlock(new Block("Block 3", 2, water, 4, swimmingPool.getMaxY() + 5,Color.blue));
+        addBlock(new Block("Block 4", 2, water, 7, swimmingPool.getMaxY() + 5,Color.yellow));
     }
 
     public void setFourBlocksSameVolume() {
         clearBlocks();
-        addBlock(new Block("Block 1", 1, water, -1, swimmingPool.getMaxY() + 5));
-        addBlock(new Block("Block 2", 1, water, 1, swimmingPool.getMaxY() + 5));
-        addBlock(new Block("Block 3", 2, water, 4, swimmingPool.getMaxY() + 5));
-        addBlock(new Block("Block 4", 2, water, 7, swimmingPool.getMaxY() + 5));
+        addBlock(new Block("Block 1", 1, water, -1, swimmingPool.getMaxY() + 5,Color.red));
+        addBlock(new Block("Block 2", 1, water, 1, swimmingPool.getMaxY() + 5,Color.green));
+        addBlock(new Block("Block 3", 2, water, 4, swimmingPool.getMaxY() + 5,Color.blue));
+        addBlock(new Block("Block 4", 2, water, 7, swimmingPool.getMaxY() + 5,Color.yellow));
     }
 
     private void addBlock(Block block) {
@@ -137,8 +137,8 @@ public class DensityModel {
         private Water water;
         private boolean dragging = false;
 
-        Block(String name, double dim, Water water, double x, double y) {
-            super(name, x, y, dim, dim, dim, new Color(123, 81, 237));
+        Block(String name, double dim, Water water, double x, double y,Color color) {
+            super(name, x, y, dim, dim, dim, color);
             this.water = water;
         }
 
