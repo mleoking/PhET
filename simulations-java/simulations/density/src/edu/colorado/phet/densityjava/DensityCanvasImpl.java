@@ -53,24 +53,12 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
         rootNode.attachChild(getPoolNode(model.getSwimmingPool()));
         rootNode.attachChild(getWaterNode(model.getWater()));
         for (int i = 0; i < model.getBlockCount(); i++) {
-            final RectNode child = new RectNode(model.getBlock(i));
-            rootNode.attachChild(child);
-            model.getBlock(i).addListener(new DensityModel.RectangularObject.Adapter() {
-                public void blockRemoving() {
-                    rootNode.detachChild(child);
-                }
-            });
+            doAddBlock(model.getBlock(i));
         }
 
         model.addListener(new DensityModel.Listener() {
             public void blockAdded(DensityModel.Block block) {
-                final RectNode child = new RectNode(block);
-                rootNode.attachChild(child);
-                block.addListener(new DensityModel.RectangularObject.Adapter() {
-                    public void blockRemoving() {
-                        rootNode.detachChild(child);
-                    }
-                });
+                doAddBlock(block);
             }
         });
 
@@ -87,6 +75,17 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
         setupLight();
 
         addMouseHandling();
+    }
+
+    private void doAddBlock(DensityModel.Block block) {
+        System.out.println("DensityCanvasImpl.doAddBlock");
+        final RectNode child = new RectNode(block);
+        rootNode.attachChild(child);
+        block.addListener(new DensityModel.RectangularObject.Adapter() {
+            public void blockRemoving() {
+                rootNode.detachChild(child);
+            }
+        });
     }
 
     private Spatial getPoolNode(DensityModel.SwimmingPool swimmingPool) {
@@ -164,14 +163,6 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
                 }
             }
         });
-    }
-
-    @Override
-    public void simpleUpdate() {
-        super.simpleUpdate();    //To change body of overridden methods use File | Settings | File Templates.
-//        System.out.println("cam.getLocation() = " + cam.getLocation() + ", dir=" + cam.getDirection() + ", up=" + cam.getUp());
-//        System.out.println(cutawayEarthNode.getWorldBound());
-
     }
 
     private PickResults getPickResults() {
@@ -304,13 +295,14 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
             });
 
             TextureState ts = display.getRenderer().createTextureState();
-            Texture t0 = TextureManager.loadTexture(
-                    getClass().getClassLoader().getResource(
-                            "density/images/wall.jpg"),
+            Texture t0 = TextureManager.loadTexture(getClass().getClassLoader().getResource(
+                    "density/images/wall.jpg"),
                     Texture.MinificationFilter.Trilinear,
                     Texture.MagnificationFilter.Bilinear);
             t0.setWrap(Texture.WrapMode.Repeat);
             ts.setTexture(t0);
+//            ts.setMaterialFace(MaterialState.MaterialFace.FrontAndBack);
+
 
             setRenderState(ts);
             updateRenderState();
