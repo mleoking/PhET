@@ -30,11 +30,61 @@ public class DensityModel {
         }
     });
 
+    public static interface Listener {
+        void blockAdded(Block block);
+    }
+
+    private ArrayList<Listener> listeners = new ArrayList<Listener>();
+
+    public void addListener(Listener listener) {
+        listeners.add(listener);
+    }
+
     public void stepInTime(double simulationTimeChange) {
         //update the blocks and the forces on the blocks
         for (Block block : blocks) {
             block.stepInTime(simulationTimeChange);
         }
+    }
+
+    public void setFourBlocksSameMass() {
+        clearBlocks();
+        addBlock(new Block("Block 1", 1, water, -1, swimmingPool.getMaxY() + 5));
+        addBlock(new Block("Block 2", 1, water, 1, swimmingPool.getMaxY() + 5));
+        addBlock(new Block("Block 3", 2, water, 4, swimmingPool.getMaxY() + 5));
+        addBlock(new Block("Block 4", 2, water, 7, swimmingPool.getMaxY() + 5));
+    }
+
+    public void setFourBlocksSameVolume() {
+        clearBlocks();
+        addBlock(new Block("Block 1", 1, water, -1, swimmingPool.getMaxY() + 5));
+        addBlock(new Block("Block 2", 1, water, 1, swimmingPool.getMaxY() + 5));
+        addBlock(new Block("Block 3", 2, water, 4, swimmingPool.getMaxY() + 5));
+        addBlock(new Block("Block 4", 2, water, 7, swimmingPool.getMaxY() + 5));
+    }
+
+    private void addBlock(Block block) {
+        blocks.add(block);
+        block.addListener(listener);
+        notifyBlockAdded(block);
+    }
+
+    private void notifyBlockAdded(Block block) {
+        for (Listener listener : listeners) {
+            listener.blockAdded(block);
+        }
+    }
+
+    private void clearBlocks() {
+        while (blocks.size() > 0) {
+            removeBlock(blocks.get(0));
+        }
+    }
+
+    private void removeBlock(Block block) {
+        block.removeListener(listener);
+        block.notifyRemoving();
+        blocks.remove(block);
     }
 
     public int getBlockCount() {
@@ -49,25 +99,16 @@ public class DensityModel {
         double getWaterHeight(double waterVolume);
     }
 
-    final RectangularObject.Listener listener = new RectangularObject.Listener() {
+    final RectangularObject.Listener listener = new RectangularObject.Adapter() {
         public void modelChanged() {
             updateWaterHeight();
         }
     };
 
     public DensityModel() {
-        addBlock("Block 1", 1, -1, 1);
-        addBlock("Block 2", 1, 1, 1);
-        addBlock("Block 3", 2, 4, 1);
-        addBlock("Block 4", 2, 7, 1);
+        setFourBlocksSameVolume();
         //as blocks go underwater, water level should rise
         water.updateWaterHeight();
-    }
-
-    private void addBlock(String name, double dim, double x, double y) {
-        Block block = new Block(name, dim, water);
-        block.translate(x, y);
-        blocks.add(block);
     }
 
     private void updateWaterHeight() {
@@ -96,8 +137,8 @@ public class DensityModel {
         private Water water;
         private boolean dragging = false;
 
-        Block(String name, double dim, Water water) {
-            super(name, 0, 0, dim, dim, dim, new Color(123, 81, 237));
+        Block(String name, double dim, Water water, double x, double y) {
+            super(name, x, y, dim, dim, dim, new Color(123, 81, 237));
             this.water = water;
         }
 
@@ -124,7 +165,7 @@ public class DensityModel {
         }
 
         private double getNormalForce() {
-            if (getY() <= getFloorY()) {
+            if (getY() <= getFloorY() && getGravityForce() + getBuoyancyForce() < 0) {
                 return -getGravityForce() - getBuoyancyForce();
             } else return 0;
         }
@@ -152,6 +193,7 @@ public class DensityModel {
         public void setDragging(boolean b) {
             dragging = b;
         }
+
     }
 
     static class Sphere {
@@ -203,6 +245,14 @@ public class DensityModel {
             if (waterLevelY < y) return 0;
             else if (waterLevelY > y + height) return height;
             else return waterLevelY - y;
+        }
+
+        public double getMaxY() {
+            return y + height;
+        }
+
+        public void removeListener(Listener listener) {
+            listeners.remove(listener);
         }
 
         static class Range {
@@ -363,6 +413,17 @@ public class DensityModel {
         public static interface Listener {
 
             void modelChanged();
+
+            void blockRemoving();
+        }
+
+        public static class Adapter implements Listener {
+
+            public void modelChanged() {
+            }
+
+            public void blockRemoving() {
+            }
         }
 
         public void addListener(Listener listener) {
@@ -372,6 +433,13 @@ public class DensityModel {
         protected void notifyListeners() {
             for (Listener listener : listeners) {
                 listener.modelChanged();
+            }
+        }
+
+
+        public void notifyRemoving() {
+            for (Listener listener : listeners) {
+                listener.blockRemoving();
             }
         }
     }

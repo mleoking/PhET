@@ -53,8 +53,26 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
         rootNode.attachChild(getPoolNode(model.getSwimmingPool()));
         rootNode.attachChild(getWaterNode(model.getWater()));
         for (int i = 0; i < model.getBlockCount(); i++) {
-            rootNode.attachChild(new RectNode(model.getBlock(i)));
+            final RectNode child = new RectNode(model.getBlock(i));
+            rootNode.attachChild(child);
+            model.getBlock(i).addListener(new DensityModel.RectangularObject.Adapter() {
+                public void blockRemoving() {
+                    rootNode.detachChild(child);
+                }
+            });
         }
+
+        model.addListener(new DensityModel.Listener() {
+            public void blockAdded(DensityModel.Block block) {
+                final RectNode child = new RectNode(block);
+                rootNode.attachChild(child);
+                block.addListener(new DensityModel.RectangularObject.Adapter() {
+                    public void blockRemoving() {
+                        rootNode.detachChild(child);
+                    }
+                });
+            }
+        });
 
         rootNode.attachChild(new CutawayEarthNode(model));
         rootNode.attachChild(new GrassNode(model));
@@ -187,7 +205,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
         double a = object.getDistanceToTopOfPool() / 2;
         water.setLocalTranslation(0, -(float) a, 0);
         water.updateModelBound();
-        object.addListener(new DensityModel.RectangularObject.Listener() {
+        object.addListener(new DensityModel.RectangularObject.Adapter() {
             public void modelChanged() {
                 water.updateGeometry(new Vector3f((float) model.getSwimmingPool().getCenterX(), (float) model.getSwimmingPool().getCenterY(), (float) model.getSwimmingPool().getCenterZ()),
                         (float) object.getWidth() / 2, (float) object.getHeight() / 2, (float) object.getDepth() / 2);
@@ -276,7 +294,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
 ////            mesh.setRenderState(materialState);
             attachChild(mesh);
 
-            object.addListener(new DensityModel.RectangularObject.Listener() {
+            object.addListener(new DensityModel.RectangularObject.Adapter() {
                 public void modelChanged() {
                     mesh.setCenter(new Vector3f((float) object.getCenterX(), (float) object.getCenterY(), (float) object.getCenterZ()));
                     mesh.updateGeometry();
