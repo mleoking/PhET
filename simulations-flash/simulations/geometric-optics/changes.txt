@@ -1,3 +1,5 @@
+# 2.00.01 (31743) May 15, 2009
+5/15/09 Fix so that the curvature radius slider is displayed
 # 2.00.00 (30671) Apr 21, 2009
 4/21/09 Batch deploy as part of IOM milestone with revision 30670
 # 1.00.02 (29629) Mar 22, 2009
