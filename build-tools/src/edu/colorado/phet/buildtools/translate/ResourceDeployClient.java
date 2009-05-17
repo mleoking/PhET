@@ -52,6 +52,8 @@ public class ResourceDeployClient {
                              " " + temporaryDirPath;
 
             dirtyExecute( command );
+
+            dirtyExecute( "cat " + temporaryDirPath + "/status.txt" );
             
         }
         catch( JSchException e ) {
