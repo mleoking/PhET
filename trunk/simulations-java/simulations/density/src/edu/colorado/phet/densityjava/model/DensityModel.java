@@ -5,10 +5,10 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.text.DecimalFormat;
 
 public class DensityModel {
     private SwimmingPool swimmingPool = new SwimmingPool();
@@ -317,6 +317,10 @@ public class DensityModel {
             dragging = b;
         }
 
+        public double getSpeed() {
+            return Math.abs(velocity);
+        }
+
     }
 
     static class Sphere {
@@ -337,7 +341,7 @@ public class DensityModel {
         private double normalForce;
 
         public String getFormattedNormalForceString() {
-            return new DecimalFormat("0.00").format(normalForce)+" N";
+            return new DecimalFormat("0.00").format(normalForce) + " N";
         }
 
         public static interface Listener {
@@ -423,6 +427,18 @@ public class DensityModel {
             this.faceColor = faceColor;
         }
 
+        public double getZ() {
+            return 0;//all model elements are at z=0
+        }
+
+        public double getMaxX() {
+            return x + width;
+        }
+
+        public Range getVerticalRange() {
+            return new Range(y, y + height);
+        }
+
         //todo: generalize
         public double getIntersectingVolume(RectangularObject object) {
             double intersectHeight = getOverlapLengths(object.getY(), object.getY() + object.getHeight(),
@@ -455,13 +471,17 @@ public class DensityModel {
             listeners.remove(listener);
         }
 
-        static class Range {
+        public static class Range {
             private double min;
             private double max;
 
             Range(double min, double max) {
                 this.min = min;
                 this.max = max;
+            }
+
+            public String toString() {
+                return "[" + min + "," + max + "]";
             }
 
             public double getOverlap(Range b) {
@@ -490,7 +510,7 @@ public class DensityModel {
                 return contains(b.min) && contains(b.max);
             }
 
-            private boolean contains(double x) {
+            public boolean contains(double x) {
                 return x >= min && x <= max;
             }
 
