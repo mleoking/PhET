@@ -1,3 +1,5 @@
+# 00.34.00 (31802) May 17, 2009
+5/17/09 Fixed proguard stuff
 # 00.33.00 (31798) May 17, 2009
 5/17/09 Maybe this test will work?
 # 00.32.00 (31795) May 17, 2009
