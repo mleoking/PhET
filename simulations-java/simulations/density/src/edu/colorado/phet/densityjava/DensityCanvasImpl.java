@@ -13,6 +13,7 @@ import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
 import com.jme.scene.Node;
 import com.jme.scene.Spatial;
+import com.jme.scene.Text;
 import com.jme.scene.TriMesh;
 import com.jme.scene.shape.Box;
 import com.jme.scene.shape.Quad;
@@ -22,6 +23,9 @@ import com.jme.scene.state.MaterialState;
 import com.jme.scene.state.TextureState;
 import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
+import com.jmex.font3d.Font3D;
+import com.jmex.font3d.Text3D;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.densityjava.model.DensityModel;
 
 import java.awt.*;
@@ -76,6 +80,9 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
 
         rootNode.attachChild(new CutawayEarthNode(model));
         rootNode.attachChild(new GrassNode(model));
+
+
+        //For debugging locations
 //        rootNode.attachChild(new Sphere("sphere", 10, 10, 0.5f));
 //        rootNode.attachChild(new Sphere("sphere", new Vector3f((float) model.getSwimmingPool().getCenterX(), (float) model.getSwimmingPool().getCenterY(), (float) model.getSwimmingPool().getCenterZ()), 10, 10, 1));
 //        rootNode.attachChild(new Sphere("sphere", new Vector3f(10, 0, 0), 10, 10, 1));
@@ -93,6 +100,34 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
         public ScaleNode(DensityModel.Scale scale) {
             Quad quad = new Quad("name");
             quad.setLocalTranslation((float) (quad.getWidth() / 2 + scale.getX()), (float) (quad.getHeight() / 2 + scale.getY()), 0);
+            attachChild(quad);
+
+            Font3D font = new Font3D(new PhetFont(), 0.001f, false, true, false);
+            Text3D tt = font.createText("120.0 kg", 12f, 0);
+            tt.setRenderState(Text.getDefaultFontTextureState());
+            tt.setLocalTranslation((float) (quad.getWidth() / 2 + scale.getX()), (float) (quad.getHeight() / 2 + scale.getY()), 0);
+            float sx=0.3f;
+            tt.setLocalScale(new Vector3f(sx, sx, 0.01f));
+            attachChild(tt);
+
+            //Todo: maybe performance and quality would be better to draw directly on the camera
+            //in the approximate screen coordinates
+//            Text text = new Text("my.text", "100.0 kg");
+//            text.setLocalTranslation(5, 5, 0);
+//
+//            text.setCullHint(Spatial.CullHint.Never);
+//            text.setRenderState(Text.getDefaultFontTextureState());
+//            text.setRenderState(Text.getFontBlend());
+//            text.setTextColor(ColorRGBA.gray);
+//            attachChild(text);
+//            attachChild(quad);
+//            TextureState ts = renderer.createTextureState();
+//            Texture t0 = TextureManager.loadTexture(getClass().getClassLoader().getResource(
+//                    "density/images/wall.jpg"),
+//                    Texture.MinificationFilter.Trilinear,
+//                    Texture.MagnificationFilter.Bilinear);
+//            t0.setWrap(Texture.WrapMode.Repeat);
+//            ts.setTexture(t0);
         }
     }
 
