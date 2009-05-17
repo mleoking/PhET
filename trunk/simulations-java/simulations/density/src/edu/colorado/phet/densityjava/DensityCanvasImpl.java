@@ -13,7 +13,6 @@ import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
 import com.jme.scene.Node;
 import com.jme.scene.Spatial;
-import com.jme.scene.Text;
 import com.jme.scene.TriMesh;
 import com.jme.scene.shape.Box;
 import com.jme.scene.shape.Quad;
@@ -23,16 +22,20 @@ import com.jme.scene.state.MaterialState;
 import com.jme.scene.state.TextureState;
 import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
-import com.jmex.font3d.Font3D;
-import com.jmex.font3d.Text3D;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.densityjava.model.DensityModel;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Point2D;
+import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
 
 public class DensityCanvasImpl extends BasicCanvasImpl {
     private DensityModel model;
@@ -97,43 +100,39 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
     }
 
     static class ScaleNode extends Node {
-        public ScaleNode(DensityModel.Scale scale) {
+        public ScaleNode(DensityModel.Scale scale, Renderer renderer) {
             Quad quad = new Quad("name");
             quad.setLocalTranslation((float) (quad.getWidth() / 2 + scale.getX()), (float) (quad.getHeight() / 2 + scale.getY()), 0);
+
+            TextureState ts = renderer.createTextureState();
+            BufferedImage image = new BufferedImage(128, 128, BufferedImage.TYPE_INT_RGB);
+            Graphics2D g2 = image.createGraphics();
+
+            g2.setPaint(Color.lightGray);
+            g2.fillRect(0, 0, 128, 128);
+            PNode node = new PNode();
+            PText pText = new PText("128.0 N");
+            double inset = 5;
+            PPath path = new PhetPPath(new RoundRectangle2D.Double(-inset, -inset, pText.getWidth() + inset * 2, pText.getHeight() + inset * 2, 10, 10), Color.gray, new BasicStroke(2), Color.black);
+            node.addChild(path);
+            node.addChild(pText);
+            node.scale(128 / node.getFullBounds().getWidth());
+            node.translate(inset, inset);
+            node.fullPaint(new PPaintContext(g2));
+
+            Texture t0 = TextureManager.loadTexture(image, Texture.MinificationFilter.Trilinear,
+                    Texture.MagnificationFilter.Bilinear, true);
+            t0.setWrap(Texture.WrapMode.Repeat);
+            ts.setTexture(t0);
+            setRenderState(ts);
+
             attachChild(quad);
-
-            Font3D font = new Font3D(new PhetFont(), 0.001f, false, true, false);
-            Text3D tt = font.createText("120.0 kg", 12f, 0);
-            tt.setRenderState(Text.getDefaultFontTextureState());
-            tt.setLocalTranslation((float) (quad.getWidth() / 2 + scale.getX()), (float) (quad.getHeight() / 2 + scale.getY()), 0);
-            float sx=0.3f;
-            tt.setLocalScale(new Vector3f(sx, sx, 0.01f));
-            attachChild(tt);
-
-            //Todo: maybe performance and quality would be better to draw directly on the camera
-            //in the approximate screen coordinates
-//            Text text = new Text("my.text", "100.0 kg");
-//            text.setLocalTranslation(5, 5, 0);
-//
-//            text.setCullHint(Spatial.CullHint.Never);
-//            text.setRenderState(Text.getDefaultFontTextureState());
-//            text.setRenderState(Text.getFontBlend());
-//            text.setTextColor(ColorRGBA.gray);
-//            attachChild(text);
-//            attachChild(quad);
-//            TextureState ts = renderer.createTextureState();
-//            Texture t0 = TextureManager.loadTexture(getClass().getClassLoader().getResource(
-//                    "density/images/wall.jpg"),
-//                    Texture.MinificationFilter.Trilinear,
-//                    Texture.MagnificationFilter.Bilinear);
-//            t0.setWrap(Texture.WrapMode.Repeat);
-//            ts.setTexture(t0);
         }
     }
 
     private void doAddScale(DensityModel.Scale scale) {
         System.out.println("DensityCanvasImpl.doAddScale");
-        final ScaleNode child = new ScaleNode(scale);
+        final ScaleNode child = new ScaleNode(scale, renderer);
         rootNode.attachChild(child);
         scale.addListener(new DensityModel.RectangularObject.Adapter() {
             public void blockRemoving() {
