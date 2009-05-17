@@ -1,3 +1,5 @@
+# 00.31.00 (31793) May 17, 2009
+5/17/09 Initial resource deploy tests
 # 00.30.00 (31416) May 6, 2009
 5/6/09 Fixed translation deploy issues
 # 00.29.00 (31414) May 6, 2009
