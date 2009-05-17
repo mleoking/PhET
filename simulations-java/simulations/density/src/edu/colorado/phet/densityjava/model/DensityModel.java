@@ -8,6 +8,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.text.DecimalFormat;
 
 public class DensityModel {
     private SwimmingPool swimmingPool = new SwimmingPool();
@@ -73,43 +74,67 @@ public class DensityModel {
         for (Block block : blocks) {
             block.stepInTime(simulationTimeChange);
         }
+        for (Scale scale : scales) {
+            scale.stepInTime(simulationTimeChange);
+        }
     }
 
     double floatHeight = 5;
 
     private BlockEnvironment blockEnvironment = new BlockEnvironment() {
         public double getFloorY(Block block) {
-            ArrayList<RectangularObject > targets = new ArrayList<RectangularObject >();
-            //if there's a block with a center of mass below this block, and their width ranges overlap, then that's the bottom
-            ArrayList<RectangularObject> potentialTargets = new ArrayList<RectangularObject>();
-            potentialTargets.addAll(blocks);
-            for (Scale s : scales) {
-                potentialTargets.add(s.surface);//todo: should Scale be rectangularobject or use common interface?
+            RectangularObject target = getHighestObjectBeneath(block);
+            if (target != null) {
+                return target.getMaxY();
             }
-            for (RectangularObject target : potentialTargets) {
-                if (target != block) {
-                    if (target.getWidthRange().intersects(block.getWidthRange())) {//within x range
-                        if (target.getCenterY() < block.getCenterY()) {//below
-                            targets.add(target);
-                        }
-                    }
-                }
-            }
-            //Choose the highest block below this block
-            if (targets.size() > 0) {
-                Collections.sort(targets, new Comparator<RectangularObject >() {
-                    public int compare(RectangularObject  b1, RectangularObject  b2) {
-                        return Double.compare(b1.getMaxY(), b2.getMaxY());
-                    }
-                });
-                return targets.get(targets.size() - 1).getMaxY();
-            }
-
 
             if (water.getWidthRange().contains(block.getWidthRange()))
                 return water.getBottomY();
             else
                 return water.getSwimmingPoolSurfaceY();
+        }
+    };
+
+    private RectangularObject getHighestObjectBeneath(RectangularObject block) {
+        ArrayList<RectangularObject> targets = new ArrayList<RectangularObject>();
+        //if there's a block with a center of mass below this block, and their width ranges overlap, then that's the bottom
+        ArrayList<RectangularObject> potentialTargets = new ArrayList<RectangularObject>();
+        potentialTargets.addAll(blocks);
+        for (Scale s : scales) {
+            potentialTargets.add(s.surface);//todo: should Scale be rectangularobject or use common interface?
+        }
+        for (RectangularObject target : potentialTargets) {
+            if (target != block) {
+                if (target.getWidthRange().intersects(block.getWidthRange())) {//within x range
+                    if (target.getCenterY() < block.getCenterY()) {//below
+                        targets.add(target);
+                    }
+                }
+            }
+        }
+        //Choose the highest block below this block
+        if (targets.size() > 0) {
+            Collections.sort(targets, new Comparator<RectangularObject>() {
+                public int compare(RectangularObject b1, RectangularObject b2) {
+                    return Double.compare(b1.getMaxY(), b2.getMaxY());
+                }
+            });
+            return targets.get(targets.size() - 1);
+        } else {
+            return null;
+        }
+    }
+
+    private ScaleEnvironment scaleEnvironment = new ScaleEnvironment() {
+        public double getNormalForce(Scale scale) {
+            //if there is a block on top of the scale, show its normal force
+            //TODO: compute for stacked blocks.
+            for (Block block : blocks) {
+                if (getHighestObjectBeneath(block) == scale.surface) {//todo: uses scale surface
+                    return block.getNormalForce();
+                }
+            }
+            return 0.0;
         }
     };
 
@@ -122,8 +147,8 @@ public class DensityModel {
         addBlock(new Block("Block 3", 2, water, 4, swimmingPool.getMaxY() + floatHeight, Color.blue, sameMass, blockEnvironment));
         addBlock(new Block("Block 4", 2.5, water, 7, swimmingPool.getMaxY() + floatHeight, Color.yellow, sameMass, blockEnvironment));
 
-        addScale(new Scale("Scale 1", -1, swimmingPool.getMaxY(), 1, 1, 1));
-        addScale(new Scale("Scale 1", 1, swimmingPool.getY(), 1, 1, 1));
+        addScale(new Scale("Scale 1", -1, swimmingPool.getMaxY(), 1, 1, 1, scaleEnvironment));
+        addScale(new Scale("Scale 1", 1, swimmingPool.getY(), 1, 1, 1, scaleEnvironment));
     }
 
     private void addScale(Scale scale) {
@@ -146,8 +171,8 @@ public class DensityModel {
         addBlock(new Block("Block 3", sameVolume, water, 4, swimmingPool.getMaxY() + floatHeight, Color.blue, 2, blockEnvironment));
         addBlock(new Block("Block 4", sameVolume, water, 7, swimmingPool.getMaxY() + floatHeight, Color.yellow, 1.5, blockEnvironment));
 
-        addScale(new Scale("Scale 1", -1, swimmingPool.getMaxY(), 1, 1, 1));
-        addScale(new Scale("Scale 1", 1, swimmingPool.getY(), 1, 1, 1));
+        addScale(new Scale("Scale 1", -1, swimmingPool.getMaxY(), 1, 1, 1, scaleEnvironment));
+        addScale(new Scale("Scale 1", 1, swimmingPool.getY(), 1, 1, 1, scaleEnvironment));
     }
 
     private void addBlock(Block block) {
@@ -293,14 +318,30 @@ public class DensityModel {
 
     }
 
+    interface ScaleEnvironment {
+        double getNormalForce(Scale scale);
+    }
+
     public static class Scale {
         private String name;
+        private ScaleEnvironment scaleEnvironment;
         private ScaleSurface surface;
         private ScaleBody body;
         private ArrayList<RectangularObject.Listener> listeners = new ArrayList<RectangularObject.Listener>();
+        private ArrayList<Scale.Listener> scaleListeners = new ArrayList<Scale.Listener>();
+        private double normalForce;
 
-        public Scale(String name, double x, double y, double width, double height, double depth) {
+        public String getFormattedNormalForceString() {
+            return new DecimalFormat("0.00").format(normalForce)+" N";
+        }
+
+        public static interface Listener {
+            void normalForceChanged();
+        }
+
+        public Scale(String name, double x, double y, double width, double height, double depth, ScaleEnvironment scaleEnvironment) {
             this.name = name;
+            this.scaleEnvironment = scaleEnvironment;
             surface = new ScaleSurface(x, y, width, height, depth, Color.white);
             body = new ScaleBody(x, y, width, height, depth, Color.gray);
         }
@@ -310,6 +351,13 @@ public class DensityModel {
         }
 
         public void notifyRemoving() {
+            for (RectangularObject.Listener listener : listeners) {
+                listener.blockRemoving();
+            }
+        }
+
+        public void addListener(Scale.Listener listener) {
+            scaleListeners.add(listener);
         }
 
         public void addListener(RectangularObject.Listener listener) {
@@ -322,6 +370,20 @@ public class DensityModel {
 
         public double getY() {
             return body.getY();
+        }
+
+        public void stepInTime(double simulationTimeChange) {
+            //update loaded mass
+            setNormalForce(scaleEnvironment.getNormalForce(this));
+        }
+
+        private void setNormalForce(double normalForce) {
+            if (normalForce != this.normalForce) {
+                this.normalForce = normalForce;
+                for (Listener scaleListener : scaleListeners) {
+                    scaleListener.normalForceChanged();
+                }
+            }
         }
 
         class ScaleSurface extends RectangularObject {

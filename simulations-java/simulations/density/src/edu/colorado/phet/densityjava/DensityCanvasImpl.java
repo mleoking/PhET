@@ -29,6 +29,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -100,26 +101,53 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
     }
 
     static class ScaleNode extends Node {
-        public ScaleNode(DensityModel.Scale scale, Renderer renderer) {
-            Box geom = new Box("name");
+        private DensityModel.Scale scale;
+        private Box geom;
+        private Renderer renderer;
+
+        public ScaleNode(DensityModel.Scale scale, final Renderer renderer) {
+            this.scale = scale;
+            this.renderer = renderer;
+            this.geom = new Box("name");
             float w = 1;
             float h = 1;
             float d = 1;
             geom.updateGeometry(new Vector3f(0, 0, 0), w / 2, h / 2, d / 2);
-            geom.setLocalTranslation((float) (w / 2 + scale.getX()), (float) (h / 2 + scale.getY()), -d/2-1E-2f);
+            geom.setLocalTranslation((float) (w / 2 + scale.getX()), (float) (h / 2 + scale.getY()), -d / 2 - 1E-2f);
 
-            BufferedImage image = new BufferedImage(128, 128, BufferedImage.TYPE_INT_RGB);
+            attachChild(geom);
+
+            scale.addListener(new DensityModel.Scale.Listener() {
+                public void normalForceChanged() {
+                    updateTexture();
+                }
+            });
+
+            //for some reason it doesn't work properly if you do this immediately
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    updateTexture();
+                }
+            });
+        }
+
+        private void updateTexture() {
+
+            int imageWidth = 128;
+            BufferedImage image = new BufferedImage(imageWidth, imageWidth, BufferedImage.TYPE_INT_RGB);
             Graphics2D g2 = image.createGraphics();
 
             g2.setPaint(Color.lightGray);
             g2.fillRect(0, 0, 128, 128);
             PNode node = new PNode();
-            PText pText = new PText("128.0 N");
+
+//            System.out.println("scale.getFormattedNormalForceString() = " + scale.getFormattedNormalForceString());
+            PText pText = new PText(scale.getFormattedNormalForceString());
             double inset = 5;
             PPath path = new PhetPPath(new RoundRectangle2D.Double(-inset, -inset, pText.getWidth() + inset * 2, pText.getHeight() + inset * 2, 10, 10), Color.gray, new BasicStroke(2), Color.black);
             node.addChild(path);
             node.addChild(pText);
-            node.scale(128 / node.getFullBounds().getWidth());
+            node.scale(imageWidth / node.getFullBounds().getWidth());
             node.translate(inset, inset);
             node.fullPaint(new PPaintContext(g2));
 
@@ -129,7 +157,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
             TextureState textureState = renderer.createTextureState();
             textureState.setTexture(texture);
             geom.setRenderState(textureState);
-            attachChild(geom);
+            geom.updateRenderState();
         }
     }
 
