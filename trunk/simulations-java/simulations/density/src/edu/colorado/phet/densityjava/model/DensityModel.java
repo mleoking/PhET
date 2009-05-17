@@ -6,6 +6,8 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class DensityModel {
     private SwimmingPool swimmingPool = new SwimmingPool();
@@ -75,14 +77,45 @@ public class DensityModel {
 
     double floatHeight = 5;
 
+    private BlockEnvironment blockEnvironment = new BlockEnvironment() {
+        public double getFloorY(Block block) {
+            ArrayList<Block> targets = new ArrayList<Block>();
+            //if there's a block with a center of mass below this block, and their width ranges overlap, then that's the bottom
+            for (Block target : blocks) {
+                if (target != block) {
+                    if (target.getWidthRange().intersects(block.getWidthRange())) {//within x range
+                        if (target.getCenterY() < block.getCenterY()) {//below
+                            targets.add(target);
+                        }
+                    }
+                }
+            }
+            //Choose the highest block below this block
+            if (targets.size()>0){
+                Collections.sort(targets,new Comparator<Block>() {
+                    public int compare(Block b1, Block b2) {
+                        return Double.compare(b1.getMaxY(), b2.getMaxY());
+                    }
+                });
+                return targets.get(targets.size()-1).getMaxY();
+            }
+
+
+            if (water.getWidthRange().contains(block.getWidthRange()))
+                return water.getBottomY();
+            else
+                return water.getSwimmingPoolSurfaceY();
+        }
+    };
+
     public void setFourBlocksSameMass() {
         clearBlocks();
         clearScales();
         double sameMass = 7;
-        addBlock(new Block("Block 1", 1, water, -1, swimmingPool.getMaxY() + floatHeight, Color.red, sameMass));
-        addBlock(new Block("Block 2", 1.5, water, 1, swimmingPool.getMaxY() + floatHeight, Color.green, sameMass));
-        addBlock(new Block("Block 3", 2, water, 4, swimmingPool.getMaxY() + floatHeight, Color.blue, sameMass));
-        addBlock(new Block("Block 4", 2.5, water, 7, swimmingPool.getMaxY() + floatHeight, Color.yellow, sameMass));
+        addBlock(new Block("Block 1", 1, water, -1, swimmingPool.getMaxY() + floatHeight, Color.red, sameMass, blockEnvironment));
+        addBlock(new Block("Block 2", 1.5, water, 1, swimmingPool.getMaxY() + floatHeight, Color.green, sameMass, blockEnvironment));
+        addBlock(new Block("Block 3", 2, water, 4, swimmingPool.getMaxY() + floatHeight, Color.blue, sameMass, blockEnvironment));
+        addBlock(new Block("Block 4", 2.5, water, 7, swimmingPool.getMaxY() + floatHeight, Color.yellow, sameMass, blockEnvironment));
 
         addScale(new Scale("Scale 1", -1, swimmingPool.getMaxY(), 1, 1, 1));
         addScale(new Scale("Scale 1", 1, swimmingPool.getMaxY(), 1, 1, 1));
@@ -103,10 +136,10 @@ public class DensityModel {
         clearBlocks();
         clearScales();
         double sameVolume = 1;
-        addBlock(new Block("Block 1", sameVolume, water, -1, swimmingPool.getMaxY() + floatHeight, Color.red, 3));
-        addBlock(new Block("Block 2", sameVolume, water, 1, swimmingPool.getMaxY() + floatHeight, Color.green, 17));
-        addBlock(new Block("Block 3", sameVolume, water, 4, swimmingPool.getMaxY() + floatHeight, Color.blue, 2));
-        addBlock(new Block("Block 4", sameVolume, water, 7, swimmingPool.getMaxY() + floatHeight, Color.yellow, 1.5));
+        addBlock(new Block("Block 1", sameVolume, water, -1, swimmingPool.getMaxY() + floatHeight, Color.red, 3, blockEnvironment));
+        addBlock(new Block("Block 2", sameVolume, water, 1, swimmingPool.getMaxY() + floatHeight, Color.green, 17, blockEnvironment));
+        addBlock(new Block("Block 3", sameVolume, water, 4, swimmingPool.getMaxY() + floatHeight, Color.blue, 2, blockEnvironment));
+        addBlock(new Block("Block 4", sameVolume, water, 7, swimmingPool.getMaxY() + floatHeight, Color.yellow, 1.5, blockEnvironment));
 
         addScale(new Scale("Scale 1", -1, swimmingPool.getMaxY(), 1, 1, 1));
         addScale(new Scale("Scale 1", 1, swimmingPool.getMaxY(), 1, 1, 1));
@@ -182,16 +215,22 @@ public class DensityModel {
         return sphere;
     }
 
+    static interface BlockEnvironment {
+        double getFloorY(Block block);
+    }
+
     public static class Block extends RectangularObject {
         private double mass;
+        private BlockEnvironment blockEnvironment;
         private double velocity = 0;
         private Water water;
         private boolean dragging = false;
 
-        Block(String name, double dim, Water water, double x, double y, Color color, double mass) {
+        Block(String name, double dim, Water water, double x, double y, Color color, double mass, BlockEnvironment blockEnvironment) {
             super(name, x, y, dim, dim, dim, color);
             this.water = water;
             this.mass = mass;
+            this.blockEnvironment = blockEnvironment;
         }
 
         public void stepInTime(double simulationTimeChange) {
@@ -210,10 +249,7 @@ public class DensityModel {
         //the bottom of the pool if over the pool, otherwise the ground level
         //todo: generalize for block stacking
         private double getFloorY() {
-            if (water.getWidthRange().contains(getWidthRange()))
-                return water.getBottomY();
-            else
-                return water.getSwimmingPoolSurfaceY();
+            return blockEnvironment.getFloorY(this);
         }
 
         private double getNormalForce() {
@@ -384,6 +420,11 @@ public class DensityModel {
 
             private boolean contains(double x) {
                 return x >= min && x <= max;
+            }
+
+            public boolean intersects(Range r) {
+                //ranges intersect if either contains any end point of the other.
+                return contains(r.min) || contains(r.max) || r.contains(min) || r.contains(max);
             }
         }
 
