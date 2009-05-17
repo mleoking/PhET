@@ -1,3 +1,4 @@
+Display normal force on scales (single block only)
 Added block and scale stacking.
 # 0.00.08 (31784) May 16, 2009
 Generalize block count
