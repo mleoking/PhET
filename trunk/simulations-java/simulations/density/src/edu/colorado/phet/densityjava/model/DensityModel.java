@@ -268,12 +268,17 @@ public class DensityModel {
                 double force = getGravityForce() + getBuoyancyForce() + getNormalForce();
                 double accel = force / mass;
                 velocity += accel * simulationTimeChange;
+                velocity = velocity * getDragCoefficient();
                 setPosition2D(getX(), getY() + velocity * simulationTimeChange);
                 if (getY() <= getFloorY()) {
                     setPosition2D(getX(), getFloorY());
                     velocity = 0;
                 }
             }
+        }
+
+        private double getDragCoefficient() {
+            return 0.95;
         }
 
         //the bottom of the pool if over the pool, otherwise the ground level
