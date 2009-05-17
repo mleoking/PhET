@@ -51,9 +51,9 @@ public class ResourceDeployClient {
                              ResourceDeployServer.class.getName() + " " + jarCmd + " " + pathToBuildLocalProperties +
                              " " + temporaryDirPath;
 
-            dirtyExecute( command );
+            dirtyExecute( command + " 2>&1" );
 
-            dirtyExecute( "cat " + temporaryDirPath + "/status.txt" );
+            dirtyExecute( "cat " + temporaryDirPath + "/status.txt" + " 2>&1" );
             
         }
         catch( JSchException e ) {
