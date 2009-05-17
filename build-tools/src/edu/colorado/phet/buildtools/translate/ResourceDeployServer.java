@@ -1,10 +1,12 @@
 package edu.colorado.phet.buildtools.translate;
 
 import java.io.File;
-import java.io.PrintStream;
 import java.io.FileOutputStream;
+import java.io.PrintStream;
 
-public class ResourceDeployServer {
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
+
+public class ResourceDeployServer implements IProguardKeepClass {
 
     private String jarCommand;
     private File buildLocalProperties;
@@ -21,7 +23,7 @@ public class ResourceDeployServer {
         try {
             // Create a new file output stream
             // connected to "myfile.txt"
-            out = new FileOutputStream( new File( resourceDir, "status.txt")  );
+            out = new FileOutputStream( new File( resourceDir, "status.txt" ) );
 
             // Connect print stream to the output stream
             p = new PrintStream( out );
@@ -39,7 +41,7 @@ public class ResourceDeployServer {
         System.out.println( "Running ResourceDeployServer" );
 
         new ResourceDeployServer( args[0], new File( args[1] ), new File( args[2] ) );
-        
+
     }
 
 }
