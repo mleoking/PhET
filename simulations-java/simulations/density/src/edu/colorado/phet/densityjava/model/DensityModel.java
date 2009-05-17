@@ -79,9 +79,14 @@ public class DensityModel {
 
     private BlockEnvironment blockEnvironment = new BlockEnvironment() {
         public double getFloorY(Block block) {
-            ArrayList<Block> targets = new ArrayList<Block>();
+            ArrayList<RectangularObject > targets = new ArrayList<RectangularObject >();
             //if there's a block with a center of mass below this block, and their width ranges overlap, then that's the bottom
-            for (Block target : blocks) {
+            ArrayList<RectangularObject> potentialTargets = new ArrayList<RectangularObject>();
+            potentialTargets.addAll(blocks);
+            for (Scale s : scales) {
+                potentialTargets.add(s.surface);//todo: should Scale be rectangularobject or use common interface?
+            }
+            for (RectangularObject target : potentialTargets) {
                 if (target != block) {
                     if (target.getWidthRange().intersects(block.getWidthRange())) {//within x range
                         if (target.getCenterY() < block.getCenterY()) {//below
@@ -91,13 +96,13 @@ public class DensityModel {
                 }
             }
             //Choose the highest block below this block
-            if (targets.size()>0){
-                Collections.sort(targets,new Comparator<Block>() {
-                    public int compare(Block b1, Block b2) {
+            if (targets.size() > 0) {
+                Collections.sort(targets, new Comparator<RectangularObject >() {
+                    public int compare(RectangularObject  b1, RectangularObject  b2) {
                         return Double.compare(b1.getMaxY(), b2.getMaxY());
                     }
                 });
-                return targets.get(targets.size()-1).getMaxY();
+                return targets.get(targets.size() - 1).getMaxY();
             }
 
 
@@ -118,7 +123,7 @@ public class DensityModel {
         addBlock(new Block("Block 4", 2.5, water, 7, swimmingPool.getMaxY() + floatHeight, Color.yellow, sameMass, blockEnvironment));
 
         addScale(new Scale("Scale 1", -1, swimmingPool.getMaxY(), 1, 1, 1));
-        addScale(new Scale("Scale 1", 1, swimmingPool.getMaxY(), 1, 1, 1));
+        addScale(new Scale("Scale 1", 1, swimmingPool.getY(), 1, 1, 1));
     }
 
     private void addScale(Scale scale) {
@@ -142,7 +147,7 @@ public class DensityModel {
         addBlock(new Block("Block 4", sameVolume, water, 7, swimmingPool.getMaxY() + floatHeight, Color.yellow, 1.5, blockEnvironment));
 
         addScale(new Scale("Scale 1", -1, swimmingPool.getMaxY(), 1, 1, 1));
-        addScale(new Scale("Scale 1", 1, swimmingPool.getMaxY(), 1, 1, 1));
+        addScale(new Scale("Scale 1", 1, swimmingPool.getY(), 1, 1, 1));
     }
 
     private void addBlock(Block block) {
