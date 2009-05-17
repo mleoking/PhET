@@ -1,5 +1,6 @@
 package edu.colorado.phet.densityjava;
 
+import com.acarter.iwave.jme.InteractiveWater;
 import com.jme.bounding.BoundingBox;
 import com.jme.image.Texture;
 import com.jme.intersection.BoundingPickResults;
@@ -37,6 +38,7 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 public class DensityCanvasImpl extends BasicCanvasImpl {
     private DensityModel model;
@@ -44,12 +46,47 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
     private Component component;
     private PickData picked = null;
     private Point2D pickPt;
+    private InteractiveWater water;
 
     public DensityCanvasImpl(int width, int height, DisplaySystem display, Component component, DensityModel model) {
         super(width, height, display, component);
         this.model = model;
         this.display = display;
         this.component = component;
+    }
+
+    public void simpleUpdate() {
+        super.simpleUpdate();    //To change body of overridden methods use File | Settings | File Templates.
+        if (water != null) {
+            for (int i = 0; i < model.getBlockCount(); i++) {
+                DensityModel.Block block = model.getBlock(i);
+                if (block.getVerticalRange().contains(model.getWater().getMaxY()) && block.getSpeed() > 2) {
+                    double xMin = block.getX();
+                    double yMin = block.getZ();
+
+                    double xMax = block.getMaxX();
+                    double yMax = block.getMaxY();
+
+                    int xIntMin = (int) (xMin * 100 / model.getSwimmingPool().getWidth());
+                    int yIntMin = (int) (-yMin * 100 / model.getSwimmingPool().getDepth());
+
+                    int xIntMax = (int) (xMax * 100 / model.getSwimmingPool().getWidth());
+                    int yIntMax = (int) (-yMax * 100 / model.getSwimmingPool().getDepth());
+//                    System.out.println("x = " + x + ", y=" + y + ", xInt=" + xInt + ", yInt=" + yInt+", vel="+block.getSpeed());
+//                    System.out.println("xIntMin = " + xIntMin + ", xMAx=" + xIntMax + ", yintmin=" + yIntMin + ", yintmax=" + yIntMax);
+                    Random random = new Random();
+                    for (int x = xIntMin; x <= xIntMax; x++) {
+                        for (int y = yIntMax; y <= yIntMin; y++) {
+                            if (random.nextDouble() < 0.1)
+                                if (x == xIntMin || x == xIntMax || y == yIntMin || y == yIntMax)
+                                    water.dabSomePaint(x, y);
+                        }
+                    }
+                }
+
+            }
+            water.update(tpf);
+        }
     }
 
     public void simpleSetup() {
@@ -98,6 +135,38 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
         setupLight();
 
         addMouseHandling();
+
+        addWaterRipples(model);
+    }
+
+    private void addWaterRipples(final DensityModel model) {
+        water = new InteractiveWater("Water", 100);
+        model.getWater().addListener(new DensityModel.RectangularObject.Adapter() {
+            public void modelChanged() {
+                water.setLocalTranslation(0, (float) model.getWater().getMaxY(), -(float) model.getSwimmingPool().getDepth());
+            }
+        });
+        water.setLocalTranslation(0, (float) model.getWater().getMaxY(), -(float) model.getSwimmingPool().getDepth());
+        water.setLocalScale(new Vector3f((float) model.getSwimmingPool().getWidth() / 100, 1 / 100f, (float) (model.getSwimmingPool().getDepth() / 100.0f)));
+        water.setModelBound(new BoundingBox());
+        water.updateModelBound();
+
+        // the sphere material taht will be modified to make the sphere
+        // look opaque then transparent then opaque and so on
+        water.setRenderState(getWaterMaterial());
+        water.updateRenderState();
+
+        // to handle transparency: a BlendState
+        // an other tutorial will be made to deal with the possibilities of this
+        // RenderState
+        water.setRenderState(getBlendState());
+        water.updateRenderState();
+
+        // IMPORTANT: since the sphere will be transparent, place it
+        // in the transparent render queue!
+        water.setRenderQueueMode(Renderer.QUEUE_TRANSPARENT);
+
+        rootNode.attachChild(water);
     }
 
     static class ScaleNode extends Node {
@@ -286,18 +355,29 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
     }
 
     private TriMesh getWaterNode(final DensityModel.Water object) {
-        final Box water = new Box("pool", new Vector3f((float) model.getSwimmingPool().getCenterX(), (float) model.getSwimmingPool().getCenterY(), (float) model.getSwimmingPool().getCenterZ()),
-                (float) object.getWidth() / 2, (float) object.getHeight() / 2, (float) object.getDepth() / 2);
+        final Quad water = new Quad("pool.front", (float) model.getSwimmingPool().getWidth(), (float) model.getWater().getMaxY());
+//        final Box water = new Box("pool", new Vector3f((float) model.getSwimmingPool().getCenterX(), (float) model.getSwimmingPool().getCenterY(), (float) model.getSwimmingPool().getCenterZ()),
+//                (float) object.getWidth() / 2, (float) object.getHeight() / 2, (float) object.getDepth() / 2);
         double a = object.getDistanceToTopOfPool() / 2;
         water.setLocalTranslation(0, -(float) a, 0);
         water.updateModelBound();
         object.addListener(new DensityModel.RectangularObject.Adapter() {
             public void modelChanged() {
-                water.updateGeometry(new Vector3f((float) model.getSwimmingPool().getCenterX(), (float) model.getSwimmingPool().getCenterY(), (float) model.getSwimmingPool().getCenterZ()),
-                        (float) object.getWidth() / 2, (float) object.getHeight() / 2, (float) object.getDepth() / 2);
-                double a = object.getDistanceToTopOfPool() / 2;
-                water.setLocalTranslation(0, -(float) a, 0);
-                water.updateModelBound();
+
+//                {//for the box
+////                water.updateGeometry(new Vector3f((float) model.getSwimmingPool().getCenterX(), (float) model.getSwimmingPool().getCenterY(), (float) model.getSwimmingPool().getCenterZ()),
+////                        (float) object.getWidth() / 2, (float) object.getHeight() / 2, (float) object.getDepth() / 2);
+//                double a = object.getDistanceToTopOfPool() / 2;
+//                water.setLocalTranslation(0, -(float) a, 0);
+//                water.updateModelBound();
+//                }
+                {//for the quad
+                    final float w = (float) model.getSwimmingPool().getWidth();
+                    final float h = (float) model.getWater().getMaxY();
+                    water.updateGeometry(w, h);//for the quad
+                    water.setLocalTranslation((float) model.getSwimmingPool().getX() + w / 2, (float) model.getSwimmingPool().getY() + h / 2 + 2E-2f, 0);
+                }
+
             }
         });
 
@@ -305,6 +385,33 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
 
         // the sphere material taht will be modified to make the sphere
         // look opaque then transparent then opaque and so on
+        water.setRenderState(getWaterMaterial());
+        water.updateRenderState();
+
+        // to handle transparency: a BlendState
+        // an other tutorial will be made to deal with the possibilities of this
+        // RenderState
+        water.setRenderState(getBlendState());
+        water.updateRenderState();
+
+        // IMPORTANT: since the sphere will be transparent, place it
+        // in the transparent render queue!
+        water.setRenderQueueMode(Renderer.QUEUE_TRANSPARENT);
+        return water;
+    }
+
+    private BlendState getBlendState() {
+        final BlendState alphaState = DisplaySystem.getDisplaySystem().getRenderer().createBlendState();
+        alphaState.setBlendEnabled(true);
+        alphaState.setSourceFunction(BlendState.SourceFunction.SourceAlpha);
+        alphaState.setDestinationFunction(BlendState.DestinationFunction.OneMinusSourceAlpha);
+        alphaState.setTestEnabled(true);
+        alphaState.setTestFunction(BlendState.TestFunction.GreaterThan);
+        alphaState.setEnabled(true);
+        return alphaState;
+    }
+
+    private MaterialState getWaterMaterial() {
         MaterialState materialState = display.getRenderer().createMaterialState();
         float opacityAmount = 0.4f;
         materialState.setAmbient(new ColorRGBA(0.0f, 0.0f, 0.0f, opacityAmount));
@@ -318,28 +425,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
         // setting them to transparent, try commenting this line to see what
         // happens
         materialState.setMaterialFace(MaterialState.MaterialFace.FrontAndBack);
-
-        water.setRenderState(materialState);
-        water.updateRenderState();
-
-        // to handle transparency: a BlendState
-        // an other tutorial will be made to deal with the possibilities of this
-        // RenderState
-        final BlendState alphaState = DisplaySystem.getDisplaySystem().getRenderer().createBlendState();
-        alphaState.setBlendEnabled(true);
-        alphaState.setSourceFunction(BlendState.SourceFunction.SourceAlpha);
-        alphaState.setDestinationFunction(BlendState.DestinationFunction.OneMinusSourceAlpha);
-        alphaState.setTestEnabled(true);
-        alphaState.setTestFunction(BlendState.TestFunction.GreaterThan);
-        alphaState.setEnabled(true);
-
-        water.setRenderState(alphaState);
-        water.updateRenderState();
-
-        // IMPORTANT: since the sphere will be transparent, place it
-        // in the transparent render queue!
-        water.setRenderQueueMode(Renderer.QUEUE_TRANSPARENT);
-        return water;
+        return materialState;
     }
 
     class ObjectBox extends Box {
