@@ -1,3 +1,5 @@
+# 0.00.09 (31800) May 17, 2009
+5/17/09 Added test for ripple graphics
 Added friction
 Display normal force on scales (single block only)
 Added block and scale stacking.
