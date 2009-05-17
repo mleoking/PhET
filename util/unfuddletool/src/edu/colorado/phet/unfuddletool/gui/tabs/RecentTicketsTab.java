@@ -35,6 +35,19 @@ public class RecentTicketsTab extends JSplitPane {
                 // if ticket is from within a week, add it!
                 if ( nowTime - 1000 * 60 * 60 * 24 * 7 < ticketTime ) {
                     model.onTicketAdded( ticket );
+                } else {
+                    ticket.addListener( new Ticket.TicketListener() {
+                        public void onTicketUpdate( Ticket ticket ) {
+                            long nowTime = ( new Date() ).getTime();
+                            long ticketTime = ticket.lastUpdateTime().getTime();
+                            if ( nowTime - 1000 * 60 * 60 * 24 * 7 < ticketTime ) {
+                                if( !model.hasTicket( ticket ) ) {
+                                    model.onTicketAdded( ticket );
+                                    ticket.removeListener( this );
+                                }
+                            }
+                        }
+                    } );
                 }
             }
         } );

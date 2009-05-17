@@ -131,6 +131,10 @@ public class TicketTableModel extends AbstractTableModel implements Ticket.Ticke
         }
     }
 
+    public boolean hasTicket( Ticket ticket ) {
+        return getTicketIndex( ticket ) != -1;
+    }
+
     public Ticket getTicketAt( int index ) {
         return tickets.get( index );
     }
