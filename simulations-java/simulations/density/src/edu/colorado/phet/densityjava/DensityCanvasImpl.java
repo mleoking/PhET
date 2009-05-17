@@ -52,15 +52,27 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
 
         rootNode.attachChild(getPoolNode(model.getSwimmingPool()));
         rootNode.attachChild(getWaterNode(model.getWater()));
+
+        //Handle adding block nodes
         for (int i = 0; i < model.getBlockCount(); i++) {
             doAddBlock(model.getBlock(i));
         }
-
-        model.addListener(new DensityModel.Listener() {
+        model.addListener(new DensityModel.Adapter() {
             public void blockAdded(DensityModel.Block block) {
                 doAddBlock(block);
             }
         });
+
+        //Handle adding scale nodes
+        for (int i = 0; i < model.getScaleCount(); i++) {
+            doAddScale(model.getScale(i));
+        }
+        model.addListener(new DensityModel.Adapter() {
+            public void scaleAdded(DensityModel.Scale scale) {
+                doAddScale(scale);
+            }
+        });
+
 
         rootNode.attachChild(new CutawayEarthNode(model));
         rootNode.attachChild(new GrassNode(model));
@@ -75,6 +87,24 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
         setupLight();
 
         addMouseHandling();
+    }
+
+    static class ScaleNode extends Node {
+        public ScaleNode(DensityModel.Scale scale) {
+            Quad quad = new Quad("name");
+            quad.setLocalTranslation((float) (quad.getWidth() / 2 + scale.getX()), (float) (quad.getHeight() / 2 + scale.getY()), 0);
+        }
+    }
+
+    private void doAddScale(DensityModel.Scale scale) {
+        System.out.println("DensityCanvasImpl.doAddScale");
+        final ScaleNode child = new ScaleNode(scale);
+        rootNode.attachChild(child);
+        scale.addListener(new DensityModel.RectangularObject.Adapter() {
+            public void blockRemoving() {
+                rootNode.detachChild(child);
+            }
+        });
     }
 
     private void doAddBlock(DensityModel.Block block) {
@@ -275,9 +305,9 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
 
             MaterialState materialState = display.getRenderer().createMaterialState();
             float opacityAmount = 0.7f;
-            float r=object.getFaceColor().getRed()/255f;
-            float g=object.getFaceColor().getGreen()/255f;
-            float b=object.getFaceColor().getBlue()/255f;
+            float r = object.getFaceColor().getRed() / 255f;
+            float g = object.getFaceColor().getGreen() / 255f;
+            float b = object.getFaceColor().getBlue() / 255f;
             materialState.setAmbient(new ColorRGBA(0.2f, 0.2f, 0.1f, opacityAmount));
             materialState.setDiffuse(new ColorRGBA(r, g, b, opacityAmount));
             materialState.setSpecular(new ColorRGBA(1.0f, 1.0f, 1.0f, opacityAmount));
@@ -305,7 +335,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
                     Texture.MagnificationFilter.Bilinear);
             t0.setWrap(Texture.WrapMode.Repeat);
             ts.setTexture(t0);
-            
+
             setRenderState(ts);
             attachChild(mesh);//order matters for this call?
         }

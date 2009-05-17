@@ -61,9 +61,7 @@ public class DensityCanvas2D extends PhetPCanvas {
             super(rectangularObject, modelViewTransform2D);
             addInputEventListener(new CursorHandler());
             addInputEventListener(new PBasicInputEventHandler() {
-                @Override
                 public void mouseDragged(PInputEvent event) {
-                    super.mouseDragged(event);    //To change body of overridden methods use File | Settings | File Templates.
                     Point2D pt = new Point2D.Double(event.getDeltaRelativeTo(getParent()).getWidth(), event.getDeltaRelativeTo(getParent()).getHeight());
                     rectangularObject.translate(modelViewTransform2D.viewToModelDifferential(pt));
                 }
@@ -72,7 +70,6 @@ public class DensityCanvas2D extends PhetPCanvas {
     }
 
     public DensityCanvas2D(DensityModel model) {
-
         setWorldTransformStrategy(new CenteringBoxStrategy(this, new PDimension(800, 800)));
         ModelViewTransform2D modelViewTransform2D = new ModelViewTransform2D(new PBounds(-1, -1, 12, 12), new PBounds(0, 0, 800, 800), true);
 

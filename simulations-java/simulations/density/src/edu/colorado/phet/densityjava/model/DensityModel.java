@@ -11,9 +11,10 @@ public class DensityModel {
     private SwimmingPool swimmingPool = new SwimmingPool();
 
     private Sphere sphere = new Sphere();
-    private Scale scale = new Scale();
     private double waterVolume = swimmingPool.getVolume() * 0.8;
     private ArrayList<Block> blocks = new ArrayList<Block>();
+    private ArrayList<Scale> scales = new ArrayList<Scale>();
+
     private Water water = new Water(swimmingPool, waterVolume, new WaterHeightMapper() {
         public double getWaterHeight(double waterVolume) {
             double proposedHeight = waterVolume / swimmingPool.getWidth() / swimmingPool.getDepth();
@@ -30,8 +31,33 @@ public class DensityModel {
         }
     });
 
+    public DensityModel() {
+        setFourBlocksSameVolume();
+        //as blocks go underwater, water level should rise
+        water.updateWaterHeight();
+    }
+
+    public int getScaleCount() {
+        return scales.size();
+    }
+
+    public Scale getScale(int i) {
+        return scales.get(i);
+    }
+
     public static interface Listener {
         void blockAdded(Block block);
+
+        void scaleAdded(Scale scale);
+    }
+
+    public static class Adapter implements Listener {
+
+        public void blockAdded(Block block) {
+        }
+
+        public void scaleAdded(Scale scale) {
+        }
     }
 
     private ArrayList<Listener> listeners = new ArrayList<Listener>();
@@ -51,20 +77,39 @@ public class DensityModel {
 
     public void setFourBlocksSameMass() {
         clearBlocks();
-        double sameMass=7;
+        clearScales();
+        double sameMass = 7;
         addBlock(new Block("Block 1", 1, water, -1, swimmingPool.getMaxY() + floatHeight, Color.red, sameMass));
         addBlock(new Block("Block 2", 1.5, water, 1, swimmingPool.getMaxY() + floatHeight, Color.green, sameMass));
         addBlock(new Block("Block 3", 2, water, 4, swimmingPool.getMaxY() + floatHeight, Color.blue, sameMass));
         addBlock(new Block("Block 4", 2.5, water, 7, swimmingPool.getMaxY() + floatHeight, Color.yellow, sameMass));
+
+        addScale(new Scale("Scale 1", -1, swimmingPool.getMaxY(), 1, 1, 1));
+        addScale(new Scale("Scale 1", 1, swimmingPool.getMaxY(), 1, 1, 1));
+    }
+
+    private void addScale(Scale scale) {
+        scales.add(scale);
+        notifyScaleAdded(scale);
+    }
+
+    private void notifyScaleAdded(Scale scale) {
+        for (Listener listener : listeners) {
+            listener.scaleAdded(scale);
+        }
     }
 
     public void setFourBlocksSameVolume() {
         clearBlocks();
-        double sameVolume=1;
+        clearScales();
+        double sameVolume = 1;
         addBlock(new Block("Block 1", sameVolume, water, -1, swimmingPool.getMaxY() + floatHeight, Color.red, 3));
         addBlock(new Block("Block 2", sameVolume, water, 1, swimmingPool.getMaxY() + floatHeight, Color.green, 17));
         addBlock(new Block("Block 3", sameVolume, water, 4, swimmingPool.getMaxY() + floatHeight, Color.blue, 2));
         addBlock(new Block("Block 4", sameVolume, water, 7, swimmingPool.getMaxY() + floatHeight, Color.yellow, 1.5));
+
+        addScale(new Scale("Scale 1", -1, swimmingPool.getMaxY(), 1, 1, 1));
+        addScale(new Scale("Scale 1", 1, swimmingPool.getMaxY(), 1, 1, 1));
     }
 
     private void addBlock(Block block) {
@@ -83,6 +128,18 @@ public class DensityModel {
         while (blocks.size() > 0) {
             removeBlock(blocks.get(0));
         }
+    }
+
+    private void clearScales() {
+        while (scales.size() > 0) {
+            removeScale(scales.get(0));
+        }
+    }
+
+    private void removeScale(Scale scale) {
+        scale.removeListener(listener);
+        scale.notifyRemoving();
+        scales.remove(scale);
     }
 
     private void removeBlock(Block block) {
@@ -109,12 +166,6 @@ public class DensityModel {
         }
     };
 
-    public DensityModel() {
-        setFourBlocksSameVolume();
-        //as blocks go underwater, water level should rise
-        water.updateWaterHeight();
-    }
-
     private void updateWaterHeight() {
         water.updateWaterHeight();
     }
@@ -129,10 +180,6 @@ public class DensityModel {
 
     public Sphere getSphere() {
         return sphere;
-    }
-
-    public Scale getScale() {
-        return scale;
     }
 
     public static class Block extends RectangularObject {
@@ -205,8 +252,48 @@ public class DensityModel {
 
     }
 
-    static class Scale {
+    public static class Scale {
+        private String name;
+        private ScaleSurface surface;
+        private ScaleBody body;
+        private ArrayList<RectangularObject.Listener> listeners = new ArrayList<RectangularObject.Listener>();
 
+        public Scale(String name, double x, double y, double width, double height, double depth) {
+            this.name = name;
+            surface = new ScaleSurface(x, y, width, height, depth, Color.white);
+            body = new ScaleBody(x, y, width, height, depth, Color.gray);
+        }
+
+        public void removeListener(RectangularObject.Listener listener) {
+            listeners.remove(listener);
+        }
+
+        public void notifyRemoving() {
+        }
+
+        public void addListener(RectangularObject.Listener listener) {
+            listeners.add(listener);
+        }
+
+        public double getX() {
+            return body.getX();
+        }
+
+        public double getY() {
+            return body.getY();
+        }
+
+        class ScaleSurface extends RectangularObject {
+            ScaleSurface(double x, double y, double width, double height, double depth, Color faceColor) {
+                super(name + ".top", x, y, width, height, depth, faceColor);
+            }
+        }
+
+        class ScaleBody extends RectangularObject {
+            ScaleBody(double x, double y, double width, double height, double depth, Color faceColor) {
+                super(name + ".body", x, y, width, height, depth, faceColor);
+            }
+        }
     }
 
     public static class RectangularObject {
