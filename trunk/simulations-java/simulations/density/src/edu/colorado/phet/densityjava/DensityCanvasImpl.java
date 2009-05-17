@@ -106,7 +106,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
             float h = 1;
             float d = 1;
             geom.updateGeometry(new Vector3f(0, 0, 0), w / 2, h / 2, d / 2);
-            geom.setLocalTranslation((float) (w / 2 + scale.getX()), (float) (h / 2 + scale.getY()), 0);
+            geom.setLocalTranslation((float) (w / 2 + scale.getX()), (float) (h / 2 + scale.getY()), -d/2-1E-2f);
 
             BufferedImage image = new BufferedImage(128, 128, BufferedImage.TYPE_INT_RGB);
             Graphics2D g2 = image.createGraphics();
