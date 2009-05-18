@@ -3,6 +3,7 @@
 package edu.colorado.phet.nuclearphysics.module.decayrates;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -35,6 +36,10 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
 	private static final int PLACEMENT_LOCATION_SEARCH_COUNT = 100;
 	private static final double DEFAULT_MIN_INTER_NUCLEUS_DISTANCE = 20;
 	
+	// Define the position in model space of the "holding area", where nuclei
+	// are kept while inactive.
+	private static final Rectangle2D HOLDING_AREA_RECT = new Rectangle2D.Double(220, 50, 150, 100);
+	
     //------------------------------------------------------------------------
     // Instance data
     //------------------------------------------------------------------------
@@ -63,6 +68,15 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
     	}
     	
     	return ( decayedCount / (double)_atomicNuclei.size() ) * 100;
+    }
+    
+    /**
+     * Get a rectangle describing the location of the holding area, which is
+     * where nuclei are originally located and where they are kept when they
+     * are not active (i.e. moving towards decay).
+     */
+    public Rectangle2D getHoldingAreaRect(){
+    	return HOLDING_AREA_RECT;
     }
 
 	protected void addMaxNuclei() {

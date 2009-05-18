@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.nuclearphysics.module.decayrates;
 
+import java.awt.Color;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
@@ -26,6 +27,7 @@ import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
+import edu.colorado.phet.nuclearphysics.view.BucketOfNucleiNode;
 import edu.colorado.phet.nuclearphysics.view.MultiNucleusDecayLinearTimeChart;
 import edu.colorado.phet.nuclearphysics.view.NuclearDecayProportionChart;
 import edu.umd.cs.piccolo.PNode;
@@ -54,17 +56,20 @@ public class DecayRatesCanvas extends PhetPCanvas {
     // Constants that control where the charts are placed.
     private final double PROPORTION_CHART_FRACTION = 0.45;   // Fraction of canvas for proportion chart.
     
+    // Constants that control the appearance of the canvas.
+    private static final Color BUCKET_AND_BUTTON_COLOR = Color.red;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private DecayRatesModel _model;
-    private HashMap _mapAlphaParticlesToNodes = new HashMap();
     private HashMap _mapNucleiToNodes = new HashMap();
     private AtomicNucleus.Listener _decayEventListener;
     private NuclearDecayProportionChart _proportionsChart;
     private PNode _particleLayer;
     private PNode _graphLayer;
+	private BucketOfNucleiNode _bucketNode;
     
     //----------------------------------------------------------------------------
     // Builder + Constructor
@@ -92,6 +97,13 @@ public class DecayRatesCanvas extends PhetPCanvas {
         addWorldChild(_particleLayer);
         _graphLayer = new PNode();
         addScreenChild(_graphLayer);
+        
+        // Create and add the node the represents the bucket from which nuclei
+        // can be extracted and added to the play area.
+        Rectangle2D _bucketRect = _model.getHoldingAreaRect();
+        _bucketNode = new BucketOfNucleiNode( _bucketRect.getWidth(), _bucketRect.getHeight(), BUCKET_AND_BUTTON_COLOR );
+        _particleLayer.addChild(_bucketNode);
+        _bucketNode.setOffset( _bucketRect.getX(), _bucketRect.getY() );
         
         // Add the diagram that will depict the relative concentration of
         // pre- and post-decay nuclei.
