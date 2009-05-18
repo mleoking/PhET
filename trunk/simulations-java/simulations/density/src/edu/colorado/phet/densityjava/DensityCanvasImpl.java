@@ -25,6 +25,7 @@ import com.jme.util.TextureManager;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.densityjava.model.DensityModel;
 import edu.colorado.phet.densityjava.model.Block;
+import edu.colorado.phet.densityjava.model.Water;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -262,7 +263,6 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
                     if (picked.getTargetMesh() instanceof ObjectBox) {
                         ObjectBox ob = (ObjectBox) picked.getTargetMesh();
                         ob.getObject().setPosition2D(pickPt.getX() + dx, pickPt.getY() + dy);
-                        ob.getObject().setVelocity(0);
                         ob.getObject().setUserDragging(true);
                     }
                 }
@@ -295,7 +295,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
         lightState.attach(light);
     }
 
-    private TriMesh getWaterNode(final DensityModel.Water object) {
+    private TriMesh getWaterNode(final Water object) {
         final Quad water = new Quad("pool.front", (float) model.getSwimmingPool().getWidth(), (float) model.getWater().getMaxY());
 //        final Box water = new Box("pool", new Vector3f((float) model.getSwimmingPool().getCenterX(), (float) model.getSwimmingPool().getCenterY(), (float) model.getSwimmingPool().getCenterZ()),
 //                (float) object.getWidth() / 2, (float) object.getHeight() / 2, (float) object.getDepth() / 2);

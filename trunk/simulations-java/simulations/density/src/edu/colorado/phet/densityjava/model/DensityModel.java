@@ -559,43 +559,4 @@ public class DensityModel {
 
     }
 
-    public static class Water extends RectangularObject {
-        private SwimmingPool container;
-        private double waterVolume;
-        private WaterHeightMapper waterHeightMapper;
-
-        public Water(SwimmingPool container, double waterVolume, WaterHeightMapper waterHeightMapper) {
-            super("Water", container.getX(), container.getY(), container.getWidth(), 4, container.getDepth(), new Color(144, 207, 206, 128));
-            this.container = container;
-            this.waterVolume = waterVolume;
-            this.waterHeightMapper = waterHeightMapper;
-            updateWaterHeight();
-        }
-
-        private void updateWaterHeight() {
-            setHeight(waterHeightMapper.getWaterHeight(waterVolume));
-        }
-
-        public double getWaterVolume() {
-            return waterVolume;
-        }
-
-        public double getDistanceToTopOfPool() {
-            return container.getHeight() - getHeight();
-        }
-
-        public double getDensity() {
-            return 1000;
-        }
-
-        public double getBottomY() {
-            return container.getY();
-        }
-
-        public double getSwimmingPoolSurfaceY() {
-            return container.getY() + container.getHeight();
-        }
-
-    }
-
 }
