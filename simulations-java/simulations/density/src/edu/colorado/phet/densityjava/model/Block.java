@@ -6,7 +6,7 @@ public class Block extends RectangularObject {
     private BlockEnvironment blockEnvironment;  //environment for computing applied forces and collisions
     private Water water;//the water the block may interact with
     private double mass;
-    private double velocity = 0;
+    private double velocity = 0;//velocity in the y direction only
     private boolean userDragging = false;//dynamics are off if the user is dragging the block.
 
     public Block(String name, double dim, Water water, double x, double y, Color color, double mass, BlockEnvironment blockEnvironment) {
@@ -16,14 +16,14 @@ public class Block extends RectangularObject {
         this.blockEnvironment = blockEnvironment;
     }
 
-    //Dynamics computation for the block
+    //Dynamics computation for the block, all dynamics are in the vertical (y) direction.
     public void stepInTime(double dt) {
         if (!userDragging) {
             double force = getGravityForce() + getBuoyancyForce() + getAppliedForce() + getNormalForce();
             double accel = force / mass;
             velocity += accel * dt;
             velocity = velocity * getDragCoefficient();
-            setY(getY() + dt);
+            setY(getY() + velocity * dt);
             if (getY() <= getFloorY()) {
                 setY(getFloorY());
                 velocity = 0;
