@@ -9,7 +9,6 @@ import com.jmex.awt.lwjgl.LWJGLAWTCanvasConstructor;
 import edu.colorado.phet.densityjava.model.DensityModel;
 import edu.colorado.phet.densityjava.model.MassVolumeModel;
 import edu.colorado.phet.densityjava.view.MassVolumeChooser;
-import edu.colorado.phet.densityjava.view.d3.DensityCanvasImpl;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,7 +24,7 @@ import java.awt.event.WindowEvent;
  * Time: 1:15:18 PM
  * To change this template use File | Settings | File Templates.
  */
-class DensityJMECanvas extends JPanel {
+public class DensityJMECanvas extends JPanel {
     int width = 640, height = 480;
     JPanel mainPanel = new JPanel();
     JMECanvas canvas = null;
@@ -104,7 +103,7 @@ class DensityJMECanvas extends JPanel {
         d2 = new JDialog(parent, false);
         d2.setUndecorated(true);
         JPanel pane = new JPanel();
-        pane.setPreferredSize(new Dimension(100,1));
+        pane.setPreferredSize(new Dimension(100, 1));
         d2.setContentPane(pane);
         d2.pack();
         d2.setVisible(true);
