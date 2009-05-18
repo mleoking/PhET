@@ -60,10 +60,13 @@ public class MoleculeCountsNode extends PComposite {
         
         waterNode = new PureWaterCountsNode();
         addChild( waterNode );
+        
         acidNode = new AcidMoleculeCountsNode();
         addChild( acidNode );
+        
         weakBaseNode = new WeakBaseMoleculeCountsNode();
         addChild( weakBaseNode );
+        
         strongBaseNode = new StrongBaseMoleculeCountsNode();
         addChild( strongBaseNode );
     }
@@ -120,9 +123,9 @@ public class MoleculeCountsNode extends PComposite {
             // counts & labels
             if ( concentrationModel instanceof PureWaterConcentrationModel ) {
                 PureWaterCountsNode node = countsNode.getWaterNode();
-                node.setCountH3O( concentrationModel.getH3OMoleculeCount() );
-                node.setCountOH( concentrationModel.getOHMoleculeCount() );
-                node.setCountH2O( concentrationModel.getH2OMoleculeCount() );
+                node.setH3OCount( concentrationModel.getH3OMoleculeCount() );
+                node.setOHCount( concentrationModel.getOHMoleculeCount() );
+                node.setH2OCount( concentrationModel.getH2OMoleculeCount() );
             }
             else if ( concentrationModel instanceof AcidConcentrationModel ) {
                 AcidMoleculeCountsNode node = countsNode.getAcidNode();
@@ -130,9 +133,9 @@ public class MoleculeCountsNode extends PComposite {
                 // counts
                 node.setAcidCount( model.getAcidMoleculeCount() );
                 node.setBaseCount( model.getBaseMoleculeCount() );
-                node.setCountH3O( model.getH3OMoleculeCount() );
-                node.setCountOH( model.getOHMoleculeCount() );
-                node.setCountH2O( model.getH2OMoleculeCount() );
+                node.setH3OCount( model.getH3OMoleculeCount() );
+                node.setOHCount( model.getOHMoleculeCount() );
+                node.setH2OCount( model.getH2OMoleculeCount() );
                 // labels
                 node.setAcidLabel( solution.getSolute().getSymbol() );
                 Solute solute = solution.getSolute();
@@ -149,9 +152,9 @@ public class MoleculeCountsNode extends PComposite {
                 // counts
                 node.setAcidCount( model.getAcidMoleculeCount() );
                 node.setBaseCount( model.getBaseMoleculeCount() );
-                node.setCountH3O( model.getH3OMoleculeCount() );
-                node.setCountOH( model.getOHMoleculeCount() );
-                node.setCountH2O( model.getH2OMoleculeCount() );
+                node.setH3OCount( model.getH3OMoleculeCount() );
+                node.setOHCount( model.getOHMoleculeCount() );
+                node.setH2OCount( model.getH2OMoleculeCount() );
                 // labels
                 node.setBaseLabel( solution.getSolute().getSymbol() );
                 Solute solute = solution.getSolute();
@@ -171,9 +174,9 @@ public class MoleculeCountsNode extends PComposite {
                 // counts
                 node.setBaseCount( model.getBaseMoleculeCount() );
                 node.setMetalCount( model.getMetalMoleculeCount() );
-                node.setCountH3O( model.getH3OMoleculeCount() );
-                node.setCountOH( model.getOHMoleculeCount() );
-                node.setCountH2O( model.getH2OMoleculeCount() );
+                node.setH3OCount( model.getH3OMoleculeCount() );
+                node.setOHCount( model.getOHMoleculeCount() );
+                node.setH2OCount( model.getH2OMoleculeCount() );
                 // labels
                 node.setBaseLabel( solution.getSolute().getSymbol() );
                 Solute solute = solution.getSolute();
@@ -193,14 +196,19 @@ public class MoleculeCountsNode extends PComposite {
         }
     }
     
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
     private static abstract class AbstractMoleculeCountsNode extends PinnedLayoutNode {
+        
+        private static final int ROWS = 5;
 
-        private final NegligibleValueNode countLHS;
-        private final ValueNode countRHS, countH3OPlus, countOHMinus, countH2O;
-        private final IconNode iconLHS, iconRHS, iconH3OPlus, iconOHMinus, iconH2O;
-        private final LabelNode labelLHS, labelRHS, labelH3OPlus, labelOHMinus, labelH2O;
+        private final ValueNode[] countNodes;
+        private final IconNode[] iconNodes;
+        private final LabelNode[] labelNodes;
 
-        public AbstractMoleculeCountsNode( Image imageLHS, String textLHS, Image imageRHS, String textRHS ) {
+        public AbstractMoleculeCountsNode() {
             super();
 
             // this node is not interactive
@@ -208,28 +216,22 @@ public class MoleculeCountsNode extends PComposite {
             setChildrenPickable( false );
 
             // values
-            countLHS = new NegligibleValueNode( 0, 0 );
-            countRHS = new ValueNode( 0 );
-            countH3OPlus = new ValueNode( 0 );
-            countOHMinus = new ValueNode( 0 );
-            countH2O = new ValueNode( 0, VALUE_FORMAT_H2O );
-            PNode[] countNodes = { countLHS, countRHS, countH3OPlus, countOHMinus, countH2O };
+            countNodes = new ValueNode[ ROWS ];
+            for ( int i = 0; i < countNodes.length; i++ ) {
+                countNodes[i] = new ValueNode();
+            }
 
             // icons
-            iconLHS = new IconNode( imageLHS );
-            iconRHS = new IconNode( imageRHS );
-            iconH3OPlus = new IconNode( ABSImages.H3O_PLUS_MOLECULE );
-            iconOHMinus = new IconNode( ABSImages.OH_MINUS_MOLECULE );
-            iconH2O = new IconNode( ABSImages.H2O_MOLECULE );
-            PNode[] iconNodes = { iconLHS, iconRHS, iconH3OPlus, iconOHMinus, iconH2O };
+            iconNodes = new IconNode[ ROWS ];
+            for ( int i = 0; i < iconNodes.length; i++ ) {
+                iconNodes[i] = new IconNode();
+            }
 
             // labels
-            labelLHS = new LabelNode( textLHS );
-            labelRHS = new LabelNode( textRHS );
-            labelH3OPlus = new LabelNode( ABSSymbols.H3O_PLUS );
-            labelOHMinus = new LabelNode( ABSSymbols.OH_MINUS );
-            labelH2O = new LabelNode( ABSSymbols.H2O );
-            PNode[] labelNodes = { labelLHS, labelRHS, labelH3OPlus, labelOHMinus, labelH2O };
+            labelNodes = new LabelNode[ ROWS ];
+            for ( int i = 0; i < labelNodes.length; i++ ) {
+                labelNodes[i] = new LabelNode();
+            }
 
             // layout in a grid
             GridBagLayout layout = new GridBagLayout();
@@ -237,7 +239,7 @@ public class MoleculeCountsNode extends PComposite {
             // uniform minimum row height
             layout.rowHeights = new int[countNodes.length];
             for ( int i = 0; i < layout.rowHeights.length; i++ ) {
-                layout.rowHeights[i] = (int) ( 2 * countLHS.getFullBoundsReference().getHeight() + 1 );
+                layout.rowHeights[i] = (int) ( 2 * countNodes[0].getFullBoundsReference().getHeight() + 1 );
             }
             // default constraints
             GridBagConstraints constraints = new GridBagConstraints();
@@ -269,55 +271,50 @@ public class MoleculeCountsNode extends PComposite {
             }
         }
 
-        protected void setCountLHS( double count ) {
-            countLHS.setValue( count );
-        }
-
-        protected void setCountRHS( double count ) {
-            countRHS.setValue( count );
-        }
-
-        public void setCountH3O( double count ) {
-            countH3OPlus.setValue( count );
-        }
-
-        public void setCountOH( double count ) {
-            countOHMinus.setValue( count );
-        }
-
-        public void setCountH2O( double count ) {
-            countH2O.setValue( count );
-        }
-
-        protected void setNegligibleEnabled( boolean enabled ) {
-            countLHS.setNegligibleEnabled( enabled );
+        protected void setCount( int row, double count ) {
+            countNodes[row].setValue( count );
         }
         
-        protected void setTextLHS( String text ) {
-            labelLHS.setHTML( text );
+        protected void setCountFormat( int row, NumberFormat format ) {
+            countNodes[row].setFormat( format );
         }
         
-        protected void setTextRHS( String text ) {
-            labelRHS.setHTML( text );
+        protected void setNegligibleEnabled( int row, boolean enabled, double negligibleThreshold ) {
+            countNodes[row].setNegligibleEnabled( enabled, negligibleThreshold );
         }
         
-        protected void setCountLHSVisible( boolean visible ) {
-            countLHS.setVisible( visible );
+        protected void setIcon( int row, Image image ) {
+            iconNodes[row].setImage( image );
         }
         
-        protected void setCountRHSVisible( boolean visible ) {
-            countRHS.setVisible( visible );
+        protected void setLabel( int row, String text ) {
+            labelNodes[row].setHTML( text );
+        }
+        
+        protected void setIconAndLabel( int row, Image image, String text ) {
+            setIcon( row, image );
+            setLabel( row, text );
+        }
+        
+        protected void setVisible( int row, boolean visible ) {
+            countNodes[row].setVisible( visible );
+            iconNodes[row].setVisible( visible );
+            labelNodes[row].setVisible( visible );
+        }
+        
+        protected void setFormat( int row, NumberFormat format ) {
+            countNodes[row].setFormat( format );
         }
     }
-
-    //----------------------------------------------------------------------------
-    // Inner classes
-    //----------------------------------------------------------------------------
 
     /*
      * Labels used in this view.
      */
     private static class LabelNode extends HTMLNode {
+        
+        public LabelNode() {
+            this( "" );
+        }
 
         public LabelNode( String html ) {
             super( HTMLUtils.toHTMLString( html ) );
@@ -336,6 +333,10 @@ public class MoleculeCountsNode extends PComposite {
     private static class IconNode extends PComposite {
 
         private PImage imageNode;
+        
+        public IconNode() {
+            this( null );
+        }
 
         public IconNode( Image image ) {
             super();
@@ -351,166 +352,192 @@ public class MoleculeCountsNode extends PComposite {
 
     /*
      * Displays a formatted number on a background.
+     * If that number drops below some threshold, then "NEGLIGIBLE" is displayed.
+     * This behavior can also be disabled.
      */
     private static class ValueNode extends PComposite {
 
-        private FormattedNumberNode _numberNode;
-        private PNode _backgroundNode;
-
+        private final FormattedNumberNode numberNode;
+        private final PNode numberBackgroundNode;
+        private final PNode negligibleBackground;
+        private boolean negligibleEnabled;
+        private double negligibleThreshold;
+        
+        public ValueNode() {
+            this( 0, VALUE_FORMAT_DEFAULT );
+        }
+        
         public ValueNode( double value ) {
             this( value, VALUE_FORMAT_DEFAULT );
         }
 
         public ValueNode( double value, NumberFormat format ) {
-            _numberNode = new FormattedNumberNode( format, value, VALUE_FONT, VALUE_COLOR );
-            _backgroundNode = new RectangularBackgroundNode( _numberNode, VALUE_INSETS, VALUE_BACKGROUND_COLOR );
-            addChild( _backgroundNode );
+            // displays the count
+            numberNode = new FormattedNumberNode( format, value, VALUE_FONT, VALUE_COLOR );
+            numberBackgroundNode = new RectangularBackgroundNode( numberNode, VALUE_INSETS, VALUE_BACKGROUND_COLOR );
+            addChild( numberBackgroundNode );
+            // displays "NEGLIGIBLE"
+            PText textNode = new PText( ABSStrings.VALUE_NEGLIGIBLE );
+            textNode.setFont( NEGLIGIBLE_FONT );
+            negligibleBackground = new RectangularBackgroundNode( textNode, VALUE_INSETS, VALUE_BACKGROUND_COLOR );
+            addChild( negligibleBackground );
+            // negligible mode is off by default
+            negligibleEnabled = false;
+            negligibleThreshold = 0;
         }
-
-        public void setValue( double value ) {
-            _numberNode.setValue( value );
+        
+        public void setFormat( NumberFormat format ) {
+            numberNode.setFormat( format );
         }
 
         public double getValue() {
-            return _numberNode.getValue();
+            return numberNode.getValue();
+        }
+        
+        public void setValue( double value ) {
+            numberNode.setValue( value );
+            updateVisibility();
         }
 
-        protected PNode getBackgroundNode() {
-            return _backgroundNode;
+        public void setNegligibleEnabled( boolean enabled, double threshold ) {
+            if ( enabled != negligibleEnabled || threshold != negligibleThreshold ) {
+                negligibleEnabled = enabled;
+                negligibleThreshold = threshold;
+                updateVisibility();
+            }
+        }
+
+        private void updateVisibility() {
+            if ( negligibleEnabled ) {
+                final double value = numberNode.getValue();
+                numberBackgroundNode.setVisible( value > negligibleThreshold );
+                negligibleBackground.setVisible( value <= negligibleThreshold );
+            }
+            else {
+                numberBackgroundNode.setVisible( true );
+                negligibleBackground.setVisible( false );
+            }
         }
     }
 
-    /*
-     * Displays a formatted number on a background.
-     * If that number drops below some threshold, then "NEGLIGIBLE" is displayed.
-     * This behavior can also be disabled.
-     */
-    private static class NegligibleValueNode extends PNode {
-
-        private final double _negligibleValue;
-        private final PNode _negligibleBackground;
-        private final ValueNode _valueNode;
-        private boolean _negligibleEnabled;
-
-        public NegligibleValueNode( double value, double negligibleValue ) {
-            this( value, negligibleValue, VALUE_FORMAT_DEFAULT );
-        }
-
-        public NegligibleValueNode( double negligibleValue, double value, NumberFormat format ) {
+    private abstract static class BaseMoleculeCountsNode extends AbstractMoleculeCountsNode {
+        
+        private static final int H3O_ROW = 2;
+        private static final int OH_ROW = 3;
+        private static final int H2O_ROW = 4;
+        
+        public BaseMoleculeCountsNode() {
             super();
-            _negligibleValue = negligibleValue;
-            // value
-            _valueNode = new ValueNode( value, format );
-            addChild( _valueNode );
-            // negligible
-            PText textNode = new PText( ABSStrings.VALUE_NEGLIGIBLE );
-            textNode.setFont( NEGLIGIBLE_FONT );
-            _negligibleBackground = new RectangularBackgroundNode( textNode, VALUE_INSETS, VALUE_BACKGROUND_COLOR );
-            addChild( _negligibleBackground );
-            // init
-            _negligibleEnabled = true;
-            setValue( value );
+            setIconAndLabel( H3O_ROW, ABSImages.H3O_PLUS_MOLECULE, ABSSymbols.H3O_PLUS );
+            setIconAndLabel( OH_ROW, ABSImages.OH_MINUS_MOLECULE, ABSSymbols.OH_MINUS );
+            setIconAndLabel( H2O_ROW, ABSImages.H2O_MOLECULE, ABSSymbols.H2O );
+            setFormat( H2O_ROW, VALUE_FORMAT_H2O );
         }
-
-        public void setValue( double value ) {
-            _valueNode.setValue( value );
-            updateVisibility( value );
+        
+        public void setH3OCount( double count ) {
+            setCount( H3O_ROW, count );
         }
-
-        public void setNegligibleEnabled( boolean enabled ) {
-            if ( enabled != _negligibleEnabled ) {
-                _negligibleEnabled = enabled;
-                updateVisibility( _valueNode.getValue() );
-            }
+        
+        public void setOHCount( double count ) {
+            setCount( OH_ROW, count );
         }
-
-        private void updateVisibility( double value ) {
-            if ( _negligibleEnabled ) {
-                _valueNode.setVisible( value > _negligibleValue );
-                _negligibleBackground.setVisible( value <= _negligibleValue );
-            }
-            else {
-                _valueNode.setVisible( true );
-                _negligibleBackground.setVisible( false );
-            }
+        
+        public void setH2OCount( double count ) {
+            setCount( H2O_ROW, count );
         }
     }
     
-    public static class PureWaterCountsNode extends AbstractMoleculeCountsNode {
+    public static class PureWaterCountsNode extends BaseMoleculeCountsNode {
 
         public PureWaterCountsNode() {
-            super( null, "", null, "" );
-            setCountLHSVisible( false );
-            setCountRHSVisible( false );
+            super();
+            setVisible( 0, false );
+            setVisible( 1, false );
         }
     }
 
-    public static class AcidMoleculeCountsNode extends AbstractMoleculeCountsNode {
+    public static class AcidMoleculeCountsNode extends BaseMoleculeCountsNode {
+        
+        private static int ACID_ROW = 0;
+        private static int BASE_ROW = 1;
 
         public AcidMoleculeCountsNode() {
-            super( ABSImages.HA_MOLECULE, ABSSymbols.HA, ABSImages.A_MINUS_MOLECULE, ABSSymbols.A_MINUS );
+            super();
+            setIconAndLabel( ACID_ROW, ABSImages.HA_MOLECULE, ABSSymbols.HA );
+            setIconAndLabel( BASE_ROW, ABSImages.A_MINUS_MOLECULE, ABSSymbols.A );
+            setNegligibleEnabled( ACID_ROW, true, 0 /* negligibleThreshold */ );
         }
         
         public void setAcidLabel( String text ) {
-            setTextLHS( text );
+            setLabel( ACID_ROW, text );
         }
 
         public void setAcidCount( double count ) {
-            setCountLHS( count );
+            setCount( ACID_ROW, count );
         }
         
         public void setBaseLabel( String text ) {
-            setTextRHS( text );
+            setLabel( BASE_ROW, text );
         }
 
         public void setBaseCount( double count ) {
-            setCountRHS( count );
+            setCount( BASE_ROW, count );
         }
     }
 
-    public static class WeakBaseMoleculeCountsNode extends AbstractMoleculeCountsNode {
+    public static class WeakBaseMoleculeCountsNode extends BaseMoleculeCountsNode {
 
+        private static int BASE_ROW = 0;
+        private static int ACID_ROW = 1;
+        
         public WeakBaseMoleculeCountsNode() {
-            super( ABSImages.B_MOLECULE, ABSSymbols.B, ABSImages.BH_PLUS_MOLECULE, ABSSymbols.BH_PLUS );
+            super();
+            setIconAndLabel( BASE_ROW, ABSImages.B_MOLECULE, ABSSymbols.B );
+            setIconAndLabel( ACID_ROW, ABSImages.BH_PLUS_MOLECULE, ABSSymbols.BH_PLUS );
         }
 
         public void setBaseLabel( String text ) {
-            setTextLHS( text );
+            setLabel( BASE_ROW, text );
         }
         
         public void setBaseCount( double count ) {
-            setCountLHS( count );
+            setCount( BASE_ROW, count );
         }
         
         public void setAcidLabel( String text ) {
-            setTextRHS( text );
+            setLabel( ACID_ROW, text );
         }
 
         public void setAcidCount( double count ) {
-            setCountRHS( count );
+            setCount( ACID_ROW, count );
         }
     }
 
-    public static class StrongBaseMoleculeCountsNode extends AbstractMoleculeCountsNode {
+    public static class StrongBaseMoleculeCountsNode extends BaseMoleculeCountsNode {
 
+        private static int BASE_ROW = 0;
+        private static int METAL_ROW = 1;
+        
         public StrongBaseMoleculeCountsNode() {
-            super( ABSImages.MOH_MOLECULE, ABSSymbols.MOH, ABSImages.M_PLUS_MOLECULE, ABSSymbols.M_PLUS );
+            super();
+            setIconAndLabel( BASE_ROW, ABSImages.MOH_MOLECULE, ABSSymbols.MOH );
+            setIconAndLabel( METAL_ROW, ABSImages.M_PLUS_MOLECULE, ABSSymbols.M_PLUS );
         }
         
         public void setBaseLabel( String text ) {
-            setTextLHS( text );
+            setLabel( BASE_ROW, text );
         }
 
         public void setBaseCount( double count ) {
-            setCountLHS( count );
+            setCount( BASE_ROW, count );
         }
         
         public void setMetalLabel( String text ) {
-            setTextRHS( text );
+            setLabel( METAL_ROW, text );
         }
 
         public void setMetalCount( double count ) {
-            setCountRHS( count );
+            setCount( METAL_ROW, count );
         }
     }
 }
