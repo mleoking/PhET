@@ -12,7 +12,6 @@ import java.util.Comparator;
 
 public class DensityModel {
     private SwimmingPool swimmingPool = new SwimmingPool();
-
     private Sphere sphere = new Sphere();
     private double waterVolume = swimmingPool.getVolume() * 0.8;
     private ArrayList<Block> blocks = new ArrayList<Block>();
@@ -439,16 +438,6 @@ public class DensityModel {
             return new Range(y, y + height);
         }
 
-        //todo: generalize
-        public double getIntersectingVolume(RectangularObject object) {
-            double intersectHeight = getOverlapLengths(object.getY(), object.getY() + object.getHeight(),
-                    this.getY(), this.getY() + this.getHeight());
-            RectangularObject intersection = new RectangularObject("intersection", 0, 0,
-                    Math.min(object.getWidth(), this.getWidth()), intersectHeight, Math.min(object.getDepth(), this.getDepth()), Color.black);
-            final double volume = intersection.getVolume();
-            return volume;
-        }
-
         public Range getWidthRange() {
             return new Range(x, x + width);
         }
@@ -469,61 +458,6 @@ public class DensityModel {
 
         public void removeListener(Listener listener) {
             listeners.remove(listener);
-        }
-
-        public static class Range {
-            private double min;
-            private double max;
-
-            Range(double min, double max) {
-                this.min = min;
-                this.max = max;
-            }
-
-            public String toString() {
-                return "[" + min + "," + max + "]";
-            }
-
-            public double getOverlap(Range b) {
-                if (this.contains(b)) {
-                    return b.range();
-                } else if (b.contains(this)) {
-                    return this.range();
-                } else if (this.contains(b.min)) {
-                    return new Range(b.min, this.max).range();
-                } else if (this.contains(b.max)) {
-                    return new Range(this.min, b.max).range();
-                } else if (b.contains(this.min)) {
-                    return new Range(this.min, b.max).range();
-                } else if (b.contains(this.max)) {
-                    return new Range(b.min, this.max).range();
-                } else {
-                    return 0;
-                }
-            }
-
-            private double range() {
-                return max - min;
-            }
-
-            private boolean contains(Range b) {
-                return contains(b.min) && contains(b.max);
-            }
-
-            public boolean contains(double x) {
-                return x >= min && x <= max;
-            }
-
-            public boolean intersects(Range r) {
-                //ranges intersect if either contains any end point of the other.
-                return contains(r.min) || contains(r.max) || r.contains(min) || r.contains(max);
-            }
-        }
-
-        private double getOverlapLengths(double a1, double a2, double b1, double b2) {
-            Range a = new Range(a1, a2);
-            Range b = new Range(b1, b2);
-            return a.getOverlap(b);
         }
 
         public void translate(double dx, double dy) {
@@ -714,4 +648,5 @@ public class DensityModel {
         }
 
     }
+
 }
