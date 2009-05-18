@@ -128,19 +128,6 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         stoveNode.setOffset(containerRect.getX() + containerRect.getWidth() * 0.3,
                 containerRect.getY() + containerRect.getHeight() * 0.1);
         addWorldChild( stoveNode );
-        
-        // Add a listener for when the canvas is resized.
-        addComponentListener( new ComponentAdapter() {
-            
-            /**
-             * This method is called when the canvas is resized.  In response,
-             * we generally pass this event on to child nodes that need to be
-             * aware of it.
-             */
-            public void componentResized( ComponentEvent e ) {
-                // TODO: JPB TBD - Do I need this?
-            }
-        } );
     }
     
     //----------------------------------------------------------------------------
