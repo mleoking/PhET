@@ -16,6 +16,7 @@ TODO:
 - add ability to restrict Strength slider to one section of the range
 - support arrow keys in concentration text field
 - smooth, curved lip on beaker
+- redo layout of molecule counts, Swing layout strategy isn't working well
 
 DONE:
 5/18/09 fix molecule counts
