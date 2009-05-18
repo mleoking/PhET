@@ -54,4 +54,15 @@ public class Range {
         //ranges intersect if either contains any end point of the other.
         return contains(r.min) || contains(r.max) || r.contains(min) || r.contains(max);
     }
+
+    //gets the smallest distance between any two points in the ranges
+    public double distanceTo(Range that) {
+        if (intersects(that)) {
+            return 0;
+        } else {
+            double highDist = Math.abs(this.max - that.min);
+            double lowDist = Math.abs(this.min - that.max);
+            return Math.min(highDist, lowDist);
+        }
+    }
 }

@@ -78,11 +78,10 @@ public class DensityModel {
         }
     }
 
-    double floatHeight = 5;
 
     private BlockEnvironment blockEnvironment = new BlockEnvironment() {
         public double getFloorY(Block block) {
-            RectangularObject target = getHighestObjectBeneath(block);
+            RectangularObject target = getHighestObjectBelow(block);
             if (target != null) {
                 return target.getMaxY();
             }
@@ -92,9 +91,62 @@ public class DensityModel {
             else
                 return water.getSwimmingPoolSurfaceY();
         }
+
+        public double getAppliedForce(Block block) {
+            //if there is a block sitting on top of this block, the applied force
+            //due to that block is equal to -N, since F12=-F21
+            double sum = 0;
+            RectangularObject justBeneath = getHighestObjectBelow(block);
+            RectangularObject justAbove = getLowestObjectAbove(block);
+            if (justAbove != null && justAbove instanceof Block && justAbove.getDistanceY(block) < 0.01) {
+                Block above = (Block) justAbove;
+                sum += -above.getNormalForce();
+            }
+            if (justBeneath != null && justBeneath instanceof Block && justBeneath.getDistanceY(block) < 0.01) {
+                Block beneath = (Block) justBeneath;
+                sum += beneath.getNormalForce();
+            }
+            return 0.0;
+//            return sum;
+        }
     };
 
-    private RectangularObject getHighestObjectBeneath(RectangularObject block) {
+    private RectangularObject getLowestObjectAbove(RectangularObject block) {
+        return getNeighbor(block, new SearchStrategy.Above());
+    }
+
+    private RectangularObject getHighestObjectBelow(RectangularObject block) {
+        return getNeighbor(block, new SearchStrategy.Below());
+    }
+
+    static interface SearchStrategy {
+        boolean isSatisfied(double queryCenterY, double blockCenterY);
+
+        int compare(RectangularObject b1, RectangularObject b2);
+
+        static class Above implements SearchStrategy {
+            public boolean isSatisfied(double queryCenterY, double blockCenterY) {
+                return queryCenterY > blockCenterY;
+            }
+
+            public int compare(RectangularObject b1, RectangularObject b2) {
+                return Double.compare(b1.getMaxY(), b2.getMaxY());
+            }
+        }
+
+        static class Below implements SearchStrategy {
+
+            public boolean isSatisfied(double queryCenterY, double blockCenterY) {
+                return queryCenterY < blockCenterY;
+            }
+
+            public int compare(RectangularObject b1, RectangularObject b2) {
+                return Double.compare(b1.getMaxY(), b2.getMaxY());
+            }
+        }
+    }
+
+    private RectangularObject getNeighbor(RectangularObject block, final SearchStrategy searchStrategy) {
         ArrayList<RectangularObject> targets = new ArrayList<RectangularObject>();
         //if there's a block with a center of mass below this block, and their width ranges overlap, then that's the bottom
         ArrayList<RectangularObject> potentialTargets = new ArrayList<RectangularObject>();
@@ -105,7 +157,7 @@ public class DensityModel {
         for (RectangularObject target : potentialTargets) {
             if (target != block) {
                 if (target.getWidthRange().intersects(block.getWidthRange())) {//within x range
-                    if (target.getCenterY() < block.getCenterY()) {//below
+                    if (searchStrategy.isSatisfied(target.getCenterY(), block.getCenterY())) {//below
                         targets.add(target);
                     }
                 }
@@ -115,7 +167,7 @@ public class DensityModel {
         if (targets.size() > 0) {
             Collections.sort(targets, new Comparator<RectangularObject>() {
                 public int compare(RectangularObject b1, RectangularObject b2) {
-                    return Double.compare(b1.getMaxY(), b2.getMaxY());
+                    return searchStrategy.compare(b1, b2);
                 }
             });
             return targets.get(targets.size() - 1);
@@ -129,13 +181,15 @@ public class DensityModel {
             //if there is a block on top of the scale, show its normal force
             //TODO: compute for stacked blocks.
             for (Block block : blocks) {
-                if (getHighestObjectBeneath(block) == scale.surface) {//todo: uses scale surface
+                if (getHighestObjectBelow(block) == scale.surface) {//todo: uses scale surface
                     return block.getNormalForce();
                 }
             }
             return 0.0;
         }
     };
+
+    double floatHeight = 5;
 
     public void setFourBlocksSameMass() {
         clearBlocks();
@@ -150,17 +204,6 @@ public class DensityModel {
         addScale(new Scale("Scale 1", 1, swimmingPool.getY(), 1, 1, 1, scaleEnvironment));
     }
 
-    private void addScale(Scale scale) {
-        scales.add(scale);
-        notifyScaleAdded(scale);
-    }
-
-    private void notifyScaleAdded(Scale scale) {
-        for (Listener listener : listeners) {
-            listener.scaleAdded(scale);
-        }
-    }
-
     public void setFourBlocksSameVolume() {
         clearBlocks();
         clearScales();
@@ -172,6 +215,17 @@ public class DensityModel {
 
         addScale(new Scale("Scale 1", -1, swimmingPool.getMaxY(), 1, 1, 1, scaleEnvironment));
         addScale(new Scale("Scale 1", 1, swimmingPool.getY(), 1, 1, 1, scaleEnvironment));
+    }
+
+    private void addScale(Scale scale) {
+        scales.add(scale);
+        notifyScaleAdded(scale);
+    }
+
+    private void notifyScaleAdded(Scale scale) {
+        for (Listener listener : listeners) {
+            listener.scaleAdded(scale);
+        }
     }
 
     private void addBlock(Block block) {
@@ -246,6 +300,8 @@ public class DensityModel {
 
     static interface BlockEnvironment {
         double getFloorY(Block block);
+
+        double getAppliedForce(Block block);
     }
 
     public static class Block extends RectangularObject {
@@ -264,7 +320,7 @@ public class DensityModel {
 
         public void stepInTime(double simulationTimeChange) {
             if (!dragging) {
-                double force = getGravityForce() + getBuoyancyForce() + getNormalForce();
+                double force = getGravityForce() + getBuoyancyForce() + getNormalForce() + getAppliedForce();
                 double accel = force / mass;
                 velocity += accel * simulationTimeChange;
                 velocity = velocity * getDragCoefficient();
@@ -274,6 +330,10 @@ public class DensityModel {
                     velocity = 0;
                 }
             }
+        }
+
+        private double getAppliedForce() {
+            return blockEnvironment.getAppliedForce(this);
         }
 
         private double getDragCoefficient() {
@@ -567,6 +627,10 @@ public class DensityModel {
             this.x = x;
             this.y = y;
             notifyListeners();
+        }
+
+        public double getDistanceY(Block block) {
+            return getVerticalRange().distanceTo(block.getVerticalRange());
         }
 
         public static interface Listener {
