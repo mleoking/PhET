@@ -7,6 +7,7 @@ import java.io.FilenameFilter;
 import java.util.Properties;
 
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
+import edu.colorado.phet.common.phetcommon.util.StreamReaderThread;
 import edu.colorado.phet.buildtools.util.FileUtils;
 
 public class ResourceDeployServer implements IProguardKeepClass {
@@ -19,6 +20,8 @@ public class ResourceDeployServer implements IProguardKeepClass {
     private String resourceDestination;
     private String[] sims;
     private File backupDir;
+    private boolean onlyAllJARs;
+    private File testDir;
 
     public ResourceDeployServer( String jarCommand, File buildLocalProperties, File resourceDir ) {
         this.jarCommand = jarCommand;
@@ -46,6 +49,10 @@ public class ResourceDeployServer implements IProguardKeepClass {
         }
 
         resourceDestination = properties.getProperty( "resourceDestination" );
+        if( resourceDestination.startsWith( "/" ) ) {
+            resourceDestination = resourceDestination.substring( 1 );
+        }
+        onlyAllJARs = properties.getProperty( "onlyAllJARs" ).equals( "true" );
 
         String simsString = properties.getProperty( "sims" );
         sims = simsString.split( "," );
@@ -55,13 +62,20 @@ public class ResourceDeployServer implements IProguardKeepClass {
 
         try {
             createBackupJARs();
-
-            
+            copyTestJARs();
+            pokeJARs();
 
         }
         catch( IOException e ) {
             e.printStackTrace();
+            return;
         }
+        catch( InterruptedException e ) {
+            e.printStackTrace();
+            return;
+        }
+
+        System.out.println( "All successful!" );
 
     }
 
@@ -79,7 +93,7 @@ public class ResourceDeployServer implements IProguardKeepClass {
 
             File[] jarFiles = simDir.listFiles( new FilenameFilter() {
                 public boolean accept( File file, String name ) {
-                    return name.endsWith( ".jar" ); 
+                    return name.endsWith( ".jar" );
                 }
             });
 
@@ -99,8 +113,68 @@ public class ResourceDeployServer implements IProguardKeepClass {
         }
     }
 
+    private void copyTestJARs() throws IOException, InterruptedException {
+        testDir = new File( resourceDir, "test" );
+        testDir.mkdir();
+
+        for ( int i = 0; i < sims.length; i++ ) {
+            String sim = sims[i];
+
+            File backupSimDir = new File( backupDir, sim );
+            File testSimDir = new File( testDir, sim );
+            testSimDir.mkdir();
+
+            File[] jarFiles = backupSimDir.listFiles();
+
+            for ( int j = 0; j < jarFiles.length; j++ ) {
+                File jarFile = jarFiles[j];
+
+                if( onlyAllJARs && !jarFile.getName().endsWith( "_all.jar" ) ) {
+                    continue;
+                }
+
+                FileUtils.copyToDir( jarFile, testSimDir );
+            }
+        }
+    }
+
+    private void pokeJARs() throws IOException, InterruptedException {
+        File tmpDir = new File( resourceDir, ".tmp" );
+        tmpDir.mkdir();
+
+        File holderDir = new File( tmpDir, resourceDestination );
+        holderDir.mkdirs();
+
+        FileUtils.copyToDir( resourceFile, holderDir );
+
+        for ( int i = 0; i < sims.length; i++ ) {
+            String sim = sims[i];
+
+            File testSimDir = new File( testDir, sim );
+
+            File[] jarFiles = testSimDir.listFiles();
+
+            for ( int j = 0; j < jarFiles.length; j++ ) {
+                File jarFile = jarFiles[j];
+
+                String command = jarCommand + " uf " + jarFile.getAbsolutePath() + " -C " + tmpDir.getAbsolutePath() + " " + resourceDestination + resourceFile.getName();
+                runStringCommand( command );
+            }
+        }
+
+        
+    }
+
     public File getLiveSimsDir() {
-        return new File( resourceDir, "../../../sims" );
+        return new File( resourceDir, "../.." );
+    }
+
+    private void runStringCommand( String command ) throws IOException, InterruptedException {
+        System.out.println( "Running command: " + command );
+        Process p = Runtime.getRuntime().exec( command );
+        new StreamReaderThread( p.getErrorStream(), "err>" ).start();
+        new StreamReaderThread( p.getInputStream(), "" ).start();
+        p.waitFor();
     }
 
     public static void main( String[] args ) {
