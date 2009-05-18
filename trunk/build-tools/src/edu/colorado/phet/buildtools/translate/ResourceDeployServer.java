@@ -9,6 +9,8 @@ import java.util.Properties;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.common.phetcommon.util.StreamReaderThread;
 import edu.colorado.phet.buildtools.util.FileUtils;
+import edu.colorado.phet.buildtools.util.PhetJarSigner;
+import edu.colorado.phet.buildtools.BuildLocalProperties;
 
 public class ResourceDeployServer implements IProguardKeepClass {
 
@@ -64,7 +66,7 @@ public class ResourceDeployServer implements IProguardKeepClass {
             createBackupJARs();
             copyTestJARs();
             pokeJARs();
-
+            signJARs();
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -161,8 +163,26 @@ public class ResourceDeployServer implements IProguardKeepClass {
                 runStringCommand( command );
             }
         }
+    }
 
-        
+    private void signJARs() {
+        for ( int i = 0; i < sims.length; i++ ) {
+            String sim = sims[i];
+
+            File testSimDir = new File( testDir, sim );
+            File[] jarFiles = testSimDir.listFiles();
+
+            for ( int j = 0; j < jarFiles.length; j++ ) {
+                File jarFile = jarFiles[j];
+
+                signJAR( jarFile );
+            }
+        }
+    }
+
+    private void signJAR( File jarFile ) {
+        PhetJarSigner phetJarSigner = new PhetJarSigner( BuildLocalProperties.initFromPropertiesFile( buildLocalProperties ) );
+        phetJarSigner.signJar( jarFile );
     }
 
     public File getLiveSimsDir() {
