@@ -16,46 +16,23 @@ public class Block extends DensityModel.RectangularObject {
         this.blockEnvironment = blockEnvironment;
     }
 
-    public void stepInTime(double simulationTimeChange) {
-        if (userDragging) {
-            //setVelocity(0);
-        } else {
+    //Dynamics computation for the block
+    public void stepInTime(double dt) {
+        if (!userDragging) {
             double force = getGravityForce() + getBuoyancyForce() + getAppliedForce() + getNormalForce();
             double accel = force / mass;
-            velocity += accel * simulationTimeChange;
+            velocity += accel * dt;
             velocity = velocity * getDragCoefficient();
-            setPosition2D(getX(), getY() + velocity * simulationTimeChange);
+            setY(getY() + dt);
             if (getY() <= getFloorY()) {
-                setPosition2D(getX(), getFloorY());
+                setY(getFloorY());
                 velocity = 0;
             }
         }
     }
 
-    public double getAppliedForce() {
-        return blockEnvironment.getAppliedForce(this);
-    }
-
-    public double getDragCoefficient() {
-        return 0.95;
-    }
-
-    //the bottom of the pool if over the pool, otherwise the ground level
-    //todo: generalize for block stacking
-    private double getFloorY() {
-        return blockEnvironment.getFloorY(this);
-    }
-
-    public double getNormalForce() {
-        if (getY() <= getFloorY() && getGravityForce() + getBuoyancyForce() + getAppliedForce() < 0) {
-            return -getGravityForce() - getBuoyancyForce() - getAppliedForce();
-        } else return 0;
-    }
-
-
-    public void setVelocity(double v) {
-        this.velocity = v;
-        notifyListeners();
+    private double getGravityForce() {
+        return -9.8 * mass;
     }
 
     //According to Archimedes' principle,
@@ -68,8 +45,31 @@ public class Block extends DensityModel.RectangularObject {
         return weightDisplaced;
     }
 
-    private double getGravityForce() {
-        return -9.8 * mass;
+    public double getAppliedForce() {
+        return blockEnvironment.getAppliedForce(this);
+    }
+
+    //If the block is sitting on something (floor or another block)
+    //choose the normal force so that net force=0
+    public double getNormalForce() {
+        if (getY() <= getFloorY() && getGravityForce() + getBuoyancyForce() + getAppliedForce() < 0) {
+            return -getGravityForce() - getBuoyancyForce() - getAppliedForce();
+        } else return 0;
+    }
+
+    public double getDragCoefficient() {
+        return 0.95;//todo: should use actual force model for friction?
+    }
+
+    //the bottom of the pool if over the pool, otherwise the ground level
+    //todo: generalize for block stacking
+    private double getFloorY() {
+        return blockEnvironment.getFloorY(this);
+    }
+
+    public void setVelocity(double v) {
+        this.velocity = v;
+        notifyListeners();
     }
 
     public void setUserDragging(boolean userDragging) {
@@ -79,6 +79,10 @@ public class Block extends DensityModel.RectangularObject {
 
     public double getSpeed() {
         return Math.abs(velocity);
+    }
+
+    private void setY(double v) {
+        setPosition2D(getX(), v);
     }
 
 }
