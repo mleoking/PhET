@@ -33,6 +33,11 @@ public class StatesOfMatterConstants {
     // Application
     //----------------------------------------------------------------------------
     
+    // Project name and flavors
+    public static final String PROJECT_NAME = "states-of-matter";
+    public static final String FLAVOR_STATES_OF_MATTER = "states-of-matter";
+    public static final String FLAVOR_INTERACTION_POTENTIAL = "atomic-interactions";
+    
     public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
     
     //----------------------------------------------------------------------------
@@ -88,12 +93,6 @@ public class StatesOfMatterConstants {
     
     // Maximum temperature, in degrees Kelvin, that the Thermometer will display.
     public static final double MAX_DISPLAYED_TEMPERATURE = 1000;
-    
-    // TODO: JPB TBD - Many of these constants will no longer be used once the
-    // sim has been cleaned up, so remember to remove them.
-    public static final String PROJECT_NAME = "states-of-matter";
-    public static final String FLAVOR_STATES_OF_MATTER = "states-of-matter";
-    public static final String FLAVOR_INTERACTION_POTENTIAL = "atomic-interactions";
     
     // Identifiers for the various supported molecules.
     public static final int NEON = 1;
