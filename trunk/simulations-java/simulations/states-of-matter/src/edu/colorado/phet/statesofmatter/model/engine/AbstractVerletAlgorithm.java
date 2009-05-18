@@ -51,8 +51,7 @@ public abstract class AbstractVerletAlgorithm implements MoleculeForceAndMotionC
     //----------------------------------------------------------------------------
 
     protected MultipleParticleModel m_model;
-    protected double m_potentialEnergy;  // TODO: JPB TBD - Don't know if we need this, or how to use it, but it was
-                                         // here when the wall force function was ported, so I'm keeping it for now.
+    protected double m_potentialEnergy;
     protected double m_pressure;
     protected double m_temperature;
 	
