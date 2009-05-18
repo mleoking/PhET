@@ -80,7 +80,7 @@
         <javac srcdir="${phetbuild-src}:${phetcommon-src}:${scf-src}:${flash-launcher-src}"
                destdir="${phetbuild-classes-dir}"
                classpath="${phetbuild-classpath-jars}" debug="true"
-               source="1.4"
+               source="1.5"
                debuglevel="lines,source">
             <src path="${phetbuild-src}"/>
         </javac>

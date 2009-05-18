@@ -2,7 +2,6 @@ package edu.colorado.phet.flashlauncher.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 
@@ -10,14 +9,14 @@ import java.util.StringTokenizer;
 public class AnnotationParser {
     public static Annotation[] getAnnotations( String text ) {
         StringTokenizer st = new StringTokenizer( text, "\n" );
-        ArrayList annotations = new ArrayList();
+        ArrayList<Annotation> annotations = new ArrayList<Annotation>();
         while ( st.hasMoreTokens() ) {
             String tok = st.nextToken().trim();
             if ( !tok.startsWith( "#" ) ) {
                 annotations.add( parse( tok ) );
             }
         }
-        return (Annotation[]) annotations.toArray( new Annotation[annotations.size()] );
+        return annotations.toArray( new Annotation[annotations.size()] );
     }
 
     public static class Annotation {
@@ -55,9 +54,9 @@ public class AnnotationParser {
     public static Annotation parse( String line ) {
         line = line.trim();
         StringTokenizer st = new StringTokenizer( line, " " );
-        HashMap map = new HashMap();
+        HashMap<String,String> map = new HashMap<String, String>();
         String id = st.nextToken();
-        ArrayList keyOrdering = new ArrayList();
+        ArrayList<String> keyOrdering = new ArrayList<String>();
         for ( int index = line.indexOf( '=' ); index >= 0; index = line.indexOf( '=', index + 1 ) ) {
 //            System.out.println( "Found '=' at: " + index );
             String key = getKey( line, index );
