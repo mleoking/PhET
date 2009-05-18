@@ -1,3 +1,5 @@
+# 00.39.00 (31813) May 18, 2009
+5/18/09 Fixed so command will redirect errors
 # 00.38.00 (31811) May 18, 2009
 5/18/09 More tests
 # 00.37.00 (31810) May 18, 2009
