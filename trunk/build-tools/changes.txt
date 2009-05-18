@@ -1,3 +1,5 @@
+# 00.38.00 (31811) May 18, 2009
+5/18/09 More tests
 # 00.37.00 (31810) May 18, 2009
 5/18/09 Added JAR poking for common translation deploy
 # 00.36.00 (31808) May 18, 2009
