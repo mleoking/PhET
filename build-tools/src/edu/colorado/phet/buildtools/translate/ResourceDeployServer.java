@@ -38,7 +38,7 @@ public class ResourceDeployServer implements IProguardKeepClass {
         }
 
         String resourceFilename = properties.getProperty( "resourceFile" );
-        resourceFile = new File( resourceFilename );
+        resourceFile = new File( resourceDir, "resource/" + resourceFilename );
 
         if( !resourceFile.exists() ) {
             System.out.println( "Cannot locate resource file, aborting" );
