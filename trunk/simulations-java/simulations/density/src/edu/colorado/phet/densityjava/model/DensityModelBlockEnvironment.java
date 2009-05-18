@@ -35,8 +35,7 @@ public class DensityModelBlockEnvironment implements BlockEnvironment {
             Block above = (Block) justAbove;
             sum += -above.getNormalForce();
         }
-        //commented out because can cause cycles:
-        // F_normal_1=f(F_applied_2) and F_applied_2=f(F_normal_1)
+        //TODO: resolve recursive compuation problem: F_normal_1=f(F_applied_2) and F_applied_2=f(F_normal_1)
 //            if (justBeneath != null && justBeneath instanceof Block && justBeneath.getDistanceY(block) < 0.01) {
 //                Block beneath = (Block) justBeneath;
 //                sum += beneath.getNormalForce();
