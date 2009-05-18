@@ -68,7 +68,7 @@ public class ComparingModule extends ABSAbstractModule {
      * Resets the module.
      */
     public void reset() {
-        System.out.println( getClass().getName() + ".reset" );//XXX
+//        System.out.println( getClass().getName() + ".reset" );//XXX
     }
     
     //----------------------------------------------------------------------------
