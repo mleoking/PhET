@@ -22,7 +22,7 @@ import com.jcraft.jsch.JSchException;
 public class ResourceDeployClient {
 
     // TODO: refactor PhetServer so that this type of thing is not necessary
-    public static final String PROD_PATH = "/web/chroot/phet/usr/local/apache/htdocs/staging/resources/";
+    public static final String PROD_PATH = "/web/chroot/phet/usr/local/apache/htdocs/sims/resources/";
 
     public static void uploadFile( File resourceFile, File propertiesFile, String temporaryDirName ) throws JSchException, IOException {
         AuthenticationInfo authenticationInfo = BuildLocalProperties.getInstance().getProdAuthenticationInfo();
@@ -73,11 +73,14 @@ public class ResourceDeployClient {
             File propertiesFile = File.createTempFile( "resource", ".properties" );
             String propertiesString = "resourceFile=" + resourceFile.getName() + "\n";
             if ( type == Translation.TRANSLATION_JAVA ) {
+                // TODO: properties should be constants somewhere
                 propertiesString += "sims=" + getJavaSimNames() + "\n";
                 propertiesString += "resourceDestination=/phetcommon/localization/\n";
+                propertiesString += "onlyAllJARs=true\n";
             } else if( type == Translation.TRANSLATION_FLASH ) {
                 propertiesString += "sims=" + getFlashSimNames() + "\n";
                 propertiesString += "resourceDestination=/\n";
+                propertiesString += "onlyAllJARs=false\n";
             }
             FileUtils.writeString( propertiesFile, propertiesString );
 
