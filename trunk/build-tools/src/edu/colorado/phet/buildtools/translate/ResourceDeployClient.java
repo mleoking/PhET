@@ -14,6 +14,7 @@ import edu.colorado.phet.buildtools.AuthenticationInfo;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.PhetServer;
 import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
+import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.ScpTo;
 
 import com.jcraft.jsch.JSchException;
@@ -23,45 +24,90 @@ public class ResourceDeployClient {
     // TODO: refactor PhetServer so that this type of thing is not necessary
     public static final String PROD_PATH = "/web/chroot/phet/usr/local/apache/htdocs/staging/resources/";
 
-    public static void uploadFile( File resourceFile, File trunk ) {
+    public static void uploadFile( File resourceFile, File propertiesFile, String temporaryDirName ) throws JSchException, IOException {
         AuthenticationInfo authenticationInfo = BuildLocalProperties.getInstance().getProdAuthenticationInfo();
-        String temporaryDirName = getTemporaryDirName( resourceFile );
-        String temporaryDirPath = PROD_PATH + temporaryDirName;
+        String temporaryDirPath = getTemporaryDirPathFromName( temporaryDirName );
 
         dirtyExecute( "mkdir -p -m 775 " + temporaryDirPath + "/resource" );
 
-        // TODO: recognize dirtyExecute failure! (non-essential, ScpTo will fail if dir isn't created)
+        ScpTo.uploadFile( resourceFile, authenticationInfo.getUsername(), PhetServer.PRODUCTION.getHost(),
+                          temporaryDirPath + "/resource/" + resourceFile.getName(), authenticationInfo.getPassword() );
+        ScpTo.uploadFile( propertiesFile, authenticationInfo.getUsername(), PhetServer.PRODUCTION.getHost(),
+                          temporaryDirPath + "/resource/resource.properties", authenticationInfo.getPassword() );
+    }
+
+    public static void executeResourceDeployServer( File trunk, String temporaryDirName ) throws IOException {
+        String temporaryDirPath = getTemporaryDirPathFromName( temporaryDirName );
+
+        PhetServer server = PhetServer.PRODUCTION;
+
+        BuildToolsProject buildToolsProject = new BuildToolsProject( new File( trunk, "build-tools" ) );
+        String buildScriptDir = server.getServerDeployPath( buildToolsProject );
+
+        String javaCmd = server.getJavaCommand();
+        String jarCmd = server.getJarCommand();
+        String jarName = buildToolsProject.getDefaultDeployJar().getName();
+        String pathToBuildLocalProperties = server.getBuildLocalPropertiesFile();
+
+        String command = javaCmd + " -classpath " + buildScriptDir + "/" + jarName + " " +
+                         ResourceDeployServer.class.getName() + " " + jarCmd + " " + pathToBuildLocalProperties +
+                         " " + temporaryDirPath;
+
+        dirtyExecute( command + " 2>&1" );
+    }
+
+    public static void deployCommonTranslation( File resourceFile, File trunk ) {
+        Translation translation = new Translation( resourceFile );
+        if ( !translation.isValid() ) {
+            System.out.println( "Not a valid translation file" );
+            return;
+        }
+        if ( !translation.isCommonTranslation() ) {
+            System.out.println( "Not a common translation file" );
+            return;
+        }        
 
         try {
-            ScpTo.uploadFile( resourceFile, authenticationInfo.getUsername(), PhetServer.PRODUCTION.getHost(),
-                              temporaryDirPath + "/resource/" + resourceFile.getName(), authenticationInfo.getPassword() );
+            String type = translation.getType();
 
-            // if this succeeds, then run the ResourceDeployServer
-            PhetServer server = PhetServer.PRODUCTION;
+            File propertiesFile = File.createTempFile( "resource", ".properties" );
+            String propertiesString = "resourceFile=" + resourceFile.getName() + "\n";
+            if ( type == Translation.TRANSLATION_JAVA ) {
+                propertiesString += "sims=" + getJavaSimNames() + "\n";
+                propertiesString += "resourceDestination=/phetcommon/localization/\n";
+            } else if( type == Translation.TRANSLATION_FLASH ) {
+                propertiesString += "sims=" + getFlashSimNames() + "\n";
+                propertiesString += "resourceDestination=/\n";
+            }
+            FileUtils.writeString( propertiesFile, propertiesString );
 
-            BuildToolsProject buildToolsProject = new BuildToolsProject( new File( trunk, "build-tools" ) );
-            String buildScriptDir = server.getServerDeployPath( buildToolsProject );
+            String temporaryDirName = getTemporaryDirName( resourceFile );
 
-            String javaCmd = server.getJavaCommand();
-            String jarCmd = server.getJarCommand();
-            String jarName = buildToolsProject.getDefaultDeployJar().getName();
-            String pathToBuildLocalProperties = server.getBuildLocalPropertiesFile();
 
-            String command = javaCmd + " -classpath " + buildScriptDir + "/" + jarName + " " +
-                             ResourceDeployServer.class.getName() + " " + jarCmd + " " + pathToBuildLocalProperties +
-                             " " + temporaryDirPath;
+            uploadFile( resourceFile, propertiesFile, temporaryDirName );
 
-            dirtyExecute( command + " 2>&1" );
+            executeResourceDeployServer( trunk, temporaryDirName );
 
-            dirtyExecute( "cat " + temporaryDirPath + "/status.txt" + " 2>&1" );
-            
+
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+            return;
         }
         catch( JSchException e ) {
             e.printStackTrace();
         }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+
+
+    }
+
+    // comma-separated list of sim names
+    public static String getJavaSimNames() {
+        return "test-project";
+    }
+
+    public static String getFlashSimNames() {
+        return "test-flash-project";
     }
 
     public static String getTemporaryDirName( File resourceFile ) {
@@ -69,6 +115,10 @@ public class ResourceDeployClient {
         ret = ret.replaceAll( "[^a-zA-Z0-9]", "-" );
         ret = String.valueOf( ( new Date() ).getTime() ) + "_" + ret;
         return ret;
+    }
+
+    public static String getTemporaryDirPathFromName( String temporaryDirName ) {
+        return PROD_PATH + temporaryDirName;
     }
 
     public static void main( String[] args ) {
@@ -91,7 +141,6 @@ public class ResourceDeployClient {
 
         final JFileChooser fileChooser = new JFileChooser();
         int ret = fileChooser.showOpenDialog( null );
-
         if ( ret != JFileChooser.APPROVE_OPTION ) {
             System.out.println( "File was not selected, aborting" );
             return;
@@ -99,9 +148,7 @@ public class ResourceDeployClient {
 
         File resourceFile = fileChooser.getSelectedFile();
 
-        System.out.println( "Selected resource file: " + resourceFile.getName() );
-
-        uploadFile( resourceFile, trunk );
+        deployCommonTranslation( resourceFile, trunk );
 
 
     }
