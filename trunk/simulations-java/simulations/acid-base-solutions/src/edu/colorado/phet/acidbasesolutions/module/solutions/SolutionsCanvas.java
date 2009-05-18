@@ -10,9 +10,11 @@ import edu.colorado.phet.acidbasesolutions.control.MiscControls;
 import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
-import edu.colorado.phet.acidbasesolutions.view.beaker.*;
-import edu.colorado.phet.acidbasesolutions.view.graph.AcidConcentrationGraphNode;
-import edu.colorado.phet.acidbasesolutions.view.graph.AbstractConcentrationGraphNode;
+import edu.colorado.phet.acidbasesolutions.view.beaker.BeakerLabelNode;
+import edu.colorado.phet.acidbasesolutions.view.beaker.BeakerNode;
+import edu.colorado.phet.acidbasesolutions.view.beaker.PHProbeNode;
+import edu.colorado.phet.acidbasesolutions.view.beaker.SolutionNode;
+import edu.colorado.phet.acidbasesolutions.view.graph.ConcentrationGraphNode;
 import edu.colorado.phet.acidbasesolutions.view.moleculecounts.MoleculeCountsNode;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.umd.cs.piccolo.PNode;
@@ -37,7 +39,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
     private final BeakerNode beakerNode;
     private final PHProbeNode probeNode;
     private final SolutionNode solutionNode;
-    private final AbstractConcentrationGraphNode concentrationGraphNode;
+    private final ConcentrationGraphNode concentrationGraphNode;
     private final MoleculeCountsNode moleculeCountsNode;
     private final BeakerLabelNode beakerLabelNode;
     
@@ -64,7 +66,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
 
         solutionNode = new SolutionNode( SolutionsDefaults.BEAKER_SIZE );
         
-        concentrationGraphNode = new AcidConcentrationGraphNode();
+        concentrationGraphNode = new ConcentrationGraphNode( solution );
         
         moleculeCountsNode = new MoleculeCountsNode( solution );
         

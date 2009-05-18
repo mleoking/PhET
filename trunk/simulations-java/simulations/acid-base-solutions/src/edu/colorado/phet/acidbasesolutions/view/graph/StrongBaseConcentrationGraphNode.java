@@ -23,4 +23,12 @@ public class StrongBaseConcentrationGraphNode extends AbstractConcentrationGraph
     public void setMetalConcentration( double concentration ) {
         setConcentration( METAL_INDEX, concentration );
     }
+    
+    public void setBaseLabel( String text ) {
+        setLabel( BASE_INDEX, text );
+    }
+    
+    public void setMetalLabel( String text ) {
+        setLabel( METAL_INDEX, text );
+    }
 }
