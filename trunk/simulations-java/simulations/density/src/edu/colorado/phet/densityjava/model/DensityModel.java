@@ -102,12 +102,12 @@ public class DensityModel {
                 Block above = (Block) justAbove;
                 sum += -above.getNormalForce();
             }
-            if (justBeneath != null && justBeneath instanceof Block && justBeneath.getDistanceY(block) < 0.01) {
-                Block beneath = (Block) justBeneath;
-                sum += beneath.getNormalForce();
-            }
-            return 0.0;
-//            return sum;
+//            if (justBeneath != null && justBeneath instanceof Block && justBeneath.getDistanceY(block) < 0.01) {
+//                Block beneath = (Block) justBeneath;
+//                sum += beneath.getNormalForce();
+//            }
+//            return 0.0;
+            return sum;
         }
     };
 
@@ -347,8 +347,8 @@ public class DensityModel {
         }
 
         private double getNormalForce() {
-            if (getY() <= getFloorY() && getGravityForce() + getBuoyancyForce() < 0) {
-                return -getGravityForce() - getBuoyancyForce();
+            if (getY() <= getFloorY() && getGravityForce() + getBuoyancyForce() + getAppliedForce() < 0) {
+                return -getGravityForce() - getBuoyancyForce() - getAppliedForce();
             } else return 0;
         }
 
