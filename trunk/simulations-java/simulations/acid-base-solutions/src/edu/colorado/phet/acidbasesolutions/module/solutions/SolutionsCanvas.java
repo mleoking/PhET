@@ -13,6 +13,7 @@ import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
 import edu.colorado.phet.acidbasesolutions.view.beaker.*;
 import edu.colorado.phet.acidbasesolutions.view.graph.AcidConcentrationGraphNode;
 import edu.colorado.phet.acidbasesolutions.view.graph.AbstractConcentrationGraphNode;
+import edu.colorado.phet.acidbasesolutions.view.moleculecounts.MoleculeCountsNode;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
