@@ -79,8 +79,6 @@ public class NuclearPhysicsStrings {
     public static final String RESET_ALL_NUCLEI = NuclearPhysicsResources.getString( "MultipleNucleiAlphaDecay.ResetAllNuclei" );
     public static final String ADD_TEN = NuclearPhysicsResources.getString( "MultipleNucleiAlphaDecay.AddTen" );
     
-    public static final String FIRE_NEUTRON_GUN = NuclearPhysicsResources.getString( "NeutronGun.Fire" );
-
     public static final String DAUGHTER_NUCLEI_LABEL = NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.DaughterNucleiLabel" );
 
     public static final String DECAY_TIME_CHART_X_AXIS_LABEL = NuclearPhysicsResources.getString( "DecayTimeChart.XAxisLabel" );
