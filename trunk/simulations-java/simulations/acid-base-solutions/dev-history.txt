@@ -3,6 +3,7 @@
 ==================================================================================
 
 TODO:
+- fix layout of concentration graph
 - Reset All
 - connect model and view
 - H2O should not be scalable in Reaction Equations, should change to Color.BLACK when scaling is enabled

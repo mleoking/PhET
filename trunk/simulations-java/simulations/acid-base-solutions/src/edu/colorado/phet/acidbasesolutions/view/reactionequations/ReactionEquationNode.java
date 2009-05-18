@@ -1,4 +1,4 @@
-package edu.colorado.phet.acidbasesolutions.view.equations;
+package edu.colorado.phet.acidbasesolutions.view.reactionequations;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

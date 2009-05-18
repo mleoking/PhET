@@ -1,4 +1,4 @@
-package edu.colorado.phet.acidbasesolutions.view.equations;
+package edu.colorado.phet.acidbasesolutions.view.reactionequations;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,17 +12,15 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
-import edu.colorado.phet.acidbasesolutions.ABSSymbols;
-import edu.colorado.phet.acidbasesolutions.view.equations.EquilibriumExpressionNode.*;
+import edu.colorado.phet.acidbasesolutions.view.reactionequations.ReactionEquationNode.*;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.HorizontalLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
-import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.nodes.PText;
 
 
-public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
+public class ReactionEquationsDialog extends PaintImmediateDialog {
     
     private static final int DEFAULT_SCALE = 100; // percent
     private static final int MAX_SCALE = 500; // percent
@@ -30,23 +28,22 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
     private static final Dimension BOTTOM_CANVAS_SIZE = TOP_CANVAS_SIZE;
     
     private final PhetPCanvas topCanvas, bottomCanvas;
-    private EquilibriumExpressionNode topExpression;
-    private final EquilibriumExpressionNode bottomExpression;
+    private ReactionEquationNode topEquation;
+    private final ReactionEquationNode bottomEquation;
     
     // developer controls
     private EquationComboBox equationComboBox;
     private GlobalScaleSlider globalScaleSlider;
-    private TermScaleSlider topKSlider, topLeftNumeratorSlider, topRightNumeratorSlider, topDenominatorSlider;
-    private TermScaleSlider bottomKSlider, bottomLeftNumeratorSlider, bottomRightNumeratorSlider;
+    private TermScaleSlider[] topSliders, bottomSliders;
     private final JRadioButton scaleOnRadioButton, scaleOffRadioButton;
     private final PText topCanvasSizeNode, bottomCanvasSizeNode;
     
-    public EquilibriumExpressionsDialog( Frame owner ) {
+    public ReactionEquationsDialog( Frame owner ) {
         this( owner, true ); //XXX default should be dev=false
     }
     
-    public EquilibriumExpressionsDialog( Frame owner, boolean dev ) {
-        super( owner, ABSStrings.TITLE_EQUILIBRIUM_EXPRESSIONS );
+    public ReactionEquationsDialog( Frame owner, boolean dev ) {
+        super( owner, ABSStrings.TITLE_REACTION_EQUATIONS );
         setResizable( dev ); // resizable only if in dev mode
         
         JComponent devControls = createDevControls();
@@ -94,8 +91,8 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
             }
         };
         bottomCanvas.setPreferredSize( BOTTOM_CANVAS_SIZE );
-        bottomExpression = new WaterEquilibriumExpressionNode();
-        bottomCanvas.getLayer().addChild( bottomExpression );
+        bottomEquation = new WaterReactionEquationNode();
+        bottomCanvas.getLayer().addChild( bottomEquation );
         bottomCanvasSizeNode = new PText();
         bottomCanvasSizeNode.setOffset( 5, 5 );
         if ( dev ) {
@@ -145,37 +142,22 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
                 }
             } );
             
-            topKSlider = new TermScaleSlider( "K:" );
-            topControls.add( topKSlider );
-            topKSlider.addChangeListener( new ChangeListener() {
+            // sliders
+            ChangeListener topChangeListener = new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    topExpression.setKScale( topKSlider.getValue() / 100.0 );
+                    if ( topEquation != null & e.getSource() instanceof TermScaleSlider && isScaleEnabled() ) {
+                        TermScaleSlider slider = (TermScaleSlider) e.getSource();
+                        topEquation.setTermScale( slider.getTermIndex(), slider.getValue() / 100.0 );
+                    }
                 }
-            });
-            
-            topLeftNumeratorSlider = new TermScaleSlider( "numerator left:" );
-            topControls.add( topLeftNumeratorSlider );
-            topLeftNumeratorSlider.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    topExpression.setLeftNumeratorScale( topLeftNumeratorSlider.getValue() / 100.0 );
-                }
-            });
-            
-            topRightNumeratorSlider = new TermScaleSlider( "numerator right:" );
-            topControls.add( topRightNumeratorSlider );
-            topRightNumeratorSlider.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    topExpression.setRightNumeratorScale( topRightNumeratorSlider.getValue() / 100.0 );
-                }
-            });
-            
-            topDenominatorSlider = new TermScaleSlider( "denominator:" );
-            topControls.add( topDenominatorSlider );
-            topDenominatorSlider.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    topExpression.setDenominatorScale( topDenominatorSlider.getValue() / 100.0 );
-                }
-            });
+            };
+            topSliders = new TermScaleSlider[4];
+            for ( int i = 0; i < topSliders.length; i++ ) {
+                TermScaleSlider slider = new TermScaleSlider( i );
+                slider.addChangeListener( topChangeListener );
+                topSliders[i] = slider;
+                topControls.add( slider );
+            }
         }
 
         // bottom equation controls
@@ -184,29 +166,22 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
             bottomControls.setLayout( new BoxLayout( bottomControls, BoxLayout.Y_AXIS ) );
             bottomControls.setBorder( new TitledBorder( "bottom equation" ) );
             
-            bottomKSlider = new TermScaleSlider( ABSSymbols.Kw + ":" );
-            bottomControls.add( bottomKSlider );
-            bottomKSlider.addChangeListener( new ChangeListener() {
+            // sliders
+            ChangeListener bottomChangeListener = new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    bottomExpression.setKScale( bottomKSlider.getValue() / 100.0 );
+                    if ( bottomEquation != null & e.getSource() instanceof TermScaleSlider && isScaleEnabled() ) {
+                        TermScaleSlider slider = (TermScaleSlider) e.getSource();
+                        bottomEquation.setTermScale( slider.getTermIndex(), slider.getValue() / 100.0 );
+                    }
                 }
-            });
-            
-            bottomLeftNumeratorSlider = new TermScaleSlider( ABSSymbols.H3O_PLUS + ":" );
-            bottomControls.add( bottomLeftNumeratorSlider );
-            bottomLeftNumeratorSlider.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    bottomExpression.setLeftNumeratorScale( bottomLeftNumeratorSlider.getValue() / 100.0 );
-                }
-            });
-            
-            bottomRightNumeratorSlider = new TermScaleSlider( ABSSymbols.OH_MINUS + ":" );
-            bottomControls.add( bottomRightNumeratorSlider );
-            bottomRightNumeratorSlider.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    bottomExpression.setRightNumeratorScale( bottomRightNumeratorSlider.getValue() / 100.0 );
-                }
-            });
+            };
+            bottomSliders = new TermScaleSlider[4];
+            for ( int i = 0; i < bottomSliders.length; i++ ) {
+                TermScaleSlider slider = new TermScaleSlider( i );
+                slider.addChangeListener( bottomChangeListener );
+                bottomSliders[i] = slider;
+                bottomControls.add( slider );
+            }
         }
         
         // layout
@@ -225,77 +200,71 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
     }
     
     private void updateTopLayout() {
-        double xOffset = ( topCanvas.getWidth() - topExpression.getFullBoundsReference().getWidth() ) / 2;
-        double yOffset = 20 + ( topCanvas.getHeight() - topExpression.getFullBoundsReference().getHeight() ) / 2;
-        topExpression.setOffset( xOffset, yOffset );
+        double xOffset = ( topCanvas.getWidth() - topEquation.getFullBoundsReference().getWidth() ) / 2;
+        double yOffset = 20 + ( topCanvas.getHeight() - topEquation.getFullBoundsReference().getHeight() ) / 2;
+        topEquation.setOffset( xOffset, yOffset );
         Dimension canvasSize = topCanvas.getSize();
         topCanvasSizeNode.setText( "canvas size: " + canvasSize.width + "x" + canvasSize.height );
     }
     
     private void updateBottomLayout() {
-        double xOffset = ( bottomCanvas.getWidth() - bottomExpression.getFullBoundsReference().getWidth() ) / 2;
-        double yOffset = 20 + ( bottomCanvas.getHeight() - bottomExpression.getFullBoundsReference().getHeight() ) / 2;
-        bottomExpression.setOffset( xOffset, yOffset );
+        double xOffset = ( bottomCanvas.getWidth() - bottomEquation.getFullBoundsReference().getWidth() ) / 2;
+        double yOffset = 20 + ( bottomCanvas.getHeight() - bottomEquation.getFullBoundsReference().getHeight() ) / 2;
+        bottomEquation.setOffset( xOffset, yOffset );
         Dimension canvasSize = bottomCanvas.getSize();
         bottomCanvasSizeNode.setText( "canvas size: " + canvasSize.width + "x" + canvasSize.height );
     }
     
+    private boolean isScaleEnabled() {
+        return scaleOnRadioButton.isSelected();
+    }
+    
     private void updateGlobalScale() {
-        topExpression.setScale( globalScaleSlider.getValue() / 100.0 );
+        topEquation.setScale( globalScaleSlider.getValue() / 100.0 );
         updateTopLayout();
-        bottomExpression.setScale( globalScaleSlider.getValue() / 100.0 );
+        bottomEquation.setScale( globalScaleSlider.getValue() / 100.0 );
         updateBottomLayout();
     }
     
     private void updateScale() {
-        final boolean enabled = scaleOnRadioButton.isSelected();
-        topKSlider.setEnabled( enabled );
-        topLeftNumeratorSlider.setEnabled( enabled );
-        topRightNumeratorSlider.setEnabled( enabled );
-        topDenominatorSlider.setEnabled( enabled );
-        bottomKSlider.setEnabled( enabled );
-        bottomLeftNumeratorSlider.setEnabled( enabled );
-        bottomRightNumeratorSlider.setEnabled( enabled );
-        if ( enabled ) {
-            // top
-            topExpression.setKScale( topKSlider.getValue() / 100.0 );
-            topExpression.setLeftNumeratorScale( topLeftNumeratorSlider.getValue() / 100.0 );
-            topExpression.setRightNumeratorScale( topRightNumeratorSlider.getValue() / 100.0 );
-            topExpression.setDenominatorScale( topDenominatorSlider.getValue() / 100.0 );
-            // bottom
-            bottomExpression.setKScale( bottomKSlider.getValue() / 100.0 );
-            bottomExpression.setLeftNumeratorScale( bottomLeftNumeratorSlider.getValue() / 100.0 );
-            bottomExpression.setRightNumeratorScale( bottomRightNumeratorSlider.getValue() / 100.0 );
+        updateScale( topEquation, topSliders );
+        updateScale( bottomEquation, bottomSliders );
+    }
+    
+    private void updateScale( ReactionEquationNode equation, TermScaleSlider[] sliders ) {
+        for ( int i = 0; i < sliders.length; i++ ) {
+            TermScaleSlider slider = sliders[i];
+            slider.setEnabled( isScaleEnabled() );
+            double scale = ( isScaleEnabled() ? slider.getValue() / 100.0 : 1.0 );
+            equation.setTermScale( i, scale );
         }
-        else {
-            topExpression.setScaleAll( 1 );
-            bottomExpression.setScaleAll( 1 );
-        }
+        // disabled term1 slider for strong bases
+        sliders[0].setEnabled( !( equation instanceof StrongBaseReactionEquationNode ) );
     }
     
     private void updateTopEquation() {
         // clean up existing top equation
         double scale = 1.0;
-        if ( topExpression != null ) {
-            scale = topExpression.getScale();
-            topCanvas.getLayer().removeChild( topExpression );
+        if ( topEquation != null ) {
+            scale = topEquation.getScale();
+            topCanvas.getLayer().removeChild( topEquation );
         }
         // set the new equation
-        topExpression = equationComboBox.getSelectedNode();
-        topExpression.setScale( scale );
-        topExpression.setScaleAll( 1 );
-        topCanvas.getLayer().addChild( topExpression );
+        topEquation = equationComboBox.getSelectedNode();
+        topEquation.setScale( scale );
+        topEquation.setAllTermScale( 1 );
+        topCanvas.getLayer().addChild( topEquation );
         // update layouts
         updateTopLayout();
-        updateScale();
+        updateScale( topEquation, topSliders );
     }
     
     private static class EquationChoice {
 
         private final String name;
-        private final EquilibriumExpressionNode node;
+        private final ReactionEquationNode node;
         
-        public EquationChoice( String name, EquilibriumExpressionNode node ) {
+        public EquationChoice( String name, ReactionEquationNode node ) {
             this.name = name;
             this.node = node;
         }
@@ -304,7 +273,7 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
             return name;
         }
         
-        public EquilibriumExpressionNode getNode() {
+        public ReactionEquationNode getNode() {
             return node;
         }
     }
@@ -312,17 +281,17 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
     private static class EquationComboBox extends JComboBox {
         
         public EquationComboBox() {
-            addItem( new EquationChoice( "weak acid", new WeakAcidEquilibriumExpressionNode() ) );
-            addItem( new EquationChoice( "strong acid", new StrongAcidEquilibriumExpressionNode() ) );
-            addItem( new EquationChoice( "weak base", new WeakBaseEquilibriumExpressionNode() ) );
-            addItem( new EquationChoice( "strong base", new StrongBaseEquilibriumExpressionNode() ) );
-            addItem( new EquationChoice( "acetic acid", new WeakAcidEquilibriumExpressionNode( "CH<sub>3</sub>COO<sup>-</sup>", "CH<sub>3</sub>COOH" ) ) );
-            addItem( new EquationChoice( "hydrochloric acid", new StrongAcidEquilibriumExpressionNode( "Cl<sup>-</sup>", "HCl" ) ) );
-            addItem( new EquationChoice( "pyridine", new WeakBaseEquilibriumExpressionNode( "C<sub>5</sub>H<sub>5</sub>NH<sup>+</sup>", "C<sub>5</sub>H<sub>5</sub>N" ) ) );
-            addItem( new EquationChoice( "sodium hydroxide", new StrongBaseEquilibriumExpressionNode( "Na<sup>+</sup>", "NaOH" ) ) );
+            addItem( new EquationChoice( "weak acid", new WeakAcidReactionEquationNode() ) );
+            addItem( new EquationChoice( "strong acid", new StrongAcidReactionEquationNode() ) );
+            addItem( new EquationChoice( "weak base", new WeakBaseReactionEquationNode() ) );
+            addItem( new EquationChoice( "strong base", new StrongBaseReactionEquationNode() ) );
+            addItem( new EquationChoice( "acetic acid", new WeakAcidReactionEquationNode( "CH<sub>3</sub>COOH", "CH<sub>3</sub>COO<sup>-</sup>" ) ) );
+            addItem( new EquationChoice( "hydrochloric acid", new StrongAcidReactionEquationNode( "HCl", "Cl<sup>-</sup>" ) ) );
+            addItem( new EquationChoice( "pyridine", new WeakBaseReactionEquationNode( "C<sub>5</sub>H<sub>5</sub>N", "C<sub>5</sub>H<sub>5</sub>NH<sup>+</sup>" ) ) );
+            addItem( new EquationChoice( "sodium hydroxide", new StrongBaseReactionEquationNode( "NaOH", "Na<sup>+</sup>" ) ) );
         }
         
-        public EquilibriumExpressionNode getSelectedNode() {
+        public ReactionEquationNode getSelectedNode() {
             return ((EquationChoice) getSelectedItem()).getNode();
         }
     }
@@ -339,16 +308,23 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
     
     private static class TermScaleSlider extends LinearValueControl {
 
-        public TermScaleSlider( String label ) {
-            super( 1, MAX_SCALE, HTMLUtils.toHTMLString( label ), "##0", "%", new HorizontalLayoutStrategy() );
+        private final int termIndex;
+
+        public TermScaleSlider( int termIndex ) {
+            super( 1, MAX_SCALE, "Term " + (termIndex+1) + ":", "##0", "%", new HorizontalLayoutStrategy() );
+            this.termIndex = termIndex;
             setValue( DEFAULT_SCALE );
             getSlider().setPaintTicks( false );
             getSlider().setPaintLabels( false );
         }
+
+        public int getTermIndex() {
+            return termIndex;
+        }
     }
     
     public static void main( String[] args ) {
-        JDialog dialog = new EquilibriumExpressionsDialog( null, true );
+        JDialog dialog = new ReactionEquationsDialog( null, true );
         dialog.setVisible( true );
     }
 }
