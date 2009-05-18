@@ -141,7 +141,6 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     double _msToPixelsFactor = 1; // Arbitrary init val, updated later.
 
     // Clock that we listen to for moving the nuclei and performing resets.
-    // TODO: JPB TBD - Do we really listen to this for resets?  Update comment if not.
     ConstantDtClock _clock;
 
     // Button for resetting this chart.
