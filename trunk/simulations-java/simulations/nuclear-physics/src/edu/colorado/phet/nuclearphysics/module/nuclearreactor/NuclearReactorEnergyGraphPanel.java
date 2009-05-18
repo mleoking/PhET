@@ -93,7 +93,7 @@ public class NuclearReactorEnergyGraphPanel extends JPanel {
         // Add the border around the chart.
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
         TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
-                "Energy Graphs",
+                NuclearPhysicsStrings.ENERGY_GRAPHS_TITLE,
                 TitledBorder.LEFT,
                 TitledBorder.TOP,
                 new PhetFont( Font.BOLD, 14 ),

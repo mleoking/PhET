@@ -113,6 +113,7 @@ public class NuclearPhysicsStrings {
     public static final String POWER_GRAPH_LABEL = NuclearPhysicsResources.getString( "ControlledFissionControlPanel.PowerGraphLabel" );
     public static final String POWER_GRAPH_UNITS = NuclearPhysicsResources.getString( "ControlledFissionControlPanel.PowerGraphUnits" );
     public static final String REACTOR_CONTROLS_BORDER = NuclearPhysicsResources.getString( "ControlledFissionControlPanel.ControlBorder" );
+    public static final String ENERGY_GRAPHS_TITLE = NuclearPhysicsResources.getString( "ControlledFissionControlPanel.EnergyGraphs" );
     
     public static final String POTENTIAL_PROFILE_Y_AXIS_LABEL_1 = NuclearPhysicsResources.getString( "PotentialProfilePanel.YAxisLabel1" );
     public static final String POTENTIAL_PROFILE_Y_AXIS_LABEL_2 = NuclearPhysicsResources.getString( "PotentialProfilePanel.YAxisLabel2" );
