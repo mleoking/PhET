@@ -38,7 +38,7 @@ public class WeakBaseConcentrationModel extends BaseConcentrationModel {
         return Water.getConcentration() - getAcidConcentration();
     }
     
-    public int getAcidMoleculeCount() {
+    public double getAcidMoleculeCount() {
         return getMoleculeCount( getAcidConcentration() );
     }
 }

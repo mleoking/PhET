@@ -3,7 +3,6 @@
 ==================================================================================
 
 TODO:
-- molecule counts are wrong, always 2.14E9, which are the counts for pure water
 - should SoluteComboBox be providing solute instances?
 - model initialization issues
 - Reset All
@@ -19,6 +18,7 @@ TODO:
 - smooth, curved lip on beaker
 
 DONE:
+5/18/09 fix molecule counts
 5/15/09 first pass at connecting molecule counts to model
 5/15/09 connect beaker label to model
 5/15/09 use molecule counts model from ph-scale

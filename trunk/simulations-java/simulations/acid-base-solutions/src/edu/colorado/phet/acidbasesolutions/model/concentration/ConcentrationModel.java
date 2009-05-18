@@ -28,20 +28,19 @@ public abstract class ConcentrationModel {
     
     public abstract double getH2OConcentration();
     
-    public int getH3OMoleculeCount() {
+    public double getH3OMoleculeCount() {
         return getMoleculeCount( getH3OConcentration() ); 
     }
     
-    public int getOHMoleculeCount() {
+    public double getOHMoleculeCount() {
         return getMoleculeCount( getOHConcentration() ); 
     }
     
-    public int getH2OMoleculeCount() {
+    public double getH2OMoleculeCount() {
         return getMoleculeCount( getH2OConcentration() ); 
     }
     
-    protected int getMoleculeCount( double concentration ) {
-        System.out.println( "ConcentrationModel.getMoleculeCount concentration=" + concentration );//XXX
-        return (int)( concentration * ABSConstants.AVOGADROS_NUMBER * ABSConstants.SOLUTION_VOLUME );
+    protected static double getMoleculeCount( double concentration ) {
+        return concentration * ABSConstants.AVOGADROS_NUMBER;
     }
 }
