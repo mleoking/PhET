@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.util.StreamReaderThread;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.PhetJarSigner;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
+import edu.colorado.phet.buildtools.JARGenerator;
 
 public class ResourceDeployServer implements IProguardKeepClass {
 
@@ -23,6 +24,7 @@ public class ResourceDeployServer implements IProguardKeepClass {
     private String[] sims;
     private File backupDir;
     private boolean onlyAllJARs;
+    private boolean generateJARs;
     private File testDir;
 
     public ResourceDeployServer( String jarCommand, File buildLocalProperties, File resourceDir ) {
@@ -55,6 +57,7 @@ public class ResourceDeployServer implements IProguardKeepClass {
             resourceDestination = resourceDestination.substring( 1 );
         }
         onlyAllJARs = properties.getProperty( "onlyAllJARs" ).equals( "true" );
+        generateJARs = properties.getProperty( "generateJARs" ).equals( "true" );
 
         String simsString = properties.getProperty( "sims" );
         sims = simsString.split( "," );
@@ -67,6 +70,9 @@ public class ResourceDeployServer implements IProguardKeepClass {
             copyTestJARs();
             pokeJARs();
             signJARs();
+            if( generateJARs ) {
+                generateOfflineJARs();
+            }
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -183,6 +189,22 @@ public class ResourceDeployServer implements IProguardKeepClass {
     private void signJAR( File jarFile ) {
         PhetJarSigner phetJarSigner = new PhetJarSigner( BuildLocalProperties.initFromPropertiesFile( buildLocalProperties ) );
         phetJarSigner.signJar( jarFile );
+    }
+
+    private void generateOfflineJARs() throws IOException, InterruptedException {
+        JARGenerator generator = new JARGenerator();
+        for ( int i = 0; i < sims.length; i++ ) {
+            String sim = sims[i];
+
+            File testSimDir = new File( testDir, sim );
+            File[] jarFiles = testSimDir.listFiles();
+
+            for ( int j = 0; j < jarFiles.length; j++ ) {
+                File jarFile = jarFiles[j];
+
+                generator.generateOfflineJARs( jarFile, jarCommand, BuildLocalProperties.getInstance() );
+            }
+        }
     }
 
     public File getLiveSimsDir() {

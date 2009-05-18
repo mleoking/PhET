@@ -77,10 +77,12 @@ public class ResourceDeployClient {
                 propertiesString += "sims=" + getJavaSimNames() + "\n";
                 propertiesString += "resourceDestination=/phetcommon/localization/\n";
                 propertiesString += "onlyAllJARs=true\n";
+                propertiesString += "generateJARs=true\n";
             } else if( type == Translation.TRANSLATION_FLASH ) {
                 propertiesString += "sims=" + getFlashSimNames() + "\n";
                 propertiesString += "resourceDestination=/\n";
                 propertiesString += "onlyAllJARs=false\n";
+                propertiesString += "generateJARs=false\n";
             }
             FileUtils.writeString( propertiesFile, propertiesString );
 
