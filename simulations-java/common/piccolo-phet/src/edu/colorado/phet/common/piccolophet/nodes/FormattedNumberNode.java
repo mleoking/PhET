@@ -19,7 +19,7 @@ public class FormattedNumberNode extends PComposite {
     private static final Font DEFAULT_FONT = new PhetFont();
     private static final Color DEFAULT_COLOR = Color.BLACK;
    
-    private final NumberFormat _format;
+    private NumberFormat _format;
     private double _value;
     private final HTMLNode _htmlNode; // use HTMLNode to provide more formatting flexibility, eg, superscripts and subscripts
     
@@ -65,5 +65,10 @@ public class FormattedNumberNode extends PComposite {
     
     public Color getTextColor() {
         return _htmlNode.getHTMLColor();
+    }
+    
+    public void setFormat( NumberFormat format ) {
+        _format = format;
+        _htmlNode.setHTML( _format.format( _value ) );
     }
 }
