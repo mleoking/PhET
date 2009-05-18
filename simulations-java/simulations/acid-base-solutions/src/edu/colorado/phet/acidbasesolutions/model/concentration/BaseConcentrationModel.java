@@ -11,7 +11,7 @@ public abstract class BaseConcentrationModel extends ConcentrationModel {
 
     public abstract double getBaseConcentration();
     
-    public int getBaseMoleculeCount() {
+    public double getBaseMoleculeCount() {
         return getMoleculeCount( getBaseConcentration() );
     }
 }

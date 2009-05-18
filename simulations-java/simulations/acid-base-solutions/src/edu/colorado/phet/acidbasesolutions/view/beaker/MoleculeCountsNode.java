@@ -267,8 +267,6 @@ public class MoleculeCountsNode extends PComposite {
                     addChild( labelNodes[i], constraints );
                 }
             }
-
-            setPinnedNode( iconNodes[0] );
         }
 
         protected void setCountLHS( double count ) {
@@ -370,7 +368,6 @@ public class MoleculeCountsNode extends PComposite {
         }
 
         public void setValue( double value ) {
-            System.out.println( "ValueNode.setValue value=" + value );//XXX
             _numberNode.setValue( value );
         }
 
@@ -458,7 +455,7 @@ public class MoleculeCountsNode extends PComposite {
             setTextLHS( text );
         }
 
-        public void setAcidCount( int count ) {
+        public void setAcidCount( double count ) {
             setCountLHS( count );
         }
         
@@ -466,7 +463,7 @@ public class MoleculeCountsNode extends PComposite {
             setTextRHS( text );
         }
 
-        public void setBaseCount( int count ) {
+        public void setBaseCount( double count ) {
             setCountRHS( count );
         }
     }
@@ -481,7 +478,7 @@ public class MoleculeCountsNode extends PComposite {
             setTextLHS( text );
         }
         
-        public void setBaseCount( int count ) {
+        public void setBaseCount( double count ) {
             setCountLHS( count );
         }
         
@@ -489,7 +486,7 @@ public class MoleculeCountsNode extends PComposite {
             setTextRHS( text );
         }
 
-        public void setAcidCount( int count ) {
+        public void setAcidCount( double count ) {
             setCountRHS( count );
         }
     }
@@ -504,7 +501,7 @@ public class MoleculeCountsNode extends PComposite {
             setTextLHS( text );
         }
 
-        public void setBaseCount( int count ) {
+        public void setBaseCount( double count ) {
             setCountLHS( count );
         }
         
@@ -512,7 +509,7 @@ public class MoleculeCountsNode extends PComposite {
             setTextRHS( text );
         }
 
-        public void setMetalCount( int count ) {
+        public void setMetalCount( double count ) {
             setCountRHS( count );
         }
     }

@@ -35,7 +35,7 @@ public class StrongBaseConcentrationModel extends BaseConcentrationModel {
         return Water.getConcentration();
     }
     
-    public int getMetalMoleculeCount() {
+    public double getMetalMoleculeCount() {
         return getMoleculeCount( getMetalConcentration() );
     }
 }
