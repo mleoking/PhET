@@ -78,44 +78,13 @@ public class DensityModel {
         }
     }
 
+    private BlockEnvironment blockEnvironment = new DensityModelBlockEnvironment(this);
 
-    private BlockEnvironment blockEnvironment = new BlockEnvironment() {
-        public double getFloorY(Block block) {
-            RectangularObject target = getHighestObjectBelow(block);
-            if (target != null) {
-                return target.getMaxY();
-            }
-
-            if (water.getWidthRange().contains(block.getWidthRange()))
-                return water.getBottomY();
-            else
-                return water.getSwimmingPoolSurfaceY();
-        }
-
-        public double getAppliedForce(Block block) {
-            //if there is a block sitting on top of this block, the applied force
-            //due to that block is equal to -N, since F12=-F21
-            double sum = 0;
-            RectangularObject justBeneath = getHighestObjectBelow(block);
-            RectangularObject justAbove = getLowestObjectAbove(block);
-            if (justAbove != null && justAbove instanceof Block && justAbove.getDistanceY(block) < 0.01) {
-                Block above = (Block) justAbove;
-                sum += -above.getNormalForce();
-            }
-//            if (justBeneath != null && justBeneath instanceof Block && justBeneath.getDistanceY(block) < 0.01) {
-//                Block beneath = (Block) justBeneath;
-//                sum += beneath.getNormalForce();
-//            }
-//            return 0.0;
-            return sum;
-        }
-    };
-
-    private RectangularObject getLowestObjectAbove(RectangularObject block) {
+    public RectangularObject getLowestObjectAbove(RectangularObject block) {
         return getNeighbor(block, new SearchStrategy.Above());
     }
 
-    private RectangularObject getHighestObjectBelow(RectangularObject block) {
+    public RectangularObject getHighestObjectBelow(RectangularObject block) {
         return getNeighbor(block, new SearchStrategy.Below());
     }
 
@@ -296,90 +265,6 @@ public class DensityModel {
 
     public Sphere getSphere() {
         return sphere;
-    }
-
-    static interface BlockEnvironment {
-        double getFloorY(Block block);
-
-        double getAppliedForce(Block block);
-    }
-
-    public static class Block extends RectangularObject {
-        private double mass;
-        private BlockEnvironment blockEnvironment;
-        private double velocity = 0;
-        private Water water;
-        private boolean dragging = false;
-
-        Block(String name, double dim, Water water, double x, double y, Color color, double mass, BlockEnvironment blockEnvironment) {
-            super(name, x, y, dim, dim, dim, color);
-            this.water = water;
-            this.mass = mass;
-            this.blockEnvironment = blockEnvironment;
-        }
-
-        public void stepInTime(double simulationTimeChange) {
-            if (!dragging) {
-                double force = getGravityForce() + getBuoyancyForce() + getNormalForce() + getAppliedForce();
-                double accel = force / mass;
-                velocity += accel * simulationTimeChange;
-                velocity = velocity * getDragCoefficient();
-                setPosition2D(getX(), getY() + velocity * simulationTimeChange);
-                if (getY() <= getFloorY()) {
-                    setPosition2D(getX(), getFloorY());
-                    velocity = 0;
-                }
-            }
-        }
-
-        private double getAppliedForce() {
-            return blockEnvironment.getAppliedForce(this);
-        }
-
-        private double getDragCoefficient() {
-            return 0.95;
-        }
-
-        //the bottom of the pool if over the pool, otherwise the ground level
-        //todo: generalize for block stacking
-        private double getFloorY() {
-            return blockEnvironment.getFloorY(this);
-        }
-
-        private double getNormalForce() {
-            if (getY() <= getFloorY() && getGravityForce() + getBuoyancyForce() + getAppliedForce() < 0) {
-                return -getGravityForce() - getBuoyancyForce() - getAppliedForce();
-            } else return 0;
-        }
-
-
-        public void setVelocity(double v) {
-            this.velocity = v;
-            notifyListeners();
-        }
-
-        //According to Archimedes' principle,
-        // "Any object, wholly or partly immersed in a fluid,
-        // is buoyed up by a force equal to the weight of the fluid displaced by the object."
-        private double getBuoyancyForce() {
-            double volumeDisplaced = getSubmergedVolume(water.getHeight());
-            double massDisplaced = water.getDensity() * volumeDisplaced / 500;
-            double weightDisplaced = massDisplaced * 9.8;
-            return weightDisplaced;
-        }
-
-        private double getGravityForce() {
-            return -9.8 * mass;
-        }
-
-        public void setDragging(boolean b) {
-            dragging = b;
-        }
-
-        public double getSpeed() {
-            return Math.abs(velocity);
-        }
-
     }
 
     static class Sphere {

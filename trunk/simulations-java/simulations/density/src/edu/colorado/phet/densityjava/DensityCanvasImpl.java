@@ -24,6 +24,7 @@ import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.densityjava.model.DensityModel;
+import edu.colorado.phet.densityjava.model.Block;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -55,8 +56,8 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
 
     public void simpleSetup() {
         super.simpleSetup();
-//        waterSurface = new WaterSurface.Motionless(model, model.getWater(), this);
-        waterSurface = new WaterSurface.RippleSurface(model, this);
+        waterSurface = new WaterSurface.Motionless(model, model.getWater(), this);
+//        waterSurface = new WaterSurface.RippleSurface(model, this);
         cam.setLocation(new Vector3f(5, 7f, 9.5f));
         cam.setDirection(new Vector3f(-0.0f, -0.3f, -1f).normalize());
         cam.setUp(new Vector3f(0, 0.9f, -0.3f));
@@ -69,7 +70,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
             doAddBlock(model.getBlock(i));
         }
         model.addListener(new DensityModel.Adapter() {
-            public void blockAdded(DensityModel.Block block) {
+            public void blockAdded(Block block) {
                 doAddBlock(block);
             }
         });
@@ -181,7 +182,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
         });
     }
 
-    private void doAddBlock(DensityModel.Block block) {
+    private void doAddBlock(Block block) {
         System.out.println("DensityCanvasImpl.doAddBlock");
         final RectNode child = new RectNode(block);
         rootNode.attachChild(child);
@@ -228,7 +229,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
             public void mouseReleased(MouseEvent e) {
                 if (picked != null && picked.getTargetMesh() instanceof ObjectBox) {
                     ObjectBox ob = (ObjectBox) picked.getTargetMesh();
-                    ob.getObject().setDragging(false);
+                    ob.getObject().setUserDragging(false);
                 }
                 picked = null;
             }
@@ -262,7 +263,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
                         ObjectBox ob = (ObjectBox) picked.getTargetMesh();
                         ob.getObject().setPosition2D(pickPt.getX() + dx, pickPt.getY() + dy);
                         ob.getObject().setVelocity(0);
-                        ob.getObject().setDragging(true);
+                        ob.getObject().setUserDragging(true);
                     }
                 }
             }
@@ -373,14 +374,14 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
     }
 
     class ObjectBox extends Box {
-        private DensityModel.Block object;
+        private Block object;
 
-        public ObjectBox(DensityModel.Block object, String name, Vector3f vector3f, float v, float v1, float v2) {
+        public ObjectBox(Block object, String name, Vector3f vector3f, float v, float v1, float v2) {
             super(name, vector3f, v, v1, v2);
             this.object = object;
         }
 
-        public DensityModel.Block getObject() {
+        public Block getObject() {
             return object;
         }
     }
@@ -388,7 +389,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
     private class RectNode extends Node {
         private DensityModel.RectangularObject object;
 
-        private RectNode(final DensityModel.Block object) {
+        private RectNode(final Block object) {
             this.object = object;
 
             final ObjectBox mesh = new ObjectBox(object, object.getName(), new Vector3f((float) object.getCenterX(), (float) object.getCenterY(), (float) object.getCenterZ()),

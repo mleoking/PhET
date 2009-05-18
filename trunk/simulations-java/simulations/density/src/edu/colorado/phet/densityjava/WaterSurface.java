@@ -8,16 +8,10 @@ import com.jme.scene.Spatial;
 import com.jme.scene.shape.Box;
 import com.jme.scene.state.RenderState;
 import edu.colorado.phet.densityjava.model.DensityModel;
+import edu.colorado.phet.densityjava.model.Block;
 
 import java.util.Random;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Owner
- * Date: May 17, 2009
- * Time: 10:43:26 PM
- * To change this template use File | Settings | File Templates.
- */
 public interface WaterSurface {
     void simpleUpdate(float tpf);
 
@@ -121,7 +115,7 @@ public interface WaterSurface {
 
             if (water != null) {
                 for (int i = 0; i < model.getBlockCount(); i++) {
-                    DensityModel.Block block = model.getBlock(i);
+                    Block block = model.getBlock(i);
                     if (block.getVerticalRange().contains(model.getWater().getMaxY()) && block.getSpeed() > 2) {
                         double xMin = block.getX();
                         double yMin = block.getZ();
