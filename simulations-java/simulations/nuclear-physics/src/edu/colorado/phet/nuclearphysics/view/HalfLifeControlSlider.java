@@ -26,16 +26,6 @@ public class HalfLifeControlSlider extends JSlider {
         setValue( 0 );
         setPaintTicks( false );
         setPaintLabels( false );
-
-        /* TODO: JPB TBD - I don't think this will be needed, but keep around for a bit just in case.
-        addMouseListener(new MouseAdapter() {
-            public void mouseReleased(MouseEvent e) {
-            	// Return to 0 when the user releases the slider.
-                setValue(0);
-            }
-        });
-        */
-        
         setBackground(NuclearPhysicsConstants.ALPHA_DECAY_CHART_COLOR);
     }
     
