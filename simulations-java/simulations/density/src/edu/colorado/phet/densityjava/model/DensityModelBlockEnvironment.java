@@ -10,11 +10,10 @@ public class DensityModelBlockEnvironment implements BlockEnvironment {
 
     //Find the Y value of whatever the block could eventually settle on (i.e. the ground, the pool bottom, another block)
     public double getFloorY(Block block) {
-        DensityModel.RectangularObject target = model.getHighestObjectBelow(block);
-        if (target != null) {
+        RectangularObject target = model.getHighestObjectBelow(block);
+        if (target != null)
             return target.getMaxY();
-        }
-        if (getWater().getWidthRange().contains(block.getWidthRange()))
+        else if (getWater().getWidthRange().contains(block.getWidthRange()))
             return getWater().getBottomY();
         else
             return getWater().getSwimmingPoolSurfaceY();
@@ -28,20 +27,21 @@ public class DensityModelBlockEnvironment implements BlockEnvironment {
     public double getAppliedForce(Block block) {
         //if there is a block sitting on top of this block, the applied force
         //due to that block is equal to -N, since F12=-F21
-        double sum = 0;
-        DensityModel.RectangularObject justBeneath = model.getHighestObjectBelow(block);
-        DensityModel.RectangularObject justAbove = model.getLowestObjectAbove(block);
-        if (justAbove != null && justAbove instanceof Block && justAbove.getDistanceY(block) < 0.01) {
-            Block above = (Block) justAbove;
-            sum += -above.getNormalForce();
+        double sumOfAppliedForces = 0;
+
+        RectangularObject objectAbove = model.getLowestObjectAbove(block);
+        if (objectAbove != null && objectAbove instanceof Block && objectAbove.getDistanceY(block) < 0.01) {
+            Block above = (Block) objectAbove;
+            sumOfAppliedForces += -above.getNormalForce();
         }
         //TODO: resolve recursive compuation problem: F_normal_1=f(F_applied_2) and F_applied_2=f(F_normal_1)
-//            if (justBeneath != null && justBeneath instanceof Block && justBeneath.getDistanceY(block) < 0.01) {
-//                Block beneath = (Block) justBeneath;
-//                sum += beneath.getNormalForce();
+//        RectangularObject objectBeneath = model.getHighestObjectBelow(block);
+//            if (objectBeneath != null && objectBeneath instanceof Block && objectBeneath.getDistanceY(block) < 0.01) {
+//                Block beneath = (Block) objectBeneath;
+//                sumOfAppliedForces += beneath.getNormalForce();
 //            }
 //            return 0.0;
-        return sum;
+        return sumOfAppliedForces;
     }
 
 }
