@@ -1,3 +1,5 @@
+# 00.36.00 (31808) May 18, 2009
+5/18/09 Fixed resource file location
 # 00.35.00 (31806) May 17, 2009
 5/17/09 More common translation deploy work
 # 00.34.00 (31802) May 17, 2009
