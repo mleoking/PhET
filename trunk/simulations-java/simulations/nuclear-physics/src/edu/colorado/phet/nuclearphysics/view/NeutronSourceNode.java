@@ -148,43 +148,6 @@ public class NeutronSourceNode extends PNode{
             }
         } );
         
-        /*
-         * TODO: JBP TBD - The following portion was commented out on Dec 29, 2008
-         * based on feedback from the educators.  This code should be removed
-         * permanently or reinstated when a decision is finalized.
-        // Add the text to the buttons.
-        _fireButtonUpText = new PText(NuclearPhysicsStrings.FIRE_NEUTRON_GUN);
-        _fireButtonUpText.setFont(new PhetFont(PhetFont.BOLD));
-        _fireButtonUpText.setPickable(false);
-        _fireButtonDownText = new PText(NuclearPhysicsStrings.FIRE_NEUTRON_GUN);
-        _fireButtonDownText.setFont(new PhetFont(PhetFont.BOLD));
-        _fireButtonDownText.setPickable(false);
-        _fireButtonDownText.setTextPaint(Color.WHITE);
-        _fireButtonUp.addChild(_fireButtonUpText);
-        _fireButtonDown.addChild(_fireButtonDownText);
-        
-        // Scale the font to fit in both the vertical and horizontal dimensions.
-        double horizonalTextScale = (0.9 * _fireButtonUp.getFullBoundsReference().width) / 
-                _fireButtonUpText.getFullBoundsReference().width;
-        double verticalTextScale = (0.9 * _fireButtonUp.getFullBoundsReference().height) / 
-                _fireButtonUpText.getFullBoundsReference().height;
-        double textScale = Math.min(horizonalTextScale, verticalTextScale);
-        
-        _fireButtonUpText.setScale(textScale);
-        _fireButtonDownText.setScale(textScale);
-        
-        // Center the text in the buttons.
-        _fireButtonUpText.setOffset(_fireButtonUp.getFullBoundsReference().width / 2 - 
-        		_fireButtonUpText.getFullBoundsReference().width / 2,
-        		_fireButtonUp.getFullBoundsReference().height / 2 - 
-        		_fireButtonUpText.getFullBoundsReference().height / 2);
-        _fireButtonDownText.setOffset(_fireButtonDown.getFullBoundsReference().width / 2 - 
-        		_fireButtonDownText.getFullBoundsReference().width / 2,
-        		_fireButtonDown.getFullBoundsReference().height / 2 - 
-        		_fireButtonDownText.getFullBoundsReference().height / 2);
-        
-         */
-        
         // Add the invisible node that will allow the user to grab the front
         // of the gun and rotate it.
         _rotationGrabberNode = new PPath (new Rectangle2D.Double(0, 0, _displayImage.getWidth() * ROTATION_GRABBER_WIDTH_FRACTION, 
