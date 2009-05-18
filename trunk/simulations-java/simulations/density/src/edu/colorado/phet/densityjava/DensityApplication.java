@@ -10,6 +10,8 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.densityjava.common.MyRadioButton;
 import edu.colorado.phet.densityjava.model.DensityModel;
 import edu.colorado.phet.densityjava.model.MassVolumeModel;
+import edu.colorado.phet.densityjava.view.d3.DensityJMECanvas;
+import edu.colorado.phet.densityjava.util.DensityUtils;
 
 import javax.swing.*;
 import java.io.File;

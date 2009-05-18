@@ -1,4 +1,4 @@
-package edu.colorado.phet.densityjava;
+package edu.colorado.phet.densityjava.tests;
 
 /**
  * Created by IntelliJ IDEA.

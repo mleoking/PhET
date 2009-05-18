@@ -1,4 +1,4 @@
-package edu.colorado.phet.densityjava;
+package edu.colorado.phet.densityjava.view.d3;
 
 import com.acarter.iwave.jme.InteractiveWater;
 import com.jme.bounding.BoundingBox;

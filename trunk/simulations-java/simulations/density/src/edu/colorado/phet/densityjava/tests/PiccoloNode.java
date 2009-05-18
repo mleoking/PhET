@@ -30,7 +30,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package edu.colorado.phet.densityjava;
+package edu.colorado.phet.densityjava.tests;
 
 import com.jme.bounding.OrientedBoundingBox;
 import com.jme.image.Texture;

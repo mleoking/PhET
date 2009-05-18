@@ -1,4 +1,4 @@
-package edu.colorado.phet.densityjava;
+package edu.colorado.phet.densityjava.tests;
 
 import com.jme.app.SimpleGame;
 import com.jme.input.MouseInput;
@@ -8,7 +8,7 @@ import com.jme.renderer.Renderer;
 import com.jme.scene.Node;
 import com.jme.scene.Spatial;
 import com.jmex.awt.swingui.JMEAction;
-import edu.umd.cs.piccolo.nodes.PText;
+import edu.colorado.phet.densityjava.tests.PiccoloNode;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

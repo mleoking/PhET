@@ -1,4 +1,4 @@
-package edu.colorado.phet.densityjava;
+package edu.colorado.phet.densityjava.util;
 
 import java.io.*;
 import java.lang.reflect.Field;
