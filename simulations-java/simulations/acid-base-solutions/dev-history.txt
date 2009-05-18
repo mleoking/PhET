@@ -4,8 +4,10 @@
 
 TODO:
 - fix layout of concentration graph
+- connect equilibrium expressions to model
+- connect reaction equations to model
+- connect beaker view controls to model (ratio check box labels)
 - Reset All
-- connect model and view
 - H2O should not be scalable in Reaction Equations, should change to Color.BLACK when scaling is enabled
 - revisit implementation of Reaction Equations and Equilibrium Expressions
 - particle views
