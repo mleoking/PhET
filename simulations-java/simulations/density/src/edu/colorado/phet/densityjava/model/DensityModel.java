@@ -130,7 +130,7 @@ public class DensityModel {
             }
 
             public int compare(RectangularObject b1, RectangularObject b2) {
-                return Double.compare(b1.getMaxY(), b2.getMaxY());
+                return -Double.compare(b1.getMaxY(), b2.getMaxY());
             }
         }
 
