@@ -8,6 +8,7 @@ import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.AcidBaseSolutionsApplication;
 import edu.colorado.phet.acidbasesolutions.model.ABSClock;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
+import edu.colorado.phet.acidbasesolutions.model.Acid.CustomAcid;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractModule;
 import edu.colorado.phet.acidbasesolutions.persistence.SolutionsConfig;
 
@@ -70,7 +71,7 @@ public class SolutionsModule extends ABSAbstractModule {
      * Resets the module.
      */
     public void reset() {
-//        System.out.println( getClass().getName() + ".reset" );//XXX
+        model.getSolution().setSolute( new CustomAcid() );
     }
     
     //----------------------------------------------------------------------------

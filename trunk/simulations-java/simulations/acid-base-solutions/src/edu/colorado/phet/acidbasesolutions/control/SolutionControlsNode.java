@@ -18,6 +18,7 @@ import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.NoSolute;
 import edu.colorado.phet.acidbasesolutions.model.Solute;
+import edu.colorado.phet.acidbasesolutions.model.SoluteFactory;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
 import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -169,11 +170,7 @@ public class SolutionControlsNode extends PhetPNode {
     }
     
     public Solute getSolute() {
-        return soluteComboBox.getSolute();
-    }
-    
-    public void reset() {
-        soluteComboBox.reset();
+        return SoluteFactory.createSolute( soluteComboBox.getSoluteName() );
     }
     
     public double getConcentration() {

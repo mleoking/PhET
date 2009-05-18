@@ -6,7 +6,7 @@ import edu.colorado.phet.acidbasesolutions.ABSStrings;
 public class NoSolute extends Solute {
     
     public NoSolute() {
-        super( null, null, 0 );
+        super( ABSStrings.NO_SOLUTE, "", 0 );
     }
 
     protected boolean isValidStrength( double strength ) {
@@ -14,7 +14,7 @@ public class NoSolute extends Solute {
     }
     
     public String toString() {
-        return ABSStrings.NO_SOLUTE;
+        return getName();
     }
 
 }
