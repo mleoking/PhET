@@ -1,4 +1,4 @@
-package edu.colorado.phet.densityjava;
+package edu.colorado.phet.densityjava.view.d3;
 
 import com.jme.bounding.BoundingBox;
 import com.jme.image.Texture;
@@ -26,6 +26,8 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.densityjava.model.DensityModel;
 import edu.colorado.phet.densityjava.model.Block;
 import edu.colorado.phet.densityjava.model.Water;
+import edu.colorado.phet.densityjava.view.d3.BasicCanvasImpl;
+import edu.colorado.phet.densityjava.view.d3.WaterSurface;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;

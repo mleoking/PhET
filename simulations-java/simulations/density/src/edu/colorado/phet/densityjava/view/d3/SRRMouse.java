@@ -36,7 +36,7 @@
  *                      without polling the mouse.  GOP
  */
 
-package edu.colorado.phet.densityjava;
+package edu.colorado.phet.densityjava.view.d3;
 
 import com.jme.input.InputHandler;
 import com.jme.input.Mouse;

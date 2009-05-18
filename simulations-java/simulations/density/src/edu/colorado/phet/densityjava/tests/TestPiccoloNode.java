@@ -30,7 +30,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package edu.colorado.phet.densityjava;
+package edu.colorado.phet.densityjava.tests;
 
 import com.jme.app.SimpleGame;
 import com.jme.bounding.BoundingBox;
@@ -51,9 +51,9 @@ import com.jme.scene.state.BlendState;
 import com.jme.scene.state.TextureState;
 import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
-import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingEventHandler;
 import edu.umd.cs.piccolox.pswing.PSwingRepaintManager;
+import edu.colorado.phet.densityjava.tests.PiccoloNode;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;

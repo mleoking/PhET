@@ -1,4 +1,4 @@
-package edu.colorado.phet.densityjava;
+package edu.colorado.phet.densityjava.view.d3;
 
 import com.jme.input.KeyInput;
 import com.jme.system.DisplaySystem;
@@ -9,6 +9,7 @@ import com.jmex.awt.lwjgl.LWJGLAWTCanvasConstructor;
 import edu.colorado.phet.densityjava.model.DensityModel;
 import edu.colorado.phet.densityjava.model.MassVolumeModel;
 import edu.colorado.phet.densityjava.view.MassVolumeChooser;
+import edu.colorado.phet.densityjava.view.d3.DensityCanvasImpl;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,4 +1,4 @@
-package edu.colorado.phet.densityjava;
+package edu.colorado.phet.densityjava.view.d3;
 
 import com.jme.image.Texture;
 import com.jme.input.InputHandler;
@@ -14,6 +14,7 @@ import com.jme.system.canvas.SimpleCanvasImpl;
 import com.jme.util.GameTaskQueueManager;
 import com.jme.util.TextureManager;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.densityjava.view.d3.SRRMouse;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
