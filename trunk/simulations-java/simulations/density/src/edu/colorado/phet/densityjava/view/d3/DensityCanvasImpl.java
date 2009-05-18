@@ -26,6 +26,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.densityjava.model.DensityModel;
 import edu.colorado.phet.densityjava.model.Block;
 import edu.colorado.phet.densityjava.model.Water;
+import edu.colorado.phet.densityjava.model.RectangularObject;
 import edu.colorado.phet.densityjava.view.d3.BasicCanvasImpl;
 import edu.colorado.phet.densityjava.view.d3.WaterSurface;
 import edu.umd.cs.piccolo.PNode;
@@ -178,7 +179,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
         System.out.println("DensityCanvasImpl.doAddScale");
         final ScaleNode child = new ScaleNode(scale, renderer);
         rootNode.attachChild(child);
-        scale.addListener(new DensityModel.RectangularObject.Adapter() {
+        scale.addListener(new RectangularObject.Adapter() {
             public void blockRemoving() {
                 rootNode.detachChild(child);
             }
@@ -189,7 +190,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
         System.out.println("DensityCanvasImpl.doAddBlock");
         final RectNode child = new RectNode(block);
         rootNode.attachChild(child);
-        block.addListener(new DensityModel.RectangularObject.Adapter() {
+        block.addListener(new RectangularObject.Adapter() {
             public void blockRemoving() {
                 rootNode.detachChild(child);
             }
@@ -304,7 +305,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
         double a = object.getDistanceToTopOfPool() / 2;
         water.setLocalTranslation(0, -(float) a, 0);
         water.updateModelBound();
-        object.addListener(new DensityModel.RectangularObject.Adapter() {
+        object.addListener(new RectangularObject.Adapter() {
             public void modelChanged() {
 
 //                {//for the box
@@ -389,7 +390,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
     }
 
     private class RectNode extends Node {
-        private DensityModel.RectangularObject object;
+        private RectangularObject object;
 
         private RectNode(final Block object) {
             this.object = object;
@@ -416,7 +417,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
             setRenderState(materialState);
 
 
-            object.addListener(new DensityModel.RectangularObject.Adapter() {
+            object.addListener(new RectangularObject.Adapter() {
                 public void modelChanged() {
                     mesh.setCenter(new Vector3f((float) object.getCenterX(), (float) object.getCenterY(), (float) object.getCenterZ()));
                     mesh.updateGeometry();

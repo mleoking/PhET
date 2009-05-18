@@ -6,6 +6,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.densityjava.model.Block;
 import edu.colorado.phet.densityjava.model.DensityModel;
+import edu.colorado.phet.densityjava.model.RectangularObject;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -23,13 +24,13 @@ import java.awt.geom.Point2D;
  */
 public class DensityCanvas2D extends PhetPCanvas {
     static class BlockNode extends PNode {
-        private DensityModel.RectangularObject rectangularObject;
+        private RectangularObject rectangularObject;
         private ModelViewTransform2D modelViewTransform2D;
         private PhetPPath face;
         private PhetPPath topFace;
         private PhetPPath rightFace;
 
-        public BlockNode(DensityModel.RectangularObject rectangularObject, ModelViewTransform2D modelViewTransform2D) {
+        public BlockNode(RectangularObject rectangularObject, ModelViewTransform2D modelViewTransform2D) {
             this.rectangularObject = rectangularObject;
             this.modelViewTransform2D = modelViewTransform2D;
             face = new PhetPPath(rectangularObject.getFaceColor());
@@ -41,7 +42,7 @@ public class DensityCanvas2D extends PhetPCanvas {
             rightFace = new PhetPPath(rectangularObject.getRightFaceColor());
             addChild(rightFace);
 
-            rectangularObject.addListener(new DensityModel.RectangularObject.Adapter() {
+            rectangularObject.addListener(new RectangularObject.Adapter() {
                 public void modelChanged() {
                     updateShapes();
                 }
@@ -86,7 +87,7 @@ public class DensityCanvas2D extends PhetPCanvas {
     }
 
     private class UndraggableBlockNode extends BlockNode {
-        public UndraggableBlockNode(DensityModel.RectangularObject object, ModelViewTransform2D modelViewTransform2D) {
+        public UndraggableBlockNode(RectangularObject object, ModelViewTransform2D modelViewTransform2D) {
             super(object, modelViewTransform2D);
             setPickable(false);
             setChildrenPickable(false);

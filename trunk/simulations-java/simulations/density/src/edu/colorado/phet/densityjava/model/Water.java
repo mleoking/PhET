@@ -2,7 +2,7 @@ package edu.colorado.phet.densityjava.model;
 
 import java.awt.*;
 
-public class Water extends DensityModel.RectangularObject {
+public class Water extends RectangularObject {
     private DensityModel.SwimmingPool container;
     private double waterVolume;
     private DensityModel.WaterHeightMapper waterHeightMapper;

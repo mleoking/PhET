@@ -10,6 +10,7 @@ import com.jme.scene.state.RenderState;
 import edu.colorado.phet.densityjava.model.DensityModel;
 import edu.colorado.phet.densityjava.model.Block;
 import edu.colorado.phet.densityjava.model.Water;
+import edu.colorado.phet.densityjava.model.RectangularObject;
 
 import java.util.Random;
 
@@ -21,7 +22,7 @@ public interface WaterSurface {
             final Box water = new Box("pool", new Vector3f((float) model.getSwimmingPool().getCenterX(), (float) model.getSwimmingPool().getCenterY(), (float) model.getSwimmingPool().getCenterZ()),
                     (float) object.getWidth() / 2, (float) object.getHeight() / 2, (float) object.getDepth() / 2);
 
-            object.addListener(new DensityModel.RectangularObject.Adapter() {
+            object.addListener(new RectangularObject.Adapter() {
                 public void modelChanged() {
 
                     {//for the box
@@ -84,7 +85,7 @@ public interface WaterSurface {
         public RippleSurface(final DensityModel model, WaterSurfaceEnvironment waterSurfaceEnvironment) {
             this.model = model;
             water = new InteractiveWater("Water", 100);
-            model.getWater().addListener(new DensityModel.RectangularObject.Adapter() {
+            model.getWater().addListener(new RectangularObject.Adapter() {
                 public void modelChanged() {
                     water.setLocalTranslation(0, (float) model.getWater().getMaxY(), -(float) model.getSwimmingPool().getDepth());
                 }

@@ -2,7 +2,7 @@ package edu.colorado.phet.densityjava.model;
 
 import java.awt.*;
 
-public class Block extends DensityModel.RectangularObject {
+public class Block extends RectangularObject {
     private BlockEnvironment blockEnvironment;  //environment for computing applied forces and collisions
     private Water water;//the water the block may interact with
     private double mass;
