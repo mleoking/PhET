@@ -53,7 +53,7 @@ public class ResourceDeployClient {
                          ResourceDeployServer.class.getName() + " " + jarCmd + " " + pathToBuildLocalProperties +
                          " " + temporaryDirPath;
 
-        dirtyExecute( command + " 2>&1" );
+        dirtyExecute( command );
     }
 
     public static void deployCommonTranslation( File resourceFile, File trunk ) {
