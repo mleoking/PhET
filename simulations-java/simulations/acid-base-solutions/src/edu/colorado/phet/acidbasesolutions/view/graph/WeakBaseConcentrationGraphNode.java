@@ -23,4 +23,12 @@ public class WeakBaseConcentrationGraphNode extends AbstractConcentrationGraphNo
     public void setAcidConcentration( double concentration ) {
         setConcentration( ACID_INDEX, concentration );
     }
+    
+    public void setBaseLabel( String text ) {
+        setLabel( BASE_INDEX, text );
+    }
+    
+    public void setAcidLabel( String text ) {
+        setLabel( ACID_INDEX, text );
+    }
 }

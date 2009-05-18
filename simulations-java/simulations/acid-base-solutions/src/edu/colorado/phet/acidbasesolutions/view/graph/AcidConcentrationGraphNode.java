@@ -24,4 +24,11 @@ public class AcidConcentrationGraphNode extends AbstractConcentrationGraphNode {
         setConcentration( BASE_INDEX, concentration );
     }
 
+    public void setAcidLabel( String text ) {
+        setLabel( ACID_INDEX, text );
+    }
+    
+    public void setBaseLabel( String text ) {
+        setLabel( BASE_INDEX, text );
+    }
 }

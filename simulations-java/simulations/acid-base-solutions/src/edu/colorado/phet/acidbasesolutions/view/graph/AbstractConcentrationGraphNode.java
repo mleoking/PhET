@@ -222,6 +222,10 @@ public abstract class AbstractConcentrationGraphNode extends PNode {
         setConcentration( H2O_INDEX, concentration );
     }
     
+    protected void setLabel( int index, String text ) {
+        labelNodes[index].setText( text );
+    }
+    
     protected void setMolecule( int index, Image image, String text, Color barColor ) {
         iconNodes[index].setImage( image );
         labelNodes[index].setText( text );
