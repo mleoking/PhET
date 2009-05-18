@@ -1,6 +1,5 @@
 package edu.colorado.phet.densityjava;
 
-import com.acarter.iwave.jme.InteractiveWater;
 import com.jme.bounding.BoundingBox;
 import com.jme.image.Texture;
 import com.jme.intersection.BoundingPickResults;
@@ -38,15 +37,14 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
-import java.util.Random;
 
-public class DensityCanvasImpl extends BasicCanvasImpl {
+public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.WaterSurfaceEnvironment {
     private DensityModel model;
     private DisplaySystem display;
     private Component component;
     private PickData picked = null;
     private Point2D pickPt;
-    private InteractiveWater water;
+    private WaterSurface waterSurface;
 
     public DensityCanvasImpl(int width, int height, DisplaySystem display, Component component, DensityModel model) {
         super(width, height, display, component);
@@ -55,48 +53,16 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
         this.component = component;
     }
 
-    public void simpleUpdate() {
-        super.simpleUpdate();    //To change body of overridden methods use File | Settings | File Templates.
-        if (water != null) {
-            for (int i = 0; i < model.getBlockCount(); i++) {
-                DensityModel.Block block = model.getBlock(i);
-                if (block.getVerticalRange().contains(model.getWater().getMaxY()) && block.getSpeed() > 2) {
-                    double xMin = block.getX();
-                    double yMin = block.getZ();
-
-                    double xMax = block.getMaxX();
-                    double yMax = block.getMaxY();
-
-                    int xIntMin = (int) (xMin * 100 / model.getSwimmingPool().getWidth());
-                    int yIntMin = (int) (-yMin * 100 / model.getSwimmingPool().getDepth());
-
-                    int xIntMax = (int) (xMax * 100 / model.getSwimmingPool().getWidth());
-                    int yIntMax = (int) (-yMax * 100 / model.getSwimmingPool().getDepth());
-//                    System.out.println("x = " + x + ", y=" + y + ", xInt=" + xInt + ", yInt=" + yInt+", vel="+block.getSpeed());
-//                    System.out.println("xIntMin = " + xIntMin + ", xMAx=" + xIntMax + ", yintmin=" + yIntMin + ", yintmax=" + yIntMax);
-                    Random random = new Random();
-                    for (int x = xIntMin; x <= xIntMax; x++) {
-                        for (int y = yIntMax; y <= yIntMin; y++) {
-                            if (random.nextDouble() < 0.1)
-                                if (x == xIntMin || x == xIntMax || y == yIntMin || y == yIntMax)
-                                    water.dabSomePaint(x, y);
-                        }
-                    }
-                }
-
-            }
-            water.update(tpf);
-        }
-    }
-
     public void simpleSetup() {
         super.simpleSetup();
+//        waterSurface = new WaterSurface.Motionless(model, model.getWater(), this);
+        waterSurface = new WaterSurface.RippleSurface(model, this);
         cam.setLocation(new Vector3f(5, 7f, 9.5f));
         cam.setDirection(new Vector3f(-0.0f, -0.3f, -1f).normalize());
         cam.setUp(new Vector3f(0, 0.9f, -0.3f));
 
         rootNode.attachChild(getPoolNode(model.getSwimmingPool()));
-        rootNode.attachChild(getWaterNode(model.getWater()));
+//        rootNode.attachChild(getWaterNode(model.getWater()));
 
         //Handle adding block nodes
         for (int i = 0; i < model.getBlockCount(); i++) {
@@ -135,38 +101,12 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
         setupLight();
 
         addMouseHandling();
-
-        addWaterRipples(model);
     }
 
-    private void addWaterRipples(final DensityModel model) {
-        water = new InteractiveWater("Water", 100);
-        model.getWater().addListener(new DensityModel.RectangularObject.Adapter() {
-            public void modelChanged() {
-                water.setLocalTranslation(0, (float) model.getWater().getMaxY(), -(float) model.getSwimmingPool().getDepth());
-            }
-        });
-        water.setLocalTranslation(0, (float) model.getWater().getMaxY(), -(float) model.getSwimmingPool().getDepth());
-        water.setLocalScale(new Vector3f((float) model.getSwimmingPool().getWidth() / 100, 1 / 100f, (float) (model.getSwimmingPool().getDepth() / 100.0f)));
-        water.setModelBound(new BoundingBox());
-        water.updateModelBound();
 
-        // the sphere material taht will be modified to make the sphere
-        // look opaque then transparent then opaque and so on
-        water.setRenderState(getWaterMaterial());
-        water.updateRenderState();
-
-        // to handle transparency: a BlendState
-        // an other tutorial will be made to deal with the possibilities of this
-        // RenderState
-        water.setRenderState(getBlendState());
-        water.updateRenderState();
-
-        // IMPORTANT: since the sphere will be transparent, place it
-        // in the transparent render queue!
-        water.setRenderQueueMode(Renderer.QUEUE_TRANSPARENT);
-
-        rootNode.attachChild(water);
+    public void simpleUpdate() {
+        super.simpleUpdate();    //To change body of overridden methods use File | Settings | File Templates.
+        waterSurface.simpleUpdate(tpf);
     }
 
     static class ScaleNode extends Node {
@@ -400,7 +340,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
         return water;
     }
 
-    private BlendState getBlendState() {
+    public BlendState getBlendState() {
         final BlendState alphaState = DisplaySystem.getDisplaySystem().getRenderer().createBlendState();
         alphaState.setBlendEnabled(true);
         alphaState.setSourceFunction(BlendState.SourceFunction.SourceAlpha);
@@ -411,7 +351,11 @@ public class DensityCanvasImpl extends BasicCanvasImpl {
         return alphaState;
     }
 
-    private MaterialState getWaterMaterial() {
+    public void attachChild(Spatial spatial) {
+        rootNode.attachChild(spatial);
+    }
+
+    public MaterialState getWaterMaterial() {
         MaterialState materialState = display.getRenderer().createMaterialState();
         float opacityAmount = 0.4f;
         materialState.setAmbient(new ColorRGBA(0.0f, 0.0f, 0.0f, opacityAmount));
