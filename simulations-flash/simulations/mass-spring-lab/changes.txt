@@ -1,3 +1,5 @@
+# 2.00.02 (31882) May 18, 2009
+5/18/09 Added arabic common translation
 # 2.00.01 (31745) May 15, 2009
 5/15/09 Fixed masses that should be blank for all translations
 # 2.00.00 (30671) Apr 21, 2009
