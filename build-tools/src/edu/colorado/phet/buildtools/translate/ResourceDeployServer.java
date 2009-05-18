@@ -158,7 +158,7 @@ public class ResourceDeployServer implements IProguardKeepClass {
                 File jarFile = jarFiles[j];
 
                 String command = jarCommand + " uf " + jarFile.getAbsolutePath() + " -C " + tmpDir.getAbsolutePath() + " " + resourceDestination + resourceFile.getName();
-                runStringCommand( command + " 2>&1" );
+                runStringCommand( command );
             }
         }
 
