@@ -119,7 +119,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     private PText _yAxisLabel2;
     private TimeDisplayNode _timeDisplay;
     private PText _decayTimeLabel;
-    private ExponentialTimeLineNode _exponentialTimeLine;
+    private LogarithmicTimeLineNode _exponentialTimeLine;
 
     // Parent node that will be non-pickable and will contain all of the
     // non-interactive portions of the chart.
@@ -305,7 +305,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
         
         // Add the exponential time line, which is only displayed when the
         // chart needs to depict exponential time.
-        _exponentialTimeLine = new ExponentialTimeLineNode();
+        _exponentialTimeLine = new LogarithmicTimeLineNode();
         _nonPickableChartNode.addChild(_exponentialTimeLine);
 
         // Create the line that will illustrate where the half life is.
@@ -324,7 +324,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
         // Create the "infinity indication" for the half life marker which is
         // used to indicate when the half life becomes essentially infinite.
         // TODO: Make this into a resource if accepted and finalized.
-        _halfLifeInfinityText = new PText( "\u221E" );
+        _halfLifeInfinityText = new PText( NuclearPhysicsStrings.INFINITY_SYMBOL );
         _halfLifeInfinityText.setFont( HALF_LIFE_FONT );
         _halfLifeInfinityText.setTextPaint( HALF_LIFE_TEXT_COLOR );
         _nonPickableChartNode.addChild( _halfLifeInfinityText );
@@ -973,52 +973,52 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     		if (milliseconds < MILLISECONDS_PER_SECOND){
     			// Milliseconds range.
                 _timeText.setHTML( _timeFormatterNoDecimals.format(milliseconds) );
-                _unitsText.setHTML( NuclearPhysicsStrings.UNITS_MILLISECONDS );
+                _unitsText.setHTML( NuclearPhysicsStrings.READOUT_UNITS_MILLISECONDS );
     		}
     		else if (milliseconds < MILLISECONDS_PER_MINUTE){
     			// Seconds range.
                 _timeText.setHTML( _timeFormatterOneDecimal.format(milliseconds / MILLISECONDS_PER_SECOND) );
-                _unitsText.setHTML( NuclearPhysicsStrings.UNITS_SECONDS );
+                _unitsText.setHTML( NuclearPhysicsStrings.READOUT_UNITS_SECONDS );
     		}
     		else if (milliseconds < MILLISECONDS_PER_HOUR){
     			// Minutes range.
                 _timeText.setHTML( _timeFormatterOneDecimal.format(milliseconds / MILLISECONDS_PER_MINUTE) );
-                _unitsText.setHTML( NuclearPhysicsStrings.UNITS_MINUTES );
+                _unitsText.setHTML( NuclearPhysicsStrings.READOUT_UNITS_MINUTES );
     		}
     		else if (milliseconds < MILLISECONDS_PER_DAY){
     			// Hours range.
                 _timeText.setHTML( _timeFormatterOneDecimal.format(milliseconds / MILLISECONDS_PER_HOUR) );
-                _unitsText.setHTML( NuclearPhysicsStrings.UNITS_HOURS );
+                _unitsText.setHTML( NuclearPhysicsStrings.READOUT_UNITS_HOURS );
     		}
     		else if (milliseconds < MILLISECONDS_PER_YEAR){
     			// Days range.
                 _timeText.setHTML( _timeFormatterNoDecimals.format(milliseconds / MILLISECONDS_PER_DAY) );
-                _unitsText.setHTML( NuclearPhysicsStrings.UNITS_DAYS );
+                _unitsText.setHTML( NuclearPhysicsStrings.READOUT_UNITS_DAYS );
     		}
     		else if (milliseconds < MILLISECONDS_PER_MILLENIUM){
     			// Years range.
                 _timeText.setHTML( _timeFormatterNoDecimals.format(milliseconds / MILLISECONDS_PER_YEAR) );
-                _unitsText.setHTML( NuclearPhysicsStrings.UNITS_YEARS );
+                _unitsText.setHTML( NuclearPhysicsStrings.READOUT_UNITS_YEARS );
     		}
     		else if (milliseconds < MILLISECONDS_PER_MILLION_YEARS){
     			// Thousand years range (millenia).
                 _timeText.setHTML( _thousandsFormatter.format(milliseconds / MILLISECONDS_PER_YEAR) );
-                _unitsText.setHTML( NuclearPhysicsStrings.UNITS_YRS );
+                _unitsText.setHTML( NuclearPhysicsStrings.READOUT_UNITS_YRS );
     		}
     		else if (milliseconds < MILLISECONDS_PER_BILLION_YEARS){
     			// Million years range.
                 _timeText.setHTML( _millionsFormatter.format(milliseconds / MILLISECONDS_PER_YEAR) );
-                _unitsText.setHTML( NuclearPhysicsStrings.UNITS_YRS );
+                _unitsText.setHTML( NuclearPhysicsStrings.READOUT_UNITS_YRS );
     		}
     		else if (milliseconds < MILLISECONDS_PER_TRILLION_YEARS){
     			// Billion years range.
                 _timeText.setHTML( _billionsFormatter.format(milliseconds / MILLISECONDS_PER_YEAR) );
-                _unitsText.setHTML( NuclearPhysicsStrings.UNITS_YRS );
+                _unitsText.setHTML( NuclearPhysicsStrings.READOUT_UNITS_YRS );
     		}
     		else if (milliseconds < MILLISECONDS_PER_QUADRILLION_YEARS){
     			// Trillion years range.
                 _timeText.setHTML( _trillionsFormatter.format(milliseconds / MILLISECONDS_PER_YEAR) );
-                _unitsText.setHTML(NuclearPhysicsStrings.UNITS_YRS);
+                _unitsText.setHTML(NuclearPhysicsStrings.READOUT_UNITS_YRS);
     		}
     		else {
     			_timeText.setHTML( "\u221e"); // Infinity.
@@ -1111,7 +1111,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
      * 
      * @author John Blanco
      */
-    private class ExponentialTimeLineNode extends PNode {
+    private class LogarithmicTimeLineNode extends PNode {
     	
     	public  static final double EXPONENTIAL_TIME_LINE_LENGTH = 3.2e22;  // Roughly a trillion years in milliseconds. 
     	private static final double LINE_HEIGHT_PROPORTION = 0.5; // Height of time line as a function of overall
@@ -1139,7 +1139,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     	/**
     	 * Constructor.
     	 */
-    	public ExponentialTimeLineNode(){
+    	public LogarithmicTimeLineNode(){
     		_outline = new PPath();
     		_outline.setStrokePaint(Color.RED);
     		_outline.setVisible(SHOW_OUTLINE);
@@ -1153,49 +1153,48 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     		}
     		
     		// Create the labels for the sections.
-    		// TODO: Move these into resource file once finalized.
     		PText label = new PText();
-    		label.setText("ms");
+    		label.setText(NuclearPhysicsStrings.TIME_GRAPH_UNITS_MILLISECONDS);
     		label.setFont(SMALL_LABEL_FONT);
     		_sectionLabels.add(label);
 			addChild(label);
     		label = new PText();
-    		label.setText("secs");
+    		label.setText(NuclearPhysicsStrings.TIME_GRAPH_UNITS_SECONDS);
     		label.setFont(SMALL_LABEL_FONT);
     		_sectionLabels.add(label);
 			addChild(label);
     		label = new PText();
-    		label.setText("mins");
+    		label.setText(NuclearPhysicsStrings.TIME_GRAPH_UNITS_MINUTES);
     		label.setFont(SMALL_LABEL_FONT);
     		_sectionLabels.add(label);
 			addChild(label);
     		label = new PText();
-    		label.setText("hrs");
+    		label.setText(NuclearPhysicsStrings.TIME_GRAPH_UNITS_HOURS);
     		label.setFont(SMALL_LABEL_FONT);
     		_sectionLabels.add(label);
 			addChild(label);
     		label = new PText();
-    		label.setText("days");
+    		label.setText(NuclearPhysicsStrings.TIME_GRAPH_UNITS_DAYS);
     		label.setFont(SMALL_LABEL_FONT);
     		_sectionLabels.add(label);
 			addChild(label);
     		label = new PText();
-    		label.setText("yrs");
+    		label.setText(NuclearPhysicsStrings.TIME_GRAPH_UNITS_YRS);
     		label.setFont(SMALL_LABEL_FONT);
     		_sectionLabels.add(label);
 			addChild(label);
     		label = new PText();
-    		label.setText("millenia");
+    		label.setText(NuclearPhysicsStrings.TIME_GRAPH_UNITS_MILLENIA);
     		label.setFont(SMALL_LABEL_FONT);
     		_sectionLabels.add(label);
 			addChild(label);
     		label = new PText();
-    		label.setText("million yrs");
+    		label.setText(NuclearPhysicsStrings.TIME_GRAPH_UNITS_MILLION_YRS);
     		label.setFont(SMALL_LABEL_FONT);
     		_sectionLabels.add(label);
 			addChild(label);
     		label = new PText();
-    		label.setText("billion yrs");
+    		label.setText(NuclearPhysicsStrings.TIME_GRAPH_UNITS_BILLION_YRS);
     		label.setFont(SMALL_LABEL_FONT);
     		_sectionLabels.add(label);
 			addChild(label);

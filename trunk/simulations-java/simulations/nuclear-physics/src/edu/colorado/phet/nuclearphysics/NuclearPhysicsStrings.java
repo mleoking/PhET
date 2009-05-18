@@ -130,14 +130,26 @@ public class NuclearPhysicsStrings {
     public static final String U238_LABEL= NuclearPhysicsResources.getString( "ChainReactionControlPanel.U238" );
     public static final String NUCLEI_LABEL= NuclearPhysicsResources.getString( "ChainReactionControlPanel.Nuclei" );
 
-    public static final String UNITS_MILLISECONDS= NuclearPhysicsResources.getString( "DecayTimeChart.Units.Milliseconds" );
-    public static final String UNITS_SECONDS= NuclearPhysicsResources.getString( "DecayTimeChart.Units.Seconds" );
-    public static final String UNITS_MINUTES= NuclearPhysicsResources.getString( "DecayTimeChart.Units.Minutes" );
-    public static final String UNITS_HOURS= NuclearPhysicsResources.getString( "DecayTimeChart.Units.Hours" );
-    public static final String UNITS_DAYS= NuclearPhysicsResources.getString( "DecayTimeChart.Units.Days" );
-    public static final String UNITS_YEARS= NuclearPhysicsResources.getString( "DecayTimeChart.Units.Years" );
-    public static final String UNITS_YRS= NuclearPhysicsResources.getString( "DecayTimeChart.Units.Yrs" );
+    public static final String READOUT_UNITS_MILLISECONDS= NuclearPhysicsResources.getString( "DecayTimeChart.Units.Milliseconds" );
+    public static final String READOUT_UNITS_SECONDS= NuclearPhysicsResources.getString( "DecayTimeChart.Units.Seconds" );
+    public static final String READOUT_UNITS_MINUTES= NuclearPhysicsResources.getString( "DecayTimeChart.Units.Minutes" );
+    public static final String READOUT_UNITS_HOURS= NuclearPhysicsResources.getString( "DecayTimeChart.Units.Hours" );
+    public static final String READOUT_UNITS_DAYS= NuclearPhysicsResources.getString( "DecayTimeChart.Units.Days" );
+    public static final String READOUT_UNITS_YEARS= NuclearPhysicsResources.getString( "DecayTimeChart.Units.Years" );
+    public static final String READOUT_UNITS_YRS= NuclearPhysicsResources.getString( "DecayTimeChart.Units.Yrs" );
     
+    public static final String TIME_GRAPH_UNITS_MILLISECONDS= NuclearPhysicsResources.getString( "LogarithmicTimeLine.Units.Milliseconds" );
+    public static final String TIME_GRAPH_UNITS_SECONDS= NuclearPhysicsResources.getString( "LogarithmicTimeLine.Units.Seconds" );
+    public static final String TIME_GRAPH_UNITS_MINUTES= NuclearPhysicsResources.getString( "LogarithmicTimeLine.Units.Minutes" );
+    public static final String TIME_GRAPH_UNITS_HOURS= NuclearPhysicsResources.getString( "LogarithmicTimeLine.Units.Hours" );
+    public static final String TIME_GRAPH_UNITS_DAYS= NuclearPhysicsResources.getString( "LogarithmicTimeLine.Units.Days" );
+    public static final String TIME_GRAPH_UNITS_YRS= NuclearPhysicsResources.getString( "LogarithmicTimeLine.Units.Yrs" );
+    public static final String TIME_GRAPH_UNITS_MILLENIA= NuclearPhysicsResources.getString( "LogarithmicTimeLine.Units.Millenia" );
+    public static final String TIME_GRAPH_UNITS_MILLION_YRS= NuclearPhysicsResources.getString( "LogarithmicTimeLine.Units.MillionYrs" );
+    public static final String TIME_GRAPH_UNITS_BILLION_YRS= NuclearPhysicsResources.getString( "LogarithmicTimeLine.Units.BillionYrs" );
+
+    public static final String INFINITY_SYMBOL= NuclearPhysicsResources.getString( "InfinitySymbol" );
+
     public static final String BUCKET_LABEL_POLONIUM= NuclearPhysicsResources.getString( "Bucket.Label.Polonium" );
     public static final String BUCKET_LABEL_ATOMS= NuclearPhysicsResources.getString( "Bucket.Label.Atoms" );
     
