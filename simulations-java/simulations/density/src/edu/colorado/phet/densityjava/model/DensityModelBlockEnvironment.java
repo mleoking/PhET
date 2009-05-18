@@ -12,7 +12,7 @@ public class DensityModelBlockEnvironment implements BlockEnvironment {
         if (target != null) {
             return target.getMaxY();
         }
-        DensityModel.Water water = model.getWater();
+        Water water = model.getWater();
         if (water.getWidthRange().contains(block.getWidthRange()))
             return water.getBottomY();
         else

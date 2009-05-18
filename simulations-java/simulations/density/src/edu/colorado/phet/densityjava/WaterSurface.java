@@ -9,6 +9,7 @@ import com.jme.scene.shape.Box;
 import com.jme.scene.state.RenderState;
 import edu.colorado.phet.densityjava.model.DensityModel;
 import edu.colorado.phet.densityjava.model.Block;
+import edu.colorado.phet.densityjava.model.Water;
 
 import java.util.Random;
 
@@ -16,7 +17,7 @@ public interface WaterSurface {
     void simpleUpdate(float tpf);
 
     public class Motionless implements WaterSurface {
-        public Motionless(final DensityModel model, final DensityModel.Water object, WaterSurfaceEnvironment waterSurfaceEnvironment) {
+        public Motionless(final DensityModel model, final Water object, WaterSurfaceEnvironment waterSurfaceEnvironment) {
             final Box water = new Box("pool", new Vector3f((float) model.getSwimmingPool().getCenterX(), (float) model.getSwimmingPool().getCenterY(), (float) model.getSwimmingPool().getCenterZ()),
                     (float) object.getWidth() / 2, (float) object.getHeight() / 2, (float) object.getDepth() / 2);
 

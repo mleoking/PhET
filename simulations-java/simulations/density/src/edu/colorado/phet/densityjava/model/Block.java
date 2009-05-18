@@ -3,13 +3,13 @@ package edu.colorado.phet.densityjava.model;
 import java.awt.*;
 
 public class Block extends DensityModel.RectangularObject {
-    private BlockEnvironment blockEnvironment;
+    private BlockEnvironment blockEnvironment;  //environment for computing applied forces and collisions
+    private Water water;//the water the block may interact with
     private double mass;
     private double velocity = 0;
-    private DensityModel.Water water;
-    private boolean userDragging = false;
+    private boolean userDragging = false;//dynamics are off if the user is dragging the block.
 
-    public Block(String name, double dim, DensityModel.Water water, double x, double y, Color color, double mass, BlockEnvironment blockEnvironment) {
+    public Block(String name, double dim, Water water, double x, double y, Color color, double mass, BlockEnvironment blockEnvironment) {
         super(name, x, y, dim, dim, dim, color);
         this.water = water;
         this.mass = mass;
@@ -17,7 +17,9 @@ public class Block extends DensityModel.RectangularObject {
     }
 
     public void stepInTime(double simulationTimeChange) {
-        if (!userDragging) {
+        if (userDragging) {
+            //setVelocity(0);
+        } else {
             double force = getGravityForce() + getBuoyancyForce() + getAppliedForce() + getNormalForce();
             double accel = force / mass;
             velocity += accel * simulationTimeChange;
@@ -72,6 +74,7 @@ public class Block extends DensityModel.RectangularObject {
 
     public void setUserDragging(boolean userDragging) {
         this.userDragging = userDragging;
+        setVelocity(0.0);
     }
 
     public double getSpeed() {
