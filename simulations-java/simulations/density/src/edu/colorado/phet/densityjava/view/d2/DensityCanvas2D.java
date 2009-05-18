@@ -4,6 +4,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.densityjava.model.Block;
 import edu.colorado.phet.densityjava.model.DensityModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -57,13 +58,18 @@ public class DensityCanvas2D extends PhetPCanvas {
 
     static class DraggableBlockNode extends BlockNode {
 
-        public DraggableBlockNode(final DensityModel.RectangularObject rectangularObject, final ModelViewTransform2D modelViewTransform2D) {
+        public DraggableBlockNode(final Block rectangularObject, final ModelViewTransform2D modelViewTransform2D) {
             super(rectangularObject, modelViewTransform2D);
             addInputEventListener(new CursorHandler());
             addInputEventListener(new PBasicInputEventHandler() {
                 public void mouseDragged(PInputEvent event) {
                     Point2D pt = new Point2D.Double(event.getDeltaRelativeTo(getParent()).getWidth(), event.getDeltaRelativeTo(getParent()).getHeight());
+                    rectangularObject.setUserDragging(true);
                     rectangularObject.translate(modelViewTransform2D.viewToModelDifferential(pt));
+                }
+
+                public void mouseReleased(PInputEvent event) {
+                    rectangularObject.setUserDragging(false);
                 }
             });
         }
