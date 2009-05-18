@@ -1,4 +1,4 @@
-package edu.colorado.phet.acidbasesolutions.view.equations;
+package edu.colorado.phet.acidbasesolutions.view.equilibriumexpressions;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
