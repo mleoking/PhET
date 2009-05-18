@@ -26,6 +26,7 @@ public class WaterVerletAlgorithm extends AbstractVerletAlgorithm {
     private static final double WATER_FULLY_MELTED_ELECTROSTATIC_FORCE = 1.0;
     private static final double WATER_FULLY_FROZEN_TEMPERATURE = 0.22;
     private static final double WATER_FULLY_FROZEN_ELECTROSTATIC_FORCE = 4.0;
+    private static final double MAX_REPULSIVE_SCALING_FACTOR_FOR_WATER = 3.0;
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -217,21 +218,21 @@ public class WaterVerletAlgorithm extends AbstractVerletAlgorithm {
                     // physics, it is "hollywooding" in order to get the
                     // crystalline behavior we need for ice.
                     double repulsiveForceScalingFactor;
-                    double maxScalingFactor = 3;  // TODO: JPB TBD - Make a constant if kept.
                     if (temperatureSetPoint > WATER_FULLY_MELTED_TEMPERATURE){
                         // No scaling of the repulsive force.
                         repulsiveForceScalingFactor = 1;
                     }
                     else if (temperatureSetPoint < WATER_FULLY_FROZEN_TEMPERATURE){
                         // Scale by the max to force space in the crystal.
-                        repulsiveForceScalingFactor = maxScalingFactor;
+                        repulsiveForceScalingFactor = MAX_REPULSIVE_SCALING_FACTOR_FOR_WATER;
                     }
                     else{
                         // We are somewhere between fully frozen and fully
                         // liquified, so adjust the scaling factor accordingly.
                         double temperatureFactor = (temperatureSetPoint - WATER_FULLY_FROZEN_TEMPERATURE)/
                                 (WATER_FULLY_MELTED_TEMPERATURE - WATER_FULLY_FROZEN_TEMPERATURE);
-                        repulsiveForceScalingFactor = maxScalingFactor - (temperatureFactor * (maxScalingFactor - 1));
+                        repulsiveForceScalingFactor = MAX_REPULSIVE_SCALING_FACTOR_FOR_WATER 
+                                - (temperatureFactor * (MAX_REPULSIVE_SCALING_FACTOR_FOR_WATER - 1));
                     }
                     double forceScaler = 48 * r2inv * r6inv * ((r6inv * repulsiveForceScalingFactor) - 0.5);
                     force.setX( dx * forceScaler );
