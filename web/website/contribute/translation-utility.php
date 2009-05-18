@@ -88,7 +88,7 @@ class TranslationInstructionsPage extends SitePage {
                 </li>
 
                 <li>
-                    Go <a href="{$example_sim}" >here</a> and click the "Download" button. This will download hydrogen-atom.jar.
+                    Go <a href="{$example_sim}" >here</a> and click the "Download" button. This will download hydrogen-atom_en.jar.
                 </li>
 
                 <li>
