@@ -1,6 +1,5 @@
 package edu.colorado.phet.acidbasesolutions.model;
 
-import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
 
 public abstract class Molecule {
@@ -27,9 +26,5 @@ public abstract class Molecule {
     
     public String getSymbol() {
         return symbol;
-    }
-    
-    public String toString() {
-        return HTMLUtils.toHTMLString( name + " (" + symbol + ")" );
     }
 }
