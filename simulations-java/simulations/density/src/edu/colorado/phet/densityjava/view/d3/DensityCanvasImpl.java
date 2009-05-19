@@ -98,6 +98,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
 
         rootNode.attachChild(new CutawayEarthNode(model));
         rootNode.attachChild(new GrassNode(model));
+        rootNode.attachChild(new VolumeReadout(model));
 
 
         //For debugging locations
@@ -116,7 +117,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
 
         addMouseHandling();
 
-        addJava2DOverlay();
+//        addJava2DOverlay();
     }
 
     private static class MyOverlay extends Java2dOverlay {
@@ -150,14 +151,14 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
     public void simpleUpdate() {
         super.simpleUpdate();    //To change body of overridden methods use File | Settings | File Templates.
         waterSurface.simpleUpdate(tpf);
-        overlay.requestUpdate(0.04f);
+//        overlay.requestUpdate(0.04f);
 //        System.out.println("location=" + toSource(cam.getLocation()) + ", direction=" + toSource(cam.getDirection()) + ", up=" + toSource(cam.getUp()));
     }
 
     @Override
     public void simpleRender() {
         super.simpleRender();
-        overlay.requestRender();
+//        overlay.requestRender();
     }
 
     private String toSource(Vector3f a) {
@@ -557,4 +558,20 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
         }
     }
 
+    private class VolumeReadout extends Node {
+        static final float quadWidth = 1;
+
+        public VolumeReadout(DensityModel model) {
+//            super("volume.readout", quadWidth, 1);
+            Java2DQuad java2DQuad = new Java2DQuad("volume.readout", 1, 1) {
+                public void paint(Graphics2D g2) {
+                    g2.setColor(Color.RED);
+                    g2.fillRect(-1000, -1000, 2000, 2000);
+                }
+            };
+            attachChild(java2DQuad);
+            java2DQuad.start();
+            setLocalTranslation((float) model.getSwimmingPool().getMaxX() - quadWidth / 2, (float) model.getWater().getMaxY(), (float) (model.getWater().getZ() + 1E-2));
+        }
+    }
 }
