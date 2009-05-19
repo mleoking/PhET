@@ -13,7 +13,6 @@ import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
 import com.jme.scene.Node;
 import com.jme.scene.Spatial;
-import com.jme.scene.TriMesh;
 import com.jme.scene.shape.Box;
 import com.jme.scene.shape.Quad;
 import com.jme.scene.state.BlendState;
@@ -22,13 +21,13 @@ import com.jme.scene.state.MaterialState;
 import com.jme.scene.state.TextureState;
 import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.densityjava.model.DensityModel;
 import edu.colorado.phet.densityjava.model.Block;
-import edu.colorado.phet.densityjava.model.Water;
+import edu.colorado.phet.densityjava.model.DensityModel;
 import edu.colorado.phet.densityjava.model.RectangularObject;
-import edu.colorado.phet.densityjava.view.d3.BasicCanvasImpl;
-import edu.colorado.phet.densityjava.view.d3.WaterSurface;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -42,6 +41,7 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.WaterSurfaceEnvironment {
     private DensityModel model;
@@ -301,52 +301,6 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
         lightState.attach(light);
     }
 
-    private TriMesh getWaterNode(final Water object) {
-        final Quad water = new Quad("pool.front", (float) model.getSwimmingPool().getWidth(), (float) model.getWater().getMaxY());
-//        final Box water = new Box("pool", new Vector3f((float) model.getSwimmingPool().getCenterX(), (float) model.getSwimmingPool().getCenterY(), (float) model.getSwimmingPool().getCenterZ()),
-//                (float) object.getWidth() / 2, (float) object.getHeight() / 2, (float) object.getDepth() / 2);
-        double a = object.getDistanceToTopOfPool() / 2;
-        water.setLocalTranslation(0, -(float) a, 0);
-        water.updateModelBound();
-        object.addListener(new RectangularObject.Adapter() {
-            public void modelChanged() {
-
-//                {//for the box
-////                water.updateGeometry(new Vector3f((float) model.getSwimmingPool().getCenterX(), (float) model.getSwimmingPool().getCenterY(), (float) model.getSwimmingPool().getCenterZ()),
-////                        (float) object.getWidth() / 2, (float) object.getHeight() / 2, (float) object.getDepth() / 2);
-//                double a = object.getDistanceToTopOfPool() / 2;
-//                water.setLocalTranslation(0, -(float) a, 0);
-//                water.updateModelBound();
-//                }
-                {//for the quad
-                    final float w = (float) model.getSwimmingPool().getWidth();
-                    final float h = (float) model.getWater().getMaxY();
-                    water.updateGeometry(w, h);//for the quad
-                    water.setLocalTranslation((float) model.getSwimmingPool().getX() + w / 2, (float) model.getSwimmingPool().getY() + h / 2 + 2E-2f, 0);
-                }
-
-            }
-        });
-
-//        pool.setLocalTranslation(pool.getLocalTranslation().add((float) object.getWidth() / 2, (float) object.getHeight() / 2, -(float) object.getDepth()));
-
-        // the sphere material taht will be modified to make the sphere
-        // look opaque then transparent then opaque and so on
-        water.setRenderState(getWaterMaterial());
-        water.updateRenderState();
-
-        // to handle transparency: a BlendState
-        // an other tutorial will be made to deal with the possibilities of this
-        // RenderState
-        water.setRenderState(getBlendState());
-        water.updateRenderState();
-
-        // IMPORTANT: since the sphere will be transparent, place it
-        // in the transparent render queue!
-        water.setRenderQueueMode(Renderer.QUEUE_TRANSPARENT);
-        return water;
-    }
-
     public BlendState getBlendState() {
         final BlendState alphaState = DisplaySystem.getDisplaySystem().getRenderer().createBlendState();
         alphaState.setBlendEnabled(true);
@@ -393,7 +347,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
     }
 
     private class RectNode extends Node {
-        private RectangularObject object;
+        private Block object;
 
         private RectNode(final Block object) {
             this.object = object;
@@ -431,12 +385,22 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
             });
 
             TextureState ts = display.getRenderer().createTextureState();
-            Texture t0 = TextureManager.loadTexture(getClass().getClassLoader().getResource(
-                    "density/images/wall.jpg"),
-                    Texture.MinificationFilter.Trilinear,
-                    Texture.MagnificationFilter.Bilinear);
-            t0.setWrap(Texture.WrapMode.Repeat);
-            ts.setTexture(t0);
+            try {
+                BufferedImage image = ImageLoader.loadBufferedImage("density/images/wall.jpg");
+                image= BufferedImageUtils.copyImage(image);
+                Graphics2D g2 = image.createGraphics();
+                PText text = new PText(new DefaultDecimalFormat("0.00").format(object.getMass()) + " kg");
+                text.scale(0.9 * image.getWidth() / text.getFullBounds().getWidth());
+                text.fullPaint(new PPaintContext(g2));
+
+                Texture t0 = TextureManager.loadTexture(image,
+                        Texture.MinificationFilter.Trilinear,
+                        Texture.MagnificationFilter.Bilinear, true);
+                t0.setWrap(Texture.WrapMode.Repeat);
+                ts.setTexture(t0);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             setRenderState(ts);
             attachChild(mesh);//order matters for this call?

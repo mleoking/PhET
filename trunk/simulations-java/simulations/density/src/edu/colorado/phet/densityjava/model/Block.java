@@ -77,4 +77,7 @@ public class Block extends RectangularObject {
         setPosition2D(getX(), v);
     }
 
+    public double getMass() {
+        return mass;
+    }
 }
