@@ -1,6 +1,7 @@
 package edu.colorado.phet.densityjava.model;
 
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
+import edu.colorado.phet.densityjava.ModelComponents;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class DensityModel {
             return waterVolume + subVol;
         }
     });
+    private ModelComponents.Units units = new ModelComponents.Units();
 
     public DensityModel() {
         setFourBlocksSameVolume();
@@ -65,6 +67,10 @@ public class DensityModel {
             return true;
         else
             return false;
+    }
+
+    public ModelComponents.Units getUnits() {
+        return units;
     }
 
     public class ObjectElement extends MatrixDynamics.Element {

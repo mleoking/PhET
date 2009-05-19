@@ -8,6 +8,7 @@ import com.jmex.awt.input.AWTMouseInput;
 import com.jmex.awt.lwjgl.LWJGLAWTCanvasConstructor;
 import edu.colorado.phet.densityjava.model.DensityModel;
 import edu.colorado.phet.densityjava.model.MassVolumeModel;
+import edu.colorado.phet.densityjava.view.DensityControlPanel;
 import edu.colorado.phet.densityjava.view.MassVolumeChooser;
 
 import javax.swing.*;
@@ -29,8 +30,9 @@ public class DensityJMECanvas extends JPanel {
     JPanel mainPanel = new JPanel();
     JMECanvas canvas = null;
     DensityCanvasImpl impl;
-    private JDialog dialog;
+    private JDialog d1;
     private JDialog d2;
+    private JDialog d3;
 
     // Construct the frame
     public DensityJMECanvas(JFrame parent, DensityModel model, MassVolumeModel massVolumeModel) {
@@ -81,21 +83,21 @@ public class DensityJMECanvas extends JPanel {
         5. add swing components directly to the JMECanvas, and do proper light + heavy mixing
         */
 
-        dialog = new JDialog(parent, false);
-        dialog.setContentPane(new MassVolumeChooser(massVolumeModel));
-        dialog.setUndecorated(true);
-        dialog.pack();
-        dialog.setVisible(true);
+        d1 = new JDialog(parent, false);
+        d1.setContentPane(new MassVolumeChooser(massVolumeModel));
+        d1.setUndecorated(true);
+        d1.pack();
+        d1.setVisible(true);
 
         parent.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                updateDialogLocation();
+                updateDialogLocations();
             }
 
             @Override
             public void componentMoved(ComponentEvent e) {
-                updateDialogLocation();
+                updateDialogLocations();
             }
         });
 
@@ -108,18 +110,28 @@ public class DensityJMECanvas extends JPanel {
         d2.pack();
         d2.setVisible(true);
 
-        updateDialogLocation();
+        d3 = new JDialog(parent, false);
+        d3.setUndecorated(true);
+        d3.setContentPane(new DensityControlPanel(model.getUnits()));
+        d3.pack();
+        d3.setVisible(true);
+
+        updateDialogLocations();
     }
 
-    private void updateDialogLocation() {
+    private void updateDialogLocations() {
         Canvas c = (Canvas) canvas;
-        Point pt = new Point(c.getWidth() - dialog.getWidth() - 50, 50);
+        Point pt = new Point(c.getWidth() - d1.getWidth() - 50, 50);
         SwingUtilities.convertPointToScreen(pt, c);
-        dialog.setLocation(pt);
+        d1.setLocation(pt);
 
         Point p2 = new Point(0, 0);
         SwingUtilities.convertPointToScreen(p2, c);
         d2.setLocation(p2);
+
+        Point p3 = new Point(0, c.getHeight()-d3.getHeight());
+        SwingUtilities.convertPointToScreen(p3, c);
+        d3.setLocation(p3);
     }
 
     protected void doResize() {
@@ -139,6 +151,6 @@ public class DensityJMECanvas extends JPanel {
     }
 
     public void activate() {
-        updateDialogLocation();
+        updateDialogLocations();
     }
 }
