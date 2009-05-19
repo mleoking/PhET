@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
-import javax.swing.*;
-
 import org.rev6.scf.SshCommand;
 import org.rev6.scf.SshConnection;
 import org.rev6.scf.SshException;
@@ -14,7 +12,6 @@ import edu.colorado.phet.buildtools.AuthenticationInfo;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.PhetServer;
 import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
-import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.ScpTo;
 
 import com.jcraft.jsch.JSchException;
@@ -22,11 +19,22 @@ import com.jcraft.jsch.JSchException;
 public class ResourceDeployClient {
 
     // TODO: refactor PhetServer so that this type of thing is not necessary
-    public static final String PROD_PATH = "/web/chroot/phet/usr/local/apache/htdocs/sims/resources/";
+    public final String PROD_PATH = "/web/chroot/phet/usr/local/apache/htdocs/sims/resources/";
 
-    public static void uploadFile( File resourceFile, File propertiesFile, String temporaryDirName ) throws JSchException, IOException {
+    private File resourceFile;
+    private File propertiesFile;
+    private String temporaryDirName;
+
+    public ResourceDeployClient( File resourceFile, File propertiesFile ) {
+        this.resourceFile = resourceFile;
+        this.propertiesFile = propertiesFile;
+        temporaryDirName = createTemporaryDirName( resourceFile );
+    }
+
+    // uploads the resource file and its corresponding properties file
+    public void uploadResourceFile() throws JSchException, IOException {
         AuthenticationInfo authenticationInfo = BuildLocalProperties.getInstance().getProdAuthenticationInfo();
-        String temporaryDirPath = getTemporaryDirPathFromName( temporaryDirName );
+        String temporaryDirPath = getTemporaryDirPath();
 
         dirtyExecute( "mkdir -p -m 775 " + temporaryDirPath + "/resource" );
 
@@ -36,8 +44,22 @@ public class ResourceDeployClient {
                           temporaryDirPath + "/resource/resource.properties", authenticationInfo.getPassword() );
     }
 
-    public static void executeResourceDeployServer( File trunk, String temporaryDirName ) throws IOException {
-        String temporaryDirPath = getTemporaryDirPathFromName( temporaryDirName );
+    // uploads an extra file for a particular sim
+    public void uploadExtraFile( File extraFile, String sim ) throws JSchException, IOException {
+        AuthenticationInfo authenticationInfo = BuildLocalProperties.getInstance().getProdAuthenticationInfo();
+        String temporaryDirPath = getTemporaryDirPath();
+
+        String temporarySimExtrasDir = temporaryDirPath + "/extras/" + sim;
+
+        dirtyExecute( "mkdir -p -m 775 " + temporarySimExtrasDir );
+
+        ScpTo.uploadFile( extraFile, authenticationInfo.getUsername(), PhetServer.PRODUCTION.getHost(),
+                          temporarySimExtrasDir + "/" + extraFile.getName(), authenticationInfo.getPassword() );
+    }
+
+    // executes the resource deploy server on tigercat
+    public void executeResourceDeployServer( File trunk ) throws IOException {
+        String temporaryDirPath = getTemporaryDirPath();
 
         PhetServer server = PhetServer.PRODUCTION;
 
@@ -56,110 +78,22 @@ public class ResourceDeployClient {
         dirtyExecute( command );
     }
 
-    public static void deployCommonTranslation( File resourceFile, File trunk ) {
-        Translation translation = new Translation( resourceFile );
-        if ( !translation.isValid() ) {
-            System.out.println( "Not a valid translation file" );
-            return;
-        }
-        if ( !translation.isCommonTranslation() ) {
-            System.out.println( "Not a common translation file" );
-            return;
-        }        
-
-        try {
-            String type = translation.getType();
-
-            File propertiesFile = File.createTempFile( "resource", ".properties" );
-            String propertiesString = "resourceFile=" + resourceFile.getName() + "\n";
-            if ( type == Translation.TRANSLATION_JAVA ) {
-                // TODO: properties should be constants somewhere
-                propertiesString += "sims=" + getJavaSimNames() + "\n";
-                propertiesString += "resourceDestination=/phetcommon/localization/\n";
-                propertiesString += "onlyAllJARs=true\n";
-                propertiesString += "generateJARs=true\n";
-            } else if( type == Translation.TRANSLATION_FLASH ) {
-                propertiesString += "sims=" + getFlashSimNames() + "\n";
-                propertiesString += "resourceDestination=/\n";
-                propertiesString += "onlyAllJARs=false\n";
-                propertiesString += "generateJARs=false\n";
-            }
-            FileUtils.writeString( propertiesFile, propertiesString );
-
-            String temporaryDirName = getTemporaryDirName( resourceFile );
-
-
-            uploadFile( resourceFile, propertiesFile, temporaryDirName );
-
-            executeResourceDeployServer( trunk, temporaryDirName );
-
-
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-            return;
-        }
-        catch( JSchException e ) {
-            e.printStackTrace();
-        }
-
-
-    }
-
-    // comma-separated list of sim names
-    public static String getJavaSimNames() {
-        return "test-project";
-    }
-
-    public static String getFlashSimNames() {
-        return "test-flash-project";
-    }
-
-    public static String getTemporaryDirName( File resourceFile ) {
+    public String createTemporaryDirName( File resourceFile ) {
         String ret = resourceFile.getName();
         ret = ret.replaceAll( "[^a-zA-Z0-9]", "-" );
         ret = String.valueOf( ( new Date() ).getTime() ) + "_" + ret;
         return ret;
     }
 
-    public static String getTemporaryDirPathFromName( String temporaryDirName ) {
-        return PROD_PATH + temporaryDirName;
+    public String getTemporaryDirName() {
+        return temporaryDirName;
     }
 
-    public static void main( String[] args ) {
-        if ( args.length == 0 ) {
-            System.out.println( "You must specify the path to trunk!" );
-            return;
-        }
-
-        File trunk;
-
-        try {
-            trunk = ( new File( args[0] ) ).getCanonicalFile();
-            BuildLocalProperties.initRelativeToTrunk( trunk );
-            //testSSH();
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-            return;
-        }
-
-        final JFileChooser fileChooser = new JFileChooser();
-        int ret = fileChooser.showOpenDialog( null );
-        if ( ret != JFileChooser.APPROVE_OPTION ) {
-            System.out.println( "File was not selected, aborting" );
-            return;
-        }
-
-        File resourceFile = fileChooser.getSelectedFile();
-
-        deployCommonTranslation( resourceFile, trunk );
-
-
+    public String getTemporaryDirPath() {
+        return PROD_PATH + getTemporaryDirName();
     }
 
-
-    public static void dirtyExecute( String command ) {
+    public void dirtyExecute( String command ) {
         PhetServer server = PhetServer.PRODUCTION;
         AuthenticationInfo authenticationInfo = BuildLocalProperties.getInstance().getProdAuthenticationInfo();
         SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword() );
@@ -179,31 +113,6 @@ public class ResourceDeployClient {
         finally {
             sshConnection.disconnect();
         }
-    }
-
-
-    public static void testSSH() {
-        AuthenticationInfo authenticationInfo = BuildLocalProperties.getInstance().getProdAuthenticationInfo();
-        PhetServer server = PhetServer.PRODUCTION;
-
-        SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword() );
-        try {
-            sshConnection.connect();
-            sshConnection.executeTask( new SshCommand( "cat /web/chroot/phet/usr/local/apache/htdocs/README.txt" ) );
-            System.out.println( "Success?" );
-        }
-        catch( SshException e ) {
-            e.printStackTrace();
-            if ( e.toString().toLowerCase().indexOf( "auth fail" ) != -1 ) {
-                System.out.println( "Authentication on '" + server.getHost() + "' has failed, is your username and password correct?  Exiting..." );
-                System.exit( 0 );
-            }
-        }
-        finally {
-            System.out.println( "Disconnecting" );
-            sshConnection.disconnect();
-        }
-
     }
 
 }
