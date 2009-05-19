@@ -4,27 +4,36 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GradientPaint;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.QuadCurve2D;
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
+import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * This class implements a user interface component that looks like a bucket
@@ -46,6 +55,8 @@ public class BucketOfNucleiNode extends PNode {
 
 	private static final Stroke LINE_STROKE = new BasicStroke( 0.5f );
 	private static final Color DEFAULT_COLOR = new Color (0xffaa00);
+	private static final double DEFAULT_ANGLE = Math.PI/6;
+	private static final double LOWER_TO_UPPER_ELLIPSE_HEIGHT_RATIO = 0.85;
 	
     //------------------------------------------------------------------------
     // Instance Data
@@ -69,8 +80,10 @@ public class BucketOfNucleiNode extends PNode {
     ArrayList _shrinkAnimationTimers;
 	private int _nucleusType;
 	private double _nucleusWidth = 0;
-	private boolean _showLabel = true; // Label is shown by default.
-	private boolean _showRadiationSymbol = true;  // Icon is shown by default.
+	private boolean _showLabel = true;             // Label is shown by default.
+	private boolean _showRadiationSymbol = true;   // Icon is shown by default.
+	private Color _baseColor;
+	private PSwing _sliderNode = null;
 	
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -79,15 +92,23 @@ public class BucketOfNucleiNode extends PNode {
 	/**
 	 * Constructor - This takes a width and height in world coordinates as
 	 * well as a base color value and creates a bucket of corresponding size.
+	 * 
+	 * @param width - desired width of the bucket
+	 * @param height - desired height of the bucket
+	 * @param tiltAngle - angle of tilt in radians - ONLY WORKS OVER A VERY LIMITED RANGE
+	 * @param baseColor - base color from which gradients are created
 	 */
-	public BucketOfNucleiNode( double width, double height, Color baseColor ){
+	public BucketOfNucleiNode( double width, double height, double tiltAngle, Color baseColor ){
 		
 		// Local allocation and initialization.
 		_bucketHeight = height;
 		_bucketWidth = width;
-		_ellipseVerticalSpan = height * 0.4; // Arbitrary sizing, can be changed to alter appearance.
 		_shrinkAnimationTimers = new ArrayList();
 		_nucleusType = NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM;
+		_baseColor = baseColor;
+		
+		// Create the illusion of tilt based on the supplied angle.
+		_ellipseVerticalSpan = height * tiltAngle * (2 / Math.PI);
 		
 		// Create the gradient paints that will be used to paint the bucket.
 		Color outerColorLight = baseColor;
@@ -120,12 +141,13 @@ public class BucketOfNucleiNode extends PNode {
 		_backOfBucketLayer.addChild(ellipseInBackOfBucket);
 
 		// Draw the outside of the bucket.
+		double bottomEllipseVerticalSpan = _ellipseVerticalSpan * LOWER_TO_UPPER_ELLIPSE_HEIGHT_RATIO;
 		GeneralPath bucketBodyPath = new GeneralPath();
 		bucketBodyPath.moveTo(0, (float)(_ellipseVerticalSpan / 2));
-		bucketBodyPath.lineTo((float)(width * 0.1), (float)(height * 0.8));
-		bucketBodyPath.quadTo((float)(width / 2), (float)(height * 1.1), (float)(width * 0.9), (float)(height * 0.8));
+		bucketBodyPath.lineTo((float)(width * 0.1), (float)(height - bottomEllipseVerticalSpan / 2));
+		bucketBodyPath.quadTo((float)(width / 2), (float)(height + _ellipseVerticalSpan * 0.4), (float)(width * 0.9), (float)(height - bottomEllipseVerticalSpan / 2));
 		bucketBodyPath.lineTo((float)(width), (float)(_ellipseVerticalSpan / 2));
-		bucketBodyPath.quadTo((float)(width / 2), (float)(height * 0.6), 0, (float)(_ellipseVerticalSpan / 2));
+		bucketBodyPath.quadTo((float)(width / 2), (float)(_ellipseVerticalSpan * 1.5), 0, (float)(_ellipseVerticalSpan / 2));
 		bucketBodyPath.closePath();
 		PhetPPath bucketBody = new PhetPPath( bucketBodyPath );
 		bucketBody.setStroke( LINE_STROKE );
@@ -153,14 +175,23 @@ public class BucketOfNucleiNode extends PNode {
 	}
 
 	/**
-	 * Constructor that uses default color.
+	 * Constructor that uses default tilt angle and color.
 	 * 
 	 * @param width
 	 * @param height
-	 * @param baseColor
 	 */
 	public BucketOfNucleiNode( double width, double height ){
-		this( width, height, DEFAULT_COLOR );
+		this( width, height, DEFAULT_ANGLE, DEFAULT_COLOR );
+	}
+
+	/**
+	 * Constructor that uses default tilt angle.
+	 * 
+	 * @param width
+	 * @param height
+	 */
+	public BucketOfNucleiNode( double width, double height, Color color ){
+		this( width, height, DEFAULT_ANGLE, color );
 	}
 
     //------------------------------------------------------------------------
@@ -348,6 +379,27 @@ public class BucketOfNucleiNode extends PNode {
     public void setShowRadiationSymbol( boolean enabled ){
     	_showRadiationSymbol = enabled;
     	_radiationSymbolNode.setVisible(_showRadiationSymbol);
+    }
+    
+    public void setSliderEnabled( boolean enabled ){
+    	
+    	// If the slider doesn't exist yet, create it.
+    	if (_sliderNode == null && enabled){
+        	JSlider slider = new JSlider(JSlider.HORIZONTAL, 0, 1000, 0);
+        	slider.setPreferredSize(new Dimension((int)(_bucketWidth * 0.8),(int)(_bucketHeight * 0.3)));
+        	slider.setBackground(_baseColor);
+        	slider.setForeground(Color.GREEN);
+        	
+        	// Wrap the slider in a PSwing so that it can be used in the play area.
+        	PSwing sliderNode = new PSwing(slider);
+        	sliderNode.setOffset(_bucketWidth / 2 - sliderNode.getFullBounds().width / 2,
+        			_bucketHeight / 2 - sliderNode.getFullBounds().height / 2);
+        	
+        	_frontOfBucketLayer.addChild(sliderNode);
+    	}
+    	else{
+    		_sliderNode.setVisible(enabled);
+    	}
     }
 
     //------------------------------------------------------------------------
@@ -566,5 +618,23 @@ public class BucketOfNucleiNode extends PNode {
    		darkerColor = new Color( red, green, blue );
     	
     	return darkerColor;
+    }
+    
+    /**
+     * Main routine for stand alone testing.
+     * 
+     * @param args
+     */
+    public static void main(String [] args){
+    	
+        final BucketOfNucleiNode bucket = new BucketOfNucleiNode(300, 200, Math.PI/6, Color.GREEN); 
+
+        JFrame frame = new JFrame();
+        PhetPCanvas canvas = new PhetPCanvas();
+        frame.setContentPane( canvas );
+        canvas.addScreenChild( bucket );
+        bucket.setOffset(50, 50);
+        frame.setSize( 800, 400 );
+        frame.setVisible( true );
     }
 }
