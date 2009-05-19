@@ -18,16 +18,22 @@ public class MatrixDynamics {
     }
 
     public static class Element {
+        private String name;//for debugging
         private double rightHandSideValue;
         private boolean isAtRest;
 
-        public Element() {
-            this(0, false);
+        public Element(String name) {
+            this(name, 0, false);
         }
 
-        public Element(double rightHandSideValue, boolean atRest) {
+        public Element(String name, double rightHandSideValue, boolean atRest) {
+            this.name = name;
             this.rightHandSideValue = rightHandSideValue;
             isAtRest = atRest;
+        }
+
+        public String getName() {
+            return name;
         }
 
         public double getRightHandSideValue() {
@@ -117,10 +123,15 @@ public class MatrixDynamics {
             }
         }
 //        System.out.println("Added to " + rows.size() + " equations for sum Forces = 0 for at-rest blocks");
-//        System.out.println(toString(rows));  //most useful for debugging
+
+        //Best block for debugging
+//        System.out.println("#Set up system for " + elements.length + " particles:");
+//        for (int i = 0; i < elements.length; i++) {
+//            System.out.println(i + "=" + elements[i].getName());
+//        }
+//        System.out.println(toString(rows) + "\n#Finished System");
 
         MySystem system = toSystem(rows);
-//        System.out.println("system=" + system);
 
         final double[] solution = system.getSolution();
         double[][] matrixSolution = new double[elements.length][elements.length];
@@ -247,7 +258,7 @@ public class MatrixDynamics {
 
         public void testFreeFallBlock() {
             double Fg1 = 9.8;
-            Element element = new Element(Fg1, false);
+            Element element = new Element("block", Fg1, false);
             double[][] solution = new MatrixDynamics(new Element[]{element}, new ContactGroup[0]).solve();
             assertEquals("Solution should have one entry row", 1, solution.length);
             assertEquals("Solution should have one entry column", 1, solution[0].length);
@@ -257,8 +268,8 @@ public class MatrixDynamics {
         public void testStandingBlock() {
             double Fg0 = 9.8;
             double Fg1 = 123;
-            Element block0 = new Element(Fg0, false);
-            Element block1 = new Element(Fg1, true);
+            Element block0 = new Element("block0", Fg0, false);
+            Element block1 = new Element("block1", Fg1, true);
             ContactGroup contactGroup = new ContactGroup(new Element[]{block0, block1});
             double[][] F = new MatrixDynamics(new Element[]{block0, block1}, new ContactGroup[]{contactGroup}).solve();
             assertEquals("Solution should have 2 entry row", 2, F.length);
@@ -272,9 +283,9 @@ public class MatrixDynamics {
         public void testTwoBlockTower() {
             double Fg1 = 123;
             double Fg2 = 76;
-            Element earth = new Element();
-            Element block1 = new Element(Fg1, true);
-            Element block2 = new Element(Fg2, true);
+            Element earth = new Element("earth");
+            Element block1 = new Element("block1", Fg1, true);
+            Element block2 = new Element("block2", Fg2, true);
             ContactGroup group1 = new ContactGroup(new Element[]{earth, block1});
             ContactGroup group2 = new ContactGroup(new Element[]{block1, block2});
             double[][] F = new MatrixDynamics(new Element[]{earth, block1, block2}, new ContactGroup[]{group1, group2}).solve();
