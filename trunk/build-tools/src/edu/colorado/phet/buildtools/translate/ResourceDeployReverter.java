@@ -4,8 +4,9 @@ import java.io.File;
 import java.io.IOException;
 
 import edu.colorado.phet.buildtools.util.FileUtils;
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
-public class ResourceDeployReverter {
+public class ResourceDeployReverter implements IProguardKeepClass {
     private File resourceDir;
     private File liveSimsDir;
 
