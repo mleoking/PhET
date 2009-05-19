@@ -75,7 +75,8 @@ public class ResourceDeployClient {
                          ResourceDeployServer.class.getName() + " " + jarCmd + " " + pathToBuildLocalProperties +
                          " " + temporaryDirPath;
 
-        dirtyExecute( command );
+        //dirtyExecute( command );
+        System.out.println( "Please execute:\n" + command + "\n" );
     }
 
     public String createTemporaryDirName( File resourceFile ) {
