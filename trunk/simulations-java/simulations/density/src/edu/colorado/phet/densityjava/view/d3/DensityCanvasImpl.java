@@ -2,6 +2,7 @@ package edu.colorado.phet.densityjava.view.d3;
 
 import com.jme.bounding.BoundingBox;
 import com.jme.image.Texture;
+import com.jme.input.KeyboardLookHandler;
 import com.jme.intersection.BoundingPickResults;
 import com.jme.intersection.PickData;
 import com.jme.intersection.PickResults;
@@ -22,8 +23,8 @@ import com.jme.scene.state.TextureState;
 import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.densityjava.model.Block;
 import edu.colorado.phet.densityjava.model.DensityModel;
@@ -62,9 +63,12 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
         super.simpleSetup();
         waterSurface = new WaterSurface.Motionless(model, model.getWater(), this);
 //        waterSurface = new WaterSurface.RippleSurface(model, this);
-        cam.setLocation(new Vector3f(5, 7f, 9.5f));
-        cam.setDirection(new Vector3f(-0.0f, -0.3f, -1f).normalize());
-        cam.setUp(new Vector3f(0, 0.9f, -0.3f));
+
+        //for use with camera steering, see below
+        Vector3f location=new Vector3f(4.2810082f,7.02f,10.8f), direction=new Vector3f(0.0f,-0.19007912f,-0.9817688f), up=new Vector3f(0.0f,0.975561f,-0.21972877f);
+        cam.setLocation(location);
+        cam.setDirection(direction);
+        cam.setUp(up);
 
         rootNode.attachChild(getPoolNode(model.getSwimmingPool()));
 //        rootNode.attachChild(getWaterNode(model.getWater()));
@@ -101,6 +105,9 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
 //        rootNode.attachChild(new Sphere("sphere", new Vector3f(10, 5, 0), 10, 10, 1));
 
 //        FirstPersonHandler firstPersonHandler = new FirstPersonHandler(cam, 50, 1);
+//        firstPersonHandler.setButtonPressRequired(true);
+        KeyboardLookHandler keyboardLookHandler = new KeyboardLookHandler(cam, 20, 1);
+        input.addToAttachedHandlers(keyboardLookHandler);
 //        input.addToAttachedHandlers(firstPersonHandler);
 
         setupLight();
@@ -112,6 +119,11 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
     public void simpleUpdate() {
         super.simpleUpdate();    //To change body of overridden methods use File | Settings | File Templates.
         waterSurface.simpleUpdate(tpf);
+//        System.out.println("location=" + toSource(cam.getLocation()) + ", direction=" + toSource(cam.getDirection()) + ", up=" + toSource(cam.getUp()));
+    }
+
+    private String toSource(Vector3f a) {
+        return "new Vector3f(" + a.getX() + "f," + a.getY() + "f," + a.getZ() + "f)";
     }
 
     static class ScaleNode extends Node {
@@ -387,7 +399,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
             TextureState ts = display.getRenderer().createTextureState();
             try {
                 BufferedImage image = ImageLoader.loadBufferedImage("density/images/wall.jpg");
-                image= BufferedImageUtils.copyImage(image);
+                image = BufferedImageUtils.copyImage(image);
                 Graphics2D g2 = image.createGraphics();
                 PText text = new PText(new DefaultDecimalFormat("0.00").format(object.getMass()) + " kg");
                 text.scale(0.9 * image.getWidth() / text.getFullBounds().getWidth());
