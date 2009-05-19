@@ -13,6 +13,8 @@ import edu.colorado.phet.buildtools.util.PhetJarSigner;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.JARGenerator;
 
+// TODO: refactor the way directories are handled to one place
+
 public class ResourceDeployServer implements IProguardKeepClass {
 
     private String jarCommand;
@@ -73,6 +75,8 @@ public class ResourceDeployServer implements IProguardKeepClass {
             if( generateJARs ) {
                 generateOfflineJARs();
             }
+            backupExtras();
+            copyExtras();
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -203,6 +207,62 @@ public class ResourceDeployServer implements IProguardKeepClass {
                 File jarFile = jarFiles[j];
 
                 generator.generateOfflineJARs( jarFile, jarCommand, BuildLocalProperties.getInstance() );
+            }
+        }
+    }
+
+    private void backupExtras() throws IOException {
+        File liveDir = getLiveSimsDir();
+        File extrasDir = new File( resourceDir, "extras" );
+        if( !extrasDir.exists() ) {
+            return;
+        }
+
+        File[] simExtraDirs = extrasDir.listFiles();
+
+        for ( int i = 0; i < simExtraDirs.length; i++ ) {
+            File simExtraDir = simExtraDirs[i];
+
+            String sim = simExtraDir.getName();
+
+            File[] extraFiles = simExtraDir.listFiles();
+
+            for ( int j = 0; j < extraFiles.length; j++ ) {
+                File extraFile = extraFiles[j];
+
+                File liveExtraFile = new File( liveDir, sim + "/" + extraFile.getName() );
+                if( liveExtraFile.exists() ) {
+                    File backupExtraDir = new File( backupDir, sim );
+                    backupExtraDir.mkdirs();
+
+                    FileUtils.copyToDir( liveExtraFile, backupExtraDir );
+                }
+            }
+        }
+    }
+
+    private void copyExtras() throws IOException {
+        File extrasDir = new File( resourceDir, "extras" );
+        if( !extrasDir.exists() ) {
+            return;
+        }
+
+        File[] simExtraDirs = extrasDir.listFiles();
+
+        for ( int i = 0; i < simExtraDirs.length; i++ ) {
+            File simExtraDir = simExtraDirs[i];
+
+            String sim = simExtraDir.getName();
+
+            File[] extraFiles = simExtraDir.listFiles();
+
+            for ( int j = 0; j < extraFiles.length; j++ ) {
+                File extraFile = extraFiles[j];
+
+                File testExtraDir = new File( testDir, sim );
+                testExtraDir.mkdirs();
+
+                FileUtils.copyToDir( extraFile, testExtraDir );
             }
         }
     }
