@@ -4,10 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.*;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -22,7 +19,6 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -38,12 +34,10 @@ public class ConcentrationControlNode extends PNode {
     //----------------------------------------------------------------------------
     
     private static final double X_SPACING = 3;
-    private static final double Y_SPACING = 3;
-    
-    private static final Font LABEL_FONT = new PhetFont( 14 );
     
     private static final Font TEXTFIELD_FONT = new PhetFont( 14 );
     private static final String TEXTFIELD_PATTERN = "0.000";
+    private static final double DELTA = 0.001;
     private static final DecimalFormat TEXTFIELD_FORMAT = new DecimalFormat( TEXTFIELD_PATTERN );
     private static final int TEXTFIELD_COLUMNS = TEXTFIELD_PATTERN.length();
     
@@ -82,6 +76,7 @@ public class ConcentrationControlNode extends PNode {
         TextFieldListener textFieldListener = new TextFieldListener();
         textField.addActionListener( textFieldListener );
         textField.addFocusListener( textFieldListener );
+        textField.addKeyListener( textFieldListener );
         
         JLabel unitsLabel = new JLabel( ABSStrings.UNITS_MOLES_PER_LITER );
         unitsLabel.setFont( UNITS_FONT );
@@ -173,7 +168,25 @@ public class ConcentrationControlNode extends PNode {
     /*
      * Handles events related to the text field.
      */
-    private class TextFieldListener implements ActionListener, FocusListener {
+    private class TextFieldListener extends KeyAdapter implements ActionListener, FocusListener {
+        
+        // Use the up/down arrow keys to change the value.
+        public void keyPressed( KeyEvent e ) {
+            if ( e.getSource() == textField ) {
+                if ( e.getKeyCode() == KeyEvent.VK_UP ) {
+                    double concentration = getValue() + DELTA;
+                    if ( concentration <= getMax() ) {
+                        setValue( concentration );
+                    }
+                }
+                else if ( e.getKeyCode() == KeyEvent.VK_DOWN ) {
+                    double concentration = getValue() - DELTA;
+                    if ( concentration >= getMin() ) {
+                        setValue( concentration );
+                    }
+                }
+            }
+        }
 
         // User pressed enter in text field, update the slider.
         public void actionPerformed( ActionEvent e ) {
