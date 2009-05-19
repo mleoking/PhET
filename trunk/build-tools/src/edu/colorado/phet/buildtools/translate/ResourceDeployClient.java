@@ -76,7 +76,23 @@ public class ResourceDeployClient {
                          " " + temporaryDirPath;
 
         //dirtyExecute( command );
-        System.out.println( "Please execute:\n" + command + "\n" );
+        System.out.println( "Please run ResourceDeployServer on tigercat by executing:" );
+        System.out.println( command );
+        System.out.println();
+
+        System.out.println( "All of the files for testing (that will be copied over into the sims directory) will be " +
+                            "located at http://phet.colorado.edu/sims/resources/" + temporaryDirName + "/test/" );
+        System.out.println();
+
+        System.out.println( "After testing is done, all of the files in the test subdirectory can be published via:" );
+        System.out.println( javaCmd + " -classpath " + buildScriptDir + "/" + jarName + " " +
+                            ResourceDeployPublisher.class.getName() + " " + temporaryDirPath );
+        System.out.println();
+
+        System.out.println( "If issues arise during publishing or later, this action can be reverted by the following command:" );
+        System.out.println( javaCmd + " -classpath " + buildScriptDir + "/" + jarName + " " +
+                            ResourceDeployReverter.class.getName() + " " + temporaryDirPath );
+
     }
 
     public String createTemporaryDirName( File resourceFile ) {
