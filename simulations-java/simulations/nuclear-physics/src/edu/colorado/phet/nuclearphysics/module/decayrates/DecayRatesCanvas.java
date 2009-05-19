@@ -107,7 +107,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
         _holdingAreaRect = new PhetPPath(new Rectangle2D.Double(0,0,_model.getHoldingAreaRect().getWidth(),
         		_model.getHoldingAreaRect().getHeight()), Color.CYAN);
         _holdingAreaRect.setOffset(_model.getHoldingAreaRect().getX(), _model.getHoldingAreaRect().getY());
-        addWorldChild(_holdingAreaRect);
+//        addWorldChild(_holdingAreaRect);
 
         // Add the PNodes that will act as layers for the particles and graphs.
         _particleLayer = new PNode();
