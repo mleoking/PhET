@@ -287,7 +287,7 @@ public class BucketOfNucleiNode extends PNode {
 	 * 
 	 * @return - Reference to the nucleus, null if the bucket is empty.
 	 */
-	public AtomicNucleusNode extractNucleusFromBucket(){
+	public AtomicNucleusNode extractAnyNucleusFromBucket(){
 		
 		// Pull a nucleus off the list of visible nuclei.  By design, if this
 		// list is empty then the bucket is empty.

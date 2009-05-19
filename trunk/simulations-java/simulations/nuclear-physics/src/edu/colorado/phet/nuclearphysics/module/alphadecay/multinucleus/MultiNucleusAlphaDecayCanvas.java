@@ -563,7 +563,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     	
     	int numberOfNucleiObtained;
     	for (numberOfNucleiObtained = 0; numberOfNucleiObtained < numNucleiToAdd; numberOfNucleiObtained++){
-    		AtomicNucleusNode nucleusNode = _bucketNode.extractNucleusFromBucket();
+    		AtomicNucleusNode nucleusNode = _bucketNode.extractAnyNucleusFromBucket();
     		if (nucleusNode == null){
     			// The bucket must be empty, so there is nothing more to do.
     			break;

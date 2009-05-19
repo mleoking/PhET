@@ -3,9 +3,12 @@
 package edu.colorado.phet.nuclearphysics.module.decayrates;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,10 +19,12 @@ import java.util.Set;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayControl;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
@@ -70,6 +75,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
     private PNode _particleLayer;
     private PNode _graphLayer;
 	private BucketOfNucleiNode _bucketNode;
+	private GradientButtonNode _addMultipleNucleiButtonNode;
     
     //----------------------------------------------------------------------------
     // Builder + Constructor
@@ -150,6 +156,25 @@ public class DecayRatesCanvas extends PhetPCanvas {
             }
         };
         
+        // Add the button that allows the user to add multiple nuclei at once.
+        // Position it just under the bucket and scale it so that its size is
+        // proportionate to the bucket.
+        _addMultipleNucleiButtonNode = new GradientButtonNode(NuclearPhysicsStrings.ADD_TEN, 12, BUCKET_AND_BUTTON_COLOR);
+        double addButtonScale = (_bucketRect.getWidth() / _addMultipleNucleiButtonNode.getFullBoundsReference().width) * 0.4;
+        _addMultipleNucleiButtonNode.scale(addButtonScale);
+        _addMultipleNucleiButtonNode.setOffset(_bucketRect.getCenterX() - _addMultipleNucleiButtonNode.getFullBoundsReference().width / 2, 
+        		_bucketRect.getMaxY());
+        _particleLayer.addChild(_addMultipleNucleiButtonNode);
+
+        // Register to receive button pushes.
+        _addMultipleNucleiButtonNode.addActionListener( new ActionListener(){
+            public void actionPerformed(ActionEvent event){
+            	addMultipleNucleiFromBucket( 10 );
+            }
+        });
+
+
+        
         // Add a listener for when the canvas is resized.
         addComponentListener( new ComponentAdapter() {
             
@@ -185,20 +210,64 @@ public class DecayRatesCanvas extends PhetPCanvas {
 		
 	}
 	
+    /**
+     * Extract the specified number of nuclei from the bucket and place them
+     * on the canvas.  If there aren't enough in the bucket, add as many as
+     * possible.
+     * 
+     * @param numNucleiToAdd - Number of nuclei to add.
+     * @return - Number of nuclei actually added.
+     */
+    private int addMultipleNucleiFromBucket(int numNucleiToAdd){
+    	
+    	int numberOfNucleiObtained;
+    	for (numberOfNucleiObtained = 0; numberOfNucleiObtained < numNucleiToAdd; numberOfNucleiObtained++){
+    		AtomicNucleusNode nucleusNode = _bucketNode.extractAnyNucleusFromBucket();
+    		if (nucleusNode == null){
+    			// The bucket must be empty, so there is nothing more to do.
+    			break;
+    		}
+    		else{
+    			// Make the node a child of the appropriate layer on the canvas. 
+    			_particleLayer.addChild(nucleusNode);
+    			
+    			// Move the nucleus to an open location outside of the holding
+    			// area.
+    			nucleusNode.getNucleusRef().setPosition(_model.findOpenNucleusLocation());
+    			
+    			// Activate the nucleus so that it will decay.
+    			AtomicNucleus nucleus = nucleusNode.getNucleusRef();
+    			if (nucleus instanceof NuclearDecayControl){
+    				((NuclearDecayControl)nucleus).activateDecay();
+    			}
+    		}
+    	}
+    	
+    	return numberOfNucleiObtained;
+    }
+    
 	private void handleModelElementAdded(Object modelElement) {
 
     	if (modelElement instanceof AtomicNucleus){
     		// A new nucleus has been added to the model.  Create a
     		// node for it and add it to the nucleus-to-node map.
+    		AtomicNucleus nucleus = (AtomicNucleus) modelElement;
     		AtomicNucleusImageNode atomicNucleusNode = 
-    			new AtomicNucleusImageNode( (AtomicNucleus)modelElement, AtomicNucleusImageType.GRADIENT_SPHERE );
+    			new AtomicNucleusImageNode( nucleus, AtomicNucleusImageType.GRADIENT_SPHERE );
     		
     		// Map this node and nucleus together.
-    		_mapNucleiToNodes.put(modelElement, atomicNucleusNode);
+    		_mapNucleiToNodes.put(nucleus, atomicNucleusNode);
     		
-    		// Set the position and add the node to the canvas.
-    		atomicNucleusNode.setOffset( ((AtomicNucleus)modelElement).getPositionReference() );
-    		_particleLayer.addChild( atomicNucleusNode );
+    		if ( _model.isNucleusInHoldingArea(nucleus)){
+    			// The nucleus is in the holding area in the model, so place
+    			// it in the bucket in order to convey this to the user.
+    			_bucketNode.addNucleus(atomicNucleusNode);
+    		}
+    		else{
+    			// The nucleus is outside of the holding area, so just add it
+    			// directly to the appropriate layer.
+    			_particleLayer.addChild( atomicNucleusNode );
+    		}
     		
     		// Listen to the nucleus for decay events.
     		((AtomicNucleus)modelElement).addListener(_decayEventListener);
