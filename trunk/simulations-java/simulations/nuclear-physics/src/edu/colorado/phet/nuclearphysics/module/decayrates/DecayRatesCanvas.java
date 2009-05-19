@@ -125,6 +125,8 @@ public class DecayRatesCanvas extends PhetPCanvas {
         		bucketRect.getWidth() * 0.8, bucketRect.getHeight() * 0.66);
         _bucketNode = new BucketOfNucleiNode( bucketRect.getWidth(), bucketRect.getHeight(), BUCKET_AND_BUTTON_COLOR );
         _particleLayer.addChild(_bucketNode);
+        _bucketNode.setShowLabel(false);
+        _bucketNode.setShowRadiationSymbol(false);
         _bucketNode.setOffset( bucketRect.getX(), bucketRect.getY() );
 
         // Add the button that allows the user to add multiple nuclei at once.

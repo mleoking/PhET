@@ -69,6 +69,8 @@ public class BucketOfNucleiNode extends PNode {
     ArrayList _shrinkAnimationTimers;
 	private int _nucleusType;
 	private double _nucleusWidth = 0;
+	private boolean _showLabel = true; // Label is shown by default.
+	private boolean _showRadiationSymbol = true;  // Icon is shown by default.
 	
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -337,6 +339,16 @@ public class BucketOfNucleiNode extends PNode {
     	_nucleusType  = nucleusType;
     	updateLabelText();
     }
+    
+    public void setShowLabel( boolean enabled ){
+    	_showLabel = enabled;
+    	updateLabelText();
+    }
+    
+    public void setShowRadiationSymbol( boolean enabled ){
+    	_showRadiationSymbol = enabled;
+    	_radiationSymbolNode.setVisible(_showRadiationSymbol);
+    }
 
     //------------------------------------------------------------------------
     // Private Methods
@@ -457,6 +469,9 @@ public class BucketOfNucleiNode extends PNode {
 		_bucketLabel.setScale(1);
 		_bucketLabel.setScale(desiredWidth / _bucketLabel.getFullBoundsReference().width);
 		_bucketLabel.setOffset((_bucketWidth / 2) - (_bucketLabel.getFullBounds().width / 2), _bucketHeight * 0.4);
+		
+		// Set the visibility.
+		_bucketLabel.setVisible(_showLabel);
 	}
 	
     //------------------------------------------------------------------------
