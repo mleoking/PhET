@@ -27,6 +27,8 @@ public class TranslationDeployServer {
         this.jarCommand = jarCommand;
         this.buildLocalProperties = buildLocalProperties;
         this.pathToSimsDir = pathToSimsDir;
+
+        BuildLocalProperties.initFromPropertiesFile( buildLocalProperties );
     }
 
     public static void main( String[] args ) throws IOException, InterruptedException {
@@ -221,7 +223,7 @@ public class TranslationDeployServer {
     }
 
     private void signJAR( File translationDir, String project ) {
-        PhetJarSigner phetJarSigner = new PhetJarSigner( BuildLocalProperties.initFromPropertiesFile( buildLocalProperties ) );
+        PhetJarSigner phetJarSigner = new PhetJarSigner( BuildLocalProperties.getInstance() );
         phetJarSigner.signJar( getLocalCopyOfAllJAR( translationDir, project ) );
     }
 
