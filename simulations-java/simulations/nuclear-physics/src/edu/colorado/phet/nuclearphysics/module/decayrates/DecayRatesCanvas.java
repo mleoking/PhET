@@ -145,6 +145,8 @@ public class DecayRatesCanvas extends PhetPCanvas {
         _addMultipleNucleiButtonNode.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent event){
             	addMultipleNucleiFromBucket( 50 );
+            	_model.resetActiveAndDecayedNuclei();
+            	_proportionsChart.clear();
             }
         });
         
