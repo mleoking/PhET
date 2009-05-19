@@ -1,6 +1,6 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.naturalselection.control;
+package edu.colorado.phet.naturalselection.dialog;
 
 import java.awt.geom.Point2D;
 
@@ -33,7 +33,7 @@ public class GenerationChartCanvas extends PhetPCanvas {
     private PNode rootNode;
 
     private static final double TOP_PADDING = 5.0;
-    public JButton statsButton;
+    //public JButton statsButton;
 
     private static final double PEDIGREE_TOP_PADDING = 30.0;
 
@@ -71,10 +71,10 @@ public class GenerationChartCanvas extends PhetPCanvas {
         generationCount.translate( getPreferredSize().getWidth() - generationCount.getTextWidth() - 20, TOP_PADDING );
         rootNode.addChild( generationCount );
 
-        statsButton = new JButton( "Bunny Stats" );
-        PSwing statsHolder = new PSwing( statsButton );
-        statsHolder.setOffset( 5, 5 );
-        rootNode.addChild( statsHolder );
+        //statsButton = new JButton( "Bunny Stats" );
+        //PSwing statsHolder = new PSwing( statsButton );
+        //statsHolder.setOffset( 5, 5 );
+        //rootNode.addChild( statsHolder );
 
         mutationPendingNode = null;
 
