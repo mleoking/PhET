@@ -10,6 +10,7 @@ import edu.colorado.phet.acidbasesolutions.control.MiscControls;
 import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
+import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
 import edu.colorado.phet.acidbasesolutions.view.beaker.BeakerLabelNode;
 import edu.colorado.phet.acidbasesolutions.view.beaker.BeakerNode;
 import edu.colorado.phet.acidbasesolutions.view.beaker.PHProbeNode;
@@ -119,21 +120,21 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         PBounds b1;
         
         // solution controls in upper left
-        xOffset = solutionsControlsNode.getXOffset() - solutionsControlsNode.getFullBoundsReference().getX() + 20;
-        yOffset = solutionsControlsNode.getYOffset() - solutionsControlsNode.getFullBoundsReference().getY() + 20;
+        xOffset = solutionsControlsNode.getXOffset() - solutionsControlsNode.getFullBoundsReference().getX() + 15;
+        yOffset = solutionsControlsNode.getYOffset() - solutionsControlsNode.getFullBoundsReference().getY() + 15;
         solutionsControlsNode.setOffset( xOffset, yOffset );
         
-        // beaker
-        xOffset = 50;
-        yOffset = 375;
+        // beaker below solution controls
+        xOffset = solutionsControlsNode.getFullBoundsReference().getMinX() - PNodeUtils.getOriginXOffset( beakerNode );
+        yOffset = solutionsControlsNode.getFullBoundsReference().getMaxY() + ( probeNode.getFullBoundsReference().getHeight() - beakerNode.getFullBoundsReference().getHeight() ) - PNodeUtils.getOriginYOffset( beakerNode ) + 20;
         beakerNode.setOffset( xOffset, yOffset );
         
         // solution inside the beaker
         solutionNode.setOffset( beakerNode.getOffset() );
         
         // molecule counts inside the beaker
-        xOffset = beakerNode.getXOffset() + 10;
-        yOffset = beakerNode.getYOffset();
+        xOffset = beakerNode.getXOffset() + 40;
+        yOffset = beakerNode.getYOffset() + 20;
         moleculeCountsNode.setOffset( xOffset, yOffset );
         
         // beaker label at bottom of beaker
@@ -142,8 +143,8 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         yOffset = b1.getMaxY() - beakerLabelNode.getFullBoundsReference().getHeight() - 20;
         beakerLabelNode.setOffset( xOffset, yOffset );
         
-        // probe horizontally centered in beaker, tip of probe at bottom of beaker
-        xOffset = beakerNode.getFullBoundsReference().getCenterX() - probeNode.getFullBoundsReference().getWidth() / 2;
+        // probe at right side of beaker, tip of probe at bottom of beaker
+        xOffset = beakerNode.getFullBoundsReference().getMaxX() - probeNode.getFullBoundsReference().getWidth() - 100;
         yOffset = beakerNode.getFullBoundsReference().getMaxY() - probeNode.getFullBoundsReference().getHeight();
         probeNode.setOffset( xOffset, yOffset );
         
@@ -153,19 +154,19 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         beakerControlsWrapper.setOffset( xOffset, yOffset );
         
         // concentration graph at upper right
-        xOffset = worldSize.getWidth() - concentrationGraphNode.getFullBoundsReference().getWidth() - 15;
+        xOffset = worldSize.getWidth() - concentrationGraphNode.getFullBoundsReference().getWidth() - PNodeUtils.getOriginXOffset( concentrationGraphNode ) - 20;
         yOffset = 15;
         concentrationGraphNode.setOffset( xOffset, yOffset );
         
         // misc controls at bottom right
-        xOffset = worldSize.getWidth() - miscControlsWrapper.getFullBoundsReference().getWidth() - 5;
-        yOffset = worldSize.getHeight() - miscControlsWrapper.getFullBoundsReference().getHeight() - 5;
+        xOffset = worldSize.getWidth() - miscControlsWrapper.getFullBoundsReference().getWidth() - 15;
+        yOffset = worldSize.getHeight() - miscControlsWrapper.getFullBoundsReference().getHeight() - 15;
         miscControlsWrapper.setOffset( xOffset, yOffset );
         
-        // Reset All button at bottom center
+        // Reset All button to the right of misc controls
         PNode resetAllButton = getResetAllButton();
-        xOffset = ( worldSize.getWidth() / 2 ) - ( resetAllButton.getFullBoundsReference().getWidth() / 2 );
-        yOffset = worldSize.getHeight() - resetAllButton.getFullBounds().getHeight() - 20;
+        xOffset = miscControlsWrapper.getFullBoundsReference().getMinX() - resetAllButton.getFullBoundsReference().getWidth() - 10;
+        yOffset = miscControlsWrapper.getFullBoundsReference().getMaxY() - resetAllButton.getFullBounds().getHeight();
         resetAllButton.setOffset( xOffset , yOffset );
     }
 }
