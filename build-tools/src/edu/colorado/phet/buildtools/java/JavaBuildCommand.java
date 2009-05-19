@@ -17,6 +17,7 @@ import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
 import edu.colorado.phet.buildtools.*;
+import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.proguard.PhetProguardConfigBuilder;
 import edu.colorado.phet.buildtools.proguard.ProguardCommand;
 import edu.colorado.phet.buildtools.util.FileUtils;
@@ -133,8 +134,14 @@ public class JavaBuildCommand {
         PhetBuildUtils.antEcho( antTaskRunner, "Compiling " + project.getName() + ".", getClass() );
 
         Javac javac = new Javac();
-        javac.setSource(BuildToolsConstants.SIM_JAVA_VERSION);
-        javac.setTarget(BuildToolsConstants.SIM_JAVA_VERSION);
+        if ( project instanceof FlashSimulationProject.FlashLauncherProject ) {
+            javac.setSource( BuildToolsConstants.FLASH_LAUNCHER_JAVA_VERSION );
+            javac.setTarget( BuildToolsConstants.FLASH_LAUNCHER_JAVA_VERSION );
+        }
+        else {
+            javac.setSource( BuildToolsConstants.SIM_JAVA_VERSION );
+            javac.setTarget( BuildToolsConstants.SIM_JAVA_VERSION );
+        }
         javac.setSrcdir( new Path( antTaskRunner.getProject(), toString( src ) ) );
         javac.setDestdir( project.getClassesDirectory() );
         javac.setClasspath( new Path( antTaskRunner.getProject(), toString( classpath ) ) );
@@ -152,10 +159,10 @@ public class JavaBuildCommand {
         PhetBuildUtils.antEcho( antTaskRunner, "Compiling java version checker for " + project.getName() + ".", getClass() );
 
         Javac javac = new Javac();
-        javac.setSource(BuildToolsConstants.BOOTSTRAP_JAVA_VERSION );//Java version checker must be compiled in lowest language version
-        javac.setTarget(BuildToolsConstants.BOOTSTRAP_JAVA_VERSION );//so it can run in lowest language version jvms
-        javac.setClasspath( new Path( antTaskRunner.getProject(), new File(project.getTrunk(),"simulations-java/contrib/javaws/jnlp.jar" ).getAbsolutePath()) );
-        javac.setSrcdir( new Path( antTaskRunner.getProject(), new File(project.getTrunk(), "simulations-java/common/java-version-checker/src" ).getAbsolutePath()) );
+        javac.setSource( BuildToolsConstants.BOOTSTRAP_JAVA_VERSION );//Java version checker must be compiled in lowest language version
+        javac.setTarget( BuildToolsConstants.BOOTSTRAP_JAVA_VERSION );//so it can run in lowest language version jvms
+        javac.setClasspath( new Path( antTaskRunner.getProject(), new File( project.getTrunk(), "simulations-java/contrib/javaws/jnlp.jar" ).getAbsolutePath() ) );
+        javac.setSrcdir( new Path( antTaskRunner.getProject(), new File( project.getTrunk(), "simulations-java/common/java-version-checker/src" ).getAbsolutePath() ) );
         javac.setDestdir( project.getClassesDirectory() );
         javac.setDebugLevel( "lines,source" );
         javac.setDebug( true );
