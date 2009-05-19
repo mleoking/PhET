@@ -10,6 +10,7 @@ import java.util.Random;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
+import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
 import edu.colorado.phet.nuclearphysics.model.Uranium238Nucleus;
@@ -78,6 +79,18 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
     public Rectangle2D getHoldingAreaRect(){
     	return HOLDING_AREA_RECT;
     }
+    
+    /**
+     * Determine whether or not the given nucleus is in the holding area. Note
+     * that we don't verify that the supplied nucleus is actually contained by
+     * the model - that is assumed.
+     * 
+     * @param nucleus
+     * @return
+     */
+    public boolean isNucleusInHoldingArea(AtomicNucleus nucleus){
+    	return HOLDING_AREA_RECT.contains(nucleus.getPositionReference());
+    }
 
 	protected void addMaxNuclei() {
 		
@@ -94,10 +107,14 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
 				newNucleus = new AdjustableHalfLifeNucleus( _clock );
 			}
 			_atomicNuclei.add( newNucleus );
-			newNucleus.setPosition( findOpenNucleusLocation() );
-			notifyModelElementAdded( newNucleus );
-			newNucleus.activateDecay();
 			_jitterOffsets[i] = new Point2D.Double();
+			
+			// Add the nuclei initially to the holding area by positioning
+			// them such that they are within the holding area rectangle.
+			newNucleus.setPosition( HOLDING_AREA_RECT.getCenterX(), HOLDING_AREA_RECT.getCenterY() );
+
+			// Let any listeners know about the new nucleus.
+			notifyModelElementAdded( newNucleus );
 	        
 			// Register as a listener for the nucleus so we can handle the
 	        // particles thrown off by alpha decay.
@@ -111,7 +128,7 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
      * 
      * @return
      */
-    private Point2D findOpenNucleusLocation(){
+    public Point2D findOpenNucleusLocation(){
     	
     	Point2D.Double openLocation = null;
     	boolean pointAvailable = false;
