@@ -92,6 +92,8 @@ public class Uranium238Nucleus extends AbstractDecayNucleus {
      */
     public void reset(){
         
+    	super.reset();
+    	
         if ((_numNeutrons != ORIGINAL_NUM_NEUTRONS) || (_numProtons != ORIGINAL_NUM_PROTONS)){
             // Fission or absorption has occurred.
             _numNeutrons = ORIGINAL_NUM_NEUTRONS;

@@ -117,15 +117,8 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         }
         
         // Create the chart that will display relative decay proportions.
-        _proportionsChart = new NuclearDecayProportionChart.Builder(Carbon14Nucleus.HALF_LIFE * 3.2,
-        		Carbon14Nucleus.HALF_LIFE, NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL,
-        		NuclearPhysicsConstants.CARBON_COLOR).
-        		postDecayElementLabel(NuclearPhysicsStrings.NITROGEN_14_CHEMICAL_SYMBOL).
-        		postDecayLabelColor(NuclearPhysicsConstants.NITROGEN_COLOR).
-        		pieChartEnabled(false).
-        		showPostDecayCurve(false).
-        		timeMarkerLabelEnabled(true).
-        		build();
+        _proportionsChart = new NuclearDecayProportionChart(false);
+        configureProportionsChart();
         addWorldChild(_proportionsChart);
         
         // TODO: If I end up leaving this as a world child, I need to change this
@@ -191,5 +184,14 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     		double percentageDecayed = 100 - (100 * Math.exp(-time*lambda));
     		_proportionsChart.addDecayEvent(time, percentageDecayed);
     	}
+    }
+    
+    private void configureProportionsChart(){
+        _proportionsChart.setTimeSpan(Carbon14Nucleus.HALF_LIFE * 3.2);
+        _proportionsChart.setHalfLife(Carbon14Nucleus.HALF_LIFE);
+        _proportionsChart.setPreDecayElementLabel(NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL);
+        _proportionsChart.setPreDecayLabelColor(NuclearPhysicsConstants.CARBON_COLOR);
+        _proportionsChart.setShowPostDecayCurve(true);
+        _proportionsChart.setTimeMarkerLabelEnabled(false);
     }
 }
