@@ -9,6 +9,7 @@ import edu.colorado.phet.acidbasesolutions.model.Base.CustomBase;
 import edu.colorado.phet.acidbasesolutions.model.Base.StrongBase;
 import edu.colorado.phet.acidbasesolutions.model.Base.WeakBase;
 import edu.colorado.phet.acidbasesolutions.model.concentration.*;
+import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 
@@ -19,27 +20,28 @@ public class ConcentrationGraphNode extends PComposite {
     private final WeakBaseConcentrationGraphNode weakBaseNode;
     private final StrongBaseConcentrationGraphNode strongBaseNode;
     
-    public ConcentrationGraphNode( AqueousSolution solution ) {
-        this();
+    public ConcentrationGraphNode( PDimension outlineSize, AqueousSolution solution ) {
+        this( outlineSize );
         solution.addSolutionListener( new ModelViewController( solution, this ) );
     }
     
-    public ConcentrationGraphNode() {
+    public ConcentrationGraphNode( PDimension outlineSize ) {
         super();
+        
         // not interactive
         setPickable( false );
         setChildrenPickable( false );
         
-        waterNode = new NoSoluteConcentrationGraphNode();
+        waterNode = new NoSoluteConcentrationGraphNode( outlineSize );
         addChild( waterNode );
         
-        acidNode = new AcidConcentrationGraphNode();
+        acidNode = new AcidConcentrationGraphNode( outlineSize );
         addChild( acidNode );
         
-        weakBaseNode = new WeakBaseConcentrationGraphNode();
+        weakBaseNode = new WeakBaseConcentrationGraphNode( outlineSize );
         addChild( weakBaseNode );
         
-        strongBaseNode = new StrongBaseConcentrationGraphNode();
+        strongBaseNode = new StrongBaseConcentrationGraphNode( outlineSize );
         addChild( strongBaseNode );
     }
     
