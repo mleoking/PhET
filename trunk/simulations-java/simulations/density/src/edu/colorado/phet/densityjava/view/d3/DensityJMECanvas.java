@@ -18,18 +18,9 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Owner
- * Date: May 12, 2009
- * Time: 1:15:18 PM
- * To change this template use File | Settings | File Templates.
- */
 public class DensityJMECanvas extends JPanel {
-    int width = 640, height = 480;
-    JPanel mainPanel = new JPanel();
-    JMECanvas canvas = null;
-    DensityCanvasImpl impl;
+    private JMECanvas canvas = null;
+    private DensityCanvasImpl impl;
     private JDialog d1;
     private JDialog d2;
     private JDialog d3;
@@ -38,6 +29,7 @@ public class DensityJMECanvas extends JPanel {
     public DensityJMECanvas(JFrame parent, DensityModel model, MassVolumeModel massVolumeModel) {
         setLayout(new BorderLayout());
 
+        JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
 
         // -------------GL STUFF------------------
@@ -45,6 +37,8 @@ public class DensityJMECanvas extends JPanel {
         // make the canvas:
         DisplaySystem display = DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER);
         display.registerCanvasConstructor("AWT", LWJGLAWTCanvasConstructor.class);
+        int width = 640;
+        int height = 480;
         canvas = display.createCanvas(width, height);
         canvas.setUpdateInput(true);
         canvas.setTargetRate(60);
@@ -81,6 +75,7 @@ public class DensityJMECanvas extends JPanel {
         3. Overlay with a separate (invisible) dialog.
         4. JMECanvas subclasses PhetPCanvas?
         5. add swing components directly to the JMECanvas, and do proper light + heavy mixing
+        6. use Java2dOverlay from http://www.jmonkeyengine.com/jmeforum/index.php?action=printpage;topic=11089.0
         */
 
         d1 = new JDialog(parent, false);
@@ -129,7 +124,7 @@ public class DensityJMECanvas extends JPanel {
         SwingUtilities.convertPointToScreen(p2, c);
         d2.setLocation(p2);
 
-        Point p3 = new Point(0, c.getHeight()-d3.getHeight());
+        Point p3 = new Point(0, c.getHeight() - d3.getHeight());
         SwingUtilities.convertPointToScreen(p3, c);
         d3.setLocation(p3);
     }
@@ -139,7 +134,6 @@ public class DensityJMECanvas extends JPanel {
         canvas.makeDirty();
     }
 
-    // Overridden so we can exit when window is closed
     protected void processWindowEvent(WindowEvent e) {
         if (e.getID() == WindowEvent.WINDOW_CLOSING) {
             System.exit(0);
