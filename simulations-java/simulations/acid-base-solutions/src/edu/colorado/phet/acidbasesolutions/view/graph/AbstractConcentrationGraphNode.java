@@ -18,7 +18,6 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.FormattedNumberNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -30,7 +29,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class AbstractConcentrationGraphNode extends PNode {
+public abstract class AbstractConcentrationGraphNode extends PComposite {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -46,7 +45,6 @@ public abstract class AbstractConcentrationGraphNode extends PNode {
     private static final Stroke OUTLINE_STROKE = new BasicStroke( 1f );
     private static final Color OUTLINE_STROKE_COLOR = Color.BLACK;
     private static final Color OUTLINE_FILL_COLOR = Color.WHITE;
-    private static final PDimension DEFAULT_OUTLINE_SIZE = new PDimension( 400, 500 );
     
     // bars
     private static final double BAR_WIDTH = 45;
@@ -94,11 +92,12 @@ public abstract class AbstractConcentrationGraphNode extends PNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public AbstractConcentrationGraphNode() {
-        this( DEFAULT_OUTLINE_SIZE );
-    }
-    
     public AbstractConcentrationGraphNode( PDimension outlineSize ) {
+        super();
+        
+        // not interactive
+        setPickable( false );
+        setChildrenPickable( false );
         
         this.outlineSize = new PDimension( outlineSize );
         
@@ -109,8 +108,6 @@ public abstract class AbstractConcentrationGraphNode extends PNode {
         graphOutlineNode.setStroke( OUTLINE_STROKE );
         graphOutlineNode.setStrokePaint( OUTLINE_STROKE_COLOR );
         graphOutlineNode.setPaint( OUTLINE_FILL_COLOR );
-        graphOutlineNode.setPickable( false );
-        graphOutlineNode.setChildrenPickable( false );
         addChild( graphOutlineNode );
         
         // y axis
@@ -131,7 +128,6 @@ public abstract class AbstractConcentrationGraphNode extends PNode {
         PPath bottomLineNode = new PPath( new Line2D.Double( 0, outlineSize.getHeight(), outlineSize.getWidth(), outlineSize.getHeight() ) );
         bottomLineNode.setStroke( OUTLINE_STROKE );
         bottomLineNode.setStrokePaint( OUTLINE_STROKE_COLOR );
-        bottomLineNode.setPickable( false );
         addChild( bottomLineNode );
         
         // values
@@ -261,8 +257,6 @@ public abstract class AbstractConcentrationGraphNode extends PNode {
         public ValueNode( NumberFormat format ) {
             super( format, DEFAULT_VALUE, VALUE_FONT, VALUE_COLOR );
             rotate( -Math.PI / 2 );
-            setPickable( false );
-            setChildrenPickable( false );
         }
     }
     

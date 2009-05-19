@@ -3,6 +3,7 @@ package edu.colorado.phet.acidbasesolutions.view.graph;
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSImages;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
+import edu.umd.cs.piccolo.util.PDimension;
 
 
 public class WeakBaseConcentrationGraphNode extends AbstractConcentrationGraphNode{
@@ -10,8 +11,8 @@ public class WeakBaseConcentrationGraphNode extends AbstractConcentrationGraphNo
     private static final int BASE_INDEX = 0;
     private static final int ACID_INDEX = 1;
     
-    public WeakBaseConcentrationGraphNode() {
-        super();
+    public WeakBaseConcentrationGraphNode( PDimension outlineSize ) {
+        super( outlineSize );
         setMolecule( BASE_INDEX, ABSImages.B_MOLECULE, ABSSymbols.B, ABSConstants.B_COLOR );
         setMolecule( ACID_INDEX, ABSImages.BH_PLUS_MOLECULE, ABSSymbols.BH_PLUS, ABSConstants.BH_COLOR );
     }

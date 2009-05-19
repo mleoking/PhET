@@ -15,7 +15,8 @@ public class SolutionsDefaults {
     private SolutionsDefaults() {}
     
     public static final PDimension BEAKER_SIZE = new PDimension( 400, 400 ); // screen coordinates
-    public static final double BEAKER_CAPACITY = 1; // L
     
     public static final double PH_PROBE_HEIGHT = BEAKER_SIZE.getHeight() + 55;
+    
+    public static final PDimension CONCENTRATION_GRAPH_OUTLINE_SIZE = new PDimension( 400, 500 );
 }

@@ -67,7 +67,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
 
         solutionNode = new SolutionNode( SolutionsDefaults.BEAKER_SIZE );
         
-        concentrationGraphNode = new ConcentrationGraphNode( solution );
+        concentrationGraphNode = new ConcentrationGraphNode( SolutionsDefaults.CONCENTRATION_GRAPH_OUTLINE_SIZE, solution );
         
         moleculeCountsNode = new MoleculeCountsNode( solution );
         
