@@ -2,6 +2,7 @@ package edu.colorado.phet.buildtools.translate;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.FileFilter;
 import java.util.Locale;
 
 import javax.swing.*;
@@ -157,8 +158,8 @@ public class CommonTranslationDeployClient {
     }
 
     public File[] getJavaSimulationDirs() {
-        return new File[]{new File( trunk, "simulations-java/simulations/test-project" )};
-        /* TODO: switch to this after testing is done
+        //return new File[]{new File( trunk, "simulations-java/simulations/test-project" )};
+        ///* TODO: switch to this after testing is done
         File simsDir = new File( trunk, "simulations-java/simulations" );
 
         File[] simDirs = simsDir.listFiles( new FileFilter() {
@@ -168,12 +169,12 @@ public class CommonTranslationDeployClient {
         } );
 
         return simDirs;
-        */
+        //*/
     }
 
     public File[] getFlashSimulationDirs() {
-        return new File[]{new File( trunk, "simulations-flash/simulations/test-flash-project" )};
-        /* TODO: switch to this after testing is done
+        //return new File[]{new File( trunk, "simulations-flash/simulations/test-flash-project" )};
+        ///* TODO: switch to this after testing is done
         File simsDir = new File( trunk, "simulations-flash/simulations" );
 
         File[] simDirs = simsDir.listFiles( new FileFilter() {
@@ -183,7 +184,7 @@ public class CommonTranslationDeployClient {
         } );
 
         return simDirs;
-        */
+        //*/
     }
 
     public String getDirNameList( File[] dirs ) {
