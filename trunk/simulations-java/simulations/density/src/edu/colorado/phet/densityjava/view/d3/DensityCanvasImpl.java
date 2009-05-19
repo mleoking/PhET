@@ -165,6 +165,9 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
             node.translate(inset, inset);
             node.fullPaint(new PPaintContext(g2));
 
+
+            //TODO: need to release old textures in this update, or will obtain:
+            //TODO: Exception in thread "AWT-EventQueue-0" java.lang.OutOfMemoryError: Direct buffer memory
             Texture texture = TextureManager.loadTexture(image, Texture.MinificationFilter.Trilinear,
                     Texture.MagnificationFilter.Bilinear, true);
             texture.setWrap(Texture.WrapMode.Repeat);
