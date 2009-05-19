@@ -94,6 +94,7 @@ public class ResourceDeployClient {
     }
 
     public void dirtyExecute( String command ) {
+        System.out.println( "# " + command );
         PhetServer server = PhetServer.PRODUCTION;
         AuthenticationInfo authenticationInfo = BuildLocalProperties.getInstance().getProdAuthenticationInfo();
         SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword() );
