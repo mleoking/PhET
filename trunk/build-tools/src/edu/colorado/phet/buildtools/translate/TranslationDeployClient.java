@@ -146,7 +146,7 @@ public class TranslationDeployClient {
 
                     // build the HTML into the correct deploy directory
                     project.buildHTML( locale, version );
-                    
+
                     String HTMLName = project.getName() + "_" + LocaleUtils.localeToString( locale ) + ".html";
 
                     // transfer the HTML file
@@ -195,7 +195,7 @@ public class TranslationDeployClient {
             }
             else if ( translation.isCommonTranslation() ) {
                 // common strings instead, so we need to find all simulations with sim-strings for the same locale
-                
+
                 File simsDir = new File( trunk, "simulations-flash/simulations" );
 
                 File[] sims = simsDir.listFiles( new FileFilter() {

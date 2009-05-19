@@ -2,16 +2,16 @@ package edu.colorado.phet.buildtools.translate;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.Properties;
 
-import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
-import edu.colorado.phet.common.phetcommon.util.StreamReaderThread;
-import edu.colorado.phet.buildtools.util.FileUtils;
-import edu.colorado.phet.buildtools.util.PhetJarSigner;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.JARGenerator;
+import edu.colorado.phet.buildtools.util.FileUtils;
+import edu.colorado.phet.buildtools.util.PhetJarSigner;
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
+import edu.colorado.phet.common.phetcommon.util.StreamReaderThread;
 
 // TODO: refactor the way directories are handled to one place
 
@@ -20,7 +20,7 @@ public class ResourceDeployServer implements IProguardKeepClass {
     private String jarCommand;
     private File buildLocalProperties;
     private File resourceDir;
-    
+
     private File resourceFile;
     private String resourceDestination;
     private String[] sims;
@@ -49,13 +49,13 @@ public class ResourceDeployServer implements IProguardKeepClass {
         String resourceFilename = properties.getProperty( "resourceFile" );
         resourceFile = new File( resourceDir, "resource/" + resourceFilename );
 
-        if( !resourceFile.exists() ) {
+        if ( !resourceFile.exists() ) {
             System.out.println( "Cannot locate resource file, aborting" );
             return;
         }
 
         resourceDestination = properties.getProperty( "resourceDestination" );
-        if( resourceDestination.startsWith( "/" ) ) {
+        if ( resourceDestination.startsWith( "/" ) ) {
             resourceDestination = resourceDestination.substring( 1 );
         }
         onlyAllJARs = properties.getProperty( "onlyAllJARs" ).equals( "true" );
@@ -80,7 +80,7 @@ public class ResourceDeployServer implements IProguardKeepClass {
             System.out.println( "*** Signing JARs" );
             signJARs();
 
-            if( generateJARs ) {
+            if ( generateJARs ) {
                 System.out.println( "*** Generating offline JARs" );
                 generateOfflineJARs();
             }
@@ -111,7 +111,7 @@ public class ResourceDeployServer implements IProguardKeepClass {
 
             File simDir = new File( liveDir, sim );
 
-            if( !simDir.exists() ) {
+            if ( !simDir.exists() ) {
                 System.out.println( "WARNING: skipping sim dir " + simDir.getCanonicalPath() + ", does not exist" );
                 continue;
             }
@@ -120,9 +120,9 @@ public class ResourceDeployServer implements IProguardKeepClass {
                 public boolean accept( File file, String name ) {
                     return name.endsWith( ".jar" );
                 }
-            });
+            } );
 
-            if( jarFiles.length == 0 ) {
+            if ( jarFiles.length == 0 ) {
                 System.out.println( "WARNING: no JARs found in sim dir: " + simDir.getCanonicalPath() );
                 continue;
             }
@@ -154,7 +154,7 @@ public class ResourceDeployServer implements IProguardKeepClass {
             for ( int j = 0; j < jarFiles.length; j++ ) {
                 File jarFile = jarFiles[j];
 
-                if( onlyAllJARs && !jarFile.getName().endsWith( "_all.jar" ) ) {
+                if ( onlyAllJARs && !jarFile.getName().endsWith( "_all.jar" ) ) {
                     continue;
                 }
 
@@ -227,7 +227,7 @@ public class ResourceDeployServer implements IProguardKeepClass {
     private void backupExtras() throws IOException {
         File liveDir = getLiveSimsDir();
         File extrasDir = new File( resourceDir, "extras" );
-        if( !extrasDir.exists() ) {
+        if ( !extrasDir.exists() ) {
             return;
         }
 
@@ -244,13 +244,14 @@ public class ResourceDeployServer implements IProguardKeepClass {
                 File extraFile = extraFiles[j];
 
                 File liveExtraFile = new File( liveDir, sim + "/" + extraFile.getName() );
-                if( liveExtraFile.exists() ) {
+                if ( liveExtraFile.exists() ) {
                     File backupExtraDir = new File( backupDir, sim );
                     backupExtraDir.mkdirs();
 
                     System.out.println( "Copying live extra file " + liveExtraFile.getCanonicalPath() + " to " + backupExtraDir.getCanonicalPath() );
                     FileUtils.copyToDir( liveExtraFile, backupExtraDir );
-                } else {
+                }
+                else {
                     System.out.println( "* WARNING: Live extra file does not exist: " + liveExtraFile.getCanonicalPath() );
                 }
             }
@@ -259,7 +260,7 @@ public class ResourceDeployServer implements IProguardKeepClass {
 
     private void copyExtras() throws IOException {
         File extrasDir = new File( resourceDir, "extras" );
-        if( !extrasDir.exists() ) {
+        if ( !extrasDir.exists() ) {
             return;
         }
 
