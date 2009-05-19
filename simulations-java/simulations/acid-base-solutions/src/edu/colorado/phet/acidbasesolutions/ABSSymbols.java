@@ -41,7 +41,7 @@ public class ABSSymbols {
     public static final String HClO = "HClO";
     public static final String ClO_MINUS = "ClO<sup>-</sup>";
     public static final String HF = "HF";
-    public static final String F_MINUS = "F<sup>i</sup>";
+    public static final String F_MINUS = "F<sup>-</sup>";
     public static final String CH3COOH = "CH<sub>3</sub>COOH";
     public static final String CH3COO_MINUS = "CH<sub>3</sub>COO<sup>-</sup>";
     
