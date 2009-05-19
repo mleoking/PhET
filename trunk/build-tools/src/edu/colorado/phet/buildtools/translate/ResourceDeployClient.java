@@ -37,6 +37,43 @@ import com.jcraft.jsch.JSchException;
  *
  *         extras/                     -- (optional) Directory that holds additional files to be added and backed up
  *             (sim dirs)/
+ *
+ * resource.properties properties:
+ * resourceFile (the name of the file contained in the resource subdirectory)
+ * resourceDestination (string path of where to put the file in JARs. should end with a slash)
+ * sims (comma-separated list of sims to add the resource into)
+ * mode (either 'java' or 'flash')
+ *
+ * ResourceDeployClient is used to first upload resource.properties and the resource file.
+ * Then optionally extra files (in extras) can be added. Extras were created to handle the Flash HTMLs that need to be regenerated
+ * for a common translation.
+ *
+ * ResourceDeployServer, when activated, follows the following steps:
+ * (1) loads resource.properties (contains list of sims), locates the resource file, and creates the backup directory
+ * (2) copies all JARs for each sim from their live directory into their subdirectory in the backup directory
+ *     ex: copies htdocs/sims/pendulum-lab/pendulum-lab_en.jar to
+ *         htdocs/sims/resources/1242706828232_common-strings-ar-xml/backup/pendulum-lab/pendulum-lab_en.jar
+ * (3) copies JARs (if java mode, only the JARs ending in _all.jar) into the test directory
+ *     ex: copies to htdocs/sims/resources/1242706828232_common-strings-ar-xml/test/pendulum-lab/pendulum-lab_en.jar 
+ * (4) pokes the resource file into all JARs in the test directories
+ * (5) resigns all of those JARs
+ * (6) if java mode, generates the offline JARs with JARGenerator (in the test directories)
+ * (7) if files exist in the extras directories, their counterparts in the live dir are backed up
+ *     ex: htdocs/sims/pendulum-lab/pendulum-lab_ar.html backed up to
+ *         htdocs/sims/resources/1242706828232_common-strings-ar-xml/backup/pendulum-lab/pendulum-lab_ar.html
+ * (8) the extras files are copied into the test directories.
+ * (9) if flash mode, SWFs are copied from their live directories into both the test and backup directories
+ *     NOTE: during publishing, the SWFs in the live directory will not be replaced.
+ *
+ * ResourceDeployPublisher, when activated, follows the following steps:
+ * (1) If an exception occurs in any of the following steps, it will immediately stop and print instructions to revert
+ * (2) Each non-SWF file in the test directories is copied into the corresponding live sim directories (most likely replacing
+ *     what was there)
+ *
+ * ResourceDeployReverter, when activated, follows the following steps:
+ * (1) For each non-SWF file in the test directory that also exists in the backup directory, the backup file is copied into the live sim directory
+ *
+ *
  */
 public class ResourceDeployClient {
 
