@@ -92,7 +92,7 @@ public class DensityModel {
     public ObjectElement[] getElements() {
         ArrayList<ObjectElement> list = new ArrayList<ObjectElement>();
         for (Block block : blocks) list.add(new ObjectElement(block));
-//        for (Scale scale : scales) list.add(new ObjectElement(scale.surface));
+        for (Scale scale : scales) list.add(new ObjectElement(scale.surface));
         return list.toArray(new ObjectElement[list.size()]);
     }
 
@@ -197,15 +197,7 @@ public class DensityModel {
 
     private ScaleEnvironment scaleEnvironment = new ScaleEnvironment() {
         public double getNormalForce(Scale scale) {
-            //if there is a block on top of the scale, show its normal force
-            //TODO: compute for stacked blocks.
-            for (Block block : blocks) {
-                if (getHighestObjectBelow(block) == scale.surface) {//todo: uses scale surface
-                    return 0;
-//                    return block.getNormalForce();
-                }
-            }
-            return 0.0;
+            return -blockEnvironment.getAppliedForce(scale.surface);
         }
     };
 
@@ -220,8 +212,8 @@ public class DensityModel {
         addBlock(new Block("Block 3", 2, water, 4, swimmingPool.getMaxY() + floatHeight, Color.blue, sameMass, blockEnvironment));
         addBlock(new Block("Block 4", 2.5, water, 7, swimmingPool.getMaxY() + floatHeight, Color.yellow, sameMass, blockEnvironment));
 
-        addScale(new Scale("Scale 1", -1, swimmingPool.getMaxY(), 1, 1, 1, scaleEnvironment));
-        addScale(new Scale("Scale 1", 1, swimmingPool.getY(), 1, 1, 1, scaleEnvironment));
+        addScale(new Scale("Scale 1", -1, swimmingPool.getMaxY(), 1, 1, 1, scaleEnvironment, water, blockEnvironment));
+        addScale(new Scale("Scale 1", 1, swimmingPool.getY(), 1, 1, 1, scaleEnvironment, water, blockEnvironment));
     }
 
     public void setFourBlocksSameVolume() {
@@ -233,8 +225,8 @@ public class DensityModel {
         addBlock(new Block("Block 3", sameVolume, water, 4, swimmingPool.getMaxY() + floatHeight, Color.blue, 2, blockEnvironment));
         addBlock(new Block("Block 4", sameVolume, water, 7, swimmingPool.getMaxY() + floatHeight, Color.yellow, 1.5, blockEnvironment));
 
-        addScale(new Scale("Scale 1", -1, swimmingPool.getMaxY(), 1, 1, 1, scaleEnvironment));
-        addScale(new Scale("Scale 1", 1, swimmingPool.getY(), 1, 1, 1, scaleEnvironment));
+        addScale(new Scale("Scale 1", -1, swimmingPool.getMaxY(), 1, 1, 1, scaleEnvironment, water, blockEnvironment));
+        addScale(new Scale("Scale 1", 1, swimmingPool.getY(), 1, 1, 1, scaleEnvironment, water, blockEnvironment));
     }
 
     private void addScale(Scale scale) {
@@ -343,10 +335,10 @@ public class DensityModel {
             void normalForceChanged();
         }
 
-        public Scale(String name, double x, double y, double width, double height, double depth, ScaleEnvironment scaleEnvironment) {
+        public Scale(String name, double x, double y, double width, double height, double depth, ScaleEnvironment scaleEnvironment, Water water, BlockEnvironment blockEnvironment) {
             this.name = name;
             this.scaleEnvironment = scaleEnvironment;
-            surface = new ScaleSurface(x, y, width, height, depth, Color.white);
+            surface = new ScaleSurface(name, x, y, width, height, depth, Color.blue, water, blockEnvironment);
             body = new ScaleBody(x, y, width, height, depth, Color.gray);
         }
 
@@ -390,16 +382,16 @@ public class DensityModel {
             }
         }
 
-        class ScaleSurface extends RectangularObject {
-            ScaleSurface(double x, double y, double width, double height, double depth, Color faceColor) {
-                super(name + ".top", x, y, width, height, depth, faceColor);
-            }
-        }
-
         class ScaleBody extends RectangularObject {
             ScaleBody(double x, double y, double width, double height, double depth, Color faceColor) {
                 super(name + ".body", x, y, width, height, depth, faceColor);
             }
+        }
+    }
+
+    static class ScaleSurface extends Block {
+        ScaleSurface(String parentName, double x, double y, double width, double height, double depth, Color faceColor, Water water, BlockEnvironment blockEnvironment) {
+            super(parentName + ".top", width, water, x, y, faceColor, 1.0, blockEnvironment);
         }
     }
 
