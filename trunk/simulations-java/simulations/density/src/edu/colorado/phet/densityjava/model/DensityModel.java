@@ -4,6 +4,7 @@ import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.densityjava.ModelComponents;
 
 import java.awt.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -71,6 +72,10 @@ public class DensityModel {
 
     public ModelComponents.Units getUnits() {
         return units;
+    }
+
+    public String getWaterVolumeHTML() {
+        return "<html>"+new DecimalFormat("0.00").format(waterVolume)+" m<font size=\"-1\"><sup>3</sup></font></html>";
     }
 
     public class ObjectElement extends MatrixDynamics.Element {
