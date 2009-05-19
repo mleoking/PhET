@@ -68,14 +68,27 @@ public class ResourceDeployServer implements IProguardKeepClass {
         backupDir.mkdir();
 
         try {
+            System.out.println( "*** Creating backup JARs" );
             createBackupJARs();
+
+            System.out.println( "*** Copying test JARs" );
             copyTestJARs();
+
+            System.out.println( "*** Poking JARs" );
             pokeJARs();
+
+            System.out.println( "*** Signing JARs" );
             signJARs();
+
             if( generateJARs ) {
+                System.out.println( "*** Generating offline JARs" );
                 generateOfflineJARs();
             }
+
+            System.out.println( "*** Backing up extra files" );
             backupExtras();
+
+            System.out.println( "*** Copying extra files" );
             copyExtras();
         }
         catch( IOException e ) {
@@ -235,7 +248,10 @@ public class ResourceDeployServer implements IProguardKeepClass {
                     File backupExtraDir = new File( backupDir, sim );
                     backupExtraDir.mkdirs();
 
+                    System.out.println( "Copying live extra file " + liveExtraFile.getCanonicalPath() + " to " + backupExtraDir.getCanonicalPath() );
                     FileUtils.copyToDir( liveExtraFile, backupExtraDir );
+                } else {
+                    System.out.println( "* WARNING: Live extra file does not exist: " + liveExtraFile.getCanonicalPath() );
                 }
             }
         }

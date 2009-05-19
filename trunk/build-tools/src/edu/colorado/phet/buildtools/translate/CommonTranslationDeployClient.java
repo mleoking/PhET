@@ -1,21 +1,18 @@
 package edu.colorado.phet.buildtools.translate;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.FileFilter;
+import java.io.IOException;
 import java.util.Locale;
 
 import javax.swing.*;
 
-import edu.colorado.phet.buildtools.util.FileUtils;
-import edu.colorado.phet.buildtools.util.ScpTo;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
-import edu.colorado.phet.buildtools.AuthenticationInfo;
-import edu.colorado.phet.buildtools.PhetServer;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
-import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
-import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
+import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery;
+import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
+import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
 import com.jcraft.jsch.JSchException;
 
@@ -64,13 +61,17 @@ public class CommonTranslationDeployClient {
 
             client = new ResourceDeployClient( resourceFile, propertiesFile );
 
+            System.out.println();
+            System.out.println( "****** Uploading resource file and properties" );
+
             client.uploadResourceFile();
 
-            if( type == Translation.TRANSLATION_FLASH ) {
+            if ( type == Translation.TRANSLATION_FLASH ) {
                 uploadFlashHTMLs();
             }
 
-            
+            System.out.println();
+            System.out.println( "****** Executing resource deploy server" );
 
             client.executeResourceDeployServer( trunk );
 
@@ -88,20 +89,23 @@ public class CommonTranslationDeployClient {
     }
 
     private void uploadFlashHTMLs() throws IOException {
+        System.out.println();
+        System.out.println( "****** Building and sending Flash HTMLs" );
+
         File simsDir = new File( trunk, "simulations-flash/simulations" );
 
         File[] simDirs = simsDir.listFiles( new FileFilter() {
             public boolean accept( File file ) {
                 return file.isDirectory() && !file.getName().startsWith( "." );
             }
-        });
+        } );
 
         for ( int i = 0; i < simDirs.length; i++ ) {
             File simDir = simDirs[i];
 
             FlashSimulationProject project = new FlashSimulationProject( simDir );
 
-            if( project.hasLocale( translation.getLocale() ) ) {
+            if ( project.hasLocale( translation.getLocale() ) ) {
                 buildAndSendFlashHTML( simDir.getName(), translation.getLocale(), project );
             }
         }
@@ -109,6 +113,8 @@ public class CommonTranslationDeployClient {
 
     // TODO: refactor this from TranslationDeployClient and here into somewhere common!
     private void buildAndSendFlashHTML( final String simName, final Locale locale, final FlashSimulationProject project ) {
+        System.out.println( "*** Building and sending HTML for " + simName + " " + LocaleUtils.localeToString( locale ) );
+
         System.out.println( "Getting tigercat info for " + simName + " (" + LocaleUtils.localeToString( locale ) + ")" );
 
         // fake info for phet-info
@@ -157,7 +163,6 @@ public class CommonTranslationDeployClient {
     public String getFlashSimNames() {
         return "test-flash-project";
     }
-
 
 
     public static void main( String[] args ) {
