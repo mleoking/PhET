@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,12 +28,10 @@ import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayControl;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
-import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
-import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
+import edu.colorado.phet.nuclearphysics.model.Uranium238Nucleus;
 import edu.colorado.phet.nuclearphysics.view.BucketOfNucleiNode;
-import edu.colorado.phet.nuclearphysics.view.MultiNucleusDecayLinearTimeChart;
 import edu.colorado.phet.nuclearphysics.view.NuclearDecayProportionChart;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -152,15 +149,10 @@ public class DecayRatesCanvas extends PhetPCanvas {
         
         // Add the diagram that will depict the relative concentration of
         // pre- and post-decay nuclei.
-        _proportionsChart = new NuclearDecayProportionChart.Builder(Carbon14Nucleus.HALF_LIFE * 3.2, 
-        		Carbon14Nucleus.HALF_LIFE, NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL, 
-        		NuclearPhysicsConstants.CARBON_COLOR).
-        		postDecayElementLabel(NuclearPhysicsStrings.NITROGEN_14_CHEMICAL_SYMBOL).
-        		postDecayLabelColor(NuclearPhysicsConstants.NITROGEN_COLOR).
-        		pieChartEnabled(true).
-        		showPostDecayCurve(true).
-        		timeMarkerLabelEnabled(true).
-        		build();
+        _proportionsChart = new NuclearDecayProportionChart(true);
+        _proportionsChart.setShowPostDecayCurve(true);
+        _proportionsChart.setTimeMarkerLabelEnabled(false);
+        _proportionsChart.configureForNucleusType(_model.getNucleusType());
         _graphLayer.addChild(_proportionsChart);
         
         // Register with the model for notifications of nuclei coming and
@@ -176,6 +168,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
             
             public void nucleusTypeChanged(){
             	_proportionsChart.clear();
+                _proportionsChart.configureForNucleusType(_model.getNucleusType());
             }
         });
         
@@ -341,7 +334,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
             nucleus.reset();
         }
     }
-
+    
 	/**
      * Sets the view back to the original state when sim was first started.
      */
