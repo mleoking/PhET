@@ -96,7 +96,13 @@ public class TranslationDeployClient {
         giveInstructions();
         String dirname = AddTranslation.prompt( "Enter the name of the directory where your localization files are:" );
         // import the translations into the IDE workspace
-        new ImportTranslations( trunk ).importTranslations( new File( dirname ) );
+        File dir = new File( dirname );
+        if( !dir.exists() ) {
+            // added a less-ambiguous error message if the user selects a directory that does not exist
+            System.err.println( "Directory was not found!" );
+            return;
+        }
+        new ImportTranslations( trunk ).importTranslations( dir );
         instructUserToCommit();
 
         File srcDir = new File( dirname );
