@@ -24,7 +24,8 @@ public class NaturalSelectionControlPanel extends JPanel {
     // main panels
     private JPanel rightPanel;
     //public GenerationChartCanvas generationCanvas;
-    public GenerationChartPanel generationPanel;
+    //public GenerationChartPanel generationPanel;
+    public BunnyStatsPanel bunnyStatsPanel;
     private LeftPanel leftPanel;
 
     // subpanels
@@ -36,6 +37,7 @@ public class NaturalSelectionControlPanel extends JPanel {
     public JRadioButton foodButton;
     public JRadioButton noneButton;
     public JButton resetAllButton;
+    public JButton showGenerationChartButton;
 
     // private variables
     private NaturalSelectionModel model;
@@ -62,7 +64,8 @@ public class NaturalSelectionControlPanel extends JPanel {
         createRightPanel();
         leftPanel = new LeftPanel( this.model );
         //generationCanvas = new GenerationChartCanvas( this.model );
-        generationPanel = new GenerationChartPanel( this.model );
+        //generationPanel = new GenerationChartPanel( this.model );
+        bunnyStatsPanel = new BunnyStatsPanel( this.model );
         LogoPanel logoPanel = new LogoPanel();
         logoPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
 
@@ -78,13 +81,13 @@ public class NaturalSelectionControlPanel extends JPanel {
         geneConstraints.anchor = GridBagConstraints.NORTHWEST;
         add( leftPanel, geneConstraints );
 
-        GridBagConstraints generationConstraints = new GridBagConstraints();
-        generationConstraints.gridx = column++;
-        generationConstraints.gridy = 0;
-        //generationConstraints.fill = GridBagConstraints.BOTH;
-        generationConstraints.anchor = GridBagConstraints.NORTH;
-        generationConstraints.weightx = 1.0;
-        add( generationPanel, generationConstraints );
+        GridBagConstraints statsConstraints = new GridBagConstraints();
+        statsConstraints.gridx = column++;
+        statsConstraints.gridy = 0;
+        statsConstraints.fill = GridBagConstraints.BOTH;
+        statsConstraints.anchor = GridBagConstraints.NORTH;
+        statsConstraints.weightx = 1.0;
+        add( bunnyStatsPanel, statsConstraints );
 
         GridBagConstraints rightConstraints = new GridBagConstraints();
         rightConstraints.gridx = column++;
@@ -170,14 +173,17 @@ public class NaturalSelectionControlPanel extends JPanel {
         rightPanel.add( Box.createRigidArea( new Dimension( 0, 10 ) ) );
 
         resetAllButton = new JButton( NaturalSelectionStrings.RESET_ALL );
-
         rightPanel.add( resetAllButton );
+
+        showGenerationChartButton = new JButton( NaturalSelectionStrings.GENERATION_CHART );
+        rightPanel.add( showGenerationChartButton );
     }
 
     public void reset() {
         climatePanel.reset();
         selectDefaultSelectionFactor();
-        generationPanel.reset();
+        //generationPanel.reset();
+        bunnyStatsPanel.reset();
         leftPanel.reset();
     }
 

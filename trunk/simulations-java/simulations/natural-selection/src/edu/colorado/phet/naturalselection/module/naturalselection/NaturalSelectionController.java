@@ -71,7 +71,7 @@ public class NaturalSelectionController {
             }
         } );
 
-        controlPanel.generationPanel.generationCanvas.statsButton.addActionListener( new ActionListener() {
+        controlPanel.showGenerationChartButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
                 module.showGenerationChart();
             }
