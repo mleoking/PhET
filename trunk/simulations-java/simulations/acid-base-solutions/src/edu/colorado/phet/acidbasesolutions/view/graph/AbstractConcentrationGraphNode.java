@@ -46,10 +46,10 @@ public abstract class AbstractConcentrationGraphNode extends PNode {
     private static final Stroke OUTLINE_STROKE = new BasicStroke( 1f );
     private static final Color OUTLINE_STROKE_COLOR = Color.BLACK;
     private static final Color OUTLINE_FILL_COLOR = Color.WHITE;
-    private static final PDimension DEFAULT_OUTLINE_SIZE = new PDimension( 350, 550 );
+    private static final PDimension DEFAULT_OUTLINE_SIZE = new PDimension( 375, 500 );
     
     // bars
-    private static final double BAR_WIDTH = 40;
+    private static final double BAR_WIDTH = 45;
     private static final Color DEFAULT_BAR_COLOR = Color.GRAY;
     
     // numeric values
