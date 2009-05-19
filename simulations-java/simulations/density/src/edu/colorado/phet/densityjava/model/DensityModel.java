@@ -69,8 +69,8 @@ public class DensityModel {
     public class ObjectElement extends MatrixDynamics.Element {
         private RectangularObject block;
 
-        public ObjectElement(Block block) {
-            super(block.getGravityForce() + block.getBuoyancyForce(), inContactWithAnything(block));
+        public ObjectElement(Block block, boolean inContact) {
+            super(block.getGravityForce() + block.getBuoyancyForce(), inContact);
             this.block = block;
         }
 
@@ -79,7 +79,7 @@ public class DensityModel {
         }
     }
 
-    private boolean inContactWithAnything(Block block) {
+    private boolean inContactWithAnything(RectangularObject block) {
         for (int i = 0; i < blocks.size(); i++) {
             Block b = blocks.get(i);
             if (b != block && inContact(b, block)) {
@@ -91,8 +91,8 @@ public class DensityModel {
 
     public ObjectElement[] getElements() {
         ArrayList<ObjectElement> list = new ArrayList<ObjectElement>();
-        for (Block block : blocks) list.add(new ObjectElement(block));
-        for (Scale scale : scales) list.add(new ObjectElement(scale.surface));
+        for (Block block : blocks) list.add(new ObjectElement(block, inContactWithAnything(block)));
+        for (Scale scale : scales) list.add(new ObjectElement(scale.surface, inContactWithAnything(scale.surface)));
         return list.toArray(new ObjectElement[list.size()]);
     }
 
