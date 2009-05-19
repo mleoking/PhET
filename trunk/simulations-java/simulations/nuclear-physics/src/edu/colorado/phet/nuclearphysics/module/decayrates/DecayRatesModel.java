@@ -61,14 +61,24 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
     //------------------------------------------------------------------------
     
     public double getPercentageDecayed(){
+    	double activeCount = 0;
     	double decayedCount = 0;
     	for (Iterator it = _atomicNuclei.iterator(); it.hasNext(); ){
-    		if (((AbstractDecayNucleus)it.next()).hasDecayed()){
+    		AbstractDecayNucleus nucleus = (AbstractDecayNucleus)it.next();
+    		if (nucleus.isDecayActive()){
+    			activeCount++;
+    		}
+    		if (nucleus.hasDecayed()){
     			decayedCount++;
     		}
     	}
     	
-    	return ( decayedCount / (double)_atomicNuclei.size() ) * 100;
+    	if (activeCount == 0){
+    		return 0;
+    	}
+    	else{
+    		return ( decayedCount / ( activeCount + decayedCount ) ) * 100;
+    	}
     }
     
     /**
