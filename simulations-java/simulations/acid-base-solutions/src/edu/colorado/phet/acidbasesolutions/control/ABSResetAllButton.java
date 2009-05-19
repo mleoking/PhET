@@ -18,6 +18,6 @@ public class ABSResetAllButton extends ResetAllButton {
     public ABSResetAllButton( Resettable resettable, Component parent ) {
         super( resettable, parent );
         setFont( ABSConstants.CONTROL_FONT );
-        setMargin( new Insets( 10, 20, 10, 20 ) ); // top, left, bottom, right
+        setMargin( new Insets( 5, 15, 5, 15 ) ); // top, left, bottom, right
     }
 }

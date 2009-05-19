@@ -21,6 +21,7 @@ import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.SoluteFactory;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
 import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
+import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -110,13 +111,13 @@ public class SolutionControlsNode extends PhetPNode {
         yOffset = soluteComboBoxWrapper.getFullBoundsReference().getMaxY() + Y_SPACING;
         concentrationLabelNode.setOffset( xOffset, yOffset );
         xOffset = concentrationLabelNode.getXOffset() + 15;
-        yOffset = concentrationLabelNode.getFullBoundsReference().getMaxY() - ( concentrationControlNode.getFullBoundsReference().getY() - concentrationControlNode.getYOffset() ) + 5;
+        yOffset = concentrationLabelNode.getFullBoundsReference().getMaxY() - PNodeUtils.getOriginYOffset( concentrationControlNode ) + 5;
         concentrationControlNode.setOffset( xOffset, yOffset );
         xOffset = concentrationLabelNode.getXOffset();
         yOffset = concentrationControlNode.getFullBoundsReference().getMaxY() + Y_SPACING;
         strengthLabelNode.setOffset( xOffset, yOffset );
         xOffset = strengthLabelNode.getXOffset() + 15;
-        yOffset = strengthLabelNode.getFullBoundsReference().getMaxY() - ( strengthSliderNode.getFullBoundsReference().getY() - strengthSliderNode.getYOffset() );
+        yOffset = strengthLabelNode.getFullBoundsReference().getMaxY() - PNodeUtils.getOriginYOffset( strengthSliderNode );
         strengthSliderNode.setOffset( xOffset, yOffset );
         
         // separator
