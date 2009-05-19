@@ -250,7 +250,7 @@ public class TranslationDeployClient {
             String pathToBuildLocalProperties = server.getBuildLocalPropertiesFile();
             //String jarCommand, File buildLocalProperties, File pathToSimsDir, File translationDir
             String command = javaCmd + " -classpath " + buildScriptDir + "/" + jarName + " " + TranslationDeployServer.class.getName() + " " +
-                             jarCmd + " " + pathToBuildLocalProperties + " /web/chroot/phet/usr/local/apache/htdocs/sims " + translationDir;
+                             jarCmd + " " + pathToBuildLocalProperties + " /web/chroot/phet/usr/local/apache/htdocs/sims " + translationDir + " 2>&1";
 
             System.out.println( "Running command: \n" + command );
             sshConnection.executeTask( new SshCommand( command ) );
