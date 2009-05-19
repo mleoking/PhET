@@ -16,6 +16,28 @@ import edu.colorado.phet.buildtools.util.ScpTo;
 
 import com.jcraft.jsch.JSchException;
 
+/**
+ * This class is used to log into tigercat, create the necessary temporary directory structure, and upload the necessary
+ * files.
+ *
+ * The directory structure on tigercat is shown below:
+ *
+ * htdocs/sims/resources/
+ *     (temporary resource directory)/ -- Holds everything related to this particular deployment. ex: 1242706828232_common-strings-ar-xml
+ *                                        The first part includes the timestamp of approximately when the directory was created
+ *         resource/
+ *             resource.properties     -- Holds properties (to be described below) of what JARs to poke, generate, the resource name, etc.
+ *             (resource file)         -- The file that will be poked into JARs. Name specified in resource.properties
+ *
+ *         test/                       -- Directory that holds all of the files necessary to test the new deployment.
+ *             (sim dirs)/
+ *
+ *         backup/                     -- Directory that holds all files that will be changed
+ *             (sim dirs)/
+ *
+ *         extras/                     -- (optional) Directory that holds additional files to be added and backed up
+ *             (sim dirs)/
+ */
 public class ResourceDeployClient {
 
     // TODO: refactor PhetServer so that this type of thing is not necessary
