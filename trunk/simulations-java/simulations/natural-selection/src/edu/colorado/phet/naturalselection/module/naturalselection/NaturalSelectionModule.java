@@ -9,7 +9,6 @@ import java.awt.event.WindowEvent;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
-import edu.colorado.phet.naturalselection.control.BunnyStatsPanel;
 import edu.colorado.phet.naturalselection.control.NaturalSelectionControlPanel;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.dialog.GenerationChartDialog;

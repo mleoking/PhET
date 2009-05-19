@@ -7,20 +7,20 @@ import javax.swing.*;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
+import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.model.ColorGene;
 import edu.colorado.phet.naturalselection.model.TailGene;
 import edu.colorado.phet.naturalselection.model.TeethGene;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
-import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 
 public class BunnyStatsPanel extends JPanel {
 
@@ -96,7 +96,7 @@ public class BunnyStatsPanel extends JPanel {
             }
 
             public void simulationTimeChanged( ClockEvent clockEvent ) {
-                if( ++delayCount % MAX_DELAY_COUNT == 0 ) {
+                if ( ++delayCount % MAX_DELAY_COUNT == 0 ) {
                     newData();
                 }
             }
@@ -126,11 +126,11 @@ public class BunnyStatsPanel extends JPanel {
 
         final int MAX_COL = 100;
 
-        if( col >= MAX_COL ) {
+        if ( col >= MAX_COL ) {
             data.removeColumn( String.valueOf( col - MAX_COL ) );
         }
 
-        col++;        
+        col++;
     }
 
     private void createData() {

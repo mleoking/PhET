@@ -4,8 +4,6 @@ package edu.colorado.phet.naturalselection.dialog;
 
 import java.awt.geom.Point2D;
 
-import javax.swing.*;
-
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
@@ -17,7 +15,6 @@ import edu.colorado.phet.naturalselection.view.MutationPendingNode;
 import edu.colorado.phet.naturalselection.view.pedigree.PedigreeNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * The piccolo canvas where the generation charts are drawn in. Allows changing between the charts
