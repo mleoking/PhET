@@ -254,6 +254,7 @@ public class TranslationDeployClient {
 
             System.out.println( "Running command: \n" + command );
             sshConnection.executeTask( new SshCommand( command ) );
+            System.out.println( "TranslationDeployServer finished, disconnecting" );
         }
         catch( SshException e ) {
             e.printStackTrace();
