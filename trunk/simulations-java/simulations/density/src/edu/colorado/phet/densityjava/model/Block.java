@@ -19,7 +19,7 @@ public class Block extends RectangularObject {
     //Dynamics computation for the block, all dynamics are in the vertical (y) direction.
     public void stepInTime(double dt) {
         if (!userDragging) {
-            double force = getGravityForce() + getBuoyancyForce() + getAppliedForce() + getNormalForce();
+            double force = getGravityForce() + getBuoyancyForce() + getAppliedForce();
             double accel = force / mass;
             velocity += accel * dt;
             velocity = velocity * getDragCoefficient();
@@ -31,14 +31,14 @@ public class Block extends RectangularObject {
         }
     }
 
-    private double getGravityForce() {
+    double getGravityForce() {
         return -9.8 * mass;
     }
 
     //According to Archimedes' principle,
     // "Any object, wholly or partly immersed in a fluid,
     // is buoyed up by a force equal to the weight of the fluid displaced by the object."
-    private double getBuoyancyForce() {
+    double getBuoyancyForce() {
         double volumeDisplaced = getSubmergedVolume(water.getHeight());
         double massDisplaced = water.getDensity() * volumeDisplaced / 500;
         double weightDisplaced = massDisplaced * 9.8;
@@ -47,14 +47,6 @@ public class Block extends RectangularObject {
 
     public double getAppliedForce() {
         return blockEnvironment.getAppliedForce(this);
-    }
-
-    //If the block is sitting on something (floor or another block)
-    //choose the normal force so that net force=0
-    public double getNormalForce() {
-        if (getY() <= getFloorY() && getGravityForce() + getBuoyancyForce() + getAppliedForce() < 0) {
-            return -getGravityForce() - getBuoyancyForce() - getAppliedForce();
-        } else return 0;
     }
 
     public double getDragCoefficient() {

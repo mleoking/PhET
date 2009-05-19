@@ -43,6 +43,59 @@ public class DensityModel {
         return scales.get(i);
     }
 
+    public MatrixDynamics.ContactGroup[] getContactGroups(ObjectElement[] elements) {
+        ArrayList<MatrixDynamics.ContactGroup> list = new ArrayList<MatrixDynamics.ContactGroup>();
+        for (int i = 0; i < elements.length; i++) {
+            ObjectElement element = elements[i];
+            for (int k = 0; k < elements.length; k++) {
+                ObjectElement elm2 = elements[k];
+                if (i != k && inContact(element.getObject(), elm2.getObject())) {
+                    list.add(new MatrixDynamics.ContactGroup(new MatrixDynamics.Element[]{element, elm2}));//todo: adds duplicates
+                }
+            }
+        }
+        return list.toArray(new MatrixDynamics.ContactGroup[list.size()]);
+    }
+
+    private boolean inContact(RectangularObject a, RectangularObject b) {
+        if (getLowestObjectAbove(a) == b && a.getDistanceY(b) < 1E-5) {
+            return true;
+        } else if (getHighestObjectBelow(a) == b && a.getDistanceY(b) < 1E-5)
+            return true;
+        else
+            return false;
+    }
+
+    public class ObjectElement extends MatrixDynamics.Element {
+        private RectangularObject block;
+
+        public ObjectElement(Block block) {
+            super(block.getGravityForce() + block.getBuoyancyForce(), inContactWithAnything(block));
+            this.block = block;
+        }
+
+        public RectangularObject getObject() {
+            return block;
+        }
+    }
+
+    private boolean inContactWithAnything(Block block) {
+        for (int i = 0; i < blocks.size(); i++) {
+            Block b = blocks.get(i);
+            if (b != block && inContact(b, block)) {
+                return true;
+            }
+        }
+        return false;  //To change body of created methods use File | Settings | File Templates.
+    }
+
+    public ObjectElement[] getElements() {
+        ArrayList<ObjectElement> list = new ArrayList<ObjectElement>();
+        for (Block block : blocks) list.add(new ObjectElement(block));
+//        for (Scale scale : scales) list.add(new ObjectElement(scale.surface));
+        return list.toArray(new ObjectElement[list.size()]);
+    }
+
     public static interface Listener {
         void blockAdded(Block block);
 
@@ -74,7 +127,8 @@ public class DensityModel {
         }
     }
 
-    private BlockEnvironment blockEnvironment = new DensityModelBlockEnvironment(this);
+    //    private BlockEnvironment blockEnvironment = new DensityModelBlockEnvironment(this);
+    private BlockEnvironment blockEnvironment = new MatrixDynamicsBlockEnvironment(this);
 
     public RectangularObject getLowestObjectAbove(RectangularObject block) {
         return getNeighbor(block, new SearchStrategy.Above());
@@ -147,7 +201,8 @@ public class DensityModel {
             //TODO: compute for stacked blocks.
             for (Block block : blocks) {
                 if (getHighestObjectBelow(block) == scale.surface) {//todo: uses scale surface
-                    return block.getNormalForce();
+                    return 0;
+//                    return block.getNormalForce();
                 }
             }
             return 0.0;
