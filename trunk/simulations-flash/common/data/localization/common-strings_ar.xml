@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--common-strings_ar.xml created Fri May 15 23:45:11 GMT+03:00 2009 using: flash-common-strings 2.00.00 (30671), translation-utility 2.01.00 (31673) May 15, 2009-->
+<!--common-strings_ar.xml created Tue May 19 15:29:26 GMT+03:00 2009 using: flash-common-strings 2.00.00 (30671), translation-utility 2.01.00 (31673) May 15, 2009-->
 <SimStrings>
 <string key="About..." value="حول..."/>
 <string key="SoftwareDevelopment" value=" تطوير البرنامج"/>
@@ -41,7 +41,7 @@
 <string key="StatisticsField-host_flash_time_offset" value="نطاق الزمن"/>
 <string key="MostCurrentVersion" value="تملك أحدث نسخة ({0}) من  {1}.  "/>
 <string key="StatisticsField-sim_deployment" value="نوع النشر "/>
-<string key="PrivacyRequirement" value="برنامج &lt;a href='{0}'&gt;&quot;فت&quot;&lt;/a&gt; برنامج مجاني مدعوم من منح&#10;تتطلب تجميع قليل من المعلومات للمساعدة في رصد كمية استخدام برامج المحاكاة &#10;وخدمة حاجيات المستخدمين. "/>
+<string key="PrivacyRequirement" value="&lt;a href='{0}'&gt;برنامج &quot;فت&quot; &lt;/a&gt;برنامج مجاني مدعوم من منح&#10;تتطلب تجميع قليل من المعلومات للمساعدة في رصد كمية استخدام برامج المحاكاة &#10;وخدمة حاجيات المستخدمين. "/>
 <string key="StatisticsField-sim_type" value="نوع المحاكاة"/>
 <string key="Close" value="إغلاق"/>
 <string key="StatisticsField-sim_dev" value="هل هذه نسخة المطور؟"/>
@@ -53,6 +53,8 @@
 <string key="StatisticsField-sim_name" value="اسم المحاكاة"/>
 <string key="UpdateOptionsAvailable" value="خيارات التحديث متوفرة تحت &lt;i&gt;التفضيلات&lt;/i&gt;. "/>
 <string key="PhetDevelopmentTeam" value="فريق تطوير &quot;فت&quot;"/>
+<string key="InstallerInfo2" value="إذا اخترت الحصول على أحدث نسخة، سيفتح المتصفح موقع الفت بحيث يمكن أن تحمل مثبت الموقع الذي يعمل بدون اتصال"/>
+<string key="InstallerInfo1" value="تحديث مثبت برنامج الفت الذي يعمل بدون اتصال يساعد في الحصول على أحدث برامج المحاكاة"/>
 <string key="StatisticsField-sim_minor_version" value="نسخة المحاكاة (الفرعية)"/>
 <string key="Credits" value="شكر"/>
 <string key="StatisticsField-host_flash_version" value="نشخة مشغل الفلاش"/>
@@ -68,9 +70,9 @@
 <string key="StatisticsField-host_flash_os" value="نظام التثغيل واسمه"/>
 <string key="OK" value="موافق"/>
 <string key="Error" value="خطأ"/>
+<string key="CheckSimUpdates" value="تأكد من تحديث للمحاكاة..."/>
 <string key="StatisticsField-sim_project" value="اسم المشروع"/>
 <string key="NewerVersionIs" value="نسخة أحدث {0} متوفرة "/>
-<string key="CheckSimUpdates" value="تأكد من تحديث للمحاكاة..."/>
 <string key="SentInformation" value="المعلومات أدناه سيتم إرسالها إلى فريق البرنامج&quot;فت&quot; في كل مرة تبدأ المحاكاة."/>
 <string key="OSVersion" value="نظام التشغيل"/>
 <string key="Details" value="التفاصيل"/>
