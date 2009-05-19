@@ -3,6 +3,7 @@ package edu.colorado.phet.densityjava.common;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.
@@ -26,6 +27,22 @@ public class MyRadioButton extends JRadioButton {
 
     public static interface Model {
         void addListener(Unit unit);
+    }
+
+    public static class SimpleModel implements Model {
+        private ArrayList<Unit> listeners = new ArrayList<Unit>();
+
+        public void addListener(Unit unit) {
+            listeners.add(unit);
+        }
+
+        public void removeListener(Unit unit) {
+            listeners.remove(unit);
+        }
+
+        public void notifyListeners() {
+            for (Unit listener : listeners) listener.update();
+        }
     }
 
     public MyRadioButton(String name, Model model, final Getter<Boolean> getter, final Setter<Boolean> setter) {
