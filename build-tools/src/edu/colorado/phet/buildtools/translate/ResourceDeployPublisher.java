@@ -23,7 +23,7 @@ public class ResourceDeployPublisher implements IProguardKeepClass {
 
             String sim = dir.getName();
 
-            
+
         }
     }
 
