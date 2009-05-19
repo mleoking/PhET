@@ -16,6 +16,33 @@ import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
 import com.jcraft.jsch.JSchException;
 
+/**
+ * Deploying a common simulation has four phases:
+ *
+ * (A) Run CommonTranslationDeployClient on your machine
+ *     (1) A dialog will open. Select the common strings file that you want to deploy and hit "open"
+ *     (2) This will create a new directory on tigercat under htdocs/sims/resources/
+ *     (3) The translation, related metadata, and if applicable new Flash HTML files will be uploaded
+ *     (4) Instructions will be printed for the steps below
+ * (B) Run ResourceDeployServer on tigercat
+ *         shortcut: "htdocs/sims/resources/server (absolute-path-to-tmp-dir)"
+ *     This will not modify the live sim directory, just the temporary directory under resources.
+ *     Necessary files will be copied, backed up, poked with files, signed and/or generated
+ * (C) Thoroughly test everything under htdocs/sims/resources/(tmp-dir)/test/
+ *     Every file under test/ will replace its live counterpart during publishing (except for SWFs, which are not changed)
+ * (D) Run ResourceDeployPublisher on tigercat
+ *         shortcut: "htdocs/sims/resources/publish (absolute-path-to-tmp-dir)"
+ *     This will copy over the necessary files from the test/ dir to the live sim dirs.
+ *
+ * If something goes wrong with publishing (or some time after publishing) due to the deployment, this can be reverted:
+ * (E) Run ResourceDeployReverter on tigercat
+ *         shortcut: "htdocs/sims/resources/revert (absolute-path-to-tmp-dir)"
+ *     This will replace any files copied into the live sim dirs with what was previously there (from the backup dir)
+ *     If the deployment created a new file, this file will not be automatically deleted (but you will be notified of its existence)
+ *
+ * For more details on the process, see ResourceDeployClient for an explanation of the temporary directory and storage
+ *
+ */
 public class CommonTranslationDeployClient {
 
     private File resourceFile;
@@ -42,36 +69,39 @@ public class CommonTranslationDeployClient {
         try {
             String type = translation.getType();
 
+            // create the properties file that we will use on the server to know what to do (and what the resource file is)
+
             File propertiesFile = File.createTempFile( "resource", ".properties" );
             String propertiesString = "resourceFile=" + resourceFile.getName() + "\n";
             if ( type == Translation.TRANSLATION_JAVA ) {
                 // TODO: properties should be constants somewhere
                 propertiesString += "sims=" + getJavaSimNames() + "\n";
                 propertiesString += "resourceDestination=/phetcommon/localization/\n";
-                //propertiesString += "onlyAllJARs=true\n";
-                //propertiesString += "generateJARs=true\n";
                 propertiesString += "mode=java\n";
             }
             else if ( type == Translation.TRANSLATION_FLASH ) {
                 propertiesString += "sims=" + getFlashSimNames() + "\n";
                 propertiesString += "resourceDestination=/\n";
-                //propertiesString += "onlyAllJARs=false\n";
-                //propertiesString += "generateJARs=false\n";
                 propertiesString += "mode=flash\n";
             }
             FileUtils.writeString( propertiesFile, propertiesString );
+
+            // initialize the client
 
             client = new ResourceDeployClient( resourceFile, propertiesFile );
 
             System.out.println();
             System.out.println( "****** Uploading resource file and properties" );
 
+            // uploads just the resource file and properties file (also creates the temporary directory structure)
             client.uploadResourceFile();
 
             if ( type == Translation.TRANSLATION_FLASH ) {
+                // if applicable, build and upload the Flash HTMLs that need to be modified
                 uploadFlashHTMLs();
             }
 
+            // display to the user the commands needed to execute the server side
             client.executeResourceDeployServer( trunk );
 
 
@@ -157,9 +187,8 @@ public class CommonTranslationDeployClient {
         return getDirNameList( getFlashSimulationDirs() );
     }
 
-    public File[] getJavaSimulationDirs() {
+    public File[] getJavaSimulationDirs() {        
         //return new File[]{new File( trunk, "simulations-java/simulations/test-project" )};
-        ///* TODO: switch to this after testing is done
         File simsDir = new File( trunk, "simulations-java/simulations" );
 
         File[] simDirs = simsDir.listFiles( new FileFilter() {
@@ -174,7 +203,6 @@ public class CommonTranslationDeployClient {
 
     public File[] getFlashSimulationDirs() {
         //return new File[]{new File( trunk, "simulations-flash/simulations/test-flash-project" )};
-        ///* TODO: switch to this after testing is done
         File simsDir = new File( trunk, "simulations-flash/simulations" );
 
         File[] simDirs = simsDir.listFiles( new FileFilter() {
