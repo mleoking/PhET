@@ -76,6 +76,11 @@ public class ResourceDeployClient {
                          " " + temporaryDirPath;
 
         //dirtyExecute( command );
+
+        System.out.println();
+        System.out.println( "****************************************************************************************" );
+        System.out.println();
+
         System.out.println( "Please run ResourceDeployServer on tigercat by executing:" );
         System.out.println( command );
         System.out.println();
@@ -92,6 +97,9 @@ public class ResourceDeployClient {
         System.out.println( "If issues arise during publishing or later, this action can be reverted by the following command:" );
         System.out.println( javaCmd + " -classpath " + buildScriptDir + "/" + jarName + " " +
                             ResourceDeployReverter.class.getName() + " " + temporaryDirPath );
+
+        System.out.println( "These commands can be run from scripts named 'server', 'publish' and 'revert' in htdocs/sims/resources " +
+                            "if you specify the temporary directory name as above" );
 
     }
 
