@@ -26,6 +26,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PieChartNode.PieValue;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
+import edu.colorado.phet.nuclearphysics.model.Uranium238Nucleus;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -94,74 +95,26 @@ public class NuclearDecayProportionChart extends PNode {
     Rectangle2D _usableAreaRect = new Rectangle2D.Double();
 
     //------------------------------------------------------------------------
-    // Builder + Constructor
+    // Constructor
     //------------------------------------------------------------------------
 
-    /**
-     * Builder pattern used to construct this chart.  This is from "Effective
-     * Java", 2nd edition, pgs 11-16.
-     */
-    public static class Builder {
-    	// Required parameters.
-    	private double timeSpan;  // Span of time covered by this chart, in milliseconds.
-    	private double halfLife; // Half life of decaying element, in milliseconds.
-    	private String preDecayElementLabel;
-    	private Color preDecayLabelColor;
+    public NuclearDecayProportionChart(boolean pieChartEnabled){
     	
-    	// Optional parameters - initialized to default values.
-    	private boolean pieChartEnabled = false;
-    	private boolean showPostDecayCurve = false;
-    	private String postDecayElementLabel = NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL;
-    	private Color postDecayLabelColor = NuclearPhysicsConstants.CUSTOM_NUCLEUS_POST_DECAY_COLOR;
-    	private boolean timeMarkerLabelEnabled = false;
-    	
-    	public Builder( double timeSpan, double halfLife, String preDecayElementLabel, Color preDecayLabelColor) {
-    		this.timeSpan = timeSpan;
-    		this.halfLife = halfLife;
-    		this.preDecayElementLabel = preDecayElementLabel;
-    		this.preDecayLabelColor = preDecayLabelColor;
-    	}
-    	
-    	public Builder pieChartEnabled( boolean val ) {
-    		pieChartEnabled = val;
-    		return this;
-    	}
-    	public Builder showPostDecayCurve( boolean val ) {
-    		showPostDecayCurve = val;
-    		return this;
-    	}
-    	public Builder postDecayElementLabel( String val ) {
-    		postDecayElementLabel = val;
-    		return this;
-    	}
-    	public Builder postDecayLabelColor( Color val ) {
-    		postDecayLabelColor = val;
-    		return this;
-    	}
-    	public Builder timeMarkerLabelEnabled( boolean val ) {
-    		timeMarkerLabelEnabled = val;
-    		return this;
-    	}
-    	public NuclearDecayProportionChart build(){
-    		return new NuclearDecayProportionChart( this );
-    	}
-    }
+    	_pieChartEnabled = pieChartEnabled;
 
-    /**
-     * Constructor - Instantiate using the Builder class defined in this file.
-     */
-    private NuclearDecayProportionChart( Builder builder ) {
+    	// Many of the following initializations are arbitrary, and the chart
+    	// should be set up via method calls before attempting to display
+    	// anything.
+    	_timeSpan = 1000;
+    	_halfLife = 300;
+    	_preDecayLabelColor = Color.PINK;
     	
-        _timeSpan = builder.timeSpan;
-    	_halfLife = builder.halfLife;
-    	_preDecayElementLabel = builder.preDecayElementLabel;
-    	_preDecayLabelColor = builder.preDecayLabelColor;
-    	_postDecayElementLabel = builder.postDecayElementLabel;
-    	_postDecayLabelColor = builder.postDecayLabelColor;
-    	_pieChartEnabled = builder.pieChartEnabled;
-    	_showPostDecayCurve = builder.showPostDecayCurve;
-    	_timeMarkerLabelEnabled = builder.timeMarkerLabelEnabled;
-
+    	// The following params don't necessarily need to be set for the chart
+    	// to behave somewhat reasonably.
+    	_showPostDecayCurve = false;
+    	_postDecayLabelColor = Color.ORANGE;
+    	_timeMarkerLabelEnabled = false;
+    	
         // Set up the parent node that will contain the non-interactive
         // portions of the chart.
         _nonPickableChartNode = new PComposite();
@@ -202,6 +155,74 @@ public class NuclearDecayProportionChart extends PNode {
     	_timeSpan = timeSpan;
     	update();
     }
+    
+    public void setHalfLife(double life) {
+		_halfLife = life;
+    	update();
+	}
+
+	public void setPreDecayElementLabel(String decayElementLabel) {
+		_preDecayElementLabel = decayElementLabel;
+    	update();
+	}
+
+	public void setPreDecayLabelColor(Color decayLabelColor) {
+		_preDecayLabelColor = decayLabelColor;
+    	update();
+	}
+
+	public void setPostDecayElementLabel(String decayElementLabel) {
+		_postDecayElementLabel = decayElementLabel;
+    	update();
+	}
+
+	public void setPostDecayLabelColor(Color decayLabelColor) {
+		_postDecayLabelColor = decayLabelColor;
+    	update();
+	}
+
+	public void setShowPostDecayCurve(boolean postDecayCurve) {
+		_showPostDecayCurve = postDecayCurve;
+    	update();
+	}
+
+	public void setTimeMarkerLabelEnabled(boolean markerLabelEnabled) {
+		_timeMarkerLabelEnabled = markerLabelEnabled;
+    	update();
+	}
+	
+	/**
+	 * Configure the parameters
+	 * @param nucleusType
+	 */
+	public void configureForNucleusType(int nucleusType){
+    	switch(nucleusType){
+    	case NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14:
+            _timeSpan = Carbon14Nucleus.HALF_LIFE * 3.2;
+            _halfLife = Carbon14Nucleus.HALF_LIFE;
+            _preDecayElementLabel = NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL;
+            _preDecayLabelColor = NuclearPhysicsConstants.CARBON_COLOR;
+            _postDecayElementLabel = NuclearPhysicsStrings.NITROGEN_14_CHEMICAL_SYMBOL;
+            _postDecayLabelColor = NuclearPhysicsConstants.NITROGEN_COLOR;
+            break;
+            
+    	case NuclearPhysicsConstants.NUCLEUS_ID_URANIUM_238:
+            _timeSpan = Uranium238Nucleus.HALF_LIFE * 3.2;
+            _halfLife = Uranium238Nucleus.HALF_LIFE;
+            _preDecayElementLabel = NuclearPhysicsStrings.URANIUM_238_CHEMICAL_SYMBOL;
+            _preDecayLabelColor = NuclearPhysicsConstants.URANIUM_238_COLOR;
+            _postDecayElementLabel = NuclearPhysicsStrings.LEAD_206_CHEMICAL_SYMBOL;
+            _postDecayLabelColor = NuclearPhysicsConstants.LEAD_206_COLOR;
+            break;
+            
+        default:
+        	System.err.println(this.getClass().getName() + ": Error - Unable to configure chart for current nucleus type.");
+            break;
+    	}
+    	
+    	clear();
+    	update();
+	}
 
     /**
      * This method is called to re-scale the chart, which generally occurs
@@ -231,6 +252,11 @@ public class NuclearDecayProportionChart extends PNode {
      */
     private void update() {
     	
+    	if (_usableAreaRect.getWidth() <= 0 || _usableAreaRect.getHeight() <= 0){
+    		// Ignore if the size makes no sense.
+    		return;
+    	}
+    	
         // Set up the border for the chart.
         _borderNode.setPathTo( new RoundRectangle2D.Double( _usableAreaRect.getX(), _usableAreaRect.getY(), 
         		_usableAreaRect.getWidth(), _usableAreaRect.getHeight(), 20, 20 ) );
@@ -248,6 +274,7 @@ public class NuclearDecayProportionChart extends PNode {
         			- (_pieChart.getFullBoundsReference().getHeight() / 2));
         	
         	graphLeftEdge = _pieChart.getFullBoundsReference().getMaxX();
+        	
         }
         
         // Position the graph.
@@ -656,12 +683,15 @@ public class NuclearDecayProportionChart extends PNode {
      */
     public static void main(String [] args){
     	
-        final NuclearDecayProportionChart proportionsChart = 
-        	new NuclearDecayProportionChart.Builder(Carbon14Nucleus.HALF_LIFE * 3.2, 
-        		Carbon14Nucleus.HALF_LIFE, NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL, 
-        		NuclearPhysicsConstants.CARBON_COLOR).pieChartEnabled(true).
-        		showPostDecayCurve(false).timeMarkerLabelEnabled(true).build();
-        
+        final NuclearDecayProportionChart proportionsChart = new NuclearDecayProportionChart(true); 
+
+        proportionsChart.setTimeSpan(Carbon14Nucleus.HALF_LIFE * 3.2);
+        proportionsChart.setHalfLife(Carbon14Nucleus.HALF_LIFE);
+        proportionsChart.setPreDecayElementLabel(NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL);
+        proportionsChart.setPreDecayLabelColor(NuclearPhysicsConstants.CARBON_COLOR);
+        proportionsChart.setShowPostDecayCurve(false);
+        proportionsChart.setTimeMarkerLabelEnabled(false);
+
         JFrame frame = new JFrame();
         PhetPCanvas canvas = new PhetPCanvas();
         frame.setContentPane( canvas );
