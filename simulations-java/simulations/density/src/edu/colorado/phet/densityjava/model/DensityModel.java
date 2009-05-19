@@ -1,7 +1,8 @@
 package edu.colorado.phet.densityjava.model;
 
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
+
 import java.awt.*;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -69,8 +70,8 @@ public class DensityModel {
     public class ObjectElement extends MatrixDynamics.Element {
         private RectangularObject block;
 
-        public ObjectElement(Block block, boolean inContact) {
-            super(block.getGravityForce() + block.getBuoyancyForce(), inContact);
+        public ObjectElement(Block block, boolean atRest) {
+            super(block.getName(), block.getGravityForce() + block.getBuoyancyForce(), atRest);
             this.block = block;
         }
 
@@ -86,13 +87,18 @@ public class DensityModel {
                 return true;
             }
         }
-        return false;  //To change body of created methods use File | Settings | File Templates.
+        for (int i = 0; i < scales.size(); i++) {
+            Block b = scales.get(i).surface;
+            if (b != block && inContact(b, block))
+                return true;
+        }
+        return false;
     }
 
     public ObjectElement[] getElements() {
         ArrayList<ObjectElement> list = new ArrayList<ObjectElement>();
         for (Block block : blocks) list.add(new ObjectElement(block, inContactWithAnything(block)));
-        for (Scale scale : scales) list.add(new ObjectElement(scale.surface, inContactWithAnything(scale.surface)));
+        for (Scale scale : scales) list.add(new ObjectElement(scale.surface, false));
         return list.toArray(new ObjectElement[list.size()]);
     }
 
@@ -328,7 +334,7 @@ public class DensityModel {
         private double normalForce;
 
         public String getFormattedNormalForceString() {
-            return new DecimalFormat("0.00").format(normalForce) + " N";
+            return new DefaultDecimalFormat("0.00").format(normalForce) + " N";
         }
 
         public static interface Listener {
