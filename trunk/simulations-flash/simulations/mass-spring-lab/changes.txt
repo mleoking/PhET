@@ -1,3 +1,5 @@
+# 2.00.03 (31921) May 19, 2009
+5/19/09 Added arabic common strings translation
 # 2.00.02 (31882) May 18, 2009
 5/18/09 Added arabic common translation
 # 2.00.01 (31745) May 15, 2009
