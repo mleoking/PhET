@@ -26,6 +26,10 @@ import com.jme.util.TextureManager;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
+import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.densityjava.model.Block;
 import edu.colorado.phet.densityjava.model.DensityModel;
@@ -41,6 +45,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -559,19 +564,46 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
     }
 
     private class VolumeReadout extends Node {
-        static final float quadWidth = 1;
-
         public VolumeReadout(DensityModel model) {
-//            super("volume.readout", quadWidth, 1);
-            Java2DQuad java2DQuad = new Java2DQuad("volume.readout", 1, 1) {
+            PNode node = new PNode();
+            final HTMLNode text = new HTMLNode(model.getWaterVolumeHTML());
+            text.setFont(new PhetFont(15, true));
+
+            node.addChild(text);
+            final ArrowNode arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(35, 0), 15, 15, 7);
+            arrowNode.setPaint(Color.blue);
+            arrowNode.setOffset(text.getFullBounds().getMaxX() + 2, text.getFullBounds().getCenterY() - arrowNode.getFullBounds().getHeight() / 2);
+            node.addChild(arrowNode);
+
+            final Rectangle2D expanded = RectangleUtils.expand(node.getFullBounds(), 5, 5);
+            PhetPPath background = new PhetPPath(new RoundRectangle2D.Double(expanded.getX(), expanded.getY(), expanded.getWidth(), expanded.getHeight(), 10, 10), new Color(0.7f, 0.6f, 0.7f, 0.7f), new BasicStroke(1), Color.gray);
+            PNode container = new PNode();
+            container.addChild(background);
+            container.addChild(node);
+            PiccoloNode element = new PiccoloNode("readout", container);
+
+
+            attachChild(element);
+            float localScale = 2.2f;
+            setLocalScale(localScale);
+            setLocalTranslation((float) model.getSwimmingPool().getMaxX() - localScale / 2.0f, (float) model.getWater().getMaxY(), (float) (model.getWater().getZ() + 1E-3));
+
+        }
+    }
+
+    public static class PiccoloNode extends Node {
+        public PiccoloNode(String name, final PNode node) {
+            Java2DQuad java2DQuad = new Java2DQuad(name + ".java2dquad", (int) node.getFullBounds().width, (int) node.getFullBounds().height) {
                 public void paint(Graphics2D g2) {
-                    g2.setColor(Color.RED);
-                    g2.fillRect(-1000, -1000, 2000, 2000);
+                    g2.translate(-node.getFullBounds().x, -node.getFullBounds().y);
+                    node.fullPaint(new PPaintContext(g2));
                 }
             };
-            attachChild(java2DQuad);
+            setLocalScale((float) (1.0 / node.getFullBounds().width));
             java2DQuad.start();
-            setLocalTranslation((float) model.getSwimmingPool().getMaxX() - quadWidth / 2, (float) model.getWater().getMaxY(), (float) (model.getWater().getZ() + 1E-2));
+            java2DQuad.setRenderQueueMode(Renderer.QUEUE_TRANSPARENT);
+            java2DQuad.updateRenderState();
+            attachChild(java2DQuad);
         }
     }
 }
