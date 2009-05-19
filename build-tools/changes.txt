@@ -1,3 +1,5 @@
+# 00.48.00 (31905) May 18, 2009
+5/18/09 Finished (for now) the common translation deploy process
 # 00.47.00 (31896) May 18, 2009
 5/18/09 Fix for common translation deploy reverter
 # 00.46.00 (31893) May 18, 2009
