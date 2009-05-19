@@ -61,7 +61,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
     private final double PROPORTION_CHART_FRACTION = 0.45;   // Fraction of canvas for proportion chart.
     
     // Constants that control the appearance of the canvas.
-    private static final Color BUCKET_AND_BUTTON_COLOR = Color.red;
+    private static final Color BUCKET_AND_BUTTON_COLOR = new Color(90, 180, 225);
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -123,10 +123,12 @@ public class DecayRatesCanvas extends PhetPCanvas {
         bucketRect.setRect(bucketRect.getX() + 0.1 * bucketRect.getWidth(),
         		bucketRect.getY() + 0.1 * bucketRect.getHeight(), 
         		bucketRect.getWidth() * 0.8, bucketRect.getHeight() * 0.66);
-        _bucketNode = new BucketOfNucleiNode( bucketRect.getWidth(), bucketRect.getHeight(), BUCKET_AND_BUTTON_COLOR );
+        _bucketNode = new BucketOfNucleiNode( bucketRect.getWidth(), bucketRect.getHeight(), Math.PI/12, 
+        		BUCKET_AND_BUTTON_COLOR );
         _particleLayer.addChild(_bucketNode);
         _bucketNode.setShowLabel(false);
         _bucketNode.setShowRadiationSymbol(false);
+        _bucketNode.setSliderEnabled(true);
         _bucketNode.setOffset( bucketRect.getX(), bucketRect.getY() );
 
         // Add the button that allows the user to add multiple nuclei at once.
